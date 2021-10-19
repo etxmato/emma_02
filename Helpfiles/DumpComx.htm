@@ -3,14 +3,28 @@
 <title>COMX Memory Map</title>
 <body>
 <h1>COMX Memory Map</h1>
+<h1>Slot</h1>
 <p>
-To switch COMX expansion slot from the memory dump tab use the 'Slot' field (values 1 to 4). Expansion ROMs are connected from address C000 to DFFF. 
+To change the COMX expansion slot from the memory dump tab use the 'Slot' field (values 1 to 4, see lowest yellow ellipse). Expansion ROMs are connected from address C000 to DFFF and when shown the address will have the same colour as the 'Slot' text.
 </p>
 <p>
-When a slot with the 32K RAM card is selected it is possible to select an 8K RAM bank in the 'RAM Bank' field (values 0 to 3). When a slot with the F&M EPROM Switchboard or COMX SuperBoard is selected it is possible to select an 8K EPROM bank in the 'Eprom Bank' field (values 0 to 4 for the EPROM board and 0 to F for the SuperBoard). 
+<IMG SRC="images/dump_slot.png" BORDER="0">
+</p>
+<h1>RAM Bank</h1>
+<p> 
+When a slot with the 32K RAM card is selected it is possible to select any of the 8K RAM banks in the 'RAM Bank' field (values 0 to 3, see lowest orange ellipse). The RAM banks are connected from address C000 to DFFF and when shown the memory values will have the same colour as the 'Bank' text
 </p>
 <p>
-The switchable slot address of the expansion ROM, RAM Bank and Eprom will be shown in the same colour as the 'Slot' text.
+<IMG SRC="images/dump_bank.png" BORDER="0">
+</p>
+<h1>Eprom Bank</h1>
+<p> 
+When a slot with the F&M EPROM Switchboard or COMX SuperBoard is selected it is possible to select any of the 8K EPROM banks in the 'Eprom Bank' field (values 0 to 4 for the EPROM board and 0 to F for the SuperBoard, see the lowest blue ellipse). 
+</p>
+<p>
+<IMG SRC="images/dump_eprom.png" BORDER="0">
+</p>
+<p>
 </p>
 </body>
 </html>

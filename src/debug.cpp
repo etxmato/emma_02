@@ -2235,8 +2235,10 @@ void DebugWindow::editTrap(wxListEvent&event)
 			break;
 			case MEM_TYPE_OPCODE_RLDL:
 			case MEM_TYPE_OPCODE_LDV:
-			case MEM_TYPE_OPCODE_LDL:
-			case MEM_TYPE_OPCODE_LDL_SLOT:
+            case MEM_TYPE_OPCODE_LDL:
+            case MEM_TYPE_OPCODE_LDL_SLOT:
+            case MEM_TYPE_OPCODE_LDRL:
+            case MEM_TYPE_OPCODE_LDRL_SLOT:
 			case MEM_TYPE_OPCODE_LBR_SLOT:
 			case MEM_TYPE_OPCODE_JUMP_SLOT:
 				count = ERROR_INST;
@@ -3940,26 +3942,27 @@ wxString DebugWindow::cdp1802disassemble(Word* address, bool showDetails, bool s
 				break;
 				case 0x8:
 					memType = p_Computer->readMemDataType(instructionAddress, &executed);
-					if (memType == MEM_TYPE_OPCODE_LDV || memType == MEM_TYPE_OPCODE_LDL || memType == MEM_TYPE_OPCODE_LDL_SLOT)
+					if (memType == MEM_TYPE_OPCODE_LDV || memType == MEM_TYPE_OPCODE_LDL || memType == MEM_TYPE_OPCODE_LDL_SLOT || memType == MEM_TYPE_OPCODE_LDRL || memType == MEM_TYPE_OPCODE_LDRL_SLOT)
 					{
-						if (memType == MEM_TYPE_OPCODE_LDV)
+                        switch (memType)
                         {
-                            if (textAssembler)
-                            {
-                                if (p_Computer->readMemDebug(*address) >= 0xA0)
-                                    printBufferAssembler.Printf("LDV  R%X,%03X%02XH",p_Computer->readMemDebug(*address+1)&0xf, p_Computer->readMemDebug(*address), p_Computer->readMemDebug(*address+3));
+                            case MEM_TYPE_OPCODE_LDV:
+                                if (textAssembler)
+                                {
+                                    if (p_Computer->readMemDebug(*address) >= 0xA0)
+                                        printBufferAssembler.Printf("LDV  R%X,%03X%02XH",p_Computer->readMemDebug(*address+1)&0xf, p_Computer->readMemDebug(*address), p_Computer->readMemDebug(*address+3));
+                                    else
+                                        printBufferAssembler.Printf("LDV  R%X,%02X%02XH",p_Computer->readMemDebug(*address+1)&0xf, p_Computer->readMemDebug(*address), p_Computer->readMemDebug(*address+3));
+                                }
                                 else
-                                    printBufferAssembler.Printf("LDV  R%X,%02X%02XH",p_Computer->readMemDebug(*address+1)&0xf, p_Computer->readMemDebug(*address), p_Computer->readMemDebug(*address+3));
-                            }
-                            else
-                                printBufferAssembler.Printf("LDV  R%X,%02X%02X",p_Computer->readMemDebug(*address+1)&0xf, p_Computer->readMemDebug(*address), p_Computer->readMemDebug(*address+3));
-                        }
-						else
-						{
-							if (memType == MEM_TYPE_OPCODE_LDL_SLOT)
-								printBufferAssembler.Printf("LDL  S%02X,R%X,", p_Computer->readMemDataType(*address, &executed),p_Computer->readMemDebug(*address+1)&0xf);
-                        	else
-                            {
+                                    printBufferAssembler.Printf("LDV  R%X,%02X%02X",p_Computer->readMemDebug(*address+1)&0xf, p_Computer->readMemDebug(*address), p_Computer->readMemDebug(*address+3));
+                            break;
+                                
+                            case MEM_TYPE_OPCODE_LDL_SLOT:
+                                printBufferAssembler.Printf("LDL  S%02X,R%X,", p_Computer->readMemDataType(*address, &executed),p_Computer->readMemDebug(*address+1)&0xf);
+                            break;
+                                
+                            case MEM_TYPE_OPCODE_LDL:
                                 if (textAssembler)
                                 {
                                     if (p_Computer->readMemDebug(*address) >= 0xA0)
@@ -3969,9 +3972,26 @@ wxString DebugWindow::cdp1802disassemble(Word* address, bool showDetails, bool s
                                 }
                                 else
                                     printBufferAssembler.Printf("LDL  R%X,%02X%02X",p_Computer->readMemDebug(*address+1)&0xf, p_Computer->readMemDebug(*address), p_Computer->readMemDebug(*address+3));
-                            }
-						}
-						printBufferTemp.Printf("%02X %02X",p_Computer->readMemDebug(*address), p_Computer->readMemDebug(*address+1));
+                            break;
+                                
+                            case MEM_TYPE_OPCODE_LDRL_SLOT:
+                                printBufferAssembler.Printf("LDRL S%02X,R%X,", p_Computer->readMemDataType(*address, &executed),p_Computer->readMemDebug(*address+1)&0xf);
+                            break;
+                                
+                            case MEM_TYPE_OPCODE_LDRL:
+                                if (textAssembler)
+                                {
+                                    if (p_Computer->readMemDebug(*address) >= 0xA0)
+                                        printBufferAssembler.Printf("LDRL R%X,%03X%02XH",p_Computer->readMemDebug(*address+1)&0xf, p_Computer->readMemDebug(*address+3), p_Computer->readMemDebug(*address));
+                                    else
+                                        printBufferAssembler.Printf("LDRL R%X,%02X%02XH",p_Computer->readMemDebug(*address+1)&0xf, p_Computer->readMemDebug(*address+3), p_Computer->readMemDebug(*address));
+                                }
+                                else
+                                    printBufferAssembler.Printf("LDRL R%X,%02X%02X",p_Computer->readMemDebug(*address+1)&0xf, p_Computer->readMemDebug(*address+3), p_Computer->readMemDebug(*address));
+                            break;
+                        }
+
+                        printBufferTemp.Printf("%02X %02X",p_Computer->readMemDebug(*address), p_Computer->readMemDebug(*address+1));
 						printBufferOpcode.operator += (printBufferTemp);
 						*address = *address + 5;
 					}
@@ -4213,6 +4233,48 @@ wxString DebugWindow::getLoadAddressOrLabel(Word address, Word start, Word end)
     wxString branchAddressString;
     
     Word branchAddress = p_Computer->readMemDebug(address)<<8|p_Computer->readMemDebug(address+3);
+    
+    if (branchAddress < start || branchAddress > end)
+    {
+        if (branchAddress >= 0xA000)
+            branchAddressString.Printf("%05XH", branchAddress);
+        else
+            branchAddressString.Printf("%04XH", branchAddress);
+        labelInfo_[address-1].outOfRange = true;
+        labelInfo_[address-1].outOfRangeAddress = branchAddress;
+        return branchAddressString;
+    }
+    
+    labelInfo_[branchAddress].branchToFound = true;
+    if (p_Computer->readMemLabelType(branchAddress) >= LABEL_TYPE_SUB)
+    {
+        branchAddressString.Printf("S%04X", branchAddress);
+    }
+    else
+    {
+        if (disassemblePass_ == 1)
+        {
+            p_Computer->writeMemLabelType(branchAddress, LABEL_TYPE_SUB);
+            branchAddressString.Printf("S%04X", branchAddress);
+            disassembleAgain_ = true;
+        }
+        else
+        {
+            if (branchAddress >= 0xA000)
+                branchAddressString.Printf("%05XH", branchAddress);
+            else
+                branchAddressString.Printf("%04XH", branchAddress);
+        }
+    }
+    
+    return branchAddressString;
+}
+
+wxString DebugWindow::getReversedLoadAddressOrLabel(Word address, Word start, Word end)
+{
+    wxString branchAddressString;
+    
+    Word branchAddress = p_Computer->readMemDebug(address+3)<<8|p_Computer->readMemDebug(address);
     
     if (branchAddress < start || branchAddress > end)
     {
@@ -5726,6 +5788,57 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 			return MEM_TYPE_OPCODE_LDL;
 		}
 	}
+    if (assInput.command == "LDRL")
+    {
+        if (assInput.parameterType[0] == ASS_SLOT)
+        {
+            if (assInput.numberOfParameters != 3)
+                return ERROR_REGAND16;
+
+            ret = getSlot(assInput, b4);
+            if (ret > ERROR_START)  return ret;
+
+            assInput.parameterValue[0] = assInput.parameterValue[1];
+            assInput.parameterType[0] = assInput.parameterType[1];
+
+            assInput.parameterValue[1] = assInput.parameterValue[2];
+            assInput.parameterType[1] = assInput.parameterType[2];
+
+            assInput.numberOfParameters--;
+
+            ret = getRegisterNumber(assInput, &registerNumber, b7, allowX);
+            if (ret != 1)
+                return ret;
+
+            ret = getWordPar2(assInput, b5, b2, allowX);
+            if (ret != 4)
+                return ret;
+
+            *b1 = 0xF8;
+            *b3 = 0xA0 | registerNumber;
+            *b6 = 0xB0 | registerNumber;
+            return MEM_TYPE_OPCODE_LDRL_SLOT;
+        }
+        else
+        {
+            if (assInput.numberOfParameters != 2)
+                return ERROR_REGAND16;
+
+            ret = getRegisterNumber(assInput, &registerNumber, b7, allowX);
+            if (ret != 1)
+                return ret;
+
+            ret = getWordPar2(assInput, b5, b2, allowX);
+            if (ret != 4)
+                return ret;
+
+            *b1 = 0xF8;
+            *b3 = 0xA0 | registerNumber;
+            *b4 = 0xF8;
+            *b6 = 0xB0 | registerNumber;
+            return MEM_TYPE_OPCODE_LDRL;
+        }
+    }
 	if (assInput.command == "LDA")
 	{
 		if (assInput.numberOfParameters > 1)
@@ -6712,14 +6825,25 @@ void DebugWindow::onDebugSaveDump(wxCommandEvent&WXUNUSED(event))
 	int num = 0;
 	long addr;
 	Byte value;
+    Word startAddress = 0, endAddress;
 	wxFile outputFile;
 	wxString fileName, memoryStr, number, strValue, line;
 
+    endAddress = getAddressMask();
+    
 	switch (memoryDisplay_)
 	{
 		case CPU_MEMORY:
 			memoryStr = "CPU Memory";
 			fileName = "memorydump";
+            
+            addr = get16BitValue("DebugCopyStart");
+            if (addr != -1)
+                startAddress = addr;
+            
+            addr = (Word) get16BitValue("DebugCopyEnd");
+            if (addr != -1)
+                endAddress = addr;
 		break;
 
         case CDP_1870_C:
@@ -6790,12 +6914,12 @@ void DebugWindow::onDebugSaveDump(wxCommandEvent&WXUNUSED(event))
 
 	fileName = wxFileSelector( "Select the " + memoryStr + " dump file to save",
                                debugDir_, fileName,
-                               "bin|txt",
+                               "",
                                wxString::Format
                               (
-                                   "Binary File (*.bin)|*.bin|Text File (*.txt)|*.txt"
+                                   "Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8|Intel Hex File|*.hex|Text File (*.txt)|*.txt"
                                ),
-                               wxFD_SAVE|wxFD_CHANGE_DIR,
+                               wxFD_SAVE|wxFD_CHANGE_DIR|wxFD_OVERWRITE_PROMPT|wxFD_PREVIEW,
                                this
                               );
 
@@ -6803,18 +6927,18 @@ void DebugWindow::onDebugSaveDump(wxCommandEvent&WXUNUSED(event))
 		return;
 
 	wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
-	wxString name = FullPath.GetName();
-	wxString path = FullPath.GetPath();
+//	wxString name = FullPath.GetName();
+//	wxString path = FullPath.GetPath();
 	wxString ext = FullPath.GetExt();
 
-	while(wxFile::Exists(fileName))
+/*	while(wxFile::Exists(fileName))
 	{
 		num++;
 		number.Printf("%d", num);
 		fileName = path + pathSeparator_ + name + "." + number + "." + ext;
-	}
+	}*/
 
-	if (ext == "bin")
+    if ((ext == "bin") || (ext == "rom") || (ext == "ram") || (ext == "cos") || (ext == "c8") || (ext == "ch8") || (ext == "c8x") || (ext == "ch10"))
 	{
 		outputFile.Create(fileName);
 		if (memoryDisplay_ == VIP2KSEQUENCER)
@@ -6827,7 +6951,7 @@ void DebugWindow::onDebugSaveDump(wxCommandEvent&WXUNUSED(event))
 		}
 		else 
 		{
-			for (long address = 0; address <= getAddressMask(); address++)
+			for (long address = startAddress; address <= endAddress; address++)
 			{
 				value = debugReadMem(address);
 				outputFile.Write(&value, 1);
@@ -6837,38 +6961,82 @@ void DebugWindow::onDebugSaveDump(wxCommandEvent&WXUNUSED(event))
 	}
 	else
 	{
-		outputTextFile.Create(fileName);
-		addr = 0;
-		if (memoryDisplay_ == VIP2KSEQUENCER)
-		{
-			while(addr <= 0x7ff)
-			{
-				line.Printf("%04X:", (unsigned int)addr);
-				for (int i=0; i<16; i++)
-				{
-					strValue.Printf(" %02X", p_Computer->readSequencerRom(addr+i));
-					line = line + strValue;
-				}
-				outputTextFile.AddLine(line);
-				addr += 16;
-			}
-		}
-		else 
-		{
-			while(addr <= getAddressMask())
-			{
-				line.Printf("%04X:", (unsigned int)addr);
-				for (int i=0; i<16; i++)
-				{
-					strValue.Printf(" %02X", debugReadMem(addr+i));
-					line = line + strValue;
-				}
-				outputTextFile.AddLine(line);
-				addr += 16;
-			}
-		}
-		outputTextFile.Write();
-		outputTextFile.Close();
+        if (ext == "hex")
+        {
+            wxString line, byteStr;
+            int checkSum;
+
+            if (wxFile::Exists(fileName))
+            {
+                outputTextFile.Open(fileName);
+                outputTextFile.Clear();
+            }
+            else
+                outputTextFile.Create(fileName);
+            addr = startAddress;
+
+            while (addr <= endAddress)
+            {
+                line.Printf(":%02X%04X%02X", 0x10, (int)addr, 0x00);
+                checkSum = 0x10+((addr>>8)&0xff)+(addr&0xff);
+                for (int i = 0; i<16; i++)
+                {
+                    if (memoryDisplay_ == VIP2KSEQUENCER)
+                    {
+                        checkSum += p_Computer->readSequencerRom(addr);
+                        byteStr.Printf("%02X", p_Computer->readSequencerRom(addr));
+                    }
+                    else
+                    {
+                        checkSum += debugReadMem(addr);
+                        byteStr.Printf("%02X", debugReadMem(addr));
+                    }
+                    line += byteStr;
+                    addr++;
+                }
+                checkSum = ((checkSum ^ 0xff) + 1) & 0xff;
+                byteStr.Printf("%02X", checkSum);
+                line += byteStr;
+                outputTextFile.AddLine(line);
+            }
+            outputTextFile.AddLine(":00000001FF");
+            outputTextFile.Write();
+        }
+        else
+        {
+            outputTextFile.Create(fileName);
+            addr = startAddress;
+            if (memoryDisplay_ == VIP2KSEQUENCER)
+            {
+                while(addr <= 0x7ff)
+                {
+                    line.Printf("%04X:", (unsigned int)addr);
+                    for (int i=0; i<16; i++)
+                    {
+                        strValue.Printf(" %02X", p_Computer->readSequencerRom(addr+i));
+                        line = line + strValue;
+                    }
+                    outputTextFile.AddLine(line);
+                    addr += 16;
+                }
+            }
+            else
+            {
+                while(addr <= endAddress)
+                {
+                    line.Printf("%04X:", (unsigned int)addr);
+                    for (int i=0; i<16; i++)
+                    {
+                        strValue.Printf(" %02X", debugReadMem(addr+i));
+                        line = line + strValue;
+                    }
+                    outputTextFile.AddLine(line);
+                    addr += 16;
+                }
+            }
+            outputTextFile.Write();
+            outputTextFile.Close();
+        }
 	}
 }
 
@@ -6961,7 +7129,7 @@ void DebugWindow::SetChip8DebugMode()
 void DebugWindow::onLog(wxCommandEvent& WXUNUSED(event))
 {
 //	wxSetWorkingDirectory (workingDir_);
-	int num = 0;
+//	int num = 0;
 	wxString fileName, number;
 
 	fileName = wxFileSelector( "Select the log file to save",
@@ -6973,14 +7141,14 @@ void DebugWindow::onLog(wxCommandEvent& WXUNUSED(event))
                                    wxFileSelectorDefaultWildcardStr,
                                    wxFileSelectorDefaultWildcardStr
                                ),
-                               wxFD_SAVE|wxFD_CHANGE_DIR|wxFD_PREVIEW,
+                               wxFD_SAVE|wxFD_CHANGE_DIR|wxFD_OVERWRITE_PROMPT|wxFD_PREVIEW,
                                this
                               );
 
 	if (!fileName || fileName.empty())
 		return;
 
-	wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
+/*	wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
 	wxString name = FullPath.GetName();
 	wxString path = FullPath.GetPath();
 	wxString ext = FullPath.GetExt();
@@ -6990,7 +7158,7 @@ void DebugWindow::onLog(wxCommandEvent& WXUNUSED(event))
 		num++;
 		number.Printf("%d", num);
 		fileName = path + pathSeparator_ + name + "." + number + "." + ext;
-	}
+	}*/
 	traceWindowPointer->SaveFile(fileName);
 }
 
@@ -7063,9 +7231,15 @@ void DebugWindow::onTraceTrap(wxCommandEvent& WXUNUSED(event))
 {
 	traceTrap_ = !traceTrap_;
 	if (traceTrap_)
-		XRCCTRL(*this, "TrapWindowText", wxStaticText)->SetLabel("Instr. Trace:");
+    {
+        XRCCTRL(*this, "TrapWindowText", wxStaticText)->SetLabel("Instr. Trace:");
+        XRCCTRL(*this, "TrapSet", wxButton)->SetLabel("Instr. Trace:");
+    }
 	else
+    {
 		XRCCTRL(*this, "TrapWindowText", wxStaticText)->SetLabel("Instr. Traps:");
+        XRCCTRL(*this, "TrapSet", wxButton)->SetLabel("Instr. Trap:");
+    }
 	enableDebugGui(true);
 	SetDebugMode();
 }
@@ -8197,6 +8371,7 @@ void DebugWindow::directAss()
 			break;
 
 			case MEM_TYPE_OPCODE_LDL:
+            case MEM_TYPE_OPCODE_LDRL:
 				text = cdp1802disassemble(&address, false, true, DIRECT_ASSEMBLER, 0, 0xFFFF);
 				dcAss.DrawText(text.Left(5), 1+charWidth_, 1+line*lineSpace_);
                 setProfileColor(executedColor);
@@ -8271,6 +8446,44 @@ void DebugWindow::directAss()
 				}
 			break;
 
+            case MEM_TYPE_OPCODE_LDRL_SLOT:
+                text = cdp1802disassemble(&address, false, true, DIRECT_ASSEMBLER, 0, 0xFFFF);
+                dcAss.DrawText(text.Left(5), 1+charWidth_, 1+line*lineSpace_);
+                setProfileColor(executedColor);
+                dcAss.DrawText(text.Mid(6,2), 1+charWidth_*7, 1+line*lineSpace_);
+                dcAss.DrawText(text.Mid(12,2), 1+charWidth_*13, 1+line*lineSpace_);
+                dcAss.DrawText(text.Mid(18,4), 1+charWidth_*19, 1+line*lineSpace_);
+                dcAss.DrawText(text.Mid(23,7), 1+charWidth_*24, 1+line*lineSpace_);
+                dcAss.SetTextForeground(wxColour(200,51,161));
+                dcAss.DrawText(text.Mid(9,2), 1+charWidth_*10, 1+line*lineSpace_);
+                dcAss.SetTextForeground(colour.Find("BLACK"));
+                if (debuggerChoice_ == PROFILERTAB)
+                    dcAss.DrawText(executedStr, 1+charWidth_*(32+numberOfSpaces)+locationCorrection[numberOfSpaces], 1+line*lineSpace_);
+                line += 1;
+                if (line == EDIT_ROW && debuggerChoice_ == DIRECTASSTAB)
+                {
+                    dcAss.SetFont(exactFontBold);
+                    dirAssAddress_ = address - 3;
+                    dcAss.DrawText(">", 1, 1+line*lineSpace_);
+                    dcAss.DrawText("<", bitmapWidth-9, 1+EDIT_ROW*lineSpace_);
+                }
+                else
+                    dcAss.SetFont(exactFont);
+                if (line < numberOfDebugLines)
+                {
+                    setProfileColor(executedColor);
+                    line2.Printf("%02X", p_Computer->readMemDebug(address-3));
+                    dcAss.DrawText(line2, 1+charWidth_*7, 1+line*lineSpace_);
+                    line2.Printf("%02X", p_Computer->readMemDebug(address-1));
+                    dcAss.DrawText(line2, 1+charWidth_*13, 1+line*lineSpace_);
+                    dcAss.SetTextForeground(wxColour(200,51,161));
+                    line2.Printf("%02X", p_Computer->readMemDebug(address-2));
+                    dcAss.DrawText(line2, 1+charWidth_*10, 1+line*lineSpace_);
+                    line2.Printf("%02X%02X", p_Computer->readMemDebug(address-2),p_Computer->readMemDebug(address-5));
+                    dcAss.DrawText(line2, 1+charWidth_*24, 1+line*lineSpace_);
+                }
+            break;
+                
 			case MEM_TYPE_OPERAND_LD_3:
                 setProfileColor(executedColor);
 				if (p_Computer->readMemDataType((address-3)&0xffff, &executed) == MEM_TYPE_OPCODE_LDL_SLOT)
@@ -8291,6 +8504,27 @@ void DebugWindow::directAss()
 				address+=3;
 				address&=0xffff;
 			break;
+
+            case MEM_TYPE_OPERAND_LDR_3:
+                setProfileColor(executedColor);
+                if (p_Computer->readMemDataType((address-3)&0xffff, &executed) == MEM_TYPE_OPCODE_LDRL_SLOT)
+                {
+                    line2.Printf("%02X%02X", p_Computer->readMemDebug((address+1)&0xffff),p_Computer->readMemDebug(address-2));
+                    dcAss.DrawText(line2, 1+charWidth_*24, 1+line*lineSpace_);
+                }
+                
+                line2.Printf("%02X", p_Computer->readMemDebug(address));
+                dcAss.DrawText(line2, 1+charWidth_*7, 1+line*lineSpace_);
+                line2.Printf("%02X", p_Computer->readMemDebug(address+2));
+                dcAss.DrawText(line2, 1+charWidth_*13, 1+line*lineSpace_);
+                line2.Printf("%02X", p_Computer->readMemDebug(address+1));
+
+                if (p_Computer->readMemDataType((address-3)&0xffff, &executed) != MEM_TYPE_OPCODE_LDV)
+                    dcAss.SetTextForeground(wxColour(200,51,161));
+                dcAss.DrawText(line2, 1+charWidth_*10, 1+line*lineSpace_);
+                address+=3;
+                address&=0xffff;
+            break;
 
             case MEM_TYPE_PSEUDO_1:
                 code = pseudoDisassemble(address, false, true);
@@ -8783,7 +9017,23 @@ void DebugWindow::onAssEnter(wxCommandEvent&WXUNUSED(event))
                 typeOperand5 = MEM_TYPE_OPERAND_LD_5;
                 count = 6;
             break;
-        }
+            case MEM_TYPE_OPCODE_LDRL:
+                typeOpcode = MEM_TYPE_OPCODE_LDRL;
+                typeOperand2 = MEM_TYPE_OPERAND_LDR_2;
+                typeOperand3 = MEM_TYPE_OPERAND_LDR_3;
+                typeOperand5 = MEM_TYPE_OPERAND_LDR_5;
+                count = 6;
+            break;
+            case MEM_TYPE_OPCODE_LDRL_SLOT:
+                typeOpcode = MEM_TYPE_OPCODE_LDRL_SLOT;
+                typeOperand1 = b4;
+                b4 = 0xf8;
+                typeOperand2 = MEM_TYPE_OPERAND_LDR_2;
+                typeOperand3 = MEM_TYPE_OPERAND_LDR_3;
+                typeOperand5 = MEM_TYPE_OPERAND_LDR_5;
+                count = 6;
+            break;
+       }
     }
 
     if (pseudoLoaded_ && (count == ERROR_INST || count == ERROR_TEMP_PAR || count == ERROR_TEMP_CPU_1801))
@@ -8797,7 +9047,7 @@ void DebugWindow::onAssEnter(wxCommandEvent&WXUNUSED(event))
 
 	if (count > 0 && count < 7)
 	{
-		if (p_Computer->readMemDataType(addressValue, &executed) == MEM_TYPE_OPERAND_LD_3)
+		if (p_Computer->readMemDataType(addressValue, &executed) == MEM_TYPE_OPERAND_LD_3 || p_Computer->readMemDataType(addressValue, &executed) == MEM_TYPE_OPERAND_LDR_3)
 			addressValue -= 3;
 
 		for (int i=addressValue; i<addressValue+count; i++)
@@ -8865,17 +9115,17 @@ void DebugWindow::onAssEnter(wxCommandEvent&WXUNUSED(event))
             p_Computer->writeMemDataType(addressValue++, MEM_TYPE_OPCODE);
 		}*/
 
-        while (p_Computer->readMemDataType(addressValue, &executed) == MEM_TYPE_OPERAND || p_Computer->readMemDataType(addressValue, &executed) == MEM_TYPE_OPERAND_LD_2  || p_Computer->readMemDataType(addressValue, &executed) == MEM_TYPE_OPERAND_LD_3  || p_Computer->readMemDataType(addressValue, &executed) == MEM_TYPE_OPERAND_LD_5 || p_Computer->readMemDataType(addressValue, &executed) == MEM_TYPE_PSEUDO_2)
+        while (p_Computer->readMemDataType(addressValue, &executed) == MEM_TYPE_OPERAND || p_Computer->readMemDataType(addressValue, &executed) == MEM_TYPE_OPERAND_LD_2  || p_Computer->readMemDataType(addressValue, &executed) == MEM_TYPE_OPERAND_LD_3  || p_Computer->readMemDataType(addressValue, &executed) == MEM_TYPE_OPERAND_LD_5  || p_Computer->readMemDataType(addressValue, &executed) == MEM_TYPE_OPERAND_LDR_2  || p_Computer->readMemDataType(addressValue, &executed) == MEM_TYPE_OPERAND_LDR_3  || p_Computer->readMemDataType(addressValue, &executed) == MEM_TYPE_OPERAND_LDR_5 || p_Computer->readMemDataType(addressValue, &executed) == MEM_TYPE_PSEUDO_2)
         {
             p_Computer->writeMemDebug(addressValue, 0, true);
             p_Computer->writeMemDataType(addressValue++, MEM_TYPE_DATA);
         }
 
         assInputWindowPointer->Clear();
-		if ((dataViewDump && debuggerChoice_ == DIRECTASSTAB) || (dataViewProfiler && debuggerChoice_ == PROFILERTAB) || typeOpcode == MEM_TYPE_OPCODE || typeOpcode == MEM_TYPE_JUMP   || typeOpcode == MEM_TYPE_JUMP_REV || typeOpcode == MEM_TYPE_OPCODE_LDL_SLOT || (typeOpcode >= MEM_TYPE_OPCODE_RSHR && typeOpcode <= MEM_TYPE_OPCODE_LDL))
+		if ((dataViewDump && debuggerChoice_ == DIRECTASSTAB) || (dataViewProfiler && debuggerChoice_ == PROFILERTAB) || typeOpcode == MEM_TYPE_OPCODE || typeOpcode == MEM_TYPE_JUMP   || typeOpcode == MEM_TYPE_JUMP_REV || typeOpcode == MEM_TYPE_OPCODE_LDL_SLOT || typeOpcode == MEM_TYPE_OPCODE_LDRL_SLOT || typeOpcode == MEM_TYPE_OPCODE_LDRL || (typeOpcode >= MEM_TYPE_OPCODE_RSHR && typeOpcode <= MEM_TYPE_OPCODE_LDL))
 		{
 			assSpinDown();
-			if (typeOpcode == MEM_TYPE_OPCODE_LDV || typeOpcode == MEM_TYPE_OPCODE_LDL || typeOpcode == MEM_TYPE_OPCODE_LDL_SLOT)
+			if (typeOpcode == MEM_TYPE_OPCODE_LDV || typeOpcode == MEM_TYPE_OPCODE_LDL || typeOpcode == MEM_TYPE_OPCODE_LDL_SLOT || typeOpcode == MEM_TYPE_OPCODE_LDRL || typeOpcode == MEM_TYPE_OPCODE_LDRL_SLOT)
 				assSpinDown();
 		}
 		else
@@ -8962,6 +9212,12 @@ int DebugWindow::setMemLabel(Word labelAddress, bool removeMemLabel)
             checkSlotAddressWarning(branchAddress);
 		break;
     
+        case MEM_TYPE_OPCODE_LDRL:
+            branchAddress = (p_Computer->readMemDebug(labelAddress+4)<<8)+p_Computer->readMemDebug(labelAddress+1);
+            p_Computer->writeMemLabelType(branchAddress, newSubMemLabel);
+            checkSlotAddressWarning(branchAddress);
+        break;
+    
 		case MEM_TYPE_JUMP:
 			branchAddress = (p_Computer->readMemDebug(labelAddress)<<8)+p_Computer->readMemDebug(labelAddress+1);
 			p_Computer->writeMemLabelType(branchAddress, newSubMemLabel);
@@ -8997,7 +9253,15 @@ int DebugWindow::setMemLabel(Word labelAddress, bool removeMemLabel)
 			p_Computer->writeMemLabelType(branchAddress, newSubMemLabel);
 			setOut1(out1);
 		break;
-	}
+
+        case MEM_TYPE_OPCODE_LDRL_SLOT:
+            out1 = getOut1();
+            setOut1(p_Computer->readMemDataType(labelAddress+1, &executed));
+            branchAddress = (p_Computer->readMemDebug(labelAddress+4)<<8)+p_Computer->readMemDebug(labelAddress+1);
+            p_Computer->writeMemLabelType(branchAddress, newSubMemLabel);
+            setOut1(out1);
+        break;
+}
 	return branchAddress;
 }
 
@@ -9162,9 +9426,12 @@ void DebugWindow::assSpinDown()
 		break;
 
 		case MEM_TYPE_OPCODE_LDV:
-		case MEM_TYPE_OPCODE_LDL:
-		case MEM_TYPE_OPCODE_LDL_SLOT:
-		case MEM_TYPE_OPERAND_LD_3:
+        case MEM_TYPE_OPCODE_LDL:
+        case MEM_TYPE_OPCODE_LDL_SLOT:
+        case MEM_TYPE_OPCODE_LDRL:
+        case MEM_TYPE_OPCODE_LDRL_SLOT:
+        case MEM_TYPE_OPERAND_LD_3:
+        case MEM_TYPE_OPERAND_LDR_3:
 			dirAssStart_ += 3;
 			dirAssStart_&=0xffff;
 		break;
@@ -9290,8 +9557,10 @@ void DebugWindow::assSpinUp()
 			}
 		break;
 
-		case MEM_TYPE_OPERAND_LD_5:
-		case MEM_TYPE_OPERAND_LD_2:
+        case MEM_TYPE_OPERAND_LD_5:
+        case MEM_TYPE_OPERAND_LD_2:
+        case MEM_TYPE_OPERAND_LDR_5:
+        case MEM_TYPE_OPERAND_LDR_2:
 		case MEM_TYPE_OPCODE_LBR_SLOT:
 			dirAssStart_ -= 2;
 			dirAssStart_&=0xffff;
@@ -9685,7 +9954,20 @@ int DebugWindow::markType(long *addrLong, int type)
 			p_Computer->writeMemDataType(address++, MEM_TYPE_OPERAND);
 			p_Computer->writeMemDataType(address++, MEM_TYPE_OPERAND_LD_5);
 		break;
-		case 6:
+        case 6:
+            if (p_Computer->readMemDebug(address) != 0xF8 || (p_Computer->readMemDebug(address+5)&0xF0) != 0xB0 || p_Computer->readMemDebug(address+3) != 0xF8 || (p_Computer->readMemDebug(address+2)&0xF0) != 0xA0)
+            {
+                assErrorDisplay(DirAssErrorCodes[ERROR_MACRO_NOT_FOUND-ERROR_START-1]);
+                return 1;
+            }
+            p_Computer->writeMemDataType(address++, MEM_TYPE_OPCODE_LDRL);
+            p_Computer->writeMemDataType(address++, MEM_TYPE_OPERAND);
+            p_Computer->writeMemDataType(address++, MEM_TYPE_OPERAND_LDR_2);
+            p_Computer->writeMemDataType(address++, MEM_TYPE_OPERAND_LDR_3);
+            p_Computer->writeMemDataType(address++, MEM_TYPE_OPERAND);
+            p_Computer->writeMemDataType(address++, MEM_TYPE_OPERAND_LDR_5);
+        break;
+		case 7:
 			if (p_Computer->readMemDebug(address) != 0xF8 || (p_Computer->readMemDebug(address+2)&0xF0) != 0xB0 || p_Computer->readMemDebug(address+3) != 0xF8 || (p_Computer->readMemDebug(address+5)&0xF0) != 0xA0)
 			{	assErrorDisplay(DirAssErrorCodes[ERROR_MACRO_NOT_FOUND-ERROR_START-1]);
 				return 1;
@@ -9697,7 +9979,7 @@ int DebugWindow::markType(long *addrLong, int type)
 			p_Computer->writeMemDataType(address++, MEM_TYPE_OPERAND);
 			p_Computer->writeMemDataType(address++, MEM_TYPE_OPERAND_LD_5);
 		break;
-		case 7:
+		case 8:
 			switch (p_Computer->readMemDebug(address))
 			{
 				case 0x76:
@@ -9773,7 +10055,7 @@ int DebugWindow::markType(long *addrLong, int type)
 				break;
 			}
 		break;
-		case 8:
+		case 9:
             command = p_Computer->readMemDebug(address);
             p_Computer->writeMemDataType(address++, MEM_TYPE_PSEUDO_1);
 
@@ -9791,7 +10073,7 @@ int DebugWindow::markType(long *addrLong, int type)
         break;
 	}
 	Word clearAddress = address;
-	while (p_Computer->readMemDataType(clearAddress, &executed) == MEM_TYPE_OPERAND || p_Computer->readMemDataType(clearAddress, &executed) == MEM_TYPE_PSEUDO_2 || p_Computer->readMemDataType(clearAddress, &executed) == MEM_TYPE_OPERAND_LD_2 || p_Computer->readMemDataType(clearAddress, &executed) == MEM_TYPE_OPERAND_LD_3 || p_Computer->readMemDataType(clearAddress, &executed) == MEM_TYPE_OPERAND_LD_5)
+	while (p_Computer->readMemDataType(clearAddress, &executed) == MEM_TYPE_OPERAND || p_Computer->readMemDataType(clearAddress, &executed) == MEM_TYPE_PSEUDO_2 || p_Computer->readMemDataType(clearAddress, &executed) == MEM_TYPE_OPERAND_LD_2 || p_Computer->readMemDataType(clearAddress, &executed) == MEM_TYPE_OPERAND_LD_3 || p_Computer->readMemDataType(clearAddress, &executed) == MEM_TYPE_OPERAND_LD_5 || p_Computer->readMemDataType(clearAddress, &executed) == MEM_TYPE_OPERAND_LDR_2 || p_Computer->readMemDataType(clearAddress, &executed) == MEM_TYPE_OPERAND_LDR_3 || p_Computer->readMemDataType(clearAddress, &executed) == MEM_TYPE_OPERAND_LDR_5)
 		p_Computer->writeMemDataType(clearAddress++, MEM_TYPE_DATA);
     setMemLabel((Word)*addrLong, false);
     return 0;
@@ -10136,6 +10418,28 @@ void DebugWindow::checkLoadL(bool function, Word checkAddress)
 					branchType = LABEL_TYPE_SUB;
 				break;
 
+                case MEM_TYPE_OPCODE_LDRL:
+                    loadAddr = (p_Computer->readMemDebug(addr+4) << 8) +  p_Computer->readMemDebug(addr+1);
+                    if (!branchChangeNeeded(i, addr, loadAddr))
+                        loadAddr = -1;
+                    leader ="LDRL: ";
+                    if (loadAddr == dirAssAddress_)
+                        foundAddr = addr;
+                    addr+=5;
+                    branchType = LABEL_TYPE_SUB;
+                break;
+
+                case MEM_TYPE_OPCODE_LDRL_SLOT:
+                    loadAddr = (p_Computer->readMemDebug(addr+4) << 8) +  p_Computer->readMemDebug(addr+1);
+                    if (!branchChangeNeeded(i, addr, loadAddr))
+                        loadAddr = -1;
+                    leader ="LDRL: ";
+                    if (loadAddr == dirAssAddress_)
+                        foundAddr = addr;
+                    addr+=5;
+                    branchType = LABEL_TYPE_SUB;
+                break;
+
 				case MEM_TYPE_OPCODE_RLDL:
 					loadAddr = (p_Computer->readMemDebug(addr+2) << 8) +  p_Computer->readMemDebug(addr+3);
 					if (!branchChangeNeeded(i, addr, loadAddr))
@@ -10331,6 +10635,26 @@ void DebugWindow::checkLoadV()
 					addr+=5;
 				break;
 
+                case MEM_TYPE_OPCODE_LDRL_SLOT:
+                    loadAddr = (p_Computer->readMemDebug(addr+4) << 8) +  p_Computer->readMemDebug(addr+1);
+                    if (!branchChangeNeeded(i, addr, loadAddr))
+                        loadAddr = -1;
+                    leader ="LDRL: ";
+                    if (loadAddr == dirAssAddress_)
+                        foundAddr = addr;
+                    addr+=5;
+                break;
+
+                case MEM_TYPE_OPCODE_LDRL:
+                    loadAddr = (p_Computer->readMemDebug(addr+4) << 8) +  p_Computer->readMemDebug(addr+1);
+                    if (!branchChangeNeeded(i, addr, loadAddr))
+                        loadAddr = -1;
+                    leader ="LDRL: ";
+                    if (loadAddr == dirAssAddress_)
+                        foundAddr = addr;
+                    addr+=5;
+                break;
+                    
 				case MEM_TYPE_OPCODE_RLDL:
 					loadAddr = (p_Computer->readMemDebug(addr+2) << 8) +  p_Computer->readMemDebug(addr+3);
 					if (!branchChangeNeeded(i, addr, loadAddr))
@@ -10711,6 +11035,28 @@ void DebugWindow::insertByte(Word insertAddress, Byte instruction, int branchAdd
 				addr+=5;
 			break;
 
+            case MEM_TYPE_OPCODE_LDRL:
+                branchAddr = (p_Computer->readMemDebug(addr+4) << 8) +  p_Computer->readMemDebug(addr+1);
+                if (branchAddr>insertAddress && branchAddr < endAddr)
+                {
+                    branchAddr++;
+                    p_Computer->writeMemDebug(addr+4, (branchAddr&0xff00)>>8, true);
+                    p_Computer->writeMemDebug(addr+1, branchAddr&0xff, true);
+                }
+                addr+=5;
+            break;
+
+            case MEM_TYPE_OPCODE_LDRL_SLOT:
+                branchAddr = (p_Computer->readMemDebug(addr+4) << 8) +  p_Computer->readMemDebug(addr+1);
+                if (branchAddr>insertAddress && branchAddr < endAddr && branchChangeNeeded(workingRange_, addr, branchAddr))
+                {
+                    branchAddr++;
+                    p_Computer->writeMemDebug(addr+4, (branchAddr&0xff00)>>8, true);
+                    p_Computer->writeMemDebug(addr+1, branchAddr&0xff, true);
+                }
+                addr+=5;
+            break;
+
 			case  MEM_TYPE_OPCODE_RLDL:
 				branchAddr = (p_Computer->readMemDebug(addr+2) << 8) +  p_Computer->readMemDebug(addr+3);
 				if (branchAddr>insertAddress && branchAddr < endAddr)
@@ -10925,6 +11271,18 @@ void DebugWindow::insertByte(Word insertAddress, Byte instruction, int branchAdd
 					addr+=5;
 				break;
 			
+                case MEM_TYPE_OPCODE_LDRL:
+                case MEM_TYPE_OPCODE_LDRL_SLOT:
+                    branchAddr = (p_Computer->readMemDebug(addr+4) << 8) +  p_Computer->readMemDebug(addr+1);
+                    if (branchAddr>insertAddress && branchAddr < endAddr && branchChangeNeeded(i, addr, branchAddr))
+                    {
+                        branchAddr++;
+                        p_Computer->writeMemDebug(addr+4, (branchAddr&0xff00)>>8, true);
+                        p_Computer->writeMemDebug(addr+1, branchAddr&0xff, true);
+                    }
+                    addr+=5;
+                break;
+            
 				case MEM_TYPE_OPCODE_RLDL:
 					branchAddr = (p_Computer->readMemDebug(addr+2) << 8) +  p_Computer->readMemDebug(addr+3);
 					if (branchAddr>insertAddress && branchAddr < endAddr && branchChangeNeeded(i, addr, branchAddr))
@@ -10993,7 +11351,7 @@ bool DebugWindow::branchChangeNeeded(int range, Word address, Word branchAddr)
 	switch (runningComputer_)
 	{
 		case COMX:
-			if (p_Computer->readMemDataType(address, &executed) == MEM_TYPE_OPCODE_LBR_SLOT || p_Computer->readMemDataType(address, &executed) == MEM_TYPE_OPCODE_JUMP_SLOT || p_Computer->readMemDataType(address, &executed) == MEM_TYPE_OPCODE_LDL_SLOT)
+			if (p_Computer->readMemDataType(address, &executed) == MEM_TYPE_OPCODE_LBR_SLOT || p_Computer->readMemDataType(address, &executed) == MEM_TYPE_OPCODE_JUMP_SLOT || p_Computer->readMemDataType(address, &executed) == MEM_TYPE_OPCODE_LDL_SLOT || p_Computer->readMemDataType(address, &executed) == MEM_TYPE_OPCODE_LDRL_SLOT)
 			{
 				if (p_Computer->readMemDataType(address+1, &executed) == dirAssSlotVector[workingRange_] || branchAddr < 0xC000 || branchAddr >= 0xE000)
 					return true;
@@ -11010,7 +11368,7 @@ bool DebugWindow::branchChangeNeeded(int range, Word address, Word branchAddr)
 		case SUPERELF:
             if (elfConfiguration[runningComputer_].useEms)
             {
-                if (p_Computer->readMemDataType(address, &executed) == MEM_TYPE_OPCODE_LBR_SLOT || p_Computer->readMemDataType(address, &executed) == MEM_TYPE_OPCODE_JUMP_SLOT || p_Computer->readMemDataType(address, &executed) == MEM_TYPE_OPCODE_LDL_SLOT)
+                if (p_Computer->readMemDataType(address, &executed) == MEM_TYPE_OPCODE_LBR_SLOT || p_Computer->readMemDataType(address, &executed) == MEM_TYPE_OPCODE_JUMP_SLOT || p_Computer->readMemDataType(address, &executed) == MEM_TYPE_OPCODE_LDL_SLOT || p_Computer->readMemDataType(address, &executed) == MEM_TYPE_OPCODE_LDRL_SLOT)
                 {
                     if (p_Computer->readMemDataType(address+1, &executed) == dirAssSlotVector[workingRange_] || branchAddr < 0x8000 || branchAddr >= 0xC000)
                         return true;
@@ -11025,7 +11383,7 @@ bool DebugWindow::branchChangeNeeded(int range, Word address, Word branchAddr)
                 return true;
             if (elfConfiguration[runningComputer_].useRomMapper)
             {
-                if (p_Computer->readMemDataType(address, &executed) == MEM_TYPE_OPCODE_LBR_SLOT || p_Computer->readMemDataType(address, &executed) == MEM_TYPE_OPCODE_JUMP_SLOT || p_Computer->readMemDataType(address, &executed) == MEM_TYPE_OPCODE_LDL_SLOT)
+                if (p_Computer->readMemDataType(address, &executed) == MEM_TYPE_OPCODE_LBR_SLOT || p_Computer->readMemDataType(address, &executed) == MEM_TYPE_OPCODE_JUMP_SLOT || p_Computer->readMemDataType(address, &executed) == MEM_TYPE_OPCODE_LDL_SLOT || p_Computer->readMemDataType(address, &executed) == MEM_TYPE_OPCODE_LDRL_SLOT)
                 {
                     if (p_Computer->readMemDataType(address+1, &executed) == dirAssSlotVector[workingRange_] || branchAddr < 0x8000 || branchAddr >= 0xFFFF)
                         return true;
@@ -11071,7 +11429,7 @@ void DebugWindow::onDelete(wxCommandEvent&WXUNUSED(event))
 		branchAddressTableCorrection[i] = false;
 	}
 
-	if (p_Computer->readMemDataType(dirAssAddress_, &executed) == MEM_TYPE_OPERAND_LD_3)
+	if (p_Computer->readMemDataType(dirAssAddress_, &executed) == MEM_TYPE_OPERAND_LD_3 || p_Computer->readMemDataType(dirAssAddress_, &executed) == MEM_TYPE_OPERAND_LDR_3)
 		dirAssAddress_ -= 3;
 
     int checkAddres = setMemLabel(dirAssAddress_, true);
@@ -11093,8 +11451,10 @@ void DebugWindow::onDelete(wxCommandEvent&WXUNUSED(event))
 	{
 		if (p_Computer->readMemDataType(dirAssAddress_, &executed) == MEM_TYPE_OPCODE || p_Computer->readMemDataType(dirAssAddress_, &executed) >= MEM_TYPE_OPCODE_RSHR)
 		{
-			deleteByte(dirAssAddress_, false);
-			while (p_Computer->readMemDataType(dirAssAddress_, &executed) == MEM_TYPE_OPERAND || p_Computer->readMemDataType(dirAssAddress_, &executed) == MEM_TYPE_OPERAND_LD_2 || p_Computer->readMemDataType(dirAssAddress_, &executed) == MEM_TYPE_OPERAND_LD_3 || p_Computer->readMemDataType(dirAssAddress_, &executed) == MEM_TYPE_OPERAND_LD_5)
+            if (p_Computer->readMemDataType(dirAssAddress_, &executed) == MEM_TYPE_OPCODE_LDL_SLOT || p_Computer->readMemDataType(dirAssAddress_, &executed) == MEM_TYPE_OPCODE_LDRL_SLOT )
+                deleteByte(dirAssAddress_, false);
+            deleteByte(dirAssAddress_, false);
+			while (p_Computer->readMemDataType(dirAssAddress_, &executed) == MEM_TYPE_OPERAND || p_Computer->readMemDataType(dirAssAddress_, &executed) == MEM_TYPE_OPERAND_LD_2 || p_Computer->readMemDataType(dirAssAddress_, &executed) == MEM_TYPE_OPERAND_LD_3 || p_Computer->readMemDataType(dirAssAddress_, &executed) == MEM_TYPE_OPERAND_LD_5 || p_Computer->readMemDataType(dirAssAddress_, &executed) == MEM_TYPE_OPERAND_LDR_2 || p_Computer->readMemDataType(dirAssAddress_, &executed) == MEM_TYPE_OPERAND_LDR_3 || p_Computer->readMemDataType(dirAssAddress_, &executed) == MEM_TYPE_OPERAND_LDR_5)
             {
 				deleteByte(dirAssAddress_, false);
                 if (checkAddres != -1)
@@ -11331,6 +11691,28 @@ void DebugWindow::deleteByte(Word insertAddress, bool secondCardtranDelete)
 				addr+=5;
 			break;
 
+            case MEM_TYPE_OPCODE_LDRL:
+                branchAddr = (p_Computer->readMemDebug(addr+4) << 8) +  p_Computer->readMemDebug(addr+1);
+                if (branchAddr>insertAddress && branchAddr < endAddr)
+                {
+                    branchAddr--;
+                    p_Computer->writeMemDebug(addr+4, (branchAddr&0xff00)>>8, true);
+                    p_Computer->writeMemDebug(addr+1, branchAddr&0xff, true);
+                }
+                addr+=5;
+            break;
+
+            case MEM_TYPE_OPCODE_LDRL_SLOT:
+                branchAddr = (p_Computer->readMemDebug(addr+4) << 8) +  p_Computer->readMemDebug(addr+1);
+                if (branchAddr>insertAddress && branchAddr < endAddr && branchChangeNeeded(workingRange_, addr, branchAddr))
+                {
+                    branchAddr--;
+                    p_Computer->writeMemDebug(addr+4, (branchAddr&0xff00)>>8, true);
+                    p_Computer->writeMemDebug(addr+1, branchAddr&0xff, true);
+                }
+                addr+=5;
+            break;
+
 			case MEM_TYPE_OPCODE_RLDL:
 				branchAddr = (p_Computer->readMemDebug(addr+2) << 8) +  p_Computer->readMemDebug(addr+3);
 				if (branchAddr>insertAddress && branchAddr < endAddr)
@@ -11533,7 +11915,19 @@ void DebugWindow::deleteByte(Word insertAddress, bool secondCardtranDelete)
 					addr+=5;
 				break;
 
-				case MEM_TYPE_OPCODE_RLDL:
+                case MEM_TYPE_OPCODE_LDRL:
+                case MEM_TYPE_OPCODE_LDRL_SLOT:
+                    branchAddr = (p_Computer->readMemDebug(addr+4) << 8) +  p_Computer->readMemDebug(addr+1);
+                    if (branchAddr>insertAddress && branchAddr < endAddr && branchChangeNeeded(i, addr, branchAddr))
+                    {
+                        branchAddr--;
+                        p_Computer->writeMemDebug(addr+4, (branchAddr&0xff00)>>8, true);
+                        p_Computer->writeMemDebug(addr+1, branchAddr&0xff, true);
+                    }
+                    addr+=5;
+                break;
+
+                case MEM_TYPE_OPCODE_RLDL:
 					branchAddr = (p_Computer->readMemDebug(addr+2) << 8) +  p_Computer->readMemDebug(addr+3);
 					if (branchAddr>insertAddress && branchAddr < endAddr && branchChangeNeeded(i, addr, branchAddr))
 					{
@@ -12666,6 +13060,16 @@ void DebugWindow::onAssCopy(wxCommandEvent&WXUNUSED(event))
 					p_Computer->writeMemDebug(correctAddress+4, branchAddr&0xff, true);
 				}
 			}
+            if (p_Computer->readMemDataType(correctAddress, &executed) == MEM_TYPE_OPCODE_LDRL || p_Computer->readMemDataType(correctAddress, &executed) == MEM_TYPE_OPCODE_LDRL_SLOT)
+            {
+                branchAddr = (p_Computer->readMemDebug(correctAddress+4) << 8) +  p_Computer->readMemDebug(correctAddress+1);
+                if (branchAddr >= start && branchAddr <= end)
+                {
+                    branchAddr += moveCorrection;
+                    p_Computer->writeMemDebug(correctAddress+4, (branchAddr&0xff00)>>8, true);
+                    p_Computer->writeMemDebug(correctAddress+1, branchAddr&0xff, true);
+                }
+            }
 			if (p_Computer->readMemDataType(correctAddress, &executed) == MEM_TYPE_OPCODE_RLDL)
 			{
 				branchAddr = (p_Computer->readMemDebug(correctAddress+2) << 8) +  p_Computer->readMemDebug(correctAddress+3);
@@ -12763,7 +13167,7 @@ void DebugWindow::onAssDis(wxCommandEvent&WXUNUSED(event))
                               (
                                    "Assembler File (*.asm)|*.asm|Text File (*.txt)|*.txt"
                                ),
-                               wxFD_SAVE|wxFD_CHANGE_DIR,
+                               wxFD_SAVE|wxFD_CHANGE_DIR|wxFD_PREVIEW|wxFD_OVERWRITE_PROMPT,
                                this
                               );
 
@@ -12900,7 +13304,7 @@ void DebugWindow::onAssDis(wxCommandEvent&WXUNUSED(event))
                     address+=3;
                     address&=0xffff;
                 break;
-                    
+                                        
                 case MEM_TYPE_OPERAND_LD_3:
                     addressAndOpcode.Printf(";      %02X %02X %02X", p_Computer->readMemDebug(address), p_Computer->readMemDebug(address+1), p_Computer->readMemDebug(address+2));
                     line = "";
@@ -12910,7 +13314,44 @@ void DebugWindow::onAssDis(wxCommandEvent&WXUNUSED(event))
                     address+=3;
                     address&=0xffff;
                 break;
+
+                case MEM_TYPE_OPCODE_LDRL:
+                case MEM_TYPE_OPCODE_LDRL_SLOT:
+                case MEM_TYPE_OPERAND_LDR_3:
+                    value = p_Computer->readMemDebug(address+1);
+                    addressAndOpcode.Printf(";%04X: %02X %02X", address, p_Computer->readMemDebug(address), value);
+                    if (value >= 0xa0)
+                        text.Printf("%03XH", value);
+                    else
+                        text.Printf("%02XH", value);
+                    line = "LDI  " + text;
+                    while (line.Len()<= 24)
+                        line += " ";
+                    line += addressAndOpcode;
+                    address+=2;
+                    address&=0xffff;
+                break;
+                                                            
+                case MEM_TYPE_OPERAND_LDR_2:
+                    addressAndOpcode.Printf(";%04X: %02X", address, p_Computer->readMemDebug(address));
+                    line.Printf("PLO  R%01X", p_Computer->readMemDebug(address)&0xf);
+                    while (line.Len()<= 24)
+                        line += " ";
+                    line += addressAndOpcode;
+                    address++;
+                    address&=0xffff;
+                break;
                     
+                case MEM_TYPE_OPERAND_LDR_5:
+                    addressAndOpcode.Printf(";%04X: %02X", address, p_Computer->readMemDebug(address));
+                    line.Printf("PHI  R%01X", p_Computer->readMemDebug(address)&0xf);
+                    while (line.Len()<= 24)
+                        line += " ";
+                    line += addressAndOpcode;
+                    address++;
+                    address&=0xffff;
+                break;
+
                 case MEM_TYPE_PSEUDO_1:
                     tempLine = pseudoDisassemble(address, false, true);
                     
@@ -13196,6 +13637,7 @@ void DebugWindow::assDirOld(wxString fileName, long start, long end)
                 
             case MEM_TYPE_OPCODE_LDV:
             case MEM_TYPE_OPCODE_LDL:
+            case MEM_TYPE_OPCODE_LDRL:
                 line = cdp1802disassemble(&address, false, true, DIRECT_ASSEMBLER, start, end);
                 outputTextFile.AddLine(line);
                 line.Printf("      %02X %02X %02X", p_Computer->readMem(address-3), p_Computer->readMem(address-2), p_Computer->readMem(address-1));
@@ -13207,9 +13649,24 @@ void DebugWindow::assDirOld(wxString fileName, long start, long end)
                 line.Printf("      %02X %02X %02X         %02X%02X", p_Computer->readMem(address-3), p_Computer->readMem(address-2), p_Computer->readMem(address-1), p_Computer->readMem(address-5),p_Computer->readMem(address-2));
             break;
                 
+            case MEM_TYPE_OPCODE_LDRL_SLOT:
+                line = cdp1802disassemble(&address, false, true, DIRECT_ASSEMBLER, start, end);
+                outputTextFile.AddLine(line);
+                line.Printf("      %02X %02X %02X         %02X%02X", p_Computer->readMem(address-3), p_Computer->readMem(address-2), p_Computer->readMem(address-1), p_Computer->readMem(address-2),p_Computer->readMem(address-5));
+            break;
+
             case MEM_TYPE_OPERAND_LD_3:
                 if (p_Computer->readMemDataType((address-3)&0xffff, &executed) == MEM_TYPE_OPCODE_LDL_SLOT)
                     line.Printf("      %02X %02X %02X         %02X%02X", p_Computer->readMem(address), p_Computer->readMem(address+1), p_Computer->readMem(address+2), p_Computer->readMem(address-2),p_Computer->readMem(address+1));
+                else
+                    line.Printf("      %02X %02X %02X", p_Computer->readMem(address), p_Computer->readMem(address+1), p_Computer->readMem(address+2));
+                address+=3;
+                address&=0xffff;
+            break;
+                
+            case MEM_TYPE_OPERAND_LDR_3:
+                if (p_Computer->readMemDataType((address-3)&0xffff, &executed) == MEM_TYPE_OPCODE_LDRL_SLOT)
+                    line.Printf("      %02X %02X %02X         %02X%02X", p_Computer->readMem(address), p_Computer->readMem(address+1), p_Computer->readMem(address+2), p_Computer->readMem(address+1),p_Computer->readMem(address-2));
                 else
                     line.Printf("      %02X %02X %02X", p_Computer->readMem(address), p_Computer->readMem(address+1), p_Computer->readMem(address+2));
                 address+=3;
@@ -13488,8 +13945,8 @@ void DebugWindow::DebugDisplayPage()
             break;
                 
 			case PAGER:
-//				if (((start>>12)&0xf) == portExtender_)
-				if (start >= 0x1000)
+				if (((start>>12)&0xf) == portExtender_)
+//				if (start >= 0x1000)
 					XRCCTRL(*this, idReference, wxStaticText)->SetForegroundColour(wxColour(0xa9, 0x3e, 0xac));
 			break;
 		}
@@ -15211,7 +15668,6 @@ void DebugWindow::setMemoryType(int id, int setType)
 		break;
 
 		case VIP:
-        case VIP2K:
 			if ((setType == RAM) || (setType == ROM) || (setType == COLOURRAM) || (setType == UNDEFINED) || (setType == MAPPEDRAM) || (setType == VP570RAM))
 				p_Computer->defineMemoryType(id*256, setType);
 			else
@@ -15221,12 +15677,22 @@ void DebugWindow::setMemoryType(int id, int setType)
 			}
 		break;
 
-		case VIPII:
+        case VIP2K:
+            if ((setType == RAM) || (setType == ROM) || (setType == COLOURRAM) || (setType == UNDEFINED) || (setType == MAPPEDRAM))
+                p_Computer->defineMemoryType(id*256, setType);
+            else
+            {
+                (void)wxMessageBox( "Only RAM (.), ROM (R), Mapped RAM (M.), Colour RAM (C.) or UNDEFINED (space) allowed in "+computerInfo[runningComputer_].name+" emulation\n",
+                                            "Emma 02", wxICON_ERROR | wxOK );
+            }
+        break;
+
+        case VIPII:
 			if ((setType == RAM) || (setType == ROM) || (setType == COLOURRAM) || (setType == UNDEFINED))
 				p_Computer->defineMemoryType(id*256, setType);
 			else
 			{
-				(void)wxMessageBox( "Only RAM (.), ROM (R), Mapped RAM (M.), Colour RAM (C.), VP570 Expansion RAM (VP) or UNDEFINED (space) allowed in "+computerInfo[runningComputer_].name+" emulation\n",
+				(void)wxMessageBox( "Only RAM (.), ROM (R), Colour RAM (C.) or UNDEFINED (space) allowed in "+computerInfo[runningComputer_].name+" emulation\n",
 											"Emma 02", wxICON_ERROR | wxOK );
 			}
 		break;
@@ -16311,12 +16777,12 @@ void DebugWindow::updateTitle()
 	{
 		title = swName_ + ", Debug Mode";
 		if (chip8DebugMode_)
-			title = swName_ + ", Chip-8 and 1802 Debug Mode";
+			title = swName_ + ", Pseudo and 1802 Debug Mode";
 	}
 	else
 	{
 		if (chip8DebugMode_)
-			title = swName_ + ", Chip-8 Debug Mode";
+			title = swName_ + ", Pseudo Debug Mode";
 	}
 
 	switch (runningComputer_)
@@ -16662,9 +17128,9 @@ void DebugWindow::onChip8PauseButton(wxCommandEvent&WXUNUSED(event))
 {
 	if (chip8Steps_ < 0)
 	{
+        XRCCTRL(*this, "Chip8PauseButton", wxBitmapButton)->SetBitmapLabel(pauseOnBitmap);
+        XRCCTRL(*this,"Chip8PauseButton", wxBitmapButton)->Enable(false);
 		chip8Steps_ = 1;
-		XRCCTRL(*this, "Chip8PauseButton", wxBitmapButton)->SetBitmapLabel(pauseOnBitmap);
-		XRCCTRL(*this,"Chip8PauseButton", wxBitmapButton)->Enable(false);
 		updateChip8DebugMenu(true);
 	}
 	else
@@ -16679,21 +17145,21 @@ void DebugWindow::setChip8PauseState()
 {
 	if (chip8Steps_ == 0)
 	{
-		XRCCTRL(*this, "Chip8PauseButton", wxBitmapButton)->SetBitmapLabel(pauseOnBitmap);
 		XRCCTRL(*this,"Chip8PauseButton", wxBitmapButton)->Enable(true);
 		XRCCTRL(*this,"Chip8StepButton", wxBitmapButton)->Enable(true);
+        XRCCTRL(*this, "Chip8PauseButton", wxBitmapButton)->SetBitmapLabel(pauseOnBitmap);
 	}
 	else
 	{
 		if (chip8Steps_ > 0)
 		{
-			XRCCTRL(*this, "Chip8PauseButton", wxBitmapButton)->SetBitmapLabel(pauseOffBitmap);
 			XRCCTRL(*this,"Chip8StepButton", wxBitmapButton)->Enable(true);
+            XRCCTRL(*this, "Chip8PauseButton", wxBitmapButton)->SetBitmapLabel(pauseOffBitmap);
 		}
 		else
 		{
-			XRCCTRL(*this, "Chip8PauseButton", wxBitmapButton)->SetBitmapLabel(pauseOffBitmap);
 			XRCCTRL(*this,"Chip8StepButton", wxBitmapButton)->Enable(false);
+            XRCCTRL(*this, "Chip8PauseButton", wxBitmapButton)->SetBitmapLabel(pauseOffBitmap);
 		}
 	}
     p_Main->eventUpdateTitle();
@@ -17840,7 +18306,7 @@ void DebugWindow::onChip8ProtectedMode(wxCommandEvent&event)
 void DebugWindow::onChip8Log(wxCommandEvent& WXUNUSED(event))
 {
 //	wxSetWorkingDirectory (workingDir_);
-	int num = 0;
+//	int num = 0;
 	wxString fileName, number;
 
 	fileName = wxFileSelector( "Select the log file to save",
@@ -17852,7 +18318,7 @@ void DebugWindow::onChip8Log(wxCommandEvent& WXUNUSED(event))
                                    wxFileSelectorDefaultWildcardStr,
                                    wxFileSelectorDefaultWildcardStr
                                ),
-                               wxFD_SAVE|wxFD_CHANGE_DIR|wxFD_PREVIEW,
+                               wxFD_SAVE|wxFD_CHANGE_DIR|wxFD_PREVIEW|wxFD_OVERWRITE_PROMPT,
                                this
                               );
 
@@ -17864,12 +18330,12 @@ void DebugWindow::onChip8Log(wxCommandEvent& WXUNUSED(event))
 	wxString path = FullPath.GetPath();
 	wxString ext = FullPath.GetExt();
 
-	while(wxFile::Exists(fileName))
+/*	while(wxFile::Exists(fileName))
 	{
 		num++;
 		number.Printf("%d", num);
 		fileName = path + pathSeparator_ + name + "." + number + "." + ext;
-	}
+	}*/
 	chip8TraceWindowPointer->SaveFile(fileName);
 }
 

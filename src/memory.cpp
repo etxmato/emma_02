@@ -239,7 +239,7 @@ void Memory::allocPagerMemory()
 	mainMemory_ = (Byte*)realloc(mainMemory_, 1048576);
     mainMemoryDataType_ = (Byte*)realloc(mainMemoryDataType_, 1048576);
     if (profilerCounter_ != PROFILER_OFF)
-        mainMemoryExecuted_ = (uint64_t*)realloc(mainMemoryDataType_, 1048576*4);
+        mainMemoryExecuted_ = (uint64_t*)realloc(mainMemoryExecuted_, 1048576*4);
     mainMemoryLabelType_ = (Byte*)realloc(mainMemoryLabelType_, 1048576);
     pagerDefined_ = true;
 

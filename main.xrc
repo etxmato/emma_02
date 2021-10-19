@@ -27242,6 +27242,7 @@
                                                                                         <item>Branch</item>
                                                                                         <item>Rev Br</item>
                                                                                         <item>LDL</item>
+                                                                                        <item>LDRL</item>
                                                                                         <item>LDV</item>
                                                                                         <item>Switch</item>
                                                                                         <item>Pseudo</item>
@@ -30451,7 +30452,7 @@
                                                                                                 <size>-1</size>
                                                                                             </font>
                                                                                             <style>wxBU_EXACTFIT</style>
-                                                                                            <label>Trace:</label>
+                                                                                            <label>Trace</label>
                                                                                             <checked>0</checked>
                                                                                         </object>
                                                                                     </object>

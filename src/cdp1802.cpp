@@ -1651,17 +1651,22 @@ void Cdp1802::cpuCycleFetch()
             case MEM_TYPE_OPCODE_LDV:
             case MEM_TYPE_OPCODE_LDL:
             case MEM_TYPE_OPCODE_LDL_SLOT:
+            case MEM_TYPE_OPCODE_LDRL:
+            case MEM_TYPE_OPCODE_LDRL_SLOT:
                 if (instructionCode_ != 0xF8)
  					mem_type = MEM_TYPE_OPCODE;
             break;
             case MEM_TYPE_OPERAND_LD_2:
+            case MEM_TYPE_OPERAND_LDR_5:
                 if ((instructionCode_&0xf0) != 0xB0)
  					mem_type = MEM_TYPE_OPCODE;
             break;
             case MEM_TYPE_OPERAND_LD_3:
+            case MEM_TYPE_OPERAND_LDR_3:
                 if (instructionCode_ != 0xF8)
  					mem_type = MEM_TYPE_OPCODE;
             break;
+            case MEM_TYPE_OPERAND_LDR_2:
             case MEM_TYPE_OPERAND_LD_5:
                 if ((instructionCode_&0xf0) != 0xA0)
  					mem_type = MEM_TYPE_OPCODE;

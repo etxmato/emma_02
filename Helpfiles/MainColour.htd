@@ -14,7 +14,7 @@ Available buttons:
 <li>Save (yellow ellipse): to save all settings (and exit).
 <li>Default (blue ellipse): to set all video settings default. 
 <li>Colour sets (red ellipses): to set pre defined colour configurations (only available for some video types).  
-<li>Colour buttons: to select a differnt color shade, when pressed default OS colour picker will pop up to select a different colour.
+<li>Colour buttons: to select a different colour shade, when pressed default OS colour picker will pop up to select a different colour.
 </ul>
 </p>
 <p>
@@ -30,7 +30,7 @@ An example video setup window is shown below (for the Elf Emulator), note that w
 <IMG SRC="images/video_setup.png" BORDER="0">
 </p>
 <p>
-For the CDP 1869 / 1870 video on the COMX and Microboard emulators, colour buttons are availble for the colour tone effect. So in normal use the 'Main Colours' (yellow ellipse) are used for the 8 colours and after activating the tone effect with BASIC command CTONE(1) one of the main colours and colour tone effect colors to the right of that will be used. In example below the colours in the orange ellipse would be used if the background colour is blue.
+For the CDP 1869 / 1870 video on the COMX and Microboard emulators, colour buttons are available for the colour tone effect. So in normal use the 'Main Colours' (yellow ellipse) are used for the 8 colours and after activating the tone effect with BASIC command CTONE(1) one of the main colours and colour tone effect colors to the right of that will be used. In example below the colours in the orange ellipse would be used if the background colour is blue.
 </p>
 <p>
 <IMG SRC="images/video_setup_comx.png" BORDER="0">

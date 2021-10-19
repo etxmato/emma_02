@@ -7,7 +7,7 @@
 This is the only 'CPU' in Emma 02 which is not a CPU from the 180x serie. Instead it is using a chip set as was used in the RCA SYSTEM00 protoype. The SYSTEM00 chip set is likely constructed largely of 7400-series TTL logic, i.e. not a microprocessor. For more details on the SYSTEM00 see also Herb Johnson's page <a href="http://www.retrotechnology.com/memship/sys00_insp.html">System 00 inspection</a>. The instruction set uses a subset of the 1801 with some incompatible differences and is likely what the 1801 was based on. An overview of all difference between the SYSTEM00, <a href="DebuggerSyntax1801.htm">CDP1801</a> and <a href="DebuggerSyntax1802.htm">CDP1802</a> can be found on the <a href="DebuggerSyntaxDifferences.htm">differences</a> page.
 </p>
 <p>
-This info is also availble online on the <a href="https://emma02.hobby-site.com/system00.html">Emma 02 site</a>.
+This info is also available online on the <a href="https://emma02.hobby-site.com/system00.html">Emma 02 site</a>.
 </p>
 <h2>Definitions</h2>
 <table>
@@ -76,7 +76,7 @@ This info is also availble online on the <a href="https://emma02.hobby-site.com/
 </tr>
 <tr>
 <td>STORE VIA N</td>
-<td>Str</td>
+<td>STR</td>
 <td>5N</td>
 <td>D->M(RN)</td>
 </tr>

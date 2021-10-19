@@ -34,7 +34,6 @@ JNZ
 V0 , hex=0000-0FFF code=1jjj
 /JNZ
 JP
-hex=0000-0FFF code=3jjj
 FIREA , hex=0000-00FF code=F1bb
 'EF1' , hex=0000-00FF code=F1bb
 'EF2' , hex=0000-00FF code=F2bb
@@ -42,6 +41,7 @@ FIREB , hex=0000-00FF code=F3bb
 'EF3' , hex=0000-00FF code=F3bb
 COIN , hex=0000-00FF code=F4bb
 'EF4' , hex=0000-00FF code=F4bb
+hex=0000-0FFF code=3jjj
 /JP
 JZ
 V0 , hex=0000-0FFF code=0jjj

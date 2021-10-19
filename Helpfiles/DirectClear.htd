@@ -3,7 +3,10 @@
 <body>
 <h1>Clear</h1>
 <p>
-Pressing the 'Clear' button will clear the 'message' area just below the 'Command line input'.
+Pressing the 'Clear' button (yellow ellispe) will clear the 'message' area (orange ellipse):
+</p>
+<p>
+<IMG SRC="images/assembler_clear.png" BORDER="0">
 </p>
 </body>
 </html>

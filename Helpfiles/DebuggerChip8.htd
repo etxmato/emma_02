@@ -1,58 +1,90 @@
 <html>
 <title>Debug Pseudo</title>
 <body>
-<h2>Debug Pseudo</h2>
+<h1>Debug Pseudo</h1>
 <p>
-To use the Chip-8, ST2 (Studio II), ST4 (Studio IV), FEL (FRED 1.5 / Coin Arcade variant) or CARDTRAN (FRED1) trace functions of the debugger first select the 'Tools' tab and then the 'Debug Pseudo' tab.
+To use the <a href="SyntaxPseudoCode.htm">pseudo</a> trace functions of the debugger first select the 'Tools' tab (yellow ellipse) and then the 'Debug Pseudo' tab (orange ellipse).
 </p>
 <p>
-To activate/deactivate the Pseudo debug mode select/deselect the 'Debug Mode' checkbox. Debug mode is also activated and deactivated automatically when using the Pseudo trace command. 
+<IMG SRC="images/debug_pseudo.png" BORDER="0">
 </p>
 <p>
-Active Pseudo debug mode will be indicated in the emulated computer window title. Note that in Pseudo debug mode the emulator will run slower and take more processor power.  
-</p>
-<h3>Tracing</h3>
-<p>
-There are 2 trace possibilities:<br>
-- All Instructions: to show all Pseudo code instructions executed by the emulated computer press the 'Trace' button.<br>
-- Interrupt: to show when the emulated computer executes an 1802 interrupt instruction. To start or stop this trace, press the 'INT' button.
+To activate/deactivate the pseudo debug mode select/deselect the 'Debug Mode' checkbox (blue ellipse). Debug mode is also activated and deactivated automatically when using any of the he pseudo trace commands (red ellipse). 
 </p>
 <p>
-Tracing output will be shown in the trace output window. To save the output to a log file press the 'Log' button. If the specified file already exists the filename will be given a number starting with 1. The trace window cleared by pressing 'Clear'.
-</p>
-<h3>Pause, Step and Speed</h3>
-<p>
-The Pseudo code running on the emulated computer can be 'paused' by pressing the pause button and will pause automatically when hitting a break point, see also below. 
+Active pseudo debug mode will be indicated in the emulated computer window title. Note that in pseudo debug mode the emulator will run slower and take more processor power.  
 </p>
 <p>
-When Pseudo code is paused the pause button will light up orange and the title of the computer will include '** PAUSED **'. To continue just hit the pause button again. Note that when the pause button is pressed during execution of a Pseudo code instruction, Pseudo code is paused only when the current instruction is finished. During execution of the current instruction the pause button will be disabled. This is especially visible when pausing during a LD Vx, K command, in this case the pause command will only take effect after a key press. 
+<IMG SRC="images/debug_pseudo_debugmode.png" BORDER="0">
+</p>
+<h2>Tracing</h2>
+<p>
+There are 2 trace buttons to show or trace instructions executed by the emulated computer: 
 </p>
 <p>
-In pause mode the 'Step' button can be used to get the emulated computer to execute the indicated number of Pseudo code instructions and after this go back to pause mode.
+<ul>
+<li>Trace: (yellow ellipse): to show all pseudo instructions. 
+<li>INT (orange ellipse): to show 1802 interrupt instructions.
+</ul>
 </p>
 <p>
-If needed the trace and emulated computer can be slowed down by sliding the 'Speed' slider to the left. Normal speed will be restored when Debug mode is switched off even if the slider is not fully to the right.
-</p>
-<h3>Registers & Variables</h3>
-<p>
-There are two modes for the registers & variables, protected and unprotected mode. To switch select/deselect the 'Protected Mode' check box. In protected mode it is not possible to change any value! This as changing these values will in most cases mess up the execution of the emulated Pseudo code software. The PC register is never allowed to be changed.
+<IMG SRC="images/debug_pseudo_trace.png" BORDER="0">
 </p>
 <p>
-To change the values of any of the registers & variables type in a different value and press enter. Note in this case no value is changed until enter is pressed, again to avoid unwanted behaviour of the emulated Pseudo code software. Also be aware that changing values during run time of a computer might be difficult as the emulator might constantly change the values, in this case pause the emulator.
+Tracing output will be shown in the trace output window (grey ellipse). To save the output to a log file press the 'Log' button (brown ellipse). The trace window cleared by pressing 'Clear' (magenta ellipse).
 </p>
-<h3>Break Points</h3>
 <p>
-To set a break point on a Pseudo code 'execution address' type the required address in the field next to the 'Set' button and press return (or the button). The address will be shown in the break point list. When the emulated computer reaches the specified address it will stop execution and go into 'pause' mode. A total of 64 break points can be set.
+The type of pseudo code is shown in the Type field (green ellipse).
 </p>
-<h4>Delete</h4>
+<h2>Pause, Step and Speed</h2>
 <p>
-To delete a breakpoint, register or instruction trap select it in the list and press the 'Delete' key.
+The pseudo code running on the emulated computer can be 'paused' by pressing the pause button (orange ellipse) and will pause automatically when hitting a break point, see also chapter 'Break Points' below. 
 </p>
-<h4>Deactivate</h4>
 <p>
-To deactivate a breakpoint uncheck the applicable checkbox. To activate it again re-check the box.
+<IMG SRC="images/debug_pseudo_PSS.png" BORDER="0">
 </p>
-<h4>Edit</h4>
+<p>
+When Pseudo code is paused the pause button will light up orange and the title of the computer will include '** PAUSED **'. To continue just hit the pause button again. Note that when the pause button is pressed during execution of a pseudo code instruction, pseudo code is paused only when the current instruction is finished. During execution of the current instruction the pause button will be disabled. This is especially visible when pausing during a command like LD Vx, K in Chip-8, in this case the pause command will only take effect after a key press. 
+</p>
+<p>
+In pause mode the 'Step' button (orange ellipse) can be used to get the emulated computer to execute the indicated number of pseudo code instructions and after this go back to pause mode.
+</p>
+<p>
+If needed the trace and emulated computer can be slowed down by sliding the 'Speed' slider (blue ellispe) to the left. Normal speed will be restored when Debug mode is switched off even if the slider is not fully to the right.
+</p>
+<h2>Variables & Register I</h2>
+<p>
+All variable (orange ellipse), I register (blue ellipse) and PC register values can be seen at any time:
+</p>
+<p>
+<IMG SRC="images/debug_pseudo_registers.png" BORDER="0">
+</p>
+<p>
+Default none of these values can be changed (protected mode), this is to protect execution of the emulated computer as changing these values would likely cause a crash. To change these values unselect the 'Protected Mode' checkbox (yellow ellipse). The PC register is never allowed to be changed.
+</p>
+<p>
+To change the value of registers I and/or variables, type in a different value and press enter. No value is changed until enter is pressed! Also be aware that changing values during run time of a computer might be difficult as the emulator constantly changes values. To make it easier to change something pause the emulator (via the pause button or breakpoint), change the value and continue tracing using pause (see chapters, 'Pause, Step and Speed' and/or 'Break Points'.
+</p>
+</p>
+<h2>Break Points</h2>
+<p>
+Break points (yellow ellipse) are handled with the button and fields marked in the screen shot below.
+</p>
+<p>
+<IMG SRC="images/debug_pseudo_break.png" BORDER="0">
+</p>
+<p>
+To set a break point on a pseudo code 'execution address' type the required address in the field next to the 'Set' button (yellow ellipse) and press return (or the button). The address will be shown in the break point list (orange ellipse). When the emulated computer reaches the specified address it will stop execution and go into 'pause' mode. A total of 64 break points can be set.
+</p>
+<h3>Delete</h3>
+<p>
+To delete a breakpoint select it in the list and press the 'Delete' key.
+</p>
+<h3>Deactivate</h3>
+<p>
+This feature is only available on Windows: to deactivate a breakpoint uncheck the applicable checkbox. To activate it again re-check the box.
+</p>
+<h3>Edit</h3>
 <p>
 To edit a breakpoint select it in the list and edit the text.
 </p>

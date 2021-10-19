@@ -16,7 +16,7 @@ STK can be used on a VIP with printer output and a hex keypad as input. This is 
 V0-F are stored on memory locations 0780-079F, where V0 is stored on 0780-0781 and VF on 079E-079F.
 </p>
 <p>
-This info is also availble online on the <a href="https://emma02.hobby-site.com/pseudo_stk.html">Emma 02 site</a>.
+This info is also available online on the <a href="https://emma02.hobby-site.com/pseudo_stk.html">Emma 02 site</a>.
 </p>
 <h2>Definitions</h2>
 <table>

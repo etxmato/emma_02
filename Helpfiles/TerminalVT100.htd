@@ -1,7 +1,7 @@
 <html>
-<title>VT100 Setup & Keymapping</title>
+<title>VT100 Setup & Key Mapping</title>
 <body>
-<h1>VT100 Setup & Keymapping</h1>
+<h1>VT100 Setup & Key Mapping</h1>
 <h2>VT100 Setup screens</h2>
 <p>
 VT100 Set-up screens are simulated and can be started by pressing F8 (see also chapter <a href="MainFunctionKeys.htm">Function and Hot Keys</a>). When saving settings with CTRL S they will be used next time a VT100 will be used.

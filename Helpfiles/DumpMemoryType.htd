@@ -3,65 +3,92 @@
 <body>
 <h1>Memory Type</h1>
 <p>
-The memory type of the main 64K CPU memory will be shown as soon as type 'Type' is selected.  One field defines one page, i.e. 256 bytes of memory, so the top left field defines address 0000 to 00FF.  To change the type of a memory page select the value and change it, for definition of types see following details:
-</p>
-<h4>Values allowed in COMX emulation</h4> 
-<p>
-space = UNDEFINED<br>
-. = RAM<br>
-R = ROM<br>
-PR = 1870 Page RAM<br>
-CR = 1870 Character RAM<br>
-M5 = MC6845 Video RAM<br>
-MR = MC6845 Register<br>
-CE = COMX Expansion ROM copy<br>
-CF = COMX Floppy disk ROM copy
+The memory type of the main 64K CPU memory will be shown as soon as memory 'Type' (yellow ellipse) is selected. One field defines one page, i.e. 256 bytes of memory, so the top left field (blue ellipse) defines address 0000 to 00FF.  To change the memory type of a page select the value and change it. Note that changing any of these values will likely crash the emulated computer; so use with care.
 </p>
 <p>
-Note that M5 and MR are only allowed if the 80 column card is configured. Also when changing any of these values the COMX emulation might not work anymore!
-</p>
-<h4>Values allowed in Cosmac Elf, Netronics Elf II and Quest Super Elf emulation</h4> 
-<p>
-space = UNDEFINED<br>
-. = RAM<br>
-R = ROM<br>
-M5 = MC6845 Video RAM<br>
-MR = MC6845 Register<br>
-M7 = MC6847 Video RAM<br>
+<IMG SRC="images/dump_memory_type.png" BORDER="0">
 </p>
 <p>
-Note that M5 and MR are only allowed if the MC6845 video mode is selected and M7 only if the MC6847 video mode is selected. Also when changing any of these values the Elf emulation might not work anymore!
-</p>
-<h4>Values allowed in Cosmac Elf 2000, Telmac 1800, Telmac 2000, Oscom Nano and ETI 660 emulation</h4> 
-<p>
-space = UNDEFINED<br>
-. = RAM<br>
-R = ROM<br>
+If memory type is shown in colour text the type or address range is linked to a hardware mapper, like COMX slots or banks and Elf EMS or ROM pagers. Note that the colour used is the same as the mappper selection features (orange and magenta ellipses)
 </p>
 <p>
-When changing any of these values the Cosmac Elf 2000, Telmac 1800, Telmac 2000, Oscom Nano and/or ETI 660 emulation might not work anymore!
+Definition of available memory types per computer type:
 </p>
-<h4>Values allowed in RCA Studio II, RCA Studio III / Victory MPT-02 and Visicom COM-100 emulation</h4> 
-<p>
-space = UNDEFINED<br>
-. = RAM<br>
-R = ROM<br>
-M. = Mapped RAM<br>
-C. = Victory Colour RAM Access<br>
-</p>
-<p>
-When changing any of these values the RCA Studio II, RCA Studio III / Victory MPT-02 and/or Visicom COM-100 emulation might not work anymore!
-</p>
-<h4>Values allowed in Cidelsa, Telmac TMC 600 and Pecom emulation</h4> 
-<p>
-space = UNDEFINED<br>
-. = RAM<br>
-R = ROM<br>
-PR = 1870 Page RAM<br>
-CR = 1870 Character RAM<br>
-</p>
-<p>
-When changing any of these values the Cidelsa, Telmac TMC 600 and/or Pecom emulation might not work anymore!
-</p>
+<TABLE BORDER="1" CELLSPACING="0" CELLPADDING="10" WIDTH="100%">
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP"><B>Memory type</B></TD>
+<TD ALIGN="LEFT" VALIGN="TOP"><B>Definition</B></TD>
+<TD ALIGN="LEFT" VALIGN="TOP"><B>Available (if configured)</B></TD>
+</TR>
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP">&lt;space&gt;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">Undefined</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">All computers</TD>
+</TR>
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP">.</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">RAM</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">All computers</TD>
+</TR>
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP">C.</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">Colour RAM</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">VIP2K Membership Card<br>Cosmac VIP<br>Cosmac VIP II<br>RCA Studio IV<br>Visicom COM-100</TD>
+</TR>
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP">CE</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">COMX Expansion ROM copy</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">COMX-35<br>COMIX-35</TD>
+</TR>
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP">CF</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">Floppy disk ROM copy</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">COMX-35<br>COMIX-35</TD>
+</TR>
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP">CR</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">1870 Character RAM</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">COMX-35<br>COMIX-35<br>Microboard System<br>Cidelsa<br>TMC-600<br>Pecom 32 &amp; 64</TD>
+</TR>
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP">M.</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">Mapped RAM</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">Cosmac Elf<br>Netronics Elf II<br>Quest Super Elf<br>Pico Elf V2<br>VIP2K Membership Card<br>Cosmac VIP<br>Microboard System<br>RCA Video Coin Arcade<br>RCA Studio II<br>RCA Studio III / Victory MPT-02<br>RCA Studio IV<br>Visicom COM-100</TD>
+</TR>
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP">M5</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">MC6845 Video RAM</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">COMX-35<br>COMIX-35<br>Cosmac Elf<br>Netronics Elf II<br>Quest Super Elf<br>Pico Elf V2<br>Microboard System</TD>
+</TR>
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP">M7</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">MC6847 Video RAM</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">Cosmac Elf<br>Netronics Elf II<br>Quest Super Elf<br>Pico Elf V2</TD>
+</TR>
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP">MR</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">MC6845 Register</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">COMX-35<br>COMIX-35<br>Cosmac Elf<br>Netronics Elf II<br>Quest Super Elf<br>Pico Elf V2<br>Microboard System</TD>
+</TR>
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP">PR</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">1870 Page RAM</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">COMX-35<br>COMIX-35<br>Microboard System<br>Cidelsa<br>TMC-600<br>Pecom 32 &amp; 64</TD>
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP">R</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">ROM</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">All computers</TD>
+</TR>
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP">RS</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">REGISER STORAGE</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">CDP18S020 Evaluation Kit</TD>
+</TR>
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP">VP</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">VP570 Expansion RAM</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">Cosmac VIP</TD>
+</TR>
+</TABLE>
 </body>
 </html>

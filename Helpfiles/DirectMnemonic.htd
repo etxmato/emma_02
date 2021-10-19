@@ -12,7 +12,25 @@ There are a few 1802 op codes with multiple mnemonics:
 <br>C8: <B>NLBR</B> or LSKP
 </p>
 <p>
-All variants will be accepted in the assembler and the variant used will be stored as a type. This can also be changed via the procedure described in chapter 'Marking specific types' and using marking 'Switch'. If code is executed without a type specified the mnemonics in bold will be used.
+All variants will be accepted in the assembler and the variant used will be stored as a type. This can also be changed via the procedure described in chapter <a href="DirectMarking.htm">Changing Address Usage</a> and using marking 'Switch'. If code is executed without a type specified the mnemonics in bold will be used.
+</p>
+<p>
+For example, if type is set to Switch (yellow ellipse) and mark (orange ellipse) is pressed on address hex 4700 in the following example:
+</p>
+<p>
+<IMG SRC="images/assembler_switch_mark.png" BORDER="0">
+</p>
+<p>
+the code will change to:
+</p>
+<p>
+<IMG SRC="images/assembler_switch_mark_result.png" BORDER="0">
+</p>
+<p>
+Another mark press on address hex 4700 will change the code to:
+</p>
+<p>
+<IMG SRC="images/assembler_switch_mark_result2.png" BORDER="0">
 </p>
 </body>
 </html>

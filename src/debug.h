@@ -560,6 +560,7 @@ private:
     wxString getLongAddressOrLabel(Word address, bool textAssembler, Word start, Word end);
     wxString getSubAddressOrLabel(Word address, bool textAssembler, Word start, Word end);
     wxString getLoadAddressOrLabel(Word address, Word start, Word end);
+    wxString getReversedLoadAddressOrLabel(Word address, Word start, Word end);
     wxString getLoadAddress(Word address);
     wxString getCurrentAddresssLabel(Word address);
     wxString getHexByte(Word address, bool textAssembler);

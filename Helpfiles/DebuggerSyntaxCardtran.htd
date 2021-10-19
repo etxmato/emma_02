@@ -29,7 +29,7 @@ TV(2)
 This program (included in the cardtran.bin file) will wait for two four digit numbers, when the numbers are given it will multiply them and show a counter counting up to the result. At the end it will wait for two new numbers. If no input is given I think some random numbers are chosen.
 </p>
 <p>
-This info is also availble online on the <a href="https://emma02.hobby-site.com/pseudo_cardtran.html">Emma 02 site</a>.
+This info is also available online on the <a href="https://emma02.hobby-site.com/pseudo_cardtran.html">Emma 02 site</a>.
 </p>
 <h2>Definitions</h2>
 <table>

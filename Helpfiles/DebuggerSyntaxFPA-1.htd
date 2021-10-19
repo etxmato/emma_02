@@ -10,7 +10,7 @@ The pseudo command syntax described here is the FPA-1 variant which was found in
 The FPA-1 program code should be located between address 200-2FF, 300-3FF is available for TV patterns or additional FPA-1 code. The TV pattern table is located at 00F0-00FF and can be changed as needed. 15 FPA-1 variable V0-VE are available, V0 is used for the carry flag and V1 for the keyboard input byte.
 </p>
 <p>
-This info is also availble online on the <a href="https://emma02.hobby-site.com/pseudo_fpa-1.html">Emma 02 site</a>.
+This info is also available online on the <a href="https://emma02.hobby-site.com/pseudo_fpa-1.html">Emma 02 site</a>.
 </p>
 <h2>Definitions</h2>
 <table>

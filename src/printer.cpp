@@ -1008,7 +1008,6 @@ BEGIN_EVENT_TABLE(PrinterFrame, wxFrame)
 	EVT_TOOL(wxID_PRINT, PrinterFrame::onPrint)
 	EVT_TOOL(wxID_PREVIEW, PrinterFrame::onPreview)
 	EVT_TOOL(wxID_PRINT_SETUP, PrinterFrame::onPageSetup)
-	EVT_BUTTON(PRINTER_PLOTTER, PrinterFrame::onPrinterPlotter)
 	EVT_BUTTON(PLOTTERROM, PrinterFrame::onRomButton)
 	EVT_BUTTON(PLOTTEREXT, PrinterFrame::onExtButton)
 	EVT_TEXT(PLOTTERROMTEXT, PrinterFrame::onPlotterRomText)
@@ -1143,26 +1142,6 @@ void PrinterFrame::onRows(wxCommandEvent &event)
 		break;
 	}
 	p_Main->setConfigItem("PrinterPaperWidth", paperWidth_);
-	printerCanvasPointer->changeSize(paperWidth_);
-	this->SetClientSize(wxSize(paperWidth_ + p_Main->getPrintX(), 1408/4*3));
-}
-
-void PrinterFrame::onPrinterPlotter(wxCommandEvent&WXUNUSED(event))
-{
-	if (p_Main->getComxPrintMode() != COMXPRINTPRINTER)
-	{
-		p_Main->setComxPrintMode(COMXPRINTPRINTER);
-		SetTitle("COMX Printer Output");
-		enablePlotterGui(false);
-		paperWidth_ = p_Main->getConfigItem("PrinterPaperWidth", 960l);
-	}
-	else
-	{
-		p_Main->setComxPrintMode(COMXPRINTPLOTTER);
-		SetTitle("COMX Plotter Output");
-		enablePlotterGui(true);
-		paperWidth_ = 960;
-	}
 	printerCanvasPointer->changeSize(paperWidth_);
 	this->SetClientSize(wxSize(paperWidth_ + p_Main->getPrintX(), 1408/4*3));
 }
@@ -1323,32 +1302,6 @@ void PrinterFrame::completePage(wxDC& dc, int page)
 int PrinterFrame::getNumberofPages()
 {
 	return printerCanvasPointer->getNumberofPages();
-}
-
-void PrinterFrame::enablePlotterGui(bool status)
-{
-	switch(printerType_)
-	{
-		case TELMACPRINTER:
-		case PECOMPRINTER:
-        case MS2000PRINTER:
-		case VIPPRINTER:
-		case ELFPRINTER:
-			p_Printer->enablePlotterGui(status);
-		break;
-
-		case COMXPRINTER:
-			p_PrinterParallel->enablePlotterGui(status);
-		break;
-
-		case COMXTHPRINTER:
-			p_PrinterThermal->enablePlotterGui(status);
-		break;
-
-		case COMXRS232:
-			p_PrinterSerial->enablePlotterGui(status);
-		break;
-	}
 }
 
 void PrinterFrame::showPlotterRomFile(wxString fileName)
@@ -1740,9 +1693,6 @@ void Printer::outParallel(Byte value)
 {
 	wxString outputBuffer;
 
-	if (!printStarted_ &&(parallelFrameOpen_ || serialFrameOpen_))
-		disablePrintPlotter();
-
 	printStarted_ = true;
 	if (printEscape_)
 	{
@@ -1918,8 +1868,7 @@ void Printer::onF4()
 		printerFramePointer = new PrinterFrame( computerName_+" Printer Output", wxPoint(-1, -1), wxSize(paperWidth, 1408/4*3), printerType_);
 		printerFramePointer->CreateToolBar(wxTB_HORZ_TEXT);
 
-		fontTextPointer = new wxStaticText(printerFramePointer->GetToolBar(), -1, " Font:");
-		rowsTextPointer = new wxStaticText(printerFramePointer->GetToolBar(), -1, " Characters:");
+		fontTextPointer = new wxStaticText(printerFramePointer->GetToolBar(), -1, "Font");
 
 		choices [0] = "Default";
 		choices [1] = "Decorative";
@@ -1963,7 +1912,6 @@ void Printer::onF4()
 
 		printerFramePointer->GetToolBar()->AddControl(fontTextPointer);
 		printerFramePointer->GetToolBar()->AddControl(printerFontPointer);
-		printerFramePointer->GetToolBar()->AddControl(rowsTextPointer);
 		printerFramePointer->GetToolBar()->AddControl(printerRowsPointer);
 #ifndef __WXMAC__
 		printerFramePointer->GetToolBar()->AddSeparator();
@@ -1975,15 +1923,13 @@ void Printer::onF4()
 #if defined(__linux__)
 		wxFont defaultFont(8, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 		fontTextPointer->SetFont(defaultFont);
-		rowsTextPointer->SetFont(defaultFont);
 		printerFontPointer->SetFont(defaultFont);
 		printerRowsPointer->SetFont(defaultFont);
 		printerFramePointer->GetToolBar()->SetFont(defaultFont);
 #endif
 #if defined(__WXMAC__)
-		wxFont defaultFont(10, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+		wxFont defaultFont(8, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 		fontTextPointer->SetFont(defaultFont);
-		rowsTextPointer->SetFont(defaultFont);
 		printerFontPointer->SetFont(defaultFont);
 		printerRowsPointer->SetFont(defaultFont);
 		printerFramePointer->GetToolBar()->SetFont(defaultFont);
@@ -2036,68 +1982,23 @@ void Printer::onF4Thermal()
 
 void Printer::onComxF4()
 {
+    if (comxPrintMode_ == COMXPRINTPRINTER)
+        onComxF4Printer();
+    else
+        onComxF4Plotter();
+}
+
+void Printer::onComxF4Printer()
+{
 	wxString choices[6];
 	int paperWidth;
 
 	paperWidth = p_Main->getConfigItem("PrinterPaperWidth", 960l);
-	if (comxPrintMode_ == COMXPRINTPRINTER)
-	{
-		printerFramePointer = new PrinterFrame( "COMX Printer Output", wxPoint(-1, -1), wxSize(paperWidth, 1408/4*3), printerType_);
-	}
-	else
-	{
-		printerFramePointer = new PrinterFrame( "COMX Plotter Output", wxPoint(-1, -1), wxSize(960, 1408/4*3), printerType_);
-	}
-	printerFramePointer->CreateToolBar(wxTB_HORZ_TEXT);
-	if (comxPrintMode_ == COMXPRINTPRINTER)
-#if defined(__WXMAC__)
-		printerPlotterButtonPointer = new wxButton(printerFramePointer->GetToolBar(), PRINTER_PLOTTER, "->PLOTTER", wxPoint(-1, -1), wxSize(75, 25));
-#else
-		printerPlotterButtonPointer = new wxButton(printerFramePointer->GetToolBar(), PRINTER_PLOTTER, "->PLOTTER", wxPoint(-1, -1), wxSize(60, -1));
-#endif
-	else
-#if defined(__WXMAC__)
-		printerPlotterButtonPointer = new wxButton(printerFramePointer->GetToolBar(), PRINTER_PLOTTER, "->PRINTER", wxPoint(-1, -1), wxSize(75, 25));
-#else
-		printerPlotterButtonPointer = new wxButton(printerFramePointer->GetToolBar(), PRINTER_PLOTTER, "->PRINTER", wxPoint(-1, -1), wxSize(60, -1));
-#endif
-	printerPlotterButtonPointer->SetToolTip("Switch output PRINTER <-> PLOTTER");
+    printerFramePointer = new PrinterFrame( "COMX Printer Output", wxPoint(-1, -1), wxSize(paperWidth, 1408/4*3), printerType_);
 
-	choices [0] = " ";
-	choices [1] = "pl80.bin";
-#if defined(__WXMAC__)
-	plotterRomPointer = new wxButton(printerFramePointer->GetToolBar(), PLOTTERROM, "ROM:", wxPoint(-1, -1), wxSize(60, 25));
-#else
-	plotterRomPointer = new wxButton(printerFramePointer->GetToolBar(), PLOTTERROM, "ROM", wxPoint(-1, -1), wxSize(42, -1));
-#endif
-	plotterRomPointer->SetToolTip("Browse for Plotter ROM File");
-#if defined(__WXMAC__)
-	plotterRomTextPointer = new wxComboBox(printerFramePointer->GetToolBar(), PLOTTERROMTEXT, p_Main->getPL80Data(1), wxPoint(-1, -1), wxSize(110, -1), 2, choices);
-#else
-	plotterRomTextPointer = new wxComboBox(printerFramePointer->GetToolBar(), PLOTTERROMTEXT, p_Main->getPL80Data(1), wxPoint(-1, -1), wxSize(100, -1), 2, choices);
-#endif
-	plotterRomTextPointer->SetToolTip("Specify Plotter ROM File");
-	plotterRomTextPointer->SetSelection(1);
+    printerFramePointer->CreateToolBar(wxTB_HORZ_TEXT);
 
-	choices [0] = " ";
-	choices [1] = "pl80.it.em.ou.bin";
-	choices [2] = "pl80.tiny.bin";
-#if defined(__WXMAC__)
-	plotterExtensionRomPointer = new wxButton(printerFramePointer->GetToolBar(), PLOTTEREXT, "CHAR:", wxPoint(-1, -1), wxSize(60, 25));
-#else
-	plotterExtensionRomPointer = new wxButton(printerFramePointer->GetToolBar(), PLOTTEREXT, "CHAR", wxPoint(-1, -1), wxSize(42, -1));
-#endif
-	plotterExtensionRomPointer->SetToolTip("Browse for Plotter Character ROM File");
-#if defined(__WXMAC__)
-	plotterExtensionRomTextPointer = new wxComboBox(printerFramePointer->GetToolBar(), PLOTTEREXTTEXT, p_Main->getPL80Data(2), wxPoint(-1, -1), wxSize(130, -1), 3, choices);
-#else
-	plotterExtensionRomTextPointer = new wxComboBox(printerFramePointer->GetToolBar(), PLOTTEREXTTEXT, p_Main->getPL80Data(2), wxPoint(-1, -1), wxSize(120, -1), 3, choices);
-#endif
-	plotterExtensionRomTextPointer->SetToolTip("Specify Plotter Character ROM File");
-	plotterExtensionRomTextPointer->SetSelection(1);
-
-	fontTextPointer = new wxStaticText(printerFramePointer->GetToolBar(), -1, " Font:");
-	rowsTextPointer = new wxStaticText(printerFramePointer->GetToolBar(), -1, " Characters:");
+    fontTextPointer = new wxStaticText(printerFramePointer->GetToolBar(), -1, "Font ");
 
 	choices [0] = "Default";
 	choices [1] = "Decorative";
@@ -2105,11 +2006,7 @@ void Printer::onComxF4()
 	choices [3] = "Script";
 	choices [4] = "Swiss";
 	choices [5] = "Teletype";
-#if defined(__WXMAC__)
 	printerFontPointer = new wxChoice(printerFramePointer->GetToolBar(), PRINTERFONT, wxPoint(-1, -1), wxSize(85, -1), 6, choices, 0, wxDefaultValidator, "Font");
-#else
-	printerFontPointer = new wxChoice(printerFramePointer->GetToolBar(), PRINTERFONT, wxPoint(-1, -1), wxSize(75, -1), 6, choices, 0, wxDefaultValidator, "Font");
-#endif
 	printerFontPointer->SetToolTip("Specify Printer Font");
 	printerFontPointer->SetSelection(5);
 
@@ -2117,11 +2014,7 @@ void Printer::onComxF4()
 	choices [1] = "80";
 	choices [2] = "96";
 	choices [3] = "120";
-#if defined(__WXMAC__)
 	printerRowsPointer = new wxChoice(printerFramePointer->GetToolBar(), PRINTERROWS, wxPoint(-1, -1), wxSize(55, -1), 4, choices, 0, wxDefaultValidator, "Rows");
-#else
-	printerRowsPointer = new wxChoice(printerFramePointer->GetToolBar(), PRINTERROWS, wxPoint(-1, -1), wxSize(42, -1), 4, choices, 0, wxDefaultValidator, "Rows");
-#endif
 	printerRowsPointer->SetToolTip("Specify number of Characters per line");
 	switch (paperWidth)
 	{
@@ -2140,47 +2033,26 @@ void Printer::onComxF4()
 	}
 
 	printerFramePointer->GetToolBar()->AddControl(fontTextPointer);
+    printerFramePointer->GetToolBar()->AddControl(printerRowsPointer);
 	printerFramePointer->GetToolBar()->AddControl(printerFontPointer);
-	printerFramePointer->GetToolBar()->AddControl(rowsTextPointer);
-	printerFramePointer->GetToolBar()->AddControl(printerRowsPointer);
-#ifndef __WXMAC__
-	printerFramePointer->GetToolBar()->AddSeparator();
-#endif
-	printerFramePointer->GetToolBar()->AddTool(wxID_PRINT, "Print", wxBitmap(p_Main->getApplicationDir()+IMAGES_FOLDER + "/print.png", wxBITMAP_TYPE_PNG), "Send output to Printer", wxITEM_NORMAL);
+
+    printerFramePointer->GetToolBar()->AddSeparator();
+
+    printerFramePointer->GetToolBar()->AddTool(wxID_PRINT, "Print", wxBitmap(p_Main->getApplicationDir()+IMAGES_FOLDER + "/print.png", wxBITMAP_TYPE_PNG), "Send output to Printer", wxITEM_NORMAL);
 	printerFramePointer->GetToolBar()->AddTool(wxID_PREVIEW, "Preview", wxBitmap(p_Main->getApplicationDir()+IMAGES_FOLDER + "/preview.png", wxBITMAP_TYPE_PNG), wxNullBitmap,  wxITEM_NORMAL, "Send output to Preview Window");
 	printerFramePointer->GetToolBar()->AddTool(wxID_PRINT_SETUP, "Setup", wxBitmap(p_Main->getApplicationDir()+IMAGES_FOLDER + "/page_setup.png", wxBITMAP_TYPE_PNG), wxNullBitmap,  wxITEM_NORMAL, "Specify Preview and Printout page details");
-	printerFramePointer->GetToolBar()->AddControl(printerPlotterButtonPointer);
-#ifndef __WXMAC__
-	printerFramePointer->GetToolBar()->AddSeparator();
-#endif
-    printerFramePointer->GetToolBar()->AddControl(plotterRomPointer);
-	printerFramePointer->GetToolBar()->AddControl(plotterRomTextPointer);
-	printerFramePointer->GetToolBar()->AddControl(plotterExtensionRomPointer);
-	printerFramePointer->GetToolBar()->AddControl(plotterExtensionRomTextPointer);
 	printerFramePointer->GetToolBar()->SetBackgroundColour(wxColour(230,230,230));
 
 #if defined(__linux__)
 	wxFont defaultFont(8, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
-	printerPlotterButtonPointer->SetFont(defaultFont);
-	plotterRomPointer->SetFont(defaultFont);
-	plotterRomTextPointer->SetFont(defaultFont);
-	plotterExtensionRomPointer->SetFont(defaultFont);
-	plotterExtensionRomTextPointer->SetFont(defaultFont);
 	fontTextPointer->SetFont(defaultFont);
-	rowsTextPointer->SetFont(defaultFont);
 	printerFontPointer->SetFont(defaultFont);
 	printerRowsPointer->SetFont(defaultFont);
 	printerFramePointer->GetToolBar()->SetFont(defaultFont);
 #endif
 #if defined(__WXMAC__)
-	wxFont defaultFont(10, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
-	printerPlotterButtonPointer->SetFont(defaultFont);
-	plotterRomPointer->SetFont(defaultFont);
-	plotterRomTextPointer->SetFont(defaultFont);
-	plotterExtensionRomPointer->SetFont(defaultFont);
-	plotterExtensionRomTextPointer->SetFont(defaultFont);
+	wxFont defaultFont(8, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 	fontTextPointer->SetFont(defaultFont);
-	rowsTextPointer->SetFont(defaultFont);
 	printerFontPointer->SetFont(defaultFont);
 	printerRowsPointer->SetFont(defaultFont);
 	printerFramePointer->GetToolBar()->SetFont(defaultFont);
@@ -2191,10 +2063,68 @@ void Printer::onComxF4()
 	printerFramePointer->Show(true);
 	printerFramePointer->init();
 	enableToolbar(false);
-	if (comxPrintMode_ == COMXPRINTPRINTER)
-		enablePlotterGui(false);
-	else
-		enablePlotterGui(true);
+    printerFrameOpen_ = true;
+}
+
+void Printer::onComxF4Plotter()
+{
+    wxString choices[6];
+
+    printerFramePointer = new PrinterFrame( "COMX Plotter Output", wxPoint(-1, -1), wxSize(960, 1408/4*3), printerType_);
+
+    printerFramePointer->CreateToolBar(wxTB_HORZ_TEXT);
+
+    choices [0] = " ";
+    choices [1] = "pl80.bin";
+    plotterRomPointer = new wxButton(printerFramePointer->GetToolBar(), PLOTTERROM, "ROM", wxPoint(-1, -1), wxSize(48, -1));
+    plotterRomPointer->SetToolTip("Browse for Plotter ROM File");
+    plotterRomTextPointer = new wxComboBox(printerFramePointer->GetToolBar(), PLOTTERROMTEXT, p_Main->getPL80Data(1), wxPoint(-1, -1), wxSize(100, -1), 2, choices);
+    plotterRomTextPointer->SetToolTip("Specify Plotter ROM File");
+    plotterRomTextPointer->SetSelection(1);
+
+    choices [0] = " ";
+    choices [1] = "pl80.it.em.ou.bin";
+    choices [2] = "pl80.tiny.bin";
+    plotterExtensionRomPointer = new wxButton(printerFramePointer->GetToolBar(), PLOTTEREXT, "CHAR", wxPoint(-1, -1), wxSize(48, -1));
+    plotterExtensionRomPointer->SetToolTip("Browse for Plotter Character ROM File");
+    plotterExtensionRomTextPointer = new wxComboBox(printerFramePointer->GetToolBar(), PLOTTEREXTTEXT, p_Main->getPL80Data(2), wxPoint(-1, -1), wxSize(120, -1), 3, choices);
+    plotterExtensionRomTextPointer->SetToolTip("Specify Plotter Character ROM File");
+    plotterExtensionRomTextPointer->SetSelection(1);
+
+    printerFramePointer->GetToolBar()->AddControl(plotterRomPointer);
+    printerFramePointer->GetToolBar()->AddControl(plotterRomTextPointer);
+    printerFramePointer->GetToolBar()->AddControl(plotterExtensionRomPointer);
+    printerFramePointer->GetToolBar()->AddControl(plotterExtensionRomTextPointer);
+
+    printerFramePointer->GetToolBar()->AddSeparator();
+
+    printerFramePointer->GetToolBar()->AddTool(wxID_PRINT, "Print", wxBitmap(p_Main->getApplicationDir()+IMAGES_FOLDER + "/print.png", wxBITMAP_TYPE_PNG), "Send output to Printer", wxITEM_NORMAL);
+    printerFramePointer->GetToolBar()->AddTool(wxID_PREVIEW, "Preview", wxBitmap(p_Main->getApplicationDir()+IMAGES_FOLDER + "/preview.png", wxBITMAP_TYPE_PNG), wxNullBitmap,  wxITEM_NORMAL, "Send output to Preview Window");
+    printerFramePointer->GetToolBar()->AddTool(wxID_PRINT_SETUP, "Setup", wxBitmap(p_Main->getApplicationDir()+IMAGES_FOLDER + "/page_setup.png", wxBITMAP_TYPE_PNG), wxNullBitmap,  wxITEM_NORMAL, "Specify Preview and Printout page details");
+    printerFramePointer->GetToolBar()->SetBackgroundColour(wxColour(230,230,230));
+
+#if defined(__linux__)
+    wxFont defaultFont(8, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+    plotterRomPointer->SetFont(defaultFont);
+    plotterRomTextPointer->SetFont(defaultFont);
+    plotterExtensionRomPointer->SetFont(defaultFont);
+    plotterExtensionRomTextPointer->SetFont(defaultFont);
+    printerFramePointer->GetToolBar()->SetFont(defaultFont);
+#endif
+#if defined(__WXMAC__)
+    wxFont defaultFont(8, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+    plotterRomPointer->SetFont(defaultFont);
+    plotterRomTextPointer->SetFont(defaultFont);
+    plotterExtensionRomPointer->SetFont(defaultFont);
+    plotterExtensionRomTextPointer->SetFont(defaultFont);
+    printerFramePointer->GetToolBar()->SetFont(defaultFont);
+#endif
+
+    printerFramePointer->GetToolBar()->Realize();
+
+    printerFramePointer->Show(true);
+    printerFramePointer->init();
+    enableToolbar(false);
     printerFrameOpen_ = true;
 }
 
@@ -2220,27 +2150,6 @@ void Printer::enableToolbar(bool status)
 	printerFramePointer->GetToolBar()->EnableTool(wxID_PRINT, status);
 	printerFramePointer->GetToolBar()->EnableTool(wxID_PREVIEW, status);
 	printerFramePointer->GetToolBar()->EnableTool(wxID_PRINT_SETUP, status);
-}
-
-void Printer::enablePlotterGui(bool status)
-{
-	plotterRomPointer->Show(status);
-	plotterRomTextPointer->Show(status);
-	plotterExtensionRomPointer->Show(status);
-	plotterExtensionRomTextPointer->Show(status);
-	printerFontPointer->Show(!status);
-	printerRowsPointer->Show(!status);
-	fontTextPointer->Show(!status);
-	rowsTextPointer->Show(!status);
-	if (status)
-		printerPlotterButtonPointer->SetLabel("->Printer");
-	else
-		printerPlotterButtonPointer->SetLabel("->Plotter");
-}
-
-void Printer::disablePrintPlotter()
-{
-	printerPlotterButtonPointer->Enable(false);
 }
 
 void Printer::showPlotterRomFile(wxString fileName)

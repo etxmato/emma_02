@@ -1,96 +1,100 @@
 <HTML>
 <Title>Disk Support</Title>
 <BODY>
-<h2>Disk Support</h2>
+<h1>Disk Support</h1>
 <p>
-To use disk images select fdc.bin in any available slot (CARD 1 if no expansion box is used). At least one COMX disk image is needed (as DISK 1) to boot COMX DOS. The Emulator has installed the master disk image 'dos.1.4+f&m.disk.tools.img'. When DOS NEW is used the COMX DOS should be initiated with the message:
+To configure disk support on the COMX select fdc.bin in any available slot (CARD 1 if no expansion box is used), see example below (yellow ellipse):
 </p>
-<pre>
-COMX DOS  V1.4
-COPYRIGHT BY COMX - 1984</pre>
+<p>
+<IMG SRC="images/comx_disk.png" BORDER="0">
+</p>
+<p>
+At least one COMX disk image is needed (as Disk 1, orange ellipse) to boot COMX DOS. The Emulator has installed the master disk image 'dos.1.4+f&m.disk.tools.img'. When DOS NEW is used the COMX DOS should be initiated as below:
+</p>
+<p>
+<IMG SRC="images/comx_disk_dos_new.png" BORDER="0">
+</p>
 <p>
 After this any DOS command or utility from the master disk can be used, for explanation of COMX DOS commands please see the COMX DOS manual available on the <a href="http://www.comxclub.hobby-site.com">Dutch COMX Club</a>.
 </p>
 <p>
-To change the disks at run time just select a different filename via the DISK x button or type a name in the text field. To eject the disk use the eject button or remove the filename in the text field.
+To change the disks at run time just select a different filename via one of the Disk x buttons (orange or blue ellipse) or type a name in the text field. To eject the disk use the eject button or remove the filename in the text field.
 </p>
-<h3>
-Disk Format and boot initialisation
-</h3>
+<h2>Disk Format and boot initialisation</h2>
 <p>
-To create a new disk image including COMX DOS boot data, keep 'dos.1.4+f&m.disk.tools.img' specified as DISK 1 and any filename as DISK 2. After using DOS URUN,"INIT" the format/init program will be started, press any key and 'Y' for being sure, then select drive no: 2. After this 3 Different type of disks can be created by selecting the options:
-</p>
-<h4>
-1. Double sided disk, 35 tracks per side with a total size of 140K:
-</h4>
+To create a new disk image including COMX DOS boot data, keep 'dos.1.4+f&m.disk.tools.img' specified as Disk 1 (orange ellipse) and any filename of your choice as Disk 2 (blue ellipse):
 <p>
-- Double track density: N<br>
-- Double sided: 2
-</p>
-<h4>
-2. Single sided disk, 70 tracks with a total size of 140K:
-</h4>
-<p>
-- Double track density: Y
-</p>
-<h4>
-3. Single sided disk, 35 tracks with a total size of 70K:
-</h4>
-<p>
-- Double track density: N<br>
-- Double sided: 1
+<IMG SRC="images/comx_disk_format.png" BORDER="0">
 </p>
 <p>
-After this selection, again confirm that you are sure and the format process will start.
+To format a disk use DOS URUN,"INIT" and make sure to select drive No. 2 when asked on what drive to format! See examples for 3 different disk options below.
 </p>
-<h3>
+<p>
+<B>1. Double sided disk, 35 tracks per side with a total size of 140K:
+</B></p>
+<p>
+<IMG SRC="images/comx_disk_format_sd_ds.png" BORDER="0">
+</p>
+<p>
+<B>2. Single sided disk, 70 tracks with a total size of 140K:
+</B></p>
+<p>
+<IMG SRC="images/comx_disk_format_dd_ss.png" BORDER="0">
+</p>
+<p>
+<B>3. Single sided disk, 35 tracks with a total size of 70K:
+</B></p>
+<p>
+<IMG SRC="images/comx_disk_format_sd_ss.png" BORDER="0">
+</p>
+<h2>
 F&M Disk Utilities and utilities not documented in COMX DOS Manual
-</h3>
-<h4>
+</h2>
+<h3>
 DISKCOPY
-</h4>
+</h3>
 <p>
 Make an exact copy of a disk, including a format of the destination disk before copy begins.
 </p>
-<h4>
+<h3>
 FILECOPY
-</h4>
+</h3>
 <p>
 Copy any file to another disk image
 </p>
-<h4>
+<h3>
 F&M COPYDUB
-</h4>
+</h3>
 <p>
 F&M Disk copy program copying a complete disk; however the destination disk will have to be formatted in advance via the INIT program as described above. 
 </p>
-<h4>
+<h3>
 F&M LOCK
-</h4>
+</h3>
 <p>
 Locks all software on the disk.
 </p>
-<h4>
+<h3>
 F&M ULOCK
-</h4>
+</h3>
 <p>
 Unlocks all software on the disk.
 </p>
-<h4>
+<h3>
 F&M DISKMONITOR
-</h4>
+</h3>
 <p>
 Allows editing and inspecting disk data directly on the disk or in the emulator case directly in the disk image.
 </p>
-<h4>
+<h3>
 F&M INIT
-</h4>
+</h3>
 <p>
 Formats a disk like the INIT program however with an F&M boot sector which will attempt to load and run a program called 'STARTUP' when DOS is initialised (like with DOS NEW).
 </p>
-<h4>
+<h3>
 STARTUP
-</h4>
+</h3>
 <p>
 An example start-up program showing all programs on disk and allowing starting them from a menu.
 </p>

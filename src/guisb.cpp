@@ -124,7 +124,6 @@ SBDialog::SBDialog(wxWindow* parent)
 		XRCCTRL(*this, "SettingsRoot", wxButton)->Enable(false);
 		XRCCTRL(*this, "SettingsRootTxt", wxTextCtrl)->Enable(false);
 	}
-	else
 		XRCCTRL(*this, "SB_Backup", wxPanel)->Enable(false);
 
 	XRCCTRL(*this, "BackupRootTxt", wxTextCtrl)->SetValue(rootDir_);
