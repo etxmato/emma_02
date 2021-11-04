@@ -14462,6 +14462,7 @@
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
                                                                             </font>
+                                                                            <hidden>1</hidden>
                                                                             <label>Volume:</label>
                                                                         </object>
                                                                     </object>
@@ -14472,6 +14473,7 @@
                                                                             <size>57,-1d</size>
                                                                             <tooltip>Change emulator sound volume</tooltip>
                                                                             <style>wxSL_HORIZONTAL</style>
+                                                                            <hidden>1</hidden>
                                                                             <value>25</value>
                                                                             <min>0</min>
                                                                             <max>100</max>

@@ -3,7 +3,7 @@
 <BODY>
 <h2>ROM Files</h2>
 <p>
-To run the Cosmac Vip emulator at least the Cosmac Vip system ROM file should be specified in the 'ROM' field. Default Cosmac Vip ROM location is the Vip directory (located in the application data directory, see <a href="MainFile.htm">Directory and File Structure</a>) and the default filename is 'vip.rom' which is already filled in. To change the location use the 'ROM' button to browse for the file, do the same to change the filename or type in a new file name in the text field.
+To run the Cosmac Vip emulator at least the Cosmac Vip system ROM file should be specified in the 'ROM' field. Default Cosmac Vip ROM location is the Vip directory (located in the application data directory, see <a href="MainFile.htm">Directory and File Structure</a>) and the default filename is 'vip.rom'. To change the location use the 'ROM' button to browse for the file, do the same to change the filename or type in a new file name in the text field.
 </p>
 <p>
 The binary, Intel hex and RCS Elf Emulator hex format are supported.

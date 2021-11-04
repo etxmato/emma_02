@@ -17,7 +17,7 @@ First set up the Studio II emulator with the Space Invaders game:
 <p>
 <UL>
 <LI>Select the Studio II tab (yellow ellipse)
-<LI>Select the RCA Studio II subb-tab (orange ellipse)
+<LI>Select the RCA Studio II sub-tab (orange ellipse)
 <LI>Select 'invaders.st2' as CART (blue ellipse)
 <LI>Press Start (red ellipse)
 </UL>
@@ -32,7 +32,7 @@ Fire: space (0 on keyboard B)<br>
 Restart: 0 or tab (0 on keyboard A)<br>
 </p>
 <p>
-Select the 'Tools' tab (yellow ellipse) and then select the 'Direct Assembler' tab (orange ellipse), this should show the direct assembler GUI. Now change address to show address 400 and onwards, by using the 'Move to:' field (blue ellipse) and/or the slider (green ellipse). Address hex 0400 is the start address of all Studio II software. This address will show an ST2 instruction SYS 45D (red ellipse) in <FONT COLOR="STEEL BLUE">steel blue</FONT> , which is a call to an 1802 code routine at address 045D. From address 0402 to 041D (magenta ellipse) data bytes should be shown in <FONT COLOR="BLUE">blue</FONT>. After that from 041E and onwards (brown ellipse) 1802 code should be shown in black. 
+Select the 'Tools' tab (yellow ellipse) and then select the 'Direct Assembler' tab (orange ellipse), this should show the direct assembler GUI. Now change address to show address 400 and onwards by using the 'Move to:' field (blue ellipse) and/or the slider (green ellipse). Address hex 0400 is the start address of all Studio II software. This address will show an ST2 instruction SYS 45D (red ellipse) in <FONT COLOR="STEEL BLUE">steel blue</FONT> , which is a call to an 1802 code routine at address 045D. From address 0402 to 041D (magenta ellipse) data bytes should be shown in <FONT COLOR="BLUE">blue</FONT>. After that from 041E and onwards (brown ellipse) 1802 code should be shown in black. 
 </p>
 <p>
 <IMG SRC="images/assembler_example_start.png" BORDER="0">
@@ -48,14 +48,17 @@ The following areas will probably show up in <FONT COLOR="BLUE">blue</FONT>, pos
 <UL>
 <LI>0402 - 041D (magenta ellipse above): As this is at the start of the game we can assume it is some kind of table. However so far no proof.
 <LI>0594/0598: Two bytes, firs one is preceded by a SEX R3 and both by an OUT 2. So obviously this is data, i.e. an OUT 2 is being done with the 04 value stored on 0594:
+</p>
 <p>
 <IMG SRC="images/assembler_example_594_598.png" BORDER="0">
 </p>
 <LI>0668: Same as 0594:
+</p>
 <p>
 <IMG SRC="images/assembler_example_668.png" BORDER="0">
 </p>
 <LI>06CB - 06CF: This must be code! As it is preceded by a BNZ D2, so the 'zero' case will execute 06CB:
+</p>
 <p>
 <IMG SRC="images/assembler_example_6CB.png" BORDER="0">
 </p>
@@ -70,6 +73,7 @@ To manually correct this part of the code first make sure mark type is set as 18
 <LI>076A: Same as 0594!
 <LI>0770 - 07F7: Looks like the end of the code so probably not used
 <LI>07F8 - 07FF: Some table
+</p>
 <p>
 <IMG SRC="images/assembler_example_end_code.png" BORDER="0">
 </p>
@@ -114,10 +118,12 @@ Conclusion is that we can safely 'Mark' 047A as an LDL instruction (Select 'LDL'
 </p>
 <LI>LD L: 047D, part of the LDL we just found on 047A.
 <LI>LD L: 04E3, on first glance nothing to do with 0402 as this load 02 in RF.0 only. To make 100% sure we could set a bookmark on address 04E3 to check what RF.1 is at this part of the code. When doing so I found: RF.1 = 08, and we can conclude it is not an address within our code but pointing at RAM. As such there is no need for further action:
+</p>
 <p>
 <IMG SRC="images/assembler_example_4E3.png" BORDER="0">
 </p>
 <LI>LD H: 04FC, here or actually starting  at 04F9, RA is loaded with location 044A. After that a SEP A is done as well:
+</p>
 <p>
 <IMG SRC="images/assembler_example_4F9.png" BORDER="0">
 </p>

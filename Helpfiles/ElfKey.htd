@@ -1,54 +1,54 @@
 <HTML>
 <Title>Keyboard Mapping and Types</Title>
 <BODY>
-<h2>Keyboard Mapping and Types</h2>
+<h1>Keyboard Mapping and Types</h1>
 <p>
-This chapter describes Elf keyboard mapping for details on VT100 terminal key mappings see chapter <a href="TerminalVT100.htm">VT100 Setup & Keymapping</a>
+This chapter describes Elf keyboard mapping for details, for VT100 terminal key mappings see chapter <a href="TerminalVT100.htm">VT100 Setup & Keymapping</a>
 </p>
-<h3>Keyboard Mapping</h3>
+<h2>Keyboard Mapping</h2>
 <p>
-Default the PC key 'Ins' is mapped to the Elf 'In' button. F12 is mapped to the Elf 'Run' switch, if the CPU is stopped it will start and when running it will stop, stop mode is indicated in the emulated window title. For the super Elf, F12 simulates the 'R' and 'G' button. See also <a href="KeyMappingMain.htm">Key Mapping</a> and <a href="MainFunctionKeys.htm">Function and Hot Keys</a>.
+Default the Elf 'In' button is mapped to the PC Insert key on Windows and PC Control key on Mac OSX. F12 is mapped to the Elf 'Run' switch, so if the CPU is stopped it will start with F12 and when running it will stop with F12, stop mode is indicated in the emulated window title. For the super Elf, F12 simulates the 'R' and 'G' button. See also <a href="KeyMappingKeypad.htm">Keypad Mapping</a> and <a href="MainFunctionKeys.htm">Function and Hot Keys</a>.
 </p>
-<h3>Keyboard Types</h3>
+<h2>Keyboard Types</h2>
 <p>
 To select the specific Elf keyboard type use the choice button 'Keyboard'. Currently 5 types are supported: 
 </p>
-<h4>
+<h3>
 PS2 Keyboard: 
-</h4>
+</h3>
 <p>
 Keyboard type operating with serial communication using control characters
 </p>
-<h4>
+<h3>
 PS2 Interrupt: 
-</h4>
+</h3>
 <p>
 Same as PS2 Keyboard but additionally triggering an interrupt at every key press
 </p>
-<h4>
+<h3>
 Ascii: 
-</h4>
+</h3>
 <p>
 Ascii Keyboard directly connected to an 1802 input port. 
 </p>
-<h4>
+<h3>
 Ascii (+Hex): 
-</h4>
+</h3>
 <p>
 Ascii Keyboard directly connected to an 1802 input port. When this option is selected also an Hex keypad with EF (default EF3) connection is emulated at the same time.
 </p>
-<h4>
+<h3>
 Hex (+EF) Keyboard: 
-</h4>
+</h3>
 <p>
 Only 1 hex keypad is supported. Both the Netronics Elf II and the Quest Super Elf already have hex keyboard support on the main board however this will not set an EF (default EF3) to 0 when a key is pressed. When selecting the Hex (+EF) keyboard option an EF will be set to 0 when a key is pressed. This allows for running some games like 'space invaders'.
 </p>
 <p>
 To change and view the hex keypad to PC key mapping select the 'Key Map' button, see also chapter <a href="KeyMappingMain.htm">Key Mapping</a>
 </p>
-<h4>
+<h3>
 Hex Keyboard: 
-</h4>
+</h3>
 <p>
 This option is only valid for the Cosmac Elf and is the same as described above however without an EF being set to 0 when a key is pressed.
 </p>

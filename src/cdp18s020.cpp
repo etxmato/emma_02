@@ -560,6 +560,7 @@ void Cdp18s020::startComputer()
 	cpuCycles_ = 0;
 	instructionCounter_= 0;
     p_Main->startTime();
+    addressLatchCounter_ = 64;
 
     int ms = (int) p_Main->getLedTimeMs(CDP18S020);
     cdp18s020ScreenPointer->setLedMs(ms);

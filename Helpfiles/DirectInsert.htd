@@ -11,7 +11,6 @@ The following sub chapters describe the basic functionality of the insert (yello
 <p>
 <IMG SRC="images/assembler_insert_delete.png" BORDER="0">
 </p>
-<p>
 <h2>Insert</h2>
 <p>
 Pressing the 'Insert' button will insert one 'NOP', i.e instruction C4 when used on an address with code, otherwise a '0' will be inserted. 

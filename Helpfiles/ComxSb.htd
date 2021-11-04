@@ -25,7 +25,7 @@ To open the Super Board Settings window press the SB 'SET-UP' button. The settin
 All tabs contains a 'Save All' button (orange ellipse), make sure to press any of these to save changes made.
 </p>
 <p>
-<b>Note:</b> while running the COMX emulator no setting can be changed in the Online, USB and ROM files tab wheras the COMX emulator has to be running to be able to delete the backup files in the Backup tab.
+<b>Note:</b> while running the COMX emulator no setting can be changed in the Online, USB and ROM files tab whereas the COMX emulator has to be running to be able to delete the backup files in the Backup tab.
 </p>
 <h3>Online</h3>
 <p>
@@ -46,7 +46,7 @@ Home page (red ellipse) and bookmark (blue ellipse) fields are used by the USB B
 </p>
 <p>
 Email address and aliases are used by the USB EMAIL command. Any defined alias can be edited
-when selected by the Aliases choice button (green ellipse). A new alias can be defined when NEW as well as &#8216;alias / email address&#8217; (brown ellipse) is shown. To store the alias press the &#8216;Store&#8217; button (gray ellipse) and to delete the allias press the 'Delete' button (black ellipse).
+when selected by the Aliases choice button (green ellipse). A new alias can be defined when NEW as well as &#8216;alias / email address&#8217; (brown ellipse) is shown. To store the alias press the &#8216;Store&#8217; button (grey ellipse) and to delete the alias press the 'Delete' button (black ellipse).
 </p>
 <h3>USB</h3>
 <p>

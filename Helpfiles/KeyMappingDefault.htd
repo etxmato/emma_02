@@ -12,7 +12,7 @@ Default keyboard mapping is defined for a US keyboard layout. However a few diff
 Currently layouts for Dutch, German, French, Swedish / Finnish and US are provided as well as an option to specify a user specific definition. If you desire a specific mapping for your keyboard please drop me an email with your requirements and I'll try to add it in the next release.
 </p>
 <p>
-To create a definition for your own layout first locate one of the keyboard definition files located in the data directory (see chapter <a href="MainFile.htm">Directory and File Structure</a>), for example us.ini (for the US keyboard layout). Copy this file and rename the new file to user_defined.ini. Change any key value in the file to your desired default setting. 
+To create a definition for your own layout first locate one of the keyboard definition files located in the data directory (see chapter <a href="MainFile.htm">Directory and File Structure</a>), for example us.ini (for the US keyboard layout). Copy this file and rename the new file into user_defined.ini. Change any key value in the file to your desired default setting. 
 </p>
 <p>
 The following key sets can be changed / defined for computers with a HEX keypad:

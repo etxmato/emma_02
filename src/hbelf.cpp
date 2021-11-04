@@ -105,8 +105,8 @@ void ElfScreen::init()
 	mpSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(0x31, 0x31, 0x30), BUTTON_DOWN, 150, 312, "");
 	powerSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(0x31, 0x31, 0x30), BUTTON_DOWN, 313, 312, "");
 	loadSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(0x31, 0x31, 0x30), BUTTON_DOWN, 75, 312, "");
-	inSwitchButton = new SwitchButton(dc, PUSH_BUTTON, wxColour(0x31, 0x31, 0x30), BUTTON_UP, 45, 312, "");
-
+    inSwitchButton = new SwitchButton(dc, PUSH_BUTTON, wxColour(0x31, 0x31, 0x30), BUTTON_UP, 32, 312, "");
+    
 	qLedPointer = new Led(dc, 324, 250, ELFLED);
 	updateQLed_ = true;
 
@@ -1938,6 +1938,9 @@ void Elf::refreshPanel()
     elfScreenPointer->refreshPanel();
     if (elfConfiguration.useLedModule && !ledModuleClosed_)
         ledModulePointer->refreshPanel();
+    if (elfConfiguration.useHexKeyboard && !hexKeypadClosed_)
+        keypadPointer->refreshPanel();
+
 }
 
 void Elf::OnRtcTimer(wxTimerEvent&WXUNUSED(event))

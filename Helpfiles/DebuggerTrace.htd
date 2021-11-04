@@ -52,7 +52,7 @@ When the emulated computer is paused the pause button will light up orange and t
 In pause mode the 'Step' button (orange ellipse) can be used to get the emulated computer to execute the indicated number of instructions and after this go back to pause mode. The 'RUN' button (red ellipse) will start execution at the paused address or at the indicated address if a value is specified.
 </p>
 <p>
-If needed the trace and emulated computer can be slowed down by sliding the 'Speed' slider (blue ellispe) to the left. Normal speed will be restored when Debug mode is switched off even if the slider is not fully to the right.
+If needed the trace and emulated computer can be slowed down by sliding the 'Speed' slider (blue ellipse) to the left. Normal speed will be restored when Debug mode is switched off even if the slider is not fully to the right.
 </p>
 <h2>SCRT</h2>
 <p>

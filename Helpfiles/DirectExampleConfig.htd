@@ -13,7 +13,6 @@ To get started:
 <LI>Start a computer of your choice
 <LI>Decide what your code start and end address will be, let's take an example start at 0000 and end at 1000 (Numbers are all in hexadecimal). Note that the end address can be changed at anytime.
 <LI>Fill in the start and end fields, as well as a file name, e.g. test.bin. So you have something like:
-<BR>
 <p>
 <IMG SRC="images/assembler_conf_ex.png" BORDER="0">
 </p>
@@ -78,7 +77,7 @@ The same will happen with a 'delete' if no LBR is needed anymore it will be repl
 <IMG SRC="images/assembler_conf_ex_code6.png" BORDER="0">
 </p>
 <p>
-To save all 'debug' data, make sure to use the 'Save' button on the direct assembler tab. This will save the test.bin, test.debug and the configuration files. The '.debug' file includes info where branches and code are located. The configuration '.config' file includes info about the specified configuration. The whole configuration can be loaded back with a 'Load'. See chpater <a href="DirectConfiguration.htm">Program Configuration</a> for more details.
+To save all 'debug' data, make sure to use the 'Save' button on the direct assembler tab. This will save the test.bin, test.debug and the configuration files. The '.debug' file includes info where branches and code are located. The configuration '.config' file includes info about the specified configuration. The whole configuration can be loaded back with a 'Load'. See chapter <a href="DirectConfiguration.htm">Program Configuration</a> for more details.
 </p>
 <p>
 If you start a COMX with the SB active, it is possible to load all SB FW configuration and debug data by pressing the 'SB' button. The SB configuration has a complex structure, consisting of 15 parts to handle the different ROM locations as well as different banks.

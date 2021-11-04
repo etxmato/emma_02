@@ -2,18 +2,26 @@
 <HTML>
 <Title>Rom and Ram Files</Title>
 <BODY>
-<h2>Rom and Ram Files</h2>
+<h1>Rom and Ram Files</h1>
 <p>
-To run the Elf emulator you will need to load SW either as ROM or RAM. To load initial SW there are 2 ROM/RAM buttons, to specify which file to load use the 'ROM x' or 'RAM x' button to browse for the file, or type in a new file name in the text field. Default the Elf ROMs should be located in the Elf directory (located in the application data directory, see <a href="MainFile.htm">Directory and File Structure</a>). 
+To load SW in one of the Elf emulators (Cosmac Elf, Netronics Elf II or Quest Super Elf) use the 'ROM x' or 'RAM x' buttons or text fields:
 </p>
 <p>
-To load SW into RAM instead of ROM select the toggle ROM/RAM button (2 arrows) to switch a button from 'ROM x' to 'RAM x' and vice versa. When loading to RAM make sure RAM is defined for the required memory locations see also <a href="ElfRam.htm">RAM Address</a>.
+<IMG SRC="images/elf_rom_ram.png" BORDER="0">
 </p>
 <p>
-Each of the 2 ROM/RAM files can be placed in a different directory if required; just browse for the file and the emulator will remember the location. Note that files in binary format, normally using extension .bin, will be loaded at address 0. This means loading 2 binary files will not be possible as they will all load at the same starting address. Intel hex and RCS Elf emulator hex format include storage locations and as such will be loaded in the correct address location. Make sure that if you use overlapping hex files that the file which you need to be complete in memory is loaded with the highest ROM/RAM button 1.
+To specify which file to load use one of the 'ROM x' or 'RAM x' buttons (yellow ellipse) to browse for the file, or type in a new file name in one of the text fields (orange ellipse). Default the Elf ROMs should be located in the Elf directory (located in the application data directory, see <a href="MainFile.htm">Directory and File Structure</a>). 
 </p>
 <p>
-If the Bootstrap option is selected a binary file specified for ROM 1 will be loaded to hex 8000 instead of 0. The bootstrap function will also activate the ROM on startup at address 0 allowing a start in ROM. As soon as a read instruction is done in the highest 32K memory (hex 8000-FFFF address range) the ROM will be deactivated and RAM will be activated (if defined in the lowest 32K 
+To load SW into RAM instead of ROM select one of the toggle ROM/RAM button (blue ellipse) to switch a button from 'ROM x' to 'RAM x' and vice versa. When loading to RAM make sure RAM is defined for the required memory locations (via RAM field in magenta ellipse) see also the 'RAM Address' chapter in <a href="ElfRam.htm">Memory</a>.
+</p>
+<p>
+Each of the 2 ROM/RAM files can be located in a different directory if required; just browse for the file and the emulator will remember the location. </p>
+<p>
+Files in binary format, normally using extension .bin, will be loaded at address 0. This means loading 2 binary files will not be possible (unless bootstrap is selected) as they will all load at the same starting address. Intel hex and RCS Elf emulator hex format include storage locations and as such will always be loaded in the correct address location. Make sure that if you use overlapping hex files that the file that needs to be complete in memory is loaded with the bottom ROM/RAM button, i.e. button 2.
+</p>
+<p>
+If the Bootstrap (green ellipse) option is selected a binary file specified for ROM 1 will be loaded to hex 8000 instead of 0. The bootstrap function will also activate the ROM on startup at address 0 allowing a start in ROM. As soon as a read instruction is done in the highest 32K memory (hex 8000-FFFF address range) the ROM will be deactivated and RAM will be activated (if defined in the lowest 32K) 
 </p>
 </BODY>
 </HTML>

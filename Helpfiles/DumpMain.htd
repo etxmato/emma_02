@@ -31,6 +31,7 @@ Next to the main CPU memory other memory dump options are available by changing 
 <p>
 <IMG SRC="images/dump_type.png" BORDER="0">
 </p>
+<p>
 <UL>
 <LI>Type: memory types defined for the main CPU memory, see also '<a href="DumpMemoryType.htm">Memory Type</a>' chapter.
 <LI>Profiler: see <a href="ProfilerMain.htm">Profiler</a>
@@ -48,6 +49,7 @@ Next to the main CPU memory other memory dump options are available by changing 
 <LI>VIP Video Sequencer: VIP2K Membership video sequencer ROM
 <LI>RTC RAM: Elf 2000 & Pico/Elf V2 RTC RAM
 </UL>
+</p>
 <p>
 In all modes except 'Type' and 'Profiler', memory values are shown and can be changed per memory page of 256 bytes, in 'Type' mode memory types (ROM, RAM, Video RAM etc) is shown and can be changed. 
 </p>

@@ -77,18 +77,18 @@ Basic system with a CDP18S600 CPU board and CDP18S640 Display board. See also <a
 </p>
 <p><B>CDP18S693 MCDS:</B></p>
 <p>
-RCA's low cost Microboard Computer Developmen System (MCDS) CDP18S693. This system includes the CDP18S601 CPU board and the CDP18S652 Memory & tape board. The CDP18S601 board includes 4K RAM but no ROM. The CDP18S652 includes the UT62 from hex 8000-87FF, BASIC 3 from hex B000-DFFF and a 1K RAM at hex 8C00.
+RCA's low cost Microboard Computer Development System (MCDS) CDP18S693. This system includes the CDP18S601 CPU board and the CDP18S652 Memory & tape board. The CDP18S601 board includes 4K RAM but no ROM. The CDP18S652 includes the UT62 from hex 8000-87FF, BASIC 3 from hex B000-DFFF and a 1K RAM at hex 8C00.
 </p>
 <p><B>CDP18S694 MCDS:</B></p>
 <p>
-RCA's Higher-Performance Microboard Computer Developmen System (MCDS) CDP18S694. This system includes the CDP18S601 CPU board and the CDP18S652 Memory & tape board. The CDP18S601 board includes 4K RAM but no ROM. The CDP18S652 includes the UT62 from hex 8000-87FF, Assembler / Editor from hex 9000-AFFF, BASIC 3 from hex B000-DFFF and a 1K RAM at hex 8C00.
+RCA's Higher-Performance Microboard Computer Development System (MCDS) CDP18S694. This system includes the CDP18S601 CPU board and the CDP18S652 Memory & tape board. The CDP18S601 board includes 4K RAM but no ROM. The CDP18S652 includes the UT62 from hex 8000-87FF, Assembler / Editor from hex 9000-AFFF, BASIC 3 from hex B000-DFFF and a 1K RAM at hex 8C00.
 </p>
 <p>
 This configuration should be identical to the MCDS emulator however the implementation in Emma 02 is slightly different.
 </p>
 <p><B>CDP18S695 MCDS:</B></p>
 <p>
-RCA's Higher-Performance Color Microboard Computer Developmen System (MCDS) CDP18S695. This system includes the CDP18S601 CPU board, the CDP18S652 Memory & tape board and the CDP18S661B Video (NTSC) board. The CDP18S601 board includes 4K RAM but no ROM. The CDP18S652 includes the UT63 (not included in Emma 02) from hex 8000-87FF, Assembler / Editor from hex 9000-AFFF, BASIC 3 from hex B000-DFFF and a 1K RAM at hex 8C00. 
+RCA's Higher-Performance Color Microboard Computer Development System (MCDS) CDP18S695. This system includes the CDP18S601 CPU board, the CDP18S652 Memory & tape board and the CDP18S661B Video (NTSC) board. The CDP18S601 board includes 4K RAM but no ROM. The CDP18S652 includes the UT63 (not included in Emma 02) from hex 8000-87FF, Assembler / Editor from hex 9000-AFFF, BASIC 3 from hex B000-DFFF and a 1K RAM at hex 8C00. 
 </p>
 <p><B>COMX NTSC - Demo:</B></p>
 <p>
@@ -125,8 +125,6 @@ Crosslib Xhorde game
 <p><B>Xshoot:</B></p>
 <p>
 Crosslib Xshoot game
-</p>
-<ul>
 </p>
 <p>
 The Microboard System can have 1 to 24 cards for multiple CDP18Sxxx boards. The CPU board has to be defined in CARD 1. CPU boards supported are the CDP18S600 to CDP18S610 as listed in below chapters. To define the board configuration press any of the 'CARD x' buttons to open the board configuration window. CARD 1 to 5 buttons and choice boxes are in the main Emma 02 window, CARD 5 setup button and remaining cards can be defined by pressing the 'C 5-25' button which will open the CARD Setup window.

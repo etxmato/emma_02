@@ -2214,19 +2214,19 @@ void Main::initConfig()
 	colour[15] = "#ffc418";	// graphic Orange
 	colour[16] = "#000000";
 	colour[17] = "#000000";
-	colour[18] = "#007f00";
-	colour[19] = "#00ff00";
-	colour[20] = "#00003f";
-	colour[21] = "#0000ff";
-	colour[22] = "#3f0000";
-	colour[23] = "#007f7f";
-	colour[24] = "#7f0000";
-	colour[25] = "#ff0000";
-	colour[26] = "#7f7f00";
-	colour[27] = "#ffff00";
-	colour[28] = "#003f00";
-	colour[29] = "#7f007f";
-	colour[30] = "#7f7f7f";
+	colour[18] = "#21C842";
+	colour[19] = "#5EDC78";
+	colour[20] = "#5455ED";
+	colour[21] = "#7D76FC";
+	colour[22] = "#D4524D";
+	colour[23] = "#42EBF5";
+	colour[24] = "#FC5554";
+	colour[25] = "#FF7978";
+	colour[26] = "#D4C154";
+	colour[27] = "#E6CE80";
+	colour[28] = "#21B03B";
+	colour[29] = "#C95BBA";
+	colour[30] = "#CCCCCC";
 	colour[31] = "#ffffff";
 
 	borderX[VIDEO6845] = 0;
@@ -6404,7 +6404,7 @@ void Main::enableGui(bool status)
         XRCCTRL(*this,"ScreenDumpF5CDP18S020", wxButton)->Enable(!status);
         XRCCTRL(*this,"RamCDP18S020", wxChoice)->Enable(status);
         XRCCTRL(*this,"AutoBootTypeCDP18S020", wxChoice)->Enable(status);
-        XRCCTRL(*this, "AutoBootCDP18S020", wxCheckBox)->SetValue(status);
+//        XRCCTRL(*this, "AutoBootCDP18S020", wxCheckBox)->SetValue(status);
         enableLoadGui(!status);
     }
     if (runningComputer_ == MICROBOARD)

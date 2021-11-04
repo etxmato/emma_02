@@ -1,12 +1,18 @@
 <HTML>
 <Title>Auto Boot</Title>
 <BODY>
-<h2>Auto Boot</h2>
+<h1>Auto Boot</h1>
 <p>
-To enable auto boot select the check box 'Auto Boot'. In auto boot mode the CDP18S020 Evaluation Kit will run automatically starting at the boot address 0 or hex 8000 depending on the selected boot type (program at 0, utility at hex 8000). To start the CDP18S020 in UT4 select boot type 'Utility'.
+To enable auto boot select the check box 'Auto Boot' (yellow ellipse). In auto boot mode the CDP18S020 Evaluation Kit will run automatically starting at the boot address 0 or hex 8000 depending on the selected boot type (orange ellipse, program to start at 0, utility to start at hex 8000). To start the CDP18S020 in UT4 select boot type 'Utility'.
 </p>
 <p>
-When auto boot is disabled the processor will not be started, in this case the processor needs to be started manual with the RUN U or RUN P buttons on the front panel.
+<IMG SRC="images/cdp18s020_boot.png" BORDER="0">
+</p>
+<p>
+When auto boot is disabled the processor will not be started, in this case the processor needs to be started manually with the RUN P (blue ellipse, to start a program at address 0) or RUN U (magenta ellipse, start the utility SW, UT4 at hex 8000) buttons on the front panel.
+</p>
+<p>
+<IMG SRC="images/cdp18s020_run.png" BORDER="0">
 </p>
 </BODY>
 </HTML>

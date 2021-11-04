@@ -186,6 +186,8 @@ void Tms9918::modeHighOut(Byte value)
 		if ((value & 0xc0) == 0x40)
 		{
 			currentAddress_ = value_ +((value & 0x3f) << 8);
+            reBlit_ = true;
+            drawScreen();
 		}
 		toggle_ = 0;
 	}
@@ -285,7 +287,12 @@ void Tms9918::modeLowOut(Byte value)
 				drawTile(addr - nameAddress_);
 			}
 		break;
-	}
+            
+        default:
+            reBlit_ = true;
+            drawScreen();
+        break;
+    }
 }
 
 void Tms9918::cycleTms()

@@ -23,24 +23,24 @@ To load a COMX-35 configuration load one of the configurations with the menu opt
 <p>
 Summary of the COMX-35 <a href="MainConfigurations.htm">configurations</a>:
 </p>
-<p><B>Default/SuperBoard:</p>
+<p><b>Default/SuperBoard:</b></p>
 <p>
 COMX-35 with <a href="ComxSb.htm">Super Board</a> support as well as floppy, printer and 80 column support 
 </p>
-<p><B>F&M Eprom Board:</p>
+<p><b>F&M Eprom Board:</b></p>
 <p>
 COMX-35 with F&M Eprom Board support as well as COMX-35 BASIC ROM 1.3 (for corrections see <a href="ComxDidYouKnow.htm">Did you know...?</a>), F&M expansion 3.2, floppy, printer (F&M version 1.2) and 80 column support.
 </p>
-<p><B>Original/Bare:</p>
+<p><b>Original/Bare:</b></p>
 <p>
 COMX-35 as it was in the box! No corrections included on the BASIC ROM and no expansion boards
 </p>
-<p><B>Original/Loaded:</p>
+<p><b>Original/Loaded:</b></p>
 <p>
 COMX-35 as it was in the box and original expansion box ROM, also included: floppy, printer, 32K RAM and 80 column support. All using original ROMs without any corrections.
 </p>
 <p>
-This chapter also includes:
+Other COMX-35 Emulator features:
 </p>
 <p>
 <a href="ComxInfo.htm">COMX-35 and PC1</a><br>
@@ -53,13 +53,19 @@ This chapter also includes:
 <a href="ComxSerialPrinter.htm">Serial Printer Support</a><br>
 <a href="ComxThermal.htm">Thermal Printer Support</a><br>
 <a href="ComxPlotter.htm">PL-80 Plotter Simulation</a><br>
+<a href="ComxJoy.htm">F&M Joy Card</a><br>
+<a href="MainScreendump.htm">Video Dump</a><br>
 <a href="ComxCassette.htm">Cassette Support</a><br>
+<a href="MainRealCassette.htm">Real Cassette Support</a><br>
+<a href="ComxKeyFile.htm">Key File</a><br>
 <a href="ComxVideo.htm"> Video Mode, Setup and Log</a><br>
 <a href="Comx80Column.htm">80 Column Support</a><br>
-<a href="ComxRamCard.htm">RAM Card</a><br>
+<a href="MainZoom.htm">Zoom Level and Full Screen Mode</a><br>
+<a href="MainSound.htm">Sound</a><br>
 <a href="ComxEprom.htm">F&M EPROM Switchboard</a><br>
-<a href="ComxJoy.htm">F&M Joy Card</a><br>
 <a href="ComxDiag.htm">Diagnostic Board</a><br>
-<a href="ComxKeyFile.htm">Key File</a><br>
+<a href="ComxRamCard.htm">RAM Card</a><br>
+<a href="MainMemAccess.htm">Memory Access</a><br>
+<a href="MainClock.htm">Clock Speed</a>
 </p>
 </body></html>

@@ -19,7 +19,7 @@ Default settings, to use this make sure 'Auto' is checked. The automatic mode wi
 To transfer a file to or from the Pico/Elf select the file in the file selector window by pressing the XMODEM button. After that give the xr, xrb, xs, xsb, yr or ys command in Elf/OS or start the load/save function in the diskless ROM. For the yr command it is possible to select multiple files in the file selector window, Emma 02 will also send the filenames to Elf/OS. For the ys command any filename specified is NOT used, instead the file names specified in Elf/Os will be used and resulting files will be stored in the folder selected via XMODEM. For all other file transfers only one file will be used, if multiple files were selected only the first will be used.
 </p>
 <p>
-If no file is specified before starting the file transfer the Pico/Elf will wait for the transfer to start. If this happens unselect the auto checkbox and try a manual transfer.</p>
+If no file is specified before starting the file transfer the Pico/Elf will wait for the transfer to start. If this happens unselect the auto checkbox and try a manual transfer.
 </p>
 <h3>Manual file transfer</h3>
 <p>

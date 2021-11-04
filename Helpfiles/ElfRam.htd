@@ -10,7 +10,7 @@ To specify the size and location of the Elf RAM specify RAM 'start' end 'end' ad
 If RAM 'end' address is lower than 8000 the specified RAM is mapped. For example when specifying RAM 0000-0FFF, memory locations 0 to hex FFF will be repeated at hex 1000, hex 2000 etc. No mapping is done when memory is used for ROM, EMS memory or the RAM pager. Also no mapping is done for the Netronics Elf II unless 256 byte RAM is specified from 0 to hex FF.
 </p>
 <p>
-When using EMS memory, the RAM or ROM Mapper the RAM fields will be disabled and all available memory will be set to RAM execept location where ROM is loaded.
+When using EMS memory, the RAM or ROM Mapper the RAM fields will be disabled and all available memory will be set to RAM except location where ROM is loaded.
 </p>
 <h3>EMS - 512 KB</h3>
 <p>

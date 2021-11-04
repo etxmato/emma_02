@@ -14,7 +14,7 @@ To select the specific Elf 2000 keyboard type use the choice button 'Keyboard'. 
 PS2 Keyboard: 
 </h4>
 <p>
-Keyboard type operating with serial communication using control characters. Needed for runnung Elf 2000 with intel 8275 video.
+Keyboard type operating with serial communication using control characters. Needed for running Elf 2000 with intel 8275 video.
 </p>
 <h4>
 PS2 + JP4: 

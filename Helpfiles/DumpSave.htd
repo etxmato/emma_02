@@ -9,7 +9,7 @@ To save part of CPU or video memory, use the 'Save' button (yellow ellipse). The
 <IMG SRC="images/dump_save.png" BORDER="0">
 </p>
 <p>
-For CPU memory it is also possible to specify a specifc part of the 64K CPU space, this is done by filing in start and end address in the fields marked by the orange ellipse above.
+For CPU memory it is also possible to specify a specific part of the 64K CPU space, this is done by filing in start and end address in the fields marked by the orange ellipse above.
 </p>
 <p>
 To save in binary format use file extension bin, rom, ram, cos, c8, ch8, c8x, ch10 or sc8. To save in Intel hex format use file extension hex. Any other extension will save in text format (i.e. RCS Elf Emulator hex format). 

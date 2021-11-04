@@ -19,7 +19,7 @@ The different sound emulation and for which computers they are valid is describe
 </p>
 <h2>Beeper (hardware oscillator)</h2>
 <p>
-This is a very basic sound emulation for just one tone frequency. The Emulated freuqency is  changeable via the Beeper field (orange ellipse). The tone will be heard when the Q flag is set by 1. 
+This is a very basic sound emulation for just one tone frequency. The Emulated frequency is  changeable via the Beeper field (orange ellipse). The tone will be heard when the Q flag is set by 1. 
 </p>
 <p>
 Supported for: Cosmac Elf, Cosmac VIP, Telmac 1800, Netronics Elf II and Quest Super Elf. 
@@ -111,7 +111,7 @@ Supported for: Cosmac VIP
 The VP551 package consists of 2 VP550 boards and one VP576 to connect both sound systems. The VP550 boards work the same as described for the VP550 system above, except that the second board uses different addresses for the 3rd and 4th channel (channel C and D) as described below.
 </p>
 <p>
-Frequency can be set by writing to address @4001 for channel C and @4002 for channel D. To set the octave (2 to 5) of channel C or D address @4003 is used. Bit 0 and 1 define the octave (0: octave 2, 3: octave 5) and bit 2 defines the channel (0: C and 1: D). Control of the amplitude (volume) is in 16 steps (0 to 15) by either writing address @4010 (channel C) or @4020 (D). Tempo and interrupt control is only performed by one of the VP550 boards. Tempo caan be changed by moving the tempo slider (orange ellipse).</p>
+Frequency can be set by writing to address @4001 for channel C and @4002 for channel D. To set the octave (2 to 5) of channel C or D address @4003 is used. Bit 0 and 1 define the octave (0: octave 2, 3: octave 5) and bit 2 defines the channel (0: C and 1: D). Control of the amplitude (volume) is in 16 steps (0 to 15) by either writing address @4010 (channel C) or @4020 (D). Tempo and interrupt control is only performed by one of the VP550 boards. Tempo can be changed by moving the tempo slider (orange ellipse).</p>
 <p>
 Supported for: Cosmac VIP
 </p>
@@ -126,7 +126,7 @@ Supported for: Cosmac VIP
 The CDP1869 address and sound generator (which is part of the RCA Video Interface System is used for audio. 2 channels are available, one for tone generation with a span of 8 octaves, and 1 for white noise with a span of 8 frequencies. Volume of both channels is programmable independently in 16 steps. 
 </p>
 <p>
-Supported for: COMX-35, TMC-600 and Pecom 64.
+Supported for: COMX-35, Cidelsa, TMC-600 and Pecom 64.
 </p>
 </BODY>
 </HTML>

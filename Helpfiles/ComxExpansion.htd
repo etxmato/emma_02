@@ -2,7 +2,6 @@
 <Title>Expansion Box</Title>
 <BODY>
 <h1>Expansion Box</h1>
-</p>
 <p>
 To run the COMX emulator with the expansion box, fill in the ROM file via 'EXP ROM' (yellow ellipse). Default (when the <a href="ComxSb.htm">Super Board</a> configuration is off, green ellipse) the 'f&m.expansion.rom.3.2' is filled in which also includes a screen editor. It is also possible to use the original expansion box ROM (excluding the screen editor) by selecting 'expansion.bin'. 
 </p>

@@ -1,0 +1,15 @@
+<html>
+<title>ex Keypad</title>
+<body>
+<h1>Hex Keypad</h1>
+<p>
+The ex Keypad includes 16 hex buttons, an IN button and 2 LEDs:
+</p>
+<p>
+<IMG SRC="images/elf_keypad.png" BORDER="0">
+</p>
+<p>
+In load mode (see <a href="CosmacFront.htm">Front Panel</a>) specify a hex value by clicking two hex buttons (yellow ellipse). After this click the IN button (orange ellipse) and the specified value will be written into the memory location in R[0]. When the left LED (magenta ellipse) is on the first nibble can be specified and when the right LED (blue ellipse) is on the second nibble can be specified.
+</p>
+</body>
+</html>

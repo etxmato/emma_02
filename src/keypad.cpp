@@ -122,6 +122,7 @@ void KeypadScreen::onPaint(wxPaintEvent&WXUNUSED(event))
 		ledPointer[i]->onPaint(dc);
 	}
 #if defined (__WXMAC__)
+    rePaintLeds(dc);
     osx_push_inButtonPointer->onPaint(dc);
     for (int i = 0; i<16; i++)
         osx_buttonPointer[i]->onPaint(dc);
@@ -321,4 +322,9 @@ Byte Keypad::getKey(Byte vtOut)
 void Keypad::releaseButtonOnScreen(HexButton* buttonPointer)
 {
     keypadScreenPointer->releaseButtonOnScreen(buttonPointer);
+}
+
+void Keypad::refreshPanel()
+{
+    keypadScreenPointer->refreshPanel();
 }
