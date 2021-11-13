@@ -1,0 +1,19 @@
+
+<html>
+<title>Dead Code Spots</title>
+<body>
+<h1>Dead Code Spots</h1>
+<p>
+Code that is not executed will be shown as 'data', like in the <a href="DirectMain.htm">Direct Assembler</a> this is shown in a <FONT COLOR="BLUE">blue</FONT> colour and in bytes including ASCI characters (yellow & orange ellipses):
+</p>
+<p>
+<IMG SRC="images/profiler_dead_code.png" BORDER="0">
+</p>
+<p>
+The parts shown as data might of course be actual data used by the software or code that hasn't been executed as yet. Possibly the code is dead code as is likely the case in above yellow ellipse. On closer inspection on address 0185 'D' will never be 0 so code at 0187 will not be executed unless another branch exists somewhere to 0187.
+</p>
+<p>
+The blue bytes in the orange ellipse is however clearly data as are following blue bytes. The SEP R4 on 01A2 likely reads value 14 from 01A3 and the OUT 4 will use the 20 as output value. 
+</p>
+</body>
+</html>

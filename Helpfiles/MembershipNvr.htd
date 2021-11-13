@@ -11,8 +11,8 @@ To clear main memory at start-up, select the 'Clear RAM' check box. After start-
 <p>
 Notes:
 <UL>
-<LI>For 2 KB to 64 KB RAM configurations: When using Non-volitile RAM in combination with loading SW at start-up (see also <a href="MembershipRom.htm">ROM and RAM Files</a>) first the non-volitile RAM will be restored after which the selected start-up SW will be loaded and overwrite the non-volitile RAM.
-<LI>For 32 KB ROM/RAM configurations: Non-volitile RAM will be restored at the selected RAM location (0 or hex 8000) independetly of in what configuration it was saved.
+<LI>For 2 KB to 64 KB RAM configurations: When using non-volatile RAM in combination with loading SW at start-up (see also <a href="MembershipRom.htm">ROM and RAM Files</a>) first the non-volatile RAM will be restored after which the selected start-up SW will be loaded and overwrite the non-volatile RAM.
+<LI>For 32 KB ROM/RAM configurations: Non-volatile RAM will be restored at the selected RAM location (0 or hex 8000) independently of in what configuration it was saved.
 </UL>
 </p>
 </BODY>

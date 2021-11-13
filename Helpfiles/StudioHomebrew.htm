@@ -4,7 +4,7 @@
 <body>
 <h2>Homebrew</h2>
 <p>
-This chapter includes short instructions for most included 'homebrew' st2 files, in some cases more complete instructions can be found in the game folder. These instructions need 'Auto Arcade Key Definition' selected which is the default setting. For more details about arcade keys see chapter Arcade Mapping in <a href="MainHexKeyMap.htm">Key Mapping</a>.
+This chapter includes short instructions for most included 'homebrew' st2 files, in some cases more complete instructions can be found in the game folder. These instructions need 'Auto Arcade Key Definition' selected which is the default setting. For more details about arcade keys see chapter <a href="KeyMappingArcade.htm">Auto and Arcade Key Definition</a>.
 </p>
 <p>
 Definitions below assume you are using a numeric keypad and have selected menu item 'Settings / Use Numeric Keypad'. If this option is not selected correct key is indicated in (). Note that for player B keys W, A, S, Z for directions and TAB for fire will work both with and without the 'Use Numeric Keypad' setting selected.
@@ -83,8 +83,8 @@ A complete list of levels is shown below. Here is how to work out your level. St
 - add 64 for long range missiles (otherwise short range)<br>
 - add 32 for slow missiles (otherwise fast missiles)<br>
 - add 16 for a border around the screen<br>
-- add 8 for the tank defenses<br>
-- add 4 for both the defenses and the in game barriers<br>
+- add 8 for the tank defences<br>
+- add 4 for both the defences and the in game barriers<br>
 - add 2 for balloons<br>
 - add 1 for mines<br>
 </p>
@@ -190,7 +190,7 @@ After start-up four modes may be selected (using keys 1 to 4), see chapters belo
 When you have completed your entries in one mode and wish to switch to another mode, press numpad 0. DO NOT PRESS RESET. Pushing RESET will destroy part of the program you have just entered!
 </p>
 <p>
-After numpad 0 has been released, you may select the next mode. Pressing numpad 0 also casuses the control program to store most of the 1802 internal 16 bit registers in memory so they can be examined using the memory read mode. This is very useful when trying to debug a program.
+After numpad 0 has been released, you may select the next mode. Pressing numpad 0 also causes the control program to store most of the 1802 internal 16 bit registers in memory so they can be examined using the memory read mode. This is very useful when trying to debug a program.
 </p>
 <p>
 All registers except R0, R1, R2 and R8 are stored in the RAM at addresses 09B3 to 09CF. The last digit of the address is the register number, if the third address digit is B, it's the lower order register address. For example, 09B5 contains the contents of 1802 register R5.0. While 09C5 contains the contents of register R5.1.
@@ -211,7 +211,7 @@ Continuing to press any key (0 to 9) will sequentially step through memory, disp
 </p>
 <h4>Run Mode (key 3)</h4>
 <p>
-The program that has just been loaded can be run by pressing key 3 and then entering the four digit start address of the program. The program will start runnng as soon as the last digit of the start address has been entered, and will use R9 as the program counter.
+The program that has just been loaded can be run by pressing key 3 and then entering the four digit start address of the program. The program will start running as soon as the last digit of the start address has been entered, and will use R9 as the program counter.
 </p>
 <h4>ShiftMode (key 4)</h4>
 <p>
@@ -339,15 +339,15 @@ Developed by Lee Romanow.
 <h4>Moon Lander</h4>
 <OL>
 <LI>To start press 2.
-<LI>Distance to the surface, downward velocity, and available fuel are shown as three numbers on the screen; distance (x) on the left, velocity (v) in the center, and fuel (f) on the right.
+<LI>Distance to the surface, downward velocity, and available fuel are shown as three numbers on the screen; distance (x) on the left, velocity (v) in the centre, and fuel (f) on the right.
 <LI>Each turn you burn from 0 to 9 units of fuel by pressing that number (key 0 to 9). If you request more fuel than you actually have, the computer will burn what is available.
 <LI>The computer calculates the new values for x, v and f, and updates the display. While x is greater than 0, the game continues from step 3. When x reaches 0, the lander is on the surface and the game is over. You win if the final value of v is not higher than 5. You can play a new game by pressing space or numpad 1.
 </OL>
 <h4>Repeat After Me</h4>
 <OL>
 <LI>To start press 3.
-<LI>The game starts with the computer playing the random sequence. Numbers momentarily appear near the center of the screen, accompanied by a beep sound. Try to memorize the order of the numbers as they play. When finished, the computer waits for the response.
-<LI>Now replay the number sequence, using keys 1, 2, 3 and 4. The computer checks the entries as you make them. If replayed correctly, another number is added to the series, and the game continues from step 2. If you make a mistake, the game ends with a long series of beeps, and your score is displayed on the screen. If you successfully memorize a sequence of 25 digits, the game ends with a perfect score.
+<LI>The game starts with the computer playing the random sequence. Numbers momentarily appear near the centre of the screen, accompanied by a beep sound. Try to memorise the order of the numbers as they play. When finished, the computer waits for the response.
+<LI>Now replay the number sequence, using keys 1, 2, 3 and 4. The computer checks the entries as you make them. If replayed correctly, another number is added to the series, and the game continues from step 2. If you make a mistake, the game ends with a long series of beeps, and your score is displayed on the screen. If you successfully memorise a sequence of 25 digits, the game ends with a perfect score.
 <LI>Once the game is over, you can play a new game by pressing space or numpad 1.
 </OL>
 <h4>Space Rescue</h4>

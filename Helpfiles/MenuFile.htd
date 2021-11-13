@@ -1,0 +1,87 @@
+<html>
+<title>File</title>
+<body>
+<h1>File</h1>
+<p>
+<IMG SRC="images/menu_file.png" BORDER="0">
+</p>
+<h2><a href="MainConfigurations.htm">Configuration</a></h2>
+<p>
+<IMG SRC="images/menu_configuration.png" BORDER="0">
+</p>
+<h3>Load</h3>
+<p>
+Load a specific configuration for the current selected computer. 
+</p>
+<h3>Save</h3>
+<p>
+Save a specific configuration for the current selected computer. 
+</p>
+<h3>Delete</h3>
+<p>
+Delete a specific configuration for the current selected computer.
+</p>
+<h3>Save All</h3>
+<p>
+Save all global and computer emulator specific settings.
+</p>
+<h3>Save All on Exit</h3>
+<p>
+If selected all global and computer emulator specific settings will be saved on exit of Emma 02.
+</p>
+<h3>Set Default (All)</h3>
+<p>
+Reset all computer emulator specific settings, 'Wav file and Real Cassette Settings' and 'Function and Hot Keys' back to Emma 02 defaults. Note remaining global settings, SB Player name, location, email address and aliases will not be reset. 
+</p>
+<h2>Re-install</h2>
+<p>
+<IMG SRC="images/menu_reinstall.png" BORDER="0">
+</p>
+<h3><a href="MainConfigurations.htm">Configuration</a> Files</h3>
+<p>
+This will re-install the default configuration files for the computer configurations that can be loaded from the above described 'Configuration' menu. This might be needed to install updated configuration files from the latest Emma 02 release or if current installed files are corrupt.
+</p>
+<p>
+When installing a new version of Emma 02 the configuration menus will NOT be re-installed automatically to avoid overwriting changes made by users. 
+</p>
+<h3>1802 SW Files</h3>
+<p>
+This will re-install the default 1802 SW files as stored in the Emma 02 data directory. This might be needed to install updated 1802 SW files from the latest Emma 02 release or if current installed files are corrupt.
+</p>
+<p>
+When installing a new version of Emma 02 the data directory will NOT be re-installed automatically to avoid overwriting changes made by users. 
+</p>
+<h2>Change Data Directory</h2>
+<p>
+<IMG SRC="images/menu_change_data_dir.png" BORDER="0">
+</p>
+<p>
+This will allow you to change the location of the data directory. 
+</p>
+<p>
+The location for the data directory is default set to:
+<UL>
+<LI>Windows Vista and later: C:\\Users\\<I>username</I>\\AppData\\Roaming\\Emma 02
+<LI>XP: C:\\Documents and Settings\\<I>username</I>\\Application Data\\Emma 02
+<LI>Mac OSX: ~/Emma 02
+<LI>Linux: ~/emma_02_data
+</UL>
+<p>
+Note that when an older versions of Emma 02 was used previously the default data directory might be set to:
+</p>
+<UL>
+<LI>Mac OSX: ~/Documents/emma_02
+<LI>Linux: ~/Documents/emma_02
+</UL>
+</p>
+<p>
+A small window will open where with the 'browse' button (yellow ellipse) a new location can be selected. After this 2 options are available: either to only save the new location ('Save' button, orange ellipse) or save and move the existing data directory and files to the new location ('Move & Save' button, blue ellipse). If the save only option is used the data folder should be moved manually. When moving the folder to another disk the process could take a few minutes (depending on the disk speed). In all cases all settings will be set to default as in the 'Set Default (All)' menu action.
+</p>
+<p>
+<IMG SRC="images/menu_change_data_dir_window.png" BORDER="0">
+</p>
+<p>
+See also chapter <a href="MainFile.htm">Directory and File Structure</a>.
+</p>
+</body>
+</html>

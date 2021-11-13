@@ -524,6 +524,7 @@ void Victory::startComputer()
 	p_Main->updateTitle();
 
 	cpuCycles_ = 0;
+	instructionCounter_= 0;
 	p_Main->startTime();
 
 	threadPointer->Run();
@@ -542,7 +543,8 @@ void Victory::writeMemDataType(Word address, Byte type)
                 p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
                 mainMemoryDataType_[address] = type;
             }
-            break;
+            increaseExecutedMainMemory(address, type);
+        break;
             
         case TESTCARTRIDGEROM:
             if (testCartRomDataType_[address] != type)
@@ -550,6 +552,7 @@ void Victory::writeMemDataType(Word address, Byte type)
                 p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
                 testCartRomDataType_[address] = type;
             }
+            increaseExecutedTestCartRom(address, type);
         break;
             
 		case MULTICART:
@@ -560,6 +563,7 @@ void Victory::writeMemDataType(Word address, Byte type)
 					p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
 					mainMemoryDataType_[address] = type;
 				}
+                increaseExecutedMainMemory(address, type);
 			}
 			else
 			{
@@ -568,6 +572,7 @@ void Victory::writeMemDataType(Word address, Byte type)
 					p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
 					multiCartRomDataType_[(address + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] = type;
 				}
+                increaseExecutedMultiCartRom((address + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_, type);
 			}
 		break;
 
@@ -580,6 +585,7 @@ void Victory::writeMemDataType(Word address, Byte type)
                     p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
                     mainMemoryDataType_[address] = type;
                 }
+                increaseExecutedMainMemory(address, type);
             }
             else
             {
@@ -588,6 +594,7 @@ void Victory::writeMemDataType(Word address, Byte type)
                     p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
                     multiCartRomDataType_[(address + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] = type;
                 }
+                increaseExecutedMultiCartRom((address + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_, type);
             }
         break;
             
@@ -598,11 +605,12 @@ void Victory::writeMemDataType(Word address, Byte type)
 				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
 				mainMemoryDataType_[address]=type;
 			}
+            increaseExecutedMainMemory(address, type);
 		break;
 	}
 }
 
-Byte Victory::readMemDataType(Word address)
+Byte Victory::readMemDataType(Word address, uint64_t* executed)
 {
 	switch (memoryType_[address/256])
 	{
@@ -610,30 +618,52 @@ Byte Victory::readMemDataType(Word address)
 		case ROM:
         case MAPPEDROM:
         case CARTRIDGEROM:
+            if (profilerCounter_ != PROFILER_OFF)
+                *executed = mainMemoryExecuted_[address];
             return mainMemoryDataType_[address];
         break;
             
         case TESTCARTRIDGEROM:
+            if (profilerCounter_ != PROFILER_OFF)
+                *executed = testCartRomExecuted_[address];
             return testCartRomDataType_[address];
         break;
             
 		case MULTICART:
 			if ((address < 0x400) && !disableSystemRom_)
+            {
+                if (profilerCounter_ != PROFILER_OFF)
+                    *executed = mainMemoryExecuted_[address];
 				return mainMemoryDataType_[address];
-			else
+            }
+            else
+            {
+                if (profilerCounter_ != PROFILER_OFF)
+                    *executed = multiCartRomExecuted_[(address+multiCartLsb_*0x1000+multiCartMsb_*0x10000)&multiCartMask_];
 				return multiCartRomDataType_[(address + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_];
+            }
 		break;
 
         case MAPPEDMULTICART:
             address = address & 0xfff;
             if ((address < 0x400) && !disableSystemRom_)
+            {
+                if (profilerCounter_ != PROFILER_OFF)
+                    *executed = mainMemoryExecuted_[address];
                 return mainMemoryDataType_[address];
+            }
             else
+            {
+                if (profilerCounter_ != PROFILER_OFF)
+                    *executed = multiCartRomExecuted_[(address+multiCartLsb_*0x1000+multiCartMsb_*0x10000)&multiCartMask_];
                 return multiCartRomDataType_[(address+multiCartLsb_*0x1000+multiCartMsb_*0x10000)&multiCartMask_];
+            }
         break;
             
 		case MAPPEDRAM:
 			address = (address & 0x1ff) | 0x800;
+            if (profilerCounter_ != PROFILER_OFF)
+                *executed = mainMemoryExecuted_[address];
 			return mainMemoryDataType_[address];
 		break;
 	}
@@ -781,6 +811,7 @@ void Victory::cpuInstruction()
 	{
 		initPixie();
 		cpuCycles_ = 0;
+		instructionCounter_= 0;
 		p_Main->startTime();
 	}
 }

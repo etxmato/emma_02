@@ -705,6 +705,7 @@ void Vip::startComputer()
 	p_Main->updateTitle();
 
 	cpuCycles_ = 0;
+	instructionCounter_= 0;
 	p_Main->startTime();
 	
 	p_Video->splashScreen();
@@ -728,6 +729,7 @@ void Vip::writeMemDataType(Word address, Byte type)
 				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
 				mainMemoryDataType_[address & ramMask_] = type;
 			}
+            increaseExecutedMainMemory(address & ramMask_, type);
 		break;
 
 		case VP570RAM:
@@ -737,11 +739,12 @@ void Vip::writeMemDataType(Word address, Byte type)
 				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
 				mainMemoryDataType_[address] = type;
 			}
+            increaseExecutedMainMemory(address, type);
 		break;
 	}
 }
 
-Byte Vip::readMemDataType(Word address)
+Byte Vip::readMemDataType(Word address, uint64_t* executed)
 {
 	if (address < setLatch_)
 		address = (address | addressLatch_);
@@ -752,11 +755,15 @@ Byte Vip::readMemDataType(Word address)
 	{
 		case RAM:
 		case MAPPEDRAM:
+            if (profilerCounter_ != PROFILER_OFF)
+                *executed = mainMemoryExecuted_[address & (ramMask_ | 0x8000)];
 			return mainMemoryDataType_[address & (ramMask_ | 0x8000)];
 		break;
 
 		case VP570RAM:
 		case ROM:
+            if (profilerCounter_ != PROFILER_OFF)
+                *executed = mainMemoryExecuted_[address];
 			return mainMemoryDataType_[address];
 		break;
 	}

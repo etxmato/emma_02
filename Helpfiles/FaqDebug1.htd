@@ -1,0 +1,24 @@
+<HTML>
+<Title>Faq Debugger 1</Title>
+<BODY>
+<h1>How do I trace just a section of my code?</h1>
+<p>
+Set a break point (field and button in yellow ellipse) at the start and end of your section. Emulation will stop when the break point is hit, delete the break point in the break point area (orange ellipse) and turn on the trace ('Trace:' button in red ellipse). To start the actual trace press RUN (blue ellipse) and when it stops again turn off the trace (red ellipse).
+</p>
+<p>
+<IMG SRC="images/debugger_trace_section.png" BORDER="0">
+</p>
+<p>
+Edit the break points in the orange break points area by pressing the 'delete' key to remove a break point or double click a break point to change the address value. On Windows you can also deactivate a break point by unselecting the checkboxes before the address values.
+</p>
+<p>
+Above example would stop at address 0x10 and 0x100 whichever is detected first.
+</p>
+<p>
+Other trace options that can be used are the 'Register Trap' for a register reaching a specific value or the 'Instr. Trap' for a specific instruction being executed.
+</p>
+<p>
+For more details see also chapter <a href="DebuggerTrace.htm">Debug 1802</a>
+</p>
+</BODY>
+</HTML> 

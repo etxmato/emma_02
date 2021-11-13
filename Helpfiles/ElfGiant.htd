@@ -7,7 +7,7 @@
 To use the Giant Board either load the Giant Board configuration via the 'File/Configuration/Load/Giant Board' menu or make sure that:<br>
 - giantboard.hex or supermon.hex is loaded as ROM file<br>
 - Cassette support is enabled by checkbox 'Cassette'<br>
-- Autoboot is enabled and set to hex F000 for the giant board and hex 8000 for the supermon<br>
+- (Auto) Boot is enabled and set to hex F000 for the giant board and hex 8000 for the supermon<br>
 - Giant is enabled to map (or ghost) the Giant Board ROM from hex F000 to hex FF00
 </p>
 <p>

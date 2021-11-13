@@ -1,82 +1,126 @@
 <html>
 <title>Trace</title>
 <body>
-<h2>Debug 1802</h2>
+<h1>Debug 1802</h1>
 <p>
-To use the trace functions of the debugger first select the 'Debug 1802' tab of the choice book on the debugger tab.
+To use the trace functions of the debugger first select the 'Tools' tab (yellow ellipse) and then the 'Debug 1802' tab (orange ellipse):
 </p>
 <p>
-To activate/deactivate the debug mode select/deselect the 'Debug Mode' checkbox. Debug mode is also activated and deactivated automatically when using any of the trace commands. The F6 key enables/disables the debug mode when used from the emulated computer window.
+<IMG SRC="images/debug_1802.png" BORDER="0">
 </p>
 <p>
-Active debug mode will be indicated in the emulated computer window title. Note that in debug mode the emulator will run slower and take more processor power.  
-</p>
-<h3>Tracing</h3>
-<p>
-There are 4 trace possibilities:<br>
-- All Instructions: to show all 1802 instructions executed by the emulated computer; except DMA and interrupt instructions. To start or stop this trace, press the 'Trace' button.<br>
-- DMA: to show when the emulated computer executes a DMA instruction. To start or stop this trace, press the 'DMA' button.<br>
-- Interrupt: to show when the emulated computer executes an interrupt instruction. To start or stop this trace, press the 'INT' button.<br>
-- Specific Instructions: to show specific 1802 input instructions executed by the emulated computer. To start or stop this trace, press the 'Instr.' button. After this the 'Instr. Trap:' listbox will change to 'Instr. Trace:' and all instruction listed will be traced. Additional instructions can be added via the 'Instr. Trap' button, see also chapter 'Instruction Traps' below.
+To activate/deactivate the debug mode select/deselect the 'Debug Mode' checkbox (blue ellipse). Debug mode is also activated and deactivated automatically when using any of the trace commands (red ellipse). The F6 key enables/disables the debug mode when used from the emulated computer window.
 </p>
 <p>
-Tracing output will be shown in the trace output window. To save the output to a log file press the 'Log' button. If the specified file already exists the filename will be given a number starting with 1. The trace window cleared by pressing 'Clear'.
+Active debug mode will be indicated in the emulated computer window title (yellow ellipse below). Note that in debug mode the emulator will run slower and take more processor power.  
 </p>
-<h3>Pause, Step, Run and Speed</h3>
 <p>
-The emulated computer can be 'paused' by pressing the pause button and will pause automatically when hitting a break point or trap, see also below. 
+<IMG SRC="images/debug_1802_debugmode.png" BORDER="0">
+</p>
+<h2>Tracing</h2>
+<p>
+There are 4 trace buttons to show or trace instructions executed by the emulated computer: 
+</p>
+<p>
+<ul>
+<li>Trace: (yellow ellipse): to show all 1802 instructions. Note DMA and interrupt instructions will not be shown unless DMA and/or INT are selected as well.
+<li>DMA (red ellipse): to show DMA instructions. 
+<li>INT (blue ellipse): to show interrupt instructions.
+<li>Instr. (orange ellipse): to show specific 1802 instructions as defined in the Instr. Trace area (see also chapter 'Instruction Traps/Trace' below). When Instr. is selected the 'Instr. Traps:' button and listbox (green ellipses) will change to 'Instr. Trace:' 
+</ul>
+</p>
+<p>
+<IMG SRC="images/debug_1802_trace.png" BORDER="0">
+</p>
+<p>
+Tracing output will be shown in the trace output window (grey ellipse). To save the output to a log file press the 'Log' button (brown ellipse). The trace window is cleared by pressing 'Clear' (magenta ellipse).
+</p>
+<h2>Pause, Step, Run and Speed</h2>
+<p>
+The emulated computer can be 'paused' by pressing the pause button (orange ellipse) and will pause automatically when hitting a break point or trap, see also chapter 'Break Points and Traps' below. 
+</p>
+<p>
+<IMG SRC="images/debug_1802_PSRS.png" BORDER="0">
 </p>
 <p>
 When the emulated computer is paused the pause button will light up orange and the title of the computer will include '** PAUSED **'. To continue just hit the pause button again.
 </p>
 <p>
-In pause mode the 'Step' button can be used to get the emulated computer to execute the indicated number of instructions and after this go back to pause mode. The 'RUN' button will start execution at the paused address or at the indicated address if a value is specified.
+<IMG SRC="images/debug_1802_PAUSED.png" BORDER="0">
 </p>
 <p>
-If needed the trace and emulated computer can be slowed down by sliding the 'Speed' slider to the left. Normal speed will be restored when Debug mode is switched off even if the slider is not fully to the right.
-</p>
-<h3>SCRT</h3>
-<p>
-When activated the SCRT function will hide tracing of 'SCRT'. This means when the debugger comes acrross a SEP R4 instruction for a subroutine 'CALL' it will show 'SEP R4 CALL address' in the trace window with 'address' being the subroutine address. It will then hide the 1802 code tracing for the CALL handling, i.e. when the PC is R4. The subroutine itself will of course be shown and when ended with a SEP R5 the debugger will show 'SEP R5 RETURN' to indicate the end of the subroutine. Again the 1802 code tracing for the RETURN handling, i.e. when the PC is R5, will not be shown.
+In pause mode the 'Step' button (orange ellipse) can be used to get the emulated computer to execute the indicated number of instructions and after this go back to pause mode. The 'RUN' button (red ellipse) will start execution at the paused address or at the indicated address if a value is specified.
 </p>
 <p>
-Where possible the debugger will set the CALL register and address as well as the RETURN register and address on start-up of an emulated computer. This can be changed in runtime by changing the SCRT values after 'Call:' and 'Return:', the first value is the register, the second the address. For all machines the registers used will be R4 and R5.
+If needed the trace and emulated computer can be slowed down by sliding the 'Speed' slider (blue ellipse) to the left. Normal speed will be restored when Debug mode is switched off even if the slider is not fully to the right.
 </p>
-<h3>Register, flag and I/O port values</h3>
+<h2>SCRT</h2>
 <p>
-There are two modes when using register, flag and I/O port values, protected and unprotected mode. To switch select/deselect the 'Protected Mode' check box. In protected mode it is not possible to change any value! This as changing these values will in most cases mess up the execution of the emulated computer.
-</p>
-<p>
-To change the value of registers, flags and I/O ports, type in a different value and press enter. Note in this case no value is changed until enter is pressed, again to avoid unwanted behaviour of the emulated computer. Also be ware that changing values during run time of a computer might be difficult as the emulator constantly changes values, in this case pause the emulator.
+When activated, by selecting the SCRT checkbox (yellow ellipse below), the SCRT function will hide tracing of the 'SCRT' routines. This means when the debugger detects a SEP R4 instruction for a subroutine 'CALL' it will show 'SEP R4 CALL address' (blue ellipse) in the trace window with 'address' being the subroutine address. It will then hide the 1802 code tracing for the CALL handling, i.e. when the PC is R4. The subroutine itself will of course be shown and when ended with a SEP R5 the debugger will show 'SEP R5 RETURN' (magenta ellipse) to indicate the end of the subroutine. Again the 1802 code tracing for the RETURN handling, i.e. when the PC is R5, will not be shown.
 </p>
 <p>
-Note: I/O values can be 8 or 16 bit depending on simulated HW, for example when the CDP 1870 is used output 4, 5, 6 and 7 are using a 16 bit address value instead of the 8 bit data bus.
+Where possible the debugger will set the CALL register and address as well as the RETURN register and address on start-up of an emulated computer. This can be changed in runtime by changing the SCRT values after 'Call:' (orange ellipse) and 'Return:' (red ellipse), the first value is the register, the second the address. Default the registers specified will be R4 and R5.
 </p>
-<h3>Break Points and Traps</h3>
-<h4>Break Points</h4>
+<p>
+<IMG SRC="images/debug_1802_SCRT.png" BORDER="0">
+</p>
+<h2>Register, flag and I/O port values</h2>
+<p>
+All register, flag and I/O port values can be seen at any time (orange ellipse):
+</p>
+<p>
+<IMG SRC="images/debug_1802_registers.png" BORDER="0">
+</p>
+<p>
+Default none of these values can be changed (protected mode), this is to protect execution of the emulated computer as changing these values would likely cause a crash. To change these values (except for input ports) unselect the 'Protected' checkbox (yellow ellipse). 
+</p>
+<p>
+To change the value of registers, flags and/or output ports, type in a different value and press enter. No value is changed until enter is pressed! Also be aware that changing values during run time of a computer might be difficult as the emulator constantly changes values. To make it easier to change something pause the emulator (via the pause button, breakpoint or trap), change the value and continue tracing using pause or RUN (see chapters, 'Pause, Step, Run and Speed' and/or 'Break Points and Traps'.
+</p>
+<p>
+Note: some output values can be 8 or 16 bit depending on simulated HW, for example when the CDP 1870 is used output 4, 5, 6 and 7 are using a 16 bit address value instead of the 8 bit data bus.
+</p>
+<h2>Reset & Interrupt Generation</h2>
+<p>
+To reset the emulated computer press the 'Reset' button (yellow ellipse):
+</p>
+<p>
+<IMG SRC="images/debug_1802_reset.png" BORDER="0">
+</p>
+<p>
+To manually generate an interrupt request, press the 'Gen. INT' button. The interrupt will only happed if interrupts are enabled; i.e. if IE = 1.
+</p>
+<h2>Break Points and Traps</h2>
+<p>
+Break points (yellow ellipses), register traps (orange ellipses) and instruction traps (blue ellipses) are handled with the buttons and fields marked in the screen shot below.
+</p>
+<p>
+<IMG SRC="images/debug_1802_break.png" BORDER="0">
+</p>
+<h3>Break Points</h3>
 <p>
 To set a break point on a CPU 'execution address' type the required address in the field next to the 'Break point' button and press return (or the button). The address will be shown in the break point list. When the emulated computer reaches the specified address it will stop execution and go into 'pause' mode. A total of 64 break points can be set.
 </p>
-<h4>Register Traps</h4>
+<h3>Register Traps</h3>
 <p>
 To set a register trap first select the required register and type the required value in the fields next to the 'Register trap' button and press return (or the button). The register and value will be shown in the register trap list. When the specified register in the emulated computer reaches the specified value it will stop execution and go into 'pause' mode. A total of 64 register traps can be set.
 </p>
-<h4>Instruction Traps</h4>
+<h3>Instruction Traps/Trace</h3>
 <p>
 To set an instruction trap first select the required instruction in the fields next to the 'Instruction trap' button and press the button. The 1802 instruction will be shown in the instruction trap list. When the emulated computer executes the specified instruction it will stop execution and go into 'pause' mode. A total of 64 instruction traps can be set.
 </p>
 <p>
-An instruction trap can be set on a range of instructions. Either by specifiying 'Rx' instead of an actual register value (by use of the choice button) or using 'X' instead of a specifi 4, 8 or 16 bit value. For example 'BZ X' will set a trap on all BZ instructions, INP X on all input instructions etc.
+An instruction trap can be set on a range of instructions. Either by specifying 'Rx' instead of an actual register value (by use of the choice button) or using 'X' instead of a specify 4, 8 or 16 bit value. For example 'BZ X' will set a trap on all BZ instructions, INP X on all input instructions etc.
 </p>
-<h4>Delete</h4>
+<h3>Delete</h3>
 <p>
 To delete a breakpoint, register or instruction trap select it in the list and press the 'Delete' key.
 </p>
-<h4>Deactivate</h4>
+<h3>Deactivate</h3>
 <p>
-This feature is not availlable on Linux. On Windows: to deactivate a breakpoint, register or instruction trap uncheck the applicable checkbox. To activate it again re-check the box.
+This feature is only available on Windows: to deactivate a breakpoint, register or instruction trap uncheck the applicable checkbox. To activate it again re-check the box.
 </p>
-<h4>Edit</h4>
+<h3>Edit</h3>
 <p>
 To edit a breakpoint, register or instruction trap select it in the list and edit the text.
 </p>

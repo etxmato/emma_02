@@ -1,0 +1,43 @@
+
+<html>
+<title>Changing Address Usage</title>
+<body>
+<h1>Changing Address Usage</h1>
+<p>
+Emma 02 will automatically select the correct memory usage type as long as the code is 'executed'. So to look at disassembled code just make sure the code is actually executed once in the current session.
+</p>
+<p>
+The type can also be changed manually, as follows:
+<OL>
+<LI>Select the desired type via the choice button at the top right of the Direct Assembler tab (showing 1802 as default, in yellow ellipse below). The newly selected type should be shown directly in the left half of the Direct Assembler tab.
+<LI>Select either 'One' or 'Range' (orange ellipse) depending if one location or a range of locations need to be changed.
+<LI>Fill in the location to be changed (red ellipse), default this is the current 'working' location. And a range should be specified if 'Range' was selected.
+<LI>Press 'Mark' (blue ellipse)
+</OL>
+</p>
+<p>
+<IMG SRC="images/assembler_mark.png" BORDER="0">
+</p>
+<p>
+Above example would mark address 0016 as 1802 code when 'Mark' is pressed, not resulting in any change.
+</p>
+<p>
+To save type information please see chapter <a href="DirectConfiguration.htm">Program Configuration</a>.
+</p>
+<p>
+The following type choices are available:
+<UL>
+<LI>1802: Use for RCA 1802, 1804 or 1805 code
+<LI>Data: Use for data values
+<LI>Text: ASCII text
+<LI>Branch: Use for memory locations containing another memory location (order used: high byte and then low byte), see also chapter <a href="DirectBranchData.htm">Branch Data</a>
+<LI>Rev Br: Use for memory locations containing another memory location (order used: low byte and then high byte), see also chapter <a href="DirectBranchData.htm">Reversed Branch Data</a>
+<LI>LDL: LDL Macro, see also chapter <a href="DirectLdl.htm">LDL, LDRL, LDV and RLDL Instructions</a>
+<LI>LDRL: LDRL Macro, see also chapter <a href="DirectLdl.htm">LDL, LDRL, LDV and RLDL Instructions</a>
+<LI>LDV: LDV Macro, see also chapter <a href="DirectLdl.htm">LDL, LDRL, LDV and RLDL Instructions</a>
+<LI>Switch: Switch to other mnemonic, see also chapter <a href="DirectMnemonic.htm">Switch Mnemonic</a>
+<LI>Pseudo: any pseudo code as described in chapter <a href="SyntaxPseudoCode.htm">Pseudo Code</a>
+</UL>
+</p>
+</body>
+</html>

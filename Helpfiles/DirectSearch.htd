@@ -1,0 +1,60 @@
+<html>
+<title>Search</title>
+<body>
+<h1>Search</h1>
+<p>
+Four search options are available: B+L, Branch, Load L & Load V:
+</p>
+<p>
+<IMG SRC="images/assembler_search.png" BORDER="0">
+</p>
+<p>
+All search features will search code and data areas as defined in the <a href="DirectConfiguration.htm">Program Configuration</a>. Result will be listed in the message area.
+</p>
+<h2>B+L</h2>
+<p>
+Clicking the 'B+L' button (yellow ellipse) will execute a 'Branch' and 'Load L' search (see following two chapters). 
+</p>
+<h2>Branch</h2>
+<p>
+Clicking the 'Branch' button (orange ellipse) will search for branches to the current working address. 
+</p>
+<p>
+In the example above a branch search on address hex 4400 will give message:
+</p>
+<p>
+<IMG SRC="images/assembler_search_branch.png" BORDER="0">
+</p>
+<h2>Load L</h2>
+<p>
+Clicking the 'Load L' button will search for instructions (LDL, LDRL and RLDL) loading the location of the current working address. 
+</p>
+<p>
+In the example above a Load L search on address hex 4400 will give message:
+</p>
+<p>
+<IMG SRC="images/assembler_search_l.png" BORDER="0">
+</p>
+<h2>Load V</h2>
+<p>
+Clicking the 'Load V' button will search for instructions loading the location or value of the current working address. Note that with Load V all possible load instructions will be listed as follows:
+<UL>
+<LI>LD H-L: instruction sequence LDI xx, PHI RN, LDI xx, PLO RN
+<LI>LD L-H: instruction sequence LDI xx, PLO RN, LDI xx, PHI RN
+<LI>RLDI: RLDI RN,xxxx
+<LI>LD H: instruction sequence LDI xx, PHI RN (only loading high byte current address)
+<LI>LD L: instruction sequence LDI xx, PLO RN (only loading low byte current address)
+<LI>LDV: LDV macro
+<LI>LDL: LDL macro
+<LI>LDRL: LDRL macro
+<LI>RLDL: RLDL macro
+</UL>
+</p>
+<p>
+In the example above a Load V search on address hex 4400 will give message:
+</p>
+<p>
+<IMG SRC="images/assembler_search_v.png" BORDER="0">
+</p>
+</body>
+</html>

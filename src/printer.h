@@ -108,7 +108,6 @@ public:
 
 	void onFont(wxCommandEvent &event);
 	void onRows(wxCommandEvent &event);
-	void onPrinterPlotter(wxCommandEvent &event);
 	void onPlotterRomExtensionText(wxCommandEvent &event);
 	void onPlotterRomText(wxCommandEvent &event);
 	void onRomButton(wxCommandEvent &event);
@@ -122,7 +121,6 @@ public:
 	void printFinished();
 	void completePage(wxDC& dc, int page);
 	int getNumberofPages();
-	void enablePlotterGui(bool status);
 	void showPlotterRomFile(wxString fileName);
 	void showPlotterRomExtensionFile(wxString fileName);
 	wxString getPlotterRomFile();
@@ -176,12 +174,12 @@ public:
 	void onF4Serial();
 	void onF4Thermal();
 	void onF4();
-	void onComxF4();
+    void onComxF4();
+    void onComxF4Printer();
+    void onComxF4Plotter();
 
 	void printFinished();
 	void enableToolbar(bool status);
-	void enablePlotterGui(bool status);
-	void disablePrintPlotter();
 	void showPlotterRomFile(wxString fileName);
 	void showPlotterRomExtensionFile(wxString fileName);
 	wxString getPlotterRomFile();
@@ -198,7 +196,6 @@ private:
 	Printer *printerPointer;
 	PrinterFrame *printerFramePointer;
 	wxStaticText* fontTextPointer;
-	wxStaticText* rowsTextPointer;
 	wxButton* printerPlotterButtonPointer;
 	wxButton* plotterRomPointer;
 	wxButton* plotterExtensionRomPointer;

@@ -78,7 +78,7 @@ public:
 
 	void startComputer();
 	void writeMemDataType(Word address, Byte type);
-	Byte readMemDataType(Word address);
+	Byte readMemDataType(Word address, uint64_t* executed);
 	Byte readMem(Word address);
 	void writeMem(Word address, Byte value, bool writeRom);
     Byte readMemDebug(Word address);
@@ -99,7 +99,9 @@ public:
 	void loadRam();
 	void saveRtc();
 	void loadRtc();
-
+    Byte readDirectRtc(Word address);
+    void writeDirectRtc(Word address, Byte value);
+    
 	void removeElf2KSwitch();
 	void removeElfHex();
 	void showModules(bool useSwitch, bool useHex);
@@ -117,6 +119,7 @@ public:
     void onNumberKeyDown(int i);
     void refreshPanel();
     void terminalSave(wxString fileName, int protocol);
+    void terminalYsSave(wxString fileName, int protocol);
     void terminalLoad(wxString filePath, wxString fileName, int protocol);
     void terminalStop();
     void checkComputerFunction();

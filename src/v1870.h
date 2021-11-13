@@ -91,6 +91,7 @@ public:
     void updateDiagLedStatus(int led, bool status);
 
     void reBlit(wxDC &dc);
+    bool isMc6845running() {return mc6845started_;};
 
 protected:
 	int videoMode_;

@@ -1,0 +1,13 @@
+<html>
+<title>Syntax</title>
+<body>
+<h1>Syntax</h1>
+<p>
+This chapter describes syntax definitions for all machine and pseudo languages that can be assembled and disassembled by Emma 02. For details about the assembler see chapter <a href="DirectMain.htm">Direct Assembler</a></p>
+<h2>Table of contents:</h2>
+<p>
+<a href="SyntaxMachineCode.htm">Machine Code</a><br>
+<a href="SyntaxPseudoCode.htm">Pseudo Code</a><br>
+</p>
+</body>
+</html>

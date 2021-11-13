@@ -1,15 +1,18 @@
 <html>
 <title>Test-Word Syntax</title>
 <body>
-<h2>Test-Word Syntax</h2>
-<h3>Information</h3>
+<h1>Test-Word Syntax</h1>
+<h2>Information</h2>
 <p>
 Test-Word can be used on a VIP with printer output and a keyboard as input.</p>
 <p>
 V0-F are stored on memory locations 0FD0.
 </p>
-<h3>Definitions</h3>
-<TABLE BORDER="0" COLS=2 ALIGN="LEFT" VALIGN="TOP" >
+<p>
+This info is also available online on the <a href="https://emma02.hobby-site.com/pseudo_test_word.html">Emma 02 site</a>.
+</p>
+<h2>Definitions</h2>
+<table>
 <TR>
 <TD WIDTH="70">aaa</TD>
 <TD WIDTH="400">12 bit address</TD>
@@ -38,9 +41,9 @@ V0-F are stored on memory locations 0FD0.
 <TD WIDTH="70">1..9, A..F</TD>
 <TD WIDTH="400">Hexadecimal digits</TD>
 </TR>
-</TABLE>
-<h3>Syntax</h3>
-<TABLE BORDER="0" COLS=4 ALIGN="LEFT" VALIGN="TOP" >
+</table>
+<h2>Syntax</h2>
+<table>
 <TR>
 <TD WIDTH="55">7xkk</TD>
 <TD WIDTH="40">ADD</TD>
@@ -197,7 +200,7 @@ V0-F are stored on memory locations 0FD0.
 <TD WIDTH="100">Vx, Vy</TD>
 <TD WIDTH="250">Vx = Vx XOR Vy</TD>
 </TR>
-</TABLE>
+</table>
 </body>
 </html>
 

@@ -1,0 +1,511 @@
+<html>
+<title>Differences</title>
+<body>
+<h1>Differences</h1>
+<p>
+The following table is an overview of all differences between the <a href="DebuggerSyntaxSystem00.htm">SYSTEM00</a>, <a href="DebuggerSyntax1801.htm">CDP1801</a> and <a href="DebuggerSyntax1802.htm">CDP1802</a> instruction sets. Incompatible differences are shown with text in orange. The <a href="DebuggerSyntax1804.htm">CDP1804</a> and <a href="DebuggerSyntax1805.htm">CDP1805</a> (as well as CDP1806) have additional instructions starting with opcode 68.
+</p>
+<p>
+Note that the SYSTEM00 is an implementation of the COSMAC instruction set likely constructed largely of 7400-series TTL logic, i.e. not a microprocessor. For more details on the SYSTEM00 see also Herb Johnson's page <a href="http://www.retrotechnology.com/memship/sys00_insp.html">System 00 inspection</a>. The 1801 is a 2-chip implementation which became the 1802.
+</p>
+<p>
+This info is also available online on the <a href="https://emma02.hobby-site.com/cpu_diff.html">Emma 02 site</a>.
+</p>
+<P>
+<table>
+            <tr>
+                <th>Opcode</th>
+                <th>SYSTEM 00</th>
+                <th>CDP1801</th>
+                <th>CDP1802</th>
+            </tr>
+            <tr>
+                <td>00</td>
+                <td>IDLE R0</td>
+                <td>IDLE</td>
+                <td>IDLE</td>
+            </tr>
+            <tr>
+                <td>0N (N&lt;&gt;0)</td>
+                <td>IDLE RN</td>
+                <td>undefined</td>
+                <td>LDN RN</td>
+            </tr>
+            <tr>
+                <td>1N</td>
+                <td>INC RN</td>
+                <td>INC RN</td>
+                <td>INC RN</td>
+            </tr>
+            <tr>
+                <td>2N</td>
+                <td>DEC RN</td>
+                <td>DEC RN</td>
+                <td>DEC RN</td>
+            </tr>
+            <tr>
+                <td>30</td>
+                <td>BR xx</td>
+                <td>BR xx</td>
+                <td>BR xx</td>
+            </tr>
+            <tr>
+                <td>31</td>
+                <td>BNZ xx</td>
+                <td>undefined</td>
+                <td>BQ xx</td>
+            </tr>
+            <tr>
+                <td>32</td>
+                <td>BZ xx</td>
+                <td>BZ xx</td>
+                <td>BZ xx</td>
+            </tr>
+            <tr>
+                <td>33</td>
+                <td>BDF xx, BPZ xx or BGE xx</td>
+                <td>BDF xx, BPZ xx or BGE xx</td>
+                <td>BDF xx, BPZ xx or BGE xx</td>
+            </tr>
+            <tr>
+                <td>34</td>
+                <td>B1 xx</td>
+                <td>B1 xx</td>
+                <td>B1 xx</td>
+            </tr>
+            <tr>
+                <td>35</td>
+                <td>B2 xx</td>
+                <td>B2 xx</td>
+                <td>B2 xx</td>
+            </tr>
+            <tr>
+                <td>36</td>
+                <td>B3 xx</td>
+                <td>B3 xx</td>
+                <td>B3 xx</td>
+            </tr>
+            <tr>
+                <td>37</td>
+                <td>B4 xx</td>
+                <td>B4 xx</td>
+                <td>B4 xx</td>
+            </tr>
+            <tr>
+                <td>38</td>
+                <td>undefined</td>
+                <td>SKP or NBR</td>
+                <td>SKP or NBR</td>
+            </tr>
+            <tr>
+                <td>39</td>
+                <td>undefined</td>
+                <td>undefined</td>
+                <td>BNQ xx</td>
+            </tr>
+            <tr>
+                <td>3A</td>
+                <td>undefined</td>
+                <td>BNZ xx</td>
+                <td>BNZ xx</td>
+            </tr>
+            <tr>
+                <td>3B</td>
+                <td>undefined</td>
+                <td>BNF xx, BM xx, BL xx</td>
+                <td>BNF xx, BM xx, BL xx</td>
+            </tr>
+            <tr>
+                <td>3C</td>
+                <td>undefined</td>
+                <td>BN1 xx</td>
+                <td>BN1 xx</td>
+            </tr>
+            <tr>
+                <td>3D</td>
+                <td>undefined</td>
+                <td>BN2 xx</td>
+                <td>BN2 xx</td>
+            </tr>
+            <tr>
+                <td>3E</td>
+                <td>undefined</td>
+                <td>BN3 xx</td>
+                <td>BN3 xx</td>
+            </tr>
+            <tr>
+                <td>3F</td>
+                <td>undefined</td>
+                <td>BN4 xx</td>
+                <td>BN4 xx</td>
+            </tr>
+            <tr>
+                <td>4N</td>
+                <td>LDA RN</td>
+                <td>LDA RN</td>
+                <td>LDA RN</td>
+            </tr>
+            <tr>
+                <td>5N</td>
+                <td>STR RN</td>
+                <td>STR RN</td>
+                <td>STR RN</td>
+            </tr>
+            <tr>
+                <td>60</td>
+                <td>undefined</td>
+                <td>OUT 0</td>
+                <td>IRX</td>
+            </tr>
+            <tr>
+                <td>6N (1 &#8804; N &#8804; 3)</td>
+                <td>OUT N</td>
+                <td>OUT N</td>
+                <td>OUT N</td>
+            </tr>
+            <tr>
+                <td>6N (4 &#8804; N &#8804; 7)</td>
+                <td>undefined</td>
+                <td>OUT N</td>
+                <td>OUT N</td>
+            </tr>
+            <tr>
+                <td>68</td>
+                <td>INP 0: BUS -&gt; M(RX)</td>
+                <td>INP 0: BUS -&gt; M(RX)</td>
+                <td>Reserved for 1804/1805</td>
+            </tr>
+            <tr>
+                <td>6N (9 &#8804; N &#8804; F)</td>
+                <td>undefined</td>
+                <td>INP N-8: BUS -&gt; M(RX)</td>
+                <td>INP N-8: BUS -&gt; D, BUS -&gt; M(RX)</td>
+            </tr>
+            <tr>
+                <td>70</td>
+                <td>RET</td>
+                <td>RET</td>
+                <td>RET</td>
+            </tr>
+            <tr>
+                <td>71</td>
+                <td>undefined</td>
+                <td>DIS</td>
+                <td>DIS</td>
+            </tr>
+            <tr>
+                <td>72</td>
+                <td>undefined</td>
+                <td>undefined</td>
+                <td>LDXA</td>
+            </tr>
+            <tr>
+                <td>73</td>
+                <td>undefined</td>
+                <td>undefined</td>
+                <td>STXD</td>
+            </tr>
+            <tr>
+                <td>74</td>
+                <td>undefined</td>
+                <td>undefined</td>
+                <td>ADC</td>
+            </tr>
+            <tr>
+                <td>75</td>
+                <td>undefined</td>
+                <td>undefined</td>
+                <td>SDB</td>
+            </tr>
+            <tr>
+                <td>76</td>
+                <td>undefined</td>
+                <td>undefined</td>
+                <td>SHRC or RSHR</td>
+            </tr>
+            <tr>
+                <td>77</td>
+                <td>undefined</td>
+                <td>undefined</td>
+                <td>SMB</td>
+            </tr>
+            <tr>
+                <td>78</td>
+                <td>SAV</td>
+                <td>SAV</td>
+                <td>SAV</td>
+            </tr>
+            <tr>
+                <td>79</td>
+                <td>undefined</td>
+                <td>undefined</td>
+                <td>MARK</td>
+            </tr>
+            <tr>
+                <td>7A</td>
+                <td>undefined</td>
+                <td>undefined</td>
+                <td>REQ</td>
+            </tr>
+            <tr>
+                <td>7B</td>
+                <td>undefined</td>
+                <td>undefined</td>
+                <td>SEQ</td>
+            </tr>
+            <tr>
+                <td>7C</td>
+                <td>undefined</td>
+                <td>undefined</td>
+                <td>ADCI xx</td>
+            </tr>
+            <tr>
+                <td>7D</td>
+                <td>undefined</td>
+                <td>undefined</td>
+                <td>SDBI xx</td>
+            </tr>
+            <tr>
+                <td>7E</td>
+                <td>undefined</td>
+                <td>undefined</td>
+                <td>SHLC or RSHL</td>
+            </tr>
+            <tr>
+                <td>7F</td>
+                <td>undefined</td>
+                <td>undefined</td>
+                <td>SMBI xx</td>
+            </tr>
+            <tr>
+                <td>8N</td>
+                <td>GLO RN</td>
+                <td>GLO RN</td>
+                <td>GLO RN</td>
+            </tr>
+            <tr>
+                <td>9N</td>
+                <td>GHI RN</td>
+                <td>GHI RN</td>
+                <td>GHI RN</td>
+            </tr>
+            <tr>
+                <td>AN</td>
+                <td>PLO RN</td>
+                <td>PLO RN</td>
+                <td>PLO RN</td>
+            </tr>
+            <tr>
+                <td>BN</td>
+                <td>PHI RN</td>
+                <td>PHI RN</td>
+                <td>PHI RN</td>
+            </tr>
+            <tr>
+                <td>C0</td>
+                <td>PHI R0</td>
+                <td>undefined</td>
+                <td>LBR xxxx</td>
+            </tr>
+            <tr>
+                <td>C1</td>
+                <td>PHI R1</td>
+                <td>undefined</td>
+                <td>LBQ xxxx</td>
+            </tr>
+            <tr>
+                <td>C2</td>
+                <td>PHI R2</td>
+                <td>undefined</td>
+                <td>LBZ xxxx</td>
+            </tr>
+            <tr>
+                <td>C3</td>
+                <td>PHI R3</td>
+                <td>undefined</td>
+                <td>LBDF xxxx</td>
+            </tr>
+            <tr>
+                <td>C4</td>
+                <td>PHI R4</td>
+                <td>undefined</td>
+                <td>NOP</td>
+            </tr>
+            <tr>
+                <td>C5</td>
+                <td>PHI R5</td>
+                <td>undefined</td>
+                <td>LSNQ</td>
+            </tr>
+            <tr>
+                <td>C6</td>
+                <td>PHI R6</td>
+                <td>undefined</td>
+                <td>LSNZ</td>
+            </tr>
+            <tr>
+                <td>C7</td>
+                <td>PHI R7</td>
+                <td>undefined</td>
+                <td>LSNF</td>
+            </tr>
+            <tr>
+                <td>C8</td>
+                <td>PHI R8</td>
+                <td>undefined</td>
+                <td>LSKP or NLBR</td>
+            </tr>
+            <tr>
+                <td>C9</td>
+                <td>PHI R9</td>
+                <td>undefined</td>
+                <td>LBNQ xxxx</td>
+            </tr>
+            <tr>
+                <td>CA</td>
+                <td>PHI RA</td>
+                <td>undefined</td>
+                <td>LBNZ xxxx</td>
+            </tr>
+            <tr>
+                <td>CB</td>
+                <td>PHI RB</td>
+                <td>undefined</td>
+                <td>LBNF xxxx</td>
+            </tr>
+            <tr>
+                <td>CC</td>
+                <td>PHI RC</td>
+                <td>undefined</td>
+                <td>LSIE</td>
+            </tr>
+            <tr>
+                <td>CD</td>
+                <td>PHI RD</td>
+                <td>undefined</td>
+                <td>LSQ</td>
+            </tr>
+            <tr>
+                <td>CE</td>
+                <td>PHI RE</td>
+                <td>undefined</td>
+                <td>LSZ</td>
+            </tr>
+            <tr>
+                <td>CF</td>
+                <td>PHI RF</td>
+                <td>undefined</td>
+                <td>LSDF</td>
+            </tr>
+            <tr>
+                <td>DN</td>
+                <td>SEP RN</td>
+                <td>SEP RN</td>
+                <td>SEP RN</td>
+            </tr>
+            <tr>
+                <td>EN</td>
+                <td>SEX RN</td>
+                <td>SEX RN</td>
+                <td>SEX RN</td>
+            </tr>
+            <tr>
+                <td>F0</td>
+                <td>LDX</td>
+                <td>LDX</td>
+                <td>LDX</td>
+            </tr>
+            <tr>
+                <td>F1</td>
+                <td>OR</td>
+                <td>OR</td>
+                <td>OR</td>
+            </tr>
+            <tr>
+                <td>F2</td>
+                <td>AND</td>
+                <td>AND</td>
+                <td>AND</td>
+            </tr>
+            <tr>
+                <td>F3</td>
+                <td>XOR</td>
+                <td>XOR</td>
+                <td>XOR</td>
+            </tr>
+            <tr>
+                <td>F4</td>
+                <td>ADD</td>
+                <td>ADD</td>
+                <td>ADD</td>
+            </tr>
+            <tr>
+                <td>F5</td>
+                <td>SD</td>
+                <td>SD</td>
+                <td>SD</td>
+            </tr>
+            <tr>
+                <td>F6</td>
+                <td>SHR</td>
+                <td>SHR</td>
+                <td>SHR</td>
+            </tr>
+            <tr>
+                <td>F7</td>
+                <td>undefined</td>
+                <td>SM</td>
+                <td>SM</td>
+            </tr>
+            <tr>
+                <td>F8</td>
+                <td>undefined</td>
+                <td>LDI xx</td>
+                <td>LDI xx</td>
+            </tr>
+            <tr>
+                <td>F9</td>
+                <td>undefined</td>
+                <td>ORI xx</td>
+                <td>ORI xx</td>
+            </tr>
+            <tr>
+                <td>FA</td>
+                <td>undefined</td>
+                <td>ANI xx</td>
+                <td>ANI xx</td>
+            </tr>
+            <tr>
+                <td>FB</td>
+                <td>undefined</td>
+                <td>XRI xx</td>
+                <td>XRI xx</td>
+            </tr>
+            <tr>
+                <td>FC</td>
+                <td>undefined</td>
+                <td>ADI xx</td>
+                <td>ADI xx</td>
+            </tr>
+            <tr>
+                <td>FD</td>
+                <td>undefined</td>
+                <td>SDI xx</td>
+                <td>SDI xx</td>
+            </tr>
+            <tr>
+                <td>FE</td>
+                <td>undefined</td>
+                <td>SHL</td>
+                <td>SHL</td>
+            </tr>
+            <tr>
+                <td>FF</td>
+                <td>undefined</td>
+                <td>SMI xx</td>
+                <td>SMI xx</td>
+            </tr>
+    </table>
+    </body>
+</html>
+

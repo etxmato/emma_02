@@ -1,0 +1,105 @@
+<html>
+<title>Terminal Setup</title>
+<body>
+<h1>Terminal Setup</h1>
+<h2>Main Settings</h2>
+<p>
+The main terminal settings can be changed in the 'Terminal' area on the GUI. Buttons available are:
+</p>
+<p>
+<ul>
+<li>Video type selector (yellow ellipse): to select one of the video terminal options: none (no video terminal), VT52, VT100 or External (external terminal software) 
+<li>Setup (orange ellipse): to open the detailed video terminal setup window, for details see 'Detailed Setup Window' chapter below
+<li>Baud (blue ellipse): to select the baud rate. For serial terminals both transmitter and receiver baud rates will be the same, so only the 'T' button will be enabled. For UART terminals both 'T' (transmitter) and 'R' (receiver) buttons will be enabled to allow different baud rates depending on direction.
+<li>Zoom (red ellipse): to select zoom factor for the terminal window (see also chapter <a href="MainZoom.htm">Zoom Level and Full Screen Mode</a>).
+<li>Stretch (purple ellipse): to select stretched dot mode. The original VT terminals repeated every 'dot' on the screen if defined as 'on' in the font. This resulted in 'stretched' characters. The detail of the character is actually higher if this function is not used. To enable select the check box.
+</ul>
+</p>
+<p>
+<IMG SRC="images/terminal.png" BORDER="0">
+</p>
+<h2>Detailed Setup window</h2>
+<p>
+The following sub chapters describe the terminal options available when selecting 'Setup' (orange ellipse above).
+</p>
+<p>
+The setup window below shows all possible settings for a VT100 terminal. The settings in the brown ellipse are showing VT100 specific settings which will look slightly different for the VT52 and External options. For both VT52 and VT100 terminals details about these settings can be found in the manuals on <a href="http://vt100.net">VT100.net</a>
+</p>
+<p>
+<IMG SRC="images/terminal_setup.png" BORDER="0">
+</p>
+<h3>Fonts</h3>
+<p>
+Use the VT Font button (grey ellipse) to browse for or specify a new font file. Some different font ROMs are included, but not 100% original. For the VT52 there are 2 fonts vt52.a.bin and vt52.b.bin, not sure which is more correct. Please feel free to drop me an email with comments on functionality or font ROMs!
+</p>
+<p>
+The font features are available for all computers with terminal support.
+</p>
+<h3>Bell</h3>
+<p>
+A frequency for the bell sound can be selected (default 800 Hz) or alternatively a wav file (green ellipse). If a wav file is specified the sound contained in that file will be played when a bell is activated on the simulated VT.
+</p>
+<p>
+The Bell features are available for all computers with terminal support.
+</p>
+<h3>Display ESC Errors</h3>
+<p>
+When selecting 'Display ESC errors' (magenta ellipse) ESC errors will be shown on the video terminal simulator
+</p>
+<p>
+The Display ESC errors checkbox is available for all computers with terminal support.
+</p>
+<h3>Log</h3>
+<p>
+To log all VT terminal output to a file (terminal.log) select the Log check box (blue ellipse). If the terminal.log file already exists a new file is created with a sequence number every time the emulated computer window is initiated. E.g. the file 'terminal.log' is used the first time, and the next time the file 'terminal.1.log' will be created.
+</p>
+<p>
+The log checkbox is available for all computers with terminal support.
+</p>
+<h3>YMODEM Packet Size</h3>
+<p>
+When using the XMODEM on the Cosmac Elf 2000, Cosmac Elf, Netronics Elf or Quest Super Elf it is possible to select what YMODEM receive packet size is used (black ellipse). Default this is set to 'Auto' but is changeable to 1024 or 128. When auto is used Emma 02 will send in packets of 1024 bytes if data is available to fill that, if less data is available 128 will be used. See details about X/YMODEM in for the Cosmac Elf 2000 in chapter <a href="Elf2K_XMODEM.htm">HEX and XMODEM Support</a> and for the other Elfs in chapter <a href="ElfXmodem.htm">XMODEM Support</a>.
+</p>
+<p>
+The packet size checkbox is available for: Cosmac Elf 2000, Cosmac Elf, Netronics Elf and Quest Super Elf
+</p>
+<h3>Serial mode</h3>
+<p>
+This mode is using serial I/O via the Q line and one of the EF lines. To use this mode make sure that the checkbox UART 16450 or UART CDP1854 (yellow ellipse) are NOT selected (needed for Cosmac Elf 2000, Cosmac Elf, Netronics Elf or Quest Super Elf). To configure a system with serial terminal on a Microboard system make sure NOT to select any CDP18S61 UART boards (see also UART & RTC chapter below). In this mode the transmit and receive (choice button T/R) baud rates are always the same.
+</p>
+<p>
+The serial mode is available for: CDP18S020 Evaluation Kit, Cosmac Elf 2000, Cosmac Elf, Cosmac VIP, Cosmicos, MCDS, Membership Card, Microboard System, Netronics Elf, VELF, VIP2K Membership Card and Quest Super Elf
+</p>
+<h3>Reversed EF / Q</h3>
+<p>
+To use the VT with reversed EF input and/or reversed Q output select the applicable checkbox (red ellipse). 
+</p>
+<p>
+Available for: Cosmac Elf 2000, Cosmac Elf, Cosmac VIP, Cosmicos, Membership Card, Netronics Elf, VELF, VIP2K Membership Card and Quest Super Elf
+</p>
+<h3>UART & RTC</h3>
+<p>
+The Elf 2000 and MS2000 support the UART 16450, the Microboard System supports the UART CDP1854 and the Cosmac Elf, Netronics Elf and Quest Super Elf support both the UART 16450 and UART CDP1854.
+</p>
+<p>
+The UART mode can be use by selecting the UART 16450 or UART CDP1854 checkbox (yellow ellipse). Only basic usage of the UART 16450 and a simple mode 1 emulation for the UART CDP1854 is implemented. In UART mode the transmit and (T) and receive (R) baud rates can be different.
+</p>
+<p>
+When using the UART 16450 & RTC option on the Cosmac Elf, Netronics Elf or Quest Super Elf a Clear checkbox (orange ellipse) is available, when selected the RTC memory will be cleared on the next emulator startup, after this the checkbox will be automatically unselected.
+</p>
+<p>
+The UART 16450 checkbox is available for: Cosmac Elf 2000
+The UART 16450 & RTC and the clear checkboxes are available for: Cosmac Elf, Netronics Elf and Quest Super Elf
+The UART CDP1854 checkbox is available for: Cosmac Elf, Netronics Elf and Quest Super Elf
+</p> 
+<p>
+The MS2000 supports the UART CDP1854 by default, no specific configuration is needed as it doesn't support a serial configuration.
+</p> 
+<p>
+The UART CDP1854 is also available for the Microboard System but configuration is implemented slightly different. To configure a system with an UART, select a CDP18S61 UART board (yellow ellipse) as one of the expansion cards. 
+</p> 
+<p>
+<IMG SRC="images/terminal_microboard.png" BORDER="0">
+</p>
+</body>
+</html>

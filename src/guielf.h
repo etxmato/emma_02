@@ -51,7 +51,7 @@ public:
     bool getUpperCase(int elfType) {return elfConfiguration[elfType].forceUpperCase;};
     bool getUseXmodem(int elfType);
     bool getUseHexModem(int elfType);
-    bool getUsePacketSize1K(int elfType) {return elfConfiguration[elfType].usePacketSize1K;};
+    int getPacketSize(int elfType) {return elfConfiguration[elfType].packetSize;};
 	bool getUseElfControlWindows(int elfType) {return elfConfiguration[elfType].useElfControlWindows;};
 	bool getUseSwitch(int elfType) {return elfConfiguration[elfType].useSwitch;};
 	bool getUseHex(int elfType) {return elfConfiguration[elfType].useHex;};

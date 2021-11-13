@@ -610,6 +610,7 @@ void Vip2K::startComputer()
 	p_Main->updateTitle();
 
 	cpuCycles_ = 0;
+	instructionCounter_= 0;
 	p_Main->startTime();
 	
 //	p_Video->splashScreen();
@@ -628,16 +629,19 @@ void Vip2K::writeMemDataType(Word address, Byte type)
 				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
 				mainMemoryDataType_[address] = type;
 			}
+            increaseExecutedMainMemory(address, type);
 		break;
 	}
 }
 
-Byte Vip2K::readMemDataType(Word address)
+Byte Vip2K::readMemDataType(Word address, uint64_t* executed)
 {
 	switch (memoryType_[address/256])
 	{
 		case RAM:
 		case ROM:
+            if (profilerCounter_ != PROFILER_OFF)
+                *executed = mainMemoryExecuted_[address];
 			return mainMemoryDataType_[address];
 		break;
 	}

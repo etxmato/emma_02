@@ -494,7 +494,7 @@ public:
 #include "video.h"
 #include "serial.h"
 
-#define EMMA_VERSION 1.40
+#define EMMA_VERSION 1.42
 #define EMMA_SUB_VERSION 0
 #define ELF 0
 #define ELFII 1
@@ -614,10 +614,10 @@ public:
 
 #define MESSAGETAB 0
 #define DIRECTASSTAB 1
-#define TRACETAB 2
-#define CHIP8TAB 3
-#define MEMORYTAB 4
-#define ASSTAB 5
+#define PROFILERTAB 2
+#define TRACETAB 3
+#define CHIP8TAB 4
+#define MEMORYTAB 5
 #define LASTDEBUGGERTAB 5
 
 #define MICROBOARD_CDP18S600 0
@@ -840,6 +840,7 @@ public:
 
 #define NOOS 0
 #define ELFOS 1
+#define ELFOS_4 2
 
 #define HEXMON 2
 #define ASCIIMON 4
@@ -961,6 +962,10 @@ public:
 #define CPU1802 3
 #define CPU1804 4
 #define CPU1805 5
+#define PROFILERTYPELIN 0
+#define PROFILERTYPELOG 1
+#define PROFILER_OFF 0
+#define PROFILER_ON 1
 
 #define STARTUP_ZEROED 0
 #define STARTUP_RANDOM 1
@@ -992,6 +997,11 @@ public:
 #define MEM_TYPE_OPERAND_LD_3 184
 #define MEM_TYPE_OPERAND_LD_5 185
 #define MEM_TYPE_OPCODE_LDL_SLOT 186
+#define MEM_TYPE_OPCODE_LDRL 187
+#define MEM_TYPE_OPERAND_LDR_2 188
+#define MEM_TYPE_OPERAND_LDR_3 189
+#define MEM_TYPE_OPERAND_LDR_5 190
+#define MEM_TYPE_OPCODE_LDRL_SLOT 191
 
 #define LABEL_TYPE_NONE 0
 #define LABEL_TYPE_BRANCH 1
@@ -1033,6 +1043,7 @@ public:
 #define TERM_XMODEM_LOAD 3
 //#define TERM_XMODEM_LOAD_128 4
 #define TERM_XMODEM_SAVE 5
+#define TERM_YMODEM_SAVE 6
 //#define TERM_XMODEM_SAVE_128 6
 
 class Emu1802: public wxApp
@@ -1046,6 +1057,7 @@ class Emu1802: public wxApp
 	void checkXrc(wxString xrcFile);
 
 private:
+    wxLocale locale;
 	wxConfigBase *configPointer;
 
 	Mode mode_;
@@ -1192,12 +1204,13 @@ public:
     void setUseExitKey(bool status) {useExitKey_ = status;};
     void setUseCtrlvKey(bool status) {useCtrlvKey_ = status;};
     void traceTimeout(wxTimerEvent& event);
+    void directAssTimeout(wxTimerEvent& event);
     void vuTimeout(wxTimerEvent& event);
 	void updateMemoryTab();
 	void updateAssTab();
 	void updateSlotInfo();
 	void ledTimeout(wxTimerEvent& event);
-	void cpuTimeout(wxTimerEvent& event);
+//	void cpuTimeout(wxTimerEvent& event);
 	void updateCheckTimeout(wxTimerEvent& event);
 	void startTime();
 	void showTime();
@@ -1369,7 +1382,7 @@ private:
 	bool emmaClosing_;
 	int bass_;
 	int treble_;
-	wxTimer *cpuPointer;
+//	wxTimer *cpuPointer;
 	wxTimer *updateCheckPointer;
 	bool updateCheckStarted_;
 	int oldGauge_;
@@ -1378,7 +1391,10 @@ private:
     time_t startTime_;
     time_t lapTime_;
     time_t lapTimeStart_;
-    long lastNumberOfCpuCycles_;
+    uint64_t lastNumberOfCpuCycles_;
+    uint64_t lastInstructionCounter_;
+	bool cpuCyclesOverflow_;
+	bool instructionCounterOverflow_;
 
 	int eventNumber_;
 

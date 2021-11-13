@@ -866,6 +866,7 @@ void Pecom::startComputer()
 	Show(true);
 
 	cpuCycles_ = 0;
+	instructionCounter_= 0;
 	p_Main->startTime();
 
 	threadPointer->Run();
@@ -886,11 +887,12 @@ void Pecom::writeMemDataType(Word address, Byte type)
 				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
 				mainMemoryDataType_[address] = type;
 			}
+            increaseExecutedMainMemory(address, type);
 		break;
 	}
 }
 
-Byte Pecom::readMemDataType(Word address)
+Byte Pecom::readMemDataType(Word address, uint64_t* executed)
 {
 	address = address | addressLatch_;
 	switch (memoryType_[address/256])
@@ -900,6 +902,8 @@ Byte Pecom::readMemDataType(Word address)
 		case ROM:
         case PRAM1870:
         case CRAM1870:
+            if (profilerCounter_ != PROFILER_OFF)
+                *executed = mainMemoryExecuted_[address];
             return mainMemoryDataType_[address];
 		break;
 	}

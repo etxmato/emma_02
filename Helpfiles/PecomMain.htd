@@ -6,10 +6,36 @@
 This emulator will emulate the Pecom 32 or 64 home computer. Additional information about the Pecom 32 and 64 can be found on the <a href="http://www.emma02.hobby-site.com">Emma 02</a> site.
 </p>
 <p>
-To run the Pecom comupter without DRAM refresh (like the open-source clone <a href="ComixMain.htm">COMIX-35</a>) make sure 'DRAM refresh' is not selected.
+To start the Pecom emulator, select the Pecom tab (yellow ellipse) and then press Start (orange ellipse):
 </p>
 <p>
-This chapter includes:
+<IMG SRC="images/pecom.png" BORDER="0">
+</p>
+<p>
+The above will have started a Pecom 64 machine which is the default setting. 
+</p>
+<p>
+To load Pecom 32 configuration or switch back to the Pecom 64 load one of the configurations with the menu option below (blue ellipse) following the grey menu:
+</p>
+<p>
+<IMG SRC="images/pecom_configuration.png" BORDER="0">
+</p>
+<p>
+Summary of the Pecom <a href="MainConfigurations.htm">configurations</a>:
+</p>
+<p><B>Pecom 32:</B></p>
+<p>
+Pecom 32 using the 16K pecom32.bin ROM file.
+</p>
+<p><B>Pecom 64:</B></p>
+<p>
+Pecom 64 using the 32K pecom64.v4.bin ROM file.
+</p>
+<p>
+To run the Pecom computer without DRAM refresh (like the open-source clone <a href="ComixMain.htm">COMIX-35</a>) make sure 'DRAM refresh' is not selected.
+</p>
+<p>
+This chapter also includes:
 </p>
 <p>
 <a href="PecomRom.htm">ROM Files</a><br>

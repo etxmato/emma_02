@@ -42,6 +42,7 @@
 #include "wx/fileconf.h"
 #include "wx/cmdline.h"
 #include "wx/sstream.h"
+#include "wx/numformatter.h"
 
 #if defined(__linux__)
 #include <X11/Xlib.h>
@@ -76,6 +77,16 @@ IMPLEMENT_DYNAMIC_CLASS(SlotEdit, wxTextCtrl)
 IMPLEMENT_DYNAMIC_CLASS(HexEdit, wxTextCtrl) 
 IMPLEMENT_DYNAMIC_CLASS(HexEditX, wxTextCtrl) 
 IMPLEMENT_DYNAMIC_CLASS(MemEdit, wxTextCtrl) 
+
+wxString cpuName[] =
+{
+	"",
+	"SYSTEM00",
+	"RCA CDP1801",
+	"RCA CDP1802",
+	"RCA CDP1804",
+	"RCA CDP1805"
+};
 
 wxString guiSizers[] =
 {
@@ -491,13 +502,14 @@ BEGIN_EVENT_TABLE(Main, DebugWindow)
 	EVT_CHOICEBOOK_PAGE_CHANGED(XRCID("ElfChoiceBook"), Main::onElfChoiceBook)
     EVT_CHOICEBOOK_PAGE_CHANGED(XRCID("RcaChoiceBook"), Main::onRcaChoiceBook)
 	EVT_NOTEBOOK_PAGE_CHANGED(XRCID("DebuggerChoiceBook"), Main::onDebuggerChoiceBook)
-	EVT_TIMER(902, Main::vuTimeout)
-	EVT_TIMER(903, Main::cpuTimeout)
+    EVT_TIMER(902, Main::vuTimeout)
+//	EVT_TIMER(903, Main::cpuTimeout)
 	EVT_TIMER(905, Main::updateCheckTimeout)
     EVT_TIMER(906, Main::traceTimeout)
     EVT_TIMER(907, Main::debounceTimeout)
     EVT_TIMER(908, Main::guiSizeTimeout)
     EVT_TIMER(909, Main::guiRedrawBarTimeOut)
+    EVT_TIMER(910, Main::directAssTimeout)
 
 	EVT_KEY_DOWN(Main::onKeyDown)
 	EVT_KEY_UP(Main::onKeyUp)
@@ -583,6 +595,8 @@ bool Emu1802::OnInit()
 	if (!wxApp::OnInit())
         return false;
     
+    locale.Init();
+
 	wxSystemOptions::SetOption("msw.window.no-clip-children", 1);
     
     int ubuntuOffsetX;
@@ -1712,12 +1726,13 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
     
     oldGauge_ = 1;
     vuPointer = new wxTimer(this, 902);
-    cpuPointer = new wxTimer(this, 903);
+ //   cpuPointer = new wxTimer(this, 903);
     updateCheckPointer = new wxTimer(this, 905);
     traceTimeoutPointer = new wxTimer(this, 906);
     keyDebounceTimeoutPointer = new wxTimer(this, 907);
     guiSizeTimeoutPointer = new wxTimer(this, 908);
     guiRedrawBarTimeOutPointer = new wxTimer(this, 909);
+    directAssPointer = new wxTimer(this, 910);
     guiSizeTimerStarted_ = false;
     
     if (mode_.gui)
@@ -1769,7 +1784,8 @@ Main::~Main()
 	}
 
 	delete vuPointer;
-	delete cpuPointer;
+    delete directAssPointer;
+//	delete cpuPointer;
 	delete updateCheckPointer;
     delete traceTimeoutPointer;
     delete keyDebounceTimeoutPointer;
@@ -2198,19 +2214,19 @@ void Main::initConfig()
 	colour[15] = "#ffc418";	// graphic Orange
 	colour[16] = "#000000";
 	colour[17] = "#000000";
-	colour[18] = "#007f00";
-	colour[19] = "#00ff00";
-	colour[20] = "#00003f";
-	colour[21] = "#0000ff";
-	colour[22] = "#3f0000";
-	colour[23] = "#007f7f";
-	colour[24] = "#7f0000";
-	colour[25] = "#ff0000";
-	colour[26] = "#7f7f00";
-	colour[27] = "#ffff00";
-	colour[28] = "#003f00";
-	colour[29] = "#7f007f";
-	colour[30] = "#7f7f7f";
+	colour[18] = "#21C842";
+	colour[19] = "#5EDC78";
+	colour[20] = "#5455ED";
+	colour[21] = "#7D76FC";
+	colour[22] = "#D4524D";
+	colour[23] = "#42EBF5";
+	colour[24] = "#FC5554";
+	colour[25] = "#FF7978";
+	colour[26] = "#D4C154";
+	colour[27] = "#E6CE80";
+	colour[28] = "#21B03B";
+	colour[29] = "#C95BBA";
+	colour[30] = "#CCCCCC";
 	colour[31] = "#ffffff";
 
 	borderX[VIDEO6845] = 0;
@@ -2569,7 +2585,7 @@ void Main::readConfig()
 		cpuType_ = CPU1805;
 
     defaultCpuType_ = cpuType_;
-    
+
     if (cpuStartupRegistersString == "StartupRegistersZeroed")
         cpuStartupRegisters_ = STARTUP_ZEROED;
     if (cpuStartupRegistersString == "StartupRegistersRandom")
@@ -4221,13 +4237,13 @@ void Main::onKeyDown(wxKeyEvent& event)
 	int key = event.GetKeyCode();
 	if (key == WXK_UP)
 	{
-		if (computerRunning_ && selectedComputer_ == DEBUGGER && debuggerChoice_ == DIRECTASSTAB)
+		if (computerRunning_ && selectedComputer_ == DEBUGGER && (debuggerChoice_ == DIRECTASSTAB || debuggerChoice_ == PROFILERTAB))
 		{
 			if (event.GetModifiers() == wxMOD_SHIFT)
 				onAssSpinPageUp();
 			else
 			{
-				assSpinUp();
+				assSpinUpScroll();
 				directAss();
 			}
 			return;
@@ -4236,13 +4252,13 @@ void Main::onKeyDown(wxKeyEvent& event)
 
 	if (key == WXK_DOWN)
 	{
-		if (computerRunning_ && selectedComputer_ == DEBUGGER && debuggerChoice_ == DIRECTASSTAB)
+		if (computerRunning_ && selectedComputer_ == DEBUGGER && (debuggerChoice_ == DIRECTASSTAB || debuggerChoice_ == PROFILERTAB))
 		{
 			if (event.GetModifiers() == wxMOD_SHIFT)
 				onAssSpinPageDown();
 			else
 			{
-				assSpinDown();
+				assSpinDownScroll();
 				directAss();
 			}
 			return;
@@ -4258,13 +4274,13 @@ void Main::onWheel(wxMouseEvent& event)
 	int rot = event.GetWheelRotation ();
 	if (rot > 0)
 	{
-		if (computerRunning_ && selectedComputer_ == DEBUGGER && debuggerChoice_ == DIRECTASSTAB)
+		if (computerRunning_ && selectedComputer_ == DEBUGGER && (debuggerChoice_ == DIRECTASSTAB || debuggerChoice_ == PROFILERTAB))
 		{
 			if (event.GetModifiers() == wxMOD_SHIFT)
 				onAssSpinPageUp();
 			else
 			{
-				assSpinUp();
+				assSpinUpScroll();
 				directAss();
 			}
 			return;
@@ -4273,13 +4289,13 @@ void Main::onWheel(wxMouseEvent& event)
 
 	if (rot < 0)
 	{
-		if (computerRunning_ && selectedComputer_ == DEBUGGER && debuggerChoice_ == DIRECTASSTAB)
+		if (computerRunning_ && selectedComputer_ == DEBUGGER && (debuggerChoice_ == DIRECTASSTAB || debuggerChoice_ == PROFILERTAB))
 		{
 			if (event.GetModifiers() == wxMOD_SHIFT)
 				onAssSpinPageDown();
 			else
 			{
-				assSpinDown();
+				assSpinDownScroll();
 				directAss();
 			}
 			return;
@@ -4993,11 +5009,17 @@ void Main::onStart(int computer)
 	wxSetWorkingDirectory(workingDir_);
 #endif
 	setClock(runningComputer_);
-	conf[runningComputer_].zoom_.ToDouble(&zoom);
-	conf[runningComputer_].xScale_.ToDouble(&xScale);
+	toDouble(conf[runningComputer_].zoom_, &zoom);
+	toDouble(conf[runningComputer_].xScale_, &xScale);
 
 	if (!fullScreenFloat_)
 		zoom = (int) zoom;
+
+    wxDisplaySize(&x, &y);
+    if (conf[runningComputer_].mainX_ >= x)
+        conf[runningComputer_].mainX_ = -1;
+    if (conf[runningComputer_].mainY_ >= y)
+        conf[runningComputer_].mainY_ = -1;
 
     XRCCTRL(*this, "Chip8Type", wxStaticText)->SetLabel("");
 	switch (runningComputer_)
@@ -5254,10 +5276,11 @@ void Main::onStart(int computer)
     {
         XRCCTRL(*this, "Message_Window", wxTextCtrl)->Clear();
         vuPointer->Start(100, wxTIMER_CONTINUOUS);
+        directAssPointer->Start(1000, wxTIMER_CONTINUOUS);
 #if defined(__WXMAC__) || defined(__linux__)
         traceTimeoutPointer->Start(100, wxTIMER_CONTINUOUS);
 #endif
-        cpuPointer->Start(1000, wxTIMER_CONTINUOUS);
+ //       cpuPointer->Start(1000, wxTIMER_CONTINUOUS);
     }
 
     enableGui(false);
@@ -5276,9 +5299,11 @@ void Main::onStart(int computer)
 	{
 		p_Main->resetDisplay();
 #if wxCHECK_VERSION(2, 9, 0)
-		XRCCTRL(*this, "RunningComputer", wxStaticText)->SetLabelText("Running computer: "+computerInfo[runningComputer_].name);
+        XRCCTRL(*this, "RunningComputer", wxStaticText)->SetLabelText("Running computer:  "+computerInfo[runningComputer_].name);
+        XRCCTRL(*this, "RunningCpu", wxStaticText)->SetLabelText("Running CPU:  "+cpuName[cpuType_]);
 #else
-		XRCCTRL(*this, "RunningComputer", wxStaticText)->SetLabel("Running computer: "+computerInfo[runningComputer_].name);
+		XRCCTRL(*this, "RunningComputer", wxStaticText)->SetLabel("Running computer:  "+computerInfo[runningComputer_].name);
+        XRCCTRL(*this, "RunningCpu", wxStaticText)->SetLabel("Running CPU:  "+cpuName[cpuType_]);
 #endif
 	    assNew(0);
 	}
@@ -5311,8 +5336,9 @@ void Main::stopComputer()
 	popupDialog_ = NULL;
 	if (mode_.gui)
 	{
-		vuPointer->Stop();
-		cpuPointer->Stop();
+        directAssPointer->Stop();
+        vuPointer->Stop();
+//		cpuPointer->Stop();
 		switch (runningComputer_)
 		{
 			case COMX:
@@ -5337,7 +5363,8 @@ void Main::stopComputer()
 			case TMC2000:
 			case NANO:
 			case PECOM:
-			case ETI:
+            case ETI:
+            case STUDIOIV:
 				vuSet("Vu"+computerInfo[runningComputer_].gui, 0);
 			break;
 			case UC1800:
@@ -5348,9 +5375,11 @@ void Main::stopComputer()
 			break;
 		}
 #if wxCHECK_VERSION(2, 9, 0)
-		XRCCTRL(*this, "RunningComputer", wxStaticText)->SetLabelText("Last executed computer: "+computerInfo[runningComputer_].name);
+		XRCCTRL(*this, "RunningComputer", wxStaticText)->SetLabelText("Last computer: "+computerInfo[runningComputer_].name);
+        XRCCTRL(*this, "RunningCpu", wxStaticText)->SetLabelText("Last CPU:  "+cpuName[cpuType_]);
 #else
-		XRCCTRL(*this, "RunningComputer", wxStaticText)->SetLabel("Last executed computer: "+computerInfo[runningComputer_].name);
+		XRCCTRL(*this, "RunningComputer", wxStaticText)->SetLabel("Last computer: "+computerInfo[runningComputer_].name);
+        XRCCTRL(*this, "RunningCpu", wxStaticText)->SetLabel("Last CPU:  "+cpuName[cpuType_]);
 #endif
 		showTime();
 	}
@@ -5564,8 +5593,9 @@ void Main::onComputer(wxNotebookEvent&event)
 					memoryDisplay();
 				break;
 
-				case ASSTAB:
-					debuggerChoice_ = ASSTAB;
+				case PROFILERTAB:
+					debuggerChoice_ = PROFILERTAB;
+                    directAss();
 				break;
 
 				case DIRECTASSTAB:
@@ -5605,6 +5635,7 @@ void Main::onStudioChoiceBook(wxChoicebookEvent&event)
 
         case STUDIOIVTAB:
             studioChoice_ = STUDIOIV;
+            selectedComputer_ = studioChoice_;
             if (guiInitialized_)
             {
                 vuSet("Vu"+computerInfo[selectedComputer_].gui, 1);
@@ -5810,8 +5841,9 @@ void Main::onDebuggerChoiceBook(wxNotebookEvent&event)
 			memoryDisplay();
 		break;
 
-		case ASSTAB:
-			debuggerChoice_ = ASSTAB;
+		case PROFILERTAB:
+			debuggerChoice_ = PROFILERTAB;
+            directAss();
 		break;
 
 		case DIRECTASSTAB:
@@ -6049,6 +6081,8 @@ void Main::enableGui(bool status)
 	menubarPointer->Enable(XRCID(GUIDEFAULT), status);
 	menubarPointer->Enable(XRCID("MI_ActivateMain"), !status);
 	menubarPointer->Enable(XRCID("MI_FullScreen"), !status);
+    menubarPointer->Enable(XRCID("SYSTEM00"), status);
+    menubarPointer->Enable(XRCID("CDP1801"), status);
 	menubarPointer->Enable(XRCID("CDP1802"), status);
 	menubarPointer->Enable(XRCID("CDP1804"), status);
     menubarPointer->Enable(XRCID("CDP1805"), status);
@@ -6066,6 +6100,8 @@ void Main::enableGui(bool status)
     menubarPointer->Enable(XRCID("KeyboardSwedish"), status);
     menubarPointer->Enable(XRCID("KeyboardUs"), status);
     menubarPointer->Enable(XRCID("KeyboardUserDefined"), status);
+
+    XRCCTRL(*this,"ProfilerCounter", wxChoice)->Enable(status);
 
     enableColorbutton(status);
 	if (runningComputer_ == COMX)
@@ -6368,7 +6404,7 @@ void Main::enableGui(bool status)
         XRCCTRL(*this,"ScreenDumpF5CDP18S020", wxButton)->Enable(!status);
         XRCCTRL(*this,"RamCDP18S020", wxChoice)->Enable(status);
         XRCCTRL(*this,"AutoBootTypeCDP18S020", wxChoice)->Enable(status);
-        XRCCTRL(*this, "AutoBootCDP18S020", wxCheckBox)->SetValue(status);
+//        XRCCTRL(*this, "AutoBootCDP18S020", wxCheckBox)->SetValue(status);
         enableLoadGui(!status);
     }
     if (runningComputer_ == MICROBOARD)
@@ -7036,6 +7072,126 @@ void Main::traceTimeout(wxTimerEvent&WXUNUSED(event))
     }
 }
 
+void Main::directAssTimeout(wxTimerEvent&WXUNUSED(event))
+{
+    if (selectedComputer_ == DEBUGGER)
+    {
+        switch (debuggerChoice_)
+        {
+			case MESSAGETAB:
+            break;
+
+            case TRACETAB:
+                if (percentageClock_ == 1)
+                    p_Main->updateWindow();
+            break;
+
+            case DIRECTASSTAB:
+                if (updateAssPage_)
+                {
+                    directAss();
+                    updateAssPage_ = false;
+                }
+            break;
+
+            case PROFILERTAB:
+                showTime();
+                if (updateAssPage_)
+                {
+                    directAss();
+                    updateAssPage_ = false;
+                }
+            break;
+
+            case MEMORYTAB:
+                if (updateMemoryPage_)
+                {
+                    memoryDisplay();
+                    updateMemoryPage_ = false;
+                }
+
+                if (updateSlotinfo_)
+                {
+                    wxString slotValue;
+                    switch (runningComputer_)
+                    {
+                        case COMX:
+                            XRCCTRL(*this, "DebugExpansionSlot", SlotEdit)->changeNumber(p_Comx->getComxExpansionSlot()+1);
+                            if (p_Comx->isRamCardActive())
+                                XRCCTRL(*this, "DebugExpansionRam", SlotEdit)->changeNumber(p_Comx->getComxExpansionRamBank());
+                            if (p_Comx->isEpromBoardLoaded() || p_Comx->isSuperBoardLoaded())
+                                XRCCTRL(*this, "DebugExpansionEprom", HexEdit)->changeNumber(p_Comx->getComxExpansionEpromBank());
+                        break;
+                        case ELF:
+                        case ELFII:
+                        case SUPERELF:
+                            if (elfConfiguration[runningComputer_].usePager)
+                            {
+                                XRCCTRL(*this, "DebugPager", HexEdit)->changeNumber(p_Computer->getPager(portExtender_));
+                                XRCCTRL(*this, "DebugPortExtender", HexEdit)->changeNumber(portExtender_);
+                            }
+                            if (elfConfiguration[runningComputer_].useEms)
+                                XRCCTRL(*this, "DebugEmsPage", HexEdit)->changeNumber(p_Computer->getEmsPage());
+                        break;
+                    }
+                    updateSlotinfo_ = false;
+                }
+
+                if (updateMemory_ && memoryDisplay_ != CPU_TYPE && memoryDisplay_ != CPU_PROFILER)
+                {
+                    updateMemory_ = false;
+                    wxString idReference, valueStr;
+                    for (int y=0; y<16; y++)
+                    {
+                        if (rowChanged_[y])
+                        {
+                            rowChanged_[y] = false;
+                            ShowCharacters(memoryStart_+(y*16), y);
+                            for (int x=0; x<16; x++)
+                            {
+                                if (memoryChanged_[x][y])
+                                {
+                                    memoryChanged_[x][y] = false;
+                                    idReference.Printf("MEM%01X%01X", y, x);
+
+                                    switch (memoryDisplay_)
+                                    {
+                                        case V_6847_RAM:
+                                            if (elfConfiguration[runningComputer_].use6847)
+                                            {
+                                                if (memoryStart_ <= getAddressMask())
+                                                    XRCCTRL(*this, idReference, MemEdit)->changeNumber2X(debugReadMem(memoryStart_+y*16+x));
+                                                else
+                                                    XRCCTRL(*this, idReference, MemEdit)->changeNumber1X(debugReadMem(memoryStart_+y*16+x));
+                                            }
+                                            else
+                                                XRCCTRL(*this, idReference, MemEdit)->changeNumber2X(0);
+                                        break;
+                                            
+                                        case CDP_1870_COLOUR:
+                                            if (runningComputer_ == TMC600)
+                                                XRCCTRL(*this, idReference, MemEdit)->changeNumber1X(debugReadMem(memoryStart_+y*16+x));
+                                        break;
+                                               
+                                        case RTCRAM:
+                                            if ((memoryStart_+y*16+x) < 0x7f)
+                                                XRCCTRL(*this, idReference, MemEdit)->changeNumber2X(debugReadMem(memoryStart_+y*16+x));
+                                        break;
+
+                                        default:
+                                            XRCCTRL(*this, idReference, MemEdit)->changeNumber2X(debugReadMem(memoryStart_+y*16+x));
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            break;
+        }
+    }
+}
+
 void Main::vuTimeout(wxTimerEvent&WXUNUSED(event))
 {
 	switch (runningComputer_)
@@ -7056,109 +7212,10 @@ void Main::vuTimeout(wxTimerEvent&WXUNUSED(event))
 		case TMC2000:
 		case PECOM:
 		case ETI:
-		case NANO:
+        case NANO:
+        case STUDIOIV:
 			vuSet("Vu"+computerInfo[runningComputer_].gui, p_Computer->getGaugeValue());
 		break;
-	}
-
-	if (selectedComputer_ == DEBUGGER)
-	{
-		switch (debuggerChoice_)
-		{
-			case TRACETAB:
-                if (percentageClock_ == 1)
-					p_Main->updateWindow();
-			break;
-
-			case DIRECTASSTAB:
-				if (updateAssPage_)
-				{
-					directAss();
-					updateAssPage_ = false;
-				}
-			break;
-
-			case MEMORYTAB:
-				if (updateMemoryPage_)
-				{
-					memoryDisplay();
-					updateMemoryPage_ = false;
-				}
-
-				if (updateSlotinfo_)
-				{
-					wxString slotValue;
-					switch (runningComputer_)
-					{
-						case COMX:
-							XRCCTRL(*this, "DebugExpansionSlot", SlotEdit)->changeNumber(p_Comx->getComxExpansionSlot()+1);
-							if (p_Comx->isRamCardActive())
-								XRCCTRL(*this, "DebugExpansionRam", SlotEdit)->changeNumber(p_Comx->getComxExpansionRamBank());
-							if (p_Comx->isEpromBoardLoaded() || p_Comx->isSuperBoardLoaded())
-								XRCCTRL(*this, "DebugExpansionEprom", HexEdit)->changeNumber(p_Comx->getComxExpansionEpromBank());
-						break;
-						case ELF:
-						case ELFII:
-						case SUPERELF:
-							if (elfConfiguration[runningComputer_].usePager)
-							{
-								XRCCTRL(*this, "DebugPager", HexEdit)->changeNumber(p_Computer->getPager(portExtender_));
-								XRCCTRL(*this, "DebugPortExtender", HexEdit)->changeNumber(portExtender_);
-							}
-							if (elfConfiguration[runningComputer_].useEms)
-								XRCCTRL(*this, "DebugEmsPage", HexEdit)->changeNumber(p_Computer->getEmsPage());
-						break;
-					}
-					updateSlotinfo_ = false;
-				}
-
-				if (updateMemory_ && memoryDisplay_ != CPU_TYPE)
-				{
-					updateMemory_ = false;
-					wxString idReference, valueStr;
-					for (int y=0; y<16; y++)
-					{
-						if (rowChanged_[y])
-						{
-							rowChanged_[y] = false;
-							ShowCharacters(memoryStart_+(y*16), y);
-							for (int x=0; x<16; x++)
-							{
-								if (memoryChanged_[x][y])
-								{
-									memoryChanged_[x][y] = false;
-									idReference.Printf("MEM%01X%01X", y, x);
-
-                                    switch (memoryDisplay_)
-                                    {
-                                        case V_6847_RAM:
-                                            if (elfConfiguration[runningComputer_].use6847)
-                                            {
-                                                if (memoryStart_ <= getAddressMask())
-                                                    XRCCTRL(*this, idReference, MemEdit)->changeNumber2X(debugReadMem(memoryStart_+y*16+x));
-                                                else
-                                                    XRCCTRL(*this, idReference, MemEdit)->changeNumber1X(debugReadMem(memoryStart_+y*16+x));
-                                            }
-                                            else
-                                                XRCCTRL(*this, idReference, MemEdit)->changeNumber2X(0);
-                                        break;
-                                            
-                                        case CDP_1870_COLOUR:
-                                            if (runningComputer_ == TMC600)
-                                                XRCCTRL(*this, idReference, MemEdit)->changeNumber1X(debugReadMem(memoryStart_+y*16+x));
-                                        break;
-                                                
-                                        default:
-                                            XRCCTRL(*this, idReference, MemEdit)->changeNumber2X(debugReadMem(memoryStart_+y*16+x));
-                                        break;
-                                    }
-								}
-							}
-						}
-					}
-				}
-			break;
-		}
 	}
 }
 
@@ -7199,19 +7256,21 @@ void Main::updateCheckTimeout(wxTimerEvent&WXUNUSED(event))
 	}
 }
 
+/*
 void Main::cpuTimeout(wxTimerEvent&WXUNUSED(event))
 {
 	if (selectedComputer_ == DEBUGGER && debuggerChoice_ == MESSAGETAB)
 		showTime();
-
-}
+}*/
 
 void Main::startTime()
 {
     startTime_ = wxGetLocalTime();
     lapTime_ = 0;
     lapTimeStart_ = 0;
-    lastNumberOfCpuCycles_ = -1;
+    lastNumberOfCpuCycles_ = 0;
+	lastInstructionCounter_= 0;
+	cpuCyclesOverflow_ = false;
 }
 
 void Main::showTime()
@@ -7222,11 +7281,46 @@ void Main::showTime()
 	float videoFreq;
 	time_t endTime;
 
-	long cpuCycles = p_Computer->getCpuCycles();
+	uint64_t cpuCycles = p_Computer->getCpuCycles();
+	uint64_t instructionCounter = p_Computer->getInstructionCounter();
+
+    endTime = wxGetLocalTime();
+    s = (int)(endTime - startTime_);
+    
+	if (instructionCounter != 0 && lastInstructionCounter_ != instructionCounter)
+	{
+		if (instructionCounter < lastInstructionCounter_)
+			instructionCounterOverflow_ = true;
+
+		if (instructionCounterOverflow_)
+			print_buffer = "---";
+		else
+			print_buffer.Printf(wxNumberFormatter::ToString((double)instructionCounter, 0));
+
+#if wxCHECK_VERSION(2, 9, 0)
+		XRCCTRL(*this, "InstructionCounter", wxStaticText)->SetLabelText(print_buffer);
+#else
+		XRCCTRL(*this, "InstructionCounter", wxStaticText)->SetLabel(print_buffer);
+#endif
+
+        if (instructionCounterOverflow_)
+            print_buffer = "---";
+        else
+            print_buffer.Printf(wxNumberFormatter::ToString((double)instructionCounter/s, 0));
+
+#if wxCHECK_VERSION(2, 9, 0)
+        XRCCTRL(*this, "InstructionsPerSecond", wxStaticText)->SetLabelText(print_buffer);
+#else
+        XRCCTRL(*this, "InstructionsPerSecond", wxStaticText)->SetLabel(print_buffer);
+#endif
+	}
+	lastInstructionCounter_ = instructionCounter;
+
 	if (cpuCycles != 0 && lastNumberOfCpuCycles_ != cpuCycles)
 	{
-		endTime = wxGetLocalTime();
-		s = (int)(endTime - startTime_);
+		if (cpuCycles < lastNumberOfCpuCycles_)
+			cpuCyclesOverflow_ = true;
+
 		h = s / 3600;
 		s -= (h * 3600);
 		m = s / 60;
@@ -7236,7 +7330,11 @@ void Main::showTime()
 		f1 /= f2;
 		f1 = f1 / 1000000 * 8;
 
-		print_buffer.Printf("%ld", cpuCycles);
+		if (cpuCyclesOverflow_)
+			print_buffer = "---";
+		else
+			print_buffer.Printf(wxNumberFormatter::ToString((double)cpuCycles, 0));
+
 #if wxCHECK_VERSION(2, 9, 0)
 		XRCCTRL(*this, "CpuCycles", wxStaticText)->SetLabelText(print_buffer);
 #else
@@ -7268,7 +7366,10 @@ void Main::showTime()
         XRCCTRL(*this, "LapTime", wxStaticText)->SetLabel(print_buffer);
 #endif
         
-		print_buffer.Printf("%6.3f MHz",f1);
+		if (cpuCyclesOverflow_)
+			print_buffer = "---";
+		else
+			print_buffer.Printf("%6.3f MHz",f1);
 #if wxCHECK_VERSION(2, 9, 0)
 		XRCCTRL(*this, "EffectiveClock", wxStaticText)->SetLabelText(print_buffer);
 #else
@@ -7325,7 +7426,7 @@ void Main::vuSet(wxString item, int gaugeValue)
 	dcVu.SetPen(wxPen(wxColour(0, 0xc0, 0)));
 	dcVu.SetBrush(wxBrush(wxColour(0, 0xc0, 0)));
 
-	int gaugeGreen = gaugeValue / 100;
+	int gaugeGreen = gaugeValue / 60;
 	if (gaugeGreen > VU_RED)  gaugeGreen = VU_RED;
 	dcVu.DrawRectangle(0, 0, gaugeGreen, VU_HI);
 
@@ -7339,7 +7440,7 @@ void Main::vuSet(wxString item, int gaugeValue)
 	dcVu.SetPen(wxPen(wxColour(0xc0, 0, 0)));
 	dcVu.SetBrush(wxBrush(wxColour(0xc0, 0, 0)));
 
-	int gaugeRed = gaugeValue / 100;
+	int gaugeRed = gaugeValue / 60;
 	if (gaugeRed > VU_MAX)  gaugeRed = VU_MAX;
 	if (gaugeRed < VU_RED)  gaugeRed = VU_RED;
 	dcVu.DrawRectangle(VU_RED, 0, gaugeRed-VU_RED, VU_HI);

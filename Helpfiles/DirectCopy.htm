@@ -1,0 +1,28 @@
+
+<html>
+<title>Copy</title>
+<body>
+<h1>Copy</h1>
+<p>
+To copy data or code first specify start (orange ellipse) and end (blue ellipse) address. Then fill in the destination address (red ellipse). Press the 'Copy' button (yellow ellipse) to execute the copy. 
+</p>
+<p>
+<IMG SRC="images/assembler_copy.png" BORDER="0">
+</p>
+<p>
+If code is copied to the same lower 8 bit start address also all long branches, <a href="DirectBranchData.htm">branch data</a>, <a href="DirectRevBranchData.htm">reversed branch data</a>, <a href="DirectLdl.htm">LDL/LDRL/RLDL instructions</a> and pseudo code long branches (as listed in chapter <a href="DirectInsert.htm">Insert & Delete Code</a> under heading 'Pseudo variants - Instructions', marked as aaa or aaaa) will be converted.
+</p>
+<p>
+Example: the copy in above example (magenta ellipse) will result in:
+</p>
+<p>
+<IMG SRC="images/assembler_copy_result.png" BORDER="0">
+</p>
+<p>
+In the above example the information that address hex 8000 & 8010 contain 1802 instructions will be copied to hex 8100, i.e. showing 1802 code at hex 8100 & 8110. A copy from 8000-8013 to 8120 will however result in:
+</p>
+<p>
+<IMG SRC="images/assembler_copy_result_no_branch.png" BORDER="0">
+</p>
+</body>
+</html>

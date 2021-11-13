@@ -651,6 +651,7 @@ void StudioIV::startComputer()
 	p_Main->updateTitle();
 
 	cpuCycles_ = 0;
+	instructionCounter_= 0;
 	p_Main->startTime();
 
 	threadPointer->Run();
@@ -684,6 +685,7 @@ void StudioIV::startComputer2020()
     p_Main->updateTitle();
     
     cpuCycles_ = 0;
+	instructionCounter_= 0;
     p_Main->startTime();
  
     pseudoType_ = "AM4KBAS2020";
@@ -707,16 +709,19 @@ void StudioIV::writeMemDataType(Word address, Byte type)
                 p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
                 mainMemoryDataType_[address] = type;
             }
+            increaseExecutedMainMemory(address, type);
         break;
     }
 }
 
-Byte StudioIV::readMemDataType(Word address)
+Byte StudioIV::readMemDataType(Word address, uint64_t* executed)
 {
 	switch (memoryType_[address/256])
 	{
 		case RAM:
 		case ROM:
+            if (profilerCounter_ != PROFILER_OFF)
+                *executed = mainMemoryExecuted_[address];
             return mainMemoryDataType_[address];
         break;
     }
@@ -835,6 +840,7 @@ void StudioIV::cpuInstruction()
 	{
 		initPixie();
 		cpuCycles_ = 0;
+		instructionCounter_= 0;
 		p_Main->startTime();
 	}
 }

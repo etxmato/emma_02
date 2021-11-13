@@ -729,6 +729,7 @@ void Elf2K::cycleElf2K()
         {
             cycleValue_ = cycleSize_;
             rtcRam_[0xc] |= 0x40;
+            p_Main->updateDebugMemory(0xc);
         }
     }
     if (ledCycleValue_ > 0)
@@ -793,6 +794,7 @@ void Elf2K::startComputer()
 	p_Main->updateTitle();
 
 	cpuCycles_ = 0;
+	instructionCounter_= 0;
 	p_Main->startTime();
 
 	if (elfConfiguration.usePs2gpio)
@@ -827,17 +829,20 @@ void Elf2K::writeMemDataType(Word address, Byte type)
 				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
 				mainMemoryDataType_[address] = type;
 			}
+            increaseExecutedMainMemory(address, type);
 		break;
 	}
 }
 
-Byte Elf2K::readMemDataType(Word address)
+Byte Elf2K::readMemDataType(Word address, uint64_t* executed)
 {
 	address = address | bootstrap_;
 	switch (memoryType_[address/256])
 	{
 		case RAM:
 		case ROM:
+            if (profilerCounter_ != PROFILER_OFF)
+                *executed = mainMemoryExecuted_[address];
 			return mainMemoryDataType_[address];
 		break;
 	}
@@ -881,6 +886,13 @@ void Elf2K::writeMem(Word address, Byte value, bool writeRom)
 void Elf2K::writeMemDebug(Word address, Byte value, bool writeRom)
 {
     address = address | bootstrap_;
+    
+    if (loadedOs_ == ELFOS)
+    {
+        if (address == 0x400 && value >= 4 && value <= 128)
+            loadedOs_ = ELFOS_4;
+    }
+        
 	switch (memoryType_[address/256])
 	{
 		case UNDEFINED:
@@ -937,6 +949,7 @@ void Elf2K::cpuInstruction()
 		machineCycle();
 		machineCycle();
 		cpuCycles_ = 0;
+		instructionCounter_= 0;
 		p_Main->startTime();
 		if (cpuMode_ == LOAD)
 		{
@@ -976,7 +989,10 @@ void Elf2K::resetComputer()
 	{
 		p_Main->eventSetCheckBox("Elf2KClearRtc", false);
 		for (int i = 0; i<128; i++)
-			rtcRam_[i] = 0xff;
+        {
+			rtcRam_[i] = 0;
+            p_Main->updateDebugMemory(i);
+        }
 		rtcRam_[0xa] = 0x20;
 		rtcRam_[0xb] = 0x6;
 		rtcRam_[0xc] = 0;
@@ -1114,6 +1130,8 @@ void Elf2K::OnRtcTimer(wxTimerEvent&WXUNUSED(event))
     writeRtc(9, now.GetYear()-1972);
 
     rtcRam_[0xc] |= 0x10;
+    p_Main->updateDebugMemory(0xa);
+    p_Main->updateDebugMemory(0xc);
 }
 
 void Elf2K::saveRam()
@@ -1204,7 +1222,10 @@ void Elf2K::loadRtc()
 	{
 		p_Main->eventSetCheckBox("Elf2KClearRtc", false);
 		for (int i = 0; i<128; i++)
-			rtcRam_[i] = 0xff;
+        {
+			rtcRam_[i] = 0;
+            p_Main->updateDebugMemory(i);
+        }
 		rtcRam_[0xa] = 0x20;
 		rtcRam_[0xb] = 0x6;
 		rtcRam_[0xc] = 0;
@@ -1224,10 +1245,23 @@ void Elf2K::loadRtc()
 		{
 			length = inFile.Read(buffer, 128);
 			for (size_t i=0; i<length; i++)
+            {
 				rtcRam_[i] = (Byte)buffer[i];
+                p_Main->updateDebugMemory(i);
+            }
 			inFile.Close();
 		}
 	}
+}
+
+Byte Elf2K::readDirectRtc(Word address)
+{
+    return rtcRam_[address];
+}
+
+void Elf2K::writeDirectRtc(Word address, Byte value)
+{
+    rtcRam_[address] = value;
 }
 
 void Elf2K::removeElf2KSwitch() 
@@ -1394,6 +1428,12 @@ void Elf2K::terminalSave(wxString fileName, int protocol)
         vtPointer->terminalSaveVt(fileName, protocol);
 }
 
+void Elf2K::terminalYsSave(wxString fileName, int protocol)
+{
+    if (elfConfiguration.vtType != VTNONE)
+        vtPointer->terminalYsSaveVt(fileName, protocol);
+}
+
 void Elf2K::terminalLoad(wxString filePath, wxString fileName, int protocol)
 {
     if (elfConfiguration.vtType != VTNONE)
@@ -1408,9 +1448,11 @@ void Elf2K::terminalStop()
 
 void Elf2K::checkComputerFunction()
 {
-    if (scratchpadRegister_[2] < 0x1E00)
+    if (scratchpadRegister_[2] < 0x1E00 && loadedOs_ == NOOS)
+    {
         loadedOs_ = ELFOS;
-        
+    }
+    
     if (loadedOs_ == ELFOS)
     {
         if (scratchpadRegister_[programCounter_] == 0x7c40)
@@ -1498,6 +1540,118 @@ void Elf2K::checkComputerFunction()
                 if ((mainMemory_[0x380] == 0x78) && (mainMemory_[0x381] == 0x73) && (mainMemory_[0x382] == 'b') && (mainMemory_[0x383]== 0))
                 {
                     p_Main->startAutoTerminalSave(TERM_XMODEM_SAVE);
+                }
+            }
+            if (scratchpadRegister_[programCounter_] == 0x2186)
+            { // ys (Pico Elf)
+                if ((mainMemory_[0x380] == 0x79) && (mainMemory_[0x381] == 0x73) && (mainMemory_[0x382] == 0))
+                {
+                    p_Main->startYsTerminalSave(TERM_YMODEM_SAVE);
+                }
+            }
+            if (scratchpadRegister_[programCounter_] == 0x8800)
+            { // Memory dump diskless ROM (Pico Elf)
+                if ((mainMemory_[0x8800] == 0x8f) && (mainMemory_[0x8801] == 0x73) && (mainMemory_[0x8816] == 0x3d) && (mainMemory_[0x8817]== 0x16))
+                {
+                    p_Main->startAutoTerminalSave(TERM_XMODEM_SAVE);
+                }
+            }
+        }
+    }
+    if (loadedOs_ == ELFOS_4)
+    {
+        if (scratchpadRegister_[programCounter_] == 0x7c40)
+        {
+            if ((mainMemory_[0x7c00] == 0x30) && (mainMemory_[0x7c01] == 0x06) && (mainMemory_[0x7c02] == 0x0c))
+            {
+                Word saveStart = (mainMemory_[0x7cae] << 8) + mainMemory_[0x7caf];
+                Word saveEnd = saveStart + (mainMemory_[0x7cb0] << 8) + mainMemory_[0x7cb1];
+                Word saveExec = (mainMemory_[0x7cb2] << 8) + mainMemory_[0x7cb3];
+                p_Main->eventSetLocation(true, saveStart, saveEnd, saveExec);
+            }
+        }
+        if (scratchpadRegister_[programCounter_] == 0)
+        {
+            if ((mainMemory_[0x2202] == 0xc0) && (mainMemory_[0x2203] == 0x28) && (mainMemory_[0x2204] == 0x65) && (mainMemory_[0x226f] == 0x52))
+            {
+                loadedProgram_ = RCABASIC3;
+                basicExecAddress_[BASICADDR_READY] = BASICADDR_READY_RCA3;
+                basicExecAddress_[BASICADDR_KEY_VT_RESTART] = BASICADDR_VT_RESTART_RCA;
+                basicExecAddress_[BASICADDR_KEY_VT_INPUT] = BASICADDR_VT_INPUT_RCA;
+                p_Main->eventEnableMemAccess(true);
+            }
+            if ((mainMemory_[0x2202] == 0xc0) && (mainMemory_[0x2203] == 0x28) && (mainMemory_[0x2204] == 0x65) && (mainMemory_[0x226f] == 0x55))
+            {
+                loadedProgram_ = RCABASIC4;
+                basicExecAddress_[BASICADDR_READY] = BASICADDR_READY_RCA4;
+                basicExecAddress_[BASICADDR_KEY_VT_RESTART] = BASICADDR_VT_RESTART_RCA;
+                basicExecAddress_[BASICADDR_KEY_VT_INPUT] = BASICADDR_VT_INPUT_RCA;
+                p_Main->eventEnableMemAccess(true);
+            }
+        }
+        if (scratchpadRegister_[programCounter_] == 0x2300)
+        {
+            if ((mainMemory_[0x201c] == 0xd4) && (mainMemory_[0x201d] == 0x96) && (mainMemory_[0x201e] == 0xb7) && (mainMemory_[0x206f] == 0x05))
+            {
+                chip8mainLoop_ = 0x201d;
+                activateElfOsChip8();
+            }
+            if ((mainMemory_[0x201f] == 0xd4) && (mainMemory_[0x2020] == 0x96) && (mainMemory_[0x2021] == 0xb7) && (mainMemory_[0x206f] == 0x05))
+            {
+                chip8mainLoop_ = 0x2020;
+                activateElfOsChip8();
+            }
+        }
+        
+        if (elfConfiguration.useXmodem)
+        {
+            if (scratchpadRegister_[programCounter_] == 0x20bd)
+            { // xr (Pico Elf)
+                if ((mainMemory_[0x80] == 0x78) && (mainMemory_[0x81] == 0x72) && (mainMemory_[0x82] == 0))
+                {
+                    p_Main->startAutoTerminalLoad(TERM_XMODEM_LOAD);
+                }
+            }
+            if (scratchpadRegister_[programCounter_] == 0x2093)
+            { // xrb (Pico Elf)
+                if ((mainMemory_[0x80] == 0x78) && (mainMemory_[0x81] == 0x72) && (mainMemory_[0x82] == 'b') && (mainMemory_[0x83]== 0))
+                {
+                    p_Main->startAutoTerminalLoad(TERM_XMODEM_LOAD);
+                }
+            }
+            if (scratchpadRegister_[programCounter_] == 0x207E)
+            { // yr (Pico Elf)
+                if ((mainMemory_[0x80] == 0x79) && (mainMemory_[0x81] == 0x72) && (mainMemory_[0x82] == 0))
+                {
+                    p_Main->startAutoTerminalLoad(TERM_XMODEM_LOAD);
+                }
+            } // Memory load diskless ROM (Pico Elf)
+            if (scratchpadRegister_[programCounter_] == 0x844b)
+            {
+                if ((mainMemory_[0x8700] == 0x8c) && (mainMemory_[0x8701] == 0x73) && (mainMemory_[0x874b] == 0x3d) && (mainMemory_[0x874c]== 0x4b))
+                {
+                    p_Main->startAutoTerminalLoad(TERM_XMODEM_LOAD);
+                }
+            }
+            if (scratchpadRegister_[programCounter_] == 0x20da)
+            { // xs (Pico Elf)
+                if ((mainMemory_[0x80] == 0x78) && (mainMemory_[0x81] == 0x73) && (mainMemory_[0x82] == 0))
+                {
+                    p_Main->startAutoTerminalSave(TERM_XMODEM_SAVE);
+                }
+            }
+            if (scratchpadRegister_[programCounter_] == 0x2079)
+            { // xsb (Pico Elf)
+                if ((mainMemory_[0x80] == 0x78) && (mainMemory_[0x81] == 0x73) && (mainMemory_[0x82] == 'b') && (mainMemory_[0x83]== 0))
+                {
+                    p_Main->startAutoTerminalSave(TERM_XMODEM_SAVE);
+                }
+            }
+            if (scratchpadRegister_[programCounter_] == 0x2186)
+            { // ys (Pico Elf)
+                if ((mainMemory_[0x80] == 0x79) && (mainMemory_[0x81] == 0x73) && (mainMemory_[0x82] == 0))
+                {
+                    p_Main->startYsTerminalSave(TERM_YMODEM_SAVE);
                 }
             }
             if (scratchpadRegister_[programCounter_] == 0x8800)

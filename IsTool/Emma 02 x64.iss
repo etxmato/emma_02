@@ -3,13 +3,13 @@
 
 [Setup]
 AppName=Emma 02
-AppVerName=Emma 02 - V1.40
-AppVersion=1.40
+AppVerName=Emma 02 - V1.42
+AppVersion=1.42
 AppPublisher=Marcel van Tongeren
 DefaultDirName={pf}\Emma 02
 DefaultGroupName=Emma 02
 OutputDir=x64
-OutputBaseFilename=Emma_02_x64_setup_v1.40
+OutputBaseFilename=Emma_02_x64_setup_v1.42
 Compression=lzma
 SolidCompression=true
 SetupIconFile=..\images\app.ico

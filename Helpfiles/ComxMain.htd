@@ -2,11 +2,47 @@
 <title>COMX-35 Emulator</title>
 <body>
 <h1>COMX-35 Emulator</h1>
-<P>
-This emulator will emulate the <a href="ComxInfo.htm">COMX-35</a> and <a href="ComxInfo.htm">PC1</a> home computer. Additional information about the COMX can be found on the <a href="http://www.emma02.hobby-site.com">Emma 02</a>, <a href="http://www.comxclub.hobby-site.com">Dutch COMX Club</a> and on <a href="http://en.wikipedia.org/wiki/Comx-35">Wikpedia</a>. 
-<P>
-This chapter includes:
-<P>
+<p>
+This emulator will emulate the <a href="ComxInfo.htm">COMX-35</a> and <a href="ComxInfo.htm">PC1</a> home computer. Additional information about the COMX can be found on the <a href="http://www.emma02.hobby-site.com">Emma 02</a>, <a href="http://www.comxclub.hobby-site.com">Dutch COMX Club</a> and on <a href="http://en.wikipedia.org/wiki/Comx-35">Wikipedia</a>.
+</p>
+<p>
+To start the COMX-35 emulator, select the COMX-35 tab (yellow ellipse) and then press Start (orange ellipse):
+</p>
+<p>
+<IMG SRC="images/comx.png" BORDER="0">
+</p>
+<p>
+The above will work in the default Emma 02 configuration however if a <a href="ComixMain.htm">COMIX</a> configuration is loaded a COMIX-35 will start instead. The only difference in the Emma 02 emulation between the COMX and COMIX is the DRAM refresh which is not available (or needed) on the COMIX as the COMIX doesn't use Dynamic RAM. Due to this the COMX will run slower than the COMIX.
+</p>
+<p>
+To load a COMX-35 configuration load one of the configurations with the menu option below (blue ellipse) following the grey menu:
+</p>
+<p>
+<IMG SRC="images/comx_configuration.png" BORDER="0">
+</p>
+<p>
+Summary of the COMX-35 <a href="MainConfigurations.htm">configurations</a>:
+</p>
+<p><b>Default/SuperBoard:</b></p>
+<p>
+COMX-35 with <a href="ComxSb.htm">Super Board</a> support as well as floppy, printer and 80 column support 
+</p>
+<p><b>F&M Eprom Board:</b></p>
+<p>
+COMX-35 with F&M Eprom Board support as well as COMX-35 BASIC ROM 1.3 (for corrections see <a href="ComxDidYouKnow.htm">Did you know...?</a>), F&M expansion 3.2, floppy, printer (F&M version 1.2) and 80 column support.
+</p>
+<p><b>Original/Bare:</b></p>
+<p>
+COMX-35 as it was in the box! No corrections included on the BASIC ROM and no expansion boards
+</p>
+<p><b>Original/Loaded:</b></p>
+<p>
+COMX-35 as it was in the box and original expansion box ROM, also included: floppy, printer, 32K RAM and 80 column support. All using original ROMs without any corrections.
+</p>
+<p>
+Other COMX-35 Emulator features:
+</p>
+<p>
 <a href="ComxInfo.htm">COMX-35 and PC1</a><br>
 <a href="ComxDidYouKnow.htm">Did you know...?</a><br>
 <a href="ComxRom.htm">ROM Files</a><br>
@@ -17,12 +53,19 @@ This chapter includes:
 <a href="ComxSerialPrinter.htm">Serial Printer Support</a><br>
 <a href="ComxThermal.htm">Thermal Printer Support</a><br>
 <a href="ComxPlotter.htm">PL-80 Plotter Simulation</a><br>
-<a href="ComxCassette.htm">Cassette Support</a><br>
-<a href="ComxVideo.htm"> Video Mode</a><br>
-<a href="Comx80Column.htm">80 Column Support</a><br>
-<a href="ComxRamCard.htm">RAM Card</a><br>
-<a href="ComxEprom.htm">F&M EPROM Switchboard</a><br>
 <a href="ComxJoy.htm">F&M Joy Card</a><br>
-<a href="ComxDiag.htm">Diagnostic Board</a><br>
+<a href="MainScreendump.htm">Video Dump</a><br>
+<a href="ComxCassette.htm">Cassette Support</a><br>
+<a href="MainRealCassette.htm">Real Cassette Support</a><br>
 <a href="ComxKeyFile.htm">Key File</a><br>
+<a href="ComxVideo.htm"> Video Mode, Setup and Log</a><br>
+<a href="Comx80Column.htm">80 Column Support</a><br>
+<a href="MainZoom.htm">Zoom Level and Full Screen Mode</a><br>
+<a href="MainSound.htm">Sound</a><br>
+<a href="ComxEprom.htm">F&M EPROM Switchboard</a><br>
+<a href="ComxDiag.htm">Diagnostic Board</a><br>
+<a href="ComxRamCard.htm">RAM Card</a><br>
+<a href="MainMemAccess.htm">Memory Access</a><br>
+<a href="MainClock.htm">Clock Speed</a>
+</p>
 </body></html>

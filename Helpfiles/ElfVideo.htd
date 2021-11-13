@@ -1,21 +1,24 @@
 <HTML>
 <Title>Video Types</Title>
 <BODY>
-<h2>Video Types</h2>
+<h1>Video Types</h1>
 <p>
-To select the specific Elf video type use the choice button 'Video'. Currently 5 types are supported: 1861 Pixie graphics,  MC6845, MC6847, TMS 9918 and the intel 8275.
+To select the specific Elf video type use the choice button 'Video' (yellow ellipse). Currently 6 types are supported: 1861 Pixie graphics,  MC6845, MC6847, TMS 9918, Intel 8275 and Super Video.
 </p>
-<h3>1861 Pixie graphics</h3>
+<p>
+<IMG SRC="images/elf_video.png" BORDER="0">
+</p>
+<h2>1861 Pixie graphics</h2>
 <p>
 1861 Pixie graphics is the same graphic system used for the Studio II computer giving a black and white screen of 64 by 128 large pixels.
 </p>
-<h3>MC6845</h3>
+<h2>MC6845</h2>
 <p>
-The MC6845 is a video chip for text based output. Different screen sizes can be emulated via software setings of the MC6845 registers. Default a 64 wide and 16 rows screen is specified by the emulator. Address register and data register memory address are defined via the device port button/window. Character font used as default is the COMX 80 column card font this is changeable via the MC6845 Font buton.
+The MC6845 is a video chip for text based output. Different screen sizes can be emulated via software settings of the MC6845 registers. Default a 64 wide and 16 rows screen is specified by the emulator. Address register and data register memory address are defined via the 'DevicePorts' button (blue ellipse) see also chapter <a href="ElfPorts.htm">Device Ports</a>. Character font used as default is the COMX 80 column card font this is changeable via the 'Video Font' button (orange ellipse).
 </p>
-<h3>MC6847</h3>
+<h2>MC6847</h2>
 <p>
-The MC6847 video chip provides both text and graphic modes. All modes are supported by the emulator but capability does depend on HW settings as defined via the device port button/window. For details see the MC6847 datasheet. The video RAM is 12 bits where bit 6 to 11 are possible to use as video mode settings. Note that using bit 6 could limit use of some of the graphic modes. Bit 6 and 7 are set by writing to the video RAM, bit 8 to 11 are set via bit 0 to 3 of OUT 5 followed by a write to video RAM (default is OUT 5 but this can also be changed in the device port window to another OUT or writing to address FFxx). Bit 4 to 7 of OUT 5 are definable as well but will not be stored in video RAM, typically used for A/G, GM0, GM1 and/or GM2 as these are not usable per character anyway. Video RAM size and location can be defined as well, larger sizes might be needed for some graphic modes to work.
+The MC6847 video chip provides both text and graphic modes. All modes are supported by the emulator but capability does depend on HW settings as defined via the 'DevicePorts' button (blue ellipse) see also chapter <a href="ElfPorts.htm">Device Ports</a>. For detailed settings see the MC6847 data sheet. The video RAM is 12 bits where bit 6 to 11 are possible to use as video mode settings. Note that using bit 6 could limit use of some of the graphic modes. Bit 6 and 7 are set by writing to the video RAM, bit 8 to 11 are set via bit 0 to 3 of OUT 5 followed by a write to video RAM (default is OUT 5 but this can also be changed via the 'DevicePorts' button to another OUT or writing to address FFxx). Bit 4 to 7 of OUT 5 are definable as well but will not be stored in video RAM, typically used for A/G, GM0, GM1 and/or GM2 as these are not usable per character anyway. Video RAM size and location can be defined as well, larger sizes might be needed for some graphic modes to work.
 </p>
 <p>
 Definition of settings:<br>
@@ -27,15 +30,19 @@ A/G: Graphic mode selection<br>
 GM0-GM2: Graphic mode 0 to 7<br>
 </p>
 <p>
-Default all settings are defined as '0' unless set as 'force high' in the device port window.
+Default all settings are defined as '0' unless set as 'force high'.
 </p>
-<h3>TMS 9918</h3>
+<h2>TMS 9918</h2>
 <p>
 TMS 9918 is a video chip with text mode and different graphic modes, allowing colour screens of 256x192 pixels.
 </p>
-<h3>Intel 8275</h3>
+<h2>Intel 8275</h2>
 <p>
-The intel 8275 is a video chip for text based output. Different screen sizes can be emulated via software setings of the intel 8275 registers. Default a 80 wide and 24 rows screen is specified by the emulator. 
+The intel 8275 is a video chip for text based output. Different screen sizes can be emulated via software settings of the intel 8275 registers. Default a 80 wide and 24 rows screen is specified by the emulator. 
+</p>
+<h2>Super Video</h2>
+<p>
+Video option supporting an S100 video board with text mode only as used in Quest Super BASIC V1.4.
 </p>
 </BODY>
 </HTML>

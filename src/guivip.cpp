@@ -151,7 +151,7 @@ void GuiVip::readVipConfig()
 	conf[VIP].wavFileDir_[0] = readConfigDir("/Dir/Vip/Wav_File", dataDir_ + "Vip" + pathSeparator_);
 	elfConfiguration[VIP].vtWavFileDir_ = readConfigDir("/Dir/Vip/Vt_Wav_File", dataDir_ + "Vip" + pathSeparator_);
 
-	conf[VIP].rom_[MAINROM1] = configPointer->Read("/Vip/Main_Rom_File", "vip.rom");
+	conf[VIP].rom_[MAINROM1] = configPointer->Read("/Vip/Main_Rom_File", "vip.32.rom");
 	conf[VIP].ram_ = configPointer->Read("/Vip/Ram_Software", "fpb_color.bin");
 	conf[VIP].chip8SW_ = configPointer->Read("/Vip/Chip_8_Software", "");
 	conf[VIP].wavFile_[0] = configPointer->Read("/Vip/Wav_File", "");
@@ -227,7 +227,10 @@ void GuiVip::readVipConfig()
 		XRCCTRL(*this, "ScreenDumpFileVip", wxComboBox)->SetValue(conf[VIP].screenDumpFile_);
 		XRCCTRL(*this, "WavFileVip", wxTextCtrl)->SetValue(conf[VIP].wavFile_[0]);
 
-		XRCCTRL(*this, "VTTypeVip", wxChoice)->SetSelection(elfConfiguration[VIP].vtType);
+        if (elfConfiguration[VIP].vtExternal)
+            XRCCTRL(*this, "VTTypeVip", wxChoice)->SetSelection(EXTERNAL_TERMINAL);
+        else
+            XRCCTRL(*this, "VTTypeVip", wxChoice)->SetSelection(elfConfiguration[VIP].vtType);
 
 		XRCCTRL(*this, "VTBaudTChoiceVip", wxChoice)->SetSelection(elfConfiguration[VIP].baudT);
 		XRCCTRL(*this, "VTBaudRChoiceVip", wxChoice)->SetSelection(elfConfiguration[VIP].baudT);

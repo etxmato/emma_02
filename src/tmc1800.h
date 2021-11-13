@@ -27,7 +27,7 @@ public:
 
 	void startComputer();
 	void writeMemDataType(Word address, Byte type);
-	Byte readMemDataType(Word address);
+	Byte readMemDataType(Word address, uint64_t* executed);
 	Byte readMem(Word address);
     Byte readMemDebug(Word address);
     void writeMemDebug(Word address, Byte value, bool writeRom);

@@ -1,27 +1,33 @@
 <HTML>
 <Title>80 Column Support</Title>
 <BODY>
-<h2>80 Column Support</h2>
+<h1>80 Column Support</h1>
 <p>
-To use 80 Column support select 80column.1.0.bin or 80column.1.1.bin in any available slot (CARD 1 if no expansion box is used). Version 1.0 is the original COMX 80 column card rom including the character rom, 1.1 is a version with corrected character rom. When CARD Sx (x = 80 column rom slot) is used the COMX should initiate 80 Column mode, when no expansion box is in use, use CALL (@C010). 
+To use 80 Column support select 80column.1.0.bin or 80column.1.1.bin in any available slot (CARD 1 if no expansion box is used), see example below (yellow ellipse):
 </p>
 <p>
-Default the interlace mode is on, to switch off interlace mode un-select the check box in the Emma 02 window.
+<IMG SRC="images/comx_80col.png" BORDER="0">
 </p>
 <p>
-Zoom mode when using the 80 column card is always divided by 2 to keep the window size roughly the same as 40 column mode.
+Version 1.0 is the original COMX 80 column card rom including the character rom, 1.1 is a version with corrected character rom. When CARD Sx (x = 80 column rom slot) is used the COMX should initiate 80 Column mode, when no expansion box is in use, use CALL (@C010). 
+</p>
+<p>
+Default the interlace mode is on, to switch off interlace mode un-select the '80 Column Card Interlace' check box (orange ellipse).
+</p>
+<p>
+Zoom mode when using the 80 column card is always divided by 2 (blue ellipse) to keep the window size roughly the same as 40 column mode.
 </p>
 <p>
 Note that most COMX software does not support the 80 Column card! Also when using LIST on some COMX software one of the CTRL commands below could be triggered, this could for example result in starting a self test or going to 40 column mode during the LIST. This happens when CTRL characters are used in PRINT commands. 
 </p>
-<h3>CTRL Key Commands</h3>
+<h2>CTRL Key Commands</h2>
 <p>
 The following CTRL commands are supported by the 80 Column card:
 </p>
 <pre>
 CTRL B: Inverse display mode
 CTRL C: Ignore line and go to next
-CTRL F: Enable/Disble 'Function keys'
+CTRL F: Enable/Disable 'Function keys'
 CTRL H: Clear Screen
 CTRL I: Cursor up
 CTRL J: Cursor left

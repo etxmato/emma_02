@@ -3,10 +3,13 @@
 <BODY>
 <h2>F&M Joy Card</h2>
 <p>
-To run the COMX emulator with the F&M Joy card select 'f&m.joycard.bin' in any available slot (CARD 1 if no expansion box is used). 
+To run the COMX emulator with the F&M Joy card select 'f&m.joycard.bin' in any available slot (CARD 1 if no expansion box is used), see example below (yellow ellipse):
 </p>
 <p>
-The F&M Joy Card will only work with software designed for this card, like F&M Pit Stop, Joy Tekeken, Activate Joycard and Joy in basic.
+<IMG SRC="images/comx_joy.png" BORDER="0">
+</p>
+<p>
+The F&M Joy Card will only work with software designed for this card, like F&M Pit Stop, Joy Tekenen, Activate Joycard and Joy in basic.
 </p>
 <h3>
 Joystick 1 mapping:

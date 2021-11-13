@@ -498,7 +498,7 @@ public:
 	virtual void reDefineKeysB(int *, int *, int *);
 	virtual void reDefineKeysA(int *, int *);
 	virtual void reDefineKeysB(int *, int *);
-	virtual long getCpuCycles() { return 0; };
+	virtual uint64_t getCpuCycles() { return 0; };
 	void setQsound(int status) {qSound_ = status;};
 
 	virtual void onNumberKeyDown(wxCommandEvent& event);
@@ -515,7 +515,7 @@ public:
 	wxString getPseudoType() {return pseudoType_;};
 	void showChip8Registers();
 	virtual void writeMemDataType(Word address, Byte type);
-	virtual Byte readMemDataType(Word address);
+	virtual Byte readMemDataType(Word address, uint64_t* executed);
 	virtual int getAds(int i){return i;};
 	virtual int getAdi(int i){return i;};
 
@@ -524,6 +524,7 @@ public:
 	void readDebugFile(wxString dir, wxString name, wxString number, Word start);
 
     virtual void terminalSave(wxString fileName, int protocol);
+    virtual void terminalYsSave(wxString fileName, int protocol);
     virtual void terminalLoad(wxString filePath, wxString fileName, int protocol);
     virtual void terminalStop();
     

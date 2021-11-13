@@ -5,36 +5,60 @@
 <BODY>
 <h2>Diagnostic Board</h2>
 <p>
-To run the COMX emulator with the Diagnostic Board select checkbox 'Diagboard'. The choice box can be set to 'on' to start the diagnostic SW or to 'off' to start BASIC with the diagnostic board connected.
+To run the COMX emulator with the Diagnostic Board select checkbox 'Diagboard' (yellow ellipse). The choice box (orange ellipse) can be set-to 'on' to start the diagnostic SW or to 'off' to start BASIC with the diagnostic board connected.
+</p>
+<p>
+<IMG SRC="images/comx_diag.png" BORDER="0">
 </p>
 <p>
 By default the following ROMs will be selected:
+</p>
+<p>
 <ul>
 <li>diag_pal1.bin, mapped to hex 0-FFF instead of BASIC ROM (if the diagnostic board is set to 'on'). BASIC ROM will be switched back 
  on the first INP 1 instruction.
 <li>diag_pal2_v1.1.bin, mapped to hex C0000-D7FF. This v1.1 version will perform the extended ROM check on BASIC ROM file comx35.1.1.bin.
 </ul>
+</p>
+<p>
 Next to this additional RAM will be selected from hex D800-DFFF.
 </p>
 <p>
-The following alternative ROMs can be used:
+The ROMs can be change by clicking 'Setup' (blue ellipse above) which will open the 'Diag Board Settings' window:
+</p>
+<p>
+<IMG SRC="images/comx_diag_setup.png" BORDER="0">
+</p>
+<p>
+The following alternative ROMs are available and can be specified for either the PAL or NTSC versions (yellow ellipse):
+</p>
+<p>
 <ul>
 <li>diag_pal1.bin, diag_pal2.bin, with extended ROM check for the original COMX BASIC ROM (comx35.bin).
 <li>diag_ntsc1.bin, diag_ntsc2_v1.1.bin, NTSC version with ROM check for comx35.1.1.bin
-<li>diag_ntsc1.bin, diag_ntsc2.bin, NTSC versiom with ROM check for the original COMX BASIC ROM (comx35.bin).
+<li>diag_ntsc1.bin, diag_ntsc2.bin, NTSC version with ROM check for the original COMX BASIC ROM (comx35.bin).
 </ul>
-The NTSC ROM set will be selected automatically when an NTSC COMX is selcted. To change from 1.1 to original version use the 'setup' button.
 </p>
 <p>
-Aditionally the following options can be selected in the setup window:
+The PAL or NTSC ROM set will be selected automatically when video mode is changed between PAL and NTSC (see also <a href="ComxVideo.htm"> Video Mode, Setup and Log</a>)
+</p>
+<p>
+Additionally the following options can be selected in the setup window:
+</p>
+<p>
 <ul>
-<li>ROM checksum: on or off
-<li>Factory unit: yes or no, when the factory unit is selected additional keyboard repeat and debounce tests are done as well as an IDEN test where IDEN is connected to bit 2 of INP 1.
-<li>Cassette cables: connected or disconnected
+<li>ROM checksum: on or off (orange ellipse)
+<li>Factory unit: yes or no (blue ellipse), when the factory unit is selected additional keyboard repeat and debounce tests are done as well as an IDEN test where IDEN is connected to bit 2 of INP 1.
+<li>Cassette cables: connected or disconnected (magenta ellipse)
 </ul>
+</p>
+<p>
+Click Save All (red ellipse) to save any changed diagnostic board settings.
 </p>
 <p>
 The following PC keys are mapped:
+</p>
+<p>
 <ul>
 <li>S: Step
 <li>R: Repeat

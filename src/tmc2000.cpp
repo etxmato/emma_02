@@ -291,6 +291,7 @@ void Tmc2000::startComputer()
 
 
 	cpuCycles_ = 0;
+	instructionCounter_= 0;
 	p_Main->startTime();
 
 	threadPointer->Run();
@@ -310,11 +311,12 @@ void Tmc2000::writeMemDataType(Word address, Byte type)
 				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
 				mainMemoryDataType_[address] = type;
 			}
+            increaseExecutedMainMemory(address, type);
 		break;
 	}
 }
 
-Byte Tmc2000::readMemDataType(Word address)
+Byte Tmc2000::readMemDataType(Word address, uint64_t* executed)
 {
 	if (address < 0x8000)
 		address = (address | addressLatch_) & (ramMask_ | 0x8000);
@@ -325,6 +327,8 @@ Byte Tmc2000::readMemDataType(Word address)
 	{
 		case RAM:
 		case ROM:
+            if (profilerCounter_ != PROFILER_OFF)
+                *executed = mainMemoryExecuted_[address];
 			return mainMemoryDataType_[address];
 		break;
 	}

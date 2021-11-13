@@ -558,7 +558,9 @@ void Cdp18s020::startComputer()
 	p_Main->updateTitle();
 
 	cpuCycles_ = 0;
+	instructionCounter_= 0;
     p_Main->startTime();
+    addressLatchCounter_ = 64;
 
     int ms = (int) p_Main->getLedTimeMs(CDP18S020);
     cdp18s020ScreenPointer->setLedMs(ms);
@@ -584,6 +586,7 @@ void Cdp18s020::writeMemDataType(Word address, Byte type)
 				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
 				mainMemoryDataType_[address] = type;
 			}
+            increaseExecutedMainMemory(address, type);
 		break;
 
         case REGSTORAGE:
@@ -594,6 +597,7 @@ void Cdp18s020::writeMemDataType(Word address, Byte type)
                     p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
                     mainMemoryDataType_[address] = type;
                 }
+                increaseExecutedMainMemory(address, type);
             }
         break;
             
@@ -603,14 +607,18 @@ void Cdp18s020::writeMemDataType(Word address, Byte type)
 				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
 				mainMemoryDataType_[address] = type;
 			}
+            increaseExecutedMainMemory(address, type);
 		break;
 	}
 }
 
-Byte Cdp18s020::readMemDataType(Word address)
+Byte Cdp18s020::readMemDataType(Word address, uint64_t* executed)
 {
 	if (address < 0x8000)
 		address = (address | addressLatch_);
+
+    if (profilerCounter_ != PROFILER_OFF)
+        *executed = mainMemoryExecuted_[address];
 
 	switch (memoryType_[address/256])
 	{

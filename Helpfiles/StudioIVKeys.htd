@@ -3,10 +3,10 @@
 <body>
 <h2>Key Definition</h2>
 <p>
-Default the keys and joysticks are mapped to use with Tiny BASIC alternatively 'on Location' or 'on Character' can be selected. All mapping options are described in chapters below. To change and view the hex keypad to PC key mapping select the 'Key Map' button, see also chapter <a href="MainHexKeyMap.htm">Key Mapping</a>. 
+Default the keys and joysticks are mapped to use with Tiny BASIC alternatively 'on Location' or 'on Character' can be selected. All mapping options are described in chapters below. To change and view the hex keypad to PC key mapping select the 'Key Map' button, see also chapter <a href="KeyMappingMain.htm">Key Mapping</a>. 
 </p>
 <p>
-Mapping of the Studio IV keys are layed out as follows: 
+Mapping of the Studio IV keys are laid out as follows: 
 </p>
 <table BORDER COLS=3 WIDTH="30%" >
 <tr><td><center><b>1</b></center></td><td><center><b>2</b></center></td><td><center><b>3</b></center></td><td><center><b>C</b></center></td></tr>
@@ -37,7 +37,7 @@ PC keys for keypad 2 mapping:
 <tr><td><center><b>+<br>.</b></center></td><td><center><b>Space</b></center></td><td><center><b>BREAK<br>BS</b></center></td><td><center><b>SHIFT</b></center></td></tr>
 </table>
 <p>
-For the keypad 2 SHIFT keys only / - and ESC are by default defined as seperate keys the rest is only available via SHIFT and specified character, also depeniding on PC keyboard variant.
+For the keypad 2 SHIFT keys only / - and ESC are by default defined as separate keys the rest is only available via SHIFT and specified character, also depending on PC keyboard variant.
 </p>
 <h3>on Character</h3>
 <p>

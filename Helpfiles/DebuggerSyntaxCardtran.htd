@@ -1,8 +1,8 @@
 <html>
 <title>CARDTRAN Syntax</title>
 <body>
-<h2>CARDTRAN Syntax</h2>
-<h3>CARDTRAN Interpreter</h3>
+<h1>CARDTRAN Syntax</h1>
+<h2>CARDTRAN Interpreter</h2>
 <p>
 Pseudo CARDTRAN command syntax described here is likely the first ever pseudo language developed for an 1802 like system. It runs on a FRED1 which uses the SYSTEM 00 prototype CPU which is a simplified 1801.
 </p>
@@ -13,7 +13,7 @@ TV Display is divided in 3 areas, TV(0) and TV(1) which can be used by the CARDT
 TV(0)  TV(1)
 TV(2)
 </PRE>
-<h3>CONTROL codes</h3>
+<h2>CONTROL codes</h2>
 <dl>
 <dt>F0</dt><dd>Load program mode @ M[200]. Cardtran interpreter will wait for for a 4 digit word which will be stored at location M[200] next word at M[202] etc. TV(2) position will show the 4 digit instruction after 4 digits are received.</dd>
 <dt>F1</dt><dd>Execute CARDTRAN program at M[200]</dd>
@@ -24,12 +24,15 @@ TV(2)
 <dt>F6</dt><dd>Resume execution</dd>
 <dt>F7</dt><dd>Execute next instruction only</dd>
 </dl>
-<h3>Example CARDTRAN code</h3>
+<h2>Example CARDTRAN code</h2>
 <p>
 This program (included in the cardtran.bin file) will wait for two four digit numbers, when the numbers are given it will multiply them and show a counter counting up to the result. At the end it will wait for two new numbers. If no input is given I think some random numbers are chosen.
 </p>
-<h3>Definitions</h3>
-<TABLE BORDER="0" COLS=2 ALIGN="LEFT" VALIGN="TOP" >
+<p>
+This info is also available online on the <a href="https://emma02.hobby-site.com/pseudo_cardtran.html">Emma 02 site</a>.
+</p>
+<h2>Definitions</h2>
+<table>
 <TR>
 <TD WIDTH="70">aa</TD>
 <TD WIDTH="400">2 digits hexadecimal value. This is used to indicate an address in hexadecimal range of 0200-02C7. Note that the original CARDTRAN code uses a 2 digit decimal value to indicate a decimal 'line' number referring to the 0200-02C7 address range by multiplying the value aa with 2 and adding hexadecimal value of 200</TD>
@@ -46,9 +49,9 @@ This program (included in the cardtran.bin file) will wait for two four digit nu
 <TD WIDTH="70">1..9</TD>
 <TD WIDTH="400">Decimal digits</TD>
 </TR>
-</TABLE>
-<h3>CARDTRAN Syntax</h3>
-<TABLE BORDER="0" COLS=4 ALIGN="LEFT" VALIGN="TOP" >
+</table>
+<h2>CARDTRAN Syntax</h2>
+<table>
 <TR>
 <TD WIDTH="55">40aa</TD>
 <TD WIDTH="40">ADD</TD>
@@ -127,7 +130,7 @@ This program (included in the cardtran.bin file) will wait for two four digit nu
 <TD WIDTH="100">[2aa]<br>2aa</TD>
 <TD WIDTH="250">Ring SHift M[2aa] right 1 digit</TD>
 </TR>
-</TABLE>
+</table>
 </body>
 </html>
 

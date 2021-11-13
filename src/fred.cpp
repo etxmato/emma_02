@@ -1017,6 +1017,7 @@ void Fred::startComputer()
 	p_Main->updateTitle();
 
 	cpuCycles_ = 0;
+	instructionCounter_= 0;
 	p_Main->startTime();
 
     int ms = (int) p_Main->getLedTimeMs(computerType_);
@@ -1050,6 +1051,7 @@ void Fred::writeMemDataType(Word address, Byte type)
 				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
 				mainMemoryDataType_[address] = type;
 			}
+            increaseExecutedMainMemory(address, type);
 		break;
             
 		case MAPPEDRAM:
@@ -1059,21 +1061,26 @@ void Fred::writeMemDataType(Word address, Byte type)
 				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
 				mainMemoryDataType_[address] = type;
 			}
+            increaseExecutedMainMemory(address, type);
 		break;
 	}
 }
 
-Byte Fred::readMemDataType(Word address)
+Byte Fred::readMemDataType(Word address, uint64_t* executed)
 {
     switch (memoryType_[address/256])
 	{
 		case RAM:
 		case ROM:
+            if (profilerCounter_ != PROFILER_OFF)
+                *executed = mainMemoryExecuted_[address];
 			return mainMemoryDataType_[address];
 		break;
 
         case MAPPEDRAM:
             address = address & ramMask_;
+            if (profilerCounter_ != PROFILER_OFF)
+                *executed = mainMemoryExecuted_[address];
 			return mainMemoryDataType_[address];
 		break;
 	}
@@ -1150,7 +1157,8 @@ void Fred::cpuInstruction()
 	else
 	{
         cpuCycles_ = 0;
-        
+	 	instructionCounter_= 0;
+       
         machineCycle();
         machineCycle();
         cpuCycles_ += 2;

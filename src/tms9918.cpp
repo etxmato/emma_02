@@ -117,7 +117,6 @@ Tms9918::Tms9918(const wxString& title, const wxPoint& pos, const wxSize& size, 
 	videoHeight_ = 192;
 
 	this->SetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_, (videoHeight_+2*borderY_[videoType_])*zoom_);
-	changeScreenSize();
 }
 
 Tms9918::~Tms9918()
@@ -143,6 +142,7 @@ Tms9918::~Tms9918()
 
 void Tms9918::configure(ElfPortConfiguration elfPortConf)
 {
+    changeScreenSize();
 //	int highOutput, lowOutput;
 
 	wxString runningComp = p_Main->getRunningComputerStr();
@@ -186,6 +186,8 @@ void Tms9918::modeHighOut(Byte value)
 		if ((value & 0xc0) == 0x40)
 		{
 			currentAddress_ = value_ +((value & 0x3f) << 8);
+            reBlit_ = true;
+            drawScreen();
 		}
 		toggle_ = 0;
 	}
@@ -285,7 +287,12 @@ void Tms9918::modeLowOut(Byte value)
 				drawTile(addr - nameAddress_);
 			}
 		break;
-	}
+            
+        default:
+            reBlit_ = true;
+            drawScreen();
+        break;
+    }
 }
 
 void Tms9918::cycleTms()

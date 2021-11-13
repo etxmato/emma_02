@@ -191,7 +191,7 @@ ColourDialog::ColourDialog(wxWindow* parent)
     }
 
 	double scaleValue;
-	if (scaleString.ToDouble(&scaleValue))
+	if (p_Main->toDouble(scaleString, &scaleValue))
 	{
 		scaleValue = (int)scaleValue;
 	}
@@ -258,7 +258,7 @@ ColourDialog::~ColourDialog()
 		{
 			double scale;
 			wxString scaleString = p_Main->getConfigItem(computerTypeStr_+"/Window_Scale_Factor_X", "");
-			if (scaleString.ToDouble(&scale))
+			if (p_Main->toDouble(scaleString, &scale))
 			{
 				if (!p_Main->isFullScreenFloat())
 				{
@@ -308,7 +308,7 @@ void ColourDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
 	{
 		double scale;
 		scaleString = XRCCTRL(*this, "ScaleXText", wxTextCtrl)->GetValue();
-		if (scaleString.ToDouble(&scale))
+		if (p_Main->toDouble(scaleString, &scale))
 		{
 			if (!p_Main->isFullScreenFloat())
 				scaleString.Printf("%i", (int)scale);
@@ -328,7 +328,7 @@ void ColourDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
 		}
 	}
 	double scaleValue;
-	if (scaleString.ToDouble(&scaleValue))
+	if (p_Main->toDouble(scaleString, &scaleValue))
 	{
 		scaleValue = (int)scaleValue;
 	}
@@ -379,7 +379,7 @@ void ColourDialog::onTest( wxCommandEvent& WXUNUSED(event) )
 		{
 			double scale;
 			scaleString = XRCCTRL(*this, "ScaleXText", wxTextCtrl)->GetValue();
-			if (scaleString.ToDouble(&scale))
+			if (p_Main->toDouble(scaleString, &scale))
 			{
 				if (!p_Main->isFullScreenFloat())
 				{
@@ -403,7 +403,7 @@ void ColourDialog::onTest( wxCommandEvent& WXUNUSED(event) )
 			}
 		}
 		double scaleValue;
-		if (scaleString.ToDouble(&scaleValue))
+		if (p_Main->toDouble(scaleString, &scaleValue))
 		{
 			scaleValue = (int)scaleValue;
 		}
@@ -482,7 +482,7 @@ void ColourDialog::onDefault1( wxCommandEvent& WXUNUSED(event) )
         XRCCTRL(*this, "ScaleXText", wxTextCtrl)->ChangeValue(scaleString);
     }
 	double scaleValue;
-	if (scaleString.ToDouble(&scaleValue))
+	if (p_Main->toDouble(scaleString, &scaleValue))
 	{
 		scaleValue = (int)scaleValue;
 	}
@@ -656,19 +656,19 @@ void ColourDialog::onCol( wxCommandEvent& WXUNUSED(event) )
 	XRCCTRL(*this, "ColourSave", wxButton)->Enable(true);
 	screenInfo_.defaultColour[16] = "#000000";
 	screenInfo_.defaultColour[17] = "#000000";
-	screenInfo_.defaultColour[18] = "#007f00";
-	screenInfo_.defaultColour[19] = "#00ff00";
-	screenInfo_.defaultColour[20] = "#00003f";
-	screenInfo_.defaultColour[21] = "#0000ff";
-	screenInfo_.defaultColour[22] = "#3f0000";
-	screenInfo_.defaultColour[23] = "#007f7f";
-	screenInfo_.defaultColour[24] = "#7f0000";
-	screenInfo_.defaultColour[25] = "#ff0000";
-	screenInfo_.defaultColour[26] = "#7f7f00";
-	screenInfo_.defaultColour[27] = "#ffff00";
-	screenInfo_.defaultColour[28] = "#003f00";
-	screenInfo_.defaultColour[29] = "#7f007f";
-	screenInfo_.defaultColour[30] = "#7f7f7f";
+	screenInfo_.defaultColour[18] = "#21C842";
+	screenInfo_.defaultColour[19] = "#5EDC78";
+	screenInfo_.defaultColour[20] = "#5455ED";
+	screenInfo_.defaultColour[21] = "#7D76FC";
+	screenInfo_.defaultColour[22] = "#D4524D";
+	screenInfo_.defaultColour[23] = "#42EBF5";
+	screenInfo_.defaultColour[24] = "#FC5554";
+	screenInfo_.defaultColour[25] = "#FF7978";
+	screenInfo_.defaultColour[26] = "#D4C154";
+	screenInfo_.defaultColour[27] = "#E6CE80";
+	screenInfo_.defaultColour[28] = "#21B03B";
+	screenInfo_.defaultColour[29] = "#C95BBA";
+	screenInfo_.defaultColour[30] = "#CCCCCC";
 	screenInfo_.defaultColour[31] = "#ffffff";
 	wxString button;
 	for (int i=16; i<31; i++)
@@ -702,7 +702,7 @@ void ColourDialog::onBorderX1Up( wxSpinEvent& WXUNUSED(event) )
 	wxString scaleString = XRCCTRL(*this, "ScaleXText", wxTextCtrl)->GetValue();
 	double scaleValue;
 
-	if (scaleString.ToDouble(&scaleValue))
+	if (p_Main->toDouble(scaleString, &scaleValue))
 	{
 		scaleValue = (int)scaleValue;
 	}
@@ -733,7 +733,7 @@ void ColourDialog::onBorderX1Down( wxSpinEvent& WXUNUSED(event) )
 	wxString scaleString = XRCCTRL(*this, "ScaleXText", wxTextCtrl)->GetValue();
 	double scaleValue;
 
-	if (scaleString.ToDouble(&scaleValue))
+	if (p_Main->toDouble(scaleString, &scaleValue))
 	{
 		scaleValue = (int)scaleValue;
 	}
@@ -759,7 +759,7 @@ void ColourDialog::onBorderX1TextEnter( wxCommandEvent& WXUNUSED(event) )
 	wxString scaleString = XRCCTRL(*this, "ScaleXText", wxTextCtrl)->GetValue();
 	double scaleValue;
 
-	if (scaleString.ToDouble(&scaleValue))
+	if (p_Main->toDouble(scaleString, &scaleValue))
 	{
 		scaleValue = (int)scaleValue;
 	}
@@ -793,7 +793,7 @@ void ColourDialog::onScaleXTextEnter( wxCommandEvent& WXUNUSED(event) )
 	wxString valueString = XRCCTRL(*this, "ScaleXText", wxTextCtrl)->GetValue();
 	double value;
 
-	if (valueString.ToDouble(&value))
+	if (p_Main->toDouble(valueString, &value))
 	{
 		if (!p_Main->isFullScreenFloat())
 		{

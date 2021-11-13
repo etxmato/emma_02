@@ -363,6 +363,7 @@ void Mcds::startComputer()
 	p_Main->updateTitle();
 
 	cpuCycles_ = 0;
+	instructionCounter_= 0;
 	p_Main->startTime();
 
     if (p_Vt100[UART1] != NULL)
@@ -382,6 +383,7 @@ void Mcds::writeMemDataType(Word address, Byte type)
 				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
 				mainMemoryDataType_[address] = type;
 			}
+            increaseExecutedMainMemory(address, type);
 		break;
 
 		case RAM:
@@ -390,17 +392,20 @@ void Mcds::writeMemDataType(Word address, Byte type)
 				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
 				mainMemoryDataType_[address | bootstrap_] = type;
 			}
+            increaseExecutedMainMemory(address | bootstrap_, type);
 		break;
 	}
 }
 
-Byte Mcds::readMemDataType(Word address)
+Byte Mcds::readMemDataType(Word address, uint64_t* executed)
 {
 	address = address | bootstrap_;
 	switch (memoryType_[address/256])
 	{
 		case RAM:
 		case ROM:
+            if (profilerCounter_ != PROFILER_OFF)
+                *executed = mainMemoryExecuted_[address | bootstrap_];
 			return mainMemoryDataType_[address | bootstrap_];
 		break;
 	}

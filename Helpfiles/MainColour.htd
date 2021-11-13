@@ -3,13 +3,37 @@
 <BODY>
 <h2>Video Setup</h2>
 <p>
-Via the Video Setup window ('Video Setup' button) the emulated colours,  screen border size and for CDP1861/1864 the horizontal scale can be specified. If the computer emulation is running the new setting can be tested by pressing the 'Test' button. To save all settings (and exit) press 'Save'. Default settings can be restored by pressing 'Default'. In some cases specific buttons are available for pre defined colour configurations.  
+Via the Video Setup window ('Video Setup' button) the emulated colours, screen border size (green ellipses) and for CDP1861/1864 the horizontal scale (purple ellipse) can be specified. 
 </p>
 <p>
-All borders can be specified between 0 and 100, where 1 equals one pixel on the emulated video. When using zoom factors other than 1 also the border is increased with the same zoom factor. 
+Available buttons:
 </p>
 <p>
-For the CDP1861 (Pixie) and CDP1864 video emulation a 'horizontal scale' can be specified. This value (1 to 5) is used for an additional horizontal zoom. Both CDP1861 and 1864 video types use a resolution of 64 by 128 (192 for CDP1864) pixels, so to show a picture with a similar ratio as on a TV screen an additional zoom is needed. Default CDP 1861 video is set to horizontal scale 3 and CDP 1864 to 4, resulting in a ratio of 192x128 (CPD1861) and 256x192 (CDP1864). If 'Floating Point Zooming' is used floating point values are allowed to be used as scale, see also <a href="MainZoom.htm">Zoom Level and Full Screen Mode</a>. Note that the horizontal (x) border for the CDP 1861 and 1864 can only be specified in steps of the specified horizontal scale (rounded to the lowest integer), when using floating point values the border size will not be exactly as specified in pixels.
+<ul>
+<li>Test (orange ellipse): only enabled if the computer emulation is running to test the new setting. 
+<li>Save (yellow ellipse): to save all settings (and exit).
+<li>Default (blue ellipse): to set all video settings default. 
+<li>Colour sets (red ellipses): to set pre defined colour configurations (only available for some video types).  
+<li>Colour buttons: to select a different colour shade, when pressed default OS colour picker will pop up to select a different colour.
+</ul>
+</p>
+<p>
+All screen borders (green ellipses) can be specified between 0 and 100, where 1 equals one pixel on the emulated video. Note that when using zoom factors other than 1 also the border is increased with the same zoom factor. 
+</p>
+<p>
+For the CDP1861 (Pixie) and CDP1864 video emulation a 'horizontal scale' (magenta ellipse) can be specified. This value (1 to 5) is used for an additional horizontal zoom. Both CDP1861 and 1864 video types use a resolution of 64 by 128 (192 for CDP1864) pixels, so to show a picture with a similar ratio as on a TV screen an additional zoom is needed. Default CDP 1861 video is set to horizontal scale 3 and CDP 1864 to 4, resulting in a ratio of 192x128 (CPD1861) and 256x192 (CDP1864). If 'Floating Point Zooming' is used floating point values are allowed to be used as scale, see also <a href="MainZoom.htm">Zoom Level and Full Screen Mode</a>. Note that the horizontal (x) border for the CDP 1861 and 1864 can only be specified in steps of the specified horizontal scale (rounded to the lowest integer), when using floating point values the border size will not be exactly as specified in pixels.
+</p>
+<p>
+An example video setup window is shown below (for the Elf Emulator), note that windows for different computers will look slightly different depending on video options.
+</p>
+<p>
+<IMG SRC="images/video_setup.png" BORDER="0">
+</p>
+<p>
+For the CDP 1869 / 1870 video on the COMX and Microboard emulators, colour buttons are available for the colour tone effect. So in normal use the 'Main Colours' (yellow ellipse) are used for the 8 colours and after activating the tone effect with BASIC command CTONE(1) one of the main colours and colour tone effect colours to the right of that will be used. In example below the colours in the orange ellipse would be used if the background colour is blue.
+</p>
+<p>
+<IMG SRC="images/video_setup_comx.png" BORDER="0">
 </p>
 </BODY>
 </HTML>

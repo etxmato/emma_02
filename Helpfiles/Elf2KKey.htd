@@ -4,7 +4,7 @@
 <h2>Keyboard Mapping and Types</h2>
 <h3>Keyboard Mapping</h3>
 <p>
-Default the PC key 'Ins' is mapped to the Elf 2000 'In' button/switch. F12 is mapped to the Elf 2000 'Run' button/switch, if the CPU is stopped it will start and when running it will stop, stop mode is indicated in the emulated window title. See also <a href="MainHexKeyMap.htm">Key Mapping</a> and <a href="MainFunctionKeys.htm">Function and Hot Keys</a>.
+Default the PC key 'Ins' is mapped to the Elf 2000 'In' button/switch. F12 is mapped to the Elf 2000 'Run' button/switch, if the CPU is stopped it will start and when running it will stop, stop mode is indicated in the emulated window title. See also <a href="KeyMappingMain.htm">Key Mapping</a> and <a href="MainFunctionKeys.htm">Function and Hot Keys</a>.
 </p>
 <h3>Keyboard Types</h3>
 <p>
@@ -14,7 +14,7 @@ To select the specific Elf 2000 keyboard type use the choice button 'Keyboard'. 
 PS2 Keyboard: 
 </h4>
 <p>
-Keyboard type operating with serial communication using control characters. Needed for runnung Elf 2000 with intel 8275 video.
+Keyboard type operating with serial communication using control characters. Needed for running Elf 2000 with intel 8275 video.
 </p>
 <h4>
 PS2 + JP4: 
@@ -29,7 +29,7 @@ Hex Keyboard:
 Only 1 hex keypad is supported.
 </p>
 <p>
-To change and view the hex keypad to PC key mapping select the 'Key Map' button, see also chapter <a href="MainHexKeyMap.htm">Key Mapping</a>
+To change and view the hex keypad to PC key mapping select the 'Key Map' button, see also chapter <a href="KeyMappingMain.htm">Key Mapping</a>
 </p>
 </BODY>
 </HTML>

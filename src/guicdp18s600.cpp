@@ -471,7 +471,10 @@ void GuiCdp18s600::readCdp18s600Config()
     {
         XRCCTRL(*this, "ScreenDumpFileMicroboard", wxComboBox)->SetValue(conf[MICROBOARD].screenDumpFile_);
         
-        XRCCTRL(*this, "VTTypeMicroboard", wxChoice)->SetSelection(elfConfiguration[MICROBOARD].vtType);
+        if (elfConfiguration[MICROBOARD].vtExternal)
+            XRCCTRL(*this, "VTTypeMicroboard", wxChoice)->SetSelection(EXTERNAL_TERMINAL);
+        else
+            XRCCTRL(*this, "VTTypeMicroboard", wxChoice)->SetSelection(elfConfiguration[MICROBOARD].vtType);
         XRCCTRL(*this, "MicroboardForceUC", wxCheckBox)->SetValue(elfConfiguration[MICROBOARD].forceUpperCase);
         
         XRCCTRL(*this, "VTBaudRChoiceMicroboard", wxChoice)->SetSelection(elfConfiguration[MICROBOARD].baudR);
@@ -998,7 +1001,10 @@ void GuiCdp18s600::setCardType()
                     
                 case CARD_CDP18S641:
                     XRCCTRL(*this, "VTTypeMicroboard", wxChoice)->Enable(true);
-                    XRCCTRL(*this, "VTTypeMicroboard", wxChoice)->SetSelection(elfConfiguration[MICROBOARD].vtType);
+                    if (elfConfiguration[MICROBOARD].vtExternal)
+                        XRCCTRL(*this, "VTTypeMicroboard", wxChoice)->SetSelection(EXTERNAL_TERMINAL);
+                    else
+                        XRCCTRL(*this, "VTTypeMicroboard", wxChoice)->SetSelection(elfConfiguration[MICROBOARD].vtType);
                 break;
 
                 case CARD_CDP18S661B:

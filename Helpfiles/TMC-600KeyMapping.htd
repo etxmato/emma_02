@@ -3,7 +3,7 @@
 <BODY>
 <h2>Keyboard Mapping</h2>
 <p>
-Default the TMC-600 will start-up with Caps Lock on. Just press Caps Lock to go back to normal mode. Note all TMC-600 BASIC commands should be given in capitals. On Mac OSX the TMC-600 will start-up with Caps lock on, however this will not be refelected by the PC caps lock light.
+Default the TMC-600 will start-up with Caps Lock on. Just press Caps Lock to go back to normal mode. Note all TMC-600 BASIC commands should be given in capitals. On Mac OSX the TMC-600 will start-up with Caps lock on, however this will not be reflected by the PC caps lock light.
 </p>
 <p>
 The 'F12' key can be used to simulate the TMC-600 run switch, i.e. when 'F12' is pressed the TMC-600 will stop execution and when pressed again it will restart. See also <a href="MainFunctionKeys.htm">Function and Hot Keys</a>.
@@ -23,16 +23,16 @@ To 'clear' a key, if it is not needed, press the space bar. This can be used for
 In case a SHIFT key is pressed for a regular key (or the other way around) 'invalid key' will be shown. 
 </p>
 <p>
-The default key map setting is optimized for a US keyboard, which can be changed via menu 'Settings / Default Keyboard'. For non defined keyboards user defined settings can be defined as described in chapter 'Default Keyboard' in <a href="MainHexKeyMap.htm">Key Mapping</a>
+The default key map setting is optimised for a US keyboard, which can be changed via menu 'Settings / Default Keyboard'. For non defined keyboards user defined settings can be defined as described in chapter <a href="KeyMappingDefault.htm">Default Keyboard</a>.
 </p>
 <pre>
 Other key mapping:
 
-TMC-600		PC
-BREAK		ESC
-ESC		END
-DEL		Backspace
-LINE FEED	HOME
+TMC-600     PC
+BREAK       ESC
+ESC         END
+DEL         Backspace
+LINE FEED   HOME
 </pre>
 </BODY>
 </HTML>

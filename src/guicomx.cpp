@@ -182,7 +182,7 @@ void GuiComx::readComxConfig()
     conf[COMX].mainDir_ = readConfigDir("/Dir/Comx/Main", dataDir_ + "Comx" + pathSeparator_);
 
     conf[COMX].romDir_[MAINROM1] = readConfigDir("/Dir/Comx/Main_Rom_File", dataDir_ + "Comx" + pathSeparator_);
-    conf[COMX].rom_[MAINROM1] = configPointer->Read("/Comx/Main_Rom_File", "comx35.1.2.bin");
+    conf[COMX].rom_[MAINROM1] = configPointer->Read("/Comx/Main_Rom_File", "comx35.1.3.bin");
     conf[COMX].romDir_[EXPROM] = readConfigDir("/Dir/Comx/Expansion_Rom_File", dataDir_ + "Comx" + pathSeparator_);
     conf[COMX].rom_[EXPROM] = configPointer->Read("/Comx/Expansion_Rom_File", "f&m.expansion.3.2.bin");
     conf[COMX].romDir_[CARTROM4] = readConfigDir("/Dir/Comx/Card_4_Rom_File", dataDir_ + "Comx" + pathSeparator_);
@@ -1378,7 +1378,7 @@ void GuiComx::diagSbChange()
 	}
 
 	conf[COMX].romDir_[MAINROM1] = readConfigDir("/Dir/Comx/Main_Rom_File", dataDir_ + "Comx" + pathSeparator_);
-	conf[COMX].rom_[MAINROM1] = configPointer->Read("/Comx/Main_Rom_File", "comx35.1.2.bin");
+	conf[COMX].rom_[MAINROM1] = configPointer->Read("/Comx/Main_Rom_File", "comx35.1.3.bin");
 	conf[COMX].romDir_[EXPROM] = readConfigDir("/Dir/Comx/Expansion_Rom_File", dataDir_ + "Comx" + pathSeparator_);
 	conf[COMX].rom_[EXPROM] = configPointer->Read("/Comx/Expansion_Rom_File", "f&m.expansion.3.2.bin");
 	conf[COMX].romDir_[CARTROM1] = readConfigDir("/Dir/Comx/Card_1_Rom_File", dataDir_ + "Comx" + pathSeparator_);

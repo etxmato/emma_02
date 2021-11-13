@@ -1,8 +1,8 @@
 <html>
 <title>GPL-2 Syntax</title>
 <body>
-<h2>GPL-2 Syntax</h2>
-<h3>Information</h3>
+<h1>GPL-2 Syntax</h1>
+<h2>Information</h2>
 <p>
 I can't be sure this pseudo command syntax is indeed called GPL-2, however I do expect GPL was used for all language variants for the RCA Video Coin Arcade machine and FPL for the FRED 1.5. Mainly based on the FPL-4 and GPL-4 which both are running the Coin and Computer bowling games on both the Arcade and FRED machine. As this version is running the 'Swords' games and FPL-2 is running 'Curses Foiled Again', i.e. the Swords game I have taken the liberty to call this GPL-2. If you have any proof that this is incorrect please let me know.
 </p>
@@ -12,8 +12,11 @@ GPL-2 is used in the games 'Swords', 'Touche !!', 'En Garde !!', 'Chase', 'Mines
 <p>
 V0-F are stored on memory locations 0800-080F.
 </p>
-<h3>Definitions</h3>
-<TABLE BORDER="0" COLS=2 ALIGN="LEFT" VALIGN="TOP" >
+<p>
+This info is also available online on the <a href="https://emma02.hobby-site.com/pseudo_gpl-2.html">Emma 02 site</a>.
+</p>
+<h2>Definitions</h2>
+<table>
 <TR>
 <TD WIDTH="70">aaa</TD>
 <TD WIDTH="400">12 bit address</TD>
@@ -54,9 +57,9 @@ V0-F are stored on memory locations 0800-080F.
 <TD WIDTH="70">1..9, A..F</TD>
 <TD WIDTH="400">Hexadecimal digits</TD>
 </TR>
-</TABLE>
-<h3>Syntax</h3>
-<TABLE BORDER="0" COLS=4 ALIGN="LEFT" VALIGN="TOP" >
+</table>
+<h2>Syntax</h2>
+<table>
 <TR>
 <TD WIDTH="55">5xyz</TD>
 <TD WIDTH="40">ADD</TD>
@@ -270,7 +273,7 @@ Pos 4: Sprite pattern location; i.e. reference to sprite pattern table on 7kk. F
 <TD WIDTH="100">aaa</TD>
 <TD WIDTH="250">Call CDP1801 code at aaa. The subroutine must end in a RET (D4). Most games include 2 routines. One to check bit 0/1 from PAR and return value in RF which is likely used for game end score check (the higher RF the higher the end score). A second routine will skip next instruction if test mode is not active (INP5 != 8), the next instruction is a jump to address hex A00, this will cause a crash as no 'test ROM' is loaded at that location!</TD>
 </TR>
-</TABLE>
+</table>
 </body>
 </html>
 

@@ -1,10 +1,13 @@
 
 <html>
-<title>Chip-8, 8X, ETI and Elf Syntax</title>
+<title>Chip-8, 8X, ETI & Elf Syntax</title>
 <body>
-<h2>Chip-8, 8X, ETI and Elf Syntax</h2>
-<h3>Definitions</h3>
-<TABLE BORDER="0" COLS=2 ALIGN="LEFT" VALIGN="TOP" >
+<h1>Chip-8, 8X, ETI & Elf Syntax</h1>
+<p>
+This info is also available online on the <a href="https://emma02.hobby-site.com/pseudo_chip8.html">Emma 02 site</a>.
+</p>
+<h2>Definitions</h2>
+<table>
 <TR>
 <TD WIDTH="70">aaa</TD>
 <TD WIDTH="400">12 bit address</TD>
@@ -45,9 +48,9 @@
 <TD WIDTH="70">1..9, A..F</TD>
 <TD WIDTH="400">Hexadecimal digits</TD>
 </TR>
-</TABLE>
-<h3>Syntax</h3>
-<TABLE BORDER="0" COLS=4 ALIGN="LEFT" VALIGN="TOP" >
+</table>
+<h2>Chip-8 Syntax</h2>
+<table>
 <TR>
 <TD WIDTH="55">Fx1E</TD>
 <TD WIDTH="40">ADD</TD>
@@ -112,7 +115,7 @@
 <TD WIDTH="55">Fx15</TD>
 <TD WIDTH="40">LD</TD>
 <TD WIDTH="100">DT, Vx</TD>
-<TD WIDTH="250">Delaytimer = Vx</TD>
+<TD WIDTH="250">Delay timer = Vx</TD>
 </TR>
 <TR>
 <TD WIDTH="55">Fx29</TD>
@@ -136,7 +139,7 @@
 <TD WIDTH="55">Fx07</TD>
 <TD WIDTH="40">LD</TD>
 <TD WIDTH="100">Vx, DT</TD>
-<TD WIDTH="250">Vx = Delaytimer</TD>
+<TD WIDTH="250">Vx = Delay timer</TD>
 </TR>
 <TR>
 <TD WIDTH="55">Fx0A</TD>
@@ -270,10 +273,10 @@
 <TD WIDTH="100">Vx, Vy</TD>
 <TD WIDTH="250">Vx = Vx XOR Vy, VF undefined</TD>
 </TR>
-</TABLE>
-<h3>Chip-8X Syntax</h3>
+</table>
+<h2>Chip-8X Syntax</h2>
 All of the instruction from Chip-8, except 'Baaa: JP V0, aaa' are valid for Chip-8X. Chip-8X offers the following additional instructions:
-<TABLE BORDER="0" COLS=4 ALIGN="LEFT" VALIGN="TOP" >
+<table>
 <TR>
 <TD WIDTH="55">5xy1</TD>
 <TD WIDTH="40">ADD8</TD>
@@ -322,26 +325,26 @@ All of the instruction from Chip-8, except 'Baaa: JP V0, aaa' are valid for Chip
 <TD WIDTH="100">Vx</TD>
 <TD WIDTH="250">Skip next instruction if key Vx on keypad 2 is up</TD>
 </TR>
-</TABLE>
-<h3>ETI-660 Chip-8 Syntax</h3>
+</table>
+<h2>ETI-660 Chip-8 Syntax</h2>
 All of the instruction from Chip-8 are valid for the TI-660 Chip-8 variant and also offers the following additional instruction:
-<TABLE BORDER="0" COLS=4 ALIGN="LEFT" VALIGN="TOP" >
+<table>
 <TR>
 <TD WIDTH="55">Fx00</TD>
 <TD WIDTH="40">LD</TD>
 <TD WIDTH="100">P, Vx</TD>
 <TD WIDTH="250">Set the pitch (frequency) of the tone generator (beeper) to Vx</TD>
 </TR>
-<h3>Elf Chip-8 Syntax</h3>
+<h2>Elf Chip-8 Syntax</h2>
 All of the instruction from Chip-8 are valid for the Elf Chip-8 variant and also offers the following additional instruction:
-<TABLE BORDER="0" COLS=4 ALIGN="LEFT" VALIGN="TOP" >
+<table>
 <TR>
 <TD WIDTH="55">Fx75</TD>
 <TD WIDTH="40">OUT4</TD>
 <TD WIDTH="100">Vx</TD>
 <TD WIDTH="250">OUT 4 with Vx</TD>
 </TR>
-</TABLE>
+</table>
 </body>
 </html>
 

@@ -1296,6 +1296,7 @@ void Cdp18s600::startComputer()
     p_Main->updateTitle();
     
     cpuCycles_ = 0;
+	instructionCounter_= 0;
     p_Main->startTime();
     
     int ms = (int) p_Main->getLedTimeMs(computerType_);
@@ -1480,6 +1481,7 @@ void Cdp18s600::writeMemDataType(Word address, Byte type)
                 p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
                 mainMemoryDataType_[address] = type;
             }
+            increaseExecutedMainMemory(address, type);
         break;
             
         case MAPPEDROM:
@@ -1488,6 +1490,7 @@ void Cdp18s600::writeMemDataType(Word address, Byte type)
                 p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
                 mainMemoryDataType_[address&0xfbff] = type;
             }
+            increaseExecutedMainMemory(address&0xfbff, type);
         break;
             
         case MAPPEDRAM:
@@ -1496,6 +1499,7 @@ void Cdp18s600::writeMemDataType(Word address, Byte type)
                 p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
                 mainMemoryDataType_[address&0xf3ff] = type;
             }
+            increaseExecutedMainMemory(address&0xf3ff, type);
         break;
             
        case RAM:
@@ -1504,6 +1508,7 @@ void Cdp18s600::writeMemDataType(Word address, Byte type)
                 p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
                 mainMemoryDataType_[address] = type;
             }
+            increaseExecutedMainMemory(address, type);
         break;
 
         case CPURAM:
@@ -1512,6 +1517,7 @@ void Cdp18s600::writeMemDataType(Word address, Byte type)
                 p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
                 cpuRamDataType_[address] = type;
             }
+            increaseExecutedCpuRam(address, type);
         break;
 
         case PRAM1870:
@@ -1520,11 +1526,12 @@ void Cdp18s600::writeMemDataType(Word address, Byte type)
                 p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
                 mainMemoryDataType_[address] = type;
             }
+            increaseExecutedMainMemory(address, type);
         break;
     }
 }
 
-Byte Cdp18s600::readMemDataType(Word address)
+Byte Cdp18s600::readMemDataType(Word address, uint64_t* executed)
 {
     if (address < 0x8000)
         address = (address | addressLatch_);
@@ -1533,22 +1540,32 @@ Byte Cdp18s600::readMemDataType(Word address)
     {
         case RAM:
         case ROM:
+            if (profilerCounter_ != PROFILER_OFF)
+                *executed = mainMemoryExecuted_[address];
             return mainMemoryDataType_[address];
         break;
 
         case MAPPEDROM:
+            if (profilerCounter_ != PROFILER_OFF)
+                *executed = mainMemoryExecuted_[address&0xfbff];
             return mainMemoryDataType_[address&0xfbff];
         break;
             
         case MAPPEDRAM:
+            if (profilerCounter_ != PROFILER_OFF)
+                *executed = mainMemoryExecuted_[address&0xf3ff];
             return mainMemoryDataType_[address&0xf3ff];
         break;
             
         case CPURAM:
+            if (profilerCounter_ != PROFILER_OFF)
+                *executed = cpuRamExecuted_[address];
             return cpuRamDataType_[address];
         break;
             
         case PRAM1870:
+            if (profilerCounter_ != PROFILER_OFF)
+                *executed = mainMemoryExecuted_[address];
             return mainMemoryDataType_ [address];
         break;
     }
@@ -3012,6 +3029,7 @@ void Cdp18s604b::startComputer()
     p_Main->updateTitle();
     
     cpuCycles_ = 0;
+	instructionCounter_= 0;
     p_Main->startTime();
     
     int ms = (int) p_Main->getLedTimeMs(computerType_);
@@ -3060,6 +3078,7 @@ void Cdp18s604b::writeMemDataType(Word address, Byte type)
                 p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
                 mainMemoryDataType_[address] = type;
             }
+            increaseExecutedMainMemory(address, type);
         break;
             
         case MAPPEDROM:
@@ -3068,6 +3087,7 @@ void Cdp18s604b::writeMemDataType(Word address, Byte type)
                 p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
                 mainMemoryDataType_[address&0xfdff] = type;
             }
+            increaseExecutedMainMemory(address&0xfdff, type);
         break;
             
         case RAM:
@@ -3076,11 +3096,12 @@ void Cdp18s604b::writeMemDataType(Word address, Byte type)
                 p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
                 mainMemoryDataType_[address] = type;
             }
+            increaseExecutedMainMemory(address, type);
         break;
     }
 }
 
-Byte Cdp18s604b::readMemDataType(Word address)
+Byte Cdp18s604b::readMemDataType(Word address, uint64_t* executed)
 {
     if (address < 0x8000)
         address = (address | addressLatch_);
@@ -3089,10 +3110,14 @@ Byte Cdp18s604b::readMemDataType(Word address)
     {
         case RAM:
         case ROM:
+            if (profilerCounter_ != PROFILER_OFF)
+                *executed = mainMemoryExecuted_[address];
             return mainMemoryDataType_[address];
         break;
             
         case MAPPEDROM:
+            if (profilerCounter_ != PROFILER_OFF)
+                *executed = mainMemoryExecuted_[address&0xfdff];
             return mainMemoryDataType_[address&0xfdff];
         break;
     }
@@ -3544,6 +3569,7 @@ void Rcasbc::startComputer()
     p_Main->updateTitle();
     
     cpuCycles_ = 0;
+	instructionCounter_= 0;
     p_Main->startTime();
     
     int ms = (int) p_Main->getLedTimeMs(computerType_);

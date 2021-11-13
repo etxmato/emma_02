@@ -1,0 +1,35 @@
+<html>
+<title>Terminal Load & Save</title>
+<body>
+<h1>Terminal Load & Save</h1>
+<p>
+This option is only implemented for the VIP2K Membership Card & Membership Card and can be used in combination with the monitor software. When using the Membership Card make sure a configuration is load, for details see <a href="MembershipMain.htm">Membership Card</a>. Settings for the LOAD/SAVE feature are shown in GUI below.
+</p>
+<p>
+<IMG SRC="images/terminal_load.png" BORDER="0">
+</p>
+<h2>Auto LOAD/SAVE</h2>
+<p>
+Auto LOAD/SAVE is the default settings; if that is not loaded make sure 'Auto LOAD/SAVE' is checked (yellow ellipse).
+</p>
+<p>
+To load a terminal file into the emulated computer, select a file (orange ellipse). Start the load command by pressing 'L' or 'I' (on the emulated computer).
+</p>
+<p>
+To save a terminal file from the emulated computer, select a file (orange ellipse). Start the save command by pressing 'S' or 'C' (on the emulated computer). For the Membership Card: when the save is finished the front panel LEDs should flash on / off, at that time press a key in the video terminal window.
+</p>
+<p>
+For both save and load make sure a file is selected (orange ellipse) before using the save and load instructions otherwise the emulated computer will hang on the load (until you manually start a file) or with a save the terminal output will not be written to any file.
+</p>
+<h2>Manual LOAD/SAVE</h2>
+<p>
+To use this make sure 'Auto LOAD/SAVE' is NOT checked (yellow ellipse). This setting is more like the terminal LOAD/SAVE handling with the real monitor.  
+</p>
+<p>
+To load a terminal file into the emulated computer, select a file (orange ellipse). Start the load command by pressing 'L' or 'I' (on the emulated computer). When the terminal states 'Ready to LOAD Program' then press the 'play' button (blue ellipse).
+</p>
+<p>
+To save a terminal file from the emulated computer, select a file (orange ellipse). Start the save command by pressing 'S' or 'C' (on the emulated computer). When the terminal states 'Ready to SAVE Program' then press the 'record' button (blue ellipse). For the Membership Card: when the save is finished the front panel LEDs should flash on / off, at that time press a key in the video terminal window.
+</p>
+</body>
+</html>

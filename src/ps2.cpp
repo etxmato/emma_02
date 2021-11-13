@@ -276,7 +276,7 @@ void Ps2::cyclePs2()
 	}
 	if (ps2KeyboardMode_ == 'I') 
 	{
-		if ((ps2Cycles_ -= 1) <= 0) 
+		if ((ps2Cycles_--) == 0) 
 		{
 			ps2KValue_ ^= 2;
 			if (ps2KValue_ & 2) 
@@ -317,7 +317,10 @@ void Ps2::cyclePs2()
 	}
 	if (ps2KeyboardMode_ == 'R') 
 	{
-		if ((ps2Cycles_ -= 1) < 0) ps2KeyboardMode_ = 'X';
+		if (ps2Cycles_ == 0)
+			ps2KeyboardMode_ = 'X';
+		else
+			ps2Cycles_--;
 	}
 	if (ps2KeyboardMode_ == 'O') 
 	{

@@ -211,7 +211,10 @@ void GuiVelf::readVelfConfig()
 		XRCCTRL(*this, "ScreenDumpFileVelf", wxComboBox)->SetValue(conf[VELF].screenDumpFile_);
 		XRCCTRL(*this, "WavFileVelf", wxTextCtrl)->SetValue(conf[VELF].wavFile_[0]);
 
-		XRCCTRL(*this, "VTTypeVelf", wxChoice)->SetSelection(elfConfiguration[VELF].vtType);
+        if (elfConfiguration[VELF].vtExternal)
+            XRCCTRL(*this, "VTTypeVelf", wxChoice)->SetSelection(EXTERNAL_TERMINAL);
+        else
+            XRCCTRL(*this, "VTTypeVelf", wxChoice)->SetSelection(elfConfiguration[VELF].vtType);
 
 		XRCCTRL(*this, "VTBaudTChoiceVelf", wxChoice)->SetSelection(elfConfiguration[VELF].baudT);
 		XRCCTRL(*this, "VTBaudRChoiceVelf", wxChoice)->SetSelection(elfConfiguration[VELF].baudT);

@@ -5,17 +5,19 @@
 <p>
 Any of the Emma 02 computers can be started via the command line. If the option -c=&lt;str&gt; is used no GUI will be started but instead the computer specified in the &lt;str&gt; field will be started directly. The following computer  strings can be specified:
 </p>
+<p>
 <UL>
 <LI>cdp18s020
-<LI>comx
 <LI>coinarcade
+<LI>comx
 <LI>cosmicos
 <LI>cosmac (Cosmas Elf)
 <LI>cidelsa
 <LI>elf2k
 <LI>eti or eti660 (ETI 660)
 <LI>fred1
-<LI>fred15 of fred1.5
+<LI>fred15 or fred1.5
+<LI>infinite or uc1800
 <LI>membership
 <LI>mcds
 <LI>microtutor
@@ -38,11 +40,12 @@ Any of the Emma 02 computers can be started via the command line. If the option 
 <LI>vipII
 <LI>vip2k
 </UL>
+</p>
 <p>
 Options valid for all command line cases:<BR>
 -h, --help, show command line help message<BR>
 -p, --portable, run in portable mode (see below)<BR>
--u, --skipupdate, skip update check<BR>
+-u, --skip update, skip update check<BR>
 -w, --window, non fixed window positions (See also <a href="MainWindow.htm">Window Settings</a><BR>
 -c, --computer=&lt;str&gt;, start emulator without gui and for specified computer
 </p>
@@ -55,7 +58,7 @@ Options only valid when &quot;-c&quot; is specified:<BR>
 -ch, --chip8=&lt;str&gt;, load specified chip8 software on start
 </p>
 <p>
-Note the equal sign is optional in the above commands. All commands where software files are specifiec can either include  the full path (c:\games\invaders.st2) or just the file name. If only a file name is used Emma 02 will try to load the game file from the directory specified in the emma_02.ini file (set manually or via the GUI).
+Note the equal sign is optional in the above commands. All commands where software files are specified can either include  the full path (c:\games\invaders.st2) or just the file name. If only a file name is used Emma 02 will try to load the game file from the directory specified in the emma_02.ini file (set manually or via the GUI).
 </p>
 <p>
 It is possible to specify -s=&quot;&quot; (for a Studio II, Studio III / Victory MPT-02 or Visicom COM-100) to start without st2 file loaded, i.e. to run emulator with the build-in games.

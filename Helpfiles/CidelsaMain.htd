@@ -6,19 +6,64 @@
 This emulator will emulate the Cidelsa arcade computer mainly sold in Spain. Additional information about the Cidelsa can be found on the <a href="http://www.emma02.hobby-site.com">Emma 02</a> site.
 </p>
 <p>
-To run the Cidelsa emulator at least one game ROM file should be specified in the 'ROM' field. To specify the location and file name use the 'ROM' button to browse for the file or type in a new file name in the text field.
+To start the Cidelsa emulator, select the Cidelsa tab (yellow ellipse) and then press Start:
 </p>
 <p>
-Currenlty 3 games are supported: Altair, Destroyer (set 1 and 2) and Draco.
+<IMG SRC="images/cidelsa.png" BORDER="0">
 </p>
 <p>
-Binery and intel files are supported and also multiple files as used by the MAME emulators. In this case the files however should be unzipped and one of the ROM files selected as main ROM. Note: filename format in this case should NOT be changed, i.e. for Altair use 'alt a 1.ic7', for Destroyer use 'des a 2.ic4' or 'destryea_1' and for Draco use 'dra a 1.ic10'. In all cases these are the names for the first ROM file.
+The above will have started a Cidelsa Draco machine which is the default setting. 
 </p>
 <p>
-This chapter includes:
+To load one of the other Cidelsa arcade machine configurations use the menu option below (blue ellipse) following the grey menu. Alternatively load one of the Crosslib games following the same menu options (orange ellipse):
+</p>
+<p>
+<IMG SRC="images/cidelsa_configuration.png" BORDER="0">
+</p>
+<p>
+Summary of the Cidelsa <a href="MainConfigurations.htm">configurations</a>:
+</p>
+<p><B>Altair:</B></p>
+<p>
+Cidelsa Altair game ROM and HW configuration
+</p>
+<p><B>Destroyer Set 1:</B></p>
+<p>
+Cidelsa Destroyer game ROM (set 1) and HW configuration
+</p>
+<p><B>Destroyer Set 2:</B></p>
+<p>
+Cidelsa Destroyer game ROM (set 2) and HW configuration
+</p>
+<p><B>Draco/Default:</B></p>
+<p>
+Cidelsa Draco game ROM and HW configuration
+</p>
+<p><B>Xbomber Draco 32K:</B></p>
+<p>
+Crosslib Xbomber game running on Draco HW using 32K ROM file
+</p>
+<p><B>XChase:</B></p>
+<p>
+Crosslib XChase game running on all possible cidelsa HW configurations
+</p>
+<p><B>Xshoot Draco 32K:</B></p>
+<p>
+Crosslib Xshoot game running on Draco HW using 32K ROM file
+</p>
+<p>
+Note for the game ROMs binary and intel files are supported as well as multiple files as used by the MAME emulators. For the MAME file format the files should be unzipped and one of the ROM files selected as main ROM. Filename format in this case should NOT be changed, i.e. for Altair use 'alt a 1.ic7', for Destroyer use 'des a 2.ic4' or 'destryea_1' and for Draco use 'dra a 1.ic10'. In all cases these are the names for the first ROM file.
+</p>
+<p>
+Other Cidelsa Emulator features:
 </p>
 <p>
 <a href="CidelsaKeys.htm">Key Definition</a><br>
+<a href="MainScreendump.htm">Video Dump</a><br>
+<a href="MainZoom.htm">Zoom Level and Full Screen Mode</a><br>
+<a href="MainSound.htm">Sound</a><br>
+<a href="CidelsaHwConf.htm">HW Configuration</a><br>
 <a href="CidelsaGame.htm">Game Settings</a><br>
+<a href="MainClock.htm">Clock Speed</a>
 </p>
 </body></html>

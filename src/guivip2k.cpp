@@ -197,7 +197,10 @@ void GuiVip2K::readVip2KConfig()
 		XRCCTRL(*this, "ScreenDumpFileVip2K", wxComboBox)->SetValue(conf[VIP2K].screenDumpFile_);
 		XRCCTRL(*this, "WavFileVip2K", wxTextCtrl)->SetValue(conf[VIP2K].wavFile_[0]);
 
-		XRCCTRL(*this, "VTTypeVip2K", wxChoice)->SetSelection(elfConfiguration[VIP2K].vtType);
+        if (elfConfiguration[VIP2K].vtExternal)
+            XRCCTRL(*this, "VTTypeVip2K", wxChoice)->SetSelection(EXTERNAL_TERMINAL);
+        else
+            XRCCTRL(*this, "VTTypeVip2K", wxChoice)->SetSelection(elfConfiguration[VIP2K].vtType);
 
 		XRCCTRL(*this, "VTBaudTChoiceVip2K", wxChoice)->SetSelection(elfConfiguration[VIP2K].baudT);
 		XRCCTRL(*this, "VTBaudRChoiceVip2K", wxChoice)->SetSelection(elfConfiguration[VIP2K].baudT);

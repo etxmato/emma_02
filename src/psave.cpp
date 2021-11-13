@@ -81,7 +81,7 @@ void PsaveDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
     stringThreshold = XRCCTRL(*this, "FREDFreq", wxTextCtrl)->GetValue();
     if (stringThreshold == "")  stringThreshold = "5.8";
     double freq;
-    if (!stringThreshold.ToDouble(&freq))
+    if (!p_Main->toDouble(stringThreshold, &freq))
         freq = 5.8;
     p_Main->setPsaveData(10, freq*10);
     

@@ -221,7 +221,10 @@ void GuiMcds::readMcdsConfig()
         XRCCTRL(*this, "PrintModeMCDS", wxChoice)->SetSelection((int)configPointer->Read("/Mcds/Print_Mode", 1l));
         setPrintMode();
   
-        XRCCTRL(*this, "VTTypeMCDS", wxChoice)->SetSelection(elfConfiguration[MCDS].vtType);
+        if (elfConfiguration[MCDS].vtExternal)
+            XRCCTRL(*this, "VTTypeMCDS", wxChoice)->SetSelection(EXTERNAL_TERMINAL);
+        else
+            XRCCTRL(*this, "VTTypeMCDS", wxChoice)->SetSelection(elfConfiguration[MCDS].vtType);
         XRCCTRL(*this, "McdsForceUC", wxCheckBox)->SetValue(elfConfiguration[MCDS].forceUpperCase);
         
 		XRCCTRL(*this, "VTBaudRChoiceMCDS", wxChoice)->SetSelection(elfConfiguration[MCDS].baudR);

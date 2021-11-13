@@ -2,8 +2,8 @@
 <html>
 <title>Super-chip Syntax</title>
 <body>
-<h2>Super-chip Syntax</h2>
-<h3>Information</h3>
+<h1>Super-chip Syntax</h1>
+<h2>Information</h2>
 <p>
 The Super-chip interpreter for the modified VIP (chip10 modification) and Studio IV was designed by me. It should support Super-CHIP 1.1, 00FA instruction from chip8run and also somewhat follows SCHIP/SCHPC however with some selectable options/quirks:</p>
 <p>
@@ -32,12 +32,16 @@ Some Super-chip games need the following setting:
 <LI>Mr. Worm: No options selected
 <LI>Octopeg: No options selected
 <LI>Sub-Terr8nia: No options selected
+</ul>
 </p>
 <p>
 Super-chip code should be located from 800-17FF. Note that address 800 is seen as 200 by the interpreter. So a command 2200 will do a call to address 800 instead of 200. Video memory is located from 1C00 to 1FFF and Vx-Vy are stored from 1BF0 to 1BFF.
 </p>
-<h3>Definitions</h3>
-<TABLE BORDER="0" COLS=2 ALIGN="LEFT" VALIGN="TOP" >
+<p>
+This info is also available online on the <a href="https://emma02.hobby-site.com/pseudo_super_chip.html">Emma 02 site</a>.
+</p>
+<h2>Definitions</h2>
+<table>
 <TR>
 <TD WIDTH="70">aaa</TD>
 <TD WIDTH="400">12 bit address</TD>
@@ -78,9 +82,9 @@ Super-chip code should be located from 800-17FF. Note that address 800 is seen a
 <TD WIDTH="70">1..9, A..F</TD>
 <TD WIDTH="400">Hexadecimal digits</TD>
 </TR>
-</TABLE>
-<h3>Syntax</h3>
-<TABLE BORDER="0" COLS=4 ALIGN="LEFT" VALIGN="TOP" >
+</table>
+<h2>Syntax</h2>
+<table>
 <TR>
 <TD WIDTH="55">Fx1E</TD>
 <TD WIDTH="40">ADD</TD>
@@ -121,13 +125,13 @@ Super-chip code should be located from 800-17FF. Note that address 800 is seen a
 <TD WIDTH="55">00FA</TD>
 <TD WIDTH="40">COMP</TD>
 <TD WIDTH="100"></TD>
-<TD WIDTH="250">Set compatibility mode for FX55 and FX65; running this changes the behavior of those instructions so they no longer change I</TD>
+<TD WIDTH="250">Set compatibility mode for FX55 and FX65; running this changes the behaviour of those instructions so they no longer change I</TD>
 </TR>
 <TR>
 <TD WIDTH="55">Dxyn</TD>
 <TD WIDTH="40">DRW</TD>
 <TD WIDTH="100">Vx, Vy, n</TD>
-<TD WIDTH="250">Draw n byte sprite stored at [I] at Vx, Vy. Set VF = collision<br>If n=0 a 16x16 sprite is drwan in high res mode and a 8x16 sprite in low res mode</TD>
+<TD WIDTH="250">Draw n byte sprite stored at [I] at Vx, Vy. Set VF = collision<br>If n=0 a 16x16 sprite is drawn in high res mode and a 8x16 sprite in low res mode</TD>
 </TR>
 <TR>
 <TD WIDTH="55">00FF</TD>
@@ -157,7 +161,7 @@ Super-chip code should be located from 800-17FF. Note that address 800 is seen a
 <TD WIDTH="55">Fx15</TD>
 <TD WIDTH="40">LD</TD>
 <TD WIDTH="100">DT, Vx</TD>
-<TD WIDTH="250">Delaytimer = Vx</TD>
+<TD WIDTH="250">Delay timer = Vx</TD>
 </TR>
 <TR>
 <TD WIDTH="55">Fx29</TD>
@@ -187,7 +191,7 @@ Super-chip code should be located from 800-17FF. Note that address 800 is seen a
 <TD WIDTH="55">Fx07</TD>
 <TD WIDTH="40">LD</TD>
 <TD WIDTH="100">Vx, DT</TD>
-<TD WIDTH="250">Vx = Delaytimer</TD>
+<TD WIDTH="250">Vx = Delay timer</TD>
 </TR>
 <TR>
 <TD WIDTH="55">Fx0A</TD>

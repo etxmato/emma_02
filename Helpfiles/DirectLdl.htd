@@ -1,0 +1,53 @@
+<html>
+<title>LDL, LDRL, LDV and RLDL instructions</title>
+<body>
+<h1>LDL, LDRL, LDV and RLDL instructions</h1>
+<p>
+Some code will need to load locations into registers and use the location in the register to load data. This can be done by using the LDL (LoaD Location), LDRL (LoaD Reversed Location) macro in the Direct assembler or marking specific 1802 code as 'LDL' or 'LDRL' via the procedure described in chapter <a href="DirectMarking.htm">Changing Address Usage</a>. By doing this the location data will be corrected when using <a href="DirectInsert.htm">insert, delete</a> or <a href="DirectCopy.htm">copy</a> commands. All 'location data' will be shown in <FONT COLOR="DARK ORCHID">purple</FONT> text.
+</p>
+<p>
+Use LDL for code loading high byte first and LDRL for code loading low byte first:
+</p>
+<p>
+<IMG SRC="images/assembler_ldl_ldrl.png" BORDER="0">
+</p>
+<p>
+For example doing an insert on address 4407 in the following example:
+</p>
+<p>
+<IMG SRC="images/assembler_ldl.png" BORDER="0">
+</p>
+<p>
+will result in:
+</p>
+<p>
+<IMG SRC="images/assembler_ldl_result.png" BORDER="0">
+</p>
+<p>
+If an insert is done on address 4508 in the original example the LDL of 4408 will NOT change. This to allow adding space at the start of a data section, as seen here:
+</p>
+<p>
+<IMG SRC="images/assembler_ldl_result2.png" BORDER="0">
+</p>
+<p>
+A similar LDV (LoaD Value) macro is available resulting in the same 1802 code sequence however for this macro the value is NOT changed by any insert, delete or copy commands. LDV data value is also NOT shown in <FONT COLOR="DARK ORCHID">purple</FONT>.
+</p>
+<p>
+For use with 1804 or 1805 code an RLDL macro is available. RLDL will generate the same 1804/1805 code as the 1804/1805 instruction RLDI however the Direct Assembler will treat RLDL as a location load similar to LDL. The RLDL data value is shown in <FONT COLOR="DARK ORCHID">purple</FONT>, the RLDI data is not.
+</p>
+<p>
+For example doing an insert on address 4609 in the following example:
+</p>
+<p>
+<IMG SRC="images/assembler_rldl.png" BORDER="0">
+</p>
+<p>
+will result in:
+</p>
+<p>
+<IMG SRC="images/assembler_rldl_result.png" BORDER="0">
+</p>
+<p>
+<b>Note:</b> the RLDL value changed to 460B whereas the RLDI value stayed the same.</p>
+</body>
+</html>

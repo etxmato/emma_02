@@ -45,18 +45,20 @@ public:
 
 #define CPU_MEMORY 0
 #define CPU_TYPE 1
-#define CDP_1870_P 2
-#define CDP_1870_C 3
-#define CDP_1870_COLOUR 4
-#define V_6845 5
-#define V_6847 6
-#define V_6847_RAM 7
-#define TMS_MEMORY 8
-#define VT_RAM 9
-#define CDP_1864 10
-#define I_8275 11
-#define I_8275_RAM 12
-#define VIP2KSEQUENCER 13
+#define CPU_PROFILER 2
+#define CDP_1870_P 3
+#define CDP_1870_C 4
+#define CDP_1870_COLOUR 5
+#define V_6845 6
+#define V_6847 7
+#define V_6847_RAM 8
+#define TMS_MEMORY 9
+#define VT_RAM 10
+#define CDP_1864 11
+#define I_8275 12
+#define I_8275_RAM 13
+#define VIP2KSEQUENCER 14
+#define RTCRAM 15
 
 #define TEXT_ASSEMBLER true
 #define DIRECT_ASSEMBLER false
@@ -292,17 +294,36 @@ public:
 	void RF(wxCommandEvent&event);
 
 	void directAss();
+    void setProfileColor(Byte executedColor);
+    void onProfilerType(wxCommandEvent&event);
+    void onProfilerCounter(wxCommandEvent&event);
+    void onProfilerClear(wxCommandEvent&event);
+    int getProfilerType()  {return profilerType_;};
+    int getProfilerCounter()  {return profilerCounter_;};
 	void drawAssCharacter(Word address, int line, int count);
 	void onAssEnter(wxCommandEvent&event);
 	int setMemLabel(Word address, bool removeMemLabel);
-	void onAssAddress(wxCommandEvent&event); 
-	void onAssSpinUp(wxSpinEvent&event);
-	void assSpinUp();
-	void onAssSpinDown(wxSpinEvent&event);
-	void assSpinDown();
-	void onAssSpinPageUp(wxSpinEvent&event);
+    void onAssAddress(wxCommandEvent&event);
+    void onProfilerAddress(wxCommandEvent&event);
+    void onAssThumbTrack(wxScrollEvent&event);
+    void onProfilerThumbTrack(wxScrollEvent&event);
+    void onAssSpinUp(wxSpinEvent&event);
+    void onAssSpinUp(wxScrollEvent&event);
+    void onProfilerSpinUp(wxScrollEvent&event);
+    void assSpinUp();
+    void assSpinUpScroll();
+    void onAssSpinDown(wxSpinEvent&event);
+    void onAssSpinDown(wxScrollEvent&event);
+    void onProfilerSpinDown(wxScrollEvent&event);
+    void assSpinDown();
+    void assSpinDownScroll();
+    void onAssSpinPageUp(wxSpinEvent&event);
+    void onAssSpinPageUp(wxScrollEvent&event);
+    void onProfilerSpinPageUp(wxScrollEvent&event);
 	void onAssSpinPageUp();
-	void onAssSpinPageDown(wxSpinEvent&event);
+    void onAssSpinPageDown(wxSpinEvent&event);
+    void onAssSpinPageDown(wxScrollEvent&event);
+    void onProfilerSpinPageDown(wxScrollEvent&event);
 	void onAssSpinPageDown();
 	void checkSlotAddressWarning(Word branchAddress);
 	bool slotAddress(Word branchAddress);
@@ -360,7 +381,8 @@ public:
     void onAssDir(wxCommandEvent&event);
 	bool saveAll(wxString configFile);
 	void saveAll();
-	void onAssDataView(wxCommandEvent&event);
+    void onAssDataView(wxCommandEvent&event);
+    void onProfilerDataView(wxCommandEvent&event);
 	void AssAddConfig(wxString dir, wxString name, Word programStart, Word programEnd, Word dataEnd, Byte slot);
 	void AssStoreConfig(int range, wxString dir, wxString name, Word programStart, Word programEnd, Word dataEnd, Byte slot);
     void AssInitConfig();
@@ -380,7 +402,8 @@ public:
 	void onDebugDisplayPageSpinUp(wxSpinEvent&event);
 	void debugDisplayPageSpinUp(); 
 	void onDebugDisplayPageSpinDown(wxSpinEvent&event);
-	void DebugDisplayPage(); 
+    void DebugDisplayPage();
+    void DebugDisplayProfiler();
 	void ShowCharacters(Word address, int y);
 	void DebugDisplayMap();
 	void DebugDisplay();
@@ -405,9 +428,11 @@ public:
 	void onEditMemory(wxCommandEvent&event);
 
 	void setMemoryType(int id, int setType);
+    void memoryDisplaySetGuiSize(int offset);
 	void memoryDisplay();
 	Word getAddressMask();
-	void DebugDisplayVip2kSequencer();
+    void DebugDisplayRtcRam();
+    void DebugDisplayVip2kSequencer();
     void DebugDisplay1870VideoRam();
     void DebugDisplay1870ColourRam();
 	void DebugDisplay1864ColorRam();
@@ -514,13 +539,17 @@ protected:
     wxString dirAssNewDir_;
     bool pseudoLoaded_;
 
+    int profilerType_;
+    int profilerCounter_;
+
 private:
 	wxMemoryDC dcLine, dcChar, dcAss;
 	bool updatingTraceString_;
 
 	wxBitmap *lineBmp[16];
-	wxBitmap *assBmp;
-	wxString extractWord(wxString *buffer); 
+    wxBitmap *assBmp;
+    wxBitmap *profilerBmp;
+	wxString extractWord(wxString *buffer);
 	wxString extractNextWord(wxString *buffer, wxString *seperator);
 	void addBreakPoint(); 
 	void addChip8BreakPoint(); 
@@ -531,6 +560,7 @@ private:
     wxString getLongAddressOrLabel(Word address, bool textAssembler, Word start, Word end);
     wxString getSubAddressOrLabel(Word address, bool textAssembler, Word start, Word end);
     wxString getLoadAddressOrLabel(Word address, Word start, Word end);
+    wxString getReversedLoadAddressOrLabel(Word address, Word start, Word end);
     wxString getLoadAddress(Word address);
     wxString getCurrentAddresssLabel(Word address);
     wxString getHexByte(Word address, bool textAssembler);
@@ -599,7 +629,8 @@ private:
 	wxString pseudoType_;
 
 	bool showInstructionTrap_;
-	bool dataViewDump;
+    bool dataViewDump;
+    bool dataViewProfiler;
 	Word showInstructionTrapAddress_;
 	
 	int selectedBreakPoint_;
@@ -639,6 +670,10 @@ private:
     LabelInfo labelInfo_[65536];
 
 	int numberOfDebugLines_;
+    int lineSpace_;
+    int charWidth_;
+    int assWidth_;
+    int profilerWidth_;
     
 	wxTextFile inFile;
     wxTextFile outputTextFile;

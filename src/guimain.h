@@ -375,6 +375,7 @@ public:
 	void onVtSetup(wxCommandEvent& event);
 	void onBeepFrequency(wxCommandEvent&event);
 
+    bool toDouble(wxString stringName, double* result);
     wxString getMainDir() {return conf[runningComputer_].mainDir_;};
 	bool getGuiMode() {return mode_.gui;};
 
@@ -538,6 +539,7 @@ public:
     void stopTerminal();
     void startAutoTerminalSave(int protocol);
     void startTerminalSave(int protocol);
+    void startYsTerminalSave(int protocol);
 	void turboOn();
 	void turboOff();
 	void enableStartButtonGui(bool status);
@@ -602,6 +604,8 @@ public:
     wxString getUpdFloppyDir(int fdcType, int drive);
     wxString getUpdFloppyFile(int fdcType, int drive);
     void setUpdFloppyGui(int drive, int computerType);
+
+    int getMessageBoxAnswer() {return messageBoxAnswer_;};
 
 protected:
 	Mode mode_;
@@ -715,6 +719,7 @@ protected:
     wxTimer *traceTimeoutPointer;
     wxTimer *keyDebounceTimeoutPointer;
     wxTimer *vuPointer;
+    wxTimer *directAssPointer;
     wxTimer *guiSizeTimeoutPointer;
     wxTimer *guiRedrawBarTimeOutPointer;
     bool guiSizeTimerStarted_;

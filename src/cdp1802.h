@@ -138,7 +138,8 @@ public:
     void setCounterInterruptEnable(Byte cie) {cie_ = cie;};
 	Byte getEfFlags() {return efFlags_;};
 	void setCycle0() {cycle0_ = 1;};
-	long getCpuCycles() {return cpuCycles_;};
+	uint64_t getCpuCycles() {return cpuCycles_;};
+	uint64_t getInstructionCounter() {return instructionCounter_;};
 	long getSteps(){return steps_;};
 	void setSteps(long steps);
 	void setTraceStatus(bool trace) {trace_ = trace;};
@@ -163,6 +164,17 @@ public:
 
     virtual void setHeaderTitle(const wxString& title);
     virtual void updateTitle(wxString Title);
+
+    void increaseExecutedMainMemory(long address, Byte type);
+    void increaseExecutedExpansionRom(long address, Byte type);
+    void increaseExecutedExpansionRam(Word address, Byte type);
+    void increaseExecutedExpansionEprom(Word address, Byte type);
+    void increaseExecutedExpansionSuper(Word address, Byte type);
+    void increaseExecutedCpuRam(Word address, Byte type);
+    void increaseExecutedMultiCartRom(Word address, Byte type);
+    void increaseExecutedTestCartRom(Word address, Byte type);
+    void increaseExecutedEmsRam(long address, Byte type);
+    void clearProfiler();
 
 protected:
 	Byte cycle0_;
@@ -211,7 +223,7 @@ protected:
     Word romMask_;
     
     bool interruptRequested_;
-    
+  
 private:
 	void setMode();
 	void decCounter();

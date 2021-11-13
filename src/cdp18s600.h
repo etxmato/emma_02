@@ -63,7 +63,7 @@ public:
     void configureCards();
     void readMicro(int romNumber, Word startAddress, Word lastAddress);
     virtual void writeMemDataType(Word address, Byte type);
-    virtual Byte readMemDataType(Word address);
+    virtual Byte readMemDataType(Word address, uint64_t* executed);
     Byte readMem(Word address);
     void writeMem(Word address, Byte value, bool writeRom);
     virtual Byte readMemDebug(Word address);
@@ -205,7 +205,7 @@ public:
     void readRoms();
     
     void writeMemDataType(Word address, Byte type);
-    Byte readMemDataType(Word address);
+    Byte readMemDataType(Word address, uint64_t* executed);
     Byte readMemDebug(Word address);
     void writeMemDebug(Word address, Byte value, bool writeRom);
     void setCpuMode(int mode);

@@ -811,7 +811,7 @@ void Vt100::cycleVt()
 		else
         {
             bool dataReady = false;
-            if (terminalLoad_ || (terminalSave_ && protocol_ == TERM_XMODEM_SAVE))
+            if (terminalLoad_ || (terminalSave_ && (protocol_ == TERM_XMODEM_SAVE || protocol_ == TERM_YMODEM_SAVE)))
             {
                 if (vtOut_ == 0)
                 {
@@ -867,6 +867,7 @@ void Vt100::uartVtOut()
                 uartStatus_[uart_da_bit_] = 1;
                 vtOutCount_ = -1;
                 vtOutBits_=10;
+                uartInterrupt();
             }
             if (vtOutBits_ == 11)
             {
@@ -883,6 +884,7 @@ void Vt100::uartVtOut()
             p_Computer->dataAvailableVt100(1, uartNumber_);
             uartStatus_[uart_da_bit_] = 1;
             vtOutCount_ = -1;
+            uartInterrupt();
         }
     }
 }
@@ -909,6 +911,7 @@ void Vt100::uartVtIn()
         uartStatus_[uart_tsre_bit_] = 1;
         
         vtCount_ = baudRateR_ * 9;
+        uartInterrupt();
     }
 }
 
@@ -1018,6 +1021,34 @@ bool Vt100::getTerminalLoadByte(Byte* value)
             }
         break;
 
+        case TERM_YMODEM_SAVE:
+            if (terminalAck_ & 0x80)
+            {
+                if ((xmodemBuffer_[3] == 0 && xmodemBuffer_[0] != 4) || xmodemBuffer_[0] == 24)
+                {
+                    terminalStopVt();
+                    p_Main->stopTerminal();
+                }
+                else
+                    outputTerminalFile.Close();
+            }
+            *value = terminalAck_ & 0x7f;
+
+            if (*value == XMODEM_ACK && (xmodemBuffer_[1] == 0 || xmodemBuffer_[0] == 4) && terminalSave_)
+            {
+                terminalAck_ = XMODEM_CRC;
+                if (uart_ || uart16450_)
+                    p_Computer->dataAvailableVt100(1, uartNumber_);
+            }
+            
+            dataReady = true;
+            previousByte_ = *value;
+            xmodemBufferSize_ = 133;
+            xmodemBufferPointer_ = 0;
+            xmodemBuffer_[xmodemBufferSize_-1] = 0;
+            xmodemBuffer_[xmodemBufferSize_-2] = 0;
+        break;
+
         case TERM_XMODEM_SAVE:
             if (terminalAck_ & 0x80)
             {
@@ -1122,16 +1153,28 @@ void Vt100::readBuffer()
   
     if (useCrc_)
     {
-        if (p_Main->getUsePacketSize1K(computerType_))
-            xmodemBufferSize_ = 1029;
-        else
-            xmodemBufferSize_ = 133;
+        switch (p_Main->getPacketSize(computerType_))
+        {
+            case 0:
+                if (fileSize_ >= 1024)
+                    xmodemBufferSize_ = 1029;
+                else
+                    xmodemBufferSize_ = 133;
+            break;
+            case 1:
+                xmodemBufferSize_ = 133;
+            break;
+            case 2:
+                xmodemBufferSize_ = 1029;
+            break;
+        }
 
         for (int i=0; i<(xmodemBufferSize_-2); i++)
             xmodemBuffer_[i] = 0x1a;
         xmodemBuffer_[xmodemBufferSize_-2] = 0;
         xmodemBuffer_[xmodemBufferSize_-1] = 0;
         numberOfBytes = inputTerminalFile.Read(&xmodemBuffer_[3], xmodemBufferSize_-5);
+        fileSize_ -= (xmodemBufferSize_-5);
     }
     else
     {
@@ -1666,9 +1709,9 @@ void Vt100::scrollScreen()
 
 void Vt100::Display(int byt, bool forceDisplay)
 {
-	int oldPos;
-	wxString character;
-    wxString fileName;
+	int oldPos, crc, pos;
+	wxString character, newDir;
+    wxString fileName, length;
 
 	if ((serialLog_ && !forceDisplay))
 	{
@@ -1732,6 +1775,186 @@ void Vt100::Display(int byt, bool forceDisplay)
         {
             switch (protocol_)
             {
+                case TERM_YMODEM_SAVE:
+                    switch (xmodemBufferPointer_)
+                    {
+                        case 0:
+                            receivePacket_ = true;
+                            if (byt == 2)
+                                xmodemBufferSize_ = 1029;
+
+                            if (byt == 4)
+                            {
+                                terminalAck_ = 0x86;
+                                xmodemBufferPointer_ = 0;
+                                if (uart_ || uart16450_)
+                                    p_Computer->dataAvailableVt100(1, uartNumber_);
+                            }
+
+                            if (byt == 24)
+                            {
+                                terminalStopVt();
+                                p_Main->stopTerminal();
+                            }
+                            else
+                            {
+                                xmodemBuffer_[xmodemBufferPointer_] = byt;
+                                xmodemBufferPointer_++;
+                            }
+                        break;
+                            
+                        case 1:
+                        case 2:
+                            xmodemBuffer_[xmodemBufferPointer_] = byt;
+                            xmodemBufferPointer_++;
+                        break;
+                            
+                        case 131:
+                            if (xmodemBufferSize_ != 133 && fileSize_ != 0)
+                            {
+                                outputTerminalFile.Write(buffer, 1);
+                                fileSize_--;
+                            }
+                            xmodemBuffer_[xmodemBufferPointer_] = byt;
+                            xmodemBufferPointer_++;
+                        break;
+
+                        case 132:
+                            if (xmodemBufferSize_ == 133)
+                            {
+                                receivePacket_ = false;
+
+                                crc = calcrc(&xmodemBuffer_[3], xmodemBufferSize_-5);
+                                
+                                if (xmodemBuffer_[xmodemBufferSize_-2] == (char) ((crc >> 8) & 0xff) && byt == (crc & 0xff))
+                                {
+                                    terminalAck_ = XMODEM_ACK;
+                                    
+                                    if (xmodemBuffer_[1] == 0)
+                                    {
+                                        fileName = "";
+                                        length = "";
+                                        pos = 3;
+                                        
+                                        while (xmodemBuffer_[pos] != 0)
+                                            fileName.Append(xmodemBuffer_[pos++]);
+                                        
+                                        pos++;
+                                        
+                                        while (xmodemBuffer_[pos] != 0x20)
+                                            length.Append(xmodemBuffer_[pos++]);
+ 
+                                        if (!length.ToLong(&fileSize_, 10))
+                                            fileSize_ = -1;
+
+                                        if (!fileName.empty())
+                                        {
+                                            if (fileName.GetChar(0) == '/')
+                                                fileName = fileName.Right(fileName.Len()-1);
+
+                                            newDir = "";
+                                            
+                                            while (fileName.Find('/') != wxNOT_FOUND)
+                                            {
+                                                newDir = fileName.Left(fileName.Find('/')) + p_Main->getPathSep();
+                                                fileName = fileName.Right(fileName.Len() - fileName.Find('/') - 1);
+                                                
+                                                if (!wxDir::Exists(directoryName_ + newDir))
+                                                {
+                                                    if (!wxFileName::Mkdir(directoryName_ + newDir))
+                                                        newDir = "";
+                                                }
+                                            }
+                                            
+                                            if (wxFile::Exists(directoryName_ + newDir + fileName))
+                                            {
+                                                p_Main->eventShowMessageBox( fileName+" already exists.\n"+"Do you want to replace it?",
+                                                                            "Confirm Save As", wxICON_EXCLAMATION | wxYES_NO);
+                                                
+                                                if (p_Main->getMessageBoxAnswer() == wxNO)
+                                                {
+                                                    fileName = p_Main->eventShowFileSelector( "Select the terminal file to save",
+                                                                                              directoryName_, fileName,
+                                                                                              "",
+                                                                                              "All files (*.*)|*.*",
+                                                                                              wxFD_SAVE|wxFD_CHANGE_DIR|wxFD_PREVIEW|wxFD_OVERWRITE_PROMPT
+                                                                                             );
+                                                    if (!fileName)
+                                                        terminalAck_ = XMODEM_NAK;
+
+                                                    wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
+                                                    fileName = FullPath.GetFullName();
+                                                    directoryName_ = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+                                                }
+                                            }
+                                            if (terminalAck_ != XMODEM_NAK)
+                                            {
+                                                if (!outputTerminalFile.Create(directoryName_ + newDir + fileName, true))
+                                                    terminalAck_ = XMODEM_NAK;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            terminalAck_ = 0x86;
+                                            xmodemBufferPointer_ = 0;
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    terminalAck_ = XMODEM_NAK;
+                                    xmodemBufferPointer_ = 0;
+                                    xmodemBuffer_[xmodemBufferSize_-1] = 0;
+                                }
+                                if (uart_ || uart16450_)
+                                    p_Computer->dataAvailableVt100(1, uartNumber_);
+                            }
+                            else
+                            {
+                                if (xmodemBuffer_[1] != 0 && fileSize_ != 0)
+                                {
+                                    outputTerminalFile.Write(buffer, 1);
+                                    fileSize_--;
+                                }
+                                xmodemBuffer_[xmodemBufferPointer_] = byt;
+                                xmodemBufferPointer_++;
+                            }
+                        break;
+                            
+                        case 1027:
+                            xmodemBuffer_[xmodemBufferPointer_] = byt;
+                            xmodemBufferPointer_++;
+                        break;
+                            
+                        case 1028:
+                            receivePacket_ = false;
+                            crc = calcrc(&xmodemBuffer_[3], xmodemBufferSize_-5);
+                            if (xmodemBuffer_[xmodemBufferSize_-2] == (char) ((crc >> 8) & 0xff) && byt == (crc & 0xff))
+                                terminalAck_ = XMODEM_ACK;
+                            else
+                            {
+                                terminalAck_ = XMODEM_NAK;
+                                outputTerminalFile.Seek(outputTerminalFile.Tell()-(xmodemBufferSize_-5));
+                                xmodemBufferPointer_ = 0;
+                                xmodemBuffer_[xmodemBufferSize_-1] = 0;
+                                xmodemBuffer_[xmodemBufferSize_-2] = 0;
+                            }
+                            if (uart_ || uart16450_)
+                                p_Computer->dataAvailableVt100(1, uartNumber_);
+                        break;
+
+                        default:
+                            if (xmodemBuffer_[1] != 0 && fileSize_ != 0)
+                            {
+                                outputTerminalFile.Write(buffer, 1);
+                                fileSize_--;
+                            }
+                            xmodemBuffer_[xmodemBufferPointer_] = byt;
+                            xmodemBufferPointer_++;
+                        break;
+                    }
+                break;
+                    
                 case TERM_XMODEM_SAVE:
                     switch (xmodemBufferPointer_)
                     {
@@ -1754,9 +1977,9 @@ void Vt100::Display(int byt, bool forceDisplay)
                         break;
 
                         case 131:
-                            receivePacket_ = false;
                             if (xmodemBufferSize_ == 132)
                             {
+                                receivePacket_ = false;
                                 if (xmodemBuffer_[xmodemBufferSize_-1] == (char) byt)
                                     terminalAck_ = XMODEM_ACK;
                                 else
@@ -1775,21 +1998,6 @@ void Vt100::Display(int byt, bool forceDisplay)
                                 xmodemBuffer_[xmodemBufferSize_-1] += byt;
                                 xmodemBufferPointer_++;
                             }
-                        break;
-                            
-                        case 1027:
-                            receivePacket_ = false;
-                            if (xmodemBuffer_[xmodemBufferSize_-1] == byt)
-                                terminalAck_ = XMODEM_ACK;
-                            else
-                            {
-                                terminalAck_ = XMODEM_NAK;
-                                outputTerminalFile.Seek(outputTerminalFile.Tell()-(xmodemBufferSize_-4));
-                                xmodemBufferPointer_ = 0;
-                                xmodemBuffer_[xmodemBufferSize_-1] = 0;
-                            }
-                            if (uart_ || uart16450_)
-                                p_Computer->dataAvailableVt100(1, uartNumber_);
                         break;
                             
                         default:
@@ -1855,11 +2063,12 @@ void Vt100::Display(int byt, bool forceDisplay)
                                         {
                                             inputTerminalFile.Close();
                                             xmodemFileNumber_++;
-                                            fileName = p_Main->getTerminalPath(computerType_, xmodemFileNumber_-1);
+                                            fileName = p_Main->getTerminalPath(computerType_, (int)xmodemFileNumber_-1);
                                             if (!fileName.empty())
                                             {
                                                 if (inputTerminalFile.Open(fileName, _("rb")))
                                                 {
+                                                    fileSize_ = inputTerminalFile.Length();
                                                     terminalLoad_ = true;
                                                     sendPacket_ = false;
                                                     xmodemBufferSize_ = 132;
@@ -3249,7 +3458,7 @@ Byte Vt100::uartIn()
     else
     {
         Byte loadByte = 0;
-        if (terminalLoad_ || (terminalSave_ && protocol_ == TERM_XMODEM_SAVE))
+        if (terminalLoad_ || (terminalSave_ && (protocol_ == TERM_XMODEM_SAVE || protocol_ == TERM_YMODEM_SAVE)))
         {
             getTerminalLoadByte(&loadByte);
             return loadByte;
@@ -3267,6 +3476,15 @@ Byte Vt100::uartStatus()
 Byte Vt100::uartThreStatus()
 {
     return uartStatus_[uart_thre_bit_];
+}
+
+void Vt100::uartInterrupt()
+{
+    if (uart16450_)
+        return;
+    
+    if ((uartControl_ & 0x20) == 0x20)
+        p_Computer->interrupt();
 }
 
 void Vt100::getKey()
@@ -3326,6 +3544,7 @@ Byte Vt100::checkCtrlvTextUart()
     {
         p_Computer->dataAvailableVt100(1, uartNumber_);
         uartStatus_[uart_da_bit_] = 1;
+        uartInterrupt();
     }
     else
         ctrlvText_ = 0;
@@ -3501,6 +3720,27 @@ void Vt100::terminalSaveVt(wxString fileName, int protocol)
     }
 }
 
+void Vt100::terminalYsSaveVt(wxString fileName, int protocol)
+{
+    p_Main->turboOn();
+
+    terminalSave_ = true;
+    terminalLine_ = "";
+    terminalAck_ = XMODEM_CRC;
+    useCrc_ = true;
+    directoryName_ = fileName;
+    xmodemBuffer_[0] = 0;
+    receivePacket_ = false;
+    xmodemBufferSize_ = 133;
+    protocol_ = protocol;
+    xmodemBufferPointer_ = 0;
+    if (!uart_ && !uart16450_)
+        p_Computer->setNotReadyToReceiveData(dataReadyFlag_-1);
+    else
+        p_Computer->dataAvailableVt100(1, uartNumber_);
+    previousByte_ = 0;
+}
+
 void Vt100::terminalSaveCdp18s020Vt(wxString fileName, int protocol)
 {
     if (!fileName.empty())
@@ -3523,6 +3763,7 @@ void Vt100::terminalLoadVt(wxString fileName, int protocol)
     {
         if (inputTerminalFile.Open(fileName, _("rb")))
         {
+            fileSize_ = inputTerminalFile.Length();
             terminalLoad_ = true;
             sendPacket_ = false;
             xmodemBufferSize_ = 132;
@@ -3534,6 +3775,7 @@ void Vt100::terminalLoadVt(wxString fileName, int protocol)
             xmodemPacketNumber_  = 0;
             xmodemFileNumber_ = 1;
             sendingMode_ = YMODEM_HEADER;
+            receivePacket_ = false;
         }
     }
 }

@@ -105,8 +105,8 @@ void ElfScreen::init()
 	mpSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(0x31, 0x31, 0x30), BUTTON_DOWN, 150, 312, "");
 	powerSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(0x31, 0x31, 0x30), BUTTON_DOWN, 313, 312, "");
 	loadSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(0x31, 0x31, 0x30), BUTTON_DOWN, 75, 312, "");
-	inSwitchButton = new SwitchButton(dc, PUSH_BUTTON, wxColour(0x31, 0x31, 0x30), BUTTON_UP, 45, 312, "");
-
+    inSwitchButton = new SwitchButton(dc, PUSH_BUTTON, wxColour(0x31, 0x31, 0x30), BUTTON_UP, 32, 312, "");
+    
 	qLedPointer = new Led(dc, 324, 250, ELFLED);
 	updateQLed_ = true;
 
@@ -930,6 +930,7 @@ void Elf::cycleLed()
         {
             cycleValue_ = cycleSize_;
             rtcRam_[0xc] |= 0x40;
+            p_Main->updateDebugMemory(0xc);
         }
     }
     if (ledCycleValue_ > 0)
@@ -1144,6 +1145,7 @@ void Elf::startComputer()
         elfScreenPointer->showAddressTil313Italic(0);
 
 	cpuCycles_ = 0;
+	instructionCounter_= 0;
 	p_Main->startTime();
 
     loadRtc();
@@ -1188,6 +1190,7 @@ void Elf::writeMemDataType(Word address, Byte type)
 						p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
 						emsRamDataType_[(long) ((address & 0x3fff) |(emsPage_ << 14))] = type;
 					}
+                    increaseExecutedEmsRam((long) ((address & 0x3fff) |(emsPage_ << 14)), type);
 				break;
 			}
 		break;
@@ -1204,6 +1207,7 @@ void Elf::writeMemDataType(Word address, Byte type)
                             p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
                             expansionRomDataType_[(long) ((address & 0x7fff) |(emsPage_ << 15))] = type;
                         }
+                        increaseExecutedExpansionRom((long) ((address & 0x7fff) |(emsPage_ << 15)), type);
                     break;
                 }
             }
@@ -1215,6 +1219,7 @@ void Elf::writeMemDataType(Word address, Byte type)
 				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
 				mainMemoryDataType_[address]=type;
 			}
+            increaseExecutedMainMemory(address, type);
 		break;
 
 		case MAPPEDRAM:
@@ -1225,6 +1230,7 @@ void Elf::writeMemDataType(Word address, Byte type)
 				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
 				mainMemoryDataType_[address] = type;
 			}
+            increaseExecutedMainMemory(address, type);
 		break;
 
 		case PAGER:
@@ -1237,6 +1243,7 @@ void Elf::writeMemDataType(Word address, Byte type)
 						p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
 						mainMemoryDataType_[(getPager(address>>12) << 12) |(address &0xfff)] = type;
 					}
+                    increaseExecutedMainMemory((getPager(address>>12) << 12) |(address &0xfff), type);
 				break;
 			}
 		break;
@@ -1244,7 +1251,7 @@ void Elf::writeMemDataType(Word address, Byte type)
 	}
 }
 
-Byte Elf::readMemDataType(Word address)
+Byte Elf::readMemDataType(Word address, uint64_t* executed)
 {
     address = address | bootstrap_;
 
@@ -1255,6 +1262,8 @@ Byte Elf::readMemDataType(Word address)
 			{
 				case ROM:
 				case RAM:
+                    if (profilerCounter_ != PROFILER_OFF)
+                        *executed = emsRamExecuted_[(long) ((address & 0x3fff) |(emsPage_ << 14))];
 					return emsRamDataType_[(long) ((address & 0x3fff) |(emsPage_ << 14))];
 				break;
 			}
@@ -1267,6 +1276,8 @@ Byte Elf::readMemDataType(Word address)
                 {
                     case ROM:
                     case RAM:
+                        if (profilerCounter_ != PROFILER_OFF)
+                            *executed = expansionRomExecuted_[(long) ((address & 0x7fff) |(emsPage_ << 15))];
                         return expansionRomDataType_[(long) ((address & 0x7fff) |(emsPage_ << 15))];
                     break;
                 }
@@ -1276,12 +1287,16 @@ Byte Elf::readMemDataType(Word address)
        break;
             
 		case ROM:
+            if (profilerCounter_ != PROFILER_OFF)
+                *executed = mainMemoryExecuted_[address];
 			return mainMemoryDataType_[address];
 		break;
 
 		case MAPPEDRAM:
 		case RAM:
 			address = (address & ramMask_) + ramStart_;
+            if (profilerCounter_ != PROFILER_OFF)
+                *executed = mainMemoryExecuted_[address];
 			return mainMemoryDataType_[address];
 		break;
 
@@ -1290,6 +1305,8 @@ Byte Elf::readMemDataType(Word address)
 			{
 				case ROM:
 				case RAM:
+                    if (profilerCounter_ != PROFILER_OFF)
+                        *executed = mainMemoryExecuted_[(getPager(address>>12) << 12) |(address &0xfff)];
 					return mainMemoryDataType_[(getPager(address>>12) << 12) |(address &0xfff)];
 				break;
 			}
@@ -1419,6 +1436,12 @@ void Elf::writeMemDebug(Word address, Byte value, bool writeRom)
 {
     address = address | bootstrap_;
 
+    if (loadedOs_ == ELFOS)
+    {
+        if (address == 0x400 && value >= 4 && value <= 128)
+            loadedOs_ = ELFOS_4;
+    }
+        
     if (elfConfiguration.tilType == TIL311)
         elfScreenPointer->showAddress(address);
     else
@@ -1545,6 +1568,7 @@ void Elf::cpuInstruction()
 		machineCycle();
 		machineCycle();
 		cpuCycles_ = 0;
+		instructionCounter_= 0;
 		p_Main->startTime();
 		if (cpuMode_ == LOAD)
 		{
@@ -1914,6 +1938,9 @@ void Elf::refreshPanel()
     elfScreenPointer->refreshPanel();
     if (elfConfiguration.useLedModule && !ledModuleClosed_)
         ledModulePointer->refreshPanel();
+    if (elfConfiguration.useHexKeyboard && !hexKeypadClosed_)
+        keypadPointer->refreshPanel();
+
 }
 
 void Elf::OnRtcTimer(wxTimerEvent&WXUNUSED(event))
@@ -1940,4 +1967,6 @@ void Elf::OnRtcTimer(wxTimerEvent&WXUNUSED(event))
     writeRtc(9, now.GetYear()-1972);
 
     rtcRam_[0xc] |= 0x10;
+    p_Main->updateDebugMemory(0xa);
+    p_Main->updateDebugMemory(0xc);
 }

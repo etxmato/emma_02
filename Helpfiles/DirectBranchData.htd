@@ -1,0 +1,30 @@
+<html>
+<title>Branch data</title>
+<body>
+<h1>Branch data</h1>
+<p>
+Some code will need branch tables or use 2 bytes to identify an address location. As an example COMX BASIC uses R4/R5 for subroutine handling. Where SEP R4 is a subroutine call to the address specified in the 2 following bytes. SEP R5 is used as subroutine return. For these cases the 'branch data' bytes can be defined in the Direct assembler by typing ':address' or marking the data bytes as 'Branch' via the procedure described in chapter <a href="DirectMarking.htm">Changing Address Usage</a>. By doing this the branch data will be corrected when using <a href="DirectInsert.htm">insert, delete</a> or <a href="DirectCopy.htm">copy</a> commands. All 'Branch data' will be shown in <FONT COLOR="RED">red</FONT> text.
+</p>
+<p>
+For example an insert on address hex 4500 in the following example:
+</p>
+<p>
+<IMG SRC="images/assembler_branch_data.png" BORDER="0">
+</p>
+<p>
+will result in:
+</p>
+<p>
+<IMG SRC="images/assembler_branch_data_result.png" BORDER="0">
+</p>
+<p>
+<b>Note:</b> the code on address hex 4505 was typed in on the command line field as :4501
+</p>
+<p>
+If an insert is done on address 4501 in the original example the branch to 4501 will NOT change. This to allow adding space at the start of a routine, as seen here:
+</p>
+<p>
+<IMG SRC="images/assembler_branch_data_result2.png" BORDER="0">
+</p>
+</body>
+</html>

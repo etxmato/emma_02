@@ -1,0 +1,71 @@
+<html>
+<title>Direct Assembler</title>
+<body>
+<h1>Direct Assembler</h1>
+<p>
+The Direct Assembler allows direct assembly and disassembly to and from the emulated computer.
+</p>
+<p>
+To reach the Direct Assembler tab, first select the 'Tools' (yellow ellipse) tab and then the 'Direct Assembler' (orange ellipse) sub tab.
+</p>
+<p>
+<IMG SRC="images/assembler.png" BORDER="0">
+</p>
+<p>
+When a computer emulation is running the left half of the Direct Assembler tab will show a small area of memory (around address 0) in different types:
+<UL>
+<LI>RCA 1802, 1804 or 1805 code (in black/<FONT COLOR="DARK ORCHID">purple</FONT> on address 1400 to 1407 in below screenshot) 
+<LI>Data (in <FONT COLOR="BLUE">blue</FONT> on address 1416 to 141C)
+<LI>Branches  (in <FONT COLOR="DARK ORCHID">purple</FONT> on address 1406 and 1428/1429)
+<LI>Subroutine calls (in <FONT COLOR="#C833A1">light purple</FONT> on address 1408/1409 and reversed in <FONT COLOR="RED">red</FONT> on address 140B/140C)
+<LI>Text (in <FONT COLOR="SALMON">salmon</FONT> on address 140D to 1415)
+<LI>Macro's (in black/<FONT COLOR="DARK ORCHID">purple</FONT> or black/<FONT COLOR="#C833A1">light purple</FONT> on address 1421 to 1429)
+<LI>Pseudo code, like Chip 8, ST2, ST4, FEL (in <FONT COLOR="STEEL BLUE">steel blue</FONT> on address 141D to 1420)
+<LI>Undefined, i.e. no ROM or RAM (in <FONT COLOR="RED">red</FONT> on address 13FC to 13FF)
+</UL>
+</p>
+<p>
+<IMG SRC="images/assembler_types.png" BORDER="0">
+</p>
+<p>
+The colours <FONT COLOR="DARK ORCHID">purple</FONT> and <FONT COLOR="#C833A1">light purple</FONT> are also used for address that have <FONT COLOR="DARK ORCHID">branches</FONT> or <FONT COLOR="#C833A1">subroutine calls</FONT> to them. Making it easier to see to which addresses the code will actually branch or jump. For branches to an address see address 1403/1421 in purple and subroutine calls to an address see address 1400 in example above.
+</p>
+<p>
+The above types are all possible within one session, except pseudo code is only possible on machines running a dedicated pseudo interpreter. Emma 02 will show the correct type if:
+<OL>
+<LI>The code was typed in using the Direct <a href="DirectAssembler.htm">Assembler</a>
+<LI>The specified location was 'marked' as a specific type (see chapter <a href="DirectMarking.htm">Changing Address Usage</a>)
+<LI>The specified location was 'executed' as RCA 180x or pseudo code
+</OL>
+</p>
+<p>
+If nothing is specified or no code is executed memory is shown in 'Data' or 'Undefined'.
+</p>
+<p>
+Note: None of the settings in the Direct Assembler tab are saved in the Emma 02 configuration, so at every start of the Emma 02 emulator these settings are set to default.
+</p>
+<h2>Additional Information</h2>
+<p>
+Additional Information can be found in the following sub-chapters:
+</p>
+<p>
+<a href="DirectNavigation.htm">Navigation</a><br>
+<a href="DirectData.htm">Data View</a><br>
+<a href="DirectAssembler.htm">Assembler</a><br>
+<a href="DirectDisassembler.htm">Disassembler</a><br>
+<a href="DirectMarking.htm">Changing Address Usage</a><br>
+<a href="DirectConfiguration.htm">Program Configuration</a><br>
+<a href="DirectExampleConfig.htm">Program Configuration - Example</a><br>
+<a href="DirectInsert.htm">Insert & Delete Code</a><br>
+<a href="DirectCopy.htm">Copy</a><br>
+<a href="DirectSearch.htm">Search</a><br>
+<a href="DirectBranchData.htm">Branch Data</a><br>
+<a href="DirectRevBranchData.htm">Reversed Branch Data</a><br>
+<a href="DirectLdl.htm">LDL, LDRL, LDV and RLDL Instructions</a><br>
+<a href="DirectSlots.htm">Branching to COMX slots and Elf EMS pages</a><br>
+<a href="DirectMnemonic.htm">Switch Mnemonic</a><br>
+<a href="DirectClear.htm">Clear</a><br>
+<a href="DirectExistingCode.htm">Debugging Existing Code - Example</a><br>
+</p>
+</body>
+</html>

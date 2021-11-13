@@ -7,7 +7,7 @@
 The easiest and fastest way to load or save a .wav file into the Elf (Cosmac Elf, Netronics Elf II or Quest Super Elf) emulator is by making sure both options 'Turbo' and 'Auto' are checked, this should be the default setting when the Emma 02 Emulator is started for the first time. Depending on which type you choose, i.e. automatic or manual please follow the instructions below.  
 </p>
 <p>
-Make sure 'Cassette' is enabled and shown by pressing the 'Toggle: Casette - XMODEM - Off' button (2 arrows) to toggle between 'Cassette', XMODEM and Off. Cassett support is not enabled by default! The Giant Board configuration which includes a working Cassettes configuration can be loaded via the 'File/Configuration/Load/Giant Board' menu.
+Make sure 'Cassette' is enabled and shown by pressing the 'Toggle: Cassette - XMODEM - Off' button (2 arrows) to toggle between 'Cassette', XMODEM and Off. Cassett support is not enabled by default! The Giant Board configuration which includes a working Cassettes configuration can be loaded via the 'File/Configuration/Load/Giant Board' menu.
 </p>
 <p>
 For specifics on how to use the giant board and super mon also see the chapter on <a href="ElfGiant.htm">Giant Board</a>.
@@ -20,10 +20,10 @@ Note that we have not been able to load any of the saved wav files on a real Elf
 Default settings, to use this make sure 'Auto' is checked.
 </p>
 <p>
-To load a .wav file into the Elf, start the Emma 02 emulator and then the Elf emulator (start button on Elf tab) with ROM supermon.hex or giantboard.hex. Select a .wav file in the Emma 02 window by selecting the 'Cassette' push button. Start the monitor (execute address hex 8000 for the supermon and hex F000 for the giant board). Then press 04-IN, enter the two-byte address of the memory to be loaded and then enter the ending two-byte address (every byte followe by IN). Start the actual load with an additional IN on Elf emulator window and the cassette PLAY button should go green.
+To load a .wav file into the Elf, start the Emma 02 emulator and then the Elf emulator (start button on Elf tab) with ROM supermon.hex or giantboard.hex. Select a .wav file in the Emma 02 window by selecting the 'Cassette' push button. Start the monitor (execute address hex 8000 for the supermon and hex F000 for the giant board). Then press 04-IN, enter the two-byte address of the memory to be loaded and then enter the ending two-byte address (every byte followed by IN). Start the actual load with an additional IN on Elf emulator window and the cassette PLAY button should go green.
 </p>
 <p>
-To save a .wav file from the Elf, Select a .wav file in the Emma 02 window by selecting the 'Cassette' push button. press 03-IN, enter the two-byte address of the memory to be saved and then enter the ending two-byte address (every byte followe by IN). Start the actual save with an additional IN on the Elf emulator window and the cassette REC button should go red. 
+To save a .wav file from the Elf, Select a .wav file in the Emma 02 window by selecting the 'Cassette' push button. press 03-IN, enter the two-byte address of the memory to be saved and then enter the ending two-byte address (every byte followed by IN). Start the actual save with an additional IN on the Elf emulator window and the cassette REC button should go red. 
 </p>
 <p>
 For both save and load make sure a .wav file is selected in the Emma 02 window before using the save and load instructions otherwise the Elf emulator will hang on the load (until you manually start a .wav file) or with a save the wav sound will not be written to any file.
@@ -33,10 +33,10 @@ For both save and load make sure a .wav file is selected in the Emma 02 window b
 To use this make sure 'Auto' is NOT checked. This setting is more like the cassette handling is on the real Elf however more complicated than Auto.  
 </p>
 <p>
-To load a .wav file into the Elf, start the Emma 02 emulator and then the Elf emulator (start button on Elf tab) with ROM supermon.hex or giantboard.hex. Select a .wav file in the Emma 02 window by selecting the 'Cassette' push button. Start the monitor (execute address hex 8000 for the supermon and hex F000 for the giant board). Then press 04-IN, enter the two-byte address of the memory to be loaded and then enter the ending two-byte address (every byte followe by IN). Now press play and after that as soon as possible press an additional IN on the Elf.
+To load a .wav file into the Elf, start the Emma 02 emulator and then the Elf emulator (start button on Elf tab) with ROM supermon.hex or giantboard.hex. Select a .wav file in the Emma 02 window by selecting the 'Cassette' push button. Start the monitor (execute address hex 8000 for the supermon and hex F000 for the giant board). Then press 04-IN, enter the two-byte address of the memory to be loaded and then enter the ending two-byte address (every byte followed by IN). Now press play and after that as soon as possible press an additional IN on the Elf.
 </p>
 <p>
-To save a .wav file from the Elf, Select a .wav file in the Emma 02 window by selecting the 'Cassette' push button after that press the dark red recording button and press 03-IN, enter the two-byte address of the memory to be saved and then enter the ending two-byte address (every byte followe by IN). Start the actual save with an additional IN on the Elf.
+To save a .wav file from the Elf, Select a .wav file in the Emma 02 window by selecting the 'Cassette' push button after that press the dark red recording button and press 03-IN, enter the two-byte address of the memory to be saved and then enter the ending two-byte address (every byte followed by IN). Start the actual save with an additional IN on the Elf.
 </p>
 <h3>Turbo</h3>
 <p>

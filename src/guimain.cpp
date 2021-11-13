@@ -721,7 +721,7 @@ void GuiMain::onChip8SW(wxCommandEvent& WXUNUSED(event) )
                                "",
                                wxString::Format
                               (
-                                   "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s",
+                                   "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8|Intel Hex File|*.hex|All files (%s)|%s",
                                    wxFileSelectorDefaultWildcardStr,
                                    wxFileSelectorDefaultWildcardStr
                                ),
@@ -1197,7 +1197,7 @@ void GuiMain::correctZoom(int computerType, wxString computerTypeString, bool se
     double zoom;
     int zoomInt;
 
-    conf[computerType].zoom_.ToDouble(&zoom);
+    p_Main->toDouble(conf[computerType].zoom_, &zoom);
     if (!fullScreenFloat_)
     {
         zoomInt = (int) (zoom + 0.5);
@@ -1260,7 +1260,7 @@ void GuiMain::onZoomValue(wxCommandEvent&event)
 
 	wxString zoomString = event.GetString();
 	double zoom;
-	if (zoomString.ToDouble(&zoom))
+	if (toDouble(zoomString, &zoom))
 	{
 		if (!fullScreenFloat_)
 			zoom = (int) (zoom);
@@ -1289,7 +1289,7 @@ void GuiMain::correctZoomVt(int computerType, wxString computerTypeString, bool 
     double zoom;
     int zoomInt;
 
-    conf[computerType].zoomVt_.ToDouble(&zoom);
+    toDouble(conf[computerType].zoomVt_, &zoom);
     if (!fullScreenFloat_)
     {
         zoomInt = (int) (zoom + 0.5);
@@ -1357,7 +1357,7 @@ void GuiMain::onZoomValueVt(wxCommandEvent&event)
 
 	wxString zoomString = event.GetString();
 	double zoomVt;
-	if (zoomString.ToDouble(&zoomVt))
+	if (toDouble(zoomString, &zoomVt))
 	{
 		if (!fullScreenFloat_)
 			zoomVt = (int) (zoomVt);
@@ -1540,7 +1540,7 @@ void GuiMain::onCassetteFileDialog()
     
     wxFileName FullPath;
     fileName = "";
-    for (int i=0; i<conf[selectedComputer_].numberOfTerminalFiles_; i++)
+    for (int i=0; i<(int)conf[selectedComputer_].numberOfTerminalFiles_; i++)
     {
         FullPath = wxFileName(conf[selectedComputer_].terminalPaths_[i], wxPATH_NATIVE);
         if (i == 0)
@@ -1694,11 +1694,11 @@ void GuiMain::onTurboClock(wxCommandEvent&WXUNUSED(event))
 		conf[selectedComputer_].turboClock_ = "15";
 		return;
 	}
-	if (!conf[selectedComputer_].turboClock_.ToDouble((double*)&clk))
+	if (!toDouble(conf[selectedComputer_].turboClock_, (double*)&clk))
 	{
-		(void)wxMessageBox( "Please specify frequency in MHz\n",
-							"Emma 02", wxICON_ERROR | wxOK );
-		return;
+        (void)wxMessageBox( "Please specify frequency in MHz\n",
+                            "Emma 02", wxICON_ERROR | wxOK );
+        return;
 	}
 	if (clk == 0)
 	{
@@ -2059,17 +2059,17 @@ void GuiMain::onLoad(bool load)
 		case TMC1800:
 		case TMC2000:
 		case NANO:
-			extension = "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
+			extension = "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8|Intel Hex File|*.hex|All files (%s)|%s";
 		break;
 
         case VIP:
 			if (p_Computer->getLoadedProgram()==FPBBASIC)
-				extension = computerInfo[selectedComputer_].name+" Program File|*."+computerInfo[selectedComputer_].ploadExtension+"|Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
+				extension = computerInfo[selectedComputer_].name+" Program File|*."+computerInfo[selectedComputer_].ploadExtension+"|Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8|Intel Hex File|*.hex|All files (%s)|%s";
 			else
                 if (p_Computer->getLoadedProgram()==VIPTINY)
                     extension = computerInfo[selectedComputer_].name+" Program File|*."+computerInfo[selectedComputer_].ploadExtension+"|All files (%s)|%s";
                 else
-                    extension = "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
+                    extension = "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8|Intel Hex File|*.hex|All files (%s)|%s";
 		break;
 
         case STUDIOIV:
@@ -2089,13 +2089,13 @@ void GuiMain::onLoad(bool load)
 		case ELFII:
 		case ELF:
 			if (p_Computer->getLoadedProgram()&0x1)
-				extension = computerInfo[selectedComputer_].name+" Program File|*."+computerInfo[selectedComputer_].ploadExtension+"|Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
+				extension = computerInfo[selectedComputer_].name+" Program File|*."+computerInfo[selectedComputer_].ploadExtension+"|Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8|Intel Hex File|*.hex|All files (%s)|%s";
 			else
-				extension = "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
+				extension = "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8|Intel Hex File|*.hex|All files (%s)|%s";
 		break;
 
 		default:
-			extension = "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
+			extension = "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8|Intel Hex File|*.hex|All files (%s)|%s";
 		break;
 	}
 
@@ -2181,14 +2181,14 @@ void GuiMain::onSaveButton(wxCommandEvent& WXUNUSED(event))
 		case TMC1800:
 		case TMC2000:
 		case NANO:
-			extension = "Binary File|*.c8;*.ch8;*.c8x;*.ch10;*.bin;*.rom;*.ram;*.cos|Intel Hex File|*.hex|All files (%s)|%s";
+			extension = "Binary File|*.c8;*.ch8;*.c8x;*.ch10;*.sc8;*.bin;*.rom;*.ram;*.cos|Intel Hex File|*.hex|All files (%s)|%s";
 		break;
 
         case VIP:
 			if (p_Computer->getLoadedProgram()==FPBBASIC)
-				extension = computerInfo[selectedComputer_].name+" Program File|*."+computerInfo[selectedComputer_].ploadExtension+"|Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
+				extension = computerInfo[selectedComputer_].name+" Program File|*."+computerInfo[selectedComputer_].ploadExtension+"|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8|Intel Hex File|*.hex|All files (%s)|%s";
 			else
-				extension = "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
+				extension = "Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8|Intel Hex File|*.hex|All files (%s)|%s";
 		break;
 
         case STUDIOIV:
@@ -2209,16 +2209,16 @@ void GuiMain::onSaveButton(wxCommandEvent& WXUNUSED(event))
 		case ELF:
 			if (p_Computer->getLoadedProgram()&0x1)
 			{
-				extension = computerInfo[selectedComputer_].name+" Program File (*."+computerInfo[selectedComputer_].ploadExtension+")|*."+computerInfo[selectedComputer_].ploadExtension+"|Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
+				extension = computerInfo[selectedComputer_].name+" Program File (*."+computerInfo[selectedComputer_].ploadExtension+")|*."+computerInfo[selectedComputer_].ploadExtension+"|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8|Intel Hex File|*.hex|All files (%s)|%s";
 			}
 			else
 			{
-				extension = "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
+				extension = "Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8|Intel Hex File|*.hex|All files (%s)|%s";
 			}
 		break;
 
 		default:
-			extension = "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
+			extension = "Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8|Intel Hex File|*.hex|All files (%s)|%s";
 		break;
 	}
 
@@ -2283,14 +2283,14 @@ void GuiMain::onClock(wxCommandEvent&WXUNUSED(event))
 	double clk;
 
 	wxString clock =  clockTextCtrl[selectedComputer_]->GetValue();
-	if (!clock.ToDouble((double*)&clk))
+	if (!toDouble(clock, (double*)&clk))
 	{
-		if (clock != "")
-		{
-			(void)wxMessageBox( "Please specify frequency in MHz\n",
-							"Emma 02", wxICON_ERROR | wxOK );
-		}
-		return;
+        if (clock != "")
+        {
+            (void)wxMessageBox( "Please specify frequency in MHz\n",
+                            "Emma 02", wxICON_ERROR | wxOK );
+        }
+        return;
 	}
 	if (clk == 0)
 	{
@@ -2351,12 +2351,28 @@ void GuiMain::onVtSetup(wxCommandEvent&WXUNUSED(event))
 	VtSetupDialog VtSetupDialog(this);
  	VtSetupDialog.ShowModal();
     
-    setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, elfConfiguration[selectedComputer_].vtType, true);
+    setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, elfConfiguration[selectedComputer_].vtType, false);
 }
 
 void GuiMain::onBeepFrequency(wxCommandEvent&WXUNUSED(event))
 {
 	setBeepFrequency(selectedComputer_);
+}
+
+bool GuiMain::toDouble(wxString stringName, double* result)
+{
+    bool returnValue;
+    
+    returnValue = stringName.ToDouble(result);
+    if (!returnValue)
+    {
+        if (stringName.Find(','))
+            stringName.Replace(",",".");
+        else
+            stringName.Replace(".",",");
+        returnValue = stringName.ToDouble(result);
+    }
+    return returnValue;
 }
 
 wxString GuiMain::getKeyFile()
@@ -2517,11 +2533,11 @@ void GuiMain::setClock(int computerType)
 	double clk;
 
 	wxString clock =  conf[computerType].clock_;
-	if (!clock.ToDouble((double*)&clk))
+	if (!toDouble(clock, (double*)&clk))
 	{
-		(void)wxMessageBox( "Please specify frequency in MHz\n",
-							"Emma 02", wxICON_ERROR | wxOK );
-		return;
+        (void)wxMessageBox( "Please specify frequency in MHz\n",
+                            "Emma 02", wxICON_ERROR | wxOK );
+        return;
 	}
 	if (clk == 0)
 	{
@@ -2679,7 +2695,7 @@ void GuiMain::setScale(wxString scale)
 double GuiMain::getScale()
 {
 	double scale;
-	if (!conf[runningComputer_].xScale_.ToDouble(&scale))
+	if (!toDouble(conf[runningComputer_].xScale_, &scale))
 		scale = 3;
 
 	if (!fullScreenFloat_)
@@ -2690,7 +2706,7 @@ double GuiMain::getScale()
 double GuiMain::getZoom()
 {
 	double zoom;
-	conf[runningComputer_].zoom_.ToDouble(&zoom);
+	toDouble(conf[runningComputer_].zoom_, &zoom);
 
 	if (!fullScreenFloat_)
 		zoom = (int) zoom;
@@ -2700,7 +2716,7 @@ double GuiMain::getZoom()
 double GuiMain::getZoomVt()
 {
 	double zoomVt;
-	conf[runningComputer_].zoomVt_.ToDouble(&zoomVt);
+	toDouble(conf[runningComputer_].zoomVt_, &zoomVt);
 
 	if (!fullScreenFloat_)
 		zoomVt = (int) zoomVt;
@@ -3639,13 +3655,8 @@ void GuiMain::startTerminalSave(int protocol)
     {
         fileName = p_Main->eventShowFileSelector( "Select the terminal file to save",
                                                  conf[runningComputer_].wavFileDir_[0], fileName,
-                                                 "hex|txt",
-                                                 wxString::Format
-                                                 (
-													"Terminal File (*.hex)|*.hex|Tiny Basic File (*.txt)|*.txt|All files (%s)|%s",
-													wxFileSelectorDefaultWildcardStr,
-													wxFileSelectorDefaultWildcardStr
-                                                  ),
+                                                 "",
+                                                 "All files (*.*)|*.*",
                                                  wxFD_SAVE|wxFD_CHANGE_DIR|wxFD_PREVIEW
                                                  );
         if (!fileName)
@@ -3669,13 +3680,8 @@ void GuiMain::startTerminalSave(int protocol)
         {
             fileName = p_Main->eventShowFileSelector( "Select the terminal file to save",
                                                      conf[runningComputer_].wavFileDir_[0], fileName,
-                                                     "hex|txt",
-                                                     wxString::Format
-                                                     (
-														"Terminal File (*.hex)|*.hex|Tiny Basic File (*.txt)|*.txt|All files (%s)|%s",
-														wxFileSelectorDefaultWildcardStr,
-														wxFileSelectorDefaultWildcardStr
-                                                      ),
+                                                     "",
+                                                     "All files (*.*)|*.*",
                                                      wxFD_SAVE|wxFD_CHANGE_DIR|wxFD_PREVIEW|wxFD_OVERWRITE_PROMPT
                                                      );
             if (!fileName)
@@ -3699,6 +3705,21 @@ void GuiMain::startTerminalSave(int protocol)
     p_Computer->terminalSave(filePath, protocol);
 }
 
+void GuiMain::startYsTerminalSave(int protocol)
+{
+    if (terminalSave_ || terminalLoad_)
+    {
+        stopTerminal();
+        p_Computer->terminalStop();
+    }
+    
+    wxString filePath = conf[runningComputer_].wavFileDir_[0];
+    terminalSave_ = true;
+
+    p_Main->eventSetTapeState(TAPE_RECORD, "");
+    p_Computer->terminalYsSave(filePath, protocol);
+}
+
 void GuiMain::turboOn()
 {
 	if (turboOn_)  return;
@@ -3710,7 +3731,7 @@ void GuiMain::turboOn()
 		savedSpeed_ = conf[runningComputer_].clockSpeed_;
 
 		wxString clock =  conf[runningComputer_].turboClock_;
-		clock.ToDouble((double*)&conf[runningComputer_].clockSpeed_);
+		toDouble(clock, (double*)&conf[runningComputer_].clockSpeed_);
 
 		setClockRate();
 		turboOn_ = true;
@@ -4334,7 +4355,7 @@ bool GuiMain::showSplashScreen()
                 break;
                     
                 default:
-                    if (p_Computer->getLoadedOs() == ELFOS && elfConfiguration[computer].vtType != VTNONE)
+                    if (p_Computer->getLoadedOs() != NOOS && elfConfiguration[computer].vtType != VTNONE)
                         configPointer->Read("/"+computerStr+"/ShowSplashScreenELFOS", &showSplashScreen, true);
                 break;
             }
@@ -4395,7 +4416,7 @@ void GuiMain::hideSplashScreen()
                 break;
                     
                 default:
-                    if (p_Computer->getLoadedOs() == ELFOS && elfConfiguration[computer].vtType != VTNONE)
+                    if (p_Computer->getLoadedOs() != NOOS && elfConfiguration[computer].vtType != VTNONE)
                         configPointer->Write("/"+computerStr+"/ShowSplashScreenELFOS", false);
                 break;
             }

@@ -1,8 +1,8 @@
 <html>
 <title>FPL-2 Syntax</title>
 <body>
-<h2>FPL-2 Syntax</h2>
-<h3>Information</h3>
+<h1>FPL-2 Syntax</h1>
+<h2>Information</h2>
 <p>
 I expect FPL-2 stands for Fred Programming Language, version 2.
 </p>
@@ -12,8 +12,11 @@ FPL-2 is used in the game 'Curses Foiled Again' running on the FRED 1.5 machine.
 <p>
 V0-F are stored on memory locations 0690-06AF.
 </p>
-<h3>Definitions</h3>
-<TABLE BORDER="0" COLS=2 ALIGN="LEFT" VALIGN="TOP" >
+<p>
+This info is also available online on the <a href="https://emma02.hobby-site.com/pseudo_fpl-2.html">Emma 02 site</a>.
+</p>
+<h2>Definitions</h2>
+<table>
 <TR>
 <TD WIDTH="70">.</TD>
 <TD WIDTH="400">4 bit value but not used</TD>
@@ -58,9 +61,9 @@ V0-F are stored on memory locations 0690-06AF.
 <TD WIDTH="70">1..9, A..F</TD>
 <TD WIDTH="400">Hexadecimal digits</TD>
 </TR>
-</TABLE>
-<h3>FPL Syntax</h3>
-<TABLE BORDER="0" COLS=4 ALIGN="LEFT" VALIGN="TOP" >
+</table>
+<h2>FPL Syntax</h2>
+<table>
 <TR>
 <TD WIDTH="55">6xyz</TD>
 <TD WIDTH="40">ADD</TD>
@@ -235,4 +238,4 @@ V0-F are stored on memory locations 0690-06AF.
 <TD WIDTH="100">ON</TD>
 <TD WIDTH="250">Video display enabled</TD>
 </TR>
-</TABLE>
+</table>

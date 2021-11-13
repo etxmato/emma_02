@@ -1,0 +1,349 @@
+
+<html>
+<title>Insert / Delete</title>
+<body>
+<h1>Insert / Delete</h1>
+<p>
+Insert and Delete functions can be used after defining a program configuration. Both functions can only be used between (one of) the defined 'Code start' and '(Program) end' locations. See chapters <a href="DirectConfiguration.htm">Program Configuration</a> and <a href="DirectExampleConfig.htm">Program Configuration - Example</a> for additional details.
+</p>
+<p>
+The following sub chapters describe the basic functionality of the insert (yellow ellipse) and delete (orange ellipse) buttons:
+</p>
+<p>
+<IMG SRC="images/assembler_insert_delete.png" BORDER="0">
+</p>
+<h2>Insert</h2>
+<p>
+Pressing the 'Insert' button will insert one 'NOP', i.e instruction C4 when used on an address with code, otherwise a '0' will be inserted. 
+</p>
+<p>
+The insert feature will check all code and data areas (defined in <a href="DirectConfiguration.htm">Program Configurations</a>) for branches, <a href="DirectBranchData.htm">branch data</a>, <a href="DirectRevBranchData.htm">reversed branch data</a> and <a href="DirectLdl.htm">LDL/LDRL/RLDL instructions</a>. All branches found that need to 'change' due to the insert instruction will be corrected. e.g. if an insert is done on address hex 2 in the code below:
+</p>
+<p>
+<IMG SRC="images/assembler_insert_code1.png" BORDER="0">
+</p>
+<p>
+it will change to:
+</p>
+<p>
+<IMG SRC="images/assembler_insert_code2.png" BORDER="0">
+</p>
+<p>
+if however the insert is done on or after address hex 3 the BR <FONT COLOR="DARK ORCHID">03</FONT> will stay the same. 
+</p>
+<p>
+If any short branch can NOT be changed due to the insert it will be changed to a long branch, e.g. if an insert is done on address hex 2 in the code below:
+</p>
+<p>
+<IMG SRC="images/assembler_insert_code3.png" BORDER="0">
+</p>
+<p>
+it will change to:
+</p>
+<p>
+<IMG SRC="images/assembler_insert_code4.png" BORDER="0">
+</p>
+<p>
+Note that the branch has changed to hex 0101 and NOT hex 0100 as an extra byte had to be inserted to fit the 3 byte long LBR instruction.
+</p>
+<p>
+Not all short branches have equivalent long branch instructions (i.e. B1, B2 etc). So if an insert is done on address hex 2 in the code below:
+</p>
+<p>
+<IMG SRC="images/assembler_insert_code5.png" BORDER="0">
+</p>
+<p>
+The following will happen:
+</p>
+<p>
+<IMG SRC="images/assembler_insert_message.png" BORDER="0">
+</p>
+<p>
+So the B1 <FONT COLOR="DARK ORCHID">FF</FONT> changed to B1 <FONT COLOR="DARK ORCHID">00</FONT> (yellow ellipse) and a warning is shown in the message field (orange ellipse) stating that a check or correction is needed on address 0.
+</p>
+<h2>Delete</h2>
+<p>
+Pressing the 'Delete' button will delete the current instruction or byte, one or more '0's will be stored just before the code or program end. 
+</p>
+<p>
+The delete feature will check all code and data areas (defined in <a href="DirectConfiguration.htm">Program Configurations</a>) for branches, <a href="DirectBranchData.htm">branch data</a> and <a href="DirectLdl.htm">LDL/LDRL/RLDL instructions</a>. All branches found that need to 'change' due to the delete instruction will be corrected. e.g. if a delete is done on address hex 2 in the code below:
+</p>
+<p>
+<IMG SRC="images/assembler_insert_code2.png" BORDER="0">
+</p>
+<p>
+it will change to:
+</p>
+<p>
+<IMG SRC="images/assembler_insert_code1.png" BORDER="0">
+</p>
+<p>
+If any long branch can be changed to a short branch due to the delete it will be changed automatically, e.g. if a delete is done on address hex 3 in the code below:
+</p>
+<p>
+<IMG SRC="images/assembler_delete_code1.png" BORDER="0">
+</p>
+<p>
+it will change to:
+</p>
+<p>
+<IMG SRC="images/assembler_delete_code2.png" BORDER="0">
+</p>
+<p>
+Note that the branch has changed to FE and NOT FF as an extra byte could be deleted because the 3 byte long LBR is replace by a 2 byte long BR.
+</p>
+<h2>RCA CDP180x - Instructions</h2>
+<p>
+The following CDP180x instructions will be corrected by the insert and delete function:
+</p>
+<p>
+<UL>
+<LI>BDF xx
+<LI>BGE xx
+<LI>BL xx
+<LI>BM xx
+<LI>BNF xx
+<LI>BNZ xx
+<LI>BN1 xx
+<LI>BN2 xx
+<LI>BN3 xx
+<LI>BN4 xx
+<LI>BPQ xx
+<LI>BPZ xx
+<LI>BQ xx
+<LI>BR xx
+<LI>BZ xx
+<LI>B1 xx
+<LI>B2 xx
+<LI>B3 xx
+<LI>B4 xx
+<LI>LBDF xxxx
+<LI>LBNF xxxx
+<LI>LBNQ xxxx
+<LI>LBNZ xxxx
+<LI>LBQ xxxx
+<LI>LBR xxxx
+<LI>LBZ xxxx
+</UL>
+</p>
+<p>
+Following macro's will also be corrected:
+</p>
+<p>
+<UL>
+<LI>LDL Ry,xxxx
+<LI>LDRL Ry,xxxx
+<LI>RLDL Ry,xxxx
+<LI><a href="DirectBranchData.htm">Branch data</a>
+<LI><a href="DirectBranchData.htm">Reversed Branch Data</a>
+</UL>
+</p>	
+<h2>Pseudo variants - Instructions</h2>
+<p>
+The following chapters list the pseudo instructions per variant that will be corrected by the insert and delete function.  
+</p>
+<p>
+<b>Note:</b> none of the short jumps/branches (kk, aa or bb) and references (2aa, 6aa) will be corrected if the insert or delete cause them to go outside of the page. Instead the address of the instruction will be listed in the message area.
+</p>
+<h3><a href="DebuggerSyntaxAmvbas.htm">AMVBAS</a> & <a href="DebuggerSyntaxAm4kbas.htm">AM4KBAS</a></h3>
+<p>
+<UL>
+<LI>DO aaaa
+<LI>EXEC aaa
+<LI>GO aa
+<LI>GOCR aa
+<LI>GOEZ Rz, aa
+<LI>GOEZ [aa], bb
+<LI>GOEQ Vx, kk, aa
+<LI>GOGE Vy, kk, aa
+<LI>GOGE [aa], kk, bb
+<LI>GOLT Vy, kk, aa
+<LI>GOLT [aa], kk, bb
+<LI>GONC aa
+<LI>GONE Vx, kk, aa
+<LI>GONZ Vx, aa
+<LI>GOTO aaaa
+<LI>KEY Vy, aa
+<LI>KEY [aa], bb
+<LI>LRGI Rx, aaaa
+</UL>
+</p>
+<h3><a href="DebuggerSyntaxCardtran.htm">CARDTRAN</a></h3>
+<p>
+<UL>
+<LI>ADD [2aa], DR
+<LI>DISP0 [2aa]
+<LI>DISP1 [2aa]
+<LI>INPUT [2aa]
+<LI>JNZ DR, 2aa
+<LI>JP 2aa
+<LI>JZ DR, 2aa
+<LI>LD [2aa], DR
+<LI>LD DR, [2aa]
+<LI>LDD [2aa], DR
+<LI>SUB [2aa], DR
+<LI>RSH [2aa]
+</UL>
+</p>
+</TR>
+<h3><a href="DebuggerSyntaxChip.htm">Chip-8, 8X, ETI, Elf</a> & Studio</h3>
+<p>
+<UL>
+<LI>CALL aaa
+<LI>JP aaa
+<LI>JP V0, aaa (not in Chip 8X)
+<LI>LD I,aaa
+<LI>SYS aaa
+</UL>
+</p>
+<h3><a href="DebuggerSyntaxFel1.htm">FEL-1 Syntax</a></h3>
+<p>
+<UL>
+<LI>CALL aaa
+<LI>JP aaa
+<LI>SYS aaa
+</UL>
+</p>
+<h3><a href="DebuggerSyntaxFpl2.htm">FPL-2</a></h3>
+<p>
+<UL>
+<LI>CALL aaa
+<LI>JP aaa
+<LI>LD [6aa], Vx
+<LI>SYS aaa
+</UL>
+</p>
+<h3><a href="DebuggerSyntaxFpl4.htm">FPL-4</a></h3>
+<p>
+<UL>
+<LI>CALL aaa
+<LI>JP aaa
+<LI>JNK Vx, kk
+<LI>SYS aaa
+</UL>
+</p>
+<h3><a href="DebuggerSyntaxGpl4.htm">GPL-2</a></h3>
+<p>
+<UL>
+<LI>CALL aaa
+<LI>JNZ V0, aaa
+<LI>JP FIREA, kk
+<LI>JP 'EF1', kk
+<LI>JP 'EF2', kk
+<LI>JP FIREB, kk
+<LI>JP 'EF3', kk
+<LI>JP COIN, kk
+<LI>JP 'EF4', kk
+<LI>JZ V0, aaa
+<LI>LD RE, aaa
+<LI>SYS aaa
+</UL>
+</p>
+</p>
+<h3><a href="DebuggerSyntaxGpl4.htm">GPL-3</a></h3>
+<p>
+<UL>
+<LI>CALL aaa
+<LI>JNZ V0, aaa
+<LI>JP aaa
+<LI>JP FIREA, kk
+<LI>JP 'EF1', kk
+<LI>JP 'EF2', kk
+<LI>JP FIREB, kk
+<LI>JP 'EF3', kk
+<LI>JP COIN, kk
+<LI>JP 'EF4', kk
+<LI>JZ V0, aaa
+<LI>SYS aaa
+</UL>
+</p>
+</p>
+<h3><a href="DebuggerSyntaxGpl4.htm">GPL-4</a></h3>
+<p>
+<UL>
+<LI>CALL aaa
+<LI>JP aaa
+<LI>SYS aaa
+</UL>
+</p>
+<h3><a href="DebuggerSyntaxGplARAM.htm">GPL-A (2K RAM)</a></h3>
+<p>
+<UL>
+<LI>CALL aaa
+<LI>JP aaa
+<LI>LD [6aa], Vx
+<LI>SE Vx, [6aa]
+<LI>SNE Vx, [6aa]
+<LI>SYS aaa
+</UL>
+</p>
+<h3><a href="DebuggerSyntaxGplAROM.htm">GPL-A (2K ROM)</a></h3>
+<p>
+<UL>
+<LI>CALL aaa
+<LI>JP aaa
+<LI>LD [6aa], Vx
+<LI>SNE Vx, [6aa]
+<LI>SYS aaa
+</UL>
+</p>
+<h3><a href="DebuggerSyntaxSt.htm">ST2</a></h3>
+<p>
+<UL>
+<LI>CALL aaa
+<LI>DJNZ V0, kk
+<LI>JKP n, kk
+<LI>JKP VB, kk
+<LI>JNZ Vx, kk
+<LI>JP aaa
+<LI>JZ Vx, kk
+<LI>LD I,aaa
+<LI>SP DRW, kk
+<LI>SP DRW, JC, kk
+<LI>SYS aaa
+</UL>
+</p>
+<h3><a href="DebuggerSyntaxSt4.htm">ST4</a></h3>
+<p>
+<UL>
+<LI>CALL 6kk
+<LI>CALL 7kk
+<LI>CALL 8kk
+<LI>CALL 10kk
+<LI>CALL 11kk
+<LI>JNZ Vx, kk
+<LI>JP kk
+<LI>JZ Vx, kk
+<LI>LD I, 0aaa
+<LI>LD I, 2aaa
+<LI>LD I, 3aaa
+<LI>LD I, 4aaa
+</UL>
+</p>
+<h3><a href="DebuggerSyntaxStk.htm">STK</a></h3>
+<p>
+<UL>
+<LI>CALL aaa
+<LI>JP aaa
+</UL>
+</p>
+<h3><a href="DebuggerSyntaxTestWord.htm">Test-Word</a></h3>
+<p>
+<UL>
+<LI>CALL aaa
+<LI>JP aaa
+<LI>SYS aaa
+</UL>
+</p>
+<h3><a href="DebuggerSyntaxSuperchip.htm">Super-chip Syntax</a></h3>
+<p>
+<UL>
+<LI>CALL aaa
+<LI>JP aaa
+<LI>JP V0, aaa
+<LI>LD I, aaa
+<LI>SYS aaa
+</UL>
+</p>
+</body>
+</html>

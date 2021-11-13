@@ -1,68 +1,124 @@
 <HTML>
 <Title>Thermal Printer Support</Title>
 <BODY>
-<h2>Thermal Printer Support</h2>
+<h1>Thermal Printer Support</h1>
 <p>
-To run the COMX emulator with the Thermal printer card select &#145;thermal.bin&#146; in any available slot (CARD 1 if no expansion box is used). 
-</p>
-<h3>Printing to Screen and or Printer</h3>
-<p>
-When the first input or output is done by the COMX to the Thermal Printer an output screen is opened automatically. When the COMX is ready with the printout and a CARD T1 or CALL (@C050) is given the printout can be send to any connected printer. To start a new printout close the printer output screen. After this a new printer window will be created when the COMX starts the first output to the printer. Note that when the thermal printer window is closed during printout the COMX might hang as it will be waiting for input from the printer.
+To run the COMX emulator with the Thermal printer card select &#145;thermal.bin&#146; in any available slot (CARD 1 if no expansion box is used), see example below (yellow ellipse): 
 </p>
 <p>
-To open a print window manually, press the F4 button or the printer icon on the Emma 02 window before giving printer commands from the COMX.
+<IMG SRC="images/comx_thermal_printer.png" BORDER="0">
 </p>
 <p>
-From the printer output window it is possible to print towards a real printer by pressing the 'PRINT' button. With the 'PAGE SETUP' button page margins and paper format can be selected. To preview the printout before an actual print use the 'PREVIEW' button.
+For details on configuring other printer types, see <a href="ComxPrinter.htm">Parallel Printer Support</a>, <a href="ComxSerialPrinter.htm">Serial Printer Support</a> and <a href="ComxPlotter.htm">PL-80 Plotter Simulation</a>.
+</p>
+<h2>Printing to Screen and or Printer</h2>
+<p>
+When the first Thermal Printer input or output is done by the COMX an output screen is opened automatically. Alternatively open the output screen manually, either by pressing the F4 button or the printer icon before giving printer commands from the COMX. 
+<p>
+<IMG SRC="images/comx_thermal_printer_window.png" BORDER="0">
 </p>
 <p>
-It is possible to disable the status LEDs by clicking on one of the LEDs. This will speed up printout especially when using higher CPU speeds.
+When the printer output screen opens, the print, preview and setup buttons will be disabled. When the COMX is ready with the printout and a CARD T1 or CALL (@C050) is given these buttons will be enabled (yellow ellipse). After this it is possible to use the print button to send the printout to a real printer, use preview and/or change printer settings. 
 </p>
-<h3>Thermal Printer CALL Routines</h3>
 <p>
-The printer can be activated by using the CARD Tm commands as described in the <a href="ComxExpansion.htm">Expansion Box</a> chapter. If no expansion box is used the same commands can be activated by CALL statements as below:
+To start a new printout close the printer output screen. After this a new printer window will be created when the COMX starts the first output to the printer.
 </p>
-<pre>
-Syntax          Function
-
-CALL (@C040, m)	Mode Selection
-
-CALL (@C050)    Switch off the thermal 
-	        printer with 8 line 
-		feeds (m = 0)
-
-CALL (@C060)    Enter the thermal  
-	        printer Text mode
-		(m = 1)
-
-CALL (@C080)    Switch on the printer  
-	        and TV display (m = 3)
-
-CALL (@C0A0)    Disable keyboard input 
-		(m = 5)
-
-CALL (@C0C0)    Memory dump (HEX&ASCII)
-
-CALL (@C0D0)    Switch the printer to
-	        no line space (m = 8)
-
-CALL (@C0E0)    Self test (m = 9)
-
-CALL (@C0F0,1)	Start screen capture
-CALL (@C0F0,2,y)Print screen line 0 to
-		'y'
-CALL (@C0F0,3)	Stop screen capture
-
-CALL (@C106)	Switch off the thermal
-		printer without line
-		feeds
-
-CALL (@C10C, Source, Destination)
-		Memory Move
-
-CALL (@C10F)	Memory Modify
-
-CALL (@CB05)	Help (m = 11)</pre>
+</p>
+<p>
+It is possible to disable the COMX status LEDs by clicking one of the LEDs, a red cross shows the LEDs are disabled (yellow ellipse). This will speed up printout especially when using higher CPU speeds.
+</p>
+<p>
+<IMG SRC="images/comx_status_leds.png" BORDER="0">
+</p>
+<h2>Thermal Printer CALL and CARD Routines</h2>
+<p>
+The printer can be activated by using the CARD Tm commands as described below and in the <a href="ComxExpansion.htm">Expansion Box</a> chapter. If no expansion box is used the same commands can be activated by CALL statements:
+</p>
+<p>
+<table>
+<tbody>
+<tr>
+<td><B>CALL Syntax</B></td>
+<td><B>CARD Syntax</B></td>
+<td><B>Function</B></td>
+</tr>
+<tr>
+<td>CARD T0</td>
+<td>CALL (@C040, m)</td>
+<td>Mode Selection</td>
+</tr>
+<tr>
+<td>CARD T1</td>
+<td>CALL (@C050)</td>
+<td>Switch off the thermal printer with 8 line feeds, (m = 0)</td>
+</tr>
+<tr>
+<td>CARD T2</td>
+<td>CALL (@C060)</td>
+<td>Enter the thermal printer Text mode (m = 1)</td>
+</tr>
+<tr>
+<td>CARD T3</td>
+<td>CALL (@C080)</td>
+<td>Switch on the printer and TV display (m = 3)</td>
+</tr>
+<tr>
+<td>CARD T4</td>
+<td>CALL (@C0A0)</td>
+<td>Disable keyboard input (m = 5)</td>
+</tr>
+<tr>
+<td>CARD T5</td>
+<td>CALL (@C0C0)</td>
+<td>Memory dump (HEX & ASCII)</td>
+</tr>
+<tr>
+<td>CARD T6</td>
+<td>CALL (@C0D0)</td>
+<td>Switch the printer to no line space (m = 8)</td>
+</tr>
+<tr>
+<td>CARD T7</td>
+<td>CALL (@C0E0)</td>
+<td>Self test (m = 9)</td>
+</tr>
+<tr>
+<td></td>
+<td>CALL (@C0F0,1)</td>
+<td>Start screen capture</td>
+</tr>
+<tr>
+<td></td>
+<td>CALL (@C0F0,2,y)</td>
+<td>Print screen line 0 to 'y'</td>
+</tr>
+<tr>
+<td></td>
+<td>CALL (@C0F0,3)</td>
+<td>Stop screen capture</td>
+</tr>
+<tr>
+<td></td>
+<td>CALL (@C106)</td>
+<td>Switch off the thermal printer without line feed</td>
+</tr>
+<tr>
+<td></td>
+<td>CALL (@C10C, S, D)</td>
+<td>Memory Move from S (source address) to D (destination address)</td>
+</tr>
+<tr>
+<td></td>
+<td>CALL (@C10F)</td>
+<td>Memory Modify</td>
+</tr>
+<tr>
+<td></td>
+<td>CALL (@CB05)</td>
+<td>Help (m = 11)</td>
+</tr>
+</table>
+</p>
 <p>
 Note: if the expansion box is used the user should enable the standard printer card first before any assembly call is initiated. This can be done by the OUT 1 instruction or in BASIC by using any CARD Tm statement before the CALL statement.
 </p>

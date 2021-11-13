@@ -462,6 +462,7 @@ void Microtutor2::startComputer()
 	p_Main->updateTitle();
 
 	cpuCycles_ = 0;
+	instructionCounter_= 0;
 	p_Main->startTime();
 
     int ms = (int) p_Main->getLedTimeMs(MICROTUTOR2);
@@ -488,6 +489,7 @@ void Microtutor2::writeMemDataType(Word address, Byte type)
                 p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
                 mainMemoryDataType_[address] = type;
             }
+            increaseExecutedMainMemory(address, type);
         break;
             
         case MAPPEDRAM:
@@ -499,21 +501,26 @@ void Microtutor2::writeMemDataType(Word address, Byte type)
                 p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
                 mainMemoryDataType_[address] = type;
             }
+            increaseExecutedMainMemory(address, type);
         break;
     }
 }
 
-Byte Microtutor2::readMemDataType(Word address)
+Byte Microtutor2::readMemDataType(Word address, uint64_t* executed)
 {
     switch (memoryType_[address/256])
     {
         case RAM:
             address = address | bootstrap_;
+            if (profilerCounter_ != PROFILER_OFF)
+                *executed = mainMemoryExecuted_[address];
             return mainMemoryDataType_[address];
         break;
             
         case MAPPEDRAM:
             address = (address & ramMask_) | bootstrap_;
+            if (profilerCounter_ != PROFILER_OFF)
+                *executed = mainMemoryExecuted_[address];
             return mainMemoryDataType_[address];
         break;
     }
@@ -649,7 +656,8 @@ void Microtutor2::cpuInstruction()
         machineCycle();
         machineCycle();
         cpuCycles_ = 0;
-        p_Main->startTime();
+	 	instructionCounter_= 0;
+       p_Main->startTime();
         if (cpuMode_ == LOAD)
         {
             showData(readMem(address_));

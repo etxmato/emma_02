@@ -352,10 +352,10 @@ VIP2K Keyboard Layout:
 </p>
 <h3>Auto Arcade Key Definition</h3>
 <p>
-When the 'Auto Arcade Key Definition' checkbox is selected the I, J, K, M and space key will be mapped according to the Auto Arcade Key definition for the loaded Chip 8 game as defined in the keydefinition.txt file. Note also that the PC keyboard 'arrow' kays are always mapped to I, J, K and M. When Auto Arcade is selected all other key definitions as well as speed and screen resolution will be set to default.
+When the 'Auto Arcade Key Definition' checkbox is selected the I, J, K, M and space key will be mapped according to the Auto Arcade Key definition for the loaded Chip 8 game as defined in the keydefinition.txt file. Note also that the PC keyboard 'arrow' keys are always mapped to I, J, K and M. When Auto Arcade is selected all other key definitions as well as speed and screen resolution will be set to default.
 </p>
 <p>
-For more details on Auto Arcade settings see also chapter <a href="MainHexKeyMap.htm">Key Mapping</a>
+For more details on Auto Arcade settings see also chapter <a href="KeyMappingArcade.htm">Auto and Arcade Key Definition</a>.
 </p>
 </BODY>
 </HTML>
