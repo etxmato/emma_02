@@ -1,24 +1,34 @@
 <HTML>
 <Title>Device Ports</Title>
 <BODY>
-<h2>Device Ports</h2>
+<h1>Device Ports</h1>
+To open the Device Ports pop-up window click the DevicePorts button (yellow ellipse):
 <p>
-When the 'Device Ports' button is pressed a pop-up window will appear with all input/output ports and EF flags listed for all supported Elf HW extensions. All input/output ports can be defined from 1 to 7 depending on what the Elf software expects and what HW you want to emulate. 
+<IMG SRC="images/elf_ports.png" BORDER="0">
 </p>
 <p>
-The EF flags can be specified from 1 to 4 except for the printer EF which also allows value 0. In this case 0 indicates that no EF flag is used for when the printer is ready to receive data.
+The Device Port window includes all input and output ports as well as EF flags for for all supported Elf HW extensions. All input/output ports can be defined from 1 to 7 depending on what the Elf software expects and what HW you want to emulate. For all not configured HW the controls will be disabled. 
+</p>
+<p>
+<IMG SRC="images/elf_ports_window.png" BORDER="0">
+</p>
+<p>
+The EF flags can be specified from 1 to 4 except for the printer EF (yellow ellipse) which also allows value 0. In this case 0 indicates that no EF flag is used for when the printer is ready to receive data.
 </p>
 <p>
 The most common values for all device ports are defined as default.
 </p>
 <p>
-If EF1, EF2 and EF3 are not used in the defined configuration they will default to '1'. This default value can be changed by selecting '0' for any of these EFs under the 'Unused EF' heading. This is useful when using ElfOs with BIOSIO on a serial terminal as when setting EF3 to '0' it will skip the baud rate check. In this case make sure to set the baud rate on the same value as defined in the BIOSIO code. For more details see BIOSIO documentation.
+If EF1, EF2 or EF3 are not used in the defined configuration they will default to '1'. This default value can be changed by selecting '0' for any of these EFs under the 'Unused EF' heading (orange ellipse). This is useful when using ElfOs with BIOSIO on a serial terminal, when setting EF3 to '0' it will skip the baud rate check. In this case make sure to set the baud rate on the same value as defined in the BIOSIO code. For more details see BIOSIO documentation.
 </p>
 <p>
-Next to output ports and EF flags, also more detailed settings can be defined for the MC6845 and MC6847 video chips. For details see the help on video HW.
+Next to output ports and EF flags, also more detailed settings can be defined for the MC6845 (green ellipse) and MC6847 (blue ellipse) video chips. For additional details see <a href="ElfVideo.htm">Video Types</a>.
 </p>
 <p>
 Note that no input/output port or EF flag should have the same value if the extension is used at the same time.
+</p>
+<p>
+To save the defined device port configuration, click the 'Save' button (magenta ellipse).
 </p>
 </BODY>
 </HTML>
