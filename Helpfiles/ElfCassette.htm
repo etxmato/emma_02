@@ -2,18 +2,18 @@
 <HTML>
 <Title>Cassette</Title>
 <BODY>
-<h2>Cassette Support (wave Files)</h2>
+<h1>Cassette Support</h1>
 <p>
-The easiest and fastest way to load or save a .wav file into the Elf (Cosmac Elf, Netronics Elf II or Quest Super Elf) emulator is by making sure both options 'Turbo' and 'Auto' are checked, this should be the default setting when the Emma 02 Emulator is started for the first time. Depending on which type you choose, i.e. automatic or manual please follow the instructions below.  
+The common functionality for cassette handling is described in the chapter <a href="MainCassette.htm">Cassette Support</a>. For details on how to use a real cassette player connected to a PC and Emma 02 please see the chapter: <a href="MainRealCassette.htm">Real Cassette Support</a>.
 </p>
 <p>
-Make sure 'Cassette' is enabled and shown by pressing the 'Toggle: Cassette - XMODEM - Off' button (2 arrows) to toggle between 'Cassette', XMODEM and Off. Cassett support is not enabled by default! The Giant Board configuration which includes a working Cassettes configuration can be loaded via the 'File/Configuration/Load/Giant Board' menu.
+Cassett support is not enabled by default! The <a href="ElfGiant.htm">Giant Board</a> or <a href="ElfSuperBasic.htm">Quest Super Basic</a> configurations which include working Cassette configurations can be loaded via the follwoing menu (yellow ellipses):
 </p>
 <p>
-For specifics on how to use the giant board and super mon also see the chapter on <a href="ElfGiant.htm">Giant Board</a>.
+<IMG SRC="images/elf_cassette_conf.png" BORDER="0">
 </p>
 <p>
-Note that we have not been able to load any of the saved wav files on a real Elf. If you have/need that option, please let me know and we can do some trouble shooting on this. Changing the wave file settings might impact the usability of the wav files on a real Elf, see also below.
+The following sub chapter describe Elf specific cassette handling for both automatic and manual options.
 </p>
 <h3>Auto</h3>
 <p>
@@ -38,38 +38,44 @@ To load a .wav file into the Elf, start the Emma 02 emulator and then the Elf em
 <p>
 To save a .wav file from the Elf, Select a .wav file in the Emma 02 window by selecting the 'Cassette' push button after that press the dark red recording button and press 03-IN, enter the two-byte address of the memory to be saved and then enter the ending two-byte address (every byte followed by IN). Start the actual save with an additional IN on the Elf.
 </p>
-<h3>Turbo</h3>
+
+
+
+<h2>Auto LOAD/SAVE</h2>
 <p>
-When Turbo is selected the emulator will increase speed when a wav file is played to allow faster LOAD and SAVE possibility in the emulator. The speed of the Turbo can be changed; default is 15 MHz, which works ok on both my desktop and laptop. Too high values will not run ok on slower PCs as all CPU power will be used by the emulator. On my vista desktop vista limits CPU usage to 50% max but on my windows 2000 laptop CPU usage gets up to 100% and can possibly hang the laptop for the duration of the LOAD or SAVE command.
-</p>
-<h3>Wave File Settings</h3>
-<p>
-Via the 'Settings' drop down menu select 'Wav File and Real Cassette Settings' to change the wave file settings used for saving or loading a '.wav' file. . The following subchapters describe applicable settings in more detail. Settings for saving to a file are the 'Wave volume', 'Bit Rate' and 'Bits per sample', setting for loading a wav file are the 'Wav file conversion' and 'Reversed Polarity'. The 'Cassette conversion' and 'Input Channel' are only used for Real Cassette loading.
-</p>
-<h4>Wave volume</h4>
-<p>
-1 to 15 (where 15 is the loudest)
-</p>
-<h4>Bit Rate</h4> 
-<p>
-11025, 22050, 44100 or 88200 (samples per second)
-</p>
-<h4>Bits per sample</h4>
-<p>
-8 or 16
-</p>
-<h4>Wav file conversion</h4> 
-<p>
-Two conversion types can be used:<br>
-1. <B>Amplitude</B>: where the signal is converted to a 1 on positive amplitude and a 0 on a negative amplitude.<br>
-2. <B>Sinus</B>: where the signal is converted to a 1 on an upward sinus and a 0 on a downward sinus
+To use this option 'Auto LOAD/SAVE' should be checked (yellow ellipse) which is the default setting:
 </p>
 <p>
-Default this is set to 'Amplitude' which works for all my wav files. Depending on the emulated computer this might need to be changed if loading does not work or gives tape errors.
+<IMG SRC="images/elf_cassette_auto.png" BORDER="0">
 </p>
-<h4>Reversed Polarity</h4> 
 <p>
-Switch converted signal polarity (1->0 and 0->1) as described for conversion types above.
+To load a .wav file into the COMX type PLOAD or DLOAD (and return) in the COMX emulator window and the cassette play button (green ellipse) will go green.
+</p>
+<p>
+To save a .wav file from the COMX type PSAVE or DSAVE (and return) in the COMX emulator window and the cassette record button (red ellipse) should go red. 
+</p>
+<p>
+For both save and load make sure a .wav file is selected before using the PSAVE and PLOAD instructions otherwise the COMX emulator will hang on the PLOAD (until you manually start a .wav file) or with a PSAVE the wav sound will not be written to any file. The play, record and stop buttons cannot be used for manual intervention unless 'Auto LOAD/SAVE' is unselected. 
+</p>
+<h3>Manual LOAD/SAVE</h3>
+<p>
+To use this option 'Auto LOAD/SAVE' should NOT be checked. This setting is more like the cassette handling is on the real COMX however a bit more complicated than Auto LOAD/SAVE:
+</p>
+<p>
+<IMG SRC="images/comx_cassette_manual.png" BORDER="0">
+</p>
+<p>
+To load a .wav file into the COMX, type PLOAD or DLOAD in the COMX emulator (don't type return as yet!). Press play (green ellipse) and after that as soon as possible press 'return' on the COMX.
+</p>
+<p>
+To save a .wav file from the COMX, press the dark red record button (red ellipse) and type PSAVE or DSAVE (and return) in the COMX.
+</p>
+<p>
+Saving or loading can be stopped at anytime by pressing the stop button (brown ellipse). When stopping a load while the COMX is in loading mode will however hang the COMX.
+</p>
+<h3>COMX Turbo and TOS loaders</h3>
+<p>
+The emulator includes '.comx' files for the F&M Turbo v1.00, v2.00 and F&M TOS v3.00. All these Turbo and TOS loaders (including the Turbo and Turbo+ commands available in the F&M printer rom) also support Auto and Turbo LOAD/SAVE options as described above.
 </p>
 </BODY>
 </HTML>
