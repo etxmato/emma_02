@@ -20,13 +20,25 @@ public:
 	~Tms9918();
 
 	void configure(ElfPortConfiguration elfPortConf);
+    Byte readEf();
+    Byte readDataPort();
+    Byte readVRAM();
 	void modeHighOut(Byte value);
-	void modeLowOut(Byte value);
+	void writeVRAM(Byte value);
 	void cycleTms();
+    void writeRegister(Byte reg, Byte value);
 
 	void setClock(double clock);
 	void setCycle();
 	void copyScreen();
+    
+    void drawSprites();
+    void drawSprite(Byte namePointer, Word spritePatternTableAddress, wxCoord x, wxCoord y, int numberOfLines, bool earlyClock);
+    void drawSpriteMagnify(Byte namePointer, Word spritePatternTableAddress, wxCoord x, wxCoord y, int numberOfLines, bool earlyClock);
+
+    void setColourMutexCopy(int clr);
+    void drawPointCopy(wxCoord x, wxCoord y);
+
 	void drawTile(Word tile);
 	void drawScreen();
 
@@ -41,13 +53,30 @@ private:
 	TileList *tileListPointer;
 
 	Byte tmsMemory_[16384];
+    Byte numberOfSpritesOnline_[192];
+    bitset<256> scanLineMap_[192];
+    
 	int computerType_;
+    Byte statusRegister_;
 	Byte registers_[8];
 	Byte mode_;
 	Word nameAddress_;
 	Word colorAddress_;
 	Word patternAddress_;
 	Word currentAddress_;
+    Word spriteAttributeTableAddress_;
+    Word spritePatternTableAddress_;
+    
+    Byte textColor_;
+    Byte backgroundColor_;
+    
+    bool spriteSize16_;
+    bool spriteMagnify_;
+    int spriteMagnifyFactor_;
+    int spriteSelect_;
+    int spriteSize_;
+    bool enableInterrupt_;
+
 	Byte toggle_;
 	Byte value_;
 

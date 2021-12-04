@@ -53,6 +53,7 @@ public:
 
     int tmsModeHighOutput;
     int tmsModeLowOutput;
+    int tmsInterrupt;
 
     int i8275WriteCommand;
     int i8275ReadStatus;

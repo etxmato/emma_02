@@ -36,8 +36,21 @@
 #endif
 
 #include "wx/dcbuffer.h"
+#include "wx/rawbmp.h"
 #include "main.h"
 #include "tms9918.h"
+
+#define TMS_GRAPHICS_I 0
+#define TMS_GRAPHICS_II 1
+#define TMS_MULTICOLOR 2
+#define TMS_TEXT 4
+
+#define SPRITE_8_8 0
+#define SPRITE_8_8_MAG 1
+#define SPRITE_16_16 2
+#define SPRITE_16_16_MAG 3
+
+const wxBitmap spritesClear(320, 240);
 
 Tms9918::Tms9918(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, int computerType, double clock)
 : Video(title, pos, size)
@@ -61,10 +74,26 @@ Tms9918::Tms9918(const wxString& title, const wxPoint& pos, const wxSize& size, 
 	screenCopyPointer = new wxBitmap(320, 240);
 	dcMemory.SelectObject(*screenCopyPointer);
 
+    spritesCopyPointer = new wxBitmap(320, 240);
+    spritesClearCopyPointer = new wxBitmap(320, 240);
+    dcMemoryCopy.SelectObject(*spritesCopyPointer);
+
 #if defined(__WXMAC__)
 	gc = wxGraphicsContext::Create(dcMemory);
 	gc->SetAntialiasMode(wxANTIALIAS_NONE);
+    
+    gcCopy = wxGraphicsContext::Create(dcMemoryCopy);
+    gcCopy->SetAntialiasMode(wxANTIALIAS_NONE);
 #endif
+
+    mode_ = TMS_GRAPHICS_I;
+    nameAddress_ = 0;
+    colorAddress_ = 0;
+    patternAddress_ = 0;
+    currentAddress_ = 0;
+    spriteAttributeTableAddress_ = 0;
+    spritePatternTableAddress_ = 0;
+    statusRegister_ = 0;
 
     switch (p_Main->getCpuStartupVideoRam())
     {
@@ -85,19 +114,14 @@ Tms9918::Tms9918(const wxString& title, const wxPoint& pos, const wxSize& size, 
     switch (p_Main->getCpuStartupRegisters())
     {
         case STARTUP_ZEROED:
-            for (int i=0; i<8; i++) registers_[i] = 0;
+            for (int i=0; i<8; i++) writeRegister(i, 0);
         break;
             
         case STARTUP_RANDOM:
-            for (int i=0; i<8; i++) registers_[i] = rand() % 0x100;
+            for (int i=0; i<8; i++) writeRegister(i, rand() % 0x100);
         break;
     }
     
-	mode_ = 0;
-	nameAddress_ = 0;
-	colorAddress_ = 0;
-	patternAddress_ = 0;
-	currentAddress_ = 0;
 	toggle_ = 0;
 
 	offsetX_ = 0;
@@ -117,17 +141,24 @@ Tms9918::Tms9918(const wxString& title, const wxPoint& pos, const wxSize& size, 
 	videoHeight_ = 192;
 
 	this->SetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_, (videoHeight_+2*borderY_[videoType_])*zoom_);
+    
+    setColourMutex(backgroundColor_+16);
+    drawRectangle(0, 0, videoWidth_ + 2*offsetX_, videoHeight_ + 2*offsetY_);
 }
 
 Tms9918::~Tms9918()
 {
 	TileList *temp;
 
-	dcMemory.SelectObject(wxNullBitmap);
-	delete screenCopyPointer;
+    dcMemory.SelectObject(wxNullBitmap);
+    dcMemoryCopy.SelectObject(wxNullBitmap);
+
+    delete screenCopyPointer;
+    delete spritesCopyPointer;
 	delete videoScreenPointer;
 #if defined(__WXMAC__)
-	delete gc;
+    delete gc;
+    delete gcCopy;
 #endif
 	if (updateTile_ > 0)
 	{
@@ -150,15 +181,40 @@ void Tms9918::configure(ElfPortConfiguration elfPortConf)
 //	highOutput = p_Main->getConfigItem(runningComp +"/TmsModeHighOutput", 5l);
 //	lowOutput = p_Main->getConfigItem(runningComp +"/TmsModeLowOutput", 6l);
 
-	p_Computer->setOutType(elfPortConf.tmsModeHighOutput, TMSHIGHOUT);
-	p_Computer->setOutType(elfPortConf.tmsModeLowOutput, TMSLOWOUT);
+	p_Computer->setOutType(elfPortConf.tmsModeHighOutput, TMSREGISTERPORT);
+	p_Computer->setOutType(elfPortConf.tmsModeLowOutput, TMSDATAPORT);
+    p_Computer->setInType(elfPortConf.tmsModeLowOutput, TMSDATAPORT);
+    p_Computer->setInType(elfPortConf.tmsModeHighOutput, TMSREGISTERPORT);
+    if (elfPortConf.tmsInterrupt > 0)
+        p_Computer->setEfType(elfPortConf.tmsInterrupt, TMSINTERRUPT);
+
 	p_Computer->setCycleType(VIDEOCYCLE, TMSCYCLE);
 
 	wxString printBuffer;
 	p_Main->message("Configuring TMS 9918");
 
-	printBuffer.Printf("	Output %d: register port, output %d: data port\n", elfPortConf.tmsModeHighOutput, elfPortConf.tmsModeLowOutput);
+	printBuffer.Printf("	Output %d: register port, input/output %d: data port\n", elfPortConf.tmsModeHighOutput, elfPortConf.tmsModeLowOutput);
 	p_Main->message(printBuffer);
+}
+
+Byte Tms9918::readEf()
+{
+    Byte returnValue = ((statusRegister_&0x80) >> 7) ^ 0x1;
+    
+    return returnValue;
+}
+
+Byte Tms9918::readDataPort()
+{
+    Byte returnValue = statusRegister_;
+    
+    statusRegister_ = statusRegister_ & 0x1f;
+    return returnValue;
+}
+
+Byte Tms9918::readVRAM()
+{
+    return tmsMemory_[currentAddress_++];
 }
 
 void Tms9918::modeHighOut(Byte value)
@@ -167,27 +223,15 @@ void Tms9918::modeHighOut(Byte value)
 	{
 		if ((value & 0xf8) == 0x80 )
 		{
-			registers_[value & 7] = value_;
-			nameAddress_ = (registers_[2] & 0xf) << 10;
-			colorAddress_ = registers_[3] << 6;
-			patternAddress_ = (registers_[4] & 0x7) << 11;
-			mode_ = 0; // Graphics I
-			if (registers_[0] & 2) mode_ = 1; // Graphics II
-			if (registers_[1] & 8) mode_ = 2; // Multicolor
-			if (registers_[1] & 16) mode_ = 4; // Text
-			if (mode_ == 1)
-			{
-				colorAddress_ = (registers_[3] & 128) ? 0x2000 : 0;
-				patternAddress_ = (registers_[4] & 4) ? 0x2000 : 0;
-			}
-			reBlit_ = true;
-			drawScreen();
+            writeRegister(value & 7, value_);
+            reBlit_ = true;
+            reDraw_ = true;
 		}
 		if ((value & 0xc0) == 0x40)
 		{
 			currentAddress_ = value_ +((value & 0x3f) << 8);
             reBlit_ = true;
-            drawScreen();
+//            reDraw_ = true;
 		}
 		toggle_ = 0;
 	}
@@ -198,7 +242,7 @@ void Tms9918::modeHighOut(Byte value)
 	}
 }
 
-void Tms9918::modeLowOut(Byte value)
+void Tms9918::writeVRAM(Byte value)
 {
 	int  p;
 	Word addr;
@@ -211,77 +255,104 @@ void Tms9918::modeLowOut(Byte value)
 
 	switch(mode_)
 	{
-		case 0:
-			if (addr >= nameAddress_ && addr < nameAddress_+768)
+		case TMS_GRAPHICS_I:
+			if (addr >= nameAddress_ && addr < nameAddress_+0x300)
 			{
 				drawTile(addr - nameAddress_);
 				return;
 			}
-			if (addr >= colorAddress_ && addr < colorAddress_+32)
+			if (addr >= colorAddress_ && addr < (colorAddress_+0x20))
 			{
 				p = addr - colorAddress_;
 				for (int i=0; i<768; i++)
 					if ((tmsMemory_[nameAddress_+i] >> 3) == p) drawTile(i);
 				return;
 			}
-			if (addr >= patternAddress_ && addr < patternAddress_+2048)
+			if (addr >= patternAddress_ && addr < (patternAddress_+0x800))
 			{
 				p = (addr - patternAddress_) >> 3;
 				for (int i=0; i<768; i++)
 					if (tmsMemory_[nameAddress_+i] == p) drawTile(i);
+                return;
 			}
+            if (addr >= spriteAttributeTableAddress_ && addr < (spriteAttributeTableAddress_ + 0x80))
+            {
+                reDrawSprites_ = true;
+                return;
+            }
+            if (addr >= spritePatternTableAddress_ && addr < (spritePatternTableAddress_ + 0x800))
+            {
+                reDrawSprites_ = true;
+                return;
+            }
 		break;
 
-		case 1:
-			if (addr >= nameAddress_ && addr < nameAddress_+768)
+		case TMS_GRAPHICS_II:
+			if (addr >= nameAddress_ && addr < (nameAddress_+0x300))
 			{
 				drawTile(addr - nameAddress_);
 				return;
 			}
-			if (addr >= colorAddress_ && addr < colorAddress_+2048)
+			if (addr >= colorAddress_ && addr < (colorAddress_+0x800))
 			{
 				p = addr - colorAddress_;
 				for (int i=0; i<256; i++)
 					if (tmsMemory_[nameAddress_+i] == p) drawTile(i);
 				return;
 			}
-			if (addr >= colorAddress_+2048 && addr < colorAddress_+4096)
+			if (addr >= (colorAddress_+0x800) && addr < (colorAddress_+0x1000))
 			{
-				p = addr -(colorAddress_-2048);
+				p = addr -(colorAddress_-0x800);
 				for (int i=256; i<512; i++)
 					if (tmsMemory_[nameAddress_+i] == p) drawTile(i);
 				return;
 			}
-			if (addr >= colorAddress_+4096 && addr < colorAddress_+6144)
+			if (addr >= (colorAddress_+0x1000) && addr < (colorAddress_+0x1800))
 			{
-				p = addr -(colorAddress_-4096);
+				p = addr -(colorAddress_-0x1000);
 				for (int i=512; i<768; i++)
 					if (tmsMemory_[nameAddress_+i] == p) drawTile(i);
 				return;
 			}
-			if (addr >= patternAddress_ && addr < patternAddress_+2048)
+			if (addr >= patternAddress_ && addr < (patternAddress_+0x800))
 			{
-				p = (addr -(patternAddress_-2048)) >> 3;
-				for (int i=0; i<256; i++)
-					if (tmsMemory_[nameAddress_+i] == p) drawTile(i);
+//				p = (addr - patternAddress_) >> 3;
+//				for (int i=0; i<256; i++)
+//					if (tmsMemory_[nameAddress_+i] == p) drawTile(i);
+                reDraw_ = true;
 				return;
 			}
-			if (addr >= patternAddress_+2048 && addr < patternAddress_+4096)
+			if (addr >= (patternAddress_+0x800) && addr < (patternAddress_+0x1000))
 			{
-				p = (addr -(patternAddress_-2048)) >> 3;
-				for (int i=256; i<512; i++)
-					if (tmsMemory_[nameAddress_+i] == p) drawTile(i);
+//				p = (addr -(patternAddress_-0x800)) >> 3;
+//				for (int i=256; i<512; i++)
+//					if (tmsMemory_[nameAddress_+i] == p) drawTile(i);
+                reDraw_ = true;
 				return;
 			}
-			if (addr >= patternAddress_+4096 && addr < patternAddress_+6144)
+			if (addr >= (patternAddress_+0x1000) && addr < (patternAddress_+0x1800))
 			{
-				p = (addr -(patternAddress_-4096)) >> 3;
-				for (int i=512; i<768; i++)
-					if (tmsMemory_[nameAddress_+i] == p) drawTile(i);
+//				p = (addr -(patternAddress_-0x1000)) >> 3;
+//				for (int i=512; i<768; i++)
+//					if (tmsMemory_[nameAddress_+i] == p) drawTile(i);
+                reDraw_ = true;
+                return;
 			}
+            if (addr >= spriteAttributeTableAddress_ && addr < (spriteAttributeTableAddress_ + 0x80))
+            {
+                reBlit_ = true;
+                reDrawSprites_ = true;
+                return;
+            }
+            if (addr >= spritePatternTableAddress_ && addr < (spritePatternTableAddress_ + 0x800))
+            {
+                reBlit_ = true;
+                reDrawSprites_ = true;
+                return;
+            }
 		break;
 
-		case 4:
+		case TMS_TEXT:
 			if (addr >= nameAddress_ && addr < nameAddress_+960)
 			{
 				drawTile(addr - nameAddress_);
@@ -290,7 +361,7 @@ void Tms9918::modeLowOut(Byte value)
             
         default:
             reBlit_ = true;
-            drawScreen();
+            reDraw_ = true;
         break;
     }
 }
@@ -303,12 +374,95 @@ void Tms9918::cycleTms()
 		cycleValue_ = cycleSize_;
 		copyScreen();
 		videoSyncCount_++;
+        if (enableInterrupt_)
+            statusRegister_ = statusRegister_ | 0x80;
 		if (changeScreenSize_)
 		{
 			changeScreenSize();
 			changeScreenSize_ = false;
 		}
 	}
+}
+
+void Tms9918::writeRegister(Byte reg, Byte value)
+{
+    registers_[reg] = value_;
+    
+    mode_ = TMS_GRAPHICS_I; // Graphics I
+    if (registers_[0] & 2) mode_ = TMS_GRAPHICS_II; // Graphics II
+    if (registers_[1] & 8) mode_ = TMS_MULTICOLOR; // Multicolor
+    if (registers_[1] & 16) mode_ = TMS_TEXT; // Text
+
+    switch (reg)
+    {
+        case 0:
+        break;
+
+        case 1:
+            enableInterrupt_ = ((value_ & 0x20) == 0x20);
+            spriteSize16_ = ((value_ & 0x2) == 0x2);
+            spriteMagnify_ = ((value_ & 0x1) == 0x1);
+            spriteSelect_ = value & 0x3;
+            
+            if (spriteMagnify_)
+                spriteMagnifyFactor_ = 16;
+            else
+                spriteMagnifyFactor_ = 8;
+
+            switch (spriteSelect_)
+            {
+                case SPRITE_8_8:
+                    spriteSize_ = 8;
+                break;
+
+                case SPRITE_8_8_MAG:
+                    spriteSize_ = 16;
+                break;
+                    
+                case SPRITE_16_16:
+                    spriteSize_ = 16;
+                break;
+
+                case SPRITE_16_16_MAG:
+                    spriteSize_ = 32;
+                break;
+            }
+        break;
+
+        case 2:
+            nameAddress_ = (registers_[2] & 0xf) << 10;
+        break;
+
+        case 3:
+        break;
+
+        case 4:
+        break;
+
+        case 5:
+            spriteAttributeTableAddress_ = (value_ & 0x7f) << 7;
+        break;
+
+        case 6:
+            spritePatternTableAddress_ = (value_ & 0x7) << 11;
+       break;
+
+        case 7:
+            textColor_ = (value_ & 0xf0) >> 4;
+            backgroundColor_ = value_ & 0xf;
+       break;
+    }
+    
+    if (mode_ == TMS_GRAPHICS_II)
+    {
+        colorAddress_ = (registers_[3] & 128) ? 0x2000 : 0;
+        patternAddress_ = (registers_[4] & 4) ? 0x2000 : 0;
+    }
+    else
+    {
+        colorAddress_ = registers_[3] << 6;
+        patternAddress_ = (registers_[4] & 0x7) << 11;
+    }
 }
 
 void Tms9918::setClock(double clock)
@@ -323,6 +477,8 @@ void Tms9918::setCycle()
 	float fieldTime = (float) clockPeriod * 342 * 262;
 
 	cycleSize_ = (int)(fieldTime / ((1/clock_) * 8));
+
+    reCycle_ = false;
 }
 
 void Tms9918::copyScreen()
@@ -356,6 +512,9 @@ void Tms9918::copyScreen()
 	if (reDraw_)
 		drawScreen();
 
+    if (reDrawSprites_)
+        drawSprites();
+    
 #if defined(__WXMAC__)
     if (reBlit_ || reDraw_)
     {
@@ -365,7 +524,7 @@ void Tms9918::copyScreen()
     }
 #else
 	if (extraBackGround_ && newBackGround_)
-		drawExtraBackground(colour_[(registers_[7] & 0xf)+16]);
+		drawExtraBackground(colour_[backgroundColor_+16]);
 
     TileList *temp;
 
@@ -399,6 +558,392 @@ void Tms9918::copyScreen()
 #endif
 }
 
+void Tms9918::drawSprites()
+{
+    if (mode_ == TMS_TEXT)
+        return;
+   
+    reDrawSprites_ = false;
+    
+    if (mode_ != TMS_TEXT)
+        dcMemory.Blit(offsetX_, offsetY_, videoWidth_, videoHeight_, &dcMemoryCopy, offsetX_, offsetY_);
+
+    Word spriteAttributeTableAddress = spriteAttributeTableAddress_;
+    Word spritePatternTableAddress;
+    wxCoord y;
+    wxCoord x;
+    Byte namePointer;
+    Byte color;
+    bool earlyClock;
+
+    for (int i=0; i<192; i++)
+    {
+        numberOfSpritesOnline_[i] = 0;
+        scanLineMap_[i].reset();
+    }
+    
+    while (tmsMemory_[spriteAttributeTableAddress] != 0xD0 && spriteAttributeTableAddress < (spriteAttributeTableAddress_+128))
+    {
+        y = tmsMemory_[spriteAttributeTableAddress++];
+        x = tmsMemory_[spriteAttributeTableAddress++];
+        namePointer = tmsMemory_[spriteAttributeTableAddress++];
+        earlyClock = ((tmsMemory_[spriteAttributeTableAddress] & 0x80) == 0x80);
+        color = tmsMemory_[spriteAttributeTableAddress++] & 0xf;
+        
+        spritePatternTableAddress = spritePatternTableAddress_ + namePointer * 8;
+
+#if defined(__WXMAC__)
+        gc->SetBrush(brushColour_[color+16]);
+        gc->SetPen(penColour_[color+16]);
+#else
+        dcMemory.SetBrush(brushColour_[color+16]);
+        dcMemory.SetPen(penColour_[color+16]);
+#endif
+        int numberOfLines = 8;
+        
+        if (spriteSize_ == 16)
+            numberOfLines = 16;
+        
+        if (spriteMagnify_)
+            numberOfLines *= 2;
+
+        if (y >= 0xe0)
+        {
+            int hiddenLines = ((y&0x1f) ^ 0x1f) + 1;
+            if (spriteMagnify_)
+                spritePatternTableAddress = spritePatternTableAddress + hiddenLines / 2;
+            else
+                spritePatternTableAddress = spritePatternTableAddress + hiddenLines;
+            numberOfLines = numberOfLines - hiddenLines;
+            if (numberOfLines < 0)
+                return;
+            y = 0;
+        }
+
+        if (spriteMagnify_)
+            drawSpriteMagnify(namePointer, spritePatternTableAddress, x, y, numberOfLines - spriteMagnifyFactor_, earlyClock);
+        else
+            drawSprite(namePointer, spritePatternTableAddress, x, y, numberOfLines - spriteMagnifyFactor_, earlyClock);
+
+        if (spriteSize_ == 16)
+        {
+            int addition = numberOfLines-spriteMagnifyFactor_;
+            if (numberOfLines < spriteMagnifyFactor_)
+                addition = 0;
+
+            if (spriteMagnify_)
+            {
+                drawSpriteMagnify(namePointer, spritePatternTableAddress+addition/2, x, y+addition, numberOfLines, earlyClock);
+            }
+            else
+                drawSprite(namePointer, spritePatternTableAddress+addition, x, y+addition, numberOfLines, earlyClock);
+        }
+    }
+}
+
+void Tms9918::drawSprite(Byte namePointer, Word spritePatternTableAddress, wxCoord x, wxCoord y, int numberOfLines, bool earlyClock)
+{
+    if (numberOfLines < 0)
+        return;
+ 
+    if (numberOfLines > spriteMagnifyFactor_)
+        numberOfLines = spriteMagnifyFactor_;
+    
+    Word pattern;
+    
+    wxCoord scanLine=y;
+
+    if (earlyClock)
+        x -= 32;
+    
+    while (scanLine < (y+numberOfLines) && scanLine < 192)
+    {
+        numberOfSpritesOnline_[scanLine]++;
+        
+        if (numberOfSpritesOnline_[scanLine] <= 4)
+        {
+            pattern = tmsMemory_[spritePatternTableAddress];
+            
+            for (wxCoord pixel=x; pixel < (x+8); pixel++)
+            {
+                if ((pattern & 0x80) == 0x80)
+                {
+                    if (pixel >= 0 && pixel <= 255)
+                    {
+                        if (scanLineMap_[scanLine].test(pixel))
+                            statusRegister_ |= 0x20;
+                        else
+                        {
+                            scanLineMap_[scanLine].set(pixel);
+                            drawPoint(pixel+offsetX_, scanLine+offsetY_);
+                        }
+                    }
+                }
+                
+                pattern = pattern << 1;
+            }
+            if (spriteSize_ == 16)
+            {
+                pattern = tmsMemory_[spritePatternTableAddress+16];
+                for (wxCoord pixel=(x+8); pixel < (x+16); pixel++)
+                {
+                    if ((pattern & 0x80) == 0x80)
+                    {
+                        if (pixel >= 0 && pixel <= 255)
+                        {
+                            if (scanLineMap_[scanLine].test(pixel))
+                                statusRegister_ |= 0x20;
+                            else
+                            {
+                                scanLineMap_[scanLine].set(pixel);
+                                drawPoint(pixel+offsetX_, scanLine+offsetY_);
+                            }
+                        }
+                    }
+                    
+                    pattern = pattern << 1;
+                }
+            }
+        }
+        else
+        {
+            if ((statusRegister_ & 0x40) == 0)
+            {
+                statusRegister_ |= 0x40;
+                statusRegister_ &= 0xe0;
+                statusRegister_ |= namePointer;
+            }
+        }
+        spritePatternTableAddress++;
+        scanLine++;
+    }
+}
+
+void Tms9918::drawSpriteMagnify(Byte namePointer, Word spritePatternTableAddress, wxCoord x, wxCoord y, int numberOfLines, bool earlyClock)
+{
+    if (numberOfLines < 0)
+        return;
+ 
+    if (numberOfLines > spriteMagnifyFactor_)
+    {
+        if ((numberOfLines&0x1) == 0x1)
+            spritePatternTableAddress++;
+        numberOfLines = spriteMagnifyFactor_;
+    }
+    
+    bool unevenLines = false;
+    if ((numberOfLines&0x1) == 0x1)
+        unevenLines = true;
+    
+    Word pattern;
+    
+    wxCoord scanLine=y;
+
+    if (earlyClock)
+        x -= 32;
+    
+    while (scanLine < (y+numberOfLines) && scanLine < 192)
+    {
+        if (!unevenLines)
+        {
+            numberOfSpritesOnline_[scanLine]++;
+            
+            if (numberOfSpritesOnline_[scanLine] <= 4)
+            {
+                pattern = tmsMemory_[spritePatternTableAddress];
+                
+                for (wxCoord pixel=x; pixel < (x+16); pixel++)
+                {
+                    if ((pattern & 0x80) == 0x80)
+                    {
+                        if (pixel >= 0 && pixel <= 255)
+                        {
+                            if (scanLineMap_[scanLine].test(pixel))
+                                statusRegister_ |= 0x20;
+                            else
+                            {
+                                scanLineMap_[scanLine].set(pixel);
+                                drawPoint(pixel+offsetX_, scanLine+offsetY_);
+                            }
+                        }
+                        pixel++;
+                        if (pixel >= 0 && pixel <= 255)
+                        {
+                            if (scanLineMap_[scanLine].test(pixel))
+                                statusRegister_ |= 0x20;
+                            else
+                            {
+                                scanLineMap_[scanLine].set(pixel);
+                                drawPoint(pixel+offsetX_, scanLine+offsetY_);
+                            }
+                        }
+                    }
+                    else
+                        pixel++;
+                    
+                    pattern = pattern << 1;
+                }
+                if (spriteSize_ == 16)
+                {
+                    pattern = tmsMemory_[spritePatternTableAddress+16];
+                    for (wxCoord pixel=(x+16); pixel < (x+32); pixel++)
+                    {
+                        if ((pattern & 0x80) == 0x80)
+                        {
+                            if (pixel >= 0 && pixel <= 255)
+                            {
+                                if (scanLineMap_[scanLine].test(pixel))
+                                    statusRegister_ |= 0x20;
+                                else
+                                {
+                                    scanLineMap_[scanLine].set(pixel);
+                                    drawPoint(pixel+offsetX_, scanLine+offsetY_);
+                                }
+                            }
+                            pixel++;
+                            if (pixel >= 0 && pixel <= 255)
+                            {
+                                if (scanLineMap_[scanLine].test(pixel))
+                                    statusRegister_ |= 0x20;
+                                else
+                                {
+                                    scanLineMap_[scanLine].set(pixel);
+                                    drawPoint(pixel+offsetX_, scanLine+offsetY_);
+                                }
+                            }
+                        }
+                        else
+                            pixel++;
+
+                        pattern = pattern << 1;
+                    }
+                }
+            }
+            else
+            {
+                if ((statusRegister_ & 0x40) == 0)
+                {
+                    statusRegister_ |= 0x40;
+                    statusRegister_ &= 0xe0;
+                    statusRegister_ |= namePointer;
+                }
+            }
+            
+            scanLine++;
+        }
+        else
+            unevenLines = false;
+        
+        if (scanLine < 192)
+        {
+            numberOfSpritesOnline_[scanLine]++;
+            
+            if (numberOfSpritesOnline_[scanLine] <= 4)
+            {
+                pattern = tmsMemory_[spritePatternTableAddress];
+                
+                for (wxCoord pixel=x; pixel < (x+16); pixel++)
+                {
+                    if ((pattern & 0x80) == 0x80)
+                    {
+                        if (pixel >= 0 && pixel <= 255)
+                        {
+                            if (scanLineMap_[scanLine].test(pixel))
+                                statusRegister_ |= 0x20;
+                            else
+                            {
+                                scanLineMap_[scanLine].set(pixel);
+                                drawPoint(pixel+offsetX_, scanLine+offsetY_);
+                            }
+                        }
+                        pixel++;
+                        if (pixel >= 0 && pixel <= 255)
+                        {
+                            if (scanLineMap_[scanLine].test(pixel))
+                                statusRegister_ |= 0x20;
+                            else
+                            {
+                                scanLineMap_[scanLine].set(pixel);
+                                drawPoint(pixel+offsetX_, scanLine+offsetY_);
+                            }
+                        }
+                    }
+                    else
+                        pixel++;
+
+                    pattern = pattern << 1;
+                }
+                if (spriteSize_ == 16)
+                {
+                    pattern = tmsMemory_[spritePatternTableAddress+16];
+                    for (wxCoord pixel=(x+16); pixel < (x+32); pixel++)
+                    {
+                        if ((pattern & 0x80) == 0x80)
+                        {
+                            if (pixel >= 0 && pixel <= 255)
+                            {
+                                if (scanLineMap_[scanLine].test(pixel))
+                                    statusRegister_ |= 0x20;
+                                else
+                                {
+                                    scanLineMap_[scanLine].set(pixel);
+                                    drawPoint(pixel+offsetX_, scanLine+offsetY_);
+                                }
+                            }
+                            pixel++;
+                            if (pixel >= 0 && pixel <= 255)
+                            {
+                                if (scanLineMap_[scanLine].test(pixel))
+                                    statusRegister_ |= 0x20;
+                                else
+                                {
+                                    scanLineMap_[scanLine].set(pixel);
+                                    drawPoint(pixel+offsetX_, scanLine+offsetY_);
+                                }
+                            }
+                        }
+                        else
+                            pixel++;
+
+                        pattern = pattern << 1;
+                    }
+                }
+            }
+            else
+            {
+                if ((statusRegister_ & 0x40) == 0)
+                {
+                    statusRegister_ |= 0x40;
+                    statusRegister_ &= 0xe0;
+                    statusRegister_ |= namePointer;
+                }
+            }
+            spritePatternTableAddress++;
+            scanLine++;
+        }
+    }
+}
+
+void Tms9918::drawPointCopy(wxCoord x, wxCoord y)
+{
+#if defined(__WXMAC__)
+    gcCopy->DrawRectangle(x, y, 0, 0);
+#else
+    dcMemoryCopy.DrawPoint(x, y);
+#endif
+}
+
+void Tms9918::setColourMutexCopy(int clr)
+{
+#if defined(__WXMAC__)
+    gcCopy->SetBrush(brushColour_[clr]);
+    gcCopy->SetPen(penColour_[clr]);
+#else
+    dcMemoryCopy.SetBrush(brushColour_[clr]);
+    dcMemoryCopy.SetPen(penColour_[clr]);
+#endif
+}
+
 void Tms9918::drawTile(Word tile)
 {
 	int p;
@@ -411,7 +956,7 @@ void Tms9918::drawTile(Word tile)
 	p = tmsMemory_[nameAddress_+tile];
 	switch(mode_)
 	{
-		case 0:
+		case TMS_GRAPHICS_I:
 			c = tmsMemory_[colorAddress_ +(p >> 3)];
 			x = (tile % 32)*8;
 			y = (tile / 32)*8;
@@ -423,16 +968,18 @@ void Tms9918::drawTile(Word tile)
 				for (int px=0; px<8; px++)
 				{
 					cl = (b & 128) ? c>>4 : c & 0xf;
-					if (cl == 0) cl = registers_[7] & 0xf;
+					if (cl == 0) cl = backgroundColor_;
 					if (cl == 0) cl = 1;
 					setColourMutex(cl+16);
-					drawPoint(x+px+offsetX_, y+py+offsetY_);
+                    drawPoint(x+px+offsetX_, y+py+offsetY_);
+                    setColourMutexCopy(cl+16);
+                    drawPointCopy(x+px+offsetX_, y+py+offsetY_);
 					b = (b << 1) & 0xff;
 				}
 			}
 		break;
 
-		case 1:
+		case TMS_GRAPHICS_II:
 			x = tile % 32;
 			y = tile / 32;
 			size = 8;
@@ -451,22 +998,23 @@ void Tms9918::drawTile(Word tile)
 				for (int px=0; px<8; px++)
 				{
 					cl = (b & 128) ? c>>4 : c & 0xf;
-					if (cl == 0) cl = registers_[7] & 0xf;
+					if (cl == 0) cl = backgroundColor_;
 					if (cl == 0) cl = 1;
  					setColourMutex(cl+16);
-					drawPoint(x+px+offsetX_, y+py+offsetY_);
+                    drawPoint(x+px+offsetX_, y+py+offsetY_);
+                    setColourMutexCopy(cl+16);
+                    drawPointCopy(x+px+offsetX_, y+py+offsetY_);
 					b = (b << 1) & 0xff;
 				}
 			}
 		break;
 
-		case 4:
-			c = registers_[7];
+		case TMS_TEXT:
 			x = (tile % 40)*6+8;
 			y = (tile / 40)*8;
 			size = 6;
 
-			setColourMutex((c & 0xf)+16);
+			setColourMutex(backgroundColor_+16);
 			drawRectangle(x+offsetX_, y+offsetY_, 6, 8);
 
 			for (int py=0; py<8; py++)
@@ -476,8 +1024,8 @@ void Tms9918::drawTile(Word tile)
 				{
 					if (b & 128)
 					{
-						cl = (c>>4) & 0xf;
-						if (cl == 0) cl = registers_[7] & 0xf;
+						cl = textColor_;
+						if (cl == 0) cl = backgroundColor_;
 						setColourMutex(cl+16);
 						drawPoint(x+px+offsetX_, y+py+offsetY_);
 					}
@@ -515,20 +1063,23 @@ void Tms9918::drawTile(Word tile)
 
 void Tms9918::drawScreen()
 {
-	int cl = registers_[7] & 0xf;
-	setColourMutex(cl+16);
-	drawRectangle(0, 0, videoWidth_ + 2*offsetX_, videoHeight_ + 2*offsetY_);
-	if (mode_ == 0)
+	setColourMutex(backgroundColor_+16);
+    drawRectangle(0, 0, videoWidth_ + 2*offsetX_, offsetY_);
+    drawRectangle(0, videoHeight_ + offsetY_, videoWidth_ + 2*offsetX_, offsetY_);
+    drawRectangle(0, offsetY_, offsetX_, videoHeight_);
+    drawRectangle(videoWidth_ + offsetX_, offsetY_, offsetX_, videoHeight_);
+//	drawRectangle(0, 0, videoWidth_ + 2*offsetX_, videoHeight_ + 2*offsetY_);
+	if (mode_ == TMS_GRAPHICS_I)
 	{
 		for (int x=0; x<768; x++)
 			drawTile(x);
 	}
-	if (mode_ == 1)
+	if (mode_ == TMS_GRAPHICS_II)
 	{
 		for (int x=0; x<768; x++)
 			drawTile(x);
 	}
-	if (mode_ == 4)
+	if (mode_ == TMS_TEXT)
 	{
 		for (int x=0; x<960; x++)
 			drawTile(x);
@@ -553,13 +1104,14 @@ void Tms9918::reBlit(wxDC &dc)
         return;
     
     dc.Blit(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_, &dcMemory, 0, 0);
-    
+//    dc.Blit(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_, &dcMemoryCopy, 0, 0);
+
     if (extraBackGround_ && newBackGround_)
     {
         wxSize size = wxGetDisplaySize();
 
-        dc.SetBrush(wxBrush(colour_[(registers_[7] & 0xf)+16]));
-        dc.SetPen(wxPen(colour_[(registers_[7] & 0xf)+16]));
+        dc.SetBrush(wxBrush(colour_[backgroundColor_+16]));
+        dc.SetPen(wxPen(colour_[backgroundColor_+16]));
 
         int xStart = (int)((2*offsetX_+videoWidth_)*zoom_*xZoomFactor_);
         dc.DrawRectangle(xStart, 0, size.x-xStart, size.y);

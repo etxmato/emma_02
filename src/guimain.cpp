@@ -376,6 +376,7 @@ void GuiMain::readElfPortConfig(int elfType, wxString elfTypeStr)
 
     elfConfiguration[elfType].elfPortConf.tmsModeHighOutput = (int)configPointer->Read(elfTypeStr+"/TmsModeHighOutput", 5l);
     elfConfiguration[elfType].elfPortConf.tmsModeLowOutput = (int)configPointer->Read(elfTypeStr+"/TmsModeLowOutput", 6l);
+    elfConfiguration[elfType].elfPortConf.tmsInterrupt = (int)configPointer->Read(elfTypeStr+"/TmsInterrupt", 4l);
 
     elfConfiguration[elfType].elfPortConf.i8275WriteCommand = (int)configPointer->Read(elfTypeStr+"/I8275WriteCommand", 5l);
     elfConfiguration[elfType].elfPortConf.i8275ReadStatus = (int)configPointer->Read(elfTypeStr+"/I8275ReadStatus", 5l);
@@ -472,6 +473,7 @@ void GuiMain::writeElfPortConfig(int elfType, wxString elfTypeStr)
     configPointer->Write(elfTypeStr+"/UartStatus", elfConfiguration[elfType].elfPortConf.uartStatus);
     configPointer->Write(elfTypeStr+"/TmsModeHighOutput", elfConfiguration[elfType].elfPortConf.tmsModeHighOutput);
     configPointer->Write(elfTypeStr+"/TmsModeLowOutput", elfConfiguration[elfType].elfPortConf.tmsModeLowOutput);
+    configPointer->Write(elfTypeStr+"/TmsInterrupt", elfConfiguration[elfType].elfPortConf.tmsInterrupt);
     configPointer->Write(elfTypeStr+"/I8275WriteCommand", elfConfiguration[elfType].elfPortConf.i8275WriteCommand);
     configPointer->Write(elfTypeStr+"/I8275ReadStatus", elfConfiguration[elfType].elfPortConf.i8275ReadStatus);
     configPointer->Write(elfTypeStr+"/I8275WriteParameter", elfConfiguration[elfType].elfPortConf.i8275WriteParameter);
