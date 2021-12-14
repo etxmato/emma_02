@@ -90,7 +90,7 @@ public:
 	void saveIntelFile(wxString fileName, long start, long end);
 	void saveBinFile(wxString fileName, long start, long end);
     bool readBinFile(wxString fileName, int memoryType, Word start, long end, long inhibitStart, long inhibitEnd);
-	bool readBinFile(wxString fileName, int memoryType, Word address, long end, bool showFilename, bool showAddressPopup, Word specifiedStartAddress);
+    bool readBinFile(wxString fileName, int memoryType, Word address, long end, bool showFilename, bool showAddressPopup, Word specifiedStartAddress);
     bool readBinFile(wxString fileName, int memoryType, Word address, Word* lastAddress, long end, bool showFilename);
     bool readRomMapperBinFile(wxString fileName);
     bool readMultiCartBinFile(wxString dirName, wxString fileName);

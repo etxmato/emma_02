@@ -3446,7 +3446,7 @@ bool Cdp1802::readIntelFile(wxString fileName, int memoryType, long end, long in
                     strValue.ToLong(&value, 16);
                     if (address < end && !(address >= inhibitStart && address <= inhibitEnd))
                     {
-                        writeMem(address,(Byte)value, true);
+                        writeMemDebug(address,(Byte)value, true);
                         if (memoryType != NOCHANGE && memoryType != RAM)
                             defineMemoryType(address, memoryType);
                     }
@@ -3471,7 +3471,7 @@ bool Cdp1802::readIntelFile(wxString fileName, int memoryType, long end, long in
                             value &= 255;
                             if (address < end && !(address >= inhibitStart && address <= inhibitEnd))
                             {
-                                writeMem(address,(Byte)value, true);
+                                writeMemDebug(address,(Byte)value, true);
                                 if (memoryType != NOCHANGE && memoryType != RAM)
                                     defineMemoryType(address, memoryType);
                             }
@@ -3547,7 +3547,7 @@ bool Cdp1802::readIntelFile(wxString fileName, int memoryType, long end, bool sh
 					if (memoryType != NOCHANGE && memoryType != RAM)
 						defineMemoryType(address, memoryType);
 		//			if (address < end)
-						writeMem(address,(Byte)value, true);
+                    writeMemDebug(address,(Byte)value, true);
 		//			else
 		//				overloaded = true;
 					address++;
@@ -3572,7 +3572,7 @@ bool Cdp1802::readIntelFile(wxString fileName, int memoryType, long end, bool sh
 							if (memoryType != NOCHANGE && memoryType != RAM)
 								defineMemoryType(address, memoryType);
 			//				if (address < end)
-								writeMem(address,(Byte)value, true);
+                            writeMemDebug(address,(Byte)value, true);
 			//				else
 			//					overloaded = true;
 							address++;
@@ -3653,7 +3653,7 @@ bool Cdp1802::readIntelFile(wxString fileName, int memoryType, Word* lastAddress
 					if (memoryType != NOCHANGE && memoryType != RAM)
 						defineMemoryType(address, memoryType);
 					if (address < end)
-						writeMem(address, (Byte)value, true);
+                        writeMemDebug(address, (Byte)value, true);
 					else
 						overloaded = true;
 					address++;
@@ -3678,7 +3678,7 @@ bool Cdp1802::readIntelFile(wxString fileName, int memoryType, Word* lastAddress
 							if (memoryType != NOCHANGE && memoryType != RAM)
 								defineMemoryType(address, memoryType);
 							if (address < end)
-								writeMem(address, (Byte)value, true);
+                                writeMemDebug(address, (Byte)value, true);
 							else
 								overloaded = true;
 							address++;
@@ -3740,7 +3740,7 @@ bool Cdp1802::readLstFile(wxString fileName, int memoryType, long end, bool show
 				}
 				if (memoryType != NOCHANGE && memoryType != RAM)
 					defineMemoryType(address, memoryType);
-				writeMem(address,(Byte)value, true);
+				writeMemDebug(address,(Byte)value, true);
 				address++;
 /*				size_t i=6;
 				for (int j=0; j<10;j++)
@@ -3772,7 +3772,7 @@ bool Cdp1802::readLstFile(wxString fileName, int memoryType, long end, bool show
 						if (memoryType != NOCHANGE && memoryType != RAM)
 							defineMemoryType(address, memoryType);
 						if (address < end)
-							writeMem(address,(Byte)value, true);
+                            writeMemDebug(address,(Byte)value, true);
 						else
 							overloaded = true;
 						address++;
@@ -3877,7 +3877,7 @@ bool Cdp1802::readBinFile(wxString fileName, int memoryType, Word start, long en
         {
             if (address < (start+length) && !(address >= inhibitStart && address <= inhibitEnd))
             {
-                writeMem(address,(Byte)buffer[i], true);
+                writeMemDebug(address,(Byte)buffer[i], true);
                 if (memoryType != NOCHANGE && memoryType != RAM)
                     defineMemoryType(address, memoryType);
             }
@@ -3918,7 +3918,7 @@ bool Cdp1802::readBinFile(wxString fileName, int memoryType, Word address, long 
 		if (answer == wxID_CANCEL)
 			return false;
 	}
-    
+
     address = start;
     
 	if (inFile.Open(fileName, _("rb")))
@@ -3929,7 +3929,7 @@ bool Cdp1802::readBinFile(wxString fileName, int memoryType, Word address, long 
 			if (memoryType != NOCHANGE && memoryType != RAM)
 				defineMemoryType(address, memoryType);
 			if (address < end)
-				writeMem(address,(Byte)buffer[i], true);
+				writeMemDebug(address,(Byte)buffer[i], true);
 			else
 				overloaded = true;
 			address++;
@@ -3972,7 +3972,7 @@ bool Cdp1802::readBinFile(wxString fileName, int memoryType, Word address, Word*
 			if (memoryType != NOCHANGE && memoryType != RAM)
 				defineMemoryType(address, memoryType);
 			if (address < end)
-				writeMem(address,(Byte)buffer[i], true);
+                writeMemDebug(address,(Byte)buffer[i], true);
 			else
 				overloaded = true;
 			address++;
@@ -4185,7 +4185,7 @@ void Cdp1802::checkLoadedSoftware()
                     p_Main->setScrtValues(false, -1, -1, -1, -1, "TINYBASIC");
                     basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0xa5d;
                 }
-                if (loadedProgram_ == NOPROGRAM)
+                if (loadedProgram_ == NOPROGRAM && loadedOs_ == NOOS)
                 {
                     basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0xfc98;
                     p_Main->setScrtValues(false, -1, -1, -1, -1, "");

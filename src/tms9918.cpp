@@ -74,18 +74,29 @@ Tms9918::Tms9918(const wxString& title, const wxPoint& pos, const wxSize& size, 
 	screenCopyPointer = new wxBitmap(320, 240);
 	dcMemory.SelectObject(*screenCopyPointer);
 
-    spritesCopyPointer = new wxBitmap(320, 240);
-    spritesClearCopyPointer = new wxBitmap(320, 240);
-    dcMemoryCopy.SelectObject(*spritesCopyPointer);
+    mainAndSpritePlanePointer = new wxBitmap(320, 240);
+    dcMemoryMainAndSpritePlane.SelectObject(*mainAndSpritePlanePointer);
+
+    mainPlanePointer = new wxBitmap(320, 240);
+    dcMemoryMainPlane.SelectObject(*mainPlanePointer);
+
+    spritePlanePointer = new wxBitmap(320, 240, 32);
+    dcMemorySpritePlane.SelectObject(*spritePlanePointer);
 
 #if defined(__WXMAC__)
 	gc = wxGraphicsContext::Create(dcMemory);
 	gc->SetAntialiasMode(wxANTIALIAS_NONE);
     
-    gcCopy = wxGraphicsContext::Create(dcMemoryCopy);
-    gcCopy->SetAntialiasMode(wxANTIALIAS_NONE);
-#endif
+    gcMainAndSpritePlane = wxGraphicsContext::Create(dcMemoryMainAndSpritePlane);
+    gcMainAndSpritePlane->SetAntialiasMode(wxANTIALIAS_NONE);
 
+    gcMainPlane = wxGraphicsContext::Create(dcMemoryMainPlane);
+    gcMainPlane->SetAntialiasMode(wxANTIALIAS_NONE);
+
+    gcSpritePlane = wxGraphicsContext::Create(dcMemorySpritePlane);
+    gcSpritePlane->SetAntialiasMode(wxANTIALIAS_NONE);
+#endif
+    
     mode_ = TMS_GRAPHICS_I;
     nameAddress_ = 0;
     colorAddress_ = 0;
@@ -136,14 +147,20 @@ Tms9918::Tms9918(const wxString& title, const wxPoint& pos, const wxSize& size, 
 	fullScreenSet_ = false;
 	updateTile_ = 0;
 	tileListPointer = NULL;
+    reDrawSprites_ = true;
 
 	videoWidth_ = 256;
 	videoHeight_ = 192;
 
 	this->SetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_, (videoHeight_+2*borderY_[videoType_])*zoom_);
     
+#if defined(__WXMSW__)
     setColourMutex(backgroundColor_+16);
     drawRectangle(0, 0, videoWidth_ + 2*offsetX_, videoHeight_ + 2*offsetY_);
+#endif
+    
+    setColourMutexMainPlane(backgroundColor_+16);
+    drawRectangleMainPlane(0, 0, videoWidth_ + 2*offsetX_, videoHeight_ + 2*offsetY_);
 }
 
 Tms9918::~Tms9918()
@@ -151,16 +168,19 @@ Tms9918::~Tms9918()
 	TileList *temp;
 
     dcMemory.SelectObject(wxNullBitmap);
-    dcMemoryCopy.SelectObject(wxNullBitmap);
+    dcMemoryMainPlane.SelectObject(wxNullBitmap);
 
     delete screenCopyPointer;
-    delete spritesCopyPointer;
+    delete mainPlanePointer;
+    delete spritePlanePointer;
 	delete videoScreenPointer;
 #if defined(__WXMAC__)
     delete gc;
-    delete gcCopy;
+    delete gcMainPlane;
+    delete gcSpritePlane;
 #endif
-	if (updateTile_ > 0)
+    
+    if (updateTile_ > 0)
 	{
 		while(tileListPointer != NULL)
 		{
@@ -231,7 +251,6 @@ void Tms9918::modeHighOut(Byte value)
 		{
 			currentAddress_ = value_ +((value & 0x3f) << 8);
             reBlit_ = true;
-//            reDraw_ = true;
 		}
 		toggle_ = 0;
 	}
@@ -302,51 +321,46 @@ void Tms9918::writeVRAM(Byte value)
 			}
 			if (addr >= (colorAddress_+0x800) && addr < (colorAddress_+0x1000))
 			{
-				p = addr -(colorAddress_-0x800);
+				p = addr -(colorAddress_+0x800);
 				for (int i=256; i<512; i++)
 					if (tmsMemory_[nameAddress_+i] == p) drawTile(i);
 				return;
 			}
 			if (addr >= (colorAddress_+0x1000) && addr < (colorAddress_+0x1800))
 			{
-				p = addr -(colorAddress_-0x1000);
+				p = addr -(colorAddress_+0x1000);
 				for (int i=512; i<768; i++)
 					if (tmsMemory_[nameAddress_+i] == p) drawTile(i);
 				return;
 			}
 			if (addr >= patternAddress_ && addr < (patternAddress_+0x800))
 			{
-//				p = (addr - patternAddress_) >> 3;
-//				for (int i=0; i<256; i++)
-//					if (tmsMemory_[nameAddress_+i] == p) drawTile(i);
-                reDraw_ = true;
+				p = (addr - patternAddress_) >> 3;
+				for (int i=0; i<256; i++)
+					if (tmsMemory_[nameAddress_+i] == p) drawTile(i);
 				return;
 			}
 			if (addr >= (patternAddress_+0x800) && addr < (patternAddress_+0x1000))
 			{
-//				p = (addr -(patternAddress_-0x800)) >> 3;
-//				for (int i=256; i<512; i++)
-//					if (tmsMemory_[nameAddress_+i] == p) drawTile(i);
-                reDraw_ = true;
+				p = (addr -(patternAddress_+0x800)) >> 3;
+				for (int i=256; i<512; i++)
+					if (tmsMemory_[nameAddress_+i] == p) drawTile(i);
 				return;
 			}
 			if (addr >= (patternAddress_+0x1000) && addr < (patternAddress_+0x1800))
 			{
-//				p = (addr -(patternAddress_-0x1000)) >> 3;
-//				for (int i=512; i<768; i++)
-//					if (tmsMemory_[nameAddress_+i] == p) drawTile(i);
-                reDraw_ = true;
+				p = (addr -(patternAddress_+0x1000)) >> 3;
+				for (int i=512; i<768; i++)
+					if (tmsMemory_[nameAddress_+i] == p) drawTile(i);
                 return;
 			}
             if (addr >= spriteAttributeTableAddress_ && addr < (spriteAttributeTableAddress_ + 0x80))
             {
-                reBlit_ = true;
                 reDrawSprites_ = true;
                 return;
             }
             if (addr >= spritePatternTableAddress_ && addr < (spritePatternTableAddress_ + 0x800))
             {
-                reBlit_ = true;
                 reDrawSprites_ = true;
                 return;
             }
@@ -372,7 +386,7 @@ void Tms9918::cycleTms()
 	if (cycleValue_ == 0)
 	{
 		cycleValue_ = cycleSize_;
-		copyScreen();
+        copyScreen();
 		videoSyncCount_++;
         if (enableInterrupt_)
             statusRegister_ = statusRegister_ | 0x80;
@@ -512,12 +526,17 @@ void Tms9918::copyScreen()
 	if (reDraw_)
 		drawScreen();
 
-    if (reDrawSprites_)
+    if (reDrawSprites_ && mode_ != TMS_TEXT)
         drawSprites();
-    
+
 #if defined(__WXMAC__)
-    if (reBlit_ || reDraw_)
+    if (reBlit_ || reDraw_ || reDrawSprites_)
     {
+        dcMemoryMainAndSpritePlane.Blit(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_, &dcMemoryMainPlane, 0, 0);
+        if (mode_ != TMS_TEXT)
+            dcMemoryMainAndSpritePlane.Blit(offsetX_, offsetY_, videoWidth_, videoHeight_, &dcMemorySpritePlane, offsetX_, offsetY_);
+        dcMemory.Blit(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_, &dcMemoryMainAndSpritePlane, 0, 0);
+
         p_Main->eventRefreshVideo(false, 0);
         reBlit_ = false;
         reDraw_ = false;
@@ -528,9 +547,13 @@ void Tms9918::copyScreen()
 
     TileList *temp;
 
-	if (reBlit_ || reDraw_)
+	if (reBlit_ || reDraw_ || reDrawSprites_)
 	{
-		videoScreenPointer->blit(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_, &dcMemory, 0, 0);
+        if (mode_ != TMS_TEXT)
+            dcMemory.Blit(offsetX_, offsetY_, videoWidth_, videoHeight_, &dcMemorySpritePlane, offsetX_, offsetY_);
+
+        videoScreenPointer->blit(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_, &dcMemory, 0, 0);
+
 		reBlit_ = false;
 		reDraw_ = false;
 		if (updateTile_ > 0)
@@ -546,7 +569,10 @@ void Tms9918::copyScreen()
 	}
 	if (updateTile_ > 0)
 	{
-		updateTile_ = 0;
+        if (mode_ != TMS_TEXT)
+            dcMemory.Blit(offsetX_, offsetY_, videoWidth_, videoHeight_, &dcMemorySpritePlane, offsetX_, offsetY_);
+
+        updateTile_ = 0;
 		while(tileListPointer != NULL)
 		{
 			videoScreenPointer->blit(offsetX_+ tileListPointer->x-backGroundX_, offsetY_+tileListPointer->y-backGroundY_, tileListPointer->size, 8, &dcMemory, offsetX_+tileListPointer->x, offsetY_+tileListPointer->y);
@@ -563,11 +589,6 @@ void Tms9918::drawSprites()
     if (mode_ == TMS_TEXT)
         return;
    
-    reDrawSprites_ = false;
-    
-    if (mode_ != TMS_TEXT)
-        dcMemory.Blit(offsetX_, offsetY_, videoWidth_, videoHeight_, &dcMemoryCopy, offsetX_, offsetY_);
-
     Word spriteAttributeTableAddress = spriteAttributeTableAddress_;
     Word spritePatternTableAddress;
     wxCoord y;
@@ -581,7 +602,21 @@ void Tms9918::drawSprites()
         numberOfSpritesOnline_[i] = 0;
         scanLineMap_[i].reset();
     }
+
+#if defined(__WXMAC__)
+    dcMemorySpritePlane.SelectObject(wxNullBitmap);
+    delete spritePlanePointer;
+    delete gcSpritePlane;
     
+    spritePlanePointer = new wxBitmap(320, 240);
+    dcMemorySpritePlane.SelectObject(*spritePlanePointer);
+
+    gcSpritePlane = wxGraphicsContext::Create(dcMemorySpritePlane);
+    gcSpritePlane->SetAntialiasMode(wxANTIALIAS_NONE);
+#else
+    dcMemorySpritePlane.Blit(offsetX_, offsetY_, videoWidth_, videoHeight_, &dcMemoryMainPlane, offsetX_, offsetY_);
+#endif
+
     while (tmsMemory_[spriteAttributeTableAddress] != 0xD0 && spriteAttributeTableAddress < (spriteAttributeTableAddress_+128))
     {
         y = tmsMemory_[spriteAttributeTableAddress++];
@@ -593,11 +628,11 @@ void Tms9918::drawSprites()
         spritePatternTableAddress = spritePatternTableAddress_ + namePointer * 8;
 
 #if defined(__WXMAC__)
-        gc->SetBrush(brushColour_[color+16]);
-        gc->SetPen(penColour_[color+16]);
+        gcSpritePlane->SetBrush(brushColour_[color+16]);
+        gcSpritePlane->SetPen(penColour_[color+16]);
 #else
-        dcMemory.SetBrush(brushColour_[color+16]);
-        dcMemory.SetPen(penColour_[color+16]);
+        dcMemorySpritePlane.SetBrush(brushColour_[color+16]);
+        dcMemorySpritePlane.SetPen(penColour_[color+16]);
 #endif
         int numberOfLines = 8;
         
@@ -619,6 +654,9 @@ void Tms9918::drawSprites()
                 return;
             y = 0;
         }
+        
+        lastSpriteX_[namePointer] = x;
+        lastSpriteY_[namePointer] = y;
 
         if (spriteMagnify_)
             drawSpriteMagnify(namePointer, spritePatternTableAddress, x, y, numberOfLines - spriteMagnifyFactor_, earlyClock);
@@ -675,7 +713,7 @@ void Tms9918::drawSprite(Byte namePointer, Word spritePatternTableAddress, wxCoo
                         else
                         {
                             scanLineMap_[scanLine].set(pixel);
-                            drawPoint(pixel+offsetX_, scanLine+offsetY_);
+                            drawPointSpritePlane(pixel+offsetX_, scanLine+offsetY_);
                         }
                     }
                 }
@@ -696,7 +734,7 @@ void Tms9918::drawSprite(Byte namePointer, Word spritePatternTableAddress, wxCoo
                             else
                             {
                                 scanLineMap_[scanLine].set(pixel);
-                                drawPoint(pixel+offsetX_, scanLine+offsetY_);
+                                drawPointSpritePlane(pixel+offsetX_, scanLine+offsetY_);
                             }
                         }
                     }
@@ -763,7 +801,7 @@ void Tms9918::drawSpriteMagnify(Byte namePointer, Word spritePatternTableAddress
                             else
                             {
                                 scanLineMap_[scanLine].set(pixel);
-                                drawPoint(pixel+offsetX_, scanLine+offsetY_);
+                                drawPointSpritePlane(pixel+offsetX_, scanLine+offsetY_);
                             }
                         }
                         pixel++;
@@ -774,7 +812,7 @@ void Tms9918::drawSpriteMagnify(Byte namePointer, Word spritePatternTableAddress
                             else
                             {
                                 scanLineMap_[scanLine].set(pixel);
-                                drawPoint(pixel+offsetX_, scanLine+offsetY_);
+                                drawPointSpritePlane(pixel+offsetX_, scanLine+offsetY_);
                             }
                         }
                     }
@@ -797,7 +835,7 @@ void Tms9918::drawSpriteMagnify(Byte namePointer, Word spritePatternTableAddress
                                 else
                                 {
                                     scanLineMap_[scanLine].set(pixel);
-                                    drawPoint(pixel+offsetX_, scanLine+offsetY_);
+                                    drawPointSpritePlane(pixel+offsetX_, scanLine+offsetY_);
                                 }
                             }
                             pixel++;
@@ -808,7 +846,7 @@ void Tms9918::drawSpriteMagnify(Byte namePointer, Word spritePatternTableAddress
                                 else
                                 {
                                     scanLineMap_[scanLine].set(pixel);
-                                    drawPoint(pixel+offsetX_, scanLine+offsetY_);
+                                    drawPointSpritePlane(pixel+offsetX_, scanLine+offsetY_);
                                 }
                             }
                         }
@@ -853,7 +891,7 @@ void Tms9918::drawSpriteMagnify(Byte namePointer, Word spritePatternTableAddress
                             else
                             {
                                 scanLineMap_[scanLine].set(pixel);
-                                drawPoint(pixel+offsetX_, scanLine+offsetY_);
+                                drawPointSpritePlane(pixel+offsetX_, scanLine+offsetY_);
                             }
                         }
                         pixel++;
@@ -864,7 +902,7 @@ void Tms9918::drawSpriteMagnify(Byte namePointer, Word spritePatternTableAddress
                             else
                             {
                                 scanLineMap_[scanLine].set(pixel);
-                                drawPoint(pixel+offsetX_, scanLine+offsetY_);
+                                drawPointSpritePlane(pixel+offsetX_, scanLine+offsetY_);
                             }
                         }
                     }
@@ -887,7 +925,7 @@ void Tms9918::drawSpriteMagnify(Byte namePointer, Word spritePatternTableAddress
                                 else
                                 {
                                     scanLineMap_[scanLine].set(pixel);
-                                    drawPoint(pixel+offsetX_, scanLine+offsetY_);
+                                    drawPointSpritePlane(pixel+offsetX_, scanLine+offsetY_);
                                 }
                             }
                             pixel++;
@@ -898,7 +936,7 @@ void Tms9918::drawSpriteMagnify(Byte namePointer, Word spritePatternTableAddress
                                 else
                                 {
                                     scanLineMap_[scanLine].set(pixel);
-                                    drawPoint(pixel+offsetX_, scanLine+offsetY_);
+                                    drawPointSpritePlane(pixel+offsetX_, scanLine+offsetY_);
                                 }
                             }
                         }
@@ -924,23 +962,41 @@ void Tms9918::drawSpriteMagnify(Byte namePointer, Word spritePatternTableAddress
     }
 }
 
-void Tms9918::drawPointCopy(wxCoord x, wxCoord y)
+void Tms9918::drawPointMainPlane(wxCoord x, wxCoord y)
 {
 #if defined(__WXMAC__)
-    gcCopy->DrawRectangle(x, y, 0, 0);
+    gcMainPlane->DrawRectangle(x, y, 0, 0);
 #else
-    dcMemoryCopy.DrawPoint(x, y);
+    dcMemoryMainPlane.DrawPoint(x, y);
 #endif
 }
 
-void Tms9918::setColourMutexCopy(int clr)
+void Tms9918::drawPointSpritePlane(wxCoord x, wxCoord y)
 {
 #if defined(__WXMAC__)
-    gcCopy->SetBrush(brushColour_[clr]);
-    gcCopy->SetPen(penColour_[clr]);
+    gcSpritePlane->DrawRectangle(x, y, 0, 0);
 #else
-    dcMemoryCopy.SetBrush(brushColour_[clr]);
-    dcMemoryCopy.SetPen(penColour_[clr]);
+    dcMemorySpritePlane.DrawPoint(x, y);
+#endif
+}
+
+void Tms9918::drawRectangleMainPlane(wxCoord x, wxCoord y, wxCoord width, wxCoord height)
+{
+#if defined(__WXMAC__)
+    gcMainPlane->DrawRectangle(x, y, width-1, height-1);
+#else
+    dcMemoryMainPlane.DrawRectangle(x, y, width, height);
+#endif
+}
+
+void Tms9918::setColourMutexMainPlane(int clr)
+{
+#if defined(__WXMAC__)
+    gcMainPlane->SetBrush(brushColour_[clr]);
+    gcMainPlane->SetPen(penColour_[clr]);
+#else
+    dcMemoryMainPlane.SetBrush(brushColour_[clr]);
+    dcMemoryMainPlane.SetPen(penColour_[clr]);
 #endif
 }
 
@@ -970,10 +1026,12 @@ void Tms9918::drawTile(Word tile)
 					cl = (b & 128) ? c>>4 : c & 0xf;
 					if (cl == 0) cl = backgroundColor_;
 					if (cl == 0) cl = 1;
+#if defined(__WXMSW__)
 					setColourMutex(cl+16);
                     drawPoint(x+px+offsetX_, y+py+offsetY_);
-                    setColourMutexCopy(cl+16);
-                    drawPointCopy(x+px+offsetX_, y+py+offsetY_);
+#endif
+                    setColourMutexMainPlane(cl+16);
+                    drawPointMainPlane(x+px+offsetX_, y+py+offsetY_);
 					b = (b << 1) & 0xff;
 				}
 			}
@@ -1000,10 +1058,12 @@ void Tms9918::drawTile(Word tile)
 					cl = (b & 128) ? c>>4 : c & 0xf;
 					if (cl == 0) cl = backgroundColor_;
 					if (cl == 0) cl = 1;
+#if defined(__WXMSW__)
  					setColourMutex(cl+16);
                     drawPoint(x+px+offsetX_, y+py+offsetY_);
-                    setColourMutexCopy(cl+16);
-                    drawPointCopy(x+px+offsetX_, y+py+offsetY_);
+#endif
+                    setColourMutexMainPlane(cl+16);
+                    drawPointMainPlane(x+px+offsetX_, y+py+offsetY_);
 					b = (b << 1) & 0xff;
 				}
 			}
@@ -1014,8 +1074,8 @@ void Tms9918::drawTile(Word tile)
 			y = (tile / 40)*8;
 			size = 6;
 
-			setColourMutex(backgroundColor_+16);
-			drawRectangle(x+offsetX_, y+offsetY_, 6, 8);
+            setColourMutexMainPlane(backgroundColor_+16);
+            drawRectangleMainPlane(x+offsetX_, y+offsetY_, 6, 8);
 
 			for (int py=0; py<8; py++)
 			{
@@ -1026,8 +1086,12 @@ void Tms9918::drawTile(Word tile)
 					{
 						cl = textColor_;
 						if (cl == 0) cl = backgroundColor_;
-						setColourMutex(cl+16);
-						drawPoint(x+px+offsetX_, y+py+offsetY_);
+#if defined(__WXMSW__)
+                        setColourMutex(cl+16);
+                        drawPoint(x+px+offsetX_, y+py+offsetY_);
+#endif
+                        setColourMutexMainPlane(cl+16);
+                        drawPointMainPlane(x+px+offsetX_, y+py+offsetY_);
 					}
 					b = (b << 1) & 0xff;
 				}
@@ -1063,12 +1127,17 @@ void Tms9918::drawTile(Word tile)
 
 void Tms9918::drawScreen()
 {
-	setColourMutex(backgroundColor_+16);
-    drawRectangle(0, 0, videoWidth_ + 2*offsetX_, offsetY_);
-    drawRectangle(0, videoHeight_ + offsetY_, videoWidth_ + 2*offsetX_, offsetY_);
-    drawRectangle(0, offsetY_, offsetX_, videoHeight_);
-    drawRectangle(videoWidth_ + offsetX_, offsetY_, offsetX_, videoHeight_);
-//	drawRectangle(0, 0, videoWidth_ + 2*offsetX_, videoHeight_ + 2*offsetY_);
+#if defined(__WXMAC__)
+	setColourMutexMainPlane(backgroundColor_+16);
+    drawRectangleMainPlane(0, 0, videoWidth_ + 2*offsetX_, videoHeight_ + 2*offsetY_);
+#else
+    setColourMutex(backgroundColor_+16);
+    drawRectangle(0, 0, videoWidth_ + 2*offsetX_, videoHeight_ + 2*offsetY_);
+#endif
+//    drawRectangleMain(0, 0, videoWidth_ + 2*offsetX_, offsetY_);
+//    drawRectangle(0, videoHeight_ + offsetY_, videoWidth_ + 2*offsetX_, offsetY_);
+//    drawRectangle(0, offsetY_, offsetX_, videoHeight_);
+//    drawRectangle(videoWidth_ + offsetX_, offsetY_, offsetX_, videoHeight_);
 	if (mode_ == TMS_GRAPHICS_I)
 	{
 		for (int x=0; x<768; x++)
@@ -1104,7 +1173,6 @@ void Tms9918::reBlit(wxDC &dc)
         return;
     
     dc.Blit(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_, &dcMemory, 0, 0);
-//    dc.Blit(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_, &dcMemoryCopy, 0, 0);
 
     if (extraBackGround_ && newBackGround_)
     {

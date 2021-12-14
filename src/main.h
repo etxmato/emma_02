@@ -1288,6 +1288,7 @@ public:
 
     void refreshVideoEvent(guiEvent& event);
     void eventRefreshVideo(bool isVt, int uartNumber);
+    bool isVideoRefreshOngoing() {return videoRefreshOngoing_;};
 
     void refreshPanelEvent(guiEvent& event);
     void eventRefreshPanel();

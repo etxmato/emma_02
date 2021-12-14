@@ -2115,7 +2115,7 @@ void GuiMain::onLoad(bool load)
                               );
 	if (!fileName)
 		return;
-
+    
 	wxFileName swFullPath = wxFileName(fileName, wxPATH_NATIVE);
 	conf[selectedComputer_].ramDir_ = swFullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
 

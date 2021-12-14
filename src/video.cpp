@@ -645,7 +645,6 @@ void Video::changeScreenSize()
 
 #ifndef __linux__ // Looks like reDrawing on zooming will (sometimes) crash on linux
 	reDraw_ = true;
-    reDrawSprites_ = true;
 	newBackGround_ = true;
 #endif
 

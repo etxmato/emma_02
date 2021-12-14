@@ -2,6 +2,7 @@
 #define TMS9918_H
 
 #include "video.h"
+#include "wx/overlay.h"
 
 class TileList
 {
@@ -36,8 +37,10 @@ public:
     void drawSprite(Byte namePointer, Word spritePatternTableAddress, wxCoord x, wxCoord y, int numberOfLines, bool earlyClock);
     void drawSpriteMagnify(Byte namePointer, Word spritePatternTableAddress, wxCoord x, wxCoord y, int numberOfLines, bool earlyClock);
 
-    void setColourMutexCopy(int clr);
-    void drawPointCopy(wxCoord x, wxCoord y);
+    void setColourMutexMainPlane(int clr);
+    void drawPointMainPlane(wxCoord x, wxCoord y);
+    void drawPointSpritePlane(wxCoord x, wxCoord y);
+    void drawRectangleMainPlane(wxCoord x, wxCoord y, wxCoord width, wxCoord height);
 
 	void drawTile(Word tile);
 	void drawScreen();
@@ -52,10 +55,14 @@ public:
 private:
 	TileList *tileListPointer;
 
+    wxOverlay spriteOverlay;
+    
 	Byte tmsMemory_[16384];
     Byte numberOfSpritesOnline_[192];
     bitset<256> scanLineMap_[192];
-    
+    wxCoord lastSpriteX_[32];
+    wxCoord lastSpriteY_[32];
+
 	int computerType_;
     Byte statusRegister_;
 	Byte registers_[8];
@@ -70,6 +77,7 @@ private:
     Byte textColor_;
     Byte backgroundColor_;
     
+    bool reDrawSprites_;
     bool spriteSize16_;
     bool spriteMagnify_;
     int spriteMagnifyFactor_;
