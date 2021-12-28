@@ -3,13 +3,13 @@
 
 [Setup]
 AppName=Emma 02
-AppVerName=Emma 02 - V1.42
-AppVersion=1.42
+AppVerName=Emma 02 - V1.43
+AppVersion=1.43
 AppPublisher=Marcel van Tongeren
 DefaultDirName={pf}\Emma 02
 DefaultGroupName=Emma 02
 OutputDir=x86
-OutputBaseFilename=Emma_02_x86_setup_v1.42
+OutputBaseFilename=Emma_02_x86_setup_v1.43
 Compression=lzma
 SolidCompression=true
 SetupIconFile=..\images\app.ico
@@ -160,6 +160,7 @@ Source: ..\data\Elf\Games\*.*; DestDir: {app}\data\Elf\Games; Components: MAIN
 Source: ..\data\Elf\Music\*.*; DestDir: {app}\data\Elf\Music; Components: MAIN
 Source: ..\data\Elf\Netronics Tiny Basic\*.*; DestDir: {app}\data\Elf\Netronics Tiny Basic; Components: MAIN
 Source: ..\data\Elf\Pico Elf\*.*; DestDir: {app}\data\Elf\Pico Elf; Components: MAIN
+Source: ..\data\Elf\Pico Elf\TMS9118\*.*; DestDir: {app}\data\Elf\Pico Elf\TMS9118; Components: MAIN
 Source: ..\data\Elf\QuestData\*.*; DestDir: {app}\data\Elf\QuestData; Components: MAIN
 Source: ..\data\Elf\SuperBasic\*.*; DestDir: {app}\data\Elf\SuperBasic; Components: MAIN
 Source: ..\data\Elf\TinyBasic\*.*; DestDir: {app}\data\Elf\TinyBasic; Components: MAIN

@@ -12,6 +12,7 @@ RM := rm -rf
 -include x64/Debug/Emma\ 02/subdir.mk
 -include src/subdir.mk
 -include Win32/Release/Emma\ 02/subdir.mk
+-include Win32/Debug/Emma\ 02/subdir.mk
 -include subdir.mk
 -include objects.mk
 

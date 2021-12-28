@@ -123,6 +123,12 @@ void GuiEti::readEtiConfig()
 
 	setRealCas(ETI);
 
+    long value;
+    conf[ETI].saveStartString_ = configPointer->Read("/Eti/SaveStart", "0");
+    if (!conf[ETI].saveStartString_.ToLong(&value, 16))
+        value = 0;
+    conf[ETI].saveStart_ = value;
+
 	if (mode_.gui)
 	{
 		XRCCTRL(*this, "MainRomEti", wxComboBox)->SetValue(conf[ETI].rom_[MAINROM1]);
@@ -142,6 +148,8 @@ void GuiEti::readEtiConfig()
 
         if (clockTextCtrl[ETI] != NULL)
             clockTextCtrl[ETI]->ChangeValue(conf[ETI].clock_);
+        if (conf[ETI].saveStart_ != 0)
+            XRCCTRL(*this, "SaveStartEti", wxTextCtrl)->SetValue(conf[ETI].saveStartString_);
 	}
 }
 
@@ -170,6 +178,7 @@ void GuiEti::writeEtiConfig()
 	configPointer->Write("/Eti/Enable_Real_Cassette", conf[ETI].realCassetteLoad_);
 	configPointer->Write("/Eti/Volume", conf[ETI].volume_);
 	configPointer->Write("/Eti/Memory_Type", conf[ETI].ramType_);
+    configPointer->Write("/Eti/SaveStart", conf[ETI].saveStartString_);
 
 	configPointer->Write("/Eti/Clock_Speed", conf[ETI].clock_);
 }

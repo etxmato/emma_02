@@ -131,6 +131,12 @@ void GuiNano::readNanoConfig()
 
 	setRealCas(NANO);
 
+    long value;
+    conf[NANO].saveStartString_ = configPointer->Read("/Nano/SaveStart", "0");
+    if (!conf[NANO].saveStartString_.ToLong(&value, 16))
+        value = 0;
+    conf[NANO].saveStart_ = value;
+
 	if (mode_.gui)
 	{
 		XRCCTRL(*this, "MainRomNano", wxComboBox)->SetValue(conf[NANO].rom_[MAINROM1]);
@@ -151,6 +157,8 @@ void GuiNano::readNanoConfig()
             clockTextCtrl[NANO]->ChangeValue(conf[NANO].clock_);
 
 		XRCCTRL(*this, "SoundNano", wxChoice)->SetSelection(conf[NANO].soundType_);
+        if (conf[NANO].saveStart_ != 0)
+            XRCCTRL(*this, "SaveStartNano", wxTextCtrl)->SetValue(conf[NANO].saveStartString_);   
 	}
 }
 
@@ -179,6 +187,7 @@ void GuiNano::writeNanoConfig()
 	configPointer->Write("/Nano/Enable_Auto_Cassette", conf[NANO].autoCassetteLoad_);
 	configPointer->Write("/Nano/Enable_Real_Cassette", conf[NANO].realCassetteLoad_);
 	configPointer->Write("/Nano/Volume", conf[NANO].volume_);
+    configPointer->Write("/Nano/SaveStart", conf[NANO].saveStartString_);
 
 	configPointer->Write("/Nano/Clock_Speed", conf[NANO].clock_);
 	configPointer->Write("/Nano/Sound", conf[NANO].soundType_);

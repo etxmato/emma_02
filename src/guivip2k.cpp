@@ -179,14 +179,24 @@ void GuiVip2K::readVip2KConfig()
     elfConfiguration[VIP2K].vt100SetUpFeature_ = configPointer->Read("/Vip2K/VT100Setup", 0x0000ca52l);
     elfConfiguration[VIP2K].vtExternalSetUpFeature_ = configPointer->Read("/Vip2K/VTExternalSetup", 0x0000ca52l);
 	elfConfiguration[VIP2K].baudT = (int)configPointer->Read("/Vip2K/Vt_Baud", 5l);
-    elfConfiguration[VIP2K].baudR = (int)configPointer->Read("/Membership/Vt_Baud_Receive", 2l);
-    elfConfiguration[VIP2K].baudT = (int)configPointer->Read("/Membership/Vt_Baud_Transmit", 2l);
+    elfConfiguration[VIP2K].baudR = (int)configPointer->Read("/Vip2K/Vt_Baud_Receive", 2l);
+    elfConfiguration[VIP2K].baudT = (int)configPointer->Read("/Vip2K/Vt_Baud_Transmit", 2l);
     configPointer->Read("/Vip2K/ShowVtWindow", &elfConfiguration[VIP2K].vtShow, false);
     configPointer->Read("/Vip2K/AutoKeyDef", &elfConfiguration[VIP2K].autoKeyDef, true);
 
-	setVtType("Vip2K", VIP2K, elfConfiguration[VIP2K].vtType, false);
+    elfConfiguration[VIP2K].vtCharactersPerRow = (int)configPointer->Read("/Vip2K/VT100CharPerRow", 80);
+    elfConfiguration[VIP2K].vt100CharWidth = (int)configPointer->Read("/Vip2K/VT100CharWidth", 10);
+    elfConfiguration[VIP2K].vt52CharWidth = (int)configPointer->Read("/Vip2K/VT52CharWidth", 9);
+
+    setVtType("Vip2K", VIP2K, elfConfiguration[VIP2K].vtType, false);
 
 	elfConfiguration[VIP2K].vtCharRom_ = configPointer->Read("/Vip2K/Vt_Font_Rom_File", "vt100.bin");
+
+    long value;
+    conf[VIP2K].saveStartString_ = configPointer->Read("/Vip2K/SaveStart", "0");
+    if (!conf[VIP2K].saveStartString_.ToLong(&value, 16))
+        value = 0;
+    conf[VIP2K].saveStart_ = value;
 
 	if (mode_.gui)
 	{
@@ -215,6 +225,8 @@ void GuiVip2K::readVip2KConfig()
 		XRCCTRL(*this, "VolumeVip2K", wxSlider)->SetValue(conf[VIP2K].volume_);
         if (clockTextCtrl[VIP2K] != NULL)
             clockTextCtrl[VIP2K]->ChangeValue(conf[VIP2K].clock_);
+        if (conf[VIP2K].saveStart_ != 0)
+            XRCCTRL(*this, "SaveStartVip2K", wxTextCtrl)->SetValue(conf[VIPII].saveStartString_);
 	}
 }
 
@@ -259,6 +271,9 @@ void GuiVip2K::writeVip2KConfig()
     configPointer->Write("/Vip2K/VT100Setup", value);
     value = elfConfiguration[VIP2K].vtExternalSetUpFeature_.to_ulong();
     configPointer->Write("/Vip2K/VTExternalSetup", value);
+    configPointer->Write("/Vip2K/VT100CharPerRow", elfConfiguration[VIP2K].vtCharactersPerRow);
+    configPointer->Write("/Vip2K/VT100CharWidth", elfConfiguration[VIP2K].vt100CharWidth);
+    configPointer->Write("/Vip2K/VT52CharWidth", elfConfiguration[VIP2K].vt52CharWidth);
 
 	configPointer->Write("/Vip2K/Vt_Baud", elfConfiguration[VIP2K].baudT);
 
@@ -272,6 +287,7 @@ void GuiVip2K::writeVip2KConfig()
 	configPointer->Write("/Vip2K/Enable_Auto_Cassette", conf[VIP2K].autoCassetteLoad_);
 	configPointer->Write("/Vip2K/Enable_Real_Cassette", conf[VIP2K].realCassetteLoad_);
 	configPointer->Write("/Vip2K/Volume", conf[VIP2K].volume_);
+    configPointer->Write("/Vip2K/SaveStart", conf[VIP2K].saveStartString_);
 
 	configPointer->Write("/Vip2K/Clock_Speed", conf[VIP2K].clock_);
 }

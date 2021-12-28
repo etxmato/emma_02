@@ -130,8 +130,8 @@ void GuiPecom::readPecomConfig()
 	conf[PECOM].volume_ = (int)configPointer->Read("/Pecom/Volume", 25l);
 	conf[PECOM].turboClock_ = configPointer->Read("/Pecom/Turbo_Clock_Speed", "15"); 
 	conf[PECOM].printMode_ = (int)configPointer->Read("/Pecom/Print_Mode", 1l);
-	conf[PECOM].useLoadLocation_ = false;
 
+    configPointer->Read("/Pecom/UseLoadLocation", &conf[PECOM].useLoadLocation_, false);
 	configPointer->Read("/Pecom/Enable_Turbo_Cassette", &conf[PECOM].turbo_, true);
 	configPointer->Read("/Pecom/Enable_Auto_Cassette", &conf[PECOM].autoCassetteLoad_, true);
 	configPointer->Read("/Pecom/Enable_Real_Cassette", &conf[PECOM].realCassetteLoad_, false);
@@ -146,6 +146,12 @@ void GuiPecom::readPecomConfig()
     configPointer->Read("/Pecom/Dram", &conf[PECOM].dram_, true);
 
 	setRealCas(PECOM);
+    
+    long value;
+    conf[PECOM].saveStartString_ = configPointer->Read("/Pecom/SaveStart", "0");
+    if (!conf[PECOM].saveStartString_.ToLong(&value, 16))
+        value = 0;
+    conf[PECOM].saveStart_ = value;
 
 	if (mode_.gui)
 	{
@@ -170,6 +176,9 @@ void GuiPecom::readPecomConfig()
 		setPrintMode();
 		XRCCTRL(*this, "UseLocationPecom", wxCheckBox)->SetValue(false);
         XRCCTRL(*this, "DramPecom", wxCheckBox)->SetValue(conf[PECOM].dram_);
+        XRCCTRL(*this, "UseLocationPecom", wxCheckBox)->SetValue(conf[PECOM].useLoadLocation_);
+        if (conf[PECOM].saveStart_ != 0)
+            XRCCTRL(*this, "SaveStartPecom", wxTextCtrl)->SetValue(conf[PECOM].saveStartString_); 
 	}
 }
 
@@ -202,6 +211,8 @@ void GuiPecom::writePecomConfig()
 	configPointer->Write("/Pecom/Enable_Real_Cassette", conf[PECOM].realCassetteLoad_);
 	configPointer->Write("/Pecom/Print_Mode", conf[PECOM].printMode_);
     configPointer->Write("/Pecom/Dram", conf[PECOM].dram_);
+    configPointer->Write("/Pecom/UseLoadLocation", conf[PECOM].useLoadLocation_);
+    configPointer->Write("/Pecom/SaveStart", conf[PECOM].saveStartString_);
 }
 
 void GuiPecom::readPecomWindowConfig()

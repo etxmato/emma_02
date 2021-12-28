@@ -4152,10 +4152,23 @@ void GuiMain::setBaudChoice(int computerType)
 
 void GuiMain::setBaud(int baudR, int baudT)
 {
-    XRCCTRL(*this, "VTBaudRChoice" + computerInfo[runningComputer_].gui, wxChoice)->SetSelection(baudR);
-    XRCCTRL(*this, "VTBaudTChoice" + computerInfo[runningComputer_].gui, wxChoice)->SetSelection(baudT);
+    if (mode_.gui)
+    {
+        XRCCTRL(*this, "VTBaudRChoice" + computerInfo[runningComputer_].gui, wxChoice)->SetSelection(baudR);
+        XRCCTRL(*this, "VTBaudTChoice" + computerInfo[runningComputer_].gui, wxChoice)->SetSelection(baudT);
+    }
     elfConfiguration[runningComputer_].baudR = baudR;
     elfConfiguration[runningComputer_].baudT = baudT;
+}
+
+void GuiMain::saveSetup(int baudR, int baudT, bitset<32> setupFeature, int vtCharactersPerRow, int charWidth)
+{
+    elfConfiguration[runningComputer_].baudR = baudR;
+    elfConfiguration[runningComputer_].baudT = baudT;
+    elfConfiguration[runningComputer_].vt100SetUpFeature_ = setupFeature;
+    elfConfiguration[runningComputer_].vtCharactersPerRow = vtCharactersPerRow;
+    elfConfiguration[runningComputer_].vt100CharWidth = charWidth;
+    
 }
 
 void GuiMain::onLedTimer(wxCommandEvent&event)

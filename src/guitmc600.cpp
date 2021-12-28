@@ -163,7 +163,7 @@ void GuiTelmac::readTelmacConfig()
 	conf[TMC600].volume_ = (int)configPointer->Read("/TMC600/Volume", 25l);
 	conf[TMC600].turboClock_ = configPointer->Read("/TMC600/Turbo_Clock_Speed", "15");
 	conf[TMC600].printMode_ = (int)configPointer->Read("/TMC600/Print_Mode", 1l);
-	conf[TMC600].useLoadLocation_ = false;
+    configPointer->Read("/TMC600/UseLoadLocation", &conf[TMC600].useLoadLocation_, false);
 	conf[TMC600].ramType_ = (int)configPointer->Read("/TMC600/Ram_Type", 02);
 
 	configPointer->Read("/TMC600/Enable_Turbo_Cassette", &conf[TMC600].turbo_, true);
@@ -172,6 +172,12 @@ void GuiTelmac::readTelmacConfig()
 	configPointer->Read("/TMC600/Real_Time_Clock", &realTimeClock_, false);
 
 	setRealCas(TMC600);
+
+    long value;
+    conf[TMC600].saveStartString_ = configPointer->Read("/TMC600/SaveStart", "0");
+    if (!conf[TMC600].saveStartString_.ToLong(&value, 16))
+        value = 0;
+    conf[TMC600].saveStart_ = value;
 
 	if (mode_.gui)
 	{
@@ -199,6 +205,9 @@ void GuiTelmac::readTelmacConfig()
 		XRCCTRL(*this, "PrintModeTMC600", wxChoice)->SetSelection(conf[TMC600].printMode_);
 		setPrintMode();
 		XRCCTRL(*this, "UseLocationTMC600", wxCheckBox)->SetValue(false);
+        XRCCTRL(*this, "UseLocationTMC600", wxCheckBox)->SetValue(conf[TMC600].useLoadLocation_);
+        if (conf[TMC600].saveStart_ != 0)
+            XRCCTRL(*this, "SaveStartTMC600", wxTextCtrl)->SetValue(conf[TMC600].saveStartString_);
 	}
 }
 
@@ -236,6 +245,8 @@ void GuiTelmac::writeTelmacConfig()
 	configPointer->Write("/TMC600/Real_Time_Clock", realTimeClock_);
 	configPointer->Write("/TMC600/Ram_Type", conf[TMC600].ramType_);
 	configPointer->Write("/TMC600/Print_Mode", conf[TMC600].printMode_);
+    configPointer->Write("/TMC600/UseLoadLocation", conf[TMC600].useLoadLocation_);
+    configPointer->Write("/TMC600/SaveStart", conf[TMC600].saveStartString_);
 }
 
 void GuiTelmac::readTelmacWindowConfig()

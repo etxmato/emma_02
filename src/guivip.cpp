@@ -161,7 +161,7 @@ void GuiVip::readVipConfig()
 	conf[VIP].printFile_ = configPointer->Read("/Vip/Print_File", "printerout.txt");
 	conf[VIP].screenDumpFile_ = configPointer->Read("/Vip/Video_Dump_File", "screendump.png");
 	conf[VIP].turboClock_ = configPointer->Read("/Vip/Turbo_Clock_Speed", "15");
-	conf[VIP].useLoadLocation_ = false;
+    configPointer->Read("/Vip/UseLoadLocation", &conf[VIP].useLoadLocation_, false);
 
 	wxString defaultZoom;
 	defaultZoom.Printf("%2.2f", 2.0);
@@ -214,9 +214,19 @@ void GuiVip::readVipConfig()
 	elfConfiguration[VIP].baudT = (int)configPointer->Read("/Vip/Vt_Baud", 6l);
 	elfConfiguration[VIP].baudR = elfConfiguration[VIP].baudT;
 
-	setVtType("Vip", VIP, elfConfiguration[VIP].vtType, false);
+    elfConfiguration[VIP].vtCharactersPerRow = (int)configPointer->Read("/Vip/VT100CharPerRow", 80);
+    elfConfiguration[VIP].vt100CharWidth = (int)configPointer->Read("/Vip/VT100CharWidth", 10);
+    elfConfiguration[VIP].vt52CharWidth = (int)configPointer->Read("/Vip/VT52CharWidth", 9);
+
+    setVtType("Vip", VIP, elfConfiguration[VIP].vtType, false);
 
 	elfConfiguration[VIP].vtCharRom_ = configPointer->Read("/Vip/Vt_Font_Rom_File", "vt52.a.bin");
+
+    long value;
+    conf[VIP].saveStartString_ = configPointer->Read("/Vip/SaveStart", "0");
+    if (!conf[VIP].saveStartString_.ToLong(&value, 16))
+        value = 0;
+    conf[VIP].saveStart_ = value;
 
 	if (mode_.gui)
 	{
@@ -262,6 +272,9 @@ void GuiVip::readVipConfig()
 		wxString beepFrequency;
 		beepFrequency.Printf("%d", conf[VIP].beepFrequency_);
 		XRCCTRL(*this, "BeepFrequencyVip", wxTextCtrl)->ChangeValue(beepFrequency);
+        XRCCTRL(*this, "UseLocationVip", wxCheckBox)->SetValue(conf[VIP].useLoadLocation_);
+        if (conf[VIP].saveStart_ != 0)
+            XRCCTRL(*this, "SaveStartVip", wxTextCtrl)->SetValue(conf[VIP].saveStartString_);
 	}
 }
 
@@ -303,6 +316,9 @@ void GuiVip::writeVipConfig()
     configPointer->Write("/Vip/VT100Setup", value);
     value = elfConfiguration[VIP].vtExternalSetUpFeature_.to_ulong();
     configPointer->Write("/Vip/VTExternalSetup", value);
+    configPointer->Write("/Vip/VT100CharPerRow", elfConfiguration[VIP].vtCharactersPerRow);
+    configPointer->Write("/Vip/VT100CharWidth", elfConfiguration[VIP].vt100CharWidth);
+    configPointer->Write("/Vip/VT52CharWidth", elfConfiguration[VIP].vt52CharWidth);
 
 	configPointer->Write("/Vip/Vt_Baud", elfConfiguration[VIP].baudT);
 
@@ -332,6 +348,8 @@ void GuiVip::writeVipConfig()
 	configPointer->Write("/Vip/Print_Mode", conf[VIP].printMode_);
 	configPointer->Write("/Vip/Clock_Speed", conf[VIP].clock_);
 	configPointer->Write("/Vip/Beep_Frequency", conf[VIP].beepFrequency_);
+    configPointer->Write("/Vip/UseLoadLocation", conf[VIP].useLoadLocation_);
+    configPointer->Write("/Vip/SaveStart", conf[VIP].saveStartString_);
 }
 
 void GuiVip::readVipWindowConfig()

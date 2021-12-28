@@ -70,7 +70,9 @@ VtSetupDialog::VtSetupDialog(wxWindow* parent)
             XRCCTRL(*this, "VtSerialPort", wxTextCtrl)->Hide();
 #endif
 			XRCCTRL(*this, "VtSerialPortText", wxStaticText)->Hide();
-		break;
+            XRCCTRL(*this, "VtCharacters", wxChoice)->Hide();
+            XRCCTRL(*this, "VtCharactersText", wxStaticText)->Hide();
+        break;
 
 		case VT100:
             SetUpFeature_ = elfConfiguration_.vt100SetUpFeature_;
@@ -115,6 +117,8 @@ VtSetupDialog::VtSetupDialog(wxWindow* parent)
         XRCCTRL(*this, "VtSetupBit15Text", wxStaticText)->Hide();
         XRCCTRL(*this, "VtSetupBit16", wxChoice)->Hide();
         XRCCTRL(*this, "VtSetupBit16Text", wxStaticText)->Hide();
+        XRCCTRL(*this, "VtCharacters", wxChoice)->Hide();
+        XRCCTRL(*this, "VtCharactersText", wxStaticText)->Hide();
         XRCCTRL(*this, "VtBellText", wxStaticText)->Hide();
         XRCCTRL(*this, "VtBell", wxTextCtrl)->Hide();
         XRCCTRL(*this, "VtHzText", wxStaticText)->Hide();
@@ -196,7 +200,16 @@ VtSetupDialog::VtSetupDialog(wxWindow* parent)
         break;
             
 		case COSMICOS:
-		case MEMBER:
+            XRCCTRL(*this, "VtCharacters", wxChoice)->Hide();
+            XRCCTRL(*this, "VtCharactersText", wxStaticText)->Hide();
+            XRCCTRL(*this, "VtEf", wxCheckBox)->SetValue(elfConfiguration_.vtEf);
+            XRCCTRL(*this, "VtQ", wxCheckBox)->SetValue(!elfConfiguration_.vtQ);
+            XRCCTRL(*this, "Uart1854", wxCheckBox)->Hide();
+            XRCCTRL(*this, "Uart16450", wxCheckBox)->Hide();
+            XRCCTRL(*this, "VtRtcClear", wxCheckBox)->Hide();
+        break;
+        
+        case MEMBER:
         case VELF:
 			XRCCTRL(*this, "VtEf", wxCheckBox)->SetValue(elfConfiguration_.vtEf);
 			XRCCTRL(*this, "VtQ", wxCheckBox)->SetValue(!elfConfiguration_.vtQ);
@@ -209,6 +222,16 @@ VtSetupDialog::VtSetupDialog(wxWindow* parent)
     wxString bellFrequency;
     bellFrequency.Printf("%d", elfConfiguration_.bellFrequency_);
     XRCCTRL(*this, "VtBell", wxTextCtrl)->ChangeValue(bellFrequency);
+
+    switch (elfConfiguration_.vtCharactersPerRow)
+    {
+        case 132:
+            XRCCTRL(*this, "VtCharacters", wxChoice)->SetSelection(1);
+        break;
+        default:
+            XRCCTRL(*this, "VtCharacters", wxChoice)->SetSelection(0);
+        break;
+    }
 
 	if (elfConfiguration_.vtWavFile_ != "")
 	{
@@ -271,6 +294,17 @@ void VtSetupDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
             
         case VT100:
             elfConfiguration_.vt100SetUpFeature_ = SetUpFeature_;
+            switch (XRCCTRL(*this, "VtCharacters", wxChoice)->GetSelection())
+            {
+                case 1:
+                    elfConfiguration_.vtCharactersPerRow = 132;
+                    elfConfiguration_.vt100CharWidth = 8;
+                break;
+                default:
+                    elfConfiguration_.vtCharactersPerRow = 80;
+                    elfConfiguration_.vt100CharWidth = 10;
+                break;
+            }
         break;
     }
 
@@ -376,7 +410,7 @@ void VtSetupDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
     valueString.ToLong(&bellFrequency);
     elfConfiguration_.bellFrequency_ = (int)bellFrequency;
 
-	elfConfiguration_.vtWavFile_= XRCCTRL(*this, "VtSetupWavFile", wxTextCtrl)->GetValue();
+    elfConfiguration_.vtWavFile_= XRCCTRL(*this, "VtSetupWavFile", wxTextCtrl)->GetValue();
     
 #ifdef __WXMSW__
    int selection = XRCCTRL(*this, "VtSerialPortChoice", wxChoice)->GetSelection();

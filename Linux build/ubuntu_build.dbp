@@ -1,7 +1,7 @@
 [DEBREATE-0.7.13]
 <<CTRL>>
 Package: emma-02
-Version: 1.42
+Version: 1.43
 Maintainer: Marcel van Tongeren <marcel.v.tongeren@gmail.com>
 Homepage: http://www.emma02.hobby-site.com
 Architecture: amd64
@@ -152,11 +152,11 @@ fi
 <</SCRIPTS>>
 <<CHANGELOG>>
 <<DEST>>DEFAULT<</DEST>>
-emma-02 (1.42) xenial; urgency=medium
+emma-02 (1.43) xenial; urgency=medium
 
   * See http://www.emma02.hobby-site.com
 
- -- Marcel van Tongeren <marcel.v.tongeren@gmail.com>, 8 May 2021 21:41:13 +0200
+ -- Marcel van Tongeren <marcel.v.tongeren@gmail.com>, 28 Dec 2021 20:35:12 +0200
 
 <</CHANGELOG>>
 <<COPYRIGHT>>

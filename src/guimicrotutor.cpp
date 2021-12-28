@@ -85,6 +85,11 @@ void GuiMicrotutor::readMicrotutorConfig()
 	conf[MICROTUTOR].ledTime_ = configPointer->Read("/Microtutor/Led_Update_Frequency", defaultTimer);
 	conf[MICROTUTOR].realCassetteLoad_ = false;
 
+    conf[MICROTUTOR].saveStartString_ = configPointer->Read("/Microtutor/SaveStart", "0");
+    if (!conf[MICROTUTOR].saveStartString_.ToLong(&value, 16))
+        value = 0;
+    conf[MICROTUTOR].saveStart_ = value;
+
 	if (mode_.gui)
 	{
 		XRCCTRL(*this, "RamSWMicrotutor", wxComboBox)->SetValue(conf[MICROTUTOR].ram_);
@@ -92,6 +97,8 @@ void GuiMicrotutor::readMicrotutorConfig()
 		XRCCTRL(*this, "AutoBootMicrotutor", wxCheckBox)->SetValue(elfConfiguration[MICROTUTOR].autoBoot);
         if (clockTextCtrl[MICROTUTOR] != NULL)
             clockTextCtrl[MICROTUTOR]->ChangeValue(conf[MICROTUTOR].clock_);
+        if (conf[MICROTUTOR].saveStart_ != 0)
+            XRCCTRL(*this, "SaveStartMicrotutor", wxTextCtrl)->SetValue(conf[MEMBER].saveStartString_);
 	}
 
 	elfConfiguration[MICROTUTOR].usePortExtender = false;
@@ -116,6 +123,7 @@ void GuiMicrotutor::writeMicrotutorConfig()
 	configPointer->Write("/Microtutor/Boot_Address", buffer);
 	configPointer->Write("/Microtutor/Enable_Auto_Boot", elfConfiguration[MICROTUTOR].autoBoot);
 	configPointer->Write("/Microtutor/Led_Update_Frequency", conf[MICROTUTOR].ledTime_);
+    configPointer->Write("/Microtutor/SaveStart", conf[MICROTUTOR].saveStartString_);
 
     configPointer->Write("/Microtutor/Clock_Speed", conf[MICROTUTOR].clock_);
 }
@@ -201,6 +209,11 @@ void GuiMicrotutor2::readMicrotutor2Config()
     conf[MICROTUTOR2].ramType_ = (int)configPointer->Read("/Microtutor2/Ram_Type", 0l);
     configPointer->Read("/Microtutor2/UtilityMemory", &elfConfiguration[MICROTUTOR2].utilityMemory, true);
 
+    conf[MICROTUTOR2].saveStartString_ = configPointer->Read("/Microtutor2/SaveStart", "0");
+    if (!conf[MICROTUTOR2].saveStartString_.ToLong(&value, 16))
+        value = 0;
+    conf[MICROTUTOR2].saveStart_ = value;
+    
     if (mode_.gui)
     {
         XRCCTRL(*this, "MainRamMMicrotutor2", wxComboBox)->SetValue(conf[MICROTUTOR2].rom_[MAINROM1]);
@@ -219,6 +232,8 @@ void GuiMicrotutor2::readMicrotutor2Config()
             XRCCTRL(*this, "RamText2Microtutor2", wxStaticText)->SetLabel("per Slot");
         else
             XRCCTRL(*this, "RamText2Microtutor2", wxStaticText)->SetLabel("");
+        if (conf[MICROTUTOR2].saveStart_ != 0)
+            XRCCTRL(*this, "SaveStartMicrotutor2", wxTextCtrl)->SetValue(conf[MICROTUTOR2].saveStartString_);
     }
     
     elfConfiguration[MICROTUTOR2].usePortExtender = false;
@@ -246,7 +261,8 @@ void GuiMicrotutor2::writeMicrotutor2Config()
     configPointer->Write("/Microtutor2/Boot_Address", buffer);
     configPointer->Write("/Microtutor2/Enable_Auto_Boot", elfConfiguration[MICROTUTOR2].autoBoot);
     configPointer->Write("/Microtutor2/Led_Update_Frequency", conf[MICROTUTOR2].ledTime_);
-    
+    configPointer->Write("/Microtutor2/SaveStart", conf[MICROTUTOR2].saveStartString_);
+
     configPointer->Write("/Microtutor2/Clock_Speed", conf[MICROTUTOR2].clock_);
     configPointer->Write("/Microtutor2/Ram_Type", conf[MICROTUTOR2].ramType_);
     configPointer->Write("/Microtutor2/UtilityMemory", elfConfiguration[MICROTUTOR2].utilityMemory);

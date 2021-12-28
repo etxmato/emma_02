@@ -179,6 +179,10 @@ void GuiMcds::readMcdsConfig()
     elfConfiguration[MCDS].vtEf = false;
     elfConfiguration[MCDS].vtQ = true;
 
+    elfConfiguration[MCDS].vtCharactersPerRow = (int)configPointer->Read("/Mcds/VT100CharPerRow", 80);
+    elfConfiguration[MCDS].vt100CharWidth = (int)configPointer->Read("/Mcds/VT100CharWidth", 10);
+    elfConfiguration[MCDS].vt52CharWidth = (int)configPointer->Read("/Mcds/VT52CharWidth", 9);
+
     configPointer->Read("/Mcds/Force_Uppercase", &elfConfiguration[MCDS].forceUpperCase, true);
     configPointer->Read("/Mcds/Boot_From_Ram", &elfConfiguration[MCDS].bootRam, false);
     
@@ -198,11 +202,17 @@ void GuiMcds::readMcdsConfig()
     configPointer->Read("/Mcds/Enable_Turbo_Cassette", &conf[MCDS].turbo_, true);
     configPointer->Read("/Mcds/Enable_Auto_Cassette", &conf[MCDS].autoCassetteLoad_, true);
     configPointer->Read("/Mcds/Enable_Real_Cassette", &conf[MCDS].realCassetteLoad_, false);
-	conf[MCDS].useLoadLocation_ = false;
+    configPointer->Read("/Mcds/UseLoadLocation", &conf[MCDS].useLoadLocation_, false);
 
  	setVtType("MCDS", MCDS, elfConfiguration[MCDS].vtType, false);
 
 	elfConfiguration[MCDS].vtCharRom_ = configPointer->Read("/Mcds/Vt_Font_Rom_File", "vt100.bin");
+
+    long value;
+    conf[MCDS].saveStartString_ = configPointer->Read("/Mcds/SaveStart", "0");
+    if (!conf[MCDS].saveStartString_.ToLong(&value, 16))
+        value = 0;
+    conf[MCDS].saveStart_ = value;
 
     if (mode_.gui)
 	{
@@ -243,6 +253,8 @@ void GuiMcds::readMcdsConfig()
             clockTextCtrl[MCDS]->ChangeValue(conf[MCDS].clock_);
 
         XRCCTRL(*this, "UseLocationMCDS", wxCheckBox)->SetValue(conf[MCDS].useLoadLocation_);
+        if (conf[MCDS].saveStart_ != 0)
+            XRCCTRL(*this, "SaveStartMCDS", wxTextCtrl)->SetValue(conf[MCDS].saveStartString_);
     }
 }
 
@@ -285,7 +297,10 @@ void GuiMcds::writeMcdsConfig()
     configPointer->Write("/Mcds/VT100Setup", value);
     value = elfConfiguration[MCDS].vtExternalSetUpFeature_.to_ulong();
     configPointer->Write("/Mcds/VTExternalSetup", value);
-    
+    configPointer->Write("/Mcds/VT100CharPerRow", elfConfiguration[MCDS].vtCharactersPerRow);
+    configPointer->Write("/Mcds/VT100CharWidth", elfConfiguration[MCDS].vt100CharWidth);
+    configPointer->Write("/Mcds/VT52CharWidth", elfConfiguration[MCDS].vt52CharWidth);
+
 	configPointer->Write("/Mcds/Vt_Baud_Receive", elfConfiguration[MCDS].baudR);
 	configPointer->Write("/Mcds/Vt_Baud_Transmit", elfConfiguration[MCDS].baudT);
 	configPointer->Write("/Mcds/Vt_Zoom", conf[MCDS].zoomVt_);
@@ -294,7 +309,9 @@ void GuiMcds::writeMcdsConfig()
     configPointer->Write("/Mcds/Enable_Vt_External", elfConfiguration[MCDS].vtExternal);
     configPointer->Write("/Mcds/Volume", conf[MCDS].volume_);
     configPointer->Write("/Mcds/Boot_From_Ram", elfConfiguration[MCDS].bootRam);
-    
+    configPointer->Write("/Mcds/UseLoadLocation", conf[MCDS].useLoadLocation_);
+    configPointer->Write("/Mcds/SaveStart", conf[MCDS].saveStartString_);
+
     configPointer->Write("/Mcds/Clock_Speed", conf[MCDS].clock_);
     configPointer->Write("/Mcds/Turbo_Clock_Speed", conf[MCDS].turboClock_);
     configPointer->Write("/Mcds/Enable_Turbo_Cassette", conf[MCDS].turbo_);

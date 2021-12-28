@@ -698,6 +698,12 @@ void GuiStudio2::readStudioIVConfig()
             XRCCTRL(*this, "CartRomButtonStudioIV", wxButton)->SetToolTip("Browse for cartridge RAM file");
         }
     }
+    
+    long value;
+    conf[STUDIOIV].saveStartString_ = configPointer->Read("/StudioIV/SaveStart", "0");
+    if (!conf[STUDIOIV].saveStartString_.ToLong(&value, 16))
+        value = 0;
+    conf[STUDIOIV].saveStart_ = value;
 
     if (mode_.gui)
     {
@@ -719,6 +725,8 @@ void GuiStudio2::readStudioIVConfig()
         
         XRCCTRL(*this, "VidModeStudioIV", wxChoice)->SetSelection(conf[STUDIOIV].videoMode_);
         XRCCTRL(*this, "2020StudioIV", wxCheckBox)->SetValue(conf[STUDIOIV].st2020Active_);
+        if (conf[STUDIOIV].saveStart_ != 0)
+            XRCCTRL(*this, "SaveStartStudioIV", wxTextCtrl)->SetValue(conf[STUDIOIV].saveStartString_);
     }
 }
 
@@ -749,6 +757,7 @@ void GuiStudio2::writeStudioIVConfig()
 	configPointer->Write("/StudioIV/Enable_Real_Cassette", conf[STUDIOIV].realCassetteLoad_);
     configPointer->Write("/StudioIV/Enable_2020", conf[STUDIOIV].st2020Active_);
     configPointer->Write("/StudioIV/Load_Mode_Rom", (loadromMode_ == ROM));
+    configPointer->Write("/StudioIV/SaveStart", conf[STUDIOIV].saveStartString_);
 }
 
 void GuiStudio2::readStudioIVWindowConfig()

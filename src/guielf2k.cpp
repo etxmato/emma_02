@@ -168,6 +168,10 @@ void GuiElf2K::readElf2KConfig()
 	elfConfiguration[ELF2K].clearRam = false;
 	elfConfiguration[ELF2K].clearRtc = false;
 
+    elfConfiguration[ELF2K].vtCharactersPerRow = (int)configPointer->Read("/Elf2K/VT100CharPerRow", 80);
+    elfConfiguration[ELF2K].vt100CharWidth = (int)configPointer->Read("/Elf2K/VT100CharWidth", 10);
+    elfConfiguration[ELF2K].vt52CharWidth = (int)configPointer->Read("/Elf2K/VT52CharWidth", 9);
+
 	configPointer->Read("/Elf2K/Uart", &elfConfiguration[ELF2K].useUart, false);
 	configPointer->Read("/Elf2K/Force_Uppercase", &elfConfiguration[ELF2K].forceUpperCase, false);
 	configPointer->Read("/Elf2K/Open_Control_Windows", &elfConfiguration[ELF2K].useElfControlWindows, true);
@@ -214,7 +218,13 @@ void GuiElf2K::readElf2KConfig()
 	setElf2KVideoType(conf[ELF2K].videoMode_);
 
 	elfConfiguration[ELF2K].vtCharRom_ = configPointer->Read("/Elf2K/Vt_Font_Rom_File", "vt52.a.bin");
-    
+  
+    long value;
+    conf[ELF2K].saveStartString_ = configPointer->Read("/Elf2K/SaveStart", "0");
+    if (!conf[ELF2K].saveStartString_.ToLong(&value, 16))
+        value = 0;
+    conf[ELF2K].saveStart_ = value;
+
 	if (mode_.gui)
 	{
 		XRCCTRL(*this, "MainRomElf2K", wxComboBox)->SetValue(conf[ELF2K].rom_[MAINROM1]);
@@ -278,6 +288,8 @@ void GuiElf2K::readElf2KConfig()
                 clockTextCtrl[ELF2K]->ChangeValue(elf2K8275Clock_);
         }
         setTape();
+        if (conf[ELF2K].saveStart_ != 0)
+            XRCCTRL(*this, "SaveStartElf2K", wxTextCtrl)->SetValue(conf[ELF2K].saveStartString_);
 	}
 	setElf2KKeyboard(elfConfiguration[ELF2K].keyboardType);
 
@@ -327,7 +339,10 @@ void GuiElf2K::writeElf2KConfig()
     configPointer->Write("/Elf2K/VT100Setup", value);
     value = elfConfiguration[ELF2K].vtExternalSetUpFeature_.to_ulong();
     configPointer->Write("/Elf2K/VTExternalSetup", value);
-    
+    configPointer->Write("/Elf2K/VT100CharPerRow", elfConfiguration[ELF2K].vtCharactersPerRow);
+    configPointer->Write("/Elf2K/VT100CharWidth", elfConfiguration[ELF2K].vt100CharWidth);
+    configPointer->Write("/Elf2K/VT52CharWidth", elfConfiguration[ELF2K].vt52CharWidth);
+
 	configPointer->Write("/Elf2K/Vt_Baud_Receive", elfConfiguration[ELF2K].baudR);
 	configPointer->Write("/Elf2K/Vt_Baud_Transmit", elfConfiguration[ELF2K].baudT);
 	configPointer->Write("/Elf2K/Video_Type", conf[ELF2K].videoMode_);
@@ -354,6 +369,7 @@ void GuiElf2K::writeElf2KConfig()
     configPointer->Write("/Elf2K/Enable_HexModem", elfConfiguration[ELF2K].useHexModem);
     configPointer->Write("/Elf2K/Ymodem_PacketSize", elfConfiguration[ELF2K].packetSize);
 	configPointer->Write("/Elf2K/Volume", conf[ELF2K].volume_);
+    configPointer->Write("/Elf2K/SaveStart", conf[ELF2K].saveStartString_);
 
 	configPointer->Write("/Elf2K/Clock_Speed_When_Using_Pixie", elf2KPixieClock_);
 	configPointer->Write("/Elf2K/Clock_Speed_When_Using_I8275", elf2K8275Clock_);

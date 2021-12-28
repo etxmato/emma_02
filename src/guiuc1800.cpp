@@ -93,6 +93,11 @@ void GuiUc1800::readUc1800Config()
 	elfConfiguration[UC1800].elfPortConf.hexOutput = (int)configPointer->Read("UC1800/HexOutput", 4l);
     elfConfiguration[UC1800].elfPortConf.hexInput = (int)configPointer->Read("UC1800/HexInput", 4l);
 
+    conf[UC1800].saveStartString_ = configPointer->Read("/UC1800/SaveStart", "0");
+    if (!conf[UC1800].saveStartString_.ToLong(&value, 16))
+        value = 0;
+    conf[UC1800].saveStart_ = value;
+
 	if (mode_.gui)
 	{
 		XRCCTRL(*this, "RamSWUC1800", wxComboBox)->SetValue(conf[UC1800].ram_);
@@ -102,8 +107,10 @@ void GuiUc1800::readUc1800Config()
             clockTextCtrl[UC1800]->ChangeValue(conf[UC1800].clock_);
 		XRCCTRL(*this, "HexOutputUC1800", wxSpinCtrl)->SetValue(elfConfiguration[UC1800].elfPortConf.hexOutput);
 		XRCCTRL(*this, "HexInputUC1800", wxSpinCtrl)->SetValue(elfConfiguration[UC1800].elfPortConf.hexInput);
-	}
-
+        if (conf[UC1800].saveStart_ != 0)
+            XRCCTRL(*this, "SaveStartUC1800", wxTextCtrl)->SetValue(conf[UC1800].saveStartString_);	
+    }
+    
 	elfConfiguration[UC1800].usePortExtender = false;
 	elfConfiguration[UC1800].ideEnabled = false;
     elfConfiguration[UC1800].fdcEnabled = false;
@@ -126,6 +133,7 @@ void GuiUc1800::writeUc1800Config()
 	configPointer->Write("/UC1800/Boot_Address", buffer);
 	configPointer->Write("/UC1800/Enable_Auto_Boot", elfConfiguration[UC1800].autoBoot);
 	configPointer->Write("/UC1800/Led_Update_Frequency", conf[UC1800].ledTime_);
+    configPointer->Write("/UC1800/SaveStart", conf[UC1800].saveStartString_);
 
     configPointer->Write("/UC1800/Clock_Speed", conf[UC1800].clock_);
     configPointer->Write("UC1800/HexOutput", elfConfiguration[UC1800].elfPortConf.hexOutput);

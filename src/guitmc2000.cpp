@@ -176,6 +176,12 @@ void GuiTMC2000::readTMC2000Config()
 
 	setRealCas(TMC2000);
 
+    long value;
+    conf[TMC2000].saveStartString_ = configPointer->Read("/TMC2000/SaveStart", "0");
+    if (!conf[TMC2000].saveStartString_.ToLong(&value, 16))
+        value = 0;
+    conf[TMC2000].saveStart_ = value;
+
 	if (mode_.gui)
 	{
 		XRCCTRL(*this, "MainRomTMC2000", wxComboBox)->SetValue(conf[TMC2000].rom_[MAINROM1]);
@@ -197,6 +203,8 @@ void GuiTMC2000::readTMC2000Config()
             clockTextCtrl[TMC2000]->ChangeValue(conf[TMC2000].clock_);
 		XRCCTRL(*this, "KeyboardTMC2000", wxCheckBox)->SetValue(conf[TMC2000].useKeyboard_);
 		XRCCTRL(*this, "KeyMapTMC2000", wxButton)->Enable(!conf[TMC2000].useKeyboard_);
+        if (conf[TMC2000].saveStart_ != 0)
+            XRCCTRL(*this, "SaveStartTMC2000", wxTextCtrl)->SetValue(conf[TMC2000].saveStartString_);
 	}
 }
 
@@ -226,6 +234,7 @@ void GuiTMC2000::writeTMC2000Config()
 	configPointer->Write("/TMC2000/Enable_Real_Cassette", conf[TMC2000].realCassetteLoad_);
 	configPointer->Write("/TMC2000/Volume", conf[TMC2000].volume_);
 	configPointer->Write("/TMC2000/Ram_Type", conf[TMC2000].ramType_);
+    configPointer->Write("/TMC2000/SaveStart", conf[TMC2000].saveStartString_);
 
 	configPointer->Write("/TMC2000/Clock_Speed", conf[TMC2000].clock_);
 
@@ -287,6 +296,12 @@ void GuiTMC2000::readTMC1800Config()
 
 	setRealCas(TMC1800);
 
+    long value;
+    conf[TMC1800].saveStartString_ = configPointer->Read("/TMC1800/SaveStart", "0");
+    if (!conf[TMC1800].saveStartString_.ToLong(&value, 16))
+        value = 0;
+    conf[TMC1800].saveStart_ = value;
+
 	if (mode_.gui)
 	{
 		XRCCTRL(*this, "MainRomTMC1800", wxComboBox)->SetValue(conf[TMC1800].rom_[MAINROM1]);
@@ -313,6 +328,8 @@ void GuiTMC2000::readTMC1800Config()
 		wxString beepFrequency;
 		beepFrequency.Printf("%d", conf[TMC1800].beepFrequency_);
 		XRCCTRL(*this, "BeepFrequencyTMC1800", wxTextCtrl)->ChangeValue(beepFrequency);
+        if (conf[TMC1800].saveStart_ != 0)
+            XRCCTRL(*this, "SaveStartTMC1800", wxTextCtrl)->SetValue(conf[TMC1800].saveStartString_);
 	}
 }
 
@@ -342,6 +359,7 @@ void GuiTMC2000::writeTMC1800Config()
 	configPointer->Write("/TMC1800/Enable_Real_Cassette", conf[TMC1800].realCassetteLoad_);
 	configPointer->Write("/TMC1800/Volume", conf[TMC1800].volume_);
 	configPointer->Write("/TMC1800/Ram_Type", conf[TMC1800].ramType_);
+    configPointer->Write("/TMC1800/SaveStart", conf[TMC1800].saveStartString_);
 
 	configPointer->Write("/TMC1800/Clock_Speed", conf[TMC1800].clock_);
 	configPointer->Write("/TMC1800/Beep_Frequency", conf[TMC1800].beepFrequency_);

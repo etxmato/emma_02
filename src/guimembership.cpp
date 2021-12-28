@@ -122,6 +122,10 @@ void GuiMembership::readMembershipConfig()
     elfConfiguration[MEMBER].vt100SetUpFeature_ = configPointer->Read("/Membership/VT100Setup", 0x0000ca52l);
     elfConfiguration[MEMBER].vtExternalSetUpFeature_ = configPointer->Read("/Membership/VTExternalSetup", 0x0000ca52l);
 
+    elfConfiguration[MEMBER].vtCharactersPerRow = (int)configPointer->Read("/Membership/VT100CharPerRow", 80);
+    elfConfiguration[MEMBER].vt100CharWidth = (int)configPointer->Read("/Membership/VT100CharWidth", 10);
+    elfConfiguration[MEMBER].vt52CharWidth = (int)configPointer->Read("/Membership/VT52CharWidth", 9);
+
 	configPointer->Read("/Membership/Load_Mode_Rom", &romMode, true);
 	if (romMode)
 		loadromMode_ = RAM;
@@ -175,6 +179,11 @@ void GuiMembership::readMembershipConfig()
 	setVtType("Membership", MEMBER, elfConfiguration[MEMBER].vtType, false);
 	elfConfiguration[MEMBER].vtCharRom_ = configPointer->Read("/Membership/Vt_Font_Rom_File", "vt100.bin");
 
+    conf[MEMBER].saveStartString_ = configPointer->Read("/Membership/SaveStart", "0");
+    if (!conf[MEMBER].saveStartString_.ToLong(&value, 16))
+        value = 0;
+    conf[MEMBER].saveStart_ = value;
+
 	if (mode_.gui)
 	{
 		if (conf[MEMBER].ramType_ == 5 || conf[MEMBER].ramType_ == 6)
@@ -216,6 +225,8 @@ void GuiMembership::readMembershipConfig()
 		XRCCTRL(*this, "ClearRamMembership", wxCheckBox)->SetValue(elfConfiguration[MEMBER].clearRam);
 		XRCCTRL(*this, "ShowAddressMembership", wxTextCtrl)->ChangeValue(conf[MEMBER].ledTime_);
 		XRCCTRL(*this,"ShowAddressMembership",wxTextCtrl)->Enable(elfConfiguration[MEMBER].useElfControlWindows);
+        if (conf[MEMBER].saveStart_ != 0)
+            XRCCTRL(*this, "SaveStartMembership", wxTextCtrl)->SetValue(conf[MEMBER].saveStartString_);
 	}
 
 	elfConfiguration[MEMBER].usePortExtender = false;
@@ -263,7 +274,10 @@ void GuiMembership::writeMembershipConfig()
     configPointer->Write("/Membership/VT100Setup", value);
     value = elfConfiguration[MEMBER].vtExternalSetUpFeature_.to_ulong();
     configPointer->Write("/Membership/VTExternalSetup", value);
- 
+    configPointer->Write("/Membership/VT100CharPerRow", elfConfiguration[MEMBER].vtCharactersPerRow);
+    configPointer->Write("/Membership/VT100CharWidth", elfConfiguration[MEMBER].vt100CharWidth);
+    configPointer->Write("/Membership/VT52CharWidth", elfConfiguration[MEMBER].vt52CharWidth);
+
 	configPointer->Write("/Membership/Vt_Baud_Receive", elfConfiguration[MEMBER].baudR);
 	configPointer->Write("/Membership/Vt_Baud_Transmit", elfConfiguration[MEMBER].baudT);
 	configPointer->Write("/Membership/Enable_Auto_Boot", elfConfiguration[MEMBER].autoBoot);
@@ -282,6 +296,7 @@ void GuiMembership::writeMembershipConfig()
 	configPointer->Write("/Membership/Enable_Auto_Cassette", conf[MEMBER].autoCassetteLoad_);
     configPointer->Write("/Membership/IO_Type", elfConfiguration[MEMBER].ioType);
     configPointer->Write("/Membership/Front_Type", elfConfiguration[MEMBER].frontType);
+    configPointer->Write("/Membership/SaveStart", conf[MEMBER].saveStartString_);
 
     configPointer->Write("/Membership/Clock_Speed", conf[MEMBER].clock_);
     configPointer->Write("/Membership/Beep_Frequency", conf[MEMBER].beepFrequency_);

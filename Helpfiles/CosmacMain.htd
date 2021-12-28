@@ -125,7 +125,6 @@ This chapter also includes:
 </p>
 <p>
 Please note the following limitations:<br>
-TMS 9918 Support does not include multi colour mode and sprites<br>
 Extended ports only supports Extended RAM pager<br>
 FDC Disk Support has not been tested
 </p>

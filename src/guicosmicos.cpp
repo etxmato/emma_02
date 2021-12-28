@@ -145,6 +145,10 @@ void GuiCosmicos::readCosmicosConfig()
 	elfConfiguration[COSMICOS].baudT = (int)configPointer->Read("/Cosmicos/Vt_Baud", 10l);
 	elfConfiguration[COSMICOS].baudR = elfConfiguration[COSMICOS].baudT;
 
+    elfConfiguration[COSMICOS].vtCharactersPerRow = (int)configPointer->Read("/Cosmicos/VT100CharPerRow", 64);
+    elfConfiguration[COSMICOS].vt100CharWidth = (int)configPointer->Read("/Cosmicos/VT100CharWidth", 10);
+    elfConfiguration[COSMICOS].vt52CharWidth = (int)configPointer->Read("/Cosmicos/VT52CharWidth", 9);
+
 	configPointer->Read("/Cosmicos/Force_Uppercase", &elfConfiguration[COSMICOS].forceUpperCase, true);
 	configPointer->Read("/Cosmicos/Enable_Auto_Boot", &elfConfiguration[COSMICOS].autoBoot, true);
 	configPointer->Read("/Cosmicos/Open_Control_Windows", &elfConfiguration[COSMICOS].useElfControlWindows, true);
@@ -172,6 +176,12 @@ void GuiCosmicos::readCosmicosConfig()
 	setRealCas(COSMICOS);
 
 	elfConfiguration[COSMICOS].vtCharRom_ = configPointer->Read("/Cosmicos/Vt_Font_Rom_File", "vt52.a.bin");
+
+    long value;
+    conf[COSMICOS].saveStartString_ = configPointer->Read("/Cosmicos/SaveStart", "0");
+    if (!conf[COSMICOS].saveStartString_.ToLong(&value, 16))
+        value = 0;
+    conf[COSMICOS].saveStart_ = value;
 
 	if (mode_.gui)
 	{
@@ -212,6 +222,8 @@ void GuiCosmicos::readCosmicosConfig()
         if (clockTextCtrl[COSMICOS] != NULL)
             clockTextCtrl[COSMICOS]->ChangeValue(conf[COSMICOS].clock_);
 		XRCCTRL(*this, "ShowAddressCosmicos", wxTextCtrl)->ChangeValue(conf[COSMICOS].ledTime_);
+        if (conf[COSMICOS].saveStart_ != 0)
+            XRCCTRL(*this, "SaveStartCosmicos", wxTextCtrl)->SetValue(conf[COSMICOS].saveStartString_);
 	}
 
 	setCosmicosKeyboard(elfConfiguration[COSMICOS].keyboardType);
@@ -255,7 +267,10 @@ void GuiCosmicos::writeCosmicosConfig()
     configPointer->Write("/Cosmicos/VT100Setup", value);
     value = elfConfiguration[COSMICOS].vtExternalSetUpFeature_.to_ulong();
     configPointer->Write("/Cosmicos/VTExternalSetup", value);
-    
+    configPointer->Write("/Cosmicos/VT100CharPerRow", elfConfiguration[COSMICOS].vtCharactersPerRow);
+    configPointer->Write("/Cosmicos/VT100CharWidth", elfConfiguration[COSMICOS].vt100CharWidth);
+    configPointer->Write("/Cosmicos/VT52CharWidth", elfConfiguration[COSMICOS].vt52CharWidth);
+
 	configPointer->Write("/Cosmicos/Vt_Baud", elfConfiguration[COSMICOS].baudR);
 	configPointer->Write("/Cosmicos/Enable_Auto_Boot", elfConfiguration[COSMICOS].autoBoot);
 	configPointer->Write("/Cosmicos/Video_Type", conf[COSMICOS].videoMode_);
@@ -274,6 +289,7 @@ void GuiCosmicos::writeCosmicosConfig()
 	configPointer->Write("/Cosmicos/Enable_Real_Cassette", conf[COSMICOS].realCassetteLoad_);
 	configPointer->Write("/Cosmicos/Volume", conf[COSMICOS].volume_);
 	configPointer->Write("/Cosmicos/Led_Update_Frequency", conf[COSMICOS].ledTime_);
+    configPointer->Write("/Cosmicos/SaveStart", conf[COSMICOS].saveStartString_);
 
     configPointer->Write("/Cosmicos/Clock_Speed", conf[COSMICOS].clock_);
 }

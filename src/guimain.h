@@ -559,6 +559,7 @@ public:
 	void setRealCasOff(int computerType);
 	void setPrinterState(int computerType);
 	void setBaud(int baudR, int baudT);
+    void saveSetup(int baudR, int baudT, bitset<32> setupFeature, int vtCharactersPerRow, int charWidth);
 	ScreenInfo getScreenInfo(int id);
 	bool isFullScreenFloat() {return fullScreenFloat_;};
 	void onFullScreenFloat(wxCommandEvent&event);

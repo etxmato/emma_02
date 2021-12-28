@@ -140,7 +140,7 @@ void GuiVipII::readVipIIConfig()
 	conf[VIPII].wavFile_[0] = configPointer->Read("/VipII/Wav_File", "");
 	conf[VIPII].screenDumpFile_ = configPointer->Read("/VipII/Video_Dump_File", "screendump.png");
 	conf[VIPII].turboClock_ = configPointer->Read("/VipII/Turbo_Clock_Speed", "15");
-	conf[VIPII].useLoadLocation_ = false;
+    configPointer->Read("/VipII/UseLoadLocation", &conf[VIPII].useLoadLocation_, false);
 
 	wxString defaultZoom;
 	defaultZoom.Printf("%2.2f", 2.0);
@@ -177,6 +177,12 @@ void GuiVipII::readVipIIConfig()
 	else
 		conf[VIPII].bootAddress_ = 3;
 
+    long value;
+    conf[VIPII].saveStartString_ = configPointer->Read("/VipII/SaveStart", "0");
+    if (!conf[VIPII].saveStartString_.ToLong(&value, 16))
+        value = 0;
+    conf[VIPII].saveStart_ = value;
+
 	if (mode_.gui)
 	{
 		XRCCTRL(*this, "MainRomVipII", wxComboBox)->SetValue(conf[VIPII].rom_[MAINROM1]);
@@ -201,6 +207,9 @@ void GuiVipII::readVipIIConfig()
         XRCCTRL(*this, "RamVipII", wxChoice)->SetSelection(conf[VIPII].ramType_);
 		XRCCTRL(*this, "AutoBootVipII", wxCheckBox)->SetValue(conf[VIPII].autoBoot);
 		XRCCTRL(*this, "AutoBootTypeVipII", wxChoice)->SetSelection(conf[VIPII].autoBootType);
+        XRCCTRL(*this, "UseLocationVipII", wxCheckBox)->SetValue(conf[VIPII].useLoadLocation_);
+        if (conf[VIPII].saveStart_ != 0)
+            XRCCTRL(*this, "SaveStartVipII", wxTextCtrl)->SetValue(conf[VIPII].saveStartString_);
 	}
 }
 
@@ -240,6 +249,8 @@ void GuiVipII::writeVipIIConfig()
     configPointer->Write("/VipII/Ram_Type", conf[VIPII].ramType_);
     configPointer->Write("/VipII/Enable_Auto_Boot", conf[VIPII].autoBoot);
     configPointer->Write("/VipII/AutoBootType", conf[VIPII].autoBootType);
+    configPointer->Write("/VipII/UseLoadLocation", conf[VIPII].useLoadLocation_);
+    configPointer->Write("/VipII/SaveStart", conf[VIPII].saveStartString_);
 }
 
 void GuiVipII::readVipIIWindowConfig()
