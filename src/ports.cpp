@@ -42,7 +42,7 @@ END_EVENT_TABLE()
 
 DevicePortsDialog::DevicePortsDialog(wxWindow* parent)
 {
-	wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"ports.xrc");
+	wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"ports_" + p_Main->getFontSize() + ".xrc");
 	wxXmlResource::Get()->LoadDialog(this, parent, "DevicePorts");
     elfConfiguration = p_Main->getElfConfiguration();
 	elfTypeStr_ = p_Main->getSelectedComputerStr();

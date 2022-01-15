@@ -273,7 +273,7 @@ public:
 	GuiMain(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
 	~GuiMain() {};
 
-    WindowInfo getWinSizeInfo(wxString appDir);
+    WindowInfo getWinSizeInfo(wxString appDir, wxString fontSizeString);
 
     void readElfPortConfig(int elfType, wxString elfTypeStr);
     void writeElfPortConfig(int elfType, wxString elfTypeStr);
@@ -672,6 +672,8 @@ protected:
 	wxString pathSeparator_;
 	int mainWindowX_, mainWindowY_;
 	int ubuntuOffsetX_;
+    int fontSize_;
+    wxString fontSizeString_;
 
 	bool guiInitialized_;
 	int elfChoice_;

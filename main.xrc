@@ -71,6 +71,17 @@
                 <object class="wxMenuItem" name="MI_DefaultGuiSize">
                     <label>Set Default Size</label>
                 </object>
+                <object class="wxMenu" name="MI_FontSize">
+                    <label>Font Size (restart Emma 02!)</label>
+                    <object class="wxMenuItem" name="MI_FontSize11">
+                        <label>9</label>
+                        <radio>1</radio>
+                    </object>
+                    <object class="wxMenuItem" name="MI_FontSize14">
+                        <label>12</label>
+                        <radio>1</radio>
+                    </object>
+                </object>
                 <object class="wxMenuItem" name="MI_FixedWindowPosition">
                     <label>Fixed Positions</label>
                     <checkable>1</checkable>
@@ -31616,8 +31627,8 @@
                                                                     <size>18,-1d</size>
                                                                     <tooltip>Start address of memory dump</tooltip>
                                                                     <font>
-                                                                        <size>8</size>
-                                                                        <face>Courier New</face>
+                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                        <size>-1</size>
                                                                     </font>
                                                                     <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
                                                                     <bg>#E5E5E5</bg>
@@ -31871,8 +31882,8 @@
                                                                         <object class="wxTextCtrl" name="MEM00" subclass="MemEdit">
                                                                             <size>10,-1d</size>
                                                                             <font>
-                                                                                <size>8</size>
-                                                                                <face>Courier New</face>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
                                                                             </font>
                                                                             <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
                                                                             <bg>#E5E5E5</bg>
@@ -31885,8 +31896,8 @@
                                                                         <object class="wxTextCtrl" name="MEM01" subclass="MemEdit">
                                                                             <size>10,-1d</size>
                                                                             <font>
-                                                                                <size>8</size>
-                                                                                <face>Courier New</face>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
                                                                             </font>
                                                                             <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
                                                                             <bg>#E5E5E5</bg>
@@ -31899,8 +31910,8 @@
                                                                         <object class="wxTextCtrl" name="MEM02" subclass="MemEdit">
                                                                             <size>10,-1d</size>
                                                                             <font>
-                                                                                <size>8</size>
-                                                                                <face>Courier New</face>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
                                                                             </font>
                                                                             <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
                                                                             <bg>#E5E5E5</bg>
@@ -31913,8 +31924,8 @@
                                                                         <object class="wxTextCtrl" name="MEM03" subclass="MemEdit">
                                                                             <size>10,-1d</size>
                                                                             <font>
-                                                                                <size>8</size>
-                                                                                <face>Courier New</face>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
                                                                             </font>
                                                                             <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
                                                                             <bg>#E5E5E5</bg>
@@ -31927,8 +31938,8 @@
                                                                         <object class="wxTextCtrl" name="MEM04" subclass="MemEdit">
                                                                             <size>10,-1d</size>
                                                                             <font>
-                                                                                <size>8</size>
-                                                                                <face>Courier New</face>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
                                                                             </font>
                                                                             <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
                                                                             <bg>#E5E5E5</bg>
@@ -31941,8 +31952,8 @@
                                                                         <object class="wxTextCtrl" name="MEM05" subclass="MemEdit">
                                                                             <size>10,-1d</size>
                                                                             <font>
-                                                                                <size>8</size>
-                                                                                <face>Courier New</face>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
                                                                             </font>
                                                                             <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
                                                                             <bg>#E5E5E5</bg>
@@ -31955,8 +31966,8 @@
                                                                         <object class="wxTextCtrl" name="MEM06" subclass="MemEdit">
                                                                             <size>10,-1d</size>
                                                                             <font>
-                                                                                <size>8</size>
-                                                                                <face>Courier New</face>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
                                                                             </font>
                                                                             <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
                                                                             <bg>#E5E5E5</bg>
@@ -31969,8 +31980,8 @@
                                                                         <object class="wxTextCtrl" name="MEM07" subclass="MemEdit">
                                                                             <size>10,-1d</size>
                                                                             <font>
-                                                                                <size>8</size>
-                                                                                <face>Courier New</face>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
                                                                             </font>
                                                                             <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
                                                                             <bg>#E5E5E5</bg>
@@ -31983,8 +31994,8 @@
                                                                         <object class="wxTextCtrl" name="MEM08" subclass="MemEdit">
                                                                             <size>10,-1d</size>
                                                                             <font>
-                                                                                <size>8</size>
-                                                                                <face>Courier New</face>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
                                                                             </font>
                                                                             <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
                                                                             <bg>#E5E5E5</bg>
@@ -31997,8 +32008,8 @@
                                                                         <object class="wxTextCtrl" name="MEM09" subclass="MemEdit">
                                                                             <size>10,-1d</size>
                                                                             <font>
-                                                                                <size>8</size>
-                                                                                <face>Courier New</face>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
                                                                             </font>
                                                                             <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
                                                                             <bg>#E5E5E5</bg>
@@ -32011,8 +32022,8 @@
                                                                         <object class="wxTextCtrl" name="MEM0A" subclass="MemEdit">
                                                                             <size>10,-1d</size>
                                                                             <font>
-                                                                                <size>8</size>
-                                                                                <face>Courier New</face>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
                                                                             </font>
                                                                             <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
                                                                             <bg>#E5E5E5</bg>
@@ -32025,8 +32036,8 @@
                                                                         <object class="wxTextCtrl" name="MEM0B" subclass="MemEdit">
                                                                             <size>10,-1d</size>
                                                                             <font>
-                                                                                <size>8</size>
-                                                                                <face>Courier New</face>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
                                                                             </font>
                                                                             <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
                                                                             <bg>#E5E5E5</bg>
@@ -32039,8 +32050,8 @@
                                                                         <object class="wxTextCtrl" name="MEM0C" subclass="MemEdit">
                                                                             <size>10,-1d</size>
                                                                             <font>
-                                                                                <size>8</size>
-                                                                                <face>Courier New</face>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
                                                                             </font>
                                                                             <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
                                                                             <bg>#E5E5E5</bg>
@@ -32053,8 +32064,8 @@
                                                                         <object class="wxTextCtrl" name="MEM0D" subclass="MemEdit">
                                                                             <size>10,-1d</size>
                                                                             <font>
-                                                                                <size>8</size>
-                                                                                <face>Courier New</face>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
                                                                             </font>
                                                                             <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
                                                                             <bg>#E5E5E5</bg>
@@ -32067,8 +32078,8 @@
                                                                         <object class="wxTextCtrl" name="MEM0E" subclass="MemEdit">
                                                                             <size>10,-1d</size>
                                                                             <font>
-                                                                                <size>8</size>
-                                                                                <face>Courier New</face>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
                                                                             </font>
                                                                             <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
                                                                             <bg>#E5E5E5</bg>
@@ -32081,8 +32092,8 @@
                                                                         <object class="wxTextCtrl" name="MEM0F" subclass="MemEdit">
                                                                             <size>10,-1d</size>
                                                                             <font>
-                                                                                <size>8</size>
-                                                                                <face>Courier New</face>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
                                                                             </font>
                                                                             <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
                                                                             <bg>#E5E5E5</bg>
@@ -36196,6 +36207,14 @@
                                                                                             </object>
                                                                                         </object>
                                                                                     </object>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                                                                <border>0</border>
+                                                                                <object class="wxStaticText" name="MemoryDumpBottom">
+                                                                                    <style>wxALIGN_RIGHT</style>
+                                                                                    <label></label>
                                                                                 </object>
                                                                             </object>
                                                                         </object>

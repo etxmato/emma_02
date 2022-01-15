@@ -34,7 +34,7 @@ END_EVENT_TABLE()
 
 EpromDialog::EpromDialog(wxWindow* parent)
 {
-	wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"eprom.xrc");
+	wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"eprom_" + p_Main->getFontSize() + ".xrc");
 	wxXmlResource::Get()->LoadDialog(this, parent, wxT("EpromDialog"));
 
 	wxString number;

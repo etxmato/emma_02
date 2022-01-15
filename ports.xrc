@@ -218,20 +218,20 @@
                         </object>
                     </object>
                     <object class="sizeritem">
-                        <flag>wxALIGN_TOP|wxALL</flag>
-                        <border>0</border>
-                        <object class="wxStaticBoxSizer" name="wxID_ANY">
+                        <flag>wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+                        <border>3</border>
+                        <object class="wxBoxSizer">
                             <orient>wxVERTICAL</orient>
-                            <label>MC6847</label>
-                            <font>
-                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                <size>-1</size>
-                            </font>
                             <object class="sizeritem">
-                                <flag>wxALIGN_CENTER_HORIZONTAL|wxBOTTOM</flag>
-                                <border>3</border>
-                                <object class="wxBoxSizer">
+                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                                <border>0</border>
+                                <object class="wxStaticBoxSizer" name="wxID_ANY">
                                     <orient>wxVERTICAL</orient>
+                                    <label>MC6847</label>
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
                                     <object class="sizeritem">
                                         <flag>wxALIGN_LEFT|wxALL</flag>
                                         <border>0</border>

@@ -97,6 +97,7 @@ wxString guiSizers[] =
     "AssBottomRight",
     "MemoryDumpBottomRight",
     "MemoryDumpBottomLeft",
+    "MemoryDumpBottom",
     "End"
 };
 
@@ -496,6 +497,8 @@ BEGIN_EVENT_TABLE(Main, DebugWindow)
 	EVT_MENU(XRCID("MI_1802"), Main::on1802)
 	EVT_MENU(XRCID("MI_1804"), Main::on1804)
 	EVT_MENU(XRCID("MI_1805"), Main::on1805)
+    EVT_MENU(XRCID("MI_FontSize11"), Main::onFontSize11)
+    EVT_MENU(XRCID("MI_FontSize14"), Main::onFontSize14)
 
 	EVT_CHOICEBOOK_PAGE_CHANGED(XRCID("StudioChoiceBook"), Main::onStudioChoiceBook)
 	EVT_CHOICEBOOK_PAGE_CHANGED(XRCID("TelmacChoiceBook"), Main::onTelmacChoiceBook)
@@ -605,15 +608,21 @@ bool Emu1802::OnInit()
     wxFileSystem::AddHandler(new wxZipFSHandler);
 	wxXmlResource::Get()->InitAllHandlers();
 
+    wxString fontSizeString = configPointer->Read("/Main/FontSizeString", "11");
+
+    wxString xrcFile;
 #if defined(__linux__)
 	ubuntuOffsetX = 36;
-    wxString xrcFile = applicationDirectory_ + "main.xrc";
+    xrcFile = applicationDirectory_ + "main_" + fontSizeString + ".xrc";
 #elif (__WXMAC__)
+#ifdef DEBUG
+    createXml();
+#endif
 	ubuntuOffsetX = 30;
-    wxString xrcFile = applicationDirectory_ + "main_mac.xrc";
+    xrcFile = applicationDirectory_ + "main_mac_" + fontSizeString + ".xrc";
 #else
 	ubuntuOffsetX = 0;
-    wxString xrcFile = applicationDirectory_ + "main.xrc";
+    xrcFile = applicationDirectory_ + "main_" + fontSizeString + ".xrc";
 #endif
 
 #if wxCHECK_VERSION(2, 9, 0)
@@ -760,7 +769,7 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
 #if defined(__linux__)
 	dataDir_ = configPointer->Read("/DataDir", configDirectory + pathSeparator_ + "emma_02_data" + pathSeparator_);
     applicationDirectory_ = applicationFile.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
-    if (!wxFile::Exists(applicationDirectory_ + "main.xrc"))
+    if (!wxFile::Exists(applicationDirectory_ + "main_11.xrc"))
     {
         applicationDirectory_ = wxStandardPaths::Get().GetExecutablePath();
         applicationDirectory_ = applicationDirectory_.Left(applicationDirectory_.Len()-11);
@@ -1545,6 +1554,317 @@ void Emu1802::getSoftware(wxString computer, wxString type, wxString software)
 	}
 }
 
+void Emu1802::createXml()
+{
+    wxString dirname = "/Users/etxmato/workspace/emma_02/";
+    wxDir dir(dirname);
+    if ( !dir.IsOpened() )
+        return;
+
+    wxString filename, filePart;
+    bool cont = dir.GetFirst( &filename );
+    while ( cont )
+    {
+        filePart = filename.Left(filename.Len()-4);
+        if (filename.Right(3) == "xrc" && filePart.Right(2) != "11" && filePart.Right(2) != "12" &&  filePart.Right(2) != "14")
+            createXmlFile(dirname, filePart);
+        cont = dir.GetNext( &filename );
+    }
+}
+
+void Emu1802::createXmlFile(wxString xrcDir, wxString xrcFile)
+{
+    wxTextFile inputFile, outputFile11, outputApplicationFile11, outputFile12, outputApplicationFile12, outputFile14, outputApplicationFile14;
+
+    wxString input = xrcDir + xrcFile + ".xrc";
+    wxString output11 = xrcDir + xrcFile + "_11.xrc";
+    wxString output12 = xrcDir + xrcFile + "_12.xrc";
+    wxString output14 = xrcDir + xrcFile + "_14.xrc";
+    wxString outputApplication11 = applicationDirectory_ + xrcFile + "_11.xrc";
+    wxString outputApplication12 = applicationDirectory_ + xrcFile + "_12.xrc";
+    wxString outputApplication14 = applicationDirectory_ + xrcFile + "_14.xrc";
+    wxString line, line2, line3, line4, line5, line6, flagLine;
+    
+    if (wxFile::Exists(input))
+    {
+        wxFileName inputFileName = wxFileName(input);
+        wxFileName outputFileName = wxFileName(output11);
+        wxDateTime inputDate = inputFileName.GetModificationTime();
+        wxDateTime outputDate = outputFileName.GetModificationTime();
+
+        if (outputDate.IsEarlierThan(inputDate))
+        {
+            inputFile.Open(input);
+            
+            createFile(&outputFile11, output11);
+            createFile(&outputApplicationFile11, outputApplication11);
+            createFile(&outputFile12, output12);
+            createFile(&outputApplicationFile12, outputApplication12);
+            createFile(&outputFile14, output14);
+            createFile(&outputApplicationFile14, outputApplication14);
+
+            for (line=inputFile.GetFirstLine(); !inputFile.Eof(); line=inputFile.GetNextLine())
+            {
+                line.Trim(false);
+                
+                outputFile11.AddLine(line);
+                outputApplicationFile11.AddLine(line);
+
+                if (line == "<size>34,14</size>")   // HEX 4 (Memory)
+                    line = "<size>46,18</size>";
+                
+                if (line == "<size>22,13</size>")   // Rx (1802 Debug)
+                    line = "<size>28,18</size>";
+
+                if (line == "<size>125,13</size>")  // MEM Message (Memory)
+                    line = "<size>154,18</size>";
+
+                if (line == "<size>128,16</size>")  // CHAR x (Memory)
+                    line = "<size>165,16</size>";
+
+                if (line == "<size>20,14</size>"    // HEX 2 (Memory)
+                    || line == "<size>26,13</size>")// Flags text 1802 Debug
+                    line = "<size>26,18</size>";
+
+                if (line == "<size>13,14</size>")   // HEX 1 (1802 Debug)
+                    line = "<size>16,18</size>";
+                
+                if (line == "<size>20,13</size>")   // Rx and Ox text 1802 Debug
+                    line = "<size>24,18</size>";
+
+                if (line == "<size>17,13</size>")   // I text 1802 Debug
+                    line = "<size>19,18</size>";
+
+                if (line == "<size>14,19</size>")   // Spacers O1, O2, O3
+                    line = "<size>16,19</size>";
+                
+                if (line == "<size>-1,13</size>")    // Main registers text - 1802 Debug
+                    line = "<size>-1,18</size>";
+
+                if (line == "<size>42,23</size>")    // buttons 1802 and Pdeudo debug
+                    line = "<size>52,23</size>";
+
+                if (line == "<size>46,23</size>")    // buttons 1802 and Pdeudo debug
+                    line = "<size>56,23</size>";
+
+                if (line == "<size>85,23</size>")    // breakpoint buttons
+                    line = "<size>105,23</size>";
+
+                if (line == "<size>14,23</size>")    // SCRT HEX 1 (Debug 1802)
+                    line = "<size>16,23</size>";
+                
+                if (line == "<size>40,23</size>")    // HEX 4 (Direct Assembler)
+                    line = "<size>52,23</size>";
+
+                if (line == "<size>40,21</size>")    // HEX 4 (Direct Assembler)
+                    line = "<size>52,21</size>";
+
+                if (line == "<size>65,-1</size>")    // Branch (Direct Assembler)
+                    line = "<size>75,-1</size>";
+
+                if (line == "<size>60,-1</size>")    // One/Range (Direct Assembler)
+                    line = "<size>70,-1</size>";
+
+                if (line == "<size>42,25</size>")    // Mark (Direct Assembler)
+                    line = "<size>52,25</size>";
+
+                if (line == "<size>54,23</size>")    // Search (Direct Assembler)
+                    line = "<size>64,23</size>";
+
+                if (line == "<size>44,25</size>")    // Configuration (Direct Assembler)
+                    line = "<size>54,25</size>";
+
+                if (line == "<size>29,5</size>")     // Configuration (Direct Assembler)
+                    line = "<size>39,5</size>";
+
+                if (line == "<size>149,23</size>")   // Configuration (Direct Assembler)
+                    line = "<size>185,23</size>";
+
+                if (line == "<size>272,0</size>")   // Profiler spacer
+                    line = "<size>332,0</size>";
+
+                if (line == "<size>192,-1</size>")   // drop down selectors
+                    line = "<size>252,-1</size>";
+
+                if (line == "<size>166,-1</size>")   // drop down selectors Membership
+                    line = "<size>226,-1</size>";
+
+                outputFile12.AddLine(line);
+                outputApplicationFile12.AddLine(line);
+                
+                outputFile14.AddLine(line);
+                outputApplicationFile14.AddLine(line);
+
+                if (line == "<object class=\"sizeritem\">")
+                {
+                    line2=inputFile.GetNextLine(); // flag line
+                    line2.Trim(false);
+                    outputFile11.AddLine(line2);
+                    outputApplicationFile11.AddLine(line2);
+                    outputFile12.AddLine(line2);
+                    outputApplicationFile12.AddLine(line2);
+
+                    line3=inputFile.GetNextLine(); // border line
+                    line3.Trim(false);
+                    outputFile11.AddLine(line3);
+                    outputApplicationFile11.AddLine(line3);
+                    outputFile12.AddLine(line3);
+                    outputApplicationFile12.AddLine(line3);
+
+                    line4=inputFile.GetNextLine(); // object line
+                    line4.Trim(false);
+                    outputFile11.AddLine(line4);
+                    outputApplicationFile11.AddLine(line4);
+                    outputFile12.AddLine(line4);
+                    outputApplicationFile12.AddLine(line4);
+
+                    if (line4.Left(23) == "<object class=\"wxButton")
+                    {
+                        flagLine = line2.Right(line2.Len()-6);
+                        if (flagLine.Left(6) == "wxGROW")
+                            flagLine = flagLine.Right(flagLine.Len()-6);
+                        if (flagLine.Left(1) == "|")
+                            flagLine = flagLine.Right(flagLine.Len()-1);
+
+                        outputFile14.AddLine("<flag>wxGROW|"+flagLine);
+                        outputApplicationFile14.AddLine("<flag>wxGROW|"+flagLine);
+
+                        outputFile14.AddLine(line3);
+                        outputApplicationFile14.AddLine(line3);
+
+                        outputFile14.AddLine(line4);
+                        outputApplicationFile14.AddLine(line4);
+                    }
+                    else if (line4.Left(31) == "<object class=\"wxStaticBoxSizer")
+                    {
+                        line5=inputFile.GetNextLine(); // orient line
+                        line5.Trim(false);
+                        outputFile11.AddLine(line5);
+                        outputApplicationFile11.AddLine(line5);
+                        outputFile12.AddLine(line5);
+                        outputApplicationFile12.AddLine(line5);
+
+                        line6=inputFile.GetNextLine(); // label line
+                        line6.Trim(false);
+                        outputFile11.AddLine(line6);
+                        outputApplicationFile11.AddLine(line6);
+                        outputFile12.AddLine(line6);
+                        outputApplicationFile12.AddLine(line6);
+
+                        outputFile14.AddLine("<flag>wxALIGN_LEFT|wxLEFT</flag>");
+                        outputApplicationFile14.AddLine("<flag>wxALIGN_LEFT|wxLEFT</flag>");
+                        outputFile14.AddLine("<border>12</border>");
+                        outputApplicationFile14.AddLine("<border>12</border>");
+                        outputFile14.AddLine("<object class=\"wxStaticText\" name=\"wxID_STATIC\">");
+                        outputApplicationFile14.AddLine("<object class=\"wxStaticText\" name=\"wxID_STATIC\">");
+                        outputFile14.AddLine("<font>");
+                        outputApplicationFile14.AddLine("<font>");
+                        outputFile14.AddLine("<size>14</size>");
+                        outputApplicationFile14.AddLine("<size>14</size>");
+                        outputFile14.AddLine("</font>");
+                        outputApplicationFile14.AddLine("</font>");
+                        outputFile14.AddLine(line6);
+                        outputApplicationFile14.AddLine(line6);
+                        outputFile14.AddLine("</object>");
+                        outputApplicationFile14.AddLine("</object>");
+                        outputFile14.AddLine("</object>");
+                        outputApplicationFile14.AddLine("</object>");
+                        outputFile14.AddLine(line);
+                        outputApplicationFile14.AddLine(line);
+                        outputFile14.AddLine(line2);
+                        outputApplicationFile14.AddLine(line2);
+                        outputFile14.AddLine(line3);
+                        outputApplicationFile14.AddLine(line3);
+                        outputFile14.AddLine(line4);
+                        outputApplicationFile14.AddLine(line4);
+                        outputFile14.AddLine(line5);
+                        outputApplicationFile14.AddLine(line5);
+                        outputFile14.AddLine("<label></label>");
+                        outputApplicationFile14.AddLine("<label></label>");
+                    }
+                    else
+                    {
+                        outputFile14.AddLine(line2);
+                        outputApplicationFile14.AddLine(line2);
+
+                        outputFile14.AddLine(line3);
+                        outputApplicationFile14.AddLine(line3);
+
+                        outputFile14.AddLine(line4);
+                        outputApplicationFile14.AddLine(line4);
+                    }
+                }
+                
+                if (line == "<font>")
+                {
+                    line=inputFile.GetNextLine();
+                    line.Trim(false);
+
+                    if (line.Left(9) == "<sysfont>")
+                    {
+                        outputFile11.AddLine(line);
+                        outputApplicationFile11.AddLine(line);
+                        
+                        line=inputFile.GetNextLine();
+                        line.Trim(false);
+                    }
+
+                    if (line.Left(6) == "<size>")
+                    {
+                        line="<size>-1</size>"; // OSX: 11, Windows: 9
+                        outputFile11.AddLine(line);
+                        outputApplicationFile11.AddLine(line);
+                        
+                        line="<size>12</size>";
+                        outputFile12.AddLine(line);
+                        outputApplicationFile12.AddLine(line);
+
+                        line="<size>14</size>";
+                        outputFile14.AddLine(line);
+                        outputApplicationFile14.AddLine(line);
+                    }
+                    else
+                    {
+                        outputFile11.AddLine(line);
+                        outputApplicationFile11.AddLine(line);
+                        outputFile12.AddLine(line);
+                        outputApplicationFile12.AddLine(line);
+                        outputFile14.AddLine(line);
+                        outputApplicationFile14.AddLine(line);
+                   }
+                }
+            }
+            
+            outputFile11.Write();
+            outputApplicationFile11.Write();
+            outputFile12.Write();
+            outputApplicationFile12.Write();
+            outputFile14.Write();
+            outputApplicationFile14.Write();
+
+            outputFile11.Close();
+            outputApplicationFile11.Close();
+            outputFile12.Close();
+            outputApplicationFile12.Close();
+            outputFile14.Close();
+            outputApplicationFile14.Close();
+
+            inputFile.Close();
+        }
+    }
+}
+
+void Emu1802::createFile(wxTextFile* filename, wxString name)
+{
+    if (wxFile::Exists(name))
+    {
+        filename->Open(name);
+        filename->Clear();
+    }
+    else
+        filename->Create(name);
+}
+
 Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
 : DebugWindow(title, pos, size, mode, dataDir, iniDir)
 {
@@ -1563,7 +1883,10 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
 #ifndef __WXMAC__
 	SetIcon(wxICON(app_icon));
 #endif
-    
+
+    bool forceGuiSizeReset;
+    configPointer->Read("/Main/ForceGuiSizeReset", &forceGuiSizeReset, false);
+
     if (mode_.gui)
     {
         SetMenuBar(wxXmlResource::Get()->LoadMenuBar("Main_Menu"));
@@ -1571,8 +1894,17 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
         
         defaultGuiSize_ = getDefaultGuiSize();
         
-        windowInfo.mainwX = (int)configPointer->Read("/Main/Window_Size_X_133", defaultGuiSize_.x);
-        windowInfo.mainwY = (int)configPointer->Read("/Main/Window_Size_Y_133", defaultGuiSize_.y);
+        if (forceGuiSizeReset)
+        {
+            windowInfo.mainwX = defaultGuiSize_.x;
+            windowInfo.mainwY = defaultGuiSize_.y;
+            configPointer->Write("/Main/ForceGuiSizeReset", false);
+        }
+        else
+        {
+            windowInfo.mainwX = (int)configPointer->Read("/Main/Window_Size_X_133", defaultGuiSize_.x);
+            windowInfo.mainwY = (int)configPointer->Read("/Main/Window_Size_Y_133", defaultGuiSize_.y);
+        }
         
         this->SetSize(wxSize(windowInfo.mainwX, windowInfo.mainwY));
     }
@@ -1604,7 +1936,7 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
 		wxFont smallFont(6, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 		XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetFont(smallFont);
 #if defined(__WXMAC__)
-		wxFont defaultFont(11, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+		wxFont defaultFont(fontSize_, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 #else
         wxFont defaultFont(8, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 #endif
@@ -1724,6 +2056,9 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
  
     readConfig();
     
+    if (forceGuiSizeReset && mode_.window_position_fixed)
+        fixedWindowPosition();
+
     oldGauge_ = 1;
     vuPointer = new wxTimer(this, 902);
  //   cpuPointer = new wxTimer(this, 903);
@@ -1880,6 +2215,8 @@ void Main::writeConfig()
 		configPointer->Write("/Main/Window_Position_X", mainWindowX_);
 	if (mainWindowY_ > 0)
 		configPointer->Write("/Main/Window_Position_Y", mainWindowY_);
+    configPointer->Write("/Main/FontSize", fontSize_);
+    configPointer->Write("/Main/FontSizeString", fontSizeString_);
 
     this->GetSize(&windowInfo.mainwX, &windowInfo.mainwY);
 //#if defined (__linux__)
@@ -2381,7 +2718,7 @@ void Main::initConfig()
     
 	wxFont smallFont(6, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 #if defined(__WXMAC__)
-	wxFont defaultFont(11, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+	wxFont defaultFont(fontSize_, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 #else
 	wxFont defaultFont(8, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 #endif
@@ -2550,7 +2887,7 @@ void Main::readConfig()
 
 	wxFont smallFont(6, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 #if defined(__WXMAC__)
-	wxFont defaultFont(11, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+	wxFont defaultFont(fontSize_, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 #else
 	wxFont defaultFont(8, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 #endif
@@ -2564,6 +2901,11 @@ void Main::readConfig()
 		menubarPointer->Check(XRCID("MI_FullScreenFloat"), fullScreenFloat_);
         menubarPointer->Check(XRCID("MI_FixedWindowPosition"), mode_.window_position_fixed);
         menubarPointer->Check(XRCID("MI_NumPad"), useNumPad_);
+        if (fontSize_ == 11)
+            menubarPointer->Check(XRCID("MI_FontSize11"), true);
+        else
+            menubarPointer->Check(XRCID("MI_FontSize14"), true);
+
 		menubarPointer->Check(XRCID(equalizationString), true);
         menubarPointer->Check(XRCID(cpuTypeString), true);
         menubarPointer->Check(XRCID(cpuStartupRegistersString), true);
@@ -2782,6 +3124,13 @@ void Main::adjustGuiSize()
     
     if (xmlLoaded_)
     {
+        int fontFactorX = 0, fontFactorY = 0;
+        
+        if (fontSize_ != 11)
+        {
+            fontFactorX = 8;
+            fontFactorY = 6;
+        }
         XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-borderSizeX, mainWindowSize.y-borderSizeY);
         XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-borderSizeX, mainWindowSize.y-borderSizeY);
         XRCCTRL(*this, "StudioChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-borderSizeX, mainWindowSize.y-borderSizeY);
@@ -2791,28 +3140,28 @@ void Main::adjustGuiSize()
         wxPoint position, positionBreakPointWindow, positionBreakPointWindowText;
         
         position = XRCCTRL(*this, "Message_Window", wxTextCtrl)->GetPosition();
-        XRCCTRL(*this, "Message_Window", wxTextCtrl)->SetSize(mainWindowSize.x-position.x-borderSizeX, mainWindowSize.y-position.y-borderSizeY2);
+        XRCCTRL(*this, "Message_Window", wxTextCtrl)->SetSize(mainWindowSize.x-position.x-borderSizeX-fontFactorX, mainWindowSize.y-position.y-borderSizeY2-fontFactorY);
         
         position = XRCCTRL(*this, "TraceWindow", wxTextCtrl)->GetPosition();
-        XRCCTRL(*this, "TraceWindow", wxTextCtrl)->SetSize(mainWindowSize.x-position.x-borderSizeX, mainWindowSize.y-position.y-borderSizeY2);
+        XRCCTRL(*this, "TraceWindow", wxTextCtrl)->SetSize(mainWindowSize.x-position.x-borderSizeX-fontFactorX, mainWindowSize.y-position.y-borderSizeY2-fontFactorY);
         positionBreakPointWindow = XRCCTRL(*this, "BreakPointWindow", wxListCtrl)->GetPosition();
         positionBreakPointWindowText = XRCCTRL(*this, "BreakPointWindowText", wxStaticText)->GetPosition();
-        XRCCTRL(*this, "BreakPointWindow", wxListCtrl)->SetSize((position.x-6)/3, mainWindowSize.y-positionBreakPointWindow.y-borderSizeY2);
+        XRCCTRL(*this, "BreakPointWindow", wxListCtrl)->SetSize((position.x-6)/3, mainWindowSize.y-positionBreakPointWindow.y-borderSizeY2-fontFactorY);
         positionBreakPointWindow.x += (position.x/3);
         positionBreakPointWindowText.x = positionBreakPointWindow.x;
         XRCCTRL(*this, "TregWindowText", wxStaticText)->SetPosition(positionBreakPointWindowText);
         XRCCTRL(*this, "TregWindow", wxListCtrl)->SetPosition(positionBreakPointWindow);
-        XRCCTRL(*this, "TregWindow", wxListCtrl)->SetSize((position.x-6)/3, mainWindowSize.y-positionBreakPointWindow.y-borderSizeY2);
+        XRCCTRL(*this, "TregWindow", wxListCtrl)->SetSize((position.x-6)/3, mainWindowSize.y-positionBreakPointWindow.y-borderSizeY2-fontFactorY);
         positionBreakPointWindow.x += (position.x/3);
         positionBreakPointWindowText.x = positionBreakPointWindow.x;
         XRCCTRL(*this, "TrapWindowText", wxStaticText)->SetPosition(positionBreakPointWindowText);
         XRCCTRL(*this, "TrapWindow", wxListCtrl)->SetPosition(positionBreakPointWindow);
-        XRCCTRL(*this, "TrapWindow", wxListCtrl)->SetSize((position.x-6)/3, mainWindowSize.y-positionBreakPointWindow.y-borderSizeY2);
+        XRCCTRL(*this, "TrapWindow", wxListCtrl)->SetSize((position.x-6)/3, mainWindowSize.y-positionBreakPointWindow.y-borderSizeY2-fontFactorY);
         
         position = XRCCTRL(*this, "Chip8TraceWindow", wxTextCtrl)->GetPosition();
-        XRCCTRL(*this, "Chip8TraceWindow", wxTextCtrl)->SetSize(mainWindowSize.x-position.x-borderSizeX, mainWindowSize.y-position.y-borderSizeY2);
         positionBreakPointWindow = XRCCTRL(*this, "Chip8BreakPointWindow", wxListCtrl)->GetPosition();
-        XRCCTRL(*this, "Chip8BreakPointWindow", wxListCtrl)->SetSize(position.x-6, mainWindowSize.y-positionBreakPointWindow.y-borderSizeY2);
+            XRCCTRL(*this, "Chip8TraceWindow", wxTextCtrl)->SetSize(mainWindowSize.x-position.x-borderSizeX-fontFactorX, mainWindowSize.y-position.y-borderSizeY2-fontFactorY);
+            XRCCTRL(*this, "Chip8BreakPointWindow", wxListCtrl)->SetSize(position.x-6, mainWindowSize.y-positionBreakPointWindow.y-borderSizeY2-fontFactorY);
         
         changeNumberOfDebugLines(mainWindowSize.y - borderSizeY2);
     }
@@ -4183,6 +4532,24 @@ void Main::onKeyboardUserDefined(wxCommandEvent&WXUNUSED(event))
         menubarPointer->Check(XRCID(keyboardTypeMenuItem_), true);
         wxMessageBox( "Key definition file not found", "Emma 02", wxICON_ERROR | wxOK );
     }
+}
+
+void Main::onFontSize11(wxCommandEvent&WXUNUSED(event))
+{
+    fontSize_ = 11;
+    fontSizeString_ = "11";
+    configPointer->Write("/Main/ForceGuiSizeReset", true);
+}
+
+void Main::onFontSize14(wxCommandEvent&WXUNUSED(event))
+{
+    fontSize_ = 14;
+#if (__WXMAC__)
+    fontSizeString_ = "14";
+#else
+    fontSizeString_ = "12";
+#endif
+    configPointer->Write("/Main/ForceGuiSizeReset", true);
 }
 
 void Main::onFlat(wxCommandEvent&WXUNUSED(event))

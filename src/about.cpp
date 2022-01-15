@@ -45,7 +45,7 @@ MyAboutDialog::MyAboutDialog(wxWindow* parent)
 		version = version + subversion;
 	}
 
-	wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"about.xrc");
+	wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"about_" + p_Main->getFontSize() + ".xrc");
 	wxXmlResource::Get()->LoadDialog(this, parent, _T("AboutDialog"));
 	XRCCTRL(*this, "EmmaVersion", wxStaticText)->SetLabel("Emma 02 - V"+version);
 }

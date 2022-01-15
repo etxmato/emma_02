@@ -102,7 +102,7 @@ PopupDialog::PopupDialog(wxWindow* parent)
     {
         case ELFII:
         case SUPERELF:
-            wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"menuElf.xrc");
+            wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"menuElf_" + p_Main->getFontSize() + ".xrc");
             wxXmlResource::Get()->LoadDialog(this, parent, wxT("PopupElf"));
             XRCCTRL(*this, "PopupElf", wxDialog)->SetLabel(p_Main->getSelectedComputerText()+" Menu");
         break;
@@ -111,7 +111,7 @@ PopupDialog::PopupDialog(wxWindow* parent)
         case TMC2000:
         case NANO:
 		case ETI:
-			wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"menu_Cas_Mem.xrc");
+			wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"menu_Cas_Mem_" + p_Main->getFontSize() + ".xrc");
             wxXmlResource::Get()->LoadDialog(this, parent, wxT("Popup_Cas_Mem"));
             XRCCTRL(*this, "Popup_Cas_Mem", wxDialog)->SetLabel(p_Main->getSelectedComputerText()+" Menu");
         break;
@@ -119,7 +119,7 @@ PopupDialog::PopupDialog(wxWindow* parent)
         case UC1800:
         case MICROTUTOR:
         case MICROTUTOR2:
-			wxXmlResource::Get()->Load(p_Main->getApplicationDir() + p_Main->getPathSep() + "menu_Cas_Mem.xrc");
+			wxXmlResource::Get()->Load(p_Main->getApplicationDir() + p_Main->getPathSep() + "menu_Cas_Mem_" + p_Main->getFontSize() + ".xrc");
 			wxXmlResource::Get()->LoadDialog(this, parent, wxT("Popup_Cas_Mem"));
 			XRCCTRL(*this, "Popup_Cas_Mem", wxDialog)->SetLabel(p_Main->getSelectedComputerText() + " Menu");
 			XRCCTRL(*this, "CasButton", wxButton)->Hide();
@@ -129,14 +129,14 @@ PopupDialog::PopupDialog(wxWindow* parent)
 
 		case VIP:
         case VIPII:
-            wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"menuVip.xrc");
+            wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"menuVip_" + p_Main->getFontSize() + ".xrc");
             wxXmlResource::Get()->LoadDialog(this, parent, wxT("PopupVip"));
             XRCCTRL(*this, "PopupVip", wxDialog)->SetLabel(p_Main->getSelectedComputerText()+" Menu");
         break;
       
         case FRED1:
         case FRED1_5:
-            wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"menuFred.xrc");
+            wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"menuFred_" + p_Main->getFontSize() + ".xrc");
             wxXmlResource::Get()->LoadDialog(this, parent, wxT("PopupFred"));
             XRCCTRL(*this, "PopupFred", wxDialog)->SetLabel(p_Main->getSelectedComputerText()+" Menu");
         break;
@@ -144,7 +144,7 @@ PopupDialog::PopupDialog(wxWindow* parent)
         case VIP2K:
         case MEMBER:
         case CDP18S020:
-			wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"menuMembership.xrc");
+			wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"menuMembership_" + p_Main->getFontSize() + ".xrc");
 			wxXmlResource::Get()->LoadDialog(this, parent, "PopupMembership");
             XRCCTRL(*this, "PopupMembership", wxDialog)->SetLabel(p_Main->getSelectedComputerText()+" Menu");
 			if (computer_ == VIP2K)
@@ -152,7 +152,7 @@ PopupDialog::PopupDialog(wxWindow* parent)
         break;
 
         default:
-			wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"menu"+computerStr_+".xrc");
+			wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"menu"+computerStr_+"_" + p_Main->getFontSize() + ".xrc");
 			wxXmlResource::Get()->LoadDialog(this, parent, "Popup"+computerStr_);
             XRCCTRL(*this, "Popup"+computerStr_, wxDialog)->SetLabel(p_Main->getSelectedComputerText()+" Menu");
         break;

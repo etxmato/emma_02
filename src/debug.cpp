@@ -1077,6 +1077,7 @@ DebugWindow::DebugWindow(const wxString& title, const wxPoint& pos, const wxSize
 #endif
 
 	debugDir_ = readConfigDir("/Dir/Main/Debug", dataDir_);
+    fontSize_ = (int)configPointer->Read("/Main/FontSize", 11);
 
 	dirAssStart_ = 0;
 	dirAssEnd_ = 0;
@@ -1088,7 +1089,7 @@ DebugWindow::DebugWindow(const wxString& title, const wxPoint& pos, const wxSize
     numberOfDebugLines_ = 32;
 
 #if defined(__WXMAC__)
-    wxFont exactFont(13, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+    wxFont exactFont(fontSize_+2, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 #else
     wxFont exactFont(10, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 #endif
@@ -1147,8 +1148,10 @@ void DebugWindow::readDebugConfig()
 //	XRCCTRL(*this, "DebugExpansionEprom", SlotEdit)->setRange(0, 4);
 	XRCCTRL(*this, "DebugPortExtender", HexEdit)->setStart(1);
 
+    int lineWidth = charWidth_ * 16 + charWidth_/2;
+
 	for (int i=0; i<16; i++)
-        lineBmp[i] = new wxBitmap(128, 16, 24);
+        lineBmp[i] = new wxBitmap(lineWidth, 16, 24);
     paintDebugBackground();
 }
 
@@ -6822,7 +6825,7 @@ int DebugWindow::getRegister(wxString buffer)
 
 void DebugWindow::onDebugSaveDump(wxCommandEvent&WXUNUSED(event))
 {
-	int num = 0;
+//	int num = 0;
 	long addr;
 	Byte value;
     Word startAddress = 0, endAddress;
@@ -8047,8 +8050,8 @@ void DebugWindow::directAss()
     uint64_t executed;
     
 #if defined(__WXMAC__)
-	wxFont exactFont(13, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
-	wxFont exactFontBold(13, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD );
+	wxFont exactFont(fontSize_+2, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+	wxFont exactFontBold(fontSize_+2, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD );
 #else
 	wxFont exactFont(10, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 	wxFont exactFontBold(10, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD );
@@ -13826,7 +13829,7 @@ void DebugWindow::paintDebugBackground()
     dcLine.SetPen(wxPen(wxColour(windowInfo.red, windowInfo.green, windowInfo.blue)));
     dcLine.SetBrush(wxBrush(wxColour(windowInfo.red, windowInfo.green, windowInfo.blue)));
     dcLine.SetTextBackground(wxColour(windowInfo.red, windowInfo.green, windowInfo.blue));
-    dcLine.DrawRectangle(0, 0, 128, 16);
+    dcLine.DrawRectangle(0, 0, charWidth_ * 16 + charWidth_/2, 16);
 
     wxMemoryDC dcDebugBackground;
     
@@ -14087,11 +14090,12 @@ void DebugWindow::ShowCharacters(Word address, int y)
 
 	int t;
 	char bits [9];
-
+    
 	dcLine.SelectObject(*lineBmp[y]);
-	dcLine.DrawRectangle(0, 0, 128, 16);
+    int lineWidth = charWidth_ * 16 + charWidth_/2;
+    dcLine.DrawRectangle(0, 0, lineWidth, 16);
 #if defined(__WXMAC__)
-	wxFont exactFont(10, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+	wxFont exactFont(fontSize_+2, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 #else
 	wxFont exactFont(7, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 #endif
@@ -14133,7 +14137,7 @@ void DebugWindow::ShowCharacters(Word address, int y)
 				offset = 3;
 			if (byteValue == 0x54)
 				offset = 2;*/
-			dcLine.DrawText(character, (j*8), 1);
+			dcLine.DrawText(character, (j*charWidth_), 1);
 		}
 	}
 
@@ -14752,7 +14756,7 @@ void DebugWindow::DebugDisplay1864ColorRam()
 	{
 		if (xmlLoaded_)
         {
-			XRCCTRL(*this, "MEM_Message", wxStaticText)->SetLabel("1864 Color RAM not used");
+			XRCCTRL(*this, "MEM_Message", wxStaticText)->SetLabel("Color RAM not used");
             XRCCTRL(*this, "DebugMemType", wxChoice)->SetSelection(0);
         }
 		return;

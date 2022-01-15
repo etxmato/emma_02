@@ -152,7 +152,7 @@ ColourDialog::ColourDialog(wxWindow* parent)
 	if (computerType_ == VICTORY)
 		 screenInfo_.number -= 12;
 
-	wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"colour.xrc");
+	wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"colour_" + p_Main->getFontSize() + ".xrc");
 	if (computerType_ == ELFII || computerType_ == SUPERELF)
 		wxXmlResource::Get()->LoadDialog(this, parent, wxT("ColourDialogElf"));
 	else

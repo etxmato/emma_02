@@ -112,7 +112,7 @@ KeyMapDialog::KeyMapDialog(wxWindow* parent)
     inButton1_ = 255;
     inButton2_ = 255;
 
-	wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"keymap.xrc");
+	wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"keymap_" + p_Main->getFontSize() + ".xrc");
     
     keyDefGameHexA_[0] = 2;
     keyDefGameHexA_[1] = 4;

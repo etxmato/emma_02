@@ -1038,7 +1038,7 @@ void Tms9918::drawTile(Word tile)
 	int c;
 	int b;
 	int cl;
-	int x,y, size;
+	int x=0, y=0, size=0;
 	Word ofs;
 
 	p = tmsMemory_[nameAddress_+tile];
@@ -1209,7 +1209,7 @@ void Tms9918::drawTilePatternUpdate(Word tile, Word address)
     int b;
     int cl;
     int pytemp;
-    int x,y, size;
+    int x=0, y=0, size=0;
     Word ofs;
 
     p = tmsMemory_[nameAddress_+tile];

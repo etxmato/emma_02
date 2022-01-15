@@ -30,7 +30,7 @@ END_EVENT_TABLE()
 
 PsaveDialog::PsaveDialog(wxWindow* parent)
 {
-	wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"cassette.xrc");
+	wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"cassette_" + p_Main->getFontSize() + ".xrc");
 	wxXmlResource::Get()->LoadDialog(this, parent, wxT("PsaveDialog"));
 
 	XRCCTRL(*this, "PsaveVolume", wxSpinCtrl)->SetValue(p_Main->getPsaveData(0));

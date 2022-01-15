@@ -37,7 +37,7 @@ ConfigurationDialog::ConfigurationDialog(wxWindow* parent, ConfigurationInfo con
     fileNameMenuPart_ = "";
     fileNameSubMenuPart_ = "";
     fileName_ = "";
-	wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"configuration.xrc");
+	wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"configuration_" + p_Main->getFontSize() + ".xrc");
 	wxXmlResource::Get()->LoadDialog(this, parent, wxT("ConfigurationDialog"));
     
     XRCCTRL(*this, "configurationMenuName", wxTextCtrl)->SetValue(configurationInfo.menuName);

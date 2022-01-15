@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resource version="2.3.0.1" xmlns="http://www.wxwidgets.org/wxxrc">
+<object class="wxDialog" name="PopupMS2000">
+<style>wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLOSE_BOX|wxCLIP_CHILDREN|wxTAB_TRAVERSAL</style>
+<size>400,300</size>
+<title>MS2000 Menu</title>
+<centered>1</centered>
+<font>
+<size>12</size>
+</font>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT</flag>
+<border>3</border>
+<object class="wxButton" name="ID_BUTTON">
+<size>75,25</size>
+<font>
+<size>12</size>
+</font>
+<hidden>1</hidden>
+<label>Dummy button</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALL</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>3</border>
+<object class="wxButton" name="FDC0_ButtonMS2000">
+<tooltip>Browse for MS2000 FDC 0 image file or HD 0 Directory</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>FDC 0/HD 0</label>
+</object>
+</object>
+<object platform="mac" class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object platform="mac" class="wxTextCtrl" name="FDC0_FileMS2000">
+<size>127,-1</size>
+<tooltip>Specify MS2000 FDC 0 image file</tooltip>
+<font>
+<size>12</size>
+</font>
+</object>
+</object>
+<object platform="unix|win" class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>1</border>
+<object platform="unix|win" class="wxTextCtrl" name="FDC0_FileMS2000">
+<size>127,-1</size>
+<tooltip>Specify MS2000 FDC 0 image file</tooltip>
+<font>
+<size>12</size>
+</font>
+</object>
+</object>
+<object platform="mac" class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>5</border>
+<object platform="mac" class="wxBitmapButton" name="FDC0_SwitchMS2000">
+<size>26,27</size>
+<help>Toggle FDC/HD</help>
+<bitmap>images_osx/switch.png</bitmap>
+</object>
+</object>
+<object platform="unix|win" class="sizeritem">
+<flag>wxGROW</flag>
+<border>5</border>
+<object platform="unix|win" class="wxBitmapButton" name="FDC0_SwitchMS2000">
+<help>Toggle FDC/HD</help>
+<bitmap>images/switch.png</bitmap>
+</object>
+</object>
+<object platform="mac" class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>3</border>
+<object platform="mac" class="wxBitmapButton" name="Eject_FDC0MS2000">
+<size>26,27</size>
+<tooltip>Eject MS2000 FDC 0 image file</tooltip>
+<bitmap>images_osx/eject.png</bitmap>
+<selected>images_osx/eject.png</selected>
+<focus>images_osx/eject.png</focus>
+</object>
+</object>
+<object platform="unix|win" class="sizeritem">
+<flag>wxGROW</flag>
+<border>3</border>
+<object platform="unix|win" class="wxBitmapButton" name="Eject_FDC0MS2000">
+<tooltip>Eject MS2000 FDC 0 image file</tooltip>
+<bitmap>images/eject.png</bitmap>
+<selected>images/eject.png</selected>
+<focus>images/eject.png</focus>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALL</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>3</border>
+<object class="wxButton" name="FDC1_ButtonMS2000">
+<tooltip>Browse for MS2000 FDC 1 image file or HD 1 Directory</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>FDC 1/HD 1</label>
+</object>
+</object>
+<object platform="mac" class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object platform="mac" class="wxTextCtrl" name="FDC1_FileMS2000">
+<size>127,-1</size>
+<tooltip>Specify MS2000 FDC 1 image file</tooltip>
+<font>
+<size>12</size>
+</font>
+</object>
+</object>
+<object platform="unix|win" class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>1</border>
+<object platform="unix|win" class="wxTextCtrl" name="FDC1_FileMS2000">
+<size>127,-1</size>
+<tooltip>Specify MS2000 FDC 1 image file</tooltip>
+<font>
+<size>12</size>
+</font>
+</object>
+</object>
+<object platform="mac" class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>5</border>
+<object platform="mac" class="wxBitmapButton" name="FDC1_SwitchMS2000">
+<size>26,27</size>
+<help>Toggle FDC/HD</help>
+<bitmap>images_osx/switch.png</bitmap>
+</object>
+</object>
+<object platform="unix|win" class="sizeritem">
+<flag>wxGROW</flag>
+<border>5</border>
+<object platform="unix|win" class="wxBitmapButton" name="FDC1_SwitchMS2000">
+<help>Toggle FDC/HD</help>
+<bitmap>images/switch.png</bitmap>
+</object>
+</object>
+<object platform="mac" class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>3</border>
+<object platform="mac" class="wxBitmapButton" name="Eject_FDC1MS2000">
+<size>26,27</size>
+<tooltip>Eject MS2000 FDC 1 image file</tooltip>
+<bitmap>images_osx/eject.png</bitmap>
+<selected>images_osx/eject.png</selected>
+<focus>images_osx/eject.png</focus>
+</object>
+</object>
+<object platform="unix|win" class="sizeritem">
+<flag>wxGROW</flag>
+<border>3</border>
+<object platform="unix|win" class="wxBitmapButton" name="Eject_FDC1MS2000">
+<tooltip>Eject MS2000 FDC 1 image file</tooltip>
+<bitmap>images/eject.png</bitmap>
+<selected>images/eject.png</selected>
+<focus>images/eject.png</focus>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALL</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>3</border>
+<object class="wxButton" name="FDC2_ButtonMS2000">
+<tooltip>Browse for MS2000 FDC 2 image file or HD 2 Directory</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>FDC 2/HD 2</label>
+</object>
+</object>
+<object platform="mac" class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object platform="mac" class="wxTextCtrl" name="FDC2_FileMS2000">
+<size>127,-1</size>
+<tooltip>Specify MS2000 FDC 2 image file</tooltip>
+<font>
+<size>12</size>
+</font>
+</object>
+</object>
+<object platform="unix|win" class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>1</border>
+<object platform="unix|win" class="wxTextCtrl" name="FDC2_FileMS2000">
+<size>127,-1</size>
+<tooltip>Specify MS2000 FDC 2 image file</tooltip>
+<font>
+<size>12</size>
+</font>
+</object>
+</object>
+<object platform="mac" class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>5</border>
+<object platform="mac" class="wxBitmapButton" name="FDC2_SwitchMS2000">
+<size>26,27</size>
+<help>Toggle FDC/HD</help>
+<bitmap>images_osx/switch.png</bitmap>
+</object>
+</object>
+<object platform="unix|win" class="sizeritem">
+<flag>wxGROW</flag>
+<border>5</border>
+<object platform="unix|win" class="wxBitmapButton" name="FDC2_SwitchMS2000">
+<help>Toggle FDC/HD</help>
+<bitmap>images/switch.png</bitmap>
+</object>
+</object>
+<object platform="mac" class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>3</border>
+<object platform="mac" class="wxBitmapButton" name="Eject_FDC2MS2000">
+<size>26,27</size>
+<tooltip>Eject MS2000 FDC 2 image file</tooltip>
+<bitmap>images_osx/eject.png</bitmap>
+<selected>images_osx/eject.png</selected>
+<focus>images_osx/eject.png</focus>
+</object>
+</object>
+<object platform="unix|win" class="sizeritem">
+<flag>wxGROW</flag>
+<border>3</border>
+<object platform="unix|win" class="wxBitmapButton" name="Eject_FDC2MS2000">
+<tooltip>Eject MS2000 FDC 2 image file</tooltip>
+<bitmap>images/eject.png</bitmap>
+<selected>images/eject.png</selected>
+<focus>images/eject.png</focus>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALL</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>3</border>
+<object class="wxButton" name="FDC3_ButtonMS2000">
+<tooltip>Browse for MS2000 FDC 3 image file or HD 3 Directory</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>FDC 3/HD 3</label>
+</object>
+</object>
+<object platform="mac" class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object platform="mac" class="wxTextCtrl" name="FDC3_FileMS2000">
+<size>127,-1</size>
+<tooltip>Specify MS2000 FDC 3 image file</tooltip>
+<font>
+<size>12</size>
+</font>
+</object>
+</object>
+<object platform="unix|win" class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>1</border>
+<object platform="unix|win" class="wxTextCtrl" name="FDC3_FileMS2000">
+<size>127,-1</size>
+<tooltip>Specify MS2000 FDC 3 image file</tooltip>
+<font>
+<size>12</size>
+</font>
+</object>
+</object>
+<object platform="mac" class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>5</border>
+<object platform="mac" class="wxBitmapButton" name="FDC3_SwitchMS2000">
+<size>26,27</size>
+<help>Toggle FDC/HD</help>
+<bitmap>images_osx/switch.png</bitmap>
+</object>
+</object>
+<object platform="unix|win" class="sizeritem">
+<flag>wxGROW</flag>
+<border>5</border>
+<object platform="unix|win" class="wxBitmapButton" name="FDC3_SwitchMS2000">
+<help>Toggle FDC/HD</help>
+<bitmap>images/switch.png</bitmap>
+</object>
+</object>
+<object platform="mac" class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>3</border>
+<object platform="mac" class="wxBitmapButton" name="Eject_FDC3MS2000">
+<size>26,27</size>
+<tooltip>Eject MS2000 FDC 3 image file</tooltip>
+<bitmap>images_osx/eject.png</bitmap>
+<selected>images_osx/eject.png</selected>
+<focus>images_osx/eject.png</focus>
+</object>
+</object>
+<object platform="unix|win" class="sizeritem">
+<flag>wxGROW</flag>
+<border>1</border>
+<object platform="unix|win" class="wxBitmapButton" name="Eject_FDC3MS2000">
+<tooltip>Eject MS2000 FDC 3 image file</tooltip>
+<bitmap>images/eject.png</bitmap>
+<selected>images/eject.png</selected>
+<focus>images/eject.png</focus>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALL</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>3</border>
+<object class="wxButton" name="CasButton">
+<tooltip>Browse for cassette file</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Cassette</label>
+</object>
+</object>
+<object platform="mac" class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object platform="mac" class="wxTextCtrl" name="WavFile">
+<size>153,-1</size>
+<tooltip>Specify cassette file</tooltip>
+<font>
+<size>12</size>
+</font>
+</object>
+</object>
+<object platform="unix|win" class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>1</border>
+<object platform="unix|win" class="wxTextCtrl" name="WavFile">
+<size>153,-1</size>
+<tooltip>Specify cassette file</tooltip>
+<font>
+<size>12</size>
+</font>
+</object>
+</object>
+<object platform="mac" class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>3</border>
+<object platform="mac" class="wxBitmapButton" name="EjectCas">
+<size>26,27</size>
+<tooltip>Eject cassette file</tooltip>
+<bitmap>images_osx/eject.png</bitmap>
+<selected>images_osx/eject.png</selected>
+<focus>images_osx/eject.png</focus>
+</object>
+</object>
+<object platform="unix|win" class="sizeritem">
+<flag>wxGROW</flag>
+<border>3</border>
+<object platform="unix|win" class="wxBitmapButton" name="EjectCas">
+<tooltip>Eject cassette file</tooltip>
+<bitmap>images/eject.png</bitmap>
+<selected>images/eject.png</selected>
+<focus>images/eject.png</focus>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>1</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>4</border>
+<object class="wxButton" name="OK">
+<font>
+<size>12</size>
+</font>
+<label>Dismiss</label>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</resource>

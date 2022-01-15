@@ -495,7 +495,7 @@ public:
 #include "serial.h"
 
 #define EMMA_VERSION 1.43
-#define EMMA_SUB_VERSION 0
+#define EMMA_SUB_VERSION 2
 #define ELF 0
 #define ELFII 1
 #define SUPERELF 2
@@ -1055,6 +1055,9 @@ class Emu1802: public wxApp
     virtual bool OnCmdLineParsed(wxCmdLineParser& parser);
 	void getSoftware(wxString computer, wxString type, wxString software);
 	void checkXrc(wxString xrcFile);
+    void createXml();
+    void createXmlFile(wxString xrcDir, wxString xrcFile);
+    void createFile(wxTextFile* filename, wxString name);
 
 private:
     wxLocale locale;
@@ -1145,7 +1148,9 @@ public:
     void onKeyboardSwedish(wxCommandEvent& event);
     void onKeyboardUs(wxCommandEvent& event);
     void onKeyboardUserDefined(wxCommandEvent& event);
-	void onFlat(wxCommandEvent& event);
+    void onFontSize11(wxCommandEvent& event);
+    void onFontSize14(wxCommandEvent& event);
+    void onFlat(wxCommandEvent& event);
 	void onCrisp(wxCommandEvent& event);
 	void onDefault(wxCommandEvent& event);
 	void onTvSpeaker(wxCommandEvent& event);
@@ -1191,6 +1196,7 @@ public:
 
 	wxString getApplicationDir();
 
+    wxString getFontSize() {return fontSizeString_;};
 	wxString getPathSep();
 	int setFdcStepRate(int rate);
     int getFdcCpms();

@@ -1,0 +1,1021 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resource version="2.3.0.1" xmlns="http://www.wxwidgets.org/wxxrc">
+<object class="wxDialog" name="KeyMapDialog">
+<style>wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLOSE_BOX|wxWANTS_CHARS|wxTAB_TRAVERSAL</style>
+<exstyle>wxWS_EX_BLOCK_EVENTS</exstyle>
+<size>400,300</size>
+<title>Telmac TMC 600 Keyboard Map</title>
+<centered>1</centered>
+<font>
+<size>12</size>
+</font>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_TOP|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="wxID_STATIC">
+<font>
+<size>12</size>
+</font>
+<label>Regular keys</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_BOTTOM|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>2</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxHORIZONTAL</orient>
+<label>0</label>
+<font>
+<size>12</size>
+</font>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxButton" name="Key00">
+<size>75,-1</size>
+<font>
+<size>12</size>
+</font>
+<style>wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>2</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxHORIZONTAL</orient>
+<label>1</label>
+<font>
+<size>12</size>
+</font>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxButton" name="Key01">
+<size>75,-1</size>
+<font>
+<size>12</size>
+</font>
+<style>wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>2</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxHORIZONTAL</orient>
+<label>2</label>
+<font>
+<size>12</size>
+</font>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxButton" name="Key02">
+<size>75,-1</size>
+<font>
+<size>12</size>
+</font>
+<style>wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>2</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxHORIZONTAL</orient>
+<label>3</label>
+<font>
+<size>12</size>
+</font>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxButton" name="Key03">
+<size>75,-1</size>
+<font>
+<size>12</size>
+</font>
+<style>wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>2</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxHORIZONTAL</orient>
+<label>4</label>
+<font>
+<size>12</size>
+</font>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxButton" name="Key04">
+<size>75,-1</size>
+<font>
+<size>12</size>
+</font>
+<style>wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>2</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxHORIZONTAL</orient>
+<label>5</label>
+<font>
+<size>12</size>
+</font>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxButton" name="Key05">
+<size>75,-1</size>
+<font>
+<size>12</size>
+</font>
+<style>wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>2</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxHORIZONTAL</orient>
+<label>6</label>
+<font>
+<size>12</size>
+</font>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxButton" name="Key06">
+<size>75,-1</size>
+<font>
+<size>12</size>
+</font>
+<style>wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_BOTTOM|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>2</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxHORIZONTAL</orient>
+<label>7</label>
+<font>
+<size>12</size>
+</font>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxButton" name="Key07">
+<size>75,-1</size>
+<font>
+<size>12</size>
+</font>
+<style>wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>2</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxHORIZONTAL</orient>
+<label>8</label>
+<font>
+<size>12</size>
+</font>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxButton" name="Key08">
+<size>75,-1</size>
+<font>
+<size>12</size>
+</font>
+<style>wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>2</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxHORIZONTAL</orient>
+<label>9</label>
+<font>
+<size>12</size>
+</font>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxButton" name="Key09">
+<size>75,-1</size>
+<font>
+<size>12</size>
+</font>
+<style>wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>2</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxHORIZONTAL</orient>
+<label>:</label>
+<font>
+<size>12</size>
+</font>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxButton" name="Key0A">
+<size>75,-1</size>
+<font>
+<size>12</size>
+</font>
+<style>wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>2</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxHORIZONTAL</orient>
+<label>;</label>
+<font>
+<size>12</size>
+</font>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxButton" name="Key0B">
+<size>75,-1</size>
+<font>
+<size>12</size>
+</font>
+<style>wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>2</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxHORIZONTAL</orient>
+<label>,</label>
+<font>
+<size>12</size>
+</font>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxButton" name="Key0C">
+<size>75,-1</size>
+<font>
+<size>12</size>
+</font>
+<style>wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>2</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxHORIZONTAL</orient>
+<label>-</label>
+<font>
+<size>12</size>
+</font>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxButton" name="Key0D">
+<size>75,-1</size>
+<font>
+<size>12</size>
+</font>
+<style>wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_TOP|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>2</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxHORIZONTAL</orient>
+<label>.</label>
+<font>
+<size>12</size>
+</font>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxButton" name="Key0E">
+<size>75,-1</size>
+<font>
+<size>12</size>
+</font>
+<style>wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>2</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxHORIZONTAL</orient>
+<label>/</label>
+<font>
+<size>12</size>
+</font>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxButton" name="Key0F">
+<size>75,-1</size>
+<font>
+<size>12</size>
+</font>
+<style>wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>2</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxHORIZONTAL</orient>
+<label>@</label>
+<font>
+<size>12</size>
+</font>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxButton" name="Key10">
+<size>75,-1</size>
+<font>
+<size>12</size>
+</font>
+<style>wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>2</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxHORIZONTAL</orient>
+<label>^</label>
+<font>
+<size>12</size>
+</font>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxButton" name="Key14">
+<size>75,-1</size>
+<font>
+<size>12</size>
+</font>
+<style>wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALL</flag>
+<border>5</border>
+<object class="wxStaticLine" name="wxID_STATIC">
+<style>wxLI_VERTICAL</style>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_TOP|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="wxID_STATIC">
+<font>
+<size>12</size>
+</font>
+<label>SHIFT Keys</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>2</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxHORIZONTAL</orient>
+<label>__</label>
+<font>
+<size>12</size>
+</font>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxButton" name="KeyShift00">
+<size>75,-1</size>
+<font>
+<size>12</size>
+</font>
+<style>wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>2</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxHORIZONTAL</orient>
+<label>!</label>
+<font>
+<size>12</size>
+</font>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxButton" name="KeyShift01">
+<size>75,-1</size>
+<font>
+<size>12</size>
+</font>
+<style>wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>2</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxHORIZONTAL</orient>
+<label>"</label>
+<font>
+<size>12</size>
+</font>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxButton" name="KeyShift02">
+<size>75,-1</size>
+<font>
+<size>12</size>
+</font>
+<style>wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>2</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxHORIZONTAL</orient>
+<label>#</label>
+<font>
+<size>12</size>
+</font>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxButton" name="KeyShift03">
+<size>75,-1</size>
+<font>
+<size>12</size>
+</font>
+<style>wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>2</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxHORIZONTAL</orient>
+<label>$</label>
+<font>
+<size>12</size>
+</font>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxButton" name="KeyShift04">
+<size>75,-1</size>
+<font>
+<size>12</size>
+</font>
+<style>wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>2</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxHORIZONTAL</orient>
+<label>%</label>
+<font>
+<size>12</size>
+</font>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxButton" name="KeyShift05">
+<size>75,-1</size>
+<font>
+<size>12</size>
+</font>
+<style>wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>2</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxHORIZONTAL</orient>
+<label>&amp;&amp;</label>
+<font>
+<size>12</size>
+</font>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxButton" name="KeyShift06">
+<size>75,-1</size>
+<font>
+<size>12</size>
+</font>
+<style>wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>2</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxHORIZONTAL</orient>
+<label>'</label>
+<font>
+<size>12</size>
+</font>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxButton" name="KeyShift07">
+<size>75,-1</size>
+<font>
+<size>12</size>
+</font>
+<style>wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>2</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxHORIZONTAL</orient>
+<label>(</label>
+<font>
+<size>12</size>
+</font>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxButton" name="KeyShift08">
+<size>75,-1</size>
+<font>
+<size>12</size>
+</font>
+<style>wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>2</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxHORIZONTAL</orient>
+<label>)</label>
+<font>
+<size>12</size>
+</font>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxButton" name="KeyShift09">
+<size>75,-1</size>
+<font>
+<size>12</size>
+</font>
+<style>wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>2</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxHORIZONTAL</orient>
+<label>*</label>
+<font>
+<size>12</size>
+</font>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxButton" name="KeyShift0A">
+<size>75,-1</size>
+<font>
+<size>12</size>
+</font>
+<style>wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>2</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxHORIZONTAL</orient>
+<label>+</label>
+<font>
+<size>12</size>
+</font>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxButton" name="KeyShift0B">
+<size>75,-1</size>
+<font>
+<size>12</size>
+</font>
+<style>wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>2</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxHORIZONTAL</orient>
+<label>&lt;</label>
+<font>
+<size>12</size>
+</font>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxButton" name="KeyShift0C">
+<size>75,-1</size>
+<font>
+<size>12</size>
+</font>
+<style>wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>2</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxHORIZONTAL</orient>
+<label>=</label>
+<font>
+<size>12</size>
+</font>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxButton" name="KeyShift0D">
+<size>75,-1</size>
+<font>
+<size>12</size>
+</font>
+<style>wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>2</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxHORIZONTAL</orient>
+<label>&gt;</label>
+<font>
+<size>12</size>
+</font>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxButton" name="KeyShift0E">
+<size>75,-1</size>
+<font>
+<size>12</size>
+</font>
+<style>wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>2</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxHORIZONTAL</orient>
+<label>?</label>
+<font>
+<size>12</size>
+</font>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxButton" name="KeyShift0F">
+<size>75,-1</size>
+<font>
+<size>12</size>
+</font>
+<style>wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>2</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxHORIZONTAL</orient>
+<label>@</label>
+<font>
+<size>12</size>
+</font>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxButton" name="KeyShift10">
+<size>75,-1</size>
+<font>
+<size>12</size>
+</font>
+<style>wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>2</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxHORIZONTAL</orient>
+<label>^</label>
+<font>
+<size>12</size>
+</font>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxButton" name="KeyShift14">
+<size>75,-1</size>
+<font>
+<size>12</size>
+</font>
+<style>wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>2</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxHORIZONTAL</orient>
+<label>A ring</label>
+<font>
+<size>12</size>
+</font>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxButton" name="KeyShift11">
+<size>75,-1</size>
+<font>
+<size>12</size>
+</font>
+<style>wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>2</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxHORIZONTAL</orient>
+<label>A umlaut</label>
+<font>
+<size>12</size>
+</font>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxButton" name="KeyShift12">
+<size>75,-1</size>
+<font>
+<size>12</size>
+</font>
+<style>wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>2</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxHORIZONTAL</orient>
+<label>O umlaut</label>
+<font>
+<size>12</size>
+</font>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxButton" name="KeyShift13">
+<size>75,-1</size>
+<font>
+<size>12</size>
+</font>
+<style>wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxLEFT|wxRIGHT</flag>
+<border>5</border>
+<object class="wxStaticLine" name="wxID_STATIC">
+<style>wxLI_HORIZONTAL</style>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>3</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>3</border>
+<object class="wxButton" name="Default">
+<size>75,25</size>
+<font>
+<size>12</size>
+</font>
+<label>Default</label>
+</object>
+</object>
+<object platform="mac" class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object platform="mac" class="wxTextCtrl" name="Focus">
+<size>1,1</size>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>3</border>
+<object class="wxButton" name="Save">
+<size>75,-1</size>
+<font>
+<size>12</size>
+</font>
+<label>Save</label>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</resource>

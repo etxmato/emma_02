@@ -96,7 +96,7 @@ GuiMain::GuiMain(const wxString& title, const wxPoint& pos, const wxSize& size, 
 	applicationDirectory_ = applicationFile.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
 #endif
 #if defined(__linux__)
-    if (!wxFile::Exists(applicationDirectory_ + "main.xrc"))
+    if (!wxFile::Exists(applicationDirectory_ + "main_11.xrc"))
     {
         applicationDirectory_ = wxStandardPaths::Get().GetExecutablePath();
         applicationDirectory_ = applicationDirectory_.Left(applicationDirectory_.Len()-11);
@@ -104,7 +104,8 @@ GuiMain::GuiMain(const wxString& title, const wxPoint& pos, const wxSize& size, 
     }
 #endif
 
-    windowInfo = getWinSizeInfo(applicationDirectory_);
+    fontSizeString_ = configPointer->Read("/Main/FontSizeString", "11");
+    windowInfo = getWinSizeInfo(applicationDirectory_, fontSizeString_);
 
     wxDir checkDirForFiles;
     bool dataDirEmpty = true;
@@ -150,7 +151,7 @@ GuiMain::GuiMain(const wxString& title, const wxPoint& pos, const wxSize& size, 
     position_[SUPERELF].x = 0;
 }
 
-WindowInfo GuiMain::getWinSizeInfo(wxString appDir)
+WindowInfo GuiMain::getWinSizeInfo(wxString appDir, wxString fontSizeString)
 {
     WindowInfo returnValue;
     wxString windowInfoFile;
@@ -162,7 +163,7 @@ WindowInfo GuiMain::getWinSizeInfo(wxString appDir)
     wxConfigBase *windowConfigPointer;
     
 #if defined (__WXMAC__)
-    windowInfoFile = "osx.ini";
+    windowInfoFile = "osx_" + fontSizeString + ".ini";
     wxString appName = "emma_02";
     
     returnValue.operatingSystem = OS_MAC;
@@ -3911,6 +3912,7 @@ void GuiMain::enableMemAccessGui(bool status)
 	{
 		XRCCTRL(*this, "RunButton"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
 		XRCCTRL(*this, "UseLocation"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable(status);
+        XRCCTRL(*this, "UseLocationText"+computerInfo[runningComputer_].gui, wxStaticText)->Enable(status);
 		XRCCTRL(*this, "DsaveButton"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
 		enableLocationGui();
 	}

@@ -43,7 +43,7 @@ SplashScreen::SplashScreen(wxWindow *parent)
     ElfConfiguration currentElfConfig;
     vt100_ = false;
     
-    wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"splash.xrc");
+    wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"splash_" + p_Main->getFontSize() + ".xrc");
     switch (computer)
     {
         case ELF:
@@ -142,7 +142,7 @@ END_EVENT_TABLE()
 
 CompletedSplashScreen::CompletedSplashScreen(wxWindow *parent)
 {
-    wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"splash.xrc");
+    wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"splash_" + p_Main->getFontSize() + ".xrc");
     wxXmlResource::Get()->LoadDialog(this, parent, "COMPLETED");
     Show(true);
     

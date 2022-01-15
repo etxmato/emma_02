@@ -33,7 +33,7 @@ BEGIN_EVENT_TABLE(DiagDialog, wxDialog)
 
 DiagDialog::DiagDialog(wxWindow* parent)
 {
-	wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"diag.xrc");
+	wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"diag_" + p_Main->getFontSize() + ".xrc");
 	wxXmlResource::Get()->LoadDialog(this, parent, wxT("DiagDialog"));
 
     for (int i=0; i<2; i++)

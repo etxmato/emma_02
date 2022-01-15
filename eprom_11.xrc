@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resource version="2.3.0.1" xmlns="http://www.wxwidgets.org/wxxrc">
+<object class="wxDialog" name="EpromDialog">
+<title>F&amp;M EPROM Switchboard</title>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+<border>3</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>3</border>
+<object class="wxButton" name="EpromButton0">
+<tooltip>Browse for F&amp;M EPROM switchboard file for EPROM 0</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<hidden>1</hidden>
+<label>EPROM0</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>3</border>
+<object class="wxComboBox" name="Eprom0">
+<size>177,-1</size>
+<tooltip>Specify F&amp;M EPROM switchboard file for EPROM 0</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<style>wxCB_DROPDOWN</style>
+<hidden>1</hidden>
+<content>
+<item>disk.utilities.bin</item>
+<item>f&amp;m.basic.bin</item>
+<item>f&amp;m.monitor.bin</item>
+<item>hitandrun.bin</item>
+<item>tennismania.bin</item>
+</content>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+<border>3</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>3</border>
+<object class="wxButton" name="EpromButton1">
+<tooltip>Browse for F&amp;M EPROM switchboard file for EPROM 1</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>EPROM1</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>3</border>
+<object class="wxComboBox" name="Eprom1">
+<size>177,-1</size>
+<tooltip>Specify F&amp;M EPROM switchboard file for EPROM 1</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<style>wxCB_DROPDOWN</style>
+<content>
+<item>disk.utilities.bin</item>
+<item>f&amp;m.basic.bin</item>
+<item>f&amp;m.monitor.english.bin</item>
+<item>f&amp;m.monitor.dutch.bin</item>
+<item>hitandrun.bin</item>
+<item>tennismania.bin</item>
+</content>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+<border>3</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>3</border>
+<object class="wxButton" name="EpromButton2">
+<tooltip>Browse for F&amp;M EPROM switchboard file for EPROM 2</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>EPROM2</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>3</border>
+<object class="wxComboBox" name="Eprom2">
+<size>177,-1</size>
+<tooltip>Specify F&amp;M EPROM switchboard file for EPROM 2</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<style>wxCB_DROPDOWN</style>
+<content>
+<item>disk.utilities.bin</item>
+<item>f&amp;m.basic.bin</item>
+<item>f&amp;m.monitor.english.bin</item>
+<item>f&amp;m.monitor.dutch.bin</item>
+<item>hitandrun.bin</item>
+<item>tennismania.bin</item>
+</content>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+<border>3</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>3</border>
+<object class="wxButton" name="EpromButton3">
+<tooltip>Browse for F&amp;M EPROM switchboard file for EPROM 3</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>EPROM3</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>3</border>
+<object class="wxComboBox" name="Eprom3">
+<size>177,-1</size>
+<tooltip>Specify F&amp;M EPROM switchboard file for EPROM 3</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<style>wxCB_DROPDOWN</style>
+<content>
+<item>disk.utilities.bin</item>
+<item>f&amp;m.basic.bin</item>
+<item>f&amp;m.monitor.english.bin</item>
+<item>f&amp;m.monitor.dutch.bin</item>
+<item>hitandrun.bin</item>
+<item>tennismania.bin</item>
+</content>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+<border>3</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>3</border>
+<object class="wxButton" name="EpromButton4">
+<tooltip>Browse for F&amp;M EPROM switchboard file for EPROM 4</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>EPROM4</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>3</border>
+<object class="wxComboBox" name="Eprom4">
+<size>177,-1</size>
+<tooltip>Specify F&amp;M EPROM switchboard file for EPROM 4</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<style>wxCB_DROPDOWN</style>
+<content>
+<item>disk.utilities.bin</item>
+<item>f&amp;m.basic.bin</item>
+<item>f&amp;m.monitor.english.bin</item>
+<item>f&amp;m.monitor.dutch.bin</item>
+<item>hitandrun.bin</item>
+<item>tennismania.bin</item>
+</content>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>8</border>
+<object class="wxButton" name="EpromSave">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>Save</label>
+</object>
+</object>
+</object>
+</object>
+</resource>

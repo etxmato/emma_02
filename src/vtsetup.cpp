@@ -45,7 +45,7 @@ END_EVENT_TABLE()
 
 VtSetupDialog::VtSetupDialog(wxWindow* parent)
 {
-	wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"vt.xrc");
+	wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"vt_" + p_Main->getFontSize() + ".xrc");
 	wxXmlResource::Get()->LoadDialog(this, parent, "VtSetupDialog");
 
 	elfConfiguration_ = p_Main->getElfConfiguration();

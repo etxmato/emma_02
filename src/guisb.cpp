@@ -53,7 +53,7 @@ END_EVENT_TABLE()
 
 SBDialog::SBDialog(wxWindow* parent)
 {
-	wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"sb.xrc");
+	wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"sb_" + p_Main->getFontSize() + ".xrc");
 	wxXmlResource::Get()->LoadDialog(this, parent, wxT("SBDialog"));
 
     rootDir_ = p_Main->getSbRootDirectory();
