@@ -1815,7 +1815,12 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxALIGN_TOP|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
 <border>0</border>
 <object class="wxStaticBoxSizer" name="wxID_ANY">
 <orient>wxVERTICAL</orient>
@@ -2041,8 +2046,15 @@
 </object>
 </object>
 </object>
+</object>
+</object>
 <object class="sizeritem">
 <flag>wxALIGN_TOP|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
 <border>0</border>
 <object class="wxStaticBoxSizer" name="wxID_ANY">
 <orient>wxVERTICAL</orient>
@@ -2151,6 +2163,8 @@
 <size>12</size>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
+</object>
+</object>
 </object>
 </object>
 </object>
@@ -9387,7 +9401,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxALIGN_TOP|wxALL</flag>
 <border>0</border>
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
@@ -9621,7 +9635,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxALIGN_TOP|wxALL</flag>
 <border>0</border>
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>

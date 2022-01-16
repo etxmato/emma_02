@@ -164,13 +164,20 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_TOP|wxALL</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
 <size>14</size>
 </font>
 <label>Save</label>
+</object>
+</object>
 </object>
 </object>
 </object>
@@ -323,13 +330,20 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_TOP|wxALL</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
 <size>14</size>
 </font>
 <label>Save</label>
+</object>
+</object>
 </object>
 </object>
 </object>
@@ -474,13 +488,20 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_TOP|wxALL</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
 <size>14</size>
 </font>
 <label>Save</label>
+</object>
+</object>
 </object>
 </object>
 </object>
@@ -880,13 +901,20 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_TOP|wxALL</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
 <size>14</size>
 </font>
 <label>Save</label>
+</object>
+</object>
 </object>
 </object>
 </object>
@@ -1270,13 +1298,20 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_TOP|wxALL</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
 <size>14</size>
 </font>
 <label>Save</label>
+</object>
+</object>
 </object>
 </object>
 </object>
@@ -1652,13 +1687,20 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_TOP|wxALL</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
 <size>14</size>
 </font>
 <label>Save</label>
+</object>
+</object>
 </object>
 </object>
 </object>
@@ -2090,13 +2132,20 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_TOP|wxALL</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
 <size>14</size>
 </font>
 <label>Save</label>
+</object>
+</object>
 </object>
 </object>
 </object>
@@ -2360,13 +2409,20 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_TOP|wxALL</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
 <size>14</size>
 </font>
 <label>Save</label>
+</object>
+</object>
 </object>
 </object>
 </object>
@@ -2735,13 +2791,20 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_TOP|wxALL</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
 <size>14</size>
 </font>
 <label>Save</label>
+</object>
+</object>
 </object>
 </object>
 </object>
@@ -3085,13 +3148,20 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_TOP|wxALL</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
 <size>14</size>
 </font>
 <label>Save</label>
+</object>
+</object>
 </object>
 </object>
 </object>
@@ -3462,13 +3532,20 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_TOP|wxALL</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
 <size>14</size>
 </font>
 <label>Save</label>
+</object>
+</object>
 </object>
 </object>
 </object>
@@ -3812,13 +3889,20 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_TOP|wxALL</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
 <size>14</size>
 </font>
 <label>Save</label>
+</object>
+</object>
 </object>
 </object>
 </object>
@@ -4112,13 +4196,20 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_TOP|wxALL</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
 <size>14</size>
 </font>
 <label>Save</label>
+</object>
+</object>
 </object>
 </object>
 </object>
@@ -4279,13 +4370,20 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_TOP|wxALL</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
 <size>14</size>
 </font>
 <label>Save</label>
+</object>
+</object>
 </object>
 </object>
 </object>
@@ -4510,13 +4608,20 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_TOP|wxALL</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
 <size>14</size>
 </font>
 <label>Save</label>
+</object>
+</object>
 </object>
 </object>
 </object>
@@ -4669,13 +4774,20 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_TOP|wxALL</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
 <size>14</size>
 </font>
 <label>Save</label>
+</object>
+</object>
 </object>
 </object>
 </object>
@@ -5105,13 +5217,20 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_TOP|wxALL</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
 <size>14</size>
 </font>
 <label>Save</label>
+</object>
+</object>
 </object>
 </object>
 </object>
@@ -5492,13 +5611,20 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_TOP|wxALL</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
 <size>14</size>
 </font>
 <label>Save</label>
+</object>
+</object>
 </object>
 </object>
 </object>
@@ -5659,13 +5785,20 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_TOP|wxALL</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
 <size>14</size>
 </font>
 <label>Save</label>
+</object>
+</object>
 </object>
 </object>
 </object>
@@ -6042,13 +6175,20 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_TOP|wxALL</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
 <size>14</size>
 </font>
 <label>Save</label>
+</object>
+</object>
 </object>
 </object>
 </object>
@@ -6425,13 +6565,20 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_TOP|wxALL</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
 <size>14</size>
 </font>
 <label>Save</label>
+</object>
+</object>
 </object>
 </object>
 </object>
@@ -6651,13 +6798,20 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_TOP|wxALL</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
 <size>14</size>
 </font>
 <label>Save</label>
+</object>
+</object>
 </object>
 </object>
 </object>
@@ -6820,13 +6974,20 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_TOP|wxALL</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
 <size>14</size>
 </font>
 <label>Save</label>
+</object>
+</object>
 </object>
 </object>
 </object>
@@ -6984,13 +7145,20 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_TOP|wxALL</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
 <size>14</size>
 </font>
 <label>Save</label>
+</object>
+</object>
 </object>
 </object>
 </object>
@@ -7099,13 +7267,20 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_TOP|wxALL</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
 <size>14</size>
 </font>
 <label>Save</label>
+</object>
+</object>
 </object>
 </object>
 </object>
@@ -7450,13 +7625,20 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_TOP|wxALL</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
 <size>14</size>
 </font>
 <label>Save</label>
+</object>
+</object>
 </object>
 </object>
 </object>
@@ -7923,13 +8105,20 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_TOP|wxALL</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
 <size>14</size>
 </font>
 <label>Save</label>
+</object>
+</object>
 </object>
 </object>
 </object>
@@ -8363,13 +8552,20 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_TOP|wxALL</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
 <size>14</size>
 </font>
 <label>Save</label>
+</object>
+</object>
 </object>
 </object>
 </object>
@@ -8633,13 +8829,20 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_TOP|wxALL</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
 <size>14</size>
 </font>
 <label>Save</label>
+</object>
+</object>
 </object>
 </object>
 </object>
@@ -8956,13 +9159,20 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_TOP|wxALL</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
 <size>14</size>
 </font>
 <label>Save</label>
+</object>
+</object>
 </object>
 </object>
 </object>
@@ -9209,13 +9419,20 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_TOP|wxALL</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
 <size>14</size>
 </font>
 <label>Save</label>
+</object>
+</object>
 </object>
 </object>
 </object>
@@ -10237,13 +10454,20 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_TOP|wxALL</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
 <size>14</size>
 </font>
 <label>Save</label>
+</object>
+</object>
 </object>
 </object>
 </object>
@@ -10477,13 +10701,20 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_TOP|wxALL</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
 <size>14</size>
 </font>
 <label>Save</label>
+</object>
+</object>
 </object>
 </object>
 </object>
@@ -10730,13 +10961,20 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_TOP|wxALL</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
 <size>14</size>
 </font>
 <label>Save</label>
+</object>
+</object>
 </object>
 </object>
 </object>
