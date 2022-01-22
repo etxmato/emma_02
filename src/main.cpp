@@ -95,6 +95,7 @@ wxString guiSizers[] =
     "ElfBottomRight",
     "ElfBottomLeft",
     "AssBottomRight",
+    "DebugRight",
     "MemoryDumpBottomRight",
     "MemoryDumpBottomLeft",
     "MemoryDumpBottom",
@@ -1574,14 +1575,13 @@ void Emu1802::createXml()
 
 void Emu1802::createXmlFile(wxString xrcDir, wxString xrcFile)
 {
-    wxTextFile inputFile, outputFile11, outputApplicationFile11, outputFile12, outputApplicationFile12, outputFile14, outputApplicationFile14;
+    wxTextFile inputFile, outputFile11, outputApplicationFile11, outputFile12, outputFile14, outputApplicationFile14;
 
     wxString input = xrcDir + xrcFile + ".xrc";
     wxString output11 = xrcDir + xrcFile + "_11.xrc";
     wxString output12 = xrcDir + xrcFile + "_12.xrc";
     wxString output14 = xrcDir + xrcFile + "_14.xrc";
     wxString outputApplication11 = applicationDirectory_ + xrcFile + "_11.xrc";
-    wxString outputApplication12 = applicationDirectory_ + xrcFile + "_12.xrc";
     wxString outputApplication14 = applicationDirectory_ + xrcFile + "_14.xrc";
     wxString line, line2, line3, line4, line5, line6, flagLine;
     
@@ -1592,14 +1592,13 @@ void Emu1802::createXmlFile(wxString xrcDir, wxString xrcFile)
         wxDateTime inputDate = inputFileName.GetModificationTime();
         wxDateTime outputDate = outputFileName.GetModificationTime();
 
-        if (outputDate.IsEarlierThan(inputDate))
-        {
+   //     if (outputDate.IsEarlierThan(inputDate))
+   //     {
             inputFile.Open(input);
             
             createFile(&outputFile11, output11);
             createFile(&outputApplicationFile11, outputApplication11);
             createFile(&outputFile12, output12);
-            createFile(&outputApplicationFile12, outputApplication12);
             createFile(&outputFile14, output14);
             createFile(&outputApplicationFile14, outputApplication14);
 
@@ -1610,113 +1609,139 @@ void Emu1802::createXmlFile(wxString xrcDir, wxString xrcFile)
                 outputFile11.AddLine(line);
                 outputApplicationFile11.AddLine(line);
 
-                if (line == "<size>34,14</size>")   // HEX 4 (Memory)
-                    line = "<size>46,18</size>";
-                
-                if (line == "<size>22,13</size>")   // Rx (1802 Debug)
-                    line = "<size>28,18</size>";
+                if (xrcFile == "main_mac")
+                {
+                    if (line == "<size>34,14</size>")   // HEX 4 (Memory)
+                        line = "<size>46,18</size>";
+                    
+                    if (line == "<size>22,13</size>")   // Rx (1802 Debug)
+                        line = "<size>28,18</size>";
 
-                if (line == "<size>125,13</size>")  // MEM Message (Memory)
-                    line = "<size>154,18</size>";
+                    if (line == "<size>125,13</size>")  // MEM Message (Memory)
+                        line = "<size>154,18</size>";
 
-                if (line == "<size>128,16</size>")  // CHAR x (Memory)
-                    line = "<size>165,16</size>";
+                    if (line == "<size>128,16</size>")  // CHAR x (Memory)
+                        line = "<size>165,16</size>";
 
-                if (line == "<size>20,14</size>"    // HEX 2 (Memory)
-                    || line == "<size>26,13</size>")// Flags text 1802 Debug
-                    line = "<size>26,18</size>";
+                    if (line == "<size>20,14</size>"    // HEX 2 (Memory)
+                        || line == "<size>26,13</size>")// Flags text 1802 Debug
+                        line = "<size>26,18</size>";
 
-                if (line == "<size>13,14</size>")   // HEX 1 (1802 Debug)
-                    line = "<size>16,18</size>";
-                
-                if (line == "<size>20,13</size>")   // Rx and Ox text 1802 Debug
-                    line = "<size>24,18</size>";
+                    if (line == "<size>13,14</size>")   // HEX 1 (1802 Debug)
+                        line = "<size>16,18</size>";
+                    
+                    if (line == "<size>20,13</size>")   // Rx and Ox text 1802 Debug
+                        line = "<size>24,18</size>";
 
-                if (line == "<size>17,13</size>")   // I text 1802 Debug
-                    line = "<size>19,18</size>";
+                    if (line == "<size>17,13</size>")   // I text 1802 Debug
+                        line = "<size>19,18</size>";
 
-                if (line == "<size>14,19</size>")   // Spacers O1, O2, O3
-                    line = "<size>16,19</size>";
-                
-                if (line == "<size>-1,13</size>")    // Main registers text - 1802 Debug
-                    line = "<size>-1,18</size>";
+                    if (line == "<size>14,19</size>")   // Spacers O1, O2, O3
+                        line = "<size>16,19</size>";
+                    
+                    if (line == "<size>-1,13</size>")    // Main registers text - 1802 Debug
+                        line = "<size>-1,18</size>";
 
-                if (line == "<size>42,23</size>")    // buttons 1802 and Pdeudo debug
-                    line = "<size>52,23</size>";
+                    if (line == "<size>42,23</size>")    // buttons 1802 and Pdeudo debug
+                        line = "<size>52,23</size>";
 
-                if (line == "<size>46,23</size>")    // buttons 1802 and Pdeudo debug
-                    line = "<size>56,23</size>";
+                    if (line == "<size>46,23</size>")    // buttons 1802 and Pdeudo debug
+                        line = "<size>56,23</size>";
 
-                if (line == "<size>85,23</size>")    // breakpoint buttons
-                    line = "<size>105,23</size>";
+                    if (line == "<size>85,23</size>")    // breakpoint buttons
+                        line = "<size>105,23</size>";
 
-                if (line == "<size>14,23</size>")    // SCRT HEX 1 (Debug 1802)
-                    line = "<size>16,23</size>";
-                
-                if (line == "<size>40,23</size>")    // HEX 4 (Direct Assembler)
-                    line = "<size>52,23</size>";
+                    if (line == "<size>14,23</size>")    // SCRT HEX 1 (Debug 1802)
+                        line = "<size>16,23</size>";
+                    
+                    if (line == "<size>40,23</size>")    // HEX 4 (Direct Assembler)
+                        line = "<size>52,23</size>";
 
-                if (line == "<size>40,21</size>")    // HEX 4 (Direct Assembler)
-                    line = "<size>52,21</size>";
+                    if (line == "<size>40,21</size>")    // HEX 4 (Direct Assembler)
+                        line = "<size>52,21</size>";
 
-                if (line == "<size>65,-1</size>")    // Branch (Direct Assembler)
-                    line = "<size>75,-1</size>";
+                    if (line == "<size>65,-1</size>")    // Branch (Direct Assembler)
+                        line = "<size>75,-1</size>";
 
-                if (line == "<size>60,-1</size>")    // One/Range (Direct Assembler)
-                    line = "<size>70,-1</size>";
+                    if (line == "<size>60,-1</size>")    // One/Range (Direct Assembler)
+                        line = "<size>70,-1</size>";
 
-                if (line == "<size>42,25</size>")    // Mark (Direct Assembler)
-                    line = "<size>52,25</size>";
+                    if (line == "<size>42,25</size>")    // Mark (Direct Assembler)
+                        line = "<size>52,25</size>";
 
-                if (line == "<size>54,23</size>")    // Search (Direct Assembler)
-                    line = "<size>64,23</size>";
+                    if (line == "<size>54,23</size>")    // Search (Direct Assembler)
+                        line = "<size>64,23</size>";
 
-                if (line == "<size>44,25</size>")    // Configuration (Direct Assembler)
-                    line = "<size>54,25</size>";
+                    if (line == "<size>44,25</size>")    // Configuration (Direct Assembler)
+                        line = "<size>54,25</size>";
 
-                if (line == "<size>29,5</size>")     // Configuration (Direct Assembler)
-                    line = "<size>39,5</size>";
+                    if (line == "<size>29,5</size>")     // Configuration (Direct Assembler)
+                        line = "<size>39,5</size>";
 
-                if (line == "<size>149,23</size>")   // Configuration (Direct Assembler)
-                    line = "<size>185,23</size>";
+                    if (line == "<size>149,23</size>")   // Configuration (Direct Assembler)
+                        line = "<size>185,23</size>";
 
-                if (line == "<size>272,0</size>")   // Profiler spacer
-                    line = "<size>332,0</size>";
+                    if (line == "<size>272,0</size>")   // Profiler spacer
+                        line = "<size>332,0</size>";
 
-                if (line == "<size>192,-1</size>")   // drop down selectors
-                    line = "<size>252,-1</size>";
+                    if (line == "<size>192,-1</size>")   // drop down selectors
+                        line = "<size>252,-1</size>";
 
-                if (line == "<size>166,-1</size>")   // drop down selectors Membership
-                    line = "<size>226,-1</size>";
+                    if (line == "<size>166,-1</size>")   // drop down selectors Membership
+                        line = "<size>226,-1</size>";
+                }
 
-                outputFile12.AddLine(line);
-                outputApplicationFile12.AddLine(line);
-                
                 outputFile14.AddLine(line);
                 outputApplicationFile14.AddLine(line);
 
+                if (xrcFile == "main")
+                {
+                    if (line == "<size>22,-1d</size>")   // HEX 4 (Memory)
+                        line = "<size>30,-1d</size>";
+                    
+                    if (line == "<size>71,8d</size>")    // MEM Message (Memory)
+                        line = "<size>87,10d</size>";
+
+                    if (line == "<size>73,9d</size>")    // CHAR x (Memory)
+                        line = "<size>90,10d</size>";
+
+                    if (line == "<size>10,-1d</size>")   // HEX 2 (Memory)
+                        line = "<size>14,-1d</size>";
+
+                   if (line == "<size>29,-1d</size>")    // HEX 4 (Direct Assembler)
+                        line = "<size>36,-1d</size>";
+
+                    if (line == "<size>152,0d</size>")   // Profiler spacer
+                        line = "<size>192,0d</size>";
+
+                    if (line == "<size>153,0d</size>")   // Profiler spacer
+                        line = "<size>218,0d</size>";
+
+                    if (line == "<size>115,-1d</size>")   // drop down selectors
+                        line = "<size>150,-1d</size>";
+
+                    if (line == "<size>101,-1d</size>")   // drop down selectors Membership
+                        line = "<size>131,-1d</size>";
+                }
+                
+                outputFile12.AddLine(line);
+                
                 if (line == "<object class=\"sizeritem\">")
                 {
                     line2=inputFile.GetNextLine(); // flag line
                     line2.Trim(false);
                     outputFile11.AddLine(line2);
                     outputApplicationFile11.AddLine(line2);
-                    outputFile12.AddLine(line2);
-                    outputApplicationFile12.AddLine(line2);
 
                     line3=inputFile.GetNextLine(); // border line
                     line3.Trim(false);
                     outputFile11.AddLine(line3);
                     outputApplicationFile11.AddLine(line3);
-                    outputFile12.AddLine(line3);
-                    outputApplicationFile12.AddLine(line3);
 
                     line4=inputFile.GetNextLine(); // object line
                     line4.Trim(false);
                     outputFile11.AddLine(line4);
                     outputApplicationFile11.AddLine(line4);
-                    outputFile12.AddLine(line4);
-                    outputApplicationFile12.AddLine(line4);
 
                     if (line4.Left(23) == "<object class=\"wxButton")
                     {
@@ -1726,30 +1751,35 @@ void Emu1802::createXmlFile(wxString xrcDir, wxString xrcFile)
                         if (flagLine.Left(1) == "|")
                             flagLine = flagLine.Right(flagLine.Len()-1);
 
+                        outputFile12.AddLine("<flag>wxGROW|"+flagLine);
                         outputFile14.AddLine("<flag>wxGROW|"+flagLine);
                         outputApplicationFile14.AddLine("<flag>wxGROW|"+flagLine);
 
+                        outputFile12.AddLine(line3);
                         outputFile14.AddLine(line3);
                         outputApplicationFile14.AddLine(line3);
 
+                        outputFile12.AddLine(line4);
                         outputFile14.AddLine(line4);
                         outputApplicationFile14.AddLine(line4);
                     }
                     else if (line4.Left(31) == "<object class=\"wxStaticBoxSizer")
                     {
+                        outputFile12.AddLine(line2);
+                        outputFile12.AddLine(line3);
+                        outputFile12.AddLine(line4);
+                        
                         line5=inputFile.GetNextLine(); // orient line
                         line5.Trim(false);
                         outputFile11.AddLine(line5);
                         outputApplicationFile11.AddLine(line5);
                         outputFile12.AddLine(line5);
-                        outputApplicationFile12.AddLine(line5);
 
                         line6=inputFile.GetNextLine(); // label line
                         line6.Trim(false);
                         outputFile11.AddLine(line6);
                         outputApplicationFile11.AddLine(line6);
                         outputFile12.AddLine(line6);
-                        outputApplicationFile12.AddLine(line6);
 
                         outputFile14.AddLine("<flag>wxALIGN_LEFT|wxLEFT</flag>");
                         outputApplicationFile14.AddLine("<flag>wxALIGN_LEFT|wxLEFT</flag>");
@@ -1784,12 +1814,15 @@ void Emu1802::createXmlFile(wxString xrcDir, wxString xrcFile)
                     }
                     else
                     {
+                        outputFile12.AddLine(line2);
                         outputFile14.AddLine(line2);
                         outputApplicationFile14.AddLine(line2);
 
+                        outputFile12.AddLine(line3);
                         outputFile14.AddLine(line3);
                         outputApplicationFile14.AddLine(line3);
 
+                        outputFile12.AddLine(line4);
                         outputFile14.AddLine(line4);
                         outputApplicationFile14.AddLine(line4);
                     }
@@ -1817,7 +1850,6 @@ void Emu1802::createXmlFile(wxString xrcDir, wxString xrcFile)
                         
                         line="<size>12</size>";
                         outputFile12.AddLine(line);
-                        outputApplicationFile12.AddLine(line);
 
                         line="<size>14</size>";
                         outputFile14.AddLine(line);
@@ -1828,7 +1860,6 @@ void Emu1802::createXmlFile(wxString xrcDir, wxString xrcFile)
                         outputFile11.AddLine(line);
                         outputApplicationFile11.AddLine(line);
                         outputFile12.AddLine(line);
-                        outputApplicationFile12.AddLine(line);
                         outputFile14.AddLine(line);
                         outputApplicationFile14.AddLine(line);
                    }
@@ -1838,20 +1869,18 @@ void Emu1802::createXmlFile(wxString xrcDir, wxString xrcFile)
             outputFile11.Write();
             outputApplicationFile11.Write();
             outputFile12.Write();
-            outputApplicationFile12.Write();
             outputFile14.Write();
             outputApplicationFile14.Write();
 
             outputFile11.Close();
             outputApplicationFile11.Close();
             outputFile12.Close();
-            outputApplicationFile12.Close();
             outputFile14.Close();
             outputApplicationFile14.Close();
 
             inputFile.Close();
         }
-    }
+  //  }
 }
 
 void Emu1802::createFile(wxTextFile* filename, wxString name)
@@ -1935,12 +1964,19 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
 		this->Connect(XRCID(GUICOMPUTERNOTEBOOK), wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED, wxNotebookEventHandler(Main::onComputer) );
 		wxFont smallFont(6, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 		XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetFont(smallFont);
-#if defined(__WXMAC__)
-		wxFont defaultFont(fontSize_, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
-#else
-        wxFont defaultFont(8, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
-#endif
-		XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetFont(defaultFont);
+        
+        wxFont* defaultFont;
+
+        if (fontSize_ == 11)
+        {
+            defaultFont = new wxFont(wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT));
+            defaultFont->SetPointSize(fontSize_);
+        }
+        else
+            defaultFont = new wxFont(fontSize_, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+
+        XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetFont(*defaultFont);
+        delete defaultFont;
 
 		wxString text;
 		chip8TraceWindowPointer = XRCCTRL(*this,"Chip8TraceWindow", wxTextCtrl);
@@ -2716,11 +2752,15 @@ void Main::initConfig()
     setScreenInfo(STUDIOIV, 0, 16, colour, 2, borderX, borderY);
     setComputerInfo(STUDIOIV, "StudioIV", "Studio IV", "tiny");
     
-	wxFont smallFont(6, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 #if defined(__WXMAC__)
-	wxFont defaultFont(fontSize_, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
-#else
-	wxFont defaultFont(8, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+    wxFont* defaultFont;
+    if (fontSize_ == 11)
+    {
+        defaultFont = new wxFont(wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT));
+        defaultFont->SetPointSize(fontSize_);
+    }
+    else
+        defaultFont = new wxFont(fontSize_, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 #endif
 
 	if (mode_.gui)
@@ -2750,11 +2790,11 @@ void Main::initConfig()
 			}
             
 #if defined(__WXMAC__)
-            clockText[computer]->SetFont(defaultFont);
-            clockTextCtrl[computer]->SetFont(defaultFont);
-            mhzText[computer]->SetFont(defaultFont);
-            startButton[computer]->SetFont(defaultFont);
-            stopButton[computer]->SetFont(defaultFont);
+            clockText[computer]->SetFont(*defaultFont);
+            clockTextCtrl[computer]->SetFont(*defaultFont);
+            mhzText[computer]->SetFont(*defaultFont);
+            startButton[computer]->SetFont(*defaultFont);
+            stopButton[computer]->SetFont(*defaultFont);
 #endif
             this->Connect(GUI_CLOCK_TEXTCTRL + computer, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(GuiMain::onClock));
             this->Connect(GUI_START_BUTTON + computer, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(Main::onStart));
@@ -2770,6 +2810,9 @@ void Main::initConfig()
 		conf[computer].configurationInfo_.fileName = "";
 		conf[computer].saveStart_ = 0;
 	}
+#if defined(__WXMAC__)
+    delete defaultFont;
+#endif
 }
 
 void Main::readConfig()
@@ -2885,12 +2928,14 @@ void Main::readConfig()
     keyboardTypeMenuItem_ = configPointer->Read("/Main/Keyboard_Type", "KeyboardUs");
     wxString equalizationString = configPointer->Read("/Main/Equalization", "TV Speaker");
 
-	wxFont smallFont(6, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
-#if defined(__WXMAC__)
-	wxFont defaultFont(fontSize_, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
-#else
-	wxFont defaultFont(8, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
-#endif
+    wxFont* defaultFont;
+    if (fontSize_ == 11)
+    {
+        defaultFont = new wxFont(wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT));
+        defaultFont->SetPointSize(fontSize_);
+    }
+    else
+        defaultFont = new wxFont(fontSize_, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 
 	if (mode_.gui)
 	{
@@ -2901,7 +2946,11 @@ void Main::readConfig()
 		menubarPointer->Check(XRCID("MI_FullScreenFloat"), fullScreenFloat_);
         menubarPointer->Check(XRCID("MI_FixedWindowPosition"), mode_.window_position_fixed);
         menubarPointer->Check(XRCID("MI_NumPad"), useNumPad_);
+#if defined(__WXMAC__)
         if (fontSize_ == 11)
+#else
+        if (fontSize_ == 9)
+#endif
             menubarPointer->Check(XRCID("MI_FontSize11"), true);
         else
             menubarPointer->Check(XRCID("MI_FontSize14"), true);
@@ -2912,7 +2961,8 @@ void Main::readConfig()
         menubarPointer->Check(XRCID(cpuStartupRamString), true);
         menubarPointer->Check(XRCID(cpuStartupVideoRamString), true);
         menubarPointer->Check(XRCID(keyboardTypeMenuItem_), true);
-		menubarPointer->SetFont(defaultFont);
+		menubarPointer->SetFont(*defaultFont);
+        delete defaultFont;
 	}
     
     if (cpuTypeString == "SYSTEM00")
@@ -3126,7 +3176,11 @@ void Main::adjustGuiSize()
     {
         int fontFactorX = 0, fontFactorY = 0;
         
+#if defined(__WXMAC__)
         if (fontSize_ != 11)
+#else
+        if (fontSize_ != 9)
+#endif
         {
             fontFactorX = 8;
             fontFactorY = 6;
@@ -4536,17 +4590,22 @@ void Main::onKeyboardUserDefined(wxCommandEvent&WXUNUSED(event))
 
 void Main::onFontSize11(wxCommandEvent&WXUNUSED(event))
 {
+#if (__WXMAC__)
     fontSize_ = 11;
+#else
+    fontSize_ = 9;
+#endif
     fontSizeString_ = "11";
     configPointer->Write("/Main/ForceGuiSizeReset", true);
 }
 
 void Main::onFontSize14(wxCommandEvent&WXUNUSED(event))
 {
-    fontSize_ = 14;
 #if (__WXMAC__)
+    fontSize_ = 14;
     fontSizeString_ = "14";
 #else
+    fontSize_ = 12;
     fontSizeString_ = "12";
 #endif
     configPointer->Write("/Main/ForceGuiSizeReset", true);

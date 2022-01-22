@@ -194,15 +194,15 @@ WindowInfo GuiMain::getWinSizeInfo(wxString appDir, wxString fontSizeString)
         }
     }
 
-    windowInfoFile = distInfo.Id + ".ini";
+    windowInfoFile = distInfo.Id + "_" + fontSizeString + ".ini";
 
     if (distInfo.Id == "")
     {
         distInfo.Id = wxPlatformInfo::Get().GetOperatingSystemDescription();
         if (distInfo.Id.Find("fc") != wxNOT_FOUND) // Fedor is something like: Linux 4.11.11-300.fc26.x86_64 x86_64
-            windowInfoFile = "fedora.ini";
+            windowInfoFile = "fedora_" + fontSizeString + ".ini";
         if (distInfo.Id.Find("lp") != wxNOT_FOUND) // openSUSE: Linux 4.12.14-lp151.27-default x86_64
-            windowInfoFile = "suse.ini";
+            windowInfoFile = "suse_" + fontSizeString + ".ini";
     }
     
     wxString appName = "emma_02";
@@ -222,19 +222,19 @@ WindowInfo GuiMain::getWinSizeInfo(wxString appDir, wxString fontSizeString)
         case OS_MAJOR_XP_2000:
             if (osVersion.dwMinorVersion == OS_MINOR_2000)
             {
-                windowInfoFile = "win2000.ini";
+                windowInfoFile = "win2000_" + fontSizeString + ".ini";
                 returnValue.operatingSystem = OS_WINDOWS_2000;
             }
             else
-                windowInfoFile = "winxp.ini";
+                windowInfoFile = "winxp_" + fontSizeString + ".ini";
         break;
             
         case OS_MAJOR_VISTA_8_1:
-            windowInfoFile = "win8.ini";
+            windowInfoFile = "win8_" + fontSizeString + ".ini";
         break;
             
         default:
-            windowInfoFile = "win10.ini";
+            windowInfoFile = "win10_" + fontSizeString + ".ini";
         break;
     }
 #endif
@@ -246,7 +246,7 @@ WindowInfo GuiMain::getWinSizeInfo(wxString appDir, wxString fontSizeString)
     {
         returnValue.errorMessage = "Configuration file '" + windowInfoFile + "' not found, loading default configuration\n";
 
-        windowInfoFile = "linuxdefault.ini";
+        windowInfoFile = "linuxdefault_" + fontSizeString + ".ini";
     }
 
     wxFileConfig *pConfig = new wxFileConfig(appName, "Marcel van Tongeren", appDir + windowInfoFile);

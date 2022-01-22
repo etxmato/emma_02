@@ -8,7 +8,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="ID_BUTTON">
 <size>-1,23</size>
@@ -248,7 +248,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>4</border>
 <object class="wxSpinCtrl" name="PsaveVolume">
-<size>70,-1</size>
+<size>60,-1</size>
 <tooltip>Specify wave file volume</tooltip>
 <font>
 <size>12</size>
@@ -351,7 +351,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
 <border>8</border>
 <object class="wxButton" name="PsaveSave">
 <size>-1,23</size>

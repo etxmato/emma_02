@@ -74,11 +74,11 @@
 <object class="wxMenu" name="MI_FontSize">
 <label>Font Size (restart Emma 02!)</label>
 <object class="wxMenuItem" name="MI_FontSize11">
-<label>9</label>
+<label>Standard</label>
 <radio>1</radio>
 </object>
 <object class="wxMenuItem" name="MI_FontSize14">
-<label>12</label>
+<label>Large</label>
 <radio>1</radio>
 </object>
 </object>
@@ -1212,12 +1212,12 @@
 <flag>wxALIGN_LEFT</flag>
 <border>0</border>
 <object class="wxFlexGridSizer">
-<cols>3</cols>
+<cols>4</cols>
 <rows>3</rows>
 <vgap>1</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>4</border>
 <object class="wxCheckBox" name="UseLocationComx">
 <tooltip>Select to SAVE specific machine code address</tooltip>
@@ -1226,8 +1226,16 @@
 <size>-1</size>
 </font>
 <enabled>0</enabled>
-<label>Specify Location</label>
+<label>Specify</label>
 <checked>0</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>10</border>
+<object class="wxStaticText" name="UseLocationTextComx">
+<enabled>0</enabled>
+<label>Location</label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1243,12 +1251,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxBOTTOM</flag>
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="SaveStartComx" subclass="HexEdit">
 <size>29,-1d</size>
@@ -1261,15 +1264,8 @@
 <maxlength>4</maxlength>
 </object>
 </object>
-</object>
-</object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_TOP|wxTOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_TOP|wxTOP</flag>
 <border>2</border>
 <object class="wxButton" name="LoadButtonComx">
 <tooltip>Load .comx file into COMX emulator memory</tooltip>
@@ -1282,7 +1278,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxTOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_TOP|wxTOP</flag>
 <border>2</border>
 <object class="wxButton" name="RunButtonComx">
 <tooltip>Load .comx file into COMX emulator memory and RUN software</tooltip>
@@ -1292,8 +1288,6 @@
 </font>
 <enabled>0</enabled>
 <label>RUN</label>
-</object>
-</object>
 </object>
 </object>
 <object class="sizeritem">
@@ -1309,12 +1303,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP|wxBOTTOM</flag>
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="SaveEndComx" subclass="HexEdit">
 <size>29,-1d</size>
@@ -1327,15 +1316,8 @@
 <maxlength>4</maxlength>
 </object>
 </object>
-</object>
-</object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_TOP|wxTOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_TOP|wxTOP</flag>
 <border>2</border>
 <object class="wxButton" name="SaveButtonComx">
 <tooltip>Save COMX emulator memory to .comx file</tooltip>
@@ -1348,7 +1330,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxTOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_TOP|wxTOP</flag>
 <border>2</border>
 <object class="wxButton" name="DsaveButtonComx">
 <tooltip>Save COMX emulator data memory to .comx file</tooltip>
@@ -1358,8 +1340,6 @@
 </font>
 <enabled>0</enabled>
 <label>Data SAVE</label>
-</object>
-</object>
 </object>
 </object>
 <object class="sizeritem">
@@ -1375,12 +1355,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="SaveExecComx" subclass="HexEdit">
 <size>29,-1d</size>
@@ -1391,8 +1366,6 @@
 </font>
 <enabled>0</enabled>
 <maxlength>4</maxlength>
-</object>
-</object>
 </object>
 </object>
 </object>
@@ -4789,12 +4762,12 @@
 <flag>wxALIGN_LEFT</flag>
 <border>0</border>
 <object class="wxFlexGridSizer">
-<cols>3</cols>
+<cols>4</cols>
 <rows>3</rows>
 <vgap>1</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>4</border>
 <object class="wxCheckBox" name="UseLocationElf">
 <tooltip>Select to SAVE specific machine code address</tooltip>
@@ -4803,8 +4776,16 @@
 <size>-1</size>
 </font>
 <enabled>0</enabled>
-<label>Specify Location</label>
+<label>Specify</label>
 <checked>0</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>10</border>
+<object class="wxStaticText" name="UseLocationTextElf">
+<enabled>0</enabled>
+<label>Location</label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4821,12 +4802,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="SaveStartElf" subclass="HexEdit">
 <size>29,-1d</size>
@@ -4839,15 +4815,8 @@
 <maxlength>4</maxlength>
 </object>
 </object>
-</object>
-</object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_TOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
 <border>2</border>
 <object class="wxButton" name="LoadButtonElf">
 <tooltip>Load .hex/.super file into Elf emulator memory</tooltip>
@@ -4860,7 +4829,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_TOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
 <border>2</border>
 <object class="wxButton" name="RunButtonElf">
 <tooltip>Load .super file into Elf emulator memory and RUN software</tooltip>
@@ -4870,8 +4839,6 @@
 </font>
 <enabled>0</enabled>
 <label>RUN</label>
-</object>
-</object>
 </object>
 </object>
 <object class="sizeritem">
@@ -4888,12 +4855,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="SaveEndElf" subclass="HexEdit">
 <size>29,-1d</size>
@@ -4906,15 +4868,8 @@
 <maxlength>4</maxlength>
 </object>
 </object>
-</object>
-</object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_TOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
 <border>2</border>
 <object class="wxButton" name="SaveButtonElf">
 <tooltip>Save Elf emulator memory to .hex/.super file</tooltip>
@@ -4927,7 +4882,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_TOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
 <border>2</border>
 <object class="wxButton" name="DsaveButtonElf">
 <tooltip>Save Elf emulator data memory to .super file</tooltip>
@@ -4937,8 +4892,6 @@
 </font>
 <enabled>0</enabled>
 <label>Data SAVE</label>
-</object>
-</object>
 </object>
 </object>
 <object class="sizeritem">
@@ -4955,12 +4908,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="SaveExecElf" subclass="HexEdit">
 <size>29,-1d</size>
@@ -4971,8 +4919,6 @@
 </font>
 <enabled>0</enabled>
 <maxlength>4</maxlength>
-</object>
-</object>
 </object>
 </object>
 </object>
@@ -6297,12 +6243,12 @@
 <flag>wxALIGN_LEFT</flag>
 <border>0</border>
 <object class="wxFlexGridSizer">
-<cols>3</cols>
+<cols>4</cols>
 <rows>3</rows>
 <vgap>1</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>4</border>
 <object class="wxCheckBox" name="UseLocationElfII">
 <tooltip>Select to SAVE specific machine code address</tooltip>
@@ -6311,8 +6257,16 @@
 <size>-1</size>
 </font>
 <enabled>0</enabled>
-<label>Specify Location</label>
+<label>Specify</label>
 <checked>0</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>10</border>
+<object class="wxStaticText" name="UseLocationTextElfII">
+<enabled>0</enabled>
+<label>Location</label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6329,12 +6283,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="SaveStartElfII" subclass="HexEdit">
 <size>29,-1d</size>
@@ -6347,15 +6296,8 @@
 <maxlength>4</maxlength>
 </object>
 </object>
-</object>
-</object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_TOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
 <border>2</border>
 <object class="wxButton" name="LoadButtonElfII">
 <tooltip>Load .hex/.super file into Netronics Elf II emulator memory</tooltip>
@@ -6368,7 +6310,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_TOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
 <border>2</border>
 <object class="wxButton" name="RunButtonElfII">
 <tooltip>Load .super file into Netronics Elf II emulator memory and RUN software</tooltip>
@@ -6378,8 +6320,6 @@
 </font>
 <enabled>0</enabled>
 <label>RUN</label>
-</object>
-</object>
 </object>
 </object>
 <object class="sizeritem">
@@ -6396,12 +6336,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="SaveEndElfII" subclass="HexEdit">
 <size>29,-1d</size>
@@ -6414,15 +6349,8 @@
 <maxlength>4</maxlength>
 </object>
 </object>
-</object>
-</object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_TOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
 <border>2</border>
 <object class="wxButton" name="SaveButtonElfII">
 <tooltip>Save Netronics Elf II emulator memory to .hex/.super file</tooltip>
@@ -6435,7 +6363,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_TOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
 <border>2</border>
 <object class="wxButton" name="DsaveButtonElfII">
 <tooltip>Save Netronics Elf II emulator data memory to .super file</tooltip>
@@ -6445,8 +6373,6 @@
 </font>
 <enabled>0</enabled>
 <label>Data SAVE</label>
-</object>
-</object>
 </object>
 </object>
 <object class="sizeritem">
@@ -6463,12 +6389,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="SaveExecElfII" subclass="HexEdit">
 <size>29,-1d</size>
@@ -6479,8 +6400,6 @@
 </font>
 <enabled>0</enabled>
 <maxlength>4</maxlength>
-</object>
-</object>
 </object>
 </object>
 </object>
@@ -7811,12 +7730,12 @@
 <flag>wxALIGN_LEFT</flag>
 <border>0</border>
 <object class="wxFlexGridSizer">
-<cols>3</cols>
+<cols>4</cols>
 <rows>3</rows>
 <vgap>1</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>4</border>
 <object class="wxCheckBox" name="UseLocationSuperElf">
 <tooltip>Select to SAVE specific machine code address</tooltip>
@@ -7825,8 +7744,16 @@
 <size>-1</size>
 </font>
 <enabled>0</enabled>
-<label>Specify Location</label>
+<label>Specify</label>
 <checked>0</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>10</border>
+<object class="wxStaticText" name="UseLocationTextSuperElf">
+<enabled>0</enabled>
+<label>Location</label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7843,12 +7770,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="SaveStartSuperElf" subclass="HexEdit">
 <size>29,-1d</size>
@@ -7861,15 +7783,8 @@
 <maxlength>4</maxlength>
 </object>
 </object>
-</object>
-</object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_TOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
 <border>2</border>
 <object class="wxButton" name="LoadButtonSuperElf">
 <tooltip>Load .hex/.super file into Quest Super Elf emulator memory</tooltip>
@@ -7882,7 +7797,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_TOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
 <border>2</border>
 <object class="wxButton" name="RunButtonSuperElf">
 <tooltip>Load .super file into Quest Super Elf emulator memory and RUN software</tooltip>
@@ -7892,8 +7807,6 @@
 </font>
 <enabled>0</enabled>
 <label>RUN</label>
-</object>
-</object>
 </object>
 </object>
 <object class="sizeritem">
@@ -7910,12 +7823,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="SaveEndSuperElf" subclass="HexEdit">
 <size>29,-1d</size>
@@ -7928,15 +7836,8 @@
 <maxlength>4</maxlength>
 </object>
 </object>
-</object>
-</object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_TOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
 <border>2</border>
 <object class="wxButton" name="SaveButtonSuperElf">
 <tooltip>Save Quest Super Elf emulator memory to .hex/.super file</tooltip>
@@ -7949,7 +7850,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_TOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
 <border>2</border>
 <object class="wxButton" name="DsaveButtonSuperElf">
 <tooltip>Save Quest Super Elf emulator data memory to .super file</tooltip>
@@ -7959,8 +7860,6 @@
 </font>
 <enabled>0</enabled>
 <label>Data SAVE</label>
-</object>
-</object>
 </object>
 </object>
 <object class="sizeritem">
@@ -7977,12 +7876,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="SaveExecSuperElf" subclass="HexEdit">
 <size>29,-1d</size>
@@ -7993,8 +7887,6 @@
 </font>
 <enabled>0</enabled>
 <maxlength>4</maxlength>
-</object>
-</object>
 </object>
 </object>
 </object>
@@ -15684,12 +15576,12 @@
 <flag>wxALIGN_LEFT</flag>
 <border>0</border>
 <object class="wxFlexGridSizer">
-<cols>3</cols>
+<cols>4</cols>
 <rows>3</rows>
 <vgap>1</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>4</border>
 <object class="wxCheckBox" name="UseLocationVip">
 <tooltip>Select to SAVE specific machine code address</tooltip>
@@ -15698,8 +15590,16 @@
 <size>-1</size>
 </font>
 <enabled>0</enabled>
-<label>Specify Location</label>
+<label>Specify</label>
 <checked>0</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>10</border>
+<object class="wxStaticText" name="UseLocationTextVip">
+<enabled>0</enabled>
+<label>Location</label>
 </object>
 </object>
 <object class="sizeritem">
@@ -15716,12 +15616,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="SaveStartVip" subclass="HexEdit">
 <size>29,-1d</size>
@@ -15734,15 +15629,8 @@
 <maxlength>4</maxlength>
 </object>
 </object>
-</object>
-</object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_TOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
 <border>2</border>
 <object class="wxButton" name="LoadButtonVip">
 <tooltip>Load .hex, .bin or .fpb file into VIP emulator memory</tooltip>
@@ -15755,7 +15643,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_TOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
 <border>2</border>
 <object class="wxButton" name="RunButtonVip">
 <tooltip>Load .fpb file into VIP emulator memory and RUN software</tooltip>
@@ -15765,8 +15653,6 @@
 </font>
 <enabled>0</enabled>
 <label>RUN</label>
-</object>
-</object>
 </object>
 </object>
 <object class="sizeritem">
@@ -15783,12 +15669,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="SaveEndVip" subclass="HexEdit">
 <size>29,-1d</size>
@@ -15801,15 +15682,8 @@
 <maxlength>4</maxlength>
 </object>
 </object>
-</object>
-</object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_TOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
 <border>2</border>
 <object class="wxButton" name="SaveButtonVip">
 <tooltip>Save VIP emulator memory to .hex, .bin or .fpb file</tooltip>
@@ -15822,7 +15696,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_TOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
 <border>2</border>
 <object class="wxButton" name="DsaveButtonVip">
 <tooltip>Save VIP emulator data memory to .fpb file</tooltip>
@@ -15832,8 +15706,6 @@
 </font>
 <enabled>0</enabled>
 <label>Data SAVE</label>
-</object>
-</object>
 </object>
 </object>
 <object class="sizeritem">
@@ -15850,12 +15722,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="SaveExecVip" subclass="HexEdit">
 <size>29,-1d</size>
@@ -15866,8 +15733,6 @@
 </font>
 <enabled>0</enabled>
 <maxlength>4</maxlength>
-</object>
-</object>
 </object>
 </object>
 </object>
@@ -16537,12 +16402,12 @@
 <flag>wxALIGN_LEFT|wxLEFT|wxRIGHT</flag>
 <border>2</border>
 <object class="wxFlexGridSizer">
-<cols>3</cols>
+<cols>4</cols>
 <rows>3</rows>
 <vgap>1</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>4</border>
 <object class="wxCheckBox" name="UseLocationVipII">
 <tooltip>Select to SAVE specific machine code address</tooltip>
@@ -16551,8 +16416,16 @@
 <size>-1</size>
 </font>
 <enabled>0</enabled>
-<label>Specify Location</label>
+<label>Specify</label>
 <checked>0</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>10</border>
+<object class="wxStaticText" name="UseLocationTextVipII">
+<enabled>0</enabled>
+<label>Location</label>
 </object>
 </object>
 <object class="sizeritem">
@@ -16569,12 +16442,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="SaveStartVipII" subclass="HexEdit">
 <size>29,-1d</size>
@@ -16587,15 +16455,8 @@
 <maxlength>4</maxlength>
 </object>
 </object>
-</object>
-</object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_TOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
 <border>2</border>
 <object class="wxButton" name="LoadButtonVipII">
 <tooltip>Load .hex, .bin or .fpb file into VIP II emulator memory</tooltip>
@@ -16608,7 +16469,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_TOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
 <border>2</border>
 <object class="wxButton" name="RunButtonVipII">
 <tooltip>Load .fpb file into VIP II emulator memory and RUN software</tooltip>
@@ -16618,8 +16479,6 @@
 </font>
 <enabled>0</enabled>
 <label>RUN</label>
-</object>
-</object>
 </object>
 </object>
 <object class="sizeritem">
@@ -16636,12 +16495,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="SaveEndVipII" subclass="HexEdit">
 <size>29,-1d</size>
@@ -16654,15 +16508,8 @@
 <maxlength>4</maxlength>
 </object>
 </object>
-</object>
-</object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_TOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
 <border>2</border>
 <object class="wxButton" name="SaveButtonVipII">
 <tooltip>Save VIP II emulator memory to .hex, .bin or .fpb file</tooltip>
@@ -16675,7 +16522,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_TOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
 <border>2</border>
 <object class="wxButton" name="DsaveButtonVipII">
 <tooltip>Save VIP II emulator data memory to .fpb file</tooltip>
@@ -16685,8 +16532,6 @@
 </font>
 <enabled>0</enabled>
 <label>Data SAVE</label>
-</object>
-</object>
 </object>
 </object>
 <object class="sizeritem">
@@ -16703,12 +16548,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="SaveExecVipII" subclass="HexEdit">
 <size>29,-1d</size>
@@ -16719,8 +16559,6 @@
 </font>
 <enabled>0</enabled>
 <maxlength>4</maxlength>
-</object>
-</object>
 </object>
 </object>
 </object>
@@ -17545,12 +17383,12 @@
 <flag>wxALIGN_LEFT</flag>
 <border>0</border>
 <object class="wxFlexGridSizer">
-<cols>3</cols>
+<cols>4</cols>
 <rows>3</rows>
 <vgap>1</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>4</border>
 <object class="wxCheckBox" name="UseLocationMicroboard">
 <tooltip>Select to SAVE specific machine code address</tooltip>
@@ -17559,8 +17397,16 @@
 <size>-1</size>
 </font>
 <enabled>0</enabled>
-<label>Specify Location</label>
+<label>Specify</label>
 <checked>0</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>10</border>
+<object class="wxStaticText" name="UseLocationTextMicroboard">
+<enabled>0</enabled>
+<label>Location</label>
 </object>
 </object>
 <object class="sizeritem">
@@ -17577,12 +17423,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="SaveStartMicroboard" subclass="HexEdit">
 <size>29,-1d</size>
@@ -17595,15 +17436,8 @@
 <maxlength>4</maxlength>
 </object>
 </object>
-</object>
-</object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_TOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
 <border>2</border>
 <object class="wxButton" name="LoadButtonMicroboard">
 <tooltip>Load .hex/.rca file into Microboard emulator memory</tooltip>
@@ -17616,7 +17450,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_TOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
 <border>2</border>
 <object class="wxButton" name="RunButtonMicroboard">
 <tooltip>Load .rca file into Microboard emulator memory and RUN software</tooltip>
@@ -17626,8 +17460,6 @@
 </font>
 <enabled>0</enabled>
 <label>RUN</label>
-</object>
-</object>
 </object>
 </object>
 <object class="sizeritem">
@@ -17644,12 +17476,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="SaveEndMicroboard" subclass="HexEdit">
 <size>29,-1d</size>
@@ -17662,15 +17489,8 @@
 <maxlength>4</maxlength>
 </object>
 </object>
-</object>
-</object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_TOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
 <border>2</border>
 <object class="wxButton" name="SaveButtonMicroboard">
 <tooltip>Save Microboard emulator memory to .hex/.rca file</tooltip>
@@ -17683,7 +17503,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_TOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
 <border>2</border>
 <object class="wxButton" name="DsaveButtonMicroboard">
 <tooltip>Save Microboard emulator data memory to .rca file</tooltip>
@@ -17693,8 +17513,6 @@
 </font>
 <enabled>0</enabled>
 <label>Data SAVE</label>
-</object>
-</object>
 </object>
 </object>
 <object class="sizeritem">
@@ -17711,12 +17529,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="SaveExecMicroboard" subclass="HexEdit">
 <size>29,-1d</size>
@@ -17727,8 +17540,6 @@
 </font>
 <enabled>0</enabled>
 <maxlength>4</maxlength>
-</object>
-</object>
 </object>
 </object>
 </object>
@@ -18890,12 +18701,12 @@
 <flag>wxALIGN_LEFT</flag>
 <border>0</border>
 <object class="wxFlexGridSizer">
-<cols>3</cols>
+<cols>4</cols>
 <rows>3</rows>
 <vgap>1</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>4</border>
 <object class="wxCheckBox" name="UseLocationMCDS">
 <tooltip>Select to SAVE specific machine code address</tooltip>
@@ -18904,8 +18715,16 @@
 <size>-1</size>
 </font>
 <enabled>0</enabled>
-<label>Specify Location</label>
+<label>Specify</label>
 <checked>0</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>10</border>
+<object class="wxStaticText" name="UseLocationTextMCDS">
+<enabled>0</enabled>
+<label>Location</label>
 </object>
 </object>
 <object class="sizeritem">
@@ -18922,12 +18741,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="SaveStartMCDS" subclass="HexEdit">
 <size>29,-1d</size>
@@ -18940,15 +18754,8 @@
 <maxlength>4</maxlength>
 </object>
 </object>
-</object>
-</object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_TOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
 <border>2</border>
 <object class="wxButton" name="LoadButtonMCDS">
 <tooltip>Load .hex/.rca file into MCDS emulator memory</tooltip>
@@ -18961,7 +18768,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_TOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
 <border>2</border>
 <object class="wxButton" name="RunButtonMCDS">
 <tooltip>Load .rca file into MCDS emulator memory and RUN software</tooltip>
@@ -18971,8 +18778,6 @@
 </font>
 <enabled>0</enabled>
 <label>RUN</label>
-</object>
-</object>
 </object>
 </object>
 <object class="sizeritem">
@@ -18989,12 +18794,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="SaveEndMCDS" subclass="HexEdit">
 <size>29,-1d</size>
@@ -19007,15 +18807,8 @@
 <maxlength>4</maxlength>
 </object>
 </object>
-</object>
-</object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_TOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
 <border>2</border>
 <object class="wxButton" name="SaveButtonMCDS">
 <tooltip>Save MCDS emulator memory to .hex/.rca file</tooltip>
@@ -19028,7 +18821,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_TOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
 <border>2</border>
 <object class="wxButton" name="DsaveButtonMCDS">
 <tooltip>Save MCDS emulator data memory to .rca file</tooltip>
@@ -19038,8 +18831,6 @@
 </font>
 <enabled>0</enabled>
 <label>Data SAVE</label>
-</object>
-</object>
 </object>
 </object>
 <object class="sizeritem">
@@ -19056,12 +18847,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="SaveExecMCDS" subclass="HexEdit">
 <size>29,-1d</size>
@@ -19072,8 +18858,6 @@
 </font>
 <enabled>0</enabled>
 <maxlength>4</maxlength>
-</object>
-</object>
 </object>
 </object>
 </object>
@@ -23625,12 +23409,12 @@
 <flag>wxALIGN_LEFT</flag>
 <border>0</border>
 <object class="wxFlexGridSizer">
-<cols>3</cols>
+<cols>4</cols>
 <rows>3</rows>
 <vgap>1</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>4</border>
 <object class="wxCheckBox" name="UseLocationTMC600">
 <tooltip>Select to SAVE specific machine code address</tooltip>
@@ -23639,8 +23423,16 @@
 <size>-1</size>
 </font>
 <enabled>0</enabled>
-<label>Specify Location</label>
+<label>Specify</label>
 <checked>0</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>10</border>
+<object class="wxStaticText" name="UseLocationTextTMS600">
+<enabled>0</enabled>
+<label>Location</label>
 </object>
 </object>
 <object class="sizeritem">
@@ -23657,12 +23449,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="SaveStartTMC600" subclass="HexEdit">
 <size>29,-1d</size>
@@ -23675,15 +23462,8 @@
 <maxlength>4</maxlength>
 </object>
 </object>
-</object>
-</object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_TOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
 <border>2</border>
 <object class="wxButton" name="LoadButtonTMC600">
 <tooltip>Load .tmc600 file into TMC-600 emulator memory</tooltip>
@@ -23696,7 +23476,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_TOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
 <border>2</border>
 <object class="wxButton" name="RunButtonTMC600">
 <tooltip>Load .tmc600 file into TMC-600 emulator memory and RUN software</tooltip>
@@ -23706,8 +23486,6 @@
 </font>
 <enabled>0</enabled>
 <label>RUN</label>
-</object>
-</object>
 </object>
 </object>
 <object class="sizeritem">
@@ -23724,12 +23502,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="SaveEndTMC600" subclass="HexEdit">
 <size>29,-1d</size>
@@ -23742,15 +23515,8 @@
 <maxlength>4</maxlength>
 </object>
 </object>
-</object>
-</object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_TOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
 <border>2</border>
 <object class="wxButton" name="SaveButtonTMC600">
 <tooltip>Save TMC-600 emulator memory to .tmc600 file</tooltip>
@@ -23763,7 +23529,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_TOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
 <border>2</border>
 <object class="wxButton" name="DsaveButtonTMC600">
 <tooltip>Save TMC-600 emulator data memory to .tmc600 file</tooltip>
@@ -23773,8 +23539,6 @@
 </font>
 <enabled>0</enabled>
 <label>Data SAVE</label>
-</object>
-</object>
 </object>
 </object>
 <object class="sizeritem">
@@ -23791,12 +23555,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="SaveExecTMC600" subclass="HexEdit">
 <size>29,-1d</size>
@@ -23807,8 +23566,6 @@
 </font>
 <enabled>0</enabled>
 <maxlength>4</maxlength>
-</object>
-</object>
 </object>
 </object>
 </object>
@@ -26176,12 +25933,12 @@
 <flag>wxALIGN_LEFT</flag>
 <border>0</border>
 <object class="wxFlexGridSizer">
-<cols>3</cols>
+<cols>4</cols>
 <rows>3</rows>
 <vgap>1</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>4</border>
 <object class="wxCheckBox" name="UseLocationPecom">
 <tooltip>Select to SAVE specific machine code address</tooltip>
@@ -26190,8 +25947,16 @@
 <size>-1</size>
 </font>
 <enabled>0</enabled>
-<label>Specify Location</label>
+<label>Specify</label>
 <checked>0</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>10</border>
+<object class="wxStaticText" name="UseLocationTextPecom">
+<enabled>0</enabled>
+<label>Location</label>
 </object>
 </object>
 <object class="sizeritem">
@@ -26208,12 +25973,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="SaveStartPecom" subclass="HexEdit">
 <size>29,-1d</size>
@@ -26226,15 +25986,8 @@
 <maxlength>4</maxlength>
 </object>
 </object>
-</object>
-</object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_TOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
 <border>2</border>
 <object class="wxButton" name="LoadButtonPecom">
 <tooltip>Load .tmc600 file into Pecom emulator memory</tooltip>
@@ -26247,7 +26000,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_TOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
 <border>2</border>
 <object class="wxButton" name="RunButtonPecom">
 <tooltip>Load .tmc600 file into Pecom emulator memory and RUN software</tooltip>
@@ -26257,8 +26010,6 @@
 </font>
 <enabled>0</enabled>
 <label>RUN</label>
-</object>
-</object>
 </object>
 </object>
 <object class="sizeritem">
@@ -26275,12 +26026,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="SaveEndPecom" subclass="HexEdit">
 <size>29,-1d</size>
@@ -26293,15 +26039,8 @@
 <maxlength>4</maxlength>
 </object>
 </object>
-</object>
-</object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_TOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
 <border>2</border>
 <object class="wxButton" name="SaveButtonPecom">
 <tooltip>Save Pecom emulator memory to .tmc600 file</tooltip>
@@ -26314,7 +26053,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_TOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
 <border>2</border>
 <object class="wxButton" name="DsaveButtonPecom">
 <tooltip>Save Pecom emulator data memory to .tmc600 file</tooltip>
@@ -26324,8 +26063,6 @@
 </font>
 <enabled>0</enabled>
 <label>Data SAVE</label>
-</object>
-</object>
 </object>
 </object>
 <object class="sizeritem">
@@ -26342,12 +26079,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="SaveExecPecom" subclass="HexEdit">
 <size>29,-1d</size>
@@ -26358,8 +26090,6 @@
 </font>
 <enabled>0</enabled>
 <maxlength>4</maxlength>
-</object>
-</object>
 </object>
 </object>
 </object>
@@ -27171,7 +26901,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxTOP|wxBOTTOM</flag>
+<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
@@ -27206,7 +26936,7 @@
 <flag>wxGROW|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="AssStartType" subclass="HexEdit">
-<size>31,-1d</size>
+<size>29,-1d</size>
 <tooltip>Start address</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -27226,7 +26956,7 @@
 <flag>wxGROW|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="AssEndType" subclass="HexEdit">
-<size>31,-1d</size>
+<size>29,-1d</size>
 <tooltip>End Address</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -27300,7 +27030,6 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<value>0000</value>
 <maxlength>4</maxlength>
 </object>
 </object>
@@ -27378,7 +27107,7 @@
 <flag>wxGROW|wxALL</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="AssCopyStart" subclass="HexEdit">
-<size>31,-1d</size>
+<size>29,-1d</size>
 <tooltip>Start address</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -27398,7 +27127,7 @@
 <flag>wxGROW|wxALL</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="AssCopyEnd" subclass="HexEdit">
-<size>31,-1d</size>
+<size>29,-1d</size>
 <tooltip>End Address</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -27422,7 +27151,7 @@
 <flag>wxGROW|wxALL</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="AssCopyTo" subclass="HexEdit">
-<size>31,-1d</size>
+<size>29,-1d</size>
 <tooltip>Destination address</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -27711,7 +27440,7 @@
 <flag>wxALIGN_CENTER_HORIZONTAL|wxGROW|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="AssFileNumber">
-<size>31,-1d</size>
+<size>29,-1d</size>
 <tooltip>Configuration number</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -27759,7 +27488,7 @@
 <flag>wxALIGN_CENTER_HORIZONTAL|wxGROW|wxLEFT|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="AssProgramStart" subclass="HexEdit">
-<size>31,-1d</size>
+<size>29,-1d</size>
 <tooltip>Specify program and code start address in hexadecimal</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -27833,7 +27562,7 @@
 <flag>wxALIGN_CENTER_HORIZONTAL|wxGROW|wxLEFT|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="AssCodeEnd" subclass="HexEdit">
-<size>31,-1d</size>
+<size>29,-1d</size>
 <tooltip>Specify code end address in hexadecimal</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -27906,7 +27635,7 @@
 <flag>wxALIGN_CENTER_HORIZONTAL|wxGROW|wxLEFT|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="AssProgramEnd" subclass="HexEdit">
-<size>31,-1d</size>
+<size>29,-1d</size>
 <tooltip>Specify program end address in hexadecimal</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -27946,7 +27675,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALL</flag>
+<flag>wxGROW|wxALL</flag>
 <border>0</border>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
@@ -27956,12 +27685,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxVERTICAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALL</flag>
+<flag>wxGROW|wxALL</flag>
 <border>0</border>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
@@ -28199,6 +27923,11 @@
 </object>
 </object>
 </object>
+<object class="spacer">
+<flag>wxALIGN_CENTER_HORIZONTAL</flag>
+<border>6</border>
+<size>153,0d</size>
+</object>
 </object>
 </object>
 </object>
@@ -28217,6 +27946,8 @@
 </object>
 </object>
 </object>
+</object>
+</object>
 <object class="sizeritem">
 <flag>wxALIGN_LEFT|wxALL</flag>
 <border>0</border>
@@ -28226,7 +27957,6 @@
 <flag>wxALIGN_TOP|wxALL</flag>
 <border>0</border>
 <object class="wxStaticBitmap" name="ProfilerBitmap">
-<size>-1,226d</size>
 <bg>#000000</bg>
 </object>
 </object>
@@ -28491,10 +28221,6 @@
 </object>
 </object>
 </object>
-</object>
-</object>
-</object>
-</object>
 <object class="notebookpage">
 <label>Debug 1802</label>
 <object class="wxPanel" name="PanelTrace">
@@ -28559,8 +28285,8 @@
 <object class="wxTextCtrl" name="D" subclass="HexEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -28571,7 +28297,7 @@
 <object class="spacer">
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
-<size>3,3d</size>
+<size>5,3d</size>
 </object>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
@@ -28591,8 +28317,8 @@
 <object class="wxTextCtrl" name="X" subclass="HexEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -28603,7 +28329,7 @@
 <object class="spacer">
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
-<size>3,3d</size>
+<size>5,3d</size>
 </object>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
@@ -28623,8 +28349,8 @@
 <object class="wxTextCtrl" name="P" subclass="HexEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -28635,7 +28361,7 @@
 <object class="spacer">
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
-<size>3,3d</size>
+<size>5,3d</size>
 </object>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
@@ -28655,8 +28381,8 @@
 <object class="wxTextCtrl" name="T" subclass="HexEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -28667,7 +28393,7 @@
 <object class="spacer">
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
-<size>3,3d</size>
+<size>5,3d</size>
 </object>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
@@ -28687,8 +28413,8 @@
 <object class="wxTextCtrl" name="B" subclass="HexEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -28721,8 +28447,8 @@
 <object class="wxTextCtrl" name="CH" subclass="HexEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -28733,7 +28459,7 @@
 <object class="spacer">
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
-<size>3,3d</size>
+<size>5,3d</size>
 </object>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
@@ -28753,8 +28479,8 @@
 <object class="wxTextCtrl" name="CNTR" subclass="HexEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -28765,7 +28491,7 @@
 <object class="spacer">
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
-<size>3,3d</size>
+<size>5,3d</size>
 </object>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
@@ -28785,8 +28511,8 @@
 <object class="wxTextCtrl" name="CIE" subclass="HexEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -28836,8 +28562,8 @@
 <object class="wxTextCtrl" name="I1" subclass="HexEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -28864,8 +28590,8 @@
 <object class="wxTextCtrl" name="O1" subclass="HexEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -28892,8 +28618,8 @@
 <object class="wxTextCtrl" name="I2" subclass="HexEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -28920,8 +28646,8 @@
 <object class="wxTextCtrl" name="O2" subclass="HexEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -28948,8 +28674,8 @@
 <object class="wxTextCtrl" name="I3" subclass="HexEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -28976,8 +28702,8 @@
 <object class="wxTextCtrl" name="O3" subclass="HexEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -29004,8 +28730,8 @@
 <object class="wxTextCtrl" name="I4" subclass="HexEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -29030,10 +28756,10 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="O4" subclass="HexEdit">
-<size>18,-1d</size>
+<size>22,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -29060,8 +28786,8 @@
 <object class="wxTextCtrl" name="I5" subclass="HexEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -29086,10 +28812,10 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="O5" subclass="HexEdit">
-<size>18,-1d</size>
+<size>22,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -29116,8 +28842,8 @@
 <object class="wxTextCtrl" name="I6" subclass="HexEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -29142,10 +28868,10 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="O6" subclass="HexEdit">
-<size>18,-1d</size>
+<size>22,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -29172,8 +28898,8 @@
 <object class="wxTextCtrl" name="I7" subclass="HexEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -29198,10 +28924,10 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="O7" subclass="HexEdit">
-<size>18,-1d</size>
+<size>22,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -29246,8 +28972,8 @@
 <object class="wxTextCtrl" name="DF" subclass="HexEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -29274,8 +29000,8 @@
 <object class="wxTextCtrl" name="Q" subclass="HexEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -29302,8 +29028,8 @@
 <object class="wxTextCtrl" name="IE" subclass="HexEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -29330,8 +29056,8 @@
 <object class="wxTextCtrl" name="EF1" subclass="HexEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -29358,8 +29084,8 @@
 <object class="wxTextCtrl" name="EF2" subclass="HexEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -29386,8 +29112,8 @@
 <object class="wxTextCtrl" name="EF3" subclass="HexEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -29414,8 +29140,8 @@
 <object class="wxTextCtrl" name="EF4" subclass="HexEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -29505,10 +29231,10 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 <border>34</border>
 <object class="wxTextCtrl" name="R0" subclass="HexEdit">
-<size>18,-1d</size>
+<size>22,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -29533,10 +29259,10 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="R8" subclass="HexEdit">
-<size>18,-1d</size>
+<size>22,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -29561,10 +29287,10 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="R1" subclass="HexEdit">
-<size>18,-1d</size>
+<size>22,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -29589,10 +29315,10 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="R9" subclass="HexEdit">
-<size>18,-1d</size>
+<size>22,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -29617,10 +29343,10 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="R2" subclass="HexEdit">
-<size>18,-1d</size>
+<size>22,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -29645,10 +29371,10 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="R10" subclass="HexEdit">
-<size>18,-1d</size>
+<size>22,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -29673,10 +29399,10 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="R3" subclass="HexEdit">
-<size>18,-1d</size>
+<size>22,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -29701,10 +29427,10 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="R11" subclass="HexEdit">
-<size>18,-1d</size>
+<size>22,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -29729,10 +29455,10 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="R4" subclass="HexEdit">
-<size>18,-1d</size>
+<size>22,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -29757,10 +29483,10 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="R12" subclass="HexEdit">
-<size>18,-1d</size>
+<size>22,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -29785,10 +29511,10 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="R5" subclass="HexEdit">
-<size>18,-1d</size>
+<size>22,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -29813,10 +29539,10 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="R13" subclass="HexEdit">
-<size>18,-1d</size>
+<size>22,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -29841,10 +29567,10 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="R6" subclass="HexEdit">
-<size>18,-1d</size>
+<size>22,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -29869,10 +29595,10 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="R14" subclass="HexEdit">
-<size>18,-1d</size>
+<size>22,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -29897,10 +29623,10 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="R7" subclass="HexEdit">
-<size>18,-1d</size>
+<size>22,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -29925,10 +29651,10 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="R15" subclass="HexEdit">
-<size>18,-1d</size>
+<size>22,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -30004,7 +29730,7 @@
 <flag>wxALIGN_LEFT|wxGROW|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="BreakPointAddress" subclass="HexEdit">
-<size>31,-1d</size>
+<size>29,-1d</size>
 <tooltip>Break point address</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -30040,7 +29766,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxGROW|wxALL</flag>
+<flag>wxGROW|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="DebugInterrupt">
 <tooltip>Generate interrupt</tooltip>
@@ -30095,7 +29821,7 @@
 <flag>wxALIGN_LEFT|wxGROW|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="TregValue" subclass="HexEdit">
-<size>31,-1d</size>
+<size>29,-1d</size>
 <tooltip>Register value</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -30119,7 +29845,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxGROW|wxALL</flag>
+<flag>wxGROW|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="DebugReset">
 <tooltip>Reset emulator</tooltip>
@@ -30299,7 +30025,7 @@
 <flag>wxALIGN_LEFT|wxGROW|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="TrapValue" subclass="HexEditX">
-<size>31,-1d</size>
+<size>29,-1d</size>
 <tooltip>Value</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -30356,6 +30082,7 @@
 <size>57,61d</size>
 <font>
 <size>-1</size>
+<family>swiss</family>
 <face>Courier New</face>
 </font>
 <style>wxLC_SMALL_ICON|wxLC_EDIT_LABELS|wxLC_SINGLE_SEL|wxSUNKEN_BORDER</style>
@@ -30388,6 +30115,7 @@
 <size>62,61d</size>
 <font>
 <size>-1</size>
+<family>swiss</family>
 <face>Courier New</face>
 </font>
 <style>wxLC_SMALL_ICON|wxLC_EDIT_LABELS|wxLC_SINGLE_SEL|wxSUNKEN_BORDER</style>
@@ -30420,6 +30148,7 @@
 <size>69,61d</size>
 <font>
 <size>-1</size>
+<family>swiss</family>
 <face>Courier New</face>
 </font>
 <style>wxLC_SMALL_ICON|wxLC_EDIT_LABELS|wxLC_SINGLE_SEL|wxSUNKEN_BORDER</style>
@@ -30638,7 +30367,7 @@
 <flag>wxGROW|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="DebugCallAddress" subclass="HexEdit">
-<size>31,-1d</size>
+<size>29,-1d</size>
 <tooltip>Call address</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -30676,13 +30405,20 @@
 <flag>wxGROW|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="DebugRetAddress" subclass="HexEdit">
-<size>31,-1d</size>
+<size>29,-1d</size>
 <tooltip>Return address</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
 <maxlength>4</maxlength>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxStaticText" name="DebugRight">
+<label></label>
 </object>
 </object>
 </object>
@@ -30700,6 +30436,7 @@
 <tooltip>Window showing trace results</tooltip>
 <font>
 <size>-1</size>
+<family>swiss</family>
 <face>Courier New</face>
 </font>
 <style>wxTE_MULTILINE</style>
@@ -30829,8 +30566,8 @@
 <object class="wxTextCtrl" name="Chip8PC" subclass="HexEdit">
 <size>18,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -30857,8 +30594,8 @@
 <object class="wxTextCtrl" name="Chip8I" subclass="HexEdit">
 <size>18,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -30910,8 +30647,8 @@
 <object class="wxTextCtrl" name="V0" subclass="HexEdit">
 <size>18,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -30938,8 +30675,8 @@
 <object class="wxTextCtrl" name="V1" subclass="HexEdit">
 <size>18,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -30966,8 +30703,8 @@
 <object class="wxTextCtrl" name="V2" subclass="HexEdit">
 <size>18,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -30994,8 +30731,8 @@
 <object class="wxTextCtrl" name="V3" subclass="HexEdit">
 <size>18,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -31022,8 +30759,8 @@
 <object class="wxTextCtrl" name="V4" subclass="HexEdit">
 <size>18,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -31050,8 +30787,8 @@
 <object class="wxTextCtrl" name="V5" subclass="HexEdit">
 <size>18,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -31078,8 +30815,8 @@
 <object class="wxTextCtrl" name="V6" subclass="HexEdit">
 <size>18,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -31106,8 +30843,8 @@
 <object class="wxTextCtrl" name="V7" subclass="HexEdit">
 <size>18,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -31144,8 +30881,8 @@
 <object class="wxTextCtrl" name="V8" subclass="HexEdit">
 <size>18,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -31172,8 +30909,8 @@
 <object class="wxTextCtrl" name="V9" subclass="HexEdit">
 <size>18,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -31200,8 +30937,8 @@
 <object class="wxTextCtrl" name="VA" subclass="HexEdit">
 <size>18,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -31228,8 +30965,8 @@
 <object class="wxTextCtrl" name="VB" subclass="HexEdit">
 <size>18,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -31256,8 +30993,8 @@
 <object class="wxTextCtrl" name="VC" subclass="HexEdit">
 <size>18,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -31284,8 +31021,8 @@
 <object class="wxTextCtrl" name="VD" subclass="HexEdit">
 <size>18,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -31312,8 +31049,8 @@
 <object class="wxTextCtrl" name="VE" subclass="HexEdit">
 <size>18,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -31340,8 +31077,8 @@
 <object class="wxTextCtrl" name="VF" subclass="HexEdit">
 <size>18,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
@@ -31410,6 +31147,7 @@
 <size>51,74d</size>
 <font>
 <size>-1</size>
+<family>swiss</family>
 <face>Courier New</face>
 </font>
 <style>wxLC_SMALL_ICON|wxLC_EDIT_LABELS|wxLC_SINGLE_SEL|wxSUNKEN_BORDER</style>
@@ -31586,6 +31324,7 @@
 <tooltip>Window showing Chip 8 trace results</tooltip>
 <font>
 <size>-1</size>
+<family>swiss</family>
 <face>Courier New</face>
 </font>
 <style>wxTE_MULTILINE</style>
@@ -31624,7 +31363,7 @@
 <flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="DebugDisplayPage" subclass="HexEdit">
-<size>18,-1d</size>
+<size>22,-1d</size>
 <tooltip>Start address of memory dump</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -31868,6 +31607,7 @@
 <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
 <border>2</border>
 <object class="wxStaticText" name="MEM_HEADER0">
+<size>22,-1d</size>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -31887,7 +31627,7 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
-<maxlength>2</maxlength>
+<maxlength>3</maxlength>
 </object>
 </object>
 <object class="sizeritem">
@@ -32117,6 +31857,7 @@
 <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
 <border>2</border>
 <object class="wxStaticText" name="MEM_HEADER1">
+<size>22,-1d</size>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -32131,8 +31872,8 @@
 <object class="wxTextCtrl" name="MEM10" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32145,8 +31886,8 @@
 <object class="wxTextCtrl" name="MEM11" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32159,8 +31900,8 @@
 <object class="wxTextCtrl" name="MEM12" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32173,8 +31914,8 @@
 <object class="wxTextCtrl" name="MEM13" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32187,10 +31928,11 @@
 <object class="wxTextCtrl" name="MEM14" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
+<fg>#000000</fg>
 <bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
@@ -32201,8 +31943,8 @@
 <object class="wxTextCtrl" name="MEM15" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32215,8 +31957,8 @@
 <object class="wxTextCtrl" name="MEM16" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32229,8 +31971,8 @@
 <object class="wxTextCtrl" name="MEM17" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32243,8 +31985,8 @@
 <object class="wxTextCtrl" name="MEM18" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32257,8 +31999,8 @@
 <object class="wxTextCtrl" name="MEM19" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32271,8 +32013,8 @@
 <object class="wxTextCtrl" name="MEM1A" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32285,8 +32027,8 @@
 <object class="wxTextCtrl" name="MEM1B" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32299,8 +32041,8 @@
 <object class="wxTextCtrl" name="MEM1C" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32313,8 +32055,8 @@
 <object class="wxTextCtrl" name="MEM1D" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32327,8 +32069,8 @@
 <object class="wxTextCtrl" name="MEM1E" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32341,8 +32083,8 @@
 <object class="wxTextCtrl" name="MEM1F" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32366,6 +32108,7 @@
 <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
 <border>2</border>
 <object class="wxStaticText" name="MEM_HEADER2">
+<size>22,-1d</size>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -32380,8 +32123,8 @@
 <object class="wxTextCtrl" name="MEM20" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32394,8 +32137,8 @@
 <object class="wxTextCtrl" name="MEM21" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32408,8 +32151,8 @@
 <object class="wxTextCtrl" name="MEM22" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32422,8 +32165,8 @@
 <object class="wxTextCtrl" name="MEM23" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32436,8 +32179,8 @@
 <object class="wxTextCtrl" name="MEM24" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32450,8 +32193,8 @@
 <object class="wxTextCtrl" name="MEM25" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32464,8 +32207,8 @@
 <object class="wxTextCtrl" name="MEM26" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32478,8 +32221,8 @@
 <object class="wxTextCtrl" name="MEM27" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32492,8 +32235,8 @@
 <object class="wxTextCtrl" name="MEM28" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32506,8 +32249,8 @@
 <object class="wxTextCtrl" name="MEM29" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32520,8 +32263,8 @@
 <object class="wxTextCtrl" name="MEM2A" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32534,8 +32277,8 @@
 <object class="wxTextCtrl" name="MEM2B" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32548,8 +32291,8 @@
 <object class="wxTextCtrl" name="MEM2C" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32562,8 +32305,8 @@
 <object class="wxTextCtrl" name="MEM2D" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32576,8 +32319,8 @@
 <object class="wxTextCtrl" name="MEM2E" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32590,8 +32333,8 @@
 <object class="wxTextCtrl" name="MEM2F" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32615,6 +32358,7 @@
 <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
 <border>2</border>
 <object class="wxStaticText" name="MEM_HEADER3">
+<size>22,-1d</size>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -32629,8 +32373,8 @@
 <object class="wxTextCtrl" name="MEM30" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32643,8 +32387,8 @@
 <object class="wxTextCtrl" name="MEM31" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32657,8 +32401,8 @@
 <object class="wxTextCtrl" name="MEM32" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32671,8 +32415,8 @@
 <object class="wxTextCtrl" name="MEM33" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32685,8 +32429,8 @@
 <object class="wxTextCtrl" name="MEM34" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32699,8 +32443,8 @@
 <object class="wxTextCtrl" name="MEM35" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32713,8 +32457,8 @@
 <object class="wxTextCtrl" name="MEM36" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32727,8 +32471,8 @@
 <object class="wxTextCtrl" name="MEM37" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32741,8 +32485,8 @@
 <object class="wxTextCtrl" name="MEM38" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32755,8 +32499,8 @@
 <object class="wxTextCtrl" name="MEM39" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32769,8 +32513,8 @@
 <object class="wxTextCtrl" name="MEM3A" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32783,8 +32527,8 @@
 <object class="wxTextCtrl" name="MEM3B" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32797,8 +32541,8 @@
 <object class="wxTextCtrl" name="MEM3C" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32811,8 +32555,8 @@
 <object class="wxTextCtrl" name="MEM3D" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32825,8 +32569,8 @@
 <object class="wxTextCtrl" name="MEM3E" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32839,8 +32583,8 @@
 <object class="wxTextCtrl" name="MEM3F" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32864,6 +32608,7 @@
 <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
 <border>2</border>
 <object class="wxStaticText" name="MEM_HEADER4">
+<size>22,-1d</size>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -32878,8 +32623,8 @@
 <object class="wxTextCtrl" name="MEM40" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32892,8 +32637,8 @@
 <object class="wxTextCtrl" name="MEM41" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32906,8 +32651,8 @@
 <object class="wxTextCtrl" name="MEM42" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32920,8 +32665,8 @@
 <object class="wxTextCtrl" name="MEM43" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32934,8 +32679,8 @@
 <object class="wxTextCtrl" name="MEM44" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32948,8 +32693,8 @@
 <object class="wxTextCtrl" name="MEM45" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32962,8 +32707,8 @@
 <object class="wxTextCtrl" name="MEM46" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32976,8 +32721,8 @@
 <object class="wxTextCtrl" name="MEM47" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -32990,8 +32735,8 @@
 <object class="wxTextCtrl" name="MEM48" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33004,8 +32749,8 @@
 <object class="wxTextCtrl" name="MEM49" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33018,8 +32763,8 @@
 <object class="wxTextCtrl" name="MEM4A" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33032,8 +32777,8 @@
 <object class="wxTextCtrl" name="MEM4B" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33046,8 +32791,8 @@
 <object class="wxTextCtrl" name="MEM4C" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33060,8 +32805,8 @@
 <object class="wxTextCtrl" name="MEM4D" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33074,8 +32819,8 @@
 <object class="wxTextCtrl" name="MEM4E" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33088,8 +32833,8 @@
 <object class="wxTextCtrl" name="MEM4F" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33113,6 +32858,7 @@
 <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
 <border>2</border>
 <object class="wxStaticText" name="MEM_HEADER5">
+<size>22,-1d</size>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -33127,8 +32873,8 @@
 <object class="wxTextCtrl" name="MEM50" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33141,8 +32887,8 @@
 <object class="wxTextCtrl" name="MEM51" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33155,8 +32901,8 @@
 <object class="wxTextCtrl" name="MEM52" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33169,8 +32915,8 @@
 <object class="wxTextCtrl" name="MEM53" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33183,8 +32929,8 @@
 <object class="wxTextCtrl" name="MEM54" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33197,8 +32943,8 @@
 <object class="wxTextCtrl" name="MEM55" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33211,8 +32957,8 @@
 <object class="wxTextCtrl" name="MEM56" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33225,8 +32971,8 @@
 <object class="wxTextCtrl" name="MEM57" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33239,8 +32985,8 @@
 <object class="wxTextCtrl" name="MEM58" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33253,8 +32999,8 @@
 <object class="wxTextCtrl" name="MEM59" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33267,8 +33013,8 @@
 <object class="wxTextCtrl" name="MEM5A" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33281,8 +33027,8 @@
 <object class="wxTextCtrl" name="MEM5B" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33295,8 +33041,8 @@
 <object class="wxTextCtrl" name="MEM5C" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33309,8 +33055,8 @@
 <object class="wxTextCtrl" name="MEM5D" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33323,8 +33069,8 @@
 <object class="wxTextCtrl" name="MEM5E" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33337,8 +33083,8 @@
 <object class="wxTextCtrl" name="MEM5F" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33362,6 +33108,7 @@
 <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
 <border>2</border>
 <object class="wxStaticText" name="MEM_HEADER6">
+<size>22,-1d</size>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -33376,8 +33123,8 @@
 <object class="wxTextCtrl" name="MEM60" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33390,8 +33137,8 @@
 <object class="wxTextCtrl" name="MEM61" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33404,8 +33151,8 @@
 <object class="wxTextCtrl" name="MEM62" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33418,8 +33165,8 @@
 <object class="wxTextCtrl" name="MEM63" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33432,8 +33179,8 @@
 <object class="wxTextCtrl" name="MEM64" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33446,8 +33193,8 @@
 <object class="wxTextCtrl" name="MEM65" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33460,8 +33207,8 @@
 <object class="wxTextCtrl" name="MEM66" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33474,8 +33221,8 @@
 <object class="wxTextCtrl" name="MEM67" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33488,8 +33235,8 @@
 <object class="wxTextCtrl" name="MEM68" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33502,8 +33249,8 @@
 <object class="wxTextCtrl" name="MEM69" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33516,8 +33263,8 @@
 <object class="wxTextCtrl" name="MEM6A" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33530,8 +33277,8 @@
 <object class="wxTextCtrl" name="MEM6B" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33544,8 +33291,8 @@
 <object class="wxTextCtrl" name="MEM6C" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33558,8 +33305,8 @@
 <object class="wxTextCtrl" name="MEM6D" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33572,8 +33319,8 @@
 <object class="wxTextCtrl" name="MEM6E" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33586,8 +33333,8 @@
 <object class="wxTextCtrl" name="MEM6F" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33611,6 +33358,7 @@
 <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
 <border>2</border>
 <object class="wxStaticText" name="MEM_HEADER7">
+<size>22,-1d</size>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -33625,8 +33373,8 @@
 <object class="wxTextCtrl" name="MEM70" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33639,8 +33387,8 @@
 <object class="wxTextCtrl" name="MEM71" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33653,8 +33401,8 @@
 <object class="wxTextCtrl" name="MEM72" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33667,8 +33415,8 @@
 <object class="wxTextCtrl" name="MEM73" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33681,8 +33429,8 @@
 <object class="wxTextCtrl" name="MEM74" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33695,8 +33443,8 @@
 <object class="wxTextCtrl" name="MEM75" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33709,8 +33457,8 @@
 <object class="wxTextCtrl" name="MEM76" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33723,8 +33471,8 @@
 <object class="wxTextCtrl" name="MEM77" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33737,8 +33485,8 @@
 <object class="wxTextCtrl" name="MEM78" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33751,8 +33499,8 @@
 <object class="wxTextCtrl" name="MEM79" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33765,8 +33513,8 @@
 <object class="wxTextCtrl" name="MEM7A" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33779,8 +33527,8 @@
 <object class="wxTextCtrl" name="MEM7B" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33793,8 +33541,8 @@
 <object class="wxTextCtrl" name="MEM7C" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33807,8 +33555,8 @@
 <object class="wxTextCtrl" name="MEM7D" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33821,8 +33569,8 @@
 <object class="wxTextCtrl" name="MEM7E" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33835,8 +33583,8 @@
 <object class="wxTextCtrl" name="MEM7F" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33860,6 +33608,7 @@
 <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
 <border>2</border>
 <object class="wxStaticText" name="MEM_HEADER8">
+<size>22,-1d</size>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -33874,8 +33623,8 @@
 <object class="wxTextCtrl" name="MEM80" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33888,8 +33637,8 @@
 <object class="wxTextCtrl" name="MEM81" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33902,8 +33651,8 @@
 <object class="wxTextCtrl" name="MEM82" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33916,8 +33665,8 @@
 <object class="wxTextCtrl" name="MEM83" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33930,8 +33679,8 @@
 <object class="wxTextCtrl" name="MEM84" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33944,8 +33693,8 @@
 <object class="wxTextCtrl" name="MEM85" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33958,8 +33707,8 @@
 <object class="wxTextCtrl" name="MEM86" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33972,8 +33721,8 @@
 <object class="wxTextCtrl" name="MEM87" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -33986,8 +33735,8 @@
 <object class="wxTextCtrl" name="MEM88" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34000,8 +33749,8 @@
 <object class="wxTextCtrl" name="MEM89" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34014,8 +33763,8 @@
 <object class="wxTextCtrl" name="MEM8A" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34028,8 +33777,8 @@
 <object class="wxTextCtrl" name="MEM8B" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34042,8 +33791,8 @@
 <object class="wxTextCtrl" name="MEM8C" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34056,8 +33805,8 @@
 <object class="wxTextCtrl" name="MEM8D" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34070,8 +33819,8 @@
 <object class="wxTextCtrl" name="MEM8E" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34084,8 +33833,8 @@
 <object class="wxTextCtrl" name="MEM8F" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34109,6 +33858,7 @@
 <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
 <border>2</border>
 <object class="wxStaticText" name="MEM_HEADER9">
+<size>22,-1d</size>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -34123,8 +33873,8 @@
 <object class="wxTextCtrl" name="MEM90" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34137,8 +33887,8 @@
 <object class="wxTextCtrl" name="MEM91" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34151,8 +33901,8 @@
 <object class="wxTextCtrl" name="MEM92" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34165,8 +33915,8 @@
 <object class="wxTextCtrl" name="MEM93" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34179,8 +33929,8 @@
 <object class="wxTextCtrl" name="MEM94" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34193,8 +33943,8 @@
 <object class="wxTextCtrl" name="MEM95" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34207,8 +33957,8 @@
 <object class="wxTextCtrl" name="MEM96" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34221,8 +33971,8 @@
 <object class="wxTextCtrl" name="MEM97" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34235,8 +33985,8 @@
 <object class="wxTextCtrl" name="MEM98" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34249,8 +33999,8 @@
 <object class="wxTextCtrl" name="MEM99" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34263,8 +34013,8 @@
 <object class="wxTextCtrl" name="MEM9A" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34277,8 +34027,8 @@
 <object class="wxTextCtrl" name="MEM9B" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34291,8 +34041,8 @@
 <object class="wxTextCtrl" name="MEM9C" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34305,8 +34055,8 @@
 <object class="wxTextCtrl" name="MEM9D" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34319,8 +34069,8 @@
 <object class="wxTextCtrl" name="MEM9E" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34333,8 +34083,8 @@
 <object class="wxTextCtrl" name="MEM9F" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34358,6 +34108,7 @@
 <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
 <border>2</border>
 <object class="wxStaticText" name="MEM_HEADERA">
+<size>22,-1d</size>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -34372,8 +34123,8 @@
 <object class="wxTextCtrl" name="MEMA0" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34386,8 +34137,8 @@
 <object class="wxTextCtrl" name="MEMA1" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34400,8 +34151,8 @@
 <object class="wxTextCtrl" name="MEMA2" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34414,8 +34165,8 @@
 <object class="wxTextCtrl" name="MEMA3" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34428,8 +34179,8 @@
 <object class="wxTextCtrl" name="MEMA4" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34442,8 +34193,8 @@
 <object class="wxTextCtrl" name="MEMA5" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34456,8 +34207,8 @@
 <object class="wxTextCtrl" name="MEMA6" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34470,8 +34221,8 @@
 <object class="wxTextCtrl" name="MEMA7" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34484,8 +34235,8 @@
 <object class="wxTextCtrl" name="MEMA8" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34498,8 +34249,8 @@
 <object class="wxTextCtrl" name="MEMA9" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34512,8 +34263,8 @@
 <object class="wxTextCtrl" name="MEMAA" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34526,8 +34277,8 @@
 <object class="wxTextCtrl" name="MEMAB" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34540,8 +34291,8 @@
 <object class="wxTextCtrl" name="MEMAC" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34554,8 +34305,8 @@
 <object class="wxTextCtrl" name="MEMAD" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34568,8 +34319,8 @@
 <object class="wxTextCtrl" name="MEMAE" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34582,8 +34333,8 @@
 <object class="wxTextCtrl" name="MEMAF" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34607,6 +34358,7 @@
 <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
 <border>2</border>
 <object class="wxStaticText" name="MEM_HEADERB">
+<size>22,-1d</size>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -34621,8 +34373,8 @@
 <object class="wxTextCtrl" name="MEMB0" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34635,8 +34387,8 @@
 <object class="wxTextCtrl" name="MEMB1" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34649,8 +34401,8 @@
 <object class="wxTextCtrl" name="MEMB2" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34663,8 +34415,8 @@
 <object class="wxTextCtrl" name="MEMB3" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34677,8 +34429,8 @@
 <object class="wxTextCtrl" name="MEMB4" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34691,8 +34443,8 @@
 <object class="wxTextCtrl" name="MEMB5" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34705,8 +34457,8 @@
 <object class="wxTextCtrl" name="MEMB6" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34719,8 +34471,8 @@
 <object class="wxTextCtrl" name="MEMB7" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34733,8 +34485,8 @@
 <object class="wxTextCtrl" name="MEMB8" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34747,8 +34499,8 @@
 <object class="wxTextCtrl" name="MEMB9" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34761,8 +34513,8 @@
 <object class="wxTextCtrl" name="MEMBA" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34775,8 +34527,8 @@
 <object class="wxTextCtrl" name="MEMBB" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34789,8 +34541,8 @@
 <object class="wxTextCtrl" name="MEMBC" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34803,8 +34555,8 @@
 <object class="wxTextCtrl" name="MEMBD" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34817,8 +34569,8 @@
 <object class="wxTextCtrl" name="MEMBE" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34831,8 +34583,8 @@
 <object class="wxTextCtrl" name="MEMBF" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34856,6 +34608,7 @@
 <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
 <border>2</border>
 <object class="wxStaticText" name="MEM_HEADERC">
+<size>22,-1d</size>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -34870,8 +34623,8 @@
 <object class="wxTextCtrl" name="MEMC0" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34884,8 +34637,8 @@
 <object class="wxTextCtrl" name="MEMC1" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34898,8 +34651,8 @@
 <object class="wxTextCtrl" name="MEMC2" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34912,8 +34665,8 @@
 <object class="wxTextCtrl" name="MEMC3" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34926,8 +34679,8 @@
 <object class="wxTextCtrl" name="MEMC4" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34940,8 +34693,8 @@
 <object class="wxTextCtrl" name="MEMC5" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34954,8 +34707,8 @@
 <object class="wxTextCtrl" name="MEMC6" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34968,8 +34721,8 @@
 <object class="wxTextCtrl" name="MEMC7" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34982,8 +34735,8 @@
 <object class="wxTextCtrl" name="MEMC8" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -34996,8 +34749,8 @@
 <object class="wxTextCtrl" name="MEMC9" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35010,8 +34763,8 @@
 <object class="wxTextCtrl" name="MEMCA" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35024,8 +34777,8 @@
 <object class="wxTextCtrl" name="MEMCB" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35038,8 +34791,8 @@
 <object class="wxTextCtrl" name="MEMCC" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35052,8 +34805,8 @@
 <object class="wxTextCtrl" name="MEMCD" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35066,8 +34819,8 @@
 <object class="wxTextCtrl" name="MEMCE" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35080,8 +34833,8 @@
 <object class="wxTextCtrl" name="MEMCF" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35105,6 +34858,7 @@
 <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
 <border>2</border>
 <object class="wxStaticText" name="MEM_HEADERD">
+<size>22,-1d</size>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -35119,8 +34873,8 @@
 <object class="wxTextCtrl" name="MEMD0" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35133,8 +34887,8 @@
 <object class="wxTextCtrl" name="MEMD1" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35147,8 +34901,8 @@
 <object class="wxTextCtrl" name="MEMD2" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35161,8 +34915,8 @@
 <object class="wxTextCtrl" name="MEMD3" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35175,8 +34929,8 @@
 <object class="wxTextCtrl" name="MEMD4" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35189,8 +34943,8 @@
 <object class="wxTextCtrl" name="MEMD5" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35203,8 +34957,8 @@
 <object class="wxTextCtrl" name="MEMD6" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35217,8 +34971,8 @@
 <object class="wxTextCtrl" name="MEMD7" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35231,8 +34985,8 @@
 <object class="wxTextCtrl" name="MEMD8" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35245,8 +34999,8 @@
 <object class="wxTextCtrl" name="MEMD9" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35259,8 +35013,8 @@
 <object class="wxTextCtrl" name="MEMDA" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35273,8 +35027,8 @@
 <object class="wxTextCtrl" name="MEMDB" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35287,8 +35041,8 @@
 <object class="wxTextCtrl" name="MEMDC" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35301,8 +35055,8 @@
 <object class="wxTextCtrl" name="MEMDD" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35315,8 +35069,8 @@
 <object class="wxTextCtrl" name="MEMDE" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35329,8 +35083,8 @@
 <object class="wxTextCtrl" name="MEMDF" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35354,6 +35108,7 @@
 <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
 <border>2</border>
 <object class="wxStaticText" name="MEM_HEADERE">
+<size>22,-1d</size>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -35368,8 +35123,8 @@
 <object class="wxTextCtrl" name="MEME0" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35382,8 +35137,8 @@
 <object class="wxTextCtrl" name="MEME1" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35396,8 +35151,8 @@
 <object class="wxTextCtrl" name="MEME2" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35410,8 +35165,8 @@
 <object class="wxTextCtrl" name="MEME3" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35424,8 +35179,8 @@
 <object class="wxTextCtrl" name="MEME4" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35438,8 +35193,8 @@
 <object class="wxTextCtrl" name="MEME5" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35452,8 +35207,8 @@
 <object class="wxTextCtrl" name="MEME6" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35466,8 +35221,8 @@
 <object class="wxTextCtrl" name="MEME7" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35480,8 +35235,8 @@
 <object class="wxTextCtrl" name="MEME8" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35494,8 +35249,8 @@
 <object class="wxTextCtrl" name="MEME9" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35508,8 +35263,8 @@
 <object class="wxTextCtrl" name="MEMEA" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35522,8 +35277,8 @@
 <object class="wxTextCtrl" name="MEMEB" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35536,8 +35291,8 @@
 <object class="wxTextCtrl" name="MEMEC" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35550,8 +35305,8 @@
 <object class="wxTextCtrl" name="MEMED" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35564,8 +35319,8 @@
 <object class="wxTextCtrl" name="MEMEE" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35578,8 +35333,8 @@
 <object class="wxTextCtrl" name="MEMEF" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35603,6 +35358,7 @@
 <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
 <border>2</border>
 <object class="wxStaticText" name="MEM_HEADERF">
+<size>22,-1d</size>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -35617,8 +35373,8 @@
 <object class="wxTextCtrl" name="MEMF0" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35631,8 +35387,8 @@
 <object class="wxTextCtrl" name="MEMF1" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35645,8 +35401,8 @@
 <object class="wxTextCtrl" name="MEMF2" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35659,8 +35415,8 @@
 <object class="wxTextCtrl" name="MEMF3" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35673,8 +35429,8 @@
 <object class="wxTextCtrl" name="MEMF4" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35687,8 +35443,8 @@
 <object class="wxTextCtrl" name="MEMF5" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35701,8 +35457,8 @@
 <object class="wxTextCtrl" name="MEMF6" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35715,8 +35471,8 @@
 <object class="wxTextCtrl" name="MEMF7" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35729,8 +35485,8 @@
 <object class="wxTextCtrl" name="MEMF8" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35743,8 +35499,8 @@
 <object class="wxTextCtrl" name="MEMF9" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35757,8 +35513,8 @@
 <object class="wxTextCtrl" name="MEMFA" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35771,8 +35527,8 @@
 <object class="wxTextCtrl" name="MEMFB" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35785,8 +35541,8 @@
 <object class="wxTextCtrl" name="MEMFC" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35799,8 +35555,8 @@
 <object class="wxTextCtrl" name="MEMFD" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35813,8 +35569,8 @@
 <object class="wxTextCtrl" name="MEMFE" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>
@@ -35827,8 +35583,8 @@
 <object class="wxTextCtrl" name="MEMFF" subclass="MemEdit">
 <size>10,-1d</size>
 <font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
-<face>Courier New</face>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <bg>#E5E5E5</bg>

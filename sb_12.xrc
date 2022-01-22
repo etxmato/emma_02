@@ -212,7 +212,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
 <border>5</border>
 <object class="wxButton" name="OnlineBMStore">
 <font>
@@ -274,7 +274,7 @@
 <size>5,5</size>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>5</border>
 <object class="wxButton" name="OnlineAliasDel">
 <font>
@@ -289,7 +289,7 @@
 <size>5,5</size>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>5</border>
 <object class="wxButton" name="OnlineAliasStore">
 <font>
@@ -342,7 +342,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>5</border>
 <object class="wxButton" name="SBSave">
 <font>
@@ -386,7 +386,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
 <border>3</border>
 <object class="wxButton" name="SettingsRoot">
 <tooltip>Browse for COMX USB root directory</tooltip>
@@ -619,7 +619,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>5</border>
 <object class="wxButton" name="SBSave">
 <font>
@@ -959,7 +959,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW|wxALIGN_TOP|wxALL</flag>
 <border>8</border>
 <object class="wxButton" name="SBSave">
 <font>
@@ -1003,7 +1003,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="BackupFolder">
 <font>
@@ -1074,7 +1074,7 @@ Please note that this can NOT be undone, are you sure?</label>
 <size>65,5</size>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>5</border>
 <object class="wxButton" name="BackupYes">
 <font>

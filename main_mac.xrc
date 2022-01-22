@@ -30664,6 +30664,13 @@
                                                                                             <maxlength>4</maxlength>
                                                                                         </object>
                                                                                     </object>
+                                                                                    <object class="sizeritem">
+                                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                        <border>0</border>
+                                                                                        <object class="wxStaticText" name="DebugRight">
+                                                                                            <label></label>
+                                                                                        </object>
+                                                                                    </object>
                                                                                 </object>
                                                                             </object>
                                                                         </object>

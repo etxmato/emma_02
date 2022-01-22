@@ -248,7 +248,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW|wxALIGN_TOP|wxALL</flag>
 <border>8</border>
 <object class="wxButton" name="SBSave">
 <font>

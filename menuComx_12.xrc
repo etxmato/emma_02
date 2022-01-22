@@ -11,7 +11,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT</flag>
+<flag>wxGROW|wxALIGN_LEFT</flag>
 <border>3</border>
 <object class="wxButton" name="ID_BUTTON">
 <size>75,25</size>
@@ -28,7 +28,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
 <border>3</border>
 <object class="wxButton" name="Disk1Button">
 <tooltip>Browse for floppy disk 1 file</tooltip>
@@ -89,7 +89,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
 <border>3</border>
 <object class="wxButton" name="Disk2Button">
 <tooltip>Browse for floppy disk 2 file</tooltip>
@@ -150,7 +150,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
 <border>3</border>
 <object class="wxButton" name="CasButton">
 <tooltip>Browse for cassette file</tooltip>
@@ -482,7 +482,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>4</border>
 <object class="wxButton" name="OK">
 <size>75,25</size>

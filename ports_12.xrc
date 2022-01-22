@@ -8,7 +8,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="ID_BUTTON">
 <font>
@@ -2143,7 +2143,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxSpinCtrl" name="IdeTracks">
-<size>70,-1</size>
+<size>60,-1</size>
 <tooltip>Specify number of tracks for virtual IDE drives</tooltip>
 <font>
 <size>12</size>
@@ -2167,7 +2167,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxSpinCtrl" name="IdeHeads">
-<size>70,-1</size>
+<size>60,-1</size>
 <tooltip>Specify number of geads for virtual IDE drives</tooltip>
 <font>
 <size>12</size>
@@ -2191,7 +2191,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxSpinCtrl" name="IdeSectors">
-<size>70,-1</size>
+<size>60,-1</size>
 <tooltip>Specify number of sectors for virtual IDE drives</tooltip>
 <font>
 <size>12</size>
@@ -2417,7 +2417,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
 <border>1</border>
 <object class="wxButton" name="DevicePorts_Save">
 <size>-1,23</size>

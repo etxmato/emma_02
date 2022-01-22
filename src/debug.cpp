@@ -1091,7 +1091,7 @@ DebugWindow::DebugWindow(const wxString& title, const wxPoint& pos, const wxSize
 #if defined(__WXMAC__)
     wxFont exactFont(fontSize_+2, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 #else
-    wxFont exactFont(10, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+    wxFont exactFont(fontSize_+1, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 #endif
     wxSize charSize = exactFont.GetPixelSize();
     lineSpace_ = charSize.y - 2;
@@ -6943,7 +6943,7 @@ void DebugWindow::onDebugSaveDump(wxCommandEvent&WXUNUSED(event))
 
     if ((ext == "bin") || (ext == "rom") || (ext == "ram") || (ext == "cos") || (ext == "c8") || (ext == "ch8") || (ext == "c8x") || (ext == "ch10"))
 	{
-		outputFile.Create(fileName);
+        outputFile.Create(fileName, true);
 		if (memoryDisplay_ == VIP2KSEQUENCER)
 		{
 			for (long address = 0; address <= 0x7ff; address++)
@@ -7007,7 +7007,13 @@ void DebugWindow::onDebugSaveDump(wxCommandEvent&WXUNUSED(event))
         }
         else
         {
-            outputTextFile.Create(fileName);
+            if (wxFile::Exists(fileName))
+            {
+                outputTextFile.Open(fileName);
+                outputTextFile.Clear();
+            }
+            else
+                outputTextFile.Create(fileName);
             addr = startAddress;
             if (memoryDisplay_ == VIP2KSEQUENCER)
             {
@@ -8053,8 +8059,8 @@ void DebugWindow::directAss()
 	wxFont exactFont(fontSize_+2, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 	wxFont exactFontBold(fontSize_+2, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD );
 #else
-	wxFont exactFont(10, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
-	wxFont exactFontBold(10, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD );
+	wxFont exactFont(fontSize_+1, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+	wxFont exactFontBold(fontSize_+1, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD );
 #endif
     
     int numberOfDebugLines = numberOfDebugLines_;
@@ -14097,7 +14103,7 @@ void DebugWindow::ShowCharacters(Word address, int y)
 #if defined(__WXMAC__)
 	wxFont exactFont(fontSize_+2, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 #else
-	wxFont exactFont(7, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+	wxFont exactFont(fontSize_+1, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 #endif
 
 	for (int j=0; j<16; j++)
@@ -14137,7 +14143,17 @@ void DebugWindow::ShowCharacters(Word address, int y)
 				offset = 3;
 			if (byteValue == 0x54)
 				offset = 2;*/
-			dcLine.DrawText(character, (j*charWidth_), 1);
+#if defined(__WXMAC__)
+            if (fontSize_ == 11)
+                dcLine.DrawText(character, (j*charWidth_), 1);
+            else
+                dcLine.DrawText(character, (j*charWidth_), -1);
+#else
+            if (fontSize_ == 9)
+                dcLine.DrawText(character, (j*charWidth_), 1);
+            else
+                dcLine.DrawText(character, (j*charWidth_), -2);
+#endif
 		}
 	}
 

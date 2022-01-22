@@ -270,6 +270,65 @@
 		991199431E92ECC30074ADAA /* splash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = splash.h; path = src/splash.h; sourceTree = "<group>"; };
 		9911BF341F477D5000B795BB /* Configurations Windows */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Configurations Windows"; sourceTree = "<group>"; };
 		9911BF351F477D6200B795BB /* Configurations */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Configurations; sourceTree = "<group>"; };
+		991A43AF279C31B20049C544 /* elementary_11.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = elementary_11.ini; sourceTree = "<group>"; };
+		991A43B0279C31B20049C544 /* elementary_12.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = elementary_12.ini; sourceTree = "<group>"; };
+		991A43B1279C31CA0049C544 /* debian_12.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = debian_12.ini; sourceTree = "<group>"; };
+		991A43B2279C31CA0049C544 /* debian_11.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = debian_11.ini; sourceTree = "<group>"; };
+		991A43B3279C31D80049C544 /* fedora_11.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = fedora_11.ini; sourceTree = "<group>"; };
+		991A43B4279C31D80049C544 /* fedora_12.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = fedora_12.ini; sourceTree = "<group>"; };
+		991A43B5279C31E40049C544 /* kali_12.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = kali_12.ini; sourceTree = "<group>"; };
+		991A43B6279C31E40049C544 /* kali_11.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = kali_11.ini; sourceTree = "<group>"; };
+		991A43B7279C31F00049C544 /* linuxdefault_12.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = linuxdefault_12.ini; sourceTree = "<group>"; };
+		991A43B8279C31F00049C544 /* linuxdefault_11.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = linuxdefault_11.ini; sourceTree = "<group>"; };
+		991A43B9279C31FB0049C544 /* linuxmint_11.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = linuxmint_11.ini; sourceTree = "<group>"; };
+		991A43BA279C31FB0049C544 /* linuxmint_12.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = linuxmint_12.ini; sourceTree = "<group>"; };
+		991A43BB279C320F0049C544 /* suse_12.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = suse_12.ini; sourceTree = "<group>"; };
+		991A43BC279C320F0049C544 /* suse_11.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = suse_11.ini; sourceTree = "<group>"; };
+		991A43BD279C321D0049C544 /* ubuntu.2_12.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = ubuntu.2_12.ini; sourceTree = "<group>"; };
+		991A43BE279C321E0049C544 /* ubuntu.4_11.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = ubuntu.4_11.ini; sourceTree = "<group>"; };
+		991A43BF279C321E0049C544 /* ubuntu.4_12.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = ubuntu.4_12.ini; sourceTree = "<group>"; };
+		991A43C0279C321E0049C544 /* ubuntu.3_11.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = ubuntu.3_11.ini; sourceTree = "<group>"; };
+		991A43C1279C321E0049C544 /* ubuntu.3_12.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = ubuntu.3_12.ini; sourceTree = "<group>"; };
+		991A43C2279C321E0049C544 /* ubuntu.2_11.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = ubuntu.2_11.ini; sourceTree = "<group>"; };
+		991A43C3279C322D0049C544 /* winxp_12.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = winxp_12.ini; sourceTree = "<group>"; };
+		991A43C4279C322D0049C544 /* win10_11.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = win10_11.ini; sourceTree = "<group>"; };
+		991A43C5279C322D0049C544 /* winxp_11.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = winxp_11.ini; sourceTree = "<group>"; };
+		991A43C6279C322D0049C544 /* win2000_12.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = win2000_12.ini; sourceTree = "<group>"; };
+		991A43C7279C322D0049C544 /* win10_12.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = win10_12.ini; sourceTree = "<group>"; };
+		991A43C8279C322E0049C544 /* win2000_11.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = win2000_11.ini; sourceTree = "<group>"; };
+		991A43C9279C322E0049C544 /* win8_11.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = win8_11.ini; sourceTree = "<group>"; };
+		991A43CA279C322E0049C544 /* win8_12.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = win8_12.ini; sourceTree = "<group>"; };
+		991A43CB279C323E0049C544 /* zorin_11.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = zorin_11.ini; sourceTree = "<group>"; };
+		991A43CC279C323E0049C544 /* zorin_12.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = zorin_12.ini; sourceTree = "<group>"; };
+		991A43CE279C41940049C544 /* main_12.xrc */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = main_12.xrc; sourceTree = "<group>"; };
+		991A43CF279C41C40049C544 /* about_12.xrc */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = about_12.xrc; sourceTree = "<group>"; };
+		991A43D0279C41CC0049C544 /* cassette_12.xrc */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = cassette_12.xrc; sourceTree = "<group>"; };
+		991A43D1279C41D50049C544 /* colour_12.xrc */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = colour_12.xrc; sourceTree = "<group>"; };
+		991A43D2279C41DC0049C544 /* datadir_12.xrc */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = datadir_12.xrc; sourceTree = "<group>"; };
+		991A43D3279C41E30049C544 /* diag_12.xrc */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = diag_12.xrc; sourceTree = "<group>"; };
+		991A43D4279C566D0049C544 /* configuration_12.xrc */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = configuration_12.xrc; sourceTree = "<group>"; };
+		991A43D5279C567B0049C544 /* eprom_12.xrc */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = eprom_12.xrc; sourceTree = "<group>"; };
+		991A43D6279C56870049C544 /* functionkey_12.xrc */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = functionkey_12.xrc; sourceTree = "<group>"; };
+		991A43D7279C56920049C544 /* keymap_12.xrc */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = keymap_12.xrc; sourceTree = "<group>"; };
+		991A43D8279C56A00049C544 /* keymap_tmc_12.xrc */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = keymap_tmc_12.xrc; sourceTree = "<group>"; };
+		991A43D9279C56B00049C544 /* menu_Cas_Mem_12.xrc */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = menu_Cas_Mem_12.xrc; sourceTree = "<group>"; };
+		991A43DA279C56B90049C544 /* menuComx_12.xrc */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = menuComx_12.xrc; sourceTree = "<group>"; };
+		991A43DB279C56C20049C544 /* menuCosmicos_12.xrc */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = menuCosmicos_12.xrc; sourceTree = "<group>"; };
+		991A43DC279C56CC0049C544 /* menuElf_12.xrc */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = menuElf_12.xrc; sourceTree = "<group>"; };
+		991A43DE279CA7870049C544 /* menuElf2K_12.xrc */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = menuElf2K_12.xrc; sourceTree = "<group>"; };
+		991A43DF279CA7910049C544 /* menuFred_12.xrc */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = menuFred_12.xrc; sourceTree = "<group>"; };
+		991A43E0279CA79A0049C544 /* menuMCDS_12.xrc */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = menuMCDS_12.xrc; sourceTree = "<group>"; };
+		991A43E1279CA7A20049C544 /* menuMembership_12.xrc */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = menuMembership_12.xrc; sourceTree = "<group>"; };
+		991A43E2279CA7A90049C544 /* menuMS2000_14.xrc */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = menuMS2000_14.xrc; sourceTree = "<group>"; };
+		991A43E3279CA7B20049C544 /* menuPecom_12.xrc */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = menuPecom_12.xrc; sourceTree = "<group>"; };
+		991A43E4279CA7B80049C544 /* menuTMC600_12.xrc */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = menuTMC600_12.xrc; sourceTree = "<group>"; };
+		991A43E5279CA7BF0049C544 /* menuVelf_12.xrc */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = menuVelf_12.xrc; sourceTree = "<group>"; };
+		991A43E6279CA7C90049C544 /* menuVip_12.xrc */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = menuVip_12.xrc; sourceTree = "<group>"; };
+		991A43E7279CA7D10049C544 /* microsetup_12.xrc */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = microsetup_12.xrc; sourceTree = "<group>"; };
+		991A43E8279CA7D90049C544 /* ports_12.xrc */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = ports_12.xrc; sourceTree = "<group>"; };
+		991A43E9279CA7E50049C544 /* sb_12.xrc */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = sb_12.xrc; sourceTree = "<group>"; };
+		991A43EA279CA7F10049C544 /* splash_12.xrc */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = splash_12.xrc; sourceTree = "<group>"; };
+		991A43EB279CA7FA0049C544 /* vt_12.xrc */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = vt_12.xrc; sourceTree = "<group>"; };
 		991B060E21694C0A0061D86C /* vip2k.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = vip2k.cpp; path = src/vip2k.cpp; sourceTree = "<group>"; };
 		991B060F21694C0A0061D86C /* vip2k.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = vip2k.h; path = src/vip2k.h; sourceTree = "<group>"; };
 		991B061121694CDD0061D86C /* guivip2k.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = guivip2k.cpp; path = src/guivip2k.cpp; sourceTree = "<group>"; };
@@ -513,10 +572,6 @@
 		999DE99C2066EA7E005B3A29 /* studioiv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = studioiv.h; path = src/studioiv.h; sourceTree = "<group>"; };
 		999DE99D2066EA7E005B3A29 /* studioiv.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = studioiv.cpp; path = src/studioiv.cpp; sourceTree = "<group>"; wrapsLines = 0; };
 		999F67A224B8975A00863075 /* amvbas.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = amvbas.syntax; sourceTree = "<group>"; };
-		99A307AC23BE9A0C00DE085B /* ubuntu.4.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = ubuntu.4.ini; sourceTree = "<group>"; };
-		99A307AD23BE9A1500DE085B /* ubuntu.3.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = ubuntu.3.ini; sourceTree = "<group>"; };
-		99A307AE23BE9A2A00DE085B /* ubuntu.2.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = ubuntu.2.ini; sourceTree = "<group>"; };
-		99A307AF23BE9A4100DE085B /* debian.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = debian.ini; sourceTree = "<group>"; };
 		99A3115F21A75B98003CB022 /* Chip8Vip2K.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Chip8Vip2K.syntax; sourceTree = "<group>"; };
 		99AA43FE20270FAD00474FB4 /* libserialport.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libserialport.a; path = /Users/etxmato/workspace/emma_02/../../../../usr/local/lib/libserialport.a; sourceTree = "<absolute>"; };
 		99ACA8591F42330C00788104 /* Emma 02 vc14.sln */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Emma 02 vc14.sln"; sourceTree = "<group>"; };
@@ -529,7 +584,6 @@
 		99AD0D4B242FF553009E9515 /* guiuc1800.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = guiuc1800.h; path = src/guiuc1800.h; sourceTree = "<group>"; };
 		99AD0D4C242FF553009E9515 /* guiuc1800.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = guiuc1800.cpp; path = src/guiuc1800.cpp; sourceTree = "<group>"; };
 		99B2AB7E27863D4C00C73EB9 /* main_11.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = main_11.xrc; sourceTree = "<group>"; };
-		99B2AB8127863D5600C73EB9 /* main_14.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = main_14.xrc; sourceTree = "<group>"; };
 		99B2AB8527863D7F00C73EB9 /* about_11.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = about_11.xrc; sourceTree = "<group>"; };
 		99B2AB8627863D7F00C73EB9 /* about_14.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = about_14.xrc; sourceTree = "<group>"; };
 		99B2AB8B27863DB800C73EB9 /* cassette_11.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = cassette_11.xrc; sourceTree = "<group>"; };
@@ -603,21 +657,12 @@
 		99C3BFE71C0CF400006E3D82 /* guivelf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = guivelf.h; path = src/guivelf.h; sourceTree = "<group>"; };
 		99C567BB24CC4DFB00F11A84 /* am4kbas.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = am4kbas.syntax; sourceTree = "<group>"; };
 		99C9EABA2145C1FC00C1EA03 /* Test_Word.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Test_Word.syntax; sourceTree = "<group>"; };
-		99CA2F7F23D262C500A268C4 /* suse.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = suse.ini; sourceTree = "<group>"; };
 		99CC30B721DBA0F800B04C7F /* Emma 02 mac.pjd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Emma 02 mac.pjd"; sourceTree = "<group>"; };
-		99CE8B4B2384626700DBF761 /* linuxdefault.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = linuxdefault.ini; sourceTree = "<group>"; };
-		99CE8B4C2384626800DBF761 /* win2000.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = win2000.ini; sourceTree = "<group>"; };
-		99CE8B4D2384626800DBF761 /* winxp.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = winxp.ini; sourceTree = "<group>"; };
-		99CE8B512384626A00DBF761 /* fedora.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = fedora.ini; sourceTree = "<group>"; };
-		99CE8B522384626A00DBF761 /* win10.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = win10.ini; sourceTree = "<group>"; };
-		99CE8B532384626A00DBF761 /* win8.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = win8.ini; sourceTree = "<group>"; };
-		99CE8B542384626B00DBF761 /* linuxmint.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = linuxmint.ini; sourceTree = "<group>"; };
 		99D5FCD3211C938E001F4391 /* Chip8X.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Chip8X.syntax; sourceTree = "<group>"; };
 		99D5FCD4211C938E001F4391 /* ChipEti.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ChipEti.syntax; sourceTree = "<group>"; };
 		99D5FCD5211C938E001F4391 /* Chip8.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Chip8.syntax; sourceTree = "<group>"; };
 		99D5FCD6211C938E001F4391 /* ST2.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ST2.syntax; sourceTree = "<group>"; };
 		99D6218F211B402200E1A471 /* ST4.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ST4.syntax; sourceTree = "<group>"; };
-		99D7879323D5049E00EE2FBD /* kali.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = kali.ini; sourceTree = "<group>"; };
 		99D92E72211AA0AD007D868E /* CARDTRAN.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CARDTRAN.syntax; sourceTree = "<group>"; };
 		99D9441822FB2DA8007C384A /* guicdp18s600.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = guicdp18s600.h; path = src/guicdp18s600.h; sourceTree = "<group>"; };
 		99D9441922FB2DA8007C384A /* guicdp18s600.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = guicdp18s600.cpp; path = src/guicdp18s600.cpp; sourceTree = "<group>"; };
@@ -654,8 +699,6 @@
 		99F8CF00211A155E002F02C6 /* FEL-1.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "FEL-1.syntax"; sourceTree = "<group>"; };
 		99F8CF02211A1567002F02C6 /* GPL-4.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "GPL-4.syntax"; sourceTree = "<group>"; };
 		99FA47C3211E0DC000C399AE /* Chip8Studio.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Chip8Studio.syntax; sourceTree = "<group>"; };
-		99FCB0A223D39FF30018C4A4 /* elementary.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = elementary.ini; sourceTree = "<group>"; };
-		99FCB0A323D3A8BF0018C4A4 /* zorin.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = zorin.ini; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -733,64 +776,92 @@
 				99D5FCD3211C938E001F4391 /* Chip8X.syntax */,
 				99D5FCD4211C938E001F4391 /* ChipEti.syntax */,
 				99B2AB8527863D7F00C73EB9 /* about_11.xrc */,
+				991A43CF279C41C40049C544 /* about_12.xrc */,
 				99B2AB8627863D7F00C73EB9 /* about_14.xrc */,
 				99B2AB8B27863DB800C73EB9 /* cassette_11.xrc */,
+				991A43D0279C41CC0049C544 /* cassette_12.xrc */,
 				99B2AB8C27863DB800C73EB9 /* cassette_14.xrc */,
 				99B2AB9227863DC600C73EB9 /* colour_11.xrc */,
+				991A43D1279C41D50049C544 /* colour_12.xrc */,
 				99B2AB9127863DC600C73EB9 /* colour_14.xrc */,
 				99B2AB9827863DD400C73EB9 /* configuration_11.xrc */,
+				991A43D4279C566D0049C544 /* configuration_12.xrc */,
 				99B2AB9727863DD300C73EB9 /* configuration_14.xrc */,
 				99B2AB9D27863DE300C73EB9 /* datadir_11.xrc */,
+				991A43D2279C41DC0049C544 /* datadir_12.xrc */,
 				99B2AB9E27863DE300C73EB9 /* datadir_14.xrc */,
 				99B2ABA427863DF000C73EB9 /* diag_11.xrc */,
+				991A43D3279C41E30049C544 /* diag_12.xrc */,
 				99B2ABA327863DF000C73EB9 /* diag_14.xrc */,
 				99B2ABA927863DFF00C73EB9 /* eprom_11.xrc */,
+				991A43D5279C567B0049C544 /* eprom_12.xrc */,
 				99B2ABAA27863DFF00C73EB9 /* eprom_14.xrc */,
 				99B2ABAF27863E1200C73EB9 /* functionkey_11.xrc */,
+				991A43D6279C56870049C544 /* functionkey_12.xrc */,
 				99B2ABB027863E1200C73EB9 /* functionkey_14.xrc */,
 				99B2ABB627863E1E00C73EB9 /* keymap_11.xrc */,
+				991A43D7279C56920049C544 /* keymap_12.xrc */,
 				99B2ABB527863E1E00C73EB9 /* keymap_14.xrc */,
 				99B2ABBB27863E2400C73EB9 /* keymap_tmc_11.xrc */,
+				991A43D8279C56A00049C544 /* keymap_tmc_12.xrc */,
 				99B2ABBA27863E2400C73EB9 /* keymap_tmc_14.xrc */,
 				99B2AB7E27863D4C00C73EB9 /* main_11.xrc */,
-				99B2AB8127863D5600C73EB9 /* main_14.xrc */,
+				991A43CE279C41940049C544 /* main_12.xrc */,
 				99952FE0277E5CB70068CD27 /* main_mac_11.xrc */,
 				99952FDD277E5CAF0068CD27 /* main_mac_14.xrc */,
 				99B2ABC027863E4300C73EB9 /* menu_Cas_Mem_11.xrc */,
+				991A43D9279C56B00049C544 /* menu_Cas_Mem_12.xrc */,
 				99B2ABC127863E4400C73EB9 /* menu_Cas_Mem_14.xrc */,
 				99B2ABC627863E4C00C73EB9 /* menuComx_11.xrc */,
+				991A43DA279C56B90049C544 /* menuComx_12.xrc */,
 				99B2ABC527863E4C00C73EB9 /* menuComx_14.xrc */,
 				99B2ABCB27863E5C00C73EB9 /* menuCosmicos_11.xrc */,
+				991A43DB279C56C20049C544 /* menuCosmicos_12.xrc */,
 				99B2ABCC27863E5C00C73EB9 /* menuCosmicos_14.xrc */,
 				99B2ABD027863E6200C73EB9 /* menuElf_11.xrc */,
+				991A43DC279C56CC0049C544 /* menuElf_12.xrc */,
 				99B2ABD127863E6200C73EB9 /* menuElf_14.xrc */,
 				99B2ABD627863E6E00C73EB9 /* menuElf2K_11.xrc */,
+				991A43DE279CA7870049C544 /* menuElf2K_12.xrc */,
 				99B2ABD727863E6F00C73EB9 /* menuElf2K_14.xrc */,
 				99B2ABDB27863E7600C73EB9 /* menuFred_11.xrc */,
+				991A43DF279CA7910049C544 /* menuFred_12.xrc */,
 				99B2ABDC27863E7600C73EB9 /* menuFred_14.xrc */,
 				99B2ABE227863E8200C73EB9 /* menuMCDS_11.xrc */,
+				991A43E0279CA79A0049C544 /* menuMCDS_12.xrc */,
 				99B2ABE127863E8200C73EB9 /* menuMCDS_14.xrc */,
 				99B2ABE727863E8800C73EB9 /* menuMembership_11.xrc */,
+				991A43E1279CA7A20049C544 /* menuMembership_12.xrc */,
 				99B2ABE627863E8800C73EB9 /* menuMembership_14.xrc */,
 				99B2ABED27863E9500C73EB9 /* menuMS2000_11.xrc */,
 				99B2ABEC27863E9500C73EB9 /* menuMS2000_14.xrc */,
+				991A43E2279CA7A90049C544 /* menuMS2000_14.xrc */,
 				99B2ABF227863E9C00C73EB9 /* menuPecom_11.xrc */,
+				991A43E3279CA7B20049C544 /* menuPecom_12.xrc */,
 				99B2ABF127863E9B00C73EB9 /* menuPecom_14.xrc */,
 				99B2ABF727863EA900C73EB9 /* menuTMC600_11.xrc */,
+				991A43E4279CA7B80049C544 /* menuTMC600_12.xrc */,
 				99B2ABF827863EA900C73EB9 /* menuTMC600_14.xrc */,
 				99B2ABFC27863EB000C73EB9 /* menuVelf_11.xrc */,
+				991A43E5279CA7BF0049C544 /* menuVelf_12.xrc */,
 				99B2ABFD27863EB000C73EB9 /* menuVelf_14.xrc */,
 				99B2AC0227863EBF00C73EB9 /* menuVip_11.xrc */,
+				991A43E6279CA7C90049C544 /* menuVip_12.xrc */,
 				99B2AC0327863EBF00C73EB9 /* menuVip_14.xrc */,
 				99B2AC0727863EC600C73EB9 /* microsetup_11.xrc */,
+				991A43E7279CA7D10049C544 /* microsetup_12.xrc */,
 				99B2AC0827863EC600C73EB9 /* microsetup_14.xrc */,
 				99B2AC0D27863ED300C73EB9 /* ports_11.xrc */,
+				991A43E8279CA7D90049C544 /* ports_12.xrc */,
 				99B2AC0E27863ED300C73EB9 /* ports_14.xrc */,
 				99B2AC1227863EDA00C73EB9 /* sb_11.xrc */,
+				991A43E9279CA7E50049C544 /* sb_12.xrc */,
 				99B2AC1327863EDA00C73EB9 /* sb_14.xrc */,
 				99B2AC1827863EE600C73EB9 /* splash_11.xrc */,
+				991A43EA279CA7F10049C544 /* splash_12.xrc */,
 				99B2AC1927863EE600C73EB9 /* splash_14.xrc */,
 				99B2AC1D27863EEB00C73EB9 /* vt_11.xrc */,
+				991A43EB279CA7FA0049C544 /* vt_12.xrc */,
 				99B2AC1E27863EEC00C73EB9 /* vt_14.xrc */,
 				9943A6691F3E42F2001F0222 /* Emma 02.rc */,
 				99E6EA951F40E0AA0030F125 /* Emma 02 vc9.sln */,
@@ -805,23 +876,38 @@
 				99F3746F1CADBBC2000DA615 /* README-SDL.txt */,
 				99F374701CADBBC2000DA615 /* LGPL.txt */,
 				997646EA1A61D27700FB9B33 /* Info_cocoa.plist */,
-				99FCB0A223D39FF30018C4A4 /* elementary.ini */,
-				99A307AF23BE9A4100DE085B /* debian.ini */,
-				99CE8B512384626A00DBF761 /* fedora.ini */,
-				99D7879323D5049E00EE2FBD /* kali.ini */,
-				99CE8B4B2384626700DBF761 /* linuxdefault.ini */,
-				99CE8B542384626B00DBF761 /* linuxmint.ini */,
+				991A43B2279C31CA0049C544 /* debian_11.ini */,
+				991A43B1279C31CA0049C544 /* debian_12.ini */,
+				991A43AF279C31B20049C544 /* elementary_11.ini */,
+				991A43B0279C31B20049C544 /* elementary_12.ini */,
+				991A43B3279C31D80049C544 /* fedora_11.ini */,
+				991A43B4279C31D80049C544 /* fedora_12.ini */,
+				991A43B6279C31E40049C544 /* kali_11.ini */,
+				991A43B5279C31E40049C544 /* kali_12.ini */,
+				991A43B8279C31F00049C544 /* linuxdefault_11.ini */,
+				991A43B7279C31F00049C544 /* linuxdefault_12.ini */,
+				991A43B9279C31FB0049C544 /* linuxmint_11.ini */,
+				991A43BA279C31FB0049C544 /* linuxmint_12.ini */,
 				99575CBD278795EA00ED912A /* osx_11.ini */,
 				99575CBE278795EA00ED912A /* osx_14.ini */,
-				99CA2F7F23D262C500A268C4 /* suse.ini */,
-				99A307AE23BE9A2A00DE085B /* ubuntu.2.ini */,
-				99A307AD23BE9A1500DE085B /* ubuntu.3.ini */,
-				99A307AC23BE9A0C00DE085B /* ubuntu.4.ini */,
-				99CE8B532384626A00DBF761 /* win8.ini */,
-				99CE8B522384626A00DBF761 /* win10.ini */,
-				99CE8B4C2384626800DBF761 /* win2000.ini */,
-				99CE8B4D2384626800DBF761 /* winxp.ini */,
-				99FCB0A323D3A8BF0018C4A4 /* zorin.ini */,
+				991A43BC279C320F0049C544 /* suse_11.ini */,
+				991A43BB279C320F0049C544 /* suse_12.ini */,
+				991A43C2279C321E0049C544 /* ubuntu.2_11.ini */,
+				991A43BD279C321D0049C544 /* ubuntu.2_12.ini */,
+				991A43C0279C321E0049C544 /* ubuntu.3_11.ini */,
+				991A43C1279C321E0049C544 /* ubuntu.3_12.ini */,
+				991A43BE279C321E0049C544 /* ubuntu.4_11.ini */,
+				991A43BF279C321E0049C544 /* ubuntu.4_12.ini */,
+				991A43C9279C322E0049C544 /* win8_11.ini */,
+				991A43CA279C322E0049C544 /* win8_12.ini */,
+				991A43C4279C322D0049C544 /* win10_11.ini */,
+				991A43C7279C322D0049C544 /* win10_12.ini */,
+				991A43C8279C322E0049C544 /* win2000_11.ini */,
+				991A43C6279C322D0049C544 /* win2000_12.ini */,
+				991A43C5279C322D0049C544 /* winxp_11.ini */,
+				991A43C3279C322D0049C544 /* winxp_12.ini */,
+				991A43CB279C323E0049C544 /* zorin_11.ini */,
+				991A43CC279C323E0049C544 /* zorin_12.ini */,
 				996FC5811F8ABD3F00E08812 /* Emma 02.pkgproj */,
 				996FC5821F8ABDE800E08812 /* introduction.rtf */,
 				99F3746A1CADBB93000DA615 /* copyright.rtf */,

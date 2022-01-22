@@ -11,7 +11,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
 <border>5</border>
 <object class="wxButton" name="ID_BUTTON">
 <font>
@@ -47,7 +47,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>5</border>
 <object class="wxButton" name="InButton">
 <font>
@@ -96,7 +96,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKey1">
 <size>80,-1</size>
@@ -125,7 +125,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKey2">
 <size>80,-1</size>
@@ -155,7 +155,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKey3">
 <size>80,-1</size>
@@ -185,7 +185,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKeyC">
 <size>80,-1</size>
@@ -222,7 +222,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKey4">
 <size>80,-1</size>
@@ -251,7 +251,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKey5">
 <size>80,-1</size>
@@ -281,7 +281,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKey6">
 <size>80,-1</size>
@@ -311,7 +311,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKeyD">
 <size>80,-1</size>
@@ -348,7 +348,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKey7">
 <size>80,-1</size>
@@ -377,7 +377,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKey8">
 <size>80,-1</size>
@@ -407,7 +407,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKey9">
 <size>80,-1</size>
@@ -437,7 +437,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKeyE">
 <size>80,-1</size>
@@ -474,7 +474,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKeyA">
 <size>80,-1</size>
@@ -503,7 +503,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKey0">
 <size>80,-1</size>
@@ -533,7 +533,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKeyB">
 <size>80,-1</size>
@@ -563,7 +563,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKeyF">
 <size>80,-1</size>
@@ -586,7 +586,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>3</border>
 <object class="wxButton" name="TinyBASIC">
 <font>
@@ -597,7 +597,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>3</border>
 <object class="wxButton" name="HexChar">
 <font>
@@ -607,7 +607,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>3</border>
 <object class="wxButton" name="HexLocation">
 <font>
@@ -891,7 +891,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_BOTTOM</flag>
+<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALIGN_BOTTOM</flag>
 <border>3</border>
 <object class="wxButton" name="HexSwitchPlayer">
 <font>
@@ -919,7 +919,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>3</border>
 <object class="wxButton" name="HexSwitchSet2">
 <font>
@@ -929,7 +929,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>3</border>
 <object class="wxButton" name="HexSwitchPad">
 <font>
@@ -946,7 +946,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>3</border>
 <object class="wxButton" name="HexSave">
 <font>
@@ -980,7 +980,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
 <border>5</border>
 <object class="wxButton" name="ID_BUTTON">
 <font>
@@ -1006,7 +1006,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="InButton">
 <font>
@@ -1055,7 +1055,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKeyC">
 <size>80,-1</size>
@@ -1085,7 +1085,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKeyD">
 <size>80,-1</size>
@@ -1115,7 +1115,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKeyE">
 <size>80,-1</size>
@@ -1145,7 +1145,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKeyF">
 <size>80,-1</size>
@@ -1182,7 +1182,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKey8">
 <size>80,-1</size>
@@ -1212,7 +1212,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKey9">
 <size>80,-1</size>
@@ -1242,7 +1242,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKeyA">
 <size>80,-1</size>
@@ -1272,7 +1272,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKeyB">
 <size>80,-1</size>
@@ -1309,7 +1309,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKey4">
 <size>80,-1</size>
@@ -1339,7 +1339,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKey5">
 <size>80,-1</size>
@@ -1369,7 +1369,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKey6">
 <size>80,-1</size>
@@ -1399,7 +1399,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKey7">
 <size>80,-1</size>
@@ -1436,7 +1436,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKey0">
 <size>80,-1</size>
@@ -1466,7 +1466,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKey1">
 <size>80,-1</size>
@@ -1496,7 +1496,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKey2">
 <size>80,-1</size>
@@ -1526,7 +1526,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKey3">
 <size>80,-1</size>
@@ -1549,7 +1549,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>3</border>
 <object class="wxButton" name="HexChar">
 <font>
@@ -1559,7 +1559,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>3</border>
 <object class="wxButton" name="HexLocation">
 <font>
@@ -1843,7 +1843,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_BOTTOM</flag>
+<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALIGN_BOTTOM</flag>
 <border>3</border>
 <object class="wxButton" name="HexSwitchPlayer">
 <font>
@@ -1871,7 +1871,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>3</border>
 <object class="wxButton" name="HexSwitchSet1">
 <font>
@@ -1888,7 +1888,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexSave">
 <font>
@@ -1912,7 +1912,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
 <border>5</border>
 <object class="wxButton" name="ID_BUTTON">
 <font>
@@ -1969,7 +1969,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKey1">
 <size>80,-1</size>
@@ -1999,7 +1999,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKey2">
 <size>80,-1</size>
@@ -2029,7 +2029,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKey3">
 <size>80,-1</size>
@@ -2066,7 +2066,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKey4">
 <size>80,-1</size>
@@ -2096,7 +2096,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKey5">
 <size>80,-1</size>
@@ -2126,7 +2126,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKey6">
 <size>80,-1</size>
@@ -2163,7 +2163,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKey7">
 <size>80,-1</size>
@@ -2193,7 +2193,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKey8">
 <size>80,-1</size>
@@ -2223,7 +2223,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKey9">
 <size>80,-1</size>
@@ -2260,7 +2260,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKey0">
 <size>80,-1</size>
@@ -2283,7 +2283,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>3</border>
 <object class="wxButton" name="StudioNoNumPad">
 <size>-1,25</size>
@@ -2295,7 +2295,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>3</border>
 <object class="wxButton" name="StudioChar">
 <font>
@@ -2305,7 +2305,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>3</border>
 <object class="wxButton" name="StudioLocation">
 <font>
@@ -2612,7 +2612,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>3</border>
 <object class="wxButton" name="StudioSwitchSet">
 <font>
@@ -2622,7 +2622,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>3</border>
 <object class="wxButton" name="StudioSwitchPad">
 <font>
@@ -2639,7 +2639,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>3</border>
 <object class="wxButton" name="HexSave">
 <font>
@@ -2673,7 +2673,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
 <border>5</border>
 <object class="wxButton" name="ID_BUTTON">
 <font>
@@ -2700,7 +2700,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="InButton">
 <font>
@@ -2750,7 +2750,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKey1">
 <size>80,-1</size>
@@ -2780,7 +2780,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKey2">
 <size>80,-1</size>
@@ -2810,7 +2810,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKey3">
 <size>80,-1</size>
@@ -2840,7 +2840,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKeyF">
 <size>80,-1</size>
@@ -2877,7 +2877,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKey4">
 <size>80,-1</size>
@@ -2907,7 +2907,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKey5">
 <size>80,-1</size>
@@ -2937,7 +2937,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKey6">
 <size>80,-1</size>
@@ -2967,7 +2967,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKeyE">
 <size>80,-1</size>
@@ -3004,7 +3004,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKey7">
 <size>80,-1</size>
@@ -3034,7 +3034,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKey8">
 <size>80,-1</size>
@@ -3064,7 +3064,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKey9">
 <size>80,-1</size>
@@ -3094,7 +3094,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKeyD">
 <size>80,-1</size>
@@ -3131,7 +3131,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKey0">
 <size>80,-1</size>
@@ -3161,7 +3161,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKeyA">
 <size>80,-1</size>
@@ -3191,7 +3191,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKeyB">
 <size>80,-1</size>
@@ -3221,7 +3221,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKeyC">
 <size>80,-1</size>
@@ -3244,7 +3244,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>3</border>
 <object class="wxButton" name="HexChar">
 <font>
@@ -3254,7 +3254,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>3</border>
 <object class="wxButton" name="HexLocation">
 <font>
@@ -3414,7 +3414,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_BOTTOM</flag>
+<flag>wxGROW|wxALIGN_BOTTOM</flag>
 <border>0</border>
 <object class="wxButton" name="HexSwitchPlayer">
 <font>
@@ -3462,7 +3462,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>3</border>
 <object class="wxButton" name="HexSwitchSet1">
 <font>
@@ -3479,7 +3479,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexSave">
 <font>
@@ -3557,7 +3557,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL</flag>
+<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL</flag>
 <border>5</border>
 <object class="wxButton" name="KeyTextA0">
 <size>80,20</size>
@@ -3590,7 +3590,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL</flag>
+<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL</flag>
 <border>5</border>
 <object class="wxButton" name="KeyTextA1">
 <size>80,20</size>
@@ -3618,7 +3618,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL</flag>
+<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL</flag>
 <border>5</border>
 <object class="wxButton" name="KeyTextA4">
 <size>80,20</size>
@@ -3646,7 +3646,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL</flag>
+<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL</flag>
 <border>5</border>
 <object class="wxButton" name="KeyTextA2">
 <size>80,20</size>
@@ -3679,7 +3679,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL</flag>
+<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL</flag>
 <border>5</border>
 <object class="wxButton" name="KeyTextA3">
 <size>80,20</size>
@@ -3753,7 +3753,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL</flag>
+<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL</flag>
 <border>5</border>
 <object class="wxButton" name="KeyTextB0">
 <size>80,20</size>
@@ -3786,7 +3786,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL</flag>
+<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL</flag>
 <border>5</border>
 <object class="wxButton" name="KeyTextB1">
 <size>80,20</size>
@@ -3814,7 +3814,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL</flag>
+<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL</flag>
 <border>5</border>
 <object class="wxButton" name="KeyTextB4">
 <size>80,20</size>
@@ -3842,7 +3842,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL</flag>
+<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL</flag>
 <border>5</border>
 <object class="wxButton" name="KeyTextB2">
 <size>80,20</size>
@@ -3875,7 +3875,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL</flag>
+<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL</flag>
 <border>5</border>
 <object class="wxButton" name="KeyTextB3">
 <size>80,20</size>
@@ -3922,7 +3922,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>5</border>
 <object class="wxButton" name="CoinButton">
 <font>
@@ -3940,7 +3940,7 @@
 <size>5,5</size>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>3</border>
 <object class="wxButton" name="CoinDefault">
 <font>
@@ -3957,7 +3957,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>3</border>
 <object class="wxButton" name="CoinSave">
 <font>
@@ -3991,7 +3991,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
 <border>5</border>
 <object class="wxButton" name="ID_BUTTON">
 <font>
@@ -4022,7 +4022,7 @@
 <size>20,5</size>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="InButton">
 <font>
@@ -4071,7 +4071,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKey0">
 <size>80,-1</size>
@@ -4101,7 +4101,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKey1">
 <size>80,-1</size>
@@ -4131,7 +4131,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKey2">
 <size>80,-1</size>
@@ -4161,7 +4161,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKey3">
 <size>80,-1</size>
@@ -4198,7 +4198,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKey4">
 <size>80,-1</size>
@@ -4228,7 +4228,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKey5">
 <size>80,-1</size>
@@ -4258,7 +4258,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKey6">
 <size>80,-1</size>
@@ -4288,7 +4288,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKey7">
 <size>80,-1</size>
@@ -4325,7 +4325,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKey8">
 <size>80,-1</size>
@@ -4355,7 +4355,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKey9">
 <size>80,-1</size>
@@ -4385,7 +4385,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKeyA">
 <size>80,-1</size>
@@ -4415,7 +4415,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKeyB">
 <size>80,-1</size>
@@ -4452,7 +4452,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKeyC">
 <size>80,-1</size>
@@ -4482,7 +4482,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKeyD">
 <size>80,-1</size>
@@ -4512,7 +4512,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKeyE">
 <size>80,-1</size>
@@ -4542,7 +4542,7 @@
 <size>12</size>
 </font>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexKeyF">
 <size>80,-1</size>
@@ -4565,7 +4565,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>3</border>
 <object class="wxButton" name="HexChar">
 <font>
@@ -4575,7 +4575,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>3</border>
 <object class="wxButton" name="HexLocation">
 <font>
@@ -4735,7 +4735,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_BOTTOM</flag>
+<flag>wxGROW|wxALIGN_BOTTOM</flag>
 <border>0</border>
 <object class="wxButton" name="HexSwitchPlayer">
 <font>
@@ -4783,7 +4783,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>3</border>
 <object class="wxButton" name="HexSwitchSet1">
 <font>
@@ -4800,7 +4800,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="HexSave">
 <font>
