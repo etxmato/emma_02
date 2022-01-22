@@ -1592,8 +1592,8 @@ void Emu1802::createXmlFile(wxString xrcDir, wxString xrcFile)
         wxDateTime inputDate = inputFileName.GetModificationTime();
         wxDateTime outputDate = outputFileName.GetModificationTime();
 
-   //     if (outputDate.IsEarlierThan(inputDate))
-   //     {
+        if (outputDate.IsEarlierThan(inputDate))
+        {
             inputFile.Open(input);
             
             createFile(&outputFile11, output11);
@@ -1880,7 +1880,7 @@ void Emu1802::createXmlFile(wxString xrcDir, wxString xrcFile)
 
             inputFile.Close();
         }
-  //  }
+    }
 }
 
 void Emu1802::createFile(wxTextFile* filename, wxString name)
