@@ -94,8 +94,8 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5279"
-            endingLineNumber = "5279"
+            startingLineNumber = "5280"
+            endingLineNumber = "5280"
             landmarkName = "Main::fixedWindowPosition()"
             landmarkType = "7">
          </BreakpointContent>
@@ -110,8 +110,8 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5457"
-            endingLineNumber = "5457"
+            startingLineNumber = "5460"
+            endingLineNumber = "5460"
             landmarkName = "Main::onStart(computer)"
             landmarkType = "7">
          </BreakpointContent>

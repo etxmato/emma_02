@@ -1609,7 +1609,7 @@ void Emu1802::createXmlFile(wxString xrcDir, wxString xrcFile)
                 outputFile11.AddLine(line);
                 outputApplicationFile11.AddLine(line);
 
-                if (xrcFile == "main_mac")
+                if (xrcFile != "main")
                 {
                     if (line == "<size>34,14</size>")   // HEX 4 (Memory)
                         line = "<size>46,18</size>";
@@ -1694,7 +1694,7 @@ void Emu1802::createXmlFile(wxString xrcDir, wxString xrcFile)
                 outputFile14.AddLine(line);
                 outputApplicationFile14.AddLine(line);
 
-                if (xrcFile == "main")
+                if (xrcFile != "main_mac")
                 {
                     if (line == "<size>22,-1d</size>")   // HEX 4 (Memory)
                         line = "<size>30,-1d</size>";
@@ -3174,7 +3174,7 @@ void Main::adjustGuiSize()
     
     if (xmlLoaded_)
     {
-        int fontFactorX = 0, fontFactorY = 0;
+        int fontFactorX = 0, fontFactorY = 0, debugTraceWindowX = 10;
         
 #if defined(__WXMAC__)
         if (fontSize_ != 11)
@@ -3184,6 +3184,7 @@ void Main::adjustGuiSize()
         {
             fontFactorX = 8;
             fontFactorY = 6;
+            debugTraceWindowX = 0;
         }
         XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-borderSizeX, mainWindowSize.y-borderSizeY);
         XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-borderSizeX, mainWindowSize.y-borderSizeY);
@@ -3197,7 +3198,7 @@ void Main::adjustGuiSize()
         XRCCTRL(*this, "Message_Window", wxTextCtrl)->SetSize(mainWindowSize.x-position.x-borderSizeX-fontFactorX, mainWindowSize.y-position.y-borderSizeY2-fontFactorY);
         
         position = XRCCTRL(*this, "TraceWindow", wxTextCtrl)->GetPosition();
-        XRCCTRL(*this, "TraceWindow", wxTextCtrl)->SetSize(mainWindowSize.x-position.x-borderSizeX-fontFactorX, mainWindowSize.y-position.y-borderSizeY2-fontFactorY);
+        XRCCTRL(*this, "TraceWindow", wxTextCtrl)->SetSize(mainWindowSize.x-position.x-borderSizeX-fontFactorX-debugTraceWindowX, mainWindowSize.y-position.y-borderSizeY2-fontFactorY);
         positionBreakPointWindow = XRCCTRL(*this, "BreakPointWindow", wxListCtrl)->GetPosition();
         positionBreakPointWindowText = XRCCTRL(*this, "BreakPointWindowText", wxStaticText)->GetPosition();
         XRCCTRL(*this, "BreakPointWindow", wxListCtrl)->SetSize((position.x-6)/3, mainWindowSize.y-positionBreakPointWindow.y-borderSizeY2-fontFactorY);
@@ -5360,6 +5361,8 @@ void Main::fixedWindowPosition()
     conf[VELF].vtY_ = mainWindowY_ + 426 + windowInfo.yBorder;
     conf[CDP18S020].vtX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
     conf[CDP18S020].vtY_ = mainWindowY_;
+    conf[MEMBER].vtX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
+    conf[MEMBER].vtY_ = mainWindowY_;
     conf[MICROBOARD].vtX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
     conf[MICROBOARD].vtY_ = mainWindowY_;
     conf[MICROBOARD].vtUart2X_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;

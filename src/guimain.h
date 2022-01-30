@@ -435,7 +435,8 @@ public:
 	wxString getIdeFile(int computerType) {return conf[computerType].ide_;};
 	wxString getCharRomFile(int computerType) {return conf[computerType].charRom_;};
 	wxString getVtCharRomFile(int computerType) {return elfConfiguration[computerType].vtCharRom_;};
-	wxString getWaveFile(int computerType) {return conf[computerType].wavFile_[0];};
+    wxString getWaveFile(int computerType) {return conf[computerType].wavFile_[0];};
+    wxString getWaveFile1(int computerType) {return conf[computerType].wavFile_[1];};
 	wxString getKeyFile();
 	wxString getKeyFileDir();
 	wxString getScreenDumpFile();

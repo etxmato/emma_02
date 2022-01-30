@@ -2143,7 +2143,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxSpinCtrl" name="IdeTracks">
-<size>60,-1</size>
+<size>70,-1</size>
 <tooltip>Specify number of tracks for virtual IDE drives</tooltip>
 <font>
 <size>12</size>
@@ -2167,7 +2167,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxSpinCtrl" name="IdeHeads">
-<size>60,-1</size>
+<size>70,-1</size>
 <tooltip>Specify number of geads for virtual IDE drives</tooltip>
 <font>
 <size>12</size>
@@ -2191,7 +2191,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxSpinCtrl" name="IdeSectors">
-<size>60,-1</size>
+<size>70,-1</size>
 <tooltip>Specify number of sectors for virtual IDE drives</tooltip>
 <font>
 <size>12</size>

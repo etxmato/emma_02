@@ -65,7 +65,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxTextCtrl" name="OnlinePlayer">
-<size>320,-1</size>
+<size>360,-1</size>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -88,7 +88,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxTextCtrl" name="OnlineLocation">
-<size>320,-1</size>
+<size>360,-1</size>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -111,7 +111,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxTextCtrl" name="OnlineEmailAddress">
-<size>320,-1</size>
+<size>360,-1</size>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -169,7 +169,7 @@
 <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxTextCtrl" name="OnlineHome">
-<size>320,-1</size>
+<size>360,-1</size>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -215,7 +215,7 @@
 <border>5</border>
 <option>30</option>
 <object class="wxTextCtrl" name="OnlineBM">
-<size>246,-1</size>
+<size>276,-1</size>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -345,7 +345,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
 <border>5</border>
 <object class="wxTextCtrl" name="OnlineAliasEmail">
-<size>306,-1</size>
+<size>342,-1</size>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -424,7 +424,7 @@
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>4</border>
 <object class="wxTextCtrl" name="SettingsRootTxt">
-<size>320,-1</size>
+<size>360,-1</size>
 <tooltip>Specify COMX USB root directory</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -697,7 +697,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxGROW|wxALL</flag>
 <border>5</border>
 <object class="wxFlexGridSizer">
 <cols>2</cols>
@@ -1063,6 +1063,17 @@
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
 <border>5</border>
+<object class="wxStaticText" name="BackupActivate">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>Activate backup delete option by starting the COMX emulator</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
@@ -1080,7 +1091,7 @@
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>4</border>
 <object class="wxTextCtrl" name="BackupRootTxt">
-<size>320,-1</size>
+<size>360,-1</size>
 <tooltip>Selected folder</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -1095,7 +1106,7 @@
 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
 <border>5</border>
 <object class="wxTextCtrl" name="BackupList">
-<size>395,292</size>
+<size>445,292</size>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -1106,8 +1117,8 @@
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
 <border>5</border>
-<object class="wxStaticText" name="wxID_STATIC">
-<size>395,-1</size>
+<object class="wxStaticText" name="BackupWarning">
+<size>445,-1</size>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>

@@ -248,7 +248,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>4</border>
 <object class="wxSpinCtrl" name="PsaveVolume">
-<size>60,-1</size>
+<size>70,-1</size>
 <tooltip>Specify wave file volume</tooltip>
 <font>
 <size>12</size>

@@ -34,12 +34,12 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="CasButton">
-<tooltip>Browse for cassette file</tooltip>
+<tooltip>Browse for cassette file 0</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Cassette</label>
+<label>Cassette 0</label>
 </object>
 </object>
 <object platform="mac" class="sizeritem">
@@ -47,7 +47,7 @@
 <border>0</border>
 <object platform="mac" class="wxTextCtrl" name="WavFile">
 <size>153,-1</size>
-<tooltip>Specify cassette file</tooltip>
+<tooltip>Specify cassette file 0</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -59,7 +59,7 @@
 <border>1</border>
 <object platform="unix|win" class="wxTextCtrl" name="WavFile">
 <size>153,-1</size>
-<tooltip>Specify cassette file</tooltip>
+<tooltip>Specify cassette file 0</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -71,7 +71,7 @@
 <border>0</border>
 <object platform="mac" class="wxBitmapButton" name="EjectCas">
 <size>26,27</size>
-<tooltip>Eject cassette file</tooltip>
+<tooltip>Eject cassette file 0</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 </object>
 </object>
@@ -79,7 +79,67 @@
 <flag>wxGROW|wxALL</flag>
 <border>0</border>
 <object platform="unix|win" class="wxBitmapButton" name="EjectCas">
-<tooltip>Eject cassette file</tooltip>
+<tooltip>Eject cassette file 0</tooltip>
+<bitmap>images/eject.png</bitmap>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALL</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxButton" name="CasButton1">
+<tooltip>Browse for cassette file 1</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>Cassette 1</label>
+</object>
+</object>
+<object platform="mac" class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+<border>0</border>
+<object platform="mac" class="wxTextCtrl" name="WavFile1">
+<size>153,-1</size>
+<tooltip>Specify cassette file 1</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+</object>
+</object>
+<object platform="unix|win" class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>1</border>
+<object platform="unix|win" class="wxTextCtrl" name="WavFile1">
+<size>153,-1</size>
+<tooltip>Specify cassette file 1</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+</object>
+</object>
+<object platform="mac" class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object platform="mac" class="wxBitmapButton" name="EjectCas1">
+<size>26,27</size>
+<tooltip>Eject cassette file 1</tooltip>
+<bitmap>images_osx/eject.png</bitmap>
+</object>
+</object>
+<object platform="unix|win" class="sizeritem">
+<flag>wxGROW|wxALL</flag>
+<border>0</border>
+<object platform="unix|win" class="wxBitmapButton" name="EjectCas1">
+<tooltip>Eject cassette file 1</tooltip>
 <bitmap>images/eject.png</bitmap>
 </object>
 </object>
@@ -99,12 +159,12 @@
 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
 <border>0</border>
 <object class="wxFlexGridSizer">
-<cols>3</cols>
+<cols>4</cols>
 <rows>3</rows>
 <vgap>1</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_TOP|wxLEFT|wxRIGHT</flag>
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>0</border>
 <object class="wxCheckBox" name="UseLocation">
 <tooltip>Select to SAVE specific machine code address</tooltip>
@@ -112,8 +172,20 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Specify Location</label>
+<label>Specify</label>
 <checked>0</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>2</border>
+<object class="wxStaticText" name="UseLocationText">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<style>wxALIGN_RIGHT</style>
+<label>Location</label>
 </object>
 </object>
 <object class="sizeritem">
@@ -129,12 +201,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxBOTTOM</flag>
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="SaveStart" subclass="HexEdit">
 <size>50,-1</size>
@@ -146,15 +213,8 @@
 <maxlength>4</maxlength>
 </object>
 </object>
-</object>
-</object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_TOP|wxTOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_TOP|wxTOP</flag>
 <border>0</border>
 <object class="wxButton" name="LoadButton">
 <tooltip>Load .hex/.rca file into MCDS emulator memory</tooltip>
@@ -166,7 +226,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxTOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_TOP|wxTOP</flag>
 <border>0</border>
 <object class="wxButton" name="RunButton">
 <tooltip>Load .hex/.rca file into MCDS emulator memory and RUN software</tooltip>
@@ -175,8 +235,6 @@
 <size>-1</size>
 </font>
 <label>RUN</label>
-</object>
-</object>
 </object>
 </object>
 <object class="sizeritem">
@@ -192,12 +250,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP|wxBOTTOM</flag>
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="SaveEnd" subclass="HexEdit">
 <size>50,-1</size>
@@ -209,15 +262,8 @@
 <maxlength>4</maxlength>
 </object>
 </object>
-</object>
-</object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_TOP|wxTOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_TOP|wxTOP</flag>
 <border>0</border>
 <object class="wxButton" name="SaveButton">
 <tooltip>Save MCDS emulator memory to .rca file</tooltip>
@@ -229,7 +275,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxTOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_TOP|wxTOP</flag>
 <border>0</border>
 <object class="wxButton" name="DsaveButton">
 <tooltip>Save MCDS emulator data memory to .rca file</tooltip>
@@ -238,8 +284,6 @@
 <size>-1</size>
 </font>
 <label>Data SAVE</label>
-</object>
-</object>
 </object>
 </object>
 <object class="sizeritem">
@@ -255,12 +299,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="SaveExec" subclass="HexEdit">
 <size>50,-1</size>
@@ -270,8 +309,6 @@
 <size>-1</size>
 </font>
 <maxlength>4</maxlength>
-</object>
-</object>
 </object>
 </object>
 </object>

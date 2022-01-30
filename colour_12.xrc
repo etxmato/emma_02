@@ -943,7 +943,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderX0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -967,7 +967,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -1138,7 +1138,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderX2">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -1162,7 +1162,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY1">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -1177,7 +1177,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY2">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -1408,7 +1408,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY1">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -1621,7 +1621,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderX2">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -1645,7 +1645,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY2">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -1676,7 +1676,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderX0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -1700,7 +1700,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -2247,7 +2247,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY1">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -2429,7 +2429,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderX0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -2453,7 +2453,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -2724,7 +2724,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY1">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -2906,7 +2906,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderX0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -2930,7 +2930,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -3195,7 +3195,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY1">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -3411,7 +3411,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderX5">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -3435,7 +3435,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY5">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -3466,7 +3466,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderX0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -3490,7 +3490,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -3521,7 +3521,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderX2">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -3545,7 +3545,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY2">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -3978,7 +3978,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderX3">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -4002,7 +4002,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY3">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -4557,7 +4557,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderX4">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -4581,7 +4581,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY4">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -4785,7 +4785,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderX0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -4847,7 +4847,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -4862,7 +4862,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY1">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -5179,7 +5179,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderX0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -5241,7 +5241,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -5256,7 +5256,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY1">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -5785,7 +5785,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderX0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -5847,7 +5847,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -5862,7 +5862,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY1">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -6299,7 +6299,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderX0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -6323,7 +6323,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -6708,7 +6708,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderX0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -6732,7 +6732,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -6923,7 +6923,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderX0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -6991,7 +6991,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -7006,7 +7006,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY1">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -7546,7 +7546,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderX0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -7614,7 +7614,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -7629,7 +7629,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY1">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -7848,7 +7848,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderX0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -7916,7 +7916,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -7931,7 +7931,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY1">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -8355,7 +8355,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderX0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -8379,7 +8379,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -8880,7 +8880,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderX0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -8942,7 +8942,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -8957,7 +8957,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY1">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -9228,7 +9228,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderX0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -9252,7 +9252,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -9780,7 +9780,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderX0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -9848,7 +9848,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -9863,7 +9863,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY1">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -10128,7 +10128,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY1">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -10310,7 +10310,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderX0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -10334,7 +10334,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -10590,7 +10590,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY1">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -10803,7 +10803,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderX2">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -10829,7 +10829,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY2">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -10861,7 +10861,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderX0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -10885,7 +10885,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -11107,7 +11107,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY1">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -11320,7 +11320,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderX2">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -11346,7 +11346,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY2">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -11378,7 +11378,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderX0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -11402,7 +11402,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -11568,7 +11568,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderX0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -11630,7 +11630,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -11645,7 +11645,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY1">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -11852,7 +11852,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderX0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -11914,7 +11914,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -11929,7 +11929,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY1">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -12154,7 +12154,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderX0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -12216,7 +12216,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -12231,7 +12231,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY1">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -12857,7 +12857,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderX0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -12919,7 +12919,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -12934,7 +12934,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY1">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -13220,7 +13220,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY1">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -13402,7 +13402,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderX0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -13426,7 +13426,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -13696,7 +13696,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderX0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -13720,7 +13720,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -14757,7 +14757,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderX0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -14781,7 +14781,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY0">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -14946,7 +14946,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderX1">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -14970,7 +14970,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>5</border>
 <object class="wxSpinCtrl" name="BorderY1">
-<size>60,-1</size>
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>

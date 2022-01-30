@@ -13,7 +13,8 @@ public:
 	void setLocation(bool state, wxString saveStart, wxString saveEnd, wxString saveExec);
 	void setStartLocation(wxString saveStart);
 	void setEndLocation(wxString saveEnd);
-	void setTapeType(bool useTape);
+    void setTapeType(bool useTape);
+    void setTape1Type(bool useTape);
 	void enableMemAccessGui(bool status);
 	void enableIoGui();
 
@@ -52,9 +53,12 @@ private:
 	void onTelmacAdiVoltText(wxCommandEvent& event);
 
 	void onTerminalFile(wxCommandEvent& event);
-	void onCassette(wxCommandEvent& event);
-	void onCassetteText(wxCommandEvent& event);
-	void onCassetteEject(wxCommandEvent& event);
+    void onCassette(wxCommandEvent& event);
+    void onCassetteText(wxCommandEvent& event);
+    void onCassetteEject(wxCommandEvent& event);
+    void onCassette1(wxCommandEvent& event);
+    void onCassetteText1(wxCommandEvent& event);
+    void onCassetteEject1(wxCommandEvent& event);
 
 	void onLoadRunButton(wxCommandEvent& event);
 	void onLoadButton(wxCommandEvent& event);

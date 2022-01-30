@@ -1876,15 +1876,22 @@
                                                                 </object>
                                                             </object>
                                                             <object class="sizeritem">
-                                                                <flag>wxALIGN_LEFT</flag>
-                                                                <border>4</border>
-                                                                <object class="wxButton" name="DP_ButtonElf2K">
-                                                                    <tooltip>Open device ports definition window</tooltip>
-                                                                    <font>
-                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                        <size>-1</size>
-                                                                    </font>
-                                                                    <label>DevicePorts</label>
+                                                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                                                <border>0</border>
+                                                                <object class="wxBoxSizer">
+                                                                    <orient>wxHORIZONTAL</orient>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <border>4</border>
+                                                                        <object class="wxButton" name="DP_ButtonElf2K">
+                                                                            <tooltip>Open device ports definition window</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>DevicePorts</label>
+                                                                        </object>
+                                                                    </object>
                                                                 </object>
                                                             </object>
                                                             <object class="sizeritem">
@@ -10796,15 +10803,22 @@
                                                                 </object>
                                                             </object>
                                                             <object class="sizeritem">
-                                                                <flag>wxALIGN_LEFT</flag>
-                                                                <border>2</border>
-                                                                <object class="wxButton" name="KeyMapUC1800">
-                                                                    <tooltip>Open key map window</tooltip>
-                                                                    <font>
-                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                        <size>-1</size>
-                                                                    </font>
-                                                                    <label>Key Map</label>
+                                                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                                                <border>0</border>
+                                                                <object class="wxBoxSizer">
+                                                                    <orient>wxHORIZONTAL</orient>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <border>2</border>
+                                                                        <object class="wxButton" name="KeyMapUC1800">
+                                                                            <tooltip>Open key map window</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>Key Map</label>
+                                                                        </object>
+                                                                    </object>
                                                                 </object>
                                                             </object>
                                                             <object class="spacer">

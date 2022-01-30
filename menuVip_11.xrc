@@ -99,12 +99,12 @@
 <flag>wxALIGN_LEFT|wxALL</flag>
 <border>0</border>
 <object class="wxFlexGridSizer">
-<cols>3</cols>
+<cols>4</cols>
 <rows>3</rows>
 <vgap>1</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_TOP|wxLEFT|wxRIGHT</flag>
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>0</border>
 <object class="wxCheckBox" name="UseLocation">
 <tooltip>Select to SAVE specific machine code address</tooltip>
@@ -112,8 +112,20 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Specify Location</label>
+<label>Specify</label>
 <checked>0</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>2</border>
+<object class="wxStaticText" name="UseLocationText">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<style>wxALIGN_RIGHT</style>
+<label>Location</label>
 </object>
 </object>
 <object class="sizeritem">
@@ -129,12 +141,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxBOTTOM</flag>
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="SaveStart" subclass="HexEdit">
 <size>50,-1</size>
@@ -147,15 +154,8 @@
 <maxlength>4</maxlength>
 </object>
 </object>
-</object>
-</object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_TOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
 <border>1</border>
 <object class="wxButton" name="LoadButton">
 <tooltip>Load .hex/.super file into emulator memory</tooltip>
@@ -167,7 +167,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_TOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
 <border>1</border>
 <object class="wxButton" name="RunButton">
 <tooltip>Load .super file into emulator memory and RUN software</tooltip>
@@ -176,8 +176,6 @@
 <size>-1</size>
 </font>
 <label>RUN</label>
-</object>
-</object>
 </object>
 </object>
 <object class="sizeritem">
@@ -193,12 +191,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP|wxBOTTOM</flag>
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="SaveEnd" subclass="HexEdit">
 <size>50,-1</size>
@@ -210,15 +203,8 @@
 <maxlength>4</maxlength>
 </object>
 </object>
-</object>
-</object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_TOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
 <border>1</border>
 <object class="wxButton" name="SaveButton">
 <tooltip>Save emulator memory to .hex/.super file</tooltip>
@@ -230,7 +216,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_TOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
 <border>1</border>
 <object class="wxButton" name="DsaveButton">
 <tooltip>Save emulator data memory to .super file</tooltip>
@@ -239,8 +225,6 @@
 <size>-1</size>
 </font>
 <label>Data SAVE</label>
-</object>
-</object>
 </object>
 </object>
 <object class="sizeritem">
@@ -256,12 +240,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="SaveExec" subclass="HexEdit">
 <size>50,-1</size>
@@ -272,8 +251,6 @@
 </font>
 <enabled>0</enabled>
 <maxlength>4</maxlength>
-</object>
-</object>
 </object>
 </object>
 </object>

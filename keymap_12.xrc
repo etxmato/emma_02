@@ -891,13 +891,20 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALIGN_BOTTOM</flag>
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL</flag>
 <border>3</border>
 <object class="wxButton" name="HexSwitchPlayer">
 <font>
 <size>12</size>
 </font>
 <label>SwitchPlayer</label>
+</object>
+</object>
 </object>
 </object>
 </object>
@@ -1843,13 +1850,20 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALIGN_BOTTOM</flag>
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL</flag>
 <border>3</border>
 <object class="wxButton" name="HexSwitchPlayer">
 <font>
 <size>12</size>
 </font>
 <label>SwitchPlayer</label>
+</object>
+</object>
 </object>
 </object>
 </object>
