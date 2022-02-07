@@ -3,13 +3,13 @@
 
 [Setup]
 AppName=Emma 02
-AppVerName=Emma 02 - V1.43
-AppVersion=1.43
+AppVerName=Emma 02 - V1.43.1
+AppVersion=1.43.1
 AppPublisher=Marcel van Tongeren
 DefaultDirName={pf}\Emma 02
 DefaultGroupName=Emma 02
 OutputDir=x64
-OutputBaseFilename=Emma_02_x64_setup_v1.43
+OutputBaseFilename=Emma_02_x64_setup_v1.43.1
 Compression=lzma
 SolidCompression=true
 SetupIconFile=..\images\app.ico
@@ -40,38 +40,72 @@ Source: ..\x64\Release\Emma 02.exe; DestDir: {app}; Components: MAIN; Tasks: ; L
 Source: ..\emma_02.htb; DestDir: {app}; Components: MAIN
 Source: ..\*.def; DestDir: {app}; Components: MAIN
 Source: ..\*.syntax; DestDir: {app}; Components: MAIN
-Source: ..\about.xrc; DestDir: {app}; Components: MAIN
-Source: ..\cassette.xrc; DestDir: {app}; Components: MAIN
-Source: ..\colour.xrc; DestDir: {app}; Components: MAIN
-Source: ..\configuration.xrc; DestDir: {app}; Components: MAIN
-Source: ..\datadir.xrc; DestDir: {app}; Components: MAIN
-Source: ..\diag.xrc; DestDir: {app}; Components: MAIN
-Source: ..\eprom.xrc; DestDir: {app}; Components: MAIN
-Source: ..\functionkey.xrc; DestDir: {app}; Components: MAIN
-Source: ..\keymap.xrc; DestDir: {app}; Components: MAIN
-Source: ..\keymap_tmc.xrc; DestDir: {app}; Components: MAIN
-Source: ..\main.xrc; DestDir: {app}; Components: MAIN
-Source: ..\menu_Cas_Mem.xrc; DestDir: {app}; Components: MAIN
-Source: ..\menuComx.xrc; DestDir: {app}; Components: MAIN
-Source: ..\menuCosmicos.xrc; DestDir: {app}; Components: MAIN
-Source: ..\menuFred.xrc; DestDir: {app}; Components: MAIN
-Source: ..\menuElf.xrc; DestDir: {app}; Components: MAIN
-Source: ..\menuElf2K.xrc; DestDir: {app}; Components: MAIN
-Source: ..\menuMembership.xrc; DestDir: {app}; Components: MAIN
-Source: ..\menuMS2000.xrc; DestDir: {app}; Components: MAIN
-Source: ..\menuPecom.xrc; DestDir: {app}; Components: MAIN
-Source: ..\menuTmc600.xrc; DestDir: {app}; Components: MAIN
-Source: ..\menuVelf.xrc; DestDir: {app}; Components: MAIN
-Source: ..\menuVip.xrc; DestDir: {app}; Components: MAIN
-Source: ..\microsetup.xrc; DestDir: {app}; Components: MAIN
-Source: ..\ports.xrc; DestDir: {app}; Components: MAIN
-Source: ..\sb.xrc; DestDir: {app}; Components: MAIN
-Source: ..\splash.xrc; DestDir: {app}; Components: MAIN
-Source: ..\vt.xrc; DestDir: {app}; Components: MAIN
-Source: ..\win8.ini; DestDir: {app}; Components: MAIN
-Source: ..\win10.ini; DestDir: {app}; Components: MAIN
-Source: ..\win2000.ini; DestDir: {app}; Components: MAIN
-Source: ..\winxp.ini; DestDir: {app}; Components: MAIN
+Source: ..\about_11.xrc; DestDir: {app}; Components: MAIN
+Source: ..\about_12.xrc; DestDir: {app}; Components: MAIN
+Source: ..\cassette_11.xrc; DestDir: {app}; Components: MAIN
+Source: ..\cassette_12.xrc; DestDir: {app}; Components: MAIN
+Source: ..\colour_11.xrc; DestDir: {app}; Components: MAIN
+Source: ..\colour_12.xrc; DestDir: {app}; Components: MAIN
+Source: ..\configuration_11.xrc; DestDir: {app}; Components: MAIN
+Source: ..\configuration_12.xrc; DestDir: {app}; Components: MAIN
+Source: ..\datadir_11.xrc; DestDir: {app}; Components: MAIN
+Source: ..\datadir_12.xrc; DestDir: {app}; Components: MAIN
+Source: ..\diag_11.xrc; DestDir: {app}; Components: MAIN
+Source: ..\diag_12.xrc; DestDir: {app}; Components: MAIN
+Source: ..\eprom_11.xrc; DestDir: {app}; Components: MAIN
+Source: ..\eprom_12.xrc; DestDir: {app}; Components: MAIN
+Source: ..\functionkey_11.xrc; DestDir: {app}; Components: MAIN
+Source: ..\functionkey_12.xrc; DestDir: {app}; Components: MAIN
+Source: ..\keymap_11.xrc; DestDir: {app}; Components: MAIN
+Source: ..\keymap_12.xrc; DestDir: {app}; Components: MAIN
+Source: ..\keymap_tmc_11.xrc; DestDir: {app}; Components: MAIN
+Source: ..\keymap_tmc_12.xrc; DestDir: {app}; Components: MAIN
+Source: ..\main_11.xrc; DestDir: {app}; Components: MAIN
+Source: ..\main_12.xrc; DestDir: {app}; Components: MAIN
+Source: ..\menu_Cas_Mem_11.xrc; DestDir: {app}; Components: MAIN
+Source: ..\menu_Cas_Mem_12.xrc; DestDir: {app}; Components: MAIN
+Source: ..\menuComx_11.xrc; DestDir: {app}; Components: MAIN
+Source: ..\menuComx_12.xrc; DestDir: {app}; Components: MAIN
+Source: ..\menuCosmicos_11.xrc; DestDir: {app}; Components: MAIN
+Source: ..\menuCosmicos_12.xrc; DestDir: {app}; Components: MAIN
+Source: ..\menuFred_11.xrc; DestDir: {app}; Components: MAIN
+Source: ..\menuFred_12.xrc; DestDir: {app}; Components: MAIN
+Source: ..\menuElf_11.xrc; DestDir: {app}; Components: MAIN
+Source: ..\menuElf_12.xrc; DestDir: {app}; Components: MAIN
+Source: ..\menuElf2K_11.xrc; DestDir: {app}; Components: MAIN
+Source: ..\menuElf2K_12.xrc; DestDir: {app}; Components: MAIN
+Source: ..\menuMembership_11.xrc; DestDir: {app}; Components: MAIN
+Source: ..\menuMembership_12.xrc; DestDir: {app}; Components: MAIN
+Source: ..\menuMicroboard_11.xrc; DestDir: {app}; Components: MAIN
+Source: ..\menuMicroboard_12.xrc; DestDir: {app}; Components: MAIN
+Source: ..\menuMS2000_11.xrc; DestDir: {app}; Components: MAIN
+Source: ..\menuMS2000_12.xrc; DestDir: {app}; Components: MAIN
+Source: ..\menuPecom_11.xrc; DestDir: {app}; Components: MAIN
+Source: ..\menuPecom_12.xrc; DestDir: {app}; Components: MAIN
+Source: ..\menuTmc600_11.xrc; DestDir: {app}; Components: MAIN
+Source: ..\menuTmc600_12.xrc; DestDir: {app}; Components: MAIN
+Source: ..\menuVelf_11.xrc; DestDir: {app}; Components: MAIN
+Source: ..\menuVelf_12.xrc; DestDir: {app}; Components: MAIN
+Source: ..\menuVip_11.xrc; DestDir: {app}; Components: MAIN
+Source: ..\menuVip_12.xrc; DestDir: {app}; Components: MAIN
+Source: ..\microsetup_11.xrc; DestDir: {app}; Components: MAIN
+Source: ..\microsetup_12.xrc; DestDir: {app}; Components: MAIN
+Source: ..\ports_11.xrc; DestDir: {app}; Components: MAIN
+Source: ..\ports_12.xrc; DestDir: {app}; Components: MAIN
+Source: ..\sb_11.xrc; DestDir: {app}; Components: MAIN
+Source: ..\sb_12.xrc; DestDir: {app}; Components: MAIN
+Source: ..\splash_11.xrc; DestDir: {app}; Components: MAIN
+Source: ..\splash_12.xrc; DestDir: {app}; Components: MAIN
+Source: ..\vt_11.xrc; DestDir: {app}; Components: MAIN
+Source: ..\vt_12.xrc; DestDir: {app}; Components: MAIN
+Source: ..\win8_11.ini; DestDir: {app}; Components: MAIN
+Source: ..\win8_12.ini; DestDir: {app}; Components: MAIN
+Source: ..\win10_11.ini; DestDir: {app}; Components: MAIN
+Source: ..\win10_12.ini; DestDir: {app}; Components: MAIN
+Source: ..\win2000_11.ini; DestDir: {app}; Components: MAIN
+Source: ..\win2000_12.ini; DestDir: {app}; Components: MAIN
+Source: ..\winxp_11.ini; DestDir: {app}; Components: MAIN
+Source: ..\winxp_12.ini; DestDir: {app}; Components: MAIN
 Source: ..\..\SDL2-2.0.5\lib\x64\SDL2.dll; DestDir: {app}; Components: MAIN
 Source: ..\..\libserialport\Win64\lib\libserialport.dll; DestDir: {app}; Components: MAIN
 Source: ..\OpenSSL - LICENSE; DestDir: {app}; Components: MAIN
