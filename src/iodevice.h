@@ -40,8 +40,8 @@
 #define PS2IN 40
 #define SUPEROUT 41
 #define SUPERIN 42
-#define TMSHIGHOUT 43
-#define TMSLOWOUT 44
+#define TMSREGISTERPORT 43
+#define TMSDATAPORT 44
 #define VT100OUT 45
 //#define ELFINEF 46
 //#define VTINEF 47
@@ -209,6 +209,7 @@
 #define UC1800IN 209
 #define UC1800OUT 210
 #define UC1800EF 211
+#define TMSINTERRUPT 212
 
 #define COMPUTERCYCLE 0
 #define VIDEOCYCLE 1

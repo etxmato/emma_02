@@ -266,7 +266,7 @@
                                         <border>0</border>
                                         <object class="wxFlexGridSizer">
                                             <cols>2</cols>
-                                            <rows>8</rows>
+                                            <rows>9</rows>
                                             <vgap>4</vgap>
                                             <hgap>4</hgap>
                                             <object class="sizeritem">
@@ -466,6 +466,31 @@
                                                     <content>
                                                         <item>Jump</item>
                                                         <item>Smooth</item>
+                                                    </content>
+                                                </object>
+                                            </object>
+                                            <object class="sizeritem">
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <border>0</border>
+                                                <object class="wxStaticText" name="VtCharactersText">
+                                                    <font>
+                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                        <size>-1</size>
+                                                    </font>
+                                                    <label>Characters</label>
+                                                </object>
+                                            </object>
+                                            <object class="sizeritem">
+                                                <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <border>0</border>
+                                                <object class="wxChoice" name="VtCharacters">
+                                                    <font>
+                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                        <size>-1</size>
+                                                    </font>
+                                                    <content>
+                                                        <item>80</item>
+                                                        <item>132</item>
                                                     </content>
                                                 </object>
                                             </object>
@@ -845,13 +870,20 @@
             </object>
             <object class="sizeritem">
                 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                <border>8</border>
-                <object class="wxButton" name="VtSetupSave">
-                    <font>
-                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                        <size>-1</size>
-                    </font>
-                    <label>Save</label>
+                <border>5</border>
+                <object class="wxBoxSizer">
+                    <orient>wxHORIZONTAL</orient>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_TOP|wxALL</flag>
+                        <border>8</border>
+                        <object class="wxButton" name="VtSetupSave">
+                            <font>
+                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                <size>-1</size>
+                            </font>
+                            <label>Save</label>
+                        </object>
+                    </object>
                 </object>
             </object>
         </object>

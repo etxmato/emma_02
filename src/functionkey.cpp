@@ -102,7 +102,7 @@ END_EVENT_TABLE()
 
 FunctionKeyMapDialog::FunctionKeyMapDialog(wxWindow* parent)
 {
-	wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"functionkey.xrc");
+	wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"functionkey_" + p_Main->getFontSize() + ".xrc");
 	wxXmlResource::Get()->LoadDialog(this, parent, wxT("FunctionKeyDialog"));
 
 	fKey_ = -1;

@@ -152,7 +152,7 @@ ColourDialog::ColourDialog(wxWindow* parent)
 	if (computerType_ == VICTORY)
 		 screenInfo_.number -= 12;
 
-	wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"colour.xrc");
+	wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"colour_" + p_Main->getFontSize() + ".xrc");
 	if (computerType_ == ELFII || computerType_ == SUPERELF)
 		wxXmlResource::Get()->LoadDialog(this, parent, wxT("ColourDialogElf"));
 	else
@@ -186,7 +186,7 @@ ColourDialog::ColourDialog(wxWindow* parent)
     {
         wxString defaultScale;
         defaultScale.Printf("%1.1f", 1.5);
-        scaleString = p_Main->getConfigItem(computerTypeStr_+"/Window_Scale_Factor_X", defaultScale);
+        scaleString = p_Main->convertLocale(p_Main->getConfigItem(computerTypeStr_+"/Window_Scale_Factor_X", defaultScale));
         XRCCTRL(*this, "ScaleXText", wxTextCtrl)->ChangeValue(scaleString);
     }
 

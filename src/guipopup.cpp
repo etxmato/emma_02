@@ -34,6 +34,9 @@ BEGIN_EVENT_TABLE(PopupDialog, wxDialog)
 	EVT_BUTTON(XRCID("CasButton"), PopupDialog::onCassette)
 	EVT_TEXT(XRCID("WavFile"), PopupDialog::onCassetteText)
 	EVT_BUTTON(XRCID("EjectCas"), PopupDialog::onCassetteEject)
+    EVT_BUTTON(XRCID("CasButton1"), PopupDialog::onCassette1)
+    EVT_TEXT(XRCID("WavFile1"), PopupDialog::onCassetteText1)
+    EVT_BUTTON(XRCID("EjectCas1"), PopupDialog::onCassetteEject1)
 	EVT_BUTTON(XRCID("RunButton"), PopupDialog::onLoadRunButton)
 	EVT_BUTTON(XRCID("LoadButton"), PopupDialog::onLoadButton)
 	EVT_BUTTON(XRCID("SaveButton"), PopupDialog::onSaveButton)
@@ -102,7 +105,7 @@ PopupDialog::PopupDialog(wxWindow* parent)
     {
         case ELFII:
         case SUPERELF:
-            wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"menuElf.xrc");
+            wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"menuElf_" + p_Main->getFontSize() + ".xrc");
             wxXmlResource::Get()->LoadDialog(this, parent, wxT("PopupElf"));
             XRCCTRL(*this, "PopupElf", wxDialog)->SetLabel(p_Main->getSelectedComputerText()+" Menu");
         break;
@@ -111,7 +114,7 @@ PopupDialog::PopupDialog(wxWindow* parent)
         case TMC2000:
         case NANO:
 		case ETI:
-			wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"menu_Cas_Mem.xrc");
+			wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"menu_Cas_Mem_" + p_Main->getFontSize() + ".xrc");
             wxXmlResource::Get()->LoadDialog(this, parent, wxT("Popup_Cas_Mem"));
             XRCCTRL(*this, "Popup_Cas_Mem", wxDialog)->SetLabel(p_Main->getSelectedComputerText()+" Menu");
         break;
@@ -119,7 +122,7 @@ PopupDialog::PopupDialog(wxWindow* parent)
         case UC1800:
         case MICROTUTOR:
         case MICROTUTOR2:
-			wxXmlResource::Get()->Load(p_Main->getApplicationDir() + p_Main->getPathSep() + "menu_Cas_Mem.xrc");
+			wxXmlResource::Get()->Load(p_Main->getApplicationDir() + p_Main->getPathSep() + "menu_Cas_Mem_" + p_Main->getFontSize() + ".xrc");
 			wxXmlResource::Get()->LoadDialog(this, parent, wxT("Popup_Cas_Mem"));
 			XRCCTRL(*this, "Popup_Cas_Mem", wxDialog)->SetLabel(p_Main->getSelectedComputerText() + " Menu");
 			XRCCTRL(*this, "CasButton", wxButton)->Hide();
@@ -129,14 +132,14 @@ PopupDialog::PopupDialog(wxWindow* parent)
 
 		case VIP:
         case VIPII:
-            wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"menuVip.xrc");
+            wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"menuVip_" + p_Main->getFontSize() + ".xrc");
             wxXmlResource::Get()->LoadDialog(this, parent, wxT("PopupVip"));
             XRCCTRL(*this, "PopupVip", wxDialog)->SetLabel(p_Main->getSelectedComputerText()+" Menu");
         break;
       
         case FRED1:
         case FRED1_5:
-            wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"menuFred.xrc");
+            wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"menuFred_" + p_Main->getFontSize() + ".xrc");
             wxXmlResource::Get()->LoadDialog(this, parent, wxT("PopupFred"));
             XRCCTRL(*this, "PopupFred", wxDialog)->SetLabel(p_Main->getSelectedComputerText()+" Menu");
         break;
@@ -144,15 +147,21 @@ PopupDialog::PopupDialog(wxWindow* parent)
         case VIP2K:
         case MEMBER:
         case CDP18S020:
-			wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"menuMembership.xrc");
+			wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"menuMembership_" + p_Main->getFontSize() + ".xrc");
 			wxXmlResource::Get()->LoadDialog(this, parent, "PopupMembership");
             XRCCTRL(*this, "PopupMembership", wxDialog)->SetLabel(p_Main->getSelectedComputerText()+" Menu");
 			if (computer_ == VIP2K)
 				XRCCTRL(*this, "ControlWindowsPopupMembership", wxCheckBox)->Hide();
         break;
 
+        case MICROBOARD:
+            wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"menu"+computerStr_+"_" + p_Main->getFontSize() + ".xrc");
+            wxXmlResource::Get()->LoadDialog(this, parent, "Popup"+computerStr_);
+            XRCCTRL(*this, "Popup"+computerStr_, wxDialog)->SetLabel(p_Main->getSelectedComputerText()+" Menu");
+        break;
+
         default:
-			wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"menu"+computerStr_+".xrc");
+			wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"menu"+computerStr_+"_" + p_Main->getFontSize() + ".xrc");
 			wxXmlResource::Get()->LoadDialog(this, parent, "Popup"+computerStr_);
             XRCCTRL(*this, "Popup"+computerStr_, wxDialog)->SetLabel(p_Main->getSelectedComputerText()+" Menu");
         break;
@@ -167,6 +176,7 @@ PopupDialog::~PopupDialog()
 void PopupDialog::init()
 {
 	p_Main->setNoteBook();
+    ElfConfiguration currentElfConfig;
 
 	switch (computer_)
 	{
@@ -245,7 +255,7 @@ void PopupDialog::init()
 		case MEMBER:
 		case VIP2K:
         case CDP18S020:
-            XRCCTRL(*this, "WavFile", wxTextCtrl)->SetValue(p_Main->getVtWaveFile(computer_));
+            XRCCTRL(*this, "WavFile", wxTextCtrl)->SetValue(p_Main->getWaveFile(computer_));
 			XRCCTRL(*this, "ControlWindowsPopupMembership", wxCheckBox)->SetValue(p_Main->getUseElfControlWindows(computer_));
 			setStartLocation(p_Main->getSaveStartString(computer_));
 			setEndLocation(p_Main->getSaveEndString(computer_));
@@ -262,7 +272,51 @@ void PopupDialog::init()
             setDirSwitch(3);
             XRCCTRL(*this, "WavFile", wxTextCtrl)->SetValue(p_Main->getWaveFile(computer_));
         break;
-            
+  
+        case MCDS:
+            setTapeType(true);
+            setTape1Type(true);
+            enableMemAccessGui(true);
+            XRCCTRL(*this, "WavFile", wxTextCtrl)->SetValue(p_Main->getWaveFile(computer_));
+        break;
+      
+        case MICROBOARD:
+            currentElfConfig = p_Main->getElfConfiguration(computer_);
+            setTapeType(p_Main->getUseTape(computer_));
+            setTape1Type(p_Main->getUseTape(computer_));
+            enableMemAccessGui(true);
+            XRCCTRL(*this, "WavFile", wxTextCtrl)->SetValue(p_Main->getWaveFile(computer_));
+
+            XRCCTRL(*this, "FDC0_FileMS2000", wxTextCtrl)->SetValue(getFdcName(0));
+            XRCCTRL(*this, "FDC1_FileMS2000", wxTextCtrl)->SetValue(getFdcName(1));
+            XRCCTRL(*this, "FDC2_FileMS2000", wxTextCtrl)->SetValue(getFdcName(2));
+            XRCCTRL(*this, "FDC3_FileMS2000", wxTextCtrl)->SetValue(getFdcName(3));
+            setDirSwitch(0);
+            setDirSwitch(1);
+            setDirSwitch(2);
+            setDirSwitch(3);
+
+            if (!currentElfConfig.useUpd765)
+            {
+                XRCCTRL(*this, "FDC0_ButtonMS2000", wxButton)->Enable(false);
+                XRCCTRL(*this, "FDC0_FileMS2000", wxTextCtrl)->Enable(false);
+                XRCCTRL(*this, "FDC0_SwitchMS2000", wxBitmapButton)->Enable(false);
+                XRCCTRL(*this, "Eject_FDC0MS2000", wxBitmapButton)->Enable(false);
+                XRCCTRL(*this, "FDC1_ButtonMS2000", wxButton)->Enable(false);
+                XRCCTRL(*this, "FDC1_FileMS2000", wxTextCtrl)->Enable(false);
+                XRCCTRL(*this, "FDC1_SwitchMS2000", wxBitmapButton)->Enable(false);
+                XRCCTRL(*this, "Eject_FDC1MS2000", wxBitmapButton)->Enable(false);
+                XRCCTRL(*this, "FDC2_ButtonMS2000", wxButton)->Enable(false);
+                XRCCTRL(*this, "FDC2_FileMS2000", wxTextCtrl)->Enable(false);
+                XRCCTRL(*this, "FDC2_SwitchMS2000", wxBitmapButton)->Enable(false);
+                XRCCTRL(*this, "Eject_FDC2MS2000", wxBitmapButton)->Enable(false);
+                XRCCTRL(*this, "FDC3_ButtonMS2000", wxButton)->Enable(false);
+                XRCCTRL(*this, "FDC3_FileMS2000", wxTextCtrl)->Enable(false);
+                XRCCTRL(*this, "FDC3_SwitchMS2000", wxBitmapButton)->Enable(false);
+                XRCCTRL(*this, "Eject_FDC3MS2000", wxBitmapButton)->Enable(false);
+            }
+        break;
+
         case TMC600:
 			XRCCTRL(*this, "WavFile", wxTextCtrl)->SetValue(p_Main->getWaveFile(computer_));
 			setLocation(p_Main->getUseLoadLocation(computer_), p_Main->getSaveStartString(computer_), p_Main->getSaveEndString(computer_), p_Main->getSaveExecString(computer_));
@@ -314,9 +368,16 @@ void PopupDialog::setEndLocation(wxString saveEnd)
 
 void PopupDialog::setTapeType(bool useTape)
 {
-	XRCCTRL(*this, "CasButton", wxButton)->Enable(useTape);
-	XRCCTRL(*this, "WavFile", wxTextCtrl)->Enable(useTape);
-	XRCCTRL(*this, "EjectCas", wxButton)->Enable(useTape);
+    XRCCTRL(*this, "CasButton", wxButton)->Enable(useTape);
+    XRCCTRL(*this, "WavFile", wxTextCtrl)->Enable(useTape);
+    XRCCTRL(*this, "EjectCas", wxButton)->Enable(useTape);
+}
+
+void PopupDialog::setTape1Type(bool useTape)
+{
+    XRCCTRL(*this, "CasButton1", wxButton)->Enable(useTape);
+    XRCCTRL(*this, "WavFile1", wxTextCtrl)->Enable(useTape);
+    XRCCTRL(*this, "EjectCas1", wxButton)->Enable(useTape);
 }
 
 void PopupDialog::enableMemAccessGui(bool status)
@@ -324,7 +385,8 @@ void PopupDialog::enableMemAccessGui(bool status)
 	if ((p_Computer->getLoadedProgram()&0x1) == 0x1)
 	{
 		XRCCTRL(*this, "RunButton", wxButton)->Enable(status);
-		XRCCTRL(*this, "UseLocation", wxCheckBox)->Enable(status);
+        XRCCTRL(*this, "UseLocation", wxCheckBox)->Enable(status);
+        XRCCTRL(*this, "UseLocationText", wxStaticText)->Enable(status);
 		XRCCTRL(*this, "DsaveButton", wxButton)->Enable(status);
 		XRCCTRL(*this, "TextStart", wxStaticText)->Enable(p_Main->getUseLoadLocation(computer_));
 		XRCCTRL(*this, "TextEnd", wxStaticText)->Enable(p_Main->getUseLoadLocation(computer_));
@@ -598,6 +660,25 @@ void PopupDialog::onCassetteEject(wxCommandEvent&event)
 {
  	p_Main->onCassetteEject(event);
 	XRCCTRL(*this, "WavFile", wxTextCtrl)->SetValue(p_Main->getWaveFile(computer_));
+}
+
+void PopupDialog::onCassette1(wxCommandEvent&event)
+{
+    p_Main->onCassette1(event);
+    XRCCTRL(*this, "WavFile1", wxTextCtrl)->SetValue(p_Main->getWaveFile1(computer_));
+}
+
+void PopupDialog::onCassetteText1(wxCommandEvent&event)
+{
+    p_Main->onCassette1Text(event);
+    if (p_Main->getGuiMode())
+        p_Main->setTextCtrl("WavFile1"+computerStr_, p_Main->getWaveFile1(computer_));
+}
+
+void PopupDialog::onCassetteEject1(wxCommandEvent&event)
+{
+    p_Main->onCassette1Eject(event);
+    XRCCTRL(*this, "WavFile1", wxTextCtrl)->SetValue(p_Main->getWaveFile1(computer_));
 }
 
 void PopupDialog::onLoadRunButton(wxCommandEvent&event)

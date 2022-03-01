@@ -214,12 +214,12 @@ void GuiComx::readComxConfig()
 
 	wxString defaultZoom;
 	defaultZoom.Printf("%2.2f", 2.0);
-	conf[COMX].zoom_ = configPointer->Read("/Comx/Zoom", defaultZoom);
+	conf[COMX].zoom_ = convertLocale(configPointer->Read("/Comx/Zoom", defaultZoom));
 	wxString defaultClock;
 	defaultClock.Printf("%1.3f", 2.813);
-	comxPalClock_ = configPointer->Read("/Comx/Clock_Speed_When_Using_Pal", defaultClock);
+	comxPalClock_ = convertLocale(configPointer->Read("/Comx/Clock_Speed_When_Using_Pal", defaultClock));
 	defaultClock.Printf("%1.3f", 2.835);
-	comxNtscClock_ = configPointer->Read("/Comx/Clock_Speed_When_Using_Ntsc", defaultClock);
+	comxNtscClock_ = convertLocale(configPointer->Read("/Comx/Clock_Speed_When_Using_Ntsc", defaultClock));
 	conf[COMX].videoMode_ = (int)configPointer->Read("/Comx/Video_Mode", 0l);
 	if (conf[COMX].videoMode_ == PAL)
 		conf[COMX].clock_ = comxPalClock_;
@@ -239,7 +239,7 @@ void GuiComx::readComxConfig()
     configPointer->Read("/Comx/Enable_80_Column_Interlace", &conf[COMX].interlace_, true);
     configPointer->Read("/Comx/Dram", &conf[COMX].dram_, true);
 	configPointer->Read("/Comx/Disk_Rom_Loaded", &diskRomLoaded_, true);
-	conf[COMX].useLoadLocation_ = false;
+    configPointer->Read("/Comx/UseLoadLocation", &conf[COMX].useLoadLocation_, false);
 
     wxString number;
     for (int i=0; i<5; i++)
@@ -269,6 +269,12 @@ void GuiComx::readComxConfig()
     diagCassetteCables_ = (int)configPointer->Read("/Comx/DiagCassetteCables", 1l);
 
 	diagSbChange();
+
+    long value;
+    conf[COMX].saveStartString_ = configPointer->Read("/Comx/SaveStart", "0");
+    if (!conf[COMX].saveStartString_.ToLong(&value, 16))
+        value = 0;
+    conf[COMX].saveStart_ = value;
 
 	if (mode_.gui)
 	{
@@ -351,6 +357,8 @@ void GuiComx::readComxConfig()
 		setComxPrintMode();
 
 		XRCCTRL(*this, "UseLocationComx", wxCheckBox)->SetValue(conf[COMX].useLoadLocation_);
+        if (conf[COMX].saveStart_ != 0)
+            XRCCTRL(*this, "SaveStartComx", wxTextCtrl)->SetValue(conf[COMX].saveStartString_);
 	}
 }
 
@@ -529,6 +537,8 @@ void GuiComx::writeComxConfig()
 	configPointer->Write("/Comx/Ram_Card_Slot", expansionRamSlot_);
 	configPointer->Write("/Comx/Expansion_Rom_Loaded", expansionRomLoaded_);
 	configPointer->Write("/Comx/Disk_Rom_Loaded", diskRomLoaded_);
+    configPointer->Write("/Comx/UseLoadLocation", conf[COMX].useLoadLocation_);
+    configPointer->Write("/Comx/SaveStart", conf[COMX].saveStartString_);
 
 	configPointer->Write("/Comx/Print_Mode", comxPrintMode_);
 

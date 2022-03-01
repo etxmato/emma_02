@@ -134,19 +134,20 @@ void GuiCdp18s020::readCdp18s020Config()
     elfConfiguration[CDP18S020].serialPort_ = configPointer->Read("/CDP18S020/VtSerialPortChoice", "");
 
 	conf[CDP18S020].screenDumpFile_ = configPointer->Read("/CDP18S020/Video_Dump_File", "screendump.png");
-	conf[CDP18S020].useLoadLocation_ = false;
 
+    conf[CDP18S020].useLoadLocation_ = false;
+    
     configPointer->Read("/CDP18S020/Open_Control_Windows", &elfConfiguration[CDP18S020].useElfControlWindows, true);
     configPointer->Read("/CDP18S020/Enable_Vt_External", &elfConfiguration[CDP18S020].vtExternal, false);
 
 	wxString defaultZoom;
 	defaultZoom.Printf("%2.2f", 2.0);
-	conf[CDP18S020].zoom_ = configPointer->Read("/CDP18S020/Zoom", defaultZoom);
+	conf[CDP18S020].zoom_ = convertLocale(configPointer->Read("/CDP18S020/Zoom", defaultZoom));
 	defaultZoom.Printf("%2.2f", 1.0);
-	conf[CDP18S020].zoomVt_ = configPointer->Read("/CDP18S020/Vt_Zoom", defaultZoom);
+	conf[CDP18S020].zoomVt_ = convertLocale(configPointer->Read("/CDP18S020/Vt_Zoom", defaultZoom));
 	wxString defaultScale;
 	defaultScale.Printf("%i", 3);
-	conf[CDP18S020].xScale_ = configPointer->Read("/CDP18S020/Window_Scale_Factor_X", defaultScale);
+	conf[CDP18S020].xScale_ = convertLocale(configPointer->Read("/CDP18S020/Window_Scale_Factor_X", defaultScale));
 
 	configPointer->Read("/CDP18S020/Enable_Vt_Stretch_Dot", &conf[CDP18S020].stretchDot_, false);
 
@@ -164,7 +165,7 @@ void GuiCdp18s020::readCdp18s020Config()
 
 	wxString defaultClock;
 	defaultClock.Printf("%1.1f", 2.0);
-	conf[CDP18S020].clock_ = configPointer->Read("/CDP18S020/Clock_Speed", defaultClock);
+	conf[CDP18S020].clock_ = convertLocale(configPointer->Read("/CDP18S020/Clock_Speed", defaultClock));
 
     wxString defaultTimer;
     defaultTimer.Printf("%d", 500);
@@ -181,6 +182,10 @@ void GuiCdp18s020::readCdp18s020Config()
 	elfConfiguration[CDP18S020].baudR = elfConfiguration[CDP18S020].baudT;
     elfConfiguration[CDP18S020].vtEf = false;
     elfConfiguration[CDP18S020].vtQ = true;
+    
+    elfConfiguration[CDP18S020].vtCharactersPerRow = (int)configPointer->Read("/CDP18S020/VT100CharPerRow", 80);
+    elfConfiguration[CDP18S020].vt100CharWidth = (int)configPointer->Read("/CDP18S020/VT100CharWidth", 10);
+    elfConfiguration[CDP18S020].vt52CharWidth = (int)configPointer->Read("/CDP18S020/VT52CharWidth", 9);
 
 	setVtType("CDP18S020", CDP18S020, elfConfiguration[CDP18S020].vtType, false);
 
@@ -195,6 +200,12 @@ void GuiCdp18s020::readCdp18s020Config()
         conf[CDP18S020].bootAddress_ = 0;
 
     configPointer->Read("/CDP18S020/Force_Uppercase", &elfConfiguration[CDP18S020].forceUpperCase, true);
+
+    long value;
+    conf[CDP18S020].saveStartString_ = configPointer->Read("/CDP18S020/SaveStart", "0");
+    if (!conf[CDP18S020].saveStartString_.ToLong(&value, 16))
+        value = 0;
+    conf[CDP18S020].saveStart_ = value;
 
     if (mode_.gui)
 	{
@@ -229,6 +240,9 @@ void GuiCdp18s020::readCdp18s020Config()
         XRCCTRL(*this, "RamCDP18S020", wxChoice)->SetSelection(conf[CDP18S020].ramType_);
         XRCCTRL(*this, "AutoBootTypeCDP18S020", wxChoice)->SetSelection(elfConfiguration[CDP18S020].autoBootType);
         XRCCTRL(*this, "ForceUCCDP18S020", wxCheckBox)->SetValue(elfConfiguration[CDP18S020].forceUpperCase);
+
+        if (conf[CDP18S020].saveStart_ != 0)
+            XRCCTRL(*this, "SaveStartCDP18S020", wxTextCtrl)->SetValue(conf[CDP18S020].saveStartString_);
     }
 }
 
@@ -265,6 +279,9 @@ void GuiCdp18s020::writeCdp18s020Config()
     configPointer->Write("/CDP18S020/VT100Setup", value);
     value = elfConfiguration[CDP18S020].vtExternalSetUpFeature_.to_ulong();
     configPointer->Write("/CDP18S020/VTExternalSetup", value);
+    configPointer->Write("/CDP18S020/VT100CharPerRow", elfConfiguration[CDP18S020].vtCharactersPerRow);
+    configPointer->Write("/CDP18S020/VT100CharWidth", elfConfiguration[CDP18S020].vt100CharWidth);
+    configPointer->Write("/CDP18S020/VT52CharWidth", elfConfiguration[CDP18S020].vt52CharWidth);
 
 	configPointer->Write("/CDP18S020/Vt_Baud", elfConfiguration[CDP18S020].baudT);
     configPointer->Write("/CDP18S020/Enable_Auto_Boot", elfConfiguration[CDP18S020].autoBoot);
@@ -287,6 +304,8 @@ void GuiCdp18s020::writeCdp18s020Config()
     configPointer->Write("/CDP18S020/Ram_Type", conf[CDP18S020].ramType_);
     configPointer->Write("/CDP18S020/AutoBootType", elfConfiguration[CDP18S020].autoBootType);
     configPointer->Write("/CDP18S020/Force_Uppercase", elfConfiguration[CDP18S020].forceUpperCase);
+
+    configPointer->Write("/CDP18S020/SaveStart", conf[CDP18S020].saveStartString_);
 }
 
 void GuiCdp18s020::readCdp18s020WindowConfig()

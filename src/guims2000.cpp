@@ -173,19 +173,23 @@ void GuiMS2000::readMS2000Config()
     elfConfiguration[MS2000].vtExternalSetUpFeature_ = configPointer->Read("/MS2000/VTExternalSetup", 0x0000cad2l);
     elfConfiguration[MS2000].serialPort_ = configPointer->Read("/MS2000/VtSerialPortChoice", "");
 
+    elfConfiguration[MS2000].vtCharactersPerRow = (int)configPointer->Read("/MS2000/VT100CharPerRow", 80);
+    elfConfiguration[MS2000].vt100CharWidth = (int)configPointer->Read("/MS2000/VT100CharWidth", 10);
+    elfConfiguration[MS2000].vt52CharWidth = (int)configPointer->Read("/MS2000/VT52CharWidth", 9);
+
     configPointer->Read("/MS2000/Force_Uppercase", &elfConfiguration[MS2000].forceUpperCase, true);
     configPointer->Read("/MS2000/Boot_From_Ram", &elfConfiguration[MS2000].bootRam, false);
     
 	wxString defaultZoom;
 	defaultZoom.Printf("%2.2f", 1.0);
-	conf[MS2000].zoomVt_ = configPointer->Read("/MS2000/Vt_Zoom", defaultZoom);
+	conf[MS2000].zoomVt_ = convertLocale(configPointer->Read("/MS2000/Vt_Zoom", defaultZoom));
 	wxString defaultScale;
 	defaultScale.Printf("%i", 3);
-	conf[MS2000].xScale_ = configPointer->Read("/MS2000/Window_Scale_Factor_X", defaultScale);
+	conf[MS2000].xScale_ = convertLocale(configPointer->Read("/MS2000/Window_Scale_Factor_X", defaultScale));
 
 	wxString defaultClock;
 	defaultClock.Printf("%1.1f", 2.0);
-	conf[MS2000].clock_ = configPointer->Read("/MS2000/Clock_Speed", defaultClock);
+	conf[MS2000].clock_ = convertLocale(configPointer->Read("/MS2000/Clock_Speed", defaultClock));
 
     conf[MS2000].turboClock_ = configPointer->Read("/MS2000/Turbo_Clock_Speed", "15");
     conf[MS2000].printMode_ = (int)configPointer->Read("/MS2000/Print_Mode", 1l);
@@ -201,6 +205,12 @@ void GuiMS2000::readMS2000Config()
     configPointer->Read("/MS2000/DirectoryMode_1", &directoryMode_[elfConfiguration[MS2000].fdcType_][1], false);
     configPointer->Read("/MS2000/DirectoryMode_2", &directoryMode_[elfConfiguration[MS2000].fdcType_][2], false);
     configPointer->Read("/MS2000/DirectoryMode_3", &directoryMode_[elfConfiguration[MS2000].fdcType_][3], false);
+
+    long value;
+    conf[MS2000].saveStartString_ = configPointer->Read("/MS2000/SaveStart", "0");
+    if (!conf[MS2000].saveStartString_.ToLong(&value, 16))
+        value = 0;
+    conf[MS2000].saveStart_ = value;
 
     if (mode_.gui)
 	{
@@ -239,6 +249,8 @@ void GuiMS2000::readMS2000Config()
         
         if (clockTextCtrl[MS2000] != NULL)
             clockTextCtrl[MS2000]->ChangeValue(conf[MS2000].clock_);
+        if (conf[MS2000].saveStart_ != 0)
+            XRCCTRL(*this, "SaveStartMS2000", wxTextCtrl)->SetValue(conf[MS2000].saveStartString_);
 	}
 }
 
@@ -287,7 +299,10 @@ void GuiMS2000::writeMS2000Config()
     configPointer->Write("/MS2000/VT100Setup", value);
     value = elfConfiguration[MS2000].vtExternalSetUpFeature_.to_ulong();
     configPointer->Write("/MS2000/VTExternalSetup", value);
-    
+    configPointer->Write("/MS2000/VT100CharPerRow", elfConfiguration[MS2000].vtCharactersPerRow);
+    configPointer->Write("/MS2000/VT100CharWidth", elfConfiguration[MS2000].vt100CharWidth);
+    configPointer->Write("/MS2000/VT52CharWidth", elfConfiguration[MS2000].vt52CharWidth);
+
 	configPointer->Write("/MS2000/Vt_Baud_Receive", elfConfiguration[MS2000].baudR);
 	configPointer->Write("/MS2000/Vt_Baud_Transmit", elfConfiguration[MS2000].baudT);
 	configPointer->Write("/MS2000/Vt_Zoom", conf[MS2000].zoomVt_);
@@ -303,7 +318,8 @@ void GuiMS2000::writeMS2000Config()
     configPointer->Write("/MS2000/Enable_Auto_Cassette", conf[MS2000].autoCassetteLoad_);
     configPointer->Write("/MS2000/Enable_Real_Cassette", conf[MS2000].realCassetteLoad_);
     configPointer->Write("/MS2000/Print_Mode", conf[MS2000].printMode_);
-    
+    configPointer->Write("/MS2000/SaveStart", conf[MS2000].saveStartString_);
+
     configPointer->Write("/MS2000/DirectoryMode_0", directoryMode_[elfConfiguration[MS2000].fdcType_][0]);
     configPointer->Write("/MS2000/DirectoryMode_1", directoryMode_[elfConfiguration[MS2000].fdcType_][1]);
     configPointer->Write("/MS2000/DirectoryMode_2", directoryMode_[elfConfiguration[MS2000].fdcType_][2]);

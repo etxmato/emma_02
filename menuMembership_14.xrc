@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resource version="2.3.0.1" xmlns="http://www.wxwidgets.org/wxxrc">
+<object class="wxDialog" name="PopupMembership">
+<style>wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLOSE_BOX|wxTAB_TRAVERSAL</style>
+<exstyle>wxWS_EX_BLOCK_EVENTS</exstyle>
+<title>Membership Menu</title>
+<centered>1</centered>
+<font>
+<size>14</size>
+</font>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_LEFT|wxLEFT|wxRIGHT</flag>
+<border>4</border>
+<object class="wxButton" name="ID_BUTTON">
+<font>
+<size>14</size>
+</font>
+<hidden>1</hidden>
+<label>Dummy button</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALL</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
+<border>3</border>
+<object class="wxButton" name="TerminalCasButton">
+<tooltip>Browse for terminal file</tooltip>
+<font>
+<size>14</size>
+</font>
+<label>File</label>
+</object>
+</object>
+<object platform="mac" class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object platform="mac" class="wxTextCtrl" name="WavFile">
+<size>153,-1</size>
+<tooltip>Specify cassette file</tooltip>
+<font>
+<size>14</size>
+</font>
+</object>
+</object>
+<object platform="unix|win" class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>1</border>
+<object platform="unix|win" class="wxTextCtrl" name="WavFile">
+<size>153,-1</size>
+<tooltip>Specify cassette file</tooltip>
+<font>
+<size>14</size>
+</font>
+</object>
+</object>
+<object platform="mac" class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>3</border>
+<object platform="mac" class="wxBitmapButton" name="EjectCas">
+<size>26,27</size>
+<tooltip>Eject cassette file</tooltip>
+<bitmap>images_osx/eject.png</bitmap>
+<selected>images/eject.png</selected>
+<focus>images/eject.png</focus>
+</object>
+</object>
+<object platform="unix|win" class="sizeritem">
+<flag>wxGROW</flag>
+<border>3</border>
+<object platform="unix|win" class="wxBitmapButton" name="EjectCas">
+<tooltip>Eject cassette file</tooltip>
+<bitmap>images/eject.png</bitmap>
+<selected>images/eject.png</selected>
+<focus>images/eject.png</focus>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxLEFT|wxRIGHT</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALL</flag>
+<border>5</border>
+<object class="wxCheckBox" name="ControlWindowsPopupMembership">
+<tooltip>Show Membership Card front panel window</tooltip>
+<font>
+<size>14</size>
+</font>
+<label>Front Panel</label>
+<checked>0</checked>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxLEFT</flag>
+<border>12</border>
+<object class="wxStaticText" name="wxID_STATIC">
+<font>
+<size>14</size>
+</font>
+<label>Memory Access</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxLEFT|wxRIGHT</flag>
+<border>5</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxVERTICAL</orient>
+<label></label>
+<font>
+<size>14</size>
+</font>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>0</border>
+<object class="wxFlexGridSizer">
+<cols>3</cols>
+<rows>2</rows>
+<vgap>0</vgap>
+<hgap>0</hgap>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP|wxLEFT|wxRIGHT</flag>
+<border>4</border>
+<object class="wxButton" name="LoadButton">
+<tooltip>Load .hex file into Membership Card emulator memory</tooltip>
+<font>
+<size>14</size>
+</font>
+<label>LOAD</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>2</border>
+<object class="wxStaticText" name="TextStart">
+<font>
+<size>14</size>
+</font>
+<style>wxALIGN_RIGHT</style>
+<label>Start</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>0</border>
+<object class="wxTextCtrl" name="SaveStart" subclass="HexEdit">
+<size>50,-1</size>
+<tooltip>Specify start address in hexadecimal</tooltip>
+<font>
+<size>14</size>
+</font>
+<maxlength>4</maxlength>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP|wxLEFT|wxRIGHT</flag>
+<border>4</border>
+<object class="wxButton" name="SaveButton">
+<tooltip>Save Membership Card emulator memory to .hex file</tooltip>
+<font>
+<size>14</size>
+</font>
+<label>SAVE</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>2</border>
+<object class="wxStaticText" name="TextEnd">
+<font>
+<size>14</size>
+</font>
+<style>wxALIGN_RIGHT</style>
+<label>End</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>0</border>
+<object class="wxTextCtrl" name="SaveEnd" subclass="HexEdit">
+<size>50,-1</size>
+<tooltip>Specify end address in hexadecimal</tooltip>
+<font>
+<size>14</size>
+</font>
+<maxlength>4</maxlength>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxButton" name="OK">
+<font>
+<size>14</size>
+</font>
+<label>Dismiss</label>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</resource>

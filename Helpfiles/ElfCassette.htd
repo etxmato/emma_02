@@ -6,7 +6,7 @@
 The common functionality for cassette handling is described in the chapter <a href="MainCassette.htm">Cassette Support</a>. For details on how to use a real cassette player connected to a PC and Emma 02 please see the chapter: <a href="MainRealCassette.htm">Real Cassette Support</a>.
 </p>
 <p>
-Cassett support is not enabled by default! The <a href="ElfGiant.htm">Giant Board</a> or <a href="ElfSuperBasic.htm">Quest Super Basic</a> configurations which include working Cassette configurations can be loaded via the follwoing menu (yellow ellipses):
+Cassett support is not enabled by default! The <a href="ElfGiant.htm">Giant Board</a> configuration which includes a working Cassette configuration can be loaded via the follwoing menu:
 </p>
 <p>
 <IMG SRC="images/elf_cassette_conf.png" BORDER="0">
@@ -14,67 +14,30 @@ Cassett support is not enabled by default! The <a href="ElfGiant.htm">Giant Boar
 <p>
 The following sub chapter describe Elf specific cassette handling for both automatic and manual options.
 </p>
-<h3>Auto</h3>
+<h2>Auto</h2>
 <p>
-Default settings, to use this make sure 'Auto' is checked.
+To use this option 'Auto LOAD/SAVE' should be checked (yellow ellipse) which is the default setting:
 </p>
 <p>
-To load a .wav file into the Elf, start the Emma 02 emulator and then the Elf emulator (start button on Elf tab) with ROM supermon.hex or giantboard.hex. Select a .wav file in the Emma 02 window by selecting the 'Cassette' push button. Start the monitor (execute address hex 8000 for the supermon and hex F000 for the giant board). Then press 04-IN, enter the two-byte address of the memory to be loaded and then enter the ending two-byte address (every byte followed by IN). Start the actual load with an additional IN on Elf emulator window and the cassette PLAY button should go green.
+<IMG SRC="images/elf_cassette_auto.png" BORDER="0">
+<p>
+To load a .wav file into the Elf with the Giant Board configuration, press 04-IN, enter the two-byte address of the memory to be loaded and then enter the ending two-byte address (every byte followed by IN). Start the actual load with an additional IN on Elf emulator window and the cassette PLAY button should go green.
 </p>
 <p>
-To save a .wav file from the Elf, Select a .wav file in the Emma 02 window by selecting the 'Cassette' push button. press 03-IN, enter the two-byte address of the memory to be saved and then enter the ending two-byte address (every byte followed by IN). Start the actual save with an additional IN on the Elf emulator window and the cassette REC button should go red. 
+To save a .wav file from the Elf with the Giant Board configuration, press 03-IN, enter the two-byte address of the memory to be saved and then enter the ending two-byte address (every byte followed by IN). Start the actual save with an additional IN on the Elf emulator window and the cassette REC button should go red. 
 </p>
 <p>
 For both save and load make sure a .wav file is selected in the Emma 02 window before using the save and load instructions otherwise the Elf emulator will hang on the load (until you manually start a .wav file) or with a save the wav sound will not be written to any file.
 </p>
 <h3>Manual</h3>
 <p>
-To use this make sure 'Auto' is NOT checked. This setting is more like the cassette handling is on the real Elf however more complicated than Auto.  
+To load a .wav file into the Elf with the Giant Board configuration, press 04-IN, enter the two-byte address of the memory to be loaded and then enter the ending two-byte address (every byte followed by IN). Now press play and after that as soon as possible press an additional IN on the Elf.
 </p>
 <p>
-To load a .wav file into the Elf, start the Emma 02 emulator and then the Elf emulator (start button on Elf tab) with ROM supermon.hex or giantboard.hex. Select a .wav file in the Emma 02 window by selecting the 'Cassette' push button. Start the monitor (execute address hex 8000 for the supermon and hex F000 for the giant board). Then press 04-IN, enter the two-byte address of the memory to be loaded and then enter the ending two-byte address (every byte followed by IN). Now press play and after that as soon as possible press an additional IN on the Elf.
+To save a .wav file from the Elf with the Giant Board configuration, press the dark red recording button and then press 03-IN, enter the two-byte address of the memory to be saved and then enter the ending two-byte address (every byte followed by IN). Start the actual save with an additional IN on the Elf.
 </p>
 <p>
-To save a .wav file from the Elf, Select a .wav file in the Emma 02 window by selecting the 'Cassette' push button after that press the dark red recording button and press 03-IN, enter the two-byte address of the memory to be saved and then enter the ending two-byte address (every byte followed by IN). Start the actual save with an additional IN on the Elf.
-</p>
-
-
-
-<h2>Auto LOAD/SAVE</h2>
-<p>
-To use this option 'Auto LOAD/SAVE' should be checked (yellow ellipse) which is the default setting:
-</p>
-<p>
-<IMG SRC="images/elf_cassette_auto.png" BORDER="0">
-</p>
-<p>
-To load a .wav file into the Elf type PLOAD or DLOAD (and return) in the COMX emulator window and the cassette play button (green ellipse) will go green.
-</p>
-<p>
-To save a .wav file from the COMX type PSAVE or DSAVE (and return) in the COMX emulator window and the cassette record button (red ellipse) should go red. 
-</p>
-<p>
-For both save and load make sure a .wav file is selected before using the PSAVE and PLOAD instructions otherwise the COMX emulator will hang on the PLOAD (until you manually start a .wav file) or with a PSAVE the wav sound will not be written to any file. The play, record and stop buttons cannot be used for manual intervention unless 'Auto LOAD/SAVE' is unselected. 
-</p>
-<h3>Manual LOAD/SAVE</h3>
-<p>
-To use this option 'Auto LOAD/SAVE' should NOT be checked. This setting is more like the cassette handling is on the real COMX however a bit more complicated than Auto LOAD/SAVE:
-</p>
-<p>
-<IMG SRC="images/comx_cassette_manual.png" BORDER="0">
-</p>
-<p>
-To load a .wav file into the COMX, type PLOAD or DLOAD in the COMX emulator (don't type return as yet!). Press play (green ellipse) and after that as soon as possible press 'return' on the COMX.
-</p>
-<p>
-To save a .wav file from the COMX, press the dark red record button (red ellipse) and type PSAVE or DSAVE (and return) in the COMX.
-</p>
-<p>
-Saving or loading can be stopped at anytime by pressing the stop button (brown ellipse). When stopping a load while the COMX is in loading mode will however hang the COMX.
-</p>
-<h3>COMX Turbo and TOS loaders</h3>
-<p>
-The emulator includes '.comx' files for the F&M Turbo v1.00, v2.00 and F&M TOS v3.00. All these Turbo and TOS loaders (including the Turbo and Turbo+ commands available in the F&M printer rom) also support Auto and Turbo LOAD/SAVE options as described above.
+Saving or loading can be stopped at anytime by pressing the stop button (brown ellipse). When stopping a load while the Elf is in loading mode will however hang the Elf.
 </p>
 </BODY>
 </HTML>

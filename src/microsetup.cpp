@@ -39,7 +39,7 @@ One600SocketSetupDialog::One600SocketSetupDialog(MicroboardSetupDialog* parent, 
     parent_ = parent;
     configuration_ = configuration;
 
-    wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"microsetup.xrc");
+    wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"microsetup_" + p_Main->getFontSize() + ".xrc");
     
     ramSize_ = 2 << (configuration_.microChipType_[ONE_SOCKET]);
     wxString xmlString;
@@ -81,7 +81,7 @@ Four600SocketSetupDialog::Four600SocketSetupDialog(MicroboardSetupDialog* parent
     parent_ = parent;
     configuration_ = configuration;
 
-    wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"microsetup.xrc");
+    wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"microsetup_" + p_Main->getFontSize() + ".xrc");
     
     ramSize_ = 2 << (configuration_.microChipType_[FOUR_SOCKET]);
     wxString xmlString;
@@ -156,7 +156,7 @@ Four601SocketSetupDialog::Four601SocketSetupDialog(MicroboardSetupDialog* parent
     parent_ = parent;
     configuration_ = configuration;
 
-    wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"microsetup.xrc");
+    wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"microsetup_" + p_Main->getFontSize() + ".xrc");
     
     int locationXu25 = configuration_.microChipLocation_[FOUR_SOCKET_ROM1];
     int locationXu27 = configuration_.microChipLocation_[FOUR_SOCKET_ROM2];
@@ -283,7 +283,7 @@ END_EVENT_TABLE()
 
 MicroboardSetupDialog::MicroboardSetupDialog(wxWindow* parent, Conf configuration, ElfConfiguration elfConfiguration)
 {
-    wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"microsetup.xrc");
+    wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"microsetup_" + p_Main->getFontSize() + ".xrc");
     configuration_ = configuration;
     elfConfiguration_ = elfConfiguration;
     selectedComputer_ = p_Main->getSelectedComputerId();
@@ -1192,7 +1192,7 @@ END_EVENT_TABLE()
 
 MicroboardCardSetupDialog::MicroboardCardSetupDialog(wxWindow* parent, Conf configuration, ElfConfiguration elfConfiguration, MicroMemoryConf microMemConfigutation, int cardNumber)
 {
-    wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"microsetup.xrc");
+    wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"microsetup_" + p_Main->getFontSize() + ".xrc");
     configuration_ = configuration;
     elfConfiguration_ = elfConfiguration;
     microMemConfigutation_ = microMemConfigutation;
@@ -2462,7 +2462,7 @@ END_EVENT_TABLE()
 
 MicroboardAdditionalCardSetupDialog::MicroboardAdditionalCardSetupDialog(wxWindow* parent, Conf configuration, ElfConfiguration elfConfiguration)
 {
-    wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"microsetup.xrc");
+    wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"microsetup_" + p_Main->getFontSize() + ".xrc");
     wxXmlResource::Get()->LoadDialog(this, parent, "CARD_Setup_Dialog");
 
     configuration_ = configuration;
@@ -2631,7 +2631,7 @@ MicroRom660SocketSetupDialog::MicroRom660SocketSetupDialog(MicroboardCardSetupDi
     parent_ = parent;
     microMemConfigutation_ = microMemConfigutation;
     
-    wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"microsetup.xrc");
+    wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"microsetup_" + p_Main->getFontSize() + ".xrc");
     
     int locationXu23 = microMemConfigutation_.memLocation_[FOUR_SOCKET_ROM1];
     int locationXu21 = microMemConfigutation_.memLocation_[FOUR_SOCKET_ROM2];

@@ -72,10 +72,10 @@ To start FPB press '1'
 - Press 'C' for a cold or 'W' for a warm start</label>
                 </object>
             </object>
-            <object platform="__WXMSW__ || __WXGTK__" class="sizeritem">
+            <object platform="win| __WXGTK__" class="sizeritem">
                 <flag>wxALIGN_LEFT|wxALL</flag>
                 <border>5</border>
-                <object platform="__WXMSW__ || __WXGTK__" class="wxStaticText" name="wxID_STATIC">
+                <object platform="win| __WXGTK__" class="wxStaticText" name="wxID_STATIC">
                     <font>
                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                         <size>-1</size>

@@ -85,7 +85,7 @@ void GuiCidelsa::readCidelsaConfig()
 
 	wxString defaultZoom;
 	defaultZoom.Printf("%2.2f", 2.0);
-	conf[CIDELSA].zoom_ = configPointer->Read("/Cidelsa/Zoom", defaultZoom);
+	conf[CIDELSA].zoom_ = convertLocale(configPointer->Read("/Cidelsa/Zoom", defaultZoom));
 	conf[CIDELSA].volume_ = (int)configPointer->Read("/Cidelsa/Volume", 25l);
 
 	in2Value_ = configPointer->Read("/Cidelsa/Difficulty", 0l) ^ 0x3;
@@ -102,7 +102,7 @@ void GuiCidelsa::readCidelsaConfig()
 
 	wxString defaultClock;
 	defaultClock.Printf("%1.3f", 3.579);
-	conf[CIDELSA].clock_ = configPointer->Read("/Cidelsa/Clock_Speed", defaultClock);
+	conf[CIDELSA].clock_ = convertLocale(configPointer->Read("/Cidelsa/Clock_Speed", defaultClock));
 	conf[CIDELSA].realCassetteLoad_ = false;
 
 	if (mode_.gui)

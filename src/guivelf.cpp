@@ -153,12 +153,12 @@ void GuiVelf::readVelfConfig()
 
 	wxString defaultZoom;
 	defaultZoom.Printf("%2.2f", 2.0);
-	conf[VELF].zoom_ = configPointer->Read("/Velf/Zoom", defaultZoom);
+	conf[VELF].zoom_ = convertLocale(configPointer->Read("/Velf/Zoom", defaultZoom));
 	defaultZoom.Printf("%2.2f", 1.0);
-	conf[VELF].zoomVt_ = configPointer->Read("/Velf/Vt_Zoom", defaultZoom);
+	conf[VELF].zoomVt_ = convertLocale(configPointer->Read("/Velf/Vt_Zoom", defaultZoom));
 	wxString defaultScale;
 	defaultScale.Printf("%i", 3);
-	conf[VELF].xScale_ = configPointer->Read("/Velf/Window_Scale_Factor_X", defaultScale);
+	conf[VELF].xScale_ = convertLocale(configPointer->Read("/Velf/Window_Scale_Factor_X", defaultScale));
 
     configPointer->Read("/Velf/SerialLog", &elfConfiguration[VELF].serialLog, false);
 	configPointer->Read("/Velf/Enable_Vt_Stretch_Dot", &conf[VELF].stretchDot_, false);
@@ -177,7 +177,7 @@ void GuiVelf::readVelfConfig()
 
 	wxString defaultClock;
 	defaultClock.Printf("%1.2f", 1.76);
-	conf[VELF].clock_ = configPointer->Read("/Velf/Clock_Speed", defaultClock);
+	conf[VELF].clock_ = convertLocale(configPointer->Read("/Velf/Clock_Speed", defaultClock));
 
     wxString defaultTimer;
     defaultTimer.Printf("%d", 100);
@@ -195,12 +195,22 @@ void GuiVelf::readVelfConfig()
 	elfConfiguration[VELF].baudT = (int)configPointer->Read("/Velf/Vt_Baud", 3l);
 	elfConfiguration[VELF].baudR = elfConfiguration[VELF].baudT;
 
-	setVtType("Velf", VELF, elfConfiguration[VELF].vtType, false);
+    elfConfiguration[VELF].vtCharactersPerRow = (int)configPointer->Read("/Velf/VT100CharPerRow", 80);
+    elfConfiguration[VELF].vt100CharWidth = (int)configPointer->Read("/Velf/VT100CharWidth", 10);
+    elfConfiguration[VELF].vt52CharWidth = (int)configPointer->Read("/Velf/VT52CharWidth", 9);
+
+    setVtType("Velf", VELF, elfConfiguration[VELF].vtType, false);
 
 	elfConfiguration[VELF].vtCharRom_ = configPointer->Read("/Velf/Vt_Font_Rom_File", "vt100.bin");
 
     conf[VELF].velfMode_ = (int)configPointer->Read("/Velf/ModeVelf", 0l);
     configPointer->Read("/Velf/Enable_Auto_Boot", &elfConfiguration[VELF].autoBoot, true);
+
+    long value;
+    conf[VELF].saveStartString_ = configPointer->Read("/Velf/SaveStart", "0");
+    if (!conf[VELF].saveStartString_.ToLong(&value, 16))
+        value = 0;
+    conf[VELF].saveStart_ = value;
 
     if (mode_.gui)
 	{
@@ -243,6 +253,8 @@ void GuiVelf::readVelfConfig()
         XRCCTRL(*this, "ShowAddressVelf", wxTextCtrl)->ChangeValue(conf[VELF].ledTime_);
         XRCCTRL(*this,"ShowAddressVelf", wxTextCtrl)->Enable(elfConfiguration[VELF].useElfControlWindows);
         XRCCTRL(*this, "AutoBootVelf", wxCheckBox)->SetValue(elfConfiguration[VELF].autoBoot);
+        if (conf[VELF].saveStart_ != 0)
+            XRCCTRL(*this, "SaveStartVelf", wxTextCtrl)->SetValue(conf[VELF].saveStartString_);
     }
 }
 
@@ -283,6 +295,9 @@ void GuiVelf::writeVelfConfig()
     configPointer->Write("/Velf/VT100Setup", value);
     value = elfConfiguration[VELF].vtExternalSetUpFeature_.to_ulong();
     configPointer->Write("/Velf/VTExternalSetup", value);
+    configPointer->Write("/Velf/VT100CharPerRow", elfConfiguration[VELF].vtCharactersPerRow);
+    configPointer->Write("/Velf/VT100CharWidth", elfConfiguration[VELF].vt100CharWidth);
+    configPointer->Write("/Velf/VT52CharWidth", elfConfiguration[VELF].vt52CharWidth);
 
 	configPointer->Write("/Velf/Vt_Baud", elfConfiguration[VELF].baudT);
     configPointer->Write("/Velf/Enable_Auto_Boot", elfConfiguration[VELF].autoBoot);
@@ -302,6 +317,7 @@ void GuiVelf::writeVelfConfig()
 	configPointer->Write("/Velf/Printer", conf[VELF].printerOn_);
 	configPointer->Write("/Velf/Volume", conf[VELF].volume_);
     configPointer->Write("/Velf/Led_Update_Frequency", conf[VELF].ledTime_);
+    configPointer->Write("/Velf/SaveStart", conf[VELF].saveStartString_);
 
 	configPointer->Write("/Velf/Print_Mode", conf[VELF].printMode_);
 	configPointer->Write("/Velf/Clock_Speed", conf[VELF].clock_);

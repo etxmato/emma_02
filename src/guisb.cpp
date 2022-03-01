@@ -53,7 +53,7 @@ END_EVENT_TABLE()
 
 SBDialog::SBDialog(wxWindow* parent)
 {
-	wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"sb.xrc");
+	wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"sb_" + p_Main->getFontSize() + ".xrc");
 	wxXmlResource::Get()->LoadDialog(this, parent, wxT("SBDialog"));
 
     rootDir_ = p_Main->getSbRootDirectory();
@@ -123,8 +123,18 @@ SBDialog::SBDialog(wxWindow* parent)
 		XRCCTRL(*this, "SB_ROMS", wxPanel)->Enable(false);
 		XRCCTRL(*this, "SettingsRoot", wxButton)->Enable(false);
 		XRCCTRL(*this, "SettingsRootTxt", wxTextCtrl)->Enable(false);
+        XRCCTRL(*this, "BackupActivate", wxStaticText)->Hide();
 	}
-		XRCCTRL(*this, "SB_Backup", wxPanel)->Enable(false);
+    else
+    {
+        XRCCTRL(*this, "BackupActivate", wxStaticText)->Enable(true);
+        XRCCTRL(*this, "BackupFolder", wxButton)->Enable(false);
+        XRCCTRL(*this, "BackupRootTxt", wxTextCtrl)->Enable(false);
+        XRCCTRL(*this, "BackupList", wxTextCtrl)->Enable(false);
+        XRCCTRL(*this, "BackupWarning", wxStaticText)->Enable(false);
+        XRCCTRL(*this, "BackupSub", wxCheckBox)->Enable(false);
+        XRCCTRL(*this, "BackupYes", wxButton)->Enable(false);
+    }
 
 	XRCCTRL(*this, "BackupRootTxt", wxTextCtrl)->SetValue(rootDir_);
 	sub_ = false;

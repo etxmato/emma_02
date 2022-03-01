@@ -96,7 +96,7 @@ GuiMain::GuiMain(const wxString& title, const wxPoint& pos, const wxSize& size, 
 	applicationDirectory_ = applicationFile.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
 #endif
 #if defined(__linux__)
-    if (!wxFile::Exists(applicationDirectory_ + "main.xrc"))
+    if (!wxFile::Exists(applicationDirectory_ + "main_11.xrc"))
     {
         applicationDirectory_ = wxStandardPaths::Get().GetExecutablePath();
         applicationDirectory_ = applicationDirectory_.Left(applicationDirectory_.Len()-11);
@@ -104,7 +104,8 @@ GuiMain::GuiMain(const wxString& title, const wxPoint& pos, const wxSize& size, 
     }
 #endif
 
-    windowInfo = getWinSizeInfo(applicationDirectory_);
+    fontSizeString_ = configPointer->Read("/Main/FontSizeString", "11");
+    windowInfo = getWinSizeInfo(applicationDirectory_, fontSizeString_);
 
     wxDir checkDirForFiles;
     bool dataDirEmpty = true;
@@ -150,7 +151,7 @@ GuiMain::GuiMain(const wxString& title, const wxPoint& pos, const wxSize& size, 
     position_[SUPERELF].x = 0;
 }
 
-WindowInfo GuiMain::getWinSizeInfo(wxString appDir)
+WindowInfo GuiMain::getWinSizeInfo(wxString appDir, wxString fontSizeString)
 {
     WindowInfo returnValue;
     wxString windowInfoFile;
@@ -162,7 +163,7 @@ WindowInfo GuiMain::getWinSizeInfo(wxString appDir)
     wxConfigBase *windowConfigPointer;
     
 #if defined (__WXMAC__)
-    windowInfoFile = "osx.ini";
+    windowInfoFile = "osx_" + fontSizeString + ".ini";
     wxString appName = "emma_02";
     
     returnValue.operatingSystem = OS_MAC;
@@ -193,15 +194,15 @@ WindowInfo GuiMain::getWinSizeInfo(wxString appDir)
         }
     }
 
-    windowInfoFile = distInfo.Id + ".ini";
+    windowInfoFile = distInfo.Id + "_" + fontSizeString + ".ini";
 
     if (distInfo.Id == "")
     {
         distInfo.Id = wxPlatformInfo::Get().GetOperatingSystemDescription();
         if (distInfo.Id.Find("fc") != wxNOT_FOUND) // Fedor is something like: Linux 4.11.11-300.fc26.x86_64 x86_64
-            windowInfoFile = "fedora.ini";
+            windowInfoFile = "fedora_" + fontSizeString + ".ini";
         if (distInfo.Id.Find("lp") != wxNOT_FOUND) // openSUSE: Linux 4.12.14-lp151.27-default x86_64
-            windowInfoFile = "suse.ini";
+            windowInfoFile = "suse_" + fontSizeString + ".ini";
     }
     
     wxString appName = "emma_02";
@@ -221,19 +222,19 @@ WindowInfo GuiMain::getWinSizeInfo(wxString appDir)
         case OS_MAJOR_XP_2000:
             if (osVersion.dwMinorVersion == OS_MINOR_2000)
             {
-                windowInfoFile = "win2000.ini";
+                windowInfoFile = "win2000_" + fontSizeString + ".ini";
                 returnValue.operatingSystem = OS_WINDOWS_2000;
             }
             else
-                windowInfoFile = "winxp.ini";
+                windowInfoFile = "winxp_" + fontSizeString + ".ini";
         break;
             
         case OS_MAJOR_VISTA_8_1:
-            windowInfoFile = "win8.ini";
+            windowInfoFile = "win8_" + fontSizeString + ".ini";
         break;
             
         default:
-            windowInfoFile = "win10.ini";
+            windowInfoFile = "win10_" + fontSizeString + ".ini";
         break;
     }
 #endif
@@ -245,7 +246,7 @@ WindowInfo GuiMain::getWinSizeInfo(wxString appDir)
     {
         returnValue.errorMessage = "Configuration file '" + windowInfoFile + "' not found, loading default configuration\n";
 
-        windowInfoFile = "linuxdefault.ini";
+        windowInfoFile = "linuxdefault_" + fontSizeString + ".ini";
     }
 
     wxFileConfig *pConfig = new wxFileConfig(appName, "Marcel van Tongeren", appDir + windowInfoFile);
@@ -376,6 +377,7 @@ void GuiMain::readElfPortConfig(int elfType, wxString elfTypeStr)
 
     elfConfiguration[elfType].elfPortConf.tmsModeHighOutput = (int)configPointer->Read(elfTypeStr+"/TmsModeHighOutput", 5l);
     elfConfiguration[elfType].elfPortConf.tmsModeLowOutput = (int)configPointer->Read(elfTypeStr+"/TmsModeLowOutput", 6l);
+    elfConfiguration[elfType].elfPortConf.tmsInterrupt = (int)configPointer->Read(elfTypeStr+"/TmsInterrupt", 4l);
 
     elfConfiguration[elfType].elfPortConf.i8275WriteCommand = (int)configPointer->Read(elfTypeStr+"/I8275WriteCommand", 5l);
     elfConfiguration[elfType].elfPortConf.i8275ReadStatus = (int)configPointer->Read(elfTypeStr+"/I8275ReadStatus", 5l);
@@ -472,6 +474,7 @@ void GuiMain::writeElfPortConfig(int elfType, wxString elfTypeStr)
     configPointer->Write(elfTypeStr+"/UartStatus", elfConfiguration[elfType].elfPortConf.uartStatus);
     configPointer->Write(elfTypeStr+"/TmsModeHighOutput", elfConfiguration[elfType].elfPortConf.tmsModeHighOutput);
     configPointer->Write(elfTypeStr+"/TmsModeLowOutput", elfConfiguration[elfType].elfPortConf.tmsModeLowOutput);
+    configPointer->Write(elfTypeStr+"/TmsInterrupt", elfConfiguration[elfType].elfPortConf.tmsInterrupt);
     configPointer->Write(elfTypeStr+"/I8275WriteCommand", elfConfiguration[elfType].elfPortConf.i8275WriteCommand);
     configPointer->Write(elfTypeStr+"/I8275ReadStatus", elfConfiguration[elfType].elfPortConf.i8275ReadStatus);
     configPointer->Write(elfTypeStr+"/I8275WriteParameter", elfConfiguration[elfType].elfPortConf.i8275WriteParameter);
@@ -2113,7 +2116,7 @@ void GuiMain::onLoad(bool load)
                               );
 	if (!fileName)
 		return;
-
+    
 	wxFileName swFullPath = wxFileName(fileName, wxPATH_NATIVE);
 	conf[selectedComputer_].ramDir_ = swFullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
 
@@ -2359,20 +2362,23 @@ void GuiMain::onBeepFrequency(wxCommandEvent&WXUNUSED(event))
 	setBeepFrequency(selectedComputer_);
 }
 
+wxString GuiMain::convertLocale(wxString returnString)
+{
+    wxString decimalPoint = wxLocale::GetInfo(wxLOCALE_DECIMAL_POINT, wxLOCALE_CAT_NUMBER);
+
+    returnString.Replace(",",decimalPoint);
+    returnString.Replace(".",decimalPoint);
+    returnString.Replace("'",decimalPoint);
+
+    return returnString;
+}
+
 bool GuiMain::toDouble(wxString stringName, double* result)
 {
-    bool returnValue;
-    
-    returnValue = stringName.ToDouble(result);
-    if (!returnValue)
-    {
-        if (stringName.Find(','))
-            stringName.Replace(",",".");
-        else
-            stringName.Replace(".",",");
-        returnValue = stringName.ToDouble(result);
-    }
-    return returnValue;
+	stringName = convertLocale(stringName);
+    bool returnValue = stringName.ToDouble(result);
+
+	return returnValue;
 }
 
 wxString GuiMain::getKeyFile()
@@ -3909,6 +3915,7 @@ void GuiMain::enableMemAccessGui(bool status)
 	{
 		XRCCTRL(*this, "RunButton"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
 		XRCCTRL(*this, "UseLocation"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable(status);
+        XRCCTRL(*this, "UseLocationText"+computerInfo[runningComputer_].gui, wxStaticText)->Enable(status);
 		XRCCTRL(*this, "DsaveButton"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
 		enableLocationGui();
 	}
@@ -4150,10 +4157,23 @@ void GuiMain::setBaudChoice(int computerType)
 
 void GuiMain::setBaud(int baudR, int baudT)
 {
-    XRCCTRL(*this, "VTBaudRChoice" + computerInfo[runningComputer_].gui, wxChoice)->SetSelection(baudR);
-    XRCCTRL(*this, "VTBaudTChoice" + computerInfo[runningComputer_].gui, wxChoice)->SetSelection(baudT);
+    if (mode_.gui)
+    {
+        XRCCTRL(*this, "VTBaudRChoice" + computerInfo[runningComputer_].gui, wxChoice)->SetSelection(baudR);
+        XRCCTRL(*this, "VTBaudTChoice" + computerInfo[runningComputer_].gui, wxChoice)->SetSelection(baudT);
+    }
     elfConfiguration[runningComputer_].baudR = baudR;
     elfConfiguration[runningComputer_].baudT = baudT;
+}
+
+void GuiMain::saveSetup(int baudR, int baudT, bitset<32> setupFeature, int vtCharactersPerRow, int charWidth)
+{
+    elfConfiguration[runningComputer_].baudR = baudR;
+    elfConfiguration[runningComputer_].baudT = baudT;
+    elfConfiguration[runningComputer_].vt100SetUpFeature_ = setupFeature;
+    elfConfiguration[runningComputer_].vtCharactersPerRow = vtCharactersPerRow;
+    elfConfiguration[runningComputer_].vt100CharWidth = charWidth;
+    
 }
 
 void GuiMain::onLedTimer(wxCommandEvent&event)

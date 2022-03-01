@@ -157,17 +157,18 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 	blueBack_ = colour_[colourIndex_+1].Blue();
 
 	setForeColour();
+    
 
 	switch (vtType_)
 	{
 		case VT52:
-			if (computerType_ == COSMICOS)
-				charactersPerRow_ = 64;
-			else
-				charactersPerRow_ = 80;
+            if (computerType_ == COSMICOS)
+                charactersPerRow_ = 64;
+            else
+                charactersPerRow_ = 80;
 			SetUpFeature_ = elfConfiguration_.vt52SetUpFeature_;
 			tabs_ = "        T       T       T       T       T       T       T       T       T       T       T       T       T       T       T       T       T";
-			charWidth_ = 9;
+            charWidth_ = elfConfiguration_.vt52CharWidth;
 			rowsPerFrame_ = 24;
 			linesPerCharacter_ = 11;
 			heightFactor = 2;
@@ -175,14 +176,11 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 			scrollEnd_ = rowsPerFrame_;
 		break;
 		case VT100:
-			if (computerType_ == COSMICOS)
-				charactersPerRow_ = 64;
-			else
-				charactersPerRow_ = 80;
-			SetUpFeature_ = elfConfiguration_.vt100SetUpFeature_;
+            SetUpFeature_ = elfConfiguration_.vt100SetUpFeature_;
 			tabs_ = p_Main->getConfigItem(computerTypeStr_+"/VT100Tabs", "        T       T       T       T       T       T       T       T       T       T       T       T       T       T       T       T       T");
 			answerBackMessage_ = p_Main->getConfigItem(computerTypeStr_+"/VT100AnswerBack", "                    ");
-			charWidth_ = 10;
+            charactersPerRow_ = elfConfiguration_.vtCharactersPerRow;
+            charWidth_ = elfConfiguration_.vt100CharWidth;
 			rowsPerFrame_ = 25;
 			linesPerCharacter_ = 10;
 			heightFactor = 2;
@@ -4369,16 +4367,19 @@ void Vt100::setUpA(int key)
 			reDraw_ = true;
 		break;
 		case 57: //9
-			if (charactersPerRow_ == 80)
-			{
-				charactersPerRow_ = 132;
-				charWidth_ = 8;
-			}
-			else
-			{
-				charactersPerRow_ = 80;
-				charWidth_ = 10;
-			}
+            if (computerType_ != COSMICOS)
+            {
+                if (charactersPerRow_ == 80)
+                {
+                    charactersPerRow_ = 132;
+                    charWidth_ = 8;
+                }
+                else
+                {
+                    charactersPerRow_ = 80;
+                    charWidth_ = 10;
+                }
+            }
 			videoWidth_ = charactersPerRow_*charWidth_;
 			reDraw_ = true;
 			setScreenSize();
@@ -4806,16 +4807,20 @@ void Vt100::setupWaitScreen()
 
 void Vt100::setupSave()
 {
-	p_Main->setConfigItem(computerTypeStr_+"/Vt_Baud_Transmit", selectedBaudT_);
-	p_Main->setConfigItem(computerTypeStr_+"/Vt_Baud_Receive", selectedBaudR_);
-	long value = SetUpFeature_.to_ulong();
-	p_Main->setConfigItem(computerTypeStr_+"/VT100Setup", value);
+//	p_Main->setConfigItem(computerTypeStr_+"/Vt_Baud_Transmit", selectedBaudT_);
+//	p_Main->setConfigItem(computerTypeStr_+"/Vt_Baud_Receive", selectedBaudR_);
+//	long value = SetUpFeature_.to_ulong();
+//	p_Main->setConfigItem(computerTypeStr_+"/VT100Setup", value);
 	p_Main->setConfigItem(computerTypeStr_+"/VT100Tabs", tabs_);
-	p_Main->setConfigItem(computerTypeStr_+"/VT100AnswerBack", answerBackMessage_);
+    p_Main->setConfigItem(computerTypeStr_+"/VT100AnswerBack", answerBackMessage_);
+//    p_Main->setConfigItem(computerTypeStr_+"/VT100CharPerRow", charactersPerRow_);
+//    if (vtType_ == VT52)
+//        p_Main->setConfigItem(computerTypeStr_+"/VT52CharWidth", charWidth_);
+//    else
+//        p_Main->setConfigItem(computerTypeStr_+"/VT100CharWidth", charWidth_);
+
+    p_Main->saveSetup(selectedBaudR_, selectedBaudT_, SetUpFeature_, charactersPerRow_, charWidth_);
 	reDraw_ = true;
-	p_Main->readElfConfig(ELF, "Elf");
-	p_Main->readElfConfig(ELFII, "ElfII");
-	p_Main->readElfConfig(SUPERELF, "SuperElf");
 }
 
 void Vt100::setupLoad()

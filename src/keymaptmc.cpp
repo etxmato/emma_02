@@ -81,7 +81,7 @@ KeyMapTmcDialog::KeyMapTmcDialog(wxWindow* parent)
     normalKey_ = -1;
     shiftKey_ = -1;
     
-    wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"keymap_tmc.xrc");
+    wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"keymap_tmc_" + p_Main->getFontSize() + ".xrc");
     wxXmlResource::Get()->LoadDialog(this, parent, wxT("KeyMapDialog"));
     
     p_Main->getTmc600Keys(keyDefNormal_, keyDefShift_);

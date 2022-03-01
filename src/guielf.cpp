@@ -383,7 +383,6 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
 	elfConfiguration[elfType].vtWavFile_ = configPointer->Read(elfTypeStr + "/Vt_Wav_File", "");
     elfConfiguration[elfType].serialPort_ = configPointer->Read(elfTypeStr + "/VtSerialPortChoice", "");
 
-	conf[elfType].saveStartString_ = "";
 	conf[elfType].saveEndString_ = "";
 	conf[elfType].saveExecString_ = "";
 
@@ -394,6 +393,11 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
     elfConfiguration[elfType].vtExternalSetUpFeature_ = configPointer->Read(elfTypeStr+"/VTExternalSetup", 0x0000ca52l);
 	elfConfiguration[elfType].baudR = (int)configPointer->Read(elfTypeStr+"/Vt_Baud_Receive", 4l);
 	elfConfiguration[elfType].baudT = (int)configPointer->Read(elfTypeStr+"/Vt_Baud_Transmit", 4l);
+    
+    elfConfiguration[elfType].vtCharactersPerRow = (int)configPointer->Read(elfTypeStr+"/VT100CharPerRow", 80);
+    elfConfiguration[elfType].vt100CharWidth = (int)configPointer->Read(elfTypeStr+"/VT100CharWidth", 10);
+    elfConfiguration[elfType].vt52CharWidth = (int)configPointer->Read(elfTypeStr+"/VT52CharWidth", 9);
+
 	elfConfiguration[elfType].diskType = (int)configPointer->Read(elfTypeStr+"/Disk_Type", 2l);
     elfConfiguration[elfType].keyboardType = (int)configPointer->Read(elfTypeStr+"/Keyboard_Type", 0l);
 	elfConfiguration[elfType].memoryType = (int)configPointer->Read(elfTypeStr+"/Memory_Type", 0l);
@@ -422,16 +426,16 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
 
     wxString defaultZoom;
 	defaultZoom.Printf("%2.2f", 2.0);
-	conf[elfType].zoom_ = configPointer->Read(elfTypeStr+"/Zoom", defaultZoom);
+	conf[elfType].zoom_ = convertLocale(configPointer->Read(elfTypeStr+"/Zoom", defaultZoom));
 	defaultZoom.Printf("%2.2f", 1.0);
-	conf[elfType].zoomVt_ = configPointer->Read(elfTypeStr+"/Vt_Zoom", defaultZoom);
+	conf[elfType].zoomVt_ = convertLocale(configPointer->Read(elfTypeStr+"/Vt_Zoom", defaultZoom));
 	wxString defaultScale;
 	defaultScale.Printf("%i", 3);
-	conf[elfType].xScale_ = configPointer->Read(elfTypeStr+"/Window_Scale_Factor_X", defaultScale);
+	conf[elfType].xScale_ = convertLocale(configPointer->Read(elfTypeStr+"/Window_Scale_Factor_X", defaultScale));
 
 	wxString defaultClock;
 	defaultClock.Printf("%1.2f", 1.76);
-	conf[elfType].clock_ = configPointer->Read(elfTypeStr+"/Clock_Speed", defaultClock);
+	conf[elfType].clock_ = convertLocale(configPointer->Read(elfTypeStr+"/Clock_Speed", defaultClock));
 	wxString defaultTimer;
 	defaultTimer.Printf("%d", 100);
 	conf[elfType].ledTime_ = configPointer->Read(elfTypeStr+"/Led_Update_Frequency", defaultTimer);
@@ -463,7 +467,12 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
 		value = 0xffff;
 	endRam_[elfType] = value;
 
-	if (mode_.gui)
+    conf[elfType].saveStartString_ = configPointer->Read(elfTypeStr+"/SaveStart", "0");
+    if (!conf[elfType].saveStartString_.ToLong(&value, 16))
+        value = 0;
+    conf[elfType].saveStart_ = value;
+
+    if (mode_.gui)
 		setBaudChoice(elfType);
 
 	setVtType(elfTypeStr, elfType, elfConfiguration[elfType].vtType, false);
@@ -472,19 +481,21 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
 	conf[elfType].charRom_ = configPointer->Read(elfTypeStr+"/Font_Rom_File", "super.video.bin");
 	elfConfiguration[elfType].vtCharRom_ = configPointer->Read(elfTypeStr+"/Vt_Font_Rom_File", "vt100.bin");
 
+    configPointer->Read(elfTypeStr+"/UseLoadLocation", &conf[elfType].useLoadLocation_, false);
+
 	if (mode_.gui)
 	{
-		setPrinterState(elfType);
-		XRCCTRL(*this, "MainRom"+elfTypeStr, wxComboBox)->SetValue(conf[elfType].rom_[MAINROM1]);
-		XRCCTRL(*this, "MainRom2"+elfTypeStr, wxComboBox)->SetValue(conf[elfType].rom_[MAINROM2]);
-		XRCCTRL(*this, "CharRom"+elfTypeStr, wxComboBox)->SetValue(conf[elfType].charRom_);
-		XRCCTRL(*this, "IdeFile"+elfTypeStr, wxTextCtrl)->SetValue(conf[elfType].ide_);
-		XRCCTRL(*this, "KeyFile"+elfTypeStr, wxTextCtrl)->SetValue(conf[elfType].keyFile_);
-		XRCCTRL(*this, "PrintFile"+elfTypeStr, wxTextCtrl)->SetValue(conf[elfType].printFile_);
-		XRCCTRL(*this, "ScreenDumpFile"+elfTypeStr, wxComboBox)->SetValue(conf[elfType].screenDumpFile_);
-		XRCCTRL(*this, "WavFile"+elfTypeStr, wxTextCtrl)->SetValue(conf[elfType].wavFile_[0]);
-
-		XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->SetSelection(elfConfiguration[elfType].qSound_);
+        setPrinterState(elfType);
+        XRCCTRL(*this, "MainRom"+elfTypeStr, wxComboBox)->SetValue(conf[elfType].rom_[MAINROM1]);
+        XRCCTRL(*this, "MainRom2"+elfTypeStr, wxComboBox)->SetValue(conf[elfType].rom_[MAINROM2]);
+        XRCCTRL(*this, "CharRom"+elfTypeStr, wxComboBox)->SetValue(conf[elfType].charRom_);
+        XRCCTRL(*this, "IdeFile"+elfTypeStr, wxTextCtrl)->SetValue(conf[elfType].ide_);
+        XRCCTRL(*this, "KeyFile"+elfTypeStr, wxTextCtrl)->SetValue(conf[elfType].keyFile_);
+        XRCCTRL(*this, "PrintFile"+elfTypeStr, wxTextCtrl)->SetValue(conf[elfType].printFile_);
+        XRCCTRL(*this, "ScreenDumpFile"+elfTypeStr, wxComboBox)->SetValue(conf[elfType].screenDumpFile_);
+        XRCCTRL(*this, "WavFile"+elfTypeStr, wxTextCtrl)->SetValue(conf[elfType].wavFile_[0]);
+    
+        XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->SetSelection(elfConfiguration[elfType].qSound_);
         if (elfConfiguration[elfType].vtExternal)
             XRCCTRL(*this, "VTType"+elfTypeStr, wxChoice)->SetSelection(EXTERNAL_TERMINAL);
         else
@@ -552,6 +563,10 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
 
 		XRCCTRL(*this, "ShowAddress"+elfTypeStr, wxTextCtrl)->ChangeValue(conf[elfType].ledTime_);
 		XRCCTRL(*this,"ShowAddress"+elfTypeStr, wxTextCtrl)->Enable(elfConfiguration[elfType].useElfControlWindows);
+
+        XRCCTRL(*this, "UseLocation"+elfTypeStr, wxCheckBox)->SetValue(conf[elfType].useLoadLocation_);
+        if (conf[elfType].saveStart_ != 0)
+            XRCCTRL(*this, "SaveStart"+elfTypeStr, wxTextCtrl)->SetValue(conf[elfType].saveStartString_);
 
 /*#ifdef __WXMAC__
         XRCCTRL(*this,"Eject_IDE"+elfTypeStr, wxBitmapButton)->SetSize(26, 27);
@@ -640,7 +655,6 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
 	conf[elfType].arrayValue_ = 0x2a94;
 	conf[elfType].eod_ = 0x2a99;
 	conf[elfType].basicRamAddress_ = 0x2c00;
-	conf[elfType].useLoadLocation_ = false;
 }
 
 void GuiElf::writeElfDirConfig(int elfType, wxString elfTypeStr)
@@ -688,13 +702,15 @@ void GuiElf::writeElfConfig(int elfType, wxString elfTypeStr)
 	configPointer->Write(elfTypeStr+"/Ram_End_Address", buffer);
 	configPointer->Write(elfTypeStr+"/VT_Type", elfConfiguration[elfType].vtType);
 
-    
     long value = elfConfiguration[elfType].vt52SetUpFeature_.to_ulong();
     configPointer->Write(elfTypeStr+"/VT52Setup", value);
     value = elfConfiguration[elfType].vt100SetUpFeature_.to_ulong();
     configPointer->Write(elfTypeStr+"/VT100Setup", value);
     value = elfConfiguration[elfType].vtExternalSetUpFeature_.to_ulong();
     configPointer->Write(elfTypeStr+"/VTExternalSetup", value);
+    configPointer->Write(elfTypeStr+"/VT100CharPerRow", elfConfiguration[elfType].vtCharactersPerRow);
+    configPointer->Write(elfTypeStr+"/VT100CharWidth", elfConfiguration[elfType].vt100CharWidth);
+    configPointer->Write(elfTypeStr+"/VT52CharWidth", elfConfiguration[elfType].vt52CharWidth);
 
 	configPointer->Write(elfTypeStr+"/Vt_Baud_Receive", elfConfiguration[elfType].baudR);
 	configPointer->Write(elfTypeStr+"/Vt_Baud_Transmit", elfConfiguration[elfType].baudT);
@@ -713,6 +729,8 @@ void GuiElf::writeElfConfig(int elfType, wxString elfTypeStr)
 	configPointer->Write(elfTypeStr+"/Zoom", conf[elfType].zoom_);
 	configPointer->Write(elfTypeStr+"/Vt_Zoom", conf[elfType].zoomVt_);
     configPointer->Write(elfTypeStr+"/Force_Uppercase", elfConfiguration[elfType].forceUpperCase);
+    configPointer->Write(elfTypeStr+"/UseLoadLocation", conf[elfType].useLoadLocation_);
+    configPointer->Write(elfTypeStr+"/SaveStart", conf[elfType].saveStartString_);
 
     configPointer->Write(elfTypeStr+"/GiantBoardMapping", elfConfiguration[elfType].giantBoardMapping);
     configPointer->Write(elfTypeStr+"/EfButtons", elfConfiguration[elfType].efButtons);

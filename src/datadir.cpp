@@ -35,7 +35,7 @@ END_EVENT_TABLE()
 
 DatadirDialog::DatadirDialog(wxWindow* parent)
 {
-	wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"datadir.xrc");
+	wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"datadir_" + p_Main->getFontSize() + ".xrc");
 	wxXmlResource::Get()->LoadDialog(this, parent, wxT("DataDirDialog"));
 
 	XRCCTRL(*this, "DataDir", wxDirPickerCtrl)->SetPath(p_Main->getDataDir());

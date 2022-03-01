@@ -153,21 +153,33 @@ protected:
 	wxGraphicsContext *gc;
 	wxImage *screenImage;
 
-	int computerType_;
+    wxMemoryDC dcMemoryMainAndSpritePlane;
+    wxGraphicsContext *gcMainAndSpritePlane;
+    
+    wxMemoryDC dcMemoryMainPlane;
+    wxGraphicsContext *gcMainPlane;
+    
+    wxMemoryDC dcMemorySpritePlane;
+    wxGraphicsContext *gcSpritePlane;
+        
+    int computerType_;
 	double clock_;
 
 	int videoType_;
 	int numberOfColours_;
 	int backGround_;
 	bool reBlit_;
-	bool reDraw_;
+    bool reDraw_;
 	bool reColour_;
 	bool reCycle_;
 	bool newBackGround_;
 	bool extraBackGround_;
 
     class VideoScreen *videoScreenPointer;
-	wxBitmap *screenCopyPointer;
+    wxBitmap *screenCopyPointer;
+    wxBitmap *mainAndSpritePlanePointer;
+    wxBitmap *mainPlanePointer;
+    wxBitmap *spritePlanePointer;
 	wxBitmap *screenFilePointer;
 	bool changeScreenSize_;
 	double zoomChanged_;

@@ -113,15 +113,21 @@ void GuiEti::readEtiConfig()
 
 	wxString defaultZoom;
 	defaultZoom.Printf("%2.2f", 2.0);
-	conf[ETI].zoom_ = configPointer->Read("/Eti/Zoom", defaultZoom);
+	conf[ETI].zoom_ = convertLocale(configPointer->Read("/Eti/Zoom", defaultZoom));
 	wxString defaultScale;
 	defaultScale.Printf("%i", 4);
-	conf[ETI].xScale_ = configPointer->Read("/Eti/Window_Scale_Factor_X", defaultScale);
+	conf[ETI].xScale_ = convertLocale(configPointer->Read("/Eti/Window_Scale_Factor_X", defaultScale));
 	wxString defaultClock;
 	defaultClock.Printf("%1.3f", 1.773);
-	conf[ETI].clock_ = configPointer->Read("/Eti/Clock_Speed", defaultClock);
+	conf[ETI].clock_ = convertLocale(configPointer->Read("/Eti/Clock_Speed", defaultClock));
 
 	setRealCas(ETI);
+
+    long value;
+    conf[ETI].saveStartString_ = configPointer->Read("/Eti/SaveStart", "0");
+    if (!conf[ETI].saveStartString_.ToLong(&value, 16))
+        value = 0;
+    conf[ETI].saveStart_ = value;
 
 	if (mode_.gui)
 	{
@@ -142,6 +148,8 @@ void GuiEti::readEtiConfig()
 
         if (clockTextCtrl[ETI] != NULL)
             clockTextCtrl[ETI]->ChangeValue(conf[ETI].clock_);
+        if (conf[ETI].saveStart_ != 0)
+            XRCCTRL(*this, "SaveStartEti", wxTextCtrl)->SetValue(conf[ETI].saveStartString_);
 	}
 }
 
@@ -170,6 +178,7 @@ void GuiEti::writeEtiConfig()
 	configPointer->Write("/Eti/Enable_Real_Cassette", conf[ETI].realCassetteLoad_);
 	configPointer->Write("/Eti/Volume", conf[ETI].volume_);
 	configPointer->Write("/Eti/Memory_Type", conf[ETI].ramType_);
+    configPointer->Write("/Eti/SaveStart", conf[ETI].saveStartString_);
 
 	configPointer->Write("/Eti/Clock_Speed", conf[ETI].clock_);
 }

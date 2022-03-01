@@ -42,7 +42,7 @@ END_EVENT_TABLE()
 
 DevicePortsDialog::DevicePortsDialog(wxWindow* parent)
 {
-	wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"ports.xrc");
+	wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"ports_" + p_Main->getFontSize() + ".xrc");
 	wxXmlResource::Get()->LoadDialog(this, parent, "DevicePorts");
     elfConfiguration = p_Main->getElfConfiguration();
 	elfTypeStr_ = p_Main->getSelectedComputerStr();
@@ -213,14 +213,18 @@ DevicePortsDialog::DevicePortsDialog(wxWindow* parent)
     }
 
 	XRCCTRL(*this, "TmsModeHighOutput", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.tmsModeHighOutput);
-	XRCCTRL(*this, "TmsModeLowOutput", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.tmsModeLowOutput);
+    XRCCTRL(*this, "TmsModeLowOutput", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.tmsModeLowOutput);
+
+    XRCCTRL(*this, "TmsInterrupt", wxChoice)->SetSelection(elfConfiguration.elfPortConf.tmsInterrupt);
 	if (!elfConfiguration.useTMS9918)
 	{
 		XRCCTRL(*this, "TmsModeHighOutput", wxSpinCtrl)->Enable(false);
-		XRCCTRL(*this, "TmsModeLowOutput", wxSpinCtrl)->Enable(false);
-		XRCCTRL(*this, "TmsModeHighOutputText", wxStaticText)->Enable(false);
-		XRCCTRL(*this, "TmsModeLowOutputText", wxStaticText)->Enable(false);
-	}	
+        XRCCTRL(*this, "TmsModeLowOutput", wxSpinCtrl)->Enable(false);
+        XRCCTRL(*this, "TmsInterrupt", wxChoice)->Enable(false);
+        XRCCTRL(*this, "TmsModeHighOutputText", wxStaticText)->Enable(false);
+        XRCCTRL(*this, "TmsModeLowOutputText", wxStaticText)->Enable(false);
+        XRCCTRL(*this, "TmsInterruptText", wxStaticText)->Enable(false);
+	}
 
 
 	XRCCTRL(*this, "I8275WriteCommand", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.i8275WriteCommand);
@@ -487,7 +491,8 @@ void DevicePortsDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
 	elfConfiguration.elfPortConf.uartStatus = XRCCTRL(*this, "UartStatus", wxSpinCtrl)->GetValue();
 
 	elfConfiguration.elfPortConf.tmsModeHighOutput = XRCCTRL(*this, "TmsModeHighOutput", wxSpinCtrl)->GetValue();
-	elfConfiguration.elfPortConf.tmsModeLowOutput = XRCCTRL(*this, "TmsModeLowOutput", wxSpinCtrl)->GetValue();
+    elfConfiguration.elfPortConf.tmsModeLowOutput = XRCCTRL(*this, "TmsModeLowOutput", wxSpinCtrl)->GetValue();
+    elfConfiguration.elfPortConf.tmsInterrupt = XRCCTRL(*this, "TmsInterrupt", wxChoice)->GetCurrentSelection();
 
 	elfConfiguration.elfPortConf.led_Module_Output = XRCCTRL(*this, "Led_Module_Output", wxSpinCtrl)->GetValue();
 

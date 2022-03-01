@@ -172,13 +172,20 @@
             </object>
             <object class="sizeritem">
                 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                <border>8</border>
-                <object class="wxButton" name="MicroSetupSave">
-                    <font>
-                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                        <size>-1</size>
-                    </font>
-                    <label>Save</label>
+                <border>5</border>
+                <object class="wxBoxSizer">
+                    <orient>wxHORIZONTAL</orient>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_TOP|wxALL</flag>
+                        <border>8</border>
+                        <object class="wxButton" name="MicroSetupSave">
+                            <font>
+                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                <size>-1</size>
+                            </font>
+                            <label>Save</label>
+                        </object>
+                    </object>
                 </object>
             </object>
         </object>
@@ -339,13 +346,20 @@
             </object>
             <object class="sizeritem">
                 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                <border>8</border>
-                <object class="wxButton" name="MicroSetupSave">
-                    <font>
-                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                        <size>-1</size>
-                    </font>
-                    <label>Save</label>
+                <border>5</border>
+                <object class="wxBoxSizer">
+                    <orient>wxHORIZONTAL</orient>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_TOP|wxALL</flag>
+                        <border>8</border>
+                        <object class="wxButton" name="MicroSetupSave">
+                            <font>
+                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                <size>-1</size>
+                            </font>
+                            <label>Save</label>
+                        </object>
+                    </object>
                 </object>
             </object>
         </object>
@@ -498,13 +512,20 @@
             </object>
             <object class="sizeritem">
                 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                <border>8</border>
-                <object class="wxButton" name="MicroSetupSave">
-                    <font>
-                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                        <size>-1</size>
-                    </font>
-                    <label>Save</label>
+                <border>5</border>
+                <object class="wxBoxSizer">
+                    <orient>wxHORIZONTAL</orient>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_TOP|wxALL</flag>
+                        <border>8</border>
+                        <object class="wxButton" name="MicroSetupSave">
+                            <font>
+                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                <size>-1</size>
+                            </font>
+                            <label>Save</label>
+                        </object>
+                    </object>
                 </object>
             </object>
         </object>
@@ -927,13 +948,20 @@
             </object>
             <object class="sizeritem">
                 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                <border>8</border>
-                <object class="wxButton" name="MicroSetupSave">
-                    <font>
-                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                        <size>-1</size>
-                    </font>
-                    <label>Save</label>
+                <border>5</border>
+                <object class="wxBoxSizer">
+                    <orient>wxHORIZONTAL</orient>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_TOP|wxALL</flag>
+                        <border>8</border>
+                        <object class="wxButton" name="MicroSetupSave">
+                            <font>
+                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                <size>-1</size>
+                            </font>
+                            <label>Save</label>
+                        </object>
+                    </object>
                 </object>
             </object>
         </object>
@@ -1340,13 +1368,20 @@
             </object>
             <object class="sizeritem">
                 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                <border>8</border>
-                <object class="wxButton" name="MicroSetupSave">
-                    <font>
-                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                        <size>-1</size>
-                    </font>
-                    <label>Save</label>
+                <border>5</border>
+                <object class="wxBoxSizer">
+                    <orient>wxHORIZONTAL</orient>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_TOP|wxALL</flag>
+                        <border>8</border>
+                        <object class="wxButton" name="MicroSetupSave">
+                            <font>
+                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                <size>-1</size>
+                            </font>
+                            <label>Save</label>
+                        </object>
+                    </object>
                 </object>
             </object>
         </object>
@@ -1745,13 +1780,20 @@
             </object>
             <object class="sizeritem">
                 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                <border>8</border>
-                <object class="wxButton" name="MicroSetupSave">
-                    <font>
-                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                        <size>-1</size>
-                    </font>
-                    <label>Save</label>
+                <border>5</border>
+                <object class="wxBoxSizer">
+                    <orient>wxHORIZONTAL</orient>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_TOP|wxALL</flag>
+                        <border>8</border>
+                        <object class="wxButton" name="MicroSetupSave">
+                            <font>
+                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                <size>-1</size>
+                            </font>
+                            <label>Save</label>
+                        </object>
+                    </object>
                 </object>
             </object>
         </object>
@@ -2206,13 +2248,20 @@
             </object>
             <object class="sizeritem">
                 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                <border>8</border>
-                <object class="wxButton" name="MicroSetupSave">
-                    <font>
-                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                        <size>-1</size>
-                    </font>
-                    <label>Save</label>
+                <border>5</border>
+                <object class="wxBoxSizer">
+                    <orient>wxHORIZONTAL</orient>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_TOP|wxALL</flag>
+                        <border>8</border>
+                        <object class="wxButton" name="MicroSetupSave">
+                            <font>
+                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                <size>-1</size>
+                            </font>
+                            <label>Save</label>
+                        </object>
+                    </object>
                 </object>
             </object>
         </object>
@@ -2487,13 +2536,20 @@
             </object>
             <object class="sizeritem">
                 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                <border>8</border>
-                <object class="wxButton" name="MicroSetupSave">
-                    <font>
-                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                        <size>-1</size>
-                    </font>
-                    <label>Save</label>
+                <border>5</border>
+                <object class="wxBoxSizer">
+                    <orient>wxHORIZONTAL</orient>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_TOP|wxALL</flag>
+                        <border>8</border>
+                        <object class="wxButton" name="MicroSetupSave">
+                            <font>
+                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                <size>-1</size>
+                            </font>
+                            <label>Save</label>
+                        </object>
+                    </object>
                 </object>
             </object>
         </object>
@@ -2884,13 +2940,20 @@
                     </object>
                     <object class="sizeritem">
                         <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                        <border>8</border>
-                        <object class="wxButton" name="MicroSetupSave">
-                            <font>
-                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                <size>-1</size>
-                            </font>
-                            <label>Save</label>
+                        <border>5</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxHORIZONTAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_TOP|wxALL</flag>
+                                <border>8</border>
+                                <object class="wxButton" name="MicroSetupSave">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>Save</label>
+                                </object>
+                            </object>
                         </object>
                     </object>
                 </object>
@@ -3254,13 +3317,20 @@
                     </object>
                     <object class="sizeritem">
                         <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                        <border>8</border>
-                        <object class="wxButton" name="MicroSetupSave">
-                            <font>
-                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                <size>-1</size>
-                            </font>
-                            <label>Save</label>
+                        <border>5</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxHORIZONTAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_TOP|wxALL</flag>
+                                <border>8</border>
+                                <object class="wxButton" name="MicroSetupSave">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>Save</label>
+                                </object>
+                            </object>
                         </object>
                     </object>
                 </object>
@@ -3654,13 +3724,20 @@
                     </object>
                     <object class="sizeritem">
                         <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                        <border>8</border>
-                        <object class="wxButton" name="MicroSetupSave">
-                            <font>
-                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                <size>-1</size>
-                            </font>
-                            <label>Save</label>
+                        <border>5</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxHORIZONTAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_TOP|wxALL</flag>
+                                <border>8</border>
+                                <object class="wxButton" name="MicroSetupSave">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>Save</label>
+                                </object>
+                            </object>
                         </object>
                     </object>
                 </object>
@@ -4024,13 +4101,20 @@
                     </object>
                     <object class="sizeritem">
                         <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                        <border>8</border>
-                        <object class="wxButton" name="MicroSetupSave">
-                            <font>
-                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                <size>-1</size>
-                            </font>
-                            <label>Save</label>
+                        <border>5</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxHORIZONTAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_TOP|wxALL</flag>
+                                <border>8</border>
+                                <object class="wxButton" name="MicroSetupSave">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>Save</label>
+                                </object>
+                            </object>
                         </object>
                     </object>
                 </object>
@@ -4342,13 +4426,20 @@
                     </object>
                     <object class="sizeritem">
                         <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                        <border>8</border>
-                        <object class="wxButton" name="MicroSetupSave">
-                            <font>
-                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                <size>-1</size>
-                            </font>
-                            <label>Save</label>
+                        <border>5</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxHORIZONTAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_TOP|wxALL</flag>
+                                <border>8</border>
+                                <object class="wxButton" name="MicroSetupSave">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>Save</label>
+                                </object>
+                            </object>
                         </object>
                     </object>
                 </object>
@@ -4518,13 +4609,20 @@
                     </object>
                     <object class="sizeritem">
                         <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                        <border>8</border>
-                        <object class="wxButton" name="MicroSetupSave">
-                            <font>
-                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                <size>-1</size>
-                            </font>
-                            <label>Save</label>
+                        <border>5</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxHORIZONTAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_TOP|wxALL</flag>
+                                <border>8</border>
+                                <object class="wxButton" name="MicroSetupSave">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>Save</label>
+                                </object>
+                            </object>
                         </object>
                     </object>
                 </object>
@@ -4763,13 +4861,20 @@
                     </object>
                     <object class="sizeritem">
                         <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                        <border>8</border>
-                        <object class="wxButton" name="MicroSetupSave">
-                            <font>
-                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                <size>-1</size>
-                            </font>
-                            <label>Save</label>
+                        <border>5</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxHORIZONTAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_TOP|wxALL</flag>
+                                <border>8</border>
+                                <object class="wxButton" name="MicroSetupSave">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>Save</label>
+                                </object>
+                            </object>
                         </object>
                     </object>
                 </object>
@@ -4931,13 +5036,20 @@
                     </object>
                     <object class="sizeritem">
                         <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                        <border>8</border>
-                        <object class="wxButton" name="MicroSetupSave">
-                            <font>
-                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                <size>-1</size>
-                            </font>
-                            <label>Save</label>
+                        <border>5</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxHORIZONTAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_TOP|wxALL</flag>
+                                <border>8</border>
+                                <object class="wxButton" name="MicroSetupSave">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>Save</label>
+                                </object>
+                            </object>
                         </object>
                     </object>
                 </object>
@@ -5394,13 +5506,20 @@
                     </object>
                     <object class="sizeritem">
                         <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                        <border>8</border>
-                        <object class="wxButton" name="MicroSetupSave">
-                            <font>
-                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                <size>-1</size>
-                            </font>
-                            <label>Save</label>
+                        <border>5</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxHORIZONTAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_TOP|wxALL</flag>
+                                <border>8</border>
+                                <object class="wxButton" name="MicroSetupSave">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>Save</label>
+                                </object>
+                            </object>
                         </object>
                     </object>
                 </object>
@@ -5804,13 +5923,20 @@
                     </object>
                     <object class="sizeritem">
                         <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                        <border>8</border>
-                        <object class="wxButton" name="MicroSetupSave">
-                            <font>
-                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                <size>-1</size>
-                            </font>
-                            <label>Save</label>
+                        <border>5</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxHORIZONTAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_TOP|wxALL</flag>
+                                <border>8</border>
+                                <object class="wxButton" name="MicroSetupSave">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>Save</label>
+                                </object>
+                            </object>
                         </object>
                     </object>
                 </object>
@@ -5980,13 +6106,20 @@
                     </object>
                     <object class="sizeritem">
                         <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                        <border>8</border>
-                        <object class="wxButton" name="MicroSetupSave">
-                            <font>
-                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                <size>-1</size>
-                            </font>
-                            <label>Save</label>
+                        <border>5</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxHORIZONTAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_TOP|wxALL</flag>
+                                <border>8</border>
+                                <object class="wxButton" name="MicroSetupSave">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>Save</label>
+                                </object>
+                            </object>
                         </object>
                     </object>
                 </object>
@@ -6386,13 +6519,20 @@
                     </object>
                     <object class="sizeritem">
                         <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                        <border>8</border>
-                        <object class="wxButton" name="MicroSetupSave">
-                            <font>
-                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                <size>-1</size>
-                            </font>
-                            <label>Save</label>
+                        <border>5</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxHORIZONTAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_TOP|wxALL</flag>
+                                <border>8</border>
+                                <object class="wxButton" name="MicroSetupSave">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>Save</label>
+                                </object>
+                            </object>
                         </object>
                     </object>
                 </object>
@@ -6792,13 +6932,20 @@
                     </object>
                     <object class="sizeritem">
                         <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                        <border>8</border>
-                        <object class="wxButton" name="MicroSetupSave">
-                            <font>
-                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                <size>-1</size>
-                            </font>
-                            <label>Save</label>
+                        <border>5</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxHORIZONTAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_TOP|wxALL</flag>
+                                <border>8</border>
+                                <object class="wxButton" name="MicroSetupSave">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>Save</label>
+                                </object>
+                            </object>
                         </object>
                     </object>
                 </object>
@@ -7031,13 +7178,20 @@
                     </object>
                     <object class="sizeritem">
                         <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                        <border>8</border>
-                        <object class="wxButton" name="MicroSetupSave">
-                            <font>
-                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                <size>-1</size>
-                            </font>
-                            <label>Save</label>
+                        <border>5</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxHORIZONTAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_TOP|wxALL</flag>
+                                <border>8</border>
+                                <object class="wxButton" name="MicroSetupSave">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>Save</label>
+                                </object>
+                            </object>
                         </object>
                     </object>
                 </object>
@@ -7209,13 +7363,20 @@
                     </object>
                     <object class="sizeritem">
                         <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                        <border>8</border>
-                        <object class="wxButton" name="MicroSetupSave">
-                            <font>
-                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                <size>-1</size>
-                            </font>
-                            <label>Save</label>
+                        <border>5</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxHORIZONTAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_TOP|wxALL</flag>
+                                <border>8</border>
+                                <object class="wxButton" name="MicroSetupSave">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>Save</label>
+                                </object>
+                            </object>
                         </object>
                     </object>
                 </object>
@@ -7381,13 +7542,20 @@
                     </object>
                     <object class="sizeritem">
                         <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                        <border>8</border>
-                        <object class="wxButton" name="MicroSetupSave">
-                            <font>
-                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                <size>-1</size>
-                            </font>
-                            <label>Save</label>
+                        <border>5</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxHORIZONTAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_TOP|wxALL</flag>
+                                <border>8</border>
+                                <object class="wxButton" name="MicroSetupSave">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>Save</label>
+                                </object>
+                            </object>
                         </object>
                     </object>
                 </object>
@@ -7501,13 +7669,20 @@
                     </object>
                     <object class="sizeritem">
                         <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                        <border>8</border>
-                        <object class="wxButton" name="MicroSetupSave">
-                            <font>
-                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                <size>-1</size>
-                            </font>
-                            <label>Save</label>
+                        <border>5</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxHORIZONTAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_TOP|wxALL</flag>
+                                <border>8</border>
+                                <object class="wxButton" name="MicroSetupSave">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>Save</label>
+                                </object>
+                            </object>
                         </object>
                     </object>
                 </object>
@@ -7873,13 +8048,20 @@
                     </object>
                     <object class="sizeritem">
                         <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                        <border>8</border>
-                        <object class="wxButton" name="MicroSetupSave">
-                            <font>
-                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                <size>-1</size>
-                            </font>
-                            <label>Save</label>
+                        <border>5</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxHORIZONTAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_TOP|wxALL</flag>
+                                <border>8</border>
+                                <object class="wxButton" name="MicroSetupSave">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>Save</label>
+                                </object>
+                            </object>
                         </object>
                     </object>
                 </object>
@@ -8371,13 +8553,20 @@
                     </object>
                     <object class="sizeritem">
                         <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                        <border>8</border>
-                        <object class="wxButton" name="MicroSetupSave">
-                            <font>
-                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                <size>-1</size>
-                            </font>
-                            <label>Save</label>
+                        <border>5</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxHORIZONTAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_TOP|wxALL</flag>
+                                <border>8</border>
+                                <object class="wxButton" name="MicroSetupSave">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>Save</label>
+                                </object>
+                            </object>
                         </object>
                     </object>
                 </object>
@@ -8834,13 +9023,20 @@
             </object>
             <object class="sizeritem">
                 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                <border>8</border>
-                <object class="wxButton" name="MicroSetupSave">
-                    <font>
-                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                        <size>-1</size>
-                    </font>
-                    <label>Save</label>
+                <border>5</border>
+                <object class="wxBoxSizer">
+                    <orient>wxHORIZONTAL</orient>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_TOP|wxALL</flag>
+                        <border>8</border>
+                        <object class="wxButton" name="MicroSetupSave">
+                            <font>
+                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                <size>-1</size>
+                            </font>
+                            <label>Save</label>
+                        </object>
+                    </object>
                 </object>
             </object>
         </object>
@@ -9115,13 +9311,20 @@
             </object>
             <object class="sizeritem">
                 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                <border>8</border>
-                <object class="wxButton" name="MicroSetupSave">
-                    <font>
-                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                        <size>-1</size>
-                    </font>
-                    <label>Save</label>
+                <border>5</border>
+                <object class="wxBoxSizer">
+                    <orient>wxHORIZONTAL</orient>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_TOP|wxALL</flag>
+                        <border>8</border>
+                        <object class="wxButton" name="MicroSetupSave">
+                            <font>
+                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                <size>-1</size>
+                            </font>
+                            <label>Save</label>
+                        </object>
+                    </object>
                 </object>
             </object>
         </object>
@@ -9456,13 +9659,20 @@
                     </object>
                     <object class="sizeritem">
                         <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                        <border>8</border>
-                        <object class="wxButton" name="MicroSetupSave">
-                            <font>
-                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                <size>-1</size>
-                            </font>
-                            <label>Save</label>
+                        <border>5</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxHORIZONTAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_TOP|wxALL</flag>
+                                <border>8</border>
+                                <object class="wxButton" name="MicroSetupSave">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>Save</label>
+                                </object>
+                            </object>
                         </object>
                     </object>
                 </object>
@@ -9723,13 +9933,20 @@
                     </object>
                     <object class="sizeritem">
                         <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                        <border>8</border>
-                        <object class="wxButton" name="MicroSetupSave">
-                            <font>
-                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                <size>-1</size>
-                            </font>
-                            <label>Save</label>
+                        <border>5</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxHORIZONTAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_TOP|wxALL</flag>
+                                <border>8</border>
+                                <object class="wxButton" name="MicroSetupSave">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>Save</label>
+                                </object>
+                            </object>
                         </object>
                     </object>
                 </object>
@@ -10792,13 +11009,20 @@
                     </object>
                     <object class="sizeritem">
                         <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                        <border>8</border>
-                        <object class="wxButton" name="MicroSetupSave">
-                            <font>
-                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                <size>-1</size>
-                            </font>
-                            <label>Save</label>
+                        <border>5</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxHORIZONTAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_TOP|wxALL</flag>
+                                <border>8</border>
+                                <object class="wxButton" name="MicroSetupSave">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>Save</label>
+                                </object>
+                            </object>
                         </object>
                     </object>
                 </object>
@@ -11047,13 +11271,20 @@
                     </object>
                     <object class="sizeritem">
                         <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                        <border>8</border>
-                        <object class="wxButton" name="MicroSetupSave">
-                            <font>
-                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                <size>-1</size>
-                            </font>
-                            <label>Save</label>
+                        <border>5</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxHORIZONTAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_TOP|wxALL</flag>
+                                <border>8</border>
+                                <object class="wxButton" name="MicroSetupSave">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>Save</label>
+                                </object>
+                            </object>
                         </object>
                     </object>
                 </object>
@@ -11314,13 +11545,20 @@
                     </object>
                     <object class="sizeritem">
                         <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                        <border>8</border>
-                        <object class="wxButton" name="MicroSetupSave">
-                            <font>
-                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                <size>-1</size>
-                            </font>
-                            <label>Save</label>
+                        <border>5</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxHORIZONTAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_TOP|wxALL</flag>
+                                <border>8</border>
+                                <object class="wxButton" name="MicroSetupSave">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>Save</label>
+                                </object>
+                            </object>
                         </object>
                     </object>
                 </object>

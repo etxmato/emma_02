@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resource version="2.3.0.1" xmlns="http://www.wxwidgets.org/wxxrc">
+<object class="wxDialog" name="PsaveDialog">
+<title>Wav File and Real Cassette Settings</title>
+<font>
+<size>14</size>
+</font>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>0</border>
+<object class="wxButton" name="ID_BUTTON">
+<size>-1,23</size>
+<font>
+<size>14</size>
+</font>
+<hidden>1</hidden>
+<label>Dummy button</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxLEFT</flag>
+<border>12</border>
+<object class="wxStaticText" name="wxID_STATIC">
+<font>
+<size>14</size>
+</font>
+<label>Load</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_TOP|wxALL</flag>
+<border>5</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxVERTICAL</orient>
+<label></label>
+<font>
+<size>14</size>
+</font>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL</flag>
+<border>5</border>
+<object class="wxFlexGridSizer">
+<cols>2</cols>
+<rows>8</rows>
+<vgap>1</vgap>
+<hgap>0</hgap>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP|wxBOTTOM</flag>
+<border>5</border>
+<object class="wxStaticText" name="ChannelText">
+<font>
+<size>14</size>
+</font>
+<label>Input channel: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
+<border>4</border>
+<object class="wxChoice" name="Channel">
+<tooltip>Specify real tape input channel</tooltip>
+<font>
+<size>14</size>
+</font>
+<content>
+<item>Left</item>
+<item>Right</item>
+</content>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP|wxBOTTOM</flag>
+<border>5</border>
+<object class="wxStaticText" name="ConversionText2">
+<font>
+<size>14</size>
+</font>
+<label>Wav file conversion:</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
+<border>4</border>
+<object class="wxChoice" name="ConversionTypeWav">
+<tooltip>Specify wav file conversion type</tooltip>
+<font>
+<size>14</size>
+</font>
+<content>
+<item>Amplitude</item>
+<item>Sinus</item>
+</content>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP|wxBOTTOM</flag>
+<border>5</border>
+<object class="wxStaticText" name="ConversionText">
+<font>
+<size>14</size>
+</font>
+<label>Cassette Conversion:</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
+<border>4</border>
+<object class="wxChoice" name="ConversionTypeCassette">
+<tooltip>Specify real cassette conversion type</tooltip>
+<font>
+<size>14</size>
+</font>
+<content>
+<item>Amplitude</item>
+<item>Sinus</item>
+</content>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxCheckBox" name="ReversedPolarity">
+<font>
+<size>14</size>
+</font>
+<label>Reversed Polarity</label>
+<checked>0</checked>
+</object>
+</object>
+<object class="spacer">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<size>5,5</size>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP|wxBOTTOM</flag>
+<border>5</border>
+<object class="wxStaticText" name="ID_STATICTEXT">
+<font>
+<size>14</size>
+</font>
+<label>For FRED emulator:</label>
+</object>
+</object>
+<object class="spacer">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<size>5,5</size>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>5</border>
+<object class="wxStaticText" name="FREDThresholdText8">
+<font>
+<size>14</size>
+</font>
+<label>Threshold, 8 bit:</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+<border>5</border>
+<object class="wxTextCtrl" name="FREDThreshold8" subclass="IntEdit">
+<font>
+<size>14</size>
+</font>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>5</border>
+<object class="wxStaticText" name="FREDThresholdText16">
+<font>
+<size>14</size>
+</font>
+<label>Threshold, 16 bit:</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+<border>5</border>
+<object class="wxTextCtrl" name="FREDThreshold16" subclass="IntEdit">
+<font>
+<size>14</size>
+</font>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>5</border>
+<object class="wxStaticText" name="FREDFreqText">
+<font>
+<size>14</size>
+</font>
+<label>Frequency check:</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+<border>5</border>
+<object class="wxTextCtrl" name="FREDFreq" subclass="FloatEdit">
+<font>
+<size>14</size>
+</font>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALL</flag>
+<border>5</border>
+<object class="wxCheckBox" name="Playback">
+<font>
+<size>14</size>
+</font>
+<hidden>1</hidden>
+<label>Tape input playback</label>
+<checked>0</checked>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxLEFT</flag>
+<border>12</border>
+<object class="wxStaticText" name="wxID_STATIC">
+<font>
+<size>14</size>
+</font>
+<label>Save</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_TOP|wxALL</flag>
+<border>5</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxVERTICAL</orient>
+<label></label>
+<font>
+<size>14</size>
+</font>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL</flag>
+<border>5</border>
+<object class="wxFlexGridSizer">
+<cols>2</cols>
+<rows>3</rows>
+<vgap>1</vgap>
+<hgap>0</hgap>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="PsaveVolumeText">
+<font>
+<size>14</size>
+</font>
+<label>Wave volume: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>4</border>
+<object class="wxSpinCtrl" name="PsaveVolume">
+<size>70,-1</size>
+<tooltip>Specify wave file volume</tooltip>
+<font>
+<size>14</size>
+</font>
+<value>0</value>
+<min>1</min>
+<max>15</max>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="PsaveBitRateText">
+<font>
+<size>14</size>
+</font>
+<label>Bit rate: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxGROW|wxALL</flag>
+<border>4</border>
+<object class="wxChoice" name="PsaveBitRate">
+<tooltip>Specify wave file bitrate</tooltip>
+<font>
+<size>14</size>
+</font>
+<content>
+<item>11025</item>
+<item>22050</item>
+<item>44100</item>
+<item>88200</item>
+</content>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="PsaveBitsPerSampleText">
+<font>
+<size>14</size>
+</font>
+<label>Bits per samlpe: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxGROW|wxALL</flag>
+<border>4</border>
+<object class="wxChoice" name="PsaveBitsPerSample">
+<tooltip>Specify wave file bits per sample</tooltip>
+<font>
+<size>14</size>
+</font>
+<content>
+<item>8</item>
+<item>16</item>
+</content>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALL</flag>
+<border>5</border>
+<object class="wxStaticLine" name="wxID_STATIC">
+<style>wxLI_HORIZONTAL</style>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>0</border>
+<object class="wxStaticText" name="ID_TEXT">
+<font>
+<size>14</size>
+</font>
+<fg>#FF0000</fg>
+<label>Note: For F&amp;&amp;M TOS/Turbo loaders use</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>0</border>
+<object class="wxStaticText" name="ID_TEXT">
+<font>
+<size>14</size>
+</font>
+<fg>#FF0000</fg>
+<label>a high volume and 16 bits per sample</label>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>8</border>
+<object class="wxButton" name="PsaveSave">
+<size>-1,23</size>
+<font>
+<size>14</size>
+</font>
+<label>Save</label>
+</object>
+</object>
+</object>
+</object>
+</resource>

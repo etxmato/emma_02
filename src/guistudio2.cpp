@@ -201,17 +201,17 @@ void GuiStudio2::readStudioConfig()
 
 	wxString defaultZoom;
 	defaultZoom.Printf("%2.2f", 2.0);
-	conf[STUDIO].zoom_ = configPointer->Read("/Studio2/Zoom", defaultZoom);
+	conf[STUDIO].zoom_ = convertLocale(configPointer->Read("/Studio2/Zoom", defaultZoom));
 	wxString defaultClock;
 	defaultClock.Printf("%1.2f", 1.76);
-	conf[STUDIO].clock_ = configPointer->Read("/Studio2/Clock_Speed", defaultClock);
+	conf[STUDIO].clock_ = convertLocale(configPointer->Read("/Studio2/Clock_Speed", defaultClock));
  //   conf[STUDIO].beepFrequency_ = (int)configPointer->Read("/Studio2/Beep_Frequency", 480);
     conf[STUDIO].beepFrequency_ = 640;
 	conf[STUDIO].volume_ = (int)configPointer->Read("/Studio2/Volume", 25l);
 
 	wxString defaultScale;
 	defaultScale.Printf("%i", 3);
-	conf[STUDIO].xScale_ = configPointer->Read("/Studio2/Window_Scale_Factor_X", defaultScale);
+	conf[STUDIO].xScale_ = convertLocale(configPointer->Read("/Studio2/Window_Scale_Factor_X", defaultScale));
 	conf[STUDIO].realCassetteLoad_ = false;
 
     configPointer->Read("/Studio2/MultiCart", &conf[STUDIO].multiCart_, false);
@@ -333,16 +333,16 @@ void GuiStudio2::readCoinArcadeConfig()
     
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 2.0);
-    conf[COINARCADE].zoom_ = configPointer->Read("/CoinArcade/Zoom", defaultZoom);
+    conf[COINARCADE].zoom_ = convertLocale(configPointer->Read("/CoinArcade/Zoom", defaultZoom));
     wxString defaultClock;
     defaultClock.Printf("%1.2f", 1.6);
-    conf[COINARCADE].clock_ = configPointer->Read("/CoinArcade/Clock_Speed", defaultClock);
+    conf[COINARCADE].clock_ = convertLocale(configPointer->Read("/CoinArcade/Clock_Speed", defaultClock));
     conf[COINARCADE].beepFrequency_ = 640;
     conf[COINARCADE].volume_ = (int)configPointer->Read("/CoinArcade/Volume", 25l);
     
     wxString defaultScale;
     defaultScale.Printf("%i", 3);
-    conf[COINARCADE].xScale_ = configPointer->Read("/CoinArcade/Window_Scale_Factor_X", defaultScale);
+    conf[COINARCADE].xScale_ = convertLocale(configPointer->Read("/CoinArcade/Window_Scale_Factor_X", defaultScale));
     conf[COINARCADE].realCassetteLoad_ = false;
   
     if (mode_.gui)
@@ -408,17 +408,17 @@ void GuiStudio2::readVisicomConfig()
 
 	wxString defaultZoom;
 	defaultZoom.Printf("%2.2f", 2.0);
-	conf[VISICOM].zoom_ = configPointer->Read("/Visicom/Zoom", defaultZoom);
+	conf[VISICOM].zoom_ = convertLocale(configPointer->Read("/Visicom/Zoom", defaultZoom));
 	wxString defaultClock;
 	defaultClock.Printf("%1.2f", 1.76);
-	conf[VISICOM].clock_ = configPointer->Read("/Visicom/Clock_Speed", defaultClock);
+	conf[VISICOM].clock_ = convertLocale(configPointer->Read("/Visicom/Clock_Speed", defaultClock));
 //	conf[VISICOM].beepFrequency_ = (int)configPointer->Read("/Visicom/Beep_Frequency", 480);
     conf[VISICOM].beepFrequency_ = 640;
 	conf[VISICOM].volume_ = (int)configPointer->Read("/Visicom/Volume", 25l);
 
 	wxString defaultScale;
 	defaultScale.Printf("%i", 3);
-	conf[VISICOM].xScale_ = configPointer->Read("/Visicom/Window_Scale_Factor_X", defaultScale);
+	conf[VISICOM].xScale_ = convertLocale(configPointer->Read("/Visicom/Window_Scale_Factor_X", defaultScale));
 	conf[VISICOM].realCassetteLoad_ = false;
 
 	if (mode_.gui)
@@ -489,15 +489,15 @@ void GuiStudio2::readVictoryConfig()
 
 	wxString defaultZoom;
 	defaultZoom.Printf("%2.2f", 2.0);
-	conf[VICTORY].zoom_ = configPointer->Read("/Victory/Zoom", defaultZoom);
+	conf[VICTORY].zoom_ = convertLocale(configPointer->Read("/Victory/Zoom", defaultZoom));
 	wxString defaultClock;
 	defaultClock.Printf("%1.2f", 1.76);
-	conf[VICTORY].clock_ = configPointer->Read("/Victory/Clock_Speed", defaultClock);
+	conf[VICTORY].clock_ = convertLocale(configPointer->Read("/Victory/Clock_Speed", defaultClock));
 	conf[VICTORY].volume_ = (int)configPointer->Read("/Victory/Volume", 25l);
 
 	wxString defaultScale;
 	defaultScale.Printf("%i", 4);
-	conf[VICTORY].xScale_ = configPointer->Read("/Victory/Window_Scale_Factor_X", defaultScale);
+	conf[VICTORY].xScale_ = convertLocale(configPointer->Read("/Victory/Window_Scale_Factor_X", defaultScale));
 	conf[VICTORY].realCassetteLoad_ = false;
 
     configPointer->Read("/Victory/MultiCart", &conf[VICTORY].multiCart_, false);
@@ -660,10 +660,10 @@ void GuiStudio2::readStudioIVConfig()
 
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 2.0);
-    conf[STUDIOIV].zoom_ = configPointer->Read("/StudioIV/Zoom", defaultZoom);
+    conf[STUDIOIV].zoom_ = convertLocale(configPointer->Read("/StudioIV/Zoom", defaultZoom));
     wxString defaultClock;
     defaultClock.Printf("%1.2f", 3.58);
-    conf[STUDIOIV].clock_ = configPointer->Read("/StudioIV/Clock_Speed", defaultClock);
+    conf[STUDIOIV].clock_ = convertLocale(configPointer->Read("/StudioIV/Clock_Speed", defaultClock));
     conf[STUDIOIV].volume_ = (int)configPointer->Read("/StudioIV/Volume", 25l);
     
     conf[STUDIOIV].videoMode_ = (int)configPointer->Read("/StudioIV/Video_Mode", 0l);
@@ -674,7 +674,7 @@ void GuiStudio2::readStudioIVConfig()
     else
         defaultScale.Printf("%i", 3);
     
-    conf[STUDIOIV].xScale_ = configPointer->Read("/StudioIV/Window_Scale_Factor_X", defaultScale);
+    conf[STUDIOIV].xScale_ = convertLocale(configPointer->Read("/StudioIV/Window_Scale_Factor_X", defaultScale));
     conf[STUDIOIV].realCassetteLoad_ = false;
     
     configPointer->Read("/StudioIV/Enable_2020", &conf[STUDIOIV].st2020Active_, false);
@@ -698,6 +698,12 @@ void GuiStudio2::readStudioIVConfig()
             XRCCTRL(*this, "CartRomButtonStudioIV", wxButton)->SetToolTip("Browse for cartridge RAM file");
         }
     }
+    
+    long value;
+    conf[STUDIOIV].saveStartString_ = configPointer->Read("/StudioIV/SaveStart", "0");
+    if (!conf[STUDIOIV].saveStartString_.ToLong(&value, 16))
+        value = 0;
+    conf[STUDIOIV].saveStart_ = value;
 
     if (mode_.gui)
     {
@@ -719,6 +725,8 @@ void GuiStudio2::readStudioIVConfig()
         
         XRCCTRL(*this, "VidModeStudioIV", wxChoice)->SetSelection(conf[STUDIOIV].videoMode_);
         XRCCTRL(*this, "2020StudioIV", wxCheckBox)->SetValue(conf[STUDIOIV].st2020Active_);
+        if (conf[STUDIOIV].saveStart_ != 0)
+            XRCCTRL(*this, "SaveStartStudioIV", wxTextCtrl)->SetValue(conf[STUDIOIV].saveStartString_);
     }
 }
 
@@ -749,6 +757,7 @@ void GuiStudio2::writeStudioIVConfig()
 	configPointer->Write("/StudioIV/Enable_Real_Cassette", conf[STUDIOIV].realCassetteLoad_);
     configPointer->Write("/StudioIV/Enable_2020", conf[STUDIOIV].st2020Active_);
     configPointer->Write("/StudioIV/Load_Mode_Rom", (loadromMode_ == ROM));
+    configPointer->Write("/StudioIV/SaveStart", conf[STUDIOIV].saveStartString_);
 }
 
 void GuiStudio2::readStudioIVWindowConfig()

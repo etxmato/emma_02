@@ -273,7 +273,7 @@ public:
 	GuiMain(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
 	~GuiMain() {};
 
-    WindowInfo getWinSizeInfo(wxString appDir);
+    WindowInfo getWinSizeInfo(wxString appDir, wxString fontSizeString);
 
     void readElfPortConfig(int elfType, wxString elfTypeStr);
     void writeElfPortConfig(int elfType, wxString elfTypeStr);
@@ -375,6 +375,8 @@ public:
 	void onVtSetup(wxCommandEvent& event);
 	void onBeepFrequency(wxCommandEvent&event);
 
+    wxString convertLocale(wxString input);
+
     bool toDouble(wxString stringName, double* result);
     wxString getMainDir() {return conf[runningComputer_].mainDir_;};
 	bool getGuiMode() {return mode_.gui;};
@@ -435,7 +437,8 @@ public:
 	wxString getIdeFile(int computerType) {return conf[computerType].ide_;};
 	wxString getCharRomFile(int computerType) {return conf[computerType].charRom_;};
 	wxString getVtCharRomFile(int computerType) {return elfConfiguration[computerType].vtCharRom_;};
-	wxString getWaveFile(int computerType) {return conf[computerType].wavFile_[0];};
+    wxString getWaveFile(int computerType) {return conf[computerType].wavFile_[0];};
+    wxString getWaveFile1(int computerType) {return conf[computerType].wavFile_[1];};
 	wxString getKeyFile();
 	wxString getKeyFileDir();
 	wxString getScreenDumpFile();
@@ -559,6 +562,7 @@ public:
 	void setRealCasOff(int computerType);
 	void setPrinterState(int computerType);
 	void setBaud(int baudR, int baudT);
+    void saveSetup(int baudR, int baudT, bitset<32> setupFeature, int vtCharactersPerRow, int charWidth);
 	ScreenInfo getScreenInfo(int id);
 	bool isFullScreenFloat() {return fullScreenFloat_;};
 	void onFullScreenFloat(wxCommandEvent&event);
@@ -671,6 +675,8 @@ protected:
 	wxString pathSeparator_;
 	int mainWindowX_, mainWindowY_;
 	int ubuntuOffsetX_;
+    int fontSize_;
+    wxString fontSizeString_;
 
 	bool guiInitialized_;
 	int elfChoice_;

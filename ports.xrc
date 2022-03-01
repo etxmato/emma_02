@@ -218,20 +218,20 @@
                         </object>
                     </object>
                     <object class="sizeritem">
-                        <flag>wxALIGN_TOP|wxALL</flag>
-                        <border>0</border>
-                        <object class="wxStaticBoxSizer" name="wxID_ANY">
+                        <flag>wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+                        <border>3</border>
+                        <object class="wxBoxSizer">
                             <orient>wxVERTICAL</orient>
-                            <label>MC6847</label>
-                            <font>
-                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                <size>-1</size>
-                            </font>
                             <object class="sizeritem">
-                                <flag>wxALIGN_CENTER_HORIZONTAL|wxBOTTOM</flag>
-                                <border>3</border>
-                                <object class="wxBoxSizer">
+                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                                <border>0</border>
+                                <object class="wxStaticBoxSizer" name="wxID_ANY">
                                     <orient>wxVERTICAL</orient>
+                                    <label>MC6847</label>
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
                                     <object class="sizeritem">
                                         <flag>wxALIGN_LEFT|wxALL</flag>
                                         <border>0</border>
@@ -1022,18 +1022,18 @@
                                         <border>0</border>
                                         <object class="wxFlexGridSizer">
                                             <cols>2</cols>
-                                            <rows>2</rows>
+                                            <rows>4</rows>
                                             <vgap>0</vgap>
                                             <hgap>2</hgap>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="TmsModeHighOutputText">
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
                                                     </font>
-                                                    <label>Output, Register Port</label>
+                                                    <label>Register Port</label>
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
@@ -1058,7 +1058,7 @@
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
                                                     </font>
-                                                    <label>Output, Data Port</label>
+                                                    <label>Data Port</label>
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
@@ -1073,6 +1073,34 @@
                                                     <value>0</value>
                                                     <min>1</min>
                                                     <max>7</max>
+                                                </object>
+                                            </object>
+                                            <object class="sizeritem">
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <border>0</border>
+                                                <object class="wxStaticText" name="TmsInterruptText">
+                                                    <font>
+                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                        <size>-1</size>
+                                                    </font>
+                                                    <label>Interrupt</label>
+                                                </object>
+                                            </object>
+                                            <object class="sizeritem">
+                                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <border>0</border>
+                                                <object class="wxChoice" name="TmsInterrupt">
+                                                    <font>
+                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                        <size>-1</size>
+                                                    </font>
+                                                    <content>
+                                                        <item>INT</item>
+                                                        <item>EF1</item>
+                                                        <item>EF2</item>
+                                                        <item>EF3</item>
+                                                        <item>EF4</item>
+                                                    </content>
                                                 </object>
                                             </object>
                                         </object>
@@ -1231,7 +1259,7 @@
                                 <border>0</border>
                                 <object class="wxStaticBoxSizer" name="wxID_ANY">
                                     <orient>wxVERTICAL</orient>
-                                    <label>Cassette</label>
+                                    <label>Led Module</label>
                                     <font>
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
@@ -1241,24 +1269,24 @@
                                         <border>0</border>
                                         <object class="wxFlexGridSizer">
                                             <cols>2</cols>
-                                            <rows>2</rows>
+                                            <rows>3</rows>
                                             <vgap>0</vgap>
                                             <hgap>2</hgap>
                                             <object class="sizeritem">
                                                 <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
-                                                <object class="wxStaticText" name="TapeEfText">
+                                                <object class="wxStaticText" name="Led_Module_Output_Text">
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
                                                     </font>
-                                                    <label>EF, Cassette In</label>
+                                                    <label>Output, Write Data</label>
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
-                                                <border>1</border>
-                                                <object class="wxSpinCtrl" name="TapeEf">
+                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <border>0</border>
+                                                <object class="wxSpinCtrl" name="Led_Module_Output">
                                                     <size>40,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -1266,29 +1294,7 @@
                                                     </font>
                                                     <value>0</value>
                                                     <min>1</min>
-                                                    <max>4</max>
-                                                </object>
-                                            </object>
-                                            <object class="sizeritem">
-                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                <border>0</border>
-                                                <object class="wxStaticText" name="TapeQText">
-                                                    <font>
-                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                        <size>-1</size>
-                                                    </font>
-                                                    <label>Q, Cassette Out</label>
-                                                </object>
-                                            </object>
-                                            <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
-                                                <border>3</border>
-                                                <object class="wxStaticText" name="TapeQ">
-                                                    <font>
-                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                        <size>-1</size>
-                                                    </font>
-                                                    <label>Q</label>
+                                                    <max>7</max>
                                                 </object>
                                             </object>
                                         </object>
@@ -2403,7 +2409,7 @@
                                 <border>0</border>
                                 <object class="wxStaticBoxSizer" name="wxID_ANY">
                                     <orient>wxVERTICAL</orient>
-                                    <label>Led Module</label>
+                                    <label>Cassette</label>
                                     <font>
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
@@ -2413,24 +2419,24 @@
                                         <border>0</border>
                                         <object class="wxFlexGridSizer">
                                             <cols>2</cols>
-                                            <rows>3</rows>
+                                            <rows>2</rows>
                                             <vgap>0</vgap>
                                             <hgap>2</hgap>
                                             <object class="sizeritem">
                                                 <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
-                                                <object class="wxStaticText" name="Led_Module_Output_Text">
+                                                <object class="wxStaticText" name="TapeEfText">
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
                                                     </font>
-                                                    <label>Output, Write Data</label>
+                                                    <label>EF, Cassette In</label>
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                <border>0</border>
-                                                <object class="wxSpinCtrl" name="Led_Module_Output">
+                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+                                                <border>1</border>
+                                                <object class="wxSpinCtrl" name="TapeEf">
                                                     <size>40,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -2438,7 +2444,29 @@
                                                     </font>
                                                     <value>0</value>
                                                     <min>1</min>
-                                                    <max>7</max>
+                                                    <max>4</max>
+                                                </object>
+                                            </object>
+                                            <object class="sizeritem">
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <border>0</border>
+                                                <object class="wxStaticText" name="TapeQText">
+                                                    <font>
+                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                        <size>-1</size>
+                                                    </font>
+                                                    <label>Q, Cassette Out</label>
+                                                </object>
+                                            </object>
+                                            <object class="sizeritem">
+                                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+                                                <border>3</border>
+                                                <object class="wxStaticText" name="TapeQ">
+                                                    <font>
+                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                        <size>-1</size>
+                                                    </font>
+                                                    <label>Q</label>
                                                 </object>
                                             </object>
                                         </object>
@@ -2551,7 +2579,7 @@
                             </object>
                             <object class="sizeritem">
                                 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                                <border>6</border>
+                                <border>2</border>
                                 <object class="wxBoxSizer">
                                     <orient>wxVERTICAL</orient>
                                     <object class="sizeritem">

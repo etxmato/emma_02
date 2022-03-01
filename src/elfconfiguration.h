@@ -53,6 +53,7 @@ public:
 
     int tmsModeHighOutput;
     int tmsModeLowOutput;
+    int tmsInterrupt;
 
     int i8275WriteCommand;
     int i8275ReadStatus;
@@ -127,6 +128,9 @@ public:
     int cdp18s660Group2;
     int fdcType_;
 	int vtType;
+    int vtCharactersPerRow;
+    int vt100CharWidth;
+    int vt52CharWidth;
     bool vtExternal;
     bool serialLog;
     bool escError;

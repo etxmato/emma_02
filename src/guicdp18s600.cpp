@@ -256,7 +256,6 @@ void GuiCdp18s600::readCdp18s600Config()
     conf[MICROBOARD].eod_ = 0x99;
     conf[MICROBOARD].basicRamAddress_ = 0x200;
 
-    conf[MICROBOARD].saveStartString_ = "";
     conf[MICROBOARD].saveEndString_ = "";
     conf[MICROBOARD].saveExecString_ = "";
     
@@ -421,7 +420,7 @@ void GuiCdp18s600::readCdp18s600Config()
 
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 2.0);
-    conf[MICROBOARD].zoom_ = configPointer->Read("/Microboard/Zoom", defaultZoom);
+    conf[MICROBOARD].zoom_ = convertLocale(configPointer->Read("/Microboard/Zoom", defaultZoom));
     conf[MICROBOARD].volume_ = (int)configPointer->Read("/Microboard/Volume", 25l);
     elfConfiguration[MICROBOARD].pageMemSize = (int)configPointer->Read("/Microboard/PageMemSize", 0l);
     conf[MICROBOARD].charRom_ = configPointer->Read("/Microboard/Font_Rom_File", "character.bin");
@@ -440,21 +439,25 @@ void GuiCdp18s600::readCdp18s600Config()
     elfConfiguration[MICROBOARD].vtEf = false;
     elfConfiguration[MICROBOARD].vtQ = true;
 
+    elfConfiguration[MICROBOARD].vtCharactersPerRow = (int)configPointer->Read("/Microboard/VT100CharPerRow", 80);
+    elfConfiguration[MICROBOARD].vt100CharWidth = (int)configPointer->Read("/Microboard/VT100CharWidth", 10);
+    elfConfiguration[MICROBOARD].vt52CharWidth = (int)configPointer->Read("/Microboard/VT52CharWidth", 9);
+
     configPointer->Read("/Microboard/Force_Uppercase", &elfConfiguration[MICROBOARD].forceUpperCase, true);
 
     defaultZoom.Printf("%2.2f", 1.0);
-    conf[MICROBOARD].zoomVt_ = configPointer->Read("/Microboard/Vt_Zoom", defaultZoom);
+    conf[MICROBOARD].zoomVt_ = convertLocale(configPointer->Read("/Microboard/Vt_Zoom", defaultZoom));
     wxString defaultScale;
     defaultScale.Printf("%i", 3);
-    conf[MICROBOARD].xScale_ = configPointer->Read("/Microboard/Window_Scale_Factor_X", defaultScale);
+    conf[MICROBOARD].xScale_ = convertLocale(configPointer->Read("/Microboard/Window_Scale_Factor_X", defaultScale));
     
-    conf[MICROBOARD].clock_ = configPointer->Read("/Microboard/Clock_Speed", defaultClock);
+    conf[MICROBOARD].clock_ = convertLocale(configPointer->Read("/Microboard/Clock_Speed", defaultClock));
     
     wxString defaultTimer;
     defaultTimer.Printf("%d", 100);
     conf[MICROBOARD].ledTime_ = configPointer->Read("/Microboard/Led_Update_Frequency", defaultTimer);
     
-    conf[MICROBOARD].useLoadLocation_ = false;
+    configPointer->Read("/Microboard/UseLoadLocation", &conf[MICROBOARD].useLoadLocation_, false);
     
     setVtType("Microboard", MICROBOARD, elfConfiguration[MICROBOARD].vtType, false);
     
@@ -466,6 +469,12 @@ void GuiCdp18s600::readCdp18s600Config()
         conf[MICROBOARD].bootAddress_ = 0x8000;
     else
         conf[MICROBOARD].bootAddress_ = 0;
+
+    long value;
+    conf[MICROBOARD].saveStartString_ = configPointer->Read("/Microboard/SaveStart", "0");
+    if (!conf[MICROBOARD].saveStartString_.ToLong(&value, 16))
+        value = 0;
+    conf[MICROBOARD].saveStart_ = value;
 
     if (mode_.gui)
     {
@@ -519,6 +528,9 @@ void GuiCdp18s600::readCdp18s600Config()
         XRCCTRL(*this,"AddressText2Microboard", wxStaticText)->Enable(elfConfiguration[MICROBOARD].useElfControlWindows);
         
         XRCCTRL(*this,"ConfigTextMicroboard", wxStaticText)->SetLabel(configPointer->Read("/Microboard/ConfigName", "CDP18S600"));
+
+        if (conf[MICROBOARD].saveStart_ != 0)
+            XRCCTRL(*this, "SaveStartMicroboard", wxTextCtrl)->SetValue(conf[MICROBOARD].saveStartString_);
     }
 }
 
@@ -586,6 +598,9 @@ void GuiCdp18s600::writeCdp18s600Config()
     value = elfConfiguration[MICROBOARD].vtExternalSetUpFeature_.to_ulong();
     configPointer->Write("/Microboard/VTExternalSetup", value);
     configPointer->Write("/Microboard/Uart", elfConfiguration[MICROBOARD].useUart);
+    configPointer->Write("/Microboard/VT100CharPerRow", elfConfiguration[MICROBOARD].vtCharactersPerRow);
+    configPointer->Write("/Microboard/VT100CharWidth", elfConfiguration[MICROBOARD].vt100CharWidth);
+    configPointer->Write("/Microboard/VT52CharWidth", elfConfiguration[MICROBOARD].vt52CharWidth);
 
     configPointer->Write("/Microboard/Vt_Baud_Receive", elfConfiguration[MICROBOARD].baudR);
     configPointer->Write("/Microboard/Vt_Baud_Transmit", elfConfiguration[MICROBOARD].baudT);
@@ -594,7 +609,8 @@ void GuiCdp18s600::writeCdp18s600Config()
     configPointer->Write("/Microboard/Enable_Vt_Stretch_Dot", conf[MICROBOARD].stretchDot_);
     configPointer->Write("/Microboard/Enable_Vt_External", elfConfiguration[MICROBOARD].vtExternal);
     configPointer->Write("/Microboard/Led_Update_Frequency", conf[MICROBOARD].ledTime_);
-
+    configPointer->Write("/Microboard/UseLoadLocation", conf[MICROBOARD].useLoadLocation_);
+    configPointer->Write("/Microboard/SaveStart", conf[MICROBOARD].saveStartString_);
 
     configPointer->Write("/Microboard/MicroChipLocationOneSocket", conf[MICROBOARD].microChipLocation_[ONE_SOCKET]);
     configPointer->Write("/Microboard/MicroChipTypeOneSocket", conf[MICROBOARD].microChipType_[ONE_SOCKET]);

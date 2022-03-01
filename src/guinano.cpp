@@ -121,15 +121,21 @@ void GuiNano::readNanoConfig()
 
 	wxString defaultZoom;
 	defaultZoom.Printf("%2.2f", 2.0);
-	conf[NANO].zoom_ = configPointer->Read("/Nano/Zoom", defaultZoom);
+	conf[NANO].zoom_ = convertLocale(configPointer->Read("/Nano/Zoom", defaultZoom));
 	wxString defaultScale;
 	defaultScale.Printf("%i", 4);
-	conf[NANO].xScale_ = configPointer->Read("/Nano/Window_Scale_Factor_X", defaultScale);
+	conf[NANO].xScale_ = convertLocale(configPointer->Read("/Nano/Window_Scale_Factor_X", defaultScale));
 	wxString defaultClock;
 	defaultClock.Printf("%1.2f", 1.75);
-	conf[NANO].clock_ = configPointer->Read("/Nano/Clock_Speed", defaultClock);
+	conf[NANO].clock_ = convertLocale(configPointer->Read("/Nano/Clock_Speed", defaultClock));
 
 	setRealCas(NANO);
+
+    long value;
+    conf[NANO].saveStartString_ = configPointer->Read("/Nano/SaveStart", "0");
+    if (!conf[NANO].saveStartString_.ToLong(&value, 16))
+        value = 0;
+    conf[NANO].saveStart_ = value;
 
 	if (mode_.gui)
 	{
@@ -151,6 +157,8 @@ void GuiNano::readNanoConfig()
             clockTextCtrl[NANO]->ChangeValue(conf[NANO].clock_);
 
 		XRCCTRL(*this, "SoundNano", wxChoice)->SetSelection(conf[NANO].soundType_);
+        if (conf[NANO].saveStart_ != 0)
+            XRCCTRL(*this, "SaveStartNano", wxTextCtrl)->SetValue(conf[NANO].saveStartString_);   
 	}
 }
 
@@ -179,6 +187,7 @@ void GuiNano::writeNanoConfig()
 	configPointer->Write("/Nano/Enable_Auto_Cassette", conf[NANO].autoCassetteLoad_);
 	configPointer->Write("/Nano/Enable_Real_Cassette", conf[NANO].realCassetteLoad_);
 	configPointer->Write("/Nano/Volume", conf[NANO].volume_);
+    configPointer->Write("/Nano/SaveStart", conf[NANO].saveStartString_);
 
 	configPointer->Write("/Nano/Clock_Speed", conf[NANO].clock_);
 	configPointer->Write("/Nano/Sound", conf[NANO].soundType_);

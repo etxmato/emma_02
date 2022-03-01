@@ -578,6 +578,10 @@ Byte Elf::ef(int flag)
 			return 1-efSwitchState_[flag-1];
 		break;
 
+        case TMSINTERRUPT:
+            return tmsPointer->readEf();
+        break;
+            
 		case PIXIEEF:
 			return pixiePointer->efPixie();
 		break;
@@ -648,6 +652,14 @@ Byte Elf::in(Byte port, Word WXUNUSED(address))
 		case 0:
 			ret = 255;
 		break;
+
+        case TMSDATAPORT:
+            ret = tmsPointer->readVRAM();
+        break;
+
+        case TMSREGISTERPORT:
+            ret = tmsPointer->readDataPort();
+        break;
 
 		case PIXIEIN:
 			ret = pixiePointer->inPixie();
@@ -738,12 +750,12 @@ void Elf::out(Byte port, Word WXUNUSED(address), Byte value)
 			return;
 		break;
 
-		case TMSHIGHOUT:
+		case TMSREGISTERPORT:
 			tmsPointer->modeHighOut(value);
 		break;
 
-		case TMSLOWOUT:
-			tmsPointer->modeLowOut(value);
+		case TMSDATAPORT:
+			tmsPointer->writeVRAM(value);
 		break;
 
 		case PIXIEOUT:
