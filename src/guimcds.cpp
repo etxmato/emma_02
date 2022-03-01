@@ -188,14 +188,14 @@ void GuiMcds::readMcdsConfig()
     
 	wxString defaultZoom;
 	defaultZoom.Printf("%2.2f", 1.0);
-	conf[MCDS].zoomVt_ = configPointer->Read("/Mcds/Vt_Zoom", defaultZoom);
+	conf[MCDS].zoomVt_ = convertLocale(configPointer->Read("/Mcds/Vt_Zoom", defaultZoom));
 	wxString defaultScale;
 	defaultScale.Printf("%i", 3);
-	conf[MCDS].xScale_ = configPointer->Read("/Mcds/Window_Scale_Factor_X", defaultScale);
+	conf[MCDS].xScale_ = convertLocale(configPointer->Read("/Mcds/Window_Scale_Factor_X", defaultScale));
 
 	wxString defaultClock;
 	defaultClock.Printf("%1.1f", 2.0);
-	conf[MCDS].clock_ = configPointer->Read("/Mcds/Clock_Speed", defaultClock);
+	conf[MCDS].clock_ = convertLocale(configPointer->Read("/Mcds/Clock_Speed", defaultClock));
 
     conf[MCDS].turboClock_ = configPointer->Read("/Mcds/Turbo_Clock_Speed", "15");
     conf[MCDS].printMode_ = (int)configPointer->Read("/Mcds/Print_Mode", 1l);

@@ -144,10 +144,10 @@ void GuiVipII::readVipIIConfig()
 
 	wxString defaultZoom;
 	defaultZoom.Printf("%2.2f", 2.0);
-	conf[VIPII].zoom_ = configPointer->Read("/VipII/Zoom", defaultZoom);
+	conf[VIPII].zoom_ = convertLocale(configPointer->Read("/VipII/Zoom", defaultZoom));
 	wxString defaultScale;
 	defaultScale.Printf("%i", 3);
-	conf[VIPII].xScale_ = configPointer->Read("/VipII/Window_Scale_Factor_X", defaultScale);
+	conf[VIPII].xScale_ = convertLocale(configPointer->Read("/VipII/Window_Scale_Factor_X", defaultScale));
 
 	configPointer->Read("/VipII/Enable_Turbo_Cassette", &conf[VIPII].turbo_, true);
 	configPointer->Read("/VipII/Enable_Auto_Cassette", &conf[VIPII].autoCassetteLoad_, true);
@@ -163,7 +163,7 @@ void GuiVipII::readVipIIConfig()
 
 	wxString defaultClock;
 	defaultClock.Printf("%1.4f", 1.789773);
-	conf[VIPII].clock_ = configPointer->Read("/VipII/Clock_Speed", defaultClock);
+	conf[VIPII].clock_ = convertLocale(configPointer->Read("/VipII/Clock_Speed", defaultClock));
 	wxString defaultTimer;
 	defaultTimer.Printf("%d", 100);
 	conf[VIPII].ledTime_ = configPointer->Read("/VipII/Led_Update_Frequency", defaultTimer);

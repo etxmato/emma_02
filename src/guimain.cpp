@@ -2362,20 +2362,23 @@ void GuiMain::onBeepFrequency(wxCommandEvent&WXUNUSED(event))
 	setBeepFrequency(selectedComputer_);
 }
 
+wxString GuiMain::convertLocale(wxString returnString)
+{
+    wxString decimalPoint = wxLocale::GetInfo(wxLOCALE_DECIMAL_POINT, wxLOCALE_CAT_NUMBER);
+
+    returnString.Replace(",",decimalPoint);
+    returnString.Replace(".",decimalPoint);
+    returnString.Replace("'",decimalPoint);
+
+    return returnString;
+}
+
 bool GuiMain::toDouble(wxString stringName, double* result)
 {
-    bool returnValue;
-    
-    returnValue = stringName.ToDouble(result);
-    if (!returnValue)
-    {
-        if (stringName.Find(','))
-            stringName.Replace(",",".");
-        else
-            stringName.Replace(".",",");
-        returnValue = stringName.ToDouble(result);
-    }
-    return returnValue;
+	stringName = convertLocale(stringName);
+    bool returnValue = stringName.ToDouble(result);
+
+	return returnValue;
 }
 
 wxString GuiMain::getKeyFile()

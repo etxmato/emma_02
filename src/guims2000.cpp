@@ -182,14 +182,14 @@ void GuiMS2000::readMS2000Config()
     
 	wxString defaultZoom;
 	defaultZoom.Printf("%2.2f", 1.0);
-	conf[MS2000].zoomVt_ = configPointer->Read("/MS2000/Vt_Zoom", defaultZoom);
+	conf[MS2000].zoomVt_ = convertLocale(configPointer->Read("/MS2000/Vt_Zoom", defaultZoom));
 	wxString defaultScale;
 	defaultScale.Printf("%i", 3);
-	conf[MS2000].xScale_ = configPointer->Read("/MS2000/Window_Scale_Factor_X", defaultScale);
+	conf[MS2000].xScale_ = convertLocale(configPointer->Read("/MS2000/Window_Scale_Factor_X", defaultScale));
 
 	wxString defaultClock;
 	defaultClock.Printf("%1.1f", 2.0);
-	conf[MS2000].clock_ = configPointer->Read("/MS2000/Clock_Speed", defaultClock);
+	conf[MS2000].clock_ = convertLocale(configPointer->Read("/MS2000/Clock_Speed", defaultClock));
 
     conf[MS2000].turboClock_ = configPointer->Read("/MS2000/Turbo_Clock_Speed", "15");
     conf[MS2000].printMode_ = (int)configPointer->Read("/MS2000/Print_Mode", 1l);

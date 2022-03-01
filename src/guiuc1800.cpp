@@ -83,7 +83,7 @@ void GuiUc1800::readUc1800Config()
 
 	wxString defaultClock;
 	defaultClock.Printf("%1.2f", 1.75);
-	conf[UC1800].clock_ = configPointer->Read("/UC1800/Clock_Speed", defaultClock);
+	conf[UC1800].clock_ = convertLocale(configPointer->Read("/UC1800/Clock_Speed", defaultClock));
 
 	wxString defaultTimer;
 	defaultTimer.Printf("%d", 100);

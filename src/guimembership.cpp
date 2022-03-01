@@ -163,7 +163,7 @@ void GuiMembership::readMembershipConfig()
 
 	wxString defaultZoom;
 	defaultZoom.Printf("%2.2f", 1.0);
-	conf[MEMBER].zoomVt_ = configPointer->Read("/Membership/Vt_Zoom", defaultZoom);
+	conf[MEMBER].zoomVt_ = convertLocale(configPointer->Read("/Membership/Vt_Zoom", defaultZoom));
 	wxString defaultClock;
 	defaultClock.Printf("%1.2f", 1.75);
 	wxString defaultTimer;
@@ -171,7 +171,7 @@ void GuiMembership::readMembershipConfig()
 	conf[MEMBER].ledTime_ = configPointer->Read("/Membership/Led_Update_Frequency", defaultTimer);
     conf[MEMBER].beepFrequency_ = (int)configPointer->Read("/Membership/Beep_Frequency", 250);
 
-	conf[MEMBER].clock_ = configPointer->Read("/Membership/Clock_Speed", defaultClock);
+	conf[MEMBER].clock_ = convertLocale(configPointer->Read("/Membership/Clock_Speed", defaultClock));
 
 	configPointer->Read("/Membership/Enable_Auto_Cassette", &conf[MEMBER].autoCassetteLoad_, true);
     conf[MEMBER].realCassetteLoad_ = false;

@@ -426,16 +426,16 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
 
     wxString defaultZoom;
 	defaultZoom.Printf("%2.2f", 2.0);
-	conf[elfType].zoom_ = configPointer->Read(elfTypeStr+"/Zoom", defaultZoom);
+	conf[elfType].zoom_ = convertLocale(configPointer->Read(elfTypeStr+"/Zoom", defaultZoom));
 	defaultZoom.Printf("%2.2f", 1.0);
-	conf[elfType].zoomVt_ = configPointer->Read(elfTypeStr+"/Vt_Zoom", defaultZoom);
+	conf[elfType].zoomVt_ = convertLocale(configPointer->Read(elfTypeStr+"/Vt_Zoom", defaultZoom));
 	wxString defaultScale;
 	defaultScale.Printf("%i", 3);
-	conf[elfType].xScale_ = configPointer->Read(elfTypeStr+"/Window_Scale_Factor_X", defaultScale);
+	conf[elfType].xScale_ = convertLocale(configPointer->Read(elfTypeStr+"/Window_Scale_Factor_X", defaultScale));
 
 	wxString defaultClock;
 	defaultClock.Printf("%1.2f", 1.76);
-	conf[elfType].clock_ = configPointer->Read(elfTypeStr+"/Clock_Speed", defaultClock);
+	conf[elfType].clock_ = convertLocale(configPointer->Read(elfTypeStr+"/Clock_Speed", defaultClock));
 	wxString defaultTimer;
 	defaultTimer.Printf("%d", 100);
 	conf[elfType].ledTime_ = configPointer->Read(elfTypeStr+"/Led_Update_Frequency", defaultTimer);

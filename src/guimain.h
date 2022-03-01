@@ -375,6 +375,8 @@ public:
 	void onVtSetup(wxCommandEvent& event);
 	void onBeepFrequency(wxCommandEvent&event);
 
+    wxString convertLocale(wxString input);
+
     bool toDouble(wxString stringName, double* result);
     wxString getMainDir() {return conf[runningComputer_].mainDir_;};
 	bool getGuiMode() {return mode_.gui;};

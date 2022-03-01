@@ -183,20 +183,20 @@ void GuiElf2K::readElf2KConfig()
 
 	wxString defaultZoom;
 	defaultZoom.Printf("%2.2f", 1.0);
-	conf[ELF2K].zoom_ = configPointer->Read("/Elf2K/Zoom", defaultZoom);
-	conf[ELF2K].zoomVt_ = configPointer->Read("/Elf2K/Vt_Zoom", defaultZoom);
+	conf[ELF2K].zoom_ = convertLocale(configPointer->Read("/Elf2K/Zoom", defaultZoom));
+	conf[ELF2K].zoomVt_ = convertLocale(configPointer->Read("/Elf2K/Vt_Zoom", defaultZoom));
 	wxString defaultScale;
 	defaultScale.Printf("%i", 3);
-	conf[ELF2K].xScale_ = configPointer->Read("/Elf2K/Window_Scale_Factor_X", defaultScale);
+	conf[ELF2K].xScale_ = convertLocale(configPointer->Read("/Elf2K/Window_Scale_Factor_X", defaultScale));
 	wxString defaultTimer;
 	defaultTimer.Printf("%d", 100);
 	conf[ELF2K].ledTime_ = configPointer->Read("/Elf2K/Led_Update_Frequency", defaultTimer);
 
 	wxString defaultClock;
 	defaultClock.Printf("%1.4f", 3.5795);
-	elf2K8275Clock_ = configPointer->Read("/Elf2K/Clock_Speed_When_Using_I8275", defaultClock);
+	elf2K8275Clock_ = convertLocale(configPointer->Read("/Elf2K/Clock_Speed_When_Using_I8275", defaultClock));
 	defaultClock.Printf("%1.4f", 1.78975);
-	elf2KPixieClock_ = configPointer->Read("/Elf2K/Clock_Speed_When_Using_Pixie", defaultClock);
+	elf2KPixieClock_ = convertLocale(configPointer->Read("/Elf2K/Clock_Speed_When_Using_Pixie", defaultClock));
 	if (conf[ELF2K].videoMode_ == VIDEOPIXIE)
 		conf[ELF2K].clock_ = elf2KPixieClock_;
 	else

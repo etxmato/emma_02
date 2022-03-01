@@ -313,10 +313,10 @@ void GuiFred::readFred1Config()
 
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 2.0);
-    conf[FRED1].zoom_ = configPointer->Read("/FRED1/Zoom", defaultZoom);
+    conf[FRED1].zoom_ = convertLocale(configPointer->Read("/FRED1/Zoom", defaultZoom));
     wxString defaultClock;
     defaultClock.Printf("%1.2f", 1.0);
-    conf[FRED1].clock_ = configPointer->Read("/FRED1/Clock_Speed", defaultClock);
+    conf[FRED1].clock_ = convertLocale(configPointer->Read("/FRED1/Clock_Speed", defaultClock));
     
     wxString defaultTimer;
     defaultTimer.Printf("%d", 100);
@@ -336,7 +336,7 @@ void GuiFred::readFred1Config()
 
     wxString defaultScale;
     defaultScale.Printf("%i", 3);
-    conf[FRED1].xScale_ = configPointer->Read("/FRED1/Window_Scale_Factor_X", defaultScale);
+    conf[FRED1].xScale_ = convertLocale(configPointer->Read("/FRED1/Window_Scale_Factor_X", defaultScale));
     
 	elfConfiguration[FRED1].coinArcadeControl_ = false;
     configPointer->Read("/FRED1/Enable_Auto_Boot", &elfConfiguration[FRED1].autoBoot, true);
@@ -476,10 +476,10 @@ void GuiFred::readFred2Config()
     
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 2.0);
-    conf[FRED1_5].zoom_ = configPointer->Read("/FRED1_5/Zoom", defaultZoom);
+    conf[FRED1_5].zoom_ = convertLocale(configPointer->Read("/FRED1_5/Zoom", defaultZoom));
     wxString defaultClock;
     defaultClock.Printf("%1.2f", 1.0);
-    conf[FRED1_5].clock_ = configPointer->Read("/FRED1_5/Clock_Speed", defaultClock);
+    conf[FRED1_5].clock_ = convertLocale(configPointer->Read("/FRED1_5/Clock_Speed", defaultClock));
     
     wxString defaultTimer;
     defaultTimer.Printf("%d", 100);
@@ -499,7 +499,7 @@ void GuiFred::readFred2Config()
     
     wxString defaultScale;
     defaultScale.Printf("%i", 3);
-    conf[FRED1_5].xScale_ = configPointer->Read("/FRED1_5/Window_Scale_Factor_X", defaultScale);
+    conf[FRED1_5].xScale_ = (configPointer->Read("/FRED1_5/Window_Scale_Factor_X", defaultScale));
     
     configPointer->Read("/FRED1/Enable_CoinArcadeControl", &elfConfiguration[FRED1_5].coinArcadeControl_, true);
     configPointer->Read("/FRED1_5/Enable_Auto_Boot", &elfConfiguration[FRED1_5].autoBoot, true);

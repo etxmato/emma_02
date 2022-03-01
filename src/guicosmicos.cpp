@@ -156,16 +156,16 @@ void GuiCosmicos::readCosmicosConfig()
 
 	wxString defaultZoom;
 	defaultZoom.Printf("%2.2f", 2.0);
-	conf[COSMICOS].zoom_ = configPointer->Read("/Cosmicos/Zoom", defaultZoom);
+	conf[COSMICOS].zoom_ = convertLocale(configPointer->Read("/Cosmicos/Zoom", defaultZoom));
 	defaultZoom.Printf("%2.2f", 1.0);
-	conf[COSMICOS].zoomVt_ = configPointer->Read("/Cosmicos/Vt_Zoom", defaultZoom);
+	conf[COSMICOS].zoomVt_ = convertLocale(configPointer->Read("/Cosmicos/Vt_Zoom", defaultZoom));
 	wxString defaultScale;
 	defaultScale.Printf("%i", 4);
-	conf[COSMICOS].xScale_ = configPointer->Read("/Cosmicos/Window_Scale_Factor_X", defaultScale);
+	conf[COSMICOS].xScale_ = convertLocale(configPointer->Read("/Cosmicos/Window_Scale_Factor_X", defaultScale));
 
 	wxString defaultClock;
 	defaultClock.Printf("%1.2f", 1.75);
-	conf[COSMICOS].clock_ = configPointer->Read("/Cosmicos/Clock_Speed", defaultClock);
+	conf[COSMICOS].clock_ = convertLocale(configPointer->Read("/Cosmicos/Clock_Speed", defaultClock));
 
 	wxString defaultTimer;
 	defaultTimer.Printf("%d", 100);

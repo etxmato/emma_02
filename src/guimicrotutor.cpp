@@ -78,7 +78,7 @@ void GuiMicrotutor::readMicrotutorConfig()
 
 	wxString defaultClock;
 	defaultClock.Printf("%1.2f", 1.75);
-	conf[MICROTUTOR].clock_ = configPointer->Read("/Microtutor/Clock_Speed", defaultClock);
+	conf[MICROTUTOR].clock_ = convertLocale(configPointer->Read("/Microtutor/Clock_Speed", defaultClock));
 
 	wxString defaultTimer;
 	defaultTimer.Printf("%d", 100);
@@ -199,7 +199,7 @@ void GuiMicrotutor2::readMicrotutor2Config()
     
     wxString defaultClock;
     defaultClock.Printf("%1.2f", 1.75);
-    conf[MICROTUTOR2].clock_ = configPointer->Read("/Microtutor2/Clock_Speed", defaultClock);
+    conf[MICROTUTOR2].clock_ = convertLocale(configPointer->Read("/Microtutor2/Clock_Speed", defaultClock));
     
     wxString defaultTimer;
     defaultTimer.Printf("%d", 100);

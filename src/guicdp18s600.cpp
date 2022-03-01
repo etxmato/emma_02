@@ -420,7 +420,7 @@ void GuiCdp18s600::readCdp18s600Config()
 
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 2.0);
-    conf[MICROBOARD].zoom_ = configPointer->Read("/Microboard/Zoom", defaultZoom);
+    conf[MICROBOARD].zoom_ = convertLocale(configPointer->Read("/Microboard/Zoom", defaultZoom));
     conf[MICROBOARD].volume_ = (int)configPointer->Read("/Microboard/Volume", 25l);
     elfConfiguration[MICROBOARD].pageMemSize = (int)configPointer->Read("/Microboard/PageMemSize", 0l);
     conf[MICROBOARD].charRom_ = configPointer->Read("/Microboard/Font_Rom_File", "character.bin");
@@ -446,12 +446,12 @@ void GuiCdp18s600::readCdp18s600Config()
     configPointer->Read("/Microboard/Force_Uppercase", &elfConfiguration[MICROBOARD].forceUpperCase, true);
 
     defaultZoom.Printf("%2.2f", 1.0);
-    conf[MICROBOARD].zoomVt_ = configPointer->Read("/Microboard/Vt_Zoom", defaultZoom);
+    conf[MICROBOARD].zoomVt_ = convertLocale(configPointer->Read("/Microboard/Vt_Zoom", defaultZoom));
     wxString defaultScale;
     defaultScale.Printf("%i", 3);
-    conf[MICROBOARD].xScale_ = configPointer->Read("/Microboard/Window_Scale_Factor_X", defaultScale);
+    conf[MICROBOARD].xScale_ = convertLocale(configPointer->Read("/Microboard/Window_Scale_Factor_X", defaultScale));
     
-    conf[MICROBOARD].clock_ = configPointer->Read("/Microboard/Clock_Speed", defaultClock);
+    conf[MICROBOARD].clock_ = convertLocale(configPointer->Read("/Microboard/Clock_Speed", defaultClock));
     
     wxString defaultTimer;
     defaultTimer.Printf("%d", 100);

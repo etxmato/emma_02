@@ -153,12 +153,12 @@ void GuiVelf::readVelfConfig()
 
 	wxString defaultZoom;
 	defaultZoom.Printf("%2.2f", 2.0);
-	conf[VELF].zoom_ = configPointer->Read("/Velf/Zoom", defaultZoom);
+	conf[VELF].zoom_ = convertLocale(configPointer->Read("/Velf/Zoom", defaultZoom));
 	defaultZoom.Printf("%2.2f", 1.0);
-	conf[VELF].zoomVt_ = configPointer->Read("/Velf/Vt_Zoom", defaultZoom);
+	conf[VELF].zoomVt_ = convertLocale(configPointer->Read("/Velf/Vt_Zoom", defaultZoom));
 	wxString defaultScale;
 	defaultScale.Printf("%i", 3);
-	conf[VELF].xScale_ = configPointer->Read("/Velf/Window_Scale_Factor_X", defaultScale);
+	conf[VELF].xScale_ = convertLocale(configPointer->Read("/Velf/Window_Scale_Factor_X", defaultScale));
 
     configPointer->Read("/Velf/SerialLog", &elfConfiguration[VELF].serialLog, false);
 	configPointer->Read("/Velf/Enable_Vt_Stretch_Dot", &conf[VELF].stretchDot_, false);
@@ -177,7 +177,7 @@ void GuiVelf::readVelfConfig()
 
 	wxString defaultClock;
 	defaultClock.Printf("%1.2f", 1.76);
-	conf[VELF].clock_ = configPointer->Read("/Velf/Clock_Speed", defaultClock);
+	conf[VELF].clock_ = convertLocale(configPointer->Read("/Velf/Clock_Speed", defaultClock));
 
     wxString defaultTimer;
     defaultTimer.Printf("%d", 100);

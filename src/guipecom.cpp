@@ -138,10 +138,10 @@ void GuiPecom::readPecomConfig()
 
 	wxString defaultZoom;
 	defaultZoom.Printf("%2.2f", 2.0);
-	conf[PECOM].zoom_ = configPointer->Read("/Pecom/Zoom", defaultZoom);
+	conf[PECOM].zoom_ = convertLocale(configPointer->Read("/Pecom/Zoom", defaultZoom));
 	wxString defaultClock;
 	defaultClock.Printf("%1.3f", 2.813);
-	conf[PECOM].clock_ = configPointer->Read("/Pecom/Clock_Speed", defaultClock);
+	conf[PECOM].clock_ = convertLocale(configPointer->Read("/Pecom/Clock_Speed", defaultClock));
 
     configPointer->Read("/Pecom/Dram", &conf[PECOM].dram_, true);
 

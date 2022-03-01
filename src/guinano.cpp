@@ -121,13 +121,13 @@ void GuiNano::readNanoConfig()
 
 	wxString defaultZoom;
 	defaultZoom.Printf("%2.2f", 2.0);
-	conf[NANO].zoom_ = configPointer->Read("/Nano/Zoom", defaultZoom);
+	conf[NANO].zoom_ = convertLocale(configPointer->Read("/Nano/Zoom", defaultZoom));
 	wxString defaultScale;
 	defaultScale.Printf("%i", 4);
-	conf[NANO].xScale_ = configPointer->Read("/Nano/Window_Scale_Factor_X", defaultScale);
+	conf[NANO].xScale_ = convertLocale(configPointer->Read("/Nano/Window_Scale_Factor_X", defaultScale));
 	wxString defaultClock;
 	defaultClock.Printf("%1.2f", 1.75);
-	conf[NANO].clock_ = configPointer->Read("/Nano/Clock_Speed", defaultClock);
+	conf[NANO].clock_ = convertLocale(configPointer->Read("/Nano/Clock_Speed", defaultClock));
 
 	setRealCas(NANO);
 

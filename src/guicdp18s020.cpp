@@ -142,12 +142,12 @@ void GuiCdp18s020::readCdp18s020Config()
 
 	wxString defaultZoom;
 	defaultZoom.Printf("%2.2f", 2.0);
-	conf[CDP18S020].zoom_ = configPointer->Read("/CDP18S020/Zoom", defaultZoom);
+	conf[CDP18S020].zoom_ = convertLocale(configPointer->Read("/CDP18S020/Zoom", defaultZoom));
 	defaultZoom.Printf("%2.2f", 1.0);
-	conf[CDP18S020].zoomVt_ = configPointer->Read("/CDP18S020/Vt_Zoom", defaultZoom);
+	conf[CDP18S020].zoomVt_ = convertLocale(configPointer->Read("/CDP18S020/Vt_Zoom", defaultZoom));
 	wxString defaultScale;
 	defaultScale.Printf("%i", 3);
-	conf[CDP18S020].xScale_ = configPointer->Read("/CDP18S020/Window_Scale_Factor_X", defaultScale);
+	conf[CDP18S020].xScale_ = convertLocale(configPointer->Read("/CDP18S020/Window_Scale_Factor_X", defaultScale));
 
 	configPointer->Read("/CDP18S020/Enable_Vt_Stretch_Dot", &conf[CDP18S020].stretchDot_, false);
 
@@ -165,7 +165,7 @@ void GuiCdp18s020::readCdp18s020Config()
 
 	wxString defaultClock;
 	defaultClock.Printf("%1.1f", 2.0);
-	conf[CDP18S020].clock_ = configPointer->Read("/CDP18S020/Clock_Speed", defaultClock);
+	conf[CDP18S020].clock_ = convertLocale(configPointer->Read("/CDP18S020/Clock_Speed", defaultClock));
 
     wxString defaultTimer;
     defaultTimer.Printf("%d", 500);

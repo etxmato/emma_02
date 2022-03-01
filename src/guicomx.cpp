@@ -214,12 +214,12 @@ void GuiComx::readComxConfig()
 
 	wxString defaultZoom;
 	defaultZoom.Printf("%2.2f", 2.0);
-	conf[COMX].zoom_ = configPointer->Read("/Comx/Zoom", defaultZoom);
+	conf[COMX].zoom_ = convertLocale(configPointer->Read("/Comx/Zoom", defaultZoom));
 	wxString defaultClock;
 	defaultClock.Printf("%1.3f", 2.813);
-	comxPalClock_ = configPointer->Read("/Comx/Clock_Speed_When_Using_Pal", defaultClock);
+	comxPalClock_ = convertLocale(configPointer->Read("/Comx/Clock_Speed_When_Using_Pal", defaultClock));
 	defaultClock.Printf("%1.3f", 2.835);
-	comxNtscClock_ = configPointer->Read("/Comx/Clock_Speed_When_Using_Ntsc", defaultClock);
+	comxNtscClock_ = convertLocale(configPointer->Read("/Comx/Clock_Speed_When_Using_Ntsc", defaultClock));
 	conf[COMX].videoMode_ = (int)configPointer->Read("/Comx/Video_Mode", 0l);
 	if (conf[COMX].videoMode_ == PAL)
 		conf[COMX].clock_ = comxPalClock_;

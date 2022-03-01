@@ -113,13 +113,13 @@ void GuiEti::readEtiConfig()
 
 	wxString defaultZoom;
 	defaultZoom.Printf("%2.2f", 2.0);
-	conf[ETI].zoom_ = configPointer->Read("/Eti/Zoom", defaultZoom);
+	conf[ETI].zoom_ = convertLocale(configPointer->Read("/Eti/Zoom", defaultZoom));
 	wxString defaultScale;
 	defaultScale.Printf("%i", 4);
-	conf[ETI].xScale_ = configPointer->Read("/Eti/Window_Scale_Factor_X", defaultScale);
+	conf[ETI].xScale_ = convertLocale(configPointer->Read("/Eti/Window_Scale_Factor_X", defaultScale));
 	wxString defaultClock;
 	defaultClock.Printf("%1.3f", 1.773);
-	conf[ETI].clock_ = configPointer->Read("/Eti/Clock_Speed", defaultClock);
+	conf[ETI].clock_ = convertLocale(configPointer->Read("/Eti/Clock_Speed", defaultClock));
 
 	setRealCas(ETI);
 

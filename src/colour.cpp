@@ -186,7 +186,7 @@ ColourDialog::ColourDialog(wxWindow* parent)
     {
         wxString defaultScale;
         defaultScale.Printf("%1.1f", 1.5);
-        scaleString = p_Main->getConfigItem(computerTypeStr_+"/Window_Scale_Factor_X", defaultScale);
+        scaleString = p_Main->convertLocale(p_Main->getConfigItem(computerTypeStr_+"/Window_Scale_Factor_X", defaultScale));
         XRCCTRL(*this, "ScaleXText", wxTextCtrl)->ChangeValue(scaleString);
     }
 

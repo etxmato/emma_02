@@ -758,7 +758,7 @@ Oscam Nano, Pecom 32, Pecom 64 and ETI 660 "</string>
                     <string name="proxy-Id name">"wxID_STATIC"</string>
                     <long name="proxy-Id value">5105</long>
                     <string name="proxy-Implementation filename">""</string>
-                    <string name="proxy-Label">"Emma 02 Copyright (C) 2007-2021 Marcel van Tongeren, 
+                    <string name="proxy-Label">"Emma 02 Copyright (C) 2007-2022 Marcel van Tongeren, 
 core based on RCS Elf Emulator copyright (C) 2006 by Michael H Riley"</string>
                     <string name="proxy-Member variable name">""</string>
                     <string name="proxy-Name">""</string>

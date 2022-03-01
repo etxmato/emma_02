@@ -165,12 +165,12 @@ void GuiVip::readVipConfig()
 
 	wxString defaultZoom;
 	defaultZoom.Printf("%2.2f", 2.0);
-	conf[VIP].zoom_ = configPointer->Read("/Vip/Zoom", defaultZoom);
+	conf[VIP].zoom_ = convertLocale(configPointer->Read("/Vip/Zoom", defaultZoom));
 	defaultZoom.Printf("%2.2f", 1.0);
-	conf[VIP].zoomVt_ = configPointer->Read("/Vip/Vt_Zoom", defaultZoom);
+	conf[VIP].zoomVt_ = convertLocale(configPointer->Read("/Vip/Vt_Zoom", defaultZoom));
 	wxString defaultScale;
 	defaultScale.Printf("%i", 3);
-	conf[VIP].xScale_ = configPointer->Read("/Vip/Window_Scale_Factor_X", defaultScale);
+	conf[VIP].xScale_ = convertLocale(configPointer->Read("/Vip/Window_Scale_Factor_X", defaultScale));
 
     configPointer->Read("/Vip/SerialLog", &elfConfiguration[VIP].serialLog, false);
 	configPointer->Read("/Vip/Enable_Vt_Stretch_Dot", &conf[VIP].stretchDot_, false);
@@ -200,7 +200,7 @@ void GuiVip::readVipConfig()
 
 	wxString defaultClock;
 	defaultClock.Printf("%1.4f", 1.7609);
-	conf[VIP].clock_ = configPointer->Read("/Vip/Clock_Speed", defaultClock);
+	conf[VIP].clock_ = convertLocale(configPointer->Read("/Vip/Clock_Speed", defaultClock));
 
 	configPointer->Read("/Vip/VtEf", &elfConfiguration[VIP].vtEf, false);
 	configPointer->Read("/Vip/VtQ", &elfConfiguration[VIP].vtQ, true);

@@ -155,10 +155,10 @@ void GuiTelmac::readTelmacConfig()
 
 	wxString defaultZoom;
 	defaultZoom.Printf("%2.2f", 2.0);
-	conf[TMC600].zoom_ = configPointer->Read("/TMC600/Zoom", defaultZoom);
+	conf[TMC600].zoom_ = convertLocale(configPointer->Read("/TMC600/Zoom", defaultZoom));
 	wxString defaultClock;
 	defaultClock.Printf("%1.3f", 3.579);
-	conf[TMC600].clock_ = configPointer->Read("/TMC600/Clock_Speed", defaultClock);
+	conf[TMC600].clock_ = convertLocale(configPointer->Read("/TMC600/Clock_Speed", defaultClock));
 
 	conf[TMC600].volume_ = (int)configPointer->Read("/TMC600/Volume", 25l);
 	conf[TMC600].turboClock_ = configPointer->Read("/TMC600/Turbo_Clock_Speed", "15");

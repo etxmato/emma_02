@@ -148,12 +148,12 @@ void GuiVip2K::readVip2KConfig()
 
 	wxString defaultZoom;
 	defaultZoom.Printf("%2.2f", 2.0);
-	conf[VIP2K].zoom_ = configPointer->Read("/Vip2K/Zoom", defaultZoom);
+	conf[VIP2K].zoom_ = convertLocale(configPointer->Read("/Vip2K/Zoom", defaultZoom));
 	defaultZoom.Printf("%2.2f", 1.0);
-	conf[VIP2K].zoomVt_ = configPointer->Read("/Vip2K/Vt_Zoom", defaultZoom);
+	conf[VIP2K].zoomVt_ = convertLocale(configPointer->Read("/Vip2K/Vt_Zoom", defaultZoom));
 	wxString defaultScale;
 	defaultScale.Printf("%1.1f", 1.5);
-	conf[VIP2K].xScale_ = configPointer->Read("/Vip2K/Window_Scale_Factor_X", defaultScale);
+	conf[VIP2K].xScale_ = convertLocale(configPointer->Read("/Vip2K/Window_Scale_Factor_X", defaultScale));
 
 	configPointer->Read("/Vip2K/Enable_Vt_Stretch_Dot", &conf[VIP2K].stretchDot_, false);
     configPointer->Read("/Vip2K/Enable_Vt_External", &elfConfiguration[VIP2K].vtExternal, false);
@@ -167,7 +167,7 @@ void GuiVip2K::readVip2KConfig()
 
 	wxString defaultClock;
 	defaultClock.Printf("%1.1f", 4.0);
-	conf[VIP2K].clock_ = configPointer->Read("/Vip2K/Clock_Speed", defaultClock);
+	conf[VIP2K].clock_ = convertLocale(configPointer->Read("/Vip2K/Clock_Speed", defaultClock));
 
 	configPointer->Read("/Vip2K/VtEf", &elfConfiguration[VIP2K].vtEf, true);
 	configPointer->Read("/Vip2K/VtQ", &elfConfiguration[VIP2K].vtQ, false);

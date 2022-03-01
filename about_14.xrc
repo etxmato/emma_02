@@ -93,7 +93,7 @@ Oscam Nano, Pecom 32, Pecom 64 and ETI 660 </label>
 <size>14</size>
 </font>
 <style>wxALIGN_CENTRE</style>
-<label>Emma 02 Copyright (C) 2007-2021 Marcel van Tongeren, 
+<label>Emma 02 Copyright (C) 2007-2022 Marcel van Tongeren, 
 core based on RCS Elf Emulator copyright (C) 2006 by Michael H Riley</label>
 <wrap>400</wrap>
 </object>

@@ -166,13 +166,13 @@ void GuiTMC2000::readTMC2000Config()
 
 	wxString defaultZoom;
 	defaultZoom.Printf("%2.2f", 2.0);
-	conf[TMC2000].zoom_ = configPointer->Read("/TMC2000/Zoom", defaultZoom);
+	conf[TMC2000].zoom_ = convertLocale(configPointer->Read("/TMC2000/Zoom", defaultZoom));
 	wxString defaultScale;
 	defaultScale.Printf("%i", 4);
-	conf[TMC2000].xScale_ = configPointer->Read("/TMC2000/Window_Scale_Factor_X", defaultScale);
+	conf[TMC2000].xScale_ = convertLocale(configPointer->Read("/TMC2000/Window_Scale_Factor_X", defaultScale));
 	wxString defaultClock;
 	defaultClock.Printf("%1.2f", 1.75);
-	conf[TMC2000].clock_ = configPointer->Read("/TMC2000/Clock_Speed", defaultClock);
+	conf[TMC2000].clock_ = convertLocale(configPointer->Read("/TMC2000/Clock_Speed", defaultClock));
 
 	setRealCas(TMC2000);
 
@@ -286,13 +286,13 @@ void GuiTMC2000::readTMC1800Config()
 
 	wxString defaultZoom;
 	defaultZoom.Printf("%2.2f", 2.0);
-	conf[TMC1800].zoom_ = configPointer->Read("/TMC1800/Zoom", defaultZoom);
+	conf[TMC1800].zoom_ = convertLocale(configPointer->Read("/TMC1800/Zoom", defaultZoom));
 	wxString defaultScale;
 	defaultScale.Printf("%i", 3);
-	conf[TMC1800].xScale_ = configPointer->Read("/TMC1800/Window_Scale_Factor_X", defaultScale);
+	conf[TMC1800].xScale_ = convertLocale(configPointer->Read("/TMC1800/Window_Scale_Factor_X", defaultScale));
 	wxString defaultClock;
 	defaultClock.Printf("%1.2f", 1.75);
-	conf[TMC1800].clock_ = configPointer->Read("/TMC1800/Clock_Speed", defaultClock);
+	conf[TMC1800].clock_ = convertLocale(configPointer->Read("/TMC1800/Clock_Speed", defaultClock));
 
 	setRealCas(TMC1800);
 
