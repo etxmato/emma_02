@@ -116,7 +116,6 @@ GuiElf2K::GuiElf2K(const wxString& title, const wxPoint& pos, const wxSize& size
 {
 	conf[ELF2K].saveStartString_ = "";
 	conf[ELF2K].saveEndString_ = "";
-    position_.x = 0;
 }
 
 void GuiElf2K::readElf2KConfig()

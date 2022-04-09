@@ -59,8 +59,6 @@ GuiUc1800::GuiUc1800(const wxString& title, const wxPoint& pos, const wxSize& si
 {
 	conf[UC1800].saveStartString_ = "";
 	conf[UC1800].saveEndString_ = "";
-    
-    position_.x = 0;
 }
 
 void GuiUc1800::readUc1800Config()

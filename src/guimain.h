@@ -1,8 +1,8 @@
 #ifndef GUIMAIN_H
 #define GUIMAIN_H
 
-#define NO_COMPUTER 32
-#define LAST_ELF_TYPE 17
+#define NO_COMPUTER 34
+#define LAST_ELF_TYPE 19
 
 #define MAINROM1 0
 
@@ -126,6 +126,8 @@ public:
 	wxString chip8SW_;
 	wxString wavFileDir_[2];
 	wxString wavFile_[2];
+    wxString batchFileDir_;
+    wxString batchFile_;
 	wxString charRomDir_;
 	wxString charRom_;
 	wxString ideDir_;
@@ -388,6 +390,7 @@ public:
 	wxString getCharRomDir(int computerType) {return conf[computerType].charRomDir_;};
 	wxString getVtCharRomDir(int computerType) {return elfConfiguration[computerType].vtCharRomDir_;};
 	wxString getWaveDir(int computerType) {return conf[computerType].wavFileDir_[0];};
+    void setWaveDir(int computerType, wxString fileDir) {conf[computerType].wavFileDir_[0] = fileDir;};
     wxArrayString getTerminalPaths(int computerType) {return conf[computerType].terminalPaths_;}
     wxString getTerminalPath(int computerType, int filenumber) {return conf[computerType].terminalPaths_[filenumber];}
     wxArrayString getTerminalFiles(int computerType) {return conf[computerType].terminalFiles_;}
@@ -438,6 +441,7 @@ public:
 	wxString getCharRomFile(int computerType) {return conf[computerType].charRom_;};
 	wxString getVtCharRomFile(int computerType) {return elfConfiguration[computerType].vtCharRom_;};
     wxString getWaveFile(int computerType) {return conf[computerType].wavFile_[0];};
+    void setWaveFile(int computerType, wxString fileName) {conf[computerType].wavFile_[0] = fileName;};
     wxString getWaveFile1(int computerType) {return conf[computerType].wavFile_[1];};
 	wxString getKeyFile();
 	wxString getKeyFileDir();
@@ -470,6 +474,7 @@ public:
 	void setBeepFrequency(int computerType);
 	void setClockRate();
 	void setPloadFileName(wxString fileName) {conf[runningComputer_].loadFileName_ = fileName;};
+    void setPloadFileNameFull(wxString fileName) {conf[runningComputer_].loadFileNameFull_ = fileName;};
 
 	int getConfigItem(wxString Item, long DefaultValue);
     void setConfigItem(wxString Item, int Value);
@@ -640,7 +645,9 @@ protected:
 	Tmc600 *p_Tmc600;
 	Pecom *p_Pecom;
 	Elf2 *p_Elf2;
-	Super *p_Super;
+    Super *p_Super;
+    Netronics *p_Netronics;
+    Pico *p_Pico;
     Elf2K *p_Elf2K;
 	Ms2000 *p_Ms2000;
 	Mcds *p_Mcds;
@@ -764,8 +771,6 @@ private:
     wxBitmap printerOnBitmap;
     wxBitmap pauseOffBitmap;
     wxBitmap pauseOnBitmap;
-
-    wxPoint position_[LAST_ELF_TYPE+1];
 
 	double savedSpeed_;
 	bool turboOn_;

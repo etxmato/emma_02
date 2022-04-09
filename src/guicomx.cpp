@@ -44,7 +44,7 @@ DEFINE_EVENT_TYPE(EXP_LED_ON)
 DEFINE_EVENT_TYPE(EXP_LED_OFF)
 DEFINE_EVENT_TYPE(STATUS_BAR_1870)
 
-BEGIN_EVENT_TABLE(GuiComx, GuiElf)
+BEGIN_EVENT_TABLE(GuiComx, GuiNetronics)
 
 	EVT_TEXT(XRCID("MainRomComx"), GuiMain::onMainRom1Text)
 	EVT_COMBOBOX(XRCID("MainRomComx"), GuiMain::onMainRom1Text)
@@ -86,9 +86,11 @@ BEGIN_EVENT_TABLE(GuiComx, GuiElf)
 	EVT_COMBOBOX(XRCID("ScreenDumpFileComx"), GuiMain::onScreenDumpFileText)
 
 	EVT_BUTTON(XRCID("ScreenDumpF5Comx"), GuiMain::onScreenDump)
-	EVT_BUTTON(XRCID("CasButtonComx"), GuiMain::onCassette)
+    EVT_BUTTON(XRCID("CasButtonComx"), GuiMain::onCassette)
 	EVT_BUTTON(XRCID("EjectCasComx"), GuiMain::onCassetteEject)
 	EVT_TEXT(XRCID("WavFileComx"), GuiMain::onCassetteText)
+    EVT_BUTTON(XRCID("BatchButtonComx"), GuiComx::onBatchFileDialog)
+    EVT_BUTTON(XRCID("BatchConvertButtonComx"), GuiComx::onBatchConvertStart)
 	EVT_BUTTON(XRCID("KeyFileButtonComx"), GuiMain::onKeyFile)
 	EVT_TEXT(XRCID("KeyFileComx"), GuiMain::onKeyFileText)
 	EVT_BUTTON(XRCID("EjectKeyFileComx"), GuiMain::onKeyFileEject)
@@ -143,7 +145,7 @@ BEGIN_EVENT_TABLE(GuiComx, GuiElf)
 	END_EVENT_TABLE()
 
 GuiComx::GuiComx(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
-: GuiElf(title, pos, size, mode, dataDir, iniDir)
+: GuiNetronics(title, pos, size, mode, dataDir, iniDir)
 {
 	conf[COMX].loadFileNameFull_ = "";
 	conf[COMX].loadFileName_ = "";
@@ -199,6 +201,7 @@ void GuiComx::readComxConfig()
 	conf[COMX].printFileDir_ = readConfigDir("/Dir/Comx/Print_File", dataDir_ + "Comx" + pathSeparator_);
 	conf[COMX].screenDumpFileDir_ = readConfigDir("/Dir/Comx/Video_Dump_File", dataDir_ + "Comx" + pathSeparator_);
 	conf[COMX].wavFileDir_[0] = readConfigDir("/Dir/Comx/Wav_File", dataDir_ + "Comx" + pathSeparator_);
+    conf[COMX].batchFileDir_ = readConfigDir("/Dir/Comx/Batch_File", dataDir_ + "Comx" + pathSeparator_);
 
 	conf[COMX].rom_[CARTROM1] = configPointer->Read("/Comx/Card_1_Rom_File", "fdc.bin");
 	conf[COMX].rom_[CARTROM2] = configPointer->Read("/Comx/Card_2_Rom_File", "f&m.printer.1.2.bin");
@@ -338,7 +341,7 @@ void GuiComx::readComxConfig()
 		XRCCTRL(*this, "Disk2FileComx", wxTextCtrl)->Enable(diskRomLoaded_);
 		XRCCTRL(*this, "EjectDisk2Comx", wxButton)->Enable(diskRomLoaded_ );
 
-		XRCCTRL(*this, "WavFileComx", wxTextCtrl)->SetValue(conf[COMX].wavFile_[0]);
+        XRCCTRL(*this, "WavFileComx", wxTextCtrl)->SetValue(conf[COMX].wavFile_[0]);
 		XRCCTRL(*this, "VidModeComx", wxChoice)->SetSelection(conf[COMX].videoMode_);
 		if (conf[COMX].videoMode_ == PAL)
         {
@@ -480,6 +483,7 @@ void GuiComx::writeComxDirConfig()
     writeConfigDir("/Dir/Comx/Print_File", conf[COMX].printFileDir_);
     writeConfigDir("/Dir/Comx/Video_Dump_File", conf[COMX].screenDumpFileDir_);
     writeConfigDir("/Dir/Comx/Wav_File", conf[COMX].wavFileDir_[0]);
+    writeConfigDir("/Dir/Comx/Batch_File", conf[COMX].batchFileDir_);
 	writeConfigDir("/Dir/Comx/DIAG_ROM_0", DiagPalRomDir_[0]);
 	writeConfigDir("/Dir/Comx/DIAG_ROM_1", DiagPalRomDir_[1]);
 	writeConfigDir("/Dir/Comx/DIAG_NTSC_ROM_0", DiagNtscRomDir_[0]);
@@ -978,6 +982,126 @@ void GuiComx::onComxExpansionRamSlot(wxSpinEvent&event)
 	expansionRamSlot_ = event.GetPosition();
 
 	setComxExpRamSlot();
+}
+
+void GuiComx::onBatchConvertStart(wxCommandEvent&WXUNUSED(event))
+{
+    if (numberOfBatchFiles_ > 0)
+    {
+        if (p_Computer->isComputerRunning())
+        {
+            int answer = wxMessageBox("COMX Emulator is running software\n"
+                                        "Reset before loading NEW software?",
+                                        "Emma 02", wxYES_NO);
+
+            if (answer == wxYES)
+                p_Computer->onReset();
+            else
+                return;
+        }
+
+        batchSaveWavFileDir_ = conf[selectedComputer_].wavFileDir_[0];
+        batchSaveWavFile_ = conf[selectedComputer_].wavFile_[0];
+        p_Comx->setBatchFileNumber((int)numberOfBatchFiles_ - 1);
+        batchConvertActive_ = true;
+    }
+}
+
+void GuiComx::batchConvertStop()
+{
+    conf[selectedComputer_].wavFileDir_[0] = batchSaveWavFileDir_;
+    conf[selectedComputer_].wavFile_[0] = batchSaveWavFile_;
+    batchConvertActive_ = false;
+}
+
+void GuiComx::onBatchFileDialog(wxCommandEvent&WXUNUSED(event))
+{
+    wxString fileName, extension, errorList = "";
+    int numberOfFiles = 0, numberOfErrorFiles = 0;
+    wxFFile inputFile;
+    char buffer[1];
+
+    wxFileDialog openFileDialog(this,
+                                "Select the .comx files to convert",
+                                conf[selectedComputer_].batchFileDir_,
+                                conf[selectedComputer_].batchFile_,
+                                "COMX files (*.comx)|*.comx",
+                                wxFD_OPEN|wxFD_CHANGE_DIR|wxFD_PREVIEW|wxFD_MULTIPLE
+                               );
+
+    if (openFileDialog.ShowModal() == wxID_CANCEL)
+        return;     // the user changed idea...
+
+    batchPaths_.Clear();
+    batchFiles_.Clear();
+    openFileDialog.GetPaths(batchPaths_);
+    openFileDialog.GetFilenames(batchFiles_);
+
+    numberOfBatchFiles_ = batchPaths_.GetCount();
+    
+    wxFileName FullPath;
+
+    for (int i=0; i<(int)numberOfBatchFiles_; i++)
+    {
+        FullPath = wxFileName(batchPaths_[i], wxPATH_NATIVE);
+
+        batchPaths_[i] = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+        extension = FullPath.GetExt();
+
+        if (i == 0)
+        {
+            conf[selectedComputer_].batchFileDir_ = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+            conf[selectedComputer_].batchFile_ = FullPath.GetFullName();
+        }
+        
+        if (extension != "comx")
+        {
+            errorList += (batchFiles_[i] + "\n");
+            numberOfErrorFiles++;
+        }
+        else
+        {
+            if (inputFile.Open(batchPaths_[i] + batchFiles_[i], _("rb")))
+            {
+                inputFile.Read(buffer, 1);
+                inputFile.Close();
+                
+                if (buffer[0] == 1)
+                {
+                    errorList += (batchFiles_[i] + "\n");
+                    batchFiles_[i] += "x";
+                    numberOfErrorFiles++;
+                }
+                else
+                    numberOfFiles++;
+            }
+            else
+            {
+                errorList += (batchFiles_[i] + "\n");
+                batchFiles_[i] += "x";
+                numberOfErrorFiles++;
+            }
+        }
+    }
+
+    if (errorList != "")
+    {
+        if (numberOfErrorFiles == 1)
+            (void)wxMessageBox( "Following file will not be converted\n\n"+errorList,
+                                    "Emma 02", wxICON_ERROR | wxOK );
+        else
+            (void)wxMessageBox( "Following files will not be converted\n\n"+errorList,
+                                    "Emma 02", wxICON_ERROR | wxOK );
+    }
+    
+    wxString numberStr;
+    if (numberOfFiles == 1)
+        numberStr = "1 File selected";
+    else
+        numberStr.Printf("%d Files selected", numberOfFiles);
+    
+    if (mode_.gui)
+        XRCCTRL(*this, "BatchFile"+computerInfo[selectedComputer_].gui, wxStaticText)->SetLabel(numberStr);
 }
 
 void GuiComx::statusLedOnEvent()

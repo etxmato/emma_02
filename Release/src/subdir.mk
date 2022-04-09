@@ -56,7 +56,9 @@ CPP_SRCS += \
 ../src/guimicrotutor.cpp \
 ../src/guims2000.cpp \
 ../src/guinano.cpp \
+../src/guinetronics.cpp \
 ../src/guipecom.cpp \
+../src/guipico.cpp \
 ../src/guipopup.cpp \
 ../src/guisb.cpp \
 ../src/guistudio2.cpp \
@@ -91,8 +93,10 @@ CPP_SRCS += \
 ../src/microtutor2.cpp \
 ../src/ms2000.cpp \
 ../src/nano.cpp \
+../src/netronics.cpp \
 ../src/network.cpp \
 ../src/pecom.cpp \
+../src/pico.cpp \
 ../src/pio.cpp \
 ../src/pixie.cpp \
 ../src/portext.cpp \
@@ -193,7 +197,9 @@ OBJS += \
 ./src/guimicrotutor.o \
 ./src/guims2000.o \
 ./src/guinano.o \
+./src/guinetronics.o \
 ./src/guipecom.o \
+./src/guipico.o \
 ./src/guipopup.o \
 ./src/guisb.o \
 ./src/guistudio2.o \
@@ -228,8 +234,10 @@ OBJS += \
 ./src/microtutor2.o \
 ./src/ms2000.o \
 ./src/nano.o \
+./src/netronics.o \
 ./src/network.o \
 ./src/pecom.o \
+./src/pico.o \
 ./src/pio.o \
 ./src/pixie.o \
 ./src/portext.o \
@@ -322,7 +330,9 @@ CPP_DEPS += \
 ./src/guimicrotutor.d \
 ./src/guims2000.d \
 ./src/guinano.d \
+./src/guinetronics.d \
 ./src/guipecom.d \
+./src/guipico.d \
 ./src/guipopup.d \
 ./src/guisb.d \
 ./src/guistudio2.d \
@@ -357,8 +367,10 @@ CPP_DEPS += \
 ./src/microtutor2.d \
 ./src/ms2000.d \
 ./src/nano.d \
+./src/netronics.d \
 ./src/network.d \
 ./src/pecom.d \
+./src/pico.d \
 ./src/pio.d \
 ./src/pixie.d \
 ./src/portext.d \

@@ -39,6 +39,9 @@ public:
 	void keyClear();
 
 	void checkComputerFunction();
+    void setBatchFileNumber(int number);
+    void batchConvert();
+    bool getBatchFile();
 	void sleepComputer(long ms);
 	void startComputerRun(bool load);
 	void startComxKeyFile();
@@ -91,6 +94,10 @@ private:
 	wxDateTime systemTime_;
 	wxDateTime comxTime_;
 	int day_, month_, year_;
+    
+    int batchFileNumber_;
+    bool batchInProgress_;
+    Word saveRegD_;
 };
 
 #endif  // COMX35_H

@@ -27,7 +27,6 @@ public:
 protected:
 
 private:
-    wxPoint position_;
     
 	DECLARE_EVENT_TABLE()
 };

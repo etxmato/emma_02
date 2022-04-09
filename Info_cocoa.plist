@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>$(PRODUCT_NAME)</string>
 	<key>CFBundleGetInfoString</key>
-	<string>$(PRODUCT_NAME) version 1.44, (c) 2007-2022 Marcel van Tongeren</string>
+	<string>$(PRODUCT_NAME) version 1.45, (c) 2007-2022 Marcel van Tongeren</string>
 	<key>CFBundleIconFile</key>
 	<string>images/app.icns</string>
 	<key>CFBundleIdentifier</key>
@@ -22,13 +22,13 @@
 		<string>it</string>
 	</array>
 	<key>CFBundleLongVersionString</key>
-	<string>1.44, (c) 2007-2022 Marcel van Tongeren</string>
+	<string>1.45, (c) 2007-2022 Marcel van Tongeren</string>
 	<key>CFBundleName</key>
 	<string>$(PRODUCT_NAME)</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.44</string>
+	<string>1.45</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>LSApplicationCategoryType</key>

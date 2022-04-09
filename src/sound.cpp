@@ -656,6 +656,8 @@ void Sound::psaveAmplitudeChange(int q)
 				case ELF:
 				case ELFII:
 				case SUPERELF:
+                case NETRONICS:
+                case PICO:
 					switch (qSound_)
 					{
 						case QSOUNDSW:

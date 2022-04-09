@@ -130,8 +130,6 @@ GuiMcds::GuiMcds(const wxString& title, const wxPoint& pos, const wxSize& size, 
     conf[MCDS].saveStartString_ = "";
     conf[MCDS].saveEndString_ = "";
     conf[MCDS].saveExecString_ = "";
-
-    position_.x = 0;
 }
 
 void GuiMcds::readMcdsConfig()

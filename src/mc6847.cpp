@@ -70,6 +70,14 @@ mc6847::mc6847(const wxString& title, const wxPoint& pos, const wxSize& size, do
 		case SUPERELF:
 			elfTypeStr_ = "SuperElf";
 		break;
+            
+        case NETRONICS:
+            elfTypeStr_ = "Netronics";
+        break;
+
+        case PICO:
+            elfTypeStr_ = "Pico";
+        break;
 	}
 	readCharRomFile(p_Main->getCharRomDir(computerType_), p_Main->getCharRomFile(computerType_));
     mc6847RamStart_ = elfPortConf.mc6847StartRam; //p_Main->getConfigItem(elfTypeStr_+"/mc6847StartRam",0xE000l);

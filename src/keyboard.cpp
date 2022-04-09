@@ -55,6 +55,8 @@ void Keyboard::configureKeyboard(int computerType, ElfPortConfiguration portConf
 		case ELF:
 		case ELFII:
 		case SUPERELF:
+        case NETRONICS:
+        case PICO:
 			forceUpperCase_ = p_Main->getUpperCase(computerType);
 		break;
 

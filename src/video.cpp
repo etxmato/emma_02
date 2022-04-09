@@ -77,6 +77,8 @@ VideoScreen::VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int 
         case MCDS:
         case CDP18S020:
         case MICROBOARD:
+        case NETRONICS:
+        case PICO:
 			forceUpperCase_ = p_Main->getUpperCase(computerType);
 		break;
 
@@ -237,6 +239,8 @@ void VideoScreen::onKeyDown(wxKeyEvent& event)
 			case SUPERELF:
 			case COSMICOS:
 			case MEMBER:
+            case NETRONICS:
+            case PICO:
 				if (p_Main->checkFunctionKey(event))
 					return;
 				if (!p_Computer->keyDownPressed(event.GetKeyCode()))
@@ -300,6 +304,8 @@ void VideoScreen::onKeyUp(wxKeyEvent& event)
 			case ELF2K:
 			case ELFII:
 			case SUPERELF:
+            case NETRONICS:
+            case PICO:
 				if (!p_Computer->keyUpReleased(event.GetKeyCode()))
 					event.Skip();
 			break;

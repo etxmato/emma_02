@@ -650,14 +650,21 @@ void Comx::cycleComx()
 					comxRunCommand_ = 0;
 				else
 				{
-					if (saveExec == 0)
-						commandText_ = "run";
-					else
-					{
-						wxString buffer;
-						buffer.Printf("%04x", saveExec);
-						commandText_ = "call(@" + buffer + ")";
-					}
+                    if (p_Main->isBatchConvertActive())
+                    {
+                        commandText_ = "psave";
+                    }
+                    else
+                    {
+                        if (saveExec == 0)
+                            commandText_ = "run";
+                        else
+                        {
+                            wxString buffer;
+                            buffer.Printf("%04x", saveExec);
+                            commandText_ = "call(@" + buffer + ")";
+                        }
+                    }
 					keyboardCode_ = 0;
 					keyboardEf3_ = 0;
 					comxRunCommand_++;
@@ -1883,7 +1890,6 @@ void Comx::checkComputerFunction()
 			}
 		break;
 
-
 		case 0x1047:
 			p_Main->stopCassette();
 			if (mainMemory_[0x428b] == 0x14)
@@ -1902,6 +1908,8 @@ void Comx::checkComputerFunction()
 			{
 				comxRunState_ = RESETSTATE;
 			}
+            if (p_Main->isBatchConvertActive() && !batchInProgress_)
+                batchConvert();
 		break;
 
 		case 0x0193:	// Reset input
@@ -1911,39 +1919,46 @@ void Comx::checkComputerFunction()
 				{
 					comxRunState_ = RESETSTATE;
 				}
+                if (p_Main->isBatchConvertActive() && !batchInProgress_)
+                    batchConvert();
 			}
 		break;
 
-		case 0xeeb5:	// Basic input EXP BOX
+		case 0xeeb5:	// Basic input SUPER BOARD
 			if (comxRunState_ != BASICSTATE)
+            {
 				if (mainMemory_[0x42a0] == 0)
-				{
 					comxRunState_ = BASICSTATE;
-				}
-		break;
+
+            }
+            if (p_Main->isBatchConvertActive() && !batchInProgress_)
+                batchConvert();
+        break;
 
 		case 0xc10c:	// Basic input 80 COL
 			if (comxRunState_ != BASICSTATE)
+            {
 				if (mainMemory_[0x42a0] == 0)
-				{
 					comxRunState_ = BASICSTATE;
-				}
+            }
 		break;
 
 		case 0x039a:	// Basic input
 			if (comxRunState_ != BASICSTATE)
+            {
 				if (mainMemory_[0x42a0] == 0)
-				{
 					comxRunState_ = BASICSTATE;
-				}
+            }
+            if (p_Main->isBatchConvertActive() && !batchInProgress_)
+                batchConvert();
 		break;
 
 		case 0x5344:	// F&M BASIC input
 			if (comxRunState_ != BASICSTATE)
+            {
 				if (mainMemory_[0x42a0] == 0)
-				{
-					comxRunState_ = BASICSTATE;
-				}
+                    comxRunState_ = BASICSTATE;
+            }
 		break;
 
 		case 0x1F76:	// RUN
@@ -1960,6 +1975,10 @@ void Comx::checkComputerFunction()
 		case 0x1675:	// DSAVE
 			p_Main->startCassetteSave(0);
 		break;
+            
+        case 0x14e1:    // PSAVE END
+            batchInProgress_ = false;
+        break;
 
 		case 0x4dc3:	// BSAVE
 			if (fAndMBasicRunning_)
@@ -2143,6 +2162,61 @@ void Comx::checkComputerFunction()
 //			stop6845();
 //		break;
 	}
+}
+
+void Comx::setBatchFileNumber(int number)
+{
+    batchFileNumber_ = number;
+    batchInProgress_ = false;
+        
+    p_Main->eventSetConvertState(false);
+}
+
+void Comx::batchConvert()
+{
+    if (getBatchFile())
+    {
+        batchInProgress_ = true;
+        
+        p_Main->setPloadFileNameFull(p_Main->getBatchPath(batchFileNumber_+1) + p_Main->getBatchFile(batchFileNumber_+1));
+        
+        p_Main->pload();
+        
+        wxString filename = p_Main->getBatchFile(batchFileNumber_+1);
+        filename = filename.Left(filename.Len()-5) + ".wav";
+        
+        p_Main->setWaveDir(COMX, p_Main->getBatchPath(batchFileNumber_+1));
+        p_Main->setWaveFile(COMX, filename);
+        
+        startComputerRun(false);
+//        load_ = false;
+//        commandText_ = "psave";
+//        comxRunCommand_ = 3;
+    }
+}
+
+bool Comx::getBatchFile()
+{
+    wxString extension = "xxxxx";
+    wxString filename, path;
+    bool result = true;
+    
+    while (extension != ".comx" && batchFileNumber_ >= 0)
+    {
+        filename = p_Main->getBatchFile(batchFileNumber_);
+//        path = p_Main->getBatchPath(batchFileNumber_);
+        extension = filename.Right(5);
+        batchFileNumber_--;
+    }
+    
+    if (extension != ".comx" )
+    {
+        result = false;
+        p_Main->batchConvertStop();
+        p_Main->eventSetConvertState(true);
+    }
+
+    return result;
 }
 
 void Comx::sleepComputer(long ms)

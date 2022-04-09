@@ -229,7 +229,6 @@ END_EVENT_TABLE()
 GuiCdp18s600::GuiCdp18s600(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode_, wxString dataDir, wxString iniDir)
 : GuiTMC2000(title, pos, size, mode_, dataDir, iniDir)
 {
-    position_.x = 0;
 }
 
 void GuiCdp18s600::readCdp18s600Config()

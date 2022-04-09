@@ -99,7 +99,8 @@ Tms9918::Tms9918(const wxString& title, const wxPoint& pos, const wxSize& size, 
     nameAddress_ = 0;
     colorAddress_ = 0;
     patternAddress_ = 0;
-    currentAddress_ = 0;
+    currentWriteAddress_ = 0;
+    currentReadAddress_ = 0;
     spriteAttributeTableAddress_ = 0;
     spritePatternTableAddress_ = 0;
     statusRegister_ = 0;
@@ -131,8 +132,20 @@ Tms9918::Tms9918(const wxString& title, const wxPoint& pos, const wxSize& size, 
         break;
     }
         
-	toggle_ = 0;
+	toggle_ = false;
 
+    for (int x=0; x<512; x+=8)
+    {
+        for (int y=0; y<384; y+=8)
+        {
+            multiColour_[x][y] = 0;
+            multiColour_[x+1][y] = 0;
+            multiColour_[x][y+1] = 0;
+            multiColour_[x+1][y+1] = 0;
+        }
+    }
+    reDrawMultiColor_ = false;
+    
 	offsetX_ = 0;
 	offsetY_ = 0;
 	backGroundX_ = 0;
@@ -233,7 +246,7 @@ Byte Tms9918::readDataPort()
 
 Byte Tms9918::readVRAM()
 {
-    return tmsMemory_[currentAddress_++];
+    return tmsMemory_[currentReadAddress_++];
 }
 
 void Tms9918::modeHighOut(Byte value)
@@ -246,18 +259,22 @@ void Tms9918::modeHighOut(Byte value)
             reBlit_ = true;
             reDraw_ = true;
 		}
-		if ((value & 0xc0) == 0x40)
+		if ((value & 0xc0) == 0)
 		{
-			currentAddress_ = value_ +((value & 0x3f) << 8);
+			currentReadAddress_ = value_ +((value & 0x3f) << 8);
+		}
+        if ((value & 0xc0) == 0x40)
+        {
+            currentWriteAddress_ = value_ +((value & 0x3f) << 8);
             reBlit_ = true;
     //        reDraw_ = true; //** test code!
-		}
-		toggle_ = 0;
+        }
+		toggle_ = false;
 	}
 	else
 	{
 		value_ = value;
-		toggle_ = 1;
+		toggle_ = true;
 	}
 }
 
@@ -265,16 +282,15 @@ void Tms9918::writeVRAM(Byte value)
 {
 	int  p;
 	Word addr;
-    int row;
 
-    addr = currentAddress_;
-    if (value == tmsMemory_[currentAddress_])
+    addr = currentWriteAddress_;
+    if (value == tmsMemory_[currentWriteAddress_])
     {
-        currentAddress_++;
+        currentWriteAddress_++;
         return;
     }
     
-	tmsMemory_[currentAddress_++] = value;
+	tmsMemory_[currentWriteAddress_++] = value;
 	Word memoryStart = p_Computer->getDebugMemoryStart();
 	if (addr >= memoryStart && addr<(memoryStart + 256))
 		p_Main->updateDebugMemory(addr);
@@ -285,31 +301,26 @@ void Tms9918::writeVRAM(Byte value)
             if (addr >= nameAddress_ && addr < nameAddress_+0x300)
 			{
 				drawTile(addr - nameAddress_);
-				return;
 			}
             if (addr >= spriteAttributeTableAddress_ && addr < (spriteAttributeTableAddress_ + 0x80))
             {
                 reDrawSprites_ = true;
-                return;
             }
             if (addr >= spritePatternTableAddress_ && addr < (spritePatternTableAddress_ + 0x800))
             {
                 reDrawSprites_ = true;
-                return;
             }
             if (addr >= colorAddress_ && addr < (colorAddress_+0x20))
 			{
 				p = addr - colorAddress_;
 				for (int i=0; i<768; i++)
 					if ((tmsMemory_[nameAddress_+i] >> 3) == p) drawTile(i);
-				return;
 			}
 			if (addr >= patternAddress_ && addr < (patternAddress_+0x800))
 			{
 				p = (addr - patternAddress_) >> 3;
 				for (int i=0; i<768; i++)
 					if (tmsMemory_[nameAddress_+i] == p) drawTilePatternUpdate(i, addr);
-                return;
 			}
 		break;
 
@@ -317,59 +328,50 @@ void Tms9918::writeVRAM(Byte value)
 			if (addr >= nameAddress_ && addr < (nameAddress_+0x300))
 			{
 				drawTile(addr - nameAddress_);
-				return;
 			}
             if (addr >= spriteAttributeTableAddress_ && addr < (spriteAttributeTableAddress_ + 0x80))
             {
                 reDrawSprites_ = true;
-                return;
             }
             if (addr >= spritePatternTableAddress_ && addr < (spritePatternTableAddress_ + 0x800))
             {
                 reDrawSprites_ = true;
-                return;
             }
 			if (addr >= colorAddress_ && addr < (colorAddress_+0x800))
 			{
 				p = (addr - colorAddress_) >> 3;
 				for (int i=0; i<256; i++)
                     if (tmsMemory_[nameAddress_+i] == p) drawTilePatternUpdate(i, addr);
-				return;
 			}
 			if (addr >= (colorAddress_+0x800) && addr < (colorAddress_+0x1000))
 			{
 				p = (addr -(colorAddress_+0x800)) >> 3;
 				for (int i=256; i<512; i++)
                     if (tmsMemory_[nameAddress_+i] == p) drawTilePatternUpdate(i, addr);
-				return;
 			}
 			if (addr >= (colorAddress_+0x1000) && addr < (colorAddress_+0x1800))
 			{
 				p = (addr -(colorAddress_+0x1000)) >> 3;
 				for (int i=512; i<768; i++)
                     if (tmsMemory_[nameAddress_+i] == p) drawTilePatternUpdate(i, addr);
-				return;
 			}
 			if (addr >= patternAddress_ && addr < (patternAddress_+0x800))
 			{
 				p = (addr - patternAddress_) >> 3;
 				for (int i=0; i<256; i++)
                     if (tmsMemory_[nameAddress_+i] == p) drawTilePatternUpdate(i, addr);
-				return;
 			}
 			if (addr >= (patternAddress_+0x800) && addr < (patternAddress_+0x1000))
 			{
 				p = (addr -(patternAddress_+0x800)) >> 3;
 				for (int i=256; i<512; i++)
                     if (tmsMemory_[nameAddress_+i] == p) drawTilePatternUpdate(i, addr);
-				return;
 			}
 			if (addr >= (patternAddress_+0x1000) && addr < (patternAddress_+0x1800))
 			{
 				p = (addr -(patternAddress_+0x1000)) >> 3;
 				for (int i=512; i<768; i++)
                     if (tmsMemory_[nameAddress_+i] == p) drawTilePatternUpdate(i, addr);
-                return;
 			}
 		break;
 
@@ -384,28 +386,18 @@ void Tms9918::writeVRAM(Byte value)
             if (addr >= nameAddress_ && addr < nameAddress_+768)
             {
                 drawTile(addr - nameAddress_);
-                return;
             }
             if (addr >= spriteAttributeTableAddress_ && addr < (spriteAttributeTableAddress_ + 0x80))
             {
                 reDrawSprites_ = true;
-                return;
             }
             if (addr >= spritePatternTableAddress_ && addr < (spritePatternTableAddress_ + 0x800))
             {
                 reDrawSprites_ = true;
-                return;
             }
            if (addr >= patternAddress_ && addr < (patternAddress_+0x800))
             {
-                p = (addr - patternAddress_) & 0x7FE;
-
-                for (int i=0; i<768; i++)
-                {
-                    row = ((i / 32) * 2) % 4;
-                    if (tmsMemory_[nameAddress_+i] == ((p - row) / 8)) drawTilePatternUpdate(i, addr);
-                }
-                return;
+                reDrawMultiColor_ = true;
             }
         break;
     }
@@ -449,30 +441,30 @@ void Tms9918::writeRegister(Byte reg, Byte value)
             spriteMagnify_ = ((value_ & 0x1) == 0x1);
             disableScreen_ = ((value_ & 0x40) != 0x40);
             spriteSelect_ = value & 0x3;
-            
-            if (spriteMagnify_)
-                spriteMagnifyFactor_ = 16;
-            else
-                spriteMagnifyFactor_ = 8;
 
             switch (spriteSelect_)
             {
                 case SPRITE_8_8:
                     spriteSize_ = 8;
+                    spriteMagnifyFactor_ = 0;
                 break;
 
                 case SPRITE_8_8_MAG:
                     spriteSize_ = 16;
+                    spriteMagnifyFactor_ = 0;
                 break;
                     
                 case SPRITE_16_16:
                     spriteSize_ = 16;
+                    spriteMagnifyFactor_ = 8;
                 break;
 
                 case SPRITE_16_16_MAG:
                     spriteSize_ = 32;
+                    spriteMagnifyFactor_ = 16;
                 break;
             }
+            if (spriteSize_ == 8)
         break;
 
         case 2:
@@ -557,6 +549,11 @@ void Tms9918::copyScreen()
 
 	if (reDraw_)
 		drawScreen();
+    else
+    {
+        if (reDrawMultiColor_)
+            drawScreenMultiColor();
+    }
 
     if (reDrawSprites_ && mode_ != TMS_TEXT)
         drawSprites();
@@ -668,8 +665,10 @@ void Tms9918::drawSprites()
 #endif
         int numberOfLines = 8;
         
-        if (spriteSize_ == 16)
+        if ((spriteSize_ == 16 && !spriteMagnify_) || (spriteSize_ == 32 && spriteMagnify_))
+        {
             numberOfLines = 16;
+        }
         
         if (spriteMagnify_)
             numberOfLines *= 2;
@@ -695,7 +694,7 @@ void Tms9918::drawSprites()
         else
             drawSprite(namePointer, spritePatternTableAddress, x, y, numberOfLines - spriteMagnifyFactor_, earlyClock);
 
-        if (spriteSize_ == 16)
+        if ((spriteSize_ == 16 && !spriteMagnify_) || (spriteSize_ == 32 && spriteMagnify_))
         {
             int addition = numberOfLines-spriteMagnifyFactor_;
             if (numberOfLines < spriteMagnifyFactor_)
@@ -716,7 +715,7 @@ void Tms9918::drawSprite(Byte namePointer, Word spritePatternTableAddress, wxCoo
     if (numberOfLines < 0)
         return;
  
-    if (numberOfLines > spriteMagnifyFactor_)
+    if (numberOfLines > spriteMagnifyFactor_ && spriteMagnifyFactor_ != 0)
         numberOfLines = spriteMagnifyFactor_;
     
     Word pattern;
@@ -798,7 +797,8 @@ void Tms9918::drawSpriteMagnify(Byte namePointer, Word spritePatternTableAddress
     {
         if ((numberOfLines&0x1) == 0x1)
             spritePatternTableAddress++;
-        numberOfLines = spriteMagnifyFactor_;
+        if (spriteMagnifyFactor_ != 0)
+            numberOfLines = spriteMagnifyFactor_;
     }
     
     bool unevenLines = false;
@@ -853,7 +853,7 @@ void Tms9918::drawSpriteMagnify(Byte namePointer, Word spritePatternTableAddress
                     
                     pattern = pattern << 1;
                 }
-                if (spriteSize_ == 16)
+                if (spriteSize_ == 32)
                 {
                     pattern = tmsMemory_[spritePatternTableAddress+16];
                     for (wxCoord pixel=(x+16); pixel < (x+32); pixel++)
@@ -943,7 +943,7 @@ void Tms9918::drawSpriteMagnify(Byte namePointer, Word spritePatternTableAddress
 
                     pattern = pattern << 1;
                 }
-                if (spriteSize_ == 16)
+                if (spriteSize_ == 32)
                 {
                     pattern = tmsMemory_[spritePatternTableAddress+16];
                     for (wxCoord pixel=(x+16); pixel < (x+32); pixel++)
@@ -1115,64 +1115,69 @@ void Tms9918::drawTile(Word tile)
 				for (int px=0; px<6; px++)
 				{
 					if (b & 128)
-					{
 						cl = textColor_;
-						if (cl == 0) cl = backgroundColor_;
+                    else
+                        cl = backgroundColor_;
+                    
+                    if (cl == 0) cl = backgroundColor_;
 #if defined(__linux__) || defined (__WXMSW__)
-                        setColourMutex(cl+16);
-                        drawPoint(x+px+offsetX_, y+py+offsetY_);
+                    setColourMutex(cl+16);
+                    drawPoint(x+px+offsetX_, y+py+offsetY_);
 #endif
-                        setColourMutexMainPlane(cl+16);
-                        drawPointMainPlane(x+px+offsetX_, y+py+offsetY_);
-					}
+                    setColourMutexMainPlane(cl+16);
+                    drawPointMainPlane(x+px+offsetX_, y+py+offsetY_);
 					b = (b << 1) & 0xff;
 				}
 			}
 		break;
 
         case TMS_MULTICOLOR:
-            x = (tile % 32);
+            x = (tile % 32) * 8;
             y = (tile / 32);
 
             b =  2 * (y % 4) + p * 8;
-
-            cl = (tmsMemory_[b] & 0xf0) >> 4;
+            y *= 8;
             
+            cl = (tmsMemory_[patternAddress_+b] & 0xf0) >> 4;
+            
+            multiColour_[x][y] = cl;
 #if defined(__linux__) || defined (__WXMSW__)
             setColourMutex(cl+16);
-            drawRectangle(x * 8 + offsetX_, y * 8 + offsetY_, 4 ,4);
+            drawRectangle(x+offsetX_, y+offsetY_, 4 ,4);
 #endif
             setColourMutexMainPlane(cl+16);
-            drawRectangleMainPlane(x * 8 + offsetX_, y * 8 + offsetY_, 4 ,4);
+            drawRectangleMainPlane(x+offsetX_, y+offsetY_, 4 ,4);
             
-            cl = tmsMemory_[b] & 0xf;
+            cl = tmsMemory_[patternAddress_+b] & 0xf;
             
+            multiColour_[x+1][y] = cl;
 #if defined(__linux__) || defined (__WXMSW__)
             setColourMutex(cl+16);
-            drawRectangle(x * 8 + 4 + offsetX_, y * 8 + offsetY_, 4 ,4);
+            drawRectangle(x+offsetX_ + 4, y+offsetY_, 4 ,4);
 #endif
             setColourMutexMainPlane(cl+16);
-            drawRectangleMainPlane(x * 8 + 4 + offsetX_, y * 8 + offsetY_, 4 ,4);
+            drawRectangleMainPlane(x+offsetX_ + 4, y+offsetY_, 4 ,4);
 
             b++;
   
-            cl = (tmsMemory_[b] & 0xf0) >> 4;
+            cl = (tmsMemory_[patternAddress_+b] & 0xf0) >> 4;
 
+            multiColour_[x][y+1] = cl;
 #if defined(__linux__) || defined (__WXMSW__)
             setColourMutex(cl+16);
-            drawRectangle(x * 8 + offsetX_, y * 8 + 4 + offsetY_, 4 ,4);
+            drawRectangle(x+offsetX_, y+offsetY_ + 4, 4 ,4);
 #endif
             setColourMutexMainPlane(cl+16);
-            drawRectangleMainPlane(x * 8 + offsetX_, y * 8 + 4 + offsetY_, 4 ,4);
+            drawRectangleMainPlane(x+offsetX_, y+offsetY_ + 4, 4 ,4);
+            cl = tmsMemory_[patternAddress_+b] & 0xf;
             
-            cl = tmsMemory_[b] & 0xf;
-            
+            multiColour_[x+1][y+1] = cl;
 #if defined(__linux__) || defined (__WXMSW__)
             setColourMutex(cl+16);
-            drawRectangle(x * 8 + 4 + offsetX_, y * 8 + 4 + offsetY_, 4 ,4);
+            drawRectangle(x+offsetX_ + 4, y+offsetY_ + 4, 4 ,4);
 #endif
             setColourMutexMainPlane(cl+16);
-            drawRectangleMainPlane(x * 8 + 4 + offsetX_, y * 8 + 4 + offsetY_, 4 ,4);
+            drawRectangleMainPlane(x+offsetX_ + 4, y+offsetY_ + 4, 4 ,4);
         break;
 
 		default:
@@ -1200,6 +1205,75 @@ void Tms9918::drawTile(Word tile)
 			reBlit_ = true;
 	}
 #endif
+}
+
+void Tms9918::drawTileMultiColor(Word tile)
+{
+    int p;
+    int b;
+    int cl;
+    int x=0, y=0;
+
+    p = tmsMemory_[nameAddress_+tile];
+
+    x = (tile % 32) * 8;
+    y = (tile / 32);
+
+    b =  2 * (y % 4) + p * 8;
+    y *= 8;
+    
+    cl = (tmsMemory_[patternAddress_+b] & 0xf0) >> 4;
+    
+    if (multiColour_[x][y] != cl)
+    {
+        multiColour_[x][y] = cl;
+#if defined(__linux__) || defined (__WXMSW__)
+        setColourMutex(cl+16);
+        drawRectangle(x+offsetX_, y+offsetY_, 4 ,4);
+#endif
+        setColourMutexMainPlane(cl+16);
+        drawRectangleMainPlane(x+offsetX_, y+offsetY_, 4 ,4);
+    }
+    
+    cl = tmsMemory_[patternAddress_+b] & 0xf;
+    
+    if (multiColour_[x+1][y] != cl)
+    {
+        multiColour_[x+1][y] = cl;
+#if defined(__linux__) || defined (__WXMSW__)
+        setColourMutex(cl+16);
+        drawRectangle(x+offsetX_ + 4, y+offsetY_, 4 ,4);
+#endif
+        setColourMutexMainPlane(cl+16);
+        drawRectangleMainPlane(x+offsetX_ + 4, y+offsetY_, 4 ,4);
+    }
+    b++;
+
+    cl = (tmsMemory_[patternAddress_+b] & 0xf0) >> 4;
+
+    if (multiColour_[x][y+1] != cl)
+    {
+        multiColour_[x][y+1] = cl;
+#if defined(__linux__) || defined (__WXMSW__)
+        setColourMutex(cl+16);
+        drawRectangle(x+offsetX_, y+offsetY_ + 4, 4 ,4);
+#endif
+        setColourMutexMainPlane(cl+16);
+        drawRectangleMainPlane(x+offsetX_, y+offsetY_ + 4, 4 ,4);
+    }
+    cl = tmsMemory_[patternAddress_+b] & 0xf;
+    
+    if (multiColour_[x+1][y+1] != cl)
+    {
+        multiColour_[x+1][y+1] = cl;
+#if defined(__linux__) || defined (__WXMSW__)
+        setColourMutex(cl+16);
+        drawRectangle(x+offsetX_ + 4, y+offsetY_ + 4, 4 ,4);
+#endif
+        setColourMutexMainPlane(cl+16);
+        drawRectangleMainPlane(x+offsetX_ + 4, y+offsetY_ + 4, 4 ,4);
+    }
+    reBlit_ = true;
 }
 
 void Tms9918::drawTilePatternUpdate(Word tile, Word address)
@@ -1277,7 +1351,7 @@ void Tms9918::drawTilePatternUpdate(Word tile, Word address)
             
             if ((address & 1) == 0)
             {
-                cl = (tmsMemory_[b] & 0xf0) >> 4;
+                cl = (tmsMemory_[patternAddress_+b] & 0xf0) >> 4;
                 
 #if defined(__linux__) || defined (__WXMSW__)
                 setColourMutex(cl+16);
@@ -1286,7 +1360,7 @@ void Tms9918::drawTilePatternUpdate(Word tile, Word address)
                 setColourMutexMainPlane(cl+16);
                 drawRectangleMainPlane(x * 8 + offsetX_, y * 8 + offsetY_, 4 ,4);
                 
-                cl = tmsMemory_[b] & 0xf;
+                cl = tmsMemory_[patternAddress_+b] & 0xf;
                 
 #if defined(__linux__) || defined (__WXMSW__)
                 setColourMutex(cl+16);
@@ -1299,7 +1373,7 @@ void Tms9918::drawTilePatternUpdate(Word tile, Word address)
             {
                 b++;
       
-                cl = (tmsMemory_[b] & 0xf0) >> 4;
+                cl = (tmsMemory_[patternAddress_+b] & 0xf0) >> 4;
 
 #if defined(__linux__) || defined (__WXMSW__)
                 setColourMutex(cl+16);
@@ -1308,7 +1382,7 @@ void Tms9918::drawTilePatternUpdate(Word tile, Word address)
                 setColourMutexMainPlane(cl+16);
                 drawRectangleMainPlane(x * 8 + offsetX_, y * 8 + 4 + offsetY_, 4 ,4);
                 
-                cl = tmsMemory_[b] & 0xf;
+                cl = tmsMemory_[patternAddress_+b] & 0xf;
                 
 #if defined(__linux__) || defined (__WXMSW__)
                 setColourMutex(cl+16);
@@ -1355,10 +1429,6 @@ void Tms9918::drawScreen()
     setColourMutex(backgroundColor_+16);
     drawRectangle(0, 0, videoWidth_ + 2*offsetX_, videoHeight_ + 2*offsetY_);
 #endif
-//    drawRectangleMain(0, 0, videoWidth_ + 2*offsetX_, offsetY_);
-//    drawRectangle(0, videoHeight_ + offsetY_, videoWidth_ + 2*offsetX_, offsetY_);
-//    drawRectangle(0, offsetY_, offsetX_, videoHeight_);
-//    drawRectangle(videoWidth_ + offsetX_, offsetY_, offsetX_, videoHeight_);
 	if (mode_ == TMS_GRAPHICS_I)
 	{
 		for (int x=0; x<768; x++)
@@ -1379,6 +1449,12 @@ void Tms9918::drawScreen()
         for (int x=0; x<768; x++)
             drawTile(x);
     }
+}
+
+void Tms9918::drawScreenMultiColor()
+{
+    for (int x=0; x<768; x++)
+        drawTileMultiColor(x);
 }
 
 void Tms9918::setFullScreen(bool fullScreenSet)

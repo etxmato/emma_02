@@ -358,6 +358,8 @@ Byte Cdp1802::pixieDmaOut(int *color)
 		case ELF:
 		case ELFII:
 		case SUPERELF:
+        case NETRONICS:
+        case PICO:
             *color = 0;
         break;
 		case STUDIOIV:
@@ -4081,7 +4083,7 @@ void Cdp1802::setAddress(bool showFilename, Word start, Word end)
 
 		}
 	}
-	if ((computerType_ == ELF) || (computerType_ == ELFII) || (computerType_ == SUPERELF))
+	if ((computerType_ == ELF) || (computerType_ == ELFII) || (computerType_ == SUPERELF) || (computerType_ == NETRONICS) || (computerType_ == PICO))
 	{
 		if ((mainMemory_[start] == 0x90) && (mainMemory_[start+1] == 0xa1) && (mainMemory_[start+2] == 0xb3))
 		{
@@ -4104,6 +4106,8 @@ void Cdp1802::checkLoadedSoftware()
             case ELFII:
             case SUPERELF:
             case ELF:
+            case NETRONICS:
+            case PICO:
                 pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);
                 
                 if ((mainMemory_[0] == 0xc0) && (mainMemory_[1] == 0x25) && (mainMemory_[2] == 0xf4))
@@ -4364,7 +4368,7 @@ void Cdp1802::checkLoadedSoftware()
 	}
 	if (loadedOs_ == NOOS)
 	{
-		if ((computerType_ == ELFII) || (computerType_ == SUPERELF) || (computerType_ == ELF))
+		if ((computerType_ == ELFII) || (computerType_ == SUPERELF) || (computerType_ == ELF) || (computerType_ == NETRONICS) || (computerType_ == PICO))
 		{
 			if ((mainMemory_[0xf900] == 0xf8) && (mainMemory_[0xf901] == 0xf9) && (mainMemory_[0xf902] == 0xb6))
 			{
@@ -4769,10 +4773,11 @@ void Cdp1802::writeMemLabelType(Word address, Byte type)
            switch (computerType_)
             {
                 case ELFII:
+                case NETRONICS:
                     if (elfConfiguration.giantBoardMapping)
                         if (address >= baseGiantBoard_)
                             address = (address & 0xff) | 0xf000;
-                    break;
+                break;
                 
                 case COSMICOS:
                 case MCDS:
@@ -4834,6 +4839,8 @@ void Cdp1802::writeMemLabelType(Word address, Byte type)
                 case ELF:
                 case ELFII:
                 case SUPERELF:
+                case NETRONICS:
+                case PICO:
                     address = (address & ramMask_) + ramStart_;
                 break;
                 
@@ -4906,7 +4913,9 @@ void Cdp1802::writeMemLabelType(Word address, Byte type)
                 case ELF:
                 case ELFII:
                 case SUPERELF:
-                    address = (address & ramMask_) + ramStart_;
+                case NETRONICS:
+                case PICO:
+                   address = (address & ramMask_) + ramStart_;
                 break;
                 
                 case COSMICOS:
@@ -5143,6 +5152,7 @@ Byte Cdp1802::readMemLabelType(Word address)
             switch (computerType_)
             {
                 case ELFII:
+                case NETRONICS:
                     if (elfConfiguration.giantBoardMapping)
                         if (address >= baseGiantBoard_)
                             address = (address & 0xff) | 0xf000;
@@ -5206,6 +5216,8 @@ Byte Cdp1802::readMemLabelType(Word address)
                 case ELF:
                 case ELFII:
                 case SUPERELF:
+                case NETRONICS:
+                case PICO:
                     address = (address & ramMask_) + ramStart_;
                 break;
                 
@@ -5271,6 +5283,8 @@ Byte Cdp1802::readMemLabelType(Word address)
                 case ELF:
                 case ELFII:
                 case SUPERELF:
+                case NETRONICS:
+                case PICO:
                     address = (address & ramMask_) + ramStart_;
                 break;
                 

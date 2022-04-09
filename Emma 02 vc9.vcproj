@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="Emma 02"
 	ProjectGUID="{0EB8F4E8-7651-4F9C-8ECD-4C540EF3A27D}"
 	RootNamespace="Elf - wxWidgets"
@@ -655,7 +655,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\guinetronics.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\guipecom.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\guipico.cpp"
 				>
 			</File>
 			<File
@@ -795,11 +803,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\netronics.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\network.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\src\pecom.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\pico.cpp"
 				>
 			</File>
 			<File
@@ -1179,7 +1195,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\guinetronics.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\guipecom.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\guipico.h"
 				>
 			</File>
 			<File
@@ -1319,11 +1343,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\netronics.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\network.h"
 				>
 			</File>
 			<File
 				RelativePath=".\src\pecom.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\pico.h"
 				>
 			</File>
 			<File

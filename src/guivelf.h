@@ -30,7 +30,6 @@ public:
     void onAutoBoot(wxCommandEvent& event);
 
 private:
-    wxPoint position_;
 
 	bool latch_;
 

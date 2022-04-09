@@ -145,10 +145,6 @@ GuiMain::GuiMain(const wxString& title, const wxPoint& pos, const wxSize& size, 
 
     tapeState_ = TAPE_STOP;
 	turboOn_ = false;
-    
-    position_[ELF].x = 0;
-    position_[ELFII].x = 0;
-    position_[SUPERELF].x = 0;
 }
 
 WindowInfo GuiMain::getWinSizeInfo(wxString appDir, wxString fontSizeString)
@@ -797,7 +793,7 @@ void GuiMain::onPrintFileText(wxCommandEvent&event)
 
 void GuiMain::onPrintButton(wxCommandEvent&WXUNUSED(event))
 {
-	if (selectedComputer_ == VIP || selectedComputer_ == VIPII || selectedComputer_ == VELF ||selectedComputer_ == ELF || selectedComputer_ == ELFII || selectedComputer_ == SUPERELF)
+	if (selectedComputer_ == VIP || selectedComputer_ == VIPII || selectedComputer_ == VELF ||selectedComputer_ == ELF || selectedComputer_ == ELFII || selectedComputer_ == SUPERELF || selectedComputer_ == NETRONICS || selectedComputer_ == PICO)
 	{
 		if (!computerRunning_ || (selectedComputer_ != runningComputer_))
 		{
@@ -976,11 +972,19 @@ void GuiMain::onKeyFileEject(wxCommandEvent& WXUNUSED(event) )
 				p_Elf2->closeElfKeyFile();
 			break;
 
-			case SUPERELF:
-				p_Super->closeElfKeyFile();
-			break;
+            case SUPERELF:
+                p_Super->closeElfKeyFile();
+            break;
 
-			case ELF2K:
+            case NETRONICS:
+                p_Netronics->closeElfKeyFile();
+            break;
+
+            case PICO:
+                p_Pico->closeElfKeyFile();
+            break;
+
+            case ELF2K:
 				p_Elf2K->closePs2gpioKeyFile();
 			break;
                 
@@ -1031,10 +1035,13 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool Gu
                 XRCCTRL(*this, "VTBaudRText"+elfTypeStr, wxStaticText)->Enable(false);
                 XRCCTRL(*this, "VTBaudTText"+elfTypeStr, wxStaticText)->Enable(false);
                 XRCCTRL(*this, "VtSetup"+elfTypeStr, wxButton)->Enable(false);
-                if (elfType == ELF || elfType == ELFII || elfType == SUPERELF)
+                if (elfType == ELF || elfType == ELFII || elfType == SUPERELF || elfType == NETRONICS || elfType == PICO)
                 {
                     XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->Enable(true);
                     XRCCTRL(*this, "QsoundText"+elfTypeStr, wxStaticText)->Enable(true);
+                    XRCCTRL(*this, "BeepFrequency"+elfTypeStr, wxTextCtrl)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
+                    XRCCTRL(*this, "BeepFrequencyText"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
+                    XRCCTRL(*this, "BeepFrequencyTextHz"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
                 }
 
                 XRCCTRL(*this, "ZoomTextVt"+elfTypeStr, wxStaticText)->Enable(false);
@@ -1066,18 +1073,28 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool Gu
 				XRCCTRL(*this, "ZoomValueVt"+elfTypeStr, wxTextCtrl)->Enable(true);
 				XRCCTRL(*this, "StretchDot"+elfTypeStr, wxCheckBox)->Enable(true);
 			}
-			if (elfType == ELF || elfType == ELFII || elfType == SUPERELF)
+			if (elfType == ELF || elfType == ELFII || elfType == SUPERELF || elfType == NETRONICS || elfType == PICO)
 			{
-				elfConfiguration[elfType].qSound_ = QSOUNDOFF;
-				if (mode_.gui)
-				{
-					XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->SetSelection(QSOUNDOFF);
-					XRCCTRL(*this, "BeepFrequency"+elfTypeStr, wxTextCtrl)->Enable(false);
-                    XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->Enable(false);
-                    XRCCTRL(*this, "BeepFrequencyText"+elfTypeStr, wxStaticText)->Enable(false);
-					XRCCTRL(*this, "BeepFrequencyTextHz"+elfTypeStr, wxStaticText)->Enable(false);
-					XRCCTRL(*this, "QsoundText"+elfTypeStr, wxStaticText)->Enable(false);
-				}
+                if (!(elfConfiguration[elfType].useUart || elfConfiguration[elfType].useUart16450))
+                {
+                    elfConfiguration[elfType].qSound_ = QSOUNDOFF;
+                    if (mode_.gui)
+                    {
+                        XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->SetSelection(QSOUNDOFF);
+                        XRCCTRL(*this, "BeepFrequency"+elfTypeStr, wxTextCtrl)->Enable(false);
+                        XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->Enable(false);
+                        XRCCTRL(*this, "BeepFrequencyText"+elfTypeStr, wxStaticText)->Enable(false);
+                        XRCCTRL(*this, "BeepFrequencyTextHz"+elfTypeStr, wxStaticText)->Enable(false);
+                        XRCCTRL(*this, "QsoundText"+elfTypeStr, wxStaticText)->Enable(false);
+                    }
+                }
+                else
+                {
+                    XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->Enable(true);
+                    XRCCTRL(*this, "QsoundText"+elfTypeStr, wxStaticText)->Enable(true);
+                    XRCCTRL(*this, "BeepFrequency"+elfTypeStr, wxTextCtrl)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
+                    XRCCTRL(*this, "BeepFrequencyText"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
+                    XRCCTRL(*this, "BeepFrequencyTextHz"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);                }
 			}
             elfConfiguration[selectedComputer_].vtExternal = false;
 		break;
@@ -1103,18 +1120,29 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool Gu
 				XRCCTRL(*this, "ZoomValueVt"+elfTypeStr, wxTextCtrl)->Enable(true);
 				XRCCTRL(*this, "StretchDot"+elfTypeStr, wxCheckBox)->Enable(true);
 			}
-			if (elfType == ELF || elfType == ELFII || elfType == SUPERELF)
+			if (elfType == ELF || elfType == ELFII || elfType == SUPERELF || elfType == NETRONICS || elfType == PICO)
 			{
-				elfConfiguration[elfType].qSound_ = QSOUNDOFF;
-				if (mode_.gui)
-				{
-					XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->SetSelection(QSOUNDOFF);
-					XRCCTRL(*this, "BeepFrequency"+elfTypeStr, wxTextCtrl)->Enable(false);
-                    XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->Enable(false);
-					XRCCTRL(*this, "BeepFrequencyTextHz"+elfTypeStr, wxStaticText)->Enable(false);
-                    XRCCTRL(*this, "BeepFrequencyText"+elfTypeStr, wxStaticText)->Enable(false);
-					XRCCTRL(*this, "QsoundText"+elfTypeStr, wxStaticText)->Enable(false);
-				}
+                if (!(elfConfiguration[elfType].useUart || elfConfiguration[elfType].useUart16450))
+                {
+                    elfConfiguration[elfType].qSound_ = QSOUNDOFF;
+                    if (mode_.gui)
+                    {
+                        XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->SetSelection(QSOUNDOFF);
+                        XRCCTRL(*this, "BeepFrequency"+elfTypeStr, wxTextCtrl)->Enable(false);
+                        XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->Enable(false);
+                        XRCCTRL(*this, "BeepFrequencyTextHz"+elfTypeStr, wxStaticText)->Enable(false);
+                        XRCCTRL(*this, "BeepFrequencyText"+elfTypeStr, wxStaticText)->Enable(false);
+                        XRCCTRL(*this, "QsoundText"+elfTypeStr, wxStaticText)->Enable(false);
+                    }
+                }
+                else
+                {
+                    XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->Enable(true);
+                    XRCCTRL(*this, "QsoundText"+elfTypeStr, wxStaticText)->Enable(true);
+                    XRCCTRL(*this, "BeepFrequency"+elfTypeStr, wxTextCtrl)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
+                    XRCCTRL(*this, "BeepFrequencyText"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
+                    XRCCTRL(*this, "BeepFrequencyTextHz"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
+                }
 			}
             elfConfiguration[selectedComputer_].vtExternal = false;
 		break;
@@ -1125,18 +1153,29 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool Gu
             XRCCTRL(*this, "VTBaudRText"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].useUart || elfConfiguration[elfType].useUart16450);
             XRCCTRL(*this, "VTBaudTText"+elfTypeStr, wxStaticText)->Enable(true);
             XRCCTRL(*this, "VtSetup"+elfTypeStr, wxButton)->Enable(true);
-            if (elfType == ELF || elfType == ELFII || elfType == SUPERELF)
+            if (elfType == ELF || elfType == ELFII || elfType == SUPERELF || elfType == NETRONICS || elfType == PICO)
             {
-                elfConfiguration[elfType].qSound_ = QSOUNDOFF;
-                if (mode_.gui)
+                if (!(elfConfiguration[elfType].useUart || elfConfiguration[elfType].useUart16450))
                 {
-                    XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->SetSelection(QSOUNDOFF);
-                    XRCCTRL(*this, "BeepFrequency"+elfTypeStr, wxTextCtrl)->Enable(false);
-                    XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->Enable(false);
-                    XRCCTRL(*this, "BeepFrequencyText"+elfTypeStr, wxStaticText)->Enable(false);
-                    XRCCTRL(*this, "BeepFrequencyTextHz"+elfTypeStr, wxStaticText)->Enable(false);
-                    XRCCTRL(*this, "QsoundText"+elfTypeStr, wxStaticText)->Enable(false);
+                    elfConfiguration[elfType].qSound_ = QSOUNDOFF;
+                    if (mode_.gui)
+                    {
+                        XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->SetSelection(QSOUNDOFF);
+                        XRCCTRL(*this, "BeepFrequency"+elfTypeStr, wxTextCtrl)->Enable(false);
+                        XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->Enable(false);
+                        XRCCTRL(*this, "BeepFrequencyText"+elfTypeStr, wxStaticText)->Enable(false);
+                        XRCCTRL(*this, "BeepFrequencyTextHz"+elfTypeStr, wxStaticText)->Enable(false);
+                        XRCCTRL(*this, "QsoundText"+elfTypeStr, wxStaticText)->Enable(false);
+                    }
                 }
+                else
+                {
+                    XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->Enable(true);
+                    XRCCTRL(*this, "QsoundText"+elfTypeStr, wxStaticText)->Enable(true);
+                    XRCCTRL(*this, "BeepFrequency"+elfTypeStr, wxTextCtrl)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
+                    XRCCTRL(*this, "BeepFrequencyText"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
+                    XRCCTRL(*this, "BeepFrequencyTextHz"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
+               }
             }
             elfConfiguration[selectedComputer_].vtExternal = true;
             elfConfiguration[elfType].vtType = VTNONE;
@@ -1153,6 +1192,8 @@ void GuiMain::onFullScreenFloat(wxCommandEvent&WXUNUSED(event))
     correctZoomAndValue(ELF, "Elf", SET_SPIN);
     correctZoomAndValue(ELFII, "ElfII", SET_SPIN);
     correctZoomAndValue(SUPERELF, "SuperElf", SET_SPIN);
+    correctZoomAndValue(NETRONICS, "Netronics", SET_SPIN);
+    correctZoomAndValue(PICO, "Pico", SET_SPIN);
     correctZoomAndValue(VIP2K, "Vip2K", SET_SPIN);
     correctZoomAndValue(VELF, "Velf", SET_SPIN);
     correctZoomAndValue(FRED1, "FRED1", SET_SPIN);
@@ -1179,6 +1220,8 @@ void GuiMain::onFullScreenFloat(wxCommandEvent&WXUNUSED(event))
     correctZoomVtAndValue(ELF, "Elf", SET_SPIN);
     correctZoomVtAndValue(ELFII, "ElfII", SET_SPIN);
     correctZoomVtAndValue(SUPERELF, "SuperElf", SET_SPIN);
+    correctZoomVtAndValue(NETRONICS, "Netronics", SET_SPIN);
+    correctZoomVtAndValue(PICO, "Pico", SET_SPIN);
     correctZoomVtAndValue(MEMBER, "Membership", SET_SPIN);
     correctZoomVtAndValue(VIP2K, "Vip2K", SET_SPIN);
     correctZoomVtAndValue(VELF, "Velf", SET_SPIN);
@@ -1463,7 +1506,7 @@ void GuiMain::onVolume(wxScrollEvent&event)
 
 void GuiMain::onCassette(wxCommandEvent& WXUNUSED(event))
 {
-    if (selectedComputer_ == ELF || selectedComputer_ == ELFII || selectedComputer_ == SUPERELF)
+    if (selectedComputer_ == ELF || selectedComputer_ == ELFII || selectedComputer_ == SUPERELF || selectedComputer_ == NETRONICS || selectedComputer_ == PICO)
     {
         if (elfConfiguration[selectedComputer_].useXmodem)
         {
@@ -1486,7 +1529,7 @@ void GuiMain::onCassetteFileSelector()
     wxString typeStr = "WAV";
     wxString formatStr = "WAV File (*.wav)|*.wav|All files (%s)|%s";
     
-    if (selectedComputer_ == ELF || selectedComputer_ == ELFII || selectedComputer_ == SUPERELF)
+    if (selectedComputer_ == ELF || selectedComputer_ == ELFII || selectedComputer_ == SUPERELF || selectedComputer_ == NETRONICS || selectedComputer_ == PICO)
     {
         if (elfConfiguration[selectedComputer_].useXmodem)
         {
@@ -2011,6 +2054,8 @@ void GuiMain::runSoftware(bool load)
 		case SUPERELF:
 		case ELFII:
 		case ELF:
+        case NETRONICS:
+        case PICO:
 			if (p_Computer->getLoadedProgram()&0x1)
 				p_Computer->startComputerRun(load);
 			else
@@ -2091,6 +2136,8 @@ void GuiMain::onLoad(bool load)
 		case SUPERELF:
 		case ELFII:
 		case ELF:
+        case NETRONICS:
+        case PICO:
 			if (p_Computer->getLoadedProgram()&0x1)
 				extension = computerInfo[selectedComputer_].name+" Program File|*."+computerInfo[selectedComputer_].ploadExtension+"|Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8|Intel Hex File|*.hex|All files (%s)|%s";
 			else
@@ -2149,6 +2196,8 @@ void GuiMain::onLoad(bool load)
 		case ELFII:
 		case ELF:
         case VIP:
+        case NETRONICS:
+        case PICO:
 			if (p_Computer->getLoadedProgram()&0x1)
 				p_Computer->startComputerRun(load);
 			else
@@ -2210,6 +2259,8 @@ void GuiMain::onSaveButton(wxCommandEvent& WXUNUSED(event))
 		case SUPERELF:
 		case ELFII:
 		case ELF:
+        case NETRONICS:
+        case PICO:
 			if (p_Computer->getLoadedProgram()&0x1)
 			{
 				extension = computerInfo[selectedComputer_].name+" Program File (*."+computerInfo[selectedComputer_].ploadExtension+")|*."+computerInfo[selectedComputer_].ploadExtension+"|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8|Intel Hex File|*.hex|All files (%s)|%s";
@@ -3293,7 +3344,7 @@ void GuiMain::onWavFile(wxCommandEvent&WXUNUSED(event))
 void GuiMain::setRealCas(int computerType)
 {
 	bool useTape = true;
-	if (((computerType == ELFII) || (computerType == SUPERELF) || (computerType == ELF)) && (!elfConfiguration[computerType].useTape))
+	if (((computerType == ELFII) || (computerType == SUPERELF) || (computerType == ELF) || (computerType == NETRONICS) || (computerType == PICO)) && (!elfConfiguration[computerType].useTape))
 		useTape = false;
 
 	if (!mode_.gui)
@@ -3352,7 +3403,7 @@ void GuiMain::setRealCas(int computerType)
 void GuiMain::setRealCas2(int computerType)
 {
 	bool useTape = true;
-	if (((computerType == ELFII) || (computerType == SUPERELF) || (computerType == ELF)) && (!elfConfiguration[computerType].useTape))
+	if (((computerType == ELFII) || (computerType == SUPERELF) || (computerType == ELF) || (computerType == NETRONICS) || (computerType == PICO)) && (!elfConfiguration[computerType].useTape))
 		useTape = false;
 
 	if (!mode_.gui)
@@ -3397,7 +3448,7 @@ void GuiMain::setRealCas2(int computerType)
 void GuiMain::setRealCasOff(int computerType)
 {
 	bool useTape = true;
-	if (((computerType == ELFII) || (computerType == SUPERELF) || (computerType == ELF)) && (!elfConfiguration[computerType].useTape))
+	if (((computerType == ELFII) || (computerType == SUPERELF) || (computerType == ELF) || (computerType == NETRONICS) || (computerType == PICO)) && (!elfConfiguration[computerType].useTape))
 		useTape = false;
 
 	conf[computerType].realCassetteLoad_ = false;
@@ -3572,7 +3623,7 @@ void GuiMain::onTerminalLoad(wxCommandEvent&WXUNUSED(event))
 
 void GuiMain::startAutoTerminalLoad(int protocol)
 {
-	if (runningComputer_ != MEMBER && runningComputer_ != VIP2K && runningComputer_ != CDP18S020 && runningComputer_ != ELF && runningComputer_ != ELFII && runningComputer_ != SUPERELF && runningComputer_ != ELF2K)
+	if (runningComputer_ != MEMBER && runningComputer_ != VIP2K && runningComputer_ != CDP18S020 && runningComputer_ != ELF && runningComputer_ != ELFII && runningComputer_ != SUPERELF && runningComputer_ != ELF2K && runningComputer_ != NETRONICS && runningComputer_ != PICO)
 		return;
 
 	if (conf[runningComputer_].autoCassetteLoad_)
@@ -3636,7 +3687,7 @@ void GuiMain::stopTerminal()
 
 void GuiMain::startAutoTerminalSave(int protocol)
 {
-    if (runningComputer_ != MEMBER && runningComputer_ != VIP2K && runningComputer_ != CDP18S020 && runningComputer_ != ELF && runningComputer_ != ELFII && runningComputer_ != SUPERELF && runningComputer_ != ELF2K)
+    if (runningComputer_ != MEMBER && runningComputer_ != VIP2K && runningComputer_ != CDP18S020 && runningComputer_ != ELF && runningComputer_ != ELFII && runningComputer_ != SUPERELF && runningComputer_ != ELF2K && runningComputer_ != NETRONICS && runningComputer_ != PICO)
 		return;
 
 	if (conf[runningComputer_].autoCassetteLoad_)
@@ -3762,6 +3813,8 @@ void GuiMain::enableStartButtonGui(bool status)
 {
 	for (int i=0; i<NO_COMPUTER; i++)
 	{
+        if (i == NETRONICS) //*** to be removed
+            i = COSMICOS;
         startButton[i]->Enable(status);
         stopButton[i]->Enable(false);
 	}
@@ -3807,7 +3860,7 @@ void GuiMain::enableMemAccessGui(bool status)
 		superBasic = ((p_Computer->getLoadedProgram()&0x1) == 0x1);
 	else
 	{
-		if ((runningComputer_ == ELF) || (runningComputer_ == ELFII) || (runningComputer_ == SUPERELF) || (runningComputer_ == VIP))
+		if ((runningComputer_ == ELF) || (runningComputer_ == ELFII) || (runningComputer_ == SUPERELF) || (runningComputer_ == VIP) || (runningComputer_ == NETRONICS) || (runningComputer_ == PICO))
 			disableAll = true;
 	}
 	if (superBasic)
@@ -3941,7 +3994,7 @@ void GuiMain::enableTapeGui(bool status, int computerType)
 	XRCCTRL(*this, "TurboClock"+computerInfo[computerType].gui, wxTextCtrl)->Enable(status);
 	XRCCTRL(*this, "TurboMhzText"+computerInfo[computerType].gui, wxStaticText)->Enable(status);
 #if defined(__WXMSW__)
-    if (computerType == ELF || computerType == ELFII || computerType == SUPERELF)
+    if (computerType == ELF || computerType == ELFII || computerType == SUPERELF || computerType == NETRONICS || computerType == PICO)
     {
         XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->Enable(status&(!elfConfiguration[computerType].useXmodem));
     }
@@ -3958,7 +4011,7 @@ void GuiMain::enableTapeGui(bool status, int computerType)
 void GuiMain::enableLoadGui(bool status)
 {
 	enableMemAccessGui(status);
-	if (((runningComputer_ == ELFII) || (runningComputer_ == SUPERELF) || (runningComputer_ == ELF)) && (!elfConfiguration[runningComputer_].useTape))
+	if (((runningComputer_ == ELFII) || (runningComputer_ == SUPERELF) || (runningComputer_ == ELF) || (runningComputer_ == NETRONICS) || (runningComputer_ == PICO)) && (!elfConfiguration[runningComputer_].useTape))
 	{
 		enableTapeGui(false, runningComputer_);
 		return;
@@ -3970,7 +4023,7 @@ void GuiMain::enableLoadGui(bool status)
     }
 	if (computerRunning_)
 	{
-        if (runningComputer_ == ELFII || runningComputer_ == SUPERELF || runningComputer_ == ELF || runningComputer_ == ELF2K)
+        if (runningComputer_ == ELFII || runningComputer_ == SUPERELF || runningComputer_ == ELF || runningComputer_ == ELF2K || runningComputer_ == NETRONICS || runningComputer_ == PICO)
             XRCCTRL(*this, "Tape"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
 		XRCCTRL(*this, "CasButton"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
 		XRCCTRL(*this, "WavFile"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(status);
@@ -3990,7 +4043,7 @@ void GuiMain::enableLoadGui(bool status)
 	}
 	else
 	{
-        if (runningComputer_ == ELFII || runningComputer_ == SUPERELF || runningComputer_ == ELF || runningComputer_ == ELF2K)
+        if (runningComputer_ == ELFII || runningComputer_ == SUPERELF || runningComputer_ == ELF || runningComputer_ == ELF2K || runningComputer_ == NETRONICS || runningComputer_ == PICO)
             XRCCTRL(*this, "Tape"+computerInfo[runningComputer_].gui, wxButton)->Enable(true);
 		XRCCTRL(*this, "AutoCasLoad"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable(true);
 		XRCCTRL(*this, "Turbo"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable(true);
@@ -4050,7 +4103,7 @@ void GuiMain::setTapeState(int tapeState, wxString tapeNumber)
             XRCCTRL(*this, "CasPause"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(pauseOffBitmap);
     }
     
-    if (runningComputer_ == ELFII || runningComputer_ == SUPERELF || runningComputer_ == ELF || runningComputer_ == ELF2K)
+    if (runningComputer_ == ELFII || runningComputer_ == SUPERELF || runningComputer_ == ELF || runningComputer_ == ELF2K || runningComputer_ == NETRONICS || runningComputer_ == PICO)
         XRCCTRL(*this, "Tape"+tapeNumber+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState == TAPE_STOP);
     XRCCTRL(*this, "CasButton"+tapeNumber+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState == TAPE_STOP);
 	XRCCTRL(*this, "WavFile"+tapeNumber+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(tapeState == TAPE_STOP);
@@ -4342,6 +4395,8 @@ bool GuiMain::showSplashScreen()
         case ELF:
         case ELFII:
         case SUPERELF:
+        case NETRONICS:
+        case PICO:
             switch (p_Computer->getLoadedProgram())
             {
                 case SUPERBASICV1:
@@ -4403,7 +4458,9 @@ void GuiMain::hideSplashScreen()
         case ELF:
         case ELFII:
         case SUPERELF:
-            switch (p_Computer->getLoadedProgram())
+        case NETRONICS:
+        case PICO:
+           switch (p_Computer->getLoadedProgram())
             {
                 case SUPERBASICV1:
                     if (elfConfiguration[computer].vtType != VTNONE)

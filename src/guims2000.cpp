@@ -116,7 +116,6 @@ GuiMS2000::GuiMS2000(const wxString& title, const wxPoint& pos, const wxSize& si
 {
 	conf[MS2000].saveStartString_ = "";
 	conf[MS2000].saveEndString_ = "";
-    position_.x = 0;
 }
 
 void GuiMS2000::readMS2000Config()

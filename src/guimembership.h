@@ -34,8 +34,8 @@ protected:
 	int loadromMode_;
 
 private:
-    wxPoint position_;
-	DECLARE_EVENT_TABLE()
+
+    DECLARE_EVENT_TABLE()
 };
 
 #endif // GUIMEMBERSHIP_H

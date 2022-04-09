@@ -116,8 +116,6 @@ GuiVelf::GuiVelf(const wxString& title, const wxPoint& pos, const wxSize& size, 
 	conf[VELF].saveStartString_ = "";
 	conf[VELF].saveEndString_ = "";
 	conf[VELF].saveExecString_ = "";
-    
-    position_.x = 0;
 }
 
 void GuiVelf::readVelfConfig()

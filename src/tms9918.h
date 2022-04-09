@@ -42,9 +42,11 @@ public:
     void drawPointSpritePlane(wxCoord x, wxCoord y);
     void drawRectangleMainPlane(wxCoord x, wxCoord y, wxCoord width, wxCoord height);
 
-	void drawTile(Word tile);
+    void drawTile(Word tile);
+    void drawTileMultiColor(Word tile);
     void drawTilePatternUpdate(Word tile, Word address);
 	void drawScreen();
+    void drawScreenMultiColor();
 
 	Byte getTmsMemory(int address) {return tmsMemory_[address];}
 	void setTmsMemory(int address, Byte value) {tmsMemory_[address] = value;}
@@ -63,6 +65,7 @@ private:
     bitset<256> scanLineMap_[192];
     wxCoord lastSpriteX_[32];
     wxCoord lastSpriteY_[32];
+    Byte multiColour_[512][384];
     
 	int computerType_;
     Byte statusRegister_;
@@ -71,7 +74,8 @@ private:
 	Word nameAddress_;
 	Word colorAddress_;
 	Word patternAddress_;
-	Word currentAddress_;
+    Word currentWriteAddress_;
+    Word currentReadAddress_;
     Word spriteAttributeTableAddress_;
     Word spritePatternTableAddress_;
     
@@ -87,7 +91,7 @@ private:
     bool enableInterrupt_;
     bool disableScreen_;
 
-	Byte toggle_;
+	bool toggle_;
 	Byte value_;
 
 	wxCoord backGroundX_;

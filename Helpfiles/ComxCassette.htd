@@ -6,7 +6,10 @@
 The common functionality for cassette handling is described in the chapter <a href="MainCassette.htm">Cassette Support</a>. For details on how to use a real cassette player connected to a PC and Emma 02 please see the chapter: <a href="MainRealCassette.htm">Real Cassette Support</a>.
 </p>
 <p>
-The following sub chapter describe COMX specific cassette handling for both automatic and manual options.
+The following sub chapter describe COMX specific cassette handling for both automatic and manual options as well as batch wav conversion.
+</p>
+<p>
+The emulator includes '.comx' files for the F&M Turbo v1.00, v2.00 and F&M TOS v3.00. All Turbo and TOS loaders (including the Turbo and Turbo+ commands available in the F&M printer rom) also support Auto and Turbo LOAD/SAVE options as described below.
 </p>
 <h2>Auto LOAD/SAVE</h2>
 <p>
@@ -40,9 +43,18 @@ To save a .wav file from the COMX, press the dark red record button (red ellipse
 <p>
 Saving or loading can be stopped at anytime by pressing the stop button (brown ellipse). When stopping a load while the COMX is in loading mode will however hang the COMX.
 </p>
-<h3>COMX Turbo and TOS loaders</h3>
+<h3>Batch wav conversion</h3>
 <p>
-The emulator includes '.comx' files for the F&M Turbo v1.00, v2.00 and F&M TOS v3.00. All these Turbo and TOS loaders (including the Turbo and Turbo+ commands available in the F&M printer rom) also support Auto and Turbo LOAD/SAVE options as described above.
+The 'Batch - wav' feature converts a number of selected .comx files to wav files by instructing the COMX emulator to save them to wav format one by one. To use this function first select the files that need to be converted via the multi file selector window that will open after clicking the 'Batch - wav' button (yellow ellipse):
+</p>
+<p>
+<IMG SRC="images/comx_batch.png" BORDER="0">
+</p>
+<p>
+The number of files selected should show to the right of the Convert button. Before starting the conversion make sure a COMX emultator is started and then press the 'Convert' button (orange ellipse). Then wait until the COMX finalizes all needed PSAVE commands.
+</p>
+<p>
+Note: pure machine code .comx files (first byte = 1) are not supported (as they are not saveable with PSAVE).
 </p>
 </BODY>
 </HTML>

@@ -273,7 +273,7 @@
 <border>6</border>
 <object class="wxFlexGridSizer">
 <cols>2</cols>
-<rows>12</rows>
+<rows>13</rows>
 <vgap>2</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
@@ -715,6 +715,46 @@
 <bitmap>images/eject.png</bitmap>
 <selected>images/eject.png</selected>
 <focus>images/eject.png</focus>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>2</border>
+<object class="wxButton" name="BatchButtonComx">
+<tooltip>Browse for .comx files for conversion</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Batch - wav</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_TOP</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
+<border>2</border>
+<object class="wxButton" name="BatchConvertButtonComx">
+<tooltip>Start batch conversion to wav files</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Convert</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>8</border>
+<option>20</option>
+<object class="wxStaticText" name="BatchFileComx">
+<font>
+<size>12</size>
+</font>
+<label>0 Files selected</label>
 </object>
 </object>
 </object>
@@ -10520,6 +10560,2820 @@
 <maxlength>4</maxlength>
 </object>
 </object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="choicebookpage">
+<label>Netronics Elf II</label>
+<object class="wxPanel" name="PanelNetronics">
+<font>
+<size>12</size>
+</font>
+<style>wxTAB_TRAVERSAL</style>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_TOP|wxLEFT|wxRIGHT</flag>
+<border>4</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxFlexGridSizer">
+<cols>2</cols>
+<rows>8</rows>
+<vgap>2</vgap>
+<hgap>0</hgap>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxButton" name="RomButtonNetronics">
+<tooltip>Browse for Netronics Elf II ROM file</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>ROM 1</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_TOP</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW</flag>
+<border>4</border>
+<object class="wxBitmapButton" name="Rom1Netronics">
+<tooltip>Toggle ROM/RAM</tooltip>
+<bitmap>images/switch.png</bitmap>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<option>20</option>
+<object class="wxComboBox" name="MainRomNetronics">
+<size>83,-1d</size>
+<tooltip>Specify Netronics Elf II ROM/RAM file</tooltip>
+<font>
+<size>12</size>
+</font>
+<style>wxCB_DROPDOWN</style>
+<content>
+<item></item>
+<item>bios.1.0.4.rom</item>
+<item>bios+biosiov93.rom</item>
+<item>bios+biosiov93_32.column.rom</item>
+<item></item>
+<item>biosio.elfos.0.2.5.rom</item>
+<item>biosio.elfos.0.2.5_32.column.rom</item>
+</content>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxButton" name="RomButton2Netronics">
+<tooltip>Browse for Netronics Elf II ROM file</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>ROM 2</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_TOP</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW</flag>
+<border>4</border>
+<object class="wxBitmapButton" name="Rom2Netronics">
+<tooltip>Toggle ROM/RAM</tooltip>
+<bitmap>images/switch.png</bitmap>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<option>20</option>
+<object class="wxComboBox" name="MainRom2Netronics">
+<size>83,-1d</size>
+<tooltip>Specify Netronics Elf II ROM/RAM file</tooltip>
+<font>
+<size>12</size>
+</font>
+<style>wxCB_DROPDOWN</style>
+<content>
+<item></item>
+<item>elfos.0.2.8.hex</item>
+</content>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxButton" name="IDE_ButtonNetronics">
+<tooltip>Browse for IDE image file</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Disk</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxTextCtrl" name="IdeFileNetronics">
+<tooltip>Specify IDE image file</tooltip>
+<font>
+<size>12</size>
+</font>
+<value>disk1.ide</value>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<option>10</option>
+<object class="wxChoice" name="DiskTypeNetronics">
+<tooltip>Select FDC 1793 or IDE disk controller</tooltip>
+<font>
+<size>12</size>
+</font>
+<content>
+<item>None</item>
+<item>FDC</item>
+<item>IDE</item>
+</content>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW</flag>
+<border>0</border>
+<object class="wxBitmapButton" name="Eject_IDENetronics">
+<tooltip>Eject IDE image file</tooltip>
+<bitmap>images/eject.png</bitmap>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxButton" name="CharRomButtonNetronics">
+<tooltip>Browse for video font file</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Video Font</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxComboBox" name="CharRomNetronics">
+<size>150,-1d</size>
+<tooltip>Specify video font file</tooltip>
+<font>
+<size>12</size>
+</font>
+<style>wxCB_DROPDOWN</style>
+<content>
+<item></item>
+<item>mc6845.bin</item>
+<item></item>
+<item>mc6847.ntsc.round.bin</item>
+<item>mc6847.ntsc.square.bin</item>
+<item>mc6847.pal.round.bin</item>
+<item>mc6847.pal.square.bin</item>
+<item></item>
+<item>intel8275.bin</item>
+</content>
+<selection>1</selection>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxButton" name="KeyFileButtonNetronics">
+<tooltip>Browse for key input file</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Key File</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<option>20</option>
+<object class="wxTextCtrl" name="KeyFileNetronics">
+<size>83,-1d</size>
+<tooltip>Specify key input file</tooltip>
+<font>
+<size>12</size>
+</font>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALL</flag>
+<border>0</border>
+<object class="wxBitmapButton" name="EjectKeyFileNetronics">
+<tooltip>Eject key input file</tooltip>
+<bitmap>images/eject.png</bitmap>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxButton" name="PrintFileButtonNetronics">
+<tooltip>Browse for printer output file</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Printer</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_TOP</flag>
+<border>2</border>
+<option>20</option>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxTextCtrl" name="PrintFileNetronics">
+<tooltip>Specify printer output file</tooltip>
+<font>
+<size>12</size>
+</font>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxChoice" name="PrintModeNetronics">
+<tooltip>Select print mode</tooltip>
+<font>
+<size>12</size>
+</font>
+<content>
+<item>File</item>
+<item>Window</item>
+</content>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW</flag>
+<border>0</border>
+<object class="wxBitmapButton" name="PrintButtonNetronics">
+<tooltip>Open printer window (F4)</tooltip>
+<bitmap>images/print.png</bitmap>
+<selected>images/print.png</selected>
+<focus>images/print.png</focus>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>2</border>
+<object class="wxButton" name="ScreenDumpFileButtonNetronics">
+<tooltip>Browse for video dump file</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>VideoDump</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_TOP</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<option>20</option>
+<object class="wxComboBox" name="ScreenDumpFileNetronics">
+<size>83,-1d</size>
+<tooltip>Specify video dump file</tooltip>
+<font>
+<size>12</size>
+</font>
+<style>wxCB_DROPDOWN</style>
+<content>
+<item></item>
+<item>screendump.png</item>
+<item>screendump.jpeg</item>
+<item>screendump.bmp</item>
+<item>screendump.pcx</item>
+</content>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALL</flag>
+<border>0</border>
+<object class="wxBitmapButton" name="ScreenDumpF5Netronics">
+<tooltip>Save video dump to file (F5)</tooltip>
+<enabled>0</enabled>
+<bitmap>images/filesave.png</bitmap>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxButton" name="CasButtonNetronics">
+<tooltip>Browse for cassette file</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Cassette</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW</flag>
+<border>4</border>
+<object class="wxBitmapButton" name="TapeNetronics">
+<tooltip>Toggle: Casette - XMODEM - Off</tooltip>
+<style>wxBU_AUTODRAW</style>
+<bitmap>images/switch.png</bitmap>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<option>20</option>
+<object class="wxTextCtrl" name="WavFileNetronics">
+<size>69,-1d</size>
+<tooltip>Specify cassette file</tooltip>
+<font>
+<size>12</size>
+</font>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALL</flag>
+<border>0</border>
+<object class="wxBitmapButton" name="EjectCasNetronics">
+<tooltip>Eject cassette file</tooltip>
+<bitmap>images/eject.png</bitmap>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>4</border>
+<object class="wxCheckBox" name="AutoCasLoadNetronics">
+<tooltip>Enable auto mode for cassette file</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Auto</label>
+<checked>1</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxCheckBox" name="TurboNetronics">
+<tooltip>Enable turbo mode for cassette file</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Turbo:</label>
+<checked>1</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxTextCtrl" name="TurboClockNetronics" subclass="IntEdit">
+<size>20,-1d</size>
+<tooltip>Specify turbo clock speed in MHz</tooltip>
+<font>
+<size>12</size>
+</font>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>2</border>
+<object class="wxStaticText" name="TurboMhzTextNetronics">
+<font>
+<size>12</size>
+</font>
+<label>MHz</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALL</flag>
+<border>0</border>
+<object class="wxBitmapButton" name="CasSaveNetronics">
+<tooltip>Start recording to cassette file</tooltip>
+<enabled>0</enabled>
+<bitmap>images/rec_off.png</bitmap>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALL</flag>
+<border>0</border>
+<object class="wxBitmapButton" name="CasLoadNetronics">
+<tooltip>Play cassette file</tooltip>
+<enabled>0</enabled>
+<bitmap>images/play_black.png</bitmap>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALL</flag>
+<border>0</border>
+<object class="wxBitmapButton" name="CasStopNetronics">
+<tooltip>Stop cassette file</tooltip>
+<enabled>0</enabled>
+<bitmap>images/stop.png</bitmap>
+</object>
+</object>
+<object platform="win" class="sizeritem">
+<flag>wxGROW</flag>
+<border>0</border>
+<object platform="win" class="wxBitmapButton" name="RealCasLoadNetronics">
+<tooltip>Disable / Enable real cassette loading</tooltip>
+<style>wxBU_AUTODRAW</style>
+<bitmap>images/real_cas_off.png</bitmap>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxButton" name="DP_ButtonNetronics">
+<tooltip>Open device ports definition window</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>DevicePorts</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_TOP</flag>
+<border>4</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>4</border>
+<object class="wxStaticText" name="StartRamTextNetronics">
+<font>
+<size>12</size>
+</font>
+<style>wxST_NO_AUTORESIZE</style>
+<label>RAM:</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxTextCtrl" name="StartRamNetronics" subclass="HexEdit">
+<size>36,-1d</size>
+<tooltip>Specify RAM bank start address in hexadecimal</tooltip>
+<font>
+<size>12</size>
+</font>
+<maxlength>4</maxlength>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>2</border>
+<object class="wxStaticText" name="EndRamTextNetronics">
+<font>
+<size>12</size>
+</font>
+<style>wxALIGN_RIGHT</style>
+<label>to</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxTextCtrl" name="EndRamNetronics" subclass="HexEdit">
+<size>36,-1d</size>
+<tooltip>Specify RAM bank end address in hexadecimal</tooltip>
+<font>
+<size>12</size>
+</font>
+<maxlength>4</maxlength>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxVERTICAL</orient>
+<label>Terminal</label>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxChoice" name="VTTypeNetronics">
+<tooltip>Select video terminal type</tooltip>
+<font>
+<size>12</size>
+</font>
+<content>
+<item>None</item>
+<item>VT52</item>
+<item>VT100</item>
+<item>External</item>
+</content>
+<selection>0</selection>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>2</border>
+<object class="wxButton" name="VtSetupNetronics">
+<tooltip>Open video terminal setup window</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Setup</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxStaticText" name="ZoomTextVtNetronics">
+<font>
+<size>12</size>
+</font>
+<label>Zoom:</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALL</flag>
+<border>2</border>
+<object class="wxTextCtrl" name="ZoomValueVtNetronics" subclass="FloatEdit">
+<size>36,-1d</size>
+<tooltip>Select Video Terminal screen size</tooltip>
+<font>
+<size>12</size>
+</font>
+</object>
+</object>
+<object platform="unix" class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>6</border>
+<object platform="unix" class="wxSpinButton" name="ZoomSpinVtNetronics">
+<tooltip>Select Video Terminal screen size</tooltip>
+<style>wxSP_VERTICAL</style>
+<value>0</value>
+<min>1</min>
+<max>100</max>
+</object>
+</object>
+<object platform="win" class="sizeritem">
+<flag>wxGROW</flag>
+<border>6</border>
+<object platform="win" class="wxSpinButton" name="ZoomSpinVtNetronics">
+<size>-1,15d</size>
+<tooltip>Select Video Terminal screen size</tooltip>
+<style>wxSP_VERTICAL</style>
+<value>0</value>
+<min>1</min>
+<max>100</max>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxTOP</flag>
+<border>4</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="VTBaudTTextNetronics">
+<font>
+<size>12</size>
+</font>
+<label>Baud T:</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxChoice" name="VTBaudTChoiceNetronics">
+<font>
+<size>12</size>
+</font>
+<content>
+<item>38400</item>
+<item>19200</item>
+<item>9600</item>
+<item>4800</item>
+<item>3600</item>
+<item>2400</item>
+<item>2000</item>
+<item>1800</item>
+<item>1200</item>
+<item>600</item>
+<item>300</item>
+<item>200</item>
+<item>150</item>
+<item>134</item>
+<item>110</item>
+<item>75</item>
+<item>50</item>
+</content>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>4</border>
+<object class="wxStaticText" name="VTBaudRTextNetronics">
+<font>
+<size>12</size>
+</font>
+<label>R:</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxChoice" name="VTBaudRChoiceNetronics">
+<font>
+<size>12</size>
+</font>
+<content>
+<item>38400</item>
+<item>19200</item>
+<item>9600</item>
+<item>4800</item>
+<item>3600</item>
+<item>2400</item>
+<item>2000</item>
+<item>1800</item>
+<item>1200</item>
+<item>600</item>
+<item>300</item>
+<item>200</item>
+<item>150</item>
+<item>134</item>
+<item>110</item>
+<item>75</item>
+<item>50</item>
+</content>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>2</border>
+<object class="wxCheckBox" name="StretchDotNetronics">
+<tooltip>Enable stretch dot mode on video terminal</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Stretch</label>
+<checked>0</checked>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_TOP|wxLEFT|wxRIGHT</flag>
+<border>4</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxFlexGridSizer">
+<cols>3</cols>
+<rows>3</rows>
+<vgap>2</vgap>
+<hgap>2</hgap>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxStaticText" name="VideoTypeTextNetronics">
+<font>
+<size>12</size>
+</font>
+<label>Video:</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxChoice" name="VideoTypeNetronics">
+<tooltip>Select video type</tooltip>
+<font>
+<size>12</size>
+</font>
+<content>
+<item>None</item>
+<item>1861 Pixie</item>
+<item>MC6845</item>
+<item>MC6847</item>
+<item>TMS 9918</item>
+<item>Intel 8275</item>
+<item>Super Video</item>
+</content>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>2</border>
+<object class="wxButton" name="ColoursNetronics">
+<tooltip>Open video setup window</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>VideoSetup</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxStaticText" name="KeyboardTextNetronics">
+<font>
+<size>12</size>
+</font>
+<label>Keyboard:</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxChoice" name="KeyboardNetronics">
+<tooltip>Select keyboard type</tooltip>
+<font>
+<size>12</size>
+</font>
+<content>
+<item>None</item>
+<item>PS2</item>
+<item>PS2 Interrupt</item>
+<item>Ascii</item>
+<item>Ascii (+Hex)</item>
+<item>Hex</item>
+</content>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>2</border>
+<object class="wxButton" name="KeyMapNetronics">
+<tooltip>Open key map window</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Key Map</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxStaticText" name="MemoryTextNetronics">
+<font>
+<size>12</size>
+</font>
+<label>Memory:</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxChoice" name="MemoryNetronics">
+<tooltip>Select memory size</tooltip>
+<font>
+<size>12</size>
+</font>
+<content>
+<item>64KB</item>
+<item>EMS-512KB</item>
+<item>Mapper-1MB</item>
+<item>ROM Mapper</item>
+</content>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>4</border>
+<object class="wxCheckBox" name="AutoBootNetronics">
+<tooltip>Enable auto boot at specified address</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Boot:</label>
+<checked>0</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxTextCtrl" name="BootAddressNetronics" subclass="HexEdit">
+<size>36,-1d</size>
+<tooltip>Specify auto boot address in hexadecimal</tooltip>
+<font>
+<size>12</size>
+</font>
+<maxlength>4</maxlength>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="QsoundTextNetronics">
+<font>
+<size>12</size>
+</font>
+<label>Q Sound:</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALL</flag>
+<border>2</border>
+<object class="wxChoice" name="QsoundNetronics">
+<tooltip>Select Q sound type</tooltip>
+<font>
+<size>12</size>
+</font>
+<content>
+<item>Off</item>
+<item>Software</item>
+<item>Hardware</item>
+</content>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>4</border>
+<object class="wxStaticText" name="BeepFrequencyTextNetronics">
+<font>
+<size>12</size>
+</font>
+<label>Beeper:</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALL</flag>
+<border>2</border>
+<object class="wxTextCtrl" name="BeepFrequencyNetronics" subclass="IntEdit">
+<size>26,-1d</size>
+<tooltip>Specify oscilator frequency speed in Hz</tooltip>
+<font>
+<size>12</size>
+</font>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="BeepFrequencyTextHzNetronics">
+<font>
+<size>12</size>
+</font>
+<label>Hz</label>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxStaticText" name="ZoomTextNetronics">
+<font>
+<size>12</size>
+</font>
+<label>Zoom:</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALL</flag>
+<border>2</border>
+<object class="wxTextCtrl" name="ZoomValueNetronics" subclass="FloatEdit">
+<size>36,-1d</size>
+<tooltip>Select screen size</tooltip>
+<font>
+<size>12</size>
+</font>
+</object>
+</object>
+<object platform="unix" class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>6</border>
+<object platform="unix" class="wxSpinButton" name="ZoomSpinNetronics">
+<tooltip>Select screen size</tooltip>
+<style>wxSP_VERTICAL</style>
+<value>0</value>
+<min>1</min>
+<max>100</max>
+</object>
+</object>
+<object platform="win" class="sizeritem">
+<flag>wxGROW</flag>
+<border>6</border>
+<object platform="win" class="wxSpinButton" name="ZoomSpinNetronics">
+<size>-1,15d</size>
+<tooltip>Select screen size</tooltip>
+<style>wxSP_VERTICAL</style>
+<value>0</value>
+<min>1</min>
+<max>100</max>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxRIGHT</flag>
+<border>2</border>
+<object class="wxBitmapButton" name="FullScreenF3Netronics">
+<tooltip>Activate full screen mode (F3)</tooltip>
+<enabled>0</enabled>
+<bitmap>images/screen.png</bitmap>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_TOP</flag>
+<border>4</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>2</border>
+<object class="wxStaticText" name="AddressText1Netronics">
+<font>
+<size>12</size>
+</font>
+<label>Leds:</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALL</flag>
+<border>2</border>
+<object class="wxTextCtrl" name="ShowAddressNetronics" subclass="IntEdit">
+<size>26,-1d</size>
+<tooltip>Led updates in run mode every X ms</tooltip>
+<font>
+<size>12</size>
+</font>
+<value>100</value>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="AddressText2Netronics">
+<font>
+<size>12</size>
+</font>
+<label>ms</label>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>4</border>
+<object class="wxStaticText" name="VolumeTextNetronics">
+<font>
+<size>12</size>
+</font>
+<label>Volume:</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxSlider" name="VolumeNetronics">
+<size>57,-1d</size>
+<tooltip>Change emulator sound volume</tooltip>
+<style>wxSL_HORIZONTAL</style>
+<value>25</value>
+<min>0</min>
+<max>100</max>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxStaticBitmap" name="VuNetronics">
+<size>57,6d</size>
+<style>wxSTATIC_BORDER</style>
+<bitmap>images/vu.png</bitmap>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW</flag>
+<border>6</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxVERTICAL</orient>
+<label>Memory Access</label>
+<font>
+<size>12</size>
+</font>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT</flag>
+<border>0</border>
+<object class="wxFlexGridSizer">
+<cols>4</cols>
+<rows>3</rows>
+<vgap>1</vgap>
+<hgap>0</hgap>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>4</border>
+<object class="wxCheckBox" name="UseLocationNetronics">
+<tooltip>Select to SAVE specific machine code address</tooltip>
+<font>
+<size>12</size>
+</font>
+<enabled>0</enabled>
+<label>Specify</label>
+<checked>0</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>10</border>
+<object class="wxStaticText" name="UseLocationTextNetronics">
+<enabled>0</enabled>
+<label>Location</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>2</border>
+<object class="wxStaticText" name="TextStartNetronics">
+<font>
+<size>12</size>
+</font>
+<style>wxALIGN_RIGHT</style>
+<enabled>0</enabled>
+<label>Start</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>2</border>
+<object class="wxTextCtrl" name="SaveStartNetronics" subclass="HexEdit">
+<size>36,-1d</size>
+<tooltip>Specify start address in hexadecimal</tooltip>
+<font>
+<size>12</size>
+</font>
+<enabled>0</enabled>
+<maxlength>4</maxlength>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<border>2</border>
+<object class="wxButton" name="LoadButtonNetronics">
+<tooltip>Load .hex/.super file into Netronics Elf II emulator memory</tooltip>
+<font>
+<size>12</size>
+</font>
+<enabled>0</enabled>
+<label>LOAD</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<border>2</border>
+<object class="wxButton" name="RunButtonNetronics">
+<tooltip>Load .super file into Netronics Elf II emulator memory and RUN software</tooltip>
+<font>
+<size>12</size>
+</font>
+<enabled>0</enabled>
+<label>RUN</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>2</border>
+<object class="wxStaticText" name="TextEndNetronics">
+<font>
+<size>12</size>
+</font>
+<style>wxALIGN_RIGHT</style>
+<enabled>0</enabled>
+<label>End</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>2</border>
+<object class="wxTextCtrl" name="SaveEndNetronics" subclass="HexEdit">
+<size>36,-1d</size>
+<tooltip>Specify end address in hexadecimal</tooltip>
+<font>
+<size>12</size>
+</font>
+<enabled>0</enabled>
+<maxlength>4</maxlength>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<border>2</border>
+<object class="wxButton" name="SaveButtonNetronics">
+<tooltip>Save Netronics Elf II emulator memory to .hex/.super file</tooltip>
+<font>
+<size>12</size>
+</font>
+<enabled>0</enabled>
+<label>SAVE</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<border>2</border>
+<object class="wxButton" name="DsaveButtonNetronics">
+<tooltip>Save Netronics Elf II emulator data memory to .super file</tooltip>
+<font>
+<size>12</size>
+</font>
+<enabled>0</enabled>
+<label>Data SAVE</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>2</border>
+<object class="wxStaticText" name="TextExecNetronics">
+<font>
+<size>12</size>
+</font>
+<style>wxALIGN_RIGHT</style>
+<enabled>0</enabled>
+<label>Exec</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>2</border>
+<object class="wxTextCtrl" name="SaveExecNetronics" subclass="HexEdit">
+<size>36,-1d</size>
+<tooltip>Specify machine code execution address in hexadecimal</tooltip>
+<font>
+<size>12</size>
+</font>
+<enabled>0</enabled>
+<maxlength>4</maxlength>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+<border>4</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>2</border>
+<object class="wxStaticText" name="TilTextNetronics">
+<font>
+<size>12</size>
+</font>
+<label>TIL:</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALL</flag>
+<border>2</border>
+<object class="wxChoice" name="TilTypeNetronics">
+<tooltip>Switch between TIL311 and TIL313/FND500</tooltip>
+<font>
+<size>12</size>
+</font>
+<content>
+<item>311</item>
+<item>313</item>
+</content>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>4</border>
+<object class="wxCheckBox" name="ControlWindowsNetronics">
+<tooltip>Show Netronics Elf II control windows</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Elf Windows</label>
+<checked>0</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>4</border>
+<object class="wxCheckBox" name="InterlaceNetronics">
+<tooltip>Enable interlace mode MC 6845 or intel 8275 video</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Interlace</label>
+<checked>0</checked>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+<border>4</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>4</border>
+<object class="wxCheckBox" name="PortExtNetronics">
+<tooltip>Enable extended ports support</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Ext. ports</label>
+<checked>0</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>4</border>
+<object class="wxCheckBox" name="UpperCaseNetronics">
+<tooltip>Force keyboard in uppercase</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Uppercase</label>
+<checked>0</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>4</border>
+<object class="wxCheckBox" name="BootStrapNetronics">
+<tooltip>Load ROM 1 at 8000 and bootstrap ROM</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Bootstrap</label>
+<checked>0</checked>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+<border>4</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>4</border>
+<object class="wxCheckBox" name="HexEfNetronics">
+<tooltip>Enable EF Hex keyboard</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>EF Hex Key</label>
+<checked>0</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>4</border>
+<object class="wxCheckBox" name="EFButtonsNetronics">
+<tooltip>Enable EF3/EF push buttons</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>EF Buttons</label>
+<checked>0</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>4</border>
+<object class="wxCheckBox" name="GiantNetronics">
+<tooltip>Enable Giant Board ROM mapping</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Giant</label>
+<checked>0</checked>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="choicebookpage">
+<label>Pico/Elf V2</label>
+<object class="wxPanel" name="PanelPico">
+<font>
+<size>12</size>
+</font>
+<style>wxTAB_TRAVERSAL</style>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_TOP|wxLEFT|wxRIGHT</flag>
+<border>4</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxFlexGridSizer">
+<cols>2</cols>
+<rows>8</rows>
+<vgap>2</vgap>
+<hgap>0</hgap>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxButton" name="RomButtonPico">
+<tooltip>Browse for Pico/Elf V2 ROM file</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>ROM 1</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_TOP</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW</flag>
+<border>4</border>
+<object class="wxBitmapButton" name="Rom1Pico">
+<tooltip>Toggle ROM/RAM</tooltip>
+<bitmap>images/switch.png</bitmap>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<option>20</option>
+<object class="wxComboBox" name="MainRomPico">
+<size>83,-1d</size>
+<tooltip>Specify Pico/Elf V2 ROM/RAM file</tooltip>
+<font>
+<size>12</size>
+</font>
+<style>wxCB_DROPDOWN</style>
+<content>
+<item></item>
+<item>bios.1.0.4.rom</item>
+<item>bios+biosiov93.rom</item>
+<item>bios+biosiov93_32.column.rom</item>
+<item></item>
+<item>biosio.elfos.0.2.5.rom</item>
+<item>biosio.elfos.0.2.5_32.column.rom</item>
+</content>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxButton" name="RomButton2Pico">
+<tooltip>Browse for Pico/Elf V2 ROM file</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>ROM 2</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_TOP</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW</flag>
+<border>4</border>
+<object class="wxBitmapButton" name="Rom2Pico">
+<tooltip>Toggle ROM/RAM</tooltip>
+<bitmap>images/switch.png</bitmap>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<option>20</option>
+<object class="wxComboBox" name="MainRom2Pico">
+<size>83,-1d</size>
+<tooltip>Specify Pico/Elf V2 ROM/RAM file</tooltip>
+<font>
+<size>12</size>
+</font>
+<style>wxCB_DROPDOWN</style>
+<content>
+<item></item>
+<item>elfos.0.2.8.hex</item>
+</content>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxButton" name="IDE_ButtonPico">
+<tooltip>Browse for IDE image file</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Disk</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxTextCtrl" name="IdeFilePico">
+<tooltip>Specify IDE image file</tooltip>
+<font>
+<size>12</size>
+</font>
+<value>disk1.ide</value>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<option>10</option>
+<object class="wxChoice" name="DiskTypePico">
+<tooltip>Select FDC 1793 or IDE disk controller</tooltip>
+<font>
+<size>12</size>
+</font>
+<content>
+<item>None</item>
+<item>FDC</item>
+<item>IDE</item>
+</content>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW</flag>
+<border>0</border>
+<object class="wxBitmapButton" name="Eject_IDEPico">
+<tooltip>Eject IDE image file</tooltip>
+<bitmap>images/eject.png</bitmap>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxButton" name="CharRomButtonPico">
+<tooltip>Browse for video font file</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Video Font</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxComboBox" name="CharRomPico">
+<size>150,-1d</size>
+<tooltip>Specify video font file</tooltip>
+<font>
+<size>12</size>
+</font>
+<style>wxCB_DROPDOWN</style>
+<content>
+<item></item>
+<item>mc6845.bin</item>
+<item></item>
+<item>mc6847.ntsc.round.bin</item>
+<item>mc6847.ntsc.square.bin</item>
+<item>mc6847.pal.round.bin</item>
+<item>mc6847.pal.square.bin</item>
+<item></item>
+<item>intel8275.bin</item>
+</content>
+<selection>1</selection>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxButton" name="KeyFileButtonPico">
+<tooltip>Browse for key input file</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Key File</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<option>20</option>
+<object class="wxTextCtrl" name="KeyFilePico">
+<size>83,-1d</size>
+<tooltip>Specify key input file</tooltip>
+<font>
+<size>12</size>
+</font>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALL</flag>
+<border>0</border>
+<object class="wxBitmapButton" name="EjectKeyFilePico">
+<tooltip>Eject key input file</tooltip>
+<bitmap>images/eject.png</bitmap>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxButton" name="PrintFileButtonPico">
+<tooltip>Browse for printer output file</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Printer</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_TOP</flag>
+<border>2</border>
+<option>20</option>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxTextCtrl" name="PrintFilePico">
+<tooltip>Specify printer output file</tooltip>
+<font>
+<size>12</size>
+</font>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxChoice" name="PrintModePico">
+<tooltip>Select print mode</tooltip>
+<font>
+<size>12</size>
+</font>
+<content>
+<item>File</item>
+<item>Window</item>
+</content>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW</flag>
+<border>0</border>
+<object class="wxBitmapButton" name="PrintButtonPico">
+<tooltip>Open printer window (F4)</tooltip>
+<bitmap>images/print.png</bitmap>
+<selected>images/print.png</selected>
+<focus>images/print.png</focus>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>2</border>
+<object class="wxButton" name="ScreenDumpFileButtonPico">
+<tooltip>Browse for video dump file</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>VideoDump</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_TOP</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<option>20</option>
+<object class="wxComboBox" name="ScreenDumpFilePico">
+<size>83,-1d</size>
+<tooltip>Specify video dump file</tooltip>
+<font>
+<size>12</size>
+</font>
+<style>wxCB_DROPDOWN</style>
+<content>
+<item></item>
+<item>screendump.png</item>
+<item>screendump.jpeg</item>
+<item>screendump.bmp</item>
+<item>screendump.pcx</item>
+</content>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALL</flag>
+<border>0</border>
+<object class="wxBitmapButton" name="ScreenDumpF5Pico">
+<tooltip>Save video dump to file (F5)</tooltip>
+<enabled>0</enabled>
+<bitmap>images/filesave.png</bitmap>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxButton" name="CasButtonPico">
+<tooltip>Browse for cassette file</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Cassette</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW</flag>
+<border>4</border>
+<object class="wxBitmapButton" name="TapePico">
+<tooltip>Toggle: Casette - XMODEM - Off</tooltip>
+<style>wxBU_AUTODRAW</style>
+<bitmap>images/switch.png</bitmap>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<option>20</option>
+<object class="wxTextCtrl" name="WavFilePico">
+<size>69,-1d</size>
+<tooltip>Specify cassette file</tooltip>
+<font>
+<size>12</size>
+</font>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALL</flag>
+<border>0</border>
+<object class="wxBitmapButton" name="EjectCasPico">
+<tooltip>Eject cassette file</tooltip>
+<bitmap>images/eject.png</bitmap>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>4</border>
+<object class="wxCheckBox" name="AutoCasLoadPico">
+<tooltip>Enable auto mode for cassette file</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Auto</label>
+<checked>1</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxCheckBox" name="TurboPico">
+<tooltip>Enable turbo mode for cassette file</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Turbo:</label>
+<checked>1</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxTextCtrl" name="TurboClockPico" subclass="IntEdit">
+<size>20,-1d</size>
+<tooltip>Specify turbo clock speed in MHz</tooltip>
+<font>
+<size>12</size>
+</font>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>2</border>
+<object class="wxStaticText" name="TurboMhzTextPico">
+<font>
+<size>12</size>
+</font>
+<label>MHz</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALL</flag>
+<border>0</border>
+<object class="wxBitmapButton" name="CasSavePico">
+<tooltip>Start recording to cassette file</tooltip>
+<enabled>0</enabled>
+<bitmap>images/rec_off.png</bitmap>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALL</flag>
+<border>0</border>
+<object class="wxBitmapButton" name="CasLoadPico">
+<tooltip>Play cassette file</tooltip>
+<enabled>0</enabled>
+<bitmap>images/play_black.png</bitmap>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALL</flag>
+<border>0</border>
+<object class="wxBitmapButton" name="CasStopPico">
+<tooltip>Stop cassette file</tooltip>
+<enabled>0</enabled>
+<bitmap>images/stop.png</bitmap>
+</object>
+</object>
+<object platform="win" class="sizeritem">
+<flag>wxGROW</flag>
+<border>0</border>
+<object platform="win" class="wxBitmapButton" name="RealCasLoadPico">
+<tooltip>Disable / Enable real cassette loading</tooltip>
+<style>wxBU_AUTODRAW</style>
+<bitmap>images/real_cas_off.png</bitmap>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxButton" name="DP_ButtonPico">
+<tooltip>Open device ports definition window</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>DevicePorts</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_TOP</flag>
+<border>4</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>4</border>
+<object class="wxStaticText" name="StartRamTextPico">
+<font>
+<size>12</size>
+</font>
+<style>wxST_NO_AUTORESIZE</style>
+<label>RAM:</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxTextCtrl" name="StartRamPico" subclass="HexEdit">
+<size>36,-1d</size>
+<tooltip>Specify RAM bank start address in hexadecimal</tooltip>
+<font>
+<size>12</size>
+</font>
+<maxlength>4</maxlength>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>2</border>
+<object class="wxStaticText" name="EndRamTextPico">
+<font>
+<size>12</size>
+</font>
+<style>wxALIGN_RIGHT</style>
+<label>to</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxTextCtrl" name="EndRamPico" subclass="HexEdit">
+<size>36,-1d</size>
+<tooltip>Specify RAM bank end address in hexadecimal</tooltip>
+<font>
+<size>12</size>
+</font>
+<maxlength>4</maxlength>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxVERTICAL</orient>
+<label>Terminal</label>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxChoice" name="VTTypePico">
+<tooltip>Select video terminal type</tooltip>
+<font>
+<size>12</size>
+</font>
+<content>
+<item>None</item>
+<item>VT52</item>
+<item>VT100</item>
+<item>External</item>
+</content>
+<selection>0</selection>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>2</border>
+<object class="wxButton" name="VtSetupPico">
+<tooltip>Open video terminal setup window</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Setup</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxStaticText" name="ZoomTextVtPico">
+<font>
+<size>12</size>
+</font>
+<label>Zoom:</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALL</flag>
+<border>2</border>
+<object class="wxTextCtrl" name="ZoomValueVtPico" subclass="FloatEdit">
+<size>36,-1d</size>
+<tooltip>Select Video Terminal screen size</tooltip>
+<font>
+<size>12</size>
+</font>
+</object>
+</object>
+<object platform="unix" class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>6</border>
+<object platform="unix" class="wxSpinButton" name="ZoomSpinVtPico">
+<tooltip>Select Video Terminal screen size</tooltip>
+<style>wxSP_VERTICAL</style>
+<value>0</value>
+<min>1</min>
+<max>100</max>
+</object>
+</object>
+<object platform="win" class="sizeritem">
+<flag>wxGROW</flag>
+<border>6</border>
+<object platform="win" class="wxSpinButton" name="ZoomSpinVtPico">
+<size>-1,15d</size>
+<tooltip>Select Video Terminal screen size</tooltip>
+<style>wxSP_VERTICAL</style>
+<value>0</value>
+<min>1</min>
+<max>100</max>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxTOP</flag>
+<border>4</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="VTBaudTTextPico">
+<font>
+<size>12</size>
+</font>
+<label>Baud T:</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxChoice" name="VTBaudTChoicePico">
+<font>
+<size>12</size>
+</font>
+<content>
+<item>38400</item>
+<item>19200</item>
+<item>9600</item>
+<item>4800</item>
+<item>3600</item>
+<item>2400</item>
+<item>2000</item>
+<item>1800</item>
+<item>1200</item>
+<item>600</item>
+<item>300</item>
+<item>200</item>
+<item>150</item>
+<item>134</item>
+<item>110</item>
+<item>75</item>
+<item>50</item>
+</content>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>4</border>
+<object class="wxStaticText" name="VTBaudRTextPico">
+<font>
+<size>12</size>
+</font>
+<label>R:</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxChoice" name="VTBaudRChoicePico">
+<font>
+<size>12</size>
+</font>
+<content>
+<item>38400</item>
+<item>19200</item>
+<item>9600</item>
+<item>4800</item>
+<item>3600</item>
+<item>2400</item>
+<item>2000</item>
+<item>1800</item>
+<item>1200</item>
+<item>600</item>
+<item>300</item>
+<item>200</item>
+<item>150</item>
+<item>134</item>
+<item>110</item>
+<item>75</item>
+<item>50</item>
+</content>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>2</border>
+<object class="wxCheckBox" name="StretchDotPico">
+<tooltip>Enable stretch dot mode on video terminal</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Stretch</label>
+<checked>0</checked>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_TOP|wxLEFT|wxRIGHT</flag>
+<border>4</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxFlexGridSizer">
+<cols>3</cols>
+<rows>3</rows>
+<vgap>2</vgap>
+<hgap>2</hgap>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxStaticText" name="VideoTypeTextPico">
+<font>
+<size>12</size>
+</font>
+<label>Video:</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxChoice" name="VideoTypePico">
+<tooltip>Select video type</tooltip>
+<font>
+<size>12</size>
+</font>
+<content>
+<item>None</item>
+<item>1861 Pixie</item>
+<item>MC6845</item>
+<item>MC6847</item>
+<item>TMS 9918</item>
+<item>Intel 8275</item>
+<item>Super Video</item>
+</content>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>2</border>
+<object class="wxButton" name="ColoursPico">
+<tooltip>Open video setup window</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>VideoSetup</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxStaticText" name="KeyboardTextPico">
+<font>
+<size>12</size>
+</font>
+<label>Keyboard:</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxChoice" name="KeyboardPico">
+<tooltip>Select keyboard type</tooltip>
+<font>
+<size>12</size>
+</font>
+<content>
+<item>None</item>
+<item>PS2</item>
+<item>PS2 Interrupt</item>
+<item>Ascii</item>
+<item>Ascii (+Hex)</item>
+<item>Hex</item>
+</content>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>2</border>
+<object class="wxButton" name="KeyMapPico">
+<tooltip>Open key map window</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Key Map</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxStaticText" name="MemoryTextPico">
+<font>
+<size>12</size>
+</font>
+<label>Memory:</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxChoice" name="MemoryPico">
+<tooltip>Select memory size</tooltip>
+<font>
+<size>12</size>
+</font>
+<content>
+<item>64KB</item>
+<item>EMS-512KB</item>
+<item>Mapper-1MB</item>
+<item>ROM Mapper</item>
+</content>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>4</border>
+<object class="wxCheckBox" name="AutoBootPico">
+<tooltip>Enable auto boot at specified address</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Boot:</label>
+<checked>0</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxTextCtrl" name="BootAddressPico" subclass="HexEdit">
+<size>36,-1d</size>
+<tooltip>Specify auto boot address in hexadecimal</tooltip>
+<font>
+<size>12</size>
+</font>
+<maxlength>4</maxlength>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="QsoundTextPico">
+<font>
+<size>12</size>
+</font>
+<label>Q Sound:</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALL</flag>
+<border>2</border>
+<object class="wxChoice" name="QsoundPico">
+<tooltip>Select Q sound type</tooltip>
+<font>
+<size>12</size>
+</font>
+<content>
+<item>Off</item>
+<item>Software</item>
+<item>Hardware</item>
+</content>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>4</border>
+<object class="wxStaticText" name="BeepFrequencyTextPico">
+<font>
+<size>12</size>
+</font>
+<label>Beeper:</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALL</flag>
+<border>2</border>
+<object class="wxTextCtrl" name="BeepFrequencyPico" subclass="IntEdit">
+<size>26,-1d</size>
+<tooltip>Specify oscilator frequency speed in Hz</tooltip>
+<font>
+<size>12</size>
+</font>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="BeepFrequencyTextHzPico">
+<font>
+<size>12</size>
+</font>
+<label>Hz</label>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxStaticText" name="ZoomTextPico">
+<font>
+<size>12</size>
+</font>
+<label>Zoom:</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALL</flag>
+<border>2</border>
+<object class="wxTextCtrl" name="ZoomValuePico" subclass="FloatEdit">
+<size>36,-1d</size>
+<tooltip>Select screen size</tooltip>
+<font>
+<size>12</size>
+</font>
+</object>
+</object>
+<object platform="unix" class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>6</border>
+<object platform="unix" class="wxSpinButton" name="ZoomSpinPico">
+<tooltip>Select screen size</tooltip>
+<style>wxSP_VERTICAL</style>
+<value>0</value>
+<min>1</min>
+<max>100</max>
+</object>
+</object>
+<object platform="win" class="sizeritem">
+<flag>wxGROW</flag>
+<border>6</border>
+<object platform="win" class="wxSpinButton" name="ZoomSpinPico">
+<size>-1,15d</size>
+<tooltip>Select screen size</tooltip>
+<style>wxSP_VERTICAL</style>
+<value>0</value>
+<min>1</min>
+<max>100</max>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxRIGHT</flag>
+<border>2</border>
+<object class="wxBitmapButton" name="FullScreenF3Pico">
+<tooltip>Activate full screen mode (F3)</tooltip>
+<enabled>0</enabled>
+<bitmap>images/screen.png</bitmap>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_TOP</flag>
+<border>4</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>2</border>
+<object class="wxStaticText" name="AddressText1Pico">
+<font>
+<size>12</size>
+</font>
+<label>Leds:</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALL</flag>
+<border>2</border>
+<object class="wxTextCtrl" name="ShowAddressPico" subclass="IntEdit">
+<size>26,-1d</size>
+<tooltip>Led updates in run mode every X ms</tooltip>
+<font>
+<size>12</size>
+</font>
+<value>100</value>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="AddressText2Pico">
+<font>
+<size>12</size>
+</font>
+<label>ms</label>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>4</border>
+<object class="wxStaticText" name="VolumeTextPico">
+<font>
+<size>12</size>
+</font>
+<label>Volume:</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxSlider" name="VolumePico">
+<size>57,-1d</size>
+<tooltip>Change emulator sound volume</tooltip>
+<style>wxSL_HORIZONTAL</style>
+<value>25</value>
+<min>0</min>
+<max>100</max>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxStaticBitmap" name="VuPico">
+<size>57,6d</size>
+<style>wxSTATIC_BORDER</style>
+<bitmap>images/vu.png</bitmap>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW</flag>
+<border>6</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxVERTICAL</orient>
+<label>Memory Access</label>
+<font>
+<size>12</size>
+</font>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT</flag>
+<border>0</border>
+<object class="wxFlexGridSizer">
+<cols>4</cols>
+<rows>3</rows>
+<vgap>1</vgap>
+<hgap>0</hgap>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>4</border>
+<object class="wxCheckBox" name="UseLocationPico">
+<tooltip>Select to SAVE specific machine code address</tooltip>
+<font>
+<size>12</size>
+</font>
+<enabled>0</enabled>
+<label>Specify</label>
+<checked>0</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>10</border>
+<object class="wxStaticText" name="UseLocationTextPico">
+<enabled>0</enabled>
+<label>Location</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>2</border>
+<object class="wxStaticText" name="TextStartPico">
+<font>
+<size>12</size>
+</font>
+<style>wxALIGN_RIGHT</style>
+<enabled>0</enabled>
+<label>Start</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>2</border>
+<object class="wxTextCtrl" name="SaveStartPico" subclass="HexEdit">
+<size>36,-1d</size>
+<tooltip>Specify start address in hexadecimal</tooltip>
+<font>
+<size>12</size>
+</font>
+<enabled>0</enabled>
+<maxlength>4</maxlength>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<border>2</border>
+<object class="wxButton" name="LoadButtonPico">
+<tooltip>Load .hex/.super file into Pico/Elf V2 emulator memory</tooltip>
+<font>
+<size>12</size>
+</font>
+<enabled>0</enabled>
+<label>LOAD</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<border>2</border>
+<object class="wxButton" name="RunButtonPico">
+<tooltip>Load .super file into Pico/Elf V2 emulator memory and RUN software</tooltip>
+<font>
+<size>12</size>
+</font>
+<enabled>0</enabled>
+<label>RUN</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>2</border>
+<object class="wxStaticText" name="TextEndPico">
+<font>
+<size>12</size>
+</font>
+<style>wxALIGN_RIGHT</style>
+<enabled>0</enabled>
+<label>End</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>2</border>
+<object class="wxTextCtrl" name="SaveEndPico" subclass="HexEdit">
+<size>36,-1d</size>
+<tooltip>Specify end address in hexadecimal</tooltip>
+<font>
+<size>12</size>
+</font>
+<enabled>0</enabled>
+<maxlength>4</maxlength>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<border>2</border>
+<object class="wxButton" name="SaveButtonPico">
+<tooltip>Save Pico/Elf V2 emulator memory to .hex/.super file</tooltip>
+<font>
+<size>12</size>
+</font>
+<enabled>0</enabled>
+<label>SAVE</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<border>2</border>
+<object class="wxButton" name="DsaveButtonPico">
+<tooltip>Save Pico/Elf V2 emulator data memory to .super file</tooltip>
+<font>
+<size>12</size>
+</font>
+<enabled>0</enabled>
+<label>Data SAVE</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>2</border>
+<object class="wxStaticText" name="TextExecPico">
+<font>
+<size>12</size>
+</font>
+<style>wxALIGN_RIGHT</style>
+<enabled>0</enabled>
+<label>Exec</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>2</border>
+<object class="wxTextCtrl" name="SaveExecPico" subclass="HexEdit">
+<size>36,-1d</size>
+<tooltip>Specify machine code execution address in hexadecimal</tooltip>
+<font>
+<size>12</size>
+</font>
+<enabled>0</enabled>
+<maxlength>4</maxlength>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+<border>4</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>2</border>
+<object class="wxStaticText" name="TilTextPico">
+<font>
+<size>12</size>
+</font>
+<label>TIL:</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALL</flag>
+<border>2</border>
+<object class="wxChoice" name="TilTypePico">
+<tooltip>Switch between TIL311 and TIL313/FND500</tooltip>
+<font>
+<size>12</size>
+</font>
+<content>
+<item>311</item>
+<item>313</item>
+</content>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>4</border>
+<object class="wxCheckBox" name="ControlWindowsPico">
+<tooltip>Show Pico/Elf V2 control windows</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Elf Windows</label>
+<checked>0</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>4</border>
+<object class="wxCheckBox" name="InterlacePico">
+<tooltip>Enable interlace mode MC 6845 or intel 8275 video</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Interlace</label>
+<checked>0</checked>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+<border>4</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>4</border>
+<object class="wxCheckBox" name="PortExtPico">
+<tooltip>Enable extended ports support</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Ext. ports</label>
+<checked>0</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>4</border>
+<object class="wxCheckBox" name="UpperCasePico">
+<tooltip>Force keyboard in uppercase</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Uppercase</label>
+<checked>0</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>4</border>
+<object class="wxCheckBox" name="BootStrapPico">
+<tooltip>Load ROM 1 at 8000 and bootstrap ROM</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Bootstrap</label>
+<checked>0</checked>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+<border>4</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>4</border>
+<object class="wxCheckBox" name="HexEfPico">
+<tooltip>Enable EF Hex keyboard</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>EF Hex Key</label>
+<checked>0</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>4</border>
+<object class="wxCheckBox" name="EFButtonsPico">
+<tooltip>Enable EF3/EF push buttons</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>EF Buttons</label>
+<checked>0</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>4</border>
+<object class="wxCheckBox" name="GiantPico">
+<tooltip>Enable Giant Board ROM mapping</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Giant</label>
+<checked>0</checked>
 </object>
 </object>
 </object>

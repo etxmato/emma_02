@@ -23,7 +23,6 @@ public:
     void onAutoKeyDef(wxCommandEvent&event);
 
 private:
-    wxPoint position_;
 
 	DECLARE_EVENT_TABLE()
 };

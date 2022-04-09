@@ -66,7 +66,15 @@ MC6845::MC6845(const wxString& title, const wxPoint& pos, const wxSize& size, do
 		case SUPERELF:
 			elfTypeStr_ = "SuperElf";
 		break;
-	}
+
+        case NETRONICS:
+            elfTypeStr_ = "Netronics";
+        break;
+
+        case PICO:
+            elfTypeStr_ = "Pico";
+        break;
+    }
 	interlaceOR_ = p_Main->getInterlace(computerType_);
 	readCharRomFile(p_Main->getCharRomDir(computerType_), p_Main->getCharRomFile(computerType_));
     mc6845RamStart_ = elfPortConf.mc6845StartRam; //p_Main->getConfigItem(elfTypeStr_+"/mc6845StartRam",0xE000l);

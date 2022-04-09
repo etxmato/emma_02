@@ -131,8 +131,6 @@ GuiVip::GuiVip(const wxString& title, const wxPoint& pos, const wxSize& size, Mo
 	conf[VIP].saveStartString_ = "";
 	conf[VIP].saveEndString_ = "";
 	conf[VIP].saveExecString_ = "";
-    
-    position_.x = 0;
 }
 
 void GuiVip::readVipConfig()

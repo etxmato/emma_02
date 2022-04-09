@@ -253,6 +253,7 @@ protected:
 #define REFRESH_VIDEO 37
 #define REFRESH_PANEL 38
 #define EVENT_ZOOM 39
+#define SET_CONVERT_STATE 40
 
 #define OS_WINDOWS_2000 0
 #define OS_WINDOWS_XP 1
@@ -484,52 +485,56 @@ public:
 #include "vip2k.h"
 #include "velf.h"
 #include "pecom.h"
+#include "pico.h"
 #include "tmc600.h"
 #include "tmc1800.h"
 #include "tmc2000.h"
 #include "eti660.h"
 #include "nano.h"
+#include "netronics.h"
 #include "guicomx.h"
 #include "debug.h"
 #include "video.h"
 #include "serial.h"
 
-#define EMMA_VERSION 1.44
+#define EMMA_VERSION 1.45
 #define EMMA_SUB_VERSION 0
 #define ELF 0
 #define ELFII 1
 #define SUPERELF 2
 #define ELF2K 3
-#define COSMICOS 4
-#define MEMBER 5
-#define VIP 6
-#define VIP2K 7
-#define VELF 8
-#define MICROTUTOR 9
-#define MICROTUTOR2 10
-#define UC1800 11
-#define CDP18S020 12
-#define MICROBOARD 13
-#define LAST_LED_COMPUTER 13
-#define MS2000 14
-#define MCDS 15
-#define FRED1 16
-#define FRED1_5 17
-#define COMX 18
-#define STUDIO 19
-#define ETI 20
-#define CIDELSA 21
-#define TMC600 22
-#define TMC1800 23
-#define TMC2000 24
-#define NANO 25
-#define PECOM 26
-#define VISICOM 27
-#define VICTORY 28
-#define VIPII 29
-#define COINARCADE 30
-#define STUDIOIV 31
-#define DEBUGGER 32
+#define NETRONICS 4
+#define PICO 5
+#define COSMICOS 6
+#define MEMBER 7
+#define VIP 8
+#define VIP2K 9
+#define VELF 10
+#define MICROTUTOR 11
+#define MICROTUTOR2 12
+#define UC1800 13
+#define CDP18S020 14
+#define MICROBOARD 15
+#define LAST_LED_COMPUTER 15
+#define MS2000 16
+#define MCDS 17
+#define FRED1 18
+#define FRED1_5 19
+#define COMX 20
+#define STUDIO 21
+#define ETI 22
+#define CIDELSA 23
+#define TMC600 24
+#define TMC1800 25
+#define TMC2000 26
+#define NANO 27
+#define PECOM 28
+#define VISICOM 29
+#define VICTORY 30
+#define VIPII 31
+#define COINARCADE 32
+#define STUDIOIV 33
+#define DEBUGGER 34
 
 #define TELMACPRINTER 0
 #define PECOMPRINTER 3
@@ -585,7 +590,9 @@ public:
 #define VIP2KTAB 6
 #define VELFTAB 7
 #define UC1800TAB 8
-#define LASTELFTAB 8
+#define NETRONICSTAB 9
+#define PICOTAB 10
+#define LASTELFTAB 10
 
 #define FRED1TAB 0
 #define FRED2TAB 1
@@ -1243,6 +1250,9 @@ public:
 	void setTapeStateEvent(guiEvent& event);
     void eventSetTapeState(int status, wxString tapeNumber);
     
+    void setConvertStateEvent(guiEvent& event);
+    void eventSetConvertState(bool status);
+
     void setTextValueEvent(guiEvent& event);
     void eventSetTextValue(wxString info, wxString value);
     

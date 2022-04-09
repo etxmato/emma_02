@@ -33,7 +33,6 @@ protected:
 	int switchX_, switchY_;
 
 private:
-    wxPoint position_;
 
 	DECLARE_EVENT_TABLE()
 };

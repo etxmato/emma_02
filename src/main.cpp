@@ -557,6 +557,7 @@ BEGIN_EVENT_TABLE(Main, DebugWindow)
     EVT_GUI_MSG(REFRESH_VIDEO, Main::refreshVideoEvent)
     EVT_GUI_MSG(REFRESH_PANEL, Main::refreshPanelEvent)
     EVT_GUI_MSG(EVENT_ZOOM, Main::SetZoomEvent)
+    EVT_GUI_MSG(SET_CONVERT_STATE, Main::setConvertStateEvent)
 
 	EVT_COMMAND(wxID_ANY, KILL_COMPUTER, Main::killComputer)
 
@@ -1273,6 +1274,28 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
 					}
 					return true;
 				}
+                if (computer == "Pico")
+                {
+                    startComputer_ = PICO;
+                    computer = "Pico";
+                    mode_.gui = false;
+                    if (parser.Found("s", &software))
+                    {
+                        mode_.load = true;
+                        getSoftware(computer, "Software_File", software);
+                    }
+                    if (parser.Found("r", &software))
+                    {
+                        mode_.run = true;
+                        getSoftware(computer, "Software_File", software);
+                    }
+                    if (parser.Found("ch", &software))
+                    {
+                        wxMessageOutput::Get()->Printf("Option -ch is not supported on Pico/Elf V2 emulator");
+                        return false;
+                    }
+                    return true;
+                }
 			break;
 
 			case 'Q':
@@ -2049,6 +2072,8 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
     bool softwareDirInstalled;
     for (int computer=2; computer<NO_COMPUTER; computer++)
     {
+        if (computer == NETRONICS) //*** to be removed
+            computer = COSMICOS;
         int confComputer = computer;
         if (confComputer == 2)
             confComputer = 0;
@@ -2057,6 +2082,7 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
             if (wxDir::Exists(dataDir + "FRED2") && !wxDir::Exists(dataDir + computerInfo[confComputer].gui))
                 wxRenameFile(dataDir + "FRED2", dataDir + computerInfo[confComputer].gui);
         }
+        
         configPointer->Read(computerInfo[confComputer].gui + "/SoftwareDirInstalled", &softwareDirInstalled, false);
         if (!softwareDirInstalled)
         {
@@ -2147,10 +2173,13 @@ Main::~Main()
 
 		for (int computer=0; computer<NO_COMPUTER; computer++)
 		{
-			delete clockText[computer];
-			delete clockTextCtrl[computer];
-			delete mhzText[computer];
-			delete startButton[computer];
+            if (computer != NETRONICS && computer != PICO) //*** to be removed
+            {
+                delete clockText[computer];
+                delete clockTextCtrl[computer];
+                delete mhzText[computer];
+                delete startButton[computer];
+            }
 		}
 	}
 
@@ -2387,7 +2416,9 @@ void Main::writeConfig()
     writeCdp18s600DirConfig();
 	writeElfDirConfig(ELF, "Elf");
 	writeElfDirConfig(ELFII, "ElfII");
-	writeElfDirConfig(SUPERELF, "SuperElf");
+    writeElfDirConfig(SUPERELF, "SuperElf");
+    writeNetronicsDirConfig();
+    writePicoDirConfig();
     writeMembershipDirConfig();
     writeUc1800DirConfig();
     writeMicrotutorDirConfig();
@@ -2421,6 +2452,8 @@ void Main::writeConfig()
 	writeElfConfig(ELF, "Elf");
 	writeElfConfig(ELFII, "ElfII");
 	writeElfConfig(SUPERELF, "SuperElf");
+    writeNetronicsConfig();
+    writePicoConfig();
     writeMembershipConfig();
     writeUc1800Config();
     writeMicrotutorConfig();
@@ -2454,6 +2487,8 @@ void Main::writeConfig()
 	writeElfWindowConfig(ELF, "Elf");
 	writeElfWindowConfig(ELFII, "ElfII");
 	writeElfWindowConfig(SUPERELF, "SuperElf");
+    writeNetronicsWindowConfig();
+    writePicoWindowConfig();
     writeMembershipWindowConfig();
     writeUc1800WindowConfig();
     writeMicrotutorWindowConfig();
@@ -2621,6 +2656,12 @@ void Main::initConfig()
 
 	setScreenInfo(SUPERELF, 0, 32, colour, 6, borderX, borderY);
 	setComputerInfo(SUPERELF, "SuperElf", "Quest Super Elf", "super");
+
+    setScreenInfo(NETRONICS, 0, 32, colour, 6, borderX, borderY);
+    setComputerInfo(NETRONICS, "Netronics", "Netronics Elf II", "super");
+
+    setScreenInfo(PICO, 0, 32, colour, 6, borderX, borderY);
+    setComputerInfo(PICO, "Pico", "Pico/Elf V2", "super");
 
     setScreenInfo(STUDIO, 0, 2, colour, 2, borderX, borderY);
     setComputerInfo(STUDIO, "Studio2", "Studio II", "");
@@ -2838,6 +2879,8 @@ void Main::readConfig()
 	readElfConfig(ELF, "Elf");
 	readElfConfig(ELFII, "ElfII");
 	readElfConfig(SUPERELF, "SuperElf");
+    readNetronicsConfig();
+    readPicoConfig();
 	readMembershipConfig();
     readUc1800Config();
     readMicrotutorConfig();
@@ -2871,6 +2914,8 @@ void Main::readConfig()
     readElfWindowConfig(ELF, "Elf");
     readElfWindowConfig(ELFII, "ElfII");
     readElfWindowConfig(SUPERELF, "SuperElf");
+    readNetronicsWindowConfig();
+    readPicoWindowConfig();
     readMembershipWindowConfig();
     readUc1800WindowConfig();
     readMicrotutorWindowConfig();
@@ -3087,33 +3132,40 @@ void Main::readConfig()
 			XRCCTRL(*this, "PanelSuperElf", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelMembership", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelVelf", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
-            XRCCTRL(*this, "PanelCDP18S020", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
-            XRCCTRL(*this, "PanelMicroboard", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
-            XRCCTRL(*this, "PanelMicrotutor", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
-            XRCCTRL(*this, "PanelMicrotutor2", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
+            XRCCTRL(*this, "PanelUC1800", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
+            XRCCTRL(*this, "PanelNetronics", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
+            XRCCTRL(*this, "PanelPico", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelFRED1", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelFRED1_5", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
+            XRCCTRL(*this, "PanelMicrotutor", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
+            XRCCTRL(*this, "PanelMicrotutor2", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
+            XRCCTRL(*this, "PanelCDP18S020", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelVip", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelVipII", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
+            XRCCTRL(*this, "PanelMicroboard", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelMCDS", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelMS2000", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelCoinArcade", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelStudio2", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
-			XRCCTRL(*this, "PanelVisicom", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelVictory", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelStudioIV", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
+            XRCCTRL(*this, "PanelVisicom", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
 			XRCCTRL(*this, "PanelTMC600", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
 			XRCCTRL(*this, "PanelTMC1800", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
 			XRCCTRL(*this, "PanelTMC2000", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
 			XRCCTRL(*this, "PanelNano", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "Message", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelDirectAssembler", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
+            XRCCTRL(*this, "PanelProfiler", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelTrace", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelChip8", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
 			XRCCTRL(*this, "PanelMemory", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
 		}
 #endif
 	}
+
+        XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->DeletePage(10);
+        XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->DeletePage(9);
 
 	psaveData_[0] = (int)configPointer->Read("/Main/Psave_Volume", 15l);
 	psaveData_[1] = (int)configPointer->Read("/Main/Psave_Bit_Rate", 1l);
@@ -3391,6 +3443,8 @@ void Main::buildConfigMenu()
     
     for (int computer=2; computer<NO_COMPUTER; computer++)
     {
+        if (computer == NETRONICS) //*** to be removed
+            computer = COSMICOS;
         int confComputer = computer;
         if (confComputer == 2)
             confComputer = 0;
@@ -3746,6 +3800,16 @@ int Main::saveComputerConfig(ConfigurationInfo configurationInfo, ConfigurationI
             writeElfConfig(SUPERELF, "ElfII");
             writeElfConfig(SUPERELF, "SuperElf");
         break;
+
+        case NETRONICS:
+            writeNetronicsDirConfig();
+            writeNetronicsConfig();
+        break;
+
+        case PICO:
+            writePicoDirConfig();
+            writePicoConfig();
+        break;
     }
     configPointer = tempConfigPointer;
     delete pConfig;
@@ -3961,6 +4025,14 @@ void Main::loadComputerConfig(wxString fileName)
             
         case SUPERELF:
             readElfConfig(SUPERELF, "SuperElf");
+        break;
+            
+        case NETRONICS:
+            readNetronicsConfig();
+        break;
+
+        case PICO:
+            readPicoConfig();
         break;
     }
     configPointer = tempConfigPointer;
@@ -4784,6 +4856,8 @@ bool Main::checkFunctionKey(wxKeyEvent& event)
 				case SUPERELF:
                 case VIP:
                 case VELF:
+                case NETRONICS:
+                case PICO:
 					if (conf[runningComputer_].printerOn_)
 						p_Main->onF4();
 				break;
@@ -5142,7 +5216,18 @@ void Main::onDefaultWindowPosition(wxCommandEvent&WXUNUSED(event))
 			p_Super->moveWindows();
 			p_Super->Move(conf[SUPERELF].mainX_, conf[SUPERELF].mainY_);
 		break;
-	}
+
+        case NETRONICS:
+            p_Netronics->moveWindows();
+            p_Netronics->Move(conf[NETRONICS].mainX_, conf[NETRONICS].mainY_);
+        break;
+
+        case PICO:
+            p_Pico->moveWindows();
+            p_Pico->Move(conf[PICO].mainX_, conf[PICO].mainY_);
+        break;
+
+    }
 }
 
 void Main::onDefaultGuiSize(wxCommandEvent& WXUNUSED(event))
@@ -5510,6 +5595,16 @@ void Main::onStart(int computer)
 			p_Computer = p_Super;
 		break;
 
+        case NETRONICS:
+            p_Netronics = new Netronics(computerInfo[NETRONICS].name, wxPoint(conf[NETRONICS].mainX_, conf[NETRONICS].mainY_), wxSize(534, 386), conf[NETRONICS].clockSpeed_, elfConfiguration[NETRONICS]);
+            p_Computer = p_Netronics;
+        break;
+
+        case PICO:
+            p_Pico = new Pico(computerInfo[PICO].name, wxPoint(conf[PICO].mainX_, conf[PICO].mainY_), wxSize(534, 386), conf[PICO].clockSpeed_, elfConfiguration[PICO]);
+            p_Computer = p_Pico;
+        break;
+
 		case ELF2K:
 			p_Elf2K = new Elf2K(computerInfo[ELF2K].name, wxPoint(conf[ELF2K].mainX_, conf[ELF2K].mainY_), wxSize(507, 459), conf[ELF2K].clockSpeed_, elfConfiguration[ELF2K]);
 			p_Computer = p_Elf2K;
@@ -5777,6 +5872,8 @@ void Main::stopComputer()
 			case ELF:
 			case ELFII:
 			case SUPERELF:
+            case NETRONICS:
+            case PICO:
 				enableMemAccessGui(false);
 				vuSet("Vu"+computerInfo[runningComputer_].gui, 0);
 			break;
@@ -5887,6 +5984,15 @@ void Main::onComputer(wxNotebookEvent&event)
 				case UC1800TAB:
 					elfChoice_ = UC1800;
 				break;
+
+                case NETRONICSTAB:
+                    elfChoice_ = NETRONICS;
+                break;
+
+                case PICOTAB:
+                    elfChoice_ = PICO;
+                break;
+
             }
             selectedComputer_ = elfChoice_;
 		break;
@@ -6160,6 +6266,14 @@ void Main::onElfChoiceBook(wxChoicebookEvent&event)
         case UC1800TAB:
             elfChoice_ = UC1800;
 		break;
+
+        case NETRONICSTAB:
+            elfChoice_ = NETRONICS;
+        break;
+
+        case PICOTAB:
+            elfChoice_ = PICO;
+        break;
     }
 	selectedComputer_ = elfChoice_;
     if (guiInitialized_)
@@ -6172,6 +6286,8 @@ void Main::onElfChoiceBook(wxChoicebookEvent&event)
             case SUPERELF:
             case VIP2K:
             case VELF:
+            case NETRONICS:
+            case PICO:
                 vuSet("Vu"+computerInfo[selectedComputer_].gui, 1);
                 vuSet("Vu"+computerInfo[selectedComputer_].gui, 0);
             break;
@@ -6343,6 +6459,16 @@ void Main::setNoteBook()
 			XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->SetSelection(SUPERELFTAB);
 		break;
 
+        case NETRONICS:
+            XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(COSMACELFTAB);
+            XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->SetSelection(NETRONICSTAB);
+        break;
+
+        case PICO:
+            XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(COSMACELFTAB);
+            XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->SetSelection(PICOTAB);
+        break;
+
 		case MEMBER:
 			XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(COSMACELFTAB);
 			XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->SetSelection(MEMBERTAB);
@@ -6475,6 +6601,9 @@ void Main::enableColorbutton(bool status)
     XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status | (runningComputer_ == ELF));
     XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status | (runningComputer_ == ELFII));
     XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status | (runningComputer_ == SUPERELF));
+    //*** to be removed
+//    XRCCTRL(*this,"ColoursNetronics", wxButton)->Enable(status | (runningComputer_ == NETRONICS));
+//    XRCCTRL(*this,"ColoursPico", wxButton)->Enable(status | (runningComputer_ == PICO));
     XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status | (runningComputer_ == MEMBER));
     XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status | (runningComputer_ == VELF));
     XRCCTRL(*this,"ColoursCDP18S020", wxButton)->Enable(status | (runningComputer_ == CDP18S020));
@@ -6556,6 +6685,7 @@ void Main::enableGui(bool status)
 			XRCCTRL(*this,"Cart4RomComx", wxComboBox)->Enable(status&!conf[COMX].sbActive_);
 			XRCCTRL(*this,"Cart4RomButtonComx", wxButton)->Enable(status&!conf[COMX].sbActive_);
 		}
+        XRCCTRL(*this,"BatchConvertButtonComx", wxButton)->Enable(!status);
 		XRCCTRL(*this,"VidModeComx", wxChoice)->Enable(status);
 		XRCCTRL(*this,"VidModeTextComx", wxStaticText)->Enable(status);
 		XRCCTRL(*this,"PrintButtonComx", wxButton)->Enable(!status);
@@ -7116,6 +7246,192 @@ void Main::enableGui(bool status)
         XRCCTRL(*this,"TilText"+elfTypeStr,wxStaticText)->Enable(status);
 		enableMemAccessGui(!status);
 	}
+    if (runningComputer_ == NETRONICS)
+    {
+        chip8ProtectedMode_= false;
+        XRCCTRL(*this,"Chip8TraceButton", wxToggleButton)->SetValue(false);
+        XRCCTRL(*this,"Chip8DebugMode", wxCheckBox)->SetValue(false);
+        wxString elfTypeStr;
+        
+        XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
+        XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status);
+        elfTypeStr = "ElfII";
+        XRCCTRL(*this,"Giant"+elfTypeStr, wxCheckBox)->Enable(status);
+        XRCCTRL(*this,"EFButtons"+elfTypeStr, wxCheckBox)->Enable(status);
+
+        enableLoadGui(!status);
+        setRealCas2(runningComputer_);
+        XRCCTRL(*this,"MainRom"+elfTypeStr, wxComboBox)->Enable(status);
+        XRCCTRL(*this,"MainRom2"+elfTypeStr, wxComboBox)->Enable(status);
+        XRCCTRL(*this,"RomButton"+elfTypeStr, wxButton)->Enable(status);
+        if (elfConfiguration[selectedComputer_].memoryType != 3)
+            XRCCTRL(*this,"Rom1"+elfTypeStr, wxButton)->Enable(status);
+        XRCCTRL(*this,"RomButton2"+elfTypeStr, wxButton)->Enable(status);
+        XRCCTRL(*this,"Rom2"+elfTypeStr, wxButton)->Enable(status);
+        XRCCTRL(*this,"DP_Button"+elfTypeStr, wxButton)->Enable(status);
+        if (elfConfiguration[runningComputer_].ideEnabled)
+        {
+            XRCCTRL(*this,"IDE_Button"+elfTypeStr, wxButton)->Enable(status);
+            XRCCTRL(*this,"IdeFile"+elfTypeStr, wxTextCtrl)->Enable(status);
+            XRCCTRL(*this,"Eject_IDE"+elfTypeStr, wxButton)->Enable(status);
+        }
+        if (!status)
+        {
+            XRCCTRL(*this,"PrintButton"+elfTypeStr, wxBitmapButton)->Enable(conf[runningComputer_].printerOn_);
+            XRCCTRL(*this,"PrintButton"+elfTypeStr, wxBitmapButton)->SetToolTip("Open printer window (F4)");
+        }
+        else
+        {
+            XRCCTRL(*this,"PrintButton"+elfTypeStr, wxBitmapButton)->Enable(true);
+            if (conf[runningComputer_].printerOn_)
+                XRCCTRL(*this,"PrintButton"+elfTypeStr, wxBitmapButton)->SetToolTip("Disable printer support");
+            else
+                XRCCTRL(*this,"PrintButton"+elfTypeStr, wxBitmapButton)->SetToolTip("Enable printer support");
+        }
+        XRCCTRL(*this,"Memory"+elfTypeStr, wxChoice)->Enable(status);
+        XRCCTRL(*this,"MemoryText"+elfTypeStr,wxStaticText)->Enable(status);
+        if (elfConfiguration[runningComputer_].usePager)
+            XRCCTRL(*this,"PortExt"+elfTypeStr, wxCheckBox)->Enable(false);
+        else
+            XRCCTRL(*this,"PortExt"+elfTypeStr, wxCheckBox)->Enable(status);
+        XRCCTRL(*this,"BootStrap"+elfTypeStr, wxCheckBox)->Enable(status);
+
+        if (elfConfiguration[runningComputer_].usePager || elfConfiguration[runningComputer_].useEms || elfConfiguration[runningComputer_].useRomMapper)
+        {
+            XRCCTRL(*this, "StartRamText"+computerInfo[runningComputer_].gui, wxStaticText)->Enable(false);
+            XRCCTRL(*this, "StartRam"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(false);
+            XRCCTRL(*this, "EndRamText"+computerInfo[runningComputer_].gui, wxStaticText)->Enable(false);
+            XRCCTRL(*this, "EndRam"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(false);
+        }
+        else
+        {
+            XRCCTRL(*this, "StartRamText"+computerInfo[runningComputer_].gui, wxStaticText)->Enable(status);
+            XRCCTRL(*this, "StartRam"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(status);
+            XRCCTRL(*this, "EndRamText"+computerInfo[runningComputer_].gui, wxStaticText)->Enable(status);
+            XRCCTRL(*this, "EndRam"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(status);
+        }
+        XRCCTRL(*this,"VTType"+elfTypeStr,wxChoice)->Enable(status);
+        if (XRCCTRL(*this,"VTType"+elfTypeStr,wxChoice)->GetSelection() != VTNONE)
+        {
+            if (elfConfiguration[runningComputer_].useUart || elfConfiguration[runningComputer_].useUart16450)
+            {
+                XRCCTRL(*this, "VTBaudRText" + elfTypeStr, wxStaticText)->Enable(status);
+                XRCCTRL(*this, "VTBaudRChoice" + elfTypeStr, wxChoice)->Enable(status);
+            }
+            XRCCTRL(*this, "VTBaudTChoice" + elfTypeStr, wxChoice)->Enable(status);
+            XRCCTRL(*this, "VTBaudTText" + elfTypeStr, wxStaticText)->Enable(status);
+            XRCCTRL(*this, "VtSetup"+elfTypeStr, wxButton)->Enable(status);
+        }
+        XRCCTRL(*this,"VideoType"+elfTypeStr,wxChoice)->Enable(status);
+        XRCCTRL(*this,"VideoTypeText"+elfTypeStr,wxStaticText)->Enable(status);
+        XRCCTRL(*this,"DiskType"+elfTypeStr,wxChoice)->Enable(status);
+        XRCCTRL(*this,"Keyboard"+elfTypeStr,wxChoice)->Enable(status);
+        XRCCTRL(*this,"KeyboardText"+elfTypeStr,wxStaticText)->Enable(status);
+        XRCCTRL(*this,"CharRomButton"+elfTypeStr, wxButton)->Enable(status&(elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].useS100));
+        if (!elfConfiguration[runningComputer_].vtExternal)
+        {
+            XRCCTRL(*this,"FullScreenF3"+elfTypeStr, wxButton)->Enable(!status&(elfConfiguration[runningComputer_].usePixie||elfConfiguration[runningComputer_].useTMS9918||elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].useS100||(elfConfiguration[runningComputer_].vtType != VTNONE)));
+            XRCCTRL(*this,"ScreenDumpF5"+elfTypeStr, wxButton)->Enable(!status&(elfConfiguration[runningComputer_].usePixie||elfConfiguration[runningComputer_].useTMS9918||elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].useS100||(elfConfiguration[runningComputer_].vtType != VTNONE)));
+       }
+        XRCCTRL(*this,"CharRom"+elfTypeStr, wxComboBox)->Enable(status&(elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].useS100));
+        
+        XRCCTRL(*this,"TilType"+elfTypeStr,wxChoice)->Enable(status);
+        XRCCTRL(*this,"TilText"+elfTypeStr,wxStaticText)->Enable(status);
+        enableMemAccessGui(!status);
+    }
+    if (runningComputer_ == PICO)
+    {
+        chip8ProtectedMode_= false;
+        XRCCTRL(*this,"Chip8TraceButton", wxToggleButton)->SetValue(false);
+        XRCCTRL(*this,"Chip8DebugMode", wxCheckBox)->SetValue(false);
+        wxString elfTypeStr;
+        
+        XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
+        XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status);
+        elfTypeStr = "ElfII";
+        XRCCTRL(*this,"Giant"+elfTypeStr, wxCheckBox)->Enable(status);
+        XRCCTRL(*this,"EFButtons"+elfTypeStr, wxCheckBox)->Enable(status);
+
+        enableLoadGui(!status);
+        setRealCas2(runningComputer_);
+        XRCCTRL(*this,"MainRom"+elfTypeStr, wxComboBox)->Enable(status);
+        XRCCTRL(*this,"MainRom2"+elfTypeStr, wxComboBox)->Enable(status);
+        XRCCTRL(*this,"RomButton"+elfTypeStr, wxButton)->Enable(status);
+        if (elfConfiguration[selectedComputer_].memoryType != 3)
+            XRCCTRL(*this,"Rom1"+elfTypeStr, wxButton)->Enable(status);
+        XRCCTRL(*this,"RomButton2"+elfTypeStr, wxButton)->Enable(status);
+        XRCCTRL(*this,"Rom2"+elfTypeStr, wxButton)->Enable(status);
+        XRCCTRL(*this,"DP_Button"+elfTypeStr, wxButton)->Enable(status);
+        if (elfConfiguration[runningComputer_].ideEnabled)
+        {
+            XRCCTRL(*this,"IDE_Button"+elfTypeStr, wxButton)->Enable(status);
+            XRCCTRL(*this,"IdeFile"+elfTypeStr, wxTextCtrl)->Enable(status);
+            XRCCTRL(*this,"Eject_IDE"+elfTypeStr, wxButton)->Enable(status);
+        }
+        if (!status)
+        {
+            XRCCTRL(*this,"PrintButton"+elfTypeStr, wxBitmapButton)->Enable(conf[runningComputer_].printerOn_);
+            XRCCTRL(*this,"PrintButton"+elfTypeStr, wxBitmapButton)->SetToolTip("Open printer window (F4)");
+        }
+        else
+        {
+            XRCCTRL(*this,"PrintButton"+elfTypeStr, wxBitmapButton)->Enable(true);
+            if (conf[runningComputer_].printerOn_)
+                XRCCTRL(*this,"PrintButton"+elfTypeStr, wxBitmapButton)->SetToolTip("Disable printer support");
+            else
+                XRCCTRL(*this,"PrintButton"+elfTypeStr, wxBitmapButton)->SetToolTip("Enable printer support");
+        }
+        XRCCTRL(*this,"Memory"+elfTypeStr, wxChoice)->Enable(status);
+        XRCCTRL(*this,"MemoryText"+elfTypeStr,wxStaticText)->Enable(status);
+        if (elfConfiguration[runningComputer_].usePager)
+            XRCCTRL(*this,"PortExt"+elfTypeStr, wxCheckBox)->Enable(false);
+        else
+            XRCCTRL(*this,"PortExt"+elfTypeStr, wxCheckBox)->Enable(status);
+        XRCCTRL(*this,"BootStrap"+elfTypeStr, wxCheckBox)->Enable(status);
+
+        if (elfConfiguration[runningComputer_].usePager || elfConfiguration[runningComputer_].useEms || elfConfiguration[runningComputer_].useRomMapper)
+        {
+            XRCCTRL(*this, "StartRamText"+computerInfo[runningComputer_].gui, wxStaticText)->Enable(false);
+            XRCCTRL(*this, "StartRam"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(false);
+            XRCCTRL(*this, "EndRamText"+computerInfo[runningComputer_].gui, wxStaticText)->Enable(false);
+            XRCCTRL(*this, "EndRam"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(false);
+        }
+        else
+        {
+            XRCCTRL(*this, "StartRamText"+computerInfo[runningComputer_].gui, wxStaticText)->Enable(status);
+            XRCCTRL(*this, "StartRam"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(status);
+            XRCCTRL(*this, "EndRamText"+computerInfo[runningComputer_].gui, wxStaticText)->Enable(status);
+            XRCCTRL(*this, "EndRam"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(status);
+        }
+        XRCCTRL(*this,"VTType"+elfTypeStr,wxChoice)->Enable(status);
+        if (XRCCTRL(*this,"VTType"+elfTypeStr,wxChoice)->GetSelection() != VTNONE)
+        {
+            if (elfConfiguration[runningComputer_].useUart || elfConfiguration[runningComputer_].useUart16450)
+            {
+                XRCCTRL(*this, "VTBaudRText" + elfTypeStr, wxStaticText)->Enable(status);
+                XRCCTRL(*this, "VTBaudRChoice" + elfTypeStr, wxChoice)->Enable(status);
+            }
+            XRCCTRL(*this, "VTBaudTChoice" + elfTypeStr, wxChoice)->Enable(status);
+            XRCCTRL(*this, "VTBaudTText" + elfTypeStr, wxStaticText)->Enable(status);
+            XRCCTRL(*this, "VtSetup"+elfTypeStr, wxButton)->Enable(status);
+        }
+        XRCCTRL(*this,"VideoType"+elfTypeStr,wxChoice)->Enable(status);
+        XRCCTRL(*this,"VideoTypeText"+elfTypeStr,wxStaticText)->Enable(status);
+        XRCCTRL(*this,"DiskType"+elfTypeStr,wxChoice)->Enable(status);
+        XRCCTRL(*this,"Keyboard"+elfTypeStr,wxChoice)->Enable(status);
+        XRCCTRL(*this,"KeyboardText"+elfTypeStr,wxStaticText)->Enable(status);
+        XRCCTRL(*this,"CharRomButton"+elfTypeStr, wxButton)->Enable(status&(elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].useS100));
+        if (!elfConfiguration[runningComputer_].vtExternal)
+        {
+            XRCCTRL(*this,"FullScreenF3"+elfTypeStr, wxButton)->Enable(!status&(elfConfiguration[runningComputer_].usePixie||elfConfiguration[runningComputer_].useTMS9918||elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].useS100||(elfConfiguration[runningComputer_].vtType != VTNONE)));
+            XRCCTRL(*this,"ScreenDumpF5"+elfTypeStr, wxButton)->Enable(!status&(elfConfiguration[runningComputer_].usePixie||elfConfiguration[runningComputer_].useTMS9918||elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].useS100||(elfConfiguration[runningComputer_].vtType != VTNONE)));
+       }
+        XRCCTRL(*this,"CharRom"+elfTypeStr, wxComboBox)->Enable(status&(elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].useS100));
+        
+        XRCCTRL(*this,"TilType"+elfTypeStr,wxChoice)->Enable(status);
+        XRCCTRL(*this,"TilText"+elfTypeStr,wxStaticText)->Enable(status);
+        enableMemAccessGui(!status);
+    }
 	if (runningComputer_ == ELF2K)
 	{
         p_Main->scrtValues(status, true, 4, 0xFA7B, 5, 0xFA8D);
@@ -7554,6 +7870,8 @@ void Main::directAssTimeout(wxTimerEvent&WXUNUSED(event))
                         case ELF:
                         case ELFII:
                         case SUPERELF:
+                        case NETRONICS:
+                        case PICO:
                             if (elfConfiguration[runningComputer_].usePager)
                             {
                                 XRCCTRL(*this, "DebugPager", HexEdit)->changeNumber(p_Computer->getPager(portExtender_));
@@ -7643,6 +7961,8 @@ void Main::vuTimeout(wxTimerEvent&WXUNUSED(event))
 		case ETI:
         case NANO:
         case STUDIOIV:
+        case NETRONICS:
+        case PICO:
 			vuSet("Vu"+computerInfo[runningComputer_].gui, p_Computer->getGaugeValue());
 		break;
 	}
@@ -8038,6 +8358,24 @@ void Main::eventSetTapeState(int tapeState, wxString tapeNumber)
     
     event.SetInt(tapeState);
     event.SetString(tapeNumber);
+
+    GetEventHandler()->AddPendingEvent(event);
+}
+
+void Main::setConvertStateEvent(guiEvent&event)
+{
+    bool convertState = event.GetBoolValue();
+
+    XRCCTRL(*this,"BatchConvertButtonComx", wxButton)->Enable(convertState);
+    XRCCTRL(*this,"BatchButtonComx", wxButton)->Enable(convertState);
+}
+
+void Main::eventSetConvertState(bool convertState)
+{
+    guiEvent event(GUI_MSG, SET_CONVERT_STATE);
+    event.SetEventObject( p_Main );
+    
+    event.SetBoolValue(convertState);
 
     GetEventHandler()->AddPendingEvent(event);
 }
@@ -9255,6 +9593,8 @@ void Main::getDefaultHexKeys(int computerType, wxString computerStr, wxString pl
         case SUPERELF:
         case ELF2K:
         case COSMICOS:
+        case NETRONICS:
+        case PICO:
             keysFound = loadKeyDefinition("", "elfdefault", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
         break;
 
@@ -9324,6 +9664,8 @@ void Main::getDefaultHexKeys(int computerType, wxString computerStr, wxString pl
             case VIPII:
             case VELF:
             case STUDIOIV:
+            case NETRONICS:
+            case PICO:
                 if (player == "A")
                 {
                     for (int i=0; i<16; i++)

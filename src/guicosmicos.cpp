@@ -95,8 +95,6 @@ GuiCosmicos::GuiCosmicos(const wxString& title, const wxPoint& pos, const wxSize
 {
 	conf[COSMICOS].saveStartString_ = "";
 	conf[COSMICOS].saveEndString_ = "";
-    
-    position_.x = 0;
 }
 
 void GuiCosmicos::readCosmicosConfig()

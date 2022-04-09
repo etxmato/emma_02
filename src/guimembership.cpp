@@ -92,8 +92,6 @@ GuiMembership::GuiMembership(const wxString& title, const wxPoint& pos, const wx
 {
 	conf[MEMBER].saveStartString_ = "";
 	conf[MEMBER].saveEndString_ = "";
-    
-    position_.x = 0;
 }
 
 void GuiMembership::readMembershipConfig()

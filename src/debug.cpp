@@ -1191,6 +1191,8 @@ void DebugWindow::enableDebugGuiMemory ()
 		case ELF:
 		case ELFII:
 		case SUPERELF:
+        case NETRONICS:
+        case PICO:
 #ifndef __WXMAC__
 			XRCCTRL(*this, "DebugExpansionSlotText", wxStaticText)->Enable(false);
             XRCCTRL(*this, "DebugExpansionRamText", wxStaticText)->Enable(false);
@@ -8133,6 +8135,8 @@ void DebugWindow::directAss()
 					case ELF:
 					case ELFII:
 					case SUPERELF:
+                    case NETRONICS:
+                    case PICO:
 						if (elfConfiguration[runningComputer_].useEms)
 						{
 							if (address >= 0x8000 && address <= 0xBFFF)
@@ -9292,6 +9296,8 @@ bool DebugWindow::slotAddress(Word branchAddress)
 		case ELF:
 		case ELFII:
 		case SUPERELF:
+        case NETRONICS:
+        case PICO:
     /*        if (elfConfiguration[runningComputer_].useEms)
                 p_Computer->setEmsPage(out1);
             if (elfConfiguration[runningComputer_].useRomMapper)
@@ -10115,6 +10121,8 @@ Byte DebugWindow::getOut1()
 		case ELF:
 		case ELFII:
 		case SUPERELF:
+        case NETRONICS:
+        case PICO:
 			if (elfConfiguration[runningComputer_].useEms || elfConfiguration[runningComputer_].useRomMapper)
 				out1 = p_Computer->getEmsPage();
 		break;
@@ -10133,6 +10141,8 @@ void DebugWindow::setOut1(Byte out1)
 		case ELF:
 		case ELFII:
 		case SUPERELF:
+        case NETRONICS:
+        case PICO:
             if (elfConfiguration[runningComputer_].useEms)
                 p_Computer->setEmsPage(out1);
             if (elfConfiguration[runningComputer_].useRomMapper)
@@ -10353,6 +10363,8 @@ void DebugWindow::checkBranch(bool function, Word checkAddress)
 						case ELF:
 						case ELFII:
 						case SUPERELF:
+                        case NETRONICS:
+                        case PICO:
 							if (elfConfiguration[runningComputer_].useEms)
 							{
 								if (addr >= 0x8000 && addr <= 0xBFFF)
@@ -10494,6 +10506,8 @@ void DebugWindow::checkLoadL(bool function, Word checkAddress)
 						case ELF:
 						case ELFII:
 						case SUPERELF:
+                        case NETRONICS:
+                        case PICO:
 							if (elfConfiguration[runningComputer_].useEms)
 							{
 								if (addr >= 0x8000 && addr <= 0xBFFF)
@@ -10696,6 +10710,8 @@ void DebugWindow::checkLoadV()
 					case ELF:
 					case ELFII:
 					case SUPERELF:
+                    case NETRONICS:
+                    case PICO:
 						if (elfConfiguration[runningComputer_].useEms)
 						{
 							if (addr >= 0x8000 && addr <= 0xBFFF)
@@ -10751,6 +10767,8 @@ bool DebugWindow::findWorkingRang()
 				case ELF:
 				case ELFII:
 				case SUPERELF:
+                case NETRONICS:
+                case PICO:
                     if (elfConfiguration[runningComputer_].useEms)
                     {
                         if (dirAssAddress_ >= 0x8000 && dirAssAddress_ <= 0xBFFF)
@@ -11375,6 +11393,8 @@ bool DebugWindow::branchChangeNeeded(int range, Word address, Word branchAddr)
 		case ELF:
 		case ELFII:
 		case SUPERELF:
+        case NETRONICS:
+        case PICO:
             if (elfConfiguration[runningComputer_].useEms)
             {
                 if (p_Computer->readMemDataType(address, &executed) == MEM_TYPE_OPCODE_LBR_SLOT || p_Computer->readMemDataType(address, &executed) == MEM_TYPE_OPCODE_JUMP_SLOT || p_Computer->readMemDataType(address, &executed) == MEM_TYPE_OPCODE_LDL_SLOT || p_Computer->readMemDataType(address, &executed) == MEM_TYPE_OPCODE_LDRL_SLOT)
@@ -12666,6 +12686,8 @@ void DebugWindow::onAssStore()
 		case ELF:
 		case ELFII:
 		case SUPERELF:
+        case NETRONICS:
+        case PICO:
 			if (start >= 0x8000 && start < 0xc000)
 			{
 				if (codeEnd >= 0xc000 || end >= 0xc000)
@@ -13925,6 +13947,8 @@ void DebugWindow::DebugDisplayPage()
 		case ELF:
 		case ELFII:
 		case SUPERELF:
+        case NETRONICS:
+        case PICO:
 			if (elfConfiguration[runningComputer_].useEms || elfConfiguration[runningComputer_].useRomMapper)
 				XRCCTRL(*this, "DebugEmsPage", HexEdit)->changeNumber(p_Computer->getEmsPage());
 		break;
@@ -14028,6 +14052,8 @@ void DebugWindow::DebugDisplayProfiler()
         case ELF:
         case ELFII:
         case SUPERELF:
+        case NETRONICS:
+        case PICO:
             if (elfConfiguration[runningComputer_].useEms || elfConfiguration[runningComputer_].useRomMapper)
                 XRCCTRL(*this, "DebugEmsPage", HexEdit)->changeNumber(p_Computer->getEmsPage());
         break;
@@ -14192,6 +14218,8 @@ void DebugWindow::DebugDisplayMap()
 		case ELF:
 		case ELFII:
 		case SUPERELF:
+        case NETRONICS:
+        case PICO:
             if (elfConfiguration[runningComputer_].useEms || elfConfiguration[runningComputer_].useRomMapper)
 				XRCCTRL(*this, "DebugEmsPage", HexEdit)->changeNumber(p_Computer->getEmsPage());
 		break;
@@ -14566,7 +14594,7 @@ void DebugWindow::DebugDisplayVip2kSequencer()
  
 void DebugWindow::DebugDisplayRtcRam()
 {
-    if (runningComputer_ != ELF2K && runningComputer_ != ELF && runningComputer_ != ELFII && runningComputer_ != SUPERELF)
+    if (runningComputer_ != ELF2K && runningComputer_ != ELF && runningComputer_ != ELFII && runningComputer_ != SUPERELF && runningComputer_ != NETRONICS && runningComputer_ != PICO)
     {
         if (xmlLoaded_)
         {
@@ -14586,7 +14614,7 @@ void DebugWindow::DebugDisplayRtcRam()
         }
         return;
     }
-    if (!currentElfConfig.useUart16450 && (runningComputer_ == ELF || runningComputer_ == ELFII || runningComputer_ == SUPERELF))
+    if (!currentElfConfig.useUart16450 && (runningComputer_ == ELF || runningComputer_ == ELFII || runningComputer_ == SUPERELF || runningComputer_ == NETRONICS || runningComputer_ == PICO))
     {
         if (xmlLoaded_)
         {
@@ -14846,7 +14874,9 @@ void DebugWindow::DebugDisplay6845CharRom()
 		case ELF:
 		case ELFII:
 		case SUPERELF:
-			if (!(elfConfiguration[runningComputer_].use6845 || elfConfiguration[runningComputer_].useS100))  
+        case NETRONICS:
+        case PICO:
+			if (!(elfConfiguration[runningComputer_].use6845 || elfConfiguration[runningComputer_].useS100))
 			{
                 if (xmlLoaded_)
                 {
@@ -14923,7 +14953,9 @@ void DebugWindow::DebugDisplay8275CharRom()
 		case ELFII:
 		case SUPERELF:
 		case ELF2K:
-			if (!elfConfiguration[runningComputer_].use8275)  
+        case NETRONICS:
+        case PICO:
+			if (!elfConfiguration[runningComputer_].use8275)
 			{
                 if (xmlLoaded_)
                 {
@@ -15000,6 +15032,8 @@ void DebugWindow::DebugDisplay8275VideoRam()
         case ELFII:
         case SUPERELF:
         case ELF2K:
+        case NETRONICS:
+        case PICO:
             if (!elfConfiguration[runningComputer_].use8275)
             {
                 if (xmlLoaded_)
@@ -15076,6 +15110,8 @@ void DebugWindow::DebugDisplay6847CharRom()
 		case ELF:
 		case ELFII:
 		case SUPERELF:
+        case NETRONICS:
+        case PICO:
 			if (!elfConfiguration[runningComputer_].use6847)
 			{
                 if (xmlLoaded_)
@@ -15156,6 +15192,8 @@ void DebugWindow::DebugDisplay6847VideoRam()
 		case ELF:
 		case ELFII:
 		case SUPERELF:
+        case NETRONICS:
+        case PICO:
 			if (!elfConfiguration[runningComputer_].use6847)
 			{
                 if (xmlLoaded_)
@@ -15243,6 +15281,8 @@ void DebugWindow::DebugDisplayTmsRam()
 		case ELF:
 		case ELFII:
 		case SUPERELF:
+        case NETRONICS:
+        case PICO:
 			if (!elfConfiguration[runningComputer_].useTMS9918)
 			{
                 if (xmlLoaded_)
@@ -15312,10 +15352,18 @@ void DebugWindow::DebugDisplayTmsRam()
 					value.Printf("%02X", p_Elf2->getTmsMemory((int)start));
 				break;
 
-				case SUPERELF:
-					value.Printf("%02X", p_Super->getTmsMemory((int)start));
-				break;
-			}
+                case SUPERELF:
+                    value.Printf("%02X", p_Super->getTmsMemory((int)start));
+                break;
+
+                case NETRONICS:
+                    value.Printf("%02X", p_Netronics->getTmsMemory((int)start));
+                break;
+
+                case PICO:
+                    value.Printf("%02X", p_Pico->getTmsMemory((int)start));
+                break;
+            }
 			XRCCTRL(*this, idReference, MemEdit)->ChangeValue(value);
 
 			start++;
@@ -15342,6 +15390,8 @@ void DebugWindow::DebugDisplayVtRam()
         case CDP18S020:
 		case MEMBER:
 		case SUPERELF:
+        case NETRONICS:
+        case PICO:
 			if (elfConfiguration[runningComputer_].vtType == VTNONE)
 			{
                 if (xmlLoaded_)
@@ -15621,6 +15671,8 @@ void DebugWindow::setMemoryType(int id, int setType)
 		case ELF:
 		case ELFII:
 		case SUPERELF:
+        case NETRONICS:
+        case PICO:
 			if ((setType == RAM) || (setType == ROM) || (setType == UNDEFINED) || (setType == MAPPEDRAM) || (setType == MC6847RAM) || (setType == MC6845RAM) || (setType == MC6845REGISTERS) )
 			{
 				if (!(elfConfiguration[runningComputer_].use6845 || elfConfiguration[runningComputer_].useS100) && ((setType == MC6845RAM) || (setType == MC6845REGISTERS)))
@@ -16057,6 +16109,14 @@ Word DebugWindow::getAddressMask()
 					return p_Super->get6847RamMask();
 				break;
 
+                case NETRONICS:
+                    return p_Netronics->get6847RamMask();
+                break;
+                    
+                case PICO:
+                    return p_Pico->get6847RamMask();
+                break;
+                    
 				default:
 					return 0;
 				break;
@@ -16361,9 +16421,17 @@ Byte DebugWindow::debugReadMem(Word address)
 					return p_Elf2->getTmsMemory(address);
 				break;
 
-				case SUPERELF:
-					return p_Super->getTmsMemory(address);
-				break;
+                case SUPERELF:
+                    return p_Super->getTmsMemory(address);
+                break;
+
+                case NETRONICS:
+                    return p_Netronics->getTmsMemory(address);
+                break;
+
+                case PICO:
+                    return p_Pico->getTmsMemory(address);
+                break;
 
 				default:
 					return 0;
@@ -16413,9 +16481,17 @@ Byte DebugWindow::debugReadMem(Word address)
 					return p_Elf2->read8275CharRom(address);
 				break;
 
-				case SUPERELF:
-					return p_Super->read8275CharRom(address);
-				break;
+                case SUPERELF:
+                    return p_Super->read8275CharRom(address);
+                break;
+
+                case NETRONICS:
+                    return p_Netronics->read8275CharRom(address);
+                break;
+
+                case PICO:
+                    return p_Pico->read8275CharRom(address);
+                break;
 
 				case ELF2K:
 					return p_Elf2K->read8275CharRom(address);
@@ -16440,6 +16516,14 @@ Byte DebugWindow::debugReadMem(Word address)
                 
                 case SUPERELF:
                     return p_Super->read8275VideoRam(address);
+                break;
+                
+                case NETRONICS:
+                    return p_Netronics->read8275VideoRam(address);
+                break;
+                
+                case PICO:
+                    return p_Pico->read8275VideoRam(address);
                 break;
                 
                 case ELF2K:
@@ -16467,9 +16551,17 @@ Byte DebugWindow::debugReadMem(Word address)
 					return p_Elf2->read6845CharRom(address);
 				break;
 
-				case SUPERELF:
-					return p_Super->read6845CharRom(address);
-				break;
+                case SUPERELF:
+                    return p_Super->read6845CharRom(address);
+                break;
+
+                case NETRONICS:
+                    return p_Netronics->read6845CharRom(address);
+                break;
+
+                case PICO:
+                    return p_Pico->read6845CharRom(address);
+                break;
 
 				default:
 					return 0;
@@ -16488,9 +16580,17 @@ Byte DebugWindow::debugReadMem(Word address)
 					return p_Elf2->read6847CharRom(address);
 				break;
 
-				case SUPERELF:
-					return p_Super->read6847CharRom(address);
-				break;
+                case SUPERELF:
+                    return p_Super->read6847CharRom(address);
+                break;
+
+                case NETRONICS:
+                    return p_Netronics->read6847CharRom(address);
+                break;
+
+                case PICO:
+                    return p_Pico->read6847CharRom(address);
+                break;
 
 				default:
 					return 0;
@@ -16509,9 +16609,17 @@ Byte DebugWindow::debugReadMem(Word address)
 					return p_Elf2->readDirect6847(address);
 				break;
 
-				case SUPERELF:
-					return p_Super->readDirect6847(address);
-				break;
+                case SUPERELF:
+                    return p_Super->readDirect6847(address);
+                break;
+
+                case NETRONICS:
+                    return p_Netronics->readDirect6847(address);
+                break;
+
+                case PICO:
+                    return p_Pico->readDirect6847(address);
+                break;
 
 				default:
 					return 0;
@@ -16550,6 +16658,14 @@ Byte DebugWindow::debugReadMem(Word address)
                 case SUPERELF:
                     return p_Super->readDirectRtc(address);
                 break;
+
+                case NETRONICS:
+                    return p_Netronics->readDirectRtc(address);
+                break;
+
+                case PICO:
+                    return p_Pico->readDirectRtc(address);
+               break;
 
                 default:
                     return 0;
@@ -16620,10 +16736,18 @@ void DebugWindow::debugWriteMem(Word address, Byte value)
 					p_Elf2->setTmsMemory(address, value);
 				break;
 
-				case SUPERELF:
-					p_Super->setTmsMemory(address, value);
-				break;
-			}
+                case SUPERELF:
+                    p_Super->setTmsMemory(address, value);
+                break;
+
+                case NETRONICS:
+                    p_Netronics->setTmsMemory(address, value);
+                break;
+
+                case PICO:
+                    p_Pico->setTmsMemory(address, value);
+                break;
+            }
 		break;
 
 		case VT_RAM:
@@ -16663,9 +16787,17 @@ void DebugWindow::debugWriteMem(Word address, Byte value)
 					p_Elf2->write8275CharRom(address, value);
 				break;
 
-				case SUPERELF:
-					p_Super->write8275CharRom(address, value);
-				break;
+                case SUPERELF:
+                    p_Super->write8275CharRom(address, value);
+                break;
+
+                case NETRONICS:
+                    p_Netronics->write8275CharRom(address, value);
+                break;
+
+                case PICO:
+                    p_Pico->write8275CharRom(address, value);
+                break;
 
 				case ELF2K:
 					p_Elf2K->write8275CharRom(address, value);
@@ -16688,6 +16820,14 @@ void DebugWindow::debugWriteMem(Word address, Byte value)
                     p_Super->write8275VideoRam(address, value);
                 break;
                 
+                case NETRONICS:
+                    p_Netronics->write8275VideoRam(address, value);
+                break;
+                
+                case PICO:
+                    p_Pico->write8275VideoRam(address, value);
+                break;
+                
                 case ELF2K:
                     p_Elf2K->write8275VideoRam(address, value);
                 break;
@@ -16705,13 +16845,21 @@ void DebugWindow::debugWriteMem(Word address, Byte value)
 					p_Elf->write6845CharRom(address, value);
 				break;
 
-				case ELFII:
-					p_Elf2->write6845CharRom(address, value);
-				break;
+                case ELFII:
+                    p_Elf2->write6845CharRom(address, value);
+                break;
 
 				case SUPERELF:
 					p_Super->write6845CharRom(address, value);
 				break;
+                    
+                case NETRONICS:
+                    p_Netronics->write6845CharRom(address, value);
+                break;
+                    
+                case PICO:
+                    p_Pico->write6845CharRom(address, value);
+                break;
 			}
 		break;
 
@@ -16729,6 +16877,14 @@ void DebugWindow::debugWriteMem(Word address, Byte value)
 				case SUPERELF:
 					p_Super->write6847CharRom(address, value);
 				break;
+                    
+                case NETRONICS:
+                    p_Netronics->write6847CharRom(address, value);
+                break;
+                    
+                case PICO:
+                    p_Pico->write6847CharRom(address, value);
+                break;
 			}
 		break;
 
@@ -16746,7 +16902,15 @@ void DebugWindow::debugWriteMem(Word address, Byte value)
 				case SUPERELF:
 					p_Super->writeDirect6847(address, value);
 				break;
-			}
+
+                case NETRONICS:
+                    p_Netronics->writeDirect6847(address, value);
+                break;
+
+                case PICO:
+                    p_Pico->writeDirect6847(address, value);
+                break;
+            }
 		break;
 		
 		case VIP2KSEQUENCER:
@@ -16775,6 +16939,14 @@ void DebugWindow::debugWriteMem(Word address, Byte value)
 
                 case SUPERELF:
                     p_Super->writeDirectRtc(address&0x7f, value);
+                break;
+
+                case NETRONICS:
+                    p_Netronics->writeDirectRtc(address&0x7f, value);
+                break;
+
+                case PICO:
+                    p_Pico->writeDirectRtc(address&0x7f, value);
                 break;
             }
         break;
@@ -17090,7 +17262,28 @@ void DebugWindow::updateTitle()
 			p_Super->updateTitle(title);
 			p_Super->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
 		break;
-	}
+
+        case NETRONICS:
+            if (p_Netronics->getSteps()==0)
+                title = title + " ** PAUSED **";
+            if (p_Netronics->getClear()==0)
+                title = title + " ** CPU STOPPED **";
+            p_Netronics->SetTitle("Elf II" + title);
+            p_Netronics->updateTitle(title);
+            p_Netronics->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
+        break;
+
+        case PICO:
+            if (p_Pico->getSteps()==0)
+                title = title + " ** PAUSED **";
+            if (p_Pico->getClear()==0)
+                title = title + " ** CPU STOPPED **";
+            p_Pico->SetTitle("Pico/Elf V2" + title);
+            p_Pico->updateTitle(title);
+            p_Pico->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
+        break;
+
+    }
 }
 
 void DebugWindow::updateDebugMenu(bool debugMode)

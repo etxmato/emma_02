@@ -54,8 +54,6 @@ GuiMicrotutor::GuiMicrotutor(const wxString& title, const wxPoint& pos, const wx
 {
 	conf[MICROTUTOR].saveStartString_ = "";
 	conf[MICROTUTOR].saveEndString_ = "";
-    
-    position_.x = 0;
 }
 
 void GuiMicrotutor::readMicrotutorConfig()
@@ -172,8 +170,6 @@ GuiMicrotutor2::GuiMicrotutor2(const wxString& title, const wxPoint& pos, const 
 {
     conf[MICROTUTOR2].saveStartString_ = "";
     conf[MICROTUTOR2].saveEndString_ = "";
-    
-    position_.x = 0;
 }
 
 void GuiMicrotutor2::readMicrotutor2Config()

@@ -107,8 +107,6 @@ public:
 protected:
     
 private:
-    wxPoint position_;
-
     vector<MicroMemoryConf> microMemConf;
 
     DECLARE_EVENT_TABLE()

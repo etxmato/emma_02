@@ -32,7 +32,6 @@ public:
 	void onElfControlWindows(wxCommandEvent& event);
 	void onRom1(wxCommandEvent& event);
 	void onRom2(wxCommandEvent& event);
-	void onElfScreenDump(wxCommandEvent& event);
 	void onTape(wxCommandEvent& event);
 	void onQsound(wxCommandEvent&event);
     void onHexEf(wxCommandEvent&event);
@@ -64,8 +63,8 @@ public:
 
 protected:
 	int ledModuleX_, ledModuleY_;
-    long startRam_[3];
-    long endRam_[3];
+    long startRam_[6];
+    long endRam_[6];
     
 private:
 

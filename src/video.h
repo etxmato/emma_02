@@ -170,6 +170,7 @@ protected:
 	int backGround_;
 	bool reBlit_;
     bool reDraw_;
+    bool reDrawMultiColor_;
 	bool reColour_;
 	bool reCycle_;
 	bool newBackGround_;

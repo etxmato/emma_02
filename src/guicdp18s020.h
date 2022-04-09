@@ -30,7 +30,6 @@ public:
     void onCdp18s020ForceUpperCase(wxCommandEvent&event);
 
 private:
-    wxPoint position_;
     
 	bool latch_;
 

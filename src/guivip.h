@@ -41,7 +41,6 @@ public:
     void onVipUart(wxCommandEvent& event);
 
 private:
-    wxPoint position_;
 
     int vipVp570_;
 	bool vipVp580_;

@@ -113,8 +113,6 @@ GuiVip2K::GuiVip2K(const wxString& title, const wxPoint& pos, const wxSize& size
 	conf[VIP2K].saveStartString_ = "";
 	conf[VIP2K].saveEndString_ = "";
 	conf[VIP2K].saveExecString_ = "";
-    
-    position_.x = 0;
 }
 
 void GuiVip2K::readVip2KConfig()

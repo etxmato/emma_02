@@ -107,8 +107,6 @@ GuiCdp18s020::GuiCdp18s020(const wxString& title, const wxPoint& pos, const wxSi
 	conf[CDP18S020].saveStartString_ = "";
 	conf[CDP18S020].saveEndString_ = "";
 	conf[CDP18S020].saveExecString_ = "";
-    
-    position_.x = 0;
 }
 
 void GuiCdp18s020::readCdp18s020Config()

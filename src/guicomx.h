@@ -1,7 +1,7 @@
 #ifndef GUICOMX_H
 #define GUICOMX_H
 
-#include "guielf.h"
+#include "guinetronics.h"
 
 DECLARE_EVENT_TYPE(OPEN_COMX_PRINTER_WINDOW, 800)
 DECLARE_EVENT_TYPE(STATUS_LED_ON, 801)
@@ -11,7 +11,7 @@ DECLARE_EVENT_TYPE(EXP_LED_ON, 805)
 DECLARE_EVENT_TYPE(EXP_LED_OFF, 806)
 DECLARE_EVENT_TYPE(KILL_COMPUTER, 809)
 
-class GuiComx: public GuiElf
+class GuiComx: public GuiNetronics
 {
 public:
 
@@ -50,6 +50,14 @@ public:
     void onComxDram(wxCommandEvent& event);
     void onComxExpansionRam(wxCommandEvent& event);
 	void onComxExpansionRamSlot(wxSpinEvent&event);
+    void onBatchConvertStart(wxCommandEvent&event);
+    void batchConvertStop();
+    void onBatchFileDialog(wxCommandEvent& event);
+    wxArrayString getBatchPaths() {return batchPaths_;}
+    wxString getBatchPath(int filenumber) {return batchPaths_[filenumber];}
+    wxArrayString getBatchFiles() {return batchFiles_;}
+    wxString getBatchFile(int filenumber) {return batchFiles_[filenumber];}
+    int getNumberOfBatchFiles() {return numberOfBatchFiles_;}
 	void setLocation(bool state, Word saveStart, Word saveEnd, Word saveExec);
 	void onEpromDialog(wxCommandEvent& event);
 	void onSBDialog(wxCommandEvent& event);
@@ -142,7 +150,8 @@ public:
 	void setSbFwVersion(int version);
 
 	void setComxStatusLedOn(bool status) { isComxStatusLedOn_ = status; };
-	void setComxExpLedOn (bool status) {isComxExpLedOn_ = status;};
+	void setComxExpLedOn(bool status) {isComxExpLedOn_ = status;};
+    bool isBatchConvertActive() {return batchConvertActive_;};
 
 	void statusLedOnEvent();
 	void statusLedOffEvent();
@@ -205,6 +214,14 @@ private:
 	int comxPrintMode_;
 	bool isComxStatusLedOn_;
 	bool isComxExpLedOn_;
+    
+    bool batchConvertActive_;
+    wxString batchSaveWavFileDir_;
+    wxString batchSaveWavFile_;
+
+    wxArrayString batchPaths_;
+    wxArrayString batchFiles_;
+    size_t numberOfBatchFiles_;
 
 	DECLARE_EVENT_TABLE()
 };
