@@ -783,7 +783,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>0 Files selected</label>
+<label>0 Files selected </label>
 </object>
 </object>
 </object>
@@ -837,7 +837,7 @@
 <flag>wxALIGN_LEFT|wxALL</flag>
 <border>0</border>
 <object class="wxStaticText" name="ComxBottomLeft">
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -860,7 +860,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Video:</label>
+<label>Video: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -953,7 +953,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Zoom Level:</label>
+<label>Zoom Level: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1025,7 +1025,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1069,7 +1069,7 @@
 <size>-1</size>
 </font>
 <hidden>1</hidden>
-<label>Cassette in:</label>
+<label>Cassette in: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1116,7 +1116,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>F&amp;&amp;M EPROM:</label>
+<label>F&amp;&amp;M EPROM: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1278,7 +1278,7 @@
 <border>10</border>
 <object class="wxStaticText" name="UseLocationTextComx">
 <enabled>0</enabled>
-<label>Location</label>
+<label>Location </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1290,7 +1290,7 @@
 <size>-1</size>
 </font>
 <style>wxALIGN_RIGHT</style>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1342,7 +1342,7 @@
 <size>-1</size>
 </font>
 <style>wxALIGN_RIGHT</style>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1394,7 +1394,7 @@
 <size>-1</size>
 </font>
 <style>wxALIGN_RIGHT</style>
-<label>Exec</label>
+<label>Exec </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1453,7 +1453,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>MHz</label>
+<label>MHz </label>
 </object>
 </object>
 </object>
@@ -1526,7 +1526,7 @@
 <flag>wxALIGN_RIGHT|wxALL</flag>
 <border>0</border>
 <object class="wxStaticText" name="ComxBottomRight">
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -1876,7 +1876,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>MHz</label>
+<label>MHz </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1986,7 +1986,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Zoom:</label>
+<label>Zoom: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2039,7 +2039,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Baud T:</label>
+<label>Baud T: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2079,7 +2079,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>R:</label>
+<label>R: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2163,7 +2163,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Video:</label>
+<label>Video: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2202,7 +2202,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Keyboard:</label>
+<label>Keyboard: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2250,7 +2250,7 @@
 <size>-1</size>
 </font>
 <enabled>0</enabled>
-<label>Zoom Level:</label>
+<label>Zoom Level: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2310,7 +2310,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Leds:</label>
+<label>Leds: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2334,7 +2334,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>ms</label>
+<label>ms </label>
 </object>
 </object>
 </object>
@@ -2354,7 +2354,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2445,7 +2445,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Non-volatile RAM:</label>
+<label>Non-volatile RAM: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2482,7 +2482,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>DS NVR/RTC:</label>
+<label>DS NVR/RTC: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2556,7 +2556,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2596,7 +2596,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2896,7 +2896,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Zoom:</label>
+<label>Zoom: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2949,7 +2949,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Baud:</label>
+<label>Baud: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2990,7 +2990,7 @@
 <size>-1</size>
 </font>
 <hidden>1</hidden>
-<label>R:</label>
+<label>R: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3111,7 +3111,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Video:</label>
+<label>Video: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3150,7 +3150,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Keyboard:</label>
+<label>Keyboard: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3197,7 +3197,7 @@
 <size>-1</size>
 </font>
 <enabled>0</enabled>
-<label>Zoom Level:</label>
+<label>Zoom Level: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3257,7 +3257,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Leds:</label>
+<label>Leds: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3281,7 +3281,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>ms</label>
+<label>ms </label>
 </object>
 </object>
 </object>
@@ -3301,7 +3301,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3368,7 +3368,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>RAM Card:</label>
+<label>RAM Card: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3395,7 +3395,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>KB</label>
+<label>KB </label>
 </object>
 </object>
 </object>
@@ -3465,7 +3465,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3505,7 +3505,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3564,7 +3564,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>MHz</label>
+<label>MHz </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4109,7 +4109,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>MHz</label>
+<label>MHz </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4181,7 +4181,7 @@
 <size>-1</size>
 </font>
 <style>wxST_NO_AUTORESIZE</style>
-<label>RAM:</label>
+<label>RAM: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4206,7 +4206,7 @@
 <size>-1</size>
 </font>
 <style>wxALIGN_RIGHT</style>
-<label>to</label>
+<label>to </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4275,7 +4275,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Zoom:</label>
+<label>Zoom: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4328,7 +4328,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Baud T:</label>
+<label>Baud T: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4368,7 +4368,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>R:</label>
+<label>R: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4421,7 +4421,7 @@
 <flag>wxALIGN_LEFT|wxALL</flag>
 <border>0</border>
 <object class="wxStaticText" name="ElfBottomLeft">
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -4447,7 +4447,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Video:</label>
+<label>Video: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4490,7 +4490,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Keyboard:</label>
+<label>Keyboard: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4532,7 +4532,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory:</label>
+<label>Memory: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4600,7 +4600,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Q Sound:</label>
+<label>Q Sound: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4627,7 +4627,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Beeper:</label>
+<label>Beeper: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4650,7 +4650,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Hz</label>
+<label>Hz </label>
 </object>
 </object>
 </object>
@@ -4668,7 +4668,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Zoom:</label>
+<label>Zoom: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4728,7 +4728,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Leds:</label>
+<label>Leds: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4752,7 +4752,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>ms</label>
+<label>ms </label>
 </object>
 </object>
 </object>
@@ -4772,7 +4772,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4835,7 +4835,7 @@
 <border>10</border>
 <object class="wxStaticText" name="UseLocationTextElf">
 <enabled>0</enabled>
-<label>Location</label>
+<label>Location </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4848,7 +4848,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4901,7 +4901,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4954,7 +4954,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Exec</label>
+<label>Exec </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4993,7 +4993,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>TIL:</label>
+<label>TIL: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5124,7 +5124,7 @@
 <flag>wxALIGN_RIGHT|wxALL</flag>
 <border>0</border>
 <object class="wxStaticText" name="ElfBottomRight">
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -5597,7 +5597,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>MHz</label>
+<label>MHz </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5669,7 +5669,7 @@
 <size>-1</size>
 </font>
 <style>wxST_NO_AUTORESIZE</style>
-<label>RAM:</label>
+<label>RAM: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5694,7 +5694,7 @@
 <size>-1</size>
 </font>
 <style>wxALIGN_RIGHT</style>
-<label>to</label>
+<label>to </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5763,7 +5763,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Zoom:</label>
+<label>Zoom: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5816,7 +5816,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Baud T:</label>
+<label>Baud T: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5856,7 +5856,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>R:</label>
+<label>R: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5928,7 +5928,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Video:</label>
+<label>Video: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5971,7 +5971,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Keyboard:</label>
+<label>Keyboard: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6013,7 +6013,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory:</label>
+<label>Memory: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6081,7 +6081,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Q Sound:</label>
+<label>Q Sound: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6108,7 +6108,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Beeper:</label>
+<label>Beeper: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6131,7 +6131,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Hz</label>
+<label>Hz </label>
 </object>
 </object>
 </object>
@@ -6149,7 +6149,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Zoom:</label>
+<label>Zoom: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6209,7 +6209,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Leds:</label>
+<label>Leds: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6233,7 +6233,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>ms</label>
+<label>ms </label>
 </object>
 </object>
 </object>
@@ -6253,7 +6253,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6316,7 +6316,7 @@
 <border>10</border>
 <object class="wxStaticText" name="UseLocationTextElfII">
 <enabled>0</enabled>
-<label>Location</label>
+<label>Location </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6329,7 +6329,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6382,7 +6382,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6435,7 +6435,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Exec</label>
+<label>Exec </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6474,7 +6474,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>TIL:</label>
+<label>TIL: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7084,7 +7084,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>MHz</label>
+<label>MHz </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7156,7 +7156,7 @@
 <size>-1</size>
 </font>
 <style>wxST_NO_AUTORESIZE</style>
-<label>RAM:</label>
+<label>RAM: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7181,7 +7181,7 @@
 <size>-1</size>
 </font>
 <style>wxALIGN_RIGHT</style>
-<label>to</label>
+<label>to </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7250,7 +7250,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Zoom:</label>
+<label>Zoom: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7303,7 +7303,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Baud T:</label>
+<label>Baud T: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7343,7 +7343,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>R:</label>
+<label>R: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7415,7 +7415,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Video:</label>
+<label>Video: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7458,7 +7458,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Keyboard:</label>
+<label>Keyboard: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7500,7 +7500,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory:</label>
+<label>Memory: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7568,7 +7568,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Q Sound:</label>
+<label>Q Sound: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7595,7 +7595,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Beeper:</label>
+<label>Beeper: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7618,7 +7618,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Hz</label>
+<label>Hz </label>
 </object>
 </object>
 </object>
@@ -7636,7 +7636,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Zoom:</label>
+<label>Zoom: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7696,7 +7696,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Leds:</label>
+<label>Leds: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7720,7 +7720,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>ms</label>
+<label>ms </label>
 </object>
 </object>
 </object>
@@ -7740,7 +7740,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7803,7 +7803,7 @@
 <border>10</border>
 <object class="wxStaticText" name="UseLocationTextSuperElf">
 <enabled>0</enabled>
-<label>Location</label>
+<label>Location </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7816,7 +7816,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7869,7 +7869,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7922,7 +7922,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Exec</label>
+<label>Exec </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7961,7 +7961,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>TIL:</label>
+<label>TIL: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8263,7 +8263,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Zoom:</label>
+<label>Zoom: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8316,7 +8316,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Baud:</label>
+<label>Baud: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8357,7 +8357,7 @@
 <size>-1</size>
 </font>
 <hidden>1</hidden>
-<label>R:</label>
+<label>R: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8557,7 +8557,7 @@
 <size>-1</size>
 </font>
 <hidden>1</hidden>
-<label>MHz</label>
+<label>MHz </label>
 </object>
 </object>
 </object>
@@ -8615,7 +8615,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Leds:</label>
+<label>Leds: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8639,7 +8639,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>ms</label>
+<label>ms </label>
 </object>
 </object>
 </object>
@@ -8659,7 +8659,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8713,7 +8713,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>I/O:</label>
+<label>I/O: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8748,7 +8748,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Non-volatile RAM:</label>
+<label>Non-volatile RAM: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8857,7 +8857,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory:</label>
+<label>Memory: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8926,7 +8926,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8966,7 +8966,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9215,7 +9215,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Zoom:</label>
+<label>Zoom: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9268,7 +9268,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Baud:</label>
+<label>Baud: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9309,7 +9309,7 @@
 <size>-1</size>
 </font>
 <hidden>1</hidden>
-<label>R:</label>
+<label>R: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9572,7 +9572,7 @@
 <size>-1</size>
 </font>
 <hidden>1</hidden>
-<label>MHz</label>
+<label>MHz </label>
 </object>
 </object>
 </object>
@@ -9597,7 +9597,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Zoom Level:</label>
+<label>Zoom Level: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9671,7 +9671,7 @@
 <size>-1</size>
 </font>
 <hidden>1</hidden>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9771,7 +9771,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9811,7 +9811,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -10172,7 +10172,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Zoom:</label>
+<label>Zoom: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -10225,7 +10225,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Baud:</label>
+<label>Baud: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -10266,7 +10266,7 @@
 <size>-1</size>
 </font>
 <hidden>1</hidden>
-<label>R:</label>
+<label>R: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -10343,7 +10343,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Zoom Level:</label>
+<label>Zoom Level: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -10431,7 +10431,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -10470,7 +10470,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Beeper:</label>
+<label>Beeper: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -10493,7 +10493,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Hz</label>
+<label>Hz </label>
 </object>
 </object>
 <object class="spacer">
@@ -10514,7 +10514,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Leds:</label>
+<label>Leds: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -10538,7 +10538,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>ms</label>
+<label>ms </label>
 </object>
 </object>
 </object>
@@ -10586,7 +10586,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -10626,7 +10626,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -10741,7 +10741,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>MHz</label>
+<label>MHz </label>
 </object>
 </object>
 </object>
@@ -10886,7 +10886,7 @@
 <size>-1</size>
 </font>
 <hidden>1</hidden>
-<label>Output, Display</label>
+<label>Output, Display </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -10913,7 +10913,7 @@
 <size>-1</size>
 </font>
 <hidden>1</hidden>
-<label>Input, Read Data</label>
+<label>Input, Read Data </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -10958,7 +10958,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Leds:</label>
+<label>Leds: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -10982,7 +10982,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>ms</label>
+<label>ms </label>
 </object>
 </object>
 </object>
@@ -11068,7 +11068,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11108,7 +11108,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11117,6 +11117,1042 @@
 <object class="wxTextCtrl" name="SaveEndUC1800" subclass="HexEdit">
 <size>29,-1d</size>
 <tooltip>Specify end address in hexadecimal</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<enabled>0</enabled>
+<maxlength>4</maxlength>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="choicebookpage">
+<label>Pico/Elf V2</label>
+<object class="wxPanel" name="PanelPico">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<style>wxTAB_TRAVERSAL</style>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_TOP|wxLEFT|wxRIGHT</flag>
+<border>4</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxFlexGridSizer">
+<cols>2</cols>
+<rows>5</rows>
+<vgap>2</vgap>
+<hgap>0</hgap>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxButton" name="RomButtonPico">
+<tooltip>Browse for Pico/Elf V2 ROM file</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>ROM</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_TOP</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW</flag>
+<border>4</border>
+<object class="wxBitmapButton" name="Rom1Pico">
+<tooltip>Toggle ROM/RAM</tooltip>
+<bitmap>images/switch.png</bitmap>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<option>20</option>
+<object class="wxComboBox" name="MainRomPico">
+<size>83,-1d</size>
+<tooltip>Specify Pico/Elf V2 ROM/RAM file</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<style>wxCB_DROPDOWN</style>
+<content>
+<item></item>
+<item>bios.1.0.4.rom</item>
+<item>bios+biosiov93.rom</item>
+<item>bios+biosiov93_32.column.rom</item>
+<item></item>
+<item>biosio.elfos.0.2.5.rom</item>
+<item>biosio.elfos.0.2.5_32.column.rom</item>
+</content>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxButton" name="IDE_ButtonPico">
+<tooltip>Browse for IDE image file</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>Disk</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxTextCtrl" name="IdeFilePico">
+<tooltip>Specify IDE image file</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<value>disk1.ide</value>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<option>10</option>
+<object class="wxChoice" name="DiskTypePico">
+<tooltip>Activate IDE disk controller</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<content>
+<item>None</item>
+<item>IDE</item>
+</content>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW</flag>
+<border>0</border>
+<object class="wxBitmapButton" name="Eject_IDEPico">
+<tooltip>Eject IDE image file</tooltip>
+<bitmap>images/eject.png</bitmap>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxButton" name="PrintFileButtonPico">
+<tooltip>Browse for printer output file</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>Printer</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_TOP</flag>
+<border>2</border>
+<option>20</option>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxTextCtrl" name="PrintFilePico">
+<tooltip>Specify printer output file</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxChoice" name="PrintModePico">
+<tooltip>Select print mode</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<content>
+<item>File</item>
+<item>Window</item>
+</content>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW</flag>
+<border>0</border>
+<object class="wxBitmapButton" name="PrintButtonPico">
+<tooltip>Open printer window (F4)</tooltip>
+<bitmap>images/print.png</bitmap>
+<selected>images/print.png</selected>
+<focus>images/print.png</focus>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>2</border>
+<object class="wxButton" name="ScreenDumpFileButtonPico">
+<tooltip>Browse for video dump file</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>VideoDump</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_TOP</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<option>20</option>
+<object class="wxComboBox" name="ScreenDumpFilePico">
+<size>83,-1d</size>
+<tooltip>Specify video dump file</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<style>wxCB_DROPDOWN</style>
+<content>
+<item></item>
+<item>screendump.png</item>
+<item>screendump.jpeg</item>
+<item>screendump.bmp</item>
+<item>screendump.pcx</item>
+</content>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALL</flag>
+<border>0</border>
+<object class="wxBitmapButton" name="ScreenDumpF5Pico">
+<tooltip>Save video dump to file (F5)</tooltip>
+<enabled>0</enabled>
+<bitmap>images/filesave.png</bitmap>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxButton" name="CasButtonPico">
+<tooltip>Browse for cassette file</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>Cassette</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<option>20</option>
+<object class="wxTextCtrl" name="WavFilePico">
+<size>69,-1d</size>
+<tooltip>Specify cassette file</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALL</flag>
+<border>0</border>
+<object class="wxBitmapButton" name="EjectCasPico">
+<tooltip>Eject cassette file</tooltip>
+<bitmap>images/eject.png</bitmap>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>4</border>
+<object class="wxCheckBox" name="AutoCasLoadPico">
+<tooltip>Enable auto mode for cassette file</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>Auto</label>
+<checked>1</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxCheckBox" name="TurboPico">
+<tooltip>Enable turbo mode for cassette file</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>Turbo:</label>
+<checked>1</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxTextCtrl" name="TurboClockPico" subclass="IntEdit">
+<size>20,-1d</size>
+<tooltip>Specify turbo clock speed in MHz</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>2</border>
+<object class="wxStaticText" name="TurboMhzTextPico">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>MHz </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALL</flag>
+<border>0</border>
+<object class="wxBitmapButton" name="CasSavePico">
+<tooltip>Start recording to cassette file</tooltip>
+<enabled>0</enabled>
+<bitmap>images/rec_off.png</bitmap>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALL</flag>
+<border>0</border>
+<object class="wxBitmapButton" name="CasLoadPico">
+<tooltip>Play cassette file</tooltip>
+<enabled>0</enabled>
+<bitmap>images/play_black.png</bitmap>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALL</flag>
+<border>0</border>
+<object class="wxBitmapButton" name="CasStopPico">
+<tooltip>Stop cassette file</tooltip>
+<enabled>0</enabled>
+<bitmap>images/stop.png</bitmap>
+</object>
+</object>
+<object platform="win" class="sizeritem">
+<flag>wxGROW</flag>
+<border>0</border>
+<object platform="win" class="wxBitmapButton" name="RealCasLoadPico">
+<tooltip>Disable / Enable real cassette loading</tooltip>
+<style>wxBU_AUTODRAW</style>
+<hidden>1</hidden>
+<bitmap>images/real_cas_off.png</bitmap>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxButton" name="DP_ButtonPico">
+<tooltip>Open device ports definition window</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>DevicePorts</label>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxVERTICAL</orient>
+<label>Terminal</label>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxChoice" name="VTTypePico">
+<tooltip>Select video terminal type</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<content>
+<item>None</item>
+<item>VT52</item>
+<item>VT100</item>
+<item>External</item>
+</content>
+<selection>0</selection>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>2</border>
+<object class="wxButton" name="VtSetupPico">
+<tooltip>Open video terminal setup window</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>Setup</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxStaticText" name="ZoomTextVtPico">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>Zoom: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALL</flag>
+<border>2</border>
+<object class="wxTextCtrl" name="ZoomValueVtPico" subclass="FloatEdit">
+<size>29,-1d</size>
+<tooltip>Select Video Terminal screen size</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+</object>
+</object>
+<object platform="unix" class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>6</border>
+<object platform="unix" class="wxSpinButton" name="ZoomSpinVtPico">
+<tooltip>Select Video Terminal screen size</tooltip>
+<style>wxSP_VERTICAL</style>
+<value>0</value>
+<min>1</min>
+<max>100</max>
+</object>
+</object>
+<object platform="win" class="sizeritem">
+<flag>wxGROW</flag>
+<border>6</border>
+<object platform="win" class="wxSpinButton" name="ZoomSpinVtPico">
+<size>-1,15d</size>
+<tooltip>Select Video Terminal screen size</tooltip>
+<style>wxSP_VERTICAL</style>
+<value>0</value>
+<min>1</min>
+<max>100</max>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxTOP</flag>
+<border>4</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="VTBaudTTextPico">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>Baud T: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxChoice" name="VTBaudTChoicePico">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<content>
+<item>38400</item>
+<item>19200</item>
+<item>9600</item>
+<item>4800</item>
+<item>3600</item>
+<item>2400</item>
+<item>2000</item>
+<item>1800</item>
+<item>1200</item>
+<item>600</item>
+<item>300</item>
+<item>200</item>
+<item>150</item>
+<item>134</item>
+<item>110</item>
+<item>75</item>
+<item>50</item>
+</content>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>4</border>
+<object class="wxStaticText" name="VTBaudRTextPico">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>R: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxChoice" name="VTBaudRChoicePico">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<content>
+<item>38400</item>
+<item>19200</item>
+<item>9600</item>
+<item>4800</item>
+<item>3600</item>
+<item>2400</item>
+<item>2000</item>
+<item>1800</item>
+<item>1200</item>
+<item>600</item>
+<item>300</item>
+<item>200</item>
+<item>150</item>
+<item>134</item>
+<item>110</item>
+<item>75</item>
+<item>50</item>
+</content>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>2</border>
+<object class="wxCheckBox" name="StretchDotPico">
+<tooltip>Enable stretch dot mode on video terminal</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>Stretch</label>
+<checked>0</checked>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_TOP|wxLEFT|wxRIGHT</flag>
+<border>4</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxStaticText" name="VideoTypeTextPico">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>Video: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxChoice" name="VideoTypePico">
+<tooltip>Select video type</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<content>
+<item>None</item>
+<item>1861 Pixie</item>
+<item>TMS 9918</item>
+</content>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>2</border>
+<object class="wxButton" name="ColoursPico">
+<tooltip>Open video setup window</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>VideoSetup</label>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxStaticText" name="ZoomTextPico">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>Zoom: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALL</flag>
+<border>2</border>
+<object class="wxTextCtrl" name="ZoomValuePico" subclass="FloatEdit">
+<size>29,-1d</size>
+<tooltip>Select screen size</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+</object>
+</object>
+<object platform="unix" class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>6</border>
+<object platform="unix" class="wxSpinButton" name="ID_SPINBUTTON">
+<tooltip>Select screen size</tooltip>
+<style>wxSP_VERTICAL</style>
+<value>0</value>
+<min>1</min>
+<max>100</max>
+</object>
+</object>
+<object platform="win" class="sizeritem">
+<flag>wxGROW</flag>
+<border>6</border>
+<object platform="win" class="wxSpinButton" name="ID_SPINBUTTON1">
+<size>-1,15d</size>
+<tooltip>Select screen size</tooltip>
+<style>wxSP_VERTICAL</style>
+<value>0</value>
+<min>1</min>
+<max>100</max>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxRIGHT</flag>
+<border>2</border>
+<object class="wxBitmapButton" name="FullScreenF3Pico">
+<tooltip>Activate full screen mode (F3)</tooltip>
+<enabled>0</enabled>
+<bitmap>images/screen.png</bitmap>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="QsoundTextPico">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>Q Sound: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALL</flag>
+<border>2</border>
+<object class="wxChoice" name="QsoundPico">
+<tooltip>Select Q sound type</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<content>
+<item>Off</item>
+<item>Software</item>
+<item>Hardware</item>
+</content>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>4</border>
+<object class="wxStaticText" name="BeepFrequencyTextPico">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>Beeper: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALL</flag>
+<border>2</border>
+<object class="wxTextCtrl" name="BeepFrequencyPico" subclass="IntEdit">
+<size>26,-1d</size>
+<tooltip>Specify oscilator frequency speed in Hz</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="BeepFrequencyTextHzPico">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>Hz </label>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>4</border>
+<object class="wxStaticText" name="VolumeTextPico">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>Volume: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxSlider" name="VolumePico">
+<size>57,-1d</size>
+<tooltip>Change emulator sound volume</tooltip>
+<style>wxSL_HORIZONTAL</style>
+<value>25</value>
+<min>0</min>
+<max>100</max>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxStaticBitmap" name="VuPico">
+<size>57,6d</size>
+<style>wxSTATIC_BORDER</style>
+<bitmap>images/vu.png</bitmap>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxFlexGridSizer">
+<cols>3</cols>
+<rows>1</rows>
+<vgap>0</vgap>
+<hgap>0</hgap>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>4</border>
+<object class="wxStaticText" name="wxID_STATIC">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>DS NVR/RTC: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxCheckBox" name="PicoRtc">
+<tooltip>Enable DS12887 NVR and RTC support</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>Enable</label>
+<checked>0</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>4</border>
+<object class="wxCheckBox" name="PicoClearRtc">
+<tooltip>Clear non-volatile DS12887 RAM on start-up</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>Clear</label>
+<checked>0</checked>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW</flag>
+<border>6</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxVERTICAL</orient>
+<label>Memory Access</label>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT</flag>
+<border>0</border>
+<object class="wxFlexGridSizer">
+<cols>4</cols>
+<rows>3</rows>
+<vgap>1</vgap>
+<hgap>0</hgap>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>4</border>
+<object class="wxCheckBox" name="UseLocationPico">
+<tooltip>Select to SAVE specific machine code address</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<enabled>0</enabled>
+<label>Specify</label>
+<checked>0</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>10</border>
+<object class="wxStaticText" name="UseLocationTextPico">
+<enabled>0</enabled>
+<label>Location </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>2</border>
+<object class="wxStaticText" name="TextStartPico">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<style>wxALIGN_RIGHT</style>
+<enabled>0</enabled>
+<label>Start </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>2</border>
+<object class="wxTextCtrl" name="SaveStartPico" subclass="HexEdit">
+<size>29,-1d</size>
+<tooltip>Specify start address in hexadecimal</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<enabled>0</enabled>
+<maxlength>4</maxlength>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
+<border>2</border>
+<object class="wxButton" name="LoadButtonPico">
+<tooltip>Load .hex/.super file into Pico/Elf V2 emulator memory</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<enabled>0</enabled>
+<label>LOAD</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
+<border>2</border>
+<object class="wxButton" name="RunButtonPico">
+<tooltip>Load .super file into Pico/Elf V2 emulator memory and RUN software</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<enabled>0</enabled>
+<label>RUN</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>2</border>
+<object class="wxStaticText" name="TextEndPico">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<style>wxALIGN_RIGHT</style>
+<enabled>0</enabled>
+<label>End </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>2</border>
+<object class="wxTextCtrl" name="SaveEndPico" subclass="HexEdit">
+<size>29,-1d</size>
+<tooltip>Specify end address in hexadecimal</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<enabled>0</enabled>
+<maxlength>4</maxlength>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
+<border>2</border>
+<object class="wxButton" name="SaveButtonPico">
+<tooltip>Save Pico/Elf V2 emulator memory to .hex/.super file</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<enabled>0</enabled>
+<label>SAVE</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
+<border>2</border>
+<object class="wxButton" name="DsaveButtonPico">
+<tooltip>Save Pico/Elf V2 emulator data memory to .super file</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<enabled>0</enabled>
+<label>Data SAVE</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>2</border>
+<object class="wxStaticText" name="TextExecPico">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<style>wxALIGN_RIGHT</style>
+<enabled>0</enabled>
+<label>Exec </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>2</border>
+<object class="wxTextCtrl" name="SaveExecPico" subclass="HexEdit">
+<size>29,-1d</size>
+<tooltip>Specify machine code execution address in hexadecimal</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -11599,7 +12635,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>MHz</label>
+<label>MHz </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11671,7 +12707,7 @@
 <size>-1</size>
 </font>
 <style>wxST_NO_AUTORESIZE</style>
-<label>RAM:</label>
+<label>RAM: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11696,7 +12732,7 @@
 <size>-1</size>
 </font>
 <style>wxALIGN_RIGHT</style>
-<label>to</label>
+<label>to </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11765,7 +12801,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Zoom:</label>
+<label>Zoom: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11818,7 +12854,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Baud T:</label>
+<label>Baud T: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11858,7 +12894,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>R:</label>
+<label>R: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11930,7 +12966,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Video:</label>
+<label>Video: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11973,7 +13009,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Keyboard:</label>
+<label>Keyboard: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -12015,7 +13051,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory:</label>
+<label>Memory: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -12083,7 +13119,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Q Sound:</label>
+<label>Q Sound: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -12110,7 +13146,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Beeper:</label>
+<label>Beeper: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -12133,7 +13169,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Hz</label>
+<label>Hz </label>
 </object>
 </object>
 </object>
@@ -12151,7 +13187,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Zoom:</label>
+<label>Zoom: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -12211,7 +13247,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Leds:</label>
+<label>Leds: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -12235,7 +13271,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>ms</label>
+<label>ms </label>
 </object>
 </object>
 </object>
@@ -12255,7 +13291,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -12318,7 +13354,7 @@
 <border>10</border>
 <object class="wxStaticText" name="UseLocationTextNetronics">
 <enabled>0</enabled>
-<label>Location</label>
+<label>Location </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -12331,7 +13367,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -12384,7 +13420,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -12437,7 +13473,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Exec</label>
+<label>Exec </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -12476,7 +13512,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>TIL:</label>
+<label>TIL: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -12605,1493 +13641,6 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>4</border>
 <object class="wxCheckBox" name="GiantNetronics">
-<tooltip>Enable Giant Board ROM mapping</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>Giant</label>
-<checked>0</checked>
-</object>
-</object>
-</object>
-</object>
-</object>
-</object>
-</object>
-</object>
-</object>
-</object>
-</object>
-<object class="choicebookpage">
-<label>Pico/Elf V2</label>
-<object class="wxPanel" name="PanelPico">
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<style>wxTAB_TRAVERSAL</style>
-<object class="wxBoxSizer">
-<orient>wxVERTICAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_TOP|wxLEFT|wxRIGHT</flag>
-<border>4</border>
-<object class="wxBoxSizer">
-<orient>wxVERTICAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxBOTTOM</flag>
-<border>2</border>
-<object class="wxFlexGridSizer">
-<cols>2</cols>
-<rows>8</rows>
-<vgap>2</vgap>
-<hgap>0</hgap>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxButton" name="RomButtonPico">
-<tooltip>Browse for Pico/Elf V2 ROM file</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>ROM 1</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
-<border>2</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxGROW</flag>
-<border>4</border>
-<object class="wxBitmapButton" name="Rom1Pico">
-<tooltip>Toggle ROM/RAM</tooltip>
-<bitmap>images/switch.png</bitmap>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxTOP|wxBOTTOM</flag>
-<border>2</border>
-<option>20</option>
-<object class="wxComboBox" name="MainRomPico">
-<size>83,-1d</size>
-<tooltip>Specify Pico/Elf V2 ROM/RAM file</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<style>wxCB_DROPDOWN</style>
-<content>
-<item></item>
-<item>bios.1.0.4.rom</item>
-<item>bios+biosiov93.rom</item>
-<item>bios+biosiov93_32.column.rom</item>
-<item></item>
-<item>biosio.elfos.0.2.5.rom</item>
-<item>biosio.elfos.0.2.5_32.column.rom</item>
-</content>
-</object>
-</object>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxButton" name="RomButton2Pico">
-<tooltip>Browse for Pico/Elf V2 ROM file</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>ROM 2</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
-<border>2</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxGROW</flag>
-<border>4</border>
-<object class="wxBitmapButton" name="Rom2Pico">
-<tooltip>Toggle ROM/RAM</tooltip>
-<bitmap>images/switch.png</bitmap>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxTOP|wxBOTTOM</flag>
-<border>2</border>
-<option>20</option>
-<object class="wxComboBox" name="MainRom2Pico">
-<size>83,-1d</size>
-<tooltip>Specify Pico/Elf V2 ROM/RAM file</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<style>wxCB_DROPDOWN</style>
-<content>
-<item></item>
-<item>elfos.0.2.8.hex</item>
-</content>
-</object>
-</object>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-<border>4</border>
-<object class="wxButton" name="IDE_ButtonPico">
-<tooltip>Browse for IDE image file</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>Disk</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
-<border>2</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxGROW|wxTOP|wxBOTTOM</flag>
-<border>2</border>
-<object class="wxTextCtrl" name="IdeFilePico">
-<tooltip>Specify IDE image file</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<value>disk1.ide</value>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxTOP|wxBOTTOM</flag>
-<border>2</border>
-<option>10</option>
-<object class="wxChoice" name="DiskTypePico">
-<tooltip>Select FDC 1793 or IDE disk controller</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<content>
-<item>None</item>
-<item>FDC</item>
-<item>IDE</item>
-</content>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW</flag>
-<border>0</border>
-<object class="wxBitmapButton" name="Eject_IDEPico">
-<tooltip>Eject IDE image file</tooltip>
-<bitmap>images/eject.png</bitmap>
-</object>
-</object>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-<border>4</border>
-<object class="wxButton" name="CharRomButtonPico">
-<tooltip>Browse for video font file</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>Video Font</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxTOP|wxBOTTOM</flag>
-<border>2</border>
-<object class="wxComboBox" name="CharRomPico">
-<size>115,-1d</size>
-<tooltip>Specify video font file</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<style>wxCB_DROPDOWN</style>
-<content>
-<item></item>
-<item>mc6845.bin</item>
-<item></item>
-<item>mc6847.ntsc.round.bin</item>
-<item>mc6847.ntsc.square.bin</item>
-<item>mc6847.pal.round.bin</item>
-<item>mc6847.pal.square.bin</item>
-<item></item>
-<item>intel8275.bin</item>
-</content>
-<selection>1</selection>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-<border>4</border>
-<object class="wxButton" name="KeyFileButtonPico">
-<tooltip>Browse for key input file</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>Key File</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
-<border>2</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxGROW|wxTOP|wxBOTTOM</flag>
-<border>2</border>
-<option>20</option>
-<object class="wxTextCtrl" name="KeyFilePico">
-<size>83,-1d</size>
-<tooltip>Specify key input file</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALL</flag>
-<border>0</border>
-<object class="wxBitmapButton" name="EjectKeyFilePico">
-<tooltip>Eject key input file</tooltip>
-<bitmap>images/eject.png</bitmap>
-</object>
-</object>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-<border>4</border>
-<object class="wxButton" name="PrintFileButtonPico">
-<tooltip>Browse for printer output file</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>Printer</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
-<border>2</border>
-<option>20</option>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxGROW|wxTOP|wxBOTTOM</flag>
-<border>2</border>
-<object class="wxTextCtrl" name="PrintFilePico">
-<tooltip>Specify printer output file</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxTOP|wxBOTTOM</flag>
-<border>2</border>
-<object class="wxChoice" name="PrintModePico">
-<tooltip>Select print mode</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<content>
-<item>File</item>
-<item>Window</item>
-</content>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW</flag>
-<border>0</border>
-<object class="wxBitmapButton" name="PrintButtonPico">
-<tooltip>Open printer window (F4)</tooltip>
-<bitmap>images/print.png</bitmap>
-<selected>images/print.png</selected>
-<focus>images/print.png</focus>
-</object>
-</object>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-<border>2</border>
-<object class="wxButton" name="ScreenDumpFileButtonPico">
-<tooltip>Browse for video dump file</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>VideoDump</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
-<border>2</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxGROW|wxTOP|wxBOTTOM</flag>
-<border>2</border>
-<option>20</option>
-<object class="wxComboBox" name="ScreenDumpFilePico">
-<size>83,-1d</size>
-<tooltip>Specify video dump file</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<style>wxCB_DROPDOWN</style>
-<content>
-<item></item>
-<item>screendump.png</item>
-<item>screendump.jpeg</item>
-<item>screendump.bmp</item>
-<item>screendump.pcx</item>
-</content>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALL</flag>
-<border>0</border>
-<object class="wxBitmapButton" name="ScreenDumpF5Pico">
-<tooltip>Save video dump to file (F5)</tooltip>
-<enabled>0</enabled>
-<bitmap>images/filesave.png</bitmap>
-</object>
-</object>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-<border>4</border>
-<object class="wxButton" name="CasButtonPico">
-<tooltip>Browse for cassette file</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>Cassette</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
-<border>2</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxGROW</flag>
-<border>4</border>
-<object class="wxBitmapButton" name="TapePico">
-<tooltip>Toggle: Casette - XMODEM - Off</tooltip>
-<style>wxBU_AUTODRAW</style>
-<bitmap>images/switch.png</bitmap>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxTOP|wxBOTTOM</flag>
-<border>2</border>
-<option>20</option>
-<object class="wxTextCtrl" name="WavFilePico">
-<size>69,-1d</size>
-<tooltip>Specify cassette file</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALL</flag>
-<border>0</border>
-<object class="wxBitmapButton" name="EjectCasPico">
-<tooltip>Eject cassette file</tooltip>
-<bitmap>images/eject.png</bitmap>
-</object>
-</object>
-</object>
-</object>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
-<border>2</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-<border>4</border>
-<object class="wxCheckBox" name="AutoCasLoadPico">
-<tooltip>Enable auto mode for cassette file</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>Auto</label>
-<checked>1</checked>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxCheckBox" name="TurboPico">
-<tooltip>Enable turbo mode for cassette file</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>Turbo:</label>
-<checked>1</checked>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxTOP|wxBOTTOM</flag>
-<border>2</border>
-<object class="wxTextCtrl" name="TurboClockPico" subclass="IntEdit">
-<size>20,-1d</size>
-<tooltip>Specify turbo clock speed in MHz</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-<border>2</border>
-<object class="wxStaticText" name="TurboMhzTextPico">
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>MHz</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALL</flag>
-<border>0</border>
-<object class="wxBitmapButton" name="CasSavePico">
-<tooltip>Start recording to cassette file</tooltip>
-<enabled>0</enabled>
-<bitmap>images/rec_off.png</bitmap>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALL</flag>
-<border>0</border>
-<object class="wxBitmapButton" name="CasLoadPico">
-<tooltip>Play cassette file</tooltip>
-<enabled>0</enabled>
-<bitmap>images/play_black.png</bitmap>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALL</flag>
-<border>0</border>
-<object class="wxBitmapButton" name="CasStopPico">
-<tooltip>Stop cassette file</tooltip>
-<enabled>0</enabled>
-<bitmap>images/stop.png</bitmap>
-</object>
-</object>
-<object platform="win" class="sizeritem">
-<flag>wxGROW</flag>
-<border>0</border>
-<object platform="win" class="wxBitmapButton" name="RealCasLoadPico">
-<tooltip>Disable / Enable real cassette loading</tooltip>
-<style>wxBU_AUTODRAW</style>
-<bitmap>images/real_cas_off.png</bitmap>
-</object>
-</object>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>4</border>
-<object class="wxButton" name="DP_ButtonPico">
-<tooltip>Open device ports definition window</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>DevicePorts</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_TOP</flag>
-<border>4</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-<border>4</border>
-<object class="wxStaticText" name="StartRamTextPico">
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<style>wxST_NO_AUTORESIZE</style>
-<label>RAM:</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxTOP|wxBOTTOM</flag>
-<border>2</border>
-<object class="wxTextCtrl" name="StartRamPico" subclass="HexEdit">
-<size>29,-1d</size>
-<tooltip>Specify RAM bank start address in hexadecimal</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<maxlength>4</maxlength>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-<border>2</border>
-<object class="wxStaticText" name="EndRamTextPico">
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<style>wxALIGN_RIGHT</style>
-<label>to</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxTOP|wxBOTTOM</flag>
-<border>2</border>
-<object class="wxTextCtrl" name="EndRamPico" subclass="HexEdit">
-<size>29,-1d</size>
-<tooltip>Specify RAM bank end address in hexadecimal</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<maxlength>4</maxlength>
-</object>
-</object>
-</object>
-</object>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxTOP|wxBOTTOM</flag>
-<border>2</border>
-<object class="wxStaticBoxSizer" name="wxID_ANY">
-<orient>wxVERTICAL</orient>
-<label>Terminal</label>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxGROW|wxTOP|wxBOTTOM</flag>
-<border>2</border>
-<object class="wxChoice" name="VTTypePico">
-<tooltip>Select video terminal type</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<content>
-<item>None</item>
-<item>VT52</item>
-<item>VT100</item>
-<item>External</item>
-</content>
-<selection>0</selection>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-<border>2</border>
-<object class="wxButton" name="VtSetupPico">
-<tooltip>Open video terminal setup window</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>Setup</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxStaticText" name="ZoomTextVtPico">
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>Zoom:</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALL</flag>
-<border>2</border>
-<object class="wxTextCtrl" name="ZoomValueVtPico" subclass="FloatEdit">
-<size>29,-1d</size>
-<tooltip>Select Video Terminal screen size</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-</object>
-</object>
-<object platform="unix" class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>6</border>
-<object platform="unix" class="wxSpinButton" name="ZoomSpinVtPico">
-<tooltip>Select Video Terminal screen size</tooltip>
-<style>wxSP_VERTICAL</style>
-<value>0</value>
-<min>1</min>
-<max>100</max>
-</object>
-</object>
-<object platform="win" class="sizeritem">
-<flag>wxGROW</flag>
-<border>6</border>
-<object platform="win" class="wxSpinButton" name="ZoomSpinVtPico">
-<size>-1,15d</size>
-<tooltip>Select Video Terminal screen size</tooltip>
-<style>wxSP_VERTICAL</style>
-<value>0</value>
-<min>1</min>
-<max>100</max>
-</object>
-</object>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxTOP</flag>
-<border>4</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>4</border>
-<object class="wxStaticText" name="VTBaudTTextPico">
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>Baud T:</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxTOP|wxBOTTOM</flag>
-<border>2</border>
-<object class="wxChoice" name="VTBaudTChoicePico">
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<content>
-<item>38400</item>
-<item>19200</item>
-<item>9600</item>
-<item>4800</item>
-<item>3600</item>
-<item>2400</item>
-<item>2000</item>
-<item>1800</item>
-<item>1200</item>
-<item>600</item>
-<item>300</item>
-<item>200</item>
-<item>150</item>
-<item>134</item>
-<item>110</item>
-<item>75</item>
-<item>50</item>
-</content>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-<border>4</border>
-<object class="wxStaticText" name="VTBaudRTextPico">
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>R:</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxTOP|wxBOTTOM</flag>
-<border>2</border>
-<object class="wxChoice" name="VTBaudRChoicePico">
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<content>
-<item>38400</item>
-<item>19200</item>
-<item>9600</item>
-<item>4800</item>
-<item>3600</item>
-<item>2400</item>
-<item>2000</item>
-<item>1800</item>
-<item>1200</item>
-<item>600</item>
-<item>300</item>
-<item>200</item>
-<item>150</item>
-<item>134</item>
-<item>110</item>
-<item>75</item>
-<item>50</item>
-</content>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-<border>2</border>
-<object class="wxCheckBox" name="StretchDotPico">
-<tooltip>Enable stretch dot mode on video terminal</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>Stretch</label>
-<checked>0</checked>
-</object>
-</object>
-</object>
-</object>
-</object>
-</object>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_TOP|wxLEFT|wxRIGHT</flag>
-<border>4</border>
-<object class="wxBoxSizer">
-<orient>wxVERTICAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxBOTTOM</flag>
-<border>2</border>
-<object class="wxFlexGridSizer">
-<cols>3</cols>
-<rows>3</rows>
-<vgap>2</vgap>
-<hgap>2</hgap>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxStaticText" name="VideoTypeTextPico">
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>Video:</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
-<border>2</border>
-<object class="wxChoice" name="VideoTypePico">
-<tooltip>Select video type</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<content>
-<item>None</item>
-<item>1861 Pixie</item>
-<item>MC6845</item>
-<item>MC6847</item>
-<item>TMS 9918</item>
-<item>Intel 8275</item>
-<item>Super Video</item>
-</content>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-<border>2</border>
-<object class="wxButton" name="ColoursPico">
-<tooltip>Open video setup window</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>VideoSetup</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxStaticText" name="KeyboardTextPico">
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>Keyboard:</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
-<border>2</border>
-<object class="wxChoice" name="KeyboardPico">
-<tooltip>Select keyboard type</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<content>
-<item>None</item>
-<item>PS2</item>
-<item>PS2 Interrupt</item>
-<item>Ascii</item>
-<item>Ascii (+Hex)</item>
-<item>Hex</item>
-</content>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-<border>2</border>
-<object class="wxButton" name="KeyMapPico">
-<tooltip>Open key map window</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>Key Map</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxStaticText" name="MemoryTextPico">
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>Memory:</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
-<border>2</border>
-<object class="wxChoice" name="MemoryPico">
-<tooltip>Select memory size</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<content>
-<item>64KB</item>
-<item>EMS-512KB</item>
-<item>Mapper-1MB</item>
-<item>ROM Mapper</item>
-</content>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-<border>4</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-<border>4</border>
-<object class="wxCheckBox" name="AutoBootPico">
-<tooltip>Enable auto boot at specified address</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>Boot:</label>
-<checked>0</checked>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxTOP|wxBOTTOM</flag>
-<border>2</border>
-<object class="wxTextCtrl" name="BootAddressPico" subclass="HexEdit">
-<size>29,-1d</size>
-<tooltip>Specify auto boot address in hexadecimal</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<maxlength>4</maxlength>
-</object>
-</object>
-</object>
-</object>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
-<border>2</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>4</border>
-<object class="wxStaticText" name="QsoundTextPico">
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>Q Sound:</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALL</flag>
-<border>2</border>
-<object class="wxChoice" name="QsoundPico">
-<tooltip>Select Q sound type</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<content>
-<item>Off</item>
-<item>Software</item>
-<item>Hardware</item>
-</content>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-<border>4</border>
-<object class="wxStaticText" name="BeepFrequencyTextPico">
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>Beeper:</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALL</flag>
-<border>2</border>
-<object class="wxTextCtrl" name="BeepFrequencyPico" subclass="IntEdit">
-<size>26,-1d</size>
-<tooltip>Specify oscilator frequency speed in Hz</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>4</border>
-<object class="wxStaticText" name="BeepFrequencyTextHzPico">
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>Hz</label>
-</object>
-</object>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
-<border>2</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxStaticText" name="ZoomTextPico">
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>Zoom:</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALL</flag>
-<border>2</border>
-<object class="wxTextCtrl" name="ZoomValuePico" subclass="FloatEdit">
-<size>29,-1d</size>
-<tooltip>Select screen size</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-</object>
-</object>
-<object platform="unix" class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>6</border>
-<object platform="unix" class="wxSpinButton" name="ZoomSpinPico">
-<tooltip>Select screen size</tooltip>
-<style>wxSP_VERTICAL</style>
-<value>0</value>
-<min>1</min>
-<max>100</max>
-</object>
-</object>
-<object platform="win" class="sizeritem">
-<flag>wxGROW</flag>
-<border>6</border>
-<object platform="win" class="wxSpinButton" name="ZoomSpinPico">
-<size>-1,15d</size>
-<tooltip>Select screen size</tooltip>
-<style>wxSP_VERTICAL</style>
-<value>0</value>
-<min>1</min>
-<max>100</max>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxRIGHT</flag>
-<border>2</border>
-<object class="wxBitmapButton" name="FullScreenF3Pico">
-<tooltip>Activate full screen mode (F3)</tooltip>
-<enabled>0</enabled>
-<bitmap>images/screen.png</bitmap>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_TOP</flag>
-<border>4</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-<border>2</border>
-<object class="wxStaticText" name="AddressText1Pico">
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>Leds:</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALL</flag>
-<border>2</border>
-<object class="wxTextCtrl" name="ShowAddressPico" subclass="IntEdit">
-<size>26,-1d</size>
-<tooltip>Led updates in run mode every X ms</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<value>100</value>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>4</border>
-<object class="wxStaticText" name="AddressText2Pico">
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>ms</label>
-</object>
-</object>
-</object>
-</object>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
-<border>2</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-<border>4</border>
-<object class="wxStaticText" name="VolumeTextPico">
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>Volume:</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>4</border>
-<object class="wxSlider" name="VolumePico">
-<size>57,-1d</size>
-<tooltip>Change emulator sound volume</tooltip>
-<style>wxSL_HORIZONTAL</style>
-<value>25</value>
-<min>0</min>
-<max>100</max>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxStaticBitmap" name="VuPico">
-<size>57,6d</size>
-<style>wxSTATIC_BORDER</style>
-<bitmap>images/vu.png</bitmap>
-</object>
-</object>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW</flag>
-<border>6</border>
-<object class="wxStaticBoxSizer" name="wxID_ANY">
-<orient>wxVERTICAL</orient>
-<label>Memory Access</label>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT</flag>
-<border>0</border>
-<object class="wxFlexGridSizer">
-<cols>4</cols>
-<rows>3</rows>
-<vgap>1</vgap>
-<hgap>0</hgap>
-<object class="sizeritem">
-<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-<border>4</border>
-<object class="wxCheckBox" name="UseLocationPico">
-<tooltip>Select to SAVE specific machine code address</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<enabled>0</enabled>
-<label>Specify</label>
-<checked>0</checked>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-<border>10</border>
-<object class="wxStaticText" name="UseLocationTextPico">
-<enabled>0</enabled>
-<label>Location</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-<border>2</border>
-<object class="wxStaticText" name="TextStartPico">
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<style>wxALIGN_RIGHT</style>
-<enabled>0</enabled>
-<label>Start</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-<border>2</border>
-<object class="wxTextCtrl" name="SaveStartPico" subclass="HexEdit">
-<size>29,-1d</size>
-<tooltip>Specify start address in hexadecimal</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<enabled>0</enabled>
-<maxlength>4</maxlength>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
-<border>2</border>
-<object class="wxButton" name="LoadButtonPico">
-<tooltip>Load .hex/.super file into Pico/Elf V2 emulator memory</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<enabled>0</enabled>
-<label>LOAD</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
-<border>2</border>
-<object class="wxButton" name="RunButtonPico">
-<tooltip>Load .super file into Pico/Elf V2 emulator memory and RUN software</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<enabled>0</enabled>
-<label>RUN</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-<border>2</border>
-<object class="wxStaticText" name="TextEndPico">
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<style>wxALIGN_RIGHT</style>
-<enabled>0</enabled>
-<label>End</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-<border>2</border>
-<object class="wxTextCtrl" name="SaveEndPico" subclass="HexEdit">
-<size>29,-1d</size>
-<tooltip>Specify end address in hexadecimal</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<enabled>0</enabled>
-<maxlength>4</maxlength>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
-<border>2</border>
-<object class="wxButton" name="SaveButtonPico">
-<tooltip>Save Pico/Elf V2 emulator memory to .hex/.super file</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<enabled>0</enabled>
-<label>SAVE</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
-<border>2</border>
-<object class="wxButton" name="DsaveButtonPico">
-<tooltip>Save Pico/Elf V2 emulator data memory to .super file</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<enabled>0</enabled>
-<label>Data SAVE</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-<border>2</border>
-<object class="wxStaticText" name="TextExecPico">
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<style>wxALIGN_RIGHT</style>
-<enabled>0</enabled>
-<label>Exec</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-<border>2</border>
-<object class="wxTextCtrl" name="SaveExecPico" subclass="HexEdit">
-<size>29,-1d</size>
-<tooltip>Specify machine code execution address in hexadecimal</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<enabled>0</enabled>
-<maxlength>4</maxlength>
-</object>
-</object>
-</object>
-</object>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
-<border>4</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-<border>2</border>
-<object class="wxStaticText" name="TilTextPico">
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>TIL:</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALL</flag>
-<border>2</border>
-<object class="wxChoice" name="TilTypePico">
-<tooltip>Switch between TIL311 and TIL313/FND500</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<content>
-<item>311</item>
-<item>313</item>
-</content>
-</object>
-</object>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-<border>4</border>
-<object class="wxCheckBox" name="ControlWindowsPico">
-<tooltip>Show Pico/Elf V2 control windows</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>Elf Windows</label>
-<checked>0</checked>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-<border>4</border>
-<object class="wxCheckBox" name="InterlacePico">
-<tooltip>Enable interlace mode MC 6845 or intel 8275 video</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>Interlace</label>
-<checked>0</checked>
-</object>
-</object>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
-<border>4</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-<border>4</border>
-<object class="wxCheckBox" name="PortExtPico">
-<tooltip>Enable extended ports support</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>Ext. ports</label>
-<checked>0</checked>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-<border>4</border>
-<object class="wxCheckBox" name="UpperCasePico">
-<tooltip>Force keyboard in uppercase</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>Uppercase</label>
-<checked>0</checked>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-<border>4</border>
-<object class="wxCheckBox" name="BootStrapPico">
-<tooltip>Load ROM 1 at 8000 and bootstrap ROM</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>Bootstrap</label>
-<checked>0</checked>
-</object>
-</object>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
-<border>4</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-<border>4</border>
-<object class="wxCheckBox" name="HexEfPico">
-<tooltip>Enable EF Hex keyboard</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>EF Hex Key</label>
-<checked>0</checked>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-<border>4</border>
-<object class="wxCheckBox" name="EFButtonsPico">
-<tooltip>Enable EF3/EF push buttons</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>EF Buttons</label>
-<checked>0</checked>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-<border>4</border>
-<object class="wxCheckBox" name="GiantPico">
 <tooltip>Enable Giant Board ROM mapping</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -14341,7 +13890,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Keypad mode:</label>
+<label>Keypad mode: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -14378,7 +13927,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>RAM:</label>
+<label>RAM: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -14416,7 +13965,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Cards:</label>
+<label>Cards: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -14781,7 +14330,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Zoom Level:</label>
+<label>Zoom Level: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -14855,7 +14404,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -14895,7 +14444,7 @@
 <size>-1</size>
 </font>
 <hidden>1</hidden>
-<label>Beeper:</label>
+<label>Beeper: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -14920,7 +14469,7 @@
 <size>-1</size>
 </font>
 <hidden>1</hidden>
-<label>Hz</label>
+<label>Hz </label>
 </object>
 </object>
 </object>
@@ -14966,7 +14515,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -15006,7 +14555,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -15065,7 +14614,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>MHz</label>
+<label>MHz </label>
 </object>
 </object>
 </object>
@@ -15191,7 +14740,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Tape Format:</label>
+<label>Tape Format: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -15219,7 +14768,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -15255,7 +14804,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Leds:</label>
+<label>Leds: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -15279,7 +14828,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>ms</label>
+<label>ms </label>
 </object>
 </object>
 </object>
@@ -15530,7 +15079,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Keypad mode:</label>
+<label>Keypad mode: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -15566,7 +15115,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>RAM:</label>
+<label>RAM: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -15611,7 +15160,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Zoom Level:</label>
+<label>Zoom Level: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -15685,7 +15234,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -15725,7 +15274,7 @@
 <size>-1</size>
 </font>
 <hidden>1</hidden>
-<label>Beeper:</label>
+<label>Beeper: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -15750,7 +15299,7 @@
 <size>-1</size>
 </font>
 <hidden>1</hidden>
-<label>Hz</label>
+<label>Hz </label>
 </object>
 </object>
 </object>
@@ -15796,7 +15345,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -15836,7 +15385,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -15895,7 +15444,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>MHz</label>
+<label>MHz </label>
 </object>
 </object>
 </object>
@@ -16021,7 +15570,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Tape Format:</label>
+<label>Tape Format: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -16049,7 +15598,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -16085,7 +15634,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Leds:</label>
+<label>Leds: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -16109,7 +15658,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>ms</label>
+<label>ms </label>
 </object>
 </object>
 </object>
@@ -16254,7 +15803,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Leds:</label>
+<label>Leds: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -16278,7 +15827,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>ms</label>
+<label>ms </label>
 </object>
 </object>
 </object>
@@ -16364,7 +15913,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -16404,7 +15953,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -16551,7 +16100,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>RAM:</label>
+<label>RAM: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -16584,7 +16133,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>per Slot</label>
+<label>per Slot </label>
 </object>
 </object>
 </object>
@@ -16634,7 +16183,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Leds:</label>
+<label>Leds: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -16658,7 +16207,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>ms</label>
+<label>ms </label>
 </object>
 </object>
 </object>
@@ -16744,7 +16293,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -16784,7 +16333,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -16962,7 +16511,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>RAM:</label>
+<label>RAM: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -17035,7 +16584,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Zoom:</label>
+<label>Zoom: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -17088,7 +16637,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Baud:</label>
+<label>Baud: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -17129,7 +16678,7 @@
 <size>-1</size>
 </font>
 <hidden>1</hidden>
-<label>R:</label>
+<label>R: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -17308,7 +16857,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Zoom Level:</label>
+<label>Zoom Level: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -17397,7 +16946,7 @@
 <size>-1</size>
 </font>
 <hidden>1</hidden>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -17426,7 +16975,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Leds:</label>
+<label>Leds: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -17450,7 +16999,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>ms</label>
+<label>ms </label>
 </object>
 </object>
 </object>
@@ -17498,7 +17047,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -17538,7 +17087,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -17600,7 +17149,7 @@
 <size>-1</size>
 </font>
 <hidden>1</hidden>
-<label>MHz</label>
+<label>MHz </label>
 </object>
 </object>
 </object>
@@ -18075,7 +17624,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>VP570 Memory Expansion:</label>
+<label>VP570 Memory Expansion: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -18145,7 +17694,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Zoom:</label>
+<label>Zoom: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -18198,7 +17747,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Baud:</label>
+<label>Baud: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -18239,7 +17788,7 @@
 <size>-1</size>
 </font>
 <hidden>1</hidden>
-<label>R:</label>
+<label>R: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -18309,7 +17858,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Zoom Level:</label>
+<label>Zoom Level: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -18415,7 +17964,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Onboard RAM:</label>
+<label>Onboard RAM: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -18442,7 +17991,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>KB</label>
+<label>KB </label>
 </object>
 </object>
 </object>
@@ -18500,7 +18049,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -18540,7 +18089,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Tempo:</label>
+<label>Tempo: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -18563,7 +18112,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Beeper:</label>
+<label>Beeper: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -18586,7 +18135,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Hz</label>
+<label>Hz </label>
 </object>
 </object>
 </object>
@@ -18630,7 +18179,7 @@
 <border>10</border>
 <object class="wxStaticText" name="UseLocationTextVip">
 <enabled>0</enabled>
-<label>Location</label>
+<label>Location </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -18643,7 +18192,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -18696,7 +18245,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -18749,7 +18298,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Exec</label>
+<label>Exec </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -18864,7 +18413,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>MHz</label>
+<label>MHz </label>
 </object>
 </object>
 </object>
@@ -19157,7 +18706,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>RAM:</label>
+<label>RAM: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -19194,7 +18743,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>VIP II Type:</label>
+<label>VIP II Type: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -19235,7 +18784,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Zoom Level:</label>
+<label>Zoom Level: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -19351,7 +18900,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Leds:</label>
+<label>Leds: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -19375,7 +18924,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>ms</label>
+<label>ms </label>
 </object>
 </object>
 </object>
@@ -19393,7 +18942,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -19456,7 +19005,7 @@
 <border>10</border>
 <object class="wxStaticText" name="UseLocationTextVipII">
 <enabled>0</enabled>
-<label>Location</label>
+<label>Location </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -19469,7 +19018,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -19522,7 +19071,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -19575,7 +19124,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Exec</label>
+<label>Exec </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -19634,7 +19183,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>MHz</label>
+<label>MHz </label>
 </object>
 </object>
 </object>
@@ -19738,7 +19287,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Configuration:</label>
+<label>Configuration: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -19749,7 +19298,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label></label>
+<label> </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -20339,7 +19888,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Zoom Level:</label>
+<label>Zoom Level: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -20437,7 +19986,7 @@
 <border>10</border>
 <object class="wxStaticText" name="UseLocationTextMicroboard">
 <enabled>0</enabled>
-<label>Location</label>
+<label>Location </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -20450,7 +19999,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -20503,7 +20052,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -20556,7 +20105,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Exec</label>
+<label>Exec </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -20673,7 +20222,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Cassette 0:</label>
+<label>Cassette 0: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -20719,7 +20268,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>1:</label>
+<label>1: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -20795,7 +20344,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>MHz</label>
+<label>MHz </label>
 </object>
 </object>
 </object>
@@ -20842,7 +20391,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Leds:</label>
+<label>Leds: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -20866,7 +20415,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>ms</label>
+<label>ms </label>
 </object>
 </object>
 </object>
@@ -20920,7 +20469,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Zoom:</label>
+<label>Zoom: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -20973,7 +20522,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Baud T:</label>
+<label>Baud T: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -21013,7 +20562,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>R:</label>
+<label>R: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -21476,7 +21025,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Zoom:</label>
+<label>Zoom: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -21529,7 +21078,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Baud:</label>
+<label>Baud: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -21570,7 +21119,7 @@
 <size>-1</size>
 </font>
 <hidden>1</hidden>
-<label>R:</label>
+<label>R: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -21701,7 +21250,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -21755,7 +21304,7 @@
 <border>10</border>
 <object class="wxStaticText" name="UseLocationTextMCDS">
 <enabled>0</enabled>
-<label>Location</label>
+<label>Location </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -21768,7 +21317,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -21821,7 +21370,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -21874,7 +21423,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Exec</label>
+<label>Exec </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -21933,7 +21482,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>MHz</label>
+<label>MHz </label>
 </object>
 </object>
 </object>
@@ -21984,7 +21533,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Cassette 0:</label>
+<label>Cassette 0: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -22030,7 +21579,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>1:</label>
+<label>1: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -22569,7 +22118,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Zoom:</label>
+<label>Zoom: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -22622,7 +22171,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Baud T:</label>
+<label>Baud T: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -22662,7 +22211,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>R:</label>
+<label>R: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -22792,7 +22341,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -22850,7 +22399,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -22890,7 +22439,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -22949,7 +22498,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>MHz</label>
+<label>MHz </label>
 </object>
 </object>
 </object>
@@ -23196,7 +22745,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Zoom Level:</label>
+<label>Zoom Level: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -23270,7 +22819,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -23301,7 +22850,7 @@
 <size>-1</size>
 </font>
 <hidden>1</hidden>
-<label>Beeper:</label>
+<label>Beeper: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -23326,7 +22875,7 @@
 <size>-1</size>
 </font>
 <hidden>1</hidden>
-<label>Hz</label>
+<label>Hz </label>
 </object>
 </object>
 </object>
@@ -23545,7 +23094,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Zoom Level:</label>
+<label>Zoom Level: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -23619,7 +23168,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -23650,7 +23199,7 @@
 <size>-1</size>
 </font>
 <hidden>1</hidden>
-<label>Beeper:</label>
+<label>Beeper: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -23675,7 +23224,7 @@
 <size>-1</size>
 </font>
 <hidden>1</hidden>
-<label>Hz</label>
+<label>Hz </label>
 </object>
 </object>
 </object>
@@ -23713,7 +23262,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>MSB / Origin:</label>
+<label>MSB / Origin: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -23739,7 +23288,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>LSB / ROM:</label>
+<label>LSB / ROM: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -23991,7 +23540,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Video:</label>
+<label>Video: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -24037,7 +23586,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Zoom Level:</label>
+<label>Zoom Level: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -24099,7 +23648,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -24130,7 +23679,7 @@
 <size>-1</size>
 </font>
 <hidden>1</hidden>
-<label>Beeper:</label>
+<label>Beeper: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -24155,7 +23704,7 @@
 <size>-1</size>
 </font>
 <hidden>1</hidden>
-<label>Hz</label>
+<label>Hz </label>
 </object>
 </object>
 </object>
@@ -24193,7 +23742,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>MSB / Origin:</label>
+<label>MSB / Origin: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -24219,7 +23768,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>LSB / ROM:</label>
+<label>LSB / ROM: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -24523,7 +24072,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Video:</label>
+<label>Video: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -24569,7 +24118,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Zoom Level:</label>
+<label>Zoom Level: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -24631,7 +24180,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -24671,7 +24220,7 @@
 <size>-1</size>
 </font>
 <hidden>1</hidden>
-<label>Beeper:</label>
+<label>Beeper: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -24696,7 +24245,7 @@
 <size>-1</size>
 </font>
 <hidden>1</hidden>
-<label>Hz</label>
+<label>Hz </label>
 </object>
 </object>
 </object>
@@ -24757,7 +24306,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <hidden>1</hidden>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -24770,7 +24319,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <hidden>1</hidden>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -24783,7 +24332,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <hidden>1</hidden>
-<label>Exec</label>
+<label>Exec </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -24938,7 +24487,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>MHz</label>
+<label>MHz </label>
 </object>
 </object>
 </object>
@@ -25131,7 +24680,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Zoom Level:</label>
+<label>Zoom Level: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -25205,7 +24754,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -25241,7 +24790,7 @@
 <size>-1</size>
 </font>
 <hidden>1</hidden>
-<label>Beeper:</label>
+<label>Beeper: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -25266,7 +24815,7 @@
 <size>-1</size>
 </font>
 <hidden>1</hidden>
-<label>Hz</label>
+<label>Hz </label>
 </object>
 </object>
 </object>
@@ -25419,7 +24968,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Zoom Level:</label>
+<label>Zoom Level: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -25493,7 +25042,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -25528,7 +25077,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>HW Configuration:</label>
+<label>HW Configuration: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -25591,7 +25140,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Altair / Destroyer</label>
+<label>Altair / Destroyer </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -25602,7 +25151,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Draco</label>
+<label>Draco </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -25613,7 +25162,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Difficulty:</label>
+<label>Difficulty: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -25654,7 +25203,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Bonus Live:</label>
+<label>Bonus Live: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -25697,7 +25246,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Number of Lives:</label>
+<label>Number of Lives: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -25738,7 +25287,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Type of Coins:</label>
+<label>Type of Coins: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -26137,7 +25686,7 @@
 <size>-1</size>
 </font>
 <enabled>0</enabled>
-<label>A/DI Input</label>
+<label>A/DI Input </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -26179,7 +25728,7 @@
 <border>6</border>
 <object class="wxStaticText" name="AdiVoltText">
 <enabled>0</enabled>
-<label>mV</label>
+<label>mV </label>
 </object>
 </object>
 </object>
@@ -26198,7 +25747,7 @@
 <size>-1</size>
 </font>
 <enabled>0</enabled>
-<label>A/DS Input</label>
+<label>A/DS Input </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -26240,7 +25789,7 @@
 <border>6</border>
 <object class="wxStaticText" name="AdsVoltText">
 <enabled>0</enabled>
-<label>mV</label>
+<label>mV </label>
 </object>
 </object>
 </object>
@@ -26290,7 +25839,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Zoom Level:</label>
+<label>Zoom Level: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -26364,7 +25913,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -26403,7 +25952,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>RAM:</label>
+<label>RAM: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -26463,7 +26012,7 @@
 <border>10</border>
 <object class="wxStaticText" name="UseLocationTextTMS600">
 <enabled>0</enabled>
-<label>Location</label>
+<label>Location </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -26476,7 +26025,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -26529,7 +26078,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -26582,7 +26131,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Exec</label>
+<label>Exec </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -26641,7 +26190,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>MHz</label>
+<label>MHz </label>
 </object>
 </object>
 </object>
@@ -26981,7 +26530,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Zoom Level:</label>
+<label>Zoom Level: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -27055,7 +26604,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -27094,7 +26643,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Beeper:</label>
+<label>Beeper: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -27117,7 +26666,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Hz</label>
+<label>Hz </label>
 </object>
 </object>
 </object>
@@ -27163,7 +26712,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -27203,7 +26752,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -27262,7 +26811,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>MHz</label>
+<label>MHz </label>
 </object>
 </object>
 </object>
@@ -27336,7 +26885,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>RAM:</label>
+<label>RAM: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -27632,7 +27181,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Zoom Level:</label>
+<label>Zoom Level: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -27706,7 +27255,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -27773,7 +27322,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -27813,7 +27362,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -27872,7 +27421,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>MHz</label>
+<label>MHz </label>
 </object>
 </object>
 </object>
@@ -27946,7 +27495,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>RAM:</label>
+<label>RAM: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -28226,7 +27775,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Sound:</label>
+<label>Sound: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -28269,7 +27818,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Zoom Level:</label>
+<label>Zoom Level: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -28343,7 +27892,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -28410,7 +27959,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -28450,7 +27999,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -28509,7 +28058,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>MHz</label>
+<label>MHz </label>
 </object>
 </object>
 </object>
@@ -28850,7 +28399,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Zoom Level:</label>
+<label>Zoom Level: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -28924,7 +28473,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -28987,7 +28536,7 @@
 <border>10</border>
 <object class="wxStaticText" name="UseLocationTextPecom">
 <enabled>0</enabled>
-<label>Location</label>
+<label>Location </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -29000,7 +28549,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -29053,7 +28602,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -29106,7 +28655,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Exec</label>
+<label>Exec </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -29165,7 +28714,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>MHz</label>
+<label>MHz </label>
 </object>
 </object>
 </object>
@@ -29478,7 +29027,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Zoom Level:</label>
+<label>Zoom Level: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -29552,7 +29101,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -29624,7 +29173,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -29664,7 +29213,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -29723,7 +29272,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>MHz</label>
+<label>MHz </label>
 </object>
 </object>
 </object>
@@ -29797,7 +29346,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory:</label>
+<label>Memory: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -29980,7 +29529,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxStaticText" name="wxID_STATIC">
-<label>-</label>
+<label>- </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -30049,7 +29598,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Move to:</label>
+<label>Move to: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -30079,7 +29628,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Data view:</label>
+<label>Data view: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -30151,7 +29700,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxStaticText" name="wxID_STATIC">
-<label>-</label>
+<label>- </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -30175,7 +29724,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>To:</label>
+<label>To: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -30404,7 +29953,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Current program configuration</label>
+<label>Current program configuration </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -30440,7 +29989,7 @@
 <size>-1</size>
 </font>
 <style>wxALIGN_RIGHT</style>
-<label>  0:</label>
+<label>  0: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -30512,7 +30061,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Code start:</label>
+<label>Code start: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -30584,7 +30133,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Code end:</label>
+<label>Code end: </label>
 </object>
 </object>
 </object>
@@ -30610,7 +30159,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>S/P:</label>
+<label>S/P: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -30657,7 +30206,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>End:</label>
+<label>End: </label>
 </object>
 </object>
 </object>
@@ -30687,7 +30236,7 @@
 <flag>wxALIGN_RIGHT|wxALL</flag>
 <border>0</border>
 <object class="wxStaticText" name="AssBottomRight">
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -30743,7 +30292,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>No computer started</label>
+<label>No computer started </label>
 </object>
 </object>
 </object>
@@ -30761,7 +30310,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>No CPU started</label>
+<label>No CPU started </label>
 </object>
 </object>
 </object>
@@ -30790,7 +30339,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -30819,7 +30368,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -30862,7 +30411,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -30880,7 +30429,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Effective CPU clock:</label>
+<label>Effective CPU clock: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -30891,7 +30440,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -30909,7 +30458,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Instructions / second:</label>
+<label>Instructions / second: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -30920,7 +30469,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -30938,7 +30487,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Vertical video frequency:</label>
+<label>Vertical video frequency: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -30949,7 +30498,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -31032,7 +30581,7 @@
 <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
 <border>4</border>
 <object class="wxStaticText" name="wxID_STATIC">
-<label>Counters:</label>
+<label>Counters: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -31091,7 +30640,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Move to:</label>
+<label>Move to: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -31118,7 +30667,7 @@
 <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
 <border>4</border>
 <object class="wxStaticText" name="wxID_STATIC">
-<label>Type:</label>
+<label>Type: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -31151,7 +30700,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Data view:</label>
+<label>Data view: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -31225,7 +30774,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Interval:</label>
+<label>Interval: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -31236,7 +30785,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -31307,7 +30856,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>D</label>
+<label>D </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -31339,7 +30888,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>X</label>
+<label>X </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -31371,7 +30920,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>P</label>
+<label>P </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -31403,7 +30952,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>T</label>
+<label>T </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -31435,7 +30984,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>B</label>
+<label>B </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -31469,7 +31018,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>CH</label>
+<label>CH </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -31501,7 +31050,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>CNTR</label>
+<label>CNTR </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -31533,7 +31082,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>CIE</label>
+<label>CIE </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -32209,7 +31758,7 @@
 <size>-1</size>
 </font>
 <enabled>0</enabled>
-<label>Speed:</label>
+<label>Speed: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -33102,7 +32651,7 @@
 <size>-1</size>
 </font>
 <style>wxALIGN_LEFT</style>
-<label>Break Points:</label>
+<label>Break Points: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -33135,7 +32684,7 @@
 <size>-1</size>
 </font>
 <style>wxALIGN_LEFT</style>
-<label>Register Traps:</label>
+<label>Register Traps: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -33168,7 +32717,7 @@
 <size>-1</size>
 </font>
 <style>wxALIGN_LEFT</style>
-<label>Instr. Traps:</label>
+<label>Instr. Traps: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -33378,7 +32927,7 @@
 <size>-1</size>
 </font>
 <style>wxALIGN_LEFT</style>
-<label>Call:</label>
+<label>Call: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -33416,7 +32965,7 @@
 <size>-1</size>
 </font>
 <style>wxALIGN_LEFT</style>
-<label>Ret:</label>
+<label>Ret: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -33449,7 +32998,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxStaticText" name="DebugRight">
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -33514,14 +33063,14 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>6</border>
 <object class="wxStaticText" name="wxID_STATIC">
-<label>Type:</label>
+<label>Type: </label>
 </object>
 </object>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>6</border>
 <object class="wxStaticText" name="Chip8Type">
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -34168,7 +33717,7 @@
 <size>-1</size>
 </font>
 <style>wxALIGN_LEFT</style>
-<label>Break Points:</label>
+<label>Break Points: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -34324,7 +33873,7 @@
 <size>-1</size>
 </font>
 <enabled>0</enabled>
-<label>Speed:</label>
+<label>Speed: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -34434,7 +33983,7 @@
 <size>-1</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>  0</label>
+<label>  0 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -34446,7 +33995,7 @@
 <size>-1</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>  1</label>
+<label>  1 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -34458,7 +34007,7 @@
 <size>-1</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>  2</label>
+<label>  2 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -34470,7 +34019,7 @@
 <size>-1</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>  3</label>
+<label>  3 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -34482,7 +34031,7 @@
 <size>-1</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>  4</label>
+<label>  4 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -34494,7 +34043,7 @@
 <size>-1</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>  5</label>
+<label>  5 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -34506,7 +34055,7 @@
 <size>-1</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>  6</label>
+<label>  6 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -34518,7 +34067,7 @@
 <size>-1</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>  7</label>
+<label>  7 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -34530,7 +34079,7 @@
 <size>-1</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>  8</label>
+<label>  8 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -34542,7 +34091,7 @@
 <size>-1</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>  9</label>
+<label>  9 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -34554,7 +34103,7 @@
 <size>-1</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>  A</label>
+<label>  A </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -34566,7 +34115,7 @@
 <size>-1</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>  B</label>
+<label>  B </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -34578,7 +34127,7 @@
 <size>-1</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>  C</label>
+<label>  C </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -34590,7 +34139,7 @@
 <size>-1</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>  D</label>
+<label>  D </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -34602,7 +34151,7 @@
 <size>-1</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>  E</label>
+<label>  E </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -34614,7 +34163,7 @@
 <size>-1</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>  F</label>
+<label>  F </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -34627,7 +34176,7 @@
 <size>-1</size>
 </font>
 <fg>#FF0000</fg>
-<label></label>
+<label> </label>
 </object>
 </object>
 <object class="spacer">
@@ -34644,7 +34193,7 @@
 <size>-1</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>0000</label>
+<label>0000 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -34894,7 +34443,7 @@
 <size>-1</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>0010</label>
+<label>0010 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -35145,7 +34694,7 @@
 <size>-1</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>0020</label>
+<label>0020 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -35395,7 +34944,7 @@
 <size>-1</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>0030</label>
+<label>0030 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -35645,7 +35194,7 @@
 <size>-1</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>0040</label>
+<label>0040 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -35895,7 +35444,7 @@
 <size>-1</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>0050</label>
+<label>0050 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -36145,7 +35694,7 @@
 <size>-1</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>0060</label>
+<label>0060 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -36395,7 +35944,7 @@
 <size>-1</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>0070</label>
+<label>0070 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -36645,7 +36194,7 @@
 <size>-1</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>0080</label>
+<label>0080 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -36895,7 +36444,7 @@
 <size>-1</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>0090</label>
+<label>0090 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -37145,7 +36694,7 @@
 <size>-1</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>00A0</label>
+<label>00A0 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -37395,7 +36944,7 @@
 <size>-1</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>00B0</label>
+<label>00B0 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -37645,7 +37194,7 @@
 <size>-1</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>00C0</label>
+<label>00C0 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -37895,7 +37444,7 @@
 <size>-1</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>00D0</label>
+<label>00D0 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -38145,7 +37694,7 @@
 <size>-1</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>00E0</label>
+<label>00E0 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -38395,7 +37944,7 @@
 <size>-1</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>00F0</label>
+<label>00F0 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -38635,7 +38184,7 @@
 <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxStaticText" name="MemoryDumpBottomRight">
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -38668,7 +38217,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory:</label>
+<label>Memory: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -38753,7 +38302,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxStaticText" name="wxID_STATIC">
-<label>-</label>
+<label>- </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -38777,7 +38326,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>To:</label>
+<label>To: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -38817,7 +38366,7 @@
 <border>0</border>
 <object class="wxStaticText" name="MemoryDumpBottomLeft">
 <style>wxALIGN_LEFT</style>
-<label></label>
+<label> </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -38830,7 +38379,7 @@
 </font>
 <enabled>0</enabled>
 <fg>#8080FF</fg>
-<label>Slot:</label>
+<label>Slot: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -38858,7 +38407,7 @@
 </font>
 <enabled>0</enabled>
 <fg>#45AC22</fg>
-<label>RAM Bank:</label>
+<label>RAM Bank: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -38886,7 +38435,7 @@
 </font>
 <enabled>0</enabled>
 <fg>#800040</fg>
-<label>Eprom Bank:</label>
+<label>Eprom Bank: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -38931,7 +38480,7 @@
 </font>
 <enabled>0</enabled>
 <fg>#C8B43E</fg>
-<label>EMS / ROM Map:</label>
+<label>EMS / ROM Map: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -38959,7 +38508,7 @@
 </font>
 <enabled>0</enabled>
 <fg>#A93EAC</fg>
-<label>Pager:</label>
+<label>Pager: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -39001,7 +38550,7 @@
 <border>0</border>
 <object class="wxStaticText" name="MemoryDumpBottom">
 <style>wxALIGN_RIGHT</style>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>

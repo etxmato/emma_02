@@ -1,18 +1,33 @@
 <html>
 <title>Front Panel</title>
 <body>
-<h3>Front Panel</h3>
+<h1>Front Panel</h1>
 <p>
-IN   - In load mode this button initiates a DMA IN operation of the processor. The values of the two previously pushed buttons 0-F will be written into the memory pointed to by R[0].
+The front panel includes the IN button, hex buttons, Q LED and TIL displays:
 </p>
 <p>
-LOAD - This switch when up, and RUN down places the computer into load mode. In this mode, values can be set by pushing buttons 0-F and then loaded into memory by pressing the IN button.  After the transfer, the data displays will show the byte written and R[0] will be stepped up with 1.
+<IMG SRC="images/elfii_front.png" BORDER="0">
 </p>
 <p>
-MP   - This switch when up disables memory writes.  This would allow you to step through memory in the LOAD mode without actually modifying memory with each IN press, but would still increment the address. Using this you can step to an address in memory, turn MP off and then write a new value into memory.
+For details about how to show or open the front panel see chapter <a href="ElfIIWindows.htm">Control Windows</a>.
 </p>
 <p>
-RUN  - This switch when up and LOAD down places the CPU into run mode the program will begin to execute from address 0.  When both RUN and LOAD are down, the CPU is put into the reset state, setting the current address back to 0, and disabling DMA and INT operations.
+IN (yellow elippse): This button initiates a DMA IN operation of the processor. The values of the two previously pushed hex buttons (green ellipse) will be written into the memory pointed to by R[0] when the computer is in load mode.
+</p>
+<p>
+LOAD (orange ellipse): When this switch is up and RUN (red ellipse) is down the computer is set into load mode. In this mode, values can be set by pushing hex buttons (green ellipse) and then loaded into memory by pressing the IN button (yellow ellipse).  After the transfer, the data displays (black ellipse) will show the byte written and R[0] will be stepped up with 1.
+</p>
+<p>
+MP (blue ellipse): This switch when up disables memory write.  This will allow you to step through memory in the LOAD mode without actually modifying memory, with each IN (yellow ellipse) press, but would still increment the address. Using this you can step to an address in memory, turn MP off and then write a new value into memory.
+</p>
+<p>
+RUN (red ellipse): When this switch is up and LOAD (orange ellipse) is down the CPU is set into run mode and a program will begin to execute from address 0. When both RUN and LOAD are down, the CPU is put into the reset state, setting the current address back to 0, and disabling DMA and INT operations.
+</p>
+<p>
+ON/OFF (magenta ellipse): Turning this switch down will end the Netronics Elf II emulator.
+</p>
+<p>
+Q (white ellipse): Shows status of the CPU Q flag.
 </p>
 </body>
 </html>

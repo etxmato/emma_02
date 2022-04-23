@@ -1,0 +1,20 @@
+<HTML>
+<Title>Video Types</Title>
+<BODY>
+<h1>Video Types</h1>
+<p>
+To select the specific Pico video board use the choice button 'Video' (yellow ellipse). Currently 2 types are supported: 1861 Pixie graphics and TMS 9918.
+</p>
+<p>
+<IMG SRC="images/pico_video.png" BORDER="0">
+</p>
+<h2>1861 Pixie graphics</h2>
+<p>
+1861 Pixie graphics is the same graphic system used for the Studio II computer giving a black and white screen of 64 by 128 large pixels.
+</p>
+<h2>TMS 9918</h2>
+<p>
+TMS 9918 is a video chip with text mode and different graphic modes, allowing colour screens of 256x192 pixels.
+</p>
+</BODY>
+</HTML>

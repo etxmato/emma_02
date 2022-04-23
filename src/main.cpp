@@ -102,6 +102,44 @@ wxString guiSizers[] =
     "End"
 };
 
+wxString objectClass[]=
+{
+    "wxStaticText",
+    "sizeritem",
+    "wxButton",
+    "wxStaticBoxSizer",
+    "undefined"
+};
+
+enum
+{
+    WXSTATICTEXT,
+    SIZERITEM,
+    WXBUTTON,
+    WXSTATICBOXSIZER,
+    UNDEFINED_OBJECT_CLASS
+};
+
+wxString markupList[]=
+{
+    "object",
+    "size",
+    "label",
+    "font",
+    "sysfont",
+    "undefined"
+};
+
+enum
+{
+    MU_OBJECT,
+    MU_SIZE,
+    MU_LABEL,
+    MU_FONT,
+    MU_SYSFONT,
+    UNDEFINED_MARKUP
+};
+
 FloatEdit::FloatEdit()
 : wxTextCtrl() 
 { 
@@ -1607,6 +1645,7 @@ void Emu1802::createXmlFile(wxString xrcDir, wxString xrcFile)
     wxString outputApplication11 = applicationDirectory_ + xrcFile + "_11.xrc";
     wxString outputApplication14 = applicationDirectory_ + xrcFile + "_14.xrc";
     wxString line, line2, line3, line4, line5, line6, flagLine;
+    int classType = UNDEFINED_OBJECT_CLASS, markup = UNDEFINED_MARKUP, markup2 = UNDEFINED_MARKUP;
     
     if (wxFile::Exists(input))
     {
@@ -1629,10 +1668,25 @@ void Emu1802::createXmlFile(wxString xrcDir, wxString xrcFile)
             {
                 line.Trim(false);
                 
+                markup = getMarkup(line);
+                
+                if (markup == MU_OBJECT)
+                    classType = getObjectClass(line);
+
+                if (markup == MU_LABEL && classType == WXSTATICTEXT)
+                {
+                    if (line.Right(8) == "</label>")
+                    {
+                        line = line.Left(line.Length()-8);
+                        line.Trim(true);
+                        line = line + " </label>";
+                    }
+                }
+
                 outputFile11.AddLine(line);
                 outputApplicationFile11.AddLine(line);
 
-                if (xrcFile != "main")
+                if (xrcFile != "main" && markup == MU_SIZE)
                 {
                     if (line == "<size>34,14</size>")   // HEX 4 (Memory)
                         line = "<size>46,18</size>";
@@ -1717,7 +1771,7 @@ void Emu1802::createXmlFile(wxString xrcDir, wxString xrcFile)
                 outputFile14.AddLine(line);
                 outputApplicationFile14.AddLine(line);
 
-                if (xrcFile != "main_mac")
+                if (xrcFile != "main_mac" && markup == MU_SIZE)
                 {
                     if (line == "<size>22,-1d</size>")   // HEX 4 (Memory)
                         line = "<size>30,-1d</size>";
@@ -1748,8 +1802,8 @@ void Emu1802::createXmlFile(wxString xrcDir, wxString xrcFile)
                 }
                 
                 outputFile12.AddLine(line);
-                
-                if (line == "<object class=\"sizeritem\">")
+
+                if (markup == MU_OBJECT && classType == SIZERITEM)
                 {
                     line2=inputFile.GetNextLine(); // flag line
                     line2.Trim(false);
@@ -1766,106 +1820,117 @@ void Emu1802::createXmlFile(wxString xrcDir, wxString xrcFile)
                     outputFile11.AddLine(line4);
                     outputApplicationFile11.AddLine(line4);
 
-                    if (line4.Left(23) == "<object class=\"wxButton")
+                    markup2 = getMarkup(line4);
+
+                    if (markup2 == MU_OBJECT)
                     {
-                        flagLine = line2.Right(line2.Len()-6);
-                        if (flagLine.Left(6) == "wxGROW")
-                            flagLine = flagLine.Right(flagLine.Len()-6);
-                        if (flagLine.Left(1) == "|")
-                            flagLine = flagLine.Right(flagLine.Len()-1);
+                        classType = getObjectClass(line4);
 
-                        outputFile12.AddLine("<flag>wxGROW|"+flagLine);
-                        outputFile14.AddLine("<flag>wxGROW|"+flagLine);
-                        outputApplicationFile14.AddLine("<flag>wxGROW|"+flagLine);
+                        switch (classType)
+                        {
+                            case WXBUTTON:
+                                flagLine = line2.Right(line2.Len()-6);
+                                if (flagLine.Left(6) == "wxGROW")
+                                    flagLine = flagLine.Right(flagLine.Len()-6);
+                                if (flagLine.Left(1) == "|")
+                                    flagLine = flagLine.Right(flagLine.Len()-1);
 
-                        outputFile12.AddLine(line3);
-                        outputFile14.AddLine(line3);
-                        outputApplicationFile14.AddLine(line3);
+                                outputFile12.AddLine("<flag>wxGROW|"+flagLine);
+                                outputFile14.AddLine("<flag>wxGROW|"+flagLine);
+                                outputApplicationFile14.AddLine("<flag>wxGROW|"+flagLine);
 
-                        outputFile12.AddLine(line4);
-                        outputFile14.AddLine(line4);
-                        outputApplicationFile14.AddLine(line4);
-                    }
-                    else if (line4.Left(31) == "<object class=\"wxStaticBoxSizer")
-                    {
-                        outputFile12.AddLine(line2);
-                        outputFile12.AddLine(line3);
-                        outputFile12.AddLine(line4);
-                        
-                        line5=inputFile.GetNextLine(); // orient line
-                        line5.Trim(false);
-                        outputFile11.AddLine(line5);
-                        outputApplicationFile11.AddLine(line5);
-                        outputFile12.AddLine(line5);
+                                outputFile12.AddLine(line3);
+                                outputFile14.AddLine(line3);
+                                outputApplicationFile14.AddLine(line3);
 
-                        line6=inputFile.GetNextLine(); // label line
-                        line6.Trim(false);
-                        outputFile11.AddLine(line6);
-                        outputApplicationFile11.AddLine(line6);
-                        outputFile12.AddLine(line6);
+                                outputFile12.AddLine(line4);
+                                outputFile14.AddLine(line4);
+                                outputApplicationFile14.AddLine(line4);
+                            break;
 
-                        outputFile14.AddLine("<flag>wxALIGN_LEFT|wxLEFT</flag>");
-                        outputApplicationFile14.AddLine("<flag>wxALIGN_LEFT|wxLEFT</flag>");
-                        outputFile14.AddLine("<border>12</border>");
-                        outputApplicationFile14.AddLine("<border>12</border>");
-                        outputFile14.AddLine("<object class=\"wxStaticText\" name=\"wxID_STATIC\">");
-                        outputApplicationFile14.AddLine("<object class=\"wxStaticText\" name=\"wxID_STATIC\">");
-                        outputFile14.AddLine("<font>");
-                        outputApplicationFile14.AddLine("<font>");
-                        outputFile14.AddLine("<size>14</size>");
-                        outputApplicationFile14.AddLine("<size>14</size>");
-                        outputFile14.AddLine("</font>");
-                        outputApplicationFile14.AddLine("</font>");
-                        outputFile14.AddLine(line6);
-                        outputApplicationFile14.AddLine(line6);
-                        outputFile14.AddLine("</object>");
-                        outputApplicationFile14.AddLine("</object>");
-                        outputFile14.AddLine("</object>");
-                        outputApplicationFile14.AddLine("</object>");
-                        outputFile14.AddLine(line);
-                        outputApplicationFile14.AddLine(line);
-                        outputFile14.AddLine(line2);
-                        outputApplicationFile14.AddLine(line2);
-                        outputFile14.AddLine(line3);
-                        outputApplicationFile14.AddLine(line3);
-                        outputFile14.AddLine(line4);
-                        outputApplicationFile14.AddLine(line4);
-                        outputFile14.AddLine(line5);
-                        outputApplicationFile14.AddLine(line5);
-                        outputFile14.AddLine("<label></label>");
-                        outputApplicationFile14.AddLine("<label></label>");
-                    }
-                    else
-                    {
-                        outputFile12.AddLine(line2);
-                        outputFile14.AddLine(line2);
-                        outputApplicationFile14.AddLine(line2);
+                            case WXSTATICBOXSIZER:
+                                outputFile12.AddLine(line2);
+                                outputFile12.AddLine(line3);
+                                outputFile12.AddLine(line4);
+                                
+                                line5=inputFile.GetNextLine(); // orient line
+                                line5.Trim(false);
+                                outputFile11.AddLine(line5);
+                                outputApplicationFile11.AddLine(line5);
+                                outputFile12.AddLine(line5);
 
-                        outputFile12.AddLine(line3);
-                        outputFile14.AddLine(line3);
-                        outputApplicationFile14.AddLine(line3);
+                                line6=inputFile.GetNextLine(); // label line
+                                line6.Trim(false);
+                                outputFile11.AddLine(line6);
+                                outputApplicationFile11.AddLine(line6);
+                                outputFile12.AddLine(line6);
 
-                        outputFile12.AddLine(line4);
-                        outputFile14.AddLine(line4);
-                        outputApplicationFile14.AddLine(line4);
+                                outputFile14.AddLine("<flag>wxALIGN_LEFT|wxLEFT</flag>");
+                                outputApplicationFile14.AddLine("<flag>wxALIGN_LEFT|wxLEFT</flag>");
+                                outputFile14.AddLine("<border>12</border>");
+                                outputApplicationFile14.AddLine("<border>12</border>");
+                                outputFile14.AddLine("<object class=\"wxStaticText\" name=\"wxID_STATIC\">");
+                                outputApplicationFile14.AddLine("<object class=\"wxStaticText\" name=\"wxID_STATIC\">");
+                                outputFile14.AddLine("<font>");
+                                outputApplicationFile14.AddLine("<font>");
+                                outputFile14.AddLine("<size>14</size>");
+                                outputApplicationFile14.AddLine("<size>14</size>");
+                                outputFile14.AddLine("</font>");
+                                outputApplicationFile14.AddLine("</font>");
+                                outputFile14.AddLine(line6);
+                                outputApplicationFile14.AddLine(line6);
+                                outputFile14.AddLine("</object>");
+                                outputApplicationFile14.AddLine("</object>");
+                                outputFile14.AddLine("</object>");
+                                outputApplicationFile14.AddLine("</object>");
+                                outputFile14.AddLine(line);
+                                outputApplicationFile14.AddLine(line);
+                                outputFile14.AddLine(line2);
+                                outputApplicationFile14.AddLine(line2);
+                                outputFile14.AddLine(line3);
+                                outputApplicationFile14.AddLine(line3);
+                                outputFile14.AddLine(line4);
+                                outputApplicationFile14.AddLine(line4);
+                                outputFile14.AddLine(line5);
+                                outputApplicationFile14.AddLine(line5);
+                                outputFile14.AddLine("<label></label>");
+                                outputApplicationFile14.AddLine("<label></label>");
+                            break;
+
+                            default:
+                                outputFile12.AddLine(line2);
+                                outputFile14.AddLine(line2);
+                                outputApplicationFile14.AddLine(line2);
+
+                                outputFile12.AddLine(line3);
+                                outputFile14.AddLine(line3);
+                                outputApplicationFile14.AddLine(line3);
+
+                                outputFile12.AddLine(line4);
+                                outputFile14.AddLine(line4);
+                                outputApplicationFile14.AddLine(line4);
+                            break;
+                        }
                     }
                 }
                 
-                if (line == "<font>")
+                if (markup == MU_FONT)
                 {
                     line=inputFile.GetNextLine();
                     line.Trim(false);
+                    markup = getMarkup(line);
 
-                    if (line.Left(9) == "<sysfont>")
+                    if (markup == MU_SYSFONT)
                     {
                         outputFile11.AddLine(line);
                         outputApplicationFile11.AddLine(line);
-                        
+          
                         line=inputFile.GetNextLine();
                         line.Trim(false);
+                        markup = getMarkup(line);
                     }
 
-                    if (line.Left(6) == "<size>")
+                    if (markup == MU_SIZE) 
                     {
                         line="<size>-1</size>"; // OSX: 11, Windows: 9
                         outputFile11.AddLine(line);
@@ -1915,6 +1980,41 @@ void Emu1802::createFile(wxTextFile* filename, wxString name)
     }
     else
         filename->Create(name);
+}
+
+int Emu1802::getObjectClass(wxString line)
+{
+    wxString classType;
+    
+    classType = line.Right(line.Length()-(line.Find("\"")+1));
+    classType = classType.Left(classType.Find("\""));
+
+    int classTypeInt = 0;
+    
+    while (classTypeInt != UNDEFINED_OBJECT_CLASS && objectClass[classTypeInt] != classType)
+        classTypeInt++;
+    
+    return classTypeInt;
+}
+
+int Emu1802::getMarkup(wxString line)
+{
+    wxString markupType;
+    
+    markupType = line.Right(line.Length()-(line.Find("<")+1));
+    int end = markupType.Find(">");
+    int end2 = markupType.Find(" ");
+    if (end2 < end && end2 != wxNOT_FOUND)
+        end = end2;
+    
+    markupType = markupType.Left(end);
+
+    int markupTypeInt = 0;
+    
+    while (markupTypeInt != UNDEFINED_MARKUP && markupList[markupTypeInt] != markupType)
+        markupTypeInt++;
+    
+    return markupTypeInt;
 }
 
 Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
@@ -2073,7 +2173,7 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
     for (int computer=2; computer<NO_COMPUTER; computer++)
     {
         if (computer == NETRONICS) //*** to be removed
-            computer = COSMICOS;
+            computer = PICO;
         int confComputer = computer;
         if (confComputer == 2)
             confComputer = 0;
@@ -2166,14 +2266,17 @@ Main::~Main()
 		{
 			if (selectedComputer_ != computer)
 			{
-				delete conf[computer].configurationMenu;
-				delete conf[computer].configurationDeleteMenu;
+                if (computer != NETRONICS) //*** to be removed
+                {
+                    delete conf[computer].configurationMenu;
+                    delete conf[computer].configurationDeleteMenu;
+                }
 			}
 		}
 
 		for (int computer=0; computer<NO_COMPUTER; computer++)
 		{
-            if (computer != NETRONICS && computer != PICO) //*** to be removed
+            if (computer != NETRONICS) //*** to be removed
             {
                 delete clockText[computer];
                 delete clockTextCtrl[computer];
@@ -3164,8 +3267,9 @@ void Main::readConfig()
 #endif
 	}
 
+    //** to be removed
+    if (XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->GetPageCount() == 11)
         XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->DeletePage(10);
-        XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->DeletePage(9);
 
 	psaveData_[0] = (int)configPointer->Read("/Main/Psave_Volume", 15l);
 	psaveData_[1] = (int)configPointer->Read("/Main/Psave_Bit_Rate", 1l);
@@ -3444,7 +3548,7 @@ void Main::buildConfigMenu()
     for (int computer=2; computer<NO_COMPUTER; computer++)
     {
         if (computer == NETRONICS) //*** to be removed
-            computer = COSMICOS;
+            computer = PICO;
         int confComputer = computer;
         if (confComputer == 2)
             confComputer = 0;
@@ -3823,6 +3927,8 @@ int Main::saveComputerConfig(ConfigurationInfo configurationInfo, ConfigurationI
 
     for (int comp=2; comp<NO_COMPUTER; comp++)
     {
+        if (comp == NETRONICS) //*** to be removed
+            comp = PICO;
         delete conf[comp].configurationMenu;
         delete conf[comp].configurationDeleteMenu;
     }
@@ -4319,7 +4425,10 @@ void Main::onDeleteConfiguration(wxCommandEvent& event)
             
 				for (int comp=2; comp<NO_COMPUTER; comp++)
 				{
-					delete conf[comp].configurationMenu;
+                    if (computer == NETRONICS) //*** to be removed
+                        computer = PICO;
+
+                    delete conf[comp].configurationMenu;
 					delete conf[comp].configurationDeleteMenu;
 				}
 
@@ -5297,7 +5406,7 @@ void Main::nonFixedWindowPosition()
     conf[MICROTUTOR2].mainX_ = -1;
     conf[MICROTUTOR2].mainY_ = -1;
 
-	for (int i=0; i<5; i++)
+	for (int i=0; i<COSMICOS; i++)
 	{
 		conf[i].pixieX_ = -1;
 		conf[i].pixieY_ = -1;
@@ -5415,7 +5524,7 @@ void Main::fixedWindowPosition()
     conf[MICROTUTOR2].mainX_ = mainWindowX_;
     conf[MICROTUTOR2].mainY_ = mainWindowY_ + windowInfo.mainwY + windowInfo.yBorder;
 
-	for (int i=0; i<5; i++)
+	for (int i=0; i<COSMICOS; i++)
 	{
 		conf[i].pixieX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
 		conf[i].pixieY_ = mainWindowY_;
@@ -6603,7 +6712,7 @@ void Main::enableColorbutton(bool status)
     XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status | (runningComputer_ == SUPERELF));
     //*** to be removed
 //    XRCCTRL(*this,"ColoursNetronics", wxButton)->Enable(status | (runningComputer_ == NETRONICS));
-//    XRCCTRL(*this,"ColoursPico", wxButton)->Enable(status | (runningComputer_ == PICO));
+    XRCCTRL(*this,"ColoursPico", wxButton)->Enable(status | (runningComputer_ == PICO));
     XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status | (runningComputer_ == MEMBER));
     XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status | (runningComputer_ == VELF));
     XRCCTRL(*this,"ColoursCDP18S020", wxButton)->Enable(status | (runningComputer_ == CDP18S020));
@@ -7251,92 +7360,88 @@ void Main::enableGui(bool status)
         chip8ProtectedMode_= false;
         XRCCTRL(*this,"Chip8TraceButton", wxToggleButton)->SetValue(false);
         XRCCTRL(*this,"Chip8DebugMode", wxCheckBox)->SetValue(false);
-        wxString elfTypeStr;
         
-        XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status);
-        elfTypeStr = "ElfII";
-        XRCCTRL(*this,"Giant"+elfTypeStr, wxCheckBox)->Enable(status);
-        XRCCTRL(*this,"EFButtons"+elfTypeStr, wxCheckBox)->Enable(status);
+        XRCCTRL(*this,"GiantNetronics", wxCheckBox)->Enable(status);
+        XRCCTRL(*this,"EFButtonsNetronics", wxCheckBox)->Enable(status);
 
         enableLoadGui(!status);
         setRealCas2(runningComputer_);
-        XRCCTRL(*this,"MainRom"+elfTypeStr, wxComboBox)->Enable(status);
-        XRCCTRL(*this,"MainRom2"+elfTypeStr, wxComboBox)->Enable(status);
-        XRCCTRL(*this,"RomButton"+elfTypeStr, wxButton)->Enable(status);
+        XRCCTRL(*this,"MainRomNetronics", wxComboBox)->Enable(status);
+        XRCCTRL(*this,"MainRom2Netronics", wxComboBox)->Enable(status);
+        XRCCTRL(*this,"RomButtonNetronics", wxButton)->Enable(status);
         if (elfConfiguration[selectedComputer_].memoryType != 3)
-            XRCCTRL(*this,"Rom1"+elfTypeStr, wxButton)->Enable(status);
-        XRCCTRL(*this,"RomButton2"+elfTypeStr, wxButton)->Enable(status);
-        XRCCTRL(*this,"Rom2"+elfTypeStr, wxButton)->Enable(status);
-        XRCCTRL(*this,"DP_Button"+elfTypeStr, wxButton)->Enable(status);
+            XRCCTRL(*this,"Rom1Netronics", wxButton)->Enable(status);
+        XRCCTRL(*this,"RomButton2Netronics", wxButton)->Enable(status);
+        XRCCTRL(*this,"Rom2Netronics", wxButton)->Enable(status);
+        XRCCTRL(*this,"DP_ButtonNetronics", wxButton)->Enable(status);
         if (elfConfiguration[runningComputer_].ideEnabled)
         {
-            XRCCTRL(*this,"IDE_Button"+elfTypeStr, wxButton)->Enable(status);
-            XRCCTRL(*this,"IdeFile"+elfTypeStr, wxTextCtrl)->Enable(status);
-            XRCCTRL(*this,"Eject_IDE"+elfTypeStr, wxButton)->Enable(status);
+            XRCCTRL(*this,"IDE_ButtonNetronics", wxButton)->Enable(status);
+            XRCCTRL(*this,"IdeFileNetronics", wxTextCtrl)->Enable(status);
+            XRCCTRL(*this,"Eject_IDENetronics", wxButton)->Enable(status);
         }
         if (!status)
         {
-            XRCCTRL(*this,"PrintButton"+elfTypeStr, wxBitmapButton)->Enable(conf[runningComputer_].printerOn_);
-            XRCCTRL(*this,"PrintButton"+elfTypeStr, wxBitmapButton)->SetToolTip("Open printer window (F4)");
+            XRCCTRL(*this,"PrintButtonNetronics", wxBitmapButton)->Enable(conf[runningComputer_].printerOn_);
+            XRCCTRL(*this,"PrintButtonNetronics", wxBitmapButton)->SetToolTip("Open printer window (F4)");
         }
         else
         {
-            XRCCTRL(*this,"PrintButton"+elfTypeStr, wxBitmapButton)->Enable(true);
+            XRCCTRL(*this,"PrintButtonNetronics", wxBitmapButton)->Enable(true);
             if (conf[runningComputer_].printerOn_)
-                XRCCTRL(*this,"PrintButton"+elfTypeStr, wxBitmapButton)->SetToolTip("Disable printer support");
+                XRCCTRL(*this,"PrintButtonNetronics", wxBitmapButton)->SetToolTip("Disable printer support");
             else
-                XRCCTRL(*this,"PrintButton"+elfTypeStr, wxBitmapButton)->SetToolTip("Enable printer support");
+                XRCCTRL(*this,"PrintButtonNetronics", wxBitmapButton)->SetToolTip("Enable printer support");
         }
-        XRCCTRL(*this,"Memory"+elfTypeStr, wxChoice)->Enable(status);
-        XRCCTRL(*this,"MemoryText"+elfTypeStr,wxStaticText)->Enable(status);
+        XRCCTRL(*this,"MemoryNetronics", wxChoice)->Enable(status);
+        XRCCTRL(*this,"MemoryTextNetronics",wxStaticText)->Enable(status);
         if (elfConfiguration[runningComputer_].usePager)
-            XRCCTRL(*this,"PortExt"+elfTypeStr, wxCheckBox)->Enable(false);
+            XRCCTRL(*this,"PortExtNetronics", wxCheckBox)->Enable(false);
         else
-            XRCCTRL(*this,"PortExt"+elfTypeStr, wxCheckBox)->Enable(status);
-        XRCCTRL(*this,"BootStrap"+elfTypeStr, wxCheckBox)->Enable(status);
+            XRCCTRL(*this,"PortExtNetronics", wxCheckBox)->Enable(status);
+        XRCCTRL(*this,"BootStrapNetronics", wxCheckBox)->Enable(status);
 
         if (elfConfiguration[runningComputer_].usePager || elfConfiguration[runningComputer_].useEms || elfConfiguration[runningComputer_].useRomMapper)
         {
-            XRCCTRL(*this, "StartRamText"+computerInfo[runningComputer_].gui, wxStaticText)->Enable(false);
-            XRCCTRL(*this, "StartRam"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(false);
-            XRCCTRL(*this, "EndRamText"+computerInfo[runningComputer_].gui, wxStaticText)->Enable(false);
-            XRCCTRL(*this, "EndRam"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(false);
+            XRCCTRL(*this, "StartRamTextNetronics", wxStaticText)->Enable(false);
+            XRCCTRL(*this, "StartRamNetronics", wxTextCtrl)->Enable(false);
+            XRCCTRL(*this, "EndRamTextNetronics", wxStaticText)->Enable(false);
+            XRCCTRL(*this, "EndRamNetronics", wxTextCtrl)->Enable(false);
         }
         else
         {
-            XRCCTRL(*this, "StartRamText"+computerInfo[runningComputer_].gui, wxStaticText)->Enable(status);
-            XRCCTRL(*this, "StartRam"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(status);
-            XRCCTRL(*this, "EndRamText"+computerInfo[runningComputer_].gui, wxStaticText)->Enable(status);
-            XRCCTRL(*this, "EndRam"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(status);
+            XRCCTRL(*this, "StartRamTextNetronics", wxStaticText)->Enable(status);
+            XRCCTRL(*this, "StartRamNetronics", wxTextCtrl)->Enable(status);
+            XRCCTRL(*this, "EndRamTextNetronics", wxStaticText)->Enable(status);
+            XRCCTRL(*this, "EndRamNetronics", wxTextCtrl)->Enable(status);
         }
-        XRCCTRL(*this,"VTType"+elfTypeStr,wxChoice)->Enable(status);
-        if (XRCCTRL(*this,"VTType"+elfTypeStr,wxChoice)->GetSelection() != VTNONE)
+        XRCCTRL(*this,"VTTypeNetronics",wxChoice)->Enable(status);
+        if (XRCCTRL(*this,"VTTypeNetronics",wxChoice)->GetSelection() != VTNONE)
         {
             if (elfConfiguration[runningComputer_].useUart || elfConfiguration[runningComputer_].useUart16450)
             {
-                XRCCTRL(*this, "VTBaudRText" + elfTypeStr, wxStaticText)->Enable(status);
-                XRCCTRL(*this, "VTBaudRChoice" + elfTypeStr, wxChoice)->Enable(status);
+                XRCCTRL(*this, "VTBaudRTextNetronics", wxStaticText)->Enable(status);
+                XRCCTRL(*this, "VTBaudRChoiceNetronics", wxChoice)->Enable(status);
             }
-            XRCCTRL(*this, "VTBaudTChoice" + elfTypeStr, wxChoice)->Enable(status);
-            XRCCTRL(*this, "VTBaudTText" + elfTypeStr, wxStaticText)->Enable(status);
-            XRCCTRL(*this, "VtSetup"+elfTypeStr, wxButton)->Enable(status);
+            XRCCTRL(*this, "VTBaudTChoiceNetronics", wxChoice)->Enable(status);
+            XRCCTRL(*this, "VTBaudTTextNetronics", wxStaticText)->Enable(status);
+            XRCCTRL(*this, "VtSetupNetronics", wxButton)->Enable(status);
         }
-        XRCCTRL(*this,"VideoType"+elfTypeStr,wxChoice)->Enable(status);
-        XRCCTRL(*this,"VideoTypeText"+elfTypeStr,wxStaticText)->Enable(status);
-        XRCCTRL(*this,"DiskType"+elfTypeStr,wxChoice)->Enable(status);
-        XRCCTRL(*this,"Keyboard"+elfTypeStr,wxChoice)->Enable(status);
-        XRCCTRL(*this,"KeyboardText"+elfTypeStr,wxStaticText)->Enable(status);
-        XRCCTRL(*this,"CharRomButton"+elfTypeStr, wxButton)->Enable(status&(elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].useS100));
+        XRCCTRL(*this,"VideoTypeNetronics",wxChoice)->Enable(status);
+        XRCCTRL(*this,"VideoTypeTextNetronics",wxStaticText)->Enable(status);
+        XRCCTRL(*this,"DiskTypeNetronics",wxChoice)->Enable(status);
+        XRCCTRL(*this,"KeyboardNetronics",wxChoice)->Enable(status);
+        XRCCTRL(*this,"KeyboardTextNetronics",wxStaticText)->Enable(status);
+        XRCCTRL(*this,"CharRomButtonNetronics", wxButton)->Enable(status&(elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].useS100));
         if (!elfConfiguration[runningComputer_].vtExternal)
         {
-            XRCCTRL(*this,"FullScreenF3"+elfTypeStr, wxButton)->Enable(!status&(elfConfiguration[runningComputer_].usePixie||elfConfiguration[runningComputer_].useTMS9918||elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].useS100||(elfConfiguration[runningComputer_].vtType != VTNONE)));
-            XRCCTRL(*this,"ScreenDumpF5"+elfTypeStr, wxButton)->Enable(!status&(elfConfiguration[runningComputer_].usePixie||elfConfiguration[runningComputer_].useTMS9918||elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].useS100||(elfConfiguration[runningComputer_].vtType != VTNONE)));
+            XRCCTRL(*this,"FullScreenF3Netronics", wxButton)->Enable(!status&(elfConfiguration[runningComputer_].usePixie||elfConfiguration[runningComputer_].useTMS9918||elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].useS100||(elfConfiguration[runningComputer_].vtType != VTNONE)));
+            XRCCTRL(*this,"ScreenDumpF5Netronics", wxButton)->Enable(!status&(elfConfiguration[runningComputer_].usePixie||elfConfiguration[runningComputer_].useTMS9918||elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].useS100||(elfConfiguration[runningComputer_].vtType != VTNONE)));
        }
-        XRCCTRL(*this,"CharRom"+elfTypeStr, wxComboBox)->Enable(status&(elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].useS100));
+        XRCCTRL(*this,"CharRomNetronics", wxComboBox)->Enable(status&(elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].useS100));
         
-        XRCCTRL(*this,"TilType"+elfTypeStr,wxChoice)->Enable(status);
-        XRCCTRL(*this,"TilText"+elfTypeStr,wxStaticText)->Enable(status);
+        XRCCTRL(*this,"TilTypeNetronics",wxChoice)->Enable(status);
+        XRCCTRL(*this,"TilTextNetronics",wxStaticText)->Enable(status);
         enableMemAccessGui(!status);
     }
     if (runningComputer_ == PICO)
@@ -7344,92 +7449,53 @@ void Main::enableGui(bool status)
         chip8ProtectedMode_= false;
         XRCCTRL(*this,"Chip8TraceButton", wxToggleButton)->SetValue(false);
         XRCCTRL(*this,"Chip8DebugMode", wxCheckBox)->SetValue(false);
-        wxString elfTypeStr;
         
-        XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status);
-        elfTypeStr = "ElfII";
-        XRCCTRL(*this,"Giant"+elfTypeStr, wxCheckBox)->Enable(status);
-        XRCCTRL(*this,"EFButtons"+elfTypeStr, wxCheckBox)->Enable(status);
-
         enableLoadGui(!status);
         setRealCas2(runningComputer_);
-        XRCCTRL(*this,"MainRom"+elfTypeStr, wxComboBox)->Enable(status);
-        XRCCTRL(*this,"MainRom2"+elfTypeStr, wxComboBox)->Enable(status);
-        XRCCTRL(*this,"RomButton"+elfTypeStr, wxButton)->Enable(status);
-        if (elfConfiguration[selectedComputer_].memoryType != 3)
-            XRCCTRL(*this,"Rom1"+elfTypeStr, wxButton)->Enable(status);
-        XRCCTRL(*this,"RomButton2"+elfTypeStr, wxButton)->Enable(status);
-        XRCCTRL(*this,"Rom2"+elfTypeStr, wxButton)->Enable(status);
-        XRCCTRL(*this,"DP_Button"+elfTypeStr, wxButton)->Enable(status);
+        XRCCTRL(*this,"MainRomPico", wxComboBox)->Enable(status);
+        XRCCTRL(*this,"RomButtonPico", wxButton)->Enable(status);
+        XRCCTRL(*this,"DP_ButtonPico", wxButton)->Enable(status);
         if (elfConfiguration[runningComputer_].ideEnabled)
         {
-            XRCCTRL(*this,"IDE_Button"+elfTypeStr, wxButton)->Enable(status);
-            XRCCTRL(*this,"IdeFile"+elfTypeStr, wxTextCtrl)->Enable(status);
-            XRCCTRL(*this,"Eject_IDE"+elfTypeStr, wxButton)->Enable(status);
+            XRCCTRL(*this,"IDE_ButtonPico", wxButton)->Enable(status);
+            XRCCTRL(*this,"IdeFilePico", wxTextCtrl)->Enable(status);
+            XRCCTRL(*this,"Eject_IDEPico", wxButton)->Enable(status);
         }
         if (!status)
         {
-            XRCCTRL(*this,"PrintButton"+elfTypeStr, wxBitmapButton)->Enable(conf[runningComputer_].printerOn_);
-            XRCCTRL(*this,"PrintButton"+elfTypeStr, wxBitmapButton)->SetToolTip("Open printer window (F4)");
+            XRCCTRL(*this,"PrintButtonPico", wxBitmapButton)->Enable(conf[runningComputer_].printerOn_);
+            XRCCTRL(*this,"PrintButtonPico", wxBitmapButton)->SetToolTip("Open printer window (F4)");
         }
         else
         {
-            XRCCTRL(*this,"PrintButton"+elfTypeStr, wxBitmapButton)->Enable(true);
+            XRCCTRL(*this,"PrintButtonPico", wxBitmapButton)->Enable(true);
             if (conf[runningComputer_].printerOn_)
-                XRCCTRL(*this,"PrintButton"+elfTypeStr, wxBitmapButton)->SetToolTip("Disable printer support");
+                XRCCTRL(*this,"PrintButtonPico", wxBitmapButton)->SetToolTip("Disable printer support");
             else
-                XRCCTRL(*this,"PrintButton"+elfTypeStr, wxBitmapButton)->SetToolTip("Enable printer support");
+                XRCCTRL(*this,"PrintButtonPico", wxBitmapButton)->SetToolTip("Enable printer support");
         }
-        XRCCTRL(*this,"Memory"+elfTypeStr, wxChoice)->Enable(status);
-        XRCCTRL(*this,"MemoryText"+elfTypeStr,wxStaticText)->Enable(status);
-        if (elfConfiguration[runningComputer_].usePager)
-            XRCCTRL(*this,"PortExt"+elfTypeStr, wxCheckBox)->Enable(false);
-        else
-            XRCCTRL(*this,"PortExt"+elfTypeStr, wxCheckBox)->Enable(status);
-        XRCCTRL(*this,"BootStrap"+elfTypeStr, wxCheckBox)->Enable(status);
 
-        if (elfConfiguration[runningComputer_].usePager || elfConfiguration[runningComputer_].useEms || elfConfiguration[runningComputer_].useRomMapper)
-        {
-            XRCCTRL(*this, "StartRamText"+computerInfo[runningComputer_].gui, wxStaticText)->Enable(false);
-            XRCCTRL(*this, "StartRam"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(false);
-            XRCCTRL(*this, "EndRamText"+computerInfo[runningComputer_].gui, wxStaticText)->Enable(false);
-            XRCCTRL(*this, "EndRam"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(false);
-        }
-        else
-        {
-            XRCCTRL(*this, "StartRamText"+computerInfo[runningComputer_].gui, wxStaticText)->Enable(status);
-            XRCCTRL(*this, "StartRam"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(status);
-            XRCCTRL(*this, "EndRamText"+computerInfo[runningComputer_].gui, wxStaticText)->Enable(status);
-            XRCCTRL(*this, "EndRam"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(status);
-        }
-        XRCCTRL(*this,"VTType"+elfTypeStr,wxChoice)->Enable(status);
-        if (XRCCTRL(*this,"VTType"+elfTypeStr,wxChoice)->GetSelection() != VTNONE)
+        XRCCTRL(*this,"VTTypePico",wxChoice)->Enable(status);
+        if (XRCCTRL(*this,"VTTypePico",wxChoice)->GetSelection() != VTNONE)
         {
             if (elfConfiguration[runningComputer_].useUart || elfConfiguration[runningComputer_].useUart16450)
             {
-                XRCCTRL(*this, "VTBaudRText" + elfTypeStr, wxStaticText)->Enable(status);
-                XRCCTRL(*this, "VTBaudRChoice" + elfTypeStr, wxChoice)->Enable(status);
+                XRCCTRL(*this, "VTBaudRTextPico", wxStaticText)->Enable(status);
+                XRCCTRL(*this, "VTBaudRChoicePico", wxChoice)->Enable(status);
             }
-            XRCCTRL(*this, "VTBaudTChoice" + elfTypeStr, wxChoice)->Enable(status);
-            XRCCTRL(*this, "VTBaudTText" + elfTypeStr, wxStaticText)->Enable(status);
-            XRCCTRL(*this, "VtSetup"+elfTypeStr, wxButton)->Enable(status);
+            XRCCTRL(*this, "VTBaudTChoicePico", wxChoice)->Enable(status);
+            XRCCTRL(*this, "VTBaudTTextPico", wxStaticText)->Enable(status);
+            XRCCTRL(*this, "VtSetupPico", wxButton)->Enable(status);
         }
-        XRCCTRL(*this,"VideoType"+elfTypeStr,wxChoice)->Enable(status);
-        XRCCTRL(*this,"VideoTypeText"+elfTypeStr,wxStaticText)->Enable(status);
-        XRCCTRL(*this,"DiskType"+elfTypeStr,wxChoice)->Enable(status);
-        XRCCTRL(*this,"Keyboard"+elfTypeStr,wxChoice)->Enable(status);
-        XRCCTRL(*this,"KeyboardText"+elfTypeStr,wxStaticText)->Enable(status);
-        XRCCTRL(*this,"CharRomButton"+elfTypeStr, wxButton)->Enable(status&(elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].useS100));
+        XRCCTRL(*this,"VideoTypePico",wxChoice)->Enable(status);
+        XRCCTRL(*this,"VideoTypeTextPico",wxStaticText)->Enable(status);
+        XRCCTRL(*this,"DiskTypePico",wxChoice)->Enable(status);
         if (!elfConfiguration[runningComputer_].vtExternal)
         {
-            XRCCTRL(*this,"FullScreenF3"+elfTypeStr, wxButton)->Enable(!status&(elfConfiguration[runningComputer_].usePixie||elfConfiguration[runningComputer_].useTMS9918||elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].useS100||(elfConfiguration[runningComputer_].vtType != VTNONE)));
-            XRCCTRL(*this,"ScreenDumpF5"+elfTypeStr, wxButton)->Enable(!status&(elfConfiguration[runningComputer_].usePixie||elfConfiguration[runningComputer_].useTMS9918||elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].useS100||(elfConfiguration[runningComputer_].vtType != VTNONE)));
+            XRCCTRL(*this,"FullScreenF3Pico", wxButton)->Enable(!status&(elfConfiguration[runningComputer_].usePixie||elfConfiguration[runningComputer_].useTMS9918||elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].useS100||(elfConfiguration[runningComputer_].vtType != VTNONE)));
+            XRCCTRL(*this,"ScreenDumpF5Pico", wxButton)->Enable(!status&(elfConfiguration[runningComputer_].usePixie||elfConfiguration[runningComputer_].useTMS9918||elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].useS100||(elfConfiguration[runningComputer_].vtType != VTNONE)));
        }
-        XRCCTRL(*this,"CharRom"+elfTypeStr, wxComboBox)->Enable(status&(elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].useS100));
         
-        XRCCTRL(*this,"TilType"+elfTypeStr,wxChoice)->Enable(status);
-        XRCCTRL(*this,"TilText"+elfTypeStr,wxStaticText)->Enable(status);
         enableMemAccessGui(!status);
     }
 	if (runningComputer_ == ELF2K)

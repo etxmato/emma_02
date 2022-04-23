@@ -451,7 +451,7 @@
                       <string name="proxy-Id name">"VtSetupBit0Text"</string>
                       <long name="proxy-Id value">10005</long>
                       <string name="proxy-Implementation filename">""</string>
-                      <string name="proxy-Label">"Power"</string>
+                      <string name="proxy-Label">"Power "</string>
                       <string name="proxy-Member variable name">""</string>
                       <string name="proxy-Name">""</string>
                       <string name="proxy-Platform">"&lt;Any platform&gt;"</string>
@@ -582,7 +582,7 @@
                       <string name="proxy-Id name">"wxID_STATIC"</string>
                       <long name="proxy-Id value">5105</long>
                       <string name="proxy-Implementation filename">""</string>
-                      <string name="proxy-Label">"Bits per Character"</string>
+                      <string name="proxy-Label">"Bits per Character "</string>
                       <string name="proxy-Member variable name">""</string>
                       <string name="proxy-Name">""</string>
                       <string name="proxy-Platform">"&lt;Any platform&gt;"</string>
@@ -713,7 +713,7 @@
                       <string name="proxy-Id name">"wxID_STATIC"</string>
                       <long name="proxy-Id value">5105</long>
                       <string name="proxy-Implementation filename">""</string>
-                      <string name="proxy-Label">"Parity"</string>
+                      <string name="proxy-Label">"Parity "</string>
                       <string name="proxy-Member variable name">""</string>
                       <string name="proxy-Name">""</string>
                       <string name="proxy-Platform">"&lt;Any platform&gt;"</string>
@@ -844,7 +844,7 @@
                       <string name="proxy-Id name">"wxID_STATIC"</string>
                       <long name="proxy-Id value">5105</long>
                       <string name="proxy-Implementation filename">""</string>
-                      <string name="proxy-Label">"Parity Sense"</string>
+                      <string name="proxy-Label">"Parity Sense "</string>
                       <string name="proxy-Member variable name">""</string>
                       <string name="proxy-Name">""</string>
                       <string name="proxy-Platform">"&lt;Any platform&gt;"</string>
@@ -975,7 +975,7 @@
                       <string name="proxy-Id name">"VtSetupBit4Text"</string>
                       <long name="proxy-Id value">10006</long>
                       <string name="proxy-Implementation filename">""</string>
-                      <string name="proxy-Label">"Interlace"</string>
+                      <string name="proxy-Label">"Interlace "</string>
                       <string name="proxy-Member variable name">""</string>
                       <string name="proxy-Name">""</string>
                       <string name="proxy-Platform">"&lt;Any platform&gt;"</string>
@@ -1106,7 +1106,7 @@
                       <string name="proxy-Id name">"VtSetupBit5Text"</string>
                       <long name="proxy-Id value">10496</long>
                       <string name="proxy-Implementation filename">""</string>
-                      <string name="proxy-Label">"New Line"</string>
+                      <string name="proxy-Label">"New Line "</string>
                       <string name="proxy-Member variable name">""</string>
                       <string name="proxy-Name">""</string>
                       <string name="proxy-Platform">"&lt;Any platform&gt;"</string>
@@ -1237,7 +1237,7 @@
                       <string name="proxy-Id name">"VtSetupBit6Text"</string>
                       <long name="proxy-Id value">10007</long>
                       <string name="proxy-Implementation filename">""</string>
-                      <string name="proxy-Label">"Wrap Around"</string>
+                      <string name="proxy-Label">"Wrap Around "</string>
                       <string name="proxy-Member variable name">""</string>
                       <string name="proxy-Name">""</string>
                       <string name="proxy-Platform">"&lt;Any platform&gt;"</string>
@@ -1368,7 +1368,7 @@
                       <string name="proxy-Id name">"VtSetupBit7Text"</string>
                       <long name="proxy-Id value">10008</long>
                       <string name="proxy-Implementation filename">""</string>
-                      <string name="proxy-Label">"Shift 3"</string>
+                      <string name="proxy-Label">"Shift 3 "</string>
                       <string name="proxy-Member variable name">""</string>
                       <string name="proxy-Name">""</string>
                       <string name="proxy-Platform">"&lt;Any platform&gt;"</string>
@@ -1499,7 +1499,7 @@
                       <string name="proxy-Id name">"VtSetupBit16Text"</string>
                       <long name="proxy-Id value">10009</long>
                       <string name="proxy-Implementation filename">""</string>
-                      <string name="proxy-Label">"Local Echo"</string>
+                      <string name="proxy-Label">"Local Echo "</string>
                       <string name="proxy-Member variable name">""</string>
                       <string name="proxy-Name">""</string>
                       <string name="proxy-Platform">"&lt;Any platform&gt;"</string>

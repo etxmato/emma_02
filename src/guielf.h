@@ -63,8 +63,8 @@ public:
 
 protected:
 	int ledModuleX_, ledModuleY_;
-    long startRam_[6];
-    long endRam_[6];
+    long startRam_[5];
+    long endRam_[5];
     
 private:
 

@@ -1868,7 +1868,7 @@ void Printer::onF4()
 		printerFramePointer = new PrinterFrame( computerName_+" Printer Output", wxPoint(-1, -1), wxSize(paperWidth, 1408/4*3), printerType_);
 		printerFramePointer->CreateToolBar(wxTB_HORZ_TEXT);
 
-		fontTextPointer = new wxStaticText(printerFramePointer->GetToolBar(), -1, "Font");
+		fontTextPointer = new wxStaticText(printerFramePointer->GetToolBar(), -1, "Font ");
 
 		choices [0] = "Default";
 		choices [1] = "Decorative";
@@ -1877,9 +1877,9 @@ void Printer::onF4()
 		choices [4] = "Swiss";
 		choices [5] = "Teletype";
 #if defined(__WXMAC__)
-		printerFontPointer = new wxChoice(printerFramePointer->GetToolBar(), PRINTERFONT, wxPoint(-1, -1), wxSize(85, -1), 6, choices, 0, wxDefaultValidator, "Font");
+		printerFontPointer = new wxChoice(printerFramePointer->GetToolBar(), PRINTERFONT, wxPoint(-1, -1), wxSize(85, -1), 6, choices, 0, wxDefaultValidator, "Font ");
 #else
-		printerFontPointer = new wxChoice(printerFramePointer->GetToolBar(), PRINTERFONT, wxPoint(-1, -1), wxSize(75, -1), 6, choices, 0, wxDefaultValidator, "Font");
+		printerFontPointer = new wxChoice(printerFramePointer->GetToolBar(), PRINTERFONT, wxPoint(-1, -1), wxSize(75, -1), 6, choices, 0, wxDefaultValidator, "Font ");
 #endif
 		printerFontPointer->SetToolTip("Specify Printer Font");
 		printerFontPointer->SetSelection(5);
@@ -1889,9 +1889,9 @@ void Printer::onF4()
 		choices [2] = "96";
 		choices [3] = "120";
 #if defined(__WXMAC__)
-		printerRowsPointer = new wxChoice(printerFramePointer->GetToolBar(), PRINTERROWS, wxPoint(-1, -1), wxSize(55, -1), 4, choices, 0, wxDefaultValidator, "Rows");
+		printerRowsPointer = new wxChoice(printerFramePointer->GetToolBar(), PRINTERROWS, wxPoint(-1, -1), wxSize(55, -1), 4, choices, 0, wxDefaultValidator, "Rows ");
 #else
-		printerRowsPointer = new wxChoice(printerFramePointer->GetToolBar(), PRINTERROWS, wxPoint(-1, -1), wxSize(42, -1), 4, choices, 0, wxDefaultValidator, "Rows");
+		printerRowsPointer = new wxChoice(printerFramePointer->GetToolBar(), PRINTERROWS, wxPoint(-1, -1), wxSize(42, -1), 4, choices, 0, wxDefaultValidator, "Rows ");
 #endif
 		printerRowsPointer->SetToolTip("Specify number of Characters per line");
 		switch (paperWidth)
@@ -2006,7 +2006,7 @@ void Printer::onComxF4Printer()
 	choices [3] = "Script";
 	choices [4] = "Swiss";
 	choices [5] = "Teletype";
-	printerFontPointer = new wxChoice(printerFramePointer->GetToolBar(), PRINTERFONT, wxPoint(-1, -1), wxSize(85, -1), 6, choices, 0, wxDefaultValidator, "Font");
+	printerFontPointer = new wxChoice(printerFramePointer->GetToolBar(), PRINTERFONT, wxPoint(-1, -1), wxSize(85, -1), 6, choices, 0, wxDefaultValidator, "Font ");
 	printerFontPointer->SetToolTip("Specify Printer Font");
 	printerFontPointer->SetSelection(5);
 
@@ -2014,7 +2014,7 @@ void Printer::onComxF4Printer()
 	choices [1] = "80";
 	choices [2] = "96";
 	choices [3] = "120";
-	printerRowsPointer = new wxChoice(printerFramePointer->GetToolBar(), PRINTERROWS, wxPoint(-1, -1), wxSize(55, -1), 4, choices, 0, wxDefaultValidator, "Rows");
+	printerRowsPointer = new wxChoice(printerFramePointer->GetToolBar(), PRINTERROWS, wxPoint(-1, -1), wxSize(55, -1), 4, choices, 0, wxDefaultValidator, "Rows ");
 	printerRowsPointer->SetToolTip("Specify number of Characters per line");
 	switch (paperWidth)
 	{

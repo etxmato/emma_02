@@ -28,7 +28,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Hex Keypad Definition: A</label>
+<label>Hex Keypad Definition: A </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -43,7 +43,7 @@
 <font>
 <size>14</size>
 </font>
-<label>IN Button</label>
+<label>IN Button </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -824,7 +824,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Arcade Key Definition</label>
+<label>Arcade Key Definition </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -872,7 +872,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Key 2:</label>
+<label>Key 2: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -883,7 +883,7 @@
 <font>
 <size>14</size>
 </font>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -927,7 +927,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Key 4:</label>
+<label>Key 4: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -938,7 +938,7 @@
 <font>
 <size>14</size>
 </font>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -977,7 +977,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Key 5:</label>
+<label>Key 5: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -988,7 +988,7 @@
 <font>
 <size>14</size>
 </font>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -1027,7 +1027,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Key 6:</label>
+<label>Key 6: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1038,7 +1038,7 @@
 <font>
 <size>14</size>
 </font>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -1082,7 +1082,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Key 8:</label>
+<label>Key 8: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1093,7 +1093,7 @@
 <font>
 <size>14</size>
 </font>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -1193,7 +1193,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Hex Keypad Definition, Set 1</label>
+<label>Hex Keypad Definition, Set 1 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1219,7 +1219,7 @@
 <font>
 <size>14</size>
 </font>
-<label>IN Button</label>
+<label>IN Button </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1993,7 +1993,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Arcade Key Definition: Player 1</label>
+<label>Arcade Key Definition: Player 1 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2041,7 +2041,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Key 2:</label>
+<label>Key 2: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2052,7 +2052,7 @@
 <font>
 <size>14</size>
 </font>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -2096,7 +2096,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Key 4:</label>
+<label>Key 4: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2107,7 +2107,7 @@
 <font>
 <size>14</size>
 </font>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -2146,7 +2146,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Key 5:</label>
+<label>Key 5: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2157,7 +2157,7 @@
 <font>
 <size>14</size>
 </font>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -2196,7 +2196,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Key 6:</label>
+<label>Key 6: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2207,7 +2207,7 @@
 <font>
 <size>14</size>
 </font>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -2251,7 +2251,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Key 8:</label>
+<label>Key 8: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2262,7 +2262,7 @@
 <font>
 <size>14</size>
 </font>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -2363,7 +2363,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Keypad Definition: A - Left, Set 1</label>
+<label>Keypad Definition: A - Left, Set 1 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2901,7 +2901,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Arcade Key Definition</label>
+<label>Arcade Key Definition </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2949,7 +2949,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Key 2:</label>
+<label>Key 2: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2960,7 +2960,7 @@
 <font>
 <size>14</size>
 </font>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -3004,7 +3004,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Key 4:</label>
+<label>Key 4: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3015,7 +3015,7 @@
 <font>
 <size>14</size>
 </font>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -3054,7 +3054,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Key 5:</label>
+<label>Key 5: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3065,7 +3065,7 @@
 <font>
 <size>14</size>
 </font>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -3104,7 +3104,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Key 6:</label>
+<label>Key 6: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3115,7 +3115,7 @@
 <font>
 <size>14</size>
 </font>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -3159,7 +3159,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Key 8:</label>
+<label>Key 8: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3170,7 +3170,7 @@
 <font>
 <size>14</size>
 </font>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -3253,7 +3253,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Hex Keypad Definition, Set 1</label>
+<label>Hex Keypad Definition, Set 1 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3280,7 +3280,7 @@
 <size>14</size>
 </font>
 <hidden>1</hidden>
-<label>IN Button</label>
+<label>IN Button </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4046,7 +4046,7 @@
 <size>14</size>
 </font>
 <hidden>1</hidden>
-<label>Key 2:</label>
+<label>Key 2: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4058,7 +4058,7 @@
 <size>14</size>
 </font>
 <hidden>1</hidden>
-<label></label>
+<label> </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4070,7 +4070,7 @@
 <size>14</size>
 </font>
 <hidden>1</hidden>
-<label>Key 4:</label>
+<label>Key 4: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4082,7 +4082,7 @@
 <size>14</size>
 </font>
 <hidden>1</hidden>
-<label></label>
+<label> </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4094,7 +4094,7 @@
 <size>14</size>
 </font>
 <hidden>1</hidden>
-<label>Key 5:</label>
+<label>Key 5: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4106,7 +4106,7 @@
 <size>14</size>
 </font>
 <hidden>1</hidden>
-<label></label>
+<label> </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4118,7 +4118,7 @@
 <size>14</size>
 </font>
 <hidden>1</hidden>
-<label>Key 6:</label>
+<label>Key 6: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4130,7 +4130,7 @@
 <size>14</size>
 </font>
 <hidden>1</hidden>
-<label></label>
+<label> </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4142,7 +4142,7 @@
 <size>14</size>
 </font>
 <hidden>1</hidden>
-<label>Key 8:</label>
+<label>Key 8: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4154,7 +4154,7 @@
 <size>14</size>
 </font>
 <hidden>1</hidden>
-<label></label>
+<label> </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4184,7 +4184,7 @@
 <size>14</size>
 </font>
 <hidden>1</hidden>
-<label>Arcade Key Definition: Player 1</label>
+<label>Arcade Key Definition: Player 1 </label>
 </object>
 </object>
 </object>
@@ -4263,7 +4263,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Keypad Definition: A</label>
+<label>Keypad Definition: A </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4509,7 +4509,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Keypad Definition: B</label>
+<label>Keypad Definition: B </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4762,7 +4762,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Coin Button:</label>
+<label>Coin Button: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4831,7 +4831,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Hex Keypad Definition, Set 1</label>
+<label>Hex Keypad Definition, Set 1 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4857,7 +4857,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Enter Button</label>
+<label>Enter Button </label>
 </object>
 </object>
 <object class="spacer">
@@ -5627,7 +5627,7 @@
 <size>14</size>
 </font>
 <hidden>1</hidden>
-<label>Key 2:</label>
+<label>Key 2: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5639,7 +5639,7 @@
 <size>14</size>
 </font>
 <hidden>1</hidden>
-<label></label>
+<label> </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5651,7 +5651,7 @@
 <size>14</size>
 </font>
 <hidden>1</hidden>
-<label>Key 4:</label>
+<label>Key 4: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5663,7 +5663,7 @@
 <size>14</size>
 </font>
 <hidden>1</hidden>
-<label></label>
+<label> </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5675,7 +5675,7 @@
 <size>14</size>
 </font>
 <hidden>1</hidden>
-<label>Key 5:</label>
+<label>Key 5: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5687,7 +5687,7 @@
 <size>14</size>
 </font>
 <hidden>1</hidden>
-<label></label>
+<label> </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5699,7 +5699,7 @@
 <size>14</size>
 </font>
 <hidden>1</hidden>
-<label>Key 6:</label>
+<label>Key 6: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5711,7 +5711,7 @@
 <size>14</size>
 </font>
 <hidden>1</hidden>
-<label></label>
+<label> </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5723,7 +5723,7 @@
 <size>14</size>
 </font>
 <hidden>1</hidden>
-<label>Key 8:</label>
+<label>Key 8: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5735,7 +5735,7 @@
 <size>14</size>
 </font>
 <hidden>1</hidden>
-<label></label>
+<label> </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5765,7 +5765,7 @@
 <size>14</size>
 </font>
 <hidden>1</hidden>
-<label>Arcade Key Definition: Player 1</label>
+<label>Arcade Key Definition: Player 1 </label>
 </object>
 </object>
 </object>

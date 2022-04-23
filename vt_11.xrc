@@ -35,7 +35,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Power</label>
+<label>Power </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -60,7 +60,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Bits per Character</label>
+<label>Bits per Character </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -85,7 +85,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Parity</label>
+<label>Parity </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -110,7 +110,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Parity Sense</label>
+<label>Parity Sense </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -135,7 +135,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Interlace</label>
+<label>Interlace </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -160,7 +160,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>New Line</label>
+<label>New Line </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -185,7 +185,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Wrap Around</label>
+<label>Wrap Around </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -210,7 +210,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Shift 3</label>
+<label>Shift 3 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -235,7 +235,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Local Echo</label>
+<label>Local Echo </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -277,7 +277,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Auto XON/XOFF</label>
+<label>Auto XON/XOFF </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -302,7 +302,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>ANSI/VT52</label>
+<label>ANSI/VT52 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -327,7 +327,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Keyclick</label>
+<label>Keyclick </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -352,7 +352,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Margin Bell</label>
+<label>Margin Bell </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -377,7 +377,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Cursor</label>
+<label>Cursor </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -402,7 +402,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Screen</label>
+<label>Screen </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -427,7 +427,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Auto Repeat</label>
+<label>Auto Repeat </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -452,7 +452,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Scroll</label>
+<label>Scroll </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -477,7 +477,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Characters</label>
+<label>Characters </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -571,7 +571,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Bell</label>
+<label>Bell </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -594,7 +594,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Hz</label>
+<label>Hz </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -789,7 +789,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Serial Port</label>
+<label>Serial Port </label>
 </object>
 </object>
 <object platform="unix|mac" class="sizeritem">
@@ -838,7 +838,7 @@
 <size>-1</size>
 </font>
 <hidden>1</hidden>
-<label>YMODEM Receive (yr) Packet Size</label>
+<label>YMODEM Receive (yr) Packet Size </label>
 </object>
 </object>
 <object class="sizeritem">

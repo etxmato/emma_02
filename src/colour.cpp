@@ -153,7 +153,7 @@ ColourDialog::ColourDialog(wxWindow* parent)
 		 screenInfo_.number -= 12;
 
 	wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"colour_" + p_Main->getFontSize() + ".xrc");
-	if (computerType_ == ELFII || computerType_ == SUPERELF || computerType_ == NETRONICS  || computerType_ == PICO)
+	if (computerType_ == ELFII || computerType_ == SUPERELF || computerType_ == NETRONICS)
 		wxXmlResource::Get()->LoadDialog(this, parent, wxT("ColourDialogElf"));
 	else
 		wxXmlResource::Get()->LoadDialog(this, parent, wxT("ColourDialog"+computerTypeStr_));

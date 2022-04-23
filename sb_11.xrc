@@ -58,7 +58,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Player name:</label>
+<label>Player name: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -81,7 +81,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Player location:</label>
+<label>Player location: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -104,7 +104,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Email address:</label>
+<label>Email address: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -162,7 +162,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Home page:</label>
+<label>Home page: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -268,7 +268,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Aliases:</label>
+<label>Aliases: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -447,7 +447,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Show top directory in USB CD:</label>
+<label>Show top directory in USB CD: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -499,7 +499,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Filenames:</label>
+<label>Filenames: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -538,7 +538,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Directories:</label>
+<label>Directories: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -591,7 +591,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>BSAVE, DSAVE, PSAVE and DISKTOIMG:</label>
+<label>BSAVE, DSAVE, PSAVE and DISKTOIMG: </label>
 <wrap>160</wrap>
 </object>
 </object>
@@ -624,7 +624,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>SYSSAVE and NVSAVE:</label>
+<label>SYSSAVE and NVSAVE: </label>
 <wrap>160</wrap>
 </object>
 </object>
@@ -1068,7 +1068,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Activate backup delete option by starting the COMX emulator</label>
+<label>Activate backup delete option by starting the COMX emulator </label>
 </object>
 </object>
 <object class="sizeritem">

@@ -1,0 +1,41 @@
+<HTML>
+<Title>Printer Support</Title>
+<BODY>
+<h1>Printer Support</h1>
+<p>
+To activate printer support press the printer button until it shows a green 'check' (yellow ellipse):
+</p>
+<p>
+<IMG SRC="images/pico_printer.png" BORDER="0">
+</p>
+<h2>Printing to File</h2>
+<p>
+To print to a file select 'File' in the selection box (orange ellipse). If the indicate print file (magenta ellipse) already exists a new file is created with a sequence number every time the emulated computer window is initiated. E.g. if the print file is 'printerout.txt', this file is used the first time, next time the file printerout.1.txt' will be created.
+</p>
+<p>
+<IMG SRC="images/elf_printer_file.png" BORDER="0">
+</p>
+<p>
+To specify a different print file use the 'Printer' button (green ellipse) to browse for the file, or type in a new file name in the text field (magenta ellipse).
+</p>
+<h2>Printing to Screen and or Printer</h2>
+<p>
+To print to an output screen and after this to a real printer select 'Window' in the selection box (orange ellipse). When the emulated computer is ready with the printout the printout can be send to any connected printer. To start a new printout close and reopen the printer output screen. 
+</p>
+<p>
+<IMG SRC="images/elf_printer_window.png" BORDER="0">
+</p>
+<p>
+To open a print window press the F4 button or the printer icon (yellow ellipse) before giving printer commands from the emulated computer.
+</p>
+<p>
+From the printer output window it is possible to use the print button to send the printout to a real printer, use preview and/or change printer settings (yellow ellipse):
+</p>
+<p>
+<IMG SRC="images/pico_printer_popup.png" BORDER="0">
+</p>
+<p>
+The printer font can be changed with the first 'Font' choice buttons (blue ellipse). Default the teletype font is used which has a fixed width per line (like a matrix printer), all other fonts have a variable character width. The number of characters per line can be changed (40, 80, 96 or 120) with the second 'Font' choice button (orange ellipse). 
+</p>
+</BODY>
+</HTML>

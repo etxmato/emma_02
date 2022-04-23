@@ -40,7 +40,7 @@
 <font>
 <size>14</size>
 </font>
-<label></label>
+<label> </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -197,7 +197,7 @@ core based on RCS Elf Emulator copyright (C) 2006 by Michael H Riley</label>
 <font>
 <size>14</size>
 </font>
-<label>Special Thanks to: Niamh Barrett, Mike Riley, Dennis Heijmans, Shay Green, Frank van Tongeren, Peter de Vroomen, Barend Scholtus, Stefan de Bruin, Han de Bruin, Richard Peters, Bob Armstrong, Curt Coder, Miodrag Milanovic, Bruce Czerniec, Ray Sills, Sly DC, Paul Messinger, Eric Tchong, Martijn Wenting, Lee Romanow, Matthew Mikolay, Lee Hart, David Winter, Brolly, William Donnelly, Ed Keefe, Paul Robson, Chuck Yakym, Bernie Murphy, David Schultz, Bill Rowe, FLiP, Herb Johnson, Mark Abene, Andy Modla, Florencia Pierri, Kevin Bunch, Fabrizio Caruso, Branko Trenkoski, Craig Ledbetter, Gaston Williams, David Madole, Wayne Hortensius and Glenn Jolly</label>
+<label>Special Thanks to: Niamh Barrett, Mike Riley, Dennis Heijmans, Shay Green, Frank van Tongeren, Peter de Vroomen, Barend Scholtus, Stefan de Bruin, Han de Bruin, Richard Peters, Bob Armstrong, Curt Coder, Miodrag Milanovic, Bruce Czerniec, Ray Sills, Sly DC, Paul Messinger, Eric Tchong, Martijn Wenting, Lee Romanow, Matthew Mikolay, Lee Hart, David Winter, Brolly, William Donnelly, Ed Keefe, Paul Robson, Chuck Yakym, Bernie Murphy, David Schultz, Bill Rowe, FLiP, Herb Johnson, Mark Abene, Andy Modla, Florencia Pierri, Kevin Bunch, Fabrizio Caruso, Branko Trenkoski, Craig Ledbetter, Gaston Williams, David Madole, Wayne Hortensius and Glenn Jolly </label>
 <wrap>400</wrap>
 </object>
 </object>
@@ -298,7 +298,7 @@ Copyright (C) 2004 by Michael H Riley</label>
 <font>
 <size>14</size>
 </font>
-<label>Super Basic V6.0 included with written permission and with updated origin info from Paul Messinger (see help pages on Quest Super Basic).</label>
+<label>Super Basic V6.0 included with written permission and with updated origin info from Paul Messinger (see help pages on Quest Super Basic). </label>
 <wrap>400</wrap>
 </object>
 </object>
@@ -403,7 +403,7 @@ files for details</label>
 <font>
 <size>14</size>
 </font>
-<label>Hagley Museum and Library: Sarnoff/RCA Collection - Joseph A. Weisbecker's archived manuscripts and materials - Accession 2464 -Box Number AVD B41: Chip 8, Coin Arcade, FRED 1, FRED 1.5, VIP and Studio II and III SW. See readme and/or txt files for details</label>
+<label>Hagley Museum and Library: Sarnoff/RCA Collection - Joseph A. Weisbecker's archived manuscripts and materials - Accession 2464 -Box Number AVD B41: Chip 8, Coin Arcade, FRED 1, FRED 1.5, VIP and Studio II and III SW. See readme and/or txt files for details </label>
 <wrap>400</wrap>
 </object>
 </object>

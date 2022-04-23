@@ -3,7 +3,7 @@
 <BODY>
 <h2>ROM Files</h2>
 <p>
-To run the Elf 2000 emulator at least the Elf 2000 firmware file should be specified in the 'ROM' field. Default Elf 2000 ROM location is the Elf2K directory (located in the application data directory, see <a href="MainFile.htm">Directory and File Structure</a>) and the default filename is 'v88b.bin'. To change the location use the 'ROM' button to browse for the file, do the same to change the filename or type in a new file name in the text field.
+To run the Elf 2000 emulator at least the Elf 2000 firmware file should be specified in the 'ROM' field. Default Elf 2000 ROM location is the Elf2K directory (located in the application data directory, see <a href="MainFile.htm">Directory and File Structure</a>) and the default filename is 'Elf2Kv112.bin'. To change the location use the 'ROM' button to browse for the file, do the same to change the filename or type in a new file name in the text field.
 </p>
 <p>
 Note that files in binary format, normally using extension .bin, will be loaded at address hex 8000. Intel hex and RCS Elf emulator hex format include storage locations and as such will be loaded in the specified address location.

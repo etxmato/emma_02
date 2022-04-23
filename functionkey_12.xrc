@@ -47,7 +47,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Video Dump</label>
+<label>Video Dump </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -67,7 +67,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Help</label>
+<label>Help </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -87,7 +87,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Debug Mode</label>
+<label>Debug Mode </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -107,7 +107,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Activate Main</label>
+<label>Activate Main </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -127,7 +127,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Menu</label>
+<label>Menu </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -147,7 +147,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Full Screen</label>
+<label>Full Screen </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -167,7 +167,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Video Terminal Setup</label>
+<label>Video Terminal Setup </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -187,7 +187,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Printer Window</label>
+<label>Printer Window </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -208,7 +208,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Start / Reset / Run</label>
+<label>Start / Reset / Run </label>
 </object>
 </object>
 <object class="sizeritem">

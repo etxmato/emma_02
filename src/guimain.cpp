@@ -366,13 +366,24 @@ void GuiMain::readElfPortConfig(int elfType, wxString elfTypeStr)
     elfConfiguration[elfType].elfPortConf.vt100ReverseEf = (int)configPointer->Read(elfTypeStr+"/Vt100ReverseEf", 1l);
     elfConfiguration[elfType].elfPortConf.vt100ReverseQ = (int)configPointer->Read(elfTypeStr+"/Vt100ReverseQ", 0l);
 
-    elfConfiguration[elfType].elfPortConf.uartOut = (int)configPointer->Read(elfTypeStr+"/UartOut", 2l);
-    elfConfiguration[elfType].elfPortConf.uartIn = (int)configPointer->Read(elfTypeStr+"/UartIn", 2l);
-    elfConfiguration[elfType].elfPortConf.uartControl = (int)configPointer->Read(elfTypeStr+"/UartControl", 3l);
-    elfConfiguration[elfType].elfPortConf.uartStatus = (int)configPointer->Read(elfTypeStr+"/UartStatus", 3l);
-
+    if (elfType == PICO)
+    {
+        elfConfiguration[elfType].elfPortConf.uartOut = (int)configPointer->Read(elfTypeStr+"/UartOut", 6l);
+        elfConfiguration[elfType].elfPortConf.uartIn = (int)configPointer->Read(elfTypeStr+"/UartIn", 6l);
+        elfConfiguration[elfType].elfPortConf.uartControl = (int)configPointer->Read(elfTypeStr+"/UartControl", 7l);
+        elfConfiguration[elfType].elfPortConf.uartStatus = (int)configPointer->Read(elfTypeStr+"/UartStatus", 7l);
+        elfConfiguration[elfType].elfPortConf.tmsModeLowOutput = (int)configPointer->Read(elfTypeStr+"/TmsModeLowOutput", 1l);
+    }
+    else
+    {
+        elfConfiguration[elfType].elfPortConf.uartOut = (int)configPointer->Read(elfTypeStr+"/UartOut", 2l);
+        elfConfiguration[elfType].elfPortConf.uartIn = (int)configPointer->Read(elfTypeStr+"/UartIn", 2l);
+        elfConfiguration[elfType].elfPortConf.uartControl = (int)configPointer->Read(elfTypeStr+"/UartControl", 3l);
+        elfConfiguration[elfType].elfPortConf.uartStatus = (int)configPointer->Read(elfTypeStr+"/UartStatus", 3l);
+        elfConfiguration[elfType].elfPortConf.tmsModeLowOutput = (int)configPointer->Read(elfTypeStr+"/TmsModeLowOutput", 6l);
+    }
+    
     elfConfiguration[elfType].elfPortConf.tmsModeHighOutput = (int)configPointer->Read(elfTypeStr+"/TmsModeHighOutput", 5l);
-    elfConfiguration[elfType].elfPortConf.tmsModeLowOutput = (int)configPointer->Read(elfTypeStr+"/TmsModeLowOutput", 6l);
     elfConfiguration[elfType].elfPortConf.tmsInterrupt = (int)configPointer->Read(elfTypeStr+"/TmsInterrupt", 4l);
 
     elfConfiguration[elfType].elfPortConf.i8275WriteCommand = (int)configPointer->Read(elfTypeStr+"/I8275WriteCommand", 5l);
@@ -3814,7 +3825,7 @@ void GuiMain::enableStartButtonGui(bool status)
 	for (int i=0; i<NO_COMPUTER; i++)
 	{
         if (i == NETRONICS) //*** to be removed
-            i = COSMICOS;
+            i = PICO;
         startButton[i]->Enable(status);
         stopButton[i]->Enable(false);
 	}
@@ -3994,7 +4005,7 @@ void GuiMain::enableTapeGui(bool status, int computerType)
 	XRCCTRL(*this, "TurboClock"+computerInfo[computerType].gui, wxTextCtrl)->Enable(status);
 	XRCCTRL(*this, "TurboMhzText"+computerInfo[computerType].gui, wxStaticText)->Enable(status);
 #if defined(__WXMSW__)
-    if (computerType == ELF || computerType == ELFII || computerType == SUPERELF || computerType == NETRONICS || computerType == PICO)
+    if (computerType == ELF || computerType == ELFII || computerType == SUPERELF || computerType == NETRONICS)
     {
         XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->Enable(status&(!elfConfiguration[computerType].useXmodem));
     }
@@ -4103,7 +4114,7 @@ void GuiMain::setTapeState(int tapeState, wxString tapeNumber)
             XRCCTRL(*this, "CasPause"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(pauseOffBitmap);
     }
     
-    if (runningComputer_ == ELFII || runningComputer_ == SUPERELF || runningComputer_ == ELF || runningComputer_ == ELF2K || runningComputer_ == NETRONICS || runningComputer_ == PICO)
+    if (runningComputer_ == ELFII || runningComputer_ == SUPERELF || runningComputer_ == ELF || runningComputer_ == ELF2K || runningComputer_ == NETRONICS)
         XRCCTRL(*this, "Tape"+tapeNumber+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState == TAPE_STOP);
     XRCCTRL(*this, "CasButton"+tapeNumber+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState == TAPE_STOP);
 	XRCCTRL(*this, "WavFile"+tapeNumber+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(tapeState == TAPE_STOP);

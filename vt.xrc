@@ -35,7 +35,7 @@
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
                                                     </font>
-                                                    <label>Power</label>
+                                                    <label>Power </label>
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
@@ -60,7 +60,7 @@
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
                                                     </font>
-                                                    <label>Bits per Character</label>
+                                                    <label>Bits per Character </label>
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
@@ -85,7 +85,7 @@
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
                                                     </font>
-                                                    <label>Parity</label>
+                                                    <label>Parity </label>
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
@@ -110,7 +110,7 @@
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
                                                     </font>
-                                                    <label>Parity Sense</label>
+                                                    <label>Parity Sense </label>
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
@@ -135,7 +135,7 @@
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
                                                     </font>
-                                                    <label>Interlace</label>
+                                                    <label>Interlace </label>
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
@@ -160,7 +160,7 @@
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
                                                     </font>
-                                                    <label>New Line</label>
+                                                    <label>New Line </label>
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
@@ -185,7 +185,7 @@
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
                                                     </font>
-                                                    <label>Wrap Around</label>
+                                                    <label>Wrap Around </label>
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
@@ -210,7 +210,7 @@
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
                                                     </font>
-                                                    <label>Shift 3</label>
+                                                    <label>Shift 3 </label>
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
@@ -235,7 +235,7 @@
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
                                                     </font>
-                                                    <label>Local Echo</label>
+                                                    <label>Local Echo </label>
                                                 </object>
                                             </object>
                                             <object class="sizeritem">

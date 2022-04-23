@@ -43,9 +43,14 @@ END_EVENT_TABLE()
 DevicePortsDialog::DevicePortsDialog(wxWindow* parent)
 {
 	wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"ports_" + p_Main->getFontSize() + ".xrc");
-	wxXmlResource::Get()->LoadDialog(this, parent, "DevicePorts");
     elfConfiguration = p_Main->getElfConfiguration();
-	elfTypeStr_ = p_Main->getSelectedComputerStr();
+    elfTypeStr_ = p_Main->getSelectedComputerStr();
+    
+    if (elfTypeStr_ == "Pico")
+        wxXmlResource::Get()->LoadDialog(this, parent, "DevicePortsPico");
+    else
+        wxXmlResource::Get()->LoadDialog(this, parent, "DevicePorts");
+
 	this->SetTitle("Device Ports Definition "+p_Main->getSelectedComputerText());
 
 	XRCCTRL(*this, "UnusedEf1", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.ef1default);
@@ -195,21 +200,41 @@ DevicePortsDialog::DevicePortsDialog(wxWindow* parent)
 	XRCCTRL(*this, "UartStatus", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.uartStatus);
 	if ((!elfConfiguration.useUart && !elfConfiguration.useUart16450) || (elfTypeStr_ == "Elf2K"))
 	{
-		XRCCTRL(*this, "UartOutText", wxStaticText)->Enable(false);
+        XRCCTRL(*this, "UartOutText", wxStaticText)->Enable(false);
+        XRCCTRL(*this, "UartOutText16450", wxStaticText)->Enable(false);
 		XRCCTRL(*this, "UartOut", wxSpinCtrl)->Enable(false);
-		XRCCTRL(*this, "UartInText", wxStaticText)->Enable(false);
+        XRCCTRL(*this, "UartInText", wxStaticText)->Enable(false);
+        XRCCTRL(*this, "UartInText16450", wxStaticText)->Enable(false);
 		XRCCTRL(*this, "UartIn", wxSpinCtrl)->Enable(false);
-		XRCCTRL(*this, "UartControlText", wxStaticText)->Enable(false);
+        XRCCTRL(*this, "UartControlText", wxStaticText)->Enable(false);
+        XRCCTRL(*this, "UartControlText16450", wxStaticText)->Enable(false);
 		XRCCTRL(*this, "UartControl", wxSpinCtrl)->Enable(false);
-		XRCCTRL(*this, "UartStatusText", wxStaticText)->Enable(false);
+        XRCCTRL(*this, "UartStatusText", wxStaticText)->Enable(false);
+        XRCCTRL(*this, "UartStatusText16450", wxStaticText)->Enable(false);
 		XRCCTRL(*this, "UartStatus", wxSpinCtrl)->Enable(false);
 	}
-    if (elfConfiguration.useUart16450 && (elfTypeStr_ != "Elf2K"))
+    if (elfConfiguration.useUart16450)
     {
-        XRCCTRL(*this, "UartOutText", wxStaticText)->SetLabel("Output, Select port");
-        XRCCTRL(*this, "UartInText", wxStaticText)->SetLabel("Input, Read status");
-        XRCCTRL(*this, "UartControlText", wxStaticText)->SetLabel("Output, Write selected port");
-        XRCCTRL(*this, "UartStatusText", wxStaticText)->SetLabel("Input, Read selected port");
+        XRCCTRL(*this, "UartOutText", wxStaticText)->Hide();
+        XRCCTRL(*this, "UartInText", wxStaticText)->Hide();
+        XRCCTRL(*this, "UartControlText", wxStaticText)->Hide();
+        XRCCTRL(*this, "UartStatusText", wxStaticText)->Hide();
+        XRCCTRL(*this, "UartOutText16450", wxStaticText)->Show();
+        XRCCTRL(*this, "UartInText16450", wxStaticText)->Show();
+        XRCCTRL(*this, "UartControlText16450", wxStaticText)->Show();
+        XRCCTRL(*this, "UartStatusText16450", wxStaticText)->Show();
+    }
+    else
+    {
+        XRCCTRL(*this, "UartOutText16450", wxStaticText)->Hide();
+        XRCCTRL(*this, "UartInText16450", wxStaticText)->Hide();
+        XRCCTRL(*this, "UartControlText16450", wxStaticText)->Hide();
+        XRCCTRL(*this, "UartStatusText16450", wxStaticText)->Hide();
+        XRCCTRL(*this, "UartOutText", wxStaticText)->Show();
+        XRCCTRL(*this, "UartInText", wxStaticText)->Show();
+        XRCCTRL(*this, "UartControlText", wxStaticText)->Show();
+        XRCCTRL(*this, "UartStatusText", wxStaticText)->Show();
+        
     }
 
 	XRCCTRL(*this, "TmsModeHighOutput", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.tmsModeHighOutput);

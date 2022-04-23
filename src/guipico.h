@@ -16,19 +16,14 @@ public:
 	void writePicoConfig();
     void readPicoWindowConfig();
     void writePicoWindowConfig();
-
-	void onMemoryPico(wxCommandEvent& event);
-	void onPicoControlWindows(wxCommandEvent& event);
-	void onRom1(wxCommandEvent& event);
-	void onRom2(wxCommandEvent& event);
-
-    int getLoadromModePico(int num);
-	void setMemoryPico(wxString elfTypeStr, int elfType, int Selection);
+    void onVideoTypePico(wxCommandEvent& event);
+    void setVideoTypePico(int Selection);
+    void onDiskTypePico(wxCommandEvent&event);
+    void setDiskTypePico(int Selection);
+    void onPicoRtc(wxCommandEvent&event);
+    void onPicoClearRtc(wxCommandEvent&event);
 
 private:
-
-	int loadromMode_[2];
-
 	wxBitmap tapeOffBitmap;
 	wxBitmap tapeOnBitmap;
 

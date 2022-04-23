@@ -580,6 +580,7 @@ public:
 #define DISKNONE 0
 #define DISKFDC 1
 #define DISKIDE 2
+#define DISKIDEPICO 1
 
 #define ELF2KTAB 0
 #define COSMICOSTAB 1
@@ -590,9 +591,9 @@ public:
 #define VIP2KTAB 6
 #define VELFTAB 7
 #define UC1800TAB 8
-#define NETRONICSTAB 9
-#define PICOTAB 10
-#define LASTELFTAB 10
+#define PICOTAB 9
+#define NETRONICSTAB 10
+#define LASTELFTAB 9
 
 #define FRED1TAB 0
 #define FRED2TAB 1
@@ -658,6 +659,10 @@ public:
 #define VIDEOTMS 4
 #define VIDEOI8275 5
 #define VIDEOS100 6
+
+//#define VIDEOVT 0
+//#define VIDEOPIXIE 1
+#define VIDEOTMSPICO 2
 
 #define ELFLED 0
 #define ELFIILED 1
@@ -1065,6 +1070,8 @@ class Emu1802: public wxApp
     void createXml();
     void createXmlFile(wxString xrcDir, wxString xrcFile);
     void createFile(wxTextFile* filename, wxString name);
+    int getObjectClass(wxString line);
+    int getMarkup(wxString line);
 
 private:
     wxLocale locale;

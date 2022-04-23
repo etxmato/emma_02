@@ -501,9 +501,6 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>1</border>
-<option>20</option>
 <object class="wxTextCtrl" name="Disk1FileComx">
 <size>226,-1</size>
 <tooltip>Specify floppy disk 1 file</tooltip>
@@ -542,9 +539,6 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>4</border>
-<option>20</option>
 <object class="wxTextCtrl" name="Disk2FileComx">
 <size>226,-1</size>
 <tooltip>Specify floppy disk 2 file</tooltip>
@@ -578,15 +572,9 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
-<border>2</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>4</border>
-<option>20</option>
 <object class="wxTextCtrl" name="PrintFileComx">
 <size>78,-1</size>
 <tooltip>Specify printer output file</tooltip>
@@ -641,9 +629,6 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="ScreenDumpFileComx">
 <size>226,-1</size>
 <tooltip>Specify video dump file</tooltip>
@@ -691,9 +676,6 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>4</border>
-<option>20</option>
 <object class="wxTextCtrl" name="WavFileComx">
 <size>226,-1</size>
 <tooltip>Specify cassette file</tooltip>
@@ -744,15 +726,12 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-<border>4</border>
-<option>20</option>
 <object class="wxStaticText" name="BatchFileComx">
 <size>74,-1</size>
 <font>
 <size>12</size>
 </font>
-<label>0 Files selected</label>
+<label>0 Files selected </label>
 </object>
 </object>
 </object>
@@ -774,9 +753,6 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>4</border>
-<option>20</option>
 <object class="wxTextCtrl" name="KeyFileComx">
 <size>226,-1</size>
 <tooltip>Specify key input file</tooltip>
@@ -804,7 +780,7 @@
 <flag>wxALIGN_LEFT|wxALL</flag>
 <border>0</border>
 <object class="wxStaticText" name="ComxBottomLeft">
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -826,7 +802,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Video:</label>
+<label>Video: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -913,7 +889,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Zoom Level:</label>
+<label>Zoom Level: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -968,7 +944,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1010,7 +986,7 @@
 <size>12</size>
 </font>
 <hidden>1</hidden>
-<label>Cassette in:</label>
+<label>Cassette in: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1054,7 +1030,7 @@
 <font>
 <size>12</size>
 </font>
-<label>F&amp;&amp;M EPROM:</label>
+<label>F&amp;&amp;M EPROM: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1206,7 +1182,7 @@
 <border>5</border>
 <object class="wxStaticText" name="UseLocationTextComx">
 <enabled>0</enabled>
-<label>Location</label>
+<label>Location </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1217,7 +1193,7 @@
 <size>12</size>
 </font>
 <style>wxALIGN_RIGHT</style>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1267,7 +1243,7 @@
 <size>12</size>
 </font>
 <style>wxALIGN_RIGHT</style>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1317,7 +1293,7 @@
 <size>12</size>
 </font>
 <style>wxALIGN_RIGHT</style>
-<label>Exec</label>
+<label>Exec </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1386,7 +1362,7 @@
 <font>
 <size>12</size>
 </font>
-<label>MHz</label>
+<label>MHz </label>
 </object>
 </object>
 </object>
@@ -1463,7 +1439,7 @@
 <flag>wxALIGN_RIGHT|wxALL</flag>
 <border>0</border>
 <object class="wxStaticText" name="ComxBottomRight">
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -1525,9 +1501,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
-<border>3</border>
-<option>20</option>
 <object class="wxComboBox" name="MainRomElf2K">
 <size>252,-1</size>
 <tooltip>Specify Elf 2000 firmware ROM file</tooltip>
@@ -1596,9 +1569,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
-<border>3</border>
-<option>20</option>
 <object class="wxComboBox" name="CharRomElf2K">
 <size>252,-1</size>
 <tooltip>Specify intel 8275 video font file</tooltip>
@@ -1630,9 +1600,6 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxTextCtrl" name="KeyFileElf2K">
 <size>226,-1</size>
 <tooltip>Specify key input file</tooltip>
@@ -1669,9 +1636,6 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="ScreenDumpFileElf2K">
 <size>226,-1</size>
 <tooltip>Specify video dump file</tooltip>
@@ -1726,9 +1690,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxTextCtrl" name="WavFileElf2K">
 <size>120,-1</size>
 <tooltip>Specify XMODEM file</tooltip>
@@ -1797,7 +1758,7 @@
 <font>
 <size>12</size>
 </font>
-<label>MHz</label>
+<label>MHz </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1922,7 +1883,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Baud T:</label>
+<label>Baud T: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1960,7 +1921,7 @@
 <font>
 <size>12</size>
 </font>
-<label>R:</label>
+<label>R: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2005,7 +1966,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Zoom:</label>
+<label>Zoom: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2074,7 +2035,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Video:</label>
+<label>Video: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2110,7 +2071,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Keyboard:</label>
+<label>Keyboard: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2155,7 +2116,7 @@
 <size>12</size>
 </font>
 <enabled>0</enabled>
-<label>Zoom Level:</label>
+<label>Zoom Level: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2203,7 +2164,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Leds:</label>
+<label>Leds: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2225,7 +2186,7 @@
 <font>
 <size>12</size>
 </font>
-<label>ms</label>
+<label>ms </label>
 </object>
 </object>
 </object>
@@ -2244,7 +2205,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2331,7 +2292,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Non-volatile RAM:</label>
+<label>Non-volatile RAM: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2365,7 +2326,7 @@
 <font>
 <size>12</size>
 </font>
-<label>DS NVR/RTC:</label>
+<label>DS NVR/RTC: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2434,7 +2395,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2471,7 +2432,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2776,7 +2737,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Baud:</label>
+<label>Baud: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2815,7 +2776,7 @@
 <size>12</size>
 </font>
 <hidden>1</hidden>
-<label>R:</label>
+<label>R: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2854,7 +2815,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Zoom:</label>
+<label>Zoom: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2952,7 +2913,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Video:</label>
+<label>Video: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2989,7 +2950,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Keyboard:</label>
+<label>Keyboard: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3033,7 +2994,7 @@
 <size>12</size>
 </font>
 <enabled>0</enabled>
-<label>Zoom Level:</label>
+<label>Zoom Level: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3081,7 +3042,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Leds:</label>
+<label>Leds: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3103,7 +3064,7 @@
 <font>
 <size>12</size>
 </font>
-<label>ms</label>
+<label>ms </label>
 </object>
 </object>
 </object>
@@ -3122,7 +3083,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3187,7 +3148,7 @@
 <font>
 <size>12</size>
 </font>
-<label>RAM Card:</label>
+<label>RAM Card: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3212,7 +3173,7 @@
 <font>
 <size>12</size>
 </font>
-<label>KB</label>
+<label>KB </label>
 </object>
 </object>
 </object>
@@ -3278,7 +3239,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3315,7 +3276,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3370,7 +3331,7 @@
 <font>
 <size>12</size>
 </font>
-<label>MHz</label>
+<label>MHz </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3509,9 +3470,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="MainRomElf">
 <size>226,-1</size>
 <tooltip>Specify Elf ROM/RAM file</tooltip>
@@ -3558,9 +3516,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="MainRom2Elf">
 <size>226,-1</size>
 <tooltip>Specify Elf ROM/RAM file</tooltip>
@@ -3682,9 +3637,6 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxTextCtrl" name="KeyFileElf">
 <size>226,-1</size>
 <tooltip>Specify key input file</tooltip>
@@ -3716,9 +3668,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
-<border>2</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
@@ -3776,9 +3725,6 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="ScreenDumpFileElf">
 <size>226,-1</size>
 <tooltip>Specify video dump file</tooltip>
@@ -3833,9 +3779,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxTextCtrl" name="WavFileElf">
 <size>120,-1</size>
 <tooltip>Specify cassette file</tooltip>
@@ -3879,7 +3822,7 @@
 <size>12</size>
 </font>
 <style>wxST_NO_AUTORESIZE</style>
-<label>RAM:</label>
+<label>RAM: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3902,7 +3845,7 @@
 <size>12</size>
 </font>
 <style>wxALIGN_RIGHT</style>
-<label>to</label>
+<label>to </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3974,7 +3917,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Baud T:</label>
+<label>Baud T: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4012,7 +3955,7 @@
 <font>
 <size>12</size>
 </font>
-<label>R:</label>
+<label>R: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4057,7 +4000,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Zoom:</label>
+<label>Zoom: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4103,7 +4046,7 @@
 <flag>wxALIGN_LEFT|wxALL</flag>
 <border>0</border>
 <object class="wxStaticText" name="ElfBottomLeft">
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -4128,7 +4071,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Video:</label>
+<label>Video: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4168,7 +4111,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Keyboard:</label>
+<label>Keyboard: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4207,7 +4150,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Memory:</label>
+<label>Memory: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4271,7 +4214,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Q Sound:</label>
+<label>Q Sound: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4296,7 +4239,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Beeper:</label>
+<label>Beeper: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4317,7 +4260,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Hz</label>
+<label>Hz </label>
 </object>
 </object>
 </object>
@@ -4334,7 +4277,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Zoom Level:</label>
+<label>Zoom Level: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4382,7 +4325,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Leds:</label>
+<label>Leds: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4404,7 +4347,7 @@
 <font>
 <size>12</size>
 </font>
-<label>ms</label>
+<label>ms </label>
 </object>
 </object>
 </object>
@@ -4423,7 +4366,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4484,7 +4427,7 @@
 <border>5</border>
 <object class="wxStaticText" name="UseLocationTextElf">
 <enabled>0</enabled>
-<label>Location</label>
+<label>Location </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4496,7 +4439,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4547,7 +4490,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4598,7 +4541,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Exec</label>
+<label>Exec </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4665,7 +4608,7 @@
 <font>
 <size>12</size>
 </font>
-<label>MHz</label>
+<label>MHz </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4728,7 +4671,7 @@
 <font>
 <size>12</size>
 </font>
-<label>TIL:</label>
+<label>TIL: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4851,7 +4794,7 @@
 <flag>wxALIGN_RIGHT|wxALL</flag>
 <border>0</border>
 <object class="wxStaticText" name="ElfBottomRight">
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -4914,9 +4857,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="MainRomElfII">
 <size>226,-1</size>
 <tooltip>Specify Netronics Elf II ROM/RAM file</tooltip>
@@ -4963,9 +4903,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="MainRom2ElfII">
 <size>226,-1</size>
 <tooltip>Specify Netronics Elf II ROM/RAM file</tooltip>
@@ -5087,9 +5024,6 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxTextCtrl" name="KeyFileElfII">
 <size>226,-1</size>
 <tooltip>Specify key input file</tooltip>
@@ -5121,9 +5055,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
-<border>2</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
@@ -5181,9 +5112,6 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="ScreenDumpFileElfII">
 <size>226,-1</size>
 <tooltip>Specify video dump file</tooltip>
@@ -5238,9 +5166,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxTextCtrl" name="WavFileElfII">
 <size>120,-1</size>
 <tooltip>Specify cassette file</tooltip>
@@ -5284,7 +5209,7 @@
 <size>12</size>
 </font>
 <style>wxST_NO_AUTORESIZE</style>
-<label>RAM:</label>
+<label>RAM: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5307,7 +5232,7 @@
 <size>12</size>
 </font>
 <style>wxALIGN_RIGHT</style>
-<label>to</label>
+<label>to </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5379,7 +5304,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Baud T:</label>
+<label>Baud T: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5417,7 +5342,7 @@
 <font>
 <size>12</size>
 </font>
-<label>R:</label>
+<label>R: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5462,7 +5387,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Zoom:</label>
+<label>Zoom: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5526,7 +5451,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Video:</label>
+<label>Video: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5566,7 +5491,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Keyboard:</label>
+<label>Keyboard: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5605,7 +5530,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Memory:</label>
+<label>Memory: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5669,7 +5594,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Q Sound:</label>
+<label>Q Sound: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5694,7 +5619,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Beeper:</label>
+<label>Beeper: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5715,7 +5640,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Hz</label>
+<label>Hz </label>
 </object>
 </object>
 </object>
@@ -5732,7 +5657,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Zoom Level:</label>
+<label>Zoom Level: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5780,7 +5705,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Leds:</label>
+<label>Leds: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5802,7 +5727,7 @@
 <font>
 <size>12</size>
 </font>
-<label>ms</label>
+<label>ms </label>
 </object>
 </object>
 </object>
@@ -5821,7 +5746,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5882,7 +5807,7 @@
 <border>5</border>
 <object class="wxStaticText" name="UseLocationTextElfII">
 <enabled>0</enabled>
-<label>Location</label>
+<label>Location </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5894,7 +5819,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5945,7 +5870,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5996,7 +5921,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Exec</label>
+<label>Exec </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6063,7 +5988,7 @@
 <font>
 <size>12</size>
 </font>
-<label>MHz</label>
+<label>MHz </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6126,7 +6051,7 @@
 <font>
 <size>12</size>
 </font>
-<label>TIL:</label>
+<label>TIL: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6317,9 +6242,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="MainRomSuperElf">
 <size>226,-1</size>
 <tooltip>Specify Quest Super Elf ROM/RAM file</tooltip>
@@ -6366,9 +6288,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="MainRom2SuperElf">
 <size>226,-1</size>
 <tooltip>Specify Elf ROM/RAM file</tooltip>
@@ -6490,9 +6409,6 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxTextCtrl" name="KeyFileSuperElf">
 <size>226,-1</size>
 <tooltip>Specify key input file</tooltip>
@@ -6524,9 +6440,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
-<border>2</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
@@ -6584,9 +6497,6 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="ScreenDumpFileSuperElf">
 <size>226,-1</size>
 <tooltip>Specify video dump file</tooltip>
@@ -6641,9 +6551,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxTextCtrl" name="WavFileSuperElf">
 <size>120,-1</size>
 <tooltip>Specify cassette file</tooltip>
@@ -6687,7 +6594,7 @@
 <size>12</size>
 </font>
 <style>wxST_NO_AUTORESIZE</style>
-<label>RAM:</label>
+<label>RAM: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6710,7 +6617,7 @@
 <size>12</size>
 </font>
 <style>wxALIGN_RIGHT</style>
-<label>to</label>
+<label>to </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6782,7 +6689,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Baud T:</label>
+<label>Baud T: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6820,7 +6727,7 @@
 <font>
 <size>12</size>
 </font>
-<label>R:</label>
+<label>R: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6865,7 +6772,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Zoom:</label>
+<label>Zoom: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6929,7 +6836,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Video:</label>
+<label>Video: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6969,7 +6876,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Keyboard:</label>
+<label>Keyboard: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7008,7 +6915,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Memory:</label>
+<label>Memory: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7072,7 +6979,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Q Sound:</label>
+<label>Q Sound: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7097,7 +7004,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Beeper:</label>
+<label>Beeper: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7118,7 +7025,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Hz</label>
+<label>Hz </label>
 </object>
 </object>
 </object>
@@ -7135,7 +7042,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Zoom Level:</label>
+<label>Zoom Level: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7183,7 +7090,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Leds:</label>
+<label>Leds: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7205,7 +7112,7 @@
 <font>
 <size>12</size>
 </font>
-<label>ms</label>
+<label>ms </label>
 </object>
 </object>
 </object>
@@ -7224,7 +7131,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7284,7 +7191,7 @@
 <border>5</border>
 <object class="wxStaticText" name="UseLocationTextSuperElf">
 <enabled>0</enabled>
-<label>Location</label>
+<label>Location </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7296,7 +7203,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7347,7 +7254,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7398,7 +7305,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Exec</label>
+<label>Exec </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7465,7 +7372,7 @@
 <font>
 <size>12</size>
 </font>
-<label>MHz</label>
+<label>MHz </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7528,7 +7435,7 @@
 <font>
 <size>12</size>
 </font>
-<label>TIL:</label>
+<label>TIL: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7695,9 +7602,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW</flag>
-<border>3</border>
-<option>20</option>
 <object class="wxComboBox" name="MainRomMembership">
 <size>226,-1</size>
 <tooltip>Specify Membership Card ROM file</tooltip>
@@ -7835,7 +7739,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Baud:</label>
+<label>Baud: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7874,7 +7778,7 @@
 <size>12</size>
 </font>
 <hidden>1</hidden>
-<label>R:</label>
+<label>R: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7913,7 +7817,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Zoom:</label>
+<label>Zoom: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8090,7 +7994,7 @@
 <size>12</size>
 </font>
 <hidden>1</hidden>
-<label>MHz</label>
+<label>MHz </label>
 </object>
 </object>
 </object>
@@ -8147,7 +8051,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Leds:</label>
+<label>Leds: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8169,7 +8073,7 @@
 <font>
 <size>12</size>
 </font>
-<label>ms</label>
+<label>ms </label>
 </object>
 </object>
 </object>
@@ -8188,7 +8092,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8240,7 +8144,7 @@
 <font>
 <size>12</size>
 </font>
-<label>I/O:</label>
+<label>I/O: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8273,7 +8177,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Non-volatile RAM:</label>
+<label>Non-volatile RAM: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8375,7 +8279,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Memory:</label>
+<label>Memory: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8440,7 +8344,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8477,7 +8381,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8548,9 +8452,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="MainRomVip2K">
 <size>202,-1</size>
 <tooltip>Specify VIP2K Membership Card system ROM file</tooltip>
@@ -8577,9 +8478,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="MainRom2Vip2K">
 <size>252,-1</size>
 <tooltip>Specify video sequencer ROM file</tooltip>
@@ -8606,9 +8504,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="RamSWVip2K">
 <size>252,-1</size>
 <tooltip>Specify RAM software file</tooltip>
@@ -8635,9 +8530,6 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="ScreenDumpFileVip2K">
 <size>226,-1</size>
 <tooltip>Specify video dump file</tooltip>
@@ -8733,7 +8625,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Baud:</label>
+<label>Baud: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8772,7 +8664,7 @@
 <size>12</size>
 </font>
 <hidden>1</hidden>
-<label>R:</label>
+<label>R: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8811,7 +8703,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Zoom:</label>
+<label>Zoom: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8867,9 +8759,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxTOP|wxBOTTOM</flag>
-<border>1</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
@@ -8885,9 +8774,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>4</border>
-<option>20</option>
 <object class="wxTextCtrl" name="WavFileVip2K">
 <size>226,-1</size>
 <tooltip>Specify terminal file</tooltip>
@@ -8972,15 +8858,9 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW</flag>
-<border>2</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxTextCtrl" name="Chip8SWVip2K">
 <size>226,-1</size>
 <tooltip>Specify Chip 8, Chip 8X or Chip 10 software file</tooltip>
@@ -9052,7 +8932,7 @@
 <size>12</size>
 </font>
 <hidden>1</hidden>
-<label>MHz</label>
+<label>MHz </label>
 </object>
 </object>
 </object>
@@ -9076,7 +8956,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Zoom Level:</label>
+<label>Zoom Level: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9137,7 +9017,7 @@
 <size>12</size>
 </font>
 <hidden>1</hidden>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9233,7 +9113,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9270,7 +9150,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9397,9 +9277,6 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxTextCtrl" name="Chip8SWVelf">
 <size>226,-1</size>
 <tooltip>Specify Chip 8 or Chip 8X software file</tooltip>
@@ -9488,9 +9365,6 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="ScreenDumpFileVelf">
 <size>226,-1</size>
 <tooltip>Specify video dump file</tooltip>
@@ -9536,9 +9410,6 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
-<border>1</border>
-<option>20</option>
 <object class="wxTextCtrl" name="WavFileVelf">
 <size>226,-1</size>
 <tooltip>Specify cassette file</tooltip>
@@ -9636,7 +9507,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Baud:</label>
+<label>Baud: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9675,7 +9546,7 @@
 <size>12</size>
 </font>
 <hidden>1</hidden>
-<label>R:</label>
+<label>R: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9714,7 +9585,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Zoom:</label>
+<label>Zoom: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9763,7 +9634,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Zoom Level:</label>
+<label>Zoom Level: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9838,7 +9709,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9876,7 +9747,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Beeper:</label>
+<label>Beeper: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9897,7 +9768,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Hz</label>
+<label>Hz </label>
 </object>
 </object>
 <object class="spacer">
@@ -9917,7 +9788,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Leds:</label>
+<label>Leds: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9939,7 +9810,7 @@
 <font>
 <size>12</size>
 </font>
-<label>ms</label>
+<label>ms </label>
 </object>
 </object>
 </object>
@@ -9984,7 +9855,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -10021,7 +9892,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -10136,7 +10007,7 @@
 <font>
 <size>12</size>
 </font>
-<label>MHz</label>
+<label>MHz </label>
 </object>
 </object>
 </object>
@@ -10265,7 +10136,7 @@
 <size>12</size>
 </font>
 <hidden>1</hidden>
-<label>Output, Display</label>
+<label>Output, Display </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -10290,7 +10161,7 @@
 <size>12</size>
 </font>
 <hidden>1</hidden>
-<label>Input, Read Data</label>
+<label>Input, Read Data </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -10333,7 +10204,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Leds:</label>
+<label>Leds: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -10355,7 +10226,7 @@
 <font>
 <size>12</size>
 </font>
-<label>ms</label>
+<label>ms </label>
 </object>
 </object>
 </object>
@@ -10436,7 +10307,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -10473,7 +10344,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -10482,6 +10353,969 @@
 <object class="wxTextCtrl" name="SaveEndUC1800" subclass="HexEdit">
 <size>50,-1</size>
 <tooltip>Specify end address in hexadecimal</tooltip>
+<font>
+<size>12</size>
+</font>
+<enabled>0</enabled>
+<maxlength>4</maxlength>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="choicebookpage">
+<label>Pico/Elf V2</label>
+<object class="wxPanel" name="PanelPico">
+<font>
+<size>12</size>
+</font>
+<style>wxTAB_TRAVERSAL</style>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_TOP|wxLEFT|wxRIGHT</flag>
+<border>3</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxFlexGridSizer">
+<cols>2</cols>
+<rows>5</rows>
+<vgap>2</vgap>
+<hgap>0</hgap>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxButton" name="RomButtonPico">
+<tooltip>Browse for Pico/Elf V2 ROM file</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>ROM</label>
+</object>
+</object>
+<object class="sizeritem">
+<object class="wxComboBox" name="MainRomPico">
+<size>252,-1</size>
+<tooltip>Specify Pico/Elf V2 ROM/RAM file</tooltip>
+<font>
+<size>12</size>
+</font>
+<style>wxCB_DROPDOWN</style>
+<content>
+<item></item>
+<item>bios.1.0.4.rom</item>
+<item>bios+biosiov93.rom</item>
+<item>bios+biosiov93_32.column.rom</item>
+<item></item>
+<item>biosio.elfos.0.2.5.rom</item>
+<item>biosio.elfos.0.2.5_32.column.rom</item>
+</content>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>3</border>
+<object class="wxButton" name="IDE_ButtonPico">
+<tooltip>Browse for IDE image file</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Disk</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxTextCtrl" name="IdeFilePico">
+<size>90,-1</size>
+<tooltip>Specify IDE image file</tooltip>
+<font>
+<size>12</size>
+</font>
+<value>disk1.ide</value>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP</flag>
+<border>1</border>
+<object class="wxChoice" name="DiskTypePico">
+<tooltip>Activate IDE disk controller</tooltip>
+<font>
+<size>12</size>
+</font>
+<content>
+<item>None</item>
+<item>IDE</item>
+</content>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>0</border>
+<object class="wxBitmapButton" name="Eject_IDEPico">
+<size>26,27</size>
+<tooltip>Eject IDE image file</tooltip>
+<bitmap>images_osx/eject.png</bitmap>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>3</border>
+<object class="wxButton" name="PrintFileButtonPico">
+<tooltip>Browse for printer output file</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Printer</label>
+</object>
+</object>
+<object class="sizeritem">
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxTextCtrl" name="PrintFilePico">
+<size>77,-1</size>
+<tooltip>Specify printer output file</tooltip>
+<font>
+<size>12</size>
+</font>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxTOP</flag>
+<border>1</border>
+<object class="wxChoice" name="PrintModePico">
+<tooltip>Select print mode</tooltip>
+<font>
+<size>12</size>
+</font>
+<content>
+<item>File</item>
+<item>Window</item>
+</content>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>0</border>
+<object class="wxBitmapButton" name="PrintButtonPico">
+<size>26,27</size>
+<tooltip>Open printer window (F4)</tooltip>
+<bitmap>images_osx/print.png</bitmap>
+<selected>images_osx/print.png</selected>
+<focus>images_osx/print.png</focus>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>2</border>
+<object class="wxButton" name="ScreenDumpFileButtonPico">
+<tooltip>Browse for video dump file</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>VideoDump</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_TOP</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<object class="wxComboBox" name="ScreenDumpFilePico">
+<size>226,-1</size>
+<tooltip>Specify video dump file</tooltip>
+<font>
+<size>12</size>
+</font>
+<style>wxCB_DROPDOWN</style>
+<content>
+<item></item>
+<item>screendump.png</item>
+<item>screendump.jpeg</item>
+<item>screendump.bmp</item>
+<item>screendump.pcx</item>
+</content>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxBitmapButton" name="ScreenDumpF5Pico">
+<size>26,27</size>
+<tooltip>Save video dump to file (F5)</tooltip>
+<enabled>0</enabled>
+<bitmap>images_osx/filesave.png</bitmap>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>3</border>
+<object class="wxButton" name="CasButtonPico">
+<tooltip>Browse for cassette file</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>XMODEM</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<object class="wxTextCtrl" name="WavFilePico">
+<size>120,-1</size>
+<tooltip>Specify cassette file</tooltip>
+<font>
+<size>12</size>
+</font>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxBitmapButton" name="EjectCasPico">
+<size>26,27</size>
+<tooltip>Eject cassette file</tooltip>
+<bitmap>images_osx/eject.png</bitmap>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxCheckBox" name="AutoCasLoadPico">
+<tooltip>Enable auto mode for cassette file</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Auto</label>
+<checked>1</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxCheckBox" name="TurboPico">
+<tooltip>Enable turbo mode for cassette file</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Turbo:</label>
+<checked>1</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxTextCtrl" name="TurboClockPico" subclass="IntEdit">
+<size>35,-1</size>
+<tooltip>Specify turbo clock speed in MHz</tooltip>
+<font>
+<size>12</size>
+</font>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>2</border>
+<object class="wxStaticText" name="TurboMhzTextPico">
+<font>
+<size>12</size>
+</font>
+<label>MHz </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxBitmapButton" name="CasSavePico">
+<size>26,27</size>
+<tooltip>Start recording to cassette file</tooltip>
+<enabled>0</enabled>
+<bitmap>images_osx/rec_off.png</bitmap>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxBitmapButton" name="CasLoadPico">
+<size>26,27</size>
+<tooltip>Play cassette file</tooltip>
+<enabled>0</enabled>
+<bitmap>images_osx/play_black.png</bitmap>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxBitmapButton" name="CasStopPico">
+<size>26,27</size>
+<tooltip>Stop cassette file</tooltip>
+<enabled>0</enabled>
+<bitmap>images_osx/stop.png</bitmap>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>2</border>
+<object class="wxBitmapButton" name="RealCasLoadPico">
+<size>26,27</size>
+<tooltip>Disable / Enable real cassette loading</tooltip>
+<style>wxBU_AUTODRAW</style>
+<hidden>1</hidden>
+<bitmap>images_osx/real_cas_off.png</bitmap>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxBOTTOM</flag>
+<border>4</border>
+<object class="wxFlexGridSizer">
+<cols>2</cols>
+<rows>1</rows>
+<vgap>2</vgap>
+<hgap>0</hgap>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxButton" name="DP_ButtonPico">
+<tooltip>Open device ports definition window</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>DevicePorts</label>
+</object>
+</object>
+<object class="spacer">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<size>252,-1</size>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxVERTICAL</orient>
+<label>Terminal</label>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_BOTTOM|wxRIGHT</flag>
+<border>5</border>
+<object class="wxChoice" name="VTTypePico">
+<tooltip>Select video terminal type</tooltip>
+<font>
+<size>12</size>
+</font>
+<content>
+<item>None</item>
+<item>VT52</item>
+<item>VT100</item>
+<item>External</item>
+</content>
+<selection>0</selection>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_BOTTOM|wxBOTTOM</flag>
+<border>1</border>
+<object class="wxButton" name="VtSetupPico">
+<tooltip>Open video terminal setup window</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Setup</label>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxTOP</flag>
+<border>3</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>3</border>
+<object class="wxStaticText" name="VTBaudTTextPico">
+<font>
+<size>12</size>
+</font>
+<label>Baud T: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
+<border>0</border>
+<object class="wxChoice" name="VTBaudTChoicePico">
+<font>
+<size>12</size>
+</font>
+<content>
+<item>38400</item>
+<item>19200</item>
+<item>9600</item>
+<item>4800</item>
+<item>3600</item>
+<item>2400</item>
+<item>2000</item>
+<item>1800</item>
+<item>1200</item>
+<item>600</item>
+<item>300</item>
+<item>200</item>
+<item>150</item>
+<item>134</item>
+<item>110</item>
+<item>75</item>
+<item>50</item>
+</content>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>3</border>
+<object class="wxStaticText" name="VTBaudRTextPico">
+<font>
+<size>12</size>
+</font>
+<label>R: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
+<border>0</border>
+<object class="wxChoice" name="VTBaudRChoicePico">
+<font>
+<size>12</size>
+</font>
+<content>
+<item>38400</item>
+<item>19200</item>
+<item>9600</item>
+<item>4800</item>
+<item>3600</item>
+<item>2400</item>
+<item>2000</item>
+<item>1800</item>
+<item>1200</item>
+<item>600</item>
+<item>300</item>
+<item>200</item>
+<item>150</item>
+<item>134</item>
+<item>110</item>
+<item>75</item>
+<item>50</item>
+</content>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxTOP</flag>
+<border>3</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxStaticText" name="ZoomTextVtPico">
+<font>
+<size>12</size>
+</font>
+<label>Zoom: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>1</border>
+<object class="wxTextCtrl" name="ZoomValueVtPico" subclass="FloatEdit">
+<size>50,-1</size>
+<tooltip>Select Video Terminal screen size</tooltip>
+<font>
+<size>12</size>
+</font>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>5</border>
+<object class="wxSpinButton" name="ZoomSpinVtPico">
+<size>-1,23</size>
+<tooltip>Select Video Terminal screen size</tooltip>
+<style>wxSP_VERTICAL</style>
+<value>0</value>
+<min>1</min>
+<max>100</max>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>2</border>
+<object class="wxCheckBox" name="StretchDotPico">
+<tooltip>Enable stretch dot mode on video terminal</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Stretch</label>
+<checked>0</checked>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_TOP|wxLEFT|wxRIGHT</flag>
+<border>3</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+<border>1</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxStaticText" name="VideoTypeTextPico">
+<font>
+<size>12</size>
+</font>
+<label>Video: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_BOTTOM</flag>
+<border>0</border>
+<object class="wxChoice" name="VideoTypePico">
+<tooltip>Select video type</tooltip>
+<font>
+<size>12</size>
+</font>
+<content>
+<item>None</item>
+<item>1861 Pixie</item>
+<item>TMS 9918</item>
+</content>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_BOTTOM|wxLEFT|wxBOTTOM</flag>
+<border>1</border>
+<object class="wxButton" name="ColoursPico">
+<tooltip>Open video setup window</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>VideoSetup</label>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxStaticText" name="ZoomTextPico">
+<font>
+<size>12</size>
+</font>
+<label>Zoom Level: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>1</border>
+<object class="wxTextCtrl" name="ZoomValuePico" subclass="FloatEdit">
+<size>50,-1</size>
+<tooltip>Select screen size</tooltip>
+<font>
+<size>12</size>
+</font>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>5</border>
+<object class="wxSpinButton" name="ZoomSpinPico">
+<size>-1,23</size>
+<tooltip>Select screen size</tooltip>
+<style>wxSP_VERTICAL</style>
+<value>0</value>
+<min>1</min>
+<max>100</max>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>2</border>
+<object class="wxBitmapButton" name="FullScreenF3Pico">
+<size>26,27</size>
+<tooltip>Activate full screen mode (F3)</tooltip>
+<enabled>0</enabled>
+<bitmap>images_osx/screen.png</bitmap>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+<border>1</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="QsoundTextPico">
+<font>
+<size>12</size>
+</font>
+<label>Q Sound: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_BOTTOM|wxLEFT</flag>
+<border>2</border>
+<object class="wxChoice" name="QsoundPico">
+<tooltip>Select Q sound type</tooltip>
+<font>
+<size>12</size>
+</font>
+<content>
+<item>Off</item>
+<item>Software</item>
+<item>Hardware</item>
+</content>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>3</border>
+<object class="wxStaticText" name="BeepFrequencyTextPico">
+<font>
+<size>12</size>
+</font>
+<label>Beeper: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>2</border>
+<object class="wxTextCtrl" name="BeepFrequencyPico" subclass="IntEdit">
+<size>45,-1</size>
+<tooltip>Specify oscilator frequency speed in Hz</tooltip>
+<font>
+<size>12</size>
+</font>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>3</border>
+<object class="wxStaticText" name="BeepFrequencyTextHzPico">
+<font>
+<size>12</size>
+</font>
+<label>Hz </label>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>3</border>
+<object class="wxStaticText" name="VolumeTextPico">
+<font>
+<size>12</size>
+</font>
+<label>Volume: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>3</border>
+<object class="wxSlider" name="VolumePico">
+<size>100,24</size>
+<tooltip>Change emulator sound volume</tooltip>
+<style>wxSL_HORIZONTAL</style>
+<value>25</value>
+<min>0</min>
+<max>100</max>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<border>3</border>
+<object class="wxStaticBitmap" name="VuPico">
+<size>100,10</size>
+<style>wxSTATIC_BORDER</style>
+<bitmap>images/vu.png</bitmap>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxFlexGridSizer">
+<cols>3</cols>
+<rows>1</rows>
+<vgap>2</vgap>
+<hgap>0</hgap>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>5</border>
+<object class="wxStaticText" name="wxID_STATIC">
+<font>
+<size>12</size>
+</font>
+<label>DS NVR/RTC: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxCheckBox" name="PicoRtc">
+<tooltip>Enable DS12887 NVR and RTC support</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Enable</label>
+<checked>0</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>3</border>
+<object class="wxCheckBox" name="PicoClearRtc">
+<tooltip>Clear non-volatile  DS12887 RAM on start-up</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Clear</label>
+<checked>0</checked>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW</flag>
+<border>5</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxVERTICAL</orient>
+<label>Memory Access</label>
+<font>
+<size>12</size>
+</font>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT</flag>
+<border>0</border>
+<object class="wxFlexGridSizer">
+<cols>4</cols>
+<rows>3</rows>
+<vgap>1</vgap>
+<hgap>0</hgap>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxCheckBox" name="UseLocationPico">
+<tooltip>Select to SAVE specific machine code address</tooltip>
+<font>
+<size>12</size>
+</font>
+<enabled>0</enabled>
+<label>Specify</label>
+<checked>0</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>5</border>
+<object class="wxStaticText" name="UseLocationTextPico">
+<enabled>0</enabled>
+<label>Location </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
+<border>3</border>
+<object class="wxStaticText" name="TextStartPico">
+<font>
+<size>12</size>
+</font>
+<style>wxALIGN_RIGHT</style>
+<enabled>0</enabled>
+<label>Start </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>2</border>
+<object class="wxTextCtrl" name="SaveStartPico" subclass="HexEdit">
+<size>50,21</size>
+<tooltip>Specify start address in hexadecimal</tooltip>
+<font>
+<size>12</size>
+</font>
+<enabled>0</enabled>
+<maxlength>4</maxlength>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<border>1</border>
+<object class="wxButton" name="LoadButtonPico">
+<size>-1,23</size>
+<tooltip>Load .hex/.super file into Pico/Elf V2 emulator memory</tooltip>
+<font>
+<size>12</size>
+</font>
+<enabled>0</enabled>
+<label>LOAD</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<border>1</border>
+<object class="wxButton" name="RunButtonPico">
+<size>-1,23</size>
+<tooltip>Load .super file into Pico/Elf V2 emulator memory and RUN software</tooltip>
+<font>
+<size>12</size>
+</font>
+<enabled>0</enabled>
+<label>RUN</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
+<border>3</border>
+<object class="wxStaticText" name="TextEndPico">
+<font>
+<size>12</size>
+</font>
+<style>wxALIGN_RIGHT</style>
+<enabled>0</enabled>
+<label>End </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>2</border>
+<object class="wxTextCtrl" name="SaveEndPico" subclass="HexEdit">
+<size>50,21</size>
+<tooltip>Specify end address in hexadecimal</tooltip>
+<font>
+<size>12</size>
+</font>
+<enabled>0</enabled>
+<maxlength>4</maxlength>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<border>1</border>
+<object class="wxButton" name="SaveButtonPico">
+<size>-1,23</size>
+<tooltip>Save Pico/Elf V2 emulator memory to .hex/.super file</tooltip>
+<font>
+<size>12</size>
+</font>
+<enabled>0</enabled>
+<label>SAVE</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<border>1</border>
+<object class="wxButton" name="DsaveButtonPico">
+<size>-1,23</size>
+<tooltip>Save Pico/Elf V2 emulator data memory to .super file</tooltip>
+<font>
+<size>12</size>
+</font>
+<enabled>0</enabled>
+<label>Data SAVE</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>5</border>
+<object class="wxStaticText" name="TextExecPico">
+<font>
+<size>12</size>
+</font>
+<style>wxALIGN_RIGHT</style>
+<enabled>0</enabled>
+<label>Exec </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>2</border>
+<object class="wxTextCtrl" name="SaveExecPico" subclass="HexEdit">
+<size>50,21</size>
+<tooltip>Specify machine code execution address in hexadecimal</tooltip>
 <font>
 <size>12</size>
 </font>
@@ -10553,9 +11387,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="MainRomNetronics">
 <size>226,-1</size>
 <tooltip>Specify Netronics Elf II ROM/RAM file</tooltip>
@@ -10602,9 +11433,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="MainRom2Netronics">
 <size>226,-1</size>
 <tooltip>Specify Netronics Elf II ROM/RAM file</tooltip>
@@ -10726,9 +11554,6 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxTextCtrl" name="KeyFileNetronics">
 <size>226,-1</size>
 <tooltip>Specify key input file</tooltip>
@@ -10760,9 +11585,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
-<border>2</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
@@ -10820,9 +11642,6 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="ScreenDumpFileNetronics">
 <size>226,-1</size>
 <tooltip>Specify video dump file</tooltip>
@@ -10877,9 +11696,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxTextCtrl" name="WavFileNetronics">
 <size>120,-1</size>
 <tooltip>Specify cassette file</tooltip>
@@ -10923,7 +11739,7 @@
 <size>12</size>
 </font>
 <style>wxST_NO_AUTORESIZE</style>
-<label>RAM:</label>
+<label>RAM: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -10946,7 +11762,7 @@
 <size>12</size>
 </font>
 <style>wxALIGN_RIGHT</style>
-<label>to</label>
+<label>to </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11018,7 +11834,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Baud T:</label>
+<label>Baud T: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11056,7 +11872,7 @@
 <font>
 <size>12</size>
 </font>
-<label>R:</label>
+<label>R: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11101,7 +11917,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Zoom:</label>
+<label>Zoom: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11165,7 +11981,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Video:</label>
+<label>Video: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11205,7 +12021,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Keyboard:</label>
+<label>Keyboard: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11244,7 +12060,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Memory:</label>
+<label>Memory: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11308,7 +12124,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Q Sound:</label>
+<label>Q Sound: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11333,7 +12149,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Beeper:</label>
+<label>Beeper: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11354,7 +12170,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Hz</label>
+<label>Hz </label>
 </object>
 </object>
 </object>
@@ -11371,7 +12187,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Zoom Level:</label>
+<label>Zoom Level: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11419,7 +12235,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Leds:</label>
+<label>Leds: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11441,7 +12257,7 @@
 <font>
 <size>12</size>
 </font>
-<label>ms</label>
+<label>ms </label>
 </object>
 </object>
 </object>
@@ -11460,7 +12276,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11521,7 +12337,7 @@
 <border>5</border>
 <object class="wxStaticText" name="UseLocationTextNetronics">
 <enabled>0</enabled>
-<label>Location</label>
+<label>Location </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11533,7 +12349,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11584,7 +12400,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11635,7 +12451,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Exec</label>
+<label>Exec </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11702,7 +12518,7 @@
 <font>
 <size>12</size>
 </font>
-<label>MHz</label>
+<label>MHz </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11765,7 +12581,7 @@
 <font>
 <size>12</size>
 </font>
-<label>TIL:</label>
+<label>TIL: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11903,1409 +12719,6 @@
 </object>
 </object>
 </object>
-<object class="choicebookpage">
-<label>Pico/Elf V2</label>
-<object class="wxPanel" name="PanelPico">
-<font>
-<size>12</size>
-</font>
-<style>wxTAB_TRAVERSAL</style>
-<object class="wxBoxSizer">
-<orient>wxVERTICAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_TOP|wxLEFT|wxRIGHT</flag>
-<border>3</border>
-<object class="wxBoxSizer">
-<orient>wxVERTICAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxBOTTOM</flag>
-<border>2</border>
-<object class="wxFlexGridSizer">
-<cols>2</cols>
-<rows>9</rows>
-<vgap>2</vgap>
-<hgap>0</hgap>
-<object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxButton" name="RomButtonPico">
-<tooltip>Browse for Pico/Elf V2 ROM file</tooltip>
-<font>
-<size>12</size>
-</font>
-<label>ROM 1</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
-<border>2</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>3</border>
-<object class="wxBitmapButton" name="Rom1Pico">
-<size>26,27</size>
-<tooltip>Toggle ROM/RAM</tooltip>
-<bitmap>images_osx/switch.png</bitmap>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
-<object class="wxComboBox" name="MainRomPico">
-<size>226,-1</size>
-<tooltip>Specify Pico/Elf V2 ROM/RAM file</tooltip>
-<font>
-<size>12</size>
-</font>
-<style>wxCB_DROPDOWN</style>
-<content>
-<item></item>
-<item>bios.1.0.4.rom</item>
-<item>bios+biosiov93.rom</item>
-<item>bios+biosiov93_32.column.rom</item>
-<item></item>
-<item>biosio.elfos.0.2.5.rom</item>
-<item>biosio.elfos.0.2.5_32.column.rom</item>
-</content>
-</object>
-</object>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxButton" name="RomButton2Pico">
-<tooltip>Browse for Pico/Elf V2 ROM file</tooltip>
-<font>
-<size>12</size>
-</font>
-<label>ROM 2</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
-<border>2</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>3</border>
-<object class="wxBitmapButton" name="Rom2Pico">
-<size>26,27</size>
-<tooltip>Toggle ROM/RAM</tooltip>
-<bitmap>images_osx/switch.png</bitmap>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
-<object class="wxComboBox" name="MainRom2Pico">
-<size>226,-1</size>
-<tooltip>Specify Pico/Elf V2 ROM/RAM file</tooltip>
-<font>
-<size>12</size>
-</font>
-<style>wxCB_DROPDOWN</style>
-<content>
-<item></item>
-<item>elfos.0.2.8.hex</item>
-</content>
-</object>
-</object>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-<border>3</border>
-<object class="wxButton" name="IDE_ButtonPico">
-<tooltip>Browse for IDE image file</tooltip>
-<font>
-<size>12</size>
-</font>
-<label>Disk</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
-<border>2</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxTextCtrl" name="IdeFilePico">
-<size>90,-1</size>
-<tooltip>Specify IDE image file</tooltip>
-<font>
-<size>12</size>
-</font>
-<value>disk1.ide</value>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP</flag>
-<border>1</border>
-<object class="wxChoice" name="DiskTypePico">
-<tooltip>Select FDC 1793 or IDE disk controller</tooltip>
-<font>
-<size>12</size>
-</font>
-<content>
-<item>None</item>
-<item>FDC</item>
-<item>IDE</item>
-</content>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>0</border>
-<object class="wxBitmapButton" name="Eject_IDEPico">
-<size>26,27</size>
-<tooltip>Eject IDE image file</tooltip>
-<bitmap>images_osx/eject.png</bitmap>
-</object>
-</object>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
-<border>3</border>
-<object class="wxButton" name="CharRomButtonPico">
-<tooltip>Browse for video font file</tooltip>
-<font>
-<size>12</size>
-</font>
-<label>Video Font</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
-<border>3</border>
-<object class="wxComboBox" name="CharRomPico">
-<size>252,-1</size>
-<tooltip>Specify video font file</tooltip>
-<font>
-<size>12</size>
-</font>
-<style>wxCB_DROPDOWN</style>
-<content>
-<item></item>
-<item>mc6845.bin</item>
-<item></item>
-<item>mc6847.ntsc.round.bin</item>
-<item>mc6847.ntsc.square.bin</item>
-<item>mc6847.pal.round.bin</item>
-<item>mc6847.pal.square.bin</item>
-<item></item>
-<item>intel8275.bin</item>
-</content>
-<selection>1</selection>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-<border>3</border>
-<object class="wxButton" name="KeyFileButtonPico">
-<tooltip>Browse for key input file</tooltip>
-<font>
-<size>12</size>
-</font>
-<label>Key File</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
-<border>2</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
-<object class="wxTextCtrl" name="KeyFilePico">
-<size>226,-1</size>
-<tooltip>Specify key input file</tooltip>
-<font>
-<size>12</size>
-</font>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBitmapButton" name="EjectKeyFilePico">
-<size>26,27</size>
-<tooltip>Eject key input file</tooltip>
-<bitmap>images_osx/eject.png</bitmap>
-</object>
-</object>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-<border>3</border>
-<object class="wxButton" name="PrintFileButtonPico">
-<tooltip>Browse for printer output file</tooltip>
-<font>
-<size>12</size>
-</font>
-<label>Printer</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
-<border>2</border>
-<option>20</option>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxTextCtrl" name="PrintFilePico">
-<size>77,-1</size>
-<tooltip>Specify printer output file</tooltip>
-<font>
-<size>12</size>
-</font>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxTOP</flag>
-<border>1</border>
-<object class="wxChoice" name="PrintModePico">
-<tooltip>Select print mode</tooltip>
-<font>
-<size>12</size>
-</font>
-<content>
-<item>File</item>
-<item>Window</item>
-</content>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>0</border>
-<object class="wxBitmapButton" name="PrintButtonPico">
-<size>26,27</size>
-<tooltip>Open printer window (F4)</tooltip>
-<bitmap>images_osx/print.png</bitmap>
-<selected>images_osx/print.png</selected>
-<focus>images_osx/print.png</focus>
-</object>
-</object>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-<border>2</border>
-<object class="wxButton" name="ScreenDumpFileButtonPico">
-<tooltip>Browse for video dump file</tooltip>
-<font>
-<size>12</size>
-</font>
-<label>VideoDump</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
-<border>2</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
-<object class="wxComboBox" name="ScreenDumpFilePico">
-<size>226,-1</size>
-<tooltip>Specify video dump file</tooltip>
-<font>
-<size>12</size>
-</font>
-<style>wxCB_DROPDOWN</style>
-<content>
-<item></item>
-<item>screendump.png</item>
-<item>screendump.jpeg</item>
-<item>screendump.bmp</item>
-<item>screendump.pcx</item>
-</content>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBitmapButton" name="ScreenDumpF5Pico">
-<size>26,27</size>
-<tooltip>Save video dump to file (F5)</tooltip>
-<enabled>0</enabled>
-<bitmap>images_osx/filesave.png</bitmap>
-</object>
-</object>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-<border>3</border>
-<object class="wxButton" name="CasButtonPico">
-<tooltip>Browse for cassette file</tooltip>
-<font>
-<size>12</size>
-</font>
-<label>Cassette</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
-<border>2</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>3</border>
-<object class="wxBitmapButton" name="TapePico">
-<size>26,27</size>
-<tooltip>Toggle: Casette - XMODEM - Off</tooltip>
-<bitmap>images_osx/switch.png</bitmap>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
-<object class="wxTextCtrl" name="WavFilePico">
-<size>120,-1</size>
-<tooltip>Specify cassette file</tooltip>
-<font>
-<size>12</size>
-</font>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBitmapButton" name="EjectCasPico">
-<size>26,27</size>
-<tooltip>Eject cassette file</tooltip>
-<bitmap>images_osx/eject.png</bitmap>
-</object>
-</object>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-<border>4</border>
-<object class="wxButton" name="DP_ButtonPico">
-<tooltip>Open device ports definition window</tooltip>
-<font>
-<size>12</size>
-</font>
-<label>DevicePorts</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
-<border>3</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-<border>3</border>
-<object class="wxStaticText" name="StartRamTextPico">
-<font>
-<size>12</size>
-</font>
-<style>wxST_NO_AUTORESIZE</style>
-<label>RAM:</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxTextCtrl" name="StartRamPico" subclass="HexEdit">
-<size>50,-1</size>
-<tooltip>Specify RAM bank start address in hexadecimal</tooltip>
-<font>
-<size>12</size>
-</font>
-<maxlength>4</maxlength>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxStaticText" name="EndRamTextPico">
-<font>
-<size>12</size>
-</font>
-<style>wxALIGN_RIGHT</style>
-<label>to</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxTextCtrl" name="EndRamPico" subclass="HexEdit">
-<size>50,-1</size>
-<tooltip>Specify RAM bank end address in hexadecimal</tooltip>
-<font>
-<size>12</size>
-</font>
-<maxlength>4</maxlength>
-</object>
-</object>
-</object>
-</object>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxTOP|wxBOTTOM</flag>
-<border>2</border>
-<object class="wxStaticBoxSizer" name="wxID_ANY">
-<orient>wxVERTICAL</orient>
-<label>Terminal</label>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_BOTTOM|wxRIGHT</flag>
-<border>5</border>
-<object class="wxChoice" name="VTTypePico">
-<tooltip>Select video terminal type</tooltip>
-<font>
-<size>12</size>
-</font>
-<content>
-<item>None</item>
-<item>VT52</item>
-<item>VT100</item>
-<item>External</item>
-</content>
-<selection>0</selection>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALIGN_BOTTOM|wxBOTTOM</flag>
-<border>1</border>
-<object class="wxButton" name="VtSetupPico">
-<tooltip>Open video terminal setup window</tooltip>
-<font>
-<size>12</size>
-</font>
-<label>Setup</label>
-</object>
-</object>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxTOP</flag>
-<border>3</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>3</border>
-<object class="wxStaticText" name="VTBaudTTextPico">
-<font>
-<size>12</size>
-</font>
-<label>Baud T:</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
-<border>0</border>
-<object class="wxChoice" name="VTBaudTChoicePico">
-<font>
-<size>12</size>
-</font>
-<content>
-<item>38400</item>
-<item>19200</item>
-<item>9600</item>
-<item>4800</item>
-<item>3600</item>
-<item>2400</item>
-<item>2000</item>
-<item>1800</item>
-<item>1200</item>
-<item>600</item>
-<item>300</item>
-<item>200</item>
-<item>150</item>
-<item>134</item>
-<item>110</item>
-<item>75</item>
-<item>50</item>
-</content>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-<border>3</border>
-<object class="wxStaticText" name="VTBaudRTextPico">
-<font>
-<size>12</size>
-</font>
-<label>R:</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
-<border>0</border>
-<object class="wxChoice" name="VTBaudRChoicePico">
-<font>
-<size>12</size>
-</font>
-<content>
-<item>38400</item>
-<item>19200</item>
-<item>9600</item>
-<item>4800</item>
-<item>3600</item>
-<item>2400</item>
-<item>2000</item>
-<item>1800</item>
-<item>1200</item>
-<item>600</item>
-<item>300</item>
-<item>200</item>
-<item>150</item>
-<item>134</item>
-<item>110</item>
-<item>75</item>
-<item>50</item>
-</content>
-</object>
-</object>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxTOP</flag>
-<border>3</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxStaticText" name="ZoomTextVtPico">
-<font>
-<size>12</size>
-</font>
-<label>Zoom:</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-<border>1</border>
-<object class="wxTextCtrl" name="ZoomValueVtPico" subclass="FloatEdit">
-<size>50,-1</size>
-<tooltip>Select Video Terminal screen size</tooltip>
-<font>
-<size>12</size>
-</font>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>5</border>
-<object class="wxSpinButton" name="ZoomSpinVtPico">
-<size>-1,23</size>
-<tooltip>Select Video Terminal screen size</tooltip>
-<style>wxSP_VERTICAL</style>
-<value>0</value>
-<min>1</min>
-<max>100</max>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-<border>2</border>
-<object class="wxCheckBox" name="StretchDotPico">
-<tooltip>Enable stretch dot mode on video terminal</tooltip>
-<font>
-<size>12</size>
-</font>
-<label>Stretch</label>
-<checked>0</checked>
-</object>
-</object>
-</object>
-</object>
-</object>
-</object>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_TOP|wxLEFT|wxRIGHT</flag>
-<border>3</border>
-<object class="wxBoxSizer">
-<orient>wxVERTICAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxBOTTOM</flag>
-<border>2</border>
-<object class="wxFlexGridSizer">
-<cols>3</cols>
-<rows>3</rows>
-<vgap>2</vgap>
-<hgap>0</hgap>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxStaticText" name="VideoTypeTextPico">
-<font>
-<size>12</size>
-</font>
-<label>Video:</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALIGN_BOTTOM</flag>
-<border>0</border>
-<object class="wxChoice" name="VideoTypePico">
-<tooltip>Select video type</tooltip>
-<font>
-<size>12</size>
-</font>
-<content>
-<item>None</item>
-<item>1861 Pixie</item>
-<item>MC6845</item>
-<item>MC6847</item>
-<item>TMS 9918</item>
-<item>Intel 8275</item>
-<item>Super Video</item>
-</content>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_BOTTOM|wxLEFT|wxBOTTOM</flag>
-<border>1</border>
-<object class="wxButton" name="ColoursPico">
-<tooltip>Open video setup window</tooltip>
-<font>
-<size>12</size>
-</font>
-<label>VideoSetup</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxStaticText" name="KeyboardTextPico">
-<font>
-<size>12</size>
-</font>
-<label>Keyboard:</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALIGN_BOTTOM</flag>
-<border>3</border>
-<object class="wxChoice" name="KeyboardPico">
-<tooltip>Select keyboard type</tooltip>
-<font>
-<size>12</size>
-</font>
-<content>
-<item>None</item>
-<item>PS2</item>
-<item>PS2 Interrupt</item>
-<item>Ascii</item>
-<item>Ascii (+Hex)</item>
-<item>Hex</item>
-</content>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_BOTTOM|wxLEFT|wxBOTTOM</flag>
-<border>1</border>
-<object class="wxButton" name="KeyMapPico">
-<tooltip>Open key map window</tooltip>
-<font>
-<size>12</size>
-</font>
-<label>Key Map</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxStaticText" name="MemoryTextPico">
-<font>
-<size>12</size>
-</font>
-<label>Memory:</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALIGN_BOTTOM</flag>
-<border>3</border>
-<object class="wxChoice" name="MemoryPico">
-<tooltip>Select memory size</tooltip>
-<font>
-<size>12</size>
-</font>
-<content>
-<item>64KB</item>
-<item>EMS-512KB</item>
-<item>Mapper-1MB</item>
-<item>ROM Mapper</item>
-</content>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-<border>3</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-<border>3</border>
-<object class="wxCheckBox" name="AutoBootPico">
-<tooltip>Enable auto boot at specified address</tooltip>
-<font>
-<size>12</size>
-</font>
-<label>Boot:</label>
-<checked>0</checked>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-<border>0</border>
-<object class="wxTextCtrl" name="BootAddressPico" subclass="HexEdit">
-<size>50,-1</size>
-<tooltip>Specify auto boot address in hexadecimal</tooltip>
-<font>
-<size>12</size>
-</font>
-<maxlength>4</maxlength>
-</object>
-</object>
-</object>
-</object>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
-<border>1</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>4</border>
-<object class="wxStaticText" name="QsoundTextPico">
-<font>
-<size>12</size>
-</font>
-<label>Q Sound:</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_BOTTOM|wxLEFT</flag>
-<border>2</border>
-<object class="wxChoice" name="QsoundPico">
-<tooltip>Select Q sound type</tooltip>
-<font>
-<size>12</size>
-</font>
-<content>
-<item>Off</item>
-<item>Software</item>
-<item>Hardware</item>
-</content>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-<border>3</border>
-<object class="wxStaticText" name="BeepFrequencyTextPico">
-<font>
-<size>12</size>
-</font>
-<label>Beeper:</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-<border>2</border>
-<object class="wxTextCtrl" name="BeepFrequencyPico" subclass="IntEdit">
-<size>45,-1</size>
-<tooltip>Specify oscilator frequency speed in Hz</tooltip>
-<font>
-<size>12</size>
-</font>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>3</border>
-<object class="wxStaticText" name="BeepFrequencyTextHzPico">
-<font>
-<size>12</size>
-</font>
-<label>Hz</label>
-</object>
-</object>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
-<border>2</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxStaticText" name="ZoomTextPico">
-<font>
-<size>12</size>
-</font>
-<label>Zoom Level:</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-<border>1</border>
-<object class="wxTextCtrl" name="ZoomValuePico" subclass="FloatEdit">
-<size>50,-1</size>
-<tooltip>Select screen size</tooltip>
-<font>
-<size>12</size>
-</font>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>5</border>
-<object class="wxSpinButton" name="ZoomSpinPico">
-<size>-1,23</size>
-<tooltip>Select screen size</tooltip>
-<style>wxSP_VERTICAL</style>
-<value>0</value>
-<min>1</min>
-<max>100</max>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-<border>2</border>
-<object class="wxBitmapButton" name="FullScreenF3Pico">
-<size>26,27</size>
-<tooltip>Activate full screen mode (F3)</tooltip>
-<enabled>0</enabled>
-<bitmap>images_osx/screen.png</bitmap>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_TOP</flag>
-<border>3</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-<border>2</border>
-<object class="wxStaticText" name="AddressText1Pico">
-<font>
-<size>12</size>
-</font>
-<label>Leds:</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-<border>2</border>
-<object class="wxTextCtrl" name="ShowAddressPico" subclass="IntEdit">
-<size>45,-1</size>
-<tooltip>Led updates in run mode every X ms</tooltip>
-<font>
-<size>12</size>
-</font>
-<value>100</value>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>3</border>
-<object class="wxStaticText" name="AddressText2Pico">
-<font>
-<size>12</size>
-</font>
-<label>ms</label>
-</object>
-</object>
-</object>
-</object>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
-<border>2</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-<border>3</border>
-<object class="wxStaticText" name="VolumeTextPico">
-<font>
-<size>12</size>
-</font>
-<label>Volume:</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-<border>3</border>
-<object class="wxSlider" name="VolumePico">
-<size>100,24</size>
-<tooltip>Change emulator sound volume</tooltip>
-<style>wxSL_HORIZONTAL</style>
-<value>25</value>
-<min>0</min>
-<max>100</max>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
-<border>3</border>
-<object class="wxStaticBitmap" name="VuPico">
-<size>100,10</size>
-<style>wxSTATIC_BORDER</style>
-<bitmap>images/vu.png</bitmap>
-</object>
-</object>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW</flag>
-<border>5</border>
-<object class="wxStaticBoxSizer" name="wxID_ANY">
-<orient>wxVERTICAL</orient>
-<label>Memory Access</label>
-<font>
-<size>12</size>
-</font>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT</flag>
-<border>0</border>
-<object class="wxFlexGridSizer">
-<cols>4</cols>
-<rows>3</rows>
-<vgap>1</vgap>
-<hgap>0</hgap>
-<object class="sizeritem">
-<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
-<border>4</border>
-<object class="wxCheckBox" name="UseLocationPico">
-<tooltip>Select to SAVE specific machine code address</tooltip>
-<font>
-<size>12</size>
-</font>
-<enabled>0</enabled>
-<label>Specify</label>
-<checked>0</checked>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-<border>5</border>
-<object class="wxStaticText" name="UseLocationTextPico">
-<enabled>0</enabled>
-<label>Location</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
-<border>3</border>
-<object class="wxStaticText" name="TextStartPico">
-<font>
-<size>12</size>
-</font>
-<style>wxALIGN_RIGHT</style>
-<enabled>0</enabled>
-<label>Start</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-<border>2</border>
-<object class="wxTextCtrl" name="SaveStartPico" subclass="HexEdit">
-<size>50,21</size>
-<tooltip>Specify start address in hexadecimal</tooltip>
-<font>
-<size>12</size>
-</font>
-<enabled>0</enabled>
-<maxlength>4</maxlength>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
-<border>1</border>
-<object class="wxButton" name="LoadButtonPico">
-<size>-1,23</size>
-<tooltip>Load .hex/.super file into Pico/Elf V2 emulator memory</tooltip>
-<font>
-<size>12</size>
-</font>
-<enabled>0</enabled>
-<label>LOAD</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
-<border>1</border>
-<object class="wxButton" name="RunButtonPico">
-<size>-1,23</size>
-<tooltip>Load .super file into Pico/Elf V2 emulator memory and RUN software</tooltip>
-<font>
-<size>12</size>
-</font>
-<enabled>0</enabled>
-<label>RUN</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
-<border>3</border>
-<object class="wxStaticText" name="TextEndPico">
-<font>
-<size>12</size>
-</font>
-<style>wxALIGN_RIGHT</style>
-<enabled>0</enabled>
-<label>End</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-<border>2</border>
-<object class="wxTextCtrl" name="SaveEndPico" subclass="HexEdit">
-<size>50,21</size>
-<tooltip>Specify end address in hexadecimal</tooltip>
-<font>
-<size>12</size>
-</font>
-<enabled>0</enabled>
-<maxlength>4</maxlength>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
-<border>1</border>
-<object class="wxButton" name="SaveButtonPico">
-<size>-1,23</size>
-<tooltip>Save Pico/Elf V2 emulator memory to .hex/.super file</tooltip>
-<font>
-<size>12</size>
-</font>
-<enabled>0</enabled>
-<label>SAVE</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
-<border>1</border>
-<object class="wxButton" name="DsaveButtonPico">
-<size>-1,23</size>
-<tooltip>Save Pico/Elf V2 emulator data memory to .super file</tooltip>
-<font>
-<size>12</size>
-</font>
-<enabled>0</enabled>
-<label>Data SAVE</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-<border>5</border>
-<object class="wxStaticText" name="TextExecPico">
-<font>
-<size>12</size>
-</font>
-<style>wxALIGN_RIGHT</style>
-<enabled>0</enabled>
-<label>Exec</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-<border>2</border>
-<object class="wxTextCtrl" name="SaveExecPico" subclass="HexEdit">
-<size>50,21</size>
-<tooltip>Specify machine code execution address in hexadecimal</tooltip>
-<font>
-<size>12</size>
-</font>
-<enabled>0</enabled>
-<maxlength>4</maxlength>
-</object>
-</object>
-</object>
-</object>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
-<border>2</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxCheckBox" name="AutoCasLoadPico">
-<tooltip>Enable auto mode for cassette file</tooltip>
-<font>
-<size>12</size>
-</font>
-<label>Auto</label>
-<checked>1</checked>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxCheckBox" name="TurboPico">
-<tooltip>Enable turbo mode for cassette file</tooltip>
-<font>
-<size>12</size>
-</font>
-<label>Turbo:</label>
-<checked>1</checked>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>4</border>
-<object class="wxTextCtrl" name="TurboClockPico" subclass="IntEdit">
-<size>35,-1</size>
-<tooltip>Specify turbo clock speed in MHz</tooltip>
-<font>
-<size>12</size>
-</font>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-<border>2</border>
-<object class="wxStaticText" name="TurboMhzTextPico">
-<font>
-<size>12</size>
-</font>
-<label>MHz</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBitmapButton" name="CasSavePico">
-<size>26,27</size>
-<tooltip>Start recording to cassette file</tooltip>
-<enabled>0</enabled>
-<bitmap>images_osx/rec_off.png</bitmap>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBitmapButton" name="CasLoadPico">
-<size>26,27</size>
-<tooltip>Play cassette file</tooltip>
-<enabled>0</enabled>
-<bitmap>images_osx/play_black.png</bitmap>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxBitmapButton" name="CasStopPico">
-<size>26,27</size>
-<tooltip>Stop cassette file</tooltip>
-<enabled>0</enabled>
-<bitmap>images_osx/stop.png</bitmap>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>2</border>
-<object class="wxBitmapButton" name="RealCasLoadPico">
-<size>26,27</size>
-<tooltip>Disable / Enable real cassette loading</tooltip>
-<style>wxBU_AUTODRAW</style>
-<hidden>1</hidden>
-<bitmap>images_osx/real_cas_off.png</bitmap>
-</object>
-</object>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
-<border>3</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-<border>2</border>
-<object class="wxStaticText" name="TilTextPico">
-<font>
-<size>12</size>
-</font>
-<label>TIL:</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_BOTTOM|wxLEFT|wxRIGHT</flag>
-<border>2</border>
-<object class="wxChoice" name="TilTypePico">
-<tooltip>Switch between TIL311 and TIL313/FND500</tooltip>
-<font>
-<size>12</size>
-</font>
-<content>
-<item>311</item>
-<item>313</item>
-</content>
-</object>
-</object>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-<border>5</border>
-<object class="wxCheckBox" name="ControlWindowsPico">
-<tooltip>Show Pico/Elf V2 control windows</tooltip>
-<font>
-<size>12</size>
-</font>
-<label>Elf Windows</label>
-<checked>0</checked>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-<border>3</border>
-<object class="wxCheckBox" name="InterlacePico">
-<tooltip>Enable interlace mode MC 6845 or intel 8275 video</tooltip>
-<font>
-<size>12</size>
-</font>
-<label>Interlace</label>
-<checked>0</checked>
-</object>
-</object>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
-<border>3</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-<border>5</border>
-<object class="wxCheckBox" name="PortExtPico">
-<tooltip>Enable extended ports support</tooltip>
-<font>
-<size>12</size>
-</font>
-<label>Ext. ports</label>
-<checked>0</checked>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-<border>5</border>
-<object class="wxCheckBox" name="UpperCasePico">
-<tooltip>Force keyboard in uppercase</tooltip>
-<font>
-<size>12</size>
-</font>
-<label>Uppercase</label>
-<checked>0</checked>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-<border>5</border>
-<object class="wxCheckBox" name="BootStrapPico">
-<tooltip>Load ROM 1 at 8000 and bootstrap ROM</tooltip>
-<font>
-<size>12</size>
-</font>
-<label>Bootstrap</label>
-<checked>0</checked>
-</object>
-</object>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
-<border>3</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-<border>5</border>
-<object class="wxCheckBox" name="HexEfPico">
-<tooltip>Enable EF Hex keyboard</tooltip>
-<font>
-<size>12</size>
-</font>
-<label>EF Hex key</label>
-<checked>0</checked>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-<border>5</border>
-<object class="wxCheckBox" name="EFButtonsPico">
-<tooltip>Enable EF3/EF push buttons</tooltip>
-<font>
-<size>12</size>
-</font>
-<label>EF Buttons</label>
-<checked>0</checked>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-<border>5</border>
-<object class="wxCheckBox" name="GiantPico">
-<tooltip>Enable Giant Board ROM mapping</tooltip>
-<font>
-<size>12</size>
-</font>
-<label>Giant</label>
-<checked>0</checked>
-</object>
-</object>
-</object>
-</object>
-</object>
-</object>
-</object>
-</object>
-</object>
-</object>
-</object>
 </object>
 </object>
 </object>
@@ -13361,9 +12774,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="RamSWFRED1">
 <size>252,-1</size>
 <tooltip>Specify FRED 1 RAM file</tooltip>
@@ -13426,15 +12836,9 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
-<border>2</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="ScreenDumpFileFRED1">
 <size>226,-1</size>
 <tooltip>Specify video dump file</tooltip>
@@ -13475,15 +12879,9 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
-<border>1</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>4</border>
-<option>20</option>
 <object class="wxTextCtrl" name="WavFileFRED1">
 <size>226,-1</size>
 <tooltip>Specify cassette file</tooltip>
@@ -13528,7 +12926,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Keypad mode:</label>
+<label>Keypad mode: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -13563,7 +12961,7 @@
 <font>
 <size>12</size>
 </font>
-<label>RAM:</label>
+<label>RAM: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -13599,7 +12997,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Cards:</label>
+<label>Cards: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -13939,7 +13337,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Zoom Level:</label>
+<label>Zoom Level: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -14000,7 +13398,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -14039,7 +13437,7 @@
 <size>12</size>
 </font>
 <hidden>1</hidden>
-<label>Beeper:</label>
+<label>Beeper: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -14062,7 +13460,7 @@
 <size>12</size>
 </font>
 <hidden>1</hidden>
-<label>Hz</label>
+<label>Hz </label>
 </object>
 </object>
 </object>
@@ -14105,7 +13503,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -14142,7 +13540,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -14197,7 +13595,7 @@
 <font>
 <size>12</size>
 </font>
-<label>MHz</label>
+<label>MHz </label>
 </object>
 </object>
 </object>
@@ -14325,7 +13723,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Tape Format:</label>
+<label>Tape Format: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -14351,7 +13749,7 @@
 <font>
 <size>12</size>
 </font>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -14385,7 +13783,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Leds:</label>
+<label>Leds: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -14407,7 +13805,7 @@
 <font>
 <size>12</size>
 </font>
-<label>ms</label>
+<label>ms </label>
 </object>
 </object>
 </object>
@@ -14502,9 +13900,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="RamSWFRED1_5">
 <size>252,-1</size>
 <tooltip>Specify FRED 1.5 RAM file</tooltip>
@@ -14546,15 +13941,9 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
-<border>2</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="ScreenDumpFileFRED1_5">
 <size>226,-1</size>
 <tooltip>Specify video dump file</tooltip>
@@ -14595,15 +13984,9 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
-<border>1</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>4</border>
-<option>20</option>
 <object class="wxTextCtrl" name="WavFileFRED1_5">
 <size>226,-1</size>
 <tooltip>Specify cassette file</tooltip>
@@ -14648,7 +14031,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Keypad mode:</label>
+<label>Keypad mode: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -14682,7 +14065,7 @@
 <font>
 <size>12</size>
 </font>
-<label>RAM:</label>
+<label>RAM: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -14725,7 +14108,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Zoom Level:</label>
+<label>Zoom Level: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -14786,7 +14169,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -14825,7 +14208,7 @@
 <size>12</size>
 </font>
 <hidden>1</hidden>
-<label>Beeper:</label>
+<label>Beeper: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -14848,7 +14231,7 @@
 <size>12</size>
 </font>
 <hidden>1</hidden>
-<label>Hz</label>
+<label>Hz </label>
 </object>
 </object>
 </object>
@@ -14891,7 +14274,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -14928,7 +14311,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -14983,7 +14366,7 @@
 <font>
 <size>12</size>
 </font>
-<label>MHz</label>
+<label>MHz </label>
 </object>
 </object>
 </object>
@@ -15111,7 +14494,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Tape Format:</label>
+<label>Tape Format: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -15137,7 +14520,7 @@
 <font>
 <size>12</size>
 </font>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -15171,7 +14554,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Leds:</label>
+<label>Leds: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -15193,7 +14576,7 @@
 <font>
 <size>12</size>
 </font>
-<label>ms</label>
+<label>ms </label>
 </object>
 </object>
 </object>
@@ -15331,7 +14714,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Leds:</label>
+<label>Leds: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -15353,7 +14736,7 @@
 <font>
 <size>12</size>
 </font>
-<label>ms</label>
+<label>ms </label>
 </object>
 </object>
 </object>
@@ -15434,7 +14817,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -15471,7 +14854,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -15611,7 +14994,7 @@
 <font>
 <size>12</size>
 </font>
-<label>RAM:</label>
+<label>RAM: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -15639,10 +15022,11 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>4</border>
 <object class="wxStaticText" name="RamText2Microtutor2">
+<size>100,-1</size>
 <font>
 <size>12</size>
 </font>
-<label>per Slot</label>
+<label>per Slot </label>
 </object>
 </object>
 </object>
@@ -15690,7 +15074,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Leds:</label>
+<label>Leds: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -15712,7 +15096,7 @@
 <font>
 <size>12</size>
 </font>
-<label>ms</label>
+<label>ms </label>
 </object>
 </object>
 </object>
@@ -15793,7 +15177,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -15830,7 +15214,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -15955,9 +15339,6 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="ScreenDumpFileCDP18S020">
 <size>226,-1</size>
 <tooltip>Specify video dump file</tooltip>
@@ -16000,7 +15381,7 @@
 <font>
 <size>12</size>
 </font>
-<label>RAM:</label>
+<label>RAM: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -16088,7 +15469,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Baud:</label>
+<label>Baud: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -16127,7 +15508,7 @@
 <size>12</size>
 </font>
 <hidden>1</hidden>
-<label>R:</label>
+<label>R: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -16166,7 +15547,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Zoom:</label>
+<label>Zoom: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -16342,7 +15723,7 @@
 <size>12</size>
 </font>
 <hidden>1</hidden>
-<label>MHz</label>
+<label>MHz </label>
 </object>
 </object>
 </object>
@@ -16368,7 +15749,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Zoom Level:</label>
+<label>Zoom Level: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -16444,7 +15825,7 @@
 <size>12</size>
 </font>
 <hidden>1</hidden>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -16467,7 +15848,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Leds:</label>
+<label>Leds: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -16489,7 +15870,7 @@
 <font>
 <size>12</size>
 </font>
-<label>ms</label>
+<label>ms </label>
 </object>
 </object>
 </object>
@@ -16532,7 +15913,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -16569,7 +15950,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -16718,9 +16099,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="MainRomVip">
 <size>252,-1</size>
 <tooltip>Specify Cosmac VIP system ROM file</tooltip>
@@ -16747,9 +16125,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="RamSWVip">
 <size>252,-1</size>
 <tooltip>Specify RAM software file</tooltip>
@@ -16783,15 +16158,9 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
-<border>2</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxTextCtrl" name="Chip8SWVip">
 <size>226,-1</size>
 <tooltip>Specify Chip 8, Chip 8X or Chip 10 software file</tooltip>
@@ -16880,9 +16249,6 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="ScreenDumpFileVip">
 <size>226,-1</size>
 <tooltip>Specify video dump file</tooltip>
@@ -16928,9 +16294,6 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxTextCtrl" name="WavFileVip">
 <size>226,-1</size>
 <tooltip>Specify cassette file</tooltip>
@@ -17035,7 +16398,7 @@
 <font>
 <size>12</size>
 </font>
-<label>VP570 Memory Expansion:</label>
+<label>VP570 Memory Expansion: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -17120,7 +16483,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Baud:</label>
+<label>Baud: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -17159,7 +16522,7 @@
 <size>12</size>
 </font>
 <hidden>1</hidden>
-<label>R:</label>
+<label>R: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -17198,7 +16561,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Zoom:</label>
+<label>Zoom: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -17247,7 +16610,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Zoom Level:</label>
+<label>Zoom Level: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -17339,7 +16702,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Onboard RAM:</label>
+<label>Onboard RAM: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -17364,7 +16727,7 @@
 <font>
 <size>12</size>
 </font>
-<label>KB</label>
+<label>KB </label>
 </object>
 </object>
 </object>
@@ -17420,7 +16783,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -17459,7 +16822,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Tempo:</label>
+<label>Tempo: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -17481,7 +16844,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Beeper:</label>
+<label>Beeper: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -17502,7 +16865,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Hz</label>
+<label>Hz </label>
 </object>
 </object>
 </object>
@@ -17544,7 +16907,7 @@
 <border>5</border>
 <object class="wxStaticText" name="UseLocationTextVip">
 <enabled>0</enabled>
-<label>Location</label>
+<label>Location </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -17556,7 +16919,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -17607,7 +16970,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -17658,7 +17021,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Exec</label>
+<label>Exec </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -17773,7 +17136,7 @@
 <font>
 <size>12</size>
 </font>
-<label>MHz</label>
+<label>MHz </label>
 </object>
 </object>
 </object>
@@ -17824,9 +17187,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="MainRomVipII">
 <size>252,-1</size>
 <tooltip>Specify Cosmac VIP II system ROM file</tooltip>
@@ -17853,9 +17213,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="MainRom2VipII">
 <size>252,-1</size>
 <tooltip>Specify Cosmac VIP system ROM file</tooltip>
@@ -17882,9 +17239,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="RamSWVipII">
 <size>252,-1</size>
 <tooltip>Specify RAM software file</tooltip>
@@ -17914,15 +17268,9 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
-<border>2</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxTextCtrl" name="Chip8SWVipII">
 <size>226,-1</size>
 <tooltip>Specify Chip 8, Chip 8X or Chip 10 software file</tooltip>
@@ -17954,15 +17302,9 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
-<border>2</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="ScreenDumpFileVipII">
 <size>226,-1</size>
 <tooltip>Specify video dump file</tooltip>
@@ -18003,15 +17345,9 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
-<border>2</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxTextCtrl" name="WavFileVipII">
 <size>226,-1</size>
 <tooltip>Specify cassette file</tooltip>
@@ -18054,7 +17390,7 @@
 <font>
 <size>12</size>
 </font>
-<label>RAM:</label>
+<label>RAM: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -18089,7 +17425,7 @@
 <font>
 <size>12</size>
 </font>
-<label>VIP II Type:</label>
+<label>VIP II Type: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -18128,7 +17464,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Zoom Level:</label>
+<label>Zoom Level: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -18235,7 +17571,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Leds:</label>
+<label>Leds: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -18257,7 +17593,7 @@
 <font>
 <size>12</size>
 </font>
-<label>ms</label>
+<label>ms </label>
 </object>
 </object>
 </object>
@@ -18274,7 +17610,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -18335,7 +17671,7 @@
 <border>5</border>
 <object class="wxStaticText" name="UseLocationTextVipII">
 <enabled>0</enabled>
-<label>Location</label>
+<label>Location </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -18347,7 +17683,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -18398,7 +17734,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -18449,7 +17785,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Exec</label>
+<label>Exec </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -18504,7 +17840,7 @@
 <font>
 <size>12</size>
 </font>
-<label>MHz</label>
+<label>MHz </label>
 </object>
 </object>
 </object>
@@ -18610,7 +17946,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Configuration:</label>
+<label>Configuration: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -18620,7 +17956,7 @@
 <font>
 <size>12</size>
 </font>
-<label></label>
+<label> </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -18856,9 +18192,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
-<border>2</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
@@ -18871,9 +18204,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxTextCtrl" name="FDC0_FileMicroboard">
 <size>120,-1</size>
 <tooltip>Specify Microboard FDC 0 image file</tooltip>
@@ -18905,9 +18235,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
-<border>2</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
@@ -18920,9 +18247,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxTextCtrl" name="FDC1_FileMicroboard">
 <size>120,-1</size>
 <tooltip>Specify Microboard FDC 1 image file</tooltip>
@@ -18968,9 +18292,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxTextCtrl" name="FDC2_FileMicroboard">
 <size>120,-1</size>
 <tooltip>Specify Microboard FDC 2 image file</tooltip>
@@ -19002,9 +18323,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
-<border>2</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
@@ -19017,9 +18335,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxTextCtrl" name="FDC3_FileMicroboard">
 <size>120,-1</size>
 <tooltip>Specify Microboard FDC 3 image file</tooltip>
@@ -19056,9 +18371,6 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="ScreenDumpFileMicroboard">
 <size>226,-1</size>
 <tooltip>Specify video dump file</tooltip>
@@ -19104,9 +18416,6 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>4</border>
-<option>20</option>
 <object class="wxTextCtrl" name="WavFileMicroboard">
 <size>226,-1</size>
 <tooltip>Specify cassette file 0</tooltip>
@@ -19145,9 +18454,6 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>4</border>
-<option>20</option>
 <object class="wxTextCtrl" name="WavFile1Microboard">
 <size>226,-1</size>
 <tooltip>Specify cassette file 1</tooltip>
@@ -19190,7 +18496,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Zoom Level:</label>
+<label>Zoom Level: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -19274,7 +18580,7 @@
 <border>5</border>
 <object class="wxStaticText" name="UseLocationTextMicroboard">
 <enabled>0</enabled>
-<label>Location</label>
+<label>Location </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -19286,7 +18592,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -19337,7 +18643,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -19388,7 +18694,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Exec</label>
+<label>Exec </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -19498,7 +18804,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Cassette 0:</label>
+<label>Cassette 0: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -19546,7 +18852,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>1:</label>
+<label>1: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -19622,7 +18928,7 @@
 <font>
 <size>12</size>
 </font>
-<label>MHz</label>
+<label>MHz </label>
 </object>
 </object>
 </object>
@@ -19669,7 +18975,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Leds:</label>
+<label>Leds: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -19691,7 +18997,7 @@
 <font>
 <size>12</size>
 </font>
-<label>ms</label>
+<label>ms </label>
 </object>
 </object>
 </object>
@@ -19749,7 +19055,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Baud T:</label>
+<label>Baud T: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -19787,7 +19093,7 @@
 <font>
 <size>12</size>
 </font>
-<label>R:</label>
+<label>R: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -19832,7 +19138,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Zoom:</label>
+<label>Zoom: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -19927,9 +19233,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
-<border>3</border>
-<option>20</option>
 <object class="wxComboBox" name="MainRomMCDS">
 <size>252,-1</size>
 <tooltip>Specify MCDS firmware UT ROM file</tooltip>
@@ -19956,9 +19259,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
-<border>3</border>
-<option>20</option>
 <object class="wxComboBox" name="MainRom2MCDS">
 <size>252,-1</size>
 <tooltip>Specify MCDS firmware ASM / Editor ROM file</tooltip>
@@ -19985,9 +19285,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
-<border>3</border>
-<option>20</option>
 <object class="wxComboBox" name="MainRom3MCDS">
 <size>252,-1</size>
 <tooltip>Specify MCDS firmware BASIC ROM file</tooltip>
@@ -20014,15 +19311,9 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
-<border>2</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxTextCtrl" name="KeyFileMCDS">
 <size>226,-1</size>
 <tooltip>Specify key input file</tooltip>
@@ -20059,9 +19350,6 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxTextCtrl" name="PrintFileMCDS">
 <size>77,-1</size>
 <tooltip>Specify printer output file</tooltip>
@@ -20112,9 +19400,6 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="ScreenDumpFileMCDS">
 <size>226,-1</size>
 <tooltip>Specify video dump file</tooltip>
@@ -20160,9 +19445,6 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>4</border>
-<option>20</option>
 <object class="wxTextCtrl" name="WavFileMCDS">
 <size>226,-1</size>
 <tooltip>Specify cassette file 0</tooltip>
@@ -20201,9 +19483,6 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>4</border>
-<option>20</option>
 <object class="wxTextCtrl" name="WavFile1MCDS">
 <size>226,-1</size>
 <tooltip>Specify cassette file 1</tooltip>
@@ -20292,7 +19571,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Baud:</label>
+<label>Baud: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -20331,7 +19610,7 @@
 <size>12</size>
 </font>
 <hidden>1</hidden>
-<label>R:</label>
+<label>R: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -20370,7 +19649,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Zoom:</label>
+<label>Zoom: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -20478,7 +19757,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -20530,7 +19809,7 @@
 <border>5</border>
 <object class="wxStaticText" name="UseLocationTextMCDS">
 <enabled>0</enabled>
-<label>Location</label>
+<label>Location </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -20542,7 +19821,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -20593,7 +19872,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -20644,7 +19923,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Exec</label>
+<label>Exec </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -20699,7 +19978,7 @@
 <font>
 <size>12</size>
 </font>
-<label>MHz</label>
+<label>MHz </label>
 </object>
 </object>
 </object>
@@ -20750,7 +20029,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Cassette 0:</label>
+<label>Cassette 0: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -20798,7 +20077,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>1:</label>
+<label>1: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -20885,9 +20164,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
-<border>3</border>
-<option>20</option>
 <object class="wxComboBox" name="MainRomMS2000">
 <size>252,-1</size>
 <tooltip>Specify MS2000 firmware ROM file</tooltip>
@@ -20915,9 +20191,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
-<border>2</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
@@ -20930,9 +20203,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxTextCtrl" name="FDC0_FileMS2000">
 <size>120,-1</size>
 <tooltip>Specify MS2000 FDC 0 image file</tooltip>
@@ -20964,9 +20234,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
-<border>2</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
@@ -20979,9 +20246,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxTextCtrl" name="FDC1_FileMS2000">
 <size>120,-1</size>
 <tooltip>Specify MS2000 FDC 1 image file</tooltip>
@@ -21027,9 +20291,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxTextCtrl" name="FDC2_FileMS2000">
 <size>120,-1</size>
 <tooltip>Specify MS2000 FDC 2 image file</tooltip>
@@ -21061,9 +20322,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
-<border>2</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
@@ -21076,9 +20334,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxTextCtrl" name="FDC3_FileMS2000">
 <size>120,-1</size>
 <tooltip>Specify MS2000 FDC 3 image file</tooltip>
@@ -21110,15 +20365,9 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
-<border>2</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxTextCtrl" name="KeyFileMS2000">
 <size>226,-1</size>
 <tooltip>Specify key input file</tooltip>
@@ -21150,15 +20399,9 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
-<border>2</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxTextCtrl" name="PrintFileMS2000">
 <size>77,-1</size>
 <tooltip>Specify printer output file</tooltip>
@@ -21209,9 +20452,6 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="ScreenDumpFileMS2000">
 <size>226,-1</size>
 <tooltip>Specify video dump file</tooltip>
@@ -21252,15 +20492,9 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
-<border>1</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>4</border>
-<option>20</option>
 <object class="wxTextCtrl" name="WavFileMS2000">
 <size>226,-1</size>
 <tooltip>Specify cassette file</tooltip>
@@ -21337,7 +20571,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Baud T:</label>
+<label>Baud T: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -21375,7 +20609,7 @@
 <font>
 <size>12</size>
 </font>
-<label>R:</label>
+<label>R: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -21420,7 +20654,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Zoom:</label>
+<label>Zoom: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -21540,7 +20774,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -21595,7 +20829,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -21632,7 +20866,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -21687,7 +20921,7 @@
 <font>
 <size>12</size>
 </font>
-<label>MHz</label>
+<label>MHz </label>
 </object>
 </object>
 </object>
@@ -21822,9 +21056,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="MainRomCoinArcade">
 <size>252,-1</size>
 <tooltip>Specify RCA Video Coin Arcade system ROM file</tooltip>
@@ -21861,15 +21092,9 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
-<border>2</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="ScreenDumpFileCoinArcade">
 <size>226,-1</size>
 <tooltip>Specify video dump file</tooltip>
@@ -21930,7 +21155,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Zoom Level:</label>
+<label>Zoom Level: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -21991,7 +21216,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -22021,7 +21246,7 @@
 <size>12</size>
 </font>
 <hidden>1</hidden>
-<label>Beeper:</label>
+<label>Beeper: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -22044,7 +21269,7 @@
 <size>12</size>
 </font>
 <hidden>1</hidden>
-<label>Hz</label>
+<label>Hz </label>
 </object>
 </object>
 </object>
@@ -22095,9 +21320,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="MainRomStudio2">
 <size>252,-1</size>
 <tooltip>Specify Studio II system ROM file</tooltip>
@@ -22124,9 +21346,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="CartRomStudio2">
 <size>252,-1</size>
 <tooltip>Specify cartridge ST2 ROM file</tooltip>
@@ -22186,15 +21405,9 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
-<border>2</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="ScreenDumpFileStudio2">
 <size>226,-1</size>
 <tooltip>Specify video dump file</tooltip>
@@ -22255,7 +21468,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Zoom Level:</label>
+<label>Zoom Level: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -22316,7 +21529,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -22346,7 +21559,7 @@
 <size>12</size>
 </font>
 <hidden>1</hidden>
-<label>Beeper:</label>
+<label>Beeper: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -22369,7 +21582,7 @@
 <size>12</size>
 </font>
 <hidden>1</hidden>
-<label>Hz</label>
+<label>Hz </label>
 </object>
 </object>
 </object>
@@ -22405,7 +21618,7 @@
 <font>
 <size>12</size>
 </font>
-<label>MSB / Origin:</label>
+<label>MSB / Origin: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -22429,7 +21642,7 @@
 <font>
 <size>12</size>
 </font>
-<label>LSB / ROM:</label>
+<label>LSB / ROM: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -22513,9 +21726,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="MainRomVictory">
 <size>252,-1</size>
 <tooltip>Specify Victory MPT-02 system ROM file</tooltip>
@@ -22543,9 +21753,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="CartRomVictory">
 <size>252,-1</size>
 <tooltip>Specify cartridge ST2 ROM file</tooltip>
@@ -22602,15 +21809,9 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
-<border>2</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="ScreenDumpFileVictory">
 <size>226,-1</size>
 <tooltip>Specify video dump file</tooltip>
@@ -22671,7 +21872,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Video:</label>
+<label>Video: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -22713,7 +21914,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Zoom Level:</label>
+<label>Zoom Level: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -22763,7 +21964,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -22793,7 +21994,7 @@
 <size>12</size>
 </font>
 <hidden>1</hidden>
-<label>Beeper:</label>
+<label>Beeper: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -22816,7 +22017,7 @@
 <size>12</size>
 </font>
 <hidden>1</hidden>
-<label>Hz</label>
+<label>Hz </label>
 </object>
 </object>
 </object>
@@ -22852,7 +22053,7 @@
 <font>
 <size>12</size>
 </font>
-<label>MSB / Origin:</label>
+<label>MSB / Origin: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -22876,7 +22077,7 @@
 <font>
 <size>12</size>
 </font>
-<label>LSB / ROM:</label>
+<label>LSB / ROM: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -22965,9 +22166,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="MainRomStudioIV">
 <size>252,-1</size>
 <tooltip>Specify StudioIV system ROM file</tooltip>
@@ -23015,9 +22213,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="CartRomStudioIV">
 <size>226,-1</size>
 <tooltip>Specify cartridge ST2 ROM file</tooltip>
@@ -23044,15 +22239,9 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
-<border>2</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="ScreenDumpFileStudioIV">
 <size>226,-1</size>
 <tooltip>Specify video dump file</tooltip>
@@ -23098,9 +22287,6 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxTextCtrl" name="WavFileStudioIV">
 <size>226,-1</size>
 <tooltip>Specify cassette file</tooltip>
@@ -23170,7 +22356,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Video:</label>
+<label>Video: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -23212,7 +22398,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Zoom Level:</label>
+<label>Zoom Level: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -23262,7 +22448,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -23301,7 +22487,7 @@
 <size>12</size>
 </font>
 <hidden>1</hidden>
-<label>Beeper:</label>
+<label>Beeper: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -23324,7 +22510,7 @@
 <size>12</size>
 </font>
 <hidden>1</hidden>
-<label>Hz</label>
+<label>Hz </label>
 </object>
 </object>
 </object>
@@ -23381,7 +22567,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <hidden>1</hidden>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -23393,7 +22579,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <hidden>1</hidden>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -23405,7 +22591,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <hidden>1</hidden>
-<label>Exec</label>
+<label>Exec </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -23557,7 +22743,7 @@
 <font>
 <size>12</size>
 </font>
-<label>MHz</label>
+<label>MHz </label>
 </object>
 </object>
 </object>
@@ -23613,9 +22799,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="MainRomVisicom">
 <size>252,-1</size>
 <tooltip>Specify Visicom COM-100 System ROM File</tooltip>
@@ -23641,9 +22824,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="CartRomVisicom">
 <size>252,-1</size>
 <tooltip>Specify Cartridge ST2 ROM File</tooltip>
@@ -23673,15 +22853,9 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
-<border>2</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="ScreenDumpFileVisicom">
 <size>226,-1</size>
 <tooltip>Specify video dump file</tooltip>
@@ -23742,7 +22916,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Zoom Level:</label>
+<label>Zoom Level: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -23803,7 +22977,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -23838,7 +23012,7 @@
 <size>12</size>
 </font>
 <hidden>1</hidden>
-<label>Beeper:</label>
+<label>Beeper: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -23861,7 +23035,7 @@
 <size>12</size>
 </font>
 <hidden>1</hidden>
-<label>Hz</label>
+<label>Hz </label>
 </object>
 </object>
 </object>
@@ -23920,9 +23094,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="MainRomCidelsa">
 <size>252,-1</size>
 <tooltip>Specify Cidelsa game ROM file</tooltip>
@@ -23951,15 +23122,9 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
-<border>2</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="ScreenDumpFileCidelsa">
 <size>226,-1</size>
 <tooltip>Specify video dump file</tooltip>
@@ -24009,7 +23174,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Zoom Level:</label>
+<label>Zoom Level: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -24070,7 +23235,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -24104,7 +23269,7 @@
 <font>
 <size>12</size>
 </font>
-<label>HW Configuration:</label>
+<label>HW Configuration: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -24164,7 +23329,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Altair / Destroyer</label>
+<label>Altair / Destroyer </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -24174,7 +23339,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Draco</label>
+<label>Draco </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -24184,7 +23349,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Difficulty:</label>
+<label>Difficulty: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -24222,7 +23387,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Bonus Live:</label>
+<label>Bonus Live: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -24262,7 +23427,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Number of Lives:</label>
+<label>Number of Lives: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -24300,7 +23465,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Type of Coins:</label>
+<label>Type of Coins: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -24399,9 +23564,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
-<border>5</border>
-<option>20</option>
 <object class="wxComboBox" name="MainRomTMC600">
 <size>252,-1</size>
 <tooltip>Specify TMC-600 ROM file</tooltip>
@@ -24427,9 +23589,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="ExpRomTMC600">
 <size>252,-1</size>
 <tooltip>Specify TMC-600 expansion ROM file</tooltip>
@@ -24455,9 +23614,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="CharRomTMC600">
 <size>252,-1</size>
 <tooltip>Specify TMC-600 video character ROM file</tooltip>
@@ -24483,15 +23639,9 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
-<border>2</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxTextCtrl" name="PrintFileTMC600">
 <size>77,-1</size>
 <tooltip>Specify printer output file</tooltip>
@@ -24539,15 +23689,9 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
-<border>2</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="ScreenDumpFileTMC600">
 <size>226,-1</size>
 <tooltip>Specify video dump file</tooltip>
@@ -24588,15 +23732,9 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
-<border>2</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxTextCtrl" name="WavFileTMC600">
 <size>226,-1</size>
 <tooltip>Specify cassette file</tooltip>
@@ -24628,15 +23766,9 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
-<border>2</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxTextCtrl" name="KeyFileTMC600">
 <size>226,-1</size>
 <tooltip>Specify key input file</tooltip>
@@ -24682,7 +23814,7 @@
 <size>12</size>
 </font>
 <enabled>0</enabled>
-<label>A/DI Input</label>
+<label>A/DI Input </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -24722,7 +23854,7 @@
 <border>5</border>
 <object class="wxStaticText" name="AdiVoltText">
 <enabled>0</enabled>
-<label>mV</label>
+<label>mV </label>
 </object>
 </object>
 </object>
@@ -24740,7 +23872,7 @@
 <size>12</size>
 </font>
 <enabled>0</enabled>
-<label>A/DS Input</label>
+<label>A/DS Input </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -24780,7 +23912,7 @@
 <border>5</border>
 <object class="wxStaticText" name="AdsVoltText">
 <enabled>0</enabled>
-<label>mV</label>
+<label>mV </label>
 </object>
 </object>
 </object>
@@ -24828,7 +23960,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Zoom Level:</label>
+<label>Zoom Level: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -24889,7 +24021,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -24927,7 +24059,7 @@
 <font>
 <size>12</size>
 </font>
-<label>RAM:</label>
+<label>RAM: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -24984,7 +24116,7 @@
 <border>5</border>
 <object class="wxStaticText" name="UseLocationTextTMC600">
 <enabled>0</enabled>
-<label>Location</label>
+<label>Location </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -24996,7 +24128,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -25047,7 +24179,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -25098,7 +24230,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Exec</label>
+<label>Exec </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -25153,7 +24285,7 @@
 <font>
 <size>12</size>
 </font>
-<label>MHz</label>
+<label>MHz </label>
 </object>
 </object>
 </object>
@@ -25264,9 +24396,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="MainRomTMC1800">
 <size>252,-1</size>
 <tooltip>Specify Telmac 1800 system ROM file</tooltip>
@@ -25292,9 +24421,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="RamSWTMC1800">
 <size>252,-1</size>
 <tooltip>Specify RAM software file</tooltip>
@@ -25320,15 +24446,9 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
-<border>2</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxTextCtrl" name="Chip8SWTMC1800">
 <size>226,-1</size>
 <tooltip>Specify Chip 8 software file</tooltip>
@@ -25360,15 +24480,9 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
-<border>2</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="ScreenDumpFileTMC1800">
 <size>226,-1</size>
 <tooltip>Specify video dump file</tooltip>
@@ -25409,15 +24523,9 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
-<border>2</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxTextCtrl" name="WavFileTMC1800">
 <size>226,-1</size>
 <tooltip>Specify cassette file</tooltip>
@@ -25486,7 +24594,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Zoom Level:</label>
+<label>Zoom Level: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -25547,7 +24655,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -25585,7 +24693,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Beeper:</label>
+<label>Beeper: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -25606,7 +24714,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Hz</label>
+<label>Hz </label>
 </object>
 </object>
 </object>
@@ -25649,7 +24757,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -25686,7 +24794,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -25741,7 +24849,7 @@
 <font>
 <size>12</size>
 </font>
-<label>MHz</label>
+<label>MHz </label>
 </object>
 </object>
 </object>
@@ -25818,7 +24926,7 @@
 <font>
 <size>12</size>
 </font>
-<label>RAM:</label>
+<label>RAM: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -25885,9 +24993,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="MainRomTMC2000">
 <size>252,-1</size>
 <tooltip>Specify Telmac 2000 system ROM file</tooltip>
@@ -25913,9 +25018,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="RamSWTMC2000">
 <size>252,-1</size>
 <tooltip>Specify RAM software file</tooltip>
@@ -25941,15 +25043,9 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
-<border>2</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxTextCtrl" name="Chip8SWTMC2000">
 <size>226,-1</size>
 <tooltip>Specify Chip 8 software file</tooltip>
@@ -25981,15 +25077,9 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
-<border>2</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="ScreenDumpFileTMC2000">
 <size>226,-1</size>
 <tooltip>Specify video dump file</tooltip>
@@ -26030,15 +25120,9 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
-<border>2</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxTextCtrl" name="WavFileTMC2000">
 <size>226,-1</size>
 <tooltip>Specify cassette file</tooltip>
@@ -26102,7 +25186,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Zoom Level:</label>
+<label>Zoom Level: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -26163,7 +25247,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -26227,7 +25311,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -26264,7 +25348,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -26319,7 +25403,7 @@
 <font>
 <size>12</size>
 </font>
-<label>MHz</label>
+<label>MHz </label>
 </object>
 </object>
 </object>
@@ -26396,7 +25480,7 @@
 <font>
 <size>12</size>
 </font>
-<label>RAM:</label>
+<label>RAM: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -26464,9 +25548,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="MainRomNano">
 <size>252,-1</size>
 <tooltip>Specify Oscom Nano system ROM file</tooltip>
@@ -26492,9 +25573,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="RamSWNano">
 <size>252,-1</size>
 <tooltip>Specify RAM software file</tooltip>
@@ -26520,15 +25598,9 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
-<border>2</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxTextCtrl" name="Chip8SWNano">
 <size>226,-1</size>
 <tooltip>Specify Chip 8 software file</tooltip>
@@ -26560,15 +25632,9 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
-<border>2</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="ScreenDumpFileNano">
 <size>226,-1</size>
 <tooltip>Specify video dump file</tooltip>
@@ -26614,9 +25680,6 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxTextCtrl" name="WavFileNano">
 <size>226,-1</size>
 <tooltip>Specify cassette file</tooltip>
@@ -26648,9 +25711,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
-<border>2</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="spacer">
@@ -26665,7 +25725,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Sound:</label>
+<label>Sound: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -26706,7 +25766,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Zoom Level:</label>
+<label>Zoom Level: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -26767,7 +25827,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -26831,7 +25891,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -26868,7 +25928,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -26923,7 +25983,7 @@
 <font>
 <size>12</size>
 </font>
-<label>MHz</label>
+<label>MHz </label>
 </object>
 </object>
 </object>
@@ -27037,9 +26097,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="MainRomPecom">
 <size>252,-1</size>
 <tooltip>Specify Pecom ROM file</tooltip>
@@ -27067,15 +26124,9 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
-<border>2</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxTextCtrl" name="PrintFilePecom">
 <size>77,-1</size>
 <tooltip>Specify printer output file</tooltip>
@@ -27122,15 +26173,9 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
-<border>2</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="ScreenDumpFilePecom">
 <size>226,-1</size>
 <tooltip>Specify video dump file</tooltip>
@@ -27171,15 +26216,9 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
-<border>2</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxTextCtrl" name="WavFilePecom">
 <size>226,-1</size>
 <tooltip>Specify cassette file</tooltip>
@@ -27211,15 +26250,9 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
-<border>2</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxTextCtrl" name="KeyFilePecom">
 <size>226,-1</size>
 <tooltip>Specify key input file</tooltip>
@@ -27260,7 +26293,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Zoom Level:</label>
+<label>Zoom Level: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -27321,7 +26354,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -27382,7 +26415,7 @@
 <border>5</border>
 <object class="wxStaticText" name="UseLocationTextPecom">
 <enabled>0</enabled>
-<label>Location</label>
+<label>Location </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -27394,7 +26427,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -27445,7 +26478,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -27496,7 +26529,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Exec</label>
+<label>Exec </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -27551,7 +26584,7 @@
 <font>
 <size>12</size>
 </font>
-<label>MHz</label>
+<label>MHz </label>
 </object>
 </object>
 </object>
@@ -27682,9 +26715,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="MainRomEti">
 <size>252,-1</size>
 <tooltip>Specify ETI 660 system ROM file</tooltip>
@@ -27710,15 +26740,9 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
-<border>2</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxTextCtrl" name="Chip8SWEti">
 <size>226,-1</size>
 <tooltip>Specify RAM and/or Chip 8 software file</tooltip>
@@ -27750,15 +26774,9 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
-<border>2</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxComboBox" name="ScreenDumpFileEti">
 <size>226,-1</size>
 <tooltip>Specify video dump file</tooltip>
@@ -27799,15 +26817,9 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
-<border>2</border>
-<option>20</option>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<option>20</option>
 <object class="wxTextCtrl" name="WavFileEti">
 <size>226,-1</size>
 <tooltip>Specify cassette file</tooltip>
@@ -27859,7 +26871,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Zoom Level:</label>
+<label>Zoom Level: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -27920,7 +26932,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -27989,7 +27001,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -28026,7 +27038,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -28081,7 +27093,7 @@
 <font>
 <size>12</size>
 </font>
-<label>MHz</label>
+<label>MHz </label>
 </object>
 </object>
 </object>
@@ -28158,7 +27170,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Memory:</label>
+<label>Memory: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -28331,7 +27343,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxStaticText" name="wxID_STATIC">
-<label>-</label>
+<label>- </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -28398,7 +27410,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Move to:</label>
+<label>Move to: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -28427,7 +27439,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Data view:</label>
+<label>Data view: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -28496,7 +27508,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxStaticText" name="wxID_STATIC">
-<label>-</label>
+<label>- </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -28518,7 +27530,7 @@
 <font>
 <size>12</size>
 </font>
-<label>To:</label>
+<label>To: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -28732,7 +27744,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Current program configuration</label>
+<label>Current program configuration </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -28749,7 +27761,7 @@
 <size>12</size>
 </font>
 <style>wxALIGN_RIGHT</style>
-<label>0:</label>
+<label>0: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -28849,7 +27861,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Code start:</label>
+<label>Code start: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -28913,7 +27925,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Code end:</label>
+<label>Code end: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -28942,7 +27954,7 @@
 <font>
 <size>12</size>
 </font>
-<label>S/P:</label>
+<label>S/P: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -28976,7 +27988,7 @@
 <font>
 <size>12</size>
 </font>
-<label>End:</label>
+<label>End: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -29005,7 +28017,7 @@
 <flag>wxALIGN_RIGHT|wxTOP</flag>
 <border>4</border>
 <object class="wxStaticText" name="AssBottomRight">
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -29049,7 +28061,7 @@
 <font>
 <size>12</size>
 </font>
-<label>No computer started</label>
+<label>No computer started </label>
 </object>
 </object>
 </object>
@@ -29066,7 +28078,7 @@
 <font>
 <size>12</size>
 </font>
-<label>No CPU started</label>
+<label>No CPU started </label>
 </object>
 </object>
 </object>
@@ -29093,7 +28105,7 @@
 <font>
 <size>12</size>
 </font>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -29120,7 +28132,7 @@
 <font>
 <size>12</size>
 </font>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -29161,7 +28173,7 @@
 <font>
 <size>12</size>
 </font>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -29178,7 +28190,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Effective CPU clock:</label>
+<label>Effective CPU clock: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -29188,7 +28200,7 @@
 <font>
 <size>12</size>
 </font>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -29205,7 +28217,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Instructions / second:</label>
+<label>Instructions / second: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -29215,7 +28227,7 @@
 <font>
 <size>12</size>
 </font>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -29232,7 +28244,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Vertical video frequency:</label>
+<label>Vertical video frequency: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -29242,7 +28254,7 @@
 <font>
 <size>12</size>
 </font>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -29297,7 +28309,7 @@
 <flag>wxALIGN_LEFT|wxLEFT|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxStaticText" name="wxID_STATIC">
-<label>Counters:</label>
+<label>Counters: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -29353,7 +28365,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Move to:</label>
+<label>Move to: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -29382,7 +28394,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Data view:</label>
+<label>Data view: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -29411,7 +28423,7 @@
 <flag>wxALIGN_LEFT|wxLEFT|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxStaticText" name="wxID_STATIC">
-<label>Type:</label>
+<label>Type: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -29481,7 +28493,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Interval:</label>
+<label>Interval: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -29491,7 +28503,7 @@
 <font>
 <size>12</size>
 </font>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -29560,7 +28572,7 @@
 <font>
 <size>12</size>
 </font>
-<label>D</label>
+<label>D </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -29591,7 +28603,7 @@
 <font>
 <size>12</size>
 </font>
-<label>X</label>
+<label>X </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -29622,7 +28634,7 @@
 <font>
 <size>12</size>
 </font>
-<label>P</label>
+<label>P </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -29653,7 +28665,7 @@
 <font>
 <size>12</size>
 </font>
-<label>T</label>
+<label>T </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -29684,7 +28696,7 @@
 <font>
 <size>12</size>
 </font>
-<label>B</label>
+<label>B </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -29717,7 +28729,7 @@
 <font>
 <size>12</size>
 </font>
-<label>CH</label>
+<label>CH </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -29748,7 +28760,7 @@
 <font>
 <size>12</size>
 </font>
-<label>CNTR</label>
+<label>CNTR </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -29779,7 +28791,7 @@
 <font>
 <size>12</size>
 </font>
-<label>CIE</label>
+<label>CIE </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -29811,7 +28823,7 @@
 <size>12</size>
 </font>
 <hidden>1</hidden>
-<label>XIE</label>
+<label>XIE </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -30395,7 +29407,7 @@
 </font>
 <style>wxALIGN_RIGHT</style>
 <enabled>0</enabled>
-<label>Q</label>
+<label>Q </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -31553,7 +30565,7 @@
 <border>5</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <hidden>1</hidden>
-<label>Instr:</label>
+<label>Instr: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -31605,7 +30617,7 @@
 <size>12</size>
 </font>
 <style>wxALIGN_LEFT</style>
-<label>Break Points:</label>
+<label>Break Points: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -31636,7 +30648,7 @@
 <size>12</size>
 </font>
 <style>wxALIGN_LEFT</style>
-<label>Register Traps:</label>
+<label>Register Traps: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -31667,7 +30679,7 @@
 <size>12</size>
 </font>
 <style>wxALIGN_LEFT</style>
-<label>Instr. Traps:</label>
+<label>Instr. Traps: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -31849,7 +30861,7 @@
 <size>12</size>
 </font>
 <enabled>0</enabled>
-<label>Speed:</label>
+<label>Speed: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -31896,7 +30908,7 @@
 <size>12</size>
 </font>
 <enabled>0</enabled>
-<label>Call:</label>
+<label>Call: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -31933,7 +30945,7 @@
 <size>12</size>
 </font>
 <enabled>0</enabled>
-<label>Return:</label>
+<label>Return: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -31966,7 +30978,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxStaticText" name="DebugRight">
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -32028,14 +31040,14 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>5</border>
 <object class="wxStaticText" name="wxID_STATIC">
-<label>Type:</label>
+<label>Type: </label>
 </object>
 </object>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>5</border>
 <object class="wxStaticText" name="Chip8Type">
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -32764,7 +31776,7 @@
 <size>12</size>
 </font>
 <style>wxALIGN_LEFT</style>
-<label>Break Points:</label>
+<label>Break Points: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -32915,7 +31927,7 @@
 <size>12</size>
 </font>
 <enabled>0</enabled>
-<label>Speed:</label>
+<label>Speed: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -33028,7 +32040,7 @@
 <size>12</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>  0</label>
+<label>  0 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -33040,7 +32052,7 @@
 <size>12</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>  1</label>
+<label>  1 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -33052,7 +32064,7 @@
 <size>12</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>  2</label>
+<label>  2 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -33064,7 +32076,7 @@
 <size>12</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>  3</label>
+<label>  3 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -33076,7 +32088,7 @@
 <size>12</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>  4</label>
+<label>  4 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -33088,7 +32100,7 @@
 <size>12</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>  5</label>
+<label>  5 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -33100,7 +32112,7 @@
 <size>12</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>  6</label>
+<label>  6 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -33112,7 +32124,7 @@
 <size>12</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>  7</label>
+<label>  7 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -33124,7 +32136,7 @@
 <size>12</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>  8</label>
+<label>  8 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -33136,7 +32148,7 @@
 <size>12</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>  9</label>
+<label>  9 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -33148,7 +32160,7 @@
 <size>12</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>  A</label>
+<label>  A </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -33160,7 +32172,7 @@
 <size>12</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>  B</label>
+<label>  B </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -33172,7 +32184,7 @@
 <size>12</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>  C</label>
+<label>  C </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -33184,7 +32196,7 @@
 <size>12</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>  D</label>
+<label>  D </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -33196,7 +32208,7 @@
 <size>12</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>  E</label>
+<label>  E </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -33208,7 +32220,7 @@
 <size>12</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>  F</label>
+<label>  F </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -33220,7 +32232,7 @@
 <size>12</size>
 </font>
 <fg>#FF0000</fg>
-<label></label>
+<label> </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -33228,7 +32240,7 @@
 <border>0</border>
 <object class="wxStaticText" name="MemoryDumpBottomRight">
 <style>wxALIGN_RIGHT</style>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -33252,7 +32264,7 @@
 <size>12</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>0000</label>
+<label>0000 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -33477,7 +32489,7 @@
 <border>0</border>
 <object class="wxStaticText" name="MemoryDumpBottomRight">
 <style>wxALIGN_RIGHT</style>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -33501,7 +32513,7 @@
 <size>12</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>0010</label>
+<label>0010 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -33726,7 +32738,7 @@
 <border>0</border>
 <object class="wxStaticText" name="MemoryDumpBottomRight">
 <style>wxALIGN_RIGHT</style>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -33750,7 +32762,7 @@
 <size>12</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>0020</label>
+<label>0020 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -33975,7 +32987,7 @@
 <border>0</border>
 <object class="wxStaticText" name="MemoryDumpBottomRight">
 <style>wxALIGN_RIGHT</style>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -33999,7 +33011,7 @@
 <size>12</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>0030</label>
+<label>0030 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -34224,7 +33236,7 @@
 <border>0</border>
 <object class="wxStaticText" name="MemoryDumpBottomRight">
 <style>wxALIGN_RIGHT</style>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -34248,7 +33260,7 @@
 <size>12</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>0040</label>
+<label>0040 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -34473,7 +33485,7 @@
 <border>0</border>
 <object class="wxStaticText" name="MemoryDumpBottomRight">
 <style>wxALIGN_RIGHT</style>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -34497,7 +33509,7 @@
 <size>12</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>0050</label>
+<label>0050 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -34722,7 +33734,7 @@
 <border>0</border>
 <object class="wxStaticText" name="MemoryDumpBottomRight">
 <style>wxALIGN_RIGHT</style>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -34746,7 +33758,7 @@
 <size>12</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>0060</label>
+<label>0060 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -34971,7 +33983,7 @@
 <border>0</border>
 <object class="wxStaticText" name="MemoryDumpBottomRight">
 <style>wxALIGN_RIGHT</style>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -34995,7 +34007,7 @@
 <size>12</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>0070</label>
+<label>0070 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -35220,7 +34232,7 @@
 <border>0</border>
 <object class="wxStaticText" name="MemoryDumpBottomRight">
 <style>wxALIGN_RIGHT</style>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -35244,7 +34256,7 @@
 <size>12</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>0080</label>
+<label>0080 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -35469,7 +34481,7 @@
 <border>0</border>
 <object class="wxStaticText" name="MemoryDumpBottomRight">
 <style>wxALIGN_RIGHT</style>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -35493,7 +34505,7 @@
 <size>12</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>0090</label>
+<label>0090 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -35718,7 +34730,7 @@
 <border>0</border>
 <object class="wxStaticText" name="MemoryDumpBottomRight">
 <style>wxALIGN_RIGHT</style>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -35742,7 +34754,7 @@
 <size>12</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>00A0</label>
+<label>00A0 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -35967,7 +34979,7 @@
 <border>0</border>
 <object class="wxStaticText" name="MemoryDumpBottomRight">
 <style>wxALIGN_RIGHT</style>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -35991,7 +35003,7 @@
 <size>12</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>00B0</label>
+<label>00B0 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -36216,7 +35228,7 @@
 <border>0</border>
 <object class="wxStaticText" name="MemoryDumpBottomRight">
 <style>wxALIGN_RIGHT</style>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -36240,7 +35252,7 @@
 <size>12</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>00C0</label>
+<label>00C0 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -36465,7 +35477,7 @@
 <border>0</border>
 <object class="wxStaticText" name="MemoryDumpBottomRight">
 <style>wxALIGN_RIGHT</style>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -36489,7 +35501,7 @@
 <size>12</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>00D0</label>
+<label>00D0 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -36714,7 +35726,7 @@
 <border>0</border>
 <object class="wxStaticText" name="MemoryDumpBottomRight">
 <style>wxALIGN_RIGHT</style>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -36738,7 +35750,7 @@
 <size>12</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>00E0</label>
+<label>00E0 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -36963,7 +35975,7 @@
 <border>0</border>
 <object class="wxStaticText" name="MemoryDumpBottomRight">
 <style>wxALIGN_RIGHT</style>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -36987,7 +35999,7 @@
 <size>12</size>
 </font>
 <style>wxNO_BORDER</style>
-<label>00F0</label>
+<label>00F0 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -37212,7 +36224,7 @@
 <border>0</border>
 <object class="wxStaticText" name="MemoryDumpBottomRight">
 <style>wxALIGN_RIGHT</style>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>
@@ -37244,7 +36256,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Memory:</label>
+<label>Memory: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -37326,7 +36338,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxStaticText" name="wxID_STATIC">
-<label>-</label>
+<label>- </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -37348,7 +36360,7 @@
 <font>
 <size>12</size>
 </font>
-<label>To:</label>
+<label>To: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -37385,7 +36397,7 @@
 <flag>wxALIGN_BOTTOM|wxALL</flag>
 <border>0</border>
 <object class="wxStaticText" name="MemoryDumpBottomLeft">
-<label></label>
+<label> </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -37397,7 +36409,7 @@
 </font>
 <enabled>0</enabled>
 <fg>#8080FF</fg>
-<label>Slot:</label>
+<label>Slot: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -37423,7 +36435,7 @@
 </font>
 <enabled>0</enabled>
 <fg>#45AC22</fg>
-<label>RAM Bank:</label>
+<label>RAM Bank: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -37449,7 +36461,7 @@
 </font>
 <enabled>0</enabled>
 <fg>#800040</fg>
-<label>Eprom Bank:</label>
+<label>Eprom Bank: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -37491,7 +36503,7 @@
 </font>
 <enabled>0</enabled>
 <fg>#C8B43E</fg>
-<label>EMS / ROM Map:</label>
+<label>EMS / ROM Map: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -37517,7 +36529,7 @@
 </font>
 <enabled>0</enabled>
 <fg>#A93EAC</fg>
-<label>Pager:</label>
+<label>Pager: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -37557,7 +36569,7 @@
 <border>0</border>
 <object class="wxStaticText" name="MemoryDumpBottom">
 <style>wxALIGN_RIGHT</style>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>

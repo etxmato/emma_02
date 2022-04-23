@@ -11,21 +11,6 @@
 #include "printer.h"
 #include "elfconfiguration.h"
 
-class PicoScreen : public Panel
-{
-public:
-	PicoScreen(wxWindow *parent, const wxSize& size, int tilType);
-	~PicoScreen();
-
-	void init();
-	void onPaint(wxPaintEvent&event);
-    void onMousePress(wxMouseEvent& event);
-	void onMouseRelease(wxMouseEvent& event);
-    void releaseButtonOnScreen(HexButton* buttonPointer);
-
-private:
-};
-
 class Pico : public wxFrame, public MainElf
 {
 public:
@@ -38,37 +23,16 @@ public:
 	bool keyDownPressed(int keycode);
 	bool keyUpReleased(int keycode);
 
-	void onRun();
-	void onButtonRelease(wxCommandEvent& event);
-	void onButtonPress(wxCommandEvent& event);
-	void onInButtonPress();
-	void onInButtonRelease();
-	void onHexKeyDown(int keycode);
-	void onHexKeyUp(int keycode);
-
 	void configureComputer();
-    void switchHexEf(bool state);
     void setPrinterEf();
-    void reLoadKeyDefinition(wxString fileName);
-	void reDefineKeysA(int *, int *);
 	void initComputer();
 	Byte ef(int flag);
 	Byte in(Byte port, Word address);
-	Byte getData();
 	void out(Byte port, Word address, Byte value);
 	void cycle(int type);
     void cycleLed();
-	void showData(Byte value);
 
-	void autoBoot();
 	void switchQ(int value);
-	int getMpButtonState();
-	void onMpButton();
-	void onLoadButton();
-    void onNumberKeyDown(int i);
-	void onNumberKeyDown(wxCommandEvent& event);
-    void onNumberKeyUp(wxCommandEvent& event);
-    void onNumberKeyUp();
 
 	void startComputer();
 	void writeMemDataType(Word address, Byte type);
@@ -99,44 +63,20 @@ public:
 	int readDirect6847(Word address); 
 	Word get6847RamMask();
 	void writeDirect6847(Word address, int value); 
-	void setLedMs(long ms);
-	Byte getKey(Byte vtOut);
 	void activateMainWindow();
-    void releaseButtonOnScreen(HexButton* buttonPointer, int buttonType);
-    void refreshPanel();
     void OnRtcTimer(wxTimerEvent& event);
 
 private:
-	class PicoScreen *elf2ScreenPointer;
-
-	Tms9918 *tmsPointer;
+    Tms9918 *tmsPointer;
 	Pixie *pixiePointer;
 	MC6845 *mc6845Pointer;
 	mc6847 *mc6847Pointer;
 	i8275 *i8275Pointer;
 
-    int ledCycleValue_;
-    int ledCycleSize_;
-
-    Byte switches_;
-	int runButtonState_;
-	int mpButtonState_;
-	int loadButtonState_;
 	Byte ef4State_;
 	Byte ef3State_;
     Byte ef3Button_;
     Byte ef4Button_;
-
-    int keyDefA1_[16];
-    int keyDefB1_[16];
-    int keyDefA2_[16];
-    int keyDefB2_[16];
-    
-    bool simDefA2_;
-    bool simDefB2_;
-    
-	int keyDefGameHexA_[5];
-	int keyDefGameHexB_[5];
 	
 	long offset_;
 

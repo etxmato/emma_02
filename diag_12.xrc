@@ -163,7 +163,7 @@
 <font>
 <size>12</size>
 </font>
-<label>ROM Checksum:</label>
+<label>ROM Checksum: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -217,7 +217,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Cassette cables</label>
+<label>Cassette cables </label>
 </object>
 </object>
 <object class="sizeritem">

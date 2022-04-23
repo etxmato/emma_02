@@ -778,8 +778,16 @@ void MainElf::thrStatus(bool data)
 void MainElf::saveRtc()
 {
     ElfConfiguration currentElfConfig = p_Main->getElfConfiguration(computerType_);
-    if (!currentElfConfig.useUart16450)
-        return;
+    if (computerType_ == PICO)
+    {
+        if (!currentElfConfig.rtc)
+            return;
+    }
+    else
+    {
+        if (!currentElfConfig.useUart16450)
+            return;
+    }
 
     Byte value;
     wxFile outputFile;
@@ -814,10 +822,20 @@ void MainElf::loadRtc()
         rtcRam_[0xd] = 0x80;
         currentElfConfig.clearRtc = false;
         p_Main->setElfConfiguration(currentElfConfig);
+        if (computerType_ == PICO)
+            p_Main->eventSetCheckBox("PicoClearRtc", false);
         return;
     }
-    if (!currentElfConfig.useUart16450)
-        return;
+    if (computerType_ == PICO)
+    {
+        if (!currentElfConfig.rtc)
+            return;
+    }
+    else
+    {
+        if (!currentElfConfig.useUart16450)
+            return;
+    }
 
     wxFFile inFile;
     size_t length;
