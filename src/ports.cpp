@@ -49,7 +49,12 @@ DevicePortsDialog::DevicePortsDialog(wxWindow* parent)
     if (elfTypeStr_ == "Pico")
         wxXmlResource::Get()->LoadDialog(this, parent, "DevicePortsPico");
     else
-        wxXmlResource::Get()->LoadDialog(this, parent, "DevicePorts");
+    {
+        if (elfTypeStr_ == "Elf2K")
+            wxXmlResource::Get()->LoadDialog(this, parent, "DevicePortsElf2K");
+        else
+            wxXmlResource::Get()->LoadDialog(this, parent, "DevicePorts");
+    }
 
 	this->SetTitle("Device Ports Definition "+p_Main->getSelectedComputerText());
 

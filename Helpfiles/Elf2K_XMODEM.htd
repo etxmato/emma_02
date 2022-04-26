@@ -1,52 +1,61 @@
 <HTML>
 <Title>XMODEM</Title>
 <BODY>
-<h2>HEX and XMODEM Support</h2>
+<h1>HEX and XMODEM Support</h1>
 <p>
 HEX and XMODEM file transfer is only supported when using a terminal setup (i.e. not when using the Intel 8275 video.
 </p>
-<h3>HEX Support</h3>
+<p>
+<IMG SRC="images/elf2000_xmodem.png" BORDER="0">
+<p>
+<h2>HEX Support</h2>
 <p>
 To transfer HEX files to the Elf 2000 emulator:
 <ul>
-<li>Unselect the 'Auto' option
-<li>Check 'HEX' is enabled and shown by pressing the 'Toggle: XMODEM - HEX' button (2 arrows) to toggle between XMODEM and HEX. 
+<li>Unselect the 'Auto' (yellow ellipse) option
+<li>Check 'HEX' is enabled and shown by pressing the 'Toggle: XMODEM - HEX' button (white ellipse) to toggle between XMODEM and HEX. 
 </ul>
 </p>
 <p>
-A HEX file can be loaded when the Elf 2000 monitor is running and showing the >>> prompt. To transfer a file select the file in the file selector window by pressing the HEX button and then press play. The HEX data should show on the Elf 2000 terminal screen. When ready the last line will show: >>>:00000001FF press return and EOF shows on the terminal indicating end of file.
+A HEX file can be loaded when the Elf 2000 monitor is running and showing the >>> prompt. To transfer a file select the file in the file selector window by pressing the HEX button (blue ellipse) and then press play (green ellipse). The HEX data should show on the Elf 2000 terminal screen. When ready the last line will show: >>>:00000001FF press return and EOF shows on the terminal indicating end of file.
 </p>
-<h3>XMODEM Support</h3>
+<h2>XMODEM Support</h2>
 <p>
-Default and simplest method to transfer files over the XMODEM to/from the Elf 2000 emulator is by making sure both options 'Turbo' and 'Auto' are checked. Depending on which type you choose, i.e. automatic or manual please follow the instructions below.  
-</p>
-<p>
-Also make sure 'XMODEM' is enabled and shown by pressing the 'Toggle: XMODEM - HEX' button (2 arrows) to toggle between XMODEM and HEX. XMODEM support is enabled by default.
-</p>
-<h4>Auto file transfer</h4>
-<p>
-Default settings, to use this make sure 'Auto' is checked. The automatic mode will work with the Elf/OS xr, xrb, xs, xsb, yr and ys commands.
+Default and simplest method to transfer files over the XMODEM to/from the Elf 2000 emulator is by making sure both options 'Turbo' (orange ellipse) and 'Auto' (yellow ellipse) are checked. Depending on which type you choose, i.e. automatic or manual please follow the instructions below.  
 </p>
 <p>
-To transfer a file to or from the Elf 2000 select the file in the file selector window by pressing the XMODEM button. After that give the xr, xrb, xs, xsb, yr or ys command in Elf/OS. For the yr command it is possible to select multiple files in the file selector window, Emma 02 will also send the filenames to Elf/OS. For the ys command any filename specified is NOT used, instead the file names specified in Elf/Os will be used and resulting files will be stored in the folder selected via XMODEM. For all other file transfers only one file will be used, if multiple files were selected only the first will be used.
+Also make sure 'XMODEM' is enabled and shown by pressing the 'Toggle: XMODEM - HEX' button (white ellipse) to toggle between XMODEM and HEX. XMODEM support is enabled by default.
+</p>
+<h3>Auto file transfer</h3>
+<p>
+Default settings, to use this make sure 'Auto' (yellow ellipse) is checked. The automatic mode will work with the Elf/OS xr, xrb, xs, xsb, yr and ys commands.
 </p>
 <p>
-If no file is specified before starting the file transfer the Elf 2000 will wait for the transfer to start. If this happens unselect the auto checkbox and try a manual transfer.
-</p>
-<h4>Manual file transfer</h4>
-<p>
-To use this make sure 'Auto' is NOT checked.  
+To transfer a file to or from the Elf 2000 select the file in the file selector window by pressing the XMODEM button (blue ellipse). After that give the xr, xrb, xs, xsb, yr or ys command in Elf/OS. For the yr command it is possible to select multiple files in the file selector window, Emma 02 will also send the filenames to Elf/OS. For the ys command any filename specified is NOT used, instead the file names specified in Elf/Os will be used and resulting files will be stored in the folder selected via XMODEM. For all other file transfers only one file will be used, if multiple files were selected only the first will be used.
 </p>
 <p>
-To transfer a file to or from the Elf 2000 select the file in the file selector window by pressing the XMODEM button. After that start the file transfer command on the emulated Elf 2000. Then press play for transferring to the Elf 2000 and press record for transferring from the Elf 2000.
+Selected files will be shown in the XMODEM text field (black ellipse), to clear this field press the eject button (purple ellipse)
 </p>
-<h4>Turbo file transfer</h4>
 <p>
-When Turbo is selected the emulator will increase speed during file transfer to allow faster file transfer in the emulator. The speed of the Turbo mode can be changed; default is 15 MHz, which works ok on both my desktop and laptop. Too high values will not run ok on slower PCs as all CPU power will be used by the emulator. 
+If no file is specified before starting the file transfer the Elf 2000 will wait for the transfer to start. If this happens unselect the auto checkbox (yellow ellipse) and try a manual transfer.
 </p>
-<h4>YMODEM Receive (yr) Packet Size</h4>
+<h3>Manual file transfer</h3>
 <p>
-Via the VT Setup button it is possible to change the Packet Size used for the YMODEM receive function (used in the yr command). Default this is set to auto but is changeable to 1024 or 128. When auto is used Emma 02 will send in packets of 1024 bytes if data is available to fill that, if less data is available 128 will be used.
+To use this make sure 'Auto' (yellow ellipse) is NOT checked.  
+</p>
+<p>
+To transfer a file to or from the Elf 2000 select the file in the file selector window by pressing the XMODEM button (blue ellipse). After that start the file transfer command on the emulated Elf 2000. Then press play (green ellipse) for transferring to the Elf 2000 and press record (red ellipse) for transferring from the Elf 2000. The stop botton (brown ellipse) will stop the transfer.
+</p>
+<h3>Turbo file transfer</h3>
+<p>
+When Turbo (orange ellipse) is selected the emulator will increase speed during file transfer to allow faster file transfer in the emulator. The speed of the Turbo mode can be changed (magenta ellipse); default is 15 MHz, which works ok on both my desktop and laptop. Too high values will not run ok on slower PCs as all CPU power will be used by the emulator. 
+</p>
+<h3>YMODEM Receive (yr) Packet Size</h3>
+<p>
+Via the VT Setup button (grey ellipse) it is possible to change the Packet Size used for the YMODEM receive function (used in the yr command). Default this is set to auto but is changeable to 1024 or 128. When auto is used Emma 02 will send in packets of 1024 bytes if data is available to fill that, if less data is available 128 will be used.
+</p>
+<p>
+For details see chapter: <a href="TerminalSetup.htm">Terminal Setup</a>.
 </p>
 </BODY>
 </HTML>
