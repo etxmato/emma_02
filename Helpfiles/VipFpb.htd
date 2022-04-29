@@ -6,14 +6,15 @@
 Default the VIP emulator will start up with Fixed Point Basic (FPB) loaded. In this configuration the VIP is started with 7 VP570 boards, i.e. 32 KB RAM as well as the VP590 colour board and of course ASCII keyboard support.
 </p>
 <p>
-Two versions of FPB are included in Emma 02:
+Three versions of FPB are included in Emma 02:
 <UL>
 <LI>fbb.bin: original FPB
 <LI>fpb_color.bin: colour version of FPB
+<LI>fpb_color_skip_loader.bin: same as above but skipping the boot loader
 </UL>
 </p>
 <p>
-Both files include the (original) boot loader from 0 to FF. The bootloader is also included as a stand alone file (fpb_bootloader.bin). On startup the VIP will run the bootloader where:
+All files include the (original) boot loader from 0 to FF. The bootloader is also included as a stand alone file (fpb_bootloader.bin). On startup the VIP will run the bootloader where:
 <UL>
 <LI>Key 1: Jump directly to FPB. 
 <LI>Hold 'B' while switching to 'RUN' (F12): "Tape Read", this isn't needed in Emma 02 as FPB is already loaded via the fpb.bin or fpb_color.bin file.
@@ -21,7 +22,7 @@ Both files include the (original) boot loader from 0 to FF. The bootloader is al
 </UL>
 </p>
 <p>
-It is possible to change FPB to skip the bootloader on startup by changing the following bytes:
+When using the fpb_color_skip_loader.bin version FPB will skip the bootloader on startup this was done by changing the following bytes:
 <pre>
 Original:	Mod:    
 0008: 62	0008: 30

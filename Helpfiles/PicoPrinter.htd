@@ -26,7 +26,7 @@ To print to an output screen and after this to a real printer select 'Window' in
 <IMG SRC="images/elf_printer_window.png" BORDER="0">
 </p>
 <p>
-To open a print window press the F4 button or the printer icon (yellow ellipse) before giving printer commands from the emulated computer.
+To open a print window manually press the F4 button or the printer icon (yellow ellipse).
 </p>
 <p>
 From the printer output window it is possible to use the print button to send the printout to a real printer, use preview and/or change printer settings (yellow ellipse):

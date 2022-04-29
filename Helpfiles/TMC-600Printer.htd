@@ -11,7 +11,7 @@ To print to a file select 'File' in the selection box next to the printer output
 To print to an output screen and after this to a real printer select 'Window' in the selection box next to the printer output file name. When the emulated computer is ready with the printout the printout can be send to any connected printer. To start a new printout close and reopen the printer output screen. 
 </p>
 <p>
-To open a print window press the F4 button or the printer icon on the Emma 02 window before giving printer commands from the emulated computer.
+To open a print window manually press the F4 button or the printer icon on the Emma 02 window.
 </p>
 <p>
 From the printer output window it is possible to print towards a real printer by pressing the 'PRINT' button. With the 'SETUP' button page margins and paper format can be selected. To preview the printout before an actual print use the 'PREVIEW' button.

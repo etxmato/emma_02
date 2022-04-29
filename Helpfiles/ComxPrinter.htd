@@ -23,7 +23,7 @@ To print to an output screen and/or to a real printer, first select 'STD' (orang
 <IMG SRC="images/comx_parallel_printer_screen.png" BORDER="0">
 </p>
 <p>
-After this send a 'printer on' command from the COMX or open the printer output screen manually. A 'printer on' command from the COMX can be done with a CARD P3 (if an <a href="ComxExpansion.htm">expansion box</a> is configured) or a CALL (@C070). To open the output screen manually, press the F4 button or the printer icon (blue ellipse) before giving printer commands from the COMX.
+After this send a 'printer on' command from the COMX or open the printer output screen manually. A 'printer on' command from the COMX can be done with a CARD P3 (if an <a href="ComxExpansion.htm">expansion box</a> is configured) or a CALL (@C070). To open the output screen manually, press the F4 button or the printer icon (blue ellipse).
 </p>
 <p>
 <IMG SRC="images/comx_parallel_printer_window.png" BORDER="0">

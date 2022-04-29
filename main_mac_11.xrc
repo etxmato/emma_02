@@ -17224,6 +17224,7 @@
 <style>wxCB_DROPDOWN</style>
 <content>
 <item></item>
+<item>fpb_color_skip_loader.bin</item>
 <item>fpb_color.bin</item>
 <item>fpb.bin</item>
 <item>VP700_Tiny_BASIC.bin</item>

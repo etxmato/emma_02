@@ -44,12 +44,19 @@ This chapter also includes:
 </p>
 <p>
 <a href="VipRom.htm">ROM Files</a><br>
-<a href="VipRam.htm">RAM Size</a><br>
-<a href="VipKeyboard.htm">Keyboard</a><br>
 <a href="VipSW.htm">Pre SW load</a><br>
 <a href="VipPrinter.htm">Printer Support</a><br>
+<a href="MainScreendump.htm">Video Dump</a><br>
 <a href="VipCassette.htm">Cassette Support</a><br>
-<a href="VipColour.htm">Colour and Sound Board</a><br>
+<a href="VipColour.htm">Colour Board</a><br>
+<a href="VipKeyboard.htm">Keyboard</a><br>
+<a href="VipRam.htm">RAM Size</a><br>
+<a href="TerminalMain.htm">Video Terminal</a><br>
+<a href="MainZoom.htm">Zoom Level and Full Screen Mode</a><br>
+<a href="MainColour.htm">Video Setup</a><br>
+<a href="MainSound.htm">Sound</a><br>
+<a href="MainMemAccess.htm">Memory Access</a><br>
+<a href="MainClock.htm">Clock Speed</a>
 <a href="VipFpb.htm">Fixed Point Basic</a><br>
 </p>
 </body></html>
