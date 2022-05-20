@@ -1,7 +1,7 @@
 #ifndef GUICOMX_H
 #define GUICOMX_H
 
-#include "guinetronics.h"
+#include "guidiy.h"
 
 DECLARE_EVENT_TYPE(OPEN_COMX_PRINTER_WINDOW, 800)
 DECLARE_EVENT_TYPE(STATUS_LED_ON, 801)
@@ -11,7 +11,7 @@ DECLARE_EVENT_TYPE(EXP_LED_ON, 805)
 DECLARE_EVENT_TYPE(EXP_LED_OFF, 806)
 DECLARE_EVENT_TYPE(KILL_COMPUTER, 809)
 
-class GuiComx: public GuiNetronics
+class GuiComx: public GuiDiy
 {
 public:
 

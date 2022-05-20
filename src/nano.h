@@ -7,7 +7,7 @@
 class Nano : public Cdp1802, public Pixie
 {
 public:
-	Nano(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType);
+	Nano(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, Conf computerConf);
 	~Nano();
 
 	void configureComputer();

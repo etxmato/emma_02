@@ -2172,11 +2172,11 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
     bool softwareDirInstalled;
     for (int computer=2; computer<NO_COMPUTER; computer++)
     {
-        if (computer == NETRONICS) //*** to be removed
-            computer = PICO;
         int confComputer = computer;
         if (confComputer == 2)
             confComputer = 0;
+        if (confComputer == DIY)
+            confComputer++;
         if (confComputer == FRED1_5)
         {
             if (wxDir::Exists(dataDir + "FRED2") && !wxDir::Exists(dataDir + computerInfo[confComputer].gui))
@@ -2266,23 +2266,17 @@ Main::~Main()
 		{
 			if (selectedComputer_ != computer)
 			{
-                if (computer != NETRONICS) //*** to be removed
-                {
-                    delete conf[computer].configurationMenu;
-                    delete conf[computer].configurationDeleteMenu;
-                }
+                delete conf[computer].configurationMenu;
+                delete conf[computer].configurationDeleteMenu;
 			}
 		}
 
 		for (int computer=0; computer<NO_COMPUTER; computer++)
 		{
-            if (computer != NETRONICS) //*** to be removed
-            {
-                delete clockText[computer];
-                delete clockTextCtrl[computer];
-                delete mhzText[computer];
-                delete startButton[computer];
-            }
+            delete clockText[computer];
+            delete clockTextCtrl[computer];
+            delete mhzText[computer];
+            delete startButton[computer];
 		}
 	}
 
@@ -2760,8 +2754,8 @@ void Main::initConfig()
 	setScreenInfo(SUPERELF, 0, 32, colour, 6, borderX, borderY);
 	setComputerInfo(SUPERELF, "SuperElf", "Quest Super Elf", "super");
 
-    setScreenInfo(NETRONICS, 0, 32, colour, 6, borderX, borderY);
-    setComputerInfo(NETRONICS, "Netronics", "Netronics Elf II", "super");
+    setScreenInfo(DIY, 0, 32, colour, 6, borderX, borderY);
+    setComputerInfo(DIY, "Diy", "Diy", "");
 
     setScreenInfo(PICO, 0, 32, colour, 6, borderX, borderY);
     setComputerInfo(PICO, "Pico", "Pico/Elf V2", "super");
@@ -3236,7 +3230,7 @@ void Main::readConfig()
             XRCCTRL(*this, "PanelMembership", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelVelf", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelUC1800", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
-            XRCCTRL(*this, "PanelNetronics", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
+            XRCCTRL(*this, "PanelDiy", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelPico", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelFRED1", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelFRED1_5", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
@@ -3266,10 +3260,6 @@ void Main::readConfig()
 		}
 #endif
 	}
-
-    //** to be removed
-    if (XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->GetPageCount() == 11)
-        XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->DeletePage(10);
 
 	psaveData_[0] = (int)configPointer->Read("/Main/Psave_Volume", 15l);
 	psaveData_[1] = (int)configPointer->Read("/Main/Psave_Bit_Rate", 1l);
@@ -3547,8 +3537,6 @@ void Main::buildConfigMenu()
     
     for (int computer=2; computer<NO_COMPUTER; computer++)
     {
-        if (computer == NETRONICS) //*** to be removed
-            computer = PICO;
         int confComputer = computer;
         if (confComputer == 2)
             confComputer = 0;
@@ -3905,7 +3893,7 @@ int Main::saveComputerConfig(ConfigurationInfo configurationInfo, ConfigurationI
             writeElfConfig(SUPERELF, "SuperElf");
         break;
 
-        case NETRONICS:
+        case DIY:
             writeNetronicsDirConfig();
             writeNetronicsConfig();
         break;
@@ -3927,8 +3915,6 @@ int Main::saveComputerConfig(ConfigurationInfo configurationInfo, ConfigurationI
 
     for (int comp=2; comp<NO_COMPUTER; comp++)
     {
-        if (comp == NETRONICS) //*** to be removed
-            comp = PICO;
         delete conf[comp].configurationMenu;
         delete conf[comp].configurationDeleteMenu;
     }
@@ -4133,7 +4119,7 @@ void Main::loadComputerConfig(wxString fileName)
             readElfConfig(SUPERELF, "SuperElf");
         break;
             
-        case NETRONICS:
+        case DIY:
             readNetronicsConfig();
         break;
 
@@ -4425,9 +4411,6 @@ void Main::onDeleteConfiguration(wxCommandEvent& event)
             
 				for (int comp=2; comp<NO_COMPUTER; comp++)
 				{
-                    if (computer == NETRONICS) //*** to be removed
-                        computer = PICO;
-
                     delete conf[comp].configurationMenu;
 					delete conf[comp].configurationDeleteMenu;
 				}
@@ -4965,7 +4948,7 @@ bool Main::checkFunctionKey(wxKeyEvent& event)
 				case SUPERELF:
                 case VIP:
                 case VELF:
-                case NETRONICS:
+                case DIY:
                 case PICO:
 					if (conf[runningComputer_].printerOn_)
 						p_Main->onF4();
@@ -5326,9 +5309,9 @@ void Main::onDefaultWindowPosition(wxCommandEvent&WXUNUSED(event))
 			p_Super->Move(conf[SUPERELF].mainX_, conf[SUPERELF].mainY_);
 		break;
 
-        case NETRONICS:
-            p_Netronics->moveWindows();
-            p_Netronics->Move(conf[NETRONICS].mainX_, conf[NETRONICS].mainY_);
+        case DIY:
+            p_Diy->moveWindows();
+            p_Diy->Move(conf[DIY].mainX_, conf[DIY].mainY_);
         break;
 
         case PICO:
@@ -5653,7 +5636,7 @@ void Main::onStart(int computer)
 				comxy = 216;
 			else
 				comxy = 192;
-			p_Comx = new Comx(computerInfo[COMX].name, wxPoint(conf[COMX].mainX_, conf[COMX].mainY_), wxSize(240 * zoom, comxy * zoom), zoom, COMX, conf[COMX].clockSpeed_);
+			p_Comx = new Comx(computerInfo[COMX].name, wxPoint(conf[COMX].mainX_, conf[COMX].mainY_), wxSize(240 * zoom, comxy * zoom), zoom, COMX, conf[COMX].clockSpeed_, conf[COMX]);
 			p_Video = p_Comx;
 			p_Computer = p_Comx;
 		break;
@@ -5670,112 +5653,113 @@ void Main::onStart(int computer)
                     x = 483; y = 297;
                 break;
             }
-			p_Membership = new Membership(computerInfo[MEMBER].name, wxPoint(conf[MEMBER].mainX_, conf[MEMBER].mainY_), wxSize(x, y), conf[MEMBER].clockSpeed_, elfConfiguration[MEMBER]);
+			p_Membership = new Membership(computerInfo[MEMBER].name, wxPoint(conf[MEMBER].mainX_, conf[MEMBER].mainY_), wxSize(x, y), conf[MEMBER].clockSpeed_, elfConfiguration[MEMBER], conf[MEMBER]);
 			p_Computer = p_Membership;
 		break;
 
 		case UC1800:
-			p_Uc1800 = new Uc1800(computerInfo[UC1800].name, wxPoint(conf[UC1800].mainX_, conf[UC1800].mainY_), wxSize(464, 264), conf[UC1800].clockSpeed_, elfConfiguration[UC1800]);
+			p_Uc1800 = new Uc1800(computerInfo[UC1800].name, wxPoint(conf[UC1800].mainX_, conf[UC1800].mainY_), wxSize(464, 264), conf[UC1800].clockSpeed_, elfConfiguration[UC1800], conf[UC1800]);
 			p_Computer = p_Uc1800;
 		break;
 
 		case MICROTUTOR:
-			p_Microtutor = new Microtutor(computerInfo[MICROTUTOR].name, wxPoint(conf[MICROTUTOR].mainX_, conf[MICROTUTOR].mainY_), wxSize(333, 160), conf[MICROTUTOR].clockSpeed_, elfConfiguration[MICROTUTOR]);
+			p_Microtutor = new Microtutor(computerInfo[MICROTUTOR].name, wxPoint(conf[MICROTUTOR].mainX_, conf[MICROTUTOR].mainY_), wxSize(333, 160), conf[MICROTUTOR].clockSpeed_, elfConfiguration[MICROTUTOR], conf[MICROTUTOR]);
 			p_Computer = p_Microtutor;
 		break;
 
         case MICROTUTOR2:
-            p_Microtutor2 = new Microtutor2(computerInfo[MICROTUTOR2].name, wxPoint(conf[MICROTUTOR2].mainX_, conf[MICROTUTOR2].mainY_), wxSize(333, 160), conf[MICROTUTOR2].clockSpeed_, elfConfiguration[MICROTUTOR2]);
+            p_Microtutor2 = new Microtutor2(computerInfo[MICROTUTOR2].name, wxPoint(conf[MICROTUTOR2].mainX_, conf[MICROTUTOR2].mainY_), wxSize(333, 160), conf[MICROTUTOR2].clockSpeed_, elfConfiguration[MICROTUTOR2], conf[MICROTUTOR2]);
             p_Computer = p_Microtutor2;
         break;
             
 		case ELF:
-			p_Elf = new Elf(computerInfo[ELF].name, wxPoint(conf[ELF].mainX_, conf[ELF].mainY_), wxSize(346, 464), conf[ELF].clockSpeed_, elfConfiguration[ELF]);
+			p_Elf = new Elf(computerInfo[ELF].name, wxPoint(conf[ELF].mainX_, conf[ELF].mainY_), wxSize(346, 464), conf[ELF].clockSpeed_, elfConfiguration[ELF], conf[ELF]);
 			p_Computer = p_Elf;
         break;
 
 		case ELFII:
-			p_Elf2 = new Elf2(computerInfo[ELFII].name, wxPoint(conf[ELFII].mainX_, conf[ELFII].mainY_), wxSize(534, 386), conf[ELFII].clockSpeed_, elfConfiguration[ELFII]);
+			p_Elf2 = new Elf2(computerInfo[ELFII].name, wxPoint(conf[ELFII].mainX_, conf[ELFII].mainY_), wxSize(534, 386), conf[ELFII].clockSpeed_, elfConfiguration[ELFII], conf[ELFII]);
 			p_Computer = p_Elf2;
 		break;
 
 		case SUPERELF:
-			p_Super = new Super(computerInfo[SUPERELF].name, wxPoint(conf[SUPERELF].mainX_, conf[SUPERELF].mainY_), wxSize(534, 386), conf[SUPERELF].clockSpeed_, elfConfiguration[SUPERELF]);
+			p_Super = new Super(computerInfo[SUPERELF].name, wxPoint(conf[SUPERELF].mainX_, conf[SUPERELF].mainY_), wxSize(534, 386), conf[SUPERELF].clockSpeed_, elfConfiguration[SUPERELF], conf[SUPERELF]);
 			p_Computer = p_Super;
 		break;
 
-        case NETRONICS:
-            p_Netronics = new Netronics(computerInfo[NETRONICS].name, wxPoint(conf[NETRONICS].mainX_, conf[NETRONICS].mainY_), wxSize(534, 386), conf[NETRONICS].clockSpeed_, elfConfiguration[NETRONICS]);
-            p_Computer = p_Netronics;
+        case DIY:
+            parseXmlFile(DIY,conf[DIY].xmlDir_, conf[DIY].xmlFile_);
+            p_Diy = new Diy(computerInfo[DIY].name, wxPoint(conf[DIY].mainX_, conf[DIY].mainY_), wxSize(534, 386), conf[DIY].clockSpeed_, elfConfiguration[DIY], conf[DIY]);
+            p_Computer = p_Diy;
         break;
 
         case PICO:
-            p_Pico = new Pico(computerInfo[PICO].name, wxPoint(conf[PICO].mainX_, conf[PICO].mainY_), wxSize(534, 386), conf[PICO].clockSpeed_, elfConfiguration[PICO]);
+            p_Pico = new Pico(computerInfo[PICO].name, wxPoint(conf[PICO].mainX_, conf[PICO].mainY_), wxSize(534, 386), conf[PICO].clockSpeed_, elfConfiguration[PICO], conf[PICO]);
             p_Computer = p_Pico;
         break;
 
 		case ELF2K:
-			p_Elf2K = new Elf2K(computerInfo[ELF2K].name, wxPoint(conf[ELF2K].mainX_, conf[ELF2K].mainY_), wxSize(507, 459), conf[ELF2K].clockSpeed_, elfConfiguration[ELF2K]);
+			p_Elf2K = new Elf2K(computerInfo[ELF2K].name, wxPoint(conf[ELF2K].mainX_, conf[ELF2K].mainY_), wxSize(507, 459), conf[ELF2K].clockSpeed_, elfConfiguration[ELF2K], conf[ELF2K]);
 			p_Computer = p_Elf2K;
         break;
 
         case MS2000:
-            p_Ms2000 = new Ms2000(computerInfo[MS2000].name, wxPoint(conf[MS2000].mainX_, conf[MS2000].mainY_), wxSize(507, 459), conf[MS2000].clockSpeed_, elfConfiguration[MS2000]);
+            p_Ms2000 = new Ms2000(computerInfo[MS2000].name, wxPoint(conf[MS2000].mainX_, conf[MS2000].mainY_), wxSize(507, 459), conf[MS2000].clockSpeed_, elfConfiguration[MS2000], conf[MS2000]);
             p_Computer = p_Ms2000;
         break;
             
 		case MCDS:
-			p_Mcds = new Mcds(computerInfo[MCDS].name, wxPoint(conf[MCDS].mainX_, conf[MCDS].mainY_), wxSize(507, 459), conf[MCDS].clockSpeed_, elfConfiguration[MCDS]);
+			p_Mcds = new Mcds(computerInfo[MCDS].name, wxPoint(conf[MCDS].mainX_, conf[MCDS].mainY_), wxSize(507, 459), conf[MCDS].clockSpeed_, elfConfiguration[MCDS], conf[MCDS]);
 			p_Computer = p_Mcds;
 		break;
 
 		case COSMICOS:
-			p_Cosmicos = new Cosmicos(computerInfo[COSMICOS].name, wxPoint(conf[COSMICOS].mainX_, conf[COSMICOS].mainY_), wxSize(333, 160), conf[COSMICOS].clockSpeed_, elfConfiguration[COSMICOS]);
+			p_Cosmicos = new Cosmicos(computerInfo[COSMICOS].name, wxPoint(conf[COSMICOS].mainX_, conf[COSMICOS].mainY_), wxSize(333, 160), conf[COSMICOS].clockSpeed_, elfConfiguration[COSMICOS], conf[COSMICOS]);
 			p_Computer = p_Cosmicos;
 		break;
 
 		case STUDIO:
-			p_Studio2 = new Studio2(computerInfo[STUDIO].name, wxPoint(conf[STUDIO].mainX_, conf[STUDIO].mainY_), wxSize(64*zoom*xScale, 128*zoom), zoom, xScale, STUDIO);
+			p_Studio2 = new Studio2(computerInfo[STUDIO].name, wxPoint(conf[STUDIO].mainX_, conf[STUDIO].mainY_), wxSize(64*zoom*xScale, 128*zoom), zoom, xScale, STUDIO, conf[STUDIO]);
 			p_Video = p_Studio2;
 			p_Computer = p_Studio2;
 		break;
 
         case COINARCADE:
-            p_CoinArcade = new CoinArcade(computerInfo[COINARCADE].name, wxPoint(conf[COINARCADE].mainX_, conf[COINARCADE].mainY_), wxSize(64*zoom*xScale, 128*zoom), zoom, xScale, COINARCADE);
+            p_CoinArcade = new CoinArcade(computerInfo[COINARCADE].name, wxPoint(conf[COINARCADE].mainX_, conf[COINARCADE].mainY_), wxSize(64*zoom*xScale, 128*zoom), zoom, xScale, COINARCADE, conf[COINARCADE]);
             p_Video = p_CoinArcade;
             p_Computer = p_CoinArcade;
         break;
             
         case FRED1:
-            p_Fred = new Fred(computerInfo[FRED1].name, wxPoint(conf[FRED1].mainX_, conf[FRED1].mainY_), wxSize(310,180), conf[FRED1].clockSpeed_, elfConfiguration[FRED1], FRED1);
+            p_Fred = new Fred(computerInfo[FRED1].name, wxPoint(conf[FRED1].mainX_, conf[FRED1].mainY_), wxSize(310,180), conf[FRED1].clockSpeed_, elfConfiguration[FRED1], FRED1, conf[FRED1]);
             p_Computer = p_Fred;
         break;
             
         case FRED1_5:
-            p_Fred = new Fred(computerInfo[FRED1_5].name, wxPoint(conf[FRED1_5].mainX_, conf[FRED1_5].mainY_), wxSize(310,180), conf[FRED1_5].clockSpeed_, elfConfiguration[FRED1_5], FRED1_5);
+            p_Fred = new Fred(computerInfo[FRED1_5].name, wxPoint(conf[FRED1_5].mainX_, conf[FRED1_5].mainY_), wxSize(310,180), conf[FRED1_5].clockSpeed_, elfConfiguration[FRED1_5], FRED1_5, conf[FRED1_5]);
             p_Computer = p_Fred;
         break;
             
 		case VISICOM:
-			p_Visicom = new Visicom(computerInfo[VISICOM].name, wxPoint(conf[VISICOM].mainX_, conf[VISICOM].mainY_), wxSize(64*zoom*xScale, 128*zoom), zoom, xScale, VISICOM);
+			p_Visicom = new Visicom(computerInfo[VISICOM].name, wxPoint(conf[VISICOM].mainX_, conf[VISICOM].mainY_), wxSize(64*zoom*xScale, 128*zoom), zoom, xScale, VISICOM, conf[VISICOM]);
 			p_Video = p_Visicom;
 			p_Computer = p_Visicom;
 		break;
 
 		case VICTORY:
-			p_Victory = new Victory(computerInfo[VICTORY].name, wxPoint(conf[VICTORY].mainX_, conf[VICTORY].mainY_), wxSize(64*zoom*xScale, 192*zoom), zoom, xScale, VICTORY);
+			p_Victory = new Victory(computerInfo[VICTORY].name, wxPoint(conf[VICTORY].mainX_, conf[VICTORY].mainY_), wxSize(64*zoom*xScale, 192*zoom), zoom, xScale, VICTORY, conf[VICTORY]);
 			p_Video = p_Victory;
 			p_Computer = p_Victory;
 		break;
 
         case STUDIOIV:
-            p_StudioIV = new StudioIV(computerInfo[STUDIOIV].name, wxPoint(conf[STUDIOIV].mainX_, conf[STUDIOIV].mainY_), wxSize(64*zoom*xScale, 192*zoom), zoom, xScale, STUDIOIV);
+            p_StudioIV = new StudioIV(computerInfo[STUDIOIV].name, wxPoint(conf[STUDIOIV].mainX_, conf[STUDIOIV].mainY_), wxSize(64*zoom*xScale, 192*zoom), zoom, xScale, STUDIOIV, conf[STUDIOIV]);
             p_Video = p_StudioIV;
             p_Computer = p_StudioIV;
         break;
             
 		case VIP:
-			p_Vip = new Vip(computerInfo[VIP].name, wxPoint(conf[VIP].mainX_, conf[VIP].mainY_), wxSize(64*zoom*xScale, 128*zoom), zoom, xScale, VIP, conf[VIP].clockSpeed_, conf[VIP].tempo_, elfConfiguration[VIP]);
+			p_Vip = new Vip(computerInfo[VIP].name, wxPoint(conf[VIP].mainX_, conf[VIP].mainY_), wxSize(64*zoom*xScale, 128*zoom), zoom, xScale, VIP, conf[VIP].clockSpeed_, conf[VIP].tempo_, elfConfiguration[VIP], conf[VIP]);
 			p_Video = p_Vip;
 			p_Computer = p_Vip;
 			if (getVipStereo())
@@ -5787,24 +5771,24 @@ void Main::onStart(int computer)
 		break;
 
 		case VIPII:
-			p_Vip2 = new VipII(computerInfo[VIPII].name, wxPoint(conf[VIPII].mainX_, conf[VIPII].mainY_), wxSize(64*zoom*xScale, 128*zoom), zoom, xScale, VIPII, conf[VIPII].clockSpeed_, conf[VIPII].tempo_);
+			p_Vip2 = new VipII(computerInfo[VIPII].name, wxPoint(conf[VIPII].mainX_, conf[VIPII].mainY_), wxSize(64*zoom*xScale, 128*zoom), zoom, xScale, VIPII, conf[VIPII].clockSpeed_, conf[VIPII].tempo_, conf[VIPII]);
 			p_Video = p_Vip2;
 			p_Computer = p_Vip2;
 		break;
 
         case VIP2K:
-            p_Vip2K = new Vip2K(computerInfo[VIP2K].name, wxPoint(conf[VIP2K].mainX_, conf[VIP2K].mainY_), wxSize(198*xScale, 200), zoom, xScale, VIP2K, conf[VIP2K].clockSpeed_, elfConfiguration[VIP2K]);
+            p_Vip2K = new Vip2K(computerInfo[VIP2K].name, wxPoint(conf[VIP2K].mainX_, conf[VIP2K].mainY_), wxSize(198*xScale, 200), zoom, xScale, VIP2K, conf[VIP2K].clockSpeed_, elfConfiguration[VIP2K], conf[VIP2K]);
             p_Video = p_Vip2K;
             p_Computer = p_Vip2K;
         break;
             
         case VELF:
-            p_Velf = new Velf(computerInfo[VELF].name, wxPoint(conf[VELF].mainX_, conf[VELF].mainY_), wxSize(310, 180), conf[VELF].clockSpeed_, elfConfiguration[VELF]);
+            p_Velf = new Velf(computerInfo[VELF].name, wxPoint(conf[VELF].mainX_, conf[VELF].mainY_), wxSize(310, 180), conf[VELF].clockSpeed_, elfConfiguration[VELF], conf[VELF]);
             p_Computer = p_Velf;
         break;
             
         case CDP18S020:
-            p_Cdp18s020 = new Cdp18s020(computerInfo[CDP18S020].name, wxPoint(conf[CDP18S020].mainX_, conf[CDP18S020].mainY_), wxSize(310, 180), conf[CDP18S020].clockSpeed_, elfConfiguration[CDP18S020]);
+            p_Cdp18s020 = new Cdp18s020(computerInfo[CDP18S020].name, wxPoint(conf[CDP18S020].mainX_, conf[CDP18S020].mainY_), wxSize(310, 180), conf[CDP18S020].clockSpeed_, elfConfiguration[CDP18S020], conf[CDP18S020]);
             p_Computer = p_Cdp18s020;
         break;
                         
@@ -5812,14 +5796,14 @@ void Main::onStart(int computer)
             switch (XRCCTRL(*this, "Card1ChoiceMicroboard", wxChoice)->GetSelection())
             {
                 case MICROBOARD_CDP18S600:
-                    p_Cdp18s600 = new Cdp18s600(computerInfo[MICROBOARD].name, wxPoint(conf[MICROBOARD].v1870X_, conf[MICROBOARD].v1870Y_), wxSize(240 * zoom, 216 * zoom), zoom, MICROBOARD,conf[MICROBOARD].clockSpeed_, elfConfiguration[MICROBOARD]);
+                    p_Cdp18s600 = new Cdp18s600(computerInfo[MICROBOARD].name, wxPoint(conf[MICROBOARD].v1870X_, conf[MICROBOARD].v1870Y_), wxSize(240 * zoom, 216 * zoom), zoom, MICROBOARD,conf[MICROBOARD].clockSpeed_, elfConfiguration[MICROBOARD], conf[MICROBOARD]);
                     p_Computer = p_Cdp18s600;
                     p_Video = p_Cdp18s600;
                 break;
                 
                 case MICROBOARD_CDP18S601:
                 case MICROBOARD_CDP18S606:
-                    p_Cdp18s601 = new Cdp18s601(computerInfo[MICROBOARD].name, wxPoint(conf[MICROBOARD].v1870X_, conf[MICROBOARD].v1870Y_), wxSize(240 * zoom, 216 * zoom), zoom, MICROBOARD,conf[MICROBOARD].clockSpeed_, elfConfiguration[MICROBOARD]);
+                    p_Cdp18s601 = new Cdp18s601(computerInfo[MICROBOARD].name, wxPoint(conf[MICROBOARD].v1870X_, conf[MICROBOARD].v1870Y_), wxSize(240 * zoom, 216 * zoom), zoom, MICROBOARD,conf[MICROBOARD].clockSpeed_, elfConfiguration[MICROBOARD], conf[MICROBOARD]);
                     p_Computer = p_Cdp18s601;
                     p_Video = p_Cdp18s601;
                 break;
@@ -5828,7 +5812,7 @@ void Main::onStart(int computer)
                 case MICROBOARD_CDP18S605:
                 case MICROBOARD_CDP18S607:
                 case MICROBOARD_CDP18S610:
-                    p_Cdp18s602 = new Cdp18s602(computerInfo[MICROBOARD].name, wxPoint(conf[MICROBOARD].v1870X_, conf[MICROBOARD].v1870Y_), wxSize(240 * zoom, 216 * zoom), zoom, MICROBOARD,conf[MICROBOARD].clockSpeed_, elfConfiguration[MICROBOARD]);
+                    p_Cdp18s602 = new Cdp18s602(computerInfo[MICROBOARD].name, wxPoint(conf[MICROBOARD].v1870X_, conf[MICROBOARD].v1870Y_), wxSize(240 * zoom, 216 * zoom), zoom, MICROBOARD,conf[MICROBOARD].clockSpeed_, elfConfiguration[MICROBOARD], conf[MICROBOARD]);
                     p_Computer = p_Cdp18s602;
                     p_Video = p_Cdp18s602;
                break;
@@ -5836,20 +5820,20 @@ void Main::onStart(int computer)
                 case MICROBOARD_CDP18S603:
                 case MICROBOARD_CDP18S603A:
                 case MICROBOARD_CDP18S608:
-                    p_Cdp18s603a = new Cdp18s603a(computerInfo[MICROBOARD].name, wxPoint(conf[MICROBOARD].v1870X_, conf[MICROBOARD].v1870Y_), wxSize(240 * zoom, 216 * zoom), zoom, MICROBOARD,conf[MICROBOARD].clockSpeed_, elfConfiguration[MICROBOARD]);
+                    p_Cdp18s603a = new Cdp18s603a(computerInfo[MICROBOARD].name, wxPoint(conf[MICROBOARD].v1870X_, conf[MICROBOARD].v1870Y_), wxSize(240 * zoom, 216 * zoom), zoom, MICROBOARD,conf[MICROBOARD].clockSpeed_, elfConfiguration[MICROBOARD], conf[MICROBOARD]);
                     p_Computer = p_Cdp18s603a;
                     p_Video = p_Cdp18s603a;
                break;
 
                 case MICROBOARD_CDP18S604B:
                 case MICROBOARD_CDP18S609:
-                    p_Cdp18s604b = new Cdp18s604b(computerInfo[MICROBOARD].name, wxPoint(conf[MICROBOARD].v1870X_, conf[MICROBOARD].v1870Y_), wxSize(240 * zoom, 216 * zoom), zoom, MICROBOARD,conf[MICROBOARD].clockSpeed_, elfConfiguration[MICROBOARD]);
+                    p_Cdp18s604b = new Cdp18s604b(computerInfo[MICROBOARD].name, wxPoint(conf[MICROBOARD].v1870X_, conf[MICROBOARD].v1870Y_), wxSize(240 * zoom, 216 * zoom), zoom, MICROBOARD,conf[MICROBOARD].clockSpeed_, elfConfiguration[MICROBOARD], conf[MICROBOARD]);
                     p_Computer = p_Cdp18s604b;
                     p_Video = p_Cdp18s604b;
                break;
 
                 case RCASBC:
-                    p_Rcasbc = new Rcasbc(computerInfo[MICROBOARD].name, wxPoint(conf[MICROBOARD].v1870X_, conf[MICROBOARD].v1870Y_), wxSize(240 * zoom, 216 * zoom), zoom, MICROBOARD,conf[MICROBOARD].clockSpeed_, elfConfiguration[MICROBOARD]);
+                    p_Rcasbc = new Rcasbc(computerInfo[MICROBOARD].name, wxPoint(conf[MICROBOARD].v1870X_, conf[MICROBOARD].v1870Y_), wxSize(240 * zoom, 216 * zoom), zoom, MICROBOARD,conf[MICROBOARD].clockSpeed_, elfConfiguration[MICROBOARD], conf[MICROBOARD]);
                     p_Computer = p_Rcasbc;
                     p_Video = p_Rcasbc;
                 break;
@@ -5858,43 +5842,43 @@ void Main::onStart(int computer)
         break;
             
 		case TMC1800:
-			p_Tmc1800 = new Tmc1800(computerInfo[TMC1800].name, wxPoint(conf[TMC1800].mainX_, conf[TMC1800].mainY_), wxSize(64*zoom*xScale, 128*zoom), zoom, xScale, TMC1800);
+			p_Tmc1800 = new Tmc1800(computerInfo[TMC1800].name, wxPoint(conf[TMC1800].mainX_, conf[TMC1800].mainY_), wxSize(64*zoom*xScale, 128*zoom), zoom, xScale, TMC1800, conf[TMC1800]);
 			p_Video = p_Tmc1800;
 			p_Computer = p_Tmc1800;
 		break;
 
 		case TMC2000:
-			p_Tmc2000 = new Tmc2000(computerInfo[TMC2000].name, wxPoint(conf[TMC2000].mainX_, conf[TMC2000].mainY_), wxSize(64*zoom*xScale, 192*zoom), zoom, xScale, TMC2000);
+			p_Tmc2000 = new Tmc2000(computerInfo[TMC2000].name, wxPoint(conf[TMC2000].mainX_, conf[TMC2000].mainY_), wxSize(64*zoom*xScale, 192*zoom), zoom, xScale, TMC2000, conf[TMC2000]);
 			p_Video = p_Tmc2000;
 			p_Computer = p_Tmc2000;
 		break;
 
 		case ETI:
-			p_Eti = new Eti(computerInfo[ETI].name, wxPoint(conf[ETI].mainX_, conf[ETI].mainY_), wxSize(64*zoom*xScale, 192*zoom), zoom, xScale, ETI);
+			p_Eti = new Eti(computerInfo[ETI].name, wxPoint(conf[ETI].mainX_, conf[ETI].mainY_), wxSize(64*zoom*xScale, 192*zoom), zoom, xScale, ETI, conf[ETI]);
 			p_Video = p_Eti;
 			p_Computer = p_Eti;
 		break;
 
 		case NANO:
-			p_Nano = new Nano(computerInfo[NANO].name, wxPoint(conf[NANO].mainX_, conf[NANO].mainY_), wxSize(64*zoom*xScale, 192*zoom), zoom, xScale, NANO);
+			p_Nano = new Nano(computerInfo[NANO].name, wxPoint(conf[NANO].mainX_, conf[NANO].mainY_), wxSize(64*zoom*xScale, 192*zoom), zoom, xScale, NANO, conf[NANO]);
 			p_Video = p_Nano;
 			p_Computer = p_Nano;
 		break;
 
 		case CIDELSA:
-			p_Cidelsa = new Cidelsa(computerInfo[CIDELSA].name, wxPoint(conf[CIDELSA].mainX_, conf[CIDELSA].mainY_), wxSize(200*zoom, 240*zoom), zoom, CIDELSA, conf[CIDELSA].clockSpeed_);
+			p_Cidelsa = new Cidelsa(computerInfo[CIDELSA].name, wxPoint(conf[CIDELSA].mainX_, conf[CIDELSA].mainY_), wxSize(200*zoom, 240*zoom), zoom, CIDELSA, conf[CIDELSA].clockSpeed_, conf[CIDELSA]);
 			p_Video = p_Cidelsa;
 			p_Computer = p_Cidelsa;
 		break;
 
 		case TMC600:
-			p_Tmc600 = new Tmc600(computerInfo[TMC600].name, wxPoint(conf[TMC600].mainX_, conf[TMC600].mainY_), wxSize(240*zoom, 216*zoom), zoom, TMC600, conf[TMC600].clockSpeed_);
+			p_Tmc600 = new Tmc600(computerInfo[TMC600].name, wxPoint(conf[TMC600].mainX_, conf[TMC600].mainY_), wxSize(240*zoom, 216*zoom), zoom, TMC600, conf[TMC600].clockSpeed_, conf[DIY]);
 			p_Video = p_Tmc600;
 			p_Computer = p_Tmc600;
 		break;
 
 		case PECOM:
-			p_Pecom = new Pecom(computerInfo[PECOM].name, wxPoint(conf[PECOM].mainX_, conf[PECOM].mainY_), wxSize(240*zoom, 216*zoom), zoom, PECOM, conf[PECOM].clockSpeed_);
+			p_Pecom = new Pecom(computerInfo[PECOM].name, wxPoint(conf[PECOM].mainX_, conf[PECOM].mainY_), wxSize(240*zoom, 216*zoom), zoom, PECOM, conf[PECOM].clockSpeed_, conf[PECOM]);
 			p_Video = p_Pecom;
 			p_Computer = p_Pecom;
 		break;
@@ -5981,7 +5965,7 @@ void Main::stopComputer()
 			case ELF:
 			case ELFII:
 			case SUPERELF:
-            case NETRONICS:
+            case DIY:
             case PICO:
 				enableMemAccessGui(false);
 				vuSet("Vu"+computerInfo[runningComputer_].gui, 0);
@@ -6093,10 +6077,6 @@ void Main::onComputer(wxNotebookEvent&event)
 				case UC1800TAB:
 					elfChoice_ = UC1800;
 				break;
-
-                case NETRONICSTAB:
-                    elfChoice_ = NETRONICS;
-                break;
 
                 case PICOTAB:
                     elfChoice_ = PICO;
@@ -6215,6 +6195,10 @@ void Main::onComputer(wxNotebookEvent&event)
 		case ETITAB:
 			selectedComputer_ = ETI;
 		break;
+
+        case DIYTAB:
+            selectedComputer_ = DIY;
+        break;
 
 		case DEBUGGERTAB:
             menubarPointer->Enable(XRCID(GUISAVECOMPUTERCONFIG), false);
@@ -6376,10 +6360,6 @@ void Main::onElfChoiceBook(wxChoicebookEvent&event)
             elfChoice_ = UC1800;
 		break;
 
-        case NETRONICSTAB:
-            elfChoice_ = NETRONICS;
-        break;
-
         case PICOTAB:
             elfChoice_ = PICO;
         break;
@@ -6395,7 +6375,7 @@ void Main::onElfChoiceBook(wxChoicebookEvent&event)
             case SUPERELF:
             case VIP2K:
             case VELF:
-            case NETRONICS:
+            case DIY:
             case PICO:
                 vuSet("Vu"+computerInfo[selectedComputer_].gui, 1);
                 vuSet("Vu"+computerInfo[selectedComputer_].gui, 0);
@@ -6568,9 +6548,9 @@ void Main::setNoteBook()
 			XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->SetSelection(SUPERELFTAB);
 		break;
 
-        case NETRONICS:
+        case DIY:
             XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(COSMACELFTAB);
-            XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->SetSelection(NETRONICSTAB);
+            XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->SetSelection(DIYTAB);
         break;
 
         case PICO:
@@ -6710,8 +6690,7 @@ void Main::enableColorbutton(bool status)
     XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status | (runningComputer_ == ELF));
     XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status | (runningComputer_ == ELFII));
     XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status | (runningComputer_ == SUPERELF));
-    //*** to be removed
-//    XRCCTRL(*this,"ColoursNetronics", wxButton)->Enable(status | (runningComputer_ == NETRONICS));
+    XRCCTRL(*this,"ColoursDiy", wxButton)->Enable(status | (runningComputer_ == DIY));
     XRCCTRL(*this,"ColoursPico", wxButton)->Enable(status | (runningComputer_ == PICO));
     XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status | (runningComputer_ == MEMBER));
     XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status | (runningComputer_ == VELF));
@@ -7312,7 +7291,7 @@ void Main::enableGui(bool status)
 			XRCCTRL(*this,"PortExt"+elfTypeStr, wxCheckBox)->Enable(status);
         XRCCTRL(*this,"BootStrap"+elfTypeStr, wxCheckBox)->Enable(status);
 
-		if (elfConfiguration[runningComputer_].usePager || elfConfiguration[runningComputer_].useEms || elfConfiguration[runningComputer_].useRomMapper)
+		if (elfConfiguration[runningComputer_].usePager || elfConfiguration[runningComputer_].useEms)
 		{
 			XRCCTRL(*this, "StartRamText"+computerInfo[runningComputer_].gui, wxStaticText)->Enable(false);
 			XRCCTRL(*this, "StartRam"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(false);
@@ -7355,93 +7334,77 @@ void Main::enableGui(bool status)
         XRCCTRL(*this,"TilText"+elfTypeStr,wxStaticText)->Enable(status);
 		enableMemAccessGui(!status);
 	}
-    if (runningComputer_ == NETRONICS)
+    if (runningComputer_ == DIY)
     {
         chip8ProtectedMode_= false;
         XRCCTRL(*this,"Chip8TraceButton", wxToggleButton)->SetValue(false);
         XRCCTRL(*this,"Chip8DebugMode", wxCheckBox)->SetValue(false);
         
-        XRCCTRL(*this,"GiantNetronics", wxCheckBox)->Enable(status);
-        XRCCTRL(*this,"EFButtonsNetronics", wxCheckBox)->Enable(status);
+        XRCCTRL(*this,"EFButtonsDiy", wxCheckBox)->Enable(status);
 
         enableLoadGui(!status);
         setRealCas2(runningComputer_);
-        XRCCTRL(*this,"MainRomNetronics", wxComboBox)->Enable(status);
-        XRCCTRL(*this,"MainRom2Netronics", wxComboBox)->Enable(status);
-        XRCCTRL(*this,"RomButtonNetronics", wxButton)->Enable(status);
-        if (elfConfiguration[selectedComputer_].memoryType != 3)
-            XRCCTRL(*this,"Rom1Netronics", wxButton)->Enable(status);
-        XRCCTRL(*this,"RomButton2Netronics", wxButton)->Enable(status);
-        XRCCTRL(*this,"Rom2Netronics", wxButton)->Enable(status);
-        XRCCTRL(*this,"DP_ButtonNetronics", wxButton)->Enable(status);
+        
+        XRCCTRL(*this,"MainXmlDiy", wxComboBox)->Enable(status);
+        XRCCTRL(*this,"XmlButtonDiy", wxButton)->Enable(status);
+        if (ramFileFromGui_)
+        {
+            XRCCTRL(*this,"MainRamDiy", wxComboBox)->Enable(status);
+            XRCCTRL(*this,"RamButtonDiy", wxButton)->Enable(status);
+        }
+        XRCCTRL(*this,"DP_ButtonDiy", wxButton)->Enable(status);
         if (elfConfiguration[runningComputer_].ideEnabled)
         {
-            XRCCTRL(*this,"IDE_ButtonNetronics", wxButton)->Enable(status);
-            XRCCTRL(*this,"IdeFileNetronics", wxTextCtrl)->Enable(status);
-            XRCCTRL(*this,"Eject_IDENetronics", wxButton)->Enable(status);
+            XRCCTRL(*this,"IDE_ButtonDiy", wxButton)->Enable(status);
+            XRCCTRL(*this,"IdeFileDiy", wxTextCtrl)->Enable(status);
+            XRCCTRL(*this,"Eject_IDEDiy", wxButton)->Enable(status);
         }
         if (!status)
         {
-            XRCCTRL(*this,"PrintButtonNetronics", wxBitmapButton)->Enable(conf[runningComputer_].printerOn_);
-            XRCCTRL(*this,"PrintButtonNetronics", wxBitmapButton)->SetToolTip("Open printer window (F4)");
+            XRCCTRL(*this,"PrintButtonDiy", wxBitmapButton)->Enable(conf[runningComputer_].printerOn_);
+            XRCCTRL(*this,"PrintButtonDiy", wxBitmapButton)->SetToolTip("Open printer window (F4)");
         }
         else
         {
-            XRCCTRL(*this,"PrintButtonNetronics", wxBitmapButton)->Enable(true);
+            XRCCTRL(*this,"PrintButtonDiy", wxBitmapButton)->Enable(true);
             if (conf[runningComputer_].printerOn_)
-                XRCCTRL(*this,"PrintButtonNetronics", wxBitmapButton)->SetToolTip("Disable printer support");
+                XRCCTRL(*this,"PrintButtonDiy", wxBitmapButton)->SetToolTip("Disable printer support");
             else
-                XRCCTRL(*this,"PrintButtonNetronics", wxBitmapButton)->SetToolTip("Enable printer support");
+                XRCCTRL(*this,"PrintButtonDiy", wxBitmapButton)->SetToolTip("Enable printer support");
         }
-        XRCCTRL(*this,"MemoryNetronics", wxChoice)->Enable(status);
-        XRCCTRL(*this,"MemoryTextNetronics",wxStaticText)->Enable(status);
         if (elfConfiguration[runningComputer_].usePager)
-            XRCCTRL(*this,"PortExtNetronics", wxCheckBox)->Enable(false);
+            XRCCTRL(*this,"PortExtDiy", wxCheckBox)->Enable(false);
         else
-            XRCCTRL(*this,"PortExtNetronics", wxCheckBox)->Enable(status);
-        XRCCTRL(*this,"BootStrapNetronics", wxCheckBox)->Enable(status);
+            XRCCTRL(*this,"PortExtDiy", wxCheckBox)->Enable(status);
+        XRCCTRL(*this,"BootStrapDiy", wxCheckBox)->Enable(status);
 
-        if (elfConfiguration[runningComputer_].usePager || elfConfiguration[runningComputer_].useEms || elfConfiguration[runningComputer_].useRomMapper)
-        {
-            XRCCTRL(*this, "StartRamTextNetronics", wxStaticText)->Enable(false);
-            XRCCTRL(*this, "StartRamNetronics", wxTextCtrl)->Enable(false);
-            XRCCTRL(*this, "EndRamTextNetronics", wxStaticText)->Enable(false);
-            XRCCTRL(*this, "EndRamNetronics", wxTextCtrl)->Enable(false);
-        }
-        else
-        {
-            XRCCTRL(*this, "StartRamTextNetronics", wxStaticText)->Enable(status);
-            XRCCTRL(*this, "StartRamNetronics", wxTextCtrl)->Enable(status);
-            XRCCTRL(*this, "EndRamTextNetronics", wxStaticText)->Enable(status);
-            XRCCTRL(*this, "EndRamNetronics", wxTextCtrl)->Enable(status);
-        }
-        XRCCTRL(*this,"VTTypeNetronics",wxChoice)->Enable(status);
-        if (XRCCTRL(*this,"VTTypeNetronics",wxChoice)->GetSelection() != VTNONE)
+        XRCCTRL(*this,"VTTypeDiy",wxChoice)->Enable(status);
+        if (XRCCTRL(*this,"VTTypeDiy",wxChoice)->GetSelection() != VTNONE)
         {
             if (elfConfiguration[runningComputer_].useUart || elfConfiguration[runningComputer_].useUart16450)
             {
-                XRCCTRL(*this, "VTBaudRTextNetronics", wxStaticText)->Enable(status);
-                XRCCTRL(*this, "VTBaudRChoiceNetronics", wxChoice)->Enable(status);
+                XRCCTRL(*this, "VTBaudRTextDiy", wxStaticText)->Enable(status);
+                XRCCTRL(*this, "VTBaudRChoiceDiy", wxChoice)->Enable(status);
             }
-            XRCCTRL(*this, "VTBaudTChoiceNetronics", wxChoice)->Enable(status);
-            XRCCTRL(*this, "VTBaudTTextNetronics", wxStaticText)->Enable(status);
-            XRCCTRL(*this, "VtSetupNetronics", wxButton)->Enable(status);
+            XRCCTRL(*this, "VTBaudTChoiceDiy", wxChoice)->Enable(status);
+            XRCCTRL(*this, "VTBaudTTextDiy", wxStaticText)->Enable(status);
+            XRCCTRL(*this, "VtSetupDiy", wxButton)->Enable(status);
         }
-        XRCCTRL(*this,"VideoTypeNetronics",wxChoice)->Enable(status);
-        XRCCTRL(*this,"VideoTypeTextNetronics",wxStaticText)->Enable(status);
-        XRCCTRL(*this,"DiskTypeNetronics",wxChoice)->Enable(status);
-        XRCCTRL(*this,"KeyboardNetronics",wxChoice)->Enable(status);
-        XRCCTRL(*this,"KeyboardTextNetronics",wxStaticText)->Enable(status);
-        XRCCTRL(*this,"CharRomButtonNetronics", wxButton)->Enable(status&(elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].useS100));
+        XRCCTRL(*this,"VideoTypeDiy",wxChoice)->Enable(status);
+        XRCCTRL(*this,"VideoTypeTextDiy",wxStaticText)->Enable(status);
+        XRCCTRL(*this,"DiskTypeDiy",wxChoice)->Enable(status);
+        XRCCTRL(*this,"KeyboardDiy",wxChoice)->Enable(status);
+        XRCCTRL(*this,"KeyboardTextDiy",wxStaticText)->Enable(status);
+        XRCCTRL(*this,"CharRomButtonDiy", wxButton)->Enable(status&(elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].useS100));
         if (!elfConfiguration[runningComputer_].vtExternal)
         {
-            XRCCTRL(*this,"FullScreenF3Netronics", wxButton)->Enable(!status&(elfConfiguration[runningComputer_].usePixie||elfConfiguration[runningComputer_].useTMS9918||elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].useS100||(elfConfiguration[runningComputer_].vtType != VTNONE)));
-            XRCCTRL(*this,"ScreenDumpF5Netronics", wxButton)->Enable(!status&(elfConfiguration[runningComputer_].usePixie||elfConfiguration[runningComputer_].useTMS9918||elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].useS100||(elfConfiguration[runningComputer_].vtType != VTNONE)));
+            XRCCTRL(*this,"FullScreenF3Diy", wxButton)->Enable(!status&(elfConfiguration[runningComputer_].usePixie||elfConfiguration[runningComputer_].useTMS9918||elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].useS100||(elfConfiguration[runningComputer_].vtType != VTNONE)));
+            XRCCTRL(*this,"ScreenDumpF5Diy", wxButton)->Enable(!status&(elfConfiguration[runningComputer_].usePixie||elfConfiguration[runningComputer_].useTMS9918||elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].useS100||(elfConfiguration[runningComputer_].vtType != VTNONE)));
        }
-        XRCCTRL(*this,"CharRomNetronics", wxComboBox)->Enable(status&(elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].useS100));
+        XRCCTRL(*this,"CharRomDiy", wxComboBox)->Enable(status&(elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].useS100));
         
-        XRCCTRL(*this,"TilTypeNetronics",wxChoice)->Enable(status);
-        XRCCTRL(*this,"TilTextNetronics",wxStaticText)->Enable(status);
+        XRCCTRL(*this,"TilTypeDiy",wxChoice)->Enable(status);
+        XRCCTRL(*this,"TilTextDiy",wxStaticText)->Enable(status);
         enableMemAccessGui(!status);
     }
     if (runningComputer_ == PICO)
@@ -7936,7 +7899,6 @@ void Main::directAssTimeout(wxTimerEvent&WXUNUSED(event))
                         case ELF:
                         case ELFII:
                         case SUPERELF:
-                        case NETRONICS:
                         case PICO:
                             if (elfConfiguration[runningComputer_].usePager)
                             {
@@ -7944,7 +7906,20 @@ void Main::directAssTimeout(wxTimerEvent&WXUNUSED(event))
                                 XRCCTRL(*this, "DebugPortExtender", HexEdit)->changeNumber(portExtender_);
                             }
                             if (elfConfiguration[runningComputer_].useEms)
-                                XRCCTRL(*this, "DebugEmsPage", HexEdit)->changeNumber(p_Computer->getEmsPage());
+                                XRCCTRL(*this, "DebugEmsPage", HexEdit)->changeNumber(p_Computer->getEmsPage(emsNumber_));
+                        break;
+
+                        case DIY:
+                            if (elfConfiguration[runningComputer_].usePager)
+                            {
+                                XRCCTRL(*this, "DebugPager", HexEdit)->changeNumber(p_Computer->getPager(portExtender_));
+                                XRCCTRL(*this, "DebugPortExtender", HexEdit)->changeNumber(portExtender_);
+                            }
+                            if (elfConfiguration[runningComputer_].useEms)
+                            {
+                                XRCCTRL(*this, "DebugEmsNumber", HexEdit)->changeNumber((int)emsNumber_);
+                                XRCCTRL(*this, "DebugEmsPage", HexEdit)->changeNumber(p_Computer->getEmsPage(emsNumber_));
+                            }
                         break;
                     }
                     updateSlotinfo_ = false;
@@ -8027,7 +8002,7 @@ void Main::vuTimeout(wxTimerEvent&WXUNUSED(event))
 		case ETI:
         case NANO:
         case STUDIOIV:
-        case NETRONICS:
+        case DIY:
         case PICO:
 			vuSet("Vu"+computerInfo[runningComputer_].gui, p_Computer->getGaugeValue());
 		break;
@@ -9659,7 +9634,7 @@ void Main::getDefaultHexKeys(int computerType, wxString computerStr, wxString pl
         case SUPERELF:
         case ELF2K:
         case COSMICOS:
-        case NETRONICS:
+        case DIY:
         case PICO:
             keysFound = loadKeyDefinition("", "elfdefault", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
         break;
@@ -9730,7 +9705,7 @@ void Main::getDefaultHexKeys(int computerType, wxString computerStr, wxString pl
             case VIPII:
             case VELF:
             case STUDIOIV:
-            case NETRONICS:
+            case DIY:
             case PICO:
                 if (player == "A")
                 {
@@ -10132,3 +10107,4 @@ UpdateCheckThread::~UpdateCheckThread()
     // the thread is being destroyed; make sure not to leave dangling pointers around
     m_pHandler->m_pUpdateCheckThread = NULL;
 }
+

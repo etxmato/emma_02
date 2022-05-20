@@ -33,9 +33,10 @@
 
 #define CHIP8_PC 5
 
-Victory::Victory(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType)
+Victory::Victory(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, Conf computerConf)
 :Pixie(title, pos, size, zoom, zoomfactor, computerType)
 {
+    computerConfiguration = computerConf;
 }
 
 Victory::~Victory()
@@ -532,7 +533,7 @@ void Victory::startComputer()
 
 void Victory::writeMemDataType(Word address, Byte type)
 {
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
 		case ROM:
@@ -612,7 +613,7 @@ void Victory::writeMemDataType(Word address, Byte type)
 
 Byte Victory::readMemDataType(Word address, uint64_t* executed)
 {
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
 		case ROM:
@@ -672,7 +673,7 @@ Byte Victory::readMemDataType(Word address, uint64_t* executed)
 
 Byte Victory::readMem(Word address)
 {
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case UNDEFINED:
 			return 255;
@@ -727,7 +728,7 @@ Byte Victory::readMemDebug(Word address)
 
 void Victory::writeMem(Word address, Byte value, bool writeRom)
 {
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
 			if (mainMemory_[address]==value)

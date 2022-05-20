@@ -37,7 +37,7 @@ private:
 class Elf2K : public wxFrame, public Cdp1802, public Elf2KDisk, public Ps2gpio
 {
 public:
-	Elf2K(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf);
+	Elf2K(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf, Conf computerConf);
 	Elf2K() {};
 	~Elf2K();
 

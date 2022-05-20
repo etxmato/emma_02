@@ -141,9 +141,10 @@ BEGIN_EVENT_TABLE(Elf2K, wxFrame)
 	EVT_TIMER(900, Elf2K::OnRtcTimer)
 END_EVENT_TABLE()
 
-Elf2K::Elf2K(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf)
+Elf2K::Elf2K(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf, Conf computerConf)
 : wxFrame((wxFrame *)NULL, -1, title, pos, size)
 {
+    computerConfiguration = computerConf;
 	elfConfiguration = conf;
 
 	elfClockSpeed_ = clock;
@@ -820,7 +821,7 @@ void Elf2K::startComputer()
 void Elf2K::writeMemDataType(Word address, Byte type)
 {
 	address = address | bootstrap_;
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
 		case ROM:
@@ -837,7 +838,7 @@ void Elf2K::writeMemDataType(Word address, Byte type)
 Byte Elf2K::readMemDataType(Word address, uint64_t* executed)
 {
 	address = address | bootstrap_;
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
 		case ROM:
@@ -859,7 +860,7 @@ Byte Elf2K::readMem(Word address)
 Byte Elf2K::readMemDebug(Word address)
 {
     address = address | bootstrap_;
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case UNDEFINED:
 			return 255;
@@ -893,7 +894,7 @@ void Elf2K::writeMemDebug(Word address, Byte value, bool writeRom)
             loadedOs_ = ELFOS_4;
     }
         
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case UNDEFINED:
 		case ROM:
@@ -1693,7 +1694,7 @@ void Elf2K::checkComputerFunction()
         break;
 
         case TINYBASIC:
-            if (!romMapperDefined_)
+            if (!emsRomDefined_)
             {
                 switch (scratchpadRegister_[programCounter_])
                 {

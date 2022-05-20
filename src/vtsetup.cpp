@@ -144,7 +144,7 @@ VtSetupDialog::VtSetupDialog(wxWindow* parent)
 		case ELF:
 		case ELFII:
 		case SUPERELF:
-        case NETRONICS:
+        case DIY:
             XRCCTRL(*this, "Uart1854", wxCheckBox)->SetValue(elfConfiguration_.useUart);
             XRCCTRL(*this, "Uart16450", wxCheckBox)->SetValue(elfConfiguration_.useUart16450);
             XRCCTRL(*this, "VtRtcClear", wxCheckBox)->SetValue(elfConfiguration_.clearRtc);
@@ -340,7 +340,7 @@ void VtSetupDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
 		case ELF:
 		case ELFII:
 		case SUPERELF:
-        case NETRONICS:
+        case DIY:
             elfConfiguration_.useUart = XRCCTRL(*this, "Uart1854", wxCheckBox)->GetValue();
             elfConfiguration_.useUart16450 = XRCCTRL(*this, "Uart16450", wxCheckBox)->GetValue();
             elfConfiguration_.clearRtc = XRCCTRL(*this, "VtRtcClear", wxCheckBox)->GetValue();

@@ -14,7 +14,7 @@
 class Mcds : public wxFrame, public Cdp1802
 {
 public:
-	Mcds(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf);
+	Mcds(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf, Conf computerConf);
 	Mcds() {};
 	~Mcds();
 

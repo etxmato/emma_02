@@ -158,9 +158,10 @@ BEGIN_EVENT_TABLE(Microtutor, wxFrame)
 	EVT_CLOSE (Microtutor::onClose)
 END_EVENT_TABLE()
 
-Microtutor::Microtutor(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf)
+Microtutor::Microtutor(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf, Conf computerConf)
 : wxFrame((wxFrame *)NULL, -1, title, pos, size)
 {
+    computerConfiguration = computerConf;
 	microtutorConfiguration = conf;
 	microtutorClockSpeed_ = clock;
 	data_ = 0;
@@ -453,7 +454,7 @@ void Microtutor::startComputer()
 
 void Microtutor::writeMemDataType(Word address, Byte type)
 {
-    switch (memoryType_[address/256])
+    switch (memoryType_[address/256]&0xff)
     {
         case RAM:
             if (mainMemoryDataType_[address] != type)
@@ -477,7 +478,7 @@ void Microtutor::writeMemDataType(Word address, Byte type)
 
 Byte Microtutor::readMemDataType(Word address, uint64_t* executed)
 {
-    switch (memoryType_[address/256])
+    switch (memoryType_[address/256]&0xff)
     {
         case RAM:
             if (profilerCounter_ != PROFILER_OFF)
@@ -498,7 +499,7 @@ Byte Microtutor::readMemDataType(Word address, uint64_t* executed)
 
 Byte Microtutor::readMem(Word address)
 {
-	switch (memoryType_[address / 256])
+	switch (memoryType_[address / 256]&0xff)
 	{
 		case UNDEFINED:
 			return 255;
@@ -525,7 +526,7 @@ Byte Microtutor::readMemDebug(Word address)
 
 void Microtutor::writeMem(Word address, Byte value, bool writeRom)
 {
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case UNDEFINED:
 			if (writeRom)

@@ -44,7 +44,7 @@ DEFINE_EVENT_TYPE(EXP_LED_ON)
 DEFINE_EVENT_TYPE(EXP_LED_OFF)
 DEFINE_EVENT_TYPE(STATUS_BAR_1870)
 
-BEGIN_EVENT_TABLE(GuiComx, GuiNetronics)
+BEGIN_EVENT_TABLE(GuiComx, GuiDiy)
 
 	EVT_TEXT(XRCID("MainRomComx"), GuiMain::onMainRom1Text)
 	EVT_COMBOBOX(XRCID("MainRomComx"), GuiMain::onMainRom1Text)
@@ -145,7 +145,7 @@ BEGIN_EVENT_TABLE(GuiComx, GuiNetronics)
 	END_EVENT_TABLE()
 
 GuiComx::GuiComx(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
-: GuiNetronics(title, pos, size, mode, dataDir, iniDir)
+: GuiDiy(title, pos, size, mode, dataDir, iniDir)
 {
 	conf[COMX].loadFileNameFull_ = "";
 	conf[COMX].loadFileName_ = "";

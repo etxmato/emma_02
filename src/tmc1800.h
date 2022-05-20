@@ -7,7 +7,7 @@
 class Tmc1800 : public Cdp1802, public Pixie
 {
 public:
-	Tmc1800(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType);
+	Tmc1800(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, Conf computerConf);
 	~Tmc1800();
 
 	void configureComputer();

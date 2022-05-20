@@ -491,19 +491,19 @@ public:
 #include "tmc2000.h"
 #include "eti660.h"
 #include "nano.h"
-#include "netronics.h"
+#include "diy.h"
 #include "guicomx.h"
 #include "debug.h"
 #include "video.h"
 #include "serial.h"
 
-#define EMMA_VERSION 1.45
+#define EMMA_VERSION 1.46
 #define EMMA_SUB_VERSION 0
 #define ELF 0
 #define ELFII 1
 #define SUPERELF 2
 #define ELF2K 3
-#define NETRONICS 4
+#define DIY 4
 #define PICO 5
 #define COSMICOS 6
 #define MEMBER 7
@@ -576,7 +576,8 @@ public:
 #define TELMACTAB 5
 #define PECOMTAB 6
 #define ETITAB 7
-#define DEBUGGERTAB 8
+#define DIYTAB 8
+#define DEBUGGERTAB 9
 #define DISKNONE 0
 #define DISKFDC 1
 #define DISKIDE 2
@@ -592,7 +593,6 @@ public:
 #define VELFTAB 7
 #define UC1800TAB 8
 #define PICOTAB 9
-#define NETRONICSTAB 10
 #define LASTELFTAB 9
 
 #define FRED1TAB 0
@@ -701,16 +701,20 @@ public:
 #define ROM 2
 #define RAMROM 3
 #define PAGER 3
+//
 #define CRAM1870 5
 #define PRAM1870 6
 #define COMXEXPROM 7
 #define COPYCOMXEXPROM 8
 #define RAMBANK 9
+//
 #define MC6845RAM 11
 #define MC6845REGISTERS 12
 #define COPYFLOPROM 13
+//
 #define EMSMEMORY 15
 #define COMXEXPBOX 16
+//
 #define MC6847RAM 18
 #define CARTRIDGEROM 19
 #define MAPPEDRAM 20
@@ -719,7 +723,7 @@ public:
 #define EPROMBANK 23
 #define SUPERBANK 24
 #define NVRAM 24
-#define ROMMAPPER 25
+//
 #define MULTICART 26
 #define DIAGROM 27
 #define MAPPEDROM 28
@@ -730,6 +734,7 @@ public:
 #define UART1_82C51 33
 #define UART2_82C51 34
 #define NOCHANGE 35
+#define MAINRAM 36
 
 #define MICRO_ROM 0
 #define MICRO_RAM 1
@@ -1380,6 +1385,7 @@ public:
     void storeDefaultTmc600Keys(int *, int *);
     int getDefaultCoinArcadeKeys(int *, int *);
     void storeDefaultCoinArcadeKeys(int *, int *, int coin);
+    
 	bool emuClosing() { return emuClosing_; };
 	bool getThermalEf() {return thermalEf_;};
 	void setStatusLedUpdate(bool status) {statusLedUpdate_ =  status;};

@@ -273,9 +273,10 @@ BEGIN_EVENT_TABLE(Uc1800, wxFrame)
 	EVT_COMMAND(15, wxEVT_ButtonUpEvent, Uc1800::onNumberKeyUp)
 END_EVENT_TABLE()
 
-Uc1800::Uc1800(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf)
+Uc1800::Uc1800(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf, Conf computerConf)
 : wxFrame((wxFrame *)NULL, -1, title, pos, size)
 {
+    computerConfiguration = computerConf;
 	uc1800Configuration = conf;
 	uc1800ClockSpeed_ = clock;
 	data_ = 0;
@@ -779,7 +780,7 @@ void Uc1800::startComputer()
 
 void Uc1800::writeMemDataType(Word address, Byte type)
 {
-    switch (memoryType_[address/256])
+    switch (memoryType_[address/256]&0xff)
     {
         case RAM:
             if (mainMemoryDataType_[address] != type)
@@ -803,7 +804,7 @@ void Uc1800::writeMemDataType(Word address, Byte type)
 
 Byte Uc1800::readMemDataType(Word address, uint64_t* executed)
 {
-    switch (memoryType_[address/256])
+    switch (memoryType_[address/256]&0xff)
     {
         case RAM:
             if (profilerCounter_ != PROFILER_OFF)
@@ -831,7 +832,7 @@ Byte Uc1800::readMem(Word address)
 
 Byte Uc1800::readMemDebug(Word address)
 {
-	switch (memoryType_[address / 256])
+	switch (memoryType_[address / 256]&0xff)
 	{
 		case UNDEFINED:
 			return 255;
@@ -862,7 +863,7 @@ void Uc1800::writeMem(Word address, Byte value, bool writeRom)
 
 void Uc1800::writeMemDebug(Word address, Byte value, bool writeRom)
 {
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case UNDEFINED:
 			if (writeRom)

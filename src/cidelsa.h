@@ -13,7 +13,7 @@
 class Cidelsa : public V1870
 {
 public:
-	Cidelsa(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock);
+	Cidelsa(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock, Conf computerConf);
 	~Cidelsa();
 
 	bool keyDownExtended(int keycode, wxKeyEvent& event);

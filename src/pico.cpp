@@ -55,9 +55,10 @@ BEGIN_EVENT_TABLE(Pico, wxFrame)
     EVT_TIMER(900, Elf::OnRtcTimer)
 END_EVENT_TABLE()
 
-Pico::Pico(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf)
+Pico::Pico(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf, Conf computerConf)
 : wxFrame((wxFrame *)NULL, -1, title, pos, size)
 {
+    computerConfiguration = computerConf;
 	elfConfiguration = conf;
 	elfClockSpeed_ = clock;
 
@@ -609,7 +610,7 @@ void Pico::startComputer()
 void Pico::writeMemDataType(Word address, Byte type)
 {
     address = address | bootstrap_;
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case ROM:
 			if (mainMemoryDataType_[address] != type)
@@ -634,7 +635,7 @@ void Pico::writeMemDataType(Word address, Byte type)
 Byte Pico::readMemDataType(Word address, uint64_t* executed)
 {
     address = address | bootstrap_;
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case ROM:
             if (profilerCounter_ != PROFILER_OFF)
@@ -664,7 +665,7 @@ Byte Pico::readMemDebug(Word address)
 
     address = address | bootstrap_;
 
-    switch (memoryType_[address/256])
+    switch (memoryType_[address/256]&0xff)
 	{
 		case UNDEFINED:
 			return 255;
@@ -712,17 +713,17 @@ void Pico::writeMemDebug(Word address, Byte value, bool writeRom)
             loadedOs_ = ELFOS_4;
     }
         
-    if (emsMemoryDefined_)
+    if (emsRamDefined_)
 	{
 		if (address>=0xc000 && address <=0xffff)
 		{
-			emsPage_ = value & 0x1f;
+            computerConfiguration.emsConfig_[0].page = value & 0x1f;
 		}
 	}
     if (elfConfiguration.elfPortConf.mc6847OutputMode == 1 && address >= 0xff00)
         mc6847Pointer->outMc6847(value);
 
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
         case MC6847RAM:
 			mc6847Pointer->write(address, value);

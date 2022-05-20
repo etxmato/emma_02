@@ -194,9 +194,10 @@ BEGIN_EVENT_TABLE(Membership, wxFrame)
 	EVT_CLOSE (Membership::onClose)
 END_EVENT_TABLE()
 
-Membership::Membership(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf)
+Membership::Membership(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf, Conf computerConf)
 : wxFrame((wxFrame *)NULL, -1, title, pos, size)
 {
+    computerConfiguration = computerConf;
 	clockSpeed_ = clock;
 	elfConfiguration = conf;
 
@@ -677,7 +678,7 @@ void Membership::startComputer()
 
 void Membership::writeMemDataType(Word address, Byte type)
 {
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
             if (mainMemoryDataType_[address] != type)
@@ -701,7 +702,7 @@ void Membership::writeMemDataType(Word address, Byte type)
 
 Byte Membership::readMemDataType(Word address, uint64_t* executed)
 {
-	switch (memoryType_[address / 256])
+	switch (memoryType_[address / 256]&0xff)
 	{
 		case RAM:
             if (profilerCounter_ != PROFILER_OFF)
@@ -726,7 +727,7 @@ Byte Membership::readMem(Word address)
 
 Byte Membership::readMemDebug(Word address)
 {
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case UNDEFINED:
 			return 255;
@@ -754,7 +755,7 @@ void Membership::writeMem(Word address, Byte value, bool writeRom)
 
 void Membership::writeMemDebug(Word address, Byte value, bool writeRom)
 {
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case UNDEFINED:
 		case ROM:

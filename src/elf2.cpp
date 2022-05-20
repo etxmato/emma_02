@@ -275,9 +275,10 @@ BEGIN_EVENT_TABLE(Elf2, wxFrame)
     EVT_TIMER(900, Elf::OnRtcTimer)
 END_EVENT_TABLE()
 
-Elf2::Elf2(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf)
+Elf2::Elf2(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf, Conf computerConf)
 : wxFrame((wxFrame *)NULL, -1, title, pos, size)
 {
+    computerConfiguration = computerConf;
 	elfConfiguration = conf;
 	elfClockSpeed_ = clock;
 
@@ -434,16 +435,17 @@ void Elf2::configureComputer()
 	p_Computer->setInType(elfConfiguration.elfPortConf.hexInput, ELF2IN);
 	p_Computer->setOutType(elfConfiguration.elfPortConf.hexOutput, ELF2OUT);
 
-    if (elfConfiguration.useRomMapper)
-    {
-        printBuffer.Printf("	Output %d: rom mapper", elfConfiguration.elfPortConf.emsOutput);
-        p_Computer->setOutType(elfConfiguration.elfPortConf.emsOutput, ROMMAPPEROUT);
-        p_Main->message(printBuffer);
-    }
     if (elfConfiguration.useEms)
     {
-        printBuffer.Printf("	Output %d: EMS-512KB", elfConfiguration.elfPortConf.emsOutput);
-        p_Computer->setOutType(elfConfiguration.elfPortConf.emsOutput, EMSMAPPEROUT);
+        elfConfiguration.elfPortConf.emsOutput.resize(1);
+        if (elfConfiguration.emsType_ == RAM)
+        {
+            printBuffer.Printf("    Address C000-FFFF: EMS-512KB page select");
+            p_Main->message(printBuffer);
+        }
+
+        printBuffer.Printf("    Output %d: EMS-512KB page select", elfConfiguration.elfPortConf.emsOutput[0]);
+        p_Computer->setOutType(elfConfiguration.elfPortConf.emsOutput[0], EMSMAPPEROUT);
         p_Main->message(printBuffer);
     }
     if (elfConfiguration.useTape && !elfConfiguration.useXmodem)
@@ -806,12 +808,8 @@ void Elf2::out(Byte port, Word WXUNUSED(address), Byte value)
             p_Serial->uartControl(value);
         break;
             
-        case ROMMAPPEROUT:
-            setRomMapper(value);
-        break;
-            
         case EMSMAPPEROUT:
-            setEmsPage(value);
+            setEmsPage(0, value);
         break;
 
         case ELF2KDISKSELECTREGISTER:
@@ -1114,13 +1112,31 @@ void Elf2::startComputer()
 	}
     if (elfConfiguration.useEms)
     {
-        allocEmsMemory();
-        defineMemoryType(0x8000, 0xbfff, EMSMEMORY);
-    }
-    if (elfConfiguration.useRomMapper)
-    {
-        readRomMapperBinFile(p_Main->getRomDir(ELFII, MAINROM1)+p_Main->getRomFile(ELFII, MAINROM1));
-        defineMemoryType(0x8000, 0xffff, ROMMAPPER);
+        emsMemory_.resize(1);
+        computerConfiguration.emsConfigNumber_ = 1;
+        
+        if (elfConfiguration.emsType_ == RAM)
+        {
+            computerConfiguration.emsConfig_[0].start = 0x8000;
+            computerConfiguration.emsConfig_[0].end = 0xBFFF;
+            computerConfiguration.emsConfig_[0].mask = 0x3FFF;
+            computerConfiguration.emsConfig_[0].outputMask = 0x1f;
+            computerConfiguration.emsConfig_[0].maskBits = 14;
+
+            allocEmsMemorySegment(0);
+            defineMemoryType(0x8000, 0xbfff, EMSMEMORY);
+        }
+        else
+        {
+            computerConfiguration.emsConfig_[0].start = 0x8000;
+            computerConfiguration.emsConfig_[0].end = 0xFFFF;
+            computerConfiguration.emsConfig_[0].mask = 0xFFFF;
+            computerConfiguration.emsConfig_[0].outputMask = 0xFf;
+            computerConfiguration.emsConfig_[0].maskBits = 15;
+
+            readRomMapperBinFile(0, p_Main->getRomDir(ELFII, MAINROM1)+p_Main->getRomFile(ELFII, MAINROM1));
+            defineMemoryType(0x8000, 0xffff, EMSMEMORY);
+        }
     }
     if (elfConfiguration.giantBoardMapping)
         defineMemoryType(0xF000, 0xFFFF, ROM);
@@ -1134,7 +1150,7 @@ void Elf2::startComputer()
     
     if (elfConfiguration.bootStrap)
         offset = 0x8000;
-    if (!elfConfiguration.useRomMapper)
+    if (!elfConfiguration.useEms && elfConfiguration.emsType_ == ROM)
         readProgram(p_Main->getRomDir(ELFII, MAINROM1), p_Main->getRomFile(ELFII, MAINROM1), p_Main->getLoadromMode(ELFII, 0), offset, NONAME);
 
     offset = 0;
@@ -1187,38 +1203,20 @@ void Elf2::startComputer()
 void Elf2::writeMemDataType(Word address, Byte type)
 {
     address = address | bootstrap_;
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
         case EMSMEMORY:
-            switch (emsMemoryType_[((address & 0x3fff) |(emsPage_ << 14))/256])
+            switch (emsMemory_[0].memoryType_[((address & 0x7fff) |(computerConfiguration.emsConfig_[0].page << 15))/256])
             {
                 case ROM:
                 case RAM:
-                    if (emsRamDataType_[(long) ((address & 0x3fff) |(emsPage_ << 14))] != type)
+                    if (emsMemory_[0].dataType_[(long) ((address & 0x7fff) |(computerConfiguration.emsConfig_[0].page << 15))] != type)
                     {
                         p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-                        emsRamDataType_[(long) ((address & 0x3fff) |(emsPage_ << 14))] = type;
+                        emsMemory_[0].dataType_[(long) ((address & 0x7fff) |(computerConfiguration.emsConfig_[0].page << 15))] = type;
                     }
-                    increaseExecutedEmsRam((long) ((address & 0x3fff) |(emsPage_ << 14)), type);
+                    increaseExecutedEms(0, (long) ((address & 0x7fff) |(computerConfiguration.emsConfig_[0].page << 15)), type);
                 break;
-            }
-        break;
-            
-        case ROMMAPPER:
-            if (emsPage_ <= maxNumberOfPages_)
-            {
-                switch (romMapperMemoryType_[((address & 0x7fff) |(emsPage_ << 15))/256])
-                {
-                    case ROM:
-                    case RAM:
-                        if (expansionRomDataType_[(long) ((address & 0x7fff) |(emsPage_ << 15))] != type)
-                        {
-                            p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-                            expansionRomDataType_[(long) ((address & 0x7fff) |(emsPage_ << 15))] = type;
-                        }
-                        increaseExecutedExpansionRom((long) ((address & 0x7fff) |(emsPage_ << 15)), type);
-                    break;
-                }
             }
         break;
             
@@ -1266,35 +1264,18 @@ void Elf2::writeMemDataType(Word address, Byte type)
 Byte Elf2::readMemDataType(Word address, uint64_t* executed)
 {
     address = address | bootstrap_;
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
-		case EMSMEMORY:
-			switch (emsMemoryType_[((address & 0x3fff) |(emsPage_ << 14))/256])
-			{
-				case ROM:
-				case RAM:
-                    if (profilerCounter_ != PROFILER_OFF)
-                        *executed = emsRamExecuted_[(long) ((address & 0x3fff) |(emsPage_ << 14))];
-					return emsRamDataType_[(long) ((address & 0x3fff) |(emsPage_ << 14))];
-				break;
-			}
-		break;
-            
-        case ROMMAPPER:
-            if (emsPage_ <= maxNumberOfPages_)
+        case EMSMEMORY:
+            switch (emsMemory_[0].memoryType_[((address & 0x7fff) |(computerConfiguration.emsConfig_[0].page << 15))/256])
             {
-                switch (romMapperMemoryType_[((address & 0x7fff) |(emsPage_ << 15))/256])
-                {
-                    case ROM:
-                    case RAM:
-                        if (profilerCounter_ != PROFILER_OFF)
-                            *executed = expansionRomExecuted_[(long) ((address & 0x7fff) |(emsPage_ << 15))];
-                        return expansionRomDataType_[(long) ((address & 0x7fff) |(emsPage_ << 15))];
-                    break;
-                }
+                case ROM:
+                case RAM:
+                    if (profilerCounter_ != PROFILER_OFF)
+                        *executed = emsMemory_[0].executed_[(long) ((address & 0x7fff) |(computerConfiguration.emsConfig_[0].page << 15))];
+                    return emsMemory_[0].dataType_[(long) ((address & 0x7fff) |(computerConfiguration.emsConfig_[0].page << 15))];
+                break;
             }
-            else
-                return MEM_TYPE_UNDEFINED;
         break;
 
 		case ROM:
@@ -1342,47 +1323,24 @@ Byte Elf2::readMemDebug(Word address)
 
     address = address | bootstrap_;
 
-    switch (memoryType_[address/256])
+    switch (memoryType_[address/256]&0xff)
 	{
-		case EMSMEMORY:
-			switch (emsMemoryType_[((address & 0x3fff) |(emsPage_ << 14))/256])
-			{
-				case UNDEFINED:
-					return 255;
-				break;
-
-				case ROM:
-				case RAM:
-					return emsRam_[(long) ((address & 0x3fff) |(emsPage_ << 14))];
-				break;
-
-				default:
-					return 255;
-				break;
-			}
-		break;
-
-        case ROMMAPPER:
-            if (emsPage_ <= maxNumberOfPages_)
+        case EMSMEMORY:
+            switch (emsMemory_[0].memoryType_[((address & 0x7fff) |(computerConfiguration.emsConfig_[0].page << 15))/256])
             {
-                switch (romMapperMemoryType_[((address & 0x7fff) |(emsPage_ << 15))/256])
-                {
-                    case UNDEFINED:
-                        return 255;
-                    break;
-                        
-                    case ROM:
-                    case RAM:
-                        return expansionRom_[(long) ((address & 0x7fff) |(emsPage_ << 15))];
-                    break;
-                        
-                    default:
-                        return 255;
-                    break;
-                }
+                case UNDEFINED:
+                    return 255;
+                break;
+                    
+                case ROM:
+                case RAM:
+                    return emsMemory_[0].main[(long) ((address & 0x7fff) |(computerConfiguration.emsConfig_[0].page << 15))];
+                break;
+                    
+                default:
+                    return 255;
+                break;
             }
-            else
-                return 255;
         break;
             
 		case UNDEFINED:
@@ -1454,60 +1412,36 @@ void Elf2::writeMemDebug(Word address, Byte value, bool writeRom)
             loadedOs_ = ELFOS_4;
     }
         
-    if (emsMemoryDefined_)
+    if (emsRamDefined_)
 	{
 		if (address>=0xc000 && address <=0xffff)
 		{
-			emsPage_ = value & 0x1f;
+            computerConfiguration.emsConfig_[0].page = value & 0x1f;
 		}
 	}
     if (elfConfiguration.elfPortConf.mc6847OutputMode == 1 && address >= 0xff00)
         mc6847Pointer->outMc6847(value);
 
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
-		case EMSMEMORY:
-			switch (emsMemoryType_[((address & 0x3fff) |(emsPage_ << 14))/256])
-			{
-				case UNDEFINED:
-				case ROM:
-					if (writeRom)
-						emsRam_[(long) ((address & 0x3fff) |(emsPage_ << 14))] = value;
-				break;
-
-				case RAM:
-					if (!getMpButtonState())
-					{
-						emsRam_[(long) ((address & 0x3fff) |(emsPage_ << 14))] = value;
-						if (address >= memoryStart_ && address<(memoryStart_ + 256))
-							p_Main->updateDebugMemory(address);
-						p_Main->updateAssTabCheck(address);
-					}
-				break;
-			}
-		break;
-
-        case ROMMAPPER:
-            if (emsPage_ <= maxNumberOfPages_)
+        case EMSMEMORY:
+            switch (emsMemory_[0].memoryType_[((address & 0x7fff) |(computerConfiguration.emsConfig_[0].page << 15))/256])
             {
-                switch (romMapperMemoryType_[((address & 0x7fff) |(emsPage_ << 15))/256])
-                {
-                    case UNDEFINED:
-                    case ROM:
-                        if (writeRom)
-                            expansionRom_[(long) ((address & 0x7fff) |(emsPage_ << 15))] = value;
-                    break;
-                        
-                    case RAM:
-                        if (!getMpButtonState())
-                        {
-                            expansionRom_[(long) ((address & 0x7fff) |(emsPage_ << 15))] = value;
-                            if (address >= memoryStart_ && address<(memoryStart_ + 256))
-                                p_Main->updateDebugMemory(address);
-							p_Main->updateAssTabCheck(address);
-						}
-                    break;
-                }
+                case UNDEFINED:
+                case ROM:
+                    if (writeRom)
+                        emsMemory_[0].main[(long) ((address & 0x7fff) |(computerConfiguration.emsConfig_[0].page << 15))] = value;
+                break;
+                    
+                case RAM:
+                    if (!getMpButtonState())
+                    {
+                        emsMemory_[0].main[(long) ((address & 0x7fff) |(computerConfiguration.emsConfig_[0].page << 15))] = value;
+                        if (address >= memoryStart_ && address<(memoryStart_ + 256))
+                            p_Main->updateDebugMemory(address);
+                        p_Main->updateAssTabCheck(address);
+                    }
+                break;
             }
         break;
        

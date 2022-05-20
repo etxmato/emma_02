@@ -67,13 +67,21 @@ void PortExt::configurePortExt(ElfPortConfiguration portConf)
 
 void PortExt::definePortExtForPager() 
 {
-	for (int port=1; port<16; port++) 
+	for (int port=1; port<16; port++)
 	{
 		extPortsOut_[port] = PAGEROUT;
 	}
 }
 
-Byte PortExt::inPortExtender() 
+void PortExt::definePortExtForPager(Byte startPort, Byte endPort)
+{
+    for (int port=startPort; port<=endPort; port++)
+    {
+        extPortsOut_[port] = PAGEROUT;
+    }
+}
+
+Byte PortExt::inPortExtender()
 {
 	switch(extPortsIn_[extPort_])
 	{

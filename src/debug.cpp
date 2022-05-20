@@ -715,7 +715,8 @@ BEGIN_EVENT_TABLE(DebugWindow, GuiComx)
 	EVT_TEXT(XRCID("DebugExpansionSlot"), DebugWindow::onDebugExpansionSlot)
 	EVT_TEXT(XRCID("DebugExpansionRam"), DebugWindow::onDebugExpansionRam)
 	EVT_TEXT(XRCID("DebugExpansionEprom"), DebugWindow::onDebugExpansionEprom)
-	EVT_TEXT(XRCID("DebugEmsPage"), DebugWindow::onDebugEmsPage)
+    EVT_TEXT(XRCID("DebugEmsNumber"), DebugWindow::onDebugEmsNumber)
+    EVT_TEXT(XRCID("DebugEmsPage"), DebugWindow::onDebugEmsPage)
 	EVT_TEXT(XRCID("DebugPager"), DebugWindow::onDebugPager)
 	EVT_TEXT(XRCID("DebugPortExtender"), DebugWindow::onDebugPortExtender)
 	EVT_BUTTON(XRCID("DebugSave"), DebugWindow::onDebugSaveDump)
@@ -1064,6 +1065,7 @@ DebugWindow::DebugWindow(const wxString& title, const wxPoint& pos, const wxSize
 	selectedChip8BreakPoint_ = -1;
 	selectedTreg_ = -1;
 	selectedTrap_ = -1;
+    emsNumber_ = 0;
 
     pauseOnBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/pause_on.png", wxBITMAP_TYPE_PNG);
     pauseOffBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/pause_off.png", wxBITMAP_TYPE_PNG);
@@ -1146,7 +1148,7 @@ void DebugWindow::readDebugConfig()
 	XRCCTRL(*this, "DebugExpansionSlot", SlotEdit)->setRange(1, 4);
 	XRCCTRL(*this, "DebugExpansionRam", SlotEdit)->setRange(0, 3);
 //	XRCCTRL(*this, "DebugExpansionEprom", SlotEdit)->setRange(0, 4);
-	XRCCTRL(*this, "DebugPortExtender", HexEdit)->setStart(1);
+//	XRCCTRL(*this, "DebugPortExtender", HexEdit)->setStart(1);
 
     int lineWidth = charWidth_ * 16 + charWidth_/2;
 
@@ -1183,7 +1185,8 @@ void DebugWindow::enableDebugGuiMemory ()
             XRCCTRL(*this, "DebugExpansionSlot", SlotEdit)->Enable(p_Comx->checkExpansionRomLoaded());
 			XRCCTRL(*this, "DebugExpansionRam", SlotEdit)->Enable(p_Comx->isRamCardActive());
 			XRCCTRL(*this, "DebugExpansionEprom", HexEdit)->Enable(p_Comx->isEpromBoardLoaded() || p_Comx->isSuperBoardLoaded());
-			XRCCTRL(*this, "DebugEmsPage", HexEdit)->Enable(false);
+            XRCCTRL(*this, "DebugEmsNumber", HexEdit)->Enable(false);
+            XRCCTRL(*this, "DebugEmsPage", HexEdit)->Enable(false);
 			XRCCTRL(*this, "DebugPager", HexEdit)->Enable(false);
 			XRCCTRL(*this, "DebugPortExtender", HexEdit)->Enable(false);
 		break;
@@ -1191,23 +1194,42 @@ void DebugWindow::enableDebugGuiMemory ()
 		case ELF:
 		case ELFII:
 		case SUPERELF:
-        case NETRONICS:
         case PICO:
 #ifndef __WXMAC__
 			XRCCTRL(*this, "DebugExpansionSlotText", wxStaticText)->Enable(false);
             XRCCTRL(*this, "DebugExpansionRamText", wxStaticText)->Enable(false);
             XRCCTRL(*this, "DebugExpansionEpromText", wxStaticText)->Enable(false);
-            XRCCTRL(*this, "DebugEmsPageText", wxStaticText)->Enable(elfConfiguration[runningComputer_].useEms || elfConfiguration[runningComputer_].useRomMapper);
+            XRCCTRL(*this, "DebugEmsPageText", wxStaticText)->Enable(elfConfiguration[runningComputer_].useEms);
             XRCCTRL(*this, "DebugPagerText", wxStaticText)->Enable(elfConfiguration[runningComputer_].usePager);
 #endif
 			XRCCTRL(*this, "DebugExpansionSlot", SlotEdit)->Enable(false);
 			XRCCTRL(*this, "DebugExpansionRam", SlotEdit)->Enable(false);
 			XRCCTRL(*this, "DebugExpansionEprom", HexEdit)->Enable(false);
-			XRCCTRL(*this, "DebugEmsPage", HexEdit)->Enable(elfConfiguration[runningComputer_].useEms || elfConfiguration[runningComputer_].useRomMapper);
+            XRCCTRL(*this, "DebugEmsNumber", HexEdit)->Enable(false);
+			XRCCTRL(*this, "DebugEmsPage", HexEdit)->Enable(elfConfiguration[runningComputer_].useEms);
 			XRCCTRL(*this, "DebugPager", HexEdit)->Enable(elfConfiguration[runningComputer_].usePager);
 			XRCCTRL(*this, "DebugPortExtender", HexEdit)->Enable(elfConfiguration[runningComputer_].usePager);
 			p_Main->updateSlotInfo();
 		break;
+            
+        case DIY:
+#ifndef __WXMAC__
+            XRCCTRL(*this, "DebugExpansionSlotText", wxStaticText)->Enable(false);
+            XRCCTRL(*this, "DebugExpansionRamText", wxStaticText)->Enable(false);
+            XRCCTRL(*this, "DebugExpansionEpromText", wxStaticText)->Enable(false);
+            XRCCTRL(*this, "DebugEmsPageText", wxStaticText)->Enable(elfConfiguration[runningComputer_].useEms);
+            XRCCTRL(*this, "DebugPagerText", wxStaticText)->Enable(elfConfiguration[runningComputer_].usePager);
+#endif
+            XRCCTRL(*this, "DebugExpansionSlot", SlotEdit)->Enable(false);
+            XRCCTRL(*this, "DebugExpansionRam", SlotEdit)->Enable(false);
+            XRCCTRL(*this, "DebugExpansionEprom", HexEdit)->Enable(false);
+            XRCCTRL(*this, "DebugEmsNumber", HexEdit)->Enable(elfConfiguration[runningComputer_].useEms);
+            XRCCTRL(*this, "DebugEmsPage", HexEdit)->Enable(elfConfiguration[runningComputer_].useEms);
+            XRCCTRL(*this, "DebugPager", HexEdit)->Enable(elfConfiguration[runningComputer_].usePager);
+            XRCCTRL(*this, "DebugPortExtender", HexEdit)->Enable(elfConfiguration[runningComputer_].usePager);
+            p_Main->updateSlotInfo();
+        break;
+
 
 		default:
 #ifndef __WXMAC__
@@ -1220,6 +1242,7 @@ void DebugWindow::enableDebugGuiMemory ()
 			XRCCTRL(*this, "DebugExpansionSlot", SlotEdit)->Enable(false);
 			XRCCTRL(*this, "DebugExpansionRam", SlotEdit)->Enable(false);
 			XRCCTRL(*this, "DebugExpansionEprom", HexEdit)->Enable(false);
+            XRCCTRL(*this, "DebugEmsNumber", HexEdit)->Enable(false);
 			XRCCTRL(*this, "DebugEmsPage", HexEdit)->Enable(false);
 			XRCCTRL(*this, "DebugPager", HexEdit)->Enable(false);
 			XRCCTRL(*this, "DebugPortExtender", HexEdit)->Enable(false);
@@ -1333,6 +1356,7 @@ void DebugWindow::enableDebugGui(bool status)
 		XRCCTRL(*this, "DebugExpansionRam", SlotEdit)->Enable(false);
 		XRCCTRL(*this, "DebugExpansionEprom", HexEdit)->Enable(false);
 		XRCCTRL(*this, "DebugEmsPage", HexEdit)->Enable(false);
+        XRCCTRL(*this, "DebugEmsNumber", HexEdit)->Enable(false);
 		XRCCTRL(*this, "DebugPager", HexEdit)->Enable(false);
 		XRCCTRL(*this, "DebugSave", wxButton)->Enable(false);
 #ifndef __WXMAC__
@@ -8135,34 +8159,25 @@ void DebugWindow::directAss()
 					case ELF:
 					case ELFII:
 					case SUPERELF:
-                    case NETRONICS:
                     case PICO:
-						if (elfConfiguration[runningComputer_].useEms)
-						{
-							if (address >= 0x8000 && address <= 0xBFFF)
-							{
-								if (p_Computer->getEmsPage() == dirAssSlotVector[i])
-									dcAss.SetTextForeground(colour.Find("BLACK"));
-							}
-							else
-								dcAss.SetTextForeground(colour.Find("BLACK"));
-						}
-						else
-							dcAss.SetTextForeground(colour.Find("BLACK"));
-                        if (elfConfiguration[runningComputer_].useRomMapper)
+                    case DIY:
+                        if (elfConfiguration[runningComputer_].useEms)
                         {
-                            if (address >= 0x8000 && address <= 0xFFFF)
+                            for (size_t emsNumber=0; emsNumber<conf[runningComputer_].emsConfigNumber_; emsNumber++)
                             {
-                                if (p_Computer->getEmsPage() == dirAssSlotVector[i])
+                                if (address >= conf[runningComputer_].emsConfig_[emsNumber].start && address <= conf[runningComputer_].emsConfig_[emsNumber].end)
+                                {
+                                    if (p_Computer->getEmsPage(emsNumber) == dirAssSlotVector[i])
+                                        dcAss.SetTextForeground(colour.Find("BLACK"));
+                                }
+                                else
                                     dcAss.SetTextForeground(colour.Find("BLACK"));
                             }
-                            else
-                                dcAss.SetTextForeground(colour.Find("BLACK"));
                         }
                         else
                             dcAss.SetTextForeground(colour.Find("BLACK"));
-					break;
-
+                    break;
+                        
 					default:
 						dcAss.SetTextForeground(colour.Find("BLACK"));
 					break;
@@ -9296,12 +9311,13 @@ bool DebugWindow::slotAddress(Word branchAddress)
 		case ELF:
 		case ELFII:
 		case SUPERELF:
-        case NETRONICS:
+//        case DIY:
         case PICO:
-    /*        if (elfConfiguration[runningComputer_].useEms)
-                p_Computer->setEmsPage(out1);
-            if (elfConfiguration[runningComputer_].useRomMapper)
-                p_Computer->setRomMapper(out1);*/
+            if (elfConfiguration[runningComputer_].useEms)
+            {
+                if (branchAddress >= conf[runningComputer_].emsConfig_[0].start && branchAddress <= conf[runningComputer_].emsConfig_[0].end)
+                return true;
+            }
 		break;
 	}
 	return false;
@@ -10121,12 +10137,11 @@ Byte DebugWindow::getOut1()
 		case ELF:
 		case ELFII:
 		case SUPERELF:
-        case NETRONICS:
+        case DIY:
         case PICO:
-			if (elfConfiguration[runningComputer_].useEms || elfConfiguration[runningComputer_].useRomMapper)
-				out1 = p_Computer->getEmsPage();
-		break;
-	}
+                out1 = p_Computer->getEmsPage(emsNumber_);
+        break;
+    }
 	return out1;
 }
 
@@ -10141,12 +10156,10 @@ void DebugWindow::setOut1(Byte out1)
 		case ELF:
 		case ELFII:
 		case SUPERELF:
-        case NETRONICS:
+        case DIY:
         case PICO:
             if (elfConfiguration[runningComputer_].useEms)
-                p_Computer->setEmsPage(out1);
-            if (elfConfiguration[runningComputer_].useRomMapper)
-                p_Computer->setRomMapper(out1);
+                p_Computer->setEmsPage(emsNumber_, out1);
 		break;
 	}
 }
@@ -10363,27 +10376,21 @@ void DebugWindow::checkBranch(bool function, Word checkAddress)
 						case ELF:
 						case ELFII:
 						case SUPERELF:
-                        case NETRONICS:
                         case PICO:
-							if (elfConfiguration[runningComputer_].useEms)
-							{
-								if (addr >= 0x8000 && addr <= 0xBFFF)
-									text.Printf("%04X (Page: %02X)", foundAddr, dirAssSlotVector[i]);
-								else
-									text.Printf("%04X", foundAddr);
-							}
-							else
-								text.Printf("%04X", foundAddr);
-							if (elfConfiguration[runningComputer_].useRomMapper)
-							{
-								if (addr >= 0x8000 && addr <= 0xFFFF)
-									text.Printf("%04X (Map: %02X)", foundAddr, dirAssSlotVector[i]);
-								else 
-									text.Printf("%04X", foundAddr);
-							}
-							else
-								text.Printf("%04X", foundAddr);
-						break;
+                        case DIY:
+                            if (elfConfiguration[runningComputer_].useEms)
+                            {
+                                for (size_t emsNumber=0; emsNumber<conf[runningComputer_].emsConfigNumber_; emsNumber++)
+                                {
+                                    if (addr >= conf[runningComputer_].emsConfig_[emsNumber].start && addr <= conf[runningComputer_].emsConfig_[emsNumber].end)
+                                        text.Printf("%04X (Page: %02X)", foundAddr, dirAssSlotVector[i]);
+                                    else
+                                        text.Printf("%04X", foundAddr);
+                                }
+                            }
+                            else
+                                text.Printf("%04X", foundAddr);
+                        break;
 
 						default:
 							text.Printf("%04X", foundAddr);
@@ -10506,29 +10513,23 @@ void DebugWindow::checkLoadL(bool function, Word checkAddress)
 						case ELF:
 						case ELFII:
 						case SUPERELF:
-                        case NETRONICS:
                         case PICO:
-							if (elfConfiguration[runningComputer_].useEms)
-							{
-								if (addr >= 0x8000 && addr <= 0xBFFF)
-									text.Printf(leader+"%04X (Page: %02X)", foundAddr, dirAssSlotVector[i]);
-								else
-									text.Printf(leader+"%04X", foundAddr);
-							}
-							else
-								text.Printf(leader+"%04X", foundAddr);
-							if (elfConfiguration[runningComputer_].useRomMapper)
-							{
-								if (addr >= 0x8000 && addr <= 0xFFFF)
-									text.Printf(leader+"%04X (Page: %02X)", foundAddr, dirAssSlotVector[i]);
-								else
-									text.Printf(leader+"%04X", foundAddr);
-							}
-							else
-								text.Printf(leader+"%04X", foundAddr);
-						break;
+                        case DIY:
+                            if (elfConfiguration[runningComputer_].useEms)
+                            {
+                                for (size_t emsNumber=0; emsNumber<conf[runningComputer_].emsConfigNumber_; emsNumber++)
+                                {
+                                    if (addr >= conf[runningComputer_].emsConfig_[emsNumber].start && addr <= conf[runningComputer_].emsConfig_[emsNumber].end)
+                                        text.Printf(leader+"%04X (Page: %02X)", foundAddr, dirAssSlotVector[i]);
+                                    else
+                                        text.Printf(leader+"%04X", foundAddr);
+                                }
+                            }
+                            else
+                                text.Printf(leader+"%04X", foundAddr);
+                        break;
 
-						default:
+                        default:
 							text.Printf(leader+"%04X", foundAddr);
 						break;
 					}
@@ -10710,27 +10711,21 @@ void DebugWindow::checkLoadV()
 					case ELF:
 					case ELFII:
 					case SUPERELF:
-                    case NETRONICS:
                     case PICO:
-						if (elfConfiguration[runningComputer_].useEms)
-						{
-							if (addr >= 0x8000 && addr <= 0xBFFF)
-								text.Printf(leader+"%04X (Page: %02X)", foundAddr, dirAssSlotVector[i]);
-							else
-								text.Printf(leader+"%04X", foundAddr);
-						}
-						else
-							text.Printf(leader+"%04X", foundAddr);
-                        if (elfConfiguration[runningComputer_].useRomMapper)
+                    case DIY:
+                        if (elfConfiguration[runningComputer_].useEms)
                         {
-                            if (addr >= 0x8000 && addr <= 0xFFFF)
-                                text.Printf(leader+"%04X (Page: %02X)", foundAddr, dirAssSlotVector[i]);
-                            else
-                                text.Printf(leader+"%04X", foundAddr);
+                            for (size_t emsNumber=0; emsNumber<conf[runningComputer_].emsConfigNumber_; emsNumber++)
+                            {
+                                if (addr >= conf[runningComputer_].emsConfig_[emsNumber].start && addr <= conf[runningComputer_].emsConfig_[emsNumber].end)
+                                    text.Printf(leader+"%04X (Page: %02X)", foundAddr, dirAssSlotVector[i]);
+                                else
+                                    text.Printf(leader+"%04X", foundAddr);
+                            }
                         }
                         else
                             text.Printf(leader+"%04X", foundAddr);
-					break;
+                    break;
 
 					default:
 						text.Printf(leader+"%04X", foundAddr);
@@ -10767,33 +10762,24 @@ bool DebugWindow::findWorkingRang()
 				case ELF:
 				case ELFII:
 				case SUPERELF:
-                case NETRONICS:
                 case PICO:
+                case DIY:
                     if (elfConfiguration[runningComputer_].useEms)
                     {
-                        if (dirAssAddress_ >= 0x8000 && dirAssAddress_ <= 0xBFFF)
+                        for (size_t emsNumber=0; emsNumber<conf[runningComputer_].emsConfigNumber_; emsNumber++)
                         {
-                            if (p_Computer->getEmsPage() ==  dirAssSlotVector[i])
+                            if (dirAssAddress_ >= conf[runningComputer_].emsConfig_[emsNumber].start && dirAssAddress_ <= conf[runningComputer_].emsConfig_[emsNumber].end)
+                            {
+                                if (p_Computer->getEmsPage(emsNumber) ==  dirAssSlotVector[i])
+                                    workingRange_ = i;
+                            }
+                            else
                                 workingRange_ = i;
                         }
-                        else
-                            workingRange_ = i;
                     }
                     else
                         workingRange_ = i;
-                    if (elfConfiguration[runningComputer_].useRomMapper)
-                    {
-                        if (dirAssAddress_ >= 0x8000 && dirAssAddress_ <= 0xFFFF)
-                        {
-                            if (p_Computer->getEmsPage() ==  dirAssSlotVector[i])
-                                workingRange_ = i;
-                        }
-                        else
-                            workingRange_ = i;
-                    }
-                    else
-                        workingRange_ = i;
-				break;
+                break;
 
 				default:
 					workingRange_ = i;
@@ -11393,39 +11379,27 @@ bool DebugWindow::branchChangeNeeded(int range, Word address, Word branchAddr)
 		case ELF:
 		case ELFII:
 		case SUPERELF:
-        case NETRONICS:
         case PICO:
+        case DIY:
             if (elfConfiguration[runningComputer_].useEms)
             {
-                if (p_Computer->readMemDataType(address, &executed) == MEM_TYPE_OPCODE_LBR_SLOT || p_Computer->readMemDataType(address, &executed) == MEM_TYPE_OPCODE_JUMP_SLOT || p_Computer->readMemDataType(address, &executed) == MEM_TYPE_OPCODE_LDL_SLOT || p_Computer->readMemDataType(address, &executed) == MEM_TYPE_OPCODE_LDRL_SLOT)
+                for (size_t emsNumber=0; emsNumber<conf[runningComputer_].emsConfigNumber_; emsNumber++)
                 {
-                    if (p_Computer->readMemDataType(address+1, &executed) == dirAssSlotVector[workingRange_] || branchAddr < 0x8000 || branchAddr >= 0xC000)
-                        return true;
+                    if (p_Computer->readMemDataType(address, &executed) == MEM_TYPE_OPCODE_LBR_SLOT || p_Computer->readMemDataType(address, &executed) == MEM_TYPE_OPCODE_JUMP_SLOT || p_Computer->readMemDataType(address, &executed) == MEM_TYPE_OPCODE_LDL_SLOT || p_Computer->readMemDataType(address, &executed) == MEM_TYPE_OPCODE_LDRL_SLOT)
+                    {
+                        if (p_Computer->readMemDataType(address+1, &executed) == dirAssSlotVector[workingRange_] || branchAddr < conf[runningComputer_].emsConfig_[emsNumber].start || branchAddr >= conf[runningComputer_].emsConfig_[emsNumber].end)
+                            return true;
+                    }
+                    else
+                    {
+                        if (dirAssSlotVector[range] == dirAssSlotVector[workingRange_] || branchAddr < conf[runningComputer_].emsConfig_[emsNumber].start || branchAddr >= conf[runningComputer_].emsConfig_[emsNumber].end)
+                            return true;
+                    }
                 }
-                else
-                {
-                    if (dirAssSlotVector[range] == dirAssSlotVector[workingRange_] || branchAddr < 0x8000 || branchAddr >= 0xC000)
-                        return true;
-                }	
             }
             else
                 return true;
-            if (elfConfiguration[runningComputer_].useRomMapper)
-            {
-                if (p_Computer->readMemDataType(address, &executed) == MEM_TYPE_OPCODE_LBR_SLOT || p_Computer->readMemDataType(address, &executed) == MEM_TYPE_OPCODE_JUMP_SLOT || p_Computer->readMemDataType(address, &executed) == MEM_TYPE_OPCODE_LDL_SLOT || p_Computer->readMemDataType(address, &executed) == MEM_TYPE_OPCODE_LDRL_SLOT)
-                {
-                    if (p_Computer->readMemDataType(address+1, &executed) == dirAssSlotVector[workingRange_] || branchAddr < 0x8000 || branchAddr >= 0xFFFF)
-                        return true;
-                }
-                else
-                {
-                    if (dirAssSlotVector[range] == dirAssSlotVector[workingRange_] || branchAddr < 0x8000 || branchAddr >= 0xFFFF)
-                        return true;
-                }	
-            }
-            else
-                return true;
-		break;
+        break;
 
 		default:
 			return true;
@@ -12686,7 +12660,7 @@ void DebugWindow::onAssStore()
 		case ELF:
 		case ELFII:
 		case SUPERELF:
-        case NETRONICS:
+        case DIY:
         case PICO:
 			if (start >= 0x8000 && start < 0xc000)
 			{
@@ -13947,12 +13921,19 @@ void DebugWindow::DebugDisplayPage()
 		case ELF:
 		case ELFII:
 		case SUPERELF:
-        case NETRONICS:
         case PICO:
-			if (elfConfiguration[runningComputer_].useEms || elfConfiguration[runningComputer_].useRomMapper)
-				XRCCTRL(*this, "DebugEmsPage", HexEdit)->changeNumber(p_Computer->getEmsPage());
+            if (elfConfiguration[runningComputer_].useEms)
+                XRCCTRL(*this, "DebugEmsPage", HexEdit)->changeNumber(p_Computer->getEmsPage(emsNumber_));
 		break;
-	}
+
+        case DIY:
+            if (elfConfiguration[runningComputer_].useEms)
+            {
+                XRCCTRL(*this, "DebugEmsNumber", HexEdit)->changeNumber((int)emsNumber_);
+                XRCCTRL(*this, "DebugEmsPage", HexEdit)->changeNumber(p_Computer->getEmsPage(emsNumber_));
+            }
+        break;
+    }
 
 	wxString idReference, value;
 
@@ -13973,13 +13954,11 @@ void DebugWindow::DebugDisplayPage()
 			break;
 
             case EMSMEMORY:
-            case ROMMAPPER:
                 XRCCTRL(*this, idReference, wxStaticText)->SetForegroundColour(wxColour(0xc8, 0xb4, 0x3e));
             break;
                 
 			case PAGER:
-				if (((start>>12)&0xf) == portExtender_)
-//				if (start >= 0x1000)
+				if ((start/(conf[runningComputer_].pagerMask_+1)) == portExtender_)
 					XRCCTRL(*this, idReference, wxStaticText)->SetForegroundColour(wxColour(0xa9, 0x3e, 0xac));
 			break;
 		}
@@ -14052,10 +14031,17 @@ void DebugWindow::DebugDisplayProfiler()
         case ELF:
         case ELFII:
         case SUPERELF:
-        case NETRONICS:
         case PICO:
-            if (elfConfiguration[runningComputer_].useEms || elfConfiguration[runningComputer_].useRomMapper)
-                XRCCTRL(*this, "DebugEmsPage", HexEdit)->changeNumber(p_Computer->getEmsPage());
+            if (elfConfiguration[runningComputer_].useEms)
+                XRCCTRL(*this, "DebugEmsPage", HexEdit)->changeNumber(p_Computer->getEmsPage(emsNumber_));
+        break;
+
+        case DIY:
+            if (elfConfiguration[runningComputer_].useEms)
+            {
+                XRCCTRL(*this, "DebugEmsNumber", HexEdit)->changeNumber((int)emsNumber_);
+                XRCCTRL(*this, "DebugEmsPage", HexEdit)->changeNumber(p_Computer->getEmsPage(emsNumber_));
+            }
         break;
     }
 
@@ -14078,12 +14064,11 @@ void DebugWindow::DebugDisplayProfiler()
             break;
 
             case EMSMEMORY:
-            case ROMMAPPER:
                 XRCCTRL(*this, idReference, wxStaticText)->SetForegroundColour(wxColour(0xc8, 0xb4, 0x3e));
             break;
                 
             case PAGER:
-                if (start >= 0x1000)
+                if ((start/(conf[runningComputer_].pagerMask_+1)) == portExtender_)
                     XRCCTRL(*this, idReference, wxStaticText)->SetForegroundColour(wxColour(0xa9, 0x3e, 0xac));
             break;
         }
@@ -14201,7 +14186,14 @@ void DebugWindow::DebugDisplayMap()
 	}
 
 	wxString idReference, idReference2, value;
-	bool textGreen, textOrange;
+    enum
+    {
+        COL_BLACK,
+        COL_ORANGE,
+        COL_GREEN,
+        COL_PURPLE
+    };
+    int textColor;
 
 	XRCCTRL(*this, "MEM_Message", wxStaticText)->SetLabel("");
 
@@ -14218,12 +14210,19 @@ void DebugWindow::DebugDisplayMap()
 		case ELF:
 		case ELFII:
 		case SUPERELF:
-        case NETRONICS:
         case PICO:
-            if (elfConfiguration[runningComputer_].useEms || elfConfiguration[runningComputer_].useRomMapper)
-				XRCCTRL(*this, "DebugEmsPage", HexEdit)->changeNumber(p_Computer->getEmsPage());
+            if (elfConfiguration[runningComputer_].useEms)
+                XRCCTRL(*this, "DebugEmsPage", HexEdit)->changeNumber(p_Computer->getEmsPage(emsNumber_));
 		break;
-	}
+
+        case DIY:
+            if (elfConfiguration[runningComputer_].useEms)
+            {
+                XRCCTRL(*this, "DebugEmsNumber", HexEdit)->changeNumber((int)emsNumber_);
+                XRCCTRL(*this, "DebugEmsPage", HexEdit)->changeNumber(p_Computer->getEmsPage(emsNumber_));
+            }
+        break;
+}
 
 	for (int x=0; x<16; x++)
 	{
@@ -14240,15 +14239,15 @@ void DebugWindow::DebugDisplayMap()
 
 		for (int x=0; x<16; x++)
 		{
-			textGreen = false;
-			textOrange = false;
-			switch (p_Computer->getMemoryType((y<<4)+x))
+            textColor = COL_BLACK;
+			switch (p_Computer->getMemoryType((y<<4)+x)& 0xff)
 			{
 				case UNDEFINED:
 					value.Printf (" ");
 				break;
 
-				case RAM:
+                case RAM:
+                case MAINRAM:
 					value.Printf (".");
 				break;
 
@@ -14315,7 +14314,7 @@ void DebugWindow::DebugDisplayMap()
 						break;
 
 						case RAMBANK:
-							textGreen = true;
+                            textColor = COL_GREEN;
 							switch (p_Computer->getBankMemoryType(p_Comx->getComxExpansionRamBank(), (y&1)*16+x))
 							{
 								case RAM:
@@ -14337,7 +14336,7 @@ void DebugWindow::DebugDisplayMap()
 						break;
 
                         case EPROMBANK:
-                            textOrange = true;
+                            textColor = COL_ORANGE;
                             switch (p_Computer->getEpromBankMemoryType(p_Comx->getComxExpansionEpromBank(), (y&1)*16+x))
                             {
                                 case RAM:
@@ -14359,7 +14358,7 @@ void DebugWindow::DebugDisplayMap()
                             break;
                             
                         case SUPERBANK:
-                            textOrange = true;
+                            textColor = COL_ORANGE;
                             switch (p_Computer->getEpromBankMemoryType(p_Comx->getComxExpansionEpromBank(), (y&1)*16+x))
                             {
                                 case RAM:
@@ -14406,10 +14405,10 @@ void DebugWindow::DebugDisplayMap()
 					value.Printf ("CE");
 				break;
 
-                case ROMMAPPER:
+                case EMSMEMORY:
                     XRCCTRL(*this, idReference, wxStaticText)->SetForegroundColour(wxColour(0xc8, 0xb4, 0x3e));
                     
-                    switch (p_Computer->getRomMapperMemoryType(y*16+x))
+                    switch (p_Computer->getEmsMemoryType((y*16+x)*256, p_Computer->getMemoryType((y<<4)+x)>>8))
                     {
                         case RAM:
                             value.Printf (".");
@@ -14429,32 +14428,12 @@ void DebugWindow::DebugDisplayMap()
                     }
                 break;
 
-                case EMSMEMORY:
-					XRCCTRL(*this, idReference, wxStaticText)->SetForegroundColour(wxColour(0xc8, 0xb4, 0x3e));
-
-					switch (p_Computer->getEmsMemoryType((y&3)*16+x))
-					{
-						case RAM:
-							value.Printf (".");
-						break;
-
-						case ROM:
-							value.Printf ("R");
-						break;
-
-						case UNDEFINED:
-							value.Printf (" ");
-						break;
-
-						default:
-							value.Printf ("xx");
-						break;
-					}
-				break;
-
 				case PAGER:
-					if (y == portExtender_)
+                    if (((y*0x1000+x*256)/(conf[runningComputer_].pagerMask_+1)) == portExtender_)
+                    {
+                        textColor = COL_PURPLE;
 						XRCCTRL(*this, idReference, wxStaticText)->SetForegroundColour(wxColour(0xa9, 0x3e, 0xac));
+                    }
 					switch (p_Computer->getPagerMemoryType(y*16+x))
 					{
 						case RAM:
@@ -14495,15 +14474,24 @@ void DebugWindow::DebugDisplayMap()
 			XRCCTRL(*this, idReference2, wxTextCtrl)->ChangeValue("");
 			XRCCTRL(*this, idReference2, MemEdit)->ChangeValue(value);
 			XRCCTRL(*this, idReference2, MemEdit)->saveNumber(-1);
-			if (textGreen)
-				XRCCTRL(*this, idReference2, MemEdit)->SetForegroundColour(wxColour(0x45, 0xac, 0x22));
-			else
-			{
-				if (textOrange)
-					XRCCTRL(*this, idReference2, MemEdit)->SetForegroundColour(wxColour(0x80, 0x00, 0x40));
-				else
-					XRCCTRL(*this, idReference2, MemEdit)->SetForegroundColour(*wxBLACK);
-			}
+            switch (textColor)
+            {
+                case COL_BLACK:
+                    XRCCTRL(*this, idReference2, MemEdit)->SetForegroundColour(*wxBLACK);
+                break;
+                    
+                case COL_ORANGE:
+                    XRCCTRL(*this, idReference2, MemEdit)->SetForegroundColour(wxColour(0x80, 0x00, 0x40));
+                break;
+
+                case COL_GREEN:
+                    XRCCTRL(*this, idReference2, MemEdit)->SetForegroundColour(wxColour(0x45, 0xac, 0x22));
+                break;
+
+                case COL_PURPLE:
+                    XRCCTRL(*this, idReference2, MemEdit)->SetForegroundColour(wxColour(0xa9, 0x3e, 0xac));
+                break;
+            }
 		}
 
 		idReference.Printf("CHAR%01X", y);
@@ -14594,7 +14582,7 @@ void DebugWindow::DebugDisplayVip2kSequencer()
  
 void DebugWindow::DebugDisplayRtcRam()
 {
-    if (runningComputer_ != ELF2K && runningComputer_ != ELF && runningComputer_ != ELFII && runningComputer_ != SUPERELF && runningComputer_ != NETRONICS && runningComputer_ != PICO)
+    if (runningComputer_ != ELF2K && runningComputer_ != ELF && runningComputer_ != ELFII && runningComputer_ != SUPERELF && runningComputer_ != DIY && runningComputer_ != PICO)
     {
         if (xmlLoaded_)
         {
@@ -14614,7 +14602,7 @@ void DebugWindow::DebugDisplayRtcRam()
         }
         return;
     }
-    if (!currentElfConfig.useUart16450 && (runningComputer_ == ELF || runningComputer_ == ELFII || runningComputer_ == SUPERELF || runningComputer_ == NETRONICS || runningComputer_ == PICO))
+    if (!currentElfConfig.useUart16450 && (runningComputer_ == ELF || runningComputer_ == ELFII || runningComputer_ == SUPERELF || runningComputer_ == DIY || runningComputer_ == PICO))
     {
         if (xmlLoaded_)
         {
@@ -14874,7 +14862,7 @@ void DebugWindow::DebugDisplay6845CharRom()
 		case ELF:
 		case ELFII:
 		case SUPERELF:
-        case NETRONICS:
+        case DIY:
         case PICO:
 			if (!(elfConfiguration[runningComputer_].use6845 || elfConfiguration[runningComputer_].useS100))
 			{
@@ -14953,7 +14941,7 @@ void DebugWindow::DebugDisplay8275CharRom()
 		case ELFII:
 		case SUPERELF:
 		case ELF2K:
-        case NETRONICS:
+        case DIY:
         case PICO:
 			if (!elfConfiguration[runningComputer_].use8275)
 			{
@@ -15032,7 +15020,7 @@ void DebugWindow::DebugDisplay8275VideoRam()
         case ELFII:
         case SUPERELF:
         case ELF2K:
-        case NETRONICS:
+        case DIY:
         case PICO:
             if (!elfConfiguration[runningComputer_].use8275)
             {
@@ -15110,7 +15098,7 @@ void DebugWindow::DebugDisplay6847CharRom()
 		case ELF:
 		case ELFII:
 		case SUPERELF:
-        case NETRONICS:
+        case DIY:
         case PICO:
 			if (!elfConfiguration[runningComputer_].use6847)
 			{
@@ -15192,7 +15180,7 @@ void DebugWindow::DebugDisplay6847VideoRam()
 		case ELF:
 		case ELFII:
 		case SUPERELF:
-        case NETRONICS:
+        case DIY:
         case PICO:
 			if (!elfConfiguration[runningComputer_].use6847)
 			{
@@ -15281,7 +15269,7 @@ void DebugWindow::DebugDisplayTmsRam()
 		case ELF:
 		case ELFII:
 		case SUPERELF:
-        case NETRONICS:
+        case DIY:
         case PICO:
 			if (!elfConfiguration[runningComputer_].useTMS9918)
 			{
@@ -15356,8 +15344,8 @@ void DebugWindow::DebugDisplayTmsRam()
                     value.Printf("%02X", p_Super->getTmsMemory((int)start));
                 break;
 
-                case NETRONICS:
-                    value.Printf("%02X", p_Netronics->getTmsMemory((int)start));
+                case DIY:
+                    value.Printf("%02X", p_Diy->getTmsMemory((int)start));
                 break;
 
                 case PICO:
@@ -15390,7 +15378,7 @@ void DebugWindow::DebugDisplayVtRam()
         case CDP18S020:
 		case MEMBER:
 		case SUPERELF:
-        case NETRONICS:
+        case DIY:
         case PICO:
 			if (elfConfiguration[runningComputer_].vtType == VTNONE)
 			{
@@ -15671,7 +15659,7 @@ void DebugWindow::setMemoryType(int id, int setType)
 		case ELF:
 		case ELFII:
 		case SUPERELF:
-        case NETRONICS:
+        case DIY:
         case PICO:
 			if ((setType == RAM) || (setType == ROM) || (setType == UNDEFINED) || (setType == MAPPEDRAM) || (setType == MC6847RAM) || (setType == MC6845RAM) || (setType == MC6845REGISTERS) )
 			{
@@ -15687,20 +15675,10 @@ void DebugWindow::setMemoryType(int id, int setType)
 												"Emma 02", wxICON_ERROR | wxOK );
 					return;
 				}
-				if (p_Computer->getMemoryType(id) == EMSMEMORY)
-				{
-					if ((setType == RAM) || (setType == ROM) || (setType == UNDEFINED))
-						p_Computer->defineEmsMemoryType((id&0x3f)*256, setType);
-					else
-					{
-						(void)wxMessageBox( "Only RAM (.), ROM (R), or UNDEFINED (space) allowed in EMS Memory bank\n",
-													"Emma 02", wxICON_ERROR | wxOK );
-					}
-				}
-                if (p_Computer->getMemoryType(id) == ROMMAPPER)
+                if ((p_Computer->getMemoryType(id) & 0xff) == EMSMEMORY)
                 {
                     if ((setType == RAM) || (setType == ROM) || (setType == UNDEFINED))
-                        p_Computer->defineRomMapperMemoryType(id*256, setType);
+                        p_Computer->defineEmsMemoryType(p_Computer->getMemoryType(id)>>8, id*256, setType);
                     else
                     {
                         (void)wxMessageBox( "Only RAM (.), ROM (R), or UNDEFINED (space) allowed in EMS Memory bank\n",
@@ -16109,8 +16087,8 @@ Word DebugWindow::getAddressMask()
 					return p_Super->get6847RamMask();
 				break;
 
-                case NETRONICS:
-                    return p_Netronics->get6847RamMask();
+                case DIY:
+                    return p_Diy->get6847RamMask();
                 break;
                     
                 case PICO:
@@ -16218,27 +16196,69 @@ void DebugWindow::onDebugExpansionEprom(wxCommandEvent&WXUNUSED(event))
 
 void DebugWindow::onDebugEmsPage(wxCommandEvent&WXUNUSED(event))
 {
-	if (!elfConfiguration[runningComputer_].useEms && !elfConfiguration[runningComputer_].useRomMapper)
+	if (!elfConfiguration[runningComputer_].useEms)
 		return;
 
-	wxString value = XRCCTRL(*this, "DebugEmsPage", HexEdit)->GetValue();
+    if (!computerRunning_) return;
 
-	if (!computerRunning_) return;
+	wxString value;
+    long page;
 
-	long page;
-	if (!value.ToLong(&page, 16))
-		return;
+    value = XRCCTRL(*this, "DebugEmsPage", HexEdit)->GetValue();
 
-	XRCCTRL(*this, "DebugEmsPage", HexEdit)->saveNumber((int)page);
+    if (!value.ToLong(&page, 16))
+        return;
 
-    if (!p_Computer->isRomMapperDefined())
+    if (runningComputer_ == DIY)
     {
-        if (page > 0x1f)
-            page = 0x1f;
-        p_Computer->setEmsPage(page);
+        value = XRCCTRL(*this, "DebugEmsNumber", HexEdit)->GetValue();
+        if (!value.ToLong(&emsNumber_, 16))
+            return;
     }
     else
-        p_Computer->setRomMapper(page);
+        emsNumber_ = 0;
+
+    XRCCTRL(*this, "DebugEmsNumber", HexEdit)->saveNumber((int)emsNumber_);
+	XRCCTRL(*this, "DebugEmsPage", HexEdit)->saveNumber((int)page);
+
+    if (emsNumber_ >= conf[runningComputer_].emsConfigNumber_)
+        emsNumber_ = conf[runningComputer_].emsConfigNumber_ - 1;
+
+    if (page > conf[runningComputer_].emsConfig_[emsNumber_].outputMask)
+        page = conf[runningComputer_].emsConfig_[emsNumber_].outputMask;
+
+    p_Computer->setEmsPage(emsNumber_, page);
+}
+
+void DebugWindow::onDebugEmsNumber(wxCommandEvent&WXUNUSED(event))
+{
+    if (!elfConfiguration[runningComputer_].useEms)
+        return;
+
+    if (!computerRunning_) return;
+    if (runningComputer_ != DIY) return;
+
+    wxString value;
+    long page;
+
+    value = XRCCTRL(*this, "DebugEmsNumber", HexEdit)->GetValue();
+    if (!value.ToLong(&emsNumber_, 16))
+        return;
+    
+    value = XRCCTRL(*this, "DebugEmsPage", HexEdit)->GetValue();
+    if (!value.ToLong(&page, 16))
+        return;
+
+    XRCCTRL(*this, "DebugEmsNumber", HexEdit)->saveNumber((int)emsNumber_);
+    XRCCTRL(*this, "DebugEmsPage", HexEdit)->saveNumber((int)page);
+
+    if (emsNumber_ >= conf[runningComputer_].emsConfigNumber_)
+        emsNumber_ = conf[runningComputer_].emsConfigNumber_ - 1;
+
+    if (page > conf[runningComputer_].emsConfig_[emsNumber_].outputMask)
+        page = conf[runningComputer_].emsConfig_[emsNumber_].outputMask;
+
+    p_Computer->setEmsPage(emsNumber_, page);
 }
 
 void DebugWindow::onDebugPager(wxCommandEvent&WXUNUSED(event))
@@ -16425,8 +16445,8 @@ Byte DebugWindow::debugReadMem(Word address)
                     return p_Super->getTmsMemory(address);
                 break;
 
-                case NETRONICS:
-                    return p_Netronics->getTmsMemory(address);
+                case DIY:
+                    return p_Diy->getTmsMemory(address);
                 break;
 
                 case PICO:
@@ -16485,8 +16505,8 @@ Byte DebugWindow::debugReadMem(Word address)
                     return p_Super->read8275CharRom(address);
                 break;
 
-                case NETRONICS:
-                    return p_Netronics->read8275CharRom(address);
+                case DIY:
+                    return p_Diy->read8275CharRom(address);
                 break;
 
                 case PICO:
@@ -16518,8 +16538,8 @@ Byte DebugWindow::debugReadMem(Word address)
                     return p_Super->read8275VideoRam(address);
                 break;
                 
-                case NETRONICS:
-                    return p_Netronics->read8275VideoRam(address);
+                case DIY:
+                    return p_Diy->read8275VideoRam(address);
                 break;
                 
                 case PICO:
@@ -16555,8 +16575,8 @@ Byte DebugWindow::debugReadMem(Word address)
                     return p_Super->read6845CharRom(address);
                 break;
 
-                case NETRONICS:
-                    return p_Netronics->read6845CharRom(address);
+                case DIY:
+                    return p_Diy->read6845CharRom(address);
                 break;
 
                 case PICO:
@@ -16584,8 +16604,8 @@ Byte DebugWindow::debugReadMem(Word address)
                     return p_Super->read6847CharRom(address);
                 break;
 
-                case NETRONICS:
-                    return p_Netronics->read6847CharRom(address);
+                case DIY:
+                    return p_Diy->read6847CharRom(address);
                 break;
 
                 case PICO:
@@ -16613,8 +16633,8 @@ Byte DebugWindow::debugReadMem(Word address)
                     return p_Super->readDirect6847(address);
                 break;
 
-                case NETRONICS:
-                    return p_Netronics->readDirect6847(address);
+                case DIY:
+                    return p_Diy->readDirect6847(address);
                 break;
 
                 case PICO:
@@ -16659,8 +16679,8 @@ Byte DebugWindow::debugReadMem(Word address)
                     return p_Super->readDirectRtc(address);
                 break;
 
-                case NETRONICS:
-                    return p_Netronics->readDirectRtc(address);
+                case DIY:
+                    return p_Diy->readDirectRtc(address);
                 break;
 
                 case PICO:
@@ -16740,8 +16760,8 @@ void DebugWindow::debugWriteMem(Word address, Byte value)
                     p_Super->setTmsMemory(address, value);
                 break;
 
-                case NETRONICS:
-                    p_Netronics->setTmsMemory(address, value);
+                case DIY:
+                    p_Diy->setTmsMemory(address, value);
                 break;
 
                 case PICO:
@@ -16791,8 +16811,8 @@ void DebugWindow::debugWriteMem(Word address, Byte value)
                     p_Super->write8275CharRom(address, value);
                 break;
 
-                case NETRONICS:
-                    p_Netronics->write8275CharRom(address, value);
+                case DIY:
+                    p_Diy->write8275CharRom(address, value);
                 break;
 
                 case PICO:
@@ -16820,8 +16840,8 @@ void DebugWindow::debugWriteMem(Word address, Byte value)
                     p_Super->write8275VideoRam(address, value);
                 break;
                 
-                case NETRONICS:
-                    p_Netronics->write8275VideoRam(address, value);
+                case DIY:
+                    p_Diy->write8275VideoRam(address, value);
                 break;
                 
                 case PICO:
@@ -16853,8 +16873,8 @@ void DebugWindow::debugWriteMem(Word address, Byte value)
 					p_Super->write6845CharRom(address, value);
 				break;
                     
-                case NETRONICS:
-                    p_Netronics->write6845CharRom(address, value);
+                case DIY:
+                    p_Diy->write6845CharRom(address, value);
                 break;
                     
                 case PICO:
@@ -16878,8 +16898,8 @@ void DebugWindow::debugWriteMem(Word address, Byte value)
 					p_Super->write6847CharRom(address, value);
 				break;
                     
-                case NETRONICS:
-                    p_Netronics->write6847CharRom(address, value);
+                case DIY:
+                    p_Diy->write6847CharRom(address, value);
                 break;
                     
                 case PICO:
@@ -16903,8 +16923,8 @@ void DebugWindow::debugWriteMem(Word address, Byte value)
 					p_Super->writeDirect6847(address, value);
 				break;
 
-                case NETRONICS:
-                    p_Netronics->writeDirect6847(address, value);
+                case DIY:
+                    p_Diy->writeDirect6847(address, value);
                 break;
 
                 case PICO:
@@ -16941,8 +16961,8 @@ void DebugWindow::debugWriteMem(Word address, Byte value)
                     p_Super->writeDirectRtc(address&0x7f, value);
                 break;
 
-                case NETRONICS:
-                    p_Netronics->writeDirectRtc(address&0x7f, value);
+                case DIY:
+                    p_Diy->writeDirectRtc(address&0x7f, value);
                 break;
 
                 case PICO:
@@ -17263,14 +17283,14 @@ void DebugWindow::updateTitle()
 			p_Super->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
 		break;
 
-        case NETRONICS:
-            if (p_Netronics->getSteps()==0)
+        case DIY:
+            if (p_Diy->getSteps()==0)
                 title = title + " ** PAUSED **";
-            if (p_Netronics->getClear()==0)
+            if (p_Diy->getClear()==0)
                 title = title + " ** CPU STOPPED **";
-            p_Netronics->SetTitle("Elf II" + title);
-            p_Netronics->updateTitle(title);
-            p_Netronics->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
+            p_Diy->SetTitle("Elf II" + title);
+            p_Diy->updateTitle(title);
+            p_Diy->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
         break;
 
         case PICO:

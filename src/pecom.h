@@ -10,7 +10,7 @@
 class Pecom : public V1870
 {
 public:
-	Pecom(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock);
+	Pecom(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock, Conf computerConf);
 	~Pecom();
 
 	void charEvent(int keycode);

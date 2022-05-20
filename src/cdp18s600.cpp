@@ -38,10 +38,12 @@
 #include "cdp1852.h"
 #include "upd765.h"
 
-Cdp18s600::Cdp18s600(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock, ElfConfiguration conf)
+Cdp18s600::Cdp18s600(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock, ElfConfiguration conf, Conf computerConf)
 :V1870(title, pos, size, zoomLevel, computerType, clock)
 {
+    computerConfiguration = computerConf;
     Cdp18s600Configuration = conf;
+
     computerTypeStr_ = p_Main->getRunningComputerStr();
     computerType_ = p_Main->getRunningComputerId();
     microboardType_ = p_Main->getMicroboardType(computerType_);
@@ -1473,7 +1475,7 @@ void Cdp18s600::writeMemDataType(Word address, Byte type)
     if (address < 0x8000)
         address = (address | addressLatch_);
 
-    switch (memoryType_[address/256])
+    switch (memoryType_[address/256]&0xff)
     {
         case ROM:
             if (mainMemoryDataType_[address] != type)
@@ -1536,7 +1538,7 @@ Byte Cdp18s600::readMemDataType(Word address, uint64_t* executed)
     if (address < 0x8000)
         address = (address | addressLatch_);
 
-    switch (memoryType_[address/256])
+    switch (memoryType_[address/256]&0xff)
     {
         case RAM:
         case ROM:
@@ -1583,7 +1585,7 @@ Byte Cdp18s600::readMemDebug(Word address)
     if (address < 0x8000)
         address = (address | addressLatch_);
     
-    switch (memoryType_[address / 256])
+    switch (memoryType_[address / 256]&0xff)
     {
         case UNDEFINED:
             return 255;
@@ -1628,7 +1630,7 @@ void Cdp18s600::writeMem(Word address, Byte value, bool writeRom)
 
 void Cdp18s600::writeMemDebug(Word address, Byte value, bool writeRom)
 {
-    switch (memoryType_[address/256])
+    switch (memoryType_[address/256]&0xff)
     {
         case UNDEFINED:
         case ROM:
@@ -2100,10 +2102,9 @@ void Cdp18s600::refreshPanel()
 }
 
 
-Cdp18s601::Cdp18s601(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock, ElfConfiguration conf)
-: Cdp18s600(title, pos, size, zoomLevel, computerType, clock, conf)
+Cdp18s601::Cdp18s601(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock, ElfConfiguration conf, Conf computerConf)
+: Cdp18s600(title, pos, size, zoomLevel, computerType, clock, conf, computerConf)
 {
-
 }
 
 void Cdp18s601::configurePio()
@@ -2310,8 +2311,8 @@ void Cdp18s601::readRoms()
     p_Main->setMemoryMapCDP18S601(&configuration, -1, -1);
 }
 
-Cdp18s602::Cdp18s602(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock, ElfConfiguration conf)
-: Cdp18s600(title, pos, size, zoomLevel, computerType, clock, conf)
+Cdp18s602::Cdp18s602(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock, ElfConfiguration conf, Conf computerConf)
+: Cdp18s600(title, pos, size, zoomLevel, computerType, clock, conf, computerConf)
 {
     pioFramePointer = NULL;
     pioMessage_ = "CDP1852";
@@ -2649,10 +2650,9 @@ void Cdp18s602::showPio(bool state)
         cdp1852FramePointer->refreshLeds();
 }
 
-Cdp18s603a::Cdp18s603a(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock, ElfConfiguration conf)
-: Cdp18s601(title, pos, size, zoomLevel, computerType, clock, conf)
+Cdp18s603a::Cdp18s603a(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock, ElfConfiguration conf, Conf computerConf)
+: Cdp18s601(title, pos, size, zoomLevel, computerType, clock, conf, computerConf)
 {
-    
 }
 
 void Cdp18s603a::readRoms()
@@ -2662,8 +2662,8 @@ void Cdp18s603a::readRoms()
     p_Main->setMemoryMapCDP18S603a(&configuration, -1, -1);
 }
 
-Cdp18s604b::Cdp18s604b(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock, ElfConfiguration conf)
-: Cdp18s600(title, pos, size, zoomLevel, computerType, clock, conf)
+Cdp18s604b::Cdp18s604b(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock, ElfConfiguration conf, Conf computerConf)
+: Cdp18s600(title, pos, size, zoomLevel, computerType, clock, conf, computerConf)
 {
     pioFramePointer = NULL;
     pioMessage_ = "CDP1852 & CD4536B";
@@ -3070,7 +3070,7 @@ void Cdp18s604b::writeMemDataType(Word address, Byte type)
     if (address < 0x8000)
         address = (address | addressLatch_);
     
-    switch (memoryType_[address/256])
+    switch (memoryType_[address/256]&0xff)
     {
         case ROM:
             if (mainMemoryDataType_[address] != type)
@@ -3106,7 +3106,7 @@ Byte Cdp18s604b::readMemDataType(Word address, uint64_t* executed)
     if (address < 0x8000)
         address = (address | addressLatch_);
     
-    switch (memoryType_[address/256])
+    switch (memoryType_[address/256]&0xff)
     {
         case RAM:
         case ROM:
@@ -3129,7 +3129,7 @@ Byte Cdp18s604b::readMemDebug(Word address)
     if (address < 0x8000)
         address = (address | addressLatch_);
     
-    switch (memoryType_[address / 256])
+    switch (memoryType_[address / 256]&0xff)
     {
         case UNDEFINED:
             return 255;
@@ -3152,7 +3152,7 @@ Byte Cdp18s604b::readMemDebug(Word address)
 
 void Cdp18s604b::writeMemDebug(Word address, Byte value, bool writeRom)
 {
-    switch (memoryType_[address/256])
+    switch (memoryType_[address/256]&0xff)
     {
         case UNDEFINED:
         case ROM:
@@ -3213,8 +3213,8 @@ void Cdp18s604b::showPio(bool state)
         cdp1852FramePointer->refreshLeds();
 }
 
-Rcasbc::Rcasbc(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock, ElfConfiguration conf)
-: Cdp18s600(title, pos, size, zoomLevel, computerType, clock, conf)
+Rcasbc::Rcasbc(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock, ElfConfiguration conf, Conf computerConf)
+: Cdp18s600(title, pos, size, zoomLevel, computerType, clock, conf, computerConf)
 {
     uart1Reset_ = true;
     uart1ModeWordNumber_ = 1;
@@ -3606,7 +3606,7 @@ Byte Rcasbc::readMemDebug(Word address)
     if (address < 0x8000)
         address = (address | addressLatch_);
     
-    switch (memoryType_[address / 256])
+    switch (memoryType_[address / 256]&0xff)
     {
         case UNDEFINED:
             return 255;
@@ -3678,7 +3678,7 @@ void Rcasbc::writeMemDebug(Word address, Byte value, bool writeRom)
 {
     wxString valueStr;
     valueStr.Printf("%02X",value);
-    switch (memoryType_[address/256])
+    switch (memoryType_[address/256]&0xff)
     {
         case UNDEFINED:
         case ROM:

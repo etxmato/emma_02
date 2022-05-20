@@ -7,7 +7,7 @@
 class Victory : public Cdp1802, public Pixie
 {
 public:
-	Victory(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType);
+	Victory(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, Conf computerConf);
 	~Victory();
 
 	void configureComputer();

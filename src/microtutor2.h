@@ -22,7 +22,7 @@ private:
 class Microtutor2 : public wxFrame, public Cdp1802
 {
 public:
-	Microtutor2(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf);
+	Microtutor2(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf, Conf computerConf);
 	Microtutor2() {};
 	~Microtutor2();
 

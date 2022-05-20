@@ -891,6 +891,7 @@ void GuiElf::onEfButtons(wxCommandEvent&event)
 
 void GuiElf::setMemory(wxString elfTypeStr, int elfType, int Selection)
 {
+    conf[selectedComputer_].pagerMask_ = 0xFFF;
     if (elfConfiguration[selectedComputer_].memoryType == 3)
     {
         if (mode_.gui)
@@ -913,9 +914,8 @@ void GuiElf::setMemory(wxString elfTypeStr, int elfType, int Selection)
 	switch(Selection)
 	{
 		case MEM_64K:
-			elfConfiguration[elfType].useEms = false;
+            elfConfiguration[elfType].useEms = false;
             elfConfiguration[elfType].usePager = false;
-            elfConfiguration[elfType].useRomMapper = false;
 			if (mode_.gui)
 			{
 				XRCCTRL(*this, "StartRamText"+elfTypeStr, wxStaticText)->Enable(true);
@@ -929,7 +929,8 @@ void GuiElf::setMemory(wxString elfTypeStr, int elfType, int Selection)
 		case MEM_EMS:
 			elfConfiguration[elfType].useEms = true;
 			elfConfiguration[elfType].usePager = false;
-            elfConfiguration[elfType].useRomMapper = false;
+            elfConfiguration[elfType].emsType_ = RAM;
+            conf[selectedComputer_].emsConfigNumber_ = 1;
 			if (mode_.gui)
 			{
 				XRCCTRL(*this, "StartRamText"+elfTypeStr, wxStaticText)->Enable(false);
@@ -944,7 +945,6 @@ void GuiElf::setMemory(wxString elfTypeStr, int elfType, int Selection)
 			elfConfiguration[elfType].useEms = false;
 			elfConfiguration[elfType].usePager = true;
 			elfConfiguration[elfType].usePortExtender = true;
-            elfConfiguration[elfType].useRomMapper = false;
 			if (mode_.gui)
 			{
 				XRCCTRL(*this, "PortExt"+elfTypeStr, wxCheckBox)->Enable(false);
@@ -959,7 +959,8 @@ void GuiElf::setMemory(wxString elfTypeStr, int elfType, int Selection)
         case MEM_ROM_MAP:
             elfConfiguration[elfType].useEms = false;
             elfConfiguration[elfType].usePager = false;
-            elfConfiguration[elfType].useRomMapper = true;
+            elfConfiguration[elfType].emsType_ = ROM;
+            conf[selectedComputer_].emsConfigNumber_ = 1;
             if (mode_.gui)
             {
                 XRCCTRL(*this, "StartRamText"+elfTypeStr, wxStaticText)->Enable(false);
@@ -1439,7 +1440,7 @@ void GuiElf::setTapeType(wxString elfTypeStr, int elfType)
 
 bool GuiElf::getUseXmodem(int elfType)
 {
-    if (elfType == ELF || elfType == ELFII || elfType == SUPERELF  || elfType == NETRONICS  || elfType == PICO || elfType == ELF2K)
+    if (elfType == ELF || elfType == ELFII || elfType == SUPERELF  || elfType == DIY  || elfType == PICO || elfType == ELF2K)
         return elfConfiguration[elfType].useXmodem;
     else
         return false;

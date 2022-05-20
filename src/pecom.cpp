@@ -143,9 +143,10 @@ int ctrlKey[] =
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
-Pecom::Pecom(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock)
+Pecom::Pecom(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock, Conf computerConf)
 :V1870(title, pos, size, zoomLevel, computerType, clock)
 {
+    computerConfiguration = computerConf;
 	p_Printer = new Printer();
 	p_Printer->initPecom(p_Printer);
 }
@@ -875,7 +876,7 @@ void Pecom::startComputer()
 void Pecom::writeMemDataType(Word address, Byte type)
 {
 	address = address | addressLatch_;
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
 		case MAPPEDRAM:
@@ -895,7 +896,7 @@ void Pecom::writeMemDataType(Word address, Byte type)
 Byte Pecom::readMemDataType(Word address, uint64_t* executed)
 {
 	address = address | addressLatch_;
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
 		case MAPPEDRAM:
@@ -913,7 +914,7 @@ Byte Pecom::readMemDataType(Word address, uint64_t* executed)
 Byte Pecom::readMem(Word address)
 {
 	address = address | addressLatch_;
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case UNDEFINED:
 			return 255;
@@ -960,7 +961,7 @@ void Pecom::writeMem(Word address, Byte value, bool writeRom)
 		mainMemory_[address]=value;
 		return;
 	}
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case UNDEFINED:
 		case ROM:

@@ -31,7 +31,7 @@ private:
 class Elf : public wxFrame,  public MainElf
 {
 public:
-	Elf(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf);
+	Elf(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf, Conf computerConf);
 	Elf() {};
 	~Elf();
 

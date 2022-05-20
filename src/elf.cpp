@@ -86,7 +86,7 @@ MainElf::~MainElf()
 
 void MainElf::checkComputerFunction()
 {
-    if (romMapperDefined_)
+    if (!emsRomDefined_)
     {
         switch (scratchpadRegister_[programCounter_])
         {
@@ -538,24 +538,24 @@ void MainElf::checkComputerFunction()
 		break;
 
 		case TINYBASIC:
-            if (!romMapperDefined_)
+            if (!emsRomDefined_)
             {
                 switch (scratchpadRegister_[programCounter_])
                 {
                     case 0x0A28:	// SAVE
                     case 0x0A59:	// LOAD
                         p_Main->stopCassette();
-                        break;
+                    break;
 
                     case 0x09FD:	// SAVE
                         p_Main->startCassetteSave(0);
-                        break;
+                    break;
 
                     case 0x09FA:	// LOAD
                         p_Main->setSwName ("");
                         p_Main->eventUpdateTitle();
                         p_Main->startCassetteLoad(0);
-                        break;
+                    break;
                 }
             }
 		break;

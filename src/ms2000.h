@@ -16,7 +16,7 @@ DECLARE_EVENT_TYPE(ON_UART_MS2000, 809)
 class Ms2000 : public wxFrame, public Upd765, public Cdp1802
 {
 public:
-	Ms2000(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf);
+	Ms2000(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf, Conf computerConf);
 	Ms2000() {};
 	~Ms2000();
 

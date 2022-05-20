@@ -29,10 +29,12 @@
 #include "main.h"
 #include "vip2.h"
 
-VipII::VipII(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, double clock, int tempo)
+VipII::VipII(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, double clock, int tempo, Conf computerConf)
 :Pixie(title, pos, size, zoom, zoomfactor, computerType)
 {
-	clock_ = clock;
+    computerConfiguration = computerConf;
+
+    clock_ = clock;
 	p_Printer = new Printer();
 	p_Printer->initVip(p_Printer);
 
@@ -748,7 +750,7 @@ void VipII::writeMemDataType(Word address, Byte type)
 
 	if (address == 0)
 		address = 0;
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
 		case ROM:
@@ -779,7 +781,7 @@ Byte VipII::readMemDataType(Word address, uint64_t* executed)
 	else
 		address = address & romMask_;
 
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
 		case ROM:
@@ -804,7 +806,7 @@ Byte VipII::readMem(Word address)
 	else
 		address = address & romMask_;
 
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
 			return mainMemory_[address];
@@ -826,7 +828,7 @@ Byte VipII::readMemDebug(Word address)
 	if (address >= 0x8000)
 		address = address & romMask_;
 
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
 			return mainMemory_[address];
@@ -845,7 +847,7 @@ Byte VipII::readMemDebug(Word address)
 
 void VipII::writeMem(Word address, Byte value, bool writeRom)
 {
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
 			if (mainMemory_[address]==value)

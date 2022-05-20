@@ -44,9 +44,10 @@
 
 #define CHIP8_PC 5
 
-Visicom::Visicom(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType)
+Visicom::Visicom(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, Conf computerConf)
 :Pixie(title, pos, size, zoom, zoomfactor, computerType)
 {
+    computerConfiguration = computerConf;
 }
 
 Visicom::~Visicom()
@@ -474,7 +475,7 @@ void Visicom::startComputer()
 
 void Visicom::writeMemDataType(Word address, Byte type)
 {
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
 		case ROM:
@@ -501,7 +502,7 @@ void Visicom::writeMemDataType(Word address, Byte type)
 
 Byte Visicom::readMemDataType(Word address, uint64_t* executed)
 {
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
 		case ROM:
@@ -528,7 +529,7 @@ Byte Visicom::readMemDataType(Word address, uint64_t* executed)
 
 Byte Visicom::readMem(Word address)
 {
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case UNDEFINED:
 			return 255;
@@ -557,7 +558,7 @@ Byte Visicom::readMemDebug(Word address)
 
 void Visicom::writeMem(Word address, Byte value, bool writeRom)
 {
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
 			if (mainMemory_[address]==value)

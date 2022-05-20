@@ -42,9 +42,10 @@
 #include "main.h"
 #include "cidelsa.h"
 
-Cidelsa::Cidelsa(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock)
+Cidelsa::Cidelsa(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock, Conf computerConf)
 :V1870(title, pos, size, zoomLevel, computerType, clock)
 {
+    computerConfiguration = computerConf;
 }
 
 Cidelsa::~Cidelsa()
@@ -568,7 +569,7 @@ void Cidelsa::startComputer()
 
 void Cidelsa::writeMemDataType(Word address, Byte type)
 {
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
 		case ROM:
@@ -584,7 +585,7 @@ void Cidelsa::writeMemDataType(Word address, Byte type)
 
 Byte Cidelsa::readMemDataType(Word address, uint64_t* executed)
 {
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
 		case ROM:
@@ -598,7 +599,7 @@ Byte Cidelsa::readMemDataType(Word address, uint64_t* executed)
 
 Byte Cidelsa::readMem(Word address)
 {
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case UNDEFINED:
 			return 255;
@@ -630,7 +631,7 @@ Byte Cidelsa::readMemDebug(Word address)
 
 void Cidelsa::writeMem(Word address, Byte value, bool writeRom)
 {
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case UNDEFINED:
 		case ROM:

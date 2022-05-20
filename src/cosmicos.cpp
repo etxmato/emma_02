@@ -301,9 +301,10 @@ BEGIN_EVENT_TABLE(Cosmicos, wxFrame)
 	EVT_LEFT_UP(Cosmicos::onMouseRelease)
 END_EVENT_TABLE()
 
-Cosmicos::Cosmicos(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf)
+Cosmicos::Cosmicos(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf, Conf computerConf)
 : wxFrame((wxFrame *)NULL, -1, title, pos, size)
 {
+    computerConfiguration = computerConf;
 	cosmicosConfiguration = conf;
 
 	cosmicosClockSpeed_ = clock;
@@ -951,7 +952,7 @@ void Cosmicos::startComputer()
 void Cosmicos::writeMemDataType(Word address, Byte type)
 {
 	address = address | bootstrap_;
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case ROM:
 			if (mainMemoryDataType_[address] != type)
@@ -977,7 +978,7 @@ void Cosmicos::writeMemDataType(Word address, Byte type)
 Byte Cosmicos::readMemDataType(Word address, uint64_t* executed)
 {
 	address = address | bootstrap_;
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
 		case ROM:
@@ -999,7 +1000,7 @@ Byte Cosmicos::readMem(Word address)
 Byte Cosmicos::readMemDebug(Word address)
 {
     address = address | bootstrap_;
-    switch (memoryType_[address / 256])
+    switch (memoryType_[address / 256]&0xff)
     {
         case UNDEFINED:
             return 255;
@@ -1026,7 +1027,7 @@ void Cosmicos::writeMem(Word address, Byte value, bool writeRom)
 void Cosmicos::writeMemDebug(Word address, Byte value, bool writeRom)
 {
     address = address | bootstrap_;
-    switch (memoryType_[address/256])
+    switch (memoryType_[address/256]&0xff)
     {
         case UNDEFINED:
         case ROM:

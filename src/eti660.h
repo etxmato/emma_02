@@ -7,7 +7,7 @@
 class Eti : public Cdp1802, public Pixie
 {
 public:
-	Eti(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType);
+	Eti(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, Conf computerConf);
 	~Eti();
 
 	void configureComputer();

@@ -29,9 +29,10 @@
 #include "main.h"
 #include "tmc2000.h"
 
-Tmc2000::Tmc2000(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType)
+Tmc2000::Tmc2000(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, Conf computerConf)
 :Pixie(title, pos, size, zoom, zoomfactor, computerType)
 {
+    computerConfiguration = computerConf;
 }
 
 Tmc2000::~Tmc2000()
@@ -302,7 +303,7 @@ void Tmc2000::writeMemDataType(Word address, Byte type)
 	if (address < 0x8000)
 		address = (address | addressLatch_) & (ramMask_ | 0x8000);
 
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
 		case ROM:
@@ -323,7 +324,7 @@ Byte Tmc2000::readMemDataType(Word address, uint64_t* executed)
 	else
 		address = address & 0x81ff;
 
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
 		case ROM:
@@ -342,7 +343,7 @@ Byte Tmc2000::readMem(Word address)
 	else
 		address = address & 0x81ff;
 
-	if (memoryType_[address/256] == UNDEFINED) return 255;
+	if ((memoryType_[address/256]&0xff) == UNDEFINED) return 255;
 	return mainMemory_[address| addressLatch_];
 }
 
@@ -371,7 +372,7 @@ void Tmc2000::writeMem(Word address, Byte value, bool writeRom)
 	if (mainMemory_[address]==value)
 		return;
 	if (!writeRom)
-		if (memoryType_[address/256] != RAM)  return;
+		if ((memoryType_[address/256]&0xff) != RAM)  return;
 
 	mainMemory_[address]=value;
 	if (writeRom)

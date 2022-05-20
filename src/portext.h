@@ -10,7 +10,8 @@ public:
 	~PortExt() {};
 
 	void configurePortExt(ElfPortConfiguration portConf);
-	void definePortExtForPager();
+    void definePortExtForPager();
+    void definePortExtForPager(Byte startPort, Byte endPort);
 	Byte inPortExtender();
 	void outPortExtender(Byte value);
 

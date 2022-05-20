@@ -166,9 +166,10 @@ DevicePortsDialog::DevicePortsDialog(wxWindow* parent)
         XRCCTRL(*this, "PrinterOutputText", wxStaticText)->Enable(false);
         XRCCTRL(*this, "PrinterEf", wxSpinCtrl)->Enable(false);
         XRCCTRL(*this, "PrinterEfText", wxStaticText)->Enable(false);
-   }	
-    XRCCTRL(*this, "EmsOutput", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.emsOutput);
-    if (!elfConfiguration.useEms && !elfConfiguration.useRomMapper)
+    }
+    if (elfConfiguration.useEms)
+        XRCCTRL(*this, "EmsOutput", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.emsOutput[0]);
+    else
     {
         XRCCTRL(*this, "EmsOutput", wxSpinCtrl)->Enable(false);
         XRCCTRL(*this, "EmsOutputText", wxStaticText)->Enable(false);
@@ -501,6 +502,9 @@ void DevicePortsDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
 
 	elfConfiguration.elfPortConf.printerOutput = XRCCTRL(*this, "PrinterOutput", wxSpinCtrl)->GetValue();
 	elfConfiguration.elfPortConf.printerEf = XRCCTRL(*this, "PrinterEf", wxSpinCtrl)->GetValue();
+
+    if (elfConfiguration.useEms)
+        elfConfiguration.elfPortConf.emsOutput[0] = XRCCTRL(*this, "EmsOutput", wxSpinCtrl)->GetValue();
 
 	elfConfiguration.elfPortConf.vt100Output = XRCCTRL(*this, "Vt100Output", wxSpinCtrl)->GetValue();
 	elfConfiguration.elfPortConf.vt100Ef = XRCCTRL(*this, "Vt100Ef", wxSpinCtrl)->GetValue();

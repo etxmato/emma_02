@@ -8,7 +8,7 @@
 class VipII : public Cdp1802, public Pixie
 {
 public:
-	VipII(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, double clock, int tempo);
+	VipII(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, double clock, int tempo, Conf computerConf);
 	~VipII();
 
 	void configureComputer();

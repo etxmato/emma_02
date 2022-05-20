@@ -125,7 +125,7 @@ FunctionKeyMapDialog::FunctionKeyMapDialog(wxWindow* parent)
     LoadAndCompare(ELF, "Elf");
     LoadAndCompare(ELFII, "ElfII");
     LoadAndCompare(SUPERELF, "SuperElf");
-    LoadAndCompare(NETRONICS, "Netronics");
+    LoadAndCompare(DIY, "Diy");
     LoadAndCompare(PICO, "Pico");
     LoadAndCompare(ELF2K, "Elf2K");
     LoadAndCompare(COSMICOS, "Cosmicos");

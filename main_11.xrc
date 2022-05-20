@@ -11803,7 +11803,7 @@
 <object platform="unix" class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>6</border>
-<object platform="unix" class="wxSpinButton" name="ID_SPINBUTTON">
+<object platform="unix" class="wxSpinButton" name="ZoomSpinPico">
 <tooltip>Select screen size</tooltip>
 <style>wxSP_VERTICAL</style>
 <value>0</value>
@@ -11814,7 +11814,7 @@
 <object platform="win" class="sizeritem">
 <flag>wxGROW</flag>
 <border>6</border>
-<object platform="win" class="wxSpinButton" name="ID_SPINBUTTON1">
+<object platform="win" class="wxSpinButton" name="ZoomSpinPico">
 <size>-1,15d</size>
 <tooltip>Select screen size</tooltip>
 <style>wxSP_VERTICAL</style>
@@ -17334,6 +17334,7 @@
 <style>wxCB_DROPDOWN</style>
 <content>
 <item></item>
+<item>fpb_color_skip_loader.bin</item>
 <item>fpb_color.bin</item>
 <item>fpb.bin</item>
 <item>VP700_Tiny_BASIC.bin</item>
@@ -38457,7 +38458,7 @@
 </object>
 <object class="spacer">
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>6</border>
+<border>2</border>
 <size>1,3d</size>
 </object>
 <object class="sizeritem">
@@ -38480,7 +38481,22 @@
 </font>
 <enabled>0</enabled>
 <fg>#C8B43E</fg>
-<label>EMS / ROM Map: </label>
+<label>EMS Map: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxRIGHT</flag>
+<border>4</border>
+<object class="wxTextCtrl" name="DebugEmsNumber" subclass="HexEdit">
+<size>14,-1d</size>
+<tooltip>Switch EMS number</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<enabled>0</enabled>
+<fg>#C8B43E</fg>
+<maxlength>2</maxlength>
 </object>
 </object>
 <object class="sizeritem">
@@ -38488,7 +38504,7 @@
 <border>4</border>
 <object class="wxTextCtrl" name="DebugEmsPage" subclass="HexEdit">
 <size>25,-1d</size>
-<tooltip>Switch Elf EMS page (0-1F) or ROM Map (0-FF)</tooltip>
+<tooltip>Switch EMS page</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -38515,15 +38531,15 @@
 <flag>wxGROW|wxRIGHT</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="DebugPortExtender" subclass="HexEdit">
-<size>14,-1d</size>
-<tooltip>Select switchable page (0-F)</tooltip>
+<size>25,-1d</size>
+<tooltip>Select switchable page</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
 <enabled>0</enabled>
 <fg>#A93EAC</fg>
-<maxlength>1</maxlength>
+<maxlength>2</maxlength>
 </object>
 </object>
 <object class="sizeritem">
@@ -38531,7 +38547,7 @@
 <border>2</border>
 <object class="wxTextCtrl" name="DebugPager" subclass="HexEdit">
 <size>25,-1d</size>
-<tooltip>Switch Elf memory pager (0-FF)</tooltip>
+<tooltip>Switch memory pager (0-FF)</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>

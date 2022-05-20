@@ -23,7 +23,7 @@ private:
 class Velf : public wxFrame, public Cdp1802
 {
 public:
-	Velf(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf);
+	Velf(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf, Conf computerConf);
 	~Velf();
 
     void onClose(wxCloseEvent&WXUNUSED(event));

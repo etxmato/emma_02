@@ -7,7 +7,7 @@
 class StudioIV : public Cdp1802, public Pixie
 {
 public:
-	StudioIV(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType);
+	StudioIV(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, Conf computerConf);
 	~StudioIV();
 
 	void configureComputer();

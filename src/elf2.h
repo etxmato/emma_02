@@ -29,7 +29,7 @@ private:
 class Elf2 : public wxFrame, public MainElf 
 {
 public:
-	Elf2(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf);
+	Elf2(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf, Conf computerConf);
 	Elf2() {};
 	~Elf2();
 

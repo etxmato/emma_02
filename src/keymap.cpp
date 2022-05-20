@@ -130,7 +130,7 @@ KeyMapDialog::KeyMapDialog(wxWindow* parent)
 		case ELF:
 		case ELFII:
 		case SUPERELF:
-        case NETRONICS:
+        case DIY:
         case PICO:
 		case ETI: // Add Member GUI for IN Button
             keyDefGameHexA_[0] = 0xd;
@@ -364,7 +364,7 @@ KeyMapDialog::KeyMapDialog(wxWindow* parent)
                 case ELF:
                 case ELFII:
                 case SUPERELF:
-                case NETRONICS:
+                case DIY:
                 case PICO:
                    if (p_Main->isComputerRunning())
                     {

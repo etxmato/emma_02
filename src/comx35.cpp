@@ -50,9 +50,10 @@
 
 #define DMACYCLE 5
 
-Comx::Comx(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock)
+Comx::Comx(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock, Conf computerConf)
 :Expansion(title, pos, size, zoomLevel, computerType, clock)
 {
+    computerConfiguration = computerConf;
 }
 
 Comx::~Comx()
@@ -942,7 +943,7 @@ void Comx::startComputer()
 
 void Comx::writeMemDataType(Word address, Byte type)
 {
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case COMXEXPBOX:
 			switch (expansionMemoryType_[expansionSlot_*32 + (address & 0x1fff)/256])
@@ -1074,7 +1075,7 @@ void Comx::writeMemDataType(Word address, Byte type)
 
 Byte Comx::readMemDataType(Word address, uint64_t* executed)
 {
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case COMXEXPBOX:
 			switch (expansionMemoryType_[expansionSlot_*32 + (address & 0x1fff)/256])
@@ -1187,7 +1188,7 @@ Byte Comx::readMem(Word address)
 	int year;
 	Byte high, low, rtcControl;
 	
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case UNDEFINED:
 			return 255;
@@ -1367,7 +1368,7 @@ void Comx::writeMem(Word address, Byte value, bool writeRom)
 	wxTimeSpan timeDiff;
 	Byte high, low;
 
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case UNDEFINED:
 		case COMXEXPROM:
@@ -2310,7 +2311,7 @@ void Comx::setDosFileName(int address)
 
 void Comx::saveRam()
 {
-	if (memoryType_[0xf000/256] != NVRAM)
+	if ((memoryType_[0xf000/256]&0xff) != NVRAM)
 		return;
 
 	Byte value;
@@ -2333,7 +2334,7 @@ void Comx::saveRam()
 
 void Comx::loadRam()
 {
-	if (memoryType_[0xf000/256] != NVRAM)
+	if ((memoryType_[0xf000/256]&0xff) != NVRAM)
 		return;
 
 	wxFFile inFile;

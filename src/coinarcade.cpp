@@ -32,9 +32,10 @@
 #include "main.h"
 #include "coinarcade.h"
 
-CoinArcade::CoinArcade(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType)
+CoinArcade::CoinArcade(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, Conf computerConf)
 :Pixie(title, pos, size, zoom, zoomfactor, computerType)
 {
+    computerConfiguration = computerConf;
 }
 
 CoinArcade::~CoinArcade()
@@ -312,7 +313,7 @@ void CoinArcade::startComputer()
 
 void CoinArcade::writeMemDataType(Word address, Byte type)
 {
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
         case ROM:
@@ -338,7 +339,7 @@ void CoinArcade::writeMemDataType(Word address, Byte type)
 
 Byte CoinArcade::readMemDataType(Word address, uint64_t* executed)
 {
-    switch (memoryType_[address/256])
+    switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
 		case ROM:
@@ -359,7 +360,7 @@ Byte CoinArcade::readMemDataType(Word address, uint64_t* executed)
 
 Byte CoinArcade::readMem(Word address)
 {
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case UNDEFINED:
 			return 255;
@@ -379,7 +380,7 @@ Byte CoinArcade::readMemDebug(Word address)
 
 void CoinArcade::writeMem(Word address, Byte value, bool writeRom)
 {
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
 			if (mainMemory_[address]==value)

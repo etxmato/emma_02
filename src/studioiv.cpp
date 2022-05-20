@@ -31,9 +31,10 @@
 #include "main.h"
 #include "studioiv.h"
 
-StudioIV::StudioIV(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType)
+StudioIV::StudioIV(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, Conf computerConf)
 :Pixie(title, pos, size, zoom, zoomfactor, computerType)
 {
+    computerConfiguration = computerConf;
 }
 
 StudioIV::~StudioIV()
@@ -700,7 +701,7 @@ void StudioIV::startComputer2020()
 
 void StudioIV::writeMemDataType(Word address, Byte type)
 {
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
 		case ROM:
@@ -716,7 +717,7 @@ void StudioIV::writeMemDataType(Word address, Byte type)
 
 Byte StudioIV::readMemDataType(Word address, uint64_t* executed)
 {
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
 		case ROM:
@@ -736,7 +737,7 @@ Byte StudioIV::readMem(Word address)
     if (st2020Active_)
         address |= addressLatch_;
     
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case UNDEFINED:
 			return 255;
@@ -762,7 +763,7 @@ Byte StudioIV::readMemDebug(Word address)
     if (st2020Active_)
         address |= addressLatch_;
     
-    switch (memoryType_[address/256])
+    switch (memoryType_[address/256]&0xff)
     {
         case UNDEFINED:
             return 255;
@@ -786,7 +787,7 @@ Byte StudioIV::readMemDebug(Word address)
 
 void StudioIV::writeMem(Word address, Byte value, bool writeRom)
 {
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
 			if (mainMemory_[address]==value)

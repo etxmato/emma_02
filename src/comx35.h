@@ -6,7 +6,7 @@
 class Comx : public Expansion
 { 
 public:
-	Comx(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock);
+	Comx(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock, Conf computerConf);
 	~Comx();
 
 	void configureComputer();

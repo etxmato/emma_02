@@ -29,9 +29,10 @@
 #include "main.h"
 #include "tmc1800.h"
 
-Tmc1800::Tmc1800(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType)
+Tmc1800::Tmc1800(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, Conf computerConf)
 :Pixie(title, pos, size, zoom, zoomfactor, computerType)
 {
+    computerConfiguration = computerConf;
 }
 
 Tmc1800::~Tmc1800()
@@ -290,7 +291,7 @@ void Tmc1800::writeMemDataType(Word address, Byte type)
 	if (address < 0x8000)
 		address = (address | addressLatch_) & (ramMask_ | 0x8000);
 
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
 		case ROM:
@@ -311,7 +312,7 @@ Byte Tmc1800::readMemDataType(Word address, uint64_t* executed)
 	else
 		address = address & 0x81ff;
 
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
 		case ROM:
@@ -330,7 +331,7 @@ Byte Tmc1800::readMem(Word address)
 	else
 		address = address & 0x81ff;
 
-	if (memoryType_[address/256] == UNDEFINED) return 255;
+	if ((memoryType_[address/256]&0xff) == UNDEFINED) return 255;
 	return mainMemory_[address| addressLatch_];
 }
 
@@ -348,7 +349,7 @@ void Tmc1800::writeMem(Word address, Byte value, bool writeRom)
 		return;
     
 	if (!writeRom)
-		if (memoryType_[address/256] != RAM)  return;
+		if ((memoryType_[address/256]&0xff) != RAM)  return;
 
 	mainMemory_[address]=value;
 	if (writeRom)

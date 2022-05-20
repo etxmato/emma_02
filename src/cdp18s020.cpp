@@ -235,9 +235,10 @@ BEGIN_EVENT_TABLE(Cdp18s020, wxFrame)
     EVT_BUTTON(3, Cdp18s020::onResetButton)
 END_EVENT_TABLE()
 
-Cdp18s020::Cdp18s020(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf)
+Cdp18s020::Cdp18s020(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf, Conf computerConf)
 : wxFrame((wxFrame *)NULL, -1, title, pos, size)
 {
+    computerConfiguration = computerConf;
 	cdp18s020Configuration = conf;
 
 	cdp18s020ClockSpeed_ = clock;
@@ -578,7 +579,7 @@ void Cdp18s020::writeMemDataType(Word address, Byte type)
 	if (address < 0x8000)
 		address = (address | addressLatch_);
 
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
 			if (mainMemoryDataType_[address] != type)
@@ -620,7 +621,7 @@ Byte Cdp18s020::readMemDataType(Word address, uint64_t* executed)
     if (profilerCounter_ != PROFILER_OFF)
         *executed = mainMemoryExecuted_[address];
 
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
 			return mainMemoryDataType_[address];
@@ -652,7 +653,7 @@ Byte Cdp18s020::readMemDebug(Word address)
 	if (address < 0x8000)
 		address = (address | addressLatch_);
 
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
 			return mainMemory_[address];
@@ -680,7 +681,7 @@ void Cdp18s020::writeMem(Word address, Byte value, bool writeRom)
 
 void Cdp18s020::writeMemDebug(Word address, Byte value, bool writeRom)
 {
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
             if (!mpButtonState_[(address>>10)&0x3])

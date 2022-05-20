@@ -23,7 +23,7 @@ private:
 class Uc1800 : public wxFrame, public Cdp1802
 {
 public:
-	Uc1800(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf);
+	Uc1800(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf, Conf computerConf);
 	Uc1800() {};
 	~Uc1800();
 

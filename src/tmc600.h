@@ -10,7 +10,7 @@
 class Tmc600 : public V1870
 {
 public:
-	Tmc600(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock);
+	Tmc600(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock, Conf computerConf);
 	~Tmc600();
 
     void reDefineKeys();

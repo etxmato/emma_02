@@ -35,9 +35,10 @@
 #include "ms2000.h"
 #include "upd765.h"
 
-Ms2000::Ms2000(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf)
+Ms2000::Ms2000(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf, Conf computerConf)
 : wxFrame((wxFrame *)NULL, -1, title, pos, size)
 {
+    computerConfiguration = computerConf;
 	ms2000Configuration = conf;
 
 	ms2000ClockSpeed_ = clock;
@@ -478,7 +479,7 @@ void Ms2000::startComputer()
 void Ms2000::writeMemDataType(Word address, Byte type)
 {
 	address = address | bootstrap_;
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case ROM:
 			if (mainMemoryDataType_[address] != type)
@@ -503,7 +504,7 @@ void Ms2000::writeMemDataType(Word address, Byte type)
 Byte Ms2000::readMemDataType(Word address, uint64_t* executed)
 {
 	address = address | bootstrap_;
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
 		case ROM:
@@ -519,7 +520,7 @@ Byte Ms2000::readMem(Word address)
 {
 	address = address | bootstrap_;
 
-	switch (memoryType_[address / 256])
+	switch (memoryType_[address / 256]&0xff)
 	{
 		case UNDEFINED:
 			return 255;
@@ -546,7 +547,7 @@ void Ms2000::writeMem(Word address, Byte value, bool writeRom)
 	address = address | bootstrap_;
  //   wxString textMessage;
     
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case UNDEFINED:
 		case ROM:

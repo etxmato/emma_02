@@ -145,6 +145,7 @@ GuiMain::GuiMain(const wxString& title, const wxPoint& pos, const wxSize& size, 
 
     tapeState_ = TAPE_STOP;
 	turboOn_ = false;
+    oldXmlFileName_ = "";
 }
 
 WindowInfo GuiMain::getWinSizeInfo(wxString appDir, wxString fontSizeString)
@@ -356,7 +357,8 @@ void GuiMain::readElfPortConfig(int elfType, wxString elfTypeStr)
 	elfConfiguration[elfType].elfPortConf.printerEf = (int)configPointer->Read(elfTypeStr + "/PrinterEf", 0l);
 	elfConfiguration[elfType].elfPortConf.printerOutput = (int)configPointer->Read(elfTypeStr + "/PrinterOutput", 7l);
 
-    elfConfiguration[elfType].elfPortConf.emsOutput = (int)configPointer->Read(elfTypeStr+"/EmsOutput", 7l);
+    if (elfConfiguration[elfType].useEms)
+        elfConfiguration[elfType].elfPortConf.emsOutput[0] = (int)configPointer->Read(elfTypeStr+"/EmsOutput", 7l);
 
     elfConfiguration[elfType].elfPortConf.vt100Output = (int)configPointer->Read(elfTypeStr+"/Vt100Output", 7l);
     if (elfTypeStr != "Elf2K")
@@ -469,7 +471,8 @@ void GuiMain::writeElfPortConfig(int elfType, wxString elfTypeStr)
 	configPointer->Write(elfTypeStr + "/PrinterEf", elfConfiguration[elfType].elfPortConf.printerEf);
 	configPointer->Write(elfTypeStr + "/PrinterOutput", elfConfiguration[elfType].elfPortConf.printerOutput);
 
-    configPointer->Write(elfTypeStr+"/EmsOutput", elfConfiguration[elfType].elfPortConf.emsOutput);
+    if (elfConfiguration[elfType].useEms)
+        configPointer->Write(elfTypeStr+"/EmsOutput", elfConfiguration[elfType].elfPortConf.emsOutput[0]);
 
     configPointer->Write(elfTypeStr+"/Vt100Output", elfConfiguration[elfType].elfPortConf.vt100Output);
     configPointer->Write(elfTypeStr+"/Vt100Ef", elfConfiguration[elfType].elfPortConf.vt100Ef);
@@ -804,7 +807,7 @@ void GuiMain::onPrintFileText(wxCommandEvent&event)
 
 void GuiMain::onPrintButton(wxCommandEvent&WXUNUSED(event))
 {
-	if (selectedComputer_ == VIP || selectedComputer_ == VIPII || selectedComputer_ == VELF ||selectedComputer_ == ELF || selectedComputer_ == ELFII || selectedComputer_ == SUPERELF || selectedComputer_ == NETRONICS || selectedComputer_ == PICO)
+	if (selectedComputer_ == VIP || selectedComputer_ == VIPII || selectedComputer_ == VELF ||selectedComputer_ == ELF || selectedComputer_ == ELFII || selectedComputer_ == SUPERELF || selectedComputer_ == DIY || selectedComputer_ == PICO)
 	{
 		if (!computerRunning_ || (selectedComputer_ != runningComputer_))
 		{
@@ -987,8 +990,8 @@ void GuiMain::onKeyFileEject(wxCommandEvent& WXUNUSED(event) )
                 p_Super->closeElfKeyFile();
             break;
 
-            case NETRONICS:
-                p_Netronics->closeElfKeyFile();
+            case DIY:
+                p_Diy->closeElfKeyFile();
             break;
 
             case PICO:
@@ -1046,7 +1049,7 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool Gu
                 XRCCTRL(*this, "VTBaudRText"+elfTypeStr, wxStaticText)->Enable(false);
                 XRCCTRL(*this, "VTBaudTText"+elfTypeStr, wxStaticText)->Enable(false);
                 XRCCTRL(*this, "VtSetup"+elfTypeStr, wxButton)->Enable(false);
-                if (elfType == ELF || elfType == ELFII || elfType == SUPERELF || elfType == NETRONICS || elfType == PICO)
+                if (elfType == ELF || elfType == ELFII || elfType == SUPERELF || elfType == DIY || elfType == PICO)
                 {
                     XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->Enable(true);
                     XRCCTRL(*this, "QsoundText"+elfTypeStr, wxStaticText)->Enable(true);
@@ -1084,7 +1087,7 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool Gu
 				XRCCTRL(*this, "ZoomValueVt"+elfTypeStr, wxTextCtrl)->Enable(true);
 				XRCCTRL(*this, "StretchDot"+elfTypeStr, wxCheckBox)->Enable(true);
 			}
-			if (elfType == ELF || elfType == ELFII || elfType == SUPERELF || elfType == NETRONICS || elfType == PICO)
+			if (elfType == ELF || elfType == ELFII || elfType == SUPERELF || elfType == DIY || elfType == PICO)
 			{
                 if (!(elfConfiguration[elfType].useUart || elfConfiguration[elfType].useUart16450))
                 {
@@ -1131,7 +1134,7 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool Gu
 				XRCCTRL(*this, "ZoomValueVt"+elfTypeStr, wxTextCtrl)->Enable(true);
 				XRCCTRL(*this, "StretchDot"+elfTypeStr, wxCheckBox)->Enable(true);
 			}
-			if (elfType == ELF || elfType == ELFII || elfType == SUPERELF || elfType == NETRONICS || elfType == PICO)
+			if (elfType == ELF || elfType == ELFII || elfType == SUPERELF || elfType == DIY || elfType == PICO)
 			{
                 if (!(elfConfiguration[elfType].useUart || elfConfiguration[elfType].useUart16450))
                 {
@@ -1164,7 +1167,7 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool Gu
             XRCCTRL(*this, "VTBaudRText"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].useUart || elfConfiguration[elfType].useUart16450);
             XRCCTRL(*this, "VTBaudTText"+elfTypeStr, wxStaticText)->Enable(true);
             XRCCTRL(*this, "VtSetup"+elfTypeStr, wxButton)->Enable(true);
-            if (elfType == ELF || elfType == ELFII || elfType == SUPERELF || elfType == NETRONICS || elfType == PICO)
+            if (elfType == ELF || elfType == ELFII || elfType == SUPERELF || elfType == DIY || elfType == PICO)
             {
                 if (!(elfConfiguration[elfType].useUart || elfConfiguration[elfType].useUart16450))
                 {
@@ -1203,7 +1206,7 @@ void GuiMain::onFullScreenFloat(wxCommandEvent&WXUNUSED(event))
     correctZoomAndValue(ELF, "Elf", SET_SPIN);
     correctZoomAndValue(ELFII, "ElfII", SET_SPIN);
     correctZoomAndValue(SUPERELF, "SuperElf", SET_SPIN);
-    correctZoomAndValue(NETRONICS, "Netronics", SET_SPIN);
+    correctZoomAndValue(DIY, "Diy", SET_SPIN);
     correctZoomAndValue(PICO, "Pico", SET_SPIN);
     correctZoomAndValue(VIP2K, "Vip2K", SET_SPIN);
     correctZoomAndValue(VELF, "Velf", SET_SPIN);
@@ -1231,7 +1234,7 @@ void GuiMain::onFullScreenFloat(wxCommandEvent&WXUNUSED(event))
     correctZoomVtAndValue(ELF, "Elf", SET_SPIN);
     correctZoomVtAndValue(ELFII, "ElfII", SET_SPIN);
     correctZoomVtAndValue(SUPERELF, "SuperElf", SET_SPIN);
-    correctZoomVtAndValue(NETRONICS, "Netronics", SET_SPIN);
+    correctZoomVtAndValue(DIY, "Diy", SET_SPIN);
     correctZoomVtAndValue(PICO, "Pico", SET_SPIN);
     correctZoomVtAndValue(MEMBER, "Membership", SET_SPIN);
     correctZoomVtAndValue(VIP2K, "Vip2K", SET_SPIN);
@@ -1517,7 +1520,7 @@ void GuiMain::onVolume(wxScrollEvent&event)
 
 void GuiMain::onCassette(wxCommandEvent& WXUNUSED(event))
 {
-    if (selectedComputer_ == ELF || selectedComputer_ == ELFII || selectedComputer_ == SUPERELF || selectedComputer_ == NETRONICS || selectedComputer_ == PICO)
+    if (selectedComputer_ == ELF || selectedComputer_ == ELFII || selectedComputer_ == SUPERELF || selectedComputer_ == DIY || selectedComputer_ == PICO)
     {
         if (elfConfiguration[selectedComputer_].useXmodem)
         {
@@ -1540,7 +1543,7 @@ void GuiMain::onCassetteFileSelector()
     wxString typeStr = "WAV";
     wxString formatStr = "WAV File (*.wav)|*.wav|All files (%s)|%s";
     
-    if (selectedComputer_ == ELF || selectedComputer_ == ELFII || selectedComputer_ == SUPERELF || selectedComputer_ == NETRONICS || selectedComputer_ == PICO)
+    if (selectedComputer_ == ELF || selectedComputer_ == ELFII || selectedComputer_ == SUPERELF || selectedComputer_ == DIY || selectedComputer_ == PICO)
     {
         if (elfConfiguration[selectedComputer_].useXmodem)
         {
@@ -2065,7 +2068,7 @@ void GuiMain::runSoftware(bool load)
 		case SUPERELF:
 		case ELFII:
 		case ELF:
-        case NETRONICS:
+        case DIY:
         case PICO:
 			if (p_Computer->getLoadedProgram()&0x1)
 				p_Computer->startComputerRun(load);
@@ -2147,7 +2150,7 @@ void GuiMain::onLoad(bool load)
 		case SUPERELF:
 		case ELFII:
 		case ELF:
-        case NETRONICS:
+        case DIY:
         case PICO:
 			if (p_Computer->getLoadedProgram()&0x1)
 				extension = computerInfo[selectedComputer_].name+" Program File|*."+computerInfo[selectedComputer_].ploadExtension+"|Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8|Intel Hex File|*.hex|All files (%s)|%s";
@@ -2207,7 +2210,7 @@ void GuiMain::onLoad(bool load)
 		case ELFII:
 		case ELF:
         case VIP:
-        case NETRONICS:
+        case DIY:
         case PICO:
 			if (p_Computer->getLoadedProgram()&0x1)
 				p_Computer->startComputerRun(load);
@@ -2270,7 +2273,7 @@ void GuiMain::onSaveButton(wxCommandEvent& WXUNUSED(event))
 		case SUPERELF:
 		case ELFII:
 		case ELF:
-        case NETRONICS:
+        case DIY:
         case PICO:
 			if (p_Computer->getLoadedProgram()&0x1)
 			{
@@ -3355,7 +3358,7 @@ void GuiMain::onWavFile(wxCommandEvent&WXUNUSED(event))
 void GuiMain::setRealCas(int computerType)
 {
 	bool useTape = true;
-	if (((computerType == ELFII) || (computerType == SUPERELF) || (computerType == ELF) || (computerType == NETRONICS) || (computerType == PICO)) && (!elfConfiguration[computerType].useTape))
+	if (((computerType == ELFII) || (computerType == SUPERELF) || (computerType == ELF) || (computerType == DIY) || (computerType == PICO)) && (!elfConfiguration[computerType].useTape))
 		useTape = false;
 
 	if (!mode_.gui)
@@ -3414,7 +3417,7 @@ void GuiMain::setRealCas(int computerType)
 void GuiMain::setRealCas2(int computerType)
 {
 	bool useTape = true;
-	if (((computerType == ELFII) || (computerType == SUPERELF) || (computerType == ELF) || (computerType == NETRONICS) || (computerType == PICO)) && (!elfConfiguration[computerType].useTape))
+	if (((computerType == ELFII) || (computerType == SUPERELF) || (computerType == ELF) || (computerType == DIY) || (computerType == PICO)) && (!elfConfiguration[computerType].useTape))
 		useTape = false;
 
 	if (!mode_.gui)
@@ -3459,7 +3462,7 @@ void GuiMain::setRealCas2(int computerType)
 void GuiMain::setRealCasOff(int computerType)
 {
 	bool useTape = true;
-	if (((computerType == ELFII) || (computerType == SUPERELF) || (computerType == ELF) || (computerType == NETRONICS) || (computerType == PICO)) && (!elfConfiguration[computerType].useTape))
+	if (((computerType == ELFII) || (computerType == SUPERELF) || (computerType == ELF) || (computerType == DIY) || (computerType == PICO)) && (!elfConfiguration[computerType].useTape))
 		useTape = false;
 
 	conf[computerType].realCassetteLoad_ = false;
@@ -3634,7 +3637,7 @@ void GuiMain::onTerminalLoad(wxCommandEvent&WXUNUSED(event))
 
 void GuiMain::startAutoTerminalLoad(int protocol)
 {
-	if (runningComputer_ != MEMBER && runningComputer_ != VIP2K && runningComputer_ != CDP18S020 && runningComputer_ != ELF && runningComputer_ != ELFII && runningComputer_ != SUPERELF && runningComputer_ != ELF2K && runningComputer_ != NETRONICS && runningComputer_ != PICO)
+	if (runningComputer_ != MEMBER && runningComputer_ != VIP2K && runningComputer_ != CDP18S020 && runningComputer_ != ELF && runningComputer_ != ELFII && runningComputer_ != SUPERELF && runningComputer_ != ELF2K && runningComputer_ != DIY && runningComputer_ != PICO)
 		return;
 
 	if (conf[runningComputer_].autoCassetteLoad_)
@@ -3698,7 +3701,7 @@ void GuiMain::stopTerminal()
 
 void GuiMain::startAutoTerminalSave(int protocol)
 {
-    if (runningComputer_ != MEMBER && runningComputer_ != VIP2K && runningComputer_ != CDP18S020 && runningComputer_ != ELF && runningComputer_ != ELFII && runningComputer_ != SUPERELF && runningComputer_ != ELF2K && runningComputer_ != NETRONICS && runningComputer_ != PICO)
+    if (runningComputer_ != MEMBER && runningComputer_ != VIP2K && runningComputer_ != CDP18S020 && runningComputer_ != ELF && runningComputer_ != ELFII && runningComputer_ != SUPERELF && runningComputer_ != ELF2K && runningComputer_ != DIY && runningComputer_ != PICO)
 		return;
 
 	if (conf[runningComputer_].autoCassetteLoad_)
@@ -3824,8 +3827,6 @@ void GuiMain::enableStartButtonGui(bool status)
 {
 	for (int i=0; i<NO_COMPUTER; i++)
 	{
-        if (i == NETRONICS) //*** to be removed
-            i = PICO;
         startButton[i]->Enable(status);
         stopButton[i]->Enable(false);
 	}
@@ -3871,7 +3872,7 @@ void GuiMain::enableMemAccessGui(bool status)
 		superBasic = ((p_Computer->getLoadedProgram()&0x1) == 0x1);
 	else
 	{
-		if ((runningComputer_ == ELF) || (runningComputer_ == ELFII) || (runningComputer_ == SUPERELF) || (runningComputer_ == VIP) || (runningComputer_ == NETRONICS) || (runningComputer_ == PICO))
+		if ((runningComputer_ == ELF) || (runningComputer_ == ELFII) || (runningComputer_ == SUPERELF) || (runningComputer_ == VIP) || (runningComputer_ == DIY) || (runningComputer_ == PICO))
 			disableAll = true;
 	}
 	if (superBasic)
@@ -4005,7 +4006,7 @@ void GuiMain::enableTapeGui(bool status, int computerType)
 	XRCCTRL(*this, "TurboClock"+computerInfo[computerType].gui, wxTextCtrl)->Enable(status);
 	XRCCTRL(*this, "TurboMhzText"+computerInfo[computerType].gui, wxStaticText)->Enable(status);
 #if defined(__WXMSW__)
-    if (computerType == ELF || computerType == ELFII || computerType == SUPERELF || computerType == NETRONICS)
+    if (computerType == ELF || computerType == ELFII || computerType == SUPERELF || computerType == DIY)
     {
         XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->Enable(status&(!elfConfiguration[computerType].useXmodem));
     }
@@ -4022,7 +4023,7 @@ void GuiMain::enableTapeGui(bool status, int computerType)
 void GuiMain::enableLoadGui(bool status)
 {
 	enableMemAccessGui(status);
-	if (((runningComputer_ == ELFII) || (runningComputer_ == SUPERELF) || (runningComputer_ == ELF) || (runningComputer_ == NETRONICS) || (runningComputer_ == PICO)) && (!elfConfiguration[runningComputer_].useTape))
+	if (((runningComputer_ == ELFII) || (runningComputer_ == SUPERELF) || (runningComputer_ == ELF) || (runningComputer_ == DIY) || (runningComputer_ == PICO)) && (!elfConfiguration[runningComputer_].useTape))
 	{
 		enableTapeGui(false, runningComputer_);
 		return;
@@ -4034,7 +4035,7 @@ void GuiMain::enableLoadGui(bool status)
     }
 	if (computerRunning_)
 	{
-        if (runningComputer_ == ELFII || runningComputer_ == SUPERELF || runningComputer_ == ELF || runningComputer_ == ELF2K || runningComputer_ == NETRONICS || runningComputer_ == PICO)
+        if (runningComputer_ == ELFII || runningComputer_ == SUPERELF || runningComputer_ == ELF || runningComputer_ == ELF2K || runningComputer_ == DIY || runningComputer_ == PICO)
             XRCCTRL(*this, "Tape"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
 		XRCCTRL(*this, "CasButton"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
 		XRCCTRL(*this, "WavFile"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(status);
@@ -4054,7 +4055,7 @@ void GuiMain::enableLoadGui(bool status)
 	}
 	else
 	{
-        if (runningComputer_ == ELFII || runningComputer_ == SUPERELF || runningComputer_ == ELF || runningComputer_ == ELF2K || runningComputer_ == NETRONICS || runningComputer_ == PICO)
+        if (runningComputer_ == ELFII || runningComputer_ == SUPERELF || runningComputer_ == ELF || runningComputer_ == ELF2K || runningComputer_ == DIY || runningComputer_ == PICO)
             XRCCTRL(*this, "Tape"+computerInfo[runningComputer_].gui, wxButton)->Enable(true);
 		XRCCTRL(*this, "AutoCasLoad"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable(true);
 		XRCCTRL(*this, "Turbo"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable(true);
@@ -4114,7 +4115,7 @@ void GuiMain::setTapeState(int tapeState, wxString tapeNumber)
             XRCCTRL(*this, "CasPause"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(pauseOffBitmap);
     }
     
-    if (runningComputer_ == ELFII || runningComputer_ == SUPERELF || runningComputer_ == ELF || runningComputer_ == ELF2K || runningComputer_ == NETRONICS)
+    if (runningComputer_ == ELFII || runningComputer_ == SUPERELF || runningComputer_ == ELF || runningComputer_ == ELF2K || runningComputer_ == DIY)
         XRCCTRL(*this, "Tape"+tapeNumber+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState == TAPE_STOP);
     XRCCTRL(*this, "CasButton"+tapeNumber+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState == TAPE_STOP);
 	XRCCTRL(*this, "WavFile"+tapeNumber+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(tapeState == TAPE_STOP);
@@ -4406,7 +4407,7 @@ bool GuiMain::showSplashScreen()
         case ELF:
         case ELFII:
         case SUPERELF:
-        case NETRONICS:
+        case DIY:
         case PICO:
             switch (p_Computer->getLoadedProgram())
             {
@@ -4469,7 +4470,7 @@ void GuiMain::hideSplashScreen()
         case ELF:
         case ELFII:
         case SUPERELF:
-        case NETRONICS:
+        case DIY:
         case PICO:
            switch (p_Computer->getLoadedProgram())
             {
@@ -4905,3 +4906,563 @@ void GuiMain::setUpdFloppyGui(int drive, int computerType)
     }
 }
 
+void GuiMain::parseXmlFile(int computer, wxString xmlDir, wxString xmlFile)
+{
+    wxString tagList[]=
+    {
+        "info",
+        "memory",
+        "comment",
+        "undefined"
+    };
+
+    enum
+    {
+        TAG_INFO,
+        TAG_MEMORY,
+        TAG_COMMENT,
+        TAG_UNDEFINED
+    };
+    
+    if (!wxFile::Exists(xmlDir + xmlFile))
+        return;
+        
+    wxFileName xmlFileName = wxFileName(xmlDir + xmlFile);
+    wxDateTime newDate = xmlFileName.GetModificationTime();
+    
+    if (oldXmlFileName_ == xmlDir + xmlFile)
+    {
+        
+        if (newDate.IsEqualTo(oldXmlDate_))
+            return;
+    }
+
+    oldXmlFileName_ = xmlDir + xmlFile;
+    oldXmlDate_ = newDate;
+
+    int tagTypeInt;
+
+    warningText_ = "";
+    conf[computer].memConfigNumber_ = 1;
+    conf[computer].memConfig_.resize(1);
+    conf[computer].memConfig_[0].filename = "";
+    
+    wxXmlDocument doc;
+    
+    if (!doc.Load(xmlDir + xmlFile))
+        return;
+    
+    // start processing the XML file
+    if (doc.GetRoot()->GetName() != "emmaconfig")
+        return;
+    
+    wxXmlNode *child = doc.GetRoot()->GetChildren();
+    while (child)
+    {
+        wxString childName = child->GetName();
+        
+        tagTypeInt = 0;
+        while (tagTypeInt != TAG_UNDEFINED && tagList[tagTypeInt] != childName)
+            tagTypeInt++;
+
+        switch (tagTypeInt)
+        {
+            case TAG_INFO:
+                parseXml_Info (computer, *child);
+            break;
+
+            case TAG_MEMORY:
+                parseXml_Memory (computer, *child);
+            break;
+
+            case TAG_COMMENT:
+            break;
+
+            default:
+                warningText_ += "Unkown tag: ";
+                warningText_ += childName;
+                warningText_ += "\n";
+            break;
+        }
+       
+        child = child->GetNext();
+    }
+    
+    if (warningText_ != "")
+        wxMessageBox(warningText_, "Warning list xml parser", wxICON_EXCLAMATION);
+}
+
+void GuiMain::parseXml_Info(int computer, wxXmlNode &node)
+{
+    wxString tagList[]=
+    {
+        "code",
+        "name",
+        "pload",
+        "comment",
+        "undefined"
+    };
+
+    enum
+    {
+        TAG_CODE,
+        TAG_NAME,
+        TAG_PLOAD,
+        TAG_COMMENT,
+        TAG_UNDEFINED
+    };
+    
+    int tagTypeInt;
+
+    wxXmlNode *child = node.GetChildren();
+    while (child)
+    {
+        wxString childName = child->GetName();
+
+        tagTypeInt = 0;
+        while (tagTypeInt != TAG_UNDEFINED && tagList[tagTypeInt] != childName)
+            tagTypeInt++;
+
+        switch (tagTypeInt)
+        {
+            case TAG_CODE:
+                computerInfo[computer].gui = child->GetNodeContent();
+            break;
+                
+            case TAG_NAME:
+                computerInfo[computer].name = child->GetNodeContent();
+            break;
+
+            case TAG_PLOAD:
+                computerInfo[computer].ploadExtension = child->GetNodeContent();
+            break;
+
+            case TAG_COMMENT:
+            break;
+
+            default:
+                warningText_ += "Unkown tag: ";
+                warningText_ += childName;
+                warningText_ += "\n";
+            break;
+        }
+        
+        child = child->GetNext();
+    }
+}
+
+void GuiMain::parseXml_Memory(int computer, wxXmlNode &node)
+{
+    Word memMask;
+    
+    wxString tagList[]=
+    {
+        "rom",
+        "mainram",
+        "ram",
+        "ems",
+        "mapper",
+        "comment",
+        "undefined"
+    };
+
+    enum
+    {
+        TAG_ROM,
+        TAG_MAINRAM,
+        TAG_RAM,
+        TAG_EMS,
+        TAG_MAPPER,
+        TAG_COMMENT,
+        TAG_UNDEFINED
+    };
+    
+    int tagTypeInt;
+
+    elfConfiguration[computer].useEms = false;
+    conf[computer].emsConfigNumber_ = 0;
+
+    wxXmlNode *child = node.GetChildren();
+    while (child)
+    {
+        wxString childName = child->GetName();
+
+        tagTypeInt = 0;
+        while (tagTypeInt != TAG_UNDEFINED && tagList[tagTypeInt] != childName)
+            tagTypeInt++;
+
+        switch (tagTypeInt)
+        {
+            case TAG_ROM:
+                conf[computer].memConfig_.resize(conf[computer].memConfigNumber_+1);
+                parseXml_RomRam (computer, *child, (int)(ROM + 256*conf[computer].memConfigNumber_), conf[computer].memConfigNumber_);
+                conf[computer].memConfig_[conf[computer].memConfigNumber_].memMask = parseXml_Number(*child, "mask");
+                if (conf[computer].memConfig_[conf[computer].memConfigNumber_].memMask == 0)
+                    conf[computer].memConfig_[conf[computer].memConfigNumber_].memMask = 0xffff;
+                conf[computer].memConfig_[conf[computer].memConfigNumber_].memMask |= 0xff;
+                conf[computer].memConfigNumber_++;
+            break;
+
+            case TAG_MAINRAM:
+                parseXml_RomRam (computer, *child, MAINRAM, 0);
+                conf[computer].memConfig_[0].memMask = parseXml_Number(*child, "mask");
+                if (conf[computer].memConfig_[0].memMask == 0)
+                    conf[computer].memConfig_[0].memMask = 0xffff;
+                conf[computer].memConfig_[0].memMask |= 0xff;
+            break;
+
+            case TAG_RAM:
+                conf[computer].memConfig_.resize(conf[computer].memConfigNumber_+1);
+                parseXml_RomRam (computer, *child, RAM, conf[computer].memConfigNumber_++);
+            break;
+
+            case TAG_EMS:
+                conf[computer].emsConfig_.resize(conf[computer].emsConfigNumber_+1);
+                elfConfiguration[computer].elfPortConf.emsOutput.resize(conf[computer].emsConfigNumber_+1);
+
+                if (child->GetAttribute("type") == "ROM")
+                    conf[computer].emsConfig_[conf[computer].emsConfigNumber_].emsType = ROM;
+                else
+                    conf[computer].emsConfig_[conf[computer].emsConfigNumber_].emsType = RAM;
+
+                elfConfiguration[computer].useEms = true;
+                parseXml_Ems (computer, *child, (int)(EMSMEMORY + 256*conf[computer].emsConfigNumber_), conf[computer].emsConfigNumber_++);
+            break;
+
+            case TAG_MAPPER:
+                conf[computer].memConfig_.resize(conf[computer].memConfigNumber_+1);
+                elfConfiguration[computer].usePager = true;
+                elfConfiguration[computer].usePortExtender = true;
+                
+                memMask = parseXml_Number(*child, "mask");
+                if (memMask == 0)
+                    memMask = 0xffff;
+                memMask  |= 0xff;
+
+                conf[computer].pagerMaskBits_ = 16;
+                conf[computer].pagerMask_ = 0xFFFF;
+                while ((memMask & 0x8000) == 0)
+                {
+                    conf[computer].pagerMaskBits_--;
+                    conf[computer].pagerMask_ = conf[computer].pagerMask_ >> 1;
+                    memMask = memMask << 1;
+                }
+
+                parseXml_portExt (computer, *child, PAGER, conf[computer].memConfigNumber_++);
+            break;
+
+            case TAG_COMMENT:
+            break;
+
+            default:
+                warningText_ += "Unkown tag: ";
+                warningText_ += childName;
+                warningText_ += "\n";
+            break;
+        }
+        
+        child = child->GetNext();
+    }
+}
+
+void GuiMain::parseXml_RomRam(int computer, wxXmlNode &node, int type, size_t configNumber)
+{
+    wxString tagList[]=
+    {
+        "start",
+        "end",
+        "filename",
+        "dirname",
+        "comment",
+        "undefined"
+    };
+
+    enum
+    {
+        TAG_START,
+        TAG_END,
+        TAG_FILENAME,
+        TAG_DIRNAME,
+        TAG_COMMENT,
+        TAG_UNDEFINED
+    };
+    
+    int tagTypeInt;
+
+    conf[computer].memConfig_[configNumber].start = 0;
+    conf[computer].memConfig_[configNumber].end = 0;
+    conf[computer].memConfig_[configNumber].memMask = 0xFFFF;
+    conf[computer].memConfig_[configNumber].filename = "";
+    conf[computer].memConfig_[configNumber].dirname = dataDir_;
+    conf[computer].memConfig_[configNumber].type = type;
+
+    wxXmlNode *child = node.GetChildren();
+    while (child)
+    {
+        wxString childName = child->GetName();
+
+        tagTypeInt = 0;
+        while (tagTypeInt != TAG_UNDEFINED && tagList[tagTypeInt] != childName)
+            tagTypeInt++;
+
+        switch (tagTypeInt)
+        {
+            case TAG_START:
+                conf[computer].memConfig_[configNumber].start = parseXml_Number(*child) & 0xffff;
+            break;
+
+            case TAG_END:
+                conf[computer].memConfig_[configNumber].end = parseXml_Number(*child) & 0xffff;
+            break;
+
+            case TAG_FILENAME:
+                conf[computer].memConfig_[configNumber].filename = child->GetNodeContent();
+                
+                conf[computer].memConfig_[configNumber].verifyFileExist = (child->GetAttribute("verify") == "true");
+            break;
+
+            case TAG_DIRNAME:
+                conf[computer].memConfig_[configNumber].dirname += child->GetNodeContent();
+                if (conf[computer].memConfig_[configNumber].dirname.Right(1) != pathSeparator_)
+                {
+                    conf[computer].memConfig_[configNumber].dirname += pathSeparator_;
+                }
+            break;
+
+            case TAG_COMMENT:
+            break;
+
+            default:
+                warningText_ += "Unkown tag: ";
+                warningText_ += childName;
+                warningText_ += "\n";
+            break;
+        }
+        
+        child = child->GetNext();
+    }
+}
+
+void GuiMain::parseXml_Ems(int computer, wxXmlNode &node, int type, size_t configNumber)
+{
+    long start, end;
+    
+    wxString tagList[]=
+    {
+        "start",
+        "end",
+        "filename",
+        "dirname",
+        "out",
+        "comment",
+        "undefined"
+    };
+
+    enum
+    {
+        TAG_START,
+        TAG_END,
+        TAG_FILENAME,
+        TAG_DIRNAME,
+        TAG_OUT,
+        TAG_COMMENT,
+        TAG_UNDEFINED
+    };
+    
+    int tagTypeInt;
+
+    conf[computer].emsConfig_[configNumber].start = 0;
+    conf[computer].emsConfig_[configNumber].end = 0;
+    conf[computer].emsConfig_[configNumber].outputMask = 0xFF;
+    conf[computer].emsConfig_[configNumber].filename = "";
+    conf[computer].emsConfig_[configNumber].dirname = dataDir_;
+    conf[computer].emsConfig_[configNumber].type = type;
+    elfConfiguration[computer].elfPortConf.emsOutput[configNumber] = -1;
+
+    wxXmlNode *child = node.GetChildren();
+    while (child)
+    {
+        wxString childName = child->GetName();
+
+        tagTypeInt = 0;
+        while (tagTypeInt != TAG_UNDEFINED && tagList[tagTypeInt] != childName)
+            tagTypeInt++;
+
+        switch (tagTypeInt)
+        {
+            case TAG_START:
+                conf[computer].emsConfig_[configNumber].start = parseXml_Number(*child) & 0xffff;
+            break;
+
+            case TAG_END:
+                conf[computer].emsConfig_[configNumber].end = parseXml_Number(*child) & 0xffff;
+            break;
+
+            case TAG_FILENAME:
+                conf[computer].emsConfig_[configNumber].filename = child->GetNodeContent();
+            break;
+
+            case TAG_DIRNAME:
+                conf[computer].emsConfig_[configNumber].dirname += child->GetNodeContent();
+                if (conf[computer].emsConfig_[configNumber].dirname.Right(1) != pathSeparator_)
+                {
+                    conf[computer].emsConfig_[configNumber].dirname += pathSeparator_;
+                }
+            break;
+
+            case TAG_OUT:
+                if (!parseXml_Range(*child, &start, &end))
+                    elfConfiguration[computer].elfPortConf.emsOutput[configNumber] = start & 07;
+                else
+                {
+                    conf[computer].emsConfig_[configNumber].outputStart = (Word) start;
+                    conf[computer].emsConfig_[configNumber].outputEnd = (Word) end;
+                }
+                conf[computer].emsConfig_[configNumber].outputMask = parseXml_Number(*child, "mask");
+                if (conf[computer].emsConfig_[configNumber].outputMask == 0)
+                    conf[computer].emsConfig_[configNumber].outputMask = 0xff;
+            break;
+
+            case TAG_COMMENT:
+            break;
+
+            default:
+                warningText_ += "Unkown tag: ";
+                warningText_ += childName;
+                warningText_ += "\n";
+            break;
+        }
+        
+        child = child->GetNext();
+    }
+}
+
+void GuiMain::parseXml_portExt(int computer, wxXmlNode &node, int type, size_t configNumber)
+{
+    wxString tagList[]=
+    {
+        "out",
+        "in",
+        "start",
+        "end",
+        "comment",
+        "undefined"
+    };
+
+    enum
+    {
+        TAG_OUT,
+        TAG_IN,
+        TAG_START,
+        TAG_END,
+        TAG_COMMENT,
+        TAG_UNDEFINED
+    };
+    
+    conf[computer].memConfig_[configNumber].start = 0;
+    conf[computer].memConfig_[configNumber].end = 0;
+    conf[computer].memConfig_[configNumber].type = type;
+
+    int tagTypeInt;
+
+    wxXmlNode *child = node.GetChildren();
+    while (child)
+    {
+        wxString childName = child->GetName();
+
+        tagTypeInt = 0;
+        while (tagTypeInt != TAG_UNDEFINED && tagList[tagTypeInt] != childName)
+            tagTypeInt++;
+
+        switch (tagTypeInt)
+        {
+            case TAG_START:
+                conf[computer].memConfig_[configNumber].start = parseXml_Number(*child) & 0xffff;
+            break;
+
+            case TAG_END:
+                conf[computer].memConfig_[configNumber].end = parseXml_Number(*child) & 0xffff;
+            break;
+
+            case TAG_IN:
+                elfConfiguration[computer].elfPortConf.portExtenderInput = (int)parseXml_Number(*child);
+            break;
+
+            case TAG_OUT:
+                if (child->GetAttribute("type") == "select")
+                    elfConfiguration[computer].elfPortConf.portExtenderSelectOutput = (int)parseXml_Number(*child);
+                if (child->GetAttribute("type") == "write")
+                    elfConfiguration[computer].elfPortConf.portExtenderWriteOutput = (int)parseXml_Number(*child);
+            break;
+
+            case TAG_COMMENT:
+            break;
+
+            default:
+                warningText_ += "Unkown tag: ";
+                warningText_ += childName;
+                warningText_ += "\n";
+            break;
+        }
+        
+        child = child->GetNext();
+    }
+}
+
+long GuiMain::parseXml_Number(wxXmlNode &node)
+{
+    return getHexDec(node.GetNodeContent());
+}
+
+long GuiMain::parseXml_Number(wxXmlNode &node, wxString attribute)
+{
+    return getHexDec(node.GetAttribute(attribute));
+}
+
+bool GuiMain::parseXml_Range(wxXmlNode &node, long *start, long *end)
+{
+    wxString numberString1, numberString2;
+
+    numberString1 = node.GetNodeContent();
+    int dash = numberString1.Find("-");
+    int x = numberString1.Find("x");
+
+    if (dash == wxNOT_FOUND && x == wxNOT_FOUND)
+    {
+        *start = parseXml_Number(node);
+        return false;
+    }
+    
+    if (dash == wxNOT_FOUND)
+    {
+        *start = parseXml_Number(node);
+        *end = *start;
+        return true;
+    }
+    numberString2 = numberString1.Right(numberString1.Len()-(dash+1));
+    numberString1 = numberString1.Left(dash);
+    
+    *start = getHexDec(numberString1);
+    *end = getHexDec(numberString2);
+
+    return true;
+}
+
+long GuiMain::getHexDec(wxString numberString)
+{
+    int base;
+    long number;
+
+    if (numberString.Left(2) == "0x")
+    {
+        base = 16;
+        numberString = numberString.Right(numberString.Len()-2);
+    }
+    else
+        base = 10;
+    
+    if (!numberString.ToLong(&number, base))
+        number = 0;
+
+    return number;
+}

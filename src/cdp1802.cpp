@@ -358,7 +358,7 @@ Byte Cdp1802::pixieDmaOut(int *color)
 		case ELF:
 		case ELFII:
 		case SUPERELF:
-        case NETRONICS:
+        case DIY:
         case PICO:
             *color = 0;
         break;
@@ -3449,7 +3449,7 @@ bool Cdp1802::readIntelFile(wxString fileName, int memoryType, long end, long in
                     if (address < end && !(address >= inhibitStart && address <= inhibitEnd))
                     {
                         writeMemDebug(address,(Byte)value, true);
-                        if (memoryType != NOCHANGE && memoryType != RAM)
+                        if ((memoryType&0xff) != NOCHANGE && (memoryType&0xff) != RAM)
                             defineMemoryType(address, memoryType);
                     }
                     address++;
@@ -3474,7 +3474,7 @@ bool Cdp1802::readIntelFile(wxString fileName, int memoryType, long end, long in
                             if (address < end && !(address >= inhibitStart && address <= inhibitEnd))
                             {
                                 writeMemDebug(address,(Byte)value, true);
-                                if (memoryType != NOCHANGE && memoryType != RAM)
+                                if ((memoryType&0xff) != NOCHANGE && (memoryType&0xff) != RAM)
                                     defineMemoryType(address, memoryType);
                             }
                             address++;
@@ -3546,7 +3546,7 @@ bool Cdp1802::readIntelFile(wxString fileName, int memoryType, long end, bool sh
 				{
 					strValue = line.Mid((i*2)+9, 2);
 					strValue.ToLong(&value, 16);
-					if (memoryType != NOCHANGE && memoryType != RAM)
+					if ((memoryType&0xff) != NOCHANGE && (memoryType&0xff) != RAM)
 						defineMemoryType(address, memoryType);
 		//			if (address < end)
                     writeMemDebug(address,(Byte)value, true);
@@ -3571,7 +3571,7 @@ bool Cdp1802::readIntelFile(wxString fileName, int memoryType, long end, bool sh
 						if (strValue.ToLong(&value, 16))
 						{
 							value &= 255;
-							if (memoryType != NOCHANGE && memoryType != RAM)
+							if ((memoryType&0xff) != NOCHANGE && (memoryType&0xff) != RAM)
 								defineMemoryType(address, memoryType);
 			//				if (address < end)
                             writeMemDebug(address,(Byte)value, true);
@@ -3652,7 +3652,7 @@ bool Cdp1802::readIntelFile(wxString fileName, int memoryType, Word* lastAddress
 				{
 					strValue = line.Mid((i * 2) + 9, 2);
 					strValue.ToLong(&value, 16);
-					if (memoryType != NOCHANGE && memoryType != RAM)
+					if ((memoryType&0xff) != NOCHANGE && (memoryType&0xff) != RAM)
 						defineMemoryType(address, memoryType);
 					if (address < end)
                         writeMemDebug(address, (Byte)value, true);
@@ -3677,7 +3677,7 @@ bool Cdp1802::readIntelFile(wxString fileName, int memoryType, Word* lastAddress
 						if (strValue.ToLong(&value, 16))
 						{
 							value &= 255;
-							if (memoryType != NOCHANGE && memoryType != RAM)
+							if ((memoryType&0xff) != NOCHANGE && (memoryType&0xff) != RAM)
 								defineMemoryType(address, memoryType);
 							if (address < end)
                                 writeMemDebug(address, (Byte)value, true);
@@ -3740,7 +3740,7 @@ bool Cdp1802::readLstFile(wxString fileName, int memoryType, long end, bool show
 					bit >>= 1;
 					i++;
 				}
-				if (memoryType != NOCHANGE && memoryType != RAM)
+				if ((memoryType&0xff) != NOCHANGE && (memoryType&0xff) != RAM)
 					defineMemoryType(address, memoryType);
 				writeMemDebug(address,(Byte)value, true);
 				address++;
@@ -3771,7 +3771,7 @@ bool Cdp1802::readLstFile(wxString fileName, int memoryType, long end, bool show
 					if (strValue.ToLong(&value, 16))
 					{
 						value &= 255;
-						if (memoryType != NOCHANGE && memoryType != RAM)
+						if ((memoryType&0xff) != NOCHANGE && (memoryType&0xff) != RAM)
 							defineMemoryType(address, memoryType);
 						if (address < end)
                             writeMemDebug(address,(Byte)value, true);
@@ -3880,7 +3880,7 @@ bool Cdp1802::readBinFile(wxString fileName, int memoryType, Word start, long en
             if (address < (start+length) && !(address >= inhibitStart && address <= inhibitEnd))
             {
                 writeMemDebug(address,(Byte)buffer[i], true);
-                if (memoryType != NOCHANGE && memoryType != RAM)
+                if ((memoryType&0xff) != NOCHANGE && (memoryType&0xff) != RAM)
                     defineMemoryType(address, memoryType);
             }
             address++;
@@ -3928,7 +3928,7 @@ bool Cdp1802::readBinFile(wxString fileName, int memoryType, Word address, long 
 		length = inFile.Read(buffer, 65535);
 		for (size_t i=0; i<length; i++)
 		{
-			if (memoryType != NOCHANGE && memoryType != RAM)
+			if ((memoryType&0xff) != NOCHANGE && (memoryType&0xff) != RAM)
 				defineMemoryType(address, memoryType);
 			if (address < end)
 				writeMemDebug(address,(Byte)buffer[i], true);
@@ -3971,7 +3971,7 @@ bool Cdp1802::readBinFile(wxString fileName, int memoryType, Word address, Word*
 		length = inFile.Read(buffer, 65535);
 		for (size_t i=0; i<length; i++)
 		{
-			if (memoryType != NOCHANGE && memoryType != RAM)
+			if ((memoryType&0xff) != NOCHANGE && (memoryType&0xff) != RAM)
 				defineMemoryType(address, memoryType);
 			if (address < end)
                 writeMemDebug(address,(Byte)buffer[i], true);
@@ -3997,7 +3997,7 @@ bool Cdp1802::readBinFile(wxString fileName, int memoryType, Word address, Word*
 	}
 }
 
-bool Cdp1802::readRomMapperBinFile(wxString fileName)
+bool Cdp1802::readRomMapperBinFile(size_t emsNumber, wxString fileName)
 {
     wxFFile inFile;
     wxFileOffset length=0;
@@ -4009,9 +4009,9 @@ bool Cdp1802::readRomMapperBinFile(wxString fileName)
     }
     
     length = inFile.Length();
-    allocRomMapperMemory(length);
+    allocRomMapperMemory(emsNumber, length);
 
-    inFile.Read(expansionRom_, (size_t)length);
+    inFile.Read(emsMemory_[emsNumber].main, (size_t)length);
     
     inFile.Close();
     return true;
@@ -4083,7 +4083,7 @@ void Cdp1802::setAddress(bool showFilename, Word start, Word end)
 
 		}
 	}
-	if ((computerType_ == ELF) || (computerType_ == ELFII) || (computerType_ == SUPERELF) || (computerType_ == NETRONICS) || (computerType_ == PICO))
+	if ((computerType_ == ELF) || (computerType_ == ELFII) || (computerType_ == SUPERELF) || (computerType_ == DIY) || (computerType_ == PICO))
 	{
 		if ((mainMemory_[start] == 0x90) && (mainMemory_[start+1] == 0xa1) && (mainMemory_[start+2] == 0xb3))
 		{
@@ -4106,7 +4106,7 @@ void Cdp1802::checkLoadedSoftware()
             case ELFII:
             case SUPERELF:
             case ELF:
-            case NETRONICS:
+            case DIY:
             case PICO:
                 pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);
                 
@@ -4368,7 +4368,7 @@ void Cdp1802::checkLoadedSoftware()
 	}
 	if (loadedOs_ == NOOS)
 	{
-		if ((computerType_ == ELFII) || (computerType_ == SUPERELF) || (computerType_ == ELF) || (computerType_ == NETRONICS) || (computerType_ == PICO))
+		if ((computerType_ == ELFII) || (computerType_ == SUPERELF) || (computerType_ == ELF) || (computerType_ == DIY) || (computerType_ == PICO))
 		{
 			if ((mainMemory_[0xf900] == 0xf8) && (mainMemory_[0xf901] == 0xf9) && (mainMemory_[0xf902] == 0xb6))
 			{
@@ -4763,7 +4763,9 @@ void Cdp1802::debugTrace (wxString text)
 
 void Cdp1802::writeMemLabelType(Word address, Byte type)
 {
-	switch (memoryType_[address / 256])
+    size_t emsNumber;
+    
+	switch (memoryType_[address / 256]&0xff)
 	{
         case ROM:
 		case COMXEXPROM:
@@ -4773,7 +4775,6 @@ void Cdp1802::writeMemLabelType(Word address, Byte type)
            switch (computerType_)
             {
                 case ELFII:
-                case NETRONICS:
                     if (elfConfiguration.giantBoardMapping)
                         if (address >= baseGiantBoard_)
                             address = (address & 0xff) | 0xf000;
@@ -4839,7 +4840,7 @@ void Cdp1802::writeMemLabelType(Word address, Byte type)
                 case ELF:
                 case ELFII:
                 case SUPERELF:
-                case NETRONICS:
+                case DIY:
                 case PICO:
                     address = (address & ramMask_) + ramStart_;
                 break;
@@ -4913,7 +4914,7 @@ void Cdp1802::writeMemLabelType(Word address, Byte type)
                 case ELF:
                 case ELFII:
                 case SUPERELF:
-                case NETRONICS:
+                case DIY:
                 case PICO:
                    address = (address & ramMask_) + ramStart_;
                 break;
@@ -5055,45 +5056,30 @@ void Cdp1802::writeMemLabelType(Word address, Byte type)
 		break;
 
         case EMSMEMORY:
-            switch (emsMemoryType_[((address & 0x3fff) |(emsPage_ << 14))/256])
+            emsNumber = (memoryType_[address / 256] >> 8);
+
+            switch (emsMemory_[emsNumber].memoryType_[((address - computerConfiguration.emsConfig_[emsNumber].start) |(computerConfiguration.emsConfig_[emsNumber].page << computerConfiguration.emsConfig_[emsNumber].maskBits))/256])
             {
                 case ROM:
                 case RAM:
-                if (type > emsRamLabelType_[(long) ((address & 0x3fff) |(emsPage_ << 14))] || type == 0)
-                {
-                    p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-                    emsRamLabelType_[(long) ((address & 0x3fff) |(emsPage_ << 14))] = type;
-                }
-            break;
-            }
-        break;
-            
-        case ROMMAPPER:
-            if (emsPage_ <= maxNumberOfPages_)
-            {
-                switch (romMapperMemoryType_[((address & 0x7fff) |(emsPage_ << 15))/256])
-                {
-                    case ROM:
-                    case RAM:
-                        if (type > expansionRomLabelType_[(long) ((address & 0x7fff) |(emsPage_ << 15))] || type == 0)
-                        {
-                            p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-                            expansionRomDataType_[(long) ((address & 0x7fff) |(emsPage_ << 15))] = type;
-                        }
-                    break;
-                }
+                    if (type > emsMemory_[emsNumber].labelType_[(long) ((address - computerConfiguration.emsConfig_[emsNumber].start) |(computerConfiguration.emsConfig_[emsNumber].page << computerConfiguration.emsConfig_[emsNumber].maskBits))] || type == 0)
+                    {
+                        p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
+                        emsMemory_[emsNumber].dataType_[(long) ((address - computerConfiguration.emsConfig_[emsNumber].start) |(computerConfiguration.emsConfig_[emsNumber].page << computerConfiguration.emsConfig_[emsNumber].maskBits))] = type;
+                    }
+                break;
             }
         break;
             
         case PAGER:
-            switch (pagerMemoryType_[((getPager(address>>12) << 12) |(address &0xfff))/256])
+            switch (pagerMemoryType_[((getPager(address>>computerConfiguration.pagerMaskBits_) << computerConfiguration.pagerMaskBits_) |(address &computerConfiguration.pagerMask_))/256])
             {
                 case ROM:
                 case RAM:
-                    if (type > mainMemoryLabelType_[(getPager(address>>12) << 12) |(address &0xfff)] || type == 0)
+                    if (type > mainMemoryLabelType_[(getPager(address>>computerConfiguration.pagerMaskBits_) << computerConfiguration.pagerMaskBits_) |(address &computerConfiguration.pagerMask_)] || type == 0)
                     {
                         p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-                        mainMemoryDataType_[(getPager(address>>12) << 12) |(address &0xfff)] = type;
+                        mainMemoryDataType_[(getPager(address>>computerConfiguration.pagerMaskBits_) << computerConfiguration.pagerMaskBits_) |(address &computerConfiguration.pagerMask_)] = type;
                     }
                 break;
             }
@@ -5142,7 +5128,9 @@ void Cdp1802::writeMemLabelType(Word address, Byte type)
 
 Byte Cdp1802::readMemLabelType(Word address)
 {
-    switch (memoryType_[address / 256])
+    size_t emsNumber;
+    
+    switch (memoryType_[address / 256]&0xff)
 	{
         case ROM:
         case NVRAM:
@@ -5152,7 +5140,6 @@ Byte Cdp1802::readMemLabelType(Word address)
             switch (computerType_)
             {
                 case ELFII:
-                case NETRONICS:
                     if (elfConfiguration.giantBoardMapping)
                         if (address >= baseGiantBoard_)
                             address = (address & 0xff) | 0xf000;
@@ -5216,7 +5203,7 @@ Byte Cdp1802::readMemLabelType(Word address)
                 case ELF:
                 case ELFII:
                 case SUPERELF:
-                case NETRONICS:
+                case DIY:
                 case PICO:
                     address = (address & ramMask_) + ramStart_;
                 break;
@@ -5283,7 +5270,7 @@ Byte Cdp1802::readMemLabelType(Word address)
                 case ELF:
                 case ELFII:
                 case SUPERELF:
-                case NETRONICS:
+                case DIY:
                 case PICO:
                     address = (address & ramMask_) + ramStart_;
                 break;
@@ -5389,36 +5376,23 @@ Byte Cdp1802::readMemLabelType(Word address)
         break;
             
         case EMSMEMORY:
-            switch (emsMemoryType_[((address & 0x3fff) |(emsPage_ << 14))/256])
+            emsNumber = (memoryType_[address / 256] >> 8);
+
+            switch (emsMemory_[emsNumber].memoryType_[((address - computerConfiguration.emsConfig_[emsNumber].start) |(computerConfiguration.emsConfig_[emsNumber].page << computerConfiguration.emsConfig_[emsNumber].maskBits))/256])
             {
                 case ROM:
                 case RAM:
-                    return emsRamLabelType_[(long) ((address & 0x3fff) |(emsPage_ << 14))];
+                    return emsMemory_[emsNumber].labelType_[(long) ((address - computerConfiguration.emsConfig_[emsNumber].start) |(computerConfiguration.emsConfig_[emsNumber].page << computerConfiguration.emsConfig_[emsNumber].maskBits))];
                 break;
             }
         break;
             
-        case ROMMAPPER:
-            if (emsPage_ <= maxNumberOfPages_)
-            {
-                switch (romMapperMemoryType_[((address & 0x7fff) |(emsPage_ << 15))/256])
-                {
-                    case ROM:
-                    case RAM:
-                        return expansionRomLabelType_[(long) ((address & 0x7fff) |(emsPage_ << 15))];
-                    break;
-                }
-            }
-            else
-                return MEM_TYPE_UNDEFINED;
-        break;
-            
         case PAGER:
-            switch (pagerMemoryType_[((getPager(address>>12) << 12) |(address &0xfff))/256])
+            switch (pagerMemoryType_[((getPager(address>>computerConfiguration.pagerMaskBits_) << computerConfiguration.pagerMaskBits_) |(address &computerConfiguration.pagerMask_))/256])
             {
                 case ROM:
                 case RAM:
-                    return mainMemoryLabelType_[(getPager(address>>12) << 12) |(address &0xfff)];
+                    return mainMemoryLabelType_[(getPager(address>>computerConfiguration.pagerMaskBits_) << computerConfiguration.pagerMaskBits_) |(address &computerConfiguration.pagerMask_)];
                 break;
             }
         break;
@@ -5529,12 +5503,12 @@ void Cdp1802::increaseExecutedTestCartRom(Word address, Byte type)
     }
 }
 
-void Cdp1802::increaseExecutedEmsRam(long address, Byte type)
+void Cdp1802::increaseExecutedEms(size_t emsNumber, long address, Byte type)
 {
     if ((type == MEM_TYPE_OPCODE || type >= MEM_TYPE_OPCODE_RSHR) && profilerCounter_ != PROFILER_OFF)
     {
-        if (emsRamExecuted_[address] < UINT64_MAX)
-            emsRamExecuted_[address]++;
+        if (emsMemory_[emsNumber].executed_[address] < UINT64_MAX)
+            emsMemory_[emsNumber].executed_[address]++;
         p_Main->updateAssTabCheck(address);
     }
 }
@@ -5559,20 +5533,21 @@ void Cdp1802::clearProfiler()
         for (int i=0; i<131072; i++)
             expansionSuperExecuted_[i] = 0;
     }
-    if (emsMemoryDefined_)
+    for (size_t emsNumber=0; emsNumber<computerConfiguration.emsConfigNumber_; emsNumber++)
     {
-        for (int i=0; i<524288; i++)
-            emsRamExecuted_[i] = 0;
+        for (uint32_t i=0; i<emsSize_; i++)
+            emsMemory_[emsNumber].executed_[i] = 0;
     }
     if (multiCartMemoryDefined_)
     {
         for (int i=0; i<1048576; i++)
             multiCartRomExecuted_[i] = 0;
     }
-    if (romMapperDefined_)
+    if (pagerDefined_)
     {
-        for (int i=0; i<8388608; i++)
-            expansionRomExecuted_[i] = 0;
+        for (int i=0; i<pagerSize_; i++)
+            mainMemoryExecuted_[i] = 0;
     }
+
 }
 

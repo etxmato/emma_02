@@ -67,8 +67,8 @@ MC6845::MC6845(const wxString& title, const wxPoint& pos, const wxSize& size, do
 			elfTypeStr_ = "SuperElf";
 		break;
 
-        case NETRONICS:
-            elfTypeStr_ = "Netronics";
+        case DIY:
+            elfTypeStr_ = "Diy";
         break;
 
         case PICO:

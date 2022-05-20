@@ -190,9 +190,10 @@ BEGIN_EVENT_TABLE(Velf, wxFrame)
     EVT_CLOSE (Velf::onClose)
 END_EVENT_TABLE()
 
-Velf::Velf(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf)
+Velf::Velf(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf, Conf computerConf)
 : wxFrame((wxFrame *)NULL, -1, title, pos, size)
 {
+    computerConfiguration = computerConf;
 	vipConfiguration = conf;
 
 	velfClockSpeed_ = clock;
@@ -755,7 +756,7 @@ void Velf::writeMemDataType(Word address, Byte type)
 	if (address < 0x8000)
 		address = (address | addressLatch_);
 
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
 			if (mainMemoryDataType_[address] != type)
@@ -782,7 +783,7 @@ Byte Velf::readMemDataType(Word address, uint64_t* executed)
 	if (address < 0x8000)
 		address = (address | addressLatch_);
 
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
             if (profilerCounter_ != PROFILER_OFF)
@@ -808,7 +809,7 @@ Byte Velf::readMem(Word address)
 	if (address < 0x8000)
 		address = (address | addressLatch_);
 
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
 			return mainMemory_[address];
@@ -828,7 +829,7 @@ Byte Velf::readMemDebug(Word address)
 
 void Velf::writeMem(Word address, Byte value, bool writeRom)
 {
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
 			if (mainMemory_[address]==value)

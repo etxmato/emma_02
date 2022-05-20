@@ -10,6 +10,18 @@ typedef unsigned __int64 uint64_t;
 #define UINT64_MAX   _UI64_MAX
 #endif
 
+#include "computerconfig.h"
+
+class EmsMemory
+{
+public:
+    Byte* main;
+    Byte* dataType_;
+    Byte* labelType_;
+    Byte* memoryType_;
+    uint64_t* executed_;
+};
+
 class Memory
 {
 public:
@@ -22,20 +34,21 @@ public:
 	void defineExpansionMemoryType(int slot, long address, int type); 
 	void defineBankMemoryType(int bank, long address, int type); 
 	void defineEpromBankMemoryType(int bank, long address, int type); 
-	void defineEmsMemoryType(long address, int type); 
     void defineMultiCartMemoryType(long address, int type);
     void definePagerMemoryType(long address, int type);
-    void defineRomMapperMemoryType(long address, int type);
+    void defineEmsMemoryType(size_t emsNumber, long address, int type);
+    int getPagerMemoryType(int address);
     void clearDebugMemory();
 	void allocPagerMemory();
-	void allocRomMapperMemory(wxFileOffset length);
+    void allocPagerMemory(Word start, Word end);
+    void allocPagerMemoryCommon();
     void allocComxExpansionMemory();
-    void allocEmsMemory();
+    wxFileOffset allocRomMapperMemory(size_t number, wxFileOffset length);
+    void allocEmsMemorySegment(size_t number);
     size_t allocMultiCartMemory(size_t memorySize);
     void allocTestCartMemory();
-    void setEmsPage(Byte value);
+    void setEmsPage(size_t number, Byte value);
     void setPager(int page, Byte value);
-    void setRomMapper(Byte value);
     void initRam(long start, long end);
     void initCpuRam();
 
@@ -53,25 +66,23 @@ public:
 
 	Byte getRam(long address) {return mainMemory_[address];};
 	void setRam(long address, Byte value) {mainMemory_[address] = value;};
-	Byte getEms(long address) {return emsRam_[address];};
-    Byte getEmsPage() {return emsPage_;};
-    Byte getmaxNumberOfEmsPages() {return romMapperDefined_;};
+    Byte getEmsPage(size_t emsNumber) {return computerConfiguration.emsConfig_[emsNumber].page;};
 	Byte getPager(int port) {return pager_[port];};
 	int getMemoryType(int i) {return memoryType_[i];};
 	int getExpansionMemoryType(int slot, int i) {return expansionMemoryType_[slot*32 + i];};
 	int getBankMemoryType(int bank, int i) {return bankMemoryType_[bank*32 + i];};
 	int getEpromBankMemoryType(int bank, int i) {return epromBankMemoryType_[bank*32 + i];};
-	int getEmsMemoryType(int i) {return emsMemoryType_[emsPage_*64 + i];};
-	int getPagerMemoryType(int i) {return pagerMemoryType_[pager_[(i>>4)&0xf] * 16 + (i&0xf)];};
-    int getRomMapperMemoryType(int i) {return romMapperMemoryType_[emsPage_*128 + i];};
-    bool isRomMapperDefined() {return romMapperDefined_;};
     Byte getDynamicByte(Word address);
     Word getDynamicWord(Word address);
     void setDynamicRandomByte();
     wxString getMultiCartGame();
 
+    int getEmsMemoryType(int i, size_t emsNumber) {return emsMemory_[emsNumber].memoryType_[((i - computerConfiguration.emsConfig_[emsNumber].start) |(computerConfiguration.emsConfig_[emsNumber].page << computerConfiguration.emsConfig_[emsNumber].maskBits))/256];};
+
 protected: 
-	Word address_;
+    Conf computerConfiguration;
+
+    Word address_;
     int profilerCounter_;
 	Byte* mainMemory_;
     Byte* mainMemoryDataType_;
@@ -81,11 +92,9 @@ protected:
 	int bankMemoryType_[128];
 	int epromBankMemoryType_[160];
 	int superBankMemoryType_[512];
-	int emsMemoryType_[2048];
     int multiCartMemoryType_[4096];
     int testCartMemoryType_[256];
-    int pagerMemoryType_[4096];
-	int romMapperMemoryType_[32768];
+    Byte* pagerMemoryType_;
 	int colorMemory1864_[1024];
 	Byte mc6845ram_[2048];
 	Byte mc6845CharRom_[2048];
@@ -114,13 +123,13 @@ protected:
     Byte* testCartRom_;
     Byte* testCartRomDataType_;
     Byte* testCartRomLabelType_;
-	Byte* emsRam_;
-    Byte* emsRamDataType_;
-	Byte* emsRamLabelType_;
-	Byte emsPage_;
-	Byte multiCartMsb_;
+    
+    vector<EmsMemory> emsMemory_;
+    uint32_t emsSize_;
+    
+    Byte multiCartMsb_;
     Byte multiCartLsb_;
-        
+
     uint64_t* mainMemoryExecuted_;
     uint64_t* expansionRomExecuted_;
     uint64_t* expansionRamExecuted_;
@@ -129,21 +138,23 @@ protected:
     uint64_t* cpuRamExecuted_;
     uint64_t* multiCartRomExecuted_;
     uint64_t* testCartRomExecuted_;
-    uint64_t* emsRamExecuted_;
 
     size_t multiCartMask_;
-    wxFileOffset romMapperSize_;
-    Byte maxNumberOfPages_;
     
     bool multiCartMemoryDefined_;
     bool testCartMemoryDefined_;
-    bool emsMemoryDefined_;
 	bool pagerDefined_;
-    bool romMapperDefined_;
+    bool emsRamDefined_;
+    bool emsRomDefined_;
     bool comxExpansionMemoryDefined_;
 
+    uint32_t pagerSize_;
+
 private:
-	int pager_[16];
+	int pager_[256];
+    
+    Word pagerStart_;
+    Word pagerEnd_;
     
     Word randomAddress_;
 

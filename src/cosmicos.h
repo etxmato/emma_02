@@ -31,7 +31,7 @@ private:
 class Cosmicos : public wxFrame, public Cdp1802
 {
 public:
-	Cosmicos(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf);
+	Cosmicos(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf, Conf computerConf);
 	Cosmicos() {};
 	~Cosmicos();
 

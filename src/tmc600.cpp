@@ -94,10 +94,12 @@ int specialKey[] =
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
-Tmc600::Tmc600(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock)
+Tmc600::Tmc600(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock, Conf computerConf)
 :V1870(title, pos, size, zoomLevel, computerType, clock)
 {
-	p_Printer = new Printer();
+    computerConfiguration = computerConf;
+
+    p_Printer = new Printer();
 	p_Printer->initTelmac(p_Printer);
 
 	clockSize_ = (int) (((clock * 1000000) / 8)/3.13);
@@ -857,7 +859,7 @@ void Tmc600::startComputer()
 
 void Tmc600::writeMemDataType(Word address, Byte type)
 {
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
 		case ROM:
@@ -873,7 +875,7 @@ void Tmc600::writeMemDataType(Word address, Byte type)
 
 Byte Tmc600::readMemDataType(Word address, uint64_t* executed)
 {
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
 		case ROM:
@@ -887,7 +889,7 @@ Byte Tmc600::readMemDataType(Word address, uint64_t* executed)
 
 Byte Tmc600::readMem(Word address)
 {
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case UNDEFINED:
 			return 255;
@@ -924,7 +926,7 @@ Byte Tmc600::readMemDebug(Word address)
 
 void Tmc600::writeMem(Word address, Byte value, bool writeRom)
 {
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case UNDEFINED:
 		case ROM:

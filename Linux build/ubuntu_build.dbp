@@ -1,7 +1,7 @@
 [DEBREATE-0.7.13]
 <<CTRL>>
 Package: emma-02
-Version: 1.45
+Version: 1.46
 Maintainer: Marcel van Tongeren <marcel.v.tongeren@gmail.com>
 Homepage: http://www.emma02.hobby-site.com
 Architecture: amd64
@@ -10,8 +10,8 @@ Depends: libc6, libcurl3-gnutls, libsdl1.2debian, libcurl3 | libcurl4, libwxgtk3
 Description: Emma 02, the RCA 1802 Emulator
  Emma 02 is emulating the COMX-35, COMIX-35, Elf 2000,
  Cosmicos, Cosmac Elf, Netronics ELF II, Quest Super Elf,
- Pico/Elf V2, Membership Card, VIP2K Membership Card,
- VELF, Infinite UC1800, FRED 1, FRED 1.5, Microtutor,
+ Membership Card, VIP2K Membership Card, VELF, Infinite
+ UC1800, Pico/Elf V2, FRED 1, FRED 1.5, Microtutor,
  Microtutor II, CDP18S020 Evaluation Kit, Cosmac VIP,
  Cosmac VIP II, Microboard System, MCDS, MS2000,
  RCA Video Coin Arcade, RCA Studio II, RCA Studio III,
@@ -195,11 +195,11 @@ fi
 <</SCRIPTS>>
 <<CHANGELOG>>
 <<DEST>>DEFAULT<</DEST>>
-emma-02 (1.45) xenial; urgency=medium
+emma-02 (1.46) xenial; urgency=medium
 
   * See http://www.emma02.hobby-site.com
 
- -- Marcel van Tongeren <marcel.v.tongeren@gmail.com>, 9 Apr 2022 15:02:55 +0200
+ -- Marcel van Tongeren <marcel.v.tongeren@gmail.com>, 30 Apr 2022 13:47:02 +0200
 
 <</CHANGELOG>>
 <<COPYRIGHT>>

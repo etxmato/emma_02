@@ -7,7 +7,7 @@
 class Visicom : public Cdp1802, public Pixie
 {
 public:
-	Visicom(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType);
+	Visicom(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, Conf computerConf);
 	~Visicom();
 
 	void configureComputer();

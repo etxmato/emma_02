@@ -44,9 +44,10 @@
 
 #define CHIP8_PC 5
 
-Studio2::Studio2(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType)
+Studio2::Studio2(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, Conf computerConf)
 :Pixie(title, pos, size, zoom, zoomfactor, computerType)
 {
+    computerConfiguration = computerConf;
 }
 
 Studio2::~Studio2()
@@ -548,7 +549,7 @@ void Studio2::startComputer()
 
 void Studio2::writeMemDataType(Word address, Byte type)
 {
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
         case ROM:
@@ -619,7 +620,7 @@ void Studio2::writeMemDataType(Word address, Byte type)
 
 Byte Studio2::readMemDataType(Word address, uint64_t* executed)
 {
-    switch (memoryType_[address/256])
+    switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
 		case ROM:
@@ -673,7 +674,7 @@ Byte Studio2::readMemDataType(Word address, uint64_t* executed)
 
 Byte Studio2::readMem(Word address)
 {
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case UNDEFINED:
 			return 255;
@@ -716,7 +717,7 @@ Byte Studio2::readMemDebug(Word address)
 
 void Studio2::writeMem(Word address, Byte value, bool writeRom)
 {
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
 			if (mainMemory_[address]==value)

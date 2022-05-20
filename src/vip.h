@@ -11,7 +11,7 @@ DECLARE_EVENT_TYPE(ON_UART_VIP, 810)
 class Vip : public Cdp1802, public Pixie
 {
 public:
-	Vip(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, double clock, int tempo, ElfConfiguration conf);
+	Vip(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, double clock, int tempo, ElfConfiguration conf, Conf computerConf);
 	~Vip();
 
 	void configureComputer();

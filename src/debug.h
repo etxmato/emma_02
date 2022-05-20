@@ -411,7 +411,8 @@ public:
 	void onDebugExpansionSlot(wxCommandEvent&event);
 	void onDebugExpansionRam(wxCommandEvent&event);
 	void onDebugExpansionEprom(wxCommandEvent&event);
-	void onDebugEmsPage(wxCommandEvent&event);
+    void onDebugEmsPage(wxCommandEvent&event);
+    void onDebugEmsNumber(wxCommandEvent&event);
 	void onDebugPager(wxCommandEvent&event);
 	void onDebugPortExtender(wxCommandEvent&event);
 	void onDebugSaveDump(wxCommandEvent&event);
@@ -520,6 +521,7 @@ protected:
 	bool chip8Trace_;
 	bool xmlLoaded_;
 	Word memoryStart_;
+    long emsNumber_;
 	bool chip8ProtectedMode_;
 	long chip8Steps_;
 	bool performChip8Step_;

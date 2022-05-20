@@ -39,7 +39,7 @@ public:
     int printerOutput;
     int printerEf;
 
-    int emsOutput;
+    vector<int> emsOutput;
 
     int vt100Output;
     int vt100Ef;
@@ -177,7 +177,7 @@ public:
 	bool usePortExtender;
 	bool usePager;
     bool useEms;
-    bool useRomMapper;
+    int emsType_;
 	bool useLedModule;
 	bool useElfControlWindows;
 	bool showAddress;

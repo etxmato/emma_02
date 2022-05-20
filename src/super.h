@@ -29,7 +29,7 @@ private:
 class Super : public wxFrame, public MainElf
 {
 public:
-	Super(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf);
+	Super(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf, Conf computerConf);
 	~Super();
 
 	void onClose(wxCloseEvent&WXUNUSED(event));

@@ -32,9 +32,10 @@
 #include "main.h"
 #include "eti660.h"
 
-Eti::Eti(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType)
+Eti::Eti(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, Conf computerConf)
 :Pixie(title, pos, size, zoom, zoomfactor, computerType)
 {
+    computerConfiguration = computerConf;
 }
 
 Eti::~Eti()
@@ -463,7 +464,7 @@ void Eti::startComputer()
 void Eti::writeMemDataType(Word address, Byte type)
 {
 	address = address & ramMask_;
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
 		case ROM:
@@ -480,7 +481,7 @@ void Eti::writeMemDataType(Word address, Byte type)
 Byte Eti::readMemDataType(Word address, uint64_t* executed)
 {
 	address = address & ramMask_;
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
 		case ROM:
@@ -496,7 +497,7 @@ Byte Eti::readMem(Word address)
 {
 	address = address & ramMask_;
 
-	if (memoryType_[address/256] == UNDEFINED) return 255;
+	if ((memoryType_[address/256]&0xff) == UNDEFINED) return 255;
 	return mainMemory_[address];
 }
 
@@ -512,7 +513,7 @@ void Eti::writeMem(Word address, Byte value, bool writeRom)
 		return;
 
 	if (!writeRom)
-		if (memoryType_[address/256] != RAM)  return;
+		if ((memoryType_[address/256]&0xff) != RAM)  return;
 
 	if (address > endSave_)
 		endSave_ = address;

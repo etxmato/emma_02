@@ -24,7 +24,7 @@ private:
 class Cdp18s020 : public wxFrame, public Cdp1802
 {
 public:
-	Cdp18s020(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf);
+	Cdp18s020(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf, Conf computerConf);
 	~Cdp18s020();
 
     void onClose(wxCloseEvent&WXUNUSED(event));

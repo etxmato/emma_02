@@ -14,7 +14,7 @@
 class Pico : public wxFrame, public MainElf
 {
 public:
-	Pico(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf);
+	Pico(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf, Conf computerConf);
 	Pico() {};
 	~Pico();
 

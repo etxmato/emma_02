@@ -100,8 +100,8 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 			computerTypeStr_ = "SuperElf";
 		break;
 
-        case NETRONICS:
-            computerTypeStr_ = "Netronics";
+        case DIY:
+            computerTypeStr_ = "Diy";
         break;
 
         case PICO:

@@ -31,7 +31,7 @@ private:
 class Membership : public wxFrame,  public MainElf
 {
 public:
-	Membership(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf);
+	Membership(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf, Conf computerConf);
 	Membership() {};
 	~Membership();
 

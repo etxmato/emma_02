@@ -150,9 +150,10 @@ BEGIN_EVENT_TABLE(Microtutor2, wxFrame)
 	EVT_CLOSE (Microtutor2::onClose)
 END_EVENT_TABLE()
 
-Microtutor2::Microtutor2(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf)
+Microtutor2::Microtutor2(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf, Conf computerConf)
 : wxFrame((wxFrame *)NULL, -1, title, pos, size)
 {
+    computerConfiguration = computerConf;
 	microtutorConfiguration = conf;
 	microtutorClockSpeed_ = clock;
 	data_ = 0;
@@ -478,7 +479,7 @@ void Microtutor2::startComputer()
 
 void Microtutor2::writeMemDataType(Word address, Byte type)
 {
-    switch (memoryType_[address/256])
+    switch (memoryType_[address/256]&0xff)
     {
         case RAM:
             address = address | bootstrap_;
@@ -508,7 +509,7 @@ void Microtutor2::writeMemDataType(Word address, Byte type)
 
 Byte Microtutor2::readMemDataType(Word address, uint64_t* executed)
 {
-    switch (memoryType_[address/256])
+    switch (memoryType_[address/256]&0xff)
     {
         case RAM:
             address = address | bootstrap_;
@@ -529,7 +530,7 @@ Byte Microtutor2::readMemDataType(Word address, uint64_t* executed)
 
 Byte Microtutor2::readMem(Word address)
 {
-	switch (memoryType_[address / 256])
+	switch (memoryType_[address / 256]&0xff)
 	{
 		case UNDEFINED:
 			return 255;
@@ -553,7 +554,7 @@ Byte Microtutor2::readMem(Word address)
 
 Byte Microtutor2::readMemDebug(Word address)
 {
-    switch (memoryType_[address / 256])
+    switch (memoryType_[address / 256]&0xff)
     {
         case UNDEFINED:
             return 255;
@@ -577,7 +578,7 @@ Byte Microtutor2::readMemDebug(Word address)
 
 void Microtutor2::writeMem(Word address, Byte value, bool writeRom)
 {
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case UNDEFINED:
 			if (writeRom)
@@ -612,7 +613,7 @@ void Microtutor2::writeMem(Word address, Byte value, bool writeRom)
 
 void Microtutor2::writeMemDebug(Word address, Byte value, bool writeRom)
 {
-    switch (memoryType_[address/256])
+    switch (memoryType_[address/256]&0xff)
     {
         case UNDEFINED:
             if (writeRom)

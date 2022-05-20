@@ -128,8 +128,6 @@
 		997915D02308266B0063A6F3 /* cdp18s640.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997915CE2308266B0063A6F3 /* cdp18s640.cpp */; };
 		997C6D62209E3FF000A8704E /* fred.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997C6D60209E3FF000A8704E /* fred.cpp */; };
 		997C6D65209E415500A8704E /* guifred.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997C6D63209E415500A8704E /* guifred.cpp */; };
-		9987889B27D6AE00009FBD32 /* guinetronics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 993028A027D5426400B53ADE /* guinetronics.cpp */; };
-		9987889D27D6AE13009FBD32 /* netronics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 993028A127D5427600B53ADE /* netronics.cpp */; };
 		998AE1961F769A9500D6B0D1 /* Configurations in Resources */ = {isa = PBXBuildFile; fileRef = 9911BF351F477D6200B795BB /* Configurations */; };
 		998AE1971F769A9F00D6B0D1 /* data in Resources */ = {isa = PBXBuildFile; fileRef = 996B97391B24116B009827BF /* data */; };
 		99952FDE277E5CB00068CD27 /* main_mac_14.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99952FDD277E5CAF0068CD27 /* main_mac_14.xrc */; };
@@ -200,6 +198,8 @@
 		99B2AC1B27863EE600C73EB9 /* splash_14.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2AC1927863EE600C73EB9 /* splash_14.xrc */; };
 		99B2AC1F27863EEC00C73EB9 /* vt_11.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2AC1D27863EEB00C73EB9 /* vt_11.xrc */; };
 		99B2AC2027863EEC00C73EB9 /* vt_14.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2AC1E27863EEC00C73EB9 /* vt_14.xrc */; };
+		99BBC9AA281DD37500BD9345 /* guidiy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BBC9A9281DD36F00BD9345 /* guidiy.cpp */; };
+		99BBC9AE281DD39E00BD9345 /* diy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BBC9AC281DD39B00BD9345 /* diy.cpp */; };
 		99BC74FC1DCFDB5C0000D8A9 /* upd765.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BC74FA1DCFDB5C0000D8A9 /* upd765.cpp */; };
 		99BC8688225697B000056D0E /* microtutor2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BC8686225697B000056D0E /* microtutor2.cpp */; };
 		99BCC77B1A6471B500F5226F /* encrypt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BCC77A1A6471B500F5226F /* encrypt.cpp */; };
@@ -341,10 +341,6 @@
 		991C84F41E37E66A0084DAFB /* guimicrotutor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = guimicrotutor.h; path = src/guimicrotutor.h; sourceTree = "<group>"; };
 		991C84F51E37E66A0084DAFB /* microtutor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = microtutor.cpp; path = src/microtutor.cpp; sourceTree = "<group>"; };
 		991C84F61E37E66A0084DAFB /* microtutor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = microtutor.h; path = src/microtutor.h; sourceTree = "<group>"; };
-		9930289F27D5426400B53ADE /* guinetronics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = guinetronics.h; path = src/guinetronics.h; sourceTree = "<group>"; };
-		993028A027D5426400B53ADE /* guinetronics.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = guinetronics.cpp; path = src/guinetronics.cpp; sourceTree = "<group>"; };
-		993028A127D5427600B53ADE /* netronics.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = netronics.cpp; path = src/netronics.cpp; sourceTree = "<group>"; };
-		993028A227D5427600B53ADE /* netronics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = netronics.h; path = src/netronics.h; sourceTree = "<group>"; };
 		9935652A21446B7000A329C6 /* STK-2.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "STK-2.syntax"; sourceTree = "<group>"; };
 		993B1649211EBD9C008A5656 /* GPL-2.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "GPL-2.syntax"; sourceTree = "<group>"; };
 		9942DD6B1F3B4D3E00569242 /* base.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = base.cpp; path = src/base.cpp; sourceTree = "<group>"; };
@@ -572,6 +568,7 @@
 		997C6D61209E3FF000A8704E /* fred.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = fred.h; path = src/fred.h; sourceTree = "<group>"; };
 		997C6D63209E415500A8704E /* guifred.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = guifred.cpp; path = src/guifred.cpp; sourceTree = "<group>"; };
 		997C6D64209E415500A8704E /* guifred.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = guifred.h; path = src/guifred.h; sourceTree = "<group>"; };
+		999411EF28246A950017D756 /* computerconfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = computerconfig.h; path = src/computerconfig.h; sourceTree = "<group>"; };
 		99952FDD277E5CAF0068CD27 /* main_mac_14.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = main_mac_14.xrc; sourceTree = "<group>"; };
 		99952FE0277E5CB70068CD27 /* main_mac_11.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = main_mac_11.xrc; sourceTree = "<group>"; };
 		9997F7BC212494FA0036A1FC /* GPL-3.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "GPL-3.syntax"; sourceTree = "<group>"; };
@@ -653,6 +650,10 @@
 		99B2AC1D27863EEB00C73EB9 /* vt_11.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = vt_11.xrc; sourceTree = "<group>"; };
 		99B2AC1E27863EEC00C73EB9 /* vt_14.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = vt_14.xrc; sourceTree = "<group>"; };
 		99B5DE4F1F4A228400674C05 /* images_linux */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images_linux; sourceTree = "<group>"; };
+		99BBC9A8281DD36F00BD9345 /* guidiy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = guidiy.h; path = src/guidiy.h; sourceTree = "<group>"; };
+		99BBC9A9281DD36F00BD9345 /* guidiy.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = guidiy.cpp; path = src/guidiy.cpp; sourceTree = "<group>"; };
+		99BBC9AC281DD39B00BD9345 /* diy.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = diy.cpp; path = src/diy.cpp; sourceTree = "<group>"; };
+		99BBC9AD281DD39B00BD9345 /* diy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = diy.h; path = src/diy.h; sourceTree = "<group>"; };
 		99BC74FA1DCFDB5C0000D8A9 /* upd765.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = upd765.cpp; path = src/upd765.cpp; sourceTree = "<group>"; };
 		99BC74FB1DCFDB5C0000D8A9 /* upd765.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = upd765.h; path = src/upd765.h; sourceTree = "<group>"; };
 		99BC8686225697B000056D0E /* microtutor2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = microtutor2.cpp; path = src/microtutor2.cpp; sourceTree = "<group>"; };
@@ -980,6 +981,7 @@
 				9976479F1A61D5EE00FB9B33 /* colour.h */,
 				997647151A61D5EE00FB9B33 /* computer.cpp */,
 				997647161A61D5EE00FB9B33 /* computer.h */,
+				999411EF28246A950017D756 /* computerconfig.h */,
 				997647021A61D5EE00FB9B33 /* comx35.cpp */,
 				9976471D1A61D5EE00FB9B33 /* comx35.h */,
 				997646FB1A61D5EE00FB9B33 /* comxstatusbar.cpp */,
@@ -996,6 +998,8 @@
 				99BDBDC91E7F3EDD00DB0FB8 /* debug.h */,
 				99BE53231F156AA1006BD353 /* diagstatusbar.cpp */,
 				99BE53241F156AA1006BD353 /* diagstatusbar.h */,
+				99BBC9AC281DD39B00BD9345 /* diy.cpp */,
+				99BBC9AD281DD39B00BD9345 /* diy.h */,
 				997647891A61D5EE00FB9B33 /* elf.cpp */,
 				997647A11A61D5EE00FB9B33 /* elf.h */,
 				997647451A61D5EE00FB9B33 /* elf2.cpp */,
@@ -1033,6 +1037,8 @@
 				997647711A61D5EE00FB9B33 /* guicosmicos.h */,
 				99BE531E1F1556F5006BD353 /* guidiag.cpp */,
 				99BE53201F1556FD006BD353 /* guidiag.h */,
+				99BBC9A9281DD36F00BD9345 /* guidiy.cpp */,
+				99BBC9A8281DD36F00BD9345 /* guidiy.h */,
 				997647311A61D5EE00FB9B33 /* guielf.cpp */,
 				997647771A61D5EE00FB9B33 /* guielf.h */,
 				997647231A61D5EE00FB9B33 /* guielf2k.cpp */,
@@ -1057,8 +1063,6 @@
 				99AD0D4B242FF553009E9515 /* guiuc1800.h */,
 				9976477A1A61D5EE00FB9B33 /* guinano.cpp */,
 				9976477B1A61D5EE00FB9B33 /* guinano.h */,
-				993028A027D5426400B53ADE /* guinetronics.cpp */,
-				9930289F27D5426400B53ADE /* guinetronics.h */,
 				9976477C1A61D5EE00FB9B33 /* guipecom.cpp */,
 				9976477D1A61D5EE00FB9B33 /* guipecom.h */,
 				9945417327D80AE6001F5131 /* guipico.cpp */,
@@ -1129,8 +1133,6 @@
 				990416771DCDFE9000487FD7 /* ms2000.h */,
 				9976474D1A61D5EE00FB9B33 /* nano.cpp */,
 				997647601A61D5EE00FB9B33 /* nano.h */,
-				993028A127D5427600B53ADE /* netronics.cpp */,
-				993028A227D5427600B53ADE /* netronics.h */,
 				99F263CC220CD4EC00EA87B5 /* network.cpp */,
 				99F263CD220CD4ED00EA87B5 /* network.h */,
 				9976473E1A61D5EE00FB9B33 /* pecom.cpp */,
@@ -1389,12 +1391,14 @@
 				997647DB1A61D5EF00FB9B33 /* guitmc600.cpp in Sources */,
 				997647ED1A61D5EF00FB9B33 /* ports.cpp in Sources */,
 				997915D02308266B0063A6F3 /* cdp18s640.cpp in Sources */,
+				99BBC9AA281DD37500BD9345 /* guidiy.cpp in Sources */,
 				997647EF1A61D5EF00FB9B33 /* til313.cpp in Sources */,
 				997647C21A61D5EE00FB9B33 /* v1870.cpp in Sources */,
 				9945417127D80AD1001F5131 /* pico.cpp in Sources */,
 				997647D11A61D5EF00FB9B33 /* cosmicos.cpp in Sources */,
 				997647C01A61D5EE00FB9B33 /* printer.cpp in Sources */,
 				997647C51A61D5EF00FB9B33 /* guimembership.cpp in Sources */,
+				99BBC9AE281DD39E00BD9345 /* diy.cpp in Sources */,
 				9942DD6D1F3B4D3E00569242 /* base.cpp in Sources */,
 				997647EE1A61D5EF00FB9B33 /* sound.cpp in Sources */,
 				997647EC1A61D5EF00FB9B33 /* pecom.cpp in Sources */,
@@ -1412,7 +1416,6 @@
 				997647F41A61D5EF00FB9B33 /* led.cpp in Sources */,
 				99F263CE220CD4ED00EA87B5 /* network.cpp in Sources */,
 				997647BB1A61D5EE00FB9B33 /* colour.cpp in Sources */,
-				9987889B27D6AE00009FBD32 /* guinetronics.cpp in Sources */,
 				997648071A61D5EF00FB9B33 /* keyboard.cpp in Sources */,
 				997647CE1A61D5EF00FB9B33 /* video.cpp in Sources */,
 				997647BE1A61D5EE00FB9B33 /* guimain.cpp in Sources */,
@@ -1457,7 +1460,6 @@
 				997648021A61D5EF00FB9B33 /* guitmc2000.cpp in Sources */,
 				99F70FF31E7096C800959A15 /* guimcds.cpp in Sources */,
 				991C84F71E37E66A0084DAFB /* guimicrotutor.cpp in Sources */,
-				9987889D27D6AE13009FBD32 /* netronics.cpp in Sources */,
 				997647E61A61D5EF00FB9B33 /* tms9918.cpp in Sources */,
 				99E4FECF1FF3BD40001A10B7 /* serial.cpp in Sources */,
 				997647F21A61D5EF00FB9B33 /* elf2.cpp in Sources */,

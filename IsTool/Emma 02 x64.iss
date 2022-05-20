@@ -3,13 +3,13 @@
 
 [Setup]
 AppName=Emma 02
-AppVerName=Emma 02 - V1.45
-AppVersion=1.45
+AppVerName=Emma 02 - V1.46
+AppVersion=1.46
 AppPublisher=Marcel van Tongeren
 DefaultDirName={pf}\Emma 02
 DefaultGroupName=Emma 02
 OutputDir=x64
-OutputBaseFilename=Emma_02_x64_setup_v1.45
+OutputBaseFilename=Emma_02_x64_setup_v1.46
 Compression=lzma
 SolidCompression=true
 SetupIconFile=..\images\app.ico
@@ -133,7 +133,6 @@ Source: ..\Configurations Windows\Microtutor\*.*; DestDir: {app}\Configurations\
 Source: ..\Configurations Windows\Microtutor2\*.*; DestDir: {app}\Configurations\Microtutor2; Components: MAIN
 Source: ..\Configurations Windows\MS2000\*.*; DestDir: {app}\Configurations\MS2000; Components: MAIN
 Source: ..\Configurations Windows\Nano\*.*; DestDir: {app}\Configurations\Nano; Components: MAIN
-Source: ..\Configurations Windows\Netronics\*.*; DestDir: {app}\Configurations\Netronics; Components: MAIN
 Source: ..\Configurations Windows\Pecom\*.*; DestDir: {app}\Configurations\Pecom; Components: MAIN
 Source: ..\Configurations Windows\Pico\*.*; DestDir: {app}\Configurations\Pico; Components: MAIN
 Source: ..\Configurations Windows\Studio2\*.*; DestDir: {app}\Configurations\Studio2; Components: MAIN
@@ -229,7 +228,6 @@ Source: ..\data\MS2000\PLM\*.*; DestDir: {app}\data\MS2000\PLM; Components: MAIN
 Source: ..\data\MS2000\RP\*.*; DestDir: {app}\data\MS2000\RP; Components: MAIN
 Source: ..\data\MS2000\Software\*.*; DestDir: {app}\data\MS2000\Software; Components: MAIN
 Source: ..\data\Nano\*.*; DestDir: {app}\data\Nano; Components: MAIN
-Source: ..\data\Netronics\*.*; DestDir: {app}\data\Netronics; Components: MAIN
 Source: ..\data\Pecom\*.*; DestDir: {app}\data\Pecom; Components: MAIN
 Source: ..\data\Pico\*.*; DestDir: {app}\data\Pioo; Components: MAIN
 Source: ..\data\Studio2\*.*; DestDir: {app}\data\Studio2; Components: MAIN

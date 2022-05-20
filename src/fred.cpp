@@ -233,9 +233,10 @@ BEGIN_EVENT_TABLE(Fred, wxFrame)
 	EVT_CLOSE (Fred::onClose)
 END_EVENT_TABLE()
 
-Fred::Fred(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf, int computerType)
+Fred::Fred(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf, int computerType, Conf computerConf)
 : wxFrame((wxFrame *)NULL, -1, title, pos, size)
 {
+    computerConfiguration = computerConf;
     computerType_ = computerType;
     fredConfiguration = conf;
     fredClockSpeed_ = clock;
@@ -1042,7 +1043,7 @@ void Fred::startComputer()
 
 void Fred::writeMemDataType(Word address, Byte type)
 {
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
         case ROM:
@@ -1068,7 +1069,7 @@ void Fred::writeMemDataType(Word address, Byte type)
 
 Byte Fred::readMemDataType(Word address, uint64_t* executed)
 {
-    switch (memoryType_[address/256])
+    switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
 		case ROM:
@@ -1089,7 +1090,7 @@ Byte Fred::readMemDataType(Word address, uint64_t* executed)
 
 Byte Fred::readMem(Word address)
 {
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case UNDEFINED:
 			return 255;
@@ -1109,7 +1110,7 @@ Byte Fred::readMemDebug(Word address)
 
 void Fred::writeMem(Word address, Byte value, bool writeRom)
 {
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
 			if (mainMemory_[address]==value)

@@ -29,9 +29,10 @@
 #include "main.h"
 #include "vip2k.h"
 
-Vip2K::Vip2K(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, double clock, ElfConfiguration conf)
+Vip2K::Vip2K(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, double clock, ElfConfiguration conf, Conf computerConf)
 :PixieVip2K(title, pos, size, zoom, zoomfactor, computerType)
 {
+    computerConfiguration = computerConf;
 	vipConfiguration = conf;
 	clock_ = clock;
 }
@@ -620,7 +621,7 @@ void Vip2K::startComputer()
 
 void Vip2K::writeMemDataType(Word address, Byte type)
 {
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
 		case ROM:
@@ -636,7 +637,7 @@ void Vip2K::writeMemDataType(Word address, Byte type)
 
 Byte Vip2K::readMemDataType(Word address, uint64_t* executed)
 {
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
 		case ROM:
@@ -650,7 +651,7 @@ Byte Vip2K::readMemDataType(Word address, uint64_t* executed)
 
 Byte Vip2K::readMem(Word address)
 {
-    switch (memoryType_[address/256])
+    switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
         case ROM:
@@ -670,7 +671,7 @@ Byte Vip2K::readMemDebug(Word address)
 
 void Vip2K::writeMem(Word address, Byte value, bool writeRom)
 {
-    switch (memoryType_[address/256])
+    switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
 			if (mainMemory_[address]==value)

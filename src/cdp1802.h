@@ -92,7 +92,7 @@ public:
     bool readBinFile(wxString fileName, int memoryType, Word start, long end, long inhibitStart, long inhibitEnd);
     bool readBinFile(wxString fileName, int memoryType, Word address, long end, bool showFilename, bool showAddressPopup, Word specifiedStartAddress);
     bool readBinFile(wxString fileName, int memoryType, Word address, Word* lastAddress, long end, bool showFilename);
-    bool readRomMapperBinFile(wxString fileName);
+    bool readRomMapperBinFile(size_t emsNumber, wxString fileName);
     bool readMultiCartBinFile(wxString dirName, wxString fileName);
     void setAddress(bool showFilename, Word start, Word end);
 	void checkLoadedSoftware();
@@ -173,7 +173,7 @@ public:
     void increaseExecutedCpuRam(Word address, Byte type);
     void increaseExecutedMultiCartRom(Word address, Byte type);
     void increaseExecutedTestCartRom(Word address, Byte type);
-    void increaseExecutedEmsRam(long address, Byte type);
+    void increaseExecutedEms(size_t emsNumber, long address, Byte type);
     void clearProfiler();
 
 protected:

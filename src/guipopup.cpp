@@ -105,7 +105,7 @@ PopupDialog::PopupDialog(wxWindow* parent)
     {
         case ELFII:
         case SUPERELF:
-        case NETRONICS:
+        case DIY:
         case PICO:
             wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"menuElf_" + p_Main->getFontSize() + ".xrc");
             wxXmlResource::Get()->LoadDialog(this, parent, wxT("PopupElf"));
@@ -243,7 +243,7 @@ void PopupDialog::init()
 		case ELF:
 		case ELFII:
 		case SUPERELF:
-        case NETRONICS:
+        case DIY:
         case PICO:
 			setTapeType(p_Main->getUseTape(computer_));
 			enableMemAccessGui(true);

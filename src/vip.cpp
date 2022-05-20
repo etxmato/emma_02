@@ -29,9 +29,10 @@
 #include "main.h"
 #include "vip.h"
 
-Vip::Vip(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, double clock, int tempo, ElfConfiguration conf)
+Vip::Vip(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, double clock, int tempo, ElfConfiguration conf, Conf computerConf)
 :Pixie(title, pos, size, zoom, zoomfactor, computerType)
 {
+    computerConfiguration = computerConf;
 	vipConfiguration = conf;
 
 	clock_ = clock;
@@ -720,7 +721,7 @@ void Vip::writeMemDataType(Word address, Byte type)
 	else
 		address = address & romMask_;
 
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
 		case MAPPEDRAM:
@@ -751,7 +752,7 @@ Byte Vip::readMemDataType(Word address, uint64_t* executed)
 	else
 		address = address & romMask_;
 
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
 		case MAPPEDRAM:
@@ -787,7 +788,7 @@ Byte Vip::readMem(Word address)
 	else
 		address = address & romMask_;
 //	}
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
 		case MAPPEDRAM:
@@ -839,7 +840,7 @@ void Vip::writeMem(Word address, Byte value, bool writeRom)
 			return;
 		}
 	}
-	switch (memoryType_[address/256])
+	switch (memoryType_[address/256]&0xff)
 	{
 		case RAM:
 		case MAPPEDRAM:
