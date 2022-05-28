@@ -5113,7 +5113,12 @@ void GuiMain::parseXml_Memory(int computer, wxXmlNode &node)
 
             case TAG_RAM:
                 conf[computer].memConfig_.resize(conf[computer].memConfigNumber_+1);
-                parseXml_RomRam (computer, *child, RAM, conf[computer].memConfigNumber_++);
+                parseXml_RomRam (computer, *child, (int)(RAM + 256*conf[computer].memConfigNumber_), conf[computer].memConfigNumber_);
+                conf[computer].memConfig_[conf[computer].memConfigNumber_].memMask = parseXml_Number(*child, "mask");
+                if (conf[computer].memConfig_[conf[computer].memConfigNumber_].memMask == 0)
+                    conf[computer].memConfig_[conf[computer].memConfigNumber_].memMask = 0xffff;
+                conf[computer].memConfig_[conf[computer].memConfigNumber_].memMask |= 0xff;
+                conf[computer].memConfigNumber_++;
             break;
 
             case TAG_EMS:

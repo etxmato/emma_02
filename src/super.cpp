@@ -1347,7 +1347,7 @@ void Super::startComputer()
 
     if (elfConfiguration.bootStrap)
         offset = 0x8000;
-    if (!elfConfiguration.useEms && elfConfiguration.emsType_ == ROM)
+    if (!elfConfiguration.useEms)
         readProgram(p_Main->getRomDir(SUPERELF, MAINROM1), p_Main->getRomFile(SUPERELF, MAINROM1), p_Main->getLoadromMode(SUPERELF, 0), offset, NONAME);
 
     offset = 0;
@@ -1458,10 +1458,10 @@ void Super::writeMemDataType(Word address, Byte type)
 			{
 				case ROM:
 				case RAM:
-					if (mainMemoryDataType_[(getPager(address>>12) << 12) |(address &0xfff)] != type)
+					if (pagerMemoryDataType_[(getPager(address>>12) << 12) |(address &0xfff)] != type)
 					{
 						p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-						mainMemoryDataType_[(getPager(address>>12) << 12) |(address &0xfff)] = type;
+						pagerMemoryDataType_[(getPager(address>>12) << 12) |(address &0xfff)] = type;
 					}
                     increaseExecutedMainMemory((getPager(address>>12) << 12) |(address &0xfff), type);
 				break;
@@ -1508,8 +1508,8 @@ Byte Super::readMemDataType(Word address, uint64_t* executed)
 				case ROM:
 				case RAM:
                     if (profilerCounter_ != PROFILER_OFF)
-                        *executed = mainMemoryExecuted_[(getPager(address>>12) << 12) |(address &0xfff)];
-					return mainMemoryDataType_[(getPager(address>>12) << 12) |(address &0xfff)];
+                        *executed = pagerMemoryExecuted_[(getPager(address>>12) << 12) |(address &0xfff)];
+					return pagerMemoryDataType_[(getPager(address>>12) << 12) |(address &0xfff)];
 				break;
 			}
 		break;
@@ -1552,7 +1552,7 @@ Byte Super::readMemDebug(Word address)
                     
                 case ROM:
                 case RAM:
-                    return emsMemory_[0].main[(long) ((address & 0x7fff) |(computerConfiguration.emsConfig_[0].page << 15))];
+                    return emsMemory_[0].mainMem[(long) ((address & 0x7fff) |(computerConfiguration.emsConfig_[0].page << 15))];
                 break;
                     
                 default:
@@ -1599,7 +1599,7 @@ Byte Super::readMemDebug(Word address)
 				case ROM:
 				case RAM:
 					if (address <32 && monitor_) return minimon[address];
-					return mainMemory_[(getPager(address>>12) << 12) |(address &0xfff)];
+					return pagerMemory_[(getPager(address>>12) << 12) |(address &0xfff)];
 				break;
 
 				default:
@@ -1652,13 +1652,13 @@ void Super::writeMemDebug(Word address, Byte value, bool writeRom)
                 case UNDEFINED:
                 case ROM:
                     if (writeRom)
-                        emsMemory_[0].main[(long) ((address & 0x7fff) |(computerConfiguration.emsConfig_[0].page << 15))] = value;
+                        emsMemory_[0].mainMem[(long) ((address & 0x7fff) |(computerConfiguration.emsConfig_[0].page << 15))] = value;
                 break;
                     
                 case RAM:
                     if (!getMpButtonState())
                     {
-                        emsMemory_[0].main[(long) ((address & 0x7fff) |(computerConfiguration.emsConfig_[0].page << 15))] = value;
+                        emsMemory_[0].mainMem[(long) ((address & 0x7fff) |(computerConfiguration.emsConfig_[0].page << 15))] = value;
                         if (address >= memoryStart_ && address<(memoryStart_ + 256))
                             p_Main->updateDebugMemory(address);
                         p_Main->updateAssTabCheck(address);
@@ -1720,14 +1720,14 @@ void Super::writeMemDebug(Word address, Byte value, bool writeRom)
 				case ROM:
 					if (address < 32 && monitor_) return;
 					if (writeRom)
-						mainMemory_[(getPager(address>>12) << 12) |(address &0xfff)] = value;
+						pagerMemory_[(getPager(address>>12) << 12) |(address &0xfff)] = value;
 				break;
 
 				case RAM:
                     if (!getMpButtonState())
                     {
                         if (address < 32 && monitor_) return;
-                        mainMemory_[(getPager(address>>12) << 12) |(address &0xfff)] = value;
+                        pagerMemory_[(getPager(address>>12) << 12) |(address &0xfff)] = value;
                         if (address >= memoryStart_ && address<(memoryStart_ + 256))
                             p_Main->updateDebugMemory(address);
                         p_Main->updateAssTabCheck(address);

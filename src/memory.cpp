@@ -123,8 +123,9 @@ Memory::~Memory()
     }
     for (size_t emsNumber=0; emsNumber<computerConfiguration.emsConfigNumber_; emsNumber++)
     {
-        free(emsMemory_[emsNumber].main);
+        free(emsMemory_[emsNumber].mainMem);
         free(emsMemory_[emsNumber].dataType_);
+        free(emsMemory_[emsNumber].memoryType_);
         if (profilerCounter_ != PROFILER_OFF)
             free(emsMemory_[emsNumber].executed_);
         free(emsMemory_[emsNumber].labelType_);
@@ -144,6 +145,16 @@ Memory::~Memory()
         if (profilerCounter_ != PROFILER_OFF)
             free(testCartRomExecuted_);
         free(testCartRomLabelType_);
+    }
+    if (pagerDefined_)
+    {
+        free(pagerMemory_);
+        free(pagerMemoryDataType_);
+        free(pagerMemoryType_);
+        if (profilerCounter_ != PROFILER_OFF)
+            free(pagerMemoryExecuted_);
+        free(pagerMemoryLabelType_);
+
     }
 }
 
@@ -196,7 +207,7 @@ void Memory::clearDebugMemory()
     }
     for (size_t emsNumber=0; emsNumber<computerConfiguration.emsConfigNumber_; emsNumber++)
     {
-        for (int i=0; i<emsSize_; i++)
+        for (wxUint32 i=0; i<emsSize_; i++)
         {
             emsMemory_[emsNumber].dataType_[i] = MEM_TYPE_DATA;
             if (profilerCounter_ != PROFILER_OFF)
@@ -206,7 +217,7 @@ void Memory::clearDebugMemory()
     }
     if (multiCartMemoryDefined_)
     {
-        for (int i=0; i<1048576; i++)
+        for (wxUint32 i=0; i<1048576; i++)
         {
             multiCartRomDataType_[i] = MEM_TYPE_DATA;
             if (profilerCounter_ != PROFILER_OFF)
@@ -216,12 +227,12 @@ void Memory::clearDebugMemory()
     }
     if (pagerDefined_)
     {
-        for (int i=0; i<pagerSize_; i++)
+        for (wxUint32 i=0; i<pagerSize_; i++)
         {
-            mainMemoryDataType_[i] = MEM_TYPE_DATA;
+            pagerMemoryDataType_[i] = MEM_TYPE_DATA;
             if (profilerCounter_ != PROFILER_OFF)
-                mainMemoryExecuted_[i] = 0;
-            mainMemoryLabelType_[i] = LABEL_TYPE_NONE;
+                pagerMemoryExecuted_[i] = 0;
+            pagerMemoryLabelType_[i] = LABEL_TYPE_NONE;
         }
     }
 }
@@ -252,11 +263,11 @@ void Memory::allocPagerMemory(Word start, Word end)
 
 void Memory::allocPagerMemoryCommon()
 {
-    mainMemory_ = (Byte*)realloc(mainMemory_, pagerSize_);
-    mainMemoryDataType_ = (Byte*)realloc(mainMemoryDataType_, pagerSize_);
+    pagerMemory_ = (Byte*)malloc(pagerSize_);
+    pagerMemoryDataType_ = (Byte*)malloc(pagerSize_);
     if (profilerCounter_ != PROFILER_OFF)
-        mainMemoryExecuted_ = (uint64_t*)realloc(mainMemoryExecuted_, pagerSize_*8);
-    mainMemoryLabelType_ = (Byte*)realloc(mainMemoryLabelType_, pagerSize_);
+        pagerMemoryExecuted_ = (uint64_t*)malloc(pagerSize_*8);
+    pagerMemoryLabelType_ = (Byte*)malloc(pagerSize_);
     pagerMemoryType_ = (Byte*)malloc(pagerSize_/256);
     pagerDefined_ = true;
 
@@ -265,41 +276,41 @@ void Memory::allocPagerMemoryCommon()
         pager_[i] = i;
     }
 
-    for (int i = 0; i<(pagerSize_/256); i++) pagerMemoryType_[i] = RAM;
+    for (wxUint32 i = 0; i<(pagerSize_/256); i++) pagerMemoryType_[i] = RAM;
 
     switch (p_Main->getCpuStartupRam())
     {
         case STARTUP_ZEROED:
-            for (int i = 0; i<pagerSize_; i++)
+            for (wxUint32 i = 0; i<pagerSize_; i++)
             {
-                mainMemory_[i] = 0;
-                mainMemoryDataType_[i] = MEM_TYPE_DATA;
+                pagerMemory_[i] = 0;
+                pagerMemoryDataType_[i] = MEM_TYPE_DATA;
                 if (profilerCounter_ != PROFILER_OFF)
-                    mainMemoryExecuted_[i] = 0;
-                mainMemoryLabelType_[i] = LABEL_TYPE_NONE;
+                    pagerMemoryExecuted_[i] = 0;
+                pagerMemoryLabelType_[i] = LABEL_TYPE_NONE;
             }
         break;
             
         case STARTUP_RANDOM:
-            for (int i = 0; i<pagerSize_; i++)
+            for (wxUint32 i = 0; i<pagerSize_; i++)
             {
-                mainMemory_[i] = rand() % 0x100;
-                mainMemoryDataType_[i] = MEM_TYPE_DATA;
+                pagerMemory_[i] = rand() % 0x100;
+                pagerMemoryDataType_[i] = MEM_TYPE_DATA;
                 if (profilerCounter_ != PROFILER_OFF)
-                    mainMemoryExecuted_[i] = 0;
-                mainMemoryLabelType_[i] = LABEL_TYPE_NONE;
+                    pagerMemoryExecuted_[i] = 0;
+                pagerMemoryLabelType_[i] = LABEL_TYPE_NONE;
             }
         break;
             
         case STARTUP_DYNAMIC:
             setDynamicRandomByte();
-            for (int i = 0; i<pagerSize_; i++)
+            for (wxUint32 i = 0; i<pagerSize_; i++)
             {
-                mainMemory_[i] = getDynamicByte(i);
-                mainMemoryDataType_[i] = MEM_TYPE_DATA;
+                pagerMemory_[i] = getDynamicByte(i);
+                pagerMemoryDataType_[i] = MEM_TYPE_DATA;
                 if (profilerCounter_ != PROFILER_OFF)
-                    mainMemoryExecuted_[i] = 0;
-                mainMemoryLabelType_[i] = LABEL_TYPE_NONE;
+                    pagerMemoryExecuted_[i] = 0;
+                pagerMemoryLabelType_[i] = LABEL_TYPE_NONE;
             }
         break;
     }
@@ -428,7 +439,7 @@ wxFileOffset Memory::allocRomMapperMemory(size_t emsNumber, wxFileOffset length)
     if (length > emsSize_)
         length = emsSize_;
     
-    emsMemory_[emsNumber].main = (Byte*)malloc((size_t)emsSize_);
+    emsMemory_[emsNumber].mainMem = (Byte*)malloc((size_t)emsSize_);
     emsMemory_[emsNumber].dataType_ = (Byte*)malloc((size_t)emsSize_);
     if (profilerCounter_ != PROFILER_OFF)
         emsMemory_[emsNumber].executed_ = (uint64_t*)malloc((size_t)emsSize_*8);
@@ -436,13 +447,13 @@ wxFileOffset Memory::allocRomMapperMemory(size_t emsNumber, wxFileOffset length)
     emsMemory_[emsNumber].memoryType_ = (Byte*)malloc(emsSize_/256);
     computerConfiguration.emsConfig_[0].page = 0;
 
-    for (int i = 0; i<(emsSize_/256); i++) emsMemory_[emsNumber].memoryType_[i] = ROM;
+    for (wxUint32 i = 0; i<(emsSize_/256); i++) emsMemory_[emsNumber].memoryType_[i] = ROM;
 
     emsRomDefined_ = true;
 
-    for (int i = 0; i<emsSize_; i++)
+    for (wxUint32 i = 0; i<emsSize_; i++)
     {
-        emsMemory_[emsNumber].main[i] = 0xff;
+        emsMemory_[emsNumber].mainMem[i] = 0xff;
         emsMemory_[emsNumber].dataType_[i] = MEM_TYPE_DATA;
         if (profilerCounter_ != PROFILER_OFF)
             emsMemory_[emsNumber].executed_[i] = 0;
@@ -455,7 +466,7 @@ void Memory::allocEmsMemorySegment(size_t emsNumber)
 {    
     emsSize_ = (computerConfiguration.emsConfig_[emsNumber].mask + 1) * (computerConfiguration.emsConfig_[emsNumber].outputMask + 1);
     
-    emsMemory_[emsNumber].main = (Byte*)malloc((size_t)emsSize_);
+    emsMemory_[emsNumber].mainMem = (Byte*)malloc((size_t)emsSize_);
     emsMemory_[emsNumber].dataType_ = (Byte*)malloc((size_t)emsSize_);
     if (profilerCounter_ != PROFILER_OFF)
         emsMemory_[emsNumber].executed_ = (uint64_t*)malloc((size_t)emsSize_*8);
@@ -463,7 +474,7 @@ void Memory::allocEmsMemorySegment(size_t emsNumber)
     emsMemory_[emsNumber].memoryType_ = (Byte*)malloc(emsSize_/256);
     computerConfiguration.emsConfig_[emsNumber].page = 0;
 
-    for (int i = 0; i<(emsSize_/256); i++)
+    for (wxUint32 i = 0; i<(emsSize_/256); i++)
     {
 // Some test code to check RAM / ROM type every 16K
 //        if ((i & (0x4000/256)) == 0x4000/256)
@@ -477,9 +488,9 @@ void Memory::allocEmsMemorySegment(size_t emsNumber)
     switch (p_Main->getCpuStartupRam())
     {
         case STARTUP_ZEROED:
-            for (int i=0; i<emsSize_; i++)
+            for (wxUint32 i=0; i<emsSize_; i++)
             {
-                emsMemory_[emsNumber].main[i] = 0;
+                emsMemory_[emsNumber].mainMem[i] = 0;
                 emsMemory_[emsNumber].dataType_[i] = MEM_TYPE_DATA;
                 if (profilerCounter_ != PROFILER_OFF)
                     emsMemory_[emsNumber].executed_[i] = 0;
@@ -488,9 +499,9 @@ void Memory::allocEmsMemorySegment(size_t emsNumber)
         break;
             
         case STARTUP_RANDOM:
-            for (int i=0; i<emsSize_; i++)
+            for (wxUint32 i=0; i<emsSize_; i++)
             {
-                emsMemory_[emsNumber].main[i] = rand() % 0x100;
+                emsMemory_[emsNumber].mainMem[i] = rand() % 0x100;
                 emsMemory_[emsNumber].dataType_[i] = MEM_TYPE_DATA;
                 if (profilerCounter_ != PROFILER_OFF)
                     emsMemory_[emsNumber].executed_[i] = 0;
@@ -500,9 +511,9 @@ void Memory::allocEmsMemorySegment(size_t emsNumber)
             
         case STARTUP_DYNAMIC:
             setDynamicRandomByte();
-            for (int i=0; i<emsSize_; i++)
+            for (wxUint32 i=0; i<emsSize_; i++)
             {
-                emsMemory_[emsNumber].main[i] = getDynamicByte(i);
+                emsMemory_[emsNumber].mainMem[i] = getDynamicByte(i);
                 emsMemory_[emsNumber].dataType_[i] = MEM_TYPE_DATA;
                 if (profilerCounter_ != PROFILER_OFF)
                     emsMemory_[emsNumber].executed_[i] = 0;
@@ -637,7 +648,7 @@ void Memory::defineMemoryType(long address, int type)
 		defineMultiCartMemoryType(address, type);
 		return;
 	}
-    for (int emsNumber=0; emsNumber<computerConfiguration.emsConfigNumber_; emsNumber++)
+    for (int emsNumber=0; emsNumber<(int)computerConfiguration.emsConfigNumber_; emsNumber++)
     {
         if (address >= computerConfiguration.emsConfig_[emsNumber].start && address <= computerConfiguration.emsConfig_[emsNumber].end)
         {

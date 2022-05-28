@@ -15,7 +15,7 @@ typedef unsigned __int64 uint64_t;
 class EmsMemory
 {
 public:
-    Byte* main;
+    Byte* mainMem;
     Byte* dataType_;
     Byte* labelType_;
     Byte* memoryType_;
@@ -94,6 +94,9 @@ protected:
 	int superBankMemoryType_[512];
     int multiCartMemoryType_[4096];
     int testCartMemoryType_[256];
+    Byte* pagerMemory_;
+    Byte* pagerMemoryDataType_;
+    Byte* pagerMemoryLabelType_;
     Byte* pagerMemoryType_;
 	int colorMemory1864_[1024];
 	Byte mc6845ram_[2048];
@@ -125,7 +128,7 @@ protected:
     Byte* testCartRomLabelType_;
     
     vector<EmsMemory> emsMemory_;
-    uint32_t emsSize_;
+    wxUint32 emsSize_;
     
     Byte multiCartMsb_;
     Byte multiCartLsb_;
@@ -138,6 +141,7 @@ protected:
     uint64_t* cpuRamExecuted_;
     uint64_t* multiCartRomExecuted_;
     uint64_t* testCartRomExecuted_;
+    uint64_t* pagerMemoryExecuted_;
 
     size_t multiCartMask_;
     
@@ -148,7 +152,7 @@ protected:
     bool emsRomDefined_;
     bool comxExpansionMemoryDefined_;
 
-    uint32_t pagerSize_;
+    wxUint32 pagerSize_;
 
 private:
 	int pager_[256];

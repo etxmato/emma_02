@@ -61,7 +61,7 @@
 #include "splash.h"
 
 #if defined(__WXMSW__) && (_DEBUG) && (WIN32)
-#include <vld.h>
+//#include <vld.h>
 #endif
 
 #define VU_RED 60

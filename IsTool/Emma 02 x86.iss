@@ -3,13 +3,13 @@
 
 [Setup]
 AppName=Emma 02
-AppVerName=Emma 02 - V1.46
-AppVersion=1.46
+AppVerName=Emma 02 - V1.46.1
+AppVersion=1.46.1
 AppPublisher=Marcel van Tongeren
 DefaultDirName={pf}\Emma 02
 DefaultGroupName=Emma 02
 OutputDir=x86
-OutputBaseFilename=Emma_02_x86_setup_v1.46
+OutputBaseFilename=Emma_02_x86_setup_v1.46.1
 Compression=lzma
 SolidCompression=true
 SetupIconFile=..\images\app.ico
@@ -226,7 +226,7 @@ Source: ..\data\MS2000\RP\*.*; DestDir: {app}\data\MS2000\RP; Components: MAIN
 Source: ..\data\MS2000\Software\*.*; DestDir: {app}\data\MS2000\Software; Components: MAIN
 Source: ..\data\Nano\*.*; DestDir: {app}\data\Nano; Components: MAIN
 Source: ..\data\Pecom\*.*; DestDir: {app}\data\Pecom; Components: MAIN
-Source: ..\data\Pico\*.*; DestDir: {app}\data\Pioo; Components: MAIN
+Source: ..\data\Pico\*.*; DestDir: {app}\data\Pico; Components: MAIN
 Source: ..\data\Studio2\*.*; DestDir: {app}\data\Studio2; Components: MAIN
 Source: ..\data\StudioIV\*.*; DestDir: {app}\data\StudioIV; Components: MAIN
 Source: ..\data\TMC600\*.*; DestDir: {app}\data\TMC600; Components: MAIN

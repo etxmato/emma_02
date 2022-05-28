@@ -4011,7 +4011,7 @@ bool Cdp1802::readRomMapperBinFile(size_t emsNumber, wxString fileName)
     length = inFile.Length();
     allocRomMapperMemory(emsNumber, length);
 
-    inFile.Read(emsMemory_[emsNumber].main, (size_t)length);
+    inFile.Read(emsMemory_[emsNumber].mainMem, (size_t)length);
     
     inFile.Close();
     return true;
@@ -5076,10 +5076,10 @@ void Cdp1802::writeMemLabelType(Word address, Byte type)
             {
                 case ROM:
                 case RAM:
-                    if (type > mainMemoryLabelType_[(getPager(address>>computerConfiguration.pagerMaskBits_) << computerConfiguration.pagerMaskBits_) |(address &computerConfiguration.pagerMask_)] || type == 0)
+                    if (type > pagerMemoryLabelType_[(getPager(address>>computerConfiguration.pagerMaskBits_) << computerConfiguration.pagerMaskBits_) |(address &computerConfiguration.pagerMask_)] || type == 0)
                     {
                         p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-                        mainMemoryDataType_[(getPager(address>>computerConfiguration.pagerMaskBits_) << computerConfiguration.pagerMaskBits_) |(address &computerConfiguration.pagerMask_)] = type;
+                        pagerMemoryDataType_[(getPager(address>>computerConfiguration.pagerMaskBits_) << computerConfiguration.pagerMaskBits_) |(address &computerConfiguration.pagerMask_)] = type;
                     }
                 break;
             }
@@ -5392,7 +5392,7 @@ Byte Cdp1802::readMemLabelType(Word address)
             {
                 case ROM:
                 case RAM:
-                    return mainMemoryLabelType_[(getPager(address>>computerConfiguration.pagerMaskBits_) << computerConfiguration.pagerMaskBits_) |(address &computerConfiguration.pagerMask_)];
+                    return pagerMemoryLabelType_[(getPager(address>>computerConfiguration.pagerMaskBits_) << computerConfiguration.pagerMaskBits_) |(address &computerConfiguration.pagerMask_)];
                 break;
             }
         break;
@@ -5535,18 +5535,18 @@ void Cdp1802::clearProfiler()
     }
     for (size_t emsNumber=0; emsNumber<computerConfiguration.emsConfigNumber_; emsNumber++)
     {
-        for (uint32_t i=0; i<emsSize_; i++)
+        for (wxUint32 i=0; i<emsSize_; i++)
             emsMemory_[emsNumber].executed_[i] = 0;
     }
     if (multiCartMemoryDefined_)
     {
-        for (int i=0; i<1048576; i++)
+        for (wxUint32 i=0; i<1048576; i++)
             multiCartRomExecuted_[i] = 0;
     }
     if (pagerDefined_)
     {
-        for (int i=0; i<pagerSize_; i++)
-            mainMemoryExecuted_[i] = 0;
+        for (wxUint32 i=0; i<pagerSize_; i++)
+            pagerMemoryExecuted_[i] = 0;
     }
 
 }

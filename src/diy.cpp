@@ -1145,43 +1145,33 @@ void Diy::loadRomRam(size_t configNumber)
 
 void Diy::writeMemDataType(Word address, Byte type)
 {
-    size_t emsNumber;
+    size_t number = (memoryType_[address / 256] >> 8);
     address = address | bootstrap_;
+    
 	switch (memoryType_[address/256]&0xff)
 	{
         case EMSMEMORY:
-            emsNumber = (memoryType_[address / 256] >> 8);
-            
-            switch (emsMemory_[emsNumber].memoryType_[((address - computerConfiguration.emsConfig_[emsNumber].start) |(computerConfiguration.emsConfig_[emsNumber].page << computerConfiguration.emsConfig_[emsNumber].maskBits))/256])
+            switch (emsMemory_[number].memoryType_[((address - computerConfiguration.emsConfig_[number].start) |(computerConfiguration.emsConfig_[number].page << computerConfiguration.emsConfig_[number].maskBits))/256])
             {
                 case ROM:
                 case RAM:
-                    if (emsMemory_[emsNumber].dataType_[(long) ((address - computerConfiguration.emsConfig_[emsNumber].start) |(computerConfiguration.emsConfig_[emsNumber].page << computerConfiguration.emsConfig_[emsNumber].maskBits))] != type)
+                    if (emsMemory_[number].dataType_[(long) ((address - computerConfiguration.emsConfig_[number].start) |(computerConfiguration.emsConfig_[number].page << computerConfiguration.emsConfig_[number].maskBits))] != type)
                     {
                         p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-                        emsMemory_[emsNumber].dataType_[(long) ((address - computerConfiguration.emsConfig_[emsNumber].start) |(computerConfiguration.emsConfig_[emsNumber].page << computerConfiguration.emsConfig_[emsNumber].maskBits))] = type;
+                        emsMemory_[number].dataType_[(long) ((address - computerConfiguration.emsConfig_[number].start) |(computerConfiguration.emsConfig_[number].page << computerConfiguration.emsConfig_[number].maskBits))] = type;
                     }
-                    increaseExecutedEms(emsNumber, (long) ((address - computerConfiguration.emsConfig_[emsNumber].start) |(computerConfiguration.emsConfig_[emsNumber].page << computerConfiguration.emsConfig_[emsNumber].maskBits)), type);
+                    increaseExecutedEms(number, (long) ((address - computerConfiguration.emsConfig_[number].start) |(computerConfiguration.emsConfig_[number].page << computerConfiguration.emsConfig_[number].maskBits)), type);
                 break;
             }
         break;
             
         case MAPPEDROM:
 		case ROM:
-            emsNumber = (memoryType_[address / 256] >> 8);
-            address = (address & computerConfiguration.memConfig_[emsNumber].memMask) | computerConfiguration.memConfig_[emsNumber].start;
-
-            if (mainMemoryDataType_[address] != type)
-			{
-				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-				mainMemoryDataType_[address] = type;
-			}
-            increaseExecutedMainMemory(address, type);
-		break;
-
         case MAINRAM:
 		case MAPPEDRAM:
-			address = (address & computerConfiguration.memConfig_[0].memMask) | computerConfiguration.memConfig_[0].start;
+        case RAM:
+            address = (address & computerConfiguration.memConfig_[number].memMask) | computerConfiguration.memConfig_[number].start;
+            
 			if (mainMemoryDataType_[address] != type)
 			{
 				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
@@ -1190,24 +1180,15 @@ void Diy::writeMemDataType(Word address, Byte type)
             increaseExecutedMainMemory(address, type);
 		break;
 
-        case RAM:
-            if (mainMemoryDataType_[address] != type)
-            {
-                p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-                mainMemoryDataType_[address] = type;
-            }
-            increaseExecutedMainMemory(address, type);
-        break;
-
 		case PAGER:
 			switch (pagerMemoryType_[((getPager(address>>computerConfiguration.pagerMaskBits_) << computerConfiguration.pagerMaskBits_) |(address &computerConfiguration.pagerMask_))/256])
 			{
 				case ROM:
 				case RAM:
-					if (mainMemoryDataType_[(getPager(address>>computerConfiguration.pagerMaskBits_) << computerConfiguration.pagerMaskBits_) |(address &computerConfiguration.pagerMask_)] != type)
+					if (pagerMemoryDataType_[(getPager(address>>computerConfiguration.pagerMaskBits_) << computerConfiguration.pagerMaskBits_) |(address &computerConfiguration.pagerMask_)] != type)
 					{
 						p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-						mainMemoryDataType_[(getPager(address>>computerConfiguration.pagerMaskBits_) << computerConfiguration.pagerMaskBits_) |(address &computerConfiguration.pagerMask_)] = type;
+						pagerMemoryDataType_[(getPager(address>>computerConfiguration.pagerMaskBits_) << computerConfiguration.pagerMaskBits_) |(address &computerConfiguration.pagerMask_)] = type;
 					}
                     increaseExecutedMainMemory((getPager(address>>computerConfiguration.pagerMaskBits_) << computerConfiguration.pagerMaskBits_) |(address &computerConfiguration.pagerMask_), type);
 				break;
@@ -1219,47 +1200,34 @@ void Diy::writeMemDataType(Word address, Byte type)
 
 Byte Diy::readMemDataType(Word address, uint64_t* executed)
 {
-    size_t emsNumber;
+    size_t number = (memoryType_[address / 256] >> 8);
     address = address | bootstrap_;
+    
 	switch (memoryType_[address/256]&0xff)
 	{
         case EMSMEMORY:
-            emsNumber = (memoryType_[address / 256] >> 8);
-            
-            switch (emsMemory_[emsNumber].memoryType_[((address - computerConfiguration.emsConfig_[emsNumber].start) |(computerConfiguration.emsConfig_[emsNumber].page << computerConfiguration.emsConfig_[emsNumber].maskBits))/256])
+            switch (emsMemory_[number].memoryType_[((address - computerConfiguration.emsConfig_[number].start) |(computerConfiguration.emsConfig_[number].page << computerConfiguration.emsConfig_[number].maskBits))/256])
             {
                 case ROM:
                 case RAM:
                     if (profilerCounter_ != PROFILER_OFF)
-                        *executed = emsMemory_[emsNumber].executed_[(long) ((address - computerConfiguration.emsConfig_[emsNumber].start) |(computerConfiguration.emsConfig_[emsNumber].page << computerConfiguration.emsConfig_[emsNumber].maskBits))];
-                    return emsMemory_[emsNumber].dataType_[(long) ((address - computerConfiguration.emsConfig_[emsNumber].start) |(computerConfiguration.emsConfig_[emsNumber].page << computerConfiguration.emsConfig_[emsNumber].maskBits))];
+                        *executed = emsMemory_[number].executed_[(long) ((address - computerConfiguration.emsConfig_[number].start) |(computerConfiguration.emsConfig_[number].page << computerConfiguration.emsConfig_[number].maskBits))];
+                    return emsMemory_[number].dataType_[(long) ((address - computerConfiguration.emsConfig_[number].start) |(computerConfiguration.emsConfig_[number].page << computerConfiguration.emsConfig_[number].maskBits))];
                 break;
             }
         break;
 
         case MAPPEDROM:
-		case ROM:
-            emsNumber = (memoryType_[address / 256] >> 8);
-            address = (address & computerConfiguration.memConfig_[emsNumber].memMask) | computerConfiguration.memConfig_[emsNumber].start;
-
-            if (profilerCounter_ != PROFILER_OFF)
-                *executed = mainMemoryExecuted_[address];
-			return mainMemoryDataType_[address];
-		break;
-
+        case ROM:
         case MAINRAM:
-		case MAPPEDRAM:
-			address = (address & computerConfiguration.memConfig_[0].memMask) | computerConfiguration.memConfig_[0].start;
+        case MAPPEDRAM:
+        case RAM:
+            address = (address & computerConfiguration.memConfig_[number].memMask) | computerConfiguration.memConfig_[number].start;
+
             if (profilerCounter_ != PROFILER_OFF)
                 *executed = mainMemoryExecuted_[address];
 			return mainMemoryDataType_[address];
 		break;
-
-        case RAM:
-            if (profilerCounter_ != PROFILER_OFF)
-                *executed = mainMemoryExecuted_[address];
-            return mainMemoryDataType_[address];
-        break;
 
 		case PAGER:
 			switch (pagerMemoryType_[((getPager(address>>computerConfiguration.pagerMaskBits_) << computerConfiguration.pagerMaskBits_) |(address &computerConfiguration.pagerMask_))/256])
@@ -1267,8 +1235,8 @@ Byte Diy::readMemDataType(Word address, uint64_t* executed)
 				case ROM:
 				case RAM:
                     if (profilerCounter_ != PROFILER_OFF)
-                        *executed = mainMemoryExecuted_[(getPager(address>>computerConfiguration.pagerMaskBits_) << computerConfiguration.pagerMaskBits_) |(address &computerConfiguration.pagerMask_)];
-					return mainMemoryDataType_[(getPager(address>>computerConfiguration.pagerMaskBits_) << computerConfiguration.pagerMaskBits_) |(address &computerConfiguration.pagerMask_)];
+                        *executed = pagerMemoryExecuted_[(getPager(address>>computerConfiguration.pagerMaskBits_) << computerConfiguration.pagerMaskBits_) |(address &computerConfiguration.pagerMask_)];
+					return pagerMemoryDataType_[(getPager(address>>computerConfiguration.pagerMaskBits_) << computerConfiguration.pagerMaskBits_) |(address &computerConfiguration.pagerMask_)];
 				break;
 			}
 		break;
@@ -1284,7 +1252,7 @@ Byte Diy::readMem(Word address)
 
 Byte Diy::readMemDebug(Word address)
 {
-    size_t emsNumber;
+    size_t number = (memoryType_[address / 256] >> 8);
 
     if ((address & 0x8000) == 0x8000)
         bootstrap_ = 0;
@@ -1294,9 +1262,7 @@ Byte Diy::readMemDebug(Word address)
     switch (memoryType_[address/256]&0xff)
 	{
         case EMSMEMORY:
-            emsNumber = (memoryType_[address / 256] >> 8);
-            
-            switch (emsMemory_[emsNumber].memoryType_[((address - computerConfiguration.emsConfig_[emsNumber].start) |(computerConfiguration.emsConfig_[emsNumber].page << computerConfiguration.emsConfig_[emsNumber].maskBits))/256])
+            switch (emsMemory_[number].memoryType_[((address - computerConfiguration.emsConfig_[number].start) |(computerConfiguration.emsConfig_[number].page << computerConfiguration.emsConfig_[number].maskBits))/256])
             {
                 case UNDEFINED:
                     return 255;
@@ -1304,7 +1270,7 @@ Byte Diy::readMemDebug(Word address)
                     
                 case ROM:
                 case RAM:
-                    return emsMemory_[emsNumber].main[(long) ((address - computerConfiguration.emsConfig_[emsNumber].start) |(computerConfiguration.emsConfig_[emsNumber].page << computerConfiguration.emsConfig_[emsNumber].maskBits))];
+                    return emsMemory_[number].mainMem[(long) ((address - computerConfiguration.emsConfig_[number].start) |(computerConfiguration.emsConfig_[number].page << computerConfiguration.emsConfig_[number].maskBits))];
                 break;
                     
                 default:
@@ -1319,21 +1285,13 @@ Byte Diy::readMemDebug(Word address)
 
         case MAPPEDROM:
 		case ROM:
-            emsNumber = (memoryType_[address / 256] >> 8);
-            address = (address & computerConfiguration.memConfig_[emsNumber].memMask) | computerConfiguration.memConfig_[emsNumber].start;
-
-			return mainMemory_[address];
-		break;
-
 		case MAPPEDRAM:
 		case MAINRAM:
-			address = (address & computerConfiguration.memConfig_[0].memMask) | computerConfiguration.memConfig_[0].start;
+        case RAM:
+			address = (address & computerConfiguration.memConfig_[number].memMask) | computerConfiguration.memConfig_[number].start;
+            
 			return mainMemory_[address];
 		break;
-
-        case RAM:
-            return mainMemory_[address];
-        break;
 
 		case MC6847RAM:
 			return mc6847Pointer->read6847(address);
@@ -1356,7 +1314,7 @@ Byte Diy::readMemDebug(Word address)
 
 				case ROM:
 				case RAM:
-					return mainMemory_[(getPager(address>>computerConfiguration.pagerMaskBits_) << computerConfiguration.pagerMaskBits_) |(address &computerConfiguration.pagerMask_)];
+					return pagerMemory_[(getPager(address>>computerConfiguration.pagerMaskBits_) << computerConfiguration.pagerMaskBits_) |(address &computerConfiguration.pagerMask_)];
 				break;
 
 				default:
@@ -1379,10 +1337,9 @@ void Diy::writeMem(Word address, Byte value, bool writeRom)
 
 void Diy::writeMemDebug(Word address, Byte value, bool writeRom)
 {
-    size_t emsNumber = (memoryType_[address / 256] >> 8);
-
+    size_t number = (memoryType_[address / 256] >> 8);
     address = address | bootstrap_;
-
+    
     if (loadedOs_ == ELFOS)
     {
         if (address == 0x400 && value >= 4 && value <= 128)
@@ -1408,18 +1365,18 @@ void Diy::writeMemDebug(Word address, Byte value, bool writeRom)
 	switch (memoryType_[address/256]&0xff)
 	{
         case EMSMEMORY:
-            switch (emsMemory_[emsNumber].memoryType_[((address - computerConfiguration.emsConfig_[emsNumber].start) |(computerConfiguration.emsConfig_[emsNumber].page << computerConfiguration.emsConfig_[emsNumber].maskBits))/256])
+            switch (emsMemory_[number].memoryType_[((address - computerConfiguration.emsConfig_[number].start) |(computerConfiguration.emsConfig_[number].page << computerConfiguration.emsConfig_[number].maskBits))/256])
             {
                 case UNDEFINED:
                 case ROM:
                     if (writeRom)
-                        emsMemory_[emsNumber].main[(long) ((address - computerConfiguration.emsConfig_[emsNumber].start) |(computerConfiguration.emsConfig_[emsNumber].page << computerConfiguration.emsConfig_[emsNumber].maskBits))] = value;
+                        emsMemory_[number].mainMem[(long) ((address - computerConfiguration.emsConfig_[number].start) |(computerConfiguration.emsConfig_[number].page << computerConfiguration.emsConfig_[number].maskBits))] = value;
                 break;
                     
                 case RAM:
                     if (!getMpButtonState())
                     {
-                        emsMemory_[emsNumber].main[(long) ((address - computerConfiguration.emsConfig_[emsNumber].start) |(computerConfiguration.emsConfig_[emsNumber].page << computerConfiguration.emsConfig_[emsNumber].maskBits))] = value;
+                        emsMemory_[number].mainMem[(long) ((address - computerConfiguration.emsConfig_[number].start) |(computerConfiguration.emsConfig_[number].page << computerConfiguration.emsConfig_[number].maskBits))] = value;
                         if (address >= memoryStart_ && address<(memoryStart_ + 256))
                             p_Main->updateDebugMemory(address);
                         p_Main->updateAssTabCheck(address);
@@ -1450,8 +1407,7 @@ void Diy::writeMemDebug(Word address, Byte value, bool writeRom)
 
         case MAPPEDROM:
         case ROM:
-            emsNumber = (memoryType_[address / 256] >> 8);
-            address = (address & computerConfiguration.memConfig_[emsNumber].memMask) | computerConfiguration.memConfig_[emsNumber].start;
+            address = (address & computerConfiguration.memConfig_[number].memMask) | computerConfiguration.memConfig_[number].start;
 
 			if (writeRom)
 				mainMemory_[address]=value;
@@ -1459,29 +1415,19 @@ void Diy::writeMemDebug(Word address, Byte value, bool writeRom)
 
 		case MAPPEDRAM:
 		case MAINRAM:
+        case RAM:
 			if (!getMpButtonState())
 			{
-				address = (address & computerConfiguration.memConfig_[0].memMask) | computerConfiguration.memConfig_[0].start;
+				address = (address & computerConfiguration.memConfig_[number].memMask) | computerConfiguration.memConfig_[number].start;
+                
 				if (mainMemory_[address]==value)
 					return;
 				mainMemory_[address]=value;
-				if (address >= (memoryStart_ & computerConfiguration.memConfig_[0].memMask) && address<((memoryStart_ & computerConfiguration.memConfig_[0].memMask) | 256))
+				if (address >= (memoryStart_ & computerConfiguration.memConfig_[number].memMask) && address<((memoryStart_ & computerConfiguration.memConfig_[number].memMask) | 256))
 					p_Main->updateDebugMemory(address);
 				p_Main->updateAssTabCheck(address);
 			}
 		break;
-
-        case RAM:
-            if (!getMpButtonState())
-            {
-                if (mainMemory_[address]==value)
-                    return;
-                mainMemory_[address]=value;
-                if (address >= memoryStart_ && address<(memoryStart_ + 256))
-                    p_Main->updateDebugMemory(address);
-                p_Main->updateAssTabCheck(address);
-            }
-        break;
 
         case PAGER:
 			switch (pagerMemoryType_[((getPager(address>>computerConfiguration.pagerMaskBits_) << computerConfiguration.pagerMaskBits_) |(address &computerConfiguration.pagerMask_))/256])
@@ -1489,12 +1435,12 @@ void Diy::writeMemDebug(Word address, Byte value, bool writeRom)
 				case UNDEFINED:
 				case ROM:
 					if (writeRom)
-						mainMemory_[(getPager(address>>computerConfiguration.pagerMaskBits_) << computerConfiguration.pagerMaskBits_) |(address &computerConfiguration.pagerMask_)] = value;
+						pagerMemory_[(getPager(address>>computerConfiguration.pagerMaskBits_) << computerConfiguration.pagerMaskBits_) |(address &computerConfiguration.pagerMask_)] = value;
 				break;
 
 				case RAM:
 					if (!getMpButtonState())
-						mainMemory_[(getPager(address>>computerConfiguration.pagerMaskBits_) << computerConfiguration.pagerMaskBits_) |(address &computerConfiguration.pagerMask_)] = value;
+						pagerMemory_[(getPager(address>>computerConfiguration.pagerMaskBits_) << computerConfiguration.pagerMaskBits_) |(address &computerConfiguration.pagerMask_)] = value;
 					if (address >= memoryStart_ && address<(memoryStart_ + 256))
 						p_Main->updateDebugMemory(address);
 					p_Main->updateAssTabCheck(address);
@@ -1571,15 +1517,22 @@ void Diy::configureMemory()
                 
             case RAM:
                 defineMemoryType(computerConfiguration.memConfig_[memConfNumber].start, computerConfiguration.memConfig_[memConfNumber].end, computerConfiguration.memConfig_[memConfNumber].type);
+                
+                if (computerConfiguration.memConfig_[memConfNumber].memMask != 0xFFFF)
+                {
+                    defineMemoryType(computerConfiguration.memConfig_[memConfNumber].start + computerConfiguration.memConfig_[memConfNumber].memMask + 1, computerConfiguration.memConfig_[memConfNumber].end, MAPPEDRAM + (computerConfiguration.memConfig_[memConfNumber].type & 0xff00));
+                }
+
                 initRam(computerConfiguration.memConfig_[memConfNumber].start, computerConfiguration.memConfig_[memConfNumber].end);
                 loadRomRam(memConfNumber);
             break;
 
             case MAINRAM:
                 defineMemoryType(computerConfiguration.memConfig_[memConfNumber].start, computerConfiguration.memConfig_[memConfNumber].end, computerConfiguration.memConfig_[memConfNumber].type);
+                
                 if (computerConfiguration.memConfig_[memConfNumber].memMask != 0xFFFF)
                 {
-                    defineMemoryType(computerConfiguration.memConfig_[memConfNumber].start + computerConfiguration.memConfig_[memConfNumber].memMask + 1, computerConfiguration.memConfig_[memConfNumber].end, MAPPEDRAM);
+                    defineMemoryType(computerConfiguration.memConfig_[memConfNumber].start + computerConfiguration.memConfig_[memConfNumber].memMask + 1, computerConfiguration.memConfig_[memConfNumber].end, MAPPEDRAM + (computerConfiguration.memConfig_[memConfNumber].type & 0xff00));
                 }
 
                 initRam(computerConfiguration.memConfig_[memConfNumber].start, computerConfiguration.memConfig_[memConfNumber].end);

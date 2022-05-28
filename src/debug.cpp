@@ -16221,7 +16221,7 @@ void DebugWindow::onDebugEmsPage(wxCommandEvent&WXUNUSED(event))
     XRCCTRL(*this, "DebugEmsNumber", HexEdit)->saveNumber((int)emsNumber_);
 	XRCCTRL(*this, "DebugEmsPage", HexEdit)->saveNumber((int)page);
 
-    if (emsNumber_ >= conf[runningComputer_].emsConfigNumber_)
+    if (emsNumber_ >= (long)conf[runningComputer_].emsConfigNumber_)
         emsNumber_ = conf[runningComputer_].emsConfigNumber_ - 1;
 
     if (page > conf[runningComputer_].emsConfig_[emsNumber_].outputMask)
@@ -16252,7 +16252,7 @@ void DebugWindow::onDebugEmsNumber(wxCommandEvent&WXUNUSED(event))
     XRCCTRL(*this, "DebugEmsNumber", HexEdit)->saveNumber((int)emsNumber_);
     XRCCTRL(*this, "DebugEmsPage", HexEdit)->saveNumber((int)page);
 
-    if (emsNumber_ >= conf[runningComputer_].emsConfigNumber_)
+    if (emsNumber_ >= (long)conf[runningComputer_].emsConfigNumber_)
         emsNumber_ = conf[runningComputer_].emsConfigNumber_ - 1;
 
     if (page > conf[runningComputer_].emsConfig_[emsNumber_].outputMask)
