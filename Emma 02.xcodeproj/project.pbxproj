@@ -933,7 +933,6 @@
 		99F3746F1CADBBC2000DA615 /* README-SDL.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "README-SDL.txt"; sourceTree = "<group>"; };
 		99F374701CADBBC2000DA615 /* LGPL.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LGPL.txt; sourceTree = "<group>"; };
 		99F37F33285D1D9200C57417 /* Emma 02-x86.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Emma 02-x86.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		99F37F36285D1DFB00C57417 /* libserialport.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libserialport.a; path = ../../../../usr/local/Cellar/libserialport/0.1.1/lib/libserialport.a; sourceTree = "<group>"; };
 		99F37F38285D215300C57417 /* libserialport.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libserialport.a; path = ../../../../usr/local/lib/libserialport.a; sourceTree = "<group>"; };
 		99F481791C0E4A0C002BC0AE /* velf.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = velf.cpp; path = src/velf.cpp; sourceTree = "<group>"; };
 		99F4817A1C0E4A0C002BC0AE /* velf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = velf.h; path = src/velf.h; sourceTree = "<group>"; };
@@ -1473,7 +1472,6 @@
 			isa = PBXGroup;
 			children = (
 				99F37F38285D215300C57417 /* libserialport.a */,
-				99F37F36285D1DFB00C57417 /* libserialport.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -2144,6 +2142,7 @@
 					/opt/homebrew/Cellar/libserialport/0.1.1/lib,
 					"$(PROJECT_DIR)/images",
 					"$(PROJECT_DIR)/images_osx",
+					/usr/local/Cellar/libserialport/0.1.1/lib,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				OTHER_CPLUSPLUSFLAGS = (
@@ -2328,6 +2327,7 @@
 					/opt/homebrew/Cellar/libserialport/0.1.1/lib,
 					"$(PROJECT_DIR)/images",
 					"$(PROJECT_DIR)/images_osx",
+					/usr/local/Cellar/libserialport/0.1.1/lib,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				OTHER_CPLUSPLUSFLAGS = (
