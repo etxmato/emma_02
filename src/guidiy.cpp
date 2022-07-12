@@ -433,7 +433,7 @@ void GuiDiy::writeNetronicsDirConfig()
     
 void GuiDiy::writeNetronicsConfig()
 {
-    return; // *** to be removed xx
+    return; // *** to be removed
  
     wxString buffer;
     
