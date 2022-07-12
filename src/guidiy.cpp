@@ -434,7 +434,7 @@ void GuiDiy::writeNetronicsDirConfig()
 void GuiDiy::writeNetronicsConfig()
 {
     return; // *** to be removed
- 
+ /*
     wxString buffer;
     
     int elfType = DIY;
@@ -521,7 +521,7 @@ void GuiDiy::writeNetronicsConfig()
     configPointer->Write(elfTypeStr+"/Enable_Cassette", elfConfiguration[elfType].useTape);
     configPointer->Write(elfTypeStr+"/Enable_Xmodem", elfConfiguration[elfType].useXmodem);
     configPointer->Write(elfTypeStr+"/Ymodem_PacketSize", elfConfiguration[elfType].packetSize);
-    configPointer->Write(elfTypeStr+"/Volume", conf[elfType].volume_);
+    configPointer->Write(elfTypeStr+"/Volume", conf[elfType].volume_);*/
 }
 
 void GuiDiy::readNetronicsWindowConfig()
