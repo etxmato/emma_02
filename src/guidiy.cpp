@@ -433,8 +433,8 @@ void GuiDiy::writeNetronicsDirConfig()
     
 void GuiDiy::writeNetronicsConfig()
 {
-    return; // *** to be removed
-
+    return; // *** to be removed xx
+ 
     wxString buffer;
     
     int elfType = DIY;
