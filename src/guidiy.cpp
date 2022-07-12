@@ -557,7 +557,7 @@ void GuiDiy::readNetronicsWindowConfig()
 
 void GuiDiy::writeNetronicsWindowConfig()
 {
-    return; // *** to be removed
+    return; // *** to be removed xx
 
     int elfType = DIY;
     wxString elfTypeStr = "Diy";
