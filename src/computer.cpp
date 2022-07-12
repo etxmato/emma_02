@@ -190,12 +190,12 @@ bool HexButton::onMouseRelease(wxDC& WXUNUSED(dc), wxCoord x, wxCoord y)
 void HexButton::OnTimer(wxTimerEvent& WXUNUSED(event))
 {
     state_ = BUTTON_UP;
-	p_Computer->releaseButtonOnScreen(this, buttonType_);
+    p_Computer->releaseButtonOnScreen(this, buttonType_);
 }
 
 void HexButton::releaseButtonOnScreen(wxDC& dc)
 {
-	dc.DrawBitmap(*upBitmapPointer, x_, y_);
+    dc.DrawBitmap(*upBitmapPointer, x_, y_);
 }
 
 void HexButton::enable(wxDC& dc, bool enabled)
@@ -236,8 +236,8 @@ void HexButton2::OnTimer(wxTimerEvent& WXUNUSED(event))
 
 SwitchButton::SwitchButton(wxDC& dc, int type, wxColour bkgrClr, bool state, wxCoord x, wxCoord y, wxString label)
 {
-	wxBitmap *upBitmap;
-	wxBitmap *downBitmap;
+    wxBitmap *upBitmap;
+    wxBitmap *downBitmap;
     wxBitmap *disabledUpBitmap;
     wxBitmap *disabledDownBitmap;
 
@@ -253,8 +253,8 @@ SwitchButton::SwitchButton(wxDC& dc, int type, wxColour bkgrClr, bool state, wxC
     
     enabled_ = true;
 
-	switch (type)
-	{
+    switch (type)
+    {
         case VERTICAL_BUTTON:
             upBitmap = new wxBitmap (p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/swup.png", wxBITMAP_TYPE_PNG);
             downBitmap = new wxBitmap (p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/swdown.png", wxBITMAP_TYPE_PNG);
@@ -264,55 +264,55 @@ SwitchButton::SwitchButton(wxDC& dc, int type, wxColour bkgrClr, bool state, wxC
             buttonStartY_ = 3;
         break;
 
-		case VERTICAL_BUTTON_RED:
+        case VERTICAL_BUTTON_RED:
         case PIO_VERTICAL_BUTTON:
-			upBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/swupred.png", wxBITMAP_TYPE_PNG);
-			downBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/swdownred.png", wxBITMAP_TYPE_PNG);
+            upBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/swupred.png", wxBITMAP_TYPE_PNG);
+            downBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/swdownred.png", wxBITMAP_TYPE_PNG);
             buttonSizeX_ = 22;
             buttonSizeY_ = 22;
             buttonStartX_ = 3;
             buttonStartY_ = 3;
-		break;
+        break;
 
-		case HORIZONTAL_BUTTON:
-			upBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/swright.png", wxBITMAP_TYPE_PNG);
-			downBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/swleft.png", wxBITMAP_TYPE_PNG);
-		break;
+        case HORIZONTAL_BUTTON:
+            upBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/swright.png", wxBITMAP_TYPE_PNG);
+            downBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/swleft.png", wxBITMAP_TYPE_PNG);
+        break;
 
-		case PUSH_BUTTON:
-			upBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/pushup.png", wxBITMAP_TYPE_PNG);
-			downBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/pushdown.png", wxBITMAP_TYPE_PNG);
-		break;
+        case PUSH_BUTTON:
+            upBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/pushup.png", wxBITMAP_TYPE_PNG);
+            downBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/pushdown.png", wxBITMAP_TYPE_PNG);
+        break;
 
-		case PUSH_BUTTON_BLACK:
-			upBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/pushupblack.png", wxBITMAP_TYPE_PNG);
-			downBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/pushdownblack.png", wxBITMAP_TYPE_PNG);
-		break;
+        case PUSH_BUTTON_BLACK:
+            upBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/pushupblack.png", wxBITMAP_TYPE_PNG);
+            downBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/pushdownblack.png", wxBITMAP_TYPE_PNG);
+        break;
 
-		case ELF2K_POWER_BUTTON:
-			upBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/Elf2Kon.png", wxBITMAP_TYPE_PNG);
-			downBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/Elf2Koff.png", wxBITMAP_TYPE_PNG);
-		break;
+        case ELF2K_POWER_BUTTON:
+            upBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/Elf2Kon.png", wxBITMAP_TYPE_PNG);
+            downBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/Elf2Koff.png", wxBITMAP_TYPE_PNG);
+        break;
 
-		case ELF2K_LOAD_BUTTON:
-			upBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/loadButtonUp.png", wxBITMAP_TYPE_PNG);
-			downBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/loadButtonDown.png", wxBITMAP_TYPE_PNG);
-		break;
+        case ELF2K_LOAD_BUTTON:
+            upBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/loadButtonUp.png", wxBITMAP_TYPE_PNG);
+            downBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/loadButtonDown.png", wxBITMAP_TYPE_PNG);
+        break;
 
-		case ELF2K_MP_BUTTON:
-			upBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/mpButtonUp.png", wxBITMAP_TYPE_PNG);
-			downBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/mpButtonDown.png", wxBITMAP_TYPE_PNG);
-		break;
+        case ELF2K_MP_BUTTON:
+            upBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/mpButtonUp.png", wxBITMAP_TYPE_PNG);
+            downBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/mpButtonDown.png", wxBITMAP_TYPE_PNG);
+        break;
 
-		case ELF2K_RUN_BUTTON:
-			upBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/runButtonUp.png", wxBITMAP_TYPE_PNG);
-			downBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/runButtonDown.png", wxBITMAP_TYPE_PNG);
-		break;
+        case ELF2K_RUN_BUTTON:
+            upBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/runButtonUp.png", wxBITMAP_TYPE_PNG);
+            downBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/runButtonDown.png", wxBITMAP_TYPE_PNG);
+        break;
 
-		case ELF2K_IN_BUTTON:
-			upBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/inButtonUp.png", wxBITMAP_TYPE_PNG);
-			downBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/inButtonDown.png", wxBITMAP_TYPE_PNG);
-		break;
+        case ELF2K_IN_BUTTON:
+            upBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/inButtonUp.png", wxBITMAP_TYPE_PNG);
+            downBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/inButtonDown.png", wxBITMAP_TYPE_PNG);
+        break;
 
         case DIP_SWITCH_BUTTON:
             upBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/dip_switch_on.png", wxBITMAP_TYPE_PNG);
@@ -322,49 +322,49 @@ SwitchButton::SwitchButton(wxDC& dc, int type, wxColour bkgrClr, bool state, wxC
         break;
 
         default:
-			upBitmap = new wxBitmap (p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/swup.png", wxBITMAP_TYPE_PNG);
-			downBitmap = new wxBitmap (p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/swdown.png", wxBITMAP_TYPE_PNG);
-		break;
-	}
+            upBitmap = new wxBitmap (p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/swup.png", wxBITMAP_TYPE_PNG);
+            downBitmap = new wxBitmap (p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/swdown.png", wxBITMAP_TYPE_PNG);
+        break;
+    }
     
     if (type == PUSH_BUTTON_BLACK)
         type = PUSH_BUTTON;
 
-	wxColour maskColour(255, 0, 255);
+    wxColour maskColour(255, 0, 255);
 
-	maskUp = new wxMask (*upBitmap, maskColour);
+    maskUp = new wxMask (*upBitmap, maskColour);
     upBitmap->SetMask(maskUp);
-	maskDown = new wxMask (*downBitmap, maskColour);
+    maskDown = new wxMask (*downBitmap, maskColour);
     downBitmap->SetMask(maskDown);
     
-	upBitmapPointer = new wxBitmap(upBitmap->GetWidth(), upBitmap->GetHeight());  
-	downBitmapPointer = new wxBitmap(downBitmap->GetWidth(), downBitmap->GetHeight());  
+    upBitmapPointer = new wxBitmap(upBitmap->GetWidth(), upBitmap->GetHeight());  
+    downBitmapPointer = new wxBitmap(downBitmap->GetWidth(), downBitmap->GetHeight());  
 
-	wxMemoryDC memDC(*upBitmapPointer); 
+    wxMemoryDC memDC(*upBitmapPointer); 
     wxSize labelSize = memDC.GetTextExtent(label);
     wxCoord xPosition = (upBitmap->GetWidth() - labelSize.x)/2;
     wxCoord yPosition = (downBitmap->GetHeight() - labelSize.y)/2;
 
     memDC.SetBackground(*wxTheBrushList->FindOrCreateBrush(bkgrClr));
-	memDC.Clear();
-	memDC.DrawBitmap(*upBitmap, 0, 0, true);
+    memDC.Clear();
+    memDC.DrawBitmap(*upBitmap, 0, 0, true);
     if (label != "")
     {
         memDC.SetTextForeground(*wxWHITE);
         memDC.DrawText(label, xPosition, yPosition);
     }
-	memDC.SelectObject(wxNullBitmap);
+    memDC.SelectObject(wxNullBitmap);
 
-	memDC.SelectObject(*downBitmapPointer); 
-	memDC.SetBackground(*wxTheBrushList->FindOrCreateBrush(bkgrClr)); 
-	memDC.Clear(); 
-	memDC.DrawBitmap(*downBitmap, 0, 0, true);
+    memDC.SelectObject(*downBitmapPointer); 
+    memDC.SetBackground(*wxTheBrushList->FindOrCreateBrush(bkgrClr)); 
+    memDC.Clear(); 
+    memDC.DrawBitmap(*downBitmap, 0, 0, true);
     if (label != "")
     {
         memDC.SetTextForeground(*wxWHITE);
         memDC.DrawText(label, xPosition, yPosition);
     }
-	memDC.SelectObject(wxNullBitmap);
+    memDC.SelectObject(wxNullBitmap);
 
     if (type == PIO_VERTICAL_BUTTON)
     {
@@ -394,23 +394,23 @@ SwitchButton::SwitchButton(wxDC& dc, int type, wxColour bkgrClr, bool state, wxC
     delete downBitmap;
 
     x_ = x;
-	y_ = y;
-	state_ = state;
-	type_ = type;
+    y_ = y;
+    state_ = state;
+    type_ = type;
 
-	if (state == BUTTON_UP)
-	{
-		dc.DrawBitmap(*upBitmapPointer, x, y);
-	}
-	else
-	{
-		dc.DrawBitmap(*downBitmapPointer, x, y);
-	}
+    if (state == BUTTON_UP)
+    {
+        dc.DrawBitmap(*upBitmapPointer, x, y);
+    }
+    else
+    {
+        dc.DrawBitmap(*downBitmapPointer, x, y);
+    }
 }
 
 SwitchButton::~SwitchButton()
 {
-	delete upBitmapPointer;
+    delete upBitmapPointer;
     delete downBitmapPointer;
     if (type_ == PIO_VERTICAL_BUTTON)
     {
@@ -447,23 +447,23 @@ void SwitchButton::onPaint(wxDC& dc)
 
 bool SwitchButton::onMousePress(wxDC& dc, wxCoord x, wxCoord y)
 {
-	if (type_ < PUSH_BUTTON)
-		return false;
+    if (type_ < PUSH_BUTTON)
+        return false;
 
-	if ((x >= (x_+buttonStartX_)) &&(x <= (x_+buttonSizeX_)) &&(y >= (y_+buttonStartY_)) &&(y <= (y_+buttonSizeY_)))
-	{
-		state_ = !state_;
-		if (state_ == BUTTON_UP)
-		{
-			dc.DrawBitmap(*upBitmapPointer, x_, y_);
-		}
-		else
-		{
-			dc.DrawBitmap(*downBitmapPointer, x_, y_);
-		}
-		return true;
-	}
-	return false;
+    if ((x >= (x_+buttonStartX_)) &&(x <= (x_+buttonSizeX_)) &&(y >= (y_+buttonStartY_)) &&(y <= (y_+buttonSizeY_)))
+    {
+        state_ = !state_;
+        if (state_ == BUTTON_UP)
+        {
+            dc.DrawBitmap(*upBitmapPointer, x_, y_);
+        }
+        else
+        {
+            dc.DrawBitmap(*downBitmapPointer, x_, y_);
+        }
+        return true;
+    }
+    return false;
 }
 
 bool SwitchButton::onMouseRelease(wxDC& dc, wxCoord x, wxCoord y)
@@ -472,24 +472,24 @@ bool SwitchButton::onMouseRelease(wxDC& dc, wxCoord x, wxCoord y)
         return false;
 
     if ((x >= (x_+buttonStartX_)) &&(x <= (x_+buttonSizeX_)) &&(y >= (y_+buttonStartY_)) &&(y <= (y_+buttonSizeY_)))
-	{
-		state_ = !state_;
-		if (state_ == BUTTON_UP)
-		{
-			dc.DrawBitmap(*upBitmapPointer, x_, y_);
-		}
-		else
-		{
-			dc.DrawBitmap(*downBitmapPointer, x_, y_);
-		}
-		return true;
-	}
-	return false;
+    {
+        state_ = !state_;
+        if (state_ == BUTTON_UP)
+        {
+            dc.DrawBitmap(*upBitmapPointer, x_, y_);
+        }
+        else
+        {
+            dc.DrawBitmap(*downBitmapPointer, x_, y_);
+        }
+        return true;
+    }
+    return false;
 }
 
 void SwitchButton::setState(wxDC& dc, bool state)
 {
-	state_ = state;
+    state_ = state;
     if (enabled_)
     {
         if (state_ == BUTTON_UP)
@@ -544,22 +544,22 @@ void SwitchButton::enable(wxDC& dc, bool enabled)
 void *RunComputer::Entry()
 {
     while(!p_Main->emuClosing())
-	{
-		p_Computer->cpuInstruction();
-	}
-	wxCommandEvent event(KILL_COMPUTER, 809);
-	event.SetEventObject(p_Main);
-	wxPostEvent(p_Main, event);
-	return NULL;
+    {
+        p_Computer->cpuInstruction();
+    }
+    wxCommandEvent event(KILL_COMPUTER, 809);
+    event.SetEventObject(p_Main);
+    wxPostEvent(p_Main, event);
+    return NULL;
 }
 
 BEGIN_EVENT_TABLE(Panel, wxWindow)
-	EVT_PAINT(Panel::onPaint)
-	EVT_CHAR(Panel::onChar)
-	EVT_KEY_DOWN(Panel::onKeyDown)
-	EVT_KEY_UP(Panel::onKeyUp)
-	EVT_LEFT_DOWN(Panel::onMousePress)
-	EVT_LEFT_UP(Panel::onMouseRelease)
+    EVT_PAINT(Panel::onPaint)
+    EVT_CHAR(Panel::onChar)
+    EVT_KEY_DOWN(Panel::onKeyDown)
+    EVT_KEY_UP(Panel::onKeyUp)
+    EVT_LEFT_DOWN(Panel::onMousePress)
+    EVT_LEFT_UP(Panel::onMouseRelease)
 END_EVENT_TABLE()
 
 Panel::Panel(wxWindow *parent, const wxSize& size)
@@ -569,14 +569,14 @@ Panel::Panel(wxWindow *parent, const wxSize& size)
     updateReadyLed_ = false;
     updateStopLed_ = false;
     updateErrorLed_ = false;
-	updateResetLed_ = false;
-	updatePauseLed_ = false;
-	updateRunLed_ = false;
-	updateLoadLed_ = false;
-	for (int i=0; i<24; i++)
-	{
-		ledStatus[i] = 0;
-		updateLed_[i] = false;
+    updateResetLed_ = false;
+    updatePauseLed_ = false;
+    updateRunLed_ = false;
+    updateLoadLed_ = false;
+    for (int i=0; i<24; i++)
+    {
+        ledStatus[i] = 0;
+        updateLed_[i] = false;
     }
     for (int i=0; i<4; i++)
     {
@@ -585,36 +585,36 @@ Panel::Panel(wxWindow *parent, const wxSize& size)
     }
     for (int i=0; i<8; i++)
     {
-		segStatus[i] = 0;
-		updateSeg_[i] = false;
-	}
+        segStatus[i] = 0;
+        updateSeg_[i] = false;
+    }
     updateAddress_ = false;
     updateAddressTil313_ = false;
     updateAddressTil313Italic_ = false;
-	updateData_ = false;
-	updateDataTil313_ = false;
+    updateData_ = false;
+    updateDataTil313_ = false;
     updateDataTil313Italic_ = false;
     updateDp313_ = false;
 
-	qLedStatus = 0;
+    qLedStatus = 0;
     readyLedStatus = 0;
     stopLedStatus = 0;
     errorLedStatus = 0;
     resetLedStatus = 0;
-	pauseLedStatus = 0;
-	runLedStatus = 0;
-	loadLedStatus = 0;
+    pauseLedStatus = 0;
+    runLedStatus = 0;
+    loadLedStatus = 0;
     addressStatus = 0;
     addressTil313Status = 0;
     addressTil313StatusItalic = 0;
-	dataStatus = 0;
+    dataStatus = 0;
     dataTil313Status = 0;
     dataTil313StatusItalic = 0;
-	numberOfTil313_ = 4;
+    numberOfTil313_ = 4;
     dpStatus = false;
-	ms_ = 100;
+    ms_ = 100;
 
-	functionKeyReleaseTwo_ = false;
+    functionKeyReleaseTwo_ = false;
 }
 
 Panel::~Panel()
@@ -650,7 +650,7 @@ void Panel::connectKeyEvent(wxWindow* pclComponent)
                           (wxObject*) NULL,
                           this);
 
-	wxWindowListNode* pclNode = pclComponent->GetChildren().GetFirst();
+    wxWindowListNode* pclNode = pclComponent->GetChildren().GetFirst();
     while(pclNode)
     {
       wxWindow* pclChild = pclNode->GetData();
@@ -673,88 +673,88 @@ void Panel::refreshPanel()
 
 void Panel::onChar(wxKeyEvent& event)
 {
-	if (p_Vt100[UART1] != NULL)
-	{
-		int key = event.GetKeyCode();
-		if (!p_Vt100[UART1]->charPressed(event))
-		{	
-			if (forceUpperCase_ && key >= 'a' && key <= 'z')
-				key -= 32;
-			if (key > 255) key = 0;
-			if (key !=0 && key < 128)
-			{
-				vtOut(key);
-			}
-		}
-	}
-	p_Computer->charEvent(event.GetKeyCode());
+    if (p_Vt100[UART1] != NULL)
+    {
+        int key = event.GetKeyCode();
+        if (!p_Vt100[UART1]->charPressed(event))
+        {    
+            if (forceUpperCase_ && key >= 'a' && key <= 'z')
+                key -= 32;
+            if (key > 255) key = 0;
+            if (key !=0 && key < 128)
+            {
+                vtOut(key);
+            }
+        }
+    }
+    p_Computer->charEvent(event.GetKeyCode());
 }
 
 void Panel::vtOut(int value)
 {
-	if (keyEnd_ != keyStart_-1 ||(keyEnd_ ==25 && keyStart_ != 0))
-	{
-		keyBuffer_[keyEnd_++] = value;
-		if (keyEnd_ == 26) keyEnd_ = 0;
-		p_Vt100[UART1]->dataAvailable();
-		if (value == 27) p_Vt100[UART1]->framingError(1);
-	}
+    if (keyEnd_ != keyStart_-1 ||(keyEnd_ ==25 && keyStart_ != 0))
+    {
+        keyBuffer_[keyEnd_++] = value;
+        if (keyEnd_ == 26) keyEnd_ = 0;
+        p_Vt100[UART1]->dataAvailable();
+        if (value == 27) p_Vt100[UART1]->framingError(1);
+    }
 }
 
 void Panel::onKeyDown(wxKeyEvent& event)
 {
-	int keycode;
-	keycode = event.GetKeyCode();
+    int keycode;
+    keycode = event.GetKeyCode();
 
-	if (p_Vt100[UART1] != NULL)
-	{
-		if (keycode == lastKey_)
-		{
-			if (repeat_)
-			{
-				if (event.GetModifiers() != wxMOD_CONTROL || keycode != WXK_HOME || keycode != WXK_ESCAPE || keycode != WXK_SCROLL || keycode != WXK_TAB || keycode != WXK_RETURN)
-				{
-					lastKey_ = keycode;
-					p_Vt100[UART1]->keyDownPressed(event);
-				}
-			}
-		}
-		else
-		{
-			lastKey_ = keycode;
-			p_Vt100[UART1]->keyDownPressed(event);
-		}
-	}
-	if (p_Main->checkFunctionKey(event))
-		return;
-	if (!p_Computer->keyDownPressed(keycode))
-		event.Skip();
+    if (p_Vt100[UART1] != NULL)
+    {
+        if (keycode == lastKey_)
+        {
+            if (repeat_)
+            {
+                if (event.GetModifiers() != wxMOD_CONTROL || keycode != WXK_HOME || keycode != WXK_ESCAPE || keycode != WXK_SCROLL || keycode != WXK_TAB || keycode != WXK_RETURN)
+                {
+                    lastKey_ = keycode;
+                    p_Vt100[UART1]->keyDownPressed(event);
+                }
+            }
+        }
+        else
+        {
+            lastKey_ = keycode;
+            p_Vt100[UART1]->keyDownPressed(event);
+        }
+    }
+    if (p_Main->checkFunctionKey(event))
+        return;
+    if (!p_Computer->keyDownPressed(keycode))
+        event.Skip();
 }
 
 void Panel::onKeyUp(wxKeyEvent& event)
 {
-	if (!functionKeyReleaseTwo_)
-		p_Main->onKeyUp(event);
-	functionKeyReleaseTwo_ = !functionKeyReleaseTwo_;
+    if (!functionKeyReleaseTwo_)
+        p_Main->onKeyUp(event);
+    functionKeyReleaseTwo_ = !functionKeyReleaseTwo_;
 
-	if (p_Vt100[UART1] != NULL)
-	{
-		lastKey_ = 0;
-		p_Vt100[UART1]->keyUpPressed();
-	}
-	if (!p_Computer->keyUpReleased(event.GetKeyCode()))
-		event.Skip();
+    if (p_Vt100[UART1] != NULL)
+    {
+        lastKey_ = 0;
+        p_Vt100[UART1]->keyUpPressed();
+    }
+    if (!p_Computer->keyUpReleased(event.GetKeyCode()))
+        event.Skip();
 }
 
 Byte Panel::getKey(Byte vtOut)
 {
-	if (keyStart_ == keyEnd_)
-		return vtOut;
-	vtOut = keyBuffer_[keyStart_++];
-	if (keyStart_ == 26) keyStart_ = 0;
-	if (keyStart_ != keyEnd_)
-		p_Vt100[UART1]->dataAvailable();
-	return vtOut;
+    if (keyStart_ == keyEnd_)
+        return vtOut;
+    vtOut = keyBuffer_[keyStart_++];
+    if (keyStart_ == 26) keyStart_ = 0;
+    if (keyStart_ != keyEnd_)
+        p_Vt100[UART1]->dataAvailable();
+    return vtOut;
 }
 
 void Panel::onMousePress(wxMouseEvent& WXUNUSED(event))
@@ -802,7 +802,7 @@ void Panel::rePaintLeds(wxDC& dc)
 
 void Panel::setLedMs(long ms)
 {
-	ms_ = ms;
+    ms_ = ms;
 }
 
 void Panel::updateReadyLed(wxDC& dc)
@@ -861,191 +861,191 @@ void Panel::updateStopLed(wxDC& dc)
 
 void Panel::setErrorLed(int status)
 {
-	if (errorLedStatus != status)
-	{
-		errorLedStatus = status;
-		updateErrorLed_ = true;
-		if (ms_ == 0)
-		{
+    if (errorLedStatus != status)
+    {
+        errorLedStatus = status;
+        updateErrorLed_ = true;
+        if (ms_ == 0)
+        {
 #if defined(__WXMAC__)
             p_Main->eventRefreshPanel();
 #else
-			wxClientDC dc(this);
-			updateErrorLed(dc);
+            wxClientDC dc(this);
+            updateErrorLed(dc);
 #endif
         }
-	}
+    }
 }
 
 void Panel::updateErrorLed(wxDC& dc)
 {
-	if (updateErrorLed_)
-	{
-		errorLedPointer->setStatus(dc, errorLedStatus);
-		updateErrorLed_ = false;
-	}
+    if (updateErrorLed_)
+    {
+        errorLedPointer->setStatus(dc, errorLedStatus);
+        updateErrorLed_ = false;
+    }
 }
 
 void Panel::setQLed(int status)
 {
-	if (qLedStatus != status)
-	{
-		qLedStatus = status;
-		updateQLed_ = true;
-		if (ms_ == 0)
-		{
+    if (qLedStatus != status)
+    {
+        qLedStatus = status;
+        updateQLed_ = true;
+        if (ms_ == 0)
+        {
 #if defined(__WXMAC__)
             p_Main->eventRefreshPanel();
 #else
-			wxClientDC dc(this);
-			updateQLed(dc);
+            wxClientDC dc(this);
+            updateQLed(dc);
 #endif
         }
-	}
+    }
 }
 
 void Panel::updateQLed(wxDC& dc)
 {
-	if (updateQLed_)
-	{
-		qLedPointer->setStatus(dc, qLedStatus);
-		updateQLed_ = false;
-	}
+    if (updateQLed_)
+    {
+        qLedPointer->setStatus(dc, qLedStatus);
+        updateQLed_ = false;
+    }
 }
 
 void Panel::setResetLed(int status)
 {
-	if (resetLedStatus != status)
-	{
-		resetLedStatus = status;
-		updateResetLed_ = true;
-		if (ms_ == 0)
-		{
+    if (resetLedStatus != status)
+    {
+        resetLedStatus = status;
+        updateResetLed_ = true;
+        if (ms_ == 0)
+        {
 #if defined(__WXMAC__)
             p_Main->eventRefreshPanel();
 #else
-			wxClientDC dc(this);
-			updateResetLed(dc);
+            wxClientDC dc(this);
+            updateResetLed(dc);
 #endif
         }
-	}
+    }
 }
 
 void Panel::updateResetLed(wxDC& dc)
 {
-	if (updateResetLed_)
-	{
-		resetLedPointer->setStatus(dc, resetLedStatus);
-		updateResetLed_ = false;
-	}
+    if (updateResetLed_)
+    {
+        resetLedPointer->setStatus(dc, resetLedStatus);
+        updateResetLed_ = false;
+    }
 }
 
 void Panel::setPauseLed(int status)
 {
-	if (pauseLedStatus != status)
-	{
-		pauseLedStatus = status;
-		updatePauseLed_ = true;
-		if (ms_ == 0)
-		{
+    if (pauseLedStatus != status)
+    {
+        pauseLedStatus = status;
+        updatePauseLed_ = true;
+        if (ms_ == 0)
+        {
 #if defined(__WXMAC__)
             p_Main->eventRefreshPanel();
 #else
-			wxClientDC dc(this);
-			updatePauseLed(dc);
+            wxClientDC dc(this);
+            updatePauseLed(dc);
 #endif
         }
-	}
+    }
 }
 
 void Panel::updatePauseLed(wxDC& dc)
 {
-	if (updatePauseLed_)
-	{
-		pauseLedPointer->setStatus(dc, pauseLedStatus);
-		updatePauseLed_ = false;
-	}
+    if (updatePauseLed_)
+    {
+        pauseLedPointer->setStatus(dc, pauseLedStatus);
+        updatePauseLed_ = false;
+    }
 }
 
 void Panel::setRunLed(int status)
 {
-	if (runLedStatus != status)
-	{
-		runLedStatus = status;
-		updateRunLed_ = true;
-		if (ms_ == 0)
-		{
+    if (runLedStatus != status)
+    {
+        runLedStatus = status;
+        updateRunLed_ = true;
+        if (ms_ == 0)
+        {
 #if defined(__WXMAC__)
             p_Main->eventRefreshPanel();
 #else
-			wxClientDC dc(this);
-			updateRunLed(dc);
+            wxClientDC dc(this);
+            updateRunLed(dc);
 #endif
         }
-	}
+    }
 }
 
 void Panel::updateRunLed(wxDC& dc)
 {
-	if (updateRunLed_)
-	{
-		runLedPointer->setStatus(dc, runLedStatus);
-		updateRunLed_ = false;
-	}
+    if (updateRunLed_)
+    {
+        runLedPointer->setStatus(dc, runLedStatus);
+        updateRunLed_ = false;
+    }
 }
 
 void Panel::setLoadLed(int status)
 {
-	if (loadLedStatus != status)
-	{
-		loadLedStatus = status;
-		updateLoadLed_ = true;
-		if (ms_ == 0)
-		{
+    if (loadLedStatus != status)
+    {
+        loadLedStatus = status;
+        updateLoadLed_ = true;
+        if (ms_ == 0)
+        {
 #if defined(__WXMAC__)
             p_Main->eventRefreshPanel();
 #else
-			wxClientDC dc(this);
-			updateLoadLed(dc);
+            wxClientDC dc(this);
+            updateLoadLed(dc);
 #endif
         }
-	}
+    }
 }
 
 void Panel::updateLoadLed(wxDC& dc)
 {
-	if (updateLoadLed_)
-	{
-		loadLedPointer->setStatus(dc, loadLedStatus);
-		updateLoadLed_ = false;
-	}
+    if (updateLoadLed_)
+    {
+        loadLedPointer->setStatus(dc, loadLedStatus);
+        updateLoadLed_ = false;
+    }
 }
 
 void Panel::setLed(int i, int status)
 {
-	if (ledStatus[i] != status)
-	{
-		ledStatus[i] = status;
-		updateLed_[i] = true;
-		if (ms_ == 0)
-		{
+    if (ledStatus[i] != status)
+    {
+        ledStatus[i] = status;
+        updateLed_[i] = true;
+        if (ms_ == 0)
+        {
 #if defined(__WXMAC__)
             p_Main->eventRefreshPanel();
 #else
-			wxClientDC dc(this);
-			updateLed(dc, i);
+            wxClientDC dc(this);
+            updateLed(dc, i);
 #endif
         }
-	}
+    }
 }
 
 void Panel::updateLed(wxDC& dc, int i)
 {
-	if (updateLed_[i])
-	{
-		ledPointer[i]->setStatus(dc, ledStatus[i]);
-		updateLed_[i] = false;
-	}
+    if (updateLed_[i])
+    {
+        ledPointer[i]->setStatus(dc, ledStatus[i]);
+        updateLed_[i] = false;
+    }
 }
 
 void Panel::refreshLed(wxDC& dc, int i)
@@ -1083,58 +1083,58 @@ void Panel::updateStateLed(wxDC& dc, int i)
 
 void Panel::showData(Byte value)
 {
-	if (dataStatus != value)
-	{
-		dataStatus = value;
-		updateData_ = true;
-		if (ms_ == 0)
-		{
+    if (dataStatus != value)
+    {
+        dataStatus = value;
+        updateData_ = true;
+        if (ms_ == 0)
+        {
 #if defined(__WXMAC__)
             p_Main->eventRefreshPanel();
 #else
-			wxClientDC dc(this);
-			updateData(dc);
+            wxClientDC dc(this);
+            updateData(dc);
 #endif
         }
-	}
+    }
 }
 
 void Panel::updateData(wxDC& dc)
 {
-	if (updateData_)
-	{
-		dataPointer[0]->update(dc,(dataStatus>>4)&15);
-		dataPointer[1]->update(dc, dataStatus&15);
-		updateData_ = false;
-	}
+    if (updateData_)
+    {
+        dataPointer[0]->update(dc,(dataStatus>>4)&15);
+        dataPointer[1]->update(dc, dataStatus&15);
+        updateData_ = false;
+    }
 }
 
 void Panel::showDataTil313(Byte value)
 {
-	if (dataTil313Status != value)
-	{
-		dataTil313Status = value;
-		updateDataTil313_ = true;
-		if (ms_ == 0)
-		{
+    if (dataTil313Status != value)
+    {
+        dataTil313Status = value;
+        updateDataTil313_ = true;
+        if (ms_ == 0)
+        {
 #if defined(__WXMAC__)
             p_Main->eventRefreshPanel();
 #else
-			wxClientDC dc(this);
-			updateDataTil313(dc);
+            wxClientDC dc(this);
+            updateDataTil313(dc);
 #endif
         }
-	}
+    }
 }
 
 void Panel::updateDataTil313(wxDC& dc)
 {
-	if (updateDataTil313_)
-	{
-		dataTil313Pointer[0]->update(dc,(dataTil313Status>>4)&15);
-		dataTil313Pointer[1]->update(dc, dataTil313Status&15);
-		updateDataTil313_ = false;
-	}
+    if (updateDataTil313_)
+    {
+        dataTil313Pointer[0]->update(dc,(dataTil313Status>>4)&15);
+        dataTil313Pointer[1]->update(dc, dataTil313Status&15);
+        updateDataTil313_ = false;
+    }
 }
 
 void Panel::showDataTil313Italic(Byte value)
@@ -1188,8 +1188,8 @@ void Panel::turnOff313Italic(bool status)
     wxClientDC dc(this);
     dataTil313PointerItalic[0]->turnOff(dc, status);
     dataTil313PointerItalic[1]->turnOff(dc, status);
-	addressTil313PointerItalic[2]->turnOff(dc, status);
-	addressTil313PointerItalic[3]->turnOff(dc, status);
+    addressTil313PointerItalic[2]->turnOff(dc, status);
+    addressTil313PointerItalic[3]->turnOff(dc, status);
 }
 
 void Panel::updateDp313Italic(wxDC& dc)
@@ -1203,29 +1203,29 @@ void Panel::updateDp313Italic(wxDC& dc)
 
 void Panel::showSeg(int number, Byte value)
 {
-	if (segStatus[number] != value)
-	{
-		segStatus[number] = value;
-		updateSeg_[number] = true;
-		if (ms_ == 0)
-		{
+    if (segStatus[number] != value)
+    {
+        segStatus[number] = value;
+        updateSeg_[number] = true;
+        if (ms_ == 0)
+        {
 #if defined(__WXMAC__)
             p_Main->eventRefreshPanel();
 #else
-			wxClientDC dc(this);
-			updateSeg(dc, number);
+            wxClientDC dc(this);
+            updateSeg(dc, number);
 #endif
         }
-	}
+    }
 }
 
 void Panel::updateSeg(wxDC& dc, int number)
 {
-	if (updateSeg_[number])
-	{
-		segPointer[number]->update(dc, segStatus[number]);
-		updateSeg_[number] = false;
-	}
+    if (updateSeg_[number])
+    {
+        segPointer[number]->update(dc, segStatus[number]);
+        updateSeg_[number] = false;
+    }
 }
 
 void Panel::showAddress(Word address)
@@ -1284,14 +1284,14 @@ if (addressTil313StatusItalic != address)
 
 void Panel::updateAddress(wxDC& dc)
 {
-	if (updateAddress_)
-	{
-		addressPointer[0]->update(dc, addressStatus>>12);
-		addressPointer[1]->update(dc,(addressStatus>>8)&15);
-		addressPointer[2]->update(dc,(addressStatus>>4)&15);
-		addressPointer[3]->update(dc, addressStatus&15);
-		updateAddress_ = false;
-	}
+    if (updateAddress_)
+    {
+        addressPointer[0]->update(dc, addressStatus>>12);
+        addressPointer[1]->update(dc,(addressStatus>>8)&15);
+        addressPointer[2]->update(dc,(addressStatus>>4)&15);
+        addressPointer[3]->update(dc, addressStatus&15);
+        updateAddress_ = false;
+    }
 }
 
 void Panel::updateAddressTil313(wxDC& dc)
@@ -1300,8 +1300,8 @@ void Panel::updateAddressTil313(wxDC& dc)
     {
         addressTil313Pointer[0]->update(dc, addressTil313Status>>12);
         addressTil313Pointer[1]->update(dc,(addressTil313Status>>8)&15);
-		addressTil313Pointer[2]->update(dc,(addressTil313Status>>4)&15);
-		addressTil313Pointer[3]->update(dc, addressTil313Status&15);
+        addressTil313Pointer[2]->update(dc,(addressTil313Status>>4)&15);
+        addressTil313Pointer[3]->update(dc, addressTil313Status&15);
         updateAddressTil313_ = false;
     }
 }
@@ -1310,13 +1310,13 @@ void Panel::updateAddressTil313Italic(wxDC& dc)
 {
     if (updateAddressTil313Italic_)
     {
-		if (numberOfTil313_ == 4)
-		{
-			addressTil313PointerItalic[0]->update(dc, addressTil313StatusItalic>>12);
-			addressTil313PointerItalic[1]->update(dc,(addressTil313StatusItalic>>8)&15);
-		}
-		addressTil313PointerItalic[2]->update(dc,(addressTil313StatusItalic>>4)&15);
-		addressTil313PointerItalic[3]->update(dc, addressTil313StatusItalic&15);
+        if (numberOfTil313_ == 4)
+        {
+            addressTil313PointerItalic[0]->update(dc, addressTil313StatusItalic>>12);
+            addressTil313PointerItalic[1]->update(dc,(addressTil313StatusItalic>>8)&15);
+        }
+        addressTil313PointerItalic[2]->update(dc,(addressTil313StatusItalic>>4)&15);
+        addressTil313PointerItalic[3]->update(dc, addressTil313StatusItalic&15);
         updateAddressTil313Italic_ = false;
     }
 }
@@ -1392,26 +1392,26 @@ void Panel::runSetState(bool state)
 #if defined(__WXMAC__)
     p_Main->eventRefreshPanel();
 #else
-	wxClientDC dc(this);
-	runSwitchButton->setState(dc, state);
+    wxClientDC dc(this);
+    runSwitchButton->setState(dc, state);
 #endif
 }
 
 void Panel::mpUp()
 {
 #if wxCHECK_VERSION(2, 9, 0)
-	mpButtonPointer->SetBitmap(*upBitmapPointer);
+    mpButtonPointer->SetBitmap(*upBitmapPointer);
 #else
-	mpButtonPointer->SetBitmapLabel(*upBitmapPointer);
+    mpButtonPointer->SetBitmapLabel(*upBitmapPointer);
 #endif
 }
 
 void Panel::mpDown()
 {
 #if wxCHECK_VERSION(2, 9, 0)
-	mpButtonPointer->SetBitmap(*downBitmapPointer);
+    mpButtonPointer->SetBitmap(*downBitmapPointer);
 #else
-	mpButtonPointer->SetBitmapLabel(*downBitmapPointer);
+    mpButtonPointer->SetBitmapLabel(*downBitmapPointer);
 #endif
 }
 
@@ -1420,44 +1420,44 @@ void Panel::mpSetState(bool state)
 #if defined(__WXMAC__)
     p_Main->eventRefreshPanel();
 #else
-	wxClientDC dc(this);
-	mpSwitchButton->setState(dc, state);
+    wxClientDC dc(this);
+    mpSwitchButton->setState(dc, state);
 #endif
 }
 
 void Panel::powerUp()
 {
 #if wxCHECK_VERSION(2, 9, 0)
-	powerButtonPointer->SetBitmap(*upBitmapPointer);
+    powerButtonPointer->SetBitmap(*upBitmapPointer);
 #else
-	powerButtonPointer->SetBitmapLabel(*upBitmapPointer);
+    powerButtonPointer->SetBitmapLabel(*upBitmapPointer);
 #endif
 }
 
 void Panel::powerDown()
 {
 #if wxCHECK_VERSION(2, 9, 0)
-	powerButtonPointer->SetBitmap(*downBitmapPointer);
+    powerButtonPointer->SetBitmap(*downBitmapPointer);
 #else
-	powerButtonPointer->SetBitmapLabel(*downBitmapPointer);
+    powerButtonPointer->SetBitmapLabel(*downBitmapPointer);
 #endif
 }
 
 void Panel::loadUp()
 {
 #if wxCHECK_VERSION(2, 9, 0)
-	loadButtonPointer->SetBitmap(*upBitmapPointer);
+    loadButtonPointer->SetBitmap(*upBitmapPointer);
 #else
-	loadButtonPointer->SetBitmapLabel(*upBitmapPointer);
+    loadButtonPointer->SetBitmapLabel(*upBitmapPointer);
 #endif
 }
 
 void Panel::loadDown()
 {
 #if wxCHECK_VERSION(2, 9, 0)
-	loadButtonPointer->SetBitmap(*downBitmapPointer);
+    loadButtonPointer->SetBitmap(*downBitmapPointer);
 #else
-	loadButtonPointer->SetBitmapLabel(*downBitmapPointer);
+    loadButtonPointer->SetBitmapLabel(*downBitmapPointer);
 #endif
 }
 
@@ -1466,26 +1466,26 @@ void Panel::loadSetState(bool state)
 #if defined(__WXMAC__)
     p_Main->eventRefreshPanel();
 #else
-	wxClientDC dc(this);
-	loadSwitchButton->setState(dc, state);
+    wxClientDC dc(this);
+    loadSwitchButton->setState(dc, state);
 #endif
 }
 
 void Panel::dataUp(int number)
 {
 #if wxCHECK_VERSION(2, 9, 0)
-	dataSwitchPointer[number]->SetBitmap(*upBitmapPointer);
+    dataSwitchPointer[number]->SetBitmap(*upBitmapPointer);
 #else
-	dataSwitchPointer[number]->SetBitmapLabel(*upBitmapPointer);
+    dataSwitchPointer[number]->SetBitmapLabel(*upBitmapPointer);
 #endif
 }
 
 void Panel::dataDown(int number)
 {
 #if wxCHECK_VERSION(2, 9, 0)
-	dataSwitchPointer[number]->SetBitmap(*downBitmapPointer);
+    dataSwitchPointer[number]->SetBitmap(*downBitmapPointer);
 #else
-	dataSwitchPointer[number]->SetBitmapLabel(*downBitmapPointer);
+    dataSwitchPointer[number]->SetBitmapLabel(*downBitmapPointer);
 #endif
 }
 
@@ -1494,79 +1494,79 @@ void Panel::dataSetState(int number, bool state)
 #if defined(__WXMAC__)
     p_Main->eventRefreshPanel();
 #else
-	wxClientDC dc(this);
-	dataSwitchButton[number]->setState(dc, state);
+    wxClientDC dc(this);
+    dataSwitchButton[number]->setState(dc, state);
 #endif
 }
 
 void Panel::efUp(int number)
 {
 #if wxCHECK_VERSION(2, 9, 0)
-	efSwitchPointer[number]->SetBitmap(*upBitmapPointer);
+    efSwitchPointer[number]->SetBitmap(*upBitmapPointer);
 #else
-	efSwitchPointer[number]->SetBitmapLabel(*upBitmapPointer);
+    efSwitchPointer[number]->SetBitmapLabel(*upBitmapPointer);
 #endif
 }
 
 void Panel::efDown(int number)
 {
 #if wxCHECK_VERSION(2, 9, 0)
-	efSwitchPointer[number]->SetBitmap(*downBitmapPointer);
+    efSwitchPointer[number]->SetBitmap(*downBitmapPointer);
 #else
-	efSwitchPointer[number]->SetBitmapLabel(*downBitmapPointer);
+    efSwitchPointer[number]->SetBitmapLabel(*downBitmapPointer);
 #endif
 }
 
 Computer::Computer()
 {
-	memoryStart_ = 0;
-	loadedProgram_ = NOPROGRAM;
-	loadedOs_ = NOOS;
-	lastTapeInput_ = 0;
-	maxTapeInput_ = 0;
-	gaugeValue_ = 0;
-	sign_ = true;
-	counter_ = 10;
-	period_ = 24;
-	basicExecAddress_[BASICADDR_KEY] = -1;
-	basicExecAddress_[BASICADDR_READY] = -1;
-	basicExecAddress_[BASICADDR_KEY_VT_RESTART] = -1;
-	basicExecAddress_[BASICADDR_KEY_VT_INPUT] = -1;
-	chip8baseVar_ = 0xef0;
-	chip8mainLoop_ = 0x1b;
+    memoryStart_ = 0;
+    loadedProgram_ = NOPROGRAM;
+    loadedOs_ = NOOS;
+    lastTapeInput_ = 0;
+    maxTapeInput_ = 0;
+    gaugeValue_ = 0;
+    sign_ = true;
+    counter_ = 10;
+    period_ = 24;
+    basicExecAddress_[BASICADDR_KEY] = -1;
+    basicExecAddress_[BASICADDR_READY] = -1;
+    basicExecAddress_[BASICADDR_KEY_VT_RESTART] = -1;
+    basicExecAddress_[BASICADDR_KEY_VT_INPUT] = -1;
+    chip8baseVar_ = 0xef0;
+    chip8mainLoop_ = 0x1b;
     pseudoLoaded_ = false;
     inKey1_ = -1;
     inKey2_ = -1;
     ctrlvTextCharNum_ = 0;
-	for (int i = 0; i<16; i++)
-		chip8Register[i] = -1;
+    for (int i = 0; i<16; i++)
+        chip8Register[i] = -1;
 
-	threadPointer = new RunComputer();
-	if ( threadPointer->Create() != wxTHREAD_NO_ERROR )
-	{
-		p_Main->message("Can't create thread");
-	}
-	threadPointer->SetPriority(WXTHREAD_MAX_PRIORITY);
+    threadPointer = new RunComputer();
+    if ( threadPointer->Create() != wxTHREAD_NO_ERROR )
+    {
+        p_Main->message("Can't create thread");
+    }
+    threadPointer->SetPriority(WXTHREAD_MAX_PRIORITY);
 }
 
 bool Computer::isComputerRunning()
 {
-	return false;
+    return false;
 }
 
 void Computer::startComputerRun(bool WXUNUSED(load))
 {
-	p_Main->message("Illegal request to start Computer");
+    p_Main->message("Illegal request to start Computer");
 }
 
 void Computer::onReset()
 {
-	p_Main->message("Illegal request to reuqest reset Computer");
+    p_Main->message("Illegal request to reuqest reset Computer");
 }
 
 void Computer::onRun()
 {
-	resetPressed_ = true;
+    resetPressed_ = true;
 }
 
 void Computer::keyDown(int WXUNUSED(keycode))
@@ -1575,12 +1575,12 @@ void Computer::keyDown(int WXUNUSED(keycode))
 
 bool Computer::keyDownExtended(int WXUNUSED(keycode), wxKeyEvent& WXUNUSED(event))
 {
-	return false;
+    return false;
 }
 
 bool Computer::keyDownPressed(int WXUNUSED(keycode))
 {
-	return false;
+    return false;
 }
 
 void Computer::keyUp(int WXUNUSED(keycode))
@@ -1593,7 +1593,7 @@ void Computer::keyUpExtended(int WXUNUSED(keycode), wxKeyEvent& WXUNUSED(event))
 
 bool Computer::keyUpReleased(int WXUNUSED(keycode))
 {
-	return false;
+    return false;
 }
 
 void Computer::charEvent(int WXUNUSED(keycode))
@@ -1610,13 +1610,13 @@ void Computer::onButtonPress(wxCommandEvent& WXUNUSED(event))
 
 void Computer::cid1Bit8(bool WXUNUSED(set))
 {
-	p_Main->message("Illegal call to Cidelsa video bit set/reset");
+    p_Main->message("Illegal call to Cidelsa video bit set/reset");
 }
 
 int Computer::getComxExpansionType(int WXUNUSED(card))
 {
-	p_Main->message("Illegal call to fetch Comx expansion type");
-	return 0;
+    p_Main->message("Illegal call to fetch Comx expansion type");
+    return 0;
 }
 
 void Computer::sleepComputer(long ms)
@@ -1640,17 +1640,17 @@ void Computer::checkCaps()
 
 void Computer::finishStopTape()
 {
-	p_Main->message("Illegal call to stop PECOM/ETI tape");
+    p_Main->message("Illegal call to stop PECOM/ETI tape");
 }
 
 void Computer::printOutPecom(int WXUNUSED(q))
 {
-	p_Main->message("Illegal call to send Q bit to PECOM printer");
+    p_Main->message("Illegal call to send Q bit to PECOM printer");
 }
 
 void Computer::setDivider(Byte WXUNUSED(value))
 {
-	p_Main->message("Illegal call to set Elf 2000 divider value");
+    p_Main->message("Illegal call to set Elf 2000 divider value");
 }
 
 void Computer::removePio(int WXUNUSED(pioNumber))
@@ -1659,22 +1659,22 @@ void Computer::removePio(int WXUNUSED(pioNumber))
 
 void Computer::removeElf2KSwitch()
 {
-	p_Main->message("Illegal call to stop Elf 2000 swicth panel");
+    p_Main->message("Illegal call to stop Elf 2000 swicth panel");
 }
 
 void Computer::removeElfHex()
 {
-	p_Main->message("Illegal call to stop Elf hex panel");
+    p_Main->message("Illegal call to stop Elf hex panel");
 }
 
 void Computer::removeCosmicosHex()
 {
-	p_Main->message("Illegal call to stop Comsicos hex panel");
+    p_Main->message("Illegal call to stop Comsicos hex panel");
 }
 
 void Computer::removeElfLedModule()
 {
-	p_Main->message("Illegal call to stop Elf led panel");
+    p_Main->message("Illegal call to stop Elf led panel");
 }
 
 void Computer::showData(Byte WXUNUSED(val))
@@ -1695,146 +1695,146 @@ void Computer::showIntLed()
 
 void Computer::resetVideo()
 {
-	p_Main->message("Illegal call to reset video");
+    p_Main->message("Illegal call to reset video");
 }
 
 void Computer::resetComputer()
 {
-	p_Main->message("Illegal call to reset computer");
+    p_Main->message("Illegal call to reset computer");
 }
 
 void Computer::clearBootstrap()
 {
-	p_Main->message("Illegal call to clear bootstrap");
+    p_Main->message("Illegal call to clear bootstrap");
 }
 
 void Computer::onInButtonRelease()
 {
-	p_Main->message("Illegal call to release Elf IN button");
+    p_Main->message("Illegal call to release Elf IN button");
 }
 
 void Computer::onInButtonPress()
 {
-	p_Main->message("Illegal call to press Elf IN button");
+    p_Main->message("Illegal call to press Elf IN button");
 }
 
 void Computer::onInButtonPress(Byte WXUNUSED(value))
 {
-	p_Main->message("Illegal call to press Elf IN button");
+    p_Main->message("Illegal call to press Elf IN button");
 }
 
 void Computer::cassette(short val)
 {
-	if (conversionTypeWav_ == 0)
-	{
-		if (val <= 0)
-		{
-			cassetteEf_ = tapePolarity_; // 0
-			maxTapeInput_ = 0;
-		}
-		else
-		{
-			cassetteEf_ = !tapePolarity_; //1
-			if (val > lastTapeInput_)
-				maxTapeInput_ = val;
-			else
-				gaugeValue_ = maxTapeInput_ / 5;
-		}
-	}
-	else
-	{
-		if (cassetteEf_ != tapePolarity_)
-		{
-			if (val > lastTapeInput_)
-				maxTapeInput_ = val;
-			else
-			{
-				gaugeValue_ = maxTapeInput_ / 5;
-				cassetteEf_ = tapePolarity_; // 0
-			}
-		}
-		else
-		{
-			if (val < lastTapeInput_)
-				maxTapeInput_ = -val;
-			else
-			{
-				gaugeValue_ = maxTapeInput_ / 5;
-				cassetteEf_ = !tapePolarity_; //1
-			}
-		}
-	}
-	lastTapeInput_ = val;
+    if (conversionTypeWav_ == 0)
+    {
+        if (val <= 0)
+        {
+            cassetteEf_ = tapePolarity_; // 0
+            maxTapeInput_ = 0;
+        }
+        else
+        {
+            cassetteEf_ = !tapePolarity_; //1
+            if (val > lastTapeInput_)
+                maxTapeInput_ = val;
+            else
+                gaugeValue_ = maxTapeInput_ / 5;
+        }
+    }
+    else
+    {
+        if (cassetteEf_ != tapePolarity_)
+        {
+            if (val > lastTapeInput_)
+                maxTapeInput_ = val;
+            else
+            {
+                gaugeValue_ = maxTapeInput_ / 5;
+                cassetteEf_ = tapePolarity_; // 0
+            }
+        }
+        else
+        {
+            if (val < lastTapeInput_)
+                maxTapeInput_ = -val;
+            else
+            {
+                gaugeValue_ = maxTapeInput_ / 5;
+                cassetteEf_ = !tapePolarity_; //1
+            }
+        }
+    }
+    lastTapeInput_ = val;
 }
 
 void Computer::cassette(char val)
 {
-	if (conversionTypeWav_ == 0)
-	{
-		if (val < 0)
-		{
-/*			if (cassetteEf_ != tapePolarity_)
-			{
-//				if (period_ > 29)
-//					p_Main->messageInt(period_);
-				if (period_ < 23 || (period_ > 36 && period_ < 63))
-				{
-					period_++;
-					lastTapeInput_ = val;
-					return;
-				}
-				period_ = 0; // short 23-29 long 60-64
-			}
-			period_++;*/
-			cassetteEf_ = tapePolarity_; // 0
-			maxTapeInput_ = 0;
-		}
-		else
-		{
-/*			if (cassetteEf_ == tapePolarity_)
-			{
-//				if (period_ > 29)
-//					p_Main->messageInt(period_);
-				if (period_ < 23 || (period_ > 36 && period_ < 63))
-				{
-					period_++;
-					lastTapeInput_ = val;
-					return;
-				}
-				period_ = 0;
-			}
-			period_++;*/
-			cassetteEf_ = !tapePolarity_; //1
-			if (val > lastTapeInput_)
-				maxTapeInput_ = val;
-			else
-				gaugeValue_ = maxTapeInput_ * 45;
-		}
-	}
-	else
-	{
-		if (cassetteEf_ != tapePolarity_)
-		{
-			if (val > lastTapeInput_)
-				maxTapeInput_ = val;
-			else
-			{
-				gaugeValue_ = maxTapeInput_ * 45;
-				cassetteEf_ = tapePolarity_; // 0
-			}
-		}
-		else
-		{
-			if (val < lastTapeInput_)
-				maxTapeInput_ = -val;
-			else
-			{
-				gaugeValue_ = maxTapeInput_ * 45;
-				cassetteEf_ = !tapePolarity_; //1
-			}
-		}
-	}
-	lastTapeInput_ = val;
+    if (conversionTypeWav_ == 0)
+    {
+        if (val < 0)
+        {
+/*            if (cassetteEf_ != tapePolarity_)
+            {
+//                if (period_ > 29)
+//                    p_Main->messageInt(period_);
+                if (period_ < 23 || (period_ > 36 && period_ < 63))
+                {
+                    period_++;
+                    lastTapeInput_ = val;
+                    return;
+                }
+                period_ = 0; // short 23-29 long 60-64
+            }
+            period_++;*/
+            cassetteEf_ = tapePolarity_; // 0
+            maxTapeInput_ = 0;
+        }
+        else
+        {
+/*            if (cassetteEf_ == tapePolarity_)
+            {
+//                if (period_ > 29)
+//                    p_Main->messageInt(period_);
+                if (period_ < 23 || (period_ > 36 && period_ < 63))
+                {
+                    period_++;
+                    lastTapeInput_ = val;
+                    return;
+                }
+                period_ = 0;
+            }
+            period_++;*/
+            cassetteEf_ = !tapePolarity_; //1
+            if (val > lastTapeInput_)
+                maxTapeInput_ = val;
+            else
+                gaugeValue_ = maxTapeInput_ * 45;
+        }
+    }
+    else
+    {
+        if (cassetteEf_ != tapePolarity_)
+        {
+            if (val > lastTapeInput_)
+                maxTapeInput_ = val;
+            else
+            {
+                gaugeValue_ = maxTapeInput_ * 45;
+                cassetteEf_ = tapePolarity_; // 0
+            }
+        }
+        else
+        {
+            if (val < lastTapeInput_)
+                maxTapeInput_ = -val;
+            else
+            {
+                gaugeValue_ = maxTapeInput_ * 45;
+                cassetteEf_ = !tapePolarity_; //1
+            }
+        }
+    }
+    lastTapeInput_ = val;
 }
 
 void Computer::cassetteFred(short WXUNUSED(val))
@@ -1847,46 +1847,46 @@ void Computer::cassetteFred(char WXUNUSED(val))
 
 void Computer::realCassette(short val)
 {
-	if (conversionType_ == 0)
-	{
-		if (val <= 0)
-		{
-			cassetteEf_ = tapePolarity_; // 0
-			maxTapeInput_ = 0;
-		}
-		else
-		{
-			cassetteEf_ = !tapePolarity_; //1
-			if (val > lastTapeInput_)
-				maxTapeInput_ = val;
-			else
-				gaugeValue_ = maxTapeInput_;
-		}
-	}
-	else
-	{
-		if (cassetteEf_ != tapePolarity_)
-		{
-			if (val > lastTapeInput_)
-				maxTapeInput_ = val;
-			else
-			{
-				gaugeValue_ = maxTapeInput_;
-				cassetteEf_ = tapePolarity_; // 0
-			}
-		}
-		else
-		{
-			if (val < lastTapeInput_)
-				maxTapeInput_ = -val;
-			else
-			{
-				gaugeValue_ = maxTapeInput_;
-				cassetteEf_ = !tapePolarity_; //1
-			}
-		}
-	}
-	lastTapeInput_ = val;
+    if (conversionType_ == 0)
+    {
+        if (val <= 0)
+        {
+            cassetteEf_ = tapePolarity_; // 0
+            maxTapeInput_ = 0;
+        }
+        else
+        {
+            cassetteEf_ = !tapePolarity_; //1
+            if (val > lastTapeInput_)
+                maxTapeInput_ = val;
+            else
+                gaugeValue_ = maxTapeInput_;
+        }
+    }
+    else
+    {
+        if (cassetteEf_ != tapePolarity_)
+        {
+            if (val > lastTapeInput_)
+                maxTapeInput_ = val;
+            else
+            {
+                gaugeValue_ = maxTapeInput_;
+                cassetteEf_ = tapePolarity_; // 0
+            }
+        }
+        else
+        {
+            if (val < lastTapeInput_)
+                maxTapeInput_ = -val;
+            else
+            {
+                gaugeValue_ = maxTapeInput_;
+                cassetteEf_ = !tapePolarity_; //1
+            }
+        }
+    }
+    lastTapeInput_ = val;
 }
 
 void Computer::keyClear()
@@ -2031,7 +2031,7 @@ void Computer::setEfState(int WXUNUSED(pioNmber), int WXUNUSED(number), Byte WXU
 
 Byte Computer::getData()
 {
-	return 0;
+    return 0;
 }
 
 void Computer::onHexDown(int WXUNUSED(hex))
@@ -2058,7 +2058,7 @@ void Computer::reDefineKeys(int* WXUNUSED(hexKeyDefA[]), int* WXUNUSED(keyDefGam
 
 int Computer::getRunState()
 {
-	return 0;
+    return 0;
 }
 
 void Computer::checkLoadedSoftware()
@@ -2127,7 +2127,7 @@ void Computer::showDataLeds(Byte WXUNUSED(value))
 
 Byte Computer::getKey(Byte WXUNUSED(vtOut))
 {
-	return 0;
+    return 0;
 }
 
 void Computer::activateMainWindow()
@@ -2136,11 +2136,11 @@ void Computer::activateMainWindow()
 
 void Computer::showChip8Registers()
 {
-	int reg = chip8baseVar_;
-	int newValue;
+    int reg = chip8baseVar_;
+    int newValue;
 
-	for (int i=0; i<16; i++)
-	{
+    for (int i=0; i<16; i++)
+    {
         if (chip8register12bit_)
         {
             newValue = (p_Computer->readMem(reg++) << 8);
@@ -2148,12 +2148,12 @@ void Computer::showChip8Registers()
         }
         else
             newValue = p_Computer->readMem(reg++);
-		if (newValue != chip8Register[i])
-		{
-			p_Main->showChip8Register(i, newValue, chip8register12bit_);
-			chip8Register[i] = newValue;
-		}
-	}
+        if (newValue != chip8Register[i])
+        {
+            p_Main->showChip8Register(i, newValue, chip8register12bit_);
+            chip8Register[i] = newValue;
+        }
+    }
 }
 
 void Computer::writeMemDataType(Word WXUNUSED(address), Byte  WXUNUSED(type))
@@ -2163,32 +2163,32 @@ void Computer::writeMemDataType(Word WXUNUSED(address), Byte  WXUNUSED(type))
 Byte Computer::readMemDataType(Word WXUNUSED(address), uint64_t* executed)
 {
     *executed = 0;
-	return 0;
+    return 0;
 }
 
 void Computer::writeDebugFileExit(wxString dir, wxString name, Word start, Word end)
 {
-	if (p_Main->getSaveDebugFile())
-	{
-		writeDebugFile(dir, name, start, end);
-	}
+    if (p_Main->getSaveDebugFile())
+    {
+        writeDebugFile(dir, name, start, end);
+    }
 }
 
 void Computer::writeDebugFile(wxString dir, wxString name, Word start, Word end)
 {
     uint64_t executed;
-	wxFileName FullPath = wxFileName(dir+name, wxPATH_NATIVE);
+    wxFileName FullPath = wxFileName(dir+name, wxPATH_NATIVE);
     dir = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
     name = FullPath.GetName() + ".debug";
 
-	wxFFileOutputStream out(dir+name);
-	wxZipOutputStream zip(out);
-	wxDataOutputStream data(zip);
+    wxFFileOutputStream out(dir+name);
+    wxZipOutputStream zip(out);
+    wxDataOutputStream data(zip);
 
-	zip.PutNextEntry(FullPath.GetName()+".deb");
+    zip.PutNextEntry(FullPath.GetName()+".deb");
 
-	for (size_t i=start; i<=end; i++)
-		data << p_Computer->readMemDataType(i, &executed);
+    for (size_t i=start; i<=end; i++)
+        data << p_Computer->readMemDataType(i, &executed);
 
     zip.PutNextEntry(FullPath.GetName()+".lab");
     
@@ -2200,25 +2200,25 @@ void Computer::writeDebugFile(wxString dir, wxString name, Word start, Word end)
 
 void Computer::readDebugFile(wxString dir, wxString name, wxString number, Word start)
 {
-	using namespace std;
+    using namespace std;
 
-	wxFileName FullPath = wxFileName(dir+name, wxPATH_NATIVE);
-	dir = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
-	name = FullPath.GetName() + ".debug" + number;
+    wxFileName FullPath = wxFileName(dir+name, wxPATH_NATIVE);
+    dir = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+    name = FullPath.GetName() + ".debug" + number;
     Word startAddress;
     
-	if (wxFile::Exists(dir+name))
-	{
-		auto_ptr<wxZipEntry> entry;
+    if (wxFile::Exists(dir+name))
+    {
+        auto_ptr<wxZipEntry> entry;
 
-		wxFFileInputStream in(dir+name);
-		wxZipInputStream zip(in);
+        wxFFileInputStream in(dir+name);
+        wxZipInputStream zip(in);
 
         while (static_cast<void>(entry.reset(zip.GetNextEntry())), entry.get() != NULL)
-		{
-			// access meta-data
-			name = entry->GetName();
-			Byte nextByte = 0;
+        {
+            // access meta-data
+            name = entry->GetName();
+            Byte nextByte = 0;
             
             startAddress = start;
             if (name.Right(3) == "deb")

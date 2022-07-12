@@ -228,9 +228,9 @@ void FredScreen::releaseButtonOnScreen(HexButton* buttonPoint)
 }
 
 BEGIN_EVENT_TABLE(Fred, wxFrame)
-	EVT_BUTTON(1, Fred::onRunButton)
-	EVT_BUTTON(2, Fred::onResetButton)
-	EVT_CLOSE (Fred::onClose)
+    EVT_BUTTON(1, Fred::onRunButton)
+    EVT_BUTTON(2, Fred::onResetButton)
+    EVT_CLOSE (Fred::onClose)
 END_EVENT_TABLE()
 
 Fred::Fred(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf, int computerType, Conf computerConf)
@@ -249,18 +249,18 @@ Fred::Fred(const wxString& title, const wxPoint& pos, const wxSize& size, double
     ef4State_ = 1;
     ef1StateTape_ = 1;
     
-	tapeRunSwitch_ = 0x2;
+    tapeRunSwitch_ = 0x2;
 
-	inpMode_ = INP_MODE_NONE;
+    inpMode_ = INP_MODE_NONE;
     cardSwitchOn_ = false;
     readSwitchOn_ = false;
     
-	lastSample_ = 0;
-	lastSampleChar_ = 0;
-	tapeInput_ = 0;
-	polarity_ = 0;
-	silenceCount_ = 0;
-	bitNumber_ = -1;
+    lastSample_ = 0;
+    lastSampleChar_ = 0;
+    tapeInput_ = 0;
+    polarity_ = 0;
+    silenceCount_ = 0;
+    bitNumber_ = -1;
 
     pulseCountStopTone_ = 2000;
     tapeFormat56_ = false;
@@ -270,8 +270,8 @@ Fred::Fred(const wxString& title, const wxPoint& pos, const wxSize& size, double
     pulseCount_ = 0;
     tapeRecording_ = false;
     tapeActivated_ = false;
-	tapeEnd_ = false;
-	zeroWaveCounter_ = -1;
+    tapeEnd_ = false;
+    zeroWaveCounter_ = -1;
     
     this->SetClientSize(size);
     
@@ -288,7 +288,7 @@ Fred::~Fred()
     p_Main->setPixiePos(computerType_, pixiePointer->GetPosition());
     pixiePointer->Destroy();
     
-	p_Main->setMainPos(computerType_, GetPosition());
+    p_Main->setMainPos(computerType_, GetPosition());
     delete fredScreenPointer;
 }
 
@@ -304,67 +304,67 @@ void Fred::configureComputer()
     outType_[2] = FREDIO2;
     outType_[3] = FREDIO3;
     outType_[4] = FREDIO4;
-	efType_[1] = FREDEF1;
+    efType_[1] = FREDEF1;
     efType_[2] = FREDEF2;
     efType_[4] = FREDEF4;
     cycleType_[KEYCYCLE] = KEYBRDCYCLE;
 
-	if (computerType_ == FRED1)
-		p_Main->message("Configuring FRED 1");
-	else 
-		p_Main->message("Configuring FRED 1.5");
-    p_Main->message("	Output 1: set I/O group");
-    p_Main->message("	I/O group 1: hex keypad & card");
-    p_Main->message("	I/O group 2: TV");
-    p_Main->message("	I/O group 3: tape");
+    if (computerType_ == FRED1)
+        p_Main->message("Configuring FRED 1");
+    else 
+        p_Main->message("Configuring FRED 1.5");
+    p_Main->message("    Output 1: set I/O group");
+    p_Main->message("    I/O group 1: hex keypad & card");
+    p_Main->message("    I/O group 2: TV");
+    p_Main->message("    I/O group 3: tape");
     
     p_Main->message("");
     
     p_Main->message("Configuring hex keypad & card support");
-    p_Main->message("	Output 2: 1 = program mode, 2 = direct mode");
-    p_Main->message("	Input 0: read byte");
-    p_Main->message("	EF 1: data ready\n");
+    p_Main->message("    Output 2: 1 = program mode, 2 = direct mode");
+    p_Main->message("    Input 0: read byte");
+    p_Main->message("    EF 1: data ready\n");
     
     p_Main->message("Configuring TV support");
-    p_Main->message("	Output 2: display type 0 = TV off, 1 = 32x32, 2 = 64x16, 3 = 64x32\n");
+    p_Main->message("    Output 2: display type 0 = TV off, 1 = 32x32, 2 = 64x16, 3 = 64x32\n");
     
     p_Main->message("Configuring tape support");
-    p_Main->message("	Output 2: bit 4 = program mode, bit 5 = direct mode, bit 6 = write mode");
-    p_Main->message("	Output 3: bit 0 = 1 - run tape, bit 1 = 1 - sound on, bit 2 = sound");
-    p_Main->message("	Input 0: read byte");
-    p_Main->message("	EF 1: data ready, EF 2: tape run/stop, EF 4: tape error\n");
+    p_Main->message("    Output 2: bit 4 = program mode, bit 5 = direct mode, bit 6 = write mode");
+    p_Main->message("    Output 3: bit 0 = 1 - run tape, bit 1 = 1 - sound on, bit 2 = sound");
+    p_Main->message("    Input 0: read byte");
+    p_Main->message("    EF 1: data ready, EF 2: tape run/stop, EF 4: tape error\n");
     
-	if (fredConfiguration.coinArcadeControl_)
-	{
-	    efType_[3] = COINARCADEEF3;
-		inType_[6] = COINARCADEINPKEY6;
+    if (fredConfiguration.coinArcadeControl_)
+    {
+        efType_[3] = COINARCADEEF3;
+        inType_[6] = COINARCADEINPKEY6;
 
-		directionKey_ = 0;
-		fireKeyA_ = 1;
-		fireKeyB_ = 1;
-		coinKey_ = 1;
+        directionKey_ = 0;
+        fireKeyA_ = 1;
+        fireKeyB_ = 1;
+        coinKey_ = 1;
     
-		p_Main->message("Configuring RCA Video Coin Arcade controls");
-		p_Main->message("	EF1: fire player A, EF3: fire player B, EF4: coin");
-	    p_Main->message("	input 6: direction keys & coin reset");
+        p_Main->message("Configuring RCA Video Coin Arcade controls");
+        p_Main->message("    EF1: fire player A, EF3: fire player B, EF4: coin");
+        p_Main->message("    input 6: direction keys & coin reset");
 
-		keyDefCoin_ = p_Main->getDefaultCoinArcadeKeys(keyDefA_, keyDefB_);
-	}
+        keyDefCoin_ = p_Main->getDefaultCoinArcadeKeys(keyDefA_, keyDefB_);
+    }
 
-	if (computerType_ == FRED1)
-	{
+    if (computerType_ == FRED1)
+    {
         p_Main->getDefaultHexKeys(computerType_, "FRED1", "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
 
         if (p_Main->getConfigBool("/FRED1/GameAuto", true))
-			p_Main->loadKeyDefinition(p_Main->getRamFile(computerType_), p_Main->getRamFile(computerType_), keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
-	}
-	else
-	{
-    	p_Main->getDefaultHexKeys(computerType_, "FRED1_5", "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
+            p_Main->loadKeyDefinition(p_Main->getRamFile(computerType_), p_Main->getRamFile(computerType_), keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
+    }
+    else
+    {
+        p_Main->getDefaultHexKeys(computerType_, "FRED1_5", "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
 
-		 if (p_Main->getConfigBool("/FRED1_5/GameAuto", true))
-			p_Main->loadKeyDefinition(p_Main->getRamFile(computerType_), p_Main->getRamFile(computerType_), keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
-	}
+         if (p_Main->getConfigBool("/FRED1_5/GameAuto", true))
+            p_Main->loadKeyDefinition(p_Main->getRamFile(computerType_), p_Main->getRamFile(computerType_), keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
+    }
     resetCpu();
 }
 
@@ -411,42 +411,42 @@ void Fred::keyDown(int keycode)
     if (ef1State_ == 1)
         keyCode_ = WXK_NONE;
 
-	if (fredConfiguration.coinArcadeControl_)
-	{
-		if (keycode == keyDefCoin_)
-			coinKey_ = 0;
-	    
-		if (keycode == keyDefA_[KEY_UP])
-			directionKey_ |= 0x02;
-		if (keycode == keyDefA_[KEY_LEFT])
-			directionKey_ |= 0x01;
-		if (keycode == keyDefA_[KEY_RIGHT])
-			directionKey_ |= 0x04;
-		if (keycode == keyDefA_[KEY_DOWN])
-			directionKey_ |= 0x08;
-		if (keycode == keyDefA_[KEY_FIRE])
-			fireKeyA_ = 0;
-	    
-		if (keycode == keyDefB_[KEY_UP])
-			directionKey_ |= 0x20;
-		if (keycode == keyDefB_[KEY_LEFT])
-			directionKey_ |= 0x10;
-		if (keycode == keyDefB_[KEY_RIGHT])
-			directionKey_ |= 0x40;
-		if (keycode == keyDefB_[KEY_DOWN])
-			directionKey_ |= 0x80;
-		if (keycode == keyDefB_[KEY_FIRE])
-			fireKeyB_ = 0;
+    if (fredConfiguration.coinArcadeControl_)
+    {
+        if (keycode == keyDefCoin_)
+            coinKey_ = 0;
+        
+        if (keycode == keyDefA_[KEY_UP])
+            directionKey_ |= 0x02;
+        if (keycode == keyDefA_[KEY_LEFT])
+            directionKey_ |= 0x01;
+        if (keycode == keyDefA_[KEY_RIGHT])
+            directionKey_ |= 0x04;
+        if (keycode == keyDefA_[KEY_DOWN])
+            directionKey_ |= 0x08;
+        if (keycode == keyDefA_[KEY_FIRE])
+            fireKeyA_ = 0;
+        
+        if (keycode == keyDefB_[KEY_UP])
+            directionKey_ |= 0x20;
+        if (keycode == keyDefB_[KEY_LEFT])
+            directionKey_ |= 0x10;
+        if (keycode == keyDefB_[KEY_RIGHT])
+            directionKey_ |= 0x40;
+        if (keycode == keyDefB_[KEY_DOWN])
+            directionKey_ |= 0x80;
+        if (keycode == keyDefB_[KEY_FIRE])
+            fireKeyB_ = 0;
 
-		if (keycode == '1')
-			directionKey_ |= 0x01;
-		if (keycode == '2')
-			directionKey_ |= 0x02;
-		if (keycode == '3')
-			directionKey_ |= 0x04;
-		if (keycode == '4')
-			directionKey_ |= 0x08;
-	}
+        if (keycode == '1')
+            directionKey_ |= 0x01;
+        if (keycode == '2')
+            directionKey_ |= 0x02;
+        if (keycode == '3')
+            directionKey_ |= 0x04;
+        if (keycode == '4')
+            directionKey_ |= 0x08;
+    }
 }
 
 void Fred::keyFound(int key)
@@ -495,39 +495,39 @@ void Fred::keyUp(int keycode)
     else
         ef1State_ = 1;
 
-	if (fredConfiguration.coinArcadeControl_)
-	{
-		if (keycode == keyDefA_[KEY_UP])
-			directionKey_ &= 0xFD;
-		if (keycode == keyDefA_[KEY_LEFT])
-			directionKey_ &= 0xFE;
-		if (keycode == keyDefA_[KEY_RIGHT])
-			directionKey_ &= 0xFB;
-		if (keycode == keyDefA_[KEY_DOWN])
-			directionKey_ &= 0xF7;
-		if (keycode == keyDefA_[KEY_FIRE])
-			fireKeyA_ = 1;
-	    
-		if (keycode == keyDefB_[KEY_UP])
-			directionKey_ &= 0xDF;
-		if (keycode == keyDefB_[KEY_LEFT])
-			directionKey_ &= 0xEF;
-		if (keycode == keyDefB_[KEY_RIGHT])
-			directionKey_ &= 0xBF;
-		if (keycode == keyDefB_[KEY_DOWN])
-			directionKey_ &= 0x7F;
-		if (keycode == keyDefB_[KEY_FIRE])
-			fireKeyB_ = 1;
+    if (fredConfiguration.coinArcadeControl_)
+    {
+        if (keycode == keyDefA_[KEY_UP])
+            directionKey_ &= 0xFD;
+        if (keycode == keyDefA_[KEY_LEFT])
+            directionKey_ &= 0xFE;
+        if (keycode == keyDefA_[KEY_RIGHT])
+            directionKey_ &= 0xFB;
+        if (keycode == keyDefA_[KEY_DOWN])
+            directionKey_ &= 0xF7;
+        if (keycode == keyDefA_[KEY_FIRE])
+            fireKeyA_ = 1;
+        
+        if (keycode == keyDefB_[KEY_UP])
+            directionKey_ &= 0xDF;
+        if (keycode == keyDefB_[KEY_LEFT])
+            directionKey_ &= 0xEF;
+        if (keycode == keyDefB_[KEY_RIGHT])
+            directionKey_ &= 0xBF;
+        if (keycode == keyDefB_[KEY_DOWN])
+            directionKey_ &= 0x7F;
+        if (keycode == keyDefB_[KEY_FIRE])
+            fireKeyB_ = 1;
 
-		if (keycode == '1')
-			directionKey_ &= 0xFE;
-		if (keycode == '2')
-			directionKey_ &= 0xFD;
-		if (keycode == '3')
-			directionKey_ &= 0xFB;
-		if (keycode == '4')
-			directionKey_ &= 0xF7;
-	}
+        if (keycode == '1')
+            directionKey_ &= 0xFE;
+        if (keycode == '2')
+            directionKey_ &= 0xFD;
+        if (keycode == '3')
+            directionKey_ &= 0xFB;
+        if (keycode == '4')
+            directionKey_ &= 0xF7;
+    }
 }
 
 void Fred::cycleKeyboard()
@@ -562,50 +562,50 @@ void Fred::cycleKeyboard()
 
 Byte Fred::ef(int flag)
 {
-	switch(efType_[flag])
-	{
-		case 0:
-			return 1;
-		break;
+    switch(efType_[flag])
+    {
+        case 0:
+            return 1;
+        break;
 
         case FREDEF1:
             return ef1();
         break;
             
-		case FREDEF2:
-			return ef2();
-		break;
+        case FREDEF2:
+            return ef2();
+        break;
 
-		case COINARCADEEF3:
-			return ef3();
-		break;
+        case COINARCADEEF3:
+            return ef3();
+        break;
 
-		case FREDEF4:
-			return ef4();
-		break;
+        case FREDEF4:
+            return ef4();
+        break;
 
-		default:
-			return 1;
-	}
+        default:
+            return 1;
+    }
 }
 
 Byte Fred::ef1()
 {
-	switch (inpMode_)
-	{
-		case INP_MODE_KEYPAD:
-			return ef1State_;
-		break;
+    switch (inpMode_)
+    {
+        case INP_MODE_KEYPAD:
+            return ef1State_;
+        break;
 
-		case INP_MODE_TAPE_PROGRAM:
-			return ef1StateTape_;
-		break;
+        case INP_MODE_TAPE_PROGRAM:
+            return ef1StateTape_;
+        break;
 
         default:
-			if (fredConfiguration.coinArcadeControl_)
-			    return fireKeyA_;
-			else
-	            return 1;
+            if (fredConfiguration.coinArcadeControl_)
+                return fireKeyA_;
+            else
+                return 1;
     }
 }
 
@@ -619,64 +619,64 @@ Byte Fred::ef2()
 
 Byte Fred::ef3()
 {
-	if (fredConfiguration.coinArcadeControl_)
-	    return fireKeyB_;
-	else
-	    return 1;
+    if (fredConfiguration.coinArcadeControl_)
+        return fireKeyB_;
+    else
+        return 1;
 }
 
 Byte Fred::ef4()
 {
-	if (ef4State_ == 0 || coinKey_ == 0)
-		return 0;
-	else
-	    return 1;
+    if (ef4State_ == 0 || coinKey_ == 0)
+        return 0;
+    else
+        return 1;
 }
 
 Byte Fred::in(Byte port, Word WXUNUSED(address))
 {
-	Byte ret = 255;
+    Byte ret = 255;
 
-	switch(inType_[port])
-	{
+    switch(inType_[port])
+    {
         case FREDINP0:
             ret = 255;
-			switch (inpMode_)
-			{
-				case INP_MODE_NONE:
-					ret = 255;
-				break;
+            switch (inpMode_)
+            {
+                case INP_MODE_NONE:
+                    ret = 255;
+                break;
 
-				case INP_MODE_KEYPAD:
-					ret = keyValue_;
+                case INP_MODE_KEYPAD:
+                    ret = keyValue_;
                     ef1State_ = 1;
-				break;
+                break;
 
-				case INP_MODE_TAPE_PROGRAM:
-					ret = lastTapeInpt_;
-					ef1StateTape_ = 1;
-				break;
-			}
+                case INP_MODE_TAPE_PROGRAM:
+                    ret = lastTapeInpt_;
+                    ef1StateTape_ = 1;
+                break;
+            }
         break;
 
-	    case COINARCADEINPKEY6:
+        case COINARCADEINPKEY6:
             coinKey_ = 1;
             ret = directionKey_;
         break;        
-	}
-	inValues_[port] = ret;
-	return ret;
+    }
+    inValues_[port] = ret;
+    return ret;
 }
 
 void Fred::out(Byte port, Word WXUNUSED(address), Byte value)
 {
-	outValues_[port] = value;
+    outValues_[port] = value;
 
-	switch(outType_[port])
-	{
-		case 0:
-			return;
-		break;
+    switch(outType_[port])
+    {
+        case 0:
+            return;
+        break;
 
         case FREDIOGROUP:
             ioGroup_ = value;
@@ -701,15 +701,15 @@ void Fred::out(Byte port, Word WXUNUSED(address), Byte value)
                 break;
                     
                 case IO_GRP_FRED_TAPE:
-					if ((value & 0x10) == 0x10 && !tapeEnd_)
+                    if ((value & 0x10) == 0x10 && !tapeEnd_)
                     {
-	                    inpMode_ = INP_MODE_TAPE_PROGRAM;
+                        inpMode_ = INP_MODE_TAPE_PROGRAM;
                         startLoad(false);
                     }
 
-					if ((value & 0x20) == 0x20 && !tapeEnd_)
+                    if ((value & 0x20) == 0x20 && !tapeEnd_)
                     {
-	                    inpMode_ = INP_MODE_TAPE_DIRECT;
+                        inpMode_ = INP_MODE_TAPE_DIRECT;
                         startLoad(false);
                     }
 
@@ -727,7 +727,7 @@ void Fred::out(Byte port, Word WXUNUSED(address), Byte value)
                         tapeRecording_ = true;
                     }
                     
-					if (value == 0)
+                    if (value == 0)
                         inpMode_ = INP_MODE_NONE;
 
                 break;
@@ -760,32 +760,32 @@ void Fred::out(Byte port, Word WXUNUSED(address), Byte value)
                 }
             }
             
-			if ((value&4) != (tapeRunSwitch_&4))
-			{
-				psaveAmplitudeChange((value>>2)&1);
-				zeroWaveCounter_ = 7;
-			}
+            if ((value&4) != (tapeRunSwitch_&4))
+            {
+                psaveAmplitudeChange((value>>2)&1);
+                zeroWaveCounter_ = 7;
+            }
 
             tapeRunSwitch_ = value;
         break;
-	}
+    }
 }
 
 void Fred::cycle(int type)
 {
-	switch(cycleType_[type])
-	{
-		case 0:
-			return;
-		break;
+    switch(cycleType_[type])
+    {
+        case 0:
+            return;
+        break;
 
         case KEYBRDCYCLE:
             cycleKeyboard();
         break;
             
-		case PIXIECYCLE:
-			pixiePointer->cyclePixie();
-		break;
+        case PIXIECYCLE:
+            pixiePointer->cyclePixie();
+        break;
 
         case LEDCYCLE:
             cycleLed();
@@ -845,15 +845,15 @@ void Fred::onRunButton()
 
 void Fred::autoBoot()
 {
-	if (computerType_ == FRED1)
+    if (computerType_ == FRED1)
         dmaOut();
-	else
-	    scratchpadRegister_[0]=p_Main->getBootAddress("FRED1_5", computerType_);
+    else
+        scratchpadRegister_[0]=p_Main->getBootAddress("FRED1_5", computerType_);
 
     fredScreenPointer->setReadyLed(0);
     fredScreenPointer->setStopLed(0);
 
-	setClear(1);
+    setClear(1);
     setWait(1);
 }
 
@@ -974,7 +974,7 @@ void Fred::startComputer()
 
     resetPressed_ = false;
 
-	p_Main->setSwName("");
+    p_Main->setSwName("");
     
     ramMask_ = ((1<<p_Main->getRamType(computerType_))<<10)-1;
     
@@ -1011,15 +1011,15 @@ void Fred::startComputer()
     }
 
     pixiePointer->configurePixie();
-	pixiePointer->initPixie();
-	pixiePointer->setZoom(zoom);
-	pixiePointer->Show(true);
+    pixiePointer->initPixie();
+    pixiePointer->setZoom(zoom);
+    pixiePointer->Show(true);
 
-	p_Main->updateTitle();
+    p_Main->updateTitle();
 
-	cpuCycles_ = 0;
-	instructionCounter_= 0;
-	p_Main->startTime();
+    cpuCycles_ = 0;
+    instructionCounter_= 0;
+    p_Main->startTime();
 
     int ms = (int) p_Main->getLedTimeMs(computerType_);
     fredScreenPointer->setLedMs(ms);
@@ -1029,7 +1029,7 @@ void Fred::startComputer()
         ledCycleSize_ = (((fredClockSpeed_ * 1000000) / 8) / 1000) * ms;
     ledCycleValue_ = ledCycleSize_;
     
-	threadPointer->Run();
+    threadPointer->Run();
 
     if (fredConfiguration.tapeStart)
     {
@@ -1043,63 +1043,63 @@ void Fred::startComputer()
 
 void Fred::writeMemDataType(Word address, Byte type)
 {
-	switch (memoryType_[address/256]&0xff)
-	{
-		case RAM:
+    switch (memoryType_[address/256]&0xff)
+    {
+        case RAM:
         case ROM:
-			if (mainMemoryDataType_[address] != type)
-			{
-				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-				mainMemoryDataType_[address] = type;
-			}
+            if (mainMemoryDataType_[address] != type)
+            {
+                p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
+                mainMemoryDataType_[address] = type;
+            }
             increaseExecutedMainMemory(address, type);
-		break;
+        break;
             
-		case MAPPEDRAM:
-			address = address & ramMask_;
-			if (mainMemoryDataType_[address] != type)
-			{
-				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-				mainMemoryDataType_[address] = type;
-			}
+        case MAPPEDRAM:
+            address = address & ramMask_;
+            if (mainMemoryDataType_[address] != type)
+            {
+                p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
+                mainMemoryDataType_[address] = type;
+            }
             increaseExecutedMainMemory(address, type);
-		break;
-	}
+        break;
+    }
 }
 
 Byte Fred::readMemDataType(Word address, uint64_t* executed)
 {
     switch (memoryType_[address/256]&0xff)
-	{
-		case RAM:
-		case ROM:
+    {
+        case RAM:
+        case ROM:
             if (profilerCounter_ != PROFILER_OFF)
                 *executed = mainMemoryExecuted_[address];
-			return mainMemoryDataType_[address];
-		break;
+            return mainMemoryDataType_[address];
+        break;
 
         case MAPPEDRAM:
             address = address & ramMask_;
             if (profilerCounter_ != PROFILER_OFF)
                 *executed = mainMemoryExecuted_[address];
-			return mainMemoryDataType_[address];
-		break;
-	}
-	return MEM_TYPE_UNDEFINED;
+            return mainMemoryDataType_[address];
+        break;
+    }
+    return MEM_TYPE_UNDEFINED;
 }
 
 Byte Fred::readMem(Word address)
 {
-	switch (memoryType_[address/256]&0xff)
-	{
-		case UNDEFINED:
-			return 255;
-		break;
+    switch (memoryType_[address/256]&0xff)
+    {
+        case UNDEFINED:
+            return 255;
+        break;
 
         case MAPPEDRAM:
-			address = address & ramMask_;
-		break;
- 	}
+            address = address & ramMask_;
+        break;
+     }
     return mainMemory_[address];
 }
 
@@ -1110,32 +1110,32 @@ Byte Fred::readMemDebug(Word address)
 
 void Fred::writeMem(Word address, Byte value, bool writeRom)
 {
-	switch (memoryType_[address/256]&0xff)
-	{
-		case RAM:
-			if (mainMemory_[address]==value)
-				return;
-			mainMemory_[address]=value;
-			if (address>= memoryStart_ && address<(memoryStart_+256))
-				p_Main->updateDebugMemory(address);
-			p_Main->updateAssTabCheck(address);
-		break;
+    switch (memoryType_[address/256]&0xff)
+    {
+        case RAM:
+            if (mainMemory_[address]==value)
+                return;
+            mainMemory_[address]=value;
+            if (address>= memoryStart_ && address<(memoryStart_+256))
+                p_Main->updateDebugMemory(address);
+            p_Main->updateAssTabCheck(address);
+        break;
             
-		case MAPPEDRAM:
-			address = address & ramMask_;
-			if (mainMemory_[address]==value)
-				return;
-			mainMemory_[address]=value;
-			if (address>= memoryStart_ && address<(memoryStart_+256))
-				p_Main->updateDebugMemory(address);
-			p_Main->updateAssTabCheck(address);
-		break;
+        case MAPPEDRAM:
+            address = address & ramMask_;
+            if (mainMemory_[address]==value)
+                return;
+            mainMemory_[address]=value;
+            if (address>= memoryStart_ && address<(memoryStart_+256))
+                p_Main->updateDebugMemory(address);
+            p_Main->updateAssTabCheck(address);
+        break;
 
-		default:
-			if (writeRom)
-				mainMemory_[address]=value;
-		break;
-	}
+        default:
+            if (writeRom)
+                mainMemory_[address]=value;
+        break;
+    }
 }
 
 void Fred::writeMemDebug(Word address, Byte value, bool writeRom)
@@ -1145,20 +1145,20 @@ void Fred::writeMemDebug(Word address, Byte value, bool writeRom)
 
 void Fred::cpuInstruction()
 {
-	if (cpuMode_ == RUN)
-	{
-		if (tapeRecording_ && zeroWaveCounter_ >= 0)
-		{
-			zeroWaveCounter_--;
-			if (zeroWaveCounter_ == -1)
-				psaveAmplitudeZero();
-		}
+    if (cpuMode_ == RUN)
+    {
+        if (tapeRecording_ && zeroWaveCounter_ >= 0)
+        {
+            zeroWaveCounter_--;
+            if (zeroWaveCounter_ == -1)
+                psaveAmplitudeZero();
+        }
         cpuCycleStep();
-	}
-	else
-	{
+    }
+    else
+    {
         cpuCycles_ = 0;
-	 	instructionCounter_= 0;
+         instructionCounter_= 0;
        
         machineCycle();
         machineCycle();
@@ -1169,7 +1169,7 @@ void Fred::cpuInstruction()
             resetPressed();
 
         p_Main->startTime();
-	}
+    }
 }
 
 void Fred::onResetButton(wxCommandEvent&WXUNUSED(event))
@@ -1179,7 +1179,7 @@ void Fred::onResetButton(wxCommandEvent&WXUNUSED(event))
 
 void Fred::onReset()
 {
-	resetPressed_ = true;
+    resetPressed_ = true;
 }
 
 void Fred::sleepComputer(long ms)
@@ -1507,7 +1507,7 @@ void Fred::finishStopTape()
     tapeRunSwitch_ = tapeRunSwitch_ & 2;
     tapeActivated_ = false;
     tapeRecording_ = false;
-	tapeEnd_ = true;
+    tapeEnd_ = true;
 }
 
 void Fred::moveWindows()
@@ -1600,13 +1600,13 @@ void Fred::setTapeFormat(int tapeFormat)
 
 void Fred::cardButton(int cardValue)
 {
-	if (inpMode_ == INP_MODE_KEY_DIRECT)
-		dmaIn(cardValue);
-	else 
-	{
-		keyValue_ = cardValue;
-		ef1State_ = 0;
-	}
+    if (inpMode_ == INP_MODE_KEY_DIRECT)
+        dmaIn(cardValue);
+    else 
+    {
+        keyValue_ = cardValue;
+        ef1State_ = 0;
+    }
 }
 
 void Fred::refreshPanel()

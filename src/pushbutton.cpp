@@ -47,16 +47,16 @@ PushBitmapButton::~PushBitmapButton()
 
 void PushBitmapButton::onLeftMouseDown(wxMouseEvent& pushEvent)
 {
-	wxCommandEvent event(wxEVT_ButtonDownEvent, GetId());
-	wxPostEvent(GetParent(), event);
-	pushEvent.Skip(true);
+    wxCommandEvent event(wxEVT_ButtonDownEvent, GetId());
+    wxPostEvent(GetParent(), event);
+    pushEvent.Skip(true);
 }
 
 void PushBitmapButton::onLeftMouseUp(wxMouseEvent& pushEvent)
 {
-	wxCommandEvent event(wxEVT_ButtonUpEvent, GetId());
-	wxPostEvent(GetParent(), event);
-	pushEvent.Skip(true);
+    wxCommandEvent event(wxEVT_ButtonUpEvent, GetId());
+    wxPostEvent(GetParent(), event);
+    pushEvent.Skip(true);
 }
 
 BEGIN_EVENT_TABLE(PushButton, wxButton) 
@@ -75,15 +75,15 @@ PushButton::~PushButton()
 
 void PushButton::onLeftMouseDown(wxMouseEvent& pushEvent)
 { 
-	wxCommandEvent event(wxEVT_ButtonDownEvent, GetId()); 
-	wxPostEvent(GetParent(), event); 
-	pushEvent.Skip(true); 
+    wxCommandEvent event(wxEVT_ButtonDownEvent, GetId()); 
+    wxPostEvent(GetParent(), event); 
+    pushEvent.Skip(true); 
 } 
 
 void PushButton::onLeftMouseUp(wxMouseEvent& pushEvent)
 { 
-	wxCommandEvent event(wxEVT_ButtonUpEvent, GetId()); 
-	wxPostEvent(GetParent(), event); 
-	pushEvent.Skip(true); 
+    wxCommandEvent event(wxEVT_ButtonUpEvent, GetId()); 
+    wxPostEvent(GetParent(), event); 
+    pushEvent.Skip(true); 
 } 
  

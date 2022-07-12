@@ -27,6 +27,7 @@ CPP_SRCS += \
 ../src/datadir.cpp \
 ../src/debug.cpp \
 ../src/diagstatusbar.cpp \
+../src/diy.cpp \
 ../src/elf.cpp \
 ../src/elf2.cpp \
 ../src/elf2k.cpp \
@@ -45,6 +46,7 @@ CPP_SRCS += \
 ../src/guicomx.cpp \
 ../src/guicosmicos.cpp \
 ../src/guidiag.cpp \
+../src/guidiy.cpp \
 ../src/guielf.cpp \
 ../src/guielf2k.cpp \
 ../src/guieprom.cpp \
@@ -56,7 +58,6 @@ CPP_SRCS += \
 ../src/guimicrotutor.cpp \
 ../src/guims2000.cpp \
 ../src/guinano.cpp \
-../src/guinetronics.cpp \
 ../src/guipecom.cpp \
 ../src/guipico.cpp \
 ../src/guipopup.cpp \
@@ -93,7 +94,6 @@ CPP_SRCS += \
 ../src/microtutor2.cpp \
 ../src/ms2000.cpp \
 ../src/nano.cpp \
-../src/netronics.cpp \
 ../src/network.cpp \
 ../src/pecom.cpp \
 ../src/pico.cpp \
@@ -168,6 +168,7 @@ OBJS += \
 ./src/datadir.o \
 ./src/debug.o \
 ./src/diagstatusbar.o \
+./src/diy.o \
 ./src/elf.o \
 ./src/elf2.o \
 ./src/elf2k.o \
@@ -186,6 +187,7 @@ OBJS += \
 ./src/guicomx.o \
 ./src/guicosmicos.o \
 ./src/guidiag.o \
+./src/guidiy.o \
 ./src/guielf.o \
 ./src/guielf2k.o \
 ./src/guieprom.o \
@@ -197,7 +199,6 @@ OBJS += \
 ./src/guimicrotutor.o \
 ./src/guims2000.o \
 ./src/guinano.o \
-./src/guinetronics.o \
 ./src/guipecom.o \
 ./src/guipico.o \
 ./src/guipopup.o \
@@ -234,7 +235,6 @@ OBJS += \
 ./src/microtutor2.o \
 ./src/ms2000.o \
 ./src/nano.o \
-./src/netronics.o \
 ./src/network.o \
 ./src/pecom.o \
 ./src/pico.o \
@@ -301,6 +301,7 @@ CPP_DEPS += \
 ./src/datadir.d \
 ./src/debug.d \
 ./src/diagstatusbar.d \
+./src/diy.d \
 ./src/elf.d \
 ./src/elf2.d \
 ./src/elf2k.d \
@@ -319,6 +320,7 @@ CPP_DEPS += \
 ./src/guicomx.d \
 ./src/guicosmicos.d \
 ./src/guidiag.d \
+./src/guidiy.d \
 ./src/guielf.d \
 ./src/guielf2k.d \
 ./src/guieprom.d \
@@ -330,7 +332,6 @@ CPP_DEPS += \
 ./src/guimicrotutor.d \
 ./src/guims2000.d \
 ./src/guinano.d \
-./src/guinetronics.d \
 ./src/guipecom.d \
 ./src/guipico.d \
 ./src/guipopup.d \
@@ -367,7 +368,6 @@ CPP_DEPS += \
 ./src/microtutor2.d \
 ./src/ms2000.d \
 ./src/nano.d \
-./src/netronics.d \
 ./src/network.d \
 ./src/pecom.d \
 ./src/pico.d \

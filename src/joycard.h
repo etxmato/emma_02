@@ -4,11 +4,11 @@
 class Joycard
 {
 public:
-	Joycard ();
-	~Joycard () {};
+    Joycard ();
+    ~Joycard () {};
 
-	Byte stick1();
-	Byte stick2();
+    Byte stick1();
+    Byte stick2();
 
 private:
 

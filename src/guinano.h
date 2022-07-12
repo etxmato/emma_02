@@ -7,20 +7,20 @@ class GuiNano: public GuiCidelsa
 {
 public:
 
-	GuiNano(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
-	~GuiNano() {};
+    GuiNano(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
+    ~GuiNano() {};
 
-	void readNanoConfig();
+    void readNanoConfig();
     void writeNanoDirConfig();
     void writeNanoConfig();
     void readNanoWindowConfig();
     void writeNanoWindowConfig();
 
-	void onNanoSound(wxCommandEvent&event);
+    void onNanoSound(wxCommandEvent&event);
 
 private:
 
-	DECLARE_EVENT_TABLE()
+    DECLARE_EVENT_TABLE()
 };
 
 #endif // GUINANO_H

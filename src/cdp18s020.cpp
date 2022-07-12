@@ -122,9 +122,9 @@ void Cdp18s020Screen::onPaint(wxPaintEvent&WXUNUSED(event))
     dc.SetBrush(*wxWHITE_BRUSH);
     dc.DrawRectangle(0, 0, 310, 180);
 #if defined(__WXMAC__)
-	wxFont defaultFont(16, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
+    wxFont defaultFont(16, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
 #else
-	wxFont defaultFont(12, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
+    wxFont defaultFont(12, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
 #endif
 
     dc.DrawBitmap(*mainBitmapPointer, 245, 13);
@@ -239,9 +239,9 @@ Cdp18s020::Cdp18s020(const wxString& title, const wxPoint& pos, const wxSize& si
 : wxFrame((wxFrame *)NULL, -1, title, pos, size)
 {
     computerConfiguration = computerConf;
-	cdp18s020Configuration = conf;
+    cdp18s020Configuration = conf;
 
-	cdp18s020ClockSpeed_ = clock;
+    cdp18s020ClockSpeed_ = clock;
     
     this->SetClientSize(size);
 
@@ -266,13 +266,13 @@ Cdp18s020::~Cdp18s020()
     }
 
     if (cdp18s020Configuration.vtType != VTNONE)
-	{
-		p_Main->setVtPos(CDP18S020, vtPointer->GetPosition());
-		vtPointer->Destroy();
-	}
+    {
+        p_Main->setVtPos(CDP18S020, vtPointer->GetPosition());
+        vtPointer->Destroy();
+    }
     if (cdp18s020Configuration.vtExternal)
         delete p_Serial;
-	p_Main->setMainPos(CDP18S020, GetPosition());
+    p_Main->setMainPos(CDP18S020, GetPosition());
     delete cdp18s020ScreenPointer;
 }
 
@@ -285,20 +285,20 @@ void Cdp18s020::configureComputer()
 {
     setCycleType(COMPUTERCYCLE, LEDCYCLE);
 
-	p_Main->message("Configuring CDP18S020");
+    p_Main->message("Configuring CDP18S020");
     p_Main->message("");
 
     if (cdp18s020Configuration.vtType != VTNONE)
-	{
-		double zoom = p_Main->getZoomVt();
+    {
+        double zoom = p_Main->getZoomVt();
         if (cdp18s020Configuration.vtType == VT52)
             vtPointer = new Vt100("CDP18S020 - VT 152", p_Main->getVtPos(CDP18S020), wxSize(640*zoom, 400*zoom), zoom, CDP18S020, cdp18s020ClockSpeed_, cdp18s020Configuration, UART1);
         else
             vtPointer = new Vt100("CDP18S020 - VT 100", p_Main->getVtPos(CDP18S020), wxSize(640*zoom, 400*zoom), zoom, CDP18S020, cdp18s020ClockSpeed_, cdp18s020Configuration, UART1);
-		p_Vt100[UART1] = vtPointer;
+        p_Vt100[UART1] = vtPointer;
         vtPointer->configureStandard(cdp18s020Configuration.baudR, cdp18s020Configuration.baudT, 4);
-		vtPointer->Show(true);
-	}
+        vtPointer->Show(true);
+    }
 
     if (cdp18s020Configuration.vtExternal)
     {
@@ -306,7 +306,7 @@ void Cdp18s020::configureComputer()
         p_Serial->configureStandard(cdp18s020Configuration.baudR, cdp18s020Configuration.baudT, 4);
     }
 
-	resetCpu();
+    resetCpu();
 }
 
 void Cdp18s020::initComputer()
@@ -391,60 +391,60 @@ Byte Cdp18s020::ef(int flag)
         if (ef4State_ == 0)
             return ef4State_;
     }
-	switch(efType_[flag])
-	{
-		case 0:
-			return 1;
-		break;
+    switch(efType_[flag])
+    {
+        case 0:
+            return 1;
+        break;
 
         case VT100EF:
             return vtPointer->ef();
-		break;
+        break;
 
         case VTSERIALEF:
             return p_Serial->ef();
         break;
  
-		default:
-			return 1;
-	}
+        default:
+            return 1;
+    }
 }
 
 Byte Cdp18s020::in(Byte port, Word WXUNUSED(address))
 {
-	Byte ret;
+    Byte ret;
 
-	switch(inType_[port])
-	{
-		case 0:
-			ret = 255;
-		break;
+    switch(inType_[port])
+    {
+        case 0:
+            ret = 255;
+        break;
 
-		default:
-			ret = 255;
-	}
-	inValues_[port] = ret;
-	return ret;
+        default:
+            ret = 255;
+    }
+    inValues_[port] = ret;
+    return ret;
 }
 
 void Cdp18s020::out(Byte port, Word WXUNUSED(address), Byte value)
 {
-	outValues_[port] = value;
+    outValues_[port] = value;
 
-	switch(outType_[port])
-	{
-		case 0:
-			return;
-		break;
+    switch(outType_[port])
+    {
+        case 0:
+            return;
+        break;
 
-		case VT100OUT:
-			vtPointer->out(value);
-		break;
+        case VT100OUT:
+            vtPointer->out(value);
+        break;
 
-		case VTOUTSERIAL:
-			p_Serial->out(value);
-		break;
-	}
+        case VTOUTSERIAL:
+            p_Serial->out(value);
+        break;
+    }
 }
 
 void Cdp18s020::switchQ(int value)
@@ -499,11 +499,11 @@ void Cdp18s020::setCpuMode(int mode)
 
 void Cdp18s020::cycle(int type)
 {
-	switch(cycleType_[type])
-	{
-		case 0:
-			return;
-		break;
+    switch(cycleType_[type])
+    {
+        case 0:
+            return;
+        break;
 
         case VT100CYCLE:
             vtPointer->cycleVt();
@@ -534,11 +534,11 @@ void Cdp18s020::cycleLed()
 
 void Cdp18s020::startComputer()
 {
-	resetPressed_ = false;
-	Word lastAddress;
+    resetPressed_ = false;
+    Word lastAddress;
 
     p_Main->checkAndReInstallMainRom(CDP18S020);
-	readProgram(p_Main->getRomDir(CDP18S020, MAINROM1), p_Main->getRomFile(CDP18S020, MAINROM1), ROM, 0x8000, &lastAddress, NONAME);
+    readProgram(p_Main->getRomDir(CDP18S020, MAINROM1), p_Main->getRomFile(CDP18S020, MAINROM1), ROM, 0x8000, &lastAddress, NONAME);
 
     ramMask_ = ((1<<p_Main->getRamType(computerType_))<<8)-1;
 
@@ -548,18 +548,18 @@ void Cdp18s020::startComputer()
     defineMemoryType(0x8c00, 0x8c1f, REGSTORAGE);
     initRam(0x8c00, 0x8c1f);
     
-	p_Main->assDefault("mycode", 0, ramMask_);
+    p_Main->assDefault("mycode", 0, ramMask_);
 
-	readProgram(p_Main->getRamDir(CDP18S020), p_Main->getRamFile(CDP18S020), NOCHANGE, 0, SHOWNAME);
+    readProgram(p_Main->getRamDir(CDP18S020), p_Main->getRamFile(CDP18S020), NOCHANGE, 0, SHOWNAME);
 
     if (cdp18s020Configuration.autoBoot)
         autoBoot();
     
     p_Main->setSwName("");
-	p_Main->updateTitle();
+    p_Main->updateTitle();
 
-	cpuCycles_ = 0;
-	instructionCounter_= 0;
+    cpuCycles_ = 0;
+    instructionCounter_= 0;
     p_Main->startTime();
     addressLatchCounter_ = 64;
 
@@ -571,24 +571,24 @@ void Cdp18s020::startComputer()
         ledCycleSize_ = (((cdp18s020ClockSpeed_ * 1000000) / 8) / 1000) * ms;
     ledCycleValue_ = ledCycleSize_;
     
-	threadPointer->Run();
+    threadPointer->Run();
 }
 
 void Cdp18s020::writeMemDataType(Word address, Byte type)
 {
-	if (address < 0x8000)
-		address = (address | addressLatch_);
+    if (address < 0x8000)
+        address = (address | addressLatch_);
 
-	switch (memoryType_[address/256]&0xff)
-	{
-		case RAM:
-			if (mainMemoryDataType_[address] != type)
-			{
-				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-				mainMemoryDataType_[address] = type;
-			}
+    switch (memoryType_[address/256]&0xff)
+    {
+        case RAM:
+            if (mainMemoryDataType_[address] != type)
+            {
+                p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
+                mainMemoryDataType_[address] = type;
+            }
             increaseExecutedMainMemory(address, type);
-		break;
+        break;
 
         case REGSTORAGE:
             if (address <= 0x8c1F)
@@ -602,41 +602,41 @@ void Cdp18s020::writeMemDataType(Word address, Byte type)
             }
         break;
             
-		case ROM:
-			if (mainMemoryDataType_[address] != type)
-			{
-				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-				mainMemoryDataType_[address] = type;
-			}
+        case ROM:
+            if (mainMemoryDataType_[address] != type)
+            {
+                p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
+                mainMemoryDataType_[address] = type;
+            }
             increaseExecutedMainMemory(address, type);
-		break;
-	}
+        break;
+    }
 }
 
 Byte Cdp18s020::readMemDataType(Word address, uint64_t* executed)
 {
-	if (address < 0x8000)
-		address = (address | addressLatch_);
+    if (address < 0x8000)
+        address = (address | addressLatch_);
 
     if (profilerCounter_ != PROFILER_OFF)
         *executed = mainMemoryExecuted_[address];
 
-	switch (memoryType_[address/256]&0xff)
-	{
-		case RAM:
-			return mainMemoryDataType_[address];
-		break;
+    switch (memoryType_[address/256]&0xff)
+    {
+        case RAM:
+            return mainMemoryDataType_[address];
+        break;
 
         case REGSTORAGE:
             if (address <= 0x8c1F)
                 return mainMemoryDataType_[address];
         break;
 
-		case ROM:
-			return mainMemoryDataType_[address];
-		break;
-	}
-	return MEM_TYPE_UNDEFINED;
+        case ROM:
+            return mainMemoryDataType_[address];
+        break;
+    }
+    return MEM_TYPE_UNDEFINED;
 }
 
 Byte Cdp18s020::readMem(Word address)
@@ -647,17 +647,17 @@ Byte Cdp18s020::readMem(Word address)
 
 Byte Cdp18s020::readMemDebug(Word address)
 {
-//	if ((address & 0x8000) == 0x8000)
-//		addressLatch_ = 0;
+//    if ((address & 0x8000) == 0x8000)
+//        addressLatch_ = 0;
 
-	if (address < 0x8000)
-		address = (address | addressLatch_);
+    if (address < 0x8000)
+        address = (address | addressLatch_);
 
-	switch (memoryType_[address/256]&0xff)
-	{
-		case RAM:
-			return mainMemory_[address];
-		break;
+    switch (memoryType_[address/256]&0xff)
+    {
+        case RAM:
+            return mainMemory_[address];
+        break;
 
         case REGSTORAGE:
             if (address <= 0x8c1F)
@@ -667,10 +667,10 @@ Byte Cdp18s020::readMemDebug(Word address)
         break;
 
         case UNDEFINED:
-			return 255;
-		break;
-	}
-	return mainMemory_[address];
+            return 255;
+        break;
+    }
+    return mainMemory_[address];
 }
 
 void Cdp18s020::writeMem(Word address, Byte value, bool writeRom)
@@ -681,9 +681,9 @@ void Cdp18s020::writeMem(Word address, Byte value, bool writeRom)
 
 void Cdp18s020::writeMemDebug(Word address, Byte value, bool writeRom)
 {
-	switch (memoryType_[address/256]&0xff)
-	{
-		case RAM:
+    switch (memoryType_[address/256]&0xff)
+    {
+        case RAM:
             if (!mpButtonState_[(address>>10)&0x3])
             {
                 if (mainMemory_[address]==value)
@@ -693,7 +693,7 @@ void Cdp18s020::writeMemDebug(Word address, Byte value, bool writeRom)
                     p_Main->updateDebugMemory(address);
                 p_Main->updateAssTabCheck(address);
             }
-		break;
+        break;
             
         case REGSTORAGE:
             if (address <= 0x8c1F)
@@ -705,11 +705,11 @@ void Cdp18s020::writeMemDebug(Word address, Byte value, bool writeRom)
             }
         break;
 
-		default:
-			if (writeRom)
-				mainMemory_[address]=value;
-		break;
-	}
+        default:
+            if (writeRom)
+                mainMemory_[address]=value;
+        break;
+    }
 }
 
 void Cdp18s020::cpuInstruction()
@@ -746,8 +746,8 @@ void Cdp18s020::resetPressed()
 
 void Cdp18s020::moveWindows()
 {
-	if (cdp18s020Configuration.vtType != VTNONE)
-		vtPointer->Move(p_Main->getVtPos(CDP18S020));
+    if (cdp18s020Configuration.vtType != VTNONE)
+        vtPointer->Move(p_Main->getVtPos(CDP18S020));
 }
 
 void Cdp18s020::updateTitle(wxString Title)
@@ -765,12 +765,12 @@ void Cdp18s020::onResetButton(wxCommandEvent&WXUNUSED(event))
 
 void Cdp18s020::onReset()
 {
-	resetPressed_ = true;
+    resetPressed_ = true;
 }
 
 void Cdp18s020::sleepComputer(long ms)
 {
-	threadPointer->Sleep(ms);
+    threadPointer->Sleep(ms);
 }
 
 void Cdp18s020::setLedMs(long ms)

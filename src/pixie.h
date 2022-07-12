@@ -7,60 +7,60 @@
 class PlotList
 {
 public: 
-	wxCoord x;
-	wxCoord y;
-	int width;
-	int height;
-	wxPen penClr;
-	PlotList *nextPlot;
+    wxCoord x;
+    wxCoord y;
+    int width;
+    int height;
+    wxPen penClr;
+    PlotList *nextPlot;
 };
 
 class Pixie : public Video
 {
 public:
-	Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType);
-	~Pixie();
+    Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType);
+    ~Pixie();
 
-	void reset();
+    void reset();
     void configurePixie(ElfPortConfiguration portConf);
     virtual void configurePixie() {};
-	void configurePixieStudio2();
+    void configurePixieStudio2();
     void configurePixieCoinArcade();
     void configurePixieVisicom();
     void configurePixieVip();
     void configurePixieVelf();
-	void configurePixieVipII(bool runLed);
-	void configurePixieTmc1800();
-	void configurePixieTelmac();
+    void configurePixieVipII(bool runLed);
+    void configurePixieTmc1800();
+    void configurePixieTelmac();
     void configurePixieStudioIV();
     void configurePixieVictory();
-	void configurePixieEti();
-	void initiateColour(bool colour);
-	void configurePixieNano();
-	void configurePixieCosmicos();
-	void initPixie(); 
-	Byte efPixie();
-	virtual Byte inPixie();
-	virtual void outPixie();
+    void configurePixieEti();
+    void initiateColour(bool colour);
+    void configurePixieNano();
+    void configurePixieCosmicos();
+    void initPixie(); 
+    Byte efPixie();
+    virtual Byte inPixie();
+    virtual void outPixie();
     void outPixieBackGround();
     void outPixieStudioIV(int value);
     void switchVideoMode(int videoMode);
     virtual void cyclePixie();
     void cyclePixieStudioIV();
     void cyclePixieCoinArcade();
-	void cyclePixieTelmac();
+    void cyclePixieTelmac();
     void dmaEnable();
     
-	void copyScreen();
-	virtual void drawScreen();
-	void plot(int x, int y, int c, int color);
+    void copyScreen();
+    virtual void drawScreen();
+    void plot(int x, int y, int c, int color);
     void plot(int x, int y, int width, int height, int c, int color);
 
-	void setFullScreen(bool fullScreenSet);
-	void onF3();
-	void pixieBarSize();
-	void reDrawBar();
-	void updateLedStatus(int led, bool status);
+    void setFullScreen(bool fullScreenSet);
+    void onF3();
+    void pixieBarSize();
+    void reDrawBar();
+    void updateLedStatus(int led, bool status);
     void setInterlace(bool status);
     void reBlit(wxDC &dc);
 
@@ -80,17 +80,17 @@ protected:
     Byte vidInt_;
  
 private:
-	PlotList *plotListPointer;
-	wxString runningComputer_;
-	VipIIStatusBar *vipIIStatusBarPointer;
+    PlotList *plotListPointer;
+    wxString runningComputer_;
+    VipIIStatusBar *vipIIStatusBarPointer;
 
-	int computerType_;
-	Byte vidCycle_;
+    int computerType_;
+    Byte vidCycle_;
 
-	int graphicsX_;
+    int graphicsX_;
 
-	int updatePlot_;
-	int highRes_;
+    int updatePlot_;
+    int highRes_;
     
     bool studioIVFactor_;
     int interruptGraphicsMode_;

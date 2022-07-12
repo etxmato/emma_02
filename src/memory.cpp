@@ -38,7 +38,7 @@ Memory::Memory()
         cpuRamExecuted_ = (uint64_t*)malloc(255*8);
     }
     for (int i=0; i<65536; i++)
-	{
+    {
         mainMemory_[i] = 0;
         mainMemoryDataType_[i] = MEM_TYPE_DATA;
         if (profilerCounter_ != PROFILER_OFF)
@@ -54,7 +54,7 @@ Memory::Memory()
         cpuRamLabelType_[i] = LABEL_TYPE_NONE;
     }
     
-	for (int i=0; i<256; i++) memoryType_[i] = 0;
+    for (int i=0; i<256; i++) memoryType_[i] = 0;
 
     switch (p_Main->getCpuStartupVideoRam())
     {
@@ -78,7 +78,7 @@ Memory::Memory()
         break;
     }
     
-	comxExpansionMemoryDefined_ = false;
+    comxExpansionMemoryDefined_ = false;
     multiCartMemoryDefined_ = false;
     testCartMemoryDefined_ = false;
     pagerDefined_ = false;
@@ -88,7 +88,7 @@ Memory::Memory()
 
 Memory::~Memory()
 {
-	free(mainMemory_);
+    free(mainMemory_);
     free(mainMemoryDataType_);
     free(mainMemoryLabelType_);
     free(cpuRam_);
@@ -100,8 +100,8 @@ Memory::~Memory()
         free(cpuRamExecuted_);
     }
     if (comxExpansionMemoryDefined_)
-	{
-		free(expansionRom_);	
+    {
+        free(expansionRom_);    
         free(expansionRomDataType_);
         free(expansionRomLabelType_);
         free(expansionRam_);
@@ -160,7 +160,7 @@ Memory::~Memory()
 
 void Memory::clearDebugMemory()
 {
-	for (int i=0; i<65536; i++)
+    for (int i=0; i<65536; i++)
     {
         mainMemoryDataType_[i] = MEM_TYPE_DATA;
         if (profilerCounter_ != PROFILER_OFF)
@@ -174,16 +174,16 @@ void Memory::clearDebugMemory()
             cpuRamExecuted_[i] = 0;
         cpuRamLabelType_[i] = LABEL_TYPE_NONE;
     }
-	if (comxExpansionMemoryDefined_)
-	{
-		for (int i=0; i<32768; i++)
+    if (comxExpansionMemoryDefined_)
+    {
+        for (int i=0; i<32768; i++)
         {
             expansionRomDataType_[i] = MEM_TYPE_DATA;
             if (profilerCounter_ != PROFILER_OFF)
                 expansionRomExecuted_[i] = 0;
             expansionRomLabelType_[i] = LABEL_TYPE_NONE;
         }
-		for (int i=0; i<32768; i++)
+        for (int i=0; i<32768; i++)
         {
             expansionRamDataType_[i] = MEM_TYPE_DATA;
             if (profilerCounter_ != PROFILER_OFF)
@@ -318,7 +318,7 @@ void Memory::allocPagerMemoryCommon()
 
 void Memory::allocComxExpansionMemory()
 {
-	expansionRom_ = (Byte*)malloc(32768);
+    expansionRom_ = (Byte*)malloc(32768);
     expansionRomDataType_ = (Byte*)malloc(32768);
     expansionRomLabelType_ = (Byte*)malloc(32768);
     expansionRam_ = (Byte*)malloc(32768);
@@ -337,17 +337,17 @@ void Memory::allocComxExpansionMemory()
         expansionEpromExecuted_ = (uint64_t*)malloc(40960*8);
         expansionSuperExecuted_ = (uint64_t*)malloc(131072*8);
     }
-	for (int i=0; i<128; i++) expansionMemoryType_[i] = 0;
-	for (int i=0; i<128; i++) bankMemoryType_[i] = RAM;
-	for (int i=0; i<160; i++) epromBankMemoryType_[i] = ROM;
-	for (int i=0; i<256; i++) superBankMemoryType_[i] = ROM;
-	for (int i=256; i<512; i++) superBankMemoryType_[i] = RAM;
+    for (int i=0; i<128; i++) expansionMemoryType_[i] = 0;
+    for (int i=0; i<128; i++) bankMemoryType_[i] = RAM;
+    for (int i=0; i<160; i++) epromBankMemoryType_[i] = ROM;
+    for (int i=0; i<256; i++) superBankMemoryType_[i] = ROM;
+    for (int i=256; i<512; i++) superBankMemoryType_[i] = RAM;
 
-	comxExpansionMemoryDefined_ = true;
+    comxExpansionMemoryDefined_ = true;
 
-	for (int i=0; i<32768; i++)
-	{
-		expansionRom_[i] = 0xff;
+    for (int i=0; i<32768; i++)
+    {
+        expansionRom_[i] = 0xff;
         expansionRomDataType_[i] = MEM_TYPE_DATA;
         if (profilerCounter_ != PROFILER_OFF)
             expansionRomExecuted_[i] = 0;
@@ -414,22 +414,22 @@ void Memory::allocComxExpansionMemory()
             }
         break;
     }
-	for (int i=0; i<40960; i++)
-	{
-		expansionEprom_[i] = 0xff;
+    for (int i=0; i<40960; i++)
+    {
+        expansionEprom_[i] = 0xff;
         expansionEpromDataType_[i] = MEM_TYPE_DATA;
         if (profilerCounter_ != PROFILER_OFF)
             expansionEpromExecuted_[i] = 0;
         expansionEpromLabelType_[i] = LABEL_TYPE_NONE;
-	}
-	for (int i=0; i<65536; i++)
-	{
-		expansionSuper_[i] = 0xff;
+    }
+    for (int i=0; i<65536; i++)
+    {
+        expansionSuper_[i] = 0xff;
         expansionSuperDataType_[i] = MEM_TYPE_DATA;
         if (profilerCounter_ != PROFILER_OFF)
             expansionSuperExecuted_[i] = 0;
         expansionSuperLabelType_[i] = LABEL_TYPE_NONE;
-	}
+    }
 }
 
 wxFileOffset Memory::allocRomMapperMemory(size_t emsNumber, wxFileOffset length)
@@ -563,7 +563,7 @@ void Memory::allocTestCartMemory()
     
     testCartMemoryDefined_ = true;
     
-    for (int i = 0; i<4096; i++) testCartMemoryType_[i] = ROM;
+    for (int i = 0; i<256; i++) testCartMemoryType_[i] = ROM;
     
     for (size_t i = 0; i<0xFFFF; i++)
     {
@@ -578,7 +578,7 @@ void Memory::allocTestCartMemory()
 void Memory::setEmsPage(size_t emsNumber, Byte value)
 {
     computerConfiguration.emsConfig_[emsNumber].page = value & computerConfiguration.emsConfig_[emsNumber].outputMask;
-	p_Main->updateSlotInfo();
+    p_Main->updateSlotInfo();
 }
 
 void Memory::setPager(int page, Byte value)
@@ -606,7 +606,7 @@ void Memory::initRam(long start, long end)
             for (long i=start; i<=end; i++)
                 mainMemory_[i] = getDynamicByte(i);
         break;
-	}
+    }
 }
 
 void Memory::initCpuRam()
@@ -635,19 +635,19 @@ void Memory::defineMemoryType(long start, long end, int type)
 {
     start = (start / 256) & 0xff;
     end = (end / 256) & 0xff;
-	for (long i=start; i<=end; i++)
-	{
-		memoryType_[i] = type;
-	}
+    for (long i=start; i<=end; i++)
+    {
+        memoryType_[i] = type;
+    }
 } 
 
 void Memory::defineMemoryType(long address, int type) 
 {
-	if (multiCartMemoryDefined_ && (((address&0xfff) < 0x800) || ((address&0xfff) > 0xc00)))
-	{
-		defineMultiCartMemoryType(address, type);
-		return;
-	}
+    if (multiCartMemoryDefined_ && (((address&0xfff) < 0x800) || ((address&0xfff) > 0xc00)))
+    {
+        defineMultiCartMemoryType(address, type);
+        return;
+    }
     for (int emsNumber=0; emsNumber<(int)computerConfiguration.emsConfigNumber_; emsNumber++)
     {
         if (address >= computerConfiguration.emsConfig_[emsNumber].start && address <= computerConfiguration.emsConfig_[emsNumber].end)
@@ -661,35 +661,35 @@ void Memory::defineMemoryType(long address, int type)
         definePagerMemoryType(address, type);
         return;
     }
-	memoryType_[address/256] = type;
+    memoryType_[address/256] = type;
 } 
 
 void Memory::defineExpansionMemoryType(int slot, long start, long end, int type) 
 {
-	start /= 256;
-	end /= 256;
-	for (long i=start; i<=end; i++)
-	{
-		expansionMemoryType_[slot*32+i] = type;
-	}
+    start /= 256;
+    end /= 256;
+    for (long i=start; i<=end; i++)
+    {
+        expansionMemoryType_[slot*32+i] = type;
+    }
 } 
 
 void Memory::defineExpansionMemoryType(int slot, long address, int type) 
 {
-	address /= 256;
-	expansionMemoryType_[slot*32+address] = type;
+    address /= 256;
+    expansionMemoryType_[slot*32+address] = type;
 } 
 
 void Memory::defineBankMemoryType(int bank, long address, int type) 
 {
-	address /= 256;
-	bankMemoryType_[bank*32+address] = type;
+    address /= 256;
+    bankMemoryType_[bank*32+address] = type;
 } 
 
 void Memory::defineEpromBankMemoryType(int bank, long address, int type) 
 {
-	address /= 256;
-	epromBankMemoryType_[bank*32+address] = type;
+    address /= 256;
+    epromBankMemoryType_[bank*32+address] = type;
 } 
 
 void Memory::defineMultiCartMemoryType(long address, int type)

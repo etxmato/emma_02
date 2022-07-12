@@ -14,18 +14,18 @@ private:
     void onInputFunctionKey( wxCommandEvent &event );
     void onDefault( wxCommandEvent &event );
     void onFocusTimer(wxTimerEvent& event);
-	void onKeyDown(wxKeyEvent &event);
-	void connectKeyDownEvent(wxWindow* pclComponent); 
-	void LoadAndCompare(int computerType, wxString computer);
-	void LoadAndCompareStudio(int computerType, wxString computer);
-	void compareButtons(int toBeCheckedButton, int toBeCheckedValue);
-	void updateButtons();
-	void setLabel(wxString printStr, long button, int key);
+    void onKeyDown(wxKeyEvent &event);
+    void connectKeyDownEvent(wxWindow* pclComponent);
+    void LoadAndCompare(int computerType, wxString computer);
+    void LoadAndCompareStudio(int computerType, wxString computer);
+    void compareButtons(int toBeCheckedButton, int toBeCheckedValue);
+    void updateButtons();
+    void setLabel(wxString printStr, long button, int key);
     void onEnableEscape(wxCommandEvent&event);
     void onEnableCtrlv(wxCommandEvent&event);
 
-	int functionKey_[14];
-	long fKey_;
+    int functionKey_[14];
+    long fKey_;
 
     bool useCtrlvKey_;
     bool useExitKey_;

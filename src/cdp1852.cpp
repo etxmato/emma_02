@@ -87,9 +87,9 @@ void Cdp1852Screen::onPaint(wxPaintEvent&WXUNUSED(event))
     dc.SetBrush(*wxWHITE_BRUSH);
     dc.DrawRectangle(0, 0, 329, 219);
 #if defined(__WXMAC__)
-	wxFont defaultFont(16, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
+    wxFont defaultFont(16, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
 #else
-	wxFont defaultFont(12, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
+    wxFont defaultFont(12, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
 #endif
 
     dc.SetTextForeground(*wxBLACK);
@@ -215,7 +215,7 @@ void Cdp1852Screen::refreshLeds()
 }
 
 BEGIN_EVENT_TABLE(Cdp1852Frame, wxFrame)
-	EVT_CLOSE (Cdp1852Frame::onClose)
+    EVT_CLOSE (Cdp1852Frame::onClose)
     EVT_BUTTON(1, Cdp1852Frame::onStbButton)
 END_EVENT_TABLE()
 
@@ -228,7 +228,7 @@ Cdp1852Frame::Cdp1852Frame(const wxString& title, const wxPoint& pos, const wxSi
     this->SetClientSize(size);
     
 #ifndef __WXMAC__
-	SetIcon(wxICON(app_icon));
+    SetIcon(wxICON(app_icon));
 #endif
 }
 
@@ -239,12 +239,12 @@ Cdp1852Frame::~Cdp1852Frame()
 
 void Cdp1852Frame::onClose(wxCloseEvent&WXUNUSED(event))
 {
-	p_Computer->removePio(0);
+    p_Computer->removePio(0);
 }
 
 void Cdp1852Frame::onStbButton(wxCommandEvent&WXUNUSED(event))
 {
-	cdp1852ScreenPointer->onStbButton();
+    cdp1852ScreenPointer->onStbButton();
 };
 
 

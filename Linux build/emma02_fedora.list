@@ -1,0 +1,138 @@
+$prefix=/usr
+$bindir=${prefix}/bin
+$datadir=${prefix}/share
+$docdir=${datadir}/doc/emma_02
+$libdir=/usr/lib
+$mandir=${prefix}/share/man
+$srcdir=.
+%product Emma 02
+%copyright 2007-2022 Marcel van Tongeren, core based on RCS Elf Emulator copyright 2006 by Michael H Riley.
+%vendor Marcel van Tongeren <marcel.v.tongeren@gmail.com>
+%license COPYING
+%readme README
+%description Emma 02 is emulating the COMX-35, COMIX-35, Elf 2000, Cosmicos, Cosmac Elf, Netronics ELF II, Quest Super Elf, Membership Card, VIP2K Membership Card, VELF, Infinite UC1800, Pico/Elf V2, FRED 1, FRED 1.5, Microtutor, Microtutor II, CDP18S020 Evaluation Kit, Cosmac VIP, Cosmac VIPII, Microboard System, MCDS, MS2000, RCA Video Coin Arcade, RCA Studio II, RCA Studio III, RCA Studio IV, Victory MPT-02, Visicom COM-100, Cidelsa, Telmac TMC-600, Telmac 1800, Telmac 2000, Oscam Nano, Pecom 32, Pecom 64 and ETI 660
+%version 1.47
+%requires glibc
+%requires libcurl
+%requires SDL
+%requires gtk2
+%requires wxGTK
+%requires wxBase
+%requires libserialport
+# Executables
+%system all
+f 755 root sys ${bindir}/emma_02 ../Release/emma_02
+# Application files
+f 644 root sys ${datadir}/emma_02/pseudo.def ../pseudo.def
+f 644 root sys ${datadir}/emma_02/amvbas.syntax ../amvbas.syntax
+f 644 root sys ${datadir}/emma_02/am2020bas.syntax ../am2020bas.syntax
+f 644 root sys ${datadir}/emma_02/am4kbas.syntax ../am4kbas.syntax
+f 644 root sys ${datadir}/emma_02/CARDTRAN.syntax ../CARDTRAN.syntax
+f 644 root sys ${datadir}/emma_02/Chip8.syntax ../Chip8.syntax
+f 644 root sys ${datadir}/emma_02/Chip8Elf.syntax ../Chip8Elf.syntax
+f 644 root sys ${datadir}/emma_02/Chip8Studio.syntax ../Chip8Studio.syntax
+f 644 root sys ${datadir}/emma_02/Chip8Vip2K.syntax ../Chip8Vip2K.syntax
+f 644 root sys ${datadir}/emma_02/Chip8X.syntax ../Chip8X.syntax
+f 644 root sys ${datadir}/emma_02/ChipEti.syntax ../ChipEti.syntax
+f 644 root sys ${datadir}/emma_02/FEL-1.syntax ../FEL-1.syntax
+f 644 root sys ${datadir}/emma_02/FPL-2.syntax ../FPL-2.syntax
+f 644 root sys ${datadir}/emma_02/FPL-4.syntax ../FPL-4.syntax
+f 644 root sys ${datadir}/emma_02/GPL-2.syntax ../GPL-2.syntax
+f 644 root sys ${datadir}/emma_02/GPL-3.syntax ../GPL-3.syntax
+f 644 root sys ${datadir}/emma_02/GPL-4.syntax ../GPL-4.syntax
+f 644 root sys ${datadir}/emma_02/GPL-A_RAM.syntax ../GPL-A_RAM.syntax
+f 644 root sys ${datadir}/emma_02/GPL-A_ROM.syntax ../GPL-A_ROM.syntax
+f 644 root sys ${datadir}/emma_02/ST2.syntax ../ST2.syntax
+f 644 root sys ${datadir}/emma_02/ST4.syntax ../ST4.syntax
+f 644 root sys ${datadir}/emma_02/STK-1.syntax ../STK-1.syntax
+f 644 root sys ${datadir}/emma_02/STK-2.syntax ../STK-2.syntax
+f 644 root sys ${datadir}/emma_02/SuperChip.syntax ../SuperChip.syntax
+f 644 root sys ${datadir}/emma_02/Test_Word.syntax ../Test_Word.syntax
+f 644 root sys ${datadir}/emma_02/about_11.xrc ../about_11.xrc
+f 644 root sys ${datadir}/emma_02/about_12.xrc ../about_12.xrc
+f 644 root sys ${datadir}/emma_02/cassette_11.xrc ../cassette_11.xrc
+f 644 root sys ${datadir}/emma_02/cassette_12.xrc ../cassette_12.xrc
+f 644 root sys ${datadir}/emma_02/colour_11.xrc ../colour_11.xrc
+f 644 root sys ${datadir}/emma_02/colour_12.xrc ../colour_12.xrc
+f 644 root sys ${datadir}/emma_02/configuration_11.xrc ../configuration_11.xrc
+f 644 root sys ${datadir}/emma_02/configuration_12.xrc ../configuration_12.xrc
+f 644 root sys ${datadir}/emma_02/datadir_11.xrc ../datadir_11.xrc
+f 644 root sys ${datadir}/emma_02/datadir_12.xrc ../datadir_12.xrc
+f 644 root sys ${datadir}/emma_02/diag_11.xrc ../diag_11.xrc
+f 644 root sys ${datadir}/emma_02/diag_12.xrc ../diag_12.xrc
+f 644 root sys ${datadir}/emma_02/eprom_11.xrc ../eprom_11.xrc
+f 644 root sys ${datadir}/emma_02/eprom_12.xrc ../eprom_12.xrc
+f 644 root sys ${datadir}/emma_02/functionkey_11.xrc ../functionkey_11.xrc
+f 644 root sys ${datadir}/emma_02/functionkey_12.xrc ../functionkey_12.xrc
+f 644 root sys ${datadir}/emma_02/keymap_tmc_11.xrc ../keymap_tmc_11.xrc
+f 644 root sys ${datadir}/emma_02/keymap_tmc_12.xrc ../keymap_tmc_12.xrc
+f 644 root sys ${datadir}/emma_02/keymap_11.xrc ../keymap_11.xrc
+f 644 root sys ${datadir}/emma_02/keymap_12.xrc ../keymap_12.xrc
+f 644 root sys ${datadir}/emma_02/main_11.xrc ../main_11.xrc
+f 644 root sys ${datadir}/emma_02/main_12.xrc ../main_12.xrc
+f 644 root sys ${datadir}/emma_02/menuComx_11.xrc ../menuComx_11.xrc
+f 644 root sys ${datadir}/emma_02/menuComx_12.xrc ../menuComx_12.xrc
+f 644 root sys ${datadir}/emma_02/menuCosmicos_11.xrc ../menuCosmicos_11.xrc
+f 644 root sys ${datadir}/emma_02/menuCosmicos_12.xrc ../menuCosmicos_12.xrc
+f 644 root sys ${datadir}/emma_02/menuElf_11.xrc ../menuElf_11.xrc
+f 644 root sys ${datadir}/emma_02/menuElf_12.xrc ../menuElf_12.xrc
+f 644 root sys ${datadir}/emma_02/menuElf2K_11.xrc ../menuElf2K_11.xrc
+f 644 root sys ${datadir}/emma_02/menuElf2K_12.xrc ../menuElf2K_12.xrc
+f 644 root sys ${datadir}/emma_02/menuFred_11.xrc ../menuFred_11.xrc
+f 644 root sys ${datadir}/emma_02/menuFred_12.xrc ../menuFred_12.xrc
+f 644 root sys ${datadir}/emma_02/menuMS2000_11.xrc ../menuMS2000_11.xrc
+f 644 root sys ${datadir}/emma_02/menuMS2000_12.xrc ../menuMS2000_12.xrc
+f 644 root sys ${datadir}/emma_02/menuMCDS_11.xrc ../menuMCDS_11.xrc
+f 644 root sys ${datadir}/emma_02/menuMCDS_12.xrc ../menuMCDS_12.xrc
+f 644 root sys ${datadir}/emma_02/menuMembership_11.xrc ../menuMembership_11.xrc
+f 644 root sys ${datadir}/emma_02/menuMembership_12.xrc ../menuMembership_12.xrc
+f 644 root sys ${datadir}/emma_02/menuMicroboard_11.xrc ../menuMicroboard_11.xrc
+f 644 root sys ${datadir}/emma_02/menuMicroboard_12.xrc ../menuMicroboard_12.xrc
+f 644 root sys ${datadir}/emma_02/menuPecom_11.xrc ../menuPecom_11.xrc
+f 644 root sys ${datadir}/emma_02/menuPecom_12.xrc ../menuPecom_12.xrc
+f 644 root sys ${datadir}/emma_02/menuTMC600_11.xrc ../menuTMC600_11.xrc
+f 644 root sys ${datadir}/emma_02/menuTMC600_12.xrc ../menuTMC600_12.xrc
+f 644 root sys ${datadir}/emma_02/menuVelf_11.xrc ../menuVelf_11.xrc
+f 644 root sys ${datadir}/emma_02/menuVelf_12.xrc ../menuVelf_12.xrc
+f 644 root sys ${datadir}/emma_02/menuVip_11.xrc ../menuVip_11.xrc
+f 644 root sys ${datadir}/emma_02/menuVip_12.xrc ../menuVip_12.xrc
+f 644 root sys ${datadir}/emma_02/menu_Cas_Mem_11.xrc ../menu_Cas_Mem_11.xrc
+f 644 root sys ${datadir}/emma_02/menu_Cas_Mem_12.xrc ../menu_Cas_Mem_12.xrc
+f 644 root sys ${datadir}/emma_02/microsetup_11.xrc ../microsetup_11.xrc
+f 644 root sys ${datadir}/emma_02/microsetup_12.xrc ../microsetup_12.xrc
+f 644 root sys ${datadir}/emma_02/ports_11.xrc ../ports_11.xrc
+f 644 root sys ${datadir}/emma_02/ports_12.xrc ../ports_12.xrc
+f 644 root sys ${datadir}/emma_02/sb_11.xrc ../sb_11.xrc
+f 644 root sys ${datadir}/emma_02/sb_12.xrc ../sb_12.xrc
+f 644 root sys ${datadir}/emma_02/splash_11.xrc ../splash_11.xrc
+f 644 root sys ${datadir}/emma_02/splash_12.xrc ../splash_12.xrc
+f 644 root sys ${datadir}/emma_02/vt_11.xrc ../vt_11.xrc
+f 644 root sys ${datadir}/emma_02/vt_12.xrc ../vt_12.xrc
+f 644 root sys ${datadir}/emma_02/fedora_11.ini ../fedora_11.ini
+f 644 root sys ${datadir}/emma_02/fedora_12.ini ../fedora_12.ini
+f 644 root sys ${datadir}/emma_02/suse_11.ini ../suse_11.ini
+f 644 root sys ${datadir}/emma_02/suse_12.ini ../suse_12.ini
+f 644 root sys ${datadir}/emma_02/linuxmint_11.ini ../linuxmint_11.ini
+f 644 root sys ${datadir}/emma_02/linuxmint_12.ini ../linuxmint_12.ini
+f 644 root sys ${datadir}/emma_02/ubuntu.2_11.ini ../ubuntu.2_11.ini
+f 644 root sys ${datadir}/emma_02/ubuntu.2_12.ini ../ubuntu.2_12.ini
+f 644 root sys ${datadir}/emma_02/ubuntu.3_11.ini ../ubuntu.3_11.ini
+f 644 root sys ${datadir}/emma_02/ubuntu.3_12.ini ../ubuntu.3_12.ini
+f 644 root sys ${datadir}/emma_02/ubuntu.4_11.ini ../ubuntu.4_11.ini
+f 644 root sys ${datadir}/emma_02/ubuntu.4_12.ini ../ubuntu.4_12.ini
+f 644 root sys ${datadir}/emma_02/linuxdefault_11.ini ../linuxdefault_11.ini
+f 644 root sys ${datadir}/emma_02/linuxdefault_12.ini ../linuxdefault_12.ini
+f 644 root sys ${datadir}/emma_02/Quest_CC_Lic.jpg ../Quest_CC_Lic.jpg
+f 644 root sys ${datadir}/emma_02/Quest_license.txt ../Quest_license.txt
+f 644 root sys ${datadir}/emma_02/copyright.rtf ../copyright.rtf
+f 644 root sys ${datadir}/emma_02/emma_02.htb ../Helpfiles/emma_02.htb
+f 644 root sys ${datadir}/emma_02/configurations.tar configurations.tar
+f 644 root sys ${datadir}/emma_02/data.tar data.tar
+f 644 root sys ${datadir}/emma_02/images ../images/*.*
+f 644 root sys ${datadir}/emma_02/images_linux ../images_linux/*.*
+f 755 root sys ${datadir}/emma_02/extract_files extract_files
+f 755 root sys ${datadir}/emma_02/mv_files mv_files
+f 644 root sys ${datadir}/applications/emma_02.desktop emma_02.desktop
+f 644 root sys ${datadir}/pixmaps/emma02.xpm emma02.xpm
+%preinstall <${datadir}/emma_02/mv_files
+%postinstall <${datadir}/emma_02/extract_files

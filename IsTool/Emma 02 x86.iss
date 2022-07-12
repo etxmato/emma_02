@@ -3,13 +3,13 @@
 
 [Setup]
 AppName=Emma 02
-AppVerName=Emma 02 - V1.46.1
+AppVerName=Emma 02 - V1.46.2
 AppVersion=1.46.1
 AppPublisher=Marcel van Tongeren
 DefaultDirName={pf}\Emma 02
 DefaultGroupName=Emma 02
 OutputDir=x86
-OutputBaseFilename=Emma_02_x86_setup_v1.46.1
+OutputBaseFilename=Emma_02_x86_setup_v1.46.2
 Compression=lzma
 SolidCompression=true
 SetupIconFile=..\images\app.ico
@@ -80,8 +80,8 @@ Source: ..\menuMS2000_11.xrc; DestDir: {app}; Components: MAIN
 Source: ..\menuMS2000_12.xrc; DestDir: {app}; Components: MAIN
 Source: ..\menuPecom_11.xrc; DestDir: {app}; Components: MAIN
 Source: ..\menuPecom_12.xrc; DestDir: {app}; Components: MAIN
-Source: ..\menuTmc600_11.xrc; DestDir: {app}; Components: MAIN
-Source: ..\menuTmc600_12.xrc; DestDir: {app}; Components: MAIN
+Source: ..\menuTMC600_11.xrc; DestDir: {app}; Components: MAIN
+Source: ..\menuTMC600_12.xrc; DestDir: {app}; Components: MAIN
 Source: ..\menuVelf_11.xrc; DestDir: {app}; Components: MAIN
 Source: ..\menuVelf_12.xrc; DestDir: {app}; Components: MAIN
 Source: ..\menuVip_11.xrc; DestDir: {app}; Components: MAIN

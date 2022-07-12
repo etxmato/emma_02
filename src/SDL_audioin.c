@@ -103,7 +103,7 @@ void SDL_QuitAudioIn(void)
 #if defined (__WXMSW__)
 SDL_AudioStatus SDL_GetAudioInStatus(void)
 {
-	return(audioin_status);
+    return(audioin_status);
 }
 #else
 SDL_audiostatus SDL_GetAudioInStatus(void)

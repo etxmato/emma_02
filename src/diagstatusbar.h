@@ -9,17 +9,17 @@
 class DiagStatusBar : public wxStatusBar
 {
 public:
-	DiagStatusBar(wxWindow *parent);
-	~DiagStatusBar();
+    DiagStatusBar(wxWindow *parent);
+    ~DiagStatusBar();
 
-	void initDiagBar();
-	void updateLedStatus(int led, bool status);
-	void reDrawBar();
+    void initDiagBar();
+    void updateLedStatus(int led, bool status);
+    void reDrawBar();
 
 private:
-	void displayText();
-	void displayLeds();
-	void deleteBitmaps();
+    void displayText();
+    void displayLeds();
+    void deleteBitmaps();
 
 #if defined(__linux__) || defined(__WXMAC__)
     wxBitmapButton *ledPointer [NUMBER_OF_DIAG_LEDS];
@@ -27,8 +27,8 @@ private:
     wxButton *ledPointer [NUMBER_OF_DIAG_LEDS];
 #endif
     
-	wxBitmap *ledOffPointer;
-	wxBitmap *ledOnPointer;
+    wxBitmap *ledOffPointer;
+    wxBitmap *ledOnPointer;
 
     wxMask *maskOff;
     wxMask *maskOn;
@@ -38,8 +38,8 @@ private:
     int statusBarElementMeasure1_;
     wxString leaderString_;
 
-	bool ledsDefined_;
-	bool ledStatus_[NUMBER_OF_DIAG_LEDS];
+    bool ledsDefined_;
+    bool ledStatus_[NUMBER_OF_DIAG_LEDS];
 
 };
 

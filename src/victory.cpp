@@ -41,240 +41,240 @@ Victory::Victory(const wxString& title, const wxPoint& pos, const wxSize& size, 
 
 Victory::~Victory()
 {
-	p_Main->setMainPos(VICTORY, GetPosition());
+    p_Main->setMainPos(VICTORY, GetPosition());
 }
 
 void Victory::configureComputer()
 {
-	outType_[2] = STUDIOOUT;
-	outType_[4] = VIPOUT4;
-	victoryKeyPort_ = 0;
-	efType_[3] = STUDIOEF3;
-	efType_[4] = STUDIOEF4;
+    outType_[2] = STUDIOOUT;
+    outType_[4] = VIPOUT4;
+    victoryKeyPort_ = 0;
+    efType_[3] = STUDIOEF3;
+    efType_[4] = STUDIOEF4;
 
-	for (int j=0; j<2; j++) for (int i=0; i<10; i++)
-		victoryKeyState_[j][i] = 0;
+    for (int j=0; j<2; j++) for (int i=0; i<10; i++)
+        victoryKeyState_[j][i] = 0;
 
-	p_Main->message("Configuring Studio III / Victory MPT-02");
-	p_Main->message("	Output 2: select port, EF 3: read selected port 1, EF4: read selected port 2\n");
+    p_Main->message("Configuring Studio III / Victory MPT-02");
+    p_Main->message("    Output 2: select port, EF 3: read selected port 1, EF4: read selected port 2\n");
 
-	p_Main->getDefaultHexKeys(VICTORY, "Victory", "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
-	p_Main->getDefaultHexKeys(VICTORY, "Victory", "B", keyDefB1_, keyDefB2_, keyDefGameHexB_);
+    p_Main->getDefaultHexKeys(VICTORY, "Victory", "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
+    p_Main->getDefaultHexKeys(VICTORY, "Victory", "B", keyDefB1_, keyDefB2_, keyDefGameHexB_);
 
     gameAuto_ = p_Main->getConfigBool("/Victory/GameAuto", true);
 
-	multiCart_ = p_Main->getUseMultiCart(VICTORY);
-	disableSystemRom_ = p_Main->getDisableSystemRom(VICTORY);
-	multiCartLsb_ = p_Main->getMultiCartLsb(VICTORY);
-	multiCartMsb_ = p_Main->getMultiCartMsb(VICTORY);
+    multiCart_ = p_Main->getUseMultiCart(VICTORY);
+    disableSystemRom_ = p_Main->getDisableSystemRom(VICTORY);
+    multiCartLsb_ = p_Main->getMultiCartLsb(VICTORY);
+    multiCartMsb_ = p_Main->getMultiCartMsb(VICTORY);
 
-	simDefA2_ = p_Main->getConfigBool("/Victory/DiagonalA2", true);
+    simDefA2_ = p_Main->getConfigBool("/Victory/DiagonalA2", true);
     simDefB2_ = p_Main->getConfigBool("/Victory/DiagonalB2", true);
     
-	resetCpu();
+    resetCpu();
 }
 
 void Victory::reDefineKeysA(int hexKeyDefA1[], int hexKeyDefA2[])
 {
-	for (int i=0; i<512; i++)
-	{
-		keyDefinition[i].defined = false;
-	}
-	for (int i=0; i<10; i++)
-	{
-		keyDefA1_[i] = hexKeyDefA1[i];
-		if (hexKeyDefA1[i] != 0)
-		{
-			keyDefinition[keyDefA1_[i]].defined = true;
-			keyDefinition[keyDefA1_[i]].player = 0;
-			keyDefinition[keyDefA1_[i]].key = i;
-		}
-		keyDefA2_[i] = hexKeyDefA2[i];
-		if (hexKeyDefA2[i] != 0)
-		{
-			keyDefinition[keyDefA2_[i]].defined = true;
-			keyDefinition[keyDefA2_[i]].player = 0;
-			keyDefinition[keyDefA2_[i]].key = i;
-		}
-	}
+    for (int i=0; i<512; i++)
+    {
+        keyDefinition[i].defined = false;
+    }
+    for (int i=0; i<10; i++)
+    {
+        keyDefA1_[i] = hexKeyDefA1[i];
+        if (hexKeyDefA1[i] != 0)
+        {
+            keyDefinition[keyDefA1_[i]].defined = true;
+            keyDefinition[keyDefA1_[i]].player = 0;
+            keyDefinition[keyDefA1_[i]].key = i;
+        }
+        keyDefA2_[i] = hexKeyDefA2[i];
+        if (hexKeyDefA2[i] != 0)
+        {
+            keyDefinition[keyDefA2_[i]].defined = true;
+            keyDefinition[keyDefA2_[i]].player = 0;
+            keyDefinition[keyDefA2_[i]].key = i;
+        }
+    }
 }
 
 void Victory::reDefineKeysB(int hexKeyDefB1[], int hexKeyDefB2[])
 {
-	for (int i = 0; i<10; i++)
-	{
-		keyDefB1_[i] = hexKeyDefB1[i];
-		if (hexKeyDefB1[i] != 0)
-		{
-			keyDefinition[keyDefB1_[i]].defined = true;
-			keyDefinition[keyDefB1_[i]].player = 1;
-			keyDefinition[keyDefB1_[i]].key = i;
-		}
-		keyDefB2_[i] = hexKeyDefB2[i];
-		if (hexKeyDefB2[i] != 0)
-		{
-			keyDefinition[keyDefB2_[i]].defined = true;
-			keyDefinition[keyDefB2_[i]].player = 1;
-			keyDefinition[keyDefB2_[i]].key = i;
-		}
-	}
+    for (int i = 0; i<10; i++)
+    {
+        keyDefB1_[i] = hexKeyDefB1[i];
+        if (hexKeyDefB1[i] != 0)
+        {
+            keyDefinition[keyDefB1_[i]].defined = true;
+            keyDefinition[keyDefB1_[i]].player = 1;
+            keyDefinition[keyDefB1_[i]].key = i;
+        }
+        keyDefB2_[i] = hexKeyDefB2[i];
+        if (hexKeyDefB2[i] != 0)
+        {
+            keyDefinition[keyDefB2_[i]].defined = true;
+            keyDefinition[keyDefB2_[i]].player = 1;
+            keyDefinition[keyDefB2_[i]].key = i;
+        }
+    }
 }
 
 void Victory::keyDown(int keycode)
 {
-	if (keyDefinition[keycode].defined)
-	{
-		if (simDefA2_)
-		{
-			if (keycode == keyDefA2_[2])
-			{
-				if (::wxGetKeyState((wxKeyCode)keyDefA2_[4]) == true)
-				{
-					victoryKeyState_[0][keyDefinition[keyDefA2_[2]].key - 1] = 1;
-					victoryKeyState_[0][keyDefinition[keyDefA2_[2]].key] = 0;
-					victoryKeyState_[0][keyDefinition[keyDefA2_[4]].key] = 0;
-					return;
-				}
-				if (::wxGetKeyState((wxKeyCode)keyDefA2_[6]) == true)
-				{
-					victoryKeyState_[0][keyDefinition[keyDefA2_[2]].key + 1] = 1;
-					victoryKeyState_[0][keyDefinition[keyDefA2_[2]].key] = 0;
-					victoryKeyState_[0][keyDefinition[keyDefA2_[6]].key] = 0;
-					return;
-				}
-			}
-			if (keycode == keyDefA2_[4])
-			{
-				if (::wxGetKeyState((wxKeyCode)keyDefA2_[2]) == true)
-				{
-					victoryKeyState_[0][keyDefinition[keyDefA2_[2]].key - 1] = 1;
-					victoryKeyState_[0][keyDefinition[keyDefA2_[2]].key] = 0;
-					victoryKeyState_[0][keyDefinition[keyDefA2_[4]].key] = 0;
-					return;
-				}
-				if (::wxGetKeyState((wxKeyCode)keyDefA2_[8]) == true)
-				{
-					victoryKeyState_[0][keyDefinition[keyDefA2_[8]].key - 1] = 1;
-					victoryKeyState_[0][keyDefinition[keyDefA2_[8]].key] = 0;
-					victoryKeyState_[0][keyDefinition[keyDefA2_[4]].key] = 0;
-					return;
-				}
-			}
-			if (keycode == keyDefA2_[6])
-			{
-				if (::wxGetKeyState((wxKeyCode)keyDefA2_[2]) == true)
-				{
-					victoryKeyState_[0][keyDefinition[keyDefA2_[2]].key + 1] = 1;
-					victoryKeyState_[0][keyDefinition[keyDefA2_[2]].key] = 0;
-					victoryKeyState_[0][keyDefinition[keyDefA2_[6]].key] = 0;
-					return;
-				}
-				if (::wxGetKeyState((wxKeyCode)keyDefA2_[8]) == true)
-				{
-					victoryKeyState_[0][keyDefinition[keyDefA2_[8]].key + 1] = 1;
-					victoryKeyState_[0][keyDefinition[keyDefA2_[8]].key] = 0;
-					victoryKeyState_[0][keyDefinition[keyDefA2_[6]].key] = 0;
-					return;
-				}
-			}
-			if (keycode == keyDefA2_[8])
-			{
-				if (::wxGetKeyState((wxKeyCode)keyDefA2_[4]) == true)
-				{
-					victoryKeyState_[0][keyDefinition[keyDefA2_[8]].key - 1] = 1;
-					victoryKeyState_[0][keyDefinition[keyDefA2_[8]].key] = 0;
-					victoryKeyState_[0][keyDefinition[keyDefA2_[4]].key] = 0;
-					return;
-				}
-				if (::wxGetKeyState((wxKeyCode)keyDefA2_[6]) == true)
-				{
-					victoryKeyState_[0][keyDefinition[keyDefA2_[8]].key + 1] = 1;
-					victoryKeyState_[0][keyDefinition[keyDefA2_[8]].key] = 0;
-					victoryKeyState_[0][keyDefinition[keyDefA2_[6]].key] = 0;
-					return;
-				}
-			}
-		}
+    if (keyDefinition[keycode].defined)
+    {
+        if (simDefA2_)
+        {
+            if (keycode == keyDefA2_[2])
+            {
+                if (::wxGetKeyState((wxKeyCode)keyDefA2_[4]) == true)
+                {
+                    victoryKeyState_[0][keyDefinition[keyDefA2_[2]].key - 1] = 1;
+                    victoryKeyState_[0][keyDefinition[keyDefA2_[2]].key] = 0;
+                    victoryKeyState_[0][keyDefinition[keyDefA2_[4]].key] = 0;
+                    return;
+                }
+                if (::wxGetKeyState((wxKeyCode)keyDefA2_[6]) == true)
+                {
+                    victoryKeyState_[0][keyDefinition[keyDefA2_[2]].key + 1] = 1;
+                    victoryKeyState_[0][keyDefinition[keyDefA2_[2]].key] = 0;
+                    victoryKeyState_[0][keyDefinition[keyDefA2_[6]].key] = 0;
+                    return;
+                }
+            }
+            if (keycode == keyDefA2_[4])
+            {
+                if (::wxGetKeyState((wxKeyCode)keyDefA2_[2]) == true)
+                {
+                    victoryKeyState_[0][keyDefinition[keyDefA2_[2]].key - 1] = 1;
+                    victoryKeyState_[0][keyDefinition[keyDefA2_[2]].key] = 0;
+                    victoryKeyState_[0][keyDefinition[keyDefA2_[4]].key] = 0;
+                    return;
+                }
+                if (::wxGetKeyState((wxKeyCode)keyDefA2_[8]) == true)
+                {
+                    victoryKeyState_[0][keyDefinition[keyDefA2_[8]].key - 1] = 1;
+                    victoryKeyState_[0][keyDefinition[keyDefA2_[8]].key] = 0;
+                    victoryKeyState_[0][keyDefinition[keyDefA2_[4]].key] = 0;
+                    return;
+                }
+            }
+            if (keycode == keyDefA2_[6])
+            {
+                if (::wxGetKeyState((wxKeyCode)keyDefA2_[2]) == true)
+                {
+                    victoryKeyState_[0][keyDefinition[keyDefA2_[2]].key + 1] = 1;
+                    victoryKeyState_[0][keyDefinition[keyDefA2_[2]].key] = 0;
+                    victoryKeyState_[0][keyDefinition[keyDefA2_[6]].key] = 0;
+                    return;
+                }
+                if (::wxGetKeyState((wxKeyCode)keyDefA2_[8]) == true)
+                {
+                    victoryKeyState_[0][keyDefinition[keyDefA2_[8]].key + 1] = 1;
+                    victoryKeyState_[0][keyDefinition[keyDefA2_[8]].key] = 0;
+                    victoryKeyState_[0][keyDefinition[keyDefA2_[6]].key] = 0;
+                    return;
+                }
+            }
+            if (keycode == keyDefA2_[8])
+            {
+                if (::wxGetKeyState((wxKeyCode)keyDefA2_[4]) == true)
+                {
+                    victoryKeyState_[0][keyDefinition[keyDefA2_[8]].key - 1] = 1;
+                    victoryKeyState_[0][keyDefinition[keyDefA2_[8]].key] = 0;
+                    victoryKeyState_[0][keyDefinition[keyDefA2_[4]].key] = 0;
+                    return;
+                }
+                if (::wxGetKeyState((wxKeyCode)keyDefA2_[6]) == true)
+                {
+                    victoryKeyState_[0][keyDefinition[keyDefA2_[8]].key + 1] = 1;
+                    victoryKeyState_[0][keyDefinition[keyDefA2_[8]].key] = 0;
+                    victoryKeyState_[0][keyDefinition[keyDefA2_[6]].key] = 0;
+                    return;
+                }
+            }
+        }
 
-		if (simDefB2_)
-		{
-			if (keycode == keyDefB2_[2])
-			{
-				if (::wxGetKeyState((wxKeyCode)keyDefB2_[4]) == true)
-				{
-					victoryKeyState_[1][keyDefinition[keyDefB2_[2]].key - 1] = 1;
-					victoryKeyState_[1][keyDefinition[keyDefB2_[2]].key] = 0;
-					victoryKeyState_[1][keyDefinition[keyDefB2_[4]].key] = 0;
-					return;
-				}
-				if (::wxGetKeyState((wxKeyCode)keyDefB2_[6]) == true)
-				{
-					victoryKeyState_[1][keyDefinition[keyDefB2_[2]].key + 1] = 1;
-					victoryKeyState_[1][keyDefinition[keyDefB2_[2]].key] = 0;
-					victoryKeyState_[1][keyDefinition[keyDefB2_[6]].key] = 0;
-					return;
-				}
-			}
-			if (keycode == keyDefB2_[4])
-			{
-				if (::wxGetKeyState((wxKeyCode)keyDefB2_[2]) == true)
-				{
-					victoryKeyState_[1][keyDefinition[keyDefB2_[2]].key - 1] = 1;
-					victoryKeyState_[1][keyDefinition[keyDefB2_[2]].key] = 0;
-					victoryKeyState_[1][keyDefinition[keyDefB2_[4]].key] = 0;
-					return;
-				}
-				if (::wxGetKeyState((wxKeyCode)keyDefB2_[8]) == true)
-				{
-					victoryKeyState_[1][keyDefinition[keyDefB2_[8]].key - 1] = 1;
-					victoryKeyState_[1][keyDefinition[keyDefB2_[8]].key] = 0;
-					victoryKeyState_[1][keyDefinition[keyDefB2_[4]].key] = 0;
-					return;
-				}
-			}
-			if (keycode == keyDefB2_[6])
-			{
-				if (::wxGetKeyState((wxKeyCode)keyDefB2_[2]) == true)
-				{
-					victoryKeyState_[1][keyDefinition[keyDefB2_[2]].key + 1] = 1;
-					victoryKeyState_[1][keyDefinition[keyDefB2_[2]].key] = 0;
-					victoryKeyState_[1][keyDefinition[keyDefB2_[6]].key] = 0;
-					return;
-				}
-				if (::wxGetKeyState((wxKeyCode)keyDefB2_[8]) == true)
-				{
-					victoryKeyState_[1][keyDefinition[keyDefB2_[8]].key + 1] = 1;
-					victoryKeyState_[1][keyDefinition[keyDefB2_[8]].key] = 0;
-					victoryKeyState_[1][keyDefinition[keyDefB2_[6]].key] = 0;
-					return;
-				}
-			}
-			if (keycode == keyDefB2_[8])
-			{
-				if (::wxGetKeyState((wxKeyCode)keyDefB2_[4]) == true)
-				{
-					victoryKeyState_[1][keyDefinition[keyDefB2_[8]].key - 1] = 1;
-					victoryKeyState_[1][keyDefinition[keyDefB2_[8]].key] = 0;
-					victoryKeyState_[1][keyDefinition[keyDefB2_[4]].key] = 0;
-					return;
-				}
-				if (::wxGetKeyState((wxKeyCode)keyDefB2_[6]) == true)
-				{
-					victoryKeyState_[1][keyDefinition[keyDefB2_[8]].key + 1] = 1;
-					victoryKeyState_[1][keyDefinition[keyDefB2_[8]].key] = 0;
-					victoryKeyState_[1][keyDefinition[keyDefB2_[6]].key] = 0;
-					return;
-				}
-			}
-		}
-		victoryKeyState_[keyDefinition[keycode].player][keyDefinition[keycode].key] = 1;
-	}
+        if (simDefB2_)
+        {
+            if (keycode == keyDefB2_[2])
+            {
+                if (::wxGetKeyState((wxKeyCode)keyDefB2_[4]) == true)
+                {
+                    victoryKeyState_[1][keyDefinition[keyDefB2_[2]].key - 1] = 1;
+                    victoryKeyState_[1][keyDefinition[keyDefB2_[2]].key] = 0;
+                    victoryKeyState_[1][keyDefinition[keyDefB2_[4]].key] = 0;
+                    return;
+                }
+                if (::wxGetKeyState((wxKeyCode)keyDefB2_[6]) == true)
+                {
+                    victoryKeyState_[1][keyDefinition[keyDefB2_[2]].key + 1] = 1;
+                    victoryKeyState_[1][keyDefinition[keyDefB2_[2]].key] = 0;
+                    victoryKeyState_[1][keyDefinition[keyDefB2_[6]].key] = 0;
+                    return;
+                }
+            }
+            if (keycode == keyDefB2_[4])
+            {
+                if (::wxGetKeyState((wxKeyCode)keyDefB2_[2]) == true)
+                {
+                    victoryKeyState_[1][keyDefinition[keyDefB2_[2]].key - 1] = 1;
+                    victoryKeyState_[1][keyDefinition[keyDefB2_[2]].key] = 0;
+                    victoryKeyState_[1][keyDefinition[keyDefB2_[4]].key] = 0;
+                    return;
+                }
+                if (::wxGetKeyState((wxKeyCode)keyDefB2_[8]) == true)
+                {
+                    victoryKeyState_[1][keyDefinition[keyDefB2_[8]].key - 1] = 1;
+                    victoryKeyState_[1][keyDefinition[keyDefB2_[8]].key] = 0;
+                    victoryKeyState_[1][keyDefinition[keyDefB2_[4]].key] = 0;
+                    return;
+                }
+            }
+            if (keycode == keyDefB2_[6])
+            {
+                if (::wxGetKeyState((wxKeyCode)keyDefB2_[2]) == true)
+                {
+                    victoryKeyState_[1][keyDefinition[keyDefB2_[2]].key + 1] = 1;
+                    victoryKeyState_[1][keyDefinition[keyDefB2_[2]].key] = 0;
+                    victoryKeyState_[1][keyDefinition[keyDefB2_[6]].key] = 0;
+                    return;
+                }
+                if (::wxGetKeyState((wxKeyCode)keyDefB2_[8]) == true)
+                {
+                    victoryKeyState_[1][keyDefinition[keyDefB2_[8]].key + 1] = 1;
+                    victoryKeyState_[1][keyDefinition[keyDefB2_[8]].key] = 0;
+                    victoryKeyState_[1][keyDefinition[keyDefB2_[6]].key] = 0;
+                    return;
+                }
+            }
+            if (keycode == keyDefB2_[8])
+            {
+                if (::wxGetKeyState((wxKeyCode)keyDefB2_[4]) == true)
+                {
+                    victoryKeyState_[1][keyDefinition[keyDefB2_[8]].key - 1] = 1;
+                    victoryKeyState_[1][keyDefinition[keyDefB2_[8]].key] = 0;
+                    victoryKeyState_[1][keyDefinition[keyDefB2_[4]].key] = 0;
+                    return;
+                }
+                if (::wxGetKeyState((wxKeyCode)keyDefB2_[6]) == true)
+                {
+                    victoryKeyState_[1][keyDefinition[keyDefB2_[8]].key + 1] = 1;
+                    victoryKeyState_[1][keyDefinition[keyDefB2_[8]].key] = 0;
+                    victoryKeyState_[1][keyDefinition[keyDefB2_[6]].key] = 0;
+                    return;
+                }
+            }
+        }
+        victoryKeyState_[keyDefinition[keycode].player][keyDefinition[keycode].key] = 1;
+    }
 }
 
 void Victory::keyUp(int keycode)
 {
-	if (simDefA2_)
-	{
+    if (simDefA2_)
+    {
         if (keycode == keyDefA2_[2] || keycode == keyDefA2_[4] || keycode == keyDefA2_[6] || keycode == keyDefA2_[8])
         {
             victoryKeyState_[0][keyDefinition[keyDefA2_[2]].key-1] = 0;
@@ -290,143 +290,143 @@ void Victory::keyUp(int keycode)
             if (::wxGetKeyState((wxKeyCode)keyDefA2_[8]) == true)
                 victoryKeyState_[0][keyDefinition[keyDefA2_[8]].key] = 1;
         }
-	}
-	if (simDefB2_)
-	{
-		if (keycode == keyDefB2_[2] || keycode == keyDefB2_[4] || keycode == keyDefB2_[6] || keycode == keyDefB2_[8])
-		{
-			victoryKeyState_[1][keyDefinition[keyDefB2_[2]].key - 1] = 0;
-			victoryKeyState_[1][keyDefinition[keyDefB2_[2]].key + 1] = 0;
-			victoryKeyState_[1][keyDefinition[keyDefB2_[8]].key - 1] = 0;
-			victoryKeyState_[1][keyDefinition[keyDefB2_[8]].key + 1] = 0;
-			if (::wxGetKeyState((wxKeyCode)keyDefB2_[2]) == true)
-				victoryKeyState_[1][keyDefinition[keyDefB2_[2]].key] = 1;
-			if (::wxGetKeyState((wxKeyCode)keyDefB2_[4]) == true)
-				victoryKeyState_[1][keyDefinition[keyDefB2_[4]].key] = 1;
-			if (::wxGetKeyState((wxKeyCode)keyDefB2_[6]) == true)
-				victoryKeyState_[1][keyDefinition[keyDefB2_[6]].key] = 1;
-			if (::wxGetKeyState((wxKeyCode)keyDefB2_[8]) == true)
-				victoryKeyState_[1][keyDefinition[keyDefB2_[8]].key] = 1;
-		}
-	}
-	if (keyDefinition[keycode].defined)
-		victoryKeyState_[keyDefinition[keycode].player][keyDefinition[keycode].key] = 0;
+    }
+    if (simDefB2_)
+    {
+        if (keycode == keyDefB2_[2] || keycode == keyDefB2_[4] || keycode == keyDefB2_[6] || keycode == keyDefB2_[8])
+        {
+            victoryKeyState_[1][keyDefinition[keyDefB2_[2]].key - 1] = 0;
+            victoryKeyState_[1][keyDefinition[keyDefB2_[2]].key + 1] = 0;
+            victoryKeyState_[1][keyDefinition[keyDefB2_[8]].key - 1] = 0;
+            victoryKeyState_[1][keyDefinition[keyDefB2_[8]].key + 1] = 0;
+            if (::wxGetKeyState((wxKeyCode)keyDefB2_[2]) == true)
+                victoryKeyState_[1][keyDefinition[keyDefB2_[2]].key] = 1;
+            if (::wxGetKeyState((wxKeyCode)keyDefB2_[4]) == true)
+                victoryKeyState_[1][keyDefinition[keyDefB2_[4]].key] = 1;
+            if (::wxGetKeyState((wxKeyCode)keyDefB2_[6]) == true)
+                victoryKeyState_[1][keyDefinition[keyDefB2_[6]].key] = 1;
+            if (::wxGetKeyState((wxKeyCode)keyDefB2_[8]) == true)
+                victoryKeyState_[1][keyDefinition[keyDefB2_[8]].key] = 1;
+        }
+    }
+    if (keyDefinition[keycode].defined)
+        victoryKeyState_[keyDefinition[keycode].player][keyDefinition[keycode].key] = 0;
 }
 
 Byte Victory::ef(int flag)
 {
-	switch(efType_[flag])
-	{
-		case 0:
-			return 1;
-		break;
+    switch(efType_[flag])
+    {
+        case 0:
+            return 1;
+        break;
 
-		case PIXIEEF:
-			return efPixie();
-		break;
+        case PIXIEEF:
+            return efPixie();
+        break;
 
-		case STUDIOEF3:
-			return ef3();
-		break;
+        case STUDIOEF3:
+            return ef3();
+        break;
 
-		case STUDIOEF4:
-			return ef4();
-		break;
+        case STUDIOEF4:
+            return ef4();
+        break;
 
-		default:
-			return 1;
-	}
+        default:
+            return 1;
+    }
 }
 
 Byte Victory::ef3()
 {
-	if (victoryKeyPort_<0 || victoryKeyPort_>9)
-		return 1;
-	return(victoryKeyState_[0][victoryKeyPort_]) ? 0 : 1;
+    if (victoryKeyPort_<0 || victoryKeyPort_>9)
+        return 1;
+    return(victoryKeyState_[0][victoryKeyPort_]) ? 0 : 1;
 }
 
 Byte Victory::ef4()
 {
-	if (victoryKeyPort_<0 || victoryKeyPort_>9)
-		return 1;
-	return(victoryKeyState_[1][victoryKeyPort_]) ? 0 : 1;
+    if (victoryKeyPort_<0 || victoryKeyPort_>9)
+        return 1;
+    return(victoryKeyState_[1][victoryKeyPort_]) ? 0 : 1;
 }
 
 Byte Victory::in(Byte port, Word WXUNUSED(address))
 {
-	Byte ret;
+    Byte ret;
 
-	switch(inType_[port])
-	{
-		case 0:
-			ret = 255;
-		break;
+    switch(inType_[port])
+    {
+        case 0:
+            ret = 255;
+        break;
 
-		case PIXIEIN:
-			ret = inPixie();
-		break;
+        case PIXIEIN:
+            ret = inPixie();
+        break;
 
-		default:
-			ret = 255;
-	}
-	inValues_[port] = ret;
-	return ret;
+        default:
+            ret = 255;
+    }
+    inValues_[port] = ret;
+    return ret;
 }
 
 void Victory::out(Byte port, Word WXUNUSED(address), Byte value)
 {
-	outValues_[port] = value;
+    outValues_[port] = value;
 
-	switch(outType_[port])
-	{
-		case 0:
-			return;
-		break;
+    switch(outType_[port])
+    {
+        case 0:
+            return;
+        break;
 
-		case STUDIOOUT:
-			outVictory(value);
-		break;
+        case STUDIOOUT:
+            outVictory(value);
+        break;
 
-		case VIPOUT4:
-			tone1864Latch(value);
-		break;
+        case VIPOUT4:
+            tone1864Latch(value);
+        break;
 
-		case PIXIEBACKGROUND:
-			outPixieBackGround();
-		break;
-	}
+        case PIXIEBACKGROUND:
+            outPixieBackGround();
+        break;
+    }
 }
 
 void Victory::outVictory(Byte value)
 {
-	victoryKeyPort_ = value & 0xf;
+    victoryKeyPort_ = value & 0xf;
 }
 
 void Victory::cycle(int type)
 {
-	switch(cycleType_[type])
-	{
-		case 0:
-			return;
-		break;
+    switch(cycleType_[type])
+    {
+        case 0:
+            return;
+        break;
 
-		case PIXIECYCLE:
-			cyclePixieTelmac();
-		break;
-	}
+        case PIXIECYCLE:
+            cyclePixieTelmac();
+        break;
+    }
 }
 
 void Victory::startComputer()
 {
-	resetPressed_ = false;
+    resetPressed_ = false;
 
-	p_Main->setSwName("");
+    p_Main->setSwName("");
 
-	for (int i=0xc00; i<0xff00; i+=0x400)
-	{
-		defineMemoryType(i, MAPPEDRAM);
-		defineMemoryType(i+0x100, MAPPEDRAM);
-	}
+    for (int i=0xc00; i<0xff00; i+=0x400)
+    {
+        defineMemoryType(i, MAPPEDRAM);
+        defineMemoryType(i+0x100, MAPPEDRAM);
+    }
 
     p_Main->checkAndReInstallMainRom(VICTORY);
     readProgram(p_Main->getRomDir(VICTORY, MAINROM1), p_Main->getRomFile(VICTORY, MAINROM1), ROM, 0, NONAME);
@@ -453,7 +453,7 @@ void Victory::startComputer()
     pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);
     
     if (pseudoType_ == "ST2")
-	{
+    {
         if (!multiCart_)
         {
             readSt2Program(VICTORY, CARTRIDGEROM);
@@ -465,19 +465,19 @@ void Victory::startComputer()
             p_Main->assDefault("victorycart_2", 0xC00, 0xFFF);
         }
     }
-	else
-	{
-		if (!multiCart_)
-			readProgram(p_Main->getRomDir(VICTORY, CARTROM), p_Main->getRomFile(VICTORY, CARTROM), ROM, 0x300, NONAME);
-	}
+    else
+    {
+        if (!multiCart_)
+            readProgram(p_Main->getRomDir(VICTORY, CARTROM), p_Main->getRomFile(VICTORY, CARTROM), ROM, 0x300, NONAME);
+    }
 
 //    if (testCartMemoryDefined_)
  //       readProgram(p_Main->getRomDir(VICTORY, MAINROM1), p_Main->getRomFile(VICTORY, MAINROM1), ROM, 0x2000, NONAME);
     
     defineMemoryType(0x800, 0x9ff, RAM);
     initRam(0x800, 0x9ff);
-	defineMemoryType(0xa00, 0);
-	defineMemoryType(0xb00, COLOURRAM);
+    defineMemoryType(0xa00, 0);
+    defineMemoryType(0xb00, COLOURRAM);
     
     if (mainMemory_[0x400]==0x4 && mainMemory_[0x500]==0xab && mainMemory_[0x600]==0xf8 && mainMemory_[0x700]==0xd5)
     {
@@ -489,54 +489,54 @@ void Victory::startComputer()
         defineMemoryType(0x4000, 0x7fff, CARTRIDGEROM);
     }
 
-	double zoom = p_Main->getZoom();
+    double zoom = p_Main->getZoom();
 
-	configurePixieVictory();
-	initPixie();
-	setZoom(zoom);
-	Show(true);
-	setWait(1);
-	setClear(0);
-	setWait(1);
-	setClear(1);
+    configurePixieVictory();
+    initPixie();
+    setZoom(zoom);
+    Show(true);
+    setWait(1);
+    setClear(0);
+    setWait(1);
+    setClear(1);
 
-	if (multiCart_)
-	{
-		wxString game;
+    if (multiCart_)
+    {
+        wxString game;
         if (multiCartRom_[(0xa00 + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] < 32)
             game = p_Main->getMultiCartGame(multiCartMsb_, multiCartLsb_);
         else
             game = getMultiCartGame();
         if (gameAuto_)
-			p_Main->loadKeyDefinition("", game, keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
-		if (game.Find('.'))
-			game = game.BeforeFirst('.');
-		p_Main->setSwName(game);
-	}
-	else
-	{
-		if (gameAuto_)
-			p_Main->loadKeyDefinition("", p_Main->getRomFile(VICTORY, CARTROM), keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
-	}
+            p_Main->loadKeyDefinition("", game, keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
+        if (game.Find('.'))
+            game = game.BeforeFirst('.');
+        p_Main->setSwName(game);
+    }
+    else
+    {
+        if (gameAuto_)
+            p_Main->loadKeyDefinition("", p_Main->getRomFile(VICTORY, CARTROM), keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
+    }
 
-	reDefineKeysA(keyDefA1_, keyDefA2_);
-	reDefineKeysB(keyDefB1_, keyDefB2_);
+    reDefineKeysA(keyDefA1_, keyDefA2_);
+    reDefineKeysB(keyDefB1_, keyDefB2_);
 
-	p_Main->updateTitle();
+    p_Main->updateTitle();
 
-	cpuCycles_ = 0;
-	instructionCounter_= 0;
-	p_Main->startTime();
+    cpuCycles_ = 0;
+    instructionCounter_= 0;
+    p_Main->startTime();
 
-	threadPointer->Run();
+    threadPointer->Run();
 }
 
 void Victory::writeMemDataType(Word address, Byte type)
 {
-	switch (memoryType_[address/256]&0xff)
-	{
-		case RAM:
-		case ROM:
+    switch (memoryType_[address/256]&0xff)
+    {
+        case RAM:
+        case ROM:
         case MAPPEDROM:
         case CARTRIDGEROM:
             if (mainMemoryDataType_[address] != type)
@@ -556,26 +556,26 @@ void Victory::writeMemDataType(Word address, Byte type)
             increaseExecutedTestCartRom(address, type);
         break;
             
-		case MULTICART:
-			if ((address < 0x400) && !disableSystemRom_)
-			{
-				if (mainMemoryDataType_[address] != type)
-				{
-					p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-					mainMemoryDataType_[address] = type;
-				}
+        case MULTICART:
+            if ((address < 0x400) && !disableSystemRom_)
+            {
+                if (mainMemoryDataType_[address] != type)
+                {
+                    p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
+                    mainMemoryDataType_[address] = type;
+                }
                 increaseExecutedMainMemory(address, type);
-			}
-			else
-			{
-				if (multiCartRomDataType_[(address + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] != type)
-				{
-					p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-					multiCartRomDataType_[(address + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] = type;
-				}
+            }
+            else
+            {
+                if (multiCartRomDataType_[(address + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] != type)
+                {
+                    p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
+                    multiCartRomDataType_[(address + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] = type;
+                }
                 increaseExecutedMultiCartRom((address + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_, type);
-			}
-		break;
+            }
+        break;
 
         case MAPPEDMULTICART:
             address = address & 0xfff;
@@ -599,24 +599,24 @@ void Victory::writeMemDataType(Word address, Byte type)
             }
         break;
             
-		case MAPPEDRAM:
-			address = (address & 0x1ff) | 0x800;
-			if (mainMemoryDataType_[address] != type)
-			{
-				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-				mainMemoryDataType_[address]=type;
-			}
+        case MAPPEDRAM:
+            address = (address & 0x1ff) | 0x800;
+            if (mainMemoryDataType_[address] != type)
+            {
+                p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
+                mainMemoryDataType_[address]=type;
+            }
             increaseExecutedMainMemory(address, type);
-		break;
-	}
+        break;
+    }
 }
 
 Byte Victory::readMemDataType(Word address, uint64_t* executed)
 {
-	switch (memoryType_[address/256]&0xff)
-	{
-		case RAM:
-		case ROM:
+    switch (memoryType_[address/256]&0xff)
+    {
+        case RAM:
+        case ROM:
         case MAPPEDROM:
         case CARTRIDGEROM:
             if (profilerCounter_ != PROFILER_OFF)
@@ -630,20 +630,20 @@ Byte Victory::readMemDataType(Word address, uint64_t* executed)
             return testCartRomDataType_[address];
         break;
             
-		case MULTICART:
-			if ((address < 0x400) && !disableSystemRom_)
+        case MULTICART:
+            if ((address < 0x400) && !disableSystemRom_)
             {
                 if (profilerCounter_ != PROFILER_OFF)
                     *executed = mainMemoryExecuted_[address];
-				return mainMemoryDataType_[address];
+                return mainMemoryDataType_[address];
             }
             else
             {
                 if (profilerCounter_ != PROFILER_OFF)
                     *executed = multiCartRomExecuted_[(address+multiCartLsb_*0x1000+multiCartMsb_*0x10000)&multiCartMask_];
-				return multiCartRomDataType_[(address + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_];
+                return multiCartRomDataType_[(address + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_];
             }
-		break;
+        break;
 
         case MAPPEDMULTICART:
             address = address & 0xfff;
@@ -661,30 +661,30 @@ Byte Victory::readMemDataType(Word address, uint64_t* executed)
             }
         break;
             
-		case MAPPEDRAM:
-			address = (address & 0x1ff) | 0x800;
+        case MAPPEDRAM:
+            address = (address & 0x1ff) | 0x800;
             if (profilerCounter_ != PROFILER_OFF)
                 *executed = mainMemoryExecuted_[address];
-			return mainMemoryDataType_[address];
-		break;
-	}
-	return MEM_TYPE_UNDEFINED;
+            return mainMemoryDataType_[address];
+        break;
+    }
+    return MEM_TYPE_UNDEFINED;
 }
 
 Byte Victory::readMem(Word address)
 {
-	switch (memoryType_[address/256]&0xff)
-	{
-		case UNDEFINED:
-			return 255;
-		break;
+    switch (memoryType_[address/256]&0xff)
+    {
+        case UNDEFINED:
+            return 255;
+        break;
 
-		case MULTICART:
-			if ((address < 0x400) && !disableSystemRom_)
-				return mainMemory_[address];
-			else
-				return multiCartRom_[(address + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_];
-		break;
+        case MULTICART:
+            if ((address < 0x400) && !disableSystemRom_)
+                return mainMemory_[address];
+            else
+                return multiCartRom_[(address + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_];
+        break;
 
         case MAPPEDMULTICART:
             address = address & 0xfff;
@@ -695,15 +695,15 @@ Byte Victory::readMem(Word address)
         break;
             
         case COLOURRAM:
-			if ((address & 0xff) < 0x40)
-				return colorMemory1864_[address&0xff] & 0xf;
-			else
-				return 255;
+            if ((address & 0xff) < 0x40)
+                return colorMemory1864_[address&0xff] & 0xf;
+            else
+                return 255;
         break;
             
         case MAPPEDRAM:
-			address = (address & 0x1ff) | 0x800;
-		break;
+            address = (address & 0x1ff) | 0x800;
+        break;
 
         case CARTRIDGEROM:
   //          address = (address & 0x3ff) | 0x400;
@@ -718,7 +718,7 @@ Byte Victory::readMem(Word address)
         break;
     }
 
-	return mainMemory_[address];
+    return mainMemory_[address];
 }
 
 Byte Victory::readMemDebug(Word address)
@@ -728,26 +728,26 @@ Byte Victory::readMemDebug(Word address)
 
 void Victory::writeMem(Word address, Byte value, bool writeRom)
 {
-	switch (memoryType_[address/256]&0xff)
-	{
-		case RAM:
-			if (mainMemory_[address]==value)
-				return;
-			mainMemory_[address]=value;
-			if (address>= memoryStart_ && address<(memoryStart_+256))
-				p_Main->updateDebugMemory(address);
-			p_Main->updateAssTabCheck(address);
-		break;
+    switch (memoryType_[address/256]&0xff)
+    {
+        case RAM:
+            if (mainMemory_[address]==value)
+                return;
+            mainMemory_[address]=value;
+            if (address>= memoryStart_ && address<(memoryStart_+256))
+                p_Main->updateDebugMemory(address);
+            p_Main->updateAssTabCheck(address);
+        break;
 
-		case MULTICART:
-			if (writeRom)
-			{
-				if ((address < 0x400) && !disableSystemRom_)
-					mainMemory_[address] = value;
-				else
-					multiCartRom_[(address + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] = value;
-			}
-		break;
+        case MULTICART:
+            if (writeRom)
+            {
+                if ((address < 0x400) && !disableSystemRom_)
+                    mainMemory_[address] = value;
+                else
+                    multiCartRom_[(address + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] = value;
+            }
+        break;
 
         case MAPPEDMULTICART:
             address = address & 0xfff;
@@ -760,28 +760,28 @@ void Victory::writeMem(Word address, Byte value, bool writeRom)
             }
         break;
             
-		case COLOURRAM:
-			if ((address & 0xff) < 0x40)
-			{
-				colorMemory1864_[address & 0xff] = value & 0xf;
-				if ((address & 0xff) >= memoryStart_ && (address & 0xff) < (memoryStart_ + 256))
-					p_Main->updateDebugMemory(address & 0xff);
-				if (address >= memoryStart_ && address < (memoryStart_ + 256))
-					p_Main->updateDebugMemory(address);
-				p_Main->updateAssTabCheck(address);
-				useColour(7);
-			}
-		break;
+        case COLOURRAM:
+            if ((address & 0xff) < 0x40)
+            {
+                colorMemory1864_[address & 0xff] = value & 0xf;
+                if ((address & 0xff) >= memoryStart_ && (address & 0xff) < (memoryStart_ + 256))
+                    p_Main->updateDebugMemory(address & 0xff);
+                if (address >= memoryStart_ && address < (memoryStart_ + 256))
+                    p_Main->updateDebugMemory(address);
+                p_Main->updateAssTabCheck(address);
+                useColour(7);
+            }
+        break;
 
-		case MAPPEDRAM:
-			address = (address & 0x1ff) | 0x800;
-			if (mainMemory_[address]==value)
-				return;
-			mainMemory_[address]=value;
-			if (address>= memoryStart_ && address<(memoryStart_+256))
-				p_Main->updateDebugMemory(address);
-			p_Main->updateAssTabCheck(address);
-		break;
+        case MAPPEDRAM:
+            address = (address & 0x1ff) | 0x800;
+            if (mainMemory_[address]==value)
+                return;
+            mainMemory_[address]=value;
+            if (address>= memoryStart_ && address<(memoryStart_+256))
+                p_Main->updateDebugMemory(address);
+            p_Main->updateAssTabCheck(address);
+        break;
 
         case TESTCARTRIDGEROM:
             if (writeRom)
@@ -790,11 +790,11 @@ void Victory::writeMem(Word address, Byte value, bool writeRom)
             }
         break;
             
-		default:
-			if (writeRom)
-				mainMemory_[address]=value;
-		break;
-	}
+        default:
+            if (writeRom)
+                mainMemory_[address]=value;
+        break;
+    }
 }
 
 void Victory::writeMemDebug(Word address, Byte value, bool writeRom)
@@ -804,17 +804,17 @@ void Victory::writeMemDebug(Word address, Byte value, bool writeRom)
 
 void Victory::cpuInstruction()
 {
-	if (cpuMode_ == RUN)
-	{
+    if (cpuMode_ == RUN)
+    {
         cpuCycleStep();
-	}
-	else
-	{
-		initPixie();
-		cpuCycles_ = 0;
-		instructionCounter_= 0;
-		p_Main->startTime();
-	}
+    }
+    else
+    {
+        initPixie();
+        cpuCycles_ = 0;
+        instructionCounter_= 0;
+        p_Main->startTime();
+    }
 }
 
 void Victory::resetPressed()
@@ -860,7 +860,7 @@ void Victory::resetPressed()
 
 void Victory::onReset()
 {
-	resetPressed_ = true;
+    resetPressed_ = true;
 }
 
 void Victory::checkComputerFunction()
@@ -876,28 +876,28 @@ void Victory::checkComputerFunction()
             switch(scratchpadRegister_[CHIP8_PC])
             {
                 case 0x41e:
-					p_Main->loadKeyDefinition("", "victorygrandpack1", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
-					buildInGameFound = true;
+                    p_Main->loadKeyDefinition("", "victorygrandpack1", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
+                    buildInGameFound = true;
                     buildInGame_ = 1;
                 break;
                 case 0x44a:
-					p_Main->loadKeyDefinition("", "victorygrandpack2", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
-					buildInGameFound = true;
+                    p_Main->loadKeyDefinition("", "victorygrandpack2", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
+                    buildInGameFound = true;
                     buildInGame_ = 2;
                 break;
                 case 0x4e0:
-					p_Main->loadKeyDefinition("", "victorygrandpack3", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
-					buildInGameFound = true;
+                    p_Main->loadKeyDefinition("", "victorygrandpack3", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
+                    buildInGameFound = true;
                     buildInGame_ = 3;
                 break;
                 case 0x41a:
-					p_Main->loadKeyDefinition("", "victorygrandpack4", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
-					buildInGameFound = true;
+                    p_Main->loadKeyDefinition("", "victorygrandpack4", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
+                    buildInGameFound = true;
                     buildInGame_ = 4;
                 break;
                 case 0x41c:
-					p_Main->loadKeyDefinition("", "victorygrandpack5", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
-					buildInGameFound = true;
+                    p_Main->loadKeyDefinition("", "victorygrandpack5", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
+                    buildInGameFound = true;
                     buildInGame_ = 5;
                 break;
             }
@@ -913,11 +913,11 @@ void Victory::checkComputerFunction()
 void Victory::setMultiCartLsb(Byte lsb)
 {
     multiCartLsb_ = lsb;
-	resetPressed_ = true;
+    resetPressed_ = true;
 }
 
 void Victory::setMultiCartMsb(Byte msb)
 {
-	multiCartMsb_ = msb;
-	resetPressed_ = true;
+    multiCartMsb_ = msb;
+    resetPressed_ = true;
 }

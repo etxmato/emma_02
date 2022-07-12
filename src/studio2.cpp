@@ -52,7 +52,7 @@ Studio2::Studio2(const wxString& title, const wxPoint& pos, const wxSize& size, 
 
 Studio2::~Studio2()
 {
-	p_Main->setMainPos(STUDIO, GetPosition());
+    p_Main->setMainPos(STUDIO, GetPosition());
 }
 
 void Studio2::configureComputer()
@@ -60,15 +60,15 @@ void Studio2::configureComputer()
     buildInGame_ = 0;
 
     outType_[2] = STUDIOOUT;
-	studioKeyPort_ = 0;
-	efType_[3] = STUDIOEF3;
-	efType_[4] = STUDIOEF4;
+    studioKeyPort_ = 0;
+    efType_[3] = STUDIOEF3;
+    efType_[4] = STUDIOEF4;
 
-	for (int j=0; j<2; j++) for (int i=0; i<10; i++)
-		studioKeyState_[j][i] = 0;
+    for (int j=0; j<2; j++) for (int i=0; i<10; i++)
+        studioKeyState_[j][i] = 0;
 
-	p_Main->message("Configuring Studio II");
-	p_Main->message("	Output 2: select port, EF 3: read selected port 1, EF4: read selected port 2\n");
+    p_Main->message("Configuring Studio II");
+    p_Main->message("    Output 2: select port, EF 3: read selected port 1, EF4: read selected port 2\n");
 
     p_Main->getDefaultHexKeys(STUDIO, "Studio2", "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
     p_Main->getDefaultHexKeys(STUDIO, "Studio2", "B", keyDefB1_, keyDefB2_, keyDefGameHexB_);
@@ -78,22 +78,22 @@ void Studio2::configureComputer()
     simDefA2_ = p_Main->getConfigBool("/Studio2/DiagonalA2", true);
     simDefB2_ = p_Main->getConfigBool("/Studio2/DiagonalB2", true);
 
-	multiCart_ = p_Main->getUseMultiCart(STUDIO);
-	disableSystemRom_ = p_Main->getDisableSystemRom(STUDIO);
-	multiCartLsb_ = p_Main->getMultiCartLsb(STUDIO);
-	multiCartMsb_ = p_Main->getMultiCartMsb(STUDIO);
+    multiCart_ = p_Main->getUseMultiCart(STUDIO);
+    disableSystemRom_ = p_Main->getDisableSystemRom(STUDIO);
+    multiCartLsb_ = p_Main->getMultiCartLsb(STUDIO);
+    multiCartMsb_ = p_Main->getMultiCartMsb(STUDIO);
 
-	resetCpu();
+    resetCpu();
 }
 
 void Studio2::reDefineKeysA(int hexKeyDefA1[], int hexKeyDefA2[])
 {
-	for (int i=0; i<512; i++)
-	{
-		keyDefinition[i].defined = false;
-	}
-	for (int i=0; i<10; i++)
-	{
+    for (int i=0; i<512; i++)
+    {
+        keyDefinition[i].defined = false;
+    }
+    for (int i=0; i<10; i++)
+    {
         keyDefA1_[i] = hexKeyDefA1[i];
         if (hexKeyDefA1[i] != 0)
         {
@@ -108,13 +108,13 @@ void Studio2::reDefineKeysA(int hexKeyDefA1[], int hexKeyDefA2[])
             keyDefinition[keyDefA2_[i]].player = 0;
             keyDefinition[keyDefA2_[i]].key = i;
         }
-	}
+    }
 }
 
 void Studio2::reDefineKeysB(int hexKeyDefB1[], int hexKeyDefB2[])
 {
-	for (int i=0; i<10; i++)
-	{
+    for (int i=0; i<10; i++)
+    {
         keyDefB1_[i] = hexKeyDefB1[i];
         if (hexKeyDefB1[i] != 0)
         {
@@ -129,12 +129,12 @@ void Studio2::reDefineKeysB(int hexKeyDefB1[], int hexKeyDefB2[])
             keyDefinition[keyDefB2_[i]].player = 1;
             keyDefinition[keyDefB2_[i]].key = i;
         }
-	}
+    }
 }
 
 void Studio2::keyDown(int keycode)
 {
-	if (keyDefinition[keycode].defined)
+    if (keyDefinition[keycode].defined)
     {
         if (simDefA2_)
         {
@@ -321,47 +321,47 @@ void Studio2::keyUp(int keycode)
                 studioKeyState_[1][keyDefinition[keyDefB2_[8]].key] = 1;
         }
     }
-	if (keyDefinition[keycode].defined)
-		studioKeyState_[keyDefinition[keycode].player][keyDefinition[keycode].key] = 0;
+    if (keyDefinition[keycode].defined)
+        studioKeyState_[keyDefinition[keycode].player][keyDefinition[keycode].key] = 0;
 }
 
 Byte Studio2::ef(int flag)
 {
-	switch(efType_[flag])
-	{
-		case 0:
-			return 1;
-		break;
+    switch(efType_[flag])
+    {
+        case 0:
+            return 1;
+        break;
 
-		case PIXIEEF:
-			return efPixie();
-		break;
+        case PIXIEEF:
+            return efPixie();
+        break;
 
-		case STUDIOEF3:
-			return ef3();
-		break;
+        case STUDIOEF3:
+            return ef3();
+        break;
 
-		case STUDIOEF4:
-			return ef4();
-		break;
+        case STUDIOEF4:
+            return ef4();
+        break;
 
-		default:
-			return 1;
-	}
+        default:
+            return 1;
+    }
 }
 
 Byte Studio2::ef3()
 {
-	if (studioKeyPort_<0 || studioKeyPort_>9)
-		return 1;
-	return(studioKeyState_[0][studioKeyPort_]) ? 0 : 1;
+    if (studioKeyPort_<0 || studioKeyPort_>9)
+        return 1;
+    return(studioKeyState_[0][studioKeyPort_]) ? 0 : 1;
 }
 
 Byte Studio2::ef4()
 {
-	if (studioKeyPort_<0 || studioKeyPort_>9)
-		return 1;
-	return(studioKeyState_[1][studioKeyPort_]) ? 0 : 1;
+    if (studioKeyPort_<0 || studioKeyPort_>9)
+        return 1;
+    return(studioKeyState_[1][studioKeyPort_]) ? 0 : 1;
 }
 
 void Studio2::switchQ(int value)
@@ -376,76 +376,76 @@ void Studio2::switchQ(int value)
 
 Byte Studio2::in(Byte port, Word WXUNUSED(address))
 {
-	Byte ret;
+    Byte ret;
 
-	switch(inType_[port])
-	{
-		case 0:
-			ret = 255;
-		break;
+    switch(inType_[port])
+    {
+        case 0:
+            ret = 255;
+        break;
 
-		case PIXIEIN:
-			ret = inPixie();
-		break;
+        case PIXIEIN:
+            ret = inPixie();
+        break;
 
-		default:
-			ret = 255;
-	}
-	inValues_[port] = ret;
-	return ret;
+        default:
+            ret = 255;
+    }
+    inValues_[port] = ret;
+    return ret;
 }
 
 void Studio2::out(Byte port, Word WXUNUSED(address), Byte value)
 {
-	outValues_[port] = value;
+    outValues_[port] = value;
 
-	switch(outType_[port])
-	{
-		case 0:
-			return;
-		break;
+    switch(outType_[port])
+    {
+        case 0:
+            return;
+        break;
 
-		case PIXIEOUT:
-			outPixie();
-		break;
+        case PIXIEOUT:
+            outPixie();
+        break;
 
-		case STUDIOOUT:
-			outStudio(value);
-		break;
-	}
+        case STUDIOOUT:
+            outStudio(value);
+        break;
+    }
 }
 
 void Studio2::outStudio(Byte value)
 {
-//	while(value >= 0x10) value -= 0x10;
-	studioKeyPort_ = value & 0xf;
+//    while(value >= 0x10) value -= 0x10;
+    studioKeyPort_ = value & 0xf;
 }
 
 void Studio2::cycle(int type)
 {
-	switch(cycleType_[type])
-	{
-		case 0:
-			return;
-		break;
+    switch(cycleType_[type])
+    {
+        case 0:
+            return;
+        break;
 
-		case PIXIECYCLE:
-			cyclePixie();
-		break;
-	}
+        case PIXIECYCLE:
+            cyclePixie();
+        break;
+    }
 }
 
 void Studio2::startComputer()
 {
-	resetPressed_ = false;
+    resetPressed_ = false;
 
-	p_Main->setSwName("");
+    p_Main->setSwName("");
 
     for (int i=0x800; i<0xff00; i+=0x400)
-	{
+    {
         defineMemoryType(i, MAPPEDRAM);
         defineMemoryType(i+0x100, MAPPEDRAM);
-	}
+    }
 
     p_Main->checkAndReInstallMainRom(STUDIO);
     readProgram(p_Main->getRomDir(STUDIO, MAINROM1), p_Main->getRomFile(STUDIO, MAINROM1), ROM, 0, NONAME);
@@ -490,7 +490,7 @@ void Studio2::startComputer()
             readProgram(p_Main->getRomDir(STUDIO, CARTROM), p_Main->getRomFile(STUDIO, CARTROM), ROM, 0x300, NONAME);
         p_Main->assDefault("studiocart_1", 0x400, 0x7FF);
         p_Main->assDefault("studiocart_2", 0xC00, 0xFFF);
-	}
+    }
 
     defineMemoryType(0x800, 0x9ff, RAM);
     initRam(0x800, 0x9ff);
@@ -505,83 +505,83 @@ void Studio2::startComputer()
         defineMemoryType(0x4000, 0x7fff, CARTRIDGEROM);
     }
 
-	double zoom = p_Main->getZoom();
+    double zoom = p_Main->getZoom();
 
-	configurePixieStudio2();
-	initPixie();
-	setZoom(zoom);
-	Show(true);
-	setWait(1);
-	setClear(0);
-	setWait(1);
-	setClear(1);
+    configurePixieStudio2();
+    initPixie();
+    setZoom(zoom);
+    Show(true);
+    setWait(1);
+    setClear(0);
+    setWait(1);
+    setClear(1);
 
-	if (multiCart_)
-	{
+    if (multiCart_)
+    {
         wxString game;
         if (multiCartRom_[(0xa00 + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] < 32)
             game = p_Main->getMultiCartGame(multiCartMsb_, multiCartLsb_);
         else
             game = getMultiCartGame();
         if (gameAuto_)
-			p_Main->loadKeyDefinition("", game, keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
+            p_Main->loadKeyDefinition("", game, keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
         if (game.Find('.'))
             game = game.BeforeFirst('.');
         p_Main->setSwName(game);
     }
-	else
-	{
-		if (gameAuto_)
-			p_Main->loadKeyDefinition("", p_Main->getRomFile(STUDIO, CARTROM), keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
-	}
+    else
+    {
+        if (gameAuto_)
+            p_Main->loadKeyDefinition("", p_Main->getRomFile(STUDIO, CARTROM), keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
+    }
 
-	reDefineKeysA(keyDefA1_, keyDefA2_);
-	reDefineKeysB(keyDefB1_, keyDefB2_);
+    reDefineKeysA(keyDefA1_, keyDefA2_);
+    reDefineKeysB(keyDefB1_, keyDefB2_);
 
-	p_Main->updateTitle();
+    p_Main->updateTitle();
 
-	cpuCycles_ = 0;
-	instructionCounter_= 0;
-	p_Main->startTime();
+    cpuCycles_ = 0;
+    instructionCounter_= 0;
+    p_Main->startTime();
 
-	threadPointer->Run();
+    threadPointer->Run();
 }
 
 void Studio2::writeMemDataType(Word address, Byte type)
 {
-	switch (memoryType_[address/256]&0xff)
-	{
-		case RAM:
+    switch (memoryType_[address/256]&0xff)
+    {
+        case RAM:
         case ROM:
         case MAPPEDROM:
-		case CARTRIDGEROM:
-			if (mainMemoryDataType_[address] != type)
-			{
-				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-				mainMemoryDataType_[address] = type;
-			}
+        case CARTRIDGEROM:
+            if (mainMemoryDataType_[address] != type)
+            {
+                p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
+                mainMemoryDataType_[address] = type;
+            }
             increaseExecutedMainMemory(address, type);
-		break;
+        break;
             
         case MULTICART:
-			if ((address < 0x400) && !disableSystemRom_)
-			{
-				if (mainMemoryDataType_[address] != type)
-				{
-					p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-					mainMemoryDataType_[address] = type;
-				}
+            if ((address < 0x400) && !disableSystemRom_)
+            {
+                if (mainMemoryDataType_[address] != type)
+                {
+                    p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
+                    mainMemoryDataType_[address] = type;
+                }
                 increaseExecutedMainMemory(address, type);
-			}
-			else
-			{
-				if (multiCartRomDataType_[(address + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] != type)
-				{
-					p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-					multiCartRomDataType_[(address + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] = type;
-				}
+            }
+            else
+            {
+                if (multiCartRomDataType_[(address + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] != type)
+                {
+                    p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
+                    multiCartRomDataType_[(address + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] = type;
+                }
                 increaseExecutedMultiCartRom((address + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_, type);
-			}
+            }
         break;
             
         case MAPPEDMULTICART:
@@ -606,43 +606,43 @@ void Studio2::writeMemDataType(Word address, Byte type)
             }
         break;
             
-		case MAPPEDRAM:
-			address = (address & 0x1ff) | 0x800;
-			if (mainMemoryDataType_[address] != type)
-			{
-				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-				mainMemoryDataType_[address] = type;
-			}
+        case MAPPEDRAM:
+            address = (address & 0x1ff) | 0x800;
+            if (mainMemoryDataType_[address] != type)
+            {
+                p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
+                mainMemoryDataType_[address] = type;
+            }
             increaseExecutedMainMemory(address, type);
-		break;
-	}
+        break;
+    }
 }
 
 Byte Studio2::readMemDataType(Word address, uint64_t* executed)
 {
     switch (memoryType_[address/256]&0xff)
-	{
-		case RAM:
-		case ROM:
+    {
+        case RAM:
+        case ROM:
         case MAPPEDROM:
-		case CARTRIDGEROM:
+        case CARTRIDGEROM:
             if (profilerCounter_ != PROFILER_OFF)
                 *executed = mainMemoryExecuted_[address];
-			return mainMemoryDataType_[address];
-		break;
+            return mainMemoryDataType_[address];
+        break;
 
         case MULTICART:
-			if ((address < 0x400) && !disableSystemRom_)
+            if ((address < 0x400) && !disableSystemRom_)
             {
                 if (profilerCounter_ != PROFILER_OFF)
                     *executed = mainMemoryExecuted_[address];
-				return mainMemoryDataType_[address];
+                return mainMemoryDataType_[address];
             }
-			else
+            else
             {
                 if (profilerCounter_ != PROFILER_OFF)
                     *executed = multiCartRomExecuted_[(address+multiCartLsb_*0x1000+multiCartMsb_*0x10000)&multiCartMask_];
-				return multiCartRomDataType_[(address+multiCartLsb_*0x1000+multiCartMsb_*0x10000)&multiCartMask_];
+                return multiCartRomDataType_[(address+multiCartLsb_*0x1000+multiCartMsb_*0x10000)&multiCartMask_];
             }
         break;
             
@@ -663,28 +663,28 @@ Byte Studio2::readMemDataType(Word address, uint64_t* executed)
         break;
             
         case MAPPEDRAM:
-			address = (address & 0x1ff) | 0x800;
+            address = (address & 0x1ff) | 0x800;
             if (profilerCounter_ != PROFILER_OFF)
                 *executed = mainMemoryExecuted_[address];
-			return mainMemoryDataType_[address];
-		break;
-	}
-	return MEM_TYPE_UNDEFINED;
+            return mainMemoryDataType_[address];
+        break;
+    }
+    return MEM_TYPE_UNDEFINED;
 }
 
 Byte Studio2::readMem(Word address)
 {
-	switch (memoryType_[address/256]&0xff)
-	{
-		case UNDEFINED:
-			return 255;
-		break;
+    switch (memoryType_[address/256]&0xff)
+    {
+        case UNDEFINED:
+            return 255;
+        break;
 
         case MULTICART:
-			if ((address < 0x400) && !disableSystemRom_)
-				return mainMemory_[address];
-			else
-				return multiCartRom_[(address+multiCartLsb_*0x1000+multiCartMsb_*0x10000)&multiCartMask_];
+            if ((address < 0x400) && !disableSystemRom_)
+                return mainMemory_[address];
+            else
+                return multiCartRom_[(address+multiCartLsb_*0x1000+multiCartMsb_*0x10000)&multiCartMask_];
         break;
             
         case MAPPEDMULTICART:
@@ -696,8 +696,8 @@ Byte Studio2::readMem(Word address)
         break;
             
         case MAPPEDRAM:
-			address = (address & 0x1ff) | 0x800;
-		break;
+            address = (address & 0x1ff) | 0x800;
+        break;
  
         case CARTRIDGEROM:
 //            address = (address & 0x3ff) | 0x400;
@@ -706,7 +706,7 @@ Byte Studio2::readMem(Word address)
         case MAPPEDROM:
             address = (address & 0x3ff);
         break;
-	}
+    }
     return mainMemory_[address];
 }
 
@@ -717,25 +717,25 @@ Byte Studio2::readMemDebug(Word address)
 
 void Studio2::writeMem(Word address, Byte value, bool writeRom)
 {
-	switch (memoryType_[address/256]&0xff)
-	{
-		case RAM:
-			if (mainMemory_[address]==value)
-				return;
-			mainMemory_[address]=value;
-			if (address>= memoryStart_ && address<(memoryStart_+256))
-				p_Main->updateDebugMemory(address);
-			p_Main->updateAssTabCheck(address);
-		break;
+    switch (memoryType_[address/256]&0xff)
+    {
+        case RAM:
+            if (mainMemory_[address]==value)
+                return;
+            mainMemory_[address]=value;
+            if (address>= memoryStart_ && address<(memoryStart_+256))
+                p_Main->updateDebugMemory(address);
+            p_Main->updateAssTabCheck(address);
+        break;
 
         case MULTICART:
-			if (writeRom)
-			{
-				if ((address < 0x400) && !disableSystemRom_)
-					mainMemory_[address] = value;
-				else
-					multiCartRom_[(address + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] = value;
-			}
+            if (writeRom)
+            {
+                if ((address < 0x400) && !disableSystemRom_)
+                    mainMemory_[address] = value;
+                else
+                    multiCartRom_[(address + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] = value;
+            }
         break;
             
         case MAPPEDMULTICART:
@@ -749,28 +749,28 @@ void Studio2::writeMem(Word address, Byte value, bool writeRom)
             }
         break;
             
-		case MAPPEDRAM:
-			address = (address & 0x1ff) | 0x800;
-			if (mainMemory_[address]==value)
-				return;
-			mainMemory_[address]=value;
-			if (address>= memoryStart_ && address<(memoryStart_+256))
-				p_Main->updateDebugMemory(address);
-			p_Main->updateAssTabCheck(address);
-		break;
+        case MAPPEDRAM:
+            address = (address & 0x1ff) | 0x800;
+            if (mainMemory_[address]==value)
+                return;
+            mainMemory_[address]=value;
+            if (address>= memoryStart_ && address<(memoryStart_+256))
+                p_Main->updateDebugMemory(address);
+            p_Main->updateAssTabCheck(address);
+        break;
 
-		default:
-			if (writeRom)
-				mainMemory_[address]=value;
-//			else
-//			{
-//				if (address >= 0x400 && address < 0x800)
-//				{
-//					p_Main->eventShowMessage(scratchpadRegister_[5]);
-//				}
-//			}
-		break;
-	}
+        default:
+            if (writeRom)
+                mainMemory_[address]=value;
+//            else
+//            {
+//                if (address >= 0x400 && address < 0x800)
+//                {
+//                    p_Main->eventShowMessage(scratchpadRegister_[5]);
+//                }
+//            }
+        break;
+    }
 }
 
 void Studio2::writeMemDebug(Word address, Byte value, bool writeRom)
@@ -780,17 +780,17 @@ void Studio2::writeMemDebug(Word address, Byte value, bool writeRom)
 
 void Studio2::cpuInstruction()
 {
-	if (cpuMode_ == RUN)
-	{
+    if (cpuMode_ == RUN)
+    {
         cpuCycleStep();
-	}
-	else
-	{
-		initPixie();
-		cpuCycles_ = 0;
-		instructionCounter_= 0;
-		p_Main->startTime();
-	}
+    }
+    else
+    {
+        initPixie();
+        cpuCycles_ = 0;
+        instructionCounter_= 0;
+        p_Main->startTime();
+    }
 }
 
 void Studio2::resetPressed()
@@ -838,7 +838,7 @@ void Studio2::resetPressed()
 
 void Studio2::onReset()
 {
-	resetPressed_ = true;
+    resetPressed_ = true;
 }
 
 void Studio2::checkComputerFunction()
@@ -854,27 +854,27 @@ void Studio2::checkComputerFunction()
             switch(scratchpadRegister_[CHIP8_PC])
             {
                 case 0x40e:
-					p_Main->loadKeyDefinition("", "studio2buildin1", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
+                    p_Main->loadKeyDefinition("", "studio2buildin1", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
                     buildInGameFound = true;
                     buildInGame_ = 1;
                 break;
                 case 0x439:
-					p_Main->loadKeyDefinition("", "studio2buildin2", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
+                    p_Main->loadKeyDefinition("", "studio2buildin2", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
                     buildInGameFound = true;
                     buildInGame_ = 2;
                 break;
                 case 0x48b:
-					p_Main->loadKeyDefinition("", "studio2buildin3", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
+                    p_Main->loadKeyDefinition("", "studio2buildin3", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
                     buildInGameFound = true;
                     buildInGame_ = 3;
                 break;
                 case 0x48d:
-					p_Main->loadKeyDefinition("", "studio2buildin4", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
+                    p_Main->loadKeyDefinition("", "studio2buildin4", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
                     buildInGameFound = true;
                     buildInGame_ = 4;
                 break;
                 case 0x48f:
-					p_Main->loadKeyDefinition("", "studio2buildin5", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
+                    p_Main->loadKeyDefinition("", "studio2buildin5", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
                     buildInGameFound = true;
                     buildInGame_ = 5;
                 break;

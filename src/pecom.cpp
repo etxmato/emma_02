@@ -45,131 +45,131 @@
 
 int inputKeyValue[] =
 {
-	0, 10, 11, 11, 12, 12, 13, 13, 14, 14, 15, 15, 16, 16, 17, 17, //64
-	18, 18, 19, 19, 20, 20, 21, 21, 22, 22, 23, 1, 0, 0, 0, 0, //16
-	10, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, //32
-	2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, //48
-	0, 10, 11, 11, 12, 12, 13, 13, 14, 14, 15, 15, 16, 16, 17, 17, //64
-	18, 18, 19, 19, 20, 20, 21, 21, 22, 22, 23, 0, 0, 0, 0, 0, //80
-	0, 10, 11, 11, 12, 12, 13, 13, 14, 14, 15, 15, 16, 16, 17, 17, //96
-	18, 18, 19, 19, 20, 20, 21, 21, 22, 22, 23, 0, 0, 0, 0, 25, //112
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //128
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //144
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //160
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //176
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //192
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //208
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //224
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //240
+    0, 10, 11, 11, 12, 12, 13, 13, 14, 14, 15, 15, 16, 16, 17, 17, //64
+    18, 18, 19, 19, 20, 20, 21, 21, 22, 22, 23, 1, 0, 0, 0, 0, //16
+    10, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, //32
+    2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, //48
+    0, 10, 11, 11, 12, 12, 13, 13, 14, 14, 15, 15, 16, 16, 17, 17, //64
+    18, 18, 19, 19, 20, 20, 21, 21, 22, 22, 23, 0, 0, 0, 0, 0, //80
+    0, 10, 11, 11, 12, 12, 13, 13, 14, 14, 15, 15, 16, 16, 17, 17, //96
+    18, 18, 19, 19, 20, 20, 21, 21, 22, 22, 23, 0, 0, 0, 0, 25, //112
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //128
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //144
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //160
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //176
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //192
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //208
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //224
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //240
 };
 
 int bitValue[] =
 {
-	0, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2,
-	1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 1, 0, 0, 0, 0,
-	1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2,
-	1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2,
-	0, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2,
-	1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 0, 2, 0, 0, 0,
-	0, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2,
-	1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 0, 0, 0, 0, 2,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    0, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2,
+    1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 1, 0, 0, 0, 0,
+    1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2,
+    1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2,
+    0, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2,
+    1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 0, 2, 0, 0, 0,
+    0, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2,
+    1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 0, 0, 0, 0, 2,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
 int shiftKey[] =
 {
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, SHIFT, 0, SHIFT, SHIFT,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, SHIFT, SHIFT, 0, SHIFT, 0, 0,
-	SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT,
-	SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, 0, SHIFT, 0, 0, SHIFT,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, SHIFT, 0, SHIFT, SHIFT,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, SHIFT, SHIFT, 0, SHIFT, 0, 0,
+    SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT,
+    SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, 0, SHIFT, 0, 0, SHIFT,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
 int shiftKey2[] =
 {
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
 int ctrlKey[] =
 {
-	0, CTRL, CTRL, CTRL, CTRL, CTRL, CTRL, CTRL, CTRL, CTRL, CTRL, CTRL, CTRL, CTRL, CTRL, CTRL,
-	CTRL, CTRL, CTRL, CTRL, CTRL, CTRL, CTRL, CTRL, CTRL, CTRL, CTRL, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    0, CTRL, CTRL, CTRL, CTRL, CTRL, CTRL, CTRL, CTRL, CTRL, CTRL, CTRL, CTRL, CTRL, CTRL, CTRL,
+    CTRL, CTRL, CTRL, CTRL, CTRL, CTRL, CTRL, CTRL, CTRL, CTRL, CTRL, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
 Pecom::Pecom(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock, Conf computerConf)
 :V1870(title, pos, size, zoomLevel, computerType, clock)
 {
     computerConfiguration = computerConf;
-	p_Printer = new Printer();
-	p_Printer->initPecom(p_Printer);
+    p_Printer = new Printer();
+    p_Printer->initPecom(p_Printer);
 }
 
 Pecom::~Pecom()
 {
-	p_Printer->closeFrames();
-	delete p_Printer;
-	p_Main->setMainPos(PECOM, GetPosition());
-/*	if (!capsPressedOnStart_ && wxGetKeyState(WXK_CAPITAL))
-	{
+    p_Printer->closeFrames();
+    delete p_Printer;
+    p_Main->setMainPos(PECOM, GetPosition());
+/*    if (!capsPressedOnStart_ && wxGetKeyState(WXK_CAPITAL))
+    {
 #ifdef __WXMSW__
-		::keybd_event( VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY, 0 );
-		::keybd_event( VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 1 );
+        ::keybd_event( VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY, 0 );
+        ::keybd_event( VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 1 );
 #endif
     }*/
 }
 
 void Pecom::charEvent(int keycode)
 {
-	if (keyDown_) return;
-	if (keycode < 256)
-	{
+    if (keyDown_) return;
+    if (keycode < 256)
+    {
         if (keycode >= 'a' && keycode <='z')
             keycode-=32;
         else
@@ -177,37 +177,37 @@ void Pecom::charEvent(int keycode)
             if (keycode >= 'A' && keycode <='Z')
                 keycode+=32;
         }
-		keyValue_[inputKeyValue[keycode]] |= (bitValue[keycode]&0xff);
-		if (keyValue_[inputKeyValue[keycode]] != 0)
-		{
-			keyDown_ = true;
-			keyboardCode_ = keycode;
-			ctrlEf1_ = ctrlKey[keycode];
-			shiftEf2_ = shiftKey[keycode];
-			shiftEf3_ = shiftKey2[keycode];
-		}
-	}
+        keyValue_[inputKeyValue[keycode]] |= (bitValue[keycode]&0xff);
+        if (keyValue_[inputKeyValue[keycode]] != 0)
+        {
+            keyDown_ = true;
+            keyboardCode_ = keycode;
+            ctrlEf1_ = ctrlKey[keycode];
+            shiftEf2_ = shiftKey[keycode];
+            shiftEf3_ = shiftKey2[keycode];
+        }
+    }
 }
 
 bool Pecom::keyDownExtended(int keycode, wxKeyEvent& event)
 {
-	if (pecomRunCommand_ != 0)
-	{
-		if (keyDown_)
-		{
-			keyDown_ = false;
-			ctrlEf1_ = 0;
-			shiftEf2_ = 0;
-			shiftEf3_ = 0;
-			if (keyboardCode_ == 13)
-				keyValue_[0] &= 0xfe; 
+    if (pecomRunCommand_ != 0)
+    {
+        if (keyDown_)
+        {
+            keyDown_ = false;
+            ctrlEf1_ = 0;
+            shiftEf2_ = 0;
+            shiftEf3_ = 0;
+            if (keyboardCode_ == 13)
+                keyValue_[0] &= 0xfe; 
 
-			if (keyboardCode_ > 26)
-				keyValue_[inputKeyValue[(unsigned char)keyboardCode_]]  &= ((bitValue[(unsigned char)keyboardCode_]&0xff)  ^ 0xff);
-			keyboardCode_ = 0;
-		}
-		pecomRunCommand_ = 0;
-	}
+            if (keyboardCode_ > 26)
+                keyValue_[inputKeyValue[(unsigned char)keyboardCode_]]  &= ((bitValue[(unsigned char)keyboardCode_]&0xff)  ^ 0xff);
+            keyboardCode_ = 0;
+        }
+        pecomRunCommand_ = 0;
+    }
 
     if (keyDown_)
     {
@@ -232,71 +232,71 @@ bool Pecom::keyDownExtended(int keycode, wxKeyEvent& event)
     
     keyboardCode_ = keycode;
     
-	Byte shiftPressed = 0;
-	switch (event.GetModifiers())
-	{
-		case wxMOD_SHIFT :
-			shiftPressed = 1;
-		break;
-	}
+    Byte shiftPressed = 0;
+    switch (event.GetModifiers())
+    {
+        case wxMOD_SHIFT :
+            shiftPressed = 1;
+        break;
+    }
 
-	switch (keycode)
-	{
+    switch (keycode)
+    {
         case WXK_ESCAPE:
-			escEf4_ = 1;
-			return true;
-		break;
+            escEf4_ = 1;
+            return true;
+        break;
 
         case WXK_RETURN:
-			keyValue_[0] |= 1;
-			keyDown_ = true;
-			shiftEf2_ = shiftPressed;
-			return true;
-		break;
+            keyValue_[0] |= 1;
+            keyDown_ = true;
+            shiftEf2_ = shiftPressed;
+            return true;
+        break;
 
         case WXK_END:
-			keyValue_[1] |= 1;
-			keyDown_ = true;
-			shiftEf2_ = shiftPressed;
-			return true;
-		break;
+            keyValue_[1] |= 1;
+            keyDown_ = true;
+            shiftEf2_ = shiftPressed;
+            return true;
+        break;
 
-		case WXK_HOME:
-			keyValue_[0] |= 2; 
-			keyDown_ = true;
-			shiftEf2_ = shiftPressed;
-			return true;
-		break;
+        case WXK_HOME:
+            keyValue_[0] |= 2; 
+            keyDown_ = true;
+            shiftEf2_ = shiftPressed;
+            return true;
+        break;
 
-		case WXK_DOWN:
-			keyValue_[23] |= 2; 
-			keyDown_ = true;
-			shiftEf2_ = shiftPressed;
-			return true;
-		break;
+        case WXK_DOWN:
+            keyValue_[23] |= 2; 
+            keyDown_ = true;
+            shiftEf2_ = shiftPressed;
+            return true;
+        break;
 
-		case WXK_LEFT:
-			keyValue_[24] |= 1; 
-			keyDown_ = true;
-			shiftEf2_ = shiftPressed;
-			return true;
-		break;
+        case WXK_LEFT:
+            keyValue_[24] |= 1; 
+            keyDown_ = true;
+            shiftEf2_ = shiftPressed;
+            return true;
+        break;
 
-		case WXK_RIGHT:
-			keyValue_[24] |= 2; 
-			keyDown_ = true;
-			shiftEf2_ = shiftPressed;
-			return true;
-		break;
+        case WXK_RIGHT:
+            keyValue_[24] |= 2; 
+            keyDown_ = true;
+            shiftEf2_ = shiftPressed;
+            return true;
+        break;
 
-		case WXK_UP:
-			keyValue_[25] |= 1; 
-			keyDown_ = true;
-			shiftEf2_ = shiftPressed;
-			return true;
-		break;
-	}
-	return false;
+        case WXK_UP:
+            keyValue_[25] |= 1; 
+            keyDown_ = true;
+            shiftEf2_ = shiftPressed;
+            return true;
+        break;
+    }
+    return false;
 }
 
 void Pecom::keyUpExtended(int keycode, wxKeyEvent& WXUNUSED(event))
@@ -315,30 +315,30 @@ void Pecom::keyUpExtended(int keycode, wxKeyEvent& WXUNUSED(event))
         break;
     }
     
-	switch (keycode)
-	{
+    switch (keycode)
+    {
         case WXK_ESCAPE:
-			escEf4_ = 0;
-			return;
-		break;
+            escEf4_ = 0;
+            return;
+        break;
 
         case WXK_RETURN:
-			keyValue_[0] &= 0xfe;
-			keyDown_ = false;
-			shiftEf2_ = 0;
-		break;
+            keyValue_[0] &= 0xfe;
+            keyDown_ = false;
+            shiftEf2_ = 0;
+        break;
 
         case WXK_END:
-			keyValue_[1] &= 0xfe;
-			keyDown_ = false;
-			shiftEf2_ = 0;
-		break;
+            keyValue_[1] &= 0xfe;
+            keyDown_ = false;
+            shiftEf2_ = 0;
+        break;
 
-		case WXK_HOME:
-			keyValue_[0] &= 0xfd; 
-			keyDown_ = false;
-			shiftEf2_ = 0;
-		break;
+        case WXK_HOME:
+            keyValue_[0] &= 0xfd; 
+            keyDown_ = false;
+            shiftEf2_ = 0;
+        break;
 
         case WXK_SPACE:
             keyValue_[inputKeyValue[32]]  &= ((bitValue[32]&0xff) ^ 0xff);
@@ -346,30 +346,30 @@ void Pecom::keyUpExtended(int keycode, wxKeyEvent& WXUNUSED(event))
             shiftEf2_ = 0;
         break;
             
-		case WXK_DOWN:
-			keyValue_[23] &= 0xfd; 
-			keyDown_ = false;
-			shiftEf2_ = 0;
-		break;
+        case WXK_DOWN:
+            keyValue_[23] &= 0xfd; 
+            keyDown_ = false;
+            shiftEf2_ = 0;
+        break;
 
-		case WXK_LEFT:
-			keyValue_[24] &= 0xfe; 
-			keyDown_ = false;
-			shiftEf2_ = 0;
-		break;
+        case WXK_LEFT:
+            keyValue_[24] &= 0xfe; 
+            keyDown_ = false;
+            shiftEf2_ = 0;
+        break;
 
-		case WXK_RIGHT:
-			keyValue_[24] &= 0xfd; 
-			keyDown_ = false;
-			shiftEf2_ = 0;
-		break;
+        case WXK_RIGHT:
+            keyValue_[24] &= 0xfd; 
+            keyDown_ = false;
+            shiftEf2_ = 0;
+        break;
 
-		case WXK_UP:
-			keyValue_[25] &= 0xfe; 
-			keyDown_ = false;
-			shiftEf2_ = 0;
-		break;
-	}
+        case WXK_UP:
+            keyValue_[25] &= 0xfe; 
+            keyDown_ = false;
+            shiftEf2_ = 0;
+        break;
+    }
 
     int keyNumber = 0, newKey = 0;
     while (keyNumber != 5 && newKey == 0)
@@ -424,180 +424,180 @@ void Pecom::keyUpExtended(int keycode, wxKeyEvent& WXUNUSED(event))
         }
     }
     
-	if (keyDown_)
-	{
-		keyDown_ = false;
-		ctrlEf1_ = 0;
-		shiftEf2_ = 0;
-		shiftEf3_ = 0;
-		keyValue_[inputKeyValue[(unsigned char)keyboardCode_]]  &= ((bitValue[(unsigned char)keyboardCode_]&0xff) ^ 0xff);
-		keyboardCode_ = 0;
-	}
+    if (keyDown_)
+    {
+        keyDown_ = false;
+        ctrlEf1_ = 0;
+        shiftEf2_ = 0;
+        shiftEf3_ = 0;
+        keyValue_[inputKeyValue[(unsigned char)keyboardCode_]]  &= ((bitValue[(unsigned char)keyboardCode_]&0xff) ^ 0xff);
+        keyboardCode_ = 0;
+    }
 }
 
 void Pecom::keyDownFile()
 {
-	if (keyboardCode_ == 13)
-	{
-		keyDown_ = true;
-		keyValue_[0] |= 1; 
-	}
+    if (keyboardCode_ == 13)
+    {
+        keyDown_ = true;
+        keyValue_[0] |= 1; 
+    }
 
-	if (keyboardCode_ > 26)
-	{
-		keyValue_[inputKeyValue[(unsigned char)keyboardCode_]] |= (bitValue[(unsigned char)keyboardCode_]&0xff);
-		if (keyValue_[inputKeyValue[(unsigned char)keyboardCode_]] != 0)
-		{
-			keyDown_ = true;
-			ctrlEf1_ = ctrlKey[(unsigned char)keyboardCode_];
-			shiftEf2_ = shiftKey[(unsigned char)keyboardCode_];
-			shiftEf3_ = shiftKey2[(unsigned char)keyboardCode_];
-		}
-	}
+    if (keyboardCode_ > 26)
+    {
+        keyValue_[inputKeyValue[(unsigned char)keyboardCode_]] |= (bitValue[(unsigned char)keyboardCode_]&0xff);
+        if (keyValue_[inputKeyValue[(unsigned char)keyboardCode_]] != 0)
+        {
+            keyDown_ = true;
+            ctrlEf1_ = ctrlKey[(unsigned char)keyboardCode_];
+            shiftEf2_ = shiftKey[(unsigned char)keyboardCode_];
+            shiftEf3_ = shiftKey2[(unsigned char)keyboardCode_];
+        }
+    }
 }
 
 void Pecom::keyUpFile()
 {
-	if (keyDown_)
-	{
-		keyDown_ = false;
-		ctrlEf1_ = 0;
-		shiftEf2_ = 0;
-		shiftEf3_ = 0;
-		if (keyboardCode_ == 13)
-			keyValue_[0] &= 0xfe; 
+    if (keyDown_)
+    {
+        keyDown_ = false;
+        ctrlEf1_ = 0;
+        shiftEf2_ = 0;
+        shiftEf3_ = 0;
+        if (keyboardCode_ == 13)
+            keyValue_[0] &= 0xfe; 
 
-		if (keyboardCode_ > 26)
-			keyValue_[inputKeyValue[(unsigned char)keyboardCode_]]  &= ((bitValue[(unsigned char)keyboardCode_]&0xff)  ^ 0xff);
-		keyboardCode_ = 0;
-	}
+        if (keyboardCode_ > 26)
+            keyValue_[inputKeyValue[(unsigned char)keyboardCode_]]  &= ((bitValue[(unsigned char)keyboardCode_]&0xff)  ^ 0xff);
+        keyboardCode_ = 0;
+    }
 }
 
 void Pecom::configureComputer()
 {
-	outType_[1] = PECOMBANK;
-	inType_[3] = PECOMKEY;
-	cycleType_[COMPUTERCYCLE] = PECOMCYCLE;
+    outType_[1] = PECOMBANK;
+    inType_[3] = PECOMKEY;
+    cycleType_[COMPUTERCYCLE] = PECOMCYCLE;
 
-	efType_[1] = PECOMEF1;
-	efType_[2] = PECOMEF2;
-	efType_[3] = PECOMEF3;
-	efType_[4] = PECOMEF4;
+    efType_[1] = PECOMEF1;
+    efType_[2] = PECOMEF2;
+    efType_[3] = PECOMEF3;
+    efType_[4] = PECOMEF4;
 
-	p_Main->message("Configuring Pecom 32/64");
-	p_Main->message("	Input 3: keyboard, output 1: bank switch");
-	p_Main->message("	EF 1: CTRL or display/non display period, depending on OUT1 state");
-	p_Main->message("	EF 2: cassette in, printer ready and SHIFT, depending on OUT1 state");
-	p_Main->message("	EF 3: CAPS, EF 4: ESC \n");
+    p_Main->message("Configuring Pecom 32/64");
+    p_Main->message("    Input 3: keyboard, output 1: bank switch");
+    p_Main->message("    EF 1: CTRL or display/non display period, depending on OUT1 state");
+    p_Main->message("    EF 2: cassette in, printer ready and SHIFT, depending on OUT1 state");
+    p_Main->message("    EF 3: CAPS, EF 4: ESC \n");
 
-	resetCpu();
+    resetCpu();
 }
 
 void Pecom::initComputer()
 {
-	init1870();
-	setClear(1);
-	setWait(1);
-	keyboardCode_ = 0;
-	keyDown_ = false;
-	cycleValue_ = 1;
+    init1870();
+    setClear(1);
+    setWait(1);
+    keyboardCode_ = 0;
+    keyDown_ = false;
+    cycleValue_ = 1;
 
-	for (int i=0; i<26; i++)
-		keyValue_[i]=0;
+    for (int i=0; i<26; i++)
+        keyValue_[i]=0;
 
     for (int i=0; i<5; i++)
         secondKeyboardCodes[i] = 0;
 
-	addressLatch_ = 0x8000;
-	keyboardCount_ = 0;
-	videoRAM_ = false;
-	ctrlEf1_ = 0;
-	shiftEf2_ = 0;
-	cassetteEf_ = 0;
-	shiftEf3_ = 0;
-	escEf4_ = 0;
-//	tapeRunning_ = false;
-	pecomKeyFileOpened_ = false;
-	dmaCounter_ = -100;
-	printerStatus_ = PRIDLE;
-	cycleCount_ = PRINTCYCLEVALUE;
-	pecomRunCommand_ = 0;
-	pecomRunState_ = BASICSTATE;
+    addressLatch_ = 0x8000;
+    keyboardCount_ = 0;
+    videoRAM_ = false;
+    ctrlEf1_ = 0;
+    shiftEf2_ = 0;
+    cassetteEf_ = 0;
+    shiftEf3_ = 0;
+    escEf4_ = 0;
+//    tapeRunning_ = false;
+    pecomKeyFileOpened_ = false;
+    dmaCounter_ = -100;
+    printerStatus_ = PRIDLE;
+    cycleCount_ = PRINTCYCLEVALUE;
+    pecomRunCommand_ = 0;
+    pecomRunState_ = BASICSTATE;
 
-/*	if (!wxGetKeyState (WXK_CAPITAL))
-	{
-		capsPressedOnStart_ = false;
+/*    if (!wxGetKeyState (WXK_CAPITAL))
+    {
+        capsPressedOnStart_ = false;
 #ifdef __WXMSW__
-		::keybd_event( VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY, 0 );
-		::keybd_event( VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0 );
+        ::keybd_event( VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY, 0 );
+        ::keybd_event( VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0 );
 #endif
-	}
-	else
-		capsPressedOnStart_ = true;*/
+    }
+    else
+        capsPressedOnStart_ = true;*/
 }
 
 Byte Pecom::ef(int flag)
 {
-	switch(efType_[flag])
-	{
-		case 0:
-			return 1;
-		break;
+    switch(efType_[flag])
+    {
+        case 0:
+            return 1;
+        break;
 
-		case PECOMEF1:
-			if (videoRAM_)
-				return ef1_1870();
-			else
-				return !ctrlEf1_;
-		break;
+        case PECOMEF1:
+            if (videoRAM_)
+                return ef1_1870();
+            else
+                return !ctrlEf1_;
+        break;
 
-		case PECOMEF2:
-			if (videoRAM_)
-			{
-				if (printerStatus_ != PRIDLE)
-					return true;
-				else
-					return cassetteEf_;
-			}
-			else
-				return shiftEf2_;
-		break;
+        case PECOMEF2:
+            if (videoRAM_)
+            {
+                if (printerStatus_ != PRIDLE)
+                    return true;
+                else
+                    return cassetteEf_;
+            }
+            else
+                return shiftEf2_;
+        break;
 
-		case PECOMEF3:
+        case PECOMEF3:
             if (!videoRAM_)
                 return shiftEf3_;
-		break;
+        break;
 
-		case PECOMEF4:
+        case PECOMEF4:
             if (!videoRAM_)
                 return !escEf4_;
-		break;
+        break;
 
-		default:
-			return 1;
-	}
+        default:
+            return 1;
+    }
     return 1;
 }
 
 Byte Pecom::in(Byte port, Word address)
 {
-	Byte ret;
+    Byte ret;
     ret = 255;
 
-//	p_Main->messageInt(port);
-	switch(inType_[port])
-	{
-		case 0:
-			ret = 255;
-		break;
+//    p_Main->messageInt(port);
+    switch(inType_[port])
+    {
+        case 0:
+            ret = 255;
+        break;
 
-		case PECOMKEY:
+        case PECOMKEY:
             if (!videoRAM_)
             {
-//  			ret = keyValue_[address - 0x7cca] & 0x3;
+//              ret = keyValue_[address - 0x7cca] & 0x3;
                 ret = keyValue_[(address&0x3f) - 0xa] & 0x3;
 
-/*			    if (inputKeyValue[(unsigned char)keyboardCode_] == ((address & 0x3f) - 0xa))
+/*                if (inputKeyValue[(unsigned char)keyboardCode_] == ((address & 0x3f) - 0xa))
                 {
                     if (!wxGetKeyState((wxKeyCode)keyboardCode_))
                     {
@@ -702,137 +702,137 @@ Byte Pecom::in(Byte port, Word address)
                 }
 
             }
-		break;
+        break;
 
-		default:
-			ret = 255;
-	}
-	inValues_[port] = ret;
-	return ret;
+        default:
+            ret = 255;
+    }
+    inValues_[port] = ret;
+    return ret;
 }
 
 void Pecom::out(Byte port, Word address, Byte value)
 {
-	outValues_[port] = value;
-	switch(outType_[port])
-	{
-		case 0:
-			return;
-		break;
+    outValues_[port] = value;
+    switch(outType_[port])
+    {
+        case 0:
+            return;
+        break;
 
-		case PECOMBANK:
-			if (dmaCounter_ == -100)
+        case PECOMBANK:
+            if (dmaCounter_ == -100)
             {
                 if (p_Main->isDramActive(PECOM))
                     dmaCounter_ = DMACYCLE;
                 else
                     dmaCounter_ = -50;
             }
-			addressLatch_ = 0;
-			if (value == 2)
-			{
-				videoRAM_ = true;
-//				p_Main->message("V");
-//				p_Main->messageInt(value);
-			}
-			else
-			{
-				videoRAM_ = false;
-	//			p_Main->message("R");
-	//			p_Main->messageInt(value);
-			}
-		break;
+            addressLatch_ = 0;
+            if (value == 2)
+            {
+                videoRAM_ = true;
+//                p_Main->message("V");
+//                p_Main->messageInt(value);
+            }
+            else
+            {
+                videoRAM_ = false;
+    //            p_Main->message("R");
+    //            p_Main->messageInt(value);
+            }
+        break;
 
-		case V1870OUT3:
+        case V1870OUT3:
             if (videoRAM_)
                 out3_1870(value);
-		break;
+        break;
 
-		case V1870OUT4:
+        case V1870OUT4:
             if (videoRAM_)
             {
                 outValues_[port] = address;
                 out4_1870(address);
             }
-		break;
+        break;
 
-		case V1870OUT5:
+        case V1870OUT5:
             if (videoRAM_)
             {
                 outValues_[port] = address;
                 out5_1870(address);
             }
-		break;
+        break;
 
-		case V1870OUT6:
+        case V1870OUT6:
             if (videoRAM_)
             {
                 outValues_[port] = address;
                 out6_1870(address);
             }
-		break;
+        break;
 
-		case V1870OUT7:
+        case V1870OUT7:
             if (videoRAM_)
             {
                 outValues_[port] = address;
                 out7_1870(address);
             }
-		break;
-	}
+        break;
+    }
 }
 
 void Pecom::cycle(int type)
 {
-	switch(cycleType_[type])
-	{
-		case 0:
-			return;
-		break;
+    switch(cycleType_[type])
+    {
+        case 0:
+            return;
+        break;
 
-		case PECOMCYCLE:
-			cyclePecom();
-		break;
+        case PECOMCYCLE:
+            cyclePecom();
+        break;
 
-		case V1870CYCLE:
-			cycle1870();
-		break;
+        case V1870CYCLE:
+            cycle1870();
+        break;
 
-		case V1870BLINK:
-			blink1870();
-		break;
-	}
+        case V1870BLINK:
+            blink1870();
+        break;
+    }
 }
 
 void Pecom::cyclePecom()
 {
-	if (dmaCounter_ > 0)
-	{
-		dmaCounter_--;
-		if (dmaCounter_ <= 0)
-		{
-			dmaOut();
-			dmaCounter_ = DMACYCLE;
-		}
-	}
-/*	cycleCount_--;
-	if (cycleCount_ <= 0)
-	{
-		cycleCount_ = PRINTCYCLEVALUE;
-		printEf_ = !printEf_;
-	}*/
+    if (dmaCounter_ > 0)
+    {
+        dmaCounter_--;
+        if (dmaCounter_ <= 0)
+        {
+            dmaOut();
+            dmaCounter_ = DMACYCLE;
+        }
+    }
+/*    cycleCount_--;
+    if (cycleCount_ <= 0)
+    {
+        cycleCount_ = PRINTCYCLEVALUE;
+        printEf_ = !printEf_;
+    }*/
 }
 
 void Pecom::startComputer()
 {
-	startPecomKeyFile();
-	resetPressed_ = false;
+    startPecomKeyFile();
+    resetPressed_ = false;
 
-	p_Main->setSwName("");
-	p_Main->updateTitle();
+    p_Main->setSwName("");
+    p_Main->updateTitle();
 
     p_Main->checkAndReInstallMainRom(PECOM);
-	readProgramPecom(p_Main->getRomDir(PECOM, MAINROM1), p_Main->getRomFile(PECOM, MAINROM1), ROM, 0x8000, NONAME);
+    readProgramPecom(p_Main->getRomDir(PECOM, MAINROM1), p_Main->getRomFile(PECOM, MAINROM1), ROM, 0x8000, NONAME);
     
     if (mainMemory_[0x80bd] == 0x90 && mainMemory_[0x80be] == 0x05)
     {
@@ -846,107 +846,107 @@ void Pecom::startComputer()
         extendedRAM_ = false;
     }
    
-	defineMemoryType(0xf400, 0xf7ff, CRAM1870);
-	defineMemoryType(0xf800, 0xffff, PRAM1870);
+    defineMemoryType(0xf400, 0xf7ff, CRAM1870);
+    defineMemoryType(0xf800, 0xffff, PRAM1870);
 
-/*	if (p_Main->getRomFile(PECOM, MAINROM1) == "pecom32.bin")
-	{
-		defineMemoryType(0x0000, 0x3fff, RAM);
-		defineMemoryType(0x4000, 0x7fff, MAPPEDRAM);
-	}
-	else*/ 
-	// Pecom 32 I guess had 32 KB in total as the 64 has 32K ROM and 32KRAM. Pecom 32 has 16KB ROM, so 16KB RAM? 
-	// However not sure how it would have worked
-	// The mapping above doesn't work
+/*    if (p_Main->getRomFile(PECOM, MAINROM1) == "pecom32.bin")
+    {
+        defineMemoryType(0x0000, 0x3fff, RAM);
+        defineMemoryType(0x4000, 0x7fff, MAPPEDRAM);
+    }
+    else*/ 
+    // Pecom 32 I guess had 32 KB in total as the 64 has 32K ROM and 32KRAM. Pecom 32 has 16KB ROM, so 16KB RAM? 
+    // However not sure how it would have worked
+    // The mapping above doesn't work
 
-	defineMemoryType(0x0000, 0x7fff, RAM);
+    defineMemoryType(0x0000, 0x7fff, RAM);
     initRam(0x0, 0x7fff);
     p_Main->assDefault("mycode", 0x200, 0x11FF);
     
-	configure1870Pecom();
-	Show(true);
+    configure1870Pecom();
+    Show(true);
 
-	cpuCycles_ = 0;
-	instructionCounter_= 0;
-	p_Main->startTime();
+    cpuCycles_ = 0;
+    instructionCounter_= 0;
+    p_Main->startTime();
 
-	threadPointer->Run();
+    threadPointer->Run();
 }
 
 void Pecom::writeMemDataType(Word address, Byte type)
 {
-	address = address | addressLatch_;
-	switch (memoryType_[address/256]&0xff)
-	{
-		case RAM:
-		case MAPPEDRAM:
-		case ROM:
+    address = address | addressLatch_;
+    switch (memoryType_[address/256]&0xff)
+    {
+        case RAM:
+        case MAPPEDRAM:
+        case ROM:
         case PRAM1870:
         case CRAM1870:
-			if (mainMemoryDataType_[address] != type)
-			{
-				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-				mainMemoryDataType_[address] = type;
-			}
+            if (mainMemoryDataType_[address] != type)
+            {
+                p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
+                mainMemoryDataType_[address] = type;
+            }
             increaseExecutedMainMemory(address, type);
-		break;
-	}
+        break;
+    }
 }
 
 Byte Pecom::readMemDataType(Word address, uint64_t* executed)
 {
-	address = address | addressLatch_;
-	switch (memoryType_[address/256]&0xff)
-	{
-		case RAM:
-		case MAPPEDRAM:
-		case ROM:
+    address = address | addressLatch_;
+    switch (memoryType_[address/256]&0xff)
+    {
+        case RAM:
+        case MAPPEDRAM:
+        case ROM:
         case PRAM1870:
         case CRAM1870:
             if (profilerCounter_ != PROFILER_OFF)
                 *executed = mainMemoryExecuted_[address];
             return mainMemoryDataType_[address];
-		break;
-	}
-	return MEM_TYPE_UNDEFINED;
+        break;
+    }
+    return MEM_TYPE_UNDEFINED;
 }
 
 Byte Pecom::readMem(Word address)
 {
-	address = address | addressLatch_;
-	switch (memoryType_[address/256]&0xff)
-	{
-		case UNDEFINED:
-			return 255;
-		break;
+    address = address | addressLatch_;
+    switch (memoryType_[address/256]&0xff)
+    {
+        case UNDEFINED:
+            return 255;
+        break;
 
-		case PRAM1870:
-			if (videoRAM_)
-				return readPram(address);
-			else
-				return mainMemory_[address];
-		break;
+        case PRAM1870:
+            if (videoRAM_)
+                return readPram(address);
+            else
+                return mainMemory_[address];
+        break;
 
-		case CRAM1870:
-			if (videoRAM_)
-				return readCram(address);
-			else
-				return mainMemory_[address];
-		break;
+        case CRAM1870:
+            if (videoRAM_)
+                return readCram(address);
+            else
+                return mainMemory_[address];
+        break;
 
-		case ROM:
-		case RAM:
-			return mainMemory_[address];
-		break;
+        case ROM:
+        case RAM:
+            return mainMemory_[address];
+        break;
 
-		case MAPPEDRAM:
-			return mainMemory_[address & 0x3fff];
-		break;
+        case MAPPEDRAM:
+            return mainMemory_[address & 0x3fff];
+        break;
 
-		default:
-			return 255;
-		break;
-	}
+        default:
+            return 255;
+        break;
+    }
 }
 
 Byte Pecom::readMemDebug(Word address)
@@ -956,34 +956,20 @@ Byte Pecom::readMemDebug(Word address)
 
 void Pecom::writeMem(Word address, Byte value, bool writeRom)
 {
-	if (writeRom)
-	{
-		mainMemory_[address]=value;
-		return;
-	}
-	switch (memoryType_[address/256]&0xff)
-	{
-		case UNDEFINED:
-		case ROM:
-		break;
+    if (writeRom)
+    {
+        mainMemory_[address]=value;
+        return;
+    }
+    switch (memoryType_[address/256]&0xff)
+    {
+        case UNDEFINED:
+        case ROM:
+        break;
 
-		case PRAM1870:
-			if (videoRAM_)
-				writePram(address, value);
-            if (extendedRAM_)
-            {
-                if (mainMemory_[address]==value)
-                    return;
-                mainMemory_[address]=value;
-                if (address>= memoryStart_ && address<(memoryStart_+256))
-                    p_Main->updateDebugMemory(address);
-                p_Main->updateAssTabCheck(address);
-            }
-		break;
-
-		case CRAM1870:
-			if (videoRAM_)
-				writeCram(address, value);
+        case PRAM1870:
+            if (videoRAM_)
+                writePram(address, value);
             if (extendedRAM_)
             {
                 if (mainMemory_[address]==value)
@@ -995,24 +981,38 @@ void Pecom::writeMem(Word address, Byte value, bool writeRom)
             }
         break;
 
-		case MAPPEDRAM:
-			if (mainMemory_[address&0x3fff]==value)
-				return;
-			mainMemory_[address&0x3fff]=value;
-			if ((address&0x3fff)>= memoryStart_ && (address&0x3fff)<(memoryStart_+256)) 
-				p_Main->updateDebugMemory(address&0x3fff);
-			p_Main->updateAssTabCheck(address&0x3fff);
-			break;
+        case CRAM1870:
+            if (videoRAM_)
+                writeCram(address, value);
+            if (extendedRAM_)
+            {
+                if (mainMemory_[address]==value)
+                    return;
+                mainMemory_[address]=value;
+                if (address>= memoryStart_ && address<(memoryStart_+256))
+                    p_Main->updateDebugMemory(address);
+                p_Main->updateAssTabCheck(address);
+            }
+        break;
 
-		case RAM:
-			if (mainMemory_[address]==value)
-				return;
-			mainMemory_[address]=value;
-			if (address>= memoryStart_ && address<(memoryStart_+256))
-				p_Main->updateDebugMemory(address);
-			p_Main->updateAssTabCheck(address);
-		break;
-	}
+        case MAPPEDRAM:
+            if (mainMemory_[address&0x3fff]==value)
+                return;
+            mainMemory_[address&0x3fff]=value;
+            if ((address&0x3fff)>= memoryStart_ && (address&0x3fff)<(memoryStart_+256)) 
+                p_Main->updateDebugMemory(address&0x3fff);
+            p_Main->updateAssTabCheck(address&0x3fff);
+            break;
+
+        case RAM:
+            if (mainMemory_[address]==value)
+                return;
+            mainMemory_[address]=value;
+            if (address>= memoryStart_ && address<(memoryStart_+256))
+                p_Main->updateDebugMemory(address);
+            p_Main->updateAssTabCheck(address);
+        break;
+    }
 }
 
 void Pecom::writeMemDebug(Word address, Byte value, bool writeRom)
@@ -1022,10 +1022,10 @@ void Pecom::writeMemDebug(Word address, Byte value, bool writeRom)
 
 void Pecom::cpuInstruction()
 {
-	if (cpuMode_ == RUN)
-	{
+    if (cpuMode_ == RUN)
+    {
         cpuCycleStep();
-	}
+    }
 }
 
 void Pecom::resetPressed()
@@ -1056,62 +1056,62 @@ void Pecom::resetPressed()
 
 void Pecom::onReset()
 {
-	resetPressed_ = true;
+    resetPressed_ = true;
 }
 
 void Pecom::printOutPecom(int q)
 {
-	cassetteEf_ = false;
-	switch (printerStatus_)
-	{
-		case PRIDLE:
-			if (q == 0)
-			{
-				printerStatus_ = PRW_START;
-//				p_Main->message("start");
-			}
-//			else
-//				p_Main->message("idle - none");
-		break;
+    cassetteEf_ = false;
+    switch (printerStatus_)
+    {
+        case PRIDLE:
+            if (q == 0)
+            {
+                printerStatus_ = PRW_START;
+//                p_Main->message("start");
+            }
+//            else
+//                p_Main->message("idle - none");
+        break;
 
-		case PRW_START:
-			if (q)
-			{
-//				p_Main->message("busy");
-				printerStatus_ = PRBUSY;
-				p_Printer->startPecomChar();
-				printBit_ = 0;
+        case PRW_START:
+            if (q)
+            {
+//                p_Main->message("busy");
+                printerStatus_ = PRBUSY;
+                p_Printer->startPecomChar();
+                printBit_ = 0;
                 printValue_ = 0;
             }
-//			else
-//				p_Main->message("start - none");
-		break;
+//            else
+//                p_Main->message("start - none");
+        break;
 
-		case PRBUSY:
-//			p_Main->message("busy - bit");
-//			p_Main->messageInt(printBit_);
+        case PRBUSY:
+//            p_Main->message("busy - bit");
+//            p_Main->messageInt(printBit_);
             if (q == 0)
                 printValue_ += (1 <<(printBit_));
             if (printBit_ == 8)
-			{ 
-//				p_Main->message("char finished");
+            { 
+//                p_Main->message("char finished");
                 p_Main->eventPrintPecom(printValue_);
                 printerStatus_ = PRIDLE;
-				keyValue_[0] &= 0xfe;
-			}
-			printBit_++;
-			break;
+                keyValue_[0] &= 0xfe;
+            }
+            printBit_++;
+            break;
 
-/*		case PRW_STOP:
-			if (q == 0)
-			{
-				p_Main->message("idle");
-				printerStatus_ = PRIDLE;
-			}
-			else
-				p_Main->message("stop - none");
-		break;*/
-	}
+/*        case PRW_STOP:
+            if (q == 0)
+            {
+                p_Main->message("idle");
+                printerStatus_ = PRIDLE;
+            }
+            else
+                p_Main->message("stop - none");
+        break;*/
+    }
 }
 
 void Pecom::checkComputerFunction()
@@ -1130,35 +1130,35 @@ void Pecom::checkComputerFunction()
 #endif
             break;
                 
-            case 0x80BF:	// Basic input
+            case 0x80BF:    // Basic input
                 p_Main->stopCassette();
                 if (pecomRunState_ != BASICSTATE)
                     if (mainMemory_[0xa0] == 0)
                         pecomRunState_ = BASICSTATE;
             break;
                 
-            case 0xA076:	// RUN
+            case 0xA076:    // RUN
                 if (pecomRunState_ != RUNSTATE)
                     pecomRunState_ = RUNSTATE;
             break;
                 
-            case 0xA96B:	// CALL
+            case 0xA96B:    // CALL
                 if (pecomRunState_ != RUNSTATE)
                     pecomRunState_ = RUNSTATE;
             break;
                 
-            case 0x953F:	// PSAVE
-            case 0x9542:	// DSAVE
+            case 0x953F:    // PSAVE
+            case 0x9542:    // DSAVE
                 p_Main->startCassetteSave(0);
             break;
                 
-            case 0x9324:	// PLOAD
+            case 0x9324:    // PLOAD
                 p_Main->setSwName ("");
                 p_Main->eventUpdateTitle();
                 p_Main->startCassetteLoad(0);
             break;
                 
-            case 0x9327:	// DLOAD
+            case 0x9327:    // DLOAD
                 p_Main->startCassetteLoad(0);
             break;
                 
@@ -1172,53 +1172,53 @@ void Pecom::checkComputerFunction()
     else
     {
         switch(scratchpadRegister_[programCounter_])
-	{
-		case 0x904A:
-			p_Main->stopCassette();
+    {
+        case 0x904A:
+            p_Main->stopCassette();
 #if defined(__WXMSW__ )
-			Iconize(false);
-			Raise();
-			Show(true);
-			Maximize(false);
+            Iconize(false);
+            Raise();
+            Show(true);
+            Maximize(false);
 #endif
-		break;
+        break;
 
-		case 0x80D0:	// Basic input
-			p_Main->stopCassette();
-			if (pecomRunState_ != BASICSTATE)
-				if (mainMemory_[0xa0] == 0)
-					pecomRunState_ = BASICSTATE;
-		break;
+        case 0x80D0:    // Basic input
+            p_Main->stopCassette();
+            if (pecomRunState_ != BASICSTATE)
+                if (mainMemory_[0xa0] == 0)
+                    pecomRunState_ = BASICSTATE;
+        break;
 
-		case 0xA076:	// RUN
-			if (pecomRunState_ != RUNSTATE)
-				pecomRunState_ = RUNSTATE;
-		break;
+        case 0xA076:    // RUN
+            if (pecomRunState_ != RUNSTATE)
+                pecomRunState_ = RUNSTATE;
+        break;
 
-		case 0xA96B:	// CALL
-			if (pecomRunState_ != RUNSTATE)
-				pecomRunState_ = RUNSTATE;
-		break;
+        case 0xA96B:    // CALL
+            if (pecomRunState_ != RUNSTATE)
+                pecomRunState_ = RUNSTATE;
+        break;
 
-		case 0x953F:	// PSAVE
-		case 0x9542:	// DSAVE
-		case 0xCAAB:	// ED, SAVE
-		case 0xCACF:	// ED, BSAVE
-		case 0x8532:	// M+, W-SAVE
-			p_Main->startCassetteSave(0);
-		break;
+        case 0x953F:    // PSAVE
+        case 0x9542:    // DSAVE
+        case 0xCAAB:    // ED, SAVE
+        case 0xCACF:    // ED, BSAVE
+        case 0x8532:    // M+, W-SAVE
+            p_Main->startCassetteSave(0);
+        break;
 
-		case 0x8E8B:	// PLOAD
-		case 0xCB50:	// ED, LOAD
-		case 0x860B:	// M+, W-LOAD
-			p_Main->setSwName ("");
+        case 0x8E8B:    // PLOAD
+        case 0xCB50:    // ED, LOAD
+        case 0x860B:    // M+, W-LOAD
+            p_Main->setSwName ("");
             p_Main->eventUpdateTitle();
-			p_Main->startCassetteLoad(0);
-		break;
+            p_Main->startCassetteLoad(0);
+        break;
 
-		case 0x8E8E:	// DLOAD
-			p_Main->startCassetteLoad(0);
-		break;
+        case 0x8E8E:    // DLOAD
+            p_Main->startCassetteLoad(0);
+        break;
 
 //        case 0x009f:
 //        case 0x00a3:
@@ -1231,59 +1231,59 @@ void Pecom::checkComputerFunction()
 
 void Pecom::startPecomKeyFile()
 {
-	pecomKeyFileOpened_ = false;
+    pecomKeyFileOpened_ = false;
 
-	wxString fileName = p_Main->getKeyFile();
-	if (fileName.Len() != 0)
-	{
-		fileName = p_Main->getKeyFileDir() + fileName;
-		if (wxFile::Exists(fileName))
-		{
-			if (pecomKeyFile_.Open(fileName))
-			{
-				pecomKeyFileOpened_ = true;
-			}
-		}
-	}
+    wxString fileName = p_Main->getKeyFile();
+    if (fileName.Len() != 0)
+    {
+        fileName = p_Main->getKeyFileDir() + fileName;
+        if (wxFile::Exists(fileName))
+        {
+            if (pecomKeyFile_.Open(fileName))
+            {
+                pecomKeyFileOpened_ = true;
+            }
+        }
+    }
 }
 
 void Pecom::startComputerRun(bool load)
 {
-	load_ = load;
-	pecomRunCommand_ = 1;
+    load_ = load;
+    pecomRunCommand_ = 1;
 }
 
 bool Pecom::isComputerRunning()
 {
-	if (pecomRunState_ == RUNSTATE)
-		return true;
-	else
-		return false;
+    if (pecomRunState_ == RUNSTATE)
+        return true;
+    else
+        return false;
 }
 
 void Pecom::sleepComputer(long ms)
 {
-	threadPointer->Sleep(ms);
+    threadPointer->Sleep(ms);
 }
 
 void Pecom::closePecomKeyFile()
 {
-	if (pecomKeyFileOpened_)
-	{
-		pecomKeyFileOpened_ = false;
-		pecomKeyFile_.Close();
-		if (keyDown_)
-		{
-			keyUpFile();
-		}
-	}
-	if (pecomRunCommand_ != 0)
-	{
-		if (keyDown_)
-		{
-			keyUpFile();
-		}
-		pecomRunCommand_ = 0;
-	}
-	keyboardCode_ = 0;
+    if (pecomKeyFileOpened_)
+    {
+        pecomKeyFileOpened_ = false;
+        pecomKeyFile_.Close();
+        if (keyDown_)
+        {
+            keyUpFile();
+        }
+    }
+    if (pecomRunCommand_ != 0)
+    {
+        if (keyDown_)
+        {
+            keyUpFile();
+        }
+        pecomRunCommand_ = 0;
+    }
+    keyboardCode_ = 0;
 }

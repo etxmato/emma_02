@@ -17,36 +17,36 @@
 class CoinArcade : public Cdp1802, public Pixie
 {
 public:
-	CoinArcade(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, Conf computerConf);
-	~CoinArcade();
+    CoinArcade(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, Conf computerConf);
+    ~CoinArcade();
 
-	void configureComputer();
-	void reDefineKeys(int *, int *, int coin);
-	void keyDown(int keycode);
-	void keyUp(int keycode);
+    void configureComputer();
+    void reDefineKeys(int *, int *, int coin);
+    void keyDown(int keycode);
+    void keyUp(int keycode);
 
-	Byte ef(int flag);
+    Byte ef(int flag);
     Byte ef1();
     Byte ef3();
-	Byte ef4();
+    Byte ef4();
     Byte in(Byte port, Word address);
-	void out(Byte port, Word address, Byte value);
-	void cycle(int type);
+    void out(Byte port, Word address, Byte value);
+    void cycle(int type);
 
-	void startComputer();
-	void writeMemDataType(Word address, Byte type);
-	Byte readMemDataType(Word address, uint64_t* executed);
-	Byte readMem(Word address);
-	void writeMem(Word address, Byte value, bool writeRom);
+    void startComputer();
+    void writeMemDataType(Word address, Byte type);
+    Byte readMemDataType(Word address, uint64_t* executed);
+    Byte readMem(Word address);
+    void writeMem(Word address, Byte value, bool writeRom);
     Byte readMemDebug(Word address);
     void writeMemDebug(Word address, Byte value, bool writeRom);
-	void cpuInstruction();
+    void cpuInstruction();
     void resetPressed();
-	void onReset();
+    void onReset();
 
 private:
-	int keyDefA_[5];
-	int keyDefB_[5];
+    int keyDefA_[5];
+    int keyDefB_[5];
     int keyDefCoin_;
     
     Byte directionKey_;

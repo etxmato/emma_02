@@ -8,23 +8,23 @@ class GuiMicrotutor: public GuiUc1800
 {
 public:
 
-	GuiMicrotutor(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
-	~GuiMicrotutor() {};
+    GuiMicrotutor(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
+    ~GuiMicrotutor() {};
 
-	void readMicrotutorConfig();
+    void readMicrotutorConfig();
     void writeMicrotutorDirConfig();
     void writeMicrotutorConfig();
     void readMicrotutorWindowConfig();
     void writeMicrotutorWindowConfig();
 
-	void onMicrotutorClock(wxCommandEvent& event);
+    void onMicrotutorClock(wxCommandEvent& event);
 
 protected:
-	int switchX_, switchY_;
+    int switchX_, switchY_;
 
 private:
 
-	DECLARE_EVENT_TABLE()
+    DECLARE_EVENT_TABLE()
 };
 
 class GuiMicrotutor2: public GuiMicrotutor

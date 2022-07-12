@@ -14,50 +14,50 @@
 class Mcds : public wxFrame, public Cdp1802
 {
 public:
-	Mcds(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf, Conf computerConf);
-	Mcds() {};
-	~Mcds();
+    Mcds(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf, Conf computerConf);
+    Mcds() {};
+    ~Mcds();
 
-	void onClose(wxCloseEvent&WXUNUSED(event));
+    void onClose(wxCloseEvent&WXUNUSED(event));
 
-	void configureComputer();
-	void initComputer();
-	Byte ef(int flag);
-	Byte in(Byte port, Word address);
-	void out(Byte port, Word address, Byte value);
-	void cycle(int type);
+    void configureComputer();
+    void initComputer();
+    Byte ef(int flag);
+    Byte in(Byte port, Word address);
+    void out(Byte port, Word address, Byte value);
+    void cycle(int type);
 
-	void startComputer();
-	void writeMemDataType(Word address, Byte type);
-	Byte readMemDataType(Word address, uint64_t* executed);
-	Byte readMem(Word address);
-	void writeMem(Word address, Byte value, bool writeRom);
+    void startComputer();
+    void writeMemDataType(Word address, Byte type);
+    Byte readMemDataType(Word address, uint64_t* executed);
+    Byte readMem(Word address);
+    void writeMem(Word address, Byte value, bool writeRom);
     Byte readMemDebug(Word address);
     void writeMemDebug(Word address, Byte value, bool writeRom);
-	void cpuInstruction();
+    void cpuInstruction();
     void resetPressed();
-	void moveWindows();
+    void moveWindows();
     void setForceUpperCase(bool status);
-	void setBootRam(bool status);
-	void updateTitle(wxString Title);
-	void onReset();
+    void setBootRam(bool status);
+    void updateTitle(wxString Title);
+    void onReset();
     void sleepComputer(long ms);
     void startComputerRun(bool load);
     int getRunState() {return mcdsRunState_;};
     bool isComputerRunning();
     void checkComputerFunction();
 
-	void setMcdsClockSpeed(double clock) {McdsClockSpeed_ = clock;};
-	void activateMainWindow();
+    void setMcdsClockSpeed(double clock) {McdsClockSpeed_ = clock;};
+    void activateMainWindow();
     void switchQ(int value);
 
 private:
-	Vt100 *vtPointer;
+    Vt100 *vtPointer;
 
-	ElfConfiguration McdsConfiguration;
+    ElfConfiguration McdsConfiguration;
 
-	double McdsClockSpeed_;
-	Word lastAddress_;
+    double McdsClockSpeed_;
+    Word lastAddress_;
 
     int ioGroup_;
 

@@ -32,6 +32,7 @@
 #include "mac.h"
 //#include "serial.h"
 #include "wx/sstream.h"
+#include "wx/uilocale.h"
 #include "wx/uri.h"
 #include "http.h"
 
@@ -124,10 +125,10 @@ wxString stringConversion[] =
 #define HEADER_CATEGORY 47
 #define HEADER_CHAR 48
 #define HEADER_START_HIGH_BYTE 49
-#define HEADER_BLOAD_TYPE 50		// B2h
-#define HEADER_BLOAD_LENGTH_H 51	// B3h
-#define HEADER_BLOAD_LENGTH_L 52	// B4h
-#define HEADER_BUILD_NUMBER 53	// B5h + B6h + B7h
+#define HEADER_BLOAD_TYPE 50        // B2h
+#define HEADER_BLOAD_LENGTH_H 51    // B3h
+#define HEADER_BLOAD_LENGTH_L 52    // B4h
+#define HEADER_BUILD_NUMBER 53    // B5h + B6h + B7h
 #define HEADER_URL_COMMAND 1
 #define HEADER_URL_SCREEN_H 2
 #define HEADER_URL_BOOKMARK 2
@@ -414,50 +415,50 @@ wxString htmlCodes[] =
     "&shape29;",
     "&shape30;",
     "&shape31;",
-    "&OElig;",	//338
-    "&oelig;",	//339
-    "&Scaron;",	//352
-    "&scaron;",	//353
-    "&Yuml;",	//376
-    "&fnof;",	//402
-    "&circ;",	//710
-    "&tilde;",	//732
-    "&ndash;",	//8211
-    "&mdash;",	//8212
-    "&lsquo;",	//8216
-    "&rsquo;",	//8217
-    "&sbquo;",	//8218
-    "&ldquo;",	//8220
-    "&rdquo;",	//8221
-    "&bdquo;",	//8222
-    "&dagger;",	//8224
-    "&Dagger;",	//8225
-    "&bull;",	//8226
-    "&hellip;",	//8230
-    "&permil;",	//8240
-    "&prime;",	//8242
-    "&Prime;",	//8243
-    "&lsaquo;",	//8249
-    "&rsaquo;",	//8250
-    "&oline;",	//8254
-    "&frasl;",	//8260
-    "&euro;",	//8364
-    "&image;",	//8465
-    "&weierp;",	//8472
-    "&real;",	//8476
-    "&trade;",	//8482
+    "&OElig;",    //338
+    "&oelig;",    //339
+    "&Scaron;",    //352
+    "&scaron;",    //353
+    "&Yuml;",    //376
+    "&fnof;",    //402
+    "&circ;",    //710
+    "&tilde;",    //732
+    "&ndash;",    //8211
+    "&mdash;",    //8212
+    "&lsquo;",    //8216
+    "&rsquo;",    //8217
+    "&sbquo;",    //8218
+    "&ldquo;",    //8220
+    "&rdquo;",    //8221
+    "&bdquo;",    //8222
+    "&dagger;",    //8224
+    "&Dagger;",    //8225
+    "&bull;",    //8226
+    "&hellip;",    //8230
+    "&permil;",    //8240
+    "&prime;",    //8242
+    "&Prime;",    //8243
+    "&lsaquo;",    //8249
+    "&rsaquo;",    //8250
+    "&oline;",    //8254
+    "&frasl;",    //8260
+    "&euro;",    //8364
+    "&image;",    //8465
+    "&weierp;",    //8472
+    "&real;",    //8476
+    "&trade;",    //8482
     "&alefsym;",//8501
-    "&larr;",	//8592
-    "&uarr;",	//8593
-    "&rarr;",	//8594
-    "&darr;",	//8595
-    "&harr;",	//8596
-    "&crarr;",	//8629
-    "&lArr;",	//8656
-    "&uArr;",	//8657
-    "&rArr;",	//8658
-    "&dArr;",	//8659
-    "&hArr;",	//8660
+    "&larr;",    //8592
+    "&uarr;",    //8593
+    "&rarr;",    //8594
+    "&darr;",    //8595
+    "&harr;",    //8596
+    "&crarr;",    //8629
+    "&lArr;",    //8656
+    "&uArr;",    //8657
+    "&rArr;",    //8658
+    "&dArr;",    //8659
+    "&hArr;",    //8660
     "&forall;",
     "&part;",
     "&exist;",
@@ -839,7 +840,7 @@ Byte shapeValues[][9] =
     {0x00, 0xdc, 0xdc, 0xfe, 0xfe, 0xc8, 0xfe, 0x00, 0x00}, // &clubs; &#9827
     {0x00, 0xd4, 0xf6, 0xfe, 0xdc, 0xdc, 0xc8, 0x00, 0x00}, // &hearts; &#9829
     {0xc8, 0xdc, 0xdc, 0xfe, 0xdc, 0xdc, 0xc8, 0x00, 0x00}, // &diams; &#9830
-    //	  {0x, 0x, 0x, 0x, 0x, 0x, 0x, 0x00, 0x00}, // &;
+    //      {0x, 0x, 0x, 0x, 0x, 0x, 0x, 0x00, 0x00}, // &;
 };
 
 // CSerialComm oSerialComm;
@@ -1147,7 +1148,7 @@ Byte Usbcard::usbIn()
         case USB_URL:
             returnValue = urlScreens[currentUrlScreen_].screenData[currentUrlPos_++];
             
-            /*			if (currentUrlPos_ >= 960)
+            /*            if (currentUrlPos_ >= 960)
              {
              currentUrlPos_ = 0;
              currentUrlScreen_++;
@@ -1227,11 +1228,11 @@ void Usbcard::usbOut(Byte value)
         case USB_PUT_TRACK_HEADER:
         case USB_SAVE_HEADER:
         case USB_LOAD_HEADER:
-            //			buffer_[bufferPos_++] = value;
-            //			if (bufferPos_ == 0x1680)
-            //			{
-            //				bufferPos_ = 0;
-            //			}
+            //            buffer_[bufferPos_++] = value;
+            //            if (bufferPos_ == 0x1680)
+            //            {
+            //                bufferPos_ = 0;
+            //            }
             mode_ = USB_HEADER;
             bufferPos_ = HEADER_START;
             header[bufferPos_++] = value;
@@ -1523,9 +1524,9 @@ void Usbcard::usbOut(Byte value)
                         
                         currentUrlScreen_ = newScreen;
                         
-                        //						header[HEADER_COLOUR_INFO] = 0xe0;
-                        //						header[HEADER_RESHAPE] = reshape_;
-                        //						header[HEADER_RESHAPE_INFO] = reshapeInfo_;
+                        //                        header[HEADER_COLOUR_INFO] = 0xe0;
+                        //                        header[HEADER_RESHAPE] = reshape_;
+                        //                        header[HEADER_RESHAPE_INFO] = reshapeInfo_;
                         
                         header[HEADER_MODE] = USB_LOAD;
                         header[HEADER_TYPE] = USB_LOAD_URL;
@@ -1563,13 +1564,13 @@ void Usbcard::usbOut(Byte value)
                         
                     case USB_LOAD:
                     case USB_LOAD_DATA:
-                        //						if (!wxFile::Exists(fileName_))
-                        //						{
-                        //							fileName_ = name + ".bin";
+                        //                        if (!wxFile::Exists(fileName_))
+                        //                        {
+                        //                            fileName_ = name + ".bin";
                         //
-                        //							fileName_ = fileName_.MakeLower();
-                        //							fileName_ = additionalDir_.GetLongPath() + fileName_;
-                        //						}
+                        //                            fileName_ = fileName_.MakeLower();
+                        //                            fileName_ = additionalDir_.GetLongPath() + fileName_;
+                        //                        }
                         if ((header[HEADER_TYPE]&0xf0) == 0x20)
                         {
                             switch (header[HEADER_TYPE]&0x7f)
@@ -1610,25 +1611,24 @@ void Usbcard::usbOut(Byte value)
                         storeClockValue(systemNow.GetDay());
                         storeClockValue(systemNow.GetMonth()+1);
                         storeClockValue(systemNow.GetYear() % 100);
-                        
-                        systemFormat.Init();
-                        
+                                                
                         dateFormat = systemFormat.GetInfo(wxLOCALE_SHORT_DATE_FMT);
                         timeFormat = systemFormat.GetInfo(wxLOCALE_TIME_FMT);
                         
-                        // %d/%m/%Y
+                        // %d/%m/%Y - %Y-%m-%d
                         dateFormat = dateFormat.MakeLower();
                         header[bufferPos_++] = dateFormat.GetChar(2);
                         storeDateFormat(dateFormat.Left(2));
                         storeDateFormat(dateFormat.Mid(3,2));
                         storeDateFormat(dateFormat.Mid(6,2));
                         
+                        // %H:%M:%S
                         storeTimeFormat(timeFormat.Left(2));
                         
                         mode_ = USB_MKDIR_HEADER;
                         bufferPos_ = HEADER_START;
                         bufferFlush_ = 2;
-                        break;
+                    break;
                         
                     case USB_CD:
                         directory = "";
@@ -2258,14 +2258,14 @@ void Usbcard::usbOut(Byte value)
                 for (int i=0x400; i<0x7c0; i++)
                 {
                     inputNumber = urlScreens[currentUrlScreen_].screenData[i];
-					linkName = "";
+                    linkName = "";
                     if (inputNumber != 0)
                     {
                         if (urlScreens[currentUrlScreen_].inputInfo[inputNumber-1].inputType == INPUT_TYPE_RADIO)
                         {
                             characterValue = urlScreens[currentUrlScreen_].screenData[i-0x400] & 0x7f;
                             if (characterValue == URL_RADIO_ON)
-								linkName = urlScreens[currentUrlScreen_].urlLinks[inputNumber-1];
+                                linkName = urlScreens[currentUrlScreen_].urlLinks[inputNumber-1];
                             if (linkName != "")
                             {
                                 for (int screen=1; screen<numberOfUrlScreens_; screen++)
@@ -2575,8 +2575,8 @@ void Usbcard::dir()
             {
                 length_ = (int) length.ToULong();
                 header[HEADER_LENGTH_H+bufferPos_] = (int) (length_);
-                //				header[HEADER_LENGTH_H+bufferPos_] = (int) (length_ / 10) + 0x30;
-                //				header[HEADER_LENGTH_L+bufferPos_] = (int) (length_ - ((int) (length_ / 10) * 10)) + 0x30;
+                //                header[HEADER_LENGTH_H+bufferPos_] = (int) (length_ / 10) + 0x30;
+                //                header[HEADER_LENGTH_L+bufferPos_] = (int) (length_ - ((int) (length_ / 10) * 10)) + 0x30;
             }
         }
         
@@ -3162,7 +3162,7 @@ void Usbcard::putTrack()
         
         if (header[HEADER_TYPE] == 0)
         {
-            //			header[HEADER_SIDE]= (Byte)0x14;
+            //            header[HEADER_SIDE]= (Byte)0x14;
             header[HEADER_SIDE_NUMBER]=0;
             header[HEADER_TRACK]=0;
             header[HEADER_TYPE]=1;
@@ -3173,7 +3173,7 @@ void Usbcard::putTrack()
             {
                 if (sides_ == 1)
                 {
-                    //					header[HEADER_SIDE] = (Byte)0x34;
+                    //                    header[HEADER_SIDE] = (Byte)0x34;
                     header[HEADER_SIDE] = (header[HEADER_SIDE] & 0xf) | 0x30;
                     header[HEADER_SIDE_NUMBER] = 1;
                 }
@@ -3182,7 +3182,7 @@ void Usbcard::putTrack()
             }
             else
             {
-                //				header[HEADER_SIDE]= (Byte)0x14;
+                //                header[HEADER_SIDE]= (Byte)0x14;
                 header[HEADER_SIDE]= (header[HEADER_SIDE] & 0xf) | 0x10;
                 header[HEADER_SIDE_NUMBER] = 0;
                 header[HEADER_TRACK] += 1;
@@ -3396,7 +3396,7 @@ void Usbcard::convertSyncToScores()
         
         data = dataCopy.AfterFirst('~');
         
-        int position =	data.Find('#');
+        int position =    data.Find('#');
         
         if (position != wxNOT_FOUND)
         {
@@ -3631,9 +3631,9 @@ void Usbcard::convertSyncToScores()
         }
         else
         {
-			data.Replace("<BR />","");
-			if (data.GetChar(0) == 10)
-				data = data.Right(data.Len()-1);
+            data.Replace("<BR />","");
+            if (data.GetChar(0) == 10)
+                data = data.Right(data.Len()-1);
             if (data != returnData)
             {
                 if (!wxFile::Exists(filename))
@@ -3871,15 +3871,15 @@ void Usbcard::sendEmail()
     
     if (!http.Get(stream))
     {
-		headerStr = http.GetResponseHeader();
+        headerStr = http.GetResponseHeader();
         error = http.GetErrorString();
         
         email_error("Server error");
         return;
     }
 
-	headerStr = http.GetResponseHeader();
-	response = http.GetResponseBody();
+    headerStr = http.GetResponseHeader();
+    response = http.GetResponseBody();
 
     networkError_ = USB_FILE_EXISTS;
     urlLink_ = 0;
@@ -3911,7 +3911,7 @@ void Usbcard::getPage()
     
     if (!http.Get(stream))
     {
-		headerStr = http.GetResponseHeader();
+        headerStr = http.GetResponseHeader();
         error = http.GetErrorString();
         
         if (numberOfUrlScreens_ > 0)
@@ -4059,16 +4059,16 @@ void Usbcard::findHtmlCloseTag(wxString tag)
         
         getHtmlTag();
         
-        //		if (tag.Left(1) == "v")
-        //		{
-        //			if ("/v" == htmlTag.element.Left(2))
-        //				found = true;
-        //		}
-        //		else
-        //		{
+        //        if (tag.Left(1) == "v")
+        //        {
+        //            if ("/v" == htmlTag.element.Left(2))
+        //                found = true;
+        //        }
+        //        else
+        //        {
         if ("/"+tag == htmlTag.element)
             found = true;
-        //		}
+        //        }
     }
 }
 
@@ -6002,22 +6002,22 @@ void Usbcard::writeFirstCellLine(size_t row, size_t col, size_t cellWidth, size_
                 if (urlLink_ == 0x80)
                 {
                     urlScreens[currentUrlScreen_].numberOfLinks++;
-                    urlScreens[currentUrlScreen_].urlLinks.resize(urlScreens[currentUrlScreen_].numberOfLinks);	
-                    urlScreens[currentUrlScreen_].inputInfo.resize(urlScreens[currentUrlScreen_].numberOfLinks);	
+                    urlScreens[currentUrlScreen_].urlLinks.resize(urlScreens[currentUrlScreen_].numberOfLinks);    
+                    urlScreens[currentUrlScreen_].inputInfo.resize(urlScreens[currentUrlScreen_].numberOfLinks);    
                     
                     if (caption)
                     {
-                        urlScreens[currentUrlScreen_].urlLinks[urlScreens[currentUrlScreen_].numberOfLinks - 1] = urlTable.caption.urlLinks[urlTable.caption.currentLink];	
-                        urlScreens[currentUrlScreen_].inputInfo[urlScreens[currentUrlScreen_].numberOfLinks - 1].inputType = urlTable.caption.inputInfo[urlTable.caption.currentLink].inputType;	
-                        urlScreens[currentUrlScreen_].inputInfo[urlScreens[currentUrlScreen_].numberOfLinks - 1].formNumber = urlTable.caption.inputInfo[urlTable.caption.currentLink].formNumber;	
+                        urlScreens[currentUrlScreen_].urlLinks[urlScreens[currentUrlScreen_].numberOfLinks - 1] = urlTable.caption.urlLinks[urlTable.caption.currentLink];    
+                        urlScreens[currentUrlScreen_].inputInfo[urlScreens[currentUrlScreen_].numberOfLinks - 1].inputType = urlTable.caption.inputInfo[urlTable.caption.currentLink].inputType;    
+                        urlScreens[currentUrlScreen_].inputInfo[urlScreens[currentUrlScreen_].numberOfLinks - 1].formNumber = urlTable.caption.inputInfo[urlTable.caption.currentLink].formNumber;    
                         urlTable.caption.currentLink++;
                         urlTable.caption.screenLinkNumber = urlScreens[currentUrlScreen_].numberOfLinks;
                     }
                     else
                     {
-                        urlScreens[currentUrlScreen_].urlLinks[urlScreens[currentUrlScreen_].numberOfLinks - 1] = urlTable.cellContent[row][col].urlLinks[urlTable.cellContent[row][col].currentLink];	
-                        urlScreens[currentUrlScreen_].inputInfo[urlScreens[currentUrlScreen_].numberOfLinks - 1].inputType = urlTable.cellContent[row][col].inputInfo[urlTable.cellContent[row][col].currentLink].inputType;	
-                        urlScreens[currentUrlScreen_].inputInfo[urlScreens[currentUrlScreen_].numberOfLinks - 1].formNumber = urlTable.cellContent[row][col].inputInfo[urlTable.cellContent[row][col].currentLink].formNumber;	
+                        urlScreens[currentUrlScreen_].urlLinks[urlScreens[currentUrlScreen_].numberOfLinks - 1] = urlTable.cellContent[row][col].urlLinks[urlTable.cellContent[row][col].currentLink];    
+                        urlScreens[currentUrlScreen_].inputInfo[urlScreens[currentUrlScreen_].numberOfLinks - 1].inputType = urlTable.cellContent[row][col].inputInfo[urlTable.cellContent[row][col].currentLink].inputType;    
+                        urlScreens[currentUrlScreen_].inputInfo[urlScreens[currentUrlScreen_].numberOfLinks - 1].formNumber = urlTable.cellContent[row][col].inputInfo[urlTable.cellContent[row][col].currentLink].formNumber;    
                         urlTable.cellContent[row][col].currentLink++;
                         urlTable.cellContent[row][col].screenLinkNumber = urlScreens[currentUrlScreen_].numberOfLinks;
                     }
@@ -6060,13 +6060,13 @@ void Usbcard::writeFirstCellLine(size_t row, size_t col, size_t cellWidth, size_
     wxString comxChar = " ";
     comxChar.SetChar(0, 160);
 
-	if (stringLen != 0)
-	{
-		for (size_t i = stringLen; i < orgCellWidth; i++)
-		{
-			str = str + comxChar;
-		}
-	}
+    if (stringLen != 0)
+    {
+        for (size_t i = stringLen; i < orgCellWidth; i++)
+        {
+            str = str + comxChar;
+        }
+    }
     
     linkNumber = urlScreens[currentUrlScreen_].numberOfLinks;
     linkOffSet = 0;
@@ -6271,8 +6271,8 @@ void Usbcard::getHelp()
         urlScreens[screen].shapeNumber_ = 1;
         
         urlScreens[screen].numberOfLinks = 1;
-        urlScreens[screen].urlLinks.resize(urlScreens[screen].numberOfLinks);	
-        urlScreens[screen].urlLinks[urlScreens[screen].numberOfLinks - 1] = urlHistory[urlHistorySize_-1];	
+        urlScreens[screen].urlLinks.resize(urlScreens[screen].numberOfLinks);    
+        urlScreens[screen].urlLinks[urlScreens[screen].numberOfLinks - 1] = urlHistory[urlHistorySize_-1];    
     }
 }
 
@@ -6428,8 +6428,8 @@ void Usbcard::getEmailHelp()
         urlScreens[screen].shapeNumber_ = 1;
         
         urlScreens[screen].numberOfLinks = 1;
-        urlScreens[screen].urlLinks.resize(urlScreens[screen].numberOfLinks);	
-        urlScreens[screen].urlLinks[urlScreens[screen].numberOfLinks - 1] = "email";	
+        urlScreens[screen].urlLinks.resize(urlScreens[screen].numberOfLinks);    
+        urlScreens[screen].urlLinks[urlScreens[screen].numberOfLinks - 1] = "email";    
     }
 }
 
@@ -6609,25 +6609,25 @@ void Usbcard::email(wxString message)
         else
             urlScreens[screen].numberOfLinks = 2;
         
-        urlScreens[screen].urlLinks.resize(urlScreens[screen].numberOfLinks);	
-        urlScreens[screen].inputInfo.resize(urlScreens[screen].numberOfLinks);	
+        urlScreens[screen].urlLinks.resize(urlScreens[screen].numberOfLinks);    
+        urlScreens[screen].inputInfo.resize(urlScreens[screen].numberOfLinks);    
         
         if (screen == 1)
         {
-            urlScreens[screen].urlLinks[0] = "to";	
-            urlScreens[screen].inputInfo[0].inputType = INPUT_TYPE_TEXT;	
-            urlScreens[screen].inputInfo[0].formNumber = 0;	
+            urlScreens[screen].urlLinks[0] = "to";    
+            urlScreens[screen].inputInfo[0].inputType = INPUT_TYPE_TEXT;    
+            urlScreens[screen].inputInfo[0].formNumber = 0;    
             
-            urlScreens[screen].urlLinks[1] = "subject";	
-            urlScreens[screen].inputInfo[1].inputType = INPUT_TYPE_TEXT;	
-            urlScreens[screen].inputInfo[1].formNumber = 0;	
+            urlScreens[screen].urlLinks[1] = "subject";    
+            urlScreens[screen].inputInfo[1].inputType = INPUT_TYPE_TEXT;    
+            urlScreens[screen].inputInfo[1].formNumber = 0;    
             
-            urlScreens[screen].urlLinks[2] = "message";	
-            urlScreens[screen].inputInfo[2].inputType = INPUT_TYPE_TEXT;	
-            urlScreens[screen].inputInfo[2].formNumber = 0;	
+            urlScreens[screen].urlLinks[2] = "message";    
+            urlScreens[screen].inputInfo[2].inputType = INPUT_TYPE_TEXT;    
+            urlScreens[screen].inputInfo[2].formNumber = 0;    
             
-            urlScreens[screen].urlLinks[3] = "http://www.comx35.com/comx35sbhs/mailer.php";	
-            urlScreens[screen].inputInfo[3].inputType = INPUT_TYPE_SUBMIT;	
+            urlScreens[screen].urlLinks[3] = "http://www.comx35.com/comx35sbhs/mailer.php";    
+            urlScreens[screen].inputInfo[3].inputType = INPUT_TYPE_SUBMIT;    
             urlScreens[screen].inputInfo[3].formNumber = 0;
             
             urlScreens[screen].screenData[0x801] = INPUT_TYPE_TEXT;
@@ -6636,12 +6636,12 @@ void Usbcard::email(wxString message)
         }
         else
         {
-            urlScreens[screen].urlLinks[0] = "message";	
-            urlScreens[screen].inputInfo[0].inputType = INPUT_TYPE_TEXT;	
-            urlScreens[screen].inputInfo[0].formNumber = 0;	
+            urlScreens[screen].urlLinks[0] = "message";    
+            urlScreens[screen].inputInfo[0].inputType = INPUT_TYPE_TEXT;    
+            urlScreens[screen].inputInfo[0].formNumber = 0;    
             
-            urlScreens[screen].urlLinks[1] = "http://www.comx35.com/comx35sbhs/mailer.php";	
-            urlScreens[screen].inputInfo[1].inputType = INPUT_TYPE_SUBMIT;	
+            urlScreens[screen].urlLinks[1] = "http://www.comx35.com/comx35sbhs/mailer.php";    
+            urlScreens[screen].inputInfo[1].inputType = INPUT_TYPE_SUBMIT;    
             urlScreens[screen].inputInfo[1].formNumber = 0;
             
             urlScreens[screen].screenData[0x801] = INPUT_TYPE_MESSAGE;
@@ -6716,12 +6716,12 @@ void Usbcard::setLinkInfo(bool increaseLinkSize, wxString urlLink, int inputType
     if (increaseLinkSize)
     {
         urlScreens[currentUrlScreen_].numberOfLinks++;
-        urlScreens[currentUrlScreen_].urlLinks.resize(urlScreens[currentUrlScreen_].numberOfLinks);	
+        urlScreens[currentUrlScreen_].urlLinks.resize(urlScreens[currentUrlScreen_].numberOfLinks);    
         urlScreens[currentUrlScreen_].inputInfo.resize(urlScreens[currentUrlScreen_].numberOfLinks);
     }
-    urlScreens[currentUrlScreen_].inputInfo[urlScreens[currentUrlScreen_].numberOfLinks - 1].inputType = inputType;	
-    urlScreens[currentUrlScreen_].inputInfo[urlScreens[currentUrlScreen_].numberOfLinks - 1].formNumber = formNumber;	
-    urlScreens[currentUrlScreen_].urlLinks[urlScreens[currentUrlScreen_].numberOfLinks - 1] = urlLink;	
+    urlScreens[currentUrlScreen_].inputInfo[urlScreens[currentUrlScreen_].numberOfLinks - 1].inputType = inputType;    
+    urlScreens[currentUrlScreen_].inputInfo[urlScreens[currentUrlScreen_].numberOfLinks - 1].formNumber = formNumber;    
+    urlScreens[currentUrlScreen_].urlLinks[urlScreens[currentUrlScreen_].numberOfLinks - 1] = urlLink;    
 }
 
 void Usbcard::aTag()
@@ -6774,7 +6774,7 @@ void Usbcard::aTag()
                     {
                         if (htmlTag.attributeValue[htmlTag.attributeNumber-1].Left(1) == "/")
                             htmlTag.attributeValue[htmlTag.attributeNumber-1] = url + htmlTag.attributeValue[htmlTag.attributeNumber-1];
-                        else			
+                        else            
                             htmlTag.attributeValue[htmlTag.attributeNumber-1] = url + urlPath_ + "/" +  htmlTag.attributeValue[htmlTag.attributeNumber-1];
                     }
                 }
@@ -6793,7 +6793,7 @@ void Usbcard::aTag()
             }
         }
         htmlTag.attributeNumber--;
-    }			
+    }            
     if (hrefTag_)
     {
         if (tableTag_ != 0 && urlLink_ == 0)
@@ -6850,7 +6850,7 @@ void Usbcard::formTag()
                     {
                         if (htmlTag.attributeValue[htmlTag.attributeNumber-1].Left(1) == "/")
                             htmlTag.attributeValue[htmlTag.attributeNumber-1] = url + htmlTag.attributeValue[htmlTag.attributeNumber-1];
-                        else			
+                        else            
                             htmlTag.attributeValue[htmlTag.attributeNumber-1] = url + urlPath_ + "/" +  htmlTag.attributeValue[htmlTag.attributeNumber-1];
                     }
                 }
@@ -6865,7 +6865,7 @@ void Usbcard::formTag()
                     }
                 }
                 
-                formAction = htmlTag.attributeValue[htmlTag.attributeNumber-1];	
+                formAction = htmlTag.attributeValue[htmlTag.attributeNumber-1];    
             }
         }
         if (htmlTag.attribute[htmlTag.attributeNumber-1] == "name")
@@ -6873,7 +6873,7 @@ void Usbcard::formTag()
             formName = htmlTag.attributeValue[htmlTag.attributeNumber-1];
         }
         htmlTag.attributeNumber--;
-    }	
+    }    
     
     bool notFound = true;
     for (size_t number=0; number<numberOfForms_; number++)
@@ -7447,9 +7447,9 @@ void Usbcard::inputTag()
         case INPUT_TYPE_HIDDEN:
             break;
             
-            //		default:
-            //			writeText("["+value+"] ", urlLink_ == 0x80, URL_NORMAL_COLOR, urlScreens[currentUrlScreen_].numberOfLinks, URL_NO_NEW_LINE, URL_BREAK_LINE);
-            //		break;
+            //        default:
+            //            writeText("["+value+"] ", urlLink_ == 0x80, URL_NORMAL_COLOR, urlScreens[currentUrlScreen_].numberOfLinks, URL_NO_NEW_LINE, URL_BREAK_LINE);
+            //        break;
             
     }
     urlInput_ = false;
@@ -7490,7 +7490,7 @@ void Usbcard::iframeTag()
                 {
                     if (htmlTag.attributeValue[htmlTag.attributeNumber-1].Left(1) == "/")
                         htmlTag.attributeValue[htmlTag.attributeNumber-1] = url + htmlTag.attributeValue[htmlTag.attributeNumber-1];
-                    else			
+                    else            
                         htmlTag.attributeValue[htmlTag.attributeNumber-1] = url + urlPath_ + "/" +  htmlTag.attributeValue[htmlTag.attributeNumber-1];
                 }
             }
@@ -7696,9 +7696,9 @@ int Usbcard::checkLinkNumber()
     int endNumber = urlScreens[currentUrlScreen_].numberOfLinks;
     for (int linkNumber=lastLink_ + 1; linkNumber<endNumber; linkNumber++)
     {
-        urlScreens[currentUrlScreen_].urlLinks[linkNumber - 1] = urlScreens[currentUrlScreen_].urlLinks[urlScreens[currentUrlScreen_].numberOfLinks - 1];	
-        urlScreens[currentUrlScreen_].inputInfo[linkNumber - 1].inputType = urlScreens[currentUrlScreen_].inputInfo[urlScreens[currentUrlScreen_].numberOfLinks - 1].inputType;	
-        urlScreens[currentUrlScreen_].inputInfo[linkNumber - 1].formNumber = urlScreens[currentUrlScreen_].inputInfo[urlScreens[currentUrlScreen_].numberOfLinks - 1].formNumber;	
+        urlScreens[currentUrlScreen_].urlLinks[linkNumber - 1] = urlScreens[currentUrlScreen_].urlLinks[urlScreens[currentUrlScreen_].numberOfLinks - 1];    
+        urlScreens[currentUrlScreen_].inputInfo[linkNumber - 1].inputType = urlScreens[currentUrlScreen_].inputInfo[urlScreens[currentUrlScreen_].numberOfLinks - 1].inputType;    
+        urlScreens[currentUrlScreen_].inputInfo[linkNumber - 1].formNumber = urlScreens[currentUrlScreen_].inputInfo[urlScreens[currentUrlScreen_].numberOfLinks - 1].formNumber;    
         
         urlScreens[currentUrlScreen_].numberOfLinks--;
         returnValue++;

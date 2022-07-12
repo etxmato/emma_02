@@ -53,114 +53,114 @@ LedModuleScreen::LedModuleScreen(wxWindow *parent, const wxSize& size)
 
 LedModuleScreen::~LedModuleScreen()
 {
-	delete mainBitmapPointer;
-	for (int i=0;i<8;i++)
-	{
-		delete ledPointer[i];
-	}
+    delete mainBitmapPointer;
+    for (int i=0;i<8;i++)
+    {
+        delete ledPointer[i];
+    }
 }
 
 void LedModuleScreen::init(int computerType)
 {
-	keyStart_ = 0;
-	keyEnd_ = 0;
-	lastKey_ = 0;
-	forceUpperCase_ = p_Main->getUpperCase(ELF);
+    keyStart_ = 0;
+    keyEnd_ = 0;
+    lastKey_ = 0;
+    forceUpperCase_ = p_Main->getUpperCase(ELF);
 
-	wxClientDC dc(this);
+    wxClientDC dc(this);
 
-	mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/hexpad.png", wxBITMAP_TYPE_PNG);
+    mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/hexpad.png", wxBITMAP_TYPE_PNG);
 
-	for (int i=0;i<8;i++)
-	{
-		ledPointer[i] = new Led(dc, 20+16*(7-i),16, computerType);
-		updateLed_[i] = true;
-	}
+    for (int i=0;i<8;i++)
+    {
+        ledPointer[i] = new Led(dc, 20+16*(7-i),16, computerType);
+        updateLed_[i] = true;
+    }
 
-	this->connectKeyEvent(this);
+    this->connectKeyEvent(this);
 }
 
 void LedModuleScreen::onPaint(wxPaintEvent&WXUNUSED(event))
 {
-	wxPaintDC dc(this);
-	dc.DrawBitmap(*mainBitmapPointer, 0, 0);
+    wxPaintDC dc(this);
+    dc.DrawBitmap(*mainBitmapPointer, 0, 0);
 
 #if defined(__WXMAC__)
     rePaintLeds(dc);
 #endif
         
-	for (int i=0;i<8;i++)
-	{
-		ledPointer[i]->onPaint(dc);
-	}
+    for (int i=0;i<8;i++)
+    {
+        ledPointer[i]->onPaint(dc);
+    }
 }
 
 BEGIN_EVENT_TABLE(LedModule, wxFrame)
-	EVT_CLOSE (LedModule::onClose)
+    EVT_CLOSE (LedModule::onClose)
 END_EVENT_TABLE()
 
 LedModule::LedModule(const wxString& title, const wxPoint& pos, const wxSize& size, int computerType)
 : wxFrame((wxFrame *)NULL, -1, title, pos, size)
 {
 #ifndef __WXMAC__
-	SetIcon(wxICON(app_icon));
+    SetIcon(wxICON(app_icon));
 #endif
 
-	this->SetClientSize(size);
+    this->SetClientSize(size);
 
-	ledModuleScreenPointer = new LedModuleScreen(this, size);
-	ledModuleScreenPointer->init(computerType);
+    ledModuleScreenPointer = new LedModuleScreen(this, size);
+    ledModuleScreenPointer->init(computerType);
 }
 
 LedModule::~LedModule()
 {
-	delete ledModuleScreenPointer;
+    delete ledModuleScreenPointer;
 }
 
 void LedModule::onClose(wxCloseEvent&WXUNUSED(event) )
 {
-	p_Computer->removeElfLedModule();
-	Destroy();
+    p_Computer->removeElfLedModule();
+    Destroy();
 }
 
 void LedModule::configure(ElfPortConfiguration elfPortConf)
 {
-//	int output;
+//    int output;
 
-//	output = p_Main->getConfigItem("Elf/Led_Module_Output", 4l);
-	p_Computer->setOutType(elfPortConf.led_Module_Output, LEDMODOUT);
+//    output = p_Main->getConfigItem("Elf/Led_Module_Output", 4l);
+    p_Computer->setOutType(elfPortConf.led_Module_Output, LEDMODOUT);
 
-	wxString printBuffer;
-	p_Main->message("Configuring Led Module");
+    wxString printBuffer;
+    p_Main->message("Configuring Led Module");
 
-	printBuffer.Printf("	Output %d: write data\n", elfPortConf.led_Module_Output);
-	p_Main->message(printBuffer);
+    printBuffer.Printf("    Output %d: write data\n", elfPortConf.led_Module_Output);
+    p_Main->message(printBuffer);
 }
 
 void LedModule::write(Byte value)
 {
-	wxClientDC dc(this);
+    wxClientDC dc(this);
 
-	for (int i=0;i<8;i++)
-	{
-		ledModuleScreenPointer->setLed(i, (value & 1) ? 1 : 0);
-		value>>=1;
-	}
+    for (int i=0;i<8;i++)
+    {
+        ledModuleScreenPointer->setLed(i, (value & 1) ? 1 : 0);
+        value>>=1;
+    }
 }
 
 void LedModule::ledTimeout()
 {
-	ledModuleScreenPointer->ledTimeout();
+    ledModuleScreenPointer->ledTimeout();
 }
 
 void LedModule::setLedMs(long ms)
 {
-	ledModuleScreenPointer->setLedMs(ms);
+    ledModuleScreenPointer->setLedMs(ms);
 }
 
 Byte LedModule::getKey(Byte vtOut)
 {
-	return ledModuleScreenPointer->getKey(vtOut);
+    return ledModuleScreenPointer->getKey(vtOut);
 }
 
 void LedModule::refreshPanel()

@@ -35,18 +35,18 @@ IoDevice::IoDevice()
 
 void IoDevice::initIo()
 {
-	for (int i=0; i<5; i++)
-	{
-		efType_ [i] = 0;
-	}
-	for (int i=0; i<8; i++)
-	{
-		inType_ [i] = 0;
-		outType_ [i] = 0;
-	}
-	for (int i=0; i<MAXCYCLE; i++)
-	{
-		cycleType_ [i] = 0;
-	}
+    for (int i=0; i<5; i++)
+    {
+        efType_ [i] = 0;
+    }
+    for (int i=0; i<8; i++)
+    {
+        inType_ [i] = 0;
+        outType_ [i] = 0;
+    }
+    for (int i=0; i<MAXCYCLE; i++)
+    {
+        cycleType_ [i] = 0;
+    }
 }
 

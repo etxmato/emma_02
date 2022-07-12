@@ -37,90 +37,92 @@ BEGIN_EVENT_TABLE(GuiMicrotutor, GuiUc1800)
     EVT_COMBOBOX(XRCID("RamSWMicrotutor"), GuiMain::onRamSWText)
     EVT_BUTTON(XRCID("RamSWButtonMicrotutor"), GuiMain::onRamSW)
 
-	EVT_BUTTON(XRCID("SaveButtonMicrotutor"), GuiMain::onSaveButton)
-	EVT_BUTTON(XRCID("LoadButtonMicrotutor"), GuiMain::onLoadButton)
-	EVT_CHECKBOX(XRCID("AutoBootMicrotutor"), GuiElf::onAutoBoot)
-	EVT_TEXT(XRCID("BootAddressMicrotutor"), GuiMain::onBootAddress)
+    EVT_BUTTON(XRCID("SaveButtonMicrotutor"), GuiMain::onSaveButton)
+    EVT_BUTTON(XRCID("LoadButtonMicrotutor"), GuiMain::onLoadButton)
+    EVT_CHECKBOX(XRCID("AutoBootMicrotutor"), GuiElf::onAutoBoot)
+    EVT_TEXT(XRCID("BootAddressMicrotutor"), GuiMain::onBootAddress)
 
-	EVT_TEXT(XRCID("ShowAddressMicrotutor"), GuiMain::onLedTimer)
+    EVT_TEXT(XRCID("ShowAddressMicrotutor"), GuiMain::onLedTimer)
 
-	EVT_TEXT(XRCID("SaveStartMicrotutor"), GuiMain::onSaveStart)
-	EVT_TEXT(XRCID("SaveEndMicrotutor"), GuiMain::onSaveEnd)
+    EVT_TEXT(XRCID("SaveStartMicrotutor"), GuiMain::onSaveStart)
+    EVT_TEXT(XRCID("SaveEndMicrotutor"), GuiMain::onSaveEnd)
 
 END_EVENT_TABLE()
 
 GuiMicrotutor::GuiMicrotutor(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
 : GuiUc1800(title, pos, size, mode, dataDir, iniDir)
 {
-	conf[MICROTUTOR].saveStartString_ = "";
-	conf[MICROTUTOR].saveEndString_ = "";
+    conf[MICROTUTOR].saveStartString_ = "";
+    conf[MICROTUTOR].saveEndString_ = "";
 }
 
 void GuiMicrotutor::readMicrotutorConfig()
 {
-	selectedComputer_ = MICROTUTOR;
+    selectedComputer_ = MICROTUTOR;
+
+    conf[MICROTUTOR].emsConfigNumber_ = 0;
 
     conf[MICROTUTOR].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "Microtutor" + pathSeparator_;
 
     conf[MICROTUTOR].mainDir_ = readConfigDir("/Dir/Microtutor/Main", dataDir_ + "Microtutor" + pathSeparator_);
-	conf[MICROTUTOR].ramDir_ = readConfigDir("/Dir/Microtutor/Software_File", dataDir_ + "Microtutor" + pathSeparator_);
+    conf[MICROTUTOR].ramDir_ = readConfigDir("/Dir/Microtutor/Software_File", dataDir_ + "Microtutor" + pathSeparator_);
 
-	conf[MICROTUTOR].ram_ = configPointer->Read("/Microtutor/Main_Ram_File", "");
+    conf[MICROTUTOR].ram_ = configPointer->Read("/Microtutor/Main_Ram_File", "");
 
-	long value;
-	wxString bootAddress = configPointer->Read("/Microtutor/Boot_Address", "0001");
-	if (!bootAddress.ToLong(&value, 16))
-		value = 0;
-	conf[MICROTUTOR].bootAddress_ = value;
-	configPointer->Read("/Microtutor/Enable_Auto_Boot", &elfConfiguration[MICROTUTOR].autoBoot, false);
+    long value;
+    wxString bootAddress = configPointer->Read("/Microtutor/Boot_Address", "0001");
+    if (!bootAddress.ToLong(&value, 16))
+        value = 0;
+    conf[MICROTUTOR].bootAddress_ = value;
+    configPointer->Read("/Microtutor/Enable_Auto_Boot", &elfConfiguration[MICROTUTOR].autoBoot, false);
 
-	wxString defaultClock;
-	defaultClock.Printf("%1.2f", 1.75);
-	conf[MICROTUTOR].clock_ = convertLocale(configPointer->Read("/Microtutor/Clock_Speed", defaultClock));
+    wxString defaultClock;
+    defaultClock.Printf("%1.2f", 1.75);
+    conf[MICROTUTOR].clock_ = convertLocale(configPointer->Read("/Microtutor/Clock_Speed", defaultClock));
 
-	wxString defaultTimer;
-	defaultTimer.Printf("%d", 100);
-	conf[MICROTUTOR].ledTime_ = configPointer->Read("/Microtutor/Led_Update_Frequency", defaultTimer);
-	conf[MICROTUTOR].realCassetteLoad_ = false;
+    wxString defaultTimer;
+    defaultTimer.Printf("%d", 100);
+    conf[MICROTUTOR].ledTime_ = configPointer->Read("/Microtutor/Led_Update_Frequency", defaultTimer);
+    conf[MICROTUTOR].realCassetteLoad_ = false;
 
     conf[MICROTUTOR].saveStartString_ = configPointer->Read("/Microtutor/SaveStart", "0");
     if (!conf[MICROTUTOR].saveStartString_.ToLong(&value, 16))
         value = 0;
     conf[MICROTUTOR].saveStart_ = value;
 
-	if (mode_.gui)
-	{
-		XRCCTRL(*this, "RamSWMicrotutor", wxComboBox)->SetValue(conf[MICROTUTOR].ram_);
-		XRCCTRL(*this, "BootAddressMicrotutor", wxTextCtrl)->SetValue(bootAddress);
-		XRCCTRL(*this, "AutoBootMicrotutor", wxCheckBox)->SetValue(elfConfiguration[MICROTUTOR].autoBoot);
+    if (mode_.gui)
+    {
+        XRCCTRL(*this, "RamSWMicrotutor", wxComboBox)->SetValue(conf[MICROTUTOR].ram_);
+        XRCCTRL(*this, "BootAddressMicrotutor", wxTextCtrl)->SetValue(bootAddress);
+        XRCCTRL(*this, "AutoBootMicrotutor", wxCheckBox)->SetValue(elfConfiguration[MICROTUTOR].autoBoot);
         if (clockTextCtrl[MICROTUTOR] != NULL)
             clockTextCtrl[MICROTUTOR]->ChangeValue(conf[MICROTUTOR].clock_);
         if (conf[MICROTUTOR].saveStart_ != 0)
             XRCCTRL(*this, "SaveStartMicrotutor", wxTextCtrl)->SetValue(conf[MEMBER].saveStartString_);
-	}
+    }
 
-	elfConfiguration[MICROTUTOR].usePortExtender = false;
-	elfConfiguration[MICROTUTOR].ideEnabled = false;
+    elfConfiguration[MICROTUTOR].usePortExtender = false;
+    elfConfiguration[MICROTUTOR].ideEnabled = false;
     elfConfiguration[MICROTUTOR].fdcEnabled = false;
     elfConfiguration[MICROTUTOR].useLedModule = false;
-	elfConfiguration[MICROTUTOR].useTape = true;
+    elfConfiguration[MICROTUTOR].useTape = true;
 }
 
 void GuiMicrotutor::writeMicrotutorDirConfig()
 {
     writeConfigDir("/Dir/Microtutor/Main", conf[MICROTUTOR].mainDir_);
-	writeConfigDir("/Dir/Microtutor/Software_File", conf[MICROTUTOR].ramDir_);
+    writeConfigDir("/Dir/Microtutor/Software_File", conf[MICROTUTOR].ramDir_);
 }
 
 void GuiMicrotutor::writeMicrotutorConfig()
 {
-	wxString buffer;
+    wxString buffer;
 
     configPointer->Write("/Microtutor/Main_Ram_File", conf[MICROTUTOR].ram_);
-	buffer.Printf("%04X", (unsigned int)conf[MICROTUTOR].bootAddress_);
-	configPointer->Write("/Microtutor/Boot_Address", buffer);
-	configPointer->Write("/Microtutor/Enable_Auto_Boot", elfConfiguration[MICROTUTOR].autoBoot);
-	configPointer->Write("/Microtutor/Led_Update_Frequency", conf[MICROTUTOR].ledTime_);
+    buffer.Printf("%04X", (unsigned int)conf[MICROTUTOR].bootAddress_);
+    configPointer->Write("/Microtutor/Boot_Address", buffer);
+    configPointer->Write("/Microtutor/Enable_Auto_Boot", elfConfiguration[MICROTUTOR].autoBoot);
+    configPointer->Write("/Microtutor/Led_Update_Frequency", conf[MICROTUTOR].ledTime_);
     configPointer->Write("/Microtutor/SaveStart", conf[MICROTUTOR].saveStartString_);
 
     configPointer->Write("/Microtutor/Clock_Speed", conf[MICROTUTOR].clock_);
@@ -134,7 +136,7 @@ void GuiMicrotutor::readMicrotutorWindowConfig()
 
 void GuiMicrotutor::writeMicrotutorWindowConfig()
 {
-	if (conf[MICROTUTOR].mainX_ > 0)
+    if (conf[MICROTUTOR].mainX_ > 0)
         configPointer->Write("/Microtutor/Window_Position_X", conf[MICROTUTOR].mainX_);
     if (conf[MICROTUTOR].mainY_ > 0)
         configPointer->Write("/Microtutor/Window_Position_Y", conf[MICROTUTOR].mainY_);
@@ -176,6 +178,8 @@ void GuiMicrotutor2::readMicrotutor2Config()
 {
     selectedComputer_ = MICROTUTOR2;
     
+    conf[MICROTUTOR2].emsConfigNumber_ = 0;
+
     conf[MICROTUTOR2].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "Microtutor2" + pathSeparator_;
     
     conf[MICROTUTOR2].mainDir_ = readConfigDir("/Dir/Microtutor2/Main", dataDir_ + "Microtutor2" + pathSeparator_);

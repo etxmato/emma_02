@@ -98,7 +98,7 @@ public:
     PioFrame(const wxString& title, const wxPoint& pos, const wxSize& size, int pioNumber);
     ~PioFrame();
   
-	void onClose(wxCloseEvent& event);
+    void onClose(wxCloseEvent& event);
 
     void writeControlRegister(Byte value) {pioScreenPointer->writeControlRegister(value);};
     void writePortA(Byte value) {pioScreenPointer->writePortA(value);};
@@ -121,7 +121,7 @@ private:
 
     int pioNumber_;
     
-	DECLARE_EVENT_TABLE()
+    DECLARE_EVENT_TABLE()
 };
 
 

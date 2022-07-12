@@ -40,37 +40,37 @@ PortExt::PortExt()
 
 void PortExt::configurePortExt(ElfPortConfiguration portConf)
 {
-//	int selectOutput, writeOutput, input;
+//    int selectOutput, writeOutput, input;
 
-	wxString runningComp = p_Main->getRunningComputerStr();
+    wxString runningComp = p_Main->getRunningComputerStr();
 
-//	selectOutput = p_Main->getConfigItem(runningComp+"PortExtenderSelectOutput", 5l);
-//	writeOutput = p_Main->getConfigItem(runningComp+"PortExtenderWriteOutput", 6l);
-//	input = p_Main->getConfigItem(runningComp+"PortExtenderInput", 6l);
+//    selectOutput = p_Main->getConfigItem(runningComp+"PortExtenderSelectOutput", 5l);
+//    writeOutput = p_Main->getConfigItem(runningComp+"PortExtenderWriteOutput", 6l);
+//    input = p_Main->getConfigItem(runningComp+"PortExtenderInput", 6l);
 
-	p_Computer->setInType(portConf.portExtenderInput, PORTEXTIN);
-	p_Computer->setOutType(portConf.portExtenderSelectOutput, PORTEXTSELECTOUT);
-	p_Computer->setOutType(portConf.portExtenderWriteOutput, PORTEXTWRITEOUT);
-	for (int port=0; port<256; port++) 
-	{
-		extPortsOut_[port] = 0;
-		extPortsIn_[port] = 0;
-	}
-	extPort_ = 0;
+    p_Computer->setInType(portConf.portExtenderInput, PORTEXTIN);
+    p_Computer->setOutType(portConf.portExtenderSelectOutput, PORTEXTSELECTOUT);
+    p_Computer->setOutType(portConf.portExtenderWriteOutput, PORTEXTWRITEOUT);
+    for (int port=0; port<256; port++) 
+    {
+        extPortsOut_[port] = 0;
+        extPortsIn_[port] = 0;
+    }
+    extPort_ = 0;
 
-	wxString printBuffer;
-	p_Main->message("Configuring Port Extender");
+    wxString printBuffer;
+    p_Main->message("Configuring Port Extender");
 
-	printBuffer.Printf("	Output %d: port selector, output %d: write selected, input %d: read selected\n", portConf.portExtenderSelectOutput, portConf.portExtenderWriteOutput, portConf.portExtenderInput);
-	p_Main->message(printBuffer);
+    printBuffer.Printf("    Output %d: port selector, output %d: write selected, input %d: read selected\n", portConf.portExtenderSelectOutput, portConf.portExtenderWriteOutput, portConf.portExtenderInput);
+    p_Main->message(printBuffer);
 }
 
 void PortExt::definePortExtForPager() 
 {
-	for (int port=1; port<16; port++)
-	{
-		extPortsOut_[port] = PAGEROUT;
-	}
+    for (int port=1; port<16; port++)
+    {
+        extPortsOut_[port] = PAGEROUT;
+    }
 }
 
 void PortExt::definePortExtForPager(Byte startPort, Byte endPort)
@@ -83,34 +83,34 @@ void PortExt::definePortExtForPager(Byte startPort, Byte endPort)
 
 Byte PortExt::inPortExtender()
 {
-	switch(extPortsIn_[extPort_])
-	{
-		case 0:
-			return 255;
-		break;
+    switch(extPortsIn_[extPort_])
+    {
+        case 0:
+            return 255;
+        break;
 
-		default:
-			return 255;
-	}
+        default:
+            return 255;
+    }
 }
 
 void PortExt::outPortExtender(Byte value)
 {
-	switch(extPortsOut_[extPort_])
-	{
-		case 0:
-			return;
-		break;
+    switch(extPortsOut_[extPort_])
+    {
+        case 0:
+            return;
+        break;
 
-		case PAGEROUT:
-			p_Computer->setPager(extPort_, value);
-		break;
-	}
+        case PAGEROUT:
+            p_Computer->setPager(extPort_, value);
+        break;
+    }
 }
 
 void PortExt::selectPortExtender(Byte value) 
 {
-	extPort_ = value;
-	p_Main->updateSlotInfo();
+    extPort_ = value;
+    p_Main->updateSlotInfo();
 }
 

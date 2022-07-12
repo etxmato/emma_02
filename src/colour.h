@@ -8,7 +8,7 @@ class ColourDialog : public wxDialog
 public:
 
     ColourDialog(wxWindow* parent);
-	~ColourDialog();
+    ~ColourDialog();
 
 private:
     void onSaveButton( wxCommandEvent &event );
@@ -28,10 +28,10 @@ private:
 
     void onScaleXTextEnter( wxCommandEvent &event );
 
-	wxString computerTypeStr_;
-	int computerType_;
-	ScreenInfo screenInfo_;
-	bool colourChanged_;
+    wxString computerTypeStr_;
+    int computerType_;
+    ScreenInfo screenInfo_;
+    bool colourChanged_;
 
     DECLARE_EVENT_TABLE()
 

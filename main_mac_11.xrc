@@ -280,7 +280,7 @@
 <vgap>2</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
 <border>1</border>
 <object class="wxButton" name="RomButtonComx">
 <tooltip>Browse for COMX BASIC ROM file</tooltip>
@@ -292,7 +292,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxTOP</flag>
 <border>1</border>
 <object class="wxComboBox" name="MainRomComx">
 <size>192,-1</size>
@@ -530,10 +530,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>3</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="EjectDisk1Comx">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject floppy disk 1 file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 <selected>images_osx/eject.png</selected>
@@ -573,10 +573,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>3</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="EjectDisk2Comx">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject floppy disk 2 file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 <selected>images_osx/eject.png</selected>
@@ -608,7 +608,7 @@
 <border>4</border>
 <option>20</option>
 <object class="wxTextCtrl" name="PrintFileComx">
-<size>78,-1</size>
+<size>91,-1</size>
 <tooltip>Specify printer output file</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -620,6 +620,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxTOP</flag>
 <border>1</border>
 <object class="wxChoice" name="PrintModeComx">
+<size>75,-1</size>
 <tooltip>Select print mode</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -633,10 +634,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>3</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="PrintButtonComx">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Open printer/plotter window (F4)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/print.png</bitmap>
@@ -660,7 +661,7 @@
 </object>
 <object class="sizeritem">
 <flag>wxGROW|wxALIGN_TOP</flag>
-<border>2</border>
+<border>0</border>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
@@ -685,10 +686,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="ScreenDumpF5Comx">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Save video dump to file (F5)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/filesave.png</bitmap>
@@ -729,10 +730,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>3</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="EjectCasComx">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject cassette file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 <selected>images/eject.png</selected>
@@ -776,7 +777,7 @@
 <border>4</border>
 <option>20</option>
 <object class="wxStaticText" name="BatchFileComx">
-<size>74,-1</size>
+<size>90,-1</size>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -805,7 +806,7 @@
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>4</border>
+<border>0</border>
 <option>20</option>
 <object class="wxTextCtrl" name="KeyFileComx">
 <size>166,-1</size>
@@ -817,10 +818,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>3</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="EjectKeyFileComx">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject key input file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 <selected>images_osx/eject.png</selected>
@@ -986,7 +987,7 @@
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>2</border>
 <object class="wxBitmapButton" name="FullScreenF3Comx">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Activate full screen mode (F3)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/screen.png</bitmap>
@@ -1482,7 +1483,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasSaveComx">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Start recording to cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/rec_off.png</bitmap>
@@ -1494,7 +1495,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasLoadComx">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Play cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/play_black.png</bitmap>
@@ -1506,7 +1507,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasStopComx">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Stop cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/stop.png</bitmap>
@@ -1518,7 +1519,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>2</border>
 <object class="wxBitmapButton" name="RealCasLoadComx">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Disable / Enable real cassette loading</tooltip>
 <style>wxBU_AUTODRAW</style>
 <hidden>1</hidden>
@@ -1651,10 +1652,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="Eject_IDEElf2K">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject Elf 2000 IDE image file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 </object>
@@ -1723,10 +1724,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="EjectKeyFileElf2K">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject key input file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 </object>
@@ -1772,10 +1773,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="ScreenDumpF5Elf2K">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Save video dump to file (F5)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/filesave.png</bitmap>
@@ -1804,7 +1805,7 @@
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>3</border>
 <object class="wxBitmapButton" name="TapeElf2K">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Toggle: XMODEM - HEX</tooltip>
 <bitmap>images_osx/switch.png</bitmap>
 </object>
@@ -1823,10 +1824,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="EjectCasElf2K">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject XMODEM file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 </object>
@@ -1893,7 +1894,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasSaveElf2K">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Start save to XMODEM file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/rec_off.png</bitmap>
@@ -1903,7 +1904,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasLoadElf2K">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Start load from XMODEM file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/play_black.png</bitmap>
@@ -1913,7 +1914,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasStopElf2K">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Stop XMODEM file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/stop.png</bitmap>
@@ -1923,7 +1924,7 @@
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>2</border>
 <object class="wxBitmapButton" name="RealCasLoadElf2K">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Disable / Enable real cassette loading</tooltip>
 <style>wxBU_AUTODRAW</style>
 <hidden>1</hidden>
@@ -2292,7 +2293,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
 <border>3</border>
 <object class="wxBitmapButton" name="FullScreenF3Elf2K">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Activate full screen mode (F3)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/screen.png</bitmap>
@@ -2795,10 +2796,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="ScreenDumpF5Cosmicos">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Save video dump to file (F5)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/filesave.png</bitmap>
@@ -2836,10 +2837,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="EjectCasCosmicos">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject cassette file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 </object>
@@ -3219,7 +3220,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>3</border>
 <object class="wxBitmapButton" name="FullScreenF3Cosmicos">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Activate full screen mode (F3)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/screen.png</bitmap>
@@ -3581,7 +3582,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasSaveCosmicos">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Start recording to cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/rec_off.png</bitmap>
@@ -3591,7 +3592,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasLoadCosmicos">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Play cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/play_black.png</bitmap>
@@ -3601,7 +3602,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasStopCosmicos">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Stop cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/stop.png</bitmap>
@@ -3611,7 +3612,7 @@
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>2</border>
 <object class="wxBitmapButton" name="RealCasLoadCosmicos">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Disable / Enable real cassette loading</tooltip>
 <style>wxBU_AUTODRAW</style>
 <hidden>1</hidden>
@@ -3681,7 +3682,7 @@
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>3</border>
 <object class="wxBitmapButton" name="Rom1Elf">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Toggle ROM/RAM</tooltip>
 <bitmap>images_osx/switch.png</bitmap>
 </object>
@@ -3732,7 +3733,7 @@
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>3</border>
 <object class="wxBitmapButton" name="Rom2Elf">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Toggle ROM/RAM</tooltip>
 <bitmap>images_osx/switch.png</bitmap>
 </object>
@@ -3791,6 +3792,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP</flag>
 <border>1</border>
 <object class="wxChoice" name="DiskTypeElf">
+<size>75,-1</size>
 <tooltip>Select FDC 1793 or IDE disk controller</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -3804,10 +3806,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="Eject_IDEElf">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject IDE image file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 </object>
@@ -3882,10 +3884,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="EjectKeyFileElf">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject key input file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 </object>
@@ -3914,7 +3916,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="PrintFileElf">
-<size>77,-1</size>
+<size>91,-1</size>
 <tooltip>Specify printer output file</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -3926,6 +3928,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxTOP</flag>
 <border>1</border>
 <object class="wxChoice" name="PrintModeElf">
+<size>75,-1</size>
 <tooltip>Select print mode</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -3938,10 +3941,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="PrintButtonElf">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Open printer window (F4)</tooltip>
 <bitmap>images_osx/print.png</bitmap>
 <selected>images_osx/print.png</selected>
@@ -3989,10 +3992,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="ScreenDumpF5Elf">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Save video dump to file (F5)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/filesave.png</bitmap>
@@ -4021,7 +4024,7 @@
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>3</border>
 <object class="wxBitmapButton" name="TapeElf">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Toggle: Casette - XMODEM - Off</tooltip>
 <bitmap>images_osx/switch.png</bitmap>
 </object>
@@ -4040,10 +4043,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="EjectCasElf">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject cassette file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 </object>
@@ -4590,7 +4593,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
 <border>2</border>
 <object class="wxBitmapButton" name="FullScreenF3Elf">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Activate full screen mode (F3)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/screen.png</bitmap>
@@ -4918,7 +4921,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasSaveElf">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Start recording to cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/rec_off.png</bitmap>
@@ -4928,7 +4931,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasLoadElf">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Play cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/play_black.png</bitmap>
@@ -4938,7 +4941,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasStopElf">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Stop cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/stop.png</bitmap>
@@ -4948,7 +4951,7 @@
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>2</border>
 <object class="wxBitmapButton" name="RealCasLoadElf">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Disable / Enable real cassette loading</tooltip>
 <style>wxBU_AUTODRAW</style>
 <hidden>1</hidden>
@@ -5165,7 +5168,7 @@
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>3</border>
 <object class="wxBitmapButton" name="Rom1ElfII">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Toggle ROM/RAM</tooltip>
 <bitmap>images_osx/switch.png</bitmap>
 </object>
@@ -5216,7 +5219,7 @@
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>3</border>
 <object class="wxBitmapButton" name="Rom2ElfII">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Toggle ROM/RAM</tooltip>
 <bitmap>images_osx/switch.png</bitmap>
 </object>
@@ -5275,6 +5278,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP</flag>
 <border>1</border>
 <object class="wxChoice" name="DiskTypeElfII">
+<size>75,-1</size>
 <tooltip>Select FDC 1793 or IDE disk controller</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -5288,10 +5292,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="Eject_IDEElfII">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject IDE image file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 </object>
@@ -5366,10 +5370,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="EjectKeyFileElfII">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject key input file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 </object>
@@ -5398,7 +5402,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="PrintFileElfII">
-<size>77,-1</size>
+<size>91,-1</size>
 <tooltip>Specify printer output file</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -5410,6 +5414,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxTOP</flag>
 <border>1</border>
 <object class="wxChoice" name="PrintModeElfII">
+<size>75,-1</size>
 <tooltip>Select print mode</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -5422,10 +5427,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="PrintButtonElfII">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Open printer window (F4)</tooltip>
 <bitmap>images_osx/print.png</bitmap>
 <selected>images_osx/print.png</selected>
@@ -5473,10 +5478,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="ScreenDumpF5ElfII">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Save video dump to file (F5)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/filesave.png</bitmap>
@@ -5505,7 +5510,7 @@
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>3</border>
 <object class="wxBitmapButton" name="TapeElfII">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Toggle: Casette - XMODEM - Off</tooltip>
 <bitmap>images_osx/switch.png</bitmap>
 </object>
@@ -5524,10 +5529,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="EjectCasElfII">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject cassette file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 </object>
@@ -6067,7 +6072,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
 <border>2</border>
 <object class="wxBitmapButton" name="FullScreenF3ElfII">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Activate full screen mode (F3)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/screen.png</bitmap>
@@ -6395,7 +6400,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasSaveElfII">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Start recording to cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/rec_off.png</bitmap>
@@ -6405,7 +6410,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasLoadElfII">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Play cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/play_black.png</bitmap>
@@ -6415,7 +6420,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasStopElfII">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Stop cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/stop.png</bitmap>
@@ -6425,7 +6430,7 @@
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>2</border>
 <object class="wxBitmapButton" name="RealCasLoadElfII">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Disable / Enable real cassette loading</tooltip>
 <style>wxBU_AUTODRAW</style>
 <hidden>1</hidden>
@@ -6648,7 +6653,7 @@
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>3</border>
 <object class="wxBitmapButton" name="Rom1SuperElf">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Toggle ROM/RAM</tooltip>
 <bitmap>images_osx/switch.png</bitmap>
 </object>
@@ -6699,7 +6704,7 @@
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>3</border>
 <object class="wxBitmapButton" name="Rom2SuperElf">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Toggle ROM/RAM</tooltip>
 <bitmap>images_osx/switch.png</bitmap>
 </object>
@@ -6758,6 +6763,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP</flag>
 <border>1</border>
 <object class="wxChoice" name="DiskTypeSuperElf">
+<size>75,-1</size>
 <tooltip>Select FDC 1793 or IDE disk controller</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -6771,10 +6777,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="Eject_IDESuperElf">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject IDE image file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 </object>
@@ -6849,10 +6855,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="EjectKeyFileSuperElf">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject key input file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 </object>
@@ -6881,7 +6887,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="PrintFileSuperElf">
-<size>77,-1</size>
+<size>91,-1</size>
 <tooltip>Specify printer output file</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -6893,6 +6899,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxTOP</flag>
 <border>1</border>
 <object class="wxChoice" name="PrintModeSuperElf">
+<size>75,-1</size>
 <tooltip>Select print mode</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -6905,10 +6912,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="PrintButtonSuperElf">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Open printer window (F4)</tooltip>
 <bitmap>images_osx/print.png</bitmap>
 <selected>images_osx/print.png</selected>
@@ -6956,10 +6963,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="ScreenDumpF5SuperElf">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Save video dump to file (F5)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/filesave.png</bitmap>
@@ -6988,7 +6995,7 @@
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>3</border>
 <object class="wxBitmapButton" name="TapeSuperElf">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Toggle: Casette - XMODEM - Off</tooltip>
 <bitmap>images_osx/switch.png</bitmap>
 </object>
@@ -7007,10 +7014,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="EjectCasSuperElf">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject cassette file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 </object>
@@ -7550,7 +7557,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
 <border>2</border>
 <object class="wxBitmapButton" name="FullScreenF3SuperElf">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Activate full screen mode (F3)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/screen.png</bitmap>
@@ -7877,7 +7884,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasSaveSuperElf">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Start recording to cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/rec_off.png</bitmap>
@@ -7887,7 +7894,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasLoadSuperElf">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Play cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/play_black.png</bitmap>
@@ -7897,7 +7904,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasStopSuperElf">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Stop cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/stop.png</bitmap>
@@ -7907,7 +7914,7 @@
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>2</border>
 <object class="wxBitmapButton" name="RealCasLoadSuperElf">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Disable / Enable real cassette loading</tooltip>
 <style>wxBU_AUTODRAW</style>
 <hidden>1</hidden>
@@ -8104,7 +8111,7 @@
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>3</border>
 <object class="wxBitmapButton" name="RomMembership">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Toggle ROM/RAM</tooltip>
 <bitmap>images_osx/switch.png</bitmap>
 </object>
@@ -8172,10 +8179,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="ScreenDumpF5Membership">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Save video dump to file (F5)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/filesave.png</bitmap>
@@ -8411,7 +8418,7 @@
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>3</border>
 <object class="wxBitmapButton" name="EjectCasMembership">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject terminal file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 <selected>images_osx/eject.png</selected>
@@ -8442,7 +8449,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasSaveMembership">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Start saving terminal file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/rec_off.png</bitmap>
@@ -8454,7 +8461,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasLoadMembership">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Start loading terminal file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/play_black.png</bitmap>
@@ -8466,7 +8473,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasStopMembership">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Stop loading or saving terminal file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/stop.png</bitmap>
@@ -8564,7 +8571,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>3</border>
 <object class="wxBitmapButton" name="FullScreenF3Membership">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Activate full screen mode (F3)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/screen.png</bitmap>
@@ -9012,7 +9019,7 @@
 <border>0</border>
 <option>20</option>
 <object class="wxComboBox" name="MainRomVip2K">
-<size>202,-1</size>
+<size>192,-1</size>
 <tooltip>Specify VIP2K Membership Card system ROM file</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -9122,10 +9129,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="ScreenDumpF5Vip2K">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Save video dump to file (F5)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/filesave.png</bitmap>
@@ -9379,7 +9386,7 @@
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>3</border>
 <object class="wxBitmapButton" name="EjectCasVip2K">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject terminal file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 <selected>images_osx/eject.png</selected>
@@ -9410,7 +9417,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasSaveVip2K">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Start recording to cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/rec_off.png</bitmap>
@@ -9420,7 +9427,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasLoadVip2K">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Play cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/play_black.png</bitmap>
@@ -9430,7 +9437,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasStopVip2K">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Stop cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/stop.png</bitmap>
@@ -9440,7 +9447,7 @@
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>2</border>
 <object class="wxBitmapButton" name="RealCasLoadVip2K">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Disable / Enable real cassette loading</tooltip>
 <style>wxBU_AUTODRAW</style>
 <hidden>1</hidden>
@@ -9475,7 +9482,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="EjectChip8SWVip2K">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject Chip 8, Chip 8X or Chip 10 file</tooltip>
 <hidden>1</hidden>
 <bitmap>images_osx/eject.png</bitmap>
@@ -9593,7 +9600,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="FullScreenF3Vip2K">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Activate full screen mode (F3)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/screen.png</bitmap>
@@ -9913,10 +9920,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="EjectChip8SWVelf">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject Chip 8 or Chip 8X file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 </object>
@@ -9941,10 +9948,10 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="PrintFileVelf">
-<size>77,-1</size>
+<size>91,-1</size>
 <tooltip>Specify printer output file</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -9956,6 +9963,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxTOP</flag>
 <border>1</border>
 <object class="wxChoice" name="PrintModeVelf">
+<size>75,-1</size>
 <tooltip>Select print mode</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -9968,10 +9976,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="PrintButtonVelf">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Open printer window (F4)</tooltip>
 <bitmap>images_osx/print.png</bitmap>
 </object>
@@ -10017,10 +10025,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="ScreenDumpF5Velf">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Save video dump to file (F5)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/filesave.png</bitmap>
@@ -10059,10 +10067,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
-<border>1</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="EjectCasVelf">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject cassette file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 </object>
@@ -10316,7 +10324,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="FullScreenF3Velf">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Activate full screen mode (F3)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/screen.png</bitmap>
@@ -10601,7 +10609,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasSaveVelf">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Start recording to cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/rec_off.png</bitmap>
@@ -10611,7 +10619,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasLoadVelf">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Play cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/play_black.png</bitmap>
@@ -10621,7 +10629,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasStopVelf">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Stop cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/stop.png</bitmap>
@@ -10631,7 +10639,7 @@
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>2</border>
 <object class="wxBitmapButton" name="RealCasLoadVelf">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Disable / Enable real cassette loading</tooltip>
 <style>wxBU_AUTODRAW</style>
 <hidden>1</hidden>
@@ -11161,6 +11169,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP</flag>
 <border>1</border>
 <object class="wxChoice" name="DiskTypePico">
+<size>75,-1</size>
 <tooltip>Activate IDE disk controller</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -11173,10 +11182,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="Eject_IDEPico">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject IDE image file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 </object>
@@ -11205,7 +11214,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="PrintFilePico">
-<size>77,-1</size>
+<size>91,-1</size>
 <tooltip>Specify printer output file</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -11217,6 +11226,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxTOP</flag>
 <border>1</border>
 <object class="wxChoice" name="PrintModePico">
+<size>75,-1</size>
 <tooltip>Select print mode</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -11229,10 +11239,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="PrintButtonPico">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Open printer window (F4)</tooltip>
 <bitmap>images_osx/print.png</bitmap>
 <selected>images_osx/print.png</selected>
@@ -11280,10 +11290,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="ScreenDumpF5Pico">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Save video dump to file (F5)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/filesave.png</bitmap>
@@ -11322,10 +11332,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="EjectCasPico">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject cassette file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 </object>
@@ -11392,7 +11402,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasSavePico">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Start recording to cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/rec_off.png</bitmap>
@@ -11402,7 +11412,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasLoadPico">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Play cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/play_black.png</bitmap>
@@ -11412,7 +11422,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasStopPico">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Stop cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/stop.png</bitmap>
@@ -11422,7 +11432,7 @@
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>2</border>
 <object class="wxBitmapButton" name="RealCasLoadPico">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Disable / Enable real cassette loading</tooltip>
 <style>wxBU_AUTODRAW</style>
 <hidden>1</hidden>
@@ -11742,7 +11752,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
 <border>2</border>
 <object class="wxBitmapButton" name="FullScreenF3Pico">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Activate full screen mode (F3)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/screen.png</bitmap>
@@ -12245,10 +12255,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="ScreenDumpF5FRED1">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Save video dump to file (F5)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/filesave.png</bitmap>
@@ -12288,10 +12298,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>3</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="EjectCasFRED1">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject cassette file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 <selected>images_osx/eject.png</selected>
@@ -12796,7 +12806,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="FullScreenF3FRED1">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Activate full screen mode (F3)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/screen.png</bitmap>
@@ -13066,7 +13076,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasSaveFRED1">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Start recording to cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/rec_off.png</bitmap>
@@ -13078,7 +13088,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasLoadFRED1">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Play cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/play_black.png</bitmap>
@@ -13090,7 +13100,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasPauseFRED1">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Pause cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/pause_off.png</bitmap>
@@ -13102,7 +13112,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasStopFRED1">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Stop cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/stop.png</bitmap>
@@ -13114,7 +13124,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>2</border>
 <object class="wxBitmapButton" name="RealCasLoadFRED1">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Disable / Enable real cassette loading</tooltip>
 <style>wxBU_AUTODRAW</style>
 <hidden>1</hidden>
@@ -13432,10 +13442,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="ScreenDumpF5FRED1_5">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Save video dump to file (F5)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/filesave.png</bitmap>
@@ -13475,10 +13485,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>3</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="EjectCasFRED1_5">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject cassette file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 <selected>images_osx/eject.png</selected>
@@ -13624,7 +13634,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="FullScreenF3FRED1_5">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Activate full screen mode (F3)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/screen.png</bitmap>
@@ -13894,7 +13904,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasSaveFRED1_5">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Start recording to cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/rec_off.png</bitmap>
@@ -13906,7 +13916,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasLoadFRED1_5">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Play cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/play_black.png</bitmap>
@@ -13918,7 +13928,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasPauseFRED1_5">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Pause cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/pause_off.png</bitmap>
@@ -13930,7 +13940,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasStopFRED1_5">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Stop cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/stop.png</bitmap>
@@ -13942,7 +13952,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>2</border>
 <object class="wxBitmapButton" name="RealCasLoadFRED1_5">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Disable / Enable real cassette loading</tooltip>
 <style>wxBU_AUTODRAW</style>
 <hidden>1</hidden>
@@ -14916,10 +14926,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="ScreenDumpF5CDP18S020">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Save video dump to file (F5)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/filesave.png</bitmap>
@@ -15188,7 +15198,7 @@
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>3</border>
 <object class="wxBitmapButton" name="EjectCasCDP18S020">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject terminal file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 <selected>images_osx/eject.png</selected>
@@ -15220,7 +15230,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasSaveCDP18S020">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Start recording to cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/rec_off.png</bitmap>
@@ -15230,7 +15240,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasLoadCDP18S020">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Play cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/play_black.png</bitmap>
@@ -15240,7 +15250,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasStopCDP18S020">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Stop cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/stop.png</bitmap>
@@ -15250,7 +15260,7 @@
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>2</border>
 <object class="wxBitmapButton" name="RealCasLoadCDP18S020">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Disable / Enable real cassette loading</tooltip>
 <style>wxBU_AUTODRAW</style>
 <hidden>1</hidden>
@@ -15358,7 +15368,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="FullScreenF3CDP18S020">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Activate full screen mode (F3)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/screen.png</bitmap>
@@ -15786,10 +15796,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="EjectChip8SWVip">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject Chip 8, Chip 8X or Chip 10 file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 </object>
@@ -15817,7 +15827,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="PrintFileVip">
-<size>77,-1</size>
+<size>90,-1</size>
 <tooltip>Specify printer output file</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -15829,6 +15839,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxTOP</flag>
 <border>1</border>
 <object class="wxChoice" name="PrintModeVip">
+<size>75,-1</size>
 <tooltip>Select print mode</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -15841,10 +15852,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="PrintButtonVip">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Open printer window (F4)</tooltip>
 <bitmap>images_osx/print.png</bitmap>
 </object>
@@ -15890,10 +15901,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="ScreenDumpF5Vip">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Save video dump to file (F5)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/filesave.png</bitmap>
@@ -15932,10 +15943,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="EjectCasVip">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject cassette file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 </object>
@@ -16286,7 +16297,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="FullScreenF3Vip">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Activate full screen mode (F3)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/screen.png</bitmap>
@@ -16732,7 +16743,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasSaveVip">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Start recording to cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/rec_off.png</bitmap>
@@ -16742,7 +16753,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasLoadVip">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Play cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/play_black.png</bitmap>
@@ -16752,7 +16763,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasStopVip">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Stop cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/stop.png</bitmap>
@@ -16762,7 +16773,7 @@
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>2</border>
 <object class="wxBitmapButton" name="RealCasLoadVip">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Disable / Enable real cassette loading</tooltip>
 <style>wxBU_AUTODRAW</style>
 <hidden>1</hidden>
@@ -16977,10 +16988,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="EjectChip8SWVipII">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject Chip 8, Chip 8X or Chip 10 file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 </object>
@@ -17027,10 +17038,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="ScreenDumpF5VipII">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Save video dump to file (F5)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/filesave.png</bitmap>
@@ -17070,10 +17081,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="EjectCasVipII">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject cassette file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 </object>
@@ -17214,7 +17225,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="FullScreenF3VipII">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Activate full screen mode (F3)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/screen.png</bitmap>
@@ -17610,7 +17621,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasSaveVipII">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Start recording to cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/rec_off.png</bitmap>
@@ -17620,7 +17631,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasLoadVipII">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Play cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/play_black.png</bitmap>
@@ -17630,7 +17641,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasStopVipII">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Stop cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/stop.png</bitmap>
@@ -17640,7 +17651,7 @@
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>2</border>
 <object class="wxBitmapButton" name="RealCasLoadVipII">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Disable / Enable real cassette loading</tooltip>
 <style>wxBU_AUTODRAW</style>
 <hidden>1</hidden>
@@ -17959,7 +17970,7 @@
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>3</border>
 <object class="wxBitmapButton" name="FDC0_SwitchMicroboard">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Toggle FDC/HD</tooltip>
 <bitmap>images_osx/switch.png</bitmap>
 </object>
@@ -17978,10 +17989,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="Eject_FDC0Microboard">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject Microboard FDC 0 image file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 </object>
@@ -18010,7 +18021,7 @@
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>3</border>
 <object class="wxBitmapButton" name="FDC1_SwitchMicroboard">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Toggle FDC/HD</tooltip>
 <bitmap>images_osx/switch.png</bitmap>
 </object>
@@ -18029,10 +18040,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="Eject_FDC1Microboard">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject MS2000 FDC 1 image file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 </object>
@@ -18060,7 +18071,7 @@
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>3</border>
 <object class="wxBitmapButton" name="FDC2_SwitchMicroboard">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Toggle FDC/HD</tooltip>
 <bitmap>images_osx/switch.png</bitmap>
 </object>
@@ -18079,10 +18090,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="Eject_FDC2Microboard">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject Microboard FDC 2 image file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 </object>
@@ -18111,7 +18122,7 @@
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>3</border>
 <object class="wxBitmapButton" name="FDC3_SwitchMicroboard">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Toggle FDC/HD</tooltip>
 <bitmap>images_osx/switch.png</bitmap>
 </object>
@@ -18130,10 +18141,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="Eject_FDC3Microboard">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject MS2000 FDC 3 image file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 </object>
@@ -18179,10 +18190,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="ScreenDumpF5Microboard">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Save video dump to file (F5)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/filesave.png</bitmap>
@@ -18221,10 +18232,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>3</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="EjectCasMicroboard">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject cassette file 0</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 <selected>images_osx/eject.png</selected>
@@ -18264,10 +18275,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>3</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="EjectCas1Microboard">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject cassette file 1</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 <selected>images_osx/eject.png</selected>
@@ -18329,7 +18340,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
 <border>3</border>
 <object class="wxBitmapButton" name="FullScreenF3Microboard">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Activate full screen mode (F3)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/screen.png</bitmap>
@@ -18633,7 +18644,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasSaveMicroboard">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Start recording to cassette file 0</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/rec_off.png</bitmap>
@@ -18645,7 +18656,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasLoadMicroboard">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Play cassette file 0</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/play_black.png</bitmap>
@@ -18657,7 +18668,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasStopMicroboard">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Stop cassette files</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/stop.png</bitmap>
@@ -18682,7 +18693,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasSave1Microboard">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Start recording to cassette file 1</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/rec_off.png</bitmap>
@@ -18694,7 +18705,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasLoad1Microboard">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Play cassette file 1</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/play_black.png</bitmap>
@@ -18706,7 +18717,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasStop1Microboard">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Stop cassette files</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/stop.png</bitmap>
@@ -18781,7 +18792,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>2</border>
 <object class="wxBitmapButton" name="RealCasLoadMicroboard">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Disable / Enable real cassette loading</tooltip>
 <style>wxBU_AUTODRAW</style>
 <hidden>1</hidden>
@@ -19186,10 +19197,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="EjectKeyFileMCDS">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject key input file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 </object>
@@ -19218,7 +19229,7 @@
 <border>0</border>
 <option>20</option>
 <object class="wxTextCtrl" name="PrintFileMCDS">
-<size>77,-1</size>
+<size>90,-1</size>
 <tooltip>Specify printer output file</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -19230,6 +19241,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxTOP</flag>
 <border>1</border>
 <object class="wxChoice" name="PrintModeMCDS">
+<size>75,-1</size>
 <tooltip>Select print mode</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -19242,10 +19254,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="PrintButtonMCDS">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Open printer window (F4)</tooltip>
 <bitmap>images_osx/print.png</bitmap>
 </object>
@@ -19291,10 +19303,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="ScreenDumpF5MCDS">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Save video dump to file (F5)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/filesave.png</bitmap>
@@ -19333,10 +19345,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>3</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="EjectCasMCDS">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject cassette file 0</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 <selected>images_osx/eject.png</selected>
@@ -19376,10 +19388,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>3</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="EjectCas1MCDS">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject cassette file 1</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 <selected>images_osx/eject.png</selected>
@@ -19600,7 +19612,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
 <border>3</border>
 <object class="wxBitmapButton" name="FullScreenF3MCDS">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Activate full screen mode (F3)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/screen.png</bitmap>
@@ -19917,7 +19929,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>2</border>
 <object class="wxBitmapButton" name="RealCasLoadMCDS">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Disable / Enable real cassette loading</tooltip>
 <style>wxBU_AUTODRAW</style>
 <hidden>1</hidden>
@@ -19950,7 +19962,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasSaveMCDS">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Start recording to cassette file 0</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/rec_off.png</bitmap>
@@ -19962,7 +19974,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasLoadMCDS">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Play cassette file 0</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/play_black.png</bitmap>
@@ -19974,7 +19986,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasStopMCDS">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Stop cassette files</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/stop.png</bitmap>
@@ -19999,7 +20011,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasSave1MCDS">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Start recording to cassette file 1</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/rec_off.png</bitmap>
@@ -20011,7 +20023,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasLoad1MCDS">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Play cassette file 1</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/play_black.png</bitmap>
@@ -20023,7 +20035,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasStop1MCDS">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Stop cassette files</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/stop.png</bitmap>
@@ -20122,7 +20134,7 @@
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>3</border>
 <object class="wxBitmapButton" name="FDC0_SwitchMS2000">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Toggle FDC/HD</tooltip>
 <bitmap>images_osx/switch.png</bitmap>
 </object>
@@ -20141,10 +20153,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="Eject_FDC0MS2000">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject MS2000 FDC 0 image file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 </object>
@@ -20173,7 +20185,7 @@
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>3</border>
 <object class="wxBitmapButton" name="FDC1_SwitchMS2000">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Toggle FDC/HD</tooltip>
 <bitmap>images_osx/switch.png</bitmap>
 </object>
@@ -20192,10 +20204,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="Eject_FDC1MS2000">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject MS2000 FDC 1 image file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 </object>
@@ -20223,7 +20235,7 @@
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>3</border>
 <object class="wxBitmapButton" name="FDC2_SwitchMS2000">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Toggle FDC/HD</tooltip>
 <bitmap>images_osx/switch.png</bitmap>
 </object>
@@ -20242,10 +20254,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="Eject_FDC2MS2000">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject MS2000 FDC 2 image file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 </object>
@@ -20274,7 +20286,7 @@
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>3</border>
 <object class="wxBitmapButton" name="FDC3_SwitchMS2000">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Toggle FDC/HD</tooltip>
 <bitmap>images_osx/switch.png</bitmap>
 </object>
@@ -20293,10 +20305,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="Eject_FDC3MS2000">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject MS2000 FDC 3 image file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 </object>
@@ -20335,10 +20347,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="EjectKeyFileMS2000">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject key input file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 </object>
@@ -20368,7 +20380,7 @@
 <border>0</border>
 <option>20</option>
 <object class="wxTextCtrl" name="PrintFileMS2000">
-<size>77,-1</size>
+<size>90,-1</size>
 <tooltip>Specify printer output file</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -20380,6 +20392,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxTOP</flag>
 <border>1</border>
 <object class="wxChoice" name="PrintModeMS2000">
+<size>75,-1</size>
 <tooltip>Select print mode</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -20392,10 +20405,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="PrintButtonMS2000">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Open printer window (F4)</tooltip>
 <bitmap>images_osx/print.png</bitmap>
 </object>
@@ -20441,10 +20454,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="ScreenDumpF5MS2000">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Save video dump to file (F5)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/filesave.png</bitmap>
@@ -20484,10 +20497,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>3</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="EjectCasMS2000">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject cassette file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 <selected>images_osx/eject.png</selected>
@@ -20713,7 +20726,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
 <border>3</border>
 <object class="wxBitmapButton" name="FullScreenF3MS2000">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Activate full screen mode (F3)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/screen.png</bitmap>
@@ -20951,7 +20964,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasSaveMS2000">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Start recording to cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/rec_off.png</bitmap>
@@ -20963,7 +20976,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasLoadMS2000">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Play cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/play_black.png</bitmap>
@@ -20975,7 +20988,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasStopMS2000">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Stop cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/stop.png</bitmap>
@@ -20987,7 +21000,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>2</border>
 <object class="wxBitmapButton" name="RealCasLoadMS2000">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Disable / Enable real cassette loading</tooltip>
 <style>wxBU_AUTODRAW</style>
 <hidden>1</hidden>
@@ -21132,10 +21145,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="ScreenDumpF5CoinArcade">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Save video dump to file (F5)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/filesave.png</bitmap>
@@ -21208,7 +21221,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="FullScreenF3CoinArcade">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Activate full screen mode (F3)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/screen.png</bitmap>
@@ -21472,10 +21485,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="ScreenDumpF5Studio2">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Save video dump to file (F5)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/filesave.png</bitmap>
@@ -21548,7 +21561,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="FullScreenF3Studio2">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Activate full screen mode (F3)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/screen.png</bitmap>
@@ -21909,10 +21922,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="ScreenDumpF5Victory">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Save video dump to file (F5)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/filesave.png</bitmap>
@@ -22030,7 +22043,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="FullScreenF3Victory">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Activate full screen mode (F3)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/screen.png</bitmap>
@@ -22310,7 +22323,7 @@
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>3</border>
 <object class="wxBitmapButton" name="CartSwitchStudioIV">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Toggle ROM/RAM</tooltip>
 <bitmap>images_osx/switch.png</bitmap>
 </object>
@@ -22374,10 +22387,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="ScreenDumpF5StudioIV">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Save video dump to file (F5)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/filesave.png</bitmap>
@@ -22416,10 +22429,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="EjectCasStudioIV">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject cassette file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 </object>
@@ -22555,7 +22568,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="FullScreenF3StudioIV">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Activate full screen mode (F3)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/screen.png</bitmap>
@@ -22811,7 +22824,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasSaveStudioIV">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Start recording to cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/rec_off.png</bitmap>
@@ -22821,7 +22834,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasLoadStudioIV">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Play cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/play_black.png</bitmap>
@@ -22831,7 +22844,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasStopStudioIV">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Stop cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/stop.png</bitmap>
@@ -22841,7 +22854,7 @@
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>2</border>
 <object class="wxBitmapButton" name="RealCasLoadStudioIV">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Disable / Enable real cassette loading</tooltip>
 <style>wxBU_AUTODRAW</style>
 <hidden>1</hidden>
@@ -23037,10 +23050,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="ScreenDumpF5Visicom">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Save video dump to file (F5)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/filesave.png</bitmap>
@@ -23113,7 +23126,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="FullScreenF3Visicom">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Activate full screen mode (F3)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/screen.png</bitmap>
@@ -23328,10 +23341,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="ScreenDumpF5Cidelsa">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Save video dump to file (F5)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/filesave.png</bitmap>
@@ -23392,7 +23405,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="FullScreenF3Cidelsa">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Activate full screen mode (F3)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/screen.png</bitmap>
@@ -23875,7 +23888,7 @@
 <border>0</border>
 <option>20</option>
 <object class="wxTextCtrl" name="PrintFileTMC600">
-<size>77,-1</size>
+<size>90,-1</size>
 <tooltip>Specify printer output file</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -23887,7 +23900,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxTOP</flag>
 <border>1</border>
 <object class="wxChoice" name="PrintModeTMC600">
-<size>73,-1</size>
+<size>75,-1</size>
 <tooltip>Select print mode</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -23900,10 +23913,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="PrintButtonTMC600">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Open printer window (F4)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/print.png</bitmap>
@@ -23951,10 +23964,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="ScreenDumpF5TMC600">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Save video dump to file (F5)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/filesave.png</bitmap>
@@ -23994,10 +24007,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="EjectCasTMC600">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject cassette file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 </object>
@@ -24036,10 +24049,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="EjectKeyFileTMC600">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject key input file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 </object>
@@ -24258,7 +24271,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="FullScreenF3TMC600">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Activate full screen mode (F3)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/screen.png</bitmap>
@@ -24599,7 +24612,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasSaveTMC600">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Start recording to cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/rec_off.png</bitmap>
@@ -24609,7 +24622,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasLoadTMC600">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Play cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/play_black.png</bitmap>
@@ -24619,7 +24632,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasStopTMC600">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Stop cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/stop.png</bitmap>
@@ -24629,7 +24642,7 @@
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>2</border>
 <object class="wxBitmapButton" name="RealCasLoadTMC600">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Disable / Enable real cassette loading</tooltip>
 <style>wxBU_AUTODRAW</style>
 <hidden>1</hidden>
@@ -24765,10 +24778,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="EjectChip8SWTMC1800">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject Chip 8 file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 </object>
@@ -24815,10 +24828,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="ScreenDumpF5TMC1800">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Save video dump to file (F5)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/filesave.png</bitmap>
@@ -24858,10 +24871,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="EjectCasTMC1800">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject cassette file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 </object>
@@ -24951,7 +24964,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="FullScreenF3TMC1800">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Activate full screen mode (F3)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/screen.png</bitmap>
@@ -25218,7 +25231,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasSaveTMC1800">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Start recording to cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/rec_off.png</bitmap>
@@ -25228,7 +25241,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasLoadTMC1800">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Play cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/play_black.png</bitmap>
@@ -25238,7 +25251,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasStopTMC1800">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Stop cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/stop.png</bitmap>
@@ -25248,7 +25261,7 @@
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>2</border>
 <object class="wxBitmapButton" name="RealCasLoadTMC1800">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Disable / Enable real cassette loading</tooltip>
 <style>wxBU_AUTODRAW</style>
 <hidden>1</hidden>
@@ -25419,10 +25432,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="EjectChip8SWTMC2000">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject Chip 8 file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 </object>
@@ -25469,10 +25482,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="ScreenDumpF5TMC2000">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Save video dump to file (F5)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/filesave.png</bitmap>
@@ -25512,10 +25525,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="EjectCasTMC2000">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject cassette file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 </object>
@@ -25600,7 +25613,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="FullScreenF3TMC2000">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Activate full screen mode (F3)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/screen.png</bitmap>
@@ -25826,7 +25839,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasSaveTMC2000">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Start recording to cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/rec_off.png</bitmap>
@@ -25836,7 +25849,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasLoadTMC2000">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Play cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/play_black.png</bitmap>
@@ -25846,7 +25859,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasStopTMC2000">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Stop cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/stop.png</bitmap>
@@ -25856,7 +25869,7 @@
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>2</border>
 <object class="wxBitmapButton" name="RealCasLoadTMC2000">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Disable / Enable real cassette loading</tooltip>
 <style>wxBU_AUTODRAW</style>
 <hidden>1</hidden>
@@ -26028,10 +26041,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="EjectChip8SWNano">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject Chip 8 file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 </object>
@@ -26078,10 +26091,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="ScreenDumpF5Nano">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Save video dump to file (F5)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/filesave.png</bitmap>
@@ -26120,10 +26133,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="EjectCasNano">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject cassette '.wav' file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 </object>
@@ -26235,7 +26248,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="FullScreenF3Nano">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Activate full screen mode (F3)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/screen.png</bitmap>
@@ -26461,7 +26474,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasSaveNano">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Start recording to cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/rec_off.png</bitmap>
@@ -26471,7 +26484,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasLoadNano">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Play cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/play_black.png</bitmap>
@@ -26481,7 +26494,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasStopNano">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Stop cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/stop.png</bitmap>
@@ -26491,7 +26504,7 @@
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>2</border>
 <object class="wxBitmapButton" name="RealCasLoadNano">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Disable / Enable real cassette loading</tooltip>
 <style>wxBU_AUTODRAW</style>
 <hidden>1</hidden>
@@ -26593,7 +26606,7 @@
 <border>0</border>
 <option>20</option>
 <object class="wxTextCtrl" name="PrintFilePecom">
-<size>77,-1</size>
+<size>90,-1</size>
 <tooltip>Specify printer output file</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -26605,6 +26618,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxTOP</flag>
 <border>1</border>
 <object class="wxChoice" name="PrintModePecom">
+<size>75,-1</size>
 <tooltip>Select print mode</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -26617,10 +26631,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="PrintButtonPecom">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Open printer window (F4)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/print.png</bitmap>
@@ -26668,10 +26682,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="ScreenDumpF5Pecom">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Save video dump to file (F5)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/filesave.png</bitmap>
@@ -26711,10 +26725,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="EjectCasPecom">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject cassette file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 </object>
@@ -26753,10 +26767,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="EjectKeyFilePecom">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject key input file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 </object>
@@ -26816,7 +26830,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="FullScreenF3Pecom">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Activate full screen mode (F3)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/screen.png</bitmap>
@@ -27121,7 +27135,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasSavePecom">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Start recording to cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/rec_off.png</bitmap>
@@ -27131,7 +27145,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasLoadPecom">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Play cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/play_black.png</bitmap>
@@ -27141,7 +27155,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasStopPecom">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Stop cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/stop.png</bitmap>
@@ -27151,7 +27165,7 @@
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>2</border>
 <object class="wxBitmapButton" name="RealCasLoadPecom">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Disable / Enable real cassette loading</tooltip>
 <style>wxBU_AUTODRAW</style>
 <hidden>1</hidden>
@@ -27278,10 +27292,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="EjectChip8SWEti">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject RAM and/or Chip 8 file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 </object>
@@ -27328,10 +27342,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="ScreenDumpF5Eti">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Save video dump to file (F5)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/filesave.png</bitmap>
@@ -27371,10 +27385,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="EjectCasEti">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject cassette file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 </object>
@@ -27446,7 +27460,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="FullScreenF3Eti">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Activate full screen mode (F3)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/screen.png</bitmap>
@@ -27677,7 +27691,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasSaveEti">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Start recording to cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/rec_off.png</bitmap>
@@ -27687,7 +27701,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasLoadEti">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Play cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/play_black.png</bitmap>
@@ -27697,7 +27711,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasStopEti">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Stop cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/stop.png</bitmap>
@@ -27707,7 +27721,7 @@
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>2</border>
 <object class="wxBitmapButton" name="RealCasLoadEti">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Disable / Enable real cassette loading</tooltip>
 <style>wxBU_AUTODRAW</style>
 <hidden>1</hidden>
@@ -27875,7 +27889,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="IdeFileDiy">
-<size>90,-1</size>
+<size>91,-1</size>
 <tooltip>Specify IDE image file</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -27888,6 +27902,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP</flag>
 <border>1</border>
 <object class="wxChoice" name="DiskTypeDiy">
+<size>75,-1</size>
 <tooltip>Select FDC 1793 or IDE disk controller</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -27901,10 +27916,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="Eject_IDEDiy">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject IDE image file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 </object>
@@ -27979,10 +27994,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="EjectKeyFileDiy">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject key input file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 </object>
@@ -28011,7 +28026,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="PrintFileDiy">
-<size>77,-1</size>
+<size>90,-1</size>
 <tooltip>Specify printer output file</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -28023,6 +28038,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxTOP</flag>
 <border>1</border>
 <object class="wxChoice" name="PrintModeDiy">
+<size>75,-1</size>
 <tooltip>Select print mode</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -28035,10 +28051,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="PrintButtonDiy">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Open printer window (F4)</tooltip>
 <bitmap>images_osx/print.png</bitmap>
 <selected>images_osx/print.png</selected>
@@ -28086,10 +28102,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="ScreenDumpF5Diy">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Save video dump to file (F5)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/filesave.png</bitmap>
@@ -28118,7 +28134,7 @@
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>3</border>
 <object class="wxBitmapButton" name="TapeDiy">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Toggle: Casette - XMODEM - Off</tooltip>
 <bitmap>images_osx/switch.png</bitmap>
 </object>
@@ -28137,10 +28153,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="EjectCasDiy">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Eject cassette file</tooltip>
 <bitmap>images_osx/eject.png</bitmap>
 </object>
@@ -28605,7 +28621,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
 <border>2</border>
 <object class="wxBitmapButton" name="FullScreenF3Diy">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Activate full screen mode (F3)</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/screen.png</bitmap>
@@ -28933,7 +28949,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasSaveDiy">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Start recording to cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/rec_off.png</bitmap>
@@ -28943,7 +28959,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasLoadDiy">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Play cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/play_black.png</bitmap>
@@ -28953,7 +28969,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasStopDiy">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Stop cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/stop.png</bitmap>
@@ -28963,7 +28979,7 @@
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>2</border>
 <object class="wxBitmapButton" name="RealCasLoadDiy">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Disable / Enable real cassette loading</tooltip>
 <style>wxBU_AUTODRAW</style>
 <hidden>1</hidden>
@@ -30591,7 +30607,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -30624,7 +30639,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -30657,7 +30671,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -30690,7 +30703,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -30723,7 +30735,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -30758,7 +30769,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -30791,7 +30801,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -30824,7 +30833,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>1</maxlength>
 </object>
 </object>
@@ -30859,7 +30867,6 @@
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <hidden>1</hidden>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>1</maxlength>
 </object>
 </object>
@@ -30913,7 +30920,6 @@
 </font>
 <style>wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -30952,7 +30958,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -30988,7 +30993,6 @@
 </font>
 <style>wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -31027,7 +31031,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -31063,7 +31066,6 @@
 </font>
 <style>wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -31102,7 +31104,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -31138,7 +31139,6 @@
 </font>
 <style>wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -31172,7 +31172,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>4</maxlength>
 </object>
 </object>
@@ -31208,7 +31207,6 @@
 </font>
 <style>wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -31242,7 +31240,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>4</maxlength>
 </object>
 </object>
@@ -31278,7 +31275,6 @@
 </font>
 <style>wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -31312,7 +31308,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>4</maxlength>
 </object>
 </object>
@@ -31348,7 +31343,6 @@
 </font>
 <style>wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -31382,7 +31376,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>4</maxlength>
 </object>
 </object>
@@ -31433,7 +31426,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>1</maxlength>
 </object>
 </object>
@@ -31474,7 +31466,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>1</maxlength>
 </object>
 </object>
@@ -31515,7 +31506,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>1</maxlength>
 </object>
 </object>
@@ -31556,7 +31546,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>1</maxlength>
 </object>
 </object>
@@ -31597,7 +31586,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>1</maxlength>
 </object>
 </object>
@@ -31638,7 +31626,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>1</maxlength>
 </object>
 </object>
@@ -31679,7 +31666,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>1</maxlength>
 </object>
 </object>
@@ -31741,7 +31727,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>4</maxlength>
 </object>
 </object>
@@ -31775,7 +31760,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>4</maxlength>
 </object>
 </object>
@@ -31811,7 +31795,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>4</maxlength>
 </object>
 </object>
@@ -31845,7 +31828,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>4</maxlength>
 </object>
 </object>
@@ -31881,7 +31863,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>4</maxlength>
 </object>
 </object>
@@ -31915,7 +31896,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>4</maxlength>
 </object>
 </object>
@@ -31951,7 +31931,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>4</maxlength>
 </object>
 </object>
@@ -31985,7 +31964,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>4</maxlength>
 </object>
 </object>
@@ -32021,7 +31999,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>4</maxlength>
 </object>
 </object>
@@ -32055,7 +32032,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>4</maxlength>
 </object>
 </object>
@@ -32091,7 +32067,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>4</maxlength>
 </object>
 </object>
@@ -32125,7 +32100,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>4</maxlength>
 </object>
 </object>
@@ -32161,7 +32135,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>4</maxlength>
 </object>
 </object>
@@ -32195,7 +32168,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>4</maxlength>
 </object>
 </object>
@@ -32231,7 +32203,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>4</maxlength>
 </object>
 </object>
@@ -32265,7 +32236,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>4</maxlength>
 </object>
 </object>
@@ -32946,7 +32916,7 @@
 <flag>wxALIGN_TOP|wxALL|wxFIXED_MINSIZE</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="DebugPauseButton">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Pause/continue emulator</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/pause_off.png</bitmap>
@@ -32956,7 +32926,7 @@
 <flag>wxALIGN_TOP|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="DebugStepButton">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Step emulator</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/step.png</bitmap>
@@ -33258,7 +33228,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>4</maxlength>
 </object>
 </object>
@@ -33299,7 +33268,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>4</maxlength>
 </object>
 </object>
@@ -33365,7 +33333,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>3</maxlength>
 </object>
 </object>
@@ -33399,7 +33366,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>3</maxlength>
 </object>
 </object>
@@ -33435,7 +33401,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>3</maxlength>
 </object>
 </object>
@@ -33469,7 +33434,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>3</maxlength>
 </object>
 </object>
@@ -33505,7 +33469,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>3</maxlength>
 </object>
 </object>
@@ -33539,7 +33502,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>3</maxlength>
 </object>
 </object>
@@ -33575,7 +33537,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>3</maxlength>
 </object>
 </object>
@@ -33609,7 +33570,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>3</maxlength>
 </object>
 </object>
@@ -33645,7 +33605,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>3</maxlength>
 </object>
 </object>
@@ -33679,7 +33638,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>3</maxlength>
 </object>
 </object>
@@ -33715,7 +33673,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>3</maxlength>
 </object>
 </object>
@@ -33749,7 +33706,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>3</maxlength>
 </object>
 </object>
@@ -33785,7 +33741,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>3</maxlength>
 </object>
 </object>
@@ -33819,7 +33774,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>3</maxlength>
 </object>
 </object>
@@ -33855,7 +33809,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>3</maxlength>
 </object>
 </object>
@@ -33889,7 +33842,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>3</maxlength>
 </object>
 </object>
@@ -34068,7 +34020,7 @@
 <flag>wxALIGN_TOP|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="Chip8PauseButton">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Pause/continue Chip-8</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/pause_off.png</bitmap>
@@ -34078,7 +34030,7 @@
 <flag>wxALIGN_TOP|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="Chip8StepButton">
-<size>26,27</size>
+<size>22,22</size>
 <tooltip>Step Chip-8</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/step.png</bitmap>
@@ -34203,7 +34155,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <value>0000</value>
 <maxlength>4</maxlength>
 </object>
@@ -34430,7 +34381,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<fg>#FF0000</fg>
+<fg>#C62828</fg>
 <label> </label>
 </object>
 </object>
@@ -34477,7 +34428,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -34491,7 +34441,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -34505,7 +34454,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -34519,7 +34467,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -34533,7 +34480,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -34547,7 +34493,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -34561,7 +34506,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -34575,7 +34519,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -34589,7 +34532,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -34603,7 +34545,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -34617,7 +34558,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -34631,7 +34571,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -34645,7 +34584,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -34659,7 +34597,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -34673,7 +34610,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -34687,7 +34623,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -34743,7 +34678,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -34757,7 +34691,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -34771,7 +34704,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -34785,7 +34717,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -34799,7 +34730,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -34813,7 +34743,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -34827,7 +34756,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -34841,7 +34769,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -34855,7 +34782,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -34869,7 +34795,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -34883,7 +34808,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -34897,7 +34821,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -34911,7 +34834,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -34925,7 +34847,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -34939,7 +34860,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -34953,7 +34873,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35009,7 +34928,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35023,7 +34941,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35037,7 +34954,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35051,7 +34967,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35065,7 +34980,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35079,7 +34993,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35093,7 +35006,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35107,7 +35019,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35121,7 +35032,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35135,7 +35045,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35149,7 +35058,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35163,7 +35071,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35177,7 +35084,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35191,7 +35097,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35205,7 +35110,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35219,7 +35123,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35275,7 +35178,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35289,7 +35191,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35303,7 +35204,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35317,7 +35217,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35331,7 +35230,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35345,7 +35243,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35359,7 +35256,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35373,7 +35269,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35387,7 +35282,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35401,7 +35295,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35415,7 +35308,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35429,7 +35321,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35443,7 +35334,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35457,7 +35347,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35471,7 +35360,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35485,7 +35373,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35541,7 +35428,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35555,7 +35441,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35569,7 +35454,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35583,7 +35467,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35597,7 +35480,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35611,7 +35493,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35625,7 +35506,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35639,7 +35519,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35653,7 +35532,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35667,7 +35545,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35681,7 +35558,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35695,7 +35571,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35709,7 +35584,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35723,7 +35597,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35737,7 +35610,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35751,7 +35623,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35807,7 +35678,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35821,7 +35691,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35835,7 +35704,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35849,7 +35717,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35863,7 +35730,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35877,7 +35743,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35891,7 +35756,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35905,7 +35769,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35919,7 +35782,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35933,7 +35795,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35947,7 +35808,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35961,7 +35821,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35975,7 +35834,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35989,7 +35847,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36003,7 +35860,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36017,7 +35873,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36073,7 +35928,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36087,7 +35941,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36101,7 +35954,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36115,7 +35967,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36129,7 +35980,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36143,7 +35993,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36157,7 +36006,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36171,7 +36019,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36185,7 +36032,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36199,7 +36045,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36213,7 +36058,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36227,7 +36071,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36241,7 +36084,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36255,7 +36097,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36269,7 +36110,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36283,7 +36123,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36339,7 +36178,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36353,7 +36191,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36367,7 +36204,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36381,7 +36217,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36395,7 +36230,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36409,7 +36243,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36423,7 +36256,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36437,7 +36269,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36451,7 +36282,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36465,7 +36295,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36479,7 +36308,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36493,7 +36321,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36507,7 +36334,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36521,7 +36347,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36535,7 +36360,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36549,7 +36373,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36605,7 +36428,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36619,7 +36441,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36633,7 +36454,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36647,7 +36467,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36661,7 +36480,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36675,7 +36493,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36689,7 +36506,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36703,7 +36519,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36717,7 +36532,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36731,7 +36545,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36745,7 +36558,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36759,7 +36571,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36773,7 +36584,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36787,7 +36597,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36801,7 +36610,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36815,7 +36623,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36871,7 +36678,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36885,7 +36691,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36899,7 +36704,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36913,7 +36717,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36927,7 +36730,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36941,7 +36743,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36955,7 +36756,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36969,7 +36769,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36983,7 +36782,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -36997,7 +36795,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37011,7 +36808,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37025,7 +36821,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37039,7 +36834,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37053,7 +36847,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37067,7 +36860,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37081,7 +36873,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37137,7 +36928,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37151,7 +36941,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37165,7 +36954,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37179,7 +36967,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37193,7 +36980,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37207,7 +36993,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37221,7 +37006,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37235,7 +37019,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37249,7 +37032,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37263,7 +37045,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37277,7 +37058,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37291,7 +37071,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37305,7 +37084,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37319,7 +37097,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37333,7 +37110,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37347,7 +37123,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37403,7 +37178,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37417,7 +37191,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37431,7 +37204,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37445,7 +37217,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37459,7 +37230,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37473,7 +37243,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37487,7 +37256,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37501,7 +37269,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37515,7 +37282,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37529,7 +37295,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37543,7 +37308,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37557,7 +37321,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37571,7 +37334,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37585,7 +37347,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37599,7 +37360,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37613,7 +37373,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37669,7 +37428,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37683,7 +37441,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37697,7 +37454,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37711,7 +37467,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37725,7 +37480,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37739,7 +37493,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37753,7 +37506,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37767,7 +37519,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37781,7 +37532,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37795,7 +37545,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37809,7 +37558,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37823,7 +37571,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37837,7 +37584,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37851,7 +37597,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37865,7 +37610,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37879,7 +37623,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37935,7 +37678,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37949,7 +37691,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37963,7 +37704,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37977,7 +37717,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -37991,7 +37730,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -38005,7 +37743,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -38019,7 +37756,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -38033,7 +37769,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -38047,7 +37782,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -38061,7 +37795,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -38075,7 +37808,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -38089,7 +37821,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -38103,7 +37834,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -38117,7 +37847,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -38131,7 +37860,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -38145,7 +37873,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -38201,7 +37928,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -38215,7 +37941,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -38229,7 +37954,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -38243,7 +37967,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -38257,7 +37980,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -38271,7 +37993,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -38285,7 +38006,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -38299,7 +38019,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -38313,7 +38032,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -38327,7 +38045,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -38341,7 +38058,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -38355,7 +38071,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -38369,7 +38084,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -38383,7 +38097,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -38397,7 +38110,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -38411,7 +38123,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -38467,7 +38178,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -38481,7 +38191,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -38495,7 +38204,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -38509,7 +38217,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -38523,7 +38230,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -38537,7 +38243,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -38551,7 +38256,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -38565,7 +38269,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -38579,7 +38282,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -38593,7 +38295,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -38607,7 +38308,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -38621,7 +38321,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -38635,7 +38334,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -38649,7 +38347,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -38663,7 +38360,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -38677,7 +38373,6 @@
 <size>-1</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -38888,8 +38583,6 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<enabled>0</enabled>
-<fg>#8080FF</fg>
 <label>Slot: </label>
 </object>
 </object>
@@ -38904,7 +38597,6 @@
 <size>-1</size>
 </font>
 <enabled>0</enabled>
-<fg>#8080FF</fg>
 <maxlength>1</maxlength>
 </object>
 </object>
@@ -38916,8 +38608,6 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<enabled>0</enabled>
-<fg>#45AC22</fg>
 <label>RAM Bank: </label>
 </object>
 </object>
@@ -38932,7 +38622,6 @@
 <size>-1</size>
 </font>
 <enabled>0</enabled>
-<fg>#45AC22</fg>
 <maxlength>1</maxlength>
 </object>
 </object>
@@ -38944,8 +38633,6 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<enabled>0</enabled>
-<fg>#800040</fg>
 <label>Eprom Bank: </label>
 </object>
 </object>
@@ -38960,7 +38647,6 @@
 <size>-1</size>
 </font>
 <enabled>0</enabled>
-<fg>#800040</fg>
 <maxlength>1</maxlength>
 </object>
 </object>
@@ -38989,8 +38675,6 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<enabled>0</enabled>
-<fg>#C8B43E</fg>
 <label>EMS Map: </label>
 </object>
 </object>
@@ -39005,7 +38689,6 @@
 <size>-1</size>
 </font>
 <enabled>0</enabled>
-<fg>#C8B43E</fg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -39020,7 +38703,6 @@
 <size>-1</size>
 </font>
 <enabled>0</enabled>
-<fg>#C8B43E</fg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -39032,8 +38714,6 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<enabled>0</enabled>
-<fg>#A93EAC</fg>
 <label>Pager: </label>
 </object>
 </object>
@@ -39048,7 +38728,6 @@
 <size>-1</size>
 </font>
 <enabled>0</enabled>
-<fg>#A93EAC</fg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -39063,7 +38742,6 @@
 <size>-1</size>
 </font>
 <enabled>0</enabled>
-<fg>#A93EAC</fg>
 <maxlength>2</maxlength>
 </object>
 </object>

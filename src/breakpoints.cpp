@@ -29,12 +29,12 @@ END_EVENT_TABLE()
 
 BreakPointsDialog::BreakPointsDialog(wxWindow* parent)
 {
-	wxXmlResource::Get()->LoadDialog(this, parent, wxT("BreakPointDialog"));
+    wxXmlResource::Get()->LoadDialog(this, parent, wxT("BreakPointDialog"));
 }
 
 void BreakPointsDialog::onClose( wxCommandEvent& WXUNUSED(event) )
 {
-	EndModal( wxID_OK );
+    EndModal( wxID_OK );
 }
 
  

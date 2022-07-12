@@ -4,20 +4,20 @@
 class Til313  
 {
 public:
-	Til313();
-	~Til313();
+    Til313();
+    ~Til313();
 
-	void init(wxDC& dc, int x, int p);
-	void onPaint(wxDC& dc);
-	void update(wxDC& dc, int NewNumber);
+    void init(wxDC& dc, int x, int p);
+    void onPaint(wxDC& dc);
+    void update(wxDC& dc, int NewNumber);
 
 private:
-	int	displayedNumber_;
-	int	x_;
-	int	y_;
+    int    displayedNumber_;
+    int    x_;
+    int    y_;
  
     wxBitmap *til313BitmapPointer;
-	wxMemoryDC dcMemory;
+    wxMemoryDC dcMemory;
 };
 
 class Til313Italic
@@ -43,4 +43,4 @@ private:
     wxMemoryDC dcMemory;
 };
 
-#endif	// TIL313_H
+#endif    // TIL313_H

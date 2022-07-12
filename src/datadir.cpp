@@ -35,53 +35,53 @@ END_EVENT_TABLE()
 
 DatadirDialog::DatadirDialog(wxWindow* parent)
 {
-	wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"datadir_" + p_Main->getFontSize() + ".xrc");
-	wxXmlResource::Get()->LoadDialog(this, parent, wxT("DataDirDialog"));
+    wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"datadir_" + p_Main->getFontSize() + ".xrc");
+    wxXmlResource::Get()->LoadDialog(this, parent, wxT("DataDirDialog"));
 
-	XRCCTRL(*this, "DataDir", wxDirPickerCtrl)->SetPath(p_Main->getDataDir());
-	XRCCTRL(*this, "DataDirThrobber", wxAnimationCtrl)->Show(false);
+    XRCCTRL(*this, "DataDir", wxDirPickerCtrl)->SetPath(p_Main->getDataDir());
+    XRCCTRL(*this, "DataDirThrobber", wxAnimationCtrl)->Show(false);
 }
 
 void DatadirDialog::onMoveButton( wxCommandEvent& WXUNUSED(event) )
 {
-	XRCCTRL(*this, "DataDirThrobber", wxAnimationCtrl)->Show();
-	XRCCTRL(*this, "DataDirMove", wxButton)->Enable(false);
-	XRCCTRL(*this, "DataDirSet", wxButton)->Enable(false);
-	XRCCTRL(*this, "DataDir", wxDirPickerCtrl)->Enable(false);
+    XRCCTRL(*this, "DataDirThrobber", wxAnimationCtrl)->Show();
+    XRCCTRL(*this, "DataDirMove", wxButton)->Enable(false);
+    XRCCTRL(*this, "DataDirSet", wxButton)->Enable(false);
+    XRCCTRL(*this, "DataDir", wxDirPickerCtrl)->Enable(false);
 
-	XRCCTRL(*this, "DataDirThrobber", wxAnimationCtrl)->Play();
+    XRCCTRL(*this, "DataDirThrobber", wxAnimationCtrl)->Play();
 
-	wxString filename;
-	wxString dataDir = p_Main->getDataDir();
-	wxString newDataDir = XRCCTRL(*this, "DataDir", wxDirPickerCtrl)->GetPath() + p_Main->getPathSep();
+    wxString filename;
+    wxString dataDir = p_Main->getDataDir();
+    wxString newDataDir = XRCCTRL(*this, "DataDir", wxDirPickerCtrl)->GetPath() + p_Main->getPathSep();
 
-	wxFileName destination(newDataDir);
-	wxDir dir (dataDir);
-	bool cont = dir.GetFirst(&filename);
+    wxFileName destination(newDataDir);
+    wxDir dir (dataDir);
+    bool cont = dir.GetFirst(&filename);
 
-	while ( cont )
-	{
+    while ( cont )
+    {
         if (wxDir::Exists(dataDir + filename))
             filename += p_Main->getPathSep();
 
         wxFileName source(dataDir + filename);
 
-		copyTree(&source, &destination);
-		cont = dir.GetNext(&filename);
-	}
-	p_Main->setDataDir(newDataDir);
-	p_Main->setDefaultSettings();
+        copyTree(&source, &destination);
+        cont = dir.GetNext(&filename);
+    }
+    p_Main->setDataDir(newDataDir);
+    p_Main->setDefaultSettings();
 
-	EndModal( wxID_OK );
+    EndModal( wxID_OK );
 }
 
 void DatadirDialog::onSetButton( wxCommandEvent& WXUNUSED(event) )
 {
-	wxString newDataDir = XRCCTRL(*this, "DataDir", wxDirPickerCtrl)->GetPath() + p_Main->getPathSep();
-	p_Main->setDataDir(newDataDir);
-	p_Main->setDefaultSettings();
+    wxString newDataDir = XRCCTRL(*this, "DataDir", wxDirPickerCtrl)->GetPath() + p_Main->getPathSep();
+    p_Main->setDataDir(newDataDir);
+    p_Main->setDefaultSettings();
 
-	EndModal( wxID_OK );
+    EndModal( wxID_OK );
 }
 
 bool DatadirDialog::copyTree( wxFileName* source, wxFileName* destination ) 
@@ -89,13 +89,13 @@ bool DatadirDialog::copyTree( wxFileName* source, wxFileName* destination )
     // Copy file if it isn't a directory. 
     if ( ! wxDir::Exists(source->GetFullPath()) ) 
     { 
- 		if ( !wxRenameFile (source->GetFullPath(), destination->GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR) + source->GetFullName() ))
-		{
-			if ( ! wxCopyFile(source->GetFullPath(), destination->GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR) + source->GetFullName() )) 
-				return false; 
+         if ( !wxRenameFile (source->GetFullPath(), destination->GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR) + source->GetFullName() ))
+        {
+            if ( ! wxCopyFile(source->GetFullPath(), destination->GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR) + source->GetFullName() )) 
+                return false; 
 
-			wxRemoveFile (source->GetFullPath());
-		}
+            wxRemoveFile (source->GetFullPath());
+        }
         wxYield ();
         return true; 
     } 
@@ -147,6 +147,6 @@ bool DatadirDialog::copyTree( wxFileName* source, wxFileName* destination )
         cont = dir.GetNext(&filename); 
     } 
 
-	wxRmDir (source->GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR));
+    wxRmDir (source->GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR));
     return true; 
 } 

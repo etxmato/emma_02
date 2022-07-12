@@ -33,12 +33,12 @@ END_EVENT_TABLE()
 
 ConfigurationDialog::ConfigurationDialog(wxWindow* parent, ConfigurationInfo configurationInfo, vector<ConfigurationSubMenuInfo> configurationSubMenuInfo, size_t configurationSubMenuInfoNumber)
 {
-	oldConfigurationInfo_ = configurationInfo;
+    oldConfigurationInfo_ = configurationInfo;
     fileNameMenuPart_ = "";
     fileNameSubMenuPart_ = "";
     fileName_ = "";
-	wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"configuration_" + p_Main->getFontSize() + ".xrc");
-	wxXmlResource::Get()->LoadDialog(this, parent, wxT("ConfigurationDialog"));
+    wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"configuration_" + p_Main->getFontSize() + ".xrc");
+    wxXmlResource::Get()->LoadDialog(this, parent, wxT("ConfigurationDialog"));
     
     XRCCTRL(*this, "configurationMenuName", wxTextCtrl)->SetValue(configurationInfo.menuName);
     XRCCTRL(*this, "configurationSubMenuName", wxComboBox)->SetValue(configurationInfo.subMenuName);

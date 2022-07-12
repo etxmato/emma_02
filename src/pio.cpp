@@ -125,9 +125,9 @@ void PioScreen::onPaint(wxPaintEvent&WXUNUSED(event))
     dc.SetBrush(*wxWHITE_BRUSH);
     dc.DrawRectangle(0, 0, 329, 219);
 #if defined(__WXMAC__)
-	wxFont defaultFont(16, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
+    wxFont defaultFont(16, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
 #else
-	wxFont defaultFont(12, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
+    wxFont defaultFont(12, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
 #endif
 
     dc.SetTextForeground(*wxBLACK);
@@ -972,7 +972,7 @@ void PioScreen::refreshLeds()
 }
 
 BEGIN_EVENT_TABLE(PioFrame, wxFrame)
-	EVT_CLOSE (PioFrame::onClose)
+    EVT_CLOSE (PioFrame::onClose)
     EVT_BUTTON(1, PioFrame::onArdyButton)
     EVT_BUTTON(2, PioFrame::onBrdyButton)
 END_EVENT_TABLE()
@@ -988,7 +988,7 @@ PioFrame::PioFrame(const wxString& title, const wxPoint& pos, const wxSize& size
     this->SetClientSize(size);
     
 #ifndef __WXMAC__
-	SetIcon(wxICON(app_icon));
+    SetIcon(wxICON(app_icon));
 #endif
 }
 
@@ -999,17 +999,17 @@ PioFrame::~PioFrame()
 
 void PioFrame::onClose(wxCloseEvent&WXUNUSED(event))
 {
-	p_Computer->removePio(pioNumber_);
+    p_Computer->removePio(pioNumber_);
 }
 
 void PioFrame::onArdyButton(wxCommandEvent&WXUNUSED(event))
 {
-	pioScreenPointer->onArdyButton();
+    pioScreenPointer->onArdyButton();
 };
 
 void PioFrame::onBrdyButton(wxCommandEvent&WXUNUSED(event)) 
 {
-	pioScreenPointer->onBrdyButton();
+    pioScreenPointer->onBrdyButton();
 };
 
 void PioFrame::refreshPanel()

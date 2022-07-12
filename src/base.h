@@ -1,15 +1,15 @@
 /*
-*	base.h
-*	wxCURL
+*    base.h
+*    wxCURL
 *
-*	Created by Casey O'Donnell on Tue Jun 29 2004.
-*	Copyright (c) 2004 Casey O'Donnell. All rights reserved.
+*    Created by Casey O'Donnell on Tue Jun 29 2004.
+*    Copyright (c) 2004 Casey O'Donnell. All rights reserved.
 *
 *  Contributions and Assistance:
 *  Ryan Wilcox - Verbose Options
 *  Francesco Montorsi - Unicode compatibility mode, misc other changes
 *
-*	Licence: wxWidgets Licence
+*    Licence: wxWidgets Licence
 */
 
 #ifndef _WXCURLBASE_H__INCLUDED_
@@ -287,8 +287,8 @@ public:
     bool IsSuccessful() const { return ((m_iResponseCode > 199) && (m_iResponseCode < 300)); }
 
 protected:
-    wxString	m_szURL;
-    long		m_iResponseCode;
+    wxString    m_szURL;
+    long        m_iResponseCode;
 
 private:
     DECLARE_DYNAMIC_CLASS(wxCurlEndPerformEvent);
@@ -401,21 +401,21 @@ public:
 
     //! Sets the event handler to which the wxCurlDownloadEvent, wxCurlBeginPerformEvent and
     //! wxCurlEndPerformEvent will be sent if they are enabled (see #SetFlags).
-    bool			SetEvtHandler(wxEvtHandler* pParent, int id = wxID_ANY);
-    wxEvtHandler*	GetEvtHandler() const;
+    bool            SetEvtHandler(wxEvtHandler* pParent, int id = wxID_ANY);
+    wxEvtHandler*    GetEvtHandler() const;
     int             GetId() const;
 
     //! Sets the "event policy" of wxCURL: if you pass zero, then no events will ever be sent.
     //! The wxCURL_SEND_PROGRESS_EVENTS and wxCURL_SEND_BEGINEND_EVENTS flags instead tell
     //! wxCURL to send respectively the wxCurlDownloadEvent and wxCurlBeginPerformEvent,
     //! wxCurlEndPerformEvent events.
-    void		SetFlags(long flags);
+    void        SetFlags(long flags);
     long        GetFlags() const;
 
     //! Sets the base URL. This allows you to specify a 'base' URL if you
     //! are performing multiple actions.
-    void		SetBaseURL(const wxString& szBaseURL);
-    wxString	GetBaseURL() const;
+    void        SetBaseURL(const wxString& szBaseURL);
+    wxString    GetBaseURL() const;
 
     //! Sets the current URL. The 'base url' will be prepended to the given string.
     void        SetURL(const wxString &szRelativeURL);
@@ -426,55 +426,55 @@ public:
     //! Sets the host Port.  This allows you to specify a specific (non-
     //! default port) if you like.  The value -1 means that the default port
     //! will be used.
-    void		SetPort(const long& iPort);
-    long		GetPort() const;
+    void        SetPort(const long& iPort);
+    long        GetPort() const;
 
     //! Sets the Username. If no username is
     //! needed, simply assign an empty string (which is the default).
-    void		SetUsername(const wxString& szUsername);
-    wxString	GetUsername() const;
+    void        SetUsername(const wxString& szUsername);
+    wxString    GetUsername() const;
 
     //! Sets the Password. If no password is
     //! needed, simply assign an empty string (which is the default).
-    void		SetPassword(const wxString& szPassword);
-    wxString	GetPassword() const;
+    void        SetPassword(const wxString& szPassword);
+    wxString    GetPassword() const;
 
     //! Returns the header of the response.
-    wxString	GetResponseHeader() const;
-    wxString	GetResponseBody() const;		// May only contain data on NON-GET calls.
-    long		GetResponseCode() const;
+    wxString    GetResponseHeader() const;
+    wxString    GetResponseBody() const;        // May only contain data on NON-GET calls.
+    long        GetResponseCode() const;
 
     //! Should the proxy be used?
-    void		UseProxy(const bool& bUseProxy);
-    bool		UseProxy() const;
+    void        UseProxy(const bool& bUseProxy);
+    bool        UseProxy() const;
 
     //! Sets proxy host.
-    void		SetProxyHost(const wxString& szProxyHost);
-    wxString	GetProxyHost() const;
+    void        SetProxyHost(const wxString& szProxyHost);
+    wxString    GetProxyHost() const;
 
     //! Sets the username for proxy access (if needed).
-    void		SetProxyUsername(const wxString& szProxyUsername);
-    wxString	GetProxyUsername() const;
+    void        SetProxyUsername(const wxString& szProxyUsername);
+    wxString    GetProxyUsername() const;
 
     //! Sets the password for proxy access (if needed).
-    void		SetProxyPassword(const wxString& szProxyPassword);
-    wxString	GetProxyPassword() const;
+    void        SetProxyPassword(const wxString& szProxyPassword);
+    wxString    GetProxyPassword() const;
 
     //! Sets the port for proxy access.
-    void		SetProxyPort(const long& iProxyPort);
-    long		GetProxyPort() const;
+    void        SetProxyPort(const long& iProxyPort);
+    long        GetProxyPort() const;
 
     //! Sets verbose mode on/off. Note that in verbose mode a lot of info
     //! will be printed into an internal memory stream which can be queried
     //! using #GetVerboseStream and #GetVerboseString.
-    void		SetVerbose(const bool& bVerbose);
-    bool		IsVerbose() const;
+    void        SetVerbose(const bool& bVerbose);
+    bool        IsVerbose() const;
 
     //! Writes into the given stream the verbose messages collected so far.
-    bool		GetVerboseStream(wxOutputStream& destStream) const;
+    bool        GetVerboseStream(wxOutputStream& destStream) const;
 
     //! Appends to the given stream the verbose messages collected so far.
-    bool		GetVerboseString(wxString& szStream) const;
+    bool        GetVerboseString(wxString& szStream) const;
 
     //! Returns a generic, short string describing the last occurred error.
     wxString    GetErrorString() const;
@@ -640,10 +640,10 @@ protected:
 protected:      // internal functions
 
     // CURL Handle Initialization Helper Method
-    virtual void	SetCurlHandleToDefaults(const wxString& relativeURL);
-    virtual void	SetHeaders();
-    virtual void	ResetHeaders();
-    virtual void	ResetResponseVars();
+    virtual void    SetCurlHandleToDefaults(const wxString& relativeURL);
+    virtual void    SetHeaders();
+    virtual void    ResetHeaders();
+    virtual void    ResetResponseVars();
 
     // Output additional warnings/errors when in verbose mode.
     void DumpErrorIfNeed(CURLcode error) const;

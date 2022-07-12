@@ -9,7 +9,7 @@ public:
     ~SBDialog (){};
 
 private:
-	// Rom spec
+    // Rom spec
     void onSaveButton( wxCommandEvent &event );
     void onBMChoice( wxCommandEvent &event );
     void onBMStore( wxCommandEvent &event );
@@ -33,28 +33,28 @@ private:
 
     wxString SBRomDir_[12];
 
-	// USB Settings spec
-	void onRoot(wxCommandEvent &event);
+    // USB Settings spec
+    void onRoot(wxCommandEvent &event);
 
-	// Backup specs
+    // Backup specs
     void onYesButton( wxCommandEvent &event );
-	void onNoButton(wxCommandEvent &event);
+    void onNoButton(wxCommandEvent &event);
 
-	void listBackup(wxFileName dir, wxString name, wxString ext, int flags);
-	void listAllBackup(wxString dir);
-	void onListBackup();
-	void onSub(wxCommandEvent& event);
-	void onFolder(wxCommandEvent& event);
+    void listBackup(wxFileName dir, wxString name, wxString ext, int flags);
+    void listAllBackup(wxString dir);
+    void onListBackup();
+    void onSub(wxCommandEvent& event);
+    void onFolder(wxCommandEvent& event);
 
-	bool first_;
-	bool sub_;
+    bool first_;
+    bool sub_;
 
-	wxString urlBookMark_[10];
-	int bmNumber_;
-	int aliasNumber_;
-	wxString emailAddress_;
+    wxString urlBookMark_[10];
+    int bmNumber_;
+    int aliasNumber_;
+    wxString emailAddress_;
 
-	wxString rootDir_;
+    wxString rootDir_;
 
     DECLARE_EVENT_TABLE()
 

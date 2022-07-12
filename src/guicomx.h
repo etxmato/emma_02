@@ -15,41 +15,41 @@ class GuiComx: public GuiDiy
 {
 public:
 
-	GuiComx(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
-	~GuiComx();
+    GuiComx(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
+    ~GuiComx();
 
-	void readComxConfig();
+    void readComxConfig();
     void readSbConfig();
     void readInitialComxConfig();
     void writeSbConfig();
     void writeComxDirConfig();
-	void writeComxConfig();
+    void writeComxConfig();
     void readComxWindowConfig();
     void writeComxWindowConfig();
 
-	void onExpansionRom(wxCommandEvent& event);
-	void onExpansionRomText(wxCommandEvent& event);
-	void onCard1Rom(wxCommandEvent& event);
-	void onCard1RomText(wxCommandEvent& event);
-	void onCard2Rom(wxCommandEvent& event);
-	void onCard2RomText(wxCommandEvent& event);
-	void onCard3Rom(wxCommandEvent& event);
-	void onCard3RomText(wxCommandEvent& event);
-	void onCard4Rom(wxCommandEvent& event);
-	void onCard4RomText(wxCommandEvent& event);
-	void onComxDisk1(wxCommandEvent& event);
-	void onComxDiskText1(wxCommandEvent& event);
-	void onComxDiskEject1(wxCommandEvent& event);
-	void onComxDisk2(wxCommandEvent& event);
-	void onComxDiskText2(wxCommandEvent& event);
-	void onComxDiskEject2(wxCommandEvent& event);
-	void onComxPrintFileText(wxCommandEvent& event);
-	void onComxPrintMode(wxCommandEvent& event);
-	void onComxPrintButton(wxCommandEvent& event);
-	void onComxVideoMode(wxCommandEvent& event);
+    void onExpansionRom(wxCommandEvent& event);
+    void onExpansionRomText(wxCommandEvent& event);
+    void onCard1Rom(wxCommandEvent& event);
+    void onCard1RomText(wxCommandEvent& event);
+    void onCard2Rom(wxCommandEvent& event);
+    void onCard2RomText(wxCommandEvent& event);
+    void onCard3Rom(wxCommandEvent& event);
+    void onCard3RomText(wxCommandEvent& event);
+    void onCard4Rom(wxCommandEvent& event);
+    void onCard4RomText(wxCommandEvent& event);
+    void onComxDisk1(wxCommandEvent& event);
+    void onComxDiskText1(wxCommandEvent& event);
+    void onComxDiskEject1(wxCommandEvent& event);
+    void onComxDisk2(wxCommandEvent& event);
+    void onComxDiskText2(wxCommandEvent& event);
+    void onComxDiskEject2(wxCommandEvent& event);
+    void onComxPrintFileText(wxCommandEvent& event);
+    void onComxPrintMode(wxCommandEvent& event);
+    void onComxPrintButton(wxCommandEvent& event);
+    void onComxVideoMode(wxCommandEvent& event);
     void onComxDram(wxCommandEvent& event);
     void onComxExpansionRam(wxCommandEvent& event);
-	void onComxExpansionRamSlot(wxSpinEvent&event);
+    void onComxExpansionRamSlot(wxSpinEvent&event);
     void onBatchConvertStart(wxCommandEvent&event);
     void batchConvertStop();
     void onBatchFileDialog(wxCommandEvent& event);
@@ -57,74 +57,74 @@ public:
     wxString getBatchPath(int filenumber) {return batchPaths_[filenumber];}
     wxArrayString getBatchFiles() {return batchFiles_;}
     wxString getBatchFile(int filenumber) {return batchFiles_[filenumber];}
-    int getNumberOfBatchFiles() {return numberOfBatchFiles_;}
-	void setLocation(bool state, Word saveStart, Word saveEnd, Word saveExec);
-	void onEpromDialog(wxCommandEvent& event);
-	void onSBDialog(wxCommandEvent& event);
-	void onDiagDialog(wxCommandEvent& event);
-	void onSbActive(wxCommandEvent& event);
-	void diagSbChange();
-	void onDiagActive(wxCommandEvent& event);
-	void onDiagOn(wxCommandEvent& event);
+    size_t getNumberOfBatchFiles() {return numberOfBatchFiles_;}
+    void setLocation(bool state, Word saveStart, Word saveEnd, Word saveExec);
+    void onEpromDialog(wxCommandEvent& event);
+    void onSBDialog(wxCommandEvent& event);
+    void onDiagDialog(wxCommandEvent& event);
+    void onSbActive(wxCommandEvent& event);
+    void diagSbChange();
+    void onDiagActive(wxCommandEvent& event);
+    void onDiagOn(wxCommandEvent& event);
 
-	void statusLedOn(wxCommandEvent &event);
-	void statusLedOff(wxCommandEvent &event);
-	void statusLedOnDirect();
-	void statusLedOffDirect();
-	void v1870BarSize(wxCommandEvent &event);
-	void expLedOn(wxCommandEvent &event);
-	void expLedOff(wxCommandEvent &event);
-	void expLedOnDirect();
-	void expLedOffDirect();
-	void openComxPrinterFrame(wxCommandEvent &event);
+    void statusLedOn(wxCommandEvent &event);
+    void statusLedOff(wxCommandEvent &event);
+    void statusLedOnDirect();
+    void statusLedOffDirect();
+    void v1870BarSize(wxCommandEvent &event);
+    void expLedOn(wxCommandEvent &event);
+    void expLedOff(wxCommandEvent &event);
+    void expLedOnDirect();
+    void expLedOffDirect();
+    void openComxPrinterFrame(wxCommandEvent &event);
 
-	wxString getFloppyDir(int drive);
-	wxString getFloppyFile(int drive);
-	wxString getPL80Data(int item);
-	void setPL80Data(int item, wxString data);
-	void enableComxGui(bool status);
-	void setComxExpRamSlot();
-	void resetCardText();
-	bool isSaving();
-	void setComxPrintMode();
-	void onComxF4();
-	void setFandMBasicGui();
-	void enableDiskRomGui(bool DiskRom);
-	void setExtRomStatus(bool expansionRomLoaded);
-	void setComxPrintMode(int mode);
-	int getComxPrintMode();
-	int getExpansionRamSlot() {return expansionRamSlot_;};
-	bool getUseExpansionRam() {return useExpansionRam_;};
-	wxString getSbEmail() {return sbEmail_;}; 
-	wxString getSbPlayer() {return sbPlayer_;}; 
-	wxString getSbLocation() {return sbLocation_;}; 
-	wxString getSbUrlHome() {return sbUrlHome_;}; 
+    wxString getFloppyDir(int drive);
+    wxString getFloppyFile(int drive);
+    wxString getPL80Data(int item);
+    void setPL80Data(int item, wxString data);
+    void enableComxGui(bool status);
+    void setComxExpRamSlot();
+    void resetCardText();
+    bool isSaving();
+    void setComxPrintMode();
+    void onComxF4();
+    void setFandMBasicGui();
+    void enableDiskRomGui(bool DiskRom);
+    void setExtRomStatus(bool expansionRomLoaded);
+    void setComxPrintMode(int mode);
+    int getComxPrintMode();
+    int getExpansionRamSlot() {return expansionRamSlot_;};
+    bool getUseExpansionRam() {return useExpansionRam_;};
+    wxString getSbEmail() {return sbEmail_;}; 
+    wxString getSbPlayer() {return sbPlayer_;}; 
+    wxString getSbLocation() {return sbLocation_;}; 
+    wxString getSbUrlHome() {return sbUrlHome_;}; 
     wxString getSbUrlBookMark(int number) {return sbUrlBookMark_[number];};
-	wxString getSbRootDirectory() {return sbRootDirectory_;}; 
+    wxString getSbRootDirectory() {return sbRootDirectory_;}; 
     wxString getSbRomDirectory(int number) {return SBRomDir_[number];};
     wxString getSbRom(int number) {return SBRom_[number];};
     wxString getEpromRomDirectory(int number) {return EpromRomDir_[number];};
     wxString getEpromRom(int number) {return EpromRom_[number];};
 
-	wxString getDiagPalRomDirectory(int number) { return DiagPalRomDir_[number]; };
-	wxString getDiagPalRom(int number) { return DiagPalRom_[number]; };
-	void setDiagPalRomDirectory(int number, wxString directory);
-	void setDiagPalRom(int number, wxString filename);
+    wxString getDiagPalRomDirectory(int number) { return DiagPalRomDir_[number]; };
+    wxString getDiagPalRom(int number) { return DiagPalRom_[number]; };
+    void setDiagPalRomDirectory(int number, wxString directory);
+    void setDiagPalRom(int number, wxString filename);
 
-	wxString getDiagNtscRomDirectory(int number) { return DiagNtscRomDir_[number]; };
-	wxString getDiagNtscRom(int number) { return DiagNtscRom_[number]; };
-	void setDiagNtscRomDirectory(int number, wxString directory);
-	void setDiagNtscRom(int number, wxString filename);
+    wxString getDiagNtscRomDirectory(int number) { return DiagNtscRomDir_[number]; };
+    wxString getDiagNtscRom(int number) { return DiagNtscRom_[number]; };
+    void setDiagNtscRomDirectory(int number, wxString directory);
+    void setDiagNtscRom(int number, wxString filename);
 
-	int getSbCdRoot() {return sbCdRoot_;};
-	int getSbBackup() {return sbBackup_;}; 
-	int getSbBackupSys() {return sbBackupSys_;}; 
-	int getSbCaseFile() {return sbCaseFile_;}; 
-	int getSbCaseDir() {return sbCaseDir_;}; 
+    int getSbCdRoot() {return sbCdRoot_;};
+    int getSbBackup() {return sbBackup_;}; 
+    int getSbBackupSys() {return sbBackupSys_;}; 
+    int getSbCaseFile() {return sbCaseFile_;}; 
+    int getSbCaseDir() {return sbCaseDir_;}; 
     int getSbFwVersion() {return sbFwVersion_;};
-	bool isDiagActive(int computer) { return conf[computer].diagActive_; };
+    bool isDiagActive(int computer) { return conf[computer].diagActive_; };
     bool isDramActive(int computer) { return conf[computer].dram_; };
-	int isDiagOn(int computer);
+    int isDiagOn(int computer);
     int getDiagRomChecksum() {return diagRomChecksum_;};
     int getDiagFactory() {return diagFactory_;};
     void setDiagRomChecksum(int diagRomChecksum) { diagRomChecksum_ = diagRomChecksum;};
@@ -132,88 +132,88 @@ public:
     int getDiagCassetteCables() {return diagCassetteCables_;};
     void setDiagCassetteCables(int diagCassetteCables) { diagCassetteCables_ = diagCassetteCables;};
   
-	void setSbEmail(wxString sbEmail) { sbEmail_ = sbEmail; };
-	void setSbPlayer(wxString sbPlayer) { sbPlayer_ = sbPlayer; };
-	void setSbLocation(wxString sbLocation) { sbLocation_ = sbLocation; };
-	void setSbUrlHome(wxString urlHome); 
-	void setSbRootDirectory(wxString sbRootDirectory) { sbRootDirectory_ = sbRootDirectory; };
+    void setSbEmail(wxString sbEmail) { sbEmail_ = sbEmail; };
+    void setSbPlayer(wxString sbPlayer) { sbPlayer_ = sbPlayer; };
+    void setSbLocation(wxString sbLocation) { sbLocation_ = sbLocation; };
+    void setSbUrlHome(wxString urlHome); 
+    void setSbRootDirectory(wxString sbRootDirectory) { sbRootDirectory_ = sbRootDirectory; };
     void setSbRomDirectory(int number, wxString directory);
     void setSbRom(int number, wxString filename);
     void setEpromRomDirectory(int number, wxString directory);
     void setEpromRom(int number, wxString filename);
 
-	void setSbCdRoot(int sdCdRoot) { sbCdRoot_ = sdCdRoot; };
-	void getSbBackup(int sbBackup) { sbBackup_ = sbBackup; };
-	void getSbBackupSys(int sbBackupSys) { sbBackupSys_ = sbBackupSys; };
-	void getSbCaseFile(int sbCaseFile) { sbCaseFile_ = sbCaseFile; };
-	void setSbCaseDir(int sbCaseDir) { sbCaseDir_ = sbCaseDir; };
-	void setSbFwVersion(int version);
+    void setSbCdRoot(int sdCdRoot) { sbCdRoot_ = sdCdRoot; };
+    void getSbBackup(int sbBackup) { sbBackup_ = sbBackup; };
+    void getSbBackupSys(int sbBackupSys) { sbBackupSys_ = sbBackupSys; };
+    void getSbCaseFile(int sbCaseFile) { sbCaseFile_ = sbCaseFile; };
+    void setSbCaseDir(int sbCaseDir) { sbCaseDir_ = sbCaseDir; };
+    void setSbFwVersion(int version);
 
-	void setComxStatusLedOn(bool status) { isComxStatusLedOn_ = status; };
-	void setComxExpLedOn(bool status) {isComxExpLedOn_ = status;};
+    void setComxStatusLedOn(bool status) { isComxStatusLedOn_ = status; };
+    void setComxExpLedOn(bool status) {isComxExpLedOn_ = status;};
     bool isBatchConvertActive() {return batchConvertActive_;};
 
-	void statusLedOnEvent();
-	void statusLedOffEvent();
-	void expLedOnEvent();
-	void expLedOffEvent();
-	void v1870BarSizeEvent();
+    void statusLedOnEvent();
+    void statusLedOffEvent();
+    void expLedOnEvent();
+    void expLedOffEvent();
+    void v1870BarSizeEvent();
 
-	wxString getUrlBookMark(int number) {return sbUrlBookMark_[number];}; 
+    wxString getUrlBookMark(int number) {return sbUrlBookMark_[number];}; 
     void setSbUrlBookMark(int number, wxString urlBookMark);
     void setUrlBookMark(int number, wxString urlBookMark);
 
-	size_t getNumberOfAlias() {return numberOfAlias_;}; 
-	wxString getAlias(size_t number); 
-	wxString getAliasEmail(size_t number); 
-	void setAlias(long number, wxString aliasNew, wxString aliasEmailNew);
-	void deleteAlias(int aliasDel);
+    size_t getNumberOfAlias() {return numberOfAlias_;}; 
+    wxString getAlias(size_t number); 
+    wxString getAliasEmail(size_t number); 
+    void setAlias(long number, wxString aliasNew, wxString aliasEmailNew);
+    void deleteAlias(int aliasDel);
     void onLogComx(wxCommandEvent&event);
 
 protected:
-	bool expansionRomLoaded_;
-	bool diskRomLoaded_;
-	wxString sbPlayer_;
-	wxString sbLocation_;
-	wxString sbEmail_;
+    bool expansionRomLoaded_;
+    bool diskRomLoaded_;
+    wxString sbPlayer_;
+    wxString sbLocation_;
+    wxString sbEmail_;
 
-	vector<wxString> alias;
-	vector<wxString> aliasEmail;
-	size_t numberOfAlias_;
+    vector<wxString> alias;
+    vector<wxString> aliasEmail;
+    size_t numberOfAlias_;
 
 private:
-	wxString Pl80Data_[3];
-	wxString floppyDir_[2];
-	wxString floppy_[2];
-	bool useExpansionRam_;
-	int expansionRamSlot_;
-	wxString saveCardText_;
+    wxString Pl80Data_[3];
+    wxString floppyDir_[2];
+    wxString floppy_[2];
+    bool useExpansionRam_;
+    int expansionRamSlot_;
+    wxString saveCardText_;
 
-	wxString sbUrlHome_;
-	wxString sbUrlBookMark_[10];
-	wxString sbRootDirectory_;
-	wxString DiagPalRomDir_[2];
-	wxString DiagPalRom_[2];
-	wxString DiagNtscRomDir_[2];
-	wxString DiagNtscRom_[2];
-	wxString SBRomDir_[12];
-	wxString SBRom_[12];
+    wxString sbUrlHome_;
+    wxString sbUrlBookMark_[10];
+    wxString sbRootDirectory_;
+    wxString DiagPalRomDir_[2];
+    wxString DiagPalRom_[2];
+    wxString DiagNtscRomDir_[2];
+    wxString DiagNtscRom_[2];
+    wxString SBRomDir_[12];
+    wxString SBRom_[12];
     wxString EpromRomDir_[5];
     wxString EpromRom_[5];
 
-	int sbCdRoot_;
-	int sbBackup_;
-	int sbBackupSys_;
-	int sbCaseFile_;
-	int sbCaseDir_;
-	int sbFwVersion_;
+    int sbCdRoot_;
+    int sbBackup_;
+    int sbBackupSys_;
+    int sbCaseFile_;
+    int sbCaseDir_;
+    int sbFwVersion_;
     int diagRomChecksum_;
     int diagFactory_;
     int diagCassetteCables_;
     
-	int comxPrintMode_;
-	bool isComxStatusLedOn_;
-	bool isComxExpLedOn_;
+    int comxPrintMode_;
+    bool isComxStatusLedOn_;
+    bool isComxExpLedOn_;
     
     bool batchConvertActive_;
     wxString batchSaveWavFileDir_;
@@ -223,7 +223,7 @@ private:
     wxArrayString batchFiles_;
     size_t numberOfBatchFiles_;
 
-	DECLARE_EVENT_TABLE()
+    DECLARE_EVENT_TABLE()
 };
 
 #endif // GUICOMX_H

@@ -98,47 +98,47 @@ wxString microBoardStr[]=
 
 int cardBoardNumber[]= // Keep same order as in GUI, new board get next number
 {
-	0,
-	1, // CARD_CDP18S620,
-	2, // CARD_CDP18S621,
-	3, // CARD_CDP18S623A,
-	4, // CARD_CDP18S625,
-	5, // CARD_CDP18S626,
-	6, // CARD_CDP18S627,
-	7, // CARD_CDP18S628,
-	8, // CARD_CDP18S629,
-	9, // CARD_CDP18S640,
-	10, // CARD_CDP18S641,
+    0,
+    1, // CARD_CDP18S620,
+    2, // CARD_CDP18S621,
+    3, // CARD_CDP18S623A,
+    4, // CARD_CDP18S625,
+    5, // CARD_CDP18S626,
+    6, // CARD_CDP18S627,
+    7, // CARD_CDP18S628,
+    8, // CARD_CDP18S629,
+    9, // CARD_CDP18S640,
+    10, // CARD_CDP18S641,
     15, // CARD_CDP18S646,
-	11, // CARD_CDP18S651,
+    11, // CARD_CDP18S651,
     12, // CARD_CDP18S652,
     16, // CARD_CDP18S660,
-	13, // CARD_CDP18S661B,
+    13, // CARD_CDP18S661B,
     17, // CARD_CDP18S661V1,
     14, // CARD_CDP18S661V3,
 };
 
 int cardBoardId[]= // Order should NOT change add new one in the bottom
 {
-	0, // empty
-	CARD_CDP18S620, // CARD_CDP18S620
-	CARD_CDP18S621, // CARD_CDP18S621
-	CARD_CDP18S623A, // CARD_CDP18S623A
-	CARD_CDP18S625, // CARD_CDP18S625,
-	CARD_CDP18S626, // CARD_CDP18S626,
-	CARD_CDP18S627, // CARD_CDP18S627,
-	CARD_CDP18S628, // CARD_CDP18S628,
-	CARD_CDP18S629, // CARD_CDP18S629,
-	CARD_CDP18S640, // CARD_CDP18S640,
-	CARD_CDP18S641, // CARD_CDP18S641,
-	CARD_CDP18S651, // CARD_CDP18S651,
-	CARD_CDP18S652, // CARD_CDP18S652,
-	CARD_CDP18S661B, // CARD_CDP18S661B,
-	CARD_CDP18S661V3, // CARD_CDP18S661V3,
+    0, // empty
+    CARD_CDP18S620, // CARD_CDP18S620
+    CARD_CDP18S621, // CARD_CDP18S621
+    CARD_CDP18S623A, // CARD_CDP18S623A
+    CARD_CDP18S625, // CARD_CDP18S625,
+    CARD_CDP18S626, // CARD_CDP18S626,
+    CARD_CDP18S627, // CARD_CDP18S627,
+    CARD_CDP18S628, // CARD_CDP18S628,
+    CARD_CDP18S629, // CARD_CDP18S629,
+    CARD_CDP18S640, // CARD_CDP18S640,
+    CARD_CDP18S641, // CARD_CDP18S641,
+    CARD_CDP18S651, // CARD_CDP18S651,
+    CARD_CDP18S652, // CARD_CDP18S652,
+    CARD_CDP18S661B, // CARD_CDP18S661B,
+    CARD_CDP18S661V3, // CARD_CDP18S661V3,
     CARD_CDP18S646,  // CARD_CDP18S646
     CARD_CDP18S660,  // CARD_CDP18S660
     CARD_CDP18S661V1, // CARD_CDP18S661V1,
-	// new card etc..
+    // new card etc..
 };
 
 BEGIN_EVENT_TABLE(GuiCdp18s600, GuiTMC2000)
@@ -235,6 +235,7 @@ void GuiCdp18s600::readCdp18s600Config()
 {
     wxString cardNumberStr;
  
+    elfConfiguration[MICROBOARD].elfPortConf.emsOutput.resize(1);
     readElfPortConfig(MICROBOARD, "Microboard");
 
     selectedComputer_ = MICROBOARD;
@@ -257,7 +258,9 @@ void GuiCdp18s600::readCdp18s600Config()
 
     conf[MICROBOARD].saveEndString_ = "";
     conf[MICROBOARD].saveExecString_ = "";
-    
+
+    conf[MICROBOARD].emsConfigNumber_ = 0;
+
     conf[MICROBOARD].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "Microboard" + pathSeparator_;
     
     conf[MICROBOARD].mainDir_ = readConfigDir("/Dir/Microboard/Main", dataDir_ + "Microboard" + pathSeparator_);
@@ -703,8 +706,8 @@ void GuiCdp18s600::writeCdp18s600Config()
     configPointer->Write("/Microboard/Print_Mode", conf[MICROBOARD].printMode_);
     configPointer->Write("/Microboard/Print_File", conf[MICROBOARD].printFile_);
 
-	configPointer->Write("/Microboard/KeyboardEF", elfConfiguration[MICROBOARD].elfPortConf.keyboardEf);
-	configPointer->Write("/Microboard/KeyboardType", elfConfiguration[MICROBOARD].keyboardType);
+    configPointer->Write("/Microboard/KeyboardEF", elfConfiguration[MICROBOARD].elfPortConf.keyboardEf);
+    configPointer->Write("/Microboard/KeyboardType", elfConfiguration[MICROBOARD].keyboardType);
 
     configPointer->Write("/Microboard/Upd765Group", elfConfiguration[MICROBOARD].upd765Group);
     configPointer->Write("/Microboard/PrinterGroup", elfConfiguration[MICROBOARD].printerGroup);
@@ -1499,7 +1502,7 @@ void GuiCdp18s600::setMemoryMapCDP18S600(Conf* config, int card, int boardType)
     else
     {
         if (!config->microChipDisable_[U19ROM] && config->rom_[U19ROM] != "")
-			setMemoryMap(config, startAddress, lastAddress, card, boardType);
+            setMemoryMap(config, startAddress, lastAddress, card, boardType);
     }
     
     startAddress += (currentRomSize+1);
@@ -1510,7 +1513,7 @@ void GuiCdp18s600::setMemoryMapCDP18S600(Conf* config, int card, int boardType)
     else
     {
         if (!config->microChipDisable_[U18ROM] && config->rom_[U18ROM] != "")
-			setMemoryMap(config, startAddress, lastAddress, card, boardType);
+            setMemoryMap(config, startAddress, lastAddress, card, boardType);
     }
     
     startAddress += (currentRomSize+1);
@@ -1521,7 +1524,7 @@ void GuiCdp18s600::setMemoryMapCDP18S600(Conf* config, int card, int boardType)
     else
     {
         if (!config->microChipDisable_[U17ROM] && config->rom_[U17ROM] != "")
-			setMemoryMap(config, startAddress, lastAddress, card, boardType);
+            setMemoryMap(config, startAddress, lastAddress, card, boardType);
     }
 }
 
@@ -1549,7 +1552,7 @@ void GuiCdp18s600::setMemoryMapCDP18S601(Conf* config, int card, int boardType)
         
         if (romLocation != ramLocation)
         {
-			setLoadMemoryMap(config->romDir_[XU27ROM], config->rom_[XU27ROM], ROM, ROM, startAddress, lastAddress+1, 0xFFFF, 0, config, card, boardType);
+            setLoadMemoryMap(config->romDir_[XU27ROM], config->rom_[XU27ROM], ROM, ROM, startAddress, lastAddress+1, 0xFFFF, 0, config, card, boardType);
 
             if (config->microChipMemory_[XU27ROM] == 0)
             {
@@ -1573,7 +1576,7 @@ void GuiCdp18s600::setMemoryMapCDP18S601(Conf* config, int card, int boardType)
         
         if (romLocation != ramLocation)
         {
-			setLoadMemoryMap(config->romDir_[XU26ROM], config->rom_[XU26ROM], ROM, ROM, startAddress, lastAddress+1, 0xFFFF, 0, config, card, boardType);
+            setLoadMemoryMap(config->romDir_[XU26ROM], config->rom_[XU26ROM], ROM, ROM, startAddress, lastAddress+1, 0xFFFF, 0, config, card, boardType);
 
             if (config->microChipMemory_[XU26ROM] == 0)
             {
@@ -1599,7 +1602,7 @@ void GuiCdp18s600::setMemoryMapCDP18S601(Conf* config, int card, int boardType)
         
         if (location != ramLocation && location != romLocation)
         {
-			setLoadMemoryMap(config->romDir_[XU25ROM], config->rom_[XU25ROM], ROM, ROM, startAddress, lastAddress+1, 0xFFFF, 0, config, card, boardType);
+            setLoadMemoryMap(config->romDir_[XU25ROM], config->rom_[XU25ROM], ROM, ROM, startAddress, lastAddress+1, 0xFFFF, 0, config, card, boardType);
 
             if (config->microChipMemory_[XU25ROM] == 0 && config->rom_[XU25ROM] != "")
             {
@@ -1614,18 +1617,18 @@ void GuiCdp18s600::setMemoryMapCDP18S601(Conf* config, int card, int boardType)
             if (boardType == -1)
             {
                 if (location != ramLocation)
-				{
-					if (config->rom_[XU25ROM] != "")
-						p_Computer->readProgramMicro(config->romDir_[XU25ROM], config->rom_[XU25ROM], ROM, startAddress, lastAddress+1, NONAME);
-				}
+                {
+                    if (config->rom_[XU25ROM] != "")
+                        p_Computer->readProgramMicro(config->romDir_[XU25ROM], config->rom_[XU25ROM], ROM, startAddress, lastAddress+1, NONAME);
+                }
                 else
                     p_Computer->readProgramMicro(config->romDir_[XU25ROM], config->rom_[XU25ROM], NOCHANGE, startAddress, lastAddress+1, NONAME);
             }
             else
-			{
-				if (config->rom_[XU25ROM] != "")
-	                setMemoryMap(config, startAddress, lastAddress, card, boardType);
-			}
+            {
+                if (config->rom_[XU25ROM] != "")
+                    setMemoryMap(config, startAddress, lastAddress, card, boardType);
+            }
         }
         
         currentRomSize = guiRomSizeCDP18S601[config->microChipMemory_[XU24ROM]];
@@ -1634,7 +1637,7 @@ void GuiCdp18s600::setMemoryMapCDP18S601(Conf* config, int card, int boardType)
         
         if (location != ramLocation && location != romLocation)
         {
-			setLoadMemoryMap(config->romDir_[XU24ROM], config->rom_[XU24ROM], ROM, ROM, startAddress, lastAddress+1, 0xFFFF, 0, config, card, boardType);
+            setLoadMemoryMap(config->romDir_[XU24ROM], config->rom_[XU24ROM], ROM, ROM, startAddress, lastAddress+1, 0xFFFF, 0, config, card, boardType);
 
             if (config->microChipMemory_[XU24ROM] == 0 && config->rom_[XU24ROM] != "")
             {
@@ -1649,18 +1652,18 @@ void GuiCdp18s600::setMemoryMapCDP18S601(Conf* config, int card, int boardType)
             if (boardType == -1)
             {
                 if (location != ramLocation)
-				{
-					if (config->rom_[XU24ROM] != "")
-						p_Computer->readProgramMicro(config->romDir_[XU24ROM], config->rom_[XU24ROM], ROM, startAddress, lastAddress+1, NONAME);
-				}
+                {
+                    if (config->rom_[XU24ROM] != "")
+                        p_Computer->readProgramMicro(config->romDir_[XU24ROM], config->rom_[XU24ROM], ROM, startAddress, lastAddress+1, NONAME);
+                }
                 else
                     p_Computer->readProgramMicro(config->romDir_[XU24ROM], config->rom_[XU24ROM], NOCHANGE, startAddress, lastAddress+1, NONAME);
             }
             else
-			{
-				if (config->rom_[XU24ROM] != "")
-					setMemoryMap(config, startAddress, lastAddress, card, boardType);
-			}
+            {
+                if (config->rom_[XU24ROM] != "")
+                    setMemoryMap(config, startAddress, lastAddress, card, boardType);
+            }
         }
     }
     else
@@ -1674,20 +1677,20 @@ void GuiCdp18s600::setMemoryMapCDP18S601(Conf* config, int card, int boardType)
         {
             if (romLocation != ramLocation)
             {
-				if (config->rom_[XU25ROM] != "")
-				{
-					p_Computer->readProgramMicro(config->romDir_[XU25ROM], config->rom_[XU25ROM], ROM, startAddress, lastAddress+1, NONAME);
-					p_Computer->defineMemoryType(startAddress, lastAddress, ROM);
-				}
+                if (config->rom_[XU25ROM] != "")
+                {
+                    p_Computer->readProgramMicro(config->romDir_[XU25ROM], config->rom_[XU25ROM], ROM, startAddress, lastAddress+1, NONAME);
+                    p_Computer->defineMemoryType(startAddress, lastAddress, ROM);
+                }
             }
             else
                 p_Computer->readProgramMicro(config->romDir_[XU25ROM], config->rom_[XU25ROM], NOCHANGE, startAddress, lastAddress+1, NONAME);
         }
         else
-		{
-			if (config->rom_[XU25ROM] != "")
-	            setMemoryMap(config, startAddress, lastAddress, card, boardType);
-		}
+        {
+            if (config->rom_[XU25ROM] != "")
+                setMemoryMap(config, startAddress, lastAddress, card, boardType);
+        }
 
         startAddress += 0x400;
         lastAddress = startAddress + currentRomSize;
@@ -1696,20 +1699,20 @@ void GuiCdp18s600::setMemoryMapCDP18S601(Conf* config, int card, int boardType)
         {
             if (romLocation != ramLocation)
             {
-				if (config->rom_[XU27ROM] != "")
-				{
-					p_Computer->readProgramMicro(config->romDir_[XU27ROM], config->rom_[XU27ROM], ROM, startAddress, lastAddress+1, NONAME);
-					p_Computer->defineMemoryType(startAddress, lastAddress, ROM);
-				}
+                if (config->rom_[XU27ROM] != "")
+                {
+                    p_Computer->readProgramMicro(config->romDir_[XU27ROM], config->rom_[XU27ROM], ROM, startAddress, lastAddress+1, NONAME);
+                    p_Computer->defineMemoryType(startAddress, lastAddress, ROM);
+                }
             }
             else
                 p_Computer->readProgramMicro(config->romDir_[XU27ROM], config->rom_[XU27ROM], NOCHANGE, startAddress, lastAddress+1, NONAME);
         }
         else
         {
-			if (config->rom_[XU27ROM] != "")
-				setMemoryMap(config, startAddress, lastAddress, card, boardType);
-		}
+            if (config->rom_[XU27ROM] != "")
+                setMemoryMap(config, startAddress, lastAddress, card, boardType);
+        }
 
         startAddress += 0x400;
         lastAddress = startAddress + currentRomSize;
@@ -1718,20 +1721,20 @@ void GuiCdp18s600::setMemoryMapCDP18S601(Conf* config, int card, int boardType)
         {
             if (romLocation != ramLocation)
             {
-				if (config->rom_[XU24ROM] != "")
-				{
-	                p_Computer->readProgramMicro(config->romDir_[XU24ROM], config->rom_[XU24ROM], ROM, startAddress, lastAddress+1, NONAME);
-		            p_Computer->defineMemoryType(startAddress, lastAddress, ROM);
-				}
+                if (config->rom_[XU24ROM] != "")
+                {
+                    p_Computer->readProgramMicro(config->romDir_[XU24ROM], config->rom_[XU24ROM], ROM, startAddress, lastAddress+1, NONAME);
+                    p_Computer->defineMemoryType(startAddress, lastAddress, ROM);
+                }
             }
             else
                 p_Computer->readProgramMicro(config->romDir_[XU24ROM], config->rom_[XU24ROM], NOCHANGE, startAddress, lastAddress+1, NONAME);
         }
         else
-		{
-			if (config->rom_[XU24ROM] != "")
-				setMemoryMap(config, startAddress, lastAddress, card, boardType);
-		}
+        {
+            if (config->rom_[XU24ROM] != "")
+                setMemoryMap(config, startAddress, lastAddress, card, boardType);
+        }
 
         startAddress += 0x400;
         lastAddress = startAddress + currentRomSize;
@@ -1740,20 +1743,20 @@ void GuiCdp18s600::setMemoryMapCDP18S601(Conf* config, int card, int boardType)
         {
             if (romLocation != ramLocation)
             {
-				if (config->rom_[XU26ROM] != "")
-				{
-	                p_Computer->readProgramMicro(config->romDir_[XU26ROM], config->rom_[XU26ROM], ROM, startAddress, lastAddress+1, NONAME);
-	                p_Computer->defineMemoryType(startAddress, lastAddress, ROM);
-				}
+                if (config->rom_[XU26ROM] != "")
+                {
+                    p_Computer->readProgramMicro(config->romDir_[XU26ROM], config->rom_[XU26ROM], ROM, startAddress, lastAddress+1, NONAME);
+                    p_Computer->defineMemoryType(startAddress, lastAddress, ROM);
+                }
             }
             else
                 p_Computer->readProgramMicro(config->romDir_[XU26ROM], config->rom_[XU26ROM], NOCHANGE, startAddress, lastAddress+1, NONAME);
         }
         else
         {
-			if (config->rom_[XU26ROM] != "")
-				setMemoryMap(config, startAddress, lastAddress, card, boardType);
-		}
+            if (config->rom_[XU26ROM] != "")
+                setMemoryMap(config, startAddress, lastAddress, card, boardType);
+        }
     }
 }
 
@@ -1787,12 +1790,12 @@ void GuiCdp18s600::setMemoryMapCDP18S602(Conf* config, int card, int boardType)
     startAddress = romBlock * (currentRomSize*2);
     lastAddress = startAddress + currentRomSize - 1;
     
-	setLoadMemoryMap(config->romDir_[U20ROM], config->rom_[U20ROM], ROM, ROM, startAddress, lastAddress+1, 0xFFFF, 0, config, card, boardType);
+    setLoadMemoryMap(config->romDir_[U20ROM], config->rom_[U20ROM], ROM, ROM, startAddress, lastAddress+1, 0xFFFF, 0, config, card, boardType);
 
     startAddress += currentRomSize;
     lastAddress = startAddress + currentRomSize - 1;
     
-	setLoadMemoryMap(config->romDir_[U19ROM], config->rom_[U19ROM], ROM, ROM, startAddress, lastAddress+1, 0xFFFF, 0, config, card, boardType);
+    setLoadMemoryMap(config->romDir_[U19ROM], config->rom_[U19ROM], ROM, ROM, startAddress, lastAddress+1, 0xFFFF, 0, config, card, boardType);
 }
 
 void GuiCdp18s600::setMemoryMapCDP18S603a(Conf* config, int card, int boardType)
@@ -1822,23 +1825,23 @@ void GuiCdp18s600::setMemoryMapCDP18S603a(Conf* config, int card, int boardType)
         {
             if (romLocation != ramLocation)
             {
-				if (config->rom_[XU27ROM] != "")
-				{
-					p_Computer->readProgramMicro(config->romDir_[XU27ROM], config->rom_[XU27ROM], ROM, startAddress, lastAddress+1, NONAME);
-					p_Computer->defineMemoryType(startAddress, lastAddress, ROM);
+                if (config->rom_[XU27ROM] != "")
+                {
+                    p_Computer->readProgramMicro(config->romDir_[XU27ROM], config->rom_[XU27ROM], ROM, startAddress, lastAddress+1, NONAME);
+                    p_Computer->defineMemoryType(startAddress, lastAddress, ROM);
                 
-					if (config->microChipMemory_[XU27ROM] == 0)
-						p_Computer->defineMemoryType(startAddress+0x400, lastAddress+0x400, MAPPEDROM);
-				}
+                    if (config->microChipMemory_[XU27ROM] == 0)
+                        p_Computer->defineMemoryType(startAddress+0x400, lastAddress+0x400, MAPPEDROM);
+                }
             }
             else
                 p_Computer->readProgramMicro(config->romDir_[XU27ROM], config->rom_[XU27ROM], NOCHANGE, startAddress, lastAddress+1, NONAME);
         }
         else
         {
-			if (config->rom_[XU27ROM] != "")
-	            setMemoryMap(config, startAddress, lastAddress, card, boardType);
-		}
+            if (config->rom_[XU27ROM] != "")
+                setMemoryMap(config, startAddress, lastAddress, card, boardType);
+        }
 
         currentRomSize = guiRomSizeCDP18S601[config->microChipMemory_[XU26ROM]];
         startAddress += 0x800;
@@ -1848,23 +1851,23 @@ void GuiCdp18s600::setMemoryMapCDP18S603a(Conf* config, int card, int boardType)
         {
             if (romLocation != ramLocation)
             {
-				if (config->rom_[XU26ROM] != "")
-				{
-					p_Computer->readProgramMicro(config->romDir_[XU26ROM], config->rom_[XU26ROM], ROM, startAddress, lastAddress+1, NONAME);                
-					p_Computer->defineMemoryType(startAddress, lastAddress, ROM);
-	                
-					if (config->microChipMemory_[XU26ROM] == 0)
-						p_Computer->defineMemoryType(startAddress+0x400, lastAddress+0x400, MAPPEDROM);
-				}
+                if (config->rom_[XU26ROM] != "")
+                {
+                    p_Computer->readProgramMicro(config->romDir_[XU26ROM], config->rom_[XU26ROM], ROM, startAddress, lastAddress+1, NONAME);                
+                    p_Computer->defineMemoryType(startAddress, lastAddress, ROM);
+                    
+                    if (config->microChipMemory_[XU26ROM] == 0)
+                        p_Computer->defineMemoryType(startAddress+0x400, lastAddress+0x400, MAPPEDROM);
+                }
             }
             else
                 p_Computer->readProgramMicro(config->romDir_[XU26ROM], config->rom_[XU26ROM], NOCHANGE, startAddress, lastAddress+1, NONAME);
         }
         else
         {
-			if (config->rom_[XU26ROM] != "")
-				setMemoryMap(config, startAddress, lastAddress, card, boardType);
-		}
+            if (config->rom_[XU26ROM] != "")
+                setMemoryMap(config, startAddress, lastAddress, card, boardType);
+        }
 
         p_Main->checkAndReInstallFile(MICROBOARD, "ROM XU25", XU25ROM);
         currentRomSize = guiRomSizeCDP18S601[config->microChipMemory_[XU25ROM]];
@@ -1876,31 +1879,31 @@ void GuiCdp18s600::setMemoryMapCDP18S603a(Conf* config, int card, int boardType)
         {
             if (location != ramLocation && location != romLocation)
             {
-				if (config->rom_[XU25ROM] != "")
-				{
-					p_Computer->readProgramMicro(config->romDir_[XU25ROM], config->rom_[XU25ROM], ROM, startAddress, lastAddress+1, NONAME);                
-					p_Computer->defineMemoryType(startAddress, lastAddress, ROM);
-	                
-					if (config->microChipMemory_[XU25ROM] == 0)
-						p_Computer->defineMemoryType(startAddress+0x400, lastAddress+0x400, MAPPEDROM);
-				}
+                if (config->rom_[XU25ROM] != "")
+                {
+                    p_Computer->readProgramMicro(config->romDir_[XU25ROM], config->rom_[XU25ROM], ROM, startAddress, lastAddress+1, NONAME);                
+                    p_Computer->defineMemoryType(startAddress, lastAddress, ROM);
+                    
+                    if (config->microChipMemory_[XU25ROM] == 0)
+                        p_Computer->defineMemoryType(startAddress+0x400, lastAddress+0x400, MAPPEDROM);
+                }
             }
             else
             {
                 if (location != ramLocation)
-				{
-					if (config->rom_[XU25ROM] != "")
+                {
+                    if (config->rom_[XU25ROM] != "")
                     p_Computer->readProgramMicro(config->romDir_[XU25ROM], config->rom_[XU25ROM], ROM, startAddress, lastAddress+1, NONAME);
-				}
+                }
                 else
                     p_Computer->readProgramMicro(config->romDir_[XU25ROM], config->rom_[XU25ROM], NOCHANGE, startAddress, lastAddress+1, NONAME);
             }
         }
         else
         {
-			if (config->rom_[XU25ROM] != "")
-	            setMemoryMap(config, startAddress, lastAddress, card, boardType);
-		}
+            if (config->rom_[XU25ROM] != "")
+                setMemoryMap(config, startAddress, lastAddress, card, boardType);
+        }
 
         currentRomSize = guiRomSizeCDP18S601[config->microChipMemory_[XU24ROM]];
         startAddress += 0x800;
@@ -1910,31 +1913,31 @@ void GuiCdp18s600::setMemoryMapCDP18S603a(Conf* config, int card, int boardType)
         {
             if (location != ramLocation && location != romLocation)
             {
-				if (config->rom_[XU24ROM] != "")
-				{
-					p_Computer->readProgramMicro(config->romDir_[XU24ROM], config->rom_[XU24ROM], ROM, startAddress, lastAddress+1, NONAME);
-					p_Computer->defineMemoryType(startAddress, lastAddress, ROM);
-	                
-					if (config->microChipMemory_[XU24ROM] == 0)
-						p_Computer->defineMemoryType(startAddress+0x400, lastAddress+0x400, MAPPEDROM);
-				}
+                if (config->rom_[XU24ROM] != "")
+                {
+                    p_Computer->readProgramMicro(config->romDir_[XU24ROM], config->rom_[XU24ROM], ROM, startAddress, lastAddress+1, NONAME);
+                    p_Computer->defineMemoryType(startAddress, lastAddress, ROM);
+                    
+                    if (config->microChipMemory_[XU24ROM] == 0)
+                        p_Computer->defineMemoryType(startAddress+0x400, lastAddress+0x400, MAPPEDROM);
+                }
             }
             else
             {
                 if (location != ramLocation)
-				{
-					if (config->rom_[XU24ROM] != "")
-						p_Computer->readProgramMicro(config->romDir_[XU24ROM], config->rom_[XU24ROM], ROM, startAddress, lastAddress+1, NONAME);
-				}
+                {
+                    if (config->rom_[XU24ROM] != "")
+                        p_Computer->readProgramMicro(config->romDir_[XU24ROM], config->rom_[XU24ROM], ROM, startAddress, lastAddress+1, NONAME);
+                }
                 else
                     p_Computer->readProgramMicro(config->romDir_[XU24ROM], config->rom_[XU24ROM], NOCHANGE, startAddress, lastAddress+1, NONAME);
             }
         }
         else
-		{
-			if (config->rom_[XU24ROM] != "")
-	            setMemoryMap(config, startAddress, lastAddress, card, boardType);
-		}
+        {
+            if (config->rom_[XU24ROM] != "")
+                setMemoryMap(config, startAddress, lastAddress, card, boardType);
+        }
     }
     else
     { // 1Kx8 for ROM SOCKET
@@ -1947,35 +1950,35 @@ void GuiCdp18s600::setMemoryMapCDP18S603a(Conf* config, int card, int boardType)
         {
             if (romLocation != ramLocation)
             {
-				if (config->rom_[XU25ROM] != "")
-				{
-					p_Computer->readProgramMicro(config->romDir_[XU25ROM], config->rom_[XU25ROM], ROM, startAddress, lastAddress+1, NONAME);
-					p_Computer->defineMemoryType(startAddress, lastAddress, ROM);
-				}
+                if (config->rom_[XU25ROM] != "")
+                {
+                    p_Computer->readProgramMicro(config->romDir_[XU25ROM], config->rom_[XU25ROM], ROM, startAddress, lastAddress+1, NONAME);
+                    p_Computer->defineMemoryType(startAddress, lastAddress, ROM);
+                }
             }
             else
                 p_Computer->readProgramMicro(config->romDir_[XU25ROM], config->rom_[XU25ROM], NOCHANGE, startAddress, lastAddress+1, NONAME);
         }
         else
         {
-			if (config->rom_[XU25ROM] != "")
+            if (config->rom_[XU25ROM] != "")
             setMemoryMap(config, startAddress, lastAddress, card, boardType);
-		}
+        }
 
         startAddress += 0x400;
         lastAddress = startAddress + currentRomSize;
         
-		setLoadMemoryMap(config->romDir_[XU27ROM], config->rom_[XU27ROM], ROM, ROM, startAddress, lastAddress+1, 0xFFFF, 0, config, card, boardType);
+        setLoadMemoryMap(config->romDir_[XU27ROM], config->rom_[XU27ROM], ROM, ROM, startAddress, lastAddress+1, 0xFFFF, 0, config, card, boardType);
 
         startAddress += 0x400;
         lastAddress = startAddress + currentRomSize;
         
-		setLoadMemoryMap(config->romDir_[XU24ROM], config->rom_[XU24ROM], ROM, ROM, startAddress, lastAddress+1, 0xFFFF, 0, config, card, boardType);
+        setLoadMemoryMap(config->romDir_[XU24ROM], config->rom_[XU24ROM], ROM, ROM, startAddress, lastAddress+1, 0xFFFF, 0, config, card, boardType);
 
         startAddress += 0x400;
         lastAddress = startAddress + currentRomSize;
         
-		setLoadMemoryMap(config->romDir_[XU26ROM], config->rom_[XU26ROM], ROM, ROM, startAddress, lastAddress+1, 0xFFFF, 0, config, card, boardType);
+        setLoadMemoryMap(config->romDir_[XU26ROM], config->rom_[XU26ROM], ROM, ROM, startAddress, lastAddress+1, 0xFFFF, 0, config, card, boardType);
     }
 }
 
@@ -2014,22 +2017,22 @@ void GuiCdp18s600::setMemoryMapCDP18S604b(Conf* config, int card, int boardType)
     else
         lastAddress = startAddress + currentRomSize - 1;
     
-	if (config->rom_[U20ROM] != "")
-	{
-		if (boardType == -1)
-		{
-			p_Computer->readProgramMicro(config->romDir_[U20ROM], config->rom_[U20ROM], ROM, startAddress, lastAddress+1, NONAME);
-			if (chipType == 0)
-			{
-				p_Computer->defineMemoryType(startAddress, lastAddress, ROM);
-				p_Computer->defineMemoryType(lastAddress+1, lastAddress+0x200, MAPPEDROM);
-			}
-			else
-				p_Computer->defineMemoryType(startAddress, lastAddress, ROM);
-		}
-		else
-			setMemoryMap(config, startAddress, lastAddress, card, boardType);
-	}
+    if (config->rom_[U20ROM] != "")
+    {
+        if (boardType == -1)
+        {
+            p_Computer->readProgramMicro(config->romDir_[U20ROM], config->rom_[U20ROM], ROM, startAddress, lastAddress+1, NONAME);
+            if (chipType == 0)
+            {
+                p_Computer->defineMemoryType(startAddress, lastAddress, ROM);
+                p_Computer->defineMemoryType(lastAddress+1, lastAddress+0x200, MAPPEDROM);
+            }
+            else
+                p_Computer->defineMemoryType(startAddress, lastAddress, ROM);
+        }
+        else
+            setMemoryMap(config, startAddress, lastAddress, card, boardType);
+    }
 }
 
 void GuiCdp18s600::setMemoryMapRcasbc(Conf* config, int card, int boardType)
@@ -2377,7 +2380,7 @@ void GuiCdp18s600::setButtonColor(wxString cardstring, bool error)
         XRCCTRL(*this, "Card" + cardstring + computerInfo[MICROBOARD].gui, wxButton)->SetBackgroundColour(colour);
     }
     else
-        XRCCTRL(*this, "Card" + cardstring + computerInfo[MICROBOARD].gui, wxButton)->SetBackgroundColour(*wxRED);
+        XRCCTRL(*this, "Card" + cardstring + computerInfo[MICROBOARD].gui, wxButton)->SetBackgroundColour(guiTextColour[GUI_COL_RED]);
 #else
     if (!error)
     {
@@ -2385,7 +2388,7 @@ void GuiCdp18s600::setButtonColor(wxString cardstring, bool error)
         XRCCTRL(*this, "Card" + cardstring + computerInfo[MICROBOARD].gui, wxButton)->SetForegroundColour(colour);
     }
     else
-        XRCCTRL(*this, "Card" + cardstring + computerInfo[MICROBOARD].gui, wxButton)->SetForegroundColour(*wxRED);
+        XRCCTRL(*this, "Card" + cardstring + computerInfo[MICROBOARD].gui, wxButton)->SetForegroundColour(guiTextColour[GUI_COL_RED]);
 #endif
     XRCCTRL(*this, "Card" + cardstring + computerInfo[MICROBOARD].gui, wxButton)->Refresh();
 }

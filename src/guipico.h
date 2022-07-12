@@ -8,12 +8,12 @@ class GuiPico: public GuiElf
 {
 public:
 
-	GuiPico(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
-	~GuiPico() {};
+    GuiPico(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
+    ~GuiPico() {};
 
     void readPicoConfig();
-	void writePicoDirConfig();
-	void writePicoConfig();
+    void writePicoDirConfig();
+    void writePicoConfig();
     void readPicoWindowConfig();
     void writePicoWindowConfig();
     void onVideoTypePico(wxCommandEvent& event);
@@ -24,10 +24,10 @@ public:
     void onPicoClearRtc(wxCommandEvent&event);
 
 private:
-	wxBitmap tapeOffBitmap;
-	wxBitmap tapeOnBitmap;
+    wxBitmap tapeOffBitmap;
+    wxBitmap tapeOnBitmap;
 
-	DECLARE_EVENT_TABLE()
+    DECLARE_EVENT_TABLE()
 };
 
 #endif // GUIPICO_H

@@ -36,41 +36,41 @@
 
 Til311::Til311()
 {
-	displayedNumber_ = 0;
-	x_ = 0;
-	y_ = 0;
+    displayedNumber_ = 0;
+    x_ = 0;
+    y_ = 0;
 
-	til311BitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/til311.png", wxBITMAP_TYPE_PNG);
-	dcMemory.SelectObject(*til311BitmapPointer);
+    til311BitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/til311.png", wxBITMAP_TYPE_PNG);
+    dcMemory.SelectObject(*til311BitmapPointer);
 }
 
 Til311::~Til311()
 {
-	delete til311BitmapPointer;
+    delete til311BitmapPointer;
 }
 
 void Til311::init(wxDC& dc, int x, int y)
 {
-	x_ = x;
-	y_ = y;
+    x_ = x;
+    y_ = y;
 
-	dc.Blit(x_, y_, 20 , 32, &dcMemory, 0, 0);
+    dc.Blit(x_, y_, 20 , 32, &dcMemory, 0, 0);
 }
 
 void Til311::onPaint(wxDC& dc)
 {
-	int ox = (displayedNumber_ & 3) * 21;
-	int oy = ((displayedNumber_>>2) & 3) * 33;
-	dc.Blit(x_, y_, 20 , 32, &dcMemory, ox, oy);
+    int ox = (displayedNumber_ & 3) * 21;
+    int oy = ((displayedNumber_>>2) & 3) * 33;
+    dc.Blit(x_, y_, 20 , 32, &dcMemory, ox, oy);
 }
  
 void Til311::update(wxDC& dc, int NewNumber) 
 {
-	if (displayedNumber_ == NewNumber)  return;
+    if (displayedNumber_ == NewNumber)  return;
 
-	int ox = (NewNumber & 3) * 21;
-	int oy = ((NewNumber>>2) & 3) * 33;
-	dc.Blit(x_, y_, 20 , 32, &dcMemory, ox, oy);
+    int ox = (NewNumber & 3) * 21;
+    int oy = ((NewNumber>>2) & 3) * 33;
+    dc.Blit(x_, y_, 20 , 32, &dcMemory, ox, oy);
 
-	displayedNumber_ = NewNumber;
+    displayedNumber_ = NewNumber;
 }

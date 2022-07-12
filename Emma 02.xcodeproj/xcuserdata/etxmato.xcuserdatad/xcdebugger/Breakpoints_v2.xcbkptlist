@@ -7,400 +7,176 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "7D11DD20-5BB5-46CF-BE07-6F11BDB3A344"
+            uuid = "DAE16CEE-CE65-48C0-B122-071B082C126D"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/debug.cpp"
+            filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "15680"
-            endingLineNumber = "15680"
-            landmarkName = "DebugWindow::setMemoryType(id, setType)"
+            startingLineNumber = "2432"
+            endingLineNumber = "2432"
+            landmarkName = "GuiMain::convertLocale(returnString)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "90396EDC-661D-4D1A-B177-A0BB666C2B64"
+            uuid = "2B45F79F-7547-460C-8C2C-CE8C8E095616"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/memory.cpp"
+            filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "699"
-            endingLineNumber = "699"
-            landmarkName = "Memory::defineEmsMemoryType(emsNumber, address, type)"
+            startingLineNumber = "643"
+            endingLineNumber = "643"
+            landmarkName = "Emu1802::OnInit()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "4B8DD36A-D88F-4567-81A3-C7023D879875"
+            uuid = "62811204-6FF8-4762-A756-7E905753B53E"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/debug.cpp"
+            filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "14409"
-            endingLineNumber = "14409"
-            landmarkName = "DebugWindow::DebugDisplayMap()"
+            startingLineNumber = "2447"
+            endingLineNumber = "2447"
+            landmarkName = "GuiMain::convertLocale(returnString)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "675EF1DE-6412-4A78-84DF-4CC010D1E452"
+            uuid = "F31565EE-4209-42EA-9749-0482AA30B51B"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/diy.cpp"
+            filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1404"
-            endingLineNumber = "1404"
-            landmarkName = "Diy::writeMemDebug(address, value, writeRom)"
+            startingLineNumber = "2456"
+            endingLineNumber = "2456"
+            landmarkName = "GuiMain::toDouble(stringName, result)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "B2AE8E6E-5AFD-4718-BBC1-845BC4A68C11"
+            uuid = "7C761A01-4B57-46E4-A430-EEB9B0902676"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/diy.cpp"
+            filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1627"
-            endingLineNumber = "1627"
-            landmarkName = "Diy::configureMemory()"
+            startingLineNumber = "2455"
+            endingLineNumber = "2455"
+            landmarkName = "GuiMain::toDouble(stringName, result)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "CEB3068D-17E4-417A-8DBF-12838F400476"
+            uuid = "E8CCB759-5576-420E-894B-5891906E6057"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/debug.cpp"
+            filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "13961"
-            endingLineNumber = "13961"
-            landmarkName = "DebugWindow::DebugDisplayPage()"
+            startingLineNumber = "2450"
+            endingLineNumber = "2450"
+            landmarkName = "GuiMain::convertLocale(returnString)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "2B35E179-90E0-42D1-BDE0-1237E775731D"
+            uuid = "C23EEAAE-84A0-4FCF-96F5-769ACF93D2B3"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/debug.cpp"
+            filePath = "src/usb.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "14071"
-            endingLineNumber = "14071"
-            landmarkName = "DebugWindow::DebugDisplayProfiler()"
+            startingLineNumber = "1214"
+            endingLineNumber = "1214"
+            landmarkName = "Usbcard::usbOut(value)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "B9617EA6-B742-4A27-B545-A83745787869"
+            uuid = "AB4CB1E4-3D19-4502-93A7-6525DBBA9A4F"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/debug.cpp"
+            filePath = "src/comx35.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "14432"
-            endingLineNumber = "14432"
-            landmarkName = "DebugWindow::DebugDisplayMap()"
+            startingLineNumber = "56"
+            endingLineNumber = "56"
+            landmarkName = "Comx::Comx(title, pos, size, zoomLevel, computerType, clock, computerConf)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "08D3BA10-BF74-4970-BA6F-C6AF1E9395DF"
+            uuid = "D3F1BCBB-8B30-4344-AF3B-250D2450F466"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/diy.cpp"
+            filePath = "src/expansion.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1592"
-            endingLineNumber = "1592"
-            landmarkName = "Diy::configureMemory()"
+            startingLineNumber = "443"
+            endingLineNumber = "443"
+            landmarkName = "Expansion::expansionOut(value)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "5871A58F-09B6-410D-B0B8-12B1517922A3"
+            uuid = "9C7EA71B-F9AF-41CE-B24F-E56FD825224D"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/guielf.cpp"
+            filePath = "src/usb.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "948"
-            endingLineNumber = "948"
-            landmarkName = "GuiElf::setMemory(elfTypeStr, elfType, Selection)"
+            startingLineNumber = "1211"
+            endingLineNumber = "1211"
+            landmarkName = "Usbcard::usbOut(value)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "96BD1D72-CE9D-41BC-B906-211F63BD8A4D"
+            uuid = "13B34572-5E76-41B5-A4B6-4C3FAEB3EF3D"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/debug.cpp"
+            filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "14058"
-            endingLineNumber = "14058"
-            landmarkName = "DebugWindow::DebugDisplayProfiler()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "A08817CD-F8B4-404E-BAEC-B097597A375B"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/debug.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "13998"
-            endingLineNumber = "13998"
-            landmarkName = "DebugWindow::DebugDisplayProfiler()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "0E12AF18-DE26-47E7-90D7-A48EF369622D"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/portext.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "78"
-            endingLineNumber = "78"
-            landmarkName = "PortExt::definePortExtForPager(startPort, endPort)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "177D288A-FA42-4D6F-BA14-60F45633F250"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/diy.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1562"
-            endingLineNumber = "1562"
-            landmarkName = "Diy::configureMemory()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "50B8AEFD-97A4-489F-B6DB-344107ACC784"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/diy.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1566"
-            endingLineNumber = "1566"
-            landmarkName = "Diy::configureMemory()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "1BFADEA8-936B-47CE-BF0B-A11951A5098D"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/diy.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1569"
-            endingLineNumber = "1569"
-            landmarkName = "Diy::configureMemory()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "6862A327-3CDE-411B-A6BF-CA6C352087D1"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/diy.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1142"
-            endingLineNumber = "1142"
-            landmarkName = "Diy::loadRomRam(configNumber)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "A112F8FD-DBFA-47C2-9BB7-6E97A26101E8"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/diy.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1570"
-            endingLineNumber = "1570"
-            landmarkName = "Diy::configureMemory()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "44EB68E0-BA4D-4FBC-8755-E3EB7FA3665B"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/cdp1802.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3573"
-            endingLineNumber = "3573"
-            landmarkName = "Cdp1802::readIntelFile(fileName, memoryType, end, showFilename)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "060A23B8-BA16-4AE5-A05A-2E6498A251F1"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/diy.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1382"
-            endingLineNumber = "1382"
-            landmarkName = "Diy::writeMemDebug(address, value, writeRom)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "14A6F305-8F90-442D-8C3A-B2D1EA3CBD1C"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/diy.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1171"
-            endingLineNumber = "1171"
-            landmarkName = "Diy::writeMemDataType(address, type)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "E94D5D74-B4A0-4F55-BB89-0B7B5DF4DCE7"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/diy.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1322"
-            endingLineNumber = "1322"
-            landmarkName = "Diy::readMemDebug(address)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "36881C32-D810-43E1-BA82-F4A6A705132F"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/diy.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1453"
-            endingLineNumber = "1453"
-            landmarkName = "Diy::writeMemDebug(address, value, writeRom)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "1DBF4D9E-5091-4560-89C9-EEFDCC931F63"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/cdp1802.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3587"
-            endingLineNumber = "3587"
-            landmarkName = "Cdp1802::readIntelFile(fileName, memoryType, end, showFilename)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "4B44C8A6-65B4-4EF1-8D01-7FCB7F153340"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/diy.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1454"
-            endingLineNumber = "1454"
-            landmarkName = "Diy::writeMemDebug(address, value, writeRom)"
+            startingLineNumber = "3574"
+            endingLineNumber = "3574"
+            landmarkName = "Main::buildConfigMenu()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

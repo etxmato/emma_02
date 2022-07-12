@@ -1,11 +1,11 @@
 /*
-*	http.h
-*	wxCURL
+*    http.h
+*    wxCURL
 *
-*	Created by Casey O'Donnell on Tue Jun 29 2004.
-*	Copyright (c) 2004 Casey O'Donnell. All rights reserved.
+*    Created by Casey O'Donnell on Tue Jun 29 2004.
+*    Copyright (c) 2004 Casey O'Donnell. All rights reserved.
 *
-*	Licence: wxWidgets Licence
+*    Licence: wxWidgets Licence
 */
 
 #ifndef _WXCURLHTTP_H__INCLUDED_

@@ -103,10 +103,10 @@ void VelfScreen::onPaint(wxPaintEvent&WXUNUSED(event))
     dc.SetBrush(*wxWHITE_BRUSH);
     dc.DrawRectangle(0, 0, 310, 180);
 #if defined(__WXMAC__)
-	wxFont defaultFont(18, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
+    wxFont defaultFont(18, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
     rePaintLeds(dc);
 #else
-	wxFont defaultFont(14, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
+    wxFont defaultFont(14, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
 #endif
 
     wxString number;
@@ -194,11 +194,11 @@ Velf::Velf(const wxString& title, const wxPoint& pos, const wxSize& size, double
 : wxFrame((wxFrame *)NULL, -1, title, pos, size)
 {
     computerConfiguration = computerConf;
-	vipConfiguration = conf;
+    vipConfiguration = conf;
 
-	velfClockSpeed_ = clock;
-	p_Printer = new Printer();
-	p_Printer->initVip(p_Printer);
+    velfClockSpeed_ = clock;
+    p_Printer = new Printer();
+    p_Printer->initVip(p_Printer);
     
     this->SetClientSize(size);
 
@@ -222,19 +222,19 @@ Velf::~Velf()
     }
 
     p_Printer->closeFrames();
-	delete p_Printer;
+    delete p_Printer;
 
     p_Main->setPixiePos(VELF, pixiePointer->GetPosition());
     pixiePointer->Destroy();
 
     if (vipConfiguration.vtType != VTNONE)
-	{
-		p_Main->setVtPos(VELF, vtPointer->GetPosition());
-		vtPointer->Destroy();
-	}
+    {
+        p_Main->setVtPos(VELF, vtPointer->GetPosition());
+        vtPointer->Destroy();
+    }
     if (vipConfiguration.vtExternal)
         delete p_Serial;
-	p_Main->setMainPos(VELF, GetPosition());
+    p_Main->setMainPos(VELF, GetPosition());
     delete velfScreenPointer;
 }
 
@@ -245,42 +245,42 @@ void Velf::onClose(wxCloseEvent&WXUNUSED(event) )
 
 void Velf::configureComputer()
 {
-	outType_[2] = VIPKEYOUT;
-	outType_[4] = VIPOUT4;
-	outType_[7] = VIPIIOUT7;
+    outType_[2] = VIPKEYOUT;
+    outType_[4] = VIPOUT4;
+    outType_[7] = VIPIIOUT7;
     inType_[4] = ELFIN;
-	efType_[3] = VIPKEYEF;
+    efType_[3] = VIPKEYEF;
     setCycleType(COMPUTERCYCLE, LEDCYCLE);
 
-	p_Main->message("Configuring VELF");
-	p_Main->message("	Output 2: hex key latch, output 4: display output");
-	p_Main->message("	output 7: cassette on/off, input 4: data input");
+    p_Main->message("Configuring VELF");
+    p_Main->message("    Output 2: hex key latch, output 4: display output");
+    p_Main->message("    output 7: cassette on/off, input 4: data input");
 
-	cycleType_[KEYCYCLE] = VIPIIKEYCYCLE;
+    cycleType_[KEYCYCLE] = VIPIIKEYCYCLE;
 
-	p_Main->message("	EF 2: cassette in, EF 3: hex keypad");
-    p_Main->message("	EF 4: 0 when in button pressed\n");
+    p_Main->message("    EF 2: cassette in, EF 3: hex keypad");
+    p_Main->message("    EF 4: 0 when in button pressed\n");
     
-	usePrinter_ = false;
-	if (p_Main->getPrinterStatus(VELF))
-	{
-		outType_[3] = VIPOUT3;
-		usePrinter_ = true;
-		p_Main->message("Configuring Centronics P-1/PR-40 Printer");
-		p_Main->message("	Output 3: latch, Q: strobe, EF 3: busy\n");
-	}
+    usePrinter_ = false;
+    if (p_Main->getPrinterStatus(VELF))
+    {
+        outType_[3] = VIPOUT3;
+        usePrinter_ = true;
+        p_Main->message("Configuring Centronics P-1/PR-40 Printer");
+        p_Main->message("    Output 3: latch, Q: strobe, EF 3: busy\n");
+    }
     
     if (vipConfiguration.vtType != VTNONE)
-	{
-		double zoom = p_Main->getZoomVt();
+    {
+        double zoom = p_Main->getZoomVt();
         if (vipConfiguration.vtType == VT52)
             vtPointer = new Vt100("VELF - VT 152", p_Main->getVtPos(VELF), wxSize(640*zoom, 400*zoom), zoom, VELF, velfClockSpeed_, vipConfiguration, UART1);
         else
             vtPointer = new Vt100("VELF - VT 100", p_Main->getVtPos(VELF), wxSize(640*zoom, 400*zoom), zoom, VELF, velfClockSpeed_, vipConfiguration, UART1);
-		p_Vt100[UART1] = vtPointer;
+        p_Vt100[UART1] = vtPointer;
         vtPointer->configureStandard(vipConfiguration.baudR, vipConfiguration.baudT, 2);
-		vtPointer->Show(true);
-	}
+        vtPointer->Show(true);
+    }
 
     if (vipConfiguration.vtExternal)
     {
@@ -289,65 +289,65 @@ void Velf::configureComputer()
     }
 
     defineKeys();
-	resetCpu();
+    resetCpu();
 }
 
 void Velf::defineKeys()
 {
-	player2defined_ = false;
-	p_Main->getDefaultHexKeys(VELF, "Velf", "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
+    player2defined_ = false;
+    p_Main->getDefaultHexKeys(VELF, "Velf", "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
     inKey1_ = p_Main->getDefaultInKey1("Velf");
     inKey2_ = p_Main->getDefaultInKey2("Velf");
 
-	if (p_Main->getConfigBool("/Velf/GameAuto", true))
-		p_Main->loadKeyDefinition(p_Main->getRamFile(VELF), p_Main->getChip8SW(VELF), keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
+    if (p_Main->getConfigBool("/Velf/GameAuto", true))
+        p_Main->loadKeyDefinition(p_Main->getRamFile(VELF), p_Main->getChip8SW(VELF), keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
 
-	for (int i=0; i<512; i++)
-	{
-		keyDefinition[i].defined = false;
-	}
-	for (int i=0; i<16; i++)
-	{
-		if (keyDefA1_[i] != 0)
-		{
-			keyDefinition[keyDefA1_[i]].defined = true;
-			keyDefinition[keyDefA1_[i]].player = 0;
-			keyDefinition[keyDefA1_[i]].key = i;
-		}
-		if (keyDefA2_[i] != 0)
-		{
-			keyDefinition[keyDefA2_[i]].defined = true;
-			keyDefinition[keyDefA2_[i]].player = 0;
-			keyDefinition[keyDefA2_[i]].key = i;
-		}
-	}
-	redefineKeys_ = false;
+    for (int i=0; i<512; i++)
+    {
+        keyDefinition[i].defined = false;
+    }
+    for (int i=0; i<16; i++)
+    {
+        if (keyDefA1_[i] != 0)
+        {
+            keyDefinition[keyDefA1_[i]].defined = true;
+            keyDefinition[keyDefA1_[i]].player = 0;
+            keyDefinition[keyDefA1_[i]].key = i;
+        }
+        if (keyDefA2_[i] != 0)
+        {
+            keyDefinition[keyDefA2_[i]].defined = true;
+            keyDefinition[keyDefA2_[i]].player = 0;
+            keyDefinition[keyDefA2_[i]].key = i;
+        }
+    }
+    redefineKeys_ = false;
 
 }
 
 void Velf::reDefineKeysA(int hexKeyDefA1[], int hexKeyDefA2[])
 {
-	for (int i=0; i<512; i++)
-	{
-		keyDefinition[i].defined = false;
-	}
-	for (int i=0; i<16; i++)
-	{
-		keyDefA1_[i] = hexKeyDefA1[i];
-		if (hexKeyDefA1[i] != 0)
-		{
-			keyDefinition[keyDefA1_[i]].defined = true;
-			keyDefinition[keyDefA1_[i]].player = 0;
-			keyDefinition[keyDefA1_[i]].key = i;
-		}
-		keyDefA2_[i] = hexKeyDefA2[i];
-		if (hexKeyDefA2[i] != 0)
-		{
-			keyDefinition[keyDefA2_[i]].defined = true;
-			keyDefinition[keyDefA2_[i]].player = 0;
-			keyDefinition[keyDefA2_[i]].key = i;
-		}
-	}
+    for (int i=0; i<512; i++)
+    {
+        keyDefinition[i].defined = false;
+    }
+    for (int i=0; i<16; i++)
+    {
+        keyDefA1_[i] = hexKeyDefA1[i];
+        if (hexKeyDefA1[i] != 0)
+        {
+            keyDefinition[keyDefA1_[i]].defined = true;
+            keyDefinition[keyDefA1_[i]].player = 0;
+            keyDefinition[keyDefA1_[i]].key = i;
+        }
+        keyDefA2_[i] = hexKeyDefA2[i];
+        if (hexKeyDefA2[i] != 0)
+        {
+            keyDefinition[keyDefA2_[i]].defined = true;
+            keyDefinition[keyDefA2_[i]].player = 0;
+            keyDefinition[keyDefA2_[i]].key = i;
+        }
+    }
 }
 
 void Velf::initComputer()
@@ -359,41 +359,41 @@ void Velf::initComputer()
         addressLatch_ = 0;
     runButtonState_ = 0;
     setClear(0);
-	setWait(1);
-	cassetteEf_ = 0;
+    setWait(1);
+    cassetteEf_ = 0;
 
     mpButtonState_ = 0;
     loadButtonState_ = 1;
     for (int i=0; i<8; i++)  dataSwitchState_[i]=0;
 
-	vipKeyPort_ = 0;
-	for (int i=0; i<16; i++)
-	{
-		vipKeyState_[0][i] = 0;
-		vipKeyState_[1][i] = 0;
-	}
+    vipKeyPort_ = 0;
+    for (int i=0; i<16; i++)
+    {
+        vipKeyState_[0][i] = 0;
+        vipKeyState_[1][i] = 0;
+    }
 
     
     ef4State_ = 1;
-	runPressed_ = false;
-	stateQ_ = 0;
-	printLatch_ = 0;
+    runPressed_ = false;
+    stateQ_ = 0;
+    printLatch_ = 0;
 
-	vipRunCommand_ = 0;
-	vipRunState_ = RESETSTATE;
+    vipRunCommand_ = 0;
+    vipRunState_ = RESETSTATE;
     pixieCycle_ = true;
 }
 
 void Velf::keyDown(int keycode)
 {
-	if (keyDefinition[keycode].defined)
-		vipKeyState_[keyDefinition[keycode].player][keyDefinition[keycode].key] = 1;
+    if (keyDefinition[keycode].defined)
+        vipKeyState_[keyDefinition[keycode].player][keyDefinition[keycode].key] = 1;
 }
 
 void Velf::keyUp(int keycode)
 {
-	if (keyDefinition[keycode].defined)
-		vipKeyState_[keyDefinition[keycode].player][keyDefinition[keycode].key] = 0;
+    if (keyDefinition[keycode].defined)
+        vipKeyState_[keyDefinition[keycode].player][keyDefinition[keycode].key] = 0;
 }
 
 void Velf::onInButtonPress()
@@ -424,7 +424,7 @@ int Velf::getMpButtonState()
 
 void Velf::onRun()
 {
-	runPressed_ = true;
+    runPressed_ = true;
 }
 
 void Velf::autoBoot()
@@ -476,71 +476,71 @@ Byte Velf::ef(int flag)
         if (ef4State_ == 0)
             return ef4State_;
     }
-	switch(efType_[flag])
-	{
-		case 0:
-			return 1;
-		break;
+    switch(efType_[flag])
+    {
+        case 0:
+            return 1;
+        break;
 
-		case PIXIEEF:
-			return pixiePointer->efPixie();
-		break;
+        case PIXIEEF:
+            return pixiePointer->efPixie();
+        break;
 
-		case VIPEF2:
-			return cassetteEf_;
-		break;
+        case VIPEF2:
+            return cassetteEf_;
+        break;
 
-		case VIPKEYEF:
-			return ef3();
-		break;
+        case VIPKEYEF:
+            return ef3();
+        break;
 
         case VT100EF:
             if (isLoading() || realCassetteLoad_)
                 return cassetteEf_;
             else
                 return vtPointer->ef();
-		break;
+        break;
 
         case VTSERIALEF:
             if (isLoading() || realCassetteLoad_)
                 return cassetteEf_;
             else
-	            return p_Serial->ef();
+                return p_Serial->ef();
         break;
  
-		default:
-			return 1;
-	}
+        default:
+            return 1;
+    }
 }
 
 Byte Velf::ef3()
 {
-	return (vipKeyState_[0][vipKeyPort_]) ? 0 : 1;
+    return (vipKeyState_[0][vipKeyPort_]) ? 0 : 1;
 }
 
 Byte Velf::in(Byte port, Word WXUNUSED(address))
 {
-	Byte ret;
+    Byte ret;
 
-	switch(inType_[port])
-	{
-		case 0:
-			ret = 255;
-		break;
+    switch(inType_[port])
+    {
+        case 0:
+            ret = 255;
+        break;
 
         case ELFIN:
             ret = getData();
         break;
             
-		case PIXIEIN:
-			ret = pixiePointer->inPixie();
-		break;
+        case PIXIEIN:
+            ret = pixiePointer->inPixie();
+        break;
 
-		default:
-			ret = 255;
-	}
-	inValues_[port] = ret;
-	return ret;
+        default:
+            ret = 255;
+    }
+    inValues_[port] = ret;
+    return ret;
 }
 
 Byte Velf::getData()
@@ -550,57 +550,57 @@ Byte Velf::getData()
 
 void Velf::out(Byte port, Word WXUNUSED(address), Byte value)
 {
-	outValues_[port] = value;
+    outValues_[port] = value;
 
-	switch(outType_[port])
-	{
-		case 0:
-			return;
-		break;
+    switch(outType_[port])
+    {
+        case 0:
+            return;
+        break;
 
         case PIXIEOUT:
             pixiePointer->outPixie();
         break;
             
-		case VIPKEYOUT:
-			outVelf(value);
-		break;
+        case VIPKEYOUT:
+            outVelf(value);
+        break;
 
-		case VIPOUT3:
-			printLatch_ = value;
-		break;
+        case VIPOUT3:
+            printLatch_ = value;
+        break;
 
         case VIPOUT4:
             showData(value);
         break;
             
-		case VT100OUT:
-			vtPointer->out(value);
-		break;
+        case VT100OUT:
+            vtPointer->out(value);
+        break;
 
-		case VTOUTSERIAL:
-			p_Serial->out(value);
-		break;
+        case VTOUTSERIAL:
+            p_Serial->out(value);
+        break;
 
-		case VIPIIOUT7:
-			if (value == 1)
-			{
-				p_Main->startCassetteLoad(0);
-				return;
-			}
-			if (value == 2)
-			{
-				p_Main->startCassetteSave(0);
-				return;
-			}
-			p_Main->stopCassette();
-		break;
-	}
+        case VIPIIOUT7:
+            if (value == 1)
+            {
+                p_Main->startCassetteLoad(0);
+                return;
+            }
+            if (value == 2)
+            {
+                p_Main->startCassetteSave(0);
+                return;
+            }
+            p_Main->stopCassette();
+        break;
+    }
 }
 
 void Velf::outVelf(Byte value)
 {
-	vipKeyPort_ = value&0xf;
+    vipKeyPort_ = value&0xf;
 }
 
 void Velf::switchQ(int value)
@@ -611,11 +611,11 @@ void Velf::switchQ(int value)
     if (vipConfiguration.vtExternal)
         p_Serial->switchQ(value);
 
-	if (!usePrinter_)  return;
+    if (!usePrinter_)  return;
 
-	if (value == 0 && stateQ_ == 1 && printLatch_ != 0)
-		p_Printer->printerOut(printLatch_);
-	stateQ_ = value;
+    if (value == 0 && stateQ_ == 1 && printLatch_ != 0)
+        p_Printer->printerOut(printLatch_);
+    stateQ_ = value;
 }
 
 void Velf::showData(Byte val)
@@ -625,17 +625,17 @@ void Velf::showData(Byte val)
 
 void Velf::cycle(int type)
 {
-	switch(cycleType_[type])
-	{
-		case 0:
-			return;
-		break;
+    switch(cycleType_[type])
+    {
+        case 0:
+            return;
+        break;
 
-		case PIXIECYCLE:
+        case PIXIECYCLE:
 //            if (pixieCycle_)
                 pixiePointer->cyclePixie();
 //            pixieCycle_ = !pixieCycle_;
-		break;
+        break;
 
         case VT100CYCLE:
             vtPointer->cycleVt();
@@ -645,9 +645,9 @@ void Velf::cycle(int type)
             p_Serial->cycleVt();
         break;
 
-		case VIPIIKEYCYCLE:
-			cycleKey();
-		break;
+        case VIPIIKEYCYCLE:
+            cycleKey();
+        break;
 
         case LEDCYCLE:
             cycleLed();
@@ -657,23 +657,23 @@ void Velf::cycle(int type)
 
 void Velf::cycleKey()
 {
-	if (vipRunCommand_ != 0)
-	{
-		if (scratchpadRegister_[programCounter_] == 0x10)
-		{
-			if (vipRunCommand_ == 1)
-			{
-				vipKeyState_[0][1] = 1;
-			}
-		}
-		if (scratchpadRegister_[programCounter_] == 0x17)
-		{
-			if (vipRunCommand_ == 1)
-			{
-				vipKeyState_[0][1] = 0;
-			}
-		}
-	}
+    if (vipRunCommand_ != 0)
+    {
+        if (scratchpadRegister_[programCounter_] == 0x10)
+        {
+            if (vipRunCommand_ == 1)
+            {
+                vipKeyState_[0][1] = 1;
+            }
+        }
+        if (scratchpadRegister_[programCounter_] == 0x17)
+        {
+            if (vipRunCommand_ == 1)
+            {
+                vipKeyState_[0][1] = 0;
+            }
+        }
+    }
 }
 
 void Velf::cycleLed()
@@ -691,8 +691,8 @@ void Velf::cycleLed()
 
 void Velf::startComputer()
 {
-	resetPressed_ = false;
-	Word lastAddress;
+    resetPressed_ = false;
+    Word lastAddress;
 
     double zoom = p_Main->getZoom();
     double scale = p_Main->getScale();
@@ -700,27 +700,27 @@ void Velf::startComputer()
     p_Video = pixiePointer;
 
     if (wxFile::Exists(p_Main->getRomDir(VIP, MAINROM1) + "cosmac.ram"))
-		readFile(p_Main->getRomDir(VIP, MAINROM1) + "cosmac.ram", RAM, 0xf00, 0x10000, NONAME);
+        readFile(p_Main->getRomDir(VIP, MAINROM1) + "cosmac.ram", RAM, 0xf00, 0x10000, NONAME);
 
     p_Main->checkAndReInstallMainRom(VELF);
-	readProgram(p_Main->getRomDir(VELF, MAINROM1), p_Main->getRomFile(VELF, MAINROM1), ROM, 0x8000, &lastAddress, NONAME);
+    readProgram(p_Main->getRomDir(VELF, MAINROM1), p_Main->getRomFile(VELF, MAINROM1), ROM, 0x8000, &lastAddress, NONAME);
 
-	defineMemoryType(0x0, 0x7FFF, RAM);
+    defineMemoryType(0x0, 0x7FFF, RAM);
     initRam(0x0, 0x7FFF);
-	p_Main->assDefault("mycode", 0, 0xFFF);
+    p_Main->assDefault("mycode", 0, 0xFFF);
 
-	readProgram(p_Main->getRamDir(VELF), p_Main->getRamFile(VELF), NOCHANGE, 0, SHOWNAME);
+    readProgram(p_Main->getRamDir(VELF), p_Main->getRamFile(VELF), NOCHANGE, 0, SHOWNAME);
     pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);
 
     if (pseudoType_ == "CHIP8")
-		readProgram(p_Main->getChip8Dir(VELF), p_Main->getChip8SW(VELF), NOCHANGE, 0x200, SHOWNAME);
-	else
-	{
+        readProgram(p_Main->getChip8Dir(VELF), p_Main->getChip8SW(VELF), NOCHANGE, 0x200, SHOWNAME);
+    else
+    {
         if (pseudoType_ == "CHIP8X")
-			readProgram(p_Main->getChip8Dir(VELF), p_Main->getChip8SW(VELF), NOCHANGE, 0x300, SHOWNAME);
-		else
-			readProgram(p_Main->getChip8Dir(VELF), p_Main->getChip8SW(VELF), NOCHANGE, 0x200, SHOWNAME);
-	}
+            readProgram(p_Main->getChip8Dir(VELF), p_Main->getChip8SW(VELF), NOCHANGE, 0x300, SHOWNAME);
+        else
+            readProgram(p_Main->getChip8Dir(VELF), p_Main->getChip8SW(VELF), NOCHANGE, 0x200, SHOWNAME);
+    }
 
 
     if (vipConfiguration.autoBoot)
@@ -734,10 +734,10 @@ void Velf::startComputer()
     pixiePointer->Show(true);
 
     p_Main->setSwName("");
-	p_Main->updateTitle();
+    p_Main->updateTitle();
 
-	cpuCycles_ = 0;
-	instructionCounter_= 0;
+    cpuCycles_ = 0;
+    instructionCounter_= 0;
     p_Main->startTime();
 
     int ms = (int) p_Main->getLedTimeMs(VELF);
@@ -748,78 +748,78 @@ void Velf::startComputer()
         ledCycleSize_ = (((velfClockSpeed_ * 1000000) / 8) / 1000) * ms;
     ledCycleValue_ = ledCycleSize_;
     
-	threadPointer->Run();
+    threadPointer->Run();
 }
 
 void Velf::writeMemDataType(Word address, Byte type)
 {
-	if (address < 0x8000)
-		address = (address | addressLatch_);
+    if (address < 0x8000)
+        address = (address | addressLatch_);
 
-	switch (memoryType_[address/256]&0xff)
-	{
-		case RAM:
-			if (mainMemoryDataType_[address] != type)
-			{
-				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-				mainMemoryDataType_[address] = type;
-			}
+    switch (memoryType_[address/256]&0xff)
+    {
+        case RAM:
+            if (mainMemoryDataType_[address] != type)
+            {
+                p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
+                mainMemoryDataType_[address] = type;
+            }
             increaseExecutedMainMemory(address, type);
-		break;
+        break;
 
-		case ROM:
-			if (mainMemoryDataType_[address] != type)
-			{
-				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-				mainMemoryDataType_[address] = type;
-			}
+        case ROM:
+            if (mainMemoryDataType_[address] != type)
+            {
+                p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
+                mainMemoryDataType_[address] = type;
+            }
             increaseExecutedMainMemory(address, type);
-		break;
-	}
+        break;
+    }
 }
 
 Byte Velf::readMemDataType(Word address, uint64_t* executed)
 {
-	if (address < 0x8000)
-		address = (address | addressLatch_);
+    if (address < 0x8000)
+        address = (address | addressLatch_);
 
-	switch (memoryType_[address/256]&0xff)
-	{
-		case RAM:
+    switch (memoryType_[address/256]&0xff)
+    {
+        case RAM:
             if (profilerCounter_ != PROFILER_OFF)
                 *executed = mainMemoryExecuted_[address];
-			return mainMemoryDataType_[address];
-		break;
+            return mainMemoryDataType_[address];
+        break;
 
 
-		case ROM:
+        case ROM:
             if (profilerCounter_ != PROFILER_OFF)
                 *executed = mainMemoryExecuted_[address];
-			return mainMemoryDataType_[address];
-		break;
-	}
-	return MEM_TYPE_UNDEFINED;
+            return mainMemoryDataType_[address];
+        break;
+    }
+    return MEM_TYPE_UNDEFINED;
 }
 
 Byte Velf::readMem(Word address)
 {
-	if ((address & 0x8000) == 0x8000)
-		addressLatch_ = 0;
+    if ((address & 0x8000) == 0x8000)
+        addressLatch_ = 0;
 
-	if (address < 0x8000)
-		address = (address | addressLatch_);
+    if (address < 0x8000)
+        address = (address | addressLatch_);
 
-	switch (memoryType_[address/256]&0xff)
-	{
-		case RAM:
-			return mainMemory_[address];
-		break;
+    switch (memoryType_[address/256]&0xff)
+    {
+        case RAM:
+            return mainMemory_[address];
+        break;
 
-		case UNDEFINED:
-			return 255;
-		break;
-	}
-	return mainMemory_[address];
+        case UNDEFINED:
+            return 255;
+        break;
+    }
+    return mainMemory_[address];
 }
 
 Byte Velf::readMemDebug(Word address)
@@ -829,25 +829,25 @@ Byte Velf::readMemDebug(Word address)
 
 void Velf::writeMem(Word address, Byte value, bool writeRom)
 {
-	switch (memoryType_[address/256]&0xff)
-	{
-		case RAM:
-			if (mainMemory_[address]==value)
-				return;
+    switch (memoryType_[address/256]&0xff)
+    {
+        case RAM:
+            if (mainMemory_[address]==value)
+                return;
             if (!getMpButtonState())
             {
                 mainMemory_[address]=value;
                 if (address >= memoryStart_ && address<(memoryStart_+256))
                     p_Main->updateDebugMemory(address);
-				p_Main->updateAssTabCheck(address);
-			}
-		break;
+                p_Main->updateAssTabCheck(address);
+            }
+        break;
 
-		default:
-			if (writeRom)
-				mainMemory_[address]=value;
-		break;
-	}
+        default:
+            if (writeRom)
+                mainMemory_[address]=value;
+        break;
+    }
 }
 
 void Velf::writeMemDebug(Word address, Byte value, bool writeRom)
@@ -857,33 +857,33 @@ void Velf::writeMemDebug(Word address, Byte value, bool writeRom)
 
 void Velf::cpuInstruction()
 {
-	if (cpuMode_ == RUN)
-	{
+    if (cpuMode_ == RUN)
+    {
         cpuCycleStep();
-		if (runPressed_)
-		{
-			setClear(0);
-			p_Main->eventUpdateTitle();
+        if (runPressed_)
+        {
+            setClear(0);
+            p_Main->eventUpdateTitle();
             velfScreenPointer->runSetState(BUTTON_DOWN);
-			runPressed_ = false;
-		}
-	}
-	else
-	{
-		if (runPressed_)
-		{
-			setClear(1);
-			p_Main->eventUpdateTitle();
+            runPressed_ = false;
+        }
+    }
+    else
+    {
+        if (runPressed_)
+        {
+            setClear(1);
+            p_Main->eventUpdateTitle();
             velfScreenPointer->runSetState(BUTTON_UP);
             resetEffectiveClock();
             if (p_Main->getVelfMode() == 0)
                 addressLatch_ = 0x8000;
             else
                 addressLatch_ = 0;
-			pixiePointer->initPixie();
-			runPressed_ = false;
-		}
-	}
+            pixiePointer->initPixie();
+            runPressed_ = false;
+        }
+    }
 }
 
 void Velf::resetPressed()
@@ -901,8 +901,8 @@ void Velf::resetPressed()
 void Velf::moveWindows()
 {
     pixiePointer->Move(p_Main->getPixiePos(VELF));
-	if (vipConfiguration.vtType != VTNONE)
-		vtPointer->Move(p_Main->getVtPos(VELF));
+    if (vipConfiguration.vtType != VTNONE)
+        vtPointer->Move(p_Main->getVtPos(VELF));
 }
 
 void Velf::updateTitle(wxString Title)
@@ -916,7 +916,7 @@ void Velf::updateTitle(wxString Title)
 
 void Velf::onReset()
 {
-	resetPressed_ = true;
+    resetPressed_ = true;
 }
 
 void Velf::checkComputerFunction()
@@ -928,11 +928,11 @@ void Velf::checkComputerFunction()
             p_Main->stopCassette();
         break;
             
-        case 0x8091:	// SAVE
+        case 0x8091:    // SAVE
             p_Main->startCassetteSave(0);
         break;
             
-        case 0x80c2:	// LOAD
+        case 0x80c2:    // LOAD
             p_Main->startCassetteLoad(0);
         break;
     }
@@ -940,16 +940,16 @@ void Velf::checkComputerFunction()
 
 void Velf::startComputerRun(bool load)
 {
-	load_ = load;
-	if (vipRunState_ == RESETSTATE)
-		vipRunCommand_ = 1;
-	else
-		vipRunCommand_ = 2;
+    load_ = load;
+    if (vipRunState_ == RESETSTATE)
+        vipRunCommand_ = 1;
+    else
+        vipRunCommand_ = 2;
 }
 
 void Velf::sleepComputer(long ms)
 {
-	threadPointer->Sleep(ms);
+    threadPointer->Sleep(ms);
 }
 
 void Velf::setLedMs(long ms)

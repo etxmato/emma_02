@@ -25874,23 +25874,23 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxLEFT|wxRIGHT|wxTOP</flag>
-<border>6</border>
+<flag>wxALIGN_TOP|wxLEFT|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
 <flag>wxALIGN_LEFT|wxBOTTOM</flag>
-<border>4</border>
+<border>2</border>
 <object class="wxFlexGridSizer">
 <cols>2</cols>
-<rows>9</rows>
+<rows>8</rows>
 <vgap>2</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
 <flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxButton" name="XmlButtonDiy">
-<tooltip>Browse for XML file</tooltip>
+<tooltip>Browse for xml file</tooltip>
 <font>
 <size>12</size>
 </font>
@@ -25899,20 +25899,17 @@
 </object>
 <object class="sizeritem">
 <flag>wxGROW|wxALIGN_TOP</flag>
-<border>4</border>
+<border>2</border>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
 <object class="wxComboBox" name="MainXmlDiy">
-<size>166,-1d</size>
-<tooltip>Specify XML file</tooltip>
+<size>83,-1d</size>
+<tooltip>Specify xml file</tooltip>
 <font>
 <size>12</size>
 </font>
 <style>wxCB_DROPDOWN</style>
-<content>
-<item>example.xml</item>
-</content>
 </object>
 </object>
 </object>
@@ -25930,12 +25927,12 @@
 </object>
 <object class="sizeritem">
 <flag>wxGROW|wxALIGN_TOP</flag>
-<border>4</border>
+<border>2</border>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
 <object class="wxComboBox" name="MainRamDiy">
-<size>166,-1d</size>
+<size>83,-1d</size>
 <tooltip>Specify RAM file</tooltip>
 <font>
 <size>12</size>
@@ -25947,7 +25944,7 @@
 </object>
 <object class="sizeritem">
 <flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-<border>6</border>
+<border>4</border>
 <object class="wxButton" name="IDE_ButtonDiy">
 <tooltip>Browse for IDE image file</tooltip>
 <font>
@@ -25958,14 +25955,13 @@
 </object>
 <object class="sizeritem">
 <flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
-<border>4</border>
+<border>2</border>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
 <object class="wxTextCtrl" name="IdeFileDiy">
-<size>90,-1d</size>
 <tooltip>Specify IDE image file</tooltip>
 <font>
 <size>12</size>
@@ -25974,8 +25970,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP</flag>
-<border>2</border>
 <object class="wxChoice" name="DiskTypeDiy">
 <tooltip>Select FDC 1793 or IDE disk controller</tooltip>
 <font>
@@ -25989,19 +25983,18 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="Eject_IDEDiy">
-<size>26,27d</size>
 <tooltip>Eject IDE image file</tooltip>
-<bitmap>images_osx/eject.png</bitmap>
+<bitmap>images/eject.png</bitmap>
 </object>
 </object>
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
-<border>6</border>
+<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
 <object class="wxButton" name="CharRomButtonDiy">
 <tooltip>Browse for video font file</tooltip>
 <font>
@@ -26011,10 +26004,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
-<border>6</border>
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
 <object class="wxComboBox" name="CharRomDiy">
-<size>192,-1d</size>
+<size>150,-1d</size>
 <tooltip>Specify video font file</tooltip>
 <font>
 <size>12</size>
@@ -26036,7 +26029,7 @@
 </object>
 <object class="sizeritem">
 <flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-<border>6</border>
+<border>4</border>
 <object class="wxButton" name="KeyFileButtonDiy">
 <tooltip>Browse for key input file</tooltip>
 <font>
@@ -26047,12 +26040,12 @@
 </object>
 <object class="sizeritem">
 <flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
-<border>4</border>
+<border>2</border>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
 <object class="wxTextCtrl" name="KeyFileDiy">
-<size>166,-1d</size>
+<size>83,-1d</size>
 <tooltip>Specify key input file</tooltip>
 <font>
 <size>12</size>
@@ -26060,19 +26053,18 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="EjectKeyFileDiy">
-<size>26,27d</size>
 <tooltip>Eject key input file</tooltip>
-<bitmap>images_osx/eject.png</bitmap>
+<bitmap>images/eject.png</bitmap>
 </object>
 </object>
 </object>
 </object>
 <object class="sizeritem">
 <flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-<border>6</border>
+<border>4</border>
 <object class="wxButton" name="PrintFileButtonDiy">
 <tooltip>Browse for printer output file</tooltip>
 <font>
@@ -26085,10 +26077,9 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
 <object class="wxTextCtrl" name="PrintFileDiy">
-<size>77,-1d</size>
 <tooltip>Specify printer output file</tooltip>
 <font>
 <size>12</size>
@@ -26096,7 +26087,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxTOP</flag>
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxChoice" name="PrintModeDiy">
 <tooltip>Select print mode</tooltip>
@@ -26110,21 +26101,20 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="PrintButtonDiy">
-<size>26,27d</size>
 <tooltip>Open printer window (F4)</tooltip>
-<bitmap>images_osx/print.png</bitmap>
-<selected>images_osx/print.png</selected>
-<focus>images_osx/print.png</focus>
+<bitmap>images/print.png</bitmap>
+<selected>images/print.png</selected>
+<focus>images/print.png</focus>
 </object>
 </object>
 </object>
 </object>
 <object class="sizeritem">
 <flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-<border>4</border>
+<border>2</border>
 <object class="wxButton" name="ScreenDumpFileButtonDiy">
 <tooltip>Browse for video dump file</tooltip>
 <font>
@@ -26135,12 +26125,12 @@
 </object>
 <object class="sizeritem">
 <flag>wxGROW|wxALIGN_TOP</flag>
-<border>4</border>
+<border>2</border>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
 <object class="wxComboBox" name="ScreenDumpFileDiy">
-<size>166,-1d</size>
+<size>83,-1d</size>
 <tooltip>Specify video dump file</tooltip>
 <font>
 <size>12</size>
@@ -26156,20 +26146,19 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="ScreenDumpF5Diy">
-<size>26,27d</size>
 <tooltip>Save video dump to file (F5)</tooltip>
 <enabled>0</enabled>
-<bitmap>images_osx/filesave.png</bitmap>
+<bitmap>images/filesave.png</bitmap>
 </object>
 </object>
 </object>
 </object>
 <object class="sizeritem">
 <flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-<border>6</border>
+<border>4</border>
 <object class="wxButton" name="CasButtonDiy">
 <tooltip>Browse for cassette file</tooltip>
 <font>
@@ -26180,21 +26169,21 @@
 </object>
 <object class="sizeritem">
 <flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
-<border>4</border>
+<border>2</border>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>6</border>
+<flag>wxGROW</flag>
+<border>4</border>
 <object class="wxBitmapButton" name="TapeDiy">
-<size>26,27d</size>
 <tooltip>Toggle: Casette - XMODEM - Off</tooltip>
-<bitmap>images_osx/switch.png</bitmap>
+<style>wxBU_AUTODRAW</style>
+<bitmap>images/switch.png</bitmap>
 </object>
 </object>
 <object class="sizeritem">
 <object class="wxTextCtrl" name="WavFileDiy">
-<size>120,-1d</size>
+<size>69,-1d</size>
 <tooltip>Specify cassette file</tooltip>
 <font>
 <size>12</size>
@@ -26202,19 +26191,25 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="EjectCasDiy">
-<size>26,27d</size>
 <tooltip>Eject cassette file</tooltip>
-<bitmap>images_osx/eject.png</bitmap>
+<bitmap>images/eject.png</bitmap>
+</object>
+</object>
 </object>
 </object>
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-<border>8</border>
+<flag>wxALIGN_LEFT|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
 <object class="wxButton" name="DP_ButtonDiy">
 <tooltip>Open device ports definition window</tooltip>
 <font>
@@ -26227,7 +26222,7 @@
 </object>
 <object class="sizeritem">
 <flag>wxGROW|wxTOP|wxBOTTOM</flag>
-<border>4</border>
+<border>2</border>
 <object class="wxStaticBoxSizer" name="wxID_ANY">
 <orient>wxVERTICAL</orient>
 <label>Terminal</label>
@@ -26237,8 +26232,8 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_BOTTOM|wxRIGHT</flag>
-<border>10</border>
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
 <object class="wxChoice" name="VTTypeDiy">
 <tooltip>Select video terminal type</tooltip>
 <font>
@@ -26254,7 +26249,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_BOTTOM|wxBOTTOM</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>2</border>
 <object class="wxButton" name="VtSetupDiy">
 <tooltip>Open video terminal setup window</tooltip>
@@ -26264,16 +26259,60 @@
 <label>Setup</label>
 </object>
 </object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxStaticText" name="ZoomTextVtDiy">
+<font>
+<size>12</size>
+</font>
+<label>Zoom: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALL</flag>
+<border>2</border>
+<object class="wxTextCtrl" name="ZoomValueVtDiy" subclass="FloatEdit">
+<size>36,-1d</size>
+<tooltip>Select Video Terminal screen size</tooltip>
+<font>
+<size>12</size>
+</font>
+</object>
+</object>
+<object platform="unix" class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>6</border>
+<object platform="unix" class="wxSpinButton" name="ZoomSpinVtDiy">
+<tooltip>Select Video Terminal screen size</tooltip>
+<style>wxSP_VERTICAL</style>
+<value>0</value>
+<min>1</min>
+<max>100</max>
+</object>
+</object>
+<object platform="win" class="sizeritem">
+<flag>wxGROW</flag>
+<border>6</border>
+<object platform="win" class="wxSpinButton" name="ZoomSpinVtDiy">
+<size>-1,15d</size>
+<tooltip>Select Video Terminal screen size</tooltip>
+<style>wxSP_VERTICAL</style>
+<value>0</value>
+<min>1</min>
+<max>100</max>
+</object>
+</object>
 </object>
 </object>
 <object class="sizeritem">
 <flag>wxALIGN_LEFT|wxTOP</flag>
-<border>6</border>
+<border>4</border>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>6</border>
+<border>4</border>
 <object class="wxStaticText" name="VTBaudTTextDiy">
 <font>
 <size>12</size>
@@ -26282,8 +26321,8 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
-<border>0</border>
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
 <object class="wxChoice" name="VTBaudTChoiceDiy">
 <font>
 <size>12</size>
@@ -26311,7 +26350,7 @@
 </object>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-<border>6</border>
+<border>4</border>
 <object class="wxStaticText" name="VTBaudRTextDiy">
 <font>
 <size>12</size>
@@ -26320,8 +26359,8 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
-<border>0</border>
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
 <object class="wxChoice" name="VTBaudRChoiceDiy">
 <font>
 <size>12</size>
@@ -26347,49 +26386,9 @@
 </content>
 </object>
 </object>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxTOP</flag>
-<border>6</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxStaticText" name="ZoomTextVtDiy">
-<font>
-<size>12</size>
-</font>
-<label>Zoom: </label>
-</object>
-</object>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>2</border>
-<object class="wxTextCtrl" name="ZoomValueVtDiy" subclass="FloatEdit">
-<size>50,-1d</size>
-<tooltip>Select Video Terminal screen size</tooltip>
-<font>
-<size>12</size>
-</font>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>10</border>
-<object class="wxSpinButton" name="ZoomSpinVtDiy">
-<size>-1,23d</size>
-<tooltip>Select Video Terminal screen size</tooltip>
-<style>wxSP_VERTICAL</style>
-<value>0</value>
-<min>1</min>
-<max>100</max>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-<border>4</border>
 <object class="wxCheckBox" name="StretchDotDiy">
 <tooltip>Enable stretch dot mode on video terminal</tooltip>
 <font>
@@ -26406,18 +26405,18 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxLEFT|wxRIGHT|wxTOP</flag>
-<border>6</border>
+<flag>wxALIGN_TOP|wxLEFT|wxRIGHT</flag>
+<border>4</border>
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
 <flag>wxALIGN_LEFT|wxBOTTOM</flag>
-<border>4</border>
+<border>2</border>
 <object class="wxFlexGridSizer">
 <cols>3</cols>
 <rows>3</rows>
 <vgap>2</vgap>
-<hgap>0</hgap>
+<hgap>2</hgap>
 <object class="sizeritem">
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
@@ -26429,8 +26428,8 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_BOTTOM</flag>
-<border>0</border>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+<border>2</border>
 <object class="wxChoice" name="VideoTypeDiy">
 <tooltip>Select video type</tooltip>
 <font>
@@ -26448,7 +26447,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_BOTTOM|wxLEFT|wxBOTTOM</flag>
+<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>2</border>
 <object class="wxButton" name="ColoursDiy">
 <tooltip>Open video setup window</tooltip>
@@ -26469,8 +26468,8 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_BOTTOM</flag>
-<border>6</border>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+<border>2</border>
 <object class="wxChoice" name="KeyboardDiy">
 <tooltip>Select keyboard type</tooltip>
 <font>
@@ -26487,7 +26486,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_BOTTOM|wxLEFT|wxBOTTOM</flag>
+<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>2</border>
 <object class="wxButton" name="KeyMapDiy">
 <tooltip>Open key map window</tooltip>
@@ -26499,22 +26498,22 @@
 </object>
 <object class="spacer">
 <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>10</border>
+<border>6</border>
 <size>5,5d</size>
 </object>
 <object class="spacer">
 <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>10</border>
+<border>6</border>
 <size>5,5d</size>
 </object>
 <object class="sizeritem">
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-<border>6</border>
+<border>4</border>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-<border>6</border>
+<border>4</border>
 <object class="wxCheckBox" name="AutoBootDiy">
 <tooltip>Enable auto boot at specified address</tooltip>
 <font>
@@ -26525,10 +26524,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-<border>0</border>
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
 <object class="wxTextCtrl" name="BootAddressDiy" subclass="HexEdit">
-<size>50,-1d</size>
+<size>36,-1d</size>
 <tooltip>Specify auto boot address in hexadecimal</tooltip>
 <font>
 <size>12</size>
@@ -26547,7 +26546,7 @@
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>8</border>
+<border>4</border>
 <object class="wxStaticText" name="QsoundTextDiy">
 <font>
 <size>12</size>
@@ -26556,8 +26555,8 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_BOTTOM|wxLEFT</flag>
-<border>4</border>
+<flag>wxGROW|wxALL</flag>
+<border>2</border>
 <object class="wxChoice" name="QsoundDiy">
 <tooltip>Select Q sound type</tooltip>
 <font>
@@ -26572,7 +26571,7 @@
 </object>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-<border>6</border>
+<border>4</border>
 <object class="wxStaticText" name="BeepFrequencyTextDiy">
 <font>
 <size>12</size>
@@ -26581,10 +26580,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-<border>4</border>
+<flag>wxGROW|wxALL</flag>
+<border>2</border>
 <object class="wxTextCtrl" name="BeepFrequencyDiy" subclass="IntEdit">
-<size>45,-1d</size>
+<size>26,-1d</size>
 <tooltip>Specify oscilator frequency speed in Hz</tooltip>
 <font>
 <size>12</size>
@@ -26593,7 +26592,7 @@
 </object>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>6</border>
+<border>4</border>
 <object class="wxStaticText" name="BeepFrequencyTextHzDiy">
 <font>
 <size>12</size>
@@ -26605,7 +26604,7 @@
 </object>
 <object class="sizeritem">
 <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
-<border>4</border>
+<border>2</border>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
@@ -26615,25 +26614,36 @@
 <font>
 <size>12</size>
 </font>
-<label>Zoom Level: </label>
+<label>Zoom: </label>
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW|wxALL</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="ZoomValueDiy" subclass="FloatEdit">
-<size>50,-1d</size>
+<size>36,-1d</size>
 <tooltip>Select screen size</tooltip>
 <font>
 <size>12</size>
 </font>
 </object>
 </object>
-<object class="sizeritem">
+<object platform="unix" class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>10</border>
-<object class="wxSpinButton" name="ZoomSpinDiy">
-<size>-1,23d</size>
+<border>6</border>
+<object platform="unix" class="wxSpinButton" name="ZoomSpinDiy">
+<tooltip>Select screen size</tooltip>
+<style>wxSP_VERTICAL</style>
+<value>0</value>
+<min>1</min>
+<max>100</max>
+</object>
+</object>
+<object platform="win" class="sizeritem">
+<flag>wxGROW</flag>
+<border>6</border>
+<object platform="win" class="wxSpinButton" name="ZoomSpinDiy">
+<size>-1,15d</size>
 <tooltip>Select screen size</tooltip>
 <style>wxSP_VERTICAL</style>
 <value>0</value>
@@ -26642,23 +26652,22 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-<border>4</border>
+<flag>wxGROW|wxRIGHT</flag>
+<border>2</border>
 <object class="wxBitmapButton" name="FullScreenF3Diy">
-<size>26,27d</size>
 <tooltip>Activate full screen mode (F3)</tooltip>
 <enabled>0</enabled>
-<bitmap>images_osx/screen.png</bitmap>
+<bitmap>images/screen.png</bitmap>
 </object>
 </object>
 <object class="sizeritem">
 <flag>wxALIGN_TOP</flag>
-<border>6</border>
+<border>4</border>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-<border>4</border>
+<border>2</border>
 <object class="wxStaticText" name="AddressText1Diy">
 <font>
 <size>12</size>
@@ -26667,10 +26676,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-<border>4</border>
+<flag>wxGROW|wxALL</flag>
+<border>2</border>
 <object class="wxTextCtrl" name="ShowAddressDiy" subclass="IntEdit">
-<size>45,-1d</size>
+<size>26,-1d</size>
 <tooltip>Led updates in run mode every X ms</tooltip>
 <font>
 <size>12</size>
@@ -26680,7 +26689,7 @@
 </object>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>6</border>
+<border>4</border>
 <object class="wxStaticText" name="AddressText2Diy">
 <font>
 <size>12</size>
@@ -26694,12 +26703,12 @@
 </object>
 <object class="sizeritem">
 <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
-<border>4</border>
+<border>2</border>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-<border>6</border>
+<border>4</border>
 <object class="wxStaticText" name="VolumeTextDiy">
 <font>
 <size>12</size>
@@ -26708,10 +26717,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-<border>6</border>
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
 <object class="wxSlider" name="VolumeDiy">
-<size>100,24d</size>
+<size>57,-1d</size>
 <tooltip>Change emulator sound volume</tooltip>
 <style>wxSL_HORIZONTAL</style>
 <value>25</value>
@@ -26720,10 +26729,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
-<border>6</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
 <object class="wxStaticBitmap" name="VuDiy">
-<size>100,10d</size>
+<size>57,6d</size>
 <style>wxSTATIC_BORDER</style>
 <bitmap>images/vu.png</bitmap>
 </object>
@@ -26732,7 +26741,7 @@
 </object>
 <object class="sizeritem">
 <flag>wxGROW</flag>
-<border>10</border>
+<border>6</border>
 <object class="wxStaticBoxSizer" name="wxID_ANY">
 <orient>wxVERTICAL</orient>
 <label>Memory Access</label>
@@ -26748,8 +26757,8 @@
 <vgap>1</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
-<border>8</border>
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>4</border>
 <object class="wxCheckBox" name="UseLocationDiy">
 <tooltip>Select to SAVE specific machine code address</tooltip>
 <font>
@@ -26769,8 +26778,8 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
-<border>6</border>
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>2</border>
 <object class="wxStaticText" name="TextStartDiy">
 <font>
 <size>12</size>
@@ -26782,9 +26791,9 @@
 </object>
 <object class="sizeritem">
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-<border>4</border>
+<border>2</border>
 <object class="wxTextCtrl" name="SaveStartDiy" subclass="HexEdit">
-<size>50,21d</size>
+<size>36,-1d</size>
 <tooltip>Specify start address in hexadecimal</tooltip>
 <font>
 <size>12</size>
@@ -26797,8 +26806,7 @@
 <flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
 <border>2</border>
 <object class="wxButton" name="LoadButtonDiy">
-<size>-1,23d</size>
-<tooltip>Load .hex/.super file into Diy Elf II emulator memory</tooltip>
+<tooltip>Load .hex/.super file into emulator memory</tooltip>
 <font>
 <size>12</size>
 </font>
@@ -26810,8 +26818,7 @@
 <flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
 <border>2</border>
 <object class="wxButton" name="RunButtonDiy">
-<size>-1,23d</size>
-<tooltip>Load .super file into Diy Elf II emulator memory and RUN software</tooltip>
+<tooltip>Load .super file into emulator memory and RUN software</tooltip>
 <font>
 <size>12</size>
 </font>
@@ -26820,8 +26827,8 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
-<border>6</border>
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>2</border>
 <object class="wxStaticText" name="TextEndDiy">
 <font>
 <size>12</size>
@@ -26833,9 +26840,9 @@
 </object>
 <object class="sizeritem">
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-<border>4</border>
+<border>2</border>
 <object class="wxTextCtrl" name="SaveEndDiy" subclass="HexEdit">
-<size>50,21d</size>
+<size>36,-1d</size>
 <tooltip>Specify end address in hexadecimal</tooltip>
 <font>
 <size>12</size>
@@ -26848,8 +26855,7 @@
 <flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
 <border>2</border>
 <object class="wxButton" name="SaveButtonDiy">
-<size>-1,23d</size>
-<tooltip>Save Diy Elf II emulator memory to .hex/.super file</tooltip>
+<tooltip>Save emulator memory to .hex/.super file</tooltip>
 <font>
 <size>12</size>
 </font>
@@ -26861,8 +26867,7 @@
 <flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
 <border>2</border>
 <object class="wxButton" name="DsaveButtonDiy">
-<size>-1,23d</size>
-<tooltip>Save Diy Elf II emulator data memory to .super file</tooltip>
+<tooltip>Save emulator data memory to .super file</tooltip>
 <font>
 <size>12</size>
 </font>
@@ -26871,8 +26876,8 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-<border>10</border>
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>2</border>
 <object class="wxStaticText" name="TextExecDiy">
 <font>
 <size>12</size>
@@ -26884,9 +26889,9 @@
 </object>
 <object class="sizeritem">
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-<border>4</border>
+<border>2</border>
 <object class="wxTextCtrl" name="SaveExecDiy" subclass="HexEdit">
-<size>50,21d</size>
+<size>36,-1d</size>
 <tooltip>Specify machine code execution address in hexadecimal</tooltip>
 <font>
 <size>12</size>
@@ -26901,12 +26906,12 @@
 </object>
 <object class="sizeritem">
 <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
-<border>4</border>
+<border>2</border>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>4</border>
 <object class="wxCheckBox" name="AutoCasLoadDiy">
 <tooltip>Enable auto mode for cassette file</tooltip>
 <font>
@@ -26929,10 +26934,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>8</border>
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
 <object class="wxTextCtrl" name="TurboClockDiy" subclass="IntEdit">
-<size>35,-1d</size>
+<size>20,-1d</size>
 <tooltip>Specify turbo clock speed in MHz</tooltip>
 <font>
 <size>12</size>
@@ -26941,7 +26946,7 @@
 </object>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-<border>4</border>
+<border>2</border>
 <object class="wxStaticText" name="TurboMhzTextDiy">
 <font>
 <size>12</size>
@@ -26950,51 +26955,46 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasSaveDiy">
-<size>26,27d</size>
 <tooltip>Start recording to cassette file</tooltip>
 <enabled>0</enabled>
-<bitmap>images_osx/rec_off.png</bitmap>
+<bitmap>images/rec_off.png</bitmap>
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasLoadDiy">
-<size>26,27d</size>
 <tooltip>Play cassette file</tooltip>
 <enabled>0</enabled>
-<bitmap>images_osx/play_black.png</bitmap>
+<bitmap>images/play_black.png</bitmap>
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasStopDiy">
-<size>26,27d</size>
 <tooltip>Stop cassette file</tooltip>
 <enabled>0</enabled>
-<bitmap>images_osx/stop.png</bitmap>
+<bitmap>images/stop.png</bitmap>
 </object>
 </object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>4</border>
-<object class="wxBitmapButton" name="RealCasLoadDiy">
-<size>26,27d</size>
+<object platform="win" class="sizeritem">
+<flag>wxGROW</flag>
+<border>0</border>
+<object platform="win" class="wxBitmapButton" name="RealCasLoadDiy">
 <tooltip>Disable / Enable real cassette loading</tooltip>
 <style>wxBU_AUTODRAW</style>
-<hidden>1</hidden>
-<bitmap>images_osx/real_cas_off.png</bitmap>
+<bitmap>images/real_cas_off.png</bitmap>
 </object>
 </object>
 </object>
 </object>
 <object class="sizeritem">
 <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
-<border>6</border>
+<border>4</border>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
@@ -27004,7 +27004,7 @@
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-<border>4</border>
+<border>2</border>
 <object class="wxStaticText" name="TilTextDiy">
 <font>
 <size>12</size>
@@ -27013,8 +27013,8 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_BOTTOM|wxLEFT|wxRIGHT</flag>
-<border>4</border>
+<flag>wxGROW|wxALL</flag>
+<border>2</border>
 <object class="wxChoice" name="TilTypeDiy">
 <tooltip>Switch between TIL311 and TIL313/FND500</tooltip>
 <font>
@@ -27029,10 +27029,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-<border>10</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>4</border>
 <object class="wxCheckBox" name="ControlWindowsDiy">
-<tooltip>Show Diy Elf II control windows</tooltip>
+<tooltip>Show control windows</tooltip>
 <font>
 <size>12</size>
 </font>
@@ -27041,8 +27041,8 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-<border>6</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>4</border>
 <object class="wxCheckBox" name="InterlaceDiy">
 <tooltip>Enable interlace mode MC 6845 or intel 8275 video</tooltip>
 <font>
@@ -27056,12 +27056,12 @@
 </object>
 <object class="sizeritem">
 <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
-<border>6</border>
+<border>4</border>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-<border>10</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>4</border>
 <object class="wxCheckBox" name="PortExtDiy">
 <tooltip>Enable extended ports support</tooltip>
 <font>
@@ -27072,8 +27072,8 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-<border>10</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>4</border>
 <object class="wxCheckBox" name="UpperCaseDiy">
 <tooltip>Force keyboard in uppercase</tooltip>
 <font>
@@ -27084,8 +27084,8 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-<border>10</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>4</border>
 <object class="wxCheckBox" name="BootStrapDiy">
 <tooltip>Load ROM 1 at 8000 and bootstrap ROM</tooltip>
 <font>
@@ -27099,24 +27099,24 @@
 </object>
 <object class="sizeritem">
 <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
-<border>6</border>
+<border>4</border>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-<border>10</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>4</border>
 <object class="wxCheckBox" name="HexEfDiy">
 <tooltip>Enable EF Hex keyboard</tooltip>
 <font>
 <size>12</size>
 </font>
-<label>EF Hex key</label>
+<label>EF Hex Key</label>
 <checked>0</checked>
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-<border>10</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>4</border>
 <object class="wxCheckBox" name="EFButtonsDiy">
 <tooltip>Enable EF3/EF push buttons</tooltip>
 <font>
@@ -31641,7 +31641,7 @@
 <font>
 <size>12</size>
 </font>
-<fg>#FF0000</fg>
+<fg>#C62828</fg>
 <label> </label>
 </object>
 </object>
@@ -35562,7 +35562,6 @@
 <size>12</size>
 </font>
 <enabled>0</enabled>
-<fg>#8080FF</fg>
 <label>Slot: </label>
 </object>
 </object>
@@ -35576,7 +35575,6 @@
 <size>12</size>
 </font>
 <enabled>0</enabled>
-<fg>#8080FF</fg>
 <maxlength>1</maxlength>
 </object>
 </object>
@@ -35588,7 +35586,6 @@
 <size>12</size>
 </font>
 <enabled>0</enabled>
-<fg>#45AC22</fg>
 <label>RAM Bank: </label>
 </object>
 </object>
@@ -35602,7 +35599,6 @@
 <size>12</size>
 </font>
 <enabled>0</enabled>
-<fg>#45AC22</fg>
 <maxlength>1</maxlength>
 </object>
 </object>
@@ -35614,7 +35610,6 @@
 <size>12</size>
 </font>
 <enabled>0</enabled>
-<fg>#800040</fg>
 <label>Eprom Bank: </label>
 </object>
 </object>
@@ -35628,7 +35623,6 @@
 <size>12</size>
 </font>
 <enabled>0</enabled>
-<fg>#800040</fg>
 <maxlength>1</maxlength>
 </object>
 </object>
@@ -35656,7 +35650,6 @@
 <size>12</size>
 </font>
 <enabled>0</enabled>
-<fg>#C8B43E</fg>
 <label>EMS Map: </label>
 </object>
 </object>
@@ -35670,7 +35663,6 @@
 <size>12</size>
 </font>
 <enabled>0</enabled>
-<fg>#C8B43E</fg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35684,7 +35676,6 @@
 <size>12</size>
 </font>
 <enabled>0</enabled>
-<fg>#C8B43E</fg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35696,7 +35687,6 @@
 <size>12</size>
 </font>
 <enabled>0</enabled>
-<fg>#A93EAC</fg>
 <label>Pager: </label>
 </object>
 </object>
@@ -35710,7 +35700,6 @@
 <size>12</size>
 </font>
 <enabled>0</enabled>
-<fg>#A93EAC</fg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -35724,7 +35713,6 @@
 <size>12</size>
 </font>
 <enabled>0</enabled>
-<fg>#A93EAC</fg>
 <maxlength>2</maxlength>
 </object>
 </object>

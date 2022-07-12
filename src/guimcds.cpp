@@ -34,19 +34,19 @@
 
 BEGIN_EVENT_TABLE(GuiMcds, GuiCosmicos)
 
-	EVT_TEXT(XRCID("MainRomMCDS"), GuiMain::onMainRom1Text)
-	EVT_COMBOBOX(XRCID("MainRomMCDS"), GuiMain::onMainRom1Text)
-	EVT_BUTTON(XRCID("RomButtonMCDS"), GuiMain::onMainRom1)
+    EVT_TEXT(XRCID("MainRomMCDS"), GuiMain::onMainRom1Text)
+    EVT_COMBOBOX(XRCID("MainRomMCDS"), GuiMain::onMainRom1Text)
+    EVT_BUTTON(XRCID("RomButtonMCDS"), GuiMain::onMainRom1)
 
-	EVT_TEXT(XRCID("MainRom2MCDS"), GuiMain::onMainRom2Text)
-	EVT_COMBOBOX(XRCID("MainRom2MCDS"), GuiMain::onMainRom2Text)
-	EVT_BUTTON(XRCID("RomButton2MCDS"), GuiMain::onMainRom2)
+    EVT_TEXT(XRCID("MainRom2MCDS"), GuiMain::onMainRom2Text)
+    EVT_COMBOBOX(XRCID("MainRom2MCDS"), GuiMain::onMainRom2Text)
+    EVT_BUTTON(XRCID("RomButton2MCDS"), GuiMain::onMainRom2)
 
-	EVT_TEXT(XRCID("MainRom3MCDS"), GuiMain::onMainRom3Text)
-	EVT_COMBOBOX(XRCID("MainRom3MCDS"), GuiMain::onMainRom3Text)
-	EVT_BUTTON(XRCID("RomButton3MCDS"), GuiMain::onMainRom3)
+    EVT_TEXT(XRCID("MainRom3MCDS"), GuiMain::onMainRom3Text)
+    EVT_COMBOBOX(XRCID("MainRom3MCDS"), GuiMain::onMainRom3Text)
+    EVT_BUTTON(XRCID("RomButton3MCDS"), GuiMain::onMainRom3)
 
-	EVT_BUTTON(XRCID("CasButtonMCDS"), GuiMain::onCassette)
+    EVT_BUTTON(XRCID("CasButtonMCDS"), GuiMain::onCassette)
     EVT_BUTTON(XRCID("EjectCasMCDS"), GuiMain::onCassetteEject)
     EVT_TEXT(XRCID("WavFileMCDS"), GuiMain::onCassetteText)
 
@@ -54,9 +54,9 @@ BEGIN_EVENT_TABLE(GuiMcds, GuiCosmicos)
     EVT_BUTTON(XRCID("EjectCas1MCDS"), GuiMain::onCassette1Eject)
     EVT_TEXT(XRCID("WavFile1MCDS"), GuiMain::onCassette1Text)
 
-	EVT_TEXT(XRCID("KeyFileMCDS"), GuiMain::onKeyFileText)
-	EVT_BUTTON(XRCID("KeyFileButtonMCDS"), GuiMain::onKeyFile)
-	EVT_BUTTON(XRCID("EjectKeyFileMCDS"), GuiMain::onKeyFileEject)
+    EVT_TEXT(XRCID("KeyFileMCDS"), GuiMain::onKeyFileText)
+    EVT_BUTTON(XRCID("KeyFileButtonMCDS"), GuiMain::onKeyFile)
+    EVT_BUTTON(XRCID("EjectKeyFileMCDS"), GuiMain::onKeyFileEject)
 
     EVT_TEXT(XRCID("PrintFileMCDS"), GuiMain::onPrintFileText)
     EVT_BUTTON(XRCID("PrintButtonMCDS"), GuiMain::onPrintButton)
@@ -66,22 +66,22 @@ BEGIN_EVENT_TABLE(GuiMcds, GuiCosmicos)
     EVT_COMMAND(wxID_ANY, OPEN_PRINTER_WINDOW, GuiMain::openPrinterFrame)
 
     EVT_CHOICE(XRCID("VTTypeMCDS"), GuiMain::onVT100)
-	EVT_SPIN_UP(XRCID("ZoomSpinVtMCDS"), GuiMain::onZoomVt)
-	EVT_SPIN_DOWN(XRCID("ZoomSpinVtMCDS"), GuiMain::onZoomVt)
-	EVT_TEXT(XRCID("ZoomValueVtMCDS"), GuiMain::onZoomValueVt)
-	EVT_BUTTON(XRCID("FullScreenF3MCDS"), GuiMain::onFullScreen)
+    EVT_SPIN_UP(XRCID("ZoomSpinVtMCDS"), GuiMain::onZoomVt)
+    EVT_SPIN_DOWN(XRCID("ZoomSpinVtMCDS"), GuiMain::onZoomVt)
+    EVT_TEXT(XRCID("ZoomValueVtMCDS"), GuiMain::onZoomValueVt)
+    EVT_BUTTON(XRCID("FullScreenF3MCDS"), GuiMain::onFullScreen)
     EVT_COMMAND_SCROLL_THUMBTRACK(XRCID("VolumeMCDS"), GuiMain::onVolume)
     EVT_COMMAND_SCROLL_CHANGED(XRCID("VolumeMCDS"), GuiMain::onVolume)
 
     EVT_BUTTON(XRCID("ScreenDumpFileButtonMCDS"), GuiMain::onScreenDumpFile)
-	EVT_TEXT(XRCID("ScreenDumpFileMCDS"), GuiMain::onScreenDumpFileText)
-	EVT_COMBOBOX(XRCID("ScreenDumpFileMCDS"), GuiMain::onScreenDumpFileText)
-	EVT_BUTTON(XRCID("ScreenDumpF5MCDS"), GuiMain::onScreenDump)
+    EVT_TEXT(XRCID("ScreenDumpFileMCDS"), GuiMain::onScreenDumpFileText)
+    EVT_COMBOBOX(XRCID("ScreenDumpFileMCDS"), GuiMain::onScreenDumpFileText)
+    EVT_BUTTON(XRCID("ScreenDumpF5MCDS"), GuiMain::onScreenDump)
 
     EVT_CHECKBOX(XRCID("McdsForceUC"), GuiMcds::onMcdsForceUpperCase)
     EVT_BUTTON(XRCID("VtSetupMCDS"), GuiMain::onVtSetup)
-	EVT_CHECKBOX(XRCID("StretchDotMCDS"), GuiMain::onStretchDot)
-	EVT_BUTTON(XRCID("ColoursMCDS"), Main::onColoursDef)
+    EVT_CHECKBOX(XRCID("StretchDotMCDS"), GuiMain::onStretchDot)
+    EVT_BUTTON(XRCID("ColoursMCDS"), Main::onColoursDef)
     EVT_CHECKBOX(XRCID("McdsBootRam"), GuiMcds::onBootRam)
 
     EVT_BUTTON(XRCID("SaveButtonMCDS"), GuiMain::onSaveButton)
@@ -91,7 +91,7 @@ BEGIN_EVENT_TABLE(GuiMcds, GuiCosmicos)
 
     EVT_CHECKBOX(XRCID("UseLocationMCDS"), GuiMain::onUseLocation)
     EVT_TEXT(XRCID("SaveStartMCDS"), GuiMain::onSaveStart)
-	EVT_TEXT(XRCID("SaveEndMCDS"), GuiMain::onSaveEnd)
+    EVT_TEXT(XRCID("SaveEndMCDS"), GuiMain::onSaveEnd)
 
     EVT_CHECKBOX(XRCID("TurboMCDS"), GuiMain::onTurbo)
     EVT_TEXT(XRCID("TurboClockMCDS"), GuiMain::onTurboClock)
@@ -105,7 +105,7 @@ BEGIN_EVENT_TABLE(GuiMcds, GuiCosmicos)
     EVT_BUTTON(XRCID("CasSave1MCDS"), GuiMain::onCassetteSave1)
     EVT_BUTTON(XRCID("CasStop1MCDS"), GuiMain::onCassetteStop)
 
-	EVT_CHOICE(XRCID("VTBaudTChoiceMCDS"), GuiMcds::onMcdsBaudT)
+    EVT_CHOICE(XRCID("VTBaudTChoiceMCDS"), GuiMcds::onMcdsBaudT)
 
 END_EVENT_TABLE()
 
@@ -134,26 +134,29 @@ GuiMcds::GuiMcds(const wxString& title, const wxPoint& pos, const wxSize& size, 
 
 void GuiMcds::readMcdsConfig()
 {
-	selectedComputer_ = MCDS;
+    selectedComputer_ = MCDS;
 
+    elfConfiguration[MCDS].elfPortConf.emsOutput.resize(1);
     readElfPortConfig(MCDS, "Mcds");
 
-	conf[MCDS].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "MCDS" + pathSeparator_;
+    conf[MCDS].emsConfigNumber_ = 0;
+
+    conf[MCDS].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "MCDS" + pathSeparator_;
 
     conf[MCDS].mainDir_ = readConfigDir("/Dir/Mcds/Main", dataDir_ + "MCDS" + pathSeparator_);
-	conf[MCDS].romDir_[MAINROM1] = readConfigDir("/Dir/Mcds/Main_Rom_File1", dataDir_ + "MCDS" + pathSeparator_);
-	conf[MCDS].romDir_[MAINROM2] = readConfigDir("/Dir/Mcds/Main_Rom_File2", dataDir_ + "MCDS" + pathSeparator_);
-	conf[MCDS].romDir_[MAINROM3] = readConfigDir("/Dir/Mcds/Main_Rom_File3", dataDir_ + "MCDS" + pathSeparator_);
-	elfConfiguration[MCDS].vtCharRomDir_ = readConfigDir("/Dir/Mcds/Vt_Font_Rom_File", dataDir_ + "MCDS" + pathSeparator_);
+    conf[MCDS].romDir_[MAINROM1] = readConfigDir("/Dir/Mcds/Main_Rom_File1", dataDir_ + "MCDS" + pathSeparator_);
+    conf[MCDS].romDir_[MAINROM2] = readConfigDir("/Dir/Mcds/Main_Rom_File2", dataDir_ + "MCDS" + pathSeparator_);
+    conf[MCDS].romDir_[MAINROM3] = readConfigDir("/Dir/Mcds/Main_Rom_File3", dataDir_ + "MCDS" + pathSeparator_);
+    elfConfiguration[MCDS].vtCharRomDir_ = readConfigDir("/Dir/Mcds/Vt_Font_Rom_File", dataDir_ + "MCDS" + pathSeparator_);
     conf[MCDS].keyFileDir_ = readConfigDir("/Dir/Mcds/Key_File", dataDir_ + "MCDS" + pathSeparator_);
     conf[MCDS].printFileDir_ = readConfigDir("Dir/Mcds/Print_File", dataDir_ + "MCDS" + pathSeparator_);
-	conf[MCDS].screenDumpFileDir_ = readConfigDir("/Dir/Mcds/Video_Dump_File", dataDir_ + "MCDS" + pathSeparator_);
+    conf[MCDS].screenDumpFileDir_ = readConfigDir("/Dir/Mcds/Video_Dump_File", dataDir_ + "MCDS" + pathSeparator_);
     conf[MCDS].wavFileDir_[0] = readConfigDir("/Dir/Mcds/Wav_File", dataDir_ + "MCDS" + pathSeparator_);
     conf[MCDS].wavFileDir_[1] = readConfigDir("/Dir/Mcds/Wav_File1", dataDir_ + "MCDS" + pathSeparator_);
 
-	conf[MCDS].rom_[MAINROM1] = configPointer->Read("/Mcds/Main_Rom_File1", "ut62_rev2.bin");
-	conf[MCDS].rom_[MAINROM2] = configPointer->Read("/Mcds/Main_Rom_File2", "edit_asm.bin");
-	conf[MCDS].rom_[MAINROM3] = configPointer->Read("/Mcds/Main_Rom_File3", "basic_3.bin");
+    conf[MCDS].rom_[MAINROM1] = configPointer->Read("/Mcds/Main_Rom_File1", "ut62_rev2.bin");
+    conf[MCDS].rom_[MAINROM2] = configPointer->Read("/Mcds/Main_Rom_File2", "edit_asm.bin");
+    conf[MCDS].rom_[MAINROM3] = configPointer->Read("/Mcds/Main_Rom_File3", "basic_3.bin");
     conf[MCDS].keyFile_ = configPointer->Read("/Mcds/Key_File", "");
     conf[MCDS].printFile_ = configPointer->Read("/Mcds/Print_File", "printerout.txt");
     conf[MCDS].screenDumpFile_ = configPointer->Read("/Mcds/Video_Dump_File", "screendump.png");
@@ -162,14 +165,14 @@ void GuiMcds::readMcdsConfig()
     conf[MCDS].volume_ = (int)configPointer->Read("/Mcds/Volume", 25l);
     
     configPointer->Read("/Mcds/SerialLog", &elfConfiguration[MCDS].serialLog, false);
-	configPointer->Read("/Mcds/Enable_Vt_Stretch_Dot", &conf[MCDS].stretchDot_, false);
+    configPointer->Read("/Mcds/Enable_Vt_Stretch_Dot", &conf[MCDS].stretchDot_, false);
     configPointer->Read("/Mcds/Enable_Vt_External", &elfConfiguration[MCDS].vtExternal, false);
 
     elfConfiguration[MCDS].useUart = false; 
     elfConfiguration[MCDS].bellFrequency_ = (int)configPointer->Read("/Mcds/Bell_Frequency", 800);
-	elfConfiguration[MCDS].baudR = (int)configPointer->Read("/Mcds/Vt_Baud_Receive", 8l);
-	elfConfiguration[MCDS].baudT = (int)configPointer->Read("/Mcds/Vt_Baud_Transmit", 8l);
-	elfConfiguration[MCDS].vtType = (int)configPointer->Read("/Mcds/VT_Type", 2l);
+    elfConfiguration[MCDS].baudR = (int)configPointer->Read("/Mcds/Vt_Baud_Receive", 8l);
+    elfConfiguration[MCDS].baudT = (int)configPointer->Read("/Mcds/Vt_Baud_Transmit", 8l);
+    elfConfiguration[MCDS].vtType = (int)configPointer->Read("/Mcds/VT_Type", 2l);
     elfConfiguration[MCDS].vt52SetUpFeature_ = configPointer->Read("/Mcds/VT52Setup", 0x00004092l);
     elfConfiguration[MCDS].vt100SetUpFeature_ = configPointer->Read("/Mcds/VT100Setup", 0x0000cad2l);
     elfConfiguration[MCDS].vtExternalSetUpFeature_ = configPointer->Read("/Mcds/VTExternalSetup", 0x0000cad2l);
@@ -184,16 +187,16 @@ void GuiMcds::readMcdsConfig()
     configPointer->Read("/Mcds/Force_Uppercase", &elfConfiguration[MCDS].forceUpperCase, true);
     configPointer->Read("/Mcds/Boot_From_Ram", &elfConfiguration[MCDS].bootRam, false);
     
-	wxString defaultZoom;
-	defaultZoom.Printf("%2.2f", 1.0);
-	conf[MCDS].zoomVt_ = convertLocale(configPointer->Read("/Mcds/Vt_Zoom", defaultZoom));
-	wxString defaultScale;
-	defaultScale.Printf("%i", 3);
-	conf[MCDS].xScale_ = convertLocale(configPointer->Read("/Mcds/Window_Scale_Factor_X", defaultScale));
+    wxString defaultZoom;
+    defaultZoom.Printf("%2.2f", 1.0);
+    conf[MCDS].zoomVt_ = convertLocale(configPointer->Read("/Mcds/Vt_Zoom", defaultZoom));
+    wxString defaultScale;
+    defaultScale.Printf("%i", 3);
+    conf[MCDS].xScale_ = convertLocale(configPointer->Read("/Mcds/Window_Scale_Factor_X", defaultScale));
 
-	wxString defaultClock;
-	defaultClock.Printf("%1.1f", 2.0);
-	conf[MCDS].clock_ = convertLocale(configPointer->Read("/Mcds/Clock_Speed", defaultClock));
+    wxString defaultClock;
+    defaultClock.Printf("%1.1f", 2.0);
+    conf[MCDS].clock_ = convertLocale(configPointer->Read("/Mcds/Clock_Speed", defaultClock));
 
     conf[MCDS].turboClock_ = configPointer->Read("/Mcds/Turbo_Clock_Speed", "15");
     conf[MCDS].printMode_ = (int)configPointer->Read("/Mcds/Print_Mode", 1l);
@@ -202,9 +205,9 @@ void GuiMcds::readMcdsConfig()
     configPointer->Read("/Mcds/Enable_Real_Cassette", &conf[MCDS].realCassetteLoad_, false);
     configPointer->Read("/Mcds/UseLoadLocation", &conf[MCDS].useLoadLocation_, false);
 
- 	setVtType("MCDS", MCDS, elfConfiguration[MCDS].vtType, false);
+     setVtType("MCDS", MCDS, elfConfiguration[MCDS].vtType, false);
 
-	elfConfiguration[MCDS].vtCharRom_ = configPointer->Read("/Mcds/Vt_Font_Rom_File", "vt100.bin");
+    elfConfiguration[MCDS].vtCharRom_ = configPointer->Read("/Mcds/Vt_Font_Rom_File", "vt100.bin");
 
     long value;
     conf[MCDS].saveStartString_ = configPointer->Read("/Mcds/SaveStart", "0");
@@ -213,10 +216,10 @@ void GuiMcds::readMcdsConfig()
     conf[MCDS].saveStart_ = value;
 
     if (mode_.gui)
-	{
-		XRCCTRL(*this, "MainRomMCDS", wxComboBox)->SetValue(conf[MCDS].rom_[MAINROM1]);
-		XRCCTRL(*this, "MainRom2MCDS", wxComboBox)->SetValue(conf[MCDS].rom_[MAINROM2]);
-		XRCCTRL(*this, "MainRom3MCDS", wxComboBox)->SetValue(conf[MCDS].rom_[MAINROM3]);
+    {
+        XRCCTRL(*this, "MainRomMCDS", wxComboBox)->SetValue(conf[MCDS].rom_[MAINROM1]);
+        XRCCTRL(*this, "MainRom2MCDS", wxComboBox)->SetValue(conf[MCDS].rom_[MAINROM2]);
+        XRCCTRL(*this, "MainRom3MCDS", wxComboBox)->SetValue(conf[MCDS].rom_[MAINROM3]);
         XRCCTRL(*this, "KeyFileMCDS", wxTextCtrl)->SetValue(conf[MCDS].keyFile_);
         XRCCTRL(*this, "PrintFileMCDS", wxTextCtrl)->SetValue(conf[MCDS].printFile_);
         XRCCTRL(*this, "ScreenDumpFileMCDS", wxComboBox)->SetValue(conf[MCDS].screenDumpFile_);
@@ -235,14 +238,14 @@ void GuiMcds::readMcdsConfig()
             XRCCTRL(*this, "VTTypeMCDS", wxChoice)->SetSelection(elfConfiguration[MCDS].vtType);
         XRCCTRL(*this, "McdsForceUC", wxCheckBox)->SetValue(elfConfiguration[MCDS].forceUpperCase);
         
-		XRCCTRL(*this, "VTBaudRChoiceMCDS", wxChoice)->SetSelection(elfConfiguration[MCDS].baudR);
-		XRCCTRL(*this, "VTBaudTChoiceMCDS", wxChoice)->SetSelection(elfConfiguration[MCDS].baudT);
+        XRCCTRL(*this, "VTBaudRChoiceMCDS", wxChoice)->SetSelection(elfConfiguration[MCDS].baudR);
+        XRCCTRL(*this, "VTBaudTChoiceMCDS", wxChoice)->SetSelection(elfConfiguration[MCDS].baudT);
 
         correctZoomVtAndValue(MCDS, "MCDS", SET_SPIN);
 
         XRCCTRL(*this, "McdsBootRam", wxCheckBox)->SetValue(elfConfiguration[MCDS].bootRam);
         
-		XRCCTRL(*this, "StretchDotMCDS", wxCheckBox)->SetValue(conf[MCDS].stretchDot_);
+        XRCCTRL(*this, "StretchDotMCDS", wxCheckBox)->SetValue(conf[MCDS].stretchDot_);
         XRCCTRL(*this, "WavFileMCDS", wxTextCtrl)->SetValue(conf[MCDS].wavFile_[0]);
         XRCCTRL(*this, "WavFile1MCDS", wxTextCtrl)->SetValue(conf[MCDS].wavFile_[1]);
         XRCCTRL(*this, "VolumeMCDS", wxSlider)->SetValue(conf[MCDS].volume_);
@@ -259,10 +262,10 @@ void GuiMcds::readMcdsConfig()
 void GuiMcds::writeMcdsDirConfig()
 {
     writeConfigDir("/Dir/Mcds/Main", conf[MCDS].mainDir_);
-	writeConfigDir("/Dir/Mcds/Main_Rom_File1", conf[MCDS].romDir_[MAINROM1]);
-	writeConfigDir("/Dir/Mcds/Main_Rom_File2", conf[MCDS].romDir_[MAINROM2]);
-	writeConfigDir("/Dir/Mcds/Main_Rom_File3", conf[MCDS].romDir_[MAINROM3]);
-	writeConfigDir("/Dir/Mcds/Vt_Font_Rom_File", elfConfiguration[MCDS].vtCharRomDir_);
+    writeConfigDir("/Dir/Mcds/Main_Rom_File1", conf[MCDS].romDir_[MAINROM1]);
+    writeConfigDir("/Dir/Mcds/Main_Rom_File2", conf[MCDS].romDir_[MAINROM2]);
+    writeConfigDir("/Dir/Mcds/Main_Rom_File3", conf[MCDS].romDir_[MAINROM3]);
+    writeConfigDir("/Dir/Mcds/Vt_Font_Rom_File", elfConfiguration[MCDS].vtCharRomDir_);
     writeConfigDir("/Dir/Mcds/Key_File", conf[MCDS].keyFileDir_);
     writeConfigDir("/Dir/Mcds/Print_File", conf[MCDS].printFileDir_);
     writeConfigDir("/Dir/Mcds/Video_Dump_File", conf[MCDS].screenDumpFileDir_);
@@ -274,10 +277,10 @@ void GuiMcds::writeMcdsConfig()
 {
     writeElfPortConfig(MCDS, "MCDS");
 
-	configPointer->Write("/Mcds/Main_Rom_File1", conf[MCDS].rom_[MAINROM1]);
-	configPointer->Write("/Mcds/Main_Rom_File2", conf[MCDS].rom_[MAINROM2]);
-	configPointer->Write("/Mcds/Main_Rom_File3", conf[MCDS].rom_[MAINROM3]);
-	configPointer->Write("/Mcds/Vt_Font_Rom_File", elfConfiguration[MCDS].vtCharRom_);
+    configPointer->Write("/Mcds/Main_Rom_File1", conf[MCDS].rom_[MAINROM1]);
+    configPointer->Write("/Mcds/Main_Rom_File2", conf[MCDS].rom_[MAINROM2]);
+    configPointer->Write("/Mcds/Main_Rom_File3", conf[MCDS].rom_[MAINROM3]);
+    configPointer->Write("/Mcds/Vt_Font_Rom_File", elfConfiguration[MCDS].vtCharRom_);
     configPointer->Write("/Mcds/Key_File", conf[MCDS].keyFile_);
     configPointer->Write("/Mcds/Print_File", conf[MCDS].printFile_);
     configPointer->Write("/Mcds/Video_Dump_File", conf[MCDS].screenDumpFile_);
@@ -286,8 +289,8 @@ void GuiMcds::writeMcdsConfig()
     configPointer->Write("/Mcds/VtSerialPortChoice", elfConfiguration[MCDS].serialPort_);
 
     configPointer->Write("/Mcds/SerialLog", elfConfiguration[MCDS].serialLog);
-	configPointer->Write("/Mcds/Bell_Frequency", elfConfiguration[MCDS].bellFrequency_);
-	configPointer->Write("/Mcds/VT_Type", elfConfiguration[MCDS].vtType);
+    configPointer->Write("/Mcds/Bell_Frequency", elfConfiguration[MCDS].bellFrequency_);
+    configPointer->Write("/Mcds/VT_Type", elfConfiguration[MCDS].vtType);
     
     long value = elfConfiguration[MCDS].vt52SetUpFeature_.to_ulong();
     configPointer->Write("/Mcds/VT52Setup", value);
@@ -299,9 +302,9 @@ void GuiMcds::writeMcdsConfig()
     configPointer->Write("/Mcds/VT100CharWidth", elfConfiguration[MCDS].vt100CharWidth);
     configPointer->Write("/Mcds/VT52CharWidth", elfConfiguration[MCDS].vt52CharWidth);
 
-	configPointer->Write("/Mcds/Vt_Baud_Receive", elfConfiguration[MCDS].baudR);
-	configPointer->Write("/Mcds/Vt_Baud_Transmit", elfConfiguration[MCDS].baudT);
-	configPointer->Write("/Mcds/Vt_Zoom", conf[MCDS].zoomVt_);
+    configPointer->Write("/Mcds/Vt_Baud_Receive", elfConfiguration[MCDS].baudR);
+    configPointer->Write("/Mcds/Vt_Baud_Transmit", elfConfiguration[MCDS].baudT);
+    configPointer->Write("/Mcds/Vt_Zoom", conf[MCDS].zoomVt_);
     configPointer->Write("/Mcds/Force_Uppercase", elfConfiguration[MCDS].forceUpperCase);
     configPointer->Write("/Mcds/Enable_Vt_Stretch_Dot", conf[MCDS].stretchDot_);
     configPointer->Write("/Mcds/Enable_Vt_External", elfConfiguration[MCDS].vtExternal);
@@ -341,7 +344,7 @@ void GuiMcds::writeMcdsWindowConfig()
 
 void GuiMcds::onMcdsBaudT(wxCommandEvent&event)
 {
-	elfConfiguration[MCDS].baudT = event.GetSelection();
+    elfConfiguration[MCDS].baudT = event.GetSelection();
     elfConfiguration[MCDS].baudR = event.GetSelection();
     XRCCTRL(*this, "VTBaudRChoiceMCDS", wxChoice)->SetSelection(elfConfiguration[MCDS].baudR);
 }
@@ -358,8 +361,8 @@ void GuiMcds::onMcdsForceUpperCase(wxCommandEvent&event)
 void GuiMcds::onBootRam(wxCommandEvent&event)
 {
     elfConfiguration[MCDS].bootRam = event.IsChecked();
-	if (runningComputer_ == MCDS)
-	{
-		p_Mcds->setBootRam(event.IsChecked());
-	}
+    if (runningComputer_ == MCDS)
+    {
+        p_Mcds->setBootRam(event.IsChecked());
+    }
 }

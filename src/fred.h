@@ -37,31 +37,31 @@ private:
 class Fred : public wxFrame, public Cdp1802
 {
 public:
-	Fred(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf, int computerType, Conf computerConf);
-	~Fred();
+    Fred(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf, int computerType, Conf computerConf);
+    ~Fred();
 
     void onClose(wxCloseEvent&WXUNUSED(event));
 
     void configureComputer();
     void initComputer();
-	void reDefineKeys(int *, int *);
-	void keyDown(int keycode);
+    void reDefineKeys(int *, int *);
+    void keyDown(int keycode);
     void keyFound(int key);
-	void keyUp(int keycode);
+    void keyUp(int keycode);
     void cycleKeyboard();
 
-	Byte ef(int flag);
+    Byte ef(int flag);
     Byte ef1();
     Byte ef2();
     Byte ef3();
     Byte ef4();
     Byte in(Byte port, Word address);
-	void out(Byte port, Word address, Byte value);
-	void cycle(int type);
+    void out(Byte port, Word address, Byte value);
+    void cycle(int type);
     void cycleLed();
     void setLedMs(long ms);
 
-	void onRunButton(wxCommandEvent&event);
+    void onRunButton(wxCommandEvent&event);
     void onRunButton();
     void autoBoot();
     void startLoad(bool button);
@@ -69,24 +69,24 @@ public:
     void onCardButton();
     void updateCardReadStatus();
     
-	void startComputer();
-	void writeMemDataType(Word address, Byte type);
-	Byte readMemDataType(Word address, uint64_t* executed);
-	Byte readMem(Word address);
-	void writeMem(Word address, Byte value, bool writeRom);
+    void startComputer();
+    void writeMemDataType(Word address, Byte type);
+    Byte readMemDataType(Word address, uint64_t* executed);
+    Byte readMem(Word address);
+    void writeMem(Word address, Byte value, bool writeRom);
     Byte readMemDebug(Word address);
     void writeMemDebug(Word address, Byte value, bool writeRom);
-	void cpuInstruction();
+    void cpuInstruction();
 
-	void onResetButton(wxCommandEvent&event);
-	void onReset();
+    void onResetButton(wxCommandEvent&event);
+    void onReset();
     void sleepComputer(long ms);
     void resetPressed();
-	
+    
     void cassetteFred(short val);
     void cassetteFred56();
     void cassetteFredPm();
-	void cassetteFred(char val);
+    void cassetteFred(char val);
     void finishStopTape();
     
     void moveWindows();
@@ -117,8 +117,8 @@ private:
     int keyDefA2_[16];
     int keyDefB2_[16];
     
-	int keyDefA_[5];
-	int keyDefB_[5];
+    int keyDefA_[5];
+    int keyDefB_[5];
     int keyDefCoin_;
     
     Byte directionKey_;
@@ -142,26 +142,26 @@ private:
     Byte ef4State_;
     Byte keyValue_;
 
-	Byte tapeRunSwitch_;
+    Byte tapeRunSwitch_;
     bool cardSwitchOn_;
     bool readSwitchOn_;
     bool tapeActivated_;
     bool tapeRecording_;
     int zeroWaveCounter_;
 
-	int inpMode_;
+    int inpMode_;
 
     int ioGroup_;
-	
+    
     short lastSample_;
     char lastSampleChar_;
     int pulseCount_;
     Byte tapeInput_;
-	Byte lastTapeInpt_;
+    Byte lastTapeInpt_;
     Byte polarity_;
     int bitNumber_;
     int silenceCount_;
-	bool tapeEnd_;
+    bool tapeEnd_;
     int toneTime_;
 
     int pulseCountStopTone_;

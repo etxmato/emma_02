@@ -37,7 +37,7 @@
 
 enum
 {
-	FRED1_GAME_NONE,
+    FRED1_GAME_NONE,
     FRED1_GAME_21,
     FRED1_GAME_21_II,
     FRED1_GAME_ACEY_DUECY,
@@ -70,13 +70,13 @@ enum
     FRED1_GAME_PROG_APT,
     FRED1_GAME_SLIDE_PUZZLE_I,
     FRED1_GAME_SLIDE_PUZZLE_II,
-	FRED1_GAME_SPACE_WAR,
+    FRED1_GAME_SPACE_WAR,
     FRED1_GAME_SPOOK,
     FRED1_GAME_SPOT_SPEEDWAY_1,
     FRED1_GAME_SPOT_SPEEDWAY_2,
     FRED1_GAME_TIC_TAC_TOE,
     FRED1_GAME_TARGET_1,
-	FRED1_GAME_END
+    FRED1_GAME_END
 };
 
 wxString gameList[] =
@@ -120,7 +120,7 @@ wxString gameList[] =
     "Spot Speedway 2.bin",
     "Target",
     "Tic-Tac-Toe.bin",
-	""
+    ""
 };
 
 int cardValue[FRED1_GAME_END+1][FRED1_CARDS] =
@@ -300,6 +300,8 @@ void GuiFred::readFred1Config()
 {
     selectedComputer_ = FRED1;
     
+    conf[FRED1].emsConfigNumber_ = 0;
+
     conf[FRED1].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "FRED1" + pathSeparator_;
     conf[FRED1].mainDir_ = readConfigDir("/Dir/FRED1/Main", dataDir_ + "FRED1" + pathSeparator_);
     
@@ -338,7 +340,7 @@ void GuiFred::readFred1Config()
     defaultScale.Printf("%i", 3);
     conf[FRED1].xScale_ = convertLocale(configPointer->Read("/FRED1/Window_Scale_Factor_X", defaultScale));
     
-	elfConfiguration[FRED1].coinArcadeControl_ = false;
+    elfConfiguration[FRED1].coinArcadeControl_ = false;
     configPointer->Read("/FRED1/Enable_Auto_Boot", &elfConfiguration[FRED1].autoBoot, true);
     configPointer->Read("/FRED1/Enable_Stop_Tone", &elfConfiguration[FRED1].stopTone, true);
     configPointer->Read("/FRED1/Enable_Tape_Start", &elfConfiguration[FRED1].tapeStart, true);
@@ -385,7 +387,7 @@ void GuiFred::readFred1Config()
     }
     
     setGameId(conf[FRED1].ram_);
-	guiStartup_ = false;
+    guiStartup_ = false;
 }
 
 void GuiFred::writeFred1DirConfig()
@@ -463,6 +465,8 @@ void GuiFred::readFred2Config()
 {
     selectedComputer_ = FRED1_5;
     
+    conf[FRED1_5].emsConfigNumber_ = 0;
+
     conf[FRED1_5].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "FRED1_5" + pathSeparator_;
     conf[FRED1_5].mainDir_ = readConfigDir("/Dir/FRED1_5/Main", dataDir_ + "FRED1_5" + pathSeparator_);
     
@@ -688,7 +692,7 @@ void GuiFred::onCardButton(wxCommandEvent&event)
 void GuiFred::checkGameFred2(wxString gameName)
 {
     if (gameName == "Fred Demo.bin")
-	{
+    {
         elfConfiguration[FRED1_5].autoBoot = false;
         XRCCTRL(*this,"AutoBootFRED1_5", wxCheckBox)->SetValue(elfConfiguration[FRED1_5].autoBoot);
         elfConfiguration[FRED1_5].keyboardType = FRED_HEX_MODE;
@@ -699,7 +703,7 @@ void GuiFred::checkGameFred2(wxString gameName)
         conf[FRED1_5].wavFile_[0] = "Fred Demo.wav";
         XRCCTRL(*this, "WavFileFRED1_5", wxTextCtrl)->SetValue(conf[FRED1_5].wavFile_[0]);
         downloadWavFiles(FRED1_5);
-	}
+    }
 }
 
 void GuiFred::setGameId(wxString gameName)
@@ -723,20 +727,20 @@ void GuiFred::setGame()
     XRCCTRL(*this,"CardTextFRED1", wxStaticText)->Hide();
     for (int i=0; i<FRED1_CARDS; i++)
     {
-    	buttonText.Printf("CardButtonFRED1_%02d",i);
-    	if (cardValue[conf[FRED1].gameId_][i] == -1)
-    		XRCCTRL(*this,buttonText, wxButton)->Hide();
-    	else
-    	{
-    		XRCCTRL(*this,buttonText, wxButton)->Show();
-    		XRCCTRL(*this,"CardTextFRED1", wxStaticText)->Show();
-    	}
+        buttonText.Printf("CardButtonFRED1_%02d",i);
+        if (cardValue[conf[FRED1].gameId_][i] == -1)
+            XRCCTRL(*this,buttonText, wxButton)->Hide();
+        else
+        {
+            XRCCTRL(*this,buttonText, wxButton)->Show();
+            XRCCTRL(*this,"CardTextFRED1", wxStaticText)->Show();
+        }
     }
     
     setCurrentCardValue();
     
-	if (guiStartup_)
-		return;
+    if (guiStartup_)
+        return;
 
     switch (conf[FRED1].gameId_)
     {
@@ -759,18 +763,18 @@ void GuiFred::setGame()
         case FRED1_GAME_NIMNET:
         case FRED1_GAME_PATTERN_PUZZLE:
         case FRED1_GAME_SLIDE_PUZZLE_II:
-    	case FRED1_GAME_SPACE_WAR:
+        case FRED1_GAME_SPACE_WAR:
         case FRED1_GAME_SPOOK:
         case FRED1_GAME_SPOT_SPEEDWAY_1:
         case FRED1_GAME_SPOT_SPEEDWAY_2:
         case FRED1_GAME_TIC_TAC_TOE:
         case FRED1_GAME_TARGET_1:
             elfConfiguration[FRED1].autoBoot = true;
-    		XRCCTRL(*this,"AutoBootFRED1", wxCheckBox)->SetValue(elfConfiguration[FRED1].autoBoot);
-    		elfConfiguration[FRED1].keyboardType = FRED_HEX_MODE;
-    		XRCCTRL(*this,"KeyPadModeFRED1", wxChoice)->SetSelection(elfConfiguration[FRED1].keyboardType);
-    	break;
-    	    	
+            XRCCTRL(*this,"AutoBootFRED1", wxCheckBox)->SetValue(elfConfiguration[FRED1].autoBoot);
+            elfConfiguration[FRED1].keyboardType = FRED_HEX_MODE;
+            XRCCTRL(*this,"KeyPadModeFRED1", wxChoice)->SetSelection(elfConfiguration[FRED1].keyboardType);
+        break;
+                
         case FRED1_GAME_LUCKYPATH:
         case FRED1_GAME_SLIDE_PUZZLE_I:
         case FRED1_GAME_CARDTRAN:
@@ -880,7 +884,7 @@ void GuiFred::setGame()
         break;
             
         default:
-    	break;
+        break;
     }
 }
 

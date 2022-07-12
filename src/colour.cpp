@@ -141,42 +141,42 @@ END_EVENT_TABLE()
 
 ColourDialog::ColourDialog(wxWindow* parent)
 {
-	wxString button;
-	computerTypeStr_ = p_Main->getSelectedComputerStr();
-	computerType_ = p_Main->getSelectedComputerId();
-	colourChanged_ = true;
-//	wxFont font(8, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+    wxString button;
+    computerTypeStr_ = p_Main->getSelectedComputerStr();
+    computerType_ = p_Main->getSelectedComputerId();
+    colourChanged_ = true;
+//    wxFont font(8, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 
-	screenInfo_ = p_Main->getScreenInfo(computerType_);
+    screenInfo_ = p_Main->getScreenInfo(computerType_);
 
-	if (computerType_ == VICTORY)
-		 screenInfo_.number -= 12;
+    if (computerType_ == VICTORY)
+         screenInfo_.number -= 12;
 
-	wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"colour_" + p_Main->getFontSize() + ".xrc");
-	if (computerType_ == ELFII || computerType_ == SUPERELF || computerType_ == DIY)
-		wxXmlResource::Get()->LoadDialog(this, parent, wxT("ColourDialogElf"));
-	else
-		wxXmlResource::Get()->LoadDialog(this, parent, wxT("ColourDialog"+computerTypeStr_));
-//	XRCCTRL(*this, "ColourText", wxStaticText)->SetFont(font);
-	colourChanged_ = false;
-	
-	if (p_Video == NULL && p_Vt100[UART1] == NULL && p_Vt100[UART2] == NULL)
-		XRCCTRL(*this, "ColourTest", wxButton)->Hide();
+    wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"colour_" + p_Main->getFontSize() + ".xrc");
+    if (computerType_ == ELFII || computerType_ == SUPERELF || computerType_ == DIY)
+        wxXmlResource::Get()->LoadDialog(this, parent, wxT("ColourDialogElf"));
+    else
+        wxXmlResource::Get()->LoadDialog(this, parent, wxT("ColourDialog"+computerTypeStr_));
+//    XRCCTRL(*this, "ColourText", wxStaticText)->SetFont(font);
+    colourChanged_ = false;
+    
+    if (p_Video == NULL && p_Vt100[UART1] == NULL && p_Vt100[UART2] == NULL)
+        XRCCTRL(*this, "ColourTest", wxButton)->Hide();
 
-	XRCCTRL(*this, "ColourTest", wxButton)->Enable(false);
-	XRCCTRL(*this, "ColourSave", wxButton)->Enable(false);
+    XRCCTRL(*this, "ColourTest", wxButton)->Enable(false);
+    XRCCTRL(*this, "ColourSave", wxButton)->Enable(false);
 
-	wxString scaleString;
-	if (computerType_ == ELF || computerType_ == ELFII || computerType_ == SUPERELF || computerType_ == DIY || computerType_ == PICO || computerType_ == ELF2K || computerType_ == MS2000 || computerType_ == MCDS || computerType_ == TMC1800 || computerType_ == STUDIO || computerType_ == COINARCADE || computerType_ == VISICOM || computerType_ == VIP || computerType_ == VIPII || computerType_ == VELF)
-	{
-		scaleString = p_Main->getConfigItem(computerTypeStr_+"/Window_Scale_Factor_X", "3");
-		XRCCTRL(*this, "ScaleXText", wxTextCtrl)->ChangeValue(scaleString);
-	}
-	if (computerType_ == COSMICOS || computerType_ == TMC2000 || computerType_ == ETI || computerType_ == VICTORY || computerType_ == STUDIOIV || computerType_ == NANO)
-	{
-		scaleString = p_Main->getConfigItem(computerTypeStr_+"/Window_Scale_Factor_X", "4");
-		XRCCTRL(*this, "ScaleXText", wxTextCtrl)->ChangeValue(scaleString);
-	}
+    wxString scaleString;
+    if (computerType_ == ELF || computerType_ == ELFII || computerType_ == SUPERELF || computerType_ == DIY || computerType_ == PICO || computerType_ == ELF2K || computerType_ == MS2000 || computerType_ == MCDS || computerType_ == TMC1800 || computerType_ == STUDIO || computerType_ == COINARCADE || computerType_ == VISICOM || computerType_ == VIP || computerType_ == VIPII || computerType_ == VELF)
+    {
+        scaleString = p_Main->getConfigItem(computerTypeStr_+"/Window_Scale_Factor_X", "3");
+        XRCCTRL(*this, "ScaleXText", wxTextCtrl)->ChangeValue(scaleString);
+    }
+    if (computerType_ == COSMICOS || computerType_ == TMC2000 || computerType_ == ETI || computerType_ == VICTORY || computerType_ == STUDIOIV || computerType_ == NANO)
+    {
+        scaleString = p_Main->getConfigItem(computerTypeStr_+"/Window_Scale_Factor_X", "4");
+        XRCCTRL(*this, "ScaleXText", wxTextCtrl)->ChangeValue(scaleString);
+    }
     if (computerType_ == FRED1 || computerType_ == FRED1_5)
     {
         scaleString = p_Main->getConfigItem(computerTypeStr_+"/Window_Scale_Factor_X", "1");
@@ -190,274 +190,274 @@ ColourDialog::ColourDialog(wxWindow* parent)
         XRCCTRL(*this, "ScaleXText", wxTextCtrl)->ChangeValue(scaleString);
     }
 
-	double scaleValue;
-	if (p_Main->toDouble(scaleString, &scaleValue))
-	{
-		scaleValue = (int)scaleValue;
-	}
-	else scaleValue = 3;
+    double scaleValue;
+    if (p_Main->toDouble(scaleString, &scaleValue))
+    {
+        scaleValue = (int)scaleValue;
+    }
+    else scaleValue = 3;
 
-	for (int i=screenInfo_.start; i<screenInfo_.number; i++)
-	{
-		button.Printf("%d", i);
-		button.Trim(false);
-		XRCCTRL(*this, "ColourButton"+button, wxColourPickerCtrl)->SetColour(p_Main->getConfigItem(computerTypeStr_+"/Colour"+button, screenInfo_.defaultColour[i]));
-	}
-	for (int i=0; i<screenInfo_.numberVideo; i++)
-	{
-		button.Printf("%d", i);
-		button.Trim(false);
-		if (i == 1 && computerType_ != MICROBOARD)
-		{
-			wxString valueString;
-			valueString.Printf("%i", p_Main->getConfigItem(computerTypeStr_+"/BorderX"+button, screenInfo_.borderX[i])*(int)scaleValue);
-			XRCCTRL(*this, "BorderX1Text", wxTextCtrl)->ChangeValue(valueString);
-		}
-		else
-			XRCCTRL(*this, "BorderX"+button, wxSpinCtrl)->SetValue(p_Main->getConfigItem(computerTypeStr_+"/BorderX"+button, screenInfo_.borderX[i]));
-		XRCCTRL(*this, "BorderY"+button, wxSpinCtrl)->SetValue(p_Main->getConfigItem(computerTypeStr_+"/BorderY"+button, screenInfo_.borderY[i]));
-	}
+    for (int i=screenInfo_.start; i<screenInfo_.number; i++)
+    {
+        button.Printf("%d", i);
+        button.Trim(false);
+        XRCCTRL(*this, "ColourButton"+button, wxColourPickerCtrl)->SetColour(p_Main->getConfigItem(computerTypeStr_+"/Colour"+button, screenInfo_.defaultColour[i]));
+    }
+    for (int i=0; i<screenInfo_.numberVideo; i++)
+    {
+        button.Printf("%d", i);
+        button.Trim(false);
+        if (i == 1 && computerType_ != MICROBOARD)
+        {
+            wxString valueString;
+            valueString.Printf("%i", p_Main->getConfigItem(computerTypeStr_+"/BorderX"+button, screenInfo_.borderX[i])*(int)scaleValue);
+            XRCCTRL(*this, "BorderX1Text", wxTextCtrl)->ChangeValue(valueString);
+        }
+        else
+            XRCCTRL(*this, "BorderX"+button, wxSpinCtrl)->SetValue(p_Main->getConfigItem(computerTypeStr_+"/BorderX"+button, screenInfo_.borderX[i]));
+        XRCCTRL(*this, "BorderY"+button, wxSpinCtrl)->SetValue(p_Main->getConfigItem(computerTypeStr_+"/BorderY"+button, screenInfo_.borderY[i]));
+    }
 }
 
 ColourDialog::~ColourDialog()
 {
-	if (!colourChanged_)
-		return;
-	if (p_Video != NULL || p_Vt100[UART1] != NULL || p_Vt100[UART2] != NULL)
-	{
-		wxColour colour;
-		wxString button;
-		int borderX;
-		int borderY;
-		for (int i=screenInfo_.start; i<screenInfo_.number; i++)
-		{
-			button.Printf("%d", i);
-			button.Trim(false);
-			colour = p_Main->getConfigItem(computerTypeStr_+"/Colour"+button, screenInfo_.defaultColour[i]);
-			if (p_Video != NULL)
-				p_Video->setColour(i, colour.GetAsString(wxC2S_HTML_SYNTAX));
-			if (p_Vt100[UART1] != NULL)
-				p_Vt100[UART1]->setColour(i, colour.GetAsString(wxC2S_HTML_SYNTAX));
-            if (p_Vt100[UART2] != NULL)
-                p_Vt100[UART2]->setColour(i, colour.GetAsString(wxC2S_HTML_SYNTAX));
-		}
-		for (int i=0; i<screenInfo_.numberVideo; i++)
-		{
-			button.Printf("%d", i);
-			button.Trim(false);
-			borderX = p_Main->getConfigItem(computerTypeStr_+"/BorderX"+button, screenInfo_.borderX[i]);
-			borderY = p_Main->getConfigItem(computerTypeStr_+"/BorderY"+button, screenInfo_.borderY[i]);
-			if (p_Video != NULL)
-				p_Video->setBorder(i, borderX, borderY);
-            if (p_Vt100[UART1] != NULL)
-                p_Vt100[UART1]->setBorder(i, borderX, borderY);
-            if (p_Vt100[UART2] != NULL)
-                p_Vt100[UART2]->setBorder(i, borderX, borderY);
-		}
-		if (computerType_ == COSMICOS || computerType_ == TMC2000 || computerType_ == ETI || computerType_ == VICTORY || computerType_ == STUDIOIV || computerType_ == NANO || computerType_ == VIP ||  computerType_ == VIP2K || computerType_ == VIPII || computerType_ == VELF || computerType_ == ELF || computerType_ == ELFII || computerType_ == SUPERELF || computerType_ == DIY || computerType_ == PICO || computerType_ == ELF2K || computerType_ == MS2000 || computerType_ == MCDS || computerType_ == TMC1800 || computerType_ == STUDIO || computerType_ == COINARCADE || computerType_ == FRED1 || computerType_ == FRED1_5 || computerType_ == VISICOM)
-		{
-			double scale;
-			wxString scaleString = p_Main->getConfigItem(computerTypeStr_+"/Window_Scale_Factor_X", "");
-			if (p_Main->toDouble(scaleString, &scale))
-			{
-				if (!p_Main->isFullScreenFloat())
-				{
-					scale = (int)scale;
-					scaleString.Printf("%i", (int)scale);
-				}
-				if (scale < 1)
-				{
-					scale = 1;
-					scaleString.Printf("%i", (int)scale);
-
-				}
-				if (scale > 5)
-				{
-					scale = 5;
-					scaleString.Printf("%i", (int)scale);
-				}
-				p_Main->setConfigItem(computerTypeStr_+"/Window_Scale_Factor_X", scaleString);
-				if (p_Video != NULL)
-					p_Video->setScale(scale);
-				p_Main->setScale(scaleString);
-			}
-		}
-		if (p_Video != NULL)
-			p_Video->reColour();
-        if (p_Vt100[UART1] != NULL)
-            p_Vt100[UART1]->reColour();
-        if (p_Vt100[UART2] != NULL)
-            p_Vt100[UART2]->reColour();
-	}
-}
-
-void ColourDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
-{
-	wxColour colour;
-	long border;
-	wxString button, scaleString;
-	for (int i=screenInfo_.start; i<screenInfo_.number; i++)
-	{
-		button.Printf("%d", i);
-		button.Trim(false);
-		colour = XRCCTRL(*this, "ColourButton"+button, wxColourPickerCtrl)->GetColour();
-		p_Main->setConfigItem(computerTypeStr_+"/Colour"+button, colour.GetAsString(wxC2S_HTML_SYNTAX));
-	}
-
-	if (computerType_ == COSMICOS || computerType_ == TMC2000 || computerType_ == ETI || computerType_ == VICTORY || computerType_ == STUDIOIV || computerType_ == NANO || computerType_ == VIP ||  computerType_ == VIP2K || computerType_ == VIPII || computerType_ == VELF || computerType_ == ELF || computerType_ == ELFII || computerType_ == SUPERELF || computerType_ == DIY || computerType_ == PICO || computerType_ == ELF2K || computerType_ == MS2000 || computerType_ == MCDS || computerType_ == TMC1800 || computerType_ == STUDIO || computerType_ == COINARCADE || computerType_ == FRED1 || computerType_ == FRED1_5 || computerType_ == VISICOM)
-	{
-		double scale;
-		scaleString = XRCCTRL(*this, "ScaleXText", wxTextCtrl)->GetValue();
-		if (p_Main->toDouble(scaleString, &scale))
-		{
-			if (!p_Main->isFullScreenFloat())
-				scaleString.Printf("%i", (int)scale);
-			if (scale < 1)
-			{
-				scale = 1;
-				scaleString.Printf("%i", (int)scale);
-			}
-			if (scale > 5)
-			{
-				scale = 5;
-				scaleString.Printf("%i", (int)scale);
-			}
-
-			p_Main->setConfigItem(computerTypeStr_+"/Window_Scale_Factor_X", scaleString);
-			p_Main->setScale(scaleString);
-		}
-	}
-	double scaleValue;
-	if (p_Main->toDouble(scaleString, &scaleValue))
-	{
-		scaleValue = (int)scaleValue;
-	}
-	else scaleValue = 3;
-
-	for (int i=0; i<screenInfo_.numberVideo; i++)
-	{
-		button.Printf("%d", i);
-		button.Trim(false);
-        if (i == 1 && computerType_ != MICROBOARD)
-		{
-			wxString valueString = XRCCTRL(*this, "BorderX1Text", wxTextCtrl)->GetValue();
-			valueString.ToLong(&border);
-			border /= scaleValue;
-		}
-		else
-			border = XRCCTRL(*this, "BorderX"+button, wxSpinCtrl)->GetValue();
-		p_Main->setConfigItem(computerTypeStr_+"/BorderX"+button, border);
-		border = XRCCTRL(*this, "BorderY"+button, wxSpinCtrl)->GetValue();
-		p_Main->setConfigItem(computerTypeStr_+"/BorderY"+button, border);
-	}
-	EndModal( wxID_OK );
-}
-
-void ColourDialog::onTest( wxCommandEvent& WXUNUSED(event) )
-{
-	wxString scaleString;
-	if (p_Video != NULL || p_Vt100[UART1] != NULL || p_Vt100[UART2] != NULL)
-	{
-		wxColour colour;
-		wxString button;
-		long borderX;
-		int borderY;
-		for (int i=screenInfo_.start; i<screenInfo_.number; i++)
-		{
-			button.Printf("%d", i);
-			button.Trim(false);
-			colour = XRCCTRL(*this, "ColourButton"+button, wxColourPickerCtrl)->GetColour();
-			if (p_Video != NULL)
-				p_Video->setColour(i, colour.GetAsString(wxC2S_HTML_SYNTAX));
+    if (!colourChanged_)
+        return;
+    if (p_Video != NULL || p_Vt100[UART1] != NULL || p_Vt100[UART2] != NULL)
+    {
+        wxColour colour;
+        wxString button;
+        int borderX;
+        int borderY;
+        for (int i=screenInfo_.start; i<screenInfo_.number; i++)
+        {
+            button.Printf("%d", i);
+            button.Trim(false);
+            colour = p_Main->getConfigItem(computerTypeStr_+"/Colour"+button, screenInfo_.defaultColour[i]);
+            if (p_Video != NULL)
+                p_Video->setColour(i, colour.GetAsString(wxC2S_HTML_SYNTAX));
             if (p_Vt100[UART1] != NULL)
                 p_Vt100[UART1]->setColour(i, colour.GetAsString(wxC2S_HTML_SYNTAX));
             if (p_Vt100[UART2] != NULL)
                 p_Vt100[UART2]->setColour(i, colour.GetAsString(wxC2S_HTML_SYNTAX));
-		}
-
-		if (computerType_ == COSMICOS || computerType_ == TMC2000 || computerType_ == ETI || computerType_ == VICTORY || computerType_ == STUDIOIV || computerType_ == NANO || computerType_ == VIP ||  computerType_ == VIP2K || computerType_ == VIPII || computerType_ == VELF || computerType_ == ELF || computerType_ == ELFII || computerType_ == SUPERELF || computerType_ == DIY || computerType_ == PICO || computerType_ == ELF2K || computerType_ == MS2000 || computerType_ == MCDS || computerType_ == TMC1800 || computerType_ == STUDIO || computerType_ == COINARCADE || computerType_ == FRED1 || computerType_ == FRED1_5 || computerType_ == VISICOM)
-		{
-			double scale;
-			scaleString = XRCCTRL(*this, "ScaleXText", wxTextCtrl)->GetValue();
-			if (p_Main->toDouble(scaleString, &scale))
-			{
-				if (!p_Main->isFullScreenFloat())
-				{
-					scale = (int)scale;
-					scaleString.Printf("%i", (int)scale);
-				}
-				if (scale < 1)
-				{
-					scale = 1;
-					scaleString.Printf("%i", (int)scale);
-				}
-				if (scale > 5)
-				{
-					scale = 5;
-					scaleString.Printf("%i", (int)scale);
-				}
-				XRCCTRL(*this, "ScaleXText", wxTextCtrl)->ChangeValue(scaleString);
-				if (p_Video != NULL)
-					p_Video->setScale(scale);
-				p_Main->setScale(scaleString);
-			}
-		}
-		double scaleValue;
-		if (p_Main->toDouble(scaleString, &scaleValue))
-		{
-			scaleValue = (int)scaleValue;
-		}
-		else scaleValue = 3;
-
-		for (int i=0; i<screenInfo_.numberVideo; i++)
-		{
-			button.Printf("%d", i);
-			button.Trim(false);
-            if (i == 1 && computerType_ != MICROBOARD)
-			{
-				wxString valueString = XRCCTRL(*this, "BorderX1Text", wxTextCtrl)->GetValue();
-				valueString.ToLong(&borderX);
-				borderX /= scaleValue;
-			}
-			else
-				borderX = XRCCTRL(*this, "BorderX"+button, wxSpinCtrl)->GetValue();
-			borderY = XRCCTRL(*this, "BorderY"+button, wxSpinCtrl)->GetValue();
-			if (p_Video != NULL)
-				p_Video->setBorder(i, (int)borderX, borderY);
+        }
+        for (int i=0; i<screenInfo_.numberVideo; i++)
+        {
+            button.Printf("%d", i);
+            button.Trim(false);
+            borderX = p_Main->getConfigItem(computerTypeStr_+"/BorderX"+button, screenInfo_.borderX[i]);
+            borderY = p_Main->getConfigItem(computerTypeStr_+"/BorderY"+button, screenInfo_.borderY[i]);
+            if (p_Video != NULL)
+                p_Video->setBorder(i, borderX, borderY);
             if (p_Vt100[UART1] != NULL)
-                p_Vt100[UART1]->setBorder(i, (int)borderX, borderY);
+                p_Vt100[UART1]->setBorder(i, borderX, borderY);
             if (p_Vt100[UART2] != NULL)
-                p_Vt100[UART2]->setBorder(i, (int)borderX, borderY);
-		}
-		if (p_Video != NULL)
-			p_Video->reColour();
+                p_Vt100[UART2]->setBorder(i, borderX, borderY);
+        }
+        if (computerType_ == COSMICOS || computerType_ == TMC2000 || computerType_ == ETI || computerType_ == VICTORY || computerType_ == STUDIOIV || computerType_ == NANO || computerType_ == VIP ||  computerType_ == VIP2K || computerType_ == VIPII || computerType_ == VELF || computerType_ == ELF || computerType_ == ELFII || computerType_ == SUPERELF || computerType_ == DIY || computerType_ == PICO || computerType_ == ELF2K || computerType_ == MS2000 || computerType_ == MCDS || computerType_ == TMC1800 || computerType_ == STUDIO || computerType_ == COINARCADE || computerType_ == FRED1 || computerType_ == FRED1_5 || computerType_ == VISICOM)
+        {
+            double scale;
+            wxString scaleString = p_Main->getConfigItem(computerTypeStr_+"/Window_Scale_Factor_X", "");
+            if (p_Main->toDouble(scaleString, &scale))
+            {
+                if (!p_Main->isFullScreenFloat())
+                {
+                    scale = (int)scale;
+                    scaleString.Printf("%i", (int)scale);
+                }
+                if (scale < 1)
+                {
+                    scale = 1;
+                    scaleString.Printf("%i", (int)scale);
+
+                }
+                if (scale > 5)
+                {
+                    scale = 5;
+                    scaleString.Printf("%i", (int)scale);
+                }
+                p_Main->setConfigItem(computerTypeStr_+"/Window_Scale_Factor_X", scaleString);
+                if (p_Video != NULL)
+                    p_Video->setScale(scale);
+                p_Main->setScale(scaleString);
+            }
+        }
+        if (p_Video != NULL)
+            p_Video->reColour();
         if (p_Vt100[UART1] != NULL)
             p_Vt100[UART1]->reColour();
         if (p_Vt100[UART2] != NULL)
             p_Vt100[UART2]->reColour();
-	}
+    }
+}
+
+void ColourDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
+{
+    wxColour colour;
+    long border;
+    wxString button, scaleString;
+    for (int i=screenInfo_.start; i<screenInfo_.number; i++)
+    {
+        button.Printf("%d", i);
+        button.Trim(false);
+        colour = XRCCTRL(*this, "ColourButton"+button, wxColourPickerCtrl)->GetColour();
+        p_Main->setConfigItem(computerTypeStr_+"/Colour"+button, colour.GetAsString(wxC2S_HTML_SYNTAX));
+    }
+
+    if (computerType_ == COSMICOS || computerType_ == TMC2000 || computerType_ == ETI || computerType_ == VICTORY || computerType_ == STUDIOIV || computerType_ == NANO || computerType_ == VIP ||  computerType_ == VIP2K || computerType_ == VIPII || computerType_ == VELF || computerType_ == ELF || computerType_ == ELFII || computerType_ == SUPERELF || computerType_ == DIY || computerType_ == PICO || computerType_ == ELF2K || computerType_ == MS2000 || computerType_ == MCDS || computerType_ == TMC1800 || computerType_ == STUDIO || computerType_ == COINARCADE || computerType_ == FRED1 || computerType_ == FRED1_5 || computerType_ == VISICOM)
+    {
+        double scale;
+        scaleString = XRCCTRL(*this, "ScaleXText", wxTextCtrl)->GetValue();
+        if (p_Main->toDouble(scaleString, &scale))
+        {
+            if (!p_Main->isFullScreenFloat())
+                scaleString.Printf("%i", (int)scale);
+            if (scale < 1)
+            {
+                scale = 1;
+                scaleString.Printf("%i", (int)scale);
+            }
+            if (scale > 5)
+            {
+                scale = 5;
+                scaleString.Printf("%i", (int)scale);
+            }
+
+            p_Main->setConfigItem(computerTypeStr_+"/Window_Scale_Factor_X", scaleString);
+            p_Main->setScale(scaleString);
+        }
+    }
+    double scaleValue;
+    if (p_Main->toDouble(scaleString, &scaleValue))
+    {
+        scaleValue = (int)scaleValue;
+    }
+    else scaleValue = 3;
+
+    for (int i=0; i<screenInfo_.numberVideo; i++)
+    {
+        button.Printf("%d", i);
+        button.Trim(false);
+        if (i == 1 && computerType_ != MICROBOARD)
+        {
+            wxString valueString = XRCCTRL(*this, "BorderX1Text", wxTextCtrl)->GetValue();
+            valueString.ToLong(&border);
+            border /= scaleValue;
+        }
+        else
+            border = XRCCTRL(*this, "BorderX"+button, wxSpinCtrl)->GetValue();
+        p_Main->setConfigItem(computerTypeStr_+"/BorderX"+button, border);
+        border = XRCCTRL(*this, "BorderY"+button, wxSpinCtrl)->GetValue();
+        p_Main->setConfigItem(computerTypeStr_+"/BorderY"+button, border);
+    }
+    EndModal( wxID_OK );
+}
+
+void ColourDialog::onTest( wxCommandEvent& WXUNUSED(event) )
+{
+    wxString scaleString;
+    if (p_Video != NULL || p_Vt100[UART1] != NULL || p_Vt100[UART2] != NULL)
+    {
+        wxColour colour;
+        wxString button;
+        long borderX;
+        int borderY;
+        for (int i=screenInfo_.start; i<screenInfo_.number; i++)
+        {
+            button.Printf("%d", i);
+            button.Trim(false);
+            colour = XRCCTRL(*this, "ColourButton"+button, wxColourPickerCtrl)->GetColour();
+            if (p_Video != NULL)
+                p_Video->setColour(i, colour.GetAsString(wxC2S_HTML_SYNTAX));
+            if (p_Vt100[UART1] != NULL)
+                p_Vt100[UART1]->setColour(i, colour.GetAsString(wxC2S_HTML_SYNTAX));
+            if (p_Vt100[UART2] != NULL)
+                p_Vt100[UART2]->setColour(i, colour.GetAsString(wxC2S_HTML_SYNTAX));
+        }
+
+        if (computerType_ == COSMICOS || computerType_ == TMC2000 || computerType_ == ETI || computerType_ == VICTORY || computerType_ == STUDIOIV || computerType_ == NANO || computerType_ == VIP ||  computerType_ == VIP2K || computerType_ == VIPII || computerType_ == VELF || computerType_ == ELF || computerType_ == ELFII || computerType_ == SUPERELF || computerType_ == DIY || computerType_ == PICO || computerType_ == ELF2K || computerType_ == MS2000 || computerType_ == MCDS || computerType_ == TMC1800 || computerType_ == STUDIO || computerType_ == COINARCADE || computerType_ == FRED1 || computerType_ == FRED1_5 || computerType_ == VISICOM)
+        {
+            double scale;
+            scaleString = XRCCTRL(*this, "ScaleXText", wxTextCtrl)->GetValue();
+            if (p_Main->toDouble(scaleString, &scale))
+            {
+                if (!p_Main->isFullScreenFloat())
+                {
+                    scale = (int)scale;
+                    scaleString.Printf("%i", (int)scale);
+                }
+                if (scale < 1)
+                {
+                    scale = 1;
+                    scaleString.Printf("%i", (int)scale);
+                }
+                if (scale > 5)
+                {
+                    scale = 5;
+                    scaleString.Printf("%i", (int)scale);
+                }
+                XRCCTRL(*this, "ScaleXText", wxTextCtrl)->ChangeValue(scaleString);
+                if (p_Video != NULL)
+                    p_Video->setScale(scale);
+                p_Main->setScale(scaleString);
+            }
+        }
+        double scaleValue;
+        if (p_Main->toDouble(scaleString, &scaleValue))
+        {
+            scaleValue = (int)scaleValue;
+        }
+        else scaleValue = 3;
+
+        for (int i=0; i<screenInfo_.numberVideo; i++)
+        {
+            button.Printf("%d", i);
+            button.Trim(false);
+            if (i == 1 && computerType_ != MICROBOARD)
+            {
+                wxString valueString = XRCCTRL(*this, "BorderX1Text", wxTextCtrl)->GetValue();
+                valueString.ToLong(&borderX);
+                borderX /= scaleValue;
+            }
+            else
+                borderX = XRCCTRL(*this, "BorderX"+button, wxSpinCtrl)->GetValue();
+            borderY = XRCCTRL(*this, "BorderY"+button, wxSpinCtrl)->GetValue();
+            if (p_Video != NULL)
+                p_Video->setBorder(i, (int)borderX, borderY);
+            if (p_Vt100[UART1] != NULL)
+                p_Vt100[UART1]->setBorder(i, (int)borderX, borderY);
+            if (p_Vt100[UART2] != NULL)
+                p_Vt100[UART2]->setBorder(i, (int)borderX, borderY);
+        }
+        if (p_Video != NULL)
+            p_Video->reColour();
+        if (p_Vt100[UART1] != NULL)
+            p_Vt100[UART1]->reColour();
+        if (p_Vt100[UART2] != NULL)
+            p_Vt100[UART2]->reColour();
+    }
 }
 
 void ColourDialog::onDefault1( wxCommandEvent& WXUNUSED(event) )
 {
-	colourChanged_ = true;
-	XRCCTRL(*this, "ColourTest", wxButton)->Enable(true);
-	XRCCTRL(*this, "ColourSave", wxButton)->Enable(true);
-	screenInfo_ = p_Main->getScreenInfo(computerType_);
+    colourChanged_ = true;
+    XRCCTRL(*this, "ColourTest", wxButton)->Enable(true);
+    XRCCTRL(*this, "ColourSave", wxButton)->Enable(true);
+    screenInfo_ = p_Main->getScreenInfo(computerType_);
 
-	if (computerType_ == VICTORY)
-		 screenInfo_.number -= 12;
+    if (computerType_ == VICTORY)
+         screenInfo_.number -= 12;
 
-	wxString scaleString = "3";
-	if (computerType_ == ELF || computerType_ == ELFII || computerType_ == SUPERELF || computerType_ == DIY || computerType_ == PICO || computerType_ == ELF2K || computerType_ == MS2000 || computerType_ == MCDS || computerType_ == TMC1800 || computerType_ == STUDIO || computerType_ == COINARCADE || computerType_ == VISICOM || computerType_ == VIP || computerType_ == VIPII || computerType_ == VELF)
-	{
-		XRCCTRL(*this, "ScaleXText", wxTextCtrl)->ChangeValue("3");
-	}
-	if (computerType_ == COSMICOS || computerType_ == TMC2000 || computerType_ == ETI || computerType_ == VICTORY || computerType_ == NANO)
-	{
-		XRCCTRL(*this, "ScaleXText", wxTextCtrl)->ChangeValue("4");
-		scaleString = "4";
-	}
+    wxString scaleString = "3";
+    if (computerType_ == ELF || computerType_ == ELFII || computerType_ == SUPERELF || computerType_ == DIY || computerType_ == PICO || computerType_ == ELF2K || computerType_ == MS2000 || computerType_ == MCDS || computerType_ == TMC1800 || computerType_ == STUDIO || computerType_ == COINARCADE || computerType_ == VISICOM || computerType_ == VIP || computerType_ == VIPII || computerType_ == VELF)
+    {
+        XRCCTRL(*this, "ScaleXText", wxTextCtrl)->ChangeValue("3");
+    }
+    if (computerType_ == COSMICOS || computerType_ == TMC2000 || computerType_ == ETI || computerType_ == VICTORY || computerType_ == NANO)
+    {
+        XRCCTRL(*this, "ScaleXText", wxTextCtrl)->ChangeValue("4");
+        scaleString = "4";
+    }
     if (computerType_ == STUDIOIV)
     {
         if (p_Main->getVideoMode(computerType_) == NTSC)
@@ -481,338 +481,338 @@ void ColourDialog::onDefault1( wxCommandEvent& WXUNUSED(event) )
         scaleString.Printf("%1.1f", 1.5);
         XRCCTRL(*this, "ScaleXText", wxTextCtrl)->ChangeValue(scaleString);
     }
-	double scaleValue;
-	if (p_Main->toDouble(scaleString, &scaleValue))
-	{
-		scaleValue = (int)scaleValue;
-	}
-	else scaleValue = 3;
-	wxString button;
+    double scaleValue;
+    if (p_Main->toDouble(scaleString, &scaleValue))
+    {
+        scaleValue = (int)scaleValue;
+    }
+    else scaleValue = 3;
+    wxString button;
 
-	for (int i=screenInfo_.start; i<screenInfo_.number; i++)
-	{
-		button.Printf("%d", i);
-		button.Trim(false);
-		XRCCTRL(*this, "ColourButton"+button, wxColourPickerCtrl)->SetColour(screenInfo_.defaultColour[i]);
-	}
-	for (int i=0; i<screenInfo_.numberVideo; i++)
-	{
-		button.Printf("%d", i);
-		button.Trim(false);
+    for (int i=screenInfo_.start; i<screenInfo_.number; i++)
+    {
+        button.Printf("%d", i);
+        button.Trim(false);
+        XRCCTRL(*this, "ColourButton"+button, wxColourPickerCtrl)->SetColour(screenInfo_.defaultColour[i]);
+    }
+    for (int i=0; i<screenInfo_.numberVideo; i++)
+    {
+        button.Printf("%d", i);
+        button.Trim(false);
         if (i == 1 && computerType_ != MICROBOARD)
-		{
-			wxString valueString;
-			valueString.Printf("%i", (int)(screenInfo_.borderX[i]*scaleValue));
-			XRCCTRL(*this, "BorderX1Text", wxTextCtrl)->ChangeValue(valueString);
-		}
-		else
-			XRCCTRL(*this, "BorderX"+button, wxSpinCtrl)->SetValue(screenInfo_.borderX[i]);
-		XRCCTRL(*this, "BorderY"+button, wxSpinCtrl)->SetValue(screenInfo_.borderY[i]);
-	}
+        {
+            wxString valueString;
+            valueString.Printf("%i", (int)(screenInfo_.borderX[i]*scaleValue));
+            XRCCTRL(*this, "BorderX1Text", wxTextCtrl)->ChangeValue(valueString);
+        }
+        else
+            XRCCTRL(*this, "BorderX"+button, wxSpinCtrl)->SetValue(screenInfo_.borderX[i]);
+        XRCCTRL(*this, "BorderY"+button, wxSpinCtrl)->SetValue(screenInfo_.borderY[i]);
+    }
 }
 
 void ColourDialog::onDefault2( wxCommandEvent& WXUNUSED(event) )
 {
-	colourChanged_ = true;
-	XRCCTRL(*this, "ColourTest", wxButton)->Enable(true);
-	XRCCTRL(*this, "ColourSave", wxButton)->Enable(true);
-	screenInfo_ = p_Main->getScreenInfo(computerType_);
+    colourChanged_ = true;
+    XRCCTRL(*this, "ColourTest", wxButton)->Enable(true);
+    XRCCTRL(*this, "ColourSave", wxButton)->Enable(true);
+    screenInfo_ = p_Main->getScreenInfo(computerType_);
 
-	wxString button;
-	for (int i=screenInfo_.start+12; i<screenInfo_.number; i++)
-	{
-		button.Printf("%d", i-12);
-		button.Trim(false);
-		XRCCTRL(*this, "ColourButton"+button, wxColourPickerCtrl)->SetColour(screenInfo_.defaultColour[i]);
-	}
-	 screenInfo_.number -= 12;
+    wxString button;
+    for (int i=screenInfo_.start+12; i<screenInfo_.number; i++)
+    {
+        button.Printf("%d", i-12);
+        button.Trim(false);
+        XRCCTRL(*this, "ColourButton"+button, wxColourPickerCtrl)->SetColour(screenInfo_.defaultColour[i]);
+    }
+     screenInfo_.number -= 12;
 }
 
 void ColourDialog::onMonitor1( wxCommandEvent&event)
 {
-	int colourIndex = 2;
+    int colourIndex = 2;
 
-	if (computerType_ == VIP || computerType_ == VIP2K )
-		colourIndex = 12;
+    if (computerType_ == VIP || computerType_ == VIP2K )
+        colourIndex = 12;
 
     if (computerType_ == MICROBOARD )
         colourIndex = 64;
 
-	colourChanged_ = true;
-	XRCCTRL(*this, "ColourTest", wxButton)->Enable(true);
-	XRCCTRL(*this, "ColourSave", wxButton)->Enable(true);
-	switch(event.GetSelection())
-	{
-		case 0:
-		return;
-		case 1:
-			screenInfo_.defaultColour[colourIndex] = "#00ff00";
-			screenInfo_.defaultColour[colourIndex+1] = "#004000";
-			screenInfo_.defaultColour[colourIndex+2] = "#00ff00";
-		break;
-		case 2:
-			screenInfo_.defaultColour[colourIndex] = "#ffc418";
-			screenInfo_.defaultColour[colourIndex+1] = "#401000";
-			screenInfo_.defaultColour[colourIndex+2] = "#ffc418";
-		break;
-		case 3:
-			screenInfo_.defaultColour[colourIndex] = "#ffffff";
-			screenInfo_.defaultColour[colourIndex+1] = "#000000";
-			screenInfo_.defaultColour[colourIndex+2] = "#ffffff";
-		break;
-		case 4:
-			screenInfo_.defaultColour[colourIndex] = "#00ff00";
-			screenInfo_.defaultColour[colourIndex+1] = "#000000";
-			screenInfo_.defaultColour[colourIndex+2] = "#00ff00";
-		break;
-		case 5:
-			screenInfo_.defaultColour[colourIndex] = "#ffc418";
-			screenInfo_.defaultColour[colourIndex+1] = "#000000";
-			screenInfo_.defaultColour[colourIndex+2] = "#ffc418";
-		break;
-	}
-	wxString button;
-	for (int i=colourIndex; i<colourIndex+3; i++)
-	{
-		button.Printf("%d", i);
-		button.Trim(false);
-		XRCCTRL(*this, "ColourButton"+button, wxColourPickerCtrl)->SetColour(screenInfo_.defaultColour[i]);
-	}
+    colourChanged_ = true;
+    XRCCTRL(*this, "ColourTest", wxButton)->Enable(true);
+    XRCCTRL(*this, "ColourSave", wxButton)->Enable(true);
+    switch(event.GetSelection())
+    {
+        case 0:
+        return;
+        case 1:
+            screenInfo_.defaultColour[colourIndex] = "#00ff00";
+            screenInfo_.defaultColour[colourIndex+1] = "#004000";
+            screenInfo_.defaultColour[colourIndex+2] = "#00ff00";
+        break;
+        case 2:
+            screenInfo_.defaultColour[colourIndex] = "#ffc418";
+            screenInfo_.defaultColour[colourIndex+1] = "#401000";
+            screenInfo_.defaultColour[colourIndex+2] = "#ffc418";
+        break;
+        case 3:
+            screenInfo_.defaultColour[colourIndex] = "#ffffff";
+            screenInfo_.defaultColour[colourIndex+1] = "#000000";
+            screenInfo_.defaultColour[colourIndex+2] = "#ffffff";
+        break;
+        case 4:
+            screenInfo_.defaultColour[colourIndex] = "#00ff00";
+            screenInfo_.defaultColour[colourIndex+1] = "#000000";
+            screenInfo_.defaultColour[colourIndex+2] = "#00ff00";
+        break;
+        case 5:
+            screenInfo_.defaultColour[colourIndex] = "#ffc418";
+            screenInfo_.defaultColour[colourIndex+1] = "#000000";
+            screenInfo_.defaultColour[colourIndex+2] = "#ffc418";
+        break;
+    }
+    wxString button;
+    for (int i=colourIndex; i<colourIndex+3; i++)
+    {
+        button.Printf("%d", i);
+        button.Trim(false);
+        XRCCTRL(*this, "ColourButton"+button, wxColourPickerCtrl)->SetColour(screenInfo_.defaultColour[i]);
+    }
 }
 
 void ColourDialog::onMonitor2( wxCommandEvent&event)
 {
-	colourChanged_ = true;
-	XRCCTRL(*this, "ColourTest", wxButton)->Enable(true);
-	XRCCTRL(*this, "ColourSave", wxButton)->Enable(true);
-	switch(event.GetSelection())
-	{
-		case 0:
-		return;
-		case 1:
-			screenInfo_.defaultColour[64] = "#00ff00";
-			screenInfo_.defaultColour[65] = "#004000";
-		break;
-		case 2:
-			screenInfo_.defaultColour[64] = "#ffc418";
-			screenInfo_.defaultColour[65] = "#401000";
-		break;
-		case 3:
-			screenInfo_.defaultColour[64] = "#ffffff";
-			screenInfo_.defaultColour[65] = "#000000";
-		break;
-		case 4:
-			screenInfo_.defaultColour[64] = "#00ff00";
-			screenInfo_.defaultColour[65] = "#000000";
-		break;
-		case 5:
-			screenInfo_.defaultColour[64] = "#ffc418";
-			screenInfo_.defaultColour[65] = "#000000";
-		break;
-	}
-	wxString button;
-	for (int i=64; i<66; i++)
-	{
-		button.Printf("%d", i);
-		button.Trim(false);
-		XRCCTRL(*this, "ColourButton"+button, wxColourPickerCtrl)->SetColour(screenInfo_.defaultColour[i]);
-	}
+    colourChanged_ = true;
+    XRCCTRL(*this, "ColourTest", wxButton)->Enable(true);
+    XRCCTRL(*this, "ColourSave", wxButton)->Enable(true);
+    switch(event.GetSelection())
+    {
+        case 0:
+        return;
+        case 1:
+            screenInfo_.defaultColour[64] = "#00ff00";
+            screenInfo_.defaultColour[65] = "#004000";
+        break;
+        case 2:
+            screenInfo_.defaultColour[64] = "#ffc418";
+            screenInfo_.defaultColour[65] = "#401000";
+        break;
+        case 3:
+            screenInfo_.defaultColour[64] = "#ffffff";
+            screenInfo_.defaultColour[65] = "#000000";
+        break;
+        case 4:
+            screenInfo_.defaultColour[64] = "#00ff00";
+            screenInfo_.defaultColour[65] = "#000000";
+        break;
+        case 5:
+            screenInfo_.defaultColour[64] = "#ffc418";
+            screenInfo_.defaultColour[65] = "#000000";
+        break;
+    }
+    wxString button;
+    for (int i=64; i<66; i++)
+    {
+        button.Printf("%d", i);
+        button.Trim(false);
+        XRCCTRL(*this, "ColourButton"+button, wxColourPickerCtrl)->SetColour(screenInfo_.defaultColour[i]);
+    }
 }
 
 void ColourDialog::onGray( wxCommandEvent& WXUNUSED(event) )
 {
-	colourChanged_ = true;
-	XRCCTRL(*this, "ColourTest", wxButton)->Enable(true);
-	XRCCTRL(*this, "ColourSave", wxButton)->Enable(true);
-	screenInfo_.defaultColour[16] = "#000000";
-	screenInfo_.defaultColour[17] = "#000000";
-	screenInfo_.defaultColour[18] = "#181818";
-	screenInfo_.defaultColour[19] = "#303030";
-	screenInfo_.defaultColour[20] = "#404040";
-	screenInfo_.defaultColour[21] = "#505050";
-	screenInfo_.defaultColour[22] = "#606060";
-	screenInfo_.defaultColour[23] = "#707070";
-	screenInfo_.defaultColour[24] = "#808080";
-	screenInfo_.defaultColour[25] = "#909090";
-	screenInfo_.defaultColour[26] = "#a0a0a0";
-	screenInfo_.defaultColour[27] = "#b0b0b0";
-	screenInfo_.defaultColour[28] = "#c0c0c0";
-	screenInfo_.defaultColour[29] = "#d0d0d0";
-	screenInfo_.defaultColour[30] = "#e0e0e0";
-	screenInfo_.defaultColour[31] = "#ffffff";
-	wxString button;
-	for (int i=16; i<31; i++)
-	{
-		button.Printf("%d", i);
-		button.Trim(false);
-		XRCCTRL(*this, "ColourButton"+button, wxColourPickerCtrl)->SetColour(screenInfo_.defaultColour[i]);
-	}
+    colourChanged_ = true;
+    XRCCTRL(*this, "ColourTest", wxButton)->Enable(true);
+    XRCCTRL(*this, "ColourSave", wxButton)->Enable(true);
+    screenInfo_.defaultColour[16] = "#000000";
+    screenInfo_.defaultColour[17] = "#000000";
+    screenInfo_.defaultColour[18] = "#181818";
+    screenInfo_.defaultColour[19] = "#303030";
+    screenInfo_.defaultColour[20] = "#404040";
+    screenInfo_.defaultColour[21] = "#505050";
+    screenInfo_.defaultColour[22] = "#606060";
+    screenInfo_.defaultColour[23] = "#707070";
+    screenInfo_.defaultColour[24] = "#808080";
+    screenInfo_.defaultColour[25] = "#909090";
+    screenInfo_.defaultColour[26] = "#a0a0a0";
+    screenInfo_.defaultColour[27] = "#b0b0b0";
+    screenInfo_.defaultColour[28] = "#c0c0c0";
+    screenInfo_.defaultColour[29] = "#d0d0d0";
+    screenInfo_.defaultColour[30] = "#e0e0e0";
+    screenInfo_.defaultColour[31] = "#ffffff";
+    wxString button;
+    for (int i=16; i<31; i++)
+    {
+        button.Printf("%d", i);
+        button.Trim(false);
+        XRCCTRL(*this, "ColourButton"+button, wxColourPickerCtrl)->SetColour(screenInfo_.defaultColour[i]);
+    }
 }
 
 void ColourDialog::onCol( wxCommandEvent& WXUNUSED(event) )
 {
-	colourChanged_ = true;
-	XRCCTRL(*this, "ColourTest", wxButton)->Enable(true);
-	XRCCTRL(*this, "ColourSave", wxButton)->Enable(true);
-	screenInfo_.defaultColour[16] = "#000000";
-	screenInfo_.defaultColour[17] = "#000000";
-	screenInfo_.defaultColour[18] = "#21C842";
-	screenInfo_.defaultColour[19] = "#5EDC78";
-	screenInfo_.defaultColour[20] = "#5455ED";
-	screenInfo_.defaultColour[21] = "#7D76FC";
-	screenInfo_.defaultColour[22] = "#D4524D";
-	screenInfo_.defaultColour[23] = "#42EBF5";
-	screenInfo_.defaultColour[24] = "#FC5554";
-	screenInfo_.defaultColour[25] = "#FF7978";
-	screenInfo_.defaultColour[26] = "#D4C154";
-	screenInfo_.defaultColour[27] = "#E6CE80";
-	screenInfo_.defaultColour[28] = "#21B03B";
-	screenInfo_.defaultColour[29] = "#C95BBA";
-	screenInfo_.defaultColour[30] = "#CCCCCC";
-	screenInfo_.defaultColour[31] = "#ffffff";
-	wxString button;
-	for (int i=16; i<31; i++)
-	{
-		button.Printf("%d", i);
-		button.Trim(false);
-		XRCCTRL(*this, "ColourButton"+button, wxColourPickerCtrl)->SetColour(screenInfo_.defaultColour[i]);
-	}
+    colourChanged_ = true;
+    XRCCTRL(*this, "ColourTest", wxButton)->Enable(true);
+    XRCCTRL(*this, "ColourSave", wxButton)->Enable(true);
+    screenInfo_.defaultColour[16] = "#000000";
+    screenInfo_.defaultColour[17] = "#000000";
+    screenInfo_.defaultColour[18] = "#21C842";
+    screenInfo_.defaultColour[19] = "#5EDC78";
+    screenInfo_.defaultColour[20] = "#5455ED";
+    screenInfo_.defaultColour[21] = "#7D76FC";
+    screenInfo_.defaultColour[22] = "#D4524D";
+    screenInfo_.defaultColour[23] = "#42EBF5";
+    screenInfo_.defaultColour[24] = "#FC5554";
+    screenInfo_.defaultColour[25] = "#FF7978";
+    screenInfo_.defaultColour[26] = "#D4C154";
+    screenInfo_.defaultColour[27] = "#E6CE80";
+    screenInfo_.defaultColour[28] = "#21B03B";
+    screenInfo_.defaultColour[29] = "#C95BBA";
+    screenInfo_.defaultColour[30] = "#CCCCCC";
+    screenInfo_.defaultColour[31] = "#ffffff";
+    wxString button;
+    for (int i=16; i<31; i++)
+    {
+        button.Printf("%d", i);
+        button.Trim(false);
+        XRCCTRL(*this, "ColourButton"+button, wxColourPickerCtrl)->SetColour(screenInfo_.defaultColour[i]);
+    }
 }
 
 void ColourDialog::onColourChanged( wxColourPickerEvent& WXUNUSED(event) )
 {
-	colourChanged_ = true;
-	XRCCTRL(*this, "ColourTest", wxButton)->Enable(true);
-	XRCCTRL(*this, "ColourSave", wxButton)->Enable(true);
+    colourChanged_ = true;
+    XRCCTRL(*this, "ColourTest", wxButton)->Enable(true);
+    XRCCTRL(*this, "ColourSave", wxButton)->Enable(true);
 }
 
 void ColourDialog::onBorder( wxSpinEvent& WXUNUSED(event)  )
 {
-	colourChanged_ = true;
-	XRCCTRL(*this, "ColourTest", wxButton)->Enable(true);
-	XRCCTRL(*this, "ColourSave", wxButton)->Enable(true);
+    colourChanged_ = true;
+    XRCCTRL(*this, "ColourTest", wxButton)->Enable(true);
+    XRCCTRL(*this, "ColourSave", wxButton)->Enable(true);
 }
 
 void ColourDialog::onBorderX1Up( wxSpinEvent& WXUNUSED(event) )
 {
-	long value;
-	wxString valueString = XRCCTRL(*this, "BorderX1Text", wxTextCtrl)->GetValue();
-	valueString.ToLong(&value);
+    long value;
+    wxString valueString = XRCCTRL(*this, "BorderX1Text", wxTextCtrl)->GetValue();
+    valueString.ToLong(&value);
 
-	wxString scaleString = XRCCTRL(*this, "ScaleXText", wxTextCtrl)->GetValue();
-	double scaleValue;
+    wxString scaleString = XRCCTRL(*this, "ScaleXText", wxTextCtrl)->GetValue();
+    double scaleValue;
 
-	if (p_Main->toDouble(scaleString, &scaleValue))
-	{
-		scaleValue = (int)scaleValue;
-	}
-	else scaleValue = 3;
+    if (p_Main->toDouble(scaleString, &scaleValue))
+    {
+        scaleValue = (int)scaleValue;
+    }
+    else scaleValue = 3;
 
-	value += scaleValue;
-	if (value >= 100)
-	{
-		value = 100;
-		int floorValue = value / scaleValue;
-		floorValue *= scaleValue;
-	} 
+    value += scaleValue;
+    if (value >= 100)
+    {
+        value = 100;
+        int floorValue = value / scaleValue;
+        floorValue *= scaleValue;
+    } 
 
-	valueString.Printf("%ld", value);
-	XRCCTRL(*this, "BorderX1Text", wxTextCtrl)->ChangeValue(valueString);
+    valueString.Printf("%ld", value);
+    XRCCTRL(*this, "BorderX1Text", wxTextCtrl)->ChangeValue(valueString);
 
-	colourChanged_ = true;
-	XRCCTRL(*this, "ColourTest", wxButton)->Enable(true);
-	XRCCTRL(*this, "ColourSave", wxButton)->Enable(true);
+    colourChanged_ = true;
+    XRCCTRL(*this, "ColourTest", wxButton)->Enable(true);
+    XRCCTRL(*this, "ColourSave", wxButton)->Enable(true);
 }
 
 void ColourDialog::onBorderX1Down( wxSpinEvent& WXUNUSED(event) )
 {
-	long value;
-	wxString valueString = XRCCTRL(*this, "BorderX1Text", wxTextCtrl)->GetValue();
-	valueString.ToLong(&value);
+    long value;
+    wxString valueString = XRCCTRL(*this, "BorderX1Text", wxTextCtrl)->GetValue();
+    valueString.ToLong(&value);
 
-	wxString scaleString = XRCCTRL(*this, "ScaleXText", wxTextCtrl)->GetValue();
-	double scaleValue;
+    wxString scaleString = XRCCTRL(*this, "ScaleXText", wxTextCtrl)->GetValue();
+    double scaleValue;
 
-	if (p_Main->toDouble(scaleString, &scaleValue))
-	{
-		scaleValue = (int)scaleValue;
-	}
-	else scaleValue = 3;
+    if (p_Main->toDouble(scaleString, &scaleValue))
+    {
+        scaleValue = (int)scaleValue;
+    }
+    else scaleValue = 3;
 
-	value -= scaleValue;
-	if (value <= 0)  value = 0;
+    value -= scaleValue;
+    if (value <= 0)  value = 0;
 
-	valueString.Printf("%ld", value);
-	XRCCTRL(*this, "BorderX1Text", wxTextCtrl)->ChangeValue(valueString);
+    valueString.Printf("%ld", value);
+    XRCCTRL(*this, "BorderX1Text", wxTextCtrl)->ChangeValue(valueString);
 
-	colourChanged_ = true;
-	XRCCTRL(*this, "ColourTest", wxButton)->Enable(true);
-	XRCCTRL(*this, "ColourSave", wxButton)->Enable(true);
+    colourChanged_ = true;
+    XRCCTRL(*this, "ColourTest", wxButton)->Enable(true);
+    XRCCTRL(*this, "ColourSave", wxButton)->Enable(true);
 }
 
 void ColourDialog::onBorderX1TextEnter( wxCommandEvent& WXUNUSED(event) )
 {
-	long value;
-	wxString valueString = XRCCTRL(*this, "BorderX1Text", wxTextCtrl)->GetValue();
-	valueString.ToLong(&value);
+    long value;
+    wxString valueString = XRCCTRL(*this, "BorderX1Text", wxTextCtrl)->GetValue();
+    valueString.ToLong(&value);
 
-	wxString scaleString = XRCCTRL(*this, "ScaleXText", wxTextCtrl)->GetValue();
-	double scaleValue;
+    wxString scaleString = XRCCTRL(*this, "ScaleXText", wxTextCtrl)->GetValue();
+    double scaleValue;
 
-	if (p_Main->toDouble(scaleString, &scaleValue))
-	{
-		scaleValue = (int)scaleValue;
-	}
-	else scaleValue = 3;
+    if (p_Main->toDouble(scaleString, &scaleValue))
+    {
+        scaleValue = (int)scaleValue;
+    }
+    else scaleValue = 3;
 
-	int floorValue = value / scaleValue;
-	floorValue *= scaleValue;
-	
-	if (floorValue <= 0)  floorValue = 0;
-	if (floorValue >= 100)  floorValue = 100;
-	if (value - floorValue >= (int)(ceil(scaleValue/2)))  floorValue +=scaleValue; 
+    int floorValue = value / scaleValue;
+    floorValue *= scaleValue;
+    
+    if (floorValue <= 0)  floorValue = 0;
+    if (floorValue >= 100)  floorValue = 100;
+    if (value - floorValue >= (int)(ceil(scaleValue/2)))  floorValue +=scaleValue; 
 
-	valueString.Printf("%i", floorValue);
-	XRCCTRL(*this, "BorderX1Text", wxTextCtrl)->ChangeValue(valueString);
+    valueString.Printf("%i", floorValue);
+    XRCCTRL(*this, "BorderX1Text", wxTextCtrl)->ChangeValue(valueString);
 
-	colourChanged_ = true;
-	XRCCTRL(*this, "ColourTest", wxButton)->Enable(true);
-	XRCCTRL(*this, "ColourSave", wxButton)->Enable(true);
+    colourChanged_ = true;
+    XRCCTRL(*this, "ColourTest", wxButton)->Enable(true);
+    XRCCTRL(*this, "ColourSave", wxButton)->Enable(true);
 }
 
 void ColourDialog::onBorderText( wxCommandEvent& WXUNUSED(event) )
 {
-	if (colourChanged_)  return;
-	colourChanged_ = true;
-	XRCCTRL(*this, "ColourTest", wxButton)->Enable(true);
-	XRCCTRL(*this, "ColourSave", wxButton)->Enable(true);
+    if (colourChanged_)  return;
+    colourChanged_ = true;
+    XRCCTRL(*this, "ColourTest", wxButton)->Enable(true);
+    XRCCTRL(*this, "ColourSave", wxButton)->Enable(true);
 }
 
 void ColourDialog::onScaleXTextEnter( wxCommandEvent& WXUNUSED(event) )
 {
-	wxString valueString = XRCCTRL(*this, "ScaleXText", wxTextCtrl)->GetValue();
-	double value;
+    wxString valueString = XRCCTRL(*this, "ScaleXText", wxTextCtrl)->GetValue();
+    double value;
 
-	if (p_Main->toDouble(valueString, &value))
-	{
-		if (!p_Main->isFullScreenFloat())
-		{
-			valueString.Printf("%i", (int)value);
-		}
-		if (value < 1)
-		{
-			value = 1;
-			valueString.Printf("%i", (int)value);
-		}
-		if (value > 5)
-		{
-			value = 5;
-			valueString.Printf("%i", (int)value);
-		}
-		XRCCTRL(*this, "ScaleXText", wxTextCtrl)->ChangeValue(valueString);
-	}
+    if (p_Main->toDouble(valueString, &value))
+    {
+        if (!p_Main->isFullScreenFloat())
+        {
+            valueString.Printf("%i", (int)value);
+        }
+        if (value < 1)
+        {
+            value = 1;
+            valueString.Printf("%i", (int)value);
+        }
+        if (value > 5)
+        {
+            value = 5;
+            valueString.Printf("%i", (int)value);
+        }
+        XRCCTRL(*this, "ScaleXText", wxTextCtrl)->ChangeValue(valueString);
+    }
 
-	colourChanged_ = true;
-	XRCCTRL(*this, "ColourTest", wxButton)->Enable(true);
-	XRCCTRL(*this, "ColourSave", wxButton)->Enable(true);
+    colourChanged_ = true;
+    XRCCTRL(*this, "ColourTest", wxButton)->Enable(true);
+    XRCCTRL(*this, "ColourSave", wxButton)->Enable(true);
 }

@@ -121,9 +121,9 @@ void Cdp18s640Screen::onPaint(wxPaintEvent&WXUNUSED(event))
     dc.SetBrush(*wxWHITE_BRUSH);
     dc.DrawRectangle(0, 0, 310, 180);
 #if defined(__WXMAC__)
-	wxFont defaultFont(16, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
+    wxFont defaultFont(16, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
 #else
-	wxFont defaultFont(12, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
+    wxFont defaultFont(12, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
 #endif
 
     dc.SetTextForeground(*wxBLACK);

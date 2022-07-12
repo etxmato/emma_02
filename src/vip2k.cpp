@@ -33,8 +33,8 @@ Vip2K::Vip2K(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 :PixieVip2K(title, pos, size, zoom, zoomfactor, computerType)
 {
     computerConfiguration = computerConf;
-	vipConfiguration = conf;
-	clock_ = clock;
+    vipConfiguration = conf;
+    clock_ = clock;
 }
 
 Vip2K::~Vip2K()
@@ -50,14 +50,14 @@ Vip2K::~Vip2K()
             p_Main->saveScrtValues("FPBBASIC");
             break;
     }
-	if (vipConfiguration.vtType != VTNONE)
-	{
-		p_Main->setVtPos(VIP2K, vtPointer->GetPosition());
-		vtPointer->Destroy();
-	}
+    if (vipConfiguration.vtType != VTNONE)
+    {
+        p_Main->setVtPos(VIP2K, vtPointer->GetPosition());
+        vtPointer->Destroy();
+    }
     if (vipConfiguration.vtExternal)
         delete p_Serial;
-	p_Main->setMainPos(VIP2K, GetPosition());
+    p_Main->setMainPos(VIP2K, GetPosition());
 }
 
 void Vip2K::configureComputer()
@@ -67,28 +67,28 @@ void Vip2K::configureComputer()
     inType_[3] = VIP2KCOL3;
     inType_[4] = VIP2KCOL4;
     inType_[5] = VIP2KCOL5;
-	efType_[2] = VIP2KEF2;
-	efType_[3] = VIP2KEF3;
+    efType_[2] = VIP2KEF2;
+    efType_[3] = VIP2KEF3;
 
     cycleType_[COMPUTERCYCLE] = VIPIIKEYCYCLE;
 
-	p_Main->message("Configuring VIP2K Membership Card");
+    p_Main->message("Configuring VIP2K Membership Card");
     
-    p_Main->message("	Input 1-5: keyboard input keycol 1-5");
-    p_Main->message("	EF 2: CTL, EF 3: SHIFT\n");
+    p_Main->message("    Input 1-5: keyboard input keycol 1-5");
+    p_Main->message("    EF 2: CTL, EF 3: SHIFT\n");
 
-	if (vipConfiguration.vtType != VTNONE)
-	{
-		double zoom = p_Main->getZoomVt();
+    if (vipConfiguration.vtType != VTNONE)
+    {
+        double zoom = p_Main->getZoomVt();
         if (vipConfiguration.vtType == VT52)
             vtPointer = new Vt100("Cosmac Vip 2K - VT 52", p_Main->getVtPos(VIP2K), wxSize(640*zoom, 400*zoom), zoom, VIP2K, clock_, vipConfiguration, UART1);
         else
             vtPointer = new Vt100("Cosmac Vip 2K - VT 100", p_Main->getVtPos(VIP2K), wxSize(640*zoom, 400*zoom), zoom, VIP2K, clock_, vipConfiguration, UART1);
-		p_Vt100[UART1] = vtPointer;
+        p_Vt100[UART1] = vtPointer;
         
         vtPointer->configureStandard(vipConfiguration.baudR, vipConfiguration.baudT, 4);
-		vtPointer->Show(vipConfiguration.vtShow);
-	}
+        vtPointer->Show(vipConfiguration.vtShow);
+    }
 
     if (vipConfiguration.vtExternal)
     {
@@ -98,25 +98,25 @@ void Vip2K::configureComputer()
  
     keyboardValue_ = 0;
 
-	resetCpu();
+    resetCpu();
 }
 
 void Vip2K::initComputer()
 {
-	setClear(1);
-	setWait(1);
-	cassetteEf_ = 0;
+    setClear(1);
+    setWait(1);
+    cassetteEf_ = 0;
 
-	for (int i=1; i<6; i++)
-		vipKeyState_[i] = 0xff;
+    for (int i=1; i<6; i++)
+        vipKeyState_[i] = 0xff;
 
     shiftEf_ = 1;
     ctlEf_ = 1;
 
-	stateQ_ = 0;
+    stateQ_ = 0;
 
-	vipRunCommand_ = 0;
-	vipRunState_ = RESETSTATE;
+    vipRunCommand_ = 0;
+    vipRunState_ = RESETSTATE;
 }
 
 void Vip2K::keyDown(int keycode)
@@ -315,44 +315,44 @@ void Vip2K::keyUp(int keycode)
 
 Byte Vip2K::ef(int flag)
 {
-	switch(efType_[flag])
-	{
-		case 0:
-			return 1;
-		break;
+    switch(efType_[flag])
+    {
+        case 0:
+            return 1;
+        break;
 
         case PIXIEEF:
             return efPixie();
         break;
             
-		case VIP2KEF2: // CTL
-			return ctlEf_;
-		break;
+        case VIP2KEF2: // CTL
+            return ctlEf_;
+        break;
 
-		case VIP2KEF3: // SHIFT
-			return shiftEf_;
-		break;
+        case VIP2KEF3: // SHIFT
+            return shiftEf_;
+        break;
 
-		case VT100EF:
-			return vtPointer->ef();
-		break;
+        case VT100EF:
+            return vtPointer->ef();
+        break;
 
         case VTSERIALEF:
             return p_Serial->ef();
         break;
  
-		default:
-			return 1;
-	}
+        default:
+            return 1;
+    }
 }
 
 Byte Vip2K::in(Byte port, Word WXUNUSED(address))
 {
-	Byte ret=255;
+    Byte ret=255;
     Word address;
 
-	switch(inType_[port])
-	{
+    switch(inType_[port])
+    {
         case VIP2KCOL1:
             ret = vipKeyState_[1];
             if ((scratchpadRegister_[3] & 0xf000) == 0)
@@ -391,10 +391,10 @@ Byte Vip2K::in(Byte port, Word WXUNUSED(address))
             }
         break;
             
-		case PIXIEIN:
+        case PIXIEIN:
             p_Main->stopAutoTerminal();
             ret = inPixie();
-		break;
+        break;
 
         case PIXIEOUT:
             outPixie();
@@ -418,22 +418,22 @@ Byte Vip2K::in(Byte port, Word WXUNUSED(address))
             }
         break;
             
-		default:
-			ret = 255;
-	}
-	inValues_[port] = ret;
-	return ret;
+        default:
+            ret = 255;
+    }
+    inValues_[port] = ret;
+    return ret;
 }
 
 void Vip2K::out(Byte port, Word WXUNUSED(address), Byte value)
 {
-	outValues_[port] = value;
+    outValues_[port] = value;
 
-	switch(outType_[port])
-	{
-		case 0:
-			return;
-		break;
+    switch(outType_[port])
+    {
+        case 0:
+            return;
+        break;
 
         case PIXIEIN:
             inPixie();
@@ -443,14 +443,14 @@ void Vip2K::out(Byte port, Word WXUNUSED(address), Byte value)
             outPixie();
         break;
             
-		case VT100OUT:
-			vtPointer->out(value);
-		break;
+        case VT100OUT:
+            vtPointer->out(value);
+        break;
 
-		case VTOUTSERIAL:
-			p_Serial->out(value);
-		break;
-	}
+        case VTOUTSERIAL:
+            p_Serial->out(value);
+        break;
+    }
 }
 
 void Vip2K::switchQ(int value)
@@ -464,15 +464,15 @@ void Vip2K::switchQ(int value)
 
 void Vip2K::cycle(int type)
 {
-	switch(cycleType_[type])
-	{
-		case 0:
-			return;
-		break;
+    switch(cycleType_[type])
+    {
+        case 0:
+            return;
+        break;
 
-		case PIXIECYCLE:
-			cyclePixie();
-		break;
+        case PIXIECYCLE:
+            cyclePixie();
+        break;
 
         case VT100CYCLE:
             vtPointer->cycleVt();
@@ -555,113 +555,113 @@ int Vip2K::translateKey(int key)
 
 void Vip2K::startComputer()
 {
-	resetPressed_ = false;
+    resetPressed_ = false;
 
-	p_Main->setSwName("");
+    p_Main->setSwName("");
 
     if (readProgram(p_Main->getRomDir(VIP2K, MAINROM2), p_Main->getRomFile(VIP2K, MAINROM2), ROM, 0, NONAME))
-	{
-		for (int i=0; i<2048; i++)
-    		sequencerMemory_[i] = mainMemory_[i];
-	}
-	else
-	{
-		for (int i=0; i<2048; i+=8)
-		{
-    		sequencerMemory_[i] = 0xb7;
-    		sequencerMemory_[i+1] = 0xb7;
-    		sequencerMemory_[i+2] = 0xa6;
-    		sequencerMemory_[i+3] = 0xb7;
-    		sequencerMemory_[i+4] = 0xb6;
-    		sequencerMemory_[i+5] = 0xb7;
-    		sequencerMemory_[i+6] = 0xb6;
-    		sequencerMemory_[i+7] = 0xb7;
-    		sequencerMemory_[i+8] = 0xb6;
-		}
-	}
+    {
+        for (int i=0; i<2048; i++)
+            sequencerMemory_[i] = mainMemory_[i];
+    }
+    else
+    {
+        for (int i=0; i<2040; i+=8)
+        {
+            sequencerMemory_[i] = 0xb7;
+            sequencerMemory_[i+1] = 0xb7;
+            sequencerMemory_[i+2] = 0xa6;
+            sequencerMemory_[i+3] = 0xb7;
+            sequencerMemory_[i+4] = 0xb6;
+            sequencerMemory_[i+5] = 0xb7;
+            sequencerMemory_[i+6] = 0xb6;
+            sequencerMemory_[i+7] = 0xb7;
+            sequencerMemory_[i+8] = 0xb6;
+        }
+    }
     
     readProgram(p_Main->getRomDir(VIP2K, MAINROM1), p_Main->getRomFile(VIP2K, MAINROM1), ROM, 0, NONAME);
     
     p_Main->assDefault("mycode", 0x8000, 0xFFFF);
 
-	defineMemoryType(0x8000, 0xFFFF, RAM);
+    defineMemoryType(0x8000, 0xFFFF, RAM);
     initRam(0x8000, 0xFFFF);
 
-	readProgram(p_Main->getRamDir(VIP2K), p_Main->getRamFile(VIP2K), NOCHANGE, 0x8000, SHOWNAME);
+    readProgram(p_Main->getRamDir(VIP2K), p_Main->getRamFile(VIP2K), NOCHANGE, 0x8000, SHOWNAME);
     
     pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);
 
     if (pseudoType_ == "CHIP8")
-		readProgram(p_Main->getChip8Dir(VIP2K), p_Main->getChip8SW(VIP2K), NOCHANGE, 0x8200, SHOWNAME);
-	else
-	{
+        readProgram(p_Main->getChip8Dir(VIP2K), p_Main->getChip8SW(VIP2K), NOCHANGE, 0x8200, SHOWNAME);
+    else
+    {
         if (pseudoType_ == "CHIP8X")
-			readProgram(p_Main->getChip8Dir(VIP2K), p_Main->getChip8SW(VIP2K), NOCHANGE, 0x8300, SHOWNAME);
-		else
-			readProgram(p_Main->getChip8Dir(VIP2K), p_Main->getChip8SW(VIP2K), NOCHANGE, 0x8200, SHOWNAME);
-	}
+            readProgram(p_Main->getChip8Dir(VIP2K), p_Main->getChip8SW(VIP2K), NOCHANGE, 0x8300, SHOWNAME);
+        else
+            readProgram(p_Main->getChip8Dir(VIP2K), p_Main->getChip8SW(VIP2K), NOCHANGE, 0x8200, SHOWNAME);
+    }
 
-	double zoom = p_Main->getZoom();
+    double zoom = p_Main->getZoom();
 
     configurePixie();
-	initPixie();
-	setZoom(zoom);
-	Show(true);
+    initPixie();
+    setZoom(zoom);
+    Show(true);
 
-	p_Main->updateTitle();
+    p_Main->updateTitle();
 
-	cpuCycles_ = 0;
-	instructionCounter_= 0;
-	p_Main->startTime();
-	
-//	p_Video->splashScreen();
+    cpuCycles_ = 0;
+    instructionCounter_= 0;
+    p_Main->startTime();
+    
+//    p_Video->splashScreen();
 
-	threadPointer->Run();
+    threadPointer->Run();
 }
 
 void Vip2K::writeMemDataType(Word address, Byte type)
 {
-	switch (memoryType_[address/256]&0xff)
-	{
-		case RAM:
-		case ROM:
-			if (mainMemoryDataType_[address] != type)
-			{
-				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-				mainMemoryDataType_[address] = type;
-			}
+    switch (memoryType_[address/256]&0xff)
+    {
+        case RAM:
+        case ROM:
+            if (mainMemoryDataType_[address] != type)
+            {
+                p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
+                mainMemoryDataType_[address] = type;
+            }
             increaseExecutedMainMemory(address, type);
-		break;
-	}
+        break;
+    }
 }
 
 Byte Vip2K::readMemDataType(Word address, uint64_t* executed)
 {
-	switch (memoryType_[address/256]&0xff)
-	{
-		case RAM:
-		case ROM:
+    switch (memoryType_[address/256]&0xff)
+    {
+        case RAM:
+        case ROM:
             if (profilerCounter_ != PROFILER_OFF)
                 *executed = mainMemoryExecuted_[address];
-			return mainMemoryDataType_[address];
-		break;
-	}
-	return MEM_TYPE_UNDEFINED;
+            return mainMemoryDataType_[address];
+        break;
+    }
+    return MEM_TYPE_UNDEFINED;
 }
 
 Byte Vip2K::readMem(Word address)
 {
     switch (memoryType_[address/256]&0xff)
-	{
-		case RAM:
+    {
+        case RAM:
         case ROM:
-			return mainMemory_[address];
-		break;
+            return mainMemory_[address];
+        break;
 
         default:
-			return 255;
-		break;
-	}
+            return 255;
+        break;
+    }
 }
 
 Byte Vip2K::readMemDebug(Word address)
@@ -672,21 +672,21 @@ Byte Vip2K::readMemDebug(Word address)
 void Vip2K::writeMem(Word address, Byte value, bool writeRom)
 {
     switch (memoryType_[address/256]&0xff)
-	{
-		case RAM:
-			if (mainMemory_[address]==value)
-				return;
-			mainMemory_[address]=value;
+    {
+        case RAM:
+            if (mainMemory_[address]==value)
+                return;
+            mainMemory_[address]=value;
             if (address >= memoryStart_ && address<(memoryStart_ + 256))
                 p_Main->updateDebugMemory(address);
             p_Main->updateAssTabCheck(address);
-		break;
+        break;
 
-		default:
-			if (writeRom)
-				mainMemory_[address]=value;
-		break;
-	}
+        default:
+            if (writeRom)
+                mainMemory_[address]=value;
+        break;
+    }
 }
 
 void Vip2K::writeMemDebug(Word address, Byte value, bool writeRom)
@@ -716,8 +716,8 @@ void Vip2K::resetPressed()
 
 void Vip2K::moveWindows()
 {
-	if (vipConfiguration.vtType != VTNONE)
-		vtPointer->Move(p_Main->getVtPos(VIP2K));
+    if (vipConfiguration.vtType != VTNONE)
+        vtPointer->Move(p_Main->getVtPos(VIP2K));
 }
 
 void Vip2K::updateTitle(wxString Title)
@@ -730,18 +730,18 @@ void Vip2K::updateTitle(wxString Title)
 
 void Vip2K::onReset()
 {
-	resetPressed_ = true;
+    resetPressed_ = true;
 }
 
 void Vip2K::startComputerRun(bool load)
 {
-	load_ = load;
+    load_ = load;
     p_Main->pload();
 }
 
 void Vip2K::sleepComputer(long ms)
 {
-	threadPointer->Sleep(ms);
+    threadPointer->Sleep(ms);
 }
 
 void Vip2K::terminalSave(wxString fileName, int protocol)
