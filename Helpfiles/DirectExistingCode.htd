@@ -38,7 +38,7 @@ Select the 'Tools' tab (yellow ellipse) and then select the 'Direct Assembler' t
 <IMG SRC="images/assembler_example_start.png" BORDER="0">
 </p>
 <p>
-The Space Invaders game runs somewhere from 0400 to 07FF, so now do a manual walk thru of the code from the current address to 0800. Easiest is to use 'SHIFT arrow down' which will go one page down on every press. What you need to look out for is if all 'code' is shown as 1802 code in 'black/<FONT COLOR="DARK ORCHID">purple</FONT>' text and 'data' is shown in <FONT COLOR="BLUE">blue</FONT>. 
+The Space Invaders game runs somewhere from 0400 to 07FF, so now do a manual walk thru of the code from the current address to 0800. Easiest is to use 'SHIFT arrow down' which will go one page down on every press. What you need to look out for is if all 'code' is shown as 1802 code in 'black/<FONT COLOR="#fc5900">orange</FONT>' text and 'data' is shown in <FONT COLOR="BLUE">blue</FONT>. 
 </p>
 <p>
 Have a closer look at all <FONT COLOR="BLUE">blue</FONT> text as that is code or data which has not been executed by the emulator. So either it is data or maybe the code isn't execute for some reason.

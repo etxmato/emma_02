@@ -7,7 +7,7 @@ To open the Device Ports pop-up window click the DevicePorts button (yellow elli
 <IMG SRC="images/elf_ports.png" BORDER="0">
 </p>
 <p>
-The Device Port window includes all input and output ports as well as EF flags for for all supported Elf HW extensions. All input/output ports can be defined from 1 to 7 depending on what the Elf software expects and what HW you want to emulate. For all not configured HW the controls will be disabled. 
+The Device Port window includes all input and output ports as well as EF flags for for all supported Elf HW extensions. All input/output ports can be defined from 1 to 7 depending on what the Elf software expects and what HW you want to emulate. Controls will be disabled for all HW that is not configured.  
 </p>
 <p>
 <IMG SRC="images/elf_ports_window.png" BORDER="0">

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?> 
 <resource version="2.3.0.1" xmlns="http://www.wxwidgets.org/wxxrc">
 <object class="wxDialog" name="Vip">
 <style>wxCAPTION|wxSTAY_ON_TOP|wxCLOSE_BOX|wxBORDER_THEME|wxTAB_TRAVERSAL</style>
@@ -535,7 +535,7 @@ W: Write to tape
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Re-install 1802 Software completed!</label>
+<label>Re-install 1802 Software completed! </label>
 </object>
 </object>
 </object>

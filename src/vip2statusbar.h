@@ -7,30 +7,30 @@
 class VipIIStatusBar : public wxStatusBar
 {
 public:
-	VipIIStatusBar(wxWindow *parent);
-	~VipIIStatusBar();
+    VipIIStatusBar(wxWindow *parent);
+    ~VipIIStatusBar();
 
-	void initVipIIBar(bool runLed);
-	void updateLedStatus(int card, bool status);
-	void reDrawBar();
+    void initVipIIBar(bool runLed);
+    void updateLedStatus(int card, bool status);
+    void reDrawBar();
 
 private:
-	void displayText();
-	void displayLeds();
-	void deleteBitmaps();
-	void updateStatusBarText();
+    void displayText();
+    void displayLeds();
+    void deleteBitmaps();
+    void updateStatusBarText();
 
 #if defined(__linux__) || defined(__WXMAC__)
-	wxBitmapButton *ledBitmapPointers [4];
+    wxBitmapButton *ledBitmapPointers [4];
 #else
-	wxButton *ledBitmapPointers [4];
+    wxButton *ledBitmapPointers [4];
 #endif
-	bool ledStatus [4];
+    bool ledStatus [4];
 
-	wxBitmap *ledOffPointer;
-	wxBitmap *ledOnPointer;
-	wxMask *maskOn;
-	wxMask *maskOff;
+    wxBitmap *ledOffPointer;
+    wxBitmap *ledOnPointer;
+    wxMask *maskOn;
+    wxMask *maskOff;
 
     int linux_led_pos_y_;
     int statusBarElementMeasure0_;
@@ -39,7 +39,7 @@ private:
     wxString leaderString_;
 
 
-	bool ledsDefined_;
+    bool ledsDefined_;
 };
 
 #endif  //_vipIIstatusbar_H_

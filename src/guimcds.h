@@ -8,26 +8,25 @@ class GuiMcds: public GuiCosmicos
 {
 public:
 
-	GuiMcds(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
-	~GuiMcds() {};
+    GuiMcds(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
+    ~GuiMcds() {};
 
-	void readMcdsConfig();
+    void readMcdsConfig();
     void writeMcdsDirConfig();
-	void writeMcdsConfig();
+    void writeMcdsConfig();
     void readMcdsWindowConfig();
     void writeMcdsWindowConfig();
 
-	void onMcdsBaudT(wxCommandEvent& event);
-	void onMcdsClock(wxCommandEvent& event);
+    void onMcdsBaudT(wxCommandEvent& event);
+    void onMcdsClock(wxCommandEvent& event);
     void onMcdsForceUpperCase(wxCommandEvent& event);
     void onBootRam(wxCommandEvent&event);
 
 protected:
 
 private:
-    wxPoint position_;
     
-	DECLARE_EVENT_TABLE()
+    DECLARE_EVENT_TABLE()
 };
 
 #endif // GUIMCDS_H

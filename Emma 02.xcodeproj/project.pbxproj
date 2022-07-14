@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9902C6D4284414A900064A5B /* libserialport.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9902C6D3284414A800064A5B /* libserialport.a */; };
 		99034D172130AFDC007F1BF3 /* FPL-4.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99034D162130AFDC007F1BF3 /* FPL-4.syntax */; };
 		990416781DCDFE9000487FD7 /* ms2000.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 990416761DCDFE9000487FD7 /* ms2000.cpp */; };
 		99090B0F2118CFD7008B16DA /* FPL-2.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99090B0E2118CFD7008B16DA /* FPL-2.syntax */; };
@@ -16,11 +17,14 @@
 		991B061321694CDD0061D86C /* guivip2k.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 991B061121694CDD0061D86C /* guivip2k.cpp */; };
 		991C84F71E37E66A0084DAFB /* guimicrotutor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 991C84F31E37E66A0084DAFB /* guimicrotutor.cpp */; };
 		991C84F81E37E66A0084DAFB /* microtutor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 991C84F51E37E66A0084DAFB /* microtutor.cpp */; };
+		99321273285FB74F00A7793E /* mac_OS12.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99321272285FB74F00A7793E /* mac_OS12.cpp */; };
 		9935652B21446B7000A329C6 /* STK-2.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 9935652A21446B7000A329C6 /* STK-2.syntax */; };
 		993B164A211EBD9C008A5656 /* GPL-2.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 993B1649211EBD9C008A5656 /* GPL-2.syntax */; };
 		9942DD6D1F3B4D3E00569242 /* base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9942DD6B1F3B4D3E00569242 /* base.cpp */; };
 		9942DD701F3B4D6B00569242 /* http.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9942DD6E1F3B4D6B00569242 /* http.cpp */; };
 		99431DEB1F22213400F5A2D4 /* images_osx in Resources */ = {isa = PBXBuildFile; fileRef = 99431DEA1F22213400F5A2D4 /* images_osx */; };
+		9945417127D80AD1001F5131 /* pico.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9945417027D80AD1001F5131 /* pico.cpp */; };
+		9945417527D80AE7001F5131 /* guipico.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9945417327D80AE6001F5131 /* guipico.cpp */; };
 		99575CBF278795EA00ED912A /* osx_11.ini in Resources */ = {isa = PBXBuildFile; fileRef = 99575CBD278795EA00ED912A /* osx_11.ini */; };
 		99575CC0278795EA00ED912A /* osx_14.ini in Resources */ = {isa = PBXBuildFile; fileRef = 99575CBE278795EA00ED912A /* osx_14.ini */; };
 		995E0CE3254E1378001BA0F8 /* am2020bas.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 995E0CE2254E1378001BA0F8 /* am2020bas.syntax */; };
@@ -34,7 +38,6 @@
 		996FCAE821430C240051F294 /* STK-1.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 996FCAE721430C240051F294 /* STK-1.syntax */; };
 		9970174D23298F2D00D66312 /* cdp1852.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9970174B23298F2C00D66312 /* cdp1852.cpp */; };
 		997646F51A61D5D400FB9B33 /* usb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997646F41A61D5D400FB9B33 /* usb.cpp */; };
-		997647B41A61D5EE00FB9B33 /* mac.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997646F61A61D5EE00FB9B33 /* mac.cpp */; };
 		997647B51A61D5EE00FB9B33 /* guisb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997646F81A61D5EE00FB9B33 /* guisb.cpp */; };
 		997647B61A61D5EE00FB9B33 /* cidelsastatusbar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997646FA1A61D5EE00FB9B33 /* cidelsastatusbar.cpp */; };
 		997647B71A61D5EE00FB9B33 /* comxstatusbar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997646FB1A61D5EE00FB9B33 /* comxstatusbar.cpp */; };
@@ -137,7 +140,6 @@
 		999DE99E2066EA7E005B3A29 /* studioiv.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 999DE99D2066EA7E005B3A29 /* studioiv.cpp */; };
 		999F67A324B8975B00863075 /* amvbas.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 999F67A224B8975A00863075 /* amvbas.syntax */; };
 		99A3116021A75B98003CB022 /* Chip8Vip2K.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99A3115F21A75B98003CB022 /* Chip8Vip2K.syntax */; };
-		99AA43FF20270FAD00474FB4 /* libserialport.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 99AA43FE20270FAD00474FB4 /* libserialport.a */; };
 		99ACCCA022FE99E000DE7617 /* microsetup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99ACCC9E22FE99DF00DE7617 /* microsetup.cpp */; };
 		99AD77891F2BDDA900487F8F /* images in Resources */ = {isa = PBXBuildFile; fileRef = 9973DDFC1A69B7B300B57557 /* images */; };
 		99B2AB8727863D8000C73EB9 /* about_11.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2AB8527863D7F00C73EB9 /* about_11.xrc */; };
@@ -196,6 +198,8 @@
 		99B2AC1B27863EE600C73EB9 /* splash_14.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2AC1927863EE600C73EB9 /* splash_14.xrc */; };
 		99B2AC1F27863EEC00C73EB9 /* vt_11.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2AC1D27863EEB00C73EB9 /* vt_11.xrc */; };
 		99B2AC2027863EEC00C73EB9 /* vt_14.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2AC1E27863EEC00C73EB9 /* vt_14.xrc */; };
+		99BBC9AA281DD37500BD9345 /* guidiy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BBC9A9281DD36F00BD9345 /* guidiy.cpp */; };
+		99BBC9AE281DD39E00BD9345 /* diy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BBC9AC281DD39B00BD9345 /* diy.cpp */; };
 		99BC74FC1DCFDB5C0000D8A9 /* upd765.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BC74FA1DCFDB5C0000D8A9 /* upd765.cpp */; };
 		99BC8688225697B000056D0E /* microtutor2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BC8686225697B000056D0E /* microtutor2.cpp */; };
 		99BCC77B1A6471B500F5226F /* encrypt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BCC77A1A6471B500F5226F /* encrypt.cpp */; };
@@ -223,6 +227,234 @@
 		99F374711CADBBC2000DA615 /* Quest_CC_Lic.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 99F3746C1CADBBC2000DA615 /* Quest_CC_Lic.jpg */; };
 		99F374721CADBBC2000DA615 /* Quest_license.txt in Resources */ = {isa = PBXBuildFile; fileRef = 99F3746D1CADBBC2000DA615 /* Quest_license.txt */; };
 		99F374751CADBBC2000DA615 /* LGPL.txt in Resources */ = {isa = PBXBuildFile; fileRef = 99F374701CADBBC2000DA615 /* LGPL.txt */; };
+		99F37E4A285D1D9200C57417 /* uc1800.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99AD0D48242FF4CD009E9515 /* uc1800.cpp */; };
+		99F37E4B285D1D9200C57417 /* guiuc1800.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99AD0D4C242FF553009E9515 /* guiuc1800.cpp */; };
+		99F37E4C285D1D9200C57417 /* vip2statusbar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647101A61D5EE00FB9B33 /* vip2statusbar.cpp */; };
+		99F37E4D285D1D9200C57417 /* guitmc600.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9976472C1A61D5EE00FB9B33 /* guitmc600.cpp */; };
+		99F37E4E285D1D9200C57417 /* ports.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9976473F1A61D5EE00FB9B33 /* ports.cpp */; };
+		99F37E4F285D1D9200C57417 /* cdp18s640.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997915CE2308266B0063A6F3 /* cdp18s640.cpp */; };
+		99F37E50285D1D9200C57417 /* guidiy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BBC9A9281DD36F00BD9345 /* guidiy.cpp */; };
+		99F37E51285D1D9200C57417 /* til313.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647411A61D5EE00FB9B33 /* til313.cpp */; };
+		99F37E52285D1D9200C57417 /* v1870.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647091A61D5EE00FB9B33 /* v1870.cpp */; };
+		99F37E53285D1D9200C57417 /* pico.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9945417027D80AD1001F5131 /* pico.cpp */; };
+		99F37E54285D1D9200C57417 /* cosmicos.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9976471E1A61D5EE00FB9B33 /* cosmicos.cpp */; };
+		99F37E55285D1D9200C57417 /* printer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647071A61D5EE00FB9B33 /* printer.cpp */; };
+		99F37E56285D1D9200C57417 /* guimembership.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9976470F1A61D5EE00FB9B33 /* guimembership.cpp */; };
+		99F37E57285D1D9200C57417 /* diy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BBC9AC281DD39B00BD9345 /* diy.cpp */; };
+		99F37E58285D1D9200C57417 /* base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9942DD6B1F3B4D3E00569242 /* base.cpp */; };
+		99F37E59285D1D9200C57417 /* sound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647401A61D5EE00FB9B33 /* sound.cpp */; };
+		99F37E5A285D1D9200C57417 /* pecom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9976473E1A61D5EE00FB9B33 /* pecom.cpp */; };
+		99F37E5B285D1D9200C57417 /* guipico.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9945417327D80AE6001F5131 /* guipico.cpp */; };
+		99F37E5C285D1D9200C57417 /* victory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9976470A1A61D5EE00FB9B33 /* victory.cpp */; };
+		99F37E5D285D1D9200C57417 /* guicidelsa.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647701A61D5EE00FB9B33 /* guicidelsa.cpp */; };
+		99F37E5E285D1D9200C57417 /* Blip_Buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647931A61D5EE00FB9B33 /* Blip_Buffer.cpp */; };
+		99F37E5F285D1D9200C57417 /* studio2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647081A61D5EE00FB9B33 /* studio2.cpp */; };
+		99F37E60285D1D9200C57417 /* cosmicoshex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647131A61D5EE00FB9B33 /* cosmicoshex.cpp */; };
+		99F37E61285D1D9200C57417 /* vip2k.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 991B060E21694C0A0061D86C /* vip2k.cpp */; };
+		99F37E62285D1D9200C57417 /* guielf2k.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647231A61D5EE00FB9B33 /* guielf2k.cpp */; };
+		99F37E63285D1D9200C57417 /* encrypt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BCC77A1A6471B500F5226F /* encrypt.cpp */; };
+		99F37E64285D1D9200C57417 /* guieprom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647781A61D5EE00FB9B33 /* guieprom.cpp */; };
+		99F37E65285D1D9200C57417 /* expansion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997646FE1A61D5EE00FB9B33 /* expansion.cpp */; };
+		99F37E66285D1D9200C57417 /* led.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9976474B1A61D5EE00FB9B33 /* led.cpp */; };
+		99F37E67285D1D9200C57417 /* network.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99F263CC220CD4EC00EA87B5 /* network.cpp */; };
+		99F37E68285D1D9200C57417 /* colour.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647011A61D5EE00FB9B33 /* colour.cpp */; };
+		99F37E69285D1D9200C57417 /* keyboard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647811A61D5EE00FB9B33 /* keyboard.cpp */; };
+		99F37E6A285D1D9200C57417 /* video.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9976471A1A61D5EE00FB9B33 /* video.cpp */; };
+		99F37E6B285D1D9200C57417 /* guimain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647041A61D5EE00FB9B33 /* guimain.cpp */; };
+		99F37E6C285D1D9200C57417 /* super.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647511A61D5EE00FB9B33 /* super.cpp */; };
+		99F37E6D285D1D9200C57417 /* Sync_Audio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647251A61D5EE00FB9B33 /* Sync_Audio.cpp */; };
+		99F37E6E285D1D9200C57417 /* guims2000.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 999CFEDB1DCD33070094BEC8 /* guims2000.cpp */; };
+		99F37E6F285D1D9200C57417 /* guidiag.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BE531E1F1556F5006BD353 /* guidiag.cpp */; };
+		99F37E70285D1D9200C57417 /* http.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9942DD6E1F3B4D6B00569242 /* http.cpp */; };
+		99F37E71285D1D9200C57417 /* waveReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9976476D1A61D5EE00FB9B33 /* waveReader.cpp */; };
+		99F37E72285D1D9200C57417 /* waveWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9976476E1A61D5EE00FB9B33 /* waveWriter.cpp */; };
+		99F37E73285D1D9200C57417 /* nano.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9976474D1A61D5EE00FB9B33 /* nano.cpp */; };
+		99F37E74285D1D9200C57417 /* cidelsa.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9976471C1A61D5EE00FB9B33 /* cidelsa.cpp */; };
+		99F37E75285D1D9200C57417 /* ms2000.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 990416761DCDFE9000487FD7 /* ms2000.cpp */; };
+		99F37E76285D1D9200C57417 /* vtsetup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9976472B1A61D5EE00FB9B33 /* vtsetup.cpp */; };
+		99F37E77285D1D9200C57417 /* diagstatusbar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BE53231F156AA1006BD353 /* diagstatusbar.cpp */; };
+		99F37E78285D1D9200C57417 /* fdc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647281A61D5EE00FB9B33 /* fdc.cpp */; };
+		99F37E79285D1D9200C57417 /* guicdp18s020.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99EBEE8A22B55A8300FF276A /* guicdp18s020.cpp */; };
+		99F37E7A285D1D9200C57417 /* studioiv.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 999DE99D2066EA7E005B3A29 /* studioiv.cpp */; };
+		99F37E7B285D1D9200C57417 /* pushbutton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647991A61D5EE00FB9B33 /* pushbutton.cpp */; };
+		99F37E7C285D1D9200C57417 /* computer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647151A61D5EE00FB9B33 /* computer.cpp */; };
+		99F37E7D285D1D9200C57417 /* ide.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647971A61D5EE00FB9B33 /* ide.cpp */; };
+		99F37E7E285D1D9200C57417 /* guistudio2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647731A61D5EE00FB9B33 /* guistudio2.cpp */; };
+		99F37E7F285D1D9200C57417 /* keymap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647331A61D5EE00FB9B33 /* keymap.cpp */; };
+		99F37E80285D1D9200C57417 /* guipopup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647171A61D5EE00FB9B33 /* guipopup.cpp */; };
+		99F37E81285D1D9200C57417 /* velf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99F481791C0E4A0C002BC0AE /* velf.cpp */; };
+		99F37E82285D1D9200C57417 /* tmc2000.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647221A61D5EE00FB9B33 /* tmc2000.cpp */; };
+		99F37E83285D1D9200C57417 /* microtutor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 991C84F51E37E66A0084DAFB /* microtutor.cpp */; };
+		99F37E84285D1D9200C57417 /* about.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647851A61D5EE00FB9B33 /* about.cpp */; };
+		99F37E85285D1D9200C57417 /* vip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647571A61D5EE00FB9B33 /* vip.cpp */; };
+		99F37E86285D1D9200C57417 /* guicomx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647031A61D5EE00FB9B33 /* guicomx.cpp */; };
+		99F37E87285D1D9200C57417 /* configuration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99DA24F01B7D3618003B8560 /* configuration.cpp */; };
+		99F37E88285D1D9200C57417 /* keypad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9976473B1A61D5EE00FB9B33 /* keypad.cpp */; };
+		99F37E89285D1D9200C57417 /* guifred.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997C6D63209E415500A8704E /* guifred.cpp */; };
+		99F37E8A285D1D9200C57417 /* elf2kdisk.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647961A61D5EE00FB9B33 /* elf2kdisk.cpp */; };
+		99F37E8B285D1D9200C57417 /* breakpoints.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9976479C1A61D5EE00FB9B33 /* breakpoints.cpp */; };
+		99F37E8C285D1D9200C57417 /* guisb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997646F81A61D5EE00FB9B33 /* guisb.cpp */; };
+		99F37E8D285D1D9200C57417 /* datadir.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647751A61D5EE00FB9B33 /* datadir.cpp */; };
+		99F37E8E285D1D9200C57417 /* ps2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9976478B1A61D5EE00FB9B33 /* ps2.cpp */; };
+		99F37E8F285D1D9200C57417 /* fred.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997C6D60209E3FF000A8704E /* fred.cpp */; };
+		99F37E90285D1D9200C57417 /* guivip2k.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 991B061121694CDD0061D86C /* guivip2k.cpp */; };
+		99F37E91285D1D9200C57417 /* mc6847.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9976473D1A61D5EE00FB9B33 /* mc6847.cpp */; };
+		99F37E92285D1D9200C57417 /* guitmc2000.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647741A61D5EE00FB9B33 /* guitmc2000.cpp */; };
+		99F37E93285D1D9200C57417 /* guimcds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99F70FEF1E7096C800959A15 /* guimcds.cpp */; };
+		99F37E94285D1D9200C57417 /* guimicrotutor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 991C84F31E37E66A0084DAFB /* guimicrotutor.cpp */; };
+		99F37E95285D1D9200C57417 /* tms9918.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647381A61D5EE00FB9B33 /* tms9918.cpp */; };
+		99F37E96285D1D9200C57417 /* serial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99E4FECE1FF3BD40001A10B7 /* serial.cpp */; };
+		99F37E97285D1D9200C57417 /* elf2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647451A61D5EE00FB9B33 /* elf2.cpp */; };
+		99F37E98285D1D9200C57417 /* pixie.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9976474E1A61D5EE00FB9B33 /* pixie.cpp */; };
+		99F37E99285D1D9200C57417 /* ps2gpio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647641A61D5EE00FB9B33 /* ps2gpio.cpp */; };
+		99F37E9A285D1D9200C57417 /* cdp18s600.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99D9441B22FB2DB6007C384A /* cdp18s600.cpp */; };
+		99F37E9B285D1D9200C57417 /* guicosmicos.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647121A61D5EE00FB9B33 /* guicosmicos.cpp */; };
+		99F37E9C285D1D9200C57417 /* memory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647211A61D5EE00FB9B33 /* memory.cpp */; };
+		99F37E9D285D1D9200C57417 /* guivip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647321A61D5EE00FB9B33 /* guivip.cpp */; };
+		99F37E9E285D1D9200C57417 /* til311.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647681A61D5EE00FB9B33 /* til311.cpp */; };
+		99F37E9F285D1D9200C57417 /* comx35.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647021A61D5EE00FB9B33 /* comx35.cpp */; };
+		99F37EA0285D1D9200C57417 /* vip2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647421A61D5EE00FB9B33 /* vip2.cpp */; };
+		99F37EA1285D1D9200C57417 /* usb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997646F41A61D5D400FB9B33 /* usb.cpp */; };
+		99F37EA2285D1D9200C57417 /* eti660.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647301A61D5EE00FB9B33 /* eti660.cpp */; };
+		99F37EA3285D1D9200C57417 /* debug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BDBDC71E7F3ECA00DB0FB8 /* debug.cpp */; };
+		99F37EA4285D1D9200C57417 /* elf2khex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9976472F1A61D5EE00FB9B33 /* elf2khex.cpp */; };
+		99F37EA5285D1D9200C57417 /* visicom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9976470B1A61D5EE00FB9B33 /* visicom.cpp */; };
+		99F37EA6285D1D9200C57417 /* joycard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647241A61D5EE00FB9B33 /* joycard.cpp */; };
+		99F37EA7285D1D9200C57417 /* iodevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647A51A61D5EE00FB9B33 /* iodevice.cpp */; };
+		99F37EA8285D1D9200C57417 /* member.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647341A61D5EE00FB9B33 /* member.cpp */; };
+		99F37EA9285D1D9200C57417 /* mac.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997646F61A61D5EE00FB9B33 /* mac.cpp */; };
+		99F37EAA285D1D9200C57417 /* cidelsastatusbar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997646FA1A61D5EE00FB9B33 /* cidelsastatusbar.cpp */; };
+		99F37EAB285D1D9200C57417 /* elf2k.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647391A61D5EE00FB9B33 /* elf2k.cpp */; };
+		99F37EAC285D1D9200C57417 /* mcds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99F70FF01E7096C800959A15 /* mcds.cpp */; };
+		99F37EAD285D1D9200C57417 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647061A61D5EE00FB9B33 /* main.cpp */; };
+		99F37EAE285D1D9200C57417 /* cdp1802.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647001A61D5EE00FB9B33 /* cdp1802.cpp */; };
+		99F37EAF285D1D9200C57417 /* til313.full.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647261A61D5EE00FB9B33 /* til313.full.cpp */; };
+		99F37EB0285D1D9200C57417 /* guivelf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99C3BFE61C0CF400006E3D82 /* guivelf.cpp */; };
+		99F37EB1285D1D9200C57417 /* coinarcade.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99677912202E430B00108BB6 /* coinarcade.cpp */; };
+		99F37EB2285D1D9200C57417 /* guieti660.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647721A61D5EE00FB9B33 /* guieti660.cpp */; };
+		99F37EB3285D1D9200C57417 /* upd765.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BC74FA1DCFDB5C0000D8A9 /* upd765.cpp */; };
+		99F37EB4285D1D9200C57417 /* vt100.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647431A61D5EE00FB9B33 /* vt100.cpp */; };
+		99F37EB5285D1D9200C57417 /* splash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 991199421E92ECC30074ADAA /* splash.cpp */; };
+		99F37EB6285D1D9200C57417 /* psave.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9976474F1A61D5EE00FB9B33 /* psave.cpp */; };
+		99F37EB7285D1D9200C57417 /* elf2kswitch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647141A61D5EE00FB9B33 /* elf2kswitch.cpp */; };
+		99F37EB8285D1D9200C57417 /* portext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647351A61D5EE00FB9B33 /* portext.cpp */; };
+		99F37EB9285D1D9200C57417 /* microsetup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99ACCC9E22FE99DF00DE7617 /* microsetup.cpp */; };
+		99F37EBA285D1D9200C57417 /* guicdp18s600.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99D9441922FB2DA8007C384A /* guicdp18s600.cpp */; };
+		99F37EBB285D1D9200C57417 /* functionkey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9976471B1A61D5EE00FB9B33 /* functionkey.cpp */; };
+		99F37EBC285D1D9200C57417 /* guielf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647311A61D5EE00FB9B33 /* guielf.cpp */; };
+		99F37EBD285D1D9200C57417 /* guipecom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9976477C1A61D5EE00FB9B33 /* guipecom.cpp */; };
+		99F37EBE285D1D9200C57417 /* tmc600.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647371A61D5EE00FB9B33 /* tmc600.cpp */; };
+		99F37EBF285D1D9200C57417 /* elf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647891A61D5EE00FB9B33 /* elf.cpp */; };
+		99F37EC0285D1D9200C57417 /* mc6845.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9976473C1A61D5EE00FB9B33 /* mc6845.cpp */; };
+		99F37EC1285D1D9200C57417 /* keymaptmc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 996F46241AA643B300C88AA6 /* keymaptmc.cpp */; };
+		99F37EC2285D1D9200C57417 /* cdp18s020.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99EBEE8822B55A6A00FF276A /* cdp18s020.cpp */; };
+		99F37EC3285D1D9200C57417 /* guivip2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647181A61D5EE00FB9B33 /* guivip2.cpp */; };
+		99F37EC4285D1D9200C57417 /* pio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9960564F230AF26E009FF74F /* pio.cpp */; };
+		99F37EC5285D1D9200C57417 /* i8275.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9976474A1A61D5EE00FB9B33 /* i8275.cpp */; };
+		99F37EC6285D1D9200C57417 /* cdp1852.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9970174B23298F2C00D66312 /* cdp1852.cpp */; };
+		99F37EC7285D1D9200C57417 /* microtutor2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BC8686225697B000056D0E /* microtutor2.cpp */; };
+		99F37EC8285D1D9200C57417 /* ledmodule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9976472D1A61D5EE00FB9B33 /* ledmodule.cpp */; };
+		99F37EC9285D1D9200C57417 /* tmc1800.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647291A61D5EE00FB9B33 /* tmc1800.cpp */; };
+		99F37ECA285D1D9200C57417 /* guinano.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9976477A1A61D5EE00FB9B33 /* guinano.cpp */; };
+		99F37ECB285D1D9200C57417 /* comxstatusbar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997646FB1A61D5EE00FB9B33 /* comxstatusbar.cpp */; };
+		99F37ECC285D1D9200C57417 /* hbelf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9976473A1A61D5EE00FB9B33 /* hbelf.cpp */; };
+		99F37ECE285D1D9200C57417 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9999EAC41CBA8B8800A50336 /* SDL2.framework */; };
+		99F37ED0285D1D9200C57417 /* libcurl.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 99E940F81FF1746900E69E8B /* libcurl.4.dylib */; };
+		99F37ED2285D1D9200C57417 /* images in Resources */ = {isa = PBXBuildFile; fileRef = 9973DDFC1A69B7B300B57557 /* images */; };
+		99F37ED3285D1D9200C57417 /* amvbas.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 999F67A224B8975A00863075 /* amvbas.syntax */; };
+		99F37ED4285D1D9200C57417 /* menuComx_11.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2ABC627863E4C00C73EB9 /* menuComx_11.xrc */; };
+		99F37ED5285D1D9200C57417 /* Quest_license.txt in Resources */ = {isa = PBXBuildFile; fileRef = 99F3746D1CADBBC2000DA615 /* Quest_license.txt */; };
+		99F37ED6285D1D9200C57417 /* menuMembership_14.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2ABE627863E8800C73EB9 /* menuMembership_14.xrc */; };
+		99F37ED7285D1D9200C57417 /* images_osx in Resources */ = {isa = PBXBuildFile; fileRef = 99431DEA1F22213400F5A2D4 /* images_osx */; };
+		99F37ED8285D1D9200C57417 /* Configurations in Resources */ = {isa = PBXBuildFile; fileRef = 9911BF351F477D6200B795BB /* Configurations */; };
+		99F37ED9285D1D9200C57417 /* osx_14.ini in Resources */ = {isa = PBXBuildFile; fileRef = 99575CBE278795EA00ED912A /* osx_14.ini */; };
+		99F37EDA285D1D9200C57417 /* menuComx_14.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2ABC527863E4C00C73EB9 /* menuComx_14.xrc */; };
+		99F37EDB285D1D9200C57417 /* menuTMC600_14.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2ABF827863EA900C73EB9 /* menuTMC600_14.xrc */; };
+		99F37EDC285D1D9200C57417 /* ST2.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99D5FCD6211C938E001F4391 /* ST2.syntax */; };
+		99F37EDD285D1D9200C57417 /* keymap_tmc_11.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2ABBB27863E2400C73EB9 /* keymap_tmc_11.xrc */; };
+		99F37EDE285D1D9200C57417 /* menuFred_14.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2ABDC27863E7600C73EB9 /* menuFred_14.xrc */; };
+		99F37EDF285D1D9200C57417 /* about_14.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2AB8627863D7F00C73EB9 /* about_14.xrc */; };
+		99F37EE0285D1D9200C57417 /* menuPecom_14.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2ABF127863E9B00C73EB9 /* menuPecom_14.xrc */; };
+		99F37EE1285D1D9200C57417 /* vt_11.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2AC1D27863EEB00C73EB9 /* vt_11.xrc */; };
+		99F37EE2285D1D9200C57417 /* FPL-4.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99034D162130AFDC007F1BF3 /* FPL-4.syntax */; };
+		99F37EE3285D1D9200C57417 /* CARDTRAN.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99D92E72211AA0AD007D868E /* CARDTRAN.syntax */; };
+		99F37EE4285D1D9200C57417 /* menu_Cas_Mem_11.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2ABC027863E4300C73EB9 /* menu_Cas_Mem_11.xrc */; };
+		99F37EE5285D1D9200C57417 /* menuMS2000_11.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2ABED27863E9500C73EB9 /* menuMS2000_11.xrc */; };
+		99F37EE6285D1D9200C57417 /* menuMCDS_11.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2ABE227863E8200C73EB9 /* menuMCDS_11.xrc */; };
+		99F37EE7285D1D9200C57417 /* configuration_14.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2AB9727863DD300C73EB9 /* configuration_14.xrc */; };
+		99F37EE8285D1D9200C57417 /* FEL-1.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99F8CF00211A155E002F02C6 /* FEL-1.syntax */; };
+		99F37EE9285D1D9200C57417 /* cassette_14.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2AB8C27863DB800C73EB9 /* cassette_14.xrc */; };
+		99F37EEA285D1D9200C57417 /* menuElf2K_14.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2ABD727863E6F00C73EB9 /* menuElf2K_14.xrc */; };
+		99F37EEB285D1D9200C57417 /* menuMembership_11.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2ABE727863E8800C73EB9 /* menuMembership_11.xrc */; };
+		99F37EEC285D1D9200C57417 /* sb_11.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2AC1227863EDA00C73EB9 /* sb_11.xrc */; };
+		99F37EED285D1D9200C57417 /* colour_14.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2AB9127863DC600C73EB9 /* colour_14.xrc */; };
+		99F37EEE285D1D9200C57417 /* GPL-4.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99F8CF02211A1567002F02C6 /* GPL-4.syntax */; };
+		99F37EEF285D1D9200C57417 /* keymap_tmc_14.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2ABBA27863E2400C73EB9 /* keymap_tmc_14.xrc */; };
+		99F37EF0285D1D9200C57417 /* splash_14.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2AC1927863EE600C73EB9 /* splash_14.xrc */; };
+		99F37EF1285D1D9200C57417 /* STK-1.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 996FCAE721430C240051F294 /* STK-1.syntax */; };
+		99F37EF2285D1D9200C57417 /* menuVelf_11.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2ABFC27863EB000C73EB9 /* menuVelf_11.xrc */; };
+		99F37EF3285D1D9200C57417 /* menuVelf_14.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2ABFD27863EB000C73EB9 /* menuVelf_14.xrc */; };
+		99F37EF4285D1D9200C57417 /* menuElf2K_11.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2ABD627863E6E00C73EB9 /* menuElf2K_11.xrc */; };
+		99F37EF5285D1D9200C57417 /* GPL-A_ROM.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 9960FF22211953CE00DB2EDD /* GPL-A_ROM.syntax */; };
+		99F37EF6285D1D9200C57417 /* microsetup_14.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2AC0827863EC600C73EB9 /* microsetup_14.xrc */; };
+		99F37EF7285D1D9200C57417 /* emma_02.htb in Resources */ = {isa = PBXBuildFile; fileRef = 999899A31F96A72600870480 /* emma_02.htb */; };
+		99F37EF8285D1D9200C57417 /* Test_Word.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99C9EABA2145C1FC00C1EA03 /* Test_Word.syntax */; };
+		99F37EF9285D1D9200C57417 /* STK-2.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 9935652A21446B7000A329C6 /* STK-2.syntax */; };
+		99F37EFA285D1D9200C57417 /* keymap_14.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2ABB527863E1E00C73EB9 /* keymap_14.xrc */; };
+		99F37EFB285D1D9200C57417 /* menuCosmicos_11.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2ABCB27863E5C00C73EB9 /* menuCosmicos_11.xrc */; };
+		99F37EFC285D1D9200C57417 /* main_mac_11.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99952FE0277E5CB70068CD27 /* main_mac_11.xrc */; };
+		99F37EFD285D1D9200C57417 /* menuMS2000_14.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2ABEC27863E9500C73EB9 /* menuMS2000_14.xrc */; };
+		99F37EFE285D1D9200C57417 /* ChipEti.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99D5FCD4211C938E001F4391 /* ChipEti.syntax */; };
+		99F37EFF285D1D9200C57417 /* Chip8Vip2K.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99A3115F21A75B98003CB022 /* Chip8Vip2K.syntax */; };
+		99F37F00285D1D9200C57417 /* diag_14.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2ABA327863DF000C73EB9 /* diag_14.xrc */; };
+		99F37F01285D1D9200C57417 /* about_11.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2AB8527863D7F00C73EB9 /* about_11.xrc */; };
+		99F37F02285D1D9200C57417 /* Chip8Studio.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99FA47C3211E0DC000C399AE /* Chip8Studio.syntax */; };
+		99F37F03285D1D9200C57417 /* Chip8.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99D5FCD5211C938E001F4391 /* Chip8.syntax */; };
+		99F37F04285D1D9200C57417 /* copyright.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 99F3746A1CADBB93000DA615 /* copyright.rtf */; };
+		99F37F05285D1D9200C57417 /* ST4.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99D6218F211B402200E1A471 /* ST4.syntax */; };
+		99F37F06285D1D9200C57417 /* data in Resources */ = {isa = PBXBuildFile; fileRef = 996B97391B24116B009827BF /* data */; };
+		99F37F07285D1D9200C57417 /* functionkey_14.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2ABB027863E1200C73EB9 /* functionkey_14.xrc */; };
+		99F37F08285D1D9200C57417 /* colour_11.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2AB9227863DC600C73EB9 /* colour_11.xrc */; };
+		99F37F09285D1D9200C57417 /* GPL-A_RAM.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99090B102118D720008B16DA /* GPL-A_RAM.syntax */; };
+		99F37F0A285D1D9200C57417 /* SuperChip.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 995FE8902516136300F96DB8 /* SuperChip.syntax */; };
+		99F37F0B285D1D9200C57417 /* keymap_11.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2ABB627863E1E00C73EB9 /* keymap_11.xrc */; };
+		99F37F0C285D1D9200C57417 /* am2020bas.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 995E0CE2254E1378001BA0F8 /* am2020bas.syntax */; };
+		99F37F0D285D1D9200C57417 /* ports_14.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2AC0E27863ED300C73EB9 /* ports_14.xrc */; };
+		99F37F0E285D1D9200C57417 /* sb_14.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2AC1327863EDA00C73EB9 /* sb_14.xrc */; };
+		99F37F0F285D1D9200C57417 /* Chip8X.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99D5FCD3211C938E001F4391 /* Chip8X.syntax */; };
+		99F37F10285D1D9200C57417 /* LGPL.txt in Resources */ = {isa = PBXBuildFile; fileRef = 99F374701CADBBC2000DA615 /* LGPL.txt */; };
+		99F37F11285D1D9200C57417 /* GPL-3.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 9997F7BC212494FA0036A1FC /* GPL-3.syntax */; };
+		99F37F12285D1D9200C57417 /* am4kbas.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99C567BB24CC4DFB00F11A84 /* am4kbas.syntax */; };
+		99F37F13285D1D9200C57417 /* configuration_11.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2AB9827863DD400C73EB9 /* configuration_11.xrc */; };
+		99F37F14285D1D9200C57417 /* eprom_14.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2ABAA27863DFF00C73EB9 /* eprom_14.xrc */; };
+		99F37F15285D1D9200C57417 /* Chip8Elf.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 995E76EF22B2E5D200817B08 /* Chip8Elf.syntax */; };
+		99F37F16285D1D9200C57417 /* GPL-2.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 993B1649211EBD9C008A5656 /* GPL-2.syntax */; };
+		99F37F17285D1D9200C57417 /* vt_14.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2AC1E27863EEC00C73EB9 /* vt_14.xrc */; };
+		99F37F18285D1D9200C57417 /* datadir_11.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2AB9D27863DE300C73EB9 /* datadir_11.xrc */; };
+		99F37F19285D1D9200C57417 /* menuElf_14.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2ABD127863E6200C73EB9 /* menuElf_14.xrc */; };
+		99F37F1A285D1D9200C57417 /* menuElf_11.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2ABD027863E6200C73EB9 /* menuElf_11.xrc */; };
+		99F37F1B285D1D9200C57417 /* cassette_11.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2AB8B27863DB800C73EB9 /* cassette_11.xrc */; };
+		99F37F1C285D1D9200C57417 /* menuVip_11.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2AC0227863EBF00C73EB9 /* menuVip_11.xrc */; };
+		99F37F1D285D1D9200C57417 /* menuMCDS_14.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2ABE127863E8200C73EB9 /* menuMCDS_14.xrc */; };
+		99F37F1E285D1D9200C57417 /* functionkey_11.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2ABAF27863E1200C73EB9 /* functionkey_11.xrc */; };
+		99F37F1F285D1D9200C57417 /* menu_Cas_Mem_14.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2ABC127863E4400C73EB9 /* menu_Cas_Mem_14.xrc */; };
+		99F37F20285D1D9200C57417 /* menuTMC600_11.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2ABF727863EA900C73EB9 /* menuTMC600_11.xrc */; };
+		99F37F21285D1D9200C57417 /* menuFred_11.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2ABDB27863E7600C73EB9 /* menuFred_11.xrc */; };
+		99F37F22285D1D9200C57417 /* pseudo.def in Resources */ = {isa = PBXBuildFile; fileRef = 996C1614212F3F130061C30B /* pseudo.def */; };
+		99F37F23285D1D9200C57417 /* eprom_11.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2ABA927863DFF00C73EB9 /* eprom_11.xrc */; };
+		99F37F24285D1D9200C57417 /* osx_11.ini in Resources */ = {isa = PBXBuildFile; fileRef = 99575CBD278795EA00ED912A /* osx_11.ini */; };
+		99F37F25285D1D9200C57417 /* menuPecom_11.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2ABF227863E9C00C73EB9 /* menuPecom_11.xrc */; };
+		99F37F26285D1D9200C57417 /* diag_11.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2ABA427863DF000C73EB9 /* diag_11.xrc */; };
+		99F37F27285D1D9200C57417 /* menuVip_14.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2AC0327863EBF00C73EB9 /* menuVip_14.xrc */; };
+		99F37F28285D1D9200C57417 /* ports_11.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2AC0D27863ED300C73EB9 /* ports_11.xrc */; };
+		99F37F29285D1D9200C57417 /* datadir_14.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2AB9E27863DE300C73EB9 /* datadir_14.xrc */; };
+		99F37F2A285D1D9200C57417 /* Quest_CC_Lic.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 99F3746C1CADBBC2000DA615 /* Quest_CC_Lic.jpg */; };
+		99F37F2B285D1D9200C57417 /* microsetup_11.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2AC0727863EC600C73EB9 /* microsetup_11.xrc */; };
+		99F37F2C285D1D9200C57417 /* main_mac_14.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99952FDD277E5CAF0068CD27 /* main_mac_14.xrc */; };
+		99F37F2D285D1D9200C57417 /* FPL-2.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99090B0E2118CFD7008B16DA /* FPL-2.syntax */; };
+		99F37F2E285D1D9200C57417 /* splash_11.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2AC1827863EE600C73EB9 /* splash_11.xrc */; };
+		99F37F2F285D1D9200C57417 /* menuCosmicos_14.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2ABCC27863E5C00C73EB9 /* menuCosmicos_14.xrc */; };
+		99F37F39285D215800C57417 /* libserialport.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 99F37F38285D215300C57417 /* libserialport.a */; };
 		99F4817B1C0E4A0C002BC0AE /* velf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99F481791C0E4A0C002BC0AE /* velf.cpp */; };
 		99F70FF31E7096C800959A15 /* guimcds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99F70FEF1E7096C800959A15 /* guimcds.cpp */; };
 		99F70FF41E7096C800959A15 /* mcds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99F70FF01E7096C800959A15 /* mcds.cpp */; };
@@ -234,6 +466,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9902C6D3284414A800064A5B /* libserialport.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libserialport.a; path = ../../../../opt/homebrew/Cellar/libserialport/0.1.1/lib/libserialport.a; sourceTree = "<group>"; };
 		99034D162130AFDC007F1BF3 /* FPL-4.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "FPL-4.syntax"; sourceTree = "<group>"; };
 		990416761DCDFE9000487FD7 /* ms2000.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ms2000.cpp; path = src/ms2000.cpp; sourceTree = "<group>"; };
 		990416771DCDFE9000487FD7 /* ms2000.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ms2000.h; path = src/ms2000.h; sourceTree = "<group>"; };
@@ -337,6 +570,7 @@
 		991C84F41E37E66A0084DAFB /* guimicrotutor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = guimicrotutor.h; path = src/guimicrotutor.h; sourceTree = "<group>"; };
 		991C84F51E37E66A0084DAFB /* microtutor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = microtutor.cpp; path = src/microtutor.cpp; sourceTree = "<group>"; };
 		991C84F61E37E66A0084DAFB /* microtutor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = microtutor.h; path = src/microtutor.h; sourceTree = "<group>"; };
+		99321272285FB74F00A7793E /* mac_OS12.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mac_OS12.cpp; path = src/mac_OS12.cpp; sourceTree = "<group>"; };
 		9935652A21446B7000A329C6 /* STK-2.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "STK-2.syntax"; sourceTree = "<group>"; };
 		993B1649211EBD9C008A5656 /* GPL-2.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "GPL-2.syntax"; sourceTree = "<group>"; };
 		9942DD6B1F3B4D3E00569242 /* base.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = base.cpp; path = src/base.cpp; sourceTree = "<group>"; };
@@ -350,6 +584,10 @@
 		9942DD751F3B4DBE00569242 /* SDL_audioin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SDL_audioin.h; path = src/SDL_audioin.h; sourceTree = "<group>"; };
 		99431DEA1F22213400F5A2D4 /* images_osx */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images_osx; sourceTree = "<group>"; };
 		9943A6691F3E42F2001F0222 /* Emma 02.rc */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Emma 02.rc"; sourceTree = "<group>"; };
+		9945416F27D80AD1001F5131 /* pico.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pico.h; path = src/pico.h; sourceTree = "<group>"; };
+		9945417027D80AD1001F5131 /* pico.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = pico.cpp; path = src/pico.cpp; sourceTree = "<group>"; };
+		9945417327D80AE6001F5131 /* guipico.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = guipico.cpp; path = src/guipico.cpp; sourceTree = "<group>"; };
+		9945417427D80AE6001F5131 /* guipico.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = guipico.h; path = src/guipico.h; sourceTree = "<group>"; };
 		99575CBD278795EA00ED912A /* osx_11.ini */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = osx_11.ini; sourceTree = "<group>"; };
 		99575CBE278795EA00ED912A /* osx_14.ini */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = osx_14.ini; sourceTree = "<group>"; };
 		995E0CE2254E1378001BA0F8 /* am2020bas.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = am2020bas.syntax; sourceTree = "<group>"; };
@@ -389,7 +627,7 @@
 		997647031A61D5EE00FB9B33 /* guicomx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = guicomx.cpp; path = src/guicomx.cpp; sourceTree = "<group>"; };
 		997647041A61D5EE00FB9B33 /* guimain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = guimain.cpp; path = src/guimain.cpp; sourceTree = "<group>"; };
 		997647051A61D5EE00FB9B33 /* guimain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = guimain.h; path = src/guimain.h; sourceTree = "<group>"; };
-		997647061A61D5EE00FB9B33 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = src/main.cpp; sourceTree = "<group>"; };
+		997647061A61D5EE00FB9B33 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 3; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = src/main.cpp; sourceTree = "<group>"; };
 		997647071A61D5EE00FB9B33 /* printer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = printer.cpp; path = src/printer.cpp; sourceTree = "<group>"; };
 		997647081A61D5EE00FB9B33 /* studio2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = studio2.cpp; path = src/studio2.cpp; sourceTree = "<group>"; };
 		997647091A61D5EE00FB9B33 /* v1870.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = v1870.cpp; path = src/v1870.cpp; sourceTree = "<group>"; };
@@ -560,6 +798,7 @@
 		997C6D61209E3FF000A8704E /* fred.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = fred.h; path = src/fred.h; sourceTree = "<group>"; };
 		997C6D63209E415500A8704E /* guifred.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = guifred.cpp; path = src/guifred.cpp; sourceTree = "<group>"; };
 		997C6D64209E415500A8704E /* guifred.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = guifred.h; path = src/guifred.h; sourceTree = "<group>"; };
+		999411EF28246A950017D756 /* computerconfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = computerconfig.h; path = src/computerconfig.h; sourceTree = "<group>"; };
 		99952FDD277E5CAF0068CD27 /* main_mac_14.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = main_mac_14.xrc; sourceTree = "<group>"; };
 		99952FE0277E5CB70068CD27 /* main_mac_11.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = main_mac_11.xrc; sourceTree = "<group>"; };
 		9997F7BC212494FA0036A1FC /* GPL-3.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "GPL-3.syntax"; sourceTree = "<group>"; };
@@ -573,7 +812,6 @@
 		999DE99D2066EA7E005B3A29 /* studioiv.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = studioiv.cpp; path = src/studioiv.cpp; sourceTree = "<group>"; wrapsLines = 0; };
 		999F67A224B8975A00863075 /* amvbas.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = amvbas.syntax; sourceTree = "<group>"; };
 		99A3115F21A75B98003CB022 /* Chip8Vip2K.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Chip8Vip2K.syntax; sourceTree = "<group>"; };
-		99AA43FE20270FAD00474FB4 /* libserialport.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libserialport.a; path = /Users/etxmato/workspace/emma_02/../../../../usr/local/lib/libserialport.a; sourceTree = "<absolute>"; };
 		99ACA8591F42330C00788104 /* Emma 02 vc14.sln */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Emma 02 vc14.sln"; sourceTree = "<group>"; };
 		99ACA85A1F42330C00788104 /* Emma 02 vc14.vcxproj */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Emma 02 vc14.vcxproj"; sourceTree = "<group>"; };
 		99ACA85B1F42330C00788104 /* Emma 02 vc14.vcxproj.filters */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Emma 02 vc14.vcxproj.filters"; sourceTree = "<group>"; };
@@ -641,6 +879,10 @@
 		99B2AC1D27863EEB00C73EB9 /* vt_11.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = vt_11.xrc; sourceTree = "<group>"; };
 		99B2AC1E27863EEC00C73EB9 /* vt_14.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = vt_14.xrc; sourceTree = "<group>"; };
 		99B5DE4F1F4A228400674C05 /* images_linux */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images_linux; sourceTree = "<group>"; };
+		99BBC9A8281DD36F00BD9345 /* guidiy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = guidiy.h; path = src/guidiy.h; sourceTree = "<group>"; };
+		99BBC9A9281DD36F00BD9345 /* guidiy.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = guidiy.cpp; path = src/guidiy.cpp; sourceTree = "<group>"; };
+		99BBC9AC281DD39B00BD9345 /* diy.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = diy.cpp; path = src/diy.cpp; sourceTree = "<group>"; };
+		99BBC9AD281DD39B00BD9345 /* diy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = diy.h; path = src/diy.h; sourceTree = "<group>"; };
 		99BC74FA1DCFDB5C0000D8A9 /* upd765.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = upd765.cpp; path = src/upd765.cpp; sourceTree = "<group>"; };
 		99BC74FB1DCFDB5C0000D8A9 /* upd765.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = upd765.h; path = src/upd765.h; sourceTree = "<group>"; };
 		99BC8686225697B000056D0E /* microtutor2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = microtutor2.cpp; path = src/microtutor2.cpp; sourceTree = "<group>"; };
@@ -690,6 +932,8 @@
 		99F3746E1CADBBC2000DA615 /* COPYING - curl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "COPYING - curl"; sourceTree = "<group>"; };
 		99F3746F1CADBBC2000DA615 /* README-SDL.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "README-SDL.txt"; sourceTree = "<group>"; };
 		99F374701CADBBC2000DA615 /* LGPL.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LGPL.txt; sourceTree = "<group>"; };
+		99F37F33285D1D9200C57417 /* Emma 02-x86.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Emma 02-x86.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		99F37F38285D215300C57417 /* libserialport.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libserialport.a; path = ../../../../usr/local/lib/libserialport.a; sourceTree = "<group>"; };
 		99F481791C0E4A0C002BC0AE /* velf.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = velf.cpp; path = src/velf.cpp; sourceTree = "<group>"; };
 		99F4817A1C0E4A0C002BC0AE /* velf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = velf.h; path = src/velf.h; sourceTree = "<group>"; };
 		99F70FEF1E7096C800959A15 /* guimcds.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = guimcds.cpp; path = src/guimcds.cpp; sourceTree = "<group>"; };
@@ -707,8 +951,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				9999EAC51CBA8B8900A50336 /* SDL2.framework in Frameworks */,
-				99AA43FF20270FAD00474FB4 /* libserialport.a in Frameworks */,
+				9902C6D4284414A900064A5B /* libserialport.a in Frameworks */,
 				99E940F91FF1746900E69E8B /* libcurl.4.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		99F37ECD285D1D9200C57417 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				99F37ECE285D1D9200C57417 /* SDL2.framework in Frameworks */,
+				99F37F39285D215800C57417 /* libserialport.a in Frameworks */,
+				99F37ED0285D1D9200C57417 /* libcurl.4.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -921,9 +1175,10 @@
 				99B5DE4F1F4A228400674C05 /* images_linux */,
 				99431DEA1F22213400F5A2D4 /* images_osx */,
 				99E940F81FF1746900E69E8B /* libcurl.4.dylib */,
-				99AA43FE20270FAD00474FB4 /* libserialport.a */,
+				9902C6D3284414A800064A5B /* libserialport.a */,
 				997646E11A61D1FA00FB9B33 /* src */,
 				997646BF1A61D16300FB9B33 /* Products */,
+				99F37F35285D1DFB00C57417 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -931,6 +1186,7 @@
 			isa = PBXGroup;
 			children = (
 				997646BE1A61D16300FB9B33 /* Emma 02.app */,
+				99F37F33285D1D9200C57417 /* Emma 02-x86.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -968,6 +1224,7 @@
 				9976479F1A61D5EE00FB9B33 /* colour.h */,
 				997647151A61D5EE00FB9B33 /* computer.cpp */,
 				997647161A61D5EE00FB9B33 /* computer.h */,
+				999411EF28246A950017D756 /* computerconfig.h */,
 				997647021A61D5EE00FB9B33 /* comx35.cpp */,
 				9976471D1A61D5EE00FB9B33 /* comx35.h */,
 				997646FB1A61D5EE00FB9B33 /* comxstatusbar.cpp */,
@@ -984,6 +1241,8 @@
 				99BDBDC91E7F3EDD00DB0FB8 /* debug.h */,
 				99BE53231F156AA1006BD353 /* diagstatusbar.cpp */,
 				99BE53241F156AA1006BD353 /* diagstatusbar.h */,
+				99BBC9AC281DD39B00BD9345 /* diy.cpp */,
+				99BBC9AD281DD39B00BD9345 /* diy.h */,
 				997647891A61D5EE00FB9B33 /* elf.cpp */,
 				997647A11A61D5EE00FB9B33 /* elf.h */,
 				997647451A61D5EE00FB9B33 /* elf2.cpp */,
@@ -1021,6 +1280,8 @@
 				997647711A61D5EE00FB9B33 /* guicosmicos.h */,
 				99BE531E1F1556F5006BD353 /* guidiag.cpp */,
 				99BE53201F1556FD006BD353 /* guidiag.h */,
+				99BBC9A9281DD36F00BD9345 /* guidiy.cpp */,
+				99BBC9A8281DD36F00BD9345 /* guidiy.h */,
 				997647311A61D5EE00FB9B33 /* guielf.cpp */,
 				997647771A61D5EE00FB9B33 /* guielf.h */,
 				997647231A61D5EE00FB9B33 /* guielf2k.cpp */,
@@ -1047,6 +1308,8 @@
 				9976477B1A61D5EE00FB9B33 /* guinano.h */,
 				9976477C1A61D5EE00FB9B33 /* guipecom.cpp */,
 				9976477D1A61D5EE00FB9B33 /* guipecom.h */,
+				9945417327D80AE6001F5131 /* guipico.cpp */,
+				9945417427D80AE6001F5131 /* guipico.h */,
 				997647171A61D5EE00FB9B33 /* guipopup.cpp */,
 				997647871A61D5EE00FB9B33 /* guipopup.h */,
 				997646F81A61D5EE00FB9B33 /* guisb.cpp */,
@@ -1089,6 +1352,7 @@
 				997647A91A61D5EE00FB9B33 /* led.h */,
 				9976472D1A61D5EE00FB9B33 /* ledmodule.cpp */,
 				997647AA1A61D5EE00FB9B33 /* ledmodule.h */,
+				99321272285FB74F00A7793E /* mac_OS12.cpp */,
 				997646F61A61D5EE00FB9B33 /* mac.cpp */,
 				997646F71A61D5EE00FB9B33 /* mac.h */,
 				997647061A61D5EE00FB9B33 /* main.cpp */,
@@ -1117,6 +1381,8 @@
 				99F263CD220CD4ED00EA87B5 /* network.h */,
 				9976473E1A61D5EE00FB9B33 /* pecom.cpp */,
 				997647611A61D5EE00FB9B33 /* pecom.h */,
+				9945417027D80AD1001F5131 /* pico.cpp */,
+				9945416F27D80AD1001F5131 /* pico.h */,
 				9960564F230AF26E009FF74F /* pio.cpp */,
 				99605650230AF26F009FF74F /* pio.h */,
 				9976474E1A61D5EE00FB9B33 /* pixie.cpp */,
@@ -1202,6 +1468,14 @@
 			name = src;
 			sourceTree = "<group>";
 		};
+		99F37F35285D1DFB00C57417 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				99F37F38285D215300C57417 /* libserialport.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1222,6 +1496,23 @@
 			productReference = 997646BE1A61D16300FB9B33 /* Emma 02.app */;
 			productType = "com.apple.product-type.application";
 		};
+		99F37E48285D1D9200C57417 /* Emma 02-x86 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 99F37F30285D1D9200C57417 /* Build configuration list for PBXNativeTarget "Emma 02-x86" */;
+			buildPhases = (
+				99F37E49285D1D9200C57417 /* Sources */,
+				99F37ECD285D1D9200C57417 /* Frameworks */,
+				99F37ED1285D1D9200C57417 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Emma 02-x86";
+			productName = "Emma 02 OSX";
+			productReference = 99F37F33285D1D9200C57417 /* Emma 02-x86.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1233,6 +1524,10 @@
 				TargetAttributes = {
 					997646BD1A61D16300FB9B33 = {
 						CreatedOnToolsVersion = 6.1.1;
+						ProvisioningStyle = Automatic;
+					};
+					99F37E48285D1D9200C57417 = {
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -1250,6 +1545,7 @@
 			projectRoot = "";
 			targets = (
 				997646BD1A61D16300FB9B33 /* Emma 02 */,
+				99F37E48285D1D9200C57417 /* Emma 02-x86 */,
 			);
 		};
 /* End PBXProject section */
@@ -1356,6 +1652,107 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		99F37ED1285D1D9200C57417 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				99F37ED2285D1D9200C57417 /* images in Resources */,
+				99F37ED3285D1D9200C57417 /* amvbas.syntax in Resources */,
+				99F37ED4285D1D9200C57417 /* menuComx_11.xrc in Resources */,
+				99F37ED5285D1D9200C57417 /* Quest_license.txt in Resources */,
+				99F37ED6285D1D9200C57417 /* menuMembership_14.xrc in Resources */,
+				99F37ED7285D1D9200C57417 /* images_osx in Resources */,
+				99F37ED8285D1D9200C57417 /* Configurations in Resources */,
+				99F37ED9285D1D9200C57417 /* osx_14.ini in Resources */,
+				99F37EDA285D1D9200C57417 /* menuComx_14.xrc in Resources */,
+				99F37EDB285D1D9200C57417 /* menuTMC600_14.xrc in Resources */,
+				99F37EDC285D1D9200C57417 /* ST2.syntax in Resources */,
+				99F37EDD285D1D9200C57417 /* keymap_tmc_11.xrc in Resources */,
+				99F37EDE285D1D9200C57417 /* menuFred_14.xrc in Resources */,
+				99F37EDF285D1D9200C57417 /* about_14.xrc in Resources */,
+				99F37EE0285D1D9200C57417 /* menuPecom_14.xrc in Resources */,
+				99F37EE1285D1D9200C57417 /* vt_11.xrc in Resources */,
+				99F37EE2285D1D9200C57417 /* FPL-4.syntax in Resources */,
+				99F37EE3285D1D9200C57417 /* CARDTRAN.syntax in Resources */,
+				99F37EE4285D1D9200C57417 /* menu_Cas_Mem_11.xrc in Resources */,
+				99F37EE5285D1D9200C57417 /* menuMS2000_11.xrc in Resources */,
+				99F37EE6285D1D9200C57417 /* menuMCDS_11.xrc in Resources */,
+				99F37EE7285D1D9200C57417 /* configuration_14.xrc in Resources */,
+				99F37EE8285D1D9200C57417 /* FEL-1.syntax in Resources */,
+				99F37EE9285D1D9200C57417 /* cassette_14.xrc in Resources */,
+				99F37EEA285D1D9200C57417 /* menuElf2K_14.xrc in Resources */,
+				99F37EEB285D1D9200C57417 /* menuMembership_11.xrc in Resources */,
+				99F37EEC285D1D9200C57417 /* sb_11.xrc in Resources */,
+				99F37EED285D1D9200C57417 /* colour_14.xrc in Resources */,
+				99F37EEE285D1D9200C57417 /* GPL-4.syntax in Resources */,
+				99F37EEF285D1D9200C57417 /* keymap_tmc_14.xrc in Resources */,
+				99F37EF0285D1D9200C57417 /* splash_14.xrc in Resources */,
+				99F37EF1285D1D9200C57417 /* STK-1.syntax in Resources */,
+				99F37EF2285D1D9200C57417 /* menuVelf_11.xrc in Resources */,
+				99F37EF3285D1D9200C57417 /* menuVelf_14.xrc in Resources */,
+				99F37EF4285D1D9200C57417 /* menuElf2K_11.xrc in Resources */,
+				99F37EF5285D1D9200C57417 /* GPL-A_ROM.syntax in Resources */,
+				99F37EF6285D1D9200C57417 /* microsetup_14.xrc in Resources */,
+				99F37EF7285D1D9200C57417 /* emma_02.htb in Resources */,
+				99F37EF8285D1D9200C57417 /* Test_Word.syntax in Resources */,
+				99F37EF9285D1D9200C57417 /* STK-2.syntax in Resources */,
+				99F37EFA285D1D9200C57417 /* keymap_14.xrc in Resources */,
+				99F37EFB285D1D9200C57417 /* menuCosmicos_11.xrc in Resources */,
+				99F37EFC285D1D9200C57417 /* main_mac_11.xrc in Resources */,
+				99F37EFD285D1D9200C57417 /* menuMS2000_14.xrc in Resources */,
+				99F37EFE285D1D9200C57417 /* ChipEti.syntax in Resources */,
+				99F37EFF285D1D9200C57417 /* Chip8Vip2K.syntax in Resources */,
+				99F37F00285D1D9200C57417 /* diag_14.xrc in Resources */,
+				99F37F01285D1D9200C57417 /* about_11.xrc in Resources */,
+				99F37F02285D1D9200C57417 /* Chip8Studio.syntax in Resources */,
+				99F37F03285D1D9200C57417 /* Chip8.syntax in Resources */,
+				99F37F04285D1D9200C57417 /* copyright.rtf in Resources */,
+				99F37F05285D1D9200C57417 /* ST4.syntax in Resources */,
+				99F37F06285D1D9200C57417 /* data in Resources */,
+				99F37F07285D1D9200C57417 /* functionkey_14.xrc in Resources */,
+				99F37F08285D1D9200C57417 /* colour_11.xrc in Resources */,
+				99F37F09285D1D9200C57417 /* GPL-A_RAM.syntax in Resources */,
+				99F37F0A285D1D9200C57417 /* SuperChip.syntax in Resources */,
+				99F37F0B285D1D9200C57417 /* keymap_11.xrc in Resources */,
+				99F37F0C285D1D9200C57417 /* am2020bas.syntax in Resources */,
+				99F37F0D285D1D9200C57417 /* ports_14.xrc in Resources */,
+				99F37F0E285D1D9200C57417 /* sb_14.xrc in Resources */,
+				99F37F0F285D1D9200C57417 /* Chip8X.syntax in Resources */,
+				99F37F10285D1D9200C57417 /* LGPL.txt in Resources */,
+				99F37F11285D1D9200C57417 /* GPL-3.syntax in Resources */,
+				99F37F12285D1D9200C57417 /* am4kbas.syntax in Resources */,
+				99F37F13285D1D9200C57417 /* configuration_11.xrc in Resources */,
+				99F37F14285D1D9200C57417 /* eprom_14.xrc in Resources */,
+				99F37F15285D1D9200C57417 /* Chip8Elf.syntax in Resources */,
+				99F37F16285D1D9200C57417 /* GPL-2.syntax in Resources */,
+				99F37F17285D1D9200C57417 /* vt_14.xrc in Resources */,
+				99F37F18285D1D9200C57417 /* datadir_11.xrc in Resources */,
+				99F37F19285D1D9200C57417 /* menuElf_14.xrc in Resources */,
+				99F37F1A285D1D9200C57417 /* menuElf_11.xrc in Resources */,
+				99F37F1B285D1D9200C57417 /* cassette_11.xrc in Resources */,
+				99F37F1C285D1D9200C57417 /* menuVip_11.xrc in Resources */,
+				99F37F1D285D1D9200C57417 /* menuMCDS_14.xrc in Resources */,
+				99F37F1E285D1D9200C57417 /* functionkey_11.xrc in Resources */,
+				99F37F1F285D1D9200C57417 /* menu_Cas_Mem_14.xrc in Resources */,
+				99F37F20285D1D9200C57417 /* menuTMC600_11.xrc in Resources */,
+				99F37F21285D1D9200C57417 /* menuFred_11.xrc in Resources */,
+				99F37F22285D1D9200C57417 /* pseudo.def in Resources */,
+				99F37F23285D1D9200C57417 /* eprom_11.xrc in Resources */,
+				99F37F24285D1D9200C57417 /* osx_11.ini in Resources */,
+				99F37F25285D1D9200C57417 /* menuPecom_11.xrc in Resources */,
+				99F37F26285D1D9200C57417 /* diag_11.xrc in Resources */,
+				99F37F27285D1D9200C57417 /* menuVip_14.xrc in Resources */,
+				99F37F28285D1D9200C57417 /* ports_11.xrc in Resources */,
+				99F37F29285D1D9200C57417 /* datadir_14.xrc in Resources */,
+				99F37F2A285D1D9200C57417 /* Quest_CC_Lic.jpg in Resources */,
+				99F37F2B285D1D9200C57417 /* microsetup_11.xrc in Resources */,
+				99F37F2C285D1D9200C57417 /* main_mac_14.xrc in Resources */,
+				99F37F2D285D1D9200C57417 /* FPL-2.syntax in Resources */,
+				99F37F2E285D1D9200C57417 /* splash_11.xrc in Resources */,
+				99F37F2F285D1D9200C57417 /* menuCosmicos_14.xrc in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1368,15 +1765,20 @@
 				997647C61A61D5EF00FB9B33 /* vip2statusbar.cpp in Sources */,
 				997647DB1A61D5EF00FB9B33 /* guitmc600.cpp in Sources */,
 				997647ED1A61D5EF00FB9B33 /* ports.cpp in Sources */,
+				99321273285FB74F00A7793E /* mac_OS12.cpp in Sources */,
 				997915D02308266B0063A6F3 /* cdp18s640.cpp in Sources */,
+				99BBC9AA281DD37500BD9345 /* guidiy.cpp in Sources */,
 				997647EF1A61D5EF00FB9B33 /* til313.cpp in Sources */,
 				997647C21A61D5EE00FB9B33 /* v1870.cpp in Sources */,
+				9945417127D80AD1001F5131 /* pico.cpp in Sources */,
 				997647D11A61D5EF00FB9B33 /* cosmicos.cpp in Sources */,
 				997647C01A61D5EE00FB9B33 /* printer.cpp in Sources */,
 				997647C51A61D5EF00FB9B33 /* guimembership.cpp in Sources */,
+				99BBC9AE281DD39E00BD9345 /* diy.cpp in Sources */,
 				9942DD6D1F3B4D3E00569242 /* base.cpp in Sources */,
 				997647EE1A61D5EF00FB9B33 /* sound.cpp in Sources */,
 				997647EC1A61D5EF00FB9B33 /* pecom.cpp in Sources */,
+				9945417527D80AE7001F5131 /* guipico.cpp in Sources */,
 				997647C31A61D5EE00FB9B33 /* victory.cpp in Sources */,
 				997647FF1A61D5EF00FB9B33 /* guicidelsa.cpp in Sources */,
 				9976480C1A61D5EF00FB9B33 /* Blip_Buffer.cpp in Sources */,
@@ -1454,7 +1856,6 @@
 				997647D51A61D5EF00FB9B33 /* joycard.cpp in Sources */,
 				997648111A61D5EF00FB9B33 /* iodevice.cpp in Sources */,
 				997647E21A61D5EF00FB9B33 /* member.cpp in Sources */,
-				997647B41A61D5EE00FB9B33 /* mac.cpp in Sources */,
 				997647B61A61D5EE00FB9B33 /* cidelsastatusbar.cpp in Sources */,
 				997647E71A61D5EF00FB9B33 /* elf2k.cpp in Sources */,
 				99F70FF41E7096C800959A15 /* mcds.cpp in Sources */,
@@ -1493,187 +1894,148 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		99F37E49285D1D9200C57417 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				99F37E4A285D1D9200C57417 /* uc1800.cpp in Sources */,
+				99F37E4B285D1D9200C57417 /* guiuc1800.cpp in Sources */,
+				99F37E4C285D1D9200C57417 /* vip2statusbar.cpp in Sources */,
+				99F37E4D285D1D9200C57417 /* guitmc600.cpp in Sources */,
+				99F37E4E285D1D9200C57417 /* ports.cpp in Sources */,
+				99F37E4F285D1D9200C57417 /* cdp18s640.cpp in Sources */,
+				99F37E50285D1D9200C57417 /* guidiy.cpp in Sources */,
+				99F37E51285D1D9200C57417 /* til313.cpp in Sources */,
+				99F37E52285D1D9200C57417 /* v1870.cpp in Sources */,
+				99F37E53285D1D9200C57417 /* pico.cpp in Sources */,
+				99F37E54285D1D9200C57417 /* cosmicos.cpp in Sources */,
+				99F37E55285D1D9200C57417 /* printer.cpp in Sources */,
+				99F37E56285D1D9200C57417 /* guimembership.cpp in Sources */,
+				99F37E57285D1D9200C57417 /* diy.cpp in Sources */,
+				99F37E58285D1D9200C57417 /* base.cpp in Sources */,
+				99F37E59285D1D9200C57417 /* sound.cpp in Sources */,
+				99F37E5A285D1D9200C57417 /* pecom.cpp in Sources */,
+				99F37E5B285D1D9200C57417 /* guipico.cpp in Sources */,
+				99F37E5C285D1D9200C57417 /* victory.cpp in Sources */,
+				99F37E5D285D1D9200C57417 /* guicidelsa.cpp in Sources */,
+				99F37E5E285D1D9200C57417 /* Blip_Buffer.cpp in Sources */,
+				99F37E5F285D1D9200C57417 /* studio2.cpp in Sources */,
+				99F37E60285D1D9200C57417 /* cosmicoshex.cpp in Sources */,
+				99F37E61285D1D9200C57417 /* vip2k.cpp in Sources */,
+				99F37E62285D1D9200C57417 /* guielf2k.cpp in Sources */,
+				99F37E63285D1D9200C57417 /* encrypt.cpp in Sources */,
+				99F37E64285D1D9200C57417 /* guieprom.cpp in Sources */,
+				99F37E65285D1D9200C57417 /* expansion.cpp in Sources */,
+				99F37E66285D1D9200C57417 /* led.cpp in Sources */,
+				99F37E67285D1D9200C57417 /* network.cpp in Sources */,
+				99F37E68285D1D9200C57417 /* colour.cpp in Sources */,
+				99F37E69285D1D9200C57417 /* keyboard.cpp in Sources */,
+				99F37E6A285D1D9200C57417 /* video.cpp in Sources */,
+				99F37E6B285D1D9200C57417 /* guimain.cpp in Sources */,
+				99F37E6C285D1D9200C57417 /* super.cpp in Sources */,
+				99F37E6D285D1D9200C57417 /* Sync_Audio.cpp in Sources */,
+				99F37E6E285D1D9200C57417 /* guims2000.cpp in Sources */,
+				99F37E6F285D1D9200C57417 /* guidiag.cpp in Sources */,
+				99F37E70285D1D9200C57417 /* http.cpp in Sources */,
+				99F37E71285D1D9200C57417 /* waveReader.cpp in Sources */,
+				99F37E72285D1D9200C57417 /* waveWriter.cpp in Sources */,
+				99F37E73285D1D9200C57417 /* nano.cpp in Sources */,
+				99F37E74285D1D9200C57417 /* cidelsa.cpp in Sources */,
+				99F37E75285D1D9200C57417 /* ms2000.cpp in Sources */,
+				99F37E76285D1D9200C57417 /* vtsetup.cpp in Sources */,
+				99F37E77285D1D9200C57417 /* diagstatusbar.cpp in Sources */,
+				99F37E78285D1D9200C57417 /* fdc.cpp in Sources */,
+				99F37E79285D1D9200C57417 /* guicdp18s020.cpp in Sources */,
+				99F37E7A285D1D9200C57417 /* studioiv.cpp in Sources */,
+				99F37E7B285D1D9200C57417 /* pushbutton.cpp in Sources */,
+				99F37E7C285D1D9200C57417 /* computer.cpp in Sources */,
+				99F37E7D285D1D9200C57417 /* ide.cpp in Sources */,
+				99F37E7E285D1D9200C57417 /* guistudio2.cpp in Sources */,
+				99F37E7F285D1D9200C57417 /* keymap.cpp in Sources */,
+				99F37E80285D1D9200C57417 /* guipopup.cpp in Sources */,
+				99F37E81285D1D9200C57417 /* velf.cpp in Sources */,
+				99F37E82285D1D9200C57417 /* tmc2000.cpp in Sources */,
+				99F37E83285D1D9200C57417 /* microtutor.cpp in Sources */,
+				99F37E84285D1D9200C57417 /* about.cpp in Sources */,
+				99F37E85285D1D9200C57417 /* vip.cpp in Sources */,
+				99F37E86285D1D9200C57417 /* guicomx.cpp in Sources */,
+				99F37E87285D1D9200C57417 /* configuration.cpp in Sources */,
+				99F37E88285D1D9200C57417 /* keypad.cpp in Sources */,
+				99F37E89285D1D9200C57417 /* guifred.cpp in Sources */,
+				99F37E8A285D1D9200C57417 /* elf2kdisk.cpp in Sources */,
+				99F37E8B285D1D9200C57417 /* breakpoints.cpp in Sources */,
+				99F37E8C285D1D9200C57417 /* guisb.cpp in Sources */,
+				99F37E8D285D1D9200C57417 /* datadir.cpp in Sources */,
+				99F37E8E285D1D9200C57417 /* ps2.cpp in Sources */,
+				99F37E8F285D1D9200C57417 /* fred.cpp in Sources */,
+				99F37E90285D1D9200C57417 /* guivip2k.cpp in Sources */,
+				99F37E91285D1D9200C57417 /* mc6847.cpp in Sources */,
+				99F37E92285D1D9200C57417 /* guitmc2000.cpp in Sources */,
+				99F37E93285D1D9200C57417 /* guimcds.cpp in Sources */,
+				99F37E94285D1D9200C57417 /* guimicrotutor.cpp in Sources */,
+				99F37E95285D1D9200C57417 /* tms9918.cpp in Sources */,
+				99F37E96285D1D9200C57417 /* serial.cpp in Sources */,
+				99F37E97285D1D9200C57417 /* elf2.cpp in Sources */,
+				99F37E98285D1D9200C57417 /* pixie.cpp in Sources */,
+				99F37E99285D1D9200C57417 /* ps2gpio.cpp in Sources */,
+				99F37E9A285D1D9200C57417 /* cdp18s600.cpp in Sources */,
+				99F37E9B285D1D9200C57417 /* guicosmicos.cpp in Sources */,
+				99F37E9C285D1D9200C57417 /* memory.cpp in Sources */,
+				99F37E9D285D1D9200C57417 /* guivip.cpp in Sources */,
+				99F37E9E285D1D9200C57417 /* til311.cpp in Sources */,
+				99F37E9F285D1D9200C57417 /* comx35.cpp in Sources */,
+				99F37EA0285D1D9200C57417 /* vip2.cpp in Sources */,
+				99F37EA1285D1D9200C57417 /* usb.cpp in Sources */,
+				99F37EA2285D1D9200C57417 /* eti660.cpp in Sources */,
+				99F37EA3285D1D9200C57417 /* debug.cpp in Sources */,
+				99F37EA4285D1D9200C57417 /* elf2khex.cpp in Sources */,
+				99F37EA5285D1D9200C57417 /* visicom.cpp in Sources */,
+				99F37EA6285D1D9200C57417 /* joycard.cpp in Sources */,
+				99F37EA7285D1D9200C57417 /* iodevice.cpp in Sources */,
+				99F37EA8285D1D9200C57417 /* member.cpp in Sources */,
+				99F37EA9285D1D9200C57417 /* mac.cpp in Sources */,
+				99F37EAA285D1D9200C57417 /* cidelsastatusbar.cpp in Sources */,
+				99F37EAB285D1D9200C57417 /* elf2k.cpp in Sources */,
+				99F37EAC285D1D9200C57417 /* mcds.cpp in Sources */,
+				99F37EAD285D1D9200C57417 /* main.cpp in Sources */,
+				99F37EAE285D1D9200C57417 /* cdp1802.cpp in Sources */,
+				99F37EAF285D1D9200C57417 /* til313.full.cpp in Sources */,
+				99F37EB0285D1D9200C57417 /* guivelf.cpp in Sources */,
+				99F37EB1285D1D9200C57417 /* coinarcade.cpp in Sources */,
+				99F37EB2285D1D9200C57417 /* guieti660.cpp in Sources */,
+				99F37EB3285D1D9200C57417 /* upd765.cpp in Sources */,
+				99F37EB4285D1D9200C57417 /* vt100.cpp in Sources */,
+				99F37EB5285D1D9200C57417 /* splash.cpp in Sources */,
+				99F37EB6285D1D9200C57417 /* psave.cpp in Sources */,
+				99F37EB7285D1D9200C57417 /* elf2kswitch.cpp in Sources */,
+				99F37EB8285D1D9200C57417 /* portext.cpp in Sources */,
+				99F37EB9285D1D9200C57417 /* microsetup.cpp in Sources */,
+				99F37EBA285D1D9200C57417 /* guicdp18s600.cpp in Sources */,
+				99F37EBB285D1D9200C57417 /* functionkey.cpp in Sources */,
+				99F37EBC285D1D9200C57417 /* guielf.cpp in Sources */,
+				99F37EBD285D1D9200C57417 /* guipecom.cpp in Sources */,
+				99F37EBE285D1D9200C57417 /* tmc600.cpp in Sources */,
+				99F37EBF285D1D9200C57417 /* elf.cpp in Sources */,
+				99F37EC0285D1D9200C57417 /* mc6845.cpp in Sources */,
+				99F37EC1285D1D9200C57417 /* keymaptmc.cpp in Sources */,
+				99F37EC2285D1D9200C57417 /* cdp18s020.cpp in Sources */,
+				99F37EC3285D1D9200C57417 /* guivip2.cpp in Sources */,
+				99F37EC4285D1D9200C57417 /* pio.cpp in Sources */,
+				99F37EC5285D1D9200C57417 /* i8275.cpp in Sources */,
+				99F37EC6285D1D9200C57417 /* cdp1852.cpp in Sources */,
+				99F37EC7285D1D9200C57417 /* microtutor2.cpp in Sources */,
+				99F37EC8285D1D9200C57417 /* ledmodule.cpp in Sources */,
+				99F37EC9285D1D9200C57417 /* tmc1800.cpp in Sources */,
+				99F37ECA285D1D9200C57417 /* guinano.cpp in Sources */,
+				99F37ECB285D1D9200C57417 /* comxstatusbar.cpp in Sources */,
+				99F37ECC285D1D9200C57417 /* hbelf.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		9911DA7425C4B57100D9949B /* Debug - master */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD)";
-				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "-";
-				COPY_PHASE_STRIP = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MTL_ENABLE_DEBUG_INFO = YES;
-				ONLY_ACTIVE_ARCH = NO;
-				OTHER_LDFLAGS = "";
-				SDKROOT = macosx;
-				VALID_ARCHS = x86_64;
-				"VALID_ARCHS[sdk=*]" = x86_64;
-			};
-			name = "Debug - master";
-		};
-		9911DA7525C4B57100D9949B /* Debug - master */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = "$(ARCHS_STANDARD)";
-				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
-				CLANG_CXX_LIBRARY = "libc++";
-				CODE_SIGN_IDENTITY = "-";
-				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(LOCAL_LIBRARY_DIR)/Frameworks",
-					"$(PROJECT_DIR)",
-				);
-				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
-				GCC_PREFIX_HEADER = "$(WXROOT)/include/wx/wxprec.h";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(WX_PREPROCESSOR_DEFINITIONS)",
-					WXBUILDING,
-					"$(WXPLATFORM)",
-					__WX__,
-					"wxUSE_BASE=1",
-					"_FILE_OFFSET_BITS=64",
-					_LARGE_FILES,
-					MACOS_CLASSIC,
-					SCI_LEXER,
-					"WX_PRECOMP=1",
-					"wxUSE_UNICODE_UTF8=0",
-					"wxUSE_UNICODE_WCHAR=1",
-				);
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"$(WXROOT)/include",
-					"\"/Library/Frameworks/SDL2.framework/Headers\"",
-					/usr/local/include,
-				);
-				INFOPLIST_FILE = "$(SRCROOT)/Info_cocoa.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks /usr/local/lib";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-					/usr/local/lib,
-					"$(PROJECT_DIR)/images",
-					"$(PROJECT_DIR)/images_osx",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				OTHER_CPLUSPLUSFLAGS = (
-					"$(OTHER_CFLAGS)",
-					"-I$(WXROOT)/build-debug/lib/wx/include/osx_cocoa-unicode-static-3.1",
-					"-I$(WXROOT)/include",
-					"-D_FILE_OFFSET_BITS=64",
-					"-D__WXMAC__",
-					"-D__WXOSX__",
-					"-D__WXOSX_COCOA__",
-				);
-				OTHER_LDFLAGS = (
-					"-framework",
-					WebKit,
-					"-framework",
-					IOKit,
-					"-framework",
-					Carbon,
-					"-framework",
-					Cocoa,
-					"-framework",
-					AudioToolbox,
-					"-framework",
-					OpenGL,
-					"-framework",
-					QTKit,
-					"$(OTHER_LDFLAGS)",
-					"-lz",
-					"-L$(WXROOT)/build-debug/lib",
-					"-framework",
-					IOKit,
-					"-framework",
-					Carbon,
-					"-framework",
-					Cocoa,
-					"-framework",
-					AudioToolbox,
-					"-framework",
-					System,
-					"-framework",
-					OpenGL,
-					"$(WXROOT)/build-debug/lib/libwx_osx_cocoau_xrc-3.1.a",
-					"$(WXROOT)/build-debug/lib/libwx_osx_cocoau_qa-3.1.a",
-					"$(WXROOT)/build-debug/lib/libwx_baseu_net-3.1.a",
-					"$(WXROOT)/build-debug/lib/libwx_osx_cocoau_html-3.1.a",
-					"$(WXROOT)/build-debug/lib/libwx_osx_cocoau_adv-3.1.a",
-					"$(WXROOT)/build-debug/lib/libwx_osx_cocoau_core-3.1.a",
-					"$(WXROOT)/build-debug/lib/libwx_baseu_xml-3.1.a",
-					"$(WXROOT)/build-debug/lib/libwx_baseu-3.1.a",
-					"-framework",
-					WebKit,
-					"-lexpat",
-					"-lwxregexu-3.1",
-					"-lwxtiff-3.1",
-					"-lwxjpeg-3.1",
-					"-lwxpng-3.1",
-					"-lz",
-					"-lpthread",
-					"-liconv",
-					"-llzma",
-				);
-				OTHER_LIBTOOLFLAGS = "";
-				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "org.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = "Emma 02";
-				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
-				USER_HEADER_SEARCH_PATHS = "\"$(WXROOT)/include\" \"$(WXROOT)/src/zlib\" \"$(WXROOT)/src/jpeg\" \"$(WXROOT)/src/png\" \"$(WXROOT)/src/regex\" \"$(WXROOT)/src/expat/lib\" \"$(WXROOT)/src/tiff/libtiff\" \"$(WXROOT)/src/stc/scintilla/src\" \"$(WXROOT)/src/stc/scintilla/include\" \"$(WXROOT)/src/stc/scintilla/lexlib\"";
-				VALID_ARCHS = x86_64;
-				WARNING_LDFLAGS = "";
-				WXROOT = ../wxWidgets;
-			};
-			name = "Debug - master";
-		};
-		993AA3A32569B012008E1E5E /* Release - libc */ = {
+		993AA3A32569B012008E1E5E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1721,25 +2083,28 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "";
 				SDKROOT = macosx;
-				VALID_ARCHS = x86_64;
-				"VALID_ARCHS[sdk=*]" = x86_64;
+				VALID_ARCHS = "arm64 arm64e x86_64";
+				"VALID_ARCHS[sdk=*]" = "arm64 arm64e x86_64";
 			};
-			name = "Release - libc";
+			name = Release;
 		};
-		993AA3A42569B012008E1E5E /* Release - libc */ = {
+		993AA3A42569B012008E1E5E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = NO;
 				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
@@ -1774,14 +2139,15 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					/usr/local/lib,
+					/opt/homebrew/Cellar/libserialport/0.1.1/lib,
 					"$(PROJECT_DIR)/images",
 					"$(PROJECT_DIR)/images_osx",
+					/usr/local/Cellar/libserialport/0.1.1/lib,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
-					"-I$(WXROOT)/build-release/lib/wx/include/osx_cocoa-unicode-static-3.0",
+					"-I$(WXROOT)/build-release-12.0/lib/wx/include/osx_cocoa-unicode-static-$(WXVER)",
 					"-I$(WXROOT)/include",
 					"-D_FILE_OFFSET_BITS=64",
 					"-D__WXMAC__",
@@ -1801,11 +2167,9 @@
 					AudioToolbox,
 					"-framework",
 					OpenGL,
-					"-framework",
-					QTKit,
 					"$(OTHER_LDFLAGS)",
 					"-lz",
-					"-L$(WXROOT)/build-release/lib",
+					"-L$(WXROOT)/build-release-12.0/lib",
 					"-framework",
 					IOKit,
 					"-framework",
@@ -1818,22 +2182,24 @@
 					System,
 					"-framework",
 					OpenGL,
-					"$(WXROOT)/build-release/lib/libwx_osx_cocoau_xrc-3.0.a",
-					"$(WXROOT)/build-release/lib/libwx_osx_cocoau_webview-3.0.a",
-					"$(WXROOT)/build-release/lib/libwx_osx_cocoau_qa-3.0.a",
-					"$(WXROOT)/build-release/lib/libwx_baseu_net-3.0.a",
-					"$(WXROOT)/build-release/lib/libwx_osx_cocoau_html-3.0.a",
-					"$(WXROOT)/build-release/lib/libwx_osx_cocoau_adv-3.0.a",
-					"$(WXROOT)/build-release/lib/libwx_osx_cocoau_core-3.0.a",
-					"$(WXROOT)/build-release/lib/libwx_baseu_xml-3.0.a",
-					"$(WXROOT)/build-release/lib/libwx_baseu-3.0.a",
+					"-framework",
+					QuartzCore,
+					"$(WXROOT)/build-release-12.0/lib/libwx_osx_cocoau_xrc-$(WXVER).a",
+					"$(WXROOT)/build-release-12.0/lib/libwx_osx_cocoau_webview-$(WXVER).a",
+					"$(WXROOT)/build-release-12.0/lib/libwx_osx_cocoau_qa-$(WXVER).a",
+					"$(WXROOT)/build-release-12.0/lib/libwx_baseu_net-$(WXVER).a",
+					"$(WXROOT)/build-release-12.0/lib/libwx_osx_cocoau_html-$(WXVER).a",
+					"$(WXROOT)/build-release-12.0/lib/libwx_osx_cocoau_adv-$(WXVER).a",
+					"$(WXROOT)/build-release-12.0/lib/libwx_osx_cocoau_core-$(WXVER).a",
+					"$(WXROOT)/build-release-12.0/lib/libwx_baseu_xml-$(WXVER).a",
+					"$(WXROOT)/build-release-12.0/lib/libwx_baseu-$(WXVER).a",
 					"-framework",
 					WebKit,
 					"-lexpat",
-					"-lwxregexu-3.0",
-					"-lwxtiff-3.0",
-					"-lwxjpeg-3.0",
-					"-lwxpng-3.0",
+					"-lwxregexu-$(WXVER)",
+					"-lwxtiff-$(WXVER)",
+					"-lwxjpeg-$(WXVER)",
+					"-lwxpng-$(WXVER)",
 					"-lz",
 					"-lpthread",
 					"-liconv",
@@ -1843,19 +2209,21 @@
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "Emma 02";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
 				USER_HEADER_SEARCH_PATHS = "\"$(WXROOT)/include\" \"$(WXROOT)/src/zlib\" \"$(WXROOT)/src/jpeg\" \"$(WXROOT)/src/png\" \"$(WXROOT)/src/regex\" \"$(WXROOT)/src/expat/lib\" \"$(WXROOT)/src/tiff/libtiff\" \"$(WXROOT)/src/stc/scintilla/src\" \"$(WXROOT)/src/stc/scintilla/include\" \"$(WXROOT)/src/stc/scintilla/lexlib\"";
-				VALID_ARCHS = x86_64;
+				VALID_ARCHS = "arm64 arm64e x86_64";
 				WARNING_LDFLAGS = "";
-				WXROOT = "../wxWidgets-3.0.5";
+				WXROOT = "../wxWidgets-$(WXVER).7";
+				WXVER = 3.1;
 			};
-			name = "Release - libc";
+			name = Release;
 		};
-		997646D91A61D16300FB9B33 /* Debug */ = {
+		99B8447A2442123200E545CC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -1900,374 +2268,28 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "";
 				SDKROOT = macosx;
-				VALID_ARCHS = x86_64;
-				"VALID_ARCHS[sdk=*]" = x86_64;
+				VALID_ARCHS = arm64;
+				"VALID_ARCHS[sdk=*]" = arm64;
 			};
 			name = Debug;
 		};
-		997646DA1A61D16300FB9B33 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
-				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "compiler-default";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "-";
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				ONLY_ACTIVE_ARCH = NO;
-				OTHER_LDFLAGS = "";
-				SDKROOT = macosx;
-				VALID_ARCHS = "i386 x86_64";
-				"VALID_ARCHS[sdk=*]" = "i386 x86_64";
-			};
-			name = Release;
-		};
-		997646DC1A61D16300FB9B33 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
-				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
-				CLANG_CXX_LIBRARY = "compiler-default";
-				CODE_SIGN_IDENTITY = "-";
-				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(LOCAL_LIBRARY_DIR)/Frameworks",
-					"$(PROJECT_DIR)",
-				);
-				GCC_PREFIX_HEADER = "$(WXROOT)/include/wx/wxprec.h";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(WX_PREPROCESSOR_DEFINITIONS)",
-					WXBUILDING,
-					"$(WXPLATFORM)",
-					__WX__,
-					"wxUSE_BASE=1",
-					"_FILE_OFFSET_BITS=64",
-					_LARGE_FILES,
-					MACOS_CLASSIC,
-					SCI_LEXER,
-					"WX_PRECOMP=1",
-					"wxUSE_UNICODE_UTF8=0",
-					"wxUSE_UNICODE_WCHAR=1",
-				);
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"$(WXROOT)/include",
-					"\"/Library/Frameworks/SDL2.framework/Headers\"",
-					/usr/local/include,
-				);
-				INFOPLIST_FILE = "$(SRCROOT)/Info_cocoa.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks /usr/local/lib";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-					/usr/local/lib,
-					"$(PROJECT_DIR)/images",
-					"$(PROJECT_DIR)/images_osx",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				OTHER_CPLUSPLUSFLAGS = (
-					"$(OTHER_CFLAGS)",
-					"-I$(WXROOT)/build-debug/lib/wx/include/osx_cocoa-unicode-static-3.0",
-					"-I$(WXROOT)/include",
-					"-D_FILE_OFFSET_BITS=64",
-					"-D__WXMAC__",
-					"-D__WXOSX__",
-					"-D__WXOSX_COCOA__",
-				);
-				OTHER_LDFLAGS = (
-					"-framework",
-					WebKit,
-					"-framework",
-					IOKit,
-					"-framework",
-					Carbon,
-					"-framework",
-					Cocoa,
-					"-framework",
-					AudioToolbox,
-					"-framework",
-					OpenGL,
-					"-framework",
-					QTKit,
-					"$(OTHER_LDFLAGS)",
-					"-lz",
-					"-L$(WXROOT)/build-debug/lib",
-					"-framework",
-					IOKit,
-					"-framework",
-					Carbon,
-					"-framework",
-					Cocoa,
-					"-framework",
-					AudioToolbox,
-					"-framework",
-					System,
-					"-framework",
-					OpenGL,
-					"$(WXROOT)/build-debug/lib/libwx_osx_cocoau_xrc-3.0.a",
-					"$(WXROOT)/build-debug/lib/libwx_osx_cocoau_webview-3.0.a",
-					"$(WXROOT)/build-debug/lib/libwx_osx_cocoau_qa-3.0.a",
-					"$(WXROOT)/build-debug/lib/libwx_baseu_net-3.0.a",
-					"$(WXROOT)/build-debug/lib/libwx_osx_cocoau_html-3.0.a",
-					"$(WXROOT)/build-debug/lib/libwx_osx_cocoau_adv-3.0.a",
-					"$(WXROOT)/build-debug/lib/libwx_osx_cocoau_core-3.0.a",
-					"$(WXROOT)/build-debug/lib/libwx_baseu_xml-3.0.a",
-					"$(WXROOT)/build-debug/lib/libwx_baseu-3.0.a",
-					"-framework",
-					WebKit,
-					"-lexpat",
-					"-lwxregexu-3.0",
-					"-lwxtiff-3.0",
-					"-lwxjpeg-3.0",
-					"-lwxpng-3.0",
-					"-lz",
-					"-lpthread",
-					"-liconv",
-					"-llzma",
-				);
-				OTHER_LIBTOOLFLAGS = "";
-				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "org.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = "Emma 02";
-				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
-				USER_HEADER_SEARCH_PATHS = "\"$(WXROOT)/include\" \"$(WXROOT)/src/zlib\" \"$(WXROOT)/src/jpeg\" \"$(WXROOT)/src/png\" \"$(WXROOT)/src/regex\" \"$(WXROOT)/src/expat/lib\" \"$(WXROOT)/src/tiff/libtiff\" \"$(WXROOT)/src/stc/scintilla/src\" \"$(WXROOT)/src/stc/scintilla/include\" \"$(WXROOT)/src/stc/scintilla/lexlib\"";
-				VALID_ARCHS = x86_64;
-				WARNING_LDFLAGS = "";
-				WXROOT = "../wxWidgets-3.0.3";
-			};
-			name = Debug;
-		};
-		997646DD1A61D16300FB9B33 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
-				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
-				CLANG_CXX_LIBRARY = "compiler-default";
-				CODE_SIGN_IDENTITY = "-";
-				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(LOCAL_LIBRARY_DIR)/Frameworks",
-					"$(PROJECT_DIR)",
-				);
-				GCC_PREFIX_HEADER = "$(WXROOT)/include/wx/wxprec.h";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(WX_PREPROCESSOR_DEFINITIONS)",
-					WXBUILDING,
-					"$(WXPLATFORM)",
-					__WX__,
-					"wxUSE_BASE=1",
-					"_FILE_OFFSET_BITS=64",
-					_LARGE_FILES,
-					MACOS_CLASSIC,
-					SCI_LEXER,
-					"WX_PRECOMP=1",
-					"wxUSE_UNICODE_UTF8=0",
-					"wxUSE_UNICODE_WCHAR=1",
-				);
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"$(WXROOT)/include",
-					"\"/Library/Frameworks/SDL2.framework/Headers\"",
-					/usr/local/include,
-				);
-				INFOPLIST_FILE = "$(SRCROOT)/Info_cocoa.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks /usr/local/lib";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-					/usr/local/lib,
-					"$(PROJECT_DIR)/images",
-					"$(PROJECT_DIR)/images_osx",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				ONLY_ACTIVE_ARCH = NO;
-				OTHER_CPLUSPLUSFLAGS = (
-					"$(OTHER_CFLAGS)",
-					"-I$(WXROOT)/build-release/lib/wx/include/osx_cocoa-unicode-static-3.0",
-					"-I$(WXROOT)/include",
-					"-D_FILE_OFFSET_BITS=64",
-					"-D__WXMAC__",
-					"-D__WXOSX__",
-					"-D__WXOSX_COCOA__",
-				);
-				OTHER_LDFLAGS = (
-					"-framework",
-					WebKit,
-					"-framework",
-					IOKit,
-					"-framework",
-					Carbon,
-					"-framework",
-					Cocoa,
-					"-framework",
-					AudioToolbox,
-					"-framework",
-					OpenGL,
-					"-framework",
-					QTKit,
-					"$(OTHER_LDFLAGS)",
-					"-lz",
-					"-L$(WXROOT)/build-release/lib",
-					"-framework",
-					IOKit,
-					"-framework",
-					Carbon,
-					"-framework",
-					Cocoa,
-					"-framework",
-					AudioToolbox,
-					"-framework",
-					System,
-					"-framework",
-					OpenGL,
-					"$(WXROOT)/build-release/lib/libwx_osx_cocoau_xrc-3.0.a",
-					"$(WXROOT)/build-release/lib/libwx_osx_cocoau_webview-3.0.a",
-					"$(WXROOT)/build-release/lib/libwx_osx_cocoau_qa-3.0.a",
-					"$(WXROOT)/build-release/lib/libwx_baseu_net-3.0.a",
-					"$(WXROOT)/build-release/lib/libwx_osx_cocoau_html-3.0.a",
-					"$(WXROOT)/build-release/lib/libwx_osx_cocoau_adv-3.0.a",
-					"$(WXROOT)/build-release/lib/libwx_osx_cocoau_core-3.0.a",
-					"$(WXROOT)/build-release/lib/libwx_baseu_xml-3.0.a",
-					"$(WXROOT)/build-release/lib/libwx_baseu-3.0.a",
-					"-framework",
-					WebKit,
-					"-lexpat",
-					"-lwxregexu-3.0",
-					"-lwxtiff-3.0",
-					"-lwxjpeg-3.0",
-					"-lwxpng-3.0",
-					"-lz",
-					"-lpthread",
-					"-liconv",
-					"-llzma",
-				);
-				OTHER_LIBTOOLFLAGS = "";
-				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "org.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = "Emma 02";
-				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
-				USER_HEADER_SEARCH_PATHS = "\"$(WXROOT)/include\" \"$(WXROOT)/src/zlib\" \"$(WXROOT)/src/jpeg\" \"$(WXROOT)/src/png\" \"$(WXROOT)/src/regex\" \"$(WXROOT)/src/expat/lib\" \"$(WXROOT)/src/tiff/libtiff\" \"$(WXROOT)/src/stc/scintilla/src\" \"$(WXROOT)/src/stc/scintilla/include\" \"$(WXROOT)/src/stc/scintilla/lexlib\"";
-				VALID_ARCHS = "i386 x86_64";
-				WARNING_LDFLAGS = "";
-				WXROOT = "../wxWidgets-3.0.3";
-			};
-			name = Release;
-		};
-		99B8447A2442123200E545CC /* Debug - libc */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD)";
-				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "-";
-				COPY_PHASE_STRIP = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
-				MTL_ENABLE_DEBUG_INFO = YES;
-				ONLY_ACTIVE_ARCH = NO;
-				OTHER_LDFLAGS = "";
-				SDKROOT = macosx;
-				VALID_ARCHS = x86_64;
-				"VALID_ARCHS[sdk=*]" = x86_64;
-			};
-			name = "Debug - libc";
-		};
-		99B8447B2442123200E545CC /* Debug - libc */ = {
+		99B8447B2442123200E545CC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = NO;
 				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
@@ -2302,14 +2324,140 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					/usr/local/lib,
+					/opt/homebrew/Cellar/libserialport/0.1.1/lib,
 					"$(PROJECT_DIR)/images",
 					"$(PROJECT_DIR)/images_osx",
+					/usr/local/Cellar/libserialport/0.1.1/lib,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
-					"-I$(WXROOT)/build-debug/lib/wx/include/osx_cocoa-unicode-static-3.0",
+					"-I$(WXROOT)/build-debug-12.0/lib/wx/include/osx_cocoa-unicode-static-$(WXVER)",
+					"-I$(WXROOT)/include",
+					"-D_FILE_OFFSET_BITS=64",
+					"-D__WXMAC__",
+					"-D__WXOSX__",
+					"-D__WXOSX_COCOA__",
+				);
+				OTHER_LDFLAGS = (
+					"-framework",
+					WebKit,
+					"-framework",
+					IOKit,
+					"-framework",
+					Carbon,
+					"-framework",
+					Cocoa,
+					"-framework",
+					AudioToolbox,
+					"-framework",
+					OpenGL,
+					"$(OTHER_LDFLAGS)",
+					"-lz",
+					"-L$(WXROOT)/build-debug-12.0/lib",
+					"-framework",
+					IOKit,
+					"-framework",
+					Carbon,
+					"-framework",
+					Cocoa,
+					"-framework",
+					AudioToolbox,
+					"-framework",
+					System,
+					"-framework",
+					OpenGL,
+					"-framework",
+					QuartzCore,
+					"$(WXROOT)/build-debug-12.0/lib/libwx_osx_cocoau_xrc-$(WXVER).a",
+					"$(WXROOT)/build-debug-12.0/lib/libwx_osx_cocoau_webview-$(WXVER).a",
+					"$(WXROOT)/build-debug-12.0/lib/libwx_osx_cocoau_qa-$(WXVER).a",
+					"$(WXROOT)/build-debug-12.0/lib/libwx_baseu_net-$(WXVER).a",
+					"$(WXROOT)/build-debug-12.0/lib/libwx_osx_cocoau_html-$(WXVER).a",
+					"$(WXROOT)/build-debug-12.0/lib/libwx_osx_cocoau_adv-$(WXVER).a",
+					"$(WXROOT)/build-debug-12.0/lib/libwx_osx_cocoau_core-$(WXVER).a",
+					"$(WXROOT)/build-debug-12.0/lib/libwx_baseu_xml-$(WXVER).a",
+					"$(WXROOT)/build-debug-12.0/lib/libwx_baseu-$(WXVER).a",
+					"-framework",
+					WebKit,
+					"-lexpat",
+					"-lwxregexu-$(WXVER)",
+					"-lwxtiff-$(WXVER)",
+					"-lwxjpeg-$(WXVER)",
+					"-lwxpng-$(WXVER)",
+					"-lz",
+					"-lpthread",
+					"-liconv",
+					"-llzma",
+				);
+				OTHER_LIBTOOLFLAGS = "";
+				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = "Emma 02";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
+				USER_HEADER_SEARCH_PATHS = "\"$(WXROOT)/include\" \"$(WXROOT)/src/zlib\" \"$(WXROOT)/src/jpeg\" \"$(WXROOT)/src/png\" \"$(WXROOT)/src/regex\" \"$(WXROOT)/src/expat/lib\" \"$(WXROOT)/src/tiff/libtiff\" \"$(WXROOT)/src/stc/scintilla/src\" \"$(WXROOT)/src/stc/scintilla/include\" \"$(WXROOT)/src/stc/scintilla/lexlib\"";
+				VALID_ARCHS = arm64;
+				WARNING_LDFLAGS = "";
+				WXROOT = "../wxWidgets-$(WXVER).7";
+				WXVER = 3.1;
+			};
+			name = Debug;
+		};
+		99F37F31285D1D9200C57417 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = "$(ARCHS_STANDARD)";
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = NO;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+					"$(PROJECT_DIR)",
+				);
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_PREFIX_HEADER = "$(WXROOT)/include/wx/wxprec.h";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(WX_PREPROCESSOR_DEFINITIONS)",
+					WXBUILDING,
+					"$(WXPLATFORM)",
+					__WX__,
+					"wxUSE_BASE=1",
+					"_FILE_OFFSET_BITS=64",
+					_LARGE_FILES,
+					MACOS_CLASSIC,
+					SCI_LEXER,
+					"WX_PRECOMP=1",
+					"wxUSE_UNICODE_UTF8=0",
+					"wxUSE_UNICODE_WCHAR=1",
+					"DEBUG=1",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(WXROOT)/include",
+					"\"/Library/Frameworks/SDL2.framework/Headers\"",
+					/usr/local/include,
+				);
+				INFOPLIST_FILE = "Emma 02 copy-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks /usr/local/lib";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/images",
+					"$(PROJECT_DIR)/images_osx",
+					/usr/local/lib,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-I$(WXROOT)/build-debug-10.10/lib/wx/include/osx_cocoa-unicode-static-$(WXVER)",
 					"-I$(WXROOT)/include",
 					"-D_FILE_OFFSET_BITS=64",
 					"-D__WXMAC__",
@@ -2333,7 +2481,7 @@
 					QTKit,
 					"$(OTHER_LDFLAGS)",
 					"-lz",
-					"-L$(WXROOT)/build-debug/lib",
+					"-L$(WXROOT)/build-debug-10.10/lib",
 					"-framework",
 					IOKit,
 					"-framework",
@@ -2346,22 +2494,24 @@
 					System,
 					"-framework",
 					OpenGL,
-					"$(WXROOT)/build-debug/lib/libwx_osx_cocoau_xrc-3.0.a",
-					"$(WXROOT)/build-release/lib/libwx_osx_cocoau_webview-3.0.a",
-					"$(WXROOT)/build-debug/lib/libwx_osx_cocoau_qa-3.0.a",
-					"$(WXROOT)/build-debug/lib/libwx_baseu_net-3.0.a",
-					"$(WXROOT)/build-debug/lib/libwx_osx_cocoau_html-3.0.a",
-					"$(WXROOT)/build-debug/lib/libwx_osx_cocoau_adv-3.0.a",
-					"$(WXROOT)/build-debug/lib/libwx_osx_cocoau_core-3.0.a",
-					"$(WXROOT)/build-debug/lib/libwx_baseu_xml-3.0.a",
-					"$(WXROOT)/build-debug/lib/libwx_baseu-3.0.a",
+					"-framework",
+					QuartzCore,
+					"$(WXROOT)/build-debug-10.10/lib/libwx_osx_cocoau_xrc-$(WXVER).a",
+					"$(WXROOT)/build-debug-10.10/lib/libwx_osx_cocoau_webview-$(WXVER).a",
+					"$(WXROOT)/build-debug-10.10/lib/libwx_osx_cocoau_qa-$(WXVER).a",
+					"$(WXROOT)/build-debug-10.10/lib/libwx_baseu_net-$(WXVER).a",
+					"$(WXROOT)/build-debug-10.10/lib/libwx_osx_cocoau_html-$(WXVER).a",
+					"$(WXROOT)/build-debug-10.10/lib/libwx_osx_cocoau_adv-$(WXVER).a",
+					"$(WXROOT)/build-debug-10.10/lib/libwx_osx_cocoau_core-$(WXVER).a",
+					"$(WXROOT)/build-debug-10.10/lib/libwx_baseu_xml-$(WXVER).a",
+					"$(WXROOT)/build-debug-10.10/lib/libwx_baseu-$(WXVER).a",
 					"-framework",
 					WebKit,
 					"-lexpat",
-					"-lwxregexu-3.0",
-					"-lwxtiff-3.0",
-					"-lwxjpeg-3.0",
-					"-lwxpng-3.0",
+					"-lwxregexu-$(WXVER)",
+					"-lwxtiff-$(WXVER)",
+					"-lwxjpeg-$(WXVER)",
+					"-lwxpng-$(WXVER)",
 					"-lz",
 					"-lpthread",
 					"-liconv",
@@ -2369,15 +2519,144 @@
 				);
 				OTHER_LIBTOOLFLAGS = "";
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "org.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = "Emma 02";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.Emma-02";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
 				USER_HEADER_SEARCH_PATHS = "\"$(WXROOT)/include\" \"$(WXROOT)/src/zlib\" \"$(WXROOT)/src/jpeg\" \"$(WXROOT)/src/png\" \"$(WXROOT)/src/regex\" \"$(WXROOT)/src/expat/lib\" \"$(WXROOT)/src/tiff/libtiff\" \"$(WXROOT)/src/stc/scintilla/src\" \"$(WXROOT)/src/stc/scintilla/include\" \"$(WXROOT)/src/stc/scintilla/lexlib\"";
 				VALID_ARCHS = x86_64;
 				WARNING_LDFLAGS = "";
-				WXROOT = "../wxWidgets-3.0.5";
+				WXROOT = "../wxWidgets-$(WXVER).7";
+				WXVER = 3.1;
 			};
-			name = "Debug - libc";
+			name = Debug;
+		};
+		99F37F32285D1D9200C57417 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = "$(ARCHS_STANDARD)";
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = NO;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+					"$(PROJECT_DIR)",
+				);
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_PREFIX_HEADER = "$(WXROOT)/include/wx/wxprec.h";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(WX_PREPROCESSOR_DEFINITIONS)",
+					WXBUILDING,
+					"$(WXPLATFORM)",
+					__WX__,
+					"wxUSE_BASE=1",
+					"_FILE_OFFSET_BITS=64",
+					_LARGE_FILES,
+					MACOS_CLASSIC,
+					SCI_LEXER,
+					"WX_PRECOMP=1",
+					"wxUSE_UNICODE_UTF8=0",
+					"wxUSE_UNICODE_WCHAR=1",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(WXROOT)/include",
+					"\"/Library/Frameworks/SDL2.framework/Headers\"",
+					/usr/local/include,
+				);
+				INFOPLIST_FILE = "Emma 02 copy-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks /usr/local/lib";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/images",
+					"$(PROJECT_DIR)/images_osx",
+					/usr/local/lib,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-I$(WXROOT)/build-release-10.10/lib/wx/include/osx_cocoa-unicode-static-$(WXVER)",
+					"-I$(WXROOT)/include",
+					"-D_FILE_OFFSET_BITS=64",
+					"-D__WXMAC__",
+					"-D__WXOSX__",
+					"-D__WXOSX_COCOA__",
+				);
+				OTHER_LDFLAGS = (
+					"-framework",
+					WebKit,
+					"-framework",
+					IOKit,
+					"-framework",
+					Carbon,
+					"-framework",
+					Cocoa,
+					"-framework",
+					AudioToolbox,
+					"-framework",
+					OpenGL,
+					"-framework",
+					QTKit,
+					"$(OTHER_LDFLAGS)",
+					"-lz",
+					"-L$(WXROOT)/build-release-10.10/lib",
+					"-framework",
+					IOKit,
+					"-framework",
+					Carbon,
+					"-framework",
+					Cocoa,
+					"-framework",
+					AudioToolbox,
+					"-framework",
+					System,
+					"-framework",
+					OpenGL,
+					"-framework",
+					QuartzCore,
+					"$(WXROOT)/build-release-10.10/lib/libwx_osx_cocoau_xrc-$(WXVER).a",
+					"$(WXROOT)/build-release-10.10/lib/libwx_osx_cocoau_webview-$(WXVER).a",
+					"$(WXROOT)/build-release-10.10/lib/libwx_osx_cocoau_qa-$(WXVER).a",
+					"$(WXROOT)/build-release-10.10/lib/libwx_baseu_net-$(WXVER).a",
+					"$(WXROOT)/build-release-10.10/lib/libwx_osx_cocoau_html-$(WXVER).a",
+					"$(WXROOT)/build-release-10.10/lib/libwx_osx_cocoau_adv-$(WXVER).a",
+					"$(WXROOT)/build-release-10.10/lib/libwx_osx_cocoau_core-$(WXVER).a",
+					"$(WXROOT)/build-release-10.10/lib/libwx_baseu_xml-$(WXVER).a",
+					"$(WXROOT)/build-release-10.10/lib/libwx_baseu-$(WXVER).a",
+					"-framework",
+					WebKit,
+					"-lexpat",
+					"-lwxregexu-$(WXVER)",
+					"-lwxtiff-$(WXVER)",
+					"-lwxjpeg-$(WXVER)",
+					"-lwxpng-$(WXVER)",
+					"-lz",
+					"-lpthread",
+					"-liconv",
+					"-llzma",
+				);
+				OTHER_LIBTOOLFLAGS = "";
+				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.Emma-02";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
+				USER_HEADER_SEARCH_PATHS = "\"$(WXROOT)/include\" \"$(WXROOT)/src/zlib\" \"$(WXROOT)/src/jpeg\" \"$(WXROOT)/src/png\" \"$(WXROOT)/src/regex\" \"$(WXROOT)/src/expat/lib\" \"$(WXROOT)/src/tiff/libtiff\" \"$(WXROOT)/src/stc/scintilla/src\" \"$(WXROOT)/src/stc/scintilla/include\" \"$(WXROOT)/src/stc/scintilla/lexlib\"";
+				VALID_ARCHS = x86_64;
+				WARNING_LDFLAGS = "";
+				WXROOT = "../wxWidgets-$(WXVER).7";
+				WXVER = 3.1;
+			};
+			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
@@ -2385,26 +2664,29 @@
 		997646B91A61D16300FB9B33 /* Build configuration list for PBXProject "Emma 02" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				997646D91A61D16300FB9B33 /* Debug */,
-				99B8447A2442123200E545CC /* Debug - libc */,
-				9911DA7425C4B57100D9949B /* Debug - master */,
-				993AA3A32569B012008E1E5E /* Release - libc */,
-				997646DA1A61D16300FB9B33 /* Release */,
+				99B8447A2442123200E545CC /* Debug */,
+				993AA3A32569B012008E1E5E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = "Release - libc";
+			defaultConfigurationName = Release;
 		};
 		997646DB1A61D16300FB9B33 /* Build configuration list for PBXNativeTarget "Emma 02" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				997646DC1A61D16300FB9B33 /* Debug */,
-				99B8447B2442123200E545CC /* Debug - libc */,
-				9911DA7525C4B57100D9949B /* Debug - master */,
-				993AA3A42569B012008E1E5E /* Release - libc */,
-				997646DD1A61D16300FB9B33 /* Release */,
+				99B8447B2442123200E545CC /* Debug */,
+				993AA3A42569B012008E1E5E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = "Release - libc";
+			defaultConfigurationName = Release;
+		};
+		99F37F30285D1D9200C57417 /* Build configuration list for PBXNativeTarget "Emma 02-x86" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				99F37F31285D1D9200C57417 /* Debug */,
+				99F37F32285D1D9200C57417 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

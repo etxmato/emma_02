@@ -32,14 +32,15 @@
 #include "main.h"
 #include "coinarcade.h"
 
-CoinArcade::CoinArcade(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType)
+CoinArcade::CoinArcade(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, Conf computerConf)
 :Pixie(title, pos, size, zoom, zoomfactor, computerType)
 {
+    computerConfiguration = computerConf;
 }
 
 CoinArcade::~CoinArcade()
 {
-	p_Main->setMainPos(COINARCADE, GetPosition());
+    p_Main->setMainPos(COINARCADE, GetPosition());
 }
 
 void CoinArcade::configureComputer()
@@ -49,7 +50,7 @@ void CoinArcade::configureComputer()
     outType_[3] = COINARCADEOUTTONE6;
     outType_[5] = COINARCADEOUTFREQ5;
     outType_[6] = COINARCADEOUTTONE6;
-	efType_[1] = COINARCADEEF1;
+    efType_[1] = COINARCADEEF1;
     efType_[3] = COINARCADEEF3;
     efType_[4] = COINARCADEEF4;
 
@@ -58,23 +59,23 @@ void CoinArcade::configureComputer()
     fireKeyB_ = 1;
     coinKey_ = 1;
     
-	p_Main->message("Configuring RCA Video Coin Arcade");
-    p_Main->message("	EF1: fire player A, EF3: fire player B, EF4: coin");
-    p_Main->message("	Input 5: parameter switch, input 6: direction keys & coin reset");
-    p_Main->message("	Output 5: tone latch, output 3 & 6: tone on/off");
+    p_Main->message("Configuring RCA Video Coin Arcade");
+    p_Main->message("    EF1: fire player A, EF3: fire player B, EF4: coin");
+    p_Main->message("    Input 5: parameter switch, input 6: direction keys & coin reset");
+    p_Main->message("    Output 5: tone latch, output 3 & 6: tone on/off");
 
     keyDefCoin_ = p_Main->getDefaultCoinArcadeKeys(keyDefA_, keyDefB_);
 
-	resetCpu();
+    resetCpu();
 }
 
 void CoinArcade::reDefineKeys(int keyDefA[], int keyDefB[], int coin)
 {
-	for (int i=0; i<4; i++)
-	{
+    for (int i=0; i<4; i++)
+    {
         keyDefA_[i] = keyDefA[i];
         keyDefB_[i] = keyDefB[i];
-	}
+    }
     keyDefCoin_ = coin;
 }
 
@@ -154,27 +155,27 @@ void CoinArcade::keyUp(int keycode)
 
 Byte CoinArcade::ef(int flag)
 {
-	switch(efType_[flag])
-	{
-		case 0:
-			return 1;
-		break;
+    switch(efType_[flag])
+    {
+        case 0:
+            return 1;
+        break;
 
         case COINARCADEEF1:
             return ef1();
         break;
             
-		case COINARCADEEF3:
-			return ef3();
-		break;
+        case COINARCADEEF3:
+            return ef3();
+        break;
 
-		case COINARCADEEF4:
-			return ef4();
-		break;
+        case COINARCADEEF4:
+            return ef4();
+        break;
 
-		default:
-			return 1;
-	}
+        default:
+            return 1;
+    }
 }
 
 Byte CoinArcade::ef1()
@@ -194,13 +195,13 @@ Byte CoinArcade::ef4()
 
 Byte CoinArcade::in(Byte port, Word WXUNUSED(address))
 {
-	Byte ret;
+    Byte ret;
 
-	switch(inType_[port])
-	{
-		case 0:
-			ret = 255;
-		break;
+    switch(inType_[port])
+    {
+        case 0:
+            ret = 255;
+        break;
 
         case COINARCADEINPPAR5:
             ret = 0x1;    // COIN_ARCADE_PARAMETER_SWITCH = 0; 8 is test mode?
@@ -211,26 +212,26 @@ Byte CoinArcade::in(Byte port, Word WXUNUSED(address))
             ret = directionKey_;
         break;
             
-		default:
-			ret = 255;
-	}
-	inValues_[port] = ret;
-	return ret;
+        default:
+            ret = 255;
+    }
+    inValues_[port] = ret;
+    return ret;
 }
 
 void CoinArcade::out(Byte port, Word WXUNUSED(address), Byte value)
 {
-	outValues_[port] = value;
+    outValues_[port] = value;
 
-	switch(outType_[port])
-	{
-		case 0:
-			return;
-		break;
+    switch(outType_[port])
+    {
+        case 0:
+            return;
+        break;
 
-		case PIXIEOUT:
-			inPixie();
-		break;
+        case PIXIEOUT:
+            inPixie();
+        break;
             
         case COINARCADEOUTFREQ4:
             tone1864Latch(value);
@@ -247,36 +248,36 @@ void CoinArcade::out(Byte port, Word WXUNUSED(address), Byte value)
                 beepOff();
         break;
 
-	}
+    }
 }
 
 void CoinArcade::cycle(int type)
 {
-	switch(cycleType_[type])
-	{
-		case 0:
-			return;
-		break;
+    switch(cycleType_[type])
+    {
+        case 0:
+            return;
+        break;
 
-		case PIXIECYCLE:
-			cyclePixieCoinArcade();
-		break;
-	}
+        case PIXIECYCLE:
+            cyclePixieCoinArcade();
+        break;
+    }
 }
 
 void CoinArcade::startComputer()
 {
-	resetPressed_ = false;
+    resetPressed_ = false;
 
-	p_Main->setSwName("");
+    p_Main->setSwName("");
 
     defineMemoryType(0x800, RAM);
     defineMemoryType(0x900, RAM);
     for (int i=0x1800; i<0xff00; i+=0x400)
-	{
+    {
         defineMemoryType(i, MAPPEDRAM);
         defineMemoryType(i+0x100, MAPPEDRAM);
-	}
+    }
 
     p_Main->checkAndReInstallMainRom(COINARCADE);
     readProgram(p_Main->getRomDir(COINARCADE, MAINROM1), p_Main->getRomFile(COINARCADE, MAINROM1), ROM, 0, NONAME);
@@ -288,87 +289,87 @@ void CoinArcade::startComputer()
     defineMemoryType(0x800, 0x9ff, RAM);
     initRam(0x800, 0x9ff);
 
-	double zoom = p_Main->getZoom();
+    double zoom = p_Main->getZoom();
 
-	configurePixieCoinArcade();
-	initPixie();
-	setZoom(zoom);
-	Show(true);
-	setWait(1);
-	setClear(0);
-	setWait(1);
-	setClear(1);
+    configurePixieCoinArcade();
+    initPixie();
+    setZoom(zoom);
+    Show(true);
+    setWait(1);
+    setClear(0);
+    setWait(1);
+    setClear(1);
 
-	p_Main->updateTitle();
+    p_Main->updateTitle();
 
-	cpuCycles_ = 0;
-	instructionCounter_= 0;
-	p_Main->startTime();
+    cpuCycles_ = 0;
+    instructionCounter_= 0;
+    p_Main->startTime();
 
-	threadPointer->Run();
+    threadPointer->Run();
     if (mainMemory_[0] == 0)
         p_Computer->dmaOut(); // skip over IDL instruction, must be a RCA FRED COSMAC 1801 Game System
 }
 
 void CoinArcade::writeMemDataType(Word address, Byte type)
 {
-	switch (memoryType_[address/256])
-	{
-		case RAM:
+    switch (memoryType_[address/256]&0xff)
+    {
+        case RAM:
         case ROM:
-			if (mainMemoryDataType_[address] != type)
-			{
-				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-				mainMemoryDataType_[address] = type;
-			}
+            if (mainMemoryDataType_[address] != type)
+            {
+                p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
+                mainMemoryDataType_[address] = type;
+            }
             increaseExecutedMainMemory(address, type);
-		break;
+        break;
             
-		case MAPPEDRAM:
-			address = (address & 0x1ff) | 0x800;
-			if (mainMemoryDataType_[address] != type)
-			{
-				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-				mainMemoryDataType_[address] = type;
-			}
+        case MAPPEDRAM:
+            address = (address & 0x1ff) | 0x800;
+            if (mainMemoryDataType_[address] != type)
+            {
+                p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
+                mainMemoryDataType_[address] = type;
+            }
             increaseExecutedMainMemory(address, type);
-		break;
-	}
+        break;
+    }
 }
 
 Byte CoinArcade::readMemDataType(Word address, uint64_t* executed)
 {
-    switch (memoryType_[address/256])
-	{
-		case RAM:
-		case ROM:
+    switch (memoryType_[address/256]&0xff)
+    {
+        case RAM:
+        case ROM:
             if (profilerCounter_ != PROFILER_OFF)
                 *executed = mainMemoryExecuted_[address];
-			return mainMemoryDataType_[address];
-		break;
+            return mainMemoryDataType_[address];
+        break;
 
         case MAPPEDRAM:
             address = (address & 0x1ff) | 0x800;
             if (profilerCounter_ != PROFILER_OFF)
                 *executed = mainMemoryExecuted_[address];
-			return mainMemoryDataType_[address];
-		break;
-	}
-	return MEM_TYPE_UNDEFINED;
+            return mainMemoryDataType_[address];
+        break;
+    }
+    return MEM_TYPE_UNDEFINED;
 }
 
 Byte CoinArcade::readMem(Word address)
 {
-	switch (memoryType_[address/256])
-	{
-		case UNDEFINED:
-			return 255;
-		break;
+    switch (memoryType_[address/256]&0xff)
+    {
+        case UNDEFINED:
+            return 255;
+        break;
 
         case MAPPEDRAM:
-			address = (address & 0x1ff) | 0x800;
-		break;
- 	}
+            address = (address & 0x1ff) | 0x800;
+        break;
+     }
     return mainMemory_[address];
 }
 
@@ -379,32 +380,32 @@ Byte CoinArcade::readMemDebug(Word address)
 
 void CoinArcade::writeMem(Word address, Byte value, bool writeRom)
 {
-	switch (memoryType_[address/256])
-	{
-		case RAM:
-			if (mainMemory_[address]==value)
-				return;
-			mainMemory_[address]=value;
-			if (address>= memoryStart_ && address<(memoryStart_+256))
-				p_Main->updateDebugMemory(address);
-			p_Main->updateAssTabCheck(address);
-		break;
+    switch (memoryType_[address/256]&0xff)
+    {
+        case RAM:
+            if (mainMemory_[address]==value)
+                return;
+            mainMemory_[address]=value;
+            if (address>= memoryStart_ && address<(memoryStart_+256))
+                p_Main->updateDebugMemory(address);
+            p_Main->updateAssTabCheck(address);
+        break;
             
-		case MAPPEDRAM:
-			address = (address & 0x1ff) | 0x800;
-			if (mainMemory_[address]==value)
-				return;
-			mainMemory_[address]=value;
-			if (address>= memoryStart_ && address<(memoryStart_+256))
-				p_Main->updateDebugMemory(address);
-			p_Main->updateAssTabCheck(address);
-		break;
+        case MAPPEDRAM:
+            address = (address & 0x1ff) | 0x800;
+            if (mainMemory_[address]==value)
+                return;
+            mainMemory_[address]=value;
+            if (address>= memoryStart_ && address<(memoryStart_+256))
+                p_Main->updateDebugMemory(address);
+            p_Main->updateAssTabCheck(address);
+        break;
 
-		default:
-			if (writeRom)
-				mainMemory_[address]=value;
-		break;
-	}
+        default:
+            if (writeRom)
+                mainMemory_[address]=value;
+        break;
+    }
 }
 
 void CoinArcade::writeMemDebug(Word address, Byte value, bool writeRom)
@@ -414,17 +415,17 @@ void CoinArcade::writeMemDebug(Word address, Byte value, bool writeRom)
 
 void CoinArcade::cpuInstruction()
 {
-	if (cpuMode_ == RUN)
-	{
+    if (cpuMode_ == RUN)
+    {
         cpuCycleStep();
-	}
-	else
-	{
-		initPixie();
-		cpuCycles_ = 0;
-		instructionCounter_= 0;
-		p_Main->startTime();
-	}
+    }
+    else
+    {
+        initPixie();
+        cpuCycles_ = 0;
+        instructionCounter_= 0;
+        p_Main->startTime();
+    }
 }
 
 void CoinArcade::resetPressed()
@@ -443,5 +444,5 @@ void CoinArcade::resetPressed()
 
 void CoinArcade::onReset()
 {
-	resetPressed_ = true;
+    resetPressed_ = true;
 }

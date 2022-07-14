@@ -14,7 +14,7 @@
 class Cdp18s600 : public Upd765, public V1870
 {
 public:
-    Cdp18s600(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock, ElfConfiguration conf);
+    Cdp18s600(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock, ElfConfiguration conf, Conf computerConf);
 //    Cdp18s600() {};
     virtual ~Cdp18s600();
     
@@ -143,7 +143,7 @@ private:
 class Cdp18s601 : public Cdp18s600
 {
 public:
-    Cdp18s601(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock, ElfConfiguration conf);
+    Cdp18s601(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock, ElfConfiguration conf, Conf computerConf);
 
     virtual void configurePio();
     Byte in(Byte port, Word address);
@@ -157,7 +157,7 @@ private:
 class Cdp18s602 : public Cdp18s600
 {
 public:
-    Cdp18s602(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock, ElfConfiguration conf);
+    Cdp18s602(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock, ElfConfiguration conf, Conf computerConf);
     ~Cdp18s602();
     
     void configurePio();
@@ -181,7 +181,7 @@ private:
 class Cdp18s603a : public Cdp18s601
 {
 public:
-    Cdp18s603a(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock, ElfConfiguration conf);
+    Cdp18s603a(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock, ElfConfiguration conf, Conf computerConf);
     
     void readRoms();
     
@@ -192,7 +192,7 @@ private:
 class Cdp18s604b : public Cdp18s600
 {
 public:
-    Cdp18s604b(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock, ElfConfiguration conf);
+    Cdp18s604b(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock, ElfConfiguration conf, Conf computerConf);
     ~Cdp18s604b();
     
     void configurePio();
@@ -226,7 +226,7 @@ private:
 class Rcasbc : public Cdp18s600
 {
 public:
-    Rcasbc(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock, ElfConfiguration conf);
+    Rcasbc(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock, ElfConfiguration conf, Conf computerConf);
     ~Rcasbc();
     
     void configureVt();

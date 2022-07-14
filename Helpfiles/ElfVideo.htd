@@ -38,7 +38,7 @@ TMS 9918 is a video chip with text mode and different graphic modes, allowing co
 </p>
 <h2>Intel 8275</h2>
 <p>
-The intel 8275 is a video chip for text based output. Different screen sizes can be emulated via software settings of the intel 8275 registers. Default a 80 wide and 24 rows screen is specified by the emulator. 
+The intel 8275 is a video chip for text based output. Different screen sizes can be emulated via software settings of the intel 8275 registers. Default a 80 wide and 24 rows screen is specified by the emulator. Character font ROM is specified and changeable via the 'Video Font' button (orange ellipse).
 </p>
 <h2>Super Video</h2>
 <p>

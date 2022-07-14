@@ -3,13 +3,13 @@
 
 [Setup]
 AppName=Emma 02
-AppVerName=Emma 02 - V1.44
-AppVersion=1.44
+AppVerName=Emma 02 - V1.47
+AppVersion=1.47
 AppPublisher=Marcel van Tongeren
 DefaultDirName={pf}\Emma 02
 DefaultGroupName=Emma 02
 OutputDir=x64
-OutputBaseFilename=Emma_02_x64_setup_v1.44
+OutputBaseFilename=Emma_02_x64_setup_v1.47
 Compression=lzma
 SolidCompression=true
 SetupIconFile=..\images\app.ico
@@ -25,8 +25,8 @@ ShowLanguageDialog=no
 AppPublisherURL=http://www.emma02.hobby-site.com/
 AppSupportURL=http://www.comxclub.hobby-site.com/forum/forumdisplay.php?fid=4
 AppUpdatesURL=http://www.emma02.hobby-site.com/changelog.php
-ArchitecturesInstallIn64BitMode=x64
-ArchitecturesAllowed=x64
+ArchitecturesInstallIn64BitMode=x64 arm64
+ArchitecturesAllowed=x64 arm64
 
 [Languages]
 Name: english; MessagesFile: compiler:Default.isl
@@ -82,8 +82,8 @@ Source: ..\menuMS2000_11.xrc; DestDir: {app}; Components: MAIN
 Source: ..\menuMS2000_12.xrc; DestDir: {app}; Components: MAIN
 Source: ..\menuPecom_11.xrc; DestDir: {app}; Components: MAIN
 Source: ..\menuPecom_12.xrc; DestDir: {app}; Components: MAIN
-Source: ..\menuTmc600_11.xrc; DestDir: {app}; Components: MAIN
-Source: ..\menuTmc600_12.xrc; DestDir: {app}; Components: MAIN
+Source: ..\menuTMC600_11.xrc; DestDir: {app}; Components: MAIN
+Source: ..\menuTMC600_12.xrc; DestDir: {app}; Components: MAIN
 Source: ..\menuVelf_11.xrc; DestDir: {app}; Components: MAIN
 Source: ..\menuVelf_12.xrc; DestDir: {app}; Components: MAIN
 Source: ..\menuVip_11.xrc; DestDir: {app}; Components: MAIN
@@ -134,6 +134,7 @@ Source: ..\Configurations Windows\Microtutor2\*.*; DestDir: {app}\Configurations
 Source: ..\Configurations Windows\MS2000\*.*; DestDir: {app}\Configurations\MS2000; Components: MAIN
 Source: ..\Configurations Windows\Nano\*.*; DestDir: {app}\Configurations\Nano; Components: MAIN
 Source: ..\Configurations Windows\Pecom\*.*; DestDir: {app}\Configurations\Pecom; Components: MAIN
+Source: ..\Configurations Windows\Pico\*.*; DestDir: {app}\Configurations\Pico; Components: MAIN
 Source: ..\Configurations Windows\Studio2\*.*; DestDir: {app}\Configurations\Studio2; Components: MAIN
 Source: ..\Configurations Windows\StudioIV\*.*; DestDir: {app}\Configurations\StudioIV; Components: MAIN
 Source: ..\Configurations Windows\TMC600\*.*; DestDir: {app}\Configurations\TMC600; Components: MAIN
@@ -228,6 +229,7 @@ Source: ..\data\MS2000\RP\*.*; DestDir: {app}\data\MS2000\RP; Components: MAIN
 Source: ..\data\MS2000\Software\*.*; DestDir: {app}\data\MS2000\Software; Components: MAIN
 Source: ..\data\Nano\*.*; DestDir: {app}\data\Nano; Components: MAIN
 Source: ..\data\Pecom\*.*; DestDir: {app}\data\Pecom; Components: MAIN
+Source: ..\data\Pico\*.*; DestDir: {app}\data\Pico; Components: MAIN
 Source: ..\data\Studio2\*.*; DestDir: {app}\data\Studio2; Components: MAIN
 Source: ..\data\StudioIV\*.*; DestDir: {app}\data\StudioIV; Components: MAIN
 Source: ..\data\TMC600\*.*; DestDir: {app}\data\TMC600; Components: MAIN

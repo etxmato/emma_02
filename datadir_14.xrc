@@ -19,7 +19,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Data Directory:</label>
+<label>Data Directory: </label>
 </object>
 </object>
 <object class="sizeritem">

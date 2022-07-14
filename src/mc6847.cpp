@@ -54,28 +54,36 @@
 mc6847::mc6847(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, int computerType, double clock, ElfPortConfiguration elfPortConf)
 : Video(title, pos, size)
 {
-	computerType_ = computerType;
-	clock_ = clock;
+    computerType_ = computerType;
+    clock_ = clock;
 
-	switch(computerType_)
-	{
-		case ELF:
-			elfTypeStr_ = "Elf";
-		break;
+    switch(computerType_)
+    {
+        case ELF:
+            elfTypeStr_ = "Elf";
+        break;
 
-		case ELFII:
-			elfTypeStr_ = "ElfII";
-		break;
+        case ELFII:
+            elfTypeStr_ = "ElfII";
+        break;
 
-		case SUPERELF:
-			elfTypeStr_ = "SuperElf";
-		break;
-	}
-	readCharRomFile(p_Main->getCharRomDir(computerType_), p_Main->getCharRomFile(computerType_));
+        case SUPERELF:
+            elfTypeStr_ = "SuperElf";
+        break;
+            
+        case DIY:
+            elfTypeStr_ = "Diy";
+        break;
+
+        case PICO:
+            elfTypeStr_ = "Pico";
+        break;
+    }
+    readCharRomFile(p_Main->getCharRomDir(computerType_), p_Main->getCharRomFile(computerType_));
     mc6847RamStart_ = elfPortConf.mc6847StartRam; //p_Main->getConfigItem(elfTypeStr_+"/mc6847StartRam",0xE000l);
-//	Word end = p_Main->getConfigItem(elfTypeStr_+"/mc6847EndRam", 0xE3FFl);
-	p_Computer->defineMemoryType(mc6847RamStart_, elfPortConf.mc6847EndRam, MC6847RAM);
-	mc6847RamMask_ = elfPortConf.mc6847EndRam - mc6847RamStart_;
+//    Word end = p_Main->getConfigItem(elfTypeStr_+"/mc6847EndRam", 0xE3FFl);
+    p_Computer->defineMemoryType(mc6847RamStart_, elfPortConf.mc6847EndRam, MC6847RAM);
+    mc6847RamMask_ = elfPortConf.mc6847EndRam - mc6847RamStart_;
 
     switch (p_Main->getCpuStartupVideoRam())
     {
@@ -95,13 +103,13 @@ mc6847::mc6847(const wxString& title, const wxPoint& pos, const wxSize& size, do
     
 
 #ifndef __WXMAC__
-	SetIcon(wxICON(app_icon));
+    SetIcon(wxICON(app_icon));
 #endif
 
     videoWidth_ = 256;
-	videoHeight_ = 192;
+    videoHeight_ = 192;
 
-	fullScreenSet_ = false;
+    fullScreenSet_ = false;
 
     if (elfPortConf.forceHighAg)
         ag_ = 1;
@@ -145,165 +153,165 @@ mc6847::mc6847(const wxString& title, const wxPoint& pos, const wxSize& size, do
 
     setGraphicMode();
 
-	offsetX_ = 0;
-	offsetY_ = 0;
-	reDraw_ = true;
-	reBlit_ = false;
-	newBackGround_ = false;
-	updateCharacter_ = 0;
+    offsetX_ = 0;
+    offsetY_ = 0;
+    reDraw_ = true;
+    reBlit_ = false;
+    newBackGround_ = false;
+    updateCharacter_ = 0;
 
-	screenCopyPointer = new wxBitmap(videoWidth_, videoHeight_);
-	dcMemory.SelectObject(*screenCopyPointer);
+    screenCopyPointer = new wxBitmap(videoWidth_, videoHeight_);
+    dcMemory.SelectObject(*screenCopyPointer);
 
 #if defined(__WXMAC__)
-	gc = wxGraphicsContext::Create(dcMemory);
-	gc->SetAntialiasMode(wxANTIALIAS_NONE);
+    gc = wxGraphicsContext::Create(dcMemory);
+    gc->SetAntialiasMode(wxANTIALIAS_NONE);
 #endif
 
-	videoScreenPointer = new VideoScreen(this, size, zoom, computerType);
+    videoScreenPointer = new VideoScreen(this, size, zoom, computerType);
 
-	setCycle();
+    setCycle();
 
-	defineColours(computerType_);
-	backGround_ = BACKGROUND;
-	videoType_ = VIDEO6847;
+    defineColours(computerType_);
+    backGround_ = BACKGROUND;
+    videoType_ = VIDEO6847;
 
-	cycleValue_ = cycleSize_;
-	zoom_ = zoom;
+    cycleValue_ = cycleSize_;
+    zoom_ = zoom;
 
-	double intPart;
-	zoomFraction_ = (modf(zoom_, &intPart) != 0);
+    double intPart;
+    zoomFraction_ = (modf(zoom_, &intPart) != 0);
 
-	characterListPointer6847 = NULL;
-	outLatch_ = 0;
+    characterListPointer6847 = NULL;
+    outLatch_ = 0;
 
-	this->SetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_, (videoHeight_+2*borderY_[videoType_])*zoom_);
+    this->SetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_, (videoHeight_+2*borderY_[videoType_])*zoom_);
 }
 
 mc6847::~mc6847()
 {
-	CharacterList6847 *temp;
+    CharacterList6847 *temp;
 
-	dcMemory.SelectObject(wxNullBitmap);
-	delete screenCopyPointer;
-	delete videoScreenPointer;
+    dcMemory.SelectObject(wxNullBitmap);
+    delete screenCopyPointer;
+    delete videoScreenPointer;
 #if defined(__WXMAC__)
-	delete gc;
+    delete gc;
 #endif
-	if (updateCharacter_ > 0)
-	{
-		while(characterListPointer6847 != NULL)
-		{
-			temp = characterListPointer6847;
-			characterListPointer6847 = temp->nextCharacter;
-			delete temp;
-		}
-	}
+    if (updateCharacter_ > 0)
+    {
+        while(characterListPointer6847 != NULL)
+        {
+            temp = characterListPointer6847;
+            characterListPointer6847 = temp->nextCharacter;
+            delete temp;
+        }
+    }
 }
 
 void mc6847::drawScreen()
 {
-	setColour(backGround_);
-	drawRectangle(0, 0, videoWidth_ + 2*offsetX_, videoHeight_ + 2*offsetY_);
-	for (int addr=0; addr<(rows_*charLine_); addr++)
-		draw(addr);
+    setColour(backGround_);
+    drawRectangle(0, 0, videoWidth_ + 2*offsetX_, videoHeight_ + 2*offsetY_);
+    for (int addr=0; addr<(rows_*charLine_); addr++)
+        draw(addr);
 }
 
 void mc6847::configure(ElfPortConfiguration elfPortConf)
 {
-//	int mc6847Out;
-	wxString printBuffer;
+//    int mc6847Out;
+    wxString printBuffer;
 
 //    mc6847Out = p_Main->getConfigItem(elfTypeStr_+"/MC6847Output", 5l);
 
-	invBit_ = 16;
-	extBit_ = 16;
-	cssBit_ = 16;
-	asBit_ = 16;
-	agBit_ = 16;
-	gm0Bit_ = 16;
-	gm1Bit_ = 16;
-	gm2Bit_ = 16;
-	
-    setMCBit(15, elfPortConf.mc6847b7); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-B7", 0l));
-	setMCBit(14, elfPortConf.mc6847b6); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-B6", 0l));
-	setMCBit(13, elfPortConf.mc6847b5); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-B5", 0l));
-	setMCBit(12, elfPortConf.mc6847b4); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-B4", 0l));
-	setMCBit(11, elfPortConf.mc6847b3); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-B3", 3l));
-	setMCBit(10, elfPortConf.mc6847b2); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-B2", 4l));
-	setMCBit(9, elfPortConf.mc6847b1); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-B1", 6l));
-	setMCBit(8, elfPortConf.mc6847b0); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-B0", 5l));
-	setMCBit(7, elfPortConf.mc6847dd7); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-DD7", 1l));
-	setMCBit(6, elfPortConf.mc6847dd6); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-DD6", 0l));
+    invBit_ = 16;
+    extBit_ = 16;
+    cssBit_ = 16;
+    asBit_ = 16;
+    agBit_ = 16;
+    gm0Bit_ = 16;
+    gm1Bit_ = 16;
+    gm2Bit_ = 16;
     
-	p_Computer->setCycleType(VIDEOCYCLE, MC6847CYCLE);
+    setMCBit(15, elfPortConf.mc6847b7); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-B7", 0l));
+    setMCBit(14, elfPortConf.mc6847b6); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-B6", 0l));
+    setMCBit(13, elfPortConf.mc6847b5); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-B5", 0l));
+    setMCBit(12, elfPortConf.mc6847b4); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-B4", 0l));
+    setMCBit(11, elfPortConf.mc6847b3); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-B3", 3l));
+    setMCBit(10, elfPortConf.mc6847b2); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-B2", 4l));
+    setMCBit(9, elfPortConf.mc6847b1); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-B1", 6l));
+    setMCBit(8, elfPortConf.mc6847b0); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-B0", 5l));
+    setMCBit(7, elfPortConf.mc6847dd7); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-DD7", 1l));
+    setMCBit(6, elfPortConf.mc6847dd6); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-DD6", 0l));
+    
+    p_Computer->setCycleType(VIDEOCYCLE, MC6847CYCLE);
 
-	p_Main->message("Configuring MC6847");
+    p_Main->message("Configuring MC6847");
 
     if (elfPortConf.mc6847OutputMode == 1)
     {
-        printBuffer = "	Write mem FFxx: video mode\n";
+        printBuffer = "    Write mem FFxx: video mode\n";
     }
     else
     {
         p_Computer->setOutType(elfPortConf.mc6847Output, MC6847OUT);
-        printBuffer.Printf("	Output %d: video mode\n", elfPortConf.mc6847Output);
+        printBuffer.Printf("    Output %d: video mode\n", elfPortConf.mc6847Output);
     }
-	p_Main->message(printBuffer);
+    p_Main->message(printBuffer);
 }
 
 void mc6847::init6847()
 {
-	cycleValue_ = cycleSize_;
-	reDraw_ = true;
-	reBlit_ = false;
-	newBackGround_ = false;
-	updateCharacter_ = 0;
+    cycleValue_ = cycleSize_;
+    reDraw_ = true;
+    reBlit_ = false;
+    newBackGround_ = false;
+    updateCharacter_ = 0;
 }
 
 void mc6847::setMCBit(int bit, int selection)
 {
-	switch (selection)
-	{
-		case MC_INV:
-			invBit_ = bit;
-		break;
+    switch (selection)
+    {
+        case MC_INV:
+            invBit_ = bit;
+        break;
 
-		case MC_EXT:
-			extBit_ = bit;
-		break;
+        case MC_EXT:
+            extBit_ = bit;
+        break;
 
-		case MC_CSS:
-			cssBit_ = bit;
-		break;
+        case MC_CSS:
+            cssBit_ = bit;
+        break;
 
-		case MC_AS:
-			asBit_ = bit;
-		break;
+        case MC_AS:
+            asBit_ = bit;
+        break;
 
-		case MC_AG:
-			agBit_ = bit;
-		break;
+        case MC_AG:
+            agBit_ = bit;
+        break;
 
-		case MC_GM0:
-			gm0Bit_ = bit;
-		break;
+        case MC_GM0:
+            gm0Bit_ = bit;
+        break;
 
-		case MC_GM1:
-			gm1Bit_ = bit;
-		break;
+        case MC_GM1:
+            gm1Bit_ = bit;
+        break;
 
-		case MC_GM2:
-			gm2Bit_ = bit;
-		break;
-	}
+        case MC_GM2:
+            gm2Bit_ = bit;
+        break;
+    }
 }
 
 void mc6847::outMc6847(Byte v)
 {
-	int newMode, value;
+    int newMode, value;
 
-	value = v * 256;
+    value = v * 256;
 
     if (agBit_ != 16)
     {
@@ -328,14 +336,14 @@ void mc6847::outMc6847(Byte v)
     if (gm2Bit_ != 16)
         gm2_ = (value >> gm2Bit_) & 1;
 
-	newMode = gm0_ + (gm1_ << 1) + (gm2_ << 2);
-	if (newMode != graphicMode_)
-		reDraw_ = true;
-	graphicMode_ = newMode;
+    newMode = gm0_ + (gm1_ << 1) + (gm2_ << 2);
+    if (newMode != graphicMode_)
+        reDraw_ = true;
+    graphicMode_ = newMode;
 
     setGraphicMode();
 
-	outLatch_ = value & 0xf00;
+    outLatch_ = value & 0xf00;
 }
 
 void mc6847::setGraphicMode()
@@ -415,21 +423,21 @@ void mc6847::setGraphicMode()
 
 void mc6847::cycle6847()
 {
-	cycleValue_--;
-	if (cycleValue_ == (cycleSize_ - (int)(nonDisplay_/2)))
-	{
-		if (changeScreenSize_)
-		{
-			changeScreenSize();
-			changeScreenSize_ = false;
-		}
-		copyScreen();
-		videoSyncCount_++;
-	}
-	if (cycleValue_ <= 0)
-	{
-		cycleValue_ = cycleSize_;
-	}
+    cycleValue_--;
+    if (cycleValue_ == (cycleSize_ - (int)(nonDisplay_/2)))
+    {
+        if (changeScreenSize_)
+        {
+            changeScreenSize();
+            changeScreenSize_ = false;
+        }
+        copyScreen();
+        videoSyncCount_++;
+    }
+    if (cycleValue_ <= 0)
+    {
+        cycleValue_ = cycleSize_;
+    }
 }
 
 void mc6847::copyScreen()
@@ -437,31 +445,31 @@ void mc6847::copyScreen()
     if (p_Main->isZoomEventOngoing())
         return;
 
-	if (reColour_)
-	{
-		for (int i=0; i<numberOfColours_; i++)
-		{
-			colour_[i] = colourNew_[i];
-			brushColour_[i] = brushColourNew_[i];
-			penColour_[i] = penColourNew_[i];
-		}
-		for (int i=0; i<10; i++)
-		{
-			borderX_[i] = borderXNew_[i];
-			borderY_[i] = borderYNew_[i];
-		}
-		setScreenSize();
-		reDraw_ = true;
-		reBlit_ = true;
-		newBackGround_ = true;
-		reColour_ = false;
-	}
+    if (reColour_)
+    {
+        for (int i=0; i<numberOfColours_; i++)
+        {
+            colour_[i] = colourNew_[i];
+            brushColour_[i] = brushColourNew_[i];
+            penColour_[i] = penColourNew_[i];
+        }
+        for (int i=0; i<10; i++)
+        {
+            borderX_[i] = borderXNew_[i];
+            borderY_[i] = borderYNew_[i];
+        }
+        setScreenSize();
+        reDraw_ = true;
+        reBlit_ = true;
+        newBackGround_ = true;
+        reColour_ = false;
+    }
 
-	if (reCycle_)
-		setCycle();
+    if (reCycle_)
+        setCycle();
 
-	if (reDraw_)
-		drawScreen();
+    if (reDraw_)
+        drawScreen();
 
 #if defined(__WXMAC__)
     if (reBlit_ || reDraw_)
@@ -471,285 +479,285 @@ void mc6847::copyScreen()
         reDraw_ = false;
     }
 #else
-	if (extraBackGround_ && newBackGround_)
-		drawExtraBackground(colour_[backGround_]);
+    if (extraBackGround_ && newBackGround_)
+        drawExtraBackground(colour_[backGround_]);
 
     CharacterList6847 *temp;
 
     if (reBlit_ || reDraw_)
-	{
-		videoScreenPointer->blit(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_, &dcMemory, 0, 0);
-		reBlit_ = false;
-		reDraw_ = false;
-		if (updateCharacter_ > 0)
-		{
-			updateCharacter_ = 0;
-			while(characterListPointer6847 != NULL)
-			{
-				temp = characterListPointer6847;
-				characterListPointer6847 = temp->nextCharacter;
-				delete temp;
-			}
-		}
-	}
-	if (updateCharacter_ > 0)
-	{
-		updateCharacter_ = 0;
-		while(characterListPointer6847 != NULL)
-		{
-			videoScreenPointer->blit(offsetX_+(characterListPointer6847->x), offsetY_+(characterListPointer6847->y), charWidth_, charHeight_*addLine_, &dcMemory, offsetX_+characterListPointer6847->x, offsetY_+characterListPointer6847->y);
-			temp = characterListPointer6847;
-			characterListPointer6847 = temp->nextCharacter;
-			delete temp;
-		}
-	}
+    {
+        videoScreenPointer->blit(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_, &dcMemory, 0, 0);
+        reBlit_ = false;
+        reDraw_ = false;
+        if (updateCharacter_ > 0)
+        {
+            updateCharacter_ = 0;
+            while(characterListPointer6847 != NULL)
+            {
+                temp = characterListPointer6847;
+                characterListPointer6847 = temp->nextCharacter;
+                delete temp;
+            }
+        }
+    }
+    if (updateCharacter_ > 0)
+    {
+        updateCharacter_ = 0;
+        while(characterListPointer6847 != NULL)
+        {
+            videoScreenPointer->blit(offsetX_+(characterListPointer6847->x), offsetY_+(characterListPointer6847->y), charWidth_, charHeight_*addLine_, &dcMemory, offsetX_+characterListPointer6847->x, offsetY_+characterListPointer6847->y);
+            temp = characterListPointer6847;
+            characterListPointer6847 = temp->nextCharacter;
+            delete temp;
+        }
+    }
 #endif
 }
 
 void mc6847::setClock(double clock)
 {
-	clock_ = clock;
-	reCycle_ = true;
+    clock_ = clock;
+    reCycle_ = true;
 }
 
 void mc6847::setCycle()
 {
-	// DOT 3.579
-	int fieldTime = (int)(262*(227.5*1/3.579));
-	cycleSize_ = (int)(fieldTime / ((1/clock_) * 8));
-	nonDisplay_ = (int) ((float)cycleSize_ / 262 * 96);
-	reCycle_ = false;
+    // DOT 3.579
+    int fieldTime = (int)(262*(227.5*1/3.579));
+    cycleSize_ = (int)(fieldTime / ((1/clock_) * 8));
+    nonDisplay_ = (int) ((float)cycleSize_ / 262 * 96);
+    reCycle_ = false;
 }
 
 void mc6847::write(Word addr, Byte value)
 {
-	mc6847ram_[addr-mc6847RamStart_] = value + outLatch_;
-	Word memoryStart = p_Computer->getDebugMemoryStart();
-	if ((addr-mc6847RamStart_) >= memoryStart && (addr-mc6847RamStart_)<(memoryStart + 256))
-		p_Main->updateDebugMemory(addr-mc6847RamStart_);
-	draw(addr-mc6847RamStart_);
+    mc6847ram_[addr-mc6847RamStart_] = value + outLatch_;
+    Word memoryStart = p_Computer->getDebugMemoryStart();
+    if ((addr-mc6847RamStart_) >= memoryStart && (addr-mc6847RamStart_)<(memoryStart + 256))
+        p_Main->updateDebugMemory(addr-mc6847RamStart_);
+    draw(addr-mc6847RamStart_);
 }
 
 Byte mc6847::read6847(Word addr)
 {
-	return (mc6847ram_[addr-mc6847RamStart_] & 0xff);
+    return (mc6847ram_[addr-mc6847RamStart_] & 0xff);
 }
 
 int mc6847::readDirect6847(Word addr)
 {
-	if (addr > mc6847RamMask_)
-		return ((mc6847ram_[addr - mc6847RamMask_ - 1] >> 8) & 0xf);
-	else
-		return (mc6847ram_[addr] &0xff);
+    if (addr > mc6847RamMask_)
+        return ((mc6847ram_[addr - mc6847RamMask_ - 1] >> 8) & 0xf);
+    else
+        return (mc6847ram_[addr] &0xff);
 }
 
 void mc6847::writeDirect6847(Word addr, int value)
 {
-	if (addr > mc6847RamMask_)
-	{
-		mc6847ram_[addr - mc6847RamMask_ - 1] = (mc6847ram_[addr - mc6847RamMask_ - 1]&0x0ff) | ((value&0xf) << 8);
-		draw(addr - mc6847RamMask_ - 1);
-	}
-	else
-	{
-		mc6847ram_[addr] = (mc6847ram_[addr]&0xf00) | value;
-		draw(addr);
-	}
+    if (addr > mc6847RamMask_)
+    {
+        mc6847ram_[addr - mc6847RamMask_ - 1] = (mc6847ram_[addr - mc6847RamMask_ - 1]&0x0ff) | ((value&0xf) << 8);
+        draw(addr - mc6847RamMask_ - 1);
+    }
+    else
+    {
+        mc6847ram_[addr] = (mc6847ram_[addr]&0xf00) | value;
+        draw(addr);
+    }
 }
 
 Byte mc6847::read6847CharRom(Word addr)
 {
-	return mc6847CharRom_[addr];
+    return mc6847CharRom_[addr];
 }
 
 void mc6847::write6847CharRom(Word addr, Byte value)
 {
-	mc6847CharRom_[addr] = value;
+    mc6847CharRom_[addr] = value;
 
-	Word memoryStart = p_Computer->getDebugMemoryStart();
-	if (addr >= memoryStart && addr<(memoryStart + 256))
-		p_Main->updateDebugMemory(addr);
-	reDraw_ = true;
+    Word memoryStart = p_Computer->getDebugMemoryStart();
+    if (addr >= memoryStart && addr<(memoryStart + 256))
+        p_Main->updateDebugMemory(addr);
+    reDraw_ = true;
 }
 
 Word mc6847::get6847RamMask()
 {
- 	return mc6847RamMask_;
+     return mc6847RamMask_;
 }
 
 void mc6847::draw(Word addr)
 {
-	int y = (addr/charLine_)*charHeight_*addLine_;
-	int x = (addr%charLine_)*charWidth_;
+    int y = (addr/charLine_)*charHeight_*addLine_;
+    int x = (addr%charLine_)*charWidth_;
 
-	if (ag_ == 1)
-		drawGraphic(x, y, mc6847ram_[addr]);
-	else
-		drawCharacter(x, y, mc6847ram_[addr]);
+    if (ag_ == 1)
+        drawGraphic(x, y, mc6847ram_[addr]);
+    else
+        drawCharacter(x, y, mc6847ram_[addr]);
 }
 
 void mc6847::drawCharacter(wxCoord x, wxCoord y, int v)
 {
-	int line_byte, line;
-	wxColour backGroundClr;
-	wxColour foreGroundClr;
+    int line_byte, line;
+    wxColour backGroundClr;
+    wxColour foreGroundClr;
 
-	if (cssBit_ < 12) 
-		css_ = (v >> cssBit_) & 1;
-	if (asBit_ < 12) 
-		as_ = (v >> asBit_) & 1;
-	if (invBit_ < 12) 
-		inv_ = (v >> invBit_) & 1;
-	if (extBit_ < 12) 
-		ext_ = (v >> extBit_) & 1;
+    if (cssBit_ < 12) 
+        css_ = (v >> cssBit_) & 1;
+    if (asBit_ < 12) 
+        as_ = (v >> asBit_) & 1;
+    if (invBit_ < 12) 
+        inv_ = (v >> invBit_) & 1;
+    if (extBit_ < 12) 
+        ext_ = (v >> extBit_) & 1;
 
-	if (as_ == 0)
-	{
-		if (inv_)
-		{
-			backGroundClr = colour_[TEXTCOL+css_];
-			foreGroundClr = colour_[backGround_];
-		}
-		else
-		{
-			backGroundClr = colour_[backGround_];
-			foreGroundClr = colour_[TEXTCOL+css_];
-		}
+    if (as_ == 0)
+    {
+        if (inv_)
+        {
+            backGroundClr = colour_[TEXTCOL+css_];
+            foreGroundClr = colour_[backGround_];
+        }
+        else
+        {
+            backGroundClr = colour_[backGround_];
+            foreGroundClr = colour_[TEXTCOL+css_];
+        }
 
-		if (ext_ == 1)
-			v &= 0x7f;
-		else
-			v &= 0x3f;
+        if (ext_ == 1)
+            v &= 0x7f;
+        else
+            v &= 0x3f;
 
-		setColour(backGroundClr);
-		drawRectangle(x+offsetX_, y+offsetY_, charWidth_, charHeight_*addLine_);
+        setColour(backGroundClr);
+        drawRectangle(x+offsetX_, y+offsetY_, charWidth_, charHeight_*addLine_);
 
-		setColour(foreGroundClr);
+        setColour(foreGroundClr);
 
-		line = 0;
-		for (wxCoord j=y; j<y+charHeight_*addLine_; j+=addLine_)
-		{
-			if (ext_ == 1)
-				line_byte = mc6847CharRom_[v*charHeight_+ line + 0x200];
-			else
-			{
-				if ((line == 0) || (line == 1) || (line == 9) || (line == 10) || (line == 11))
-					line_byte = 0;
-				else
-					line_byte = mc6847CharRom_[v*8 + line - 2];
-			}
-			for (wxCoord i=x; i<x+charWidth_; i++)
-			{
-				if (line_byte & 128)
-				{
-					drawPoint(i+offsetX_, j+offsetY_);
-				}
-				line_byte <<= 1;
-			}
-			line++;
-		}
-	}
-	else
-	{
-		if (ext_ == 0)
-		{
-			foreGroundClr = colour_[GRAPHIC +((v >> 4) & 0x7)];
+        line = 0;
+        for (wxCoord j=y; j<y+charHeight_*addLine_; j+=addLine_)
+        {
+            if (ext_ == 1)
+                line_byte = mc6847CharRom_[v*charHeight_+ line + 0x200];
+            else
+            {
+                if ((line == 0) || (line == 1) || (line == 9) || (line == 10) || (line == 11))
+                    line_byte = 0;
+                else
+                    line_byte = mc6847CharRom_[v*8 + line - 2];
+            }
+            for (wxCoord i=x; i<x+charWidth_; i++)
+            {
+                if (line_byte & 128)
+                {
+                    drawPoint(i+offsetX_, j+offsetY_);
+                }
+                line_byte <<= 1;
+            }
+            line++;
+        }
+    }
+    else
+    {
+        if (ext_ == 0)
+        {
+            foreGroundClr = colour_[GRAPHIC +((v >> 4) & 0x7)];
 
-			v &= 0x0f;
-			for (wxCoord j=y; j<y+charHeight_*addLine_; j+=6)
-			{
-				for (wxCoord i=x; i<x+charWidth_; i+=4)
-				{
-					if (v & 8)
-					{
-						setColour(foreGroundClr);
-					}
-					else
-					{
-						setColour(backGround_);
-					}
-					drawRectangle(i+offsetX_, j+offsetY_, 4, 6*addLine_);
-					v = v << 1;
-				}
-			}
-		}
-		else
-		{
-			foreGroundClr = colour_[GRAPHIC+(((v >> 6) & 0x3) + (css_ << 2))];
+            v &= 0x0f;
+            for (wxCoord j=y; j<y+charHeight_*addLine_; j+=6)
+            {
+                for (wxCoord i=x; i<x+charWidth_; i+=4)
+                {
+                    if (v & 8)
+                    {
+                        setColour(foreGroundClr);
+                    }
+                    else
+                    {
+                        setColour(backGround_);
+                    }
+                    drawRectangle(i+offsetX_, j+offsetY_, 4, 6*addLine_);
+                    v = v << 1;
+                }
+            }
+        }
+        else
+        {
+            foreGroundClr = colour_[GRAPHIC+(((v >> 6) & 0x3) + (css_ << 2))];
 
-			v &= 0x3f;
-			for (wxCoord j=y; j<y+charHeight_*addLine_; j+=4)
-			{
-				for (wxCoord i=x; i<x+charWidth_; i+=4)
-				{
-					if (v & 0x20)
-					{
-						setColour(foreGroundClr);
-					}
-					else
-					{
-						setColour(backGround_);
-					}
-					drawRectangle(i+offsetX_, j+offsetY_, 4, 4*addLine_);
-					v = v << 1;
-				}
-			}
-		}
-	}
+            v &= 0x3f;
+            for (wxCoord j=y; j<y+charHeight_*addLine_; j+=4)
+            {
+                for (wxCoord i=x; i<x+charWidth_; i+=4)
+                {
+                    if (v & 0x20)
+                    {
+                        setColour(foreGroundClr);
+                    }
+                    else
+                    {
+                        setColour(backGround_);
+                    }
+                    drawRectangle(i+offsetX_, j+offsetY_, 4, 4*addLine_);
+                    v = v << 1;
+                }
+            }
+        }
+    }
 
 #if defined(__WXMAC__) || defined(__linux__)
     reBlit_ = true;
 #else
-	if (zoomFraction_)
-		reBlit_ = true;
-	else
-	{
-		CharacterList6847 *temp = new CharacterList6847;
-		temp->x = x;
-		temp->y = y;
-		temp->nextCharacter = characterListPointer6847;
-		characterListPointer6847 = temp;
-		updateCharacter_++;
-		if (updateCharacter_ > 40)
-			reBlit_ = true;
+    if (zoomFraction_)
+        reBlit_ = true;
+    else
+    {
+        CharacterList6847 *temp = new CharacterList6847;
+        temp->x = x;
+        temp->y = y;
+        temp->nextCharacter = characterListPointer6847;
+        characterListPointer6847 = temp;
+        updateCharacter_++;
+        if (updateCharacter_ > 40)
+            reBlit_ = true;
 
-	}
+    }
 #endif
 }
 
 void mc6847::drawGraphic(wxCoord x, wxCoord y, int v)
 {
-	wxColour clr;
+    wxColour clr;
 
-	if (cssBit_ < 12) 
-		css_ = (v >> cssBit_) & 1;
+    if (cssBit_ < 12) 
+        css_ = (v >> cssBit_) & 1;
 
-	if (gm0_ == 0)
-	{
-		for (wxCoord i=x; i<x+charWidth_; i+=elementWidth_)
-		{
-			clr = colour_[GRAPHIC+(((v & 0xc0) >> 6) + (css_ << 2))];
-			setColour(clr);
-			drawRectangle(i+offsetX_, y+offsetY_, elementWidth_, charHeight_*addLine_);
-			v = v << 2;
-		}
-	}
-	else
-	{
-		for (wxCoord i=x; i<x+charWidth_; i+=elementWidth_)
-		{
-			if ((v & 0x80) == 0)
-				clr = colour_[backGround_];
-			else
-				clr = colour_[GRAPHIC+(css_ << 2)];
-			setColour(clr);
-			if ((elementWidth_ == 1) && (addLine_ == 1))
-				drawPoint(i+offsetX_, y+offsetY_);
-			else
-				drawRectangle(i+offsetX_, y+offsetY_, elementWidth_, charHeight_*addLine_);
-			v = v << 1;
-		}
-	}
+    if (gm0_ == 0)
+    {
+        for (wxCoord i=x; i<x+charWidth_; i+=elementWidth_)
+        {
+            clr = colour_[GRAPHIC+(((v & 0xc0) >> 6) + (css_ << 2))];
+            setColour(clr);
+            drawRectangle(i+offsetX_, y+offsetY_, elementWidth_, charHeight_*addLine_);
+            v = v << 2;
+        }
+    }
+    else
+    {
+        for (wxCoord i=x; i<x+charWidth_; i+=elementWidth_)
+        {
+            if ((v & 0x80) == 0)
+                clr = colour_[backGround_];
+            else
+                clr = colour_[GRAPHIC+(css_ << 2)];
+            setColour(clr);
+            if ((elementWidth_ == 1) && (addLine_ == 1))
+                drawPoint(i+offsetX_, y+offsetY_);
+            else
+                drawRectangle(i+offsetX_, y+offsetY_, elementWidth_, charHeight_*addLine_);
+            v = v << 1;
+        }
+    }
 
 #if defined(__WXMAC__) || defined(__linux__)
     reBlit_ = true;
@@ -767,60 +775,60 @@ void mc6847::drawGraphic(wxCoord x, wxCoord y, int v)
 
 bool mc6847::readCharRomFile(wxString romDir, wxString romFile)
 {
-	wxFFile inFile;
-	size_t length, number;
-	char buffer[2048];
+    wxFFile inFile;
+    size_t length, number;
+    char buffer[2048];
 
-	if (romFile == "")
-	{
-		p_Main->errorMessage("No font filename specified");
-		return false;
-	}
+    if (romFile == "")
+    {
+        p_Main->errorMessage("No font filename specified");
+        return false;
+    }
 
-	wxString fileName = romDir + romFile;
+    wxString fileName = romDir + romFile;
 
-	for (size_t i=0x000; i<0x800; i++)
-	{
-		mc6847CharRom_[i] = 0;
-	}
-	if (inFile.Open(fileName, "rb"))
-	{
-		length = inFile.Read(buffer, 2048);
-		number = 0;
-		for (size_t i=0; i<length; i++)
-		{
-			mc6847CharRom_[i] = (Byte)buffer[i];
-			number++;
-		}
-		inFile.Close();
-/*		int addr=0;
-		for (int c=0; c<64; c++)
-			for (int l=0; l<12; l++)
-			{
-				if ((l!=0) && (l!=1) && (l!=10) && (l!=11))
-				{
-					mc6847CharRom_[addr] = mc6847CharRom_[c*12+l+0x200]>>1;
-					addr++;
-				}
-			}*/
-		return true;
-	}
-	else
-	{
-		p_Main->errorMessage("Error reading " + fileName);
-		return false;
-	}
+    for (size_t i=0x000; i<0x800; i++)
+    {
+        mc6847CharRom_[i] = 0;
+    }
+    if (inFile.Open(fileName, "rb"))
+    {
+        length = inFile.Read(buffer, 2048);
+        number = 0;
+        for (size_t i=0; i<length; i++)
+        {
+            mc6847CharRom_[i] = (Byte)buffer[i];
+            number++;
+        }
+        inFile.Close();
+/*        int addr=0;
+        for (int c=0; c<64; c++)
+            for (int l=0; l<12; l++)
+            {
+                if ((l!=0) && (l!=1) && (l!=10) && (l!=11))
+                {
+                    mc6847CharRom_[addr] = mc6847CharRom_[c*12+l+0x200]>>1;
+                    addr++;
+                }
+            }*/
+        return true;
+    }
+    else
+    {
+        p_Main->errorMessage("Error reading " + fileName);
+        return false;
+    }
 }
 
 void mc6847::setFullScreen(bool fullScreenSet)
 {
-	fullScreenSet_ = fullScreenSet;
-	ShowFullScreen(fullScreenSet);
+    fullScreenSet_ = fullScreenSet;
+    ShowFullScreen(fullScreenSet);
 }
 
 void mc6847::onF3()
 {
-	fullScreenSet_ = !fullScreenSet_;
-	p_Main->eventVideoSetFullScreen(fullScreenSet_);
+    fullScreenSet_ = !fullScreenSet_;
+    p_Main->eventVideoSetFullScreen(fullScreenSet_);
 }
 

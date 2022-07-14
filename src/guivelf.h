@@ -7,22 +7,22 @@ class GuiVelf: public GuiCdp18s020
 {
 public:
 
-	GuiVelf(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode_, wxString dataDir, wxString iniDir);
-	~GuiVelf() {};
+    GuiVelf(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode_, wxString dataDir, wxString iniDir);
+    ~GuiVelf() {};
 
-	void readVelfConfig();
+    void readVelfConfig();
     void writeVelfDirConfig();
     void writeVelfConfig();
     void readVelfWindowConfig();
     void writeVelfWindowConfig();
 
-	void onRamSWVelf(wxCommandEvent&event);
-	void onLatch(wxCommandEvent&event);
+    void onRamSWVelf(wxCommandEvent&event);
+    void onLatch(wxCommandEvent&event);
 
-	int getLatch() {return latch_;};
+    int getLatch() {return latch_;};
 
-	void onVelfBaudR(wxCommandEvent& event);
-	void onVelfBaudT(wxCommandEvent& event);
+    void onVelfBaudR(wxCommandEvent& event);
+    void onVelfBaudT(wxCommandEvent& event);
     void onVelfControlWindows(wxCommandEvent& event);
     bool getUseVelfControlWindows();
     int getVelfMode();
@@ -30,11 +30,10 @@ public:
     void onAutoBoot(wxCommandEvent& event);
 
 private:
-    wxPoint position_;
 
-	bool latch_;
+    bool latch_;
 
-	DECLARE_EVENT_TABLE()
+    DECLARE_EVENT_TABLE()
 };
 
 #endif // GUIVELF_H

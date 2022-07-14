@@ -7,10 +7,10 @@ class GuiPecom : public GuiMain
 {
 public:
 
-	GuiPecom(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
-	~GuiPecom() {};
+    GuiPecom(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
+    ~GuiPecom() {};
 
-	void readPecomConfig();
+    void readPecomConfig();
     void writePecomDirConfig();
     void writePecomConfig();
     void readPecomWindowConfig();
@@ -21,7 +21,7 @@ public:
 
 private:
 
-	DECLARE_EVENT_TABLE()
+    DECLARE_EVENT_TABLE()
 };
 
 #endif // GUIPECOM_H

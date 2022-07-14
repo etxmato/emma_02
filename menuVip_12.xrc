@@ -120,7 +120,7 @@
 <size>12</size>
 </font>
 <style>wxALIGN_RIGHT</style>
-<label>Location</label>
+<label>Location </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -131,7 +131,7 @@
 <size>12</size>
 </font>
 <style>wxALIGN_RIGHT</style>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -177,7 +177,7 @@
 <size>12</size>
 </font>
 <style>wxALIGN_RIGHT</style>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -222,7 +222,7 @@
 <size>12</size>
 </font>
 <style>wxALIGN_RIGHT</style>
-<label>Exec</label>
+<label>Exec </label>
 </object>
 </object>
 <object class="sizeritem">

@@ -21,7 +21,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Data Directory:</label>
+<label>Data Directory: </label>
 </object>
 </object>
 <object class="sizeritem">

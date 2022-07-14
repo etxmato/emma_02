@@ -1,7 +1,31 @@
 <HTML>
 <Title>Super Basic</Title>
 <BODY>
-<h2>Quest Super Basic</h2>
+<h1>Quest Super Basic</h1>
+<p>
+For Super Baisc copyright information please see Copyright chapter below.
+</p>
+<p>
+To start Quest Super Basic, first load one of the predefined configurations with the menu option below (blue ellipse) following the grey menu:
+</p>
+<p>
+<IMG SRC="images/elf_super_basic.png" BORDER="0">
+</p>
+<p>
+For version 1.4 the Super video option will configure the Elf computer with a Super Video and the Serial option with a serial VT100 terminal. To start Super Basic 1.4 on the VT100 use the following:
+- Press the IN button (Insert)<br>
+- While keeping the IN button pressed, press 'G' or the RUN switch (both emulated by F12)<br>
+- Release the IN button<br>
+- Press return to get the basic to determine the defined baud rate (max 2400)<br>
+- Press 'C' for a cold start and 'W' for a warm start.
+</p>
+<p>
+To start Super Basic on Super Video (1.4, 3.0, 5.0 and 6.0) just press 'C' for a cold start and 'W' for a warm start.
+</p>
+<p>
+Super Basic emulation supports loading program and data files with .super extension as described in <a href="MainMemAccess.htm">Memory Access</a>
+</p>
+<h1>Copyright</h1>
 <p>
 All included Quest software (including Quest Super Basic) by Roger Pitkin is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 </p>
@@ -17,23 +41,6 @@ Paul Messinger past president of PHM Design and Quest Director of Engineering<br
 254893 Hwy 101<br>
 Port Angeles WA 98362 USA<br>
 360-457-1711
-</p>
-<p>
-To start Quest Super Basic, first load one of the configuration under the 'File/Configuration/Quest Super Basic' menu. For version 1.4x the Super video option will configure the Elf computer with a Super Video and the Serial option with a serial VT100 terminal.
-</p>
-<p>
-To start Super Basic 1.4x on the VT100 use the following:
-- Press the IN button (Insert)<br>
-- While keeping the IN button pressed, press 'G' or the RUN switch (both emulated by F12)<br>
-- Release the IN button<br>
-- Press return to get the basic to determine the defined baud rate<br>
-- Press 'C' for a cold start and 'W' for a warm start.
-</p>
-<p>
-To start Super basic on Super Video just press 'C' for a cold start and 'W' for a warm start.
-</p>
-<p>
-Super Basic emulation supports loading program and data files with .super extension as described in <a href="MainMemAccess.htm">Memory Access</a>
 </p>
 </BODY>
 </HTML>

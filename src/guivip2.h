@@ -9,28 +9,28 @@ class GuiVipII: public GuiVip2K
 {
 public:
 
-	GuiVipII(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode_, wxString dataDir, wxString iniDir);
-	~GuiVipII() {};
+    GuiVipII(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode_, wxString dataDir, wxString iniDir);
+    ~GuiVipII() {};
 
-	void readVipIIConfig();
+    void readVipIIConfig();
     void writeVipIIDirConfig();
     void writeVipIIConfig();
     void readVipIIWindowConfig();
     void writeVipIIWindowConfig();
 
-	void onRamSWVipII(wxCommandEvent&event);
-	void onRamSWTextII(wxCommandEvent&event);
-	void pixieBarSize(wxCommandEvent &event);
-	void pixieBarSizeEvent();
-	void onComputerVersion(wxCommandEvent&event);
-	void setComputerVersion();
+    void onRamSWVipII(wxCommandEvent&event);
+    void onRamSWTextII(wxCommandEvent&event);
+    void pixieBarSize(wxCommandEvent &event);
+    void pixieBarSizeEvent();
+    void onComputerVersion(wxCommandEvent&event);
+    void setComputerVersion();
     void onAutoBootVipII(wxCommandEvent&event);
     void onAutoBootTypeVipII(wxCommandEvent&event);
-	void setAutoBootTypeVipII();
+    void setAutoBootTypeVipII();
 
 private:
 
-	DECLARE_EVENT_TABLE()
+    DECLARE_EVENT_TABLE()
 };
 
 #endif // GUIVIPII_H

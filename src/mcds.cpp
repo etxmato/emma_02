@@ -35,19 +35,20 @@
 #include "mcds.h"
 #include "upd765.h"
 
-Mcds::Mcds(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf)
+Mcds::Mcds(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf, Conf computerConf)
 : wxFrame((wxFrame *)NULL, -1, title, pos, size)
 {
-	McdsConfiguration = conf;
+    computerConfiguration = computerConf;
+    McdsConfiguration = conf;
 
-	McdsClockSpeed_ = clock;
-	lastAddress_ = 0;
+    McdsClockSpeed_ = clock;
+    lastAddress_ = 0;
 
 #ifndef __WXMAC__
-	SetIcon(wxICON(app_icon));
+    SetIcon(wxICON(app_icon));
 #endif
 
-	this->SetClientSize(size);
+    this->SetClientSize(size);
 
     saveStarted_ = false;
     loadStarted_ = false;
@@ -61,43 +62,43 @@ Mcds::~Mcds()
     p_Printer->closeFrames();
     delete p_Printer;
     if (McdsConfiguration.vtType != VTNONE)
-	{
-		p_Main->setVtPos(MCDS, vtPointer->GetPosition());
-		vtPointer->Destroy();
-	}
+    {
+        p_Main->setVtPos(MCDS, vtPointer->GetPosition());
+        vtPointer->Destroy();
+    }
     if (McdsConfiguration.vtExternal)
         delete p_Serial;
-	p_Main->setMainPos(MCDS, GetPosition());
+    p_Main->setMainPos(MCDS, GetPosition());
 }
 
 void Mcds::onClose(wxCloseEvent&WXUNUSED(event) )
 {
-	p_Main->stopComputer();
+    p_Main->stopComputer();
 }
 
 void Mcds::configureComputer()
 {
-	inType_[1] = MS2000IOGROUP;
-	inType_[2] = MS2000IO2;
-	inType_[3] = MS2000IO3;
-	inType_[4] = MS2000IO4;
-	inType_[5] = MS2000IO5;
-	inType_[6] = MS2000IO6;
-	inType_[7] = MS2000IO7;
-	outType_[1] = MS2000IOGROUP;
-	outType_[2] = MS2000IO2;
-	outType_[3] = MS2000IO3;
-	outType_[4] = MS2000IO4;
-	outType_[5] = MS2000IO5;
-	outType_[6] = MS2000IO6;
-	outType_[7] = MS2000IO7;
+    inType_[1] = MS2000IOGROUP;
+    inType_[2] = MS2000IO2;
+    inType_[3] = MS2000IO3;
+    inType_[4] = MS2000IO4;
+    inType_[5] = MS2000IO5;
+    inType_[6] = MS2000IO6;
+    inType_[7] = MS2000IO7;
+    outType_[1] = MS2000IOGROUP;
+    outType_[2] = MS2000IO2;
+    outType_[3] = MS2000IO3;
+    outType_[4] = MS2000IO4;
+    outType_[5] = MS2000IO5;
+    outType_[6] = MS2000IO6;
+    outType_[7] = MS2000IO7;
 
-	efType_[2] = MS2000CASEF;
+    efType_[2] = MS2000CASEF;
     
     p_Main->message("Configuring MCDS");
-    p_Main->message("	Output 1: set I/O group, input 1: read I/O group");
-    p_Main->message("	I/O group 1: video terminal & printer");
-    p_Main->message("	I/O group 2: tape");
+    p_Main->message("    Output 1: set I/O group, input 1: read I/O group");
+    p_Main->message("    I/O group 1: video terminal & printer");
+    p_Main->message("    I/O group 2: tape");
  
     p_Main->message("");
     
@@ -119,14 +120,14 @@ void Mcds::configureComputer()
     }
 
     p_Main->message("Configuring printer support");
-    p_Main->message("	Output 6: data out");
-    p_Main->message("	EF 1: printer ready\n");
+    p_Main->message("    Output 6: data out");
+    p_Main->message("    EF 1: printer ready\n");
 
     p_Main->message("Configuring tape support");
-    p_Main->message("	Output 4: tape motor, output 5: cassette out");
-    p_Main->message("	EF 2: cassette in\n");
+    p_Main->message("    Output 4: tape motor, output 5: cassette out");
+    p_Main->message("    EF 2: cassette in\n");
 
-	resetCpu();
+    resetCpu();
 }
 
 void Mcds::initComputer()
@@ -142,11 +143,11 @@ void Mcds::initComputer()
 
 Byte Mcds::ef(int flag)
 {
-	switch(efType_[flag])
-	{
-		case 0:
-			return 1;
-		break;
+    switch(efType_[flag])
+    {
+        case 0:
+            return 1;
+        break;
 
         case MS2000PRINTEF: // EF1
             return 1;
@@ -164,25 +165,25 @@ Byte Mcds::ef(int flag)
             return p_Serial->ef();
         break;
  
-		default:
-			return 1;
-	}
+        default:
+            return 1;
+    }
 }
 
 Byte Mcds::in(Byte port, Word WXUNUSED(address))
 {
-	Byte ret;
-	ret = 0;
+    Byte ret;
+    ret = 0;
 
-	switch(inType_[port])
-	{
-		case 0:
-			ret = 255;
-		break;
+    switch(inType_[port])
+    {
+        case 0:
+            ret = 255;
+        break;
 
-		case MS2000IOGROUP:
-			return ioGroup_;
-		break;
+        case MS2000IOGROUP:
+            return ioGroup_;
+        break;
 
         case MS2000IO2:
         break;
@@ -203,21 +204,21 @@ Byte Mcds::in(Byte port, Word WXUNUSED(address))
         break;
             
         default:
-			ret = 255;
-	}
-	inValues_[port] = ret;
-	return ret;
+            ret = 255;
+    }
+    inValues_[port] = ret;
+    return ret;
 }
 
 void Mcds::out(Byte port, Word WXUNUSED(address), Byte value)
 {
-	outValues_[port] = value;
+    outValues_[port] = value;
 
-	switch(outType_[port])
-	{
-		case 0:
-			return;
-		break;
+    switch(outType_[port])
+    {
+        case 0:
+            return;
+        break;
 
         case MS2000IOGROUP:
             bootstrap_ = 0;
@@ -288,16 +289,16 @@ void Mcds::out(Byte port, Word WXUNUSED(address), Byte value)
                         pauseTape();
                 break;
             }
-		break;
+        break;
 
-		case MS2000IO5:    
+        case MS2000IO5:    
             switch (ioGroup_)
             {
                 case IO_GRP_TAPE:
                     psaveAmplitudeChange(value&1);
                 break;
             }
-		break;
+        break;
 
         case MS2000IO6:
             switch (ioGroup_)
@@ -310,31 +311,31 @@ void Mcds::out(Byte port, Word WXUNUSED(address), Byte value)
         break;
             
         case MS2000IO7:
-		break;
+        break;
     }
 }
 
 void Mcds::cycle(int type)
 {
-	switch(cycleType_[type])
-	{
-		case 0:
-			return;
-		break;
+    switch(cycleType_[type])
+    {
+        case 0:
+            return;
+        break;
 
         case VT100CYCLE:
-			vtPointer->cycleVt();
-		break;
+            vtPointer->cycleVt();
+        break;
 
         case VTSERIALCYCLE:
             p_Serial->cycleVt();
         break;
-	}
+    }
 }
 
 void Mcds::startComputer()
 {
-	resetPressed_ = false;
+    resetPressed_ = false;
 
     defineMemoryType(0, 0x7fff, RAM);
     initRam(0, 0x7fff);
@@ -352,7 +353,7 @@ void Mcds::startComputer()
     readProgram(p_Main->getRomDir(MCDS, MAINROM3), p_Main->getRomFile(MCDS, MAINROM3), ROM, 0xB000, NONAME);
 
     if (p_Vt100[UART1] != NULL)
-		p_Vt100[UART1]->Show(true);
+        p_Vt100[UART1]->Show(true);
 
     if (McdsConfiguration.bootRam)
         bootstrap_ = 0;
@@ -360,11 +361,11 @@ void Mcds::startComputer()
         bootstrap_ = 0x8000;
     
     p_Main->setSwName("");
-	p_Main->updateTitle();
+    p_Main->updateTitle();
 
-	cpuCycles_ = 0;
-	instructionCounter_= 0;
-	p_Main->startTime();
+    cpuCycles_ = 0;
+    instructionCounter_= 0;
+    p_Main->startTime();
 
     if (p_Vt100[UART1] != NULL)
         p_Vt100[UART1]->splashScreen();
@@ -374,63 +375,63 @@ void Mcds::startComputer()
 
 void Mcds::writeMemDataType(Word address, Byte type)
 {
-	address = address | bootstrap_;
-	switch (memoryType_[address/256])
-	{
-		case ROM:
-			if (mainMemoryDataType_[address] != type)
-			{
-				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-				mainMemoryDataType_[address] = type;
-			}
+    address = address | bootstrap_;
+    switch (memoryType_[address/256]&0xff)
+    {
+        case ROM:
+            if (mainMemoryDataType_[address] != type)
+            {
+                p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
+                mainMemoryDataType_[address] = type;
+            }
             increaseExecutedMainMemory(address, type);
-		break;
+        break;
 
-		case RAM:
-			if (mainMemoryDataType_[address | bootstrap_] != type)
-			{
-				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-				mainMemoryDataType_[address | bootstrap_] = type;
-			}
+        case RAM:
+            if (mainMemoryDataType_[address | bootstrap_] != type)
+            {
+                p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
+                mainMemoryDataType_[address | bootstrap_] = type;
+            }
             increaseExecutedMainMemory(address | bootstrap_, type);
-		break;
-	}
+        break;
+    }
 }
 
 Byte Mcds::readMemDataType(Word address, uint64_t* executed)
 {
-	address = address | bootstrap_;
-	switch (memoryType_[address/256])
-	{
-		case RAM:
-		case ROM:
+    address = address | bootstrap_;
+    switch (memoryType_[address/256]&0xff)
+    {
+        case RAM:
+        case ROM:
             if (profilerCounter_ != PROFILER_OFF)
                 *executed = mainMemoryExecuted_[address | bootstrap_];
-			return mainMemoryDataType_[address | bootstrap_];
-		break;
-	}
-	return MEM_TYPE_UNDEFINED;
+            return mainMemoryDataType_[address | bootstrap_];
+        break;
+    }
+    return MEM_TYPE_UNDEFINED;
 }
 
 Byte Mcds::readMem(Word address)
 {
-	address = address | bootstrap_;
+    address = address | bootstrap_;
 
-	switch (memoryType_[address / 256])
-	{
-		case UNDEFINED:
-			return 255;
-		break;
+    switch (memoryType_[address / 256]&0xff)
+    {
+        case UNDEFINED:
+            return 255;
+        break;
 
-		case ROM:
-		case RAM:
-			return mainMemory_[address | bootstrap_];
-		break;
+        case ROM:
+        case RAM:
+            return mainMemory_[address | bootstrap_];
+        break;
 
-		default:
-			return 255;
-		break;
-	}
+        default:
+            return 255;
+        break;
+    }
 }
 
 Byte Mcds::readMemDebug(Word address)
@@ -440,25 +441,25 @@ Byte Mcds::readMemDebug(Word address)
 
 void Mcds::writeMem(Word address, Byte value, bool writeRom)
 {
-	address = address | bootstrap_;
+    address = address | bootstrap_;
 
-	switch (memoryType_[address/256])
-	{
-		case UNDEFINED:
-		case ROM:
-			if (writeRom)
-				mainMemory_[address]=value;
-		break;
+    switch (memoryType_[address/256]&0xff)
+    {
+        case UNDEFINED:
+        case ROM:
+            if (writeRom)
+                mainMemory_[address]=value;
+        break;
 
-		case RAM:
-			if (mainMemory_[address]==value)
-				return;
-			mainMemory_[address]=value;
-			if (address >= (memoryStart_ | bootstrap_) && address<((memoryStart_ | bootstrap_ ) +256))
-				p_Main->updateDebugMemory(address);
-			p_Main->updateAssTabCheck(address);
-		break;
-	}
+        case RAM:
+            if (mainMemory_[address]==value)
+                return;
+            mainMemory_[address]=value;
+            if (address >= (memoryStart_ | bootstrap_) && address<((memoryStart_ | bootstrap_ ) +256))
+                p_Main->updateDebugMemory(address);
+            p_Main->updateAssTabCheck(address);
+        break;
+    }
 }
 
 void Mcds::writeMemDebug(Word address, Byte value, bool writeRom)
@@ -488,8 +489,8 @@ void Mcds::resetPressed()
 
 void Mcds::moveWindows()
 {
-	if (McdsConfiguration.vtType != VTNONE)
-		vtPointer->Move(p_Main->getVtPos(MCDS));
+    if (McdsConfiguration.vtType != VTNONE)
+        vtPointer->Move(p_Main->getVtPos(MCDS));
 }
 
 void Mcds::setForceUpperCase(bool status)
@@ -500,13 +501,13 @@ void Mcds::setForceUpperCase(bool status)
 
 void Mcds::setBootRam(bool status)
 {
-	McdsConfiguration.bootRam = status;
+    McdsConfiguration.bootRam = status;
 }
 
 void Mcds::updateTitle(wxString Title)
 {
     if (McdsConfiguration.vtType == VT52)
-		vtPointer->SetTitle("MCDS - VT 52"+Title);
+        vtPointer->SetTitle("MCDS - VT 52"+Title);
     if (McdsConfiguration.vtType == VT100)
         vtPointer->SetTitle("MCDS - VT 100"+Title);
 }
@@ -517,7 +518,7 @@ void Mcds::checkComputerFunction()
 
     switch (scratchpadRegister_[programCounter_])
     {
-		case 0x813e: // key input
+        case 0x813e: // key input
             if (saveStarted_)
             {
                 stopPausedSave();
@@ -529,7 +530,7 @@ void Mcds::checkComputerFunction()
                 stopPausedLoad();
                 loadStarted_ = false;
             }
-		break;
+        break;
             
         case 0xb011:
             mcdsRunState_ = RESETSTATECW;
@@ -539,15 +540,15 @@ void Mcds::checkComputerFunction()
             mcdsRunState_ = BASICSTATE;
         break;
 
-        case BASICADDR_RUN_MCDS:	// RUN
+        case BASICADDR_RUN_MCDS:    // RUN
             mcdsRunState_ = RUNSTATE;
         break;
             
-        case BASICADDR_CALL_MCDS:	// CALL
+        case BASICADDR_CALL_MCDS:    // CALL
             mcdsRunState_ = RUNSTATE;
         break;
             
-        case 0xB225:	// BYE
+        case 0xB225:    // BYE
             mcdsRunState_ = RESETSTATE;
         break;
             
@@ -563,7 +564,7 @@ void Mcds::checkComputerFunction()
 
 void Mcds::onReset()
 {
-	resetPressed_ = true;
+    resetPressed_ = true;
 }
 
 void Mcds::sleepComputer(long ms)
@@ -574,7 +575,7 @@ void Mcds::sleepComputer(long ms)
 void Mcds::startComputerRun(bool load)
 {
     if (p_Vt100[UART1] != NULL)
-		vtPointer->startMcdsRun(load);
+        vtPointer->startMcdsRun(load);
 }
 
 bool Mcds::isComputerRunning()
@@ -587,11 +588,11 @@ bool Mcds::isComputerRunning()
 
 void Mcds::activateMainWindow()
 {
-	bool maximize = IsMaximized();
-	Iconize(false);
-	Raise();
-	Show(true);
-	Maximize(maximize);
+    bool maximize = IsMaximized();
+    Iconize(false);
+    Raise();
+    Show(true);
+    Maximize(maximize);
 }
 
 void Mcds::switchQ(int value)

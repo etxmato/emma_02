@@ -1,7 +1,7 @@
 <html>
 <title>Installation Elf/Os 2.8</title>
 <body>
-<h2>Installation Elf/Os 2.8</h2>
+<h1>Installation Elf/Os 2.8</h1>
 <p>
 Elf Os is a disk based operating system for Elf class computers designed by Mike Riley, for additional information see also: <a href="http://www.elf-emulation.com">Elf/1802 Emulation</a>.
 </p>
@@ -22,7 +22,13 @@ These files include a pre installed Elf/Os and additional Elf/Os software. The i
 The following example will install Elf/Os 2.8 via a vt100 terminal. To change video output after installation follow the procedure <a href="ElfInstBiosio.htm">Installation Biosio</a> afterwards. 
 </p>
 <p>
-Load the Elf/Os 2.8 installation configuration via the 'File/Configuration/Elf/Os - Installation/2.8 - Serial I/O' menu or use:<br>
+To start installation, first load the configuration with the menu option below (blue square) following the grey menu:
+</p>
+<p>
+<IMG SRC="images/elf_elfos.png" BORDER="0">
+</p>
+<p>
+This should define:<br>
 </p>
 <pre>
 ROM 1: bios.1.0.4.rom 
@@ -36,9 +42,9 @@ Uppercase: selected</pre>
 <p>
 To start installation of Elf/Os follow these steps:
 </p>
-<h3>
+<h2>
 1. Press start
-</h3>
+</h2>
 <p>
 This should start one of the Elf computer windows and a Vt100 window, press the return button in the Vt100 window which will set the baud rate and should after this show this menu: 
 </p>
@@ -52,9 +58,9 @@ This should start one of the Elf computer windows and a Vt100 window, press the 
 
       Option ?</pre>
 <p>
-<h3>
+<h2>
 2. Select option 1> Run hard drive init tool
-</h3>
+</h2>
 <p>
 Choose Q for Quick format, which will initialize the hard drive. When the init is complete, you should see something similar to: 
 <pre>
@@ -65,9 +71,9 @@ After this the menu will be redrawn.
 </p>
 <p>
 Note: This step only needs to be performed once. If you have already run the hard drive init tool on your emulated drives, you will never need to run it again. 
-<h3>
+<h2>
 3. Select option 2> Run filesystem gen tool
-</h3>
+</h2>
 <p>
 This will setup the filesystem on the disk. After running this step you should see something similar to: 
 <pre>
@@ -83,16 +89,16 @@ After which you again get the installation menu.
 </p>
 <p>
 Note: This step you also normally need to run only once. You would only need to run this option again if you desire to wipe out the contents of your drive. 
-<h3>
+<h2>
 4. Select option 3> Run sys tool
-</h3>
+</h2>
 <p>
 This will copy the OS kernel to the hard disk. You should see: 
 <pre>
   System copied.</pre>
-<h3>
+<h2>
 5. Select option 4> Install Binaries
-</h3>
+</h2>
 <p>
 This will install the binary utilities onto the disk. 
 </p>
@@ -119,18 +125,25 @@ VER - Get the version of Elf/OS<br>
 ASM - Assembler<br>
 STAT - View file statistics<br>
 SEDIT
-<h3>
+<h2>
 6. Select option 5> Boot Elf/Os
-</h3>
+</h2>
 <p>
 This will boot Elf/Os and then you should see: 
 </p>
 <pre>
   Elf/OS Ready</pre>
-<h3>
+<h2>
 8. Start Elf/Os 
-</h3>
-From this time on you can start Elf/Os directly by selecting 'ElfOs for vt100' from the 'Settings/Configuration/Elf Configuration' menu or use by changing the following setting in the Emma 02 window:
+</h2>
+<p>
+From this time on you can start Elf/Os directly by loading the configuration with the menu option below (blue square) following the grey menu:
+</p>
+<p>
+<IMG SRC="images/elf_elfos_run.png" BORDER="0">
+</p>
+<p>
+Or alternatively by changing the following setting in the Emma 02 window:
 </p>
 <pre>
 RAM 2: &lt;empty&gt;

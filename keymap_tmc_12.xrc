@@ -28,7 +28,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Regular keys</label>
+<label>Regular keys </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -476,7 +476,7 @@
 <font>
 <size>12</size>
 </font>
-<label>SHIFT Keys</label>
+<label>SHIFT Keys </label>
 </object>
 </object>
 <object class="sizeritem">

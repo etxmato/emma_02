@@ -6,21 +6,22 @@
 class PortExt 
 {
 public:
-	PortExt();
-	~PortExt() {};
+    PortExt();
+    ~PortExt() {};
 
-	void configurePortExt(ElfPortConfiguration portConf);
-	void definePortExtForPager();
-	Byte inPortExtender();
-	void outPortExtender(Byte value);
+    void configurePortExt(ElfPortConfiguration portConf);
+    void definePortExtForPager();
+    void definePortExtForPager(Byte startPort, Byte endPort);
+    Byte inPortExtender();
+    void outPortExtender(Byte value);
 
-	void selectPortExtender(Byte value);
+    void selectPortExtender(Byte value);
 
 private:
-	int extPortsIn_[256];
-	int extPortsOut_[256];
+    int extPortsIn_[256];
+    int extPortsOut_[256];
 
-	int extPort_;
+    int extPort_;
 };
 
 #endif  // PORTEXT_H

@@ -14,18 +14,18 @@
 #include "serial.h"
 
 class MainElf : public Cdp1802, public Fdc, public Ide, public Keyboard, public PortExt, public Ps2, public Ps2gpio, public Elf2KDisk
-{			
+{            
 public:
-	MainElf();
-	~MainElf();
+    MainElf();
+    ~MainElf();
 
-	void checkComputerFunction();
+    void checkComputerFunction();
     void activateElfOsChip8();
     void fetchFileName(Word address, size_t length);
 
-	void startComputerRun(bool load);
-	int getRunState() {return elfRunState_;};
-	bool isComputerRunning();
+    void startComputerRun(bool load);
+    int getRunState() {return elfRunState_;};
+    bool isComputerRunning();
     wxString getRunningGame(){return runningGame_;};
 
     void terminalSave(wxString fileName, int protocol);
@@ -42,9 +42,9 @@ public:
     void writeDirectRtc(Word address, Byte value);
 
 protected:
-	Vt100 *vtPointer;
+    Vt100 *vtPointer;
     
-	int elfRunState_;
+    int elfRunState_;
     int cycleValue_;
     int cycleSize_;
     double elfClockSpeed_;

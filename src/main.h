@@ -51,10 +51,10 @@ public:
     // accessors
     wxString GetMsg()
         { return message; }
-	void SetMsg(wxString msg)
-		{ message = msg;}
+    void SetMsg(wxString msg)
+        { message = msg;}
     // required for sending with wxPostEvent()
-	wxEvent *Clone(void) const { return new wxErrorMsgEvent(*this); }
+    wxEvent *Clone(void) const { return new wxErrorMsgEvent(*this); }
 
 private:
     wxString   message;
@@ -73,9 +73,9 @@ class guiEvent: public wxThreadEvent
 {
 public:
     guiEvent( wxEventType commandType = wxEVT_NULL, int id = 0 )
-	: wxThreadEvent( commandType, id )
-	{
-	}
+    : wxThreadEvent( commandType, id )
+    {
+    }
 
     // accessors
     bool GetBoolValue()            { return boolValue_;}
@@ -88,13 +88,13 @@ public:
     wxCoord GetCoord5()        { return wxCoord5_;}
     wxCoord GetCoord6()        { return wxCoord6_;}
     Word GetWordValue1()        { return wordValue1_;}
-    Word GetWordValue2()		{ return wordValue2_;}
-    Word GetWordValue3()		{ return wordValue3_;}
-    Byte GetByteValue1()		{ return byteValue1_;}
-    Byte GetByteValue2()		{ return byteValue2_;}
-    wxString GetStringValue2()	{ return stringValue2_;}
-    wxString GetStringValue3()	{ return stringValue3_;}
-    wxString GetStringValue4()	{ return stringValue4_;}
+    Word GetWordValue2()        { return wordValue2_;}
+    Word GetWordValue3()        { return wordValue3_;}
+    Byte GetByteValue1()        { return byteValue1_;}
+    Byte GetByteValue2()        { return byteValue2_;}
+    wxString GetStringValue2()    { return stringValue2_;}
+    wxString GetStringValue3()    { return stringValue3_;}
+    wxString GetStringValue4()    { return stringValue4_;}
     wxString GetStringValue5()    { return stringValue5_;}
     wxSize GetSizeValue()    { return sizeValue_;}
     void SetBoolValue(bool boolValue)    { boolValue_ = boolValue;}
@@ -107,18 +107,18 @@ public:
     void SetCoord5(wxCoord coordValue)    { wxCoord5_ = coordValue;}
     void SetCoord6(wxCoord coordValue)    { wxCoord6_ = coordValue;}
     void SetWordValue1(Word wordValue)    { wordValue1_ = wordValue;}
-    void SetWordValue2(Word wordValue)	{ wordValue2_ = wordValue;}
-    void SetWordValue3(Word wordValue)	{ wordValue3_ = wordValue;}
-    void SetByteValue1(Byte byteValue)	{ byteValue1_ = byteValue;}
-    void SetByteValue2(Byte byteValue)	{ byteValue2_ = byteValue;}
-    void SetStringValue2(wxString stringValue2)	{ stringValue2_ = stringValue2;}
-    void SetStringValue3(wxString stringValue3)	{ stringValue3_ = stringValue3;}
-    void SetStringValue4(wxString stringValue4)	{ stringValue4_ = stringValue4;}
+    void SetWordValue2(Word wordValue)    { wordValue2_ = wordValue;}
+    void SetWordValue3(Word wordValue)    { wordValue3_ = wordValue;}
+    void SetByteValue1(Byte byteValue)    { byteValue1_ = byteValue;}
+    void SetByteValue2(Byte byteValue)    { byteValue2_ = byteValue;}
+    void SetStringValue2(wxString stringValue2)    { stringValue2_ = stringValue2;}
+    void SetStringValue3(wxString stringValue3)    { stringValue3_ = stringValue3;}
+    void SetStringValue4(wxString stringValue4)    { stringValue4_ = stringValue4;}
     void SetStringValue5(wxString stringValue5)    { stringValue5_ = stringValue5;}
     void SetSizeValue(wxSize sizeValue)    { sizeValue_ = sizeValue;}
 
     // required for sending with wxPostEvent()
-	wxEvent *Clone(void) const { return new guiEvent(*this); }
+    wxEvent *Clone(void) const { return new guiEvent(*this); }
 
 private:
     bool boolValue_;
@@ -131,10 +131,10 @@ private:
     wxCoord wxCoord5_;
     wxCoord wxCoord6_;
     Word wordValue1_;
-	Word wordValue2_;
-	Word wordValue3_;
-	Byte byteValue1_;
-	Byte byteValue2_;
+    Word wordValue2_;
+    Word wordValue3_;
+    Byte byteValue1_;
+    Byte byteValue2_;
     wxString stringValue2_;
     wxString stringValue3_;
     wxString stringValue4_;
@@ -153,43 +153,43 @@ wxDEFINE_EVENT(GUI_MSG, guiEvent);
 {
 public:
     guiEvent( wxEventType commandType = wxEVT_NULL, int id = 0 )
-	: wxEvent( commandType, id )
-	{
-	}
+    : wxEvent( commandType, id )
+    {
+    }
 
     // accessors
-    int GetInt()			{ return intValue_;}
-    bool GetBoolValue()			{ return boolValue_;}
-    Word GetWordValue1()		{ return wordValue1_;}
-    Word GetWordValue2()		{ return wordValue2_;}
-    Word GetWordValue3()		{ return wordValue3_;}
-    Byte GetByteValue1()		{ return byteValue1_;}
-    Byte GetByteValue2()		{ return byteValue2_;}
-    wxString GetString()	{ return stringValue1_;}
-    wxString GetStringValue2()	{ return stringValue2_;}
-    void SetInt(int intValue)	{ intValue_ = intValue;}
-    void SetBoolValue(bool boolValue)	{ boolValue_ = boolValue;}
-    void SetWordValue1(Word wordValue)	{ wordValue1_ = wordValue;}
-    void SetWordValue2(Word wordValue)	{ wordValue2_ = wordValue;}
-    void SetWordValue3(Word wordValue)	{ wordValue3_ = wordValue;}
-    void SetByteValue1(Byte byteValue)	{ byteValue1_ = byteValue;}
-    void SetByteValue2(Byte byteValue)	{ byteValue2_ = byteValue;}
-    void SetString(wxString stringValue1)	{ stringValue1_ = stringValue1;}
-    void SetStringValue2(wxString stringValue2)	{ stringValue2_ = stringValue2;}
+    int GetInt()            { return intValue_;}
+    bool GetBoolValue()            { return boolValue_;}
+    Word GetWordValue1()        { return wordValue1_;}
+    Word GetWordValue2()        { return wordValue2_;}
+    Word GetWordValue3()        { return wordValue3_;}
+    Byte GetByteValue1()        { return byteValue1_;}
+    Byte GetByteValue2()        { return byteValue2_;}
+    wxString GetString()    { return stringValue1_;}
+    wxString GetStringValue2()    { return stringValue2_;}
+    void SetInt(int intValue)    { intValue_ = intValue;}
+    void SetBoolValue(bool boolValue)    { boolValue_ = boolValue;}
+    void SetWordValue1(Word wordValue)    { wordValue1_ = wordValue;}
+    void SetWordValue2(Word wordValue)    { wordValue2_ = wordValue;}
+    void SetWordValue3(Word wordValue)    { wordValue3_ = wordValue;}
+    void SetByteValue1(Byte byteValue)    { byteValue1_ = byteValue;}
+    void SetByteValue2(Byte byteValue)    { byteValue2_ = byteValue;}
+    void SetString(wxString stringValue1)    { stringValue1_ = stringValue1;}
+    void SetStringValue2(wxString stringValue2)    { stringValue2_ = stringValue2;}
 
     // required for sending with wxPostEvent()
-	wxEvent *Clone(void) const { return new guiEvent(*this); }
+    wxEvent *Clone(void) const { return new guiEvent(*this); }
 
 private:
-	int intValue_;
-	bool boolValue_;
-	Word wordValue1_;
-	Word wordValue2_;
-	Word wordValue3_;
-	Byte byteValue1_;
-	Byte byteValue2_;
-	wxString stringValue1_;
-	wxString stringValue2_;
+    int intValue_;
+    bool boolValue_;
+    Word wordValue1_;
+    Word wordValue2_;
+    Word wordValue3_;
+    Byte byteValue1_;
+    Byte byteValue2_;
+    wxString stringValue1_;
+    wxString stringValue2_;
 };
 
 DECLARE_EVENT_TYPE( wxEVT_GUI_MSG, -1 )
@@ -253,13 +253,14 @@ protected:
 #define REFRESH_VIDEO 37
 #define REFRESH_PANEL 38
 #define EVENT_ZOOM 39
+#define SET_CONVERT_STATE 40
 
 #define OS_WINDOWS_2000 0
 #define OS_WINDOWS_XP 1
 #define OS_WINDOWS 2
 #define OS_LINUX 10
 #define OS_MAC 20
-#define OS_MAC_PRE_10_9 21
+#define OS_MAC_PRE_10_10 21
 
 #define OS_MAJOR_XP_2000 5
 #define OS_MAJOR_VISTA_8_1 6
@@ -284,11 +285,14 @@ class WindowInfo
 {
 public:
     int mainwX, mainwY;
-	int xBorder, yBorder;
-	int xBorder2, yBorder2;
-	int xPrint;
-	int operatingSystem;
-    
+    int xBorder, yBorder;
+    int xBorder2, yBorder2;
+    int xPrint;
+    int operatingSystem;
+    int bitness;
+    bool arm;
+    bool suse;
+
     int clockTextCorrectionSingleTabX;
     int clockCorrectionSingleTabX;
     int mhzTextCorrectionSingleTabX;
@@ -339,115 +343,116 @@ public:
 
 class Mode
 {
-	public: 
-	bool window_position_fixed;
-	bool gui;
-	bool verbose;
-	bool portable;
-	bool full_screen;
-	bool run;
-	bool load;
-	bool update_check;
+    public: 
+    bool window_position_fixed;
+    bool gui;
+    bool verbose;
+    bool portable;
+    bool full_screen;
+    bool run;
+    bool load;
+    bool update_check;
 };
 
 class FloatEdit : public wxTextCtrl 
 { 
 public: 
-	FloatEdit();
-	FloatEdit(wxWindow *parent, wxWindowID id, const wxString& value = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize);
-	virtual void OnChar(wxKeyEvent& event); 
+    FloatEdit();
+    FloatEdit(wxWindow *parent, wxWindowID id, const wxString& value = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize);
+    virtual void OnChar(wxKeyEvent& event); 
 
 private:
-	wxString comma_;
-	DECLARE_DYNAMIC_CLASS(FloatEdit) 
+    wxString comma_;
+    DECLARE_DYNAMIC_CLASS(FloatEdit) 
 }; 
 
 class IntEdit : public wxTextCtrl 
 { 
 public: 
-	IntEdit();
-	virtual void OnChar(wxKeyEvent& event); 
+    IntEdit();
+    virtual void OnChar(wxKeyEvent& event); 
 
 private:
-	DECLARE_DYNAMIC_CLASS(IntEdit) 
+    DECLARE_DYNAMIC_CLASS(IntEdit) 
 }; 
 
 class CheckBoxListCtrl : public wxListCtrl 
 { 
 public: 
-	CheckBoxListCtrl();
-	void onMouseRelease(wxMouseEvent& event);
+    CheckBoxListCtrl();
+    void onMouseRelease(wxMouseEvent& event);
 
 private:
-	DECLARE_DYNAMIC_CLASS(CheckBoxListCtrl) 
+    DECLARE_DYNAMIC_CLASS(CheckBoxListCtrl) 
 }; 
 
 class SlotEdit : public wxTextCtrl 
 { 
 public: 
-	SlotEdit();
-	virtual void OnChar(wxKeyEvent& event); 
-	void setRange(int min, int max); 
-	void changeNumber(int number);
-	void saveNumber(int number);
+    SlotEdit();
+    virtual void OnChar(wxKeyEvent& event); 
+    void setRange(int min, int max); 
+    void changeNumber(int number);
+    void saveNumber(int number);
 
 private:
-	int min_;
-	int max_;
-	int number_;
+    int min_;
+    int max_;
+    int number_;
 
-	DECLARE_DYNAMIC_CLASS(SlotEdit) 
+    DECLARE_DYNAMIC_CLASS(SlotEdit) 
 }; 
 
 class HexEdit : public wxTextCtrl 
 { 
 public: 
-	HexEdit();
-	virtual void OnChar(wxKeyEvent& event); 
-	void setStart(int min); 
-	void changeNumber(int number);
-	void saveNumber(int number);
+    HexEdit();
+    virtual void OnChar(wxKeyEvent& event); 
+    void setStart(int min); 
+    void changeNumber(int number);
+    void saveNumber(int number);
 
 private:
-	int min_;
-	int number_;
+    int min_;
+    int number_;
 
-	DECLARE_DYNAMIC_CLASS(HexEdit) 
+    DECLARE_DYNAMIC_CLASS(HexEdit) 
 }; 
 
 class HexEditX : public wxTextCtrl 
 { 
 public: 
-	HexEditX();
-	virtual void OnChar(wxKeyEvent& event); 
+    HexEditX();
+    virtual void OnChar(wxKeyEvent& event); 
 
 private:
-	DECLARE_DYNAMIC_CLASS(HexEditX) 
+    DECLARE_DYNAMIC_CLASS(HexEditX) 
 }; 
 
 class MemEdit : public wxTextCtrl 
 { 
 public: 
-	MemEdit();
-	virtual void OnChar(wxKeyEvent& event); 
-	void changeNumber1X(int number);
-	void changeNumber2X(int number);
-	void saveNumber(int number);
+    MemEdit();
+    virtual void OnChar(wxKeyEvent& event); 
+    void changeNumber1X(int number);
+    void changeNumber2X(int number);
+    void saveNumber(int number);
 
 private:
-	int number_;
+    int number_;
 
-	DECLARE_DYNAMIC_CLASS(MemEdit) 
-}; 
+    DECLARE_DYNAMIC_CLASS(MemEdit) 
+};
+
 class ScreenInfo
 {
 public:
-	int start;
-	int number;
-	wxString defaultColour[67];
-	int numberVideo;
-	int borderX[10];
-	int borderY[10];
+    int start;
+    int number;
+    wxString defaultColour[67];
+    int numberVideo;
+    int borderX[10];
+    int borderY[10];
 };
 
 class ConfigurationInfo
@@ -484,52 +489,56 @@ public:
 #include "vip2k.h"
 #include "velf.h"
 #include "pecom.h"
+#include "pico.h"
 #include "tmc600.h"
 #include "tmc1800.h"
 #include "tmc2000.h"
 #include "eti660.h"
 #include "nano.h"
+#include "diy.h"
 #include "guicomx.h"
 #include "debug.h"
 #include "video.h"
 #include "serial.h"
 
-#define EMMA_VERSION 1.44
+#define EMMA_VERSION 1.47
 #define EMMA_SUB_VERSION 0
 #define ELF 0
 #define ELFII 1
 #define SUPERELF 2
 #define ELF2K 3
-#define COSMICOS 4
-#define MEMBER 5
-#define VIP 6
-#define VIP2K 7
-#define VELF 8
-#define MICROTUTOR 9
-#define MICROTUTOR2 10
-#define UC1800 11
-#define CDP18S020 12
-#define MICROBOARD 13
-#define LAST_LED_COMPUTER 13
-#define MS2000 14
-#define MCDS 15
-#define FRED1 16
-#define FRED1_5 17
-#define COMX 18
-#define STUDIO 19
-#define ETI 20
-#define CIDELSA 21
-#define TMC600 22
-#define TMC1800 23
-#define TMC2000 24
-#define NANO 25
-#define PECOM 26
-#define VISICOM 27
-#define VICTORY 28
-#define VIPII 29
-#define COINARCADE 30
-#define STUDIOIV 31
-#define DEBUGGER 32
+#define DIY 4
+#define PICO 5
+#define COSMICOS 6
+#define MEMBER 7
+#define VIP 8
+#define VIP2K 9
+#define VELF 10
+#define MICROTUTOR 11
+#define MICROTUTOR2 12
+#define UC1800 13
+#define CDP18S020 14
+#define MICROBOARD 15
+#define LAST_LED_COMPUTER 15
+#define MS2000 16
+#define MCDS 17
+#define FRED1 18
+#define FRED1_5 19
+#define COMX 20
+#define STUDIO 21
+#define ETI 22
+#define CIDELSA 23
+#define TMC600 24
+#define TMC1800 25
+#define TMC2000 26
+#define NANO 27
+#define PECOM 28
+#define VISICOM 29
+#define VICTORY 30
+#define VIPII 31
+#define COINARCADE 32
+#define STUDIOIV 33
+#define DEBUGGER 34
 
 #define TELMACPRINTER 0
 #define PECOMPRINTER 3
@@ -571,10 +580,12 @@ public:
 #define TELMACTAB 5
 #define PECOMTAB 6
 #define ETITAB 7
+#define DIYTAB 9
 #define DEBUGGERTAB 8
 #define DISKNONE 0
 #define DISKFDC 1
 #define DISKIDE 2
+#define DISKIDEPICO 1
 
 #define ELF2KTAB 0
 #define COSMICOSTAB 1
@@ -585,7 +596,8 @@ public:
 #define VIP2KTAB 6
 #define VELFTAB 7
 #define UC1800TAB 8
-#define LASTELFTAB 8
+#define PICOTAB 9
+#define LASTELFTAB 9
 
 #define FRED1TAB 0
 #define FRED2TAB 1
@@ -652,6 +664,10 @@ public:
 #define VIDEOI8275 5
 #define VIDEOS100 6
 
+//#define VIDEOVT 0
+//#define VIDEOPIXIE 1
+#define VIDEOTMSPICO 2
+
 #define ELFLED 0
 #define ELFIILED 1
 #define SUPERELFLED 2
@@ -689,16 +705,20 @@ public:
 #define ROM 2
 #define RAMROM 3
 #define PAGER 3
+//
 #define CRAM1870 5
 #define PRAM1870 6
 #define COMXEXPROM 7
 #define COPYCOMXEXPROM 8
 #define RAMBANK 9
+//
 #define MC6845RAM 11
 #define MC6845REGISTERS 12
 #define COPYFLOPROM 13
+//
 #define EMSMEMORY 15
 #define COMXEXPBOX 16
+//
 #define MC6847RAM 18
 #define CARTRIDGEROM 19
 #define MAPPEDRAM 20
@@ -707,7 +727,7 @@ public:
 #define EPROMBANK 23
 #define SUPERBANK 24
 #define NVRAM 24
-#define ROMMAPPER 25
+//
 #define MULTICART 26
 #define DIAGROM 27
 #define MAPPEDROM 28
@@ -718,6 +738,7 @@ public:
 #define UART1_82C51 33
 #define UART2_82C51 34
 #define NOCHANGE 35
+#define MAINRAM 36
 
 #define MICRO_ROM 0
 #define MICRO_RAM 1
@@ -857,10 +878,10 @@ public:
 #define UART1 0
 #define UART2 1
 
-	// 1 Scroll - repeat - screen reverse - cursor block line
-	// 2 bell - keyklick - ansi/vt52 - xon/xoff
-	// 3 US - wrap - newline - interlace
-	// 4 parity sense - parity - bits per char - 60/50Hz
+    // 1 Scroll - repeat - screen reverse - cursor block line
+    // 2 bell - keyklick - ansi/vt52 - xon/xoff
+    // 3 US - wrap - newline - interlace
+    // 4 parity sense - parity - bits per char - 60/50Hz
 
 #define VTLOCALECHO 16
 #define VTSMOOTHSCROLL 15
@@ -1048,24 +1069,25 @@ public:
 
 class Emu1802: public wxApp
 {
-	virtual bool OnInit();
-	virtual int OnExit();
+    virtual bool OnInit();
+    virtual int OnExit();
     virtual int OnRun();
     virtual void OnInitCmdLine(wxCmdLineParser& parser);
     virtual bool OnCmdLineParsed(wxCmdLineParser& parser);
-	void getSoftware(wxString computer, wxString type, wxString software);
-	void checkXrc(wxString xrcFile);
+    void getSoftware(wxString computer, wxString type, wxString software);
+    void checkXrc(wxString xrcFile);
     void createXml();
     void createXmlFile(wxString xrcDir, wxString xrcFile);
     void createFile(wxTextFile* filename, wxString name);
+    int getObjectClass(wxString line);
+    int getMarkup(wxString line);
 
 private:
-    wxLocale locale;
-	wxConfigBase *configPointer;
+    wxConfigBase *configPointer;
 
-	Mode mode_;
+    Mode mode_;
     int startComputer_;
-	bool dataDirRelative_;
+    bool dataDirRelative_;
     
     wxString dataDir_;
     wxString workingDir_;
@@ -1078,22 +1100,22 @@ class Main: public DebugWindow
 {
 public:
 
-	Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
-	~Main();
+    Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
+    ~Main();
     
     wxSize getPosition(wxString control, wxSize size);
     wxSize getDefaultGuiSize();
     void windowSizeChanged(wxSizeEvent& event);
     void adjustGuiSize();
-	void pageSetup();
-	void onClose(wxCloseEvent&event );
+    void pageSetup();
+    void onClose(wxCloseEvent&event );
 
-	bool checkUpdateEmma();
-	bool updateEmma();
-	wxString downloadString(wxString url);
+    bool checkUpdateEmma();
+    bool updateEmma();
+    wxString downloadString(wxString url);
 
-	void onQuit(wxCommandEvent& event);
-	void onAbout(wxCommandEvent& event);
+    void onQuit(wxCommandEvent& event);
+    void onAbout(wxCommandEvent& event);
     void onDataDir(wxCommandEvent& event);
     void onReInstallConfig(wxCommandEvent& event);
     void onReInstallData(wxCommandEvent& event);
@@ -1108,31 +1130,31 @@ public:
     bool copyTree( wxFileName* source, wxFileName* destination, wxString pathSep);
     void onConfiguration(wxCommandEvent& event);
     void onDeleteConfiguration(wxCommandEvent& event);
-	void onHome(wxCommandEvent& event);
-	void onHomeSb(wxCommandEvent& event);
-	void onHomeSbHs(wxCommandEvent& event);
-	void onUpdateCheck(wxCommandEvent& event);
-	void onUpdateEmma(wxCommandEvent& event);
-	void onHelp(wxCommandEvent& event);
+    void onHome(wxCommandEvent& event);
+    void onHomeSb(wxCommandEvent& event);
+    void onHomeSbHs(wxCommandEvent& event);
+    void onUpdateCheck(wxCommandEvent& event);
+    void onUpdateEmma(wxCommandEvent& event);
+    void onHelp(wxCommandEvent& event);
     void onSaveConfig(wxCommandEvent& event);
     void buildConfigMenu();
     void onConfigMenu(wxCommandEvent& event);
     int saveComputerConfig(ConfigurationInfo configurationInfo, ConfigurationInfo oldConfigurationInfo);
     ConfigurationInfo getMenuInfo(wxString fileName);
     void loadComputerConfig(wxString fileName);
-	void onSaveOnExit(wxCommandEvent& event);
+    void onSaveOnExit(wxCommandEvent& event);
     void onDefaultWindowPosition(wxCommandEvent& event);
     void onDefaultGuiSize(wxCommandEvent& event);
-	void onFixedWindowPosition(wxCommandEvent& event);
-	void nonFixedWindowPosition();
-	void fixedWindowPosition();
-	void onFunctionKeys(wxCommandEvent& event);
-	void onDefaultSettings(wxCommandEvent& event);
-	void setDefaultSettings();
+    void onFixedWindowPosition(wxCommandEvent& event);
+    void nonFixedWindowPosition();
+    void fixedWindowPosition();
+    void onFunctionKeys(wxCommandEvent& event);
+    void onDefaultSettings(wxCommandEvent& event);
+    void setDefaultSettings();
     void onSystem00(wxCommandEvent& event);
     void on1801(wxCommandEvent& event);
-	void on1802(wxCommandEvent& event);
-	void on1804(wxCommandEvent& event);
+    void on1802(wxCommandEvent& event);
+    void on1804(wxCommandEvent& event);
     void on1805(wxCommandEvent& event);
     void onCpuStartupRegistersZeroed(wxCommandEvent& event);
     void onCpuStartupRegistersRandom(wxCommandEvent& event);
@@ -1151,59 +1173,59 @@ public:
     void onFontSize11(wxCommandEvent& event);
     void onFontSize14(wxCommandEvent& event);
     void onFlat(wxCommandEvent& event);
-	void onCrisp(wxCommandEvent& event);
-	void onDefault(wxCommandEvent& event);
-	void onTvSpeaker(wxCommandEvent& event);
-	void onHandheld(wxCommandEvent& event);
-	void onChar(wxKeyEvent&event);
-	void onKeyDown(wxKeyEvent&event);
-	void onWheel(wxMouseEvent&event);
-	bool checkFunctionKey(wxKeyEvent& event);
-	void onActivateMainWindow(wxCommandEvent& event);
-	void activateMainWindow();
+    void onCrisp(wxCommandEvent& event);
+    void onDefault(wxCommandEvent& event);
+    void onTvSpeaker(wxCommandEvent& event);
+    void onHandheld(wxCommandEvent& event);
+    void onChar(wxKeyEvent&event);
+    void onKeyDown(wxKeyEvent&event);
+    void onWheel(wxMouseEvent&event);
+    bool checkFunctionKey(wxKeyEvent& event);
+    void onActivateMainWindow(wxCommandEvent& event);
+    void activateMainWindow();
     void onFullScreenMenu(wxCommandEvent& event);
     void onUseNumPad(wxCommandEvent& event);
-	void fullScreenMenu();
-	void popUp();
-	void onKeyUp(wxKeyEvent&event);
-	void connectKeyEvent(wxWindow* pclComponent);
-	bool runPressed() {return runPressed_;};
+    void fullScreenMenu();
+    void popUp();
+    void onKeyUp(wxKeyEvent&event);
+    void connectKeyEvent(wxWindow* pclComponent);
+    bool runPressed() {return runPressed_;};
 
-	void onComputer(wxNotebookEvent& event);
-	void onStudioChoiceBook(wxChoicebookEvent& event);
-	void onTelmacChoiceBook(wxChoicebookEvent& event);
-	void onElfChoiceBook(wxChoicebookEvent& event);
+    void onComputer(wxNotebookEvent& event);
+    void onStudioChoiceBook(wxChoicebookEvent& event);
+    void onTelmacChoiceBook(wxChoicebookEvent& event);
+    void onElfChoiceBook(wxChoicebookEvent& event);
     void onRcaChoiceBook(wxChoicebookEvent& event);
-	void onDebuggerChoiceBook(wxNotebookEvent& event);
+    void onDebuggerChoiceBook(wxNotebookEvent& event);
     void setConfigurationMenu();
-	void setNoteBook();
-	void onStart(wxCommandEvent& event);
-	void onStart(int computer);
+    void setNoteBook();
+    void onStart(wxCommandEvent& event);
+    void onStart(int computer);
     void onStop(wxCommandEvent& event);
 
-	void stopComputer();
+    void stopComputer();
     void killComputer(wxCommandEvent&WXUNUSED(event));
     void enableColorbutton(bool status);
     void enableGui(bool status);
-	void message(wxString buffer);
-	void messageNoReturn(wxString buffer);
-	void messageInt(int value);
+    void message(wxString buffer);
+    void messageNoReturn(wxString buffer);
+    void messageInt(int value);
     void messageHex(int value);
     void eventMessageHex(int value);
-	void initConfig();
-	void readConfig();
-	void writeConfig();
+    void initConfig();
+    void readConfig();
+    void writeConfig();
 
-	wxString getApplicationDir();
+    wxString getApplicationDir();
 
     wxString getFontSize() {return fontSizeString_;};
-	wxString getPathSep();
-	int setFdcStepRate(int rate);
+    wxString getPathSep();
+    int setFdcStepRate(int rate);
     int getFdcCpms();
-	int getPsaveData(int item);
-	void setPsaveData(int item, int data);
-	int getFunctionKey(int item);
-	void setFunctionKey(int item, int value);
+    int getPsaveData(int item);
+    void setPsaveData(int item, int data);
+    int getFunctionKey(int item);
+    void setFunctionKey(int item, int value);
     bool getUseExitKey() {return useExitKey_;};
     bool getUseCtrlvKey() {return useCtrlvKey_;};
     int getCtrlvKey() {return functionKey_[13];};
@@ -1212,45 +1234,53 @@ public:
     void traceTimeout(wxTimerEvent& event);
     void directAssTimeout(wxTimerEvent& event);
     void vuTimeout(wxTimerEvent& event);
-	void updateMemoryTab();
-	void updateAssTab();
-	void updateSlotInfo();
-	void ledTimeout(wxTimerEvent& event);
-//	void cpuTimeout(wxTimerEvent& event);
-	void updateCheckTimeout(wxTimerEvent& event);
-	void startTime();
-	void showTime();
+    void updateMemoryTab();
+    void updateAssTab();
+    void updateSlotInfo();
+    void ledTimeout(wxTimerEvent& event);
+//    void cpuTimeout(wxTimerEvent& event);
+    void updateCheckTimeout(wxTimerEvent& event);
+    void startTime();
+    void showTime();
     void lapTime();
-	void zoomEvent(double zoom);
-	void zoomEventVt(double zoom);
+    
+    void sysColourChangeEvent(wxSysColourChangedEvent& event);
+    void setSysColours();
+    void setMemDumpColours();
+
+    void zoomEvent(double zoom);
+    void zoomEventVt(double zoom);
     void vuSet(wxString Item, int value);
-	void errorMessageEvent(wxErrorMsgEvent& event);
-	void errorMessage(wxString msg);
+    void errorMessageEvent(wxErrorMsgEvent& event);
+    void errorMessage(wxString msg);
 
-	void setLocationEvent(guiEvent& event);
-	void eventSetLocation(bool state, Word saveStart, Word saveEnd, Word saveExec);
-	void eventSetLocation(bool state);
+    void setLocationEvent(guiEvent& event);
+    void eventSetLocation(bool state, Word saveStart, Word saveEnd, Word saveExec);
+    void eventSetLocation(bool state);
 
-	void setSaveStartEvent(guiEvent& event);
-	void eventSaveStart(Word saveStart);
+    void setSaveStartEvent(guiEvent& event);
+    void eventSaveStart(Word saveStart);
 
-	void setSaveEndEvent(guiEvent& event);
-	void eventSaveEnd(Word saveEnd);
+    void setSaveEndEvent(guiEvent& event);
+    void eventSaveEnd(Word saveEnd);
 
     void setSwNameEvent(guiEvent& event);
     void eventSetSwName(wxString swName);
     
-	void setTapeStateEvent(guiEvent& event);
+    void setTapeStateEvent(guiEvent& event);
     void eventSetTapeState(int status, wxString tapeNumber);
     
+    void setConvertStateEvent(guiEvent& event);
+    void eventSetConvertState(bool status);
+
     void setTextValueEvent(guiEvent& event);
     void eventSetTextValue(wxString info, wxString value);
     
     void setStaticTextValueEvent(guiEvent& event);
     void eventSetStaticTextValue(wxString info, wxString value);
     
-	void setCheckBoxEvent(guiEvent& event);
-	void eventSetCheckBox(wxString info, bool state);
+    void setCheckBoxEvent(guiEvent& event);
+    void eventSetCheckBox(wxString info, bool state);
 
     void showMessageEvent(guiEvent& event);
     void eventShowMessage(Word value);
@@ -1271,23 +1301,23 @@ public:
     void eventZoom(double zoom, bool isVt);
 
     void printDefaultEvent(guiEvent& event);
-	void eventPrintDefault(Byte value);
+    void eventPrintDefault(Byte value);
 
-	void printParallelEvent(guiEvent& event);
-	void eventPrintParallel(Byte value);
-	void printParallelFinishedEvent(guiEvent& event);
-	void eventPrintParallelFinished();
+    void printParallelEvent(guiEvent& event);
+    void eventPrintParallel(Byte value);
+    void printParallelFinishedEvent(guiEvent& event);
+    void eventPrintParallelFinished();
 
-	void printThermalEvent(guiEvent& event);
-	void eventPrintThermal(Byte value, Byte Qflag);
-	void printThermalFinishedEvent(guiEvent& event);
-	void eventPrintThermalFinished();
+    void printThermalEvent(guiEvent& event);
+    void eventPrintThermal(Byte value, Byte Qflag);
+    void printThermalFinishedEvent(guiEvent& event);
+    void eventPrintThermalFinished();
 
     void printSerialEvent(guiEvent& event);
     void eventPrintSerial(Byte value);
 
-	void printSerialFinishedEvent(guiEvent& event);
-	void eventPrintSerialFinished();
+    void printSerialFinishedEvent(guiEvent& event);
+    void eventPrintSerialFinished();
 
     void printPecomEvent(guiEvent& event);
     void eventPrintPecom(Byte value);
@@ -1299,9 +1329,9 @@ public:
     void refreshPanelEvent(guiEvent& event);
     void eventRefreshPanel();
 
-	void ShowMessageBoxEvent(guiEvent& event);
-	int eventShowMessageBox(wxString message, wxString caption, int style);
-	void setMessageBoxAnswer(int answer);
+    void ShowMessageBoxEvent(guiEvent& event);
+    int eventShowMessageBox(wxString message, wxString caption, int style);
+    void setMessageBoxAnswer(int answer);
 
     void GetClientSizeEvent(guiEvent& event);
     wxSize eventGetClientSize(bool isVt, int uartNumber);
@@ -1310,43 +1340,43 @@ public:
     void eventSetClientSize(wxSize size, bool changeScreenSize, bool isVt, int uartNumber);
     void eventSetClientSize(int sizex, int sizey, bool changeScreenSize, bool isVt, int uartNumber);
 
-	void ShowAddressPopupEvent(guiEvent& event);
-	int eventShowAddressPopup(Word specifiedStartAddress);
-	void setAddressPopupAnswer(int answer);
-	int getAddressPopupAnswer();
+    void ShowAddressPopupEvent(guiEvent& event);
+    int eventShowAddressPopup(Word specifiedStartAddress);
+    void setAddressPopupAnswer(int answer);
+    int getAddressPopupAnswer();
 
-	void showFileSelectorEvent(guiEvent& event);
+    void showFileSelectorEvent(guiEvent& event);
     wxString eventShowFileSelector(wxString message, wxString default_path, wxString default_filename, wxString default_extension, wxString wildcard, int flags);
     void setFileSelectorAnswer(wxString answer);
     
-	void updateDebugMemory(Word address);
+    void updateDebugMemory(Word address);
 
-	void showChip8Register(int variable, int value, bool chip8register12bit);
+    void showChip8Register(int variable, int value, bool chip8register12bit);
 
-	void setFandMBasicGuiEvent(guiEvent& event);
-	void eventSetFandMBasicGui();
+    void setFandMBasicGuiEvent(guiEvent& event);
+    void eventSetFandMBasicGui();
 
-	void enableMemAccesEvent(guiEvent& event);
-	void eventEnableMemAccess(bool state);
+    void enableMemAccesEvent(guiEvent& event);
+    void eventEnableMemAccess(bool state);
 
-	void setVideoFullScreenEvent(guiEvent& event);
-	void eventVideoSetFullScreen(bool state);
+    void setVideoFullScreenEvent(guiEvent& event);
+    void eventVideoSetFullScreen(bool state);
 
-	void setVtFullScreenEvent(guiEvent& event);
-	void eventVtSetFullScreen(bool state, int uartNumber);
+    void setVtFullScreenEvent(guiEvent& event);
+    void eventVtSetFullScreen(bool state, int uartNumber);
  
-	void setChangeNoteBookEvent(guiEvent& event);
-	void eventChangeNoteBook();
+    void setChangeNoteBookEvent(guiEvent& event);
+    void eventChangeNoteBook();
 
-	void setDisableControlsEvent(guiEvent& event);
-	void eventDisableControls();
+    void setDisableControlsEvent(guiEvent& event);
+    void eventDisableControls();
 
-	void setUpdateTitle(guiEvent& event);
-	void eventUpdateTitle();
+    void setUpdateTitle(guiEvent& event);
+    void eventUpdateTitle();
 
-	void debounceTimeout(wxTimerEvent& event);
-	void setDebounceTimer(guiEvent& event);
-	void eventDebounceTimer();
+    void debounceTimeout(wxTimerEvent& event);
+    void setDebounceTimer(guiEvent& event);
+    void eventDebounceTimer();
 
     void guiSizeTimeout(wxTimerEvent& event);
     
@@ -1358,64 +1388,65 @@ public:
     int getDefaultInKey2(wxString computerStr);
     int getDefaultInKey2(wxString computerStr, int defaultKey);
     void getDefaultHexKeys(int computerType, wxString computerStr, wxString player, int *, int *, int*);
-	void getTmc600Keys(int *, int *);
-	void getDefaultTmc600Keys(int *, int *);
+    void getTmc600Keys(int *, int *);
+    void getDefaultTmc600Keys(int *, int *);
     void storeDefaultTmc600Keys(int *, int *);
     int getDefaultCoinArcadeKeys(int *, int *);
     void storeDefaultCoinArcadeKeys(int *, int *, int coin);
-	bool emuClosing() { return emuClosing_; };
-	bool getThermalEf() {return thermalEf_;};
-	void setStatusLedUpdate(bool status) {statusLedUpdate_ =  status;};
-	void setSlotLedUpdate(bool status) {slotLedUpdate_ =  status;};
+    
+    bool emuClosing() { return emuClosing_; };
+    bool getThermalEf() {return thermalEf_;};
+    void setStatusLedUpdate(bool status) {statusLedUpdate_ =  status;};
+    void setSlotLedUpdate(bool status) {slotLedUpdate_ =  status;};
    
     UpdateCheckThread *m_pUpdateCheckThread;
     wxCriticalSection m_pUpdateCheckThreadCS;    // protects the m_pUpdateCheckThread pointer
 
 private:
-	MyHtmlHelpController *help_;
-	wxString latestVersion_;
+    MyHtmlHelpController *help_;
+    wxString latestVersion_;
 
     bool saveOnExit_;
-	bool checkForUpdate_;
-	bool runPressed_;
+    bool checkForUpdate_;
+    bool runPressed_;
 
-	bool thermalEf_;
-	bool statusLedUpdate_;
+    bool thermalEf_;
+    bool statusLedUpdate_;
 
     bool panelRefreshOngoing_;
     bool videoRefreshOngoing_;
 
-	bool emuClosing_;
-	bool emmaClosing_;
-	int bass_;
-	int treble_;
-//	wxTimer *cpuPointer;
-	wxTimer *updateCheckPointer;
-	bool updateCheckStarted_;
-	int oldGauge_;
+    bool emuClosing_;
+    bool emmaClosing_;
+    int bass_;
+    int treble_;
+//    wxTimer *cpuPointer;
+    wxTimer *updateCheckPointer;
+    bool updateCheckStarted_;
+    int oldGauge_;
 
-	wxString message_;
+    wxString message_;
     time_t startTime_;
     time_t lapTime_;
     time_t lapTimeStart_;
     uint64_t lastNumberOfCpuCycles_;
     uint64_t lastInstructionCounter_;
-	bool cpuCyclesOverflow_;
-	bool instructionCounterOverflow_;
+    bool cpuCyclesOverflow_;
+    bool instructionCounterOverflow_;
 
-	int eventNumber_;
+    int eventNumber_;
 
-	bool updateMemory_;
-	bool updateMemoryPage_;
-	bool updateAssPage_;
-	bool updateSlotinfo_;
-	bool rowChanged_[16];
-	bool memoryChanged_[16][16];
+    bool updateMemory_;
+    bool updateMemoryPage_;
+    bool updateAssPage_;
+    bool updateSlotinfo_;
+    bool rowChanged_[16];
+    bool memoryChanged_[16][16];
 
-	int functionKey_[14];
+    int functionKey_[14];
     CompletedSplashScreen *completedSplashScreen_;
     
-	DECLARE_EVENT_TABLE()
+    DECLARE_EVENT_TABLE()
 };
 
 #endif // MAIN_H
@@ -1434,9 +1465,9 @@ EXT Video *p_Vt100[2];
 EXT Serial *p_Serial;
 EXT Cdp1802 *p_Computer;
 
-EXT	Printer *p_PrinterParallel;
-EXT	Printer *p_PrinterSerial;
-EXT	Printer *p_PrinterThermal;
-EXT	Printer *p_Printer;
+EXT    Printer *p_PrinterParallel;
+EXT    Printer *p_PrinterSerial;
+EXT    Printer *p_PrinterThermal;
+EXT    Printer *p_Printer;
 EXT wxPrintData *PrintDataPointer;
 EXT wxPageSetupDialogData *p_PageSetupData;

@@ -176,226 +176,226 @@ Byte scancodes[] = {   0,       /* 0 */
 
 Ps2::Ps2()
 {
-	usePS2_ = false;
+    usePS2_ = false;
 }
 
 bool Ps2::keyDownPs2(int keycode)
 {
-	if (!usePS2_)  return false;
+    if (!usePS2_)  return false;
 
-	Word scancode = getScanCode(keycode);
+    Word scancode = getScanCode(keycode);
     if ((scancode >> 8 ) > 0) addToBuffer(scancode>>8);
     addToBuffer(scancode & 0xff);
-	return true;
+    return true;
 }
 
 bool Ps2::keyUpPs2(int keycode)
 {
-	if (!usePS2_)  return false;
+    if (!usePS2_)  return false;
 
-	Word scancode = getScanCode(keycode);
+    Word scancode = getScanCode(keycode);
     if ((scancode >> 8 ) > 0) addToBuffer(scancode>>8);
     addToBuffer(0xf0);
     addToBuffer(scancode & 0xff);
-	return true;
+    return true;
 }
 
 void  Ps2::configurePs2(bool ps2Interrupt, ElfPortConfiguration portConf) 
 {
-//	int input, output, efPort;
+//    int input, output, efPort;
 
-	ps2Interrupt_ = ps2Interrupt;
+    ps2Interrupt_ = ps2Interrupt;
 
-	usePS2_ = true;
+    usePS2_ = true;
 
-	wxString runningComp = p_Main->getRunningComputerStr();
+    wxString runningComp = p_Main->getRunningComputerStr();
 
-//	input = p_Main->getConfigItem(runningComp +"/Ps2KeyboardInput", 7l);
-//	output = p_Main->getConfigItem(runningComp +"/Ps2KeyboardOutput", 7l);
-//	efPort = p_Main->getConfigItem(runningComp +"/Ps2KeyboardEf", 3l);
+//    input = p_Main->getConfigItem(runningComp +"/Ps2KeyboardInput", 7l);
+//    output = p_Main->getConfigItem(runningComp +"/Ps2KeyboardOutput", 7l);
+//    efPort = p_Main->getConfigItem(runningComp +"/Ps2KeyboardEf", 3l);
 
-	p_Computer->setInType(portConf.ps2KeyboardInput, PS2IN);
-	p_Computer->setOutType(portConf.ps2KeyboardOutput, PS2OUT);
-	p_Computer->setEfType(portConf.ps2KeyboardEf, PS2EF); 
-	p_Computer->setCycleType(KEYCYCLE, PS2CYCLE);
-	ps2KeyCycle_ = -1;
-	ps2KeyStart_ = 0;
-	ps2KeyEnd_ = 0;
-	ps2KeyboardMode_ = 'X';
-	ps2Cycles_ = 0;
-	ps2Port_ = 1;
- 	ps2CValue_ = 3;
-	ps2KValue_ = 3;
+    p_Computer->setInType(portConf.ps2KeyboardInput, PS2IN);
+    p_Computer->setOutType(portConf.ps2KeyboardOutput, PS2OUT);
+    p_Computer->setEfType(portConf.ps2KeyboardEf, PS2EF); 
+    p_Computer->setCycleType(KEYCYCLE, PS2CYCLE);
+    ps2KeyCycle_ = -1;
+    ps2KeyStart_ = 0;
+    ps2KeyEnd_ = 0;
+    ps2KeyboardMode_ = 'X';
+    ps2Cycles_ = 0;
+    ps2Port_ = 1;
+     ps2CValue_ = 3;
+    ps2KValue_ = 3;
 
-	wxString printBuffer;
-	p_Main->message("Configuring PS2 Keyboard");
+    wxString printBuffer;
+    p_Main->message("Configuring PS2 Keyboard");
 
-	printBuffer.Printf("	Output %d: write data, input %d: read data, EF %d: clock signal\n", portConf.ps2KeyboardOutput, portConf.ps2KeyboardInput , portConf.ps2KeyboardEf);
-	p_Main->message(printBuffer);
+    printBuffer.Printf("    Output %d: write data, input %d: read data, EF %d: clock signal\n", portConf.ps2KeyboardOutput, portConf.ps2KeyboardInput , portConf.ps2KeyboardEf);
+    p_Main->message(printBuffer);
 }
 
 Byte Ps2::efPs2() 
 {
-	return(ps2CValue_ & 2) ?((ps2KValue_ & 2) ? 1 : 0) : 0;
+    return(ps2CValue_ & 2) ?((ps2KValue_ & 2) ? 1 : 0) : 0;
 }
 
 Byte Ps2::inPs2() 
 {
-	Byte ret;
-	ret = (ps2CValue_ & 1) ?(ps2KValue_ & 1) : 0;
-	ret |= (ps2CValue_ & 2) ?(ps2KValue_ & 2) : 0;
-	return ret;
+    Byte ret;
+    ret = (ps2CValue_ & 1) ?(ps2KValue_ & 1) : 0;
+    ret |= (ps2CValue_ & 2) ?(ps2KValue_ & 2) : 0;
+    return ret;
 }
 
 void Ps2::outPs2(Byte value) 
 {
-	ps2CValue_ = value;
-	if ((ps2CValue_ & 2) == 0) 
-	{
-		ps2KeyboardMode_ = 'X';
-		ps2KValue_ = 3;
-		ps2Cycles_ = p_Computer->getCpuCycles();
-		ps2Port_ = 1;
-	}
+    ps2CValue_ = value;
+    if ((ps2CValue_ & 2) == 0) 
+    {
+        ps2KeyboardMode_ = 'X';
+        ps2KValue_ = 3;
+        ps2Cycles_ = p_Computer->getCpuCycles();
+        ps2Port_ = 1;
+    }
 }
 
 void Ps2::cyclePs2() 
 {
-	if (ps2KeyboardMode_ == 'X' &&(ps2CValue_ & 2)) 
-	{
-		if (ps2KeyStart_ == ps2KeyEnd_) 
-			return;
-		ps2Value_ = ps2Buffer_[ps2KeyStart_++];
-		if (ps2KeyStart_ == 256) 
-			ps2KeyStart_ = 0;
-		ps2KeyboardMode_ = 'I';
-		ps2Cycles_ = PS2_CYCLES;
-		ps2KeyCycle_ = 0;
-		ps2KValue_ = 2;
-		ps2Parity_ = 1;
-	}
-	if (ps2KeyboardMode_ == 'I') 
-	{
-		if ((ps2Cycles_--) == 0) 
-		{
-			ps2KValue_ ^= 2;
-			if (ps2KValue_ & 2) 
-				p_Computer->debugTrace("PS2 Clock High");
-			else 
-				p_Computer->debugTrace("PS2 Clock Low");
-			if (ps2Interrupt_ &&(ps2KValue_ & 2) == 0) 
-				p_Computer->interrupt();
-			ps2Cycles_ = PS2_CYCLES;
-			if (ps2KeyCycle_ >= 11) 
-				ps2KValue_ |= 2;
-			if ((ps2KValue_ & 2) == 2) 
-			{
-				ps2KValue_ &= 2;
-				if (ps2KeyCycle_ < 8) 
-				{
-					ps2Parity_ += (ps2Value_ & 1) ? 1 : 0;
-					ps2KValue_ |= (ps2Value_ & 1) ? 1 : 0;
-					ps2Value_ >>= 1;
-				}
-				if (ps2KeyCycle_ == 8) 
-				{
-					ps2KValue_ |= (ps2Parity_ & 1) ? 1 : 0;
-				}
-				if (ps2KeyCycle_ == 9) 
-				{
-					ps2KValue_ |= 1;
-				}
-				if (ps2KeyCycle_ == 10) 
-				{
-					ps2KeyboardMode_ = 'R';
-					ps2Cycles_ = PS2_CYCLES;
-					ps2KValue_ = 3;
-				}
-				ps2KeyCycle_++;
-			}
-		}
-	}
-	if (ps2KeyboardMode_ == 'R') 
-	{
-		if (ps2Cycles_ == 0)
-			ps2KeyboardMode_ = 'X';
-		else
-			ps2Cycles_--;
-	}
-	if (ps2KeyboardMode_ == 'O') 
-	{
+    if (ps2KeyboardMode_ == 'X' &&(ps2CValue_ & 2)) 
+    {
+        if (ps2KeyStart_ == ps2KeyEnd_) 
+            return;
+        ps2Value_ = ps2Buffer_[ps2KeyStart_++];
+        if (ps2KeyStart_ == 256) 
+            ps2KeyStart_ = 0;
+        ps2KeyboardMode_ = 'I';
+        ps2Cycles_ = PS2_CYCLES;
+        ps2KeyCycle_ = 0;
+        ps2KValue_ = 2;
+        ps2Parity_ = 1;
+    }
+    if (ps2KeyboardMode_ == 'I') 
+    {
+        if ((ps2Cycles_--) == 0) 
+        {
+            ps2KValue_ ^= 2;
+            if (ps2KValue_ & 2) 
+                p_Computer->debugTrace("PS2 Clock High");
+            else 
+                p_Computer->debugTrace("PS2 Clock Low");
+            if (ps2Interrupt_ &&(ps2KValue_ & 2) == 0) 
+                p_Computer->interrupt();
+            ps2Cycles_ = PS2_CYCLES;
+            if (ps2KeyCycle_ >= 11) 
+                ps2KValue_ |= 2;
+            if ((ps2KValue_ & 2) == 2) 
+            {
+                ps2KValue_ &= 2;
+                if (ps2KeyCycle_ < 8) 
+                {
+                    ps2Parity_ += (ps2Value_ & 1) ? 1 : 0;
+                    ps2KValue_ |= (ps2Value_ & 1) ? 1 : 0;
+                    ps2Value_ >>= 1;
+                }
+                if (ps2KeyCycle_ == 8) 
+                {
+                    ps2KValue_ |= (ps2Parity_ & 1) ? 1 : 0;
+                }
+                if (ps2KeyCycle_ == 9) 
+                {
+                    ps2KValue_ |= 1;
+                }
+                if (ps2KeyCycle_ == 10) 
+                {
+                    ps2KeyboardMode_ = 'R';
+                    ps2Cycles_ = PS2_CYCLES;
+                    ps2KValue_ = 3;
+                }
+                ps2KeyCycle_++;
+            }
+        }
+    }
+    if (ps2KeyboardMode_ == 'R') 
+    {
+        if (ps2Cycles_ == 0)
+            ps2KeyboardMode_ = 'X';
+        else
+            ps2Cycles_--;
+    }
+    if (ps2KeyboardMode_ == 'O') 
+    {
     }
 }
 
 Word Ps2::getScanCode(Word value) 
 {
-	switch(value) 
-	{
-		case WXK_F1:return 0x05;
-		case WXK_F2:return 0x06;
-		case WXK_F3:return 0x04;
-		case WXK_F4:return 0x0c;
-		case WXK_F5:return 0x03;
-		case WXK_F6:return 0x0b;
-		case WXK_F7:return 0x83;
-		case WXK_F8:return 0x0a;
-		case WXK_F9:return 0x01;
-		case WXK_F10:return 0x09;
-		case WXK_F11:return 0x78;
-		case WXK_F12:return 0x07;
-		case WXK_BACK:return 0x66;
-		case WXK_SHIFT: return 0x12;
-//		case KEY_SHIFT_R: return 0x59;
-		case WXK_CONTROL: return 0x14;
-//		case KEY_CTRL_R: return 0xe014;
-		case WXK_ALT: return 0x11;
-//		case KEY_ALT_R: return 0xe011;
-		case WXK_TAB:return 0x0d;
-		case WXK_CAPITAL:return 0x58;
-		case WXK_UP: return 0xe075;
-		case WXK_DOWN: return 0xe072;
-		case WXK_LEFT: return 0xe06b;
-		case WXK_RIGHT: return 0xe074;
-		case WXK_NUMPAD_UP: return 0x75;
-		case WXK_NUMPAD_DOWN: return 0x72;
-		case WXK_NUMPAD_LEFT: return 0x6b;
-		case WXK_NUMPAD_RIGHT: return 0x74;
-		case WXK_INSERT: return 0xe070;
-		case WXK_DELETE: return 0xe071;
-		case WXK_HOME: return 0xe06c;
-		case WXK_END: return 0xe069;
-		case WXK_PAGEUP: return 0xe07d;
-		case WXK_PAGEDOWN: return 0xe07a;
-		case WXK_NUMPAD0: return 0x70;
-		case WXK_NUMPAD1: return 0x69;
-		case WXK_NUMPAD2: return 0x72;
-		case WXK_NUMPAD3: return 0x7a;
-		case WXK_NUMPAD4: return 0x6b;
-		case WXK_NUMPAD5: return 0x73;
-		case WXK_NUMPAD6: return 0x74;
-		case WXK_NUMPAD7: return 0x6c;
-		case WXK_NUMPAD8: return 0x75;
-		case WXK_NUMPAD9: return 0x7d;
-		case WXK_NUMPAD_HOME: return 0x6c;
-		case WXK_NUMPAD_END: return 0x69;
-		case WXK_NUMPAD_PAGEUP: return 0x7d;
-		case WXK_NUMPAD_PAGEDOWN: return 0x7a;
-		case WXK_NUMPAD_ENTER: return 0xe05a;
-		case WXK_NUMPAD_ADD: return 0x79;
-		case WXK_NUMPAD_SUBTRACT: return 0x7b;
-		case WXK_NUMPAD_MULTIPLY: return 0x7c;
-		case WXK_NUMPAD_DIVIDE: return 0xe04a;
-		case WXK_NUMLOCK: return 0x77;
-	}
-	if (value < 128) return scancodes[value];
-	return 0;
+    switch(value) 
+    {
+        case WXK_F1:return 0x05;
+        case WXK_F2:return 0x06;
+        case WXK_F3:return 0x04;
+        case WXK_F4:return 0x0c;
+        case WXK_F5:return 0x03;
+        case WXK_F6:return 0x0b;
+        case WXK_F7:return 0x83;
+        case WXK_F8:return 0x0a;
+        case WXK_F9:return 0x01;
+        case WXK_F10:return 0x09;
+        case WXK_F11:return 0x78;
+        case WXK_F12:return 0x07;
+        case WXK_BACK:return 0x66;
+        case WXK_SHIFT: return 0x12;
+//        case KEY_SHIFT_R: return 0x59;
+        case WXK_CONTROL: return 0x14;
+//        case KEY_CTRL_R: return 0xe014;
+        case WXK_ALT: return 0x11;
+//        case KEY_ALT_R: return 0xe011;
+        case WXK_TAB:return 0x0d;
+        case WXK_CAPITAL:return 0x58;
+        case WXK_UP: return 0xe075;
+        case WXK_DOWN: return 0xe072;
+        case WXK_LEFT: return 0xe06b;
+        case WXK_RIGHT: return 0xe074;
+        case WXK_NUMPAD_UP: return 0x75;
+        case WXK_NUMPAD_DOWN: return 0x72;
+        case WXK_NUMPAD_LEFT: return 0x6b;
+        case WXK_NUMPAD_RIGHT: return 0x74;
+        case WXK_INSERT: return 0xe070;
+        case WXK_DELETE: return 0xe071;
+        case WXK_HOME: return 0xe06c;
+        case WXK_END: return 0xe069;
+        case WXK_PAGEUP: return 0xe07d;
+        case WXK_PAGEDOWN: return 0xe07a;
+        case WXK_NUMPAD0: return 0x70;
+        case WXK_NUMPAD1: return 0x69;
+        case WXK_NUMPAD2: return 0x72;
+        case WXK_NUMPAD3: return 0x7a;
+        case WXK_NUMPAD4: return 0x6b;
+        case WXK_NUMPAD5: return 0x73;
+        case WXK_NUMPAD6: return 0x74;
+        case WXK_NUMPAD7: return 0x6c;
+        case WXK_NUMPAD8: return 0x75;
+        case WXK_NUMPAD9: return 0x7d;
+        case WXK_NUMPAD_HOME: return 0x6c;
+        case WXK_NUMPAD_END: return 0x69;
+        case WXK_NUMPAD_PAGEUP: return 0x7d;
+        case WXK_NUMPAD_PAGEDOWN: return 0x7a;
+        case WXK_NUMPAD_ENTER: return 0xe05a;
+        case WXK_NUMPAD_ADD: return 0x79;
+        case WXK_NUMPAD_SUBTRACT: return 0x7b;
+        case WXK_NUMPAD_MULTIPLY: return 0x7c;
+        case WXK_NUMPAD_DIVIDE: return 0xe04a;
+        case WXK_NUMLOCK: return 0x77;
+    }
+    if (value < 128) return scancodes[value];
+    return 0;
 }
 
 void Ps2::addToBuffer(Byte value) 
 {
-	if (ps2KeyEnd_ != ps2KeyStart_-1 ||(ps2KeyEnd_ ==255 && ps2KeyStart_ != 0)) 
-	{
-		ps2Buffer_[ps2KeyEnd_++] = value;
-		if (ps2KeyEnd_ == 256) ps2KeyEnd_ = 0;
-	}
+    if (ps2KeyEnd_ != ps2KeyStart_-1 ||(ps2KeyEnd_ ==255 && ps2KeyStart_ != 0)) 
+    {
+        ps2Buffer_[ps2KeyEnd_++] = value;
+        if (ps2KeyEnd_ == 256) ps2KeyEnd_ = 0;
+    }
 }

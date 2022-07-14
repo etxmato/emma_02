@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="Emma 02"
 	ProjectGUID="{0EB8F4E8-7651-4F9C-8ECD-4C540EF3A27D}"
 	RootNamespace="Elf - wxWidgets"
@@ -53,8 +53,8 @@
 				AdditionalOptions="/EHsc /bigobj"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories=".;.\images;&quot;$(SDL)\include&quot;;&quot;$(WXWIN)\lib\vc_lib\Win32\mswu&quot;;&quot;$(WXWIN)\include&quot;;&quot;$(WXWIN)\include\msvc&quot;;&quot;$(CURL)\include\&quot;;&quot;$(SERIALPORT)\Win32\include\&quot;"
-				PreprocessorDefinitions="WIN32;WINVER=0x0400;__WXMSW__;_WINDOWS;NOPCH"
+				AdditionalIncludeDirectories=".;.\images;&quot;$(SDL)\include&quot;;&quot;$(WXWIN)\lib\vc_lib\mswu&quot;;&quot;$(WXWIN)\include&quot;;&quot;$(WXWIN)\include\msvc&quot;;&quot;$(CURL)\include\&quot;;&quot;$(SERIALPORT)\Win32\include\&quot;"
+				PreprocessorDefinitions="WIN32;WINVER=0x0500;__WXMSW__;_WINDOWS;NOPCH"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -84,11 +84,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libserialport.a comctl32.lib rpcrt4.lib winmm.lib advapi32.lib SDL2.lib SDL2main.lib wxmsw30u_xrc.lib wxmsw30u_html.lib wxmsw30u_adv.lib wxmsw30u_core.lib wxbase30u_xml.lib wxbase30u_net.lib wxbase30u.lib wxregexu.lib wxexpat.lib wsock32.lib wxtiff.lib wxjpeg.lib wxpng.lib wxzlib.lib libcurl.lib ws2_32.lib wldap32.lib crypt32.lib"
+				AdditionalDependencies="libserialport.a comctl32.lib rpcrt4.lib winmm.lib advapi32.lib SDL2.lib SDL2main.lib wxmsw31u_xrc.lib wxmsw31u_html.lib wxmsw31u_adv.lib wxmsw31u_core.lib wxbase31u_xml.lib wxbase31u_net.lib wxbase31u.lib wxregexu.lib wxexpat.lib wsock32.lib wxtiff.lib wxjpeg.lib wxpng.lib wxzlib.lib libcurl.lib ws2_32.lib wldap32.lib crypt32.lib"
 				OutputFile="$(SolutionDir)$(PlatformName)\$(ConfigurationName)\Emma 02.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;$(SDL)\lib\x86&quot;;&quot;$(WXWIN)\lib\vc_lib\Win32\&quot;;&quot;$(CURL)\build\Win32\VC9\LIB Release - DLL Windows SSPI&quot;;&quot;$(SERIALPORT)\Win32\lib&quot;;&quot;%(AdditionalLibraryDirectories)&quot;"
+				AdditionalLibraryDirectories="&quot;$(SDL)\lib\x86&quot;;&quot;$(WXWIN)\lib\vc_lib\&quot;;&quot;$(CURL)\build\Win32\VC9\LIB Release - DLL Windows SSPI&quot;;&quot;$(SERIALPORT)\Win32\lib&quot;;&quot;%(AdditionalLibraryDirectories)&quot;"
 				IgnoreAllDefaultLibraries="false"
 				IgnoreDefaultLibraryNames=""
 				ProgramDatabaseFile="$(SolutionDir)$(PlatformName)\$(ConfigurationName)\Emma 02.pdb"
@@ -125,7 +125,7 @@
 		<Configuration
 			Name="Release|x64"
 			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
@@ -158,7 +158,7 @@
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories=".;.\images;&quot;$(SDL)\include&quot;;&quot;$(WXWIN)\lib\vc_x64_lib\mswu&quot;;&quot;$(WXWIN)\include&quot;;&quot;$(WXWIN)\include\msvc&quot;;&quot;$(CURL)\include\&quot;;&quot;$(SERIALPORT)\Win64\include\&quot;"
-				PreprocessorDefinitions="WIN32;WINVER=0x0400;__WXMSW__;_WINDOWS;NOPCH"
+				PreprocessorDefinitions="WIN32;WINVER=0x0500;__WXMSW__;_WINDOWS;NOPCH"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -188,7 +188,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libserialport.lib comctl32.lib rpcrt4.lib winmm.lib advapi32.lib SDL2.lib SDL2main.lib wxmsw30u_xrc.lib wxmsw30u_html.lib wxmsw30u_adv.lib wxmsw30u_core.lib wxbase30u_xml.lib wxbase30u_net.lib wxbase30u.lib wxregexu.lib wxexpat.lib wsock32.lib wxtiff.lib wxjpeg.lib wxpng.lib wxzlib.lib libcurl.lib ws2_32.lib wldap32.lib crypt32.lib"
+				AdditionalDependencies="libserialport.lib comctl32.lib rpcrt4.lib winmm.lib advapi32.lib SDL2.lib SDL2main.lib wxmsw31u_xrc.lib wxmsw31u_html.lib wxmsw31u_adv.lib wxmsw31u_core.lib wxbase31u_xml.lib wxbase31u_net.lib wxbase31u.lib wxregexu.lib wxexpat.lib wsock32.lib wxtiff.lib wxjpeg.lib wxpng.lib wxzlib.lib libcurl.lib ws2_32.lib wldap32.lib crypt32.lib"
 				OutputFile="$(SolutionDir)$(PlatformName)\$(ConfigurationName)\Emma 02.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
@@ -295,12 +295,12 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libserialport.a comctl32.lib rpcrt4.lib winmm.lib advapi32.lib SDL2.lib SDL2main.lib wxmsw30ud_xrc.lib wxmsw30ud_html.lib wxmsw30ud_adv.lib wxmsw30ud_core.lib wxbase30ud_xml.lib wxbase30ud_net.lib wxbase30ud.lib libcurld.lib wxregexud.lib wxexpatd.lib wsock32.lib wxtiffd.lib wxjpegd.lib wxpngd.lib wxzlibd.lib ws2_32.lib wldap32.lib crypt32.lib"
+				AdditionalDependencies="libserialport.a comctl32.lib rpcrt4.lib winmm.lib advapi32.lib SDL2.lib SDL2main.lib wxmsw31ud_xrc.lib wxmsw31ud_html.lib wxmsw31ud_adv.lib wxmsw31ud_core.lib wxbase31ud_xml.lib wxbase31ud_net.lib wxbase31ud.lib libcurld.lib wxregexud.lib wxexpatd.lib wsock32.lib wxtiffd.lib wxjpegd.lib wxpngd.lib wxzlibd.lib ws2_32.lib wldap32.lib crypt32.lib"
 				ShowProgress="0"
 				OutputFile="$(SolutionDir)$(PlatformName)\$(ConfigurationName)\Emma 02.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;C:\Program Files (x86)\Visual Leak Detector\lib\Win32&quot;;&quot;$(SDL)\lib\x86&quot;;&quot;$(WXWIN)\lib\vc_lib\Win32\mswud&quot;;&quot;$(WXWIN)\lib\vc_lib\Win32&quot;;&quot;$(CURL)\build\Win32\VC9\LIB Debug - DLL Windows SSPI&quot;;&quot;$(SERIALPORT)\Win32\lib&quot;"
+				AdditionalLibraryDirectories="&quot;C:\Program Files (x86)\Visual Leak Detector\lib\Win32&quot;;&quot;$(SDL)\lib\x86&quot;;&quot;$(WXWIN)\lib\vc_lib\mswud&quot;;&quot;$(WXWIN)\lib\vc_lib&quot;;&quot;$(CURL)\build\Win32\VC9\LIB Debug - DLL Windows SSPI&quot;;&quot;$(SERIALPORT)\Win32\lib&quot;"
 				IgnoreAllDefaultLibraries="false"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(SolutionDir)$(PlatformName)\$(ConfigurationName)\Emma 02.pdb"
@@ -335,8 +335,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|x64"
-			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)vc9\$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="vc9\$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
@@ -403,10 +403,11 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="comctl32.lib rpcrt4.lib winmm.lib advapi32.lib SDL2.lib SDL2main.lib wxmsw30ud_xrc.lib wxmsw30ud_html.lib wxmsw30ud_adv.lib wxmsw30ud_core.lib wxbase30ud_xml.lib wxbase30ud_net.lib wxbase30ud.lib libcurld.lib wxregexud.lib wxexpatd.lib wsock32.lib wxtiffd.lib wxjpegd.lib wxpngd.lib wxzlibd.lib ws2_32.lib wldap32.lib libserialport.lib crypt32.lib"
 				ShowProgress="0"
-				OutputFile="$(SolutionDir)$(PlatformName)\$(ConfigurationName)\Emma 02.exe"
+				OutputFile="$(SolutionDir)vc9\$(PlatformName)\$(ConfigurationName)\Emma 02.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories="&quot;$(SDL)\lib\x64&quot;;&quot;$(WXWIN)\lib\vc_x64_lib\mswud\&quot;;&quot;$(WXWIN)\lib\vc_x64_lib\&quot;;&quot;$(CURL)\build\Win64\VC9\LIB Debug - DLL Windows SSPI&quot;;&quot;$(SERIALPORT)\Win64\lib&quot;"
+				ManifestFile="$(IntDir)\vc9\$(TargetFileName).intermediate.manifest"
 				IgnoreAllDefaultLibraries="false"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(SolutionDir)$(PlatformName)\$(ConfigurationName)\Emma 02.pdb"
@@ -420,6 +421,9 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
+				OutputManifestFile="$(IntDir)\vc9\$(TargetFileName).embed.manifest"
+				ManifestResourceFile="$(IntDir)\vc9\$(TargetFileName).embed.manifest.res"
+				DependencyInformationFile="$(IntDir)\vc9\mt.dep"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -427,7 +431,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile="$(SolutionDir)$(PlatformName)\$(ConfigurationName)\image.bsc"
+				OutputFile="$(SolutionDir)\vc9\$(PlatformName)\$(ConfigurationName)\image.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -539,6 +543,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\diy.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\elf.cpp"
 				>
 			</File>
@@ -611,6 +619,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\guidiy.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\guielf.cpp"
 				>
 			</File>
@@ -656,6 +668,10 @@
 			</File>
 			<File
 				RelativePath=".\src\guipecom.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\guipico.cpp"
 				>
 			</File>
 			<File
@@ -800,6 +816,10 @@
 			</File>
 			<File
 				RelativePath=".\src\pecom.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\pico.cpp"
 				>
 			</File>
 			<File
@@ -1027,6 +1047,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\computerconfig.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\comx35.h"
 				>
 			</File>
@@ -1056,6 +1080,10 @@
 			</File>
 			<File
 				RelativePath=".\src\diagstatusbar.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\diy.h"
 				>
 			</File>
 			<File
@@ -1135,6 +1163,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\guidiy.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\guielf.h"
 				>
 			</File>
@@ -1180,6 +1212,10 @@
 			</File>
 			<File
 				RelativePath=".\src\guipecom.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\guipico.h"
 				>
 			</File>
 			<File
@@ -1324,6 +1360,10 @@
 			</File>
 			<File
 				RelativePath=".\src\pecom.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\pico.h"
 				>
 			</File>
 			<File

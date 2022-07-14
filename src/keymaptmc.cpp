@@ -86,8 +86,8 @@ KeyMapTmcDialog::KeyMapTmcDialog(wxWindow* parent)
     
     p_Main->getTmc600Keys(keyDefNormal_, keyDefShift_);
     
-	this->connectKeyDownEvent(this);
-	updateButtons();
+    this->connectKeyDownEvent(this);
+    updateButtons();
     
 #ifdef __WXMAC__
     focusTimer = new wxTimer(this, wxID_ANY);
@@ -105,26 +105,26 @@ KeyMapTmcDialog::~KeyMapTmcDialog()
 
 void KeyMapTmcDialog::compareButtons(int toBeCheckedKey, int toBeCheckedValue, int type)
 {
-	wxString button;
-	if (type == KEY_DEF_NORMAL)
-		button.Printf("Key%02X", toBeCheckedKey);
-	else
+    wxString button;
+    if (type == KEY_DEF_NORMAL)
+        button.Printf("Key%02X", toBeCheckedKey);
+    else
         button.Printf("KeyShift%02X", toBeCheckedKey);
 
-	for (int j=0; j<=20; j++)
-	{
-		if (toBeCheckedKey != j || type == KEY_DEF_SHIFT)
-		{
-			if (toBeCheckedValue == keyDefNormal_[j] && toBeCheckedValue != 0)
-			{		
+    for (int j=0; j<=20; j++)
+    {
+        if (toBeCheckedKey != j || type == KEY_DEF_SHIFT)
+        {
+            if (toBeCheckedValue == keyDefNormal_[j] && toBeCheckedValue != 0)
+            {        
 #ifdef __WXMAC__
-                XRCCTRL(*this, button, wxButton)->SetBackgroundColour(wxColour(255,0,0));
+                XRCCTRL(*this, button, wxButton)->SetBackgroundColour(p_Main->getGuiTextColour(GUI_COL_RED));
 #else
-				XRCCTRL(*this, button, wxButton)->SetForegroundColour(wxColour(255,0,0));
+                XRCCTRL(*this, button, wxButton)->SetForegroundColour(p_Main->getGuiTextColour(GUI_COL_RED));
 #endif
-			}
-		}
-	}
+            }
+        }
+    }
     for (int j=0; j<=20; j++)
     {
         if (toBeCheckedKey != j || type == KEY_DEF_NORMAL)
@@ -132,9 +132,9 @@ void KeyMapTmcDialog::compareButtons(int toBeCheckedKey, int toBeCheckedValue, i
             if (toBeCheckedValue == keyDefShift_[j] && toBeCheckedValue != 0)
             {
 #ifdef __WXMAC__
-                XRCCTRL(*this, button, wxButton)->SetBackgroundColour(wxColour(255,0,0));
+                XRCCTRL(*this, button, wxButton)->SetBackgroundColour(p_Main->getGuiTextColour(GUI_COL_RED));
 #else
-                XRCCTRL(*this, button, wxButton)->SetForegroundColour(wxColour(255,0,0));
+                XRCCTRL(*this, button, wxButton)->SetForegroundColour(p_Main->getGuiTextColour(GUI_COL_RED));
 #endif
             }
         }
@@ -143,7 +143,7 @@ void KeyMapTmcDialog::compareButtons(int toBeCheckedKey, int toBeCheckedValue, i
 
 void KeyMapTmcDialog::updateButtons()
 {
-	wxString button, keyStr;
+    wxString button, keyStr;
 
     for (int i=0; i <=16; i++)
     {
@@ -168,20 +168,20 @@ void KeyMapTmcDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
 
 void KeyMapTmcDialog::onKey(wxCommandEvent &event)
 {
-	wxString buttonName, buttonNumber;
+    wxString buttonName, buttonNumber;
 
-	if (normalKey_ != -1)
-	{
+    if (normalKey_ != -1)
+    {
         setLabel("Key%02X", normalKey_, keyDefNormal_[normalKey_]);
         normalKey_ = -1;
-	}
-	if (shiftKey_ != -1)
-	{
+    }
+    if (shiftKey_ != -1)
+    {
         setLabel("KeyShift%02X", shiftKey_, keyDefShift_[shiftKey_]);
         shiftKey_ = -1;
     }
-	buttonName = wxWindow::FindWindowById(event.GetId())->GetName();
-	buttonNumber = buttonName.Right(2);
+    buttonName = wxWindow::FindWindowById(event.GetId())->GetName();
+    buttonNumber = buttonName.Right(2);
     
     if (buttonName.Left(4) != "KeyS")
     {
@@ -201,7 +201,7 @@ void KeyMapTmcDialog::onKey(wxCommandEvent &event)
 
 void KeyMapTmcDialog::onDefault(wxCommandEvent& WXUNUSED(event))
 {
-	p_Main->getDefaultTmc600Keys(keyDefNormal_, keyDefShift_);
+    p_Main->getDefaultTmc600Keys(keyDefNormal_, keyDefShift_);
     
     updateButtons();
     shiftKey_ = -1;
@@ -216,8 +216,8 @@ void KeyMapTmcDialog::onKeyDown(wxKeyEvent& event)
     if (key == 8364)
         key = 36;
     
-	if (normalKey_ != -1)
-	{
+    if (normalKey_ != -1)
+    {
         if (modifier != wxMOD_NONE || (key >= 'a' && key <= 'z') || (key >= 'A' && key <= 'Z'))
         {
             wxString buttonName;
@@ -227,12 +227,12 @@ void KeyMapTmcDialog::onKeyDown(wxKeyEvent& event)
         }
         if (key == 32)
             key = 0;
-		setLabel("Key%02X", normalKey_, key);
+        setLabel("Key%02X", normalKey_, key);
         keyDefNormal_[normalKey_] = key;
-		normalKey_ = -1;
-	}
-	if (shiftKey_ != -1)
-	{
+        normalKey_ = -1;
+    }
+    if (shiftKey_ != -1)
+    {
         if ((modifier != wxMOD_SHIFT && key != 32) || (key >= 'a' && key <= 'z') || (key >= 'A' && key <= 'Z'))
         {
             wxString buttonName;
@@ -242,11 +242,11 @@ void KeyMapTmcDialog::onKeyDown(wxKeyEvent& event)
         }
         if (key == 32)
             key = 0;
-		setLabel("KeyShift%02X", shiftKey_, key);
+        setLabel("KeyShift%02X", shiftKey_, key);
         keyDefShift_[shiftKey_] = key;
-		shiftKey_ = -1;
-	}
-	updateButtons();
+        shiftKey_ = -1;
+    }
+    updateButtons();
 }
 
 void KeyMapTmcDialog::connectKeyDownEvent(wxWindow* pclComponent) 
@@ -272,7 +272,7 @@ void KeyMapTmcDialog::connectKeyDownEvent(wxWindow* pclComponent)
 
 void KeyMapTmcDialog::setLabel(wxString printStr, long button, int key)
 {
-	wxString keyStr, keyStrNum, buttonStr;
+    wxString keyStr, keyStrNum, buttonStr;
 
     switch (key)
     {
@@ -473,7 +473,7 @@ void KeyMapTmcDialog::setLabel(wxString printStr, long button, int key)
 #endif
             break;
 #ifdef __WXMAC__
-		case WXK_RAW_CONTROL:
+        case WXK_RAW_CONTROL:
             keyStr = "Control";
         break;
 #endif
@@ -724,7 +724,7 @@ void KeyMapTmcDialog::setLabel(wxString printStr, long button, int key)
 #ifdef __WXMAC__
     XRCCTRL(*this, buttonStr, wxButton)->SetBackgroundColour(wxNullColour);
 #else
-	XRCCTRL(*this, buttonStr, wxButton)->SetForegroundColour(wxNullColour);
+    XRCCTRL(*this, buttonStr, wxButton)->SetForegroundColour(wxNullColour);
 #endif
 }
 

@@ -10,7 +10,7 @@ public:
 private:
     void onMoveButton( wxCommandEvent &event );
     void onSetButton( wxCommandEvent &event );
-	bool copyTree( wxFileName* source, wxFileName* destination );
+    bool copyTree( wxFileName* source, wxFileName* destination );
 
     DECLARE_EVENT_TABLE()
 

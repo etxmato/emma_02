@@ -125,7 +125,7 @@
 <size>-1</size>
 </font>
 <style>wxALIGN_RIGHT</style>
-<label>Location</label>
+<label>Location </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -137,7 +137,7 @@
 <size>-1</size>
 </font>
 <style>wxALIGN_RIGHT</style>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -186,7 +186,7 @@
 <size>-1</size>
 </font>
 <style>wxALIGN_RIGHT</style>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -235,7 +235,7 @@
 <size>-1</size>
 </font>
 <style>wxALIGN_RIGHT</style>
-<label>Exec</label>
+<label>Exec </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -269,7 +269,7 @@
 <size>-1</size>
 </font>
 <enabled>0</enabled>
-<label>A/DI Input</label>
+<label>A/DI Input </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -315,7 +315,7 @@
 <size>-1</size>
 </font>
 <enabled>0</enabled>
-<label>mV</label>
+<label>mV </label>
 </object>
 </object>
 </object>
@@ -334,7 +334,7 @@
 <size>-1</size>
 </font>
 <enabled>0</enabled>
-<label>A/DS Input</label>
+<label>A/DS Input </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -380,7 +380,7 @@
 <size>-1</size>
 </font>
 <enabled>0</enabled>
-<label>mV</label>
+<label>mV </label>
 </object>
 </object>
 </object>

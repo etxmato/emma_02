@@ -147,7 +147,6 @@
 #define EF1UNDEFINED 147
 #define EF2UNDEFINED 148
 #define EF3UNDEFINED 149
-#define ROMMAPPEROUT 150
 #define EMSMAPPEROUT 151
 #define ELFPRINTEREF 152
 #define INPUTUNDEFINED 153
@@ -229,27 +228,27 @@
 class IoDevice 
 {
 public:
-	IoDevice();
-	~IoDevice() {};
+    IoDevice();
+    ~IoDevice() {};
 
-	void initIo();
-	virtual Byte ef(int flag) = 0;
-	virtual Byte in(Byte port, Word address) = 0;
-	virtual void out(Byte port, Word address, Byte value) = 0;
-	virtual void cycle(int type) = 0;
+    void initIo();
+    virtual Byte ef(int flag) = 0;
+    virtual Byte in(Byte port, Word address) = 0;
+    virtual void out(Byte port, Word address, Byte value) = 0;
+    virtual void cycle(int type) = 0;
 
-	void setEfType(int number, int efType) {efType_[number] = efType;};
-	int getEfType(int number) {return efType_[number];};
-	void setInType(int number, int inType) {inType_[number] = inType;};
-	int getInType(int number) {return inType_[number];};
-	void setOutType(int number, int outType) {outType_[number] = outType;};
-	void setCycleType(int number, int outCycleType) {cycleType_[number] = outCycleType;};
+    void setEfType(int number, int efType) {efType_[number] = efType;};
+    int getEfType(int number) {return efType_[number];};
+    void setInType(int number, int inType) {inType_[number] = inType;};
+    int getInType(int number) {return inType_[number];};
+    void setOutType(int number, int outType) {outType_[number] = outType;};
+    void setCycleType(int number, int outCycleType) {cycleType_[number] = outCycleType;};
 
 protected:
-	int efType_[5];
-	int inType_[8];
-	int outType_[8];
-	int cycleType_[MAXCYCLE];
+    int efType_[5];
+    int inType_[8];
+    int outType_[8];
+    int cycleType_[MAXCYCLE];
 
 private:
 

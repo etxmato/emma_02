@@ -79,7 +79,7 @@ Available for: Cosmac Elf 2000, Cosmac Elf, Cosmac VIP, Cosmicos, Membership Car
 </p>
 <h3>UART & RTC</h3>
 <p>
-The Elf 2000 and MS2000 support the UART 16450, the Microboard System supports the UART CDP1854 and the Cosmac Elf, Netronics Elf and Quest Super Elf support both the UART 16450 and UART CDP1854.
+The Elf 2000 and Pico/Elf V2 support the UART 16450, the Microboard System and MS2000 support the UART CDP1854 and the Cosmac Elf, Netronics Elf and Quest Super Elf support both the UART 16450 and UART CDP1854.
 </p>
 <p>
 The UART mode can be use by selecting the UART 16450 or UART CDP1854 checkbox (yellow ellipse). Only basic usage of the UART 16450 and a simple mode 1 emulation for the UART CDP1854 is implemented. In UART mode the transmit and (T) and receive (R) baud rates can be different.
@@ -88,9 +88,9 @@ The UART mode can be use by selecting the UART 16450 or UART CDP1854 checkbox (y
 When using the UART 16450 & RTC option on the Cosmac Elf, Netronics Elf or Quest Super Elf a Clear checkbox (orange ellipse) is available, when selected the RTC memory will be cleared on the next emulator startup, after this the checkbox will be automatically unselected.
 </p>
 <p>
-The UART 16450 checkbox is available for: Cosmac Elf 2000
-The UART 16450 & RTC and the clear checkboxes are available for: Cosmac Elf, Netronics Elf and Quest Super Elf
-The UART CDP1854 checkbox is available for: Cosmac Elf, Netronics Elf and Quest Super Elf
+The UART 16450 checkbox is available for: Cosmac Elf 2000 and Pico/Elf V2.<br>
+The UART 16450 & RTC and the clear checkboxes are available for: Cosmac Elf, Netronics Elf and Quest Super Elf.<br>
+The UART CDP1854 checkbox is available for: Cosmac Elf, Netronics Elf and Quest Super Elf.<br>
 </p> 
 <p>
 The MS2000 supports the UART CDP1854 by default, no specific configuration is needed as it doesn't support a serial configuration.

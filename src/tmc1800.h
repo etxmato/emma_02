@@ -7,42 +7,42 @@
 class Tmc1800 : public Cdp1802, public Pixie
 {
 public:
-	Tmc1800(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType);
-	~Tmc1800();
+    Tmc1800(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, Conf computerConf);
+    ~Tmc1800();
 
-	void configureComputer();
-	void reDefineKeysA(int *, int *);
-	void initComputer();
-	void keyDown(int keycode);
-	void keyUp(int keycode);
+    void configureComputer();
+    void reDefineKeysA(int *, int *);
+    void initComputer();
+    void keyDown(int keycode);
+    void keyUp(int keycode);
 
-	void onRun();
+    void onRun();
 
-	Byte ef(int flag);
-	Byte ef3();
-	Byte in(Byte port, Word address);
-	void out(Byte port, Word address, Byte value);
-	void outTMC1800(Byte value);
-	void cycle(int type);
+    Byte ef(int flag);
+    Byte ef3();
+    Byte in(Byte port, Word address);
+    void out(Byte port, Word address, Byte value);
+    void outTMC1800(Byte value);
+    void cycle(int type);
 
-	void startComputer();
-	void writeMemDataType(Word address, Byte type);
-	Byte readMemDataType(Word address, uint64_t* executed);
-	Byte readMem(Word address);
+    void startComputer();
+    void writeMemDataType(Word address, Byte type);
+    Byte readMemDataType(Word address, uint64_t* executed);
+    Byte readMem(Word address);
     Byte readMemDebug(Word address);
     void writeMemDebug(Word address, Byte value, bool writeRom);
-	void writeMem(Word address, Byte value, bool writeRom);
-	void cpuInstruction();
+    void writeMem(Word address, Byte value, bool writeRom);
+    void cpuInstruction();
     void resetPressed();
-	void onReset();
-	void checkComputerFunction();
+    void onReset();
+    void checkComputerFunction();
 
 private:
-	Byte telmac1800KeyPort_;
-	Byte telmac1800KeyState_[64];
-	bool runPressed_;
+    Byte telmac1800KeyPort_;
+    Byte telmac1800KeyState_[64];
+    bool runPressed_;
 
-	int hexKeyDefA1_[64];
+    int hexKeyDefA1_[64];
     int hexKeyDefA2_[16];
     int hexKeyDefB1_[16];
     int hexKeyDefB2_[16];
@@ -52,8 +52,8 @@ private:
     bool simDefA2_;
     bool simDefB2_;
 
-	int keyDefGameHexA_[5];
-	int keyDefGameHexB_[5];
+    int keyDefGameHexA_[5];
+    int keyDefGameHexB_[5];
 };
 
 #endif  // TELMAC1800_H

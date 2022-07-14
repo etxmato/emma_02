@@ -7,31 +7,31 @@
 class TileList
 {
 public:
-	wxCoord x;
-	wxCoord y;
-	int size;
-	TileList *nextTile;
+    wxCoord x;
+    wxCoord y;
+    int size;
+    TileList *nextTile;
 };
 
 class Tms9918 : public Video
 {
 public:
 
-	Tms9918(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, int computerType, double clock);
-	~Tms9918();
+    Tms9918(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, int computerType, double clock);
+    ~Tms9918();
 
-	void configure(ElfPortConfiguration elfPortConf);
+    void configure(ElfPortConfiguration elfPortConf);
     Byte readEf();
     Byte readDataPort();
     Byte readVRAM();
-	void modeHighOut(Byte value);
-	void writeVRAM(Byte value);
-	void cycleTms();
+    void modeHighOut(Byte value);
+    void writeVRAM(Byte value);
+    void cycleTms();
     void writeRegister(Byte reg, Byte value);
 
-	void setClock(double clock);
-	void setCycle();
-	void copyScreen();
+    void setClock(double clock);
+    void setCycle();
+    void copyScreen();
     
     void drawSprites();
     void drawSprite(Byte namePointer, Word spritePatternTableAddress, wxCoord x, wxCoord y, int numberOfLines, bool earlyClock);
@@ -42,36 +42,40 @@ public:
     void drawPointSpritePlane(wxCoord x, wxCoord y);
     void drawRectangleMainPlane(wxCoord x, wxCoord y, wxCoord width, wxCoord height);
 
-	void drawTile(Word tile);
+    void drawTile(Word tile);
+    void drawTileMultiColor(Word tile);
     void drawTilePatternUpdate(Word tile, Word address);
-	void drawScreen();
+    void drawScreen();
+    void drawScreenMultiColor();
 
-	Byte getTmsMemory(int address) {return tmsMemory_[address];}
-	void setTmsMemory(int address, Byte value) {tmsMemory_[address] = value;}
+    Byte getTmsMemory(int address) {return tmsMemory_[address];}
+    void setTmsMemory(int address, Byte value) {tmsMemory_[address] = value;}
 
-	void setFullScreen(bool fullScreenSet);
-	void onF3();
+    void setFullScreen(bool fullScreenSet);
+    void onF3();
     void reBlit(wxDC &dc);
 
 private:
-	TileList *tileListPointer;
+    TileList *tileListPointer;
 
     wxOverlay spriteOverlay;
     
-	Byte tmsMemory_[16384];
+    Byte tmsMemory_[16384];
     Byte numberOfSpritesOnline_[192];
     bitset<256> scanLineMap_[192];
     wxCoord lastSpriteX_[32];
     wxCoord lastSpriteY_[32];
+    Byte multiColour_[512][384];
     
-	int computerType_;
+    int computerType_;
     Byte statusRegister_;
-	Byte registers_[8];
-	Byte mode_;
-	Word nameAddress_;
-	Word colorAddress_;
-	Word patternAddress_;
-	Word currentAddress_;
+    Byte registers_[8];
+    Byte mode_;
+    Word nameAddress_;
+    Word colorAddress_;
+    Word patternAddress_;
+    Word currentWriteAddress_;
+    Word currentReadAddress_;
     Word spriteAttributeTableAddress_;
     Word spritePatternTableAddress_;
     
@@ -87,16 +91,16 @@ private:
     bool enableInterrupt_;
     bool disableScreen_;
 
-	Byte toggle_;
-	Byte value_;
+    bool toggle_;
+    Byte value_;
 
-	wxCoord backGroundX_;
-	wxCoord backGroundY_;
-	int updateTile_;
+    wxCoord backGroundX_;
+    wxCoord backGroundY_;
+    int updateTile_;
 
 
-	int cycleValue_;
-	int cycleSize_;
+    int cycleValue_;
+    int cycleSize_;
 };
 
 #endif  // TMS9918_H

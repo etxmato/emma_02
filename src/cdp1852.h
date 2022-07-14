@@ -51,7 +51,7 @@ public:
     Cdp1852Frame(const wxString& title, const wxPoint& pos, const wxSize& size);
     ~Cdp1852Frame();
   
-	void onClose(wxCloseEvent& event);
+    void onClose(wxCloseEvent& event);
 
     void writePort(Byte value) {cdp1852ScreenPointer->writePort(value);};
     Byte readPort() {return cdp1852ScreenPointer->readPort();};
@@ -65,7 +65,7 @@ public:
 private:
     class Cdp1852Screen *cdp1852ScreenPointer;
 
-	DECLARE_EVENT_TABLE()
+    DECLARE_EVENT_TABLE()
 };
 
 

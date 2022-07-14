@@ -36,9 +36,9 @@ DEFINE_EVENT_TYPE(ON_UART_MS2000)
 
 BEGIN_EVENT_TABLE(GuiMS2000, GuiMcds)
 
-	EVT_TEXT(XRCID("MainRomMS2000"), GuiMain::onMainRom1Text)
-	EVT_COMBOBOX(XRCID("MainRomMS2000"), GuiMain::onMainRom1Text)
-	EVT_BUTTON(XRCID("RomButtonMS2000"), GuiMain::onMainRom1)
+    EVT_TEXT(XRCID("MainRomMS2000"), GuiMain::onMainRom1Text)
+    EVT_COMBOBOX(XRCID("MainRomMS2000"), GuiMain::onMainRom1Text)
+    EVT_BUTTON(XRCID("RomButtonMS2000"), GuiMain::onMainRom1)
 
     EVT_BUTTON(XRCID("FDC0_ButtonMS2000"), GuiMain::onUpdDisk0)
     EVT_TEXT(XRCID("FDC0_FileMS2000"), GuiMain::onUpdDiskText0)
@@ -61,9 +61,9 @@ BEGIN_EVENT_TABLE(GuiMS2000, GuiMcds)
     EVT_BUTTON(XRCID("EjectCasMS2000"), GuiMain::onCassetteEject)
     EVT_TEXT(XRCID("WavFileMS2000"), GuiMain::onCassetteText)
 
-	EVT_TEXT(XRCID("KeyFileMS2000"), GuiMain::onKeyFileText)
-	EVT_BUTTON(XRCID("KeyFileButtonMS2000"), GuiMain::onKeyFile)
-	EVT_BUTTON(XRCID("EjectKeyFileMS2000"), GuiMain::onKeyFileEject)
+    EVT_TEXT(XRCID("KeyFileMS2000"), GuiMain::onKeyFileText)
+    EVT_BUTTON(XRCID("KeyFileButtonMS2000"), GuiMain::onKeyFile)
+    EVT_BUTTON(XRCID("EjectKeyFileMS2000"), GuiMain::onKeyFileEject)
 
     EVT_TEXT(XRCID("PrintFileMS2000"), GuiMain::onPrintFileText)
     EVT_BUTTON(XRCID("PrintButtonMS2000"), GuiMain::onPrintButton)
@@ -73,28 +73,28 @@ BEGIN_EVENT_TABLE(GuiMS2000, GuiMcds)
     EVT_COMMAND(wxID_ANY, OPEN_PRINTER_WINDOW, GuiMain::openPrinterFrame)
 
     EVT_CHOICE(XRCID("VTTypeMS2000"), GuiMain::onVT100)
-	EVT_SPIN_UP(XRCID("ZoomSpinVtMS2000"), GuiMain::onZoomVt)
-	EVT_SPIN_DOWN(XRCID("ZoomSpinVtMS2000"), GuiMain::onZoomVt)
-	EVT_TEXT(XRCID("ZoomValueVtMS2000"), GuiMain::onZoomValueVt)
-	EVT_BUTTON(XRCID("FullScreenF3MS2000"), GuiMain::onFullScreen)
+    EVT_SPIN_UP(XRCID("ZoomSpinVtMS2000"), GuiMain::onZoomVt)
+    EVT_SPIN_DOWN(XRCID("ZoomSpinVtMS2000"), GuiMain::onZoomVt)
+    EVT_TEXT(XRCID("ZoomValueVtMS2000"), GuiMain::onZoomValueVt)
+    EVT_BUTTON(XRCID("FullScreenF3MS2000"), GuiMain::onFullScreen)
     EVT_COMMAND_SCROLL_THUMBTRACK(XRCID("VolumeMS2000"), GuiMain::onVolume)
     EVT_COMMAND_SCROLL_CHANGED(XRCID("VolumeMS2000"), GuiMain::onVolume)
 
     EVT_BUTTON(XRCID("ScreenDumpFileButtonMS2000"), GuiMain::onScreenDumpFile)
-	EVT_TEXT(XRCID("ScreenDumpFileMS2000"), GuiMain::onScreenDumpFileText)
-	EVT_COMBOBOX(XRCID("ScreenDumpFileMS2000"), GuiMain::onScreenDumpFileText)
-	EVT_BUTTON(XRCID("ScreenDumpF5MS2000"), GuiMain::onScreenDump)
+    EVT_TEXT(XRCID("ScreenDumpFileMS2000"), GuiMain::onScreenDumpFileText)
+    EVT_COMBOBOX(XRCID("ScreenDumpFileMS2000"), GuiMain::onScreenDumpFileText)
+    EVT_BUTTON(XRCID("ScreenDumpF5MS2000"), GuiMain::onScreenDump)
 
     EVT_CHECKBOX(XRCID("MS2000ForceUC"), GuiMS2000::onMS2000ForceUpperCase)
     EVT_BUTTON(XRCID("VtSetupMS2000"), GuiMain::onVtSetup)
-	EVT_BUTTON(XRCID("SaveButtonMS2000"), GuiMain::onSaveButton)
-	EVT_BUTTON(XRCID("LoadButtonMS2000"), GuiMain::onLoadButton)
-	EVT_CHECKBOX(XRCID("StretchDotMS2000"), GuiMain::onStretchDot)
-	EVT_BUTTON(XRCID("ColoursMS2000"), Main::onColoursDef)
+    EVT_BUTTON(XRCID("SaveButtonMS2000"), GuiMain::onSaveButton)
+    EVT_BUTTON(XRCID("LoadButtonMS2000"), GuiMain::onLoadButton)
+    EVT_CHECKBOX(XRCID("StretchDotMS2000"), GuiMain::onStretchDot)
+    EVT_BUTTON(XRCID("ColoursMS2000"), Main::onColoursDef)
     EVT_CHECKBOX(XRCID("MS2000BootRam"), GuiMS2000::onBootRam)
 
-	EVT_TEXT(XRCID("SaveStartMS2000"), GuiMain::onSaveStart)
-	EVT_TEXT(XRCID("SaveEndMS2000"), GuiMain::onSaveEnd)
+    EVT_TEXT(XRCID("SaveStartMS2000"), GuiMain::onSaveStart)
+    EVT_TEXT(XRCID("SaveEndMS2000"), GuiMain::onSaveEnd)
 
     EVT_CHECKBOX(XRCID("TurboMS2000"), GuiMain::onTurbo)
     EVT_TEXT(XRCID("TurboClockMS2000"), GuiMain::onTurboClock)
@@ -106,32 +106,34 @@ BEGIN_EVENT_TABLE(GuiMS2000, GuiMcds)
 
     EVT_COMMAND(wxID_ANY, ON_UART_MS2000, GuiMS2000::onMS2000Uart)
 
-	EVT_CHOICE(XRCID("VTBaudTChoiceMS2000"), GuiMS2000::onMS2000BaudT)
-	EVT_CHOICE(XRCID("VTBaudRChoiceMS2000"), GuiMS2000::onMS2000BaudR)
+    EVT_CHOICE(XRCID("VTBaudTChoiceMS2000"), GuiMS2000::onMS2000BaudT)
+    EVT_CHOICE(XRCID("VTBaudRChoiceMS2000"), GuiMS2000::onMS2000BaudR)
 
 END_EVENT_TABLE()
 
 GuiMS2000::GuiMS2000(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode_, wxString dataDir, wxString iniDir)
 : GuiMcds(title, pos, size, mode_, dataDir, iniDir)
 {
-	conf[MS2000].saveStartString_ = "";
-	conf[MS2000].saveEndString_ = "";
-    position_.x = 0;
+    conf[MS2000].saveStartString_ = "";
+    conf[MS2000].saveEndString_ = "";
 }
 
 void GuiMS2000::readMS2000Config()
 {
-	selectedComputer_ = MS2000;
+    selectedComputer_ = MS2000;
 
+    elfConfiguration[MS2000].elfPortConf.emsOutput.resize(1);
     readElfPortConfig(MS2000, "MS2000");
 
     elfConfiguration[MS2000].fdcType_ = FDCTYPE_MS2000;
     
-	conf[MS2000].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "MS2000" + pathSeparator_;
+    conf[MS2000].emsConfigNumber_ = 0;
+
+    conf[MS2000].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "MS2000" + pathSeparator_;
 
     conf[MS2000].mainDir_ = readConfigDir("/Dir/MS2000/Main", dataDir_ + "MS2000" + pathSeparator_);
-	conf[MS2000].romDir_[MAINROM1] = readConfigDir("/Dir/MS2000/Main_Rom_File", dataDir_ + "MS2000" + pathSeparator_);
-	elfConfiguration[MS2000].vtCharRomDir_ = readConfigDir("/Dir/MS2000/Vt_Font_Rom_File", dataDir_ + "MS2000" + pathSeparator_);
+    conf[MS2000].romDir_[MAINROM1] = readConfigDir("/Dir/MS2000/Main_Rom_File", dataDir_ + "MS2000" + pathSeparator_);
+    elfConfiguration[MS2000].vtCharRomDir_ = readConfigDir("/Dir/MS2000/Vt_Font_Rom_File", dataDir_ + "MS2000" + pathSeparator_);
     floppyDir_[elfConfiguration[MS2000].fdcType_][0] = readConfigDir("/Dir/MS2000/FDC0_File", dataDir_ + "MS2000" + pathSeparator_);
     floppyDir_[elfConfiguration[MS2000].fdcType_][1] = readConfigDir("/Dir/MS2000/FDC1_File", dataDir_ + "MS2000" + pathSeparator_);
     floppyDir_[elfConfiguration[MS2000].fdcType_][2] = readConfigDir("/Dir/MS2000/FDC2_File", dataDir_ + "MS2000" + pathSeparator_);
@@ -142,10 +144,10 @@ void GuiMS2000::readMS2000Config()
     floppyDirSwitched_[elfConfiguration[MS2000].fdcType_][3] = readConfigDir("/Dir/MS2000/FDC3_File_Switched", dataDir_ + "MS2000" + pathSeparator_ + "BASIC" + pathSeparator_);
     conf[MS2000].keyFileDir_ = readConfigDir("/Dir/MS2000/Key_File", dataDir_ + "MS2000" + pathSeparator_);
     conf[MS2000].printFileDir_ = readConfigDir("Dir/MS2000/Print_File", dataDir_ + "MS2000" + pathSeparator_);
-	conf[MS2000].screenDumpFileDir_ = readConfigDir("/Dir/MS2000/Video_Dump_File", dataDir_ + "MS2000" + pathSeparator_);
+    conf[MS2000].screenDumpFileDir_ = readConfigDir("/Dir/MS2000/Video_Dump_File", dataDir_ + "MS2000" + pathSeparator_);
     conf[MS2000].wavFileDir_[0] = readConfigDir("/Dir/MS2000/Wav_File", dataDir_ + "MS2000" + pathSeparator_);
     
-	conf[MS2000].rom_[MAINROM1] = configPointer->Read("/MS2000/Main_Rom_File", "ut71.bin");
+    conf[MS2000].rom_[MAINROM1] = configPointer->Read("/MS2000/Main_Rom_File", "ut71.bin");
     floppy_[elfConfiguration[MS2000].fdcType_][0] = configPointer->Read("/MS2000/FDC0_File", "microdos.img");
     floppy_[elfConfiguration[MS2000].fdcType_][1] = configPointer->Read("/MS2000/FDC1_File", "PLM 1800.img");
     floppy_[elfConfiguration[MS2000].fdcType_][2] = configPointer->Read("/MS2000/FDC2_File", "basic1.img");
@@ -157,7 +159,7 @@ void GuiMS2000::readMS2000Config()
     conf[MS2000].volume_ = (int)configPointer->Read("/MS2000/Volume", 25l);
     
     configPointer->Read("/MS2000/SerialLog", &elfConfiguration[MS2000].serialLog, false);
-	configPointer->Read("/MS2000/Enable_Vt_Stretch_Dot", &conf[MS2000].stretchDot_, false);
+    configPointer->Read("/MS2000/Enable_Vt_Stretch_Dot", &conf[MS2000].stretchDot_, false);
     configPointer->Read("/MS2000/Enable_Vt_External", &elfConfiguration[MS2000].vtExternal, false);
 
     elfConfiguration[MS2000].uartGroup = 1;
@@ -165,9 +167,9 @@ void GuiMS2000::readMS2000Config()
     elfConfiguration[MS2000].elfPortConf.uartControl = 3;
     elfConfiguration[MS2000].useUart = true;
     elfConfiguration[MS2000].bellFrequency_ = (int)configPointer->Read("/MS2000/Bell_Frequency", 800);
-	elfConfiguration[MS2000].baudR = (int)configPointer->Read("/MS2000/Vt_Baud_Receive", 1l);
-	elfConfiguration[MS2000].baudT = (int)configPointer->Read("/MS2000/Vt_Baud_Transmit", 1l);
-	elfConfiguration[MS2000].vtType = (int)configPointer->Read("/MS2000/VT_Type", 2l);
+    elfConfiguration[MS2000].baudR = (int)configPointer->Read("/MS2000/Vt_Baud_Receive", 1l);
+    elfConfiguration[MS2000].baudT = (int)configPointer->Read("/MS2000/Vt_Baud_Transmit", 1l);
+    elfConfiguration[MS2000].vtType = (int)configPointer->Read("/MS2000/VT_Type", 2l);
     elfConfiguration[MS2000].vt52SetUpFeature_ = configPointer->Read("/MS2000/VT52Setup", 0x00004092l);
     elfConfiguration[MS2000].vt100SetUpFeature_ = configPointer->Read("/MS2000/VT100Setup", 0x0000cad2l);
     elfConfiguration[MS2000].vtExternalSetUpFeature_ = configPointer->Read("/MS2000/VTExternalSetup", 0x0000cad2l);
@@ -180,16 +182,16 @@ void GuiMS2000::readMS2000Config()
     configPointer->Read("/MS2000/Force_Uppercase", &elfConfiguration[MS2000].forceUpperCase, true);
     configPointer->Read("/MS2000/Boot_From_Ram", &elfConfiguration[MS2000].bootRam, false);
     
-	wxString defaultZoom;
-	defaultZoom.Printf("%2.2f", 1.0);
-	conf[MS2000].zoomVt_ = convertLocale(configPointer->Read("/MS2000/Vt_Zoom", defaultZoom));
-	wxString defaultScale;
-	defaultScale.Printf("%i", 3);
-	conf[MS2000].xScale_ = convertLocale(configPointer->Read("/MS2000/Window_Scale_Factor_X", defaultScale));
+    wxString defaultZoom;
+    defaultZoom.Printf("%2.2f", 1.0);
+    conf[MS2000].zoomVt_ = convertLocale(configPointer->Read("/MS2000/Vt_Zoom", defaultZoom));
+    wxString defaultScale;
+    defaultScale.Printf("%i", 3);
+    conf[MS2000].xScale_ = convertLocale(configPointer->Read("/MS2000/Window_Scale_Factor_X", defaultScale));
 
-	wxString defaultClock;
-	defaultClock.Printf("%1.1f", 2.0);
-	conf[MS2000].clock_ = convertLocale(configPointer->Read("/MS2000/Clock_Speed", defaultClock));
+    wxString defaultClock;
+    defaultClock.Printf("%1.1f", 2.0);
+    conf[MS2000].clock_ = convertLocale(configPointer->Read("/MS2000/Clock_Speed", defaultClock));
 
     conf[MS2000].turboClock_ = configPointer->Read("/MS2000/Turbo_Clock_Speed", "15");
     conf[MS2000].printMode_ = (int)configPointer->Read("/MS2000/Print_Mode", 1l);
@@ -197,9 +199,9 @@ void GuiMS2000::readMS2000Config()
     configPointer->Read("/MS2000/Enable_Auto_Cassette", &conf[MS2000].autoCassetteLoad_, true);
     configPointer->Read("/MS2000/Enable_Real_Cassette", &conf[MS2000].realCassetteLoad_, false);
  
-	setVtType("MS2000", MS2000, elfConfiguration[MS2000].vtType, false);
+    setVtType("MS2000", MS2000, elfConfiguration[MS2000].vtType, false);
 
-	elfConfiguration[MS2000].vtCharRom_ = configPointer->Read("/MS2000/Vt_Font_Rom_File", "vt100.bin");
+    elfConfiguration[MS2000].vtCharRom_ = configPointer->Read("/MS2000/Vt_Font_Rom_File", "vt100.bin");
 
     configPointer->Read("/MS2000/DirectoryMode_0", &directoryMode_[elfConfiguration[MS2000].fdcType_][0], false);
     configPointer->Read("/MS2000/DirectoryMode_1", &directoryMode_[elfConfiguration[MS2000].fdcType_][1], false);
@@ -213,7 +215,7 @@ void GuiMS2000::readMS2000Config()
     conf[MS2000].saveStart_ = value;
 
     if (mode_.gui)
-	{
+    {
         for (int drive=0; drive < 4; drive++)
             setUpdFloppyGui(drive, MS2000);
 
@@ -236,14 +238,14 @@ void GuiMS2000::readMS2000Config()
             XRCCTRL(*this, "VTTypeMS2000", wxChoice)->SetSelection(elfConfiguration[MS2000].vtType);
         XRCCTRL(*this, "MS2000ForceUC", wxCheckBox)->SetValue(elfConfiguration[MS2000].forceUpperCase);
         
-		XRCCTRL(*this, "VTBaudRChoiceMS2000", wxChoice)->SetSelection(elfConfiguration[MS2000].baudR);
-		XRCCTRL(*this, "VTBaudTChoiceMS2000", wxChoice)->SetSelection(elfConfiguration[MS2000].baudT);
+        XRCCTRL(*this, "VTBaudRChoiceMS2000", wxChoice)->SetSelection(elfConfiguration[MS2000].baudR);
+        XRCCTRL(*this, "VTBaudTChoiceMS2000", wxChoice)->SetSelection(elfConfiguration[MS2000].baudT);
 
         correctZoomVtAndValue(MS2000, "MS2000", SET_SPIN);
 
         XRCCTRL(*this, "MS2000BootRam", wxCheckBox)->SetValue(elfConfiguration[MS2000].bootRam);
         
-		XRCCTRL(*this, "StretchDotMS2000", wxCheckBox)->SetValue(conf[MS2000].stretchDot_);
+        XRCCTRL(*this, "StretchDotMS2000", wxCheckBox)->SetValue(conf[MS2000].stretchDot_);
         XRCCTRL(*this, "WavFileMS2000", wxTextCtrl)->SetValue(conf[MS2000].wavFile_[0]);
         XRCCTRL(*this, "VolumeMS2000", wxSlider)->SetValue(conf[MS2000].volume_);
         
@@ -251,14 +253,14 @@ void GuiMS2000::readMS2000Config()
             clockTextCtrl[MS2000]->ChangeValue(conf[MS2000].clock_);
         if (conf[MS2000].saveStart_ != 0)
             XRCCTRL(*this, "SaveStartMS2000", wxTextCtrl)->SetValue(conf[MS2000].saveStartString_);
-	}
+    }
 }
 
 void GuiMS2000::writeMS2000DirConfig()
 {
     writeConfigDir("/Dir/MS2000/Main", conf[MS2000].mainDir_);
-	writeConfigDir("/Dir/MS2000/Main_Rom_File", conf[MS2000].romDir_[MAINROM1]);
-	writeConfigDir("/Dir/MS2000/Vt_Font_Rom_File", elfConfiguration[MS2000].vtCharRomDir_);
+    writeConfigDir("/Dir/MS2000/Main_Rom_File", conf[MS2000].romDir_[MAINROM1]);
+    writeConfigDir("/Dir/MS2000/Vt_Font_Rom_File", elfConfiguration[MS2000].vtCharRomDir_);
     writeConfigDir("/Dir/MS2000/FDC0_File", floppyDir_[elfConfiguration[MS2000].fdcType_][0]);
     writeConfigDir("/Dir/MS2000/FDC1_File", floppyDir_[elfConfiguration[MS2000].fdcType_][1]);
     writeConfigDir("/Dir/MS2000/FDC2_File", floppyDir_[elfConfiguration[MS2000].fdcType_][2]);
@@ -278,7 +280,7 @@ void GuiMS2000::writeMS2000Config()
     writeElfPortConfig(MS2000, "MS2000");
 
     configPointer->Write("/MS2000/Main_Rom_File", conf[MS2000].rom_[MAINROM1]);
-	configPointer->Write("/MS2000/Vt_Font_Rom_File", elfConfiguration[MS2000].vtCharRom_);
+    configPointer->Write("/MS2000/Vt_Font_Rom_File", elfConfiguration[MS2000].vtCharRom_);
     configPointer->Write("/MS2000/FDC0_File", floppy_[elfConfiguration[MS2000].fdcType_][0]);
     configPointer->Write("/MS2000/FDC1_File", floppy_[elfConfiguration[MS2000].fdcType_][1]);
     configPointer->Write("/MS2000/FDC2_File", floppy_[elfConfiguration[MS2000].fdcType_][2]);
@@ -290,8 +292,8 @@ void GuiMS2000::writeMS2000Config()
     configPointer->Write("/MS2000/VtSerialPortChoice", elfConfiguration[MS2000].serialPort_);
   
     configPointer->Write("/MS2000/SerialLog", elfConfiguration[MS2000].serialLog);
-	configPointer->Write("/MS2000/Bell_Frequency", elfConfiguration[MS2000].bellFrequency_);
-	configPointer->Write("/MS2000/VT_Type", elfConfiguration[MS2000].vtType);
+    configPointer->Write("/MS2000/Bell_Frequency", elfConfiguration[MS2000].bellFrequency_);
+    configPointer->Write("/MS2000/VT_Type", elfConfiguration[MS2000].vtType);
     
     long value = elfConfiguration[MS2000].vt52SetUpFeature_.to_ulong();
     configPointer->Write("/MS2000/VT52Setup", value);
@@ -303,9 +305,9 @@ void GuiMS2000::writeMS2000Config()
     configPointer->Write("/MS2000/VT100CharWidth", elfConfiguration[MS2000].vt100CharWidth);
     configPointer->Write("/MS2000/VT52CharWidth", elfConfiguration[MS2000].vt52CharWidth);
 
-	configPointer->Write("/MS2000/Vt_Baud_Receive", elfConfiguration[MS2000].baudR);
-	configPointer->Write("/MS2000/Vt_Baud_Transmit", elfConfiguration[MS2000].baudT);
-	configPointer->Write("/MS2000/Vt_Zoom", conf[MS2000].zoomVt_);
+    configPointer->Write("/MS2000/Vt_Baud_Receive", elfConfiguration[MS2000].baudR);
+    configPointer->Write("/MS2000/Vt_Baud_Transmit", elfConfiguration[MS2000].baudT);
+    configPointer->Write("/MS2000/Vt_Zoom", conf[MS2000].zoomVt_);
     configPointer->Write("/MS2000/Force_Uppercase", elfConfiguration[MS2000].forceUpperCase);
     configPointer->Write("/MS2000/Enable_Vt_Stretch_Dot", conf[MS2000].stretchDot_);
     configPointer->Write("/MS2000/Enable_Vt_External", elfConfiguration[MS2000].vtExternal);
@@ -349,12 +351,12 @@ void GuiMS2000::writeMS2000WindowConfig()
 
 void GuiMS2000::onMS2000BaudR(wxCommandEvent&event)
 {
-	elfConfiguration[MS2000].baudR = event.GetSelection();
+    elfConfiguration[MS2000].baudR = event.GetSelection();
 }
 
 void GuiMS2000::onMS2000BaudT(wxCommandEvent&event)
 {
-	elfConfiguration[MS2000].baudT = event.GetSelection();
+    elfConfiguration[MS2000].baudT = event.GetSelection();
 //    elfConfiguration[MS2000].baudR = event.GetSelection();
 //    XRCCTRL(*this, "VTBaudRChoiceMS2000", wxChoice)->SetSelection(elfConfiguration[MS2000].baudR);
 }
@@ -376,9 +378,9 @@ void GuiMS2000::onMS2000ForceUpperCase(wxCommandEvent&event)
 
 void GuiMS2000::onBootRam(wxCommandEvent&event)
 {
-	elfConfiguration[MS2000].bootRam = event.IsChecked();
-	if (runningComputer_ == MS2000)
-	{
-		p_Mcds->setBootRam(event.IsChecked());
-	}
+    elfConfiguration[MS2000].bootRam = event.IsChecked();
+    if (runningComputer_ == MS2000)
+    {
+        p_Mcds->setBootRam(event.IsChecked());
+    }
 }

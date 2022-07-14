@@ -36,7 +36,7 @@
 <weight>bold</weight>
 <face>Arial</face>
 </font>
-<label>CDP 1869 / 1870</label>
+<label>CDP 1869 / 1870 </label>
 </object>
 </object>
 <object class="spacer">
@@ -91,7 +91,7 @@
 <size>14</size>
 </font>
 <fg>#000000</fg>
-<label>Black</label>
+<label>Black </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -118,7 +118,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Green</label>
+<label>Green </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -145,7 +145,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Blue</label>
+<label>Blue </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -172,7 +172,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Cyan</label>
+<label>Cyan </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -199,7 +199,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Red</label>
+<label>Red </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -226,7 +226,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Yellow</label>
+<label>Yellow </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -253,7 +253,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Magenta</label>
+<label>Magenta </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -280,7 +280,7 @@
 <font>
 <size>14</size>
 </font>
-<label>White</label>
+<label>White </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -956,7 +956,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Border CDP 1869/1870 X:</label>
+<label>Border CDP 1869/1870 X: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -980,7 +980,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Y:</label>
+<label>Y: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1023,7 +1023,7 @@
 <weight>bold</weight>
 <face>Arial</face>
 </font>
-<label>80 Column Video</label>
+<label>80 Column Video </label>
 </object>
 </object>
 <object class="spacer">
@@ -1043,7 +1043,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Foreground</label>
+<label>Foreground </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1063,7 +1063,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Background</label>
+<label>Background </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1090,7 +1090,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Default colour set:</label>
+<label>Default colour set: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1124,7 +1124,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Border 80 Column Video X:</label>
+<label>Border 80 Column Video X: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1175,7 +1175,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Y:</label>
+<label>Y: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1293,7 +1293,7 @@
 <weight>bold</weight>
 <face>Arial</face>
 </font>
-<label>CDP 1861</label>
+<label>CDP 1861 </label>
 </object>
 </object>
 <object class="spacer">
@@ -1318,7 +1318,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Foreground</label>
+<label>Foreground </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1345,7 +1345,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Background</label>
+<label>Background </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1374,7 +1374,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Border CDP 1861 X:</label>
+<label>Border CDP 1861 X: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1421,7 +1421,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Y:</label>
+<label>Y: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1452,7 +1452,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Horizontal Scale:</label>
+<label>Horizontal Scale: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1492,7 +1492,7 @@
 <weight>bold</weight>
 <face>Arial</face>
 </font>
-<label>Intel 8275 / Video Terminal</label>
+<label>Intel 8275 / Video Terminal </label>
 </object>
 </object>
 <object class="spacer">
@@ -1522,7 +1522,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Foreground</label>
+<label>Foreground </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1542,7 +1542,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Background</label>
+<label>Background </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1569,7 +1569,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Highlight Intel 8275</label>
+<label>Highlight Intel 8275 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1600,7 +1600,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Default colour set:</label>
+<label>Default colour set: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1634,7 +1634,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Border Intel 8275 X:</label>
+<label>Border Intel 8275 X: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1658,7 +1658,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Y:</label>
+<label>Y: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1689,7 +1689,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Border Video Terminal X:</label>
+<label>Border Video Terminal X: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1713,7 +1713,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Y:</label>
+<label>Y: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1816,7 +1816,7 @@
 <weight>bold</weight>
 <face>Arial</face>
 </font>
-<label>CDP 1861 / CDP 1862</label>
+<label>CDP 1861 / CDP 1862 </label>
 </object>
 </object>
 <object class="spacer">
@@ -1870,7 +1870,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Black</label>
+<label>Black </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1897,7 +1897,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Red</label>
+<label>Red </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1924,7 +1924,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Blue</label>
+<label>Blue </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1951,7 +1951,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Violet</label>
+<label>Violet </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1978,7 +1978,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Green</label>
+<label>Green </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2005,7 +2005,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Yellow</label>
+<label>Yellow </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2032,7 +2032,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Aqua</label>
+<label>Aqua </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2059,7 +2059,7 @@
 <font>
 <size>14</size>
 </font>
-<label>White</label>
+<label>White </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2111,7 +2111,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Dark Blue</label>
+<label>Dark Blue </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2138,7 +2138,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Black</label>
+<label>Black </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2165,7 +2165,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Dark Green</label>
+<label>Dark Green </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2192,7 +2192,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Dark Red</label>
+<label>Dark Red </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2227,7 +2227,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Border X:</label>
+<label>Border X: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2280,7 +2280,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Y:</label>
+<label>Y: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2311,7 +2311,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Horizontal Scale:</label>
+<label>Horizontal Scale: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2351,7 +2351,7 @@
 <weight>bold</weight>
 <face>Arial</face>
 </font>
-<label>Video Terminal</label>
+<label>Video Terminal </label>
 </object>
 </object>
 <object class="spacer">
@@ -2381,7 +2381,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Foreground</label>
+<label>Foreground </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2401,7 +2401,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Background</label>
+<label>Background </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2430,7 +2430,7 @@
 <size>14</size>
 </font>
 <hidden>1</hidden>
-<label>Highlight</label>
+<label>Highlight </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2462,7 +2462,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Border Video Terminal X:</label>
+<label>Border Video Terminal X: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2486,7 +2486,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Y:</label>
+<label>Y: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2517,7 +2517,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Default colour set:</label>
+<label>Default colour set: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2623,7 +2623,7 @@
 <weight>bold</weight>
 <face>Arial</face>
 </font>
-<label>CDP 1861</label>
+<label>CDP 1861 </label>
 </object>
 </object>
 <object class="spacer">
@@ -2648,7 +2648,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Foreground</label>
+<label>Foreground </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2675,7 +2675,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Background</label>
+<label>Background </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2704,7 +2704,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Border CDP 1861 X:</label>
+<label>Border CDP 1861 X: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2757,7 +2757,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Y:</label>
+<label>Y: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2788,7 +2788,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Horizontal Scale:</label>
+<label>Horizontal Scale: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2828,7 +2828,7 @@
 <weight>bold</weight>
 <face>Arial</face>
 </font>
-<label>Video Terminal</label>
+<label>Video Terminal </label>
 </object>
 </object>
 <object class="spacer">
@@ -2858,7 +2858,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Foreground</label>
+<label>Foreground </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2878,7 +2878,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Background</label>
+<label>Background </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2907,7 +2907,7 @@
 <size>14</size>
 </font>
 <hidden>1</hidden>
-<label>Highlight</label>
+<label>Highlight </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2939,7 +2939,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Border Video Terminal X:</label>
+<label>Border Video Terminal X: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2963,7 +2963,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Y:</label>
+<label>Y: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2994,7 +2994,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Default colour set:</label>
+<label>Default colour set: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3100,7 +3100,7 @@
 <weight>bold</weight>
 <face>Arial</face>
 </font>
-<label>CDP 1861</label>
+<label>CDP 1861 </label>
 </object>
 </object>
 <object class="spacer">
@@ -3125,7 +3125,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Foreground</label>
+<label>Foreground </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3152,7 +3152,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Background</label>
+<label>Background </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3181,7 +3181,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Border CDP 1861 X:</label>
+<label>Border CDP 1861 X: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3228,7 +3228,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Y:</label>
+<label>Y: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3252,7 +3252,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Horizontal Scale:</label>
+<label>Horizontal Scale: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3292,7 +3292,7 @@
 <weight>bold</weight>
 <face>Arial</face>
 </font>
-<label>Intel 8275 / Video Terminal / MC6845 (Super Video)</label>
+<label>Intel 8275 / Video Terminal / MC6845 (Super Video) </label>
 </object>
 </object>
 <object class="spacer">
@@ -3322,7 +3322,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Foreground</label>
+<label>Foreground </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3349,7 +3349,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Background</label>
+<label>Background </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3376,7 +3376,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Highlight (not for VT)</label>
+<label>Highlight (not for VT) </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3410,7 +3410,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Default colour set:</label>
+<label>Default colour set: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3444,7 +3444,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Border Intel 8275 X:</label>
+<label>Border Intel 8275 X: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3468,7 +3468,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Y:</label>
+<label>Y: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3499,7 +3499,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Border Video Terminal X:</label>
+<label>Border Video Terminal X: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3523,7 +3523,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Y:</label>
+<label>Y: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3554,7 +3554,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Border MC6845 X:</label>
+<label>Border MC6845 X: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3578,7 +3578,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Y:</label>
+<label>Y: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3625,7 +3625,7 @@
 <weight>bold</weight>
 <face>Arial</face>
 </font>
-<label>MC6847</label>
+<label>MC6847 </label>
 </object>
 </object>
 <object class="spacer">
@@ -3684,7 +3684,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Green</label>
+<label>Green </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3711,7 +3711,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Yellow</label>
+<label>Yellow </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3738,7 +3738,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Blue</label>
+<label>Blue </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3765,7 +3765,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Red</label>
+<label>Red </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3799,7 +3799,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Buff</label>
+<label>Buff </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3826,7 +3826,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Cyan</label>
+<label>Cyan </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3853,7 +3853,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Magenta</label>
+<label>Magenta </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3880,7 +3880,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Orange</label>
+<label>Orange </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3929,7 +3929,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Black</label>
+<label>Black </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3961,7 +3961,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Green</label>
+<label>Green </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3993,7 +3993,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Orange</label>
+<label>Orange </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4031,7 +4031,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Border MC6847 X:</label>
+<label>Border MC6847 X: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4055,7 +4055,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Y:</label>
+<label>Y: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4098,7 +4098,7 @@
 <weight>bold</weight>
 <face>Arial</face>
 </font>
-<label>TMS 9918</label>
+<label>TMS 9918 </label>
 </object>
 </object>
 <object class="spacer">
@@ -4128,7 +4128,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Transparant</label>
+<label>Transparant </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4155,7 +4155,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Black</label>
+<label>Black </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4182,7 +4182,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Medium Green</label>
+<label>Medium Green </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4209,7 +4209,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Light Green</label>
+<label>Light Green </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4243,7 +4243,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Dark Blue</label>
+<label>Dark Blue </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4270,7 +4270,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Light Blue</label>
+<label>Light Blue </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4297,7 +4297,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Dark Red</label>
+<label>Dark Red </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4324,7 +4324,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Aqua Blue</label>
+<label>Aqua Blue </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4358,7 +4358,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Medium Red</label>
+<label>Medium Red </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4385,7 +4385,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Light Red</label>
+<label>Light Red </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4412,7 +4412,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Dark Yellow</label>
+<label>Dark Yellow </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4439,7 +4439,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Light Yellow</label>
+<label>Light Yellow </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4473,7 +4473,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Dark Green</label>
+<label>Dark Green </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4500,7 +4500,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Purple</label>
+<label>Purple </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4527,7 +4527,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Gray</label>
+<label>Gray </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4554,7 +4554,7 @@
 <font>
 <size>14</size>
 </font>
-<label>White</label>
+<label>White </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4610,7 +4610,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Border TMS9918 X:</label>
+<label>Border TMS9918 X: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4634,7 +4634,1647 @@
 <font>
 <size>14</size>
 </font>
-<label>Y:</label>
+<label>Y: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
+<border>5</border>
+<object class="wxSpinCtrl" name="BorderY4">
+<size>70,-1</size>
+<font>
+<size>14</size>
+</font>
+<style>wxSP_ARROW_KEYS</style>
+<value>0</value>
+<min>0</min>
+<max>100</max>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALL</flag>
+<border>5</border>
+<object class="wxStaticLine" name="wxID_STATIC">
+<style>wxLI_HORIZONTAL</style>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxButton" name="ColourDefault1">
+<font>
+<size>14</size>
+</font>
+<label>Default</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxButton" name="ColourTest">
+<font>
+<size>14</size>
+</font>
+<label>Test</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxButton" name="ColourDefault2">
+<font>
+<size>14</size>
+</font>
+<hidden>1</hidden>
+<label>Default</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxButton" name="ColourSave">
+<font>
+<size>14</size>
+</font>
+<label>Save</label>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="wxDialog" name="ColourDialogPico">
+<style>wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLOSE_BOX|wxWANTS_CHARS|wxTAB_TRAVERSAL</style>
+<exstyle>wxWS_EX_BLOCK_EVENTS</exstyle>
+<title>Video Setup Pico/Elf V2 Emulators</title>
+<centered>1</centered>
+<font>
+<size>14</size>
+</font>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_LEFT|wxALL</flag>
+<border>0</border>
+<object class="wxButton" name="ID_BUTTON">
+<font>
+<size>14</size>
+</font>
+<hidden>1</hidden>
+<label>Dummy button</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>3</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="ColourText">
+<font>
+<size>14</size>
+<family>swiss</family>
+<weight>bold</weight>
+<face>Arial</face>
+</font>
+<label>CDP 1861 </label>
+</object>
+</object>
+<object class="spacer">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>0</border>
+<size>5,3</size>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="wxID_STATIC">
+<font>
+<size>14</size>
+</font>
+<label>Foreground </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxColourPickerCtrl" name="ColourButton0">
+<font>
+<size>14</size>
+</font>
+<style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="wxID_STATIC">
+<font>
+<size>14</size>
+</font>
+<label>Background </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxColourPickerCtrl" name="ColourButton1">
+<font>
+<size>14</size>
+</font>
+<style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP|wxBOTTOM</flag>
+<border>5</border>
+<object class="wxStaticText" name="wxID_STATIC">
+<font>
+<size>14</size>
+</font>
+<label>Border CDP 1861 X: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+<border>5</border>
+<object class="wxTextCtrl" name="BorderX1Text" subclass="IntEdit">
+<size>42,-1</size>
+<font>
+<size>14</size>
+</font>
+<style>wxTE_PROCESS_ENTER</style>
+</object>
+</object>
+<object class="spacer">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>5</border>
+<size>1,5</size>
+</object>
+<object platform="win|mac" class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
+<border>5</border>
+<object platform="win|mac" class="wxSpinButton" name="BorderX1Spin">
+<size>17,21</size>
+<style>wxSP_VERTICAL</style>
+<value>0</value>
+<min>0</min>
+<max>100</max>
+</object>
+</object>
+<object platform="unix" class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
+<border>5</border>
+<object platform="unix" class="wxSpinButton" name="BorderX1Spin">
+<style>wxSP_VERTICAL</style>
+<value>0</value>
+<min>0</min>
+<max>100</max>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+<border>5</border>
+<object class="wxStaticText" name="wxID_STATIC">
+<font>
+<size>14</size>
+</font>
+<label>Y: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
+<border>5</border>
+<object class="wxSpinCtrl" name="BorderY1">
+<size>70,-1</size>
+<font>
+<size>14</size>
+</font>
+<style>wxSP_ARROW_KEYS</style>
+<value>0</value>
+<min>0</min>
+<max>100</max>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP|wxBOTTOM</flag>
+<border>5</border>
+<object class="wxStaticText" name="wxID_STATIC">
+<font>
+<size>14</size>
+</font>
+<label>Horizontal Scale: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+<border>5</border>
+<object class="wxTextCtrl" name="ScaleXText" subclass="FloatEdit">
+<size>42,-1</size>
+<font>
+<size>14</size>
+</font>
+<style>wxTE_PROCESS_ENTER</style>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALL</flag>
+<border>5</border>
+<object class="wxStaticLine" name="wxID_STATIC">
+<style>wxLI_HORIZONTAL</style>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="ID_STATICTEXT">
+<font>
+<size>14</size>
+<family>swiss</family>
+<weight>bold</weight>
+<face>Arial</face>
+</font>
+<label>Video Terminal </label>
+</object>
+</object>
+<object class="spacer">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>0</border>
+<size>5,3</size>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="wxID_STATIC">
+<font>
+<size>14</size>
+</font>
+<label>Foreground </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxColourPickerCtrl" name="ColourButton2">
+<font>
+<size>14</size>
+</font>
+<style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="wxID_STATIC">
+<font>
+<size>14</size>
+</font>
+<label>Background </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxColourPickerCtrl" name="ColourButton3">
+<font>
+<size>14</size>
+</font>
+<style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="wxID_STATIC">
+<font>
+<size>14</size>
+</font>
+<label>Highlight (not for VT) </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxColourPickerCtrl" name="ColourButton4">
+<font>
+<size>14</size>
+</font>
+<style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="wxID_STATIC">
+<font>
+<size>14</size>
+</font>
+<label>Default colour set: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxChoice" name="ColourMonitor1">
+<font>
+<size>14</size>
+</font>
+<content>
+<item></item>
+<item>Green</item>
+<item>Orange</item>
+<item>Black / White</item>
+<item>Black / Green</item>
+<item>Black / Orange</item>
+</content>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP|wxBOTTOM</flag>
+<border>5</border>
+<object class="wxStaticText" name="wxID_STATIC">
+<font>
+<size>14</size>
+</font>
+<label>Border Intel 8275 X: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
+<border>5</border>
+<object class="wxSpinCtrl" name="BorderX5">
+<size>70,-1</size>
+<font>
+<size>14</size>
+</font>
+<style>wxSP_ARROW_KEYS</style>
+<value>0</value>
+<min>0</min>
+<max>100</max>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+<border>5</border>
+<object class="wxStaticText" name="wxID_STATIC">
+<font>
+<size>14</size>
+</font>
+<label>Y: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
+<border>5</border>
+<object class="wxSpinCtrl" name="BorderY5">
+<size>70,-1</size>
+<font>
+<size>14</size>
+</font>
+<style>wxSP_ARROW_KEYS</style>
+<value>0</value>
+<min>0</min>
+<max>100</max>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP|wxBOTTOM</flag>
+<border>5</border>
+<object class="wxStaticText" name="wxID_STATIC">
+<font>
+<size>14</size>
+</font>
+<label>Border Video Terminal X: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
+<border>5</border>
+<object class="wxSpinCtrl" name="BorderX0">
+<size>70,-1</size>
+<font>
+<size>14</size>
+</font>
+<style>wxSP_ARROW_KEYS</style>
+<value>0</value>
+<min>0</min>
+<max>100</max>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+<border>5</border>
+<object class="wxStaticText" name="wxID_STATIC">
+<font>
+<size>14</size>
+</font>
+<label>Y: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
+<border>5</border>
+<object class="wxSpinCtrl" name="BorderY0">
+<size>70,-1</size>
+<font>
+<size>14</size>
+</font>
+<style>wxSP_ARROW_KEYS</style>
+<value>0</value>
+<min>0</min>
+<max>100</max>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP|wxBOTTOM</flag>
+<border>5</border>
+<object class="wxStaticText" name="wxID_STATIC">
+<font>
+<size>14</size>
+</font>
+<label>Border MC6845 X: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
+<border>5</border>
+<object class="wxSpinCtrl" name="BorderX2">
+<size>70,-1</size>
+<font>
+<size>14</size>
+</font>
+<style>wxSP_ARROW_KEYS</style>
+<value>0</value>
+<min>0</min>
+<max>100</max>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+<border>5</border>
+<object class="wxStaticText" name="wxID_STATIC">
+<font>
+<size>14</size>
+</font>
+<label>Y: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
+<border>5</border>
+<object class="wxSpinCtrl" name="BorderY2">
+<size>70,-1</size>
+<font>
+<size>14</size>
+</font>
+<style>wxSP_ARROW_KEYS</style>
+<value>0</value>
+<min>0</min>
+<max>100</max>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALL</flag>
+<border>5</border>
+<object class="wxStaticLine" name="wxID_STATIC">
+<style>wxLI_HORIZONTAL</style>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="ID_STATICTEXT1">
+<font>
+<size>14</size>
+<family>swiss</family>
+<weight>bold</weight>
+<face>Arial</face>
+</font>
+<hidden>1</hidden>
+<label>MC6847 </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_TOP|wxALL</flag>
+<border>3</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="Colour8">
+<font>
+<size>14</size>
+</font>
+<hidden>1</hidden>
+<label>Green </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxColourPickerCtrl" name="ColourButton8">
+<font>
+<size>14</size>
+</font>
+<style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
+<hidden>1</hidden>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="Colour1">
+<font>
+<size>14</size>
+</font>
+<hidden>1</hidden>
+<label>Yellow </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxColourPickerCtrl" name="ColourButton9">
+<font>
+<size>14</size>
+</font>
+<style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
+<hidden>1</hidden>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="Colour2">
+<font>
+<size>14</size>
+</font>
+<hidden>1</hidden>
+<label>Blue </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxColourPickerCtrl" name="ColourButton10">
+<font>
+<size>14</size>
+</font>
+<style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
+<hidden>1</hidden>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="Colour3">
+<font>
+<size>14</size>
+</font>
+<hidden>1</hidden>
+<label>Red </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxColourPickerCtrl" name="ColourButton11">
+<font>
+<size>14</size>
+</font>
+<style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
+<hidden>1</hidden>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="Colour4">
+<font>
+<size>14</size>
+</font>
+<hidden>1</hidden>
+<label>Buff </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxColourPickerCtrl" name="ColourButton12">
+<font>
+<size>14</size>
+</font>
+<style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
+<hidden>1</hidden>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="Colour5">
+<font>
+<size>14</size>
+</font>
+<hidden>1</hidden>
+<label>Cyan </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxColourPickerCtrl" name="ColourButton13">
+<font>
+<size>14</size>
+</font>
+<style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
+<hidden>1</hidden>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="Colour6">
+<font>
+<size>14</size>
+</font>
+<hidden>1</hidden>
+<label>Magenta </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxColourPickerCtrl" name="ColourButton14">
+<font>
+<size>14</size>
+</font>
+<style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
+<hidden>1</hidden>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="Colour7">
+<font>
+<size>14</size>
+</font>
+<hidden>1</hidden>
+<label>Orange </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxColourPickerCtrl" name="ColourButton15">
+<font>
+<size>14</size>
+</font>
+<style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
+<hidden>1</hidden>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_TOP|wxALL</flag>
+<border>3</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="Colour9">
+<font>
+<size>14</size>
+</font>
+<hidden>1</hidden>
+<label>Black </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxColourPickerCtrl" name="ColourButton5">
+<font>
+<size>14</size>
+</font>
+<style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
+<hidden>1</hidden>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="Colour10">
+<font>
+<size>14</size>
+</font>
+<hidden>1</hidden>
+<label>Green </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxColourPickerCtrl" name="ColourButton6">
+<font>
+<size>14</size>
+</font>
+<style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
+<hidden>1</hidden>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="Colour11">
+<font>
+<size>14</size>
+</font>
+<hidden>1</hidden>
+<label>Orange </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxColourPickerCtrl" name="ColourButton7">
+<font>
+<size>14</size>
+</font>
+<style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
+<hidden>1</hidden>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP|wxBOTTOM</flag>
+<border>5</border>
+<object class="wxStaticText" name="wxID_STATIC">
+<font>
+<size>14</size>
+</font>
+<hidden>1</hidden>
+<label>Border MC6847 X: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
+<border>5</border>
+<object class="wxSpinCtrl" name="BorderX3">
+<size>70,-1</size>
+<font>
+<size>14</size>
+</font>
+<style>wxSP_ARROW_KEYS</style>
+<hidden>1</hidden>
+<value>0</value>
+<min>0</min>
+<max>100</max>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+<border>5</border>
+<object class="wxStaticText" name="wxID_STATIC">
+<font>
+<size>14</size>
+</font>
+<hidden>1</hidden>
+<label>Y: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
+<border>5</border>
+<object class="wxSpinCtrl" name="BorderY3">
+<size>70,-1</size>
+<font>
+<size>14</size>
+</font>
+<style>wxSP_ARROW_KEYS</style>
+<hidden>1</hidden>
+<value>0</value>
+<min>0</min>
+<max>100</max>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALL</flag>
+<border>5</border>
+<object class="wxStaticLine" name="wxID_STATIC">
+<style>wxLI_HORIZONTAL</style>
+<hidden>1</hidden>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>3</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="ID_STATICTEXT2">
+<font>
+<size>14</size>
+<family>swiss</family>
+<weight>bold</weight>
+<face>Arial</face>
+</font>
+<label>TMS 9918 </label>
+</object>
+</object>
+<object class="spacer">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>0</border>
+<size>5,3</size>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="Colour8">
+<font>
+<size>14</size>
+</font>
+<label>Transparant </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxColourPickerCtrl" name="ColourButton16">
+<font>
+<size>14</size>
+</font>
+<style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="Colour8">
+<font>
+<size>14</size>
+</font>
+<label>Black </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxColourPickerCtrl" name="ColourButton17">
+<font>
+<size>14</size>
+</font>
+<style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="Colour8">
+<font>
+<size>14</size>
+</font>
+<label>Medium Green </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxColourPickerCtrl" name="ColourButton18">
+<font>
+<size>14</size>
+</font>
+<style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="Colour8">
+<font>
+<size>14</size>
+</font>
+<label>Light Green </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxColourPickerCtrl" name="ColourButton19">
+<font>
+<size>14</size>
+</font>
+<style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="Colour8">
+<font>
+<size>14</size>
+</font>
+<label>Dark Blue </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxColourPickerCtrl" name="ColourButton20">
+<font>
+<size>14</size>
+</font>
+<style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="Colour8">
+<font>
+<size>14</size>
+</font>
+<label>Light Blue </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxColourPickerCtrl" name="ColourButton21">
+<font>
+<size>14</size>
+</font>
+<style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="Colour8">
+<font>
+<size>14</size>
+</font>
+<label>Dark Red </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxColourPickerCtrl" name="ColourButton22">
+<font>
+<size>14</size>
+</font>
+<style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="Colour8">
+<font>
+<size>14</size>
+</font>
+<label>Aqua Blue </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxColourPickerCtrl" name="ColourButton23">
+<font>
+<size>14</size>
+</font>
+<style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="Colour8">
+<font>
+<size>14</size>
+</font>
+<label>Medium Red </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxColourPickerCtrl" name="ColourButton24">
+<font>
+<size>14</size>
+</font>
+<style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="Colour8">
+<font>
+<size>14</size>
+</font>
+<label>Light Red </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxColourPickerCtrl" name="ColourButton25">
+<font>
+<size>14</size>
+</font>
+<style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="Colour8">
+<font>
+<size>14</size>
+</font>
+<label>Dark Yellow </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxColourPickerCtrl" name="ColourButton26">
+<font>
+<size>14</size>
+</font>
+<style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="Colour8">
+<font>
+<size>14</size>
+</font>
+<label>Light Yellow </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxColourPickerCtrl" name="ColourButton27">
+<font>
+<size>14</size>
+</font>
+<style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="Colour8">
+<font>
+<size>14</size>
+</font>
+<label>Dark Green </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxColourPickerCtrl" name="ColourButton28">
+<font>
+<size>14</size>
+</font>
+<style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="Colour8">
+<font>
+<size>14</size>
+</font>
+<label>Purple </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxColourPickerCtrl" name="ColourButton29">
+<font>
+<size>14</size>
+</font>
+<style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="Colour8">
+<font>
+<size>14</size>
+</font>
+<label>Gray </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxColourPickerCtrl" name="ColourButton30">
+<font>
+<size>14</size>
+</font>
+<style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="Colour8">
+<font>
+<size>14</size>
+</font>
+<label>White </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxColourPickerCtrl" name="ColourButton31">
+<font>
+<size>14</size>
+</font>
+<style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxButton" name="ColourCol">
+<font>
+<size>14</size>
+</font>
+<label>Colour</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxButton" name="ColourGray">
+<font>
+<size>14</size>
+</font>
+<label>Gray</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP|wxBOTTOM</flag>
+<border>5</border>
+<object class="wxStaticText" name="wxID_STATIC">
+<font>
+<size>14</size>
+</font>
+<label>Border TMS9918 X: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
+<border>5</border>
+<object class="wxSpinCtrl" name="BorderX4">
+<size>70,-1</size>
+<font>
+<size>14</size>
+</font>
+<style>wxSP_ARROW_KEYS</style>
+<value>0</value>
+<min>0</min>
+<max>100</max>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+<border>5</border>
+<object class="wxStaticText" name="wxID_STATIC">
+<font>
+<size>14</size>
+</font>
+<label>Y: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4757,7 +6397,7 @@
 <weight>bold</weight>
 <face>Arial</face>
 </font>
-<label>CDP 1861</label>
+<label>CDP 1861 </label>
 </object>
 </object>
 <object class="spacer">
@@ -4782,7 +6422,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Foreground</label>
+<label>Foreground </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4809,7 +6449,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Background</label>
+<label>Background </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4838,7 +6478,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Border X:</label>
+<label>Border X: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4900,7 +6540,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Y:</label>
+<label>Y: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4946,7 +6586,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Horizontal Scale:</label>
+<label>Horizontal Scale: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5057,7 +6697,7 @@
 <weight>bold</weight>
 <face>Arial</face>
 </font>
-<label>CDP 1861</label>
+<label>CDP 1861 </label>
 </object>
 </object>
 <object class="spacer">
@@ -5111,7 +6751,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Colour 1</label>
+<label>Colour 1 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5138,7 +6778,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Colour 2</label>
+<label>Colour 2 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5165,7 +6805,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Colour 3</label>
+<label>Colour 3 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5217,7 +6857,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Colour 1</label>
+<label>Colour 1 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5252,7 +6892,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Border X:</label>
+<label>Border X: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5314,7 +6954,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Y:</label>
+<label>Y: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5360,7 +7000,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Horizontal Scale:</label>
+<label>Horizontal Scale: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5467,7 +7107,7 @@
 <weight>bold</weight>
 <face>Arial</face>
 </font>
-<label>CDP 1864</label>
+<label>CDP 1864 </label>
 </object>
 </object>
 <object class="spacer">
@@ -5521,7 +7161,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Colour 1</label>
+<label>Colour 1 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5548,7 +7188,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Colour 2</label>
+<label>Colour 2 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5575,7 +7215,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Colour 3</label>
+<label>Colour 3 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5602,7 +7242,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Colour 4</label>
+<label>Colour 4 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5629,7 +7269,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Colour 5</label>
+<label>Colour 5 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5656,7 +7296,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Colour 6</label>
+<label>Colour 6 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5683,7 +7323,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Colour 7</label>
+<label>Colour 7 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5710,7 +7350,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Colour 8</label>
+<label>Colour 8 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5762,7 +7402,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Colour 1</label>
+<label>Colour 1 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5789,7 +7429,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Colour 2</label>
+<label>Colour 2 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5816,7 +7456,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Colour 3</label>
+<label>Colour 3 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5843,7 +7483,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Colour 4</label>
+<label>Colour 4 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5878,7 +7518,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Border X:</label>
+<label>Border X: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5940,7 +7580,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Y:</label>
+<label>Y: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5986,7 +7626,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Horizontal Scale:</label>
+<label>Horizontal Scale: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6117,7 +7757,7 @@
 <weight>bold</weight>
 <face>Arial</face>
 </font>
-<label>CDP 1869 / 1876</label>
+<label>CDP 1869 / 1876 </label>
 </object>
 </object>
 <object class="spacer">
@@ -6171,7 +7811,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Black</label>
+<label>Black </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6198,7 +7838,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Blue</label>
+<label>Blue </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6225,7 +7865,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Red</label>
+<label>Red </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6252,7 +7892,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Magenta</label>
+<label>Magenta </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6286,7 +7926,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Green</label>
+<label>Green </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6313,7 +7953,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Cyan</label>
+<label>Cyan </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6340,7 +7980,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Yellow</label>
+<label>Yellow </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6367,7 +8007,7 @@
 <font>
 <size>14</size>
 </font>
-<label>White</label>
+<label>White </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6402,7 +8042,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Border X:</label>
+<label>Border X: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6426,7 +8066,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Y:</label>
+<label>Y: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6536,7 +8176,7 @@
 <weight>bold</weight>
 <face>Arial</face>
 </font>
-<label>CDP 1869 / 1870</label>
+<label>CDP 1869 / 1870 </label>
 </object>
 </object>
 <object class="spacer">
@@ -6590,7 +8230,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Black</label>
+<label>Black </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6617,7 +8257,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Blue</label>
+<label>Blue </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6644,7 +8284,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Red</label>
+<label>Red </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6671,7 +8311,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Magenta</label>
+<label>Magenta </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6705,7 +8345,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Green</label>
+<label>Green </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6732,7 +8372,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Cyan</label>
+<label>Cyan </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6759,7 +8399,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Yellow</label>
+<label>Yellow </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6786,7 +8426,7 @@
 <font>
 <size>14</size>
 </font>
-<label>White</label>
+<label>White </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6821,7 +8461,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Border X:</label>
+<label>Border X: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6845,7 +8485,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Y:</label>
+<label>Y: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6955,7 +8595,7 @@
 <weight>bold</weight>
 <face>Arial</face>
 </font>
-<label>CDP 1861</label>
+<label>CDP 1861 </label>
 </object>
 </object>
 <object class="spacer">
@@ -6980,7 +8620,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Foreground</label>
+<label>Foreground </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7007,7 +8647,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Background</label>
+<label>Background </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7036,7 +8676,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Border X:</label>
+<label>Border X: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7104,7 +8744,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Y:</label>
+<label>Y: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7150,7 +8790,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Horizontal Scale:</label>
+<label>Horizontal Scale: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7268,7 +8908,7 @@
 <weight>bold</weight>
 <face>Arial</face>
 </font>
-<label>CDP 1861 / CDP 1862</label>
+<label>CDP 1861 / CDP 1862 </label>
 </object>
 </object>
 <object class="spacer">
@@ -7322,7 +8962,7 @@
 <font>
 <size>14</size>
 </font>
-<label>White</label>
+<label>White </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7349,7 +8989,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Magenta</label>
+<label>Magenta </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7376,7 +9016,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Cyan</label>
+<label>Cyan </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7403,7 +9043,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Blue</label>
+<label>Blue </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7430,7 +9070,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Yellow</label>
+<label>Yellow </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7457,7 +9097,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Red</label>
+<label>Red </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7484,7 +9124,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Green</label>
+<label>Green </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7511,7 +9151,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Black</label>
+<label>Black </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7563,7 +9203,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Dark Blue</label>
+<label>Dark Blue </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7590,7 +9230,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Black</label>
+<label>Black </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7617,7 +9257,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Dark Green</label>
+<label>Dark Green </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7644,7 +9284,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Dark Red</label>
+<label>Dark Red </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7679,7 +9319,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Border X:</label>
+<label>Border X: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7747,7 +9387,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Y:</label>
+<label>Y: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7793,7 +9433,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Horizontal Scale:</label>
+<label>Horizontal Scale: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7900,7 +9540,7 @@
 <weight>bold</weight>
 <face>Arial</face>
 </font>
-<label>CDP 1861</label>
+<label>CDP 1861 </label>
 </object>
 </object>
 <object class="spacer">
@@ -7925,7 +9565,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Foreground</label>
+<label>Foreground </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7952,7 +9592,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Background</label>
+<label>Background </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7981,7 +9621,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Border X:</label>
+<label>Border X: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8049,7 +9689,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Y:</label>
+<label>Y: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8095,7 +9735,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Horizontal Scale:</label>
+<label>Horizontal Scale: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8213,7 +9853,7 @@
 <weight>bold</weight>
 <face>Arial</face>
 </font>
-<label>CDP 1869 / 1870</label>
+<label>CDP 1869 / 1870 </label>
 </object>
 </object>
 <object class="spacer">
@@ -8267,7 +9907,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Black</label>
+<label>Black </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8294,7 +9934,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Blue</label>
+<label>Blue </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8321,7 +9961,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Red</label>
+<label>Red </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8348,7 +9988,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Magenta</label>
+<label>Magenta </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8382,7 +10022,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Green</label>
+<label>Green </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8409,7 +10049,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Cyan</label>
+<label>Cyan </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8436,7 +10076,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Yellow</label>
+<label>Yellow </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8463,7 +10103,7 @@
 <font>
 <size>14</size>
 </font>
-<label>White</label>
+<label>White </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8498,7 +10138,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Border X:</label>
+<label>Border X: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8522,7 +10162,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Y:</label>
+<label>Y: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8632,7 +10272,7 @@
 <weight>bold</weight>
 <face>Arial</face>
 </font>
-<label>CDP 1861 / CDP 1862</label>
+<label>CDP 1861 / CDP 1862 </label>
 </object>
 </object>
 <object class="spacer">
@@ -8686,7 +10326,7 @@
 <font>
 <size>14</size>
 </font>
-<label>White</label>
+<label>White </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8713,7 +10353,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Red</label>
+<label>Red </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8740,7 +10380,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Blue</label>
+<label>Blue </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8767,7 +10407,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Magenta</label>
+<label>Magenta </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8794,7 +10434,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Green</label>
+<label>Green </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8821,7 +10461,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Yellow</label>
+<label>Yellow </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8848,7 +10488,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Cyan</label>
+<label>Cyan </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8875,7 +10515,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Black</label>
+<label>Black </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8927,7 +10567,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Dark Blue</label>
+<label>Dark Blue </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8954,7 +10594,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Black</label>
+<label>Black </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8981,7 +10621,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Dark Green</label>
+<label>Dark Green </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9008,7 +10648,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Dark Red</label>
+<label>Dark Red </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9043,7 +10683,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Border X:</label>
+<label>Border X: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9105,7 +10745,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Y:</label>
+<label>Y: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9151,7 +10791,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Horizontal Scale:</label>
+<label>Horizontal Scale: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9258,7 +10898,7 @@
 <weight>bold</weight>
 <face>Arial</face>
 </font>
-<label>Video Terminal</label>
+<label>Video Terminal </label>
 </object>
 </object>
 <object class="spacer">
@@ -9288,7 +10928,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Foreground</label>
+<label>Foreground </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9330,7 +10970,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Background</label>
+<label>Background </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9359,7 +10999,7 @@
 <size>14</size>
 </font>
 <hidden>1</hidden>
-<label>Highlight</label>
+<label>Highlight </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9391,7 +11031,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Border Video Terminal X:</label>
+<label>Border Video Terminal X: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9415,7 +11055,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Y:</label>
+<label>Y: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9446,7 +11086,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Default colour set:</label>
+<label>Default colour set: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9552,7 +11192,7 @@
 <weight>bold</weight>
 <face>Arial</face>
 </font>
-<label>CDP 1862</label>
+<label>CDP 1862 </label>
 </object>
 </object>
 <object class="spacer">
@@ -9606,7 +11246,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Black</label>
+<label>Black </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9633,7 +11273,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Red</label>
+<label>Red </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9660,7 +11300,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Blue</label>
+<label>Blue </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9687,7 +11327,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Violet</label>
+<label>Violet </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9714,7 +11354,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Green</label>
+<label>Green </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9741,7 +11381,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Yellow</label>
+<label>Yellow </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9768,7 +11408,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Aqua</label>
+<label>Aqua </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9795,7 +11435,7 @@
 <font>
 <size>14</size>
 </font>
-<label>White</label>
+<label>White </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9847,7 +11487,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Dark Blue</label>
+<label>Dark Blue </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9874,7 +11514,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Black</label>
+<label>Black </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9901,7 +11541,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Dark Green</label>
+<label>Dark Green </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9928,7 +11568,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Dark Red</label>
+<label>Dark Red </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9963,7 +11603,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Border X:</label>
+<label>Border X: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -10031,7 +11671,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Y:</label>
+<label>Y: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -10077,7 +11717,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Horizontal Scale:</label>
+<label>Horizontal Scale: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -10177,7 +11817,7 @@
 <weight>bold</weight>
 <face>Arial</face>
 </font>
-<label>CDP 1861</label>
+<label>CDP 1861 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -10197,7 +11837,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Foreground</label>
+<label>Foreground </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -10224,7 +11864,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Background</label>
+<label>Background </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -10258,7 +11898,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Border X:</label>
+<label>Border X: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -10311,7 +11951,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Y:</label>
+<label>Y: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -10342,7 +11982,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Horizontal Scale:</label>
+<label>Horizontal Scale: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -10382,7 +12022,7 @@
 <weight>bold</weight>
 <face>Arial</face>
 </font>
-<label>Video Terminal</label>
+<label>Video Terminal </label>
 </object>
 </object>
 <object class="spacer">
@@ -10412,7 +12052,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Foreground</label>
+<label>Foreground </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -10432,7 +12072,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Background</label>
+<label>Background </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -10461,7 +12101,7 @@
 <size>14</size>
 </font>
 <hidden>1</hidden>
-<label>Highlight</label>
+<label>Highlight </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -10493,7 +12133,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Border Video Terminal X:</label>
+<label>Border Video Terminal X: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -10517,7 +12157,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Y:</label>
+<label>Y: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -10548,7 +12188,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Default colour set:</label>
+<label>Default colour set: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -10655,7 +12295,7 @@
 <face>Arial</face>
 </font>
 <hidden>1</hidden>
-<label>CDP 1861</label>
+<label>CDP 1861 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -10677,7 +12317,7 @@
 <size>14</size>
 </font>
 <hidden>1</hidden>
-<label>Foreground</label>
+<label>Foreground </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -10707,7 +12347,7 @@
 <size>14</size>
 </font>
 <hidden>1</hidden>
-<label>Background</label>
+<label>Background </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -10738,7 +12378,7 @@
 <size>14</size>
 </font>
 <hidden>1</hidden>
-<label>Border CDP 1861 X:</label>
+<label>Border CDP 1861 X: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -10773,7 +12413,7 @@
 <size>14</size>
 </font>
 <hidden>1</hidden>
-<label>Y:</label>
+<label>Y: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -10806,7 +12446,7 @@
 <size>14</size>
 </font>
 <hidden>1</hidden>
-<label>Horizontal Scale:</label>
+<label>Horizontal Scale: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -10840,7 +12480,7 @@
 <weight>bold</weight>
 <face>Arial</face>
 </font>
-<label>Video Terminal</label>
+<label>Video Terminal </label>
 </object>
 </object>
 <object class="spacer">
@@ -10870,7 +12510,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Foreground</label>
+<label>Foreground </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -10890,7 +12530,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Background</label>
+<label>Background </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -10919,7 +12559,7 @@
 <size>14</size>
 </font>
 <hidden>1</hidden>
-<label>Highlight Intel 8275</label>
+<label>Highlight Intel 8275 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -10951,7 +12591,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Default colour set:</label>
+<label>Default colour set: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -10986,7 +12626,7 @@
 <size>14</size>
 </font>
 <hidden>1</hidden>
-<label>Border Intel 8275  X:</label>
+<label>Border Intel 8275  X: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11012,7 +12652,7 @@
 <size>14</size>
 </font>
 <hidden>1</hidden>
-<label>Y:</label>
+<label>Y: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11044,7 +12684,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Border Video Terminal X:</label>
+<label>Border Video Terminal X: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11068,7 +12708,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Y:</label>
+<label>Y: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11172,7 +12812,7 @@
 <face>Arial</face>
 </font>
 <hidden>1</hidden>
-<label>CDP 1861</label>
+<label>CDP 1861 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11194,7 +12834,7 @@
 <size>14</size>
 </font>
 <hidden>1</hidden>
-<label>Foreground</label>
+<label>Foreground </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11224,7 +12864,7 @@
 <size>14</size>
 </font>
 <hidden>1</hidden>
-<label>Background</label>
+<label>Background </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11255,7 +12895,7 @@
 <size>14</size>
 </font>
 <hidden>1</hidden>
-<label>Border CDP 1861 X:</label>
+<label>Border CDP 1861 X: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11290,7 +12930,7 @@
 <size>14</size>
 </font>
 <hidden>1</hidden>
-<label>Y:</label>
+<label>Y: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11323,7 +12963,7 @@
 <size>14</size>
 </font>
 <hidden>1</hidden>
-<label>Horizontal Scale:</label>
+<label>Horizontal Scale: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11357,7 +12997,7 @@
 <weight>bold</weight>
 <face>Arial</face>
 </font>
-<label>Video Terminal</label>
+<label>Video Terminal </label>
 </object>
 </object>
 <object class="spacer">
@@ -11387,7 +13027,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Foreground</label>
+<label>Foreground </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11407,7 +13047,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Background</label>
+<label>Background </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11436,7 +13076,7 @@
 <size>14</size>
 </font>
 <hidden>1</hidden>
-<label>Highlight Intel 8275</label>
+<label>Highlight Intel 8275 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11468,7 +13108,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Default colour set:</label>
+<label>Default colour set: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11503,7 +13143,7 @@
 <size>14</size>
 </font>
 <hidden>1</hidden>
-<label>Border Intel 8275  X:</label>
+<label>Border Intel 8275  X: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11529,7 +13169,7 @@
 <size>14</size>
 </font>
 <hidden>1</hidden>
-<label>Y:</label>
+<label>Y: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11561,7 +13201,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Border Video Terminal X:</label>
+<label>Border Video Terminal X: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11585,7 +13225,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Y:</label>
+<label>Y: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11695,7 +13335,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Foreground</label>
+<label>Foreground </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11722,7 +13362,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Background</label>
+<label>Background </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11751,7 +13391,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Border X:</label>
+<label>Border X: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11813,7 +13453,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Y:</label>
+<label>Y: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11860,7 +13500,7 @@
 <size>14</size>
 </font>
 <hidden>1</hidden>
-<label>Horizontal Scale:</label>
+<label>Horizontal Scale: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11979,7 +13619,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Foreground</label>
+<label>Foreground </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -12006,7 +13646,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Background</label>
+<label>Background </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -12035,7 +13675,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Border X:</label>
+<label>Border X: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -12097,7 +13737,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Y:</label>
+<label>Y: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -12144,7 +13784,7 @@
 <size>14</size>
 </font>
 <hidden>1</hidden>
-<label>Horizontal Scale:</label>
+<label>Horizontal Scale: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -12256,7 +13896,7 @@
 <weight>bold</weight>
 <face>Arial</face>
 </font>
-<label>CDP 1861</label>
+<label>CDP 1861 </label>
 </object>
 </object>
 <object class="spacer">
@@ -12281,7 +13921,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Foreground</label>
+<label>Foreground </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -12308,7 +13948,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Background</label>
+<label>Background </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -12337,7 +13977,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Border X:</label>
+<label>Border X: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -12399,7 +14039,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Y:</label>
+<label>Y: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -12445,7 +14085,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Horizontal Scale:</label>
+<label>Horizontal Scale: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -12592,7 +14232,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Colour 1</label>
+<label>Colour 1 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -12619,7 +14259,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Colour 2</label>
+<label>Colour 2 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -12646,7 +14286,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Colour 3</label>
+<label>Colour 3 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -12673,7 +14313,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Colour 4</label>
+<label>Colour 4 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -12700,7 +14340,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Colour 5</label>
+<label>Colour 5 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -12727,7 +14367,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Colour 6</label>
+<label>Colour 6 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -12754,7 +14394,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Colour 7</label>
+<label>Colour 7 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -12781,7 +14421,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Colour 8</label>
+<label>Colour 8 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -12836,7 +14476,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Colour 1</label>
+<label>Colour 1 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -12863,7 +14503,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Colour 2</label>
+<label>Colour 2 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -12890,7 +14530,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Colour 3</label>
+<label>Colour 3 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -12917,7 +14557,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Colour 4</label>
+<label>Colour 4 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -12944,7 +14584,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Colour 5</label>
+<label>Colour 5 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -12971,7 +14611,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Colour 6</label>
+<label>Colour 6 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -12998,7 +14638,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Colour 7</label>
+<label>Colour 7 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -13025,7 +14665,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Colour 8</label>
+<label>Colour 8 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -13060,7 +14700,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Border X:</label>
+<label>Border X: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -13122,7 +14762,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Y:</label>
+<label>Y: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -13168,7 +14808,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Horizontal Scale:</label>
+<label>Horizontal Scale: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -13289,7 +14929,7 @@
 <weight>bold</weight>
 <face>Arial</face>
 </font>
-<label>VIP2K Video</label>
+<label>VIP2K Video </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -13309,7 +14949,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Foreground</label>
+<label>Foreground </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -13336,7 +14976,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Background</label>
+<label>Background </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -13370,7 +15010,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Border X:</label>
+<label>Border X: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -13423,7 +15063,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Y:</label>
+<label>Y: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -13454,7 +15094,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Horizontal Scale:</label>
+<label>Horizontal Scale: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -13494,7 +15134,7 @@
 <weight>bold</weight>
 <face>Arial</face>
 </font>
-<label>Video Terminal</label>
+<label>Video Terminal </label>
 </object>
 </object>
 <object class="spacer">
@@ -13524,7 +15164,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Foreground</label>
+<label>Foreground </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -13544,7 +15184,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Background</label>
+<label>Background </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -13573,7 +15213,7 @@
 <size>14</size>
 </font>
 <hidden>1</hidden>
-<label>Highlight</label>
+<label>Highlight </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -13605,7 +15245,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Border Video Terminal X:</label>
+<label>Border Video Terminal X: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -13629,7 +15269,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Y:</label>
+<label>Y: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -13660,7 +15300,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Default colour set:</label>
+<label>Default colour set: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -13766,7 +15406,7 @@
 <weight>bold</weight>
 <face>Arial</face>
 </font>
-<label>Video Terminal</label>
+<label>Video Terminal </label>
 </object>
 </object>
 <object class="spacer">
@@ -13796,7 +15436,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Foreground</label>
+<label>Foreground </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -13838,7 +15478,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Background</label>
+<label>Background </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -13867,7 +15507,7 @@
 <size>14</size>
 </font>
 <hidden>1</hidden>
-<label>Highlight</label>
+<label>Highlight </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -13899,7 +15539,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Border Video Terminal X:</label>
+<label>Border Video Terminal X: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -13923,7 +15563,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Y:</label>
+<label>Y: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -13954,7 +15594,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Default colour set:</label>
+<label>Default colour set: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -14060,7 +15700,7 @@
 <weight>bold</weight>
 <face>Arial</face>
 </font>
-<label>CDP 1869 / 1870</label>
+<label>CDP 1869 / 1870 </label>
 </object>
 </object>
 <object class="spacer">
@@ -14115,7 +15755,7 @@
 <size>14</size>
 </font>
 <fg>#000000</fg>
-<label>Black</label>
+<label>Black </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -14142,7 +15782,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Green</label>
+<label>Green </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -14169,7 +15809,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Blue</label>
+<label>Blue </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -14196,7 +15836,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Cyan</label>
+<label>Cyan </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -14223,7 +15863,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Red</label>
+<label>Red </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -14250,7 +15890,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Yellow</label>
+<label>Yellow </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -14277,7 +15917,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Magenta</label>
+<label>Magenta </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -14304,7 +15944,7 @@
 <font>
 <size>14</size>
 </font>
-<label>White</label>
+<label>White </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -14980,7 +16620,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Border CDP 1869/1870 X:</label>
+<label>Border CDP 1869/1870 X: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -15004,7 +16644,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Y:</label>
+<label>Y: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -15047,7 +16687,7 @@
 <weight>bold</weight>
 <face>Arial</face>
 </font>
-<label>Video Terminal</label>
+<label>Video Terminal </label>
 </object>
 </object>
 <object class="spacer">
@@ -15077,7 +16717,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Foreground</label>
+<label>Foreground </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -15108,7 +16748,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Background</label>
+<label>Background </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -15137,7 +16777,7 @@
 <size>14</size>
 </font>
 <hidden>1</hidden>
-<label>Highlight</label>
+<label>Highlight </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -15169,7 +16809,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Border Video Terminal X:</label>
+<label>Border Video Terminal X: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -15193,7 +16833,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Y:</label>
+<label>Y: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -15224,7 +16864,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Default colour set:</label>
+<label>Default colour set: </label>
 </object>
 </object>
 <object class="sizeritem">

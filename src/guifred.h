@@ -9,8 +9,8 @@ class GuiFred: public GuiVip
 {
 public:
 
-	GuiFred(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
-	~GuiFred() {};
+    GuiFred(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
+    ~GuiFred() {};
 
     void readFred1Config();
     void writeFred1DirConfig();
@@ -28,7 +28,7 @@ public:
 
     bool getUseFredControlWindows();
     void onAutoBoot(wxCommandEvent&event);
-	void onCoinArcadeControl(wxCommandEvent&event);
+    void onCoinArcadeControl(wxCommandEvent&event);
     void onStopTone(wxCommandEvent&event);
     void onTapeStart(wxCommandEvent&event);
     void onChoiceKeyPadMode(wxCommandEvent&event);
@@ -37,16 +37,16 @@ public:
     
     void checkGameFred2(wxString gameName);
     void setGameId(wxString gameName);
-	void setGame();
+    void setGame();
     void setCurrentCardValue();
 
     void downloadWavFiles(int computer);
     
 private:
     int currentCardValue[FRED1_CARDS];
-	bool guiStartup_;
+    bool guiStartup_;
     
-	DECLARE_EVENT_TABLE()
+    DECLARE_EVENT_TABLE()
 };
 
 #endif // GUIFRED_H

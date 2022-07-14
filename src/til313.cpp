@@ -26,44 +26,44 @@
 
 Til313::Til313()
 {
-	displayedNumber_ = 0;
-	x_ = 0;
-	y_ = 0;
+    displayedNumber_ = 0;
+    x_ = 0;
+    y_ = 0;
 
     til313BitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/til313.png", wxBITMAP_TYPE_PNG);
     
-	dcMemory.SelectObject(*til313BitmapPointer);
+    dcMemory.SelectObject(*til313BitmapPointer);
 }
 
 Til313::~Til313()
 {
-	delete til313BitmapPointer;
+    delete til313BitmapPointer;
 }
 
 void Til313::init(wxDC& dc, int x, int y)
 {
-	x_ = x;
-	y_ = y;
+    x_ = x;
+    y_ = y;
 
-	dc.Blit(x_, y_, 25 , 33, &dcMemory, 0, 0);
+    dc.Blit(x_, y_, 25 , 33, &dcMemory, 0, 0);
 }
 
 void Til313::onPaint(wxDC& dc)
 {
-	int ox = (displayedNumber_ & 3) * 26;
-	int oy = ((displayedNumber_>>2) & 3) * 34;
-	dc.Blit(x_, y_, 25 , 33, &dcMemory, ox, oy);
+    int ox = (displayedNumber_ & 3) * 26;
+    int oy = ((displayedNumber_>>2) & 3) * 34;
+    dc.Blit(x_, y_, 25 , 33, &dcMemory, ox, oy);
 }
  
 void Til313::update(wxDC& dc, int NewNumber) 
 {
-	if (displayedNumber_ == NewNumber)  return;
+    if (displayedNumber_ == NewNumber)  return;
 
-	int ox = (NewNumber & 3) * 26;
-	int oy = ((NewNumber>>2) & 3) * 34;
-	dc.Blit(x_, y_, 25 , 33, &dcMemory, ox, oy);
+    int ox = (NewNumber & 3) * 26;
+    int oy = ((NewNumber>>2) & 3) * 34;
+    dc.Blit(x_, y_, 25 , 33, &dcMemory, ox, oy);
 
-	displayedNumber_ = NewNumber;
+    displayedNumber_ = NewNumber;
 }
 
 Til313Italic::Til313Italic(bool upsideDown)
@@ -134,10 +134,10 @@ void Til313Italic::dp(wxDC& dc, bool status)
 void Til313Italic::turnOff(wxDC& dc, bool status)
 {
     if (status)
-	{
+    {
         dcMemory.SelectObject(*til313BitmapPointer_off);
-		displayedNumber_ = 0;
-	}
+        displayedNumber_ = 0;
+    }
     else
         dcMemory.SelectObject(*til313BitmapPointer_led_off);
     

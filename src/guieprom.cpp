@@ -34,70 +34,70 @@ END_EVENT_TABLE()
 
 EpromDialog::EpromDialog(wxWindow* parent)
 {
-	wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"eprom_" + p_Main->getFontSize() + ".xrc");
-	wxXmlResource::Get()->LoadDialog(this, parent, wxT("EpromDialog"));
+    wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"eprom_" + p_Main->getFontSize() + ".xrc");
+    wxXmlResource::Get()->LoadDialog(this, parent, wxT("EpromDialog"));
 
-	wxString number;
+    wxString number;
 
-	for (int i=0; i<5; i++)
-	{
-		number.Printf("%1d",i);
-		epromRomDir_[i] = p_Main->getEpromRomDirectory(i);
-	}
+    for (int i=0; i<5; i++)
+    {
+        number.Printf("%1d",i);
+        epromRomDir_[i] = p_Main->getEpromRomDirectory(i);
+    }
 
-	XRCCTRL(*this, "Eprom0", wxComboBox)->SetValue(p_Main->getEpromRom(0));
-	XRCCTRL(*this, "Eprom1", wxComboBox)->SetValue(p_Main->getEpromRom(1));
-	XRCCTRL(*this, "Eprom2", wxComboBox)->SetValue(p_Main->getEpromRom(2));
-	XRCCTRL(*this, "Eprom3", wxComboBox)->SetValue(p_Main->getEpromRom(3));
-	XRCCTRL(*this, "Eprom4", wxComboBox)->SetValue(p_Main->getEpromRom(4));
+    XRCCTRL(*this, "Eprom0", wxComboBox)->SetValue(p_Main->getEpromRom(0));
+    XRCCTRL(*this, "Eprom1", wxComboBox)->SetValue(p_Main->getEpromRom(1));
+    XRCCTRL(*this, "Eprom2", wxComboBox)->SetValue(p_Main->getEpromRom(2));
+    XRCCTRL(*this, "Eprom3", wxComboBox)->SetValue(p_Main->getEpromRom(3));
+    XRCCTRL(*this, "Eprom4", wxComboBox)->SetValue(p_Main->getEpromRom(4));
 
 }
 
 void EpromDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
 {
-	wxString number;
+    wxString number;
 
-	for (int i=0; i<5; i++)
-	{
-		number.Printf("%1d",i);
-		p_Main->setEpromRomDirectory(i, epromRomDir_[i]);
-		p_Main->setEpromRom(i, XRCCTRL(*this, "Eprom"+number, wxComboBox)->GetValue());
-	}
-	EndModal( wxID_OK );
+    for (int i=0; i<5; i++)
+    {
+        number.Printf("%1d",i);
+        p_Main->setEpromRomDirectory(i, epromRomDir_[i]);
+        p_Main->setEpromRom(i, XRCCTRL(*this, "Eprom"+number, wxComboBox)->GetValue());
+    }
+    EndModal( wxID_OK );
 }
 
 void EpromDialog::onEprom0Button(wxCommandEvent& WXUNUSED(event) )
 {
-	epromButton(0);
+    epromButton(0);
 }
 
 void EpromDialog::onEprom1Button(wxCommandEvent& WXUNUSED(event) )
 {
-	epromButton(1);
+    epromButton(1);
 }
 
 void EpromDialog::onEprom2Button(wxCommandEvent& WXUNUSED(event) )
 {
-	epromButton(2);
+    epromButton(2);
 }
 
 void EpromDialog::onEprom3Button(wxCommandEvent& WXUNUSED(event) )
 {
-	epromButton(3);
+    epromButton(3);
 }
 
 void EpromDialog::onEprom4Button(wxCommandEvent& WXUNUSED(event) )
 {
-	epromButton(4);
+    epromButton(4);
 }
 
 void EpromDialog::epromButton(int number)
 {
-	wxString stringNumber;
-	wxString fileName;
+    wxString stringNumber;
+    wxString fileName;
 
-	stringNumber.Printf("%1d", number);
-	fileName = wxFileSelector( "Select the Eprom" + stringNumber +" file to load",
+    stringNumber.Printf("%1d", number);
+    fileName = wxFileSelector( "Select the Eprom" + stringNumber +" file to load",
                                epromRomDir_[number], XRCCTRL(*this, "Eprom" + stringNumber, wxComboBox)->GetValue(),
                                "",
                                wxString::Format
@@ -109,11 +109,11 @@ void EpromDialog::epromButton(int number)
                                wxFD_OPEN|wxFD_CHANGE_DIR|wxFD_PREVIEW,
                                this
                               );
-	if (!fileName)
-		return;
+    if (!fileName)
+        return;
 
-	wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
-	epromRomDir_[number] = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+    wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
+    epromRomDir_[number] = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
 
-	XRCCTRL(*this, "Eprom" + stringNumber, wxComboBox)->SetValue(FullPath.GetFullName());
+    XRCCTRL(*this, "Eprom" + stringNumber, wxComboBox)->SetValue(FullPath.GetFullName());
 }

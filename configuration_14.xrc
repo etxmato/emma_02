@@ -19,7 +19,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Item Name</label>
+<label>Item Name </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -46,7 +46,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Sub Menu Name</label>
+<label>Sub Menu Name </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -75,7 +75,7 @@
 <size>14</size>
 </font>
 <hidden>1</hidden>
-<label>Filename</label>
+<label>Filename </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -87,7 +87,7 @@
 <size>14</size>
 </font>
 <hidden>1</hidden>
-<label></label>
+<label> </label>
 </object>
 </object>
 </object>

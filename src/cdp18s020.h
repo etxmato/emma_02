@@ -24,14 +24,14 @@ private:
 class Cdp18s020 : public wxFrame, public Cdp1802
 {
 public:
-	Cdp18s020(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf);
-	~Cdp18s020();
+    Cdp18s020(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf, Conf computerConf);
+    ~Cdp18s020();
 
     void onClose(wxCloseEvent&WXUNUSED(event));
 
     void configureComputer();
-	void configureKeyboard();
-	void initComputer();
+    void configureKeyboard();
+    void initComputer();
 
     void onRunButton(wxCommandEvent&event);
     void onRunPButton(wxCommandEvent&event);
@@ -43,31 +43,31 @@ public:
     void onMpButton(int buttonNumber);
     void onSingleStep();
 
-	Byte ef(int flag);
-	Byte in(Byte port, Word address);
-	void out(Byte port, Word address, Byte value);
-	void switchQ(int value);
+    Byte ef(int flag);
+    Byte in(Byte port, Word address);
+    void out(Byte port, Word address, Byte value);
+    void switchQ(int value);
     void showCycleData(Byte val);
     void showAddress(Word val);
     void showState(int state);
     void setCpuMode(int mode);
-	void cycle(int type);
+    void cycle(int type);
     void cycleLed();
 
     void startComputer();
-	void writeMemDataType(Word address, Byte type);
-	Byte readMemDataType(Word address, uint64_t* executed);
-	Byte readMem(Word address);
-	void writeMem(Word address, Byte value, bool writeRom);
+    void writeMemDataType(Word address, Byte type);
+    Byte readMemDataType(Word address, uint64_t* executed);
+    Byte readMem(Word address);
+    void writeMem(Word address, Byte value, bool writeRom);
     Byte readMemDebug(Word address);
     void writeMemDebug(Word address, Byte value, bool writeRom);
-	void cpuInstruction();
+    void cpuInstruction();
     void resetPressed();
-	void moveWindows();
-	void updateTitle(wxString Title);
+    void moveWindows();
+    void updateTitle(wxString Title);
     void onResetButton(wxCommandEvent&event);
-	void onReset();
-	void sleepComputer(long ms);
+    void onReset();
+    void sleepComputer(long ms);
 
     void setLedMs(long ms);
 
@@ -81,8 +81,8 @@ public:
     void refreshPanel();
 
 private:
-	ElfConfiguration cdp18s020Configuration;
-	Vt100 *vtPointer;
+    ElfConfiguration cdp18s020Configuration;
+    Vt100 *vtPointer;
 
     int ledCycleValue_;
     int ledCycleSize_;

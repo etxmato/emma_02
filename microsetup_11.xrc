@@ -18,7 +18,7 @@
 <weight>bold</weight>
 <face>System Font</face>
 </font>
-<label>Setup 'One Socket' - 2Kx8</label>
+<label>Setup 'One Socket' - 2Kx8 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -36,7 +36,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Double board error</label>
+<label>Double board error </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -49,7 +49,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Memory error</label>
+<label>Memory error </label>
 </object>
 </object>
 </object>
@@ -67,7 +67,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory Bank U21 location:</label>
+<label>Memory Bank U21 location: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -129,7 +129,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory type</label>
+<label>Memory type </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -208,7 +208,7 @@
 <weight>bold</weight>
 <face>System Font</face>
 </font>
-<label>Setup 'One Socket' - 4Kx8</label>
+<label>Setup 'One Socket' - 4Kx8 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -226,7 +226,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Double board error</label>
+<label>Double board error </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -239,7 +239,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Memory error</label>
+<label>Memory error </label>
 </object>
 </object>
 </object>
@@ -257,7 +257,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory Bank U21 location:</label>
+<label>Memory Bank U21 location: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -303,7 +303,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory type</label>
+<label>Memory type </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -382,7 +382,7 @@
 <weight>bold</weight>
 <face>System Font</face>
 </font>
-<label>Setup 'One Socket' - 8Kx8</label>
+<label>Setup 'One Socket' - 8Kx8 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -400,7 +400,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Double board error</label>
+<label>Double board error </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -413,7 +413,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Memory error</label>
+<label>Memory error </label>
 </object>
 </object>
 </object>
@@ -431,7 +431,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory Bank U21 location:</label>
+<label>Memory Bank U21 location: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -469,7 +469,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory type</label>
+<label>Memory type </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -548,7 +548,7 @@
 <weight>bold</weight>
 <face>System Font</face>
 </font>
-<label>Setup 'Four Socket' - 2Kx8</label>
+<label>Setup 'Four Socket' - 2Kx8 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -566,7 +566,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Double board error</label>
+<label>Double board error </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -579,7 +579,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Memory error</label>
+<label>Memory error </label>
 </object>
 </object>
 </object>
@@ -597,7 +597,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory Bank U20 location:</label>
+<label>Memory Bank U20 location: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -635,7 +635,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory type</label>
+<label>Memory type </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -687,7 +687,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory Bank U19 location:</label>
+<label>Memory Bank U19 location: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -725,7 +725,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory type</label>
+<label>Memory type </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -777,7 +777,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory Bank U18 location:</label>
+<label>Memory Bank U18 location: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -815,7 +815,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory type</label>
+<label>Memory type </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -867,7 +867,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory Bank U17 location:</label>
+<label>Memory Bank U17 location: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -905,7 +905,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory type</label>
+<label>Memory type </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -984,7 +984,7 @@
 <weight>bold</weight>
 <face>System Font</face>
 </font>
-<label>Setup 'Four Socket' - 4Kx8</label>
+<label>Setup 'Four Socket' - 4Kx8 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1002,7 +1002,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Double board error</label>
+<label>Double board error </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1015,7 +1015,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Memory error</label>
+<label>Memory error </label>
 </object>
 </object>
 </object>
@@ -1033,7 +1033,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory Bank U20 location:</label>
+<label>Memory Bank U20 location: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1067,7 +1067,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory type</label>
+<label>Memory type </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1119,7 +1119,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory Bank U19 location:</label>
+<label>Memory Bank U19 location: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1153,7 +1153,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory type</label>
+<label>Memory type </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1205,7 +1205,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory Bank U18 location:</label>
+<label>Memory Bank U18 location: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1239,7 +1239,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory type</label>
+<label>Memory type </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1291,7 +1291,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory Bank U17 location:</label>
+<label>Memory Bank U17 location: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1325,7 +1325,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory type</label>
+<label>Memory type </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1404,7 +1404,7 @@
 <weight>bold</weight>
 <face>System Font</face>
 </font>
-<label>Setup 'Four Socket' - 8Kx8</label>
+<label>Setup 'Four Socket' - 8Kx8 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1422,7 +1422,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Double board error</label>
+<label>Double board error </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1435,7 +1435,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Memory error</label>
+<label>Memory error </label>
 </object>
 </object>
 </object>
@@ -1453,7 +1453,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory Bank U20 location:</label>
+<label>Memory Bank U20 location: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1485,7 +1485,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory type</label>
+<label>Memory type </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1537,7 +1537,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory Bank U19 location:</label>
+<label>Memory Bank U19 location: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1569,7 +1569,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory type</label>
+<label>Memory type </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1621,7 +1621,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory Bank U18 location:</label>
+<label>Memory Bank U18 location: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1653,7 +1653,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory type</label>
+<label>Memory type </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1705,7 +1705,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory Bank U17 location:</label>
+<label>Memory Bank U17 location: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1737,7 +1737,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory type</label>
+<label>Memory type </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1816,7 +1816,7 @@
 <weight>bold</weight>
 <face>System Font</face>
 </font>
-<label>Setup ROM Socket - 2Kx8</label>
+<label>Setup ROM Socket - 2Kx8 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1834,7 +1834,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Double board error</label>
+<label>Double board error </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1847,7 +1847,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Memory error</label>
+<label>Memory error </label>
 </object>
 </object>
 </object>
@@ -1865,7 +1865,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory Bank XU27 location:</label>
+<label>Memory Bank XU27 location: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1911,7 +1911,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory size</label>
+<label>Memory size </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -1963,7 +1963,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory Bank XU26 location:</label>
+<label>Memory Bank XU26 location: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2009,7 +2009,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory size</label>
+<label>Memory size </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2061,7 +2061,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory Bank XU25 location:</label>
+<label>Memory Bank XU25 location: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2107,7 +2107,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory size</label>
+<label>Memory size </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2159,7 +2159,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory Bank XU24 location:</label>
+<label>Memory Bank XU24 location: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2205,7 +2205,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory size</label>
+<label>Memory size </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2284,7 +2284,7 @@
 <weight>bold</weight>
 <face>System Font</face>
 </font>
-<label>Setup ROM Socket - 1Kx8</label>
+<label>Setup ROM Socket - 1Kx8 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2302,7 +2302,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Double board error</label>
+<label>Double board error </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2315,7 +2315,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Memory error</label>
+<label>Memory error </label>
 </object>
 </object>
 </object>
@@ -2333,7 +2333,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory Bank XU27 location:</label>
+<label>Memory Bank XU27 location: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2386,7 +2386,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory Bank XU26 location:</label>
+<label>Memory Bank XU26 location: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2439,7 +2439,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory Bank XU25 location:</label>
+<label>Memory Bank XU25 location: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2492,7 +2492,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory Bank XU24 location:</label>
+<label>Memory Bank XU24 location: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2578,7 +2578,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Double board error</label>
+<label>Double board error </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2591,7 +2591,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Memory error</label>
+<label>Memory error </label>
 </object>
 </object>
 </object>
@@ -2609,7 +2609,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>CPU Type: CDP1805</label>
+<label>CPU Type: CDP1805 </label>
 </object>
 </object>
 </object>
@@ -2630,7 +2630,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>1 Socket:</label>
+<label>1 Socket: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2728,7 +2728,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>4 Socket:</label>
+<label>4 Socket: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2912,7 +2912,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>UART:</label>
+<label>UART: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2984,7 +2984,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Double board error</label>
+<label>Double board error </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -2997,7 +2997,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Memory error</label>
+<label>Memory error </label>
 </object>
 </object>
 </object>
@@ -3015,7 +3015,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>CPU Type: CDP1802</label>
+<label>CPU Type: CDP1802 </label>
 </object>
 </object>
 </object>
@@ -3036,7 +3036,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>RAM Socket:</label>
+<label>RAM Socket: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3052,7 +3052,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>4Kx8</label>
+<label>4Kx8 </label>
 </object>
 </object>
 <object class="spacer">
@@ -3146,7 +3146,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>ROM Socket:</label>
+<label>ROM Socket: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3361,7 +3361,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Double board error</label>
+<label>Double board error </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3374,7 +3374,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Memory error</label>
+<label>Memory error </label>
 </object>
 </object>
 </object>
@@ -3392,7 +3392,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>CPU Type: CDP1802</label>
+<label>CPU Type: CDP1802 </label>
 </object>
 </object>
 </object>
@@ -3413,7 +3413,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>RAM Socket:</label>
+<label>RAM Socket: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3429,7 +3429,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>2Kx8</label>
+<label>2Kx8 </label>
 </object>
 </object>
 </object>
@@ -3442,7 +3442,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>2K Block (0-31):</label>
+<label>2K Block (0-31): </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3472,7 +3472,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>address: 4000-43FF</label>
+<label>address: 4000-43FF </label>
 </object>
 </object>
 </object>
@@ -3531,7 +3531,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>ROM Socket:</label>
+<label>ROM Socket: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3577,7 +3577,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>4K Block (0-15):</label>
+<label>4K Block (0-15): </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3607,7 +3607,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>address U9-U10: 0000-0FFF</label>
+<label>address U9-U10: 0000-0FFF </label>
 </object>
 </object>
 </object>
@@ -3696,7 +3696,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>UART:</label>
+<label>UART: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3768,7 +3768,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Double board error</label>
+<label>Double board error </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3781,7 +3781,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Memory error</label>
+<label>Memory error </label>
 </object>
 </object>
 </object>
@@ -3799,7 +3799,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>CPU Type: CDP1802</label>
+<label>CPU Type: CDP1802 </label>
 </object>
 </object>
 </object>
@@ -3820,7 +3820,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>RAM Socket:</label>
+<label>RAM Socket: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -3836,7 +3836,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>1Kx8</label>
+<label>1Kx8 </label>
 </object>
 </object>
 <object class="spacer">
@@ -3930,7 +3930,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>ROM Socket:</label>
+<label>ROM Socket: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4145,7 +4145,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Double board error</label>
+<label>Double board error </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4158,7 +4158,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Memory error</label>
+<label>Memory error </label>
 </object>
 </object>
 </object>
@@ -4176,7 +4176,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>CPU Type: CDP1802</label>
+<label>CPU Type: CDP1802 </label>
 </object>
 </object>
 </object>
@@ -4197,7 +4197,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>RAM Socket:</label>
+<label>RAM Socket: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4213,7 +4213,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>1Kx8</label>
+<label>1Kx8 </label>
 </object>
 </object>
 </object>
@@ -4226,7 +4226,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>1K Block (0-63):</label>
+<label>1K Block (0-63): </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4256,7 +4256,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>address: 4000-43FF</label>
+<label>address: 4000-43FF </label>
 </object>
 </object>
 </object>
@@ -4315,7 +4315,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>ROM Socket:</label>
+<label>ROM Socket: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4351,7 +4351,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>4K Block (0-15):</label>
+<label>4K Block (0-15): </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4381,7 +4381,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>address: 0000-0FFF</label>
+<label>address: 0000-0FFF </label>
 </object>
 </object>
 </object>
@@ -4470,7 +4470,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Double board error</label>
+<label>Double board error </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4483,7 +4483,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Memory error</label>
+<label>Memory error </label>
 </object>
 </object>
 </object>
@@ -4504,7 +4504,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory size:</label>
+<label>Memory size: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4520,7 +4520,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>4K</label>
+<label>4K </label>
 </object>
 </object>
 <object class="spacer">
@@ -4536,7 +4536,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Location:</label>
+<label>Location: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4653,7 +4653,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Double board error</label>
+<label>Double board error </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4666,7 +4666,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Memory error</label>
+<label>Memory error </label>
 </object>
 </object>
 </object>
@@ -4687,7 +4687,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory size:</label>
+<label>Memory size: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4703,7 +4703,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>16K</label>
+<label>16K </label>
 </object>
 </object>
 <object class="spacer">
@@ -4719,7 +4719,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Location:</label>
+<label>Location: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4794,7 +4794,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory Inhibit:</label>
+<label>Memory Inhibit: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4905,7 +4905,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Double board error</label>
+<label>Double board error </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4918,7 +4918,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Memory error</label>
+<label>Memory error </label>
 </object>
 </object>
 </object>
@@ -4939,7 +4939,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory size:</label>
+<label>Memory size: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -4955,7 +4955,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>8K</label>
+<label>8K </label>
 </object>
 </object>
 <object class="spacer">
@@ -4971,7 +4971,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Location:</label>
+<label>Location: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5080,7 +5080,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Double board error</label>
+<label>Double board error </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5093,7 +5093,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Memory error</label>
+<label>Memory error </label>
 </object>
 </object>
 </object>
@@ -5114,7 +5114,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Socket size:</label>
+<label>Socket size: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5154,7 +5154,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Block (0-63):</label>
+<label>Block (0-63): </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5184,7 +5184,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>address: 4000-43FF</label>
+<label>address: 4000-43FF </label>
 </object>
 </object>
 </object>
@@ -5236,7 +5236,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory Inhibit:</label>
+<label>Memory Inhibit: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5317,7 +5317,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Socket size:</label>
+<label>Socket size: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5357,7 +5357,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Block (0-63):</label>
+<label>Block (0-63): </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5387,7 +5387,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>address: 4000-43FF</label>
+<label>address: 4000-43FF </label>
 </object>
 </object>
 </object>
@@ -5439,7 +5439,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory Inhibit:</label>
+<label>Memory Inhibit: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5550,7 +5550,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Double board error</label>
+<label>Double board error </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5563,7 +5563,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Memory error</label>
+<label>Memory error </label>
 </object>
 </object>
 </object>
@@ -5584,7 +5584,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory size:</label>
+<label>Memory size: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5616,7 +5616,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Start location:</label>
+<label>Start location: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5839,7 +5839,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory Inhibit:</label>
+<label>Memory Inhibit: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5967,7 +5967,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Double board error</label>
+<label>Double board error </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -5980,7 +5980,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Memory error</label>
+<label>Memory error </label>
 </object>
 </object>
 </object>
@@ -6001,7 +6001,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory size:</label>
+<label>Memory size: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6017,7 +6017,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>4K</label>
+<label>4K </label>
 </object>
 </object>
 <object class="spacer">
@@ -6033,7 +6033,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Location:</label>
+<label>Location: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6150,7 +6150,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Double board error</label>
+<label>Double board error </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6163,7 +6163,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Memory error</label>
+<label>Memory error </label>
 </object>
 </object>
 </object>
@@ -6184,7 +6184,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory size:</label>
+<label>Memory size: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6195,7 +6195,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>32K</label>
+<label>32K </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6211,7 +6211,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Start location:</label>
+<label>Start location: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6434,7 +6434,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory Inhibit:</label>
+<label>Memory Inhibit: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6563,7 +6563,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Double board error</label>
+<label>Double board error </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6576,7 +6576,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Memory error</label>
+<label>Memory error </label>
 </object>
 </object>
 </object>
@@ -6597,7 +6597,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory size:</label>
+<label>Memory size: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6608,7 +6608,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>32K</label>
+<label>32K </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6624,7 +6624,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Start location:</label>
+<label>Start location: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6847,7 +6847,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory Inhibit:</label>
+<label>Memory Inhibit: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6976,7 +6976,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Double board error</label>
+<label>Double board error </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -6989,7 +6989,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Memory error</label>
+<label>Memory error </label>
 </object>
 </object>
 </object>
@@ -7010,7 +7010,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory size:</label>
+<label>Memory size: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7026,7 +7026,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>1K</label>
+<label>1K </label>
 </object>
 </object>
 <object class="spacer">
@@ -7042,7 +7042,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Location: 8C00</label>
+<label>Location: 8C00 </label>
 </object>
 </object>
 </object>
@@ -7101,7 +7101,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory size:</label>
+<label>Memory size: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7117,7 +7117,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>2K</label>
+<label>2K </label>
 </object>
 </object>
 <object class="spacer">
@@ -7133,7 +7133,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Location: 8000</label>
+<label>Location: 8000 </label>
 </object>
 </object>
 </object>
@@ -7222,7 +7222,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Double board error</label>
+<label>Double board error </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7235,7 +7235,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Memory error</label>
+<label>Memory error </label>
 </object>
 </object>
 </object>
@@ -7256,7 +7256,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Data transfer I/O:</label>
+<label>Data transfer I/O: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7286,7 +7286,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Status in and Control out:</label>
+<label>Status in and Control out: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7316,7 +7316,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>I/O Group:</label>
+<label>I/O Group: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7407,7 +7407,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Double board error</label>
+<label>Double board error </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7420,7 +7420,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Memory error</label>
+<label>Memory error </label>
 </object>
 </object>
 </object>
@@ -7441,7 +7441,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>I/O Group:</label>
+<label>I/O Group: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7586,7 +7586,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Double board error</label>
+<label>Double board error </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7599,7 +7599,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Memory error</label>
+<label>Memory error </label>
 </object>
 </object>
 </object>
@@ -7620,7 +7620,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>I/O Group:</label>
+<label>I/O Group: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7708,7 +7708,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Double board error</label>
+<label>Double board error </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7721,7 +7721,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Memory error</label>
+<label>Memory error </label>
 </object>
 </object>
 </object>
@@ -7766,7 +7766,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>RAM Size:</label>
+<label>RAM Size: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -7798,7 +7798,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>address: 8C00-8FFF</label>
+<label>address: 8C00-8FFF </label>
 </object>
 </object>
 </object>
@@ -7891,7 +7891,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>address: 8000-87FF</label>
+<label>address: 8000-87FF </label>
 </object>
 </object>
 </object>
@@ -7938,7 +7938,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>address: 9000-A7FF</label>
+<label>address: 9000-A7FF </label>
 </object>
 </object>
 </object>
@@ -7985,7 +7985,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>address: B000-DFFF</label>
+<label>address: B000-DFFF </label>
 </object>
 </object>
 </object>
@@ -8032,7 +8032,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>address: E000-EFFF</label>
+<label>address: E000-EFFF </label>
 </object>
 </object>
 </object>
@@ -8092,7 +8092,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Double board error</label>
+<label>Double board error </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8105,7 +8105,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Memory error</label>
+<label>Memory error </label>
 </object>
 </object>
 </object>
@@ -8126,7 +8126,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>PIO 1, I/O Group:</label>
+<label>PIO 1, I/O Group: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8188,7 +8188,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>PIO 2, I/O Group:</label>
+<label>PIO 2, I/O Group: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8257,7 +8257,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>RAM Socket:</label>
+<label>RAM Socket: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8273,7 +8273,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>2Kx8</label>
+<label>2Kx8 </label>
 </object>
 </object>
 <object class="spacer">
@@ -8383,7 +8383,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>ROM Socket:</label>
+<label>ROM Socket: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8591,7 +8591,7 @@
 <weight>bold</weight>
 <face>System Font</face>
 </font>
-<label>Setup ROM Socket - 2Kx8</label>
+<label>Setup ROM Socket - 2Kx8 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8609,7 +8609,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Double board error</label>
+<label>Double board error </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8622,7 +8622,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Memory error</label>
+<label>Memory error </label>
 </object>
 </object>
 </object>
@@ -8640,7 +8640,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory Bank XU23 location:</label>
+<label>Memory Bank XU23 location: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8686,7 +8686,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory size</label>
+<label>Memory size </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8738,7 +8738,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory Bank XU22 location:</label>
+<label>Memory Bank XU22 location: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8784,7 +8784,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory size</label>
+<label>Memory size </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8836,7 +8836,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory Bank XU21 location:</label>
+<label>Memory Bank XU21 location: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8882,7 +8882,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory size</label>
+<label>Memory size </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8934,7 +8934,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory Bank XU20 location:</label>
+<label>Memory Bank XU20 location: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -8980,7 +8980,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory size</label>
+<label>Memory size </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9059,7 +9059,7 @@
 <weight>bold</weight>
 <face>System Font</face>
 </font>
-<label>Setup ROM Socket - 1Kx8</label>
+<label>Setup ROM Socket - 1Kx8 </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9077,7 +9077,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Double board error</label>
+<label>Double board error </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9090,7 +9090,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Memory error</label>
+<label>Memory error </label>
 </object>
 </object>
 </object>
@@ -9108,7 +9108,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory Bank XU23 location:</label>
+<label>Memory Bank XU23 location: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9161,7 +9161,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory Bank XU22 location:</label>
+<label>Memory Bank XU22 location: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9214,7 +9214,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory Bank XU21 location:</label>
+<label>Memory Bank XU21 location: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9267,7 +9267,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory Bank XU20 location:</label>
+<label>Memory Bank XU20 location: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9353,7 +9353,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Double board error</label>
+<label>Double board error </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9366,7 +9366,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Memory error</label>
+<label>Memory error </label>
 </object>
 </object>
 </object>
@@ -9387,7 +9387,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>I/O Group:</label>
+<label>I/O Group: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9434,7 +9434,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9475,7 +9475,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Page RAM size</label>
+<label>Page RAM size </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9572,7 +9572,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Interrupt Mode</label>
+<label>Interrupt Mode </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9606,7 +9606,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Keyboard, EF</label>
+<label>Keyboard, EF </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9631,7 +9631,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>type</label>
+<label>type </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9703,7 +9703,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Double board error</label>
+<label>Double board error </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9716,7 +9716,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Memory error</label>
+<label>Memory error </label>
 </object>
 </object>
 </object>
@@ -9737,7 +9737,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>I/O Group:</label>
+<label>I/O Group: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9784,7 +9784,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9846,7 +9846,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Interrupt Mode</label>
+<label>Interrupt Mode </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9880,7 +9880,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Keyboard, EF</label>
+<label>Keyboard, EF </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9905,7 +9905,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>type</label>
+<label>type </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11053,7 +11053,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Double board error</label>
+<label>Double board error </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11066,7 +11066,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Memory error</label>
+<label>Memory error </label>
 </object>
 </object>
 </object>
@@ -11087,7 +11087,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory size:</label>
+<label>Memory size: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11103,7 +11103,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>4Kx8</label>
+<label>4Kx8 </label>
 </object>
 </object>
 <object class="spacer">
@@ -11119,7 +11119,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Location:</label>
+<label>Location: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11130,7 +11130,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>8000-8FFF</label>
+<label>8000-8FFF </label>
 </object>
 </object>
 </object>
@@ -11182,7 +11182,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Memory size:</label>
+<label>Memory size: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11198,7 +11198,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>32K*8</label>
+<label>32K*8 </label>
 </object>
 </object>
 <object class="spacer">
@@ -11214,7 +11214,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Location:</label>
+<label>Location: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11225,7 +11225,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>0000-7FFF</label>
+<label>0000-7FFF </label>
 </object>
 </object>
 </object>
@@ -11315,7 +11315,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Double board error</label>
+<label>Double board error </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11328,7 +11328,7 @@
 </font>
 <hidden>1</hidden>
 <fg>#FB0106</fg>
-<label>Memory error</label>
+<label>Memory error </label>
 </object>
 </object>
 </object>
@@ -11349,7 +11349,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>I/O Group:</label>
+<label>I/O Group: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11396,7 +11396,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Volume:</label>
+<label>Volume: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11458,7 +11458,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Interrupt Mode</label>
+<label>Interrupt Mode </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11492,7 +11492,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Keyboard, EF</label>
+<label>Keyboard, EF </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -11517,7 +11517,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>type</label>
+<label>type </label>
 </object>
 </object>
 <object class="sizeritem">

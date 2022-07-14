@@ -82,7 +82,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Wav file conversion:</label>
+<label>Wav file conversion: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -106,7 +106,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Cassette Conversion:</label>
+<label>Cassette Conversion: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -146,7 +146,7 @@
 <font>
 <size>14</size>
 </font>
-<label>For FRED emulator:</label>
+<label>For FRED emulator: </label>
 </object>
 </object>
 <object class="spacer">
@@ -161,7 +161,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Threshold, 8 bit:</label>
+<label>Threshold, 8 bit: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -180,7 +180,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Threshold, 16 bit:</label>
+<label>Threshold, 16 bit: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -199,7 +199,7 @@
 <font>
 <size>14</size>
 </font>
-<label>Frequency check:</label>
+<label>Frequency check: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -350,7 +350,7 @@
 <size>14</size>
 </font>
 <fg>#FF0000</fg>
-<label>Note: For F&amp;&amp;M TOS/Turbo loaders use</label>
+<label>Note: For F&amp;&amp;M TOS/Turbo loaders use </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -361,7 +361,7 @@
 <size>14</size>
 </font>
 <fg>#FF0000</fg>
-<label>a high volume and 16 bits per sample</label>
+<label>a high volume and 16 bits per sample </label>
 </object>
 </object>
 </object>

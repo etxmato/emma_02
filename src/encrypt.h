@@ -19,16 +19,16 @@ typedef wxUint64  uint64_t;
 class Encrypt
 {
 public:
-	Encrypt ();
-	~Encrypt ();
+    Encrypt ();
+    ~Encrypt ();
 
-	wxString encryptUrlData(wxString InputString);
-	wxString encrypt(wxString InputString, wxString passwd);
-	wxString md5(wxString inputString);
+    wxString encryptUrlData(wxString InputString);
+    wxString encrypt(wxString InputString, wxString passwd);
+    wxString md5(wxString inputString);
 
 private:
-	void to_bytes(uint32_t val, uint8_t *bytes);
-	uint32_t to_int32(const uint8_t *bytes);
+    void to_bytes(uint32_t val, uint8_t *bytes);
+    uint32_t to_int32(const uint8_t *bytes);
 
 };
 

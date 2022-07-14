@@ -2,7 +2,7 @@
 <html>
 <title>Installation Elf/Os via Biosio</title>
 <body>
-<h2>Installation Elf/Os via Biosio</h2>
+<h1>Installation Elf/Os via Biosio</h1>
 <p>
 Elf Os is a disk based operating system for Elf class computers designed by Mike Riley, for additional information see also: <a href="http://www.elf-emulation.com">Elf/1802 Emulation</a>.
 </p>
@@ -12,7 +12,13 @@ The installation procedure for Elf/Os described below makes use of the adapted v
 <p>
 The following example will install Elf/Os 2.5 via TMS 9918 video. The same procedure can be used for other video types. </p>
 <p>
-Load the TMS 9918 installation configuration via the 'File/Configuration/Elf/Os Installation/2.5 - BIOSIO - TMS 9918' menu or use the following settings:
+To start installation, first load one of the configuration with the menu option below (blue ellipse) following the grey menu:
+</p>
+<p>
+<IMG SRC="images/elf_elfos_biosio.png" BORDER="0">
+</p>
+<p>
+The example below is using the TMS 9918 configuration:
 </p>
 <pre>
 ROM 1: biosio.elfos.0.2.5.rom 
@@ -27,9 +33,9 @@ Uppercase: selected</pre>
 <p>
 To start installation of Elf/Os follow these steps:
 </p>
-<h3>
+<h2>
 1. Press start
-</h3>
+</h2>
 <p>
 This should start one of the Elf computer windows and a TMS 9918 window which should show this menu: 
 </p>
@@ -43,9 +49,9 @@ This should start one of the Elf computer windows and a TMS 9918 window which sh
 
       Option ?</pre>
 <p>
-<h3>
+<h2>
 2. Select option 1> Run hard drive init tool
-</h3>
+</h2>
 <p>
 Choose Q for Quick format, which will initialize the hard drive. When the init is complete, you should see something similar to: 
 <pre>
@@ -56,9 +62,9 @@ After this the menu will be redrawn.
 </p>
 <p>
 Note: This step only needs to be performed once. If you have already run the hard drive init tool on your emulated drives, you will never need to run it again. 
-<h3>
+<h2>
 3. Select option 2> Run filesystem gen tool
-</h3>
+</h2>
 <p>
 This will setup the filesystem on the disk. After running this step you should see something similar to: 
 <pre>
@@ -74,16 +80,16 @@ After which you again get the installation menu.
 </p>
 <p>
 Note: This step you also normally need to run only once. You would only need to run this option again if you desire to wipe out the contents of your drive. 
-<h3>
+<h2>
 4. Select option 3> Run sys tool
-</h3>
+</h2>
 <p>
 This will copy the OS kernel to the hard disk. You should see: 
 <pre>
   System copied.</pre>
-<h3>
+<h2>
 5. Select option 4> Install Binaries
-</h3>
+</h2>
 <p>
 This will install the binary utilities onto the disk. 
 </p>
@@ -113,17 +119,17 @@ STAT - View file statistics<br>
 PIXINIZOS - This program allows running Elf/Os on a Pixie window<br>
 VIDINIZOS - This program allows running Elf/Os on a MC6845/MC6847 window<br>
 TMSINIZOS - This program allows running Elf/Os on a TMS 9918 window
-<h3>
+<h2>
 6. Select option 5> Boot Elf/Os
-</h3>
+</h2>
 <p>
 This will boot Elf/Os and then you should see: 
 </p>
 <pre>
   Elf/OS Ready</pre>
-<h3>
+<h2>
 7. Copy TMSINIZOS INIT 
-</h3>
+</h2>
 <p>
 When started in Elf/Os you can initialize TMSINIZOS as default INIT program by typing:
 </p>
@@ -132,10 +138,17 @@ When started in Elf/Os you can initialize TMSINIZOS as default INIT program by t
 <p>
 Wait until the Elf/OS Ready prompt comes back and switch off the Elf system.
 </p>
-<h3>
+<h2>
 8. Start Elf/Os 
-</h3>
-From this time on you can start Elf/Os directly by selecting 'ElfOs 2.5 with BIOSIO for TMS 9918' from the 'Settings/Configuration/Elf Configuration' menu or by changing the following setting in the Emma 02 window:
+</h2>
+<p>
+From this time on you can start Elf/Os directly by loading one of the configuration with the menu option below (blue ellipse) following the grey menu:
+</p>
+<p>
+<IMG SRC="images/elf_elfos_biosio_run.png" BORDER="0">
+</p>
+<p>
+Or alternatively by changing the following setting in the Emma 02 window:
 </p>
 <pre>
 ROM 1: bios+biosiov93.rom 
@@ -144,9 +157,9 @@ Boot address: FF00</pre>
 <p>
 Instead of using the combined bios and biosio rom file supplied with the Emma 02 emulator you can also load separate rom files for the bios and biosio as ROM 1 and 2.
 </p>
-<h3>
+<h2>
 9. Using other video types
-</h3>
+</h2>
 <p>
 To use different video types copy the desired xxxINIZOS files to INIT instead. Note that after a different OS file is copied to INIT that specific .ide disk file is not usable on any other video system anymore. To revert back to the original video system copy the correct OS file back or delete the INIT file. The INIT file can also be deleted by using 'disktool' available from Cosmac Elf yahoo group (http://groups.yahoo.com/group/cosmacelf/) under the files/ElfOs section.
 </p>

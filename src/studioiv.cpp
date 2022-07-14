@@ -31,99 +31,100 @@
 #include "main.h"
 #include "studioiv.h"
 
-StudioIV::StudioIV(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType)
+StudioIV::StudioIV(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, Conf computerConf)
 :Pixie(title, pos, size, zoom, zoomfactor, computerType)
 {
+    computerConfiguration = computerConf;
 }
 
 StudioIV::~StudioIV()
 {
-	p_Main->setMainPos(STUDIOIV, GetPosition());
+    p_Main->setMainPos(STUDIOIV, GetPosition());
 }
 
 void StudioIV::configureComputer()
 {
     outType_[1] = VIPOUT4;
-	outType_[2] = STUDIOOUT;
-	outType_[7] = VIPIIOUT7;
-	victoryKeyPort_ = 0;
-	efType_[2] = VIPEF2;
-	efType_[3] = STUDIOEF3;
-	efType_[4] = STUDIOEF4;
+    outType_[2] = STUDIOOUT;
+    outType_[7] = VIPIIOUT7;
+    victoryKeyPort_ = 0;
+    efType_[2] = VIPEF2;
+    efType_[3] = STUDIOEF3;
+    efType_[4] = STUDIOEF4;
 
     cycleType_[COMPUTERCYCLE] = VIPIIKEYCYCLE;
 
-	for (int j=0; j<2; j++) for (int i=0; i<16; i++)
-		victoryKeyState_[j][i] = 0;
+    for (int j=0; j<2; j++) for (int i=0; i<16; i++)
+        victoryKeyState_[j][i] = 0;
 
-	p_Main->message("Configuring Studio IV");
-    p_Main->message("	Output 1: tone latch");
-	p_Main->message("	Output 2: select port, EF 3: read selected port 1, EF4: read selected port 2");
-	p_Main->message("	output 7: cassette on/off, EF 2: cassette in\n");
+    p_Main->message("Configuring Studio IV");
+    p_Main->message("    Output 1: tone latch");
+    p_Main->message("    Output 2: select port, EF 3: read selected port 1, EF4: read selected port 2");
+    p_Main->message("    output 7: cassette on/off, EF 2: cassette in\n");
 
-	p_Main->getDefaultHexKeys(STUDIOIV, "StudioIV", "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
-	p_Main->getDefaultHexKeys(STUDIOIV, "StudioIV", "B", keyDefB1_, keyDefB2_, keyDefGameHexB_);
+    p_Main->getDefaultHexKeys(STUDIOIV, "StudioIV", "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
+    p_Main->getDefaultHexKeys(STUDIOIV, "StudioIV", "B", keyDefB1_, keyDefB2_, keyDefGameHexB_);
 
     gameAuto_ = p_Main->getConfigBool("/StudioIV/GameAuto", true);
 
-	simDefA2_ = p_Main->getConfigBool("/StudioIV/DiagonalA2", false);
+    simDefA2_ = p_Main->getConfigBool("/StudioIV/DiagonalA2", false);
     simDefB2_ = p_Main->getConfigBool("/StudioIV/DiagonalB2", false);
     
     keyboardValue_ = 0;
     shiftKey_ = 0;
     addressLatch_ = 0x8000;
 
-	resetCpu();
+    resetCpu();
 }
 
 void StudioIV::reDefineKeysA(int hexKeyDefA1[], int hexKeyDefA2[])
 {
-	for (int i=0; i<512; i++)
-	{
-		keyDefinition[i].defined = false;
-	}
-	for (int i=0; i<16; i++)
-	{
-		keyDefA1_[i] = hexKeyDefA1[i];
-		if (hexKeyDefA1[i] != 0)
-		{
-			keyDefinition[keyDefA1_[i]].defined = true;
-			keyDefinition[keyDefA1_[i]].player = 0;
+    for (int i=0; i<512; i++)
+    {
+        keyDefinition[i].defined = false;
+    }
+    for (int i=0; i<16; i++)
+    {
+        keyDefA1_[i] = hexKeyDefA1[i];
+        if (hexKeyDefA1[i] != 0)
+        {
+            keyDefinition[keyDefA1_[i]].defined = true;
+            keyDefinition[keyDefA1_[i]].player = 0;
             keyDefinition[keyDefA1_[i]].key = i;
             keyDefinition[keyDefA1_[i]].shift = false;
-		}
-		keyDefA2_[i] = hexKeyDefA2[i];
-		if (hexKeyDefA2[i] != 0)
-		{
-			keyDefinition[keyDefA2_[i]].defined = true;
-			keyDefinition[keyDefA2_[i]].player = 0;
-			keyDefinition[keyDefA2_[i]].key = i;
+        }
+        keyDefA2_[i] = hexKeyDefA2[i];
+        if (hexKeyDefA2[i] != 0)
+        {
+            keyDefinition[keyDefA2_[i]].defined = true;
+            keyDefinition[keyDefA2_[i]].player = 0;
+            keyDefinition[keyDefA2_[i]].key = i;
             keyDefinition[keyDefA2_[i]].shift = true;
-		}
-	}
+        }
+    }
 }
 
 void StudioIV::reDefineKeysB(int hexKeyDefB1[], int hexKeyDefB2[])
 {
-	for (int i = 0; i<16; i++)
-	{
-		keyDefB1_[i] = hexKeyDefB1[i];
-		if (hexKeyDefB1[i] != 0)
-		{
-			keyDefinition[keyDefB1_[i]].defined = true;
-			keyDefinition[keyDefB1_[i]].player = 1;
-			keyDefinition[keyDefB1_[i]].key = i;
+    for (int i = 0; i<16; i++)
+    {
+        keyDefB1_[i] = hexKeyDefB1[i];
+        if (hexKeyDefB1[i] != 0)
+        {
+            keyDefinition[keyDefB1_[i]].defined = true;
+            keyDefinition[keyDefB1_[i]].player = 1;
+            keyDefinition[keyDefB1_[i]].key = i;
             keyDefinition[keyDefB1_[i]].shift = false;
-		}
-		keyDefB2_[i] = hexKeyDefB2[i];
-		if (hexKeyDefB2[i] != 0)
-		{
-			keyDefinition[keyDefB2_[i]].defined = true;
-			keyDefinition[keyDefB2_[i]].player = 1;
-			keyDefinition[keyDefB2_[i]].key = i;
+        }
+        keyDefB2_[i] = hexKeyDefB2[i];
+        if (hexKeyDefB2[i] != 0)
+        {
+            keyDefinition[keyDefB2_[i]].defined = true;
+            keyDefinition[keyDefB2_[i]].player = 1;
+            keyDefinition[keyDefB2_[i]].key = i;
             keyDefinition[keyDefB2_[i]].shift = true;
-		}
-	}
+        }
+    }
 }
 
 void StudioIV::keyDown(int keycode)
@@ -134,151 +135,151 @@ void StudioIV::keyDown(int keycode)
         victoryKeyState_[1][0xf] = 1;
     }
     
-	if (keyDefinition[keycode].defined)
-	{
-		if (simDefA2_)
-		{
-			if (keycode == keyDefA2_[2])
-			{
-				if (::wxGetKeyState((wxKeyCode)keyDefA2_[4]) == true)
-				{
-					victoryKeyState_[0][keyDefinition[keyDefA2_[2]].key - 1] = 1;
-					victoryKeyState_[0][keyDefinition[keyDefA2_[2]].key] = 0;
-					victoryKeyState_[0][keyDefinition[keyDefA2_[4]].key] = 0;
-					return;
-				}
-				if (::wxGetKeyState((wxKeyCode)keyDefA2_[6]) == true)
-				{
-					victoryKeyState_[0][keyDefinition[keyDefA2_[2]].key + 1] = 1;
-					victoryKeyState_[0][keyDefinition[keyDefA2_[2]].key] = 0;
-					victoryKeyState_[0][keyDefinition[keyDefA2_[6]].key] = 0;
-					return;
-				}
-			}
-			if (keycode == keyDefA2_[4])
-			{
-				if (::wxGetKeyState((wxKeyCode)keyDefA2_[2]) == true)
-				{
-					victoryKeyState_[0][keyDefinition[keyDefA2_[2]].key - 1] = 1;
-					victoryKeyState_[0][keyDefinition[keyDefA2_[2]].key] = 0;
-					victoryKeyState_[0][keyDefinition[keyDefA2_[4]].key] = 0;
-					return;
-				}
-				if (::wxGetKeyState((wxKeyCode)keyDefA2_[8]) == true)
-				{
-					victoryKeyState_[0][keyDefinition[keyDefA2_[8]].key - 1] = 1;
-					victoryKeyState_[0][keyDefinition[keyDefA2_[8]].key] = 0;
-					victoryKeyState_[0][keyDefinition[keyDefA2_[4]].key] = 0;
-					return;
-				}
-			}
-			if (keycode == keyDefA2_[6])
-			{
-				if (::wxGetKeyState((wxKeyCode)keyDefA2_[2]) == true)
-				{
-					victoryKeyState_[0][keyDefinition[keyDefA2_[2]].key + 1] = 1;
-					victoryKeyState_[0][keyDefinition[keyDefA2_[2]].key] = 0;
-					victoryKeyState_[0][keyDefinition[keyDefA2_[6]].key] = 0;
-					return;
-				}
-				if (::wxGetKeyState((wxKeyCode)keyDefA2_[8]) == true)
-				{
-					victoryKeyState_[0][keyDefinition[keyDefA2_[8]].key + 1] = 1;
-					victoryKeyState_[0][keyDefinition[keyDefA2_[8]].key] = 0;
-					victoryKeyState_[0][keyDefinition[keyDefA2_[6]].key] = 0;
-					return;
-				}
-			}
-			if (keycode == keyDefA2_[8])
-			{
-				if (::wxGetKeyState((wxKeyCode)keyDefA2_[4]) == true)
-				{
-					victoryKeyState_[0][keyDefinition[keyDefA2_[8]].key - 1] = 1;
-					victoryKeyState_[0][keyDefinition[keyDefA2_[8]].key] = 0;
-					victoryKeyState_[0][keyDefinition[keyDefA2_[4]].key] = 0;
-					return;
-				}
-				if (::wxGetKeyState((wxKeyCode)keyDefA2_[6]) == true)
-				{
-					victoryKeyState_[0][keyDefinition[keyDefA2_[8]].key + 1] = 1;
-					victoryKeyState_[0][keyDefinition[keyDefA2_[8]].key] = 0;
-					victoryKeyState_[0][keyDefinition[keyDefA2_[6]].key] = 0;
-					return;
-				}
-			}
-		}
+    if (keyDefinition[keycode].defined)
+    {
+        if (simDefA2_)
+        {
+            if (keycode == keyDefA2_[2])
+            {
+                if (::wxGetKeyState((wxKeyCode)keyDefA2_[4]) == true)
+                {
+                    victoryKeyState_[0][keyDefinition[keyDefA2_[2]].key - 1] = 1;
+                    victoryKeyState_[0][keyDefinition[keyDefA2_[2]].key] = 0;
+                    victoryKeyState_[0][keyDefinition[keyDefA2_[4]].key] = 0;
+                    return;
+                }
+                if (::wxGetKeyState((wxKeyCode)keyDefA2_[6]) == true)
+                {
+                    victoryKeyState_[0][keyDefinition[keyDefA2_[2]].key + 1] = 1;
+                    victoryKeyState_[0][keyDefinition[keyDefA2_[2]].key] = 0;
+                    victoryKeyState_[0][keyDefinition[keyDefA2_[6]].key] = 0;
+                    return;
+                }
+            }
+            if (keycode == keyDefA2_[4])
+            {
+                if (::wxGetKeyState((wxKeyCode)keyDefA2_[2]) == true)
+                {
+                    victoryKeyState_[0][keyDefinition[keyDefA2_[2]].key - 1] = 1;
+                    victoryKeyState_[0][keyDefinition[keyDefA2_[2]].key] = 0;
+                    victoryKeyState_[0][keyDefinition[keyDefA2_[4]].key] = 0;
+                    return;
+                }
+                if (::wxGetKeyState((wxKeyCode)keyDefA2_[8]) == true)
+                {
+                    victoryKeyState_[0][keyDefinition[keyDefA2_[8]].key - 1] = 1;
+                    victoryKeyState_[0][keyDefinition[keyDefA2_[8]].key] = 0;
+                    victoryKeyState_[0][keyDefinition[keyDefA2_[4]].key] = 0;
+                    return;
+                }
+            }
+            if (keycode == keyDefA2_[6])
+            {
+                if (::wxGetKeyState((wxKeyCode)keyDefA2_[2]) == true)
+                {
+                    victoryKeyState_[0][keyDefinition[keyDefA2_[2]].key + 1] = 1;
+                    victoryKeyState_[0][keyDefinition[keyDefA2_[2]].key] = 0;
+                    victoryKeyState_[0][keyDefinition[keyDefA2_[6]].key] = 0;
+                    return;
+                }
+                if (::wxGetKeyState((wxKeyCode)keyDefA2_[8]) == true)
+                {
+                    victoryKeyState_[0][keyDefinition[keyDefA2_[8]].key + 1] = 1;
+                    victoryKeyState_[0][keyDefinition[keyDefA2_[8]].key] = 0;
+                    victoryKeyState_[0][keyDefinition[keyDefA2_[6]].key] = 0;
+                    return;
+                }
+            }
+            if (keycode == keyDefA2_[8])
+            {
+                if (::wxGetKeyState((wxKeyCode)keyDefA2_[4]) == true)
+                {
+                    victoryKeyState_[0][keyDefinition[keyDefA2_[8]].key - 1] = 1;
+                    victoryKeyState_[0][keyDefinition[keyDefA2_[8]].key] = 0;
+                    victoryKeyState_[0][keyDefinition[keyDefA2_[4]].key] = 0;
+                    return;
+                }
+                if (::wxGetKeyState((wxKeyCode)keyDefA2_[6]) == true)
+                {
+                    victoryKeyState_[0][keyDefinition[keyDefA2_[8]].key + 1] = 1;
+                    victoryKeyState_[0][keyDefinition[keyDefA2_[8]].key] = 0;
+                    victoryKeyState_[0][keyDefinition[keyDefA2_[6]].key] = 0;
+                    return;
+                }
+            }
+        }
 
-		if (simDefB2_)
-		{
-			if (keycode == keyDefB2_[2])
-			{
-				if (::wxGetKeyState((wxKeyCode)keyDefB2_[4]) == true)
-				{
-					victoryKeyState_[1][keyDefinition[keyDefB2_[2]].key - 1] = 1;
-					victoryKeyState_[1][keyDefinition[keyDefB2_[2]].key] = 0;
-					victoryKeyState_[1][keyDefinition[keyDefB2_[4]].key] = 0;
-					return;
-				}
-				if (::wxGetKeyState((wxKeyCode)keyDefB2_[6]) == true)
-				{
-					victoryKeyState_[1][keyDefinition[keyDefB2_[2]].key + 1] = 1;
-					victoryKeyState_[1][keyDefinition[keyDefB2_[2]].key] = 0;
-					victoryKeyState_[1][keyDefinition[keyDefB2_[6]].key] = 0;
-					return;
-				}
-			}
-			if (keycode == keyDefB2_[4])
-			{
-				if (::wxGetKeyState((wxKeyCode)keyDefB2_[2]) == true)
-				{
-					victoryKeyState_[1][keyDefinition[keyDefB2_[2]].key - 1] = 1;
-					victoryKeyState_[1][keyDefinition[keyDefB2_[2]].key] = 0;
-					victoryKeyState_[1][keyDefinition[keyDefB2_[4]].key] = 0;
-					return;
-				}
-				if (::wxGetKeyState((wxKeyCode)keyDefB2_[8]) == true)
-				{
-					victoryKeyState_[1][keyDefinition[keyDefB2_[8]].key - 1] = 1;
-					victoryKeyState_[1][keyDefinition[keyDefB2_[8]].key] = 0;
-					victoryKeyState_[1][keyDefinition[keyDefB2_[4]].key] = 0;
-					return;
-				}
-			}
-			if (keycode == keyDefB2_[6])
-			{
-				if (::wxGetKeyState((wxKeyCode)keyDefB2_[2]) == true)
-				{
-					victoryKeyState_[1][keyDefinition[keyDefB2_[2]].key + 1] = 1;
-					victoryKeyState_[1][keyDefinition[keyDefB2_[2]].key] = 0;
-					victoryKeyState_[1][keyDefinition[keyDefB2_[6]].key] = 0;
-					return;
-				}
-				if (::wxGetKeyState((wxKeyCode)keyDefB2_[8]) == true)
-				{
-					victoryKeyState_[1][keyDefinition[keyDefB2_[8]].key + 1] = 1;
-					victoryKeyState_[1][keyDefinition[keyDefB2_[8]].key] = 0;
-					victoryKeyState_[1][keyDefinition[keyDefB2_[6]].key] = 0;
-					return;
-				}
-			}
-			if (keycode == keyDefB2_[8])
-			{
-				if (::wxGetKeyState((wxKeyCode)keyDefB2_[4]) == true)
-				{
-					victoryKeyState_[1][keyDefinition[keyDefB2_[8]].key - 1] = 1;
-					victoryKeyState_[1][keyDefinition[keyDefB2_[8]].key] = 0;
-					victoryKeyState_[1][keyDefinition[keyDefB2_[4]].key] = 0;
-					return;
-				}
-				if (::wxGetKeyState((wxKeyCode)keyDefB2_[6]) == true)
-				{
-					victoryKeyState_[1][keyDefinition[keyDefB2_[8]].key + 1] = 1;
-					victoryKeyState_[1][keyDefinition[keyDefB2_[8]].key] = 0;
-					victoryKeyState_[1][keyDefinition[keyDefB2_[6]].key] = 0;
-					return;
-				}
-			}
-		}
+        if (simDefB2_)
+        {
+            if (keycode == keyDefB2_[2])
+            {
+                if (::wxGetKeyState((wxKeyCode)keyDefB2_[4]) == true)
+                {
+                    victoryKeyState_[1][keyDefinition[keyDefB2_[2]].key - 1] = 1;
+                    victoryKeyState_[1][keyDefinition[keyDefB2_[2]].key] = 0;
+                    victoryKeyState_[1][keyDefinition[keyDefB2_[4]].key] = 0;
+                    return;
+                }
+                if (::wxGetKeyState((wxKeyCode)keyDefB2_[6]) == true)
+                {
+                    victoryKeyState_[1][keyDefinition[keyDefB2_[2]].key + 1] = 1;
+                    victoryKeyState_[1][keyDefinition[keyDefB2_[2]].key] = 0;
+                    victoryKeyState_[1][keyDefinition[keyDefB2_[6]].key] = 0;
+                    return;
+                }
+            }
+            if (keycode == keyDefB2_[4])
+            {
+                if (::wxGetKeyState((wxKeyCode)keyDefB2_[2]) == true)
+                {
+                    victoryKeyState_[1][keyDefinition[keyDefB2_[2]].key - 1] = 1;
+                    victoryKeyState_[1][keyDefinition[keyDefB2_[2]].key] = 0;
+                    victoryKeyState_[1][keyDefinition[keyDefB2_[4]].key] = 0;
+                    return;
+                }
+                if (::wxGetKeyState((wxKeyCode)keyDefB2_[8]) == true)
+                {
+                    victoryKeyState_[1][keyDefinition[keyDefB2_[8]].key - 1] = 1;
+                    victoryKeyState_[1][keyDefinition[keyDefB2_[8]].key] = 0;
+                    victoryKeyState_[1][keyDefinition[keyDefB2_[4]].key] = 0;
+                    return;
+                }
+            }
+            if (keycode == keyDefB2_[6])
+            {
+                if (::wxGetKeyState((wxKeyCode)keyDefB2_[2]) == true)
+                {
+                    victoryKeyState_[1][keyDefinition[keyDefB2_[2]].key + 1] = 1;
+                    victoryKeyState_[1][keyDefinition[keyDefB2_[2]].key] = 0;
+                    victoryKeyState_[1][keyDefinition[keyDefB2_[6]].key] = 0;
+                    return;
+                }
+                if (::wxGetKeyState((wxKeyCode)keyDefB2_[8]) == true)
+                {
+                    victoryKeyState_[1][keyDefinition[keyDefB2_[8]].key + 1] = 1;
+                    victoryKeyState_[1][keyDefinition[keyDefB2_[8]].key] = 0;
+                    victoryKeyState_[1][keyDefinition[keyDefB2_[6]].key] = 0;
+                    return;
+                }
+            }
+            if (keycode == keyDefB2_[8])
+            {
+                if (::wxGetKeyState((wxKeyCode)keyDefB2_[4]) == true)
+                {
+                    victoryKeyState_[1][keyDefinition[keyDefB2_[8]].key - 1] = 1;
+                    victoryKeyState_[1][keyDefinition[keyDefB2_[8]].key] = 0;
+                    victoryKeyState_[1][keyDefinition[keyDefB2_[4]].key] = 0;
+                    return;
+                }
+                if (::wxGetKeyState((wxKeyCode)keyDefB2_[6]) == true)
+                {
+                    victoryKeyState_[1][keyDefinition[keyDefB2_[8]].key + 1] = 1;
+                    victoryKeyState_[1][keyDefinition[keyDefB2_[8]].key] = 0;
+                    victoryKeyState_[1][keyDefinition[keyDefB2_[6]].key] = 0;
+                    return;
+                }
+            }
+        }
         
         if (keyDefinition[keycode].shift && (pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBAS1978" || pseudoType_ == "AM4KBASPLUS" || pseudoType_ == "AM4KBAS2020"))
         {
@@ -289,7 +290,7 @@ void StudioIV::keyDown(int keycode)
         }
         else
             victoryKeyState_[keyDefinition[keycode].player][keyDefinition[keycode].key] = 1;
-	}
+    }
 //    keyboardValue_ = 0;
 }
 
@@ -302,7 +303,7 @@ void StudioIV::keyUp(int keycode)
     }
 
     if (simDefA2_)
-	{
+    {
         if (keycode == keyDefA2_[2] || keycode == keyDefA2_[4] || keycode == keyDefA2_[6] || keycode == keyDefA2_[8])
         {
             victoryKeyState_[0][keyDefinition[keyDefA2_[2]].key-1] = 0;
@@ -318,25 +319,25 @@ void StudioIV::keyUp(int keycode)
             if (::wxGetKeyState((wxKeyCode)keyDefA2_[8]) == true)
                 victoryKeyState_[0][keyDefinition[keyDefA2_[8]].key] = 1;
         }
-	}
-	if (simDefB2_)
-	{
-		if (keycode == keyDefB2_[2] || keycode == keyDefB2_[4] || keycode == keyDefB2_[6] || keycode == keyDefB2_[8])
-		{
-			victoryKeyState_[1][keyDefinition[keyDefB2_[2]].key - 1] = 0;
-			victoryKeyState_[1][keyDefinition[keyDefB2_[2]].key + 1] = 0;
-			victoryKeyState_[1][keyDefinition[keyDefB2_[8]].key - 1] = 0;
-			victoryKeyState_[1][keyDefinition[keyDefB2_[8]].key + 1] = 0;
-			if (::wxGetKeyState((wxKeyCode)keyDefB2_[2]) == true)
-				victoryKeyState_[1][keyDefinition[keyDefB2_[2]].key] = 1;
-			if (::wxGetKeyState((wxKeyCode)keyDefB2_[4]) == true)
-				victoryKeyState_[1][keyDefinition[keyDefB2_[4]].key] = 1;
-			if (::wxGetKeyState((wxKeyCode)keyDefB2_[6]) == true)
-				victoryKeyState_[1][keyDefinition[keyDefB2_[6]].key] = 1;
-			if (::wxGetKeyState((wxKeyCode)keyDefB2_[8]) == true)
-				victoryKeyState_[1][keyDefinition[keyDefB2_[8]].key] = 1;
-		}
-	}
+    }
+    if (simDefB2_)
+    {
+        if (keycode == keyDefB2_[2] || keycode == keyDefB2_[4] || keycode == keyDefB2_[6] || keycode == keyDefB2_[8])
+        {
+            victoryKeyState_[1][keyDefinition[keyDefB2_[2]].key - 1] = 0;
+            victoryKeyState_[1][keyDefinition[keyDefB2_[2]].key + 1] = 0;
+            victoryKeyState_[1][keyDefinition[keyDefB2_[8]].key - 1] = 0;
+            victoryKeyState_[1][keyDefinition[keyDefB2_[8]].key + 1] = 0;
+            if (::wxGetKeyState((wxKeyCode)keyDefB2_[2]) == true)
+                victoryKeyState_[1][keyDefinition[keyDefB2_[2]].key] = 1;
+            if (::wxGetKeyState((wxKeyCode)keyDefB2_[4]) == true)
+                victoryKeyState_[1][keyDefinition[keyDefB2_[4]].key] = 1;
+            if (::wxGetKeyState((wxKeyCode)keyDefB2_[6]) == true)
+                victoryKeyState_[1][keyDefinition[keyDefB2_[6]].key] = 1;
+            if (::wxGetKeyState((wxKeyCode)keyDefB2_[8]) == true)
+                victoryKeyState_[1][keyDefinition[keyDefB2_[8]].key] = 1;
+        }
+    }
     if (keyDefinition[keycode].defined)
         victoryKeyState_[keyDefinition[keycode].player][keyDefinition[keycode].key] = 0;
     if (keyDefinition[keycode].shift && (pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBAS1978" || pseudoType_ == "AM4KBASPLUS" || pseudoType_ == "AM4KBAS2020"))
@@ -348,17 +349,17 @@ void StudioIV::keyUp(int keycode)
 
 Byte StudioIV::ef(int flag)
 {
-	switch(efType_[flag])
-	{
-		case 0:
-			return 1;
-		break;
+    switch(efType_[flag])
+    {
+        case 0:
+            return 1;
+        break;
 
-		case PIXIEEF:
-			return efPixie();
-		break;
+        case PIXIEEF:
+            return efPixie();
+        break;
 
-		case VIPEF2:
+        case VIPEF2:
             if (tapeFinished_ > 0)
             {
                 if ((tapeFinished_ & 0xff) == 0)
@@ -367,97 +368,97 @@ Byte StudioIV::ef(int flag)
                 if (tapeFinished_ == 0)
                     cassetteEf_ = 0;
             }
-			return cassetteEf_;
-		break;
+            return cassetteEf_;
+        break;
 
-		case STUDIOEF3:
-			return ef3();
-		break;
+        case STUDIOEF3:
+            return ef3();
+        break;
 
-		case STUDIOEF4:
-			return ef4();
-		break;
+        case STUDIOEF4:
+            return ef4();
+        break;
 
-		default:
-			return 1;
-	}
+        default:
+            return 1;
+    }
 }
 
 Byte StudioIV::ef3()
 {
-	if (victoryKeyPort_<0 || victoryKeyPort_>16)
-		return 1;
-	return(victoryKeyState_[0][victoryKeyPort_]) ? 0 : 1;
+    if (victoryKeyPort_<0 || victoryKeyPort_>16)
+        return 1;
+    return(victoryKeyState_[0][victoryKeyPort_]) ? 0 : 1;
 }
 
 Byte StudioIV::ef4()
 {
-	if (victoryKeyPort_<0 || victoryKeyPort_>16)
-		return 1;
-	return(victoryKeyState_[1][victoryKeyPort_]) ? 0 : 1;
+    if (victoryKeyPort_<0 || victoryKeyPort_>16)
+        return 1;
+    return(victoryKeyState_[1][victoryKeyPort_]) ? 0 : 1;
 }
 
 Byte StudioIV::in(Byte port, Word WXUNUSED(address))
 {
-	Byte ret;
+    Byte ret;
 
-	switch(inType_[port])
-	{
-		case 0:
-			ret = 255;
-		break;
+    switch(inType_[port])
+    {
+        case 0:
+            ret = 255;
+        break;
 
-		case PIXIEIN:
-			ret = inPixie();
-		break;
+        case PIXIEIN:
+            ret = inPixie();
+        break;
 
-		default:
-			ret = 255;
-	}
-	inValues_[port] = ret;
-	return ret;
+        default:
+            ret = 255;
+    }
+    inValues_[port] = ret;
+    return ret;
 }
 
 void StudioIV::out(Byte port, Word WXUNUSED(address), Byte value)
 {
-	outValues_[port] = value;
+    outValues_[port] = value;
 
-	switch(outType_[port])
-	{
-		case 0:
-			return;
-		break;
+    switch(outType_[port])
+    {
+        case 0:
+            return;
+        break;
 
-		case STUDIOOUT:
-			outStudioIV(value);
-		break;
+        case STUDIOOUT:
+            outStudioIV(value);
+        break;
 
         case PIXIEOUT:
             outPixieStudioIV(value);
         break;
             
         case VIPOUT4:
-			tone1864Latch(value);
-		break;
+            tone1864Latch(value);
+        break;
 
-		case STUDIOIVDMA:
+        case STUDIOIVDMA:
             dmaEnable();
-		break;
+        break;
 
-		case VIPIIOUT7:
-			if (value == 1)
-			{
-				p_Main->startCassetteLoad(0);
-				return;
-			}
-			if (value == 2)
-			{
-				p_Main->startCassetteSave(0);
-				return;
-			}
-			p_Main->stopCassette();
-		break;
-	}
+        case VIPIIOUT7:
+            if (value == 1)
+            {
+                p_Main->startCassetteLoad(0);
+                return;
+            }
+            if (value == 2)
+            {
+                p_Main->startCassetteSave(0);
+                return;
+            }
+            p_Main->stopCassette();
+        break;
+    }
 }
 
 void StudioIV::finishStopTape()
@@ -467,7 +468,7 @@ void StudioIV::finishStopTape()
 
 void StudioIV::outStudioIV(Byte value)
 {
-	victoryKeyPort_ = value & 0xf;
+    victoryKeyPort_ = value & 0xf;
 }
 
 void StudioIV::cycle(int type)
@@ -475,14 +476,14 @@ void StudioIV::cycle(int type)
     int address = 0x3F0;
     
     switch(cycleType_[type])
-	{
-		case 0:
-			return;
-		break;
+    {
+        case 0:
+            return;
+        break;
 
-		case PIXIECYCLE:
-			cyclePixieStudioIV();
-		break;
+        case PIXIECYCLE:
+            cyclePixieStudioIV();
+        break;
             
         case VIPIIKEYCYCLE:
             if (ctrlvTextCharNum_ != 0)
@@ -571,9 +572,9 @@ int StudioIV::translateKey(int key)
 
 void StudioIV::startComputer()
 {
-	resetPressed_ = false;
+    resetPressed_ = false;
 
-	p_Main->setSwName("");
+    p_Main->setSwName("");
 
     p_Main->checkAndReInstallMainRom(STUDIOIV);
     
@@ -592,18 +593,18 @@ void StudioIV::startComputer()
     defineMemoryType(0x1800, 0x27FF, RAM);
     initRam(0x1800, 0x27FF);
     
-	double zoom = p_Main->getZoom();
+    double zoom = p_Main->getZoom();
 
-	configurePixieStudioIV();
-	initPixie();
-	setZoom(zoom);
-	Show(true);
-	setWait(1);
-	setClear(0);
-	setWait(1);
-	setClear(1);
+    configurePixieStudioIV();
+    initPixie();
+    setZoom(zoom);
+    Show(true);
+    setWait(1);
+    setClear(0);
+    setWait(1);
+    setClear(1);
 
-	cassetteEf_ = 0;
+    cassetteEf_ = 0;
 
     if (gameAuto_)
         p_Main->loadKeyDefinition(p_Main->getRomFile(STUDIOIV, MAINROM1), p_Main->getRomFile(STUDIOIV, CARTROM), keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
@@ -645,16 +646,16 @@ void StudioIV::startComputer()
         initRam(0x2800, 0x2BFF);
     }
 
-	reDefineKeysA(keyDefA1_, keyDefA2_);
-	reDefineKeysB(keyDefB1_, keyDefB2_);
+    reDefineKeysA(keyDefA1_, keyDefA2_);
+    reDefineKeysB(keyDefB1_, keyDefB2_);
 
-	p_Main->updateTitle();
+    p_Main->updateTitle();
 
-	cpuCycles_ = 0;
-	instructionCounter_= 0;
-	p_Main->startTime();
+    cpuCycles_ = 0;
+    instructionCounter_= 0;
+    p_Main->startTime();
 
-	threadPointer->Run();
+    threadPointer->Run();
 }
 
 void StudioIV::startComputer2020()
@@ -685,7 +686,7 @@ void StudioIV::startComputer2020()
     p_Main->updateTitle();
     
     cpuCycles_ = 0;
-	instructionCounter_= 0;
+    instructionCounter_= 0;
     p_Main->startTime();
  
     pseudoType_ = "AM4KBAS2020";
@@ -700,10 +701,10 @@ void StudioIV::startComputer2020()
 
 void StudioIV::writeMemDataType(Word address, Byte type)
 {
-	switch (memoryType_[address/256])
-	{
-		case RAM:
-		case ROM:
+    switch (memoryType_[address/256]&0xff)
+    {
+        case RAM:
+        case ROM:
             if (mainMemoryDataType_[address] != type)
             {
                 p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
@@ -716,16 +717,16 @@ void StudioIV::writeMemDataType(Word address, Byte type)
 
 Byte StudioIV::readMemDataType(Word address, uint64_t* executed)
 {
-	switch (memoryType_[address/256])
-	{
-		case RAM:
-		case ROM:
+    switch (memoryType_[address/256]&0xff)
+    {
+        case RAM:
+        case ROM:
             if (profilerCounter_ != PROFILER_OFF)
                 *executed = mainMemoryExecuted_[address];
             return mainMemoryDataType_[address];
         break;
     }
-	return MEM_TYPE_UNDEFINED;
+    return MEM_TYPE_UNDEFINED;
 }
 
 Byte StudioIV::readMem(Word address)
@@ -736,11 +737,11 @@ Byte StudioIV::readMem(Word address)
     if (st2020Active_)
         address |= addressLatch_;
     
-	switch (memoryType_[address/256])
-	{
-		case UNDEFINED:
-			return 255;
-		break;
+    switch (memoryType_[address/256]&0xff)
+    {
+        case UNDEFINED:
+            return 255;
+        break;
 
         case COLOURRAM:
             address = (address&0xf) +  ((address&0x3c0) >> 2);
@@ -751,7 +752,7 @@ Byte StudioIV::readMem(Word address)
 
 //    if ((address < 0x1000 && address > 0x8a) || address < 0x2c)
 //        p_Main->eventMessageHex(scratchpadRegister_[programCounter_]);
-	return mainMemory_[address];
+    return mainMemory_[address];
 }
 
 Byte StudioIV::readMemDebug(Word address)
@@ -762,7 +763,7 @@ Byte StudioIV::readMemDebug(Word address)
     if (st2020Active_)
         address |= addressLatch_;
     
-    switch (memoryType_[address/256])
+    switch (memoryType_[address/256]&0xff)
     {
         case UNDEFINED:
             return 255;
@@ -786,18 +787,18 @@ Byte StudioIV::readMemDebug(Word address)
 
 void StudioIV::writeMem(Word address, Byte value, bool writeRom)
 {
-	switch (memoryType_[address/256])
-	{
-		case RAM:
-			if (mainMemory_[address]==value)
-				return;
-			mainMemory_[address]=value;
-			if (address>= memoryStart_ && address<(memoryStart_+256))
-				p_Main->updateDebugMemory(address);
-			p_Main->updateAssTabCheck(address);
-		break;
+    switch (memoryType_[address/256]&0xff)
+    {
+        case RAM:
+            if (mainMemory_[address]==value)
+                return;
+            mainMemory_[address]=value;
+            if (address>= memoryStart_ && address<(memoryStart_+256))
+                p_Main->updateDebugMemory(address);
+            p_Main->updateAssTabCheck(address);
+        break;
 
-		case COLOURRAM:
+        case COLOURRAM:
             address = (address&0xf) +  ((address&0x3c0) >> 2);
             colorMemory1864_[address] = value & 0xf;
             if ((address) >= memoryStart_ && (address) < (memoryStart_ + 256))
@@ -806,13 +807,13 @@ void StudioIV::writeMem(Word address, Byte value, bool writeRom)
                 p_Main->updateDebugMemory(address);
             p_Main->updateAssTabCheck(address);
             useColour(7);
-		break;
+        break;
             
-		default:
-			if (writeRom)
-				mainMemory_[address]=value;
-		break;
-	}
+        default:
+            if (writeRom)
+                mainMemory_[address]=value;
+        break;
+    }
 }
 
 void StudioIV::writeMemDebug(Word address, Byte value, bool writeRom)
@@ -832,17 +833,17 @@ void StudioIV::write1864ColorDirect(Word address, Byte value)
 
 void StudioIV::cpuInstruction()
 {
-	if (cpuMode_ == RUN)
-	{
+    if (cpuMode_ == RUN)
+    {
         cpuCycleStep();
-	}
-	else
-	{
-		initPixie();
-		cpuCycles_ = 0;
-		instructionCounter_= 0;
-		p_Main->startTime();
-	}
+    }
+    else
+    {
+        initPixie();
+        cpuCycles_ = 0;
+        instructionCounter_= 0;
+        p_Main->startTime();
+    }
 }
 
 void StudioIV::resetPressed()
@@ -873,7 +874,7 @@ void StudioIV::resetPressed()
 
 void StudioIV::onReset()
 {
-	resetPressed_ = true;
+    resetPressed_ = true;
 }
 
 void StudioIV::startComputerRun(bool WXUNUSED(load))

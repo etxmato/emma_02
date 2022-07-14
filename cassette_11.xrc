@@ -78,7 +78,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Wav file conversion:</label>
+<label>Wav file conversion: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -104,7 +104,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Cassette Conversion:</label>
+<label>Cassette Conversion: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -147,7 +147,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>For FRED emulator:</label>
+<label>For FRED emulator: </label>
 </object>
 </object>
 <object class="spacer">
@@ -163,7 +163,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Threshold, 8 bit:</label>
+<label>Threshold, 8 bit: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -184,7 +184,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Threshold, 16 bit:</label>
+<label>Threshold, 16 bit: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -205,7 +205,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Frequency check:</label>
+<label>Frequency check: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -356,7 +356,7 @@
 <size>-1</size>
 </font>
 <fg>#FF0000</fg>
-<label>Note: For F&amp;&amp;M TOS/Turbo loaders use</label>
+<label>Note: For F&amp;&amp;M TOS/Turbo loaders use </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -368,7 +368,7 @@
 <size>-1</size>
 </font>
 <fg>#FF0000</fg>
-<label>a high volume and 16 bits per sample</label>
+<label>a high volume and 16 bits per sample </label>
 </object>
 </object>
 </object>

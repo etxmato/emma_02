@@ -1,0 +1,153 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "elfii.dtd">
+
+<!-- always use root tag <emmaconfig> -->
+<emmaconfig>
+    
+    <!--
+    <info>: machine information
+    <memory>: memory map definition
+    
+    decimal or hexadecimal (starting with 0x) numbers are supported
+    -->
+    <info>
+        <!--
+        <code>: short machine name, used in GUI
+        <name>: extended machine name
+        <pload>: basic filename extension (.comx, .pecom, .super etc.)
+        -->
+        <code>Elf</code>
+        <name>Netronics Elf II</name>
+        <pload>super</pload>
+    </info>
+    
+    <memory>
+        <!--
+        <rom mask="0xZZZZ">: definition of a rom segment, mutliple definitions are supported
+        <mainram mask="0xZZZZ">: definition of the main ram segment, if a filename is specified it will be shown on the GUI. Only one definition is supported. For additional segments use <ram>
+        <ram mask="0xZZZZ">: definition of a ram segment, mutliple definitions are supported
+        <ems type="RyM">: definition of an ems (extended memory system) segment of either type RAM or ROM, mutliple definitions are supported
+        <mapper>: definition of a 1 MB RAM mapper using a port extender, only one definition is supported.
+        mask="0xZZZZ": When used for rom, mainram and ram, memory type will be mapped to other locations using the specified mask (smaller than size of the segment). E.g. is <ram mask="0x3fff" is used ram would be mapped every 1K. When specifying mask=0, or when not specified, a mask will be defined as 0xffff.
+        
+        common sub tags:
+        <start>: start location in main memory
+        <end>: end location in main memory
+        <dirname>: location of file (filename) which is loaded on startup, this is defined as sub folder of the main Emma 02 data folder
+        <filename>: name of file which is loaded on startup
+
+        data folder location:
+        Windows Vista and later: C:\Users\username\AppData\Roaming\Emma 02
+        XP: C:\Documents and Settings\username\Application Data\Emma 02
+        Mac OSX: ~/Emma 02
+        Linux: ~/emma_02_data
+        
+        Note that when an older versions of Emma 02 was used previously the default data directory might be set to:
+        Mac OSX: ~/Documents/emma_02
+        Linux: ~/Documents/emma_02
+        -->
+        <rom mask="0xffff">
+            <start>0xf800</start>
+            <end>0xFFFF</end>
+            <dirname>Elf</dirname>
+            <filename verify="true">bios.1.0.4.rom</filename>
+        </rom>
+
+        <mainram mask="0x3fff">
+            <start>0x0000</start>
+            <end>0x3FFF</end>
+        </mainram>
+
+        <ram mask="0x3fff">
+            <start>0x4000</start>
+            <end>0x7FFF</end>
+        </ram>
+        
+        <ems type="RAM">
+            <!--
+            Next to the common tags ems also supports:
+            <out mask="0x1f">: defines the output, address or address range used to switch page, using the specified mask. In this example with mask=0x1f the ems will be defined with 32 pages. When specifying mask=0 or leaving it out mask will be defined as 0xff. When specifying one digit (i.e. 0-9) an ouptut port (0-7) will be defined for switching the page. When specifying a hex value (e.g. 0xF000) the specified address will be defined for switching the page. When specifying a range (0xF000-0xF100) all addresses in the range will be defined for switching the page.
+            -->
+            <out mask="0x1f">6</out>
+            <start>0x8000</start>
+            <end>0xBFFF</end>
+        </ems>
+
+        <mapper mask="0x7ff">
+            <!--
+            <mapper> does not support <dirname> and <filename> tags
+            Only one mapper can be defined per machine. Mask defines the size of each pager. In this exmple 0x7FF indicates pages of 2 KB. Where defined the mapper can switch in any 2 KB page from the mapper memory into a 2 KB main memory area. In example below the mapper starts at 0xC000 which with a mask of 0x7ff that would be defined by using extended port 0x18 (address 0 would be port 0, 0x800 port 1 etc.).
+            
+            Additional tags supported:
+            <out type="select">: 1802 port number to select extended port
+            <out type="write">: 1802 port number to write selected extended port
+            <in>: 1802 port number to read selected extended port
+            -->
+            <start>0xC000</start>
+            <end>0xE7FF</end>
+            <out type="select">5</out>
+            <out type="write">6</out>
+            <in>6</in> 
+        </mapper>
+    </memory>
+    
+    <!--
+    <disk>
+        
+    </disk>
+    <CassettePort>4</CassettePort>
+
+
+    <devices>
+
+        <rom id="Quest Super Basic">
+            <mem base="0x0000" size="0x4000"/>
+            <filename>elf/superbasic5.0.bin</filename>
+        </rom>
+
+        <primary slot="0">
+
+
+        </primary>
+
+        <primary slot="1">
+            <secondary slot="0">
+                <MemoryMapper id="RAM">
+                  <mem base="0x0000" size="0x10000"/>
+                  <size>512</size>
+                </MemoryMapper>
+            </secondary>
+        </primary>
+
+        <primary external="true" slot="2">
+        </primary>
+
+        <video id="Pixie">
+            <io disable="1" type="O"/>
+            <io enable="1" type="I"/>
+            <io ef="1" type="F"/>
+            <vram>128</vram>
+        </video>
+
+        <PSG id="PSG">
+            <type>YM2149</type>
+            <io base="0xA0" num="2" type="O"/>
+            <io base="0xA2" num="1" type="I"/>
+            <sound>
+                <volume>21000</volume>
+            </sound>
+        </PSG>
+
+        <RTC id="Real time clock">
+            <io base="0xB4" num="2" type="O"/>
+            <io base="0xB5" num="1" type="I"/>
+            <sramname>cbios-msx2.cmos</sramname>
+        </RTC>
+
+        <PrinterPort id="Printer Port">
+            <io base="0x90" num="2"/>
+        </PrinterPort>
+
+    </devices>-->
+
+</emmaconfig>

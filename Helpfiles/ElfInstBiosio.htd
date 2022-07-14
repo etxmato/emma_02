@@ -1,7 +1,7 @@
 <html>
 <title>Installation Biosio</title>
 <body>
-<h2>Installation Biosio</h2>
+<h1>Installation Biosio</h1>
 <p>
 This instruction describes how to install and use Biosio for use with ElfOs. For installation of ElfOs please follow: <a href="ElfInstElfOs.htm">Installation Elf/Os 2.8</a>. For details on how to use biosio with other applications please see the .txt files in the Biosio directory. The "Bios Video I/O Module" is designed by Richard Peters. This version allows use of Elf/Os on different video types like 1861 Pixie, MC6845, MC6847 and TMS 9918. 
 </p>
@@ -23,41 +23,41 @@ Uppercase: selected</pre>
 <p>
 Press start and press return in the Vt100 window. When ElfOs is started use the SAVE command with the details below for the needed I/O:
 </p>
-<h3>
+<h2>
 1861 Pixie:
-</h3>
+</h2>
 <pre>
 START address: 7000 
 END address: 706F 
 EXEC address: 7041 
 FILE NAME: PIXINIZOS</pre>
-<h3>
+<h2>
 MC6845/MC6847 Video:
-</h3>
+</h2>
 <pre>
 START address: 7000 
 END address: 7062 
 EXEC address: 7035 
 FILE NAME: VIDINIZOS</pre>
-<h3>
+<h2>
 TMS 9918, text mode:
-</h3>
+</h2>
 <pre>
 START address: 7000 
 END address: 768F 
 EXEC address: 7088 
 FILE NAME: TMSINIZOS</pre>
-<h3>
+<h2>
 TMS 9918, graphic mode:
-</h3>
+</h2>
 <pre>
 START address: 7000 
 END address: 748F 
 EXEC address: 70A2 
 FILE NAME: GRAINIZOS</pre>
-<h3>
+<h2>
 Vt100 without baud check:
-</h3>
+</h2>
 <pre>
 START address: 7000 
 END address: 708F 

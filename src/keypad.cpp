@@ -54,41 +54,41 @@ KeypadScreen::KeypadScreen(wxWindow *parent, const wxSize& size)
 
 KeypadScreen::~KeypadScreen()
 {
-	delete mainBitmapPointer;
-	for (int i=0;i<2;i++) 
-	{
-		delete ledPointer[i];
-	}
+    delete mainBitmapPointer;
+    for (int i=0;i<2;i++) 
+    {
+        delete ledPointer[i];
+    }
 #if defined (__WXMAC__)
     delete osx_push_inButtonPointer;
     for (int i=0;i<16;i++)
         delete osx_buttonPointer[i];
 #else
-	delete push_inButtonPointer;
-	for (int i=0;i<16;i++)
-		delete buttonPointer[i];
+    delete push_inButtonPointer;
+    for (int i=0;i<16;i++)
+        delete buttonPointer[i];
 #endif
 }
 
 void KeypadScreen::init(int computerType)
 {
-	keyStart_ = 0;
-	keyEnd_ = 0;
-	lastKey_ = 0;
-	forceUpperCase_ = p_Main->getUpperCase(ELF);
+    keyStart_ = 0;
+    keyEnd_ = 0;
+    lastKey_ = 0;
+    forceUpperCase_ = p_Main->getUpperCase(ELF);
 
-	wxClientDC dc(this);
-	wxString buttonText;
-	int x, y;
+    wxClientDC dc(this);
+    wxString buttonText;
+    int x, y;
 
-	mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/hexpad.png", wxBITMAP_TYPE_PNG);
+    mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/hexpad.png", wxBITMAP_TYPE_PNG);
 
-	for (int i=0;i<2;i++) 
-	{
-		ledPointer[i] = new Led(dc, 20+96*(1-i),174, computerType);
-		updateLed_[i] = true;
-	}
-	ledPointer[1]->setStatus(dc, 1);
+    for (int i=0;i<2;i++) 
+    {
+        ledPointer[i] = new Led(dc, 20+96*(1-i),174, computerType);
+        updateLed_[i] = true;
+    }
+    ledPointer[1]->setStatus(dc, 1);
 
 #if defined (__WXMAC__)
     osx_push_inButtonPointer = new HexButton(dc, ELF_HEX_BUTTON, 8, 11, "IN");
@@ -100,27 +100,27 @@ void KeypadScreen::init(int computerType)
         osx_buttonPointer[i] = new HexButton(dc, ELF_HEX_BUTTON, x, y, buttonText);
     }
 #else
-	push_inButtonPointer = new PushButton(this, 20, "IN", wxPoint(8, 11), wxSize(30, 30), 0);
-	for (int i=0;i<16;i++)
-	{
-		buttonText.Printf("%01X", i);
-		x = 8+(i&0x3)*32;
-		y = 139 -(int)i/4*32;
-		buttonPointer[i] = new PushButton(this, i, buttonText, wxPoint(x, y), wxSize(30, 30), 0);
-	}
+    push_inButtonPointer = new PushButton(this, 20, "IN", wxPoint(8, 11), wxSize(30, 30), 0);
+    for (int i=0;i<16;i++)
+    {
+        buttonText.Printf("%01X", i);
+        x = 8+(i&0x3)*32;
+        y = 139 -(int)i/4*32;
+        buttonPointer[i] = new PushButton(this, i, buttonText, wxPoint(x, y), wxSize(30, 30), 0);
+    }
 #endif
-	this->connectKeyEvent(this);
+    this->connectKeyEvent(this);
 }
 
 void KeypadScreen::onPaint(wxPaintEvent&WXUNUSED(event))
 {
-	wxPaintDC dc(this);
-	dc.DrawBitmap(*mainBitmapPointer, 0, 0);
+    wxPaintDC dc(this);
+    dc.DrawBitmap(*mainBitmapPointer, 0, 0);
 
-	for (int i=0;i<2;i++) 
-	{
-		ledPointer[i]->onPaint(dc);
-	}
+    for (int i=0;i<2;i++) 
+    {
+        ledPointer[i]->onPaint(dc);
+    }
 #if defined (__WXMAC__)
     rePaintLeds(dc);
     osx_push_inButtonPointer->onPaint(dc);
@@ -174,71 +174,71 @@ void KeypadScreen::releaseButtonOnScreen(HexButton* buttonPoint)
 }
 
 BEGIN_EVENT_TABLE(Keypad, wxFrame)
-	EVT_CLOSE (Keypad::onClose)
-	EVT_COMMAND(20, wxEVT_ButtonDownEvent, Keypad::onButtonPress)
-	EVT_COMMAND(20, wxEVT_ButtonUpEvent, Keypad::onButtonRelease)
-	EVT_COMMAND(0, wxEVT_ButtonDownEvent, Keypad::onNumberKeyDown)
-	EVT_COMMAND(1, wxEVT_ButtonDownEvent, Keypad::onNumberKeyDown)
-	EVT_COMMAND(2, wxEVT_ButtonDownEvent, Keypad::onNumberKeyDown)
-	EVT_COMMAND(3, wxEVT_ButtonDownEvent, Keypad::onNumberKeyDown)
-	EVT_COMMAND(4, wxEVT_ButtonDownEvent, Keypad::onNumberKeyDown)
-	EVT_COMMAND(5, wxEVT_ButtonDownEvent, Keypad::onNumberKeyDown)
-	EVT_COMMAND(6, wxEVT_ButtonDownEvent, Keypad::onNumberKeyDown)
-	EVT_COMMAND(7, wxEVT_ButtonDownEvent, Keypad::onNumberKeyDown)
-	EVT_COMMAND(8, wxEVT_ButtonDownEvent, Keypad::onNumberKeyDown)
-	EVT_COMMAND(9, wxEVT_ButtonDownEvent, Keypad::onNumberKeyDown)
-	EVT_COMMAND(10, wxEVT_ButtonDownEvent, Keypad::onNumberKeyDown)
-	EVT_COMMAND(11, wxEVT_ButtonDownEvent, Keypad::onNumberKeyDown)
-	EVT_COMMAND(12, wxEVT_ButtonDownEvent, Keypad::onNumberKeyDown)
-	EVT_COMMAND(13, wxEVT_ButtonDownEvent, Keypad::onNumberKeyDown)
-	EVT_COMMAND(14, wxEVT_ButtonDownEvent, Keypad::onNumberKeyDown)
-	EVT_COMMAND(15, wxEVT_ButtonDownEvent, Keypad::onNumberKeyDown)
-	EVT_COMMAND(0, wxEVT_ButtonUpEvent, Keypad::onNumberKeyUp)
-	EVT_COMMAND(1, wxEVT_ButtonUpEvent, Keypad::onNumberKeyUp)
-	EVT_COMMAND(2, wxEVT_ButtonUpEvent, Keypad::onNumberKeyUp)
-	EVT_COMMAND(3, wxEVT_ButtonUpEvent, Keypad::onNumberKeyUp)
-	EVT_COMMAND(4, wxEVT_ButtonUpEvent, Keypad::onNumberKeyUp)
-	EVT_COMMAND(5, wxEVT_ButtonUpEvent, Keypad::onNumberKeyUp)
-	EVT_COMMAND(6, wxEVT_ButtonUpEvent, Keypad::onNumberKeyUp)
-	EVT_COMMAND(7, wxEVT_ButtonUpEvent, Keypad::onNumberKeyUp)
-	EVT_COMMAND(8, wxEVT_ButtonUpEvent, Keypad::onNumberKeyUp)
-	EVT_COMMAND(9, wxEVT_ButtonUpEvent, Keypad::onNumberKeyUp)
-	EVT_COMMAND(10, wxEVT_ButtonUpEvent, Keypad::onNumberKeyUp)
-	EVT_COMMAND(11, wxEVT_ButtonUpEvent, Keypad::onNumberKeyUp)
-	EVT_COMMAND(12, wxEVT_ButtonUpEvent, Keypad::onNumberKeyUp)
-	EVT_COMMAND(13, wxEVT_ButtonUpEvent, Keypad::onNumberKeyUp)
-	EVT_COMMAND(14, wxEVT_ButtonUpEvent, Keypad::onNumberKeyUp)
-	EVT_COMMAND(15, wxEVT_ButtonUpEvent, Keypad::onNumberKeyUp)
+    EVT_CLOSE (Keypad::onClose)
+    EVT_COMMAND(20, wxEVT_ButtonDownEvent, Keypad::onButtonPress)
+    EVT_COMMAND(20, wxEVT_ButtonUpEvent, Keypad::onButtonRelease)
+    EVT_COMMAND(0, wxEVT_ButtonDownEvent, Keypad::onNumberKeyDown)
+    EVT_COMMAND(1, wxEVT_ButtonDownEvent, Keypad::onNumberKeyDown)
+    EVT_COMMAND(2, wxEVT_ButtonDownEvent, Keypad::onNumberKeyDown)
+    EVT_COMMAND(3, wxEVT_ButtonDownEvent, Keypad::onNumberKeyDown)
+    EVT_COMMAND(4, wxEVT_ButtonDownEvent, Keypad::onNumberKeyDown)
+    EVT_COMMAND(5, wxEVT_ButtonDownEvent, Keypad::onNumberKeyDown)
+    EVT_COMMAND(6, wxEVT_ButtonDownEvent, Keypad::onNumberKeyDown)
+    EVT_COMMAND(7, wxEVT_ButtonDownEvent, Keypad::onNumberKeyDown)
+    EVT_COMMAND(8, wxEVT_ButtonDownEvent, Keypad::onNumberKeyDown)
+    EVT_COMMAND(9, wxEVT_ButtonDownEvent, Keypad::onNumberKeyDown)
+    EVT_COMMAND(10, wxEVT_ButtonDownEvent, Keypad::onNumberKeyDown)
+    EVT_COMMAND(11, wxEVT_ButtonDownEvent, Keypad::onNumberKeyDown)
+    EVT_COMMAND(12, wxEVT_ButtonDownEvent, Keypad::onNumberKeyDown)
+    EVT_COMMAND(13, wxEVT_ButtonDownEvent, Keypad::onNumberKeyDown)
+    EVT_COMMAND(14, wxEVT_ButtonDownEvent, Keypad::onNumberKeyDown)
+    EVT_COMMAND(15, wxEVT_ButtonDownEvent, Keypad::onNumberKeyDown)
+    EVT_COMMAND(0, wxEVT_ButtonUpEvent, Keypad::onNumberKeyUp)
+    EVT_COMMAND(1, wxEVT_ButtonUpEvent, Keypad::onNumberKeyUp)
+    EVT_COMMAND(2, wxEVT_ButtonUpEvent, Keypad::onNumberKeyUp)
+    EVT_COMMAND(3, wxEVT_ButtonUpEvent, Keypad::onNumberKeyUp)
+    EVT_COMMAND(4, wxEVT_ButtonUpEvent, Keypad::onNumberKeyUp)
+    EVT_COMMAND(5, wxEVT_ButtonUpEvent, Keypad::onNumberKeyUp)
+    EVT_COMMAND(6, wxEVT_ButtonUpEvent, Keypad::onNumberKeyUp)
+    EVT_COMMAND(7, wxEVT_ButtonUpEvent, Keypad::onNumberKeyUp)
+    EVT_COMMAND(8, wxEVT_ButtonUpEvent, Keypad::onNumberKeyUp)
+    EVT_COMMAND(9, wxEVT_ButtonUpEvent, Keypad::onNumberKeyUp)
+    EVT_COMMAND(10, wxEVT_ButtonUpEvent, Keypad::onNumberKeyUp)
+    EVT_COMMAND(11, wxEVT_ButtonUpEvent, Keypad::onNumberKeyUp)
+    EVT_COMMAND(12, wxEVT_ButtonUpEvent, Keypad::onNumberKeyUp)
+    EVT_COMMAND(13, wxEVT_ButtonUpEvent, Keypad::onNumberKeyUp)
+    EVT_COMMAND(14, wxEVT_ButtonUpEvent, Keypad::onNumberKeyUp)
+    EVT_COMMAND(15, wxEVT_ButtonUpEvent, Keypad::onNumberKeyUp)
 END_EVENT_TABLE()
 
 Keypad::Keypad(const wxString& title, const wxPoint& pos, const wxSize& size, int computerType)
 : wxFrame((wxFrame *)NULL, -1, title, pos, size)
 {
-	computerType_ = computerType;
+    computerType_ = computerType;
 
 #ifndef __WXMAC__
-	SetIcon(wxICON(app_icon));
+    SetIcon(wxICON(app_icon));
 #endif
 
-	keypadScreenPointer = new KeypadScreen(this, size);
-	keypadScreenPointer->init(computerType);
-	keypadScreenPointer->setLed(1, 1);
-	keypadScreenPointer->setLed(0, 0);
+    keypadScreenPointer = new KeypadScreen(this, size);
+    keypadScreenPointer->init(computerType);
+    keypadScreenPointer->setLed(1, 1);
+    keypadScreenPointer->setLed(0, 0);
 
-	keypadValue_ = 0;
-	nextNybble_ = 'H';
-	this->SetClientSize(size);
+    keypadValue_ = 0;
+    nextNybble_ = 'H';
+    this->SetClientSize(size);
 }
 
 Keypad::~Keypad()
 {
-	delete keypadScreenPointer;
+    delete keypadScreenPointer;
 }
 
 void Keypad::onClose(wxCloseEvent&WXUNUSED(event))
 {
-	p_Computer->removeElfHex();
-	Destroy();
+    p_Computer->removeElfHex();
+    Destroy();
 }
 
 void Keypad::onNumberKeyDown(wxCommandEvent&event)
@@ -269,54 +269,54 @@ void Keypad::onNumberKeyDown(int i)
 
 void Keypad::onNumberDown(int hex)
 {
-	wxClientDC dc(this);
+    wxClientDC dc(this);
 
-	keypadValue_= (nextNybble_ == 'H')?(keypadValue_&15)+(hex<<4):(keypadValue_&0xf0)+hex;
-	if (nextNybble_ == 'H')
-	{
-		nextNybble_ = 'L';
-		keypadScreenPointer->setLed(1, 0);
-		keypadScreenPointer->setLed(0, 1);
-	}
-	else
-	{
-		nextNybble_ = 'H';
-		keypadScreenPointer->setLed(1, 1);
-		keypadScreenPointer->setLed(0, 0);
-	}
+    keypadValue_= (nextNybble_ == 'H')?(keypadValue_&15)+(hex<<4):(keypadValue_&0xf0)+hex;
+    if (nextNybble_ == 'H')
+    {
+        nextNybble_ = 'L';
+        keypadScreenPointer->setLed(1, 0);
+        keypadScreenPointer->setLed(0, 1);
+    }
+    else
+    {
+        nextNybble_ = 'H';
+        keypadScreenPointer->setLed(1, 1);
+        keypadScreenPointer->setLed(0, 0);
+    }
 }
 
 void Keypad::onNumberKeyUp(wxCommandEvent&event)
 {
     int i = event.GetId();
-	p_Computer->onHexKeyUp(i);
+    p_Computer->onHexKeyUp(i);
 }
 
 void Keypad::onButtonRelease(wxCommandEvent& event)
 {
-	p_Computer->onInButtonRelease();
-	event.Skip();
+    p_Computer->onInButtonRelease();
+    event.Skip();
 }
 
 void Keypad::onButtonPress(wxCommandEvent& event)
 {
-	p_Computer->onInButtonPress(keypadValue_);
-	event.Skip();
+    p_Computer->onInButtonPress(keypadValue_);
+    event.Skip();
 }
 
 void Keypad::ledTimeout()
 {
-	keypadScreenPointer->ledTimeout();
+    keypadScreenPointer->ledTimeout();
 }
 
 void Keypad::setLedMs(long ms)
 {
-	keypadScreenPointer->setLedMs(ms);
+    keypadScreenPointer->setLedMs(ms);
 }
 
 Byte Keypad::getKey(Byte vtOut)
 {
-	return keypadScreenPointer->getKey(vtOut);
+    return keypadScreenPointer->getKey(vtOut);
 }
 
 void Keypad::releaseButtonOnScreen(HexButton* buttonPointer)

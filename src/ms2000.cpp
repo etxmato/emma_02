@@ -35,23 +35,24 @@
 #include "ms2000.h"
 #include "upd765.h"
 
-Ms2000::Ms2000(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf)
+Ms2000::Ms2000(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf, Conf computerConf)
 : wxFrame((wxFrame *)NULL, -1, title, pos, size)
 {
-	ms2000Configuration = conf;
+    computerConfiguration = computerConf;
+    ms2000Configuration = conf;
 
-	ms2000ClockSpeed_ = clock;
-	lastAddress_ = 0;
+    ms2000ClockSpeed_ = clock;
+    lastAddress_ = 0;
 
 #ifndef __WXMAC__
-	SetIcon(wxICON(app_icon));
+    SetIcon(wxICON(app_icon));
 #endif
 
-	this->SetClientSize(size);
+    this->SetClientSize(size);
 
     saveStarted_ = false;
     loadStarted_ = false;
-	microDosRunning_ = false;
+    microDosRunning_ = false;
     resetHdData_ = true;
 
     p_Printer = new Printer();
@@ -63,44 +64,44 @@ Ms2000::~Ms2000()
     p_Printer->closeFrames();
     delete p_Printer;
     if (ms2000Configuration.vtType != VTNONE)
-	{
-		p_Main->setVtPos(MS2000, vtPointer->GetPosition());
-		vtPointer->Destroy();
-	}
+    {
+        p_Main->setVtPos(MS2000, vtPointer->GetPosition());
+        vtPointer->Destroy();
+    }
     if (ms2000Configuration.vtExternal)
         delete p_Serial;
-	p_Main->setMainPos(MS2000, GetPosition());
+    p_Main->setMainPos(MS2000, GetPosition());
 }
 
 void Ms2000::onClose(wxCloseEvent&WXUNUSED(event) )
 {
-	p_Main->stopComputer();
+    p_Main->stopComputer();
 }
 
 void Ms2000::configureComputer()
 {
-	inType_[1] = MS2000IOGROUP;
-	inType_[2] = MS2000IO2;
-	inType_[3] = MS2000IO3;
-	inType_[4] = MS2000IO4;
-	inType_[5] = MS2000IO5;
-	inType_[6] = MS2000IO6;
-	inType_[7] = MS2000IO7;
-	outType_[1] = MS2000IOGROUP;
-	outType_[2] = MS2000IO2;
-	outType_[3] = MS2000IO3;
-	outType_[4] = MS2000IO4;
-	outType_[5] = MS2000IO5;
-	outType_[6] = MS2000IO6;
-	outType_[7] = MS2000IO7;
+    inType_[1] = MS2000IOGROUP;
+    inType_[2] = MS2000IO2;
+    inType_[3] = MS2000IO3;
+    inType_[4] = MS2000IO4;
+    inType_[5] = MS2000IO5;
+    inType_[6] = MS2000IO6;
+    inType_[7] = MS2000IO7;
+    outType_[1] = MS2000IOGROUP;
+    outType_[2] = MS2000IO2;
+    outType_[3] = MS2000IO3;
+    outType_[4] = MS2000IO4;
+    outType_[5] = MS2000IO5;
+    outType_[6] = MS2000IO6;
+    outType_[7] = MS2000IO7;
 
-	efType_[2] = MS2000CASEF;
+    efType_[2] = MS2000CASEF;
     
-	p_Main->message("Configuring MS2000");
-    p_Main->message("	Output 1: set I/O group, input 1: read I/O group");
-    p_Main->message("	I/O group 1: video terminal & printer");
-    p_Main->message("	I/O group 2: tape");
-    p_Main->message("	I/O group 8: 18S651 and uPD765");
+    p_Main->message("Configuring MS2000");
+    p_Main->message("    Output 1: set I/O group, input 1: read I/O group");
+    p_Main->message("    I/O group 1: video terminal & printer");
+    p_Main->message("    I/O group 2: tape");
+    p_Main->message("    I/O group 8: 18S651 and uPD765");
  
     p_Main->message("");
     
@@ -122,15 +123,15 @@ void Ms2000::configureComputer()
     }
 
     p_Main->message("Configuring printer support");
-    p_Main->message("	Output 6: data out");
-    p_Main->message("	EF 1: printer ready\n");
+    p_Main->message("    Output 6: data out");
+    p_Main->message("    EF 1: printer ready\n");
 
     p_Main->message("Configuring tape support");
-    p_Main->message("	Output 4: tape motor, output 5: cassette out");
-    p_Main->message("	EF 2: cassette in\n");
+    p_Main->message("    Output 4: tape motor, output 5: cassette out");
+    p_Main->message("    EF 2: cassette in\n");
 
     configureUpd765(ms2000Configuration.fdcType_, MS2000EF);
-	resetCpu();
+    resetCpu();
 }
 
 void Ms2000::initComputer()
@@ -145,11 +146,11 @@ void Ms2000::initComputer()
 
 Byte Ms2000::ef(int flag)
 {
-	switch(efType_[flag])
-	{
-		case 0:
-			return 1;
-		break;
+    switch(efType_[flag])
+    {
+        case 0:
+            return 1;
+        break;
 
         case MS2000PRINTEF: // EF1
             return 1;
@@ -159,49 +160,49 @@ Byte Ms2000::ef(int flag)
             return cassetteEf_;
         break;
             
-		case MS2000EF:      // EF3
+        case MS2000EF:      // EF3
             return efInterrupt();
         break;
                     
         case VT100EF:       // EF4
             if (p_Vt100[UART1] != NULL)
-	            return vtPointer->ef();
+                return vtPointer->ef();
         break;
             
         case VTSERIALEF:
             if (p_Serial != NULL)
-	            return p_Serial->ef();
+                return p_Serial->ef();
         break;
  
-		default:
-			return 1;
-	}
+        default:
+            return 1;
+    }
     return 1;
 }
 
 Byte Ms2000::in(Byte port, Word WXUNUSED(address))
 {
-	Byte ret;
-	ret = 0;
+    Byte ret;
+    ret = 0;
 
-	switch(inType_[port])
-	{
-		case 0:
-			ret = 255;
-		break;
+    switch(inType_[port])
+    {
+        case 0:
+            ret = 255;
+        break;
 
-		case MS2000IOGROUP:
-			return ioGroup_;
-		break;
+        case MS2000IOGROUP:
+            return ioGroup_;
+        break;
 
         case MS2000IO2:
             switch (ioGroup_)
             {
                 case IO_GRP_UART:
-					if (p_Vt100[UART1] != NULL)
-						return p_Vt100[UART1]->uartIn();
-					if (p_Serial != NULL)
-						return p_Serial->uartIn();
+                    if (p_Vt100[UART1] != NULL)
+                        return p_Vt100[UART1]->uartIn();
+                    if (p_Serial != NULL)
+                        return p_Serial->uartIn();
 //                    return vtPointer->uartIn();
                 break;
                 
@@ -214,10 +215,10 @@ Byte Ms2000::in(Byte port, Word WXUNUSED(address))
             switch (ioGroup_)
             {
                 case IO_GRP_UART:
-					if (p_Vt100[UART1] != NULL)
-						return p_Vt100[UART1]->uartStatus();
-					if (p_Serial != NULL)
-						return p_Serial->uartStatus();
+                    if (p_Vt100[UART1] != NULL)
+                        return p_Vt100[UART1]->uartStatus();
+                    if (p_Serial != NULL)
+                        return p_Serial->uartStatus();
 //                    return vtPointer->uartStatus();
                 break;
                     
@@ -257,21 +258,21 @@ Byte Ms2000::in(Byte port, Word WXUNUSED(address))
         break;
             
         default:
-			ret = 255;
-	}
-	inValues_[port] = ret;
-	return ret;
+            ret = 255;
+    }
+    inValues_[port] = ret;
+    return ret;
 }
 
 void Ms2000::out(Byte port, Word WXUNUSED(address), Byte value)
 {
-	outValues_[port] = value;
+    outValues_[port] = value;
 
-	switch(outType_[port])
-	{
-		case 0:
-			return;
-		break;
+    switch(outType_[port])
+    {
+        case 0:
+            return;
+        break;
 
         case MS2000IOGROUP:
             bootstrap_ = 0;
@@ -282,10 +283,10 @@ void Ms2000::out(Byte port, Word WXUNUSED(address), Byte value)
             switch (ioGroup_)
             {
                 case IO_GRP_UART:
-					if (p_Vt100[UART1] != NULL)
-						p_Vt100[UART1]->uartOut(value);
-					if (p_Serial != NULL)
-						p_Serial->uartOut(value);
+                    if (p_Vt100[UART1] != NULL)
+                        p_Vt100[UART1]->uartOut(value);
+                    if (p_Serial != NULL)
+                        p_Serial->uartOut(value);
 //                    vtPointer->uartOut(value);
                 break;
             }
@@ -295,10 +296,10 @@ void Ms2000::out(Byte port, Word WXUNUSED(address), Byte value)
             switch (ioGroup_)
             {
                 case IO_GRP_UART:
-					if (p_Vt100[UART1] != NULL)
-						p_Vt100[UART1]->uartControl(value);
-					if (p_Serial != NULL)
-						p_Serial->uartControl(value);
+                    if (p_Vt100[UART1] != NULL)
+                        p_Vt100[UART1]->uartControl(value);
+                    if (p_Serial != NULL)
+                        p_Serial->uartControl(value);
 //                    vtPointer->uartControl(value);
                 break;
             }
@@ -340,9 +341,9 @@ void Ms2000::out(Byte port, Word WXUNUSED(address), Byte value)
                     outputDmaControl(value);
                 break;
             }
-		break;
+        break;
 
-		case MS2000IO5:    
+        case MS2000IO5:    
             switch (ioGroup_)
             {
                 case IO_GRP_TAPE:
@@ -353,7 +354,7 @@ void Ms2000::out(Byte port, Word WXUNUSED(address), Byte value)
                     outputCommand(value);
                 break;
             }
-		break;
+        break;
 
         case MS2000IO6:
             switch (ioGroup_)
@@ -372,35 +373,35 @@ void Ms2000::out(Byte port, Word WXUNUSED(address), Byte value)
                     outputDmaCounter(value);
                 break;
             }
-		break;
+        break;
     }
 }
 
 void Ms2000::cycle(int type)
 {
-	switch(cycleType_[type])
-	{
-		case 0:
-			return;
-		break;
+    switch(cycleType_[type])
+    {
+        case 0:
+            return;
+        break;
 
         case FDCCYCLE:
             cycleUpd765();
         break;
             
         case VT100CYCLE:
-			vtPointer->cycleVt();
-		break;
+            vtPointer->cycleVt();
+        break;
 
         case VTSERIALCYCLE:
             p_Serial->cycleVt();
         break;
-	}
+    }
 }
 
 void Ms2000::startComputer()
 {
-	resetPressed_ = false;
+    resetPressed_ = false;
 
     defineMemoryType(0, 0x7fff, RAM);
     initRam(0, 0x7fff);
@@ -411,10 +412,10 @@ void Ms2000::startComputer()
     p_Main->assDefault("mycode", 0, 0xFFF);
     
     p_Main->checkAndReInstallMainRom(MS2000);
-	readProgram(p_Main->getRomDir(MS2000, MAINROM1), p_Main->getRomFile(MS2000, MAINROM1), ROM, 0x8000, NONAME);
+    readProgram(p_Main->getRomDir(MS2000, MAINROM1), p_Main->getRomFile(MS2000, MAINROM1), ROM, 0x8000, NONAME);
     
     if (p_Vt100[UART1] != NULL)
-	    p_Vt100[UART1]->Show(true);
+        p_Vt100[UART1]->Show(true);
 
     if (ms2000Configuration.bootRam)
         bootstrap_ = 0;
@@ -466,74 +467,74 @@ void Ms2000::startComputer()
     }
     
     p_Main->setSwName("");
-	p_Main->updateTitle();
+    p_Main->updateTitle();
 
-	cpuCycles_ = 0;
-	instructionCounter_= 0;
-	p_Main->startTime();
+    cpuCycles_ = 0;
+    instructionCounter_= 0;
+    p_Main->startTime();
 
     threadPointer->Run();
 }
 
 void Ms2000::writeMemDataType(Word address, Byte type)
 {
-	address = address | bootstrap_;
-	switch (memoryType_[address/256])
-	{
-		case ROM:
-			if (mainMemoryDataType_[address] != type)
-			{
-				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-				mainMemoryDataType_[address] = type;
-			}
+    address = address | bootstrap_;
+    switch (memoryType_[address/256]&0xff)
+    {
+        case ROM:
+            if (mainMemoryDataType_[address] != type)
+            {
+                p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
+                mainMemoryDataType_[address] = type;
+            }
             increaseExecutedMainMemory(address, type);
-		break;
+        break;
 
-		case RAM:
-			if (mainMemoryDataType_[address | bootstrap_] != type)
-			{
-				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-				mainMemoryDataType_[address | bootstrap_] = type;
-			}
+        case RAM:
+            if (mainMemoryDataType_[address | bootstrap_] != type)
+            {
+                p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
+                mainMemoryDataType_[address | bootstrap_] = type;
+            }
             increaseExecutedMainMemory(address | bootstrap_, type);
-		break;
-	}
+        break;
+    }
 }
 
 Byte Ms2000::readMemDataType(Word address, uint64_t* executed)
 {
-	address = address | bootstrap_;
-	switch (memoryType_[address/256])
-	{
-		case RAM:
-		case ROM:
+    address = address | bootstrap_;
+    switch (memoryType_[address/256]&0xff)
+    {
+        case RAM:
+        case ROM:
             if (profilerCounter_ != PROFILER_OFF)
                 *executed = mainMemoryExecuted_[address | bootstrap_];
-			return mainMemoryDataType_[address | bootstrap_];
-		break;
-	}
-	return MEM_TYPE_UNDEFINED;
+            return mainMemoryDataType_[address | bootstrap_];
+        break;
+    }
+    return MEM_TYPE_UNDEFINED;
 }
 
 Byte Ms2000::readMem(Word address)
 {
-	address = address | bootstrap_;
+    address = address | bootstrap_;
 
-	switch (memoryType_[address / 256])
-	{
-		case UNDEFINED:
-			return 255;
-		break;
+    switch (memoryType_[address / 256]&0xff)
+    {
+        case UNDEFINED:
+            return 255;
+        break;
 
-		case ROM:
-		case RAM:
-			return mainMemory_[address];
-		break;
+        case ROM:
+        case RAM:
+            return mainMemory_[address];
+        break;
 
-		default:
-			return 255;
-		break;
-	}
+        default:
+            return 255;
+        break;
+    }
 }
 
 Byte Ms2000::readMemDebug(Word address)
@@ -543,24 +544,24 @@ Byte Ms2000::readMemDebug(Word address)
 
 void Ms2000::writeMem(Word address, Byte value, bool writeRom)
 {
-	address = address | bootstrap_;
+    address = address | bootstrap_;
  //   wxString textMessage;
     
-	switch (memoryType_[address/256])
-	{
-		case UNDEFINED:
-		case ROM:
-			if (writeRom)
-				mainMemory_[address]=value;
-		break;
+    switch (memoryType_[address/256]&0xff)
+    {
+        case UNDEFINED:
+        case ROM:
+            if (writeRom)
+                mainMemory_[address]=value;
+        break;
 
-		case RAM:
-			if (mainMemory_[address]==value)
-				return;
-			mainMemory_[address]=value;
-			if (address >= (memoryStart_ | bootstrap_) && address<((memoryStart_ | bootstrap_ ) +256))
-				p_Main->updateDebugMemory(address);
-			p_Main->updateAssTabCheck(address);
+        case RAM:
+            if (mainMemory_[address]==value)
+                return;
+            mainMemory_[address]=value;
+            if (address >= (memoryStart_ | bootstrap_) && address<((memoryStart_ | bootstrap_ ) +256))
+                p_Main->updateDebugMemory(address);
+            p_Main->updateAssTabCheck(address);
             
 //            if (microDosRunning_)
 //            {
@@ -570,8 +571,8 @@ void Ms2000::writeMem(Word address, Byte value, bool writeRom)
 //                    p_Main->eventShowTextMessage(textMessage);
 //                }
 //           }
-		break;
-	}
+        break;
+    }
 }
 
 void Ms2000::writeMemDebug(Word address, Byte value, bool writeRom)
@@ -601,8 +602,8 @@ void Ms2000::resetPressed()
 
 void Ms2000::moveWindows()
 {
-	if (ms2000Configuration.vtType != VTNONE)
-		vtPointer->Move(p_Main->getVtPos(MS2000));
+    if (ms2000Configuration.vtType != VTNONE)
+        vtPointer->Move(p_Main->getVtPos(MS2000));
 }
 
 void Ms2000::setForceUpperCase(bool status)
@@ -613,13 +614,13 @@ void Ms2000::setForceUpperCase(bool status)
 
 void Ms2000::setBootRam(bool status)
 {
-	ms2000Configuration.bootRam = status;
+    ms2000Configuration.bootRam = status;
 }
 
 void Ms2000::updateTitle(wxString Title)
 {
     if (ms2000Configuration.vtType == VT52)
-		vtPointer->SetTitle("MS2000 - VT 52"+Title);
+        vtPointer->SetTitle("MS2000 - VT 52"+Title);
     if (ms2000Configuration.vtType == VT100)
         vtPointer->SetTitle("MS2000 - VT 100"+Title);
 }
@@ -628,10 +629,10 @@ void Ms2000::checkComputerFunction()
 {
     switch (scratchpadRegister_[programCounter_])
     {
-		case 0x95e5: // MicroDos key input
-			microDosRunning_ = true;
+        case 0x95e5: // MicroDos key input
+            microDosRunning_ = true;
             resetHdData_ = true;
-		break;
+        break;
 
         case 0x34ad: // BASIC COMPILER key input
         case 0x34ce: // BASIC COMPILER key input
@@ -640,11 +641,11 @@ void Ms2000::checkComputerFunction()
         break;
             
         case 0xd13: // BASIC1 key input
-			microDosRunning_ = false ;
+            microDosRunning_ = false ;
             resetHdData_ = true;
         break;
 
-		case 0x813e: // key input
+        case 0x813e: // key input
             if (resetHdData_ && resetHdData_)
             {
                 for (int drive = 0; drive < 4; drive++)
@@ -673,13 +674,13 @@ void Ms2000::checkComputerFunction()
                 loadStarted_ = false;
             }
             
-		    if (p_Vt100[UART1] != NULL)
-			{
-				if (microDosRunning_)
-					vtPointer->setTabChar(0x7f);
-				else
-					vtPointer->setTabChar(8);
-			}
+            if (p_Vt100[UART1] != NULL)
+            {
+                if (microDosRunning_)
+                    vtPointer->setTabChar(0x7f);
+                else
+                    vtPointer->setTabChar(8);
+            }
 
     //        microDosRunning_ = false;
         break;
@@ -688,7 +689,7 @@ void Ms2000::checkComputerFunction()
 
 void Ms2000::onReset()
 {
-	resetPressed_ = true;
+    resetPressed_ = true;
 }
 
 void Ms2000::sleepComputer(long ms)
@@ -698,11 +699,11 @@ void Ms2000::sleepComputer(long ms)
 
 void Ms2000::activateMainWindow()
 {
-	bool maximize = IsMaximized();
-	Iconize(false);
-	Raise();
-	Show(true);
-	Maximize(maximize);
+    bool maximize = IsMaximized();
+    Iconize(false);
+    Raise();
+    Show(true);
+    Maximize(maximize);
 }
 
 void Ms2000::switchQ(int value)

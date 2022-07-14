@@ -61,8 +61,8 @@ BOOL GetOsVersion(RTL_OSVERSIONINFOEXW* pk_OsVer)
 
 BEGIN_EVENT_TABLE(GuiMain, wxFrame)
 
-	EVT_MENU(XRCID("MI_Psave"), GuiMain::onPsaveMenu)
-	EVT_MENU(XRCID("MI_FullScreenFloat"), GuiMain::onFullScreenFloat)
+    EVT_MENU(XRCID("MI_Psave"), GuiMain::onPsaveMenu)
+    EVT_MENU(XRCID("MI_FullScreenFloat"), GuiMain::onFullScreenFloat)
 
 END_EVENT_TABLE()
 
@@ -74,26 +74,26 @@ GuiMain::GuiMain(const wxString& title, const wxPoint& pos, const wxSize& size, 
     zoomPosition_ = 0;
 
     configPointer = wxConfigBase::Get();
-	dataDir_ = dataDir;
-	iniDir_ = iniDir;
-	mode_ = mode;
+    dataDir_ = dataDir;
+    iniDir_ = iniDir;
+    mode_ = mode;
 
 #if defined(__WXMAC__)
-	if (mode_.portable)
-		workingDir_ = wxGetCwd();
-	else
-		workingDir_ = wxStandardPaths::Get().GetDataDir();
-	wxFileName applicationFile = wxFileName(workingDir_, "", wxPATH_NATIVE);
-	pathSeparator_ = applicationFile.GetPathSeparator(wxPATH_NATIVE);
-	if (mode_.portable)
-		applicationDirectory_ = applicationFile.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
-	else
+    if (mode_.portable)
+        workingDir_ = wxGetCwd();
+    else
+        workingDir_ = wxStandardPaths::Get().GetDataDir();
+    wxFileName applicationFile = wxFileName(workingDir_, "", wxPATH_NATIVE);
+    pathSeparator_ = applicationFile.GetPathSeparator(wxPATH_NATIVE);
+    if (mode_.portable)
+        applicationDirectory_ = applicationFile.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+    else
         applicationDirectory_ = wxStandardPaths::Get().GetResourcesDir() + pathSeparator_;
 #else
-	workingDir_ = wxGetCwd();
-	wxFileName applicationFile = wxFileName(workingDir_, "", wxPATH_NATIVE);
-	pathSeparator_ = applicationFile.GetPathSeparator(wxPATH_NATIVE);
-	applicationDirectory_ = applicationFile.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+    workingDir_ = wxGetCwd();
+    wxFileName applicationFile = wxFileName(workingDir_, "", wxPATH_NATIVE);
+    pathSeparator_ = applicationFile.GetPathSeparator(wxPATH_NATIVE);
+    applicationDirectory_ = applicationFile.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
 #endif
 #if defined(__linux__)
     if (!wxFile::Exists(applicationDirectory_ + "main_11.xrc"))
@@ -126,8 +126,8 @@ GuiMain::GuiMain(const wxString& title, const wxPoint& pos, const wxSize& size, 
             p_Main->reInstall(applicationDirectory_ + "data" + pathSeparator_, dataDir_, pathSeparator_);
     }
     
-	playBlackBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/play_black.png", wxBITMAP_TYPE_PNG);
-	playGreenBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/play_green.png", wxBITMAP_TYPE_PNG);
+    playBlackBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/play_black.png", wxBITMAP_TYPE_PNG);
+    playGreenBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/play_green.png", wxBITMAP_TYPE_PNG);
 
     recOffBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/rec_off.png", wxBITMAP_TYPE_PNG);
     recOnBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/rec_on.png", wxBITMAP_TYPE_PNG);
@@ -135,20 +135,17 @@ GuiMain::GuiMain(const wxString& title, const wxPoint& pos, const wxSize& size, 
     pauseOffBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/pause_off.png", wxBITMAP_TYPE_PNG);
     pauseOnBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/pause_on.png", wxBITMAP_TYPE_PNG);
     
-	realCasOnBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/real_cas_on.png", wxBITMAP_TYPE_PNG);
-	realCasOffBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/real_cas_off.png", wxBITMAP_TYPE_PNG);
+    realCasOnBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/real_cas_on.png", wxBITMAP_TYPE_PNG);
+    realCasOffBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/real_cas_off.png", wxBITMAP_TYPE_PNG);
 
-	printerOnBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/print_on.png", wxBITMAP_TYPE_PNG);
-	printerOffBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/print_off.png", wxBITMAP_TYPE_PNG);
+    printerOnBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/print_on.png", wxBITMAP_TYPE_PNG);
+    printerOffBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/print_off.png", wxBITMAP_TYPE_PNG);
 
     ejectBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/eject.png", wxBITMAP_TYPE_PNG);
 
     tapeState_ = TAPE_STOP;
-	turboOn_ = false;
-    
-    position_[ELF].x = 0;
-    position_[ELFII].x = 0;
-    position_[SUPERELF].x = 0;
+    turboOn_ = false;
+    oldXmlFileName_ = "";
 }
 
 WindowInfo GuiMain::getWinSizeInfo(wxString appDir, wxString fontSizeString)
@@ -162,19 +159,25 @@ WindowInfo GuiMain::getWinSizeInfo(wxString appDir, wxString fontSizeString)
     
     wxConfigBase *windowConfigPointer;
     
+    returnValue.bitness = wxPlatformInfo::Get().GetBitness();
+    wxString cpuArchitecture = wxPlatformInfo::Get().GetCpuArchitectureName();
+
+    returnValue.arm = (cpuArchitecture == "arm64" || cpuArchitecture == "aarch64");
+
 #if defined (__WXMAC__)
     windowInfoFile = "osx_" + fontSizeString + ".ini";
     wxString appName = "emma_02";
     
     returnValue.operatingSystem = OS_MAC;
-    if (major == 10 && minor <= 8)
-        returnValue.operatingSystem = OS_MAC_PRE_10_9;
+    if ((major == 10 && minor <= 9) || returnValue.bitness == wxBITNESS_32)
+        returnValue.operatingSystem = OS_MAC_PRE_10_10;
 #endif
    
+#if defined (__linux__)
     wxLinuxDistributionInfo distInfo;
 
-#if defined (__linux__)
     distInfo = wxPlatformInfo::Get().GetLinuxDistributionInfo();
+    returnValue.packageDeb = true;
 
     if (distInfo.Id == "Ubuntu")
     {
@@ -196,18 +199,24 @@ WindowInfo GuiMain::getWinSizeInfo(wxString appDir, wxString fontSizeString)
 
     windowInfoFile = distInfo.Id + "_" + fontSizeString + ".ini";
 
+    returnValue.suse = false;
     if (distInfo.Id == "")
     {
         distInfo.Id = wxPlatformInfo::Get().GetOperatingSystemDescription();
+        
+        windowInfoFile = "suse_" + fontSizeString + ".ini";
+        returnValue.suse = true;
+        returnValue.packageDeb = false;
+
         if (distInfo.Id.Find("fc") != wxNOT_FOUND) // Fedor is something like: Linux 4.11.11-300.fc26.x86_64 x86_64
+        {
             windowInfoFile = "fedora_" + fontSizeString + ".ini";
-        if (distInfo.Id.Find("lp") != wxNOT_FOUND) // openSUSE: Linux 4.12.14-lp151.27-default x86_64
-            windowInfoFile = "suse_" + fontSizeString + ".ini";
+            returnValue.suse = false;
+        }
     }
     
     wxString appName = "emma_02";
     
-    returnValue.operatingSystem = OS_LINUX;
 #endif
     
 #if defined (__WXMSW__)
@@ -311,9 +320,7 @@ WindowInfo GuiMain::getWinSizeInfo(wxString appDir, wxString fontSizeString)
     returnValue.red = (int)windowConfigPointer->Read("/Colour/red", 219);
     returnValue.green = (int)windowConfigPointer->Read("/Colour/green", 219);
     returnValue.blue = (int)windowConfigPointer->Read("/Colour/blue", 219);
-    
-    windowConfigPointer->Read("/Package/deb", &returnValue.packageDeb, true);
-    
+        
     delete pConfig;
     wxConfigBase::Set(currentConfigPointer);
 
@@ -357,26 +364,38 @@ void GuiMain::readElfPortConfig(int elfType, wxString elfTypeStr)
     elfConfiguration[elfType].elfPortConf.ps2KeyboardOutput = (int)configPointer->Read(elfTypeStr+"/Ps2KeyboardOutput", 7l);
     elfConfiguration[elfType].elfPortConf.ps2KeyboardEf = (int)configPointer->Read(elfTypeStr+"/Ps2KeyboardEf", 3l);
 
-	elfConfiguration[elfType].elfPortConf.printerEf = (int)configPointer->Read(elfTypeStr + "/PrinterEf", 0l);
-	elfConfiguration[elfType].elfPortConf.printerOutput = (int)configPointer->Read(elfTypeStr + "/PrinterOutput", 7l);
+    elfConfiguration[elfType].elfPortConf.printerEf = (int)configPointer->Read(elfTypeStr + "/PrinterEf", 0l);
+    elfConfiguration[elfType].elfPortConf.printerOutput = (int)configPointer->Read(elfTypeStr + "/PrinterOutput", 7l);
 
-    elfConfiguration[elfType].elfPortConf.emsOutput = (int)configPointer->Read(elfTypeStr+"/EmsOutput", 7l);
+    if (elfConfiguration[elfType].useEms)
+        elfConfiguration[elfType].elfPortConf.emsOutput[0] = (int)configPointer->Read(elfTypeStr+"/EmsOutput", 7l);
 
     elfConfiguration[elfType].elfPortConf.vt100Output = (int)configPointer->Read(elfTypeStr+"/Vt100Output", 7l);
     if (elfTypeStr != "Elf2K")
-    	elfConfiguration[elfType].elfPortConf.vt100Ef = (int)configPointer->Read(elfTypeStr+"/Vt100Ef", 2l);
+        elfConfiguration[elfType].elfPortConf.vt100Ef = (int)configPointer->Read(elfTypeStr+"/Vt100Ef", 2l);
     else
-    	elfConfiguration[elfType].elfPortConf.vt100Ef = (int)configPointer->Read(elfTypeStr+"/Vt100Ef", 3l);
+        elfConfiguration[elfType].elfPortConf.vt100Ef = (int)configPointer->Read(elfTypeStr+"/Vt100Ef", 3l);
     elfConfiguration[elfType].elfPortConf.vt100ReverseEf = (int)configPointer->Read(elfTypeStr+"/Vt100ReverseEf", 1l);
     elfConfiguration[elfType].elfPortConf.vt100ReverseQ = (int)configPointer->Read(elfTypeStr+"/Vt100ReverseQ", 0l);
 
-    elfConfiguration[elfType].elfPortConf.uartOut = (int)configPointer->Read(elfTypeStr+"/UartOut", 2l);
-    elfConfiguration[elfType].elfPortConf.uartIn = (int)configPointer->Read(elfTypeStr+"/UartIn", 2l);
-    elfConfiguration[elfType].elfPortConf.uartControl = (int)configPointer->Read(elfTypeStr+"/UartControl", 3l);
-    elfConfiguration[elfType].elfPortConf.uartStatus = (int)configPointer->Read(elfTypeStr+"/UartStatus", 3l);
-
+    if (elfType == PICO)
+    {
+        elfConfiguration[elfType].elfPortConf.uartOut = (int)configPointer->Read(elfTypeStr+"/UartOut", 6l);
+        elfConfiguration[elfType].elfPortConf.uartIn = (int)configPointer->Read(elfTypeStr+"/UartIn", 6l);
+        elfConfiguration[elfType].elfPortConf.uartControl = (int)configPointer->Read(elfTypeStr+"/UartControl", 7l);
+        elfConfiguration[elfType].elfPortConf.uartStatus = (int)configPointer->Read(elfTypeStr+"/UartStatus", 7l);
+        elfConfiguration[elfType].elfPortConf.tmsModeLowOutput = (int)configPointer->Read(elfTypeStr+"/TmsModeLowOutput", 1l);
+    }
+    else
+    {
+        elfConfiguration[elfType].elfPortConf.uartOut = (int)configPointer->Read(elfTypeStr+"/UartOut", 2l);
+        elfConfiguration[elfType].elfPortConf.uartIn = (int)configPointer->Read(elfTypeStr+"/UartIn", 2l);
+        elfConfiguration[elfType].elfPortConf.uartControl = (int)configPointer->Read(elfTypeStr+"/UartControl", 3l);
+        elfConfiguration[elfType].elfPortConf.uartStatus = (int)configPointer->Read(elfTypeStr+"/UartStatus", 3l);
+        elfConfiguration[elfType].elfPortConf.tmsModeLowOutput = (int)configPointer->Read(elfTypeStr+"/TmsModeLowOutput", 6l);
+    }
+    
     elfConfiguration[elfType].elfPortConf.tmsModeHighOutput = (int)configPointer->Read(elfTypeStr+"/TmsModeHighOutput", 5l);
-    elfConfiguration[elfType].elfPortConf.tmsModeLowOutput = (int)configPointer->Read(elfTypeStr+"/TmsModeLowOutput", 6l);
     elfConfiguration[elfType].elfPortConf.tmsInterrupt = (int)configPointer->Read(elfTypeStr+"/TmsInterrupt", 4l);
 
     elfConfiguration[elfType].elfPortConf.i8275WriteCommand = (int)configPointer->Read(elfTypeStr+"/I8275WriteCommand", 5l);
@@ -400,14 +419,14 @@ void GuiMain::readElfPortConfig(int elfType, wxString elfTypeStr)
     elfConfiguration[elfType].elfPortConf.mc6847dd7 = (int)configPointer->Read(elfTypeStr+"/MC6847-DD7", 1l);
     elfConfiguration[elfType].elfPortConf.mc6847dd6 = (int)configPointer->Read(elfTypeStr+"/MC6847-DD6", 0l);
 
-	configPointer->Read(elfTypeStr+"/MC6847-AG", &elfConfiguration[elfType].elfPortConf.forceHighAg, false);
-	configPointer->Read(elfTypeStr+"/MC6847-AS", &elfConfiguration[elfType].elfPortConf.forceHighAs, false);
-	configPointer->Read(elfTypeStr+"/MC6847-EXT", &elfConfiguration[elfType].elfPortConf.forceHighExt, false);
-	configPointer->Read(elfTypeStr+"/MC6847-GM2", &elfConfiguration[elfType].elfPortConf.forceHighGm2, false);
-	configPointer->Read(elfTypeStr+"/MC6847-GM1", &elfConfiguration[elfType].elfPortConf.forceHighGm1, false);
-	configPointer->Read(elfTypeStr+"/MC6847-GM0", &elfConfiguration[elfType].elfPortConf.forceHighGm0, false);
-	configPointer->Read(elfTypeStr+"/MC6847-CSS", &elfConfiguration[elfType].elfPortConf.forceHighCss, false);
-	configPointer->Read(elfTypeStr+"/MC6847-INV", &elfConfiguration[elfType].elfPortConf.forceHighInv, false);
+    configPointer->Read(elfTypeStr+"/MC6847-AG", &elfConfiguration[elfType].elfPortConf.forceHighAg, false);
+    configPointer->Read(elfTypeStr+"/MC6847-AS", &elfConfiguration[elfType].elfPortConf.forceHighAs, false);
+    configPointer->Read(elfTypeStr+"/MC6847-EXT", &elfConfiguration[elfType].elfPortConf.forceHighExt, false);
+    configPointer->Read(elfTypeStr+"/MC6847-GM2", &elfConfiguration[elfType].elfPortConf.forceHighGm2, false);
+    configPointer->Read(elfTypeStr+"/MC6847-GM1", &elfConfiguration[elfType].elfPortConf.forceHighGm1, false);
+    configPointer->Read(elfTypeStr+"/MC6847-GM0", &elfConfiguration[elfType].elfPortConf.forceHighGm0, false);
+    configPointer->Read(elfTypeStr+"/MC6847-CSS", &elfConfiguration[elfType].elfPortConf.forceHighCss, false);
+    configPointer->Read(elfTypeStr+"/MC6847-INV", &elfConfiguration[elfType].elfPortConf.forceHighInv, false);
 
     elfConfiguration[elfType].elfPortConf.mc6847StartRam = (int)configPointer->Read(elfTypeStr+"/mc6847StartRam", 0xe000l);
     elfConfiguration[elfType].elfPortConf.mc6847EndRam = (int)configPointer->Read(elfTypeStr+"/mc6847EndRam", 0xe3ffl);
@@ -459,10 +478,11 @@ void GuiMain::writeElfPortConfig(int elfType, wxString elfTypeStr)
     configPointer->Write(elfTypeStr+"/Ps2KeyboardOutput", elfConfiguration[elfType].elfPortConf.ps2KeyboardOutput);
     configPointer->Write(elfTypeStr+"/Ps2KeyboardEf", elfConfiguration[elfType].elfPortConf.ps2KeyboardEf);
 
-	configPointer->Write(elfTypeStr + "/PrinterEf", elfConfiguration[elfType].elfPortConf.printerEf);
-	configPointer->Write(elfTypeStr + "/PrinterOutput", elfConfiguration[elfType].elfPortConf.printerOutput);
+    configPointer->Write(elfTypeStr + "/PrinterEf", elfConfiguration[elfType].elfPortConf.printerEf);
+    configPointer->Write(elfTypeStr + "/PrinterOutput", elfConfiguration[elfType].elfPortConf.printerOutput);
 
-    configPointer->Write(elfTypeStr+"/EmsOutput", elfConfiguration[elfType].elfPortConf.emsOutput);
+    if (elfConfiguration[elfType].useEms)
+        configPointer->Write(elfTypeStr+"/EmsOutput", elfConfiguration[elfType].elfPortConf.emsOutput[0]);
 
     configPointer->Write(elfTypeStr+"/Vt100Output", elfConfiguration[elfType].elfPortConf.vt100Output);
     configPointer->Write(elfTypeStr+"/Vt100Ef", elfConfiguration[elfType].elfPortConf.vt100Ef);
@@ -495,14 +515,14 @@ void GuiMain::writeElfPortConfig(int elfType, wxString elfTypeStr)
     configPointer->Write(elfTypeStr+"/MC6847-DD7", elfConfiguration[elfType].elfPortConf.mc6847dd7);
     configPointer->Write(elfTypeStr+"/MC6847-DD6", elfConfiguration[elfType].elfPortConf.mc6847dd6);
 
-	configPointer->Write(elfTypeStr+"/MC6847-AG", elfConfiguration[elfType].elfPortConf.forceHighAg);
-	configPointer->Write(elfTypeStr+"/MC6847-AS", elfConfiguration[elfType].elfPortConf.forceHighAs);
-	configPointer->Write(elfTypeStr+"/MC6847-EXT", elfConfiguration[elfType].elfPortConf.forceHighExt);
-	configPointer->Write(elfTypeStr+"/MC6847-GM2", elfConfiguration[elfType].elfPortConf.forceHighGm2);
-	configPointer->Write(elfTypeStr+"/MC6847-GM1", elfConfiguration[elfType].elfPortConf.forceHighGm1);
-	configPointer->Write(elfTypeStr+"/MC6847-GM0", elfConfiguration[elfType].elfPortConf.forceHighGm0);
-	configPointer->Write(elfTypeStr+"/MC6847-CSS", elfConfiguration[elfType].elfPortConf.forceHighCss);
-	configPointer->Write(elfTypeStr+"/MC6847-INV", elfConfiguration[elfType].elfPortConf.forceHighInv);
+    configPointer->Write(elfTypeStr+"/MC6847-AG", elfConfiguration[elfType].elfPortConf.forceHighAg);
+    configPointer->Write(elfTypeStr+"/MC6847-AS", elfConfiguration[elfType].elfPortConf.forceHighAs);
+    configPointer->Write(elfTypeStr+"/MC6847-EXT", elfConfiguration[elfType].elfPortConf.forceHighExt);
+    configPointer->Write(elfTypeStr+"/MC6847-GM2", elfConfiguration[elfType].elfPortConf.forceHighGm2);
+    configPointer->Write(elfTypeStr+"/MC6847-GM1", elfConfiguration[elfType].elfPortConf.forceHighGm1);
+    configPointer->Write(elfTypeStr+"/MC6847-GM0", elfConfiguration[elfType].elfPortConf.forceHighGm0);
+    configPointer->Write(elfTypeStr+"/MC6847-CSS", elfConfiguration[elfType].elfPortConf.forceHighCss);
+    configPointer->Write(elfTypeStr+"/MC6847-INV", elfConfiguration[elfType].elfPortConf.forceHighInv);
 
     configPointer->Write(elfTypeStr+"/mc6847StartRam", elfConfiguration[elfType].elfPortConf.mc6847StartRam);
     configPointer->Write(elfTypeStr+"/mc6847EndRam", elfConfiguration[elfType].elfPortConf.mc6847EndRam);
@@ -531,7 +551,7 @@ wxString GuiMain::readConfigDir(const wxString& key, const wxString& defVal)
     if (!directory.Open(returnDir))
         returnDir = dataDir_ + returnDir;
     
-//	if (returnDir.Left(1) != "/" && returnDir.Left(2) != "C:")
+//    if (returnDir.Left(1) != "/" && returnDir.Left(2) != "C:")
 //        returnDir = dataDir_ + returnDir;
    
     return returnDir;
@@ -546,9 +566,9 @@ void GuiMain::writeConfigDir(const wxString& key, const wxString& value)
 
 void GuiMain::onMainRom1(wxCommandEvent& WXUNUSED(event))
 {
-	wxString fileName;
+    wxString fileName;
 
-	fileName = wxFileSelector( "Select the "+computerInfo[selectedComputer_].name+" ROM file to load",
+    fileName = wxFileSelector( "Select the "+computerInfo[selectedComputer_].name+" ROM file to load",
                                conf[selectedComputer_].romDir_[MAINROM1], XRCCTRL(*this, "MainRom"+computerInfo[selectedComputer_].gui, wxComboBox)->GetValue(),
                                "",
                                wxString::Format
@@ -560,26 +580,26 @@ void GuiMain::onMainRom1(wxCommandEvent& WXUNUSED(event))
                                wxFD_OPEN|wxFD_CHANGE_DIR|wxFD_PREVIEW,
                                this
                               );
-	if (!fileName)
-		return;
+    if (!fileName)
+        return;
 
-	wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
-	conf[selectedComputer_].romDir_[MAINROM1] = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
-	conf[selectedComputer_].rom_[MAINROM1] = FullPath.GetFullName();
+    wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
+    conf[selectedComputer_].romDir_[MAINROM1] = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+    conf[selectedComputer_].rom_[MAINROM1] = FullPath.GetFullName();
 
-	XRCCTRL(*this, "MainRom"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue(conf[selectedComputer_].rom_[MAINROM1]);
+    XRCCTRL(*this, "MainRom"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue(conf[selectedComputer_].rom_[MAINROM1]);
 }
 
 void GuiMain::onMainRom1Text(wxCommandEvent& WXUNUSED(event))
 {
-	conf[selectedComputer_].rom_[MAINROM1] = XRCCTRL(*this, "MainRom"+computerInfo[selectedComputer_].gui, wxComboBox)->GetValue();
+    conf[selectedComputer_].rom_[MAINROM1] = XRCCTRL(*this, "MainRom"+computerInfo[selectedComputer_].gui, wxComboBox)->GetValue();
 }
 
 void GuiMain::onMainRom2(wxCommandEvent& WXUNUSED(event) )
 {
-	wxString fileName;
+    wxString fileName;
 
-	fileName = wxFileSelector( "Select the "+computerInfo[selectedComputer_].name+" ROM or RAM file to load",
+    fileName = wxFileSelector( "Select the "+computerInfo[selectedComputer_].name+" ROM or RAM file to load",
                                conf[selectedComputer_].romDir_[MAINROM2], XRCCTRL(*this, "MainRom2"+computerInfo[selectedComputer_].gui, wxComboBox)->GetValue(),
                                "",
                                wxString::Format
@@ -591,57 +611,57 @@ void GuiMain::onMainRom2(wxCommandEvent& WXUNUSED(event) )
                                wxFD_OPEN|wxFD_CHANGE_DIR|wxFD_PREVIEW,
                                this
                               );
-	if (!fileName)
-		return;
+    if (!fileName)
+        return;
 
-	wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
-	conf[selectedComputer_].romDir_[MAINROM2] = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
-	conf[selectedComputer_].rom_[MAINROM2] = FullPath.GetFullName();
+    wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
+    conf[selectedComputer_].romDir_[MAINROM2] = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+    conf[selectedComputer_].rom_[MAINROM2] = FullPath.GetFullName();
 
-	XRCCTRL(*this, "MainRom2"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue(conf[selectedComputer_].rom_[MAINROM2]);
+    XRCCTRL(*this, "MainRom2"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue(conf[selectedComputer_].rom_[MAINROM2]);
 }
 
 void GuiMain::onMainRom2Text(wxCommandEvent& WXUNUSED(event))
 {
-	conf[selectedComputer_].rom_[MAINROM2] = XRCCTRL(*this, "MainRom2"+computerInfo[selectedComputer_].gui, wxComboBox)->GetValue();
+    conf[selectedComputer_].rom_[MAINROM2] = XRCCTRL(*this, "MainRom2"+computerInfo[selectedComputer_].gui, wxComboBox)->GetValue();
 }
 
 void GuiMain::onMainRom3(wxCommandEvent& WXUNUSED(event))
 {
-	wxString fileName;
+    wxString fileName;
 
-	fileName = wxFileSelector("Select the " + computerInfo[selectedComputer_].name + " ROM or RAM file to load",
-		conf[selectedComputer_].romDir_[MAINROM2], XRCCTRL(*this, "MainRom3" + computerInfo[selectedComputer_].gui, wxComboBox)->GetValue(),
-		"",
-		wxString::Format
-		(
-			"Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos|Intel Hex File|*.hex|All files (%s)|%s",
-			wxFileSelectorDefaultWildcardStr,
-			wxFileSelectorDefaultWildcardStr
-			),
-		wxFD_OPEN | wxFD_CHANGE_DIR | wxFD_PREVIEW,
-		this
-		);
-	if (!fileName)
-		return;
+    fileName = wxFileSelector("Select the " + computerInfo[selectedComputer_].name + " ROM or RAM file to load",
+        conf[selectedComputer_].romDir_[MAINROM2], XRCCTRL(*this, "MainRom3" + computerInfo[selectedComputer_].gui, wxComboBox)->GetValue(),
+        "",
+        wxString::Format
+        (
+            "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos|Intel Hex File|*.hex|All files (%s)|%s",
+            wxFileSelectorDefaultWildcardStr,
+            wxFileSelectorDefaultWildcardStr
+            ),
+        wxFD_OPEN | wxFD_CHANGE_DIR | wxFD_PREVIEW,
+        this
+        );
+    if (!fileName)
+        return;
 
-	wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
-	conf[selectedComputer_].romDir_[MAINROM3] = FullPath.GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
-	conf[selectedComputer_].rom_[MAINROM3] = FullPath.GetFullName();
+    wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
+    conf[selectedComputer_].romDir_[MAINROM3] = FullPath.GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+    conf[selectedComputer_].rom_[MAINROM3] = FullPath.GetFullName();
 
-	XRCCTRL(*this, "MainRom3" + computerInfo[selectedComputer_].gui, wxComboBox)->SetValue(conf[selectedComputer_].rom_[MAINROM3]);
+    XRCCTRL(*this, "MainRom3" + computerInfo[selectedComputer_].gui, wxComboBox)->SetValue(conf[selectedComputer_].rom_[MAINROM3]);
 }
 
 void GuiMain::onMainRom3Text(wxCommandEvent& WXUNUSED(event))
 {
-	conf[selectedComputer_].rom_[MAINROM3] = XRCCTRL(*this, "MainRom3" + computerInfo[selectedComputer_].gui, wxComboBox)->GetValue();
+    conf[selectedComputer_].rom_[MAINROM3] = XRCCTRL(*this, "MainRom3" + computerInfo[selectedComputer_].gui, wxComboBox)->GetValue();
 }
 
 void GuiMain::onCartRom(wxCommandEvent& WXUNUSED(event) )
 {
-	wxString fileName;
+    wxString fileName;
 
-	fileName = wxFileSelector( "Select the "+computerInfo[selectedComputer_].name+" Cartridge ROM file to load",
+    fileName = wxFileSelector( "Select the "+computerInfo[selectedComputer_].name+" Cartridge ROM file to load",
                                conf[selectedComputer_].romDir_[CARTROM], XRCCTRL(*this, "CartRom"+computerInfo[selectedComputer_].gui, wxComboBox)->GetValue(),
                                "st2",
                                wxString::Format
@@ -653,26 +673,26 @@ void GuiMain::onCartRom(wxCommandEvent& WXUNUSED(event) )
                                wxFD_OPEN|wxFD_CHANGE_DIR|wxFD_PREVIEW,
                                this
                               );
-	if (!fileName)
-		return;
+    if (!fileName)
+        return;
 
-	wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
-	conf[selectedComputer_].romDir_[CARTROM] = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
-	conf[selectedComputer_].rom_[CARTROM] = FullPath.GetFullName();
+    wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
+    conf[selectedComputer_].romDir_[CARTROM] = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+    conf[selectedComputer_].rom_[CARTROM] = FullPath.GetFullName();
 
-	XRCCTRL(*this, "CartRom"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue(conf[selectedComputer_].rom_[CARTROM]);
+    XRCCTRL(*this, "CartRom"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue(conf[selectedComputer_].rom_[CARTROM]);
 }
 
 void GuiMain::onCartRomText(wxCommandEvent& WXUNUSED(event))
 {
-	conf[selectedComputer_].rom_[CARTROM] = XRCCTRL(*this, "CartRom"+computerInfo[selectedComputer_].gui, wxComboBox)->GetValue();
+    conf[selectedComputer_].rom_[CARTROM] = XRCCTRL(*this, "CartRom"+computerInfo[selectedComputer_].gui, wxComboBox)->GetValue();
 }
 
 void GuiMain::onRamSW(wxCommandEvent& WXUNUSED(event) )
 {
-	wxString fileName;
+    wxString fileName;
 
-	fileName = wxFileSelector( "Select the RAM software file to load",
+    fileName = wxFileSelector( "Select the RAM software file to load",
                                conf[selectedComputer_].ramDir_, XRCCTRL(*this, "RamSW"+computerInfo[selectedComputer_].gui, wxComboBox)->GetValue(),
                                "",
                                wxString::Format
@@ -684,42 +704,42 @@ void GuiMain::onRamSW(wxCommandEvent& WXUNUSED(event) )
                                wxFD_OPEN|wxFD_CHANGE_DIR|wxFD_PREVIEW,
                                this
                               );
-	if (!fileName)
-		return;
+    if (!fileName)
+        return;
 
-	wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
-	conf[selectedComputer_].ramDir_ = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
-	conf[selectedComputer_].ram_ = FullPath.GetFullName();
+    wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
+    conf[selectedComputer_].ramDir_ = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+    conf[selectedComputer_].ram_ = FullPath.GetFullName();
 
-	XRCCTRL(*this, "RamSW"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue(conf[selectedComputer_].ram_);
-	
-	if (selectedComputer_ == FRED1 || selectedComputer_ == FRED1_5)
+    XRCCTRL(*this, "RamSW"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue(conf[selectedComputer_].ram_);
+    
+    if (selectedComputer_ == FRED1 || selectedComputer_ == FRED1_5)
         p_Main->setGameId(conf[selectedComputer_].ram_);
 
-	if (selectedComputer_ == FRED1_5)
+    if (selectedComputer_ == FRED1_5)
         p_Main->checkGameFred2(conf[selectedComputer_].ram_);
 }
 
 void GuiMain::onRamSWText(wxCommandEvent& WXUNUSED(event))
 {
-	conf[selectedComputer_].ram_ = XRCCTRL(*this, "RamSW"+computerInfo[selectedComputer_].gui, wxComboBox)->GetValue();
+    conf[selectedComputer_].ram_ = XRCCTRL(*this, "RamSW"+computerInfo[selectedComputer_].gui, wxComboBox)->GetValue();
 
-	if (selectedComputer_ == FRED1 && conf[FRED1].gameId_ != -1)
+    if (selectedComputer_ == FRED1 && conf[FRED1].gameId_ != -1)
         p_Main->setGameId(conf[selectedComputer_].ram_);
 
-	if (selectedComputer_ == FRED1_5 && conf[FRED1_5].gameId_ != -1)
+    if (selectedComputer_ == FRED1_5 && conf[FRED1_5].gameId_ != -1)
         p_Main->checkGameFred2(conf[selectedComputer_].ram_);
 }
 
 void GuiMain::onChip8SW(wxCommandEvent& WXUNUSED(event) )
 {
-	wxString fileName;
+    wxString fileName;
 
-	wxString mainText = "Select the Chip 8 software file to load";
-	if (selectedComputer_ == ETI)
-		mainText = "Select the RAM or Chip 8 software file to load";
+    wxString mainText = "Select the Chip 8 software file to load";
+    if (selectedComputer_ == ETI)
+        mainText = "Select the RAM or Chip 8 software file to load";
 
-	fileName = wxFileSelector( mainText,
+    fileName = wxFileSelector( mainText,
                                conf[selectedComputer_].chip8SWDir_, XRCCTRL(*this, "Chip8SW"+computerInfo[selectedComputer_].gui, wxTextCtrl)->GetValue(),
                                "",
                                wxString::Format
@@ -731,32 +751,32 @@ void GuiMain::onChip8SW(wxCommandEvent& WXUNUSED(event) )
                                wxFD_OPEN|wxFD_CHANGE_DIR|wxFD_PREVIEW,
                                this
                               );
-	if (!fileName)
-		return;
+    if (!fileName)
+        return;
 
-	wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
-	conf[selectedComputer_].chip8SWDir_ = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
-	conf[selectedComputer_].chip8SW_ = FullPath.GetFullName();
+    wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
+    conf[selectedComputer_].chip8SWDir_ = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+    conf[selectedComputer_].chip8SW_ = FullPath.GetFullName();
 
-	XRCCTRL(*this, "Chip8SW"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue(conf[selectedComputer_].chip8SW_);
+    XRCCTRL(*this, "Chip8SW"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue(conf[selectedComputer_].chip8SW_);
 }
 
 void GuiMain::onChip8SWText(wxCommandEvent& event)
 {
-	conf[selectedComputer_].chip8SW_ = event.GetString();
+    conf[selectedComputer_].chip8SW_ = event.GetString();
 }
 
 void GuiMain::onEjectChip8SW(wxCommandEvent& WXUNUSED(event) )
 {
-	conf[selectedComputer_].chip8SW_ = "";
-	XRCCTRL(*this, "Chip8SW"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue(conf[selectedComputer_].chip8SW_);
+    conf[selectedComputer_].chip8SW_ = "";
+    XRCCTRL(*this, "Chip8SW"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue(conf[selectedComputer_].chip8SW_);
 }
 
 void GuiMain::onPrintFile(wxCommandEvent& WXUNUSED(event))
 {
- 	wxString fileName;
+     wxString fileName;
 
-	fileName = wxFileSelector( "Select the Printer Output File",
+    fileName = wxFileSelector( "Select the Printer Output File",
                                conf[selectedComputer_].printFileDir_, XRCCTRL(*this, "PrintFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->GetValue(),
                                "txt",
                                wxString::Format
@@ -770,103 +790,103 @@ void GuiMain::onPrintFile(wxCommandEvent& WXUNUSED(event))
                               );
 
 
-	if (!fileName)
-		return;
+    if (!fileName)
+        return;
 
-	wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
-	conf[selectedComputer_].printFileDir_ = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
-	conf[selectedComputer_].printFile_ = FullPath.GetFullName();
+    wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
+    conf[selectedComputer_].printFileDir_ = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+    conf[selectedComputer_].printFile_ = FullPath.GetFullName();
 
-	XRCCTRL(*this, "PrintFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue(conf[selectedComputer_].printFile_);
+    XRCCTRL(*this, "PrintFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue(conf[selectedComputer_].printFile_);
 }
 
 void GuiMain::onPrintFileText(wxCommandEvent&event)
 {
-	wxString printFile;
+    wxString printFile;
 
-	conf[selectedComputer_].printFile_ = event.GetString();
+    conf[selectedComputer_].printFile_ = event.GetString();
 
-	if (runningComputer_ == selectedComputer_)
-	{
-		if (conf[selectedComputer_].printFile_.Len() == 0)
-			p_Printer->setPrintfileName("");
-		else
-			p_Printer->setPrintfileName(conf[selectedComputer_].printFileDir_ + conf[selectedComputer_].printFile_);
-	}
+    if (runningComputer_ == selectedComputer_)
+    {
+        if (conf[selectedComputer_].printFile_.Len() == 0)
+            p_Printer->setPrintfileName("");
+        else
+            p_Printer->setPrintfileName(conf[selectedComputer_].printFileDir_ + conf[selectedComputer_].printFile_);
+    }
 }
 
 void GuiMain::onPrintButton(wxCommandEvent&WXUNUSED(event))
 {
-	if (selectedComputer_ == VIP || selectedComputer_ == VIPII || selectedComputer_ == VELF ||selectedComputer_ == ELF || selectedComputer_ == ELFII || selectedComputer_ == SUPERELF)
-	{
-		if (!computerRunning_ || (selectedComputer_ != runningComputer_))
-		{
-			conf[selectedComputer_].printerOn_ = !conf[selectedComputer_].printerOn_;
-			setPrinterState(selectedComputer_);
-			return;
-		}
-	}
-	onF4();
+    if (selectedComputer_ == VIP || selectedComputer_ == VIPII || selectedComputer_ == VELF ||selectedComputer_ == ELF || selectedComputer_ == ELFII || selectedComputer_ == SUPERELF || selectedComputer_ == DIY || selectedComputer_ == PICO)
+    {
+        if (!computerRunning_ || (selectedComputer_ != runningComputer_))
+        {
+            conf[selectedComputer_].printerOn_ = !conf[selectedComputer_].printerOn_;
+            setPrinterState(selectedComputer_);
+            return;
+        }
+    }
+    onF4();
 }
 
 void GuiMain::onF4()
 {
-	if (computerRunning_)
-	{
-		p_Printer->onF4();
-		if (conf[runningComputer_].printMode_ == PRINTFILE)
-		{
-			conf[runningComputer_].printMode_ = PRINTWINDOW;
-			if (mode_.gui)
-			{
-				XRCCTRL(*this, "PrintMode"+computerInfo[runningComputer_].gui, wxChoice)->SetSelection(conf[runningComputer_].printMode_);
-				XRCCTRL(*this, "PrintFileButton"+computerInfo[runningComputer_].gui, wxButton)->Enable(false);
-				XRCCTRL(*this, "PrintFile"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(false);
-			}
-			p_Printer->setPrintMode(conf[selectedComputer_].printMode_);
-		}
-	}
+    if (computerRunning_)
+    {
+        p_Printer->onF4();
+        if (conf[runningComputer_].printMode_ == PRINTFILE)
+        {
+            conf[runningComputer_].printMode_ = PRINTWINDOW;
+            if (mode_.gui)
+            {
+                XRCCTRL(*this, "PrintMode"+computerInfo[runningComputer_].gui, wxChoice)->SetSelection(conf[runningComputer_].printMode_);
+                XRCCTRL(*this, "PrintFileButton"+computerInfo[runningComputer_].gui, wxButton)->Enable(false);
+                XRCCTRL(*this, "PrintFile"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(false);
+            }
+            p_Printer->setPrintMode(conf[selectedComputer_].printMode_);
+        }
+    }
 }
 
 void GuiMain::onPrintMode(wxCommandEvent&event)
 {
-	conf[selectedComputer_].printMode_ = event.GetSelection();
-	setPrintMode();
-	
-	if (runningComputer_ == selectedComputer_)
-		p_Printer->setPrintMode(conf[selectedComputer_].printMode_);
+    conf[selectedComputer_].printMode_ = event.GetSelection();
+    setPrintMode();
+    
+    if (runningComputer_ == selectedComputer_)
+        p_Printer->setPrintMode(conf[selectedComputer_].printMode_);
 }
 
 void GuiMain::setPrintMode()
 {
-	if (!mode_.gui)  return;
-	if (conf[selectedComputer_].printMode_ == PRINTFILE)
-	{
-		XRCCTRL(*this, "PrintFileButton"+computerInfo[selectedComputer_].gui, wxButton)->Enable(true);
-		XRCCTRL(*this, "PrintFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->Enable(true);
-	}
-	else
-	{
-		XRCCTRL(*this, "PrintFileButton"+computerInfo[selectedComputer_].gui, wxButton)->Enable(false);
-		XRCCTRL(*this, "PrintFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->Enable(false);
-	}
+    if (!mode_.gui)  return;
+    if (conf[selectedComputer_].printMode_ == PRINTFILE)
+    {
+        XRCCTRL(*this, "PrintFileButton"+computerInfo[selectedComputer_].gui, wxButton)->Enable(true);
+        XRCCTRL(*this, "PrintFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->Enable(true);
+    }
+    else
+    {
+        XRCCTRL(*this, "PrintFileButton"+computerInfo[selectedComputer_].gui, wxButton)->Enable(false);
+        XRCCTRL(*this, "PrintFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->Enable(false);
+    }
 }
 
 int GuiMain::getPrintMode()
 {
-	return conf[runningComputer_].printMode_;
+    return conf[runningComputer_].printMode_;
 }
 
 void GuiMain::openPrinterFrame(wxCommandEvent&WXUNUSED(event))
 {
-	onF4();
+    onF4();
 }
 
 void GuiMain::onIde(wxCommandEvent& WXUNUSED(event) )
 {
-	wxString fileName;
+    wxString fileName;
 
-	fileName = wxFileSelector( "Select the IDE file to load",
+    fileName = wxFileSelector( "Select the IDE file to load",
                                conf[selectedComputer_].ideDir_, XRCCTRL(*this, "IdeFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->GetValue(),
                                "ide",
                                wxString::Format
@@ -878,32 +898,32 @@ void GuiMain::onIde(wxCommandEvent& WXUNUSED(event) )
                                wxFD_OPEN|wxFD_CHANGE_DIR|wxFD_PREVIEW,
                                this
                               );
-	if (!fileName)
-		return;
+    if (!fileName)
+        return;
 
-	wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
-	conf[selectedComputer_].ideDir_ = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
-	conf[selectedComputer_].ide_ = FullPath.GetFullName();
+    wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
+    conf[selectedComputer_].ideDir_ = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+    conf[selectedComputer_].ide_ = FullPath.GetFullName();
 
-	XRCCTRL(*this, "IdeFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue(conf[selectedComputer_].ide_);
+    XRCCTRL(*this, "IdeFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue(conf[selectedComputer_].ide_);
 }
 
 void GuiMain::onIdeEject(wxCommandEvent& WXUNUSED(event) )
 {
-	conf[selectedComputer_].ide_ = "";
-	XRCCTRL(*this, "IdeFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue(conf[selectedComputer_].ide_);
+    conf[selectedComputer_].ide_ = "";
+    XRCCTRL(*this, "IdeFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue(conf[selectedComputer_].ide_);
 }
 
 void GuiMain::onIdeText(wxCommandEvent& event)
 {
-	conf[selectedComputer_].ide_ = event.GetString();
+    conf[selectedComputer_].ide_ = event.GetString();
 }
 
 void GuiMain::onCharRom(wxCommandEvent& WXUNUSED(event) )
 {
-	wxString fileName;
+    wxString fileName;
 
-	fileName = wxFileSelector( "Select the Character Font file to load",
+    fileName = wxFileSelector( "Select the Character Font file to load",
                                conf[selectedComputer_].charRomDir_, XRCCTRL(*this, "CharRom"+computerInfo[selectedComputer_].gui, wxComboBox)->GetValue(),
                                "bin",
                                wxString::Format
@@ -915,26 +935,26 @@ void GuiMain::onCharRom(wxCommandEvent& WXUNUSED(event) )
                                wxFD_OPEN|wxFD_CHANGE_DIR|wxFD_PREVIEW,
                                this
                               );
-	if (!fileName)
-		return;
+    if (!fileName)
+        return;
 
-	wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
-	conf[selectedComputer_].charRomDir_ = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
-	conf[selectedComputer_].charRom_ = FullPath.GetFullName();
+    wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
+    conf[selectedComputer_].charRomDir_ = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+    conf[selectedComputer_].charRom_ = FullPath.GetFullName();
 
-	XRCCTRL(*this, "CharRom"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue(conf[selectedComputer_].charRom_);
+    XRCCTRL(*this, "CharRom"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue(conf[selectedComputer_].charRom_);
 }
 
 void GuiMain::onCharRomText(wxCommandEvent& WXUNUSED(event))
 {
-	conf[selectedComputer_].charRom_ = XRCCTRL(*this, "CharRom"+computerInfo[selectedComputer_].gui, wxComboBox)->GetValue();
+    conf[selectedComputer_].charRom_ = XRCCTRL(*this, "CharRom"+computerInfo[selectedComputer_].gui, wxComboBox)->GetValue();
 }
 
 void GuiMain::onKeyFile(wxCommandEvent& WXUNUSED(event) )
 {
-	wxString fileName;
+    wxString fileName;
 
-	fileName = wxFileSelector( "Select the Key file to load",
+    fileName = wxFileSelector( "Select the Key file to load",
                                conf[selectedComputer_].keyFileDir_, XRCCTRL(*this, "KeyFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->GetValue(),
                                "txt",
                                wxString::Format
@@ -946,178 +966,210 @@ void GuiMain::onKeyFile(wxCommandEvent& WXUNUSED(event) )
                                wxFD_OPEN|wxFD_CHANGE_DIR|wxFD_PREVIEW,
                                this
                               );
-	wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
-	conf[selectedComputer_].keyFileDir_ = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
-	conf[selectedComputer_].keyFile_ = FullPath.GetFullName();
+    wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
+    conf[selectedComputer_].keyFileDir_ = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+    conf[selectedComputer_].keyFile_ = FullPath.GetFullName();
 
-	XRCCTRL(*this, "KeyFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue(conf[selectedComputer_].keyFile_);
+    XRCCTRL(*this, "KeyFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue(conf[selectedComputer_].keyFile_);
 }
 
 void GuiMain::onKeyFileText(wxCommandEvent&WXUNUSED(event))
 {
-	conf[selectedComputer_].keyFile_ = XRCCTRL(*this, "KeyFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->GetValue();
+    conf[selectedComputer_].keyFile_ = XRCCTRL(*this, "KeyFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->GetValue();
 }
 
 void GuiMain::onKeyFileEject(wxCommandEvent& WXUNUSED(event) )
 {
-	XRCCTRL(*this, "KeyFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("");
-	conf[selectedComputer_].keyFile_ = "";
-	if (selectedComputer_ != runningComputer_)
-		return;
-	if (computerRunning_)
-	{
-		switch(runningComputer_)
-		{
-			case ELF:
-				p_Elf->closeElfKeyFile();
-			break;
+    XRCCTRL(*this, "KeyFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("");
+    conf[selectedComputer_].keyFile_ = "";
+    if (selectedComputer_ != runningComputer_)
+        return;
+    if (computerRunning_)
+    {
+        switch(runningComputer_)
+        {
+            case ELF:
+                p_Elf->closeElfKeyFile();
+            break;
 
-			case ELFII:
-				p_Elf2->closeElfKeyFile();
-			break;
+            case ELFII:
+                p_Elf2->closeElfKeyFile();
+            break;
 
-			case SUPERELF:
-				p_Super->closeElfKeyFile();
-			break;
+            case SUPERELF:
+                p_Super->closeElfKeyFile();
+            break;
 
-			case ELF2K:
-				p_Elf2K->closePs2gpioKeyFile();
-			break;
+            case DIY:
+                p_Diy->closeElfKeyFile();
+            break;
+
+            case PICO:
+                p_Pico->closeElfKeyFile();
+            break;
+
+            case ELF2K:
+                p_Elf2K->closePs2gpioKeyFile();
+            break;
                 
             case PECOM:
-				p_Pecom->closePecomKeyFile();
-			break;
+                p_Pecom->closePecomKeyFile();
+            break;
 
-			case COMX:
-				p_Comx->closeComxKeyFile();
-			break;
+            case COMX:
+                p_Comx->closeComxKeyFile();
+            break;
 
-			case TMC600:
-				p_Tmc600->closeTelmacKeyFile();
-			break;
-		}
-	}
+            case TMC600:
+                p_Tmc600->closeTelmacKeyFile();
+            break;
+        }
+    }
 }
 
 void GuiMain::onVT100(wxCommandEvent&event)
 {
-	int Selection = event.GetSelection();
-	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, Selection, true);
+    int Selection = event.GetSelection();
+    setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, Selection, true);
 
-	if (Selection != VTNONE)
-	{
-		if (selectedComputer_ == ELF2K)
-		{
-			XRCCTRL(*this, "Elf2KVideoType", wxChoice)->SetSelection(VIDEONONE);
-			p_Main->setElf2KVideoType(VIDEONONE);
-		}
-	}
+    if (Selection != VTNONE)
+    {
+        if (selectedComputer_ == ELF2K)
+        {
+            XRCCTRL(*this, "Elf2KVideoType", wxChoice)->SetSelection(VIDEONONE);
+            p_Main->setElf2KVideoType(VIDEONONE);
+        }
+    }
 }
 
 void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool GuiChange)
 {
-	elfConfiguration[elfType].vtType = Selection;
+    elfConfiguration[elfType].vtType = Selection;
 
     if (elfConfiguration[selectedComputer_].vtExternal & !GuiChange)
         Selection = EXTERNAL_TERMINAL;
     
-	switch(Selection)
-	{
-		case VTNONE:
-			if (mode_.gui)
-			{
+    switch(Selection)
+    {
+        case VTNONE:
+            if (mode_.gui)
+            {
                 XRCCTRL(*this, "VTBaudRChoice"+elfTypeStr, wxChoice)->Enable(false);
                 XRCCTRL(*this, "VTBaudTChoice"+elfTypeStr, wxChoice)->Enable(false);
                 XRCCTRL(*this, "VTBaudRText"+elfTypeStr, wxStaticText)->Enable(false);
                 XRCCTRL(*this, "VTBaudTText"+elfTypeStr, wxStaticText)->Enable(false);
                 XRCCTRL(*this, "VtSetup"+elfTypeStr, wxButton)->Enable(false);
-                if (elfType == ELF || elfType == ELFII || elfType == SUPERELF)
+                if (elfType == ELF || elfType == ELFII || elfType == SUPERELF || elfType == DIY || elfType == PICO)
                 {
                     XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->Enable(true);
                     XRCCTRL(*this, "QsoundText"+elfTypeStr, wxStaticText)->Enable(true);
+                    XRCCTRL(*this, "BeepFrequency"+elfTypeStr, wxTextCtrl)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
+                    XRCCTRL(*this, "BeepFrequencyText"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
+                    XRCCTRL(*this, "BeepFrequencyTextHz"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
                 }
 
                 XRCCTRL(*this, "ZoomTextVt"+elfTypeStr, wxStaticText)->Enable(false);
-				XRCCTRL(*this, "ZoomSpinVt"+elfTypeStr, wxSpinButton)->Enable(false);
-				XRCCTRL(*this, "ZoomValueVt"+elfTypeStr, wxTextCtrl)->Enable(false);
-				XRCCTRL(*this, "StretchDot"+elfTypeStr, wxCheckBox)->Enable(false);
-			}
+                XRCCTRL(*this, "ZoomSpinVt"+elfTypeStr, wxSpinButton)->Enable(false);
+                XRCCTRL(*this, "ZoomValueVt"+elfTypeStr, wxTextCtrl)->Enable(false);
+                XRCCTRL(*this, "StretchDot"+elfTypeStr, wxCheckBox)->Enable(false);
+            }
             elfConfiguration[selectedComputer_].vtExternal = false;
-		break;
+        break;
 
-		case VT52:
-			if (elfType == COSMICOS || elfType == ELF2K || elfType == MS2000 || elfType == MEMBER || elfType == VIP || elfType == VIP2K || elfType == VELF || elfType == CDP18S020 || elfType == MICROBOARD)
-				elfConfiguration[elfType].vtCharRomDir_ = dataDir_ + elfTypeStr + pathSeparator_;
-			else
+        case VT52:
+            if (elfType == COSMICOS || elfType == ELF2K || elfType == MS2000 || elfType == MEMBER || elfType == VIP || elfType == VIP2K || elfType == VELF || elfType == CDP18S020 || elfType == MICROBOARD)
+                elfConfiguration[elfType].vtCharRomDir_ = dataDir_ + elfTypeStr + pathSeparator_;
+            else
                 if (elfType == MCDS)
                     elfConfiguration[elfType].vtCharRomDir_ = dataDir_ + "MCDS" + pathSeparator_;
                 else
                     elfConfiguration[elfType].vtCharRomDir_ = dataDir_ + "Elf" + pathSeparator_;
-			elfConfiguration[elfType].vtCharRom_ = "vt52.a.bin";
-			if (mode_.gui)
-			{
-				XRCCTRL(*this, "VTBaudRChoice"+elfTypeStr, wxChoice)->Enable(elfConfiguration[elfType].useUart || elfConfiguration[elfType].useUart16450);
-				XRCCTRL(*this, "VTBaudTChoice"+elfTypeStr, wxChoice)->Enable(true);
+            elfConfiguration[elfType].vtCharRom_ = "vt52.a.bin";
+            if (mode_.gui)
+            {
+                XRCCTRL(*this, "VTBaudRChoice"+elfTypeStr, wxChoice)->Enable(elfConfiguration[elfType].useUart || elfConfiguration[elfType].useUart16450);
+                XRCCTRL(*this, "VTBaudTChoice"+elfTypeStr, wxChoice)->Enable(true);
                 XRCCTRL(*this, "VTBaudRText"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].useUart || elfConfiguration[elfType].useUart16450);
                 XRCCTRL(*this, "VTBaudTText"+elfTypeStr, wxStaticText)->Enable(true);
                 XRCCTRL(*this, "ZoomTextVt"+elfTypeStr, wxStaticText)->Enable(true);
                 XRCCTRL(*this, "VtSetup"+elfTypeStr, wxButton)->Enable(true);
-				XRCCTRL(*this, "ZoomSpinVt"+elfTypeStr, wxSpinButton)->Enable(true);
-				XRCCTRL(*this, "ZoomValueVt"+elfTypeStr, wxTextCtrl)->Enable(true);
-				XRCCTRL(*this, "StretchDot"+elfTypeStr, wxCheckBox)->Enable(true);
-			}
-			if (elfType == ELF || elfType == ELFII || elfType == SUPERELF)
-			{
-				elfConfiguration[elfType].qSound_ = QSOUNDOFF;
-				if (mode_.gui)
-				{
-					XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->SetSelection(QSOUNDOFF);
-					XRCCTRL(*this, "BeepFrequency"+elfTypeStr, wxTextCtrl)->Enable(false);
-                    XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->Enable(false);
-                    XRCCTRL(*this, "BeepFrequencyText"+elfTypeStr, wxStaticText)->Enable(false);
-					XRCCTRL(*this, "BeepFrequencyTextHz"+elfTypeStr, wxStaticText)->Enable(false);
-					XRCCTRL(*this, "QsoundText"+elfTypeStr, wxStaticText)->Enable(false);
-				}
-			}
+                XRCCTRL(*this, "ZoomSpinVt"+elfTypeStr, wxSpinButton)->Enable(true);
+                XRCCTRL(*this, "ZoomValueVt"+elfTypeStr, wxTextCtrl)->Enable(true);
+                XRCCTRL(*this, "StretchDot"+elfTypeStr, wxCheckBox)->Enable(true);
+            }
+            if (elfType == ELF || elfType == ELFII || elfType == SUPERELF || elfType == DIY || elfType == PICO)
+            {
+                if (!(elfConfiguration[elfType].useUart || elfConfiguration[elfType].useUart16450))
+                {
+                    elfConfiguration[elfType].qSound_ = QSOUNDOFF;
+                    if (mode_.gui)
+                    {
+                        XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->SetSelection(QSOUNDOFF);
+                        XRCCTRL(*this, "BeepFrequency"+elfTypeStr, wxTextCtrl)->Enable(false);
+                        XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->Enable(false);
+                        XRCCTRL(*this, "BeepFrequencyText"+elfTypeStr, wxStaticText)->Enable(false);
+                        XRCCTRL(*this, "BeepFrequencyTextHz"+elfTypeStr, wxStaticText)->Enable(false);
+                        XRCCTRL(*this, "QsoundText"+elfTypeStr, wxStaticText)->Enable(false);
+                    }
+                }
+                else
+                {
+                    XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->Enable(true);
+                    XRCCTRL(*this, "QsoundText"+elfTypeStr, wxStaticText)->Enable(true);
+                    XRCCTRL(*this, "BeepFrequency"+elfTypeStr, wxTextCtrl)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
+                    XRCCTRL(*this, "BeepFrequencyText"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
+                    XRCCTRL(*this, "BeepFrequencyTextHz"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);                }
+            }
             elfConfiguration[selectedComputer_].vtExternal = false;
-		break;
+        break;
 
-		case VT100:
-			if (elfType == COSMICOS || elfType == ELF2K || elfType == MS2000 || elfType == MEMBER || elfType == VIP || elfType == VIP2K || elfType == VELF || elfType == CDP18S020 || elfType == MICROBOARD)
-				elfConfiguration[elfType].vtCharRomDir_ = dataDir_ + elfTypeStr + pathSeparator_;
-			else
+        case VT100:
+            if (elfType == COSMICOS || elfType == ELF2K || elfType == MS2000 || elfType == MEMBER || elfType == VIP || elfType == VIP2K || elfType == VELF || elfType == CDP18S020 || elfType == MICROBOARD)
+                elfConfiguration[elfType].vtCharRomDir_ = dataDir_ + elfTypeStr + pathSeparator_;
+            else
                 if (elfType == MCDS)
                     elfConfiguration[elfType].vtCharRomDir_ = dataDir_ + "MCDS" + pathSeparator_;
                 else
                     elfConfiguration[elfType].vtCharRomDir_ = dataDir_ + "Elf" + pathSeparator_;
-			elfConfiguration[elfType].vtCharRom_ = "vt100.bin";
-			if (mode_.gui)
-			{
-				XRCCTRL(*this, "VTBaudRChoice"+elfTypeStr, wxChoice)->Enable(elfConfiguration[elfType].useUart || elfConfiguration[elfType].useUart16450);
-				XRCCTRL(*this, "VTBaudTChoice"+elfTypeStr, wxChoice)->Enable(true);
+            elfConfiguration[elfType].vtCharRom_ = "vt100.bin";
+            if (mode_.gui)
+            {
+                XRCCTRL(*this, "VTBaudRChoice"+elfTypeStr, wxChoice)->Enable(elfConfiguration[elfType].useUart || elfConfiguration[elfType].useUart16450);
+                XRCCTRL(*this, "VTBaudTChoice"+elfTypeStr, wxChoice)->Enable(true);
                 XRCCTRL(*this, "VTBaudRText"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].useUart || elfConfiguration[elfType].useUart16450);
                 XRCCTRL(*this, "VTBaudTText"+elfTypeStr, wxStaticText)->Enable(true);
                 XRCCTRL(*this, "ZoomTextVt"+elfTypeStr, wxStaticText)->Enable(true);
                 XRCCTRL(*this, "VtSetup"+elfTypeStr, wxButton)->Enable(true);
-				XRCCTRL(*this, "ZoomSpinVt"+elfTypeStr, wxSpinButton)->Enable(true);
-				XRCCTRL(*this, "ZoomValueVt"+elfTypeStr, wxTextCtrl)->Enable(true);
-				XRCCTRL(*this, "StretchDot"+elfTypeStr, wxCheckBox)->Enable(true);
-			}
-			if (elfType == ELF || elfType == ELFII || elfType == SUPERELF)
-			{
-				elfConfiguration[elfType].qSound_ = QSOUNDOFF;
-				if (mode_.gui)
-				{
-					XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->SetSelection(QSOUNDOFF);
-					XRCCTRL(*this, "BeepFrequency"+elfTypeStr, wxTextCtrl)->Enable(false);
-                    XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->Enable(false);
-					XRCCTRL(*this, "BeepFrequencyTextHz"+elfTypeStr, wxStaticText)->Enable(false);
-                    XRCCTRL(*this, "BeepFrequencyText"+elfTypeStr, wxStaticText)->Enable(false);
-					XRCCTRL(*this, "QsoundText"+elfTypeStr, wxStaticText)->Enable(false);
-				}
-			}
+                XRCCTRL(*this, "ZoomSpinVt"+elfTypeStr, wxSpinButton)->Enable(true);
+                XRCCTRL(*this, "ZoomValueVt"+elfTypeStr, wxTextCtrl)->Enable(true);
+                XRCCTRL(*this, "StretchDot"+elfTypeStr, wxCheckBox)->Enable(true);
+            }
+            if (elfType == ELF || elfType == ELFII || elfType == SUPERELF || elfType == DIY || elfType == PICO)
+            {
+                if (!(elfConfiguration[elfType].useUart || elfConfiguration[elfType].useUart16450))
+                {
+                    elfConfiguration[elfType].qSound_ = QSOUNDOFF;
+                    if (mode_.gui)
+                    {
+                        XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->SetSelection(QSOUNDOFF);
+                        XRCCTRL(*this, "BeepFrequency"+elfTypeStr, wxTextCtrl)->Enable(false);
+                        XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->Enable(false);
+                        XRCCTRL(*this, "BeepFrequencyTextHz"+elfTypeStr, wxStaticText)->Enable(false);
+                        XRCCTRL(*this, "BeepFrequencyText"+elfTypeStr, wxStaticText)->Enable(false);
+                        XRCCTRL(*this, "QsoundText"+elfTypeStr, wxStaticText)->Enable(false);
+                    }
+                }
+                else
+                {
+                    XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->Enable(true);
+                    XRCCTRL(*this, "QsoundText"+elfTypeStr, wxStaticText)->Enable(true);
+                    XRCCTRL(*this, "BeepFrequency"+elfTypeStr, wxTextCtrl)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
+                    XRCCTRL(*this, "BeepFrequencyText"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
+                    XRCCTRL(*this, "BeepFrequencyTextHz"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
+                }
+            }
             elfConfiguration[selectedComputer_].vtExternal = false;
-		break;
+        break;
     
         case EXTERNAL_TERMINAL:
             XRCCTRL(*this, "VTBaudRChoice"+elfTypeStr, wxChoice)->Enable(elfConfiguration[elfType].useUart || elfConfiguration[elfType].useUart16450);
@@ -1125,23 +1177,34 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool Gu
             XRCCTRL(*this, "VTBaudRText"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].useUart || elfConfiguration[elfType].useUart16450);
             XRCCTRL(*this, "VTBaudTText"+elfTypeStr, wxStaticText)->Enable(true);
             XRCCTRL(*this, "VtSetup"+elfTypeStr, wxButton)->Enable(true);
-            if (elfType == ELF || elfType == ELFII || elfType == SUPERELF)
+            if (elfType == ELF || elfType == ELFII || elfType == SUPERELF || elfType == DIY || elfType == PICO)
             {
-                elfConfiguration[elfType].qSound_ = QSOUNDOFF;
-                if (mode_.gui)
+                if (!(elfConfiguration[elfType].useUart || elfConfiguration[elfType].useUart16450))
                 {
-                    XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->SetSelection(QSOUNDOFF);
-                    XRCCTRL(*this, "BeepFrequency"+elfTypeStr, wxTextCtrl)->Enable(false);
-                    XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->Enable(false);
-                    XRCCTRL(*this, "BeepFrequencyText"+elfTypeStr, wxStaticText)->Enable(false);
-                    XRCCTRL(*this, "BeepFrequencyTextHz"+elfTypeStr, wxStaticText)->Enable(false);
-                    XRCCTRL(*this, "QsoundText"+elfTypeStr, wxStaticText)->Enable(false);
+                    elfConfiguration[elfType].qSound_ = QSOUNDOFF;
+                    if (mode_.gui)
+                    {
+                        XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->SetSelection(QSOUNDOFF);
+                        XRCCTRL(*this, "BeepFrequency"+elfTypeStr, wxTextCtrl)->Enable(false);
+                        XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->Enable(false);
+                        XRCCTRL(*this, "BeepFrequencyText"+elfTypeStr, wxStaticText)->Enable(false);
+                        XRCCTRL(*this, "BeepFrequencyTextHz"+elfTypeStr, wxStaticText)->Enable(false);
+                        XRCCTRL(*this, "QsoundText"+elfTypeStr, wxStaticText)->Enable(false);
+                    }
                 }
+                else
+                {
+                    XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->Enable(true);
+                    XRCCTRL(*this, "QsoundText"+elfTypeStr, wxStaticText)->Enable(true);
+                    XRCCTRL(*this, "BeepFrequency"+elfTypeStr, wxTextCtrl)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
+                    XRCCTRL(*this, "BeepFrequencyText"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
+                    XRCCTRL(*this, "BeepFrequencyTextHz"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
+               }
             }
             elfConfiguration[selectedComputer_].vtExternal = true;
             elfConfiguration[elfType].vtType = VTNONE;
         break;
-	}
+    }
 }
 
 void GuiMain::onFullScreenFloat(wxCommandEvent&WXUNUSED(event))
@@ -1153,6 +1216,8 @@ void GuiMain::onFullScreenFloat(wxCommandEvent&WXUNUSED(event))
     correctZoomAndValue(ELF, "Elf", SET_SPIN);
     correctZoomAndValue(ELFII, "ElfII", SET_SPIN);
     correctZoomAndValue(SUPERELF, "SuperElf", SET_SPIN);
+    correctZoomAndValue(DIY, "Diy", SET_SPIN);
+    correctZoomAndValue(PICO, "Pico", SET_SPIN);
     correctZoomAndValue(VIP2K, "Vip2K", SET_SPIN);
     correctZoomAndValue(VELF, "Velf", SET_SPIN);
     correctZoomAndValue(FRED1, "FRED1", SET_SPIN);
@@ -1179,6 +1244,8 @@ void GuiMain::onFullScreenFloat(wxCommandEvent&WXUNUSED(event))
     correctZoomVtAndValue(ELF, "Elf", SET_SPIN);
     correctZoomVtAndValue(ELFII, "ElfII", SET_SPIN);
     correctZoomVtAndValue(SUPERELF, "SuperElf", SET_SPIN);
+    correctZoomVtAndValue(DIY, "Diy", SET_SPIN);
+    correctZoomVtAndValue(PICO, "Pico", SET_SPIN);
     correctZoomVtAndValue(MEMBER, "Membership", SET_SPIN);
     correctZoomVtAndValue(VIP2K, "Vip2K", SET_SPIN);
     correctZoomVtAndValue(VELF, "Velf", SET_SPIN);
@@ -1206,8 +1273,8 @@ void GuiMain::correctZoom(int computerType, wxString computerTypeString, bool se
         zoomInt = (int) (zoom + 0.5);
         if (zoomInt == 0)
             zoomInt++;
-		if (setSpin)
-			XRCCTRL(*this, "ZoomSpin" + computerTypeString, wxSpinButton)->SetValue(zoomInt);
+        if (setSpin)
+            XRCCTRL(*this, "ZoomSpin" + computerTypeString, wxSpinButton)->SetValue(zoomInt);
 #if defined(__WXMSW__)
         XRCCTRL(*this, "ZoomSpin" + computerTypeString, wxSpinButton)->SetRange(2,9);
 #else
@@ -1217,9 +1284,9 @@ void GuiMain::correctZoom(int computerType, wxString computerTypeString, bool se
     }
     else
     {
-		zoomInt = (int)(zoom*10+0.4);
-		if (setSpin)
-			XRCCTRL(*this, "ZoomSpin" + computerTypeString, wxSpinButton)->SetValue(zoomInt);
+        zoomInt = (int)(zoom*10+0.4);
+        if (setSpin)
+            XRCCTRL(*this, "ZoomSpin" + computerTypeString, wxSpinButton)->SetValue(zoomInt);
 #if defined(__WXMSW__)
         XRCCTRL(*this, "ZoomSpin" + computerTypeString, wxSpinButton)->SetRange(6,99);
 #else
@@ -1229,19 +1296,19 @@ void GuiMain::correctZoom(int computerType, wxString computerTypeString, bool se
     }
     if (runningComputer_ == computerType && p_Video != NULL)
         p_Main->eventZoomChange(zoom);
-	else
-		zoomEventOngoing_ = false;
+    else
+        zoomEventOngoing_ = false;
 }
 
 void GuiMain::onZoom(wxSpinEvent&event)
 {
-	if (zoomEventOngoing_ && runningComputer_ == selectedComputer_)
-		return;
+    if (zoomEventOngoing_ && runningComputer_ == selectedComputer_)
+        return;
 
-	if (runningComputer_ == selectedComputer_)
-		zoomEventOngoing_ = true;
+    if (runningComputer_ == selectedComputer_)
+        zoomEventOngoing_ = true;
 
-	int position = event.GetPosition();
+    int position = event.GetPosition();
     double zoom;
     
     if (!fullScreenFloat_)
@@ -1255,30 +1322,30 @@ void GuiMain::onZoom(wxSpinEvent&event)
 
 void GuiMain::onZoomValue(wxCommandEvent&event)
 {
-	if (zoomEventOngoing_ && runningComputer_ == selectedComputer_)
-		return;
+    if (zoomEventOngoing_ && runningComputer_ == selectedComputer_)
+        return;
 
-	if (runningComputer_ == selectedComputer_)
-		zoomEventOngoing_ = true;
+    if (runningComputer_ == selectedComputer_)
+        zoomEventOngoing_ = true;
 
-	wxString zoomString = event.GetString();
-	double zoom;
-	if (toDouble(zoomString, &zoom))
-	{
-		if (!fullScreenFloat_)
-			zoom = (int) (zoom);
-		conf[selectedComputer_].zoom_ = zoomString;
+    wxString zoomString = event.GetString();
+    double zoom;
+    if (toDouble(zoomString, &zoom))
+    {
+        if (!fullScreenFloat_)
+            zoom = (int) (zoom);
+        conf[selectedComputer_].zoom_ = zoomString;
         correctZoom(selectedComputer_, computerInfo[selectedComputer_].gui, SET_SPIN);
-	}
-	else
-	{
-		zoomEventOngoing_ = false;
+    }
+    else
+    {
+        zoomEventOngoing_ = false;
         if (zoomString != "")
         {
             (void)wxMessageBox( "Please specify a number\n",
                                 "Emma 02", wxICON_ERROR | wxOK );
         }
-	}
+    }
 }
 
 void GuiMain::correctZoomVtAndValue(int computerType, wxString computerTypeString, bool setSpin)
@@ -1298,8 +1365,8 @@ void GuiMain::correctZoomVt(int computerType, wxString computerTypeString, bool 
         zoomInt = (int) (zoom + 0.5);
         if (zoomInt == 0)
             zoomInt++;
-		if (setSpin)
-	        XRCCTRL(*this, "ZoomSpinVt" + computerTypeString, wxSpinButton)->SetValue(zoomInt);
+        if (setSpin)
+            XRCCTRL(*this, "ZoomSpinVt" + computerTypeString, wxSpinButton)->SetValue(zoomInt);
 #if defined(__WXMSW__)
         XRCCTRL(*this, "ZoomSpinVt" + computerTypeString, wxSpinButton)->SetRange(2,9);
 #else
@@ -1309,9 +1376,9 @@ void GuiMain::correctZoomVt(int computerType, wxString computerTypeString, bool 
     }
     else
     {
-		zoomInt = (int)(zoom*10+0.4);
-		if (setSpin)
-	        XRCCTRL(*this, "ZoomSpinVt" + computerTypeString, wxSpinButton)->SetValue(zoomInt);
+        zoomInt = (int)(zoom*10+0.4);
+        if (setSpin)
+            XRCCTRL(*this, "ZoomSpinVt" + computerTypeString, wxSpinButton)->SetValue(zoomInt);
 #if defined(__WXMSW__)
         XRCCTRL(*this, "ZoomSpinVt" + computerTypeString, wxSpinButton)->SetRange(6,99);
 #else
@@ -1321,7 +1388,7 @@ void GuiMain::correctZoomVt(int computerType, wxString computerTypeString, bool 
     }
     if (runningComputer_ == computerType && p_Vt100[UART1] != NULL)
         p_Main->eventZoomVtChange(zoom, UART1);
-	else
+    else
     {
         if (runningComputer_ == computerType && p_Vt100[UART2] != NULL)
             p_Main->eventZoomVtChange(zoom, UART2);
@@ -1332,11 +1399,11 @@ void GuiMain::correctZoomVt(int computerType, wxString computerTypeString, bool 
 
 void GuiMain::onZoomVt(wxSpinEvent&event)
 {
-	if (zoomEventOngoing_ && runningComputer_ == selectedComputer_)
-		return;
+    if (zoomEventOngoing_ && runningComputer_ == selectedComputer_)
+        return;
 
-	if (runningComputer_ == selectedComputer_)
-		zoomEventOngoing_ = true;
+    if (runningComputer_ == selectedComputer_)
+        zoomEventOngoing_ = true;
 
     int position = event.GetPosition();
     double zoomVt;
@@ -1352,25 +1419,25 @@ void GuiMain::onZoomVt(wxSpinEvent&event)
 
 void GuiMain::onZoomValueVt(wxCommandEvent&event)
 {
-	if (zoomEventOngoing_ && runningComputer_ == selectedComputer_)
-		return;
+    if (zoomEventOngoing_ && runningComputer_ == selectedComputer_)
+        return;
 
-	if (runningComputer_ == selectedComputer_)
-		zoomEventOngoing_ = true;
+    if (runningComputer_ == selectedComputer_)
+        zoomEventOngoing_ = true;
 
-	wxString zoomString = event.GetString();
-	double zoomVt;
-	if (toDouble(zoomString, &zoomVt))
-	{
-		if (!fullScreenFloat_)
-			zoomVt = (int) (zoomVt);
+    wxString zoomString = event.GetString();
+    double zoomVt;
+    if (toDouble(zoomString, &zoomVt))
+    {
+        if (!fullScreenFloat_)
+            zoomVt = (int) (zoomVt);
 
         conf[selectedComputer_].zoomVt_ = zoomString;
         correctZoomVt(selectedComputer_, computerInfo[selectedComputer_].gui, SET_SPIN);
-	}
-	else
-	{
-		zoomEventOngoing_ = false;
+    }
+    else
+    {
+        zoomEventOngoing_ = false;
         if (zoomString != "")
         {
             (void)wxMessageBox( "Please specify a number\n",
@@ -1381,35 +1448,35 @@ void GuiMain::onZoomValueVt(wxCommandEvent&event)
 
 void GuiMain::onFullScreen(wxCommandEvent&WXUNUSED(event))
 {
-	if (computerRunning_ && p_Vt100[UART1] != NULL)
-		p_Vt100[UART1]->onF3();
+    if (computerRunning_ && p_Vt100[UART1] != NULL)
+        p_Vt100[UART1]->onF3();
     if (computerRunning_ && p_Vt100[UART2] != NULL)
         p_Vt100[UART2]->onF3();
-	else if (computerRunning_ && p_Video != NULL)
-		p_Video->onF3();
+    else if (computerRunning_ && p_Video != NULL)
+        p_Video->onF3();
 }
 
 void GuiMain::onInterlace(wxCommandEvent&event)
 {
-	conf[selectedComputer_].interlace_ = event.IsChecked();
-	if (computerRunning_ && p_Video != NULL)
-		p_Video->setInterlace(event.IsChecked());
+    conf[selectedComputer_].interlace_ = event.IsChecked();
+    if (computerRunning_ && p_Video != NULL)
+        p_Video->setInterlace(event.IsChecked());
 }
 
 void GuiMain::onStretchDot(wxCommandEvent&event)
 {
-	conf[selectedComputer_].stretchDot_ = event.IsChecked();
-	if (computerRunning_ && p_Vt100[UART1] != NULL)
-		p_Vt100[UART1]->setStretchDot(event.IsChecked());
+    conf[selectedComputer_].stretchDot_ = event.IsChecked();
+    if (computerRunning_ && p_Vt100[UART1] != NULL)
+        p_Vt100[UART1]->setStretchDot(event.IsChecked());
     if (computerRunning_ && p_Vt100[UART2] != NULL)
         p_Vt100[UART2]->setStretchDot(event.IsChecked());
 }
 
 void GuiMain::onScreenDumpFile(wxCommandEvent& WXUNUSED(event))
 {
- 	wxString fileName;
+     wxString fileName;
 
-	fileName = wxFileSelector( "Select the Video Dump Output File",
+    fileName = wxFileSelector( "Select the Video Dump Output File",
                                conf[selectedComputer_].screenDumpFileDir_, XRCCTRL(*this, "ScreenDumpFile"+computerInfo[selectedComputer_].gui, wxComboBox)->GetValue(),
                                "",
                                wxString::Format
@@ -1423,25 +1490,25 @@ void GuiMain::onScreenDumpFile(wxCommandEvent& WXUNUSED(event))
                               );
 
 
-	if (!fileName)
-		return;
+    if (!fileName)
+        return;
 
-	wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
-	conf[selectedComputer_].screenDumpFileDir_ = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
-	conf[selectedComputer_].screenDumpFile_ = FullPath.GetFullName();
+    wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
+    conf[selectedComputer_].screenDumpFileDir_ = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+    conf[selectedComputer_].screenDumpFile_ = FullPath.GetFullName();
 
-	XRCCTRL(*this, "ScreenDumpFile"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue(conf[selectedComputer_].screenDumpFile_);
+    XRCCTRL(*this, "ScreenDumpFile"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue(conf[selectedComputer_].screenDumpFile_);
 }
 
 void GuiMain::onScreenDumpFileText(wxCommandEvent& WXUNUSED(event))
 {
-	conf[selectedComputer_].screenDumpFile_ = XRCCTRL(*this, "ScreenDumpFile"+computerInfo[selectedComputer_].gui, wxComboBox)->GetValue();
+    conf[selectedComputer_].screenDumpFile_ = XRCCTRL(*this, "ScreenDumpFile"+computerInfo[selectedComputer_].gui, wxComboBox)->GetValue();
 }
 
 void GuiMain::onScreenDump(wxCommandEvent&WXUNUSED(event))
 {
-	if (computerRunning_ && p_Video != NULL)
-		p_Video->onF5();
+    if (computerRunning_ && p_Video != NULL)
+        p_Video->onF5();
     if (computerRunning_ && p_Vt100[UART1] != NULL)
         p_Vt100[UART1]->onF5();
     if (computerRunning_ && p_Vt100[UART2] != NULL)
@@ -1450,20 +1517,20 @@ void GuiMain::onScreenDump(wxCommandEvent&WXUNUSED(event))
 
 void GuiMain::onDp(wxCommandEvent&WXUNUSED(event))
 {
-	DevicePortsDialog DevicePortsDialog(this);
- 	DevicePortsDialog.ShowModal();
+    DevicePortsDialog DevicePortsDialog(this);
+     DevicePortsDialog.ShowModal();
 }
 
 void GuiMain::onVolume(wxScrollEvent&event)
 {
-	conf[selectedComputer_].volume_ = event.GetPosition();
-	if (computerRunning_)
-		p_Computer->setVolume(conf[selectedComputer_].volume_);
+    conf[selectedComputer_].volume_ = event.GetPosition();
+    if (computerRunning_)
+        p_Computer->setVolume(conf[selectedComputer_].volume_);
 }
 
 void GuiMain::onCassette(wxCommandEvent& WXUNUSED(event))
 {
-    if (selectedComputer_ == ELF || selectedComputer_ == ELFII || selectedComputer_ == SUPERELF)
+    if (selectedComputer_ == ELF || selectedComputer_ == ELFII || selectedComputer_ == SUPERELF || selectedComputer_ == DIY || selectedComputer_ == PICO)
     {
         if (elfConfiguration[selectedComputer_].useXmodem)
         {
@@ -1486,7 +1553,7 @@ void GuiMain::onCassetteFileSelector()
     wxString typeStr = "WAV";
     wxString formatStr = "WAV File (*.wav)|*.wav|All files (%s)|%s";
     
-    if (selectedComputer_ == ELF || selectedComputer_ == ELFII || selectedComputer_ == SUPERELF)
+    if (selectedComputer_ == ELF || selectedComputer_ == ELFII || selectedComputer_ == SUPERELF || selectedComputer_ == DIY || selectedComputer_ == PICO)
     {
         if (elfConfiguration[selectedComputer_].useXmodem)
         {
@@ -1494,7 +1561,7 @@ void GuiMain::onCassetteFileSelector()
             formatStr = "All files (%s)|%s";
         }
     }
-	fileName = wxFileSelector( "Select the "+typeStr+" file to save/load",
+    fileName = wxFileSelector( "Select the "+typeStr+" file to save/load",
                                conf[selectedComputer_].wavFileDir_[0], conf[selectedComputer_].wavFile_[0],
                                "wav",
                                wxString::Format
@@ -1508,15 +1575,15 @@ void GuiMain::onCassetteFileSelector()
                               );
 
 
-	if (!fileName)
-		return;
+    if (!fileName)
+        return;
 
-	wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
-	conf[selectedComputer_].wavFileDir_[0] = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
-	conf[selectedComputer_].wavFile_[0] = FullPath.GetFullName();
+    wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
+    conf[selectedComputer_].wavFileDir_[0] = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+    conf[selectedComputer_].wavFile_[0] = FullPath.GetFullName();
 
-	if (mode_.gui)
-		XRCCTRL(*this, "WavFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue(conf[selectedComputer_].wavFile_[0]);
+    if (mode_.gui)
+        XRCCTRL(*this, "WavFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue(conf[selectedComputer_].wavFile_[0]);
 }
 
 void GuiMain::onCassetteFileDialog()
@@ -1590,38 +1657,38 @@ void GuiMain::onCassette1(wxCommandEvent& WXUNUSED(event))
 
 void GuiMain::onTerminalFile(wxCommandEvent& WXUNUSED(event))
 {
-	wxString fileName;
+    wxString fileName;
 
-	fileName = wxFileSelector("Select the terminal file to save/load",
-		conf[selectedComputer_].wavFileDir_[0], conf[selectedComputer_].wavFile_[0],
-		"hex",
-		wxString::Format
-		(
-			"Terminal File (*.hex)|*.hex|Tiny Basic File (*.txt)|*.txt|All files (%s)|%s",
-			wxFileSelectorDefaultWildcardStr,
-			wxFileSelectorDefaultWildcardStr
-			),
-		wxFD_OPEN | wxFD_CHANGE_DIR | wxFD_PREVIEW,
-		this
-		);
+    fileName = wxFileSelector("Select the terminal file to save/load",
+        conf[selectedComputer_].wavFileDir_[0], conf[selectedComputer_].wavFile_[0],
+        "hex",
+        wxString::Format
+        (
+            "Terminal File (*.hex)|*.hex|Tiny Basic File (*.txt)|*.txt|All files (%s)|%s",
+            wxFileSelectorDefaultWildcardStr,
+            wxFileSelectorDefaultWildcardStr
+            ),
+        wxFD_OPEN | wxFD_CHANGE_DIR | wxFD_PREVIEW,
+        this
+        );
 
 
-	if (!fileName)
-		return;
+    if (!fileName)
+        return;
 
-	wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
-	conf[selectedComputer_].wavFileDir_[0] = FullPath.GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
-	conf[selectedComputer_].wavFile_[0] = FullPath.GetFullName();
+    wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
+    conf[selectedComputer_].wavFileDir_[0] = FullPath.GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+    conf[selectedComputer_].wavFile_[0] = FullPath.GetFullName();
 
-	if (mode_.gui)
-		XRCCTRL(*this, "WavFile" + computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue(conf[selectedComputer_].wavFile_[0]);
+    if (mode_.gui)
+        XRCCTRL(*this, "WavFile" + computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue(conf[selectedComputer_].wavFile_[0]);
 }
 
 void GuiMain::onCassetteEject(wxCommandEvent& WXUNUSED(event) )
 {
-	conf[selectedComputer_].wavFile_[0] = "";
-	if (mode_.gui)
-		XRCCTRL(*this, "WavFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue(conf[selectedComputer_].wavFile_[0]);
+    conf[selectedComputer_].wavFile_[0] = "";
+    if (mode_.gui)
+        XRCCTRL(*this, "WavFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue(conf[selectedComputer_].wavFile_[0]);
 }
 
 void GuiMain::onCassette1Eject(wxCommandEvent& WXUNUSED(event) )
@@ -1633,13 +1700,13 @@ void GuiMain::onCassette1Eject(wxCommandEvent& WXUNUSED(event) )
 
 void GuiMain::onCassetteText(wxCommandEvent&event)
 {
-	conf[selectedComputer_].wavFile_[0] = event.GetString();
+    conf[selectedComputer_].wavFile_[0] = event.GetString();
     
     if (selectedComputer_ == VIP2K || selectedComputer_ == MEMBER || selectedComputer_ == CDP18S020)
         return;
     
-//	if (!guiInitialized_)
-//		return;
+//    if (!guiInitialized_)
+//        return;
 
 //    if (conf[selectedComputer_].wavFile_[0] != "")
 //    {
@@ -1652,8 +1719,8 @@ void GuiMain::onCassette1Text(wxCommandEvent&event)
 {
     conf[selectedComputer_].wavFile_[1] = event.GetString();
     
-//	if (!guiInitialized_)
-//		return;
+//    if (!guiInitialized_)
+//        return;
 
 //    if (conf[selectedComputer_].wavFile_[1] != "")
 //    {
@@ -1664,10 +1731,10 @@ void GuiMain::onCassette1Text(wxCommandEvent&event)
 
 void GuiMain::onAutoLoad(wxCommandEvent&event)
 {
-	conf[selectedComputer_].autoCassetteLoad_ = event.IsChecked();
-	if (computerRunning_ && (selectedComputer_ == runningComputer_))
-	{
-		XRCCTRL(*this, "CasLoad"+computerInfo[selectedComputer_].gui, wxButton)->Enable(!conf[runningComputer_].autoCassetteLoad_);
+    conf[selectedComputer_].autoCassetteLoad_ = event.IsChecked();
+    if (computerRunning_ && (selectedComputer_ == runningComputer_))
+    {
+        XRCCTRL(*this, "CasLoad"+computerInfo[selectedComputer_].gui, wxButton)->Enable(!conf[runningComputer_].autoCassetteLoad_);
         if (runningComputer_ != ELF2K)
             XRCCTRL(*this, "CasSave"+computerInfo[selectedComputer_].gui, wxButton)->Enable(!conf[runningComputer_].autoCassetteLoad_);
         else
@@ -1678,43 +1745,43 @@ void GuiMain::onAutoLoad(wxCommandEvent&event)
             XRCCTRL(*this, "CasLoad1"+computerInfo[selectedComputer_].gui, wxButton)->Enable(!conf[runningComputer_].autoCassetteLoad_);
             XRCCTRL(*this, "CasSave1"+computerInfo[selectedComputer_].gui, wxButton)->Enable(!conf[runningComputer_].autoCassetteLoad_);
         }
-	}
+    }
 }
 
 void GuiMain::onTurbo(wxCommandEvent&event)
 {
-	conf[selectedComputer_].turbo_ = event.IsChecked();
-	turboGui(computerInfo[selectedComputer_].gui);
+    conf[selectedComputer_].turbo_ = event.IsChecked();
+    turboGui(computerInfo[selectedComputer_].gui);
 }
 
 void GuiMain::onTurboClock(wxCommandEvent&WXUNUSED(event))
 {
-	double clk;
+    double clk;
 
-	conf[selectedComputer_].turboClock_ =  XRCCTRL(*this, "TurboClock"+computerInfo[selectedComputer_].gui, wxTextCtrl)->GetValue();
-	if (conf[selectedComputer_].turboClock_ == "")
-	{
-		conf[selectedComputer_].turboClock_ = "15";
-		return;
-	}
-	if (!toDouble(conf[selectedComputer_].turboClock_, (double*)&clk))
-	{
+    conf[selectedComputer_].turboClock_ =  XRCCTRL(*this, "TurboClock"+computerInfo[selectedComputer_].gui, wxTextCtrl)->GetValue();
+    if (conf[selectedComputer_].turboClock_ == "")
+    {
+        conf[selectedComputer_].turboClock_ = "15";
+        return;
+    }
+    if (!toDouble(conf[selectedComputer_].turboClock_, (double*)&clk))
+    {
         (void)wxMessageBox( "Please specify frequency in MHz\n",
                             "Emma 02", wxICON_ERROR | wxOK );
         return;
-	}
-	if (clk == 0)
-	{
-		(void)wxMessageBox( "Please specify frequency value > 0\n",
-							"Emma 02", wxICON_ERROR | wxOK );
-		return;
-	}
+    }
+    if (clk == 0)
+    {
+        (void)wxMessageBox( "Please specify frequency value > 0\n",
+                            "Emma 02", wxICON_ERROR | wxOK );
+        return;
+    }
 }
 
 void GuiMain::onUseLocation(wxCommandEvent&event)
 {
-	conf[runningComputer_].useLoadLocation_ = event.IsChecked();
-	enableLocationGui();
+    conf[runningComputer_].useLoadLocation_ = event.IsChecked();
+    enableLocationGui();
 }
 
 void GuiMain::onCassetteLoad(wxCommandEvent& WXUNUSED(event))
@@ -1774,115 +1841,115 @@ void GuiMain::onCassetteStop(wxCommandEvent& WXUNUSED(event))
 
 void GuiMain::onCassettePause(wxCommandEvent& WXUNUSED(event))
 {
-	p_Computer->pauseTape();
+    p_Computer->pauseTape();
 }
 
 void GuiMain::onKeyboard(wxCommandEvent&event)
 {
-	conf[selectedComputer_].useKeyboard_ = event.IsChecked();
-	XRCCTRL(*this, "KeyMap"+computerInfo[selectedComputer_].gui, wxButton)->Enable(!event.IsChecked());
+    conf[selectedComputer_].useKeyboard_ = event.IsChecked();
+    XRCCTRL(*this, "KeyMap"+computerInfo[selectedComputer_].gui, wxButton)->Enable(!event.IsChecked());
 }
 
 void GuiMain::onPsave(wxString fileName)
 {
-	wxFile outputFile;
-	size_t length;
+    wxFile outputFile;
+    size_t length;
     int address, start; // startAddress;
-	char buffer[65536];
-	wxString stringAdress;
-	Byte highRamAddress;
+    char buffer[65536];
+    wxString stringAdress;
+    Byte highRamAddress;
 
-	if (!fileName.empty())
-	{
-		if (outputFile.Create(fileName, true))
-		{
-			if (conf[runningComputer_].useLoadLocation_)
-			{
-				buffer [0] = 1;
-				buffer [1] = conf[runningComputer_].pLoadSaveName_[0];
-				buffer [2] = conf[runningComputer_].pLoadSaveName_[1];
-				buffer [3] = conf[runningComputer_].pLoadSaveName_[2];
-				buffer [4] = conf[runningComputer_].pLoadSaveName_[3];
-				buffer [5] = (conf[selectedComputer_].saveStart_ >> 8) &0xff;
-				buffer [6] = conf[selectedComputer_].saveStart_&0xff;
-				buffer [7] = (conf[selectedComputer_].saveEnd_ >> 8) &0xff;
-				buffer [8] = conf[selectedComputer_].saveEnd_&0xff;
-				buffer [9] = (conf[selectedComputer_].saveExec_ >> 8) &0xff;
-				buffer [10] = conf[selectedComputer_].saveExec_&0xff;
-				address = conf[selectedComputer_].saveStart_;
-				length = conf[selectedComputer_].saveEnd_ - conf[selectedComputer_].saveStart_ + 12;
-				start = 11;
-			}
-			else
-			{
-				XRCCTRL(*this,"SaveStart"+computerInfo[runningComputer_].gui,wxTextCtrl)->SetValue("");
-				XRCCTRL(*this,"SaveEnd"+computerInfo[runningComputer_].gui,wxTextCtrl)->SetValue("");
-				XRCCTRL(*this,"SaveExec"+computerInfo[runningComputer_].gui,wxTextCtrl)->SetValue("");
+    if (!fileName.empty())
+    {
+        if (outputFile.Create(fileName, true))
+        {
+            if (conf[runningComputer_].useLoadLocation_)
+            {
+                buffer [0] = 1;
+                buffer [1] = conf[runningComputer_].pLoadSaveName_[0];
+                buffer [2] = conf[runningComputer_].pLoadSaveName_[1];
+                buffer [3] = conf[runningComputer_].pLoadSaveName_[2];
+                buffer [4] = conf[runningComputer_].pLoadSaveName_[3];
+                buffer [5] = (conf[selectedComputer_].saveStart_ >> 8) &0xff;
+                buffer [6] = conf[selectedComputer_].saveStart_&0xff;
+                buffer [7] = (conf[selectedComputer_].saveEnd_ >> 8) &0xff;
+                buffer [8] = conf[selectedComputer_].saveEnd_&0xff;
+                buffer [9] = (conf[selectedComputer_].saveExec_ >> 8) &0xff;
+                buffer [10] = conf[selectedComputer_].saveExec_&0xff;
+                address = conf[selectedComputer_].saveStart_;
+                length = conf[selectedComputer_].saveEnd_ - conf[selectedComputer_].saveStart_ + 12;
+                start = 11;
+            }
+            else
+            {
+                XRCCTRL(*this,"SaveStart"+computerInfo[runningComputer_].gui,wxTextCtrl)->SetValue("");
+                XRCCTRL(*this,"SaveEnd"+computerInfo[runningComputer_].gui,wxTextCtrl)->SetValue("");
+                XRCCTRL(*this,"SaveExec"+computerInfo[runningComputer_].gui,wxTextCtrl)->SetValue("");
 
-				address = conf[runningComputer_].basicRamAddress_;
-				highRamAddress = (conf[runningComputer_].basicRamAddress_ & 0xff00) >> 8;
-				buffer [0] = 6;
-				length = (p_Computer->getRam(conf[runningComputer_].eop_) - highRamAddress) << 8;
-				if (runningComputer_ == COMX)
-				{
-					if (p_Comx->isFAndMBasicRunning())
-					{
-						address = 0x6700;
-						buffer [0] = 3;
-						highRamAddress = 0;
-						length = (p_Computer->getRam(conf[runningComputer_].eop_) - 0x67) << 8;
-					}
-				}
-				length += p_Computer->getRam(conf[runningComputer_].eop_+1);
-				buffer [1] = conf[runningComputer_].pLoadSaveName_[0];
-				buffer [2] = conf[runningComputer_].pLoadSaveName_[1];
-				buffer [3] = conf[runningComputer_].pLoadSaveName_[2];
-				buffer [4] = conf[runningComputer_].pLoadSaveName_[3];
-				buffer [5] = p_Computer->getRam(conf[runningComputer_].defus_)-highRamAddress;
-				buffer [6] = p_Computer->getRam(conf[runningComputer_].defus_+1);
-				buffer [7] = p_Computer->getRam(conf[runningComputer_].eop_)-highRamAddress;
-				buffer [8] = p_Computer->getRam(conf[runningComputer_].eop_+1);
-				buffer [9] = p_Computer->getRam(conf[runningComputer_].string_)-highRamAddress;
-				buffer [10] = p_Computer->getRam(conf[runningComputer_].string_+1);
-				buffer [11] = p_Computer->getRam(conf[runningComputer_].arrayValue_)-highRamAddress;
-				buffer [12] = p_Computer->getRam(conf[runningComputer_].arrayValue_+1);
-				buffer [13] = p_Computer->getRam(conf[runningComputer_].eod_)-highRamAddress;
-				buffer [14] = p_Computer->getRam(conf[runningComputer_].eod_+1);
-				start = 15;
-				length += start;
-			}
-//			startAddress = address;
-			for (size_t i=start; i<(length); i++)
-			{
-				buffer[i] = p_Computer->readMem(address);
-				address++;
-			}
-			outputFile.Write(buffer, length);
-			outputFile.Close();
-		}
-		else
-		{
-			(void)wxMessageBox( "Error writing " + fileName,
-							    "Emma 02", wxICON_ERROR | wxOK );
-			return;
-		}
-	}
+                address = conf[runningComputer_].basicRamAddress_;
+                highRamAddress = (conf[runningComputer_].basicRamAddress_ & 0xff00) >> 8;
+                buffer [0] = 6;
+                length = (p_Computer->getRam(conf[runningComputer_].eop_) - highRamAddress) << 8;
+                if (runningComputer_ == COMX)
+                {
+                    if (p_Comx->isFAndMBasicRunning())
+                    {
+                        address = 0x6700;
+                        buffer [0] = 3;
+                        highRamAddress = 0;
+                        length = (p_Computer->getRam(conf[runningComputer_].eop_) - 0x67) << 8;
+                    }
+                }
+                length += p_Computer->getRam(conf[runningComputer_].eop_+1);
+                buffer [1] = conf[runningComputer_].pLoadSaveName_[0];
+                buffer [2] = conf[runningComputer_].pLoadSaveName_[1];
+                buffer [3] = conf[runningComputer_].pLoadSaveName_[2];
+                buffer [4] = conf[runningComputer_].pLoadSaveName_[3];
+                buffer [5] = p_Computer->getRam(conf[runningComputer_].defus_)-highRamAddress;
+                buffer [6] = p_Computer->getRam(conf[runningComputer_].defus_+1);
+                buffer [7] = p_Computer->getRam(conf[runningComputer_].eop_)-highRamAddress;
+                buffer [8] = p_Computer->getRam(conf[runningComputer_].eop_+1);
+                buffer [9] = p_Computer->getRam(conf[runningComputer_].string_)-highRamAddress;
+                buffer [10] = p_Computer->getRam(conf[runningComputer_].string_+1);
+                buffer [11] = p_Computer->getRam(conf[runningComputer_].arrayValue_)-highRamAddress;
+                buffer [12] = p_Computer->getRam(conf[runningComputer_].arrayValue_+1);
+                buffer [13] = p_Computer->getRam(conf[runningComputer_].eod_)-highRamAddress;
+                buffer [14] = p_Computer->getRam(conf[runningComputer_].eod_+1);
+                start = 15;
+                length += start;
+            }
+//            startAddress = address;
+            for (size_t i=start; i<(length); i++)
+            {
+                buffer[i] = p_Computer->readMem(address);
+                address++;
+            }
+            outputFile.Write(buffer, length);
+            outputFile.Close();
+        }
+        else
+        {
+            (void)wxMessageBox( "Error writing " + fileName,
+                                "Emma 02", wxICON_ERROR | wxOK );
+            return;
+        }
+    }
 }
 
 void GuiMain::onLoadRunButton(wxCommandEvent& WXUNUSED(event) )
 {
-	onLoad(false);
+    onLoad(false);
 }
 
 void GuiMain::onDataSaveButton(wxCommandEvent& WXUNUSED(event) )
 {
-	wxFile outputFile;
-	size_t dataLength, arrayLength;
-	int address, start, arrayStart, stringStart, dataEnd;
-	char buffer[65536];
-	wxString fileName, stringAdress;
+    wxFile outputFile;
+    size_t dataLength, arrayLength;
+    int address, start, arrayStart, stringStart, dataEnd;
+    char buffer[65536];
+    wxString fileName, stringAdress;
 
-	fileName = wxFileSelector( "Select the "+computerInfo[selectedComputer_].name+" Data file to save",
+    fileName = wxFileSelector( "Select the "+computerInfo[selectedComputer_].name+" Data file to save",
                                conf[runningComputer_].ramDir_, conf[runningComputer_].loadFileName_,
                                "",
                                wxString::Format
@@ -1894,57 +1961,57 @@ void GuiMain::onDataSaveButton(wxCommandEvent& WXUNUSED(event) )
                                wxFD_SAVE|wxFD_CHANGE_DIR|wxFD_PREVIEW|wxFD_OVERWRITE_PROMPT,
                                this
                               );
-	if (!fileName)
-		return;
+    if (!fileName)
+        return;
 
-	wxFileName swFullPath = wxFileName(fileName, wxPATH_NATIVE);
-	conf[runningComputer_].ramDir_ = swFullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+    wxFileName swFullPath = wxFileName(fileName, wxPATH_NATIVE);
+    conf[runningComputer_].ramDir_ = swFullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
 
-	if (!fileName.empty())
-	{
-		if (outputFile.Create(fileName, true))
-		{
-			arrayStart = p_Computer->getRam(conf[runningComputer_].arrayValue_) << 8;
-			arrayStart += p_Computer->getRam(conf[runningComputer_].arrayValue_+1);
-			stringStart = p_Computer->getRam(conf[runningComputer_].string_) << 8;
-			stringStart += p_Computer->getRam(conf[runningComputer_].string_+1);
-			dataEnd = p_Computer->getRam(conf[runningComputer_].eod_) << 8;
-			dataEnd += p_Computer->getRam(conf[runningComputer_].eod_+1);
-			dataLength = dataEnd-arrayStart;
-			arrayLength = stringStart-arrayStart;
-			buffer [0] = 5;
-			buffer [1] = conf[runningComputer_].pLoadSaveName_[0];
-			buffer [2] = conf[runningComputer_].pLoadSaveName_[1];
-			buffer [3] = conf[runningComputer_].pLoadSaveName_[2];
-			buffer [4] = conf[runningComputer_].pLoadSaveName_[3];
-			buffer [5] = (arrayLength >> 8) &0xff;
-			buffer [6] = arrayLength &0xff;
-			address = arrayStart;
-			start = 7;
-			dataLength += start;
+    if (!fileName.empty())
+    {
+        if (outputFile.Create(fileName, true))
+        {
+            arrayStart = p_Computer->getRam(conf[runningComputer_].arrayValue_) << 8;
+            arrayStart += p_Computer->getRam(conf[runningComputer_].arrayValue_+1);
+            stringStart = p_Computer->getRam(conf[runningComputer_].string_) << 8;
+            stringStart += p_Computer->getRam(conf[runningComputer_].string_+1);
+            dataEnd = p_Computer->getRam(conf[runningComputer_].eod_) << 8;
+            dataEnd += p_Computer->getRam(conf[runningComputer_].eod_+1);
+            dataLength = dataEnd-arrayStart;
+            arrayLength = stringStart-arrayStart;
+            buffer [0] = 5;
+            buffer [1] = conf[runningComputer_].pLoadSaveName_[0];
+            buffer [2] = conf[runningComputer_].pLoadSaveName_[1];
+            buffer [3] = conf[runningComputer_].pLoadSaveName_[2];
+            buffer [4] = conf[runningComputer_].pLoadSaveName_[3];
+            buffer [5] = (arrayLength >> 8) &0xff;
+            buffer [6] = arrayLength &0xff;
+            address = arrayStart;
+            start = 7;
+            dataLength += start;
             dataLength &= 0xffff;
             address &= 0xffff;
             
-			for (size_t i=start; i<(dataLength); i++)
-			{
-				buffer[i] = p_Computer->getRam(address);
-				address++;
-			}
-			outputFile.Write(buffer, dataLength);
-			outputFile.Close();
-		}
-		else
-		{
-			(void)wxMessageBox( "Error writing " + fileName,
-							    "Emma 02", wxICON_ERROR | wxOK );
-			return;
-		}
-	}
+            for (size_t i=start; i<(dataLength); i++)
+            {
+                buffer[i] = p_Computer->getRam(address);
+                address++;
+            }
+            outputFile.Write(buffer, dataLength);
+            outputFile.Close();
+        }
+        else
+        {
+            (void)wxMessageBox( "Error writing " + fileName,
+                                "Emma 02", wxICON_ERROR | wxOK );
+            return;
+        }
+    }
 }
 
 void GuiMain::onLoadButton(wxCommandEvent& WXUNUSED(event))
 {
-	onLoad(true);
+    onLoad(true);
 }
 
 void GuiMain::onSaveStart(wxCommandEvent& event)
@@ -1952,14 +2019,14 @@ void GuiMain::onSaveStart(wxCommandEvent& event)
     if (selectedComputer_ >= NO_COMPUTER)
         return;
     
-	conf[selectedComputer_].saveStartString_ = event.GetString();
+    conf[selectedComputer_].saveStartString_ = event.GetString();
 
-	long value;
+    long value;
 
-	if (conf[selectedComputer_].saveStartString_.ToLong(&value, 16))
-		conf[selectedComputer_].saveStart_ = value;
-	else
-		conf[selectedComputer_].saveStart_ = 0;
+    if (conf[selectedComputer_].saveStartString_.ToLong(&value, 16))
+        conf[selectedComputer_].saveStart_ = value;
+    else
+        conf[selectedComputer_].saveStart_ = 0;
 }
 
 void GuiMain::onSaveEnd(wxCommandEvent& event)
@@ -1969,12 +2036,12 @@ void GuiMain::onSaveEnd(wxCommandEvent& event)
     
     conf[selectedComputer_].saveEndString_ = event.GetString();
 
-	long value;
+    long value;
 
-	if (conf[selectedComputer_].saveEndString_.ToLong(&value, 16))
-		conf[selectedComputer_].saveEnd_ = value;
-	else
-		conf[selectedComputer_].saveEnd_ = 0;
+    if (conf[selectedComputer_].saveEndString_.ToLong(&value, 16))
+        conf[selectedComputer_].saveEnd_ = value;
+    else
+        conf[selectedComputer_].saveEnd_ = 0;
 }
 
 void GuiMain::onSaveExec(wxCommandEvent& event)
@@ -1982,127 +2049,131 @@ void GuiMain::onSaveExec(wxCommandEvent& event)
     if (selectedComputer_ >= NO_COMPUTER)
         return;
     
-	conf[selectedComputer_].saveExecString_ = event.GetString();
+    conf[selectedComputer_].saveExecString_ = event.GetString();
 
-	long value;
+    long value;
 
-	if (conf[selectedComputer_].saveExecString_.ToLong(&value, 16))
-		conf[selectedComputer_].saveExec_ = value;
-	else
-		conf[selectedComputer_].saveExec_ = 0;
+    if (conf[selectedComputer_].saveExecString_.ToLong(&value, 16))
+        conf[selectedComputer_].saveExec_ = value;
+    else
+        conf[selectedComputer_].saveExec_ = 0;
 }
 
 void GuiMain::runSoftware(bool load)
 {
-	conf[runningComputer_].loadFileName_ = configPointer->Read("/"+computerInfo[runningComputer_].gui+"/Software_File", "");
-	conf[runningComputer_].loadFileNameFull_ = conf[runningComputer_].ramDir_ + conf[runningComputer_].loadFileName_;
-	p_Main->setSwName (conf[runningComputer_].loadFileName_);
+    conf[runningComputer_].loadFileName_ = configPointer->Read("/"+computerInfo[runningComputer_].gui+"/Software_File", "");
+    conf[runningComputer_].loadFileNameFull_ = conf[runningComputer_].ramDir_ + conf[runningComputer_].loadFileName_;
+    p_Main->setSwName (conf[runningComputer_].loadFileName_);
     p_Main->updateTitle();
 
-	switch(runningComputer_)
-	{
-		case COMX:
-		case PECOM:
+    switch(runningComputer_)
+    {
+        case COMX:
+        case PECOM:
         case TMC600:
         case MICROBOARD:
             p_Computer->startComputerRun(load);
-		break;
+        break;
 
-		case SUPERELF:
-		case ELFII:
-		case ELF:
-			if (p_Computer->getLoadedProgram()&0x1)
-				p_Computer->startComputerRun(load);
-			else
-				p_Computer->readFile(conf[runningComputer_].loadFileNameFull_, NOCHANGE, 0, 0x10000, SHOWNAME);
-		break;
+        case SUPERELF:
+        case ELFII:
+        case ELF:
+        case DIY:
+        case PICO:
+            if (p_Computer->getLoadedProgram()&0x1)
+                p_Computer->startComputerRun(load);
+            else
+                p_Computer->readFile(conf[runningComputer_].loadFileNameFull_, NOCHANGE, 0, 0x10000, SHOWNAME);
+        break;
 
-		case ELF2K:
-			if (elfConfiguration[ELF2K].use8275)
-				p_Elf2K->readFile(conf[runningComputer_].loadFileNameFull_, NOCHANGE, 0, 0x7700, SHOWNAME);
-			else
-				p_Elf2K->readFile(conf[runningComputer_].loadFileNameFull_, NOCHANGE, 0, 0x7f00, SHOWNAME);
-		break;
+        case ELF2K:
+            if (elfConfiguration[ELF2K].use8275)
+                p_Elf2K->readFile(conf[runningComputer_].loadFileNameFull_, NOCHANGE, 0, 0x7700, SHOWNAME);
+            else
+                p_Elf2K->readFile(conf[runningComputer_].loadFileNameFull_, NOCHANGE, 0, 0x7f00, SHOWNAME);
+        break;
 
-		case ETI:
-			p_Eti->readFile(conf[runningComputer_].loadFileNameFull_, NOCHANGE, 0x600, 0xfff, SHOWNAME);
-		break;
+        case ETI:
+            p_Eti->readFile(conf[runningComputer_].loadFileNameFull_, NOCHANGE, 0x600, 0xfff, SHOWNAME);
+        break;
 
-		default:
-			p_Computer->readFile(conf[runningComputer_].loadFileNameFull_, NOCHANGE, 0, 0x10000, SHOWNAME);
-		break;
-	}
+        default:
+            p_Computer->readFile(conf[runningComputer_].loadFileNameFull_, NOCHANGE, 0, 0x10000, SHOWNAME);
+        break;
+    }
 }
 
 void GuiMain::onLoad(bool load)
 {
-	wxFFile inputFile;
-	wxString fileName;
-	wxString extension;
+    wxFFile inputFile;
+    wxString fileName;
+    wxString extension;
 
-	if (p_Computer->isComputerRunning())
-	{
-		int answer = wxMessageBox(	computerInfo[selectedComputer_].name+" Emulator is running software\n"
-									"Reset before loading/running NEW software?",
-									"Emma 02", wxYES_NO);
+    if (p_Computer->isComputerRunning())
+    {
+        int answer = wxMessageBox(    computerInfo[selectedComputer_].name+" Emulator is running software\n"
+                                    "Reset before loading/running NEW software?",
+                                    "Emma 02", wxYES_NO);
 
-		if (answer == wxYES)
-		{
-			if (p_Computer == NULL)
-				return;
-			p_Computer->onReset();
-		}
-	}
-	if (p_Computer == NULL)
-		return;
+        if (answer == wxYES)
+        {
+            if (p_Computer == NULL)
+                return;
+            p_Computer->onReset();
+        }
+    }
+    if (p_Computer == NULL)
+        return;
 
-	switch (selectedComputer_)
-	{
-		case ETI:
-		case TMC1800:
-		case TMC2000:
-		case NANO:
-			extension = "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8|Intel Hex File|*.hex|All files (%s)|%s";
-		break;
+    switch (selectedComputer_)
+    {
+        case ETI:
+        case TMC1800:
+        case TMC2000:
+        case NANO:
+            extension = "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8|Intel Hex File|*.hex|All files (%s)|%s";
+        break;
 
         case VIP:
-			if (p_Computer->getLoadedProgram()==FPBBASIC)
-				extension = computerInfo[selectedComputer_].name+" Program File|*."+computerInfo[selectedComputer_].ploadExtension+"|Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8|Intel Hex File|*.hex|All files (%s)|%s";
-			else
+            if (p_Computer->getLoadedProgram()==FPBBASIC)
+                extension = computerInfo[selectedComputer_].name+" Program File|*."+computerInfo[selectedComputer_].ploadExtension+"|Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8|Intel Hex File|*.hex|All files (%s)|%s";
+            else
                 if (p_Computer->getLoadedProgram()==VIPTINY)
                     extension = computerInfo[selectedComputer_].name+" Program File|*."+computerInfo[selectedComputer_].ploadExtension+"|All files (%s)|%s";
                 else
                     extension = "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8|Intel Hex File|*.hex|All files (%s)|%s";
-		break;
+        break;
 
         case STUDIOIV:
             extension = computerInfo[selectedComputer_].name+" Program File|*."+computerInfo[selectedComputer_].ploadExtension+"|All files (%s)|%s";
         break;
 
         case COMX:
-		case PECOM:
-		case TMC600:
+        case PECOM:
+        case TMC600:
         case VIPII:
         case MCDS:
         case MICROBOARD:
             extension = computerInfo[selectedComputer_].name+" Program File|*."+computerInfo[selectedComputer_].ploadExtension+"|Binary File|*.bin;*.rom;*.ram;|Intel Hex File|*.hex|All files (%s)|%s";
-		break;
+        break;
 
-		case SUPERELF:
-		case ELFII:
-		case ELF:
-			if (p_Computer->getLoadedProgram()&0x1)
-				extension = computerInfo[selectedComputer_].name+" Program File|*."+computerInfo[selectedComputer_].ploadExtension+"|Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8|Intel Hex File|*.hex|All files (%s)|%s";
-			else
-				extension = "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8|Intel Hex File|*.hex|All files (%s)|%s";
-		break;
+        case SUPERELF:
+        case ELFII:
+        case ELF:
+        case DIY:
+        case PICO:
+            if (p_Computer->getLoadedProgram()&0x1)
+                extension = computerInfo[selectedComputer_].name+" Program File|*."+computerInfo[selectedComputer_].ploadExtension+"|Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8|Intel Hex File|*.hex|All files (%s)|%s";
+            else
+                extension = "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8|Intel Hex File|*.hex|All files (%s)|%s";
+        break;
 
-		default:
-			extension = "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8|Intel Hex File|*.hex|All files (%s)|%s";
-		break;
-	}
+        default:
+            extension = "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8|Intel Hex File|*.hex|All files (%s)|%s";
+        break;
+    }
 
-	fileName = wxFileSelector( "Select the "+computerInfo[selectedComputer_].name+" Program file to load/run",
+    fileName = wxFileSelector( "Select the "+computerInfo[selectedComputer_].name+" Program file to load/run",
                                conf[selectedComputer_].ramDir_, conf[selectedComputer_].loadFileName_,
                                "",
                                wxString::Format
@@ -2114,118 +2185,122 @@ void GuiMain::onLoad(bool load)
                                wxFD_OPEN|wxFD_CHANGE_DIR|wxFD_PREVIEW|wxFD_FILE_MUST_EXIST,
                                this
                               );
-	if (!fileName)
-		return;
+    if (!fileName)
+        return;
     
-	wxFileName swFullPath = wxFileName(fileName, wxPATH_NATIVE);
-	conf[selectedComputer_].ramDir_ = swFullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+    wxFileName swFullPath = wxFileName(fileName, wxPATH_NATIVE);
+    conf[selectedComputer_].ramDir_ = swFullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
 
-	conf[runningComputer_].loadFileNameFull_ = fileName;
-	conf[selectedComputer_].loadFileName_ = swFullPath.GetFullName();
-	p_Main->setSwName(swFullPath.GetName());
+    conf[runningComputer_].loadFileNameFull_ = fileName;
+    conf[selectedComputer_].loadFileName_ = swFullPath.GetFullName();
+    p_Main->setSwName(swFullPath.GetName());
     p_Main->updateTitle();
 
 #define SHOW_ADDRESS_POPUP_WINDOW true
     
-	switch(selectedComputer_)
-	{
-		case COMX:
-		case PECOM:
-		case TMC600:
-		case VIPII:
+    switch(selectedComputer_)
+    {
+        case COMX:
+        case PECOM:
+        case TMC600:
+        case VIPII:
         case STUDIOIV:
             p_Computer->startComputerRun(load);
-		break;
+        break;
 
-		case MCDS:
+        case MCDS:
         case MICROBOARD:
-			if (swFullPath.GetExt() == computerInfo[selectedComputer_].ploadExtension)
-				p_Computer->startComputerRun(load);
+            if (swFullPath.GetExt() == computerInfo[selectedComputer_].ploadExtension)
+                p_Computer->startComputerRun(load);
             else
                 p_Computer->readFile(fileName, NOCHANGE, 0, 0x10000, SHOWNAME, SHOW_ADDRESS_POPUP_WINDOW, conf[selectedComputer_].saveStart_);
         break;
 
-		case SUPERELF:
-		case ELFII:
-		case ELF:
+        case SUPERELF:
+        case ELFII:
+        case ELF:
         case VIP:
-			if (p_Computer->getLoadedProgram()&0x1)
-				p_Computer->startComputerRun(load);
-			else
-				p_Computer->readFile(fileName, NOCHANGE, 0, 0x10000, SHOWNAME, SHOW_ADDRESS_POPUP_WINDOW, conf[selectedComputer_].saveStart_);
-		break;
+        case DIY:
+        case PICO:
+            if (p_Computer->getLoadedProgram()&0x1)
+                p_Computer->startComputerRun(load);
+            else
+                p_Computer->readFile(fileName, NOCHANGE, 0, 0x10000, SHOWNAME, SHOW_ADDRESS_POPUP_WINDOW, conf[selectedComputer_].saveStart_);
+        break;
 
-		case ELF2K:
-			if (elfConfiguration[ELF2K].use8275)
-				p_Elf2K->readFile(fileName, NOCHANGE, 0, 0x7700, SHOWNAME, SHOW_ADDRESS_POPUP_WINDOW, conf[selectedComputer_].saveStart_);
-			else
-				p_Elf2K->readFile(fileName, NOCHANGE, 0, 0x7f00, SHOWNAME, SHOW_ADDRESS_POPUP_WINDOW, conf[selectedComputer_].saveStart_);
-		break;
+        case ELF2K:
+            if (elfConfiguration[ELF2K].use8275)
+                p_Elf2K->readFile(fileName, NOCHANGE, 0, 0x7700, SHOWNAME, SHOW_ADDRESS_POPUP_WINDOW, conf[selectedComputer_].saveStart_);
+            else
+                p_Elf2K->readFile(fileName, NOCHANGE, 0, 0x7f00, SHOWNAME, SHOW_ADDRESS_POPUP_WINDOW, conf[selectedComputer_].saveStart_);
+        break;
 
-		case ETI:
-			p_Eti->readFile(fileName, NOCHANGE, 0x600, 0xfff, SHOWNAME, SHOW_ADDRESS_POPUP_WINDOW, conf[selectedComputer_].saveStart_);
-		break;
+        case ETI:
+            p_Eti->readFile(fileName, NOCHANGE, 0x600, 0xfff, SHOWNAME, SHOW_ADDRESS_POPUP_WINDOW, conf[selectedComputer_].saveStart_);
+        break;
 
-		default:
-			p_Computer->readFile(fileName, NOCHANGE, 0, 0x10000, SHOWNAME, SHOW_ADDRESS_POPUP_WINDOW, conf[selectedComputer_].saveStart_);
-		break;
-	}
+        default:
+            p_Computer->readFile(fileName, NOCHANGE, 0, 0x10000, SHOWNAME, SHOW_ADDRESS_POPUP_WINDOW, conf[selectedComputer_].saveStart_);
+        break;
+    }
 }
 
 void GuiMain::onSaveButton(wxCommandEvent& WXUNUSED(event))
 {
-	wxFile outputFile;
-	wxString fileName, stringAdress;
-	wxString extension;
+    wxFile outputFile;
+    wxString fileName, stringAdress;
+    wxString extension;
 
-	switch (selectedComputer_)
-	{
-		case ETI:
-		case TMC1800:
-		case TMC2000:
-		case NANO:
-			extension = "Binary File|*.c8;*.ch8;*.c8x;*.ch10;*.sc8;*.bin;*.rom;*.ram;*.cos|Intel Hex File|*.hex|All files (%s)|%s";
-		break;
+    switch (selectedComputer_)
+    {
+        case ETI:
+        case TMC1800:
+        case TMC2000:
+        case NANO:
+            extension = "Binary File|*.c8;*.ch8;*.c8x;*.ch10;*.sc8;*.bin;*.rom;*.ram;*.cos|Intel Hex File|*.hex|All files (%s)|%s";
+        break;
 
         case VIP:
-			if (p_Computer->getLoadedProgram()==FPBBASIC)
-				extension = computerInfo[selectedComputer_].name+" Program File|*."+computerInfo[selectedComputer_].ploadExtension+"|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8|Intel Hex File|*.hex|All files (%s)|%s";
-			else
-				extension = "Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8|Intel Hex File|*.hex|All files (%s)|%s";
-		break;
+            if (p_Computer->getLoadedProgram()==FPBBASIC)
+                extension = computerInfo[selectedComputer_].name+" Program File|*."+computerInfo[selectedComputer_].ploadExtension+"|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8|Intel Hex File|*.hex|All files (%s)|%s";
+            else
+                extension = "Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8|Intel Hex File|*.hex|All files (%s)|%s";
+        break;
 
         case STUDIOIV:
             extension = "Tine BASIC Program File|*."+computerInfo[selectedComputer_].ploadExtension+"|All files (%s)|%s";
         break;
 
-		case COMX:
-		case PECOM:
-		case TMC600:
-		case VIPII:
+        case COMX:
+        case PECOM:
+        case TMC600:
+        case VIPII:
         case MCDS:
         case MICROBOARD:
             extension = computerInfo[selectedComputer_].name+" Program File (*."+computerInfo[selectedComputer_].ploadExtension+")|*."+computerInfo[selectedComputer_].ploadExtension+"|Binary File|*.bin;*.rom;*.ram;|Intel Hex File|*.hex|All files (%s)|%s";
-		break;
+        break;
 
-		case SUPERELF:
-		case ELFII:
-		case ELF:
-			if (p_Computer->getLoadedProgram()&0x1)
-			{
-				extension = computerInfo[selectedComputer_].name+" Program File (*."+computerInfo[selectedComputer_].ploadExtension+")|*."+computerInfo[selectedComputer_].ploadExtension+"|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8|Intel Hex File|*.hex|All files (%s)|%s";
-			}
-			else
-			{
-				extension = "Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8|Intel Hex File|*.hex|All files (%s)|%s";
-			}
-		break;
+        case SUPERELF:
+        case ELFII:
+        case ELF:
+        case DIY:
+        case PICO:
+            if (p_Computer->getLoadedProgram()&0x1)
+            {
+                extension = computerInfo[selectedComputer_].name+" Program File (*."+computerInfo[selectedComputer_].ploadExtension+")|*."+computerInfo[selectedComputer_].ploadExtension+"|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8|Intel Hex File|*.hex|All files (%s)|%s";
+            }
+            else
+            {
+                extension = "Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8|Intel Hex File|*.hex|All files (%s)|%s";
+            }
+        break;
 
-		default:
-			extension = "Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8|Intel Hex File|*.hex|All files (%s)|%s";
-		break;
-	}
+        default:
+            extension = "Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.sc8|Intel Hex File|*.hex|All files (%s)|%s";
+        break;
+    }
 
-	fileName = wxFileSelector( "Select the "+computerInfo[selectedComputer_].name+" Program file to save",
+    fileName = wxFileSelector( "Select the "+computerInfo[selectedComputer_].name+" Program file to save",
                                conf[selectedComputer_].ramDir_, conf[selectedComputer_].loadFileName_,
                                "",
                                wxString::Format
@@ -2237,187 +2312,201 @@ void GuiMain::onSaveButton(wxCommandEvent& WXUNUSED(event))
                                wxFD_SAVE|wxFD_CHANGE_DIR|wxFD_PREVIEW|wxFD_OVERWRITE_PROMPT,
                                this
                               );
-	if (!fileName)
-		return;
+    if (!fileName)
+        return;
 
-	wxFileName swFullPath = wxFileName(fileName, wxPATH_NATIVE);
-	conf[selectedComputer_].ramDir_ = swFullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+    wxFileName swFullPath = wxFileName(fileName, wxPATH_NATIVE);
+    conf[selectedComputer_].ramDir_ = swFullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
 
-	conf[selectedComputer_].loadFileNameFull_ = fileName;
-	conf[selectedComputer_].loadFileName_ = swFullPath.GetFullName();
-	p_Main->setSwName(swFullPath.GetName());
+    conf[selectedComputer_].loadFileNameFull_ = fileName;
+    conf[selectedComputer_].loadFileName_ = swFullPath.GetFullName();
+    p_Main->setSwName(swFullPath.GetName());
     p_Main->updateTitle();
 
-	extension = swFullPath.GetExt();
-	if (extension == computerInfo[selectedComputer_].ploadExtension && computerInfo[selectedComputer_].ploadExtension != "")
-	{ 
-		onPsave(fileName);
-		return;
-	}
+    extension = swFullPath.GetExt();
+    if (extension == computerInfo[selectedComputer_].ploadExtension && computerInfo[selectedComputer_].ploadExtension != "")
+    { 
+        onPsave(fileName);
+        return;
+    }
 
-/*	stringAdress = XRCCTRL(*this, "SaveStart"+computerInfo[selectedComputer_].gui,wxTextCtrl)->GetValue();
-	if (!stringAdress.ToLong(&saveStart, 16))
-	{
-		(void)wxMessageBox( "Please specify start address in hexadecimal\n",
-							"Emma 02", wxICON_ERROR | wxOK );
-		return;
-	}
-	stringAdress = XRCCTRL(*this,"SaveEnd"+computerInfo[selectedComputer_].gui,wxTextCtrl)->GetValue();
-	if (!stringAdress.ToLong(&saveEnd, 16))
-	{
-		(void)wxMessageBox( "Please specify end address in hexadecimal\n",
-							"Emma 02", wxICON_ERROR | wxOK );
-		return;
-	}*/
-	if (conf[selectedComputer_].saveStart_ > conf[selectedComputer_].saveEnd_)
-	{
-		(void)wxMessageBox( "Please specify start < end\n",
-							"Emma 02", wxICON_ERROR | wxOK );
-		return;
-	}
-	if ((extension == "bin") || (extension == "rom") || (extension == "ram") || (extension == "cos") || (extension == "c8") || (extension == "ch8") || (extension == "c8x") || (extension == "ch10"))
-		p_Computer->saveBinFile(fileName, conf[selectedComputer_].saveStart_, conf[selectedComputer_].saveEnd_);
-	else
-		p_Computer->saveIntelFile(fileName, conf[selectedComputer_].saveStart_, conf[selectedComputer_].saveEnd_);
+/*    stringAdress = XRCCTRL(*this, "SaveStart"+computerInfo[selectedComputer_].gui,wxTextCtrl)->GetValue();
+    if (!stringAdress.ToLong(&saveStart, 16))
+    {
+        (void)wxMessageBox( "Please specify start address in hexadecimal\n",
+                            "Emma 02", wxICON_ERROR | wxOK );
+        return;
+    }
+    stringAdress = XRCCTRL(*this,"SaveEnd"+computerInfo[selectedComputer_].gui,wxTextCtrl)->GetValue();
+    if (!stringAdress.ToLong(&saveEnd, 16))
+    {
+        (void)wxMessageBox( "Please specify end address in hexadecimal\n",
+                            "Emma 02", wxICON_ERROR | wxOK );
+        return;
+    }*/
+    if (conf[selectedComputer_].saveStart_ > conf[selectedComputer_].saveEnd_)
+    {
+        (void)wxMessageBox( "Please specify start < end\n",
+                            "Emma 02", wxICON_ERROR | wxOK );
+        return;
+    }
+    if ((extension == "bin") || (extension == "rom") || (extension == "ram") || (extension == "cos") || (extension == "c8") || (extension == "ch8") || (extension == "c8x") || (extension == "ch10"))
+        p_Computer->saveBinFile(fileName, conf[selectedComputer_].saveStart_, conf[selectedComputer_].saveEnd_);
+    else
+        p_Computer->saveIntelFile(fileName, conf[selectedComputer_].saveStart_, conf[selectedComputer_].saveEnd_);
 }
 
 void GuiMain::onClock(wxCommandEvent&WXUNUSED(event))
 {
-	double clk;
+    double clk;
 
-	wxString clock =  clockTextCtrl[selectedComputer_]->GetValue();
-	if (!toDouble(clock, (double*)&clk))
-	{
+    wxString clock =  clockTextCtrl[selectedComputer_]->GetValue();
+    if (!toDouble(clock, (double*)&clk))
+    {
         if (clock != "")
         {
             (void)wxMessageBox( "Please specify frequency in MHz\n",
                             "Emma 02", wxICON_ERROR | wxOK );
         }
         return;
-	}
-	if (clk == 0)
-	{
-		(void)wxMessageBox( "Please specify frequency value > 0\n",
-							"Emma 02", wxICON_ERROR | wxOK );
-		return;
-	}
-	if (clk >= 500)
-	{
-		(void)wxMessageBox( "Please specify frequency value < 500\n",
-							"Emma 02", wxICON_ERROR | wxOK );
-		return;
-	}
-	conf[selectedComputer_].clock_ = clock;
-	switch (selectedComputer_)
-	{
-		case COMX:
-			if (conf[selectedComputer_].videoMode_ == PAL)
-				comxPalClock_ = clock;
-			else
-				comxNtscClock_ = clock;
-		break;
+    }
+    if (clk == 0)
+    {
+        (void)wxMessageBox( "Please specify frequency value > 0\n",
+                            "Emma 02", wxICON_ERROR | wxOK );
+        return;
+    }
+    if (clk >= 500)
+    {
+        (void)wxMessageBox( "Please specify frequency value < 500\n",
+                            "Emma 02", wxICON_ERROR | wxOK );
+        return;
+    }
+    conf[selectedComputer_].clock_ = clock;
+    switch (selectedComputer_)
+    {
+        case COMX:
+            if (conf[selectedComputer_].videoMode_ == PAL)
+                comxPalClock_ = clock;
+            else
+                comxNtscClock_ = clock;
+        break;
 
-		case ELF2K:
-			if (conf[selectedComputer_].videoMode_ == VIDEOPIXIE)
-				elf2KPixieClock_ = clock;
-			else
-				elf2K8275Clock_ = clock;
-		break;
-	}
+        case ELF2K:
+            if (conf[selectedComputer_].videoMode_ == VIDEOPIXIE)
+                elf2KPixieClock_ = clock;
+            else
+                elf2K8275Clock_ = clock;
+        break;
+    }
 
-	setClock(selectedComputer_);
+    setClock(selectedComputer_);
 }
 
 void GuiMain::onBaudR(wxCommandEvent&event)
 {
-	elfConfiguration[selectedComputer_].baudR = event.GetSelection();
+    elfConfiguration[selectedComputer_].baudR = event.GetSelection();
 }
 
 void GuiMain::onBaudT(wxCommandEvent&event)
 {
-	elfConfiguration[selectedComputer_].baudT = event.GetSelection();
-	if (!elfConfiguration[selectedComputer_].useUart && !elfConfiguration[selectedComputer_].useUart16450)
-	{
-		elfConfiguration[selectedComputer_].baudR = event.GetSelection();
-		XRCCTRL(*this, "VTBaudRChoice" + computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(elfConfiguration[selectedComputer_].baudR);
-	}
+    elfConfiguration[selectedComputer_].baudT = event.GetSelection();
+    if (!elfConfiguration[selectedComputer_].useUart && !elfConfiguration[selectedComputer_].useUart16450)
+    {
+        elfConfiguration[selectedComputer_].baudR = event.GetSelection();
+        XRCCTRL(*this, "VTBaudRChoice" + computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(elfConfiguration[selectedComputer_].baudR);
+    }
 }
 
 void GuiMain::onPsaveMenu(wxCommandEvent&WXUNUSED(event))
 {
-	PsaveDialog PsaveDialog(this);
- 	PsaveDialog.ShowModal();
+    PsaveDialog PsaveDialog(this);
+     PsaveDialog.ShowModal();
 }
 
 void GuiMain::onVtSetup(wxCommandEvent&WXUNUSED(event))
 {
-	VtSetupDialog VtSetupDialog(this);
- 	VtSetupDialog.ShowModal();
+    VtSetupDialog VtSetupDialog(this);
+     VtSetupDialog.ShowModal();
     
     setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, elfConfiguration[selectedComputer_].vtType, false);
 }
 
 void GuiMain::onBeepFrequency(wxCommandEvent&WXUNUSED(event))
 {
-	setBeepFrequency(selectedComputer_);
+    setBeepFrequency(selectedComputer_);
 }
 
 wxString GuiMain::convertLocale(wxString returnString)
 {
-    wxString decimalPoint = wxLocale::GetInfo(wxLOCALE_DECIMAL_POINT, wxLOCALE_CAT_NUMBER);
-
-    returnString.Replace(",",decimalPoint);
-    returnString.Replace(".",decimalPoint);
-    returnString.Replace("'",decimalPoint);
+    double value;
+    
+    int dotPosition = returnString.Find(".");
+    int precision;
+    
+    if (dotPosition == wxNOT_FOUND)
+        dotPosition = returnString.Find(",");
+    if (dotPosition == wxNOT_FOUND)
+        dotPosition = returnString.Find("'");
+    
+    if (dotPosition == wxNOT_FOUND)
+        precision = 0;
+    else
+        precision = (int)(returnString.Len() - dotPosition);
+    
+    if (toDouble(returnString, &value))
+        returnString.FromDouble(value, precision);
 
     return returnString;
 }
 
 bool GuiMain::toDouble(wxString stringName, double* result)
 {
-	stringName = convertLocale(stringName);
-    bool returnValue = stringName.ToDouble(result);
+    stringName.Replace(",",".");
+    stringName.Replace("'",".");
 
-	return returnValue;
+    bool returnValue = stringName.ToCDouble(result);
+
+    return returnValue;
 }
 
 wxString GuiMain::getKeyFile()
 {
-	return conf[runningComputer_].keyFile_;
+    return conf[runningComputer_].keyFile_;
 }
 
 wxString GuiMain::getKeyFileDir()
 {
-	return conf[runningComputer_].keyFileDir_;
+    return conf[runningComputer_].keyFileDir_;
 }
 
 wxString GuiMain::getScreenDumpFile()
 {
-	wxString screenDumpFile = conf[runningComputer_].screenDumpFile_;
-	if (screenDumpFile.Len() != 0)
-		screenDumpFile = conf[runningComputer_].screenDumpFileDir_ + screenDumpFile;
+    wxString screenDumpFile = conf[runningComputer_].screenDumpFile_;
+    if (screenDumpFile.Len() != 0)
+        screenDumpFile = conf[runningComputer_].screenDumpFileDir_ + screenDumpFile;
 
-	return screenDumpFile;
+    return screenDumpFile;
 }
 
 wxString GuiMain::getPrintFile()
 {
-	wxString fileName = conf[runningComputer_].printFile_;
+    wxString fileName = conf[runningComputer_].printFile_;
 
-	if (fileName.Len() != 0)
-		fileName = conf[runningComputer_].printFileDir_ + fileName;
+    if (fileName.Len() != 0)
+        fileName = conf[runningComputer_].printFileDir_ + fileName;
 
-	return fileName;
+    return fileName;
 }
 
 ElfConfiguration GuiMain::getElfConfiguration()
 {
-	return elfConfiguration[selectedComputer_]; 
+    return elfConfiguration[selectedComputer_]; 
 }
 
 ElfConfiguration GuiMain::getElfConfiguration(int computer)
 {
-	return elfConfiguration[computer];
+    return elfConfiguration[computer];
 }
 
 void GuiMain::setElfConfiguration(ElfConfiguration elfConf)
@@ -2427,188 +2516,188 @@ void GuiMain::setElfConfiguration(ElfConfiguration elfConf)
 
 void GuiMain::setSerialPorts(wxString port)
 {
-	for (int computer = 0; computer <= LAST_ELF_TYPE; computer++)
-	{
-		if (elfConfiguration[computer].serialPort_ == "")
-			elfConfiguration[computer].serialPort_ = port;
-	}
+    for (int computer = 0; computer <= LAST_ELF_TYPE; computer++)
+    {
+        if (elfConfiguration[computer].serialPort_ == "")
+            elfConfiguration[computer].serialPort_ = port;
+    }
 }
 
 long GuiMain::getBitValue(wxString reference)
 {
-	wxString strValue = XRCCTRL(*this, reference, wxTextCtrl)->GetValue();
-	if (strValue == "")
-		return -1;
+    wxString strValue = XRCCTRL(*this, reference, wxTextCtrl)->GetValue();
+    if (strValue == "")
+        return -1;
 
-	long value;
+    long value;
 
-	if (!strValue.ToLong(&value))
-	{
-		(void)wxMessageBox( "Please specify value of 0 or 1\n",
-									"Emma 02", wxICON_ERROR | wxOK );
-		return -1;
-	}
+    if (!strValue.ToLong(&value))
+    {
+        (void)wxMessageBox( "Please specify value of 0 or 1\n",
+                                    "Emma 02", wxICON_ERROR | wxOK );
+        return -1;
+    }
 
-	if (value > 1)
-	{
-		(void)wxMessageBox( "Please specify value of 0 or 1\n",
-									"Emma 02", wxICON_ERROR | wxOK );
-		return -1;
-	}
+    if (value > 1)
+    {
+        (void)wxMessageBox( "Please specify value of 0 or 1\n",
+                                    "Emma 02", wxICON_ERROR | wxOK );
+        return -1;
+    }
 
-	return value;
+    return value;
 }
 
 long GuiMain::get8BitValue(wxString reference)
 {
-	wxString strValue = XRCCTRL(*this, reference, wxTextCtrl)->GetValue();
-	if (strValue == "")
-		return -1;
+    wxString strValue = XRCCTRL(*this, reference, wxTextCtrl)->GetValue();
+    if (strValue == "")
+        return -1;
 
-	long value;
+    long value;
 
-	if (!strValue.ToLong(&value, 16))
-	{
-		(void)wxMessageBox( "Please specify value in hexadecimal\n",
-									"Emma 02", wxICON_ERROR | wxOK );
-		return -1;
-	}
+    if (!strValue.ToLong(&value, 16))
+    {
+        (void)wxMessageBox( "Please specify value in hexadecimal\n",
+                                    "Emma 02", wxICON_ERROR | wxOK );
+        return -1;
+    }
 
-	if (value > 0xff)
-	{
-		(void)wxMessageBox( "Please specify value of 8 bit max\n",
-									"Emma 02", wxICON_ERROR | wxOK );
-		return -1;
-	}
+    if (value > 0xff)
+    {
+        (void)wxMessageBox( "Please specify value of 8 bit max\n",
+                                    "Emma 02", wxICON_ERROR | wxOK );
+        return -1;
+    }
 
-	return value;
+    return value;
 }
 
 long GuiMain::get12BitValue(wxString reference)
 {
-	wxString strValue = XRCCTRL(*this, reference, wxTextCtrl)->GetValue();
-	if (strValue == "")
-		return -1;
+    wxString strValue = XRCCTRL(*this, reference, wxTextCtrl)->GetValue();
+    if (strValue == "")
+        return -1;
 
-	long value;
+    long value;
 
-	if (!strValue.ToLong(&value, 16))
-	{
-		(void)wxMessageBox( "Please specify value in hexadecimal\n",
-									"Emma 02", wxICON_ERROR | wxOK );
-		return -1;
-	}
+    if (!strValue.ToLong(&value, 16))
+    {
+        (void)wxMessageBox( "Please specify value in hexadecimal\n",
+                                    "Emma 02", wxICON_ERROR | wxOK );
+        return -1;
+    }
 
-	if (value > 0xfff)
-	{
-		(void)wxMessageBox( "Please specify value of 12 bit max\n",
-									"Emma 02", wxICON_ERROR | wxOK );
-		return -1;
-	}
+    if (value > 0xfff)
+    {
+        (void)wxMessageBox( "Please specify value of 12 bit max\n",
+                                    "Emma 02", wxICON_ERROR | wxOK );
+        return -1;
+    }
 
-	return value;
+    return value;
 }
 
 long GuiMain::get16BitValue(wxString reference)
 {
-	wxString strValue = XRCCTRL(*this, reference, wxTextCtrl)->GetValue();
-	if (strValue == "")
-		return -1;
+    wxString strValue = XRCCTRL(*this, reference, wxTextCtrl)->GetValue();
+    if (strValue == "")
+        return -1;
 
-	long value;
+    long value;
 
-	if (!strValue.ToLong(&value, 16))
-	{
-		(void)wxMessageBox( "Please specify value in hexadecimal\n",
-									"Emma 02", wxICON_ERROR | wxOK );
-		return -1;
-	}
+    if (!strValue.ToLong(&value, 16))
+    {
+        (void)wxMessageBox( "Please specify value in hexadecimal\n",
+                                    "Emma 02", wxICON_ERROR | wxOK );
+        return -1;
+    }
 
-	if (value > 0xffff)
-	{
-		(void)wxMessageBox( "Please specify value of 16 bit max\n",
-									"Emma 02", wxICON_ERROR | wxOK );
-		return -1;
-	}
+    if (value > 0xffff)
+    {
+        (void)wxMessageBox( "Please specify value of 16 bit max\n",
+                                    "Emma 02", wxICON_ERROR | wxOK );
+        return -1;
+    }
 
-	return value;
+    return value;
 }
 
 void GuiMain::setClock(int computerType)
 {
-	double clk;
+    double clk;
 
-	wxString clock =  conf[computerType].clock_;
-	if (!toDouble(clock, (double*)&clk))
-	{
+    wxString clock =  conf[computerType].clock_;
+    if (!toDouble(clock, (double*)&clk))
+    {
         (void)wxMessageBox( "Please specify frequency in MHz\n",
                             "Emma 02", wxICON_ERROR | wxOK );
         return;
-	}
-	if (clk == 0)
-	{
-		(void)wxMessageBox( "Please specify frequency value > 0\n",
-							"Emma 02", wxICON_ERROR | wxOK );
-		return;
-	}
-	if (clk >= 500)
-	{
-		(void)wxMessageBox( "Please specify frequency value < 500\n",
-							"Emma 02", wxICON_ERROR | wxOK );
-		return;
-	}
-	conf[computerType].clockSpeed_ = clk;
-	conf[computerType].fdcCpms_ = clk * 100;
+    }
+    if (clk == 0)
+    {
+        (void)wxMessageBox( "Please specify frequency value > 0\n",
+                            "Emma 02", wxICON_ERROR | wxOK );
+        return;
+    }
+    if (clk >= 500)
+    {
+        (void)wxMessageBox( "Please specify frequency value < 500\n",
+                            "Emma 02", wxICON_ERROR | wxOK );
+        return;
+    }
+    conf[computerType].clockSpeed_ = clk;
+    conf[computerType].fdcCpms_ = clk * 100;
 
-	if ((computerType == runningComputer_) && computerRunning_)
-	{
-		setClockRate();
-		if (p_Video != NULL)
-			p_Video->setClock(conf[computerType].clockSpeed_);
+    if ((computerType == runningComputer_) && computerRunning_)
+    {
+        setClockRate();
+        if (p_Video != NULL)
+            p_Video->setClock(conf[computerType].clockSpeed_);
         if (p_Vt100[UART1] != NULL)
             p_Vt100[UART1]->setClock(conf[computerType].clockSpeed_);
         if (p_Vt100[UART2] != NULL)
             p_Vt100[UART2]->setClock(conf[computerType].clockSpeed_);
-	}
+    }
 }
 
 void GuiMain::setBeepFrequency(int computerType)
 {
-	long frequency;
+    long frequency;
 
-	wxString frequencyString =  XRCCTRL(*this, "BeepFrequency"+computerInfo[computerType].gui, wxTextCtrl)->GetValue();
-	if (!frequencyString.ToLong((long*)&frequency))
-	{
-		if (frequencyString != "")
-		{
-			(void)wxMessageBox( "Please specify frequency in Hz\n",
-							"Emma 02", wxICON_ERROR | wxOK );
-		}
-		return;
-	}
-	if (frequency == 0)
-	{
-		(void)wxMessageBox( "Please specify frequency value > 0\n",
-							"Emma 02", wxICON_ERROR | wxOK );
-		return;
-	}
-	conf[computerType].beepFrequency_ = (int)frequency;
-	if ((computerType == runningComputer_) && computerRunning_)
-	{
-		p_Computer->changeBeepFrequency(conf[computerType].beepFrequency_);
-	}
+    wxString frequencyString =  XRCCTRL(*this, "BeepFrequency"+computerInfo[computerType].gui, wxTextCtrl)->GetValue();
+    if (!frequencyString.ToLong((long*)&frequency))
+    {
+        if (frequencyString != "")
+        {
+            (void)wxMessageBox( "Please specify frequency in Hz\n",
+                            "Emma 02", wxICON_ERROR | wxOK );
+        }
+        return;
+    }
+    if (frequency == 0)
+    {
+        (void)wxMessageBox( "Please specify frequency value > 0\n",
+                            "Emma 02", wxICON_ERROR | wxOK );
+        return;
+    }
+    conf[computerType].beepFrequency_ = (int)frequency;
+    if ((computerType == runningComputer_) && computerRunning_)
+    {
+        p_Computer->changeBeepFrequency(conf[computerType].beepFrequency_);
+    }
 }
 
 void GuiMain::setClockRate()
 {
-	p_Computer->setClockRate(conf[runningComputer_].clockSpeed_);
-	if (runningComputer_ == ELF2K)
-			p_Elf2K->setElf2KClockSpeed(conf[runningComputer_].clockSpeed_);
+    p_Computer->setClockRate(conf[runningComputer_].clockSpeed_);
+    if (runningComputer_ == ELF2K)
+            p_Elf2K->setElf2KClockSpeed(conf[runningComputer_].clockSpeed_);
 }
 
 int GuiMain::getConfigItem(wxString Item, long DefaultValue)
 {
-	return (int)configPointer->Read(Item, DefaultValue);
+    return (int)configPointer->Read(Item, DefaultValue);
 }
 
 void GuiMain::setConfigItem(wxString Item, int Value)
@@ -2623,216 +2712,216 @@ void GuiMain::setConfigItem(wxString Item, long Value)
 
 wxString GuiMain::getConfigItem(wxString Item, wxString DefaultValue)
 {
-	return configPointer->Read(Item, DefaultValue);
+    return configPointer->Read(Item, DefaultValue);
 }
 
 void GuiMain::setConfigItem(wxString Item, wxString Value)
 {
-	configPointer->Write(Item, Value);
+    configPointer->Write(Item, Value);
 }
 
 bool GuiMain::getConfigBool(wxString Item, bool DefaultValue)
 {
-	bool ret;
-	configPointer->Read(Item, &ret, DefaultValue);
-	return ret;
+    bool ret;
+    configPointer->Read(Item, &ret, DefaultValue);
+    return ret;
 }
 
 void GuiMain::setConfigBool(wxString Item, bool Value)
 {
-	configPointer->Write(Item, Value);
+    configPointer->Write(Item, Value);
 }
 
 int GuiMain::getChoiceSelection(wxString info)
 {
-	return XRCCTRL(*this, info, wxChoice)->GetCurrentSelection();
+    return XRCCTRL(*this, info, wxChoice)->GetCurrentSelection();
 }
 
 void GuiMain::setCheckBox(wxString info, bool status)
 {
-	if (mode_.gui)
-		XRCCTRL(*this, info, wxCheckBox)->SetValue(status);
-	if (info == "Elf2KClearRam")
-		elfConfiguration[ELF2K].clearRam = status;
-	if (info == "Elf2KClearRtc")
-		elfConfiguration[ELF2K].clearRtc = status;
-	if (info == "ClearRamMembership")
-		elfConfiguration[MEMBER].clearRam = status;
+    if (mode_.gui)
+        XRCCTRL(*this, info, wxCheckBox)->SetValue(status);
+    if (info == "Elf2KClearRam")
+        elfConfiguration[ELF2K].clearRam = status;
+    if (info == "Elf2KClearRtc")
+        elfConfiguration[ELF2K].clearRtc = status;
+    if (info == "ClearRamMembership")
+        elfConfiguration[MEMBER].clearRam = status;
 }
 
 void GuiMain::setSpinCtrl(wxString info, int value)
 {
-	if (mode_.gui)
-		XRCCTRL(*this, info, wxSpinCtrl)->SetValue(value);
+    if (mode_.gui)
+        XRCCTRL(*this, info, wxSpinCtrl)->SetValue(value);
 }
 
 void GuiMain::setTextCtrl(wxString info, wxString value)
 {
-	if (mode_.gui)
-		XRCCTRL(*this, info, wxTextCtrl)->SetValue(value);
+    if (mode_.gui)
+        XRCCTRL(*this, info, wxTextCtrl)->SetValue(value);
 }
 
 void GuiMain::setComboBox(wxString info, wxString value)
 {
-	if (mode_.gui)
-		XRCCTRL(*this, info, wxComboBox)->SetValue(value);
+    if (mode_.gui)
+        XRCCTRL(*this, info, wxComboBox)->SetValue(value);
 }
 
 void GuiMain::onHexKeyDef(wxCommandEvent&WXUNUSED(event))
 {
-	KeyMapDialog KeyMapDialog(this);
- 	KeyMapDialog.ShowModal();
+    KeyMapDialog KeyMapDialog(this);
+     KeyMapDialog.ShowModal();
 
-	if (computerRunning_)
-		p_Computer->reDefineKeys();
+    if (computerRunning_)
+        p_Computer->reDefineKeys();
 }
 
 void GuiMain::onColoursDef(wxCommandEvent&WXUNUSED(event))
 {
-	ColourDialog ColourDialog(this);
- 	ColourDialog.ShowModal();
+    ColourDialog ColourDialog(this);
+     ColourDialog.ShowModal();
 }
 
 void GuiMain::setScale(wxString scale)
 {
-	conf[selectedComputer_].xScale_ = scale;
+    conf[selectedComputer_].xScale_ = scale;
 }
 
 double GuiMain::getScale()
 {
-	double scale;
-	if (!toDouble(conf[runningComputer_].xScale_, &scale))
-		scale = 3;
+    double scale;
+    if (!toDouble(conf[runningComputer_].xScale_, &scale))
+        scale = 3;
 
-	if (!fullScreenFloat_)
-		scale = (int) scale;
-	return scale;
+    if (!fullScreenFloat_)
+        scale = (int) scale;
+    return scale;
 }
 
 double GuiMain::getZoom()
 {
-	double zoom;
-	toDouble(conf[runningComputer_].zoom_, &zoom);
+    double zoom;
+    toDouble(conf[runningComputer_].zoom_, &zoom);
 
-	if (!fullScreenFloat_)
-		zoom = (int) zoom;
-	return zoom;
+    if (!fullScreenFloat_)
+        zoom = (int) zoom;
+    return zoom;
 }
 
 double GuiMain::getZoomVt()
 {
-	double zoomVt;
-	toDouble(conf[runningComputer_].zoomVt_, &zoomVt);
+    double zoomVt;
+    toDouble(conf[runningComputer_].zoomVt_, &zoomVt);
 
-	if (!fullScreenFloat_)
-		zoomVt = (int) zoomVt;
-	return zoomVt;
+    if (!fullScreenFloat_)
+        zoomVt = (int) zoomVt;
+    return zoomVt;
 }
 
 wxSize GuiMain::getMainSize(int computerType)
 {
-	return wxSize(conf[computerType].sizeX_, conf[computerType].sizeY_);
+    return wxSize(conf[computerType].sizeX_, conf[computerType].sizeY_);
 }
 
 void GuiMain::setMainSize(int computerType, wxSize size)
 {
-	conf[computerType].sizeX_ = size.x;
-	conf[computerType].sizeY_ = size.y;
+    conf[computerType].sizeX_ = size.x;
+    conf[computerType].sizeY_ = size.y;
 }
 
 wxSize GuiMain::get6845Size(int computerType)
 {
-	return wxSize(conf[computerType].sizeX6845_, conf[computerType].sizeY6845_);
+    return wxSize(conf[computerType].sizeX6845_, conf[computerType].sizeY6845_);
 }
 
 void GuiMain::set6845Size(int computerType, wxSize size)
 {
-	conf[computerType].sizeX6845_ = size.x;
-	conf[computerType].sizeY6845_ = size.y;
+    conf[computerType].sizeX6845_ = size.x;
+    conf[computerType].sizeY6845_ = size.y;
 }
 
 wxPoint GuiMain::getMainPos(int computerType)
 {
-	return wxPoint(conf[computerType].mainX_, conf[computerType].mainY_);
+    return wxPoint(conf[computerType].mainX_, conf[computerType].mainY_);
 }
 
 void GuiMain::setMainPos(int computerType, wxPoint position)
 {
-	if (!mode_.window_position_fixed)
-	{
-		conf[computerType].mainX_ = -1;
-		conf[computerType].mainY_ = -1;
-	}
-	else
-	{
-		if (position.x > 0)
-			conf[computerType].mainX_ = position.x;
-		if (position.y > 0)
-			conf[computerType].mainY_ = position.y;
-	}
+    if (!mode_.window_position_fixed)
+    {
+        conf[computerType].mainX_ = -1;
+        conf[computerType].mainY_ = -1;
+    }
+    else
+    {
+        if (position.x > 0)
+            conf[computerType].mainX_ = position.x;
+        if (position.y > 0)
+            conf[computerType].mainY_ = position.y;
+    }
 }
 
 wxPoint GuiMain::getPixiePos(int computerType)
 {
-	return wxPoint(conf[computerType].pixieX_, conf[computerType].pixieY_);
+    return wxPoint(conf[computerType].pixieX_, conf[computerType].pixieY_);
 }
 
 void GuiMain::setPixiePos(int computerType, wxPoint position)
 {
-	if (!mode_.window_position_fixed)
-	{
-		conf[computerType].pixieX_ = -1;
-		conf[computerType].pixieY_ = -1;
-	}
-	else
-	{
-		if (position.x > 0)
-			conf[computerType].pixieX_ = position.x;
-		if (position.y > 0)
-			conf[computerType].pixieY_ = position.y;
-	}
+    if (!mode_.window_position_fixed)
+    {
+        conf[computerType].pixieX_ = -1;
+        conf[computerType].pixieY_ = -1;
+    }
+    else
+    {
+        if (position.x > 0)
+            conf[computerType].pixieX_ = position.x;
+        if (position.y > 0)
+            conf[computerType].pixieY_ = position.y;
+    }
 }
 
 wxPoint GuiMain::getTmsPos(int computerType)
 {
-	return wxPoint(conf[computerType].tmsX_, conf[computerType].tmsY_);
+    return wxPoint(conf[computerType].tmsX_, conf[computerType].tmsY_);
 }
 
 void GuiMain::setTmsPos(int computerType, wxPoint position)
 {
-	if (!mode_.window_position_fixed)
-	{
-		conf[computerType].tmsX_ = -1;
-		conf[computerType].tmsY_ = -1;
-	}
-	else
-	{
-		if (position.x > 0)
-			conf[computerType].tmsX_ = position.x;
-		if (position.y > 0)
-			conf[computerType].tmsY_ = position.y;
-	}
+    if (!mode_.window_position_fixed)
+    {
+        conf[computerType].tmsX_ = -1;
+        conf[computerType].tmsY_ = -1;
+    }
+    else
+    {
+        if (position.x > 0)
+            conf[computerType].tmsX_ = position.x;
+        if (position.y > 0)
+            conf[computerType].tmsY_ = position.y;
+    }
 }
 
 wxPoint GuiMain::getVtPos(int computerType)
 {
-	return wxPoint(conf[computerType].vtX_, conf[computerType].vtY_);
+    return wxPoint(conf[computerType].vtX_, conf[computerType].vtY_);
 }
 
 void GuiMain::setVtPos(int computerType, wxPoint position)
 {
-	if (!mode_.window_position_fixed)
-	{
-		conf[computerType].vtX_ = -1;
-		conf[computerType].vtY_ = -1;
-	}
-	else
-	{
-		if (position.x > 0)
-			conf[computerType].vtX_ = position.x;
-		if (position.y > 0)
-			conf[computerType].vtY_ = position.y;
-	}
+    if (!mode_.window_position_fixed)
+    {
+        conf[computerType].vtX_ = -1;
+        conf[computerType].vtY_ = -1;
+    }
+    else
+    {
+        if (position.x > 0)
+            conf[computerType].vtX_ = position.x;
+        if (position.y > 0)
+            conf[computerType].vtY_ = position.y;
+    }
 }
 
 wxPoint GuiMain::getVtUart2Pos(int computerType)
@@ -2858,87 +2947,87 @@ void GuiMain::setVtUart2Pos(int computerType, wxPoint position)
 
 wxPoint GuiMain::get6845Pos(int computerType)
 {
-	return wxPoint(conf[computerType].mc6845X_, conf[computerType].mc6845Y_);
+    return wxPoint(conf[computerType].mc6845X_, conf[computerType].mc6845Y_);
 }
 
 void GuiMain::set6845Pos(int computerType, wxPoint position)
 {
-	if (!mode_.window_position_fixed)
-	{
-		conf[computerType].mc6845X_ = -1;
-		conf[computerType].mc6845Y_ = -1;
-	}
-	else
-	{
-		if (position.x > 0)
-			conf[computerType].mc6845X_ = position.x;
-		if (position.y > 0)
-			conf[computerType].mc6845Y_ = position.y;
-	}
+    if (!mode_.window_position_fixed)
+    {
+        conf[computerType].mc6845X_ = -1;
+        conf[computerType].mc6845Y_ = -1;
+    }
+    else
+    {
+        if (position.x > 0)
+            conf[computerType].mc6845X_ = position.x;
+        if (position.y > 0)
+            conf[computerType].mc6845Y_ = position.y;
+    }
 }
 
 wxPoint GuiMain::get6847Pos(int computerType)
 {
-	return wxPoint(conf[computerType].mc6847X_, conf[computerType].mc6847Y_);
+    return wxPoint(conf[computerType].mc6847X_, conf[computerType].mc6847Y_);
 }
 
 void GuiMain::set6847Pos(int computerType, wxPoint position)
 {
-	if (!mode_.window_position_fixed)
-	{
-		conf[computerType].mc6847X_ = -1;
-		conf[computerType].mc6847Y_ = -1;
-	}
-	else
-	{
-		if (position.x > 0)
-			conf[computerType].mc6847X_ = position.x;
-		if (position.y > 0)
-			conf[computerType].mc6847Y_ = position.y;
-	}
+    if (!mode_.window_position_fixed)
+    {
+        conf[computerType].mc6847X_ = -1;
+        conf[computerType].mc6847Y_ = -1;
+    }
+    else
+    {
+        if (position.x > 0)
+            conf[computerType].mc6847X_ = position.x;
+        if (position.y > 0)
+            conf[computerType].mc6847Y_ = position.y;
+    }
 }
 
 
 wxPoint GuiMain::get8275Pos(int computerType)
 {
-	return wxPoint(conf[computerType].i8275X_, conf[computerType].i8275Y_);
+    return wxPoint(conf[computerType].i8275X_, conf[computerType].i8275Y_);
 }
 
 void GuiMain::set8275Pos(int computerType, wxPoint position)
 {
-	if (!mode_.window_position_fixed)
-	{
-		conf[computerType].i8275X_ = -1;
-		conf[computerType].i8275Y_ = -1;
-	}
-	else
-	{
-		if (position.x > 0)
-			conf[computerType].i8275X_ = position.x;
-		if (position.y > 0)
-			conf[computerType].i8275Y_ = position.y;
-	}
+    if (!mode_.window_position_fixed)
+    {
+        conf[computerType].i8275X_ = -1;
+        conf[computerType].i8275Y_ = -1;
+    }
+    else
+    {
+        if (position.x > 0)
+            conf[computerType].i8275X_ = position.x;
+        if (position.y > 0)
+            conf[computerType].i8275Y_ = position.y;
+    }
 }
 
 wxPoint GuiMain::getKeypadPos(int computerType)
 {
-	return wxPoint(conf[computerType].keypadX_, conf[computerType].keypadY_);
+    return wxPoint(conf[computerType].keypadX_, conf[computerType].keypadY_);
 }
 
 void GuiMain::setKeypadPos(int computerType, wxPoint position)
 {
-	if (!mode_.window_position_fixed)
-	{
-		conf[computerType].keypadX_ = -1;
-		conf[computerType].keypadY_ = -1;
-	}
-	else
-	{
-		if (position.y > 0)
-			conf[computerType].keypadX_ = position.x;
-		if (position.x > 0)
-			conf[computerType].keypadY_ = position.y;
-	}
+    if (!mode_.window_position_fixed)
+    {
+        conf[computerType].keypadX_ = -1;
+        conf[computerType].keypadY_ = -1;
+    }
+    else
+    {
+        if (position.y > 0)
+            conf[computerType].keypadX_ = position.x;
+        if (position.x > 0)
+            conf[computerType].keypadY_ = position.y;
+    }
 }
 
 wxPoint GuiMain::getSecondFramePos(int computerType)
@@ -3027,149 +3116,149 @@ void GuiMain::setV1870Pos(int computerType, wxPoint position)
 
 int GuiMain::pload()
 {
-	wxFFile inputFile;
-	size_t length, arrayLength;
-	int address, start, startAddress, dataEnd, stringStart, fAndMBasicOffset;
-//	Byte slot;
-	char buffer[65536];
-	wxString printBuffer;
-	Byte highRamAddress;
+    wxFFile inputFile;
+    size_t length, arrayLength;
+    int address, start, startAddress, dataEnd, stringStart, fAndMBasicOffset;
+//    Byte slot;
+    char buffer[65536];
+    wxString printBuffer;
+    Byte highRamAddress;
 
-	conf[selectedComputer_].saveExec_ = 0;
+    conf[selectedComputer_].saveExec_ = 0;
 
-	if (inputFile.Open(conf[runningComputer_].loadFileNameFull_, _("rb")))
-	{
-		inputFile.Read(buffer, 4);
-		inputFile.Close();
+    if (inputFile.Open(conf[runningComputer_].loadFileNameFull_, _("rb")))
+    {
+        inputFile.Read(buffer, 4);
+        inputFile.Close();
 
-		if (buffer[0] == ':')
-			return p_Computer->readIntelFile(conf[runningComputer_].loadFileNameFull_, RAM, 0x10000, true);
-		else if (buffer[0] == '0' && buffer[1] == '0' && buffer[2] == '0' && buffer[3] == '0')
-			return p_Computer->readLstFile(conf[runningComputer_].loadFileNameFull_, RAM, 0x10000, true);
-	}
+        if (buffer[0] == ':')
+            return p_Computer->readIntelFile(conf[runningComputer_].loadFileNameFull_, RAM, 0x10000, true);
+        else if (buffer[0] == '0' && buffer[1] == '0' && buffer[2] == '0' && buffer[3] == '0')
+            return p_Computer->readLstFile(conf[runningComputer_].loadFileNameFull_, RAM, 0x10000, true);
+    }
 
-	if (buffer [0] != 1)
-	{
-		p_Main->eventSetTextValue("SaveStart"+computerInfo[runningComputer_].gui, "");
-		p_Main->eventSetTextValue("SaveEnd"+computerInfo[runningComputer_].gui, "");
-		p_Main->eventSetTextValue("SaveExec"+computerInfo[runningComputer_].gui, "");
-	}
+    if (buffer [0] != 1)
+    {
+        p_Main->eventSetTextValue("SaveStart"+computerInfo[runningComputer_].gui, "");
+        p_Main->eventSetTextValue("SaveEnd"+computerInfo[runningComputer_].gui, "");
+        p_Main->eventSetTextValue("SaveExec"+computerInfo[runningComputer_].gui, "");
+    }
 
-	if (inputFile.Open(conf[runningComputer_].loadFileNameFull_, _("rb")))
-	{
-		length = inputFile.Read(buffer, 65536);
-		address = conf[runningComputer_].basicRamAddress_;
-		start = conf[runningComputer_].basicRamAddress_ & 0xf00;
-		if ((buffer [0] == 1 || buffer [0] == 2 || buffer [0] == 3 || buffer [0] == 4 || buffer [0] == 5 || buffer [0] == 6) && (buffer [1] == conf[runningComputer_].pLoadSaveName_[0]) && (buffer [2] == conf[runningComputer_].pLoadSaveName_[1]) && (buffer [3] == conf[runningComputer_].pLoadSaveName_[2]) && (buffer [4] == conf[runningComputer_].pLoadSaveName_[3]))
-		{
-			switch(buffer [0])
-			{
-				case 1: /* Machine code LOAD */
-					address = (Word)(buffer [5] << 8) + buffer [6];
-					p_Main->eventSetLocation(true, (buffer [5] << 8) + buffer [6], (buffer [7] << 8) + buffer [8], (buffer [9] << 8) + buffer [10]);
-					start = 11;
-				break;
+    if (inputFile.Open(conf[runningComputer_].loadFileNameFull_, _("rb")))
+    {
+        length = inputFile.Read(buffer, 65536);
+        address = conf[runningComputer_].basicRamAddress_;
+        start = conf[runningComputer_].basicRamAddress_ & 0xf00;
+        if ((buffer [0] == 1 || buffer [0] == 2 || buffer [0] == 3 || buffer [0] == 4 || buffer [0] == 5 || buffer [0] == 6) && (buffer [1] == conf[runningComputer_].pLoadSaveName_[0]) && (buffer [2] == conf[runningComputer_].pLoadSaveName_[1]) && (buffer [3] == conf[runningComputer_].pLoadSaveName_[2]) && (buffer [4] == conf[runningComputer_].pLoadSaveName_[3]))
+        {
+            switch(buffer [0])
+            {
+                case 1: /* Machine code LOAD */
+                    address = (Word)(buffer [5] << 8) + buffer [6];
+                    p_Main->eventSetLocation(true, (buffer [5] << 8) + buffer [6], (buffer [7] << 8) + buffer [8], (buffer [9] << 8) + buffer [10]);
+                    start = 11;
+                break;
 
-				case 2: /* Regular LOAD */
-					fAndMBasicOffset = 0;
-					address = conf[runningComputer_].basicRamAddress_;
-					if (runningComputer_ == COMX)
-					{
-						if (p_Comx->isFAndMBasicRunning())
-						{
-							fAndMBasicOffset = 0x23;
-							if (buffer[5] != 0x44)
-							{
-								p_Main->errorMessage(	"File " + conf[runningComputer_].loadFileNameFull_ + " can only be loaded in COMX Basic");
-								return 1;
-							}
-							address = 0x6700;
-						}
-					}
-					p_Computer->setRam(conf[runningComputer_].defus_, (Byte)buffer[5]+fAndMBasicOffset);
-					p_Computer->setRam(conf[runningComputer_].defus_+1, (Byte)buffer[6]);
-					p_Computer->setRam(conf[runningComputer_].eop_, (Byte)buffer[7]+fAndMBasicOffset);
-					p_Computer->setRam(conf[runningComputer_].eop_+1, (Byte)buffer[8]);
-					p_Computer->setRam(conf[runningComputer_].string_, (Byte)buffer[9]+fAndMBasicOffset);
-					p_Computer->setRam(conf[runningComputer_].string_+1, (Byte)buffer[10]);
-					p_Computer->setRam(conf[runningComputer_].arrayValue_, (Byte)buffer[11]+fAndMBasicOffset);
-					p_Computer->setRam(conf[runningComputer_].arrayValue_+1, (Byte)buffer[12]);
-					p_Computer->setRam(conf[runningComputer_].eod_, (Byte)buffer[9]+fAndMBasicOffset);
-					p_Computer->setRam(conf[runningComputer_].eod_+1, (Byte)buffer[10]);
-					p_Main->eventSetLocation(false);
-					start = 15;
-				break;
+                case 2: /* Regular LOAD */
+                    fAndMBasicOffset = 0;
+                    address = conf[runningComputer_].basicRamAddress_;
+                    if (runningComputer_ == COMX)
+                    {
+                        if (p_Comx->isFAndMBasicRunning())
+                        {
+                            fAndMBasicOffset = 0x23;
+                            if (buffer[5] != 0x44)
+                            {
+                                p_Main->errorMessage(    "File " + conf[runningComputer_].loadFileNameFull_ + " can only be loaded in COMX Basic");
+                                return 1;
+                            }
+                            address = 0x6700;
+                        }
+                    }
+                    p_Computer->setRam(conf[runningComputer_].defus_, (Byte)buffer[5]+fAndMBasicOffset);
+                    p_Computer->setRam(conf[runningComputer_].defus_+1, (Byte)buffer[6]);
+                    p_Computer->setRam(conf[runningComputer_].eop_, (Byte)buffer[7]+fAndMBasicOffset);
+                    p_Computer->setRam(conf[runningComputer_].eop_+1, (Byte)buffer[8]);
+                    p_Computer->setRam(conf[runningComputer_].string_, (Byte)buffer[9]+fAndMBasicOffset);
+                    p_Computer->setRam(conf[runningComputer_].string_+1, (Byte)buffer[10]);
+                    p_Computer->setRam(conf[runningComputer_].arrayValue_, (Byte)buffer[11]+fAndMBasicOffset);
+                    p_Computer->setRam(conf[runningComputer_].arrayValue_+1, (Byte)buffer[12]);
+                    p_Computer->setRam(conf[runningComputer_].eod_, (Byte)buffer[9]+fAndMBasicOffset);
+                    p_Computer->setRam(conf[runningComputer_].eod_+1, (Byte)buffer[10]);
+                    p_Main->eventSetLocation(false);
+                    start = 15;
+                break;
 
-				case 3: /* Regular F&M BASIC LOAD */
-					if (runningComputer_ == COMX)
-					{
-						if (p_Comx->isFAndMBasicRunning())
-							address = 0x6700;
-						else
-						{
-							p_Main->errorMessage( "File " + conf[runningComputer_].loadFileNameFull_ + " can only be loaded in F&M Basic V2.00");
-							return 1;
-						}
-					}
-					else
-					{
-						p_Main->errorMessage( "File " + conf[runningComputer_].loadFileNameFull_ + " can only be loaded in COMX F&M Basic V2.00");
-						return 1;
-					}
-					p_Computer->setRam(conf[runningComputer_].defus_, (Byte)buffer[5]);
-					p_Computer->setRam(conf[runningComputer_].defus_+1, (Byte)buffer[6]);
-					p_Computer->setRam(conf[runningComputer_].eop_, (Byte)buffer[7]);
-					p_Computer->setRam(conf[runningComputer_].eop_+1, (Byte)buffer[8]);
-					p_Computer->setRam(conf[runningComputer_].string_, (Byte)buffer[9]);
-					p_Computer->setRam(conf[runningComputer_].string_+1, (Byte)buffer[10]);
-					p_Computer->setRam(conf[runningComputer_].arrayValue_, (Byte)buffer[11]);
-					p_Computer->setRam(conf[runningComputer_].arrayValue_+1, (Byte)buffer[12]);
-					p_Computer->setRam(conf[runningComputer_].eod_, (Byte)buffer[9]);
-					p_Computer->setRam(conf[runningComputer_].eod_+1, (Byte)buffer[10]);
-					p_Main->eventSetLocation(false);
-					start = 15;
-				break;
+                case 3: /* Regular F&M BASIC LOAD */
+                    if (runningComputer_ == COMX)
+                    {
+                        if (p_Comx->isFAndMBasicRunning())
+                            address = 0x6700;
+                        else
+                        {
+                            p_Main->errorMessage( "File " + conf[runningComputer_].loadFileNameFull_ + " can only be loaded in F&M Basic V2.00");
+                            return 1;
+                        }
+                    }
+                    else
+                    {
+                        p_Main->errorMessage( "File " + conf[runningComputer_].loadFileNameFull_ + " can only be loaded in COMX F&M Basic V2.00");
+                        return 1;
+                    }
+                    p_Computer->setRam(conf[runningComputer_].defus_, (Byte)buffer[5]);
+                    p_Computer->setRam(conf[runningComputer_].defus_+1, (Byte)buffer[6]);
+                    p_Computer->setRam(conf[runningComputer_].eop_, (Byte)buffer[7]);
+                    p_Computer->setRam(conf[runningComputer_].eop_+1, (Byte)buffer[8]);
+                    p_Computer->setRam(conf[runningComputer_].string_, (Byte)buffer[9]);
+                    p_Computer->setRam(conf[runningComputer_].string_+1, (Byte)buffer[10]);
+                    p_Computer->setRam(conf[runningComputer_].arrayValue_, (Byte)buffer[11]);
+                    p_Computer->setRam(conf[runningComputer_].arrayValue_+1, (Byte)buffer[12]);
+                    p_Computer->setRam(conf[runningComputer_].eod_, (Byte)buffer[9]);
+                    p_Computer->setRam(conf[runningComputer_].eod_+1, (Byte)buffer[10]);
+                    p_Main->eventSetLocation(false);
+                    start = 15;
+                break;
 
-				case 4: /* Old, incorrect Data only LOAD */
-					address = p_Computer->getRam(conf[runningComputer_].string_) << 8;
-					address += p_Computer->getRam(conf[runningComputer_].string_+1);
-					start = 5;
-					dataEnd = address + (int)length - start;
-					p_Computer->setRam(conf[runningComputer_].eod_, (dataEnd >> 8) & 0xff);
-					p_Computer->setRam(conf[runningComputer_].eod_+1, dataEnd & 0xff);
-				break;
+                case 4: /* Old, incorrect Data only LOAD */
+                    address = p_Computer->getRam(conf[runningComputer_].string_) << 8;
+                    address += p_Computer->getRam(conf[runningComputer_].string_+1);
+                    start = 5;
+                    dataEnd = address + (int)length - start;
+                    p_Computer->setRam(conf[runningComputer_].eod_, (dataEnd >> 8) & 0xff);
+                    p_Computer->setRam(conf[runningComputer_].eod_+1, dataEnd & 0xff);
+                break;
 
-				case 5: /* Data only LOAD */
-					address = p_Computer->getRam(conf[runningComputer_].arrayValue_) << 8;
-					address += p_Computer->getRam(conf[runningComputer_].arrayValue_+1);
-					start = 7;
-					arrayLength = (Byte)buffer[5] << 8;
-					arrayLength += (Byte)buffer[6];
-					dataEnd = address + (int)length - start;
-					p_Computer->setRam(conf[runningComputer_].eod_, (dataEnd >> 8) & 0xff);
-					p_Computer->setRam(conf[runningComputer_].eod_+1, dataEnd & 0xff);
-					stringStart = address + (int)arrayLength;
-					p_Computer->setRam(conf[runningComputer_].string_, (stringStart >> 8) & 0xff);
-					p_Computer->setRam(conf[runningComputer_].string_+1, stringStart & 0xff);
-				break;
+                case 5: /* Data only LOAD */
+                    address = p_Computer->getRam(conf[runningComputer_].arrayValue_) << 8;
+                    address += p_Computer->getRam(conf[runningComputer_].arrayValue_+1);
+                    start = 7;
+                    arrayLength = (Byte)buffer[5] << 8;
+                    arrayLength += (Byte)buffer[6];
+                    dataEnd = address + (int)length - start;
+                    p_Computer->setRam(conf[runningComputer_].eod_, (dataEnd >> 8) & 0xff);
+                    p_Computer->setRam(conf[runningComputer_].eod_+1, dataEnd & 0xff);
+                    stringStart = address + (int)arrayLength;
+                    p_Computer->setRam(conf[runningComputer_].string_, (stringStart >> 8) & 0xff);
+                    p_Computer->setRam(conf[runningComputer_].string_+1, stringStart & 0xff);
+                break;
 
-				case 6: /* New Regular LOAD */
-					fAndMBasicOffset = 0;
-					address = conf[runningComputer_].basicRamAddress_;
-					highRamAddress = (conf[runningComputer_].basicRamAddress_ & 0xff00) >> 8;
-					if (runningComputer_ == COMX)
-					{
-						if (p_Comx->isFAndMBasicRunning())
-						{
-							fAndMBasicOffset = 0x23;
-							if (buffer[5] != 0)
-							{
-								p_Main->errorMessage("File " + conf[runningComputer_].loadFileNameFull_ + " can only be loaded in COMX Basic");
-								return 1;
-							}
-							address = 0x6700;
-						}
-					}
+                case 6: /* New Regular LOAD */
+                    fAndMBasicOffset = 0;
+                    address = conf[runningComputer_].basicRamAddress_;
+                    highRamAddress = (conf[runningComputer_].basicRamAddress_ & 0xff00) >> 8;
+                    if (runningComputer_ == COMX)
+                    {
+                        if (p_Comx->isFAndMBasicRunning())
+                        {
+                            fAndMBasicOffset = 0x23;
+                            if (buffer[5] != 0)
+                            {
+                                p_Main->errorMessage("File " + conf[runningComputer_].loadFileNameFull_ + " can only be loaded in COMX Basic");
+                                return 1;
+                            }
+                            address = 0x6700;
+                        }
+                    }
                     if (runningComputer_ != STUDIOIV)
                     {
                         if (p_Computer->getLoadedProgram() != VIPTINY)
@@ -3184,259 +3273,259 @@ int GuiMain::pload()
                             p_Computer->setRam(conf[runningComputer_].eod_+1, (Byte)buffer[10]);
                         }
                     }
-					p_Computer->setRam(conf[runningComputer_].eop_, (Byte)buffer[7]+fAndMBasicOffset+highRamAddress);
-					p_Computer->setRam(conf[runningComputer_].eop_+1, (Byte)buffer[8]);
-					p_Main->eventSetLocation(false);
-					start = 15;
-				break;
-			}
+                    p_Computer->setRam(conf[runningComputer_].eop_, (Byte)buffer[7]+fAndMBasicOffset+highRamAddress);
+                    p_Computer->setRam(conf[runningComputer_].eop_+1, (Byte)buffer[8]);
+                    p_Main->eventSetLocation(false);
+                    start = 15;
+                break;
+            }
 
-			startAddress = address;
-			for (size_t i = start; i<length; i++)
-			{
-				p_Computer->writeMem(address, (Byte)buffer[i], false);
-				address++;
-			}
-			inputFile.Close();
-			//		slot = 0;
-			//		if (runningComputer_ == COMX)
-			//			slot = p_Computer->getOutValue(1);
-			//		p_Main->AssAddConfig(conf[runningComputer_].ramDir_, conf[runningComputer_].loadFileName_, startAddress, address, address, slot, port);
+            startAddress = address;
+            for (size_t i = start; i<length; i++)
+            {
+                p_Computer->writeMem(address, (Byte)buffer[i], false);
+                address++;
+            }
+            inputFile.Close();
+            //        slot = 0;
+            //        if (runningComputer_ == COMX)
+            //            slot = p_Computer->getOutValue(1);
+            //        p_Main->AssAddConfig(conf[runningComputer_].ramDir_, conf[runningComputer_].loadFileName_, startAddress, address, address, slot, port);
 
-			return conf[selectedComputer_].saveExec_;
-		}
-		else
-		{
-/*			if (runningComputer_ == COMX)
-			{
-				if (p_Comx->isFAndMBasicRunning())
-				{
-					p_Main->errorMessage("File " + conf[runningComputer_].loadFileNameFull_ + " can only be loaded in COMX Basic");
-					return 1;
-				}
-			}
-			p_Computer->setRam(conf[runningComputer_].defus_, (Byte)buffer[0x281]);
-			p_Computer->setRam(conf[runningComputer_].defus_+1, (Byte)buffer[0x282]);
-			p_Computer->setRam(conf[runningComputer_].eop_, (Byte)buffer[0x283]);
-			p_Computer->setRam(conf[runningComputer_].eop_+1, (Byte)buffer[0x284]);
-			p_Computer->setRam(conf[runningComputer_].string_, (Byte)buffer[0x292]);
-			p_Computer->setRam(conf[runningComputer_].string_+1, (Byte)buffer[0x293]);
-			p_Computer->setRam(conf[runningComputer_].arrayValue_, (Byte)buffer[0x294]);
-			p_Computer->setRam(conf[runningComputer_].arrayValue_+1, (Byte)buffer[0x295]);
-			p_Computer->setRam(conf[runningComputer_].eod_, (Byte)buffer[0x299]);
-			p_Computer->setRam(conf[runningComputer_].eod_+1, (Byte)buffer[0x29A]);
-			p_Main->eventSetLocation(false);*/
-			address = conf[selectedComputer_].saveStart_;
-			if (address != 0)
-			{
-				p_Main->eventShowAddressPopup(address);
+            return conf[selectedComputer_].saveExec_;
+        }
+        else
+        {
+/*            if (runningComputer_ == COMX)
+            {
+                if (p_Comx->isFAndMBasicRunning())
+                {
+                    p_Main->errorMessage("File " + conf[runningComputer_].loadFileNameFull_ + " can only be loaded in COMX Basic");
+                    return 1;
+                }
+            }
+            p_Computer->setRam(conf[runningComputer_].defus_, (Byte)buffer[0x281]);
+            p_Computer->setRam(conf[runningComputer_].defus_+1, (Byte)buffer[0x282]);
+            p_Computer->setRam(conf[runningComputer_].eop_, (Byte)buffer[0x283]);
+            p_Computer->setRam(conf[runningComputer_].eop_+1, (Byte)buffer[0x284]);
+            p_Computer->setRam(conf[runningComputer_].string_, (Byte)buffer[0x292]);
+            p_Computer->setRam(conf[runningComputer_].string_+1, (Byte)buffer[0x293]);
+            p_Computer->setRam(conf[runningComputer_].arrayValue_, (Byte)buffer[0x294]);
+            p_Computer->setRam(conf[runningComputer_].arrayValue_+1, (Byte)buffer[0x295]);
+            p_Computer->setRam(conf[runningComputer_].eod_, (Byte)buffer[0x299]);
+            p_Computer->setRam(conf[runningComputer_].eod_+1, (Byte)buffer[0x29A]);
+            p_Main->eventSetLocation(false);*/
+            address = conf[selectedComputer_].saveStart_;
+            if (address != 0)
+            {
+                p_Main->eventShowAddressPopup(address);
 
-				int answer = p_Main->getAddressPopupAnswer();
+                int answer = p_Main->getAddressPopupAnswer();
 #if defined (__WXMAC__)
-				if (answer != wxID_YES)
-					address = 0;
+                if (answer != wxID_YES)
+                    address = 0;
 #else
-				if (answer != wxID_NO)
-					address = 0;
+                if (answer != wxID_NO)
+                    address = 0;
 #endif
-				if (answer == wxID_CANCEL)
-					return false;
-			}
-			startAddress = address;
-			for (size_t i = 0; i<length; i++)
-			{
-				p_Computer->writeMem(address, (Byte)buffer[i], false);
-				address++;
-			}
-			inputFile.Close();
-			p_Main->eventSetLocation(true, startAddress, address - 1, startAddress);
-			return startAddress;
-		}
-	}
-	else
-	{
-		p_Main->errorMessage("Error reading " + conf[runningComputer_].loadFileNameFull_);
-		return 1;
-	}
+                if (answer == wxID_CANCEL)
+                    return false;
+            }
+            startAddress = address;
+            for (size_t i = 0; i<length; i++)
+            {
+                p_Computer->writeMem(address, (Byte)buffer[i], false);
+                address++;
+            }
+            inputFile.Close();
+            p_Main->eventSetLocation(true, startAddress, address - 1, startAddress);
+            return startAddress;
+        }
+    }
+    else
+    {
+        p_Main->errorMessage("Error reading " + conf[runningComputer_].loadFileNameFull_);
+        return 1;
+    }
 }
 
 bool GuiMain::startCassetteLoad(int tapeNumber)
 {
-	if (conf[runningComputer_].autoCassetteLoad_)
-		return startLoad(tapeNumber);
+    if (conf[runningComputer_].autoCassetteLoad_)
+        return startLoad(tapeNumber);
     else
         return false;
 }
 
 void GuiMain::onRealCas(wxCommandEvent&WXUNUSED(event))
 {
-	if (computerRunning_)
-		p_Computer->pauseTape();
+    if (computerRunning_)
+        p_Computer->pauseTape();
 
-	if (computerRunning_ && !conf[selectedComputer_].realCassetteLoad_ && !p_Computer->getAudioInStatus())
-		(void)wxMessageBox( "SDL audio input initialization or start\n"
-							"failed, real cassette loading not possible" ,
-						    "Emma 02", wxICON_ERROR | wxOK );
-	else
-	{
-		conf[selectedComputer_].realCassetteLoad_ = !conf[selectedComputer_].realCassetteLoad_;
-		setRealCas(selectedComputer_);
-	}
+    if (computerRunning_ && !conf[selectedComputer_].realCassetteLoad_ && !p_Computer->getAudioInStatus())
+        (void)wxMessageBox( "SDL audio input initialization or start\n"
+                            "failed, real cassette loading not possible" ,
+                            "Emma 02", wxICON_ERROR | wxOK );
+    else
+    {
+        conf[selectedComputer_].realCassetteLoad_ = !conf[selectedComputer_].realCassetteLoad_;
+        setRealCas(selectedComputer_);
+    }
 }
 
 void GuiMain::onWavFile(wxCommandEvent&WXUNUSED(event))
 {
-	if (computerRunning_ && (selectedComputer_ == runningComputer_))
-		p_Computer->wavFile();
+    if (computerRunning_ && (selectedComputer_ == runningComputer_))
+        p_Computer->wavFile();
 }
 
 void GuiMain::setRealCas(int computerType)
 {
-	bool useTape = true;
-	if (((computerType == ELFII) || (computerType == SUPERELF) || (computerType == ELF)) && (!elfConfiguration[computerType].useTape))
-		useTape = false;
+    bool useTape = true;
+    if (((computerType == ELFII) || (computerType == SUPERELF) || (computerType == ELF) || (computerType == DIY) || (computerType == PICO)) && (!elfConfiguration[computerType].useTape))
+        useTape = false;
 
-	if (!mode_.gui)
-		return;
+    if (!mode_.gui)
+        return;
 
-	if (conf[computerType].realCassetteLoad_)
-	{
-		conf[computerType].autoCassetteLoad_ = false;
+    if (conf[computerType].realCassetteLoad_)
+    {
+        conf[computerType].autoCassetteLoad_ = false;
 #if defined(__WXMSW__)
-		XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->SetBitmapLabel(realCasOnBitmap);
-		XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->SetBitmapCurrent(realCasOnBitmap);
-		XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->SetBitmapFocus(realCasOnBitmap);
-		XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->SetToolTip("Disable real cassette loading");
+        XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->SetBitmapLabel(realCasOnBitmap);
+        XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->SetBitmapCurrent(realCasOnBitmap);
+        XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->SetBitmapFocus(realCasOnBitmap);
+        XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->SetToolTip("Disable real cassette loading");
 #endif
-		XRCCTRL(*this, "Turbo"+computerInfo[computerType].gui, wxCheckBox)->Enable(false);
-		XRCCTRL(*this, "Turbo"+computerInfo[computerType].gui, wxCheckBox)->SetValue(false);
-		turboGui(computerInfo[computerType].gui);
-		XRCCTRL(*this, "AutoCasLoad"+computerInfo[computerType].gui, wxCheckBox)->Enable(false);
-		XRCCTRL(*this, "AutoCasLoad"+computerInfo[computerType].gui, wxCheckBox)->SetValue(false);
-		if (computerRunning_ && (computerType == runningComputer_))
-		{
-			XRCCTRL(*this, "CasLoad"+computerInfo[computerType].gui, wxButton)->Enable(false);
-			XRCCTRL(*this, "CasSave"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
+        XRCCTRL(*this, "Turbo"+computerInfo[computerType].gui, wxCheckBox)->Enable(false);
+        XRCCTRL(*this, "Turbo"+computerInfo[computerType].gui, wxCheckBox)->SetValue(false);
+        turboGui(computerInfo[computerType].gui);
+        XRCCTRL(*this, "AutoCasLoad"+computerInfo[computerType].gui, wxCheckBox)->Enable(false);
+        XRCCTRL(*this, "AutoCasLoad"+computerInfo[computerType].gui, wxCheckBox)->SetValue(false);
+        if (computerRunning_ && (computerType == runningComputer_))
+        {
+            XRCCTRL(*this, "CasLoad"+computerInfo[computerType].gui, wxButton)->Enable(false);
+            XRCCTRL(*this, "CasSave"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
             if (runningComputer_ == MCDS)
             {
                 XRCCTRL(*this, "CasLoad1"+computerInfo[computerType].gui, wxButton)->Enable(false);
                 XRCCTRL(*this, "CasSave1"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
             }
-		}
-	}
-	else
-	{
+        }
+    }
+    else
+    {
 #if defined(__WXMSW__)
-		XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->SetBitmapLabel(realCasOffBitmap);
-		XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->SetBitmapCurrent(realCasOffBitmap);
-		XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->SetBitmapFocus(realCasOffBitmap);
-		XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->SetToolTip("Enable real cassette loading");
+        XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->SetBitmapLabel(realCasOffBitmap);
+        XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->SetBitmapCurrent(realCasOffBitmap);
+        XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->SetBitmapFocus(realCasOffBitmap);
+        XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->SetToolTip("Enable real cassette loading");
 #endif
-		XRCCTRL(*this, "Turbo"+computerInfo[computerType].gui, wxCheckBox)->Enable(useTape);
-		XRCCTRL(*this, "AutoCasLoad"+computerInfo[computerType].gui, wxCheckBox)->Enable(useTape);
-		if (computerRunning_ && (computerType == runningComputer_))
-		{
-			XRCCTRL(*this, "CasLoad"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
-			XRCCTRL(*this, "CasSave"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
+        XRCCTRL(*this, "Turbo"+computerInfo[computerType].gui, wxCheckBox)->Enable(useTape);
+        XRCCTRL(*this, "AutoCasLoad"+computerInfo[computerType].gui, wxCheckBox)->Enable(useTape);
+        if (computerRunning_ && (computerType == runningComputer_))
+        {
+            XRCCTRL(*this, "CasLoad"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
+            XRCCTRL(*this, "CasSave"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
             if (runningComputer_ == MCDS)
             {
                 XRCCTRL(*this, "CasLoad1"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
                 XRCCTRL(*this, "CasSave1"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
             }
-		}
-	}
-	if (computerRunning_ && (computerType == runningComputer_))
-		p_Computer->record_pause(conf[computerType].realCassetteLoad_);
+        }
+    }
+    if (computerRunning_ && (computerType == runningComputer_))
+        p_Computer->record_pause(conf[computerType].realCassetteLoad_);
 }
 
 void GuiMain::setRealCas2(int computerType)
 {
-	bool useTape = true;
-	if (((computerType == ELFII) || (computerType == SUPERELF) || (computerType == ELF)) && (!elfConfiguration[computerType].useTape))
-		useTape = false;
+    bool useTape = true;
+    if (((computerType == ELFII) || (computerType == SUPERELF) || (computerType == ELF) || (computerType == DIY) || (computerType == PICO)) && (!elfConfiguration[computerType].useTape))
+        useTape = false;
 
-	if (!mode_.gui)
-		return;
+    if (!mode_.gui)
+        return;
 
-	if (conf[computerType].realCassetteLoad_)
-	{
-		XRCCTRL(*this, "Turbo"+computerInfo[computerType].gui, wxCheckBox)->Enable(false);
-		XRCCTRL(*this, "Turbo"+computerInfo[computerType].gui, wxCheckBox)->SetValue(false);
-		turboGui(computerInfo[computerType].gui);
-		XRCCTRL(*this, "AutoCasLoad"+computerInfo[computerType].gui, wxCheckBox)->Enable(false);
-		XRCCTRL(*this, "AutoCasLoad"+computerInfo[computerType].gui, wxCheckBox)->SetValue(false);
-		conf[computerType].autoCassetteLoad_ = false;
-		if (computerRunning_ && (computerType == runningComputer_))
-		{
-			XRCCTRL(*this, "CasLoad"+computerInfo[computerType].gui, wxButton)->Enable(false);
-			XRCCTRL(*this, "CasSave"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
+    if (conf[computerType].realCassetteLoad_)
+    {
+        XRCCTRL(*this, "Turbo"+computerInfo[computerType].gui, wxCheckBox)->Enable(false);
+        XRCCTRL(*this, "Turbo"+computerInfo[computerType].gui, wxCheckBox)->SetValue(false);
+        turboGui(computerInfo[computerType].gui);
+        XRCCTRL(*this, "AutoCasLoad"+computerInfo[computerType].gui, wxCheckBox)->Enable(false);
+        XRCCTRL(*this, "AutoCasLoad"+computerInfo[computerType].gui, wxCheckBox)->SetValue(false);
+        conf[computerType].autoCassetteLoad_ = false;
+        if (computerRunning_ && (computerType == runningComputer_))
+        {
+            XRCCTRL(*this, "CasLoad"+computerInfo[computerType].gui, wxButton)->Enable(false);
+            XRCCTRL(*this, "CasSave"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
             if (runningComputer_ == MCDS)
             {
                 XRCCTRL(*this, "CasLoad1"+computerInfo[computerType].gui, wxButton)->Enable(false);
                 XRCCTRL(*this, "CasSave1"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
             }
-		}
-	}
-	else
-	{
-		XRCCTRL(*this, "Turbo"+computerInfo[computerType].gui, wxCheckBox)->Enable(useTape);
-		XRCCTRL(*this, "AutoCasLoad"+computerInfo[computerType].gui, wxCheckBox)->Enable(useTape);
-		if (computerRunning_ && (computerType == runningComputer_))
-		{
-			XRCCTRL(*this, "CasLoad"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
-			XRCCTRL(*this, "CasSave"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
+        }
+    }
+    else
+    {
+        XRCCTRL(*this, "Turbo"+computerInfo[computerType].gui, wxCheckBox)->Enable(useTape);
+        XRCCTRL(*this, "AutoCasLoad"+computerInfo[computerType].gui, wxCheckBox)->Enable(useTape);
+        if (computerRunning_ && (computerType == runningComputer_))
+        {
+            XRCCTRL(*this, "CasLoad"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
+            XRCCTRL(*this, "CasSave"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
             if (runningComputer_ == MCDS)
             {
                 XRCCTRL(*this, "CasLoad1"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
                 XRCCTRL(*this, "CasSave1"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
             }
-		}
-	}
+        }
+    }
 }
 
 void GuiMain::setRealCasOff(int computerType)
 {
-	bool useTape = true;
-	if (((computerType == ELFII) || (computerType == SUPERELF) || (computerType == ELF)) && (!elfConfiguration[computerType].useTape))
-		useTape = false;
+    bool useTape = true;
+    if (((computerType == ELFII) || (computerType == SUPERELF) || (computerType == ELF) || (computerType == DIY) || (computerType == PICO)) && (!elfConfiguration[computerType].useTape))
+        useTape = false;
 
-	conf[computerType].realCassetteLoad_ = false;
+    conf[computerType].realCassetteLoad_ = false;
 
-	if (!mode_.gui)
-		return;
+    if (!mode_.gui)
+        return;
 
 #if defined(__WXMSW__)
-	XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->SetBitmapLabel(realCasOffBitmap);
-	XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->SetBitmapCurrent(realCasOffBitmap);
-	XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->SetBitmapFocus(realCasOffBitmap);
-	XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->SetToolTip("Enable real cassette loading");
+    XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->SetBitmapLabel(realCasOffBitmap);
+    XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->SetBitmapCurrent(realCasOffBitmap);
+    XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->SetBitmapFocus(realCasOffBitmap);
+    XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->SetToolTip("Enable real cassette loading");
 #endif
-	XRCCTRL(*this, "Turbo"+computerInfo[computerType].gui, wxCheckBox)->Enable(useTape);
-	XRCCTRL(*this, "AutoCasLoad"+computerInfo[computerType].gui, wxCheckBox)->Enable(useTape);
-	if (computerRunning_ && (computerType == runningComputer_))
-	{
-		XRCCTRL(*this, "CasLoad"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
-		XRCCTRL(*this, "CasSave"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
+    XRCCTRL(*this, "Turbo"+computerInfo[computerType].gui, wxCheckBox)->Enable(useTape);
+    XRCCTRL(*this, "AutoCasLoad"+computerInfo[computerType].gui, wxCheckBox)->Enable(useTape);
+    if (computerRunning_ && (computerType == runningComputer_))
+    {
+        XRCCTRL(*this, "CasLoad"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
+        XRCCTRL(*this, "CasSave"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
         if (runningComputer_ == MCDS)
         {
             XRCCTRL(*this, "CasLoad1"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
             XRCCTRL(*this, "CasSave1"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
         }
-	}
+    }
 }
 
 void GuiMain::setPrinterState(int computerType)
 {
-	if (conf[computerType].printerOn_)
-	{
-		XRCCTRL(*this, "PrintButton"+computerInfo[computerType].gui, wxBitmapButton)->SetBitmapLabel(printerOnBitmap);
-		XRCCTRL(*this,"PrintButton"+computerInfo[computerType].gui, wxBitmapButton)->SetToolTip("Disable printer support");
-	}
-	else
-	{
-		XRCCTRL(*this, "PrintButton"+computerInfo[computerType].gui, wxBitmapButton)->SetBitmapLabel(printerOffBitmap);
-		XRCCTRL(*this,"PrintButton"+computerInfo[computerType].gui, wxBitmapButton)->SetToolTip("Enable printer support");
-	}
+    if (conf[computerType].printerOn_)
+    {
+        XRCCTRL(*this, "PrintButton"+computerInfo[computerType].gui, wxBitmapButton)->SetBitmapLabel(printerOnBitmap);
+        XRCCTRL(*this,"PrintButton"+computerInfo[computerType].gui, wxBitmapButton)->SetToolTip("Disable printer support");
+    }
+    else
+    {
+        XRCCTRL(*this, "PrintButton"+computerInfo[computerType].gui, wxBitmapButton)->SetBitmapLabel(printerOffBitmap);
+        XRCCTRL(*this,"PrintButton"+computerInfo[computerType].gui, wxBitmapButton)->SetToolTip("Enable printer support");
+    }
 }
 
 bool GuiMain::startLoad(int tapeNumber)
@@ -3444,50 +3533,50 @@ bool GuiMain::startLoad(int tapeNumber)
     wxString filePath, fileName, tapeString;
     tapeString.Printf("%d", tapeNumber);
 
-	filePath = conf[runningComputer_].wavFileDir_[tapeNumber];
-	fileName = conf[runningComputer_].wavFile_[tapeNumber];
-	filePath.operator += (fileName);
+    filePath = conf[runningComputer_].wavFileDir_[tapeNumber];
+    fileName = conf[runningComputer_].wavFile_[tapeNumber];
+    filePath.operator += (fileName);
 
-	if (fileName.Len() != 0)
-	{
-		if (wxFile::Exists(filePath))
-		{
+    if (fileName.Len() != 0)
+    {
+        if (wxFile::Exists(filePath))
+        {
             if (tapeNumber == 0)
                 p_Main->eventSetTapeState(TAPE_PLAY, tapeString);
             else
                 p_Main->eventSetTapeState(TAPE_PLAY1, tapeString);
-			return p_Computer->ploadStartTape(filePath, tapeString);
-		}
-	}
+            return p_Computer->ploadStartTape(filePath, tapeString);
+        }
+    }
     return false;
 }
 
 void GuiMain::stopCassette()
 {
-	if (conf[runningComputer_].autoCassetteLoad_)
-		p_Computer->stopTape();
+    if (conf[runningComputer_].autoCassetteLoad_)
+        p_Computer->stopTape();
 }
 
 void GuiMain::startCassetteSave(int tapeNumber)
 {
-	if (conf[runningComputer_].autoCassetteLoad_)
-		startSave(tapeNumber);
+    if (conf[runningComputer_].autoCassetteLoad_)
+        startSave(tapeNumber);
 }
 
 void GuiMain::startSave(int tapeNumber)
 {
-	wxString filePath, fileName, tapeString;
+    wxString filePath, fileName, tapeString;
     tapeString.Printf("%d", tapeNumber);
     if (tapeNumber == 0)
         tapeString = "";
 
-	filePath = conf[runningComputer_].wavFileDir_[tapeNumber];
-	fileName = conf[runningComputer_].wavFile_[tapeNumber];
-	filePath.operator += (fileName);
+    filePath = conf[runningComputer_].wavFileDir_[tapeNumber];
+    fileName = conf[runningComputer_].wavFile_[tapeNumber];
+    filePath.operator += (fileName);
 
-	if (fileName.Len() == 0)
-	{
-		fileName = p_Main->eventShowFileSelector( "Select the WAV file to save/load",
+    if (fileName.Len() == 0)
+    {
+        fileName = p_Main->eventShowFileSelector( "Select the WAV file to save/load",
                        conf[runningComputer_].wavFileDir_[tapeNumber], fileName,
                        "wav",
                        wxString::Format
@@ -3498,30 +3587,30 @@ void GuiMain::startSave(int tapeNumber)
                        ),
                        wxFD_SAVE|wxFD_CHANGE_DIR|wxFD_PREVIEW|wxFD_OVERWRITE_PROMPT
                       );
-		if (!fileName)
-		{
-			if ((runningComputer_ == COMX) || (runningComputer_ == ETI))
-				p_Computer->keyClear();
-			return;
-		}
+        if (!fileName)
+        {
+            if ((runningComputer_ == COMX) || (runningComputer_ == ETI))
+                p_Computer->keyClear();
+            return;
+        }
 
-		wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
-		conf[runningComputer_].wavFile_[tapeNumber] = FullPath.GetFullName();
-		conf[runningComputer_].wavFileDir_[tapeNumber] = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+        wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
+        conf[runningComputer_].wavFile_[tapeNumber] = FullPath.GetFullName();
+        conf[runningComputer_].wavFileDir_[tapeNumber] = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
 
         p_Main->eventSetTextValue("WavFile"+tapeString+computerInfo[runningComputer_].gui, conf[runningComputer_].wavFile_[tapeNumber]);
 
-		filePath = conf[runningComputer_].wavFileDir_[tapeNumber];
-		filePath.operator += (conf[runningComputer_].wavFile_[tapeNumber]);
-	}
-	if (wxFile::Exists(filePath))
-	{
+        filePath = conf[runningComputer_].wavFileDir_[tapeNumber];
+        filePath.operator += (conf[runningComputer_].wavFile_[tapeNumber]);
+    }
+    if (wxFile::Exists(filePath))
+    {
         p_Main->eventShowMessageBox( fileName+" already exists.\n"+"Do you want to replace it?",
                                     "Confirm Save As", wxICON_EXCLAMATION | wxYES_NO);
 
-		if (messageBoxAnswer_ == wxNO)
-		{
-			fileName = p_Main->eventShowFileSelector( "Select the WAV file to save/load",
+        if (messageBoxAnswer_ == wxNO)
+        {
+            fileName = p_Main->eventShowFileSelector( "Select the WAV file to save/load",
                            conf[runningComputer_].wavFileDir_[tapeNumber], fileName,
                            "wav",
                            wxString::Format
@@ -3532,32 +3621,32 @@ void GuiMain::startSave(int tapeNumber)
                            ),
                            wxFD_SAVE|wxFD_CHANGE_DIR|wxFD_PREVIEW|wxFD_OVERWRITE_PROMPT
                           );
-			if (!fileName)
-			{
-				if ((runningComputer_ == COMX) || (runningComputer_ == ETI))
-					p_Computer->keyClear();
-				return;
-			}
+            if (!fileName)
+            {
+                if ((runningComputer_ == COMX) || (runningComputer_ == ETI))
+                    p_Computer->keyClear();
+                return;
+            }
 
-			wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
-			conf[runningComputer_].wavFile_[tapeNumber] = FullPath.GetFullName();
-			conf[runningComputer_].wavFileDir_[tapeNumber] = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+            wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
+            conf[runningComputer_].wavFile_[tapeNumber] = FullPath.GetFullName();
+            conf[runningComputer_].wavFileDir_[tapeNumber] = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
 
-			p_Main->eventSetTextValue("WavFile"+tapeString+computerInfo[runningComputer_].gui, conf[runningComputer_].wavFile_[tapeNumber]);
+            p_Main->eventSetTextValue("WavFile"+tapeString+computerInfo[runningComputer_].gui, conf[runningComputer_].wavFile_[tapeNumber]);
 
-			filePath = conf[runningComputer_].wavFileDir_[tapeNumber];
-			filePath.operator += (conf[runningComputer_].wavFile_[tapeNumber]);
-		}
-		if ((runningComputer_ == COMX) || (runningComputer_ == ETI))
-			p_Computer->keyClear();
-	}
+            filePath = conf[runningComputer_].wavFileDir_[tapeNumber];
+            filePath.operator += (conf[runningComputer_].wavFile_[tapeNumber]);
+        }
+        if ((runningComputer_ == COMX) || (runningComputer_ == ETI))
+            p_Computer->keyClear();
+    }
     
     tapeString.Printf("%d", tapeNumber);
     if (tapeNumber == 0)
         p_Main->eventSetTapeState(TAPE_RECORD, tapeString);
     else
         p_Main->eventSetTapeState(TAPE_RECORD1, tapeString);
-	p_Computer->psaveStartTape(filePath, tapeString);
+    p_Computer->psaveStartTape(filePath, tapeString);
 }
 
 void GuiMain::onTerminalSave(wxCommandEvent&WXUNUSED(event))
@@ -3572,11 +3661,11 @@ void GuiMain::onTerminalLoad(wxCommandEvent&WXUNUSED(event))
 
 void GuiMain::startAutoTerminalLoad(int protocol)
 {
-	if (runningComputer_ != MEMBER && runningComputer_ != VIP2K && runningComputer_ != CDP18S020 && runningComputer_ != ELF && runningComputer_ != ELFII && runningComputer_ != SUPERELF && runningComputer_ != ELF2K)
-		return;
+    if (runningComputer_ != MEMBER && runningComputer_ != VIP2K && runningComputer_ != CDP18S020 && runningComputer_ != ELF && runningComputer_ != ELFII && runningComputer_ != SUPERELF && runningComputer_ != ELF2K && runningComputer_ != DIY && runningComputer_ != PICO)
+        return;
 
-	if (conf[runningComputer_].autoCassetteLoad_)
-		startTerminalLoad(protocol);
+    if (conf[runningComputer_].autoCassetteLoad_)
+        startTerminalLoad(protocol);
 }
 
 void GuiMain::startTerminalLoad(int protocol)
@@ -3611,7 +3700,7 @@ void GuiMain::onTerminalStop(wxCommandEvent&WXUNUSED(event))
         return;
     
     stopTerminal();
-	p_Computer->terminalStop();
+    p_Computer->terminalStop();
 }
 
 void GuiMain::stopAutoTerminal()
@@ -3636,10 +3725,10 @@ void GuiMain::stopTerminal()
 
 void GuiMain::startAutoTerminalSave(int protocol)
 {
-    if (runningComputer_ != MEMBER && runningComputer_ != VIP2K && runningComputer_ != CDP18S020 && runningComputer_ != ELF && runningComputer_ != ELFII && runningComputer_ != SUPERELF && runningComputer_ != ELF2K)
-		return;
+    if (runningComputer_ != MEMBER && runningComputer_ != VIP2K && runningComputer_ != CDP18S020 && runningComputer_ != ELF && runningComputer_ != ELFII && runningComputer_ != SUPERELF && runningComputer_ != ELF2K && runningComputer_ != DIY && runningComputer_ != PICO)
+        return;
 
-	if (conf[runningComputer_].autoCassetteLoad_)
+    if (conf[runningComputer_].autoCassetteLoad_)
         startTerminalSave(protocol);
 }
 
@@ -3728,146 +3817,148 @@ void GuiMain::startYsTerminalSave(int protocol)
 
 void GuiMain::turboOn()
 {
-	if (turboOn_)  return;
+    if (turboOn_)  return;
 
-	if (conf[runningComputer_].turbo_)
-	{
-		if (mode_.gui)
-			clockTextCtrl[runningComputer_]->Enable(false);
-		savedSpeed_ = conf[runningComputer_].clockSpeed_;
+    if (conf[runningComputer_].turbo_)
+    {
+        if (mode_.gui)
+            clockTextCtrl[runningComputer_]->Enable(false);
+        savedSpeed_ = conf[runningComputer_].clockSpeed_;
 
-		wxString clock =  conf[runningComputer_].turboClock_;
-		toDouble(clock, (double*)&conf[runningComputer_].clockSpeed_);
+        wxString clock =  conf[runningComputer_].turboClock_;
+        toDouble(clock, (double*)&conf[runningComputer_].clockSpeed_);
 
-		setClockRate();
-		turboOn_ = true;
-	}
+        setClockRate();
+        turboOn_ = true;
+    }
 }
 
 void GuiMain::turboOff()
 {
-	if (!turboOn_)  return;
-	if (conf[runningComputer_].turbo_)
-	{
-		conf[runningComputer_].clockSpeed_ = savedSpeed_;
-		setClockRate();
+    if (!turboOn_)  return;
+    if (conf[runningComputer_].turbo_)
+    {
+        conf[runningComputer_].clockSpeed_ = savedSpeed_;
+        setClockRate();
 
-		if (mode_.gui)
-			clockTextCtrl[runningComputer_]->Enable(true);
-		turboOn_ = false;
-	}
+        if (mode_.gui)
+            clockTextCtrl[runningComputer_]->Enable(true);
+        turboOn_ = false;
+    }
 }
 
 void GuiMain::enableStartButtonGui(bool status)
 {
-	for (int i=0; i<NO_COMPUTER; i++)
-	{
+    for (int i=0; i<NO_COMPUTER; i++)
+    {
+        if (i == DIY) // *** to be removed
+          i++;
         startButton[i]->Enable(status);
         stopButton[i]->Enable(false);
-	}
+    }
 
-	if (status)
-	{
-		startButton[runningComputer_]->SetLabel("Start");
-		startButton[runningComputer_]->SetToolTip("Start " + computerInfo[runningComputer_].name + " emulator (F12)");
-	}
-	else
-	{
-		startButton[runningComputer_]->SetLabel("Reset");
-		startButton[runningComputer_]->SetToolTip("Reset " + computerInfo[runningComputer_].name + " emulator (F12)");
+    if (status)
+    {
+        startButton[runningComputer_]->SetLabel("Start");
+        startButton[runningComputer_]->SetToolTip("Start " + computerInfo[runningComputer_].name + " emulator (F12)");
+    }
+    else
+    {
+        startButton[runningComputer_]->SetLabel("Reset");
+        startButton[runningComputer_]->SetToolTip("Reset " + computerInfo[runningComputer_].name + " emulator (F12)");
         startButton[runningComputer_]->Enable(true);
         stopButton[runningComputer_]->Enable(true);
-	}
+    }
 }
 
 void GuiMain::enableLocationGui()
 {
-	if (!mode_.gui)
-		return;
+    if (!mode_.gui)
+        return;
 
-	XRCCTRL(*this, "TextStart"+computerInfo[runningComputer_].gui, wxStaticText)->Enable(conf[runningComputer_].useLoadLocation_);
-	XRCCTRL(*this, "TextEnd"+computerInfo[runningComputer_].gui, wxStaticText)->Enable(conf[runningComputer_].useLoadLocation_);
-	XRCCTRL(*this, "TextExec"+computerInfo[runningComputer_].gui, wxStaticText)->Enable(conf[runningComputer_].useLoadLocation_);
-	XRCCTRL(*this, "SaveStart"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(conf[runningComputer_].useLoadLocation_);
-	XRCCTRL(*this, "SaveEnd"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(conf[runningComputer_].useLoadLocation_);
-	XRCCTRL(*this, "SaveExec"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(conf[runningComputer_].useLoadLocation_);
+    XRCCTRL(*this, "TextStart"+computerInfo[runningComputer_].gui, wxStaticText)->Enable(conf[runningComputer_].useLoadLocation_);
+    XRCCTRL(*this, "TextEnd"+computerInfo[runningComputer_].gui, wxStaticText)->Enable(conf[runningComputer_].useLoadLocation_);
+    XRCCTRL(*this, "TextExec"+computerInfo[runningComputer_].gui, wxStaticText)->Enable(conf[runningComputer_].useLoadLocation_);
+    XRCCTRL(*this, "SaveStart"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(conf[runningComputer_].useLoadLocation_);
+    XRCCTRL(*this, "SaveEnd"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(conf[runningComputer_].useLoadLocation_);
+    XRCCTRL(*this, "SaveExec"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(conf[runningComputer_].useLoadLocation_);
 }
 
 void GuiMain::enableMemAccessGui(bool status)
 {
-	if (mode_.gui)
-	{
-		XRCCTRL(*this, "SaveButton"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
-		XRCCTRL(*this, "LoadButton"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
-	}
+    if (mode_.gui)
+    {
+        XRCCTRL(*this, "SaveButton"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
+        XRCCTRL(*this, "LoadButton"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
+    }
 
-	bool superBasic = false;
-	bool disableAll = false;
-	if (computerRunning_)
-		superBasic = ((p_Computer->getLoadedProgram()&0x1) == 0x1);
-	else
-	{
-		if ((runningComputer_ == ELF) || (runningComputer_ == ELFII) || (runningComputer_ == SUPERELF) || (runningComputer_ == VIP))
-			disableAll = true;
-	}
-	if (superBasic)
-	{
-		switch (p_Computer->getLoadedProgram())
-		{
-			case SUPERBASICV1:
-				conf[runningComputer_].defus_ = 0x2a81;
-				conf[runningComputer_].eop_ = 0x2a83;
-				conf[runningComputer_].string_ = 0x2a92;
-				conf[runningComputer_].arrayValue_ = 0x2a94;
-				conf[runningComputer_].eod_ = 0x2a99;
-				conf[runningComputer_].basicRamAddress_ = 0x2c00;
-				computerInfo[runningComputer_].ploadExtension = "super";
-			break;
-			case SUPERBASICV3:
-				conf[runningComputer_].defus_ = 0x2f81;
-				conf[runningComputer_].eop_ = 0x2f83;
-				conf[runningComputer_].string_ = 0x2f92;
-				conf[runningComputer_].arrayValue_ = 0x2f94;
-				conf[runningComputer_].eod_ = 0x2f99;
-				conf[runningComputer_].basicRamAddress_ = 0x3100;
-				computerInfo[runningComputer_].ploadExtension = "super";
-			break;
-			case SUPERBASICV5:
-				conf[runningComputer_].defus_ = 0x3581;
-				conf[runningComputer_].eop_ = 0x3583;
-				conf[runningComputer_].string_ = 0x3592;
-				conf[runningComputer_].arrayValue_ = 0x3594;
-				conf[runningComputer_].eod_ = 0x3599;
-				conf[runningComputer_].basicRamAddress_ = 0x3700;
-				computerInfo[runningComputer_].ploadExtension = "super";
-			break;
-			case SUPERBASICV6:
-				conf[runningComputer_].defus_ = 0x3581;
-				conf[runningComputer_].eop_ = 0x3583;
-				conf[runningComputer_].string_ = 0x3592;
-				conf[runningComputer_].arrayValue_ = 0x3594;
-				conf[runningComputer_].eod_ = 0x3599;
-				conf[runningComputer_].basicRamAddress_ = 0x3700;
-				computerInfo[runningComputer_].ploadExtension = "super";
-			break;
-			case RCABASIC3:
-				conf[runningComputer_].defus_ = 0x5281;
-				conf[runningComputer_].eop_ = 0x5283;
-				conf[runningComputer_].string_ = 0x5292;
-				conf[runningComputer_].arrayValue_ = 0x5294;
-				conf[runningComputer_].eod_ = 0x5299;
-				conf[runningComputer_].basicRamAddress_ = 0x5400;
-				computerInfo[runningComputer_].ploadExtension = "rca";
-			break;
-			case RCABASIC4:
-				conf[runningComputer_].defus_ = 0x5581;
-				conf[runningComputer_].eop_ = 0x5583;
-				conf[runningComputer_].string_ = 0x5592;
-				conf[runningComputer_].arrayValue_ = 0x5594;
-				conf[runningComputer_].eod_ = 0x5599;
-				conf[runningComputer_].basicRamAddress_ = 0x5700;
-				computerInfo[runningComputer_].ploadExtension = "rca";
-			break;
+    bool superBasic = false;
+    bool disableAll = false;
+    if (computerRunning_)
+        superBasic = ((p_Computer->getLoadedProgram()&0x1) == 0x1);
+    else
+    {
+        if ((runningComputer_ == ELF) || (runningComputer_ == ELFII) || (runningComputer_ == SUPERELF) || (runningComputer_ == VIP) || (runningComputer_ == DIY) || (runningComputer_ == PICO))
+            disableAll = true;
+    }
+    if (superBasic)
+    {
+        switch (p_Computer->getLoadedProgram())
+        {
+            case SUPERBASICV1:
+                conf[runningComputer_].defus_ = 0x2a81;
+                conf[runningComputer_].eop_ = 0x2a83;
+                conf[runningComputer_].string_ = 0x2a92;
+                conf[runningComputer_].arrayValue_ = 0x2a94;
+                conf[runningComputer_].eod_ = 0x2a99;
+                conf[runningComputer_].basicRamAddress_ = 0x2c00;
+                computerInfo[runningComputer_].ploadExtension = "super";
+            break;
+            case SUPERBASICV3:
+                conf[runningComputer_].defus_ = 0x2f81;
+                conf[runningComputer_].eop_ = 0x2f83;
+                conf[runningComputer_].string_ = 0x2f92;
+                conf[runningComputer_].arrayValue_ = 0x2f94;
+                conf[runningComputer_].eod_ = 0x2f99;
+                conf[runningComputer_].basicRamAddress_ = 0x3100;
+                computerInfo[runningComputer_].ploadExtension = "super";
+            break;
+            case SUPERBASICV5:
+                conf[runningComputer_].defus_ = 0x3581;
+                conf[runningComputer_].eop_ = 0x3583;
+                conf[runningComputer_].string_ = 0x3592;
+                conf[runningComputer_].arrayValue_ = 0x3594;
+                conf[runningComputer_].eod_ = 0x3599;
+                conf[runningComputer_].basicRamAddress_ = 0x3700;
+                computerInfo[runningComputer_].ploadExtension = "super";
+            break;
+            case SUPERBASICV6:
+                conf[runningComputer_].defus_ = 0x3581;
+                conf[runningComputer_].eop_ = 0x3583;
+                conf[runningComputer_].string_ = 0x3592;
+                conf[runningComputer_].arrayValue_ = 0x3594;
+                conf[runningComputer_].eod_ = 0x3599;
+                conf[runningComputer_].basicRamAddress_ = 0x3700;
+                computerInfo[runningComputer_].ploadExtension = "super";
+            break;
+            case RCABASIC3:
+                conf[runningComputer_].defus_ = 0x5281;
+                conf[runningComputer_].eop_ = 0x5283;
+                conf[runningComputer_].string_ = 0x5292;
+                conf[runningComputer_].arrayValue_ = 0x5294;
+                conf[runningComputer_].eod_ = 0x5299;
+                conf[runningComputer_].basicRamAddress_ = 0x5400;
+                computerInfo[runningComputer_].ploadExtension = "rca";
+            break;
+            case RCABASIC4:
+                conf[runningComputer_].defus_ = 0x5581;
+                conf[runningComputer_].eop_ = 0x5583;
+                conf[runningComputer_].string_ = 0x5592;
+                conf[runningComputer_].arrayValue_ = 0x5594;
+                conf[runningComputer_].eod_ = 0x5599;
+                conf[runningComputer_].basicRamAddress_ = 0x5700;
+                computerInfo[runningComputer_].ploadExtension = "rca";
+            break;
             case FPBBASIC:
                 conf[runningComputer_].defus_ = 0x4081;
                 conf[runningComputer_].eop_ = 0x4083;
@@ -3881,17 +3972,17 @@ void GuiMain::enableMemAccessGui(bool status)
                 conf[runningComputer_].pLoadSaveName_[2] = 'B';
                 conf[runningComputer_].pLoadSaveName_[3] = ' ';
             break;
-			case FPBBASIC_AT_8000:
-				conf[runningComputer_].defus_ = 0x7a81;
-				conf[runningComputer_].eop_ = 0x7a83;
-				conf[runningComputer_].string_ = 0x7a92;
-				conf[runningComputer_].arrayValue_ = 0x7a94;
-				conf[runningComputer_].eod_ = 0x7a99;
-				conf[runningComputer_].basicRamAddress_ = 0;
-				computerInfo[runningComputer_].ploadExtension = "fpb";
-			break;
-		}
-	}
+            case FPBBASIC_AT_8000:
+                conf[runningComputer_].defus_ = 0x7a81;
+                conf[runningComputer_].eop_ = 0x7a83;
+                conf[runningComputer_].string_ = 0x7a92;
+                conf[runningComputer_].arrayValue_ = 0x7a94;
+                conf[runningComputer_].eod_ = 0x7a99;
+                conf[runningComputer_].basicRamAddress_ = 0;
+                computerInfo[runningComputer_].ploadExtension = "fpb";
+            break;
+        }
+    }
     if (runningComputer_ == VIP && computerRunning_)
     {
         if (p_Computer->getLoadedProgram() == VIPTINY)
@@ -3909,39 +4000,39 @@ void GuiMain::enableMemAccessGui(bool status)
             conf[runningComputer_].pLoadSaveName_[3] = 'Y';
         }
     }
-	if (!mode_.gui)
-		return;
-	if ((runningComputer_ == MICROBOARD) || (runningComputer_ == MCDS) || (runningComputer_ == COMX) || (runningComputer_ == PECOM) || (runningComputer_ == TMC600) || (runningComputer_ == VIPII) || (runningComputer_ == VIP)|| superBasic || disableAll)
-	{
-		XRCCTRL(*this, "RunButton"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
-		XRCCTRL(*this, "UseLocation"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable(status);
+    if (!mode_.gui)
+        return;
+    if ((runningComputer_ == MICROBOARD) || (runningComputer_ == MCDS) || (runningComputer_ == COMX) || (runningComputer_ == PECOM) || (runningComputer_ == TMC600) || (runningComputer_ == VIPII) || (runningComputer_ == VIP)|| superBasic || disableAll)
+    {
+        XRCCTRL(*this, "RunButton"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
+        XRCCTRL(*this, "UseLocation"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable(status);
         XRCCTRL(*this, "UseLocationText"+computerInfo[runningComputer_].gui, wxStaticText)->Enable(status);
-		XRCCTRL(*this, "DsaveButton"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
-		enableLocationGui();
-	}
-	else
-	{
-//		XRCCTRL(*this, "RunButton"+computerInfo[runningComputer_].gui, wxButton)->Enable(false);
-//		XRCCTRL(*this, "UseLocation"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable(false);
-//		XRCCTRL(*this, "DsaveButton"+computerInfo[runningComputer_].gui, wxButton)->Enable(false);
-		XRCCTRL(*this, "TextStart"+computerInfo[runningComputer_].gui, wxStaticText)->Enable(status);
-		XRCCTRL(*this, "TextEnd"+computerInfo[runningComputer_].gui, wxStaticText)->Enable(status);
-		XRCCTRL(*this, "SaveStart"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(status);
-		XRCCTRL(*this, "SaveEnd"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(status);
-	}
+        XRCCTRL(*this, "DsaveButton"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
+        enableLocationGui();
+    }
+    else
+    {
+//        XRCCTRL(*this, "RunButton"+computerInfo[runningComputer_].gui, wxButton)->Enable(false);
+//        XRCCTRL(*this, "UseLocation"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable(false);
+//        XRCCTRL(*this, "DsaveButton"+computerInfo[runningComputer_].gui, wxButton)->Enable(false);
+        XRCCTRL(*this, "TextStart"+computerInfo[runningComputer_].gui, wxStaticText)->Enable(status);
+        XRCCTRL(*this, "TextEnd"+computerInfo[runningComputer_].gui, wxStaticText)->Enable(status);
+        XRCCTRL(*this, "SaveStart"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(status);
+        XRCCTRL(*this, "SaveEnd"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(status);
+    }
 }
 
 void GuiMain::enableTapeGui(bool status, int computerType)
 {
-	XRCCTRL(*this, "CasButton"+computerInfo[computerType].gui, wxButton)->Enable(status);
-	XRCCTRL(*this, "WavFile"+computerInfo[computerType].gui, wxTextCtrl)->Enable(status);
-	XRCCTRL(*this, "EjectCas"+computerInfo[computerType].gui, wxButton)->Enable(status);
-	XRCCTRL(*this, "AutoCasLoad"+computerInfo[computerType].gui, wxCheckBox)->Enable(status&!conf[computerType].realCassetteLoad_);
-	XRCCTRL(*this, "Turbo"+computerInfo[computerType].gui, wxCheckBox)->Enable(status&!conf[computerType].realCassetteLoad_);
-	XRCCTRL(*this, "TurboClock"+computerInfo[computerType].gui, wxTextCtrl)->Enable(status);
-	XRCCTRL(*this, "TurboMhzText"+computerInfo[computerType].gui, wxStaticText)->Enable(status);
+    XRCCTRL(*this, "CasButton"+computerInfo[computerType].gui, wxButton)->Enable(status);
+    XRCCTRL(*this, "WavFile"+computerInfo[computerType].gui, wxTextCtrl)->Enable(status);
+    XRCCTRL(*this, "EjectCas"+computerInfo[computerType].gui, wxButton)->Enable(status);
+    XRCCTRL(*this, "AutoCasLoad"+computerInfo[computerType].gui, wxCheckBox)->Enable(status&!conf[computerType].realCassetteLoad_);
+    XRCCTRL(*this, "Turbo"+computerInfo[computerType].gui, wxCheckBox)->Enable(status&!conf[computerType].realCassetteLoad_);
+    XRCCTRL(*this, "TurboClock"+computerInfo[computerType].gui, wxTextCtrl)->Enable(status);
+    XRCCTRL(*this, "TurboMhzText"+computerInfo[computerType].gui, wxStaticText)->Enable(status);
 #if defined(__WXMSW__)
-    if (computerType == ELF || computerType == ELFII || computerType == SUPERELF)
+    if (computerType == ELF || computerType == ELFII || computerType == SUPERELF || computerType == DIY)
     {
         XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->Enable(status&(!elfConfiguration[computerType].useXmodem));
     }
@@ -3951,60 +4042,60 @@ void GuiMain::enableTapeGui(bool status, int computerType)
             XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->Enable(status);
     }
 #endif
-//	XRCCTRL(*this, "Volume"+computerInfo[computerType].gui, wxSlider)->Enable(status);
-//	XRCCTRL(*this, "VolumeText"+computerInfo[computerType].gui, wxStaticText)->Enable(status);
+//    XRCCTRL(*this, "Volume"+computerInfo[computerType].gui, wxSlider)->Enable(status);
+//    XRCCTRL(*this, "VolumeText"+computerInfo[computerType].gui, wxStaticText)->Enable(status);
 }
 
 void GuiMain::enableLoadGui(bool status)
 {
-	enableMemAccessGui(status);
-	if (((runningComputer_ == ELFII) || (runningComputer_ == SUPERELF) || (runningComputer_ == ELF)) && (!elfConfiguration[runningComputer_].useTape))
-	{
-		enableTapeGui(false, runningComputer_);
-		return;
-	}
+    enableMemAccessGui(status);
+    if (((runningComputer_ == ELFII) || (runningComputer_ == SUPERELF) || (runningComputer_ == ELF) || (runningComputer_ == DIY) || (runningComputer_ == PICO)) && (!elfConfiguration[runningComputer_].useTape))
+    {
+        enableTapeGui(false, runningComputer_);
+        return;
+    }
     if (runningComputer_ == ELF2K && !(elfConfiguration[runningComputer_].useXmodem || elfConfiguration[runningComputer_].useHexModem))
     {
         enableTapeGui(false, runningComputer_);
         return;
     }
-	if (computerRunning_)
-	{
-        if (runningComputer_ == ELFII || runningComputer_ == SUPERELF || runningComputer_ == ELF || runningComputer_ == ELF2K)
+    if (computerRunning_)
+    {
+        if (runningComputer_ == ELFII || runningComputer_ == SUPERELF || runningComputer_ == ELF || runningComputer_ == ELF2K || runningComputer_ == DIY || runningComputer_ == PICO)
             XRCCTRL(*this, "Tape"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
-		XRCCTRL(*this, "CasButton"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
-		XRCCTRL(*this, "WavFile"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(status);
-		XRCCTRL(*this, "EjectCas"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
-		XRCCTRL(*this, "AutoCasLoad"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable(status&!conf[runningComputer_].realCassetteLoad_);
-		XRCCTRL(*this, "Turbo"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable(status&!conf[runningComputer_].realCassetteLoad_);
-		if (!status)
-		{
-			XRCCTRL(*this, "TurboClock"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(false);
-			XRCCTRL(*this, "TurboMhzText"+computerInfo[runningComputer_].gui, wxStaticText)->Enable(false);
+        XRCCTRL(*this, "CasButton"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
+        XRCCTRL(*this, "WavFile"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(status);
+        XRCCTRL(*this, "EjectCas"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
+        XRCCTRL(*this, "AutoCasLoad"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable(status&!conf[runningComputer_].realCassetteLoad_);
+        XRCCTRL(*this, "Turbo"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable(status&!conf[runningComputer_].realCassetteLoad_);
+        if (!status)
+        {
+            XRCCTRL(*this, "TurboClock"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(false);
+            XRCCTRL(*this, "TurboMhzText"+computerInfo[runningComputer_].gui, wxStaticText)->Enable(false);
         }
-		else
-		{
-			XRCCTRL(*this, "TurboClock"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(XRCCTRL(*this, "Turbo"+computerInfo[runningComputer_].gui, wxCheckBox)->IsChecked());
-			XRCCTRL(*this, "TurboMhzText"+computerInfo[runningComputer_].gui, wxStaticText)->Enable(XRCCTRL(*this, "Turbo"+computerInfo[runningComputer_].gui, wxCheckBox)->IsChecked());
+        else
+        {
+            XRCCTRL(*this, "TurboClock"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(XRCCTRL(*this, "Turbo"+computerInfo[runningComputer_].gui, wxCheckBox)->IsChecked());
+            XRCCTRL(*this, "TurboMhzText"+computerInfo[runningComputer_].gui, wxStaticText)->Enable(XRCCTRL(*this, "Turbo"+computerInfo[runningComputer_].gui, wxCheckBox)->IsChecked());
         }
-	}
-	else
-	{
-        if (runningComputer_ == ELFII || runningComputer_ == SUPERELF || runningComputer_ == ELF || runningComputer_ == ELF2K)
-            XRCCTRL(*this, "Tape"+computerInfo[runningComputer_].gui, wxButton)->Enable(true);
-		XRCCTRL(*this, "AutoCasLoad"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable(true);
-		XRCCTRL(*this, "Turbo"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable(true);
-		XRCCTRL(*this, "CasButton"+computerInfo[runningComputer_].gui, wxButton)->Enable(true);
-		XRCCTRL(*this, "WavFile"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(true);
-		XRCCTRL(*this, "EjectCas"+computerInfo[runningComputer_].gui, wxButton)->Enable(true);
-		XRCCTRL(*this, "TurboClock"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(true);
-		XRCCTRL(*this, "TurboMhzText"+computerInfo[runningComputer_].gui, wxStaticText)->Enable(true);
     }
-	if (!conf[runningComputer_].autoCassetteLoad_)
-	{
-		if (runningComputer_ == FRED1 || runningComputer_ == FRED1_5)
-			XRCCTRL(*this, "CasPause"+computerInfo[runningComputer_].gui, wxButton)->Enable(false);
-		XRCCTRL(*this, "CasStop"+computerInfo[runningComputer_].gui, wxButton)->Enable(false);
+    else
+    {
+        if (runningComputer_ == ELFII || runningComputer_ == SUPERELF || runningComputer_ == ELF || runningComputer_ == ELF2K || runningComputer_ == DIY || runningComputer_ == PICO)
+            XRCCTRL(*this, "Tape"+computerInfo[runningComputer_].gui, wxButton)->Enable(true);
+        XRCCTRL(*this, "AutoCasLoad"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable(true);
+        XRCCTRL(*this, "Turbo"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable(true);
+        XRCCTRL(*this, "CasButton"+computerInfo[runningComputer_].gui, wxButton)->Enable(true);
+        XRCCTRL(*this, "WavFile"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(true);
+        XRCCTRL(*this, "EjectCas"+computerInfo[runningComputer_].gui, wxButton)->Enable(true);
+        XRCCTRL(*this, "TurboClock"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(true);
+        XRCCTRL(*this, "TurboMhzText"+computerInfo[runningComputer_].gui, wxStaticText)->Enable(true);
+    }
+    if (!conf[runningComputer_].autoCassetteLoad_)
+    {
+        if (runningComputer_ == FRED1 || runningComputer_ == FRED1_5)
+            XRCCTRL(*this, "CasPause"+computerInfo[runningComputer_].gui, wxButton)->Enable(false);
+        XRCCTRL(*this, "CasStop"+computerInfo[runningComputer_].gui, wxButton)->Enable(false);
         XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxButton)->Enable(status&!conf[runningComputer_].realCassetteLoad_);
         if (runningComputer_ == ELF2K)
         {
@@ -4018,16 +4109,16 @@ void GuiMain::enableLoadGui(bool status)
             XRCCTRL(*this, "CasLoad1"+computerInfo[runningComputer_].gui, wxButton)->Enable(status&!conf[runningComputer_].realCassetteLoad_);
             XRCCTRL(*this, "CasSave1"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
         }
-	}
-	if (tapeState_ == TAPE_RECORD)
-		XRCCTRL(*this, "CasSave"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(recOffBitmap);
-	if (tapeState_ == TAPE_PLAY)
-		XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(playBlackBitmap);
+    }
+    if (tapeState_ == TAPE_RECORD)
+        XRCCTRL(*this, "CasSave"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(recOffBitmap);
+    if (tapeState_ == TAPE_PLAY)
+        XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(playBlackBitmap);
     if (tapeState_ == TAPE_RECORD1)
         XRCCTRL(*this, "CasSave1"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(recOffBitmap);
     if (tapeState_ == TAPE_PLAY1)
         XRCCTRL(*this, "CasLoad1"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(playBlackBitmap);
-	tapeState_ = TAPE_STOP;
+    tapeState_ = TAPE_STOP;
 }
 
 void GuiMain::setTapeState(int tapeState, wxString tapeNumber)
@@ -4035,9 +4126,9 @@ void GuiMain::setTapeState(int tapeState, wxString tapeNumber)
     if (tapeNumber == "0")
         tapeNumber = "";
     
-	tapeState_ = tapeState;
-	if (!mode_.gui)
-		return;
+    tapeState_ = tapeState;
+    if (!mode_.gui)
+        return;
 
     if (runningComputer_ == FRED1 || runningComputer_ == FRED1_5)
     {
@@ -4050,33 +4141,33 @@ void GuiMain::setTapeState(int tapeState, wxString tapeNumber)
             XRCCTRL(*this, "CasPause"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(pauseOffBitmap);
     }
     
-    if (runningComputer_ == ELFII || runningComputer_ == SUPERELF || runningComputer_ == ELF || runningComputer_ == ELF2K)
+    if (runningComputer_ == ELFII || runningComputer_ == SUPERELF || runningComputer_ == ELF || runningComputer_ == ELF2K || runningComputer_ == DIY)
         XRCCTRL(*this, "Tape"+tapeNumber+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState == TAPE_STOP);
     XRCCTRL(*this, "CasButton"+tapeNumber+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState == TAPE_STOP);
-	XRCCTRL(*this, "WavFile"+tapeNumber+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(tapeState == TAPE_STOP);
-	XRCCTRL(*this, "EjectCas"+tapeNumber+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState == TAPE_STOP);
-	XRCCTRL(*this, "AutoCasLoad"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable((tapeState == TAPE_STOP)&!conf[runningComputer_].realCassetteLoad_);
-	XRCCTRL(*this, "Turbo"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable((tapeState == TAPE_STOP)&!conf[runningComputer_].realCassetteLoad_);
+    XRCCTRL(*this, "WavFile"+tapeNumber+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(tapeState == TAPE_STOP);
+    XRCCTRL(*this, "EjectCas"+tapeNumber+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState == TAPE_STOP);
+    XRCCTRL(*this, "AutoCasLoad"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable((tapeState == TAPE_STOP)&!conf[runningComputer_].realCassetteLoad_);
+    XRCCTRL(*this, "Turbo"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable((tapeState == TAPE_STOP)&!conf[runningComputer_].realCassetteLoad_);
     if (tapeState != TAPE_STOP)
-	{
-		XRCCTRL(*this, "TurboClock"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(false);
-		XRCCTRL(*this, "TurboMhzText"+computerInfo[runningComputer_].gui, wxStaticText)->Enable(false);
+    {
+        XRCCTRL(*this, "TurboClock"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(false);
+        XRCCTRL(*this, "TurboMhzText"+computerInfo[runningComputer_].gui, wxStaticText)->Enable(false);
     }
-	else
-	{
-		XRCCTRL(*this, "TurboClock"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(XRCCTRL(*this, "Turbo"+computerInfo[runningComputer_].gui, wxCheckBox)->IsChecked());
-		XRCCTRL(*this, "TurboMhzText"+computerInfo[runningComputer_].gui, wxStaticText)->Enable(XRCCTRL(*this, "Turbo"+computerInfo[runningComputer_].gui, wxCheckBox)->IsChecked());
+    else
+    {
+        XRCCTRL(*this, "TurboClock"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(XRCCTRL(*this, "Turbo"+computerInfo[runningComputer_].gui, wxCheckBox)->IsChecked());
+        XRCCTRL(*this, "TurboMhzText"+computerInfo[runningComputer_].gui, wxStaticText)->Enable(XRCCTRL(*this, "Turbo"+computerInfo[runningComputer_].gui, wxCheckBox)->IsChecked());
     }
-	if (conf[runningComputer_].autoCassetteLoad_)
-	{
-		if (tapeState == TAPE_RECORD)
-			XRCCTRL(*this, "CasSave"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(recOnBitmap);
-		else
-			XRCCTRL(*this, "CasSave"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(recOffBitmap);
-		if (tapeState == TAPE_PLAY)
-			XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(playGreenBitmap);
-		else
-			XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(playBlackBitmap);
+    if (conf[runningComputer_].autoCassetteLoad_)
+    {
+        if (tapeState == TAPE_RECORD)
+            XRCCTRL(*this, "CasSave"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(recOnBitmap);
+        else
+            XRCCTRL(*this, "CasSave"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(recOffBitmap);
+        if (tapeState == TAPE_PLAY)
+            XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(playGreenBitmap);
+        else
+            XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(playBlackBitmap);
         if (runningComputer_ == MCDS)
         {
             if (tapeState == TAPE_RECORD1)
@@ -4088,13 +4179,13 @@ void GuiMain::setTapeState(int tapeState, wxString tapeNumber)
             else
                 XRCCTRL(*this, "CasLoad1"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(playBlackBitmap);
         }
-	}
-	else
-	{
-		if (runningComputer_ == FRED1 || runningComputer_ == FRED1_5)
-			XRCCTRL(*this, "CasPause"+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState != TAPE_STOP);
-		XRCCTRL(*this, "CasStop"+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState != TAPE_STOP);
-		XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxButton)->Enable((tapeState == TAPE_STOP)&!conf[runningComputer_].realCassetteLoad_);
+    }
+    else
+    {
+        if (runningComputer_ == FRED1 || runningComputer_ == FRED1_5)
+            XRCCTRL(*this, "CasPause"+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState != TAPE_STOP);
+        XRCCTRL(*this, "CasStop"+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState != TAPE_STOP);
+        XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxButton)->Enable((tapeState == TAPE_STOP)&!conf[runningComputer_].realCassetteLoad_);
         if (!(runningComputer_ == ELF2K && elfConfiguration[runningComputer_].useHexModem))
             XRCCTRL(*this, "CasSave"+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState == TAPE_STOP);
         if (runningComputer_ == MCDS)
@@ -4103,50 +4194,50 @@ void GuiMain::setTapeState(int tapeState, wxString tapeNumber)
             XRCCTRL(*this, "CasLoad1"+computerInfo[runningComputer_].gui, wxButton)->Enable((tapeState == TAPE_STOP)&!conf[runningComputer_].realCassetteLoad_);
             XRCCTRL(*this, "CasSave1"+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState == TAPE_STOP);
         }
-	}
+    }
 }
 
 void GuiMain::turboGui(wxString computerString)
 {
-	if (!mode_.gui)
-		return;
-	XRCCTRL(*this, "TurboClock"+computerString, wxTextCtrl)->Enable(conf[selectedComputer_].turbo_);
-	XRCCTRL(*this, "TurboMhzText"+computerString, wxStaticText)->Enable(conf[selectedComputer_].turbo_);
+    if (!mode_.gui)
+        return;
+    XRCCTRL(*this, "TurboClock"+computerString, wxTextCtrl)->Enable(conf[selectedComputer_].turbo_);
+    XRCCTRL(*this, "TurboMhzText"+computerString, wxStaticText)->Enable(conf[selectedComputer_].turbo_);
 }
 
 void GuiMain::setComputerInfo(int id, wxString gui, wxString name, wxString ploadExtension)
 {
-	computerInfo[id].gui = gui;
-	computerInfo[id].name = name;
-	computerInfo[id].ploadExtension = ploadExtension;
+    computerInfo[id].gui = gui;
+    computerInfo[id].name = name;
+    computerInfo[id].ploadExtension = ploadExtension;
 }
 
 void GuiMain::setScreenInfo(int id, int start, int end, wxString colour[])
 {
-	screenInfo[id].start = start;
-	screenInfo[id].number = end;
-	screenInfo[id].numberVideo = 0;
-	for (int i=start; i<end; i++)
-		screenInfo[id].defaultColour[i] = colour[i];
+    screenInfo[id].start = start;
+    screenInfo[id].number = end;
+    screenInfo[id].numberVideo = 0;
+    for (int i=start; i<end; i++)
+        screenInfo[id].defaultColour[i] = colour[i];
 }
 
 void GuiMain::setScreenInfo(int id, int start, int end, wxString colour[], int numberVideo, int borderX[], int borderY[])
 {
-	screenInfo[id].start = start;
-	screenInfo[id].number = end;
-	screenInfo[id].numberVideo = numberVideo;
-	for (int i=start; i<end; i++)
-		screenInfo[id].defaultColour[i] = colour[i];
-	for (int i=0; i<screenInfo[id].numberVideo; i++)
-	{
-		screenInfo[id].borderX[i] = borderX[i];
-		screenInfo[id].borderY[i] = borderY[i];
-	}
+    screenInfo[id].start = start;
+    screenInfo[id].number = end;
+    screenInfo[id].numberVideo = numberVideo;
+    for (int i=start; i<end; i++)
+        screenInfo[id].defaultColour[i] = colour[i];
+    for (int i=0; i<screenInfo[id].numberVideo; i++)
+    {
+        screenInfo[id].borderX[i] = borderX[i];
+        screenInfo[id].borderY[i] = borderY[i];
+    }
 }
 
 ScreenInfo GuiMain::getScreenInfo(int id)
 {
-	return screenInfo[id];
+    return screenInfo[id];
 }
 
 void GuiMain::setBaudChoice(int computerType)
@@ -4195,8 +4286,8 @@ int GuiMain::getCpuType()
 {
     cpuType_ = defaultCpuType_;
     if (runningComputer_ == FRED1)
-    	cpuType_ = SYSTEM00;
-	if (runningComputer_ == MICROTUTOR || runningComputer_ == COINARCADE || runningComputer_ == FRED1_5)
+        cpuType_ = SYSTEM00;
+    if (runningComputer_ == MICROTUTOR || runningComputer_ == COINARCADE || runningComputer_ == FRED1_5)
         cpuType_ = CPU1801;
     if (runningComputer_ == MICROBOARD)
     {
@@ -4228,30 +4319,30 @@ int GuiMain::getCpuType()
 
 void GuiMain::onClearRam(wxCommandEvent&event)
 {
-	elfConfiguration[selectedComputer_].clearRam = event.IsChecked();
+    elfConfiguration[selectedComputer_].clearRam = event.IsChecked();
 }
 
 void GuiMain::onBootAddress(wxCommandEvent&WXUNUSED(event))
 {
-	conf[selectedComputer_].bootAddress_ = get16BitValue("BootAddress"+computerInfo[selectedComputer_].gui);
-	if (conf[selectedComputer_].bootAddress_ == -1)  conf[selectedComputer_].bootAddress_ = 0;
+    conf[selectedComputer_].bootAddress_ = get16BitValue("BootAddress"+computerInfo[selectedComputer_].gui);
+    if (conf[selectedComputer_].bootAddress_ == -1)  conf[selectedComputer_].bootAddress_ = 0;
 }
 
 long GuiMain::getBootAddress(wxString computerTypeStr, int computerType)
 {
-	if (mode_.gui)
-	{
-		wxString address;
-		address.Printf("%04X", (unsigned int)conf[computerType].bootAddress_);
-		XRCCTRL(*this,"BootAddress"+computerTypeStr, wxTextCtrl)->ChangeValue(address);
-	}
+    if (mode_.gui)
+    {
+        wxString address;
+        address.Printf("%04X", (unsigned int)conf[computerType].bootAddress_);
+        XRCCTRL(*this,"BootAddress"+computerTypeStr, wxTextCtrl)->ChangeValue(address);
+    }
 
-	return conf[computerType].bootAddress_;
+    return conf[computerType].bootAddress_;
 }
 
 void GuiMain::onChoiceRam(wxCommandEvent&event)
 {
-	conf[selectedComputer_].ramType_ = event.GetSelection();
+    conf[selectedComputer_].ramType_ = event.GetSelection();
 }
                               
 bool GuiMain::checkWavFile(wxString fileName)
@@ -4319,15 +4410,15 @@ bool GuiMain::checkWavFile(wxString fileName)
 
 bool GuiMain::showSoundError()
 {
-	bool showSoundError;
+    bool showSoundError;
 
-	configPointer->Read("/Main/ShowSoundError", &showSoundError, true);
-	return showSoundError;
+    configPointer->Read("/Main/ShowSoundError", &showSoundError, true);
+    return showSoundError;
 }
 
 void GuiMain::hideSoundError()
 {
-	configPointer->Write("/Main/ShowSoundError", false);
+    configPointer->Write("/Main/ShowSoundError", false);
 }
 
 bool GuiMain::showSplashScreen()
@@ -4342,6 +4433,8 @@ bool GuiMain::showSplashScreen()
         case ELF:
         case ELFII:
         case SUPERELF:
+        case DIY:
+        case PICO:
             switch (p_Computer->getLoadedProgram())
             {
                 case SUPERBASICV1:
@@ -4403,7 +4496,9 @@ void GuiMain::hideSplashScreen()
         case ELF:
         case ELFII:
         case SUPERELF:
-            switch (p_Computer->getLoadedProgram())
+        case DIY:
+        case PICO:
+           switch (p_Computer->getLoadedProgram())
             {
                 case SUPERBASICV1:
                     if (elfConfiguration[computer].vtType != VTNONE)
@@ -4837,3 +4932,569 @@ void GuiMain::setUpdFloppyGui(int drive, int computerType)
     }
 }
 
+void GuiMain::parseXmlFile(int computer, wxString xmlDir, wxString xmlFile)
+{
+    wxString tagList[]=
+    {
+        "info",
+        "memory",
+        "comment",
+        "undefined"
+    };
+
+    enum
+    {
+        TAG_INFO,
+        TAG_MEMORY,
+        TAG_COMMENT,
+        TAG_UNDEFINED
+    };
+    
+    conf[computer].memConfigNumber_ = 1;
+    conf[computer].memConfig_.resize(1);
+    conf[computer].memConfig_[0].filename = "";
+
+    if (!wxFile::Exists(xmlDir + xmlFile))
+        return;
+        
+    wxFileName xmlFileName = wxFileName(xmlDir + xmlFile);
+    wxDateTime newDate = xmlFileName.GetModificationTime();
+    
+    if (oldXmlFileName_ == xmlDir + xmlFile)
+    {
+        
+        if (newDate.IsEqualTo(oldXmlDate_))
+            return;
+    }
+
+    oldXmlFileName_ = xmlDir + xmlFile;
+    oldXmlDate_ = newDate;
+
+    int tagTypeInt;
+
+    warningText_ = "";
+    
+    wxXmlDocument doc;
+    
+    if (!doc.Load(xmlDir + xmlFile))
+        return;
+    
+    // start processing the XML file
+    if (doc.GetRoot()->GetName() != "emmaconfig")
+        return;
+    
+    wxXmlNode *child = doc.GetRoot()->GetChildren();
+    while (child)
+    {
+        wxString childName = child->GetName();
+        
+        tagTypeInt = 0;
+        while (tagTypeInt != TAG_UNDEFINED && tagList[tagTypeInt] != childName)
+            tagTypeInt++;
+
+        switch (tagTypeInt)
+        {
+            case TAG_INFO:
+                parseXml_Info (computer, *child);
+            break;
+
+            case TAG_MEMORY:
+                parseXml_Memory (computer, *child);
+            break;
+
+            case TAG_COMMENT:
+            break;
+
+            default:
+                warningText_ += "Unkown tag: ";
+                warningText_ += childName;
+                warningText_ += "\n";
+            break;
+        }
+       
+        child = child->GetNext();
+    }
+    
+    if (warningText_ != "")
+        wxMessageBox(warningText_, "Warning list xml parser", wxICON_EXCLAMATION);
+}
+
+void GuiMain::parseXml_Info(int computer, wxXmlNode &node)
+{
+    wxString tagList[]=
+    {
+        "code",
+        "name",
+        "pload",
+        "comment",
+        "undefined"
+    };
+
+    enum
+    {
+        TAG_CODE,
+        TAG_NAME,
+        TAG_PLOAD,
+        TAG_COMMENT,
+        TAG_UNDEFINED
+    };
+    
+    int tagTypeInt;
+
+    wxXmlNode *child = node.GetChildren();
+    while (child)
+    {
+        wxString childName = child->GetName();
+
+        tagTypeInt = 0;
+        while (tagTypeInt != TAG_UNDEFINED && tagList[tagTypeInt] != childName)
+            tagTypeInt++;
+
+        switch (tagTypeInt)
+        {
+            case TAG_CODE:
+                computerInfo[computer].gui = child->GetNodeContent();
+            break;
+                
+            case TAG_NAME:
+                computerInfo[computer].name = child->GetNodeContent();
+            break;
+
+            case TAG_PLOAD:
+                computerInfo[computer].ploadExtension = child->GetNodeContent();
+            break;
+
+            case TAG_COMMENT:
+            break;
+
+            default:
+                warningText_ += "Unkown tag: ";
+                warningText_ += childName;
+                warningText_ += "\n";
+            break;
+        }
+        
+        child = child->GetNext();
+    }
+}
+
+void GuiMain::parseXml_Memory(int computer, wxXmlNode &node)
+{
+    Word memMask;
+    
+    wxString tagList[]=
+    {
+        "rom",
+        "mainram",
+        "ram",
+        "ems",
+        "mapper",
+        "comment",
+        "undefined"
+    };
+
+    enum
+    {
+        TAG_ROM,
+        TAG_MAINRAM,
+        TAG_RAM,
+        TAG_EMS,
+        TAG_MAPPER,
+        TAG_COMMENT,
+        TAG_UNDEFINED
+    };
+    
+    int tagTypeInt;
+
+    elfConfiguration[computer].useEms = false;
+    conf[computer].emsConfigNumber_ = 0;
+
+    wxXmlNode *child = node.GetChildren();
+    while (child)
+    {
+        wxString childName = child->GetName();
+
+        tagTypeInt = 0;
+        while (tagTypeInt != TAG_UNDEFINED && tagList[tagTypeInt] != childName)
+            tagTypeInt++;
+
+        switch (tagTypeInt)
+        {
+            case TAG_ROM:
+                conf[computer].memConfig_.resize(conf[computer].memConfigNumber_+1);
+                parseXml_RomRam (computer, *child, (int)(ROM + 256*conf[computer].memConfigNumber_), conf[computer].memConfigNumber_);
+                conf[computer].memConfig_[conf[computer].memConfigNumber_].memMask = parseXml_Number(*child, "mask");
+                if (conf[computer].memConfig_[conf[computer].memConfigNumber_].memMask == 0)
+                    conf[computer].memConfig_[conf[computer].memConfigNumber_].memMask = 0xffff;
+                conf[computer].memConfig_[conf[computer].memConfigNumber_].memMask |= 0xff;
+                conf[computer].memConfigNumber_++;
+            break;
+
+            case TAG_MAINRAM:
+                parseXml_RomRam (computer, *child, MAINRAM, 0);
+                conf[computer].memConfig_[0].memMask = parseXml_Number(*child, "mask");
+                if (conf[computer].memConfig_[0].memMask == 0)
+                    conf[computer].memConfig_[0].memMask = 0xffff;
+                conf[computer].memConfig_[0].memMask |= 0xff;
+            break;
+
+            case TAG_RAM:
+                conf[computer].memConfig_.resize(conf[computer].memConfigNumber_+1);
+                parseXml_RomRam (computer, *child, (int)(RAM + 256*conf[computer].memConfigNumber_), conf[computer].memConfigNumber_);
+                conf[computer].memConfig_[conf[computer].memConfigNumber_].memMask = parseXml_Number(*child, "mask");
+                if (conf[computer].memConfig_[conf[computer].memConfigNumber_].memMask == 0)
+                    conf[computer].memConfig_[conf[computer].memConfigNumber_].memMask = 0xffff;
+                conf[computer].memConfig_[conf[computer].memConfigNumber_].memMask |= 0xff;
+                conf[computer].memConfigNumber_++;
+            break;
+
+            case TAG_EMS:
+                conf[computer].emsConfig_.resize(conf[computer].emsConfigNumber_+1);
+                elfConfiguration[computer].elfPortConf.emsOutput.resize(conf[computer].emsConfigNumber_+1);
+
+                if (child->GetAttribute("type") == "ROM")
+                    conf[computer].emsConfig_[conf[computer].emsConfigNumber_].emsType = ROM;
+                else
+                    conf[computer].emsConfig_[conf[computer].emsConfigNumber_].emsType = RAM;
+
+                elfConfiguration[computer].useEms = true;
+                parseXml_Ems (computer, *child, (int)(EMSMEMORY + 256*conf[computer].emsConfigNumber_), conf[computer].emsConfigNumber_++);
+            break;
+
+            case TAG_MAPPER:
+                conf[computer].memConfig_.resize(conf[computer].memConfigNumber_+1);
+                elfConfiguration[computer].usePager = true;
+                elfConfiguration[computer].usePortExtender = true;
+                
+                memMask = parseXml_Number(*child, "mask");
+                if (memMask == 0)
+                    memMask = 0xffff;
+                memMask  |= 0xff;
+
+                conf[computer].pagerMaskBits_ = 16;
+                conf[computer].pagerMask_ = 0xFFFF;
+                while ((memMask & 0x8000) == 0)
+                {
+                    conf[computer].pagerMaskBits_--;
+                    conf[computer].pagerMask_ = conf[computer].pagerMask_ >> 1;
+                    memMask = memMask << 1;
+                }
+
+                parseXml_portExt (computer, *child, PAGER, conf[computer].memConfigNumber_++);
+            break;
+
+            case TAG_COMMENT:
+            break;
+
+            default:
+                warningText_ += "Unkown tag: ";
+                warningText_ += childName;
+                warningText_ += "\n";
+            break;
+        }
+        
+        child = child->GetNext();
+    }
+}
+
+void GuiMain::parseXml_RomRam(int computer, wxXmlNode &node, int type, size_t configNumber)
+{
+    wxString tagList[]=
+    {
+        "start",
+        "end",
+        "filename",
+        "dirname",
+        "comment",
+        "undefined"
+    };
+
+    enum
+    {
+        TAG_START,
+        TAG_END,
+        TAG_FILENAME,
+        TAG_DIRNAME,
+        TAG_COMMENT,
+        TAG_UNDEFINED
+    };
+    
+    int tagTypeInt;
+
+    conf[computer].memConfig_[configNumber].start = 0;
+    conf[computer].memConfig_[configNumber].end = 0;
+    conf[computer].memConfig_[configNumber].memMask = 0xFFFF;
+    conf[computer].memConfig_[configNumber].filename = "";
+    conf[computer].memConfig_[configNumber].dirname = dataDir_;
+    conf[computer].memConfig_[configNumber].type = type;
+
+    wxXmlNode *child = node.GetChildren();
+    while (child)
+    {
+        wxString childName = child->GetName();
+
+        tagTypeInt = 0;
+        while (tagTypeInt != TAG_UNDEFINED && tagList[tagTypeInt] != childName)
+            tagTypeInt++;
+
+        switch (tagTypeInt)
+        {
+            case TAG_START:
+                conf[computer].memConfig_[configNumber].start = parseXml_Number(*child) & 0xffff;
+            break;
+
+            case TAG_END:
+                conf[computer].memConfig_[configNumber].end = parseXml_Number(*child) & 0xffff;
+            break;
+
+            case TAG_FILENAME:
+                conf[computer].memConfig_[configNumber].filename = child->GetNodeContent();
+                
+                conf[computer].memConfig_[configNumber].verifyFileExist = (child->GetAttribute("verify") == "true");
+            break;
+
+            case TAG_DIRNAME:
+                conf[computer].memConfig_[configNumber].dirname += child->GetNodeContent();
+                if (conf[computer].memConfig_[configNumber].dirname.Right(1) != pathSeparator_)
+                {
+                    conf[computer].memConfig_[configNumber].dirname += pathSeparator_;
+                }
+            break;
+
+            case TAG_COMMENT:
+            break;
+
+            default:
+                warningText_ += "Unkown tag: ";
+                warningText_ += childName;
+                warningText_ += "\n";
+            break;
+        }
+        
+        child = child->GetNext();
+    }
+}
+
+void GuiMain::parseXml_Ems(int computer, wxXmlNode &node, int type, size_t configNumber)
+{
+    long start, end;
+    
+    wxString tagList[]=
+    {
+        "start",
+        "end",
+        "filename",
+        "dirname",
+        "out",
+        "comment",
+        "undefined"
+    };
+
+    enum
+    {
+        TAG_START,
+        TAG_END,
+        TAG_FILENAME,
+        TAG_DIRNAME,
+        TAG_OUT,
+        TAG_COMMENT,
+        TAG_UNDEFINED
+    };
+    
+    int tagTypeInt;
+
+    conf[computer].emsConfig_[configNumber].start = 0;
+    conf[computer].emsConfig_[configNumber].end = 0;
+    conf[computer].emsConfig_[configNumber].outputMask = 0xFF;
+    conf[computer].emsConfig_[configNumber].filename = "";
+    conf[computer].emsConfig_[configNumber].dirname = dataDir_;
+    conf[computer].emsConfig_[configNumber].type = type;
+    elfConfiguration[computer].elfPortConf.emsOutput[configNumber] = -1;
+
+    wxXmlNode *child = node.GetChildren();
+    while (child)
+    {
+        wxString childName = child->GetName();
+
+        tagTypeInt = 0;
+        while (tagTypeInt != TAG_UNDEFINED && tagList[tagTypeInt] != childName)
+            tagTypeInt++;
+
+        switch (tagTypeInt)
+        {
+            case TAG_START:
+                conf[computer].emsConfig_[configNumber].start = parseXml_Number(*child) & 0xffff;
+            break;
+
+            case TAG_END:
+                conf[computer].emsConfig_[configNumber].end = parseXml_Number(*child) & 0xffff;
+            break;
+
+            case TAG_FILENAME:
+                conf[computer].emsConfig_[configNumber].filename = child->GetNodeContent();
+            break;
+
+            case TAG_DIRNAME:
+                conf[computer].emsConfig_[configNumber].dirname += child->GetNodeContent();
+                if (conf[computer].emsConfig_[configNumber].dirname.Right(1) != pathSeparator_)
+                {
+                    conf[computer].emsConfig_[configNumber].dirname += pathSeparator_;
+                }
+            break;
+
+            case TAG_OUT:
+                if (!parseXml_Range(*child, &start, &end))
+                    elfConfiguration[computer].elfPortConf.emsOutput[configNumber] = start & 07;
+                else
+                {
+                    conf[computer].emsConfig_[configNumber].outputStart = (Word) start;
+                    conf[computer].emsConfig_[configNumber].outputEnd = (Word) end;
+                }
+                conf[computer].emsConfig_[configNumber].outputMask = parseXml_Number(*child, "mask");
+                if (conf[computer].emsConfig_[configNumber].outputMask == 0)
+                    conf[computer].emsConfig_[configNumber].outputMask = 0xff;
+            break;
+
+            case TAG_COMMENT:
+            break;
+
+            default:
+                warningText_ += "Unkown tag: ";
+                warningText_ += childName;
+                warningText_ += "\n";
+            break;
+        }
+        
+        child = child->GetNext();
+    }
+}
+
+void GuiMain::parseXml_portExt(int computer, wxXmlNode &node, int type, size_t configNumber)
+{
+    wxString tagList[]=
+    {
+        "out",
+        "in",
+        "start",
+        "end",
+        "comment",
+        "undefined"
+    };
+
+    enum
+    {
+        TAG_OUT,
+        TAG_IN,
+        TAG_START,
+        TAG_END,
+        TAG_COMMENT,
+        TAG_UNDEFINED
+    };
+    
+    conf[computer].memConfig_[configNumber].start = 0;
+    conf[computer].memConfig_[configNumber].end = 0;
+    conf[computer].memConfig_[configNumber].type = type;
+
+    int tagTypeInt;
+
+    wxXmlNode *child = node.GetChildren();
+    while (child)
+    {
+        wxString childName = child->GetName();
+
+        tagTypeInt = 0;
+        while (tagTypeInt != TAG_UNDEFINED && tagList[tagTypeInt] != childName)
+            tagTypeInt++;
+
+        switch (tagTypeInt)
+        {
+            case TAG_START:
+                conf[computer].memConfig_[configNumber].start = parseXml_Number(*child) & 0xffff;
+            break;
+
+            case TAG_END:
+                conf[computer].memConfig_[configNumber].end = parseXml_Number(*child) & 0xffff;
+            break;
+
+            case TAG_IN:
+                elfConfiguration[computer].elfPortConf.portExtenderInput = (int)parseXml_Number(*child);
+            break;
+
+            case TAG_OUT:
+                if (child->GetAttribute("type") == "select")
+                    elfConfiguration[computer].elfPortConf.portExtenderSelectOutput = (int)parseXml_Number(*child);
+                if (child->GetAttribute("type") == "write")
+                    elfConfiguration[computer].elfPortConf.portExtenderWriteOutput = (int)parseXml_Number(*child);
+            break;
+
+            case TAG_COMMENT:
+            break;
+
+            default:
+                warningText_ += "Unkown tag: ";
+                warningText_ += childName;
+                warningText_ += "\n";
+            break;
+        }
+        
+        child = child->GetNext();
+    }
+}
+
+long GuiMain::parseXml_Number(wxXmlNode &node)
+{
+    return getHexDec(node.GetNodeContent());
+}
+
+long GuiMain::parseXml_Number(wxXmlNode &node, wxString attribute)
+{
+    return getHexDec(node.GetAttribute(attribute));
+}
+
+bool GuiMain::parseXml_Range(wxXmlNode &node, long *start, long *end)
+{
+    wxString numberString1, numberString2;
+
+    numberString1 = node.GetNodeContent();
+    int dash = numberString1.Find("-");
+    int x = numberString1.Find("x");
+
+    if (dash == wxNOT_FOUND && x == wxNOT_FOUND)
+    {
+        *start = parseXml_Number(node);
+        return false;
+    }
+    
+    if (dash == wxNOT_FOUND)
+    {
+        *start = parseXml_Number(node);
+        *end = *start;
+        return true;
+    }
+    numberString2 = numberString1.Right(numberString1.Len()-(dash+1));
+    numberString1 = numberString1.Left(dash);
+    
+    *start = getHexDec(numberString1);
+    *end = getHexDec(numberString2);
+
+    return true;
+}
+
+long GuiMain::getHexDec(wxString numberString)
+{
+    int base;
+    long number;
+
+    if (numberString.Left(2) == "0x")
+    {
+        base = 16;
+        numberString = numberString.Right(numberString.Len()-2);
+    }
+    else
+        base = 10;
+    
+    if (!numberString.ToLong(&number, base))
+        number = 0;
+
+    return number;
+}

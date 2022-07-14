@@ -147,7 +147,7 @@
 <size>14</size>
 </font>
 <style>wxALIGN_RIGHT</style>
-<label>Start</label>
+<label>Start </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -181,7 +181,7 @@
 <size>14</size>
 </font>
 <style>wxALIGN_RIGHT</style>
-<label>End</label>
+<label>End </label>
 </object>
 </object>
 <object class="sizeritem">
