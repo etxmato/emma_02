@@ -127,7 +127,6 @@
 		997648101A61D5EF00FB9B33 /* breakpoints.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9976479C1A61D5EE00FB9B33 /* breakpoints.cpp */; };
 		997648111A61D5EF00FB9B33 /* iodevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647A51A61D5EE00FB9B33 /* iodevice.cpp */; };
 		997915D02308266B0063A6F3 /* cdp18s640.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997915CE2308266B0063A6F3 /* cdp18s640.cpp */; };
-		997A047E288015A800D00551 /* InstallationPackages in Resources */ = {isa = PBXBuildFile; fileRef = 997A047D288015A800D00551 /* InstallationPackages */; };
 		997C6D62209E3FF000A8704E /* fred.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997C6D60209E3FF000A8704E /* fred.cpp */; };
 		997C6D65209E415500A8704E /* guifred.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997C6D63209E415500A8704E /* guifred.cpp */; };
 		998AE1961F769A9500D6B0D1 /* Configurations in Resources */ = {isa = PBXBuildFile; fileRef = 9911BF351F477D6200B795BB /* Configurations */; };
@@ -1562,7 +1561,6 @@
 				999F67A324B8975B00863075 /* amvbas.syntax in Resources */,
 				99B2ABC827863E4C00C73EB9 /* menuComx_11.xrc in Resources */,
 				99F374721CADBBC2000DA615 /* Quest_license.txt in Resources */,
-				997A047E288015A800D00551 /* InstallationPackages in Resources */,
 				99B2ABE827863E8800C73EB9 /* menuMembership_14.xrc in Resources */,
 				99431DEB1F22213400F5A2D4 /* images_osx in Resources */,
 				998AE1961F769A9500D6B0D1 /* Configurations in Resources */,
