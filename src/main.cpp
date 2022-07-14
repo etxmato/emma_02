@@ -3490,35 +3490,45 @@ bool Main::updateEmma()
     if (messageBoxAnswer_ == wxYES)
     {
 #if defined(__linux__)
-//        wxLinuxDistributionInfo linuxDistro;
-//        linuxDistro = ::wxGetLinuxDistributionInfo();
-//        if (linuxDistro.Id == "Ubuntu")
         if (windowInfo.packageDeb)
         {
-//            if (wxIsPlatform64Bit())
-                ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=11"); // 64 Bit
-//            else
-//                ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=12"); // 32 Bit
+           if (windowInfo.arm)
+              ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=20"); // arm deb
+           else
+              ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=11"); // x86 deb
         }
         else
         {
-//            if (wxIsPlatform64Bit())
-                ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=13"); // 64 Bit
-//            else
-//                ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=14"); // 32 Bit
+           if (windowInfo.suse)
+           {
+              if (windowInfo.arm)
+                 ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=23"); // arm rpm
+              else
+                 ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=22"); // x86 rpm
+           }
+           else
+           {
+              if (windowInfo.arm)
+                 ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=21"); // arm rpm
+              else
+                 ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=13"); // x86 rpm
+           }
         }
         return true;
 #elif defined(__WXMAC__)
-        if (windowInfo.operatingSystem == OS_MAC_PRE_10_9)
-            ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=15");
+        if (windowInfo.operatingSystem == OS_MAC_PRE_10_10)
+            ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=15"); // 32 bit & pre 10_10
         else
-            ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=18");
+           if (windowInfo.arm)
+            ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=19"); // arm
+           else
+            ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=18"); // x86
         return true;
 #else
         if (wxIsPlatform64Bit())
-            ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=17");
+            ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=17"); // windows 64
         else
-            ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=16");
+            ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=16"); // windows 32
         return true;
 #endif
     }

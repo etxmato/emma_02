@@ -260,7 +260,7 @@ protected:
 #define OS_WINDOWS 2
 #define OS_LINUX 10
 #define OS_MAC 20
-#define OS_MAC_PRE_10_9 21
+#define OS_MAC_PRE_10_10 21
 
 #define OS_MAJOR_XP_2000 5
 #define OS_MAJOR_VISTA_8_1 6
@@ -289,7 +289,10 @@ public:
     int xBorder2, yBorder2;
     int xPrint;
     int operatingSystem;
-    
+    int bitness;
+    bool arm;
+    bool suse;
+
     int clockTextCorrectionSingleTabX;
     int clockCorrectionSingleTabX;
     int mhzTextCorrectionSingleTabX;

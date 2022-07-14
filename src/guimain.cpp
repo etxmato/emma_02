@@ -159,19 +159,25 @@ WindowInfo GuiMain::getWinSizeInfo(wxString appDir, wxString fontSizeString)
     
     wxConfigBase *windowConfigPointer;
     
+    returnValue.bitness = wxPlatformInfo::Get().GetBitness();
+    wxString cpuArchitecture = wxPlatformInfo::Get().GetCpuArchitectureName();
+
+    returnValue.arm = (cpuArchitecture == "arm64" || cpuArchitecture == "aarch64");
+
 #if defined (__WXMAC__)
     windowInfoFile = "osx_" + fontSizeString + ".ini";
     wxString appName = "emma_02";
     
     returnValue.operatingSystem = OS_MAC;
-    if (major == 10 && minor <= 8)
-        returnValue.operatingSystem = OS_MAC_PRE_10_9;
+    if ((major == 10 && minor <= 9) || returnValue.bitness == wxBITNESS_32)
+        returnValue.operatingSystem = OS_MAC_PRE_10_10;
 #endif
    
+#if defined (__linux__)
     wxLinuxDistributionInfo distInfo;
 
-#if defined (__linux__)
     distInfo = wxPlatformInfo::Get().GetLinuxDistributionInfo();
+    returnValue.packageDeb = true;
 
     if (distInfo.Id == "Ubuntu")
     {
@@ -193,18 +199,24 @@ WindowInfo GuiMain::getWinSizeInfo(wxString appDir, wxString fontSizeString)
 
     windowInfoFile = distInfo.Id + "_" + fontSizeString + ".ini";
 
+    returnValue.suse = false;
     if (distInfo.Id == "")
     {
         distInfo.Id = wxPlatformInfo::Get().GetOperatingSystemDescription();
+        
+        windowInfoFile = "suse_" + fontSizeString + ".ini";
+        returnValue.suse = true;
+        returnValue.packageDeb = false;
+
         if (distInfo.Id.Find("fc") != wxNOT_FOUND) // Fedor is something like: Linux 4.11.11-300.fc26.x86_64 x86_64
+        {
             windowInfoFile = "fedora_" + fontSizeString + ".ini";
-        if (distInfo.Id.Find("lp") != wxNOT_FOUND) // openSUSE: Linux 4.12.14-lp151.27-default x86_64
-            windowInfoFile = "suse_" + fontSizeString + ".ini";
+            returnValue.suse = false;
+        }
     }
     
     wxString appName = "emma_02";
     
-    returnValue.operatingSystem = OS_LINUX;
 #endif
     
 #if defined (__WXMSW__)
@@ -308,9 +320,7 @@ WindowInfo GuiMain::getWinSizeInfo(wxString appDir, wxString fontSizeString)
     returnValue.red = (int)windowConfigPointer->Read("/Colour/red", 219);
     returnValue.green = (int)windowConfigPointer->Read("/Colour/green", 219);
     returnValue.blue = (int)windowConfigPointer->Read("/Colour/blue", 219);
-    
-    windowConfigPointer->Read("/Package/deb", &returnValue.packageDeb, true);
-    
+        
     delete pConfig;
     wxConfigBase::Set(currentConfigPointer);
 
