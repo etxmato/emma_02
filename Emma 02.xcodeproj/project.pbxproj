@@ -794,7 +794,6 @@
 		997647B31A61D5EE00FB9B33 /* waveReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = waveReader.h; path = src/waveReader.h; sourceTree = "<group>"; };
 		997915CE2308266B0063A6F3 /* cdp18s640.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cdp18s640.cpp; path = src/cdp18s640.cpp; sourceTree = "<group>"; };
 		997915CF2308266B0063A6F3 /* cdp18s640.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cdp18s640.h; path = src/cdp18s640.h; sourceTree = "<group>"; };
-		997A047D288015A800D00551 /* InstallationPackages */ = {isa = PBXFileReference; lastKnownFileType = folder; path = InstallationPackages; sourceTree = "<group>"; };
 		997C6D60209E3FF000A8704E /* fred.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = fred.cpp; path = src/fred.cpp; sourceTree = "<group>"; };
 		997C6D61209E3FF000A8704E /* fred.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = fred.h; path = src/fred.h; sourceTree = "<group>"; };
 		997C6D63209E415500A8704E /* guifred.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = guifred.cpp; path = src/guifred.cpp; sourceTree = "<group>"; };
@@ -1166,7 +1165,6 @@
 				996FC5811F8ABD3F00E08812 /* Emma 02.pkgproj */,
 				996FC5821F8ABDE800E08812 /* introduction.rtf */,
 				99F3746A1CADBB93000DA615 /* copyright.rtf */,
-				997A047D288015A800D00551 /* InstallationPackages */,
 				9911BF351F477D6200B795BB /* Configurations */,
 				9911BF341F477D5000B795BB /* Configurations Windows */,
 				996B97391B24116B009827BF /* data */,

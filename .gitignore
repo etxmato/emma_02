@@ -1,0 +1,17 @@
+/.metadata/
+/.vs/
+/ARM64/
+/Win32/
+/x64/
+/Release/src/*.o
+/Release/src/*.d
+/Release_x86/src/*.o
+/Release_x86/src/*.d
+/Debug/src/*.o
+/Debug/src/*.d
+/Linux build/linux-5.18-aarch64/
+/Linux build/linux-5.14-aarch64/
+/Linux build/linux-5.11-aarch64/
+/Linux build/linux-4.11-x86_64/
+*.pjd.bak
+.DS_Store
