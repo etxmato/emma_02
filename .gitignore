@@ -7,6 +7,7 @@
 /Release/src/*.d
 /Release_x86/src/*.o
 /Release_x86/src/*.d
+/Release_x86/.DS_Store
 /Debug/src/*.o
 /Debug/src/*.d
 /Linux build/linux-5.18-aarch64/
@@ -24,6 +25,8 @@
 /Helpfiles/emma_02.hhp
 /Helpfiles/emma_02_ids.h
 /Helpfiles/macros.h
+/Helpfiles/macros.db
+/IsTool/vccrt.msi
 *.pjd.bak
 .DS_Store
 emma_02
