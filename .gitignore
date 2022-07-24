@@ -13,5 +13,18 @@
 /Linux build/linux-5.14-aarch64/
 /Linux build/linux-5.11-aarch64/
 /Linux build/linux-4.11-x86_64/
+/Linux build/.project
+/Linux build/.rpmmacros
+/Linux build/emma02_full_dependency.list
+/Linux build/emma02_min_dependency.list
+/Linux build/file2brl.temp
+/Linux build/ubuntu_build-pi.dbp
+/Helpfiles/emma_02.hhc
+/Helpfiles/emma_02.hhk
+/Helpfiles/emma_02.hhp
+/Helpfiles/emma_02_ids.h
+/Helpfiles/macros.h
 *.pjd.bak
 .DS_Store
+emma_02
+Makefile
