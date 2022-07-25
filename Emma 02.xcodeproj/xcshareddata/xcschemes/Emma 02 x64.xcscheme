@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "99F37E48285D1D9200C57417"
-               BuildableName = "Emma 02-x86.app"
-               BlueprintName = "Emma 02-x86"
+               BuildableName = "Emma 02-x64.app"
+               BlueprintName = "Emma 02 x64"
                ReferencedContainer = "container:Emma 02.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,8 +45,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "99F37E48285D1D9200C57417"
-            BuildableName = "Emma 02-x86.app"
-            BlueprintName = "Emma 02-x86"
+            BuildableName = "Emma 02-x64.app"
+            BlueprintName = "Emma 02 x64"
             ReferencedContainer = "container:Emma 02.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -62,8 +62,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "99F37E48285D1D9200C57417"
-            BuildableName = "Emma 02-x86.app"
-            BlueprintName = "Emma 02-x86"
+            BuildableName = "Emma 02-x64.app"
+            BlueprintName = "Emma 02 x64"
             ReferencedContainer = "container:Emma 02.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
