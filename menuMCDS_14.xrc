@@ -12,7 +12,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="ID_BUTTON">
 <size>75,25</size>
@@ -29,7 +29,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="CasButton">
 <tooltip>Browse for cassette file 0</tooltip>
@@ -86,7 +86,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="CasButton1">
 <tooltip>Browse for cassette file 1</tooltip>
@@ -138,7 +138,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -211,7 +210,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP|wxTOP</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="LoadButton">
 <tooltip>Load .hex/.rca file into MCDS emulator memory</tooltip>
@@ -222,7 +221,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP|wxTOP</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="RunButton">
 <tooltip>Load .hex/.rca file into MCDS emulator memory and RUN software</tooltip>
@@ -256,7 +255,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP|wxTOP</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="SaveButton">
 <tooltip>Save MCDS emulator memory to .rca file</tooltip>
@@ -267,7 +266,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP|wxTOP</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="DsaveButton">
 <tooltip>Save MCDS emulator data memory to .rca file</tooltip>
@@ -310,7 +309,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="OK">
 <font>

@@ -84,7 +84,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libserialport.a comctl32.lib rpcrt4.lib winmm.lib advapi32.lib SDL2.lib SDL2main.lib wxmsw31u_xrc.lib wxmsw31u_html.lib wxmsw31u_adv.lib wxmsw31u_core.lib wxbase31u_xml.lib wxbase31u_net.lib wxbase31u.lib wxregexu.lib wxexpat.lib wsock32.lib wxtiff.lib wxjpeg.lib wxpng.lib wxzlib.lib libcurl.lib ws2_32.lib wldap32.lib crypt32.lib"
+				AdditionalDependencies="libserialport.a comctl32.lib rpcrt4.lib winmm.lib advapi32.lib SDL2.lib SDL2main.lib wxmsw32u_xrc.lib wxmsw32u_html.lib wxmsw32u_adv.lib wxmsw32u_core.lib wxbase32u_xml.lib wxbase32u_net.lib wxbase32u.lib wxregexu.lib wxexpat.lib wsock32.lib wxtiff.lib wxjpeg.lib wxpng.lib wxzlib.lib libcurl.lib ws2_32.lib wldap32.lib crypt32.lib"
 				OutputFile="$(SolutionDir)$(PlatformName)\$(ConfigurationName)\Emma 02.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
@@ -188,7 +188,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libserialport.lib comctl32.lib rpcrt4.lib winmm.lib advapi32.lib SDL2.lib SDL2main.lib wxmsw31u_xrc.lib wxmsw31u_html.lib wxmsw31u_adv.lib wxmsw31u_core.lib wxbase31u_xml.lib wxbase31u_net.lib wxbase31u.lib wxregexu.lib wxexpat.lib wsock32.lib wxtiff.lib wxjpeg.lib wxpng.lib wxzlib.lib libcurl.lib ws2_32.lib wldap32.lib crypt32.lib"
+				AdditionalDependencies="libserialport.lib comctl32.lib rpcrt4.lib winmm.lib advapi32.lib SDL2.lib SDL2main.lib wxmsw32u_xrc.lib wxmsw32u_html.lib wxmsw32u_adv.lib wxmsw32u_core.lib wxbase32u_xml.lib wxbase32u_net.lib wxbase32u.lib wxregexu.lib wxexpat.lib wsock32.lib wxtiff.lib wxjpeg.lib wxpng.lib wxzlib.lib libcurl.lib ws2_32.lib wldap32.lib crypt32.lib"
 				OutputFile="$(SolutionDir)$(PlatformName)\$(ConfigurationName)\Emma 02.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
@@ -295,7 +295,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libserialport.a comctl32.lib rpcrt4.lib winmm.lib advapi32.lib SDL2.lib SDL2main.lib wxmsw31ud_xrc.lib wxmsw31ud_html.lib wxmsw31ud_adv.lib wxmsw31ud_core.lib wxbase31ud_xml.lib wxbase31ud_net.lib wxbase31ud.lib libcurld.lib wxregexud.lib wxexpatd.lib wsock32.lib wxtiffd.lib wxjpegd.lib wxpngd.lib wxzlibd.lib ws2_32.lib wldap32.lib crypt32.lib"
+				AdditionalDependencies="libserialport.a comctl32.lib rpcrt4.lib winmm.lib advapi32.lib SDL2.lib SDL2main.lib wxmsw32ud_xrc.lib wxmsw32ud_html.lib wxmsw32ud_adv.lib wxmsw32ud_core.lib wxbase32ud_xml.lib wxbase32ud_net.lib wxbase32ud.lib libcurld.lib wxregexud.lib wxexpatd.lib wsock32.lib wxtiffd.lib wxjpegd.lib wxpngd.lib wxzlibd.lib ws2_32.lib wldap32.lib crypt32.lib"
 				ShowProgress="0"
 				OutputFile="$(SolutionDir)$(PlatformName)\$(ConfigurationName)\Emma 02.exe"
 				LinkIncremental="1"
@@ -401,7 +401,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="comctl32.lib rpcrt4.lib winmm.lib advapi32.lib SDL2.lib SDL2main.lib wxmsw30ud_xrc.lib wxmsw30ud_html.lib wxmsw30ud_adv.lib wxmsw30ud_core.lib wxbase30ud_xml.lib wxbase30ud_net.lib wxbase30ud.lib libcurld.lib wxregexud.lib wxexpatd.lib wsock32.lib wxtiffd.lib wxjpegd.lib wxpngd.lib wxzlibd.lib ws2_32.lib wldap32.lib libserialport.lib crypt32.lib"
+				AdditionalDependencies="comctl32.lib rpcrt4.lib winmm.lib advapi32.lib SDL2.lib SDL2main.lib wxmsw32ud_xrc.lib wxmsw32ud_html.lib wxmsw32ud_adv.lib wxmsw32ud_core.lib wxbase32ud_xml.lib wxbase32ud_net.lib wxbase32ud.lib libcurld.lib wxregexud.lib wxexpatd.lib wsock32.lib wxtiffd.lib wxjpegd.lib wxpngd.lib wxzlibd.lib ws2_32.lib wldap32.lib libserialport.lib crypt32.lib"
 				ShowProgress="0"
 				OutputFile="$(SolutionDir)vc9\$(PlatformName)\$(ConfigurationName)\Emma 02.exe"
 				LinkIncremental="1"

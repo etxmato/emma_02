@@ -1808,6 +1808,21 @@ void Emu1802::createXmlFile(wxString xrcDir, wxString xrcFile)
 
                     if (line == "<size>115,-1d</size>")   // drop down selectors
                         line = "<size>150,-1d</size>";
+                   
+                    if (line == "<size>83,-1d</size>")     // Disk, printer fields
+                        line = "<size>137,-1d</size>";
+
+                   if (line == "<size>61,-1d</size>")     // Disk fields
+                       line = "<size>100,-1d</size>";
+
+                   if (line == "<size>60,-1d</size>")     // Printer field ELF
+                       line = "<size>89,-1d</size>";
+
+                   if (line == "<size>63,-1d</size>")     // Printer field COMX
+                       line = "<size>103,-1d</size>";
+
+                   if (line == "<size>69,-1d</size>")     // HEX / XMODEM
+                       line = "<size>123,-1d</size>";
 
                     if (line == "<size>101,-1d</size>")   // drop down selectors Membership
                         line = "<size>131,-1d</size>";
@@ -1819,18 +1834,12 @@ void Emu1802::createXmlFile(wxString xrcDir, wxString xrcFile)
                 {
                     line2=inputFile.GetNextLine(); // flag line
                     line2.Trim(false);
-                    outputFile11.AddLine(line2);
-                    outputApplicationFile11.AddLine(line2);
 
                     line3=inputFile.GetNextLine(); // border line
                     line3.Trim(false);
-                    outputFile11.AddLine(line3);
-                    outputApplicationFile11.AddLine(line3);
 
                     line4=inputFile.GetNextLine(); // object line
                     line4.Trim(false);
-                    outputFile11.AddLine(line4);
-                    outputApplicationFile11.AddLine(line4);
 
                     markup2 = getMarkup(line4);
 
@@ -1847,11 +1856,18 @@ void Emu1802::createXmlFile(wxString xrcDir, wxString xrcFile)
                                 if (flagLine.Left(1) == "|")
                                     flagLine = flagLine.Right(flagLine.Len()-1);
 
-                                outputFile12.AddLine("<flag>wxGROW|"+flagLine);
+                                outputFile11.AddLine("<flag>wxGROW</flag>");
+                                outputApplicationFile11.AddLine("<flag>wxGROW</flag>");
+                                outputFile12.AddLine("<flag>wxGROW</flag>");
+                        //        outputFile12.AddLine("<flag>wxGROW|"+flagLine);
                                 outputFile14.AddLine("<flag>wxGROW</flag>");
                         //        outputFile14.AddLine("<flag>wxGROW|"+flagLine);
                                 outputApplicationFile14.AddLine("<flag>wxGROW</flag>");
                         //        outputApplicationFile14.AddLine("<flag>wxGROW|"+flagLine);
+                                outputFile11.AddLine(line3);
+                                outputApplicationFile11.AddLine(line3);
+                                outputFile11.AddLine(line4);
+                                outputApplicationFile11.AddLine(line4);
 
                                 outputFile12.AddLine(line3);
                                 outputFile14.AddLine(line3);
@@ -1863,6 +1879,13 @@ void Emu1802::createXmlFile(wxString xrcDir, wxString xrcFile)
                             break;
 
                             case WXSTATICBOXSIZER:
+                                outputFile11.AddLine(line2);
+                                outputApplicationFile11.AddLine(line2);
+                                outputFile11.AddLine(line3);
+                                outputApplicationFile11.AddLine(line3);
+                                outputFile11.AddLine(line4);
+                                outputApplicationFile11.AddLine(line4);
+                              
                                 outputFile12.AddLine(line2);
                                 outputFile12.AddLine(line3);
                                 outputFile12.AddLine(line4);
@@ -1912,6 +1935,13 @@ void Emu1802::createXmlFile(wxString xrcDir, wxString xrcFile)
                             break;
 
                             default:
+                                outputFile11.AddLine(line2);
+                                outputApplicationFile11.AddLine(line2);
+                                outputFile11.AddLine(line3);
+                                outputApplicationFile11.AddLine(line3);
+                                outputFile11.AddLine(line4);
+                                outputApplicationFile11.AddLine(line4);
+
                                 outputFile12.AddLine(line2);
                                 outputFile14.AddLine(line2);
                                 outputApplicationFile14.AddLine(line2);
@@ -1925,6 +1955,15 @@ void Emu1802::createXmlFile(wxString xrcDir, wxString xrcFile)
                                 outputApplicationFile14.AddLine(line4);
                             break;
                         }
+                    }
+                    else
+                    {
+                       outputFile11.AddLine(line2);
+                       outputApplicationFile11.AddLine(line2);
+                       outputFile11.AddLine(line3);
+                       outputApplicationFile11.AddLine(line3);
+                       outputFile11.AddLine(line4);
+                       outputApplicationFile11.AddLine(line4);
                     }
                 }
                 
@@ -7682,8 +7721,8 @@ void Main::enableGui(bool status)
         XRCCTRL(*this, "Chip8DebugMode", wxCheckBox)->SetValue(false);
         XRCCTRL(*this, "RamSWUC1800", wxComboBox)->Enable(status);
         XRCCTRL(*this, "RamSWButtonUC1800", wxButton)->Enable(status);
-        XRCCTRL(*this, "HexOutputUC1800", wxSpinCtrl)->Enable(status);
-        XRCCTRL(*this, "HexInputUC1800", wxSpinCtrl)->Enable(status);
+ //       XRCCTRL(*this, "HexOutputUC1800", wxSpinCtrl)->Enable(status);
+ //       XRCCTRL(*this, "HexInputUC1800", wxSpinCtrl)->Enable(status);
         enableMemAccessGui(!status);
     }
     if (runningComputer_ == MICROTUTOR)

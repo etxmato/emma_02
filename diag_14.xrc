@@ -11,7 +11,6 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -35,7 +34,7 @@
 <vgap>2</vgap>
 <hgap>2</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="DIAG_ROM_0_Button">
 <tooltip>Browse for PAL Diag file for the Main ROM replacement at address 0000-0FFF</tooltip>
@@ -61,7 +60,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="DIAG_ROM_1_Button">
 <tooltip>Browse for PAL Diag file for address C000-D7FF</tooltip>
@@ -92,7 +91,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -116,7 +114,7 @@
 <vgap>2</vgap>
 <hgap>2</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="DIAG_NTSC_ROM_0_Button">
 <tooltip>Browse for NTSC Diag file for the Main ROM replacement at address 0000-0FFF</tooltip>
@@ -142,7 +140,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="DIAG_NTSC_ROM_1_Button">
 <tooltip>Browse for NTSC Diag file for address C000-D7FF</tooltip>
@@ -268,7 +266,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>8</border>
 <object class="wxButton" name="SBSave">
 <font>

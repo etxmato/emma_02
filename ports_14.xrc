@@ -8,7 +8,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="ID_BUTTON">
 <font>
@@ -29,7 +29,6 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -220,7 +219,6 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -880,7 +878,6 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -980,7 +977,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -1083,7 +1079,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -1229,7 +1224,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -1290,7 +1284,6 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -1392,7 +1385,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -1469,7 +1461,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -1569,7 +1560,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -1699,7 +1689,6 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -1833,7 +1822,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -2004,7 +1992,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -2104,7 +2091,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -2188,7 +2174,6 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -2400,7 +2385,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -2454,7 +2438,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -2528,7 +2511,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -2641,7 +2623,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="DevicePorts_Save">
 <size>-1,23</size>
@@ -2667,7 +2649,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="ID_BUTTON">
 <font>
@@ -3560,7 +3542,6 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -3660,7 +3641,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -3947,7 +3927,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -4408,7 +4387,6 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -4542,7 +4520,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -4812,7 +4789,6 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -5243,7 +5219,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="DevicePorts_Save">
 <size>-1,23</size>
@@ -5269,7 +5245,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="ID_BUTTON">
 <font>
@@ -6162,7 +6138,6 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -6357,7 +6332,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -6616,7 +6590,6 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -6715,7 +6688,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -6789,7 +6761,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -7010,7 +6981,6 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -7144,7 +7114,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -7414,7 +7383,6 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -7732,7 +7700,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -7850,7 +7817,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="DevicePorts_Save">
 <size>-1,23</size>

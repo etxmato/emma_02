@@ -81,7 +81,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="DataDirMove">
 <font>
@@ -92,7 +92,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="DataDirSet">
 <font>

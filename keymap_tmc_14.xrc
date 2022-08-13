@@ -42,7 +42,6 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -61,10 +60,10 @@
 <size>14</size>
 </font>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="Key00">
-<size>75,-1</size>
+<size>95,-1</size>
 <font>
 <size>14</size>
 </font>
@@ -74,7 +73,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -93,10 +91,10 @@
 <size>14</size>
 </font>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="Key01">
-<size>75,-1</size>
+<size>95,-1</size>
 <font>
 <size>14</size>
 </font>
@@ -106,7 +104,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -125,10 +122,10 @@
 <size>14</size>
 </font>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="Key02">
-<size>75,-1</size>
+<size>95,-1</size>
 <font>
 <size>14</size>
 </font>
@@ -138,7 +135,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -157,10 +153,10 @@
 <size>14</size>
 </font>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="Key03">
-<size>75,-1</size>
+<size>95,-1</size>
 <font>
 <size>14</size>
 </font>
@@ -170,7 +166,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -189,10 +184,10 @@
 <size>14</size>
 </font>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="Key04">
-<size>75,-1</size>
+<size>95,-1</size>
 <font>
 <size>14</size>
 </font>
@@ -202,7 +197,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -221,10 +215,10 @@
 <size>14</size>
 </font>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="Key05">
-<size>75,-1</size>
+<size>95,-1</size>
 <font>
 <size>14</size>
 </font>
@@ -234,7 +228,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -253,10 +246,10 @@
 <size>14</size>
 </font>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="Key06">
-<size>75,-1</size>
+<size>95,-1</size>
 <font>
 <size>14</size>
 </font>
@@ -273,7 +266,6 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -292,10 +284,10 @@
 <size>14</size>
 </font>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="Key07">
-<size>75,-1</size>
+<size>95,-1</size>
 <font>
 <size>14</size>
 </font>
@@ -305,7 +297,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -324,10 +315,10 @@
 <size>14</size>
 </font>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="Key08">
-<size>75,-1</size>
+<size>95,-1</size>
 <font>
 <size>14</size>
 </font>
@@ -337,7 +328,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -356,10 +346,10 @@
 <size>14</size>
 </font>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="Key09">
-<size>75,-1</size>
+<size>95,-1</size>
 <font>
 <size>14</size>
 </font>
@@ -369,7 +359,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -388,10 +377,10 @@
 <size>14</size>
 </font>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="Key0A">
-<size>75,-1</size>
+<size>95,-1</size>
 <font>
 <size>14</size>
 </font>
@@ -401,7 +390,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -420,10 +408,10 @@
 <size>14</size>
 </font>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="Key0B">
-<size>75,-1</size>
+<size>95,-1</size>
 <font>
 <size>14</size>
 </font>
@@ -433,7 +421,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -452,10 +439,10 @@
 <size>14</size>
 </font>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="Key0C">
-<size>75,-1</size>
+<size>95,-1</size>
 <font>
 <size>14</size>
 </font>
@@ -465,7 +452,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -484,10 +470,10 @@
 <size>14</size>
 </font>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="Key0D">
-<size>75,-1</size>
+<size>95,-1</size>
 <font>
 <size>14</size>
 </font>
@@ -504,7 +490,6 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -523,10 +508,10 @@
 <size>14</size>
 </font>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="Key0E">
-<size>75,-1</size>
+<size>95,-1</size>
 <font>
 <size>14</size>
 </font>
@@ -536,7 +521,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -555,10 +539,10 @@
 <size>14</size>
 </font>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="Key0F">
-<size>75,-1</size>
+<size>95,-1</size>
 <font>
 <size>14</size>
 </font>
@@ -568,7 +552,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -587,10 +570,10 @@
 <size>14</size>
 </font>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="Key10">
-<size>75,-1</size>
+<size>95,-1</size>
 <font>
 <size>14</size>
 </font>
@@ -600,7 +583,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -619,10 +601,10 @@
 <size>14</size>
 </font>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="Key14">
-<size>75,-1</size>
+<size>95,-1</size>
 <font>
 <size>14</size>
 </font>
@@ -670,7 +652,6 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -689,10 +670,10 @@
 <size>14</size>
 </font>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="KeyShift00">
-<size>75,-1</size>
+<size>95,-1</size>
 <font>
 <size>14</size>
 </font>
@@ -702,7 +683,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -721,10 +701,10 @@
 <size>14</size>
 </font>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="KeyShift01">
-<size>75,-1</size>
+<size>95,-1</size>
 <font>
 <size>14</size>
 </font>
@@ -734,7 +714,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -753,10 +732,10 @@
 <size>14</size>
 </font>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="KeyShift02">
-<size>75,-1</size>
+<size>95,-1</size>
 <font>
 <size>14</size>
 </font>
@@ -766,7 +745,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -785,10 +763,10 @@
 <size>14</size>
 </font>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="KeyShift03">
-<size>75,-1</size>
+<size>95,-1</size>
 <font>
 <size>14</size>
 </font>
@@ -798,7 +776,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -817,10 +794,10 @@
 <size>14</size>
 </font>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="KeyShift04">
-<size>75,-1</size>
+<size>95,-1</size>
 <font>
 <size>14</size>
 </font>
@@ -830,7 +807,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -849,10 +825,10 @@
 <size>14</size>
 </font>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="KeyShift05">
-<size>75,-1</size>
+<size>95,-1</size>
 <font>
 <size>14</size>
 </font>
@@ -862,7 +838,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -881,10 +856,10 @@
 <size>14</size>
 </font>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="KeyShift06">
-<size>75,-1</size>
+<size>95,-1</size>
 <font>
 <size>14</size>
 </font>
@@ -901,7 +876,6 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -920,10 +894,10 @@
 <size>14</size>
 </font>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="KeyShift07">
-<size>75,-1</size>
+<size>95,-1</size>
 <font>
 <size>14</size>
 </font>
@@ -933,7 +907,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -952,10 +925,10 @@
 <size>14</size>
 </font>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="KeyShift08">
-<size>75,-1</size>
+<size>95,-1</size>
 <font>
 <size>14</size>
 </font>
@@ -965,7 +938,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -984,10 +956,10 @@
 <size>14</size>
 </font>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="KeyShift09">
-<size>75,-1</size>
+<size>95,-1</size>
 <font>
 <size>14</size>
 </font>
@@ -997,7 +969,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -1016,10 +987,10 @@
 <size>14</size>
 </font>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="KeyShift0A">
-<size>75,-1</size>
+<size>95,-1</size>
 <font>
 <size>14</size>
 </font>
@@ -1029,7 +1000,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -1048,10 +1018,10 @@
 <size>14</size>
 </font>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="KeyShift0B">
-<size>75,-1</size>
+<size>95,-1</size>
 <font>
 <size>14</size>
 </font>
@@ -1061,7 +1031,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -1080,10 +1049,10 @@
 <size>14</size>
 </font>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="KeyShift0C">
-<size>75,-1</size>
+<size>95,-1</size>
 <font>
 <size>14</size>
 </font>
@@ -1093,7 +1062,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -1112,10 +1080,10 @@
 <size>14</size>
 </font>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="KeyShift0D">
-<size>75,-1</size>
+<size>95,-1</size>
 <font>
 <size>14</size>
 </font>
@@ -1132,7 +1100,6 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -1151,10 +1118,10 @@
 <size>14</size>
 </font>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="KeyShift0E">
-<size>75,-1</size>
+<size>95,-1</size>
 <font>
 <size>14</size>
 </font>
@@ -1164,7 +1131,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -1183,10 +1149,10 @@
 <size>14</size>
 </font>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="KeyShift0F">
-<size>75,-1</size>
+<size>95,-1</size>
 <font>
 <size>14</size>
 </font>
@@ -1196,7 +1162,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -1215,10 +1180,10 @@
 <size>14</size>
 </font>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="KeyShift10">
-<size>75,-1</size>
+<size>95,-1</size>
 <font>
 <size>14</size>
 </font>
@@ -1228,7 +1193,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -1247,10 +1211,10 @@
 <size>14</size>
 </font>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="KeyShift14">
-<size>75,-1</size>
+<size>95,-1</size>
 <font>
 <size>14</size>
 </font>
@@ -1260,7 +1224,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -1279,10 +1242,10 @@
 <size>14</size>
 </font>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="KeyShift11">
-<size>75,-1</size>
+<size>95,-1</size>
 <font>
 <size>14</size>
 </font>
@@ -1292,7 +1255,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -1311,10 +1273,10 @@
 <size>14</size>
 </font>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="KeyShift12">
-<size>75,-1</size>
+<size>95,-1</size>
 <font>
 <size>14</size>
 </font>
@@ -1324,7 +1286,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -1343,10 +1304,10 @@
 <size>14</size>
 </font>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="KeyShift13">
-<size>75,-1</size>
+<size>95,-1</size>
 <font>
 <size>14</size>
 </font>
@@ -1376,7 +1337,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="Default">
 <size>75,25</size>
@@ -1394,10 +1355,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="Save">
-<size>75,-1</size>
+<size>95,-1</size>
 <font>
 <size>14</size>
 </font>

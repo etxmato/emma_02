@@ -226,7 +226,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="OnlineBMStore">
 <font>
@@ -291,7 +291,7 @@
 <size>5,5</size>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="OnlineAliasDel">
 <font>
@@ -307,7 +307,7 @@
 <size>5,5</size>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="OnlineAliasStore">
 <font>
@@ -363,7 +363,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="SBSave">
 <font>
@@ -409,7 +409,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="SettingsRoot">
 <tooltip>Browse for COMX USB root directory</tooltip>
@@ -656,7 +656,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="SBSave">
 <font>
@@ -705,7 +705,7 @@
 <vgap>2</vgap>
 <hgap>2</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="SB_ROM_00_Button">
 <tooltip>Browse for SB file for the Main ROM replacement at address 0000-3FFF</tooltip>
@@ -733,7 +733,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="SB_ROM_01_Button">
 <tooltip>Browse for SB file for the Expansion ROM at address E000-EFFF</tooltip>
@@ -761,7 +761,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="SB_ROM_02_Button">
 <tooltip>Browse for SB file for the Expansion ROM at address F800-FFFF</tooltip>
@@ -789,7 +789,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="SB_ROM_03_Button">
 <tooltip>Browse for SB file for BANK 0</tooltip>
@@ -817,7 +817,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="SB_ROM_04_Button">
 <tooltip>Browse for SB file for BANK 1</tooltip>
@@ -845,7 +845,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="SB_ROM_05_Button">
 <tooltip>Browse for SB file for BANK 2</tooltip>
@@ -873,7 +873,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="SB_ROM_06_Button">
 <tooltip>Browse for SB file for BANK 3</tooltip>
@@ -901,7 +901,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="SB_ROM_07_Button">
 <tooltip>Browse for SB file for BANK 4</tooltip>
@@ -929,7 +929,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="SB_ROM_08_Button">
 <tooltip>Browse for SB file for BANK 5</tooltip>
@@ -957,7 +957,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="SB_ROM_09_Button">
 <tooltip>Browse for SB file for BANK 6</tooltip>
@@ -985,7 +985,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="SB_ROM_10_Button">
 <tooltip>Browse for SB file for BANK 7</tooltip>
@@ -1020,7 +1020,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>8</border>
 <object class="wxButton" name="SBSave">
 <font>
@@ -1077,7 +1077,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="BackupFolder">
 <font>
@@ -1153,7 +1153,7 @@ Please note that this can NOT be undone, are you sure?</label>
 <size>65,5</size>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="BackupYes">
 <font>

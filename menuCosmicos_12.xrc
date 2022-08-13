@@ -12,7 +12,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="ID_BUTTON">
 <size>75,25</size>
@@ -29,7 +29,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="CasButton">
 <tooltip>Browse for cassette file</tooltip>
@@ -130,7 +130,7 @@
 <vgap>0</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>4</border>
 <object class="wxButton" name="LoadButton">
 <tooltip>Load .hex file into Cosmicos emulator memory</tooltip>
@@ -164,7 +164,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>4</border>
 <object class="wxButton" name="SaveButton">
 <tooltip>Save Cosmicos emulator memory to .hex file</tooltip>
@@ -207,7 +207,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="OK">
 <font>

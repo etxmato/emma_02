@@ -558,6 +558,7 @@
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
 <object class="wxTextCtrl" name="PrintFileComx">
+<size>63,-1d</size>
 <tooltip>Specify printer output file</tooltip>
 <font>
 <size>14</size>
@@ -985,10 +986,10 @@
 <range>15000</range>
 </object>
 </object>
-<object class="sizeritem">
+<object platform="mac" class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>6</border>
-<object class="wxToggleButton" name="ComxWavFile">
+<object platform="mac" class="wxToggleButton" name="ComxWavFile">
 <size>23,-1d</size>
 <font>
 <size>14</size>
@@ -3575,7 +3576,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW|wxALIGN_TOP</flag>
 <border>2</border>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
@@ -3583,6 +3584,7 @@
 <flag>wxGROW|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="IdeFileElf">
+<size>61,-1d</size>
 <tooltip>Specify IDE image file</tooltip>
 <font>
 <size>14</size>
@@ -3701,6 +3703,7 @@
 <flag>wxGROW|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="PrintFileElf">
+<size>60,-1d</size>
 <tooltip>Specify printer output file</tooltip>
 <font>
 <size>14</size>
@@ -4989,6 +4992,7 @@
 <flag>wxGROW|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="IdeFileElfII">
+<size>61,-1d</size>
 <tooltip>Specify IDE image file</tooltip>
 <font>
 <size>14</size>
@@ -5107,6 +5111,7 @@
 <flag>wxGROW|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="PrintFileElfII">
+<size>60,-1d</size>
 <tooltip>Specify printer output file</tooltip>
 <font>
 <size>14</size>
@@ -6393,6 +6398,7 @@
 <flag>wxGROW|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="IdeFileSuperElf">
+<size>61,-1d</size>
 <tooltip>Specify IDE image file</tooltip>
 <font>
 <size>14</size>
@@ -6511,6 +6517,7 @@
 <flag>wxGROW|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="PrintFileSuperElf">
+<size>60,-1d</size>
 <tooltip>Specify printer output file</tooltip>
 <font>
 <size>14</size>
@@ -9455,6 +9462,7 @@
 <flag>wxGROW|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="PrintFileVelf">
+<size>60,-1d</size>
 <tooltip>Specify printer output file</tooltip>
 <font>
 <size>14</size>
@@ -10305,66 +10313,6 @@
 <border>6</border>
 <size>3,1d</size>
 </object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALL</flag>
-<border>2</border>
-<object class="wxFlexGridSizer">
-<cols>2</cols>
-<rows>3</rows>
-<vgap>0</vgap>
-<hgap>2</hgap>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxStaticText" name="HexOutputTextUC1800">
-<font>
-<size>14</size>
-</font>
-<hidden>1</hidden>
-<label>Output, Display </label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxSpinCtrl" name="HexOutputUC1800">
-<size>23,-1d</size>
-<font>
-<size>14</size>
-</font>
-<hidden>1</hidden>
-<value>0</value>
-<min>1</min>
-<max>7</max>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxStaticText" name="HexInputTextUC1800">
-<font>
-<size>14</size>
-</font>
-<hidden>1</hidden>
-<label>Input, Read Data </label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxSpinCtrl" name="HexInputUC1800">
-<size>23,-1d</size>
-<font>
-<size>14</size>
-</font>
-<hidden>1</hidden>
-<value>0</value>
-<min>0</min>
-<max>7</max>
-</object>
-</object>
-</object>
-</object>
 </object>
 </object>
 <object class="sizeritem">
@@ -10657,6 +10605,7 @@
 <flag>wxGROW|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="IdeFilePico">
+<size>61,-1d</size>
 <tooltip>Specify IDE image file</tooltip>
 <font>
 <size>14</size>
@@ -10704,6 +10653,7 @@
 <flag>wxGROW|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="PrintFilePico">
+<size>60,-1d</size>
 <tooltip>Specify printer output file</tooltip>
 <font>
 <size>14</size>
@@ -10798,7 +10748,7 @@
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
 <object class="wxTextCtrl" name="WavFilePico">
-<size>69,-1d</size>
+<size>83,-1d</size>
 <tooltip>Specify cassette file</tooltip>
 <font>
 <size>14</size>
@@ -15106,6 +15056,7 @@
 <flag>wxGROW|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="PrintFileVip">
+<size>60,-1d</size>
 <tooltip>Specify printer output file</tooltip>
 <font>
 <size>14</size>
@@ -18293,6 +18244,7 @@
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
 <object class="wxTextCtrl" name="PrintFileMCDS">
+<size>60,-1d</size>
 <tooltip>Specify printer output file</tooltip>
 <font>
 <size>14</size>
@@ -19347,6 +19299,7 @@
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
 <object class="wxTextCtrl" name="PrintFileMS2000">
+<size>60,-1d</size>
 <tooltip>Specify printer output file</tooltip>
 <font>
 <size>14</size>
@@ -22665,6 +22618,7 @@
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
 <object class="wxTextCtrl" name="PrintFileTMC600">
+<size>60,-1d</size>
 <tooltip>Specify printer output file</tooltip>
 <font>
 <size>14</size>
@@ -22675,7 +22629,6 @@
 <flag>wxGROW|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxChoice" name="PrintModeTMC600">
-<size>42,-1d</size>
 <tooltip>Select print mode</tooltip>
 <font>
 <size>14</size>
@@ -25188,6 +25141,7 @@
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
 <object class="wxTextCtrl" name="PrintFilePecom">
+<size>60,-1d</size>
 <tooltip>Specify printer output file</tooltip>
 <font>
 <size>14</size>
@@ -27626,7 +27580,6 @@
 <flag>wxALIGN_TOP|wxALL</flag>
 <border>0</border>
 <object class="wxStaticBitmap" name="AssBitmap">
-<size>-1,226d</size>
 <bg>#000000</bg>
 </object>
 </object>

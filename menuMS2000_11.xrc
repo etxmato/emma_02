@@ -12,7 +12,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="ID_BUTTON">
 <size>75,25</size>
@@ -30,7 +30,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="FDC0_ButtonMS2000">
 <tooltip>Browse for MS2000 FDC 0 image file or HD 0 Directory</tooltip>
@@ -111,7 +111,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="FDC1_ButtonMS2000">
 <tooltip>Browse for MS2000 FDC 1 image file or HD 1 Directory</tooltip>
@@ -192,7 +192,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="FDC2_ButtonMS2000">
 <tooltip>Browse for MS2000 FDC 2 image file or HD 2 Directory</tooltip>
@@ -273,7 +273,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="FDC3_ButtonMS2000">
 <tooltip>Browse for MS2000 FDC 3 image file or HD 3 Directory</tooltip>
@@ -354,7 +354,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="CasButton">
 <tooltip>Browse for cassette file</tooltip>
@@ -418,7 +418,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>4</border>
 <object class="wxButton" name="OK">
 <font>

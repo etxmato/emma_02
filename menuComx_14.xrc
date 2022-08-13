@@ -277,7 +277,7 @@
 <vgap>2</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="RomButtonComx">
 <tooltip>Browse for COMX BASIC ROM file</tooltip>
@@ -308,7 +308,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP|wxTOP|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="ExpRomButtonComx">
 <tooltip>Browse for expansion ROM file (will enable CARD 2-4)</tooltip>
@@ -338,7 +338,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP|wxTOP|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="Cart1RomButtonComx">
 <tooltip>Browse for CARD 1 ROM file</tooltip>
@@ -374,7 +374,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP|wxTOP|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="Cart2RomButtonComx">
 <tooltip>Browse for CARD 2 ROM file</tooltip>
@@ -411,7 +411,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP|wxTOP|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="Cart3RomButtonComx">
 <tooltip>Browse for CARD 3 ROM file</tooltip>
@@ -448,7 +448,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP|wxTOP</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="Cart4RomButtonComx">
 <tooltip>Browse for CARD 4 ROM file</tooltip>
@@ -485,7 +485,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="Disk1ButtonComx">
 <tooltip>Browse for floppy disk 1 file</tooltip>
@@ -523,7 +523,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="Disk2ButtonComx">
 <tooltip>Browse for floppy disk 2 file</tooltip>
@@ -561,7 +561,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="PrintFileButtonComx">
 <tooltip>Browse for printer output file</tooltip>
@@ -613,7 +613,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="ScreenDumpFileButtonComx">
 <tooltip>Browse for video dump file</tooltip>
@@ -660,7 +660,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="CasButtonComx">
 <tooltip>Browse for cassette file</tooltip>
@@ -698,7 +698,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="BatchButtonComx">
 <tooltip>Browse for .comx files for conversion</tooltip>
@@ -714,7 +714,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="BatchConvertButtonComx">
 <tooltip>Start batch conversion to wav files</tooltip>
@@ -737,7 +737,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="KeyFileButtonComx">
 <tooltip>Browse for key input file</tooltip>
@@ -820,7 +820,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_BOTTOM|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="ColoursComx">
 <tooltip>Open video setup window</tooltip>
@@ -1034,7 +1034,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_BOTTOM</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="EpromComx">
 <size>70,-1</size>
@@ -1057,7 +1057,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_BOTTOM</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="SbSetupComx">
 <size>70,-1</size>
@@ -1101,7 +1101,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_BOTTOM|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="DiagSetupComx">
 <size>70,-1</size>
@@ -1148,7 +1148,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -1220,7 +1219,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="LoadButtonComx">
 <size>-1,23</size>
@@ -1233,7 +1232,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="RunButtonComx">
 <size>-1,23</size>
@@ -1270,7 +1269,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="SaveButtonComx">
 <size>-1,23</size>
@@ -1283,7 +1282,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="DsaveButtonComx">
 <size>-1,23</size>
@@ -1500,7 +1499,7 @@
 <vgap>2</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="RomButtonElf2K">
 <tooltip>Browse for Elf 2000 firmware ROM file</tooltip>
@@ -1529,7 +1528,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="IDE_ButtonElf2K">
 <tooltip>Browse for Elf 2000 IDE image file</tooltip>
@@ -1568,7 +1567,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="CharRomButtonElf2K">
 <tooltip>Browse for intel 8275 video font file</tooltip>
@@ -1594,7 +1593,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="KeyFileButtonElf2K">
 <tooltip>Browse for key input file</tooltip>
@@ -1630,7 +1629,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="ScreenDumpFileButtonElf2K">
 <tooltip>Browse for video dump file</tooltip>
@@ -1675,7 +1674,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="CasButtonElf2K">
 <tooltip>Browse for XMODEM file</tooltip>
@@ -1701,7 +1700,7 @@
 </object>
 <object class="sizeritem">
 <object class="wxTextCtrl" name="WavFileElf2K">
-<size>120,-1</size>
+<size>204,-1</size>
 <tooltip>Specify XMODEM file</tooltip>
 <font>
 <size>14</size>
@@ -1823,7 +1822,7 @@
 <vgap>2</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>4</border>
 <object class="wxButton" name="DP_ButtonElf2K">
 <tooltip>Open device ports definition window</tooltip>
@@ -1841,7 +1840,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -1879,7 +1877,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_BOTTOM|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="VtSetupElf2K">
 <tooltip>Open video terminal setup window</tooltip>
@@ -2074,7 +2072,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="ColoursElf2K">
 <tooltip>Open video setup window</tooltip>
@@ -2111,7 +2109,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_BOTTOM|wxLEFT|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="KeyMapElf2K">
 <tooltip>Open key map window</tooltip>
@@ -2378,7 +2376,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -2405,7 +2402,7 @@
 <vgap>0</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="LoadButtonElf2K">
 <tooltip>Load .hex file into Elf 2000 emulator memory</tooltip>
@@ -2442,7 +2439,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="SaveButtonElf2K">
 <tooltip>Save Elf 2000 emulator memory to .hex file</tooltip>
@@ -2488,7 +2485,6 @@
 <size>258,0</size>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -2597,7 +2593,7 @@
 <vgap>2</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="RomButtonCosmicos">
 <tooltip>Browse for Cosmicos ROM file</tooltip>
@@ -2626,7 +2622,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="ScreenDumpFileButtonCosmicos">
 <tooltip>Browse for video dump file</tooltip>
@@ -2673,7 +2669,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="CasButtonCosmicos">
 <tooltip>Browse for cassette file</tooltip>
@@ -2713,7 +2709,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -2751,7 +2746,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_BOTTOM|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="VtSetupCosmicos">
 <tooltip>Open video terminal setup window</tooltip>
@@ -2903,7 +2898,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -2992,7 +2986,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_BOTTOM|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="ColoursCosmicos">
 <tooltip>Open video setup window</tooltip>
@@ -3029,7 +3023,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_BOTTOM|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="KeyMapCosmicos">
 <tooltip>Open key map window</tooltip>
@@ -3215,7 +3209,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxSpinCtrl" name="RamCosmicos">
-<size>90,-1</size>
+<size>131,-1</size>
 <tooltip>Cosmicos RAM card size 0 to 48 Kb</tooltip>
 <font>
 <size>14</size>
@@ -3262,7 +3256,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -3289,7 +3282,7 @@
 <vgap>0</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="LoadButtonCosmicos">
 <tooltip>Load .hex file into Cosmicos emulator memory</tooltip>
@@ -3326,7 +3319,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="SaveButtonCosmicos">
 <tooltip>Save Cosmicos emulator memory to .hex file</tooltip>
@@ -3515,7 +3508,7 @@
 <vgap>2</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="RomButtonElf">
 <tooltip>Browse for Elf ROM file</tooltip>
@@ -3561,7 +3554,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="RomButton2Elf">
 <tooltip>Browse for Elf ROM file</tooltip>
@@ -3602,7 +3595,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="IDE_ButtonElf">
 <tooltip>Browse for IDE image file</tooltip>
@@ -3621,7 +3614,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="IdeFileElf">
-<size>90,-1</size>
+<size>131,-1</size>
 <tooltip>Specify IDE image file</tooltip>
 <font>
 <size>14</size>
@@ -3656,7 +3649,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="CharRomButtonElf">
 <tooltip>Browse for video font file</tooltip>
@@ -3691,7 +3684,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="KeyFileButtonElf">
 <tooltip>Browse for key input file</tooltip>
@@ -3727,7 +3720,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="PrintFileButtonElf">
 <tooltip>Browse for printer output file</tooltip>
@@ -3779,7 +3772,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="ScreenDumpFileButtonElf">
 <tooltip>Browse for video dump file</tooltip>
@@ -3824,7 +3817,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="CasButtonElf">
 <tooltip>Browse for cassette file</tooltip>
@@ -3850,7 +3843,7 @@
 </object>
 <object class="sizeritem">
 <object class="wxTextCtrl" name="WavFileElf">
-<size>120,-1</size>
+<size>204,-1</size>
 <tooltip>Specify cassette file</tooltip>
 <font>
 <size>14</size>
@@ -3869,7 +3862,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>4</border>
 <object class="wxButton" name="DP_ButtonElf">
 <tooltip>Open device ports definition window</tooltip>
@@ -3935,7 +3928,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -3973,7 +3965,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_BOTTOM|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="VtSetupElf">
 <tooltip>Open video terminal setup window</tooltip>
@@ -4174,7 +4166,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_BOTTOM|wxLEFT|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="ColoursElf">
 <tooltip>Open video setup window</tooltip>
@@ -4213,7 +4205,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_BOTTOM|wxLEFT|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="KeyMapElf">
 <tooltip>Open key map window</tooltip>
@@ -4473,7 +4465,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -4546,7 +4537,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="LoadButtonElf">
 <size>-1,23</size>
@@ -4559,7 +4550,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="RunButtonElf">
 <size>-1,23</size>
@@ -4597,7 +4588,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="SaveButtonElf">
 <size>-1,23</size>
@@ -4610,7 +4601,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="DsaveButtonElf">
 <size>-1,23</size>
@@ -4922,7 +4913,7 @@
 <vgap>2</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="RomButtonElfII">
 <tooltip>Browse for Netronics Elf II ROM file</tooltip>
@@ -4968,7 +4959,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="RomButton2ElfII">
 <tooltip>Browse for Netronics Elf II ROM file</tooltip>
@@ -5009,7 +5000,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="IDE_ButtonElfII">
 <tooltip>Browse for IDE image file</tooltip>
@@ -5028,7 +5019,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="IdeFileElfII">
-<size>90,-1</size>
+<size>131,-1</size>
 <tooltip>Specify IDE image file</tooltip>
 <font>
 <size>14</size>
@@ -5063,7 +5054,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="CharRomButtonElfII">
 <tooltip>Browse for video font file</tooltip>
@@ -5098,7 +5089,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="KeyFileButtonElfII">
 <tooltip>Browse for key input file</tooltip>
@@ -5134,7 +5125,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="PrintFileButtonElfII">
 <tooltip>Browse for printer output file</tooltip>
@@ -5186,7 +5177,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="ScreenDumpFileButtonElfII">
 <tooltip>Browse for video dump file</tooltip>
@@ -5231,7 +5222,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="CasButtonElfII">
 <tooltip>Browse for cassette file</tooltip>
@@ -5257,7 +5248,7 @@
 </object>
 <object class="sizeritem">
 <object class="wxTextCtrl" name="WavFileElfII">
-<size>120,-1</size>
+<size>204,-1</size>
 <tooltip>Specify cassette file</tooltip>
 <font>
 <size>14</size>
@@ -5276,7 +5267,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>4</border>
 <object class="wxButton" name="DP_ButtonElfII">
 <tooltip>Open device ports definition window</tooltip>
@@ -5342,7 +5333,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -5380,7 +5370,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_BOTTOM|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="VtSetupElfII">
 <tooltip>Open video terminal setup window</tooltip>
@@ -5574,7 +5564,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_BOTTOM|wxLEFT|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="ColoursElfII">
 <tooltip>Open video setup window</tooltip>
@@ -5613,7 +5603,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_BOTTOM|wxLEFT|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="KeyMapElfII">
 <tooltip>Open key map window</tooltip>
@@ -5873,7 +5863,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -5946,7 +5935,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="LoadButtonElfII">
 <size>-1,23</size>
@@ -5959,7 +5948,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="RunButtonElfII">
 <size>-1,23</size>
@@ -5997,7 +5986,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="SaveButtonElfII">
 <size>-1,23</size>
@@ -6010,7 +5999,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="DsaveButtonElfII">
 <size>-1,23</size>
@@ -6327,7 +6316,7 @@
 <vgap>2</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="RomButtonSuperElf">
 <tooltip>Browse for Quest Super Elf ROM file</tooltip>
@@ -6373,7 +6362,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="RomButton2SuperElf">
 <tooltip>Browse for Quest Super Elf ROM file</tooltip>
@@ -6414,7 +6403,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="IDE_ButtonSuperElf">
 <tooltip>Browse for IDE image file</tooltip>
@@ -6433,7 +6422,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="IdeFileSuperElf">
-<size>90,-1</size>
+<size>131,-1</size>
 <tooltip>Specify IDE image file</tooltip>
 <font>
 <size>14</size>
@@ -6468,7 +6457,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="CharRomButtonSuperElf">
 <tooltip>Browse for video font file</tooltip>
@@ -6503,7 +6492,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="KeyFileButtonSuperElf">
 <tooltip>Browse for key input file</tooltip>
@@ -6539,7 +6528,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="PrintFileButtonSuperElf">
 <tooltip>Browse for printer output file</tooltip>
@@ -6591,7 +6580,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="ScreenDumpFileButtonSuperElf">
 <tooltip>Browse for video dump file</tooltip>
@@ -6636,7 +6625,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="CasButtonSuperElf">
 <tooltip>Browse for cassette file</tooltip>
@@ -6662,7 +6651,7 @@
 </object>
 <object class="sizeritem">
 <object class="wxTextCtrl" name="WavFileSuperElf">
-<size>120,-1</size>
+<size>204,-1</size>
 <tooltip>Specify cassette file</tooltip>
 <font>
 <size>14</size>
@@ -6681,7 +6670,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>4</border>
 <object class="wxButton" name="DP_ButtonSuperElf">
 <tooltip>Open device ports definition window</tooltip>
@@ -6747,7 +6736,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -6785,7 +6773,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_BOTTOM|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="VtSetupSuperElf">
 <tooltip>Open video terminal setup window</tooltip>
@@ -6979,7 +6967,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_BOTTOM|wxLEFT|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="ColoursSuperElf">
 <tooltip>Open video setup window</tooltip>
@@ -7018,7 +7006,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_BOTTOM|wxLEFT|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="KeyMapSuperElf">
 <tooltip>Open key map window</tooltip>
@@ -7277,7 +7265,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -7350,7 +7337,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="LoadButtonSuperElf">
 <size>-1,23</size>
@@ -7363,7 +7350,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="RunButtonSuperElf">
 <size>-1,23</size>
@@ -7401,7 +7388,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="SaveButtonSuperElf">
 <size>-1,23</size>
@@ -7414,7 +7401,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="DsaveButtonSuperElf">
 <size>-1,23</size>
@@ -7707,7 +7694,7 @@
 <vgap>2</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="RomButtonMembership">
 <tooltip>Browse for Membership Card ROM file</tooltip>
@@ -7753,7 +7740,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="ScreenDumpFileButtonMembership">
 <tooltip>Browse for video dump file</tooltip>
@@ -7802,7 +7789,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -7843,7 +7829,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_BOTTOM|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="VtSetupMembership">
 <tooltip>Open video terminal setup window</tooltip>
@@ -7999,7 +7985,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="CasButtonMembership">
 <size>50,-1</size>
@@ -8159,7 +8145,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="ColoursMembership">
 <tooltip>Open video setup window</tooltip>
@@ -8447,7 +8433,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -8474,7 +8459,7 @@
 <vgap>0</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="LoadButtonMembership">
 <tooltip>Load .hex file into Membership Card emulator memory</tooltip>
@@ -8511,7 +8496,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="SaveButtonMembership">
 <tooltip>Save Membership Card emulator memory to .hex file</tooltip>
@@ -8591,7 +8576,7 @@
 <vgap>2</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="RomButtonVip2K">
 <tooltip>Browse for VIP2K Membership Card system ROM file</tooltip>
@@ -8617,7 +8602,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="RomButton2Vip2K">
 <tooltip>Browse for video sequencer ROM file</tooltip>
@@ -8643,7 +8628,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="RamSWButtonVip2K">
 <tooltip>Browse for RAM software file</tooltip>
@@ -8664,7 +8649,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="ScreenDumpFileButtonVip2K">
 <tooltip>Browse for video dump file</tooltip>
@@ -8711,7 +8696,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -8749,7 +8733,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_BOTTOM|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="VtSetupVip2K">
 <tooltip>Open video terminal setup window</tooltip>
@@ -8922,7 +8906,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="CasButtonVip2K">
 <size>50,-1</size>
@@ -9041,7 +9025,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="Chip8SWButtonVip2K">
 <tooltip>Browse for Chip 8, Chip 8X or Chip 10 software file</tooltip>
@@ -9153,7 +9137,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="ColoursVip2K">
 <tooltip>Open video setup window</tooltip>
@@ -9184,7 +9168,7 @@
 <flag>wxALIGN_BOTTOM|wxALL</flag>
 <border>0</border>
 <object class="wxSlider" name="VolumeVip2K">
-<size>90,-1</size>
+<size>131,-1</size>
 <tooltip>Change emulator sound volume</tooltip>
 <style>wxSL_HORIZONTAL</style>
 <hidden>1</hidden>
@@ -9236,7 +9220,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -9263,7 +9246,7 @@
 <vgap>0</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="LoadButtonVip2K">
 <tooltip>Load .hex file into Vip2K emulator memory</tooltip>
@@ -9300,7 +9283,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="SaveButtonVip2K">
 <tooltip>Save Vip2K emulator memory to .hex file</tooltip>
@@ -9375,7 +9358,7 @@
 <vgap>2</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="RomButtonVelf">
 <tooltip>Browse for VELF system ROM file</tooltip>
@@ -9403,7 +9386,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="RamSWButtonVelf">
 <tooltip>Browse for RAM software file</tooltip>
@@ -9431,7 +9414,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="Chip8SWButtonVelf">
 <tooltip>Browse for Chip 8 or Chip 8X software file</tooltip>
@@ -9467,7 +9450,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="PrintFileButtonVelf">
 <tooltip>Browse for printer output file</tooltip>
@@ -9519,7 +9502,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP|wxTOP</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="ScreenDumpFileButtonVelf">
 <tooltip>Browse for video dump file</tooltip>
@@ -9564,7 +9547,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="CasButtonVelf">
 <tooltip>Browse for cassette file</tooltip>
@@ -9600,7 +9583,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="KeyMapVelf">
 <tooltip>Open key map window</tooltip>
@@ -9613,7 +9596,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -9651,7 +9633,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_BOTTOM|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="VtSetupVelf">
 <tooltip>Open video terminal setup window</tooltip>
@@ -9851,7 +9833,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="ColoursVelf">
 <tooltip>Open video setup window</tooltip>
@@ -9998,7 +9980,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -10025,7 +10006,7 @@
 <vgap>0</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="LoadButtonVelf">
 <tooltip>Load .hex file into VELF emulator memory</tooltip>
@@ -10062,7 +10043,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="SaveButtonVelf">
 <tooltip>Save VELF emulator memory to .hex file</tooltip>
@@ -10275,7 +10256,7 @@
 <vgap>2</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="RamSWButtonUC1800">
 <tooltip>Browse for Infinite UC1800 RAM file </tooltip>
@@ -10298,7 +10279,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="KeyMapUC1800">
 <tooltip>Open key map window</tooltip>
@@ -10460,7 +10441,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -10487,7 +10467,7 @@
 <vgap>0</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="LoadButtonUC1800">
 <tooltip>Load .hex file into Infinite UC1800 emulator memory</tooltip>
@@ -10524,7 +10504,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="SaveButtonUC1800">
 <tooltip>Save Infinite UC1800 emulator memory to .hex file</tooltip>
@@ -10599,7 +10579,7 @@
 <vgap>2</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="RomButtonPico">
 <tooltip>Browse for Pico/Elf V2 ROM file</tooltip>
@@ -10629,7 +10609,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="IDE_ButtonPico">
 <tooltip>Browse for IDE image file</tooltip>
@@ -10648,7 +10628,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="IdeFilePico">
-<size>90,-1</size>
+<size>131,-1</size>
 <tooltip>Specify IDE image file</tooltip>
 <font>
 <size>14</size>
@@ -10682,7 +10662,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="PrintFileButtonPico">
 <tooltip>Browse for printer output file</tooltip>
@@ -10734,7 +10714,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="ScreenDumpFileButtonPico">
 <tooltip>Browse for video dump file</tooltip>
@@ -10779,7 +10759,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="CasButtonPico">
 <tooltip>Browse for cassette file</tooltip>
@@ -10796,7 +10776,7 @@
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
 <object class="wxTextCtrl" name="WavFilePico">
-<size>120,-1</size>
+<size>204,-1</size>
 <tooltip>Specify cassette file</tooltip>
 <font>
 <size>14</size>
@@ -10918,7 +10898,7 @@
 <vgap>2</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>4</border>
 <object class="wxButton" name="DP_ButtonPico">
 <tooltip>Open device ports definition window</tooltip>
@@ -10936,7 +10916,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -10974,7 +10953,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_BOTTOM|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="VtSetupPico">
 <tooltip>Open video terminal setup window</tooltip>
@@ -11161,7 +11140,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_BOTTOM|wxLEFT|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="ColoursPico">
 <tooltip>Open video setup window</tooltip>
@@ -11369,7 +11348,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -11442,7 +11420,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="LoadButtonPico">
 <size>-1,23</size>
@@ -11455,7 +11433,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="RunButtonPico">
 <size>-1,23</size>
@@ -11493,7 +11471,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="SaveButtonPico">
 <size>-1,23</size>
@@ -11506,7 +11484,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="DsaveButtonPico">
 <size>-1,23</size>
@@ -11598,7 +11576,7 @@
 <vgap>2</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="RamSWButtonFRED1">
 <tooltip>Browse for FRED 1 RAM file</tooltip>
@@ -11660,7 +11638,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="ScreenDumpFileButtonFRED1">
 <tooltip>Browse for video dump file</tooltip>
@@ -11703,7 +11681,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="CasButtonFRED1">
 <tooltip>Browse for cassette file</tooltip>
@@ -11739,7 +11717,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="KeyMapFRED1">
 <tooltip>Open key map window</tooltip>
@@ -11841,7 +11819,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="CardButtonFRED1_00">
 <size>40,-1</size>
@@ -11853,7 +11831,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="CardButtonFRED1_01">
 <size>40,-1</size>
@@ -11865,7 +11843,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="CardButtonFRED1_02">
 <size>40,-1</size>
@@ -11877,7 +11855,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="CardButtonFRED1_03">
 <size>40,-1</size>
@@ -11889,7 +11867,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="CardButtonFRED1_04">
 <size>40,-1</size>
@@ -11901,7 +11879,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="CardButtonFRED1_05">
 <size>40,-1</size>
@@ -11920,7 +11898,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="CardButtonFRED1_06">
 <size>40,-1</size>
@@ -11932,7 +11910,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="CardButtonFRED1_07">
 <size>40,-1</size>
@@ -11944,7 +11922,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="CardButtonFRED1_08">
 <size>40,-1</size>
@@ -11956,7 +11934,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="CardButtonFRED1_09">
 <size>40,-1</size>
@@ -11968,7 +11946,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="CardButtonFRED1_10">
 <size>40,-1</size>
@@ -11980,7 +11958,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="CardButtonFRED1_11">
 <size>40,-1</size>
@@ -11999,7 +11977,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="CardButtonFRED1_12">
 <size>40,-1</size>
@@ -12011,7 +11989,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="CardButtonFRED1_13">
 <size>40,-1</size>
@@ -12023,7 +12001,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="CardButtonFRED1_14">
 <size>40,-1</size>
@@ -12035,7 +12013,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="CardButtonFRED1_15">
 <size>40,-1</size>
@@ -12047,7 +12025,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="CardButtonFRED1_16">
 <size>40,-1</size>
@@ -12059,7 +12037,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="CardButtonFRED1_17">
 <size>40,-1</size>
@@ -12078,7 +12056,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="CardButtonFRED1_18">
 <size>40,-1</size>
@@ -12090,7 +12068,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="CardButtonFRED1_19">
 <size>40,-1</size>
@@ -12102,7 +12080,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="CardButtonFRED1_20">
 <size>40,-1</size>
@@ -12114,7 +12092,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="CardButtonFRED1_21">
 <size>40,-1</size>
@@ -12126,7 +12104,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="CardButtonFRED1_22">
 <size>40,-1</size>
@@ -12138,7 +12116,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="CardButtonFRED1_23">
 <size>40,-1</size>
@@ -12209,7 +12187,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="ColoursFRED1">
 <tooltip>Open video setup window</tooltip>
@@ -12301,7 +12279,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -12328,7 +12305,7 @@
 <vgap>0</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="LoadButtonFRED1">
 <tooltip>Load .hex file into FRED 1 emulator memory</tooltip>
@@ -12365,7 +12342,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="SaveButtonFRED1">
 <tooltip>Save FRED 1 emulator memory to .hex file</tooltip>
@@ -12734,7 +12711,7 @@
 <vgap>2</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="RamSWButtonFRED1_5">
 <tooltip>Browse for FRED 1.5 RAM file</tooltip>
@@ -12775,7 +12752,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="ScreenDumpFileButtonFRED1_5">
 <tooltip>Browse for video dump file</tooltip>
@@ -12818,7 +12795,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="CasButtonFRED1_5">
 <tooltip>Browse for cassette file</tooltip>
@@ -12854,7 +12831,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="KeyMapFRED1_5">
 <tooltip>Open key map window</tooltip>
@@ -12990,7 +12967,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="ColoursFRED1_5">
 <tooltip>Open video setup window</tooltip>
@@ -13082,7 +13059,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -13109,7 +13085,7 @@
 <vgap>0</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="LoadButtonFRED1_5">
 <tooltip>Load .hex file into FRED 1.5 emulator memory</tooltip>
@@ -13146,7 +13122,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="SaveButtonFRED1_5">
 <tooltip>Save FRED 1.5 emulator memory to .hex file</tooltip>
@@ -13516,7 +13492,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="RamSWButtonMicrotutor">
 <tooltip>Browse for Microtutor RAM file </tooltip>
@@ -13635,7 +13611,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -13662,7 +13637,7 @@
 <vgap>0</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="LoadButtonMicrotutor">
 <tooltip>Load .hex file into Microtutor emulator memory</tooltip>
@@ -13699,7 +13674,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="SaveButtonMicrotutor">
 <tooltip>Save Microtutor emulator memory to .hex file</tooltip>
@@ -13771,7 +13746,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="RamButtonMMicrotutor2">
 <tooltip>Browse for Microtutor II slot M RAM file</tooltip>
@@ -13818,7 +13793,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="RamButtonEMicrotutor2">
 <tooltip>Browse for Microtutor II slot E RAM file</tooltip>
@@ -14005,7 +13980,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -14032,7 +14006,7 @@
 <vgap>0</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="LoadButtonMicrotutor2">
 <tooltip>Load .hex file into Microtutor II emulator memory</tooltip>
@@ -14069,7 +14043,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="SaveButtonMicrotutor2">
 <tooltip>Save Microtutor II emulator memory to .hex file</tooltip>
@@ -14144,7 +14118,7 @@
 <vgap>2</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="RomButtonCDP18S020">
 <tooltip>Browse for CDP18S020 system ROM file</tooltip>
@@ -14171,7 +14145,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="RamSWButtonCDP18S020">
 <tooltip>Browse for RAM software file</tooltip>
@@ -14198,7 +14172,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP|wxTOP</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="ScreenDumpFileButtonCDP18S020">
 <tooltip>Browse for video dump file</tooltip>
@@ -14280,7 +14254,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -14318,7 +14291,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_BOTTOM|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="VtSetupCDP18S020">
 <tooltip>Open video terminal setup window</tooltip>
@@ -14474,7 +14447,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="CasButtonCDP18S020">
 <size>50,-1</size>
@@ -14671,7 +14644,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="ColoursCDP18S020">
 <tooltip>Open video setup window</tooltip>
@@ -14761,7 +14734,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -14788,7 +14760,7 @@
 <vgap>0</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="LoadButtonCDP18S020">
 <tooltip>Load .hex file into CDP18S020 emulator memory</tooltip>
@@ -14825,7 +14797,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="SaveButtonCDP18S020">
 <tooltip>Save CDP18S020 emulator memory to .hex file</tooltip>
@@ -14983,7 +14955,7 @@
 <vgap>2</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="RomButtonVip">
 <tooltip>Browse for Cosmac VIP system ROM file</tooltip>
@@ -15009,7 +14981,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="RamSWButtonVip">
 <tooltip>Browse for RAM software file</tooltip>
@@ -15043,7 +15015,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="Chip8SWButtonVip">
 <tooltip>Browse for Chip 8, Chip 8X or Chip 10 software file</tooltip>
@@ -15077,7 +15049,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="PrintFileButtonVip">
 <tooltip>Browse for printer output file</tooltip>
@@ -15129,7 +15101,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="ScreenDumpFileButtonVip">
 <tooltip>Browse for video dump file</tooltip>
@@ -15174,7 +15146,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="CasButtonVip">
 <tooltip>Browse for cassette file</tooltip>
@@ -15234,7 +15206,7 @@
 <size>10,5</size>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="KeyMapVip">
 <tooltip>Open key map window</tooltip>
@@ -15315,7 +15287,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -15353,7 +15324,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_BOTTOM|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="VtSetupVip">
 <tooltip>Open video terminal setup window</tooltip>
@@ -15553,7 +15524,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="ColoursVip">
 <tooltip>Open video setup window</tooltip>
@@ -15639,7 +15610,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -15789,7 +15759,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -15862,7 +15831,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="LoadButtonVip">
 <size>-1,23</size>
@@ -15875,7 +15844,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="RunButtonVip">
 <size>-1,23</size>
@@ -15913,7 +15882,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="SaveButtonVip">
 <size>-1,23</size>
@@ -15926,7 +15895,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="DsaveButtonVip">
 <size>-1,23</size>
@@ -16102,7 +16071,7 @@
 <vgap>2</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="RomButtonVipII">
 <tooltip>Browse for Cosmac VIP II system ROM file</tooltip>
@@ -16128,7 +16097,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="RomButton2VipII">
 <tooltip>Browse for Cosmac VIP system ROM file</tooltip>
@@ -16154,7 +16123,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="RamSWButtonVipII">
 <tooltip>Browse for RAM software file</tooltip>
@@ -16183,7 +16152,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="Chip8SWButtonVipII">
 <tooltip>Browse for Chip 8 or Chip 8X software file</tooltip>
@@ -16217,7 +16186,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="ScreenDumpFileButtonVipII">
 <tooltip>Browse for video dump file</tooltip>
@@ -16260,7 +16229,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="CasButtonVipII">
 <tooltip>Browse for cassette file</tooltip>
@@ -16294,7 +16263,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="KeyMapVipII">
 <tooltip>Open key map window</tooltip>
@@ -16427,7 +16396,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="ColoursVipII">
 <tooltip>Open video setup window</tooltip>
@@ -16563,7 +16532,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -16636,7 +16604,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="LoadButtonVipII">
 <size>-1,23</size>
@@ -16649,7 +16617,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="RunButtonVipII">
 <size>-1,23</size>
@@ -16687,7 +16655,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="SaveButtonVipII">
 <size>-1,23</size>
@@ -16700,7 +16668,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="DsaveButtonVipII">
 <size>-1,23</size>
@@ -16896,7 +16864,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="Card1Microboard">
 <tooltip>Open CARD 1 setup window</tooltip>
@@ -16934,7 +16902,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="Card2Microboard">
 <tooltip>Open CARD 2 setup window</tooltip>
@@ -16977,7 +16945,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="Card3Microboard">
 <tooltip>Open CARD 3 setup window</tooltip>
@@ -17019,7 +16987,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="Card4Microboard">
 <tooltip>Open CARD 4 setup window</tooltip>
@@ -17061,7 +17029,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="Card5Microboard">
 <tooltip>Specify additional expansion cards</tooltip>
@@ -17117,7 +17085,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="FDC0_ButtonMicroboard">
 <tooltip>Browse for Microboard FDC 0 image file</tooltip>
@@ -17141,7 +17109,7 @@
 </object>
 <object class="sizeritem">
 <object class="wxTextCtrl" name="FDC0_FileMicroboard">
-<size>120,-1</size>
+<size>204,-1</size>
 <tooltip>Specify Microboard FDC 0 image file</tooltip>
 <font>
 <size>14</size>
@@ -17160,7 +17128,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="FDC1_ButtonMicroboard">
 <tooltip>Browse for Microboard FDC 1 image file</tooltip>
@@ -17184,7 +17152,7 @@
 </object>
 <object class="sizeritem">
 <object class="wxTextCtrl" name="FDC1_FileMicroboard">
-<size>120,-1</size>
+<size>204,-1</size>
 <tooltip>Specify Microboard FDC 1 image file</tooltip>
 <font>
 <size>14</size>
@@ -17203,7 +17171,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="FDC2_ButtonMicroboard">
 <tooltip>Browse for Microboard FDC 2 image file</tooltip>
@@ -17229,7 +17197,7 @@
 </object>
 <object class="sizeritem">
 <object class="wxTextCtrl" name="FDC2_FileMicroboard">
-<size>120,-1</size>
+<size>204,-1</size>
 <tooltip>Specify Microboard FDC 2 image file</tooltip>
 <font>
 <size>14</size>
@@ -17248,7 +17216,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="FDC3_ButtonMicroboard">
 <tooltip>Browse for Microboard FDC 3 image file</tooltip>
@@ -17272,7 +17240,7 @@
 </object>
 <object class="sizeritem">
 <object class="wxTextCtrl" name="FDC3_FileMicroboard">
-<size>120,-1</size>
+<size>204,-1</size>
 <tooltip>Specify Microboard FDC 3 image file</tooltip>
 <font>
 <size>14</size>
@@ -17291,7 +17259,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="ScreenDumpFileButtonMicroboard">
 <tooltip>Browse for video dump file</tooltip>
@@ -17336,7 +17304,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="CasButtonMicroboard">
 <tooltip>Browse for cassette file 0</tooltip>
@@ -17374,7 +17342,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="CasButton1Microboard">
 <tooltip>Browse for cassette file 1</tooltip>
@@ -17469,7 +17437,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="ColoursMicroboard">
 <tooltip>Open video setup window</tooltip>
@@ -17482,7 +17450,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -17555,7 +17522,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="LoadButtonMicroboard">
 <size>-1,23</size>
@@ -17568,7 +17535,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="RunButtonMicroboard">
 <size>-1,23</size>
@@ -17606,7 +17573,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="SaveButtonMicroboard">
 <size>-1,23</size>
@@ -17619,7 +17586,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="DsaveButtonMicroboard">
 <size>-1,23</size>
@@ -17949,7 +17916,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -17987,7 +17953,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_BOTTOM|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="VtSetupMicroboard">
 <tooltip>Open video terminal setup window</tooltip>
@@ -18178,7 +18144,7 @@
 <vgap>2</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="RomButtonMCDS">
 <tooltip>Browse for Mcds firmware UT ROM file</tooltip>
@@ -18204,7 +18170,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="RomButton2MCDS">
 <tooltip>Browse for Mcds firmware AS / Editor ROM file</tooltip>
@@ -18230,7 +18196,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="RomButton3MCDS">
 <tooltip>Browse for Mcds firmware BASIC ROM file</tooltip>
@@ -18256,7 +18222,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="KeyFileButtonMCDS">
 <tooltip>Browse for key input file</tooltip>
@@ -18290,7 +18256,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="PrintFileButtonMCDS">
 <tooltip>Browse for printer output file</tooltip>
@@ -18340,7 +18306,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="ScreenDumpFileButtonMCDS">
 <tooltip>Browse for video dump file</tooltip>
@@ -18385,7 +18351,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="CasButtonMCDS">
 <tooltip>Browse for cassette file 0</tooltip>
@@ -18423,7 +18389,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="CasButton1MCDS">
 <tooltip>Browse for cassette file 1</tooltip>
@@ -18463,7 +18429,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -18501,7 +18466,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_BOTTOM|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="VtSetupMCDS">
 <tooltip>Open video terminal setup window</tooltip>
@@ -18658,7 +18623,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="ColoursMCDS">
 <tooltip>Open video setup window</tooltip>
@@ -18741,7 +18706,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -18814,7 +18778,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="LoadButtonMCDS">
 <size>-1,23</size>
@@ -18827,7 +18791,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="RunButtonMCDS">
 <size>-1,23</size>
@@ -18865,7 +18829,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="SaveButtonMCDS">
 <size>-1,23</size>
@@ -18878,7 +18842,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="DsaveButtonMCDS">
 <size>-1,23</size>
@@ -19129,7 +19093,7 @@
 <vgap>2</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="RomButtonMS2000">
 <tooltip>Browse for MS2000 firmware ROM file</tooltip>
@@ -19156,7 +19120,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="FDC0_ButtonMS2000">
 <tooltip>Browse for MS2000 FDC 0 image file</tooltip>
@@ -19180,7 +19144,7 @@
 </object>
 <object class="sizeritem">
 <object class="wxTextCtrl" name="FDC0_FileMS2000">
-<size>120,-1</size>
+<size>204,-1</size>
 <tooltip>Specify MS2000 FDC 0 image file</tooltip>
 <font>
 <size>14</size>
@@ -19199,7 +19163,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="FDC1_ButtonMS2000">
 <tooltip>Browse for MS2000 FDC 1 image file</tooltip>
@@ -19223,7 +19187,7 @@
 </object>
 <object class="sizeritem">
 <object class="wxTextCtrl" name="FDC1_FileMS2000">
-<size>120,-1</size>
+<size>204,-1</size>
 <tooltip>Specify MS2000 FDC 1 image file</tooltip>
 <font>
 <size>14</size>
@@ -19242,7 +19206,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="FDC2_ButtonMS2000">
 <tooltip>Browse for MS2000 FDC 2 image file</tooltip>
@@ -19268,7 +19232,7 @@
 </object>
 <object class="sizeritem">
 <object class="wxTextCtrl" name="FDC2_FileMS2000">
-<size>120,-1</size>
+<size>204,-1</size>
 <tooltip>Specify MS2000 FDC 2 image file</tooltip>
 <font>
 <size>14</size>
@@ -19287,7 +19251,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="FDC3_ButtonMS2000">
 <tooltip>Browse for MS2000 FDC 3 image file</tooltip>
@@ -19311,7 +19275,7 @@
 </object>
 <object class="sizeritem">
 <object class="wxTextCtrl" name="FDC3_FileMS2000">
-<size>120,-1</size>
+<size>204,-1</size>
 <tooltip>Specify MS2000 FDC 3 image file</tooltip>
 <font>
 <size>14</size>
@@ -19330,7 +19294,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="KeyFileButtonMS2000">
 <tooltip>Browse for key input file</tooltip>
@@ -19364,7 +19328,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="PrintFileButtonMS2000">
 <tooltip>Browse for printer output file</tooltip>
@@ -19412,7 +19376,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="ScreenDumpFileButtonMS2000">
 <tooltip>Browse for video dump file</tooltip>
@@ -19457,7 +19421,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="CasButtonMS2000">
 <tooltip>Browse for cassette file</tooltip>
@@ -19495,7 +19459,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -19533,7 +19496,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_BOTTOM|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="VtSetupMS2000">
 <tooltip>Open video terminal setup window</tooltip>
@@ -19695,7 +19658,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="ColoursMS2000">
 <tooltip>Open video setup window</tooltip>
@@ -19778,7 +19741,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -19805,7 +19767,7 @@
 <vgap>0</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="LoadButtonMS2000">
 <tooltip>Load .hex file into MS2000 emulator memory</tooltip>
@@ -19842,7 +19804,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="SaveButtonMS2000">
 <tooltip>Save MS2000 emulator memory to .hex file</tooltip>
@@ -20041,7 +20003,7 @@
 <vgap>2</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="RomButtonCoinArcade">
 <tooltip>Browse for RCA Video Coin Arcade system ROM file</tooltip>
@@ -20077,7 +20039,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="ScreenDumpFileButtonCoinArcade">
 <tooltip>Browse for video dump file</tooltip>
@@ -20120,7 +20082,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="KeyMapCoinArcade">
 <tooltip>Open key map window</tooltip>
@@ -20188,7 +20150,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="ColoursCoinArcade">
 <tooltip>Open video setup window</tooltip>
@@ -20305,7 +20267,7 @@
 <vgap>2</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="RomButtonStudio2">
 <tooltip>Browse for Studio II system ROM file</tooltip>
@@ -20331,7 +20293,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="CartRomButtonStudio2">
 <tooltip>Browse for cartridge ST2 ROM file</tooltip>
@@ -20390,7 +20352,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="ScreenDumpFileButtonStudio2">
 <tooltip>Browse for video dump file</tooltip>
@@ -20433,7 +20395,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="KeyMapStudio2">
 <tooltip>Open key map window</tooltip>
@@ -20501,7 +20463,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="ColoursStudio2">
 <tooltip>Open video setup window</tooltip>
@@ -20711,7 +20673,7 @@
 <vgap>2</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="RomButtonVictory">
 <tooltip>Browse for Victory MPT-02 system ROM file</tooltip>
@@ -20738,7 +20700,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="CartRomButtonVictory">
 <tooltip>Browse for cartridge ST2 ROM file</tooltip>
@@ -20794,7 +20756,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="ScreenDumpFileButtonVictory">
 <tooltip>Browse for video dump file</tooltip>
@@ -20837,7 +20799,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="KeyMapVictory">
 <tooltip>Open key map window</tooltip>
@@ -20886,7 +20848,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="ColoursVictory">
 <tooltip>Open video setup window</tooltip>
@@ -21151,7 +21113,7 @@
 <vgap>2</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="RomButtonStudioIV">
 <tooltip>Browse for StudioIV system ROM file</tooltip>
@@ -21184,7 +21146,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="CartRomButtonStudioIV">
 <tooltip>Browse for cartridge ROM file</tooltip>
@@ -21224,7 +21186,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="ScreenDumpFileButtonStudioIV">
 <tooltip>Browse for video dump file</tooltip>
@@ -21267,7 +21229,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="CasButtonStudioIV">
 <tooltip>Browse for cassette file</tooltip>
@@ -21303,7 +21265,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="KeyMapStudioIV">
 <tooltip>Open key map window</tooltip>
@@ -21370,7 +21332,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="ColoursStudioIV">
 <tooltip>Open video setup window</tooltip>
@@ -21512,7 +21474,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -21539,7 +21500,7 @@
 <vgap>0</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="LoadButtonStudioIV">
 <tooltip>Load .tiny file into Studio IV emulator memory</tooltip>
@@ -21551,7 +21512,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="SaveButtonStudioIV">
 <tooltip>Save Studio IV emulator memory to .tiny file</tooltip>
@@ -21794,7 +21755,7 @@
 <vgap>2</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="RomButtonVisicom">
 <tooltip>Browse for Visicom COM-100 system ROM file</tooltip>
@@ -21819,7 +21780,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="CartRomButtonVisicom">
 <tooltip>Browse for cartridge ST2 ROM file</tooltip>
@@ -21848,7 +21809,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="ScreenDumpFileButtonVisicom">
 <tooltip>Browse for video dump file</tooltip>
@@ -21891,7 +21852,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="KeyMapVisicom">
 <tooltip>Open fey map window</tooltip>
@@ -21959,7 +21920,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="ColoursVisicom">
 <tooltip>Open video setup window</tooltip>
@@ -22089,7 +22050,7 @@
 <vgap>2</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="RomButtonCidelsa">
 <tooltip>Browse for Cidelsa game ROM file</tooltip>
@@ -22117,7 +22078,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP|wxTOP</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="ScreenDumpFileButtonCidelsa">
 <tooltip>Browse for video dump file</tooltip>
@@ -22217,7 +22178,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="ColoursCidelsa">
 <tooltip>Open video setup window</tooltip>
@@ -22308,7 +22269,6 @@
 <size>5,20</size>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -22569,7 +22529,7 @@
 <vgap>2</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="RomButtonTMC600">
 <tooltip>Browse for TMC-600 ROM file</tooltip>
@@ -22594,7 +22554,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="ExpRomButtonTMC600">
 <tooltip>Browse for TMC-600 expansion ROM file</tooltip>
@@ -22619,7 +22579,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="CharRomButtonTMC600">
 <tooltip>Browse for TMC-600 video character ROM file</tooltip>
@@ -22644,7 +22604,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="PrintFileButtonTMC600">
 <tooltip>Browse for printer output file</tooltip>
@@ -22694,7 +22654,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="ScreenDumpFileButtonTMC600">
 <tooltip>Browse for video dump file</tooltip>
@@ -22737,7 +22697,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="CasButtonTMC600">
 <tooltip>Browse for cassette file</tooltip>
@@ -22771,7 +22731,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="KeyFileButtonTMC600">
 <tooltip>Browse for key input file</tooltip>
@@ -22805,7 +22765,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="KeyMapTMC600">
 <tooltip>Open key map window</tooltip>
@@ -22853,7 +22813,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxSpinCtrl" name="AdiVolt">
-<size>90,-1</size>
+<size>131,-1</size>
 <tooltip>A/DI input -99 to 999 mV</tooltip>
 <font>
 <size>14</size>
@@ -22911,7 +22871,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxSpinCtrl" name="AdsVolt">
-<size>90,-1</size>
+<size>131,-1</size>
 <tooltip>A/DS Input 0 to 5100 mV</tooltip>
 <font>
 <size>14</size>
@@ -23013,7 +22973,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="ColoursTMC600">
 <tooltip>Open video setup window</tooltip>
@@ -23098,7 +23058,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -23171,7 +23130,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="LoadButtonTMC600">
 <size>-1,23</size>
@@ -23184,7 +23143,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="RunButtonTMC600">
 <size>-1,23</size>
@@ -23222,7 +23181,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="SaveButtonTMC600">
 <size>-1,23</size>
@@ -23235,7 +23194,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="DsaveButtonTMC600">
 <size>-1,23</size>
@@ -23411,7 +23370,7 @@
 <vgap>2</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="RomButtonTMC1800">
 <tooltip>Browse for Telmac 1800 system ROM file</tooltip>
@@ -23436,7 +23395,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="RamSWButtonTMC1800">
 <tooltip>Browse for RAM software file</tooltip>
@@ -23461,7 +23420,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="Chip8SWButtonTMC1800">
 <tooltip>Browse for Chip 8 software file</tooltip>
@@ -23495,7 +23454,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="ScreenDumpFileButtonTMC1800">
 <tooltip>Browse for video dump file</tooltip>
@@ -23538,7 +23497,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="CasButtonTMC1800">
 <tooltip>Browse for cassette file</tooltip>
@@ -23572,7 +23531,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="KeyMapTMC1800">
 <tooltip>Open key map window</tooltip>
@@ -23657,7 +23616,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="ColoursTMC1800">
 <tooltip>Open video setup window</tooltip>
@@ -23746,7 +23705,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -23773,7 +23731,7 @@
 <vgap>0</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="LoadButtonTMC1800">
 <tooltip>Load .hex file into TMC1800 emulator memory</tooltip>
@@ -23810,7 +23768,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="SaveButtonTMC1800">
 <tooltip>Save TMC1800 emulator memory to .hex file</tooltip>
@@ -24018,7 +23976,7 @@
 <vgap>2</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="RomButtonTMC2000">
 <tooltip>Browse for Telmac 2000 system ROM file</tooltip>
@@ -24043,7 +24001,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="RamSWButtonTMC2000">
 <tooltip>Browse for RAM software file</tooltip>
@@ -24068,7 +24026,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="Chip8SWButtonTMC2000">
 <tooltip>Browse for Chip 8 software file</tooltip>
@@ -24102,7 +24060,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="ScreenDumpFileButtonTMC2000">
 <tooltip>Browse for video dump file</tooltip>
@@ -24145,7 +24103,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="CasButtonTMC2000">
 <tooltip>Browse for cassette file</tooltip>
@@ -24179,7 +24137,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="KeyMapTMC2000">
 <tooltip>Open key map window</tooltip>
@@ -24259,7 +24217,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="ColoursTMC2000">
 <tooltip>Open video setup window</tooltip>
@@ -24310,7 +24268,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -24337,7 +24294,7 @@
 <vgap>0</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="LoadButtonTMC2000">
 <tooltip>Load .hex file into TMC 2000 emulator memory</tooltip>
@@ -24374,7 +24331,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="SaveButtonTMC2000">
 <tooltip>Save TMC 2000 emulator memory to .hex file</tooltip>
@@ -24583,7 +24540,7 @@
 <vgap>2</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="RomButtonNano">
 <tooltip>Browse for Oscom Nano system ROM file</tooltip>
@@ -24608,7 +24565,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="RamSWButtonNano">
 <tooltip>Browse for RAM software file</tooltip>
@@ -24633,7 +24590,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="Chip8SWButtonNano">
 <tooltip>Browse for Chip 8 software file</tooltip>
@@ -24667,7 +24624,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="ScreenDumpFileButtonNano">
 <tooltip>Browse for video dump file</tooltip>
@@ -24710,7 +24667,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="CasButtonNano">
 <tooltip>Browse for cassette file</tooltip>
@@ -24746,7 +24703,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="KeyMapNano">
 <tooltip>Open key map window</tooltip>
@@ -24849,7 +24806,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="ColoursNano">
 <tooltip>Open video setup window</tooltip>
@@ -24900,7 +24857,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -24927,7 +24883,7 @@
 <vgap>0</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="LoadButtonNano">
 <tooltip>Load .hex file into Nano emulator memory</tooltip>
@@ -24964,7 +24920,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="SaveButtonNano">
 <tooltip>Save Nano emulator memory to .hex file</tooltip>
@@ -25142,7 +25098,7 @@
 <vgap>2</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="RomButtonPecom">
 <tooltip>Browse for Pecom ROM file</tooltip>
@@ -25169,7 +25125,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="PrintFileButtonPecom">
 <tooltip>Browse for printer output file</tooltip>
@@ -25218,7 +25174,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="ScreenDumpFileButtonPecom">
 <tooltip>Browse for video dump file</tooltip>
@@ -25261,7 +25217,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="CasButtonPecom">
 <tooltip>Browse for cassette file</tooltip>
@@ -25295,7 +25251,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="KeyFileButtonPecom">
 <tooltip>Browse for key input file</tooltip>
@@ -25386,7 +25342,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="ColoursPecom">
 <tooltip>Open video setup window</tooltip>
@@ -25437,7 +25393,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -25510,7 +25465,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="LoadButtonPecom">
 <size>-1,23</size>
@@ -25523,7 +25478,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="RunButtonPecom">
 <size>-1,23</size>
@@ -25561,7 +25516,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="SaveButtonPecom">
 <size>-1,23</size>
@@ -25574,7 +25529,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="DsaveButtonPecom">
 <size>-1,23</size>
@@ -25770,7 +25725,7 @@
 <vgap>2</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="RomButtonEti">
 <tooltip>Browse for ETI 660 system ROM file</tooltip>
@@ -25795,7 +25750,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="Chip8SWButtonEti">
 <tooltip>Browse for RAM and/or Chip 8 sSoftware file</tooltip>
@@ -25829,7 +25784,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="ScreenDumpFileButtonEti">
 <tooltip>Browse for video dump file</tooltip>
@@ -25872,7 +25827,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="CasButtonEti">
 <tooltip>Browse for cassette file</tooltip>
@@ -25906,7 +25861,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="KeyMapEti">
 <tooltip>Open key map window</tooltip>
@@ -25974,7 +25929,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="ColoursEti">
 <tooltip>Open video setup window</tooltip>
@@ -26030,7 +25985,6 @@
 <size>258,0</size>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -26057,7 +26011,7 @@
 <vgap>0</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="LoadButtonEti">
 <tooltip>Load .hex file into ETI 660 emulator memory</tooltip>
@@ -26094,7 +26048,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="SaveButtonEti">
 <tooltip>Save ETI 660 emulator memory to .hex file</tooltip>
@@ -26301,7 +26255,7 @@
 <vgap>2</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="XmlButtonDiy">
 <tooltip>Browse for XML file</tooltip>
@@ -26332,7 +26286,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="RamButtonDiy">
 <tooltip>Browse for RAM file</tooltip>
@@ -26360,7 +26314,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="IDE_ButtonDiy">
 <tooltip>Browse for IDE image file</tooltip>
@@ -26379,7 +26333,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="IdeFileDiy">
-<size>90,-1</size>
+<size>131,-1</size>
 <tooltip>Specify IDE image file</tooltip>
 <font>
 <size>14</size>
@@ -26414,7 +26368,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="CharRomButtonDiy">
 <tooltip>Browse for video font file</tooltip>
@@ -26449,7 +26403,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="KeyFileButtonDiy">
 <tooltip>Browse for key input file</tooltip>
@@ -26485,7 +26439,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="PrintFileButtonDiy">
 <tooltip>Browse for printer output file</tooltip>
@@ -26537,7 +26491,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="ScreenDumpFileButtonDiy">
 <tooltip>Browse for video dump file</tooltip>
@@ -26582,7 +26536,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="CasButtonDiy">
 <tooltip>Browse for cassette file</tooltip>
@@ -26608,7 +26562,7 @@
 </object>
 <object class="sizeritem">
 <object class="wxTextCtrl" name="WavFileDiy">
-<size>120,-1</size>
+<size>204,-1</size>
 <tooltip>Specify cassette file</tooltip>
 <font>
 <size>14</size>
@@ -26627,7 +26581,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>4</border>
 <object class="wxButton" name="DP_ButtonDiy">
 <tooltip>Open device ports definition window</tooltip>
@@ -26640,7 +26594,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -26678,7 +26631,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_BOTTOM|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="VtSetupDiy">
 <tooltip>Open video terminal setup window</tooltip>
@@ -26872,7 +26825,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_BOTTOM|wxLEFT|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="ColoursDiy">
 <tooltip>Open video setup window</tooltip>
@@ -26911,7 +26864,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_BOTTOM|wxLEFT|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="KeyMapDiy">
 <tooltip>Open key map window</tooltip>
@@ -27155,7 +27108,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -27228,7 +27180,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="LoadButtonDiy">
 <size>-1,23</size>
@@ -27241,7 +27193,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="RunButtonDiy">
 <size>-1,23</size>
@@ -27279,7 +27231,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="SaveButtonDiy">
 <size>-1,23</size>
@@ -27292,7 +27244,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="DsaveButtonDiy">
 <size>-1,23</size>
@@ -27674,7 +27626,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="AssMarkType">
 <size>52,25</size>
@@ -27739,7 +27691,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>0</border>
 <object class="wxChoice" name="AssType">
-<size>75,-1</size>
+<size>95,-1</size>
 <font>
 <size>14</size>
 </font>
@@ -27841,7 +27793,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="AssCopy">
 <size>64,23</size>
@@ -27853,7 +27805,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="AssDis">
 <size>64,23</size>
@@ -27935,7 +27887,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="AssFromA">
 <size>52,23</size>
@@ -27953,7 +27905,7 @@
 <size>2,5</size>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="AssFrom">
 <size>64,23</size>
@@ -27971,7 +27923,7 @@
 <size>2,5</size>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="AssFromL">
 <size>64,23</size>
@@ -27989,7 +27941,7 @@
 <size>2,5</size>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="AssFromV">
 <size>64,23</size>
@@ -28002,7 +27954,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="AssClear">
 <size>52,23</size>
@@ -28019,7 +27971,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="AssInsert">
 <size>64,23</size>
@@ -28031,7 +27983,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="AssDelete">
 <size>64,23</size>
@@ -28043,7 +27995,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="AssClr">
 <size>64,23</size>
@@ -28137,7 +28089,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="AssDir">
 <size>54,25</size>
@@ -28199,7 +28151,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="AssNew">
 <size>54,25</size>
@@ -28210,7 +28162,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="AssStore">
 <size>54,25</size>
@@ -28256,7 +28208,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="AssLoadAll">
 <size>54,25</size>
@@ -28267,7 +28219,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="AssSaveAll">
 <size>54,25</size>
@@ -28279,7 +28231,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="AssSaveSb">
 <size>54,25</size>
@@ -28711,7 +28663,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxLEFT</flag>
+<flag>wxGROW</flag>
 <border>4</border>
 <object class="wxButton" name="ProfilerClear">
 <font>
@@ -28922,7 +28874,6 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -29238,7 +29189,6 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -29740,7 +29690,6 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -30044,7 +29993,6 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -30669,7 +30617,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="BreakPointSet">
 <size>105,23</size>
@@ -30688,7 +30636,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="TraceLog">
 <size>50,23</size>
@@ -30700,7 +30648,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="DebugInterrupt">
 <size>76,23</size>
@@ -30764,7 +30712,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="TregSet">
 <size>105,23</size>
@@ -30783,7 +30731,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="DebugReset">
 <size>50,23</size>
@@ -30981,7 +30929,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="TrapSet">
 <size>105,23</size>
@@ -30993,7 +30941,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="TraceSet">
 <size>30,23</size>
@@ -31190,7 +31138,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="DebugRunButton">
 <size>52,23</size>
@@ -31222,7 +31170,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="ClearButton">
 <size>56,23</size>
@@ -31599,7 +31547,6 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -32159,7 +32106,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="Chip8TraceLog">
 <size>52,23</size>
@@ -32240,7 +32187,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="Chip8BreakPointSet">
 <size>52,23</size>
@@ -32298,7 +32245,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="Chip8ClearButton">
 <size>52,23</size>
@@ -36719,7 +36666,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="DebugSave">
 <size>58,23</size>
@@ -36732,7 +36679,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="DebugCopy">
 <size>58,23</size>
@@ -36807,7 +36754,6 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
@@ -36918,7 +36864,6 @@
 <size>5,5</size>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
 <border>12</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <font>

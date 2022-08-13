@@ -176,7 +176,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
@@ -350,7 +350,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
@@ -516,7 +516,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
@@ -952,7 +952,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
@@ -1372,7 +1372,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
@@ -1784,7 +1784,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
@@ -2252,7 +2252,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
@@ -2540,7 +2540,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
@@ -2661,7 +2661,7 @@
 <size>5,5</size>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="One600SocketSetupMicroboard">
 <tooltip>Setup 1 Socket Memory Bank</tooltip>
@@ -2675,7 +2675,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="RomButtonU21Microboard">
 <tooltip>Browse for Microboard U21 ROM file</tooltip>
@@ -2759,7 +2759,7 @@
 <size>5,5</size>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="Four600SocketSetupMicroboard">
 <tooltip>Setup 4 Socket Memory Bank</tooltip>
@@ -2773,7 +2773,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="RomButtonU20Microboard">
 <tooltip>Browse for Microboard U20 ROM file</tooltip>
@@ -2804,7 +2804,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="RomButtonU19Microboard">
 <tooltip>Browse for Microboard U19 ROM file</tooltip>
@@ -2833,7 +2833,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="RomButtonU18Microboard">
 <tooltip>Browse for Microboard U18 ROM file</tooltip>
@@ -2862,7 +2862,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="RomButtonU17Microboard">
 <tooltip>Browse for Microboard U17 ROM file</tooltip>
@@ -2944,7 +2944,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
@@ -3093,7 +3093,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="RomButtonU21Microboard">
 <tooltip>Browse for Microboard RAM file</tooltip>
@@ -3176,7 +3176,7 @@
 <size>5,5</size>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="Four601SocketSetupMicroboard">
 <tooltip>Setup ROM Socket Memory Bank</tooltip>
@@ -3190,7 +3190,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="RomButtonU20Microboard">
 <tooltip>Browse for Microboard XU27 ROM file</tooltip>
@@ -3219,7 +3219,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="RomButtonU19Microboard">
 <tooltip>Browse for Microboard XU26 ROM file</tooltip>
@@ -3248,7 +3248,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="RomButtonU18Microboard">
 <tooltip>Browse for Microboard XU25 ROM file</tooltip>
@@ -3278,7 +3278,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="RomButtonU17Microboard">
 <tooltip>Browse for Microboard XU24 ROM file</tooltip>
@@ -3321,7 +3321,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
@@ -3478,7 +3478,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="RomButtonU21Microboard">
 <tooltip>Browse for Microboard RAM file</tooltip>
@@ -3613,7 +3613,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="RomButtonU20Microboard">
 <tooltip>Browse for Microboard XU9 ROM file</tooltip>
@@ -3644,7 +3644,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="RomButtonU19Microboard">
 <tooltip>Browse for Microboard XU10 ROM file</tooltip>
@@ -3728,7 +3728,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
@@ -3877,7 +3877,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="RomButtonU21Microboard">
 <tooltip>Browse for Microboard RAM file</tooltip>
@@ -3960,7 +3960,7 @@
 <size>5,5</size>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="Four603ASocketSetupMicroboard">
 <tooltip>Setup ROM Socket Memory Bank</tooltip>
@@ -3974,7 +3974,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="RomButtonU20Microboard">
 <tooltip>Browse for Microboard XU27 ROM file</tooltip>
@@ -4003,7 +4003,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="RomButtonU19Microboard">
 <tooltip>Browse for Microboard XU26 ROM file</tooltip>
@@ -4032,7 +4032,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="RomButtonU18Microboard">
 <tooltip>Browse for Microboard XU25 ROM file</tooltip>
@@ -4062,7 +4062,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="RomButtonU17Microboard">
 <tooltip>Browse for Microboard XU24 ROM file</tooltip>
@@ -4105,7 +4105,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
@@ -4262,7 +4262,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="RomButtonU21Microboard">
 <tooltip>Browse for Microboard RAM file</tooltip>
@@ -4387,7 +4387,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="RomButtonU20Microboard">
 <tooltip>Browse for Microboard ROM file</tooltip>
@@ -4430,7 +4430,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
@@ -4570,7 +4570,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="RomButtonSection1Microboard">
 <tooltip>Browse for Microboard file for RAM</tooltip>
@@ -4613,7 +4613,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
@@ -4741,7 +4741,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="RomButtonSection1Microboard">
 <tooltip>Browse for Microboard file for RAM</tooltip>
@@ -4865,7 +4865,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
@@ -4997,7 +4997,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="RomButtonSection1Microboard">
 <tooltip>Browse for Microboard file for RAM</tooltip>
@@ -5040,7 +5040,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
@@ -5190,7 +5190,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="RomButtonSection1Microboard">
 <tooltip>Browse for Microboard file for ROM 1</tooltip>
@@ -5393,7 +5393,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="RomButtonSection2Microboard">
 <tooltip>Browse for Microboard file for ROM 2</tooltip>
@@ -5510,7 +5510,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
@@ -5654,7 +5654,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="RomButtonSection1Microboard">
 <tooltip>Browse for Microboard file for block 1</tooltip>
@@ -5699,7 +5699,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="RomButtonSection2Microboard">
 <tooltip>Browse for Microboard file for block 2</tooltip>
@@ -5744,7 +5744,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="RomButtonSection3Microboard">
 <tooltip>Browse for Microboard file for block 3</tooltip>
@@ -5789,7 +5789,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="RomButtonSection4Microboard">
 <tooltip>Browse for Microboard file for block 4</tooltip>
@@ -5927,7 +5927,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
@@ -6067,7 +6067,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="RomButtonSection1Microboard">
 <tooltip>Browse for Microboard file for ROM</tooltip>
@@ -6110,7 +6110,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
@@ -6249,7 +6249,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="RomButtonSection1Microboard">
 <tooltip>Browse for Microboard file for block 1</tooltip>
@@ -6294,7 +6294,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="RomButtonSection2Microboard">
 <tooltip>Browse for Microboard file for block 2</tooltip>
@@ -6339,7 +6339,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="RomButtonSection3Microboard">
 <tooltip>Browse for Microboard file for block 3</tooltip>
@@ -6384,7 +6384,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="RomButtonSection4Microboard">
 <tooltip>Browse for Microboard file for block 4</tooltip>
@@ -6523,7 +6523,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
@@ -6662,7 +6662,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="RomButtonSection1Microboard">
 <tooltip>Browse for Microboard file for block 1</tooltip>
@@ -6707,7 +6707,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="RomButtonSection2Microboard">
 <tooltip>Browse for Microboard file for block 2</tooltip>
@@ -6752,7 +6752,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="RomButtonSection3Microboard">
 <tooltip>Browse for Microboard file for block 3</tooltip>
@@ -6797,7 +6797,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="RomButtonSection4Microboard">
 <tooltip>Browse for Microboard file for block 4</tooltip>
@@ -6936,7 +6936,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
@@ -7048,7 +7048,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="RomButtonSection1Microboard">
 <tooltip>Browse for Microboard file for RAM</tooltip>
@@ -7139,7 +7139,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="RomButtonSection2Microboard">
 <tooltip>Browse for Microboard file for ROM</tooltip>
@@ -7182,7 +7182,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
@@ -7367,7 +7367,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
@@ -7493,7 +7493,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="PrintFileButtonMicroboard">
 <tooltip>Browse for printer output file</tooltip>
@@ -7546,7 +7546,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
@@ -7673,7 +7673,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
@@ -7804,7 +7804,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="RamButtonSection1Microboard">
 <tooltip>Browse for Microboard RAM file</tooltip>
@@ -7850,7 +7850,7 @@
 <vgap>2</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="RomButtonSection1Microboard">
 <tooltip>Browse for Microboard file for UT62 (U3) ROM file</tooltip>
@@ -7897,7 +7897,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="RomButtonSection2Microboard">
 <tooltip>Browse for Microboard file for EDIT/ASM (U4, 9, 10) ROM file</tooltip>
@@ -7944,7 +7944,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="RomButtonSection3Microboard">
 <tooltip>Browse for Microboard file for BASIC3 (U1, 2, 7, 8, 15, 16) ROM file</tooltip>
@@ -7991,7 +7991,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="RomButtonSection4Microboard">
 <tooltip>Browse for Microboard file for U13-U14 ROM file</tooltip>
@@ -8052,7 +8052,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
@@ -8330,7 +8330,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="RamButtonSection1Microboard">
 <tooltip>Browse for Microboard RAM file</tooltip>
@@ -8413,7 +8413,7 @@
 <size>5,5</size>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="Four660SocketSetupMicroboard">
 <tooltip>Setup ROM Socket Memory Bank</tooltip>
@@ -8427,7 +8427,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="RomButtonSection1Microboard">
 <tooltip>Browse for Microboard XU23 ROM file</tooltip>
@@ -8456,7 +8456,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="RomButtonSection2Microboard">
 <tooltip>Browse for Microboard XU22 ROM file</tooltip>
@@ -8485,7 +8485,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="RomButtonSection3Microboard">
 <tooltip>Browse for Microboard XU21 ROM file</tooltip>
@@ -8514,7 +8514,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="RomButtonSection4Microboard">
 <tooltip>Browse for Microboard XU20 ROM file</tooltip>
@@ -8557,7 +8557,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
@@ -9027,7 +9027,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
@@ -9315,7 +9315,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
@@ -9521,7 +9521,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="MicroSetupCharacterRomButton">
 <tooltip>Browse for CDP18S661 video character ROM file</tooltip>
@@ -9663,7 +9663,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
@@ -9937,7 +9937,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
@@ -9968,7 +9968,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxTOP|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="CardMicroboard05">
 <tooltip>Open CARD 5 setup window</tooltip>
@@ -10018,7 +10018,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxTOP|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="CardMicroboard06">
 <tooltip>Open CARD 6 setup window</tooltip>
@@ -10070,7 +10070,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxTOP|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="CardMicroboard07">
 <tooltip>Open CARD 7 setup window</tooltip>
@@ -10122,7 +10122,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxTOP|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="CardMicroboard08">
 <tooltip>Open CARD 8 setup window</tooltip>
@@ -10174,7 +10174,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxTOP|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="CardMicroboard09">
 <tooltip>Open CARD 9 setup window</tooltip>
@@ -10226,7 +10226,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxTOP|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="CardMicroboard10">
 <tooltip>Open CARD 10 setup window</tooltip>
@@ -10278,7 +10278,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxTOP|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="CardMicroboard11">
 <tooltip>Open CARD 11 setup window</tooltip>
@@ -10330,7 +10330,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxTOP|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="CardMicroboard12">
 <tooltip>Open CARD 12 setup window</tooltip>
@@ -10382,7 +10382,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxTOP|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="CardMicroboard13">
 <tooltip>Open CARD 13 setup window</tooltip>
@@ -10434,7 +10434,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxTOP|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="CardMicroboard14">
 <tooltip>Open CARD 14 setup window</tooltip>
@@ -10486,7 +10486,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxTOP|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="CardMicroboard15">
 <tooltip>Open CARD 15 setup window</tooltip>
@@ -10538,7 +10538,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxTOP|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="CardMicroboard16">
 <tooltip>Open CARD 16 setup window</tooltip>
@@ -10590,7 +10590,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxTOP|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="CardMicroboard17">
 <tooltip>Open CARD 17 setup window</tooltip>
@@ -10642,7 +10642,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxTOP|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="CardMicroboard18">
 <tooltip>Open CARD 18 setup window</tooltip>
@@ -10694,7 +10694,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxTOP|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="CardMicroboard19">
 <tooltip>Open CARD 19 setup window</tooltip>
@@ -10746,7 +10746,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxTOP|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="CardMicroboard20">
 <tooltip>Open CARD 20 setup window</tooltip>
@@ -10798,7 +10798,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxTOP|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="CardMicroboard21">
 <tooltip>Open CARD 21 setup window</tooltip>
@@ -10850,7 +10850,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxTOP|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="CardMicroboard22">
 <tooltip>Open CARD 22 setup window</tooltip>
@@ -10902,7 +10902,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxTOP|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="CardMicroboard23">
 <tooltip>Open CARD 23 setup window</tooltip>
@@ -10954,7 +10954,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxTOP|wxBOTTOM</flag>
+<flag>wxGROW</flag>
 <border>2</border>
 <object class="wxButton" name="CardMicroboard24">
 <tooltip>Open CARD 24 setup window</tooltip>
@@ -11013,7 +11013,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
@@ -11136,7 +11136,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="RomButtonU21Microboard">
 <tooltip>Browse for RCASBC RAM file</tooltip>
@@ -11231,7 +11231,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="RomButtonU20Microboard">
 <tooltip>Browse for RCASBC ROM file</tooltip>
@@ -11275,7 +11275,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>
@@ -11549,7 +11549,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>8</border>
 <object class="wxButton" name="MicroSetupSave">
 <font>

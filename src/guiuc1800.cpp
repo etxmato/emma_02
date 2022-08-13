@@ -47,8 +47,8 @@ BEGIN_EVENT_TABLE(GuiUc1800, GuiMembership)
     EVT_TEXT(XRCID("SaveStartUC1800"), GuiMain::onSaveStart)
     EVT_TEXT(XRCID("SaveEndUC1800"), GuiMain::onSaveEnd)
 
-    EVT_SPINCTRL(XRCID("HexOutputUC1800"), GuiUc1800::onUC1800HexOutput)
-    EVT_SPINCTRL(XRCID("HexInputUC1800"), GuiUc1800::onUC1800HexInput)
+ //   EVT_SPINCTRL(XRCID("HexOutputUC1800"), GuiUc1800::onUC1800HexOutput)
+ //   EVT_SPINCTRL(XRCID("HexInputUC1800"), GuiUc1800::onUC1800HexInput)
 
     EVT_BUTTON(XRCID("KeyMapUC1800"), Main::onHexKeyDef)
 
@@ -105,8 +105,8 @@ void GuiUc1800::readUc1800Config()
         XRCCTRL(*this, "AutoBootUC1800", wxCheckBox)->SetValue(elfConfiguration[UC1800].autoBoot);
         if (clockTextCtrl[UC1800] != NULL)
             clockTextCtrl[UC1800]->ChangeValue(conf[UC1800].clock_);
-        XRCCTRL(*this, "HexOutputUC1800", wxSpinCtrl)->SetValue(elfConfiguration[UC1800].elfPortConf.hexOutput);
-        XRCCTRL(*this, "HexInputUC1800", wxSpinCtrl)->SetValue(elfConfiguration[UC1800].elfPortConf.hexInput);
+ //       XRCCTRL(*this, "HexOutputUC1800", wxSpinCtrl)->SetValue(elfConfiguration[UC1800].elfPortConf.hexOutput);
+ //       XRCCTRL(*this, "HexInputUC1800", wxSpinCtrl)->SetValue(elfConfiguration[UC1800].elfPortConf.hexInput);
         if (conf[UC1800].saveStart_ != 0)
             XRCCTRL(*this, "SaveStartUC1800", wxTextCtrl)->SetValue(conf[UC1800].saveStartString_);    
     }

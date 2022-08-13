@@ -12,7 +12,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="ID_BUTTON">
 <size>75,25</size>
@@ -29,7 +29,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="CasButton">
 <tooltip>Browse for cassette file</tooltip>
@@ -144,7 +144,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="LoadButton">
 <tooltip>Load .tmc600 file into TMC600 emulator memory</tooltip>
@@ -155,7 +155,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="RunButton">
 <tooltip>Load .tmc600 file into TMC-600 emulator memory and RUN software</tooltip>
@@ -189,7 +189,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="SaveButton">
 <tooltip>Save TMC-600 emulator memory to .tmc600 file</tooltip>
@@ -200,7 +200,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALIGN_TOP</flag>
+<flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="DsaveButton">
 <tooltip>Save TMC-600 emulator data memory to .tmc600 file</tooltip>
@@ -365,7 +365,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="OK">
 <font>

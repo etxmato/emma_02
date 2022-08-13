@@ -18,7 +18,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="EpromButton0">
 <tooltip>Browse for F&amp;M EPROM switchboard file for EPROM 0</tooltip>
@@ -57,7 +57,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="EpromButton1">
 <tooltip>Browse for F&amp;M EPROM switchboard file for EPROM 1</tooltip>
@@ -95,7 +95,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="EpromButton2">
 <tooltip>Browse for F&amp;M EPROM switchboard file for EPROM 2</tooltip>
@@ -133,7 +133,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="EpromButton3">
 <tooltip>Browse for F&amp;M EPROM switchboard file for EPROM 3</tooltip>
@@ -171,7 +171,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxGROW</flag>
 <border>3</border>
 <object class="wxButton" name="EpromButton4">
 <tooltip>Browse for F&amp;M EPROM switchboard file for EPROM 4</tooltip>
@@ -211,7 +211,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>8</border>
 <object class="wxButton" name="EpromSave">
 <font>
