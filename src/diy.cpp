@@ -50,192 +50,6 @@
 
 #define OFF    1
 
-DiyScreen::DiyScreen(wxWindow *parent, const wxSize& size, int tilType)
-: Panel(parent, size)
-{
-    tilType_ = tilType;
-}
-
-DiyScreen::~DiyScreen()
-{
-#if defined (__WXMAC__)
-    delete osx_push_inButtonPointer;
-    for (int i=0;i<16;i++)
-        delete osx_buttonPointer[i];
-#else
-    delete push_inButtonPointer;
-    for (int i=0;i<16;i++)
-        delete buttonPointer[i];
-#endif
-    delete mainBitmapPointer;
-    delete mpSwitchButton;
-    delete powerSwitchButton;
-    delete loadSwitchButton;
-    delete runSwitchButton;
-
-    delete qLedPointer;
-
-    if (tilType_ == TIL311)
-    {
-        for (int i=0; i<2; i++)
-        {
-            delete dataPointer[i];
-        }
-    }
-    else
-    {
-        for (int i=0; i<2; i++)
-        {
-            delete dataTil313PointerItalic[i];
-        }
-    }
-}
-
-void DiyScreen::init()
-{
-    keyStart_ = 0;
-    keyEnd_ = 0;
-    lastKey_ = 0;
-    forceUpperCase_ = p_Main->getUpperCase(DIY);
-
-    wxClientDC dc(this);
-    wxString buttonText;
-    int x, y;
-
-    mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/elf2.png", wxBITMAP_TYPE_PNG);
-    
-#if defined (__WXMAC__)
-    osx_push_inButtonPointer = new HexButton(dc, ELF_HEX_BUTTON, 435, 327, "IN");
-    for (int i=0; i<16; i++)
-    {
-        buttonText.Printf("%01X", i);
-        x = 304 +(i&0x3)*32;
-        y = 327 -(int)i/4*32;
-        osx_buttonPointer[i] = new HexButton(dc, ELF_HEX_BUTTON, x, y, buttonText);
-    }
-#else
-    push_inButtonPointer = new PushButton(this, 20, "IN", wxPoint(435, 327), wxSize(30, 30), 0);
-    for (int i=0; i<16; i++)
-    {
-        buttonText.Printf("%01X", i);
-        x = 304 +(i&0x3)*32;
-        y = 327 -(int)i/4*32;
-        buttonPointer[i] = new PushButton(this, i, buttonText, wxPoint(x, y), wxSize(30, 30), 0);
-    }
-#endif
-    runSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(0x5a, 0x8a, 0xa5), BUTTON_DOWN, 440, 235, "");
-    mpSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(0x5a, 0x8a, 0xa5), BUTTON_DOWN, 440, 295, "");
-    powerSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(0x5a, 0x8a, 0xa5), BUTTON_UP, 490, 20, "");
-    loadSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(0x5a, 0x8a, 0xa5), BUTTON_DOWN, 440, 265, "");
-
-    qLedPointer = new Led(dc, 440, 190, ELFIILED);
-    updateQLed_ = true;
-
-    for (int i=0; i<2; i++)
-    {
-        if (tilType_ == TIL311)
-        {
-            dataPointer[i] = new Til311();
-            dataPointer[i]->init(dc, 370+i*28,180);
-            updateData_ = true;
-        }
-        else
-        {
-            dataTil313PointerItalic[i] = new Til313Italic(false);
-            dataTil313PointerItalic[i]->init(dc, 370+i*28,180);
-            updateDataTil313Italic_ = true;
-        }
-    }
-    this->connectKeyEvent(this);
-}
-
-void DiyScreen::onPaint(wxPaintEvent&WXUNUSED(event))
-{
-    wxPaintDC dc(this);
-    dc.DrawBitmap(*mainBitmapPointer, 0, 0);
-
-#if defined(__WXMAC__)
-    rePaintLeds(dc);
-#endif
-
-    if (tilType_ == TIL311)
-    {
-        for (int i=0; i<2; i++)
-        {
-            dataPointer[i]->onPaint(dc);
-        }
-    }
-    else
-    {
-        for (int i=0; i<2; i++)
-        {
-            dataTil313PointerItalic[i]->onPaint(dc);
-        }
-    }
-    qLedPointer->onPaint(dc);
-    runSwitchButton->onPaint(dc);
-    mpSwitchButton->onPaint(dc);
-    powerSwitchButton->onPaint(dc);
-    loadSwitchButton->onPaint(dc);
-#if defined (__WXMAC__)
-    osx_push_inButtonPointer->onPaint(dc);
-    for (int i = 0; i<16; i++)
-        osx_buttonPointer[i]->onPaint(dc);
-#endif
-}
-
-void DiyScreen::onMouseRelease(wxMouseEvent&event)
-{
-    int x, y;
-    event.GetPosition(&x, &y);
-
-    wxClientDC dc(this);
-
-    if (runSwitchButton->onMouseRelease(dc, x, y))
-        p_Computer->onRun();
-    if (mpSwitchButton->onMouseRelease(dc, x, y))
-        p_Computer->onMpButton();
-    if (powerSwitchButton->onMouseRelease(dc, x, y))
-        p_Main->stopComputer();
-    if (loadSwitchButton->onMouseRelease(dc, x, y))
-        p_Computer->onLoadButton();
-#if defined (__WXMAC__)
-    if (osx_push_inButtonPointer->onMouseRelease(dc, x, y))
-        p_Computer->onInButtonRelease();
-    for (int i = 0; i<16; i++)
-        if (osx_buttonPointer[i]->onMouseRelease(dc, x, y))
-            p_Computer->onNumberKeyUp();
-#endif
-}
-
-void DiyScreen::onMousePress(wxMouseEvent&event)
-{
-    int x, y;
-    event.GetPosition(&x, &y);
-    
-    wxClientDC dc(this);
-    
-#if defined (__WXMAC__)
-    if (osx_push_inButtonPointer->onMousePress(dc, x, y))
-        p_Computer->onInButtonPress();
-    
-    for (int i = 0; i<16; i++)
-    {
-        if (osx_buttonPointer[i]->onMousePress(dc, x, y))
-        {
-            p_Computer->onNumberKeyDown(i);
-        }
-    }
-#endif
-}
-
-void DiyScreen::releaseButtonOnScreen(HexButton* buttonPoint)
-{
-    wxClientDC dc(this);
-    
-    buttonPoint->releaseButtonOnScreen(dc);
-}
-
 BEGIN_EVENT_TABLE(Diy, wxFrame)
     EVT_CLOSE (Diy::onClose)
     EVT_COMMAND(0, wxEVT_ButtonDownEvent, Diy::onNumberKeyDown)
@@ -288,9 +102,24 @@ Diy::Diy(const wxString& title, const wxPoint& pos, const wxSize& size, double c
     
     this->SetClientSize(size);
 
-    elf2ScreenPointer = new DiyScreen(this, size, elfConfiguration.tilType);
-    elf2ScreenPointer->init();
+    switch (elfConfiguration.panelType_)
+    {
+        case PANEL_ELF:
+            elfScreenPointer = new ElfScreen(this, size, elfConfiguration.tilType);
+            elfScreenPointer->init();
+        break;
 
+        case PANEL_ELFII:
+            elf2ScreenPointer = new Elf2Screen(this, size, elfConfiguration.tilType);
+            elf2ScreenPointer->init();
+        break;
+
+        case PANEL_SUPER:
+            superScreenPointer = new SuperScreen(this, size, elfConfiguration.tilType);
+            superScreenPointer->init();
+        break;
+    }
+    
     offset_ = 0;
 
     rtcTimerPointer = new wxTimer(this, 900);
@@ -344,7 +173,20 @@ Diy::~Diy()
     }
     p_Main->setMainPos(DIY, GetPosition());
 
-    delete elf2ScreenPointer;
+    switch (elfConfiguration.panelType_)
+    {
+        case PANEL_ELF:
+            delete elfScreenPointer;
+        break;
+
+        case PANEL_ELFII:
+            delete elf2ScreenPointer;
+        break;
+
+        case PANEL_SUPER:
+            delete superScreenPointer;
+        break;
+    }
 }
 
 void Diy::onClose(wxCloseEvent&WXUNUSED(event) )
@@ -424,6 +266,7 @@ void Diy::configureComputer()
     efType_[1] = EF1UNDEFINED;
     efType_[2] = EF2UNDEFINED;
     efType_[3] = EF3UNDEFINED;
+    efType_[4] = EF4UNDEFINED;
 
     setCycleType(COMPUTERCYCLE, LEDCYCLE);
     wxString printBuffer;
@@ -471,6 +314,30 @@ void Diy::configureComputer()
     }
     p_Main->message("    EF 4: 0 when in button pressed");
 
+    if (elfConfiguration.bootStrap)
+    {
+        printBuffer.Printf("    Bootstrap address: %04X", elfConfiguration.strapAddress);
+        p_Main->message(printBuffer);
+        
+        switch (elfConfiguration.elfPortConf.bootStrapType)
+        {
+            case BOOTSTRAPREAD:
+                printBuffer.Printf("    Read address >= %04X: release bootstrap", elfConfiguration.strapAddress);
+            break;
+
+            case BOOTSTRAPOUT:
+                p_Computer->setOutType(elfConfiguration.elfPortConf.bootStrapIo, BOOTSTRAPDISABLE);
+                printBuffer.Printf("    Output %d: release bootstrap", elfConfiguration.elfPortConf.bootStrapIo);
+            break;
+
+            case BOOTSTRAPIN:
+                p_Computer->setInType(elfConfiguration.elfPortConf.bootStrapIo, BOOTSTRAPDISABLE);
+                printBuffer.Printf("    Input %d: release bootstrap", elfConfiguration.elfPortConf.bootStrapIo);
+            break;
+        }
+        p_Main->message(printBuffer);
+    }
+    
     p_Main->message("");
 
     inKey1_ = p_Main->getDefaultInKey1("Diy");
@@ -613,6 +480,10 @@ Byte Diy::ef(int flag)
             return elfConfiguration.elfPortConf.ef3default;
         break;
 
+        case EF4UNDEFINED:
+            return elfConfiguration.elfPortConf.ef4default;
+        break;
+
         default:
             return 1;
     }
@@ -700,6 +571,11 @@ Byte Diy::in(Byte port, Word WXUNUSED(address))
             return readDiskStatus();
         break;
 
+        case BOOTSTRAPDISABLE:
+            ret = 255;
+            bootstrap_ = 0;
+        break;
+            
         default:
             ret = 255;
     }
@@ -820,6 +696,10 @@ void Diy::out(Byte port, Word WXUNUSED(address), Byte value)
             }
         break;
 
+        case BOOTSTRAPDISABLE:
+            bootstrap_ = 0;
+        break;
+            
         case ELF2KDISKSELECTREGISTER:
             selectDiskRegister(value);
         break;
@@ -832,10 +712,29 @@ void Diy::out(Byte port, Word WXUNUSED(address), Byte value)
 
 void Diy::showData(Byte val)
 {
-    if (elfConfiguration.tilType == TIL311)
-        elf2ScreenPointer->showData(val);
-    else
-        elf2ScreenPointer->showDataTil313Italic(val);
+    switch (elfConfiguration.panelType_)
+    {
+        case PANEL_ELF:
+            if (elfConfiguration.tilType == TIL311)
+                elfScreenPointer->showData(val);
+            else
+                elfScreenPointer->showDataTil313Italic(val);
+        break;
+
+        case PANEL_ELFII:
+            if (elfConfiguration.tilType == TIL311)
+                elf2ScreenPointer->showData(val);
+            else
+                elf2ScreenPointer->showDataTil313Italic(val);
+        break;
+
+        case PANEL_SUPER:
+            if (elfConfiguration.tilType == TIL311)
+                superScreenPointer->showData(val);
+            else
+                superScreenPointer->showDataTil313Italic(val);
+        break;
+    }
 }
 
 void Diy::cycle(int type)
@@ -922,21 +821,70 @@ void Diy::cycleLed()
         if (ledCycleValue_ <= 0)
         {
             ledCycleValue_ = ledCycleSize_;
-            elf2ScreenPointer->ledTimeout();
+            switch (elfConfiguration.panelType_)
+            {
+                case PANEL_ELF:
+                    elfScreenPointer->ledTimeout();
+                break;
+
+                case PANEL_ELFII:
+                    elf2ScreenPointer->ledTimeout();
+                break;
+
+                case PANEL_SUPER:
+                    superScreenPointer->ledTimeout();
+                break;
+            }
         }
     }
 }
 
 void Diy::autoBoot()
 {
-    elf2ScreenPointer->runSetState(BUTTON_UP);
-    runButtonState_ = 1;
-    setClear(runButtonState_);
+    switch (elfConfiguration.panelType_)
+    {
+        case PANEL_ELF:
+            elfScreenPointer->runSetState(BUTTON_UP);
+            runButtonState_ = 1;
+            setClear(runButtonState_);
+            if (cpuMode_ == RESET)
+            {
+                if (elfConfiguration.tilType == TIL311)
+                    elfScreenPointer->showAddress(0);
+                else
+                    elfScreenPointer->showAddressTil313Italic(0);
+            }
+        break;
+
+        case PANEL_ELFII:
+            elf2ScreenPointer->runSetState(BUTTON_UP);
+            runButtonState_ = 1;
+            setClear(runButtonState_);
+        break;
+
+        case PANEL_SUPER:
+            setClear(1);
+            setWait(1);
+        break;
+    }
 }
 
 void Diy::switchQ(int value)
 {
-    elf2ScreenPointer->setQLed(value);
+    switch (elfConfiguration.panelType_)
+    {
+        case PANEL_ELF:
+            elfScreenPointer->setQLed(value);
+        break;
+
+        case PANEL_ELFII:
+            elf2ScreenPointer->setQLed(value);
+        break;
+
+        case PANEL_SUPER:
+            superScreenPointer->setQLed(value);
+        break;
+    }
 
     if (elfConfiguration.vtType != VTNONE)
         vtPointer->switchQ(value);
@@ -953,22 +901,78 @@ int Diy::getMpButtonState()
 void Diy::onRun()
 {
     if (elfConfiguration.bootStrap)
-        bootstrap_ = 0x8000;
+        bootstrap_ = elfConfiguration.strapAddress;
 
     stopTape();
-    if (runButtonState_)
+    
+    switch (elfConfiguration.panelType_)
     {
-        elf2ScreenPointer->runSetState(BUTTON_DOWN);
-        runButtonState_ = 0;
+        case PANEL_ELF:
+            if (runButtonState_)
+            {
+                elfScreenPointer->runSetState(BUTTON_DOWN);
+                runButtonState_ = 0;
+            }
+            else
+            {
+                elfScreenPointer->runSetState(BUTTON_UP);
+                runButtonState_ = 1;
+                p_Main->startTime();
+            }
+            setClear(runButtonState_);
+            p_Main->eventUpdateTitle();
+            if (cpuMode_ == RESET)
+            {
+                if (elfConfiguration.tilType == TIL311)
+                    elfScreenPointer->showAddress(0);
+                else
+                    elfScreenPointer->showAddressTil313Italic(0);
+            }
+        break;
+
+        case PANEL_ELFII:
+            if (runButtonState_)
+            {
+                elf2ScreenPointer->runSetState(BUTTON_DOWN);
+                runButtonState_ = 0;
+            }
+            else
+            {
+                elf2ScreenPointer->runSetState(BUTTON_UP);
+                runButtonState_ = 1;
+                p_Main->startTime();
+            }
+            
+            setClear(runButtonState_);
+            p_Main->eventUpdateTitle();
+        break;
+
+        case PANEL_SUPER:
+            if (getClear()==0)
+            {
+                setClear(1);
+                setWait(1);
+                p_Main->eventUpdateTitle();
+                resetEffectiveClock();
+            }
+            else
+            {
+                setClear(0);
+                setWait(1);
+                p_Main->eventUpdateTitle();
+                if (cpuMode_ == RESET)
+                {
+                    if (elfConfiguration.tilType == TIL311)
+                        superScreenPointer->showAddress(0);
+                    else
+                        superScreenPointer->showAddressTil313Italic(0);
+                }
+                mpButtonState_ = 0;
+// *** add monitor option for SuperElf                monitor_ = false;
+            }
+        break;
     }
-    else
-    {
-        elf2ScreenPointer->runSetState(BUTTON_UP);
-        runButtonState_ = 1;
-        p_Main->startTime();
-    }
-    setClear(runButtonState_);
-    p_Main->eventUpdateTitle();
+
 }
 
 void Diy::onMpButton()
@@ -1114,7 +1118,20 @@ void Diy::startComputer()
     rtcTimerPointer->Start(250, wxTIMER_CONTINUOUS);
 
     int ms = (int) p_Main->getLedTimeMs(DIY);
-    elf2ScreenPointer->setLedMs(ms);
+    switch (elfConfiguration.panelType_)
+    {
+        case PANEL_ELF:
+            elfScreenPointer->setLedMs(ms);
+        break;
+
+        case PANEL_ELFII:
+            elf2ScreenPointer->setLedMs(ms);
+        break;
+
+        case PANEL_SUPER:
+            superScreenPointer->setLedMs(ms);
+        break;
+    }
     if (ms == 0)
         ledCycleSize_ = -1;
     else
@@ -1127,7 +1144,7 @@ void Diy::startComputer()
         p_Video->splashScreen();
 
     if (elfConfiguration.bootStrap)
-        bootstrap_ = 0x8000;
+        bootstrap_ = elfConfiguration.strapAddress;
 
     threadPointer->Run();
 }
@@ -1139,7 +1156,7 @@ void Diy::loadRomRam(size_t configNumber)
         if (computerConfiguration.memConfig_[configNumber].verifyFileExist)
             p_Main->checkAndReInstallFile(computerConfiguration.memConfig_[configNumber].dirname + computerConfiguration.memConfig_[configNumber].filename, DIY, computerConfiguration.memConfig_[configNumber].filename);
 
-        readProgram(computerConfiguration.memConfig_[configNumber].dirname, computerConfiguration.memConfig_[configNumber].filename, computerConfiguration.memConfig_[configNumber].type, computerConfiguration.memConfig_[configNumber].start, NONAME);
+        readProgram(computerConfiguration.memConfig_[configNumber].dirname, computerConfiguration.memConfig_[configNumber].filename, computerConfiguration.memConfig_[configNumber].type & 0xff, computerConfiguration.memConfig_[configNumber].start, NONAME);
     }
 }
 
@@ -1254,7 +1271,7 @@ Byte Diy::readMemDebug(Word address)
 {
     size_t number = (memoryType_[address / 256] >> 8);
 
-    if ((address & 0x8000) == 0x8000)
+    if ((address & 0x8000) == 0x8000 && elfConfiguration.elfPortConf.bootStrapType == BOOTSTRAPREAD)
         bootstrap_ = 0;
 
     address = address | bootstrap_;
@@ -1359,8 +1376,11 @@ void Diy::writeMemDebug(Word address, Byte value, bool writeRom)
             }
         }
     }
-    if (elfConfiguration.elfPortConf.mc6847OutputMode == 1 && address >= 0xff00)
-        mc6847Pointer->outMc6847(value);
+    if (elfConfiguration.elfPortConf.mc6847OutputMode == 1)
+    {
+        if (address>=elfConfiguration.elfPortConf.mc6847OutputStart && address <=elfConfiguration.elfPortConf.mc6847OutputEnd)
+            mc6847Pointer->outMc6847(value);
+    }
 
     switch (memoryType_[address/256]&0xff)
     {
@@ -1587,9 +1607,9 @@ void Diy::configureElfExtensions()
     {
         double zoom = p_Main->getZoomVt();
         if (elfConfiguration.vtType == VT52)
-            vtPointer = new Vt100("Elf II - VT 52", p_Main->getVtPos(DIY), wxSize(800*zoom, 500*zoom), zoom, DIY, elfClockSpeed_, elfConfiguration, UART1);
+            vtPointer = new Vt100(p_Main->getRunningComputerText() + " - VT 52", p_Main->getVtPos(DIY), wxSize(800*zoom, 500*zoom), zoom, DIY, elfClockSpeed_, elfConfiguration, UART1);
         else
-            vtPointer = new Vt100("Elf II - VT 100", p_Main->getVtPos(DIY), wxSize(800*zoom, 500*zoom), zoom, DIY, elfClockSpeed_, elfConfiguration, UART1);
+            vtPointer = new Vt100(p_Main->getRunningComputerText() + " - VT 100", p_Main->getVtPos(DIY), wxSize(800*zoom, 500*zoom), zoom, DIY, elfClockSpeed_, elfConfiguration, UART1);
         p_Vt100[UART1] = vtPointer;
         vtPointer->configure(elfConfiguration.baudR, elfConfiguration.baudT, elfConfiguration.elfPortConf);
         if (elfConfiguration.useUart16450)
@@ -1608,7 +1628,7 @@ void Diy::configureElfExtensions()
     {
         double zoom = p_Main->getZoom();
         double scale = p_Main->getScale();
-        pixiePointer = new Pixie( "Elf II - Pixie", p_Main->getPixiePos(DIY), wxSize(64*zoom*scale, 128*zoom), zoom, scale, DIY);
+        pixiePointer = new Pixie(p_Main->getRunningComputerText() + " - Pixie", p_Main->getPixiePos(DIY), wxSize(64*zoom*scale, 128*zoom), zoom, scale, DIY);
         p_Video = pixiePointer;
         pixiePointer->configurePixie(elfConfiguration.elfPortConf);
         pixiePointer->initPixie();
@@ -1619,7 +1639,7 @@ void Diy::configureElfExtensions()
     if (elfConfiguration.use6845)
     {
         double zoom = p_Main->getZoom();
-        mc6845Pointer = new MC6845( "Elf II - MC6845", p_Main->get6845Pos(DIY), wxSize(64*8*zoom, 16*8*2*zoom), zoom, DIY, elfClockSpeed_, 8, elfConfiguration.elfPortConf);
+        mc6845Pointer = new MC6845(p_Main->getRunningComputerText() + " - MC6845", p_Main->get6845Pos(DIY), wxSize(64*8*zoom, 16*8*2*zoom), zoom, DIY, elfClockSpeed_, 8, elfConfiguration.elfPortConf);
         p_Video = mc6845Pointer;
         mc6845Pointer->configure6845(elfConfiguration.elfPortConf);
         mc6845Pointer->init6845();
@@ -1629,7 +1649,7 @@ void Diy::configureElfExtensions()
     if (elfConfiguration.useS100)
     {
         double zoom = p_Main->getZoom();
-        mc6845Pointer = new MC6845( "Elf II - Quest Super Video", p_Main->get6845Pos(DIY), wxSize(64*7*zoom, 16*9*zoom), zoom, DIY, elfClockSpeed_, 7, elfConfiguration.elfPortConf);
+        mc6845Pointer = new MC6845(p_Main->getRunningComputerText() + " - Quest Super Video", p_Main->get6845Pos(DIY), wxSize(64*7*zoom, 16*9*zoom), zoom, DIY, elfClockSpeed_, 7, elfConfiguration.elfPortConf);
         p_Video = mc6845Pointer;
         mc6845Pointer->configureSuperVideo();
         mc6845Pointer->init6845();
@@ -1639,7 +1659,7 @@ void Diy::configureElfExtensions()
     if (elfConfiguration.use8275)
     {
         double zoom = p_Main->getZoom();
-        i8275Pointer = new i8275( "Elf II - Intel 8275", p_Main->get8275Pos(DIY), wxSize(80*8*zoom, 24*10*2*zoom), zoom, DIY, elfClockSpeed_);
+        i8275Pointer = new i8275(p_Main->getRunningComputerText() + " - Intel 8275", p_Main->get8275Pos(DIY), wxSize(80*8*zoom, 24*10*2*zoom), zoom, DIY, elfClockSpeed_);
         p_Video = i8275Pointer;
         i8275Pointer->configure8275(elfConfiguration.elfPortConf);
         i8275Pointer->init8275();
@@ -1649,7 +1669,7 @@ void Diy::configureElfExtensions()
     if (elfConfiguration.use6847)
     {
         double zoom = p_Main->getZoom();
-        mc6847Pointer = new mc6847( "Elf II - MC6847", p_Main->get6847Pos(DIY), wxSize(elfConfiguration.charLine*8*zoom, elfConfiguration.screenHeight6847*zoom), zoom, DIY, elfClockSpeed_, elfConfiguration.elfPortConf);
+        mc6847Pointer = new mc6847(p_Main->getRunningComputerText() + " - MC6847", p_Main->get6847Pos(DIY), wxSize(elfConfiguration.charLine*8*zoom, elfConfiguration.screenHeight6847*zoom), zoom, DIY, elfClockSpeed_, elfConfiguration.elfPortConf);
         p_Video = mc6847Pointer;
         mc6847Pointer->configure(elfConfiguration.elfPortConf);
         mc6847Pointer->init6847();
@@ -1659,7 +1679,7 @@ void Diy::configureElfExtensions()
     if (elfConfiguration.useTMS9918)
     {
         double zoom = p_Main->getZoom();
-        tmsPointer = new Tms9918( "Elf II - TMS 9918", p_Main->getTmsPos(DIY), wxSize(320*zoom,240*zoom), zoom, DIY, elfClockSpeed_);
+        tmsPointer = new Tms9918(p_Main->getRunningComputerText() + " - TMS 9918", p_Main->getTmsPos(DIY), wxSize(320*zoom,240*zoom), zoom, DIY, elfClockSpeed_);
         p_Video = tmsPointer;
         tmsPointer->configure(elfConfiguration.elfPortConf);
         tmsPointer->Show(true);
@@ -1667,7 +1687,7 @@ void Diy::configureElfExtensions()
 
     if (elfConfiguration.fdcEnabled)
     {
-        configure1793(1, 40, 18, 256, DIY, elfConfiguration.elfPortConf);
+        configure1793(elfConfiguration.elfPortConf.fdcSides, elfConfiguration.elfPortConf.fdcTracks, elfConfiguration.elfPortConf.fdcSectors, elfConfiguration.elfPortConf.fdcSectorLength, elfConfiguration.elfPortConf.fdcMaxFmtCount, DIY, elfConfiguration.elfPortConf);
         resetFdc();
     }
 
@@ -1711,21 +1731,21 @@ void Diy::moveWindows()
 void Diy::updateTitle(wxString Title)
 {
     if (elfConfiguration.usePixie)
-        pixiePointer->SetTitle("Elf II - Pixie"+Title);
+        pixiePointer->SetTitle(p_Main->getRunningComputerText() + " - Pixie"+Title);
     if (elfConfiguration.useTMS9918)
-        tmsPointer->SetTitle("Elf II - TMS 9918"+Title);
+        tmsPointer->SetTitle(p_Main->getRunningComputerText() + " - TMS 9918"+Title);
     if (elfConfiguration.use6845)
-        mc6845Pointer->SetTitle("Elf II - MC6845"+Title);
+        mc6845Pointer->SetTitle(p_Main->getRunningComputerText() + " - MC6845"+Title);
     if (elfConfiguration.useS100)
-        mc6845Pointer->SetTitle("Elf II - Quest Super Video"+Title);
+        mc6845Pointer->SetTitle(p_Main->getRunningComputerText() + " - Quest Super Video"+Title);
     if (elfConfiguration.use6847)
-        mc6847Pointer->SetTitle("Elf II - MC6847"+Title);
+        mc6847Pointer->SetTitle(p_Main->getRunningComputerText() + " - MC6847"+Title);
     if (elfConfiguration.use8275)
-        i8275Pointer->SetTitle("Elf II - Intel 8275"+Title);
+        i8275Pointer->SetTitle(p_Main->getRunningComputerText() + " - Intel 8275"+Title);
     if (elfConfiguration.vtType == VT52)
-        vtPointer->SetTitle("Elf II - VT 52"+Title);
+        vtPointer->SetTitle(p_Main->getRunningComputerText() + " - VT 52"+Title);
     if (elfConfiguration.vtType == VT100)
-        vtPointer->SetTitle("Elf II - VT 100"+Title);
+        vtPointer->SetTitle(p_Main->getRunningComputerText() + " - VT 100"+Title);
 }
 
 void Diy::setForceUpperCase(bool status)
@@ -1826,7 +1846,20 @@ Word Diy::get6847RamMask()
 
 void Diy::setLedMs(long ms)
 {
-    elf2ScreenPointer->setLedMs(ms);
+    switch (elfConfiguration.panelType_)
+    {
+        case PANEL_ELF:
+            elfScreenPointer->setLedMs(ms);
+        break;
+
+        case PANEL_ELFII:
+            elf2ScreenPointer->setLedMs(ms);
+        break;
+
+        case PANEL_SUPER:
+            superScreenPointer->setLedMs(ms);
+        break;
+    }
     if (ms == 0)
         ledCycleSize_ = -1;
     else
@@ -1836,7 +1869,21 @@ void Diy::setLedMs(long ms)
 
 Byte Diy::getKey(Byte vtOut)
 {
-    return elf2ScreenPointer->getKey(vtOut);
+    switch (elfConfiguration.panelType_)
+    {
+        case PANEL_ELF:
+            return elfScreenPointer->getKey(vtOut);
+        break;
+
+        case PANEL_ELFII:
+            return elf2ScreenPointer->getKey(vtOut);
+        break;
+
+        case PANEL_SUPER:
+            return superScreenPointer->getKey(vtOut);
+        break;
+    }
+    return 0;
 }
 
 void Diy::activateMainWindow()
@@ -1850,12 +1897,39 @@ void Diy::activateMainWindow()
 
 void Diy::releaseButtonOnScreen(HexButton* buttonPointer, int WXUNUSED(buttonType))
 {
-    elf2ScreenPointer->releaseButtonOnScreen(buttonPointer);
+    switch (elfConfiguration.panelType_)
+    {
+        case PANEL_ELF:
+//            if (elfConfiguration.useHexKeyboard && !hexKeypadClosed_)
+//                keypadPointer->releaseButtonOnScreen(buttonPointer);
+        break;
+
+        case PANEL_ELFII:
+            elf2ScreenPointer->releaseButtonOnScreen(buttonPointer);
+        break;
+
+        case PANEL_SUPER:
+            superScreenPointer->releaseButtonOnScreen(buttonPointer);
+        break;
+    }
 }
 
 void Diy::refreshPanel()
 {
-    elf2ScreenPointer->refreshPanel();
+    switch (elfConfiguration.panelType_)
+    {
+        case PANEL_ELF:
+            elfScreenPointer->refreshPanel();
+        break;
+
+        case PANEL_ELFII:
+            elf2ScreenPointer->refreshPanel();
+        break;
+
+        case PANEL_SUPER:
+            superScreenPointer->refreshPanel();
+        break;
+    }
 }
 
 void Diy::OnRtcTimer(wxTimerEvent&WXUNUSED(event))

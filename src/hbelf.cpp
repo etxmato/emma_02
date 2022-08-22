@@ -1636,7 +1636,7 @@ void Elf::configureElfExtensions()
 
     if (elfConfiguration.fdcEnabled)
     {
-        configure1793(1, 40, 18, 256, ELF, elfConfiguration.elfPortConf);
+        configure1793(1, 40, 18, 256, 6256, ELF, elfConfiguration.elfPortConf);
         resetFdc();
     }
 

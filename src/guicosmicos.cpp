@@ -107,7 +107,8 @@ void GuiCosmicos::readCosmicosConfig()
 
     conf[COSMICOS].mainDir_ = readConfigDir("/Dir/Cosmicos/Main", dataDir_ + "Cosmicos" + pathSeparator_);
     conf[COSMICOS].romDir_[MAINROM1] = readConfigDir("/Dir/Cosmicos/Main_Rom_File", dataDir_ + "Cosmicos" + pathSeparator_);
-    elfConfiguration[COSMICOS].vtCharRomDir_ = readConfigDir("/Dir/Cosmicos/Vt_Font_Rom_File", dataDir_ + "Cosmicos" + pathSeparator_);
+    elfConfiguration[COSMICOS].vt100CharRomDir_ = readConfigDir("/Dir/Cosmicos/Vt100_Font_Rom_File", dataDir_ + "Cosmicos" + pathSeparator_);
+    elfConfiguration[COSMICOS].vt52CharRomDir_ = readConfigDir("/Dir/Cosmicos/Vt52_Font_Rom_File", dataDir_ + "Cosmicos" + pathSeparator_);
     conf[COSMICOS].ramDir_ = readConfigDir("/Dir/Cosmicos/Software_File", dataDir_ + "Cosmicos" + pathSeparator_);
     conf[COSMICOS].screenDumpFileDir_ = readConfigDir("/Dir/Cosmicos/Video_Dump_File", dataDir_ + "Cosmicos" + pathSeparator_);
     conf[COSMICOS].wavFileDir_[0] = readConfigDir("/Dir/Cosmicos/Wav_File", dataDir_ + "Cosmicos" + pathSeparator_);
@@ -175,7 +176,8 @@ void GuiCosmicos::readCosmicosConfig()
     setCosmicosVideoType(conf[COSMICOS].videoMode_);
     setRealCas(COSMICOS);
 
-    elfConfiguration[COSMICOS].vtCharRom_ = configPointer->Read("/Cosmicos/Vt_Font_Rom_File", "vt52.a.bin");
+    elfConfiguration[COSMICOS].vt100CharRom_ = configPointer->Read("/Cosmicos/Vt100_Font_Rom_File", "vt100.bin");
+    elfConfiguration[COSMICOS].vt52CharRom_ = configPointer->Read("/Cosmicos/Vt52_Font_Rom_File", "vt52.a.bin");
 
     long value;
     conf[COSMICOS].saveStartString_ = configPointer->Read("/Cosmicos/SaveStart", "0");
@@ -239,7 +241,8 @@ void GuiCosmicos::writeCosmicosDirConfig()
 {
     writeConfigDir("/Dir/Cosmicos/Main", conf[COSMICOS].mainDir_);
     writeConfigDir("/Dir/Cosmicos/Main_Rom_File", conf[COSMICOS].romDir_[MAINROM1]);
-    writeConfigDir("/Dir/Cosmicos/Vt_Font_Rom_File", elfConfiguration[COSMICOS].vtCharRomDir_);
+    writeConfigDir("/Dir/Cosmicos/Vt100_Font_Rom_File", elfConfiguration[COSMICOS].vt100CharRomDir_);
+    writeConfigDir("/Dir/Cosmicos/Vt52_Font_Rom_File", elfConfiguration[COSMICOS].vt52CharRomDir_);
     writeConfigDir("/Dir/Cosmicos/Software_File", conf[COSMICOS].ramDir_);
     writeConfigDir("/Dir/Cosmicos/Video_Dump_File", conf[COSMICOS].screenDumpFileDir_);
     writeConfigDir("/Dir/Cosmicos/Wav_File", conf[COSMICOS].wavFileDir_[0]);
@@ -249,7 +252,8 @@ void GuiCosmicos::writeCosmicosDirConfig()
 void GuiCosmicos::writeCosmicosConfig()
 {
     configPointer->Write("/Cosmicos/Main_Rom_File", conf[COSMICOS].rom_[MAINROM1]);
-    configPointer->Write("/Cosmicos/Vt_Font_Rom_File", elfConfiguration[COSMICOS].vtCharRom_);
+    configPointer->Write("/Cosmicos/Vt100_Font_Rom_File", elfConfiguration[COSMICOS].vt100CharRom_);
+    configPointer->Write("/Cosmicos/Vt52_Font_Rom_File", elfConfiguration[COSMICOS].vt52CharRom_);
     configPointer->Write("/Cosmicos/Video_Dump_File", conf[COSMICOS].screenDumpFile_);
     configPointer->Write("/Cosmicos/Wav_File", conf[COSMICOS].wavFile_[0]);
     configPointer->Write("/Cosmicos/Vt_Wav_File", elfConfiguration[COSMICOS].vtWavFile_);

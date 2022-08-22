@@ -132,7 +132,8 @@ void GuiElf2K::readElf2KConfig()
     conf[ELF2K].mainDir_ = readConfigDir("/Dir/Elf2K/Main", dataDir_ + "Elf2K" + pathSeparator_);
     conf[ELF2K].romDir_[MAINROM1] = readConfigDir("/Dir/Elf2K/Main_Rom_File", dataDir_ + "Elf2K" + pathSeparator_);
     conf[ELF2K].charRomDir_ = readConfigDir("/Dir/Elf2K/Font_Rom_File", dataDir_ + "Elf2K" + pathSeparator_);
-    elfConfiguration[ELF2K].vtCharRomDir_ = readConfigDir("/Dir/Elf2K/Vt_Font_Rom_File", dataDir_ + "Elf2K" + pathSeparator_);
+    elfConfiguration[ELF2K].vt100CharRomDir_ = readConfigDir("/Dir/Elf2K/Vt100_Font_Rom_File", dataDir_ + "Elf2K" + pathSeparator_);
+    elfConfiguration[ELF2K].vt52CharRomDir_ = readConfigDir("/Dir/Elf2K/Vt52_Font_Rom_File", dataDir_ + "Elf2K" + pathSeparator_);
     conf[ELF2K].ramDir_ = readConfigDir("/Dir/Elf2K/Software_File", dataDir_ + "Elf2K" + pathSeparator_);
     conf[ELF2K].ideDir_ = readConfigDir("/Dir/Elf2K/Ide_File", dataDir_ + "Elf2K" + pathSeparator_);
     conf[ELF2K].keyFileDir_ = readConfigDir("/Dir/Elf2K/Key_File", dataDir_ + "Elf2K" + pathSeparator_);
@@ -219,7 +220,8 @@ void GuiElf2K::readElf2KConfig()
     setVtType("Elf2K", ELF2K, elfConfiguration[ELF2K].vtType, false);
     setElf2KVideoType(conf[ELF2K].videoMode_);
 
-    elfConfiguration[ELF2K].vtCharRom_ = configPointer->Read("/Elf2K/Vt_Font_Rom_File", "vt52.a.bin");
+    elfConfiguration[ELF2K].vt100CharRom_ = configPointer->Read("/Elf2K/Vt100_Font_Rom_File", "vt100.bin");
+    elfConfiguration[ELF2K].vt52CharRom_ = configPointer->Read("/Elf2K/Vt52_Font_Rom_File", "vt52.a.bin");
   
     long value;
     conf[ELF2K].saveStartString_ = configPointer->Read("/Elf2K/SaveStart", "0");
@@ -309,7 +311,8 @@ void GuiElf2K::writeElf2KDirConfig()
     writeConfigDir("/Dir/Elf2K/Main", conf[ELF2K].mainDir_);
     writeConfigDir("/Dir/Elf2K/Main_Rom_File", conf[ELF2K].romDir_[MAINROM1]);
     writeConfigDir("/Dir/Elf2K/I8275_Font_Rom_File", conf[ELF2K].charRomDir_);
-    writeConfigDir("/Dir/Elf2K/Vt_Font_Rom_File", elfConfiguration[ELF2K].vtCharRomDir_);
+    writeConfigDir("/Dir/Elf2K/Vt100_Font_Rom_File", elfConfiguration[ELF2K].vt100CharRomDir_);
+    writeConfigDir("/Dir/Elf2K/Vt52_Font_Rom_File", elfConfiguration[ELF2K].vt52CharRomDir_);
     writeConfigDir("/Dir/Elf2K/Software_File", conf[ELF2K].ramDir_);
     writeConfigDir("/Dir/Elf2K/Ide_File", conf[ELF2K].ideDir_);
     writeConfigDir("/Dir/Elf2K/Key_File", conf[ELF2K].keyFileDir_);
@@ -324,7 +327,8 @@ void GuiElf2K::writeElf2KConfig()
 
     configPointer->Write("/Elf2K/Main_Rom_File", conf[ELF2K].rom_[MAINROM1]);
     configPointer->Write("/Elf2K/I8275_Font_Rom_File", conf[ELF2K].charRom_);
-    configPointer->Write("/Elf2K/Vt_Font_Rom_File", elfConfiguration[ELF2K].vtCharRom_);
+    configPointer->Write("/Elf2K/Vt100_Font_Rom_File", elfConfiguration[ELF2K].vt100CharRom_);
+    configPointer->Write("/Elf2K/Vt52_Font_Rom_File", elfConfiguration[ELF2K].vt52CharRom_);
     configPointer->Write("/Elf2K/Ide_File", conf[ELF2K].ide_);
     configPointer->Write("/Elf2K/Key_File", conf[ELF2K].keyFile_);
     configPointer->Write("/Elf2K/Video_Dump_File", conf[ELF2K].screenDumpFile_);

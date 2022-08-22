@@ -133,8 +133,10 @@ VtSetupDialog::VtSetupDialog(wxWindow* parent)
         XRCCTRL(*this, "ESCError", wxCheckBox)->Hide();
         XRCCTRL(*this, "SerialLog", wxCheckBox)->Hide();
         XRCCTRL(*this, "Uart1854", wxCheckBox)->Hide();
-        XRCCTRL(*this, "UART 16450 && RTC", wxCheckBox)->Hide();
+        XRCCTRL(*this, "Uart16450", wxCheckBox)->Hide();
         XRCCTRL(*this, "VtRtcClear", wxCheckBox)->Hide();
+        XRCCTRL(*this, "VtSetupCharRomButton", wxButton)->Hide();
+        XRCCTRL(*this, "VtSetupCharRom", wxComboBox)->Hide();
     }
 
     XRCCTRL(*this, "SerialLog", wxCheckBox)->SetValue(elfConfiguration_.serialLog);
@@ -268,8 +270,10 @@ VtSetupDialog::VtSetupDialog(wxWindow* parent)
         box.Printf("%d", i);
         XRCCTRL(*this, "VtSetupBit"+box, wxChoice)->SetSelection(SetUpFeature_[i]);
     }
-    XRCCTRL(*this, "VtSetupCharRom", wxComboBox)->SetValue(elfConfiguration_.vtCharRom_);
-
+    if (elfConfiguration_.vtType == VT52)
+        XRCCTRL(*this, "VtSetupCharRom", wxComboBox)->SetValue(elfConfiguration_.vt52CharRom_);
+    else
+        XRCCTRL(*this, "VtSetupCharRom", wxComboBox)->SetValue(elfConfiguration_.vt100CharRom_);
     
 #ifdef __WXMSW__
     listPorts();
@@ -510,9 +514,15 @@ void VtSetupDialog::onVtWavFileEject(wxCommandEvent& WXUNUSED(event))
 void VtSetupDialog::onVtCharRom(wxCommandEvent& WXUNUSED(event) )
 {
     wxString fileName;
+    wxString vtCharRomDir;
+    
+    if (elfConfiguration_.vtType == VT52)
+        vtCharRomDir = elfConfiguration_.vt52CharRomDir_;
+    else
+        vtCharRomDir = elfConfiguration_.vt100CharRomDir_;
 
     fileName = wxFileSelector( "Select the VT Character Font file to load",
-                               elfConfiguration_.vtCharRomDir_, XRCCTRL(*this, "VtSetupCharRom", wxComboBox)->GetValue(),
+                               vtCharRomDir, XRCCTRL(*this, "VtSetupCharRom", wxComboBox)->GetValue(),
                                "bin",
                                wxString::Format
                               (
@@ -527,15 +537,28 @@ void VtSetupDialog::onVtCharRom(wxCommandEvent& WXUNUSED(event) )
         return;
 
     wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
-    elfConfiguration_.vtCharRomDir_ = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
-    elfConfiguration_.vtCharRom_ = FullPath.GetFullName();
+    if (elfConfiguration_.vtType == VT52)
+    {
+        elfConfiguration_.vt52CharRomDir_ = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+        elfConfiguration_.vt52CharRom_ = FullPath.GetFullName();
 
-    XRCCTRL(*this, "VtSetupCharRom", wxComboBox)->SetValue(elfConfiguration_.vtCharRom_);
+        XRCCTRL(*this, "VtSetupCharRom", wxComboBox)->SetValue(elfConfiguration_.vt52CharRom_);
+    }
+    else
+    {
+        elfConfiguration_.vt100CharRomDir_ = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+        elfConfiguration_.vt100CharRom_ = FullPath.GetFullName();
+
+        XRCCTRL(*this, "VtSetupCharRom", wxComboBox)->SetValue(elfConfiguration_.vt100CharRom_);
+    }
 }
 
 void VtSetupDialog::onVtCharRomText(wxCommandEvent& WXUNUSED(event))
 {
-    elfConfiguration_.vtCharRom_ = XRCCTRL(*this, "VtSetupCharRom", wxComboBox)->GetValue();
+    if (elfConfiguration_.vtType == VT52)
+        elfConfiguration_.vt52CharRom_ = XRCCTRL(*this, "VtSetupCharRom", wxComboBox)->GetValue();
+    else
+        elfConfiguration_.vt100CharRom_ = XRCCTRL(*this, "VtSetupCharRom", wxComboBox)->GetValue();
 }
 
 

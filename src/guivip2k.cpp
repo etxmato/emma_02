@@ -127,7 +127,8 @@ void GuiVip2K::readVip2KConfig()
     conf[VIP2K].romDir_[MAINROM1] = readConfigDir("/Dir/Vip2K/Main_Rom_File", dataDir_ + "Vip2K"  + pathSeparator_);
     conf[VIP2K].romDir_[MAINROM2] = readConfigDir("/Dir/Vip2K/Sequencer_Rom_File", dataDir_ + "Vip2K"  + pathSeparator_);
     conf[VIP2K].ramDir_ = readConfigDir("/Dir/Vip2K/Software_File", dataDir_ + "Vip2K"  + pathSeparator_);
-    elfConfiguration[VIP2K].vtCharRomDir_ = readConfigDir("/Dir/Vip2K/Vt_Font_Rom_File", dataDir_ + "Vip2K" + pathSeparator_);
+    elfConfiguration[VIP2K].vt100CharRomDir_ = readConfigDir("/Dir/Vip2K/Vt100_Font_Rom_File", dataDir_ + "Vip2K" + pathSeparator_);
+    elfConfiguration[VIP2K].vt52CharRomDir_ = readConfigDir("/Dir/Vip2K/Vt52_Font_Rom_File", dataDir_ + "Vip2K" + pathSeparator_);
     conf[VIP2K].chip8SWDir_ = readConfigDir("/Dir/Vip2K/Chip_8_Software", dataDir_ + "Chip-8"  + pathSeparator_ + "Chip-8 Games"  + pathSeparator_);
     conf[VIP2K].printFileDir_ = readConfigDir("/Dir/Vip2K/Print_File", dataDir_ + "Vip2K" + pathSeparator_);
     conf[VIP2K].screenDumpFileDir_ = readConfigDir("/Dir/Vip2K/Video_Dump_File", dataDir_ + "Vip2K" + pathSeparator_);
@@ -190,7 +191,8 @@ void GuiVip2K::readVip2KConfig()
 
     setVtType("Vip2K", VIP2K, elfConfiguration[VIP2K].vtType, false);
 
-    elfConfiguration[VIP2K].vtCharRom_ = configPointer->Read("/Vip2K/Vt_Font_Rom_File", "vt100.bin");
+    elfConfiguration[VIP2K].vt100CharRom_ = configPointer->Read("/Vip2K/Vt100_Font_Rom_File", "vt100.bin");
+    elfConfiguration[VIP2K].vt52CharRom_ = configPointer->Read("/Vip2K/Vt52_Font_Rom_File", "vt52.a.bin");
 
     long value;
     conf[VIP2K].saveStartString_ = configPointer->Read("/Vip2K/SaveStart", "0");
@@ -238,7 +240,8 @@ void GuiVip2K::writeVip2KDirConfig()
     writeConfigDir("/Dir/Vip2K/Software_File", conf[VIP2K].ramDir_);
     writeConfigDir("/Dir/Vip2K/Chip_8_Software", conf[VIP2K].chip8SWDir_);
     writeConfigDir("/Dir/Vip2K/Print_File", conf[VIP2K].printFileDir_);
-    writeConfigDir("/Dir/Vip2K/Vt_Font_Rom_File", elfConfiguration[VIP2K].vtCharRomDir_);
+    writeConfigDir("/Dir/Vip2K/Vt100_Font_Rom_File", elfConfiguration[VIP2K].vt100CharRomDir_);
+    writeConfigDir("/Dir/Vip2K/Vt52_Font_Rom_File", elfConfiguration[VIP2K].vt52CharRomDir_);
     writeConfigDir("/Dir/Vip2K/Video_Dump_File", conf[VIP2K].screenDumpFileDir_);
     writeConfigDir("/Dir/Vip2K/Wav_File", conf[VIP2K].wavFileDir_[0]);
     writeConfigDir("/Dir/Vip2K/Vt_Wav_File", elfConfiguration[VIP2K].vtWavFileDir_);
@@ -248,7 +251,8 @@ void GuiVip2K::writeVip2KConfig()
 {
     configPointer->Write("/Vip2K/Main_Rom_File", conf[VIP2K].rom_[MAINROM1]);
     configPointer->Write("/Vip2K/Sequencer_Rom_File", conf[VIP2K].rom_[MAINROM2]);
-    configPointer->Write("/Vip2K/Vt_Font_Rom_File", elfConfiguration[VIP2K].vtCharRom_);
+    configPointer->Write("/Vip2K/Vt100_Font_Rom_File", elfConfiguration[VIP2K].vt100CharRom_);
+    configPointer->Write("/Vip2K/Vt52_Font_Rom_File", elfConfiguration[VIP2K].vt52CharRom_);
     configPointer->Write("/Vip2K/Ram_Software", conf[VIP2K].ram_);
     configPointer->Write("/Vip2K/Chip_8_Software", conf[VIP2K].chip8SW_);
     configPointer->Write("/Vip2K/Print_File", conf[VIP2K].printFile_);

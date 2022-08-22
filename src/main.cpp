@@ -2228,7 +2228,7 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
         int confComputer = computer;
         if (confComputer == 2)
             confComputer = 0;
-        if (confComputer == DIY) // *** to be removed
+        if (confComputer == DIY) // *** to be removed ??
         {
            confComputer++;
            computer++;
@@ -2320,8 +2320,8 @@ Main::~Main()
         
         for (int computer = 2; computer<NO_COMPUTER; computer++)
         {
-           if (computer == DIY) // *** to be removed
-             computer++;
+     //      if (computer == DIY) // *** to be removed
+     //        computer++;
 
             if (selectedComputer_ != computer)
             {
@@ -2332,8 +2332,8 @@ Main::~Main()
 
         for (int computer=0; computer<NO_COMPUTER; computer++)
         {
-            if (computer == DIY) // *** to be removed
-              computer++;
+     //       if (computer == DIY) // *** to be removed
+     //         computer++;
 
             delete clockText[computer];
             delete clockTextCtrl[computer];
@@ -2576,7 +2576,7 @@ void Main::writeConfig()
     writeElfDirConfig(ELF, "Elf");
     writeElfDirConfig(ELFII, "ElfII");
     writeElfDirConfig(SUPERELF, "SuperElf");
-    writeNetronicsDirConfig();
+    writeDiyDirConfig();
     writePicoDirConfig();
     writeMembershipDirConfig();
     writeUc1800DirConfig();
@@ -2611,7 +2611,7 @@ void Main::writeConfig()
     writeElfConfig(ELF, "Elf");
     writeElfConfig(ELFII, "ElfII");
     writeElfConfig(SUPERELF, "SuperElf");
-    writeNetronicsConfig();
+    writeDiyConfig();
     writePicoConfig();
     writeMembershipConfig();
     writeUc1800Config();
@@ -2646,7 +2646,7 @@ void Main::writeConfig()
     writeElfWindowConfig(ELF, "Elf");
     writeElfWindowConfig(ELFII, "ElfII");
     writeElfWindowConfig(SUPERELF, "SuperElf");
-    writeNetronicsWindowConfig();
+    writeDiyWindowConfig();
     writePicoWindowConfig();
     writeMembershipWindowConfig();
     writeUc1800WindowConfig();
@@ -2969,8 +2969,8 @@ void Main::initConfig()
     {
         for (int computer = 0; computer < NO_COMPUTER; computer++)
         {
-            if (computer == DIY) // *** to be removed
-                computer++;
+  //          if (computer == DIY) // *** to be removed
+  //              computer++;
             switch (computer)
             {
                 case COMX:
@@ -3009,8 +3009,8 @@ void Main::initConfig()
 
     for (int computer = 0; computer < NO_COMPUTER; computer++)
     {
-       if (computer == DIY) // *** to be removed
-           computer++;
+  //     if (computer == DIY) // *** to be removed
+  //         computer++;
        
         conf[computer].configurationInfo_.menuName = "";
         conf[computer].configurationInfo_.subMenuName = "";
@@ -3045,7 +3045,7 @@ void Main::readConfig()
     readElfConfig(ELF, "Elf");
     readElfConfig(ELFII, "ElfII");
     readElfConfig(SUPERELF, "SuperElf");
-    readNetronicsConfig();
+    readDiyConig();
     readPicoConfig();
     readMembershipConfig();
     readUc1800Config();
@@ -3080,7 +3080,7 @@ void Main::readConfig()
     readElfWindowConfig(ELF, "Elf");
     readElfWindowConfig(ELFII, "ElfII");
     readElfWindowConfig(SUPERELF, "SuperElf");
-    readNetronicsWindowConfig();
+    readDiyWindowConfig();
     readPicoWindowConfig();
     readMembershipWindowConfig();
     readUc1800WindowConfig();
@@ -3329,7 +3329,7 @@ void Main::readConfig()
         }
 #endif
     }
-    XRCCTRL(*this, "Computer", wxNotebook)->DeletePage(8);
+//    XRCCTRL(*this, "Computer", wxNotebook)->DeletePage(8); // *** to be removed
    
     psaveData_[0] = (int)configPointer->Read("/Main/Psave_Volume", 15l);
     psaveData_[1] = (int)configPointer->Read("/Main/Psave_Bit_Rate", 1l);
@@ -3619,11 +3619,11 @@ void Main::buildConfigMenu()
         int confComputer = computer;
         if (confComputer == 2)
             confComputer = 0;
-        if (confComputer == DIY) // *** to be removed
-        {
-           confComputer++;
-           computer++;
-        }
+  //      if (confComputer == DIY) // *** to be removed
+  //      {
+  //         confComputer++;
+  //         computer++;
+  //      }
        
         if (confComputer == FRED1_5)
         {
@@ -3979,8 +3979,8 @@ int Main::saveComputerConfig(ConfigurationInfo configurationInfo, ConfigurationI
         break;
 
         case DIY:
-            writeNetronicsDirConfig();
-            writeNetronicsConfig();
+            writeDiyDirConfig();
+            writeDiyConfig();
         break;
 
         case PICO:
@@ -4000,8 +4000,8 @@ int Main::saveComputerConfig(ConfigurationInfo configurationInfo, ConfigurationI
 
     for (int comp=2; comp<NO_COMPUTER; comp++)
     {
-        if (comp == DIY) // *** to be removed
-           comp++;
+ //       if (comp == DIY) // *** to be removed
+ //          comp++;
         delete conf[comp].configurationMenu;
         delete conf[comp].configurationDeleteMenu;
     }
@@ -4207,7 +4207,7 @@ void Main::loadComputerConfig(wxString fileName)
         break;
             
         case DIY:
-            readNetronicsConfig();
+            readDiyConig();
         break;
 
         case PICO:
@@ -4498,8 +4498,8 @@ void Main::onDeleteConfiguration(wxCommandEvent& event)
             
                 for (int comp=2; comp<NO_COMPUTER; comp++)
                 {
-                    if (comp == DIY) // *** to be removed
-                       comp++;
+      //              if (comp == DIY) // *** to be removed
+      //                 comp++;
                     delete conf[comp].configurationMenu;
                     delete conf[comp].configurationDeleteMenu;
                 }
@@ -5778,6 +5778,8 @@ void Main::onStart(int computer)
 
         case DIY:
             parseXmlFile(DIY,conf[DIY].xmlDir_, conf[DIY].xmlFile_);
+            setXmlGui();
+
             p_Diy = new Diy(computerInfo[DIY].name, wxPoint(conf[DIY].mainX_, conf[DIY].mainY_), wxSize(534, 386), conf[DIY].clockSpeed_, elfConfiguration[DIY], conf[DIY]);
             p_Computer = p_Diy;
         break;
@@ -6779,7 +6781,7 @@ void Main::enableColorbutton(bool status)
     XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status | (runningComputer_ == ELF));
     XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status | (runningComputer_ == ELFII));
     XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status | (runningComputer_ == SUPERELF));
-//    XRCCTRL(*this,"ColoursDiy", wxButton)->Enable(status | (runningComputer_ == DIY)); // *** to be removed
+    XRCCTRL(*this,"ColoursDiy", wxButton)->Enable(status | (runningComputer_ == DIY)); // *** to be removed
     XRCCTRL(*this,"ColoursPico", wxButton)->Enable(status | (runningComputer_ == PICO));
     XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status | (runningComputer_ == MEMBER));
     XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status | (runningComputer_ == VELF));
@@ -7429,8 +7431,6 @@ void Main::enableGui(bool status)
         XRCCTRL(*this,"Chip8TraceButton", wxToggleButton)->SetValue(false);
         XRCCTRL(*this,"Chip8DebugMode", wxCheckBox)->SetValue(false);
         
-        XRCCTRL(*this,"EFButtonsDiy", wxCheckBox)->Enable(status);
-
         enableLoadGui(!status);
         setRealCas2(runningComputer_);
         
@@ -7441,31 +7441,7 @@ void Main::enableGui(bool status)
             XRCCTRL(*this,"MainRamDiy", wxComboBox)->Enable(status);
             XRCCTRL(*this,"RamButtonDiy", wxButton)->Enable(status);
         }
-        XRCCTRL(*this,"DP_ButtonDiy", wxButton)->Enable(status);
-        if (elfConfiguration[runningComputer_].ideEnabled)
-        {
-            XRCCTRL(*this,"IDE_ButtonDiy", wxButton)->Enable(status);
-            XRCCTRL(*this,"IdeFileDiy", wxTextCtrl)->Enable(status);
-            XRCCTRL(*this,"Eject_IDEDiy", wxButton)->Enable(status);
-        }
-        if (!status)
-        {
-            XRCCTRL(*this,"PrintButtonDiy", wxBitmapButton)->Enable(conf[runningComputer_].printerOn_);
-            XRCCTRL(*this,"PrintButtonDiy", wxBitmapButton)->SetToolTip("Open printer window (F4)");
-        }
-        else
-        {
-            XRCCTRL(*this,"PrintButtonDiy", wxBitmapButton)->Enable(true);
-            if (conf[runningComputer_].printerOn_)
-                XRCCTRL(*this,"PrintButtonDiy", wxBitmapButton)->SetToolTip("Disable printer support");
-            else
-                XRCCTRL(*this,"PrintButtonDiy", wxBitmapButton)->SetToolTip("Enable printer support");
-        }
-        if (elfConfiguration[runningComputer_].usePager)
-            XRCCTRL(*this,"PortExtDiy", wxCheckBox)->Enable(false);
-        else
-            XRCCTRL(*this,"PortExtDiy", wxCheckBox)->Enable(status);
-        XRCCTRL(*this,"BootStrapDiy", wxCheckBox)->Enable(status);
+        XRCCTRL(*this,"PrintButtonDiy", wxButton)->Enable(!status && conf[runningComputer_].printerOn_);
 
         XRCCTRL(*this,"VTTypeDiy",wxChoice)->Enable(status);
         if (XRCCTRL(*this,"VTTypeDiy",wxChoice)->GetSelection() != VTNONE)
@@ -7479,21 +7455,12 @@ void Main::enableGui(bool status)
             XRCCTRL(*this, "VTBaudTTextDiy", wxStaticText)->Enable(status);
             XRCCTRL(*this, "VtSetupDiy", wxButton)->Enable(status);
         }
-        XRCCTRL(*this,"VideoTypeDiy",wxChoice)->Enable(status);
-        XRCCTRL(*this,"VideoTypeTextDiy",wxStaticText)->Enable(status);
-        XRCCTRL(*this,"DiskTypeDiy",wxChoice)->Enable(status);
-        XRCCTRL(*this,"KeyboardDiy",wxChoice)->Enable(status);
-        XRCCTRL(*this,"KeyboardTextDiy",wxStaticText)->Enable(status);
-        XRCCTRL(*this,"CharRomButtonDiy", wxButton)->Enable(status&(elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].useS100));
         if (!elfConfiguration[runningComputer_].vtExternal)
         {
             XRCCTRL(*this,"FullScreenF3Diy", wxButton)->Enable(!status&(elfConfiguration[runningComputer_].usePixie||elfConfiguration[runningComputer_].useTMS9918||elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].useS100||(elfConfiguration[runningComputer_].vtType != VTNONE)));
             XRCCTRL(*this,"ScreenDumpF5Diy", wxButton)->Enable(!status&(elfConfiguration[runningComputer_].usePixie||elfConfiguration[runningComputer_].useTMS9918||elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].useS100||(elfConfiguration[runningComputer_].vtType != VTNONE)));
        }
-        XRCCTRL(*this,"CharRomDiy", wxComboBox)->Enable(status&(elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].useS100));
         
-        XRCCTRL(*this,"TilTypeDiy",wxChoice)->Enable(status);
-        XRCCTRL(*this,"TilTextDiy",wxStaticText)->Enable(status);
         enableMemAccessGui(!status);
     }
     if (runningComputer_ == PICO)

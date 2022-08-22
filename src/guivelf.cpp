@@ -129,7 +129,8 @@ void GuiVelf::readVelfConfig()
     
     conf[VELF].romDir_[MAINROM1] = readConfigDir("/Dir/Velf/Main_Rom_File", dataDir_ + "Velf"  + pathSeparator_);
     conf[VELF].ramDir_ = readConfigDir("/Dir/Velf/Software_File", dataDir_ + "Velf"  + pathSeparator_);
-    elfConfiguration[VELF].vtCharRomDir_ = readConfigDir("/Dir/Velf/Vt_Font_Rom_File", dataDir_ + "Velf" + pathSeparator_);
+    elfConfiguration[VELF].vt100CharRomDir_ = readConfigDir("/Dir/Velf/Vt100_Font_Rom_File", dataDir_ + "Velf" + pathSeparator_);
+    elfConfiguration[VELF].vt52CharRomDir_ = readConfigDir("/Dir/Velf/Vt52_Font_Rom_File", dataDir_ + "Velf" + pathSeparator_);
     conf[VELF].chip8SWDir_ = readConfigDir("/Dir/Velf/Chip_8_Software", dataDir_ + "Chip-8"  + pathSeparator_ + "Chip-8 Games"  + pathSeparator_);
     conf[VELF].printFileDir_ = readConfigDir("/Dir/Velf/Print_File", dataDir_ + "Velf" + pathSeparator_);
     conf[VELF].screenDumpFileDir_ = readConfigDir("/Dir/Velf/Video_Dump_File", dataDir_ + "Velf" + pathSeparator_);
@@ -201,7 +202,8 @@ void GuiVelf::readVelfConfig()
 
     setVtType("Velf", VELF, elfConfiguration[VELF].vtType, false);
 
-    elfConfiguration[VELF].vtCharRom_ = configPointer->Read("/Velf/Vt_Font_Rom_File", "vt100.bin");
+    elfConfiguration[VELF].vt100CharRom_ = configPointer->Read("/Velf/Vt100_Font_Rom_File", "vt100.bin");
+    elfConfiguration[VELF].vt52CharRom_ = configPointer->Read("/Velf/Vt52_Font_Rom_File", "vt52.a.bin");
 
     conf[VELF].velfMode_ = (int)configPointer->Read("/Velf/ModeVelf", 0l);
     configPointer->Read("/Velf/Enable_Auto_Boot", &elfConfiguration[VELF].autoBoot, true);
@@ -265,7 +267,8 @@ void GuiVelf::writeVelfDirConfig()
     writeConfigDir("/Dir/Velf/Software_File", conf[VELF].ramDir_);
     writeConfigDir("/Dir/Velf/Chip_8_Software", conf[VELF].chip8SWDir_);
     writeConfigDir("/Dir/Velf/Print_File", conf[VELF].printFileDir_);
-    writeConfigDir("/Dir/Velf/Vt_Font_Rom_File", elfConfiguration[VELF].vtCharRomDir_);
+    writeConfigDir("/Dir/Velf/Vt100_Font_Rom_File", elfConfiguration[VELF].vt100CharRomDir_);
+    writeConfigDir("/Dir/Velf/Vt52_Font_Rom_File", elfConfiguration[VELF].vt52CharRomDir_);
     writeConfigDir("/Dir/Velf/Video_Dump_File", conf[VELF].screenDumpFileDir_);
     writeConfigDir("/Dir/Velf/Wav_File", conf[VELF].wavFileDir_[0]);
     writeConfigDir("/Dir/Velf/Vt_Wav_File", elfConfiguration[VELF].vtWavFileDir_);
@@ -274,7 +277,8 @@ void GuiVelf::writeVelfDirConfig()
 void GuiVelf::writeVelfConfig()
 {
     configPointer->Write("/Velf/Main_Rom_File", conf[VELF].rom_[MAINROM1]);
-    configPointer->Write("/Velf/Vt_Font_Rom_File", elfConfiguration[VELF].vtCharRom_);
+    configPointer->Write("/Velf/Vt100_Font_Rom_File", elfConfiguration[VELF].vt100CharRom_);
+    configPointer->Write("/Velf/Vt52_Font_Rom_File", elfConfiguration[VELF].vt52CharRom_);
     configPointer->Write("/Velf/Ram_Software", conf[VELF].ram_);
     configPointer->Write("/Velf/Chip_8_Software", conf[VELF].chip8SW_);
     configPointer->Write("/Velf/Print_File", conf[VELF].printFile_);

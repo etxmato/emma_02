@@ -10,21 +10,9 @@
 #include "ledmodule.h"
 #include "printer.h"
 #include "elfconfiguration.h"
-
-class DiyScreen : public Panel
-{
-public:
-    DiyScreen(wxWindow *parent, const wxSize& size, int tilType);
-    ~DiyScreen();
-
-    void init();
-    void onPaint(wxPaintEvent&event);
-    void onMousePress(wxMouseEvent& event);
-    void onMouseRelease(wxMouseEvent& event);
-    void releaseButtonOnScreen(HexButton* buttonPointer);
-
-private:
-};
+#include "hbelf.h"
+#include "elf2.h"
+#include "super.h"
 
 class Diy : public wxFrame, public MainElf
 {
@@ -109,7 +97,9 @@ public:
     void OnRtcTimer(wxTimerEvent& event);
     
 private:
-    class DiyScreen *elf2ScreenPointer;
+    class ElfScreen *elfScreenPointer;
+    class Elf2Screen *elf2ScreenPointer;
+    class SuperScreen *superScreenPointer;
 
     Tms9918 *tmsPointer;
     Pixie *pixiePointer;

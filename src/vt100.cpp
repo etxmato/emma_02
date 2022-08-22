@@ -141,7 +141,10 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
             uartEf_ = true;
         break;
     }
-    readCharRomFile(computerType_, p_Main->getVtCharRomDir(computerType_), p_Main->getVtCharRomFile(computerType_));
+    if (vtType_ == VT52)
+        readCharRomFile(computerType_, p_Main->getVt52CharRomDir(computerType_), p_Main->getVt52CharRomFile(computerType_));
+    else
+        readCharRomFile(computerType_, p_Main->getVt100CharRomDir(computerType_), p_Main->getVt100CharRomFile(computerType_));
     stretchDot_ = p_Main->getStretchDot(computerType_);
     serialLog_ = elfConfiguration_.serialLog;
     uart_ = elfConfiguration_.useUart;

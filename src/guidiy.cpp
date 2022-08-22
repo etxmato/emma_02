@@ -42,16 +42,12 @@ BEGIN_EVENT_TABLE(GuiDiy, GuiPico)
     EVT_COMBOBOX(XRCID("MainXmlDiy"), GuiDiy::onMainXmlTextDiy)
     EVT_BUTTON(XRCID("XmlButtonDiy"), GuiDiy::onMainXmlDiy)
 
-    EVT_TEXT(XRCID("IdeFileDiy"), GuiMain::onIdeText)
-    EVT_BUTTON(XRCID("IDE_ButtonDiy"), GuiMain::onIde)
-    EVT_BUTTON(XRCID("Eject_IDEDiy"), GuiMain::onIdeEject)
-
     EVT_TEXT(XRCID("KeyFileDiy"), GuiMain::onKeyFileText)
     EVT_BUTTON(XRCID("KeyFileButtonDiy"), GuiMain::onKeyFile)
     EVT_BUTTON(XRCID("EjectKeyFileDiy"), GuiMain::onKeyFileEject)
 
-    EVT_CHOICE(XRCID("VTTypeDiy"), GuiMain::onVT100)
-    EVT_CHOICE(XRCID("QsoundDiy"), GuiElf::onQsound)
+    EVT_CHOICE(XRCID("VTTypeDiy"), GuiDiy::onVT100)
+
     EVT_SPIN_UP(XRCID("ZoomSpinDiy"), GuiMain::onZoom)
     EVT_SPIN_DOWN(XRCID("ZoomSpinDiy"), GuiMain::onZoom)
     EVT_TEXT(XRCID("ZoomValueDiy"), GuiMain::onZoomValue)
@@ -65,23 +61,12 @@ BEGIN_EVENT_TABLE(GuiDiy, GuiPico)
     EVT_COMBOBOX(XRCID("ScreenDumpFileDiy"), GuiMain::onScreenDumpFileText)
     EVT_BUTTON(XRCID("ScreenDumpF5Diy"), GuiMain::onScreenDump)
     EVT_BUTTON(XRCID("SaveButtonDiy"), GuiMain::onSaveButton)
-    EVT_BUTTON(XRCID("DP_ButtonDiy"), GuiMain::onDp)
     EVT_BUTTON(XRCID("VtSetupDiy"), GuiMain::onVtSetup)
     EVT_BUTTON(XRCID("LoadButtonDiy"), GuiMain::onLoadButton)
     EVT_BUTTON(XRCID("RunButtonDiy"), GuiMain::onLoadRunButton)
     EVT_BUTTON(XRCID("DsaveButtonDiy"), GuiMain::onDataSaveButton)
     EVT_CHECKBOX(XRCID("UseLocationDiy"), GuiMain::onUseLocation)
-    EVT_TEXT(XRCID("BeepFrequencyDiy"), GuiMain::onBeepFrequency)
-    EVT_TEXT(XRCID("CharRomDiy"), GuiMain::onCharRomText)
-    EVT_COMBOBOX(XRCID("CharRomDiy"), GuiMain::onCharRomText)
-    EVT_BUTTON(XRCID("CharRomButtonDiy"), GuiMain::onCharRom)
 
-    EVT_CHOICE(XRCID("VideoTypeDiy"), GuiElf::onVideoType)
-    EVT_CHOICE(XRCID("KeyboardDiy"), GuiElf::onElfKeyboard)
-    EVT_CHECKBOX(XRCID("UpperCaseDiy"), GuiElf::onForceUpperCase)
-    EVT_CHECKBOX(XRCID("EFButtonsDiy"), GuiElf::onEfButtons)
-
-    EVT_CHOICE(XRCID("DiskTypeDiy"), GuiElf::onDiskType)
     EVT_BUTTON(XRCID("FullScreenF3Diy"), GuiMain::onFullScreen)
 
     EVT_TEXT(XRCID("PrintFileDiy"), GuiMain::onPrintFileText)
@@ -94,10 +79,7 @@ BEGIN_EVENT_TABLE(GuiDiy, GuiPico)
 
     EVT_COMMAND(wxID_ANY, OPEN_PRINTER_WINDOW, GuiMain::openPrinterFrame) 
 
-    EVT_CHECKBOX(XRCID("PortExtDiy"), GuiElf::onUsePortExtender)
-    EVT_CHECKBOX(XRCID("ControlWindowsDiy"), GuiDiy::onNetronicsControlWindows)
-    EVT_CHECKBOX(XRCID("AutoBootDiy"), GuiElf::onAutoBoot)
-    EVT_TEXT(XRCID("BootAddressDiy"), GuiDiy::onBootAddress)
+    EVT_CHECKBOX(XRCID("ControlWindowsDiy"), GuiDiy::onDiyControlWindows)
     EVT_BUTTON(XRCID("KeyMapDiy"), Main::onHexKeyDef)
 
     EVT_BUTTON(XRCID("CasButtonDiy"), GuiMain::onCassette)
@@ -120,9 +102,6 @@ BEGIN_EVENT_TABLE(GuiDiy, GuiPico)
     EVT_TEXT(XRCID("SaveStartDiy"), GuiMain::onSaveStart)
     EVT_TEXT(XRCID("SaveEndDiy"), GuiMain::onSaveEnd)
     EVT_TEXT(XRCID("SaveExecDiy"), GuiMain::onSaveExec)
-    EVT_CHECKBOX(XRCID("BootStrapDiy"), GuiElf::onBootStrap)
-    EVT_CHECKBOX(XRCID("HexEfDiy"), GuiElf::onHexEf)
-    EVT_CHOICE(XRCID("TilTypeDiy"), GuiElf::onTilType)
 
     END_EVENT_TABLE()
 
@@ -133,13 +112,12 @@ GuiDiy::GuiDiy(const wxString& title, const wxPoint& pos, const wxSize& size, Mo
     tapeOffBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/minus.png", wxBITMAP_TYPE_PNG);
 }
 
-void GuiDiy::readNetronicsConfig()
+void GuiDiy::readDiyConig()
 {
-    return; // *** to be removed
+//    return; // *** to be removed
     
     selectedComputer_ = DIY; // *** to be removed
     elfConfiguration[DIY].elfPortConf.emsOutput.resize(1);
-    readElfPortConfig(DIY, "Diy"); // *** to be removed
 
     conf[DIY].xmlDir_ = readConfigDir("Dir/Diy/Xml_File", dataDir_);;
     conf[DIY].xmlFile_ = configPointer->Read("Diy/Xml_File", "example.xml");
@@ -154,457 +132,272 @@ void GuiDiy::readNetronicsConfig()
     }
     else
         ramFileFromGui_ = false;
-
-    int elfType = DIY;
-    wxString elfTypeStr = "Diy";
     
-    selectedComputer_ = elfType;
+    selectedComputer_ = DIY;
 
-    conf[elfType].volume_ = 0;
+    conf[DIY].volume_ = 0;
 
-    conf[elfType].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + computerInfo[DIY].gui + pathSeparator_;
-    conf[elfType].mainDir_ = readConfigDir("/Dir/"+elfTypeStr+"/Main", dataDir_ + computerInfo[DIY].gui + pathSeparator_);
-    conf[elfType].charRomDir_ = readConfigDir("/Dir/"+elfTypeStr+"/Font_Rom_File", dataDir_ + computerInfo[DIY].gui + pathSeparator_);
-    elfConfiguration[elfType].vtCharRomDir_ = readConfigDir("/Dir/"+elfTypeStr+"/Vt_Font_Rom_File", dataDir_ + computerInfo[DIY].gui + pathSeparator_);
-    conf[elfType].ramDir_ = readConfigDir("/Dir/"+elfTypeStr+"/SWD", dataDir_ + computerInfo[DIY].gui + pathSeparator_);
-    conf[elfType].ideDir_ = readConfigDir("/Dir/"+elfTypeStr+"/Ide_File", dataDir_ + computerInfo[DIY].gui + pathSeparator_);
-    conf[elfType].keyFileDir_ = readConfigDir("/Dir/"+elfTypeStr+"/Key_File", dataDir_ + computerInfo[DIY].gui + pathSeparator_);
-    conf[elfType].printFileDir_ = readConfigDir("/Dir/"+elfTypeStr+"/Print_File", dataDir_ + computerInfo[DIY].gui + pathSeparator_);
-    conf[elfType].screenDumpFileDir_ = readConfigDir("/Dir/"+elfTypeStr+"/Video_Dump_File", dataDir_ + computerInfo[DIY].gui + pathSeparator_);
-    conf[elfType].wavFileDir_[0] = readConfigDir("/Dir/"+elfTypeStr+"/Wav_File", dataDir_ + computerInfo[DIY].gui + pathSeparator_);
-    elfConfiguration[elfType].vtWavFileDir_ = readConfigDir("/Dir/" + elfTypeStr + "/Vt_Wav_File", dataDir_ + computerInfo[DIY].gui + pathSeparator_);
+    conf[DIY].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + computerInfo[DIY].gui + pathSeparator_;
+    conf[DIY].ramDir_ = readConfigDir("/Dir/Diy/SWD", dataDir_ + computerInfo[DIY].gui + pathSeparator_);
+    conf[DIY].keyFileDir_ = readConfigDir("/Dir/Diy/Key_File", dataDir_ + computerInfo[DIY].gui + pathSeparator_);
+    conf[DIY].printFileDir_ = readConfigDir("/Dir/Diy/Print_File", dataDir_ + computerInfo[DIY].gui + pathSeparator_);
+    conf[DIY].screenDumpFileDir_ = readConfigDir("/Dir/Diy/Video_Dump_File", dataDir_ + computerInfo[DIY].gui + pathSeparator_);
+    conf[DIY].wavFileDir_[0] = readConfigDir("/Dir/Diy/Wav_File", dataDir_ + computerInfo[DIY].gui + pathSeparator_);
 
-    conf[elfType].videoMode_ = (int)configPointer->Read(elfTypeStr+"/Video_Type", 0l);
+    conf[DIY].keyFile_ = configPointer->Read("Diy/Key_File", "");
+    conf[DIY].printFile_ = configPointer->Read("Diy/Print_File", "printerout.txt");
+    conf[DIY].screenDumpFile_ = configPointer->Read("Diy/Video_Dump_File", "screendump.png");
+    conf[DIY].wavFile_[0] = configPointer->Read("Diy/Wav_File", "");
+    conf[DIY].terminalFiles_.Add(conf[DIY].wavFile_[0]);
+    conf[DIY].terminalPaths_.Add(conf[DIY].wavFileDir_[0]+conf[DIY].wavFile_[0]);
+    conf[DIY].numberOfTerminalFiles_ = 1;
 
-    conf[elfType].ide_ = configPointer->Read(elfTypeStr+"/Ide_File", "vt100.ide");
-    conf[elfType].keyFile_ = configPointer->Read(elfTypeStr+"/Key_File", "");
-    conf[elfType].printFile_ = configPointer->Read(elfTypeStr+"/Print_File", "printerout.txt");
-    conf[elfType].screenDumpFile_ = configPointer->Read(elfTypeStr+"/Video_Dump_File", "screendump.png");
-    conf[elfType].wavFile_[0] = configPointer->Read(elfTypeStr+"/Wav_File", "");
-    conf[elfType].terminalFiles_.Add(conf[elfType].wavFile_[0]);
-    conf[elfType].terminalPaths_.Add(conf[elfType].wavFileDir_[0]+conf[elfType].wavFile_[0]);
-    conf[elfType].numberOfTerminalFiles_ = 1;
-    elfConfiguration[elfType].vtWavFile_ = configPointer->Read(elfTypeStr + "/Vt_Wav_File", "");
-    elfConfiguration[elfType].serialPort_ = configPointer->Read(elfTypeStr + "/VtSerialPortChoice", "");
+    conf[DIY].saveEndString_ = "";
+    conf[DIY].saveExecString_ = "";
 
-    conf[elfType].saveEndString_ = "";
-    conf[elfType].saveExecString_ = "";
-
-    elfConfiguration[elfType].qSound_ = (int)configPointer->Read(elfTypeStr+"/Enable_Q_Sound", 1l);
-    elfConfiguration[elfType].vtType = (int)configPointer->Read(elfTypeStr+"/VT_Type", 2l);
-    elfConfiguration[elfType].vt52SetUpFeature_ = configPointer->Read(elfTypeStr+"/VT52Setup", 0x00004092l);
-    elfConfiguration[elfType].vt100SetUpFeature_ = configPointer->Read(elfTypeStr+"/VT100Setup", 0x0000ca52l);
-    elfConfiguration[elfType].vtExternalSetUpFeature_ = configPointer->Read(elfTypeStr+"/VTExternalSetup", 0x0000ca52l);
-    elfConfiguration[elfType].baudR = (int)configPointer->Read(elfTypeStr+"/Vt_Baud_Receive", 4l);
-    elfConfiguration[elfType].baudT = (int)configPointer->Read(elfTypeStr+"/Vt_Baud_Transmit", 4l);
+    elfConfiguration[DIY].vt52SetUpFeature_ = configPointer->Read("Diy/VT52Setup", 0x00004092l);
+    elfConfiguration[DIY].vt100SetUpFeature_ = configPointer->Read("Diy/VT100Setup", 0x0000ca52l);
+    elfConfiguration[DIY].vtExternalSetUpFeature_ = configPointer->Read("Diy/VTExternalSetup", 0x0000ca52l);
     
-    elfConfiguration[elfType].vtCharactersPerRow = (int)configPointer->Read(elfTypeStr+"/VT100CharPerRow", 80);
-    elfConfiguration[elfType].vt100CharWidth = (int)configPointer->Read(elfTypeStr+"/VT100CharWidth", 10);
-    elfConfiguration[elfType].vt52CharWidth = (int)configPointer->Read(elfTypeStr+"/VT52CharWidth", 9);
+    elfConfiguration[DIY].vtCharactersPerRow = (int)configPointer->Read("Diy/VT100CharPerRow", 80);
+    elfConfiguration[DIY].vt100CharWidth = (int)configPointer->Read("Diy/VT100CharWidth", 10);
+    elfConfiguration[DIY].vt52CharWidth = (int)configPointer->Read("Diy/VT52CharWidth", 9);
 
-    elfConfiguration[elfType].diskType = (int)configPointer->Read(elfTypeStr+"/Disk_Type", 2l);
-    elfConfiguration[elfType].keyboardType = (int)configPointer->Read(elfTypeStr+"/Keyboard_Type", 0l);
+    elfConfiguration[DIY].bellFrequency_ = (int)configPointer->Read("Diy/Bell_Frequency", 800);
+    configPointer->Read("Diy/SerialLog", &elfConfiguration[DIY].serialLog, false);
+    configPointer->Read("Diy/ESCError", &elfConfiguration[DIY].escError, false);
+    configPointer->Read("Diy/ClearRtc", &elfConfiguration[DIY].clearRtc, false);
+    configPointer->Read("Diy/Open_Control_Windows", &elfConfiguration[DIY].useElfControlWindows, false);
 
-    elfConfiguration[elfType].bellFrequency_ = (int)configPointer->Read(elfTypeStr + "/Bell_Frequency", 800);
-    configPointer->Read(elfTypeStr+"/UseHexEf", &elfConfiguration[elfType].useHexKeyboardEf3, false);
-    configPointer->Read(elfTypeStr+"/SerialLog", &elfConfiguration[elfType].serialLog, false);
-    configPointer->Read(elfTypeStr+"/ESCError", &elfConfiguration[elfType].escError, false);
-    configPointer->Read(elfTypeStr+"/Uart", &elfConfiguration[elfType].useUart, false);
-    configPointer->Read(elfTypeStr+"/Uart16450", &elfConfiguration[elfType].useUart16450, false);
-    configPointer->Read(elfTypeStr+"/ClearRtc", &elfConfiguration[elfType].clearRtc, false);
-    configPointer->Read(elfTypeStr+"/Enable_Auto_Boot", &elfConfiguration[elfType].autoBoot, true);
-    configPointer->Read(elfTypeStr+"/Force_Uppercase", &elfConfiguration[elfType].forceUpperCase, true);
-    configPointer->Read(elfTypeStr+"/Enable_Printer", &conf[elfType].printerOn_, false);
-    configPointer->Read(elfTypeStr+"/Enable_Extended_Ports", &elfConfiguration[elfType].usePortExtender, false);
-    configPointer->Read(elfTypeStr+"/Open_Control_Windows", &elfConfiguration[elfType].useElfControlWindows, false);
-    configPointer->Read(elfTypeStr+"/Enable_Interlace", &conf[elfType].interlace_, true);
-    configPointer->Read(elfTypeStr+"/Enable_Vt_Stretch_Dot", &conf[elfType].stretchDot_, false);
-    configPointer->Read(elfTypeStr+"/Enable_Vt_External", &elfConfiguration[elfType].vtExternal, false);
-    conf[elfType].printMode_ = (int)configPointer->Read(elfTypeStr+"/Print_Mode", 1l);
+    configPointer->Read("Diy/Enable_Interlace", &conf[DIY].interlace_, true);
+    configPointer->Read("Diy/Enable_Vt_Stretch_Dot", &conf[DIY].stretchDot_, false);
+    configPointer->Read("Diy/Enable_Vt_External", &elfConfiguration[DIY].vtExternal, false);
+    conf[DIY].printMode_ = (int)configPointer->Read("Diy/Print_Mode", 1l);
 
-    configPointer->Read(elfTypeStr+"/GiantBoardMapping", &elfConfiguration[elfType].giantBoardMapping, false);
-    configPointer->Read(elfTypeStr+"/EfButtons", &elfConfiguration[elfType].efButtons, false);
-    elfConfiguration[elfType].tilType = (int)configPointer->Read(elfTypeStr+"/TilType", 1l);
-    configPointer->Read(elfTypeStr+"/BootStrap", &elfConfiguration[elfType].bootStrap, false);
+    configPointer->Read("Diy/GiantBoardMapping", &elfConfiguration[DIY].giantBoardMapping, false);
 
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 2.0);
-    conf[elfType].zoom_ = convertLocale(configPointer->Read(elfTypeStr+"/Zoom", defaultZoom));
+    conf[DIY].zoom_ = convertLocale(configPointer->Read("Diy/Zoom", defaultZoom));
     defaultZoom.Printf("%2.2f", 1.0);
-    conf[elfType].zoomVt_ = convertLocale(configPointer->Read(elfTypeStr+"/Vt_Zoom", defaultZoom));
+    conf[DIY].zoomVt_ = convertLocale(configPointer->Read("Diy/Vt_Zoom", defaultZoom));
     wxString defaultScale;
     defaultScale.Printf("%i", 3);
-    conf[elfType].xScale_ = convertLocale(configPointer->Read(elfTypeStr+"/Window_Scale_Factor_X", defaultScale));
+    conf[DIY].xScale_ = convertLocale(configPointer->Read("Diy/Window_Scale_Factor_X", defaultScale));
 
-    wxString defaultClock;
-    defaultClock.Printf("%1.2f", 1.76);
-    conf[elfType].clock_ = convertLocale(configPointer->Read(elfTypeStr+"/Clock_Speed", defaultClock));
     wxString defaultTimer;
     defaultTimer.Printf("%d", 100);
-    conf[elfType].ledTime_ = configPointer->Read(elfTypeStr+"/Led_Update_Frequency", defaultTimer);
+    conf[DIY].ledTime_ = configPointer->Read("Diy/Led_Update_Frequency", defaultTimer);
 
-    conf[elfType].beepFrequency_ = (int)configPointer->Read(elfTypeStr+"/Beep_Frequency", 250);
-
-    configPointer->Read(elfTypeStr+"/Enable_Turbo_Cassette", &conf[elfType].turbo_, true);
-    conf[elfType].turboClock_ = configPointer->Read(elfTypeStr+"/Turbo_Clock_Speed", "15");
-    configPointer->Read(elfTypeStr+"/Enable_Auto_Cassette", &conf[elfType].autoCassetteLoad_, true);
-    configPointer->Read(elfTypeStr+"/Enable_Cassette", &elfConfiguration[elfType].useTape, false);
-    configPointer->Read(elfTypeStr+"/Enable_Xmodem", &elfConfiguration[elfType].useXmodem, false);
-    elfConfiguration[elfType].packetSize = (int)configPointer->Read(elfTypeStr+"/Ymodem_PacketSize", 0l);
-    configPointer->Read(elfTypeStr+"/Enable_Real_Cassette", &conf[elfType].realCassetteLoad_, false);
-    conf[elfType].volume_ = (int)configPointer->Read(elfTypeStr+"/Volume", 25l);
+    configPointer->Read("Diy/Enable_Turbo_Cassette", &conf[DIY].turbo_, true);
+    conf[DIY].turboClock_ = configPointer->Read("Diy/Turbo_Clock_Speed", "15");
+    configPointer->Read("Diy/Enable_Auto_Cassette", &conf[DIY].autoCassetteLoad_, true);
+    elfConfiguration[DIY].packetSize = (int)configPointer->Read("Diy/Ymodem_PacketSize", 0l);
+    configPointer->Read("Diy/Enable_Real_Cassette", &conf[DIY].realCassetteLoad_, false);
+    conf[DIY].volume_ = (int)configPointer->Read("Diy/Volume", 25l);
 
     long value; 
-    wxString bootAddress = configPointer->Read(elfTypeStr+"/Boot_Address", "FF00");
-    if (!bootAddress.ToLong(&value, 16))
-        value = 0x9000;
-    conf[elfType].bootAddress_ = value;
 
-    conf[elfType].saveStartString_ = configPointer->Read(elfTypeStr+"/SaveStart", "0");
-    if (!conf[elfType].saveStartString_.ToLong(&value, 16))
+    conf[DIY].saveStartString_ = configPointer->Read("Diy/SaveStart", "0");
+    if (!conf[DIY].saveStartString_.ToLong(&value, 16))
         value = 0;
-    conf[elfType].saveStart_ = value;
+    conf[DIY].saveStart_ = value;
 
-    if (mode_.gui)
-        setBaudChoice(elfType);
+    configPointer->Read("Diy/UseLoadLocation", &conf[DIY].useLoadLocation_, false);
 
-    setVtType(elfTypeStr, elfType, elfConfiguration[elfType].vtType, false);
-    setVideoType(elfTypeStr, elfType, conf[elfType].videoMode_);
-
-    conf[elfType].charRom_ = configPointer->Read(elfTypeStr+"/Font_Rom_File", "super.video.bin");
-    elfConfiguration[elfType].vtCharRom_ = configPointer->Read(elfTypeStr+"/Vt_Font_Rom_File", "vt100.bin");
-
-    configPointer->Read(elfTypeStr+"/UseLoadLocation", &conf[elfType].useLoadLocation_, false);
-
+    setXmlGui();
+    
     if (mode_.gui)
     {
-        setPrinterState(elfType);
-
         XRCCTRL(*this, "MainXmlDiy", wxComboBox)->SetValue(conf[DIY].xmlFile_);
-        XRCCTRL(*this, "MainRamDiy", wxComboBox)->SetValue(conf[elfType].memConfig_[0].filename);
+        XRCCTRL(*this, "MainRamDiy", wxComboBox)->SetValue(conf[DIY].memConfig_[0].filename);
         if (!ramFileFromGui_)
         {
             XRCCTRL(*this,"MainRamDiy", wxComboBox)->Enable(false);
             XRCCTRL(*this,"RamButtonDiy", wxButton)->Enable(false);
         }
 
-        XRCCTRL(*this, "CharRom"+elfTypeStr, wxComboBox)->SetValue(conf[elfType].charRom_);
-        XRCCTRL(*this, "IdeFile"+elfTypeStr, wxTextCtrl)->SetValue(conf[elfType].ide_);
-        XRCCTRL(*this, "KeyFile"+elfTypeStr, wxTextCtrl)->SetValue(conf[elfType].keyFile_);
-        XRCCTRL(*this, "PrintFile"+elfTypeStr, wxTextCtrl)->SetValue(conf[elfType].printFile_);
-        XRCCTRL(*this, "ScreenDumpFile"+elfTypeStr, wxComboBox)->SetValue(conf[elfType].screenDumpFile_);
-        XRCCTRL(*this, "WavFile"+elfTypeStr, wxTextCtrl)->SetValue(conf[elfType].wavFile_[0]);
+        XRCCTRL(*this, "KeyFileDiy", wxTextCtrl)->SetValue(conf[DIY].keyFile_);
+        XRCCTRL(*this, "PrintFileDiy", wxTextCtrl)->SetValue(conf[DIY].printFile_);
+        XRCCTRL(*this, "ScreenDumpFileDiy", wxComboBox)->SetValue(conf[DIY].screenDumpFile_);
+        XRCCTRL(*this, "WavFileDiy", wxTextCtrl)->SetValue(conf[DIY].wavFile_[0]);
     
-        XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->SetSelection(elfConfiguration[elfType].qSound_);
-        if (elfConfiguration[elfType].vtExternal)
-            XRCCTRL(*this, "VTType"+elfTypeStr, wxChoice)->SetSelection(EXTERNAL_TERMINAL);
-        else
-            XRCCTRL(*this, "VTType"+elfTypeStr, wxChoice)->SetSelection(elfConfiguration[elfType].vtType);
-        XRCCTRL(*this, "BeepFrequency"+elfTypeStr, wxTextCtrl)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
+        correctZoomAndValue(DIY, "Diy", SET_SPIN);
+        correctZoomVtAndValue(DIY, "Diy", SET_SPIN);
 
-        XRCCTRL(*this, "VTBaudRChoice" + elfTypeStr, wxChoice)->SetSelection(elfConfiguration[elfType].baudR);
-        XRCCTRL(*this, "VTBaudTChoice" + elfTypeStr, wxChoice)->SetSelection(elfConfiguration[elfType].baudT);
-//        XRCCTRL(*this, "VTBaudRChoice" + elfTypeStr, wxChoice)->Enable((elfConfiguration[elfType].vtType != VTNONE) && elfConfiguration[elfType].useUart);
-        XRCCTRL(*this, "BeepFrequencyText"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
-        XRCCTRL(*this, "BeepFrequencyTextHz"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
-//        XRCCTRL(*this, "VTBaudRText" + elfTypeStr, wxStaticText)->Enable((elfConfiguration[elfType].vtType != VTNONE) && elfConfiguration[elfType].useUart);
-//        XRCCTRL(*this, "VTBaudTText" + elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].vtType != VTNONE);
-        XRCCTRL(*this,"AddressText1"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].useElfControlWindows);
-        XRCCTRL(*this,"AddressText2"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].useElfControlWindows);
-//        XRCCTRL(*this, "VTBaudTChoice" + elfTypeStr, wxChoice)->Enable(elfConfiguration[elfType].vtType != VTNONE);
+        XRCCTRL(*this, "ControlWindowsDiy", wxCheckBox)->SetValue(elfConfiguration[DIY].useElfControlWindows);
+            
+        XRCCTRL(*this, "InterlaceDiy", wxCheckBox)->SetValue(conf[DIY].interlace_);
+        XRCCTRL(*this, "StretchDotDiy", wxCheckBox)->SetValue(conf[DIY].stretchDot_);
 
-        XRCCTRL(*this, "VideoType"+elfTypeStr, wxChoice)->SetSelection(conf[elfType].videoMode_);
-        XRCCTRL(*this, "AutoBoot"+elfTypeStr, wxCheckBox)->SetValue(elfConfiguration[elfType].autoBoot);
-        XRCCTRL(*this, "BootAddress"+elfTypeStr, wxTextCtrl)->SetValue(bootAddress);
-        XRCCTRL(*this, "UpperCase"+elfTypeStr, wxCheckBox)->SetValue(elfConfiguration[elfType].forceUpperCase);
-        XRCCTRL(*this, "DiskType"+elfTypeStr, wxChoice)->SetSelection(elfConfiguration[elfType].diskType);
-        XRCCTRL(*this, "Keyboard"+elfTypeStr, wxChoice)->SetSelection(elfConfiguration[elfType].keyboardType);
-        XRCCTRL(*this, "HexEf"+elfTypeStr, wxCheckBox)->SetValue(elfConfiguration[elfType].useHexKeyboardEf3);
+        XRCCTRL(*this, "PrintModeDiy", wxChoice)->SetSelection(conf[DIY].printMode_);
 
-        correctZoomAndValue(elfType, elfTypeStr, SET_SPIN);
-        correctZoomVtAndValue(elfType, elfTypeStr, SET_SPIN);
+        XRCCTRL(*this, "TurboDiy", wxCheckBox)->SetValue(conf[DIY].turbo_);
+        turboGui("Diy");
 
-        XRCCTRL(*this, "PortExt"+elfTypeStr, wxCheckBox)->SetValue(elfConfiguration[elfType].usePortExtender);
-        XRCCTRL(*this, "ControlWindows"+elfTypeStr, wxCheckBox)->SetValue(elfConfiguration[elfType].useElfControlWindows);
-        XRCCTRL(*this, "Interlace"+elfTypeStr, wxCheckBox)->SetValue(conf[elfType].interlace_);
-        XRCCTRL(*this, "StretchDot"+elfTypeStr, wxCheckBox)->SetValue(conf[elfType].stretchDot_);
+        XRCCTRL(*this, "TurboClockDiy", wxTextCtrl)->SetValue(conf[DIY].turboClock_);
+        XRCCTRL(*this, "AutoCasLoadDiy", wxCheckBox)->SetValue(conf[DIY].autoCassetteLoad_);
 
-        XRCCTRL(*this, "EFButtons"+elfTypeStr, wxCheckBox)->SetValue(elfConfiguration[elfType].efButtons);
+        XRCCTRL(*this, "VolumeDiy", wxSlider)->SetValue(conf[DIY].volume_);
 
-        XRCCTRL(*this, "TilType"+elfTypeStr, wxChoice)->SetSelection(elfConfiguration[elfType].tilType);
+        XRCCTRL(*this,"AddressText1Diy", wxStaticText)->Enable(elfConfiguration[DIY].useElfControlWindows && elfConfiguration[DIY].panelType_ != PANEL_NONE);
+        XRCCTRL(*this,"AddressText2Diy", wxStaticText)->Enable(elfConfiguration[DIY].useElfControlWindows && elfConfiguration[DIY].panelType_ != PANEL_NONE);
+        XRCCTRL(*this,"ShowAddressDiy", wxTextCtrl)->Enable(elfConfiguration[DIY].useElfControlWindows && elfConfiguration[DIY].panelType_ != PANEL_NONE);
+        XRCCTRL(*this, "ShowAddressDiy", wxTextCtrl)->ChangeValue(conf[DIY].ledTime_);
 
-        XRCCTRL(*this, "BootStrap"+elfTypeStr, wxCheckBox)->SetValue(elfConfiguration[elfType].bootStrap);
+        XRCCTRL(*this, "UseLocationDiy", wxCheckBox)->SetValue(conf[DIY].useLoadLocation_);
+        if (conf[DIY].saveStart_ != 0)
+            XRCCTRL(*this, "SaveStartDiy", wxTextCtrl)->SetValue(conf[DIY].saveStartString_);
 
-        setPrinterState(elfType);
-        XRCCTRL(*this, "PrintMode"+elfTypeStr, wxChoice)->SetSelection(conf[elfType].printMode_);
-        setPrintMode();
-
-        if (clockTextCtrl[elfType] != NULL)
-            clockTextCtrl[elfType]->ChangeValue(conf[elfType].clock_);
-        wxString beepFrequency;
-        beepFrequency.Printf("%d", conf[elfType].beepFrequency_);
-        XRCCTRL(*this, "BeepFrequency"+elfTypeStr, wxTextCtrl)->ChangeValue(beepFrequency);
-
-        XRCCTRL(*this, "Turbo"+elfTypeStr, wxCheckBox)->SetValue(conf[elfType].turbo_);
-        turboGui(elfTypeStr);
-
-        XRCCTRL(*this, "TurboClock"+elfTypeStr, wxTextCtrl)->SetValue(conf[elfType].turboClock_);
-        XRCCTRL(*this, "AutoCasLoad"+elfTypeStr, wxCheckBox)->SetValue(conf[elfType].autoCassetteLoad_);
-        setTapeType(elfTypeStr, elfType);
-
-        XRCCTRL(*this, "Volume"+elfTypeStr, wxSlider)->SetValue(conf[elfType].volume_);
-
-        XRCCTRL(*this, "ShowAddress"+elfTypeStr, wxTextCtrl)->ChangeValue(conf[elfType].ledTime_);
-        XRCCTRL(*this,"ShowAddress"+elfTypeStr, wxTextCtrl)->Enable(elfConfiguration[elfType].useElfControlWindows);
-
-        XRCCTRL(*this, "UseLocation"+elfTypeStr, wxCheckBox)->SetValue(conf[elfType].useLoadLocation_);
-        if (conf[elfType].saveStart_ != 0)
-            XRCCTRL(*this, "SaveStart"+elfTypeStr, wxTextCtrl)->SetValue(conf[elfType].saveStartString_);
-
-/*#ifdef __WXMAC__
-        XRCCTRL(*this,"Eject_IDE"+elfTypeStr, wxBitmapButton)->SetSize(26, 27);
-        XRCCTRL(*this,"EjectKeyFile"+elfTypeStr, wxBitmapButton)->SetSize(26, 27);
-        XRCCTRL(*this,"Eject_IDE"+elfTypeStr, wxBitmapButton)->SetSize(26, 27);
-        XRCCTRL(*this,"PrintButton"+elfTypeStr, wxBitmapButton)->SetSize(26, 27);
-        XRCCTRL(*this,"ScreenDumpF5"+elfTypeStr, wxBitmapButton)->SetSize(26, 27);
-        XRCCTRL(*this,"Tape"+elfTypeStr, wxBitmapButton)->SetSize(26, 27);
-        XRCCTRL(*this,"EjectCas"+elfTypeStr, wxBitmapButton)->SetSize(26, 27);
-#endif*/
     }
 
-    setDiskType(elfTypeStr, elfType, elfConfiguration[elfType].diskType);
-    setElfKeyboard(elfTypeStr, elfType, elfConfiguration[elfType].keyboardType, elfConfiguration[elfType].useHexKeyboardEf3);
-    setRealCas(elfType);
+    setRealCas(DIY);
 
-    if (elfType == ELF)
-    {
-        configPointer->Read("/Elf/Enable_Led_Module", &elfConfiguration[ELF].useLedModule, false);
-        if (mode_.gui)
-        {
-            XRCCTRL(*this, "UseLedModule", wxCheckBox)->SetValue(elfConfiguration[ELF].useLedModule);
-            XRCCTRL(*this,"UseLedModule",wxCheckBox)->Enable(elfConfiguration[ELF].useElfControlWindows);
-            if (!elfConfiguration[ELF].useElfControlWindows)
-                XRCCTRL(*this,"UseLedModule",wxCheckBox)->SetValue(false);
-        }
-    }
-    else
-    {
-        elfConfiguration[elfType].useLedModule = false;
-    }
+    elfConfiguration[DIY].useLedModule = false;
 
-    conf[elfType].loadFileNameFull_ = "";
-    conf[elfType].loadFileName_ = "";
+    conf[DIY].loadFileNameFull_ = "";
+    conf[DIY].loadFileName_ = "";
 
-    conf[elfType].pLoadSaveName_[0] = 'S';
-    conf[elfType].pLoadSaveName_[1] = 'U';
-    conf[elfType].pLoadSaveName_[2] = 'P';
-    conf[elfType].pLoadSaveName_[3] = 'E';
+    conf[DIY].pLoadSaveName_[0] = 'S';
+    conf[DIY].pLoadSaveName_[1] = 'U';
+    conf[DIY].pLoadSaveName_[2] = 'P';
+    conf[DIY].pLoadSaveName_[3] = 'E';
 
-    conf[elfType].defus_ = 0x2a81;
-    conf[elfType].eop_ = 0x2a83;
-    conf[elfType].string_ = 0x2a92;
-    conf[elfType].arrayValue_ = 0x2a94;
-    conf[elfType].eod_ = 0x2a99;
-    conf[elfType].basicRamAddress_ = 0x2c00;
+    conf[DIY].defus_ = 0x2a81;
+    conf[DIY].eop_ = 0x2a83;
+    conf[DIY].string_ = 0x2a92;
+    conf[DIY].arrayValue_ = 0x2a94;
+    conf[DIY].eod_ = 0x2a99;
+    conf[DIY].basicRamAddress_ = 0x2c00;
 }
 
-void GuiDiy::writeNetronicsDirConfig()
+void GuiDiy::writeDiyDirConfig()
 {
-    return; // *** to be removed
-
-    int elfType = DIY;
-    wxString elfTypeStr = "Diy";
+//    return; // *** to be removed
     
-    writeConfigDir("/Dir/Diy/Main", conf[DIY].mainDir_);
     writeConfigDir("/Dir/Diy/Xml_File", conf[DIY].xmlDir_);
     if (ramFileFromGui_)
         writeConfigDir("/Dir/Diy/Main_Ram_File", conf[DIY].memConfig_[0].dirname);
 
-    writeConfigDir("/Dir/" + elfTypeStr + "/Font_Rom_File", conf[elfType].charRomDir_);
-    writeConfigDir("/Dir/" + elfTypeStr + "/Vt_Font_Rom_File", elfConfiguration[elfType].vtCharRomDir_);
-    writeConfigDir("/Dir/" + elfTypeStr + "/Software_File", conf[elfType].ramDir_);
-    writeConfigDir("/Dir/" + elfTypeStr + "/Ide_File", conf[elfType].ideDir_);
-    writeConfigDir("/Dir/" + elfTypeStr + "/Key_File", conf[elfType].keyFileDir_);
-    writeConfigDir("/Dir/" + elfTypeStr + "/Print_File", conf[elfType].printFileDir_);
-    writeConfigDir("/Dir/" + elfTypeStr + "/Video_Dump_File", conf[elfType].screenDumpFileDir_);
-    writeConfigDir("/Dir/" + elfTypeStr + "/Wav_File", conf[elfType].wavFileDir_[0]);
-    writeConfigDir("/Dir/" + elfTypeStr + "/Vt_Wav_File", elfConfiguration[elfType].vtWavFileDir_);
+    writeConfigDir("/Dir/Diy/Software_File", conf[DIY].ramDir_);
+    writeConfigDir("/Dir/Diy/Key_File", conf[DIY].keyFileDir_);
+    writeConfigDir("/Dir/Diy/Print_File", conf[DIY].printFileDir_);
+    writeConfigDir("/Dir/Diy/Video_Dump_File", conf[DIY].screenDumpFileDir_);
+    writeConfigDir("/Dir/Diy/Wav_File", conf[DIY].wavFileDir_[0]);
 }
     
-void GuiDiy::writeNetronicsConfig()
+void GuiDiy::writeDiyConfig()
 {
-    return; // *** to be removed
- /*
+//    return; // *** to be removed
     wxString buffer;
     
-    int elfType = DIY;
-    wxString elfTypeStr = "Diy";
-    
-    writeElfPortConfig(elfType, elfTypeStr);
-
     configPointer->Write("Diy/Xml_File", conf[DIY].xmlFile_);
     if (ramFileFromGui_)
         configPointer->Write("Diy/Main_Ram_File", conf[DIY].memConfig_[0].filename);
 
-    configPointer->Write(elfTypeStr+"/Font_Rom_File", conf[elfType].charRom_);
-    configPointer->Write(elfTypeStr+"/Vt_Font_Rom_File", elfConfiguration[elfType].vtCharRom_);
-    configPointer->Write(elfTypeStr+"/Ide_File", conf[elfType].ide_);
-    configPointer->Write(elfTypeStr+"/Key_File", conf[elfType].keyFile_);
-    configPointer->Write(elfTypeStr+"/Print_File", conf[elfType].printFile_);
-    configPointer->Write(elfTypeStr+"/Video_Dump_File", conf[elfType].screenDumpFile_);
-    configPointer->Write(elfTypeStr+"/Wav_File", conf[elfType].wavFile_[0]);
-    configPointer->Write(elfTypeStr+"/Vt_Wav_File", elfConfiguration[elfType].vtWavFile_);
-    configPointer->Write(elfTypeStr+"/VtSerialPortChoice", elfConfiguration[elfType].serialPort_);
+    configPointer->Write("Diy/Key_File", conf[DIY].keyFile_);
+    configPointer->Write("Diy/Print_File", conf[DIY].printFile_);
+    configPointer->Write("Diy/Video_Dump_File", conf[DIY].screenDumpFile_);
+    configPointer->Write("Diy/Wav_File", conf[DIY].wavFile_[0]);
 
-    configPointer->Write(elfTypeStr+"/Disk_Type", elfConfiguration[elfType].diskType);
-    configPointer->Write(elfTypeStr+"/Enable_Q_Sound", elfConfiguration[elfType].qSound_);
-    buffer.Printf("%04X", (unsigned int)startRam_[elfType]);
-    configPointer->Write(elfTypeStr+"/Ram_Start_Address", buffer);
-    buffer.Printf("%04X", (unsigned int)endRam_[elfType]);
-    configPointer->Write(elfTypeStr+"/Ram_End_Address", buffer);
-    configPointer->Write(elfTypeStr+"/VT_Type", elfConfiguration[elfType].vtType);
+    buffer.Printf("%04X", (unsigned int)startRam_[DIY]);
+    configPointer->Write("Diy/Ram_Start_Address", buffer);
+    buffer.Printf("%04X", (unsigned int)endRam_[DIY]);
+    configPointer->Write("Diy/Ram_End_Address", buffer);
 
-    long value = elfConfiguration[elfType].vt52SetUpFeature_.to_ulong();
-    configPointer->Write(elfTypeStr+"/VT52Setup", value);
-    value = elfConfiguration[elfType].vt100SetUpFeature_.to_ulong();
-    configPointer->Write(elfTypeStr+"/VT100Setup", value);
-    value = elfConfiguration[elfType].vtExternalSetUpFeature_.to_ulong();
-    configPointer->Write(elfTypeStr+"/VTExternalSetup", value);
-    configPointer->Write(elfTypeStr+"/VT100CharPerRow", elfConfiguration[elfType].vtCharactersPerRow);
-    configPointer->Write(elfTypeStr+"/VT100CharWidth", elfConfiguration[elfType].vt100CharWidth);
-    configPointer->Write(elfTypeStr+"/VT52CharWidth", elfConfiguration[elfType].vt52CharWidth);
+    long value = elfConfiguration[DIY].vt52SetUpFeature_.to_ulong();
+    configPointer->Write("Diy/VT52Setup", value);
+    value = elfConfiguration[DIY].vt100SetUpFeature_.to_ulong();
+    configPointer->Write("Diy/VT100Setup", value);
+    value = elfConfiguration[DIY].vtExternalSetUpFeature_.to_ulong();
+    configPointer->Write("Diy/VTExternalSetup", value);
+    configPointer->Write("Diy/VT100CharPerRow", elfConfiguration[DIY].vtCharactersPerRow);
+    configPointer->Write("Diy/VT100CharWidth", elfConfiguration[DIY].vt100CharWidth);
+    configPointer->Write("Diy/VT52CharWidth", elfConfiguration[DIY].vt52CharWidth);
 
-    configPointer->Write(elfTypeStr+"/Vt_Baud_Receive", elfConfiguration[elfType].baudR);
-    configPointer->Write(elfTypeStr+"/Vt_Baud_Transmit", elfConfiguration[elfType].baudT);
-    configPointer->Write(elfTypeStr + "/Bell_Frequency", elfConfiguration[elfType].bellFrequency_);
-    configPointer->Write(elfTypeStr+"/SerialLog", elfConfiguration[elfType].serialLog);
-    configPointer->Write(elfTypeStr+"/ESCError", elfConfiguration[elfType].escError);
-    configPointer->Write(elfTypeStr+"/Uart", elfConfiguration[elfType].useUart);
-    configPointer->Write(elfTypeStr+"/Uart16450", elfConfiguration[elfType].useUart16450);
-    configPointer->Write(elfTypeStr+"/ClearRtc", elfConfiguration[elfType].clearRtc);
-    configPointer->Write(elfTypeStr+"/Enable_Auto_Boot", elfConfiguration[elfType].autoBoot);
-    buffer.Printf("%04X", (unsigned int)conf[elfType].bootAddress_);
-    configPointer->Write(elfTypeStr+"/Boot_Address", buffer);
-    configPointer->Write(elfTypeStr+"/Video_Type", conf[elfType].videoMode_);
-    configPointer->Write(elfTypeStr+"/Keyboard_Type", elfConfiguration[elfType].keyboardType);
-    configPointer->Write(elfTypeStr+"/UseHexEf", elfConfiguration[elfType].useHexKeyboardEf3);
-    configPointer->Write(elfTypeStr+"/Zoom", conf[elfType].zoom_);
-    configPointer->Write(elfTypeStr+"/Vt_Zoom", conf[elfType].zoomVt_);
-    configPointer->Write(elfTypeStr+"/Force_Uppercase", elfConfiguration[elfType].forceUpperCase);
-    configPointer->Write(elfTypeStr+"/UseLoadLocation", conf[elfType].useLoadLocation_);
-    configPointer->Write(elfTypeStr+"/SaveStart", conf[elfType].saveStartString_);
+    configPointer->Write("Diy/Bell_Frequency", elfConfiguration[DIY].bellFrequency_);
+    configPointer->Write("Diy/SerialLog", elfConfiguration[DIY].serialLog);
+    configPointer->Write("Diy/ESCError", elfConfiguration[DIY].escError);
+    configPointer->Write("Diy/ClearRtc", elfConfiguration[DIY].clearRtc);
+    configPointer->Write("Diy/Zoom", conf[DIY].zoom_);
+    configPointer->Write("Diy/Vt_Zoom", conf[DIY].zoomVt_);
+    configPointer->Write("Diy/UseLoadLocation", conf[DIY].useLoadLocation_);
+    configPointer->Write("Diy/SaveStart", conf[DIY].saveStartString_);
 
-    configPointer->Write(elfTypeStr+"/GiantBoardMapping", elfConfiguration[elfType].giantBoardMapping);
-    configPointer->Write(elfTypeStr+"/EfButtons", elfConfiguration[elfType].efButtons);
+    configPointer->Write("Diy/GiantBoardMapping", elfConfiguration[DIY].giantBoardMapping);
 
-    configPointer->Write(elfTypeStr+"/Enable_Printer", conf[elfType].printerOn_);
-    configPointer->Write(elfTypeStr + "/Print_Mode", conf[elfType].printMode_);
+    configPointer->Write("Diy/Enable_Printer", conf[DIY].printerOn_);
+    configPointer->Write("Diy/Print_Mode", conf[DIY].printMode_);
 
-    configPointer->Write(elfTypeStr+"/Enable_Extended_Ports", elfConfiguration[elfType].usePortExtender);
-    configPointer->Write(elfTypeStr+"/Open_Control_Windows", elfConfiguration[elfType].useElfControlWindows);
-    configPointer->Write(elfTypeStr+"/Enable_Interlace", conf[elfType].interlace_);
-    configPointer->Write(elfTypeStr+"/Enable_Vt_Stretch_Dot", conf[elfType].stretchDot_);
-    configPointer->Write(elfTypeStr+"/Enable_Vt_External", elfConfiguration[elfType].vtExternal);
+    configPointer->Write("Diy/Open_Control_Windows", elfConfiguration[DIY].useElfControlWindows);
+    configPointer->Write("Diy/Enable_Interlace", conf[DIY].interlace_);
+    configPointer->Write("Diy/Enable_Vt_Stretch_Dot", conf[DIY].stretchDot_);
+    configPointer->Write("Diy/Enable_Vt_External", elfConfiguration[DIY].vtExternal);
 
-    configPointer->Write(elfTypeStr+"/Clock_Speed", conf[elfType].clock_);
-    configPointer->Write(elfTypeStr+"/Beep_Frequency", conf[elfType].beepFrequency_);
-
-    configPointer->Write(elfTypeStr+"/TilType", elfConfiguration[elfType].tilType);
-
-    configPointer->Write(elfTypeStr+"/BootStrap", elfConfiguration[elfType].bootStrap);
-
-    configPointer->Write(elfTypeStr+"/Led_Update_Frequency", conf[elfType].ledTime_);
-    configPointer->Write(elfTypeStr+"/Enable_Turbo_Cassette", conf[elfType].turbo_);
-    configPointer->Write(elfTypeStr+"/Turbo_Clock_Speed", conf[elfType].turboClock_);
-    configPointer->Write(elfTypeStr+"/Enable_Auto_Cassette", conf[elfType].autoCassetteLoad_);
-    configPointer->Write(elfTypeStr+"/Enable_Real_Cassette", conf[elfType].realCassetteLoad_);
-    configPointer->Write(elfTypeStr+"/Enable_Cassette", elfConfiguration[elfType].useTape);
-    configPointer->Write(elfTypeStr+"/Enable_Xmodem", elfConfiguration[elfType].useXmodem);
-    configPointer->Write(elfTypeStr+"/Ymodem_PacketSize", elfConfiguration[elfType].packetSize);
-    configPointer->Write(elfTypeStr+"/Volume", conf[elfType].volume_);*/
+    configPointer->Write("Diy/Led_Update_Frequency", conf[DIY].ledTime_);
+    configPointer->Write("Diy/Enable_Turbo_Cassette", conf[DIY].turbo_);
+    configPointer->Write("Diy/Turbo_Clock_Speed", conf[DIY].turboClock_);
+    configPointer->Write("Diy/Enable_Auto_Cassette", conf[DIY].autoCassetteLoad_);
+    configPointer->Write("Diy/Enable_Real_Cassette", conf[DIY].realCassetteLoad_);
+    configPointer->Write("Diy/Ymodem_PacketSize", elfConfiguration[DIY].packetSize);
+    configPointer->Write("Diy/Volume", conf[DIY].volume_);
 }
 
-void GuiDiy::readNetronicsWindowConfig()
+void GuiDiy::readDiyWindowConfig()
 {
-    return; // *** to be removed
-
-    int elfType = DIY;
-    wxString elfTypeStr = "Diy";
+//    return; // *** to be removed
     
-    conf[elfType].pixieX_ = (int)configPointer->Read(elfTypeStr+"/Window_Position_Pixie_X", mainWindowX_+windowInfo.mainwX+windowInfo.xBorder);
-    conf[elfType].pixieY_ = (int)configPointer->Read(elfTypeStr+"/Window_Position_Pixie_Y", mainWindowY_);
-    conf[elfType].tmsX_ = (int)configPointer->Read(elfTypeStr+"/Window_Position_Tms_X", mainWindowX_+windowInfo.mainwX+windowInfo.xBorder);
-    conf[elfType].tmsY_ = (int)configPointer->Read(elfTypeStr+"/Window_Position_Tms_Y", mainWindowY_);
-    conf[elfType].mc6845X_ = (int)configPointer->Read(elfTypeStr+"/Window_Position_MC6845_X", mainWindowX_+windowInfo.mainwX+windowInfo.xBorder);
-    conf[elfType].mc6845Y_ = (int)configPointer->Read(elfTypeStr+"/Window_Position_MC6845_Y", mainWindowY_);
-    conf[elfType].mc6847X_ = (int)configPointer->Read(elfTypeStr+"/Window_Position_MC6847_X", mainWindowX_+windowInfo.mainwX+windowInfo.xBorder);
-    conf[elfType].mc6847Y_ = (int)configPointer->Read(elfTypeStr+"/Window_Position_MC6847_Y", mainWindowY_);
-    conf[elfType].i8275X_ = (int)configPointer->Read(elfTypeStr+"/Window_Position_I8275_X", mainWindowX_+windowInfo.mainwX+windowInfo.xBorder);
-    conf[elfType].i8275Y_ = (int)configPointer->Read(elfTypeStr+"/Window_Position_I8275_Y", mainWindowY_);
-    conf[elfType].vtX_ = (int)configPointer->Read(elfTypeStr+"/Window_Position_Vt_X", mainWindowX_+windowInfo.mainwX+windowInfo.xBorder);
-    conf[elfType].vtY_ = (int)configPointer->Read(elfTypeStr+"/Window_Position_Vt_Y", mainWindowY_);
-    conf[elfType].mainX_ = (int)configPointer->Read(elfTypeStr+"/Window_Position_X", mainWindowX_);
-    conf[elfType].mainY_ = (int)configPointer->Read(elfTypeStr+"/Window_Position_Y", mainWindowY_+windowInfo.mainwY+windowInfo.yBorder);
-    
-    if (elfType == ELF)
-    {
-        ledModuleX_ = (int)configPointer->Read(elfTypeStr+"/Window_Position_Led_Module_X", mainWindowX_+346+windowInfo.xBorder2);
-        ledModuleY_ = (int)configPointer->Read(elfTypeStr+"/Window_Position_Led_Module_Y", mainWindowY_+windowInfo.mainwY+229+windowInfo.yBorder2);
-        conf[elfType].keypadX_ = (int)configPointer->Read(elfTypeStr+"/Window_Position_Keypad_X", mainWindowX_+346+windowInfo.xBorder2);
-        conf[elfType].keypadY_ = (int)configPointer->Read(elfTypeStr+"/Window_Position_Keypad_Y", mainWindowY_+windowInfo.mainwY+windowInfo.yBorder);
-    }
+    conf[DIY].pixieX_ = (int)configPointer->Read("Diy/Window_Position_Pixie_X", mainWindowX_+windowInfo.mainwX+windowInfo.xBorder);
+    conf[DIY].pixieY_ = (int)configPointer->Read("Diy/Window_Position_Pixie_Y", mainWindowY_);
+    conf[DIY].tmsX_ = (int)configPointer->Read("Diy/Window_Position_Tms_X", mainWindowX_+windowInfo.mainwX+windowInfo.xBorder);
+    conf[DIY].tmsY_ = (int)configPointer->Read("Diy/Window_Position_Tms_Y", mainWindowY_);
+    conf[DIY].mc6845X_ = (int)configPointer->Read("Diy/Window_Position_MC6845_X", mainWindowX_+windowInfo.mainwX+windowInfo.xBorder);
+    conf[DIY].mc6845Y_ = (int)configPointer->Read("Diy/Window_Position_MC6845_Y", mainWindowY_);
+    conf[DIY].mc6847X_ = (int)configPointer->Read("Diy/Window_Position_MC6847_X", mainWindowX_+windowInfo.mainwX+windowInfo.xBorder);
+    conf[DIY].mc6847Y_ = (int)configPointer->Read("Diy/Window_Position_MC6847_Y", mainWindowY_);
+    conf[DIY].i8275X_ = (int)configPointer->Read("Diy/Window_Position_I8275_X", mainWindowX_+windowInfo.mainwX+windowInfo.xBorder);
+    conf[DIY].i8275Y_ = (int)configPointer->Read("Diy/Window_Position_I8275_Y", mainWindowY_);
+    conf[DIY].vtX_ = (int)configPointer->Read("Diy/Window_Position_Vt_X", mainWindowX_+windowInfo.mainwX+windowInfo.xBorder);
+    conf[DIY].vtY_ = (int)configPointer->Read("Diy/Window_Position_Vt_Y", mainWindowY_);
+    conf[DIY].mainX_ = (int)configPointer->Read("Diy/Window_Position_X", mainWindowX_);
+    conf[DIY].mainY_ = (int)configPointer->Read("Diy/Window_Position_Y", mainWindowY_+windowInfo.mainwY+windowInfo.yBorder);
 }
 
-void GuiDiy::writeNetronicsWindowConfig()
+void GuiDiy::writeDiyWindowConfig()
 {
-    return; // *** to be removed xx
-
-    int elfType = DIY;
-    wxString elfTypeStr = "Diy";
+//    return; // *** to be removed xx
     
-    if (conf[elfType].mainX_ > 0)
-        configPointer->Write(elfTypeStr + "/MainX", conf[elfType].mainX_);
-    if (conf[elfType].mainY_ > 0)
-        configPointer->Write(elfTypeStr + "/MainY", conf[elfType].mainY_);
-    if (conf[elfType].pixieX_ > 0)
-        configPointer->Write(elfTypeStr + "/Window_Position_Pixie_X", conf[elfType].pixieX_);
-    if (conf[elfType].pixieY_ > 0)
-        configPointer->Write(elfTypeStr + "/Window_Position_Pixie_Y", conf[elfType].pixieY_);
-    if (conf[elfType].tmsX_ > 0)
-        configPointer->Write(elfTypeStr + "/Window_Position_Tms_X", conf[elfType].tmsX_);
-    if (conf[elfType].tmsY_ > 0)
-        configPointer->Write(elfTypeStr + "/Window_Position_Tms_Y", conf[elfType].tmsY_);
-    if (conf[elfType].mc6845X_ > 0)
-        configPointer->Write(elfTypeStr + "/Window_Position_MC6845_X", conf[elfType].mc6845X_);
-    if (conf[elfType].mc6845Y_ > 0)
-        configPointer->Write(elfTypeStr + "/Window_Position_MC6845_Y", conf[elfType].mc6845Y_);
-    if (conf[elfType].mc6847X_ > 0)
-        configPointer->Write(elfTypeStr + "/Window_Position_MC6847_X", conf[elfType].mc6847X_);
-    if (conf[elfType].mc6847Y_ > 0)
-        configPointer->Write(elfTypeStr + "/Window_Position_MC6847_Y", conf[elfType].mc6847Y_);
-    if (conf[elfType].i8275X_ > 0)
-        configPointer->Write(elfTypeStr + "/Window_Position_I8275_X", conf[elfType].i8275X_);
-    if (conf[elfType].i8275Y_ > 0)
-        configPointer->Write(elfTypeStr + "/Window_Position_I8275_Y", conf[elfType].i8275Y_);
-    if (conf[elfType].vtX_ > 0)
-        configPointer->Write(elfTypeStr + "/Window_Position_Vt_X", conf[elfType].vtX_);
-    if (conf[elfType].vtY_ > 0)
-        configPointer->Write(elfTypeStr + "/Window_Position_Vt_Y", conf[elfType].vtY_);
-
-    if (elfType == ELF)
-    {
-        if (conf[elfType].keypadX_ > 0)
-            configPointer->Write(elfTypeStr + "/Window_Position_Keypad_X", conf[elfType].keypadX_);
-        if (conf[elfType].keypadY_ > 0)
-            configPointer->Write(elfTypeStr + "/Window_Position_Keypad_Y", conf[elfType].keypadY_);
-        if (ledModuleX_ > 0)
-            configPointer->Write(elfTypeStr + "/Window_Position_Led_Module_X", ledModuleX_);
-        if (ledModuleY_ > 0)
-            configPointer->Write(elfTypeStr + "/Window_Position_Led_Module_Y", ledModuleY_);
-    }
+    if (conf[DIY].mainX_ > 0)
+        configPointer->Write("Diy/MainX", conf[DIY].mainX_);
+    if (conf[DIY].mainY_ > 0)
+        configPointer->Write("Diy/MainY", conf[DIY].mainY_);
+    if (conf[DIY].pixieX_ > 0)
+        configPointer->Write("Diy/Window_Position_Pixie_X", conf[DIY].pixieX_);
+    if (conf[DIY].pixieY_ > 0)
+        configPointer->Write("Diy/Window_Position_Pixie_Y", conf[DIY].pixieY_);
+    if (conf[DIY].tmsX_ > 0)
+        configPointer->Write("Diy/Window_Position_Tms_X", conf[DIY].tmsX_);
+    if (conf[DIY].tmsY_ > 0)
+        configPointer->Write("Diy/Window_Position_Tms_Y", conf[DIY].tmsY_);
+    if (conf[DIY].mc6845X_ > 0)
+        configPointer->Write("Diy/Window_Position_MC6845_X", conf[DIY].mc6845X_);
+    if (conf[DIY].mc6845Y_ > 0)
+        configPointer->Write("Diy/Window_Position_MC6845_Y", conf[DIY].mc6845Y_);
+    if (conf[DIY].mc6847X_ > 0)
+        configPointer->Write("Diy/Window_Position_MC6847_X", conf[DIY].mc6847X_);
+    if (conf[DIY].mc6847Y_ > 0)
+        configPointer->Write("Diy/Window_Position_MC6847_Y", conf[DIY].mc6847Y_);
+    if (conf[DIY].i8275X_ > 0)
+        configPointer->Write("Diy/Window_Position_I8275_X", conf[DIY].i8275X_);
+    if (conf[DIY].i8275Y_ > 0)
+        configPointer->Write("Diy/Window_Position_I8275_Y", conf[DIY].i8275Y_);
+    if (conf[DIY].vtX_ > 0)
+        configPointer->Write("Diy/Window_Position_Vt_X", conf[DIY].vtX_);
+    if (conf[DIY].vtY_ > 0)
+        configPointer->Write("Diy/Window_Position_Vt_Y", conf[DIY].vtY_);
 }
 
-void GuiDiy::onNetronicsControlWindows(wxCommandEvent&event)
+void GuiDiy::onDiyControlWindows(wxCommandEvent&event)
 {
     elfConfiguration[selectedComputer_].useElfControlWindows = event.IsChecked();
 
@@ -614,8 +407,9 @@ void GuiDiy::onNetronicsControlWindows(wxCommandEvent&event)
         XRCCTRL(*this,"AddressText1"+computerInfo[selectedComputer_].gui,wxStaticText)->Enable(elfConfiguration[selectedComputer_].useElfControlWindows);
         XRCCTRL(*this,"AddressText2"+computerInfo[selectedComputer_].gui,wxStaticText)->Enable(elfConfiguration[selectedComputer_].useElfControlWindows);
     }
-
-    p_Diy->Show(elfConfiguration[runningComputer_].useElfControlWindows);
+    
+    if (computerRunning_)
+        p_Diy->Show(elfConfiguration[runningComputer_].useElfControlWindows);
 }
 
 void GuiDiy::onMainRamDiy(wxCommandEvent& WXUNUSED(event) )
@@ -681,3 +475,58 @@ void GuiDiy::onMainXmlTextDiy(wxCommandEvent& WXUNUSED(event))
     
     parseXmlFile(selectedComputer_, conf[selectedComputer_].xmlDir_, conf[selectedComputer_].xmlFile_);
 }
+
+void GuiDiy::setPrintModeDiy()
+{
+    if (conf[selectedComputer_].printerOn_)
+    {
+        XRCCTRL(*this, "PrintModeDiy", wxChoice)->Enable(true);
+        if (computerRunning_)
+            XRCCTRL(*this, "PrintButtonDiy", wxBitmapButton)->Enable(true);
+        else
+            XRCCTRL(*this, "PrintButtonDiy", wxBitmapButton)->Enable(false);
+    }
+    else
+    {
+        XRCCTRL(*this, "PrintModeDiy", wxChoice)->Enable(false);
+        XRCCTRL(*this, "PrintButtonDiy", wxBitmapButton)->Enable(false);
+    }
+    if (conf[selectedComputer_].printMode_ != PRINTFILE || !conf[selectedComputer_].printerOn_)
+    {
+        XRCCTRL(*this, "PrintFileButton"+computerInfo[selectedComputer_].gui, wxButton)->Enable(false);
+        XRCCTRL(*this, "PrintFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->Enable(false);
+    }
+    else
+    {
+        XRCCTRL(*this, "PrintFileButton"+computerInfo[selectedComputer_].gui, wxButton)->Enable(true);
+        XRCCTRL(*this, "PrintFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->Enable(true);
+    }
+}
+
+void GuiDiy::setXmlGui()
+{
+    setVtType("Diy", DIY, elfConfiguration[DIY].vtType, false);
+
+    if (!mode_.gui)
+        return;
+    
+    setBaudChoice(DIY);
+    setPrintModeDiy();
+    setTapeType("Diy", DIY);
+
+    XRCCTRL(*this, "VTBaudRChoiceDiy", wxChoice)->SetSelection(elfConfiguration[DIY].baudR);
+    XRCCTRL(*this, "VTBaudTChoiceDiy", wxChoice)->SetSelection(elfConfiguration[DIY].baudT);
+    if (elfConfiguration[DIY].vtExternal)
+        XRCCTRL(*this, "VTTypeDiy", wxChoice)->SetSelection(EXTERNAL_TERMINAL);
+    else
+        XRCCTRL(*this, "VTTypeDiy", wxChoice)->SetSelection(elfConfiguration[DIY].vtType);
+  
+    if (elfConfiguration[DIY].panelType_ == PANEL_NONE)
+        elfConfiguration[DIY].useElfControlWindows = false;
+
+    XRCCTRL(*this,"ControlWindowsDiy", wxCheckBox)->Enable(elfConfiguration[DIY].panelType_ != PANEL_NONE);
+
+    if (clockTextCtrl[DIY] != NULL)
+        clockTextCtrl[DIY]->ChangeValue(conf[DIY].clock_);
+}
+

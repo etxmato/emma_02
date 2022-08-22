@@ -111,7 +111,8 @@ void GuiMembership::readMembershipConfig()
 
     conf[MEMBER].mainDir_ = readConfigDir("/Dir/Membership/Main", dataDir_ + "Membership" + pathSeparator_);
     conf[MEMBER].romDir_[MAINROM1] = readConfigDir("/Dir/Membership/Main_Rom_File", dataDir_ + "Membership" + pathSeparator_);
-    elfConfiguration[MEMBER].vtCharRomDir_ = readConfigDir("/Dir/Membership/Vt_Font_Rom_File", dataDir_ + "Membership" + pathSeparator_);
+    elfConfiguration[MEMBER].vt100CharRomDir_ = readConfigDir("/Dir/Membership/Vt100_Font_Rom_File", dataDir_ + "Membership" + pathSeparator_);
+    elfConfiguration[MEMBER].vt52CharRomDir_ = readConfigDir("/Dir/Membership/Vt52_Font_Rom_File", dataDir_ + "Membership" + pathSeparator_);
     conf[MEMBER].ramDir_ = readConfigDir("/Dir/Membership/Software_File", dataDir_ + "Membership" + pathSeparator_);
     conf[MEMBER].screenDumpFileDir_ = readConfigDir("/Dir/Membership/Video_Dump_File", dataDir_ + "Membership" + pathSeparator_);
     conf[MEMBER].wavFileDir_[0] = readConfigDir("/Dir/Membership/Terminal_File", dataDir_ + "Membership" + pathSeparator_);
@@ -177,7 +178,8 @@ void GuiMembership::readMembershipConfig()
     conf[MEMBER].realCassetteLoad_ = false;
 
     setVtType("Membership", MEMBER, elfConfiguration[MEMBER].vtType, false);
-    elfConfiguration[MEMBER].vtCharRom_ = configPointer->Read("/Membership/Vt_Font_Rom_File", "vt100.bin");
+    elfConfiguration[MEMBER].vt100CharRom_ = configPointer->Read("/Membership/Vt100_Font_Rom_File", "vt100.bin");
+    elfConfiguration[MEMBER].vt52CharRom_ = configPointer->Read("/Membership/Vt52_Font_Rom_File", "vt52.a.bin");
 
     conf[MEMBER].saveStartString_ = configPointer->Read("/Membership/SaveStart", "0");
     if (!conf[MEMBER].saveStartString_.ToLong(&value, 16))
@@ -241,7 +243,8 @@ void GuiMembership::writeMembershipDirConfig()
     writeConfigDir("/Dir/Membership/Main", conf[MEMBER].mainDir_);
     writeConfigDir("/Dir/Membership/Main_Rom_File", conf[MEMBER].romDir_[MAINROM1]);
     writeConfigDir("/Dir/Membership/Software_File", conf[MEMBER].ramDir_);
-    writeConfigDir("/Dir/Membership/Vt_Font_Rom_File", elfConfiguration[MEMBER].vtCharRomDir_);
+    writeConfigDir("/Dir/Membership/Vt100_Font_Rom_File", elfConfiguration[MEMBER].vt100CharRomDir_);
+    writeConfigDir("/Dir/Membership/Vt52_Font_Rom_File", elfConfiguration[MEMBER].vt52CharRomDir_);
     writeConfigDir("/Dir/Membership/Video_Dump_File", conf[MEMBER].screenDumpFileDir_);
     writeConfigDir("/Dir/Membership/Terminal_File", conf[MEMBER].wavFileDir_[0]);
     writeConfigDir("/Dir/Membership/Vt_Wav_File", elfConfiguration[MEMBER].vtWavFileDir_);
@@ -252,7 +255,8 @@ void GuiMembership::writeMembershipConfig()
     wxString buffer;
 
     configPointer->Write("/Membership/Main_Rom_File", conf[MEMBER].rom_[MAINROM1]);
-    configPointer->Write("/Membership/Vt_Font_Rom_File", elfConfiguration[MEMBER].vtCharRom_);
+    configPointer->Write("/Membership/Vt100_Font_Rom_File", elfConfiguration[MEMBER].vt100CharRom_);
+    configPointer->Write("/Membership/Vt52_Font_Rom_File", elfConfiguration[MEMBER].vt52CharRom_);
     configPointer->Write("/Membership/Video_Dump_File", conf[MEMBER].screenDumpFile_);
     configPointer->Write("/Membership/Terminal_File", conf[MEMBER].wavFile_[0]);
     configPointer->Write("/Membership/Vt_Wav_File", elfConfiguration[MEMBER].vtWavFile_);

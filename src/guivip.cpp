@@ -144,7 +144,8 @@ void GuiVip::readVipConfig()
     
     conf[VIP].romDir_[MAINROM1] = readConfigDir("/Dir/Vip/Main_Rom_File", dataDir_ + "Vip"  + pathSeparator_);
     conf[VIP].ramDir_ = readConfigDir("/Dir/Vip/Software_File", dataDir_ + "Vip"  + pathSeparator_);
-    elfConfiguration[VIP].vtCharRomDir_ = readConfigDir("/Dir/Vip/Vt_Font_Rom_File", dataDir_ + "Vip" + pathSeparator_);
+    elfConfiguration[VIP].vt100CharRomDir_ = readConfigDir("/Dir/Vip/Vt100_Font_Rom_File", dataDir_ + "Vip" + pathSeparator_);
+    elfConfiguration[VIP].vt52CharRomDir_ = readConfigDir("/Dir/Vip/Vt52_Font_Rom_File", dataDir_ + "Vip" + pathSeparator_);
     conf[VIP].chip8SWDir_ = readConfigDir("/Dir/Vip/Chip_8_Software", dataDir_ + "Chip-8"  + pathSeparator_ + "Chip-8 Games"  + pathSeparator_);
     conf[VIP].printFileDir_ = readConfigDir("/Dir/Vip/Print_File", dataDir_ + "Vip" + pathSeparator_);
     conf[VIP].screenDumpFileDir_ = readConfigDir("/Dir/Vip/Video_Dump_File", dataDir_ + "Vip" + pathSeparator_);
@@ -220,7 +221,8 @@ void GuiVip::readVipConfig()
 
     setVtType("Vip", VIP, elfConfiguration[VIP].vtType, false);
 
-    elfConfiguration[VIP].vtCharRom_ = configPointer->Read("/Vip/Vt_Font_Rom_File", "vt52.a.bin");
+    elfConfiguration[VIP].vt100CharRom_ = configPointer->Read("/Vip/Vt100_Font_Rom_File", "vt100.bin");
+    elfConfiguration[VIP].vt52CharRom_ = configPointer->Read("/Vip/Vt52_Font_Rom_File", "vt52.a.bin");
 
     long value;
     conf[VIP].saveStartString_ = configPointer->Read("/Vip/SaveStart", "0");
@@ -285,7 +287,8 @@ void GuiVip::writeVipDirConfig()
     writeConfigDir("/Dir/Vip/Software_File", conf[VIP].ramDir_);
     writeConfigDir("/Dir/Vip/Chip_8_Software", conf[VIP].chip8SWDir_);
     writeConfigDir("/Dir/Vip/Print_File", conf[VIP].printFileDir_);
-    writeConfigDir("/Dir/Vip/Vt_Font_Rom_File", elfConfiguration[VIP].vtCharRomDir_);
+    writeConfigDir("/Dir/Vip/Vt100_Font_Rom_File", elfConfiguration[VIP].vt100CharRomDir_);
+    writeConfigDir("/Dir/Vip/Vt52_Font_Rom_File", elfConfiguration[VIP].vt52CharRomDir_);
     writeConfigDir("/Dir/Vip/Video_Dump_File", conf[VIP].screenDumpFileDir_);
     writeConfigDir("/Dir/Vip/Wav_File", conf[VIP].wavFileDir_[0]);
     writeConfigDir("/Dir/Vip/Vt_Wav_File", elfConfiguration[VIP].vtWavFileDir_);
@@ -294,7 +297,8 @@ void GuiVip::writeVipDirConfig()
 void GuiVip::writeVipConfig()
 {
     configPointer->Write("/Vip/Main_Rom_File", conf[VIP].rom_[MAINROM1]);
-    configPointer->Write("/Vip/Vt_Font_Rom_File", elfConfiguration[VIP].vtCharRom_);
+    configPointer->Write("/Vip/Vt100_Font_Rom_File", elfConfiguration[VIP].vt100CharRom_);
+    configPointer->Write("/Vip/Vt52_Font_Rom_File", elfConfiguration[VIP].vt52CharRom_);
     configPointer->Write("/Vip/Ram_Software", conf[VIP].ram_);
     configPointer->Write("/Vip/Chip_8_Software", conf[VIP].chip8SW_);
     configPointer->Write("/Vip/Print_File", conf[VIP].printFile_);

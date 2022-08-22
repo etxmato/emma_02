@@ -85,7 +85,7 @@ BEGIN_EVENT_TABLE(GuiPecom, GuiMain)
 END_EVENT_TABLE()
 
 GuiPecom::GuiPecom(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
-: GuiMain(title, pos, size, mode, dataDir, iniDir)
+: GuiXml(title, pos, size, mode, dataDir, iniDir)
 {
     conf[PECOM].loadFileNameFull_ = "";
     conf[PECOM].loadFileName_ = "";

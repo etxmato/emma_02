@@ -1,13 +1,18 @@
 #ifndef ELFCONFIG_H
 #define ELFCONFIG_H
 
+#define BOOTSTRAPREAD 0
+#define BOOTSTRAPOUT 1
+#define BOOTSTRAPIN 2
+
 class ElfPortConfiguration
 {
 public:
     int ef1default;
     int ef2default;
     int ef3default;
-    
+    int ef4default;
+
     int pixieInput;
     int pixieOutput;
     int pixieEf;
@@ -28,7 +33,12 @@ public:
     int fdcWriteOutput;
     int fdcInput;
     int fdcEf;
-    
+    int fdcSides;
+    int fdcTracks;
+    int fdcSectors;
+    int fdcSectorLength;
+    int fdcMaxFmtCount;
+
     int keyboardInput;
     int keyboardEf;
       
@@ -65,6 +75,8 @@ public:
 
     int mc6847OutputMode;
     int mc6847Output;
+    Word mc6847OutputStart;
+    Word mc6847OutputEnd;
     int mc6847b7;
     int mc6847b6;
     int mc6847b5;
@@ -97,6 +109,9 @@ public:
     int hexOutput;
     int hexInput;
     int hexEf;
+    
+    int bootStrapIo;
+    int bootStrapType;
     
     int tapeEf;
 };
@@ -137,8 +152,10 @@ public:
     int bellFrequency_;
     wxString vtWavFileDir_;
     wxString vtWavFile_;
-    wxString vtCharRomDir_;
-    wxString vtCharRom_;
+    wxString vt100CharRomDir_;
+    wxString vt100CharRom_;
+    wxString vt52CharRomDir_;
+    wxString vt52CharRom_;
     wxString serialPort_;
     bool useUart;
     bool useUart16450;
@@ -183,6 +200,8 @@ public:
     bool showAddress;
 
     bool bootStrap;
+    Word strapAddress;
+    
     bool bootRam;
     bool clearRam;
     bool clearRtc;
@@ -205,6 +224,8 @@ public:
 
     int tapeFormat_;
     bool coinArcadeControl_;
+    
+    int panelType_;
     
     ElfPortConfiguration elfPortConf;
 };

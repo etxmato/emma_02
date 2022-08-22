@@ -238,7 +238,7 @@ BEGIN_EVENT_TABLE(GuiFred, GuiVip)
     EVT_BUTTON(XRCID("RealCasLoadFRED1"), GuiMain::onRealCas)
 
     EVT_TEXT(XRCID("ShowAddressFRED1"), GuiMain::onLedTimer)
-    EVT_TEXT(XRCID("BootAddressFRED1"), GuiElf::onBootAddress)
+    EVT_TEXT(XRCID("BootAddressFRED1"), GuiMain::onBootAddress)
 
     EVT_TEXT(XRCID("RamSWFRED1_5"), GuiMain::onRamSWText)
     EVT_COMBOBOX(XRCID("RamSWFRED1_5"), GuiFred::onRamSWText)
@@ -287,7 +287,7 @@ BEGIN_EVENT_TABLE(GuiFred, GuiVip)
     EVT_BUTTON(XRCID("RealCasLoadFRED1_5"), GuiMain::onRealCas)
 
     EVT_TEXT(XRCID("ShowAddressFRED1_5"), GuiMain::onLedTimer)
-    EVT_TEXT(XRCID("BootAddressFRED1_5"), GuiElf::onBootAddress)
+    EVT_TEXT(XRCID("BootAddressFRED1_5"), GuiMain::onBootAddress)
 
 END_EVENT_TABLE()
 

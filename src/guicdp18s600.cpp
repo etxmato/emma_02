@@ -269,7 +269,8 @@ void GuiCdp18s600::readCdp18s600Config()
     conf[MICROBOARD].romDir_[U19ROM] = readConfigDir("/Dir/Microboard/Main_Rom_File19", dataDir_ + "Microboard" + pathSeparator_);
     conf[MICROBOARD].romDir_[U18ROM] = readConfigDir("/Dir/Microboard/Main_Rom_File18", dataDir_ + "Microboard" + pathSeparator_);
     conf[MICROBOARD].romDir_[U17ROM] = readConfigDir("/Dir/Microboard/Main_Rom_File17", dataDir_ + "Microboard" + pathSeparator_);
-    elfConfiguration[MICROBOARD].vtCharRomDir_ = readConfigDir("/Dir/Microboard/Vt_Font_Rom_File", dataDir_ + "Microboard" + pathSeparator_);
+    elfConfiguration[MICROBOARD].vt100CharRomDir_ = readConfigDir("/Dir/Microboard/Vt100_Font_Rom_File", dataDir_ + "Microboard" + pathSeparator_);
+    elfConfiguration[MICROBOARD].vt52CharRomDir_ = readConfigDir("/Dir/Microboard/Vt52_Font_Rom_File", dataDir_ + "Microboard" + pathSeparator_);
     conf[MICROBOARD].keyFileDir_ = readConfigDir("/Dir/Microboard/Key_File", dataDir_ + "Microboard" + pathSeparator_);
     conf[MICROBOARD].screenDumpFileDir_ = readConfigDir("/Dir/Microboard/Video_Dump_File", dataDir_ + "Microboard" + pathSeparator_);
     
@@ -463,8 +464,9 @@ void GuiCdp18s600::readCdp18s600Config()
     
     setVtType("Microboard", MICROBOARD, elfConfiguration[MICROBOARD].vtType, false);
     
-    elfConfiguration[MICROBOARD].vtCharRom_ = configPointer->Read("/Microboard/Vt_Font_Rom_File", "vt100.bin");
-    
+    elfConfiguration[MICROBOARD].vt100CharRom_ = configPointer->Read("/Microboard/Vt100_Font_Rom_File", "vt100.bin");
+    elfConfiguration[MICROBOARD].vt52CharRom_ = configPointer->Read("/Microboard/Vt52_Font_Rom_File", "vt52.a.bin");
+
     configPointer->Read("/Microboard/Enable_Auto_Boot", &elfConfiguration[MICROBOARD].autoBoot, true);
     elfConfiguration[MICROBOARD].autoBootType = (int)configPointer->Read("/Microboard/AutoBootType", 1l);
     if (elfConfiguration[MICROBOARD].autoBootType == 0)
@@ -546,7 +548,8 @@ void GuiCdp18s600::writeCdp18s600DirConfig()
     writeConfigDir("/Dir/Microboard/Main_Rom_File19", conf[MICROBOARD].romDir_[U19ROM]);
     writeConfigDir("/Dir/Microboard/Main_Rom_File18", conf[MICROBOARD].romDir_[U18ROM]);
     writeConfigDir("/Dir/Microboard/Main_Rom_File18", conf[MICROBOARD].romDir_[U17ROM]);
-    writeConfigDir("/Dir/Microboard/Vt_Font_Rom_File", elfConfiguration[MICROBOARD].vtCharRomDir_);
+    writeConfigDir("/Dir/Microboard/Vt100_Font_Rom_File", elfConfiguration[MICROBOARD].vt100CharRomDir_);
+    writeConfigDir("/Dir/Microboard/Vt52_Font_Rom_File", elfConfiguration[MICROBOARD].vt52CharRomDir_);
     writeConfigDir("/Dir/Microboard/Key_File", conf[MICROBOARD].keyFileDir_);
     writeConfigDir("/Dir/Microboard/Video_Dump_File", conf[MICROBOARD].screenDumpFileDir_);
 
@@ -585,7 +588,8 @@ void GuiCdp18s600::writeCdp18s600Config()
     configPointer->Write("/Microboard/Main_Rom_File19", conf[MICROBOARD].rom_[U19ROM]);
     configPointer->Write("/Microboard/Main_Rom_File18", conf[MICROBOARD].rom_[U18ROM]);
     configPointer->Write("/Microboard/Main_Rom_File17", conf[MICROBOARD].rom_[U17ROM]);
-    configPointer->Write("/Microboard/Vt_Font_Rom_File", elfConfiguration[MICROBOARD].vtCharRom_);
+    configPointer->Write("/Microboard/Vt100_Font_Rom_File", elfConfiguration[MICROBOARD].vt100CharRom_);
+    configPointer->Write("/Microboard/Vt52_Font_Rom_File", elfConfiguration[MICROBOARD].vt52CharRom_);
     configPointer->Write("/Microboard/Video_Dump_File", conf[MICROBOARD].screenDumpFile_);
     configPointer->Write("/Microboard/VtSerialPortChoice", elfConfiguration[MICROBOARD].serialPort_);
     

@@ -580,8 +580,8 @@ public:
 #define TELMACTAB 5
 #define PECOMTAB 6
 #define ETITAB 7
-#define DIYTAB 9
-#define DEBUGGERTAB 8
+#define DIYTAB 8
+#define DEBUGGERTAB 9
 #define DISKNONE 0
 #define DISKFDC 1
 #define DISKIDE 2
@@ -1066,6 +1066,11 @@ public:
 #define TERM_XMODEM_SAVE 5
 #define TERM_YMODEM_SAVE 6
 //#define TERM_XMODEM_SAVE_128 6
+
+#define PANEL_NONE 0
+#define PANEL_ELF 1
+#define PANEL_ELFII 2
+#define PANEL_SUPER 3
 
 class Emu1802: public wxApp
 {

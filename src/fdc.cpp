@@ -39,7 +39,7 @@ Fdc::Fdc()
 {
 }
 
-void Fdc::configure1793(int sides, int tracks, int sectors, int sectorlength, int computerType, ElfPortConfiguration portConf)
+void Fdc::configure1793(int sides, int tracks, int sectors, int sectorlength, int maxFmtCount, int computerType, ElfPortConfiguration portConf)
 {
 //    int input, selectOutput, writeOutput, efPort;
     wxFFile diskFile;
@@ -73,10 +73,7 @@ void Fdc::configure1793(int sides, int tracks, int sectors, int sectorlength, in
     }
     numberOfSectors_ = sectors;
     sectorLength_ = sectorlength;
-    if (numberOfSectors_ == 18)
-        maxFmtCount_ = 6256;
-    else
-        maxFmtCount_ = 3128;
+    maxFmtCount_ = maxFmtCount;
 
     wxString printBuffer;
     p_Main->message("Configuring WD1793 Floppy Disk Controller");

@@ -253,9 +253,9 @@ BEGIN_EVENT_TABLE(GuiElf, GuiElf2K)
     EVT_CHECKBOX(XRCID("AutoBootElfII"), GuiElf::onAutoBoot)
     EVT_CHECKBOX(XRCID("AutoBootSuperElf"), GuiElf::onAutoBoot)
 
-    EVT_TEXT(XRCID("BootAddressElf"), GuiElf::onBootAddress)
-    EVT_TEXT(XRCID("BootAddressElfII"), GuiElf::onBootAddress)
-    EVT_TEXT(XRCID("BootAddressSuperElf"), GuiElf::onBootAddress)
+    EVT_TEXT(XRCID("BootAddressElf"), GuiMain::onBootAddress)
+    EVT_TEXT(XRCID("BootAddressElfII"), GuiMain::onBootAddress)
+    EVT_TEXT(XRCID("BootAddressSuperElf"), GuiMain::onBootAddress)
 
     EVT_BUTTON(XRCID("KeyMapElf"), Main::onHexKeyDef)
     EVT_BUTTON(XRCID("KeyMapElfII"), Main::onHexKeyDef)
@@ -362,7 +362,8 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
     conf[elfType].romDir_[MAINROM1] = readConfigDir("/Dir/"+elfTypeStr+"/Main_Rom_1_File", dataDir_ + "Elf" + pathSeparator_);
     conf[elfType].romDir_[MAINROM2] = readConfigDir("/Dir/"+elfTypeStr+"/Main_Rom_2_File", dataDir_ + "Elf" + pathSeparator_);
     conf[elfType].charRomDir_ = readConfigDir("/Dir/"+elfTypeStr+"/Font_Rom_File", dataDir_ + "Elf" + pathSeparator_);
-    elfConfiguration[elfType].vtCharRomDir_ = readConfigDir("/Dir/"+elfTypeStr+"/Vt_Font_Rom_File", dataDir_ + "Elf" + pathSeparator_);
+    elfConfiguration[elfType].vt100CharRomDir_ = readConfigDir("/Dir/"+elfTypeStr+"/Vt100_Font_Rom_File", dataDir_ + "Elf" + pathSeparator_);
+    elfConfiguration[elfType].vt52CharRomDir_ = readConfigDir("/Dir/"+elfTypeStr+"/Vt52_Font_Rom_File", dataDir_ + "Elf" + pathSeparator_);
     conf[elfType].ramDir_ = readConfigDir("/Dir/"+elfTypeStr+"/SWD", dataDir_ + "Elf" + pathSeparator_);
     conf[elfType].ideDir_ = readConfigDir("/Dir/"+elfTypeStr+"/Ide_File", dataDir_ + "Elf" + pathSeparator_);
     conf[elfType].keyFileDir_ = readConfigDir("/Dir/"+elfTypeStr+"/Key_File", dataDir_ + "Elf" + pathSeparator_);
@@ -482,7 +483,8 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
     setVideoType(elfTypeStr, elfType, conf[elfType].videoMode_);
 
     conf[elfType].charRom_ = configPointer->Read(elfTypeStr+"/Font_Rom_File", "super.video.bin");
-    elfConfiguration[elfType].vtCharRom_ = configPointer->Read(elfTypeStr+"/Vt_Font_Rom_File", "vt100.bin");
+    elfConfiguration[elfType].vt100CharRom_ = configPointer->Read(elfTypeStr+"/Vt100_Font_Rom_File", "vt100.bin");
+    elfConfiguration[elfType].vt52CharRom_ = configPointer->Read(elfTypeStr+"/Vt52_Font_Rom_File", "vt52.a.bin");
 
     configPointer->Read(elfTypeStr+"/UseLoadLocation", &conf[elfType].useLoadLocation_, false);
 
@@ -666,7 +668,8 @@ void GuiElf::writeElfDirConfig(int elfType, wxString elfTypeStr)
     writeConfigDir("/Dir/" + elfTypeStr + "/Main_Rom_1_File", conf[elfType].romDir_[MAINROM1]);
     writeConfigDir("/Dir/" + elfTypeStr + "/Main_Rom_2_File", conf[elfType].romDir_[MAINROM2]);
     writeConfigDir("/Dir/" + elfTypeStr + "/Font_Rom_File", conf[elfType].charRomDir_);
-    writeConfigDir("/Dir/" + elfTypeStr + "/Vt_Font_Rom_File", elfConfiguration[elfType].vtCharRomDir_);
+    writeConfigDir("/Dir/" + elfTypeStr + "/Vt100_Font_Rom_File", elfConfiguration[elfType].vt100CharRomDir_);
+    writeConfigDir("/Dir/" + elfTypeStr + "/Vt52_Font_Rom_File", elfConfiguration[elfType].vt52CharRomDir_);
     writeConfigDir("/Dir/" + elfTypeStr + "/Software_File", conf[elfType].ramDir_);
     writeConfigDir("/Dir/" + elfTypeStr + "/Ide_File", conf[elfType].ideDir_);
     writeConfigDir("/Dir/" + elfTypeStr + "/Key_File", conf[elfType].keyFileDir_);
@@ -685,7 +688,8 @@ void GuiElf::writeElfConfig(int elfType, wxString elfTypeStr)
     configPointer->Write(elfTypeStr + "/Main_Rom_1_File", conf[elfType].rom_[MAINROM1]);
     configPointer->Write(elfTypeStr+"/Main_Rom_2_File", conf[elfType].rom_[MAINROM2]);
     configPointer->Write(elfTypeStr+"/Font_Rom_File", conf[elfType].charRom_);
-    configPointer->Write(elfTypeStr+"/Vt_Font_Rom_File", elfConfiguration[elfType].vtCharRom_);
+    configPointer->Write(elfTypeStr+"/Vt100_Font_Rom_File", elfConfiguration[elfType].vt100CharRom_);
+    configPointer->Write(elfTypeStr+"/Vt52_Font_Rom_File", elfConfiguration[elfType].vt52CharRom_);
     configPointer->Write(elfTypeStr+"/Ide_File", conf[elfType].ide_);
     configPointer->Write(elfTypeStr+"/Key_File", conf[elfType].keyFile_);
     configPointer->Write(elfTypeStr+"/Print_File", conf[elfType].printFile_);

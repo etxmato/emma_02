@@ -11,7 +11,7 @@ public:
     Fdc();
     ~Fdc() {};
 
-    void configure1793(int sides, int tracks, int sectors, int sectorlength, int computerType, ElfPortConfiguration portConf);
+    void configure1793(int sides, int tracks, int sectors, int sectorlength, int maxFmtCount, int computerType, ElfPortConfiguration portConf);
     Byte ef1793();
     Byte in1793();
     void selectRegister1793(Byte value);

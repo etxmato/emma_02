@@ -238,7 +238,8 @@ public:
     wxString getChip8Dir(int computerType){return conf[computerType].chip8SWDir_;};
     wxString getIdeDir(int computerType) {return conf[computerType].ideDir_;};
     wxString getCharRomDir(int computerType) {return conf[computerType].charRomDir_;};
-    wxString getVtCharRomDir(int computerType) {return elfConfiguration[computerType].vtCharRomDir_;};
+    wxString getVt52CharRomDir(int computerType) {return elfConfiguration[computerType].vt52CharRomDir_;};
+    wxString getVt100CharRomDir(int computerType) {return elfConfiguration[computerType].vt100CharRomDir_;};
     wxString getWaveDir(int computerType) {return conf[computerType].wavFileDir_[0];};
     void setWaveDir(int computerType, wxString fileDir) {conf[computerType].wavFileDir_[0] = fileDir;};
     wxArrayString getTerminalPaths(int computerType) {return conf[computerType].terminalPaths_;}
@@ -290,7 +291,8 @@ public:
     wxString getChip8SW(int computerType){return conf[computerType].chip8SW_;};
     wxString getIdeFile(int computerType) {return conf[computerType].ide_;};
     wxString getCharRomFile(int computerType) {return conf[computerType].charRom_;};
-    wxString getVtCharRomFile(int computerType) {return elfConfiguration[computerType].vtCharRom_;};
+    wxString getVt100CharRomFile(int computerType) {return elfConfiguration[computerType].vt100CharRom_;};
+    wxString getVt52CharRomFile(int computerType) {return elfConfiguration[computerType].vt52CharRom_;};
     wxString getWaveFile(int computerType) {return conf[computerType].wavFile_[0];};
     void setWaveFile(int computerType, wxString fileName) {conf[computerType].wavFile_[0] = fileName;};
     wxString getWaveFile1(int computerType) {return conf[computerType].wavFile_[1];};
@@ -464,18 +466,6 @@ public:
     wxString getUpdFloppyDir(int fdcType, int drive);
     wxString getUpdFloppyFile(int fdcType, int drive);
     void setUpdFloppyGui(int drive, int computerType);
-
-    int getTag(wxString line);
-    void parseXmlFile(int computer, wxString xmlDir, wxString xmlFile);
-    void parseXml_Info(int computer, wxXmlNode &node);
-    void parseXml_Memory(int computer, wxXmlNode &node);
-    void parseXml_RomRam(int computer, wxXmlNode &node, int type, size_t configNumber);
-    void parseXml_Ems(int computer, wxXmlNode &node, int type, size_t configNumber);
-    void parseXml_portExt(int computer, wxXmlNode &node, int type, size_t configNumber);
-    long parseXml_Number(wxXmlNode &node);
-    long parseXml_Number(wxXmlNode &node, wxString attribute);
-    bool parseXml_Range(wxXmlNode &node, long *start, long *end);
-    long getHexDec(wxString numberString);
 
     int getMessageBoxAnswer() {return messageBoxAnswer_;};
     wxColour getGuiTextColour(int colour) {return guiTextColour[colour];};

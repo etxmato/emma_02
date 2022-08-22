@@ -1,9 +1,9 @@
 #ifndef GUIPECOM_H
 #define GUIPECOM_H
 
-#include "guimain.h"
+#include "guixml.h"
 
-class GuiPecom : public GuiMain
+class GuiPecom : public GuiXml
 {
 public:
 

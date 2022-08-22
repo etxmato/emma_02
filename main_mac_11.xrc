@@ -4991,8 +4991,8 @@
 <size>-1</size>
 </font>
 <content>
-<item>311</item>
-<item>313</item>
+<item>311 </item>
+<item>313 </item>
 </content>
 </object>
 </object>
@@ -6470,8 +6470,8 @@
 <size>-1</size>
 </font>
 <content>
-<item>311</item>
-<item>313</item>
+<item>311 </item>
+<item>313 </item>
 </content>
 </object>
 </object>
@@ -7954,8 +7954,8 @@
 <size>-1</size>
 </font>
 <content>
-<item>311</item>
-<item>313</item>
+<item>311 </item>
+<item>313 </item>
 </content>
 </object>
 </object>
@@ -27772,7 +27772,7 @@
 </object>
 </object>
 <object class="notebookpage">
-<label>DIY</label>
+<label>XML</label>
 <object class="wxPanel" name="PanelDiy">
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -27796,7 +27796,7 @@
 <border>2</border>
 <object class="wxFlexGridSizer">
 <cols>2</cols>
-<rows>9</rows>
+<rows>6</rows>
 <vgap>2</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
@@ -27866,101 +27866,6 @@
 <style>wxCB_DROPDOWN</style>
 </object>
 </object>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW</flag>
-<border>3</border>
-<object class="wxButton" name="IDE_ButtonDiy">
-<tooltip>Browse for IDE image file</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>Disk</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
-<border>2</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxTextCtrl" name="IdeFileDiy">
-<size>91,-1</size>
-<tooltip>Specify IDE image file</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<value>disk1.ide</value>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP</flag>
-<border>1</border>
-<object class="wxChoice" name="DiskTypeDiy">
-<size>75,-1</size>
-<tooltip>Select FDC 1793 or IDE disk controller</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<content>
-<item>None</item>
-<item>FDC</item>
-<item>IDE</item>
-</content>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-<border>4</border>
-<object class="wxBitmapButton" name="Eject_IDEDiy">
-<size>22,22</size>
-<tooltip>Eject IDE image file</tooltip>
-<bitmap>images_osx/eject.png</bitmap>
-</object>
-</object>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW</flag>
-<border>3</border>
-<object class="wxButton" name="CharRomButtonDiy">
-<tooltip>Browse for video font file</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>Video Font</label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
-<border>3</border>
-<object class="wxComboBox" name="CharRomDiy">
-<size>192,-1</size>
-<tooltip>Specify video font file</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<style>wxCB_DROPDOWN</style>
-<content>
-<item></item>
-<item>mc6845.bin</item>
-<item></item>
-<item>mc6847.ntsc.round.bin</item>
-<item>mc6847.ntsc.square.bin</item>
-<item>mc6847.pal.round.bin</item>
-<item>mc6847.pal.square.bin</item>
-<item></item>
-<item>intel8275.bin</item>
-</content>
-<selection>1</selection>
 </object>
 </object>
 <object class="sizeritem">
@@ -28163,18 +28068,6 @@
 </object>
 </object>
 </object>
-<object class="sizeritem">
-<flag>wxGROW</flag>
-<border>4</border>
-<object class="wxButton" name="DP_ButtonDiy">
-<tooltip>Open device ports definition window</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>DevicePorts</label>
-</object>
-</object>
 </object>
 </object>
 <object class="sizeritem">
@@ -28375,41 +28268,10 @@
 <flag>wxALIGN_LEFT|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxFlexGridSizer">
-<cols>3</cols>
-<rows>3</rows>
+<cols>2</cols>
+<rows>1</rows>
 <vgap>2</vgap>
 <hgap>0</hgap>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxStaticText" name="VideoTypeTextDiy">
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>Video: </label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALIGN_BOTTOM</flag>
-<border>0</border>
-<object class="wxChoice" name="VideoTypeDiy">
-<tooltip>Select video type</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<content>
-<item>None</item>
-<item>1861 Pixie</item>
-<item>MC6845</item>
-<item>MC6847</item>
-<item>TMS 9918</item>
-<item>Intel 8275</item>
-<item>Super Video</item>
-</content>
-</object>
-</object>
 <object class="sizeritem">
 <flag>wxGROW</flag>
 <border>1</border>
@@ -28423,36 +28285,6 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxStaticText" name="KeyboardTextDiy">
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>Keyboard: </label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALIGN_BOTTOM</flag>
-<border>3</border>
-<object class="wxChoice" name="KeyboardDiy">
-<tooltip>Select keyboard type</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<content>
-<item>None</item>
-<item>PS2</item>
-<item>PS2 Interrupt</item>
-<item>Ascii</item>
-<item>Ascii (+Hex)</item>
-<item>Hex</item>
-</content>
-</object>
-</object>
-<object class="sizeritem">
 <flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="KeyMapDiy">
@@ -28462,117 +28294,6 @@
 <size>-1</size>
 </font>
 <label>Key Map</label>
-</object>
-</object>
-<object class="spacer">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>5</border>
-<size>5,5</size>
-</object>
-<object class="spacer">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>5</border>
-<size>5,5</size>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-<border>3</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-<border>3</border>
-<object class="wxCheckBox" name="AutoBootDiy">
-<tooltip>Enable auto boot at specified address</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>Boot:</label>
-<checked>0</checked>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-<border>0</border>
-<object class="wxTextCtrl" name="BootAddressDiy" subclass="HexEdit">
-<size>50,-1</size>
-<tooltip>Specify auto boot address in hexadecimal</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<maxlength>4</maxlength>
-</object>
-</object>
-</object>
-</object>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
-<border>1</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>4</border>
-<object class="wxStaticText" name="QsoundTextDiy">
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>Q Sound: </label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_BOTTOM|wxLEFT</flag>
-<border>2</border>
-<object class="wxChoice" name="QsoundDiy">
-<tooltip>Select Q sound type</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<content>
-<item>Off</item>
-<item>Software</item>
-<item>Hardware</item>
-</content>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-<border>3</border>
-<object class="wxStaticText" name="BeepFrequencyTextDiy">
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>Beeper: </label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-<border>2</border>
-<object class="wxTextCtrl" name="BeepFrequencyDiy" subclass="IntEdit">
-<size>45,-1</size>
-<tooltip>Specify oscilator frequency speed in Hz</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>3</border>
-<object class="wxStaticText" name="BeepFrequencyTextHzDiy">
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>Hz </label>
 </object>
 </object>
 </object>
@@ -28994,39 +28715,6 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-<border>2</border>
-<object class="wxStaticText" name="TilTextDiy">
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>TIL: </label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_BOTTOM|wxLEFT|wxRIGHT</flag>
-<border>2</border>
-<object class="wxChoice" name="TilTypeDiy">
-<tooltip>Switch between TIL311 and TIL313/FND500</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<content>
-<item>311</item>
-<item>313</item>
-</content>
-</object>
-</object>
-</object>
-</object>
-<object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
 <border>5</border>
 <object class="wxCheckBox" name="ControlWindowsDiy">
@@ -29035,7 +28723,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Elf Windows</label>
+<label>Front Panel</label>
 <checked>0</checked>
 </object>
 </object>
@@ -29049,85 +28737,6 @@
 <size>-1</size>
 </font>
 <label>Interlace</label>
-<checked>0</checked>
-</object>
-</object>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
-<border>3</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-<border>5</border>
-<object class="wxCheckBox" name="PortExtDiy">
-<tooltip>Enable extended ports support</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>Ext. ports</label>
-<checked>0</checked>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-<border>5</border>
-<object class="wxCheckBox" name="UpperCaseDiy">
-<tooltip>Force keyboard in uppercase</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>Uppercase</label>
-<checked>0</checked>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-<border>5</border>
-<object class="wxCheckBox" name="BootStrapDiy">
-<tooltip>Load ROM 1 at 8000 and bootstrap ROM</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>Bootstrap</label>
-<checked>0</checked>
-</object>
-</object>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
-<border>3</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-<border>5</border>
-<object class="wxCheckBox" name="HexEfDiy">
-<tooltip>Enable EF Hex keyboard</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>EF Hex key</label>
-<checked>0</checked>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-<border>5</border>
-<object class="wxCheckBox" name="EFButtonsDiy">
-<tooltip>Enable EF3/EF push buttons</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>EF Buttons</label>
 <checked>0</checked>
 </object>
 </object>
