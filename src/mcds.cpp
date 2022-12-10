@@ -42,7 +42,6 @@ Mcds::Mcds(const wxString& title, const wxPoint& pos, const wxSize& size, double
     McdsConfiguration = conf;
 
     McdsClockSpeed_ = clock;
-    lastAddress_ = 0;
 
 #ifndef __WXMAC__
     SetIcon(wxICON(app_icon));
@@ -54,7 +53,7 @@ Mcds::Mcds(const wxString& title, const wxPoint& pos, const wxSize& size, double
     loadStarted_ = false;
 
     p_Printer = new Printer();
-    p_Printer->init(p_Printer, "MCDS", MS2000PRINTER);
+    p_Printer->init(p_Printer, PRINTER_BASIC);
 }
 
 Mcds::~Mcds()

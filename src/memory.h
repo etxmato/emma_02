@@ -33,7 +33,12 @@ public:
 
     void defineMemoryType(long start, long end, int type); 
     void defineMemoryType(long address, int type); 
-    void defineExpansionMemoryType(int slot, long start, long end, int type); 
+    void defineXmlBankMemoryType(int slot, int bank, long start, long end, int type);
+    void defineXmlBankMemoryType(int slot, int bank, long address, int type);
+    void defineXmlSlotMemoryType(int slot, long start, long end, int type);
+    void defineXmlSlotMemoryType(int slot, long address, int type);
+    Byte getXmlSlotMemoryType(int slot, long address);
+    void defineExpansionMemoryType(int slot, long start, long end, int type);
     void defineExpansionMemoryType(int slot, long address, int type); 
     void defineBankMemoryType(int bank, long address, int type); 
     void defineEpromBankMemoryType(int bank, long address, int type); 
@@ -46,6 +51,7 @@ public:
     void allocPagerMemory(Word start, Word end);
     void allocPagerMemoryCommon();
     void allocComxExpansionMemory();
+    void allocSlotMemory();
     wxFileOffset allocRomMapperMemory(size_t number, wxFileOffset length);
     void allocEmsMemorySegment(size_t number);
     size_t allocMultiCartMemory(size_t memorySize);
@@ -69,7 +75,7 @@ public:
 
     Byte getRam(long address) {return mainMemory_[address];};
     void setRam(long address, Byte value) {mainMemory_[address] = value;};
-    Byte getEmsPage(size_t emsNumber) {return computerConfiguration.emsConfig_[emsNumber].page;};
+    Byte getEmsPage(size_t emsNumber);
     Byte getPager(int port) {return pager_[port];};
     int getMemoryType(int i) {return memoryType_[i];};
     int getExpansionMemoryType(int slot, int i) {return expansionMemoryType_[slot*32 + i];};
@@ -91,7 +97,7 @@ protected:
     Byte* mainMemoryDataType_;
     Byte* mainMemoryLabelType_;
     int memoryType_[256];
-    int expansionMemoryType_[128];
+    Byte* expansionMemoryType_;
     int bankMemoryType_[128];
     int epromBankMemoryType_[160];
     int superBankMemoryType_[512];
@@ -102,7 +108,7 @@ protected:
     Byte* pagerMemoryLabelType_;
     Byte* pagerMemoryType_;
     int colorMemory1864_[1024];
-    Byte mc6845ram_[2048];
+    Byte mc6845ram_[16383];
     Byte mc6845CharRom_[2048];
     Byte diagRomReplacement_[4096];
     Byte sequencerMemory_[2048];
@@ -122,6 +128,13 @@ protected:
     Byte* cpuRam_;
     Byte* cpuRamDataType_;
     Byte* cpuRamLabelType_;
+    
+    vector<Byte*> slotMemory_;
+    vector<Byte*> slotMemoryDataType_;
+    vector<Byte*> slotMemoryLabelType_;
+    vector<Byte*> slotMemoryType_;
+    vector<uint64_t*> slotMemoryExecuted_;
+    int numberOfSlots_;
 
     Byte* multiCartRom_;
     Byte* multiCartRomDataType_;
@@ -133,6 +146,10 @@ protected:
     vector<EmsMemory> emsMemory_;
     wxUint32 emsSize_;
     
+    vector<Word> slotSize_;
+    vector<wxUint32> slotMemorySize_;
+    wxUint32 slotMemSize_;
+
     Byte multiCartMsb_;
     Byte multiCartLsb_;
 
@@ -154,6 +171,7 @@ protected:
     bool emsRamDefined_;
     bool emsRomDefined_;
     bool comxExpansionMemoryDefined_;
+    bool slotMemoryDefined_;
 
     wxUint32 pagerSize_;
 

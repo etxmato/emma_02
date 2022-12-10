@@ -148,8 +148,6 @@ Elf2K::Elf2K(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     elfConfiguration = conf;
 
     elfClockSpeed_ = clock;
-    data_ = 0;
-    lastAddress_ = 0;
 
     wxString switchNumber;
 
@@ -229,7 +227,7 @@ bool Elf2K::keyDownPressed(int key)
         case WXK_NUMPAD_MULTIPLY:
         case WXK_NUMPAD_SUBTRACT:
         case WXK_NUMPAD_ENTER:
-            if (elfConfiguration.UsePS2)
+            if (elfConfiguration.usePS2)
             {
                 charEventPs2gpio(key);
                 return true;
@@ -241,7 +239,7 @@ bool Elf2K::keyDownPressed(int key)
     return false;
 }
 
-bool Elf2K::keyUpReleased(int key)
+bool Elf2K::keyUpReleased(int key, wxKeyEvent&WXUNUSED(event))
 {
     if (key == inKey1_ || key == inKey2_)
     {
@@ -532,15 +530,15 @@ Byte Elf2K::ef(int flag)
         break;
 
         case EF1UNDEFINED:
-            return elfConfiguration.elfPortConf.ef1default;
+            return elfConfiguration.ioConfiguration.ef1default;
         break;
             
         case EF2UNDEFINED:
-            return elfConfiguration.elfPortConf.ef2default;
+            return elfConfiguration.ioConfiguration.ef2default;
         break;
             
         case EF3UNDEFINED:
-            return elfConfiguration.elfPortConf.ef3default;
+            return elfConfiguration.ioConfiguration.ef3default;
         break;
 
         default:
@@ -780,7 +778,7 @@ void Elf2K::startComputer()
     loadRam();
     loadRtc();
 
-    configureElfExtensions();
+    configureExtensions();
     scratchpadRegister_[0]=0;
     if (elfConfiguration.bootRam)
         bootstrap_ = 0;
@@ -1011,9 +1009,11 @@ void Elf2K::resetVideo()
         i8275Pointer->cRegWrite(0x40);
 }
 
-void Elf2K::configureElfExtensions()
+void Elf2K::configureExtensions()
 {
     wxString path, fileName1, fileName2;
+
+    computerConfiguration.numberOfVideoTypes_ = 0;
 
     if (elfConfiguration.vtType != VTNONE)
     {
@@ -1023,23 +1023,23 @@ void Elf2K::configureElfExtensions()
         else
             vtPointer = new Vt100("Elf 2000 - VT 100", p_Main->getVtPos(ELF2K), wxSize(640*zoom, 400*zoom), zoom, ELF2K, elfClockSpeed_, elfConfiguration, UART1);
         p_Vt100[UART1] = vtPointer;
-        vtPointer->configureVt2K(elfConfiguration.baudR, elfConfiguration.baudT, elfConfiguration.elfPortConf);
+        vtPointer->configureVt2K(elfConfiguration.baudR, elfConfiguration.baudT, elfConfiguration.ioConfiguration);
         vtPointer->Show(true);
     }
 
     if (elfConfiguration.vtExternal)
     {
         p_Serial = new Serial(MEMBER, elfClockSpeed_, elfConfiguration);
-        p_Serial->configureVt2K(elfConfiguration.baudR, elfConfiguration.baudT, elfConfiguration.elfPortConf);
+        p_Serial->configureVt2K(elfConfiguration.baudR, elfConfiguration.baudT, elfConfiguration.ioConfiguration);
     }
 
     if (elfConfiguration.usePixie)
     {
-        double zoom = p_Main->getZoom();
+        double zoom = p_Main->getZoom(VIDEOMAIN);
         double scale = p_Main->getScale();
-        pixiePointer = new Pixie( "Elf 2000 - Pixie", p_Main->getPixiePos(ELF2K), wxSize(64*zoom*scale, 128*zoom), zoom, scale, ELF2K);
-        p_Video = pixiePointer;
-        pixiePointer->configurePixie(elfConfiguration.elfPortConf);
+        pixiePointer = new Pixie( "Elf 2000 - Pixie", p_Main->getPixiePos(ELF2K), wxSize(64*zoom*scale, 128*zoom), zoom, scale, ELF2K, computerConfiguration.numberOfVideoTypes_);
+        p_Video[computerConfiguration.numberOfVideoTypes_++] = pixiePointer;
+        pixiePointer->configurePixie(elfConfiguration.ioConfiguration);
         pixiePointer->initPixie();
         pixiePointer->setZoom(zoom);
         pixiePointer->Show(true);
@@ -1047,17 +1047,17 @@ void Elf2K::configureElfExtensions()
 
     if (elfConfiguration.use8275)
     {
-        double zoom = p_Main->getZoom();
-        i8275Pointer = new i8275( "Elf 2000 - Intel 8275", p_Main->get8275Pos(ELF2K), wxSize(80*8*zoom, 24*10*2*zoom), zoom, ELF2K, elfClockSpeed_);
-        p_Video = i8275Pointer;
-        i8275Pointer->configure8275(elfConfiguration.elfPortConf);
+        double zoom = p_Main->getZoom(VIDEOMAIN);
+        i8275Pointer = new i8275( "Elf 2000 - Intel 8275", p_Main->get8275Pos(ELF2K), wxSize(80*8*zoom, 24*10*2*zoom), zoom, ELF2K, elfClockSpeed_, computerConfiguration.numberOfVideoTypes_);
+        p_Video[computerConfiguration.numberOfVideoTypes_++] = i8275Pointer;
+        i8275Pointer->configure8275(elfConfiguration.ioConfiguration);
         i8275Pointer->init8275();
         i8275Pointer->Show(true);
     }
 
     if (p_Main->getIdeFile(ELF2K) != "")
     {
-        configureDisk(p_Main->getIdeDir(ELF2K) + p_Main->getIdeFile(ELF2K), p_Main->getIdeDir(ELF2K) + "disk2.ide", elfConfiguration.rtc, elfConfiguration.useUart, elfConfiguration.elfPortConf, elfConfiguration.use8275);
+        configureDisk(p_Main->getIdeDir(ELF2K) + p_Main->getIdeFile(ELF2K), p_Main->getIdeDir(ELF2K) + "disk2.ide", elfConfiguration.rtc, elfConfiguration.useUart, elfConfiguration.ioConfiguration, elfConfiguration.use8275);
     }
 
     if (elfConfiguration.usePs2gpio)
@@ -1550,7 +1550,7 @@ void Elf2K::checkComputerFunction()
                     p_Main->startYsTerminalSave(TERM_YMODEM_SAVE);
                 }
             }
-            if (scratchpadRegister_[programCounter_] == 0x8800)
+            if (scratchpadRegister_[programCounter_] == 0x8325)
             { // Memory dump diskless ROM (Pico Elf)
                 if ((mainMemory_[0x8800] == 0x8f) && (mainMemory_[0x8801] == 0x73) && (mainMemory_[0x8816] == 0x3d) && (mainMemory_[0x8817]== 0x16))
                 {
@@ -1655,7 +1655,7 @@ void Elf2K::checkComputerFunction()
                     p_Main->startYsTerminalSave(TERM_YMODEM_SAVE);
                 }
             }
-            if (scratchpadRegister_[programCounter_] == 0x8800)
+            if (scratchpadRegister_[programCounter_] == 0x8325)
             { // Memory dump diskless ROM (Pico Elf)
                 if ((mainMemory_[0x8800] == 0x8f) && (mainMemory_[0x8801] == 0x73) && (mainMemory_[0x8816] == 0x3d) && (mainMemory_[0x8817]== 0x16))
                 {

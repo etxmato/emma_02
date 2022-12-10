@@ -42,7 +42,8 @@ CidelsaStatusBar::CidelsaStatusBar(wxWindow *parent)
     ledOnPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/comxledon.png", wxBITMAP_TYPE_PNG);
 
     ledsDefined_ = false;
-    linux_led_pos_y_ = p_Main->getBarLedPosY();
+    led_pos_y_ = p_Main->getBarLedPosY();
+    runningComputer_ = p_Main->getRunningComputerId();
 
     for (int i=0; i<5; i++)
         status_[i] = false;
@@ -62,58 +63,148 @@ CidelsaStatusBar::~CidelsaStatusBar()
 
 void CidelsaStatusBar::onButtonPress1(wxCommandEvent&WXUNUSED(event))
 {
-    p_Computer->keyDown('1');
+    switch (runningComputer_)
+    {
+        case CIDELSA:
+            p_Computer->keyDown('1');
+        break;
+
+        case XML:
+            p_Computer->cidelsaStatusBarDown('1');
+        break;
+    }
 }
 
 void CidelsaStatusBar::onButtonRelease1(wxCommandEvent&WXUNUSED(event))
 {
-    p_Computer->keyUp('1');
-    p_Video->focus();
+    switch (runningComputer_)
+    {
+        case CIDELSA:
+            p_Computer->keyUp('1');
+            p_Video[VIDEOMAIN]->focus();
+        break;
+
+        case XML:
+            p_Computer->cidelsaStatusBarUp('1');
+        break;
+    }
 }
 
 void CidelsaStatusBar::onButtonPress2(wxCommandEvent&WXUNUSED(event))
 {
-    p_Computer->keyDown('2');
+    switch (runningComputer_)
+    {
+        case CIDELSA:
+            p_Computer->keyDown('2');
+        break;
+
+        case XML:
+            p_Computer->cidelsaStatusBarDown('2');
+        break;
+    }
 }
 
 void CidelsaStatusBar::onButtonRelease2(wxCommandEvent&WXUNUSED(event))
 {
-    p_Computer->keyUp('2');
-    p_Video->focus();
+    switch (runningComputer_)
+    {
+        case CIDELSA:
+            p_Computer->keyUp('2');
+            p_Video[VIDEOMAIN]->focus();
+        break;
+
+        case XML:
+            p_Computer->cidelsaStatusBarUp('2');
+        break;
+    }
 }
 
 void CidelsaStatusBar::onButtonPressA(wxCommandEvent&WXUNUSED(event))
 {
-    p_Computer->keyDown('A');
+    switch (runningComputer_)
+    {
+        case CIDELSA:
+            p_Computer->keyDown('A');
+        break;
+
+        case XML:
+            p_Computer->cidelsaStatusBarDown('A');
+        break;
+    }
 }
 
 void CidelsaStatusBar::onButtonReleaseA(wxCommandEvent&WXUNUSED(event))
 {
-    p_Computer->keyUp('A');
-    p_Video->focus();
+    switch (runningComputer_)
+    {
+        case CIDELSA:
+            p_Computer->keyUp('A');
+            p_Video[VIDEOMAIN]->focus();
+        break;
+
+        case XML:
+            p_Computer->cidelsaStatusBarUp('A');
+        break;
+    }
 }
 
 void CidelsaStatusBar::onButtonPressB(wxCommandEvent&WXUNUSED(event))
 {
-    p_Computer->keyDown('B');
+    switch (runningComputer_)
+    {
+        case CIDELSA:
+            p_Computer->keyDown('B');
+        break;
+
+        case XML:
+            p_Computer->cidelsaStatusBarDown('B');
+        break;
+    }
 }
 
 void CidelsaStatusBar::onButtonReleaseB(wxCommandEvent&WXUNUSED(event))
 {
-    p_Computer->keyUp('B');
-    p_Video->focus();
+    switch (runningComputer_)
+    {
+        case CIDELSA:
+            p_Computer->keyUp('B');
+            p_Video[VIDEOMAIN]->focus();
+        break;
+
+        case XML:
+            p_Computer->cidelsaStatusBarUp('B');
+        break;
+    }
 }
 
 void CidelsaStatusBar::onButtonPressFire(wxCommandEvent&WXUNUSED(event))
 {
-    p_Computer->keyDown(WXK_SPACE);
-    p_Video->focus();
+    switch (runningComputer_)
+    {
+        case CIDELSA:
+            p_Computer->keyDown(WXK_SPACE);
+            p_Video[VIDEOMAIN]->focus();
+        break;
+
+        case XML:
+            p_Computer->cidelsaStatusBarDown(WXK_SPACE);
+        break;
+    }
 }
 
 void CidelsaStatusBar::onButtonReleaseFire(wxCommandEvent&WXUNUSED(event))
 {
-    p_Computer->keyUp(WXK_SPACE);
-    p_Video->focus();
+    switch (runningComputer_)
+    {
+        case CIDELSA:
+            p_Computer->keyUp(WXK_SPACE);
+            p_Video[VIDEOMAIN]->focus();
+        break;
+
+        case XML:
+            p_Computer->cidelsaStatusBarUp(WXK_SPACE);
+        break;
+    }
 }
 
 void CidelsaStatusBar::initCidelsaBar()
@@ -198,12 +289,12 @@ void CidelsaStatusBar::displayLeds()
     {
 #if defined(__linux__)
         ledBitmapPointers [number] = new PushBitmapButton(this, number, *ledOnPointer,
-                                     wxPoint(number*(rect.GetWidth()+ledSpacing_)+3+number*3, linux_led_pos_y_), wxSize(-1, -1),
+                                     wxPoint(number*(rect.GetWidth()+ledSpacing_)+3+number*3, led_pos_y_), wxSize(-1, -1),
                                      wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
 #endif
 #if defined(__WXMAC__)
         ledBitmapPointers [number] = new PushBitmapButton(this, number, *ledOnPointer,
-                                                          wxPoint(number*(rect.GetWidth()+ledSpacing_)+3+number*3, 4), wxSize(-1, -1),
+                                                          wxPoint(number*(rect.GetWidth()+ledSpacing_)+3+number*3, led_pos_y_), wxSize(-1, -1),
                                                           wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
 #endif
 #if defined(__WXMSW__)

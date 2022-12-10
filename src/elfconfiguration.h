@@ -4,8 +4,51 @@
 #define BOOTSTRAPREAD 0
 #define BOOTSTRAPOUT 1
 #define BOOTSTRAPIN 2
+#define BOOTSTRAPIO 3
+#define BOOTSTRAPNONE 4
 
-class ElfPortConfiguration
+class EfKey
+{
+public:
+    int value;
+    bool defined;
+};
+
+class BitKey
+{
+public:
+    int value;
+    int bitMaskPressed;
+    int bitMaskReleased;
+};
+
+class BitKeypadDetails
+{
+public:
+    wxString number;
+    bool defined;
+    int inp;
+    int ioGroup;
+    vector<BitKey> bitkey;
+    int numberOfKeys;
+};
+
+class IoPort
+{
+public:
+    int portNumber;
+    int qValue;
+};
+
+class KeyDefinition
+{
+public:
+    Word keyValue;
+    Byte bitMaskPressed;
+    Byte bitMaskNotPressed;
+};
+
+class IoConfiguration
 {
 public:
     int ef1default;
@@ -13,9 +56,11 @@ public:
     int ef3default;
     int ef4default;
 
+    bool pixieDoubleScreenIo;
     int pixieInput;
     int pixieOutput;
     int pixieEf;
+    int pixieVideoNumber;
 
     int portExtenderSelectOutput;
     int portExtenderWriteOutput;
@@ -29,25 +74,48 @@ public:
     int ideHeads;
     int ideSectors;
 
-    int fdcSelectOutput;
-    int fdcWriteOutput;
-    int fdcInput;
+    IoPort fdcSelectOutput;
+    IoPort fdcWriteOutput;
+    IoPort fdcReadInput;
+    IoPort fdcIntrqInput;
     int fdcEf;
+    int fdcDrives;
     int fdcSides;
     int fdcTracks;
     int fdcSectors;
     int fdcSectorLength;
     int fdcMaxFmtCount;
+    int fdcIoGroup;
 
     int keyboardInput;
     int keyboardEf;
-      
+    int keyboardRepeatEf;
+
     int ps2KeyboardInput;
     int ps2KeyboardOutput;
     int ps2KeyboardEf;
     
+    int printerIoGroup;
     int printerOutput;
     int printerEf;
+    
+    int parallelPrinterIoGroup;
+    int parallelPrinterOutput;
+    int parallelPrinterInput;
+
+    int serialPrinterIoGroup;
+    int serialPrinterOutput;
+    int serialPrinterInput;
+    int serialPrinterBits;
+    int serialPrinterParity;
+
+    int qSerialPrinterIoGroup;
+    int qSerialPrinterEf;
+    
+    int thermalPrinterIoGroup;
+    int thermalPrinterOutput;
+    int thermalPrinterInput;
+    int thermalPrinterEf;
 
     vector<int> emsOutput;
 
@@ -64,13 +132,15 @@ public:
     int tmsModeHighOutput;
     int tmsModeLowOutput;
     int tmsInterrupt;
+    int tmsVideoNumber;
 
     int i8275WriteCommand;
     int i8275ReadStatus;
     int i8275WriteParameter;
     int i8275ReadParameter;
     int i8275VerticalRetrace;
-      
+    int i8275VideoNumber;
+
     int led_Module_Output;
 
     int mc6847OutputMode;
@@ -87,6 +157,7 @@ public:
     int mc6847b0;
     int mc6847dd7;
     int mc6847dd6;
+    int mc6847VideoNumber;
 
     bool forceHighAg;
     bool forceHighAs;
@@ -102,18 +173,119 @@ public:
 
     int mc6845StartRam;
     int mc6845EndRam;
+    Word mc6845RamMask;
     int mc6845Address;
+    int mc6845AddressMask;
     int mc6845Data;
+    int mc6845DataMask;
     int mc6845Ef;
+    wxSize mc6845CharSize;
+    wxSize mc6845ScreenSize;
+    int mc6845IoGroup;
+    int mc6845VideoNumber;
 
     int hexOutput;
     int hexInput;
     int hexEf;
     
-    int bootStrapIo;
+    int inEf;
+    
+    int bootStrapIn;
+    int bootStrapOut;
     int bootStrapType;
     
+    int dipIn;
+    int dipValue;
+
+    int ioGroupOut;
+    Byte ioGroupMask;
+
     int tapeEf;
+    int tapeIoGroup;
+
+    int v1870ioGroup;
+    int v1870interruptMode;
+    int v1870videoMode;
+    int v1870pageMemSize;
+    bool v1870pageMemRom;
+    int v1870charMemSize;
+    bool v1870charMemRom;
+    bool v1870charRomFormatTmc;
+    int v1870pcbMask;
+    int v1870maxCharLines;
+    int v1870maxScreenLines;
+    int v1870ef;
+    bool v1870efRev;
+    int v1870videoModeEf;
+    bool v1870useVideoModeEf;
+    double v1870clock;
+    Word v1870charRomStart;
+    bool v1870cmaMaskFixed;
+    bool v1870rotate;
+    int v1870colorRamType;
+    bool v1870cursorBlink;
+    int v1870outWrite;
+    int v1870outSelect;
+    int v1870VideoNumber;
+
+    int statusBarType;
+
+    EfKey efKey[5];
+    Byte efKeyPressed;
+    
+    BitKeypadDetails bitKeypad[2];
+    Byte bitKeyPressed;
+    
+    int nvRamProtectIn;
+    int nvRamIoGroup;
+    
+    Word rtcControl;
+    Word rtcSecond;
+    Word rtcMinute;
+    Word rtcHour;
+    Word rtcDay;
+    Word rtcDate;
+    Word rtcMonth;
+    Word rtcYear;
+    int rtcIoGroup;
+
+    IoPort usbSbIn5;
+    IoPort usbSbIn6;
+    IoPort usbSbOut;
+    int usbSbEf;
+    int usbSbIoGroup;
+    
+    int diagIn1;
+    int diagIn2;
+    int diagOut;
+    
+    int keybLatchPc[512];
+    int keybLatchPcShift[512];
+    bool useKeyDefShift;
+    Byte keybLatchPressed;
+    int keybLatchIoGroup;
+    int keybLatchOut;
+    int keybLatchOutMask;
+    int keybLatchEf;
+    int keybLatchAltRight;
+    int keybLatchAltLeft;
+    int keybLatchCtrlRight;
+    int keybLatchCtrlLeft;
+    int keybLatchShift;
+    int keybLatchCaps;
+    int keybLatchSwitch;
+    
+    int keybMatrixKeyValue[256];
+    Byte keybMatrixBitValue[256];
+    Byte keybMatrixShiftValue[256];
+    Byte keybMatrixCtrlValue[256];
+    int keybMatrixIn;
+    int keybMatrixInMask;
+    int keybMatrixIoGroup;
+    Byte keybMatrixEfKey[LAST_MATRIX_EF_KEY];
+    bool keybMatrixEfKeyRev[LAST_MATRIX_EF_KEY];
+    KeyDefinition keybMatrixTextKey[LAST_MATRIX_TEXT_KEY];
+    Byte keybMatrixPressed;
 };
 
 class ElfConfiguration
@@ -128,10 +300,13 @@ public:
     bool useTMS9918;
     bool use8275;
     bool usev1870;
-    int v1870Group;
-    int v1870InterruptMode;
-    int v1870VideoMode;
-    int pageMemSize;
+    bool useNvRamMp;
+    bool useRtcM48T58;
+    bool useUsbSb;
+
+    bool useDip;
+    bool useIoGroup;
+
     bool usePio;
     bool useCdp18s660;
     bool usePioWindow1Cdp18s660;
@@ -172,6 +347,7 @@ public:
     bool useSwitch;
     bool useHex;
     bool useTape;
+    bool useTape1;
     bool useXmodem;
     bool useHexModem;
     int packetSize;
@@ -181,14 +357,28 @@ public:
     int keyboardType;
     bool useHexKeyboard;
     bool useHexKeyboardEf3;
+    bool useInButton;
+    bool useKeyb1871;
     bool useKeyboard;
-    bool UsePS2;
+    bool useBitKeypad;
+    bool useLatchKeyboard;
+    bool useMatrixKeyboard;
+    bool usePS2;
     bool ps2Interrupt;    
     bool usePs2gpio;
+    bool useDma;
+    bool useInt;
+
+    int intCycleValue;
+    
+    int dmaCycleValue;
+    bool dmaOnFirstQ;
+    int dmaOnFirstOut;
 
     int diskType;
     bool ideEnabled;
-    bool fdcEnabled;
+    bool fdc1793Enabled;
+    bool fdc1770Enabled;
 
     int memoryType;
     bool usePortExtender;
@@ -227,7 +417,7 @@ public:
     
     int panelType_;
     
-    ElfPortConfiguration elfPortConf;
+    IoConfiguration ioConfiguration;
 };
 
 #endif    // ELFCONFIG_H

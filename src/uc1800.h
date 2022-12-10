@@ -38,7 +38,7 @@ public:
     Byte getData();
 
     bool keyDownPressed(int keycode);
-    bool keyUpReleased(int keycode);
+    bool keyUpReleased(int key, wxKeyEvent& event);
 
     void onRun();
     void onSingleStep();
@@ -102,7 +102,6 @@ private:
     Byte keypadValue_;
     char nextNybble_;
 
-    Byte data_;
     Byte ef1State_;
     Byte ef3State_;
 

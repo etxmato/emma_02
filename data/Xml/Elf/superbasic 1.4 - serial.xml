@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>Elf, Quest Superbasic 1.4 - Serial I/O</name>
+        <!-- Press Control F12, return, C to start BASIC in Cold mode -->
+        <clock>1.76</clock>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init>
+        <init type="ef4">1</init>
+        <dirname>Elf</dirname>
+    </system>
+    
+    <frontpanel>
+        <in>4</in>
+        <ef type="in">4</ef>
+    </frontpanel>
+
+    <memory>
+        <mainram>
+            <start>0x0000</start>
+            <end>0xFFFF</end>
+            <filename verify="true">superbasic.1.47.bin</filename>
+        </mainram>
+    </memory>
+    
+    <vt type="vt100" connection="serial">
+        <font>vt100.bin</font>
+        <out>5</out>
+        <ef>2</ef>
+        <q></q>
+        <caps />
+        <baud type="receive">2400</baud>
+        <baud type="transmit">2400</baud>
+        <border>0x0</border>
+        <color type="fore">0, 255, 0</color>
+        <color type="back">0, 0x40, 0</color>
+        <color type="high">0, 0xff, 0</color>
+    </vt>
+
+    <printer>
+        <out>3</out>
+    </printer>
+
+    <cassette decks="1">
+        <ef>3</ef>
+        <filename></filename>
+    </cassette>
+    
+    <basic>
+        <pload>super</pload>
+        <defus>0x2a81</defus>
+        <eop>0x2a83</eop>
+        <string>0x2a92</string>
+        <array>0x2a94</array>
+        <eod>0x2a99</eod>
+        <ram>0x2c00</ram>
+    </basic>
+
+    <batchwav>
+        <command>CSAVE</command>
+    </batchwav>
+
+    <locations>
+        <!-- key input -->
+        <key_input>0x71, 0x3f</key_input>
+
+        <!-- Machine states -->
+        <reset_state>0x2880</reset_state>
+        <basic_state>0x3f</basic_state>
+        <run_state>0x16a3, 0x1082</run_state>
+
+        <!-- Stop cassette -->
+        <stop_cas>0x3f</stop_cas>
+        
+        <!-- Start PSAVE, DSAVE, PLOAD, DLOAD -->
+        <start_cas_save>0x0107, 0x010a</start_cas_save>
+        <start_cas_load>0x0101</start_cas_load>
+        <start_cas_dload>0x0104</start_cas_dload>
+
+        <!-- Save start/end during batch conversion -->
+        <batch_start_save>0x71</batch_start_save>
+        <batch_end_save>0x3f</batch_end_save>
+        
+    </locations>
+
+</emmaconfig>
+

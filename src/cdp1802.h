@@ -96,6 +96,16 @@ public:
     bool readMultiCartBinFile(wxString dirName, wxString fileName);
     void setAddress(bool showFilename, Word start, Word end);
     void checkLoadedSoftware();
+    void checkLoadedSoftwareElf();
+    void checkLoadedSoftwareCosmicos();
+    void checkLoadedSoftwareVip();
+    void checkLoadedSoftwareVipII();
+    void checkLoadedSoftwareVip2K();
+    void checkLoadedSoftwareVelf();
+    void checkLoadedSoftwareMember();
+    void checkLoadedSoftwareMicroboard();
+    void checkLoadedSoftwareMCDS();
+    void checkLoadedSoftwareElf2K();
     bool readProgram(wxString romDir, wxString rom, int memoryType, Word address, bool showFilename);
     bool readProgram(wxString romDir, wxString rom, int memoryType, Word address, Word* lastAddress, bool showFilename);
     bool readProgramMicro(wxString romDir, wxString rom, int memoryType, Word address, long lastAddress, bool showFilename);
@@ -167,6 +177,7 @@ public:
 
     void increaseExecutedMainMemory(long address, Byte type);
     void increaseExecutedExpansionRom(long address, Byte type);
+    void increaseExecutedSlotMemory(int slot, long address, Byte type);
     void increaseExecutedExpansionRam(Word address, Byte type);
     void increaseExecutedExpansionEprom(Word address, Byte type);
     void increaseExecutedExpansionSuper(Word address, Byte type);

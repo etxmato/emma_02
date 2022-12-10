@@ -164,7 +164,7 @@ This option is used whenever the user wants to use the Standard (Serial RS232 or
 </tr>
 <tr>
 <td>CARD P9</td>
-<td>Shape small characters<br>(only available in F&M ROM)</td>
+<td>Shape lower case characters<br>(only available in F&M ROM)</td>
 </tr>
 <tr>
 <td>CARD P10</td>

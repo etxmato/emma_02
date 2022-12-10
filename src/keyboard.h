@@ -7,14 +7,17 @@ public:
     Keyboard ();
     ~Keyboard () {};
 
-    void configureKeyboard(int computerType, ElfPortConfiguration portConf);
+    void configureKeyboard(int computerType, IoConfiguration portConf);
+    void configureKeyboard(int computerType, IoConfiguration portConf, Locations addressLocations, wxString saveCommand);
     void charEventKeyboard(int keycode);
     void keyboardUp();
 
     Byte efKeyboard();
     Byte inKeyboard();
     void cycleKeyboard();
+    void cycleKeyboardXml();
 
+    bool checkKeyInputAddress(Word address);
     void startElfKeyFile(wxString elfTypeStr);
     void closeElfKeyFile();
     void setForceUpperCaseKeyboard(bool status);
@@ -34,6 +37,9 @@ private:
     bool load_;
     size_t elfRunCommand_;
     wxString commandText_; 
+
+    Locations addressLocations_;
+    wxString saveCommand_;
 
 };
 

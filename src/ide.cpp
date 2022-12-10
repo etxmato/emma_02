@@ -58,7 +58,7 @@ Ide::Ide()
 {
 }
 
-void Ide::configureIde(wxString ideFile1, wxString ideFile2, ElfPortConfiguration portConf)
+void Ide::configureIde(wxString ideFile1, wxString ideFile2, IoConfiguration portConf)
 {
 //    int input, selectOutput, writeOutput;
     wxString runningComp = p_Main->getRunningComputerStr();

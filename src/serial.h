@@ -11,12 +11,12 @@ public:
     Serial(int computerType, double clock, ElfConfiguration elfConfiguration);
     ~Serial();
 
-    void configure(int selectedBaudR, int selectedBaudT, ElfPortConfiguration elfPortConf);
+    void configure(int selectedBaudR, int selectedBaudT, IoConfiguration ioConfiguration);
     void configureStandard(int selectedBaudR, int selectedBaudT, int dataReadyFlag);
-    void configureUart(ElfPortConfiguration elfPortConf);
+    void configureUart(IoConfiguration ioConfiguration);
     void configureRcasbc(int selectedBaudR, int selectedBaudT);
     void configureMs2000(int selectedBaudR, int selectedBaudT);
-    void configureVt2K(int SelectedBaudR, int SelectedBaudT, ElfPortConfiguration elfPortConf);
+    void configureVt2K(int SelectedBaudR, int SelectedBaudT, IoConfiguration ioConfiguration);
     void startSerial();
     void configureQandEfPolarity(int ef, bool vtEnable);
     Byte ef();

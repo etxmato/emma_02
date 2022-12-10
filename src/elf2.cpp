@@ -291,8 +291,6 @@ Elf2::Elf2(const wxString& title, const wxPoint& pos, const wxSize& size, double
     elf2ScreenPointer = new Elf2Screen(this, size, elfConfiguration.tilType);
     elf2ScreenPointer->init();
 
-    offset_ = 0;
-
     rtcTimerPointer = new wxTimer(this, 900);
     cycleValue_ = -1;
     cycleSize_ = -1;
@@ -363,7 +361,7 @@ bool Elf2::keyDownPressed(int key)
     onHexKeyDown(key);
 //    if (elfConfiguration.useKeyboard)
 //        keyboardUp();
-    if (elfConfiguration.UsePS2)
+    if (elfConfiguration.usePS2)
     {
         keyDownPs2(key);
             return true;
@@ -371,7 +369,7 @@ bool Elf2::keyDownPressed(int key)
     return false;
 }
 
-bool Elf2::keyUpReleased(int key)
+bool Elf2::keyUpReleased(int key, wxKeyEvent&WXUNUSED(event))
 {
 
     if (key == inKey1_ || key == inKey2_)
@@ -380,7 +378,7 @@ bool Elf2::keyUpReleased(int key)
         return true;
     }
     onHexKeyUp(key);
-    if (elfConfiguration.UsePS2)
+    if (elfConfiguration.usePS2)
     {
         keyUpPs2(key);
         return true;
@@ -429,11 +427,11 @@ void Elf2::configureComputer()
     wxString printBuffer;
 
     p_Main->message("Configuring Elf II");
-    printBuffer.Printf("    Output %d: display output, input %d: data input", elfConfiguration.elfPortConf.hexOutput, elfConfiguration.elfPortConf.hexInput);
+    printBuffer.Printf("    Output %d: display output, input %d: data input", elfConfiguration.ioConfiguration.hexOutput, elfConfiguration.ioConfiguration.hexInput);
     p_Main->message(printBuffer);
 
-    p_Computer->setInType(elfConfiguration.elfPortConf.hexInput, ELF2IN);
-    p_Computer->setOutType(elfConfiguration.elfPortConf.hexOutput, ELF2OUT);
+    p_Computer->setInType(elfConfiguration.ioConfiguration.hexInput, ELF2IN);
+    p_Computer->setOutType(elfConfiguration.ioConfiguration.hexOutput, ELF2OUT);
 
     if (elfConfiguration.useEms)
     {
@@ -443,19 +441,19 @@ void Elf2::configureComputer()
             p_Main->message(printBuffer);
         }
 
-        printBuffer.Printf("    Output %d: EMS-512KB page select", elfConfiguration.elfPortConf.emsOutput[0]);
-        p_Computer->setOutType(elfConfiguration.elfPortConf.emsOutput[0], EMSMAPPEROUT);
+        printBuffer.Printf("    Output %d: EMS-512KB page select", elfConfiguration.ioConfiguration.emsOutput[0]);
+        p_Computer->setOutType(elfConfiguration.ioConfiguration.emsOutput[0], EMSMAPPEROUT);
         p_Main->message(printBuffer);
     }
     if (elfConfiguration.useTape && !elfConfiguration.useXmodem)
     {
-        efType_[elfConfiguration.elfPortConf.tapeEf] = ELF2EF2;
-        printBuffer.Printf("    EF %d: cassette in", elfConfiguration.elfPortConf.tapeEf);
+        efType_[elfConfiguration.ioConfiguration.tapeEf] = ELF2EF2;
+        printBuffer.Printf("    EF %d: cassette in", elfConfiguration.ioConfiguration.tapeEf);
         p_Main->message(printBuffer);
     }
     if (elfConfiguration.useHexKeyboardEf3)
     {
-        printBuffer.Printf("    EF %d: 0 when hex button pressed", elfConfiguration.elfPortConf.hexEf);
+        printBuffer.Printf("    EF %d: 0 when hex button pressed", elfConfiguration.ioConfiguration.hexEf);
         p_Main->message(printBuffer);
     }
 
@@ -539,7 +537,7 @@ Byte Elf2::ef(int flag)
     }
     if (elfConfiguration.useHexKeyboardEf3)
     {
-        if (flag == elfConfiguration.elfPortConf.hexEf)
+        if (flag == elfConfiguration.ioConfiguration.hexEf)
             return ef3State_;
     }
     switch(efType_[flag])
@@ -580,7 +578,7 @@ Byte Elf2::ef(int flag)
             return p_Serial->ef();
         break;
  
-        case MC6847EF:
+        case MC6845EF:
             return mc6845Pointer->ef6845();
         break;
 
@@ -597,15 +595,15 @@ Byte Elf2::ef(int flag)
         break;
 
         case EF1UNDEFINED:
-            return elfConfiguration.elfPortConf.ef1default;
+            return elfConfiguration.ioConfiguration.ef1default;
         break;
 
         case EF2UNDEFINED:
-            return elfConfiguration.elfPortConf.ef2default;
+            return elfConfiguration.ioConfiguration.ef2default;
         break;
 
         case EF3UNDEFINED:
-            return elfConfiguration.elfPortConf.ef3default;
+            return elfConfiguration.ioConfiguration.ef3default;
         break;
 
         default:
@@ -659,7 +657,7 @@ Byte Elf2::in(Byte port, Word WXUNUSED(address))
             ret = getData();
         break;
 
-        case FDCIN:
+        case FDCREADIN:
             ret = in1793();
         break;
 
@@ -672,27 +670,27 @@ Byte Elf2::in(Byte port, Word WXUNUSED(address))
         break;
 
         case UARTIN:
-            return vtPointer->uartIn();
+            ret = vtPointer->uartIn();
         break;
 
         case UARTINSERIAL:
-            return p_Serial->uartIn();
+            ret = p_Serial->uartIn();
         break;
 
         case UARTSTATUS:
-            return vtPointer->uartStatus();
+            ret = vtPointer->uartStatus();
         break;
 
         case UARTSTATUSSERIAL:
-            return p_Serial->uartStatus();
+            ret = p_Serial->uartStatus();
         break;
 
         case ELF2KDISKREADREGISTER:
-            return inDisk();
+            ret = inDisk();
         break;
 
         case ELF2KDISKREADSTATUS:
-            return readDiskStatus();
+            ret = readDiskStatus();
         break;
 
         default:
@@ -1079,7 +1077,7 @@ void Elf2::startComputer()
     resetPressed_ = false;
 
     if (elfConfiguration.usePortExtender)
-        configurePortExt(elfConfiguration.elfPortConf);
+        configurePortExt(elfConfiguration.ioConfiguration);
 
     ramStart_ = p_Main->getStartRam("ElfII", ELFII);
     Word ramEnd = p_Main->getEndRam("ElfII", ELFII);
@@ -1112,28 +1110,14 @@ void Elf2::startComputer()
     if (elfConfiguration.useEms)
     {
         emsMemory_.resize(1);
-        computerConfiguration.emsConfig_.resize(1);
-        computerConfiguration.emsConfigNumber_ = 1;
         
         if (elfConfiguration.emsType_ == RAM)
         {
-            computerConfiguration.emsConfig_[0].start = 0x8000;
-            computerConfiguration.emsConfig_[0].end = 0xBFFF;
-            computerConfiguration.emsConfig_[0].mask = 0x3FFF;
-            computerConfiguration.emsConfig_[0].outputMask = 0x1f;
-            computerConfiguration.emsConfig_[0].maskBits = 14;
-
             allocEmsMemorySegment(0);
             defineMemoryType(0x8000, 0xbfff, EMSMEMORY);
         }
         else
         {
-            computerConfiguration.emsConfig_[0].start = 0x8000;
-            computerConfiguration.emsConfig_[0].end = 0xFFFF;
-            computerConfiguration.emsConfig_[0].mask = 0xFFFF;
-            computerConfiguration.emsConfig_[0].outputMask = 0xFf;
-            computerConfiguration.emsConfig_[0].maskBits = 15;
-
             readRomMapperBinFile(0, p_Main->getRomDir(ELFII, MAINROM1)+p_Main->getRomFile(ELFII, MAINROM1));
             defineMemoryType(0x8000, 0xffff, EMSMEMORY);
         }
@@ -1159,7 +1143,7 @@ void Elf2::startComputer()
         offset = 0x200;
     readProgram(p_Main->getRomDir(ELFII, MAINROM2), p_Main->getRomFile(ELFII, MAINROM2), p_Main->getLoadromMode(ELFII, 1), offset, NONAME);
 
-    configureElfExtensions();
+    configureExtensions();
     startElfKeyFile("ElfII");
     if (elfConfiguration.autoBoot)
     {
@@ -1192,7 +1176,7 @@ void Elf2::startComputer()
     if (p_Vt100[UART1] != NULL)
         p_Vt100[UART1]->splashScreen();
     else
-        p_Video->splashScreen();
+        p_Video[VIDEOMAIN]->splashScreen();
 
     if (elfConfiguration.bootStrap)
         bootstrap_ = 0x8000;
@@ -1419,7 +1403,7 @@ void Elf2::writeMemDebug(Word address, Byte value, bool writeRom)
             computerConfiguration.emsConfig_[0].page = value & 0x1f;
         }
     }
-    if (elfConfiguration.elfPortConf.mc6847OutputMode == 1 && address >= 0xff00)
+    if (elfConfiguration.ioConfiguration.mc6847OutputMode == 1 && address >= 0xff00)
         mc6847Pointer->outMc6847(value);
 
     switch (memoryType_[address/256]&0xff)
@@ -1549,9 +1533,11 @@ void Elf2::resetPressed()
     startElfKeyFile("ElfII");
 }
 
-void Elf2::configureElfExtensions()
+void Elf2::configureExtensions()
 {
     wxString fileName, fileName2;
+
+    computerConfiguration.numberOfVideoTypes_ = 0;
 
     if (elfConfiguration.vtType != VTNONE)
     {
@@ -1561,9 +1547,9 @@ void Elf2::configureElfExtensions()
         else
             vtPointer = new Vt100("Elf II - VT 100", p_Main->getVtPos(ELFII), wxSize(800*zoom, 500*zoom), zoom, ELFII, elfClockSpeed_, elfConfiguration, UART1);
         p_Vt100[UART1] = vtPointer;
-        vtPointer->configure(elfConfiguration.baudR, elfConfiguration.baudT, elfConfiguration.elfPortConf);
+        vtPointer->configure(elfConfiguration.baudR, elfConfiguration.baudT, elfConfiguration.ioConfiguration);
         if (elfConfiguration.useUart16450)
-            configureUart16450(elfConfiguration.elfPortConf);
+            configureUart16450(elfConfiguration.ioConfiguration);
         vtPointer->Show(true);
         vtPointer->drawScreen();
     }
@@ -1571,16 +1557,16 @@ void Elf2::configureElfExtensions()
     if (elfConfiguration.vtExternal)
     {
         p_Serial = new Serial(ELFII, elfClockSpeed_, elfConfiguration);
-        p_Serial->configure(elfConfiguration.baudR, elfConfiguration.baudT, elfConfiguration.elfPortConf);
+        p_Serial->configure(elfConfiguration.baudR, elfConfiguration.baudT, elfConfiguration.ioConfiguration);
     }
 
     if (elfConfiguration.usePixie)
     {
-        double zoom = p_Main->getZoom();
+        double zoom = p_Main->getZoom(VIDEOMAIN);
         double scale = p_Main->getScale();
-        pixiePointer = new Pixie( "Elf II - Pixie", p_Main->getPixiePos(ELFII), wxSize(64*zoom*scale, 128*zoom), zoom, scale, ELFII);
-        p_Video = pixiePointer;
-        pixiePointer->configurePixie(elfConfiguration.elfPortConf);
+        pixiePointer = new Pixie( "Elf II - Pixie", p_Main->getPixiePos(ELFII), wxSize(64*zoom*scale, 128*zoom), zoom, scale, ELFII, computerConfiguration.numberOfVideoTypes_);
+        p_Video[computerConfiguration.numberOfVideoTypes_++] = pixiePointer;
+        pixiePointer->configurePixie(elfConfiguration.ioConfiguration);
         pixiePointer->initPixie();
         pixiePointer->setZoom(zoom);
         pixiePointer->Show(true);
@@ -1588,19 +1574,19 @@ void Elf2::configureElfExtensions()
 
     if (elfConfiguration.use6845)
     {
-        double zoom = p_Main->getZoom();
-        mc6845Pointer = new MC6845( "Elf II - MC6845", p_Main->get6845Pos(ELFII), wxSize(64*8*zoom, 16*8*2*zoom), zoom, ELFII, elfClockSpeed_, 8, elfConfiguration.elfPortConf);
-        p_Video = mc6845Pointer;
-        mc6845Pointer->configure6845(elfConfiguration.elfPortConf);
+        double zoom = p_Main->getZoom(VIDEOMAIN);
+        mc6845Pointer = new MC6845( "Elf II - MC6845", p_Main->get6845Pos(ELFII), wxSize(64*8*zoom, 16*8*2*zoom), zoom, ELFII, elfClockSpeed_, 8, elfConfiguration.ioConfiguration, computerConfiguration.numberOfVideoTypes_);
+        p_Video[computerConfiguration.numberOfVideoTypes_++] = mc6845Pointer;
+        mc6845Pointer->configure6845(elfConfiguration.ioConfiguration);
         mc6845Pointer->init6845();
         mc6845Pointer->Show(true);
     }
 
     if (elfConfiguration.useS100)
     {
-        double zoom = p_Main->getZoom();
-        mc6845Pointer = new MC6845( "Elf II - Quest Super Video", p_Main->get6845Pos(ELFII), wxSize(64*7*zoom, 16*9*zoom), zoom, ELFII, elfClockSpeed_, 7, elfConfiguration.elfPortConf);
-        p_Video = mc6845Pointer;
+        double zoom = p_Main->getZoom(VIDEOMAIN);
+        mc6845Pointer = new MC6845( "Elf II - Quest Super Video", p_Main->get6845Pos(ELFII), wxSize(64*7*zoom, 16*9*zoom), zoom, ELFII, elfClockSpeed_, 7, elfConfiguration.ioConfiguration, computerConfiguration.numberOfVideoTypes_);
+        p_Video[computerConfiguration.numberOfVideoTypes_++] = mc6845Pointer;
         mc6845Pointer->configureSuperVideo();
         mc6845Pointer->init6845();
         mc6845Pointer->Show(true);
@@ -1608,58 +1594,58 @@ void Elf2::configureElfExtensions()
 
     if (elfConfiguration.use8275)
     {
-        double zoom = p_Main->getZoom();
-        i8275Pointer = new i8275( "Elf II - Intel 8275", p_Main->get8275Pos(ELFII), wxSize(80*8*zoom, 24*10*2*zoom), zoom, ELFII, elfClockSpeed_);
-        p_Video = i8275Pointer;
-        i8275Pointer->configure8275(elfConfiguration.elfPortConf);
+        double zoom = p_Main->getZoom(VIDEOMAIN);
+        i8275Pointer = new i8275( "Elf II - Intel 8275", p_Main->get8275Pos(ELFII), wxSize(80*8*zoom, 24*10*2*zoom), zoom, ELFII, elfClockSpeed_, computerConfiguration.numberOfVideoTypes_);
+        p_Video[computerConfiguration.numberOfVideoTypes_++] = i8275Pointer;
+        i8275Pointer->configure8275(elfConfiguration.ioConfiguration);
         i8275Pointer->init8275();
         i8275Pointer->Show(true);
     }
 
     if (elfConfiguration.use6847)
     {
-        double zoom = p_Main->getZoom();
-        mc6847Pointer = new mc6847( "Elf II - MC6847", p_Main->get6847Pos(ELFII), wxSize(elfConfiguration.charLine*8*zoom, elfConfiguration.screenHeight6847*zoom), zoom, ELFII, elfClockSpeed_, elfConfiguration.elfPortConf);
-        p_Video = mc6847Pointer;
-        mc6847Pointer->configure(elfConfiguration.elfPortConf);
+        double zoom = p_Main->getZoom(VIDEOMAIN);
+        mc6847Pointer = new mc6847( "Elf II - MC6847", p_Main->get6847Pos(ELFII), wxSize(elfConfiguration.charLine*8*zoom, elfConfiguration.screenHeight6847*zoom), zoom, ELFII, elfClockSpeed_, elfConfiguration.ioConfiguration, computerConfiguration.numberOfVideoTypes_);
+        p_Video[computerConfiguration.numberOfVideoTypes_++] = mc6847Pointer;
+        mc6847Pointer->configure(elfConfiguration.ioConfiguration);
         mc6847Pointer->init6847();
         mc6847Pointer->Show(true);
     }
 
     if (elfConfiguration.useTMS9918)
     {
-        double zoom = p_Main->getZoom();
-        tmsPointer = new Tms9918( "Elf II - TMS 9918", p_Main->getTmsPos(ELFII), wxSize(320*zoom,240*zoom), zoom, ELFII, elfClockSpeed_);
-        p_Video = tmsPointer;
-        tmsPointer->configure(elfConfiguration.elfPortConf);
+        double zoom = p_Main->getZoom(VIDEOMAIN);
+        tmsPointer = new Tms9918( "Elf II - TMS 9918", p_Main->getTmsPos(ELFII), wxSize(320*zoom,240*zoom), zoom, ELFII, elfClockSpeed_, computerConfiguration.numberOfVideoTypes_);
+        p_Video[computerConfiguration.numberOfVideoTypes_++] = tmsPointer;
+        tmsPointer->configure(elfConfiguration.ioConfiguration);
         tmsPointer->Show(true);
     }
 
-    if (elfConfiguration.fdcEnabled)
+    if (elfConfiguration.fdc1793Enabled)
     {
-        configure1793(1, 40, 18, 256, 6256, ELFII, elfConfiguration.elfPortConf);
+        configure1793(1, 40, 18, 256, 6256, ELFII, elfConfiguration.ioConfiguration, true);
         resetFdc();
     }
 
     if (elfConfiguration.ideEnabled)
     {
-        configureIde(p_Main->getIdeDir(ELFII) + p_Main->getIdeFile(ELFII), p_Main->getIdeDir(ELFII) + "disk2.ide", elfConfiguration.elfPortConf);
+        configureIde(p_Main->getIdeDir(ELFII) + p_Main->getIdeFile(ELFII), p_Main->getIdeDir(ELFII) + "disk2.ide", elfConfiguration.ioConfiguration);
     }
 
     if (p_Main->getPrinterStatus(ELFII))
     {
         p_Printer = new Printer();
-        p_Printer->configureElfPrinter(elfConfiguration.elfPortConf);
-        p_Printer->initElf(p_Printer, "Netronics Elf II");
+        p_Printer->configureBasicPrinter(elfConfiguration.ioConfiguration);
+        p_Printer->init(p_Printer, PRINTER_BASIC);
     }
 
     setQsound (elfConfiguration.qSound_);
 
     if (elfConfiguration.useKeyboard)
-        configureKeyboard(ELFII, elfConfiguration.elfPortConf);
+        configureKeyboard(ELFII, elfConfiguration.ioConfiguration);
 
-    if (elfConfiguration.UsePS2)
-        configurePs2(elfConfiguration.ps2Interrupt, elfConfiguration.elfPortConf);
+    if (elfConfiguration.usePS2)
+        configurePs2(elfConfiguration.ps2Interrupt, elfConfiguration.ioConfiguration);
 }
 
 void Elf2::moveWindows()

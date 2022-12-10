@@ -99,7 +99,6 @@ BEGIN_EVENT_TABLE(GuiTelmac, GuiPecom)
     EVT_BUTTON(XRCID("LoadButtonTMC600"), GuiMain::onLoadButton)
     EVT_BUTTON(XRCID("RunButtonTMC600"), GuiMain::onLoadRunButton)
     EVT_BUTTON(XRCID("DsaveButtonTMC600"), GuiMain::onDataSaveButton)
-    EVT_COMMAND(wxID_ANY, OPEN_PRINTER_WINDOW, GuiMain::openPrinterFrame) 
     EVT_BUTTON(XRCID("ColoursTMC600"), Main::onColoursDef)
 
     EVT_BUTTON(XRCID("KeyMapTMC600"), GuiTelmac::onKeyDef)
@@ -134,6 +133,7 @@ void GuiTelmac::readTelmacConfig()
     selectedComputer_ = TMC600;
 
     conf[TMC600].emsConfigNumber_ = 0;
+    conf[TMC600].videoNumber_ = 0;
 
     conf[TMC600].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "TMC600" + pathSeparator_;
     conf[TMC600].mainDir_ = readConfigDir("/Dir/TMC600/Main", dataDir_ + "TMC600" + pathSeparator_);
@@ -157,7 +157,7 @@ void GuiTelmac::readTelmacConfig()
 
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 2.0);
-    conf[TMC600].zoom_ = convertLocale(configPointer->Read("/TMC600/Zoom", defaultZoom));
+    conf[TMC600].zoom_[VIDEOMAIN] = convertLocale(configPointer->Read("/TMC600/Zoom", defaultZoom));
     wxString defaultClock;
     defaultClock.Printf("%1.3f", 3.579);
     conf[TMC600].clock_ = convertLocale(configPointer->Read("/TMC600/Clock_Speed", defaultClock));
@@ -191,7 +191,7 @@ void GuiTelmac::readTelmacConfig()
         XRCCTRL(*this, "ScreenDumpFileTMC600", wxComboBox)->SetValue(conf[TMC600].screenDumpFile_);
         XRCCTRL(*this, "WavFileTMC600", wxTextCtrl)->SetValue(conf[TMC600].wavFile_[0]);
 
-        correctZoomAndValue(TMC600, "TMC600", SET_SPIN);
+        correctZoomAndValue(TMC600, "TMC600", SET_SPIN, VIDEOMAIN);
 
         XRCCTRL(*this, "VolumeTMC600", wxSlider)->SetValue(conf[TMC600].volume_);
         if (clockTextCtrl[TMC600] != NULL)
@@ -236,7 +236,7 @@ void GuiTelmac::writeTelmacConfig()
     configPointer->Write("/TMC600/Video_Dump_File", conf[TMC600].screenDumpFile_);
     configPointer->Write("/TMC600/Wav_File", conf[TMC600].wavFile_[0]);
 
-    configPointer->Write("/TMC600/Zoom", conf[TMC600].zoom_);
+    configPointer->Write("/TMC600/Zoom", conf[TMC600].zoom_[VIDEOMAIN]);
     configPointer->Write("/TMC600/Volume", conf[TMC600].volume_);
 
     configPointer->Write("/TMC600/Clock_Speed", conf[TMC600].clock_);

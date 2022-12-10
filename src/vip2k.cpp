@@ -30,7 +30,7 @@
 #include "vip2k.h"
 
 Vip2K::Vip2K(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, double clock, ElfConfiguration conf, Conf computerConf)
-:PixieVip2K(title, pos, size, zoom, zoomfactor, computerType)
+:PixieVip2K(title, pos, size, zoom, zoomfactor, computerType, 0)
 {
     computerConfiguration = computerConf;
     vipConfiguration = conf;
@@ -601,7 +601,7 @@ void Vip2K::startComputer()
             readProgram(p_Main->getChip8Dir(VIP2K), p_Main->getChip8SW(VIP2K), NOCHANGE, 0x8200, SHOWNAME);
     }
 
-    double zoom = p_Main->getZoom();
+    double zoom = p_Main->getZoom(VIDEOMAIN);
 
     configurePixie();
     initPixie();
@@ -614,7 +614,7 @@ void Vip2K::startComputer()
     instructionCounter_= 0;
     p_Main->startTime();
     
-//    p_Video->splashScreen();
+//    p_Video[VIDEOMAIN]->splashScreen();
 
     threadPointer->Run();
 }

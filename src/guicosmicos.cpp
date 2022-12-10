@@ -102,6 +102,7 @@ void GuiCosmicos::readCosmicosConfig()
     selectedComputer_ = COSMICOS;
 
     conf[COSMICOS].emsConfigNumber_ = 0;
+    conf[COSMICOS].videoNumber_ = 0;
 
     conf[COSMICOS].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "Cosmicos" + pathSeparator_;
 
@@ -157,7 +158,7 @@ void GuiCosmicos::readCosmicosConfig()
 
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 2.0);
-    conf[COSMICOS].zoom_ = convertLocale(configPointer->Read("/Cosmicos/Zoom", defaultZoom));
+    conf[COSMICOS].zoom_[VIDEOMAIN] = convertLocale(configPointer->Read("/Cosmicos/Zoom", defaultZoom));
     defaultZoom.Printf("%2.2f", 1.0);
     conf[COSMICOS].zoomVt_ = convertLocale(configPointer->Read("/Cosmicos/Vt_Zoom", defaultZoom));
     wxString defaultScale;
@@ -208,7 +209,7 @@ void GuiCosmicos::readCosmicosConfig()
         XRCCTRL(*this, "AutoBootCosmicos", wxCheckBox)->SetValue(elfConfiguration[COSMICOS].autoBoot);
         XRCCTRL(*this, "KeyboardCosmicos", wxChoice)->SetSelection(elfConfiguration[COSMICOS].keyboardType);
         
-        correctZoomAndValue(COSMICOS, "Cosmicos", SET_SPIN);
+        correctZoomAndValue(COSMICOS, "Cosmicos", SET_SPIN, VIDEOMAIN);
         correctZoomVtAndValue(COSMICOS, "Cosmicos", SET_SPIN);
 
         XRCCTRL(*this, "ControlWindowsCosmicos", wxCheckBox)->SetValue(elfConfiguration[COSMICOS].useElfControlWindows);
@@ -232,7 +233,7 @@ void GuiCosmicos::readCosmicosConfig()
 
     elfConfiguration[COSMICOS].usePortExtender = false;
     elfConfiguration[COSMICOS].ideEnabled = false;
-    elfConfiguration[COSMICOS].fdcEnabled = false;
+    elfConfiguration[COSMICOS].fdc1793Enabled = false;
     elfConfiguration[COSMICOS].useLedModule = false;
     elfConfiguration[COSMICOS].useTape = true;
 }
@@ -279,7 +280,7 @@ void GuiCosmicos::writeCosmicosConfig()
     configPointer->Write("/Cosmicos/Enable_Auto_Boot", elfConfiguration[COSMICOS].autoBoot);
     configPointer->Write("/Cosmicos/Video_Type", conf[COSMICOS].videoMode_);
     configPointer->Write("/Cosmicos/Keyboard_Type", elfConfiguration[COSMICOS].keyboardType);
-    configPointer->Write("/Cosmicos/Zoom", conf[COSMICOS].zoom_);
+    configPointer->Write("/Cosmicos/Zoom", conf[COSMICOS].zoom_[VIDEOMAIN]);
     configPointer->Write("/Cosmicos/Vt_Zoom", conf[COSMICOS].zoomVt_);
     configPointer->Write("/Cosmicos/Force_Uppercase", elfConfiguration[COSMICOS].forceUpperCase);
     configPointer->Write("/Cosmicos/Use_Hex_Panel", elfConfiguration[COSMICOS].useHex);
@@ -378,13 +379,13 @@ void GuiCosmicos::setCosmicosKeyboard(int Selection)
         case KEYBOARDNONE:
             elfConfiguration[COSMICOS].useHexKeyboardEf3 = false;
             elfConfiguration[COSMICOS].useKeyboard = false;
-            elfConfiguration[COSMICOS].UsePS2 = false;
+            elfConfiguration[COSMICOS].usePS2 = false;
             elfConfiguration[COSMICOS].usePs2gpio = false;
         break;
         case KEYBOARD_HEXCOSMICOS:
             elfConfiguration[COSMICOS].useHexKeyboardEf3 = true;
             elfConfiguration[COSMICOS].useKeyboard = false;
-            elfConfiguration[COSMICOS].UsePS2 = false;
+            elfConfiguration[COSMICOS].usePS2 = false;
             elfConfiguration[COSMICOS].usePs2gpio = false;
         break;
     }

@@ -1,0 +1,196 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>TMC600 - Bare, 37K</name>
+        <clock>3.579</clock>
+        <boot>0</boot>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init>
+        <init type="ef4">1</init>
+        <dirname>TMC600</dirname>
+    </system>
+
+    <batchwav>
+        <command>psave</command>
+    </batchwav>
+    
+    <memory>
+         <rom>
+             <start>0</start>
+             <end>0x3FFF</end>
+             <filename verify="true">tmc.24.3.bin</filename>
+         </rom>
+
+         <mainram>
+            <start>0x6000</start>
+            <end>0xF3FF</end>
+        </mainram>
+    </memory>
+  
+    <video type="1870">
+        <pagesize type="ram">0x3ff</pagesize>
+        <charsize type="rom">0xfff</charsize>
+        <filename verify="true" format="tmc">character.bin</filename>
+        <pcbmask>0xff</pcbmask>
+        <maxcharlines>16</maxcharlines>
+        <maxscreenlines>24</maxscreenlines> <!-- 24, 25 or 27 for Cidelsa DRACO) -->
+        <mode>pal</mode>
+        <ef type="display">1</ef>
+        <clock>5.626</clock>
+        <colorram type="tmc" />
+        <cursorblink />
+        <out type="write">5</out>
+        <out type="select">7</out>
+    </video>
+    
+    <keyboard type="latch">
+        <!-- keyboard definition for a keyboard solution using a kay latch
+        <iogroup>: iogroup, i.e. i/o ports are activate when specified iogroup is selected via the iogroup port
+        <out>: port to set key latch
+        <ef type="rev">: ef port indicating if latched key is pressed, if type="rev" is specified ef will be reversed
+        <keydef value="x">: map key latch key value to PC key value x
+        <keydefshift value="x">: map a diffrent key latch key value to PC shift key value x, note keydef defines both none and shift key, shiftkeydef redefines so always should come after keydef for one and the same key
+        <keydef text="y">: map key latch key text to PC key value x. This should be used to map shift, ctrl and alt buttons as well as a key to switch left/right alt/ctrl functions
+        -->
+
+        <out mask="0x3f">3</out>
+        <ef type="rev">3</ef>
+        <keydefshift value="39">0x2</keydefshift> <!-- " press twice -->
+        <keydef value="48">0</keydef> <!-- 0 -->
+        <keydefshift value="48">0x9</keydefshift> <!-- ) -->
+        <keydef value="49">0x1</keydef> <!-- 1 and ! -->
+        <keydef value="50">0x2</keydef> <!-- 2 -->
+        <keydefshift value="50">0x10</keydefshift> <!-- @ -->
+        <keydef value="51">0x3</keydef> <!-- 3 and # -->
+        <keydef value="52">0x4</keydef> <!-- 4 and $ -->
+        <keydef value="53">0x5</keydef> <!-- 5 and % -->
+        <keydef value="54">0x6</keydef> <!-- 6 -->
+        <keydefshift value="54">0x2E</keydefshift> <!-- ^ press twice -->
+        <keydef value="55">0x7</keydef> <!-- 7 -->
+        <keydefshift value="55">0x6</keydefshift> <!-- & -->
+        <keydef value="56">0x8</keydef> <!-- 8 -->
+        <keydefshift value="56">0xA</keydefshift> <!-- * -->
+        <keydef value="57">0x9</keydef> <!-- 9 -->
+        <keydefshift value="57">0x8</keydefshift> <!-- ( -->
+        <keydef value="61">0xA</keydef> <!-- = -> on TMC : -->
+        <keydefshift value="61">0xB</keydefshift> <!-- + -->
+        <keydef value="59">0xB</keydef> <!-- ; -->
+        <keydefshift value="59">-1</keydefshift> <!-- nothing -->
+        <keydef value="44">0xC</keydef> <!-- , and < -->
+        <keydef value="45">0xD</keydef> <!-- - and _ -> on TMC = -->
+        <keydef value="46">0xE</keydef> <!-- . and > -->
+        <keydef value="47">0xF</keydef> <!-- / and ? -->
+        <keydef value="65">0x11</keydef> <!-- A -->
+        <keydef value="66">0x12</keydef>
+        <keydef value="67">0x13</keydef>
+        <keydef value="68">0x14</keydef>
+        <keydef value="69">0x15</keydef>
+        <keydef value="70">0x16</keydef>
+        <keydef value="71">0x17</keydef>
+        <keydef value="72">0x18</keydef>
+        <keydef value="73">0x19</keydef>
+        <keydef value="74">0x1A</keydef>
+        <keydef value="75">0x1B</keydef>
+        <keydef value="76">0x1C</keydef>
+        <keydef value="77">0x1D</keydef>
+        <keydef value="78">0x1E</keydef>
+        <keydef value="79">0x1F</keydef>
+        <keydef value="80">0x20</keydef>
+        <keydef value="81">0x21</keydef>
+        <keydef value="82">0x22</keydef>
+        <keydef value="83">0x23</keydef>
+        <keydef value="84">0x24</keydef>
+        <keydef value="85">0x25</keydef>
+        <keydef value="86">0x26</keydef>
+        <keydef value="87">0x27</keydef>
+        <keydef value="88">0x28</keydef>
+        <keydef value="89">0x29</keydef>
+        <keydef value="97">0x11</keydef> <!-- A -->
+        <keydef value="98">0x12</keydef>
+        <keydef value="99">0x13</keydef>
+        <keydef value="100">0x14</keydef>
+        <keydef value="101">0x15</keydef>
+        <keydef value="102">0x16</keydef>
+        <keydef value="103">0x17</keydef>
+        <keydef value="104">0x18</keydef>
+        <keydef value="105">0x19</keydef>
+        <keydef value="106">0x1A</keydef>
+        <keydef value="107">0x1B</keydef>
+        <keydef value="108">0x1C</keydef>
+        <keydef value="109">0x1D</keydef>
+        <keydef value="110">0x1E</keydef>
+        <keydef value="111">0x1F</keydef>
+        <keydef value="112">0x20</keydef>
+        <keydef value="113">0x21</keydef>
+        <keydef value="114">0x22</keydef>
+        <keydef value="115">0x23</keydef>
+        <keydef value="116">0x24</keydef>
+        <keydef value="117">0x25</keydef>
+        <keydef value="118">0x26</keydef>
+        <keydef value="119">0x27</keydef>
+        <keydef value="120">0x28</keydef>
+        <keydef value="121">0x29</keydef>
+        <keydef value="122">0x2A</keydef> <!-- Z -->
+        <keydef value="91">0x2B</keydef> <!-- [ -> on TMC A ring -->
+        <keydef value="92">0x2C</keydef> <!-- \ -> on TMC A umlaut -->
+        <keydef value="93">0x2D</keydef> <!-- ] -> on TMC O umlaut -->
+        <!-- TMC BREAK not defined -->
+        <keydef value="32">0x30</keydef> <!-- SPACE -->
+        <keydef value="8">0x31</keydef> <!-- BS -->
+        <keydef value="27">0x32</keydef> <!-- ESC -->
+        <keydef text="alt_right">0x33</keydef> <!-- option on Mac -->
+        <keydef text="ctrl_left">0x34</keydef> <!-- command on Mac -->
+        <keydef text="ctrl_right">0x35</keydef>
+        <keydef text="alt_left">0x37</keydef>
+        <keydef text="shift">0x37</keydef>
+        <keydef value="311">0x38</keydef> <!-- CAPS -->
+        <!-- 0x39 not used -->
+        <!-- TMC LINE FEED not defined -->
+        <keydef value="315">0x3b</keydef> <!-- UP -->
+        <keydef value="316">0x3c</keydef> <!-- RIGHT -->
+        <keydef value="13">0x3d</keydef> <!-- RETURN -->
+        <keydef value="317">0x3e</keydef> <!-- DOWN -->
+        <keydef value="314">0x3f</keydef> <!-- LEFT -->
+
+        <keydef text="switch">9</keydef> <!-- Key to switch alt/ctrl left to right -->
+
+    </keyboard>
+
+    <cassette decks="1">
+        <ef>2</ef>
+    </cassette>
+
+    <locations>
+        <!-- Machine states -->
+        <basic_state address="0x61a0" value="0">0x0154</basic_state>
+        <run_state>0x1076, 0x1f01</run_state>
+
+        <!-- Stop cassette -->
+        <stop_cas>0x3550</stop_cas>
+        
+        <!-- Start PSAVE, DSAVE, PLOAD, DLOAD -->
+        <start_cas_save>0x0506, 0x0509</start_cas_save>
+        <start_cas_load>0x0500</start_cas_load>
+        <start_cas_dload>0x0503</start_cas_dload>
+        
+        <!-- Save end during batch conversion -->
+        <batch_start_save>0x1bc, 0x39a</batch_start_save>
+        <batch_end_save>0x14e1</batch_end_save>
+
+    </locations>
+    
+    <basic>
+        <pload>tmc600</pload>
+        <defus>0x6181</defus>
+        <eop>0x6183</eop>
+        <string>0x6192</string>
+        <array>0x6194</array>
+        <eod>0x6199</eod>
+        <ram>0x6300</ram>
+    </basic>
+
+</emmaconfig>

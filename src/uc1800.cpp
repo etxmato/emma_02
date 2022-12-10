@@ -279,7 +279,6 @@ Uc1800::Uc1800(const wxString& title, const wxPoint& pos, const wxSize& size, do
     computerConfiguration = computerConf;
     uc1800Configuration = conf;
     uc1800ClockSpeed_ = clock;
-    data_ = 0;
 
 #ifndef __WXMAC__
     SetIcon(wxICON(app_icon));
@@ -447,7 +446,7 @@ bool Uc1800::keyDownPressed(int key)
     return false;
 }
 
-bool Uc1800::keyUpReleased(int key)
+bool Uc1800::keyUpReleased(int key, wxKeyEvent&WXUNUSED(event))
 {
     if (key == inKey1_)
     {

@@ -32,7 +32,7 @@
 #include "studioiv.h"
 
 StudioIV::StudioIV(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, Conf computerConf)
-:Pixie(title, pos, size, zoom, zoomfactor, computerType)
+:Pixie(title, pos, size, zoom, zoomfactor, computerType, 0)
 {
     computerConfiguration = computerConf;
 }
@@ -593,7 +593,7 @@ void StudioIV::startComputer()
     defineMemoryType(0x1800, 0x27FF, RAM);
     initRam(0x1800, 0x27FF);
     
-    double zoom = p_Main->getZoom();
+    double zoom = p_Main->getZoom(VIDEOMAIN);
 
     configurePixieStudioIV();
     initPixie();
@@ -667,7 +667,7 @@ void StudioIV::startComputer2020()
     defineMemoryType(0x7C00, 0x7FFF, COLOURRAM);
 //    initRam(0xBC00, 0xBFFF);
 
-    double zoom = p_Main->getZoom();
+    double zoom = p_Main->getZoom(VIDEOMAIN);
     
     configurePixieStudioIV();
     initPixie();

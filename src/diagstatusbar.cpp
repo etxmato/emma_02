@@ -39,7 +39,7 @@ DiagStatusBar::DiagStatusBar(wxWindow *parent)
     ledOffPointer->SetMask(maskOff);
     ledsDefined_ = false;
     
-    linux_led_pos_y_ = p_Main->getBarLedPosDiagY();
+    led_pos_y_ = p_Main->getBarLedPosDiagY();
     leaderString_ = p_Main->getBarLeaderCidelsa();
     statusBarElementMeasure0_ = p_Main->getStatusBarElementMeasure(0);
     statusBarElementMeasure1_ = p_Main->getStatusBarElementMeasure(1);
@@ -141,9 +141,9 @@ void DiagStatusBar::displayLeds()
     {
 #if defined(__linux__)
        if (ledStatus_[led])
-           ledPointer [led] = new PushBitmapButton(this, led, *ledOnPointer, wxPoint(led*((int)rect.GetWidth()+1)+(led*3)+2, linux_led_pos_y_), wxSize(-1, -1), wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
+           ledPointer [led] = new PushBitmapButton(this, led, *ledOnPointer, wxPoint(led*((int)rect.GetWidth()+1)+(led*3)+2, led_pos_y_), wxSize(-1, -1), wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
         else
-            ledPointer [led] = new PushBitmapButton(this, led, *ledOffPointer, wxPoint(led*((int)rect.GetWidth()+1)+(led*3)+2, linux_led_pos_y_), wxSize(-1, -1), wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
+            ledPointer [led] = new PushBitmapButton(this, led, *ledOffPointer, wxPoint(led*((int)rect.GetWidth()+1)+(led*3)+2, led_pos_y_), wxSize(-1, -1), wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
 #endif
 #if defined(__WXMAC__)
         if (ledStatus_[led])

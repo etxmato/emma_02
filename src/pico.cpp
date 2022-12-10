@@ -68,8 +68,6 @@ Pico::Pico(const wxString& title, const wxPoint& pos, const wxSize& size, double
     
     this->SetClientSize(size);
 
-    offset_ = 0;
-
     rtcTimerPointer = new wxTimer(this, 900);
     cycleValue_ = -1;
     cycleSize_ = -1;
@@ -135,7 +133,7 @@ void Pico::charEvent(int keycode)
 
 bool Pico::keyDownPressed(int key)
 {
-    if (elfConfiguration.UsePS2)
+    if (elfConfiguration.usePS2)
     {
         keyDownPs2(key);
             return true;
@@ -143,7 +141,7 @@ bool Pico::keyDownPressed(int key)
     return false;
 }
 
-bool Pico::keyUpReleased(int key)
+bool Pico::keyUpReleased(int key, wxKeyEvent&WXUNUSED(event))
 {
 
     if (key == inKey1_ || key == inKey2_)
@@ -152,7 +150,7 @@ bool Pico::keyUpReleased(int key)
         return true;
     }
     onHexKeyUp(key);
-    if (elfConfiguration.UsePS2)
+    if (elfConfiguration.usePS2)
     {
         keyUpPs2(key);
         return true;
@@ -173,8 +171,8 @@ void Pico::configureComputer()
 
     if (elfConfiguration.useTape && !elfConfiguration.useXmodem)
     {
-        efType_[elfConfiguration.elfPortConf.tapeEf] = ELF2EF2;
-        printBuffer.Printf("    EF %d: cassette in", elfConfiguration.elfPortConf.tapeEf);
+        efType_[elfConfiguration.ioConfiguration.tapeEf] = ELF2EF2;
+        printBuffer.Printf("    EF %d: cassette in", elfConfiguration.ioConfiguration.tapeEf);
         p_Main->message(printBuffer);
     }
 
@@ -246,7 +244,7 @@ Byte Pico::ef(int flag)
             return p_Serial->ef();
         break;
  
-        case MC6847EF:
+        case MC6845EF:
             return mc6845Pointer->ef6845();
         break;
 
@@ -263,15 +261,15 @@ Byte Pico::ef(int flag)
         break;
 
         case EF1UNDEFINED:
-            return elfConfiguration.elfPortConf.ef1default;
+            return elfConfiguration.ioConfiguration.ef1default;
         break;
 
         case EF2UNDEFINED:
-            return elfConfiguration.elfPortConf.ef2default;
+            return elfConfiguration.ioConfiguration.ef2default;
         break;
 
         case EF3UNDEFINED:
-            return elfConfiguration.elfPortConf.ef3default;
+            return elfConfiguration.ioConfiguration.ef3default;
         break;
 
         default:
@@ -321,7 +319,7 @@ Byte Pico::in(Byte port, Word WXUNUSED(address))
             ret = inPs2();
         break;
 
-        case FDCIN:
+        case FDCREADIN:
             ret = in1793();
         break;
 
@@ -577,7 +575,7 @@ void Pico::startComputer()
         
     readProgram(p_Main->getRomDir(PICO, MAINROM1), p_Main->getRomFile(PICO, MAINROM1), ROM, offset, NONAME);
 
-    configureElfExtensions();
+    configureExtensions();
     startElfKeyFile("Pico");
 
     scratchpadRegister_[0] = 0;
@@ -600,7 +598,7 @@ void Pico::startComputer()
     if (p_Vt100[UART1] != NULL)
         p_Vt100[UART1]->splashScreen();
     else
-        p_Video->splashScreen();
+        p_Video[VIDEOMAIN]->splashScreen();
 
     bootstrap_ = 0x8000;
 
@@ -720,7 +718,7 @@ void Pico::writeMemDebug(Word address, Byte value, bool writeRom)
             computerConfiguration.emsConfig_[0].page = value & 0x1f;
         }
     }
-    if (elfConfiguration.elfPortConf.mc6847OutputMode == 1 && address >= 0xff00)
+    if (elfConfiguration.ioConfiguration.mc6847OutputMode == 1 && address >= 0xff00)
         mc6847Pointer->outMc6847(value);
 
     switch (memoryType_[address/256]&0xff)
@@ -794,21 +792,22 @@ void Pico::resetPressed()
     startElfKeyFile("Pico");
 }
 
-void Pico::configureElfExtensions()
+void Pico::configureExtensions()
 {
     wxString fileName, fileName2;
 
+    computerConfiguration.numberOfVideoTypes_ = 0;
     if (elfConfiguration.vtType != VTNONE)
     {
         double zoom = p_Main->getZoomVt();
         if (elfConfiguration.vtType == VT52)
-            vtPointer = new Vt100("Elf II - VT 52", p_Main->getVtPos(PICO), wxSize(800*zoom, 500*zoom), zoom, PICO, elfClockSpeed_, elfConfiguration, UART1);
+            vtPointer = new Vt100("Pico/Elf V2 - VT 52", p_Main->getVtPos(PICO), wxSize(800*zoom, 500*zoom), zoom, PICO, elfClockSpeed_, elfConfiguration, UART1);
         else
-            vtPointer = new Vt100("Elf II - VT 100", p_Main->getVtPos(PICO), wxSize(800*zoom, 500*zoom), zoom, PICO, elfClockSpeed_, elfConfiguration, UART1);
+            vtPointer = new Vt100("Pico/Elf V2 - VT 100", p_Main->getVtPos(PICO), wxSize(800*zoom, 500*zoom), zoom, PICO, elfClockSpeed_, elfConfiguration, UART1);
         p_Vt100[UART1] = vtPointer;
-        vtPointer->configure(elfConfiguration.baudR, elfConfiguration.baudT, elfConfiguration.elfPortConf);
+        vtPointer->configure(elfConfiguration.baudR, elfConfiguration.baudT, elfConfiguration.ioConfiguration);
         if (elfConfiguration.useUart16450)
-            configureUart16450(elfConfiguration.elfPortConf);
+            configureUart16450(elfConfiguration.ioConfiguration);
         vtPointer->Show(true);
         vtPointer->drawScreen();
     }
@@ -816,16 +815,16 @@ void Pico::configureElfExtensions()
     if (elfConfiguration.vtExternal)
     {
         p_Serial = new Serial(PICO, elfClockSpeed_, elfConfiguration);
-        p_Serial->configure(elfConfiguration.baudR, elfConfiguration.baudT, elfConfiguration.elfPortConf);
+        p_Serial->configure(elfConfiguration.baudR, elfConfiguration.baudT, elfConfiguration.ioConfiguration);
     }
 
     if (elfConfiguration.usePixie)
     {
-        double zoom = p_Main->getZoom();
+        double zoom = p_Main->getZoom(VIDEOMAIN);
         double scale = p_Main->getScale();
-        pixiePointer = new Pixie( "Elf II - Pixie", p_Main->getPixiePos(PICO), wxSize(64*zoom*scale, 128*zoom), zoom, scale, PICO);
-        p_Video = pixiePointer;
-        pixiePointer->configurePixie(elfConfiguration.elfPortConf);
+        pixiePointer = new Pixie( "Pico/Elf V2 - Pixie", p_Main->getPixiePos(PICO), wxSize(64*zoom*scale, 128*zoom), zoom, scale, PICO, computerConfiguration.numberOfVideoTypes_);
+        p_Video[computerConfiguration.numberOfVideoTypes_++] = pixiePointer;
+        pixiePointer->configurePixie(elfConfiguration.ioConfiguration);
         pixiePointer->initPixie();
         pixiePointer->setZoom(zoom);
         pixiePointer->Show(true);
@@ -833,19 +832,19 @@ void Pico::configureElfExtensions()
 
     if (elfConfiguration.use6845)
     {
-        double zoom = p_Main->getZoom();
-        mc6845Pointer = new MC6845( "Elf II - MC6845", p_Main->get6845Pos(PICO), wxSize(64*8*zoom, 16*8*2*zoom), zoom, PICO, elfClockSpeed_, 8, elfConfiguration.elfPortConf);
-        p_Video = mc6845Pointer;
-        mc6845Pointer->configure6845(elfConfiguration.elfPortConf);
+        double zoom = p_Main->getZoom(VIDEOMAIN);
+        mc6845Pointer = new MC6845( "Pico/Elf V2 - MC6845", p_Main->get6845Pos(PICO), wxSize(64*8*zoom, 16*8*2*zoom), zoom, PICO, elfClockSpeed_, 8, elfConfiguration.ioConfiguration, computerConfiguration.numberOfVideoTypes_);
+        p_Video[computerConfiguration.numberOfVideoTypes_++] = mc6845Pointer;
+        mc6845Pointer->configure6845(elfConfiguration.ioConfiguration);
         mc6845Pointer->init6845();
         mc6845Pointer->Show(true);
     }
 
     if (elfConfiguration.useS100)
     {
-        double zoom = p_Main->getZoom();
-        mc6845Pointer = new MC6845( "Elf II - Quest Super Video", p_Main->get6845Pos(PICO), wxSize(64*7*zoom, 16*9*zoom), zoom, PICO, elfClockSpeed_, 7, elfConfiguration.elfPortConf);
-        p_Video = mc6845Pointer;
+        double zoom = p_Main->getZoom(VIDEOMAIN);
+        mc6845Pointer = new MC6845( "Pico/Elf V2 - Quest Super Video", p_Main->get6845Pos(PICO), wxSize(64*7*zoom, 16*9*zoom), zoom, PICO, elfClockSpeed_, 7, elfConfiguration.ioConfiguration, computerConfiguration.numberOfVideoTypes_);
+        p_Video[computerConfiguration.numberOfVideoTypes_++] = mc6845Pointer;
         mc6845Pointer->configureSuperVideo();
         mc6845Pointer->init6845();
         mc6845Pointer->Show(true);
@@ -853,58 +852,58 @@ void Pico::configureElfExtensions()
 
     if (elfConfiguration.use8275)
     {
-        double zoom = p_Main->getZoom();
-        i8275Pointer = new i8275( "Elf II - Intel 8275", p_Main->get8275Pos(PICO), wxSize(80*8*zoom, 24*10*2*zoom), zoom, PICO, elfClockSpeed_);
-        p_Video = i8275Pointer;
-        i8275Pointer->configure8275(elfConfiguration.elfPortConf);
+        double zoom = p_Main->getZoom(VIDEOMAIN);
+        i8275Pointer = new i8275( "Pico/Elf V2 - Intel 8275", p_Main->get8275Pos(PICO), wxSize(80*8*zoom, 24*10*2*zoom), zoom, PICO, elfClockSpeed_, computerConfiguration.numberOfVideoTypes_);
+        p_Video[computerConfiguration.numberOfVideoTypes_++] = i8275Pointer;
+        i8275Pointer->configure8275(elfConfiguration.ioConfiguration);
         i8275Pointer->init8275();
         i8275Pointer->Show(true);
     }
 
     if (elfConfiguration.use6847)
     {
-        double zoom = p_Main->getZoom();
-        mc6847Pointer = new mc6847( "Elf II - MC6847", p_Main->get6847Pos(PICO), wxSize(elfConfiguration.charLine*8*zoom, elfConfiguration.screenHeight6847*zoom), zoom, PICO, elfClockSpeed_, elfConfiguration.elfPortConf);
-        p_Video = mc6847Pointer;
-        mc6847Pointer->configure(elfConfiguration.elfPortConf);
+        double zoom = p_Main->getZoom(VIDEOMAIN);
+        mc6847Pointer = new mc6847( "Pico/Elf V2 - MC6847", p_Main->get6847Pos(PICO), wxSize(elfConfiguration.charLine*8*zoom, elfConfiguration.screenHeight6847*zoom), zoom, PICO, elfClockSpeed_, elfConfiguration.ioConfiguration, computerConfiguration.numberOfVideoTypes_);
+        p_Video[computerConfiguration.numberOfVideoTypes_++] = mc6847Pointer;
+        mc6847Pointer->configure(elfConfiguration.ioConfiguration);
         mc6847Pointer->init6847();
         mc6847Pointer->Show(true);
     }
 
     if (elfConfiguration.useTMS9918)
     {
-        double zoom = p_Main->getZoom();
-        tmsPointer = new Tms9918( "Elf II - TMS 9918", p_Main->getTmsPos(PICO), wxSize(320*zoom,240*zoom), zoom, PICO, elfClockSpeed_);
-        p_Video = tmsPointer;
-        tmsPointer->configure(elfConfiguration.elfPortConf);
+        double zoom = p_Main->getZoom(VIDEOMAIN);
+        tmsPointer = new Tms9918( "Pico/Elf V2 - TMS 9918", p_Main->getTmsPos(PICO), wxSize(320*zoom,240*zoom), zoom, PICO, elfClockSpeed_, computerConfiguration.numberOfVideoTypes_);
+        p_Video[computerConfiguration.numberOfVideoTypes_++] = tmsPointer;
+        tmsPointer->configure(elfConfiguration.ioConfiguration);
         tmsPointer->Show(true);
     }
 
-    if (elfConfiguration.fdcEnabled)
+    if (elfConfiguration.fdc1793Enabled)
     {
-        configure1793(1, 40, 18, 256, 6256, PICO, elfConfiguration.elfPortConf);
+        configure1793(1, 40, 18, 256, 6256, PICO, elfConfiguration.ioConfiguration, true);
         resetFdc();
     }
 
     if (elfConfiguration.ideEnabled)
     {
-        configureIde(p_Main->getIdeDir(PICO) + p_Main->getIdeFile(PICO), p_Main->getIdeDir(PICO) + "disk2.ide", elfConfiguration.elfPortConf);
+        configureIde(p_Main->getIdeDir(PICO) + p_Main->getIdeFile(PICO), p_Main->getIdeDir(PICO) + "disk2.ide", elfConfiguration.ioConfiguration);
     }
 
     if (p_Main->getPrinterStatus(PICO))
     {
         p_Printer = new Printer();
-        p_Printer->configureElfPrinter(elfConfiguration.elfPortConf);
-        p_Printer->initElf(p_Printer, "Pico/Elf V2");
+        p_Printer->configureBasicPrinter(elfConfiguration.ioConfiguration);
+        p_Printer->init(p_Printer, PRINTER_BASIC);
     }
 
     setQsound (elfConfiguration.qSound_);
 
     if (elfConfiguration.useKeyboard)
-        configureKeyboard(PICO, elfConfiguration.elfPortConf);
+        configureKeyboard(PICO, elfConfiguration.ioConfiguration);
 
-    if (elfConfiguration.UsePS2)
-        configurePs2(elfConfiguration.ps2Interrupt, elfConfiguration.elfPortConf);
+    if (elfConfiguration.usePS2)
+        configurePs2(elfConfiguration.ps2Interrupt, elfConfiguration.ioConfiguration);
 }
 
 void Pico::moveWindows()
@@ -926,21 +925,21 @@ void Pico::moveWindows()
 void Pico::updateTitle(wxString Title)
 {
     if (elfConfiguration.usePixie)
-        pixiePointer->SetTitle("Elf II - Pixie"+Title);
+        pixiePointer->SetTitle("Pico/Elf V2 - Pixie"+Title);
     if (elfConfiguration.useTMS9918)
-        tmsPointer->SetTitle("Elf II - TMS 9918"+Title);
+        tmsPointer->SetTitle("Pico/Elf V2 - TMS 9918"+Title);
     if (elfConfiguration.use6845)
-        mc6845Pointer->SetTitle("Elf II - MC6845"+Title);
+        mc6845Pointer->SetTitle("Pico/Elf V2 - MC6845"+Title);
     if (elfConfiguration.useS100)
-        mc6845Pointer->SetTitle("Elf II - Quest Super Video"+Title);
+        mc6845Pointer->SetTitle("Pico/Elf V2 - Quest Super Video"+Title);
     if (elfConfiguration.use6847)
-        mc6847Pointer->SetTitle("Elf II - MC6847"+Title);
+        mc6847Pointer->SetTitle("Pico/Elf V2 - MC6847"+Title);
     if (elfConfiguration.use8275)
-        i8275Pointer->SetTitle("Elf II - Intel 8275"+Title);
+        i8275Pointer->SetTitle("Pico/Elf V2 - Intel 8275"+Title);
     if (elfConfiguration.vtType == VT52)
-        vtPointer->SetTitle("Elf II - VT 52"+Title);
+        vtPointer->SetTitle("Pico/Elf V2 - VT 52"+Title);
     if (elfConfiguration.vtType == VT100)
-        vtPointer->SetTitle("Elf II - VT 100"+Title);
+        vtPointer->SetTitle("Pico/Elf V2 - VT 100"+Title);
 }
 
 void Pico::setForceUpperCase(bool status)

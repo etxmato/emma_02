@@ -13,13 +13,14 @@ public:
     Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, int computerType, double clock, ElfConfiguration elfConfiguration, int uartNumber);
     ~Vt100();
 
-    void configure(int selectedBaudR, int selectedBaudT, ElfPortConfiguration elfPortConf);
+    void configure(int selectedBaudR, int selectedBaudT, IoConfiguration ioConfiguration, Locations addressLocations, wxString saveCommand);
+    void configure(int selectedBaudR, int selectedBaudT, IoConfiguration ioConfiguration);
     void configureStandard(int selectedBaudR, int selectedBaudT, int dataReadyFlag);
-    void configureUart(ElfPortConfiguration elfPortConf);
+    void configureUart(IoConfiguration ioConfiguration);
     void configureRcasbc(int selectedBaudR, int selectedBaudT);
     void configureMs2000(int selectedBaudR, int selectedBaudT);
     void setTabChar(Byte value);
-    void configureVt2K(int SelectedBaudR, int SelectedBaudT, ElfPortConfiguration elfPortConf);
+    void configureVt2K(int SelectedBaudR, int SelectedBaudT, IoConfiguration ioConfiguration);
     void configureQandEfPolarity(int ef, bool vtEnable);
     Byte ef();
     void out(Byte value);
@@ -65,8 +66,10 @@ public:
     Byte uartThreStatus();
     void uartInterrupt();
     void getKey();
+    bool checkKeyInputAddress(Word address);
     void checkCtrlvText();
     Byte checkCtrlvTextUart();
+    void checkXmlCommand();
     void checkElfCommand();
     void checkMcdsCommand();
     void ResetVt();
@@ -269,6 +272,9 @@ private:
     int uart_fe_bit_;
     int uart_tsre_bit_;
     int uart_thre_bit_;
+
+    Locations addressLocations_;
+    wxString saveCommand_;
 };
 
 #endif  // VT100_H

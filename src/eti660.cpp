@@ -33,7 +33,7 @@
 #include "eti660.h"
 
 Eti::Eti(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, Conf computerConf)
-:Pixie(title, pos, size, zoom, zoomfactor, computerType)
+:Pixie(title, pos, size, zoom, zoomfactor, computerType, 0)
 {
     computerConfiguration = computerConf;
 }
@@ -445,7 +445,7 @@ void Eti::startComputer()
         readProgram(p_Main->getChip8Dir(ETI), p_Main->getChip8SW(ETI), NOCHANGE, 0x0700, SHOWNAME);
     else
         readProgram(p_Main->getChip8Dir(ETI), p_Main->getChip8SW(ETI), NOCHANGE, 0x0600, SHOWNAME);
-    double zoom = p_Main->getZoom();
+    double zoom = p_Main->getZoom(VIDEOMAIN);
 
     pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);
 

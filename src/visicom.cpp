@@ -45,7 +45,7 @@
 #define CHIP8_PC 5
 
 Visicom::Visicom(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, Conf computerConf)
-:Pixie(title, pos, size, zoom, zoomfactor, computerType)
+:Pixie(title, pos, size, zoom, zoomfactor, computerType, 0)
 {
     computerConfiguration = computerConf;
 }
@@ -451,7 +451,7 @@ void Visicom::startComputer()
     initRam(0x1000, 0x11ff);
     defineMemoryType(0x1300, 0x13ff, RAM);
     initRam(0x1300, 0x13ff);
-    double zoom = p_Main->getZoom();
+    double zoom = p_Main->getZoom(VIDEOMAIN);
  
     pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);
     

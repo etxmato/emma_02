@@ -105,6 +105,7 @@ public:
     Byte usbIn();
     Byte usbIn6();
     void usbOut(Byte value);
+    void usbOutNoEfCheck(Byte value);
 
     Byte usbInVspe();
     void usbOutVspe(Byte value);

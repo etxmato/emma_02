@@ -57,7 +57,6 @@ private:
     ElfConfiguration McdsConfiguration;
 
     double McdsClockSpeed_;
-    Word lastAddress_;
 
     int ioGroup_;
 

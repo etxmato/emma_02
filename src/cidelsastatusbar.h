@@ -25,6 +25,7 @@ public:
     void onButtonReleaseFire(wxCommandEvent& event);
 
 private:
+    int runningComputer_;
     void displayText();
     void displayLeds();
     void deleteBitmaps();
@@ -41,7 +42,7 @@ private:
 
     bool ledsDefined_;
     
-    int linux_led_pos_y_;
+    int led_pos_y_;
     int statusBarElementMeasure0_;
     int statusBarElementMeasure1_;
     int ledSpacing_;

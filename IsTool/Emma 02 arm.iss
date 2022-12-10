@@ -242,6 +242,18 @@ Source: ..\data\Vip\*.*; DestDir: {app}\data\Vip; Components: MAIN
 Source: ..\data\Vip2K\*.*; DestDir: {app}\data\Vip2K; Components: MAIN
 Source: ..\data\VipII\*.*; DestDir: {app}\data\VipII; Components: MAIN
 Source: ..\data\Visicom\*.*; DestDir: {app}\data\Visicom; Components: MAIN
+Source: ..\data\Xml\*.*; DestDir: {app}\data\Xml; Components: MAIN
+Source: ..\data\Xml\Cidelsa\*.*; DestDir: {app}\data\Xml\Cidelsa; Components: MAIN
+Source: ..\data\Xml\Comix\*.*; DestDir: {app}\data\Xml\Comix; Components: MAIN
+Source: ..\data\Xml\Comx\*.*; DestDir: {app}\data\Xml\Comx; Components: MAIN
+Source: ..\data\Xml\Cosmac Elf\*.*; DestDir: {app}\data\Xml\Cosmac Elf; Components: MAIN
+Source: ..\data\Xml\Elf\*.*; DestDir: {app}\data\Xml\Elf; Components: MAIN
+Source: ..\data\Xml\Microtutor\*.*; DestDir: {app}\data\Xml\Microtutor; Components: MAIN
+Source: ..\data\Xml\Microtutor II\*.*; DestDir: {app}\data\Xml\Microtutor II; Components: MAIN
+Source: ..\data\Xml\Pecom\*.*; DestDir: {app}\data\Xml\Pecom; Components: MAIN
+Source: ..\data\Xml\Pico Elf V2\*.*; DestDir: {app}\data\Xml\Pico Elf V2; Components: MAIN
+Source: ..\data\Xml\Quest Super Elf\*.*; DestDir: {app}\data\Xml\Quest Super Elf; Components: MAIN
+Source: ..\data\Xml\TMC-600\*.*; DestDir: {app}\data\Xml\TMC-600; Components: MAIN
 Source: ..\images\*.*; DestDir: {app}\images; Components: MAIN
 Source: ..\src\*.*; DestDir: {app}\src; Components: SOURCEFILES
 Source: ..\Emma 02 vc17.sln; DestDir: {app}; Components: SOURCEFILES

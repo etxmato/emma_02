@@ -22,7 +22,7 @@ public:
 
     void onClose(wxCloseEvent&WXUNUSED(event));
 
-    void configure(ElfPortConfiguration elfPortConf);
+    void configure(IoConfiguration ioConfiguration);
     void write(Byte value); 
     void ledTimeout();
     void setLedMs(long ms);

@@ -1188,6 +1188,15 @@ Byte Usbcard::usbIn()
 
 void Usbcard::usbOut(Byte value)
 {
+    if (p_Computer->getFlipFlopQ())
+    {
+        return;
+    }
+    usbOutNoEfCheck(value);
+}
+
+void Usbcard::usbOutNoEfCheck(Byte value)
+{
     wxFile outputFile;
     wxTextFile outputTextFile;
     wxString directory, rootDirectory, newDirectory, name, name2;
@@ -1205,11 +1214,6 @@ void Usbcard::usbOut(Byte value)
     int length;
     int urlLink, newScreen;
     wxLocale systemFormat;
-    
-    if (p_Computer->getFlipFlopQ())
-    {
-        return;
-    }
     
     switch (mode_)
     {

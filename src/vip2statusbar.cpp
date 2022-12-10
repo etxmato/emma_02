@@ -44,7 +44,7 @@ VipIIStatusBar::VipIIStatusBar(wxWindow *parent)
     statusBarElementMeasure1_ = p_Main->getStatusBarElementMeasure(1);
     ledSpacing_ = p_Main->getBarLedSpacing();
 
-    linux_led_pos_y_ = p_Main->getBarLedPosVip2Y();
+    led_pos_y_ = p_Main->getBarLedPosVip2Y();
 }
 
 VipIIStatusBar::~VipIIStatusBar()
@@ -123,11 +123,11 @@ void VipIIStatusBar::displayLeds()
 #if defined(__linux__)
         if (ledStatus[led])
             ledBitmapPointers [led] = new PushBitmapButton(this, led, *ledOnPointer,
-                                     wxPoint(led*((int)rect.GetWidth()+ledSpacing_)+2+(led*3), linux_led_pos_y_), wxSize(-1, -1),
+                                     wxPoint(led*((int)rect.GetWidth()+ledSpacing_)+2+(led*3), led_pos_y_), wxSize(-1, -1),
                                      wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
         else
             ledBitmapPointers [led] = new PushBitmapButton(this, led, *ledOffPointer,
-                                     wxPoint(led*((int)rect.GetWidth()+ledSpacing_)+2+(led*3), linux_led_pos_y_), wxSize(-1, -1),
+                                     wxPoint(led*((int)rect.GetWidth()+ledSpacing_)+2+(led*3), led_pos_y_), wxSize(-1, -1),
                                      wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
 #endif
 #if defined(__WXMAC__)

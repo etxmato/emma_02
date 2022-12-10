@@ -7,6 +7,7 @@
 <centered>1</centered>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
@@ -16,6 +17,7 @@
 <object class="wxButton" name="ID_BUTTON">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Dummy button</label>
@@ -33,7 +35,6 @@
 <font>
 <size>12</size>
 <family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>CDP 1869 / 1870 </label>
@@ -67,6 +68,7 @@
 <label>Main Colours</label>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <object class="sizeritem">
 <flag>wxALIGN_RIGHT|wxALL</flag>
@@ -79,6 +81,7 @@
 <object class="wxStaticText" name="Colour56">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <fg>#000000</fg>
 <label>Black </label>
@@ -90,6 +93,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton56">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -107,6 +111,7 @@
 <object class="wxStaticText" name="Colour57">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Green </label>
 </object>
@@ -117,6 +122,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton57">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -134,6 +140,7 @@
 <object class="wxStaticText" name="Colour58">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Blue </label>
 </object>
@@ -144,6 +151,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton58">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -161,6 +169,7 @@
 <object class="wxStaticText" name="Colour59">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Cyan </label>
 </object>
@@ -171,6 +180,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton59">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -188,6 +198,7 @@
 <object class="wxStaticText" name="Colour60">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Red </label>
 </object>
@@ -198,6 +209,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton60">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -215,6 +227,7 @@
 <object class="wxStaticText" name="Colour61">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Yellow </label>
 </object>
@@ -225,6 +238,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton61">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -242,6 +256,7 @@
 <object class="wxStaticText" name="Colour62">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Magenta </label>
 </object>
@@ -252,6 +267,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton62">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -269,6 +285,7 @@
 <object class="wxStaticText" name="Colour63">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>White </label>
 </object>
@@ -279,6 +296,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton63">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -311,6 +329,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton48">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -321,6 +340,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton40">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -331,6 +351,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton32">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -341,6 +362,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton24">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -351,6 +373,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton16">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -361,6 +384,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton8">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -371,6 +395,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton0">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -388,6 +413,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton49">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -398,6 +424,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton41">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -408,6 +435,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton33">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -418,6 +446,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton25">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -428,6 +457,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton17">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -438,6 +468,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton9">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -448,6 +479,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -465,6 +497,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton50">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -475,6 +508,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton42">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -485,6 +519,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton34">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -495,6 +530,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton26">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -505,6 +541,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton18">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -515,6 +552,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton10">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -525,6 +563,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton2">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -542,6 +581,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton51">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -552,6 +592,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton43">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -562,6 +603,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton35">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -572,6 +614,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton27">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -582,6 +625,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton19">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -592,6 +636,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton11">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -602,6 +647,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton3">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -619,6 +665,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton52">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -629,6 +676,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton44">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -639,6 +687,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton36">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -649,6 +698,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton28">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -659,6 +709,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton20">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -669,6 +720,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton12">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -679,6 +731,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton4">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -696,6 +749,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton53">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -706,6 +760,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton45">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -716,6 +771,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton37">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -726,6 +782,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton29">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -736,6 +793,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton21">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -746,6 +804,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton13">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -756,6 +815,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton5">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -773,6 +833,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton54">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -783,6 +844,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton46">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -793,6 +855,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton38">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -803,6 +866,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton30">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -813,6 +877,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton22">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -823,6 +888,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton14">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -833,6 +899,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton6">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -850,6 +917,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton55">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -860,6 +928,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton47">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -870,6 +939,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton39">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -880,6 +950,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton31">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -890,6 +961,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton23">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -900,6 +972,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton15">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -910,6 +983,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton7">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -935,6 +1009,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Border CDP 1869/1870 X: </label>
 </object>
@@ -946,6 +1021,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -959,6 +1035,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Y: </label>
 </object>
@@ -970,6 +1047,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -1000,7 +1078,6 @@
 <font>
 <size>12</size>
 <family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>80 Column Video </label>
@@ -1022,6 +1099,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Foreground </label>
 </object>
@@ -1032,6 +1110,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton64">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -1042,6 +1121,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Background </label>
 </object>
@@ -1052,6 +1132,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton65">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -1069,6 +1150,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Default colour set: </label>
 </object>
@@ -1079,6 +1161,7 @@
 <object class="wxChoice" name="ColourMonitor2">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <content>
 <item></item>
@@ -1103,6 +1186,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Border 80 Column Video X: </label>
 </object>
@@ -1114,6 +1198,7 @@
 <size>42,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxTE_PROCESS_ENTER</style>
 <hidden>1</hidden>
@@ -1126,6 +1211,7 @@
 <size>17,21</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_VERTICAL</style>
 <hidden>1</hidden>
@@ -1141,6 +1227,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -1154,6 +1241,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Y: </label>
 </object>
@@ -1165,6 +1253,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <hidden>1</hidden>
@@ -1180,6 +1269,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -1209,6 +1299,7 @@
 <object class="wxButton" name="ColourDefault1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Default</label>
 </object>
@@ -1219,6 +1310,7 @@
 <object class="wxButton" name="ColourTest">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Test</label>
 </object>
@@ -1229,6 +1321,7 @@
 <object class="wxButton" name="ColourSave">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Save</label>
 </object>
@@ -1244,6 +1337,7 @@
 <centered>1</centered>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
@@ -1253,6 +1347,7 @@
 <object class="wxButton" name="ID_BUTTON">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Dummy button</label>
@@ -1270,7 +1365,6 @@
 <font>
 <size>12</size>
 <family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>CDP 1861 </label>
@@ -1297,6 +1391,7 @@
 <object class="wxStaticText" name="ColourText">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Foreground </label>
 </object>
@@ -1307,6 +1402,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton0">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -1324,6 +1420,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Background </label>
 </object>
@@ -1334,6 +1431,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -1353,6 +1451,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Border CDP 1861 X: </label>
 </object>
@@ -1364,6 +1463,7 @@
 <size>42,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxTE_PROCESS_ENTER</style>
 </object>
@@ -1400,6 +1500,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Y: </label>
 </object>
@@ -1411,6 +1512,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -1431,6 +1533,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Horizontal Scale: </label>
 </object>
@@ -1442,6 +1545,7 @@
 <size>42,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxTE_PROCESS_ENTER</style>
 </object>
@@ -1469,7 +1573,6 @@
 <font>
 <size>12</size>
 <family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>Intel 8275 / Video Terminal </label>
@@ -1501,6 +1604,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Foreground </label>
 </object>
@@ -1511,6 +1615,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton2">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -1521,6 +1626,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Background </label>
 </object>
@@ -1531,6 +1637,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton3">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -1548,6 +1655,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Highlight Intel 8275 </label>
 </object>
@@ -1558,6 +1666,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton4">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -1579,6 +1688,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Default colour set: </label>
 </object>
@@ -1589,6 +1699,7 @@
 <object class="wxChoice" name="ColourMonitor1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <content>
 <item></item>
@@ -1613,6 +1724,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Border Intel 8275 X: </label>
 </object>
@@ -1624,6 +1736,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -1637,6 +1750,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Y: </label>
 </object>
@@ -1648,6 +1762,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -1668,6 +1783,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Border Video Terminal X: </label>
 </object>
@@ -1679,6 +1795,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -1692,6 +1809,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Y: </label>
 </object>
@@ -1703,6 +1821,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -1732,6 +1851,7 @@
 <object class="wxButton" name="ColourDefault1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Default</label>
 </object>
@@ -1742,6 +1862,7 @@
 <object class="wxButton" name="ColourTest">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Test</label>
 </object>
@@ -1752,6 +1873,7 @@
 <object class="wxButton" name="ColourSave">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Save</label>
 </object>
@@ -1767,6 +1889,7 @@
 <centered>1</centered>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
@@ -1776,6 +1899,7 @@
 <object class="wxButton" name="ID_BUTTON">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Dummy button</label>
@@ -1793,7 +1917,6 @@
 <font>
 <size>12</size>
 <family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>CDP 1861 / CDP 1862 </label>
@@ -1827,6 +1950,7 @@
 <label>Foreground</label>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <object class="sizeritem">
 <flag>wxALIGN_RIGHT|wxALL</flag>
@@ -1839,6 +1963,7 @@
 <object class="wxStaticText" name="Colour0">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Black </label>
 </object>
@@ -1849,6 +1974,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton0">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -1866,6 +1992,7 @@
 <object class="wxStaticText" name="Colour1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Red </label>
 </object>
@@ -1876,6 +2003,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -1893,6 +2021,7 @@
 <object class="wxStaticText" name="Colour2">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Blue </label>
 </object>
@@ -1903,6 +2032,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton2">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -1920,6 +2050,7 @@
 <object class="wxStaticText" name="Colour3">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Violet </label>
 </object>
@@ -1930,6 +2061,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton3">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -1947,6 +2079,7 @@
 <object class="wxStaticText" name="Colour4">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Green </label>
 </object>
@@ -1957,6 +2090,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton4">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -1974,6 +2108,7 @@
 <object class="wxStaticText" name="Colour5">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Yellow </label>
 </object>
@@ -1984,6 +2119,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton5">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -2001,6 +2137,7 @@
 <object class="wxStaticText" name="Colour6">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Aqua </label>
 </object>
@@ -2011,6 +2148,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton6">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -2028,6 +2166,7 @@
 <object class="wxStaticText" name="Colour7">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>White </label>
 </object>
@@ -2038,6 +2177,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton7">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -2070,6 +2210,7 @@
 <object class="wxStaticText" name="Colour8">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Dark Blue </label>
 </object>
@@ -2080,6 +2221,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton8">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -2097,6 +2239,7 @@
 <object class="wxStaticText" name="Colour9">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Black </label>
 </object>
@@ -2107,6 +2250,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton9">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -2124,6 +2268,7 @@
 <object class="wxStaticText" name="Colour10">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Dark Green </label>
 </object>
@@ -2134,6 +2279,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton10">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -2151,6 +2297,7 @@
 <object class="wxStaticText" name="Colour11">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Dark Red </label>
 </object>
@@ -2161,6 +2308,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton11">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -2186,6 +2334,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Border X: </label>
 </object>
@@ -2197,6 +2346,7 @@
 <size>42,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxTE_PROCESS_ENTER</style>
 </object>
@@ -2213,6 +2363,7 @@
 <size>17,21</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_VERTICAL</style>
 <value>0</value>
@@ -2226,6 +2377,7 @@
 <object platform="unix" class="wxSpinButton" name="BorderX1Spin">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_VERTICAL</style>
 <value>0</value>
@@ -2239,6 +2391,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Y: </label>
 </object>
@@ -2250,6 +2403,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -2270,6 +2424,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Horizontal Scale: </label>
 </object>
@@ -2281,6 +2436,7 @@
 <size>42,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxTE_PROCESS_ENTER</style>
 </object>
@@ -2308,7 +2464,6 @@
 <font>
 <size>12</size>
 <family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>Video Terminal </label>
@@ -2340,6 +2495,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Foreground </label>
 </object>
@@ -2350,6 +2506,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton12">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -2360,6 +2517,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Background </label>
 </object>
@@ -2370,6 +2528,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton13">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -2388,6 +2547,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Highlight </label>
@@ -2399,6 +2559,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton14">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 <hidden>1</hidden>
@@ -2421,6 +2582,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Border Video Terminal X: </label>
 </object>
@@ -2432,6 +2594,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -2445,6 +2608,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Y: </label>
 </object>
@@ -2456,6 +2620,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -2476,6 +2641,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Default colour set: </label>
 </object>
@@ -2486,6 +2652,7 @@
 <object class="wxChoice" name="ColourMonitor1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <content>
 <item></item>
@@ -2519,6 +2686,7 @@
 <object class="wxButton" name="ColourDefault1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Default</label>
 </object>
@@ -2529,6 +2697,7 @@
 <object class="wxButton" name="ColourTest">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Test</label>
 </object>
@@ -2539,6 +2708,7 @@
 <object class="wxButton" name="ColourSave">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Save</label>
 </object>
@@ -2554,6 +2724,7 @@
 <centered>1</centered>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
@@ -2563,6 +2734,7 @@
 <object class="wxButton" name="ID_BUTTON">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Dummy button</label>
@@ -2580,7 +2752,6 @@
 <font>
 <size>12</size>
 <family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>CDP 1861 </label>
@@ -2607,6 +2778,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Foreground </label>
 </object>
@@ -2617,6 +2789,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton0">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -2634,6 +2807,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Background </label>
 </object>
@@ -2644,6 +2818,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -2663,6 +2838,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Border CDP 1861 X: </label>
 </object>
@@ -2674,6 +2850,7 @@
 <size>42,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxTE_PROCESS_ENTER</style>
 </object>
@@ -2690,6 +2867,7 @@
 <size>17,21</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_VERTICAL</style>
 <value>0</value>
@@ -2703,6 +2881,7 @@
 <object platform="unix" class="wxSpinButton" name="BorderX1Spin">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_VERTICAL</style>
 <value>0</value>
@@ -2716,6 +2895,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Y: </label>
 </object>
@@ -2727,6 +2907,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -2747,6 +2928,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Horizontal Scale: </label>
 </object>
@@ -2758,6 +2940,7 @@
 <size>42,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxTE_PROCESS_ENTER</style>
 </object>
@@ -2785,7 +2968,6 @@
 <font>
 <size>12</size>
 <family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>Video Terminal </label>
@@ -2817,6 +2999,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Foreground </label>
 </object>
@@ -2827,6 +3010,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton2">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -2837,6 +3021,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Background </label>
 </object>
@@ -2847,6 +3032,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton3">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -2865,6 +3051,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Highlight </label>
@@ -2876,6 +3063,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton4">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 <hidden>1</hidden>
@@ -2898,6 +3086,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Border Video Terminal X: </label>
 </object>
@@ -2909,6 +3098,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -2922,6 +3112,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Y: </label>
 </object>
@@ -2933,6 +3124,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -2953,6 +3145,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Default colour set: </label>
 </object>
@@ -2963,6 +3156,7 @@
 <object class="wxChoice" name="ColourMonitor1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <content>
 <item></item>
@@ -2996,6 +3190,7 @@
 <object class="wxButton" name="ColourDefault1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Default</label>
 </object>
@@ -3006,6 +3201,7 @@
 <object class="wxButton" name="ColourTest">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Test</label>
 </object>
@@ -3016,6 +3212,7 @@
 <object class="wxButton" name="ColourSave">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Save</label>
 </object>
@@ -3031,6 +3228,7 @@
 <centered>1</centered>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
@@ -3040,6 +3238,7 @@
 <object class="wxButton" name="ID_BUTTON">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Dummy button</label>
@@ -3057,7 +3256,6 @@
 <font>
 <size>12</size>
 <family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>CDP 1861 </label>
@@ -3084,6 +3282,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Foreground </label>
 </object>
@@ -3094,6 +3293,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton0">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -3111,6 +3311,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Background </label>
 </object>
@@ -3121,6 +3322,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -3140,6 +3342,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Border CDP 1861 X: </label>
 </object>
@@ -3151,6 +3354,7 @@
 <size>42,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxTE_PROCESS_ENTER</style>
 </object>
@@ -3187,6 +3391,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Y: </label>
 </object>
@@ -3198,6 +3403,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -3211,6 +3417,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Horizontal Scale: </label>
 </object>
@@ -3222,6 +3429,7 @@
 <size>42,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxTE_PROCESS_ENTER</style>
 </object>
@@ -3249,7 +3457,6 @@
 <font>
 <size>12</size>
 <family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>Intel 8275 / Video Terminal / MC6845 (Super Video) </label>
@@ -3281,6 +3488,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Foreground </label>
 </object>
@@ -3291,6 +3499,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton2">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -3308,6 +3517,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Background </label>
 </object>
@@ -3318,6 +3528,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton3">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -3335,6 +3546,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Highlight (not for VT) </label>
 </object>
@@ -3345,6 +3557,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton4">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -3369,6 +3582,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Default colour set: </label>
 </object>
@@ -3379,6 +3593,7 @@
 <object class="wxChoice" name="ColourMonitor1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <content>
 <item></item>
@@ -3403,6 +3618,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Border Intel 8275 X: </label>
 </object>
@@ -3414,6 +3630,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -3427,6 +3644,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Y: </label>
 </object>
@@ -3438,6 +3656,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -3458,6 +3677,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Border Video Terminal X: </label>
 </object>
@@ -3469,6 +3689,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -3482,6 +3703,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Y: </label>
 </object>
@@ -3493,6 +3715,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -3513,6 +3736,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Border MC6845 X: </label>
 </object>
@@ -3524,6 +3748,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -3537,6 +3762,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Y: </label>
 </object>
@@ -3548,6 +3774,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -3582,7 +3809,6 @@
 <font>
 <size>12</size>
 <family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>MC6847 </label>
@@ -3611,6 +3837,7 @@
 <label>Graphic</label>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
@@ -3633,6 +3860,7 @@
 <object class="wxStaticText" name="Colour8">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Green </label>
 </object>
@@ -3643,6 +3871,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton8">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -3660,6 +3889,7 @@
 <object class="wxStaticText" name="Colour1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Yellow </label>
 </object>
@@ -3670,6 +3900,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton9">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -3687,6 +3918,7 @@
 <object class="wxStaticText" name="Colour2">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Blue </label>
 </object>
@@ -3697,6 +3929,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton10">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -3714,6 +3947,7 @@
 <object class="wxStaticText" name="Colour3">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Red </label>
 </object>
@@ -3724,6 +3958,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton11">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -3748,6 +3983,7 @@
 <object class="wxStaticText" name="Colour4">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Buff </label>
 </object>
@@ -3758,6 +3994,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton12">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -3775,6 +4012,7 @@
 <object class="wxStaticText" name="Colour5">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Cyan </label>
 </object>
@@ -3785,6 +4023,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton13">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -3802,6 +4041,7 @@
 <object class="wxStaticText" name="Colour6">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Magenta </label>
 </object>
@@ -3812,6 +4052,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton14">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -3829,6 +4070,7 @@
 <object class="wxStaticText" name="Colour7">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Orange </label>
 </object>
@@ -3839,6 +4081,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton15">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -3868,6 +4111,7 @@
 <object class="wxStaticText" name="Colour9">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Black </label>
 </object>
@@ -3878,6 +4122,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton5">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -3900,6 +4145,7 @@
 <object class="wxStaticText" name="Colour10">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Green </label>
 </object>
@@ -3910,6 +4156,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton6">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -3932,6 +4179,7 @@
 <object class="wxStaticText" name="Colour11">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Orange </label>
 </object>
@@ -3942,6 +4190,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton7">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -3970,6 +4219,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Border MC6847 X: </label>
 </object>
@@ -3981,6 +4231,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -3994,6 +4245,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Y: </label>
 </object>
@@ -4005,6 +4257,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -4035,7 +4288,6 @@
 <font>
 <size>12</size>
 <family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>TMS 9918 </label>
@@ -4067,6 +4319,7 @@
 <object class="wxStaticText" name="Colour8">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Transparant </label>
 </object>
@@ -4077,6 +4330,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton16">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -4094,6 +4348,7 @@
 <object class="wxStaticText" name="Colour8">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Black </label>
 </object>
@@ -4104,6 +4359,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton17">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -4121,6 +4377,7 @@
 <object class="wxStaticText" name="Colour8">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Medium Green </label>
 </object>
@@ -4131,6 +4388,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton18">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -4148,6 +4406,7 @@
 <object class="wxStaticText" name="Colour8">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Light Green </label>
 </object>
@@ -4158,6 +4417,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton19">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -4182,6 +4442,7 @@
 <object class="wxStaticText" name="Colour8">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Dark Blue </label>
 </object>
@@ -4192,6 +4453,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton20">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -4209,6 +4471,7 @@
 <object class="wxStaticText" name="Colour8">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Light Blue </label>
 </object>
@@ -4219,6 +4482,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton21">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -4236,6 +4500,7 @@
 <object class="wxStaticText" name="Colour8">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Dark Red </label>
 </object>
@@ -4246,6 +4511,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton22">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -4263,6 +4529,7 @@
 <object class="wxStaticText" name="Colour8">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Aqua Blue </label>
 </object>
@@ -4273,6 +4540,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton23">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -4297,6 +4565,7 @@
 <object class="wxStaticText" name="Colour8">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Medium Red </label>
 </object>
@@ -4307,6 +4576,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton24">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -4324,6 +4594,7 @@
 <object class="wxStaticText" name="Colour8">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Light Red </label>
 </object>
@@ -4334,6 +4605,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton25">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -4351,6 +4623,7 @@
 <object class="wxStaticText" name="Colour8">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Dark Yellow </label>
 </object>
@@ -4361,6 +4634,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton26">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -4378,6 +4652,7 @@
 <object class="wxStaticText" name="Colour8">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Light Yellow </label>
 </object>
@@ -4388,6 +4663,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton27">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -4412,6 +4688,7 @@
 <object class="wxStaticText" name="Colour8">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Dark Green </label>
 </object>
@@ -4422,6 +4699,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton28">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -4439,6 +4717,7 @@
 <object class="wxStaticText" name="Colour8">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Purple </label>
 </object>
@@ -4449,6 +4728,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton29">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -4466,6 +4746,7 @@
 <object class="wxStaticText" name="Colour8">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Gray </label>
 </object>
@@ -4476,6 +4757,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton30">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -4493,6 +4775,7 @@
 <object class="wxStaticText" name="Colour8">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>White </label>
 </object>
@@ -4503,6 +4786,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton31">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -4524,6 +4808,7 @@
 <object class="wxButton" name="ColourCol">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Colour</label>
 </object>
@@ -4534,6 +4819,7 @@
 <object class="wxButton" name="ColourGray">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Gray</label>
 </object>
@@ -4549,6 +4835,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Border TMS9918 X: </label>
 </object>
@@ -4560,6 +4847,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -4573,6 +4861,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Y: </label>
 </object>
@@ -4584,6 +4873,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -4620,6 +4910,7 @@
 <object class="wxButton" name="ColourDefault1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Default</label>
 </object>
@@ -4630,6 +4921,7 @@
 <object class="wxButton" name="ColourTest">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Test</label>
 </object>
@@ -4640,6 +4932,7 @@
 <object class="wxButton" name="ColourDefault2">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Default</label>
@@ -4651,6 +4944,7 @@
 <object class="wxButton" name="ColourSave">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Save</label>
 </object>
@@ -4668,6 +4962,7 @@
 <centered>1</centered>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
@@ -4677,6 +4972,7 @@
 <object class="wxButton" name="ID_BUTTON">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Dummy button</label>
@@ -4694,7 +4990,6 @@
 <font>
 <size>12</size>
 <family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>CDP 1861 </label>
@@ -4721,6 +5016,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Foreground </label>
 </object>
@@ -4731,6 +5027,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton0">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -4748,6 +5045,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Background </label>
 </object>
@@ -4758,6 +5056,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -4777,6 +5076,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Border CDP 1861 X: </label>
 </object>
@@ -4788,6 +5088,7 @@
 <size>42,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxTE_PROCESS_ENTER</style>
 </object>
@@ -4824,6 +5125,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Y: </label>
 </object>
@@ -4835,6 +5137,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -4848,6 +5151,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Horizontal Scale: </label>
 </object>
@@ -4859,6 +5163,7 @@
 <size>42,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxTE_PROCESS_ENTER</style>
 </object>
@@ -4886,7 +5191,6 @@
 <font>
 <size>12</size>
 <family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>Video Terminal </label>
@@ -4918,6 +5222,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Foreground </label>
 </object>
@@ -4928,6 +5233,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton2">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -4945,6 +5251,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Background </label>
 </object>
@@ -4955,6 +5262,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton3">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -4972,6 +5280,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Highlight (not for VT) </label>
 </object>
@@ -4982,6 +5291,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton4">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -5006,6 +5316,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Default colour set: </label>
 </object>
@@ -5016,6 +5327,7 @@
 <object class="wxChoice" name="ColourMonitor1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <content>
 <item></item>
@@ -5040,6 +5352,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Border Intel 8275 X: </label>
 </object>
@@ -5051,6 +5364,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -5064,6 +5378,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Y: </label>
 </object>
@@ -5075,6 +5390,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -5095,6 +5411,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Border Video Terminal X: </label>
 </object>
@@ -5106,6 +5423,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -5119,6 +5437,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Y: </label>
 </object>
@@ -5130,6 +5449,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -5150,6 +5470,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Border MC6845 X: </label>
 </object>
@@ -5161,6 +5482,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -5174,6 +5496,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Y: </label>
 </object>
@@ -5185,6 +5508,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -5219,7 +5543,6 @@
 <font>
 <size>12</size>
 <family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <hidden>1</hidden>
@@ -5262,6 +5585,7 @@
 <object class="wxStaticText" name="Colour8">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Green </label>
@@ -5273,6 +5597,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton8">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 <hidden>1</hidden>
@@ -5291,6 +5616,7 @@
 <object class="wxStaticText" name="Colour1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Yellow </label>
@@ -5302,6 +5628,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton9">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 <hidden>1</hidden>
@@ -5320,6 +5647,7 @@
 <object class="wxStaticText" name="Colour2">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Blue </label>
@@ -5331,6 +5659,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton10">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 <hidden>1</hidden>
@@ -5349,6 +5678,7 @@
 <object class="wxStaticText" name="Colour3">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Red </label>
@@ -5360,6 +5690,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton11">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 <hidden>1</hidden>
@@ -5385,6 +5716,7 @@
 <object class="wxStaticText" name="Colour4">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Buff </label>
@@ -5396,6 +5728,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton12">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 <hidden>1</hidden>
@@ -5414,6 +5747,7 @@
 <object class="wxStaticText" name="Colour5">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Cyan </label>
@@ -5425,6 +5759,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton13">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 <hidden>1</hidden>
@@ -5443,6 +5778,7 @@
 <object class="wxStaticText" name="Colour6">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Magenta </label>
@@ -5454,6 +5790,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton14">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 <hidden>1</hidden>
@@ -5472,6 +5809,7 @@
 <object class="wxStaticText" name="Colour7">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Orange </label>
@@ -5483,6 +5821,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton15">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 <hidden>1</hidden>
@@ -5512,6 +5851,7 @@
 <object class="wxStaticText" name="Colour9">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Black </label>
@@ -5523,6 +5863,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton5">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 <hidden>1</hidden>
@@ -5541,6 +5882,7 @@
 <object class="wxStaticText" name="Colour10">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Green </label>
@@ -5552,6 +5894,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton6">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 <hidden>1</hidden>
@@ -5570,6 +5913,7 @@
 <object class="wxStaticText" name="Colour11">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Orange </label>
@@ -5581,6 +5925,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton7">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 <hidden>1</hidden>
@@ -5605,6 +5950,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Border MC6847 X: </label>
@@ -5617,6 +5963,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <hidden>1</hidden>
@@ -5631,6 +5978,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Y: </label>
@@ -5643,6 +5991,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <hidden>1</hidden>
@@ -5675,7 +6024,6 @@
 <font>
 <size>12</size>
 <family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>TMS 9918 </label>
@@ -5707,6 +6055,7 @@
 <object class="wxStaticText" name="Colour8">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Transparant </label>
 </object>
@@ -5717,6 +6066,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton16">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -5734,6 +6084,7 @@
 <object class="wxStaticText" name="Colour8">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Black </label>
 </object>
@@ -5744,6 +6095,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton17">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -5761,6 +6113,7 @@
 <object class="wxStaticText" name="Colour8">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Medium Green </label>
 </object>
@@ -5771,6 +6124,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton18">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -5788,6 +6142,7 @@
 <object class="wxStaticText" name="Colour8">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Light Green </label>
 </object>
@@ -5798,6 +6153,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton19">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -5822,6 +6178,7 @@
 <object class="wxStaticText" name="Colour8">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Dark Blue </label>
 </object>
@@ -5832,6 +6189,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton20">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -5849,6 +6207,7 @@
 <object class="wxStaticText" name="Colour8">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Light Blue </label>
 </object>
@@ -5859,6 +6218,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton21">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -5876,6 +6236,7 @@
 <object class="wxStaticText" name="Colour8">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Dark Red </label>
 </object>
@@ -5886,6 +6247,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton22">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -5903,6 +6265,7 @@
 <object class="wxStaticText" name="Colour8">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Aqua Blue </label>
 </object>
@@ -5913,6 +6276,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton23">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -5937,6 +6301,7 @@
 <object class="wxStaticText" name="Colour8">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Medium Red </label>
 </object>
@@ -5947,6 +6312,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton24">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -5964,6 +6330,7 @@
 <object class="wxStaticText" name="Colour8">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Light Red </label>
 </object>
@@ -5974,6 +6341,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton25">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -5991,6 +6359,7 @@
 <object class="wxStaticText" name="Colour8">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Dark Yellow </label>
 </object>
@@ -6001,6 +6370,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton26">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -6018,6 +6388,7 @@
 <object class="wxStaticText" name="Colour8">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Light Yellow </label>
 </object>
@@ -6028,6 +6399,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton27">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -6052,6 +6424,7 @@
 <object class="wxStaticText" name="Colour8">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Dark Green </label>
 </object>
@@ -6062,6 +6435,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton28">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -6079,6 +6453,7 @@
 <object class="wxStaticText" name="Colour8">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Purple </label>
 </object>
@@ -6089,6 +6464,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton29">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -6106,6 +6482,7 @@
 <object class="wxStaticText" name="Colour8">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Gray </label>
 </object>
@@ -6116,6 +6493,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton30">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -6133,6 +6511,7 @@
 <object class="wxStaticText" name="Colour8">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>White </label>
 </object>
@@ -6143,6 +6522,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton31">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -6164,6 +6544,7 @@
 <object class="wxButton" name="ColourCol">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Colour</label>
 </object>
@@ -6174,6 +6555,7 @@
 <object class="wxButton" name="ColourGray">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Gray</label>
 </object>
@@ -6189,6 +6571,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Border TMS9918 X: </label>
 </object>
@@ -6200,6 +6583,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -6213,6 +6597,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Y: </label>
 </object>
@@ -6224,6 +6609,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -6260,6 +6646,7 @@
 <object class="wxButton" name="ColourDefault1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Default</label>
 </object>
@@ -6270,6 +6657,7 @@
 <object class="wxButton" name="ColourTest">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Test</label>
 </object>
@@ -6280,6 +6668,7 @@
 <object class="wxButton" name="ColourDefault2">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Default</label>
@@ -6291,6 +6680,7 @@
 <object class="wxButton" name="ColourSave">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Save</label>
 </object>
@@ -6308,6 +6698,7 @@
 <centered>1</centered>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
@@ -6317,6 +6708,7 @@
 <object class="wxButton" name="ID_BUTTON">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Dummy button</label>
@@ -6334,7 +6726,6 @@
 <font>
 <size>12</size>
 <family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>CDP 1861 </label>
@@ -6361,6 +6752,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Foreground </label>
 </object>
@@ -6371,6 +6763,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton0">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -6388,6 +6781,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Background </label>
 </object>
@@ -6398,6 +6792,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -6417,6 +6812,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Border X: </label>
 </object>
@@ -6428,6 +6824,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <hidden>1</hidden>
@@ -6443,6 +6840,7 @@
 <size>42,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxTE_PROCESS_ENTER</style>
 </object>
@@ -6479,6 +6877,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Y: </label>
 </object>
@@ -6490,6 +6889,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <hidden>1</hidden>
@@ -6505,6 +6905,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -6525,6 +6926,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Horizontal Scale: </label>
 </object>
@@ -6536,6 +6938,7 @@
 <size>42,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxTE_PROCESS_ENTER</style>
 </object>
@@ -6562,6 +6965,7 @@
 <object class="wxButton" name="ColourDefault1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Default</label>
 </object>
@@ -6572,6 +6976,7 @@
 <object class="wxButton" name="ColourTest">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Test</label>
 </object>
@@ -6582,6 +6987,7 @@
 <object class="wxButton" name="ColourDefault2">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Default</label>
@@ -6593,6 +6999,7 @@
 <object class="wxButton" name="ColourSave">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Save</label>
 </object>
@@ -6608,6 +7015,7 @@
 <centered>1</centered>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
@@ -6617,6 +7025,7 @@
 <object class="wxButton" name="ID_BUTTON">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Dummy button</label>
@@ -6634,7 +7043,6 @@
 <font>
 <size>12</size>
 <family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>CDP 1861 </label>
@@ -6668,6 +7076,7 @@
 <label>Foreground</label>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
@@ -6680,6 +7089,7 @@
 <object class="wxStaticText" name="Colour1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Colour 1 </label>
 </object>
@@ -6690,6 +7100,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -6707,6 +7118,7 @@
 <object class="wxStaticText" name="Colour2">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Colour 2 </label>
 </object>
@@ -6717,6 +7129,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton2">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -6734,6 +7147,7 @@
 <object class="wxStaticText" name="Colour3">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Colour 3 </label>
 </object>
@@ -6744,6 +7158,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton3">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -6776,6 +7191,7 @@
 <object class="wxStaticText" name="Colour0">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Colour 1 </label>
 </object>
@@ -6786,6 +7202,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton0">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -6811,6 +7228,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Border X: </label>
 </object>
@@ -6822,6 +7240,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <hidden>1</hidden>
@@ -6837,6 +7256,7 @@
 <size>42,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxTE_PROCESS_ENTER</style>
 </object>
@@ -6873,6 +7293,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Y: </label>
 </object>
@@ -6884,6 +7305,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <hidden>1</hidden>
@@ -6899,6 +7321,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -6919,6 +7342,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Horizontal Scale: </label>
 </object>
@@ -6930,6 +7354,7 @@
 <size>42,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxTE_PROCESS_ENTER</style>
 </object>
@@ -6961,6 +7386,7 @@
 <object class="wxButton" name="ColourDefault1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Default</label>
 </object>
@@ -6971,6 +7397,7 @@
 <object class="wxButton" name="ColourTest">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Test</label>
 </object>
@@ -6981,6 +7408,7 @@
 <object class="wxButton" name="ColourSave">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Save</label>
 </object>
@@ -6998,6 +7426,7 @@
 <centered>1</centered>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
@@ -7007,6 +7436,7 @@
 <object class="wxButton" name="ID_BUTTON">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Dummy button</label>
@@ -7024,7 +7454,6 @@
 <font>
 <size>12</size>
 <family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>CDP 1864 </label>
@@ -7058,6 +7487,7 @@
 <label>Foreground</label>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
@@ -7070,6 +7500,7 @@
 <object class="wxStaticText" name="Colour0">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Colour 1 </label>
 </object>
@@ -7080,6 +7511,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton0">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -7097,6 +7529,7 @@
 <object class="wxStaticText" name="Colour1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Colour 2 </label>
 </object>
@@ -7107,6 +7540,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -7124,6 +7558,7 @@
 <object class="wxStaticText" name="Colour2">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Colour 3 </label>
 </object>
@@ -7134,6 +7569,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton2">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -7151,6 +7587,7 @@
 <object class="wxStaticText" name="Colour3">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Colour 4 </label>
 </object>
@@ -7161,6 +7598,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton3">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -7178,6 +7616,7 @@
 <object class="wxStaticText" name="Colour4">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Colour 5 </label>
 </object>
@@ -7188,6 +7627,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton4">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -7205,6 +7645,7 @@
 <object class="wxStaticText" name="Colour5">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Colour 6 </label>
 </object>
@@ -7215,6 +7656,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton5">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -7232,6 +7674,7 @@
 <object class="wxStaticText" name="Colour6">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Colour 7 </label>
 </object>
@@ -7242,6 +7685,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton6">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -7259,6 +7703,7 @@
 <object class="wxStaticText" name="Colour7">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Colour 8 </label>
 </object>
@@ -7269,6 +7714,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton7">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -7301,6 +7747,7 @@
 <object class="wxStaticText" name="Colour8">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Colour 1 </label>
 </object>
@@ -7311,6 +7758,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton8">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -7328,6 +7776,7 @@
 <object class="wxStaticText" name="Colour9">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Colour 2 </label>
 </object>
@@ -7338,6 +7787,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton9">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -7355,6 +7805,7 @@
 <object class="wxStaticText" name="Colour10">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Colour 3 </label>
 </object>
@@ -7365,6 +7816,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton10">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -7382,6 +7834,7 @@
 <object class="wxStaticText" name="Colour11">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Colour 4 </label>
 </object>
@@ -7392,6 +7845,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton11">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -7417,6 +7871,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Border X: </label>
 </object>
@@ -7428,6 +7883,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <hidden>1</hidden>
@@ -7443,6 +7899,7 @@
 <size>42,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxTE_PROCESS_ENTER</style>
 </object>
@@ -7479,6 +7936,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Y: </label>
 </object>
@@ -7490,6 +7948,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <hidden>1</hidden>
@@ -7505,6 +7964,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -7525,6 +7985,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Horizontal Scale: </label>
 </object>
@@ -7536,6 +7997,7 @@
 <size>42,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxTE_PROCESS_ENTER</style>
 </object>
@@ -7572,6 +8034,7 @@
 <object class="wxButton" name="ColourDefault2">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Natural</label>
 </object>
@@ -7582,6 +8045,7 @@
 <object class="wxButton" name="ColourTest">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Test</label>
 </object>
@@ -7599,6 +8063,7 @@
 <object class="wxButton" name="ColourDefault1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Theoretical</label>
 </object>
@@ -7609,6 +8074,7 @@
 <object class="wxButton" name="ColourSave">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Save</label>
 </object>
@@ -7628,6 +8094,7 @@
 <centered>1</centered>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
@@ -7637,6 +8104,7 @@
 <object class="wxButton" name="ID_BUTTON">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Dummy button</label>
@@ -7654,7 +8122,6 @@
 <font>
 <size>12</size>
 <family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>CDP 1869 / 1876 </label>
@@ -7678,6 +8145,7 @@
 <label>Main Colours</label>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
@@ -7700,6 +8168,7 @@
 <object class="wxStaticText" name="Colour56">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Black </label>
 </object>
@@ -7710,6 +8179,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton56">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -7727,6 +8197,7 @@
 <object class="wxStaticText" name="Colour58">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Blue </label>
 </object>
@@ -7737,6 +8208,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton58">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -7754,6 +8226,7 @@
 <object class="wxStaticText" name="Colour60">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Red </label>
 </object>
@@ -7764,6 +8237,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton60">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -7781,6 +8255,7 @@
 <object class="wxStaticText" name="Colour62">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Magenta </label>
 </object>
@@ -7791,6 +8266,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton62">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -7815,6 +8291,7 @@
 <object class="wxStaticText" name="Colour57">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Green </label>
 </object>
@@ -7825,6 +8302,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton57">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -7842,6 +8320,7 @@
 <object class="wxStaticText" name="Colour59">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Cyan </label>
 </object>
@@ -7852,6 +8331,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton59">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -7869,6 +8349,7 @@
 <object class="wxStaticText" name="Colour61">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Yellow </label>
 </object>
@@ -7879,6 +8360,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton61">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -7896,6 +8378,7 @@
 <object class="wxStaticText" name="Colour63">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>White </label>
 </object>
@@ -7906,6 +8389,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton63">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -7931,6 +8415,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Border X: </label>
 </object>
@@ -7942,6 +8427,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -7955,6 +8441,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Y: </label>
 </object>
@@ -7966,6 +8453,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -8000,6 +8488,7 @@
 <object class="wxButton" name="ColourDefault1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Default</label>
 </object>
@@ -8010,6 +8499,7 @@
 <object class="wxButton" name="ColourTest">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Test</label>
 </object>
@@ -8020,6 +8510,7 @@
 <object class="wxButton" name="ColourSave">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Save</label>
 </object>
@@ -8037,6 +8528,7 @@
 <centered>1</centered>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
@@ -8046,6 +8538,7 @@
 <object class="wxButton" name="ID_BUTTON">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Dummy button</label>
@@ -8063,7 +8556,6 @@
 <font>
 <size>12</size>
 <family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>CDP 1869 / 1870 </label>
@@ -8087,6 +8579,7 @@
 <label>Main Colours</label>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
@@ -8109,6 +8602,7 @@
 <object class="wxStaticText" name="Colour56">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Black </label>
 </object>
@@ -8119,6 +8613,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton56">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -8136,6 +8631,7 @@
 <object class="wxStaticText" name="Colour58">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Blue </label>
 </object>
@@ -8146,6 +8642,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton58">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -8163,6 +8660,7 @@
 <object class="wxStaticText" name="Colour60">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Red </label>
 </object>
@@ -8173,6 +8671,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton60">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -8190,6 +8689,7 @@
 <object class="wxStaticText" name="Colour62">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Magenta </label>
 </object>
@@ -8200,6 +8700,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton62">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -8224,6 +8725,7 @@
 <object class="wxStaticText" name="Colour57">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Green </label>
 </object>
@@ -8234,6 +8736,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton57">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -8251,6 +8754,7 @@
 <object class="wxStaticText" name="Colour59">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Cyan </label>
 </object>
@@ -8261,6 +8765,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton59">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -8278,6 +8783,7 @@
 <object class="wxStaticText" name="Colour61">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Yellow </label>
 </object>
@@ -8288,6 +8794,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton61">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -8305,6 +8812,7 @@
 <object class="wxStaticText" name="Colour63">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>White </label>
 </object>
@@ -8315,6 +8823,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton63">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -8340,6 +8849,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Border X: </label>
 </object>
@@ -8351,6 +8861,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -8364,6 +8875,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Y: </label>
 </object>
@@ -8375,6 +8887,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -8409,6 +8922,7 @@
 <object class="wxButton" name="ColourDefault1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Default</label>
 </object>
@@ -8419,6 +8933,7 @@
 <object class="wxButton" name="ColourTest">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Test</label>
 </object>
@@ -8429,6 +8944,7 @@
 <object class="wxButton" name="ColourSave">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Save</label>
 </object>
@@ -8446,6 +8962,7 @@
 <centered>1</centered>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
@@ -8455,6 +8972,7 @@
 <object class="wxButton" name="ID_BUTTON">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Dummy button</label>
@@ -8472,7 +8990,6 @@
 <font>
 <size>12</size>
 <family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>CDP 1861 </label>
@@ -8499,6 +9016,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Foreground </label>
 </object>
@@ -8509,6 +9027,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton0">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -8526,6 +9045,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Background </label>
 </object>
@@ -8536,6 +9056,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -8555,6 +9076,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Border X: </label>
 </object>
@@ -8566,6 +9088,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <hidden>1</hidden>
@@ -8581,6 +9104,7 @@
 <size>42,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxTE_PROCESS_ENTER</style>
 </object>
@@ -8597,6 +9121,7 @@
 <size>17,21</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_VERTICAL</style>
 <value>0</value>
@@ -8610,6 +9135,7 @@
 <object platform="unix" class="wxSpinButton" name="BorderX1Spin">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_VERTICAL</style>
 <value>0</value>
@@ -8623,6 +9149,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Y: </label>
 </object>
@@ -8634,6 +9161,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <hidden>1</hidden>
@@ -8649,6 +9177,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -8669,6 +9198,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Horizontal Scale: </label>
 </object>
@@ -8680,6 +9210,7 @@
 <size>42,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxTE_PROCESS_ENTER</style>
 </object>
@@ -8711,6 +9242,7 @@
 <object class="wxButton" name="ColourDefault1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Default</label>
 </object>
@@ -8721,6 +9253,7 @@
 <object class="wxButton" name="ColourTest">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Test</label>
 </object>
@@ -8731,6 +9264,7 @@
 <object class="wxButton" name="ColourDefault2">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Default</label>
@@ -8742,6 +9276,7 @@
 <object class="wxButton" name="ColourSave">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Save</label>
 </object>
@@ -8759,6 +9294,7 @@
 <centered>1</centered>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
@@ -8768,6 +9304,7 @@
 <object class="wxButton" name="ID_BUTTON">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Dummy button</label>
@@ -8785,7 +9322,6 @@
 <font>
 <size>12</size>
 <family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>CDP 1861 / CDP 1862 </label>
@@ -8819,6 +9355,7 @@
 <label>Foreground</label>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <object class="sizeritem">
 <flag>wxALIGN_RIGHT|wxALL</flag>
@@ -8831,6 +9368,7 @@
 <object class="wxStaticText" name="Colour0">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>White </label>
 </object>
@@ -8841,6 +9379,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton0">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -8858,6 +9397,7 @@
 <object class="wxStaticText" name="Colour1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Magenta </label>
 </object>
@@ -8868,6 +9408,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -8885,6 +9426,7 @@
 <object class="wxStaticText" name="Colour2">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Cyan </label>
 </object>
@@ -8895,6 +9437,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton2">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -8912,6 +9455,7 @@
 <object class="wxStaticText" name="Colour3">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Blue </label>
 </object>
@@ -8922,6 +9466,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton3">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -8939,6 +9484,7 @@
 <object class="wxStaticText" name="Colour4">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Yellow </label>
 </object>
@@ -8949,6 +9495,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton4">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -8966,6 +9513,7 @@
 <object class="wxStaticText" name="Colour5">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Red </label>
 </object>
@@ -8976,6 +9524,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton5">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -8993,6 +9542,7 @@
 <object class="wxStaticText" name="Colour6">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Green </label>
 </object>
@@ -9003,6 +9553,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton6">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -9020,6 +9571,7 @@
 <object class="wxStaticText" name="Colour7">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Black </label>
 </object>
@@ -9030,6 +9582,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton7">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -9062,6 +9615,7 @@
 <object class="wxStaticText" name="Colour8">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Dark Blue </label>
 </object>
@@ -9072,6 +9626,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton8">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -9089,6 +9644,7 @@
 <object class="wxStaticText" name="Colour9">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Black </label>
 </object>
@@ -9099,6 +9655,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton9">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -9116,6 +9673,7 @@
 <object class="wxStaticText" name="Colour10">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Dark Green </label>
 </object>
@@ -9126,6 +9684,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton10">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -9143,6 +9702,7 @@
 <object class="wxStaticText" name="Colour11">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Dark Red </label>
 </object>
@@ -9153,6 +9713,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton11">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -9178,6 +9739,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Border X: </label>
 </object>
@@ -9189,6 +9751,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <hidden>1</hidden>
@@ -9204,6 +9767,7 @@
 <size>42,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxTE_PROCESS_ENTER</style>
 </object>
@@ -9220,6 +9784,7 @@
 <size>17,21</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_VERTICAL</style>
 <value>0</value>
@@ -9233,6 +9798,7 @@
 <object platform="unix" class="wxSpinButton" name="BorderX1Spin">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_VERTICAL</style>
 <value>0</value>
@@ -9246,6 +9812,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Y: </label>
 </object>
@@ -9257,6 +9824,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <hidden>1</hidden>
@@ -9272,6 +9840,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -9292,6 +9861,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Horizontal Scale: </label>
 </object>
@@ -9303,6 +9873,7 @@
 <size>42,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxTE_PROCESS_ENTER</style>
 </object>
@@ -9334,6 +9905,7 @@
 <object class="wxButton" name="ColourDefault1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Default</label>
 </object>
@@ -9344,6 +9916,7 @@
 <object class="wxButton" name="ColourTest">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Test</label>
 </object>
@@ -9354,6 +9927,7 @@
 <object class="wxButton" name="ColourSave">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Save</label>
 </object>
@@ -9371,6 +9945,7 @@
 <centered>1</centered>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
@@ -9380,6 +9955,7 @@
 <object class="wxButton" name="ID_BUTTON">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Dummy button</label>
@@ -9397,7 +9973,6 @@
 <font>
 <size>12</size>
 <family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>CDP 1861 </label>
@@ -9424,6 +9999,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Foreground </label>
 </object>
@@ -9434,6 +10010,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton0">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -9451,6 +10028,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Background </label>
 </object>
@@ -9461,6 +10039,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -9480,6 +10059,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Border X: </label>
 </object>
@@ -9491,6 +10071,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <hidden>1</hidden>
@@ -9506,6 +10087,7 @@
 <size>42,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxTE_PROCESS_ENTER</style>
 </object>
@@ -9522,6 +10104,7 @@
 <size>17,21</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_VERTICAL</style>
 <value>0</value>
@@ -9535,6 +10118,7 @@
 <object platform="unix" class="wxSpinButton" name="BorderX1Spin">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_VERTICAL</style>
 <value>0</value>
@@ -9548,6 +10132,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Y: </label>
 </object>
@@ -9559,6 +10144,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <hidden>1</hidden>
@@ -9574,6 +10160,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -9594,6 +10181,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Horizontal Scale: </label>
 </object>
@@ -9605,6 +10193,7 @@
 <size>42,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxTE_PROCESS_ENTER</style>
 </object>
@@ -9636,6 +10225,7 @@
 <object class="wxButton" name="ColourDefault1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Default</label>
 </object>
@@ -9646,6 +10236,7 @@
 <object class="wxButton" name="ColourTest">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Test</label>
 </object>
@@ -9656,6 +10247,7 @@
 <object class="wxButton" name="ColourDefault2">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Default</label>
@@ -9667,6 +10259,7 @@
 <object class="wxButton" name="ColourSave">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Save</label>
 </object>
@@ -9684,6 +10277,7 @@
 <centered>1</centered>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
@@ -9693,6 +10287,7 @@
 <object class="wxButton" name="ID_BUTTON">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Dummy button</label>
@@ -9710,7 +10305,6 @@
 <font>
 <size>12</size>
 <family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>CDP 1869 / 1870 </label>
@@ -9734,6 +10328,7 @@
 <label>Main Colours</label>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
@@ -9756,6 +10351,7 @@
 <object class="wxStaticText" name="Colour56">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Black </label>
 </object>
@@ -9766,6 +10362,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton56">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -9783,6 +10380,7 @@
 <object class="wxStaticText" name="Colour58">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Blue </label>
 </object>
@@ -9793,6 +10391,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton58">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -9810,6 +10409,7 @@
 <object class="wxStaticText" name="Colour60">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Red </label>
 </object>
@@ -9820,6 +10420,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton60">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -9837,6 +10438,7 @@
 <object class="wxStaticText" name="Colour62">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Magenta </label>
 </object>
@@ -9847,6 +10449,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton62">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -9871,6 +10474,7 @@
 <object class="wxStaticText" name="Colour57">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Green </label>
 </object>
@@ -9881,6 +10485,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton57">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -9898,6 +10503,7 @@
 <object class="wxStaticText" name="Colour59">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Cyan </label>
 </object>
@@ -9908,6 +10514,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton59">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -9925,6 +10532,7 @@
 <object class="wxStaticText" name="Colour61">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Yellow </label>
 </object>
@@ -9935,6 +10543,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton61">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -9952,6 +10561,7 @@
 <object class="wxStaticText" name="Colour63">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>White </label>
 </object>
@@ -9962,6 +10572,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton63">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -9987,6 +10598,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Border X: </label>
 </object>
@@ -9998,6 +10610,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -10011,6 +10624,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Y: </label>
 </object>
@@ -10022,6 +10636,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -10056,6 +10671,7 @@
 <object class="wxButton" name="ColourDefault1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Default</label>
 </object>
@@ -10066,6 +10682,7 @@
 <object class="wxButton" name="ColourTest">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Test</label>
 </object>
@@ -10076,6 +10693,7 @@
 <object class="wxButton" name="ColourSave">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Save</label>
 </object>
@@ -10093,6 +10711,7 @@
 <centered>1</centered>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
@@ -10102,6 +10721,7 @@
 <object class="wxButton" name="ID_BUTTON">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Dummy button</label>
@@ -10119,7 +10739,6 @@
 <font>
 <size>12</size>
 <family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>CDP 1861 / CDP 1862 </label>
@@ -10153,6 +10772,7 @@
 <label>Foreground</label>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <object class="sizeritem">
 <flag>wxALIGN_RIGHT|wxALL</flag>
@@ -10165,6 +10785,7 @@
 <object class="wxStaticText" name="Colour0">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>White </label>
 </object>
@@ -10175,6 +10796,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton0">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -10192,6 +10814,7 @@
 <object class="wxStaticText" name="Colour1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Red </label>
 </object>
@@ -10202,6 +10825,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -10219,6 +10843,7 @@
 <object class="wxStaticText" name="Colour2">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Blue </label>
 </object>
@@ -10229,6 +10854,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton2">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -10246,6 +10872,7 @@
 <object class="wxStaticText" name="Colour3">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Magenta </label>
 </object>
@@ -10256,6 +10883,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton3">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -10273,6 +10901,7 @@
 <object class="wxStaticText" name="Colour4">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Green </label>
 </object>
@@ -10283,6 +10912,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton4">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -10300,6 +10930,7 @@
 <object class="wxStaticText" name="Colour5">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Yellow </label>
 </object>
@@ -10310,6 +10941,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton5">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -10327,6 +10959,7 @@
 <object class="wxStaticText" name="Colour6">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Cyan </label>
 </object>
@@ -10337,6 +10970,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton6">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -10354,6 +10988,7 @@
 <object class="wxStaticText" name="Colour7">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Black </label>
 </object>
@@ -10364,6 +10999,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton7">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -10396,6 +11032,7 @@
 <object class="wxStaticText" name="Colour8">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Dark Blue </label>
 </object>
@@ -10406,6 +11043,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton8">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -10423,6 +11061,7 @@
 <object class="wxStaticText" name="Colour9">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Black </label>
 </object>
@@ -10433,6 +11072,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton9">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -10450,6 +11090,7 @@
 <object class="wxStaticText" name="Colour10">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Dark Green </label>
 </object>
@@ -10460,6 +11101,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton10">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -10477,6 +11119,7 @@
 <object class="wxStaticText" name="Colour11">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Dark Red </label>
 </object>
@@ -10487,6 +11130,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton11">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -10512,6 +11156,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Border X: </label>
 </object>
@@ -10523,6 +11168,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <hidden>1</hidden>
@@ -10538,6 +11184,7 @@
 <size>42,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxTE_PROCESS_ENTER</style>
 </object>
@@ -10574,6 +11221,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Y: </label>
 </object>
@@ -10585,6 +11233,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <hidden>1</hidden>
@@ -10600,6 +11249,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -10620,6 +11270,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Horizontal Scale: </label>
 </object>
@@ -10631,6 +11282,7 @@
 <size>42,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxTE_PROCESS_ENTER</style>
 </object>
@@ -10662,6 +11314,7 @@
 <object class="wxButton" name="ColourDefault1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Default</label>
 </object>
@@ -10672,6 +11325,7 @@
 <object class="wxButton" name="ColourTest">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Test</label>
 </object>
@@ -10682,6 +11336,7 @@
 <object class="wxButton" name="ColourSave">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Save</label>
 </object>
@@ -10699,6 +11354,7 @@
 <centered>1</centered>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
@@ -10708,6 +11364,7 @@
 <object class="wxButton" name="ID_BUTTON">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Dummy button</label>
@@ -10725,7 +11382,6 @@
 <font>
 <size>12</size>
 <family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>Video Terminal </label>
@@ -10757,6 +11413,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Foreground </label>
 </object>
@@ -10767,6 +11424,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton0">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 <hidden>1</hidden>
@@ -10778,6 +11436,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 <hidden>1</hidden>
@@ -10789,6 +11448,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton2">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -10799,6 +11459,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Background </label>
 </object>
@@ -10809,6 +11470,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton3">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -10827,6 +11489,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Highlight </label>
@@ -10838,6 +11501,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton4">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 <hidden>1</hidden>
@@ -10860,6 +11524,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Border Video Terminal X: </label>
 </object>
@@ -10871,6 +11536,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -10884,6 +11550,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Y: </label>
 </object>
@@ -10895,6 +11562,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -10915,6 +11583,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Default colour set: </label>
 </object>
@@ -10925,6 +11594,7 @@
 <object class="wxChoice" name="ColourMonitor1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <content>
 <item></item>
@@ -10958,6 +11628,7 @@
 <object class="wxButton" name="ColourDefault1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Default</label>
 </object>
@@ -10968,6 +11639,7 @@
 <object class="wxButton" name="ColourTest">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Test</label>
 </object>
@@ -10978,6 +11650,7 @@
 <object class="wxButton" name="ColourSave">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Save</label>
 </object>
@@ -10993,6 +11666,7 @@
 <centered>1</centered>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
@@ -11002,6 +11676,7 @@
 <object class="wxButton" name="ID_BUTTON">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Dummy button</label>
@@ -11019,7 +11694,6 @@
 <font>
 <size>12</size>
 <family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>CDP 1862 </label>
@@ -11053,6 +11727,7 @@
 <label>Foreground</label>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <object class="sizeritem">
 <flag>wxALIGN_RIGHT|wxALL</flag>
@@ -11065,6 +11740,7 @@
 <object class="wxStaticText" name="Colour0">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Black </label>
 </object>
@@ -11075,6 +11751,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton0">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -11092,6 +11769,7 @@
 <object class="wxStaticText" name="Colour1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Red </label>
 </object>
@@ -11102,6 +11780,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -11119,6 +11798,7 @@
 <object class="wxStaticText" name="Colour2">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Blue </label>
 </object>
@@ -11129,6 +11809,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton2">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -11146,6 +11827,7 @@
 <object class="wxStaticText" name="Colour3">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Violet </label>
 </object>
@@ -11156,6 +11838,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton3">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -11173,6 +11856,7 @@
 <object class="wxStaticText" name="Colour4">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Green </label>
 </object>
@@ -11183,6 +11867,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton4">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -11200,6 +11885,7 @@
 <object class="wxStaticText" name="Colour5">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Yellow </label>
 </object>
@@ -11210,6 +11896,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton5">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -11227,6 +11914,7 @@
 <object class="wxStaticText" name="Colour6">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Aqua </label>
 </object>
@@ -11237,6 +11925,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton6">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -11254,6 +11943,7 @@
 <object class="wxStaticText" name="Colour7">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>White </label>
 </object>
@@ -11264,6 +11954,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton7">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -11296,6 +11987,7 @@
 <object class="wxStaticText" name="Colour8">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Dark Blue </label>
 </object>
@@ -11306,6 +11998,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton8">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -11323,6 +12016,7 @@
 <object class="wxStaticText" name="Colour9">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Black </label>
 </object>
@@ -11333,6 +12027,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton9">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -11350,6 +12045,7 @@
 <object class="wxStaticText" name="Colour10">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Dark Green </label>
 </object>
@@ -11360,6 +12056,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton10">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -11377,6 +12074,7 @@
 <object class="wxStaticText" name="Colour11">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Dark Red </label>
 </object>
@@ -11387,6 +12085,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton11">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -11412,6 +12111,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Border X: </label>
 </object>
@@ -11423,6 +12123,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <hidden>1</hidden>
@@ -11438,6 +12139,7 @@
 <size>42,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxTE_PROCESS_ENTER</style>
 </object>
@@ -11454,6 +12156,7 @@
 <size>17,21</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_VERTICAL</style>
 <value>0</value>
@@ -11467,6 +12170,7 @@
 <object platform="unix" class="wxSpinButton" name="BorderX1Spin">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_VERTICAL</style>
 <value>0</value>
@@ -11480,6 +12184,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Y: </label>
 </object>
@@ -11491,6 +12196,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <hidden>1</hidden>
@@ -11506,6 +12212,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -11526,6 +12233,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Horizontal Scale: </label>
 </object>
@@ -11537,6 +12245,7 @@
 <size>42,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxTE_PROCESS_ENTER</style>
 </object>
@@ -11563,6 +12272,7 @@
 <object class="wxButton" name="ColourDefault1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Default</label>
 </object>
@@ -11573,6 +12283,7 @@
 <object class="wxButton" name="ColourTest">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Test</label>
 </object>
@@ -11583,6 +12294,7 @@
 <object class="wxButton" name="ColourSave">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Save</label>
 </object>
@@ -11598,6 +12310,7 @@
 <centered>1</centered>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
@@ -11607,6 +12320,7 @@
 <object class="wxButton" name="ID_BUTTON">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Dummy button</label>
@@ -11624,7 +12338,6 @@
 <font>
 <size>12</size>
 <family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>CDP 1861 </label>
@@ -11646,6 +12359,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Foreground </label>
 </object>
@@ -11656,6 +12370,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton0">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -11673,6 +12388,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Background </label>
 </object>
@@ -11683,6 +12399,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -11707,6 +12424,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Border X: </label>
 </object>
@@ -11718,6 +12436,7 @@
 <size>42,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxTE_PROCESS_ENTER</style>
 </object>
@@ -11734,6 +12453,7 @@
 <size>17,21</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_VERTICAL</style>
 <value>0</value>
@@ -11747,6 +12467,7 @@
 <object platform="unix" class="wxSpinButton" name="BorderX1Spin">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_VERTICAL</style>
 <value>0</value>
@@ -11760,6 +12481,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Y: </label>
 </object>
@@ -11771,6 +12493,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -11791,6 +12514,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Horizontal Scale: </label>
 </object>
@@ -11802,6 +12526,7 @@
 <size>42,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxTE_PROCESS_ENTER</style>
 </object>
@@ -11829,7 +12554,6 @@
 <font>
 <size>12</size>
 <family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>Video Terminal </label>
@@ -11861,6 +12585,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Foreground </label>
 </object>
@@ -11871,6 +12596,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton2">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -11881,6 +12607,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Background </label>
 </object>
@@ -11891,6 +12618,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton3">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -11909,6 +12637,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Highlight </label>
@@ -11920,6 +12649,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton4">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 <hidden>1</hidden>
@@ -11942,6 +12672,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Border Video Terminal X: </label>
 </object>
@@ -11953,6 +12684,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -11966,6 +12698,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Y: </label>
 </object>
@@ -11977,6 +12710,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -11997,6 +12731,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Default colour set: </label>
 </object>
@@ -12007,6 +12742,7 @@
 <object class="wxChoice" name="ColourMonitor1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <content>
 <item></item>
@@ -12040,6 +12776,7 @@
 <object class="wxButton" name="ColourDefault1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Default</label>
 </object>
@@ -12050,6 +12787,7 @@
 <object class="wxButton" name="ColourTest">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Test</label>
 </object>
@@ -12060,6 +12798,7 @@
 <object class="wxButton" name="ColourSave">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Save</label>
 </object>
@@ -12075,6 +12814,7 @@
 <centered>1</centered>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
@@ -12084,6 +12824,7 @@
 <object class="wxButton" name="ID_BUTTON">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Dummy button</label>
@@ -12101,7 +12842,6 @@
 <font>
 <size>12</size>
 <family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <hidden>1</hidden>
@@ -12125,6 +12865,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Foreground </label>
@@ -12136,6 +12877,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton0">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 <hidden>1</hidden>
@@ -12155,6 +12897,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Background </label>
@@ -12166,6 +12909,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 <hidden>1</hidden>
@@ -12186,6 +12930,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Border CDP 1861 X: </label>
@@ -12198,6 +12943,7 @@
 <size>42,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxTE_PROCESS_ENTER</style>
 <hidden>1</hidden>
@@ -12221,6 +12967,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Y: </label>
@@ -12233,6 +12980,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <hidden>1</hidden>
@@ -12254,6 +13002,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Horizontal Scale: </label>
@@ -12266,6 +13015,7 @@
 <size>42,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxTE_PROCESS_ENTER</style>
 <hidden>1</hidden>
@@ -12287,7 +13037,6 @@
 <font>
 <size>12</size>
 <family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>Video Terminal </label>
@@ -12319,6 +13068,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Foreground </label>
 </object>
@@ -12329,6 +13079,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton2">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -12339,6 +13090,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Background </label>
 </object>
@@ -12349,6 +13101,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton3">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -12367,6 +13120,7 @@
 <size>110,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Highlight Intel 8275 </label>
@@ -12378,6 +13132,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton4">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 <hidden>1</hidden>
@@ -12400,6 +13155,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Default colour set: </label>
 </object>
@@ -12410,6 +13166,7 @@
 <object class="wxChoice" name="ColourMonitor1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <content>
 <item></item>
@@ -12434,6 +13191,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Border Intel 8275  X: </label>
@@ -12446,6 +13204,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <hidden>1</hidden>
@@ -12460,6 +13219,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Y: </label>
@@ -12472,6 +13232,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <hidden>1</hidden>
@@ -12493,6 +13254,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Border Video Terminal X: </label>
 </object>
@@ -12504,6 +13266,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -12517,6 +13280,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Y: </label>
 </object>
@@ -12528,6 +13292,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -12557,6 +13322,7 @@
 <object class="wxButton" name="ColourDefault1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Default</label>
 </object>
@@ -12567,6 +13333,7 @@
 <object class="wxButton" name="ColourTest">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Test</label>
 </object>
@@ -12577,6 +13344,7 @@
 <object class="wxButton" name="ColourSave">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Save</label>
 </object>
@@ -12592,6 +13360,7 @@
 <centered>1</centered>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
@@ -12601,6 +13370,7 @@
 <object class="wxButton" name="ID_BUTTON">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Dummy button</label>
@@ -12618,7 +13388,6 @@
 <font>
 <size>12</size>
 <family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <hidden>1</hidden>
@@ -12642,6 +13411,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Foreground </label>
@@ -12653,6 +13423,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton0">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 <hidden>1</hidden>
@@ -12672,6 +13443,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Background </label>
@@ -12683,6 +13455,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 <hidden>1</hidden>
@@ -12703,6 +13476,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Border CDP 1861 X: </label>
@@ -12715,6 +13489,7 @@
 <size>42,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxTE_PROCESS_ENTER</style>
 <hidden>1</hidden>
@@ -12738,6 +13513,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Y: </label>
@@ -12750,6 +13526,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <hidden>1</hidden>
@@ -12771,6 +13548,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Horizontal Scale: </label>
@@ -12783,6 +13561,7 @@
 <size>42,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxTE_PROCESS_ENTER</style>
 <hidden>1</hidden>
@@ -12804,7 +13583,6 @@
 <font>
 <size>12</size>
 <family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>Video Terminal </label>
@@ -12836,6 +13614,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Foreground </label>
 </object>
@@ -12846,6 +13625,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton2">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -12856,6 +13636,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Background </label>
 </object>
@@ -12866,6 +13647,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton3">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -12884,6 +13666,7 @@
 <size>110,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Highlight Intel 8275 </label>
@@ -12895,6 +13678,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton4">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 <hidden>1</hidden>
@@ -12917,6 +13701,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Default colour set: </label>
 </object>
@@ -12927,6 +13712,7 @@
 <object class="wxChoice" name="ColourMonitor1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <content>
 <item></item>
@@ -12951,6 +13737,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Border Intel 8275  X: </label>
@@ -12963,6 +13750,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <hidden>1</hidden>
@@ -12977,6 +13765,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Y: </label>
@@ -12989,6 +13778,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <hidden>1</hidden>
@@ -13010,6 +13800,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Border Video Terminal X: </label>
 </object>
@@ -13021,6 +13812,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -13034,6 +13826,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Y: </label>
 </object>
@@ -13045,6 +13838,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -13074,6 +13868,7 @@
 <object class="wxButton" name="ColourDefault1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Default</label>
 </object>
@@ -13084,6 +13879,7 @@
 <object class="wxButton" name="ColourTest">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Test</label>
 </object>
@@ -13094,6 +13890,7 @@
 <object class="wxButton" name="ColourSave">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Save</label>
 </object>
@@ -13109,6 +13906,7 @@
 <centered>1</centered>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
@@ -13118,6 +13916,7 @@
 <object class="wxButton" name="ID_BUTTON">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Dummy button</label>
@@ -13144,6 +13943,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Foreground </label>
 </object>
@@ -13154,6 +13954,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton0">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -13171,6 +13972,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Background </label>
 </object>
@@ -13181,6 +13983,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -13200,6 +14003,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Border X: </label>
 </object>
@@ -13211,6 +14015,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <hidden>1</hidden>
@@ -13226,6 +14031,7 @@
 <size>42,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxTE_PROCESS_ENTER</style>
 </object>
@@ -13262,6 +14068,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Y: </label>
 </object>
@@ -13273,6 +14080,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <hidden>1</hidden>
@@ -13288,6 +14096,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -13308,6 +14117,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Horizontal Scale: </label>
@@ -13320,6 +14130,7 @@
 <size>42,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxTE_PROCESS_ENTER</style>
 <hidden>1</hidden>
@@ -13347,6 +14158,7 @@
 <object class="wxButton" name="ColourDefault1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Default</label>
 </object>
@@ -13357,6 +14169,7 @@
 <object class="wxButton" name="ColourTest">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Test</label>
 </object>
@@ -13367,6 +14180,7 @@
 <object class="wxButton" name="ColourDefault2">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Default</label>
@@ -13378,6 +14192,7 @@
 <object class="wxButton" name="ColourSave">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Save</label>
 </object>
@@ -13393,6 +14208,7 @@
 <centered>1</centered>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
@@ -13402,6 +14218,7 @@
 <object class="wxButton" name="ID_BUTTON">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Dummy button</label>
@@ -13428,6 +14245,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Foreground </label>
 </object>
@@ -13438,6 +14256,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton0">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -13455,6 +14274,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Background </label>
 </object>
@@ -13465,6 +14285,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -13484,6 +14305,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Border X: </label>
 </object>
@@ -13495,6 +14317,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <hidden>1</hidden>
@@ -13510,6 +14333,7 @@
 <size>42,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxTE_PROCESS_ENTER</style>
 </object>
@@ -13546,6 +14370,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Y: </label>
 </object>
@@ -13557,6 +14382,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <hidden>1</hidden>
@@ -13572,6 +14398,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -13592,6 +14419,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Horizontal Scale: </label>
@@ -13604,6 +14432,7 @@
 <size>42,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxTE_PROCESS_ENTER</style>
 <hidden>1</hidden>
@@ -13631,6 +14460,7 @@
 <object class="wxButton" name="ColourDefault1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Default</label>
 </object>
@@ -13641,6 +14471,7 @@
 <object class="wxButton" name="ColourTest">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Test</label>
 </object>
@@ -13651,6 +14482,7 @@
 <object class="wxButton" name="ColourDefault2">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Default</label>
@@ -13662,6 +14494,7 @@
 <object class="wxButton" name="ColourSave">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Save</label>
 </object>
@@ -13677,6 +14510,7 @@
 <centered>1</centered>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
@@ -13686,6 +14520,7 @@
 <object class="wxButton" name="ID_BUTTON">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Dummy button</label>
@@ -13703,7 +14538,6 @@
 <font>
 <size>12</size>
 <family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>CDP 1861 </label>
@@ -13730,6 +14564,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Foreground </label>
 </object>
@@ -13740,6 +14575,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton0">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -13757,6 +14593,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Background </label>
 </object>
@@ -13767,6 +14604,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -13786,6 +14624,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Border X: </label>
 </object>
@@ -13797,6 +14636,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <hidden>1</hidden>
@@ -13812,6 +14652,7 @@
 <size>42,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxTE_PROCESS_ENTER</style>
 </object>
@@ -13848,6 +14689,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Y: </label>
 </object>
@@ -13859,6 +14701,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <hidden>1</hidden>
@@ -13874,6 +14717,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -13894,6 +14738,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Horizontal Scale: </label>
 </object>
@@ -13905,6 +14750,7 @@
 <size>42,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxTE_PROCESS_ENTER</style>
 </object>
@@ -13931,6 +14777,7 @@
 <object class="wxButton" name="ColourDefault1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Default</label>
 </object>
@@ -13941,6 +14788,7 @@
 <object class="wxButton" name="ColourTest">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Test</label>
 </object>
@@ -13951,6 +14799,7 @@
 <object class="wxButton" name="ColourDefault2">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Default</label>
@@ -13962,6 +14811,7 @@
 <object class="wxButton" name="ColourSave">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Save</label>
 </object>
@@ -13977,6 +14827,7 @@
 <centered>1</centered>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
@@ -13986,6 +14837,7 @@
 <object class="wxButton" name="ID_BUTTON">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Dummy button</label>
@@ -14019,6 +14871,7 @@
 <label>Foreground</label>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
@@ -14031,6 +14884,7 @@
 <object class="wxStaticText" name="Colour0">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Colour 1 </label>
 </object>
@@ -14041,6 +14895,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton0">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -14058,6 +14913,7 @@
 <object class="wxStaticText" name="Colour1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Colour 2 </label>
 </object>
@@ -14068,6 +14924,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -14085,6 +14942,7 @@
 <object class="wxStaticText" name="Colour2">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Colour 3 </label>
 </object>
@@ -14095,6 +14953,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton2">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -14112,6 +14971,7 @@
 <object class="wxStaticText" name="Colour3">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Colour 4 </label>
 </object>
@@ -14122,6 +14982,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton3">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -14139,6 +15000,7 @@
 <object class="wxStaticText" name="Colour4">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Colour 5 </label>
 </object>
@@ -14149,6 +15011,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton4">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -14166,6 +15029,7 @@
 <object class="wxStaticText" name="Colour5">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Colour 6 </label>
 </object>
@@ -14176,6 +15040,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton5">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -14193,6 +15058,7 @@
 <object class="wxStaticText" name="Colour6">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Colour 7 </label>
 </object>
@@ -14203,6 +15069,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton6">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -14220,6 +15087,7 @@
 <object class="wxStaticText" name="Colour7">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Colour 8 </label>
 </object>
@@ -14230,6 +15098,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton7">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -14253,6 +15122,7 @@
 <label>Background</label>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
@@ -14265,6 +15135,7 @@
 <object class="wxStaticText" name="Colour8">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Colour 1 </label>
 </object>
@@ -14275,6 +15146,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton8">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -14292,6 +15164,7 @@
 <object class="wxStaticText" name="Colour9">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Colour 2 </label>
 </object>
@@ -14302,6 +15175,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton9">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -14319,6 +15193,7 @@
 <object class="wxStaticText" name="Colour10">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Colour 3 </label>
 </object>
@@ -14329,6 +15204,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton10">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -14346,6 +15222,7 @@
 <object class="wxStaticText" name="Colour11">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Colour 4 </label>
 </object>
@@ -14356,6 +15233,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton11">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -14373,6 +15251,7 @@
 <object class="wxStaticText" name="Colour12">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Colour 5 </label>
 </object>
@@ -14383,6 +15262,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton12">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -14400,6 +15280,7 @@
 <object class="wxStaticText" name="Colour13">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Colour 6 </label>
 </object>
@@ -14410,6 +15291,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton13">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -14427,6 +15309,7 @@
 <object class="wxStaticText" name="Colour14">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Colour 7 </label>
 </object>
@@ -14437,6 +15320,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton14">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -14454,6 +15338,7 @@
 <object class="wxStaticText" name="Colour15">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Colour 8 </label>
 </object>
@@ -14464,6 +15349,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton15">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -14489,6 +15375,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Border X: </label>
 </object>
@@ -14500,6 +15387,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <hidden>1</hidden>
@@ -14515,6 +15403,7 @@
 <size>42,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxTE_PROCESS_ENTER</style>
 </object>
@@ -14551,6 +15440,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Y: </label>
 </object>
@@ -14562,6 +15452,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <hidden>1</hidden>
@@ -14577,6 +15468,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -14597,6 +15489,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Horizontal Scale: </label>
 </object>
@@ -14608,6 +15501,7 @@
 <size>42,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxTE_PROCESS_ENTER</style>
 </object>
@@ -14644,6 +15538,7 @@
 <object class="wxButton" name="ColourTest">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Test</label>
 </object>
@@ -14661,6 +15556,7 @@
 <object class="wxButton" name="ColourDefault1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Default</label>
 </object>
@@ -14671,6 +15567,7 @@
 <object class="wxButton" name="ColourSave">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Save</label>
 </object>
@@ -14690,6 +15587,7 @@
 <centered>1</centered>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
@@ -14699,6 +15597,7 @@
 <object class="wxButton" name="ID_BUTTON">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Dummy button</label>
@@ -14716,7 +15615,6 @@
 <font>
 <size>12</size>
 <family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>VIP2K Video </label>
@@ -14738,6 +15636,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Foreground </label>
 </object>
@@ -14748,6 +15647,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton0">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -14765,6 +15665,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Background </label>
 </object>
@@ -14775,6 +15676,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -14799,6 +15701,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Border X: </label>
 </object>
@@ -14810,6 +15713,7 @@
 <size>42,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxTE_PROCESS_ENTER</style>
 </object>
@@ -14826,6 +15730,7 @@
 <size>17,21</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_VERTICAL</style>
 <value>0</value>
@@ -14839,6 +15744,7 @@
 <object platform="unix" class="wxSpinButton" name="BorderX1Spin">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_VERTICAL</style>
 <value>0</value>
@@ -14852,6 +15758,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Y: </label>
 </object>
@@ -14863,6 +15770,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -14883,6 +15791,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Horizontal Scale: </label>
 </object>
@@ -14894,6 +15803,7 @@
 <size>42,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxTE_PROCESS_ENTER</style>
 </object>
@@ -14921,7 +15831,6 @@
 <font>
 <size>12</size>
 <family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>Video Terminal </label>
@@ -14953,6 +15862,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Foreground </label>
 </object>
@@ -14963,6 +15873,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton2">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -14973,6 +15884,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Background </label>
 </object>
@@ -14983,6 +15895,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton3">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -15001,6 +15914,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Highlight </label>
@@ -15012,6 +15926,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton4">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 <hidden>1</hidden>
@@ -15034,6 +15949,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Border Video Terminal X: </label>
 </object>
@@ -15045,6 +15961,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -15058,6 +15975,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Y: </label>
 </object>
@@ -15069,6 +15987,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -15089,6 +16008,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Default colour set: </label>
 </object>
@@ -15099,6 +16019,7 @@
 <object class="wxChoice" name="ColourMonitor1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <content>
 <item></item>
@@ -15132,6 +16053,7 @@
 <object class="wxButton" name="ColourDefault1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Default</label>
 </object>
@@ -15142,6 +16064,7 @@
 <object class="wxButton" name="ColourTest">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Test</label>
 </object>
@@ -15152,6 +16075,7 @@
 <object class="wxButton" name="ColourSave">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Save</label>
 </object>
@@ -15167,6 +16091,7 @@
 <centered>1</centered>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
@@ -15176,6 +16101,7 @@
 <object class="wxButton" name="ID_BUTTON">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Dummy button</label>
@@ -15193,7 +16119,6 @@
 <font>
 <size>12</size>
 <family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>Video Terminal </label>
@@ -15225,6 +16150,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Foreground </label>
 </object>
@@ -15235,6 +16161,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton0">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 <hidden>1</hidden>
@@ -15246,6 +16173,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 <hidden>1</hidden>
@@ -15257,6 +16185,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton2">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -15267,6 +16196,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Background </label>
 </object>
@@ -15277,6 +16207,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton3">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -15295,6 +16226,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Highlight </label>
@@ -15306,6 +16238,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton4">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 <hidden>1</hidden>
@@ -15328,6 +16261,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Border Video Terminal X: </label>
 </object>
@@ -15339,6 +16273,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -15352,6 +16287,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Y: </label>
 </object>
@@ -15363,6 +16299,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -15383,6 +16320,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Default colour set: </label>
 </object>
@@ -15393,6 +16331,7 @@
 <object class="wxChoice" name="ColourMonitor1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <content>
 <item></item>
@@ -15426,6 +16365,7 @@
 <object class="wxButton" name="ColourDefault1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Default</label>
 </object>
@@ -15436,6 +16376,7 @@
 <object class="wxButton" name="ColourTest">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Test</label>
 </object>
@@ -15446,6 +16387,7 @@
 <object class="wxButton" name="ColourSave">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Save</label>
 </object>
@@ -15461,6 +16403,7 @@
 <centered>1</centered>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
@@ -15470,6 +16413,7 @@
 <object class="wxButton" name="ID_BUTTON">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Dummy button</label>
@@ -15487,7 +16431,6 @@
 <font>
 <size>12</size>
 <family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>CDP 1869 / 1870 </label>
@@ -15521,6 +16464,7 @@
 <label>Main Colours</label>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <object class="sizeritem">
 <flag>wxALIGN_RIGHT|wxALL</flag>
@@ -15533,6 +16477,7 @@
 <object class="wxStaticText" name="Colour56">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <fg>#000000</fg>
 <label>Black </label>
@@ -15544,6 +16489,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton56">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -15561,6 +16507,7 @@
 <object class="wxStaticText" name="Colour57">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Green </label>
 </object>
@@ -15571,6 +16518,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton57">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -15588,6 +16536,7 @@
 <object class="wxStaticText" name="Colour58">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Blue </label>
 </object>
@@ -15598,6 +16547,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton58">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -15615,6 +16565,7 @@
 <object class="wxStaticText" name="Colour59">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Cyan </label>
 </object>
@@ -15625,6 +16576,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton59">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -15642,6 +16594,7 @@
 <object class="wxStaticText" name="Colour60">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Red </label>
 </object>
@@ -15652,6 +16605,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton60">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -15669,6 +16623,7 @@
 <object class="wxStaticText" name="Colour61">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Yellow </label>
 </object>
@@ -15679,6 +16634,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton61">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -15696,6 +16652,7 @@
 <object class="wxStaticText" name="Colour62">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Magenta </label>
 </object>
@@ -15706,6 +16663,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton62">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -15723,6 +16681,7 @@
 <object class="wxStaticText" name="Colour63">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>White </label>
 </object>
@@ -15733,6 +16692,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton63">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -15765,6 +16725,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton48">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -15775,6 +16736,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton40">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -15785,6 +16747,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton32">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -15795,6 +16758,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton24">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -15805,6 +16769,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton16">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -15815,6 +16780,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton8">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -15825,6 +16791,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton0">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -15842,6 +16809,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton49">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -15852,6 +16820,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton41">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -15862,6 +16831,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton33">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -15872,6 +16842,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton25">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -15882,6 +16853,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton17">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -15892,6 +16864,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton9">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -15902,6 +16875,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -15919,6 +16893,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton50">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -15929,6 +16904,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton42">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -15939,6 +16915,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton34">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -15949,6 +16926,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton26">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -15959,6 +16937,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton18">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -15969,6 +16948,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton10">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -15979,6 +16959,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton2">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -15996,6 +16977,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton51">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -16006,6 +16988,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton43">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -16016,6 +16999,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton35">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -16026,6 +17010,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton27">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -16036,6 +17021,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton19">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -16046,6 +17032,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton11">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -16056,6 +17043,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton3">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -16073,6 +17061,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton52">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -16083,6 +17072,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton44">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -16093,6 +17083,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton36">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -16103,6 +17094,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton28">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -16113,6 +17105,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton20">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -16123,6 +17116,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton12">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -16133,6 +17127,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton4">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -16150,6 +17145,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton53">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -16160,6 +17156,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton45">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -16170,6 +17167,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton37">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -16180,6 +17178,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton29">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -16190,6 +17189,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton21">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -16200,6 +17200,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton13">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -16210,6 +17211,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton5">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -16227,6 +17229,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton54">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -16237,6 +17240,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton46">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -16247,6 +17251,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton38">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -16257,6 +17262,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton30">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -16267,6 +17273,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton22">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -16277,6 +17284,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton14">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -16287,6 +17295,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton6">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -16304,6 +17313,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton55">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -16314,6 +17324,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton47">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -16324,6 +17335,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton39">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -16334,6 +17346,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton31">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -16344,6 +17357,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton23">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -16354,6 +17368,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton15">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -16364,6 +17379,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton7">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -16389,6 +17405,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Border CDP 1869/1870 X: </label>
 </object>
@@ -16400,6 +17417,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -16413,6 +17431,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Y: </label>
 </object>
@@ -16424,6 +17443,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -16454,7 +17474,6 @@
 <font>
 <size>12</size>
 <family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>Video Terminal </label>
@@ -16486,6 +17505,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Foreground </label>
 </object>
@@ -16496,6 +17516,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton64">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -16506,6 +17527,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton66">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 <hidden>1</hidden>
@@ -16517,6 +17539,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Background </label>
 </object>
@@ -16527,6 +17550,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton65">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 </object>
@@ -16545,6 +17569,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <hidden>1</hidden>
 <label>Highlight </label>
@@ -16556,6 +17581,7 @@
 <object class="wxColourPickerCtrl" name="ColourButton4">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
 <hidden>1</hidden>
@@ -16578,6 +17604,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Border Video Terminal X: </label>
 </object>
@@ -16589,6 +17616,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -16602,6 +17630,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Y: </label>
 </object>
@@ -16613,6 +17642,7 @@
 <size>70,-1</size>
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <style>wxSP_ARROW_KEYS</style>
 <value>0</value>
@@ -16633,6 +17663,7 @@
 <object class="wxStaticText" name="wxID_STATIC">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Default colour set: </label>
 </object>
@@ -16643,6 +17674,7 @@
 <object class="wxChoice" name="ColourMonitor1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <content>
 <item></item>
@@ -16676,6 +17708,7 @@
 <object class="wxButton" name="ColourDefault1">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Default</label>
 </object>
@@ -16686,6 +17719,7 @@
 <object class="wxButton" name="ColourTest">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Test</label>
 </object>
@@ -16696,6 +17730,7 @@
 <object class="wxButton" name="ColourSave">
 <font>
 <size>12</size>
+<family>roman</family>
 </font>
 <label>Save</label>
 </object>

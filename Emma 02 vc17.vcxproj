@@ -481,7 +481,6 @@
     <ClCompile Include="src\datadir.cpp" />
     <ClCompile Include="src\debug.cpp" />
     <ClCompile Include="src\diagstatusbar.cpp" />
-    <ClCompile Include="src\diy.cpp" />
     <ClCompile Include="src\elf.cpp" />
     <ClCompile Include="src\elf2.cpp" />
     <ClCompile Include="src\elf2k.cpp" />
@@ -500,7 +499,6 @@
     <ClCompile Include="src\guicomx.cpp" />
     <ClCompile Include="src\guicosmicos.cpp" />
     <ClCompile Include="src\guidiag.cpp" />
-    <ClCompile Include="src\guidiy.cpp" />
     <ClCompile Include="src\guielf.cpp" />
     <ClCompile Include="src\guielf2k.cpp" />
     <ClCompile Include="src\guieprom.cpp" />
@@ -524,6 +522,7 @@
     <ClCompile Include="src\guivip.cpp" />
     <ClCompile Include="src\guivip2.cpp" />
     <ClCompile Include="src\guivip2k.cpp" />
+    <ClCompile Include="src\guixml.cpp" />
     <ClCompile Include="src\hbelf.cpp" />
     <ClCompile Include="src\http.cpp" />
     <ClCompile Include="src\i8275.cpp" />
@@ -586,11 +585,18 @@
     <ClCompile Include="src\vip2.cpp" />
     <ClCompile Include="src\vip2k.cpp" />
     <ClCompile Include="src\vip2statusbar.cpp" />
+    <ClCompile Include="src\vis1870.cpp" />
     <ClCompile Include="src\visicom.cpp" />
     <ClCompile Include="src\vt100.cpp" />
     <ClCompile Include="src\vtsetup.cpp" />
     <ClCompile Include="src\waveReader.cpp" />
     <ClCompile Include="src\waveWriter.cpp" />
+    <ClCompile Include="src\xmlemu.cpp" />
+    <ClCompile Include="src\xmlparser.cpp" />
+    <ClCompile Include="Y:\workspace\emma_02\src\bitkeypad.cpp" />
+    <ClCompile Include="Y:\workspace\emma_02\src\keyb1871.cpp" />
+    <ClCompile Include="Y:\workspace\emma_02\src\keyblatch.cpp" />
+    <ClCompile Include="Y:\workspace\emma_02\src\keybmatrix.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\about.h" />
@@ -617,7 +623,6 @@
     <ClInclude Include="src\datadir.h" />
     <ClInclude Include="src\debug.h" />
     <ClInclude Include="src\diagstatusbar.h" />
-    <ClInclude Include="src\diy.h" />
     <ClInclude Include="src\elf.h" />
     <ClInclude Include="src\elf2.h" />
     <ClInclude Include="src\elf2k.h" />
@@ -637,7 +642,6 @@
     <ClInclude Include="src\guicomx.h" />
     <ClInclude Include="src\guicosmicos.h" />
     <ClInclude Include="src\guidiag.h" />
-    <ClInclude Include="src\guidiy.h" />
     <ClInclude Include="src\guielf.h" />
     <ClInclude Include="src\guielf2k.h" />
     <ClInclude Include="src\guieprom.h" />
@@ -661,6 +665,7 @@
     <ClInclude Include="src\guivip.h" />
     <ClInclude Include="src\guivip2.h" />
     <ClInclude Include="src\guivip2k.h" />
+    <ClInclude Include="src\guixml.h" />
     <ClInclude Include="src\hbelf.h" />
     <ClInclude Include="src\http.h" />
     <ClInclude Include="src\i8275.h" />
@@ -724,11 +729,18 @@
     <ClInclude Include="src\vip2.h" />
     <ClInclude Include="src\vip2k.h" />
     <ClInclude Include="src\vip2statusbar.h" />
+    <ClInclude Include="src\vis1870.h" />
     <ClInclude Include="src\visicom.h" />
     <ClInclude Include="src\vt100.h" />
     <ClInclude Include="src\vtsetup.h" />
     <ClInclude Include="src\waveReader.h" />
     <ClInclude Include="src\waveWriter.h" />
+    <ClInclude Include="src\xmlemu.h" />
+    <ClInclude Include="src\xmlparser.h" />
+    <ClInclude Include="Y:\workspace\emma_02\src\bitkeypad.h" />
+    <ClInclude Include="Y:\workspace\emma_02\src\keyb1871.h" />
+    <ClInclude Include="Y:\workspace\emma_02\src\keyblatch.h" />
+    <ClInclude Include="Y:\workspace\emma_02\src\keybmatrix.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="images\app.ico" />

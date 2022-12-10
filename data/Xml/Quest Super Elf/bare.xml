@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>Quest Super Elf - Bare</name>
+        <clock>1.76</clock>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init>
+        <init type="ef4">1</init>
+        <dirname>Elf</dirname>
+    </system>
+    
+    <frontpanel type="quest" init="on">
+        <out>4</out>
+        <in>4</in>
+        <ef type="in">4</ef>
+        <til>313</til>
+    </frontpanel>
+
+     <memory>
+        <mainram>
+            <start>0x0000</start>
+            <end>0x00FF</end>
+        </mainram>
+    </memory>
+    
+</emmaconfig>

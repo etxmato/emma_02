@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>Elf, Richard's ROM Mapper - Pixie Video</name>
+        <!-- Press return and then RUN to start, load program via number or N for next page  -->
+        <clock>1.76</clock>
+        <boot>0x8080</boot>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init>
+        <init type="ef4">1</init>
+        <dirname>Elf</dirname>
+    </system>
+    
+    <memory>
+        <mainram>
+            <start>0x0000</start>
+            <end>0x7FFF</end>
+        </mainram>
+
+        <ems type="ROM">
+            <!--
+            Next to the common tags ems also supports:
+            <out mask="0x1f">: defines the output, address or address range used to switch page, using the specified mask. In this example with mask=0x1f the ems will be defined with 32 pages. When specifying mask=0 or leaving it out mask will be defined as 0xff. When specifying one digit (i.e. 0-9) an ouptut port (0-7) will be defined for switching the page. When specifying a hex value (e.g. 0xF000) the specified address will be defined for switching the page. When specifying a range (0xF000-0xF100) all addresses in the range will be defined for switching the page.
+            -->
+            <out mask="0x1f">7</out>
+            <start>0x8000</start>
+            <end>0xFFFF</end>
+            <filename>rommapper.bin</filename>
+        </ems>
+
+    </memory>
+    
+    <video type="pixie">
+        <out>1</out>
+        <in>1</in>
+        <ef>1</ef>
+        <border>33x33</border>
+        <color type="fore">255, 255, 255</color>
+        <color type="back">0, 0, 0</color>
+     </video>
+
+    <keyboard type="ascii">
+        <in>7</in>
+        <ef>3</ef>
+        <caps />
+    </keyboard>
+
+    <printer>
+        <out>3</out>
+    </printer>
+    
+    <cassette decks="1">
+        <ef>2</ef>
+        <filename></filename>
+    </cassette>
+    
+    <locations>
+        <!-- Stop cassette -->
+        <stop_cas address="0x9fa, 0x9fb, 0x9fc" value="0xc0, 0x0a, 0x29">0xA59, 0xA28</stop_cas>
+        
+        <!-- Start SAVE, LOAD -->
+        <start_cas_save address="0x9fa, 0x9fb, 0x9fc" value="0xc0, 0x0a, 0x29">0x9FD</start_cas_save>
+        <start_cas_load address="0x9fa, 0x9fb, 0x9fc" value="0xc0, 0x0a, 0x29">0x09FA</start_cas_load>
+
+    </locations>
+
+</emmaconfig>
+

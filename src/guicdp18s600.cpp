@@ -235,7 +235,7 @@ void GuiCdp18s600::readCdp18s600Config()
 {
     wxString cardNumberStr;
  
-    elfConfiguration[MICROBOARD].elfPortConf.emsOutput.resize(1);
+    elfConfiguration[MICROBOARD].ioConfiguration.emsOutput.resize(1);
     readElfPortConfig(MICROBOARD, "Microboard");
 
     selectedComputer_ = MICROBOARD;
@@ -260,6 +260,7 @@ void GuiCdp18s600::readCdp18s600Config()
     conf[MICROBOARD].saveExecString_ = "";
 
     conf[MICROBOARD].emsConfigNumber_ = 0;
+    conf[MICROBOARD].videoNumber_ = 0;
 
     conf[MICROBOARD].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "Microboard" + pathSeparator_;
     
@@ -287,9 +288,9 @@ void GuiCdp18s600::readCdp18s600Config()
     elfConfiguration[MICROBOARD].upd765Group = (int)configPointer->Read("/Microboard/Upd765Group", 8l);
     elfConfiguration[MICROBOARD].printerGroup = (int)configPointer->Read("/Microboard/PrinterGroup", 1l);
     elfConfiguration[MICROBOARD].uartGroup = (int)configPointer->Read("/Microboard/UartGroup", 1l);
-    elfConfiguration[MICROBOARD].elfPortConf.uartOut = (int)configPointer->Read("/Microboard/UartOut", 2l);
-    elfConfiguration[MICROBOARD].elfPortConf.uartControl = (int)configPointer->Read("/Microboard/UartControl", 3l);
-    elfConfiguration[MICROBOARD].v1870Group = (int)configPointer->Read("/Microboard/V1870Group", 0x80l);
+    elfConfiguration[MICROBOARD].ioConfiguration.uartOut = (int)configPointer->Read("/Microboard/UartOut", 2l);
+    elfConfiguration[MICROBOARD].ioConfiguration.uartControl = (int)configPointer->Read("/Microboard/UartControl", 3l);
+    elfConfiguration[MICROBOARD].ioConfiguration.v1870ioGroup = (int)configPointer->Read("/Microboard/V1870Group", 0x80l);
     elfConfiguration[MICROBOARD].cdp18s660Group1 = (int)configPointer->Read("/Microboard/Pio1Group", 0x10l);
     elfConfiguration[MICROBOARD].cdp18s660Group2 = (int)configPointer->Read("/Microboard/Pio2Group", 0x20l);
 
@@ -423,15 +424,15 @@ void GuiCdp18s600::readCdp18s600Config()
 
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 2.0);
-    conf[MICROBOARD].zoom_ = convertLocale(configPointer->Read("/Microboard/Zoom", defaultZoom));
+    conf[MICROBOARD].zoom_[VIDEOMAIN] = convertLocale(configPointer->Read("/Microboard/Zoom", defaultZoom));
     conf[MICROBOARD].volume_ = (int)configPointer->Read("/Microboard/Volume", 25l);
-    elfConfiguration[MICROBOARD].pageMemSize = (int)configPointer->Read("/Microboard/PageMemSize", 0l);
+    elfConfiguration[MICROBOARD].ioConfiguration.v1870pageMemSize = (int)configPointer->Read("/Microboard/PageMemSize", 0l);
     conf[MICROBOARD].charRom_ = configPointer->Read("/Microboard/Font_Rom_File", "character.bin");
-    elfConfiguration[MICROBOARD].v1870InterruptMode = (int)configPointer->Read("/Microboard/V1870InterruptMode", 1l);
-    elfConfiguration[MICROBOARD].v1870VideoMode = (int)configPointer->Read("/Microboard/V1870VideoMode", 1l);
+    elfConfiguration[MICROBOARD].ioConfiguration.v1870interruptMode = (int)configPointer->Read("/Microboard/V1870InterruptMode", 1l);
+    elfConfiguration[MICROBOARD].ioConfiguration.v1870videoMode = (int)configPointer->Read("/Microboard/V1870VideoMode", 1l);
     conf[MICROBOARD].printMode_ = (int)configPointer->Read("/Microboard/Print_Mode", 1l);
 
-    elfConfiguration[MICROBOARD].elfPortConf.keyboardEf = (int)configPointer->Read("/Microboard/KeyboardEF", 2l);
+    elfConfiguration[MICROBOARD].ioConfiguration.keyboardEf = (int)configPointer->Read("/Microboard/KeyboardEF", 2l);
     elfConfiguration[MICROBOARD].keyboardType = (int)configPointer->Read("/Microboard/KeyboardType", 0l);
     
     elfConfiguration[MICROBOARD].bellFrequency_ = (int)configPointer->Read("/Microboard/Bell_Frequency", 800);
@@ -493,7 +494,7 @@ void GuiCdp18s600::readCdp18s600Config()
         XRCCTRL(*this, "VTBaudRChoiceMicroboard", wxChoice)->SetSelection(elfConfiguration[MICROBOARD].baudR);
         XRCCTRL(*this, "VTBaudTChoiceMicroboard", wxChoice)->SetSelection(elfConfiguration[MICROBOARD].baudT);
         
-        correctZoomAndValue(MICROBOARD, "Microboard", SET_SPIN);
+        correctZoomAndValue(MICROBOARD, "Microboard", SET_SPIN, VIDEOMAIN);
         correctZoomVtAndValue(MICROBOARD, "Microboard", SET_SPIN);
 
         XRCCTRL(*this, "StretchDotMicroboard", wxCheckBox)->SetValue(conf[MICROBOARD].stretchDot_);
@@ -701,27 +702,27 @@ void GuiCdp18s600::writeCdp18s600Config()
     configPointer->Write("/Microboard/Enable_Auto_Cassette", conf[MICROBOARD].autoCassetteLoad_);
     configPointer->Write("/Microboard/Enable_Real_Cassette", conf[MICROBOARD].realCassetteLoad_);
 
-    configPointer->Write("/Microboard/Zoom", conf[MICROBOARD].zoom_);
+    configPointer->Write("/Microboard/Zoom", conf[MICROBOARD].zoom_[VIDEOMAIN]);
     configPointer->Write("/Microboard/Volume", conf[MICROBOARD].volume_);
-    configPointer->Write("/Microboard/PageMemSize", elfConfiguration[MICROBOARD].pageMemSize);
+    configPointer->Write("/Microboard/PageMemSize", elfConfiguration[MICROBOARD].ioConfiguration.v1870pageMemSize);
     configPointer->Write("/Microboard/Font_Rom_File", conf[MICROBOARD].charRom_);
-    configPointer->Write("/Microboard/V1870InterruptMode", elfConfiguration[MICROBOARD].v1870InterruptMode);
-    configPointer->Write("/Microboard/V1870VideoMode", elfConfiguration[MICROBOARD].v1870VideoMode);
+    configPointer->Write("/Microboard/V1870InterruptMode", elfConfiguration[MICROBOARD].ioConfiguration.v1870interruptMode);
+    configPointer->Write("/Microboard/V1870VideoMode", elfConfiguration[MICROBOARD].ioConfiguration.v1870videoMode);
     configPointer->Write("/Microboard/Print_Mode", conf[MICROBOARD].printMode_);
     configPointer->Write("/Microboard/Print_File", conf[MICROBOARD].printFile_);
 
-    configPointer->Write("/Microboard/KeyboardEF", elfConfiguration[MICROBOARD].elfPortConf.keyboardEf);
+    configPointer->Write("/Microboard/KeyboardEF", elfConfiguration[MICROBOARD].ioConfiguration.keyboardEf);
     configPointer->Write("/Microboard/KeyboardType", elfConfiguration[MICROBOARD].keyboardType);
 
     configPointer->Write("/Microboard/Upd765Group", elfConfiguration[MICROBOARD].upd765Group);
     configPointer->Write("/Microboard/PrinterGroup", elfConfiguration[MICROBOARD].printerGroup);
     configPointer->Write("/Microboard/UartGroup", elfConfiguration[MICROBOARD].uartGroup);
-    configPointer->Write("/Microboard/UartOut", elfConfiguration[MICROBOARD].elfPortConf.uartOut);
-    configPointer->Write("/Microboard/UartControl", elfConfiguration[MICROBOARD].elfPortConf.uartControl);
+    configPointer->Write("/Microboard/UartOut", elfConfiguration[MICROBOARD].ioConfiguration.uartOut);
+    configPointer->Write("/Microboard/UartControl", elfConfiguration[MICROBOARD].ioConfiguration.uartControl);
     configPointer->Write("/Microboard/Pio_Windows", elfConfiguration[MICROBOARD].usePio);
     configPointer->Write("/Microboard/Pio1_Windows", elfConfiguration[MICROBOARD].usePioWindow1Cdp18s660);
     configPointer->Write("/Microboard/Pio2_Windows", elfConfiguration[MICROBOARD].usePioWindow2Cdp18s660);
-    configPointer->Write("/Microboard/V1870Group", elfConfiguration[MICROBOARD].v1870Group);
+    configPointer->Write("/Microboard/V1870Group", elfConfiguration[MICROBOARD].ioConfiguration.v1870ioGroup);
     configPointer->Write("/Microboard/Pio1Group", elfConfiguration[MICROBOARD].cdp18s660Group1);
     configPointer->Write("/Microboard/Pio2Group", elfConfiguration[MICROBOARD].cdp18s660Group2);
 
@@ -1085,8 +1086,8 @@ void GuiCdp18s600::checkAllBoardTypes(Conf* config, ElfConfiguration* elfConfig,
                 config->microChipType_[FOUR_SOCKET] = 0;
 
             elfConfig->useUart = true;
-            elfConfig->elfPortConf.uartOut = 2;
-            elfConfig->elfPortConf.uartControl = 3;
+            elfConfig->ioConfiguration.uartOut = 2;
+            elfConfig->ioConfiguration.uartControl = 3;
             setMemoryMapCDP18S600(config, 0, config->microboardType_[0]);
         break;
             
@@ -1130,8 +1131,8 @@ void GuiCdp18s600::checkAllBoardTypes(Conf* config, ElfConfiguration* elfConfig,
             }
 
             elfConfig->useUart = true;
-            elfConfig->elfPortConf.uartOut = 2;
-            elfConfig->elfPortConf.uartControl = 3;
+            elfConfig->ioConfiguration.uartOut = 2;
+            elfConfig->ioConfiguration.uartControl = 3;
             setMemoryMapCDP18S602(config, 0, config->microboardType_[0]);
         break;
             
@@ -1381,8 +1382,8 @@ void GuiCdp18s600::checkAllBoardTypes(Conf* config, ElfConfiguration* elfConfig,
                 v1870Card = card;
                 elfConfig->usev1870 = true;
                 config->videoMode_ = NTSC;
-                if (elfConfig->v1870VideoMode > 2)
-                    elfConfig->v1870VideoMode = 1;
+                if (elfConfig->ioConfiguration.v1870videoMode > 2)
+                    elfConfig->ioConfiguration.v1870videoMode = 1;
             break;
                 
             case CARD_CDP18S661V3:
@@ -1392,8 +1393,8 @@ void GuiCdp18s600::checkAllBoardTypes(Conf* config, ElfConfiguration* elfConfig,
                 v1870Card = card;
                 elfConfig->usev1870 = true;
                 config->videoMode_ = PAL;
-                if (elfConfig->v1870VideoMode > 2)
-                    elfConfig->v1870VideoMode = 1;
+                if (elfConfig->ioConfiguration.v1870videoMode > 2)
+                    elfConfig->ioConfiguration.v1870videoMode = 1;
             break;
         }
         setMicroMemConfiguration(card, microMemConfig);

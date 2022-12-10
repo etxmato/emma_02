@@ -10,8 +10,8 @@ public:
     Elf2KDisk();
     ~Elf2KDisk() {};
 
-    void configureDisk(wxString ideFile1, wxString ideFile2, bool rtc, bool uart, ElfPortConfiguration elfPortConf, bool use8275);
-    void configureUart16450(ElfPortConfiguration elfPortConf);
+    void configureDisk(wxString ideFile1, wxString ideFile2, bool rtc, bool uart, IoConfiguration ioConfiguration, bool use8275);
+    void configureUart16450(IoConfiguration ioConfiguration);
     void initializeIde(wxString ideFile);
     Byte inDisk();
     Byte readDiskStatus() {return 255;};

@@ -114,6 +114,7 @@ void GuiCdp18s020::readCdp18s020Config()
     selectedComputer_ = CDP18S020;
 
     conf[CDP18S020].emsConfigNumber_ = 0;
+    conf[CDP18S020].videoNumber_ = 0;
 
     conf[CDP18S020].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "CDP18S020" + pathSeparator_;
     conf[CDP18S020].mainDir_ = readConfigDir("/Dir/CDP18S020/Main", dataDir_ + "CDP18S020" + pathSeparator_);
@@ -143,7 +144,7 @@ void GuiCdp18s020::readCdp18s020Config()
 
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 2.0);
-    conf[CDP18S020].zoom_ = convertLocale(configPointer->Read("/CDP18S020/Zoom", defaultZoom));
+    conf[CDP18S020].zoom_[VIDEOMAIN] = convertLocale(configPointer->Read("/CDP18S020/Zoom", defaultZoom));
     defaultZoom.Printf("%2.2f", 1.0);
     conf[CDP18S020].zoomVt_ = convertLocale(configPointer->Read("/CDP18S020/Vt_Zoom", defaultZoom));
     wxString defaultScale;
@@ -228,7 +229,7 @@ void GuiCdp18s020::readCdp18s020Config()
         XRCCTRL(*this,"AddressText2CDP18S020", wxStaticText)->Enable(elfConfiguration[CDP18S020].useElfControlWindows);
         XRCCTRL(*this, "ControlWindowsCDP18S020", wxCheckBox)->SetValue(elfConfiguration[CDP18S020].useElfControlWindows);
         
-        correctZoomAndValue(CDP18S020, "CDP18S020", SET_SPIN);
+        correctZoomAndValue(CDP18S020, "CDP18S020", SET_SPIN, VIDEOMAIN);
         correctZoomVtAndValue(CDP18S020, "CDP18S020", SET_SPIN);
 
         XRCCTRL(*this, "LatchCDP18S020", wxCheckBox)->SetValue(latch_);
@@ -290,7 +291,7 @@ void GuiCdp18s020::writeCdp18s020Config()
     configPointer->Write("/CDP18S020/Vt_Baud", elfConfiguration[CDP18S020].baudT);
     configPointer->Write("/CDP18S020/Enable_Auto_Boot", elfConfiguration[CDP18S020].autoBoot);
 
-    configPointer->Write("/CDP18S020/Zoom", conf[CDP18S020].zoom_);
+    configPointer->Write("/CDP18S020/Zoom", conf[CDP18S020].zoom_[VIDEOMAIN]);
     configPointer->Write("/CDP18S020/Vt_Zoom", conf[CDP18S020].zoomVt_);
     configPointer->Write("/CDP18S020/Enable_Vt_Stretch_Dot", conf[CDP18S020].stretchDot_);
     configPointer->Write("/CDP18S020/Enable_Vt_External", elfConfiguration[CDP18S020].vtExternal);

@@ -164,7 +164,6 @@ Microtutor::Microtutor(const wxString& title, const wxPoint& pos, const wxSize& 
     computerConfiguration = computerConf;
     microtutorConfiguration = conf;
     microtutorClockSpeed_ = clock;
-    data_ = 0;
 
 #ifndef __WXMAC__
     SetIcon(wxICON(app_icon));
@@ -188,7 +187,7 @@ void Microtutor::onClose(wxCloseEvent&WXUNUSED(event) )
     p_Main->stopComputer();
 }
 
-bool Microtutor::keyUpReleased(int key)
+bool Microtutor::keyUpReleased(int key, wxKeyEvent&WXUNUSED(event))
 {
     if (key == inKey1_ || key == inKey2_)
     {
@@ -326,7 +325,6 @@ void Microtutor::initComputer()
 
     for (int i=0; i<8; i++)  dataSwitchState_[i]=0;
     
-    switches_ = 0;
     inPressed_ = false;
 }
 

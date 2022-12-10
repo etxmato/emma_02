@@ -656,7 +656,6 @@ void Sound::psaveAmplitudeChange(int q)
                 case ELF:
                 case ELFII:
                 case SUPERELF:
-                case DIY:
                 case PICO:
                     switch (qSound_)
                     {
@@ -676,6 +675,28 @@ void Sound::psaveAmplitudeChange(int q)
                                 beepOff();
                         break;
                     }
+                break;
+
+                case XML:
+                    switch (qSound_)
+                    {
+                        case QSOUNDSW:
+                            if (q)
+                                toneElf2KOn();
+                            else
+                                toneElf2KOff();
+                        break;
+
+                        case QSOUNDEXT:
+                            toneAmplitude_[0] = 8;
+                            toneAmplitude_[1] = 8;
+                            if (q)
+                                beepOn();
+                            else
+                                beepOff();
+                        break;
+                    }
+                    p_Computer->printOutPecom(q);
                 break;
 
                 case PECOM:

@@ -122,10 +122,11 @@ void GuiElf2K::readElf2KConfig()
 {
     selectedComputer_ = ELF2K;
 
-    elfConfiguration[ELF2K].elfPortConf.emsOutput.resize(1);
+    elfConfiguration[ELF2K].ioConfiguration.emsOutput.resize(1);
     readElfPortConfig(ELF2K, "Elf2K");
     
     conf[ELF2K].emsConfigNumber_ = 0;
+    conf[ELF2K].videoNumber_ = 0;
 
     conf[ELF2K].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "Elf2K" + pathSeparator_;
 
@@ -186,7 +187,7 @@ void GuiElf2K::readElf2KConfig()
 
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 1.0);
-    conf[ELF2K].zoom_ = convertLocale(configPointer->Read("/Elf2K/Zoom", defaultZoom));
+    conf[ELF2K].zoom_[VIDEOMAIN] = convertLocale(configPointer->Read("/Elf2K/Zoom", defaultZoom));
     conf[ELF2K].zoomVt_ = convertLocale(configPointer->Read("/Elf2K/Vt_Zoom", defaultZoom));
     wxString defaultScale;
     defaultScale.Printf("%i", 3);
@@ -252,7 +253,7 @@ void GuiElf2K::readElf2KConfig()
 
         XRCCTRL(*this, "Elf2KKeyboard", wxChoice)->SetSelection(elfConfiguration[ELF2K].keyboardType);
         
-        correctZoomAndValue(ELF2K, "Elf2K", SET_SPIN);
+        correctZoomAndValue(ELF2K, "Elf2K", SET_SPIN, VIDEOMAIN);
         correctZoomVtAndValue(ELF2K, "Elf2K", SET_SPIN);
 
         XRCCTRL(*this, "ShowAddressElf2K", wxTextCtrl)->ChangeValue(conf[ELF2K].ledTime_);
@@ -299,7 +300,7 @@ void GuiElf2K::readElf2KConfig()
 
     elfConfiguration[ELF2K].usePortExtender = false;
     elfConfiguration[ELF2K].ideEnabled = true;
-    elfConfiguration[ELF2K].fdcEnabled = false;
+    elfConfiguration[ELF2K].fdc1793Enabled = false;
     elfConfiguration[ELF2K].useLedModule = false;
     elfConfiguration[ELF2K].useTape = false;
     conf[ELF2K].realCassetteLoad_ = false;
@@ -353,7 +354,7 @@ void GuiElf2K::writeElf2KConfig()
     configPointer->Write("/Elf2K/Vt_Baud_Transmit", elfConfiguration[ELF2K].baudT);
     configPointer->Write("/Elf2K/Video_Type", conf[ELF2K].videoMode_);
     configPointer->Write("/Elf2K/Keyboard_Type", elfConfiguration[ELF2K].keyboardType);
-    configPointer->Write("/Elf2K/Zoom", conf[ELF2K].zoom_);
+    configPointer->Write("/Elf2K/Zoom", conf[ELF2K].zoom_[VIDEOMAIN]);
     configPointer->Write("/Elf2K/Vt_Zoom", conf[ELF2K].zoomVt_);
     configPointer->Write("/Elf2K/Force_Uppercase", elfConfiguration[ELF2K].forceUpperCase);
     configPointer->Write("/Elf2K/SerialLog", elfConfiguration[ELF2K].serialLog);
@@ -551,7 +552,7 @@ void GuiElf2K::setElf2KKeyboard(int Selection)
         case KEYBOARDNONE:
             elfConfiguration[ELF2K].useHexKeyboardEf3 = false;
             elfConfiguration[ELF2K].useKeyboard = false;
-            elfConfiguration[ELF2K].UsePS2 = false;
+            elfConfiguration[ELF2K].usePS2 = false;
             elfConfiguration[ELF2K].usePs2gpio = false;
             if (mode_.gui)
             {
@@ -563,7 +564,7 @@ void GuiElf2K::setElf2KKeyboard(int Selection)
         case KEYBOARDELF2KHEX:
             elfConfiguration[ELF2K].useHexKeyboardEf3 = true;
             elfConfiguration[ELF2K].useKeyboard = false;
-            elfConfiguration[ELF2K].UsePS2 = false;
+            elfConfiguration[ELF2K].usePS2 = false;
             elfConfiguration[ELF2K].usePs2gpio = false;
             if (mode_.gui)
             {
@@ -575,7 +576,7 @@ void GuiElf2K::setElf2KKeyboard(int Selection)
         case KEYBOARD_PS2:
             elfConfiguration[ELF2K].useHexKeyboardEf3 = false;
             elfConfiguration[ELF2K].useKeyboard = false;
-            elfConfiguration[ELF2K].UsePS2 = false;
+            elfConfiguration[ELF2K].usePS2 = false;
             elfConfiguration[ELF2K].usePs2gpio = true;
             if (mode_.gui)
             {
@@ -587,7 +588,7 @@ void GuiElf2K::setElf2KKeyboard(int Selection)
         case KEYBOARD2KPS2GPIOJP4:
             elfConfiguration[ELF2K].useHexKeyboardEf3 = false;
             elfConfiguration[ELF2K].useKeyboard = false;
-            elfConfiguration[ELF2K].UsePS2 = true;
+            elfConfiguration[ELF2K].usePS2 = true;
             elfConfiguration[ELF2K].usePs2gpio = true;
             if (mode_.gui)
             {

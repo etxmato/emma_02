@@ -15,10 +15,12 @@ class MC6845 : public Video
 {
 public:
 
-    MC6845(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, int computerType, double clock, int charW, ElfPortConfiguration elfPortConf);
+    MC6845(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, int computerType, double clock, int charW, IoConfiguration ioConfiguration, int videoNumber);
+    MC6845(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, int computerType, double clock, wxSize charSize, IoConfiguration ioConfiguration, int videoNumber);
     ~MC6845();
 
-    void configure6845(ElfPortConfiguration elfPortConf);
+    void configure6845(IoConfiguration ioConfiguration);
+    void configure6845Xml(IoConfiguration ioConfiguration);
     void configureSuperVideo();
     void init6845();
     Byte ef6845();
@@ -28,7 +30,9 @@ public:
     void setClock(double clock);
     void setCycle();
     void writeRegister6845(Word addr, Byte value);
+    void writeRegister6845(Byte value);
     Byte readData6845(Word addr);
+    Byte readDataDirect6845(Word addr);
     void writeData6845(Byte value);
     Byte read6845(Word addr);
     void write6845(Word addr, Byte value);
@@ -39,6 +43,7 @@ public:
     void draw6845(Word addr, Byte value);
     void drawCharacter6845(int x, int y, Byte value);
     void drawCursor6845(Word addr, bool status);
+    void drawCursor6845(wxDC &dc, Word addr, bool status);
     void setInterlace(bool status);
     bool readCharRomFile(wxString romDir, wxString romFile);
     void setFullScreen(bool fullScreenSet);

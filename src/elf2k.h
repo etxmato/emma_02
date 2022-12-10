@@ -43,7 +43,7 @@ public:
 
     void onClose(wxCloseEvent&event);
     bool keyDownPressed(int keycode);
-    bool keyUpReleased(int keycode);
+    bool keyUpReleased(int key, wxKeyEvent& event);
     void charEvent(int keycode);
 
     void onLoadButton();
@@ -85,7 +85,7 @@ public:
     void writeMemDebug(Word address, Byte value, bool writeRom);
     void cpuInstruction();
     void resetPressed();
-    void configureElfExtensions();
+    void configureExtensions();
     void moveWindows();
     void updateTitle(wxString Title);
     void setForceUpperCase(bool status);
@@ -140,14 +140,12 @@ private:
 
     Byte ef3State_;
     Byte switches_;
-    Byte data_;
     Byte lastMode_;
 
     int keyDefA1_[16];
     int keyDefA2_[16];
     
     double elfClockSpeed_;
-    Word lastAddress_;
 
     int cycleValue_;
     int cycleSize_;

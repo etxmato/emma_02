@@ -884,6 +884,6 @@ void Network::updateFdcStatusLed()
 {
     if (localComputerType_ == COMX)
     {
-        p_Video->updateStatusLed(status_&1);
+        p_Video[VIDEOMAIN]->updateStatusLed(status_&1);
     }
 }

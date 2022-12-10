@@ -78,6 +78,7 @@
 #define CARD_LAST 17
 
 #define FDCTYPE_MS2000 0
+#define FDCTYPE_17XX 0
 #define FDCTYPE_MICROBOARD 1
 #define FDCTYPE_MAX 2
 
@@ -107,7 +108,7 @@
 #define GUI_COL_GREEN 8
 #define GUI_COL_MAX 9
 
-DECLARE_EVENT_TYPE(OPEN_PRINTER_WINDOW, 811) 
+DECLARE_EVENT_TYPE(OPEN_PRINTER_WINDOW, 800) 
 
 class ComputerInfo
 {
@@ -186,11 +187,14 @@ public:
     void onCassetteFileDialog();
     void onCassetteFileSelector();
     void onCassette1(wxCommandEvent& event);
+    void onXmodem(wxCommandEvent& event);
     void onTerminalFile(wxCommandEvent& event);
     void onCassetteEject(wxCommandEvent& event);
     void onCassette1Eject(wxCommandEvent& event);
     void onCassetteText(wxCommandEvent& event);
     void onCassette1Text(wxCommandEvent& event);
+    void onXmodemText(wxCommandEvent& event);
+    void onXmodemEject(wxCommandEvent& event);
     void onAutoLoad(wxCommandEvent& event);
     void onRealCas(wxCommandEvent& event);
     void onWavFile(wxCommandEvent& event);
@@ -253,6 +257,7 @@ public:
     wxString getRunningComputerStr() {return computerInfo[runningComputer_].gui;};
     wxString getSelectedComputerText() {return computerInfo[selectedComputer_].name;};
     wxString getRunningComputerText() {return computerInfo[runningComputer_].name;};
+    wxString getRunningComputerPloadExtension() {return computerInfo[runningComputer_].ploadExtension;};
     int getSelectedComputerId() {return selectedComputer_;};
     int getRunningComputerId() {return runningComputer_;};
     int getVolume(int computerType) {return conf[computerType].volume_;};
@@ -348,7 +353,7 @@ public:
 
     void setScale(wxString scale);
     double getScale();
-    double getZoom();
+    double getZoom(int videoNumber);
     double getZoomVt();
     wxSize getMainSize(int computerType);
     void setMainSize(int computerType, wxSize size);
@@ -424,8 +429,8 @@ public:
     ScreenInfo getScreenInfo(int id);
     bool isFullScreenFloat() {return fullScreenFloat_;};
     void onFullScreenFloat(wxCommandEvent&event);
-    void correctZoomAndValue(int computerType, wxString computerTypeString, bool setSpin);
-    void correctZoom(int computerType, wxString computerTypeString, bool setSpin);
+    void correctZoomAndValue(int computerType, wxString computerTypeString, bool setSpin, int videoNumber);
+    void correctZoom(int computerType, wxString computerTypeString, bool setSpin, int videoNumber);
     void correctZoomVtAndValue(int computerType, wxString computerTypeString, bool setSpin);
     void correctZoomVt(int computerType, wxString computerTypeString, bool setSpin);
     void onLedTimer(wxCommandEvent&event);
@@ -470,6 +475,24 @@ public:
     int getMessageBoxAnswer() {return messageBoxAnswer_;};
     wxColour getGuiTextColour(int colour) {return guiTextColour[colour];};
 
+    int isDiagOn(int computer);
+    int getDiagRomChecksum(int computer) {return conf[computer].diagRomChecksum_;};
+    int getDiagFactory(int computer) {return conf[computer].diagFactory_;};
+    void setDiagRomChecksum(int computer, int diagRomChecksum) { conf[computer].diagRomChecksum_ = diagRomChecksum;};
+    void setDiagFactory(int computer, int diagFactory) { conf[computer].diagFactory_ = diagFactory;};
+    int getDiagCassetteCables(int computer) {return conf[computer].diagCassetteCables_;};
+    void setDiagCassetteCables(int computer, int diagCassetteCables) { conf[computer].diagCassetteCables_ = diagCassetteCables;};
+
+    void onBatchConvertStart(wxCommandEvent&event);
+    void batchConvertStop();
+    void onBatchFileDialog(wxCommandEvent& event);
+    wxArrayString getBatchPaths() {return batchPaths_;}
+    wxString getBatchPath(int filenumber) {return batchPaths_[filenumber];}
+    wxArrayString getBatchFiles() {return batchFiles_;}
+    wxString getBatchFile(int filenumber) {return batchFiles_[filenumber];}
+    size_t getNumberOfBatchFiles() {return numberOfBatchFiles_;}
+    bool isBatchConvertActive() {return batchConvertActive_;};
+
 protected:
     Mode mode_;
 
@@ -500,7 +523,7 @@ protected:
     Pecom *p_Pecom;
     Elf2 *p_Elf2;
     Super *p_Super;
-    Diy *p_Diy;
+    Xmlemu *p_Xmlemu;
     Pico *p_Pico;
     Elf2K *p_Elf2K;
     Ms2000 *p_Ms2000;
@@ -535,7 +558,8 @@ protected:
     wxString applicationDirectory_;
     wxString pathSeparator_;
     int mainWindowX_, mainWindowY_;
-    int ubuntuOffsetX_;
+    int offsetX_;
+    int offsetY_;
     int fontSize_;
     wxString fontSizeString_;
 
@@ -574,6 +598,7 @@ protected:
 
     int tapeState_;
     bool zoomEventOngoing_;
+    bool fullScreenEventOngoing_;
 
     bool computerRunning_;
 
@@ -614,7 +639,6 @@ protected:
 
     int printX_;
     
-    bool ramFileFromGui_;
     wxString warningText_;
     
     wxDateTime oldXmlDate_;
@@ -638,6 +662,14 @@ private:
 
     double savedSpeed_;
     bool turboOn_;
+
+    bool batchConvertActive_;
+    wxString batchSaveWavFileDir_;
+    wxString batchSaveWavFile_;
+
+    wxArrayString batchPaths_;
+    wxArrayString batchFiles_;
+    size_t numberOfBatchFiles_;
 
     DECLARE_EVENT_TABLE()
 };

@@ -1,7 +1,7 @@
 #ifndef COMPUTERCONFIG_H
 #define COMPUTERCONFIG_H
 
-#define MAXROM 6
+#include "definition.h"
 
 class ConfigurationMenuInfo
 {
@@ -28,6 +28,7 @@ public:
     Word start;
     Word end;
     Word memMask;
+    bool useMemMask;
     Word outputStart;
     Word outputEnd;
     int type;
@@ -50,6 +51,98 @@ public:
     Byte page;
 };
 
+class CopyConfig
+{
+public:
+    Word start;
+    Word end;
+    Word copy;
+    int slot;
+};
+
+class BankInfo
+{
+public:
+    wxString dirname;
+    wxString filename;
+    int type;
+};
+
+class SlotInfo
+{
+public:
+    wxString dirname;
+    wxString filename;
+    int type;
+    
+    size_t maxBankNumber_;
+    vector<BankInfo> bankInfo;
+    Byte bankOutputMaskInSlot;
+};
+
+class SlotConfig
+{
+public:
+    size_t maxSlotNumber_;
+    vector<SlotInfo> slotInfo;
+    Word start;
+    Word end;
+    Byte output;
+    Byte slotOutputMask;
+    bool slotOutputNumber;
+    int slotOutputShift;
+    Byte bankOutputMask;
+    int bankOutputShift;
+    bool bankOutputNumber;
+    bool useIoGroup;
+};
+
+class checkAddressInfo
+{
+public:
+    Word checkAddress;
+    Byte checkValue;
+};
+
+class LocationInfo
+{
+public:
+    vector<checkAddressInfo> checkAddressInfo;
+    int type;
+};
+
+enum
+{
+    INFO_RESET_STATE = 0,
+    INFO_BASIC_STATE,
+    INFO_RUN_STATE,
+    INFO_STOP_THERMAL,
+    INFO_STOP_CAS,
+    INFO_START_CAS_SAVE,
+    INFO_START_CAS_LOAD,
+    INFO_START_CAS_DLOAD,
+    INFO_SET_DOS_FILENAME,
+    INFO_BATCH_START_SAVE,
+    INFO_BATCH_END_SAVE,
+    INFO_START_XMODEM_SAVE,
+    INFO_START_XMODEM_LOAD,
+    INFO_START_YMODEM_SAVE,
+    INFO_CORRECT_CAPS
+};
+
+class Locations
+{
+public:
+    vector<Word> keyInputAddress;
+    vector<LocationInfo> locationInfo;
+};
+
+class LocationTrigger
+{
+public:
+    vector<char> index;
+};
+
 class Conf
 {
 public:
@@ -61,6 +154,13 @@ public:
     size_t emsConfigNumber_;
     vector<EmsConfig> emsConfig_;
 
+    size_t copyConfigNumber_;
+    vector<CopyConfig> copyConfig_;
+    
+    SlotConfig slotConfig_;
+    Locations addressLocations;
+    vector<LocationTrigger> locationTrigger;
+    
     wxString romDir_[MAXROM];
     wxString rom_[MAXROM];
     wxString ramDir_;
@@ -84,6 +184,10 @@ public:
     wxString configurationDir_;
     wxString xmlDir_;
     wxString xmlFile_;
+    wxString xmodemFileDir_;
+    wxString xmodemFile_;
+
+    bool ramFileFromGui_;
 
     wxArrayString terminalPaths_;
     wxArrayString terminalFiles_;
@@ -122,7 +226,9 @@ public:
     wxString ledTime_;
     long ledTimeMs_;
     wxString clock_;
-    wxString zoom_;
+    wxString zoom_[VIDEOXMLMAX];
+    wxString videoName_[VIDEOXMLMAX];
+    int videoNumber_;
     wxString xScale_;
     wxString zoomVt_;
     int fdcCpms_;
@@ -133,6 +239,11 @@ public:
     bool useKeyboard_;
 
     bool printerOn_;
+    bool useBasicPrinter_;
+    bool useParallelPrinter_;
+    bool useSerialPrinter_;
+    bool useQSerialPrinter_;
+    bool useThermalPrinter_;
     bool useLoadLocation_;
     bool autoCassetteLoad_;
     bool turbo_;
@@ -140,8 +251,16 @@ public:
     bool dram_;
     bool st2020Active_;
     bool sbActive_;
-    bool diagActive_;
-    int diagOn_;
+    
+    bool useDiagnosticBoard_;
+    int diagRomChecksum_;
+    int diagFactory_;
+    int diagCassetteCables_;
+
+    bool useBatchWav_;
+    wxString saveCommand_;
+
+    int diagRomOn_;
     bool videoLog_;
     bool stretchDot_;
     bool realCassetteLoad_;
@@ -152,6 +271,7 @@ public:
     Byte lsb_;
     Byte msb_;
 
+    int numberOfVideoTypes_;
     int v1870X_, v1870Y_;
     int pixieX_, pixieY_;
     int tmsX_, tmsY_;

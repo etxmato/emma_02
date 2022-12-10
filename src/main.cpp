@@ -59,6 +59,7 @@
 #include "about.h"
 #include "guipopup.h"
 #include "splash.h"
+#include "definition.h"
 
 #if defined(__WXMSW__) && (_DEBUG) //** stuio Test && (WIN32)
 //#include <vld.h>
@@ -127,6 +128,7 @@ wxString markupList[]=
     "label",
     "font",
     "sysfont",
+    "family",
     "undefined"
 };
 
@@ -137,6 +139,7 @@ enum
     MU_LABEL,
     MU_FONT,
     MU_SYSFONT,
+    MU_FAMILY,
     UNDEFINED_MARKUP
 };
 
@@ -473,7 +476,6 @@ void MemEdit::saveNumber(int number)
     number_ = number;
 }
 
-DEFINE_EVENT_TYPE(OPEN_COMX_PRINTER_WINDOW)
 DEFINE_EVENT_TYPE(OPEN_PRINTER_WINDOW)
 DEFINE_EVENT_TYPE(wxEVT_ERROR_MSG)
 DEFINE_EVENT_TYPE(KILL_COMPUTER)
@@ -596,6 +598,9 @@ BEGIN_EVENT_TABLE(Main, DebugWindow)
     EVT_GUI_MSG(REFRESH_PANEL, Main::refreshPanelEvent)
     EVT_GUI_MSG(EVENT_ZOOM, Main::SetZoomEvent)
     EVT_GUI_MSG(SET_CONVERT_STATE, Main::setConvertStateEvent)
+    EVT_GUI_MSG(SET_COMXLED, Main::setUpdateComxLedStatus)
+    EVT_GUI_MSG(SET_DIAGLED, Main::setUpdateDiagLedStatus)
+    EVT_GUI_MSG(ENABLE_CLOCK, Main::setEnableClockEvent)
 
     EVT_SYS_COLOUR_CHANGED(Main::sysColourChangeEvent)
 
@@ -642,7 +647,7 @@ bool Emu1802::OnInit()
     
     wxSystemOptions::SetOption("msw.window.no-clip-children", 1);
     
-    int ubuntuOffsetX;
+    int offsetX = 0, offsetY = 0;
 
     wxInitAllImageHandlers();
     wxFileSystem::AddHandler(new wxZipFSHandler);
@@ -652,16 +657,17 @@ bool Emu1802::OnInit()
 
     wxString xrcFile;
 #if defined(__linux__)
-    ubuntuOffsetX = 36;
+    offsetX = 36;
     xrcFile = applicationDirectory_ + "main_" + fontSizeString + ".xrc";
 #elif (__WXMAC__)
 #ifdef DEBUG
     createXml();
 #endif
-    ubuntuOffsetX = 30;
+    offsetX = 30;
+    offsetY = 30;
     xrcFile = applicationDirectory_ + "main_mac_" + fontSizeString + ".xrc";
 #else
-    ubuntuOffsetX = 0;
+    offsetX = 0;
     xrcFile = applicationDirectory_ + "main_" + fontSizeString + ".xrc";
 #endif
 
@@ -684,8 +690,8 @@ bool Emu1802::OnInit()
     p_PageSetupData->SetMarginTopLeft(wxPoint(9, 9));
     p_PageSetupData->SetMarginBottomRight(wxPoint(9, 9));
 
-    int mainWindowX = (int)configPointer->Read("/Main/Window_Position_X", 30 + ubuntuOffsetX);
-    int mainWindowY = (int)configPointer->Read("/Main/Window_Position_Y", 30);
+    int mainWindowX = (int)configPointer->Read("/Main/Window_Position_X", 30 + offsetX);
+    int mainWindowY = (int)configPointer->Read("/Main/Window_Position_Y", 30 + offsetY);
     
     p_Main = new Main("Emma 02", wxPoint(mainWindowX, mainWindowY), wxSize(-1, -1), mode_, dataDir_, iniDirectory_);
 
@@ -1673,6 +1679,13 @@ void Emu1802::createXmlFile(wxString xrcDir, wxString xrcFile)
                 if (markup == MU_OBJECT)
                     classType = getObjectClass(line);
 
+                if (markup == MU_FAMILY)
+                {
+                    line=inputFile.GetNextLine();
+                    line.Trim(false);
+                    markup = getMarkup(line);
+                }
+              
                 if (markup == MU_LABEL && classType == WXSTATICTEXT)
                 {
                     if (line.Right(8) == "</label>")
@@ -1983,7 +1996,7 @@ void Emu1802::createXmlFile(wxString xrcDir, wxString xrcFile)
                         markup = getMarkup(line);
                     }
 
-                    if (markup == MU_SIZE) 
+                    if (markup == MU_SIZE)
                     {
                         line="<size>-1</size>"; // OSX: 11, Windows: 9
                         outputFile11.AddLine(line);
@@ -2074,6 +2087,7 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
 : DebugWindow(title, pos, size, mode, dataDir, iniDir)
 {
     zoomEventOngoing_ = false;
+    fullScreenEventOngoing_ = false;
     selectedComputer_ = COMX;
     computerRunning_ = false;
     runningComputer_ = NO_COMPUTER;
@@ -2228,7 +2242,7 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
         int confComputer = computer;
         if (confComputer == 2)
             confComputer = 0;
-        if (confComputer == DIY) // *** to be removed ??
+        if (confComputer == XML) // *** to be removed ??
         {
            confComputer++;
            computer++;
@@ -2320,7 +2334,7 @@ Main::~Main()
         
         for (int computer = 2; computer<NO_COMPUTER; computer++)
         {
-     //      if (computer == DIY) // *** to be removed
+     //      if (computer == XML) // *** to be removed
      //        computer++;
 
             if (selectedComputer_ != computer)
@@ -2332,7 +2346,7 @@ Main::~Main()
 
         for (int computer=0; computer<NO_COMPUTER; computer++)
         {
-     //       if (computer == DIY) // *** to be removed
+     //       if (computer == XML) // *** to be removed
      //         computer++;
 
             delete clockText[computer];
@@ -2576,7 +2590,7 @@ void Main::writeConfig()
     writeElfDirConfig(ELF, "Elf");
     writeElfDirConfig(ELFII, "ElfII");
     writeElfDirConfig(SUPERELF, "SuperElf");
-    writeDiyDirConfig();
+    writeXmlDirConfig();
     writePicoDirConfig();
     writeMembershipDirConfig();
     writeUc1800DirConfig();
@@ -2611,7 +2625,7 @@ void Main::writeConfig()
     writeElfConfig(ELF, "Elf");
     writeElfConfig(ELFII, "ElfII");
     writeElfConfig(SUPERELF, "SuperElf");
-    writeDiyConfig();
+    writeXmlConfig();
     writePicoConfig();
     writeMembershipConfig();
     writeUc1800Config();
@@ -2646,7 +2660,7 @@ void Main::writeConfig()
     writeElfWindowConfig(ELF, "Elf");
     writeElfWindowConfig(ELFII, "ElfII");
     writeElfWindowConfig(SUPERELF, "SuperElf");
-    writeDiyWindowConfig();
+    writeXmlWindowConfig();
     writePicoWindowConfig();
     writeMembershipWindowConfig();
     writeUc1800WindowConfig();
@@ -2675,19 +2689,22 @@ void Main::initConfig()
     Byte brightness[8] = { 0, 28, 77, 105, 150, 194, 227, 0xff };
 
 #if defined(__linux__)
-    ubuntuOffsetX_ = 36;
+    offsetX_ = 36;
+    offsetY_ = 0;
 #elif (__WXMAC__)
-    ubuntuOffsetX_ = 30;
+    offsetX_ = 30;
+    offsetY_ = 30;
 #else
-    ubuntuOffsetX_ = 0;
+    offsetX_ = 0;
+    offsetY_ = 0;
 #endif
 
-    mainWindowX_ = (int)configPointer->Read("/Main/Window_Position_X", 30 + ubuntuOffsetX_);
-    mainWindowY_ = (int)configPointer->Read("/Main/Window_Position_Y", 30);
+    mainWindowX_ = (int)configPointer->Read("/Main/Window_Position_X", 30 + offsetX_);
+    mainWindowY_ = (int)configPointer->Read("/Main/Window_Position_Y", 30 + offsetY_);
 
     percentageClock_ = 1;
 
-    wxString colour[67];
+    wxString colour[COL_MAX];
     int borderX[10];
     int borderY[10];
 
@@ -2702,35 +2719,88 @@ void Main::initConfig()
         colour[i * 8 + 6].Printf("#%02X%02X%02X", brightness[i], 0, brightness[i]);
         colour[i * 8 + 7].Printf("#%02X%02X%02X", brightness[i], brightness[i], brightness[i]);
     }
-    colour[64] = "#00ff00";    // foreground 80 Column
-    colour[65] = "#004000";    // background 80 Column
+    colour[COL_MC6845_FORE] = "#00ff00";    // foreground mc6845
+    colour[COL_MC6845_BACK] = "#004000";    // background 80 Columnmc6845
 
     borderX[VIDEO1870] = 0;
     borderY[VIDEO1870] = 0; // CDP 1870
     borderX[VIDEO80COL] = 0;
     borderY[VIDEO80COL] = 0;  // 80 Column
 
-    setScreenInfo(COMX, 0, 66, colour, 3, borderX, borderY);
+    setScreenInfo(COMX, 0, COL_MC6845_BACK+1, colour, 3, borderX, borderY);
     setComputerInfo(COMX, "Comx", "COMX-35", "comx");
 
-    setScreenInfo(CIDELSA, 56, 64, colour, 1, borderX, borderY);
+    setScreenInfo(CIDELSA, COL_V1870_MAIN, COL_V1870_MAIN+8, colour, 1, borderX, borderY);
     setComputerInfo(CIDELSA, "Cidelsa", "Cidelsa", "");
 
-    setScreenInfo(TMC600, 56, 64, colour, 1, borderX, borderY);
+    setScreenInfo(TMC600, COL_V1870_MAIN, COL_V1870_MAIN+8, colour, 1, borderX, borderY);
     setComputerInfo(TMC600, "TMC600", "Telmac 600", "tmc600");
 
-    setScreenInfo(PECOM, 56, 64, colour, 1, borderX, borderY);
+    setScreenInfo(PECOM, COL_V1870_MAIN, COL_V1870_MAIN+8, colour, 1, borderX, borderY);
     setComputerInfo(PECOM, "Pecom", "Pecom 64", "pecom");
 
     borderX[VIDEOMICROVT] = 0;
     borderY[VIDEOMICROVT] = 0;  //Video Terminal
+    borderX[VIDEO1870] = 0;
+    borderY[VIDEO1870] = 0; // CDP 1870
 
-    colour[64] = "#00ff00";    // foreground vt
-    colour[65] = "#004000";    // background vt
-    colour[66] = "#00ff00";    // highlight vt
+    colour[COL_VT_FORE] = "#00ff00";    // foreground vt
+    colour[COL_VT_BACK] = "#004000";    // background vt
+    colour[COL_VT_HIGH] = "#00ff00";    // highlight vt
 
-    setScreenInfo(MICROBOARD, 0, 67, colour, 2, borderX, borderY);
+    setScreenInfo(MICROBOARD, 0, COL_VT_HIGH+1, colour, 2, borderX, borderY);
     setComputerInfo(MICROBOARD, "Microboard", "Microboard System", "rca");
+
+    borderX[VIDEOVT] = 0;
+    borderY[VIDEOVT] = 0;  //Video Terminal
+    borderX[VIDEOXML1870] = 0;
+    borderY[VIDEOXML1870] = 0; // CDP 1870
+    borderX[VIDEOXMLPIXIE] = 11;
+    borderY[VIDEOXMLPIXIE] = 33;  //Pixie
+    borderX[VIDEOXML6845] = 0;
+    borderY[VIDEOXML6845] = 0;  //6845
+    borderX[VIDEOXML6847] = 25;
+    borderY[VIDEOXML6847] = 25;  //6847
+    borderX[VIDEOXMLTMS] = 32;
+    borderY[VIDEOXMLTMS] = 24;  //TMS
+    borderX[VIDEOXMLI8275] = 0;
+    borderY[VIDEOXMLI8275] = 0;  //i8275
+
+    colour[COL_PIXIE_FORE] = "#ffffff";    // foreground pixie
+    colour[COL_PIXIE_BACK] = "#000000";    // background pixie
+    colour[COL_I8275_FORE] = "#00ff00";    // foreground i8275
+    colour[COL_I8275_BACK] = "#004000";    // background i8275
+    colour[COL_I8275_HIGH] = "#00ff00";    // highlight i8275
+    colour[COL_MC6847_TEXT_BLACK] = "#000000";     // background mc6847
+    colour[COL_MC6847_TEXT_GREEN] = "#00ff00";     // text green
+    colour[COL_MC6847_TEXT_ORANGE] = "#ffc418";    // text orange
+    colour[COL_MC6847_GRAPH_GREEN] = "#00ff00";    // graphic Green
+    colour[COL_MC6847_GRAPH_YELLOW] = "#ffff00";   // graphic Yellow
+    colour[COL_MC6847_GRAPH_BLUE] = "#0000ff";     // graphic Blue
+    colour[COL_MC6847_GRAPH_RED] = "#ff0000";      // graphic Red
+    colour[COL_MC6847_GRAPH_BUFF] = "#ffffff";     // graphic Buff
+    colour[COL_MC6847_GRAPH_CYAN] = "#00ffff";     // graphic Cyan
+    colour[COL_MC6847_GRAPH_MAGENTA] = "#ff00ff";  // graphic Magenta
+    colour[COL_MC6847_GRAPH_ORANGE] = "#ffc418";   // graphic Orange
+    colour[COL_TMS_TRANSPARANT] = "#000000";
+    colour[COL_TMS_BLACK] = "#000000";
+    colour[COL_TMS_MEDIUM_GREEN] = "#21C842";
+    colour[COL_TMS_LIGHT_GREEN] = "#5EDC78";
+    colour[COL_TMS_DARK_BLUE] = "#5455ED";
+    colour[COL_TMS_LIGHT_BLUE] = "#7D76FC";
+    colour[COL_TMS_DARK_RED] = "#D4524D";
+    colour[COL_TMS_AQUA_BLUE] = "#42EBF5";
+    colour[COL_TMS_MEDIUM_RED] = "#FC5554";
+    colour[COL_TMS_LIGHT_RED] = "#FF7978";
+    colour[COL_TMS_DARK_YELLOW] = "#D4C154";
+    colour[COL_TMS_LIGHT_YELLOW] = "#E6CE80";
+    colour[COL_TMS_DARK_GREEN] = "#21B03B";
+    colour[COL_TMS_PURPLE] = "#C95BBA";
+    colour[COL_TMS_GRAY] = "#CCCCCC";
+    colour[COL_TMS_WHITE] = "#ffffff";
+
+    setScreenInfo(XML, 0, COL_MAX, colour, 7, borderX, borderY);
+    setComputerInfo(XML, "Xml", "Xml", "");
 
     borderX[VIDEOVT] = 0;
     borderY[VIDEOVT] = 0;  //Video Terminal
@@ -2817,9 +2887,6 @@ void Main::initConfig()
 
     setScreenInfo(SUPERELF, 0, 32, colour, 6, borderX, borderY);
     setComputerInfo(SUPERELF, "SuperElf", "Quest Super Elf", "super");
-
-    setScreenInfo(DIY, 0, 32, colour, 6, borderX, borderY);
-    setComputerInfo(DIY, "Diy", "Diy", "");
 
     setScreenInfo(PICO, 0, 32, colour, 6, borderX, borderY);
     setComputerInfo(PICO, "Pico", "Pico/Elf V2", "super");
@@ -2969,7 +3036,7 @@ void Main::initConfig()
     {
         for (int computer = 0; computer < NO_COMPUTER; computer++)
         {
-  //          if (computer == DIY) // *** to be removed
+  //          if (computer == XML) // *** to be removed
   //              computer++;
             switch (computer)
             {
@@ -2977,6 +3044,7 @@ void Main::initConfig()
                 case PECOM:
                 case CIDELSA:
                 case ETI:
+                case XML:
                     clockText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "Clock:", wxPoint(defaultGuiSize_.x - windowInfo.clockTextCorrectionSingleTabX, defaultGuiSize_.y - windowInfo.clockTextCorrectionSingleTabY));
                     clockTextCtrl[computer] = new FloatEdit(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_CLOCK_TEXTCTRL + computer, "", wxPoint(defaultGuiSize_.x - windowInfo.clockCorrectionSingleTabX, defaultGuiSize_.y - windowInfo.clockCorrectionSingleTabY), wxSize(windowInfo.clockSize, windowInfo.floatHeight));
                     mhzText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "MHz", wxPoint(defaultGuiSize_.x - windowInfo.mhzTextCorrectionSingleTabX, defaultGuiSize_.y - windowInfo.mhzTextCorrectionSingleTabY));
@@ -3009,7 +3077,7 @@ void Main::initConfig()
 
     for (int computer = 0; computer < NO_COMPUTER; computer++)
     {
-  //     if (computer == DIY) // *** to be removed
+  //     if (computer == XML) // *** to be removed
   //         computer++;
        
         conf[computer].configurationInfo_.menuName = "";
@@ -3045,7 +3113,7 @@ void Main::readConfig()
     readElfConfig(ELF, "Elf");
     readElfConfig(ELFII, "ElfII");
     readElfConfig(SUPERELF, "SuperElf");
-    readDiyConig();
+    readXmlConig();
     readPicoConfig();
     readMembershipConfig();
     readUc1800Config();
@@ -3080,7 +3148,7 @@ void Main::readConfig()
     readElfWindowConfig(ELF, "Elf");
     readElfWindowConfig(ELFII, "ElfII");
     readElfWindowConfig(SUPERELF, "SuperElf");
-    readDiyWindowConfig();
+    readXmlWindowConfig();
     readPicoWindowConfig();
     readMembershipWindowConfig();
     readUc1800WindowConfig();
@@ -3299,7 +3367,7 @@ void Main::readConfig()
             XRCCTRL(*this, "PanelMembership", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelVelf", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelUC1800", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
-            XRCCTRL(*this, "PanelDiy", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
+            XRCCTRL(*this, "PanelXml", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelPico", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelFRED1", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelFRED1_5", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
@@ -3619,7 +3687,7 @@ void Main::buildConfigMenu()
         int confComputer = computer;
         if (confComputer == 2)
             confComputer = 0;
-  //      if (confComputer == DIY) // *** to be removed
+  //      if (confComputer == XML) // *** to be removed
   //      {
   //         confComputer++;
   //         computer++;
@@ -3978,9 +4046,9 @@ int Main::saveComputerConfig(ConfigurationInfo configurationInfo, ConfigurationI
             writeElfConfig(SUPERELF, "SuperElf");
         break;
 
-        case DIY:
-            writeDiyDirConfig();
-            writeDiyConfig();
+        case XML:
+            writeXmlDirConfig();
+            writeXmlConfig();
         break;
 
         case PICO:
@@ -4000,7 +4068,7 @@ int Main::saveComputerConfig(ConfigurationInfo configurationInfo, ConfigurationI
 
     for (int comp=2; comp<NO_COMPUTER; comp++)
     {
- //       if (comp == DIY) // *** to be removed
+ //       if (comp == XML) // *** to be removed
  //          comp++;
         delete conf[comp].configurationMenu;
         delete conf[comp].configurationDeleteMenu;
@@ -4206,8 +4274,8 @@ void Main::loadComputerConfig(wxString fileName)
             readElfConfig(SUPERELF, "SuperElf");
         break;
             
-        case DIY:
-            readDiyConig();
+        case XML:
+            readXmlConig();
         break;
 
         case PICO:
@@ -4498,7 +4566,7 @@ void Main::onDeleteConfiguration(wxCommandEvent& event)
             
                 for (int comp=2; comp<NO_COMPUTER; comp++)
                 {
-      //              if (comp == DIY) // *** to be removed
+      //              if (comp == XML) // *** to be removed
       //                 comp++;
                     delete conf[comp].configurationMenu;
                     delete conf[comp].configurationDeleteMenu;
@@ -5037,7 +5105,7 @@ bool Main::checkFunctionKey(wxKeyEvent& event)
                 case SUPERELF:
                 case VIP:
                 case VELF:
-                case DIY:
+                case XML:
                 case PICO:
                     if (conf[runningComputer_].printerOn_)
                         p_Main->onF4();
@@ -5051,8 +5119,8 @@ bool Main::checkFunctionKey(wxKeyEvent& event)
     {
         if (computerRunning_)
         {
-            if (p_Video != NULL)
-                p_Video->onF5();
+            if (p_Video[VIDEOMAIN] != NULL)
+                p_Video[VIDEOMAIN]->onF5();
             if (p_Vt100[UART1] != NULL)
                 p_Vt100[UART1]->onF5();
             if (p_Vt100[UART2] != NULL)
@@ -5120,8 +5188,8 @@ void Main::activateMainWindow()
             p_Vt100[UART1]->activateMainWindow();
         if (p_Vt100[UART2] != NULL)
             p_Vt100[UART2]->activateMainWindow();
-        else if (p_Video != NULL)
-            p_Video->activateMainWindow();
+        else if (p_Video[VIDEOMAIN] != NULL)
+            p_Video[VIDEOMAIN]->activateMainWindow();
         else p_Computer->activateMainWindow();
     }
 }
@@ -5140,9 +5208,9 @@ void Main::fullScreenMenu()
 {
     if (computerRunning_)
     {
-        if ((p_Video != NULL) && (p_Vt100[UART1] != NULL))
+        if ((p_Video[conf[runningComputer_].videoNumber_] != NULL) && (p_Vt100[UART1] != NULL))
         {
-            if (!p_Video->isFullScreenSet() && !p_Vt100[UART1]->isFullScreenSet())
+            if (!p_Video[conf[runningComputer_].videoNumber_]->isFullScreenSet() && !p_Vt100[UART1]->isFullScreenSet())
                 p_Vt100[UART1]->onF3();
             else if (p_Vt100[UART1]->isFullScreenSet())
             {
@@ -5151,11 +5219,11 @@ void Main::fullScreenMenu()
                 {
                     wxSleep(1);
                 }
-                p_Video->onF3();
+                p_Video[conf[runningComputer_].videoNumber_]->onF3();
             }
             else
             {
-                p_Video->onF3();
+                p_Video[conf[runningComputer_].videoNumber_]->onF3();
             }
         }
         else
@@ -5180,8 +5248,8 @@ void Main::fullScreenMenu()
             }
             else
             {
-                if (p_Video != NULL)
-                    p_Video->onF3();
+                if (p_Video[conf[runningComputer_].videoNumber_] != NULL)
+                    p_Video[conf[runningComputer_].videoNumber_]->onF3();
                 if (p_Vt100[UART1] != NULL)
                     p_Vt100[UART1]->onF3();
             }
@@ -5398,9 +5466,9 @@ void Main::onDefaultWindowPosition(wxCommandEvent&WXUNUSED(event))
             p_Super->Move(conf[SUPERELF].mainX_, conf[SUPERELF].mainY_);
         break;
 
-        case DIY:
-            p_Diy->moveWindows();
-            p_Diy->Move(conf[DIY].mainX_, conf[DIY].mainY_);
+        case XML:
+            p_Xmlemu->moveWindows();
+            p_Xmlemu->Move(conf[XML].mainX_, conf[XML].mainY_);
         break;
 
         case PICO:
@@ -5497,6 +5565,10 @@ void Main::nonFixedWindowPosition()
         conf[i].mainY_ = -1;
     }
 
+    conf[XML].keypadX_ = -1;
+    conf[XML].keypadY_ = -1;
+    conf[XML].v1870X_ = -1;
+    conf[XML].v1870Y_ = -1;
     conf[ELF2K].keypadX_ = -1;
     conf[ELF2K].keypadY_ = -1;
     conf[COSMICOS].keypadX_ = -1;
@@ -5541,8 +5613,8 @@ void Main::nonFixedWindowPosition()
 
 void Main::fixedWindowPosition()
 {
-    mainWindowX_ = 30 + ubuntuOffsetX_;
-    mainWindowY_ = 30;
+    mainWindowX_ = 30 + offsetX_;
+    mainWindowY_ = 30 + offsetY_;
     conf[COMX].mainX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
     conf[COMX].mainY_ = mainWindowY_;
     conf[COMX].mc6845X_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
@@ -5615,6 +5687,10 @@ void Main::fixedWindowPosition()
         conf[i].mainY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
     }
 
+    conf[XML].keypadX_ = mainWindowX_+346+windowInfo.xBorder2;
+    conf[XML].keypadY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
+    conf[XML].v1870X_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
+    conf[XML].v1870Y_ = mainWindowY_;
     conf[ELF2K].keypadX_ = mainWindowX_+507+windowInfo.xBorder2;
     conf[ELF2K].keypadY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
     conf[COSMICOS].keypadX_ = mainWindowX_+333+windowInfo.xBorder2;
@@ -5687,13 +5763,14 @@ void Main::onStart(int computer)
     updateMemoryPage_ = true;
     emuClosing_ = false;
     thermalEf_ = false;
-    statusLedUpdate_ = true;
-    slotLedUpdate_ = true;
+    statusLedUpdate_ = false;
+    slotLedUpdate_ = false;
     chip8Steps_ = -1;
     performChip8Step_ = false;
     additionalChip8Details_ = false;
 
-    p_Video = NULL;
+    for (int video=0; video<VIDEOXMLMAX; video++)
+      p_Video[video] = NULL;
     p_Vt100[UART1] = NULL;
     p_Vt100[UART2] = NULL;
     p_Serial = NULL;
@@ -5703,8 +5780,10 @@ void Main::onStart(int computer)
 #ifndef __WXMAC__
     wxSetWorkingDirectory(workingDir_);
 #endif
+    if (runningComputer_ != XML)
+       conf[runningComputer_].numberOfVideoTypes_ = 0;
     setClock(runningComputer_);
-    toDouble(conf[runningComputer_].zoom_, &zoom);
+    toDouble(conf[runningComputer_].zoom_[conf[runningComputer_].videoNumber_], &zoom);
     toDouble(conf[runningComputer_].xScale_, &xScale);
 
     if (!fullScreenFloat_)
@@ -5726,7 +5805,8 @@ void Main::onStart(int computer)
             else
                 comxy = 192;
             p_Comx = new Comx(computerInfo[COMX].name, wxPoint(conf[COMX].mainX_, conf[COMX].mainY_), wxSize(240 * zoom, comxy * zoom), zoom, COMX, conf[COMX].clockSpeed_, conf[COMX]);
-            p_Video = p_Comx;
+            p_Video[VIDEOMAIN] = p_Comx;
+            conf[COMX].numberOfVideoTypes_ = 1;
             p_Computer = p_Comx;
         break;
 
@@ -5776,12 +5856,26 @@ void Main::onStart(int computer)
             p_Computer = p_Super;
         break;
 
-        case DIY:
-            parseXmlFile(DIY,conf[DIY].xmlDir_, conf[DIY].xmlFile_);
+        case XML:
+            parseXmlFile(XML,conf[XML].xmlDir_, conf[XML].xmlFile_);
             setXmlGui();
 
-            p_Diy = new Diy(computerInfo[DIY].name, wxPoint(conf[DIY].mainX_, conf[DIY].mainY_), wxSize(534, 386), conf[DIY].clockSpeed_, elfConfiguration[DIY], conf[DIY]);
-            p_Computer = p_Diy;
+            switch (elfConfiguration[XML].panelType_)
+            {
+               case PANEL_COSMAC:
+                  p_Xmlemu = new Xmlemu(computerInfo[XML].name, wxPoint(conf[XML].mainX_, conf[XML].mainY_), wxSize(346, 464), conf[XML].clockSpeed_, elfConfiguration[XML], conf[XML]);
+               break;
+                  
+               case PANEL_MICROTUTOR:
+               case PANEL_MICROTUTOR2:
+                  p_Xmlemu = new Xmlemu(computerInfo[XML].name, wxPoint(conf[XML].mainX_, conf[XML].mainY_), wxSize(333, 160), conf[XML].clockSpeed_, elfConfiguration[XML], conf[XML]);
+               break;
+                  
+               default:
+                  p_Xmlemu = new Xmlemu(computerInfo[XML].name, wxPoint(conf[XML].mainX_,    conf[XML].mainY_), wxSize(534, 386), conf[XML].clockSpeed_, elfConfiguration[XML], conf[XML]);
+               break;
+            }
+            p_Computer = p_Xmlemu;
         break;
 
         case PICO:
@@ -5811,13 +5905,15 @@ void Main::onStart(int computer)
 
         case STUDIO:
             p_Studio2 = new Studio2(computerInfo[STUDIO].name, wxPoint(conf[STUDIO].mainX_, conf[STUDIO].mainY_), wxSize(64*zoom*xScale, 128*zoom), zoom, xScale, STUDIO, conf[STUDIO]);
-            p_Video = p_Studio2;
+            p_Video[VIDEOMAIN] = p_Studio2;
+            conf[STUDIO].numberOfVideoTypes_ = 1;
             p_Computer = p_Studio2;
         break;
 
         case COINARCADE:
             p_CoinArcade = new CoinArcade(computerInfo[COINARCADE].name, wxPoint(conf[COINARCADE].mainX_, conf[COINARCADE].mainY_), wxSize(64*zoom*xScale, 128*zoom), zoom, xScale, COINARCADE, conf[COINARCADE]);
-            p_Video = p_CoinArcade;
+            p_Video[VIDEOMAIN] = p_CoinArcade;
+             conf[COINARCADE].numberOfVideoTypes_ = 1;
             p_Computer = p_CoinArcade;
         break;
             
@@ -5833,25 +5929,29 @@ void Main::onStart(int computer)
             
         case VISICOM:
             p_Visicom = new Visicom(computerInfo[VISICOM].name, wxPoint(conf[VISICOM].mainX_, conf[VISICOM].mainY_), wxSize(64*zoom*xScale, 128*zoom), zoom, xScale, VISICOM, conf[VISICOM]);
-            p_Video = p_Visicom;
+            p_Video[VIDEOMAIN] = p_Visicom;
+            conf[VISICOM].numberOfVideoTypes_ = 1;
             p_Computer = p_Visicom;
         break;
 
         case VICTORY:
             p_Victory = new Victory(computerInfo[VICTORY].name, wxPoint(conf[VICTORY].mainX_, conf[VICTORY].mainY_), wxSize(64*zoom*xScale, 192*zoom), zoom, xScale, VICTORY, conf[VICTORY]);
-            p_Video = p_Victory;
+            p_Video[VIDEOMAIN] = p_Victory;
+            conf[VICTORY].numberOfVideoTypes_ = 1;
             p_Computer = p_Victory;
         break;
 
         case STUDIOIV:
             p_StudioIV = new StudioIV(computerInfo[STUDIOIV].name, wxPoint(conf[STUDIOIV].mainX_, conf[STUDIOIV].mainY_), wxSize(64*zoom*xScale, 192*zoom), zoom, xScale, STUDIOIV, conf[STUDIOIV]);
-            p_Video = p_StudioIV;
+            p_Video[VIDEOMAIN] = p_StudioIV;
+            conf[STUDIOIV].numberOfVideoTypes_ = 1;
             p_Computer = p_StudioIV;
         break;
             
         case VIP:
             p_Vip = new Vip(computerInfo[VIP].name, wxPoint(conf[VIP].mainX_, conf[VIP].mainY_), wxSize(64*zoom*xScale, 128*zoom), zoom, xScale, VIP, conf[VIP].clockSpeed_, conf[VIP].tempo_, elfConfiguration[VIP], conf[VIP]);
-            p_Video = p_Vip;
+            p_Video[VIDEOMAIN] = p_Vip;
+            conf[VIP].numberOfVideoTypes_ = 1;
             p_Computer = p_Vip;
             if (getVipStereo())
                 stereo = 2;
@@ -5863,13 +5963,15 @@ void Main::onStart(int computer)
 
         case VIPII:
             p_Vip2 = new VipII(computerInfo[VIPII].name, wxPoint(conf[VIPII].mainX_, conf[VIPII].mainY_), wxSize(64*zoom*xScale, 128*zoom), zoom, xScale, VIPII, conf[VIPII].clockSpeed_, conf[VIPII].tempo_, conf[VIPII]);
-            p_Video = p_Vip2;
+            p_Video[VIDEOMAIN] = p_Vip2;
+            conf[VIPII].numberOfVideoTypes_ = 1;
             p_Computer = p_Vip2;
         break;
 
         case VIP2K:
             p_Vip2K = new Vip2K(computerInfo[VIP2K].name, wxPoint(conf[VIP2K].mainX_, conf[VIP2K].mainY_), wxSize(198*xScale, 200), zoom, xScale, VIP2K, conf[VIP2K].clockSpeed_, elfConfiguration[VIP2K], conf[VIP2K]);
-            p_Video = p_Vip2K;
+            p_Video[VIDEOMAIN] = p_Vip2K;
+            conf[VIP2K].numberOfVideoTypes_ = 1;
             p_Computer = p_Vip2K;
         break;
             
@@ -5889,14 +5991,14 @@ void Main::onStart(int computer)
                 case MICROBOARD_CDP18S600:
                     p_Cdp18s600 = new Cdp18s600(computerInfo[MICROBOARD].name, wxPoint(conf[MICROBOARD].v1870X_, conf[MICROBOARD].v1870Y_), wxSize(240 * zoom, 216 * zoom), zoom, MICROBOARD,conf[MICROBOARD].clockSpeed_, elfConfiguration[MICROBOARD], conf[MICROBOARD]);
                     p_Computer = p_Cdp18s600;
-                    p_Video = p_Cdp18s600;
+                    p_Video[VIDEOMAIN] = p_Cdp18s600;
                 break;
                 
                 case MICROBOARD_CDP18S601:
                 case MICROBOARD_CDP18S606:
                     p_Cdp18s601 = new Cdp18s601(computerInfo[MICROBOARD].name, wxPoint(conf[MICROBOARD].v1870X_, conf[MICROBOARD].v1870Y_), wxSize(240 * zoom, 216 * zoom), zoom, MICROBOARD,conf[MICROBOARD].clockSpeed_, elfConfiguration[MICROBOARD], conf[MICROBOARD]);
                     p_Computer = p_Cdp18s601;
-                    p_Video = p_Cdp18s601;
+                    p_Video[VIDEOMAIN] = p_Cdp18s601;
                 break;
                 
                 case MICROBOARD_CDP18S602:
@@ -5905,7 +6007,7 @@ void Main::onStart(int computer)
                 case MICROBOARD_CDP18S610:
                     p_Cdp18s602 = new Cdp18s602(computerInfo[MICROBOARD].name, wxPoint(conf[MICROBOARD].v1870X_, conf[MICROBOARD].v1870Y_), wxSize(240 * zoom, 216 * zoom), zoom, MICROBOARD,conf[MICROBOARD].clockSpeed_, elfConfiguration[MICROBOARD], conf[MICROBOARD]);
                     p_Computer = p_Cdp18s602;
-                    p_Video = p_Cdp18s602;
+                    p_Video[VIDEOMAIN] = p_Cdp18s602;
                break;
                     
                 case MICROBOARD_CDP18S603:
@@ -5913,65 +6015,72 @@ void Main::onStart(int computer)
                 case MICROBOARD_CDP18S608:
                     p_Cdp18s603a = new Cdp18s603a(computerInfo[MICROBOARD].name, wxPoint(conf[MICROBOARD].v1870X_, conf[MICROBOARD].v1870Y_), wxSize(240 * zoom, 216 * zoom), zoom, MICROBOARD,conf[MICROBOARD].clockSpeed_, elfConfiguration[MICROBOARD], conf[MICROBOARD]);
                     p_Computer = p_Cdp18s603a;
-                    p_Video = p_Cdp18s603a;
+                    p_Video[VIDEOMAIN] = p_Cdp18s603a;
                break;
 
                 case MICROBOARD_CDP18S604B:
                 case MICROBOARD_CDP18S609:
                     p_Cdp18s604b = new Cdp18s604b(computerInfo[MICROBOARD].name, wxPoint(conf[MICROBOARD].v1870X_, conf[MICROBOARD].v1870Y_), wxSize(240 * zoom, 216 * zoom), zoom, MICROBOARD,conf[MICROBOARD].clockSpeed_, elfConfiguration[MICROBOARD], conf[MICROBOARD]);
                     p_Computer = p_Cdp18s604b;
-                    p_Video = p_Cdp18s604b;
+                    p_Video[VIDEOMAIN] = p_Cdp18s604b;
                break;
 
                 case RCASBC:
                     p_Rcasbc = new Rcasbc(computerInfo[MICROBOARD].name, wxPoint(conf[MICROBOARD].v1870X_, conf[MICROBOARD].v1870Y_), wxSize(240 * zoom, 216 * zoom), zoom, MICROBOARD,conf[MICROBOARD].clockSpeed_, elfConfiguration[MICROBOARD], conf[MICROBOARD]);
                     p_Computer = p_Rcasbc;
-                    p_Video = p_Rcasbc;
+                    p_Video[VIDEOMAIN] = p_Rcasbc;
                 break;
             }
-
+            conf[MICROBOARD].numberOfVideoTypes_ = 1;
         break;
             
         case TMC1800:
             p_Tmc1800 = new Tmc1800(computerInfo[TMC1800].name, wxPoint(conf[TMC1800].mainX_, conf[TMC1800].mainY_), wxSize(64*zoom*xScale, 128*zoom), zoom, xScale, TMC1800, conf[TMC1800]);
-            p_Video = p_Tmc1800;
+            p_Video[VIDEOMAIN] = p_Tmc1800;
+            conf[TMC1800].numberOfVideoTypes_ = 1;
             p_Computer = p_Tmc1800;
         break;
 
         case TMC2000:
             p_Tmc2000 = new Tmc2000(computerInfo[TMC2000].name, wxPoint(conf[TMC2000].mainX_, conf[TMC2000].mainY_), wxSize(64*zoom*xScale, 192*zoom), zoom, xScale, TMC2000, conf[TMC2000]);
-            p_Video = p_Tmc2000;
+            p_Video[VIDEOMAIN] = p_Tmc2000;
+            conf[TMC2000].numberOfVideoTypes_ = 1;
             p_Computer = p_Tmc2000;
         break;
 
         case ETI:
             p_Eti = new Eti(computerInfo[ETI].name, wxPoint(conf[ETI].mainX_, conf[ETI].mainY_), wxSize(64*zoom*xScale, 192*zoom), zoom, xScale, ETI, conf[ETI]);
-            p_Video = p_Eti;
+            p_Video[VIDEOMAIN] = p_Eti;
+            conf[ETI].numberOfVideoTypes_ = 1;
             p_Computer = p_Eti;
         break;
 
         case NANO:
             p_Nano = new Nano(computerInfo[NANO].name, wxPoint(conf[NANO].mainX_, conf[NANO].mainY_), wxSize(64*zoom*xScale, 192*zoom), zoom, xScale, NANO, conf[NANO]);
-            p_Video = p_Nano;
+            p_Video[VIDEOMAIN] = p_Nano;
+            conf[NANO].numberOfVideoTypes_ = 1;
             p_Computer = p_Nano;
         break;
 
         case CIDELSA:
             p_Cidelsa = new Cidelsa(computerInfo[CIDELSA].name, wxPoint(conf[CIDELSA].mainX_, conf[CIDELSA].mainY_), wxSize(200*zoom, 240*zoom), zoom, CIDELSA, conf[CIDELSA].clockSpeed_, conf[CIDELSA]);
-            p_Video = p_Cidelsa;
+            p_Video[VIDEOMAIN] = p_Cidelsa;
+            conf[CIDELSA].numberOfVideoTypes_ = 1;
             p_Computer = p_Cidelsa;
         break;
 
         case TMC600:
-            p_Tmc600 = new Tmc600(computerInfo[TMC600].name, wxPoint(conf[TMC600].mainX_, conf[TMC600].mainY_), wxSize(240*zoom, 216*zoom), zoom, TMC600, conf[TMC600].clockSpeed_, conf[DIY]);
-            p_Video = p_Tmc600;
+            p_Tmc600 = new Tmc600(computerInfo[TMC600].name, wxPoint(conf[TMC600].mainX_, conf[TMC600].mainY_), wxSize(240*zoom, 216*zoom), zoom, TMC600, conf[TMC600].clockSpeed_, conf[XML]);
+            p_Video[VIDEOMAIN] = p_Tmc600;
+            conf[TMC600].numberOfVideoTypes_ = 1;
             p_Computer = p_Tmc600;
         break;
 
         case PECOM:
             p_Pecom = new Pecom(computerInfo[PECOM].name, wxPoint(conf[PECOM].mainX_, conf[PECOM].mainY_), wxSize(240*zoom, 216*zoom), zoom, PECOM, conf[PECOM].clockSpeed_, conf[PECOM]);
-            p_Video = p_Pecom;
-            p_Computer = p_Pecom;
+            p_Video[VIDEOMAIN] = p_Pecom;
+            conf[PECOM].numberOfVideoTypes_ = 1;
+           p_Computer = p_Pecom;
         break;
     }
     
@@ -6020,11 +6129,11 @@ void Main::onStart(int computer)
     {
         if (runningComputer_ < 6)
             if (elfConfiguration[runningComputer_].vtType == VTNONE)
-                p_Main->eventVideoSetFullScreen(mode_.full_screen);
+                p_Main->eventVideoSetFullScreen(mode_.full_screen, 0);
             else
                 p_Main->eventVtSetFullScreen(mode_.full_screen, UART1);
         else    
-            p_Main->eventVideoSetFullScreen(mode_.full_screen);
+            p_Main->eventVideoSetFullScreen(mode_.full_screen, 0);
     }
 }
 
@@ -6056,7 +6165,7 @@ void Main::stopComputer()
             case ELF:
             case ELFII:
             case SUPERELF:
-            case DIY:
+            case XML:
             case PICO:
                 enableMemAccessGui(false);
                 vuSet("Vu"+computerInfo[runningComputer_].gui, 0);
@@ -6102,7 +6211,7 @@ void Main::killComputer(wxCommandEvent&WXUNUSED(event))
 
     delete p_Computer;
     p_Computer = NULL;
-    p_Video = NULL;
+    p_Video[VIDEOMAIN] = NULL;
     p_Vt100[UART1] = NULL;
     p_Vt100[UART2] = NULL;
     p_Serial = NULL;
@@ -6287,8 +6396,8 @@ void Main::onComputer(wxNotebookEvent&event)
             selectedComputer_ = ETI;
         break;
 
-        case DIYTAB:
-            selectedComputer_ = DIY;
+        case XMLTAB:
+            selectedComputer_ = XML;
         break;
 
         case DEBUGGERTAB:
@@ -6466,7 +6575,7 @@ void Main::onElfChoiceBook(wxChoicebookEvent&event)
             case SUPERELF:
             case VIP2K:
             case VELF:
-            case DIY:
+            case XML:
             case PICO:
                 vuSet("Vu"+computerInfo[selectedComputer_].gui, 1);
                 vuSet("Vu"+computerInfo[selectedComputer_].gui, 0);
@@ -6639,9 +6748,9 @@ void Main::setNoteBook()
             XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->SetSelection(SUPERELFTAB);
         break;
 
-        case DIY:
+        case XML:
             XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(COSMACELFTAB);
-            XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->SetSelection(DIYTAB);
+            XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->SetSelection(XMLTAB);
         break;
 
         case PICO:
@@ -6781,7 +6890,6 @@ void Main::enableColorbutton(bool status)
     XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status | (runningComputer_ == ELF));
     XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status | (runningComputer_ == ELFII));
     XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status | (runningComputer_ == SUPERELF));
-    XRCCTRL(*this,"ColoursDiy", wxButton)->Enable(status | (runningComputer_ == DIY)); // *** to be removed
     XRCCTRL(*this,"ColoursPico", wxButton)->Enable(status | (runningComputer_ == PICO));
     XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status | (runningComputer_ == MEMBER));
     XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status | (runningComputer_ == VELF));
@@ -6851,10 +6959,10 @@ void Main::enableGui(bool status)
         XRCCTRL(*this,"EpromComx", wxButton)->Enable(status);
         XRCCTRL(*this,"MainRomComx", wxComboBox)->Enable(status&!conf[COMX].sbActive_);
         XRCCTRL(*this,"RomButtonComx", wxButton)->Enable(status&!conf[COMX].sbActive_);
-        XRCCTRL(*this,"ExpRomComx", wxComboBox)->Enable(status&!(conf[COMX].sbActive_ || conf[COMX].diagActive_));
-        XRCCTRL(*this,"ExpRomButtonComx", wxButton)->Enable(status&!(conf[COMX].sbActive_ || conf[COMX].diagActive_));
-        XRCCTRL(*this, "Cart1RomComx", wxComboBox)->Enable(status&!conf[COMX].diagActive_);
-        XRCCTRL(*this, "Cart1RomButtonComx", wxButton)->Enable(status&!conf[COMX].diagActive_);
+        XRCCTRL(*this,"ExpRomComx", wxComboBox)->Enable(status&!(conf[COMX].sbActive_ || conf[COMX].useDiagnosticBoard_));
+        XRCCTRL(*this,"ExpRomButtonComx", wxButton)->Enable(status&!(conf[COMX].sbActive_ || conf[COMX].useDiagnosticBoard_));
+        XRCCTRL(*this, "Cart1RomComx", wxComboBox)->Enable(status&!conf[COMX].useDiagnosticBoard_);
+        XRCCTRL(*this, "Cart1RomButtonComx", wxButton)->Enable(status&!conf[COMX].useDiagnosticBoard_);
         if (expansionRomLoaded_ || conf[COMX].sbActive_)
         {
             XRCCTRL(*this,"Cart2RomComx", wxComboBox)->Enable(status);
@@ -6870,7 +6978,7 @@ void Main::enableGui(bool status)
         XRCCTRL(*this,"PrintButtonComx", wxButton)->Enable(!status);
         XRCCTRL(*this,"ScreenDumpF5Comx", wxButton)->Enable(!status);
         XRCCTRL(*this,"FullScreenF3Comx", wxButton)->Enable(!status);
-        XRCCTRL(*this,"ExpRamComx", wxCheckBox)->Enable(status&!conf[COMX].diagActive_);
+        XRCCTRL(*this,"ExpRamComx", wxCheckBox)->Enable(status&!conf[COMX].useDiagnosticBoard_);
         XRCCTRL(*this, "SbActiveComx", wxCheckBox)->Enable(status);
         XRCCTRL(*this, "DramComx", wxCheckBox)->Enable(status);
         XRCCTRL(*this, "DiagActiveComx", wxCheckBox)->Enable(status);
@@ -7425,7 +7533,7 @@ void Main::enableGui(bool status)
         XRCCTRL(*this,"TilText"+elfTypeStr,wxStaticText)->Enable(status);
         enableMemAccessGui(!status);
     }
-    if (runningComputer_ == DIY)
+    if (runningComputer_ == XML)
     {
         chip8ProtectedMode_= false;
         XRCCTRL(*this,"Chip8TraceButton", wxToggleButton)->SetValue(false);
@@ -7434,31 +7542,32 @@ void Main::enableGui(bool status)
         enableLoadGui(!status);
         setRealCas2(runningComputer_);
         
-        XRCCTRL(*this,"MainXmlDiy", wxComboBox)->Enable(status);
-        XRCCTRL(*this,"XmlButtonDiy", wxButton)->Enable(status);
-        if (ramFileFromGui_)
+        XRCCTRL(*this, "BatchConvertButtonXml", wxButton)->Enable(conf[XML].useBatchWav_ && !status);
+        XRCCTRL(*this,"MainXmlXml", wxComboBox)->Enable(status);
+        XRCCTRL(*this,"XmlButtonXml", wxButton)->Enable(status);
+       if (conf[runningComputer_].ramFileFromGui_)
         {
-            XRCCTRL(*this,"MainRamDiy", wxComboBox)->Enable(status);
-            XRCCTRL(*this,"RamButtonDiy", wxButton)->Enable(status);
+            XRCCTRL(*this,"MainRamXml", wxComboBox)->Enable(status);
+            XRCCTRL(*this,"RamButtonXml", wxButton)->Enable(status);
         }
-        XRCCTRL(*this,"PrintButtonDiy", wxButton)->Enable(!status && conf[runningComputer_].printerOn_);
+        XRCCTRL(*this,"PrintButtonXml", wxButton)->Enable(!status && conf[runningComputer_].printerOn_);
 
-        XRCCTRL(*this,"VTTypeDiy",wxChoice)->Enable(status);
-        if (XRCCTRL(*this,"VTTypeDiy",wxChoice)->GetSelection() != VTNONE)
+        XRCCTRL(*this,"VTTypeXml",wxChoice)->Enable(status);
+        if (XRCCTRL(*this,"VTTypeXml",wxChoice)->GetSelection() != VTNONE)
         {
             if (elfConfiguration[runningComputer_].useUart || elfConfiguration[runningComputer_].useUart16450)
             {
-                XRCCTRL(*this, "VTBaudRTextDiy", wxStaticText)->Enable(status);
-                XRCCTRL(*this, "VTBaudRChoiceDiy", wxChoice)->Enable(status);
+                XRCCTRL(*this, "VTBaudRTextXml", wxStaticText)->Enable(status);
+                XRCCTRL(*this, "VTBaudRChoiceXml", wxChoice)->Enable(status);
             }
-            XRCCTRL(*this, "VTBaudTChoiceDiy", wxChoice)->Enable(status);
-            XRCCTRL(*this, "VTBaudTTextDiy", wxStaticText)->Enable(status);
-            XRCCTRL(*this, "VtSetupDiy", wxButton)->Enable(status);
+            XRCCTRL(*this, "VTBaudTChoiceXml", wxChoice)->Enable(status);
+            XRCCTRL(*this, "VTBaudTTextXml", wxStaticText)->Enable(status);
+            XRCCTRL(*this, "VtSetupXml", wxButton)->Enable(status);
         }
         if (!elfConfiguration[runningComputer_].vtExternal)
         {
-            XRCCTRL(*this,"FullScreenF3Diy", wxButton)->Enable(!status&(elfConfiguration[runningComputer_].usePixie||elfConfiguration[runningComputer_].useTMS9918||elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].useS100||(elfConfiguration[runningComputer_].vtType != VTNONE)));
-            XRCCTRL(*this,"ScreenDumpF5Diy", wxButton)->Enable(!status&(elfConfiguration[runningComputer_].usePixie||elfConfiguration[runningComputer_].useTMS9918||elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].useS100||(elfConfiguration[runningComputer_].vtType != VTNONE)));
+            XRCCTRL(*this,"FullScreenF3Xml", wxButton)->Enable(!status&(elfConfiguration[runningComputer_].usePixie||elfConfiguration[runningComputer_].useTMS9918||elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].useS100||elfConfiguration[runningComputer_].usev1870||(elfConfiguration[runningComputer_].vtType != VTNONE)));
+            XRCCTRL(*this,"ScreenDumpF5Xml", wxButton)->Enable(!status&(elfConfiguration[runningComputer_].usePixie||elfConfiguration[runningComputer_].useTMS9918||elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].useS100||elfConfiguration[runningComputer_].usev1870||(elfConfiguration[runningComputer_].vtType != VTNONE)));
        }
         
         enableMemAccessGui(!status);
@@ -7843,7 +7952,7 @@ void Main::setFunctionKey(int item, int value)
     functionKey_[item] = value;
 }
 
-void Main::zoomEvent(double zoom)
+void Main::zoomEvent(double zoom, int videoNumber)
 {
     if (!mode_.gui)
         return;
@@ -7851,12 +7960,13 @@ void Main::zoomEvent(double zoom)
     if (zoomEventOngoing_)
         return;
 
+    zoomEventOngoing_ = true;
 //    wxString zoomStr;
 //    zoomStr.Printf("%2.2f", zoom);
 //    XRCCTRL(*this, "ZoomValue"+computerInfo[runningComputer_].gui, wxTextCtrl)->ChangeValue(zoomStr);
 
-    conf[runningComputer_].zoom_.Printf("%2.2f", zoom);
-    correctZoomAndValue(runningComputer_, computerInfo[runningComputer_].gui, SET_SPIN);
+    conf[runningComputer_].zoom_[videoNumber].Printf("%2.2f", zoom);
+    correctZoomAndValue(runningComputer_, computerInfo[runningComputer_].gui, SET_SPIN, videoNumber);
 }
 
 void Main::zoomEventVt(double zoom)
@@ -7965,7 +8075,7 @@ void Main::directAssTimeout(wxTimerEvent&WXUNUSED(event))
                                 XRCCTRL(*this, "DebugEmsPage", HexEdit)->changeNumber(p_Computer->getEmsPage(emsNumber_));
                         break;
 
-                        case DIY:
+                        case XML:
                             if (elfConfiguration[runningComputer_].usePager)
                             {
                                 XRCCTRL(*this, "DebugPager", HexEdit)->changeNumber(p_Computer->getPager(portExtender_));
@@ -8058,7 +8168,7 @@ void Main::vuTimeout(wxTimerEvent&WXUNUSED(event))
         case ETI:
         case NANO:
         case STUDIOIV:
-        case DIY:
+        case XML:
         case PICO:
             vuSet("Vu"+computerInfo[runningComputer_].gui, p_Computer->getGaugeValue());
         break;
@@ -8222,9 +8332,9 @@ void Main::showTime()
         XRCCTRL(*this, "EffectiveClock", wxStaticText)->SetLabel(print_buffer);
 #endif
 
-        if (p_Video != NULL)
+        if (p_Video[VIDEOMAIN] != NULL)
         {
-            long videoSyncCount = p_Video->getVideoSyncCount();
+            long videoSyncCount = p_Video[VIDEOMAIN]->getVideoSyncCount();
             if (videoSyncCount != 0)
             {
                 videoFreq = (float) (videoSyncCount / f2);
@@ -8460,6 +8570,21 @@ void Main::eventSetLocation(bool state)
     GetEventHandler()->AddPendingEvent(event);
 }
 
+void Main::setEnableClockEvent(guiEvent& event)
+{
+   clockTextCtrl[runningComputer_]->Enable(event.GetBoolValue());
+}
+
+void Main::eventEnableClock(bool state)
+{
+   guiEvent event(GUI_MSG, ENABLE_CLOCK);
+   event.SetEventObject( p_Main );
+
+   event.SetBoolValue(state);
+
+   GetEventHandler()->AddPendingEvent(event);
+}
+
 void Main::setSaveStartEvent(guiEvent&WXUNUSED(event))
 {
     if (popupDialog_ != NULL)
@@ -8661,8 +8786,9 @@ void Main::eventShowTextMessage(wxString messageText)
 void Main::setZoomChange(guiEvent&event)
 {
     double zoom = event.GetDoubleValue();
+    int videoNumber  = event.GetInt();
 
-    p_Video->setZoom(zoom);
+    p_Video[videoNumber]->setZoom(zoom);
     switch(runningComputer_)
     {
         case CIDELSA:
@@ -8671,19 +8797,20 @@ void Main::setZoomChange(guiEvent&event)
 #if defined(__linux__)
             guiRedrawBarTimeOutPointer->Start(200, wxTIMER_ONE_SHOT);
 #else
-            p_Video->reDrawBar();
+            p_Video[videoNumber]->reDrawBar();
 #endif
         break;
     }
     zoomEventFinished();
 }
 
-void Main::eventZoomChange(double zoom)
+void Main::eventZoomChange(double zoom, int videoNumber)
 {
     guiEvent event(GUI_MSG, ZOOM_CHANGE);
     event.SetEventObject(p_Main);
 
     event.SetDoubleValue(zoom);
+    event.SetInt(videoNumber);
 
     GetEventHandler()->AddPendingEvent(event);
 }
@@ -8693,9 +8820,18 @@ bool Main::isZoomEventOngoing()
     return zoomEventOngoing_;
 }
 
+bool Main::isZoomEventOngoingButNotFullScreen()
+{
+   if (fullScreenEventOngoing_)
+      return false;
+   
+   return zoomEventOngoing_;
+}
+
 void Main::zoomEventFinished()
 {
     zoomEventOngoing_ = false;
+    fullScreenEventOngoing_ = false;
 }
 
 void Main::setZoomVtChange(guiEvent&event)
@@ -8724,21 +8860,23 @@ void Main::SetZoomEvent(guiEvent& event)
 {
     bool isVt = event.GetBoolValue1();
     double zoom = event.GetDoubleValue();
+    int videoNumber  = event.GetInt();
 
     if (isVt)
         p_Main->zoomEventVt(zoom);
     else
-        p_Main->zoomEvent(zoom);
+        p_Main->zoomEvent(zoom, videoNumber);
 
 }
 
-void Main::eventZoom(double zoom, bool isVt)
+void Main::eventZoom(double zoom, int videoNumber, bool isVt)
 {
     guiEvent event(GUI_MSG, EVENT_ZOOM);
     event.SetEventObject(p_Main);
 
     event.SetBoolValue1(isVt);
     event.SetDoubleValue(zoom);
+    event.SetInt(videoNumber);
 
     GetEventHandler()->AddPendingEvent(event);
 }
@@ -8746,6 +8884,7 @@ void Main::eventZoom(double zoom, bool isVt)
 void Main::zoomVtEventFinished()
 {
     zoomEventOngoing_ = false;
+    fullScreenEventOngoing_ = false;
 }
 
 void Main::printDefaultEvent(guiEvent&event)
@@ -8892,16 +9031,16 @@ void Main::eventPrintPecom(Byte value)
 void Main::refreshVideoEvent(guiEvent&event)
 {
     bool isVt = event.GetBoolValue1();
-    int uartNumber = event.GetInt();
+    int uart_video_Number = event.GetInt();
 
     if (isVt)
-        p_Vt100[uartNumber]->refreshVideo();
+        p_Vt100[uart_video_Number]->refreshVideo();
     else
-        p_Video->refreshVideo();
+        p_Video[uart_video_Number]->refreshVideo();
     videoRefreshOngoing_ = false;
 }
 
-void Main::eventRefreshVideo(bool isVt, int uartNumber)
+void Main::eventRefreshVideo(bool isVt, int uart_video_Number)
 {
     if (videoRefreshOngoing_)
         return;
@@ -8911,7 +9050,7 @@ void Main::eventRefreshVideo(bool isVt, int uartNumber)
     event.SetEventObject( p_Main );
 
     event.SetBoolValue1(isVt);
-    event.SetInt(uartNumber);
+    event.SetInt(uart_video_Number);
 
     GetEventHandler()->AddPendingEvent(event);
 }
@@ -8985,21 +9124,21 @@ void Main::setMessageBoxAnswer(int answer)
 void Main::GetClientSizeEvent(guiEvent&event)
 {
     bool isVt = event.GetBoolValue1();
-    int uartNumber = event.GetInt();
+    int uart_video_Number = event.GetInt();
 
     if (isVt)
-        clientSize_ = p_Vt100[uartNumber]->GetClientSize();
+        clientSize_ = p_Vt100[uart_video_Number]->GetClientSize();
     else
-        clientSize_ = p_Video->GetClientSize();
+        clientSize_ = p_Video[uart_video_Number]->GetClientSize();
 }
 
-wxSize Main::eventGetClientSize(bool isVt, int uartNumber)
+wxSize Main::eventGetClientSize(bool isVt, int uart_video_Number)
 {
     guiEvent event(GUI_MSG, GET_CLIENT_SIZE);
     event.SetEventObject( p_Main );
     
     event.SetBoolValue1(isVt);
-    event.SetInt(uartNumber);
+    event.SetInt(uart_video_Number);
 
     clientSize_.x = -1;
     
@@ -9020,24 +9159,24 @@ void Main::SetClientSizeEvent(guiEvent&event)
     wxSize size = event.GetSizeValue();
     bool changeScreenSize = event.GetBoolValue();
     bool isVt = event.GetBoolValue1();
-    int uartNumber = event.GetInt();
+    int uart_video_Number = event.GetInt();
 
     if (isVt)
     {
-        p_Vt100[uartNumber]->setClientSize(size);
+        p_Vt100[uart_video_Number]->setClientSize(size);
         if (changeScreenSize)
-            p_Vt100[uartNumber]->changeScreenSize();
+            p_Vt100[uart_video_Number]->changeScreenSize();
     }
     else
     {
-        p_Video->setClientSize(size);
+        p_Video[uart_video_Number]->setClientSize(size);
         if (changeScreenSize)
-            p_Video->changeScreenSize();
+            p_Video[uart_video_Number]->changeScreenSize();
     }
     sizeChanged_ = true;
 }
 
-void Main::eventSetClientSize(wxSize size, bool changeScreenSize, bool isVt, int uartNumber)
+void Main::eventSetClientSize(wxSize size, bool changeScreenSize, bool isVt, int uart_video_Number)
 {
     sizeChanged_ = false;
     guiEvent event(GUI_MSG, SET_CLIENT_SIZE);
@@ -9046,7 +9185,7 @@ void Main::eventSetClientSize(wxSize size, bool changeScreenSize, bool isVt, int
     event.SetBoolValue(changeScreenSize);
     event.SetBoolValue1(isVt);
     event.SetSizeValue(size);
-    event.SetInt(uartNumber);
+    event.SetInt(uart_video_Number);
 
     GetEventHandler()->AddPendingEvent(event);
 
@@ -9269,17 +9408,20 @@ void Main::eventEnableMemAccess(bool state)
 
 void Main::setVideoFullScreenEvent(guiEvent&event)
 {
+    fullScreenEventOngoing_ = true;
     bool status = event.GetBoolValue();
-    if (p_Video != NULL)
-        p_Video->setFullScreen(status);
+    int videoNumber  = event.GetInt();
+    if (p_Video[videoNumber] != NULL)
+        p_Video[videoNumber]->setFullScreen(status);
 }
 
-void Main::eventVideoSetFullScreen(bool state)
+void Main::eventVideoSetFullScreen(bool state, int videoNumber)
 {
     guiEvent event(GUI_MSG, SET_VIDEO_FULLSCREEN);
     event.SetEventObject( p_Main );
 
     event.SetBoolValue(state);
+    event.SetInt(videoNumber);
 
     GetEventHandler()->AddPendingEvent(event);
 }
@@ -9434,6 +9576,64 @@ void Main::eventUpdateTitle()
     GetEventHandler()->AddPendingEvent(event);
 }
 
+void Main::setUpdateComxLedStatus(guiEvent& event)
+{
+   int card = event.GetByteValue1();
+   int i = event.GetByteValue2();
+   bool status = event.GetBoolValue();
+   
+   switch (runningComputer_)
+   {
+      case COMX:
+         p_Comx->updateLedStatus(card, i, status);
+      break;
+
+      case XML:
+         p_Video[elfConfiguration[XML].ioConfiguration.v1870VideoNumber]->updateLedStatus(card, i, status);
+      break;
+   }
+}
+
+void Main::eventUpdateComxLedStatus(int card, int i, bool status)
+{
+   guiEvent event(GUI_MSG, SET_COMXLED);
+   event.SetEventObject( p_Main );
+
+   event.SetBoolValue(status);
+   event.SetByteValue1(card);
+   event.SetByteValue2(i);
+
+   GetEventHandler()->AddPendingEvent(event);
+}
+
+void Main::setUpdateDiagLedStatus(guiEvent& event)
+{
+   int i = event.GetByteValue2();
+   bool status = event.GetBoolValue();
+   
+   switch (runningComputer_)
+   {
+      case COMX:
+         p_Comx->updateDiagLedStatus(i, status);
+      break;
+
+      case XML:
+         p_Video[elfConfiguration[XML].ioConfiguration.v1870VideoNumber]->updateDiagLedStatus(i, status);
+      break;
+   }
+}
+
+void Main::eventUpdateDiagLedStatus(int i, bool status)
+{
+   guiEvent event(GUI_MSG, SET_DIAGLED);
+   event.SetEventObject( p_Main );
+
+   event.SetBoolValue(status);
+   event.SetByteValue2(i);
+
+   GetEventHandler()->AddPendingEvent(event);
+}
+
 void Main::debounceTimeout(wxTimerEvent&WXUNUSED(event))
 {
     p_Computer->keyClear();
@@ -9460,7 +9660,7 @@ void Main::guiSizeTimeout(wxTimerEvent&WXUNUSED(event))
 
 void Main::guiRedrawBarTimeOut(wxTimerEvent&WXUNUSED(event))
 {
-    p_Video->reDrawBar();
+    p_Video[VIDEOMAIN]->reDrawBar();
 }
 
 wxString Main::getMultiCartGame(Byte findMsb, Byte findLsb)
@@ -9770,7 +9970,7 @@ void Main::getDefaultHexKeys(int computerType, wxString computerStr, wxString pl
         case SUPERELF:
         case ELF2K:
         case COSMICOS:
-        case DIY:
+        case XML:
         case PICO:
             keysFound = loadKeyDefinition("", "elfdefault", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
         break;
@@ -9841,7 +10041,7 @@ void Main::getDefaultHexKeys(int computerType, wxString computerStr, wxString pl
             case VIPII:
             case VELF:
             case STUDIOIV:
-            case DIY:
+            case XML:
             case PICO:
                 if (player == "A")
                 {

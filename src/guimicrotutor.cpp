@@ -61,6 +61,7 @@ void GuiMicrotutor::readMicrotutorConfig()
     selectedComputer_ = MICROTUTOR;
 
     conf[MICROTUTOR].emsConfigNumber_ = 0;
+    conf[MICROTUTOR].videoNumber_ = 0;
 
     conf[MICROTUTOR].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "Microtutor" + pathSeparator_;
 
@@ -103,7 +104,7 @@ void GuiMicrotutor::readMicrotutorConfig()
 
     elfConfiguration[MICROTUTOR].usePortExtender = false;
     elfConfiguration[MICROTUTOR].ideEnabled = false;
-    elfConfiguration[MICROTUTOR].fdcEnabled = false;
+    elfConfiguration[MICROTUTOR].fdc1793Enabled = false;
     elfConfiguration[MICROTUTOR].useLedModule = false;
     elfConfiguration[MICROTUTOR].useTape = true;
 }
@@ -179,6 +180,7 @@ void GuiMicrotutor2::readMicrotutor2Config()
     selectedComputer_ = MICROTUTOR2;
     
     conf[MICROTUTOR2].emsConfigNumber_ = 0;
+    conf[MICROTUTOR2].videoNumber_ = 0;
 
     conf[MICROTUTOR2].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "Microtutor2" + pathSeparator_;
     
@@ -238,7 +240,7 @@ void GuiMicrotutor2::readMicrotutor2Config()
     
     elfConfiguration[MICROTUTOR2].usePortExtender = false;
     elfConfiguration[MICROTUTOR2].ideEnabled = false;
-    elfConfiguration[MICROTUTOR2].fdcEnabled = false;
+    elfConfiguration[MICROTUTOR2].fdc1793Enabled = false;
     elfConfiguration[MICROTUTOR2].useLedModule = false;
     elfConfiguration[MICROTUTOR2].useTape = true;
 }

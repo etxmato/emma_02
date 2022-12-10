@@ -189,6 +189,7 @@ void GuiStudio2::readStudioConfig()
     selectedComputer_ = STUDIO;
 
     conf[STUDIO].emsConfigNumber_ = 0;
+    conf[STUDIO].videoNumber_ = 0;
 
     conf[STUDIO].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "Studio2" + pathSeparator_;
     conf[STUDIO].mainDir_ = readConfigDir("/Dir/Studio2/Main", dataDir_ + "Studio2" + pathSeparator_);
@@ -203,7 +204,7 @@ void GuiStudio2::readStudioConfig()
 
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 2.0);
-    conf[STUDIO].zoom_ = convertLocale(configPointer->Read("/Studio2/Zoom", defaultZoom));
+    conf[STUDIO].zoom_[VIDEOMAIN] = convertLocale(configPointer->Read("/Studio2/Zoom", defaultZoom));
     wxString defaultClock;
     defaultClock.Printf("%1.2f", 1.76);
     conf[STUDIO].clock_ = convertLocale(configPointer->Read("/Studio2/Clock_Speed", defaultClock));
@@ -227,7 +228,7 @@ void GuiStudio2::readStudioConfig()
         XRCCTRL(*this, "CartRomStudio2", wxComboBox)->SetValue(conf[STUDIO].rom_[CARTROM]);
         XRCCTRL(*this, "ScreenDumpFileStudio2", wxComboBox)->SetValue(conf[STUDIO].screenDumpFile_);
         
-        correctZoomAndValue(STUDIO, "Studio2", SET_SPIN);
+        correctZoomAndValue(STUDIO, "Studio2", SET_SPIN, VIDEOMAIN);
 
         if (clockTextCtrl[STUDIO] != NULL)
             clockTextCtrl[STUDIO]->ChangeValue(conf[STUDIO].clock_);
@@ -260,7 +261,7 @@ void GuiStudio2::writeStudioConfig()
     configPointer->Write("/Studio2/St2_File", conf[STUDIO].rom_[CARTROM]);
     configPointer->Write("/Studio2/Video_Dump_File", conf[STUDIO].screenDumpFile_);
 
-    configPointer->Write("/Studio2/Zoom", conf[STUDIO].zoom_);
+    configPointer->Write("/Studio2/Zoom", conf[STUDIO].zoom_[VIDEOMAIN]);
     configPointer->Write("/Studio2/Clock_Speed", conf[STUDIO].clock_);
 //    configPointer->Write("/Studio2/Beep_Frequency", conf[STUDIO].beepFrequency_);
     configPointer->Write("/Studio2/Volume", conf[STUDIO].volume_);
@@ -323,6 +324,7 @@ void GuiStudio2::readCoinArcadeConfig()
     selectedComputer_ = COINARCADE;
     
     conf[COINARCADE].emsConfigNumber_ = 0;
+    conf[COINARCADE].videoNumber_ = 0;
 
     conf[COINARCADE].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "CoinArcade" + pathSeparator_;
     conf[COINARCADE].mainDir_ = readConfigDir("/Dir/CoinArcade/Main", dataDir_ + "CoinArcade" + pathSeparator_);
@@ -337,7 +339,7 @@ void GuiStudio2::readCoinArcadeConfig()
     
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 2.0);
-    conf[COINARCADE].zoom_ = convertLocale(configPointer->Read("/CoinArcade/Zoom", defaultZoom));
+    conf[COINARCADE].zoom_[VIDEOMAIN] = convertLocale(configPointer->Read("/CoinArcade/Zoom", defaultZoom));
     wxString defaultClock;
     defaultClock.Printf("%1.2f", 1.6);
     conf[COINARCADE].clock_ = convertLocale(configPointer->Read("/CoinArcade/Clock_Speed", defaultClock));
@@ -354,7 +356,7 @@ void GuiStudio2::readCoinArcadeConfig()
         XRCCTRL(*this, "MainRomCoinArcade", wxComboBox)->SetValue(conf[COINARCADE].rom_[MAINROM1]);
         XRCCTRL(*this, "ScreenDumpFileCoinArcade", wxComboBox)->SetValue(conf[COINARCADE].screenDumpFile_);
         
-        correctZoomAndValue(COINARCADE, "CoinArcade", SET_SPIN);
+        correctZoomAndValue(COINARCADE, "CoinArcade", SET_SPIN, VIDEOMAIN);
 
         if (clockTextCtrl[COINARCADE] != NULL)
             clockTextCtrl[COINARCADE]->ChangeValue(conf[COINARCADE].clock_);
@@ -376,7 +378,7 @@ void GuiStudio2::writeCoinArcadeConfig()
     configPointer->Write("/CoinArcade/St2_File", conf[COINARCADE].rom_[CARTROM]);
     configPointer->Write("/CoinArcade/Video_Dump_File", conf[COINARCADE].screenDumpFile_);
     
-    configPointer->Write("/CoinArcade/Zoom", conf[COINARCADE].zoom_);
+    configPointer->Write("/CoinArcade/Zoom", conf[COINARCADE].zoom_[VIDEOMAIN]);
     configPointer->Write("/CoinArcade/Clock_Speed", conf[COINARCADE].clock_);
     configPointer->Write("/CoinArcade/Volume", conf[COINARCADE].volume_);
 }
@@ -400,6 +402,7 @@ void GuiStudio2::readVisicomConfig()
     selectedComputer_ = VISICOM;
 
     conf[VISICOM].emsConfigNumber_ = 0;
+    conf[VISICOM].videoNumber_ = 0;
 
     conf[VISICOM].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "Visicom" + pathSeparator_;
     conf[VISICOM].mainDir_ = readConfigDir("/Dir/Visicom/Main", dataDir_ + "Visicom" + pathSeparator_);
@@ -414,7 +417,7 @@ void GuiStudio2::readVisicomConfig()
 
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 2.0);
-    conf[VISICOM].zoom_ = convertLocale(configPointer->Read("/Visicom/Zoom", defaultZoom));
+    conf[VISICOM].zoom_[VIDEOMAIN] = convertLocale(configPointer->Read("/Visicom/Zoom", defaultZoom));
     wxString defaultClock;
     defaultClock.Printf("%1.2f", 1.76);
     conf[VISICOM].clock_ = convertLocale(configPointer->Read("/Visicom/Clock_Speed", defaultClock));
@@ -433,7 +436,7 @@ void GuiStudio2::readVisicomConfig()
         XRCCTRL(*this, "CartRomVisicom", wxComboBox)->SetValue(conf[VISICOM].rom_[CARTROM]);
         XRCCTRL(*this, "ScreenDumpFileVisicom", wxComboBox)->SetValue(conf[VISICOM].screenDumpFile_);
         
-        correctZoomAndValue(VISICOM, "Visicom", SET_SPIN);
+        correctZoomAndValue(VISICOM, "Visicom", SET_SPIN, VIDEOMAIN);
 
         if (clockTextCtrl[VISICOM] != NULL)
             clockTextCtrl[VISICOM]->ChangeValue(conf[VISICOM].clock_);
@@ -458,7 +461,7 @@ void GuiStudio2::writeVisicomConfig()
     configPointer->Write("/Visicom/St2_File", conf[VISICOM].rom_[CARTROM]);
     configPointer->Write("/Visicom/Video_Dump_File", conf[VISICOM].screenDumpFile_);
 
-    configPointer->Write("/Visicom/Zoom", conf[VISICOM].zoom_);
+    configPointer->Write("/Visicom/Zoom", conf[VISICOM].zoom_[VIDEOMAIN]);
     configPointer->Write("/Visicom/Clock_Speed", conf[VISICOM].clock_);
 //    configPointer->Write("/Visicom/Beep_Frequency", conf[VISICOM].beepFrequency_);
     configPointer->Write("/Visicom/Volume",conf[VISICOM].volume_);
@@ -483,6 +486,7 @@ void GuiStudio2::readVictoryConfig()
     selectedComputer_ = VICTORY;
 
     conf[VICTORY].emsConfigNumber_ = 0;
+    conf[VICTORY].videoNumber_ = 0;
 
     conf[VICTORY].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "Victory" + pathSeparator_;
     conf[VICTORY].mainDir_ = readConfigDir("/Dir/Victory/Main", dataDir_ + "Victory" + pathSeparator_);
@@ -497,7 +501,7 @@ void GuiStudio2::readVictoryConfig()
 
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 2.0);
-    conf[VICTORY].zoom_ = convertLocale(configPointer->Read("/Victory/Zoom", defaultZoom));
+    conf[VICTORY].zoom_[VIDEOMAIN] = convertLocale(configPointer->Read("/Victory/Zoom", defaultZoom));
     wxString defaultClock;
     defaultClock.Printf("%1.2f", 1.76);
     conf[VICTORY].clock_ = convertLocale(configPointer->Read("/Victory/Clock_Speed", defaultClock));
@@ -520,7 +524,7 @@ void GuiStudio2::readVictoryConfig()
         XRCCTRL(*this, "CartRomVictory", wxComboBox)->SetValue(conf[VICTORY].rom_[CARTROM]);
         XRCCTRL(*this, "ScreenDumpFileVictory", wxComboBox)->SetValue(conf[VICTORY].screenDumpFile_);
         
-        correctZoomAndValue(VICTORY, "Victory", SET_SPIN);
+        correctZoomAndValue(VICTORY, "Victory", SET_SPIN, VIDEOMAIN);
 
         if (clockTextCtrl[VICTORY] != NULL)
             clockTextCtrl[VICTORY]->ChangeValue(conf[VICTORY].clock_);
@@ -551,7 +555,7 @@ void GuiStudio2::writeVictoryConfig()
     configPointer->Write("/Victory/St2_File", conf[VICTORY].rom_[CARTROM]);
     configPointer->Write("/Victory/Video_Dump_File", conf[VICTORY].screenDumpFile_);
 
-    configPointer->Write("/Victory/Zoom", conf[VICTORY].zoom_);
+    configPointer->Write("/Victory/Zoom", conf[VICTORY].zoom_[VIDEOMAIN]);
     configPointer->Write("/Victory/Clock_Speed", conf[VICTORY].clock_);
     configPointer->Write("/Victory/Volume", conf[VICTORY].volume_);
 
@@ -649,6 +653,7 @@ void GuiStudio2::readStudioIVConfig()
     selectedComputer_ = STUDIOIV;
     
     conf[STUDIOIV].emsConfigNumber_ = 0;
+    conf[STUDIOIV].videoNumber_ = 0;
 
     conf[STUDIOIV].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "StudioIV" + pathSeparator_;
     conf[STUDIOIV].mainDir_ = readConfigDir("/Dir/StudioIV/Main", dataDir_ + "StudioIV" + pathSeparator_);
@@ -670,7 +675,7 @@ void GuiStudio2::readStudioIVConfig()
 
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 2.0);
-    conf[STUDIOIV].zoom_ = convertLocale(configPointer->Read("/StudioIV/Zoom", defaultZoom));
+    conf[STUDIOIV].zoom_[VIDEOMAIN] = convertLocale(configPointer->Read("/StudioIV/Zoom", defaultZoom));
     wxString defaultClock;
     defaultClock.Printf("%1.2f", 3.58);
     conf[STUDIOIV].clock_ = convertLocale(configPointer->Read("/StudioIV/Clock_Speed", defaultClock));
@@ -727,7 +732,7 @@ void GuiStudio2::readStudioIVConfig()
         XRCCTRL(*this, "TurboClockStudioIV", wxTextCtrl)->SetValue(conf[STUDIOIV].turboClock_);
         XRCCTRL(*this, "AutoCasLoadStudioIV", wxCheckBox)->SetValue(conf[STUDIOIV].autoCassetteLoad_);
 
-        correctZoomAndValue(STUDIOIV, "StudioIV", SET_SPIN);
+        correctZoomAndValue(STUDIOIV, "StudioIV", SET_SPIN, VIDEOMAIN);
 
         if (clockTextCtrl[STUDIOIV] != NULL)
             clockTextCtrl[STUDIOIV]->ChangeValue(conf[STUDIOIV].clock_);
@@ -756,7 +761,7 @@ void GuiStudio2::writeStudioIVConfig()
     configPointer->Write("/StudioIV/Video_Dump_File", conf[STUDIOIV].screenDumpFile_);
      configPointer->Write("/StudioIV/Wav_File", conf[STUDIOIV].wavFile_[0]);
    
-    configPointer->Write("/StudioIV/Zoom", conf[STUDIOIV].zoom_);
+    configPointer->Write("/StudioIV/Zoom", conf[STUDIOIV].zoom_[VIDEOMAIN]);
     configPointer->Write("/StudioIV/Clock_Speed", conf[STUDIOIV].clock_);
     configPointer->Write("/StudioIV/Volume", conf[STUDIOIV].volume_);
     

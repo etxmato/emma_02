@@ -308,8 +308,6 @@ Cosmicos::Cosmicos(const wxString& title, const wxPoint& pos, const wxSize& size
     cosmicosConfiguration = conf;
 
     cosmicosClockSpeed_ = clock;
-    data_ = 0;
-    lastAddress_ = 0;
 
 #ifndef __WXMAC__
     SetIcon(wxICON(app_icon));
@@ -374,7 +372,7 @@ bool Cosmicos::keyDownPressed(int key)
     return false;
 }
 
-bool Cosmicos::keyUpReleased(int key)
+bool Cosmicos::keyUpReleased(int key, wxKeyEvent&WXUNUSED(event))
 {
     if (key == inKey1_ || key == inKey2_)
     {
@@ -918,7 +916,7 @@ void Cosmicos::startComputer()
     readProgram(p_Main->getRomDir(COSMICOS, MAINROM1), p_Main->getRomFile(COSMICOS, MAINROM1), ROM, 0xc000, NONAME);
     loadRam();
 
-    configureElfExtensions();
+    configureExtensions();
     if (cosmicosConfiguration.autoBoot)
     {
         bootstrap_ = 0xC0C0;
@@ -1111,9 +1109,11 @@ void Cosmicos::resetPressed()
     p_Main->eventUpdateTitle();
 }
 
-void Cosmicos::configureElfExtensions()
+void Cosmicos::configureExtensions()
 {
     wxString path, fileName1, fileName2;
+
+    computerConfiguration.numberOfVideoTypes_ = 0;
 
     p_Computer->setSoundFollowQ(!cosmicosConfiguration.usePixie);
     if (cosmicosConfiguration.vtType != VTNONE)
@@ -1136,16 +1136,15 @@ void Cosmicos::configureElfExtensions()
 
     if (cosmicosConfiguration.usePixie)
     {
-        double zoom = p_Main->getZoom();
+        double zoom = p_Main->getZoom(VIDEOMAIN);
         double scale = p_Main->getScale();
-        pixiePointer = new Pixie( "Cosmicos - CDP1864", p_Main->getPixiePos(COSMICOS), wxSize(64*zoom*scale, 192*zoom), zoom, scale, COSMICOS);
-        p_Video = pixiePointer;
+        pixiePointer = new Pixie( "Cosmicos - CDP1864", p_Main->getPixiePos(COSMICOS), wxSize(64*zoom*scale, 192*zoom), zoom, scale, COSMICOS, computerConfiguration.numberOfVideoTypes_);
+        p_Video[computerConfiguration.numberOfVideoTypes_++] = pixiePointer;
         pixiePointer->configurePixieCosmicos();
         pixiePointer->initPixie();
         pixiePointer->setZoom(zoom);
         pixiePointer->Show(true);
     }
-
 }
 
 void Cosmicos::moveWindows()

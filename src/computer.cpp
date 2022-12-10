@@ -742,7 +742,7 @@ void Panel::onKeyUp(wxKeyEvent& event)
         lastKey_ = 0;
         p_Vt100[UART1]->keyUpPressed();
     }
-    if (!p_Computer->keyUpReleased(event.GetKeyCode()))
+    if (!p_Computer->keyUpReleased(event.GetKeyCode(), event))
         event.Skip();
 }
 
@@ -1591,7 +1591,7 @@ void Computer::keyUpExtended(int WXUNUSED(keycode), wxKeyEvent& WXUNUSED(event))
 {
 }
 
-bool Computer::keyUpReleased(int WXUNUSED(keycode))
+bool Computer::keyUpReleased(int WXUNUSED(keycode), wxKeyEvent& WXUNUSED(event))
 {
     return false;
 }
@@ -2366,5 +2366,25 @@ int Computer::getCtrlvChar()
         ctrlvTextCharNum_ = 0;
     
     return character;
+}
+
+int Computer::getCtrlvCharTmc()
+{
+    int character = 0;
+    
+    if (ctrlvTextCharNum_ <= (ctrlvTextStr_.Len() + 3))
+    {
+        character = ctrlvTextStr_.GetChar(ctrlvTextCharNum_ - 4);
+        ctrlvTextCharNum_++;
+    }
+    else
+        ctrlvTextCharNum_ = 0;
+    
+    return character;
+}
+
+void Computer::ctrlvTextCharNumPlusOne()
+{
+    ctrlvTextCharNum_++;
 }
 

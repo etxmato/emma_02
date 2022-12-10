@@ -39,11 +39,12 @@ Fdc::Fdc()
 {
 }
 
-void Fdc::configure1793(int sides, int tracks, int sectors, int sectorlength, int maxFmtCount, int computerType, ElfPortConfiguration portConf)
+void Fdc::configure1793(int sides, int tracks, int sectors, int sectorlength, int maxFmtCount, int computerType, IoConfiguration ioConf, bool standardDiskNames)
 {
 //    int input, selectOutput, writeOutput, efPort;
     wxFFile diskFile;
 
+    ioConf_ = ioConf;
     localComputerType_ = computerType;
     wxString runningComp = p_Main->getRunningComputerStr();
 
@@ -52,36 +53,40 @@ void Fdc::configure1793(int sides, int tracks, int sectors, int sectorlength, in
 //    writeOutput = p_Main->getConfigItem(runningComp +"/FdcWriteOutput", 3l);
 //    efPort = p_Main->getConfigItem(runningComp+"/FdcEf", 2l);
 
-    p_Computer->setInType(portConf.fdcInput, FDCIN);
-    p_Computer->setOutType(portConf.fdcSelectOutput, FDCSELECTOUT);
+    p_Computer->setInType(ioConf.fdcReadInput.portNumber, FDCREADIN);
+    p_Computer->setOutType(ioConf.fdcSelectOutput.portNumber, FDCSELECTOUT);
     p_Computer->setCycleType(DISKCYCLEFDC, FDCCYCLE);
-    p_Computer->setOutType(portConf.fdcWriteOutput, FDCWRITEOUT);
-    p_Computer->setEfType(portConf.fdcEf, FDCEF);
+    p_Computer->setOutType(ioConf.fdcWriteOutput.portNumber, FDCWRITEOUT);
+    p_Computer->setEfType(ioConf.fdcEf, FDCEF);
 
-    registerSelect_ = 0;
+    fdcRegisterSelect_ = 0;
 
-    diskName_[0] = "disk1.dsk";
-    diskName_[1] = "disk2.dsk";
-    diskName_[2] = "disk3.dsk";
-    diskName_[3] = "disk4.dsk";
-
+    if (standardDiskNames)
+    {
+        diskName_[0] = "disk1.dsk";
+        diskName_[1] = "disk2.dsk";
+        diskName_[2] = "disk3.dsk";
+        diskName_[3] = "disk4.dsk";
+        for (int i=0; i<4; i++)
+            diskCreated_[i] = wxFile::Exists(diskName_[i]);
+    }
     for (int i=0; i<4; i++)
     {
-        diskCreated_[i] = wxFile::Exists(diskName_[i]);
         numberOfSides_[i] = sides;
         numberOfTracks_[i] = tracks;
     }
+    
     numberOfSectors_ = sectors;
     sectorLength_ = sectorlength;
     maxFmtCount_ = maxFmtCount;
 
     wxString printBuffer;
     p_Main->message("Configuring WD1793 Floppy Disk Controller");
-    printBuffer.Printf("    Output %d: register select, output %d: write register", portConf.fdcSelectOutput, portConf.fdcWriteOutput);
+    printBuffer.Printf("    Output %d: register select, output %d: write register", ioConf.fdcSelectOutput.portNumber, ioConf.fdcWriteOutput.portNumber);
     p_Main->message(printBuffer);
-    printBuffer.Printf("    Input %d: read register", portConf.fdcInput);
+    printBuffer.Printf("    Input %d: read register", ioConf.fdcReadInput.portNumber);
     p_Main->message(printBuffer);
-    printBuffer.Printf("    EF %d: DRQ", portConf.fdcEf);
+    printBuffer.Printf("    EF %d: DRQ", ioConf.fdcEf);
     p_Main->message(printBuffer);
 
     printBuffer.Printf("    Disk geometry: %d side, %d tracks, %d sectors per track and %d bytes per sector\n", sides, tracks, sectors, sectorlength);
@@ -98,7 +103,7 @@ Byte Fdc::ef1793()
 
 Byte Fdc::in1793() 
 {
-    switch(registerSelect_&0x3) 
+    switch(fdcRegisterSelect_&0x3) 
     {
         case 0:
             intrq_ = 0;
@@ -118,12 +123,12 @@ Byte Fdc::in1793()
 
 void Fdc::selectRegister1793(Byte value) 
 {
-    registerSelect_ = value;
+    fdcRegisterSelect_ = value;
 }
 
 void Fdc::writeRegister1793(Byte value) 
 {
-    switch(registerSelect_&0x3)
+    switch(fdcRegisterSelect_&0x3)
     {
         case 0:
             intrq_ = 0;
@@ -148,11 +153,11 @@ void Fdc::writeRegister1793(Byte value)
     }
 }
 
-void Fdc::configure1770(int sides, int tracks, int sectors, int sectorlength, int computerType) 
+void Fdc::configureComx1770(int sides, int tracks, int sectors, int sectorlength, int maxFmtCount, int computerType)
 {
     localComputerType_ = computerType;
     p_Computer->setCycleType(DISKCYCLEFDC, FDCCYCLE);
-    registerSelect_ = 0;
+    fdcRegisterSelect_ = 0;
 
     for (int i=0; i<2; i++)
     {
@@ -164,7 +169,88 @@ void Fdc::configure1770(int sides, int tracks, int sectors, int sectorlength, in
     numberOfTracksPerSide_ = tracks;
     numberOfSectors_ = sectors;
     sectorLength_ = sectorlength;
-    maxFmtCount_ = 2740;
+    maxFmtCount_ = maxFmtCount;
+}
+
+void Fdc::configure1770(int sides, int tracks, int sectors, int sectorlength, int maxFmtCount, int computerType, IoConfiguration ioConf)
+{
+    localComputerType_ = computerType;
+    ioConf_ = ioConf;
+    p_Computer->setCycleType(DISKCYCLEFDC, FDCCYCLE);
+    fdcRegisterSelect_ = 0;
+
+    for (int i=0; i<2; i++)
+    {
+        diskCreated_[i] = false;
+        numberOfSides_[i] = sides;
+        numberOfTracks_[i] = tracks;
+    }
+
+    numberOfTracksPerSide_ = tracks;
+    numberOfSectors_ = sectors;
+    sectorLength_ = sectorlength;
+    maxFmtCount_ = maxFmtCount;
+
+    wxString printBuffer1, printBuffer2;
+    
+    wxString ioGroup = "";
+    if (ioConf.fdcIoGroup != -1)
+    {
+        ioGroup.Printf(" on group %X", ioConf.fdcIoGroup);
+    }
+
+    p_Main->message("Configuring WD1770 Floppy Disk Controller" + ioGroup);
+    if (ioConf.fdcSelectOutput.qValue == -1)
+    {
+        printBuffer1.Printf("    Output %d: register select, ", ioConf.fdcSelectOutput.portNumber);
+        p_Computer->setOutType(ioConf.fdcSelectOutput.portNumber, FDCSELECTOUT);
+    }
+    else
+    {
+        printBuffer1.Printf("    Q = %d & output %d: register select, ", ioConf.fdcSelectOutput.qValue, ioConf.fdcSelectOutput.portNumber);
+        p_Computer->setOutType(ioConf.fdcSelectOutput.portNumber, FDCOUT);
+    }
+
+    if (ioConf.fdcWriteOutput.qValue == -1)
+    {
+        printBuffer2.Printf("output %d: write register", ioConf.fdcWriteOutput.portNumber);
+        p_Computer->setOutType(ioConf.fdcWriteOutput.portNumber, FDCWRITEOUT);
+    }
+    else
+    {
+        printBuffer2.Printf("Q = %d & output %d: write register", ioConf.fdcWriteOutput.qValue, ioConf.fdcWriteOutput.portNumber);
+        p_Computer->setOutType(ioConf.fdcWriteOutput.portNumber, FDCOUT);
+    }
+    p_Main->message(printBuffer1 + printBuffer2);
+
+    if (ioConf.fdcReadInput.qValue == -1)
+    {
+        printBuffer2.Printf("input %d: read register, ", ioConf.fdcReadInput.portNumber);
+        p_Computer->setInType(ioConf.fdcReadInput.portNumber, FDCREADIN);
+    }
+    else
+    {
+        printBuffer2.Printf("Q = %d & input %d: read register, ", ioConf.fdcReadInput.qValue, ioConf.fdcReadInput.portNumber);
+        p_Computer->setInType(ioConf.fdcReadInput.portNumber, FDCIN);
+    }
+
+    if (ioConf.fdcIntrqInput.qValue == -1)
+    {
+        printBuffer1.Printf("    Input %d: INTRQ, ", ioConf.fdcIntrqInput.portNumber);
+        p_Computer->setInType(ioConf.fdcIntrqInput.portNumber, FDCINTRQIN);
+    }
+    else
+    {
+        printBuffer1.Printf("    Q = %d & input %d: INTRQ, ", ioConf.fdcIntrqInput.qValue, ioConf.fdcIntrqInput.portNumber);
+        p_Computer->setInType(ioConf.fdcIntrqInput.portNumber, FDCIN);
+    }
+    p_Main->message(printBuffer1 + printBuffer2);
+
+    printBuffer1.Printf("    EF %d: DRQ", ioConf.fdcEf);
+    p_Main->message(printBuffer1);
+
+    printBuffer1.Printf("    Disk geometry: %d side, %d tracks, %d sectors per track and %d bytes per sector\n", ioConf.fdcSides, ioConf.fdcTracks, ioConf.fdcSectors, ioConf.fdcSectorLength);
+    p_Main->message(printBuffer1);
 }
 
 Byte Fdc::ef1770() 
@@ -182,7 +268,7 @@ Byte Fdc::in1770()
 
 Byte Fdc::readRegister1770() 
 {
-    switch(registerSelect_&0x3) 
+    switch(fdcRegisterSelect_&0x3) 
     {
         case 0:
             intrq_ = 0;
@@ -215,7 +301,7 @@ void Fdc::out1770(Byte value)
 
 void Fdc::writeRegister1770(Byte value) 
 {
-    switch(registerSelect_&0x3)
+    switch(fdcRegisterSelect_&0x3)
     {
         case 0:
             intrq_ = 0;
@@ -248,7 +334,7 @@ void Fdc::selectRegister1770(Byte value)
 
         side_ = (value & 0x20) >> 5;
     }
-    registerSelect_ = value;
+    fdcRegisterSelect_ = value;
 }
 
 void Fdc::cycleFdc()
@@ -492,7 +578,7 @@ void Fdc::resetFdc()
         driveTrack_[i] = 0;
 }
 
-void Fdc::setDiskName(int disk, wxString fileName)
+void Fdc::setFdcDiskname(int disk, wxString fileName)
 {
     wxFFile diskFile;
     size_t bytes;
@@ -885,8 +971,16 @@ void Fdc::writeData(Byte value)
 
 void Fdc::updateFdcStatusLed()
 {
-    if (localComputerType_ == COMX)
+    switch (localComputerType_)
     {
-        p_Video->updateStatusLed(status_&1);
+       case COMX:
+            if (p_Video[VIDEOMAIN] != NULL)
+                p_Video[VIDEOMAIN]->updateStatusLed(status_&1);
+       break;
+
+       case XML:
+            if (p_Video[ioConf_.v1870VideoNumber] != NULL)
+                p_Video[ioConf_.v1870VideoNumber]->updateStatusLed(status_&1);
+       break;
     }
 }

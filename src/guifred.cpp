@@ -301,6 +301,7 @@ void GuiFred::readFred1Config()
     selectedComputer_ = FRED1;
     
     conf[FRED1].emsConfigNumber_ = 0;
+    conf[FRED1].videoNumber_ = 0;
 
     conf[FRED1].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "FRED1" + pathSeparator_;
     conf[FRED1].mainDir_ = readConfigDir("/Dir/FRED1/Main", dataDir_ + "FRED1" + pathSeparator_);
@@ -315,7 +316,7 @@ void GuiFred::readFred1Config()
 
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 2.0);
-    conf[FRED1].zoom_ = convertLocale(configPointer->Read("/FRED1/Zoom", defaultZoom));
+    conf[FRED1].zoom_[VIDEOMAIN] = convertLocale(configPointer->Read("/FRED1/Zoom", defaultZoom));
     wxString defaultClock;
     defaultClock.Printf("%1.2f", 1.0);
     conf[FRED1].clock_ = convertLocale(configPointer->Read("/FRED1/Clock_Speed", defaultClock));
@@ -359,7 +360,7 @@ void GuiFred::readFred1Config()
         XRCCTRL(*this, "RamSWFRED1", wxComboBox)->SetValue(conf[FRED1].ram_);
         XRCCTRL(*this, "ScreenDumpFileFRED1", wxComboBox)->SetValue(conf[FRED1].screenDumpFile_);
         
-        correctZoomAndValue(FRED1, "FRED1", SET_SPIN);
+        correctZoomAndValue(FRED1, "FRED1", SET_SPIN, VIDEOMAIN);
 
         if (clockTextCtrl[FRED1] != NULL)
             clockTextCtrl[FRED1]->ChangeValue(conf[FRED1].clock_);
@@ -406,7 +407,7 @@ void GuiFred::writeFred1Config()
     configPointer->Write("/FRED1/Video_Dump_File", conf[FRED1].screenDumpFile_);
     configPointer->Write("/FRED1/Wav_File", conf[FRED1].wavFile_[0]);
 
-    configPointer->Write("/FRED1/Zoom", conf[FRED1].zoom_);
+    configPointer->Write("/FRED1/Zoom", conf[FRED1].zoom_[VIDEOMAIN]);
     configPointer->Write("/FRED1/Clock_Speed", conf[FRED1].clock_);
     configPointer->Write("/FRED1/Turbo_Clock_Speed", conf[FRED1].turboClock_);
     configPointer->Write("/FRED1/Enable_Turbo_Cassette", conf[FRED1].turbo_);
@@ -466,6 +467,7 @@ void GuiFred::readFred2Config()
     selectedComputer_ = FRED1_5;
     
     conf[FRED1_5].emsConfigNumber_ = 0;
+    conf[FRED1_5].videoNumber_ = 0;
 
     conf[FRED1_5].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "FRED1_5" + pathSeparator_;
     conf[FRED1_5].mainDir_ = readConfigDir("/Dir/FRED1_5/Main", dataDir_ + "FRED1_5" + pathSeparator_);
@@ -480,7 +482,7 @@ void GuiFred::readFred2Config()
     
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 2.0);
-    conf[FRED1_5].zoom_ = convertLocale(configPointer->Read("/FRED1_5/Zoom", defaultZoom));
+    conf[FRED1_5].zoom_[VIDEOMAIN] = convertLocale(configPointer->Read("/FRED1_5/Zoom", defaultZoom));
     wxString defaultClock;
     defaultClock.Printf("%1.2f", 1.0);
     conf[FRED1_5].clock_ = convertLocale(configPointer->Read("/FRED1_5/Clock_Speed", defaultClock));
@@ -523,7 +525,7 @@ void GuiFred::readFred2Config()
         XRCCTRL(*this, "RamSWFRED1_5", wxComboBox)->SetValue(conf[FRED1_5].ram_);
         XRCCTRL(*this, "ScreenDumpFileFRED1_5", wxComboBox)->SetValue(conf[FRED1_5].screenDumpFile_);
 
-        correctZoomAndValue(FRED1_5, "FRED1_5", SET_SPIN);
+        correctZoomAndValue(FRED1_5, "FRED1_5", SET_SPIN, VIDEOMAIN);
 
         if (clockTextCtrl[FRED1_5] != NULL)
             clockTextCtrl[FRED1_5]->ChangeValue(conf[FRED1_5].clock_);
@@ -571,7 +573,7 @@ void GuiFred::writeFred2Config()
     configPointer->Write("/FRED1_5/Video_Dump_File", conf[FRED1_5].screenDumpFile_);
     configPointer->Write("/FRED1_5/Wav_File", conf[FRED1_5].wavFile_[0]);
     
-    configPointer->Write("/FRED1_5/Zoom", conf[FRED1_5].zoom_);
+    configPointer->Write("/FRED1_5/Zoom", conf[FRED1_5].zoom_[VIDEOMAIN]);
     configPointer->Write("/FRED1_5/Clock_Speed", conf[FRED1_5].clock_);
     configPointer->Write("/FRED1_5/Turbo_Clock_Speed", conf[FRED1_5].turboClock_);
     configPointer->Write("/FRED1_5/Enable_Turbo_Cassette", conf[FRED1_5].turbo_);

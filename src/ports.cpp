@@ -58,13 +58,13 @@ DevicePortsDialog::DevicePortsDialog(wxWindow* parent)
 
     this->SetTitle("Device Ports Definition "+p_Main->getSelectedComputerText());
 
-    XRCCTRL(*this, "UnusedEf1", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.ef1default);
-    XRCCTRL(*this, "UnusedEf2", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.ef2default);
-    XRCCTRL(*this, "UnusedEf3", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.ef3default);
+    XRCCTRL(*this, "UnusedEf1", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.ef1default);
+    XRCCTRL(*this, "UnusedEf2", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.ef2default);
+    XRCCTRL(*this, "UnusedEf3", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.ef3default);
 
-    XRCCTRL(*this, "PixieInput", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.pixieInput);
-    XRCCTRL(*this, "PixieOutput", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.pixieOutput);
-    XRCCTRL(*this, "PixieEF", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.pixieEf);
+    XRCCTRL(*this, "PixieInput", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.pixieInput);
+    XRCCTRL(*this, "PixieOutput", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.pixieOutput);
+    XRCCTRL(*this, "PixieEF", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.pixieEf);
     if (!elfConfiguration.usePixie)
     {
         XRCCTRL(*this, "PixieInput", wxSpinCtrl)->Enable(false);
@@ -73,11 +73,18 @@ DevicePortsDialog::DevicePortsDialog(wxWindow* parent)
         XRCCTRL(*this, "PixieInputText", wxStaticText)->Enable(false);
         XRCCTRL(*this, "PixieOutputText", wxStaticText)->Enable(false);
         XRCCTRL(*this, "PixieEfText", wxStaticText)->Enable(false);
+        
+        if (elfTypeStr_ == "SuperElf")
+        {
+            XRCCTRL(*this, "PixieInputText", wxStaticText)->SetLabel("In/Out, Enable Graphics");
+            XRCCTRL(*this, "PixieOutputText", wxStaticText)->SetLabel("In/Out, Disable Graphics");
+        }
+
     }    
 
-    XRCCTRL(*this, "PortExtenderSelectOutput", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.portExtenderSelectOutput);
-    XRCCTRL(*this, "PortExtenderWriteOutput", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.portExtenderWriteOutput);
-    XRCCTRL(*this, "PortExtenderInput", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.portExtenderInput);
+    XRCCTRL(*this, "PortExtenderSelectOutput", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.portExtenderSelectOutput);
+    XRCCTRL(*this, "PortExtenderWriteOutput", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.portExtenderWriteOutput);
+    XRCCTRL(*this, "PortExtenderInput", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.portExtenderInput);
     if (!elfConfiguration.usePortExtender)
     {
         XRCCTRL(*this, "PortExtenderSelectOutput", wxSpinCtrl)->Enable(false);
@@ -88,13 +95,13 @@ DevicePortsDialog::DevicePortsDialog(wxWindow* parent)
         XRCCTRL(*this, "PortExtenderInputText", wxStaticText)->Enable(false);
     }    
    
-    XRCCTRL(*this, "IdeSelectOutput", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.ideSelectOutput);
-    XRCCTRL(*this, "IdeWriteOutput", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.ideWriteOutput);
-    XRCCTRL(*this, "IdeStatus", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.ideStatus);
-    XRCCTRL(*this, "IdeInput", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.ideInput);
-    XRCCTRL(*this, "IdeTracks", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.ideTracks);
-    XRCCTRL(*this, "IdeHeads", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.ideHeads);
-    XRCCTRL(*this, "IdeSectors", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.ideSectors);
+    XRCCTRL(*this, "IdeSelectOutput", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.ideSelectOutput);
+    XRCCTRL(*this, "IdeWriteOutput", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.ideWriteOutput);
+    XRCCTRL(*this, "IdeStatus", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.ideStatus);
+    XRCCTRL(*this, "IdeInput", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.ideInput);
+    XRCCTRL(*this, "IdeTracks", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.ideTracks);
+    XRCCTRL(*this, "IdeHeads", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.ideHeads);
+    XRCCTRL(*this, "IdeSectors", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.ideSectors);
     
     if (!elfConfiguration.ideEnabled)
     {
@@ -119,11 +126,11 @@ DevicePortsDialog::DevicePortsDialog(wxWindow* parent)
         XRCCTRL(*this, "IdeStatusText", wxStaticText)->Enable(false);
     }
 
-    XRCCTRL(*this, "FdcSelectOutput", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.fdcSelectOutput);
-    XRCCTRL(*this, "FdcWriteOutput", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.fdcWriteOutput);
-    XRCCTRL(*this, "FdcInput", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.fdcInput);
-    XRCCTRL(*this, "FdcEf", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.fdcEf);
-    if (!elfConfiguration.fdcEnabled)
+    XRCCTRL(*this, "FdcSelectOutput", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.fdcSelectOutput.portNumber);
+    XRCCTRL(*this, "FdcWriteOutput", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.fdcWriteOutput.portNumber);
+    XRCCTRL(*this, "FdcInput", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.fdcReadInput.portNumber);
+    XRCCTRL(*this, "FdcEf", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.fdcEf);
+    if (!elfConfiguration.fdc1793Enabled)
     {
         XRCCTRL(*this, "FdcSelectOutput", wxSpinCtrl)->Enable(false);
         XRCCTRL(*this, "FdcWriteOutput", wxSpinCtrl)->Enable(false);
@@ -135,8 +142,8 @@ DevicePortsDialog::DevicePortsDialog(wxWindow* parent)
         XRCCTRL(*this, "FdcEfText", wxStaticText)->Enable(false);
     }    
 
-    XRCCTRL(*this, "KeyboardInput", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.keyboardInput);
-    XRCCTRL(*this, "KeyboardEf", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.keyboardEf);
+    XRCCTRL(*this, "KeyboardInput", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.keyboardInput);
+    XRCCTRL(*this, "KeyboardEf", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.keyboardEf);
     if (!elfConfiguration.useKeyboard && !elfConfiguration.usePs2gpio)
     {
         XRCCTRL(*this, "KeyboardInput", wxSpinCtrl)->Enable(false);
@@ -145,10 +152,10 @@ DevicePortsDialog::DevicePortsDialog(wxWindow* parent)
         XRCCTRL(*this, "KeyboardEfText", wxStaticText)->Enable(false);
     }    
 
-    XRCCTRL(*this, "Ps2KeyboardInput", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.ps2KeyboardInput);
-    XRCCTRL(*this, "Ps2KeyboardOutput", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.ps2KeyboardOutput);
-    XRCCTRL(*this, "Ps2KeyboardEf", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.ps2KeyboardEf);
-    if (!elfConfiguration.UsePS2)
+    XRCCTRL(*this, "Ps2KeyboardInput", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.ps2KeyboardInput);
+    XRCCTRL(*this, "Ps2KeyboardOutput", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.ps2KeyboardOutput);
+    XRCCTRL(*this, "Ps2KeyboardEf", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.ps2KeyboardEf);
+    if (!elfConfiguration.usePS2)
     {
         XRCCTRL(*this, "Ps2KeyboardInput", wxSpinCtrl)->Enable(false);
         XRCCTRL(*this, "Ps2KeyboardOutput", wxSpinCtrl)->Enable(false);
@@ -158,8 +165,8 @@ DevicePortsDialog::DevicePortsDialog(wxWindow* parent)
         XRCCTRL(*this, "Ps2KeyboardEfText", wxStaticText)->Enable(false);
     }    
 
-    XRCCTRL(*this, "PrinterOutput", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.printerOutput);
-    XRCCTRL(*this, "PrinterEf", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.printerEf);
+    XRCCTRL(*this, "PrinterOutput", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.printerOutput);
+    XRCCTRL(*this, "PrinterEf", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.printerEf);
     if (!p_Main->getPrinterStatus(p_Main->getSelectedComputerId()))
     {
         XRCCTRL(*this, "PrinterOutput", wxSpinCtrl)->Enable(false);
@@ -168,26 +175,26 @@ DevicePortsDialog::DevicePortsDialog(wxWindow* parent)
         XRCCTRL(*this, "PrinterEfText", wxStaticText)->Enable(false);
     }
     if (elfConfiguration.useEms)
-        XRCCTRL(*this, "EmsOutput", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.emsOutput[0]);
+        XRCCTRL(*this, "EmsOutput", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.emsOutput[0]);
     else
     {
         XRCCTRL(*this, "EmsOutput", wxSpinCtrl)->Enable(false);
         XRCCTRL(*this, "EmsOutputText", wxStaticText)->Enable(false);
     }    
 
-    XRCCTRL(*this, "Vt100Output", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.vt100Output);
+    XRCCTRL(*this, "Vt100Output", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.vt100Output);
     if (elfTypeStr_ != "Elf2K")
     {
-        XRCCTRL(*this, "Vt100Ef", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.vt100Ef);
+        XRCCTRL(*this, "Vt100Ef", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.vt100Ef);
     }
     else
     {
-        XRCCTRL(*this, "Vt100Ef", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.vt100Ef);
+        XRCCTRL(*this, "Vt100Ef", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.vt100Ef);
         XRCCTRL(*this, "Vt100Output", wxSpinCtrl)->Enable(false);
         XRCCTRL(*this, "Vt100OutputText", wxStaticText)->Enable(false);
     }
-    XRCCTRL(*this, "Vt100ReverseEf", wxCheckBox)->SetValue(elfConfiguration.elfPortConf.vt100ReverseEf != 1);
-    XRCCTRL(*this, "Vt100ReverseQ", wxCheckBox)->SetValue(elfConfiguration.elfPortConf.vt100ReverseQ != 0);
+    XRCCTRL(*this, "Vt100ReverseEf", wxCheckBox)->SetValue(elfConfiguration.ioConfiguration.vt100ReverseEf != 1);
+    XRCCTRL(*this, "Vt100ReverseQ", wxCheckBox)->SetValue(elfConfiguration.ioConfiguration.vt100ReverseQ != 0);
     if ((elfConfiguration.vtType == VTNONE) || elfConfiguration.useUart || elfConfiguration.useUart16450)
     {
         XRCCTRL(*this, "Vt100Q", wxStaticText)->Enable(false);
@@ -200,10 +207,10 @@ DevicePortsDialog::DevicePortsDialog(wxWindow* parent)
         XRCCTRL(*this, "Vt100ReverseQ", wxCheckBox)->Enable(false);
     }    
 
-    XRCCTRL(*this, "UartOut", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.uartOut);
-    XRCCTRL(*this, "UartIn", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.uartIn);
-    XRCCTRL(*this, "UartControl", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.uartControl);
-    XRCCTRL(*this, "UartStatus", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.uartStatus);
+    XRCCTRL(*this, "UartOut", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.uartOut);
+    XRCCTRL(*this, "UartIn", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.uartIn);
+    XRCCTRL(*this, "UartControl", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.uartControl);
+    XRCCTRL(*this, "UartStatus", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.uartStatus);
     if ((!elfConfiguration.useUart && !elfConfiguration.useUart16450) || (elfTypeStr_ == "Elf2K"))
     {
         XRCCTRL(*this, "UartOutText", wxStaticText)->Enable(false);
@@ -243,10 +250,10 @@ DevicePortsDialog::DevicePortsDialog(wxWindow* parent)
         
     }
 
-    XRCCTRL(*this, "TmsModeHighOutput", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.tmsModeHighOutput);
-    XRCCTRL(*this, "TmsModeLowOutput", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.tmsModeLowOutput);
+    XRCCTRL(*this, "TmsModeHighOutput", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.tmsModeHighOutput);
+    XRCCTRL(*this, "TmsModeLowOutput", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.tmsModeLowOutput);
 
-    XRCCTRL(*this, "TmsInterrupt", wxChoice)->SetSelection(elfConfiguration.elfPortConf.tmsInterrupt);
+    XRCCTRL(*this, "TmsInterrupt", wxChoice)->SetSelection(elfConfiguration.ioConfiguration.tmsInterrupt);
     if (!elfConfiguration.useTMS9918)
     {
         XRCCTRL(*this, "TmsModeHighOutput", wxSpinCtrl)->Enable(false);
@@ -258,11 +265,11 @@ DevicePortsDialog::DevicePortsDialog(wxWindow* parent)
     }
 
 
-    XRCCTRL(*this, "I8275WriteCommand", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.i8275WriteCommand);
-    XRCCTRL(*this, "I8275ReadStatus", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.i8275ReadStatus);
-    XRCCTRL(*this, "I8275WriteParameter", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.i8275WriteParameter);
-    XRCCTRL(*this, "I8275ReadParameter", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.i8275ReadParameter);
-    XRCCTRL(*this, "I8275VerticalRetrace", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.i8275VerticalRetrace);
+    XRCCTRL(*this, "I8275WriteCommand", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.i8275WriteCommand);
+    XRCCTRL(*this, "I8275ReadStatus", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.i8275ReadStatus);
+    XRCCTRL(*this, "I8275WriteParameter", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.i8275WriteParameter);
+    XRCCTRL(*this, "I8275ReadParameter", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.i8275ReadParameter);
+    XRCCTRL(*this, "I8275VerticalRetrace", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.i8275VerticalRetrace);
     if (!elfConfiguration.use8275)
     {
         XRCCTRL(*this, "I8275WriteCommand", wxSpinCtrl)->Enable(false);
@@ -277,42 +284,42 @@ DevicePortsDialog::DevicePortsDialog(wxWindow* parent)
         XRCCTRL(*this, "I8275VerticalRetraceText", wxStaticText)->Enable(false);
     }    
 
-    XRCCTRL(*this, "Led_Module_Output", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.led_Module_Output);
+    XRCCTRL(*this, "Led_Module_Output", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.led_Module_Output);
     if (!elfConfiguration.useLedModule)
     {
         XRCCTRL(*this, "Led_Module_Output", wxSpinCtrl)->Enable(false);
         XRCCTRL(*this, "Led_Module_Output_Text", wxStaticText)->Enable(false);
     }    
 
-    XRCCTRL(*this, "MC6847OutputMode", wxChoice)->SetSelection(elfConfiguration.elfPortConf.mc6847OutputMode);
-    if (elfConfiguration.elfPortConf.mc6847OutputMode == 1)
+    XRCCTRL(*this, "MC6847OutputMode", wxChoice)->SetSelection(elfConfiguration.ioConfiguration.mc6847OutputMode);
+    if (elfConfiguration.ioConfiguration.mc6847OutputMode == 1)
         XRCCTRL(*this, "MC6847Output", wxSpinCtrl)->Enable(false);
-    XRCCTRL(*this, "MC6847Output", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.mc6847Output);
-    XRCCTRL(*this, "MC6847-B7", wxChoice)->SetSelection(elfConfiguration.elfPortConf.mc6847b7);
-    XRCCTRL(*this, "MC6847-B6", wxChoice)->SetSelection(elfConfiguration.elfPortConf.mc6847b6);
-    XRCCTRL(*this, "MC6847-B5", wxChoice)->SetSelection(elfConfiguration.elfPortConf.mc6847b5);
-    XRCCTRL(*this, "MC6847-B4", wxChoice)->SetSelection(elfConfiguration.elfPortConf.mc6847b4);
-    XRCCTRL(*this, "MC6847-B3", wxChoice)->SetSelection(elfConfiguration.elfPortConf.mc6847b3);
-    XRCCTRL(*this, "MC6847-B2", wxChoice)->SetSelection(elfConfiguration.elfPortConf.mc6847b2);
-    XRCCTRL(*this, "MC6847-B1", wxChoice)->SetSelection(elfConfiguration.elfPortConf.mc6847b1);
-    XRCCTRL(*this, "MC6847-B0", wxChoice)->SetSelection(elfConfiguration.elfPortConf.mc6847b0);
-    XRCCTRL(*this, "MC6847-DD7", wxChoice)->SetSelection(elfConfiguration.elfPortConf.mc6847dd7);
-    XRCCTRL(*this, "MC6847-DD6", wxChoice)->SetSelection(elfConfiguration.elfPortConf.mc6847dd6);
+    XRCCTRL(*this, "MC6847Output", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.mc6847Output);
+    XRCCTRL(*this, "MC6847-B7", wxChoice)->SetSelection(elfConfiguration.ioConfiguration.mc6847b7);
+    XRCCTRL(*this, "MC6847-B6", wxChoice)->SetSelection(elfConfiguration.ioConfiguration.mc6847b6);
+    XRCCTRL(*this, "MC6847-B5", wxChoice)->SetSelection(elfConfiguration.ioConfiguration.mc6847b5);
+    XRCCTRL(*this, "MC6847-B4", wxChoice)->SetSelection(elfConfiguration.ioConfiguration.mc6847b4);
+    XRCCTRL(*this, "MC6847-B3", wxChoice)->SetSelection(elfConfiguration.ioConfiguration.mc6847b3);
+    XRCCTRL(*this, "MC6847-B2", wxChoice)->SetSelection(elfConfiguration.ioConfiguration.mc6847b2);
+    XRCCTRL(*this, "MC6847-B1", wxChoice)->SetSelection(elfConfiguration.ioConfiguration.mc6847b1);
+    XRCCTRL(*this, "MC6847-B0", wxChoice)->SetSelection(elfConfiguration.ioConfiguration.mc6847b0);
+    XRCCTRL(*this, "MC6847-DD7", wxChoice)->SetSelection(elfConfiguration.ioConfiguration.mc6847dd7);
+    XRCCTRL(*this, "MC6847-DD6", wxChoice)->SetSelection(elfConfiguration.ioConfiguration.mc6847dd6);
 
-    XRCCTRL(*this, "MC6847-AG", wxCheckBox)->SetValue(elfConfiguration.elfPortConf.forceHighAg);
-    XRCCTRL(*this, "MC6847-AS", wxCheckBox)->SetValue(elfConfiguration.elfPortConf.forceHighAs);
-    XRCCTRL(*this, "MC6847-EXT", wxCheckBox)->SetValue(elfConfiguration.elfPortConf.forceHighExt);
-    XRCCTRL(*this, "MC6847-GM2", wxCheckBox)->SetValue(elfConfiguration.elfPortConf.forceHighGm2);
-    XRCCTRL(*this, "MC6847-GM1", wxCheckBox)->SetValue(elfConfiguration.elfPortConf.forceHighGm1);
-    XRCCTRL(*this, "MC6847-GM0", wxCheckBox)->SetValue(elfConfiguration.elfPortConf.forceHighGm0);
-    XRCCTRL(*this, "MC6847-CSS", wxCheckBox)->SetValue(elfConfiguration.elfPortConf.forceHighCss);
-    XRCCTRL(*this, "MC6847-INV", wxCheckBox)->SetValue(elfConfiguration.elfPortConf.forceHighInv);
+    XRCCTRL(*this, "MC6847-AG", wxCheckBox)->SetValue(elfConfiguration.ioConfiguration.forceHighAg);
+    XRCCTRL(*this, "MC6847-AS", wxCheckBox)->SetValue(elfConfiguration.ioConfiguration.forceHighAs);
+    XRCCTRL(*this, "MC6847-EXT", wxCheckBox)->SetValue(elfConfiguration.ioConfiguration.forceHighExt);
+    XRCCTRL(*this, "MC6847-GM2", wxCheckBox)->SetValue(elfConfiguration.ioConfiguration.forceHighGm2);
+    XRCCTRL(*this, "MC6847-GM1", wxCheckBox)->SetValue(elfConfiguration.ioConfiguration.forceHighGm1);
+    XRCCTRL(*this, "MC6847-GM0", wxCheckBox)->SetValue(elfConfiguration.ioConfiguration.forceHighGm0);
+    XRCCTRL(*this, "MC6847-CSS", wxCheckBox)->SetValue(elfConfiguration.ioConfiguration.forceHighCss);
+    XRCCTRL(*this, "MC6847-INV", wxCheckBox)->SetValue(elfConfiguration.ioConfiguration.forceHighInv);
 
-    int start = elfConfiguration.elfPortConf.mc6847StartRam;
+    int start = elfConfiguration.ioConfiguration.mc6847StartRam;
     int sel = (start - 0x8000)/0x1000;
     XRCCTRL(*this, "MC6847StartRam", wxChoice)->SetSelection(sel);
 
-    int end = elfConfiguration.elfPortConf.mc6847EndRam;
+    int end = elfConfiguration.ioConfiguration.mc6847EndRam;
     int size = end - start;
     sel = 0;
     if (size <= 1024)
@@ -367,11 +374,11 @@ DevicePortsDialog::DevicePortsDialog(wxWindow* parent)
         XRCCTRL(*this, "MC6847SizeRamText", wxStaticText)->Enable(false);
     }    
 
-    start = elfConfiguration.elfPortConf.mc6845StartRam;
+    start = elfConfiguration.ioConfiguration.mc6845StartRam;
     sel = start/0x1000;
     XRCCTRL(*this, "MC6845StartRam", wxChoice)->SetSelection(sel);
 
-    end = elfConfiguration.elfPortConf.mc6845EndRam;
+    end = elfConfiguration.ioConfiguration.mc6845EndRam;
     size = end - start;
     sel = 0;
     if (size <= 1024)
@@ -386,15 +393,15 @@ DevicePortsDialog::DevicePortsDialog(wxWindow* parent)
         sel = 4;
     XRCCTRL(*this, "MC6845SizeRam", wxChoice)->SetSelection(sel);
 
-    int addr = elfConfiguration.elfPortConf.mc6845Address;
+    int addr = elfConfiguration.ioConfiguration.mc6845Address;
     wxString addrStr;
     addrStr.Printf("%04X", addr);
     XRCCTRL(*this, "MC6845Address", wxTextCtrl)->SetValue(addrStr);
-    int data = elfConfiguration.elfPortConf.mc6845Data;
+    int data = elfConfiguration.ioConfiguration.mc6845Data;
     wxString dataStr;
     dataStr.Printf("%04X", data);
     XRCCTRL(*this, "MC6845Data", wxTextCtrl)->SetValue(dataStr);
-    XRCCTRL(*this, "MC6845EF", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.mc6845Ef);
+    XRCCTRL(*this, "MC6845EF", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.mc6845Ef);
 
     if (!elfConfiguration.use6845)
     {
@@ -420,9 +427,9 @@ DevicePortsDialog::DevicePortsDialog(wxWindow* parent)
         XRCCTRL(*this, "MC6845SizeRamText", wxStaticText)->Enable(true);
     }    
 
-    XRCCTRL(*this, "HexOutput", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.hexOutput);
-    XRCCTRL(*this, "HexInput", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.hexInput);
-    XRCCTRL(*this, "HexEf", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.hexEf);
+    XRCCTRL(*this, "HexOutput", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.hexOutput);
+    XRCCTRL(*this, "HexInput", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.hexInput);
+    XRCCTRL(*this, "HexEf", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.hexEf);
     if (!(elfConfiguration.useHexKeyboardEf3 || elfConfiguration.useHexKeyboard) && elfTypeStr_ == "Elf")
     {
         XRCCTRL(*this, "HexInputText", wxStaticText)->Enable(false);
@@ -434,7 +441,7 @@ DevicePortsDialog::DevicePortsDialog(wxWindow* parent)
         XRCCTRL(*this, "HexEf", wxSpinCtrl)->Enable(false);
     }
     
-    XRCCTRL(*this, "TapeEf", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.tapeEf);
+    XRCCTRL(*this, "TapeEf", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.tapeEf);
     if (!elfConfiguration.useTape || elfConfiguration.useXmodem)
     {
         XRCCTRL(*this, "TapeEf", wxSpinCtrl)->Enable(false);
@@ -452,109 +459,109 @@ void DevicePortsDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
     if (strValue != "")
     {
         if (strValue.ToLong(&value, 16))
-            elfConfiguration.elfPortConf.mc6845Address = (int)value;
+            elfConfiguration.ioConfiguration.mc6845Address = (int)value;
     }
 
     strValue = XRCCTRL(*this, "MC6845Data", wxTextCtrl)->GetValue();
     if (strValue != "")
     {
         if (strValue.ToLong(&value, 16))
-            elfConfiguration.elfPortConf.mc6845Data = (int)value;
+            elfConfiguration.ioConfiguration.mc6845Data = (int)value;
     }
 
-    elfConfiguration.elfPortConf.ef1default = XRCCTRL(*this, "UnusedEf1", wxSpinCtrl)->GetValue();
-    elfConfiguration.elfPortConf.ef2default = XRCCTRL(*this, "UnusedEf2", wxSpinCtrl)->GetValue();
-    elfConfiguration.elfPortConf.ef3default = XRCCTRL(*this, "UnusedEf3", wxSpinCtrl)->GetValue();
+    elfConfiguration.ioConfiguration.ef1default = XRCCTRL(*this, "UnusedEf1", wxSpinCtrl)->GetValue();
+    elfConfiguration.ioConfiguration.ef2default = XRCCTRL(*this, "UnusedEf2", wxSpinCtrl)->GetValue();
+    elfConfiguration.ioConfiguration.ef3default = XRCCTRL(*this, "UnusedEf3", wxSpinCtrl)->GetValue();
 
-    elfConfiguration.elfPortConf.pixieInput = XRCCTRL(*this, "PixieInput", wxSpinCtrl)->GetValue();
-    elfConfiguration.elfPortConf.pixieOutput = XRCCTRL(*this, "PixieOutput", wxSpinCtrl)->GetValue();
-    elfConfiguration.elfPortConf.pixieEf = XRCCTRL(*this, "PixieEF", wxSpinCtrl)->GetValue();
+    elfConfiguration.ioConfiguration.pixieInput = XRCCTRL(*this, "PixieInput", wxSpinCtrl)->GetValue();
+    elfConfiguration.ioConfiguration.pixieOutput = XRCCTRL(*this, "PixieOutput", wxSpinCtrl)->GetValue();
+    elfConfiguration.ioConfiguration.pixieEf = XRCCTRL(*this, "PixieEF", wxSpinCtrl)->GetValue();
 
-    elfConfiguration.elfPortConf.portExtenderSelectOutput = XRCCTRL(*this, "PortExtenderSelectOutput", wxSpinCtrl)->GetValue();
-    elfConfiguration.elfPortConf.portExtenderWriteOutput = XRCCTRL(*this, "PortExtenderWriteOutput", wxSpinCtrl)->GetValue();
-    elfConfiguration.elfPortConf.portExtenderInput = XRCCTRL(*this, "PortExtenderInput", wxSpinCtrl)->GetValue();
+    elfConfiguration.ioConfiguration.portExtenderSelectOutput = XRCCTRL(*this, "PortExtenderSelectOutput", wxSpinCtrl)->GetValue();
+    elfConfiguration.ioConfiguration.portExtenderWriteOutput = XRCCTRL(*this, "PortExtenderWriteOutput", wxSpinCtrl)->GetValue();
+    elfConfiguration.ioConfiguration.portExtenderInput = XRCCTRL(*this, "PortExtenderInput", wxSpinCtrl)->GetValue();
 
-    elfConfiguration.elfPortConf.ideSelectOutput = XRCCTRL(*this, "IdeSelectOutput", wxSpinCtrl)->GetValue();
-    elfConfiguration.elfPortConf.ideWriteOutput = XRCCTRL(*this, "IdeWriteOutput", wxSpinCtrl)->GetValue();
-    elfConfiguration.elfPortConf.ideStatus = XRCCTRL(*this, "IdeStatus", wxSpinCtrl)->GetValue();
-    elfConfiguration.elfPortConf.ideInput = XRCCTRL(*this, "IdeInput", wxSpinCtrl)->GetValue();
-    elfConfiguration.elfPortConf.ideTracks = XRCCTRL(*this, "IdeTracks", wxSpinCtrl)->GetValue();
-    elfConfiguration.elfPortConf.ideHeads = XRCCTRL(*this, "IdeHeads", wxSpinCtrl)->GetValue();
-    elfConfiguration.elfPortConf.ideSectors = XRCCTRL(*this, "IdeSectors", wxSpinCtrl)->GetValue();
+    elfConfiguration.ioConfiguration.ideSelectOutput = XRCCTRL(*this, "IdeSelectOutput", wxSpinCtrl)->GetValue();
+    elfConfiguration.ioConfiguration.ideWriteOutput = XRCCTRL(*this, "IdeWriteOutput", wxSpinCtrl)->GetValue();
+    elfConfiguration.ioConfiguration.ideStatus = XRCCTRL(*this, "IdeStatus", wxSpinCtrl)->GetValue();
+    elfConfiguration.ioConfiguration.ideInput = XRCCTRL(*this, "IdeInput", wxSpinCtrl)->GetValue();
+    elfConfiguration.ioConfiguration.ideTracks = XRCCTRL(*this, "IdeTracks", wxSpinCtrl)->GetValue();
+    elfConfiguration.ioConfiguration.ideHeads = XRCCTRL(*this, "IdeHeads", wxSpinCtrl)->GetValue();
+    elfConfiguration.ioConfiguration.ideSectors = XRCCTRL(*this, "IdeSectors", wxSpinCtrl)->GetValue();
 
-    elfConfiguration.elfPortConf.fdcSelectOutput = XRCCTRL(*this, "FdcSelectOutput", wxSpinCtrl)->GetValue();
-    elfConfiguration.elfPortConf.fdcWriteOutput = XRCCTRL(*this, "FdcWriteOutput", wxSpinCtrl)->GetValue();
-    elfConfiguration.elfPortConf.fdcInput = XRCCTRL(*this, "FdcInput", wxSpinCtrl)->GetValue();
-    elfConfiguration.elfPortConf.fdcEf = XRCCTRL(*this, "FdcEf", wxSpinCtrl)->GetValue();
+    elfConfiguration.ioConfiguration.fdcSelectOutput.portNumber = XRCCTRL(*this, "FdcSelectOutput", wxSpinCtrl)->GetValue();
+    elfConfiguration.ioConfiguration.fdcWriteOutput.portNumber = XRCCTRL(*this, "FdcWriteOutput", wxSpinCtrl)->GetValue();
+    elfConfiguration.ioConfiguration.fdcReadInput.portNumber = XRCCTRL(*this, "FdcInput", wxSpinCtrl)->GetValue();
+    elfConfiguration.ioConfiguration.fdcEf = XRCCTRL(*this, "FdcEf", wxSpinCtrl)->GetValue();
 
-    elfConfiguration.elfPortConf.keyboardInput = XRCCTRL(*this, "KeyboardInput", wxSpinCtrl)->GetValue();
-    elfConfiguration.elfPortConf.keyboardEf = XRCCTRL(*this, "KeyboardEf", wxSpinCtrl)->GetValue();
+    elfConfiguration.ioConfiguration.keyboardInput = XRCCTRL(*this, "KeyboardInput", wxSpinCtrl)->GetValue();
+    elfConfiguration.ioConfiguration.keyboardEf = XRCCTRL(*this, "KeyboardEf", wxSpinCtrl)->GetValue();
 
-    elfConfiguration.elfPortConf.ps2KeyboardInput = XRCCTRL(*this, "Ps2KeyboardInput", wxSpinCtrl)->GetValue();
-    elfConfiguration.elfPortConf.ps2KeyboardOutput = XRCCTRL(*this, "Ps2KeyboardOutput", wxSpinCtrl)->GetValue();
-    elfConfiguration.elfPortConf.ps2KeyboardEf = XRCCTRL(*this, "Ps2KeyboardEf", wxSpinCtrl)->GetValue();
+    elfConfiguration.ioConfiguration.ps2KeyboardInput = XRCCTRL(*this, "Ps2KeyboardInput", wxSpinCtrl)->GetValue();
+    elfConfiguration.ioConfiguration.ps2KeyboardOutput = XRCCTRL(*this, "Ps2KeyboardOutput", wxSpinCtrl)->GetValue();
+    elfConfiguration.ioConfiguration.ps2KeyboardEf = XRCCTRL(*this, "Ps2KeyboardEf", wxSpinCtrl)->GetValue();
 
-    elfConfiguration.elfPortConf.i8275WriteCommand = XRCCTRL(*this, "I8275WriteCommand", wxSpinCtrl)->GetValue();
-    elfConfiguration.elfPortConf.i8275ReadStatus = XRCCTRL(*this, "I8275ReadStatus", wxSpinCtrl)->GetValue();
-    elfConfiguration.elfPortConf.i8275WriteParameter = XRCCTRL(*this, "I8275WriteParameter", wxSpinCtrl)->GetValue();
-    elfConfiguration.elfPortConf.i8275ReadParameter = XRCCTRL(*this, "I8275ReadParameter", wxSpinCtrl)->GetValue();
-    elfConfiguration.elfPortConf.i8275VerticalRetrace = XRCCTRL(*this, "I8275VerticalRetrace", wxSpinCtrl)->GetValue();
+    elfConfiguration.ioConfiguration.i8275WriteCommand = XRCCTRL(*this, "I8275WriteCommand", wxSpinCtrl)->GetValue();
+    elfConfiguration.ioConfiguration.i8275ReadStatus = XRCCTRL(*this, "I8275ReadStatus", wxSpinCtrl)->GetValue();
+    elfConfiguration.ioConfiguration.i8275WriteParameter = XRCCTRL(*this, "I8275WriteParameter", wxSpinCtrl)->GetValue();
+    elfConfiguration.ioConfiguration.i8275ReadParameter = XRCCTRL(*this, "I8275ReadParameter", wxSpinCtrl)->GetValue();
+    elfConfiguration.ioConfiguration.i8275VerticalRetrace = XRCCTRL(*this, "I8275VerticalRetrace", wxSpinCtrl)->GetValue();
 
-    elfConfiguration.elfPortConf.printerOutput = XRCCTRL(*this, "PrinterOutput", wxSpinCtrl)->GetValue();
-    elfConfiguration.elfPortConf.printerEf = XRCCTRL(*this, "PrinterEf", wxSpinCtrl)->GetValue();
+    elfConfiguration.ioConfiguration.printerOutput = XRCCTRL(*this, "PrinterOutput", wxSpinCtrl)->GetValue();
+    elfConfiguration.ioConfiguration.printerEf = XRCCTRL(*this, "PrinterEf", wxSpinCtrl)->GetValue();
 
     if (elfConfiguration.useEms)
-        elfConfiguration.elfPortConf.emsOutput[0] = XRCCTRL(*this, "EmsOutput", wxSpinCtrl)->GetValue();
+        elfConfiguration.ioConfiguration.emsOutput[0] = XRCCTRL(*this, "EmsOutput", wxSpinCtrl)->GetValue();
 
-    elfConfiguration.elfPortConf.vt100Output = XRCCTRL(*this, "Vt100Output", wxSpinCtrl)->GetValue();
-    elfConfiguration.elfPortConf.vt100Ef = XRCCTRL(*this, "Vt100Ef", wxSpinCtrl)->GetValue();
+    elfConfiguration.ioConfiguration.vt100Output = XRCCTRL(*this, "Vt100Output", wxSpinCtrl)->GetValue();
+    elfConfiguration.ioConfiguration.vt100Ef = XRCCTRL(*this, "Vt100Ef", wxSpinCtrl)->GetValue();
 
     if (XRCCTRL(*this, "Vt100ReverseEf", wxCheckBox)->IsChecked())
-        elfConfiguration.elfPortConf.vt100ReverseEf = 0;
+        elfConfiguration.ioConfiguration.vt100ReverseEf = 0;
     else
-        elfConfiguration.elfPortConf.vt100ReverseEf = 1;
+        elfConfiguration.ioConfiguration.vt100ReverseEf = 1;
 
     if (XRCCTRL(*this, "Vt100ReverseQ", wxCheckBox)->IsChecked())
-        elfConfiguration.elfPortConf.vt100ReverseQ = 1;
+        elfConfiguration.ioConfiguration.vt100ReverseQ = 1;
     else
-        elfConfiguration.elfPortConf.vt100ReverseQ = 0;
+        elfConfiguration.ioConfiguration.vt100ReverseQ = 0;
 
-    elfConfiguration.elfPortConf.uartOut = XRCCTRL(*this, "UartOut", wxSpinCtrl)->GetValue();
-    elfConfiguration.elfPortConf.uartIn = XRCCTRL(*this, "UartIn", wxSpinCtrl)->GetValue();
-    elfConfiguration.elfPortConf.uartControl = XRCCTRL(*this, "UartControl", wxSpinCtrl)->GetValue();
-    elfConfiguration.elfPortConf.uartStatus = XRCCTRL(*this, "UartStatus", wxSpinCtrl)->GetValue();
+    elfConfiguration.ioConfiguration.uartOut = XRCCTRL(*this, "UartOut", wxSpinCtrl)->GetValue();
+    elfConfiguration.ioConfiguration.uartIn = XRCCTRL(*this, "UartIn", wxSpinCtrl)->GetValue();
+    elfConfiguration.ioConfiguration.uartControl = XRCCTRL(*this, "UartControl", wxSpinCtrl)->GetValue();
+    elfConfiguration.ioConfiguration.uartStatus = XRCCTRL(*this, "UartStatus", wxSpinCtrl)->GetValue();
 
-    elfConfiguration.elfPortConf.tmsModeHighOutput = XRCCTRL(*this, "TmsModeHighOutput", wxSpinCtrl)->GetValue();
-    elfConfiguration.elfPortConf.tmsModeLowOutput = XRCCTRL(*this, "TmsModeLowOutput", wxSpinCtrl)->GetValue();
-    elfConfiguration.elfPortConf.tmsInterrupt = XRCCTRL(*this, "TmsInterrupt", wxChoice)->GetCurrentSelection();
+    elfConfiguration.ioConfiguration.tmsModeHighOutput = XRCCTRL(*this, "TmsModeHighOutput", wxSpinCtrl)->GetValue();
+    elfConfiguration.ioConfiguration.tmsModeLowOutput = XRCCTRL(*this, "TmsModeLowOutput", wxSpinCtrl)->GetValue();
+    elfConfiguration.ioConfiguration.tmsInterrupt = XRCCTRL(*this, "TmsInterrupt", wxChoice)->GetCurrentSelection();
 
-    elfConfiguration.elfPortConf.led_Module_Output = XRCCTRL(*this, "Led_Module_Output", wxSpinCtrl)->GetValue();
+    elfConfiguration.ioConfiguration.led_Module_Output = XRCCTRL(*this, "Led_Module_Output", wxSpinCtrl)->GetValue();
 
-    elfConfiguration.elfPortConf.mc6847OutputMode = XRCCTRL(*this, "MC6847OutputMode", wxChoice)->GetCurrentSelection();
-    elfConfiguration.elfPortConf.mc6847Output = XRCCTRL(*this, "MC6847Output", wxSpinCtrl)->GetValue();
-    elfConfiguration.elfPortConf.mc6847b7 = XRCCTRL(*this, "MC6847-B7", wxChoice)->GetCurrentSelection();
-    elfConfiguration.elfPortConf.mc6847b6 = XRCCTRL(*this, "MC6847-B6", wxChoice)->GetCurrentSelection();
-    elfConfiguration.elfPortConf.mc6847b5 = XRCCTRL(*this, "MC6847-B5", wxChoice)->GetCurrentSelection();
-    elfConfiguration.elfPortConf.mc6847b4 = XRCCTRL(*this, "MC6847-B4", wxChoice)->GetCurrentSelection();
-    elfConfiguration.elfPortConf.mc6847b3 = XRCCTRL(*this, "MC6847-B3", wxChoice)->GetCurrentSelection();
-    elfConfiguration.elfPortConf.mc6847b2 = XRCCTRL(*this, "MC6847-B2", wxChoice)->GetCurrentSelection();
-    elfConfiguration.elfPortConf.mc6847b1 = XRCCTRL(*this, "MC6847-B1", wxChoice)->GetCurrentSelection();
-    elfConfiguration.elfPortConf.mc6847b0 = XRCCTRL(*this, "MC6847-B0", wxChoice)->GetCurrentSelection();
-    elfConfiguration.elfPortConf.mc6847dd7 = XRCCTRL(*this, "MC6847-DD7", wxChoice)->GetCurrentSelection();
-    elfConfiguration.elfPortConf.mc6847dd6 = XRCCTRL(*this, "MC6847-DD6", wxChoice)->GetCurrentSelection();
+    elfConfiguration.ioConfiguration.mc6847OutputMode = XRCCTRL(*this, "MC6847OutputMode", wxChoice)->GetCurrentSelection();
+    elfConfiguration.ioConfiguration.mc6847Output = XRCCTRL(*this, "MC6847Output", wxSpinCtrl)->GetValue();
+    elfConfiguration.ioConfiguration.mc6847b7 = XRCCTRL(*this, "MC6847-B7", wxChoice)->GetCurrentSelection();
+    elfConfiguration.ioConfiguration.mc6847b6 = XRCCTRL(*this, "MC6847-B6", wxChoice)->GetCurrentSelection();
+    elfConfiguration.ioConfiguration.mc6847b5 = XRCCTRL(*this, "MC6847-B5", wxChoice)->GetCurrentSelection();
+    elfConfiguration.ioConfiguration.mc6847b4 = XRCCTRL(*this, "MC6847-B4", wxChoice)->GetCurrentSelection();
+    elfConfiguration.ioConfiguration.mc6847b3 = XRCCTRL(*this, "MC6847-B3", wxChoice)->GetCurrentSelection();
+    elfConfiguration.ioConfiguration.mc6847b2 = XRCCTRL(*this, "MC6847-B2", wxChoice)->GetCurrentSelection();
+    elfConfiguration.ioConfiguration.mc6847b1 = XRCCTRL(*this, "MC6847-B1", wxChoice)->GetCurrentSelection();
+    elfConfiguration.ioConfiguration.mc6847b0 = XRCCTRL(*this, "MC6847-B0", wxChoice)->GetCurrentSelection();
+    elfConfiguration.ioConfiguration.mc6847dd7 = XRCCTRL(*this, "MC6847-DD7", wxChoice)->GetCurrentSelection();
+    elfConfiguration.ioConfiguration.mc6847dd6 = XRCCTRL(*this, "MC6847-DD6", wxChoice)->GetCurrentSelection();
 
-    elfConfiguration.elfPortConf.forceHighAg =  XRCCTRL(*this, "MC6847-AG", wxCheckBox)->IsChecked();
-    elfConfiguration.elfPortConf.forceHighAs =  XRCCTRL(*this, "MC6847-AS", wxCheckBox)->IsChecked();
-    elfConfiguration.elfPortConf.forceHighExt =  XRCCTRL(*this, "MC6847-EXT", wxCheckBox)->IsChecked();
-    elfConfiguration.elfPortConf.forceHighGm2 =  XRCCTRL(*this, "MC6847-GM2", wxCheckBox)->IsChecked();
-    elfConfiguration.elfPortConf.forceHighGm1 =  XRCCTRL(*this, "MC6847-GM1", wxCheckBox)->IsChecked();
-    elfConfiguration.elfPortConf.forceHighGm0 =  XRCCTRL(*this, "MC6847-GM0", wxCheckBox)->IsChecked();
-    elfConfiguration.elfPortConf.forceHighCss =  XRCCTRL(*this, "MC6847-CSS", wxCheckBox)->IsChecked();
-    elfConfiguration.elfPortConf.forceHighInv =  XRCCTRL(*this, "MC6847-INV", wxCheckBox)->IsChecked();
+    elfConfiguration.ioConfiguration.forceHighAg =  XRCCTRL(*this, "MC6847-AG", wxCheckBox)->IsChecked();
+    elfConfiguration.ioConfiguration.forceHighAs =  XRCCTRL(*this, "MC6847-AS", wxCheckBox)->IsChecked();
+    elfConfiguration.ioConfiguration.forceHighExt =  XRCCTRL(*this, "MC6847-EXT", wxCheckBox)->IsChecked();
+    elfConfiguration.ioConfiguration.forceHighGm2 =  XRCCTRL(*this, "MC6847-GM2", wxCheckBox)->IsChecked();
+    elfConfiguration.ioConfiguration.forceHighGm1 =  XRCCTRL(*this, "MC6847-GM1", wxCheckBox)->IsChecked();
+    elfConfiguration.ioConfiguration.forceHighGm0 =  XRCCTRL(*this, "MC6847-GM0", wxCheckBox)->IsChecked();
+    elfConfiguration.ioConfiguration.forceHighCss =  XRCCTRL(*this, "MC6847-CSS", wxCheckBox)->IsChecked();
+    elfConfiguration.ioConfiguration.forceHighInv =  XRCCTRL(*this, "MC6847-INV", wxCheckBox)->IsChecked();
 
     int sel = XRCCTRL(*this, "MC6847StartRam", wxChoice)->GetCurrentSelection();
     int start = (sel * 0x1000) + 0x8000;
-    elfConfiguration.elfPortConf.mc6847StartRam = start;
+    elfConfiguration.ioConfiguration.mc6847StartRam = start;
 
     int size = 0x3ff;
     sel = XRCCTRL(*this, "MC6847SizeRam", wxChoice)->GetCurrentSelection();
@@ -578,11 +585,11 @@ void DevicePortsDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
     }
     int end = start + size;
     if (end > 0xffff)  end = 0xffff;
-    elfConfiguration.elfPortConf.mc6847EndRam = end;
+    elfConfiguration.ioConfiguration.mc6847EndRam = end;
 
     sel = XRCCTRL(*this, "MC6845StartRam", wxChoice)->GetCurrentSelection();
     start = sel * 0x1000;
-    elfConfiguration.elfPortConf.mc6845StartRam = start;
+    elfConfiguration.ioConfiguration.mc6845StartRam = start;
 
     size = 0x3ff;
     sel = XRCCTRL(*this, "MC6845SizeRam", wxChoice)->GetCurrentSelection();
@@ -606,14 +613,14 @@ void DevicePortsDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
     }
     end = start + size;
     if (end > 0xffff)  end = 0xffff;
-    elfConfiguration.elfPortConf.mc6845EndRam = end;
-    elfConfiguration.elfPortConf.mc6845Ef = XRCCTRL(*this, "MC6845EF", wxSpinCtrl)->GetValue();
+    elfConfiguration.ioConfiguration.mc6845EndRam = end;
+    elfConfiguration.ioConfiguration.mc6845Ef = XRCCTRL(*this, "MC6845EF", wxSpinCtrl)->GetValue();
 
-    elfConfiguration.elfPortConf.hexOutput = XRCCTRL(*this, "HexOutput", wxSpinCtrl)->GetValue();
-    elfConfiguration.elfPortConf.hexInput = XRCCTRL(*this, "HexInput", wxSpinCtrl)->GetValue();
-    elfConfiguration.elfPortConf.hexEf = XRCCTRL(*this, "HexEf", wxSpinCtrl)->GetValue();
+    elfConfiguration.ioConfiguration.hexOutput = XRCCTRL(*this, "HexOutput", wxSpinCtrl)->GetValue();
+    elfConfiguration.ioConfiguration.hexInput = XRCCTRL(*this, "HexInput", wxSpinCtrl)->GetValue();
+    elfConfiguration.ioConfiguration.hexEf = XRCCTRL(*this, "HexEf", wxSpinCtrl)->GetValue();
 
-    elfConfiguration.elfPortConf.tapeEf = XRCCTRL(*this, "TapeEf", wxSpinCtrl)->GetValue();
+    elfConfiguration.ioConfiguration.tapeEf = XRCCTRL(*this, "TapeEf", wxSpinCtrl)->GetValue();
 
     p_Main->setElfConfiguration(elfConfiguration);
 

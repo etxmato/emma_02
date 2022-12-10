@@ -34,7 +34,7 @@
 #define CHIP8_PC 5
 
 Victory::Victory(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, Conf computerConf)
-:Pixie(title, pos, size, zoom, zoomfactor, computerType)
+:Pixie(title, pos, size, zoom, zoomfactor, computerType, 0)
 {
     computerConfiguration = computerConf;
 }
@@ -489,7 +489,7 @@ void Victory::startComputer()
         defineMemoryType(0x4000, 0x7fff, CARTRIDGEROM);
     }
 
-    double zoom = p_Main->getZoom();
+    double zoom = p_Main->getZoom(VIDEOMAIN);
 
     configurePixieVictory();
     initPixie();

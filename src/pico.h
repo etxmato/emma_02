@@ -21,7 +21,7 @@ public:
     void onClose(wxCloseEvent&WXUNUSED(event));
     void charEvent(int keycode);
     bool keyDownPressed(int keycode);
-    bool keyUpReleased(int keycode);
+    bool keyUpReleased(int key, wxKeyEvent& event);
 
     void configureComputer();
     void setPrinterEf();
@@ -43,7 +43,7 @@ public:
     void writeMemDebug(Word address, Byte value, bool writeRom);
     void cpuInstruction();
     void resetPressed();
-    void configureElfExtensions();
+    void configureExtensions();
     void moveWindows();
     void updateTitle(wxString Title);
     void setForceUpperCase(bool status);
@@ -78,8 +78,6 @@ private:
     Byte ef3Button_;
     Byte ef4Button_;
     
-    long offset_;
-
     DECLARE_EVENT_TABLE()
 };
 

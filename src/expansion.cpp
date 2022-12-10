@@ -31,7 +31,7 @@
 #include "printer.h"
 
 Expansion::Expansion(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock)
-:V1870(title, pos, size, zoomLevel, computerType, clock)
+:V1870(title, pos, size, zoomLevel, computerType, clock, 0)
 {
 }
 
@@ -124,9 +124,9 @@ void Expansion::configureCard(int slot)
         if (expansionRom_[slot*0x2000] == 0x30)
             comxExpansionType_ [slot] = COMXSUPERBOARD;
 
-        if (comxExpansionType_[slot] == COMXPRINTER)
+        if (comxExpansionType_[slot] == PRINTER_PARALLEL)
             if (expansionRom_[(slot*0x2000)+0x14] == 0x52)
-                comxExpansionType_[slot] = COMXRS232;
+                comxExpansionType_[slot] = PRINTER_SERIAL;
 
         switch(comxExpansionType_[slot])
         {
@@ -135,7 +135,7 @@ void Expansion::configureCard(int slot)
                 {
                     fdcSlot_ = slot;
                     diskRomLoaded_ = true;
-                    configure1770(2, 35, 16, 128, COMX);
+                    configureComx1770(2, 35, 16, 128, 2740, COMX);
                     resetFdc();
 
                     print_buffer = "Configuring WD1770 Floppy Disk Controller" + slotString;
@@ -149,13 +149,13 @@ void Expansion::configureCard(int slot)
                 }
             break;
 
-            case COMXPRINTER:
+            case PRINTER_PARALLEL:
                 if (printerSlot_ == 0xff)
                 {
                     printerSlot_ = slot;
                     printRomLoaded_[COMXPARALLEL] = true;
                     p_PrinterParallel = new Printer();
-                    p_PrinterParallel->initComx(p_PrinterParallel);
+                    p_PrinterParallel->init(p_PrinterParallel, PRINTER_PARALLEL);
                     print_buffer = "Configuring Parallel Printer Card" + slotString;
                     p_Main->message(print_buffer);
                     p_Main->message("    Output 2: printer output, input 2: printer status\n");
@@ -168,8 +168,8 @@ void Expansion::configureCard(int slot)
                     thermalSlot_ = slot;
                     printRomLoaded_[COMXTHERMAL] = true;
                     p_PrinterThermal = new Printer();
-                    p_PrinterThermal->initComx(p_PrinterThermal);
-                    p_PrinterThermal->configureThermalPrinter();
+                    p_PrinterThermal->init(p_PrinterThermal, COMXTHPRINTER);
+                    p_PrinterThermal->setThermalPrinterCycle();
                     print_buffer = "Configuring Thermal Printer Card" + slotString;
                     p_Main->message(print_buffer);
                     p_Main->message("    Q = mode, Output 2: control head, input 2: printer status\n");
@@ -183,13 +183,13 @@ void Expansion::configureCard(int slot)
                 defineExpansionMemoryType(slot, 0, 0x1fff, UNDEFINED);
             break;
 
-            case COMXRS232:
+            case PRINTER_SERIAL:
                 if (serialSlot_ == 0xff)
                 {
                     serialSlot_ = slot;
                     printRomLoaded_[COMXSERIAL] = true;
                     p_PrinterSerial = new Printer();
-                    p_PrinterSerial->initComx(p_PrinterSerial);
+                    p_PrinterSerial->init(p_PrinterSerial, PRINTER_SERIAL);
                     print_buffer = "Configuring Serial Printer Card" + slotString;
                     p_Main->message(print_buffer);
                     p_Main->message("    Output 2: printer output, input 2: printer status\n");
@@ -378,7 +378,7 @@ Byte Expansion::expansionIn2()
             return stick1();
         break;
 
-        case COMXPRINTER:
+        case PRINTER_PARALLEL:
             return p_PrinterParallel->inParallel();
         break;
 
@@ -386,8 +386,8 @@ Byte Expansion::expansionIn2()
             return p_PrinterThermal->inThermal();
         break;
 
-        case COMXRS232:
-            return p_PrinterSerial->inSerial();
+        case PRINTER_SERIAL:
+            return p_PrinterSerial->inSerialComx();
         break;
     }
     return 0;
@@ -444,7 +444,7 @@ void Expansion::expansionOut(Byte value)
         //    usbOutVspe(value);
         break;
 
-        case COMXPRINTER:
+        case PRINTER_PARALLEL:
             p_Main->eventPrintParallel(value);
         break;
 
@@ -453,7 +453,7 @@ void Expansion::expansionOut(Byte value)
             p_Main->eventPrintThermal(value, getFlipFlopQ());
         break;
 
-        case COMXRS232:
+        case PRINTER_SERIAL:
             p_Main->eventPrintSerial(value);
         break;
     }
@@ -463,7 +463,7 @@ void Expansion::onComxF4()
 {
     switch(comxExpansionType_[expansionSlot_])
     {
-        case COMXPRINTER:
+        case PRINTER_PARALLEL:
             p_PrinterParallel->onF4Parallel();
             return;
         break;
@@ -473,7 +473,7 @@ void Expansion::onComxF4()
             return;
         break;
 
-        case COMXRS232:
+        case PRINTER_SERIAL:
             p_PrinterSerial->onF4Serial();
             return;
         break;

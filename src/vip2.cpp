@@ -30,13 +30,13 @@
 #include "vip2.h"
 
 VipII::VipII(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, double clock, int tempo, Conf computerConf)
-:Pixie(title, pos, size, zoom, zoomfactor, computerType)
+:Pixie(title, pos, size, zoom, zoomfactor, computerType, 0)
 {
     computerConfiguration = computerConf;
 
     clock_ = clock;
     p_Printer = new Printer();
-    p_Printer->initVip(p_Printer);
+    p_Printer->init(p_Printer, PRINTER_BASIC);
 
     cycleSize_ = (int) (((clock_ * 1000000) / 8) / tempo);
     autoBooting_ = 0;
@@ -708,7 +708,7 @@ void VipII::startComputer()
             readProgram(p_Main->getChip8Dir(VIPII), p_Main->getChip8SW(VIPII), NOCHANGE, 0x200, SHOWNAME);
     }
 
-    double zoom = p_Main->getZoom();
+    double zoom = p_Main->getZoom(VIDEOMAIN);
 
     if (vipMode_ || (computerVersion_ == VIPII_RCA && bootAddress == 3))
         setClear(0);

@@ -81,7 +81,6 @@ BEGIN_EVENT_TABLE(GuiVip, GuiVipII)
     EVT_BUTTON(XRCID("PrintButtonVip"), GuiMain::onPrintButton)
     EVT_CHOICE(XRCID("PrintModeVip"), GuiMain::onPrintMode)
     EVT_BUTTON(XRCID("PrintFileButtonVip"), GuiMain::onPrintFile)
-    EVT_COMMAND(wxID_ANY, OPEN_PRINTER_WINDOW, GuiMain::openPrinterFrame) 
     EVT_TEXT(XRCID("BeepFrequencyVip"), GuiMain::onBeepFrequency)
     EVT_SPINCTRL(XRCID("RamVip"), GuiVip::onVipRam)
     EVT_SPINCTRL(XRCID("VP570"), GuiVip::onVipVp570)
@@ -138,6 +137,7 @@ void GuiVip::readVipConfig()
     selectedComputer_ = VIP;
 
     conf[VIP].emsConfigNumber_ = 0;
+    conf[VIP].videoNumber_ = 0;
 
     conf[VIP].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "Vip" + pathSeparator_;
     conf[VIP].mainDir_ = readConfigDir("/Dir/Vip/Main", dataDir_ + "Vip" + pathSeparator_);
@@ -166,7 +166,7 @@ void GuiVip::readVipConfig()
 
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 2.0);
-    conf[VIP].zoom_ = convertLocale(configPointer->Read("/Vip/Zoom", defaultZoom));
+    conf[VIP].zoom_[VIDEOMAIN] = convertLocale(configPointer->Read("/Vip/Zoom", defaultZoom));
     defaultZoom.Printf("%2.2f", 1.0);
     conf[VIP].zoomVt_ = convertLocale(configPointer->Read("/Vip/Vt_Zoom", defaultZoom));
     wxString defaultScale;
@@ -247,7 +247,7 @@ void GuiVip::readVipConfig()
         XRCCTRL(*this, "VTBaudTChoiceVip", wxChoice)->SetSelection(elfConfiguration[VIP].baudT);
         XRCCTRL(*this, "VTBaudRChoiceVip", wxChoice)->SetSelection(elfConfiguration[VIP].baudT);
         
-        correctZoomAndValue(VIP, "Vip", SET_SPIN);
+        correctZoomAndValue(VIP, "Vip", SET_SPIN, VIDEOMAIN);
         correctZoomVtAndValue(VIP, "Vip", SET_SPIN);
 
         XRCCTRL(*this, "HighResVip", wxCheckBox)->SetValue(highRes_);
@@ -326,7 +326,7 @@ void GuiVip::writeVipConfig()
 
     configPointer->Write("/Vip/Vt_Baud", elfConfiguration[VIP].baudT);
 
-    configPointer->Write("/Vip/Zoom", conf[VIP].zoom_);
+    configPointer->Write("/Vip/Zoom", conf[VIP].zoom_[VIDEOMAIN]);
     configPointer->Write("/Vip/Vt_Zoom", conf[VIP].zoomVt_);
     configPointer->Write("/Vip/Enable_Vt_Stretch_Dot", conf[VIP].stretchDot_);
     configPointer->Write("/Vip/Enable_Vt_External", elfConfiguration[VIP].vtExternal);

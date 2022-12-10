@@ -405,6 +405,7 @@ public:
     void DebugDisplayPage();
     void DebugDisplayProfiler();
     void ShowCharacters(Word address, int y);
+    void ShowStandardCharacter(Word address);
     void DebugDisplayMap();
     void DebugDisplay();
     void onDebugMemType(wxCommandEvent&event);

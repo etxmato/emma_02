@@ -198,7 +198,7 @@ Velf::Velf(const wxString& title, const wxPoint& pos, const wxSize& size, double
 
     velfClockSpeed_ = clock;
     p_Printer = new Printer();
-    p_Printer->initVip(p_Printer);
+    p_Printer->init(p_Printer, PRINTER_BASIC);
     
     this->SetClientSize(size);
 
@@ -694,10 +694,11 @@ void Velf::startComputer()
     resetPressed_ = false;
     Word lastAddress;
 
-    double zoom = p_Main->getZoom();
+    double zoom = p_Main->getZoom(VIDEOMAIN);
     double scale = p_Main->getScale();
-    pixiePointer = new Pixie( "VELF - CDP1861", p_Main->getPixiePos(VELF), wxSize(64*zoom*scale, 192*zoom), zoom, scale, VELF);
-    p_Video = pixiePointer;
+    pixiePointer = new Pixie( "VELF - CDP1861", p_Main->getPixiePos(VELF), wxSize(64*zoom*scale, 192*zoom), zoom, scale, VELF, computerConfiguration.numberOfVideoTypes_ );
+    computerConfiguration.numberOfVideoTypes_ = 0;
+    p_Video[computerConfiguration.numberOfVideoTypes_++] = pixiePointer;
 
     if (wxFile::Exists(p_Main->getRomDir(VIP, MAINROM1) + "cosmac.ram"))
         readFile(p_Main->getRomDir(VIP, MAINROM1) + "cosmac.ram", RAM, 0xf00, 0x10000, NONAME);

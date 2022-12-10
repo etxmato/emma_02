@@ -1,0 +1,198 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>TMC600 - Bare, 37K</name>
+        <clock>3.579</clock>
+        <boot>0</boot>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init>
+        <init type="ef4">1</init>
+        <dirname>TMC600</dirname>
+    </system>
+
+    <batchwav>
+        <command>PSAVE</command>
+    </batchwav>
+    
+    <memory>
+         <rom>
+             <start>0</start>
+             <end>0x3FFF</end>
+             <filename verify="true">tmc.24.3.bin</filename>
+         </rom>
+
+         <mainram>
+            <start>0x6000</start>
+            <end>0xF3FF</end>
+        </mainram>
+    </memory>
+  
+    <video type="1870">
+        <pagesize type="ram">0x3ff</pagesize>
+        <charsize type="rom">0xfff</charsize>
+        <filename verify="true" format="tmc">character.bin</filename>
+        <pcbmask>0xff</pcbmask>
+        <maxcharlines>16</maxcharlines>
+        <maxscreenlines>24</maxscreenlines> <!-- 24, 25 or 27 for Cidelsa DRACO) -->
+        <mode>pal</mode>
+        <ef type="display">1</ef>
+        <clock>5.626</clock>
+        <colorram type="tmc" />
+        <cursorblink />
+        <out type="write">5</out>
+        <out type="select">7</out>
+    </video>
+    
+    <keyboard type="latch">
+        <!-- keyboard definition for a keyboard solution using a kay latch
+        <iogroup>: iogroup, i.e. i/o ports are activate when specified iogroup is selected via the iogroup port
+        <out>: port to set key latch, mask HAS TO be set to max value to be able to use keyfile, ctrl V and memeory access features
+        <ef pol="rev">: ef port indicating if latched key is pressed, if pol="rev" is specified ef will be reversed
+        <keydef out="x">: map key latch key x value to PC key (using raw key value, i.e. shift, ctrl are NOT making any difference)
+        <keydef type="text" out="x">: map key latch key x value to predefined PC key. This should be used to map shift, ctrl and alt buttons as well as a key to switch left/right alt/ctrl functions
+        -->
+ 
+        <out mask="0x3f">3</out>
+        <ef pol="rev">3</ef>
+                                        <!--    SHIFT -->
+        <keydef out="0">48</keydef>   <!-- 0  _ -->
+        <keydef out="0x1">49</keydef> <!-- 1  ! -->
+        <keydef out="0x2">50</keydef> <!-- 2  " -->
+        <keydef out="0x3">51</keydef> <!-- 3  # -->
+        <keydef out="0x4">52</keydef> <!-- 4  $ -->
+        <keydef out="0x5">53</keydef> <!-- 5  % -->
+        <keydef out="0x6">54</keydef> <!-- 6  & -->
+        <keydef out="0x7">55</keydef> <!-- 7  ' -->
+        <keydef out="0x8">56</keydef> <!-- 8  ( -->
+        <keydef out="0x9">57</keydef> <!-- 9  ) -->
+        <keydef out="0xA">61</keydef> <!-- :  * (on PC =  +) -->
+        <keydef out="0xB">59</keydef> <!-- ;  + -->
+        <keydef out="0xC">44</keydef> <!-- ,  < -->
+        <keydef out="0xD">45</keydef> <!-- -  = -->
+        <keydef out="0xE">46</keydef> <!-- .  > -->
+        <keydef out="0xF">47</keydef> <!-- /  ? -->
+        <keydef out="0x11">65</keydef> <!-- A -->
+        <keydef out="0x12">66</keydef>
+        <keydef out="0x13">67</keydef>
+        <keydef out="0x14">68</keydef>
+        <keydef out="0x15">69</keydef>
+        <keydef out="0x16">70</keydef>
+        <keydef out="0x17">71</keydef>
+        <keydef out="0x18">72</keydef>
+        <keydef out="0x19">73</keydef>
+        <keydef out="0x1A">74</keydef>
+        <keydef out="0x1B">75</keydef>
+        <keydef out="0x1C">76</keydef>
+        <keydef out="0x1D">77</keydef>
+        <keydef out="0x1E">78</keydef>
+        <keydef out="0x1F">79</keydef>
+        <keydef out="0x20">80</keydef>
+        <keydef out="0x21">81</keydef>
+        <keydef out="0x22">82</keydef>
+        <keydef out="0x23">83</keydef>
+        <keydef out="0x24">84</keydef>
+        <keydef out="0x25">85</keydef>
+        <keydef out="0x26">86</keydef>
+        <keydef out="0x27">87</keydef>
+        <keydef out="0x28">88</keydef>
+        <keydef out="0x29">89</keydef>
+        <keydef out="0x2A">90</keydef> <!-- Z -->
+        <keydef out="0x2B">91</keydef> <!-- A ring (on PC [ ) -->
+        <keydef out="0x2C">92</keydef> <!-- A umlaut (on PC \ ) -->
+        <keydef out="0x2D">93</keydef> <!-- O umlaut  (on PC ] ) -->
+        <keydef out="0x2E">96</keydef> <!-- ^  ~ (on PC `  ~ ] ) -->
+        <!-- TMC BREAK not defined for this keyboard -->
+        <keydef out="0x30">32</keydef> <!-- SPACE -->
+        <keydef out="0x31">8</keydef> <!-- BS -->
+        <keydef out="0x32">27</keydef> <!-- ESC -->
+        
+        <!-- TEXT definitions -->
+        <keydef type="text" out="0x33">alt_right</keydef> <!-- option on Mac, alt on windows -->
+        <keydef type="text" out="0x34">ctrl_left</keydef> <!-- command on Mac, ctrl on windows -->
+        <keydef type="text" out="0x35">ctrl_right</keydef>
+        <keydef type="text" out="0x37">alt_left</keydef>
+        <keydef type="text" out="0x37">shift</keydef>
+        <keydef type="text" out="0x38">caps</keydef> <!-- CAPS -->
+        
+        <!-- 0x39 not used -->
+        <!-- TMC LINE FEED not defined for this keyboard -->
+        <keydef out="0x3b">315</keydef> <!-- UP -->
+        <keydef out="0x3c">316</keydef> <!-- RIGHT -->
+        <keydef out="0x3d">13</keydef> <!-- RETURN -->
+        <keydef out="0x3e">317</keydef> <!-- DOWN -->
+        <keydef out="0x3f">314</keydef> <!-- LEFT -->
+
+        <keydef type="text" out="9">switch</keydef> <!-- Key to switch alt/ctrl left to right -->
+
+        <keydef out="0x11">97</keydef> <!-- a to copy a/z to AZ in ctrl V or key file -->
+        <keydef out="0x12">98</keydef>
+        <keydef out="0x13">99</keydef>
+        <keydef out="0x14">100</keydef>
+        <keydef out="0x15">101</keydef>
+        <keydef out="0x16">102</keydef>
+        <keydef out="0x17">103</keydef>
+        <keydef out="0x18">104</keydef>
+        <keydef out="0x19">105</keydef>
+        <keydef out="0x1A">106</keydef>
+        <keydef out="0x1B">107</keydef>
+        <keydef out="0x1C">108</keydef>
+        <keydef out="0x1D">109</keydef>
+        <keydef out="0x1E">110</keydef>
+        <keydef out="0x1F">111</keydef>
+        <keydef out="0x20">112</keydef>
+        <keydef out="0x21">113</keydef>
+        <keydef out="0x22">114</keydef>
+        <keydef out="0x23">115</keydef>
+        <keydef out="0x24">116</keydef>
+        <keydef out="0x25">117</keydef>
+        <keydef out="0x26">118</keydef>
+        <keydef out="0x27">119</keydef>
+        <keydef out="0x28">120</keydef>
+        <keydef out="0x29">121</keydef>
+        <keydef out="0x2A">122</keydef> <!-- z -->
+
+    </keyboard>
+
+    <cassette decks="1">
+        <ef>2</ef>
+    </cassette>
+
+    <locations>
+        <!-- Machine states -->
+        <basic_state address="0x61a0" value="0">0x154</basic_state>
+        <run_state>0x1076, 0x1f01</run_state>
+
+        <!-- Stop cassette -->
+        <stop_cas>0x3550</stop_cas>
+        
+        <!-- Start PSAVE, DSAVE, PLOAD, DLOAD -->
+        <start_cas_save>0x0506, 0x0509</start_cas_save>
+        <start_cas_load>0x0500</start_cas_load>
+        <start_cas_dload>0x0503</start_cas_dload>
+        
+        <!-- Save start/end during batch conversion -->
+        <batch_start_save>0x3221</batch_start_save>
+        <batch_end_save>0x154</batch_end_save>
+
+        <!-- Correct CAPS state on startup (after C/W message has been answered)
+        this works and it might be more logic but at the same time it means CAPS should be
+        pressed before any commands can be given. -->
+        <!-- <correct_caps>0x134</correct_caps> -->
+
+    </locations>
+    
+    <basic>
+        <pload>tmc600</pload>
+        <defus>0x6181</defus>
+        <eop>0x6183</eop>
+        <string>0x6192</string>
+        <array>0x6194</array>
+        <eod>0x6199</eod>
+        <ram>0x6300</ram>
+    </basic>
+
+</emmaconfig>

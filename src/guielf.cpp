@@ -237,8 +237,6 @@ BEGIN_EVENT_TABLE(GuiElf, GuiElf2K)
     EVT_CHOICE(XRCID("VTBaudRChoiceElfII"), GuiMain::onBaudR)
     EVT_CHOICE(XRCID("VTBaudRChoiceSuperElf"), GuiMain::onBaudR)
 
-    EVT_COMMAND(wxID_ANY, OPEN_PRINTER_WINDOW, GuiMain::openPrinterFrame) 
-
     EVT_CHECKBOX(XRCID("UseLedModule"), GuiElf::onLedModule)
 
     EVT_CHECKBOX(XRCID("PortExtElf"), GuiElf::onUsePortExtender)
@@ -350,12 +348,13 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
     bool romMode;
     selectedComputer_ = elfType;
 
-    elfConfiguration[elfType].elfPortConf.emsOutput.resize(1);
+    elfConfiguration[elfType].ioConfiguration.emsOutput.resize(1);
     readElfPortConfig(elfType, elfTypeStr);
     
     conf[elfType].volume_ = 0;
 
     conf[elfType].emsConfigNumber_ = 0;
+    conf[elfType].videoNumber_ = 0;
 
     conf[elfType].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "Elf" + pathSeparator_;
     conf[elfType].mainDir_ = readConfigDir("/Dir/"+elfTypeStr+"/Main", dataDir_ + "Elf" + pathSeparator_);
@@ -430,7 +429,7 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
 
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 2.0);
-    conf[elfType].zoom_ = convertLocale(configPointer->Read(elfTypeStr+"/Zoom", defaultZoom));
+    conf[elfType].zoom_[VIDEOMAIN] = convertLocale(configPointer->Read(elfTypeStr+"/Zoom", defaultZoom));
     defaultZoom.Printf("%2.2f", 1.0);
     conf[elfType].zoomVt_ = convertLocale(configPointer->Read(elfTypeStr+"/Vt_Zoom", defaultZoom));
     wxString defaultScale;
@@ -529,7 +528,7 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
         XRCCTRL(*this, "Keyboard"+elfTypeStr, wxChoice)->SetSelection(elfConfiguration[elfType].keyboardType);
         XRCCTRL(*this, "HexEf"+elfTypeStr, wxCheckBox)->SetValue(elfConfiguration[elfType].useHexKeyboardEf3);
 
-        correctZoomAndValue(elfType, elfTypeStr, SET_SPIN);
+        correctZoomAndValue(elfType, elfTypeStr, SET_SPIN, VIDEOMAIN);
         correctZoomVtAndValue(elfType, elfTypeStr, SET_SPIN);
 
         XRCCTRL(*this, "PortExt"+elfTypeStr, wxCheckBox)->SetValue(elfConfiguration[elfType].usePortExtender);
@@ -733,7 +732,7 @@ void GuiElf::writeElfConfig(int elfType, wxString elfTypeStr)
     configPointer->Write(elfTypeStr+"/Video_Type", conf[elfType].videoMode_);
     configPointer->Write(elfTypeStr+"/Keyboard_Type", elfConfiguration[elfType].keyboardType);
     configPointer->Write(elfTypeStr+"/UseHexEf", elfConfiguration[elfType].useHexKeyboardEf3);
-    configPointer->Write(elfTypeStr+"/Zoom", conf[elfType].zoom_);
+    configPointer->Write(elfTypeStr+"/Zoom", conf[elfType].zoom_[VIDEOMAIN]);
     configPointer->Write(elfTypeStr+"/Vt_Zoom", conf[elfType].zoomVt_);
     configPointer->Write(elfTypeStr+"/Force_Uppercase", elfConfiguration[elfType].forceUpperCase);
     configPointer->Write(elfTypeStr+"/UseLoadLocation", conf[elfType].useLoadLocation_);
@@ -937,7 +936,6 @@ void GuiElf::setMemory(wxString elfTypeStr, int elfType, int Selection)
             elfConfiguration[elfType].useEms = true;
             elfConfiguration[elfType].usePager = false;
             elfConfiguration[elfType].emsType_ = RAM;
-            conf[selectedComputer_].emsConfigNumber_ = 1;
             if (mode_.gui)
             {
                 XRCCTRL(*this, "StartRamText"+elfTypeStr, wxStaticText)->Enable(false);
@@ -946,6 +944,14 @@ void GuiElf::setMemory(wxString elfTypeStr, int elfType, int Selection)
                 XRCCTRL(*this, "EndRam"+elfTypeStr, wxTextCtrl)->Enable(false);
                 XRCCTRL(*this, "PortExt"+elfTypeStr, wxCheckBox)->Enable(true);
             }
+            conf[selectedComputer_].emsConfig_.resize(1);
+            conf[selectedComputer_].emsConfigNumber_ = 1;
+
+            conf[selectedComputer_].emsConfig_[0].start = 0x8000;
+            conf[selectedComputer_].emsConfig_[0].end = 0xBFFF;
+            conf[selectedComputer_].emsConfig_[0].mask = 0x3FFF;
+            conf[selectedComputer_].emsConfig_[0].outputMask = 0x1f;
+            conf[selectedComputer_].emsConfig_[0].maskBits = 14;
         break;
 
         case MEM_MAP:
@@ -964,10 +970,9 @@ void GuiElf::setMemory(wxString elfTypeStr, int elfType, int Selection)
         break;
 
         case MEM_ROM_MAP:
-            elfConfiguration[elfType].useEms = false;
+            elfConfiguration[elfType].useEms = true;
             elfConfiguration[elfType].usePager = false;
             elfConfiguration[elfType].emsType_ = ROM;
-            conf[selectedComputer_].emsConfigNumber_ = 1;
             if (mode_.gui)
             {
                 XRCCTRL(*this, "StartRamText"+elfTypeStr, wxStaticText)->Enable(false);
@@ -979,6 +984,14 @@ void GuiElf::setMemory(wxString elfTypeStr, int elfType, int Selection)
                 XRCCTRL(*this, "Rom1"+elfTypeStr, wxBitmapButton)->Enable(false);
                 XRCCTRL(*this, "EndRam"+elfTypeStr, wxTextCtrl)->SetValue("7FFF");
             }
+            conf[selectedComputer_].emsConfig_.resize(1);
+            conf[selectedComputer_].emsConfigNumber_ = 1;
+
+            conf[selectedComputer_].emsConfig_[0].start = 0x8000;
+            conf[selectedComputer_].emsConfig_[0].end = 0xFFFF;
+            conf[selectedComputer_].emsConfig_[0].mask = 0xFFFF;
+            conf[selectedComputer_].emsConfig_[0].outputMask = 0xFf;
+            conf[selectedComputer_].emsConfig_[0].maskBits = 15;
         break;
     }
 }
@@ -1100,7 +1113,7 @@ void GuiElf::setElfKeyboard(wxString elfTypeStr, int elfType, int Selection, boo
             elfConfiguration[elfType].useHexKeyboard = false;
             elfConfiguration[elfType].useHexKeyboardEf3 = false;
             elfConfiguration[elfType].useKeyboard = false;
-            elfConfiguration[elfType].UsePS2 = false;
+            elfConfiguration[elfType].usePS2 = false;
             elfConfiguration[elfType].usePs2gpio = false;
             if (mode_.gui)
             {
@@ -1114,7 +1127,7 @@ void GuiElf::setElfKeyboard(wxString elfTypeStr, int elfType, int Selection, boo
             elfConfiguration[elfType].useHexKeyboard = true;
             elfConfiguration[elfType].useHexKeyboardEf3 = hexEf;
             elfConfiguration[elfType].useKeyboard = false;
-            elfConfiguration[elfType].UsePS2 = false;
+            elfConfiguration[elfType].usePS2 = false;
             elfConfiguration[elfType].usePs2gpio = false;
             if (mode_.gui)
             {
@@ -1128,7 +1141,7 @@ void GuiElf::setElfKeyboard(wxString elfTypeStr, int elfType, int Selection, boo
             elfConfiguration[elfType].useHexKeyboard = false;
             elfConfiguration[elfType].useHexKeyboardEf3 = false;
             elfConfiguration[elfType].useKeyboard = true;
-            elfConfiguration[elfType].UsePS2 = false;
+            elfConfiguration[elfType].usePS2 = false;
             elfConfiguration[elfType].usePs2gpio = false;
             if (mode_.gui)
             {
@@ -1142,7 +1155,7 @@ void GuiElf::setElfKeyboard(wxString elfTypeStr, int elfType, int Selection, boo
             elfConfiguration[elfType].useHexKeyboard = true;
             elfConfiguration[elfType].useHexKeyboardEf3 = hexEf;
             elfConfiguration[elfType].useKeyboard = true;
-            elfConfiguration[elfType].UsePS2 = false;
+            elfConfiguration[elfType].usePS2 = false;
             elfConfiguration[elfType].usePs2gpio = false;
             if (mode_.gui)
             {
@@ -1156,7 +1169,7 @@ void GuiElf::setElfKeyboard(wxString elfTypeStr, int elfType, int Selection, boo
             elfConfiguration[elfType].useHexKeyboard = false;
             elfConfiguration[elfType].useHexKeyboardEf3 = false;
             elfConfiguration[elfType].useKeyboard = false;
-            elfConfiguration[elfType].UsePS2 = true;
+            elfConfiguration[elfType].usePS2 = true;
             elfConfiguration[elfType].ps2Interrupt = false;
             elfConfiguration[elfType].usePs2gpio = false;
             if (mode_.gui)
@@ -1171,7 +1184,7 @@ void GuiElf::setElfKeyboard(wxString elfTypeStr, int elfType, int Selection, boo
             elfConfiguration[elfType].useHexKeyboard = false;
             elfConfiguration[elfType].useHexKeyboardEf3 = false;
             elfConfiguration[elfType].useKeyboard = false;
-            elfConfiguration[elfType].UsePS2 = true;
+            elfConfiguration[elfType].usePS2 = true;
             elfConfiguration[elfType].ps2Interrupt = true;
             elfConfiguration[elfType].usePs2gpio = false;
             if (mode_.gui)
@@ -1335,7 +1348,7 @@ void GuiElf::setDiskType(wxString elfTypeStr, int elfType, int Selection)
     {
         case DISKNONE:
             elfConfiguration[elfType].ideEnabled = false;
-            elfConfiguration[elfType].fdcEnabled = false;
+            elfConfiguration[elfType].fdc1793Enabled = false;
             if (mode_.gui)
             {
                 XRCCTRL(*this, "IDE_Button"+elfTypeStr, wxButton)->Enable(false);
@@ -1346,7 +1359,7 @@ void GuiElf::setDiskType(wxString elfTypeStr, int elfType, int Selection)
 
         case DISKFDC:
             elfConfiguration[elfType].ideEnabled = false;
-            elfConfiguration[elfType].fdcEnabled = true;
+            elfConfiguration[elfType].fdc1793Enabled = true;
             if (mode_.gui)
             {
                 XRCCTRL(*this, "IDE_Button"+elfTypeStr, wxButton)->Enable(false);
@@ -1357,7 +1370,7 @@ void GuiElf::setDiskType(wxString elfTypeStr, int elfType, int Selection)
 
         case DISKIDE:
             elfConfiguration[elfType].ideEnabled = true;
-            elfConfiguration[elfType].fdcEnabled = false;
+            elfConfiguration[elfType].fdc1793Enabled = false;
             if (mode_.gui)
             {
                 XRCCTRL(*this, "IDE_Button"+elfTypeStr, wxButton)->Enable(true);
@@ -1392,25 +1405,25 @@ void GuiElf::setLedModulePos(wxPoint position)
 void GuiElf::reset6847ConfigItem(int num)
 {
     if (getConfigItem(computerInfo[selectedComputer_].gui+"/MC6847-DD7", 1) == num)
-        elfConfiguration[selectedComputer_].elfPortConf.mc6847dd7 = 0;
+        elfConfiguration[selectedComputer_].ioConfiguration.mc6847dd7 = 0;
     if (getConfigItem(computerInfo[selectedComputer_].gui+"/MC6847-DD6", 0) == num)
-        elfConfiguration[selectedComputer_].elfPortConf.mc6847dd6 = 0;
+        elfConfiguration[selectedComputer_].ioConfiguration.mc6847dd6 = 0;
     if (getConfigItem(computerInfo[selectedComputer_].gui+"/MC6847-B7", 0) == num)
-        elfConfiguration[selectedComputer_].elfPortConf.mc6847b7 = 0;
+        elfConfiguration[selectedComputer_].ioConfiguration.mc6847b7 = 0;
     if (getConfigItem(computerInfo[selectedComputer_].gui+"/MC6847-B6", 0) == num)
-        elfConfiguration[selectedComputer_].elfPortConf.mc6847b6 = 0;
+        elfConfiguration[selectedComputer_].ioConfiguration.mc6847b6 = 0;
     if (getConfigItem(computerInfo[selectedComputer_].gui+"/MC6847-B5", 0) == num)
-        elfConfiguration[selectedComputer_].elfPortConf.mc6847b5 = 0;
+        elfConfiguration[selectedComputer_].ioConfiguration.mc6847b5 = 0;
     if (getConfigItem(computerInfo[selectedComputer_].gui+"/MC6847-B4", 0) == num)
-        elfConfiguration[selectedComputer_].elfPortConf.mc6847b4 = 0;
+        elfConfiguration[selectedComputer_].ioConfiguration.mc6847b4 = 0;
     if (getConfigItem(computerInfo[selectedComputer_].gui+"/MC6847-B3", 3) == num)
-        elfConfiguration[selectedComputer_].elfPortConf.mc6847b3 = 0;
+        elfConfiguration[selectedComputer_].ioConfiguration.mc6847b3 = 0;
     if (getConfigItem(computerInfo[selectedComputer_].gui+"/MC6847-B2", 4) == num)
-        elfConfiguration[selectedComputer_].elfPortConf.mc6847b2 = 0;
+        elfConfiguration[selectedComputer_].ioConfiguration.mc6847b2 = 0;
     if (getConfigItem(computerInfo[selectedComputer_].gui+"/MC6847-B1", 6) == num)
-        elfConfiguration[selectedComputer_].elfPortConf.mc6847b1 = 0;
+        elfConfiguration[selectedComputer_].ioConfiguration.mc6847b1 = 0;
     if (getConfigItem(computerInfo[selectedComputer_].gui+"/MC6847-B0", 5) == num)
-        elfConfiguration[selectedComputer_].elfPortConf.mc6847b0 = 0;
+        elfConfiguration[selectedComputer_].ioConfiguration.mc6847b0 = 0;
 }
 
 void GuiElf::onTape(wxCommandEvent&WXUNUSED(event))
@@ -1440,14 +1453,17 @@ void GuiElf::setTapeType(wxString elfTypeStr, int elfType)
     }
     else
     {
-        XRCCTRL(*this, "CasButton"+computerInfo[selectedComputer_].gui, wxButton)->SetLabel("Cassette");
+        if (elfType == XML)
+            XRCCTRL(*this, "CasButton"+computerInfo[selectedComputer_].gui, wxButton)->SetLabel("Cassette 0");
+        else
+            XRCCTRL(*this, "CasButton"+computerInfo[selectedComputer_].gui, wxButton)->SetLabel("Cassette");
     }
     enableTapeGui(elfConfiguration[elfType].useTape, elfType);
 }
 
 bool GuiElf::getUseXmodem(int elfType)
 {
-    if (elfType == ELF || elfType == ELFII || elfType == SUPERELF  || elfType == DIY  || elfType == PICO || elfType == ELF2K)
+    if (elfType == ELF || elfType == ELFII || elfType == SUPERELF  || elfType == XML  || elfType == PICO || elfType == ELF2K)
         return elfConfiguration[elfType].useXmodem;
     else
         return false;

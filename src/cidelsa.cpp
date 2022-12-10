@@ -43,7 +43,7 @@
 #include "cidelsa.h"
 
 Cidelsa::Cidelsa(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock, Conf computerConf)
-:V1870(title, pos, size, zoomLevel, computerType, clock)
+:V1870(title, pos, size, zoomLevel, computerType, clock, 0)
 {
     computerConfiguration = computerConf;
 }
@@ -288,9 +288,9 @@ void Cidelsa::configureComputer()
     inType_[2] = CIDELSAIN2;
     inType_[4] = CIDELSAIN4;
     outType_[1] = CIDELSAOUT1;
-    efType_[2] = CIDELSAEF2;
-    efType_[3] = CIDELSAEF3;
-    efType_[4] = CIDELSAEF4;
+    efType_[2] = BUTTON_EF2;
+    efType_[3] = BUTTON_EF3;
+    efType_[4] = BUTTON_EF4;
 
     p_Main->message("Configuring Cidelsa");
     p_Main->message("    Input 1: input A, input 2: dip settings, input 4: input B");
@@ -319,15 +319,15 @@ Byte Cidelsa::ef(int flag)
             return 1;
         break;
 
-        case CIDELSAEF2:
+        case BUTTON_EF2:
             return ef2();
         break;
 
-        case CIDELSAEF3:
+        case BUTTON_EF3:
             return ef3();
         break;
 
-        case CIDELSAEF4:
+        case BUTTON_EF4:
             return ef4();
         break;
 

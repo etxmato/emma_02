@@ -251,7 +251,7 @@ bool Membership::keyDownPressed(int WXUNUSED(key))
     return false;
 }
 
-bool Membership::keyUpReleased(int key)
+bool Membership::keyUpReleased(int key, wxKeyEvent&WXUNUSED(event))
 {
     if (key == inKey1_ || key == inKey2_)
     {
@@ -643,7 +643,7 @@ void Membership::startComputer()
     p_Main->checkAndReInstallMainRom(MEMBER);
     readProgram(p_Main->getRomDir(MEMBER, MAINROM1), p_Main->getRomFile(MEMBER, MAINROM1), p_Main->getLoadromModeMembership(), loadStart, NONAME);
     
-    configureElfExtensions();
+    configureExtensions();
     if (elfConfiguration.autoBoot)
     {
         scratchpadRegister_[0]=p_Main->getBootAddress("Membership", MEMBER);
@@ -822,7 +822,7 @@ void Membership::resetPressed()
     p_Main->eventUpdateTitle();
 }
 
-void Membership::configureElfExtensions()
+void Membership::configureExtensions()
 {
     double zoom;
 

@@ -156,7 +156,6 @@ Microtutor2::Microtutor2(const wxString& title, const wxPoint& pos, const wxSize
     computerConfiguration = computerConf;
     microtutorConfiguration = conf;
     microtutorClockSpeed_ = clock;
-    data_ = 0;
 
 #ifndef __WXMAC__
     SetIcon(wxICON(app_icon));
@@ -180,7 +179,7 @@ void Microtutor2::onClose(wxCloseEvent&WXUNUSED(event) )
     p_Main->stopComputer();
 }
 
-bool Microtutor2::keyUpReleased(int key)
+bool Microtutor2::keyUpReleased(int key, wxKeyEvent&WXUNUSED(event))
 {
     if (key == inKey1_ || key == inKey2_)
     {

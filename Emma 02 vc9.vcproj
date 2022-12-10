@@ -463,6 +463,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\bitkeypad.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\Blip_Buffer.cpp"
 				>
 			</File>
@@ -543,10 +547,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\diy.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\elf.cpp"
 				>
 			</File>
@@ -616,10 +616,6 @@
 			</File>
 			<File
 				RelativePath=".\src\guidiag.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\guidiy.cpp"
 				>
 			</File>
 			<File
@@ -715,6 +711,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\guixml.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\hbelf.cpp"
 				>
 			</File>
@@ -736,6 +736,18 @@
 			</File>
 			<File
 				RelativePath=".\src\joycard.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\keyb1871.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\keyblatch.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\keybmatrix.cpp"
 				>
 			</File>
 			<File
@@ -963,6 +975,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\vis1870.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\visicom.cpp"
 				>
 			</File>
@@ -982,6 +998,14 @@
 				RelativePath=".\src\waveWriter.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\src\xmlemu.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\xmlparser.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -996,6 +1020,10 @@
 			</File>
 			<File
 				RelativePath=".\src\base.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\bitkeypad.h"
 				>
 			</File>
 			<File
@@ -1083,10 +1111,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\diy.h"
-				>
-			</File>
-			<File
 				RelativePath=".\src\elf.h"
 				>
 			</File>
@@ -1160,10 +1184,6 @@
 			</File>
 			<File
 				RelativePath=".\src\guidiag.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\guidiy.h"
 				>
 			</File>
 			<File
@@ -1259,6 +1279,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\guixml.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\hbelf.h"
 				>
 			</File>
@@ -1280,6 +1304,18 @@
 			</File>
 			<File
 				RelativePath=".\src\joycard.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\keyb1871.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\keyblatch.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\keybmatrix.h"
 				>
 			</File>
 			<File
@@ -1511,6 +1547,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\vis1870.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\visicom.h"
 				>
 			</File>
@@ -1528,6 +1568,14 @@
 			</File>
 			<File
 				RelativePath=".\src\waveWriter.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\xmlemu.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\xmlparser.h"
 				>
 			</File>
 		</Filter>

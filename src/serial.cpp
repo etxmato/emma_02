@@ -67,7 +67,7 @@ Serial::~Serial()
         sp_close(port);
 }
 
-void Serial::configure(int selectedBaudR, int selectedBaudT, ElfPortConfiguration elfPortConf)
+void Serial::configure(int selectedBaudR, int selectedBaudT, IoConfiguration ioConfiguration)
 {
     wxString printBuffer;
     
@@ -79,7 +79,7 @@ void Serial::configure(int selectedBaudR, int selectedBaudT, ElfPortConfiguratio
     
     if (uart_)
     {
-        configureUart(elfPortConf);
+        configureUart(ioConfiguration);
     }
     else
     {
@@ -92,13 +92,13 @@ void Serial::configure(int selectedBaudR, int selectedBaudT, ElfPortConfiguratio
         }
         else
         {
-            reverseEf_ = elfPortConf.vt100ReverseEf;
-            reverseQ_ = elfPortConf.vt100ReverseQ;
+            reverseEf_ = ioConfiguration.vt100ReverseEf;
+            reverseQ_ = ioConfiguration.vt100ReverseQ;
             
             p_Computer->setCycleType(VTCYCLE, VTSERIALCYCLE);
-            p_Computer->setOutType(elfPortConf.vt100Output, VTOUTSERIAL);
+            p_Computer->setOutType(ioConfiguration.vt100Output, VTOUTSERIAL);
             
-            dataReadyFlag_ = elfPortConf.vt100Ef;
+            dataReadyFlag_ = ioConfiguration.vt100Ef;
             p_Computer->setEfType(dataReadyFlag_, VTSERIALEF);
             
             if (reverseQ_) p_Computer->setFlipFlopQ(1);
@@ -115,7 +115,7 @@ void Serial::configure(int selectedBaudR, int selectedBaudT, ElfPortConfiguratio
             p_Main->message("Configuring external terminal");
             startSerial();
             
-            printBuffer.Printf("    Output %d: vtEnable, EF %d: serial input", elfPortConf.vt100Output, elfPortConf.vt100Ef);
+            printBuffer.Printf("    Output %d: vtEnable, EF %d: serial input", ioConfiguration.vt100Output, ioConfiguration.vt100Ef);
             printBuffer = printBuffer + printEfReverse + printQ;
             p_Main->message(printBuffer);
         }
@@ -162,12 +162,12 @@ void Serial::configureStandard(int selectedBaudR, int selectedBaudT, int dataRea
     serialEf_ = 1;
 }
 
-void Serial::configureUart(ElfPortConfiguration elfPortConf)
+void Serial::configureUart(IoConfiguration ioConfiguration)
 {
-    p_Computer->setOutType(elfPortConf.uartOut, UARTOUTSERIAL);
-    p_Computer->setInType(elfPortConf.uartIn, UARTINSERIAL);
-    p_Computer->setOutType(elfPortConf.uartControl, UARTCONTROLSERIAL);
-    p_Computer->setInType(elfPortConf.uartStatus, UARTSTATUSSERIAL);
+    p_Computer->setOutType(ioConfiguration.uartOut, UARTOUTSERIAL);
+    p_Computer->setInType(ioConfiguration.uartIn, UARTINSERIAL);
+    p_Computer->setOutType(ioConfiguration.uartControl, UARTCONTROLSERIAL);
+    p_Computer->setInType(ioConfiguration.uartStatus, UARTSTATUSSERIAL);
     p_Computer->setCycleType(VTCYCLE, VTSERIALCYCLE);
     
     wxString printBuffer;
@@ -175,10 +175,10 @@ void Serial::configureUart(ElfPortConfiguration elfPortConf)
     p_Main->message("Configuring external terminal");
     startSerial();
     
-    printBuffer.Printf("    Output %d: load transmitter, input %d: read receiver", elfPortConf.uartOut, elfPortConf.uartIn);
+    printBuffer.Printf("    Output %d: load transmitter, input %d: read receiver", ioConfiguration.uartOut, ioConfiguration.uartIn);
     p_Main->message(printBuffer);
     
-    printBuffer.Printf("    Output %d: load control, input %d: read status", elfPortConf.uartControl, elfPortConf.uartStatus);
+    printBuffer.Printf("    Output %d: load control, input %d: read status", ioConfiguration.uartControl, ioConfiguration.uartStatus);
     p_Main->message(printBuffer);
     rs232_ = 0;
 }
@@ -252,7 +252,7 @@ void Serial::configureMs2000(int selectedBaudR, int selectedBaudT)
     dataReadyFlag_ = 0;
 }
 
-void Serial::configureVt2K(int selectedBaudR, int selectedBaudT, ElfPortConfiguration elfPortConf)
+void Serial::configureVt2K(int selectedBaudR, int selectedBaudT, IoConfiguration ioConfiguration)
 {
     wxString printBuffer;
     
@@ -273,12 +273,12 @@ void Serial::configureVt2K(int selectedBaudR, int selectedBaudT, ElfPortConfigur
     }
     else
     {
-        reverseEf_ = elfPortConf.vt100ReverseEf;
-        reverseQ_ = elfPortConf.vt100ReverseQ;
+        reverseEf_ = ioConfiguration.vt100ReverseEf;
+        reverseQ_ = ioConfiguration.vt100ReverseQ;
         
         p_Computer->setCycleType(VTCYCLE, VTSERIALCYCLE);
-        dataReadyFlag_ = elfPortConf.vt100Ef;
-        p_Computer->setEfType(elfPortConf.vt100Ef, VTSERIALEF);
+        dataReadyFlag_ = ioConfiguration.vt100Ef;
+        p_Computer->setEfType(ioConfiguration.vt100Ef, VTSERIALEF);
         if (reverseQ_) p_Computer->setFlipFlopQ(1);
         
         wxString printEfReverse = ", ";
@@ -293,7 +293,7 @@ void Serial::configureVt2K(int selectedBaudR, int selectedBaudT, ElfPortConfigur
         p_Main->message("Configuring external terminal");
         startSerial();
         
-        printBuffer.Printf("    EF %d: serial input", elfPortConf.vt100Ef);
+        printBuffer.Printf("    EF %d: serial input", ioConfiguration.vt100Ef);
         printBuffer = printBuffer + printEfReverse + printQ;
         p_Main->message(printBuffer);
     }

@@ -88,7 +88,6 @@ BEGIN_EVENT_TABLE(GuiVipII, GuiVip2K)
     EVT_COMMAND_SCROLL_CHANGED(XRCID("VolumeVipII"), GuiMain::onVolume)
     EVT_BUTTON(XRCID("KeyMapVipII"), Main::onHexKeyDef)
     EVT_BUTTON(XRCID("ColoursVipII"), Main::onColoursDef)
-    EVT_COMMAND(wxID_ANY, OPEN_PRINTER_WINDOW, GuiMain::openPrinterFrame) 
 
     EVT_COMMAND(wxID_ANY, STATUS_BAR_PIXIE, GuiVipII::pixieBarSize)
 
@@ -124,6 +123,7 @@ void GuiVipII::readVipIIConfig()
     selectedComputer_ = VIPII;
 
     conf[VIPII].emsConfigNumber_ = 0;
+    conf[VIPII].videoNumber_ = 0;
 
     conf[VIPII].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "VipII" + pathSeparator_;
     conf[VIPII].mainDir_ = readConfigDir("/Dir/VipII/Main", dataDir_ + "VipII" + pathSeparator_);
@@ -146,7 +146,7 @@ void GuiVipII::readVipIIConfig()
 
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 2.0);
-    conf[VIPII].zoom_ = convertLocale(configPointer->Read("/VipII/Zoom", defaultZoom));
+    conf[VIPII].zoom_[VIDEOMAIN] = convertLocale(configPointer->Read("/VipII/Zoom", defaultZoom));
     wxString defaultScale;
     defaultScale.Printf("%i", 3);
     conf[VIPII].xScale_ = convertLocale(configPointer->Read("/VipII/Window_Scale_Factor_X", defaultScale));
@@ -194,7 +194,7 @@ void GuiVipII::readVipIIConfig()
         XRCCTRL(*this, "ScreenDumpFileVipII", wxComboBox)->SetValue(conf[VIPII].screenDumpFile_);
         XRCCTRL(*this, "WavFileVipII", wxTextCtrl)->SetValue(conf[VIPII].wavFile_[0]);
 
-        correctZoomAndValue(VIPII, "VipII", SET_SPIN);
+        correctZoomAndValue(VIPII, "VipII", SET_SPIN, VIDEOMAIN);
 
         XRCCTRL(*this, "TurboVipII", wxCheckBox)->SetValue(conf[VIPII].turbo_);
         turboGui("VipII");
@@ -235,7 +235,7 @@ void GuiVipII::writeVipIIConfig()
     configPointer->Write("/VipII/Video_Dump_File", conf[VIPII].screenDumpFile_);
     configPointer->Write("/VipII/Wav_File", conf[VIPII].wavFile_[0]);
 
-    configPointer->Write("/VipII/Zoom", conf[VIPII].zoom_);
+    configPointer->Write("/VipII/Zoom", conf[VIPII].zoom_[VIDEOMAIN]);
 
     configPointer->Write("/VipII/Enable_Turbo_Cassette", conf[VIPII].turbo_);
     configPointer->Write("/VipII/Turbo_Clock_Speed", conf[VIPII].turboClock_);

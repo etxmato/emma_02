@@ -38,7 +38,7 @@ PortExt::PortExt()
 {
 }
 
-void PortExt::configurePortExt(ElfPortConfiguration portConf)
+void PortExt::configurePortExt(IoConfiguration portConf)
 {
 //    int selectOutput, writeOutput, input;
 

@@ -18,7 +18,7 @@ public:
     Ide();
     ~Ide() {};
 
-    void configureIde(wxString ideFile1, wxString ideFile2, ElfPortConfiguration portConf);
+    void configureIde(wxString ideFile1, wxString ideFile2, IoConfiguration portConf);
     void initializeIde(wxString ideFile);
     Byte inIde();
     void outIde(Byte value);

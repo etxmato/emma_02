@@ -1290,7 +1290,7 @@ void Upd765::cycleUpd765()
     }
 }
 
-void Upd765::setDiskName(int disk, wxString dirName, wxString fileName)
+void Upd765::setUpdDiskname(int disk, wxString dirName, wxString fileName)
 {
     diskDir_[disk-1] = dirName;
     diskName_[disk-1] = fileName;

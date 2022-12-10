@@ -144,16 +144,14 @@ public:
     Printer();
     ~Printer();
 
-    void configureElfPrinter(ElfPortConfiguration portConf);
-    void configureThermalPrinter();
-    void init(Printer *pointer, wxString computerName, int printerType);
-    void initComx(Printer *pointer);
-    void initTelmac(Printer *pointer);
-    void initPecom(Printer *pointer);
-    void initMS2000(Printer *pointer);
-    void initVip(Printer *pointer);
-    void initElf(Printer *pointer, wxString computerName);
+    void configureBasicPrinter(IoConfiguration portConf);
+    void configureParallelPrinter(IoConfiguration portConf);
+    void configureSerialPrinter(IoConfiguration portConf);
+    void configureThermalPrinter(IoConfiguration portConf);
+    void setThermalPrinterCycle();
+    void init(Printer *pointer, int printerType);
     Byte inParallel();
+    Byte inSerialComx();
     Byte inSerial();
     Byte inThermal();
     void openPrintFile();
@@ -164,7 +162,6 @@ public:
     void outThermal(Byte value, Byte Qflag);
     void cycleThermal();
 
-    void setComxPrintMode(int mode);
     void setPrintMode(int mode);
     bool getThermalEf4();
     void closeFrames();
@@ -219,6 +216,9 @@ private:
 
     int bit_;
     int stopBit_;
+    int parityBit_;
+    int parity_;
+    int serialPrinterParity_;
     int dataBits_;
     int printValue_;
 
@@ -229,7 +229,6 @@ private:
 
     bool printStarted_;
     bool thermalEf4_;
-    int comxPrintMode_;
     int printMode_;
 };
 

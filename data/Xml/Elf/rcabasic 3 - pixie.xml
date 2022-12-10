@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>Elf, RCA Basic 3 - Pixie Video</name>
+        <!-- Press return, C to start BASIC in Cold mode -->
+        <clock>1.76</clock>
+        <boot>0x2200</boot>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init>
+        <init type="ef4">1</init>
+        <dirname>Elf</dirname>
+    </system>
+    
+    <memory>
+        <mainram>
+            <start>0x0000</start>
+            <end>0xF0FF</end>
+            <filename verify="true">rca.basic3.v1.1.hex</filename>
+        </mainram>
+
+        <rom>
+            <start>0xF100</start>
+            <end>0xFFFF</end>
+            <filename verify="true">bios+biosiov93.rom</filename>
+        </rom>
+    </memory>
+    
+    <video type="pixie">
+        <out>1</out>
+        <in>1</in>
+        <ef>1</ef>
+        <border>33x33</border>
+        <color type="fore">255, 255, 255</color>
+        <color type="back">0, 0, 0</color>
+     </video>
+
+    <keyboard type="ascii">
+        <in>7</in>
+        <ef>3</ef>
+        <caps />
+    </keyboard>
+
+    <printer>
+        <out>3</out>
+    </printer>
+    
+    <basic>
+        <pload>rca</pload>
+        <defus>0x5281</defus>
+        <eop>0x5283</eop>
+        <string>0x5292</string>
+        <array>0x5294</array>
+        <eod>0x5299</eod>
+        <ram>0x5400</ram>
+    </basic>
+
+    <locations>
+        <!-- key input -->
+        <key_input>0x2257, 0xfc98</key_input>
+
+        <!-- Machine states -->
+        <reset_state>0xfc19</reset_state>
+        <basic_state>0x2257</basic_state>
+        <run_state>0x3276</run_state>
+
+    </locations>
+
+</emmaconfig>
+

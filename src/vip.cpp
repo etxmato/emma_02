@@ -30,14 +30,14 @@
 #include "vip.h"
 
 Vip::Vip(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, double clock, int tempo, ElfConfiguration conf, Conf computerConf)
-:Pixie(title, pos, size, zoom, zoomfactor, computerType)
+:Pixie(title, pos, size, zoom, zoomfactor, computerType, 0)
 {
     computerConfiguration = computerConf;
     vipConfiguration = conf;
 
     clock_ = clock;
     p_Printer = new Printer();
-    p_Printer->initVip(p_Printer);
+    p_Printer->init(p_Printer, PRINTER_BASIC);
 
     cycleSize_ = (int) (((clock_ * 1000000) / 8) / tempo);
 }
@@ -689,7 +689,7 @@ void Vip::startComputer()
 
     addressLatch_ = setLatch_;
 
-    double zoom = p_Main->getZoom();
+    double zoom = p_Main->getZoom(VIDEOMAIN);
 
     useKeyboard_ = false;
     if (p_Main->getUseKeyboard(VIP))
@@ -709,7 +709,7 @@ void Vip::startComputer()
     instructionCounter_= 0;
     p_Main->startTime();
     
-    p_Video->splashScreen();
+    p_Video[VIDEOMAIN]->splashScreen();
 
     threadPointer->Run();
 }

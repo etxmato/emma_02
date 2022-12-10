@@ -281,7 +281,7 @@
 <flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="LoadButton">
-<tooltip>Load .hex/.rca file into MCDS emulator memory</tooltip>
+<tooltip>Load .comx file into COMX emulator memory</tooltip>
 <font>
 <size>14</size>
 </font>
@@ -292,7 +292,7 @@
 <flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="RunButton">
-<tooltip>Load .hex/.rca file into MCDS emulator memory and RUN software</tooltip>
+<tooltip>Load .comx file into COMX emulator memory and RUN software</tooltip>
 <font>
 <size>14</size>
 </font>
@@ -326,7 +326,7 @@
 <flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="SaveButton">
-<tooltip>Save MCDS emulator memory to .rca file</tooltip>
+<tooltip>Save COMX emulator memory to .comx file</tooltip>
 <font>
 <size>14</size>
 </font>
@@ -337,7 +337,7 @@
 <flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="DsaveButton">
-<tooltip>Save MCDS emulator data memory to .rca file</tooltip>
+<tooltip>Save COMX emulator data memory to .comx file</tooltip>
 <font>
 <size>14</size>
 </font>

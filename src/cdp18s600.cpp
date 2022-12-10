@@ -39,7 +39,7 @@
 #include "upd765.h"
 
 Cdp18s600::Cdp18s600(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock, ElfConfiguration conf, Conf computerConf)
-:V1870(title, pos, size, zoomLevel, computerType, clock)
+:V1870(title, pos, size, zoomLevel, computerType, clock, 0)
 {
     computerConfiguration = computerConf;
     Cdp18s600Configuration = conf;
@@ -48,7 +48,6 @@ Cdp18s600::Cdp18s600(const wxString& title, const wxPoint& pos, const wxSize& si
     computerType_ = p_Main->getRunningComputerId();
     microboardType_ = p_Main->getMicroboardType(computerType_);
     Cdp18s600ClockSpeed_ = clock;
-    lastAddress_ = 0;
    
     saveStarted_ = false;
     loadStarted_ = false;
@@ -66,7 +65,7 @@ Cdp18s600::Cdp18s600(const wxString& title, const wxPoint& pos, const wxSize& si
     pioMessage_ = "CDP1851 PIO";
 
     p_Printer = new Printer();
-    p_Printer->init(p_Printer, computerTypeStr_, MS2000PRINTER);
+    p_Printer->init(p_Printer, PRINTER_BASIC);
 
     addressLatchCounter_ = 64;
 }
@@ -426,12 +425,12 @@ Byte Cdp18s600::ef(int flag)
 
 int Cdp18s600::defaultEf(int flag)
 {
-    if  (ioGroup_ == Cdp18s600Configuration.v1870Group && Cdp18s600Configuration.usev1870)
+    if  (ioGroup_ == Cdp18s600Configuration.ioConfiguration.v1870ioGroup && Cdp18s600Configuration.usev1870)
     {
         if (flag == 1)
             return ef1_1870();
         
-        if (flag == Cdp18s600Configuration.elfPortConf.keyboardEf)
+        if (flag == Cdp18s600Configuration.ioConfiguration.keyboardEf)
             return keyboardEf3_;
     }
     if  (ioGroup_ == Cdp18s600Configuration.printerGroup && p_Main->getPrinterStatus(computerType_))
@@ -531,14 +530,14 @@ int Cdp18s600::defaultIn(Byte port)
 {
     if  (ioGroup_ == Cdp18s600Configuration.uartGroup)
     {
-        if (port == Cdp18s600Configuration.elfPortConf.uartOut)
+        if (port == Cdp18s600Configuration.ioConfiguration.uartOut)
         {
             if (p_Vt100[UART1] != NULL)
                 return p_Vt100[UART1]->uartIn();
             if (p_Serial != NULL)
                 return p_Serial->uartIn();
         }
-        if (port == Cdp18s600Configuration.elfPortConf.uartControl)
+        if (port == Cdp18s600Configuration.ioConfiguration.uartControl)
         {
             if (p_Vt100[UART1] != NULL)
                 return p_Vt100[UART1]->uartStatus();
@@ -546,7 +545,7 @@ int Cdp18s600::defaultIn(Byte port)
                 return p_Serial->uartStatus();
         }
     }
-    if  (ioGroup_ == Cdp18s600Configuration.v1870Group && Cdp18s600Configuration.usev1870)
+    if  (ioGroup_ == Cdp18s600Configuration.ioConfiguration.v1870ioGroup && Cdp18s600Configuration.usev1870)
     {
         if (port == 3)
             return keyboardIn();
@@ -649,14 +648,14 @@ void Cdp18s600::defaultOut(Byte port, Word address, Byte value)
 {
     if  (ioGroup_ == Cdp18s600Configuration.uartGroup)
     {
-        if (port == Cdp18s600Configuration.elfPortConf.uartOut)
+        if (port == Cdp18s600Configuration.ioConfiguration.uartOut)
         {
             if (p_Vt100[UART1] != NULL)
                 p_Vt100[UART1]->uartOut(value);
             if (p_Serial != NULL)
                 p_Serial->uartOut(value);
         }
-        if (port == Cdp18s600Configuration.elfPortConf.uartControl)
+        if (port == Cdp18s600Configuration.ioConfiguration.uartControl)
         {
             if (p_Vt100[UART1] != NULL)
                 p_Vt100[UART1]->uartControl(value);
@@ -664,37 +663,37 @@ void Cdp18s600::defaultOut(Byte port, Word address, Byte value)
                 p_Serial->uartControl(value);
         }
     }
-    if  (ioGroup_ == Cdp18s600Configuration.v1870Group && Cdp18s600Configuration.usev1870)
+    if  (ioGroup_ == Cdp18s600Configuration.ioConfiguration.v1870ioGroup && Cdp18s600Configuration.usev1870)
     {
         switch (port)
         {
             case 2:
-                p_Video->setInterruptEnable(value == 1);
-                break;
+                p_Video[VIDEOMAIN]->setInterruptEnable(value == 1);
+            break;
                 
             case 3:
                 out3_1870(value);
-                break;
+            break;
                 
             case 4:
                 outValues_[port] = address;
                 out4_1870(address);
-                break;
+            break;
                 
             case 5:
                 outValues_[port] = address;
                 out5_1870(address);
-                break;
+            break;
                 
             case 6:
                 outValues_[port] = address;
                 out6_1870(address);
-                break;
+            break;
                 
             case 7:
                 outValues_[port] = address;
                 out7_1870(address);
-                break;
+            break;
         }
     }
     if  (ioGroup_ == Cdp18s600Configuration.printerGroup && p_Main->getPrinterStatus(computerType_))
@@ -1283,7 +1282,7 @@ void Cdp18s600::startComputer()
     
     if (Cdp18s600Configuration.usev1870)
     {
-        if (configure1870Microboard(Cdp18s600Configuration.v1870Group, Cdp18s600Configuration.pageMemSize, Cdp18s600Configuration.v1870VideoMode, Cdp18s600Configuration.v1870InterruptMode))
+        if (configure1870Microboard(Cdp18s600Configuration.ioConfiguration.v1870ioGroup, Cdp18s600Configuration.ioConfiguration.v1870pageMemSize, Cdp18s600Configuration.ioConfiguration.v1870videoMode, Cdp18s600Configuration.ioConfiguration.v1870interruptMode))
         {
             readChargenFile(p_Main->getCharRomDir(MICROBOARD), p_Main->getCharRomFile(MICROBOARD));
         }
@@ -1340,48 +1339,53 @@ void Cdp18s600::startCdp18s660(long ms)
 void Cdp18s600::setDiskNames()
 {
     if (p_Main->getDirectoryMode(Cdp18s600Configuration.fdcType_, 0))
-        setDiskName(1, p_Main->getUpdFloppyDirSwitched(Cdp18s600Configuration.fdcType_, 0), "");
+        setUpdDiskname(1, p_Main->getUpdFloppyDirSwitched(Cdp18s600Configuration.fdcType_, 0), "");
     else
     {
         wxString fileName = p_Main->getUpdFloppyFile(Cdp18s600Configuration.fdcType_, 0);
         if (fileName.Len() == 0)
-            setDiskName(1, p_Main->getUpdFloppyDir(Cdp18s600Configuration.fdcType_, 0), "");
+            setUpdDiskname(1, p_Main->getUpdFloppyDir(Cdp18s600Configuration.fdcType_, 0), "");
         else
-            setDiskName(1, p_Main->getUpdFloppyDir(Cdp18s600Configuration.fdcType_, 0), p_Main->getUpdFloppyFile(Cdp18s600Configuration.fdcType_, 0));
+            setUpdDiskname(1, p_Main->getUpdFloppyDir(Cdp18s600Configuration.fdcType_, 0), p_Main->getUpdFloppyFile(Cdp18s600Configuration.fdcType_, 0));
     }
     
     if (p_Main->getDirectoryMode(Cdp18s600Configuration.fdcType_, 1))
-        setDiskName(2, p_Main->getUpdFloppyDirSwitched(Cdp18s600Configuration.fdcType_, 1), "");
+        setUpdDiskname(2, p_Main->getUpdFloppyDirSwitched(Cdp18s600Configuration.fdcType_, 1), "");
     else
     {
         wxString fileName = p_Main->getUpdFloppyFile(Cdp18s600Configuration.fdcType_, 1);
         if (fileName.Len() == 0)
-            setDiskName(2, p_Main->getUpdFloppyDir(Cdp18s600Configuration.fdcType_, 1), "");
+            setUpdDiskname(2, p_Main->getUpdFloppyDir(Cdp18s600Configuration.fdcType_, 1), "");
         else
-            setDiskName(2, p_Main->getUpdFloppyDir(Cdp18s600Configuration.fdcType_, 1), p_Main->getUpdFloppyFile(Cdp18s600Configuration.fdcType_, 1));
+            setUpdDiskname(2, p_Main->getUpdFloppyDir(Cdp18s600Configuration.fdcType_, 1), p_Main->getUpdFloppyFile(Cdp18s600Configuration.fdcType_, 1));
     }
     
     if (p_Main->getDirectoryMode(Cdp18s600Configuration.fdcType_, 2))
-        setDiskName(3, p_Main->getUpdFloppyDirSwitched(Cdp18s600Configuration.fdcType_, 2), "");
+        setUpdDiskname(3, p_Main->getUpdFloppyDirSwitched(Cdp18s600Configuration.fdcType_, 2), "");
     else
     {
         wxString fileName = p_Main->getUpdFloppyFile(Cdp18s600Configuration.fdcType_, 2);
         if (fileName.Len() == 0)
-            setDiskName(3, p_Main->getUpdFloppyDir(Cdp18s600Configuration.fdcType_, 2), "");
+            setUpdDiskname(3, p_Main->getUpdFloppyDir(Cdp18s600Configuration.fdcType_, 2), "");
         else
-            setDiskName(3, p_Main->getUpdFloppyDir(Cdp18s600Configuration.fdcType_, 2), p_Main->getUpdFloppyFile(Cdp18s600Configuration.fdcType_, 2));
+            setUpdDiskname(3, p_Main->getUpdFloppyDir(Cdp18s600Configuration.fdcType_, 2), p_Main->getUpdFloppyFile(Cdp18s600Configuration.fdcType_, 2));
     }
     
     if (p_Main->getDirectoryMode(Cdp18s600Configuration.fdcType_, 3))
-        setDiskName(4, p_Main->getUpdFloppyDirSwitched(Cdp18s600Configuration.fdcType_, 3), "");
+        setUpdDiskname(4, p_Main->getUpdFloppyDirSwitched(Cdp18s600Configuration.fdcType_, 3), "");
     else
     {
         wxString fileName = p_Main->getUpdFloppyFile(Cdp18s600Configuration.fdcType_, 3);
         if (fileName.Len() == 0)
-            setDiskName(4, p_Main->getUpdFloppyDir(Cdp18s600Configuration.fdcType_, 3), "");
+            setUpdDiskname(4, p_Main->getUpdFloppyDir(Cdp18s600Configuration.fdcType_, 3), "");
         else
-            setDiskName(4, p_Main->getUpdFloppyDir(Cdp18s600Configuration.fdcType_, 3), p_Main->getUpdFloppyFile(Cdp18s600Configuration.fdcType_, 3));
+            setUpdDiskname(4, p_Main->getUpdFloppyDir(Cdp18s600Configuration.fdcType_, 3), p_Main->getUpdFloppyFile(Cdp18s600Configuration.fdcType_, 3));
     }
+}
+
+void Cdp18s600::changeDiskName(int disk, wxString dirName, wxString fileName)
+{
+    setUpdDiskname(disk, dirName, fileName);
 }
 
 void Cdp18s600::readRoms()
@@ -3014,7 +3018,7 @@ void Cdp18s604b::startComputer()
     
     if (Cdp18s600Configuration.usev1870)
     {
-        if (configure1870Microboard(Cdp18s600Configuration.v1870Group, Cdp18s600Configuration.pageMemSize, Cdp18s600Configuration.v1870VideoMode, Cdp18s600Configuration.v1870InterruptMode))
+        if (configure1870Microboard(Cdp18s600Configuration.ioConfiguration.v1870ioGroup, Cdp18s600Configuration.ioConfiguration.v1870pageMemSize, Cdp18s600Configuration.ioConfiguration.v1870videoMode, Cdp18s600Configuration.ioConfiguration.v1870interruptMode))
         {
             readChargenFile(p_Main->getCharRomDir(MICROBOARD), p_Main->getCharRomFile(MICROBOARD));
         }
@@ -3551,7 +3555,7 @@ void Rcasbc::startComputer()
     
     if (Cdp18s600Configuration.usev1870)
     {
-        if (configure1870Microboard(Cdp18s600Configuration.v1870Group, Cdp18s600Configuration.pageMemSize, Cdp18s600Configuration.v1870VideoMode, Cdp18s600Configuration.v1870InterruptMode))
+        if (configure1870Microboard(Cdp18s600Configuration.ioConfiguration.v1870ioGroup, Cdp18s600Configuration.ioConfiguration.v1870pageMemSize, Cdp18s600Configuration.ioConfiguration.v1870videoMode, Cdp18s600Configuration.ioConfiguration.v1870interruptMode))
         {
             readChargenFile(p_Main->getCharRomDir(MICROBOARD), p_Main->getCharRomFile(MICROBOARD));
         }

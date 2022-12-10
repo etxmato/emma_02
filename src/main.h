@@ -12,6 +12,7 @@ typedef unsigned short Word;
 #include "vector"
 #include "wx/listctrl.h"
 #include "wx/html/helpctrl.h"
+#include "definition.h"
 
 class MyHtmlHelpController : public wxHtmlHelpController
 {
@@ -254,6 +255,9 @@ protected:
 #define REFRESH_PANEL 38
 #define EVENT_ZOOM 39
 #define SET_CONVERT_STATE 40
+#define SET_COMXLED 41
+#define SET_DIAGLED 42
+#define ENABLE_CLOCK 43
 
 #define OS_WINDOWS_2000 0
 #define OS_WINDOWS_XP 1
@@ -449,7 +453,7 @@ class ScreenInfo
 public:
     int start;
     int number;
-    wxString defaultColour[67];
+    wxString defaultColour[COL_MAX];
     int numberVideo;
     int borderX[10];
     int borderY[10];
@@ -495,19 +499,19 @@ public:
 #include "tmc2000.h"
 #include "eti660.h"
 #include "nano.h"
-#include "diy.h"
+#include "xmlemu.h"
 #include "guicomx.h"
 #include "debug.h"
 #include "video.h"
 #include "serial.h"
 
 #define EMMA_VERSION 1.47
-#define EMMA_SUB_VERSION 1
+#define EMMA_SUB_VERSION 3
 #define ELF 0
 #define ELFII 1
 #define SUPERELF 2
 #define ELF2K 3
-#define DIY 4
+#define XML 4
 #define PICO 5
 #define COSMICOS 6
 #define MEMBER 7
@@ -540,28 +544,31 @@ public:
 #define STUDIOIV 33
 #define DEBUGGER 34
 
-#define TELMACPRINTER 0
-#define PECOMPRINTER 3
-#define VIPPRINTER 4
-#define ELFPRINTER 5
-#define MS2000PRINTER 6
-#define COMXPRINTER 1
+#define PRINTER_BASIC 0
+#define PRINTER_PARALLEL 1
 #define COMXTHPRINTER 2
 #define COMXFLOP 3
 #define COMX80COLUMN 4
 #define NETWORK 6
 #define COMXRAM 7
 #define COMXJOY 16
-#define COMXRS232 17
+#define PRINTER_SERIAL 17
+#define PRINTER_SERIAL_Q 18
 #define COMXSUPERBOARD 0x21
 #define COMXEPROMBOARD 0x73
 #define COMXDIAG 0xC2
 #define COMXEMPTY 255
+
+#define PRINTER_PARITY_NONE 0
+#define PRINTER_PARITY_ODD 1
+#define PRINTER_PARITY_EVEN 2
+
+#define NOPRINTER 2
+
 #define PRINTFILE 0
 #define PRINTWINDOW 1
-#define NOPRINTER 2
-#define COMXPRINTPLOTTER 1
-#define COMXPRINTPRINTER 2
+#define PRINTPLOTTER 2
+
 #define TIMERINTERVAL 50
 #define PRINTER_PLOTTER 6000
 #define PLOTTEREXTTEXT 6001
@@ -580,7 +587,7 @@ public:
 #define TELMACTAB 5
 #define PECOMTAB 6
 #define ETITAB 7
-#define DIYTAB 8
+#define XMLTAB 8
 #define DEBUGGERTAB 9
 #define DISKNONE 0
 #define DISKFDC 1
@@ -650,7 +657,19 @@ public:
 #define VIDEONONE 0
 #define VIDEO1870 0
 #define VIDEO80COL 2
+
+//#define VIDEO1870 0
 #define VIDEOMICROVT 1
+
+#define VIDEOMAIN 0
+//#define VIDEOVT 0
+#define VIDEOXML1870 1
+#define VIDEOXMLPIXIE 2
+#define VIDEOXML6845 3
+#define VIDEOXML6847 4
+#define VIDEOXMLTMS 5
+#define VIDEOXMLI8275 6
+//#define VIDEOXMLMAX 6
 
 #define VIDEOVT 0
 #define VIDEOPIXIE 1
@@ -739,6 +758,7 @@ public:
 #define UART2_82C51 34
 #define NOCHANGE 35
 #define MAINRAM 36
+#define SLOTMEM 37
 
 #define MICRO_ROM 0
 #define MICRO_RAM 1
@@ -770,6 +790,7 @@ public:
 #define FPBBOOT 14
 #define FPBBASIC_AT_8000 15
 #define VIPTINY 17
+#define COMXBASIC 19
 
 #define TINYBASIC 2
 #define MINIMON 4
@@ -1068,9 +1089,15 @@ public:
 //#define TERM_XMODEM_SAVE_128 6
 
 #define PANEL_NONE 0
-#define PANEL_ELF 1
+#define PANEL_COSMAC 1
 #define PANEL_ELFII 2
 #define PANEL_SUPER 3
+#define PANEL_MICROTUTOR 4
+#define PANEL_MICROTUTOR2 5
+
+#define CR_NONE 0
+#define CR_CIDELSA 1
+#define CR_TMC600 2
 
 class Emu1802: public wxApp
 {
@@ -1253,7 +1280,7 @@ public:
     void setSysColours();
     void setMemDumpColours();
 
-    void zoomEvent(double zoom);
+    void zoomEvent(double zoom, int videoNumber);
     void zoomEventVt(double zoom);
     void vuSet(wxString Item, int value);
     void errorMessageEvent(wxErrorMsgEvent& event);
@@ -1262,6 +1289,9 @@ public:
     void setLocationEvent(guiEvent& event);
     void eventSetLocation(bool state, Word saveStart, Word saveEnd, Word saveExec);
     void eventSetLocation(bool state);
+
+    void setEnableClockEvent(guiEvent& event);
+    void eventEnableClock(bool state);
 
     void setSaveStartEvent(guiEvent& event);
     void eventSaveStart(Word saveStart);
@@ -1294,16 +1324,17 @@ public:
     void eventShowTextMessage(wxString messageText);
     
     void setZoomChange(guiEvent& event);
-    void eventZoomChange(double zoom);
+    void eventZoomChange(double zoom, int videoNumber);
     void zoomEventFinished();
     bool isZoomEventOngoing();
-    
+    bool isZoomEventOngoingButNotFullScreen();
+
     void setZoomVtChange(guiEvent& event);
     void eventZoomVtChange(double zoom, int uartNumber);
     void zoomVtEventFinished();
 
     void SetZoomEvent(guiEvent& event);
-    void eventZoom(double zoom, bool isVt);
+    void eventZoom(double zoom, int videoNumber, bool isVt);
 
     void printDefaultEvent(guiEvent& event);
     void eventPrintDefault(Byte value);
@@ -1328,7 +1359,7 @@ public:
     void eventPrintPecom(Byte value);
 
     void refreshVideoEvent(guiEvent& event);
-    void eventRefreshVideo(bool isVt, int uartNumber);
+    void eventRefreshVideo(bool isVt, int uart_video_Number);
     bool isVideoRefreshOngoing() {return videoRefreshOngoing_;};
 
     void refreshPanelEvent(guiEvent& event);
@@ -1339,7 +1370,7 @@ public:
     void setMessageBoxAnswer(int answer);
 
     void GetClientSizeEvent(guiEvent& event);
-    wxSize eventGetClientSize(bool isVt, int uartNumber);
+    wxSize eventGetClientSize(bool isVt, int uart_video_Number);
 
     void SetClientSizeEvent(guiEvent& event);
     void eventSetClientSize(wxSize size, bool changeScreenSize, bool isVt, int uartNumber);
@@ -1365,7 +1396,7 @@ public:
     void eventEnableMemAccess(bool state);
 
     void setVideoFullScreenEvent(guiEvent& event);
-    void eventVideoSetFullScreen(bool state);
+    void eventVideoSetFullScreen(bool state, int videoNumber);
 
     void setVtFullScreenEvent(guiEvent& event);
     void eventVtSetFullScreen(bool state, int uartNumber);
@@ -1378,6 +1409,12 @@ public:
 
     void setUpdateTitle(guiEvent& event);
     void eventUpdateTitle();
+
+    void setUpdateComxLedStatus(guiEvent& event);
+    void eventUpdateComxLedStatus(int card, int i, bool status);
+
+    void setUpdateDiagLedStatus(guiEvent& event);
+    void eventUpdateDiagLedStatus(int i, bool status);
 
     void debounceTimeout(wxTimerEvent& event);
     void setDebounceTimer(guiEvent& event);
@@ -1465,14 +1502,14 @@ private:
 #endif
 
 EXT Main *p_Main;
-EXT Video *p_Video;
+EXT Video *p_Video[VIDEOXMLMAX];
 EXT Video *p_Vt100[2];
 EXT Serial *p_Serial;
 EXT Cdp1802 *p_Computer;
 
-EXT    Printer *p_PrinterParallel;
-EXT    Printer *p_PrinterSerial;
-EXT    Printer *p_PrinterThermal;
-EXT    Printer *p_Printer;
+EXT Printer *p_PrinterParallel;
+EXT Printer *p_PrinterSerial;
+EXT Printer *p_PrinterThermal;
+EXT Printer *p_Printer;
 EXT wxPrintData *PrintDataPointer;
 EXT wxPageSetupDialogData *p_PageSetupData;

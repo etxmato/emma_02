@@ -33,7 +33,7 @@
 #include "coinarcade.h"
 
 CoinArcade::CoinArcade(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, Conf computerConf)
-:Pixie(title, pos, size, zoom, zoomfactor, computerType)
+:Pixie(title, pos, size, zoom, zoomfactor, computerType, 0)
 {
     computerConfiguration = computerConf;
 }
@@ -289,7 +289,7 @@ void CoinArcade::startComputer()
     defineMemoryType(0x800, 0x9ff, RAM);
     initRam(0x800, 0x9ff);
 
-    double zoom = p_Main->getZoom();
+    double zoom = p_Main->getZoom(VIDEOMAIN);
 
     configurePixieCoinArcade();
     initPixie();

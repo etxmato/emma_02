@@ -120,6 +120,7 @@ void GuiVip2K::readVip2KConfig()
     selectedComputer_ = VIP2K;
 
     conf[VIP2K].emsConfigNumber_ = 0;
+    conf[VIP2K].videoNumber_ = 0;
 
     conf[VIP2K].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "Vip2K" + pathSeparator_;
     conf[VIP2K].mainDir_ = readConfigDir("/Dir/Vip2K/Main", dataDir_ + "Vip2K" + pathSeparator_);
@@ -149,7 +150,7 @@ void GuiVip2K::readVip2KConfig()
 
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 2.0);
-    conf[VIP2K].zoom_ = convertLocale(configPointer->Read("/Vip2K/Zoom", defaultZoom));
+    conf[VIP2K].zoom_[VIDEOMAIN] = convertLocale(configPointer->Read("/Vip2K/Zoom", defaultZoom));
     defaultZoom.Printf("%2.2f", 1.0);
     conf[VIP2K].zoomVt_ = convertLocale(configPointer->Read("/Vip2K/Vt_Zoom", defaultZoom));
     wxString defaultScale;
@@ -217,7 +218,7 @@ void GuiVip2K::readVip2KConfig()
         XRCCTRL(*this, "VTBaudTChoiceVip2K", wxChoice)->SetSelection(elfConfiguration[VIP2K].baudT);
         XRCCTRL(*this, "VTBaudRChoiceVip2K", wxChoice)->SetSelection(elfConfiguration[VIP2K].baudT);
         
-        correctZoomAndValue(VIP2K, "Vip2K", SET_SPIN);
+        correctZoomAndValue(VIP2K, "Vip2K", SET_SPIN, VIDEOMAIN);
         correctZoomVtAndValue(VIP2K, "Vip2K", SET_SPIN);
 
         XRCCTRL(*this, "VtShowVip2K", wxCheckBox)->SetValue(elfConfiguration[VIP2K].vtShow);
@@ -281,7 +282,7 @@ void GuiVip2K::writeVip2KConfig()
 
     configPointer->Write("/Vip2K/Vt_Baud", elfConfiguration[VIP2K].baudT);
 
-    configPointer->Write("/Vip2K/Zoom", conf[VIP2K].zoom_);
+    configPointer->Write("/Vip2K/Zoom", conf[VIP2K].zoom_[VIDEOMAIN]);
     configPointer->Write("/Vip2K/Vt_Zoom", conf[VIP2K].zoomVt_);
     configPointer->Write("/Vip2K/Enable_Vt_Stretch_Dot", conf[VIP2K].stretchDot_);
     configPointer->Write("/Vip2K/Enable_Vt_External", elfConfiguration[VIP2K].vtExternal);

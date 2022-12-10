@@ -75,7 +75,6 @@ BEGIN_EVENT_TABLE(GuiVelf, GuiCdp18s020)
     EVT_BUTTON(XRCID("PrintButtonVelf"), GuiMain::onPrintButton)
     EVT_CHOICE(XRCID("PrintModeVelf"), GuiMain::onPrintMode)
     EVT_BUTTON(XRCID("PrintFileButtonVelf"), GuiMain::onPrintFile)
-    EVT_COMMAND(wxID_ANY, OPEN_PRINTER_WINDOW, GuiMain::openPrinterFrame) 
     EVT_TEXT(XRCID("BeepFrequencyVelf"), GuiMain::onBeepFrequency)
 
     EVT_TEXT(XRCID("SaveStartVelf"), GuiMain::onSaveStart)
@@ -123,6 +122,7 @@ void GuiVelf::readVelfConfig()
     selectedComputer_ = VELF;
 
     conf[VELF].emsConfigNumber_ = 0;
+    conf[VELF].videoNumber_ = 0;
 
     conf[VELF].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "Velf" + pathSeparator_;
     conf[VELF].mainDir_ = readConfigDir("/Dir/Velf/Main", dataDir_ + "Velf" + pathSeparator_);
@@ -154,7 +154,7 @@ void GuiVelf::readVelfConfig()
 
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 2.0);
-    conf[VELF].zoom_ = convertLocale(configPointer->Read("/Velf/Zoom", defaultZoom));
+    conf[VELF].zoom_[VIDEOMAIN] = convertLocale(configPointer->Read("/Velf/Zoom", defaultZoom));
     defaultZoom.Printf("%2.2f", 1.0);
     conf[VELF].zoomVt_ = convertLocale(configPointer->Read("/Velf/Vt_Zoom", defaultZoom));
     wxString defaultScale;
@@ -235,7 +235,7 @@ void GuiVelf::readVelfConfig()
         XRCCTRL(*this,"AddressText2Velf", wxStaticText)->Enable(elfConfiguration[VELF].useElfControlWindows);
         XRCCTRL(*this, "ControlWindowsVelf", wxCheckBox)->SetValue(elfConfiguration[VELF].useElfControlWindows);
         
-        correctZoomAndValue(VELF, "Velf", SET_SPIN);
+        correctZoomAndValue(VELF, "Velf", SET_SPIN, VIDEOMAIN);
         correctZoomVtAndValue(VELF, "Velf", SET_SPIN);
 
         XRCCTRL(*this, "LatchVelf", wxCheckBox)->SetValue(latch_);
@@ -306,7 +306,7 @@ void GuiVelf::writeVelfConfig()
     configPointer->Write("/Velf/Vt_Baud", elfConfiguration[VELF].baudT);
     configPointer->Write("/Velf/Enable_Auto_Boot", elfConfiguration[VELF].autoBoot);
 
-    configPointer->Write("/Velf/Zoom", conf[VELF].zoom_);
+    configPointer->Write("/Velf/Zoom", conf[VELF].zoom_[VIDEOMAIN]);
     configPointer->Write("/Velf/Vt_Zoom", conf[VELF].zoomVt_);
     configPointer->Write("/Velf/Enable_Vt_Stretch_Dot", conf[VELF].stretchDot_);
     configPointer->Write("/Velf/Enable_Vt_External", elfConfiguration[VELF].vtExternal);

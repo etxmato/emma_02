@@ -144,11 +144,11 @@ int ctrlKey[] =
 };
 
 Pecom::Pecom(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock, Conf computerConf)
-:V1870(title, pos, size, zoomLevel, computerType, clock)
+:V1870(title, pos, size, zoomLevel, computerType, clock, 0)
 {
     computerConfiguration = computerConf;
     p_Printer = new Printer();
-    p_Printer->initPecom(p_Printer);
+    p_Printer->init(p_Printer, PRINTER_BASIC);
 }
 
 Pecom::~Pecom()
@@ -1162,11 +1162,11 @@ void Pecom::checkComputerFunction()
                 p_Main->startCassetteLoad(0);
             break;
                 
-            case 0x009f:
-            case 0x00a3:
-                p_Main->eventShowMessage(mainMemory_[scratchpadRegister_[programCounter_]+1]*256+mainMemory_[scratchpadRegister_[programCounter_]+2]);
-                p_Main->eventShowMessage(mainMemory_[scratchpadRegister_[programCounter_]+5]*256+mainMemory_[scratchpadRegister_[programCounter_]+6]);
-            break;
+  //          case 0x009f:
+  //          case 0x00a3:
+  //              p_Main->eventShowMessage(mainMemory_[scratchpadRegister_[programCounter_]+1]*256+mainMemory_[scratchpadRegister_[programCounter_]+2]);
+  //              p_Main->eventShowMessage(mainMemory_[scratchpadRegister_[programCounter_]+5]*256+mainMemory_[scratchpadRegister_[programCounter_]+6]);
+  //          break;
         }
     }
     else

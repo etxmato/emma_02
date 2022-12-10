@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>Pico/Elf V2 - Diskless ROM</name>
+        <clock>4.0</clock>
+        <boot>0</boot>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init>
+        <dirname>Pico</dirname>
+    </system>
+    
+    <bootstrap>
+        <address>0x8000</address>
+    </bootstrap>
+
+    <xmodem>
+        <filename></filename>
+    </xmodem>
+
+    <locations>
+        <start_xmodem_save address="0x8800, 0x8801, 0x8816, 0x8817" value="0x8f, 0x73, 0x3d, 0x16">0x8325</start_xmodem_save> <!-- dump diskless ROM -->
+
+        <start_xmodem_load address="0x8700, 0x8701, 0x874b, 0x874c" value="0x8c, 0x73, 0x3d, 0x4b">0x844b</start_xmodem_load> <!-- load diskless ROM -->
+    </locations>
+
+    <memory>
+        <rom mask="0xffff">
+            <start>0x8000</start>
+            <end>0xFFFF</end>
+            <filename verify="true">pico_diskless.bin</filename>
+        </rom>
+
+        <mainram>
+            <start>0x0000</start>
+            <end>0x7FFF</end>
+        </mainram>
+    </memory>
+    
+    <vt type="vt100" connection="serial">
+        <font>vt100.bin</font>
+        <out>5</out>
+        <ef pol="rev">2</ef>
+        <q pol="rev"></q>
+        <baud type="receive">4800</baud>
+        <baud type="transmit">4800</baud>
+        <border>0x0</border>
+        <color type="fore">0, 255, 0</color>
+        <color type="back">0, 0x40, 0</color>
+        <color type="high">0, 0xff, 0</color>
+    </vt>
+
+</emmaconfig>

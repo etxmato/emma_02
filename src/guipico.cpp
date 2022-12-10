@@ -77,8 +77,6 @@ BEGIN_EVENT_TABLE(GuiPico, GuiElf)
     EVT_CHOICE(XRCID("VTBaudTChoicePico"), GuiMain::onBaudT)
     EVT_CHOICE(XRCID("VTBaudRChoicePico"), GuiMain::onBaudR)
 
-    EVT_COMMAND(wxID_ANY, OPEN_PRINTER_WINDOW, GuiMain::openPrinterFrame) 
-
     EVT_BUTTON(XRCID("CasButtonPico"), GuiMain::onCassette)
     EVT_BUTTON(XRCID("EjectCasPico"), GuiMain::onCassetteEject)
     EVT_TEXT(XRCID("WavFilePico"), GuiMain::onCassetteText)
@@ -113,12 +111,13 @@ void GuiPico::readPicoConfig()
 {
     selectedComputer_ = PICO;
 
-    elfConfiguration[PICO].elfPortConf.emsOutput.resize(1);
+    elfConfiguration[PICO].ioConfiguration.emsOutput.resize(1);
     readElfPortConfig(PICO, "Pico");
     
     conf[PICO].volume_ = 0;
 
     conf[PICO].emsConfigNumber_ = 0;
+    conf[PICO].videoNumber_ = 0;
 
     conf[PICO].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "Pico" + pathSeparator_;
     conf[PICO].mainDir_ = readConfigDir("/Dir/Pico/Main", dataDir_ + "Pico" + pathSeparator_);
@@ -180,7 +179,7 @@ void GuiPico::readPicoConfig()
 
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 2.0);
-    conf[PICO].zoom_ = convertLocale(configPointer->Read("Pico/Zoom", defaultZoom));
+    conf[PICO].zoom_[VIDEOMAIN] = convertLocale(configPointer->Read("Pico/Zoom", defaultZoom));
     defaultZoom.Printf("%2.2f", 1.0);
     conf[PICO].zoomVt_ = convertLocale(configPointer->Read("Pico/Vt_Zoom", defaultZoom));
     wxString defaultScale;
@@ -247,7 +246,7 @@ void GuiPico::readPicoConfig()
         XRCCTRL(*this, "VideoTypePico", wxChoice)->SetSelection(conf[PICO].videoMode_);
         XRCCTRL(*this, "DiskTypePico", wxChoice)->SetSelection(elfConfiguration[PICO].diskType);
 
-        correctZoomAndValue(PICO, "Pico", SET_SPIN);
+        correctZoomAndValue(PICO, "Pico", SET_SPIN, VIDEOMAIN);
         correctZoomVtAndValue(PICO, "Pico", SET_SPIN);
 
         XRCCTRL(*this, "StretchDotPico", wxCheckBox)->SetValue(conf[PICO].stretchDot_);
@@ -280,7 +279,7 @@ void GuiPico::readPicoConfig()
     elfConfiguration[PICO].useHexKeyboard = false;
     elfConfiguration[PICO].useHexKeyboardEf3 = false;
     elfConfiguration[PICO].useKeyboard = false;
-    elfConfiguration[PICO].UsePS2 = false;
+    elfConfiguration[PICO].usePS2 = false;
     elfConfiguration[PICO].usePs2gpio = false;
     setRealCas(PICO);
 
@@ -359,7 +358,7 @@ void GuiPico::writePicoConfig()
     configPointer->Write("Pico/ClearRtc", elfConfiguration[PICO].clearRtc);
     configPointer->Write("Pico/Use_Real_Time_Clock", elfConfiguration[PICO].rtc);
     configPointer->Write("Pico/Video_Type", conf[PICO].videoMode_);
-    configPointer->Write("Pico/Zoom", conf[PICO].zoom_);
+    configPointer->Write("Pico/Zoom", conf[PICO].zoom_[VIDEOMAIN]);
     configPointer->Write("Pico/Vt_Zoom", conf[PICO].zoomVt_);
     configPointer->Write("Pico/UseLoadLocation", conf[PICO].useLoadLocation_);
     configPointer->Write("Pico/SaveStart", conf[PICO].saveStartString_);
@@ -502,7 +501,7 @@ void GuiPico::setDiskTypePico(int Selection)
     {
         case DISKNONE:
             elfConfiguration[PICO].ideEnabled = false;
-            elfConfiguration[PICO].fdcEnabled = false;
+            elfConfiguration[PICO].fdc1793Enabled = false;
             if (mode_.gui)
             {
                 XRCCTRL(*this, "IDE_ButtonPico", wxButton)->Enable(false);
@@ -513,7 +512,7 @@ void GuiPico::setDiskTypePico(int Selection)
 
         case DISKIDEPICO:
             elfConfiguration[PICO].ideEnabled = true;
-            elfConfiguration[PICO].fdcEnabled = false;
+            elfConfiguration[PICO].fdc1793Enabled = false;
             if (mode_.gui)
             {
                 XRCCTRL(*this, "IDE_ButtonPico", wxButton)->Enable(true);

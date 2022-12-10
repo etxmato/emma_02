@@ -51,11 +51,14 @@
 #define GRAPHIC 8
 #define BACKGROUND 5
 
-mc6847::mc6847(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, int computerType, double clock, ElfPortConfiguration elfPortConf)
+mc6847::mc6847(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, int computerType, double clock, IoConfiguration ioConfiguration, int videoNumber)
 : Video(title, pos, size)
 {
     computerType_ = computerType;
     clock_ = clock;
+    colourIndex_ = 0;
+    videoType_ = VIDEO6847;
+    videoNumber_ = videoNumber;
 
     switch(computerType_)
     {
@@ -71,8 +74,10 @@ mc6847::mc6847(const wxString& title, const wxPoint& pos, const wxSize& size, do
             elfTypeStr_ = "SuperElf";
         break;
             
-        case DIY:
-            elfTypeStr_ = "Diy";
+        case XML:
+            elfTypeStr_ = "Xml";
+            colourIndex_ = COL_MC6847_TEXT_BLACK - BACKGROUND;
+            videoType_ = VIDEOXML6847;
         break;
 
         case PICO:
@@ -80,10 +85,10 @@ mc6847::mc6847(const wxString& title, const wxPoint& pos, const wxSize& size, do
         break;
     }
     readCharRomFile(p_Main->getCharRomDir(computerType_), p_Main->getCharRomFile(computerType_));
-    mc6847RamStart_ = elfPortConf.mc6847StartRam; //p_Main->getConfigItem(elfTypeStr_+"/mc6847StartRam",0xE000l);
+    mc6847RamStart_ = ioConfiguration.mc6847StartRam; //p_Main->getConfigItem(elfTypeStr_+"/mc6847StartRam",0xE000l);
 //    Word end = p_Main->getConfigItem(elfTypeStr_+"/mc6847EndRam", 0xE3FFl);
-    p_Computer->defineMemoryType(mc6847RamStart_, elfPortConf.mc6847EndRam, MC6847RAM);
-    mc6847RamMask_ = elfPortConf.mc6847EndRam - mc6847RamStart_;
+    p_Computer->defineMemoryType(mc6847RamStart_, ioConfiguration.mc6847EndRam, MC6847RAM);
+    mc6847RamMask_ = ioConfiguration.mc6847EndRam - mc6847RamStart_;
 
     switch (p_Main->getCpuStartupVideoRam())
     {
@@ -111,42 +116,42 @@ mc6847::mc6847(const wxString& title, const wxPoint& pos, const wxSize& size, do
 
     fullScreenSet_ = false;
 
-    if (elfPortConf.forceHighAg)
+    if (ioConfiguration.forceHighAg)
         ag_ = 1;
     else
         ag_ = 0;
 
-    if (elfPortConf.forceHighAs)
+    if (ioConfiguration.forceHighAs)
         as_ = 1;
     else
         as_ = 0;
 
-    if (elfPortConf.forceHighExt)
+    if (ioConfiguration.forceHighExt)
         ext_ = 1;
     else
         ext_ = 0;
 
-    if (elfPortConf.forceHighGm2)
+    if (ioConfiguration.forceHighGm2)
         gm2_ = 1;
     else
         gm2_ = 0;
 
-    if (elfPortConf.forceHighGm1)
+    if (ioConfiguration.forceHighGm1)
         gm1_ = 1;
     else
         gm1_ = 0;
 
-    if (elfPortConf.forceHighGm0)
+    if (ioConfiguration.forceHighGm0)
         gm0_ = 1;
     else
         gm0_ = 0;
 
-    if (elfPortConf.forceHighCss)
+    if (ioConfiguration.forceHighCss)
         css_ = 1;
     else
         css_ = 0;
 
-    if (elfPortConf.forceHighInv)
+    if (ioConfiguration.forceHighInv)
         inv_ = 1;
     else
         inv_ = 0;
@@ -168,13 +173,12 @@ mc6847::mc6847(const wxString& title, const wxPoint& pos, const wxSize& size, do
     gc->SetAntialiasMode(wxANTIALIAS_NONE);
 #endif
 
-    videoScreenPointer = new VideoScreen(this, size, zoom, computerType);
+    videoScreenPointer = new VideoScreen(this, size, zoom, computerType, videoNumber_);
 
     setCycle();
 
     defineColours(computerType_);
     backGround_ = BACKGROUND;
-    videoType_ = VIDEO6847;
 
     cycleValue_ = cycleSize_;
     zoom_ = zoom;
@@ -211,13 +215,13 @@ mc6847::~mc6847()
 
 void mc6847::drawScreen()
 {
-    setColour(backGround_);
+    setColour(colourIndex_+backGround_);
     drawRectangle(0, 0, videoWidth_ + 2*offsetX_, videoHeight_ + 2*offsetY_);
     for (int addr=0; addr<(rows_*charLine_); addr++)
         draw(addr);
 }
 
-void mc6847::configure(ElfPortConfiguration elfPortConf)
+void mc6847::configure(IoConfiguration ioConfiguration)
 {
 //    int mc6847Out;
     wxString printBuffer;
@@ -233,29 +237,29 @@ void mc6847::configure(ElfPortConfiguration elfPortConf)
     gm1Bit_ = 16;
     gm2Bit_ = 16;
     
-    setMCBit(15, elfPortConf.mc6847b7); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-B7", 0l));
-    setMCBit(14, elfPortConf.mc6847b6); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-B6", 0l));
-    setMCBit(13, elfPortConf.mc6847b5); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-B5", 0l));
-    setMCBit(12, elfPortConf.mc6847b4); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-B4", 0l));
-    setMCBit(11, elfPortConf.mc6847b3); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-B3", 3l));
-    setMCBit(10, elfPortConf.mc6847b2); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-B2", 4l));
-    setMCBit(9, elfPortConf.mc6847b1); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-B1", 6l));
-    setMCBit(8, elfPortConf.mc6847b0); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-B0", 5l));
-    setMCBit(7, elfPortConf.mc6847dd7); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-DD7", 1l));
-    setMCBit(6, elfPortConf.mc6847dd6); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-DD6", 0l));
+    setMCBit(15, ioConfiguration.mc6847b7); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-B7", 0l));
+    setMCBit(14, ioConfiguration.mc6847b6); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-B6", 0l));
+    setMCBit(13, ioConfiguration.mc6847b5); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-B5", 0l));
+    setMCBit(12, ioConfiguration.mc6847b4); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-B4", 0l));
+    setMCBit(11, ioConfiguration.mc6847b3); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-B3", 3l));
+    setMCBit(10, ioConfiguration.mc6847b2); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-B2", 4l));
+    setMCBit(9, ioConfiguration.mc6847b1); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-B1", 6l));
+    setMCBit(8, ioConfiguration.mc6847b0); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-B0", 5l));
+    setMCBit(7, ioConfiguration.mc6847dd7); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-DD7", 1l));
+    setMCBit(6, ioConfiguration.mc6847dd6); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-DD6", 0l));
     
-    p_Computer->setCycleType(VIDEOCYCLE, MC6847CYCLE);
+    p_Computer->setCycleType(VIDEOCYCLE_MC6847, MC6847CYCLE);
 
     p_Main->message("Configuring MC6847");
 
-    if (elfPortConf.mc6847OutputMode == 1)
+    if (ioConfiguration.mc6847OutputMode == 1)
     {
         printBuffer = "    Write mem FFxx: video mode\n";
     }
     else
     {
-        p_Computer->setOutType(elfPortConf.mc6847Output, MC6847OUT);
-        printBuffer.Printf("    Output %d: video mode\n", elfPortConf.mc6847Output);
+        p_Computer->setOutType(ioConfiguration.mc6847Output, MC6847OUT);
+        printBuffer.Printf("    Output %d: video mode\n", ioConfiguration.mc6847Output);
     }
     p_Main->message(printBuffer);
 }
@@ -474,7 +478,7 @@ void mc6847::copyScreen()
 #if defined(__WXMAC__)
     if (reBlit_ || reDraw_)
     {
-        p_Main->eventRefreshVideo(false, 0);
+        p_Main->eventRefreshVideo(false, videoNumber_);
         reBlit_ = false;
         reDraw_ = false;
     }
@@ -615,13 +619,13 @@ void mc6847::drawCharacter(wxCoord x, wxCoord y, int v)
     {
         if (inv_)
         {
-            backGroundClr = colour_[TEXTCOL+css_];
-            foreGroundClr = colour_[backGround_];
+            backGroundClr = colour_[colourIndex_+TEXTCOL+css_];
+            foreGroundClr = colour_[colourIndex_+backGround_];
         }
         else
         {
-            backGroundClr = colour_[backGround_];
-            foreGroundClr = colour_[TEXTCOL+css_];
+            backGroundClr = colour_[colourIndex_+backGround_];
+            foreGroundClr = colour_[colourIndex_+TEXTCOL+css_];
         }
 
         if (ext_ == 1)
@@ -661,7 +665,7 @@ void mc6847::drawCharacter(wxCoord x, wxCoord y, int v)
     {
         if (ext_ == 0)
         {
-            foreGroundClr = colour_[GRAPHIC +((v >> 4) & 0x7)];
+            foreGroundClr = colour_[colourIndex_+GRAPHIC+((v >> 4) & 0x7)];
 
             v &= 0x0f;
             for (wxCoord j=y; j<y+charHeight_*addLine_; j+=6)
@@ -674,7 +678,7 @@ void mc6847::drawCharacter(wxCoord x, wxCoord y, int v)
                     }
                     else
                     {
-                        setColour(backGround_);
+                        setColour(colourIndex_+backGround_);
                     }
                     drawRectangle(i+offsetX_, j+offsetY_, 4, 6*addLine_);
                     v = v << 1;
@@ -683,7 +687,7 @@ void mc6847::drawCharacter(wxCoord x, wxCoord y, int v)
         }
         else
         {
-            foreGroundClr = colour_[GRAPHIC+(((v >> 6) & 0x3) + (css_ << 2))];
+            foreGroundClr = colour_[colourIndex_+GRAPHIC+(((v >> 6) & 0x3) + (css_ << 2))];
 
             v &= 0x3f;
             for (wxCoord j=y; j<y+charHeight_*addLine_; j+=4)
@@ -696,7 +700,7 @@ void mc6847::drawCharacter(wxCoord x, wxCoord y, int v)
                     }
                     else
                     {
-                        setColour(backGround_);
+                        setColour(colourIndex_+backGround_);
                     }
                     drawRectangle(i+offsetX_, j+offsetY_, 4, 4*addLine_);
                     v = v << 1;
@@ -736,7 +740,7 @@ void mc6847::drawGraphic(wxCoord x, wxCoord y, int v)
     {
         for (wxCoord i=x; i<x+charWidth_; i+=elementWidth_)
         {
-            clr = colour_[GRAPHIC+(((v & 0xc0) >> 6) + (css_ << 2))];
+            clr = colour_[colourIndex_+GRAPHIC+(((v & 0xc0) >> 6) + (css_ << 2))];
             setColour(clr);
             drawRectangle(i+offsetX_, y+offsetY_, elementWidth_, charHeight_*addLine_);
             v = v << 2;
@@ -747,9 +751,9 @@ void mc6847::drawGraphic(wxCoord x, wxCoord y, int v)
         for (wxCoord i=x; i<x+charWidth_; i+=elementWidth_)
         {
             if ((v & 0x80) == 0)
-                clr = colour_[backGround_];
+                clr = colour_[colourIndex_+backGround_];
             else
-                clr = colour_[GRAPHIC+(css_ << 2)];
+                clr = colour_[colourIndex_+GRAPHIC+(css_ << 2)];
             setColour(clr);
             if ((elementWidth_ == 1) && (addLine_ == 1))
                 drawPoint(i+offsetX_, y+offsetY_);
@@ -829,6 +833,6 @@ void mc6847::setFullScreen(bool fullScreenSet)
 void mc6847::onF3()
 {
     fullScreenSet_ = !fullScreenSet_;
-    p_Main->eventVideoSetFullScreen(fullScreenSet_);
+    p_Main->eventVideoSetFullScreen(fullScreenSet_, videoNumber_);
 }
 

@@ -100,8 +100,9 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
             computerTypeStr_ = "SuperElf";
         break;
 
-        case DIY:
-            computerTypeStr_ = "Diy";
+        case XML:
+            computerTypeStr_ = "Xml";
+            colourIndex_ = COL_VT_FORE;
         break;
 
         case PICO:
@@ -129,7 +130,7 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
         break;
         case MICROBOARD:
             computerTypeStr_ = "Microboard";
-            colourIndex_ = 64;
+            colourIndex_ = COL_VT_FORE;
             videoType_ = VIDEOMICROVT;
             uartEf_ = true;
         break;
@@ -334,7 +335,15 @@ Vt100::~Vt100()
     }
 }
 
-void Vt100::configure(int selectedBaudR, int selectedBaudT, ElfPortConfiguration elfPortConf)
+void Vt100::configure(int selectedBaudR, int selectedBaudT, IoConfiguration ioConfiguration, Locations addressLocations, wxString saveCommand)
+{
+    addressLocations_ = addressLocations;
+    saveCommand_ = saveCommand;
+    
+    configure(selectedBaudR, selectedBaudT, ioConfiguration);
+}
+
+void Vt100::configure(int selectedBaudR, int selectedBaudT, IoConfiguration ioConfiguration)
 {
     wxString runningComp = p_Main->getRunningComputerStr();
     wxString printBuffer;
@@ -347,7 +356,7 @@ void Vt100::configure(int selectedBaudR, int selectedBaudT, ElfPortConfiguration
 
     if (uart_)
     {
-        configureUart(elfPortConf);
+        configureUart(ioConfiguration);
     }
     else
     {
@@ -364,13 +373,13 @@ void Vt100::configure(int selectedBaudR, int selectedBaudT, ElfPortConfiguration
         }
         else
         {
-            reverseEf_ = elfPortConf.vt100ReverseEf;
-            reverseQ_ = elfPortConf.vt100ReverseQ;
+            reverseEf_ = ioConfiguration.vt100ReverseEf;
+            reverseQ_ = ioConfiguration.vt100ReverseQ;
             
             p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
-            p_Computer->setOutType(elfPortConf.vt100Output, VT100OUT);
+            p_Computer->setOutType(ioConfiguration.vt100Output, VT100OUT);
             
-            dataReadyFlag_ = elfPortConf.vt100Ef;
+            dataReadyFlag_ = ioConfiguration.vt100Ef;
             p_Computer->setEfType(dataReadyFlag_, VT100EF);
             
             if (reverseQ_) p_Computer->setFlipFlopQ(1);
@@ -389,7 +398,7 @@ void Vt100::configure(int selectedBaudR, int selectedBaudT, ElfPortConfiguration
             else
                 p_Main->message("Configuring VT100 terminal");
             
-            printBuffer.Printf("    Output %d: vtEnable, EF %d: serial input", elfPortConf.vt100Output, elfPortConf.vt100Ef);
+            printBuffer.Printf("    Output %d: vtEnable, EF %d: serial input", ioConfiguration.vt100Output, ioConfiguration.vt100Ef);
             printBuffer = printBuffer + printEfReverse + printQ;
             p_Main->message(printBuffer);
         }
@@ -441,14 +450,14 @@ void Vt100::configureStandard(int selectedBaudR, int selectedBaudT, int dataRead
     ctrlvText_ = 0;
 }
 
-void Vt100::configureUart(ElfPortConfiguration elfPortConf)
+void Vt100::configureUart(IoConfiguration ioConfiguration)
 {
     wxString runningComp = p_Main->getRunningComputerStr();
     
-    p_Computer->setOutType(elfPortConf.uartOut, UARTOUT);
-    p_Computer->setInType(elfPortConf.uartIn, UARTIN);
-    p_Computer->setOutType(elfPortConf.uartControl, UARTCONTROL);
-    p_Computer->setInType(elfPortConf.uartStatus, UARTSTATUS);
+    p_Computer->setOutType(ioConfiguration.uartOut, UARTOUT);
+    p_Computer->setInType(ioConfiguration.uartIn, UARTIN);
+    p_Computer->setOutType(ioConfiguration.uartControl, UARTCONTROL);
+    p_Computer->setInType(ioConfiguration.uartStatus, UARTSTATUS);
     p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
     
     wxString printBuffer;
@@ -458,10 +467,10 @@ void Vt100::configureUart(ElfPortConfiguration elfPortConf)
     else
         p_Main->message("Configuring VT100 terminal with CDP1854/UART");
     
-    printBuffer.Printf("    Output %d: load transmitter, input %d: read receiver", elfPortConf.uartOut, elfPortConf.uartIn);
+    printBuffer.Printf("    Output %d: load transmitter, input %d: read receiver", ioConfiguration.uartOut, ioConfiguration.uartIn);
     p_Main->message(printBuffer);
     
-    printBuffer.Printf("    Output %d: load control, input %d: read status", elfPortConf.uartControl, elfPortConf.uartStatus);
+    printBuffer.Printf("    Output %d: load control, input %d: read status", ioConfiguration.uartControl, ioConfiguration.uartStatus);
     p_Main->message(printBuffer);
     rs232_ = 0;
 }
@@ -553,9 +562,9 @@ void Vt100::configureMs2000(int selectedBaudR, int selectedBaudT)
     else
         p_Main->message("Configuring VT100 terminal with CDP1854/UART on group " + groupString);
     
-    message.Printf("    Output %d: load transmitter, input %d: read receiver", elfConfiguration_.elfPortConf.uartOut, elfConfiguration_.elfPortConf.uartOut);
+    message.Printf("    Output %d: load transmitter, input %d: read receiver", elfConfiguration_.ioConfiguration.uartOut, elfConfiguration_.ioConfiguration.uartOut);
     p_Main->message(message);
-    message.Printf("    Output %d: load control, input %d: read status", elfConfiguration_.elfPortConf.uartControl, elfConfiguration_.elfPortConf.uartControl);
+    message.Printf("    Output %d: load control, input %d: read status", elfConfiguration_.ioConfiguration.uartControl, elfConfiguration_.ioConfiguration.uartControl);
     p_Main->message(message);
     p_Main->message("    EF 4: serial input");
     
@@ -583,7 +592,7 @@ void Vt100::setTabChar(Byte value)
     tab_char = value;
 }
 
-void Vt100::configureVt2K(int selectedBaudR, int selectedBaudT, ElfPortConfiguration elfPortConf)
+void Vt100::configureVt2K(int selectedBaudR, int selectedBaudT, IoConfiguration ioConfiguration)
 {
     wxString runningComp = p_Main->getRunningComputerStr();
     wxString printBuffer;
@@ -607,12 +616,12 @@ void Vt100::configureVt2K(int selectedBaudR, int selectedBaudT, ElfPortConfigura
     }
     else
     {
-        reverseEf_ = elfPortConf.vt100ReverseEf; //p_Main->getConfigItem(runningComp+"/Vt100ReverseEf", 1l);
-        reverseQ_ = elfPortConf.vt100ReverseQ; //p_Main->getConfigItem(runningComp+"/Vt100ReverseQ", 0l);
+        reverseEf_ = ioConfiguration.vt100ReverseEf; //p_Main->getConfigItem(runningComp+"/Vt100ReverseEf", 1l);
+        reverseQ_ = ioConfiguration.vt100ReverseQ; //p_Main->getConfigItem(runningComp+"/Vt100ReverseQ", 0l);
         
         p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
-        dataReadyFlag_ = elfPortConf.vt100Ef;
-        p_Computer->setEfType(elfPortConf.vt100Ef, VT100EF);
+        dataReadyFlag_ = ioConfiguration.vt100Ef;
+        p_Computer->setEfType(ioConfiguration.vt100Ef, VT100EF);
         if (reverseQ_) p_Computer->setFlipFlopQ(1);
         
         wxString printEfReverse = ", ";
@@ -629,7 +638,7 @@ void Vt100::configureVt2K(int selectedBaudR, int selectedBaudT, ElfPortConfigura
         else
             p_Main->message("Configuring VT100 terminal");
         
-        printBuffer.Printf("    EF %d: serial input", elfPortConf.vt100Ef);
+        printBuffer.Printf("    EF %d: serial input", ioConfiguration.vt100Ef);
         printBuffer = printBuffer + printEfReverse + printQ;
         p_Main->message(printBuffer);
     }
@@ -3504,7 +3513,12 @@ void Vt100::getKey()
     if (vtOut_ <= 0)
     {
         if (elfRunCommand_ != 0)
-            checkElfCommand();
+        {
+            if (computerType_ == XML)
+                checkXmlCommand();
+            else
+                checkElfCommand();
+        }
         else
         {
             if (mcdsRunCommand_ != 0)
@@ -3513,8 +3527,16 @@ void Vt100::getKey()
             {
                 if (ctrlvText_ != 0)
                 {
-                    if (p_Computer->getScratchpadRegister(p_Computer->getProgramCounter()) == p_Computer->getBasicExecAddr(BASICADDR_KEY_VT_INPUT))
-                        checkCtrlvText();
+                    if (computerType_ == XML)
+                    {
+                        if (checkKeyInputAddress(p_Computer->getScratchpadRegister(p_Computer->getProgramCounter())))
+                            checkCtrlvText();
+                    }
+                    else
+                    {
+                        if (p_Computer->getScratchpadRegister(p_Computer->getProgramCounter()) == p_Computer->getBasicExecAddr(BASICADDR_KEY_VT_INPUT))
+                            checkCtrlvText();
+                    }
                 }
                 else if (vtOutCount_ == -1)
                     vtOut_ = videoScreenPointer->getKey(vtOut_);
@@ -3525,6 +3547,17 @@ void Vt100::getKey()
         if (SetUpFeature_[VTLOCALECHO] && vtOut_ > 0)
             Display(vtOut_ & 0x7f, false);
     }
+}
+
+bool Vt100::checkKeyInputAddress(Word address)
+{
+// ***  for (int i : addressLocations_.keyInputAddress)
+    for (std::vector<Word>::iterator i = addressLocations_.keyInputAddress.begin (); i != addressLocations_.keyInputAddress.end (); ++i)
+    {
+        if (address == *i)
+            return true;
+    }
+    return false;
 }
 
 void Vt100::checkCtrlvText()
@@ -3573,6 +3606,7 @@ void Vt100::checkElfCommand()
     {
         //SB 1.4/3.0                                                                       RCA                                                                                SB 5.0
         //                if ((p_Computer->getScratchpadRegister(p_Computer->getProgramCounter()) == 0x71) || (p_Computer->getScratchpadRegister(p_Computer->getProgramCounter()) == 0xfc98)|| (p_Computer->getScratchpadRegister(p_Computer->getProgramCounter()) == 0x3428))
+        
         if (p_Computer->getScratchpadRegister(p_Computer->getProgramCounter()) == p_Computer->getBasicExecAddr(BASICADDR_KEY_VT_INPUT))
         {
             if (elfRunCommand_ == 1)
@@ -3594,6 +3628,69 @@ void Vt100::checkElfCommand()
                         wxString buffer;
                         buffer.Printf("%04x", saveExec);
                         commandText_ = "PR CALL(@" + buffer + ")";
+                    }
+                    elfRunCommand_++;
+                }
+            }
+            else
+            {
+                if (load_)
+                    elfRunCommand_ = 0;
+                else
+                {
+                    if ((elfRunCommand_ - 2) <= commandText_.Len())
+                    {
+                        vtOut_ = commandText_.GetChar(elfRunCommand_ - 3);
+                        elfRunCommand_++;
+                    }
+                    else
+                    {
+                        vtOut_ = 13;
+                        elfRunCommand_ = 0;
+                    }
+                }
+            }
+        }
+    }
+}
+
+void Vt100::checkXmlCommand()
+{
+    if (p_Computer->getCpuMode() != RUN)
+        p_Computer->onInButtonRelease();
+
+    if (p_Computer->getRunState() == RESETSTATE)
+        vtOut_ = 13;
+    else
+    {
+        if (checkKeyInputAddress(p_Computer->getScratchpadRegister(p_Computer->getProgramCounter())))
+        {
+            if (elfRunCommand_ == 1)
+            {
+                vtOut_ = 'C';
+                elfRunCommand_++;
+            }
+            else if (elfRunCommand_ == 2)
+            {
+                int saveExec = p_Main->pload();
+                if (saveExec == 1)
+                    elfRunCommand_ = 0;
+                else
+                {
+                    if (p_Main->isBatchConvertActive())
+                    {
+                        commandText_ = saveCommand_;
+                    }
+                    else
+                    {
+                        if (saveExec == 0)
+                            commandText_ = "RUN";
+                        else
+                        {
+                            wxString buffer;
+                            buffer.Printf("%04x", saveExec);
+                            commandText_ = "PR CALL(@" + buffer + ")";
+                        }
                     }
                     elfRunCommand_++;
                 }
@@ -4428,17 +4525,17 @@ bool Vt100::charPressed(wxKeyEvent& event)
         {
             if (wxTheClipboard->Open())
             {
-//#ifndef __WXMAC__
+#ifndef __WXMAC__
                 if (wxTheClipboard->IsSupported( wxDF_TEXT ))
                 {
-//#endif
+#endif
                     wxTextDataObject data;
                     wxTheClipboard->GetData( data );
                     commandText_ = data.GetText();
                     ctrlvText_ = 1;
-//#ifndef __WXMAC__
+#ifndef __WXMAC__
                 }
-//#endif
+#endif
                 wxTheClipboard->Close();
                 if (!uart_ && !uart16450_)
                     return true;

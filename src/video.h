@@ -2,12 +2,13 @@
 #define VIDEO_H
 
 #include "splash.h"
+#include "definition.h"
 
 class VideoScreen : public wxWindow
 {
 public:
-    VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int computerType);
-    VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int computerType, double xZoomFactor);
+    VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int computerType, int videoNumber);
+    VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int computerType, int videoNumber, double xZoomFactor);
     VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int computerType, bool vt100, int uartNumber);
     ~VideoScreen() {};
 
@@ -40,6 +41,7 @@ private:
 
     bool vt100_;
     int uartNumber_;
+    int videoNumber_;
     char keyBuffer_[26];
     int  keyStart_;
     int  keyEnd_;
@@ -66,6 +68,7 @@ public:
     long getVideoSyncCount();
     void resetVideoSyncCount();
     virtual void focus();
+    virtual void updateExpansionLed(bool status);
     virtual void updateStatusLed(bool status);
     virtual void dataAvailable();
     virtual void dataAvailable(Byte value);
@@ -98,6 +101,8 @@ public:
     virtual void drawExtraBackground(wxColour clr);
     virtual void copyScreen();
     virtual void reDrawBar();
+    virtual void updateLedStatus(int card, int i, bool status);
+    virtual void v1870BarSize() {};
     virtual void setClock(double clock);
     void activateMainWindow();
 
@@ -112,14 +117,16 @@ public:
     virtual void updateDiagLedStatus(int led, bool status);
  
     Byte readPramDirect(Word address);
-    Byte readCramDirect(Word address);
-    void writeCramDirect(Word address, Byte v);
+    virtual Byte readCramDirect(Word address);
+    virtual void writeCramDirect(Word address, Byte v);
     void writePramDirect(Word address, Byte v);
     Word getPageMemorySize()  {return pageMemorySize_;};
     Word getCharMemorySize()  {return charMemorySize_;};
     void setInterruptEnable(bool status) {interruptEnabled_ = status;};
     Byte getPcbMask()  {return pcbMask_;};
     int getMaxLinesPerChar()  {return maxLinesPerCharacters_;};
+    virtual Byte readColourRamDirect(Word WXUNUSED(address)) {return 0;};
+    virtual void writeColourRamDirect(Word WXUNUSED(address), Byte WXUNUSED(v)) {};
 
     void refreshVideo();
     void setClientSize(wxSize size);
@@ -137,15 +144,15 @@ protected:
     bool charMemoryIsRom_;
     Word romAddress_;
 
-    wxColour colour_[67];
-    wxPen penColour_[67];
-    wxBrush brushColour_[67];
+    wxColour colour_[COL_MAX];
+    wxPen penColour_[COL_MAX];
+    wxBrush brushColour_[COL_MAX];
     int borderX_[10];
     int borderY_[10];
 
-    wxColour colourNew_[67];
-    wxPen penColourNew_[67];
-    wxBrush brushColourNew_[67];
+    wxColour colourNew_[COL_MAX];
+    wxPen penColourNew_[COL_MAX];
+    wxBrush brushColourNew_[COL_MAX];
     int borderXNew_[10];
     int borderYNew_[10];
 
@@ -206,6 +213,8 @@ protected:
     bool v1870Configured_;
 
     int uartNumber_;
+    int colourIndex_;
+    int videoNumber_;
 
 private:
     SplashScreen *splashScreen_;

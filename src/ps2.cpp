@@ -200,7 +200,7 @@ bool Ps2::keyUpPs2(int keycode)
     return true;
 }
 
-void  Ps2::configurePs2(bool ps2Interrupt, ElfPortConfiguration portConf) 
+void  Ps2::configurePs2(bool ps2Interrupt, IoConfiguration portConf) 
 {
 //    int input, output, efPort;
 

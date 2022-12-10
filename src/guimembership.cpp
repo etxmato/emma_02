@@ -106,6 +106,7 @@ void GuiMembership::readMembershipConfig()
     elfConfiguration[MEMBER].useUart = false;
 
     conf[MEMBER].emsConfigNumber_ = 0;
+    conf[MEMBER].videoNumber_ = 0;
 
     conf[MEMBER].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "Membership" + pathSeparator_;
 
@@ -233,7 +234,7 @@ void GuiMembership::readMembershipConfig()
 
     elfConfiguration[MEMBER].usePortExtender = false;
     elfConfiguration[MEMBER].ideEnabled = false;
-    elfConfiguration[MEMBER].fdcEnabled = false;
+    elfConfiguration[MEMBER].fdc1793Enabled = false;
     elfConfiguration[MEMBER].useLedModule = false;
     elfConfiguration[MEMBER].useTape = false;
 }
@@ -287,7 +288,7 @@ void GuiMembership::writeMembershipConfig()
     configPointer->Write("/Membership/Enable_Auto_Boot", elfConfiguration[MEMBER].autoBoot);
     buffer.Printf("%04X", (unsigned int)conf[MEMBER].bootAddress_);
     configPointer->Write("/Membership/Boot_Address", buffer);
-    configPointer->Write("/Membership/Zoom", conf[MEMBER].zoom_);
+    configPointer->Write("/Membership/Zoom", conf[MEMBER].zoom_[VIDEOMAIN]);
     configPointer->Write("/Membership/Vt_Zoom", conf[MEMBER].zoomVt_);
     configPointer->Write("/Membership/Force_Uppercase", elfConfiguration[MEMBER].forceUpperCase);
     configPointer->Write("/Membership/Open_Control_Windows", elfConfiguration[MEMBER].useElfControlWindows);

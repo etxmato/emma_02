@@ -59,6 +59,7 @@ public:
     virtual void startPio(long ms);
     void startCdp18s660(long ms);
     void setDiskNames();
+    void changeDiskName(int disk, wxString dirName, wxString fileName);
     virtual void readRoms();
     void configureCards();
     void readMicro(int romNumber, Word startAddress, Word lastAddress);
@@ -120,9 +121,7 @@ protected:
 
     int addressLatchCounter_;
 
-private:
-    Word lastAddress_;
-    
+private:    
     int setMsValue_;
     int cdpRunState_;
     bool saveStarted_;

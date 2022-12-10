@@ -7,24 +7,31 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9902C6D4284414A900064A5B /* libserialport.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9902C6D3284414A800064A5B /* libserialport.a */; };
 		99034D172130AFDC007F1BF3 /* FPL-4.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99034D162130AFDC007F1BF3 /* FPL-4.syntax */; };
 		990416781DCDFE9000487FD7 /* ms2000.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 990416761DCDFE9000487FD7 /* ms2000.cpp */; };
 		99090B0F2118CFD7008B16DA /* FPL-2.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99090B0E2118CFD7008B16DA /* FPL-2.syntax */; };
 		99090B112118D720008B16DA /* GPL-A_RAM.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99090B102118D720008B16DA /* GPL-A_RAM.syntax */; };
 		991199441E92ECC30074ADAA /* splash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 991199421E92ECC30074ADAA /* splash.cpp */; };
+		991504CC2944BD3A0078B02D /* libserialport.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 991504CB2944BD3A0078B02D /* libserialport.a */; };
+		991504CE2944BD490078B02D /* libserialport.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 991504CD2944BD490078B02D /* libserialport.a */; };
 		991B061021694C0A0061D86C /* vip2k.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 991B060E21694C0A0061D86C /* vip2k.cpp */; };
 		991B061321694CDD0061D86C /* guivip2k.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 991B061121694CDD0061D86C /* guivip2k.cpp */; };
 		991C84F71E37E66A0084DAFB /* guimicrotutor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 991C84F31E37E66A0084DAFB /* guimicrotutor.cpp */; };
 		991C84F81E37E66A0084DAFB /* microtutor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 991C84F51E37E66A0084DAFB /* microtutor.cpp */; };
+		99200F2928C299E300E94880 /* vis1870.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99200F2728C299E300E94880 /* vis1870.cpp */; };
+		99200F2A28C299E300E94880 /* vis1870.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99200F2728C299E300E94880 /* vis1870.cpp */; };
 		99321273285FB74F00A7793E /* mac_OS12.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99321272285FB74F00A7793E /* mac_OS12.cpp */; };
 		9935652B21446B7000A329C6 /* STK-2.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 9935652A21446B7000A329C6 /* STK-2.syntax */; };
 		993B164A211EBD9C008A5656 /* GPL-2.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 993B1649211EBD9C008A5656 /* GPL-2.syntax */; };
+		993B6E4228C68ABD007DF353 /* keyb1871.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 993B6E4128C68ABD007DF353 /* keyb1871.cpp */; };
+		993B6E4328C68ABD007DF353 /* keyb1871.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 993B6E4128C68ABD007DF353 /* keyb1871.cpp */; };
 		9942DD6D1F3B4D3E00569242 /* base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9942DD6B1F3B4D3E00569242 /* base.cpp */; };
 		9942DD701F3B4D6B00569242 /* http.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9942DD6E1F3B4D6B00569242 /* http.cpp */; };
 		99431DEB1F22213400F5A2D4 /* images_osx in Resources */ = {isa = PBXBuildFile; fileRef = 99431DEA1F22213400F5A2D4 /* images_osx */; };
 		9945417127D80AD1001F5131 /* pico.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9945417027D80AD1001F5131 /* pico.cpp */; };
 		9945417527D80AE7001F5131 /* guipico.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9945417327D80AE6001F5131 /* guipico.cpp */; };
+		994F84FF28CBD9C200CCFB27 /* bitkeypad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 994F84FE28CBD9C200CCFB27 /* bitkeypad.cpp */; };
+		994F850028CBD9C200CCFB27 /* bitkeypad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 994F84FE28CBD9C200CCFB27 /* bitkeypad.cpp */; };
 		99575CBF278795EA00ED912A /* osx_11.ini in Resources */ = {isa = PBXBuildFile; fileRef = 99575CBD278795EA00ED912A /* osx_11.ini */; };
 		99575CC0278795EA00ED912A /* osx_14.ini in Resources */ = {isa = PBXBuildFile; fileRef = 99575CBE278795EA00ED912A /* osx_14.ini */; };
 		995E0CE3254E1378001BA0F8 /* am2020bas.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 995E0CE2254E1378001BA0F8 /* am2020bas.syntax */; };
@@ -34,6 +41,8 @@
 		9960FF23211953CE00DB2EDD /* GPL-A_ROM.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 9960FF22211953CE00DB2EDD /* GPL-A_ROM.syntax */; };
 		99677914202E430B00108BB6 /* coinarcade.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99677912202E430B00108BB6 /* coinarcade.cpp */; };
 		996C1615212F3F130061C30B /* pseudo.def in Resources */ = {isa = PBXBuildFile; fileRef = 996C1614212F3F130061C30B /* pseudo.def */; };
+		996D0A19291D996F0021C134 /* keyblatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 996D0A17291D992A0021C134 /* keyblatch.cpp */; };
+		996D0A1A291D99700021C134 /* keyblatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 996D0A17291D992A0021C134 /* keyblatch.cpp */; };
 		996F46261AA643B300C88AA6 /* keymaptmc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 996F46241AA643B300C88AA6 /* keymaptmc.cpp */; };
 		996FCAE821430C240051F294 /* STK-1.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 996FCAE721430C240051F294 /* STK-1.syntax */; };
 		9970174D23298F2D00D66312 /* cdp1852.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9970174B23298F2C00D66312 /* cdp1852.cpp */; };
@@ -141,6 +150,8 @@
 		999F67A324B8975B00863075 /* amvbas.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 999F67A224B8975A00863075 /* amvbas.syntax */; };
 		99A3116021A75B98003CB022 /* Chip8Vip2K.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99A3115F21A75B98003CB022 /* Chip8Vip2K.syntax */; };
 		99ACCCA022FE99E000DE7617 /* microsetup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99ACCC9E22FE99DF00DE7617 /* microsetup.cpp */; };
+		99AD5DF42931600C0060EC01 /* keybmatrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99AD5DF329315FFB0060EC01 /* keybmatrix.cpp */; };
+		99AD5DF52931600C0060EC01 /* keybmatrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99AD5DF329315FFB0060EC01 /* keybmatrix.cpp */; };
 		99AD77891F2BDDA900487F8F /* images in Resources */ = {isa = PBXBuildFile; fileRef = 9973DDFC1A69B7B300B57557 /* images */; };
 		99B2AB8727863D8000C73EB9 /* about_11.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2AB8527863D7F00C73EB9 /* about_11.xrc */; };
 		99B2AB8827863D8000C73EB9 /* about_14.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2AB8627863D7F00C73EB9 /* about_14.xrc */; };
@@ -198,14 +209,14 @@
 		99B2AC1B27863EE600C73EB9 /* splash_14.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2AC1927863EE600C73EB9 /* splash_14.xrc */; };
 		99B2AC1F27863EEC00C73EB9 /* vt_11.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2AC1D27863EEB00C73EB9 /* vt_11.xrc */; };
 		99B2AC2027863EEC00C73EB9 /* vt_14.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2AC1E27863EEC00C73EB9 /* vt_14.xrc */; };
-		99BBC9AA281DD37500BD9345 /* guidiy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BBC9A9281DD36F00BD9345 /* guidiy.cpp */; };
-		99BBC9AE281DD39E00BD9345 /* diy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BBC9AC281DD39B00BD9345 /* diy.cpp */; };
+		99BBC9AA281DD37500BD9345 /* guixml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BBC9A9281DD36F00BD9345 /* guixml.cpp */; };
+		99BBC9AE281DD39E00BD9345 /* xmlemu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BBC9AC281DD39B00BD9345 /* xmlemu.cpp */; };
 		99BC74FC1DCFDB5C0000D8A9 /* upd765.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BC74FA1DCFDB5C0000D8A9 /* upd765.cpp */; };
 		99BC8688225697B000056D0E /* microtutor2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BC8686225697B000056D0E /* microtutor2.cpp */; };
 		99BCC77B1A6471B500F5226F /* encrypt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BCC77A1A6471B500F5226F /* encrypt.cpp */; };
 		99BDBDC81E7F3ECA00DB0FB8 /* debug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BDBDC71E7F3ECA00DB0FB8 /* debug.cpp */; };
-		99BDFD8628B2C0C000B173A9 /* guixml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BDFD8528B2C0C000B173A9 /* guixml.cpp */; };
-		99BDFD8728B2C0C000B173A9 /* guixml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BDFD8528B2C0C000B173A9 /* guixml.cpp */; };
+		99BDFD8628B2C0C000B173A9 /* xmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BDFD8528B2C0C000B173A9 /* xmlparser.cpp */; };
+		99BDFD8728B2C0C000B173A9 /* xmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BDFD8528B2C0C000B173A9 /* xmlparser.cpp */; };
 		99BE531F1F1556F5006BD353 /* guidiag.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BE531E1F1556F5006BD353 /* guidiag.cpp */; };
 		99BE53251F156AA1006BD353 /* diagstatusbar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BE53231F156AA1006BD353 /* diagstatusbar.cpp */; };
 		99C3BFE81C0CF400006E3D82 /* guivelf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99C3BFE61C0CF400006E3D82 /* guivelf.cpp */; };
@@ -235,14 +246,14 @@
 		99F37E4D285D1D9200C57417 /* guitmc600.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9976472C1A61D5EE00FB9B33 /* guitmc600.cpp */; };
 		99F37E4E285D1D9200C57417 /* ports.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9976473F1A61D5EE00FB9B33 /* ports.cpp */; };
 		99F37E4F285D1D9200C57417 /* cdp18s640.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997915CE2308266B0063A6F3 /* cdp18s640.cpp */; };
-		99F37E50285D1D9200C57417 /* guidiy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BBC9A9281DD36F00BD9345 /* guidiy.cpp */; };
+		99F37E50285D1D9200C57417 /* guixml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BBC9A9281DD36F00BD9345 /* guixml.cpp */; };
 		99F37E51285D1D9200C57417 /* til313.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647411A61D5EE00FB9B33 /* til313.cpp */; };
 		99F37E52285D1D9200C57417 /* v1870.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647091A61D5EE00FB9B33 /* v1870.cpp */; };
 		99F37E53285D1D9200C57417 /* pico.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9945417027D80AD1001F5131 /* pico.cpp */; };
 		99F37E54285D1D9200C57417 /* cosmicos.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9976471E1A61D5EE00FB9B33 /* cosmicos.cpp */; };
 		99F37E55285D1D9200C57417 /* printer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647071A61D5EE00FB9B33 /* printer.cpp */; };
 		99F37E56285D1D9200C57417 /* guimembership.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9976470F1A61D5EE00FB9B33 /* guimembership.cpp */; };
-		99F37E57285D1D9200C57417 /* diy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BBC9AC281DD39B00BD9345 /* diy.cpp */; };
+		99F37E57285D1D9200C57417 /* xmlemu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BBC9AC281DD39B00BD9345 /* xmlemu.cpp */; };
 		99F37E58285D1D9200C57417 /* base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9942DD6B1F3B4D3E00569242 /* base.cpp */; };
 		99F37E59285D1D9200C57417 /* sound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647401A61D5EE00FB9B33 /* sound.cpp */; };
 		99F37E5A285D1D9200C57417 /* pecom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9976473E1A61D5EE00FB9B33 /* pecom.cpp */; };
@@ -456,7 +467,6 @@
 		99F37F2D285D1D9200C57417 /* FPL-2.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99090B0E2118CFD7008B16DA /* FPL-2.syntax */; };
 		99F37F2E285D1D9200C57417 /* splash_11.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2AC1827863EE600C73EB9 /* splash_11.xrc */; };
 		99F37F2F285D1D9200C57417 /* menuCosmicos_14.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2ABCC27863E5C00C73EB9 /* menuCosmicos_14.xrc */; };
-		99F37F39285D215800C57417 /* libserialport.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 99F37F38285D215300C57417 /* libserialport.a */; };
 		99F4817B1C0E4A0C002BC0AE /* velf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99F481791C0E4A0C002BC0AE /* velf.cpp */; };
 		99F70FF31E7096C800959A15 /* guimcds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99F70FEF1E7096C800959A15 /* guimcds.cpp */; };
 		99F70FF41E7096C800959A15 /* mcds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99F70FF01E7096C800959A15 /* mcds.cpp */; };
@@ -468,7 +478,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		9902C6D3284414A800064A5B /* libserialport.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libserialport.a; path = ../../../../opt/homebrew/Cellar/libserialport/0.1.1/lib/libserialport.a; sourceTree = "<group>"; };
 		99034D162130AFDC007F1BF3 /* FPL-4.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "FPL-4.syntax"; sourceTree = "<group>"; };
 		990416761DCDFE9000487FD7 /* ms2000.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ms2000.cpp; path = src/ms2000.cpp; sourceTree = "<group>"; };
 		990416771DCDFE9000487FD7 /* ms2000.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ms2000.h; path = src/ms2000.h; sourceTree = "<group>"; };
@@ -505,6 +514,8 @@
 		991199431E92ECC30074ADAA /* splash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = splash.h; path = src/splash.h; sourceTree = "<group>"; };
 		9911BF341F477D5000B795BB /* Configurations Windows */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Configurations Windows"; sourceTree = "<group>"; };
 		9911BF351F477D6200B795BB /* Configurations */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Configurations; sourceTree = "<group>"; };
+		991504CB2944BD3A0078B02D /* libserialport.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libserialport.a; path = ../../../../usr/local/lib/serialport_x64/libserialport.a; sourceTree = "<group>"; };
+		991504CD2944BD490078B02D /* libserialport.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libserialport.a; path = ../../../../usr/local/lib/serialport/libserialport.a; sourceTree = "<group>"; };
 		991A43AF279C31B20049C544 /* elementary_11.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = elementary_11.ini; sourceTree = "<group>"; };
 		991A43B0279C31B20049C544 /* elementary_12.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = elementary_12.ini; sourceTree = "<group>"; };
 		991A43B1279C31CA0049C544 /* debian_12.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = debian_12.ini; sourceTree = "<group>"; };
@@ -572,9 +583,13 @@
 		991C84F41E37E66A0084DAFB /* guimicrotutor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = guimicrotutor.h; path = src/guimicrotutor.h; sourceTree = "<group>"; };
 		991C84F51E37E66A0084DAFB /* microtutor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = microtutor.cpp; path = src/microtutor.cpp; sourceTree = "<group>"; };
 		991C84F61E37E66A0084DAFB /* microtutor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = microtutor.h; path = src/microtutor.h; sourceTree = "<group>"; };
+		99200F2728C299E300E94880 /* vis1870.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = vis1870.cpp; path = src/vis1870.cpp; sourceTree = "<group>"; };
+		99200F2828C299E300E94880 /* vis1870.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = vis1870.h; path = src/vis1870.h; sourceTree = "<group>"; };
 		99321272285FB74F00A7793E /* mac_OS12.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mac_OS12.cpp; path = src/mac_OS12.cpp; sourceTree = "<group>"; };
 		9935652A21446B7000A329C6 /* STK-2.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "STK-2.syntax"; sourceTree = "<group>"; };
 		993B1649211EBD9C008A5656 /* GPL-2.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "GPL-2.syntax"; sourceTree = "<group>"; };
+		993B6E4028C68ABD007DF353 /* keyb1871.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = keyb1871.h; path = src/keyb1871.h; sourceTree = "<group>"; };
+		993B6E4128C68ABD007DF353 /* keyb1871.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = keyb1871.cpp; path = src/keyb1871.cpp; sourceTree = "<group>"; };
 		9942DD6B1F3B4D3E00569242 /* base.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = base.cpp; path = src/base.cpp; sourceTree = "<group>"; };
 		9942DD6C1F3B4D3E00569242 /* base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = base.h; path = src/base.h; sourceTree = "<group>"; };
 		9942DD6E1F3B4D6B00569242 /* http.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = http.cpp; path = src/http.cpp; sourceTree = "<group>"; };
@@ -590,8 +605,11 @@
 		9945417027D80AD1001F5131 /* pico.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = pico.cpp; path = src/pico.cpp; sourceTree = "<group>"; };
 		9945417327D80AE6001F5131 /* guipico.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = guipico.cpp; path = src/guipico.cpp; sourceTree = "<group>"; };
 		9945417427D80AE6001F5131 /* guipico.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = guipico.h; path = src/guipico.h; sourceTree = "<group>"; };
+		994F84FD28CBD9C200CCFB27 /* bitkeypad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bitkeypad.h; path = src/bitkeypad.h; sourceTree = "<group>"; };
+		994F84FE28CBD9C200CCFB27 /* bitkeypad.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = bitkeypad.cpp; path = src/bitkeypad.cpp; sourceTree = "<group>"; };
 		99575CBD278795EA00ED912A /* osx_11.ini */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = osx_11.ini; sourceTree = "<group>"; };
 		99575CBE278795EA00ED912A /* osx_14.ini */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = osx_14.ini; sourceTree = "<group>"; };
+		995B7E9328FAA8F300BBF917 /* definition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = definition.h; path = src/definition.h; sourceTree = "<group>"; };
 		995E0CE2254E1378001BA0F8 /* am2020bas.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = am2020bas.syntax; sourceTree = "<group>"; };
 		995E76EF22B2E5D200817B08 /* Chip8Elf.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Chip8Elf.syntax; sourceTree = "<group>"; };
 		995FE8902516136300F96DB8 /* SuperChip.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SuperChip.syntax; sourceTree = "<group>"; };
@@ -603,6 +621,8 @@
 		99677913202E430B00108BB6 /* coinarcade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = coinarcade.h; path = src/coinarcade.h; sourceTree = "<group>"; };
 		996B97391B24116B009827BF /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = data; sourceTree = "<group>"; };
 		996C1614212F3F130061C30B /* pseudo.def */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = pseudo.def; sourceTree = "<group>"; };
+		996D0A17291D992A0021C134 /* keyblatch.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = keyblatch.cpp; path = src/keyblatch.cpp; sourceTree = "<group>"; };
+		996D0A18291D992A0021C134 /* keyblatch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = keyblatch.h; path = src/keyblatch.h; sourceTree = "<group>"; };
 		996F46241AA643B300C88AA6 /* keymaptmc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = keymaptmc.cpp; path = src/keymaptmc.cpp; sourceTree = "<group>"; };
 		996F46251AA643B300C88AA6 /* keymaptmc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = keymaptmc.h; path = src/keymaptmc.h; sourceTree = "<group>"; };
 		996FC5821F8ABDE800E08812 /* introduction.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = introduction.rtf; sourceTree = "<group>"; };
@@ -824,6 +844,8 @@
 		99AD0D49242FF4CD009E9515 /* uc1800.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = uc1800.h; path = src/uc1800.h; sourceTree = "<group>"; };
 		99AD0D4B242FF553009E9515 /* guiuc1800.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = guiuc1800.h; path = src/guiuc1800.h; sourceTree = "<group>"; };
 		99AD0D4C242FF553009E9515 /* guiuc1800.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = guiuc1800.cpp; path = src/guiuc1800.cpp; sourceTree = "<group>"; };
+		99AD5DF229315FFB0060EC01 /* keybmatrix.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = keybmatrix.h; path = src/keybmatrix.h; sourceTree = "<group>"; };
+		99AD5DF329315FFB0060EC01 /* keybmatrix.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = keybmatrix.cpp; path = src/keybmatrix.cpp; sourceTree = "<group>"; };
 		99B2AB7E27863D4C00C73EB9 /* main_11.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = main_11.xrc; sourceTree = "<group>"; };
 		99B2AB8527863D7F00C73EB9 /* about_11.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = about_11.xrc; sourceTree = "<group>"; };
 		99B2AB8627863D7F00C73EB9 /* about_14.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = about_14.xrc; sourceTree = "<group>"; };
@@ -882,10 +904,10 @@
 		99B2AC1D27863EEB00C73EB9 /* vt_11.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = vt_11.xrc; sourceTree = "<group>"; };
 		99B2AC1E27863EEC00C73EB9 /* vt_14.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = vt_14.xrc; sourceTree = "<group>"; };
 		99B5DE4F1F4A228400674C05 /* images_linux */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images_linux; sourceTree = "<group>"; };
-		99BBC9A8281DD36F00BD9345 /* guidiy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = guidiy.h; path = src/guidiy.h; sourceTree = "<group>"; };
-		99BBC9A9281DD36F00BD9345 /* guidiy.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = guidiy.cpp; path = src/guidiy.cpp; sourceTree = "<group>"; };
-		99BBC9AC281DD39B00BD9345 /* diy.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = diy.cpp; path = src/diy.cpp; sourceTree = "<group>"; };
-		99BBC9AD281DD39B00BD9345 /* diy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = diy.h; path = src/diy.h; sourceTree = "<group>"; };
+		99BBC9A8281DD36F00BD9345 /* guixml.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = guixml.h; path = src/guixml.h; sourceTree = "<group>"; };
+		99BBC9A9281DD36F00BD9345 /* guixml.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = guixml.cpp; path = src/guixml.cpp; sourceTree = "<group>"; };
+		99BBC9AC281DD39B00BD9345 /* xmlemu.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = xmlemu.cpp; path = src/xmlemu.cpp; sourceTree = "<group>"; };
+		99BBC9AD281DD39B00BD9345 /* xmlemu.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = xmlemu.h; path = src/xmlemu.h; sourceTree = "<group>"; };
 		99BC74FA1DCFDB5C0000D8A9 /* upd765.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = upd765.cpp; path = src/upd765.cpp; sourceTree = "<group>"; };
 		99BC74FB1DCFDB5C0000D8A9 /* upd765.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = upd765.h; path = src/upd765.h; sourceTree = "<group>"; };
 		99BC8686225697B000056D0E /* microtutor2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = microtutor2.cpp; path = src/microtutor2.cpp; sourceTree = "<group>"; };
@@ -894,8 +916,8 @@
 		99BCC77A1A6471B500F5226F /* encrypt.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = encrypt.cpp; path = src/encrypt.cpp; sourceTree = "<group>"; };
 		99BDBDC71E7F3ECA00DB0FB8 /* debug.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = debug.cpp; path = src/debug.cpp; sourceTree = "<group>"; };
 		99BDBDC91E7F3EDD00DB0FB8 /* debug.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = debug.h; path = src/debug.h; sourceTree = "<group>"; };
-		99BDFD8528B2C0C000B173A9 /* guixml.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = guixml.cpp; path = src/guixml.cpp; sourceTree = "<group>"; };
-		99BDFD8828B2C0CC00B173A9 /* guixml.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = guixml.h; path = src/guixml.h; sourceTree = "<group>"; };
+		99BDFD8528B2C0C000B173A9 /* xmlparser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = xmlparser.cpp; path = src/xmlparser.cpp; sourceTree = "<group>"; };
+		99BDFD8828B2C0CC00B173A9 /* xmlparser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = xmlparser.h; path = src/xmlparser.h; sourceTree = "<group>"; };
 		99BE531E1F1556F5006BD353 /* guidiag.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = guidiag.cpp; path = src/guidiag.cpp; sourceTree = "<group>"; };
 		99BE53201F1556FD006BD353 /* guidiag.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = guidiag.h; path = src/guidiag.h; sourceTree = "<group>"; };
 		99BE53231F156AA1006BD353 /* diagstatusbar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = diagstatusbar.cpp; path = src/diagstatusbar.cpp; sourceTree = "<group>"; };
@@ -938,7 +960,6 @@
 		99F3746F1CADBBC2000DA615 /* README-SDL.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "README-SDL.txt"; sourceTree = "<group>"; };
 		99F374701CADBBC2000DA615 /* LGPL.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LGPL.txt; sourceTree = "<group>"; };
 		99F37F33285D1D9200C57417 /* Emma 02 x64.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Emma 02 x64.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		99F37F38285D215300C57417 /* libserialport.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libserialport.a; path = ../../../../usr/local/lib/libserialport.a; sourceTree = "<group>"; };
 		99F481791C0E4A0C002BC0AE /* velf.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = velf.cpp; path = src/velf.cpp; sourceTree = "<group>"; };
 		99F4817A1C0E4A0C002BC0AE /* velf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = velf.h; path = src/velf.h; sourceTree = "<group>"; };
 		99F70FEF1E7096C800959A15 /* guimcds.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = guimcds.cpp; path = src/guimcds.cpp; sourceTree = "<group>"; };
@@ -956,7 +977,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9999EAC51CBA8B8900A50336 /* SDL2.framework in Frameworks */,
-				9902C6D4284414A900064A5B /* libserialport.a in Frameworks */,
+				991504CE2944BD490078B02D /* libserialport.a in Frameworks */,
 				99E940F91FF1746900E69E8B /* libcurl.4.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -966,7 +987,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				99F37ECE285D1D9200C57417 /* SDL2.framework in Frameworks */,
-				99F37F39285D215800C57417 /* libserialport.a in Frameworks */,
+				991504CC2944BD3A0078B02D /* libserialport.a in Frameworks */,
 				99F37ED0285D1D9200C57417 /* libcurl.4.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1181,7 +1202,6 @@
 				99B5DE4F1F4A228400674C05 /* images_linux */,
 				99431DEA1F22213400F5A2D4 /* images_osx */,
 				99E940F81FF1746900E69E8B /* libcurl.4.dylib */,
-				9902C6D3284414A800064A5B /* libserialport.a */,
 				997646E11A61D1FA00FB9B33 /* src */,
 				997646BF1A61D16300FB9B33 /* Products */,
 				99F37F35285D1DFB00C57417 /* Frameworks */,
@@ -1206,6 +1226,8 @@
 				9942DD721F3B4DA200569242 /* audioin_devdsp.c */,
 				9942DD6B1F3B4D3E00569242 /* base.cpp */,
 				9942DD6C1F3B4D3E00569242 /* base.h */,
+				994F84FE28CBD9C200CCFB27 /* bitkeypad.cpp */,
+				994F84FD28CBD9C200CCFB27 /* bitkeypad.h */,
 				997647931A61D5EE00FB9B33 /* Blip_Buffer.cpp */,
 				997647941A61D5EE00FB9B33 /* Blip_Buffer.h */,
 				9976479C1A61D5EE00FB9B33 /* breakpoints.cpp */,
@@ -1245,10 +1267,9 @@
 				997647A01A61D5EE00FB9B33 /* datadir.h */,
 				99BDBDC71E7F3ECA00DB0FB8 /* debug.cpp */,
 				99BDBDC91E7F3EDD00DB0FB8 /* debug.h */,
+				995B7E9328FAA8F300BBF917 /* definition.h */,
 				99BE53231F156AA1006BD353 /* diagstatusbar.cpp */,
 				99BE53241F156AA1006BD353 /* diagstatusbar.h */,
-				99BBC9AC281DD39B00BD9345 /* diy.cpp */,
-				99BBC9AD281DD39B00BD9345 /* diy.h */,
 				997647891A61D5EE00FB9B33 /* elf.cpp */,
 				997647A11A61D5EE00FB9B33 /* elf.h */,
 				997647451A61D5EE00FB9B33 /* elf2.cpp */,
@@ -1286,8 +1307,6 @@
 				997647711A61D5EE00FB9B33 /* guicosmicos.h */,
 				99BE531E1F1556F5006BD353 /* guidiag.cpp */,
 				99BE53201F1556FD006BD353 /* guidiag.h */,
-				99BBC9A9281DD36F00BD9345 /* guidiy.cpp */,
-				99BBC9A8281DD36F00BD9345 /* guidiy.h */,
 				997647311A61D5EE00FB9B33 /* guielf.cpp */,
 				997647771A61D5EE00FB9B33 /* guielf.h */,
 				997647231A61D5EE00FB9B33 /* guielf2k.cpp */,
@@ -1334,8 +1353,8 @@
 				9976475D1A61D5EE00FB9B33 /* guivip2.h */,
 				991B061121694CDD0061D86C /* guivip2k.cpp */,
 				991B061221694CDD0061D86C /* guivip2k.h */,
-				99BDFD8528B2C0C000B173A9 /* guixml.cpp */,
-				99BDFD8828B2C0CC00B173A9 /* guixml.h */,
+				99BBC9A9281DD36F00BD9345 /* guixml.cpp */,
+				99BBC9A8281DD36F00BD9345 /* guixml.h */,
 				9942DD6E1F3B4D6B00569242 /* http.cpp */,
 				9942DD6F1F3B4D6B00569242 /* http.h */,
 				9976473A1A61D5EE00FB9B33 /* hbelf.cpp */,
@@ -1348,6 +1367,12 @@
 				997647201A61D5EE00FB9B33 /* iodevice.h */,
 				997647241A61D5EE00FB9B33 /* joycard.cpp */,
 				997647A61A61D5EE00FB9B33 /* joycard.h */,
+				993B6E4128C68ABD007DF353 /* keyb1871.cpp */,
+				993B6E4028C68ABD007DF353 /* keyb1871.h */,
+				996D0A17291D992A0021C134 /* keyblatch.cpp */,
+				996D0A18291D992A0021C134 /* keyblatch.h */,
+				99AD5DF329315FFB0060EC01 /* keybmatrix.cpp */,
+				99AD5DF229315FFB0060EC01 /* keybmatrix.h */,
 				997647811A61D5EE00FB9B33 /* keyboard.cpp */,
 				997647A71A61D5EE00FB9B33 /* keyboard.h */,
 				997647331A61D5EE00FB9B33 /* keymap.cpp */,
@@ -1462,6 +1487,8 @@
 				991B060F21694C0A0061D86C /* vip2k.h */,
 				997647101A61D5EE00FB9B33 /* vip2statusbar.cpp */,
 				997647271A61D5EE00FB9B33 /* vip2statusbar.h */,
+				99200F2728C299E300E94880 /* vis1870.cpp */,
+				99200F2828C299E300E94880 /* vis1870.h */,
 				9976470B1A61D5EE00FB9B33 /* visicom.cpp */,
 				9976475A1A61D5EE00FB9B33 /* visicom.h */,
 				997647431A61D5EE00FB9B33 /* vt100.cpp */,
@@ -1472,6 +1499,10 @@
 				997647B31A61D5EE00FB9B33 /* waveReader.h */,
 				9976476E1A61D5EE00FB9B33 /* waveWriter.cpp */,
 				9976478C1A61D5EE00FB9B33 /* waveWriter.h */,
+				99BBC9AC281DD39B00BD9345 /* xmlemu.cpp */,
+				99BBC9AD281DD39B00BD9345 /* xmlemu.h */,
+				99BDFD8528B2C0C000B173A9 /* xmlparser.cpp */,
+				99BDFD8828B2C0CC00B173A9 /* xmlparser.h */,
 			);
 			name = src;
 			sourceTree = "<group>";
@@ -1479,7 +1510,8 @@
 		99F37F35285D1DFB00C57417 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				99F37F38285D215300C57417 /* libserialport.a */,
+				991504CD2944BD490078B02D /* libserialport.a */,
+				991504CB2944BD3A0078B02D /* libserialport.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1773,16 +1805,17 @@
 				997647C61A61D5EF00FB9B33 /* vip2statusbar.cpp in Sources */,
 				997647DB1A61D5EF00FB9B33 /* guitmc600.cpp in Sources */,
 				997647ED1A61D5EF00FB9B33 /* ports.cpp in Sources */,
+				996D0A19291D996F0021C134 /* keyblatch.cpp in Sources */,
 				99321273285FB74F00A7793E /* mac_OS12.cpp in Sources */,
 				997915D02308266B0063A6F3 /* cdp18s640.cpp in Sources */,
-				99BBC9AA281DD37500BD9345 /* guidiy.cpp in Sources */,
+				99BBC9AA281DD37500BD9345 /* guixml.cpp in Sources */,
 				997647EF1A61D5EF00FB9B33 /* til313.cpp in Sources */,
 				997647C21A61D5EE00FB9B33 /* v1870.cpp in Sources */,
 				9945417127D80AD1001F5131 /* pico.cpp in Sources */,
 				997647D11A61D5EF00FB9B33 /* cosmicos.cpp in Sources */,
 				997647C01A61D5EE00FB9B33 /* printer.cpp in Sources */,
 				997647C51A61D5EF00FB9B33 /* guimembership.cpp in Sources */,
-				99BBC9AE281DD39E00BD9345 /* diy.cpp in Sources */,
+				99BBC9AE281DD39E00BD9345 /* xmlemu.cpp in Sources */,
 				9942DD6D1F3B4D3E00569242 /* base.cpp in Sources */,
 				997647EE1A61D5EF00FB9B33 /* sound.cpp in Sources */,
 				997647EC1A61D5EF00FB9B33 /* pecom.cpp in Sources */,
@@ -1836,6 +1869,7 @@
 				9976480D1A61D5EF00FB9B33 /* elf2kdisk.cpp in Sources */,
 				997648101A61D5EF00FB9B33 /* breakpoints.cpp in Sources */,
 				997647B51A61D5EE00FB9B33 /* guisb.cpp in Sources */,
+				99AD5DF42931600C0060EC01 /* keybmatrix.cpp in Sources */,
 				997648031A61D5EF00FB9B33 /* datadir.cpp in Sources */,
 				9976480A1A61D5EF00FB9B33 /* ps2.cpp in Sources */,
 				997C6D62209E3FF000A8704E /* fred.cpp in Sources */,
@@ -1845,7 +1879,7 @@
 				99F70FF31E7096C800959A15 /* guimcds.cpp in Sources */,
 				991C84F71E37E66A0084DAFB /* guimicrotutor.cpp in Sources */,
 				997647E61A61D5EF00FB9B33 /* tms9918.cpp in Sources */,
-				99BDFD8628B2C0C000B173A9 /* guixml.cpp in Sources */,
+				99BDFD8628B2C0C000B173A9 /* xmlparser.cpp in Sources */,
 				99E4FECF1FF3BD40001A10B7 /* serial.cpp in Sources */,
 				997647F21A61D5EF00FB9B33 /* elf2.cpp in Sources */,
 				997647F61A61D5EF00FB9B33 /* pixie.cpp in Sources */,
@@ -1862,6 +1896,7 @@
 				99BDBDC81E7F3ECA00DB0FB8 /* debug.cpp in Sources */,
 				997647DD1A61D5EF00FB9B33 /* elf2khex.cpp in Sources */,
 				997647C41A61D5EE00FB9B33 /* visicom.cpp in Sources */,
+				99200F2928C299E300E94880 /* vis1870.cpp in Sources */,
 				997647D51A61D5EF00FB9B33 /* joycard.cpp in Sources */,
 				997648111A61D5EF00FB9B33 /* iodevice.cpp in Sources */,
 				997647E21A61D5EF00FB9B33 /* member.cpp in Sources */,
@@ -1886,8 +1921,10 @@
 				997647DF1A61D5EF00FB9B33 /* guielf.cpp in Sources */,
 				997648061A61D5EF00FB9B33 /* guipecom.cpp in Sources */,
 				997647E51A61D5EF00FB9B33 /* tmc600.cpp in Sources */,
+				993B6E4228C68ABD007DF353 /* keyb1871.cpp in Sources */,
 				997648091A61D5EF00FB9B33 /* elf.cpp in Sources */,
 				997647EA1A61D5EF00FB9B33 /* mc6845.cpp in Sources */,
+				994F84FF28CBD9C200CCFB27 /* bitkeypad.cpp in Sources */,
 				996F46261AA643B300C88AA6 /* keymaptmc.cpp in Sources */,
 				99EBEE8922B55A6A00FF276A /* cdp18s020.cpp in Sources */,
 				997647CD1A61D5EF00FB9B33 /* guivip2.cpp in Sources */,
@@ -1912,15 +1949,16 @@
 				99F37E4C285D1D9200C57417 /* vip2statusbar.cpp in Sources */,
 				99F37E4D285D1D9200C57417 /* guitmc600.cpp in Sources */,
 				99F37E4E285D1D9200C57417 /* ports.cpp in Sources */,
+				996D0A1A291D99700021C134 /* keyblatch.cpp in Sources */,
 				99F37E4F285D1D9200C57417 /* cdp18s640.cpp in Sources */,
-				99F37E50285D1D9200C57417 /* guidiy.cpp in Sources */,
+				99F37E50285D1D9200C57417 /* guixml.cpp in Sources */,
 				99F37E51285D1D9200C57417 /* til313.cpp in Sources */,
 				99F37E52285D1D9200C57417 /* v1870.cpp in Sources */,
 				99F37E53285D1D9200C57417 /* pico.cpp in Sources */,
 				99F37E54285D1D9200C57417 /* cosmicos.cpp in Sources */,
 				99F37E55285D1D9200C57417 /* printer.cpp in Sources */,
 				99F37E56285D1D9200C57417 /* guimembership.cpp in Sources */,
-				99F37E57285D1D9200C57417 /* diy.cpp in Sources */,
+				99F37E57285D1D9200C57417 /* xmlemu.cpp in Sources */,
 				99F37E58285D1D9200C57417 /* base.cpp in Sources */,
 				99F37E59285D1D9200C57417 /* sound.cpp in Sources */,
 				99F37E5A285D1D9200C57417 /* pecom.cpp in Sources */,
@@ -1975,6 +2013,7 @@
 				99F37E8B285D1D9200C57417 /* breakpoints.cpp in Sources */,
 				99F37E8C285D1D9200C57417 /* guisb.cpp in Sources */,
 				99F37E8D285D1D9200C57417 /* datadir.cpp in Sources */,
+				99AD5DF52931600C0060EC01 /* keybmatrix.cpp in Sources */,
 				99F37E8E285D1D9200C57417 /* ps2.cpp in Sources */,
 				99F37E8F285D1D9200C57417 /* fred.cpp in Sources */,
 				99F37E90285D1D9200C57417 /* guivip2k.cpp in Sources */,
@@ -1984,7 +2023,7 @@
 				99F37E94285D1D9200C57417 /* guimicrotutor.cpp in Sources */,
 				99F37E95285D1D9200C57417 /* tms9918.cpp in Sources */,
 				99F37E96285D1D9200C57417 /* serial.cpp in Sources */,
-				99BDFD8728B2C0C000B173A9 /* guixml.cpp in Sources */,
+				99BDFD8728B2C0C000B173A9 /* xmlparser.cpp in Sources */,
 				99F37E97285D1D9200C57417 /* elf2.cpp in Sources */,
 				99F37E98285D1D9200C57417 /* pixie.cpp in Sources */,
 				99F37E99285D1D9200C57417 /* ps2gpio.cpp in Sources */,
@@ -2001,6 +2040,7 @@
 				99F37EA4285D1D9200C57417 /* elf2khex.cpp in Sources */,
 				99F37EA5285D1D9200C57417 /* visicom.cpp in Sources */,
 				99F37EA6285D1D9200C57417 /* joycard.cpp in Sources */,
+				99200F2A28C299E300E94880 /* vis1870.cpp in Sources */,
 				99F37EA7285D1D9200C57417 /* iodevice.cpp in Sources */,
 				99F37EA8285D1D9200C57417 /* member.cpp in Sources */,
 				99F37EA9285D1D9200C57417 /* mac.cpp in Sources */,
@@ -2025,8 +2065,10 @@
 				99F37EBC285D1D9200C57417 /* guielf.cpp in Sources */,
 				99F37EBD285D1D9200C57417 /* guipecom.cpp in Sources */,
 				99F37EBE285D1D9200C57417 /* tmc600.cpp in Sources */,
+				993B6E4328C68ABD007DF353 /* keyb1871.cpp in Sources */,
 				99F37EBF285D1D9200C57417 /* elf.cpp in Sources */,
 				99F37EC0285D1D9200C57417 /* mc6845.cpp in Sources */,
+				994F850028CBD9C200CCFB27 /* bitkeypad.cpp in Sources */,
 				99F37EC1285D1D9200C57417 /* keymaptmc.cpp in Sources */,
 				99F37EC2285D1D9200C57417 /* cdp18s020.cpp in Sources */,
 				99F37EC3285D1D9200C57417 /* guivip2.cpp in Sources */,
@@ -2153,6 +2195,7 @@
 					"$(PROJECT_DIR)/images",
 					"$(PROJECT_DIR)/images_osx",
 					/usr/local/Cellar/libserialport/0.1.1/lib,
+					/usr/local/lib/serialport,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				OTHER_CPLUSPLUSFLAGS = (
@@ -2338,6 +2381,7 @@
 					"$(PROJECT_DIR)/images",
 					"$(PROJECT_DIR)/images_osx",
 					/usr/local/Cellar/libserialport/0.1.1/lib,
+					/usr/local/lib/serialport,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				OTHER_CPLUSPLUSFLAGS = (
@@ -2463,6 +2507,7 @@
 					"$(PROJECT_DIR)/images",
 					"$(PROJECT_DIR)/images_osx",
 					/usr/local/lib,
+					/usr/local/lib/serialport_x64,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_CPLUSPLUSFLAGS = (
@@ -2590,6 +2635,7 @@
 					"$(PROJECT_DIR)/images",
 					"$(PROJECT_DIR)/images_osx",
 					/usr/local/lib,
+					/usr/local/lib/serialport_x64,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_CPLUSPLUSFLAGS = (

@@ -63,8 +63,6 @@ BEGIN_EVENT_TABLE(GuiMcds, GuiCosmicos)
     EVT_CHOICE(XRCID("PrintModeMCDS"), GuiMain::onPrintMode)
     EVT_BUTTON(XRCID("PrintFileButtonMCDS"), GuiMain::onPrintFile)
 
-    EVT_COMMAND(wxID_ANY, OPEN_PRINTER_WINDOW, GuiMain::openPrinterFrame)
-
     EVT_CHOICE(XRCID("VTTypeMCDS"), GuiMain::onVT100)
     EVT_SPIN_UP(XRCID("ZoomSpinVtMCDS"), GuiMain::onZoomVt)
     EVT_SPIN_DOWN(XRCID("ZoomSpinVtMCDS"), GuiMain::onZoomVt)
@@ -136,10 +134,11 @@ void GuiMcds::readMcdsConfig()
 {
     selectedComputer_ = MCDS;
 
-    elfConfiguration[MCDS].elfPortConf.emsOutput.resize(1);
+    elfConfiguration[MCDS].ioConfiguration.emsOutput.resize(1);
     readElfPortConfig(MCDS, "Mcds");
 
     conf[MCDS].emsConfigNumber_ = 0;
+    conf[MCDS].videoNumber_ = 0;
 
     conf[MCDS].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "MCDS" + pathSeparator_;
 

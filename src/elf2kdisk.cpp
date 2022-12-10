@@ -86,7 +86,7 @@ Elf2KDisk::Elf2KDisk()
 {
 }
 
-void Elf2KDisk::configureDisk(wxString ideFile1, wxString ideFile2, bool rtc, bool uart, ElfPortConfiguration portConf, bool use8275)
+void Elf2KDisk::configureDisk(wxString ideFile1, wxString ideFile2, bool rtc, bool uart, IoConfiguration portConf, bool use8275)
 {
 //    int input, status, selectOutput, writeOutput;
     wxString runningComp = p_Main->getRunningComputerStr();
@@ -138,7 +138,7 @@ void Elf2KDisk::configureDisk(wxString ideFile1, wxString ideFile2, bool rtc, bo
     initDisk();
 }
 
-void Elf2KDisk::configureUart16450(ElfPortConfiguration portConf)
+void Elf2KDisk::configureUart16450(IoConfiguration portConf)
 {
     wxString runningComp = p_Main->getRunningComputerStr();
 

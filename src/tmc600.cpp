@@ -6,8 +6,6 @@
  *** This software may not be used in commercial applications    ***
  *** without express written permission from the author.         ***
  ***                                                             ***
- *** 1802 Code based on elf emulator by Michael H Riley with     ***
- *** copyright as below                                          ***
  *******************************************************************
 */
 
@@ -95,12 +93,12 @@ int specialKey[] =
 };
 
 Tmc600::Tmc600(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock, Conf computerConf)
-:V1870(title, pos, size, zoomLevel, computerType, clock)
+:V1870(title, pos, size, zoomLevel, computerType, clock, 0)
 {
     computerConfiguration = computerConf;
 
     p_Printer = new Printer();
-    p_Printer->initTelmac(p_Printer);
+    p_Printer->init(p_Printer, PRINTER_BASIC);
 
     clockSize_ = (int) (((clock * 1000000) / 8)/3.13);
     
@@ -606,6 +604,7 @@ void Tmc600::out(Byte port, Word address, Byte value)
                     out7_1870(address);
                 break;
             }
+        break;
     }
 //    if (port == 3 || port == 5)  return;
 //    if (port == 7 && (outValues_[port] &1) == 0) return;
@@ -747,7 +746,7 @@ void Tmc600::cycleTelmac()
             }
             else
             {
-                keyboardCode_ = getCtrlvChar();
+                keyboardCode_ = p_Computer->getCtrlvCharTmc();
             
                 if (keyboardCode_ != 0)
                 {
@@ -776,21 +775,6 @@ void Tmc600::cycleTelmac()
             }
         }
     }
-}
-
-int Tmc600::getCtrlvChar()
-{
-    int character = 0;
-    
-    if (ctrlvTextCharNum_ <= (ctrlvTextStr_.Len() + 3))
-    {
-        character = ctrlvTextStr_.GetChar(ctrlvTextCharNum_ - 4);
-        ctrlvTextCharNum_++;
-    }
-    else
-        ctrlvTextCharNum_ = 0;
-    
-    return character;
 }
 
 void Tmc600::startComputer()

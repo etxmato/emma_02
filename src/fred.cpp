@@ -965,12 +965,13 @@ void Fred::updateCardReadStatus()
 
 void Fred::startComputer()
 {
-    double zoom = p_Main->getZoom();
+    double zoom = p_Main->getZoom(VIDEOMAIN);
     if (computerType_ == FRED1)
-        pixiePointer = new PixieFred( "FRED 1", p_Main->getPixiePos(computerType_), wxSize(64*3*zoom, 128*zoom), zoom, 1, computerType_);
+        pixiePointer = new PixieFred( "FRED 1", p_Main->getPixiePos(computerType_), wxSize(64*3*zoom, 128*zoom), zoom, 1, computerType_, computerConfiguration.numberOfVideoTypes_);
     else
-        pixiePointer = new PixieFred( "FRED 1.5", p_Main->getPixiePos(computerType_), wxSize(64*3*zoom, 128*zoom), zoom, 1, computerType_);
-    p_Video = pixiePointer;
+        pixiePointer = new PixieFred( "FRED 1.5", p_Main->getPixiePos(computerType_), wxSize(64*3*zoom, 128*zoom), zoom, 1, computerType_, computerConfiguration.numberOfVideoTypes_);
+    computerConfiguration.numberOfVideoTypes_ = 0;
+    p_Video[computerConfiguration.numberOfVideoTypes_++] = pixiePointer;
 
     resetPressed_ = false;
 

@@ -49,7 +49,7 @@ SplashScreen::SplashScreen(wxWindow *parent)
         case ELF:
         case ELFII:
         case SUPERELF:
-        case DIY:
+        case XML:
         case PICO:
             switch (p_Computer->getLoadedProgram())
             {

@@ -70,8 +70,6 @@ BEGIN_EVENT_TABLE(GuiMS2000, GuiMcds)
     EVT_CHOICE(XRCID("PrintModeMS2000"), GuiMain::onPrintMode)
     EVT_BUTTON(XRCID("PrintFileButtonMS2000"), GuiMain::onPrintFile)
 
-    EVT_COMMAND(wxID_ANY, OPEN_PRINTER_WINDOW, GuiMain::openPrinterFrame)
-
     EVT_CHOICE(XRCID("VTTypeMS2000"), GuiMain::onVT100)
     EVT_SPIN_UP(XRCID("ZoomSpinVtMS2000"), GuiMain::onZoomVt)
     EVT_SPIN_DOWN(XRCID("ZoomSpinVtMS2000"), GuiMain::onZoomVt)
@@ -122,12 +120,13 @@ void GuiMS2000::readMS2000Config()
 {
     selectedComputer_ = MS2000;
 
-    elfConfiguration[MS2000].elfPortConf.emsOutput.resize(1);
+    elfConfiguration[MS2000].ioConfiguration.emsOutput.resize(1);
     readElfPortConfig(MS2000, "MS2000");
 
     elfConfiguration[MS2000].fdcType_ = FDCTYPE_MS2000;
     
     conf[MS2000].emsConfigNumber_ = 0;
+    conf[MS2000].videoNumber_ = 0;
 
     conf[MS2000].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "MS2000" + pathSeparator_;
 
@@ -164,8 +163,8 @@ void GuiMS2000::readMS2000Config()
     configPointer->Read("/MS2000/Enable_Vt_External", &elfConfiguration[MS2000].vtExternal, false);
 
     elfConfiguration[MS2000].uartGroup = 1;
-    elfConfiguration[MS2000].elfPortConf.uartOut = 2;
-    elfConfiguration[MS2000].elfPortConf.uartControl = 3;
+    elfConfiguration[MS2000].ioConfiguration.uartOut = 2;
+    elfConfiguration[MS2000].ioConfiguration.uartControl = 3;
     elfConfiguration[MS2000].useUart = true;
     elfConfiguration[MS2000].bellFrequency_ = (int)configPointer->Read("/MS2000/Bell_Frequency", 800);
     elfConfiguration[MS2000].baudR = (int)configPointer->Read("/MS2000/Vt_Baud_Receive", 1l);

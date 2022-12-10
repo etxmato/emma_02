@@ -30,7 +30,7 @@
 #include "tmc2000.h"
 
 Tmc2000::Tmc2000(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, Conf computerConf)
-:Pixie(title, pos, size, zoom, zoomfactor, computerType)
+:Pixie(title, pos, size, zoom, zoomfactor, computerType, 0)
 {
     computerConfiguration = computerConf;
 }
@@ -281,7 +281,7 @@ void Tmc2000::startComputer()
     readProgram(p_Main->getChip8Dir(TMC2000), p_Main->getChip8SW(TMC2000), NOCHANGE, 0x200, SHOWNAME);
     pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);
 
-    double zoom = p_Main->getZoom();
+    double zoom = p_Main->getZoom(VIDEOMAIN);
 
     configurePixieTelmac();
     initPixie();

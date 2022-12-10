@@ -390,9 +390,11 @@ public:
     virtual void keyDown(int keycode);
     virtual bool keyDownExtended(int keycode, wxKeyEvent& event);
     virtual bool keyDownPressed(int keycode);
+    virtual void cidelsaStatusBarDown(int WXUNUSED(keycode)) {};
     virtual void keyUp(int keycode);
     virtual void keyUpExtended(int keycode, wxKeyEvent& event);
-    virtual bool keyUpReleased(int keycode);
+    virtual bool keyUpReleased(int keycode, wxKeyEvent& event);
+    virtual void cidelsaStatusBarUp(int WXUNUSED(keycode)) {};
     virtual void charEvent(int keycode);
     virtual void onButtonRelease(wxCommandEvent& event);
     virtual void onButtonPress(wxCommandEvent& event);
@@ -559,10 +561,16 @@ public:
     virtual void showControlWindow(bool state);
     virtual void setAddressLatch(Word bootAddress);
     void ctrlvText(wxString text);
-    virtual int getCtrlvChar();
+    int getCtrlvChar();
+    int getCtrlvCharTmc();
     size_t getCtrlvCharNum() {return ctrlvTextCharNum_;};
+    void ctrlvTextCharNumPlusOne();
 
     virtual void refreshPanel() {};
+    virtual void changeDiskName(int WXUNUSED(disk), wxString WXUNUSED(dirName), wxString WXUNUSED(fileName)) {};
+    virtual int getSelectedSlot() {return 0;};
+    virtual void setSelectedSlot(int WXUNUSED(slot)) {};
+    virtual void setBatchFileNumber(int WXUNUSED(number)) {};
 
 protected:
     RunComputer *threadPointer;

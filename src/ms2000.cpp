@@ -42,7 +42,6 @@ Ms2000::Ms2000(const wxString& title, const wxPoint& pos, const wxSize& size, do
     ms2000Configuration = conf;
 
     ms2000ClockSpeed_ = clock;
-    lastAddress_ = 0;
 
 #ifndef __WXMAC__
     SetIcon(wxICON(app_icon));
@@ -56,7 +55,7 @@ Ms2000::Ms2000(const wxString& title, const wxPoint& pos, const wxSize& size, do
     resetHdData_ = true;
 
     p_Printer = new Printer();
-    p_Printer->initMS2000(p_Printer);
+    p_Printer->init(p_Printer, PRINTER_BASIC);
 }
 
 Ms2000::~Ms2000()
@@ -423,47 +422,47 @@ void Ms2000::startComputer()
         bootstrap_ = 0x8000;
     
     if (p_Main->getDirectoryMode(ms2000Configuration.fdcType_, 0))
-        setDiskName(1, p_Main->getUpdFloppyDirSwitched(ms2000Configuration.fdcType_, 0), "");
+        setUpdDiskname(1, p_Main->getUpdFloppyDirSwitched(ms2000Configuration.fdcType_, 0), "");
     else
     {
         wxString fileName = p_Main->getUpdFloppyFile(ms2000Configuration.fdcType_, 0);
         if (fileName.Len() == 0)
-            setDiskName(1, p_Main->getUpdFloppyDir(ms2000Configuration.fdcType_, 0), "");
+            setUpdDiskname(1, p_Main->getUpdFloppyDir(ms2000Configuration.fdcType_, 0), "");
         else
-            setDiskName(1, p_Main->getUpdFloppyDir(ms2000Configuration.fdcType_, 0), p_Main->getUpdFloppyFile(ms2000Configuration.fdcType_, 0));
+            setUpdDiskname(1, p_Main->getUpdFloppyDir(ms2000Configuration.fdcType_, 0), p_Main->getUpdFloppyFile(ms2000Configuration.fdcType_, 0));
     }
     
     if (p_Main->getDirectoryMode(ms2000Configuration.fdcType_, 1))
-        setDiskName(2, p_Main->getUpdFloppyDirSwitched(ms2000Configuration.fdcType_, 1), "");
+        setUpdDiskname(2, p_Main->getUpdFloppyDirSwitched(ms2000Configuration.fdcType_, 1), "");
     else
     {
         wxString fileName = p_Main->getUpdFloppyFile(ms2000Configuration.fdcType_, 1);
         if (fileName.Len() == 0)
-            setDiskName(2, p_Main->getUpdFloppyDir(ms2000Configuration.fdcType_, 1), "");
+            setUpdDiskname(2, p_Main->getUpdFloppyDir(ms2000Configuration.fdcType_, 1), "");
         else
-            setDiskName(2, p_Main->getUpdFloppyDir(ms2000Configuration.fdcType_, 1), p_Main->getUpdFloppyFile(ms2000Configuration.fdcType_, 1));
+            setUpdDiskname(2, p_Main->getUpdFloppyDir(ms2000Configuration.fdcType_, 1), p_Main->getUpdFloppyFile(ms2000Configuration.fdcType_, 1));
     }
     
     if (p_Main->getDirectoryMode(ms2000Configuration.fdcType_, 2))
-        setDiskName(3, p_Main->getUpdFloppyDirSwitched(ms2000Configuration.fdcType_, 2), "");
+        setUpdDiskname(3, p_Main->getUpdFloppyDirSwitched(ms2000Configuration.fdcType_, 2), "");
     else
     {
         wxString fileName = p_Main->getUpdFloppyFile(ms2000Configuration.fdcType_, 2);
         if (fileName.Len() == 0)
-            setDiskName(3, p_Main->getUpdFloppyDir(ms2000Configuration.fdcType_, 2), "");
+            setUpdDiskname(3, p_Main->getUpdFloppyDir(ms2000Configuration.fdcType_, 2), "");
         else
-            setDiskName(3, p_Main->getUpdFloppyDir(ms2000Configuration.fdcType_, 2), p_Main->getUpdFloppyFile(ms2000Configuration.fdcType_, 2));
+            setUpdDiskname(3, p_Main->getUpdFloppyDir(ms2000Configuration.fdcType_, 2), p_Main->getUpdFloppyFile(ms2000Configuration.fdcType_, 2));
     }
     
     if (p_Main->getDirectoryMode(ms2000Configuration.fdcType_, 3))
-        setDiskName(4, p_Main->getUpdFloppyDirSwitched(ms2000Configuration.fdcType_, 3), "");
+        setUpdDiskname(4, p_Main->getUpdFloppyDirSwitched(ms2000Configuration.fdcType_, 3), "");
     else
     {
         wxString fileName = p_Main->getUpdFloppyFile(ms2000Configuration.fdcType_, 3);
         if (fileName.Len() == 0)
-            setDiskName(4, p_Main->getUpdFloppyDir(ms2000Configuration.fdcType_, 3), "");
+            setUpdDiskname(4, p_Main->getUpdFloppyDir(ms2000Configuration.fdcType_, 3), "");
         else
-            setDiskName(4, p_Main->getUpdFloppyDir(ms2000Configuration.fdcType_, 3), p_Main->getUpdFloppyFile(ms2000Configuration.fdcType_, 3));
+            setUpdDiskname(4, p_Main->getUpdFloppyDir(ms2000Configuration.fdcType_, 3), p_Main->getUpdFloppyFile(ms2000Configuration.fdcType_, 3));
     }
     
     p_Main->setSwName("");
@@ -713,5 +712,10 @@ void Ms2000::switchQ(int value)
 
     if (ms2000Configuration.vtExternal)
         p_Serial->switchQ(value);
+}
+
+void Ms2000::changeDiskName(int disk, wxString dirName, wxString fileName)
+{
+    setUpdDiskname(disk, dirName, fileName);
 }
 

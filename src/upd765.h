@@ -33,7 +33,7 @@ public:
     void outputDmaControl(Byte value);
     
     void cycleUpd765();
-    void setDiskName(int disk, wxString dirName, wxString fileName);
+    void setUpdDiskname(int disk, wxString dirName, wxString fileName);
     void initializeCat(int drive);
     
 protected:

@@ -146,12 +146,12 @@ VtSetupDialog::VtSetupDialog(wxWindow* parent)
         case ELF:
         case ELFII:
         case SUPERELF:
-        case DIY:
+        case XML:
             XRCCTRL(*this, "Uart1854", wxCheckBox)->SetValue(elfConfiguration_.useUart);
             XRCCTRL(*this, "Uart16450", wxCheckBox)->SetValue(elfConfiguration_.useUart16450);
             XRCCTRL(*this, "VtRtcClear", wxCheckBox)->SetValue(elfConfiguration_.clearRtc);
-            XRCCTRL(*this, "VtEf", wxCheckBox)->SetValue(elfConfiguration_.elfPortConf.vt100ReverseEf != 1);
-            XRCCTRL(*this, "VtQ", wxCheckBox)->SetValue(elfConfiguration_.elfPortConf.vt100ReverseQ != 0);
+            XRCCTRL(*this, "VtEf", wxCheckBox)->SetValue(elfConfiguration_.ioConfiguration.vt100ReverseEf != 1);
+            XRCCTRL(*this, "VtQ", wxCheckBox)->SetValue(elfConfiguration_.ioConfiguration.vt100ReverseQ != 0);
             if (elfConfiguration_.useUart16450 || elfConfiguration_.useUart)
             {
                 XRCCTRL(*this, "VtEf", wxCheckBox)->Enable(false);
@@ -164,8 +164,8 @@ VtSetupDialog::VtSetupDialog(wxWindow* parent)
             XRCCTRL(*this, "Uart16450", wxCheckBox)->SetLabel("UART 16450");
             XRCCTRL(*this, "Uart16450", wxCheckBox)->SetValue(elfConfiguration_.useUart16450);
             XRCCTRL(*this, "VtRtcClear", wxCheckBox)->Hide();
-            XRCCTRL(*this, "VtEf", wxCheckBox)->SetValue(elfConfiguration_.elfPortConf.vt100ReverseEf != 1);
-            XRCCTRL(*this, "VtQ", wxCheckBox)->SetValue(elfConfiguration_.elfPortConf.vt100ReverseQ != 0);
+            XRCCTRL(*this, "VtEf", wxCheckBox)->SetValue(elfConfiguration_.ioConfiguration.vt100ReverseEf != 1);
+            XRCCTRL(*this, "VtQ", wxCheckBox)->SetValue(elfConfiguration_.ioConfiguration.vt100ReverseQ != 0);
             if (elfConfiguration_.useUart16450 || elfConfiguration_.useUart)
             {
                 XRCCTRL(*this, "VtEf", wxCheckBox)->Enable(false);
@@ -195,8 +195,8 @@ VtSetupDialog::VtSetupDialog(wxWindow* parent)
             XRCCTRL(*this, "Uart16450", wxCheckBox)->SetValue(elfConfiguration_.useUart);
             XRCCTRL(*this, "Uart16450", wxCheckBox)->SetLabel("UART 16450");
             XRCCTRL(*this, "Uart1854", wxCheckBox)->Hide();
-            XRCCTRL(*this, "VtEf", wxCheckBox)->SetValue(elfConfiguration_.elfPortConf.vt100ReverseEf != 1);
-            XRCCTRL(*this, "VtQ", wxCheckBox)->SetValue(elfConfiguration_.elfPortConf.vt100ReverseQ != 0);
+            XRCCTRL(*this, "VtEf", wxCheckBox)->SetValue(elfConfiguration_.ioConfiguration.vt100ReverseEf != 1);
+            XRCCTRL(*this, "VtQ", wxCheckBox)->SetValue(elfConfiguration_.ioConfiguration.vt100ReverseQ != 0);
             XRCCTRL(*this, "VtRtcClear", wxCheckBox)->Hide();
             if (elfConfiguration_.useUart16450 || elfConfiguration_.useUart)
             {
@@ -344,32 +344,32 @@ void VtSetupDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
         case ELF:
         case ELFII:
         case SUPERELF:
-        case DIY:
+        case XML:
             elfConfiguration_.useUart = XRCCTRL(*this, "Uart1854", wxCheckBox)->GetValue();
             elfConfiguration_.useUart16450 = XRCCTRL(*this, "Uart16450", wxCheckBox)->GetValue();
             elfConfiguration_.clearRtc = XRCCTRL(*this, "VtRtcClear", wxCheckBox)->GetValue();
             if (XRCCTRL(*this, "VtEf", wxCheckBox)->IsChecked())
-                elfConfiguration_.elfPortConf.vt100ReverseEf = 0;
+                elfConfiguration_.ioConfiguration.vt100ReverseEf = 0;
             else
-                elfConfiguration_.elfPortConf.vt100ReverseEf = 1;
+                elfConfiguration_.ioConfiguration.vt100ReverseEf = 1;
 
             if (XRCCTRL(*this, "VtQ", wxCheckBox)->IsChecked())
-                elfConfiguration_.elfPortConf.vt100ReverseQ = 1;
+                elfConfiguration_.ioConfiguration.vt100ReverseQ = 1;
             else
-                elfConfiguration_.elfPortConf.vt100ReverseQ = 0;
+                elfConfiguration_.ioConfiguration.vt100ReverseQ = 0;
         break;
 
         case PICO:
             elfConfiguration_.useUart16450 = XRCCTRL(*this, "Uart16450", wxCheckBox)->GetValue();
             if (XRCCTRL(*this, "VtEf", wxCheckBox)->IsChecked())
-                elfConfiguration_.elfPortConf.vt100ReverseEf = 0;
+                elfConfiguration_.ioConfiguration.vt100ReverseEf = 0;
             else
-                elfConfiguration_.elfPortConf.vt100ReverseEf = 1;
+                elfConfiguration_.ioConfiguration.vt100ReverseEf = 1;
 
             if (XRCCTRL(*this, "VtQ", wxCheckBox)->IsChecked())
-                elfConfiguration_.elfPortConf.vt100ReverseQ = 1;
+                elfConfiguration_.ioConfiguration.vt100ReverseQ = 1;
             else
-                elfConfiguration_.elfPortConf.vt100ReverseQ = 0;
+                elfConfiguration_.ioConfiguration.vt100ReverseQ = 0;
         break;
 
         case CDP18S020:
@@ -393,14 +393,14 @@ void VtSetupDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
                 wxPostEvent(p_Main, uartElf2KEvent);
             }
             if (XRCCTRL(*this, "VtEf", wxCheckBox)->IsChecked())
-                elfConfiguration_.elfPortConf.vt100ReverseEf = 0;
+                elfConfiguration_.ioConfiguration.vt100ReverseEf = 0;
             else
-                elfConfiguration_.elfPortConf.vt100ReverseEf = 1;
+                elfConfiguration_.ioConfiguration.vt100ReverseEf = 1;
 
             if (XRCCTRL(*this, "VtQ", wxCheckBox)->IsChecked())
-                elfConfiguration_.elfPortConf.vt100ReverseQ = 1;
+                elfConfiguration_.ioConfiguration.vt100ReverseQ = 1;
             else
-                elfConfiguration_.elfPortConf.vt100ReverseQ = 0;
+                elfConfiguration_.ioConfiguration.vt100ReverseQ = 0;
         break;
 
         case VIP:

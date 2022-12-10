@@ -15,10 +15,10 @@ class i8275 : public Video
 {
 public:
 
-    i8275(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, int computerType, double clock);
+    i8275(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, int computerType, double clock, int videoNumber);
     ~i8275();
 
-    void configure8275(ElfPortConfiguration elfPortConf);
+    void configure8275(IoConfiguration ioConfiguration);
     void init8275();
     void cycle8275();
     Byte ef8275();

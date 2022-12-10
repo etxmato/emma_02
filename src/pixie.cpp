@@ -42,11 +42,23 @@
 #include "pixie.h"
 #include "vip2statusbar.h"
 
-Pixie::Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType)
+Pixie::Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, int videoNumber)
 : Video(title, pos, size)
 {
     computerType_ = computerType;
-    videoType_ = VIDEOPIXIE;
+    colourIndex_ = 0;
+    videoNumber_ = videoNumber;
+    
+    if (computerType_ == XML)
+    {
+        videoType_ = VIDEOXMLPIXIE;
+        colourIndex_ = COL_PIXIE_FORE;
+    }
+    else
+    {
+        videoType_ = VIDEOPIXIE;
+    }
+    
     runningComputer_ = p_Main->getRunningComputerStr();
     interlace_ = p_Main->getInterlace(computerType_);
 
@@ -112,7 +124,7 @@ Pixie::Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     if (!p_Main->isFullScreenFloat())
         xZoomFactor_ = (int) xZoomFactor_;
     
-     graphicsX_ = 8*highRes_;
+    graphicsX_ = 8*highRes_;
     videoWidth_ = 64*highRes_;
     if (computerType == FRED1 || computerType == FRED1_5)
         videoWidth_ = 64*highRes_*3;
@@ -129,7 +141,7 @@ Pixie::Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 
     this->SetClientSize(size);
 
-    videoScreenPointer = new VideoScreen(this, size, zoom, computerType, xZoomFactor_);
+    videoScreenPointer = new VideoScreen(this, size, zoom, computerType, videoNumber_, xZoomFactor_);
 
 #ifndef __WXMAC__
     SetIcon(wxICON(app_icon));
@@ -189,18 +201,18 @@ void Pixie::reset()
 {
     graphicsOn_ = false;
 #if defined(__WXMAC__)
-    p_Main->eventRefreshVideo(false, 0);
+    p_Main->eventRefreshVideo(false, videoNumber_);
 #else
-    videoScreenPointer->disableScreen(colour_[backGround_], videoWidth_+2*offsetX_, videoHeight_+2*offsetY_);
+    videoScreenPointer->disableScreen(colour_[colourIndex_+backGround_], videoWidth_+2*offsetX_, videoHeight_+2*offsetY_);
 #endif
 }
 
-void Pixie::configurePixie(ElfPortConfiguration portConf)
+void Pixie::configurePixie(IoConfiguration portConf)
 {
     wxString runningComp = p_Main->getRunningComputerStr();
 
     p_Computer->setOutType(portConf.pixieOutput, PIXIEOUT);
-    p_Computer->setCycleType(VIDEOCYCLE, PIXIECYCLE);
+    p_Computer->setCycleType(VIDEOCYCLE_PIXIE, PIXIECYCLE);
     p_Computer->setInType(portConf.pixieInput, PIXIEIN);
     p_Computer->setEfType(portConf.pixieEf, PIXIEEF);
 
@@ -214,10 +226,31 @@ void Pixie::configurePixie(ElfPortConfiguration portConf)
     p_Main->message(printBuffer);
 }
 
+void Pixie::configurePixieSuper(IoConfiguration portConf)
+{
+    wxString runningComp = p_Main->getRunningComputerStr();
+
+    p_Computer->setOutType(portConf.pixieOutput, PIXIEOUT);
+    p_Computer->setInType(portConf.pixieOutput, PIXIEOUT);
+    p_Computer->setCycleType(VIDEOCYCLE_PIXIE, PIXIECYCLE);
+    p_Computer->setOutType(portConf.pixieInput, PIXIEIN);
+    p_Computer->setInType(portConf.pixieInput, PIXIEIN); 
+    p_Computer->setEfType(portConf.pixieEf, PIXIEEF);
+
+    backGroundInit_ = 1;
+    colourMask_ = 0;
+
+    wxString printBuffer;
+    p_Main->message("Configuring CDP 1861");
+
+    printBuffer.Printf("    Output/input %d: disable graphics, Output/input %d: enable graphics, EF %d: in frame indicator\n", portConf.pixieOutput, portConf.pixieInput, portConf.pixieEf);
+    p_Main->message(printBuffer);
+}
+
 void Pixie::configurePixieStudio2()
 {
     p_Computer->setOutType(1, PIXIEOUT);
-    p_Computer->setCycleType(VIDEOCYCLE, PIXIECYCLE);
+    p_Computer->setCycleType(VIDEOCYCLE_PIXIE, PIXIECYCLE);
     p_Computer->setInType(1, PIXIEIN);
     p_Computer->setEfType(1, PIXIEEF);
 
@@ -231,7 +264,7 @@ void Pixie::configurePixieStudio2()
 void Pixie::configurePixieCoinArcade()
 {
     p_Computer->setOutType(2, PIXIEOUT);
-    p_Computer->setCycleType(VIDEOCYCLE, PIXIECYCLE);
+    p_Computer->setCycleType(VIDEOCYCLE_PIXIE, PIXIECYCLE);
     p_Computer->setEfType(2, PIXIEEF);
   
     backGroundInit_ = 1;
@@ -243,7 +276,7 @@ void Pixie::configurePixieCoinArcade()
 void Pixie::configurePixieVisicom()
 {
     p_Computer->setOutType(1, PIXIEOUT);
-    p_Computer->setCycleType(VIDEOCYCLE, PIXIECYCLE);
+    p_Computer->setCycleType(VIDEOCYCLE_PIXIE, PIXIECYCLE);
     p_Computer->setEfType(1, PIXIEEF);
 
     backGroundInit_ = 0;
@@ -256,7 +289,7 @@ void Pixie::configurePixieVisicom()
 void Pixie::configurePixieVip()
 {
     p_Computer->setOutType(1, PIXIEOUT);
-    p_Computer->setCycleType(VIDEOCYCLE, PIXIECYCLE);
+    p_Computer->setCycleType(VIDEOCYCLE_PIXIE, PIXIECYCLE);
     p_Computer->setInType(1, PIXIEIN);
     p_Computer->setEfType(1, PIXIEEF);
 
@@ -283,7 +316,7 @@ void Pixie::configurePixieVip()
 void Pixie::configurePixieVelf()
 {
     p_Computer->setOutType(1, PIXIEOUT);
-    p_Computer->setCycleType(VIDEOCYCLE, PIXIECYCLE);
+    p_Computer->setCycleType(VIDEOCYCLE_PIXIE, PIXIECYCLE);
     p_Computer->setInType(1, PIXIEIN);
     p_Computer->setEfType(1, PIXIEEF);
 
@@ -297,7 +330,7 @@ void Pixie::configurePixieVelf()
 void Pixie::configurePixieVipII(bool runLed)
 {
     p_Computer->setOutType(1, PIXIEOUT);
-    p_Computer->setCycleType(VIDEOCYCLE, PIXIECYCLE);
+    p_Computer->setCycleType(VIDEOCYCLE_PIXIE, PIXIECYCLE);
     p_Computer->setInType(1, PIXIEIN);
     p_Computer->setEfType(1, PIXIEEF); 
 
@@ -314,7 +347,7 @@ void Pixie::configurePixieVipII(bool runLed)
 
 void Pixie::configurePixieTmc1800()
 {
-    p_Computer->setCycleType(VIDEOCYCLE, PIXIECYCLE);
+    p_Computer->setCycleType(VIDEOCYCLE_PIXIE, PIXIECYCLE);
     p_Computer->setInType(1, PIXIEIN);
     p_Computer->setInType(4, PIXIEOUT);
     p_Computer->setEfType(1, PIXIEEF);
@@ -330,7 +363,7 @@ void Pixie::configurePixieTmc1800()
 void Pixie::configurePixieTelmac()
 {
     p_Computer->setOutType(1, PIXIEBACKGROUND);
-    p_Computer->setCycleType(VIDEOCYCLE, PIXIECYCLE);
+    p_Computer->setCycleType(VIDEOCYCLE_PIXIE, PIXIECYCLE);
     p_Computer->setInType(1, PIXIEIN);
     p_Computer->setInType(4, PIXIEOUT);
     p_Computer->setEfType(1, PIXIEEF);
@@ -350,7 +383,7 @@ void Pixie::configurePixieStudioIV()
     p_Computer->setOutType(4, PIXIEOUT);
     p_Computer->setOutType(6, PIXIEOUT);
     p_Computer->setOutType(5, STUDIOIVDMA);
-    p_Computer->setCycleType(VIDEOCYCLE, PIXIECYCLE);
+    p_Computer->setCycleType(VIDEOCYCLE_PIXIE, PIXIECYCLE);
     p_Computer->setEfType(1, PIXIEEF);
 
     backGroundInit_ = 9;
@@ -366,7 +399,7 @@ void Pixie::configurePixieStudioIV()
 void Pixie::configurePixieVictory()
 {
     p_Computer->setOutType(1, PIXIEBACKGROUND);
-    p_Computer->setCycleType(VIDEOCYCLE, PIXIECYCLE);
+    p_Computer->setCycleType(VIDEOCYCLE_PIXIE, PIXIECYCLE);
     p_Computer->setInType(1, PIXIEIN);
     p_Computer->setEfType(1, PIXIEEF);
     
@@ -383,7 +416,7 @@ void Pixie::configurePixieVictory()
 void Pixie::configurePixieNano()
 {
     p_Computer->setOutType(1, PIXIEOUT);
-    p_Computer->setCycleType(VIDEOCYCLE, PIXIECYCLE);
+    p_Computer->setCycleType(VIDEOCYCLE_PIXIE, PIXIECYCLE);
     p_Computer->setInType(1, PIXIEIN);
     p_Computer->setInType(4, PIXIEOUT);
     p_Computer->setEfType(1, PIXIEEF);
@@ -403,7 +436,7 @@ void Pixie::configurePixieNano()
 
 void Pixie::configurePixieCosmicos()
 {
-    p_Computer->setCycleType(VIDEOCYCLE, PIXIECYCLE);
+    p_Computer->setCycleType(VIDEOCYCLE_PIXIE, PIXIECYCLE);
     p_Computer->setOutType(2, PIXIEIN);
     p_Computer->setInType(1, PIXIEIN);
     p_Computer->setInType(2, PIXIEOUT);
@@ -422,7 +455,7 @@ void Pixie::configurePixieCosmicos()
 void Pixie::configurePixieEti()
 {
     p_Computer->setOutType(1, PIXIEBACKGROUND);
-    p_Computer->setCycleType(VIDEOCYCLE, PIXIECYCLE);
+    p_Computer->setCycleType(VIDEOCYCLE_PIXIE, PIXIECYCLE);
     p_Computer->setInType(1, PIXIEIN);
     p_Computer->setInType(4, PIXIEOUT);
     p_Computer->setEfType(1, PIXIEEF);
@@ -471,9 +504,9 @@ void Pixie::initPixie()
 
     changeScreenSize();
 #if defined(__WXMAC__)
-    p_Main->eventRefreshVideo(false, 0);
+    p_Main->eventRefreshVideo(false, videoNumber_);
 #else
-    videoScreenPointer->disableScreen(colour_[backGround_], videoWidth_+2*offsetX_, videoHeight_+2*offsetY_);
+    videoScreenPointer->disableScreen(colour_[colourIndex_+backGround_], videoWidth_+2*offsetX_, videoHeight_+2*offsetY_);
 #endif
     drawScreen();
 }
@@ -496,9 +529,9 @@ void Pixie::outPixie()
     if (computerType_ == ETI || computerType_ == STUDIOIV || computerType_ == VIPII || computerType_ == VIP)
     {
 #if defined(__WXMAC__)
-        p_Main->eventRefreshVideo(false, 0);
+        p_Main->eventRefreshVideo(false, videoNumber_);
 #else
-        videoScreenPointer->disableScreen(colour_[backGround_], videoWidth_+2*offsetX_, videoHeight_+2*offsetY_);
+        videoScreenPointer->disableScreen(colour_[colourIndex_+backGround_], videoWidth_+2*offsetX_, videoHeight_+2*offsetY_);
 #endif
     }
 }
@@ -526,7 +559,7 @@ void Pixie::switchVideoMode(int videoMode)
         endScreen_ = 262;
         videoHeight_ = 128;
     }
-    p_Main->eventSetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_*xZoomFactor_, (videoHeight_+2*borderY_[videoType_])*zoom_, DON_T_CALL_CHANGE_SCREEN_SIZE, false, 0);
+    p_Main->eventSetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_*xZoomFactor_, (videoHeight_+2*borderY_[videoType_])*zoom_, DON_T_CALL_CHANGE_SCREEN_SIZE, false, videoNumber_);
 }
 
 void Pixie::outPixieBackGround()
@@ -884,13 +917,13 @@ void Pixie::copyScreen()
 #if defined(__WXMAC__)
     if (reBlit_ || reDraw_)
     {
-        p_Main->eventRefreshVideo(false, 0);
+        p_Main->eventRefreshVideo(false, videoNumber_);
         reBlit_ = false;
         reDraw_ = false;
     }
 #else
     if (extraBackGround_ && newBackGround_)
-        drawExtraBackground(colour_[backGround_]);
+        drawExtraBackground(colour_[colourIndex_+backGround_]);
 
     PlotList *temp;
 
@@ -929,7 +962,7 @@ void Pixie::drawScreen()
     int v;
     int color;
 
-    setColour(backGround_);
+    setColour(colourIndex_+backGround_);
     drawRectangle(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_);
 
     for (int x=0; x<videoWidth_; x++)
@@ -940,7 +973,7 @@ void Pixie::drawScreen()
             color = color_[x][y];
             if (v)
             {
-                setColour(color);
+                setColour(colourIndex_+color);
                 drawPoint(x+offsetX_, y+offsetY_);
             }
         }
@@ -959,13 +992,13 @@ void Pixie::plot(int x, int y, int c, int color)
 
     if (c)
     {
-        setColour(color);
+        setColour(colourIndex_+color);
         penClr = penColour_[color];
     }
     else
     {
-        setColour(backGround_);
-        penClr = penColour_[backGround_];
+        setColour(colourIndex_+backGround_);
+        penClr = penColour_[backGround_+colourIndex_];
     }
     drawPoint(x+offsetX_, y+offsetY_);
 
@@ -1004,13 +1037,13 @@ void Pixie::plot(int x, int y, int width, int height, int c, int color)
 
     if (c)
     {
-        setColour(color);
+        setColour(colourIndex_+color);
         penClr = penColour_[color];
     }
     else
     {
-        setColour(backGround_);
-        penClr = penColour_[backGround_];
+        setColour(colourIndex_+backGround_);
+        penClr = penColour_[backGround_+colourIndex_];
     }
     drawRectangle(x+offsetX_, y+offsetY_, width, height);
     
@@ -1046,7 +1079,7 @@ void Pixie::setFullScreen(bool fullScreenSet)
 void Pixie::onF3()
 {
     fullScreenSet_ = !fullScreenSet_;
-    p_Main->eventVideoSetFullScreen(fullScreenSet_);
+    p_Main->eventVideoSetFullScreen(fullScreenSet_, videoNumber_);
 }
 
 void Pixie::pixieBarSize()
@@ -1084,8 +1117,8 @@ void Pixie::reBlit(wxDC &dc)
     {
         wxSize size = wxGetDisplaySize();
 
-        dc.SetBrush(wxBrush(colour_[0]));
-        dc.SetPen(wxPen(colour_[0]));
+        dc.SetBrush(wxBrush(colour_[colourIndex_+0]));
+        dc.SetPen(wxPen(colour_[colourIndex_+0]));
 
         int xStart = (int)((2*offsetX_+videoWidth_)*zoom_*xZoomFactor_);
         dc.DrawRectangle(xStart, 0, size.x-xStart, size.y);
@@ -1098,24 +1131,26 @@ void Pixie::reBlit(wxDC &dc)
     if (!graphicsOn_)
     {
         dc.SetUserScale(zoom_*xZoomFactor_, zoom_);
-        dc.SetBrush(wxBrush(colour_[backGround_]));
-        dc.SetPen(wxPen(colour_[backGround_]));
+        dc.SetBrush(wxBrush(colour_[colourIndex_+backGround_]));
+        dc.SetPen(wxPen(colour_[colourIndex_+backGround_]));
         dc.DrawRectangle(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_);
     }
 }
 
 
 
-PixieFred::PixieFred(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType)
-: Pixie(title, pos, size, zoom, zoomfactor, computerType)
+PixieFred::PixieFred(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, int videoNumber)
+: Pixie(title, pos, size, zoom, zoomfactor, computerType, videoNumber)
 {
     displayType_ = 3;
     setDisplayType(displayType_);
+    colourIndex_ = 0;
+    videoNumber_ = videoNumber;
 }
 
 void PixieFred::configurePixie()
 {
-    p_Computer->setCycleType(VIDEOCYCLE, PIXIECYCLE);
+    p_Computer->setCycleType(VIDEOCYCLE_PIXIE, PIXIECYCLE);
     
     backGroundInit_ = 1;
     colourMask_ = 0;
@@ -1126,7 +1161,7 @@ void PixieFred::drawScreen()
     int v;
     int color;
     
-    setColour(backGround_);
+    setColour(colourIndex_+backGround_);
     drawRectangle(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_);
     
     for (int x=0; x<videoWidth_; x+=xInterlace_)
@@ -1137,7 +1172,7 @@ void PixieFred::drawScreen()
             color = color_[x][y];
             if (v)
             {
-                setColour(color);
+                setColour(colourIndex_+color);
                 if (interlace_)
                     drawRectangle(x+offsetX_, y+offsetY_, xInterlace_, yInterlace_);
                 else
@@ -1260,14 +1295,16 @@ void PixieFred::cyclePixie()
         graphicsNext_ = 0;
 }
 
-PixieVip2K::PixieVip2K(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType)
-: Pixie(title, pos, size, zoom, zoomfactor, computerType)
+PixieVip2K::PixieVip2K(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, int videoNumber)
+: Pixie(title, pos, size, zoom, zoomfactor, computerType, videoNumber)
 {
+    colourIndex_ = 0;
+    videoNumber_ = videoNumber;
 }
 
 void PixieVip2K::configurePixie()
 {
-    p_Computer->setCycleType(VIDEOCYCLE, PIXIECYCLE);
+    p_Computer->setCycleType(VIDEOCYCLE_PIXIE, PIXIECYCLE);
     p_Computer->setInType(6, PIXIEIN);
     p_Computer->setInType(7, PIXIEOUT);
     p_Computer->setOutType(6, PIXIEIN);
@@ -1298,7 +1335,7 @@ void PixieVip2K::drawScreen()
     int v;
     int color;
     
-    setColour(backGround_);
+    setColour(colourIndex_+backGround_);
     drawRectangle(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_);
     
     int videoHeight = videoHeight_ - additionalBottomPalLines_;
@@ -1311,7 +1348,7 @@ void PixieVip2K::drawScreen()
             color = color_[x][y];
             if (v)
             {
-                setColour(color);
+                setColour(colourIndex_+color);
                 drawPoint(x+offsetX_, y+offsetY_);
             }
         }
@@ -1431,7 +1468,7 @@ void PixieVip2K::executeSequencer(Byte sequencerValue)
         {
             videoHeight_ = viewableLines_ + additionalTopPalLines_ + additionalBottomPalLines_;
             
-            p_Main->eventSetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_*xZoomFactor_, (videoHeight_+2*borderY_[videoType_])*zoom_, DON_T_CALL_CHANGE_SCREEN_SIZE, false, 0);
+            p_Main->eventSetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_*xZoomFactor_, (videoHeight_+2*borderY_[videoType_])*zoom_, DON_T_CALL_CHANGE_SCREEN_SIZE, false, videoNumber_);
             changeScreenSize_ = true;
         }
         
@@ -1477,9 +1514,9 @@ void PixieVip2K::outPixie()
 {
     graphicsOn_ = false;
 #if defined(__WXMAC__)
-    p_Main->eventRefreshVideo(false, 0);
+    p_Main->eventRefreshVideo(false, videoNumber_);
 #else
-    videoScreenPointer->disableScreen(colour_[backGround_], videoWidth_+2*offsetX_, videoHeight_+2*offsetY_);
+    videoScreenPointer->disableScreen(colour_[colourIndex_+backGround_], videoWidth_+2*offsetX_, videoHeight_+2*offsetY_);
 #endif
     sequencerAddress_ &= 0x3fff;
 }

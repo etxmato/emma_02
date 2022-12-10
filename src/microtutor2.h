@@ -27,7 +27,7 @@ public:
     ~Microtutor2();
 
     void onClose(wxCloseEvent&WXUNUSED(event));
-    bool keyUpReleased(int keycode);
+    bool keyUpReleased(int key, wxKeyEvent& event);
 
     void onRunButton();
     void onLoadButton();
@@ -78,7 +78,6 @@ private:
     int ledCycleSize_;
 
     Byte switches_;
-    Byte data_;
 
     double microtutorClockSpeed_;
 

@@ -18,12 +18,13 @@ public:
 class Pixie : public Video
 {
 public:
-    Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType);
+    Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, int videoNumber);
     ~Pixie();
 
     void reset();
-    void configurePixie(ElfPortConfiguration portConf);
+    void configurePixie(IoConfiguration portConf);
     virtual void configurePixie() {};
+    void configurePixieSuper(IoConfiguration portConf);
     void configurePixieStudio2();
     void configurePixieCoinArcade();
     void configurePixieVisicom();
@@ -105,7 +106,7 @@ private:
 class PixieFred : public Pixie
 {
 public:
-    PixieFred(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType);
+    PixieFred(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, int videoNumber);
 
     void configurePixie();
     void drawScreen();
@@ -121,7 +122,7 @@ private:
 class PixieVip2K : public Pixie
 {
 public:
-    PixieVip2K(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType);
+    PixieVip2K(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, int videoNumber);
     
     void configurePixie();
     void drawScreen();
