@@ -33,7 +33,6 @@ public:
     void configurePixieVipII(bool runLed);
     void configurePixieTmc1800();
     void configurePixieTelmac();
-    void configurePixieStudioIV();
     void configurePixieVictory();
     void configurePixieEti();
     void initiateColour(bool colour);
@@ -43,16 +42,14 @@ public:
     Byte efPixie();
     virtual Byte inPixie();
     virtual void outPixie();
-    void outPixieBackGround();
-    void outPixieStudioIV(int value);
-    void switchVideoMode(int videoMode);
+    virtual void outPixieBackGround();
     virtual void cyclePixie();
-    void cyclePixieStudioIV();
     void cyclePixieCoinArcade();
     void cyclePixieTelmac();
     void dmaEnable();
     
-    void copyScreen();
+    virtual void copyScreen();
+    void drawBackgroundLine();
     virtual void drawScreen();
     void plot(int x, int y, int c, int color);
     void plot(int x, int y, int width, int height, int c, int color);
@@ -66,8 +63,11 @@ public:
     void reBlit(wxDC &dc);
 
 protected:
+    PlotList *plotListPointer;
     Byte pbacking_[384][208];
     Byte color_[384][208];
+    Byte bgColor_[312]; 
+    bool bgChanged;
     bool interlace_;
     Byte pixieEf_;
 
@@ -79,28 +79,26 @@ protected:
     int backGroundInit_;
 
     Byte vidInt_;
- 
-private:
-    PlotList *plotListPointer;
-    wxString runningComputer_;
-    VipIIStatusBar *vipIIStatusBarPointer;
-
-    int computerType_;
-    Byte vidCycle_;
-
-    int graphicsX_;
-
-    int updatePlot_;
-    int highRes_;
-    
     bool studioIVFactor_;
+
     int interruptGraphicsMode_;
     int startGraphicsMode_;
     int endGraphicsMode_;
     int endScreen_;
 
     int videoMode_;
-    
+    int highRes_;
+    int graphicsX_;
+
+    int updatePlot_;
+
+private:
+    wxString runningComputer_;
+    VipIIStatusBar *vipIIStatusBarPointer;
+
+    int computerType_;
+    Byte vidCycle_;
+
 };
 
 class PixieFred : public Pixie
@@ -143,6 +141,37 @@ private:
     int sizeTopBox_;
     int sizeBottomBox1_;
     int sizeBottomBox2_;
+};
+
+class PixieStudioIV : public Pixie
+{
+public:
+    PixieStudioIV(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, int videoNumber);
+
+    void configurePixie();
+    void drawScreen();
+    void cyclePixie();
+    void outPixie();
+    void outPixieBackGround();
+    void outPixieStudioIV(int value);
+    void switchVideoMode(int videoMode);
+
+private:
+};
+
+class PixieEti : public Pixie
+{
+public:
+    PixieEti(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, int videoNumber);
+
+    void configurePixie();
+    void copyScreen();
+    void drawScreen();
+    void cyclePixie();
+    void outPixie();
+    void outPixieBackGround();
+
+private:
 };
 
 #endif  // PIXIE_H

@@ -970,15 +970,18 @@ void V1870::blink1870()
 
 void V1870::writePram(Word address, Byte v)
 {
+    if (!nonDisplay_ && computerType_ != CIDELSA)
+        return;
+
     if (cmemAccessMode_)
         address = register6_ & pageMemoryMask_;
     else
     {
         if (!nonDisplay_)
-//        if (ef1Value_ == efDisplay_)
             return;
         address &= pageMemoryMask_;
     }
+
     address &= pageMemorySize_;
 
     pageMemory_[address] = v;
@@ -1001,17 +1004,19 @@ void V1870::writePram(Word address, Byte v)
 
 void V1870::writeCram(Word address, Byte v)
 {
+    if (!nonDisplay_ && computerType_ != CIDELSA)
+        return;
+
     Word ac;
     if (cmemAccessMode_)
         ac = register6_ & pageMemoryMask_;
     else
     {
         if (!nonDisplay_)
-//        if (ef1Value_ == efDisplay_)
             return;
         ac = address & pageMemoryMask_;
     }
-
+    
     address &= CmaMask_;
     address += ((pageMemory_[ac]&pcbMask_) * maxLinesPerCharacters_);
     
@@ -1051,7 +1056,6 @@ Byte V1870::readPram(Word address)
     
 
     if (!nonDisplay_)
-//    if (ef1Value_ == efDisplay_)
         return 0xff;
 
     if (cmemAccessMode_)
@@ -1064,7 +1068,6 @@ Byte V1870::readPram(Word address)
 Byte V1870::readCram(Word address)
 {
     if (!nonDisplay_)
-//    if (ef1Value_ == efDisplay_)
         return 0xff;
 
     Word ac;

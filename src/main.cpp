@@ -61,7 +61,7 @@
 #include "splash.h"
 #include "definition.h"
 
-#if defined(__WXMSW__) && (_DEBUG) //** stuio Test && (WIN32)
+#if defined(__WXMSW__) && (_DEBUG) //** only run vld in debug version
 //#include <vld.h>
 #endif
 
@@ -601,6 +601,7 @@ BEGIN_EVENT_TABLE(Main, DebugWindow)
     EVT_GUI_MSG(SET_COMXLED, Main::setUpdateComxLedStatus)
     EVT_GUI_MSG(SET_DIAGLED, Main::setUpdateDiagLedStatus)
     EVT_GUI_MSG(ENABLE_CLOCK, Main::setEnableClockEvent)
+    EVT_GUI_MSG(PAUSE_STATE, Main::setPauseStateEvent)
 
     EVT_SYS_COLOUR_CHANGED(Main::sysColourChangeEvent)
 
@@ -9571,6 +9572,19 @@ void Main::setUpdateTitle(guiEvent& WXUNUSED(event))
 void Main::eventUpdateTitle()
 {
     guiEvent event(GUI_MSG, UPDATE_TITLE);
+    event.SetEventObject( p_Main );
+
+    GetEventHandler()->AddPendingEvent(event);
+}
+
+void Main::setPauseStateEvent(guiEvent& WXUNUSED(event))
+{
+   setPauseState();
+}
+
+void Main::eventPauseState()
+{
+    guiEvent event(GUI_MSG, PAUSE_STATE);
     event.SetEventObject( p_Main );
 
     GetEventHandler()->AddPendingEvent(event);

@@ -39,7 +39,7 @@ BEGIN_EVENT_TABLE(GuiXml, GuiPico)
     EVT_BUTTON(XRCID("RamButtonXml"), GuiXml::onMainRamXml)
 
     EVT_TEXT(XRCID("MainXmlXml"), GuiXml::onMainXmlTextXml)
-    EVT_COMBOBOX(XRCID("MainXmlXml"), GuiXml::onMainXmlTextXml)
+    EVT_COMBOBOX(XRCID("MainXmlXml"), GuiXml::onMainXmlComboXml)
     EVT_BUTTON(XRCID("XmlButtonXml"), GuiXml::onMainXmlXml)
 
     EVT_TEXT(XRCID("KeyFileXml"), GuiMain::onKeyFileText)
@@ -137,6 +137,8 @@ GuiXml::GuiXml(const wxString& title, const wxPoint& pos, const wxSize& size, Mo
 {
     tapeOnBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/tick.png", wxBITMAP_TYPE_PNG);
     tapeOffBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/minus.png", wxBITMAP_TYPE_PNG);
+    
+    dropdownUpdateOngoing_ = false;
 }
 
 void GuiXml::readXmlConig()
@@ -146,9 +148,37 @@ void GuiXml::readXmlConig()
     selectedComputer_ = XML; // *** to be removed
     elfConfiguration[XML].ioConfiguration.emsOutput.resize(1);
 
-    conf[XML].xmlDir_ = readConfigDir("Dir/Xmlemu/Xml_File", dataDir_ + "Xml" + pathSeparator_ + "Comx" + pathSeparator_);
-    conf[XML].xmlFile_ = configPointer->Read("Xmlemu/Xml_File", "bare pal.xml");
+    fileNameXml[0] = "";
+    fileDirXml[0] = dataDir_ + "Xml" + pathSeparator_;
+    fileNameXml[1] = configPointer->Read("Xmlemu/XmlFile1", "comx,superboard.xml");
+    fileDirXml[1] = readConfigDir("Dir/Xmlemu/XmlFile1", dataDir_ + "Xml" + pathSeparator_ + "Comx" + pathSeparator_);
+    fileNameXml[2] = configPointer->Read("Xmlemu/XmlFile2", "comx,fdc-print-32k-eprom.xml");
+    fileDirXml[2] = readConfigDir("Dir/Xmlemu/XmlFile2", dataDir_ + "Xml" + pathSeparator_ + "Comx" + pathSeparator_);
+    fileNameXml[3] = configPointer->Read("Xmlemu/XmlFile3", "cidelsa,altair.xml");
+    fileDirXml[3] = readConfigDir("Dir/Xmlemu/XmlFile3", dataDir_ + "Xml" + pathSeparator_ + "Cidelsa" + pathSeparator_);
+    fileNameXml[4] = configPointer->Read("Xmlemu/XmlFile4", "comix,bare-pal.xml");
+    fileDirXml[4] = readConfigDir("Dir/Xmlemu/XmlFile4", dataDir_ + "Xml" + pathSeparator_ + "Comix" + pathSeparator_);
+    fileNameXml[5] = configPointer->Read("Xmlemu/XmlFile5", "cosmac-elf,bare.xml");
+    fileDirXml[5] = readConfigDir("Dir/Xmlemu/XmlFile5", dataDir_ + "Xml" + pathSeparator_ + "Cosmac Elf" + pathSeparator_);
+    fileNameXml[6] = configPointer->Read("Xmlemu/XmlFile6", "elf,superbasic6.0-supervideo.xml");
+    fileDirXml[6] = readConfigDir("Dir/Xmlemu/XmlFile6", dataDir_ + "Xml" + pathSeparator_ + "Elf" + pathSeparator_);
+    fileNameXml[7] = configPointer->Read("Xmlemu/XmlFile7", "microtutor2-tops.xml");
+    fileDirXml[7] = readConfigDir("Dir/Xmlemu/XmlFile7", dataDir_ + "Xml" + pathSeparator_ + "Microtutor II" + pathSeparator_);
+    fileNameXml[8] = configPointer->Read("Xmlemu/XmlFile8", "pecom,64.v4.xml");
+    fileDirXml[8] = readConfigDir("Dir/Xmlemu/XmlFile8", dataDir_ + "Xml" + pathSeparator_ + "Pecom" + pathSeparator_);
+    fileNameXml[9] = configPointer->Read("Xmlemu/XmlFile9", "pico,elfos-uart.xml");
+    fileDirXml[9] = readConfigDir("Dir/Xmlemu/XmlFile9", dataDir_ + "Xml" + pathSeparator_ + "Pico Elf V2" + pathSeparator_);
+    fileNameXml[10] = configPointer->Read("Xmlemu/XmlFile10", "tmc-600,exp-151182.xml");
+    fileDirXml[10] = readConfigDir("Dir/Xmlemu/XmlFile10", dataDir_ + "Xml" + pathSeparator_ + "TMC-600" + pathSeparator_);
 
+    if (mode_.gui)
+        setXmlDropDown();
+    dropdownUpdateOngoing_ = false;
+
+    conf[XML].xmlDir_ = fileDirXml[1];
+    conf[XML].xmlFile_ = fileNameXml[1];
+
+    clearXmlData(XML);
     parseXmlFile(XML,conf[XML].xmlDir_, conf[XML].xmlFile_);
  
     selectedComputer_ = XML;
@@ -244,14 +274,61 @@ void GuiXml::readXmlConig()
 
 void GuiXml::writeXmlDirConfig()
 {
-    writeConfigDir("/Dir/Xmlemu/Xml_File", conf[XML].xmlDir_);
-}
+    wxString number, type;
     
+    for (int i=1; i<MAX_XML_DROPDOWN_FILES; i++)
+    {
+        number.Printf("%d",i);
+        writeConfigDir("/Dir/Xmlemu/XmlFile" + number, fileDirXml[i]);
+    }
+    
+    writeConfigDir("/Dir/Xmlemu/Key_File", conf[XML].keyFileDir_);
+    writeConfigDir("/Dir/Xmlemu/Video_Dump_File", conf[XML].screenDumpFileDir_);
+    writeConfigDir("/Dir/Xmlemu/Print_File", conf[XML].printFileDir_);
+    writeConfigDir("/Dir/Xmlemu/Xmodem_File", conf[XML].xmodemFileDir_);
+    for (int fdcType = 0; fdcType<FDCTYPE_MAX; fdcType++)
+    {
+        type.Printf("%d", fdcType);
+        for (int disk=0; disk<4; disk++)
+        {
+            number.Printf("%d", disk);
+            writeConfigDir("/Dir/Xmlemu/FDC" + number + "_File_" + type, floppyDir_[fdcType][disk]);
+        }
+    }
+    for (int tape=0; tape<2; tape++)
+    {
+        number.Printf("%d", tape);
+        writeConfigDir("/Dir/Xmlemu/Wav_File" + number, conf[XML].wavFileDir_[tape]);
+    }
+}
+
 void GuiXml::writeXmlConfig()
 {
-    wxString buffer;
+    wxString buffer, number, type;
+    for (int i=1; i<MAX_XML_DROPDOWN_FILES; i++)
+    {
+        number.Printf("%d",i);
+        configPointer->Write("Xmlemu/XmlFile" + number, fileNameXml[i]);
+    }
     
-    configPointer->Write("Xmlemu/Xml_File", conf[XML].xmlFile_);
+    configPointer->Write("/Xmlemu/Key_File", conf[XML].keyFile_);
+    configPointer->Write("/Xmlemu/Video_Dump_File", conf[XML].screenDumpFile_);
+    configPointer->Write("/Xmlemu/Print_File", conf[XML].printFile_);
+    configPointer->Write("/Xmlemu/Xmodem_File", conf[XML].xmodemFile_);
+    for (int tape=0; tape<2; tape++)
+    {
+        number.Printf("%d", tape);
+        configPointer->Write("/Xmlemu/Wav_File" + number, conf[XML].wavFile_[tape]);
+    }
+    for (int fdcType = 0; fdcType<FDCTYPE_MAX; fdcType++)
+    {
+        type.Printf("%d", fdcType);
+        for (int disk=0; disk<4; disk++)
+        {
+            number.Printf("%d", disk);
+            configPointer->Write("/Xmlemu/FDC" + number + "_File_" + type, floppy_[fdcType][disk]);
+        }
+    }
 
     buffer.Printf("%04X", (unsigned int)startRam_[XML]);
     configPointer->Write("Xmlemu/Ram_Start_Address", buffer);
@@ -437,15 +514,62 @@ void GuiXml::onMainXmlXml(wxCommandEvent& WXUNUSED(event) )
     conf[selectedComputer_].xmlDir_ = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
     conf[selectedComputer_].xmlFile_ = FullPath.GetFullName();
 
-    XRCCTRL(*this, "MainXmlXml", wxComboBox)->SetValue(conf[selectedComputer_].xmlFile_);
+    bool found = false;
+    
+    for (int i=1; i<MAX_XML_DROPDOWN_FILES; i++)
+    {
+        if (fileNameXml[i] == conf[selectedComputer_].xmlFile_ && fileDirXml[i] == conf[selectedComputer_].xmlDir_)
+            found = true;
+    }
+    
+    if (found)
+        XRCCTRL(*this, "MainXmlXml", wxComboBox)->SetValue(conf[selectedComputer_].xmlFile_);
+    else
+    {
+        for (int i=MAX_XML_DROPDOWN_FILES-1; i>1; i--)
+        {
+            fileNameXml[i] = fileNameXml[i-1];
+            fileDirXml[i] = fileDirXml[i-1];
+        }
+        fileNameXml[1] = conf[selectedComputer_].xmlFile_;
+        fileDirXml[1] = conf[selectedComputer_].xmlDir_;
+        
+        setXmlDropDown();
+        dropdownUpdateOngoing_ = false;
+
+        XRCCTRL(*this, "MainXmlXml", wxComboBox)->SetValue(fileNameXml[1]);
+    }
 }
 
 void GuiXml::onMainXmlTextXml(wxCommandEvent& WXUNUSED(event))
 {
+    if (dropdownUpdateOngoing_)
+        return;
+
     conf[selectedComputer_].xmlFile_ = XRCCTRL(*this, "MainXmlXml", wxComboBox)->GetValue();
     
     parseXmlFile(selectedComputer_, conf[selectedComputer_].xmlDir_, conf[selectedComputer_].xmlFile_);
     setXmlGui();
+}
+
+void GuiXml::onMainXmlComboXml(wxCommandEvent& event)
+{
+    int selection = event.GetSelection();
+    if (selection >= MAX_XML_DROPDOWN_FILES)
+        selection = MAX_XML_DROPDOWN_FILES-1;
+    
+    conf[selectedComputer_].xmlFile_ = fileNameXml[selection];
+    conf[selectedComputer_].xmlDir_ = fileDirXml[selection];
+
+    parseXmlFile(selectedComputer_, conf[selectedComputer_].xmlDir_, conf[selectedComputer_].xmlFile_);
+    setXmlGui();
+}
+
+void GuiXml::setXmlDropDown()
+{
+    dropdownUpdateOngoing_ = true;
+    for (int i=0; i<MAX_XML_DROPDOWN_FILES; i++)
+        XRCCTRL(*this, "MainXmlXml", wxComboBox)->SetString(i, fileNameXml[i]);
 }
 
 void GuiXml::setPrintModeXml()

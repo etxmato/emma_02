@@ -11,6 +11,7 @@ public:
     XmlParser(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
     ~XmlParser() {};
 
+    void clearXmlData(int computer);
     void parseXmlFile(int computer, wxString xmlDir, wxString xmlFile);
 
 private:
@@ -52,8 +53,8 @@ private:
     void parseXml_Memory(int computer, wxXmlNode &node);
     void parseXml_RomRam(int computer, wxXmlNode &node, int type, size_t configNumber);
     void parseXml_Ems(int computer, wxXmlNode &node, int type, size_t configNumber);
-    void parseXml_Slot(int computer, wxXmlNode &node, size_t maxSlots);
-    void parseXml_Bank(int computer, wxXmlNode &node, int slot, size_t maxBanks);
+    void parseXml_Slot(int computer, wxXmlNode &node, int maxSlots);
+    void parseXml_Bank(int computer, wxXmlNode &node, int slot, int maxBanks);
     void parseXml_SlotRomRam(int computer, wxXmlNode &node, int slot, int type);
     void parseXml_BankRomRam(int computer, wxXmlNode &node, int slot, int bank, int type);
     void parseXml_portExt(int computer, wxXmlNode &node, int type, size_t configNumber);
@@ -79,10 +80,24 @@ private:
     bool vt100CharRomDirDefined_;
     bool vtWavFileDirDefined_;
     bool printFileDirDefined_;
+    bool xmodemFileDirDefined_;
     bool ideFileDirDefined_;
     bool wavFileDirDefined[2];
-    bool xmodemFileDirDefined;
     bool floppyDirDefined[FDCTYPE_MAX][4];
+
+    bool keyFileDefined_;
+    bool videoDumpFileDefined_;
+    bool printFileDefined_;
+    bool xmodemFileDefined_;
+    bool wavFileDefined[2];
+    bool floppyDefined[FDCTYPE_MAX][4];
+
+    wxString keyFileDir;
+    wxString videoDumpFileDir;
+    wxString printFileDir;
+    wxString xmodemFileDir;
+    wxString wavFileDir[2];
+    wxString floppyFileDir[FDCTYPE_MAX][4];
 
     DECLARE_EVENT_TABLE()
 };

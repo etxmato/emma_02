@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>Elf, Quest Superbasic 6.0 - Super Video</name>
+        <!-- Press C to start BASIC in Cold mode -->
+        <clock>1.76</clock>
+        <boot>0</boot>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init>
+        <init type="ef4">1</init>
+        <dirname>Elf</dirname>
+    </system>
+    
+    <memory>
+        <mainram>
+            <start>0x0000</start>
+            <end>0xDFFF</end>
+            <filename verify="true">superbasic.6.0.bin</filename>
+        </mainram>
+    </memory>
+    
+    <video type="mc6845">
+        <ram>0xE000-0xE7FF</ram>
+        <font>super.video.bin</font>
+        <screen>64x16</screen>
+        <char>7x8</char>
+        <interlace />
+    </video>
+
+    <keyboard type="ascii">
+        <in>5</in>
+        <ef>2</ef>
+        <caps />
+    </keyboard>
+
+    <printer>
+        <out>3</out>
+    </printer>
+
+    <cassette decks="1">
+        <ef>3</ef>
+    </cassette>
+    
+    <basic>
+        <pload>super</pload>
+        <defus>0x3581</defus>
+        <eop>0x3583</eop>
+        <string>0x3592</string>
+        <array>0x3594</array>
+        <eod>0x3599</eod>
+        <ram>0x3700</ram>
+    </basic>
+
+    <batchwav>
+        <command>PSAVE C</command>
+    </batchwav>
+
+    <locations>
+        <!-- key input -->
+        <key_input>0x3109, 0x143</key_input>
+
+        <!-- Machine states -->
+        <basic_state>0x143</basic_state>
+        <run_state>0x1d00, 0x1b00</run_state>
+
+        <!-- Stop cassette -->
+        <stop_cas>0x143</stop_cas>
+        
+        <!-- Start PSAVE, DSAVE, PLOAD, DLOAD -->
+        <start_cas_save>0x03f1, 0x03f4</start_cas_save>
+        <start_cas_load>0x03eb</start_cas_load>
+        <start_cas_dload>0x03ee</start_cas_dload>
+
+        <!-- Save start/end during batch conversion -->
+        <batch_start_save>0x3109</batch_start_save>
+        <batch_end_save>0x143</batch_end_save>
+        
+    </locations>
+
+</emmaconfig>
+

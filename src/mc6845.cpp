@@ -215,6 +215,9 @@ MC6845::MC6845(const wxString& title, const wxPoint& pos, const wxSize& size, do
     cursorBlink_ = true;
     cursorBlinkOn_ = false;
     cursorBlinkTime_ = 16;
+    charLine_ = 0;
+    rows_ = 0;
+    scanLine_ = 0;
     blink_ = cursorBlinkTime_;
     offsetX_ = 0;
     offsetY_ = 0;
@@ -407,6 +410,8 @@ void MC6845::writeData6845(Byte value)
                 reDraw_ = true;
                 setScreenSize();
                 reCycle_ = true;
+
+                resetScreenCopyPointer();
             }
         break;
 
@@ -433,6 +438,8 @@ void MC6845::writeData6845(Byte value)
                 videoHeight_ = rows_*scanLine_*2; 
                 reDraw_ = true;
                 setScreenSize();
+
+                resetScreenCopyPointer();
             }
         break;
 
@@ -446,6 +453,8 @@ void MC6845::writeData6845(Byte value)
             else
                 videoM_ = 2;
 
+            resetScreenCopyPointer();
+
             reDraw_ = true;
         break;
 
@@ -458,6 +467,8 @@ void MC6845::writeData6845(Byte value)
                 reDraw_ = true;
                 setScreenSize();
                 reCycle_ = true;
+
+                resetScreenCopyPointer();
             }
         break;
 
@@ -999,5 +1010,23 @@ void MC6845::reBlit(wxDC &dc)
         newBackGround_ = false;
     }
     drawCursor6845(dc, cursorAddress_, cursorBlinkOn_);
+}
+
+void MC6845::resetScreenCopyPointer()
+{
+    if (rows_ == 0 || scanLine_ == 0 || videoM_ == 0 || videoWidth_ == 0)
+        return;
+    
+    dcMemory.SelectObject(wxNullBitmap);
+    delete screenCopyPointer;
+    
+    screenCopyPointer = new wxBitmap(videoWidth_, rows_*scanLine_*videoM_);
+    dcMemory.SelectObject(*screenCopyPointer);
+
+#ifdef __WXMAC__
+    delete gc;
+    gc = wxGraphicsContext::Create(dcMemory);
+    gc->SetAntialiasMode(wxANTIALIAS_NONE);
+#endif
 }
 

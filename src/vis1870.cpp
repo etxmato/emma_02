@@ -582,14 +582,14 @@ void VIS1870::blink1870()
 
 int VIS1870::writePram(Word address, Byte v)
 {
+    if (!nonDisplay_)
+        return -1;
+
     if (cmemAccessMode_)
         address = register6_ & pageMemoryMask_;
     else
-    {
-        if (!nonDisplay_)
-            return -1;
         address &= pageMemoryMask_;
-    }
+
     address &= pageMemorySize_;
 
     pageMemory_[address] = v;
@@ -610,15 +610,14 @@ int VIS1870::writePram(Word address, Byte v)
 
 int VIS1870::writeCram(Word address, Byte v)
 {
+    if (!nonDisplay_)
+        return -1;
+
     Word ac;
     if (cmemAccessMode_)
         ac = register6_ & pageMemoryMask_;
     else
-    {
-        if (!nonDisplay_)
-            return -1;
         ac = address & pageMemoryMask_;
-    }
 
     address &= CmaMask_;
     address += ((pageMemory_[ac]&pcbMask_) * maxLinesPerCharacters_);

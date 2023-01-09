@@ -38,7 +38,7 @@ class UrlScreens
 public:
     Byte screenData[0xe00];
 
-    int numberOfLinks; 
+    int numberOfLinks;
     vector<InputInfo> inputInfo;
     vector<wxString> urlLinks;
 
@@ -193,9 +193,7 @@ private:
     size_t rawUrlDataSize;
 
     vector<HtmlFormInfo> htmlFormInfo;
-    vector<UrlScreens> urlScreens;
 
-    UrlTable urlTable;
     Tag htmlTag;
     int numberOfUrlScreens_;
     int currentUrlScreen_;
@@ -268,6 +266,9 @@ private:
     bool ef_;
 
     int fwVersion_;
+
+    vector<UrlScreens> urlScreens;
+    UrlTable urlTable;
 };
 
 #endif  // USBCARD_H

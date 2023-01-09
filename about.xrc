@@ -40,6 +40,7 @@
                                     <font>
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
+                                        <family>roman</family>
                                     </font>
                                     <label></label>
                                 </object>
@@ -57,6 +58,7 @@
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <label>Emma 02 is emulating the COMX-35, COMIX-35, Elf 2000, Cosmicos, 
 Cosmac Elf, Netronics ELF II, Quest Super Elf, Membership Card, 
@@ -77,6 +79,7 @@ Telmac 2000, Oscam Nano, Pecom 32, Pecom 64 and ETI 660 </label>
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <label>Emma 02 is emulating the COMX-35, COMIX-35, Elf 2000, Cosmicos, Cosmac Elf, Netronics ELF II, Quest Super Elf, Membership Card, VIP2K Membership Card, VELF, Inifinite UC1800, Pico/Elf V2, FRED 1, FRED 1.5, Microtutor, Microtutor II, CDP18S020 Evaluation Kit, Cosmac VIP, Cosmac VIPII, Microboard System, MCDS, MS2000, RCA Video Coin Arcade, RCA Studio II, RCA Studio III, Victory MPT-02, Visicom COM-100, Cidelsa, Telmac TMC-600, Telmac 1800, Telmac 2000, Oscam Nano, Pecom 32, Pecom 64 and ETI 660 </label>
                                             <wrap>400</wrap>
@@ -95,9 +98,10 @@ Telmac 2000, Oscam Nano, Pecom 32, Pecom 64 and ETI 660 </label>
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <style>wxALIGN_CENTRE</style>
-                                            <label>Emma 02 Copyright (C) 2007-2022 Marcel van Tongeren, 
+                                            <label>Emma 02 Copyright (C) 2007-2023 Marcel van Tongeren, 
 core based on RCS Elf Emulator copyright (C) 2006 by Michael H Riley</label>
                                             <wrap>400</wrap>
                                         </object>
@@ -109,6 +113,7 @@ core based on RCS Elf Emulator copyright (C) 2006 by Michael H Riley</label>
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <style>wxHL_DEFAULT_STYLE|wxHL_ALIGN_CENTRE</style>
                                             <label>marcel.v.tongeren@gmail.com</label>
@@ -127,6 +132,7 @@ core based on RCS Elf Emulator copyright (C) 2006 by Michael H Riley</label>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
+                                                        <family>roman</family>
                                                     </font>
                                                     <style>wxHL_DEFAULT_STYLE</style>
                                                     <label>Emma 02</label>
@@ -145,6 +151,7 @@ core based on RCS Elf Emulator copyright (C) 2006 by Michael H Riley</label>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
+                                                        <family>roman</family>
                                                     </font>
                                                     <style>wxHL_DEFAULT_STYLE</style>
                                                     <label>Super Board</label>
@@ -163,6 +170,7 @@ core based on RCS Elf Emulator copyright (C) 2006 by Michael H Riley</label>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
+                                                        <family>roman</family>
                                                     </font>
                                                     <style>wxHL_DEFAULT_STYLE</style>
                                                     <label>High Scores</label>
@@ -181,6 +189,7 @@ core based on RCS Elf Emulator copyright (C) 2006 by Michael H Riley</label>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
+                                                        <family>roman</family>
                                                     </font>
                                                     <style>wxHL_DEFAULT_STYLE|wxHL_ALIGN_CENTRE</style>
                                                     <label>COMX Club</label>
@@ -206,8 +215,9 @@ core based on RCS Elf Emulator copyright (C) 2006 by Michael H Riley</label>
                                     <font>
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
+                                        <family>roman</family>
                                     </font>
-                                    <label>Special Thanks to: Niamh Barrett, Mike Riley, Dennis Heijmans, Shay Green, Frank van Tongeren, Peter de Vroomen, Barend Scholtus, Stefan de Bruin, Han de Bruin, Richard Peters, Bob Armstrong, Curt Coder, Miodrag Milanovic, Bruce Czerniec, Ray Sills, Sly DC, Paul Messinger, Eric Tchong, Martijn Wenting, Lee Romanow, Matthew Mikolay, Lee Hart, David Winter, Brolly, William Donnelly, Ed Keefe, Paul Robson, Chuck Yakym, Bernie Murphy, David Schultz, Bill Rowe, FLiP, Herb Johnson, Mark Abene, Andy Modla, Florencia Pierri, Kevin Bunch, Fabrizio Caruso, Branko Trenkoski, Craig Ledbetter, Gaston Williams, David Madole, Wayne Hortensius, Glenn Jolly and Marc Bertrand</label>
+                                    <label>Special Thanks to: Niamh Barrett, Mike Riley, Dennis Heijmans, Shay Green, Frank van Tongeren, Peter de Vroomen, Barend Scholtus, Stefan de Bruin, Han de Bruin, Richard Peters, Bob Armstrong, Curt Coder, Miodrag Milanovic, Bruce Czerniec, Ray Sills, Sly DC, Paul Messinger, Eric Tchong, Martijn Wenting, Lee Romanow, Matthew Mikolay, Lee Hart, David Winter, Brolly, William Donnelly, Ed Keefe, Paul Robson, Chuck Yakym, Bernie Murphy, David Schultz, Bill Rowe, FLiP, Herb Johnson, Mark Abene, Andy Modla, Florencia Pierri, Kevin Bunch, Fabrizio Caruso, Branko Trenkoski, Craig Ledbetter, Gaston Williams, David Madole, Wayne Hortensius, Glenn Jolly, Marc Bertrand and Nobuyoshi Takeshita</label>
                                     <wrap>400</wrap>
                                 </object>
                             </object>
@@ -231,6 +241,7 @@ core based on RCS Elf Emulator copyright (C) 2006 by Michael H Riley</label>
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <label>ElfOS BIOS, Edt/Asm, Rc/Forth, Rc/Lisp, Rc/Basic and Bascom
 Copyright (C) 2004 by Michael H Riley</label>
@@ -245,6 +256,7 @@ Copyright (C) 2004 by Michael H Riley</label>
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <label>ElfOS BIOS, Edt/Asm, Rc/Forth, Rc/Lisp, Rc/Basic and Bascom Copyright (C) 2004 by Michael H Riley</label>
                                             <wrap>400</wrap>
@@ -257,6 +269,7 @@ Copyright (C) 2004 by Michael H Riley</label>
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <style>wxHL_DEFAULT_STYLE</style>
                                             <label>Elf/1802 Emulation</label>
@@ -285,6 +298,7 @@ Copyright (C) 2004 by Michael H Riley</label>
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <label>All included Quest software by Roger Pitkin is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License. </label>
                                             <wrap>400</wrap>
@@ -312,6 +326,7 @@ Copyright (C) 2004 by Michael H Riley</label>
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <label>Super Basic V6.0 included with written permission and with updated origin info from Paul Messinger (see help pages on Quest Super Basic).</label>
                                             <wrap>400</wrap>
@@ -339,6 +354,7 @@ Copyright (C) 2004 by Michael H Riley</label>
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <label>COSMAC ELF 2000 EPROM
 Copyright (C) 2004 by Spare Time Gizmos </label>
@@ -352,6 +368,7 @@ Copyright (C) 2004 by Spare Time Gizmos </label>
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <style>wxHL_DEFAULT_STYLE</style>
                                             <label>Spare Time Gizmos</label>
@@ -380,6 +397,7 @@ Copyright (C) 2004 by Spare Time Gizmos </label>
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <label>The Sarnoff Collection at TCNJ - Chip 8, Coin Arcade, FRED 1, 
 FRED 1.5, VIP and Studio II, III and IV SW. See readme and/or txt
@@ -395,6 +413,7 @@ files for details</label>
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <label>The Sarnoff Collection at TCNJ - Chip 8, Coin Arcade, FRED 1, FRED 1.5, VIP and Studio II, III and IV SW. See readme and/or txt files for details</label>
                                             <wrap>400</wrap>
@@ -422,6 +441,7 @@ files for details</label>
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <label>Hagley Museum and Library: Sarnoff/RCA Collection - Joseph A. Weisbecker's archived manuscripts and materials - Accession 2464 -Box Number AVD B41: Chip 8, Coin Arcade, FRED 1, FRED 1.5, VIP and Studio II and III SW. See readme and/or txt files for details</label>
                                             <wrap>400</wrap>
@@ -449,6 +469,7 @@ files for details</label>
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <label>The following libraries are licensed under the GNU Lesser General Public 
 License (LGPL): wxWidgets, wxCurl, Blargg's Blip Buffer library, 
@@ -465,6 +486,7 @@ libcurl are licensed under a MIT/X derivate license</label>
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <label>The following libraries are licensed under the GNU Lesser General Public License (LGPL): wxWidgets, wxCurl, Blargg's Blip Buffer library, libserialport, SDL (Simple DirectMedia Library) and SDL Audioin. Curl and libcurl are licensed under a MIT/X derivate license</label>
                                             <wrap>400</wrap>
@@ -492,6 +514,7 @@ libcurl are licensed under a MIT/X derivate license</label>
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <label>Xchase, Xshoot, Xbomber, Xsnake and Xhorde games are build using: 
 Crosslib library, 1802 devkit and the LCC1802 compiler</label>
@@ -506,6 +529,7 @@ Crosslib library, 1802 devkit and the LCC1802 compiler</label>
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <label>Xchase, Xshoot, Xbomber, Xsnake and Xhorde games are build using: Crosslib library, 1802 devkit and the LCC1802 compiler</label>
                                             <wrap>400</wrap>
@@ -523,6 +547,7 @@ Crosslib library, 1802 devkit and the LCC1802 compiler</label>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
+                                                        <family>roman</family>
                                                     </font>
                                                     <style>wxHL_DEFAULT_STYLE</style>
                                                     <label>CrossLib / CROSS CHASE</label>
@@ -541,6 +566,7 @@ Crosslib library, 1802 devkit and the LCC1802 compiler</label>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
+                                                        <family>roman</family>
                                                     </font>
                                                     <style>wxHL_DEFAULT_STYLE</style>
                                                     <label>1802 devkit</label>
@@ -559,6 +585,7 @@ Crosslib library, 1802 devkit and the LCC1802 compiler</label>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
+                                                        <family>roman</family>
                                                     </font>
                                                     <style>wxHL_DEFAULT_STYLE</style>
                                                     <label>LCC1802</label>
@@ -588,6 +615,7 @@ Crosslib library, 1802 devkit and the LCC1802 compiler</label>
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <label>OK</label>
                                         </object>

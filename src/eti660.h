@@ -4,7 +4,7 @@
 #include "cdp1802.h"
 #include "pixie.h"
 
-class Eti : public Cdp1802, public Pixie
+class Eti : public Cdp1802, public PixieEti
 {
 public:
     Eti(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, Conf computerConf);

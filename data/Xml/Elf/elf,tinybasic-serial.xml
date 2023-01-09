@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>Elf, Netronics Tiny Basic - Serial</name>
+        <!-- Press return twice to start BASIC -->
+        <clock>1.76</clock>
+        <boot>0</boot>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init>
+        <init type="ef4">1</init>
+        <dirname>Elf</dirname>
+    </system>
+    
+    <memory>
+        <mainram>
+            <start>0x0000</start>
+            <end>0xEFFF</end>
+            <filename>netronic.tinyBasic.hex</filename>
+        </mainram>
+
+        <rom>
+            <start>0xF000</start>
+            <end>0xF0FF</end>
+            <filename>giantboard.hex</filename>
+        </rom>
+    </memory>
+    
+    <vt type="vt100" connection="serial">
+        <font>vt100.bin</font>
+        <out>7</out>
+        <ef>4</ef>
+        <q></q>
+        <caps />
+        <baud type="receive">300</baud>
+        <baud type="transmit">300</baud>
+        <border>0x0</border>
+        <color type="fore">0, 255, 0</color>
+        <color type="back">0, 0x40, 0</color>
+        <color type="high">0, 0xff, 0</color>
+    </vt>
+
+    <printer>
+        <out>3</out>
+    </printer>
+    
+    <cassette decks="1">
+        <ef>2</ef>
+    </cassette>
+    
+    <locations>
+        <!-- Stop cassette -->
+        <stop_cas>0xA59, 0xA28</stop_cas>
+        
+        <!-- Start SAVE, LOAD -->
+        <start_cas_save>0x9FD</start_cas_save>
+        <start_cas_load>0x09FA</start_cas_load>
+
+    </locations>
+
+</emmaconfig>
+

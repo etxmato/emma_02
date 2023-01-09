@@ -1129,11 +1129,15 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool Gu
                 }
                 else
                 {
-                    XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->Enable(true);
-                    XRCCTRL(*this, "QsoundText"+elfTypeStr, wxStaticText)->Enable(true);
-                    XRCCTRL(*this, "BeepFrequency"+elfTypeStr, wxTextCtrl)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
-                    XRCCTRL(*this, "BeepFrequencyText"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
-                    XRCCTRL(*this, "BeepFrequencyTextHz"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);                }
+                    if (mode_.gui)
+                    {
+                        XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->Enable(true);
+                        XRCCTRL(*this, "QsoundText"+elfTypeStr, wxStaticText)->Enable(true);
+                        XRCCTRL(*this, "BeepFrequency"+elfTypeStr, wxTextCtrl)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
+                        XRCCTRL(*this, "BeepFrequencyText"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
+                        XRCCTRL(*this, "BeepFrequencyTextHz"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
+                    }
+                }
             }
             elfConfiguration[selectedComputer_].vtExternal = false;
         break;
@@ -1168,11 +1172,14 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool Gu
                 }
                 else
                 {
-                    XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->Enable(true);
-                    XRCCTRL(*this, "QsoundText"+elfTypeStr, wxStaticText)->Enable(true);
-                    XRCCTRL(*this, "BeepFrequency"+elfTypeStr, wxTextCtrl)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
-                    XRCCTRL(*this, "BeepFrequencyText"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
-                    XRCCTRL(*this, "BeepFrequencyTextHz"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
+                    if (mode_.gui)
+                    {
+                        XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->Enable(true);
+                        XRCCTRL(*this, "QsoundText"+elfTypeStr, wxStaticText)->Enable(true);
+                        XRCCTRL(*this, "BeepFrequency"+elfTypeStr, wxTextCtrl)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
+                        XRCCTRL(*this, "BeepFrequencyText"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
+                        XRCCTRL(*this, "BeepFrequencyTextHz"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
+                    }
                 }
             }
             elfConfiguration[selectedComputer_].vtExternal = false;

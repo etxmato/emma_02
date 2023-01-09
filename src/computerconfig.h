@@ -75,7 +75,7 @@ public:
     wxString filename;
     int type;
     
-    size_t maxBankNumber_;
+    int maxBankNumber_;
     vector<BankInfo> bankInfo;
     Byte bankOutputMaskInSlot;
 };
@@ -83,7 +83,7 @@ public:
 class SlotConfig
 {
 public:
-    size_t maxSlotNumber_;
+    int maxSlotNumber_;
     vector<SlotInfo> slotInfo;
     Word start;
     Word end;

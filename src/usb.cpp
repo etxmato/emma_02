@@ -915,7 +915,7 @@ Byte Usbcard::usbIn()
         bufferFlush_--;
         return 0;
     }
-    
+
     switch (mode_)
     {
         case USB_LOAD_HEADER:
@@ -1012,25 +1012,25 @@ Byte Usbcard::usbIn()
                 ef_ = 1;
                 switch (header[HEADER_TYPE])
                 {
-                    case 1: /* Machine code SAVE */
+                    case 1: // Machine code SAVE
                         bufferPos_ = 11;
                         break;
                         
-                    case 2: /* Regular SAVE - old format */
-                    case 3: /* F&M BASIC SAVE - old format */
-                    case 6: /* Regular SAVE - current format */
+                    case 2: // Regular SAVE - old format
+                    case 3: // F&M BASIC SAVE - old format
+                    case 6: // Regular SAVE - current format
                         bufferPos_ = 15;
                         break;
                         
-                    case 5: /* DSAVE */
+                    case 5: // DSAVE
                         bufferPos_ = 7;
                         break;
                         
-                    case 0x10: /* binary */
+                    case 0x10: // binary
                         bufferPos_ = 0;
                         break;
                         
-                    case 0x11: /* text */
+                    case 0x11: // text
                         bufferPos_ = 0;
                         break;
                         
@@ -1148,11 +1148,11 @@ Byte Usbcard::usbIn()
         case USB_URL:
             returnValue = urlScreens[currentUrlScreen_].screenData[currentUrlPos_++];
             
-            /*            if (currentUrlPos_ >= 960)
-             {
-             currentUrlPos_ = 0;
-             currentUrlScreen_++;
-             }*/
+            //            if (currentUrlPos_ >= 960)
+            // {
+            // currentUrlPos_ = 0;
+            // currentUrlScreen_++;
+            // }
             
             length_--;
             if (length_ == 0)
@@ -1214,7 +1214,7 @@ void Usbcard::usbOutNoEfCheck(Byte value)
     int length;
     int urlLink, newScreen;
     wxLocale systemFormat;
-    
+
     switch (mode_)
     {
         case USB_IDLE:
@@ -2604,7 +2604,7 @@ void Usbcard::dir()
                 header[HEADER_TYPE+bufferPos_] = buffer_[0];
                 switch (buffer_[0])
                 {
-                    case 1: /* Machine code LOAD */
+                    case 1: // Machine code LOAD
                         length_ -= 11;
                         header[HEADER_START_H+bufferPos_] = buffer_[5];
                         header[HEADER_START_L+bufferPos_] = buffer_[6];
@@ -2614,7 +2614,7 @@ void Usbcard::dir()
                         header[HEADER_EXEC_L+bufferPos_] = buffer_[10];
                         break;
                         
-                    case 2: /* Regular LOAD - old format */
+                    case 2: // Regular LOAD - old format
                         length_ -= 15;
                         header[HEADER_TYPE+bufferPos_] = 6;
                         header[HEADER_START_H+bufferPos_] = buffer_[5];
@@ -2625,7 +2625,7 @@ void Usbcard::dir()
                         header[HEADER_EXEC_L+bufferPos_] = buffer_[10];
                         break;
                         
-                    case 3: /* F&M BASIC LOAD */
+                    case 3: // F&M BASIC LOAD
                         length_ -= 15;
                         header[HEADER_START_H+bufferPos_] = buffer_[5];
                         header[HEADER_START_L+bufferPos_] = buffer_[6];
@@ -2635,11 +2635,11 @@ void Usbcard::dir()
                         header[HEADER_EXEC_L+bufferPos_] = buffer_[10];
                         break;
                         
-                    case 5: /* Data only LOAD */
+                    case 5: // Data only LOAD
                         length_ -= 7;
                         break;
                         
-                    case 6: /* Regular LOAD - current format */
+                    case 6: // Regular LOAD - current format
                         length_ -= 15;
                         header[HEADER_START_H+bufferPos_] = buffer_[5]+0x44;
                         header[HEADER_START_L+bufferPos_] = buffer_[6];
@@ -2896,7 +2896,7 @@ void Usbcard::load()
             {
                 switch (buffer_[0])
                 {
-                    case 1: /* Machine code LOAD */
+                    case 1: // Machine code LOAD
                         length_ -= 11;
                         header[HEADER_TYPE] = buffer_[0];
                         header[HEADER_RESULT] = USB_FILE_EXISTS;
@@ -2910,7 +2910,7 @@ void Usbcard::load()
                         header[HEADER_EXEC_L] = buffer_[10];
                         break;
                         
-                    case 2: /* Regular LOAD - old format */
+                    case 2: // Regular LOAD - old format
                         length_ -= 15;
                         header[HEADER_TYPE] = 6;
                         header[HEADER_RESULT] = USB_FILE_EXISTS;
@@ -2925,7 +2925,7 @@ void Usbcard::load()
                         header[HEADER_EXEC_L] = buffer_[10];
                         break;
                         
-                    case 3: /* F&M BASIC LOAD - old format */
+                    case 3: // F&M BASIC LOAD - old format
                         length_ -= 15;
                         header[HEADER_TYPE] = buffer_[0];
                         header[HEADER_RESULT] = USB_FILE_EXISTS;
@@ -2940,7 +2940,7 @@ void Usbcard::load()
                         header[HEADER_EXEC_L] = buffer_[10];
                         break;
                         
-                    case 5: /* Data only LOAD */
+                    case 5: // Data only LOAD
                         start_ = header[HEADER_ARRAY_H] << 8;
                         start_ += header[HEADER_ARRAY_L];
                         length_ -= 7;
@@ -2958,7 +2958,7 @@ void Usbcard::load()
                         header[HEADER_STRING_L] = stringStart & 0xff;
                         break;
                         
-                    case 6: /* Regular LOAD - current format */
+                    case 6: // Regular LOAD - current format
                         length_ -= 15;
                         header[HEADER_TYPE] = buffer_[0];
                         header[HEADER_RESULT] = USB_FILE_EXISTS;
@@ -7905,4 +7905,3 @@ wxString Usbcard::getEmailForm(wxString *error)
     wxString newData = encrypt.encryptUrlData(returnData);
     return "?data=" + newData;
 }
-

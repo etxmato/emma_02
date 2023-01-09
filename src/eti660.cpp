@@ -33,7 +33,7 @@
 #include "eti660.h"
 
 Eti::Eti(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, Conf computerConf)
-:Pixie(title, pos, size, zoom, zoomfactor, computerType, 0)
+:PixieEti(title, pos, size, zoom, zoomfactor, computerType, 0)
 {
     computerConfiguration = computerConf;
 }
@@ -403,7 +403,7 @@ void Eti::cycle(int type)
         break;
 
         case PIXIECYCLE:
-            cyclePixieTelmac();
+            cyclePixie();
         break;
     }
 }
@@ -449,7 +449,7 @@ void Eti::startComputer()
 
     pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);
 
-    configurePixieEti();
+    configurePixie();
     initPixie();
     setZoom(zoom);
     Show(true);

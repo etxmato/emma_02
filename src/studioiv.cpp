@@ -32,7 +32,7 @@
 #include "studioiv.h"
 
 StudioIV::StudioIV(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, Conf computerConf)
-:Pixie(title, pos, size, zoom, zoomfactor, computerType, 0)
+:PixieStudioIV(title, pos, size, zoom, zoomfactor, computerType, 0)
 {
     computerConfiguration = computerConf;
 }
@@ -482,7 +482,7 @@ void StudioIV::cycle(int type)
         break;
 
         case PIXIECYCLE:
-            cyclePixieStudioIV();
+            cyclePixie();
         break;
             
         case VIPIIKEYCYCLE:
@@ -595,7 +595,7 @@ void StudioIV::startComputer()
     
     double zoom = p_Main->getZoom(VIDEOMAIN);
 
-    configurePixieStudioIV();
+    configurePixie();
     initPixie();
     setZoom(zoom);
     Show(true);
@@ -669,7 +669,7 @@ void StudioIV::startComputer2020()
 
     double zoom = p_Main->getZoom(VIDEOMAIN);
     
-    configurePixieStudioIV();
+    configurePixie();
     initPixie();
     setZoom(zoom);
     Show(true);

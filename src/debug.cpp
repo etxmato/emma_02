@@ -1339,7 +1339,7 @@ void DebugWindow::enableDebugGui(bool status)
     XRCCTRL(*this,"DebugStepButton", wxBitmapButton)->Enable(false);
 
     if (computerRunning_)
-        setPauseState();
+        p_Main->eventPauseState();
     else
         XRCCTRL(*this, "DebugPauseButton", wxBitmapButton)->SetBitmapLabel(pauseOffBitmap);
 
@@ -1565,7 +1565,7 @@ void DebugWindow::cycleDebug()
             {
                 p_Computer->setSteps(0);
                 debugTrace("Hit Breakpoint");
-                setPauseState();
+                p_Main->eventPauseState();
                 i = numberOfBreakPoints_;
             }
         }
@@ -1620,7 +1620,7 @@ void DebugWindow::cycleDebug()
                 {
                     p_Computer->setSteps(0);
                     debugTrace("Instruction Trap");
-                    setPauseState();
+                    p_Main->eventPauseState();
                     i = numberOfTraps_;
                 }
             }
@@ -1692,7 +1692,7 @@ void DebugWindow::cycleDebug()
             p_Computer->setSteps(0);
             printBuffer2.operator += (printBuffer);
             debugTrace(printBuffer2);
-            setPauseState();
+            p_Main->eventPauseState();
         }
     }
 
@@ -1702,7 +1702,7 @@ void DebugWindow::cycleDebug()
             p_Computer->setSteps(p_Computer->getSteps()-1);
 
         if (p_Computer->getSteps() == 0)
-            setPauseState();
+            p_Main->eventPauseState();
     }
 
     if (performStep_)
@@ -1755,7 +1755,7 @@ void DebugWindow::cycleDebug()
         }
         p_Computer->setSteps(steps_);
         performStep_ = false;
-        setPauseState();
+        p_Main->eventPauseState();
     }
 }
 

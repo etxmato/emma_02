@@ -23603,6 +23603,7 @@
                                                                                 <size>-1</size>
                                                                                 <family>roman</family>
                                                                             </font>
+                                                                            <hidden>1</hidden>
                                                                             <label>Studio 2020</label>
                                                                             <checked>0</checked>
                                                                         </object>
@@ -29276,7 +29277,17 @@
                                                                                         </font>
                                                                                         <style>wxCB_DROPDOWN</style>
                                                                                         <content>
-                                                                                            <item></item>
+                                                                                            <item>-</item>
+                                                                                            <item>-</item>
+                                                                                            <item>-</item>
+                                                                                            <item>-</item>
+                                                                                            <item>-</item>
+                                                                                            <item>-</item>
+                                                                                            <item>-</item>
+                                                                                            <item>-</item>
+                                                                                            <item>-</item>
+                                                                                            <item>-</item>
+                                                                                            <item>-</item>
                                                                                         </content>
                                                                                     </object>
                                                                                 </object>

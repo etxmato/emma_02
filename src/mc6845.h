@@ -49,6 +49,7 @@ public:
     void setFullScreen(bool fullScreenSet);
     void onF3();
     void reBlit(wxDC &dc);
+    void resetScreenCopyPointer();
 
 private:
     Byte mc6845ram_[2048];

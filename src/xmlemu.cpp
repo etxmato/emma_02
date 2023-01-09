@@ -20,7 +20,7 @@
  *** without express written permission from the author.         ***
  *******************************************************************
 */
-
+ 
 #include "wx/wxprec.h"
 
 #ifdef __BORLANDC__
@@ -2830,7 +2830,7 @@ Byte Xmlemu::readMemDebug(Word address)
         0xd3, 0xe3, 0xf6, 0x33, 0x17, 0x7b, 0x6c, 0x64,
         0x23, 0x3f, 0x13, 0x37, 0x1b, 0x13, 0x30, 0x13 };
     
-    for (int i=0; i<computerConfiguration.copyConfigNumber_; i++)
+    for (size_t i=0; i<computerConfiguration.copyConfigNumber_; i++)
     {
         if (address >= computerConfiguration.copyConfig_[i].start && address <=   computerConfiguration.copyConfig_[i].end)
             if (computerConfiguration.copyConfig_[i].slot == selectedSlot_ || computerConfiguration.copyConfig_[i].slot == -1)
@@ -4385,7 +4385,7 @@ void Xmlemu::saveNvRam()
     Byte value;
     wxFile outputFile;
     
-    for (int i=0; i<nvramDetails.size(); i++)
+    for (size_t i=0; i<nvramDetails.size(); i++)
     {
         if (wxFile::Exists(nvramDetails[i].dirname+nvramDetails[i].filename))
             outputFile.Open(nvramDetails[i].dirname+nvramDetails[i].filename, wxFile::write);

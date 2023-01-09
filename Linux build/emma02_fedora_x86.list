@@ -6,7 +6,7 @@ $libdir=/usr/lib
 $mandir=${prefix}/share/man
 $srcdir=.
 %product Emma 02
-%copyright 2007-2022 Marcel van Tongeren, core based on RCS Elf Emulator copyright 2006 by Michael H Riley.
+%copyright 2007-2023 Marcel van Tongeren, core based on RCS Elf Emulator copyright 2006 by Michael H Riley.
 %vendor Marcel van Tongeren <marcel.v.tongeren@gmail.com>
 %license COPYING
 %readme README

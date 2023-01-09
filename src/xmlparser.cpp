@@ -41,6 +41,40 @@ XmlParser::XmlParser(const wxString& title, const wxPoint& pos, const wxSize& si
 {
 }
 
+void XmlParser::clearXmlData(int computer)
+{
+    wxString number, type;
+    
+    conf[computer].keyFile_ = configPointer->Read("/Xmlemu/Key_File", "");
+    conf[computer].keyFileDir_ = readConfigDir("/Dir/Xmlemu/Key_File", conf[computer].mainDir_);
+    conf[computer].screenDumpFile_ = configPointer->Read("/Xmlemu/Video_Dump_File", "screendump.png");
+    conf[computer].screenDumpFileDir_ = readConfigDir("/Dir/Xmlemu/Video_Dump_File", conf[computer].mainDir_);
+    conf[computer].printFile_ = configPointer->Read("/Xmlemu/Print_File", "printerout.txt");
+    conf[computer].printFileDir_ = readConfigDir("/Dir/Xmlemu/Print_File", conf[computer].mainDir_);
+    conf[computer].xmodemFile_ = configPointer->Read("/Xmlemu/Xmodem_File", "");
+    conf[computer].xmodemFileDir_ = readConfigDir("/Dir/Xmlemu/Xmodem_File", conf[computer].mainDir_);
+
+    for (int fdcType = 0; fdcType<FDCTYPE_MAX; fdcType++)
+    {
+        type.Printf("%d", fdcType);
+        
+        for (int disk=0; disk<4; disk++)
+        {
+            number.Printf("%d", disk);
+
+            floppy_[fdcType][disk] = configPointer->Read("/Xmlemu/FDC" + number + "_File_" + type, "");
+            floppyDir_[fdcType][disk] = readConfigDir("/Dir/Xmlemu/FDC" + number + "_File_" + type, conf[computer].mainDir_);
+        }
+    }
+    for (int tape=0; tape<2; tape++)
+    {
+        number.Printf("%d", tape);
+        
+        conf[computer].wavFile_[tape] = configPointer->Read("/Xmlemu/Wav_File" + number, "");
+        conf[computer].wavFileDir_[tape] = readConfigDir("/Dir/Xmlemu/Wav_File" + number, conf[computer].mainDir_);
+    }
+}
+
 void XmlParser::parseXmlFile(int computer, wxString xmlDir, wxString xmlFile)
 {
     wxString tagList[]=
@@ -205,44 +239,45 @@ void XmlParser::parseXmlFile(int computer, wxString xmlDir, wxString xmlFile)
 
     memAccessDirDefined_ = false;
     conf[computer].ramDir_ = conf[computer].mainDir_ ;
-    videoDumpDirDefined_ = false;
-    conf[computer].screenDumpFile_ = "screendump.png";
-    conf[computer].screenDumpFileDir_ = conf[computer].mainDir_ ;
     charRomDirDefined_ = false;
     conf[computer].charRom_ = "";
     conf[computer].charRomDir_ = conf[computer].mainDir_ ;
-    keyFileDirDefined_ = false;
-    conf[computer].keyFile_ = "";
-    conf[computer].keyFileDir_ = conf[computer].mainDir_ ;
     batchFileDirDefined_ = false;
     conf[computer].batchFile_ = "";
     conf[computer].batchFileDir_ = conf[computer].mainDir_ ;
-    printFileDirDefined_ = false;
-    conf[computer].printFile_ = "";
-    conf[computer].printFileDir_ = conf[computer].mainDir_ ;
     ideFileDirDefined_ = false;
     conf[computer].ide_ = "";
     conf[computer].ideDir_ = conf[computer].mainDir_ ;
-    xmodemFileDirDefined = false;
-    conf[computer].xmodemFile_ = "";
-    conf[computer].xmodemFileDir_ = conf[computer].mainDir_ ;
 
-    for (int tape=0; tape<2; tape++)
-    {
-        wavFileDirDefined[tape] = false;
-        conf[computer].wavFile_[tape] = "";
-        conf[computer].wavFileDir_[tape] = conf[computer].mainDir_ ;
-    }
+    keyFileDirDefined_ = false;
+    keyFileDefined_ = false;
+    keyFileDir = conf[computer].keyFileDir_;
+    videoDumpDirDefined_ = false;
+    videoDumpFileDefined_ = false;
+    videoDumpFileDir = conf[computer].screenDumpFileDir_;
+    printFileDirDefined_ = false;
+    printFileDefined_ = false;
+    printFileDir = conf[computer].printFileDir_;
+    xmodemFileDirDefined_ = false;
+    xmodemFileDefined_ = false;
+    xmodemFileDir = conf[computer].xmodemFileDir_;
     for (int fdcType = 0; fdcType<FDCTYPE_MAX; fdcType++)
     {
         for (int disk=0; disk<4; disk++)
         {
             floppyDirDefined[fdcType][disk] = false;
-            floppy_[fdcType][disk] = "";
-            floppyDir_[fdcType][disk] = conf[computer].mainDir_ ;
+            floppyDefined[fdcType][disk] = false;
+            floppyFileDir[fdcType][disk] = floppyDir_[fdcType][disk];
             directoryMode_[fdcType][disk] = false;
         }
     }
+    for (int tape=0; tape<2; tape++)
+    {
+        wavFileDirDefined[tape] = false;
+        wavFileDefined[tape] = false;
+        wavFileDir[tape] = conf[computer].wavFileDir_[tape];
+    }
+    
     elfConfiguration[computer].fdcType_ = FDCTYPE_17XX;
 
     conf[computer].locationTrigger.resize(65536);
@@ -577,6 +612,73 @@ void XmlParser::parseXmlFile(int computer, wxString xmlDir, wxString xmlFile)
     
     if (warningText_ != "")
         wxMessageBox(warningText_, "Warning list xml parser", wxICON_EXCLAMATION);
+    
+    if (!memAccessDirDefined_)
+        conf[computer].ramDir_ = conf[computer].mainDir_ ;
+    if (!batchFileDirDefined_)
+        conf[computer].batchFileDir_ = conf[computer].mainDir_ ;
+    if (!ideFileDirDefined_)
+        conf[computer].ideDir_ = conf[computer].mainDir_ ;
+    if (!charRomDirDefined_)
+        conf[computer].charRomDir_ = conf[computer].mainDir_ ;
+    if (!vt52CharRomDirDefined_)
+        elfConfiguration[computer].vt52CharRomDir_ = conf[computer].mainDir_ ;
+    if (!vt100CharRomDirDefined_)
+        elfConfiguration[computer].vt100CharRomDir_ = conf[computer].mainDir_ ;
+    if (!vtWavFileDirDefined_)
+        elfConfiguration[computer].vtWavFileDir_ = conf[computer].mainDir_ ;
+
+    if (keyFileDir.Left(conf[computer].mainDir_.Len()) != conf[computer].mainDir_)
+    {
+        if (!keyFileDirDefined_)
+            conf[computer].keyFileDir_ = conf[computer].mainDir_;
+        if (!keyFileDefined_)
+            conf[computer].keyFile_ = "";
+    }
+    if (videoDumpFileDir.Left(conf[computer].mainDir_.Len()) != conf[computer].mainDir_)
+    {
+        if (!videoDumpDirDefined_)
+            conf[computer].screenDumpFileDir_ = conf[computer].mainDir_;
+        if (!videoDumpFileDefined_)
+            conf[computer].screenDumpFile_ = "screendump.png";
+    }
+    if (printFileDir.Left(conf[computer].mainDir_.Len()) != conf[computer].mainDir_)
+    {
+        if (!printFileDirDefined_)
+            conf[computer].printFileDir_ = conf[computer].mainDir_;
+        if (!printFileDefined_)
+            conf[computer].printFile_ = "printerout.txt";
+    }
+    if (xmodemFileDir.Left(conf[computer].mainDir_.Len()) != conf[computer].mainDir_)
+    {
+        if (!xmodemFileDirDefined_)
+            conf[computer].xmodemFileDir_ = conf[computer].mainDir_;
+        if (!xmodemFileDefined_)
+            conf[computer].xmodemFile_ = "";
+    }
+    for (int fdcType = 0; fdcType<FDCTYPE_MAX; fdcType++)
+    {
+        for (int disk=0; disk<4; disk++)
+        {
+            if (floppyFileDir[fdcType][disk].Left(conf[computer].mainDir_.Len()) != conf[computer].mainDir_)
+            {
+                if (!floppyDirDefined[fdcType][disk])
+                    floppyDir_[fdcType][disk] = conf[computer].mainDir_;
+                if (!floppyDefined[fdcType][disk])
+                    floppy_[fdcType][disk] = "";
+            }
+        }
+    }
+    for (int tape=0; tape<2; tape++)
+    {
+        if (wavFileDir[tape].Left(conf[computer].mainDir_.Len()) != conf[computer].mainDir_)
+        {
+            if (!wavFileDirDefined[tape])
+                conf[computer].wavFileDir_[tape] = conf[computer].mainDir_;
+            if (!wavFileDefined[tape])
+                conf[computer].wavFile_[tape] = "";
+        }
+    }
 }
 
 void XmlParser::parseXml_System(int computer, wxXmlNode &node)
@@ -657,42 +759,6 @@ void XmlParser::parseXml_System(int computer, wxXmlNode &node)
                 conf[computer].mainDir_ =  dataDir_ + child->GetNodeContent();
                 if (conf[computer].mainDir_.Right(1) != pathSeparator_)
                     conf[computer].mainDir_ += pathSeparator_;
-                
-                if (!memAccessDirDefined_)
-                    conf[computer].ramDir_ = conf[computer].mainDir_ ;
-                if (!keyFileDirDefined_)
-                    conf[computer].keyFileDir_ = conf[computer].mainDir_ ;
-                if (!batchFileDirDefined_)
-                    conf[computer].batchFileDir_ = conf[computer].mainDir_ ;
-                if (!videoDumpDirDefined_)
-                    conf[computer].screenDumpFileDir_ = conf[computer].mainDir_ ;
-                if (!printFileDirDefined_)
-                    conf[computer].printFileDir_ = conf[computer].mainDir_ ;
-                if (!ideFileDirDefined_)
-                    conf[computer].ideDir_ = conf[computer].mainDir_ ;
-                if (!xmodemFileDirDefined)
-                    conf[computer].xmodemFileDir_ = conf[computer].mainDir_;
-                for (int tape=0; tape<2; tape++)
-                {
-                    if (!wavFileDirDefined[tape])
-                        conf[computer].wavFileDir_[tape] = conf[computer].mainDir_;
-                }
-                for (int fdcType = 0; fdcType<FDCTYPE_MAX; fdcType++)
-                {
-                    for (int disk=0; disk<4; disk++)
-                    {
-                        if (!floppyDirDefined[fdcType][disk])
-                            floppyDir_[fdcType][disk] =  conf[computer].mainDir_;
-                    }
-                }
-                if (!charRomDirDefined_)
-                    conf[computer].charRomDir_ = conf[computer].mainDir_ ;
-                if (!vt52CharRomDirDefined_)
-                    elfConfiguration[computer].vt52CharRomDir_ = conf[computer].mainDir_ ;
-                if (!vt100CharRomDirDefined_)
-                    elfConfiguration[computer].vt100CharRomDir_ = conf[computer].mainDir_ ;
-                if (!vtWavFileDirDefined_)
-                    elfConfiguration[computer].vtWavFileDir_ = conf[computer].mainDir_ ;
             break;
                 
             case TAG_DMA:
@@ -1262,6 +1328,7 @@ void XmlParser::parseXml_FdcDisk(int computer, wxXmlNode &node)
             case TAG_FILENAME:
                 diskNumber = (int)parseXml_Number(*child, "disk");
                 floppy_[FDCTYPE_17XX][diskNumber] = child->GetNodeContent();
+                floppyDefined[FDCTYPE_17XX][diskNumber] = true;
             break;
 
             case TAG_DIRNAME:
@@ -3791,6 +3858,7 @@ void XmlParser::parseXml_Printer (int computer, wxXmlNode &node, int printerType
             break;
 
             case TAG_FILENAME:
+                printFileDefined_ = true;
                 conf[computer].printFile_ = child->GetNodeContent();
             break;
 
@@ -3878,6 +3946,7 @@ void XmlParser::parseXml_Cassette (int computer, wxXmlNode &node)
                 if (child->GetAttribute("cassette") == "1")
                     cassetteNumber = 1;
                 conf[computer].wavFile_[cassetteNumber] = child->GetNodeContent();
+                wavFileDefined[cassetteNumber] = true;
             break;
 
             case TAG_DIRNAME:
@@ -3941,11 +4010,12 @@ void XmlParser::parseXml_Xmodem (int computer, wxXmlNode &node)
         switch (tagTypeInt)
         {
             case TAG_FILENAME:
+                xmodemFileDefined_ = true;
                 conf[computer].xmodemFile_ = child->GetNodeContent();
             break;
 
             case TAG_DIRNAME:
-                xmodemFileDirDefined = true;
+                xmodemFileDirDefined_ = true;
                 conf[computer].xmodemFileDir_ = dataDir_ + child->GetNodeContent();
                 if (conf[computer].xmodemFileDir_.Right(1) != pathSeparator_)
                     conf[computer].xmodemFileDir_ += pathSeparator_;
@@ -3997,6 +4067,7 @@ void XmlParser::parseXml_KeyFile (int computer, wxXmlNode &node)
         switch (tagTypeInt)
         {
             case TAG_FILENAME:
+                keyFileDefined_ = true;
                 conf[computer].keyFile_ = child->GetNodeContent();
             break;
 
@@ -4053,6 +4124,7 @@ void XmlParser::parseXml_VideoDump (int computer, wxXmlNode &node)
         switch (tagTypeInt)
         {
             case TAG_FILENAME:
+                videoDumpFileDefined_ = true;
                 conf[computer].screenDumpFile_ = child->GetNodeContent();
             break;
 
@@ -4645,7 +4717,7 @@ void XmlParser::parseXml_Memory(int computer, wxXmlNode &node)
             break;
 
             case TAG_SLOT:
-                parseXml_Slot (computer, *child, parseXml_Number(*child, "max"));
+                parseXml_Slot (computer, *child, (int)parseXml_Number(*child, "max"));
             break;
 
             case TAG_COMMENT:
@@ -4844,7 +4916,7 @@ void XmlParser::parseXml_Ems(int computer, wxXmlNode &node, int type, size_t con
     }
 }
 
-void XmlParser::parseXml_Slot(int computer, wxXmlNode &node, size_t maxSlots)
+void XmlParser::parseXml_Slot(int computer, wxXmlNode &node, int maxSlots)
 {
     if (maxSlots <= 0)
         maxSlots = 1;
@@ -4971,7 +5043,7 @@ void XmlParser::parseXml_Slot(int computer, wxXmlNode &node, size_t maxSlots)
             break;
 
             case TAG_BANK:
-                parseXml_Bank(computer, *child, (int)parseXml_Number(*child, "slot"), parseXml_Number(*child, "max"));
+                parseXml_Bank(computer, *child, (int)parseXml_Number(*child, "slot"), (int)parseXml_Number(*child, "max"));
             break;
 
             case TAG_COMMENT:
@@ -4988,7 +5060,7 @@ void XmlParser::parseXml_Slot(int computer, wxXmlNode &node, size_t maxSlots)
     }
 }
 
-void XmlParser::parseXml_Bank(int computer, wxXmlNode &node, int slot, size_t maxBanks)
+void XmlParser::parseXml_Bank(int computer, wxXmlNode &node, int slot, int maxBanks)
 {
     if (maxBanks <= 0)
         maxBanks = 1;

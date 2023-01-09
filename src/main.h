@@ -258,6 +258,7 @@ protected:
 #define SET_COMXLED 41
 #define SET_DIAGLED 42
 #define ENABLE_CLOCK 43
+#define PAUSE_STATE 44
 
 #define OS_WINDOWS_2000 0
 #define OS_WINDOWS_XP 1
@@ -506,7 +507,7 @@ public:
 #include "serial.h"
 
 #define EMMA_VERSION 1.47
-#define EMMA_SUB_VERSION 3
+#define EMMA_SUB_VERSION 4
 #define ELF 0
 #define ELFII 1
 #define SUPERELF 2
@@ -1409,6 +1410,9 @@ public:
 
     void setUpdateTitle(guiEvent& event);
     void eventUpdateTitle();
+
+    void setPauseStateEvent(guiEvent& event);
+    void eventPauseState();
 
     void setUpdateComxLedStatus(guiEvent& event);
     void eventUpdateComxLedStatus(int card, int i, bool status);

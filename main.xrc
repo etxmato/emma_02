@@ -25705,7 +25705,7 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
                                                                                 <border>10</border>
-                                                                                <object class="wxStaticText" name="UseLocationTextTMS600">
+                                                                                <object class="wxStaticText" name="UseLocationTextTMC600">
                                                                                     <enabled>0</enabled>
                                                                                     <label>Location</label>
                                                                                 </object>
@@ -29338,7 +29338,17 @@
                                                                                         </font>
                                                                                         <style>wxCB_DROPDOWN</style>
                                                                                         <content>
-                                                                                            <item></item>
+                                                                                            <item>-</item>
+                                                                                            <item>-</item>
+                                                                                            <item>-</item>
+                                                                                            <item>-</item>
+                                                                                            <item>-</item>
+                                                                                            <item>-</item>
+                                                                                            <item>-</item>
+                                                                                            <item>-</item>
+                                                                                            <item>-</item>
+                                                                                            <item>-</item>
+                                                                                            <item>-</item>
                                                                                         </content>
                                                                                     </object>
                                                                                 </object>
