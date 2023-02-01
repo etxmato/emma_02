@@ -1,11 +1,14 @@
 #!/bin/sh 
-if test -d /usr/share/emma_02/data/FRED2
+#!/bin/sh
+if test -d /usr/share/emma_02/data/FRED1_5/FRED2
 then
-   mv /usr/share/emma_02/data/FRED2 /usr/share/emma_02/data/FRED1_5
+   rm -r /usr/share/emma_02/data/FRED2
+   rm -r /usr/share/emma_02/data/FRED1_5/FRED2
 fi
-if test -d /usr/share/emma_02/Configurations/FRED2
+if test -d /usr/share/emma_02/Configurations/FRED1_5/FRED2
 then
-  mv /usr/share/emma_02/Configurations/FRED2 /usr/share/emma_02/Configurations/FRED1_5
+  rm -r /usr/share/emma_02/Configurations/FRED2
+  rm -r /usr/share/emma_02/Configurations/FRED1_5/FRED2
 fi
 if test -d /usr/share/emma_02/data/CDP18S600
 then

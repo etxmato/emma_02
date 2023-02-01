@@ -850,14 +850,24 @@ void XmlParser::parseXml_Basic(int computer, wxXmlNode &node)
                 ploadUpper = computerInfo[computer].ploadExtension;
                 ploadUpper.MakeUpper();
                 for (int i=0; i<4; i++)
-                    conf[computer].pLoadSaveName_[i] = ploadUpper.GetChar(i);
+                {
+                    if (i < (int)ploadUpper.Len())
+                        conf[computer].pLoadSaveName_[i] = ploadUpper.GetChar(i);
+                    else
+                        conf[computer].pLoadSaveName_[i] = ' ';
+                }
             break;
 
             case TAG_ID:
                 ploadUpper = child->GetNodeContent();
                 ploadUpper.MakeUpper();
                 for (int i=0; i<4; i++)
-                    conf[computer].pLoadSaveName_[i] = ploadUpper.GetChar(i);
+                {
+                    if (i < (int)ploadUpper.Len())
+                        conf[computer].pLoadSaveName_[i] = ploadUpper.GetChar(i);
+                    else
+                        conf[computer].pLoadSaveName_[i] = ' ';
+                }
             break;
 
             case TAG_DEFUS:
@@ -948,7 +958,7 @@ void XmlParser::parseXml_Locations(int computer, wxXmlNode &node)
     wxString addressLocations, addressValues;
     Word address;
     LocationInfo newInfo;
-    checkAddressInfo newAddressInfo;
+    CheckAddressInfo newAddressInfo;
     char newtrigger;
         
     wxXmlNode *child = node.GetChildren();
@@ -1011,7 +1021,11 @@ void XmlParser::parseXml_Locations(int computer, wxXmlNode &node)
                     address = getNextHexDec(&addressLocations);
                     if (address != 0)
                     {
+//#if defined (__linux__)
+//                        if (conf[computer].locationTrigger[address].index[0] == 0xff)
+//#else
                         if (conf[computer].locationTrigger[address].index[0] == -1)
+//#endif
                             conf[computer].locationTrigger[address].index[0] = newtrigger;
                         else
                             conf[computer].locationTrigger[address].index.push_back(newtrigger);
@@ -4679,7 +4693,8 @@ void XmlParser::parseXml_Memory(int computer, wxXmlNode &node)
                     conf[computer].emsConfig_[conf[computer].emsConfigNumber_].emsType = RAM;
 
                 elfConfiguration[computer].useEms = true;
-                parseXml_Ems (computer, *child, (int)(EMSMEMORY + 256*conf[computer].emsConfigNumber_), conf[computer].emsConfigNumber_++);
+                parseXml_Ems (computer, *child, (int)(EMSMEMORY + 256*conf[computer].emsConfigNumber_), conf[computer].emsConfigNumber_);
+				conf[computer].emsConfigNumber_++;
             break;
 
             case TAG_MAPPER:
@@ -4701,7 +4716,8 @@ void XmlParser::parseXml_Memory(int computer, wxXmlNode &node)
                     memMask = memMask << 1;
                 }
 
-                parseXml_portExt (computer, *child, PAGER, conf[computer].memConfigNumber_++);
+                parseXml_portExt (computer, *child, PAGER, conf[computer].memConfigNumber_);
+                conf[computer].memConfigNumber_++;
             break;
 
             case TAG_GIANT:

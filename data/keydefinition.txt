@@ -231,6 +231,14 @@ pad a2: 0, 0, 0, 0, 0, 315, 32, 314, 317, 316, 0, 0, 0, 0, 0, 0
 game keys: 5, 7, 9, 8, 6, 10, 10, 10, 10, 10
 
 
+VIP Games:
+==========
+name: driving_vip_color.hex
+load: VIP on Character
+pad a2: 32, 0, 0, 314, 0, 0, 0, 0, 0, 0, 317, 0, 316, 0, 0, 0
+game keys: 0, 3, C, A, 10, 10, 10, 10, 10, 10
+
+
 Chip-8 Games:
 =============
 

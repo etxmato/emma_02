@@ -12,7 +12,6 @@
         <init type="ef3">1</init>
         <init type="ef4">1</init>
         <dirname>Elf</dirname>
-        <pload>super</pload>
     </system>
     
     <memory>

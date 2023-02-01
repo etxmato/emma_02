@@ -17436,7 +17436,7 @@ void DebugWindow::updateTitle()
                 title = title + " ** PAUSED **";
             if (p_Uc1800->getClear() == 0)
                 title = title + " ** CPU STOPPED **";
-            p_Uc1800->SetTitle("Infinifte UC1800" + title);
+            p_Uc1800->SetTitle("Infinite UC1800" + title);
             p_Uc1800->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
         break;
 
@@ -17694,7 +17694,8 @@ wxString DebugWindow::getPseudoDefinition(Word* pseudoBaseVar, Word* pseudoMainL
                 {
                     pseudoLine.Trim(false);
                     pseudoLine.Trim(true);
-                    XRCCTRL(*this, "Chip8Type", wxStaticText)->SetLabel(pseudoLine);
+                    if (mode_.gui)
+                        XRCCTRL(*this, "Chip8Type", wxStaticText)->SetLabel(pseudoLine);
                 }
                 pseudoLine=defFile.GetNextLine();
                 pseudoLine.Trim(false);

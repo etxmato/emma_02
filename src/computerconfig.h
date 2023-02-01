@@ -97,7 +97,7 @@ public:
     bool useIoGroup;
 };
 
-class checkAddressInfo
+class CheckAddressInfo
 {
 public:
     Word checkAddress;
@@ -107,7 +107,7 @@ public:
 class LocationInfo
 {
 public:
-    vector<checkAddressInfo> checkAddressInfo;
+    vector<CheckAddressInfo> checkAddressInfo;
     int type;
 };
 
@@ -140,7 +140,7 @@ public:
 class LocationTrigger
 {
 public:
-    vector<char> index;
+    vector<signed char> index;
 };
 
 class Conf

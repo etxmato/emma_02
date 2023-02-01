@@ -12,6 +12,8 @@
 /IsTool/x86/emma_02_x86_windows.exe
 /Debug/src/*.o
 /Debug/src/*.d
+/Debug_x86/src/*.o
+/Debug_x86/src/*.d
 /Linux build/linux-5.18-aarch64/
 /Linux build/linux-5.14-aarch64/
 /Linux build/linux-5.11-aarch64/

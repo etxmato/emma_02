@@ -3,8 +3,8 @@
 
 [Setup]
 AppName=Emma 02
-AppVerName=Emma 02 - V1.47.4
-AppVersion=1.47.4
+AppVerName=Emma 02 - V1.47.6
+AppVersion=1.47.6
 AppPublisher=Marcel van Tongeren
 DefaultDirName={pf}\Emma 02
 DefaultGroupName=Emma 02

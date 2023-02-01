@@ -3553,7 +3553,7 @@ bool Cdp1802::readIntelFile(wxString fileName, int memoryType, long end, bool sh
                         if (computerType_ != MICROBOARD)
                             p_Main->errorMessage("Attempt to load after address " + endStr);
                     }
-                    setAddress(showFilename, start, last);
+                    setAddress(showFilename, start, last-1);
                     return true;
                 }
                 if (address < start)
@@ -3607,7 +3607,7 @@ bool Cdp1802::readIntelFile(wxString fileName, int memoryType, long end, bool sh
             endStr.Printf("%04X", (int)end);
             p_Main->errorMessage("Attempt to load after address " + endStr);
         }
-        setAddress(showFilename, start, last);
+        setAddress(showFilename, start, last-1);
         return true;
     }
     else
@@ -3658,7 +3658,7 @@ bool Cdp1802::readIntelFile(wxString fileName, int memoryType, Word* lastAddress
                         endStr.Printf("%04X", (int)end);
                         p_Main->errorMessage("Attempt to load after address " + endStr);
                     }
-                    setAddress(showFilename, start, last);
+                    setAddress(showFilename, start, last-1);
                     *lastAddress = address - 1;
                     return true;
                 }
@@ -3714,7 +3714,7 @@ bool Cdp1802::readIntelFile(wxString fileName, int memoryType, Word* lastAddress
             endStr.Printf("%04X", (int)end);
             p_Main->errorMessage("Attempt to load after address " + endStr);
         }
-        setAddress(showFilename, start, last);
+        setAddress(showFilename, start, last-1);
         return true;
     }
     else
@@ -3833,11 +3833,18 @@ void Cdp1802::saveIntelFile(wxString fileName, long start, long end)
         else
             outputFile.Create(fileName);
 
-        while (start < end)
+        int blockLength;
+        while (start <= end)
         {
-            line.Printf(":%02X%04X%02X", 0x10, (int)start, 0x00);
-            checkSum = 0x10+((start>>8)&0xff)+(start&0xff);
-            for (int i = 0; i<16; i++)
+            blockLength = (int)(end-start+1);
+            if (blockLength > 16)
+                blockLength = 16;
+            line.Printf(":%02X%04X%02X", blockLength, (int)start, 0x00);
+            checkSum = blockLength+((start>>8)&0xff)+(start&0xff);
+            for (int i = 0; i<blockLength; i++)
+//            line.Printf(":%02X%04X%02X", 0x10, (int)start, 0x00);
+//            checkSum = 0x10+((start>>8)&0xff)+(start&0xff);
+//            for (int i = 0; i<16; i++)
             {
                 checkSum += readMem(start);
                 byteStr.Printf("%02X", readMem(start));

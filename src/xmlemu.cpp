@@ -4433,11 +4433,15 @@ void Xmlemu::loadNvRam(size_t configNumber)
 
 void Xmlemu::checkComputerFunction()
 {
+//#if defined (__linux__)
+//    if (computerConfiguration.locationTrigger[scratchpadRegister_[programCounter_]].index[0] == 0xff)
+//#else
     if (computerConfiguration.locationTrigger[scratchpadRegister_[programCounter_]].index[0] == -1)
+//#endif
         return;
 
 // ***   for (char trigger : computerConfiguration.locationTrigger[scratchpadRegister_[programCounter_]].index)
-	for (std::vector<char>::iterator trigger = computerConfiguration.locationTrigger[scratchpadRegister_[programCounter_]].index.begin (); trigger != computerConfiguration.locationTrigger[scratchpadRegister_[programCounter_]].index.end (); ++trigger)
+	for (std::vector<signed char>::iterator trigger = computerConfiguration.locationTrigger[scratchpadRegister_[programCounter_]].index.begin (); trigger != computerConfiguration.locationTrigger[scratchpadRegister_[programCounter_]].index.end (); ++trigger)
     {
         if (computerConfiguration.addressLocations.locationInfo[*trigger].checkAddressInfo.size() == 0)
             executeFunction(computerConfiguration.addressLocations.locationInfo[*trigger].type);
@@ -4449,12 +4453,19 @@ void Xmlemu::checkComputerFunction()
         else
         {
             bool execute = true;
-// ***      for (checkAddressInfo addressInfo : computerConfiguration.addressLocations.locationInfo[*trigger].checkAddressInfo)
-            for (std::vector<checkAddressInfo>::iterator addressInfo = computerConfiguration.addressLocations.locationInfo[*trigger].checkAddressInfo.begin (); addressInfo != computerConfiguration.addressLocations.locationInfo[*trigger].checkAddressInfo.end (); ++addressInfo)
+//#if defined (__WXMAC__)
+//            for (CheckAddressInfo addressInfo : computerConfiguration.addressLocations.locationInfo[*trigger].checkAddressInfo)
+//            {
+//                if (readMemDebug(addressInfo.checkAddress) != addressInfo.checkValue)
+//                    execute = false;
+//            }
+//#else
+            for (std::vector<CheckAddressInfo>::iterator addressInfo = computerConfiguration.addressLocations.locationInfo[*trigger].checkAddressInfo.begin (); addressInfo != computerConfiguration.addressLocations.locationInfo[*trigger].checkAddressInfo.end (); ++addressInfo)
             {
                 if (readMemDebug(addressInfo->checkAddress) != addressInfo->checkValue)
                     execute = false;
             }
+//#endif
             if (execute)
                 executeFunction(computerConfiguration.addressLocations.locationInfo[*trigger].type);
         }

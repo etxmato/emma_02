@@ -1101,7 +1101,7 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
             break;
                 
             case 'I':
-                if (computer == "Infifnite")
+                if (computer == "Infinite")
                 {
                     startComputer_ = UC1800;
                     mode_.gui = false;
@@ -1371,7 +1371,7 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
             break;
 
             case 'S':
-                if (computer == "Studio" || computer == "Studio2" || computer == "StudioII")
+                if (computer == "Studio" || computer == "Studio2" || computer == "Studioii")
                 {
                     startComputer_ = STUDIO;
                     computer = "Studio2";
@@ -1387,7 +1387,7 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
                     }
                     return true;
                 }
-                if (computer == "StudioIII" || computer == "Studio3")
+                if (computer == "Studioiii" || computer == "Studio3")
                 {
                     startComputer_ = VICTORY;
                     mode_.gui = false;
@@ -1402,7 +1402,7 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
                     }
                     return true;
                 }
-                if (computer == "StudioIV" || computer == "Studio4")
+                if (computer == "Studioiv" || computer == "Studio4")
                 {
                     startComputer_ = STUDIOIV;
                     computer = "StudioIV";
@@ -1566,7 +1566,7 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
                     }
                     return true;
                 }
-                if (computer == "Vip2K")
+                if (computer == "Vip2k")
                 {
                     startComputer_ = VIP2K;
                     mode_.gui = false;
@@ -5796,7 +5796,9 @@ void Main::onStart(int computer)
     if (conf[runningComputer_].mainY_ >= y)
         conf[runningComputer_].mainY_ = -1;
 
-    XRCCTRL(*this, "Chip8Type", wxStaticText)->SetLabel("");
+    if (mode_.gui)
+       XRCCTRL(*this, "Chip8Type", wxStaticText)->SetLabel("");
+   
     switch (runningComputer_)
     {
         case COMX:
@@ -8474,23 +8476,24 @@ void Main::setSysColours()
 
 void Main::setMemDumpColours()
 {
+   if (!mode_.gui)
+      return;
+   XRCCTRL(*this, "DebugExpansionSlotText", wxStaticText)->SetForegroundColour(guiTextColour[GUI_COL_ORANGE]);
+   XRCCTRL(*this, "DebugExpansionSlot", SlotEdit)->SetForegroundColour(guiTextColour[GUI_COL_ORANGE]);
 
-    XRCCTRL(*this, "DebugExpansionSlotText", wxStaticText)->SetForegroundColour(guiTextColour[GUI_COL_ORANGE]);
-    XRCCTRL(*this, "DebugExpansionSlot", SlotEdit)->SetForegroundColour(guiTextColour[GUI_COL_ORANGE]);
+   XRCCTRL(*this, "DebugExpansionRamText", wxStaticText)->SetForegroundColour(guiTextColour[GUI_COL_GREEN]);
+   XRCCTRL(*this, "DebugExpansionRam", SlotEdit)->SetForegroundColour(guiTextColour[GUI_COL_GREEN]);
 
-    XRCCTRL(*this, "DebugExpansionRamText", wxStaticText)->SetForegroundColour(guiTextColour[GUI_COL_GREEN]);
-    XRCCTRL(*this, "DebugExpansionRam", SlotEdit)->SetForegroundColour(guiTextColour[GUI_COL_GREEN]);
+   XRCCTRL(*this, "DebugExpansionEpromText", wxStaticText)->SetForegroundColour(guiTextColour[GUI_COL_PINK]);
+   XRCCTRL(*this, "DebugExpansionEprom", HexEdit)->SetForegroundColour(guiTextColour[GUI_COL_PINK]);
 
-    XRCCTRL(*this, "DebugExpansionEpromText", wxStaticText)->SetForegroundColour(guiTextColour[GUI_COL_PINK]);
-    XRCCTRL(*this, "DebugExpansionEprom", HexEdit)->SetForegroundColour(guiTextColour[GUI_COL_PINK]);
+   XRCCTRL(*this, "DebugEmsPageText", wxStaticText)->SetForegroundColour(guiTextColour[GUI_COL_BLUE]);
+   XRCCTRL(*this, "DebugEmsNumber", HexEdit)->SetForegroundColour(guiTextColour[GUI_COL_BLUE]);
+   XRCCTRL(*this, "DebugEmsPage", HexEdit)->SetForegroundColour(guiTextColour[GUI_COL_BLUE]);
 
-    XRCCTRL(*this, "DebugEmsPageText", wxStaticText)->SetForegroundColour(guiTextColour[GUI_COL_BLUE]);
-    XRCCTRL(*this, "DebugEmsNumber", HexEdit)->SetForegroundColour(guiTextColour[GUI_COL_BLUE]);
-    XRCCTRL(*this, "DebugEmsPage", HexEdit)->SetForegroundColour(guiTextColour[GUI_COL_BLUE]);
-
-    XRCCTRL(*this, "DebugPagerText", wxStaticText)->SetForegroundColour(guiTextColour[GUI_COL_PURPLE]);
-    XRCCTRL(*this, "DebugPortExtender", HexEdit)->SetForegroundColour(guiTextColour[GUI_COL_PURPLE]);
-    XRCCTRL(*this, "DebugPager", HexEdit)->SetForegroundColour(guiTextColour[GUI_COL_PURPLE]);
+   XRCCTRL(*this, "DebugPagerText", wxStaticText)->SetForegroundColour(guiTextColour[GUI_COL_PURPLE]);
+   XRCCTRL(*this, "DebugPortExtender", HexEdit)->SetForegroundColour(guiTextColour[GUI_COL_PURPLE]);
+   XRCCTRL(*this, "DebugPager", HexEdit)->SetForegroundColour(guiTextColour[GUI_COL_PURPLE]);
 }
 
 void Main::errorMessageEvent(wxErrorMsgEvent&event)
