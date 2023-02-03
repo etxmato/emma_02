@@ -200,6 +200,7 @@ public:
     bool getBatchFile(wxString memAccessExtension);
 
     void closeKeyFile();
+    void resetV1870VideoModeEf();
 
 private:
     class ElfScreen *elfScreenPointer;

@@ -571,6 +571,7 @@ public:
     virtual int getSelectedSlot() {return 0;};
     virtual void setSelectedSlot(int WXUNUSED(slot)) {};
     virtual void setBatchFileNumber(int WXUNUSED(number)) {};
+    virtual void resetV1870VideoModeEf();
 
 protected:
     RunComputer *threadPointer;

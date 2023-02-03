@@ -2388,3 +2388,6 @@ void Computer::ctrlvTextCharNumPlusOne()
     ctrlvTextCharNum_++;
 }
 
+void Computer::resetV1870VideoModeEf()
+{
+}

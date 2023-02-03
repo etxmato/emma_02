@@ -4874,6 +4874,11 @@ void Xmlemu::closeKeyFile()
         matrixKeyboardPointer->closeKeyFile();
 }
 
+void Xmlemu::resetV1870VideoModeEf()
+{
+    elfConfiguration.ioConfiguration.v1870useVideoModeEf = false;
+}
+
 /*
 void MainElf::checkComputerFunction()
 {
