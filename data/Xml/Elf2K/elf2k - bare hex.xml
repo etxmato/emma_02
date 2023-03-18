@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>Cosmac Elf 2000 - Bare + Hex keypad</name>
+        <clock>3.5795</clock>
+        <boot>0</boot>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init>
+        <init type="ef4">1</init>
+        <dirname>Elf2K</dirname>
+    </system>
+
+    <frontpanel type="elf2k" init="on">
+        <out>4</out>
+    </frontpanel>
+
+    <keypad type="elf">
+        <in>4</in>
+        <ef type="in">4</ef>
+        <ef type="ready">3</ef>
+    </keypad>
+
+    <memory>
+        <mainram>
+            <start>0x0000</start>
+            <end>0x7FFF</end>
+        </mainram>
+    </memory>
+    
+</emmaconfig>

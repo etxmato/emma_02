@@ -104,11 +104,11 @@ Comx::~Comx()
 
 void Comx::configureComputer()
 {
-    inType_[3] = COMXIN;
-    outType_[1] = COMXOUT;
-    efType_[2] = COMXEF2;
-    efType_[3] = COMXEF3;
-    efType_[4] = COMXEF4;
+    inType_[0][0][3] = COMXIN;
+    outType_[0][0][1] = COMXOUT;
+    efType_[0][0][2] = COMXEF2;
+    efType_[0][0][3] = COMXEF3;
+    efType_[0][0][4] = COMXEF4;
     cycleType_[COMPUTERCYCLE] = COMXCYCLE;
 //    cycleType_[KEYCYCLE] = KEYBRDCYCLE;
 
@@ -171,7 +171,7 @@ void Comx::initComputer()
 
 Byte Comx::ef(int flag)
 {
-    switch(efType_[flag])
+    switch(efType_[0][0][flag])
     {
         case 0:
             return 1;
@@ -336,7 +336,7 @@ Byte Comx::in(Byte port, Word WXUNUSED(address))
 {
     Byte ret;
 
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case 0:
             ret = 255;
@@ -420,7 +420,7 @@ Byte Comx::in(Byte port, Word WXUNUSED(address))
 void Comx::out(Byte port, Word address, Byte value)
 {
     outValues_[port] = value;
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;

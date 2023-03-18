@@ -183,7 +183,8 @@
         -->
 
         <iogroup>0</iogroup>
-        <dirname>Comx/Disks</dirname>
+        <dirname disk="0">Comx/Disks</dirname>
+        <dirname disk="1">Comx/Disks</dirname>
         <filename disk="0">dos.1.4+f&amp;m.disk.tools.img</filename>
         <filename disk="1">f&amp;m-heijmans.sw.img</filename>
         <out type="select" q="1">2</out>

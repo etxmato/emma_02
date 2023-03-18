@@ -120,25 +120,25 @@ void Cdp18s600::configureComputer()
     
     setCycleType(COMPUTERCYCLE, LEDCYCLE);
 
-    inType_[1] = MS2000IOGROUP;
-    inType_[2] = MS2000IO2;
-    inType_[3] = MS2000IO3;
-    inType_[4] = MS2000IO4;
-    inType_[5] = MS2000IO5;
-    inType_[6] = MS2000IO6;
-    inType_[7] = MS2000IO7;
-    outType_[1] = MS2000IOGROUP;
-    outType_[2] = MS2000IO2;
-    outType_[3] = MS2000IO3;
-    outType_[4] = MS2000IO4;
-    outType_[5] = MS2000IO5;
-    outType_[6] = MS2000IO6;
-    outType_[7] = MS2000IO7;
+    inType_[0][0][1] = MS2000IOGROUP;
+    inType_[0][0][2] = MS2000IO2;
+    inType_[0][0][3] = MS2000IO3;
+    inType_[0][0][4] = MS2000IO4;
+    inType_[0][0][5] = MS2000IO5;
+    inType_[0][0][6] = MS2000IO6;
+    inType_[0][0][7] = MS2000IO7;
+    outType_[0][0][1] = MS2000IOGROUP;
+    outType_[0][0][2] = MS2000IO2;
+    outType_[0][0][3] = MS2000IO3;
+    outType_[0][0][4] = MS2000IO4;
+    outType_[0][0][5] = MS2000IO5;
+    outType_[0][0][6] = MS2000IO6;
+    outType_[0][0][7] = MS2000IO7;
     
-    efType_[1] = CDP18SEF1;
-    efType_[2] = CDP18SEF2;
-    efType_[3] = CDP18SEF3;
-    efType_[4] = CDP18SEF4;
+    efType_[0][0][1] = CDP18SEF1;
+    efType_[0][0][2] = CDP18SEF2;
+    efType_[0][0][3] = CDP18SEF3;
+    efType_[0][0][4] = CDP18SEF4;
 
     efState_[1] = 1;
     efState_[2] = 1;
@@ -359,7 +359,7 @@ Byte Cdp18s600::ef(int flag)
     if (defaultRet != -1)
         return defaultRet;
     
-    switch(efType_[flag])
+    switch(efType_[0][0][flag])
     {
         case 0:
             return 1;
@@ -470,7 +470,7 @@ Byte Cdp18s600::in(Byte port, Word WXUNUSED(address))
     if (defaultRet != -1)
         return defaultRet;
     
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case 0:
             ret = 255;
@@ -576,7 +576,7 @@ void Cdp18s600::out(Byte port, Word address, Byte value)
     outValues_[port] = value;
     
     defaultOut(port, address, value);
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;
@@ -2144,7 +2144,7 @@ Byte Cdp18s601::in(Byte port, Word WXUNUSED(address))
     if (defaultRet != -1)
         return defaultRet;
     
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case 0:
             ret = 255;
@@ -2223,7 +2223,7 @@ void Cdp18s601::out(Byte port, Word address, Byte value)
     outValues_[port] = value;
     
     defaultOut(port, address, value);
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;
@@ -2427,7 +2427,7 @@ Byte Cdp18s602::ef(int flag)
     if (defaultRet != -1)
         return defaultRet;
     
-    switch(efType_[flag])
+    switch(efType_[0][0][flag])
     {
         case 0:
             return 1;
@@ -2497,7 +2497,7 @@ Byte Cdp18s602::in(Byte port, Word WXUNUSED(address))
     if (defaultRet != -1)
         return defaultRet;
     
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case 0:
             ret = 255;
@@ -2547,7 +2547,7 @@ void Cdp18s602::out(Byte port, Word address, Byte value)
     outValues_[port] = value;
     
     defaultOut(port, address, value);
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;
@@ -2795,7 +2795,7 @@ Byte Cdp18s604b::ef(int flag)
     if (defaultRet != -1)
         return defaultRet;
     
-    switch(efType_[flag])
+    switch(efType_[0][0][flag])
     {
         case 0:
             return 1;
@@ -2866,7 +2866,7 @@ Byte Cdp18s604b::in(Byte port, Word WXUNUSED(address))
     if (defaultRet != -1)
         return defaultRet;
     
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case 0:
             ret = 255;
@@ -2915,7 +2915,7 @@ void Cdp18s604b::out(Byte port, Word address, Byte value)
     outValues_[port] = value;
     
     defaultOut(port, address, value);
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;
@@ -3255,25 +3255,25 @@ void Rcasbc::configureComputer()
     
     setCycleType(COMPUTERCYCLE, LEDCYCLE);
     
-    inType_[1] = MS2000IOGROUP;
-    inType_[2] = MS2000IO2;
-    inType_[3] = MS2000IO3;
-    inType_[4] = MS2000IO4;
-    inType_[5] = MS2000IO5;
-    inType_[6] = MS2000IO6;
-    inType_[7] = MS2000IO7;
-    outType_[1] = MS2000IOGROUP;
-    outType_[2] = MS2000IO2;
-    outType_[3] = MS2000IO3;
-    outType_[4] = MS2000IO4;
-    outType_[5] = MS2000IO5;
-    outType_[6] = MS2000IO6;
-    outType_[7] = MS2000IO7;
+    inType_[0][0][1] = MS2000IOGROUP;
+    inType_[0][0][2] = MS2000IO2;
+    inType_[0][0][3] = MS2000IO3;
+    inType_[0][0][4] = MS2000IO4;
+    inType_[0][0][5] = MS2000IO5;
+    inType_[0][0][6] = MS2000IO6;
+    inType_[0][0][7] = MS2000IO7;
+    outType_[0][0][1] = MS2000IOGROUP;
+    outType_[0][0][2] = MS2000IO2;
+    outType_[0][0][3] = MS2000IO3;
+    outType_[0][0][4] = MS2000IO4;
+    outType_[0][0][5] = MS2000IO5;
+    outType_[0][0][6] = MS2000IO6;
+    outType_[0][0][7] = MS2000IO7;
     
-    efType_[1] = CDP18SEF1;
-    efType_[2] = CDP18SEF2;
-    efType_[3] = CDP18SEF3;
-    efType_[4] = CDP18SEF4;
+    efType_[0][0][1] = CDP18SEF1;
+    efType_[0][0][2] = CDP18SEF2;
+    efType_[0][0][3] = CDP18SEF3;
+    efType_[0][0][4] = CDP18SEF4;
 
     efState_[1] = 1;
     efState_[2] = 1;
@@ -3376,7 +3376,7 @@ Byte Rcasbc::ef(int flag)
     if (defaultRet != -1)
         return defaultRet;
     
-    switch(efType_[flag])
+    switch(efType_[0][0][flag])
     {
         case 0:
             return 1;
@@ -3425,7 +3425,7 @@ Byte Rcasbc::in(Byte port, Word WXUNUSED(address))
     if (defaultRet != -1)
         return defaultRet;
     
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case 0:
             ret = 255;
@@ -3476,7 +3476,7 @@ void Rcasbc::out(Byte port, Word address, Byte value)
     outValues_[port] = value;
     
     defaultOut(port, address, value);
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;

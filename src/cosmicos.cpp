@@ -564,6 +564,7 @@ void Cosmicos::onRamButton()
     else
         ramButtonState_ = 1;
 }
+/****  ** below needs to be checked towards XMLEMU   */
 
 void Cosmicos::dataButton(wxCommandEvent&event)
 {
@@ -615,21 +616,21 @@ Byte Cosmicos::getData()
 
 void Cosmicos::configureComputer()
 {
-    inType_[7] = COSMICOSIN;
-    outType_[7] = COSMICOSOUT;
+    inType_[0][0][7] = COSMICOSIN;
+    outType_[0][0][7] = COSMICOSOUT;
 
     setCycleType(COMPUTERCYCLE, LEDCYCLE);
     p_Main->message("Configuring Cosmicos");
     p_Main->message("    Output 7: display output, input 7: data input");
     if (cosmicosConfiguration.useHexKeyboardEf3 || cosmicosConfiguration.useHex)
     {
-        efType_[1] = COSMICOSRET;
-        efType_[2] = COSMICOSDEC;
-        efType_[3] = COSMICOSREQ;
-        inType_[5] = COSMICOSHEX;
-        inType_[6] = COSMICOS7SEG;
-        outType_[5] = COSMICOSHEX;
-        outType_[6] = COSMICOS7SEG;
+        efType_[0][0][1] = COSMICOSRET;
+        efType_[0][0][2] = COSMICOSDEC;
+        efType_[0][0][3] = COSMICOSREQ;
+        inType_[0][0][5] = COSMICOSHEX;
+        inType_[0][0][6] = COSMICOS7SEG;
+        outType_[0][0][5] = COSMICOSHEX;
+        outType_[0][0][6] = COSMICOS7SEG;
         cycleType_[5] = COSMICOS7SEG;
         p_Main->message("    Output 5: select hex row, input 5: hex column");
         p_Main->message("    Output 6: 7 segment display, input 6: reset 7 segment");
@@ -637,7 +638,7 @@ void Cosmicos::configureComputer()
     }
     if (cosmicosConfiguration.vtType == VTNONE)
     {
-        efType_[4] = COSMICOSEF;
+        efType_[0][0][4] = COSMICOSEF;
         p_Main->message("    EF 4: 0 when in button pressed");
     }
     p_Main->message("");
@@ -675,10 +676,10 @@ void Cosmicos::initComputer()
     cassetteEf_ = 0;
     pixieOn_ = false;
 }
-
+/****  ** above needs to be checked towards XMLEMU   */
 Byte Cosmicos::ef(int flag)
 {
-    switch(efType_[flag])
+    switch(efType_[0][0][flag])
     {
         case 0:
             return 1;
@@ -730,7 +731,7 @@ Byte Cosmicos::in(Byte port, Word WXUNUSED(address))
     Byte ret;
     ret = 0;
 
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case 0:
             ret = 255;
@@ -776,7 +777,7 @@ void Cosmicos::out(Byte port, Word WXUNUSED(address), Byte value)
 {
     outValues_[port] = value;
 
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;

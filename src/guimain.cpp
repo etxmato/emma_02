@@ -1562,7 +1562,7 @@ void GuiMain::onVolume(wxScrollEvent&event)
 
 void GuiMain::onCassette(wxCommandEvent& WXUNUSED(event))
 {
-    if (selectedComputer_ == ELF || selectedComputer_ == ELFII || selectedComputer_ == SUPERELF || selectedComputer_ == XML || selectedComputer_ == PICO)
+    if (selectedComputer_ == ELF || selectedComputer_ == ELFII || selectedComputer_ == SUPERELF || selectedComputer_ == PICO)
     {
         if (elfConfiguration[selectedComputer_].useXmodem)
         {
@@ -1819,7 +1819,7 @@ void GuiMain::onAutoLoad(wxCommandEvent&event)
     if (computerRunning_ && (selectedComputer_ == runningComputer_))
     {
         XRCCTRL(*this, "CasLoad"+computerInfo[selectedComputer_].gui, wxButton)->Enable(!conf[runningComputer_].autoCassetteLoad_);
-        if (runningComputer_ != ELF2K)
+        if (runningComputer_ != ELF2K && runningComputer_ != XML)
             XRCCTRL(*this, "CasSave"+computerInfo[selectedComputer_].gui, wxButton)->Enable(!conf[runningComputer_].autoCassetteLoad_);
         else
             XRCCTRL(*this, "CasSave"+computerInfo[runningComputer_].gui, wxButton)->Enable(!conf[runningComputer_].autoCassetteLoad_ && !elfConfiguration[runningComputer_].useHexModem);
@@ -1870,31 +1870,51 @@ void GuiMain::onUseLocation(wxCommandEvent&event)
 
 void GuiMain::onCassetteLoad(wxCommandEvent& WXUNUSED(event))
 {
-    if (runningComputer_ == FRED1 ||runningComputer_ == FRED1_5)
-        p_Fred->startLoad(true);
-    else
+    if (p_Main->getUseXmodem(runningComputer_))
     {
-        if (p_Main->getUseXmodem(runningComputer_))
-        {
-            startTerminalLoad(TERM_XMODEM_LOAD);
-            return;
-        }
-        if (p_Main->getUseHexModem(runningComputer_))
-        {
-            startTerminalLoad(TERM_HEX);
-            return;
-        }
+        startTerminalLoad(TERM_XMODEM_LOAD);
+        return;
+    }
+    if (p_Main->getUseHexModem(runningComputer_))
+    {
+        startTerminalLoad(TERM_HEX);
+        return;
+    }
+    
+    switch (runningComputer_)
+    {
+        case FRED1:
+        case FRED1_5:
+            p_Fred->startLoad(true);
+        break;
 
-        startLoad(0);
+        case XML:
+            p_Xmlemu->startLoad(0, true);
+        break;
+            
+        default:
+            startLoad(0);
+        break;
     }
 }
 
 void GuiMain::onCassetteLoad1(wxCommandEvent& WXUNUSED(event))
 {
-    if (runningComputer_ == FRED1 ||runningComputer_ == FRED1_5)
-        p_Fred->startLoad(true);
-    else
-        startLoad(1);
+    switch (runningComputer_)
+    {
+        case FRED1:
+        case FRED1_5:
+            p_Fred->startLoad(true);
+        break;
+
+        case XML:
+            p_Xmlemu->startLoad(1, true);
+        break;
+            
+        default:
+            startLoad(1);
+        break;
+    }
 }
 
 void GuiMain::onCassetteSave(wxCommandEvent& WXUNUSED(event))
@@ -2966,6 +2986,27 @@ void GuiMain::setPixiePos(int computerType, wxPoint position)
     }
 }
 
+wxPoint GuiMain::getCdp1864Pos(int computerType)
+{
+    return wxPoint(conf[computerType].cdp1864X_, conf[computerType].cdp1864Y_);
+}
+
+void GuiMain::setCdp1864Pos(int computerType, wxPoint position)
+{
+    if (!mode_.window_position_fixed)
+    {
+        conf[computerType].cdp1864X_ = -1;
+        conf[computerType].cdp1864Y_ = -1;
+    }
+    else
+    {
+        if (position.x > 0)
+            conf[computerType].cdp1864X_ = position.x;
+        if (position.y > 0)
+            conf[computerType].cdp1864Y_ = position.y;
+    }
+}
+
 wxPoint GuiMain::getTmsPos(int computerType)
 {
     return wxPoint(conf[computerType].tmsX_, conf[computerType].tmsY_);
@@ -3195,6 +3236,27 @@ void GuiMain::setV1870Pos(int computerType, wxPoint position)
             conf[computerType].v1870X_ = position.x;
         if (position.x > 0)
             conf[computerType].v1870Y_ = position.y;
+    }
+}
+
+wxPoint GuiMain::getSN76430NPos(int computerType)
+{
+    return wxPoint(conf[computerType].SN76430NX_, conf[computerType].SN76430NY_);
+}
+
+void GuiMain::setSN76430NPos(int computerType, wxPoint position)
+{
+    if (!mode_.window_position_fixed)
+    {
+        conf[computerType].SN76430NX_ = -1;
+        conf[computerType].SN76430NY_ = -1;
+    }
+    else
+    {
+        if (position.y > 0)
+            conf[computerType].SN76430NX_ = position.x;
+        if (position.x > 0)
+            conf[computerType].SN76430NY_ = position.y;
     }
 }
 
@@ -3466,7 +3528,7 @@ void GuiMain::onWavFile(wxCommandEvent&WXUNUSED(event))
 void GuiMain::setRealCas(int computerType)
 {
     bool useTape = true;
-    if (((computerType == ELFII) || (computerType == SUPERELF) || (computerType == ELF) || (computerType == XML) || (computerType == PICO)) && (!elfConfiguration[computerType].useTape))
+    if (((computerType == ELFII) || (computerType == SUPERELF) || (computerType == ELF) || (computerType == XML) || (computerType == PICO)) && (!(elfConfiguration[computerType].useTape || elfConfiguration[computerType].useTapeHw)))
         useTape = false;
 
     if (!mode_.gui)
@@ -3507,7 +3569,7 @@ void GuiMain::setRealCas(int computerType)
 #endif
         XRCCTRL(*this, "Turbo"+computerInfo[computerType].gui, wxCheckBox)->Enable(useTape);
         if (computerType == XML)
-            XRCCTRL(*this, "AutoCasLoad"+computerInfo[computerType].gui, wxCheckBox)->Enable(useTape || elfConfiguration[computerType].useXmodem);
+            XRCCTRL(*this, "AutoCasLoad"+computerInfo[computerType].gui, wxCheckBox)->Enable(useTape || elfConfiguration[computerType].useXmodem || elfConfiguration[computerType].useHexModem);
         else
             XRCCTRL(*this, "AutoCasLoad"+computerInfo[computerType].gui, wxCheckBox)->Enable(useTape);
         if (computerRunning_ && (computerType == runningComputer_))
@@ -3528,7 +3590,7 @@ void GuiMain::setRealCas(int computerType)
 void GuiMain::setRealCas2(int computerType)
 {
     bool useTape = true;
-    if (((computerType == ELFII) || (computerType == SUPERELF) || (computerType == ELF) || (computerType == XML) || (computerType == PICO)) && (!elfConfiguration[computerType].useTape))
+    if (((computerType == ELFII) || (computerType == SUPERELF) || (computerType == ELF) || (computerType == XML) || (computerType == PICO)) && (!(elfConfiguration[computerType].useTape || elfConfiguration[computerType].useTapeHw)))
         useTape = false;
 
     if (!mode_.gui)
@@ -3555,9 +3617,9 @@ void GuiMain::setRealCas2(int computerType)
     }
     else
     {
-        XRCCTRL(*this, "Turbo"+computerInfo[computerType].gui, wxCheckBox)->Enable(useTape || elfConfiguration[computerType].useXmodem);
+        XRCCTRL(*this, "Turbo"+computerInfo[computerType].gui, wxCheckBox)->Enable(useTape || elfConfiguration[computerType].useXmodem || elfConfiguration[computerType].useHexModem);
         if (computerType == XML)
-            XRCCTRL(*this, "AutoCasLoad"+computerInfo[computerType].gui, wxCheckBox)->Enable(useTape || elfConfiguration[computerType].useXmodem);
+            XRCCTRL(*this, "AutoCasLoad"+computerInfo[computerType].gui, wxCheckBox)->Enable(useTape || elfConfiguration[computerType].useXmodem || elfConfiguration[computerType].useHexModem);
         else
             XRCCTRL(*this, "AutoCasLoad"+computerInfo[computerType].gui, wxCheckBox)->Enable(useTape);
         if (computerRunning_ && (computerType == runningComputer_))
@@ -3576,7 +3638,7 @@ void GuiMain::setRealCas2(int computerType)
 void GuiMain::setRealCasOff(int computerType)
 {
     bool useTape = true;
-    if (((computerType == ELFII) || (computerType == SUPERELF) || (computerType == ELF) || (computerType == XML) || (computerType == PICO)) && (!elfConfiguration[computerType].useTape))
+    if (((computerType == ELFII) || (computerType == SUPERELF) || (computerType == ELF) || (computerType == XML) || (computerType == PICO)) && (!(elfConfiguration[computerType].useTape || elfConfiguration[computerType].useTapeHw)))
         useTape = false;
 
     conf[computerType].realCassetteLoad_ = false;
@@ -3592,7 +3654,7 @@ void GuiMain::setRealCasOff(int computerType)
 #endif
     XRCCTRL(*this, "Turbo"+computerInfo[computerType].gui, wxCheckBox)->Enable(useTape);
     if (computerType == XML)
-        XRCCTRL(*this, "AutoCasLoad"+computerInfo[computerType].gui, wxCheckBox)->Enable(useTape || elfConfiguration[computerType].useXmodem);
+        XRCCTRL(*this, "AutoCasLoad"+computerInfo[computerType].gui, wxCheckBox)->Enable(useTape || elfConfiguration[computerType].useXmodem || elfConfiguration[computerType].useHexModem);
     else
         XRCCTRL(*this, "AutoCasLoad"+computerInfo[computerType].gui, wxCheckBox)->Enable(useTape);
     if (computerRunning_ && (computerType == runningComputer_))
@@ -4174,7 +4236,7 @@ void GuiMain::enableTapeGui(bool status, int computerType)
 #if defined(__WXMSW__)
     if (computerType == ELF || computerType == ELFII || computerType == SUPERELF || computerType == XML)
     {
-        XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->Enable(status&(!elfConfiguration[computerType].useXmodem));
+        XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->Enable(status&(!(elfConfiguration[computerType].useXmodem && !elfConfiguration[computerType].useHexModem)));
     }
     else
     {
@@ -4203,7 +4265,7 @@ void GuiMain::enableLoadGui(bool status)
     {
         if (runningComputer_ == ELFII || runningComputer_ == SUPERELF || runningComputer_ == ELF || runningComputer_ == ELF2K || runningComputer_ == PICO)
             XRCCTRL(*this, "Tape"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
-        if (runningComputer_ != XML || elfConfiguration[runningComputer_].useTape)
+        if (runningComputer_ != XML || elfConfiguration[runningComputer_].useTape|| elfConfiguration[runningComputer_].useTapeHw)
         {
             XRCCTRL(*this, "CasButton"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
             XRCCTRL(*this, "WavFile"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(status);
@@ -4243,7 +4305,7 @@ void GuiMain::enableLoadGui(bool status)
             XRCCTRL(*this, "CasPause"+computerInfo[runningComputer_].gui, wxButton)->Enable(false);
         XRCCTRL(*this, "CasStop"+computerInfo[runningComputer_].gui, wxButton)->Enable(false);
         XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxButton)->Enable(status&!conf[runningComputer_].realCassetteLoad_);
-        if (runningComputer_ == ELF2K)
+        if (runningComputer_ == ELF2K || runningComputer_ == XML)
         {
             XRCCTRL(*this, "CasSave"+computerInfo[runningComputer_].gui, wxButton)->Enable(status&!elfConfiguration[runningComputer_].useHexModem);
         }
@@ -4289,7 +4351,7 @@ void GuiMain::setTapeState(int tapeState, wxString tapeNumber)
     
     if (runningComputer_ == XML)
     {
-        if (!elfConfiguration[runningComputer_].useTape)
+        if (!(elfConfiguration[runningComputer_].useTape || elfConfiguration[runningComputer_].useTapeHw))
             return;
     }
     
@@ -4342,7 +4404,7 @@ void GuiMain::setTapeState(int tapeState, wxString tapeNumber)
             XRCCTRL(*this, "CasPause"+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState != TAPE_STOP);
         XRCCTRL(*this, "CasStop"+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState != TAPE_STOP);
         XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxButton)->Enable((tapeState == TAPE_STOP)&!conf[runningComputer_].realCassetteLoad_);
-        if (!(runningComputer_ == ELF2K && elfConfiguration[runningComputer_].useHexModem))
+        if (!((runningComputer_ == ELF2K || runningComputer_ == XML) && elfConfiguration[runningComputer_].useHexModem))
             XRCCTRL(*this, "CasSave"+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState == TAPE_STOP);
         if (runningComputer_ == MCDS)
         {
@@ -4476,6 +4538,11 @@ int GuiMain::getCpuType()
 void GuiMain::onClearRam(wxCommandEvent&event)
 {
     elfConfiguration[selectedComputer_].clearRam = event.IsChecked();
+}
+
+void GuiMain::onClearRtc(wxCommandEvent&event)
+{
+    elfConfiguration[selectedComputer_].clearRtc = event.IsChecked();
 }
 
 void GuiMain::onBootAddress(wxCommandEvent&WXUNUSED(event))

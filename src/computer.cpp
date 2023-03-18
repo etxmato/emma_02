@@ -1659,7 +1659,7 @@ void Computer::removePio(int WXUNUSED(pioNumber))
 
 void Computer::removeElf2KSwitch()
 {
-    p_Main->message("Illegal call to stop Elf 2000 swicth panel");
+    p_Main->message("Illegal call to stop Elf 2000 switch panel");
 }
 
 void Computer::removeElfHex()
@@ -1695,7 +1695,6 @@ void Computer::showIntLed()
 
 void Computer::resetVideo()
 {
-    p_Main->message("Illegal call to reset video");
 }
 
 void Computer::resetComputer()
@@ -1842,6 +1841,14 @@ void Computer::cassetteFred(short WXUNUSED(val))
 }
 
 void Computer::cassetteFred(char WXUNUSED(val))
+{
+}
+
+void Computer::cassetteXmlHw(short WXUNUSED(val))
+{
+}
+
+void Computer::cassetteXmlHw(char WXUNUSED(val))
 {
 }
 
@@ -2073,7 +2080,11 @@ void Computer::dataAvailableSerial(bool WXUNUSED(data))
 {
 }
 
-void Computer::thrStatus(bool WXUNUSED(data))
+void Computer::thrStatusVt100(bool WXUNUSED(data))
+{
+}
+
+void Computer::thrStatusSerial(bool WXUNUSED(data))
 {
 }
 

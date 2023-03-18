@@ -230,7 +230,7 @@ void  Ps2::configurePs2(bool ps2Interrupt, IoConfiguration portConf)
     wxString printBuffer;
     p_Main->message("Configuring PS2 Keyboard");
 
-    printBuffer.Printf("    Output %d: write data, input %d: read data, EF %d: clock signal\n", portConf.ps2KeyboardOutput, portConf.ps2KeyboardInput , portConf.ps2KeyboardEf);
+    printBuffer.Printf("    Output %d: write data, input %d: read data, EF %d: clock signal\n", portConf.ps2KeyboardOutput, portConf.ps2KeyboardInput, portConf.ps2KeyboardEf);
     p_Main->message(printBuffer);
 }
 

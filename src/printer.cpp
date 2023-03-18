@@ -1405,8 +1405,11 @@ void Printer::configureParallelPrinter(IoConfiguration portConf)
     wxString ioGroup = "";
     if (portConf.parallelPrinterIoGroup != -1)
     {
-        ioGroup.Printf(" on group %X", portConf.parallelPrinterIoGroup);
+        ioGroup.Printf(" on group %d", portConf.parallelPrinterIoGroup);
     }
+
+    p_Computer->setOutType(portConf.parallelPrinterIoGroup+1, portConf.parallelPrinterOutput, PARALLEL_PRINT_OUT);
+    p_Computer->setInType(portConf.parallelPrinterIoGroup+1, portConf.parallelPrinterInput, PARALLEL_PRINT_IN);
 
     p_Main->message("Configuring Parallel Printer" + ioGroup);
 
@@ -1422,8 +1425,11 @@ void Printer::configureSerialPrinter(IoConfiguration portConf)
     wxString ioGroup = "";
     if (portConf.serialPrinterIoGroup != -1)
     {
-        ioGroup.Printf(" on group %X", portConf.serialPrinterIoGroup);
+        ioGroup.Printf(" on group %d", portConf.serialPrinterIoGroup);
     }
+
+    p_Computer->setOutType(portConf.serialPrinterIoGroup+1, portConf.serialPrinterOutput, SERIAL_PRINT_OUT);
+    p_Computer->setInType(portConf.serialPrinterIoGroup+1, portConf.serialPrinterInput, SERIAL_PRINT_IN);
 
     p_Main->message("Configuring Serial Printer" + ioGroup);
 
@@ -1448,8 +1454,12 @@ void Printer::configureThermalPrinter(IoConfiguration portConf)
     wxString ioGroup = "";
     if (portConf.thermalPrinterIoGroup != -1)
     {
-        ioGroup.Printf(" on group %X", portConf.thermalPrinterIoGroup);
+        ioGroup.Printf(" on group %d", portConf.thermalPrinterIoGroup);
     }
+
+    p_Computer->setEfType(portConf.thermalPrinterIoGroup+1, portConf.thermalPrinterEf, THERMAL_PRINT_EF);
+    p_Computer->setOutType(portConf.thermalPrinterIoGroup+1, portConf.thermalPrinterOutput, THERMAL_PRINT_OUT);
+    p_Computer->setInType(portConf.thermalPrinterIoGroup+1, portConf.thermalPrinterInput, THERMAL_PRINT_IN);
 
     p_Main->message("Configuring Thermal Printer" + ioGroup);
 
@@ -1462,14 +1472,22 @@ void Printer::configureBasicPrinter(IoConfiguration portConf)
 {
     wxString runningComp = p_Main->getRunningComputerStr();
 
-    p_Computer->setOutType(portConf.printerOutput, PRINTEROUT);
+    int ioGroupNum = 0;
+    if (runningComp == "Xml")
+        ioGroupNum = portConf.ideIoGroup + 1;
+
+    wxString ioGroup = "";
+    if (portConf.uartIoGroup != -1)
+        ioGroup.Printf(" on group %d", portConf.ideIoGroup);
+
+    p_Computer->setOutType(ioGroupNum, portConf.printerOutput, BASIC_PRINT_OUT);
 
     wxString printBuffer;
-    p_Main->message("Configuring Printer");
+    p_Main->message("Configuring Printer" + ioGroup);
 
     if (portConf.printerEf != 0)
     {
-        p_Computer->setEfType(portConf.printerEf, ELFPRINTEREF);
+        p_Computer->setEfType(ioGroupNum, portConf.printerEf, BASIC_PRINT_EF);
         printBuffer.Printf("    Output %d: write data, EF %d: data ready\n", portConf.printerOutput, portConf.printerEf);
     }
     else

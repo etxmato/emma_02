@@ -24,6 +24,7 @@ public:
     void outIde(Byte value);
     void selectIdeRegister(Byte value);
     void cycleIde();
+    Byte readIdeStatus() {return 255;};
 
 private:
     void initIde();

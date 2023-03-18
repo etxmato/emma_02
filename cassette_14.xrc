@@ -170,6 +170,7 @@
 <font>
 <size>14</size>
 </font>
+<value>0000</value>
 </object>
 </object>
 <object class="sizeritem">
@@ -189,6 +190,7 @@
 <font>
 <size>14</size>
 </font>
+<value>0000</value>
 </object>
 </object>
 <object class="sizeritem">
@@ -208,6 +210,7 @@
 <font>
 <size>14</size>
 </font>
+<value>0000</value>
 </object>
 </object>
 </object>

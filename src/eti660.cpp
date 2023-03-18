@@ -45,12 +45,12 @@ Eti::~Eti()
 
 void Eti::configureComputer()
 {
-    outType_[2] = ETIPIAOUT;
-    inType_[2] = ETIPIAIN;
-    outType_[3] = ETICOLOURRAM;
-    outType_[4] = VIPOUT4;
-    efType_[2] = VIPEF2;
-    efType_[4] = VIPKEYEF;
+    outType_[0][0][2] = ETIPIAOUT;
+    inType_[0][0][2] = ETIPIAIN;
+    outType_[0][0][3] = ETICOLOURRAM;
+    outType_[0][0][4] = VIPOUT4;
+    efType_[0][0][2] = VIPEF2;
+    efType_[0][0][4] = VIPKEYEF;
 
     p_Main->message("Configuring ETI 660");
     p_Main->message("    Output/input 2: PIA, output 3: colour RAM");
@@ -132,7 +132,7 @@ void Eti::keyUp(int keycode)
 
 Byte Eti::ef(int flag)
 {
-    switch(efType_[flag])
+    switch(efType_[0][0][flag])
     {
         case 0:
             return 1;
@@ -166,7 +166,7 @@ Byte Eti::in(Byte port, Word address)
 //    p_Main->messageInt(port);
 //    p_Main->messageInt(address);
 
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case 0:
             ret = 255;
@@ -201,7 +201,7 @@ void Eti::out(Byte port, Word address, Byte value)
 //    p_Main->messageInt(port);
 //    p_Main->messageInt(value);
 
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;

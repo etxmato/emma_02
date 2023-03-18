@@ -293,13 +293,13 @@ void V1870::configure1870Comx(bool expansionRomLoaded, int expansionTypeCard0)
 #endif
 
     cycleType_[VIDEOCYCLE_V1870] = V1870CYCLE;
-    efType_[1] = V1870EF;
+    efType_[0][0][1] = V1870EF;
 
-    outType_[3] = V1870OUT3;
-    outType_[4] = V1870OUT4;
-    outType_[5] = V1870OUT5;
-    outType_[6] = V1870OUT6;
-    outType_[7] = V1870OUT7;
+    outType_[0][0][3] = V1870OUT3;
+    outType_[0][0][4] = V1870OUT4;
+    outType_[0][0][5] = V1870OUT5;
+    outType_[0][0][6] = V1870OUT6;
+    outType_[0][0][7] = V1870OUT7;
     p_Main->message("Configuring Video Interface System CDP 1869/1870");
     p_Main->message("    Output 3 to 7: VIS OUT 3 to 7");
     p_Main->message("    EF 1: display/non display period\n");
@@ -488,13 +488,13 @@ void V1870::configure1870Cidelsa()
 #endif
 
     cycleType_[VIDEOCYCLE_V1870] = V1870CYCLE;
-    efType_[1] = V1870EF;
+    efType_[0][0][1] = V1870EF;
 
-    outType_[3] = V1870OUT3;
-    outType_[4] = V1870OUT4;
-    outType_[5] = V1870OUT5;
-    outType_[6] = V1870OUT6;
-    outType_[7] = V1870OUT7;
+    outType_[0][0][3] = V1870OUT3;
+    outType_[0][0][4] = V1870OUT4;
+    outType_[0][0][5] = V1870OUT5;
+    outType_[0][0][6] = V1870OUT6;
+    outType_[0][0][7] = V1870OUT7;
     p_Main->message("Configuring Video Interface System CDP 1869/1876");
     p_Main->message("    Output 3 to 7: VIS OUT 3 to 7");
     p_Main->message("    EF 1: display/non display period\n");
@@ -522,10 +522,10 @@ void V1870::configure1870Telmac()
     cycleType_[BLINKCYCLE_V1870] = V1870BLINK;
     cycleType_[VIDEOCYCLE_V1870] = V1870CYCLE;
 
-    efType_[1] = V1870EF;
+    efType_[0][0][1] = V1870EF;
 
-    outType_[5] = TELMACOUTDATA;
-    outType_[7] = TELMACOUTREGISTER;
+    outType_[0][0][5] = TELMACOUTDATA;
+    outType_[0][0][7] = TELMACOUTREGISTER;
     p_Main->message("Configuring Video Interface System CDP 1869/1870");
     p_Main->message("    Output 5: VIS data, output 7: VIS register select");
     p_Main->message("    EF 1: display/non display period\n");
@@ -552,11 +552,11 @@ void V1870::configure1870Pecom()
 
     cycleType_[VIDEOCYCLE_V1870] = V1870CYCLE;
 
-    outType_[3] = V1870OUT3;
-    outType_[4] = V1870OUT4;
-    outType_[5] = V1870OUT5;
-    outType_[6] = V1870OUT6;
-    outType_[7] = V1870OUT7;
+    outType_[0][0][3] = V1870OUT3;
+    outType_[0][0][4] = V1870OUT4;
+    outType_[0][0][5] = V1870OUT5;
+    outType_[0][0][6] = V1870OUT6;
+    outType_[0][0][7] = V1870OUT7;
     p_Main->message("Configuring Video Interface System CDP 1869/1870");
     p_Main->message("    Output 3 to 7: VIS OUT 3 to 7\n");
 }

@@ -34,6 +34,8 @@ public:
     void onXmlPrintMode(wxCommandEvent&event);
     void onXmlPrintButton(wxCommandEvent& event);
     void onXmlF4(bool forceStart);
+    void onXmlBaudR(wxCommandEvent&event);
+    void onXmlBaudT(wxCommandEvent&event);
 
 private:    
     wxBitmap tapeOffBitmap;

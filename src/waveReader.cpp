@@ -125,6 +125,7 @@ long WaveReader::read(sample_t* outBuffer, size_t remaining, float gain)
         }
         p_Computer->cassette(amplitudeWord);
         p_Computer->cassetteFred(amplitudeWord);
+        p_Computer->cassetteXmlHw(amplitudeWord);
     }
     else
     {
@@ -136,6 +137,7 @@ long WaveReader::read(sample_t* outBuffer, size_t remaining, float gain)
         }
         p_Computer->cassette(amplitudeByte);
         p_Computer->cassetteFred(amplitudeByte);
+        p_Computer->cassetteXmlHw(amplitudeWord);
     }
     return remaining;
 }

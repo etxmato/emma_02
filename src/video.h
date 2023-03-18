@@ -133,6 +133,8 @@ public:
 
     virtual void reBlit(wxDC &dc);
     virtual bool isMc6845running() {return false;};
+    bool arePixieGraphicsOn() {return graphicsOn_;};
+    void setPixieGraphics(bool status) {graphicsOn_ = status;};
 
 protected:
     Byte pageMemory_[4096];
@@ -216,6 +218,8 @@ protected:
     int colourIndex_;
     int videoNumber_;
 
+    bool graphicsOn_;
+    
 private:
     SplashScreen *splashScreen_;
     

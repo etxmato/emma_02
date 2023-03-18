@@ -108,6 +108,7 @@ class LocationInfo
 {
 public:
     vector<CheckAddressInfo> checkAddressInfo;
+    Word additionalAddress;
     int type;
 };
 
@@ -127,7 +128,9 @@ enum
     INFO_START_XMODEM_SAVE,
     INFO_START_XMODEM_LOAD,
     INFO_START_YMODEM_SAVE,
-    INFO_CORRECT_CAPS
+    INFO_CORRECT_CAPS,
+    INFO_ELFOS_BOOT,
+    INFO_START_CHIP8
 };
 
 class Locations
@@ -274,6 +277,7 @@ public:
     int numberOfVideoTypes_;
     int v1870X_, v1870Y_;
     int pixieX_, pixieY_;
+    int cdp1864X_, cdp1864Y_;
     int tmsX_, tmsY_;
     int vtX_, vtY_;
     int vtUart2X_, vtUart2Y_;
@@ -285,6 +289,7 @@ public:
     int secondFrameX_, secondFrameY_;
     int thirdFrameX_, thirdFrameY_;
     int fourthFrameX_, fourthFrameY_;
+    int SN76430NX_, SN76430NY_;
 
     int sizeX_;
     int sizeY_;

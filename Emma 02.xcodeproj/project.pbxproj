@@ -138,6 +138,8 @@
 		997915D02308266B0063A6F3 /* cdp18s640.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997915CE2308266B0063A6F3 /* cdp18s640.cpp */; };
 		997C6D62209E3FF000A8704E /* fred.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997C6D60209E3FF000A8704E /* fred.cpp */; };
 		997C6D65209E415500A8704E /* guifred.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997C6D63209E415500A8704E /* guifred.cpp */; };
+		998A12AD29C11E05002E3FBD /* cvkeypad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 998A12AB29C11E05002E3FBD /* cvkeypad.cpp */; };
+		998A12AE29C11E05002E3FBD /* cvkeypad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 998A12AB29C11E05002E3FBD /* cvkeypad.cpp */; };
 		998AE1961F769A9500D6B0D1 /* Configurations in Resources */ = {isa = PBXBuildFile; fileRef = 9911BF351F477D6200B795BB /* Configurations */; };
 		998AE1971F769A9F00D6B0D1 /* data in Resources */ = {isa = PBXBuildFile; fileRef = 996B97391B24116B009827BF /* data */; };
 		99952FDE277E5CB00068CD27 /* main_mac_14.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99952FDD277E5CAF0068CD27 /* main_mac_14.xrc */; };
@@ -219,6 +221,10 @@
 		99BDFD8728B2C0C000B173A9 /* xmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BDFD8528B2C0C000B173A9 /* xmlparser.cpp */; };
 		99BE531F1F1556F5006BD353 /* guidiag.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BE531E1F1556F5006BD353 /* guidiag.cpp */; };
 		99BE53251F156AA1006BD353 /* diagstatusbar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BE53231F156AA1006BD353 /* diagstatusbar.cpp */; };
+		99BFDEDB29BD2ED300B1F2C6 /* sn76430n.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BFDED929BD2ED300B1F2C6 /* sn76430n.cpp */; };
+		99BFDEDC29BD2ED300B1F2C6 /* sn76430n.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BFDED929BD2ED300B1F2C6 /* sn76430n.cpp */; };
+		99C11A7329A022AF00DFCACB /* rtc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99C11A7129A022AF00DFCACB /* rtc.cpp */; };
+		99C11A7429A022AF00DFCACB /* rtc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99C11A7129A022AF00DFCACB /* rtc.cpp */; };
 		99C3BFE81C0CF400006E3D82 /* guivelf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99C3BFE61C0CF400006E3D82 /* guivelf.cpp */; };
 		99C567BC24CC4DFC00F11A84 /* am4kbas.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99C567BB24CC4DFB00F11A84 /* am4kbas.syntax */; };
 		99C9EABB2145C1FC00C1EA03 /* Test_Word.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99C9EABA2145C1FC00C1EA03 /* Test_Word.syntax */; };
@@ -819,6 +825,8 @@
 		997C6D61209E3FF000A8704E /* fred.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = fred.h; path = src/fred.h; sourceTree = "<group>"; };
 		997C6D63209E415500A8704E /* guifred.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = guifred.cpp; path = src/guifred.cpp; sourceTree = "<group>"; };
 		997C6D64209E415500A8704E /* guifred.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = guifred.h; path = src/guifred.h; sourceTree = "<group>"; };
+		998A12AB29C11E05002E3FBD /* cvkeypad.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cvkeypad.cpp; path = src/cvkeypad.cpp; sourceTree = "<group>"; };
+		998A12AC29C11E05002E3FBD /* cvkeypad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cvkeypad.h; path = src/cvkeypad.h; sourceTree = "<group>"; };
 		999411EF28246A950017D756 /* computerconfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = computerconfig.h; path = src/computerconfig.h; sourceTree = "<group>"; };
 		99952FDD277E5CAF0068CD27 /* main_mac_14.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = main_mac_14.xrc; sourceTree = "<group>"; };
 		99952FE0277E5CB70068CD27 /* main_mac_11.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = main_mac_11.xrc; sourceTree = "<group>"; };
@@ -922,6 +930,10 @@
 		99BE53201F1556FD006BD353 /* guidiag.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = guidiag.h; path = src/guidiag.h; sourceTree = "<group>"; };
 		99BE53231F156AA1006BD353 /* diagstatusbar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = diagstatusbar.cpp; path = src/diagstatusbar.cpp; sourceTree = "<group>"; };
 		99BE53241F156AA1006BD353 /* diagstatusbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = diagstatusbar.h; path = src/diagstatusbar.h; sourceTree = "<group>"; };
+		99BFDED929BD2ED300B1F2C6 /* sn76430n.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sn76430n.cpp; path = src/sn76430n.cpp; sourceTree = "<group>"; };
+		99BFDEDA29BD2ED300B1F2C6 /* sn76430n.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sn76430n.h; path = src/sn76430n.h; sourceTree = "<group>"; };
+		99C11A7129A022AF00DFCACB /* rtc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = rtc.cpp; path = src/rtc.cpp; sourceTree = "<group>"; };
+		99C11A7229A022AF00DFCACB /* rtc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = rtc.h; path = src/rtc.h; sourceTree = "<group>"; };
 		99C3BFE61C0CF400006E3D82 /* guivelf.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = guivelf.cpp; path = src/guivelf.cpp; sourceTree = "<group>"; };
 		99C3BFE71C0CF400006E3D82 /* guivelf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = guivelf.h; path = src/guivelf.h; sourceTree = "<group>"; };
 		99C567BB24CC4DFB00F11A84 /* am4kbas.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = am4kbas.syntax; sourceTree = "<group>"; };
@@ -1263,6 +1275,8 @@
 				9976472E1A61D5EE00FB9B33 /* cosmicos.h */,
 				997647131A61D5EE00FB9B33 /* cosmicoshex.cpp */,
 				997647951A61D5EE00FB9B33 /* cosmicoshex.h */,
+				998A12AB29C11E05002E3FBD /* cvkeypad.cpp */,
+				998A12AC29C11E05002E3FBD /* cvkeypad.h */,
 				997647751A61D5EE00FB9B33 /* datadir.cpp */,
 				997647A01A61D5EE00FB9B33 /* datadir.h */,
 				99BDBDC71E7F3ECA00DB0FB8 /* debug.cpp */,
@@ -1434,11 +1448,15 @@
 				997647AF1A61D5EE00FB9B33 /* psave.h */,
 				997647991A61D5EE00FB9B33 /* pushbutton.cpp */,
 				997647981A61D5EE00FB9B33 /* pushbutton.h */,
+				99C11A7129A022AF00DFCACB /* rtc.cpp */,
+				99C11A7229A022AF00DFCACB /* rtc.h */,
 				9942DD731F3B4DBE00569242 /* SDL_audioin_internal.h */,
 				9942DD741F3B4DBE00569242 /* SDL_audioin.c */,
 				9942DD751F3B4DBE00569242 /* SDL_audioin.h */,
 				99E4FECE1FF3BD40001A10B7 /* serial.cpp */,
 				99E4FECD1FF3BD3F001A10B7 /* serial.h */,
+				99BFDED929BD2ED300B1F2C6 /* sn76430n.cpp */,
+				99BFDEDA29BD2ED300B1F2C6 /* sn76430n.h */,
 				997647401A61D5EE00FB9B33 /* sound.cpp */,
 				997647911A61D5EE00FB9B33 /* sound.h */,
 				991199421E92ECC30074ADAA /* splash.cpp */,
@@ -1815,6 +1833,7 @@
 				997647D11A61D5EF00FB9B33 /* cosmicos.cpp in Sources */,
 				997647C01A61D5EE00FB9B33 /* printer.cpp in Sources */,
 				997647C51A61D5EF00FB9B33 /* guimembership.cpp in Sources */,
+				99C11A7329A022AF00DFCACB /* rtc.cpp in Sources */,
 				99BBC9AE281DD39E00BD9345 /* xmlemu.cpp in Sources */,
 				9942DD6D1F3B4D3E00569242 /* base.cpp in Sources */,
 				997647EE1A61D5EF00FB9B33 /* sound.cpp in Sources */,
@@ -1879,6 +1898,7 @@
 				99F70FF31E7096C800959A15 /* guimcds.cpp in Sources */,
 				991C84F71E37E66A0084DAFB /* guimicrotutor.cpp in Sources */,
 				997647E61A61D5EF00FB9B33 /* tms9918.cpp in Sources */,
+				998A12AD29C11E05002E3FBD /* cvkeypad.cpp in Sources */,
 				99BDFD8628B2C0C000B173A9 /* xmlparser.cpp in Sources */,
 				99E4FECF1FF3BD40001A10B7 /* serial.cpp in Sources */,
 				997647F21A61D5EF00FB9B33 /* elf2.cpp in Sources */,
@@ -1908,6 +1928,7 @@
 				997647D71A61D5EF00FB9B33 /* til313.full.cpp in Sources */,
 				99C3BFE81C0CF400006E3D82 /* guivelf.cpp in Sources */,
 				99677914202E430B00108BB6 /* coinarcade.cpp in Sources */,
+				99BFDEDB29BD2ED300B1F2C6 /* sn76430n.cpp in Sources */,
 				997648001A61D5EF00FB9B33 /* guieti660.cpp in Sources */,
 				99BC74FC1DCFDB5C0000D8A9 /* upd765.cpp in Sources */,
 				997647F11A61D5EF00FB9B33 /* vt100.cpp in Sources */,
@@ -1959,6 +1980,7 @@
 				99F37E55285D1D9200C57417 /* printer.cpp in Sources */,
 				99F37E56285D1D9200C57417 /* guimembership.cpp in Sources */,
 				99F37E57285D1D9200C57417 /* xmlemu.cpp in Sources */,
+				99C11A7429A022AF00DFCACB /* rtc.cpp in Sources */,
 				99F37E58285D1D9200C57417 /* base.cpp in Sources */,
 				99F37E59285D1D9200C57417 /* sound.cpp in Sources */,
 				99F37E5A285D1D9200C57417 /* pecom.cpp in Sources */,
@@ -2023,6 +2045,7 @@
 				99F37E94285D1D9200C57417 /* guimicrotutor.cpp in Sources */,
 				99F37E95285D1D9200C57417 /* tms9918.cpp in Sources */,
 				99F37E96285D1D9200C57417 /* serial.cpp in Sources */,
+				998A12AE29C11E05002E3FBD /* cvkeypad.cpp in Sources */,
 				99BDFD8728B2C0C000B173A9 /* xmlparser.cpp in Sources */,
 				99F37E97285D1D9200C57417 /* elf2.cpp in Sources */,
 				99F37E98285D1D9200C57417 /* pixie.cpp in Sources */,
@@ -2052,6 +2075,7 @@
 				99F37EAF285D1D9200C57417 /* til313.full.cpp in Sources */,
 				99F37EB0285D1D9200C57417 /* guivelf.cpp in Sources */,
 				99F37EB1285D1D9200C57417 /* coinarcade.cpp in Sources */,
+				99BFDEDC29BD2ED300B1F2C6 /* sn76430n.cpp in Sources */,
 				99F37EB2285D1D9200C57417 /* guieti660.cpp in Sources */,
 				99F37EB3285D1D9200C57417 /* upd765.cpp in Sources */,
 				99F37EB4285D1D9200C57417 /* vt100.cpp in Sources */,

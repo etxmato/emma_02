@@ -62,13 +62,13 @@ Vip2K::~Vip2K()
 
 void Vip2K::configureComputer()
 {
-    inType_[1] = VIP2KCOL1;
-    inType_[2] = VIP2KCOL2;
-    inType_[3] = VIP2KCOL3;
-    inType_[4] = VIP2KCOL4;
-    inType_[5] = VIP2KCOL5;
-    efType_[2] = VIP2KEF2;
-    efType_[3] = VIP2KEF3;
+    inType_[0][0][1] = VIP2KCOL1;
+    inType_[0][0][2] = VIP2KCOL2;
+    inType_[0][0][3] = VIP2KCOL3;
+    inType_[0][0][4] = VIP2KCOL4;
+    inType_[0][0][5] = VIP2KCOL5;
+    efType_[0][0][2] = VIP2KEF2;
+    efType_[0][0][3] = VIP2KEF3;
 
     cycleType_[COMPUTERCYCLE] = VIPIIKEYCYCLE;
 
@@ -315,7 +315,7 @@ void Vip2K::keyUp(int keycode)
 
 Byte Vip2K::ef(int flag)
 {
-    switch(efType_[flag])
+    switch(efType_[0][0][flag])
     {
         case 0:
             return 1;
@@ -351,7 +351,7 @@ Byte Vip2K::in(Byte port, Word WXUNUSED(address))
     Byte ret=255;
     Word address;
 
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case VIP2KCOL1:
             ret = vipKeyState_[1];
@@ -429,7 +429,7 @@ void Vip2K::out(Byte port, Word WXUNUSED(address), Byte value)
 {
     outValues_[port] = value;
 
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;

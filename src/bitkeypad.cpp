@@ -43,7 +43,7 @@ void BitKeypad::configure(IoConfiguration ioConf, int pad)
     wxString ioGroup = "";
     if (ioConfiguration_.bitKeypad[pad_].ioGroup != -1)
     {
-        ioGroup.Printf(" on group %X", ioConfiguration_.bitKeypad[pad_].ioGroup);
+        ioGroup.Printf(" on group %d", ioConfiguration_.bitKeypad[pad_].ioGroup);
     }
     
     p_Main->message("Configuring keypad" + ioConfiguration_.bitKeypad[pad_].number + ioGroup);

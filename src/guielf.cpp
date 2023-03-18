@@ -1471,7 +1471,7 @@ bool GuiElf::getUseXmodem(int elfType)
 
 bool GuiElf::getUseHexModem(int elfType)
 {
-    if (elfType == ELF2K)
+    if (elfType == ELF2K || elfType == XML)
         return elfConfiguration[elfType].useHexModem;
     else
         return false;

@@ -74,11 +74,11 @@ void Vip::setTempo(int tempo)
 
 void Vip::configureComputer()
 {
-    outType_[2] = VIPKEYOUT;
-    outType_[4] = VIPOUT4;
-    outType_[7] = VIPIIOUT7;
-    efType_[2] = VIPEF2;
-    efType_[3] = VIPKEYEF;
+    outType_[0][0][2] = VIPKEYOUT;
+    outType_[0][0][4] = VIPOUT4;
+    outType_[0][0][7] = VIPIIOUT7;
+    efType_[0][0][2] = VIPEF2;
+    efType_[0][0][3] = VIPKEYEF;
     setCycleType(COMPUTERCYCLE, LEDCYCLE);
 
     vipSound_ = p_Main->getSound(VIP);
@@ -88,7 +88,7 @@ void Vip::configureComputer()
     p_Main->message("Configuring Cosmac VIP");
     if (vipSound_ == VIP_1864)
     {
-        outType_[3] = VIPOUT3;
+        outType_[0][0][3] = VIPOUT3;
         p_Main->message("    Output 2: hex key latch, output 3: tone latch");
         p_Main->message("    output 4: address latch, output 7: cassette on/off");
     }
@@ -106,7 +106,7 @@ void Vip::configureComputer()
     if (vp580_ || cdp1862_)
     {
         p_Main->message("    EF 2: cassette in, EF 3: hex keypad A, EF 4: hex keypad B\n");
-        efType_[4] = VIPKEYEF4;
+        efType_[0][0][4] = VIPKEYEF4;
     }
     else
         p_Main->message("    EF 2: cassette in, EF 3: hex keypad\n");
@@ -114,7 +114,7 @@ void Vip::configureComputer()
     usePrinter_ = false;
     if (p_Main->getPrinterStatus(VIP))
     {
-        outType_[3] = VIPOUT3;
+        outType_[0][0][3] = VIPOUT3;
         usePrinter_ = true;
         p_Main->message("Configuring Centronics P-1/PR-40 Printer");
         p_Main->message("    Output 3: latch, Q: strobe, EF 3: busy\n");
@@ -313,7 +313,7 @@ void Vip::onRun()
 
 Byte Vip::ef(int flag)
 {
-    switch(efType_[flag])
+    switch(efType_[0][0][flag])
     {
         case 0:
             return 1;
@@ -374,7 +374,7 @@ Byte Vip::in(Byte port, Word WXUNUSED(address))
 {
     Byte ret;
 
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case 0:
             ret = 255;
@@ -406,7 +406,7 @@ void Vip::out(Byte port, Word WXUNUSED(address), Byte value)
 {
     outValues_[port] = value;
 
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;

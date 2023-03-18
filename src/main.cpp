@@ -566,6 +566,7 @@ BEGIN_EVENT_TABLE(Main, DebugWindow)
     EVT_GUI_MSG(SET_TAPE_STATE, Main::setTapeStateEvent)
     EVT_GUI_MSG(SET_TEXT_VALUE, Main::setTextValueEvent)
     EVT_GUI_MSG(SET_STATIC_TEXT_VALUE, Main::setStaticTextValueEvent)
+    EVT_GUI_MSG(SET_BUTTON_LABEL, Main::setButtonLabelEvent)
     EVT_GUI_MSG(SET_CHECK_BOX, Main::setCheckBoxEvent)
     EVT_GUI_MSG(PRINT_DEFAULT, Main::printDefaultEvent)
     EVT_GUI_MSG(PRINT_PARALLEL, Main::printParallelEvent)
@@ -2766,6 +2767,10 @@ void Main::initConfig()
     borderY[VIDEOXMLTMS] = 24;  //TMS
     borderX[VIDEOXMLI8275] = 0;
     borderY[VIDEOXMLI8275] = 0;  //i8275
+    borderX[VIDEOXML1864] = 0;
+    borderY[VIDEOXML1864] = 0;  //1864
+    borderX[VIDEOXMLSN76430N] = 0;
+    borderY[VIDEOXMLSN76430N] = 0;  //1864
 
     colour[COL_PIXIE_FORE] = "#ffffff";    // foreground pixie
     colour[COL_PIXIE_BACK] = "#000000";    // background pixie
@@ -2799,8 +2804,13 @@ void Main::initConfig()
     colour[COL_TMS_PURPLE] = "#C95BBA";
     colour[COL_TMS_GRAY] = "#CCCCCC";
     colour[COL_TMS_WHITE] = "#ffffff";
+    colour[COL_SN76430N_WHITE] = "#ffffff";
+    colour[COL_SN76430N_YELLOW] = "#FFFF00";
+    colour[COL_SN76430N_GREEN] = "#00FF00";
+    colour[COL_SN76430N_RED] = "#FFC0CB";
+    colour[COL_SN76430N_BLACK] = "#000000";
 
-    setScreenInfo(XML, 0, COL_MAX, colour, 7, borderX, borderY);
+    setScreenInfo(XML, 0, COL_MAX, colour, 10, borderX, borderY);
     setComputerInfo(XML, "Xml", "Xml", "");
 
     borderX[VIDEOVT] = 0;
@@ -5570,6 +5580,10 @@ void Main::nonFixedWindowPosition()
     conf[XML].keypadY_ = -1;
     conf[XML].v1870X_ = -1;
     conf[XML].v1870Y_ = -1;
+    conf[XML].SN76430NX_ = -1;
+    conf[XML].SN76430NY_ = -1;
+    conf[XML].cdp1864X_ = -1;
+    conf[XML].cdp1864Y_ = -1;
     conf[ELF2K].keypadX_ = -1;
     conf[ELF2K].keypadY_ = -1;
     conf[COSMICOS].keypadX_ = -1;
@@ -5692,6 +5706,10 @@ void Main::fixedWindowPosition()
     conf[XML].keypadY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
     conf[XML].v1870X_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
     conf[XML].v1870Y_ = mainWindowY_;
+    conf[XML].SN76430NX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
+    conf[XML].SN76430NY_ = mainWindowY_;
+    conf[XML].cdp1864X_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
+    conf[XML].cdp1864Y_ = mainWindowY_;
     conf[ELF2K].keypadX_ = mainWindowX_+507+windowInfo.xBorder2;
     conf[ELF2K].keypadY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
     conf[COSMICOS].keypadX_ = mainWindowX_+333+windowInfo.xBorder2;
@@ -5799,6 +5817,7 @@ void Main::onStart(int computer)
     if (mode_.gui)
        XRCCTRL(*this, "Chip8Type", wxStaticText)->SetLabel("");
    
+    wxSize mainWindowSize;
     switch (runningComputer_)
     {
         case COMX:
@@ -5863,22 +5882,34 @@ void Main::onStart(int computer)
             parseXmlFile(XML,conf[XML].xmlDir_, conf[XML].xmlFile_);
             setXmlGui();
 
+          
             switch (elfConfiguration[XML].panelType_)
             {
                case PANEL_COSMAC:
-                  p_Xmlemu = new Xmlemu(computerInfo[XML].name, wxPoint(conf[XML].mainX_, conf[XML].mainY_), wxSize(346, 464), conf[XML].clockSpeed_, elfConfiguration[XML], conf[XML]);
+                  mainWindowSize = wxSize(346, 464);
+               break;
+                  
+               case PANEL_ELF2K:
+                  mainWindowSize = wxSize(507, 459);
+               break;
+                  
+               case PANEL_COSMICOS:
+                  mainWindowSize = wxSize(333, 160);
                break;
                   
                case PANEL_MICROTUTOR:
                case PANEL_MICROTUTOR2:
+                  mainWindowSize = wxSize(333, 160);
                   p_Xmlemu = new Xmlemu(computerInfo[XML].name, wxPoint(conf[XML].mainX_, conf[XML].mainY_), wxSize(333, 160), conf[XML].clockSpeed_, elfConfiguration[XML], conf[XML]);
                break;
                   
                default:
-                  p_Xmlemu = new Xmlemu(computerInfo[XML].name, wxPoint(conf[XML].mainX_,    conf[XML].mainY_), wxSize(534, 386), conf[XML].clockSpeed_, elfConfiguration[XML], conf[XML]);
+                  mainWindowSize = wxSize(534, 386);
                break;
             }
-            p_Computer = p_Xmlemu;
+
+           p_Xmlemu = new Xmlemu(computerInfo[XML].name, wxPoint(conf[XML].mainX_, conf[XML].mainY_), mainWindowSize, conf[XML].clockSpeed_, elfConfiguration[XML], conf[XML]);
+           p_Computer = p_Xmlemu;
         break;
 
         case PICO:
@@ -7569,8 +7600,8 @@ void Main::enableGui(bool status)
         }
         if (!elfConfiguration[runningComputer_].vtExternal)
         {
-            XRCCTRL(*this,"FullScreenF3Xml", wxButton)->Enable(!status&(elfConfiguration[runningComputer_].usePixie||elfConfiguration[runningComputer_].useTMS9918||elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].useS100||elfConfiguration[runningComputer_].usev1870||(elfConfiguration[runningComputer_].vtType != VTNONE)));
-            XRCCTRL(*this,"ScreenDumpF5Xml", wxButton)->Enable(!status&(elfConfiguration[runningComputer_].usePixie||elfConfiguration[runningComputer_].useTMS9918||elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].useS100||elfConfiguration[runningComputer_].usev1870||(elfConfiguration[runningComputer_].vtType != VTNONE)));
+            XRCCTRL(*this,"FullScreenF3Xml", wxButton)->Enable(!status&(elfConfiguration[runningComputer_].usePixie||elfConfiguration[runningComputer_].useTMS9918||elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].useS100||elfConfiguration[runningComputer_].usev1870||elfConfiguration[runningComputer_].useSN76430N||elfConfiguration[runningComputer_].use1864||(elfConfiguration[runningComputer_].vtType != VTNONE)));
+            XRCCTRL(*this,"ScreenDumpF5Xml", wxButton)->Enable(!status&(elfConfiguration[runningComputer_].usePixie||elfConfiguration[runningComputer_].useTMS9918||elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].useS100||elfConfiguration[runningComputer_].usev1870||elfConfiguration[runningComputer_].useSN76430N||elfConfiguration[runningComputer_].use1864||(elfConfiguration[runningComputer_].vtType != VTNONE)));
        }
         
         enableMemAccessGui(!status);
@@ -8730,6 +8761,28 @@ void Main::eventSetStaticTextValue(wxString info, wxString value)
     GetEventHandler()->AddPendingEvent(event);
 }
 
+void Main::setButtonLabelEvent(guiEvent&event)
+{
+    wxString info = event.GetString();
+    wxString value = event.GetStringValue2();
+    
+    XRCCTRL(*this, info, wxButton)->SetLabel(value);
+}
+
+void Main::eventSetButtonLabel(wxString info, wxString value)
+{
+    if (!mode_.gui)
+        return;
+    
+    guiEvent event(GUI_MSG, SET_BUTTON_LABEL);
+    event.SetEventObject( p_Main );
+    
+    event.SetString(info);
+    event.SetStringValue2(value);
+    
+    GetEventHandler()->AddPendingEvent(event);
+}
+
 void Main::setCheckBoxEvent(guiEvent&event)
 {
     wxString info = event.GetString();
@@ -8792,6 +8845,9 @@ void Main::setZoomChange(guiEvent&event)
     double zoom = event.GetDoubleValue();
     int videoNumber  = event.GetInt();
 
+    if (p_Video[videoNumber] == NULL)
+       return;
+   
     p_Video[videoNumber]->setZoom(zoom);
     switch(runningComputer_)
     {

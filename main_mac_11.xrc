@@ -28953,6 +28953,51 @@
 </object>
 </object>
 <object class="sizeritem">
+<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+<border>3</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>1</border>
+<object class="wxStaticText" name="TextClearXml">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<style>wxALIGN_RIGHT</style>
+<label>Clear non-volatile </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>3</border>
+<object class="wxCheckBox" name="XmlClearRam">
+<tooltip>Clear non-volatile RAM on start-up</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>RAM</label>
+<checked>0</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>3</border>
+<object class="wxCheckBox" name="XmlClearRtc">
+<tooltip>Clear non-volatile RAM on start-up</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>RTC</label>
+<checked>0</checked>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
 <flag>wxGROW|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxStaticBoxSizer" name="wxID_ANY">

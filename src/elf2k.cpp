@@ -436,15 +436,15 @@ Byte Elf2K::getData()
 
 void Elf2K::configureComputer()
 {
-    efType_[1] = EF1UNDEFINED;
-    efType_[2] = EF2UNDEFINED;
-    efType_[3] = EF3UNDEFINED;
+    efType_[0][0][1] = EF1UNDEFINED;
+    efType_[0][0][2] = EF2UNDEFINED;
+    efType_[0][0][3] = EF3UNDEFINED;
 
     int dummy[5];
     
-    inType_[4] = ELF2KIN;
-    outType_[4] = ELF2KOUT;
-    outType_[7] = ELF2KGPIO;
+    inType_[0][0][4] = ELF2KIN;
+    outType_[0][0][4] = ELF2KOUT;
+    outType_[0][0][7] = ELF2KGPIO;
 
     setCycleType(COMPUTERCYCLE, ELF2KCYCLE);
     p_Main->message("Configuring Elf2K");
@@ -452,12 +452,12 @@ void Elf2K::configureComputer()
     p_Main->message("    Output 7: Write GPIO Control Register");
     if (elfConfiguration.useHexKeyboardEf3)
     {
-        efType_[3] = ELF2KEF3;
+        efType_[0][0][3] = ELF2KEF3;
         p_Main->message("    EF 3: 0 when hex button pressed");
     }
-    if (efType_[4] == 0)
+    if (efType_[0][0][4] == 0)
     {
-        efType_[4] = ELF2KEF;
+        efType_[0][0][4] = ELF2KEF;
         p_Main->message("    EF 4: 0 when in button pressed");
     }
     p_Main->message("");
@@ -495,7 +495,7 @@ void Elf2K::initComputer()
 
 Byte Elf2K::ef(int flag)
 {
-    switch(efType_[flag])
+    switch(efType_[0][0][flag])
     {
         case 0:
             return 0;
@@ -550,7 +550,7 @@ Byte Elf2K::in(Byte port, Word WXUNUSED(address))
 {
     Byte ret;
 
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case 0:
             ret = 255;
@@ -608,7 +608,7 @@ void Elf2K::out(Byte port, Word WXUNUSED(address), Byte value)
 //    p_Main->messageInt(port);
 //    p_Main->messageInt(value);
 
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;
@@ -1360,7 +1360,12 @@ void Elf2K::dataAvailableSerial(bool data)
     dataAvailableUart(data);
 }
 
-void Elf2K::thrStatus(bool data)
+void Elf2K::thrStatusVt100(bool data)
+{
+    thrStatusUart(data);
+}
+
+void Elf2K::thrStatusSerial(bool data)
 {
     thrStatusUart(data);
 }

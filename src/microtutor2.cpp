@@ -294,9 +294,9 @@ Byte Microtutor2::getData()
 
 void Microtutor2::configureComputer()
 {
-    inType_[4] = MICROTUTORIN;
-    outType_[4] = MICROTUTOROUT;
-    efType_[4] = MICROTUTOREF;
+    inType_[0][0][4] = MICROTUTORIN;
+    outType_[0][0][4] = MICROTUTOROUT;
+    efType_[0][0][4] = MICROTUTOREF;
     setCycleType(COMPUTERCYCLE, LEDCYCLE);
     
     p_Main->message("Configuring Microtutor II");
@@ -328,7 +328,7 @@ void Microtutor2::initComputer()
 
 Byte Microtutor2::ef(int flag)
 {
-    switch(efType_[flag])
+    switch(efType_[0][0][flag])
     {
         case 0:
             return 1;
@@ -348,7 +348,7 @@ Byte Microtutor2::in(Byte port, Word WXUNUSED(address))
     Byte ret;
     ret = 0;
 
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case 0:
             ret = 255;
@@ -371,7 +371,7 @@ void Microtutor2::out(Byte port, Word WXUNUSED(address), Byte value)
 {
     outValues_[port] = value;
 
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;

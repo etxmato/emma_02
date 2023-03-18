@@ -544,9 +544,9 @@ void Uc1800::configureComputer()
 {
     wxString printBuffer;
 
-    inType_[1] = UC1800IN;
-    outType_[1] = UC1800OUT;
-    efType_[1] = UC1800EF;
+    inType_[0][0][1] = UC1800IN;
+    outType_[0][0][1] = UC1800OUT;
+    efType_[0][0][1] = UC1800EF;
     setCycleType(COMPUTERCYCLE, LEDCYCLE);
     
     p_Main->message("Configuring UC1800");
@@ -589,7 +589,7 @@ void Uc1800::initComputer()
 
 Byte Uc1800::ef(int flag)
 {
-    switch(efType_[flag])
+    switch(efType_[0][0][flag])
     {
         case 0:
             return 1;
@@ -609,7 +609,7 @@ Byte Uc1800::in(Byte port, Word WXUNUSED(address))
     Byte ret;
     ret = 0;
 
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case 0:
             ret = 255;
@@ -630,7 +630,7 @@ void Uc1800::out(Byte port, Word WXUNUSED(address), Byte value)
 {
     outValues_[port] = value;
 
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;

@@ -40,9 +40,9 @@ void Expansion::configureExpansion()
     for (int i=0; i<4; i++)
         comxExpansionType_[i] = COMXEMPTY;
 
-    inType_[2] = COMXEXPIN2;
-    inType_[4] = COMXEXPIN4;
-    outType_[2] = COMXEXPOUT;
+    inType_[0][0][2] = COMXEXPIN2;
+    inType_[0][0][4] = COMXEXPIN4;
+    outType_[0][0][2] = COMXEXPOUT;
 
     out1value_ = 0;
 
@@ -278,9 +278,9 @@ void Expansion::configureCard(int slot)
                 if (superSlot_ == 0xff)
                 {
                     superSlot_ = slot;
-                    inType_[1] = COMXRTCIN1;
-                    inType_[5] = COMXEXPIN5;
-                    inType_[6] = COMXEXPIN6;
+                    inType_[0][0][1] = COMXRTCIN1;
+                    inType_[0][0][5] = COMXEXPIN5;
+                    inType_[0][0][6] = COMXEXPIN6;
 
                     print_buffer = "Configuring Super Board" + slotString;
                     p_Main->message(print_buffer);
@@ -333,9 +333,9 @@ void Expansion::configureCard(int slot)
                 if (diagSlot_ == 0xff)
                 {
                     diagSlot_ = slot;
-                    inType_[1] = COMXDIAGIN1;
-                    inType_[2] = COMXDIAGIN2;
-                    outType_[1] = COMXDIAGOUT1;
+                    inType_[0][0][1] = COMXDIAGIN1;
+                    inType_[0][0][2] = COMXDIAGIN2;
+                    outType_[0][0][1] = COMXDIAGOUT1;
                     
                     print_buffer = "Configuring Diagnose Card" + slotString;
                     p_Main->message(print_buffer);

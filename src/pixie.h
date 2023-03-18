@@ -38,7 +38,8 @@ public:
     void initiateColour(bool colour);
     void configurePixieNano();
     void configurePixieCosmicos();
-    void initPixie(); 
+    void configureCdp1864(IoConfiguration portConf);
+    void initPixie();
     Byte efPixie();
     virtual Byte inPixie();
     virtual void outPixie();
@@ -71,7 +72,6 @@ protected:
     bool interlace_;
     Byte pixieEf_;
 
-    bool graphicsOn_;
     long graphicsNext_;
     long graphicsMode_;
  

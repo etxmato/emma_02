@@ -8,8 +8,10 @@
 #include "mc6845.h"
 #include "i8275.h"
 #include "vis1870.h"
+#include "sn76430n.h"
 #include "keyb1871.h"
 #include "bitkeypad.h"
+#include "cvkeypad.h"
 #include "keyblatch.h"
 #include "keybmatrix.h"
 #include "ledmodule.h"
@@ -20,8 +22,11 @@
 #include "super.h"
 #include "microtutor.h"
 #include "microtutor2.h"
+#include "elf2k.h"
+#include "cosmicos.h"
 #include "joycard.h"
 #include "usb.h"
+#include "rtc.h"
 
 class NvramDetails
 {
@@ -32,7 +37,7 @@ public:
     Word end;
 };
 
-class Xmlemu : public wxFrame, public Cdp1802, public Fdc, public Ide, public Keyboard, public Keyb1871, public PortExt, public Ps2, public Ps2gpio, public Elf2KDisk, public Joycard, public Usbcard
+class Xmlemu : public wxFrame, public Cdp1802, public Fdc, public Ide, public Keyboard, public Keyb1871, public PortExt, public Ps2, public Ps2gpio, public Joycard, public Usbcard, public Rtc
 {
 public:
     Xmlemu(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf, Conf computerConf);
@@ -41,7 +46,9 @@ public:
 
     void onClose(wxCloseEvent&WXUNUSED(event));
     void showModules(bool status);
-    void removeElfHex() {hexKeypadClosed_ = true;};
+    void showModules(bool status, bool useSwitch, bool useHex);
+    void removeElfHex() {hexKeypadClosed_ = true; elfConfiguration.useHex = false;};
+    void removeElf2KSwitch() {elfConfiguration.useSwitch = false;};
     void removeElfLedModule() {ledModuleClosed_ = true;};
     void charEvent(int keycode);
     bool keyDownPressed(int keycode);
@@ -53,6 +60,7 @@ public:
     void onButtonPress(wxCommandEvent& event);
     void onInButtonPress();
     void onInButtonPress(Byte value);
+    void onElf2KInButton();
     void onInButtonRelease();
     void onHexKeyDown(int keycode);
     void onHexDown(int hex);
@@ -65,6 +73,7 @@ public:
     void reDefineKeysA(int *, int *);
     void reDefineKeysB(int *, int *);
     void initComputer();
+    void resetComputer();
     Byte ef(int flag);
     Byte in(Byte port, Word address);
     Byte inDip();
@@ -92,6 +101,7 @@ public:
     void onRunButton();
     void onRunButtonPress();
     void onRunButtonRelease();
+    void onMouseRelease(wxMouseEvent&event);
     void onPause(wxCommandEvent&WXUNUSED(event));
     void onPause();
     void onMpButton(wxCommandEvent&WXUNUSED(event));
@@ -151,6 +161,7 @@ public:
     void releaseButtonOnScreen(HexButton* buttonPointer, int buttonType);
     void refreshPanel();
     void OnRtcTimer(wxTimerEvent& event);
+    void writeRtc(int address, Byte value);
     void cid1Bit8(bool set);
     void changeDiskName(int disk, wxString dirName, wxString fileName);
 
@@ -168,7 +179,7 @@ public:
     void loadNvRam(size_t configNumber);
 
     void checkComputerFunction();
-    void executeFunction(int function);
+    void executeFunction(int function, Word additionalAddress);
 
     void startComputerRun(bool load);
     int getRunState() {return elfRunState_;};
@@ -182,7 +193,8 @@ public:
     void setDivider(Byte value);
     void dataAvailableVt100(bool data, int uartNumber);
     void dataAvailableSerial(bool data);
-    void thrStatus(bool data);
+    void thrStatusVt100(bool data);
+    void thrStatusSerial(bool data);
     void saveRtc();
     void loadRtc();
     Byte readDirectRtc(Word address);
@@ -202,21 +214,39 @@ public:
     void closeKeyFile();
     void resetV1870VideoModeEf();
 
+    void activateElfOsChip8();
+    void fetchFileName(Word address, size_t length);
+
+    void removeCosmicosHex();
+    
+    void startLoad(int tapeNumber, bool button);
+    void cassetteXmlHw(short val);
+    void cassetteXmlHw(char val);
+    void cassetteCyberVision();
+    void cassette56();
+    void cassettePm();
+    void finishStopTape();
+
 private:
     class ElfScreen *elfScreenPointer;
     class Elf2Screen *elf2ScreenPointer;
     class SuperScreen *superScreenPointer;
+    class Elf2KScreen *elf2KScreenPointer;
     class MicrotutorScreen *microtutorScreenPointer;
     class Microtutor2Screen *microtutor2ScreenPointer;
+    class CosmicosScreen *cosmicosScreenPointer;
 
     Tms9918 *tmsPointer;
+    SN76430N *sn76430nPointer;
     Pixie *pixiePointer;
+    Pixie *cdp1864Pointer;
     MC6845 *mc6845Pointer;
     mc6847 *mc6847Pointer;
     i8275 *i8275Pointer;
     VIS1870 *vis1870Pointer;
     Keypad *keypadPointer;
     BitKeypad *bitkeypadPointer[2];
+    CvKeypad *cvkeypadPointer;
     KeybLatch *latchKeyboardPointer;
     KeybMatrix *matrixKeyboardPointer;
     LedModule *ledModulePointer;
@@ -299,6 +329,39 @@ private:
     int printValue_;
 
     bool ramGroupAtV1870_;
+
+    Elf2Kswitch *p_Elf2Kswitch;
+    Elf2Khex *p_Elf2Khex;
+    
+    Cosmicoshex *p_Cosmicoshex;
+    
+    bool hexModemOnStart;
+
+    int segNumber_;
+    int qState_;
+
+    bool tapeActivated_;
+    bool tapeRecording_;
+    int zeroWaveCounter_;
+
+    short lastSample_;
+    char lastSampleChar_;
+    int pulseCount_;
+    Byte tapeInput_;
+    Byte lastTapeInpt_;
+    Byte polarity_;
+    int bitNumber_;
+    int silenceCount_;
+    bool tapeEnd_;
+    int toneTime_;
+    Byte tapeError_;
+    Byte tapedataReady_;
+
+    int pulseCountStopTone_;
+    bool tapeFormat56_;
+    bool tapeFormatFixed_;
+    bool startTone_;
+    bool firstPulse_;
 
     DECLARE_EVENT_TABLE()
 };

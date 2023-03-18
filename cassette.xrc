@@ -5,6 +5,7 @@
         <font>
             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
             <size>-1</size>
+            <family>roman</family>
         </font>
         <object class="wxBoxSizer">
             <orient>wxVERTICAL</orient>
@@ -16,6 +17,7 @@
                     <font>
                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                         <size>-1</size>
+                        <family>roman</family>
                     </font>
                     <hidden>1</hidden>
                     <label>Dummy button</label>
@@ -35,6 +37,7 @@
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>
+                                <family>roman</family>
                             </font>
                             <object class="sizeritem">
                                 <flag>wxALIGN_CENTER_HORIZONTAL</flag>
@@ -51,6 +54,7 @@
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <label>Input channel: </label>
                                         </object>
@@ -63,6 +67,7 @@
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <content>
                                                 <item>Left</item>
@@ -77,6 +82,7 @@
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <label>Wav file conversion:</label>
                                         </object>
@@ -89,6 +95,7 @@
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <content>
                                                 <item>Amplitude</item>
@@ -103,6 +110,7 @@
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <label>Cassette Conversion:</label>
                                         </object>
@@ -115,6 +123,7 @@
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <content>
                                                 <item>Amplitude</item>
@@ -129,6 +138,7 @@
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <label>Reversed Polarity</label>
                                             <checked>0</checked>
@@ -146,6 +156,7 @@
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <label>For FRED emulator:</label>
                                         </object>
@@ -162,6 +173,7 @@
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <label>Threshold, 8 bit:</label>
                                         </object>
@@ -173,7 +185,9 @@
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
+                                            <value>0000</value>
                                         </object>
                                     </object>
                                     <object class="sizeritem">
@@ -183,6 +197,7 @@
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <label>Threshold, 16 bit:</label>
                                         </object>
@@ -194,7 +209,9 @@
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
+                                            <value>0000</value>
                                         </object>
                                     </object>
                                     <object class="sizeritem">
@@ -204,6 +221,7 @@
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <label>Frequency check:</label>
                                         </object>
@@ -215,7 +233,9 @@
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
+                                            <value>0000</value>
                                         </object>
                                     </object>
                                 </object>
@@ -227,6 +247,7 @@
                                     <font>
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
+                                        <family>roman</family>
                                     </font>
                                     <hidden>1</hidden>
                                     <label>Tape input playback</label>
@@ -244,6 +265,7 @@
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>
+                                <family>roman</family>
                             </font>
                             <object class="sizeritem">
                                 <flag>wxALIGN_CENTER_HORIZONTAL</flag>
@@ -260,6 +282,7 @@
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <label>Wave volume: </label>
                                         </object>
@@ -273,6 +296,7 @@
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <value>0</value>
                                             <min>1</min>
@@ -286,6 +310,7 @@
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <label>Bit rate: </label>
                                         </object>
@@ -298,6 +323,7 @@
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <content>
                                                 <item>11025</item>
@@ -314,6 +340,7 @@
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <label>Bits per samlpe: </label>
                                         </object>
@@ -326,6 +353,7 @@
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <content>
                                                 <item>8</item>
@@ -354,6 +382,7 @@
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <fg>#FF0000</fg>
                                             <label>Note: For F&amp;&amp;M TOS/Turbo loaders use</label>
@@ -366,6 +395,7 @@
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <fg>#FF0000</fg>
                                             <label>a high volume and 16 bits per sample</label>
@@ -385,6 +415,7 @@
                     <font>
                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                         <size>-1</size>
+                        <family>roman</family>
                     </font>
                     <label>Save</label>
                 </object>

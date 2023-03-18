@@ -59,10 +59,10 @@ void Studio2::configureComputer()
 {
     buildInGame_ = 0;
 
-    outType_[2] = STUDIOOUT;
+    outType_[0][0][2] = STUDIOOUT;
     studioKeyPort_ = 0;
-    efType_[3] = STUDIOEF3;
-    efType_[4] = STUDIOEF4;
+    efType_[0][0][3] = STUDIOEF3;
+    efType_[0][0][4] = STUDIOEF4;
 
     for (int j=0; j<2; j++) for (int i=0; i<10; i++)
         studioKeyState_[j][i] = 0;
@@ -327,7 +327,7 @@ void Studio2::keyUp(int keycode)
 
 Byte Studio2::ef(int flag)
 {
-    switch(efType_[flag])
+    switch(efType_[0][0][flag])
     {
         case 0:
             return 1;
@@ -378,7 +378,7 @@ Byte Studio2::in(Byte port, Word WXUNUSED(address))
 {
     Byte ret;
 
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case 0:
             ret = 255;
@@ -399,7 +399,7 @@ void Studio2::out(Byte port, Word WXUNUSED(address), Byte value)
 {
     outValues_[port] = value;
 
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;

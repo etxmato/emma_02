@@ -149,7 +149,7 @@
         <string name="Linker flags">"%AUTO%"</string>
         <long name="locked">0</long>
         <string name="Make command">"%AUTO%"</string>
-        <long name="makefile-last-written">-8519680</long>
+        <long name="makefile-last-written">-333379715</long>
         <string name="Modularity">"Modular"</string>
         <string name="Objects path">"%AUTO%"</string>
         <string name="Optimizations">"%AUTO%"</string>
@@ -1152,7 +1152,7 @@
                     <string name="proxy-Id name">"FREDThreshold8"</string>
                     <long name="proxy-Id value">10001</long>
                     <string name="proxy-Implementation filename">""</string>
-                    <string name="proxy-Initial value">""</string>
+                    <string name="proxy-Initial value">"0000"</string>
                     <long name="proxy-Max length">0</long>
                     <string name="proxy-Member variable name">""</string>
                     <string name="proxy-Name">""</string>
@@ -1306,7 +1306,7 @@
                     <string name="proxy-Id name">"FREDThreshold16"</string>
                     <long name="proxy-Id value">10001</long>
                     <string name="proxy-Implementation filename">""</string>
-                    <string name="proxy-Initial value">""</string>
+                    <string name="proxy-Initial value">"0000"</string>
                     <long name="proxy-Max length">0</long>
                     <string name="proxy-Member variable name">""</string>
                     <string name="proxy-Name">""</string>
@@ -1460,7 +1460,7 @@
                     <string name="proxy-Id name">"FREDFreq"</string>
                     <long name="proxy-Id value">11001</long>
                     <string name="proxy-Implementation filename">""</string>
-                    <string name="proxy-Initial value">""</string>
+                    <string name="proxy-Initial value">"0000"</string>
                     <long name="proxy-Max length">0</long>
                     <string name="proxy-Member variable name">""</string>
                     <string name="proxy-Name">""</string>

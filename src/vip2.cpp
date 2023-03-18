@@ -68,16 +68,16 @@ void VipII::setTempo(int tempo)
 void VipII::configureComputer()
 {
     vipMode_ = false;
-    outType_[2] = VIPKEYOUT;
-    outType_[4] = VIPOUT4;
-    outType_[7] = VIPIIOUT7;
-    efType_[2] = VIPEF2;
-    efType_[3] = VIPKEYEF;
+    outType_[0][0][2] = VIPKEYOUT;
+    outType_[0][0][4] = VIPOUT4;
+    outType_[0][0][7] = VIPIIOUT7;
+    efType_[0][0][2] = VIPEF2;
+    efType_[0][0][3] = VIPKEYEF;
     setCycleType(COMPUTERCYCLE, LEDCYCLE);
 
     p_Main->message("Configuring Cosmac VIP II");
 
-    outType_[3] = VIPOUT3;
+    outType_[0][0][3] = VIPOUT3;
 
     cycleType_[COMPUTERCYCLE] = VIPIIKEYCYCLE;
 
@@ -85,13 +85,13 @@ void VipII::configureComputer()
     p_Main->message("    output 4: address latch, output 7: cassette on/off");
 
     p_Main->message("    EF 2: cassette in, EF 3: hex keypad A, EF 4: hex keypad B\n");
-    efType_[4] = VIPKEYEF4;
+    efType_[0][0][4] = VIPKEYEF4;
 
     usePrinter_ = false;
     
 /*    if (p_Main->getPrinterStatus(VIPII))
     {
-        outType_[3] = VIPOUT3;
+        outType_[0][0][3] = VIPOUT3;
         usePrinter_ = true;
         p_Main->message("Configuring Centronics P-1/PR-40 Printer");
         p_Main->message("    Output 3: latch, Q: strobe, EF 3: busy\n");
@@ -314,7 +314,7 @@ void VipII::setCycle()
 
 Byte VipII::ef(int flag)
 {
-    switch(efType_[flag])
+    switch(efType_[0][0][flag])
     {
         case 0:
             return 1;
@@ -366,7 +366,7 @@ Byte VipII::in(Byte port, Word WXUNUSED(address))
 {
     Byte ret;
 
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case 0:
             ret = 255;
@@ -398,7 +398,7 @@ void VipII::out(Byte port, Word WXUNUSED(address), Byte value)
 {
     outValues_[port] = value;
 
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;

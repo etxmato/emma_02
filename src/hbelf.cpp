@@ -450,9 +450,9 @@ void Elf::onHexKeyUp(int keycode)
 
 void Elf::configureComputer()
 {
-    efType_[1] = EF1UNDEFINED;
-    efType_[2] = EF2UNDEFINED;
-    efType_[3] = EF3UNDEFINED;
+    efType_[0][0][1] = EF1UNDEFINED;
+    efType_[0][0][2] = EF2UNDEFINED;
+    efType_[0][0][3] = EF3UNDEFINED;
 
     wxString printBuffer;
 
@@ -478,7 +478,7 @@ void Elf::configureComputer()
     }
     if (elfConfiguration.useTape  && !elfConfiguration.useXmodem)
     {
-        efType_[elfConfiguration.ioConfiguration.tapeEf] = ELF2EF2;
+        efType_[0][0][elfConfiguration.ioConfiguration.tapeEf] = ELF2EF2;
         printBuffer.Printf("    EF %d: cassette in", elfConfiguration.ioConfiguration.tapeEf);
         p_Main->message(printBuffer);
     }
@@ -568,7 +568,7 @@ Byte Elf::ef(int flag)
         if (flag == elfConfiguration.ioConfiguration.hexEf)
             return ef3State_;
     }
-    switch(efType_[flag])
+    switch(efType_[0][0][flag])
     {
         case 0:
             return 1-efSwitchState_[flag-1];
@@ -594,7 +594,7 @@ Byte Elf::ef(int flag)
             return efPs2();
         break;
 
-        case FDCEF:
+        case FDC1793_EF:
             return ef1793();
         break;
 
@@ -618,7 +618,7 @@ Byte Elf::ef(int flag)
             return cassetteEf_;
         break;
 
-        case ELFPRINTEREF:
+        case BASIC_PRINT_EF:
             return ef3State_;
         break;
 
@@ -643,7 +643,7 @@ Byte Elf::in(Byte port, Word WXUNUSED(address))
 {
     Byte ret;
 
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case 0:
             ret = 255;
@@ -688,7 +688,7 @@ Byte Elf::in(Byte port, Word WXUNUSED(address))
                 ret = getData();
         break;
 
-        case FDCREADIN:
+        case FDC1793_READIN:
             ret = in1793();
         break;
 
@@ -740,7 +740,7 @@ void Elf::out(Byte port, Word WXUNUSED(address), Byte value)
 {
     outValues_[port] = value;
 
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;
@@ -778,7 +778,7 @@ void Elf::out(Byte port, Word WXUNUSED(address), Byte value)
             p_Serial->out(value);
         break;
 
-        case PRINTEROUT:
+        case BASIC_PRINT_OUT:
 //            p_Main->eventPrintDefault(value); *** Maybe this was needed on Mac or Linux? however it doesn't work on windows, i.e. no printer window will be opened.
             if ((value & 0xfc) != 0)
                 p_Printer->printerOut(value);
@@ -796,11 +796,11 @@ void Elf::out(Byte port, Word WXUNUSED(address), Byte value)
             showData(value);
         break;
 
-        case FDCSELECTOUT:
+        case FDC1793_SELECTOUT:
             selectRegister1793(value);
         break;
 
-        case FDCWRITEOUT:
+        case FDC1793_WRITEOUT:
             writeRegister1793(value);
         break;
 

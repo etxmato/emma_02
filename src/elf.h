@@ -36,7 +36,8 @@ public:
     void setDivider(Byte value);
     void dataAvailableVt100(bool data, int uartNumber);
     void dataAvailableSerial(bool data);
-    void thrStatus(bool data);
+    void thrStatusVt100(bool data);
+    void thrStatusSerial(bool data);
     void saveRtc();
     void loadRtc();
     Byte readDirectRtc(Word address);

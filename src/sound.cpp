@@ -796,15 +796,14 @@ void Sound::convertTo8Bit(const short* in, int count, unsigned char* out)
 
 bool Sound::ploadStartTape(wxString fileName, wxString tapeNumber)
 {
-    long sampleRate;
     tapeNumber_ = tapeNumber;
     
     ploadWavePointer = new WaveReader();
     
-    sampleRate = ploadWavePointer->openFile(fileName);
-    if (sampleRate != 0)
+    sampleRate_ = ploadWavePointer->openFile(fileName);
+    if (sampleRate_ != 0)
     {
-        if (tapeBufferPointer->set_sample_rate(sampleRate))
+        if (tapeBufferPointer->set_sample_rate(sampleRate_))
         {
             p_Main->message("Cassette sound error: out of memory");
             delete ploadWavePointer;
@@ -828,14 +827,12 @@ bool Sound::ploadStartTape(wxString fileName, wxString tapeNumber)
 
 void Sound::startWavSound(wxString fileName)
 {
-    long sampleRate;
- 
     wavSoundPointer = new WaveReader();
     
-    sampleRate = wavSoundPointer->openFile(fileName);
-    if (sampleRate != 0)
+    sampleRate_ = wavSoundPointer->openFile(fileName);
+    if (sampleRate_ != 0)
     {
-        if (tapeBufferPointer->set_sample_rate(sampleRate))
+        if (tapeBufferPointer->set_sample_rate(sampleRate_))
         {
             p_Main->message("Wav sound error: out of memory");
             delete wavSoundPointer;
@@ -849,31 +846,30 @@ void Sound::startWavSound(wxString fileName)
 
 void Sound::psaveStartTape(wxString fileName, wxString tapeNumber)
 {
-    long sampleRate;
     tapeNumber_ = tapeNumber;
 
-    sampleRate = 22050;
+    sampleRate_ = 22050;
     switch (psaveBitRate_)
     {
         case 0:
-            sampleRate = 11025;
+            sampleRate_ = 11025;
         break;
         case 1:
-            sampleRate = 22050;
+            sampleRate_ = 22050;
         break;
         case 2:
-            sampleRate = 44100;
+            sampleRate_ = 44100;
         break;
         case 3:
-            sampleRate = 88200;
+            sampleRate_ = 88200;
         break;
     }
-    if (tapeBufferPointer->set_sample_rate(sampleRate))
+    if (tapeBufferPointer->set_sample_rate(sampleRate_))
         p_Main->message("Cassette sound error: out of memory");
     if (psaveBitsPerSample_ == 0)
-        psaveWavePointer = new WaveWriter(sampleRate, 8);
+        psaveWavePointer = new WaveWriter(sampleRate_, 8);
     else
-        psaveWavePointer = new WaveWriter(sampleRate, 16);
+        psaveWavePointer = new WaveWriter(sampleRate_, 16);
 
     if (psaveWavePointer->openFile(fileName))
     {
@@ -912,7 +908,7 @@ void Sound::stopTape()
         psaveOn_ = false;
     }
     p_Main->eventSetTapeState(TAPE_STOP, tapeNumber_);
-    if (computerType_ == FRED1 || computerType_ == FRED1_5 || computerType_ == VIP || computerType_ == STUDIOIV)
+    if (computerType_ == XML || computerType_ == FRED1 || computerType_ == FRED1_5 || computerType_ == VIP || computerType_ == STUDIOIV)
         p_Computer->finishStopTape();
     if (p_Vt100[UART1] != NULL)
         p_Vt100[UART1]->ResetIo();

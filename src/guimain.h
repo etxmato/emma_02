@@ -222,6 +222,7 @@ public:
     void onBaudR(wxCommandEvent& event);
     void onBaudT(wxCommandEvent& event);
     void onClearRam(wxCommandEvent& event);
+    void onClearRtc(wxCommandEvent& event);
     void onBootAddress(wxCommandEvent& event);
     long getBootAddress(wxString computerTypeStr, int computerType);
     void onChoiceRam(wxCommandEvent&event);
@@ -363,6 +364,8 @@ public:
     void setMainPos(int computerType, wxPoint position);
     wxPoint getPixiePos(int computerType);
     void setPixiePos(int computerType, wxPoint position);
+    wxPoint getCdp1864Pos(int computerType);
+    void setCdp1864Pos(int computerType, wxPoint position);
     wxPoint getTmsPos(int computerType);
     void setTmsPos(int computerType, wxPoint position);
     wxPoint getVtPos(int computerType);
@@ -385,7 +388,9 @@ public:
     void setFourthFramePos(int computerType, wxPoint position);
     wxPoint getV1870Pos(int computerType);
     void setV1870Pos(int computerType, wxPoint position);
-
+    wxPoint getSN76430NPos(int computerType);
+    void setSN76430NPos(int computerType, wxPoint position);
+    
     wxString getDataDir() {return dataDir_;};
     wxString getApplicationDir() {return applicationDirectory_;};
     void setDataDir(wxString dataDir) {dataDir_ = dataDir;};

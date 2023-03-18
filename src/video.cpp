@@ -626,7 +626,7 @@ void Video::changeScreenSize()
     }
     destinationWidth_ = size.x;
     destinationHeight_ = size.y;
-
+    
     if (p_Main->isFullScreenFloat())
     {
         zoomx = (double)destinationWidth_/(double)((videoWidth_+2*borderX_[videoType_])*xZoomFactor_);

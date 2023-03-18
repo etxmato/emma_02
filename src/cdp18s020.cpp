@@ -391,7 +391,7 @@ Byte Cdp18s020::ef(int flag)
         if (ef4State_ == 0)
             return ef4State_;
     }
-    switch(efType_[flag])
+    switch(efType_[0][0][flag])
     {
         case 0:
             return 1;
@@ -414,7 +414,7 @@ Byte Cdp18s020::in(Byte port, Word WXUNUSED(address))
 {
     Byte ret;
 
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case 0:
             ret = 255;
@@ -431,7 +431,7 @@ void Cdp18s020::out(Byte port, Word WXUNUSED(address), Byte value)
 {
     outValues_[port] = value;
 
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;

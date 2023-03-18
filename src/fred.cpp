@@ -299,14 +299,14 @@ void Fred::onClose(wxCloseEvent&WXUNUSED(event) )
 
 void Fred::configureComputer()
 {
-    inType_[0] = FREDINP0;
-    outType_[1] = FREDIOGROUP;
-    outType_[2] = FREDIO2;
-    outType_[3] = FREDIO3;
-    outType_[4] = FREDIO4;
-    efType_[1] = FREDEF1;
-    efType_[2] = FREDEF2;
-    efType_[4] = FREDEF4;
+    inType_[0][0][0] = FREDINP0;
+    outType_[0][0][1] = FREDIOGROUP;
+    outType_[0][0][2] = FREDIO2;
+    outType_[0][0][3] = FREDIO3;
+    outType_[0][0][4] = FREDIO4;
+    efType_[0][0][1] = FREDEF1;
+    efType_[0][0][2] = FREDEF2;
+    efType_[0][0][4] = FREDEF4;
     cycleType_[KEYCYCLE] = KEYBRDCYCLE;
 
     if (computerType_ == FRED1)
@@ -336,8 +336,8 @@ void Fred::configureComputer()
     
     if (fredConfiguration.coinArcadeControl_)
     {
-        efType_[3] = COINARCADEEF3;
-        inType_[6] = COINARCADEINPKEY6;
+        efType_[0][0][3] = COINARCADEEF3;
+        inType_[0][0][6] = COINARCADEINPKEY6;
 
         directionKey_ = 0;
         fireKeyA_ = 1;
@@ -562,7 +562,7 @@ void Fred::cycleKeyboard()
 
 Byte Fred::ef(int flag)
 {
-    switch(efType_[flag])
+    switch(efType_[0][0][flag])
     {
         case 0:
             return 1;
@@ -637,7 +637,7 @@ Byte Fred::in(Byte port, Word WXUNUSED(address))
 {
     Byte ret = 255;
 
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case FREDINP0:
             ret = 255;
@@ -672,7 +672,7 @@ void Fred::out(Byte port, Word WXUNUSED(address), Byte value)
 {
     outValues_[port] = value;
 
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;

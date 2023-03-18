@@ -774,7 +774,12 @@ void MainElf::dataAvailableSerial(bool data)
     dataAvailableUart(data);
 }
 
-void MainElf::thrStatus(bool data)
+void MainElf::thrStatusVt100(bool data)
+{
+    thrStatusUart(data);
+}
+
+void MainElf::thrStatusSerial(bool data)
 {
     thrStatusUart(data);
 }

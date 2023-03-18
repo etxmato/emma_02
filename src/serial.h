@@ -14,6 +14,7 @@ public:
     void configure(int selectedBaudR, int selectedBaudT, IoConfiguration ioConfiguration);
     void configureStandard(int selectedBaudR, int selectedBaudT, int dataReadyFlag);
     void configureUart(IoConfiguration ioConfiguration);
+    void configureUart16450(IoConfiguration ioConfiguration);
     void configureRcasbc(int selectedBaudR, int selectedBaudT);
     void configureMs2000(int selectedBaudR, int selectedBaudT);
     void configureVt2K(int SelectedBaudR, int SelectedBaudT, IoConfiguration ioConfiguration);
@@ -28,11 +29,16 @@ public:
     int Parity(int value);
     void dataAvailable();
     void dataAvailable(Byte value);
-    void framingError(bool data); 
-    void uartOut(Byte value); 
-    void uartControl(Byte value); 
+    void dataAvailableUart16450(bool data);
+    void framingError(bool data);
+    void selectUart16450Register(Byte value);
+    void uartOut(Byte value);
+    void uart16450Out(Byte value);
+    void uartControl(Byte value);
     Byte uartIn(); 
-    Byte uartStatus(); 
+    Byte uart16450In();
+    Byte uartStatus();
+    void thrStatusUart16450(bool data);
 
 private:
     ElfConfiguration elfConfiguration_;
@@ -78,6 +84,13 @@ private:
     int uart_fe_bit_;
     int uart_tsre_bit_;
     int uart_thre_bit_;
+    
+    bitset<8> modemControlRegister_;
+    bitset<8> modemStatusRegister_;
+    bitset<8> lineStatusRegister_;
+    Byte thr_;
+    
+    int registerSelect_;
 };
 
 #endif  // SERIAL_H

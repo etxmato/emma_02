@@ -110,7 +110,8 @@ public:
     void setElf2KClockSpeed(double clock) {elfClockSpeed_ = clock;};
     void dataAvailableVt100(bool data, int uartNumber);
     void dataAvailableSerial(bool data);
-    void thrStatus(bool data);
+    void thrStatusVt100(bool data);
+    void thrStatusSerial(bool data);
     void sleepComputer(long ms);
     void setLedMs(long ms);
     Byte getKey(Byte vtOut);

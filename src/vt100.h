@@ -17,6 +17,7 @@ public:
     void configure(int selectedBaudR, int selectedBaudT, IoConfiguration ioConfiguration);
     void configureStandard(int selectedBaudR, int selectedBaudT, int dataReadyFlag);
     void configureUart(IoConfiguration ioConfiguration);
+    void configureUart16450(IoConfiguration ioConfiguration);
     void configureRcasbc(int selectedBaudR, int selectedBaudT);
     void configureMs2000(int selectedBaudR, int selectedBaudT);
     void setTabChar(Byte value);
@@ -58,12 +59,17 @@ public:
     void escapeVT100(Byte byt);
     void dataAvailable();
     void dataAvailable(Byte value);
+    void dataAvailableUart16450(bool data);
     void framingError(bool data);
-    void uartOut(Byte value); 
-    void uartControl(Byte value); 
+    void selectUart16450Register(Byte value);
+    void uartOut(Byte value);
+    void uart16450Out(Byte value);
+    void uartControl(Byte value);
     Byte uartIn(); 
+    Byte uart16450In();
     Byte uartStatus();
     Byte uartThreStatus();
+    void thrStatusUart16450(bool data);
     void uartInterrupt();
     void getKey();
     bool checkKeyInputAddress(Word address);
@@ -275,6 +281,13 @@ private:
 
     Locations addressLocations_;
     wxString saveCommand_;
+
+    bitset<8> modemControlRegister_;
+    bitset<8> modemStatusRegister_;
+    bitset<8> lineStatusRegister_;
+    Byte thr_;
+    
+    int registerSelect_;
 };
 
 #endif  // VT100_H

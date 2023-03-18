@@ -259,6 +259,7 @@ protected:
 #define SET_DIAGLED 42
 #define ENABLE_CLOCK 43
 #define PAUSE_STATE 44
+#define SET_BUTTON_LABEL 45
 
 #define OS_WINDOWS_2000 0
 #define OS_WINDOWS_XP 1
@@ -670,7 +671,9 @@ public:
 #define VIDEOXML6847 4
 #define VIDEOXMLTMS 5
 #define VIDEOXMLI8275 6
-//#define VIDEOXMLMAX 6
+#define VIDEOXML1864 7
+#define VIDEOXMLSN76430N 8
+//#define VIDEOXMLMAX 8
 
 #define VIDEOVT 0
 #define VIDEOPIXIE 1
@@ -746,8 +749,7 @@ public:
 #define VP570RAM 22 
 #define EPROMBANK 23
 #define SUPERBANK 24
-#define NVRAM 24
-//
+#define NVRAM 25
 #define MULTICART 26
 #define DIAGROM 27
 #define MAPPEDROM 28
@@ -760,6 +762,7 @@ public:
 #define NOCHANGE 35
 #define MAINRAM 36
 #define SLOTMEM 37
+#define SN76430NRAM 38
 
 #define MICRO_ROM 0
 #define MICRO_RAM 1
@@ -1095,6 +1098,8 @@ public:
 #define PANEL_SUPER 3
 #define PANEL_MICROTUTOR 4
 #define PANEL_MICROTUTOR2 5
+#define PANEL_ELF2K 6
+#define PANEL_COSMICOS 7
 
 #define CR_NONE 0
 #define CR_CIDELSA 1
@@ -1314,6 +1319,9 @@ public:
     
     void setStaticTextValueEvent(guiEvent& event);
     void eventSetStaticTextValue(wxString info, wxString value);
+    
+    void setButtonLabelEvent(guiEvent& event);
+    void eventSetButtonLabel(wxString info, wxString value);
     
     void setCheckBoxEvent(guiEvent& event);
     void eventSetCheckBox(wxString info, bool state);

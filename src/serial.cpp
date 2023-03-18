@@ -28,6 +28,30 @@
 #include "main.h"
 #include "serial.h"
 
+#define UART_MCR_DTR 0
+#define UART_MCR_RTS 1
+#define UART_MCR_OUT1 2
+#define UART_MCR_OUT2 3
+#define UART_MCR_LOOP 4
+
+#define UART_MSR_CTSD 0
+#define UART_MSR_DSRD 1
+#define UART_MSR_RID 2
+#define UART_MSR_CDD 3
+#define UART_MSR_CTS 4
+#define UART_MSR_DSR 5
+#define UART_MSR_RI 6
+#define UART_MSR_CD 7
+
+#define UART_LSR_DR 0
+#define UART_LSR_OE 1
+#define UART_LSR_PE 2
+#define UART_LSR_FE 3
+#define UART_LSR_BI 4
+#define UART_LSR_THRE 5
+#define UART_LSR_TRE 6
+#define UART_LSR_FIFOE 7
+
 extern "C" 
 {
 #include "libserialport.h"
@@ -172,7 +196,7 @@ void Serial::configureUart(IoConfiguration ioConfiguration)
     
     wxString printBuffer;
     
-    p_Main->message("Configuring external terminal");
+    p_Main->message("Configuring external terminal connected to CDP1854/UART");
     startSerial();
     
     printBuffer.Printf("    Output %d: load transmitter, input %d: read receiver", ioConfiguration.uartOut, ioConfiguration.uartIn);
@@ -181,6 +205,36 @@ void Serial::configureUart(IoConfiguration ioConfiguration)
     printBuffer.Printf("    Output %d: load control, input %d: read status", ioConfiguration.uartControl, ioConfiguration.uartStatus);
     p_Main->message(printBuffer);
     rs232_ = 0;
+}
+
+void Serial::configureUart16450(IoConfiguration ioConfiguration)
+{
+    wxString runningComp = p_Main->getRunningComputerStr();
+
+    wxString ioGroup = "";
+    if (ioConfiguration.uartIoGroup != -1)
+        ioGroup.Printf(" on group %d", ioConfiguration.uartIoGroup);
+
+    uart16450_ = true;
+
+    p_Computer->setOutType(ioConfiguration.uartIoGroup+1, ioConfiguration.uartOut, UART16450_OUTSERIAL);
+    p_Computer->setInType(ioConfiguration.uartIoGroup+1, ioConfiguration.uartIn, UART16450_INSERIAL);
+    p_Computer->setOutType(ioConfiguration.uartIoGroup+1, ioConfiguration.uartControl, UART16450_CONTROLSERIAL);
+    p_Computer->setInType(ioConfiguration.uartIoGroup+1, ioConfiguration.uartStatus, UART16450_STATUSSERIAL);
+
+    wxString printBuffer;
+    p_Main->message("Configuring external terminal connected to 16450 Uart" + ioGroup);
+
+    printBuffer.Printf("    Output %d: register select, output %d: write selected", ioConfiguration.uartControl, ioConfiguration.uartOut);
+    p_Main->message(printBuffer);
+
+    printBuffer.Printf("    Input %d: read status, input %d: read selected\n", ioConfiguration.uartStatus, ioConfiguration.uartIn);
+    p_Main->message(printBuffer);
+
+    registerSelect_ = 0;
+    modemControlRegister_ = 0;
+    modemStatusRegister_ = 0;
+    lineStatusRegister_ = 0xe0;
 }
 
 void Serial::configureRcasbc(int selectedBaudR, int selectedBaudT)
@@ -425,7 +479,7 @@ void Serial::cycleVt()
             }
             
             rs232_ = 0;
-            p_Computer->thrStatus(0);
+            p_Computer->thrStatusSerial(0);
             uartStatus_[uart_thre_bit_] = 1;
             uartStatus_[uart_tsre_bit_] = 1;
 
@@ -651,17 +705,56 @@ void Serial::dataAvailable(Byte value)
         vtOutCount_ = baudRateT_;
 }
 
+void Serial::dataAvailableUart16450(bool data)
+{
+    lineStatusRegister_[UART_LSR_DR] = data;
+}
+
 void Serial::framingError(bool data)
 {
     uartStatus_[uart_fe_bit_] = data;
 }
 
+void Serial::selectUart16450Register(Byte value)
+{
+    registerSelect_ = value &0x7;
+}
+
 void Serial::uartOut(Byte value)
 {
     rs232_ = value;
-    p_Computer->thrStatus(1);
+    p_Computer->thrStatusSerial(1);
     uartStatus_[uart_thre_bit_] = 0;
     uartStatus_[uart_tsre_bit_] = 0;
+}
+
+void Serial::uart16450Out(Byte value)
+{
+    switch (registerSelect_)
+    {
+        case 0: // THR
+            if (modemControlRegister_[UART_MCR_LOOP])
+            {
+                thr_ = value;
+                lineStatusRegister_[UART_LSR_DR] = 1;
+            }
+            else
+                uartOut(value);
+        break;
+
+        case 4: // MCR
+            modemControlRegister_ = value;
+            if (modemControlRegister_[UART_MCR_LOOP])
+            {
+                modemStatusRegister_[UART_MSR_CTS] = modemControlRegister_[UART_MCR_RTS];
+                modemStatusRegister_[UART_MSR_DSR] = modemControlRegister_[UART_MCR_DTR];
+                modemStatusRegister_[UART_MSR_RI] = modemControlRegister_[UART_MCR_OUT1];
+                modemStatusRegister_[UART_MSR_CD] = modemControlRegister_[UART_MCR_OUT2];
+            }
+            else
+                modemStatusRegister_ = 0;
+        break;
+    }
 }
 
 void Serial::uartControl(Byte value)
@@ -682,7 +775,41 @@ Byte Serial::uartIn()
     return input;
 }
 
+Byte Serial::uart16450In()
+{
+    switch (registerSelect_)
+    {
+        case 0: // RHR
+            if (modemControlRegister_[UART_MCR_LOOP])
+            {
+                lineStatusRegister_[UART_LSR_DR] = 0;
+                return thr_;
+            }
+            else
+                return uartIn();
+        break;
+
+        case 5: // LSR
+            return lineStatusRegister_.to_ulong();
+        break;
+
+        case 6: // MSR
+            return modemStatusRegister_.to_ulong();
+        break;
+
+        default:
+            return 0;
+        break;
+    }
+}
+
 Byte Serial::uartStatus()
 {
     return uartStatus_.to_ulong();
+}
+
+void Serial::thrStatusUart16450(bool data)
+{
+    lineStatusRegister_[UART_LSR_THRE] = !data;
+    lineStatusRegister_[UART_LSR_TRE] = data;
 }

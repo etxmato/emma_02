@@ -245,11 +245,11 @@ void Velf::onClose(wxCloseEvent&WXUNUSED(event) )
 
 void Velf::configureComputer()
 {
-    outType_[2] = VIPKEYOUT;
-    outType_[4] = VIPOUT4;
-    outType_[7] = VIPIIOUT7;
-    inType_[4] = ELFIN;
-    efType_[3] = VIPKEYEF;
+    outType_[0][0][2] = VIPKEYOUT;
+    outType_[0][0][4] = VIPOUT4;
+    outType_[0][0][7] = VIPIIOUT7;
+    inType_[0][0][4] = ELFIN;
+    efType_[0][0][3] = VIPKEYEF;
     setCycleType(COMPUTERCYCLE, LEDCYCLE);
 
     p_Main->message("Configuring VELF");
@@ -264,7 +264,7 @@ void Velf::configureComputer()
     usePrinter_ = false;
     if (p_Main->getPrinterStatus(VELF))
     {
-        outType_[3] = VIPOUT3;
+        outType_[0][0][3] = VIPOUT3;
         usePrinter_ = true;
         p_Main->message("Configuring Centronics P-1/PR-40 Printer");
         p_Main->message("    Output 3: latch, Q: strobe, EF 3: busy\n");
@@ -476,7 +476,7 @@ Byte Velf::ef(int flag)
         if (ef4State_ == 0)
             return ef4State_;
     }
-    switch(efType_[flag])
+    switch(efType_[0][0][flag])
     {
         case 0:
             return 1;
@@ -522,7 +522,7 @@ Byte Velf::in(Byte port, Word WXUNUSED(address))
 {
     Byte ret;
 
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case 0:
             ret = 255;
@@ -552,7 +552,7 @@ void Velf::out(Byte port, Word WXUNUSED(address), Byte value)
 {
     outValues_[port] = value;
 
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;

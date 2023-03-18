@@ -297,28 +297,28 @@ void Membership::configureComputer()
 
     for (int i = 0; i < 8; i++)
     {
-        inType_[i] = INPUTUNDEFINED;
+        inType_[0][0][i] = INPUTUNDEFINED;
         switch (elfConfiguration.ioType)
         {
             case IO_TYPE_N0:
                 if (i & 1)
                 {
-                    inType_[i] = ELFIN;
-                    outType_[i] = ELFOUT;
+                    inType_[0][0][i] = ELFIN;
+                    outType_[0][0][i] = ELFOUT;
                 }
             break;
             case IO_TYPE_N1:
                 if (i & 2)
                 {
-                    inType_[i] = ELFIN;
-                    outType_[i] = ELFOUT;
+                    inType_[0][0][i] = ELFIN;
+                    outType_[0][0][i] = ELFOUT;
                 }
             break;
             case IO_TYPE_N2:
                 if (i & 4)
                 {
-                    inType_[i] = ELFIN;
-                    outType_[i] = ELFOUT;
+                    inType_[0][0][i] = ELFIN;
+                    outType_[0][0][i] = ELFOUT;
                 }
             break;
         }
@@ -371,7 +371,7 @@ Byte Membership::ef(int flag)
         if (inPressed_ == true)
             return 0;
     }
-    switch(efType_[flag])
+    switch(efType_[0][0][flag])
     {
         case 0:
             return 1;
@@ -394,7 +394,7 @@ Byte Membership::in(Byte port, Word WXUNUSED(address))
 {
     Byte ret;
 
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case 0:
             ret = 255;
@@ -424,7 +424,7 @@ void Membership::out(Byte port, Word WXUNUSED(address), Byte value)
 {
     outValues_[port] = value;
 
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;

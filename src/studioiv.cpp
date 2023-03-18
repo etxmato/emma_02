@@ -44,13 +44,13 @@ StudioIV::~StudioIV()
 
 void StudioIV::configureComputer()
 {
-    outType_[1] = VIPOUT4;
-    outType_[2] = STUDIOOUT;
-    outType_[7] = VIPIIOUT7;
+    outType_[0][0][1] = VIPOUT4;
+    outType_[0][0][2] = STUDIOOUT;
+    outType_[0][0][7] = VIPIIOUT7;
     victoryKeyPort_ = 0;
-    efType_[2] = VIPEF2;
-    efType_[3] = STUDIOEF3;
-    efType_[4] = STUDIOEF4;
+    efType_[0][0][2] = VIPEF2;
+    efType_[0][0][3] = STUDIOEF3;
+    efType_[0][0][4] = STUDIOEF4;
 
     cycleType_[COMPUTERCYCLE] = VIPIIKEYCYCLE;
 
@@ -349,7 +349,7 @@ void StudioIV::keyUp(int keycode)
 
 Byte StudioIV::ef(int flag)
 {
-    switch(efType_[flag])
+    switch(efType_[0][0][flag])
     {
         case 0:
             return 1;
@@ -402,7 +402,7 @@ Byte StudioIV::in(Byte port, Word WXUNUSED(address))
 {
     Byte ret;
 
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case 0:
             ret = 255;
@@ -423,7 +423,7 @@ void StudioIV::out(Byte port, Word WXUNUSED(address), Byte value)
 {
     outValues_[port] = value;
 
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;

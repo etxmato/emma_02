@@ -42,10 +42,10 @@ Tmc1800::~Tmc1800()
 
 void Tmc1800::configureComputer()
 {
-    outType_[2] = VIPKEYOUT;
-    outType_[4] = VIPOUT4;
-    efType_[2] = VIPEF2;
-    efType_[3] = VIPKEYEF;
+    outType_[0][0][2] = VIPKEYOUT;
+    outType_[0][0][4] = VIPOUT4;
+    efType_[0][0][2] = VIPEF2;
+    efType_[0][0][3] = VIPKEYEF;
 
     p_Main->message("Configuring Telmac TMC-1800");
     p_Main->message("    Output 2: key latch, output 4: address latch");
@@ -135,7 +135,7 @@ void Tmc1800::onRun()
 
 Byte Tmc1800::ef(int flag)
 {
-    switch(efType_[flag])
+    switch(efType_[0][0][flag])
     {
         case 0:
             return 1;
@@ -167,7 +167,7 @@ Byte Tmc1800::in(Byte port, Word WXUNUSED(address))
 {
     Byte ret;
 
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case 0:
             ret = 255;
@@ -193,7 +193,7 @@ void Tmc1800::out(Byte port, Word WXUNUSED(address), Byte value)
 {
     outValues_[port] = value;
 
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;

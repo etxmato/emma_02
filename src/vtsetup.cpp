@@ -146,10 +146,22 @@ VtSetupDialog::VtSetupDialog(wxWindow* parent)
         case ELF:
         case ELFII:
         case SUPERELF:
-        case XML:
             XRCCTRL(*this, "Uart1854", wxCheckBox)->SetValue(elfConfiguration_.useUart);
             XRCCTRL(*this, "Uart16450", wxCheckBox)->SetValue(elfConfiguration_.useUart16450);
             XRCCTRL(*this, "VtRtcClear", wxCheckBox)->SetValue(elfConfiguration_.clearRtc);
+            XRCCTRL(*this, "VtEf", wxCheckBox)->SetValue(elfConfiguration_.ioConfiguration.vt100ReverseEf != 1);
+            XRCCTRL(*this, "VtQ", wxCheckBox)->SetValue(elfConfiguration_.ioConfiguration.vt100ReverseQ != 0);
+            if (elfConfiguration_.useUart16450 || elfConfiguration_.useUart)
+            {
+                XRCCTRL(*this, "VtEf", wxCheckBox)->Enable(false);
+                XRCCTRL(*this, "VtQ", wxCheckBox)->Enable(false);
+            }
+        break;
+
+        case XML:
+            XRCCTRL(*this, "Uart1854", wxCheckBox)->SetValue(elfConfiguration_.useUart);
+            XRCCTRL(*this, "Uart16450", wxCheckBox)->SetValue(elfConfiguration_.useUart16450);
+            XRCCTRL(*this, "VtRtcClear", wxCheckBox)->Hide();
             XRCCTRL(*this, "VtEf", wxCheckBox)->SetValue(elfConfiguration_.ioConfiguration.vt100ReverseEf != 1);
             XRCCTRL(*this, "VtQ", wxCheckBox)->SetValue(elfConfiguration_.ioConfiguration.vt100ReverseQ != 0);
             if (elfConfiguration_.useUart16450 || elfConfiguration_.useUart)

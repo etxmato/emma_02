@@ -91,7 +91,7 @@ BEGIN_EVENT_TABLE(GuiElf2K, GuiMS2000)
     EVT_CHECKBOX(XRCID("Elf2KSwitch"), GuiElf2K::onElf2KSwitch)
     EVT_CHECKBOX(XRCID("Elf2KHex"), GuiElf2K::onElf2KHex)
     EVT_CHECKBOX(XRCID("Elf2KBootRam"), GuiElf2K::onBootRam)
-    EVT_CHECKBOX(XRCID("Elf2KClearRtc"), GuiElf2K::onClearRtc)
+    EVT_CHECKBOX(XRCID("Elf2KClearRtc"), GuiMain::onClearRtc)
 
     EVT_CHOICE(XRCID("VTBaudTChoiceElf2K"), GuiElf2K::onElf2KBaudT)
     EVT_CHOICE(XRCID("VTBaudRChoiceElf2K"), GuiElf2K::onElf2KBaudR)
@@ -500,11 +500,6 @@ void GuiElf2K::onElf2KForceUpperCase(wxCommandEvent&event)
 void GuiElf2K::onBootRam(wxCommandEvent&event)
 {
     elfConfiguration[ELF2K].bootRam = event.IsChecked();
-}
-
-void GuiElf2K::onClearRtc(wxCommandEvent&event)
-{
-    elfConfiguration[ELF2K].clearRtc = event.IsChecked();
 }
 
 void GuiElf2K::onTape(wxCommandEvent&WXUNUSED(event))

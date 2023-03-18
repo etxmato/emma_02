@@ -3,8 +3,8 @@
 
 [Setup]
 AppName=Emma 02
-AppVerName=Emma 02 - V1.47.4
-AppVersion=1.47.4
+AppVerName=Emma 02 - V1.47.7
+AppVersion=1.47.7
 AppPublisher=Marcel van Tongeren
 DefaultDirName={pf}\Emma 02
 DefaultGroupName=Emma 02
@@ -181,6 +181,7 @@ Source: ..\data\Comx\Usb FW Development\sb*.bin; DestDir: {app}\data\Comx\Usb FW
 Source: ..\data\Comx\Usb FW Development\*.debug; DestDir: {app}\data\Comx\Usb FW; Components: MAIN
 Source: ..\data\Comx\Usb FW\sb.config; DestDir: {app}\data\Comx\Usb FW; Components: MAIN
 Source: ..\data\Cosmicos\*.*; DestDir: {app}\data\Cosmicos; Components: MAIN
+Source: ..\data\Cybervision\*.*; DestDir: {app}\data\Cybervision; Components: MAIN
 Source: ..\data\Elf\*.*; DestDir: {app}\data\Elf; Components: MAIN
 Source: ..\data\Elf\Biosio\*.*; DestDir: {app}\data\Elf\Biosio; Components: MAIN
 Source: ..\data\Elf\biosioPS2\*.*; DestDir: {app}\data\Elf\BiosioPS2; Components: MAIN
@@ -244,7 +245,9 @@ Source: ..\data\Xml\Cidelsa\*.*; DestDir: {app}\data\Xml\Cidelsa; Components: MA
 Source: ..\data\Xml\Comix\*.*; DestDir: {app}\data\Xml\Comix; Components: MAIN
 Source: ..\data\Xml\Comx\*.*; DestDir: {app}\data\Xml\Comx; Components: MAIN
 Source: ..\data\Xml\Cosmac Elf\*.*; DestDir: {app}\data\Xml\Cosmac Elf; Components: MAIN
+Source: ..\data\Xml\Cybervision\*.*; DestDir: {app}\data\Xml\Cybervision; Components: MAIN
 Source: ..\data\Xml\Elf\*.*; DestDir: {app}\data\Xml\Elf; Components: MAIN
+Source: ..\data\Xml\Elf2K\*.*; DestDir: {app}\data\Xml\Elf2K; Components: MAIN
 Source: ..\data\Xml\Microtutor\*.*; DestDir: {app}\data\Xml\Microtutor; Components: MAIN
 Source: ..\data\Xml\Microtutor II\*.*; DestDir: {app}\data\Xml\Microtutor II; Components: MAIN   
 Source: ..\data\Xml\Netronics Elf II\*.*; DestDir: {app}\data\Xml\Netronics Elf II; Components: MAIN

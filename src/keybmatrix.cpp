@@ -44,7 +44,7 @@ void KeybMatrix::configure(IoConfiguration ioConf, wxString saveCommand)
     wxString ioGroup = "";
     if (ioConfiguration_.keybMatrixIoGroup != -1)
     {
-        ioGroup.Printf(" on group %X", ioConfiguration_.keybMatrixIoGroup);
+        ioGroup.Printf(" on group %d", ioConfiguration_.keybMatrixIoGroup);
     }
     
     p_Main->message("Configuring keyboard" + ioGroup);

@@ -284,13 +284,13 @@ void Cidelsa::keyUp(int keycode)
 
 void Cidelsa::configureComputer()
 {
-    inType_[1] = CIDELSAIN1;
-    inType_[2] = CIDELSAIN2;
-    inType_[4] = CIDELSAIN4;
-    outType_[1] = CIDELSAOUT1;
-    efType_[2] = BUTTON_EF2;
-    efType_[3] = BUTTON_EF3;
-    efType_[4] = BUTTON_EF4;
+    inType_[0][0][1] = CIDELSAIN1;
+    inType_[0][0][2] = CIDELSAIN2;
+    inType_[0][0][4] = CIDELSAIN4;
+    outType_[0][0][1] = CIDELSAOUT1;
+    efType_[0][0][2] = BUTTON_EF2;
+    efType_[0][0][3] = BUTTON_EF3;
+    efType_[0][0][4] = BUTTON_EF4;
 
     p_Main->message("Configuring Cidelsa");
     p_Main->message("    Input 1: input A, input 2: dip settings, input 4: input B");
@@ -313,7 +313,7 @@ void Cidelsa::initComputer()
 
 Byte Cidelsa::ef(int flag)
 {
-    switch(efType_[flag])
+    switch(efType_[0][0][flag])
     {
         case 0:
             return 1;
@@ -359,7 +359,7 @@ Byte Cidelsa::in(Byte port, Word WXUNUSED(address))
 {
     Byte ret;
 
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case 0:
             ret = 255;
@@ -404,7 +404,7 @@ Byte Cidelsa::in4()
 
 void Cidelsa::out(Byte port, Word address, Byte value)
 {
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;

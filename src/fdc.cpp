@@ -52,12 +52,21 @@ void Fdc::configure1793(int sides, int tracks, int sectors, int sectorlength, in
 //    selectOutput = p_Main->getConfigItem(runningComp+"/FdcSelectOutput", 2l);
 //    writeOutput = p_Main->getConfigItem(runningComp +"/FdcWriteOutput", 3l);
 //    efPort = p_Main->getConfigItem(runningComp+"/FdcEf", 2l);
+    int ioGroupNum = 0;
+    if (computerType == XML)
+        ioGroupNum = ioConf.fdcIoGroup + 1;
 
-    p_Computer->setInType(ioConf.fdcReadInput.portNumber, FDCREADIN);
-    p_Computer->setOutType(ioConf.fdcSelectOutput.portNumber, FDCSELECTOUT);
+    wxString ioGroup = "";
+    if (ioConf.fdcIoGroup != -1)
+    {
+        ioGroup.Printf(" on group %d", ioConf.fdcIoGroup);
+    }
+
+    p_Computer->setInType(ioGroupNum, ioConf.fdcReadInput.portNumber, FDC1793_READIN);
+    p_Computer->setOutType(ioGroupNum, ioConf.fdcSelectOutput.portNumber, FDC1793_SELECTOUT);
     p_Computer->setCycleType(DISKCYCLEFDC, FDCCYCLE);
-    p_Computer->setOutType(ioConf.fdcWriteOutput.portNumber, FDCWRITEOUT);
-    p_Computer->setEfType(ioConf.fdcEf, FDCEF);
+    p_Computer->setOutType(ioGroupNum, ioConf.fdcWriteOutput.portNumber, FDC1793_WRITEOUT);
+    p_Computer->setEfType(ioGroupNum, ioConf.fdcEf, FDC1793_EF);
 
     fdcRegisterSelect_ = 0;
 
@@ -81,7 +90,7 @@ void Fdc::configure1793(int sides, int tracks, int sectors, int sectorlength, in
     maxFmtCount_ = maxFmtCount;
 
     wxString printBuffer;
-    p_Main->message("Configuring WD1793 Floppy Disk Controller");
+    p_Main->message("Configuring WD1793 Floppy Disk Controller" + ioGroup);
     printBuffer.Printf("    Output %d: register select, output %d: write register", ioConf.fdcSelectOutput.portNumber, ioConf.fdcWriteOutput.portNumber);
     p_Main->message(printBuffer);
     printBuffer.Printf("    Input %d: read register", ioConf.fdcReadInput.portNumber);
@@ -159,7 +168,7 @@ void Fdc::configureComx1770(int sides, int tracks, int sectors, int sectorlength
     p_Computer->setCycleType(DISKCYCLEFDC, FDCCYCLE);
     fdcRegisterSelect_ = 0;
 
-    for (int i=0; i<2; i++)
+    for (int i=0; i<4; i++)
     {
         diskCreated_[i] = false;
         numberOfSides_[i] = sides;
@@ -179,7 +188,7 @@ void Fdc::configure1770(int sides, int tracks, int sectors, int sectorlength, in
     p_Computer->setCycleType(DISKCYCLEFDC, FDCCYCLE);
     fdcRegisterSelect_ = 0;
 
-    for (int i=0; i<2; i++)
+    for (int i=0; i<4; i++)
     {
         diskCreated_[i] = false;
         numberOfSides_[i] = sides;
@@ -193,60 +202,65 @@ void Fdc::configure1770(int sides, int tracks, int sectors, int sectorlength, in
 
     wxString printBuffer1, printBuffer2;
     
+    int ioGroupNum = 0;
+    if (computerType == XML)
+        ioGroupNum = ioConf.fdcIoGroup + 1;
+
     wxString ioGroup = "";
     if (ioConf.fdcIoGroup != -1)
     {
-        ioGroup.Printf(" on group %X", ioConf.fdcIoGroup);
+        ioGroup.Printf(" on group %d", ioConf.fdcIoGroup);
     }
 
     p_Main->message("Configuring WD1770 Floppy Disk Controller" + ioGroup);
     if (ioConf.fdcSelectOutput.qValue == -1)
     {
         printBuffer1.Printf("    Output %d: register select, ", ioConf.fdcSelectOutput.portNumber);
-        p_Computer->setOutType(ioConf.fdcSelectOutput.portNumber, FDCSELECTOUT);
+        p_Computer->setOutType(ioGroupNum, ioConf.fdcSelectOutput.portNumber, FDC1770_SELECTOUT);
     }
     else
     {
         printBuffer1.Printf("    Q = %d & output %d: register select, ", ioConf.fdcSelectOutput.qValue, ioConf.fdcSelectOutput.portNumber);
-        p_Computer->setOutType(ioConf.fdcSelectOutput.portNumber, FDCOUT);
+        p_Computer->setOutType(ioConf.fdcSelectOutput.qValue, ioGroupNum, ioConf.fdcSelectOutput.portNumber, FDC1770_SELECTOUT);
     }
 
     if (ioConf.fdcWriteOutput.qValue == -1)
     {
         printBuffer2.Printf("output %d: write register", ioConf.fdcWriteOutput.portNumber);
-        p_Computer->setOutType(ioConf.fdcWriteOutput.portNumber, FDCWRITEOUT);
+        p_Computer->setOutType(ioGroupNum, ioConf.fdcWriteOutput.portNumber, FDC1770_WRITEOUT);
     }
     else
     {
         printBuffer2.Printf("Q = %d & output %d: write register", ioConf.fdcWriteOutput.qValue, ioConf.fdcWriteOutput.portNumber);
-        p_Computer->setOutType(ioConf.fdcWriteOutput.portNumber, FDCOUT);
+        p_Computer->setOutType(ioConf.fdcWriteOutput.qValue, ioGroupNum, ioConf.fdcWriteOutput.portNumber, FDC1770_WRITEOUT);
     }
     p_Main->message(printBuffer1 + printBuffer2);
 
     if (ioConf.fdcReadInput.qValue == -1)
     {
         printBuffer2.Printf("input %d: read register, ", ioConf.fdcReadInput.portNumber);
-        p_Computer->setInType(ioConf.fdcReadInput.portNumber, FDCREADIN);
+        p_Computer->setInType(ioGroupNum, ioConf.fdcReadInput.portNumber, FDC1770_READIN);
     }
     else
     {
         printBuffer2.Printf("Q = %d & input %d: read register, ", ioConf.fdcReadInput.qValue, ioConf.fdcReadInput.portNumber);
-        p_Computer->setInType(ioConf.fdcReadInput.portNumber, FDCIN);
+        p_Computer->setInType(ioConf.fdcReadInput.qValue, ioGroupNum, ioConf.fdcReadInput.portNumber, FDC1770_READIN);
     }
 
     if (ioConf.fdcIntrqInput.qValue == -1)
     {
         printBuffer1.Printf("    Input %d: INTRQ, ", ioConf.fdcIntrqInput.portNumber);
-        p_Computer->setInType(ioConf.fdcIntrqInput.portNumber, FDCINTRQIN);
+        p_Computer->setInType(ioGroupNum, ioConf.fdcIntrqInput.portNumber, FDC1770_INTRQIN);
     }
     else
     {
         printBuffer1.Printf("    Q = %d & input %d: INTRQ, ", ioConf.fdcIntrqInput.qValue, ioConf.fdcIntrqInput.portNumber);
-        p_Computer->setInType(ioConf.fdcIntrqInput.portNumber, FDCIN);
+        p_Computer->setInType(ioConf.fdcIntrqInput.qValue, ioGroupNum, ioConf.fdcIntrqInput.portNumber, FDC1770_INTRQIN);
     }
     p_Main->message(printBuffer1 + printBuffer2);
 
     printBuffer1.Printf("    EF %d: DRQ", ioConf.fdcEf);
+    p_Computer->setEfType(ioGroupNum, ioConf.fdcEf, FDC1770_EF);
     p_Main->message(printBuffer1);
 
     printBuffer1.Printf("    Disk geometry: %d side, %d tracks, %d sectors per track and %d bytes per sector\n", ioConf.fdcSides, ioConf.fdcTracks, ioConf.fdcSectors, ioConf.fdcSectorLength);

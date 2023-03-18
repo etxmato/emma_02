@@ -33,6 +33,17 @@ public:
     int numberOfKeys;
 };
 
+class CvKeypadDetails
+{
+public:
+    bool defined;
+    int inp;
+    int ef;
+    bool reversed;
+    int ioGroup;
+    int keydef[256];
+};
+
 class IoPort
 {
 public:
@@ -62,6 +73,13 @@ public:
     int pixieEf;
     int pixieVideoNumber;
 
+    IoPort cdp1864enable;
+    IoPort cdp1864disable;
+    IoPort cdp1864toneLatch;
+    int cdp1864Ef;
+    int cdp1864VideoNumber;
+    int cdp1864IoGroup;
+
     int portExtenderSelectOutput;
     int portExtenderWriteOutput;
     int portExtenderInput;
@@ -73,6 +91,7 @@ public:
     int ideTracks;
     int ideHeads;
     int ideSectors;
+    int ideIoGroup;
 
     IoPort fdcSelectOutput;
     IoPort fdcWriteOutput;
@@ -95,6 +114,11 @@ public:
     int ps2KeyboardOutput;
     int ps2KeyboardEf;
     
+    int gpioInput;
+    int gpioOutput;
+    int gpioEf;
+    int gpioIoGroup;
+
     int printerIoGroup;
     int printerOutput;
     int printerEf;
@@ -128,6 +152,7 @@ public:
     int uartIn;
     int uartControl;
     int uartStatus;
+    int uartIoGroup;
 
     int tmsModeHighOutput;
     int tmsModeLowOutput;
@@ -140,6 +165,8 @@ public:
     int i8275ReadParameter;
     int i8275VerticalRetrace;
     int i8275VideoNumber;
+
+    int SN76430NVideoNumber;
 
     int led_Module_Output;
 
@@ -201,6 +228,7 @@ public:
     Byte ioGroupMask;
 
     int tapeEf;
+    int tapeIn;
     int tapeIoGroup;
 
     int v1870ioGroup;
@@ -236,6 +264,9 @@ public:
     BitKeypadDetails bitKeypad[2];
     Byte bitKeyPressed;
     
+    CvKeypadDetails cvKeypad;
+    int CvKeypadTextKey[LAST_MATRIX_TEXT_KEY];
+
     int nvRamProtectIn;
     int nvRamIoGroup;
     
@@ -247,7 +278,11 @@ public:
     Word rtcDate;
     Word rtcMonth;
     Word rtcYear;
-    int rtcIoGroup;
+    int rtcOut;
+    int rtcIn;
+    int rtcSelect;
+    int rtcIoGroup1;
+    int rtcIoGroup2;
 
     IoPort usbSbIn5;
     IoPort usbSbIn6;
@@ -292,6 +327,7 @@ class ElfConfiguration
 {
 public:
     bool usePixie;
+    bool use1864;
     bool useS100;
     bool use6845;
     bool use6847;
@@ -300,8 +336,11 @@ public:
     bool useTMS9918;
     bool use8275;
     bool usev1870;
+    bool useSN76430N;
     bool useNvRamMp;
+    bool useNvRam;
     bool useRtcM48T58;
+    bool useRtcDS12887;
     bool useUsbSb;
 
     bool useDip;
@@ -342,12 +381,17 @@ public:
     bool stopTone;
     bool utilityMemory;
     bool tapeStart;
+    int threshold8Bit;
+    int threshold16Bit;
+    int frequencyBorder;
+    bool revCassetteInput;
     bool rtc;
     bool nvr;
     bool useSwitch;
     bool useHex;
     bool useTape;
     bool useTape1;
+    bool useTapeHw;
     bool useXmodem;
     bool useHexModem;
     int packetSize;
@@ -361,10 +405,12 @@ public:
     bool useKeyb1871;
     bool useKeyboard;
     bool useBitKeypad;
+    bool useCvKeypad;
     bool useLatchKeyboard;
     bool useMatrixKeyboard;
     bool usePS2;
-    bool ps2Interrupt;    
+    bool ps2Interrupt;
+    bool gpioJp4;
     bool usePs2gpio;
     bool useDma;
     bool useInt;

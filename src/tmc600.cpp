@@ -385,11 +385,11 @@ void Tmc600::onRun()
 
 void Tmc600::configureComputer()
 {
-    outType_[3] = TELMACOUTKEY;
-    outType_[4] = TELMAPRINTER;
+    outType_[0][0][3] = TELMACOUTKEY;
+    outType_[0][0][4] = TELMAPRINTER;
 
-    efType_[3] = TELMACEF3;
-    efType_[2] = TELMACEF2;
+    efType_[0][0][3] = TELMACEF3;
+    efType_[0][0][2] = TELMACEF2;
     cycleType_[COMPUTERCYCLE] = TELMACCYCLE;
 
     p_Main->message("Configuring Telmac TMC-600");
@@ -458,7 +458,7 @@ Byte Tmc600::ef(int flag)
 {
     int ef3, port;
 
-    switch(efType_[flag])
+    switch(efType_[0][0][flag])
     {
         case 0:
             return 1;
@@ -488,7 +488,7 @@ Byte Tmc600::in(Byte port, Word WXUNUSED(address))
     Byte ret;
 
 //    p_Main->messageInt(port);
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case 0:
             ret = 255;
@@ -537,7 +537,7 @@ Byte Tmc600::in(Byte port, Word WXUNUSED(address))
 void Tmc600::out(Byte port, Word address, Byte value)
 {
     outValues_[port] = value;
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;
@@ -793,7 +793,7 @@ void Tmc600::startComputer()
     
     if ((mainMemory_[0x4017] == 0x31) && (mainMemory_[0x4018] == 0x35) && (mainMemory_[0x4019] == 0x31) && (mainMemory_[0x401A] == 0x31) && (mainMemory_[0x401B] == 0x38) && (mainMemory_[0x401C] == 0x32))
     {
-        inType_[4] = TELMACIN;
+        inType_[0][0][4] = TELMACIN;
         p_Main->message("Configuring 151182 Expansion Rom");
         p_Main->message("    Output 4: select channel/printer data (channel F)");
         p_Main->message("    Input 4: AD/I Input (channel 0 to E)");

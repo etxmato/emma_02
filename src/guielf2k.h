@@ -30,7 +30,6 @@ public:
     void onElf2KHex(wxCommandEvent& event);
     void onElf2KClock(wxCommandEvent& event);
     void onBootRam(wxCommandEvent& event);
-    void onClearRtc(wxCommandEvent& event);
     void onTape(wxCommandEvent& event);
 
     void setTape();

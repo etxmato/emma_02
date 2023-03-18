@@ -74,8 +74,8 @@ BEGIN_EVENT_TABLE(GuiXml, GuiPico)
     EVT_CHOICE(XRCID("PrintModeXml"), GuiXml::onXmlPrintMode)
     EVT_BUTTON(XRCID("PrintFileButtonXml"), GuiMain::onPrintFile)
         
-    EVT_CHOICE(XRCID("VTBaudTChoiceXml"), GuiMain::onBaudT)
-    EVT_CHOICE(XRCID("VTBaudRChoiceXml"), GuiMain::onBaudR)
+    EVT_CHOICE(XRCID("VTBaudTChoiceXml"), GuiXml::onXmlBaudT)
+    EVT_CHOICE(XRCID("VTBaudRChoiceXml"), GuiXml::onXmlBaudR)
 
     EVT_CHECKBOX(XRCID("ControlWindowsXml"), GuiXml::onXmlControlWindows)
     EVT_BUTTON(XRCID("KeyMapXml"), Main::onHexKeyDef)
@@ -129,6 +129,9 @@ BEGIN_EVENT_TABLE(GuiXml, GuiPico)
 
     EVT_BUTTON(XRCID("BatchButtonXml"), GuiMain::onBatchFileDialog)
     EVT_BUTTON(XRCID("BatchConvertButtonXml"), GuiMain::onBatchConvertStart)
+
+    EVT_CHECKBOX(XRCID("XmlClearRtc"), GuiMain::onClearRtc)
+    EVT_CHECKBOX(XRCID("XmlClearRam"), GuiMain::onClearRam)
 
     END_EVENT_TABLE()
 
@@ -205,15 +208,14 @@ void GuiXml::readXmlConig()
     elfConfiguration[XML].bellFrequency_ = (int)configPointer->Read("Xmlemu/Bell_Frequency", 800);
     configPointer->Read("Xmlemu/SerialLog", &elfConfiguration[XML].serialLog, false);
     configPointer->Read("Xmlemu/ESCError", &elfConfiguration[XML].escError, false);
-    configPointer->Read("Xmlemu/ClearRtc", &elfConfiguration[XML].clearRtc, false);
+    elfConfiguration[XML].clearRam = false;
+    elfConfiguration[XML].clearRtc = false;
 
     configPointer->Read("Xmlemu/Enable_Vt_Stretch_Dot", &conf[XML].stretchDot_, false);
     configPointer->Read("Xmlemu/Enable_Vt_External", &elfConfiguration[XML].vtExternal, false);
     conf[XML].printMode_ = (int)configPointer->Read("Xmlemu/Print_Mode", 1l);
 
     wxString defaultZoom;
-    defaultZoom.Printf("%2.2f", 2.0);
-    conf[XML].zoom_[VIDEOMAIN] = convertLocale(configPointer->Read("Xmlemu/Zoom", defaultZoom));
     defaultZoom.Printf("%2.2f", 1.0);
     conf[XML].zoomVt_ = convertLocale(configPointer->Read("Xmlemu/Vt_Zoom", defaultZoom));
     wxString defaultScale;
@@ -265,7 +267,6 @@ void GuiXml::readXmlConig()
         XRCCTRL(*this, "UseLocationXml", wxCheckBox)->SetValue(conf[XML].useLoadLocation_);
         if (conf[XML].saveStart_ != 0)
             XRCCTRL(*this, "SaveStartXml", wxTextCtrl)->SetValue(conf[XML].saveStartString_);
-
     }
 
     conf[XML].loadFileNameFull_ = "";
@@ -348,8 +349,6 @@ void GuiXml::writeXmlConfig()
     configPointer->Write("Xmlemu/Bell_Frequency", elfConfiguration[XML].bellFrequency_);
     configPointer->Write("Xmlemu/SerialLog", elfConfiguration[XML].serialLog);
     configPointer->Write("Xmlemu/ESCError", elfConfiguration[XML].escError);
-    configPointer->Write("Xmlemu/ClearRtc", elfConfiguration[XML].clearRtc);
-    configPointer->Write("Xmlemu/Zoom", conf[XML].zoom_[VIDEOMAIN]);
     configPointer->Write("Xmlemu/Vt_Zoom", conf[XML].zoomVt_);
     configPointer->Write("Xmlemu/UseLoadLocation", conf[XML].useLoadLocation_);
     configPointer->Write("Xmlemu/SaveStart", conf[XML].saveStartString_);
@@ -375,6 +374,8 @@ void GuiXml::readXmlWindowConfig()
     
     conf[XML].pixieX_ = (int)configPointer->Read("Xmlemu/Window_Position_Pixie_X", mainWindowX_+windowInfo.mainwX+windowInfo.xBorder);
     conf[XML].pixieY_ = (int)configPointer->Read("Xmlemu/Window_Position_Pixie_Y", mainWindowY_);
+    conf[XML].cdp1864X_ = (int)configPointer->Read("Xmlemu/Window_Position_CDP1864_X", mainWindowX_+windowInfo.mainwX+windowInfo.xBorder);
+    conf[XML].cdp1864Y_ = (int)configPointer->Read("Xmlemu/Window_Position_CDP1864_Y", mainWindowY_);
     conf[XML].tmsX_ = (int)configPointer->Read("Xmlemu/Window_Position_Tms_X", mainWindowX_+windowInfo.mainwX+windowInfo.xBorder);
     conf[XML].tmsY_ = (int)configPointer->Read("Xmlemu/Window_Position_Tms_Y", mainWindowY_);
     conf[XML].mc6845X_ = (int)configPointer->Read("Xmlemu/Window_Position_MC6845_X", mainWindowX_+windowInfo.mainwX+windowInfo.xBorder);
@@ -385,6 +386,8 @@ void GuiXml::readXmlWindowConfig()
     conf[XML].i8275Y_ = (int)configPointer->Read("Xmlemu/Window_Position_I8275_Y", mainWindowY_);
     conf[XML].v1870X_ = (int)configPointer->Read("Xmlemu/Window_Position_v1870_X", mainWindowX_+windowInfo.mainwX+windowInfo.xBorder);
     conf[XML].v1870Y_ = (int)configPointer->Read("Xmlemu/Window_Position_v1870_Y", mainWindowY_);
+    conf[XML].SN76430NX_ = (int)configPointer->Read("Xmlemu/Window_Position_SN76430N_X", mainWindowX_+windowInfo.mainwX+windowInfo.xBorder);
+    conf[XML].SN76430NY_ = (int)configPointer->Read("Xmlemu/Window_Position_SN76430N_Y", mainWindowY_);
     conf[XML].vtX_ = (int)configPointer->Read("Xmlemu/Window_Position_Vt_X", mainWindowX_+windowInfo.mainwX+windowInfo.xBorder);
     conf[XML].vtY_ = (int)configPointer->Read("Xmlemu/Window_Position_Vt_Y", mainWindowY_);
     conf[XML].mainX_ = (int)configPointer->Read("Xmlemu/Window_Position_X", mainWindowX_);
@@ -407,6 +410,10 @@ void GuiXml::writeXmlWindowConfig()
         configPointer->Write("Xmlemu/Window_Position_Pixie_X", conf[XML].pixieX_);
     if (conf[XML].pixieY_ > 0)
         configPointer->Write("Xmlemu/Window_Position_Pixie_Y", conf[XML].pixieY_);
+    if (conf[XML].cdp1864X_ > 0)
+        configPointer->Write("Xmlemu/Window_Position_CDP1864_X", conf[XML].cdp1864X_);
+    if (conf[XML].cdp1864Y_ > 0)
+        configPointer->Write("Xmlemu/Window_Position_CDP1864_Y", conf[XML].cdp1864Y_);
     if (conf[XML].tmsX_ > 0)
         configPointer->Write("Xmlemu/Window_Position_Tms_X", conf[XML].tmsX_);
     if (conf[XML].tmsY_ > 0)
@@ -427,6 +434,10 @@ void GuiXml::writeXmlWindowConfig()
         configPointer->Write("Xmlemu/Window_Position_v1870_X", conf[XML].v1870X_);
     if (conf[XML].v1870Y_ > 0)
         configPointer->Write("Xmlemu/Window_Position_v1870_Y", conf[XML].v1870Y_);
+    if (conf[XML].SN76430NX_ > 0)
+        configPointer->Write("Xmlemu/Window_Position_SN76430N_X", conf[XML].SN76430NX_);
+    if (conf[XML].SN76430NY_ > 0)
+        configPointer->Write("Xmlemu/Window_Position_SN76430N_Y", conf[XML].SN76430NY_);
     if (conf[XML].vtX_ > 0)
         configPointer->Write("Xmlemu/Window_Position_Vt_X", conf[XML].vtX_);
     if (conf[XML].vtY_ > 0)
@@ -456,6 +467,10 @@ void GuiXml::onXmlControlWindows(wxCommandEvent&event)
     {
         p_Xmlemu->Show(elfConfiguration[runningComputer_].useElfControlWindows);
         if (elfConfiguration[runningComputer_].panelType_ == PANEL_COSMAC)
+            p_Xmlemu->showModules(elfConfiguration[runningComputer_].useElfControlWindows);
+        if (elfConfiguration[runningComputer_].panelType_ == PANEL_ELF2K)
+            p_Xmlemu->showModules(elfConfiguration[runningComputer_].useElfControlWindows, elfConfiguration[runningComputer_].useSwitch, elfConfiguration[runningComputer_].useHex);
+        if (elfConfiguration[runningComputer_].panelType_ == PANEL_COSMICOS)
             p_Xmlemu->showModules(elfConfiguration[runningComputer_].useElfControlWindows);
     }
 }
@@ -613,34 +628,39 @@ void GuiXml::setXmlGui()
     XRCCTRL(*this, "WavFileXml", wxTextCtrl)->SetValue(conf[XML].wavFile_[0]);
     XRCCTRL(*this, "WavFile1Xml", wxTextCtrl)->SetValue(conf[XML].wavFile_[1]);
 
-    XRCCTRL(*this, "CasButtonXml", wxButton)->Enable(elfConfiguration[XML].useTape);
-    XRCCTRL(*this, "WavFileXml", wxTextCtrl)->Enable(elfConfiguration[XML].useTape);
-    XRCCTRL(*this, "EjectCasXml", wxBitmapButton)->Enable(elfConfiguration[XML].useTape);
+    XRCCTRL(*this, "CasButtonXml", wxButton)->Enable(elfConfiguration[XML].useTape || elfConfiguration[XML].useTapeHw);
+    XRCCTRL(*this, "WavFileXml", wxTextCtrl)->Enable(elfConfiguration[XML].useTape || elfConfiguration[XML].useTapeHw);
+    XRCCTRL(*this, "EjectCasXml", wxBitmapButton)->Enable(elfConfiguration[XML].useTape || elfConfiguration[XML].useTapeHw);
 
     XRCCTRL(*this, "CasButton1Xml", wxButton)->Enable(elfConfiguration[XML].useTape1);
     XRCCTRL(*this, "WavFile1Xml", wxTextCtrl)->Enable(elfConfiguration[XML].useTape1);
     XRCCTRL(*this, "EjectCas1Xml", wxBitmapButton)->Enable(elfConfiguration[XML].useTape1);
 
-    XRCCTRL(*this, "XmodemButtonXml", wxButton)->Enable(elfConfiguration[XML].useXmodem);
-    XRCCTRL(*this, "XmodemFileXml", wxTextCtrl)->Enable(elfConfiguration[XML].useXmodem);
-    XRCCTRL(*this, "EjectXmodemXml", wxBitmapButton)->Enable(elfConfiguration[XML].useXmodem);
+    XRCCTRL(*this, "XmodemButtonXml", wxButton)->Enable(elfConfiguration[XML].useXmodem || elfConfiguration[XML].useHexModem);
+    XRCCTRL(*this, "XmodemFileXml", wxTextCtrl)->Enable(elfConfiguration[XML].useXmodem || elfConfiguration[XML].useHexModem);
+    XRCCTRL(*this, "EjectXmodemXml", wxBitmapButton)->Enable(elfConfiguration[XML].useXmodem || elfConfiguration[XML].useHexModem);
 
     XRCCTRL(*this, "PrintFileXml", wxTextCtrl)->ChangeValue(conf[XML].printFile_);
     XRCCTRL(*this, "KeyFileXml", wxTextCtrl)->ChangeValue(conf[XML].keyFile_);
     XRCCTRL(*this, "ScreenDumpFileXml", wxComboBox)->ChangeValue(conf[XML].screenDumpFile_);
 
+    if (elfConfiguration[XML].useHexModem)
+        XRCCTRL(*this, "XmodemButtonXml", wxButton)->SetLabel("HEX");
+    else
+        XRCCTRL(*this, "XmodemButtonXml", wxButton)->SetLabel("XMODEM");
+    
     for (int drive=0; drive <4; drive++)
         setUpdFloppyGui(drive, XML);
 
     setBaudChoice(XML);
     setPrintModeXml();
     
-    XRCCTRL(*this, "AutoCasLoadXml", wxCheckBox)->Enable((elfConfiguration[XML].useTape || elfConfiguration[XML].useXmodem) && !conf[XML].realCassetteLoad_);
-    XRCCTRL(*this, "TurboXml", wxCheckBox)->Enable((elfConfiguration[XML].useTape || elfConfiguration[XML].useXmodem) && !conf[XML].realCassetteLoad_);
-    XRCCTRL(*this, "TurboClockXml", wxTextCtrl)->Enable((elfConfiguration[XML].useTape || elfConfiguration[XML].useXmodem) && conf[XML].turbo_);
-    XRCCTRL(*this, "TurboMhzTextXml", wxStaticText)->Enable((elfConfiguration[XML].useTape || elfConfiguration[XML].useXmodem) && conf[XML].turbo_);
+    XRCCTRL(*this, "AutoCasLoadXml", wxCheckBox)->Enable((elfConfiguration[XML].useTape || elfConfiguration[XML].useXmodem || elfConfiguration[XML].useHexModem || elfConfiguration[XML].useTapeHw) && !conf[XML].realCassetteLoad_);
+    XRCCTRL(*this, "TurboXml", wxCheckBox)->Enable((elfConfiguration[XML].useTape || elfConfiguration[XML].useXmodem || elfConfiguration[XML].useHexModem || elfConfiguration[XML].useTapeHw) && !conf[XML].realCassetteLoad_);
+    XRCCTRL(*this, "TurboClockXml", wxTextCtrl)->Enable((elfConfiguration[XML].useTape || elfConfiguration[XML].useXmodem || elfConfiguration[XML].useHexModem || elfConfiguration[XML].useTapeHw) && conf[XML].turbo_);
+    XRCCTRL(*this, "TurboMhzTextXml", wxStaticText)->Enable((elfConfiguration[XML].useTape || elfConfiguration[XML].useXmodem || elfConfiguration[XML].useHexModem || elfConfiguration[XML].useTapeHw) && conf[XML].turbo_);
 #if defined(__WXMSW__)
-    XRCCTRL(*this, "RealCasLoadXml", wxBitmapButton)->Enable(elfConfiguration[XML].useTape && !elfConfiguration[XML].useXmodem);
+    XRCCTRL(*this, "RealCasLoadXml", wxBitmapButton)->Enable(elfConfiguration[XML].useTape && !elfConfiguration[XML].useXmodem || elfConfiguration[XML].useHexModem || elfConfiguration[XML].useTapeHw);
 #endif
 
     XRCCTRL(*this, "VTBaudRChoiceXml", wxChoice)->SetSelection(elfConfiguration[XML].baudR);
@@ -693,6 +713,13 @@ void GuiXml::setXmlGui()
     XRCCTRL(*this, "BatchButtonXml", wxButton)->Enable(conf[XML].useBatchWav_);
     XRCCTRL(*this, "BatchFileXml", wxStaticText)->Enable(conf[XML].useBatchWav_);
 
+    XRCCTRL(*this, "TextClearXml", wxStaticText)->Enable(elfConfiguration[XML].useRtcDS12887 || elfConfiguration[XML].useNvRam);
+
+    XRCCTRL(*this, "XmlClearRtc", wxCheckBox)->Enable(elfConfiguration[XML].useRtcDS12887);
+    XRCCTRL(*this, "XmlClearRtc", wxCheckBox)->SetValue(elfConfiguration[XML].clearRtc);
+
+    XRCCTRL(*this, "XmlClearRam", wxCheckBox)->Enable(elfConfiguration[XML].useNvRam);
+    XRCCTRL(*this, "XmlClearRam", wxCheckBox)->SetValue(elfConfiguration[XML].clearRam);
 }
 
 void GuiXml::onVideoNumber(wxCommandEvent&WXUNUSED(event))
@@ -781,3 +808,30 @@ void GuiXml::onXmlF4(bool forceStart)
         }
     }
 }
+
+void GuiXml::onXmlBaudR(wxCommandEvent&event)
+{
+    if (elfConfiguration[XML].baudR != event.GetSelection())
+    {
+        XRCCTRL(*this, "XmlClearRam", wxCheckBox)->SetValue(true);
+        elfConfiguration[XML].clearRam = true;
+        elfConfiguration[XML].baudR = event.GetSelection();
+    }
+}
+
+void GuiXml::onXmlBaudT(wxCommandEvent&event)
+{
+    if (elfConfiguration[XML].baudT != event.GetSelection())
+    {
+        XRCCTRL(*this, "XmlClearRam", wxCheckBox)->SetValue(true);
+        elfConfiguration[XML].clearRam = true;
+        elfConfiguration[XML].baudT = event.GetSelection();
+        if (!elfConfiguration[XML].useUart && !elfConfiguration[selectedComputer_].useUart16450)
+        {
+            elfConfiguration[XML].baudR = event.GetSelection();
+            XRCCTRL(*this, "VTBaudRChoiceXml", wxChoice)->SetSelection(elfConfiguration[XML].baudR);
+        }
+    }
+}
+
+

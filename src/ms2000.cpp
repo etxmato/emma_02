@@ -79,22 +79,22 @@ void Ms2000::onClose(wxCloseEvent&WXUNUSED(event) )
 
 void Ms2000::configureComputer()
 {
-    inType_[1] = MS2000IOGROUP;
-    inType_[2] = MS2000IO2;
-    inType_[3] = MS2000IO3;
-    inType_[4] = MS2000IO4;
-    inType_[5] = MS2000IO5;
-    inType_[6] = MS2000IO6;
-    inType_[7] = MS2000IO7;
-    outType_[1] = MS2000IOGROUP;
-    outType_[2] = MS2000IO2;
-    outType_[3] = MS2000IO3;
-    outType_[4] = MS2000IO4;
-    outType_[5] = MS2000IO5;
-    outType_[6] = MS2000IO6;
-    outType_[7] = MS2000IO7;
+    inType_[0][0][1] = MS2000IOGROUP;
+    inType_[0][0][2] = MS2000IO2;
+    inType_[0][0][3] = MS2000IO3;
+    inType_[0][0][4] = MS2000IO4;
+    inType_[0][0][5] = MS2000IO5;
+    inType_[0][0][6] = MS2000IO6;
+    inType_[0][0][7] = MS2000IO7;
+    outType_[0][0][1] = MS2000IOGROUP;
+    outType_[0][0][2] = MS2000IO2;
+    outType_[0][0][3] = MS2000IO3;
+    outType_[0][0][4] = MS2000IO4;
+    outType_[0][0][5] = MS2000IO5;
+    outType_[0][0][6] = MS2000IO6;
+    outType_[0][0][7] = MS2000IO7;
 
-    efType_[2] = MS2000CASEF;
+    efType_[0][0][2] = MS2000CASEF;
     
     p_Main->message("Configuring MS2000");
     p_Main->message("    Output 1: set I/O group, input 1: read I/O group");
@@ -145,7 +145,7 @@ void Ms2000::initComputer()
 
 Byte Ms2000::ef(int flag)
 {
-    switch(efType_[flag])
+    switch(efType_[0][0][flag])
     {
         case 0:
             return 1;
@@ -184,7 +184,7 @@ Byte Ms2000::in(Byte port, Word WXUNUSED(address))
     Byte ret;
     ret = 0;
 
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case 0:
             ret = 255;
@@ -267,7 +267,7 @@ void Ms2000::out(Byte port, Word WXUNUSED(address), Byte value)
 {
     outValues_[port] = value;
 
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;

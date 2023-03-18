@@ -85,6 +85,7 @@ protected:
     int threshold8_;
     int threshold16_;
     float fredFreq_;
+    long sampleRate_;
     
 private:
     Blip_Buffer *soundBufferPointerLeft;

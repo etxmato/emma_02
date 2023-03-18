@@ -231,8 +231,6 @@ void Pixie::reset()
 
 void Pixie::configurePixie(IoConfiguration portConf)
 {
-    wxString runningComp = p_Main->getRunningComputerStr();
-
     p_Computer->setOutType(portConf.pixieOutput, PIXIEOUT);
     p_Computer->setCycleType(VIDEOCYCLE_PIXIE, PIXIECYCLE);
     p_Computer->setInType(portConf.pixieInput, PIXIEIN);
@@ -250,8 +248,6 @@ void Pixie::configurePixie(IoConfiguration portConf)
 
 void Pixie::configurePixieSuper(IoConfiguration portConf)
 {
-    wxString runningComp = p_Main->getRunningComputerStr();
-
     p_Computer->setOutType(portConf.pixieOutput, PIXIEOUT);
     p_Computer->setInType(portConf.pixieOutput, PIXIEOUT);
     p_Computer->setCycleType(VIDEOCYCLE_PIXIE, PIXIECYCLE);
@@ -453,7 +449,56 @@ void Pixie::configurePixieCosmicos()
     p_Main->message("    Q=0: Input 1: enable graphics, input 2: disable graphics");
     p_Main->message("    Q=1: Output 2: tone latch");
     p_Main->message("    EF 3: in frame indicator (when graphics enabled)\n");
+}
 
+void Pixie::configureCdp1864(IoConfiguration portConf)
+{
+    wxString ioGroup = "", printBuffer = "";
+
+    p_Computer->setCycleType(VIDEOCYCLE_CDP1864, CDP1864CYCLE);
+    
+    if (portConf.cdp1864IoGroup != -1)
+        ioGroup.Printf(" on group %d", portConf.cdp1864IoGroup);
+    
+    p_Main->message("Configuring CDP 1864" + ioGroup);
+
+    if (portConf.cdp1864enable.portNumber != -1)
+    {
+        if (portConf.cdp1864enable.qValue == -1)
+            printBuffer.Printf("    Input %d: enable graphics", portConf.cdp1864enable.portNumber);
+        else
+            printBuffer.Printf("    Q = %d & input %d: enable graphics", portConf.cdp1864enable.qValue,  portConf.cdp1864enable.portNumber);
+        p_Main->message(printBuffer);
+            
+        p_Computer->setInType(portConf.cdp1864enable.qValue, portConf.cdp1864IoGroup, portConf.cdp1864enable.portNumber, CDP1864ENABLE);
+    }
+    if (portConf.cdp1864disable.portNumber != -1)
+    {
+        if (portConf.cdp1864disable.qValue == -1)
+            printBuffer.Printf("    Input %d: disable graphics", portConf.cdp1864disable.portNumber);
+        else
+            printBuffer.Printf("    Q = %d & input %d: disable graphics", portConf.cdp1864disable.qValue,  portConf.cdp1864disable.portNumber);
+        p_Main->message(printBuffer);
+
+        p_Computer->setInType(portConf.cdp1864disable.qValue, portConf.cdp1864IoGroup, portConf.cdp1864disable.portNumber, CDP1864DISABLE);
+    }
+
+    if (portConf.cdp1864toneLatch.portNumber != -1)
+    {
+        if (portConf.cdp1864toneLatch.qValue == -1)
+            printBuffer.Printf("    Output %d: tone latch", portConf.cdp1864toneLatch.portNumber);
+        else
+            printBuffer.Printf("    Q = %d & output %d: tone latch", portConf.cdp1864toneLatch.qValue,  portConf.cdp1864toneLatch.portNumber);
+        p_Main->message(printBuffer);
+
+        p_Computer->setOutType(portConf.cdp1864toneLatch.qValue, portConf.cdp1864IoGroup, portConf.cdp1864toneLatch.portNumber, CDP1864TONE);
+    }
+        
+    printBuffer.Printf("    EF %d: in frame indicator\n", portConf.cdp1864Ef);
+    p_Computer->setEfType(portConf.cdp1864Ef, COSMICOSREQ);
+
+    backGroundInit_ = 1;
+    colourMask_ = 0;
 }
 
 void Pixie::initiateColour(bool colour)

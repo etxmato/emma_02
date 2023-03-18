@@ -45,14 +45,14 @@ CoinArcade::~CoinArcade()
 
 void CoinArcade::configureComputer()
 {
-    inType_[5] = COINARCADEINPPAR5;
-    inType_[6] = COINARCADEINPKEY6;
-    outType_[3] = COINARCADEOUTTONE6;
-    outType_[5] = COINARCADEOUTFREQ5;
-    outType_[6] = COINARCADEOUTTONE6;
-    efType_[1] = COINARCADEEF1;
-    efType_[3] = COINARCADEEF3;
-    efType_[4] = COINARCADEEF4;
+    inType_[0][0][5] = COINARCADEINPPAR5;
+    inType_[0][0][6] = COINARCADEINPKEY6;
+    outType_[0][0][3] = COINARCADEOUTTONE6;
+    outType_[0][0][5] = COINARCADEOUTFREQ5;
+    outType_[0][0][6] = COINARCADEOUTTONE6;
+    efType_[0][0][1] = COINARCADEEF1;
+    efType_[0][0][3] = COINARCADEEF3;
+    efType_[0][0][4] = COINARCADEEF4;
 
     directionKey_ = 0;
     fireKeyA_ = 1;
@@ -155,7 +155,7 @@ void CoinArcade::keyUp(int keycode)
 
 Byte CoinArcade::ef(int flag)
 {
-    switch(efType_[flag])
+    switch(efType_[0][0][flag])
     {
         case 0:
             return 1;
@@ -197,7 +197,7 @@ Byte CoinArcade::in(Byte port, Word WXUNUSED(address))
 {
     Byte ret;
 
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case 0:
             ret = 255;
@@ -223,7 +223,7 @@ void CoinArcade::out(Byte port, Word WXUNUSED(address), Byte value)
 {
     outValues_[port] = value;
 
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;

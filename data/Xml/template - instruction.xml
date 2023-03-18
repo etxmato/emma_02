@@ -77,14 +77,15 @@
     </bootstrap>
 
     <frontpanel type="netronics" init="off">
-        <!-- front panel definition, type specifies cosmac, netronics, quest, microtutor or microtutor2. panel init specifies if front panel should be 'on' or 'off' on startup (default is off).
+        <!-- front panel definition, type specifies cosmac, netronics, quest, elf2k, microtutor or microtutor2. panel init specifies if front panel should be 'on' or 'off' on startup (default is off).
         <out>: output port for til display
         <in>: input port to read hex keyboard or switch panel for Elf
-        <ef type="ready">: ef port for data ready signal hex keypad (not for Elf, use <keypad> instead!
+        <ef type="ready">: ef port for data ready signal hex keypad (not for type cosmac or elf2k, use <keypad> instead!)
         <ef type="in">: ef port for in button
 
         <led>: show Cosmac Elf LED module panel using specified number as output port
-        <til>: TIL type, 311 or 313 (not used for microtutor's)
+        <switch>: show Cosmac Elf 2000 Switch module panel using specified number as input port, make sure not to use <keypad> as that will show the keypad module panel instead.
+        <til>: TIL type, 311 or 313 (not used for microtutor's or ELF2K)
         -->
 
         <out>4</out>
@@ -203,6 +204,7 @@
         <!-- disk definition for ide
         <filename>: ide filename
         <dirname>: location of ide file (filename) defined as sub-dir of the main Emma 02 data directory. If not specified the dirname specified in <system> will be used.
+        <iogroup>: iogroup, i.e. i/o ports are activate when specified iogroup is selected via the iogroup port
         <out type="select">: output number to select ide port
         <out type="write">: output number to write to selected ide port
         <in type="status">: input number to read ide status
@@ -890,6 +892,7 @@
 
      <vt type="vt100" connection="uart16450" >
          <!-- video terminal definition for a uart 16450 terminal on a VT100
+         <iogroup>: iogroup, i.e. i/o ports are activate when specified iogroup is selected via the iogroup port
          <font>: terminal binary font file
          <wav>: terminal wav file
          <dirname type="font">: location of wav (type="wav") or font (type="font") file defined as sub-dir of the main Emma 02 data directory. If not specified the dirname specified in <system> will be used.
@@ -905,6 +908,7 @@
          <color type="high">: set highlight color. Color is specified as red, green, blue all 3 values range from 0 to 255.
          -->
 
+         <iogroup>0x10</iogroup>
          <font>vt100.bin</font>
          <out type="select">6</out>
          <out type="port">7</out>

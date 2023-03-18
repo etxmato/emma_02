@@ -428,6 +428,8 @@ public:
     virtual void cassette(char val);
     virtual void cassetteFred(short val);
     virtual void cassetteFred(char val);
+    virtual void cassetteXmlHw(short val);
+    virtual void cassetteXmlHw(char val);
     virtual void keyClear();
     virtual void startComputer();
     virtual void initComputer();
@@ -479,7 +481,8 @@ public:
     virtual void checkLoadedSoftware();
     virtual void dataAvailableVt100(bool data, int uartNumber);
     virtual void dataAvailableSerial(bool data);
-    virtual void thrStatus(bool data);
+    virtual void thrStatusVt100(bool data);
+    virtual void thrStatusSerial(bool data);
     virtual void setTempo(int tempo);
     virtual void switchQ(int value);
     int getGaugeValue() {return gaugeValue_;};

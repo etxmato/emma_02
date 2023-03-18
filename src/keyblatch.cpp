@@ -44,7 +44,7 @@ void KeybLatch::configure(IoConfiguration ioConf, wxString saveCommand)
     wxString ioGroup = "";
     if (ioConfiguration_.keybLatchIoGroup != -1)
     {
-        ioGroup.Printf(" on group %X", ioConfiguration_.keybLatchIoGroup);
+        ioGroup.Printf(" on group %d", ioConfiguration_.keybLatchIoGroup);
     }
     
     p_Main->message("Configuring keyboard" + ioGroup);

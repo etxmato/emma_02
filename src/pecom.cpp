@@ -475,14 +475,14 @@ void Pecom::keyUpFile()
 
 void Pecom::configureComputer()
 {
-    outType_[1] = PECOMBANK;
-    inType_[3] = PECOMKEY;
+    outType_[0][0][1] = PECOMBANK;
+    inType_[0][0][3] = PECOMKEY;
     cycleType_[COMPUTERCYCLE] = PECOMCYCLE;
 
-    efType_[1] = PECOMEF1;
-    efType_[2] = PECOMEF2;
-    efType_[3] = PECOMEF3;
-    efType_[4] = PECOMEF4;
+    efType_[0][0][1] = PECOMEF1;
+    efType_[0][0][2] = PECOMEF2;
+    efType_[0][0][3] = PECOMEF3;
+    efType_[0][0][4] = PECOMEF4;
 
     p_Main->message("Configuring Pecom 32/64");
     p_Main->message("    Input 3: keyboard, output 1: bank switch");
@@ -538,7 +538,7 @@ void Pecom::initComputer()
 
 Byte Pecom::ef(int flag)
 {
-    switch(efType_[flag])
+    switch(efType_[0][0][flag])
     {
         case 0:
             return 1;
@@ -585,7 +585,7 @@ Byte Pecom::in(Byte port, Word address)
     ret = 255;
 
 //    p_Main->messageInt(port);
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case 0:
             ret = 255;
@@ -714,7 +714,7 @@ Byte Pecom::in(Byte port, Word address)
 void Pecom::out(Byte port, Word address, Byte value)
 {
     outValues_[port] = value;
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;

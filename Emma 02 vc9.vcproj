@@ -536,6 +536,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\cvkeypad.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\datadir.cpp"
 				>
 			</File>
@@ -872,11 +876,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\rtc.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\SDL_audioin.c"
 				>
 			</File>
 			<File
 				RelativePath=".\src\serial.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\sn76430n.cpp"
 				>
 			</File>
 			<File
@@ -1097,6 +1109,10 @@
 			</File>
 			<File
 				RelativePath=".\src\cosmicoshex.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\cvkeypad.h"
 				>
 			</File>
 			<File
@@ -1440,6 +1456,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\rtc.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\SDL_audioin.h"
 				>
 			</File>
@@ -1449,6 +1469,10 @@
 			</File>
 			<File
 				RelativePath=".\src\serial.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\sn76430n.h"
 				>
 			</File>
 			<File
