@@ -109,6 +109,7 @@ void Sound::initSound(double clock, double percentageClock, int computerType, in
     noiseOn_ = false;
     psaveOn_ = false;
     ploadOn_ = false;
+    forwardOn_ = false;
     wavOn_ = false;
     stopTheTape_ = false;
     soundTime_ = 0;
@@ -749,7 +750,19 @@ void Sound::playSaveLoad()
         if (sample_count == 0)
             break;
 
-        if (ploadOn_)
+        if (forwardOn_)
+        {
+            long in = ploadWavePointer->read(ploadSamples, sample_count*forwardSpeed_, gain_);
+            if (ploadOn_)
+            {
+                soundBufferPointerLeft->mix_samples(ploadSamples, in);
+                soundBufferPointerRight->mix_samples(ploadSamples, in);
+                if (ploadWavePointer->eof())
+                    stopTape();
+            }
+        }
+
+        if (ploadOn_ && !forwardOn_)
         {
             long in = ploadWavePointer->read(ploadSamples, sample_count, gain_);
             if (ploadOn_)
@@ -886,14 +899,15 @@ void Sound::psaveStartTape(wxString fileName, wxString tapeNumber)
 
 void Sound::stopTape()
 {
-    if (!ploadOn_ && !psaveOn_)
+    if (!ploadOn_ && !psaveOn_ && !forwardOn_)
         return;
 
     p_Computer->resetGaugeValue();
     stopTheTape_ = false;
+    forwardOn_ = false;
+    p_Main->turboOff();
     if (ploadOn_)
     {
-        p_Main->turboOff();
         delete ploadWavePointer;
         ploadOn_ = false;
         p_Computer->checkLoadedSoftware();
@@ -902,7 +916,6 @@ void Sound::stopTape()
     }
     if (psaveOn_)
     {
-        p_Main->turboOff();
         psaveWavePointer->closeFile();
         delete psaveWavePointer;
         psaveOn_ = false;
@@ -945,6 +958,7 @@ void Sound::restartTapeSave(int tapeState)
 void Sound::restartTapeLoad(int tapeState)
 {
 //    p_Main->turboOn();
+    forwardOn_ = false;
     ploadOn_ = true;
     p_Main->eventSetTapeState(tapeState, tapeNumber_);
 }
@@ -964,6 +978,13 @@ void Sound::stopPausedSave()
 void Sound::stopSaveLoad()
 {
     stopTheTape_ = true;
+}
+
+void Sound::forwardTape(int tapeState)
+{
+    forwardOn_ = true;
+    ploadOn_ = true;
+    p_Main->eventSetTapeState(tapeState, tapeNumber_);
 }
 
 void Sound::setVolume(int volume)

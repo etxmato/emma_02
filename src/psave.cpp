@@ -48,6 +48,11 @@ PsaveDialog::PsaveDialog(wxWindow* parent)
     XRCCTRL(*this, "FREDThreshold16", wxTextCtrl)->SetValue(threshold);
     threshold.Printf("%1.1f", (float)p_Main->getPsaveData(10)/10);
     XRCCTRL(*this, "FREDFreq", wxTextCtrl)->SetValue(threshold);
+    wxString stringCvValue;
+    stringCvValue.Printf("%d", p_Main->getPsaveData(11));
+    XRCCTRL(*this, "CVa", wxTextCtrl)->SetValue(stringCvValue);
+    stringCvValue.Printf("%1.2f", (float)p_Main->getPsaveData(12)/100);
+    XRCCTRL(*this, "CVb", wxTextCtrl)->SetValue(stringCvValue);
 }
 
 void PsaveDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
@@ -85,6 +90,21 @@ void PsaveDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
         freq = 5.8;
     p_Main->setPsaveData(10, freq*10);
     
+    wxString stringCvValue;
+    stringCvValue = XRCCTRL(*this, "CVa", wxTextCtrl)->GetValue();
+    if (stringCvValue == "")  stringCvValue = "18";
+    long cvValue;
+    if (!stringCvValue.ToLong(&cvValue, 10))
+        cvValue = 18;
+    p_Main->setPsaveData(11, (int)cvValue);
+
+    stringCvValue = XRCCTRL(*this, "CVb", wxTextCtrl)->GetValue();
+    if (stringCvValue == "")  stringCvValue = "0.18";
+    double cvb;
+    if (!p_Main->toDouble(stringCvValue, &cvb))
+        cvb = 0.18;
+    p_Main->setPsaveData(12, cvb*100);
+
     EndModal( wxID_OK );
 }
 

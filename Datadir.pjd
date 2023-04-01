@@ -149,7 +149,7 @@
         <string name="Linker flags">"%AUTO%"</string>
         <long name="locked">0</long>
         <string name="Make command">"%AUTO%"</string>
-        <long name="makefile-last-written">-8519680</long>
+        <long name="makefile-last-written">-333379715</long>
         <string name="Modularity">"Modular"</string>
         <string name="Objects path">"%AUTO%"</string>
         <string name="Optimizations">"%AUTO%"</string>
@@ -449,7 +449,7 @@
                 <bool name="proxy-Separate files">0</bool>
                 <long name="proxy-Stretch factor">0</long>
                 <string name="proxy-Tooltip text">""</string>
-                <long name="proxy-Width">-1</long>
+                <long name="proxy-Width">200</long>
                 <bool name="proxy-wxADJUST_MINSIZE">0</bool>
                 <bool name="proxy-wxBORDER_THEME">0</bool>
                 <bool name="proxy-wxBOTTOM">1</bool>

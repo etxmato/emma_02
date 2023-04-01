@@ -4,7 +4,7 @@
 #include "guipico.h"
 #include "elfconfiguration.h"
 
-#define MAX_XML_DROPDOWN_FILES 11
+#define MAX_XML_DROPDOWN_FILES 12
 
 class GuiXml: public GuiPico
 {

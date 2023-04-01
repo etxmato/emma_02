@@ -43,6 +43,8 @@
 #include "app_icon.xpm"
 #endif
 
+#include <math.h>
+
 #include "main.h"
 #include "pushbutton.h"
 
@@ -862,8 +864,7 @@ void Xmlemu::initComputer()
     tapeRecording_ = false;
     tapeActivated_ = false;
     tapeEnd_ = false;
-    startTone_ = true;
-    firstPulse_ = true;
+    startBytes_ = 2;
     zeroWaveCounter_ = -1;
     tapedataReady_ = 1;
 
@@ -901,6 +902,12 @@ void Xmlemu::resetComputer()
     printerStatus_ = PRIDLE;
     batchInProgress_ = false;
 
+    tapeCounterStep_ = 0;
+    tapePeriod_ = 0;
+    forwardSpeed_ = 18;
+    remainingForwardSpeed_ = 0;
+    lastSec_ = -1;
+
     if (elfConfiguration.usePs2gpio)
         resetPs2gpio();
     
@@ -910,6 +917,13 @@ void Xmlemu::resetComputer()
         elfConfiguration.useXmodem = false;
         p_Main->eventSetButtonLabel ("XmodemButtonXml", "HEX");
 
+    }
+    if (elfConfiguration.useTapeHw)
+    {
+        tapeActivated_ = false;
+        p_Computer->stopTape();
+        p_Main->eventPlayActivated(true);
+        p_Main->eventSetStaticTextValue("CasCounterXml", "00:00:000");
     }
 }
 
@@ -2281,8 +2295,6 @@ void Xmlemu::switchQ(int value)
             {
                 p_Computer->pauseTape();
                 p_Main->turboOff();
-//                p_Computer->stopTape();
-//                tapeActivated_ = false;
             }
         }
         else
@@ -4681,6 +4693,8 @@ void Xmlemu::configureExtensions()
         p_Computer->setInType(elfConfiguration.ioConfiguration.tapeIoGroup+1, elfConfiguration.ioConfiguration.tapeIn, TAPE_CV_IN);
         printBuffer.Printf("    Input %d: read data", elfConfiguration.ioConfiguration.tapeIn);
         p_Main->message(printBuffer);
+
+        p_Main->eventPlayActivated(true);
     }
 }
 
@@ -5699,7 +5713,16 @@ void Xmlemu::startLoad(int tapeNumber, bool button)
     if (tapeActivated_)
     {
         p_Main->turboOn();
-        p_Computer->restartTapeLoad(TAPE_PLAY);
+        
+        if (elfConfiguration.useTapeHw && elfConfiguration.useCvKeypad)
+        {
+            if (p_Main->isForwardActivated())
+                p_Computer->forwardTape(TAPE_FORWARD);
+            else
+                p_Computer->restartTapeLoad(TAPE_PLAY);
+        }
+        else
+            p_Computer->restartTapeLoad(TAPE_PLAY);
     }
     else
     {
@@ -5707,13 +5730,17 @@ void Xmlemu::startLoad(int tapeNumber, bool button)
             tapeActivated_ = p_Main->startLoad(tapeNumber);
         else
             tapeActivated_ = p_Main->startCassetteLoad(tapeNumber);
+        
+        if (elfConfiguration.useTapeHw && !tapeActivated_)
+            p_Main->eventPlayActivated(false);
     }
     
 //    tapeRunSwitch_ = tapeRunSwitch_ | 1;
 }
 
-void Xmlemu::cassetteXmlHw(short val)
+void Xmlemu::cassetteXmlHw(short val, long size)
 {
+    stepCassetteCounter(size);
     
     if (!elfConfiguration.useTapeHw)
         return;
@@ -5768,6 +5795,8 @@ void Xmlemu::cassetteXmlHw(short val)
                     cassetteCyberVision();
                 }
             }
+            if (silenceCount_ > 10)
+                startBytes_ = 2;
         break;
     }
 
@@ -5809,8 +5838,10 @@ void Xmlemu::cassetteXmlHw(short val)
     lastSample_ = val;
 }
 
-void Xmlemu::cassetteXmlHw(char val)
+void Xmlemu::cassetteXmlHw(char val, long size)
 {
+    stepCassetteCounter(size);
+
     if (!elfConfiguration.useTapeHw)
         return;
 
@@ -5864,12 +5895,8 @@ void Xmlemu::cassetteXmlHw(char val)
                     cassetteCyberVision();
                 }
             }
-            
-//            if (silenceCount_ > 100)
-//            {
-//                p_Computer->pauseTape();
-//                p_Main->turboOff();
-//            }
+            if (silenceCount_ > 10)
+                startBytes_ = 2;
         break;
     }
 
@@ -5911,34 +5938,66 @@ void Xmlemu::cassetteXmlHw(char val)
     lastSampleChar_ = val;
 }
 
+void Xmlemu::stepCassetteCounter(long step)
+{
+    tapeCounterStep_+=step;
+    
+    int stepSize=1000;
+    
+    if (p_Main->isTurboOn())
+        stepSize = 100;
+        
+    if (p_Main->isForwardActivated())
+        stepSize = 100;
+
+    if (p_Main->isTurboOn() && p_Main->isForwardActivated())
+        stepSize = 1;
+
+    long newPeriod = tapeCounterStep_*stepSize/sampleRate_;
+    
+    if (tapePeriod_ != newPeriod)
+    {
+        tapePeriod_ = newPeriod;
+        wxString value;
+        int msec = tapePeriod_ % stepSize;
+        int sec = (int) ((tapePeriod_/stepSize) % 60);
+        int min = (int) ((tapePeriod_/stepSize) / 60);
+        
+        int numberOfSeconds = min*60+sec;
+        
+        if (numberOfSeconds != lastSec_)
+        {
+            int cva = p_Main->getPsaveData(11);
+            float cvb = (float) p_Main->getPsaveData(12)/100;
+
+            remainingForwardSpeed_ += sqrt(cva*cva+2*cvb*numberOfSeconds);
+            forwardSpeed_ = (int)remainingForwardSpeed_;
+            remainingForwardSpeed_ -= forwardSpeed_;
+        }
+
+        switch (stepSize)
+        {
+            case 1:
+                value.Printf("%02d:%02d     ",min,sec);
+            break;
+
+            case 100:
+                value.Printf("%02d:%02d:%02d ",min,sec,msec);
+            break;
+                
+            default:
+                value.Printf("%02d:%02d:%03d",min,sec,msec);
+            break;
+        }
+        p_Main->eventSetStaticTextValue("CasCounterXml", value);
+    }
+
+}
+
 void Xmlemu::cassetteCyberVision()
 {
     float freq = (float) toneTime_ / pulseCount_ * (sampleRate_/200);
 
-    //int time = toneTime_;
-
-    if (startTone_)
-    {
-        if (pulseCount_ == 2)
-        {
-            startTone_ = false;
-            bitNumber_ = -1;
-            pulseCount_ = 0;
-            toneTime_ = 0;
-        }
-        if (pulseCount_ == 1 && firstPulse_)
-        {
-            pulseCount_ = 0;
-            toneTime_ = 0;
-            firstPulse_ = false;
-        }
-        if (pulseCount_ == 1 && freq > elfConfiguration.frequencyBorder)
-        {
-            pulseCount_ = 0;
-            toneTime_ = 0;
-        }
-        return;
-    }
     if ((pulseCount_ == 1 && freq > elfConfiguration.frequencyBorder) || pulseCount_ == 2)  // && silenceCount_ > 10)
     {
         if (bitNumber_ == -1)
@@ -5954,6 +6013,10 @@ void Xmlemu::cassetteCyberVision()
                     lastTapeInpt_ = tapeInput_ ^0xff;
                 else
                     lastTapeInpt_ = tapeInput_;
+                
+                if (startBytes_ > 0 && tapeInput_ == 0)
+                    startBytes_--;
+                
                 tapedataReady_ = 0;
                 tapeInput_ = 0;
                 bitNumber_ = -1;
@@ -5964,6 +6027,13 @@ void Xmlemu::cassetteCyberVision()
                 {
                     tapeInput_ = (tapeInput_ << 1) | (pulseCount_&1);
                     bitNumber_++;
+                    
+                    if (startBytes_ > 0 && tapeInput_ !=0)
+                    {
+                        tapeInput_ = 0;
+                        bitNumber_ = -1;
+                        startBytes_ = 2;
+                    }
                 }
             }
         }
@@ -6122,8 +6192,6 @@ void Xmlemu::finishStopTape()
     tapeActivated_ = false;
     tapeRecording_ = false;
     tapeEnd_ = true;
-    startTone_ = true;
-    firstPulse_ = true;
 }
 
 /*

@@ -1844,11 +1844,15 @@ void Computer::cassetteFred(char WXUNUSED(val))
 {
 }
 
-void Computer::cassetteXmlHw(short WXUNUSED(val))
+void Computer::cassetteXmlHw(short WXUNUSED(val), long WXUNUSED(size))
 {
 }
 
-void Computer::cassetteXmlHw(char WXUNUSED(val))
+void Computer::cassetteXmlHw(char WXUNUSED(val), long WXUNUSED(size))
+{
+}
+
+void Computer::stepCassetteCounter(long WXUNUSED(step))
 {
 }
 

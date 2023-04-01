@@ -5,6 +5,7 @@
         <font>
             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
             <size>-1</size>
+            <family>roman</family>
         </font>
         <object class="wxBoxSizer">
             <orient>wxVERTICAL</orient>
@@ -20,6 +21,7 @@
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>
+                                <family>roman</family>
                             </font>
                             <label>Data Directory:</label>
                         </object>
@@ -28,9 +30,11 @@
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>5</border>
                         <object class="wxDirPickerCtrl" name="DataDir">
+                            <size>200,-1</size>
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>
+                                <family>roman</family>
                             </font>
                             <style>wxDIRP_DEFAULT_STYLE</style>
                             <message></message>
@@ -63,6 +67,7 @@
                                     <font>
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
+                                        <family>roman</family>
                                     </font>
                                     <style>wxAC_DEFAULT_STYLE</style>
                                     <animation>images/throbber.gif</animation>
@@ -87,6 +92,7 @@
                                     <font>
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
+                                        <family>roman</family>
                                     </font>
                                     <label>Move &amp;&amp; Save</label>
                                 </object>
@@ -98,6 +104,7 @@
                                     <font>
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
+                                        <family>roman</family>
                                     </font>
                                     <label>Save</label>
                                 </object>

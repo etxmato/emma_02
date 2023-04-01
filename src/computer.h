@@ -428,8 +428,9 @@ public:
     virtual void cassette(char val);
     virtual void cassetteFred(short val);
     virtual void cassetteFred(char val);
-    virtual void cassetteXmlHw(short val);
-    virtual void cassetteXmlHw(char val);
+    virtual void cassetteXmlHw(short val, long size);
+    virtual void cassetteXmlHw(char val, long size);
+    virtual void stepCassetteCounter(long step);
     virtual void keyClear();
     virtual void startComputer();
     virtual void initComputer();

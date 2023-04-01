@@ -202,6 +202,7 @@ public:
     void onTurboClock(wxCommandEvent& event);
     void onUseLocation(wxCommandEvent& event);
     void onCassetteLoad(wxCommandEvent& event);
+    void onCassetteForward(wxCommandEvent& event);
     void onCassetteSave(wxCommandEvent& event);
     void onCassetteStop(wxCommandEvent& event);
     void onCassetteLoad1(wxCommandEvent& event);
@@ -227,6 +228,9 @@ public:
     long getBootAddress(wxString computerTypeStr, int computerType);
     void onChoiceRam(wxCommandEvent&event);
     void onChoiceCpu(wxCommandEvent&event);
+
+    bool isForwardActivated() {return forwardActivated_;};
+    bool isPlayActivated() {return playActivated_;};
 
     void onPsaveMenu(wxCommandEvent& event);
     void onVtSetup(wxCommandEvent& event);
@@ -497,6 +501,7 @@ public:
     wxString getBatchFile(int filenumber) {return batchFiles_[filenumber];}
     size_t getNumberOfBatchFiles() {return numberOfBatchFiles_;}
     bool isBatchConvertActive() {return batchConvertActive_;};
+    bool isTurboOn() {return turboOn_;};
 
 protected:
     Mode mode_;
@@ -593,7 +598,7 @@ protected:
     wxString workingDir_;
     wxString dataDir_;
     wxString iniDir_;
-    int psaveData_[11];
+    int psaveData_[13];
     wxSize defaultGuiSize_;
 
     bool debugMode_;
@@ -653,9 +658,16 @@ protected:
     wxColour guiBackGround_;
     wxColour guiTextColour[GUI_COL_MAX];
 
-private:
+    bool playActivated_;
+    bool forwardActivated_;
+    wxBitmap forwardBlackBitmap;
+    wxBitmap forwardGreenBitmap;
+    wxBitmap forwardDarkGreenBitmap;
     wxBitmap playBlackBitmap;
+    wxBitmap playDarkGreenBitmap;
     wxBitmap playGreenBitmap;
+
+private:
     wxBitmap recOffBitmap;
     wxBitmap recOnBitmap;
     wxBitmap realCasOffBitmap;

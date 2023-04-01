@@ -129,6 +129,11 @@ GuiMain::GuiMain(const wxString& title, const wxPoint& pos, const wxSize& size, 
     
     playBlackBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/play_black.png", wxBITMAP_TYPE_PNG);
     playGreenBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/play_green.png", wxBITMAP_TYPE_PNG);
+    playDarkGreenBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/play_darkgreen.png", wxBITMAP_TYPE_PNG);
+
+    forwardBlackBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/forward_black.png", wxBITMAP_TYPE_PNG);
+    forwardGreenBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/forward_green.png", wxBITMAP_TYPE_PNG);
+    forwardDarkGreenBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/forward_darkgreen.png", wxBITMAP_TYPE_PNG);
 
     recOffBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/rec_off.png", wxBITMAP_TYPE_PNG);
     recOnBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/rec_on.png", wxBITMAP_TYPE_PNG);
@@ -1818,16 +1823,26 @@ void GuiMain::onAutoLoad(wxCommandEvent&event)
     conf[selectedComputer_].autoCassetteLoad_ = event.IsChecked();
     if (computerRunning_ && (selectedComputer_ == runningComputer_))
     {
-        XRCCTRL(*this, "CasLoad"+computerInfo[selectedComputer_].gui, wxButton)->Enable(!conf[runningComputer_].autoCassetteLoad_);
-        if (runningComputer_ != ELF2K && runningComputer_ != XML)
-            XRCCTRL(*this, "CasSave"+computerInfo[selectedComputer_].gui, wxButton)->Enable(!conf[runningComputer_].autoCassetteLoad_);
-        else
-            XRCCTRL(*this, "CasSave"+computerInfo[runningComputer_].gui, wxButton)->Enable(!conf[runningComputer_].autoCassetteLoad_ && !elfConfiguration[runningComputer_].useHexModem);
-
-        if (runningComputer_ == MCDS)
+        XRCCTRL(*this, "CasLoad"+computerInfo[selectedComputer_].gui, wxButton)->Enable(!conf[runningComputer_].autoCassetteLoad_|elfConfiguration[runningComputer_].useTapeHw);
+        switch (runningComputer_)
         {
-            XRCCTRL(*this, "CasLoad1"+computerInfo[selectedComputer_].gui, wxButton)->Enable(!conf[runningComputer_].autoCassetteLoad_);
-            XRCCTRL(*this, "CasSave1"+computerInfo[selectedComputer_].gui, wxButton)->Enable(!conf[runningComputer_].autoCassetteLoad_);
+            case ELF2K:
+                XRCCTRL(*this, "CasSave"+computerInfo[runningComputer_].gui, wxButton)->Enable(!conf[runningComputer_].autoCassetteLoad_ && !elfConfiguration[runningComputer_].useHexModem);
+            break;
+                
+            case XML:
+                XRCCTRL(*this, "CasSave"+computerInfo[runningComputer_].gui, wxButton)->Enable(!conf[runningComputer_].autoCassetteLoad_ && !elfConfiguration[runningComputer_].useHexModem);
+            break;
+
+            case MCDS:
+                XRCCTRL(*this, "CasSave"+computerInfo[selectedComputer_].gui, wxButton)->Enable(!conf[runningComputer_].autoCassetteLoad_);
+                XRCCTRL(*this, "CasLoad1"+computerInfo[selectedComputer_].gui, wxButton)->Enable(!conf[runningComputer_].autoCassetteLoad_);
+                XRCCTRL(*this, "CasSave1"+computerInfo[selectedComputer_].gui, wxButton)->Enable(!conf[runningComputer_].autoCassetteLoad_);
+            break;
+
+            default:
+                XRCCTRL(*this, "CasSave"+computerInfo[selectedComputer_].gui, wxButton)->Enable(!conf[runningComputer_].autoCassetteLoad_);
+            break;
         }
     }
 }
@@ -1889,13 +1904,43 @@ void GuiMain::onCassetteLoad(wxCommandEvent& WXUNUSED(event))
         break;
 
         case XML:
-            p_Xmlemu->startLoad(0, true);
+            if (elfConfiguration[XML].useTapeHw)
+            {
+                playActivated_ = !playActivated_;
+                if (playActivated_)
+                {
+                    forwardActivated_ = false;
+                    XRCCTRL(*this, "CasLoad"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(playDarkGreenBitmap);
+                    XRCCTRL(*this, "CasForward"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(forwardBlackBitmap);
+                }
+                else
+                    XRCCTRL(*this, "CasLoad"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(playBlackBitmap);
+                if (p_Computer->getFlipFlopQ() == 1)
+                    p_Xmlemu->startLoad(0, true);
+            }
+            else
+                p_Xmlemu->startLoad(0, true);
         break;
             
         default:
             startLoad(0);
         break;
     }
+}
+
+void GuiMain::onCassetteForward(wxCommandEvent& WXUNUSED(event))
+{
+    forwardActivated_ = !forwardActivated_;
+    if (forwardActivated_)
+    {
+        playActivated_ = false;
+        XRCCTRL(*this, "CasForward"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(forwardDarkGreenBitmap);
+        XRCCTRL(*this, "CasLoad"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(playBlackBitmap);
+    }
+    else
+        XRCCTRL(*this, "CasForward"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(forwardBlackBitmap);
+
+//    p_Xmlemu->startLoad(0, true);
 }
 
 void GuiMain::onCassetteLoad1(wxCommandEvent& WXUNUSED(event))
@@ -3552,6 +3597,8 @@ void GuiMain::setRealCas(int computerType)
         {
             XRCCTRL(*this, "CasLoad"+computerInfo[computerType].gui, wxButton)->Enable(false);
             XRCCTRL(*this, "CasSave"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
+            if (runningComputer_ == XML)
+                XRCCTRL(*this, "CasForward"+computerInfo[computerType].gui, wxButton)->Enable(false);
             if (runningComputer_ == MCDS)
             {
                 XRCCTRL(*this, "CasLoad1"+computerInfo[computerType].gui, wxButton)->Enable(false);
@@ -3569,13 +3616,15 @@ void GuiMain::setRealCas(int computerType)
 #endif
         XRCCTRL(*this, "Turbo"+computerInfo[computerType].gui, wxCheckBox)->Enable(useTape);
         if (computerType == XML)
-            XRCCTRL(*this, "AutoCasLoad"+computerInfo[computerType].gui, wxCheckBox)->Enable(useTape || elfConfiguration[computerType].useXmodem || elfConfiguration[computerType].useHexModem);
+            XRCCTRL(*this, "AutoCasLoad"+computerInfo[computerType].gui, wxCheckBox)->Enable((useTape || elfConfiguration[computerType].useXmodem || elfConfiguration[computerType].useHexModem) & !elfConfiguration[computerType].useTapeHw);
         else
             XRCCTRL(*this, "AutoCasLoad"+computerInfo[computerType].gui, wxCheckBox)->Enable(useTape);
         if (computerRunning_ && (computerType == runningComputer_))
         {
-            XRCCTRL(*this, "CasLoad"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
+            XRCCTRL(*this, "CasLoad"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_|elfConfiguration[runningComputer_].useTapeHw);
             XRCCTRL(*this, "CasSave"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
+            if (runningComputer_ == XML)
+                XRCCTRL(*this, "CasForward"+computerInfo[computerType].gui, wxButton)->Enable(elfConfiguration[computerType].useTapeHw);
             if (runningComputer_ == MCDS)
             {
                 XRCCTRL(*this, "CasLoad1"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
@@ -3608,6 +3657,8 @@ void GuiMain::setRealCas2(int computerType)
         {
             XRCCTRL(*this, "CasLoad"+computerInfo[computerType].gui, wxButton)->Enable(false);
             XRCCTRL(*this, "CasSave"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
+            if (runningComputer_ == XML)
+                XRCCTRL(*this, "CasForward"+computerInfo[computerType].gui, wxButton)->Enable(false);
             if (runningComputer_ == MCDS)
             {
                 XRCCTRL(*this, "CasLoad1"+computerInfo[computerType].gui, wxButton)->Enable(false);
@@ -3619,13 +3670,15 @@ void GuiMain::setRealCas2(int computerType)
     {
         XRCCTRL(*this, "Turbo"+computerInfo[computerType].gui, wxCheckBox)->Enable(useTape || elfConfiguration[computerType].useXmodem || elfConfiguration[computerType].useHexModem);
         if (computerType == XML)
-            XRCCTRL(*this, "AutoCasLoad"+computerInfo[computerType].gui, wxCheckBox)->Enable(useTape || elfConfiguration[computerType].useXmodem || elfConfiguration[computerType].useHexModem);
+            XRCCTRL(*this, "AutoCasLoad"+computerInfo[computerType].gui, wxCheckBox)->Enable((useTape || elfConfiguration[computerType].useXmodem || elfConfiguration[computerType].useHexModem) & !elfConfiguration[computerType].useTapeHw);
         else
             XRCCTRL(*this, "AutoCasLoad"+computerInfo[computerType].gui, wxCheckBox)->Enable(useTape);
         if (computerRunning_ && (computerType == runningComputer_))
         {
-            XRCCTRL(*this, "CasLoad"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
+            XRCCTRL(*this, "CasLoad"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_|elfConfiguration[runningComputer_].useTapeHw);
             XRCCTRL(*this, "CasSave"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
+            if (runningComputer_ == XML)
+                XRCCTRL(*this, "CasForward"+computerInfo[computerType].gui, wxButton)->Enable(elfConfiguration[computerType].useTapeHw);
             if (runningComputer_ == MCDS)
             {
                 XRCCTRL(*this, "CasLoad1"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
@@ -3654,13 +3707,15 @@ void GuiMain::setRealCasOff(int computerType)
 #endif
     XRCCTRL(*this, "Turbo"+computerInfo[computerType].gui, wxCheckBox)->Enable(useTape);
     if (computerType == XML)
-        XRCCTRL(*this, "AutoCasLoad"+computerInfo[computerType].gui, wxCheckBox)->Enable(useTape || elfConfiguration[computerType].useXmodem || elfConfiguration[computerType].useHexModem);
+        XRCCTRL(*this, "AutoCasLoad"+computerInfo[computerType].gui, wxCheckBox)->Enable((useTape || elfConfiguration[computerType].useXmodem || elfConfiguration[computerType].useHexModem) & !elfConfiguration[computerType].useTapeHw);
     else
         XRCCTRL(*this, "AutoCasLoad"+computerInfo[computerType].gui, wxCheckBox)->Enable(useTape);
     if (computerRunning_ && (computerType == runningComputer_))
     {
-        XRCCTRL(*this, "CasLoad"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
+        XRCCTRL(*this, "CasLoad"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_|elfConfiguration[runningComputer_].useTapeHw);
         XRCCTRL(*this, "CasSave"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
+        if (runningComputer_ == XML)
+            XRCCTRL(*this, "CasForward"+computerInfo[computerType].gui, wxButton)->Enable(elfConfiguration[computerType].useTapeHw);
         if (runningComputer_ == MCDS)
         {
             XRCCTRL(*this, "CasLoad1"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
@@ -4019,8 +4074,15 @@ void GuiMain::startYsTerminalSave(int protocol)
 
 void GuiMain::turboOn()
 {
-    if (turboOn_)  return;
+    if (turboOn_)
+    {
+        wxString clock =  conf[runningComputer_].turboClock_;
+        toDouble(clock, (double*)&conf[runningComputer_].clockSpeed_);
 
+        setClockRate();
+        return;
+    }
+    
     if (conf[runningComputer_].turbo_)
     {
         if (mode_.gui)
@@ -4229,7 +4291,7 @@ void GuiMain::enableTapeGui(bool status, int computerType)
     XRCCTRL(*this, "CasButton"+computerInfo[computerType].gui, wxButton)->Enable(status);
     XRCCTRL(*this, "WavFile"+computerInfo[computerType].gui, wxTextCtrl)->Enable(status);
     XRCCTRL(*this, "EjectCas"+computerInfo[computerType].gui, wxButton)->Enable(status);
-    XRCCTRL(*this, "AutoCasLoad"+computerInfo[computerType].gui, wxCheckBox)->Enable(status&!conf[computerType].realCassetteLoad_);
+    XRCCTRL(*this, "AutoCasLoad"+computerInfo[computerType].gui, wxCheckBox)->Enable((status&!conf[computerType].realCassetteLoad_) & !elfConfiguration[computerType].useTapeHw);
     XRCCTRL(*this, "Turbo"+computerInfo[computerType].gui, wxCheckBox)->Enable(status&!conf[computerType].realCassetteLoad_);
     XRCCTRL(*this, "TurboClock"+computerInfo[computerType].gui, wxTextCtrl)->Enable(status);
     XRCCTRL(*this, "TurboMhzText"+computerInfo[computerType].gui, wxStaticText)->Enable(status);
@@ -4271,7 +4333,7 @@ void GuiMain::enableLoadGui(bool status)
             XRCCTRL(*this, "WavFile"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(status);
             XRCCTRL(*this, "EjectCas"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
         }
-        XRCCTRL(*this, "AutoCasLoad"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable(status&!conf[runningComputer_].realCassetteLoad_);
+        XRCCTRL(*this, "AutoCasLoad"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable((status&!conf[runningComputer_].realCassetteLoad_) & !elfConfiguration[runningComputer_].useTapeHw);
         XRCCTRL(*this, "Turbo"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable(status&!conf[runningComputer_].realCassetteLoad_);
         if (!status)
         {
@@ -4288,9 +4350,9 @@ void GuiMain::enableLoadGui(bool status)
     {
         if (runningComputer_ == ELFII || runningComputer_ == SUPERELF || runningComputer_ == ELF || runningComputer_ == ELF2K || runningComputer_ == PICO)
             XRCCTRL(*this, "Tape"+computerInfo[runningComputer_].gui, wxButton)->Enable(true);
-        XRCCTRL(*this, "AutoCasLoad"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable(true);
+        XRCCTRL(*this, "AutoCasLoad"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable(true  & !elfConfiguration[runningComputer_].useTapeHw);
         XRCCTRL(*this, "Turbo"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable(true);
-        if (runningComputer_ != XML || elfConfiguration[runningComputer_].useTape)
+        if (runningComputer_ != XML || elfConfiguration[runningComputer_].useTape || elfConfiguration[runningComputer_].useTapeHw)
         {
             XRCCTRL(*this, "CasButton"+computerInfo[runningComputer_].gui, wxButton)->Enable(true);
             XRCCTRL(*this, "WavFile"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(true);
@@ -4304,7 +4366,7 @@ void GuiMain::enableLoadGui(bool status)
         if (runningComputer_ == FRED1 || runningComputer_ == FRED1_5)
             XRCCTRL(*this, "CasPause"+computerInfo[runningComputer_].gui, wxButton)->Enable(false);
         XRCCTRL(*this, "CasStop"+computerInfo[runningComputer_].gui, wxButton)->Enable(false);
-        XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxButton)->Enable(status&!conf[runningComputer_].realCassetteLoad_);
+        XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxButton)->Enable((status&!conf[runningComputer_].realCassetteLoad_)|elfConfiguration[runningComputer_].useTapeHw);
         if (runningComputer_ == ELF2K || runningComputer_ == XML)
         {
             XRCCTRL(*this, "CasSave"+computerInfo[runningComputer_].gui, wxButton)->Enable(status&!elfConfiguration[runningComputer_].useHexModem);
@@ -4320,8 +4382,28 @@ void GuiMain::enableLoadGui(bool status)
     }
     if (tapeState_ == TAPE_RECORD)
         XRCCTRL(*this, "CasSave"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(recOffBitmap);
-    if (tapeState_ == TAPE_PLAY)
-        XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(playBlackBitmap);
+    if (runningComputer_ == XML)
+    {
+        if (elfConfiguration[runningComputer_].useTapeHw)
+        {
+            XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
+            XRCCTRL(*this, "CasForward"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
+        }
+        if (tapeState_ == TAPE_PLAY)
+        {
+            if (playActivated_)
+                XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(playDarkGreenBitmap);
+            else
+                XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(playBlackBitmap);
+        }
+    }
+    else
+    {
+        if (tapeState_ == TAPE_PLAY)
+            XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(playBlackBitmap);
+    }
+    if (tapeState_ == TAPE_FORWARD)
+        XRCCTRL(*this, "CasForward"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(forwardDarkGreenBitmap);
     if (tapeState_ == TAPE_RECORD1)
         XRCCTRL(*this, "CasSave1"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(recOffBitmap);
     if (tapeState_ == TAPE_PLAY1)
@@ -4364,7 +4446,7 @@ void GuiMain::setTapeState(int tapeState, wxString tapeNumber)
     XRCCTRL(*this, "CasButton"+tapeNumber+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState == TAPE_STOP);
     XRCCTRL(*this, "WavFile"+tapeNumber+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(tapeState == TAPE_STOP);
     XRCCTRL(*this, "EjectCas"+tapeNumber+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState == TAPE_STOP);
-    XRCCTRL(*this, "AutoCasLoad"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable((tapeState == TAPE_STOP)&!conf[runningComputer_].realCassetteLoad_);
+    XRCCTRL(*this, "AutoCasLoad"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable(((tapeState == TAPE_STOP)&!conf[runningComputer_].realCassetteLoad_) & !elfConfiguration[runningComputer_].useTapeHw);
     XRCCTRL(*this, "Turbo"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable((tapeState == TAPE_STOP)&!conf[runningComputer_].realCassetteLoad_);
     if (tapeState != TAPE_STOP)
     {
@@ -4376,16 +4458,43 @@ void GuiMain::setTapeState(int tapeState, wxString tapeNumber)
         XRCCTRL(*this, "TurboClock"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(XRCCTRL(*this, "Turbo"+computerInfo[runningComputer_].gui, wxCheckBox)->IsChecked());
         XRCCTRL(*this, "TurboMhzText"+computerInfo[runningComputer_].gui, wxStaticText)->Enable(XRCCTRL(*this, "Turbo"+computerInfo[runningComputer_].gui, wxCheckBox)->IsChecked());
     }
+    if (runningComputer_ == XML)
+    {
+        if (tapeState == TAPE_FORWARD)
+            XRCCTRL(*this, "CasForward"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(forwardGreenBitmap);
+        else
+        {
+            if (forwardActivated_)
+                XRCCTRL(*this, "CasForward"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(forwardDarkGreenBitmap);
+            else
+                XRCCTRL(*this, "CasForward"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(forwardBlackBitmap);
+        }
+    }
     if (conf[runningComputer_].autoCassetteLoad_)
     {
         if (tapeState == TAPE_RECORD)
             XRCCTRL(*this, "CasSave"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(recOnBitmap);
         else
             XRCCTRL(*this, "CasSave"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(recOffBitmap);
-        if (tapeState == TAPE_PLAY)
-            XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(playGreenBitmap);
+        if (runningComputer_ == XML)
+        {
+            if (tapeState == TAPE_PLAY)
+                XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(playGreenBitmap);
+            else
+            {
+                if (playActivated_)
+                    XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(playDarkGreenBitmap);
+                else
+                    XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(playBlackBitmap);
+            }
+        }
         else
-            XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(playBlackBitmap);
+        {
+            if (tapeState == TAPE_PLAY)
+                XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(playGreenBitmap);
+            else
+                XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(playBlackBitmap);
+        }
         if (runningComputer_ == MCDS)
         {
             if (tapeState == TAPE_RECORD1)

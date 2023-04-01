@@ -603,6 +603,9 @@ BEGIN_EVENT_TABLE(Main, DebugWindow)
     EVT_GUI_MSG(SET_DIAGLED, Main::setUpdateDiagLedStatus)
     EVT_GUI_MSG(ENABLE_CLOCK, Main::setEnableClockEvent)
     EVT_GUI_MSG(PAUSE_STATE, Main::setPauseStateEvent)
+    EVT_GUI_MSG(SET_PLAY_ACTIVATED, Main::setPlayActivatedEvent)
+    EVT_GUI_MSG(SET_FF_ACTIVATED, Main::setForwardActivatedEvent)
+
 
     EVT_SYS_COLOUR_CHANGED(Main::sysColourChangeEvent)
 
@@ -2574,6 +2577,8 @@ void Main::writeConfig()
     configPointer->Write("/Main/Cassette_Fred_Threshold_8", psaveData_[8]);
     configPointer->Write("/Main/Cassette_Fred_Threshold_16", psaveData_[9]);
     configPointer->Write("/Main/Cassette_Fred_Freq", psaveData_[10]);
+    configPointer->Write("/Main/Cassette_CV_A", psaveData_[11]);
+    configPointer->Write("/Main/Cassette_CV_B", psaveData_[12]);
     configPointer->Write("/Main/Window_Positions_Fixed", mode_.window_position_fixed);
 
     writeDebugConfig();
@@ -3421,6 +3426,8 @@ void Main::readConfig()
     psaveData_[8] = (int)configPointer->Read("/Main/Cassette_Fred_Threshold_8", 10l);
     psaveData_[9] = (int)configPointer->Read("/Main/Cassette_Fred_Threshold_16", 500l);
     psaveData_[10] = (int)configPointer->Read("/Main/Cassette_Fred_Freq", 58l);
+    psaveData_[11] = (int)configPointer->Read("/Main/Cassette_CV_A", 17l);
+    psaveData_[12] = (int)configPointer->Read("/Main/Cassette_CV_B", 18l);
 }
 
 #if defined(__WXMSW__)
@@ -8599,7 +8606,7 @@ void Main::eventSetLocation(bool state)
     guiEvent event(GUI_MSG, SET_LOCATION);
     event.SetEventObject( p_Main );
 
-     conf[runningComputer_].useLoadLocation_ = state;
+   conf[runningComputer_].useLoadLocation_ = state;
     conf[runningComputer_].saveExec_ = 0;
 
     GetEventHandler()->AddPendingEvent(event);
@@ -8616,6 +8623,58 @@ void Main::eventEnableClock(bool state)
    event.SetEventObject( p_Main );
 
    event.SetBoolValue(state);
+
+   GetEventHandler()->AddPendingEvent(event);
+}
+
+void Main::setPlayActivatedEvent(guiEvent&event)
+{
+    if (!mode_.gui)
+        return;
+
+   playActivated_ = event.GetBoolValue();
+   if (playActivated_)
+   {
+       forwardActivated_ = false;
+       XRCCTRL(*this, "CasLoad"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(playDarkGreenBitmap);
+       XRCCTRL(*this, "CasForward"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(forwardBlackBitmap);
+   }
+   else
+       XRCCTRL(*this, "CasLoad"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(playBlackBitmap);
+}
+
+void Main::eventPlayActivated(bool status)
+{
+   guiEvent event(GUI_MSG, SET_PLAY_ACTIVATED);
+   event.SetEventObject( p_Main );
+   
+   event.SetBoolValue(status);
+
+   GetEventHandler()->AddPendingEvent(event);
+}
+
+void Main::setForwardActivatedEvent(guiEvent&event)
+{
+    if (!mode_.gui)
+        return;
+
+   forwardActivated_ = event.GetBoolValue();
+   if (forwardActivated_)
+   {
+       playActivated_ = false;
+       XRCCTRL(*this, "CasForward"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(forwardDarkGreenBitmap);
+       XRCCTRL(*this, "CasLoad"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(playBlackBitmap);
+   }
+   else
+       XRCCTRL(*this, "CasForward"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(forwardBlackBitmap);
+}
+
+void Main::eventForwardActivated(bool status)
+{
+   guiEvent event(GUI_MSG, SET_FF_ACTIVATED);
+   event.SetEventObject( p_Main );
+   
+   event.SetBoolValue(status);
 
    GetEventHandler()->AddPendingEvent(event);
 }

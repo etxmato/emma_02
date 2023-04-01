@@ -125,7 +125,7 @@ long WaveReader::read(sample_t* outBuffer, size_t remaining, float gain)
         }
         p_Computer->cassette(amplitudeWord);
         p_Computer->cassetteFred(amplitudeWord);
-        p_Computer->cassetteXmlHw(amplitudeWord);
+        p_Computer->cassetteXmlHw(amplitudeWord, remaining);
     }
     else
     {
@@ -137,9 +137,15 @@ long WaveReader::read(sample_t* outBuffer, size_t remaining, float gain)
         }
         p_Computer->cassette(amplitudeByte);
         p_Computer->cassetteFred(amplitudeByte);
-        p_Computer->cassetteXmlHw(amplitudeWord);
+        p_Computer->cassetteXmlHw(amplitudeWord, remaining);
     }
     return remaining;
+}
+
+void WaveReader::seek(wxFileOffset ofs)
+{
+    inFile_.Seek(ofs*frameSize_);
+    p_Computer->stepCassetteCounter((long)ofs);
 }
 
 bool WaveReader::eof()

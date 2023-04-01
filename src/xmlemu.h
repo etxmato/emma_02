@@ -220,8 +220,9 @@ public:
     void removeCosmicosHex();
     
     void startLoad(int tapeNumber, bool button);
-    void cassetteXmlHw(short val);
-    void cassetteXmlHw(char val);
+    void cassetteXmlHw(short val, long size);
+    void cassetteXmlHw(char val, long size);
+    void stepCassetteCounter(long step);
     void cassetteCyberVision();
     void cassette56();
     void cassettePm();
@@ -356,12 +357,14 @@ private:
     int toneTime_;
     Byte tapeError_;
     Byte tapedataReady_;
+    long tapeCounterStep_;
+    long tapePeriod_;
+    int lastSec_;
 
     int pulseCountStopTone_;
     bool tapeFormat56_;
     bool tapeFormatFixed_;
-    bool startTone_;
-    bool firstPulse_;
+    int startBytes_;
 
     DECLARE_EVENT_TABLE()
 };

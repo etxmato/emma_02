@@ -29288,6 +29288,7 @@
                                                                                             <item>-</item>
                                                                                             <item>-</item>
                                                                                             <item>-</item>
+                                                                                            <item>-</item>
                                                                                         </content>
                                                                                     </object>
                                                                                 </object>
@@ -29902,29 +29903,6 @@
                                                             <object class="wxBoxSizer">
                                                                 <orient>wxVERTICAL</orient>
                                                                 <object class="sizeritem">
-                                                                    <flag>wxALIGN_LEFT|wxBOTTOM</flag>
-                                                                    <border>2</border>
-                                                                    <object class="wxFlexGridSizer">
-                                                                        <cols>2</cols>
-                                                                        <rows>1</rows>
-                                                                        <vgap>2</vgap>
-                                                                        <hgap>2</hgap>
-                                                                        <object class="sizeritem">
-                                                                            <flag>wxALIGN_LEFT|wxALIGN_BOTTOM|wxLEFT|wxBOTTOM</flag>
-                                                                            <border>1</border>
-                                                                            <object class="wxButton" name="KeyMapXml">
-                                                                                <tooltip>Open key map window</tooltip>
-                                                                                <font>
-                                                                                    <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                    <size>-1</size>
-                                                                                    <family>roman</family>
-                                                                                </font>
-                                                                                <label>Key Map</label>
-                                                                            </object>
-                                                                        </object>
-                                                                    </object>
-                                                                </object>
-                                                                <object class="sizeritem">
                                                                     <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
                                                                     <border>2</border>
                                                                     <object class="wxBoxSizer">
@@ -30021,15 +29999,6 @@
                                                                                 <value>25</value>
                                                                                 <min>0</min>
                                                                                 <max>100</max>
-                                                                            </object>
-                                                                        </object>
-                                                                        <object class="sizeritem">
-                                                                            <flag>wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
-                                                                            <border>3</border>
-                                                                            <object class="wxStaticBitmap" name="VuXml">
-                                                                                <size>100,10</size>
-                                                                                <style>wxSTATIC_BORDER</style>
-                                                                                <bitmap>images/vu.png</bitmap>
                                                                             </object>
                                                                         </object>
                                                                     </object>
@@ -30298,6 +30267,16 @@
                                                                         <object class="sizeritem">
                                                                             <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                             <border>0</border>
+                                                                            <object class="wxBitmapButton" name="CasForwardXml">
+                                                                                <size>22,22</size>
+                                                                                <tooltip>Fast forward cassette file</tooltip>
+                                                                                <enabled>0</enabled>
+                                                                                <bitmap>images_osx/forward_black.png</bitmap>
+                                                                            </object>
+                                                                        </object>
+                                                                        <object class="sizeritem">
+                                                                            <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                            <border>0</border>
                                                                             <object class="wxBitmapButton" name="CasLoadXml">
                                                                                 <size>22,22</size>
                                                                                 <tooltip>Play cassette file</tooltip>
@@ -30324,6 +30303,34 @@
                                                                                 <style>wxBU_AUTODRAW</style>
                                                                                 <hidden>1</hidden>
                                                                                 <bitmap>images_osx/real_cas_off.png</bitmap>
+                                                                            </object>
+                                                                        </object>
+                                                                    </object>
+                                                                </object>
+                                                                <object class="sizeritem">
+                                                                    <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+                                                                    <border>2</border>
+                                                                    <object class="wxBoxSizer">
+                                                                        <orient>wxHORIZONTAL</orient>
+                                                                        <object class="sizeritem">
+                                                                            <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                            <border>2</border>
+                                                                            <object class="wxStaticText" name="CasCounterXml">
+                                                                                <font>
+                                                                                    <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                    <size>-1</size>
+                                                                                    <family>roman</family>
+                                                                                </font>
+                                                                                <label>00:00:000</label>
+                                                                            </object>
+                                                                        </object>
+                                                                        <object class="sizeritem">
+                                                                            <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxBOTTOM</flag>
+                                                                            <border>3</border>
+                                                                            <object class="wxStaticBitmap" name="VuXml">
+                                                                                <size>100,10</size>
+                                                                                <style>wxSTATIC_BORDER</style>
+                                                                                <bitmap>images/vu.png</bitmap>
                                                                             </object>
                                                                         </object>
                                                                     </object>
@@ -30413,6 +30420,19 @@
                                                                     <border>3</border>
                                                                     <object class="wxBoxSizer">
                                                                         <orient>wxHORIZONTAL</orient>
+                                                                        <object class="sizeritem">
+                                                                            <flag>wxALIGN_BOTTOM|wxLEFT|wxBOTTOM</flag>
+                                                                            <border>1</border>
+                                                                            <object class="wxButton" name="KeyMapXml">
+                                                                                <tooltip>Open key map window</tooltip>
+                                                                                <font>
+                                                                                    <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                    <size>-1</size>
+                                                                                    <family>roman</family>
+                                                                                </font>
+                                                                                <label>Key Map</label>
+                                                                            </object>
+                                                                        </object>
                                                                         <object class="sizeritem">
                                                                             <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
                                                                             <border>1</border>

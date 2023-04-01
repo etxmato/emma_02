@@ -14,6 +14,7 @@ public:
 
     long openFile(wxString fileName);
     long read(sample_t* OutBuffer, size_t Count, float Gain);
+    void seek(wxFileOffset ofs);
     bool eof();
 
 private:

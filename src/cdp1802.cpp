@@ -1530,8 +1530,8 @@ void Cdp1802::cpuCycleStep()
             
                 showState(STATE_FETCH);
             }
-            else
-                soundCycle();
+ //           else
+  //              soundCycle();
         break;
             
         case STATE_FETCH_2:
@@ -1590,7 +1590,9 @@ void Cdp1802::cpuCycleStep()
         if (pseudoLoaded_)
             p_Main->cyclePseudoDebug();
 
-        playSaveLoad();
+        if (steps_ != 0)
+            playSaveLoad();
+        
         p_Computer->checkComputerFunction();
     }
     

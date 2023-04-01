@@ -111,6 +111,7 @@ BEGIN_EVENT_TABLE(GuiXml, GuiPico)
 
     EVT_BUTTON(XRCID("RealCasLoadXml"), GuiMain::onRealCas)
     EVT_BUTTON(XRCID("CasLoadXml"), GuiMain::onCassetteLoad)
+    EVT_BUTTON(XRCID("CasForwardXml"), GuiMain::onCassetteForward)
     EVT_BUTTON(XRCID("CasSaveXml"), GuiMain::onCassetteSave)
     EVT_BUTTON(XRCID("CasStopXml"), GuiMain::onCassetteStop)
     EVT_CHECKBOX(XRCID("TurboXml"), GuiMain::onTurbo)
@@ -173,6 +174,8 @@ void GuiXml::readXmlConig()
     fileDirXml[9] = readConfigDir("Dir/Xmlemu/XmlFile9", dataDir_ + "Xml" + pathSeparator_ + "Pico Elf V2" + pathSeparator_);
     fileNameXml[10] = configPointer->Read("Xmlemu/XmlFile10", "tmc-600,exp-151182.xml");
     fileDirXml[10] = readConfigDir("Dir/Xmlemu/XmlFile10", dataDir_ + "Xml" + pathSeparator_ + "TMC-600" + pathSeparator_);
+    fileNameXml[11] = configPointer->Read("Xmlemu/XmlFile11", "cybervision2001.xml");
+    fileDirXml[11] = readConfigDir("Dir/Xmlemu/XmlFile11", dataDir_ + "Xml" + pathSeparator_ + "Cybervision" + pathSeparator_);
 
     if (mode_.gui)
         setXmlDropDown();
@@ -241,7 +244,12 @@ void GuiXml::readXmlConig()
     conf[XML].saveStart_ = value;
 
     configPointer->Read("Xmlemu/UseLoadLocation", &conf[XML].useLoadLocation_, false);
-
+    forwardActivated_ = false;
+    playActivated_ = elfConfiguration[XML].useTapeHw;
+    
+    if (elfConfiguration[XML].useTapeHw)
+        conf[XML].autoCassetteLoad_ = true;
+    
     setRealCas(XML);
     setXmlGui();
     
@@ -655,13 +663,32 @@ void GuiXml::setXmlGui()
     setBaudChoice(XML);
     setPrintModeXml();
     
-    XRCCTRL(*this, "AutoCasLoadXml", wxCheckBox)->Enable((elfConfiguration[XML].useTape || elfConfiguration[XML].useXmodem || elfConfiguration[XML].useHexModem || elfConfiguration[XML].useTapeHw) && !conf[XML].realCassetteLoad_);
+    XRCCTRL(*this, "AutoCasLoadXml", wxCheckBox)->Enable((elfConfiguration[XML].useTape || elfConfiguration[XML].useXmodem || elfConfiguration[XML].useHexModem) && !conf[XML].realCassetteLoad_ && !elfConfiguration[XML].useTapeHw);
     XRCCTRL(*this, "TurboXml", wxCheckBox)->Enable((elfConfiguration[XML].useTape || elfConfiguration[XML].useXmodem || elfConfiguration[XML].useHexModem || elfConfiguration[XML].useTapeHw) && !conf[XML].realCassetteLoad_);
     XRCCTRL(*this, "TurboClockXml", wxTextCtrl)->Enable((elfConfiguration[XML].useTape || elfConfiguration[XML].useXmodem || elfConfiguration[XML].useHexModem || elfConfiguration[XML].useTapeHw) && conf[XML].turbo_);
     XRCCTRL(*this, "TurboMhzTextXml", wxStaticText)->Enable((elfConfiguration[XML].useTape || elfConfiguration[XML].useXmodem || elfConfiguration[XML].useHexModem || elfConfiguration[XML].useTapeHw) && conf[XML].turbo_);
 #if defined(__WXMSW__)
     XRCCTRL(*this, "RealCasLoadXml", wxBitmapButton)->Enable(elfConfiguration[XML].useTape && !elfConfiguration[XML].useXmodem || elfConfiguration[XML].useHexModem || elfConfiguration[XML].useTapeHw);
 #endif
+
+    XRCCTRL(*this, "CasForwardXml", wxBitmapButton)->Enable(elfConfiguration[XML].useTapeHw);
+    if (forwardActivated_)
+        XRCCTRL(*this, "CasForwardXml", wxBitmapButton)->SetBitmapLabel(forwardDarkGreenBitmap);
+    else
+        XRCCTRL(*this, "CasForwardXml", wxBitmapButton)->SetBitmapLabel(forwardBlackBitmap);
+    if (elfConfiguration[XML].useTapeHw)
+    {
+        XRCCTRL(*this, "CasLoadXml", wxBitmapButton)->Enable(true);
+        if (playActivated_)
+            XRCCTRL(*this, "CasLoadXml", wxBitmapButton)->SetBitmapLabel(playDarkGreenBitmap);
+        else
+            XRCCTRL(*this, "CasLoadXml", wxBitmapButton)->SetBitmapLabel(playBlackBitmap);
+    }
+    if (elfConfiguration[XML].useTapeHw)
+    {
+        XRCCTRL(*this, "CasLoadXml", wxButton)->Enable(false);
+        XRCCTRL(*this, "CasForwardXml", wxButton)->Enable(false);
+    }
 
     XRCCTRL(*this, "VTBaudRChoiceXml", wxChoice)->SetSelection(elfConfiguration[XML].baudR);
     XRCCTRL(*this, "VTBaudTChoiceXml", wxChoice)->SetSelection(elfConfiguration[XML].baudT);

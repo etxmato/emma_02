@@ -28,6 +28,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>5</border>
 <object class="wxDirPickerCtrl" name="DataDir">
+<size>200,-1</size>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>

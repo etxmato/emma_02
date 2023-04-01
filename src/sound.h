@@ -62,6 +62,7 @@ public:
     void stopPausedLoad();
     void stopPausedSave();
     void stopSaveLoad();
+    void forwardTape(int tapeState);
     void setVolume(int volume);
     void setClockRate(double clock);
     void setPercentageClock(double percentage);
@@ -86,7 +87,9 @@ protected:
     int threshold16_;
     float fredFreq_;
     long sampleRate_;
-    
+    int forwardSpeed_;
+    double remainingForwardSpeed_;
+
 private:
     Blip_Buffer *soundBufferPointerLeft;
     Blip_Buffer *soundBufferPointerRight;
@@ -118,6 +121,7 @@ private:
     wxString tapeNumber_;
     bool psaveOn_;
     bool ploadOn_;
+    bool forwardOn_;
     bool wavOn_;
     int psaveAmplitude_;
     int psaveVolume_;

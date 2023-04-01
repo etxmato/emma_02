@@ -38,7 +38,7 @@
 <border>5</border>
 <object class="wxFlexGridSizer">
 <cols>2</cols>
-<rows>8</rows>
+<rows>11</rows>
 <vgap>1</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
@@ -136,7 +136,7 @@
 <font>
 <size>12</size>
 </font>
-<label>For FRED emulator: </label>
+<label>FRED emulator: </label>
 </object>
 </object>
 <object class="spacer">
@@ -145,7 +145,7 @@
 <size>5,5</size>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>5</border>
 <object class="wxStaticText" name="FREDThresholdText8">
 <font>
@@ -155,7 +155,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 <border>5</border>
 <object class="wxTextCtrl" name="FREDThreshold8" subclass="IntEdit">
 <font>
@@ -165,7 +165,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>5</border>
 <object class="wxStaticText" name="FREDThresholdText16">
 <font>
@@ -175,7 +175,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 <border>5</border>
 <object class="wxTextCtrl" name="FREDThreshold16" subclass="IntEdit">
 <font>
@@ -185,7 +185,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>5</border>
 <object class="wxStaticText" name="FREDFreqText">
 <font>
@@ -195,13 +195,73 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 <border>5</border>
 <object class="wxTextCtrl" name="FREDFreq" subclass="FloatEdit">
 <font>
 <size>12</size>
 </font>
 <value>0000</value>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP|wxBOTTOM</flag>
+<border>5</border>
+<object class="wxStaticText" name="ID_STATICTEXT">
+<font>
+<size>12</size>
+</font>
+<label>CyberVision FF speed = </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP|wxBOTTOM</flag>
+<border>5</border>
+<object class="wxStaticText" name="ID_STATICTEXT">
+<font>
+<size>12</size>
+</font>
+<label>sqrt(b*b+2*a*s) </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>5</border>
+<object class="wxStaticText" name="CVaText">
+<font>
+<size>12</size>
+</font>
+<label>a: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>5</border>
+<object class="wxTextCtrl" name="CVa" subclass="IntEdit">
+<font>
+<size>12</size>
+</font>
+<value>17</value>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>5</border>
+<object class="wxStaticText" name="CVaText">
+<font>
+<size>12</size>
+</font>
+<label>b: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>5</border>
+<object class="wxTextCtrl" name="CVb" subclass="FloatEdit">
+<font>
+<size>12</size>
+</font>
+<value>0.18</value>
 </object>
 </object>
 </object>

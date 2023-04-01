@@ -260,6 +260,8 @@ protected:
 #define ENABLE_CLOCK 43
 #define PAUSE_STATE 44
 #define SET_BUTTON_LABEL 45
+#define SET_PLAY_ACTIVATED 46
+#define SET_FF_ACTIVATED 47
 
 #define OS_WINDOWS_2000 0
 #define OS_WINDOWS_XP 1
@@ -508,7 +510,7 @@ public:
 #include "serial.h"
 
 #define EMMA_VERSION 1.47
-#define EMMA_SUB_VERSION 6
+#define EMMA_SUB_VERSION 9
 #define ELF 0
 #define ELFII 1
 #define SUPERELF 2
@@ -982,6 +984,7 @@ public:
 #define TAPE_PAUSE 3
 #define TAPE_PLAY1 4
 #define TAPE_RECORD1 5
+#define TAPE_FORWARD 6
 
 #define PRINT_BUFFER_SIZE 1000
 
@@ -1298,6 +1301,12 @@ public:
 
     void setEnableClockEvent(guiEvent& event);
     void eventEnableClock(bool state);
+
+    void setPlayActivatedEvent(guiEvent& event);
+    void eventPlayActivated(bool status);
+
+    void setForwardActivatedEvent(guiEvent& event);
+    void eventForwardActivated(bool status);
 
     void setSaveStartEvent(guiEvent& event);
     void eventSaveStart(Word saveStart);

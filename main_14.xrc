@@ -26327,6 +26327,7 @@
 <item>-</item>
 <item>-</item>
 <item>-</item>
+<item>-</item>
 </content>
 </object>
 </object>
@@ -26828,24 +26829,6 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxBOTTOM</flag>
-<border>2</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxGROW</flag>
-<border>2</border>
-<object class="wxButton" name="KeyMapXml">
-<tooltip>Open key map window</tooltip>
-<font>
-<size>14</size>
-</font>
-<label>Key Map</label>
-</object>
-</object>
-</object>
-</object>
-<object class="sizeritem">
 <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxBoxSizer">
@@ -26945,15 +26928,6 @@
 <value>25</value>
 <min>0</min>
 <max>100</max>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxStaticBitmap" name="VuXml">
-<size>57,6d</size>
-<style>wxSTATIC_BORDER</style>
-<bitmap>images/vu.png</bitmap>
 </object>
 </object>
 </object>
@@ -27138,18 +27112,6 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-<border>4</border>
-<object class="wxCheckBox" name="AutoCasLoadXml">
-<tooltip>Enable auto mode for cassette file</tooltip>
-<font>
-<size>14</size>
-</font>
-<label>Auto</label>
-<checked>1</checked>
-</object>
-</object>
-<object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxCheckBox" name="TurboXml">
@@ -27194,6 +27156,15 @@
 <object class="sizeritem">
 <flag>wxGROW|wxALL</flag>
 <border>0</border>
+<object class="wxBitmapButton" name="CasForwardXml">
+<tooltip>Play cassette file</tooltip>
+<enabled>0</enabled>
+<bitmap>images/forward_black.png</bitmap>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALL</flag>
+<border>0</border>
 <object class="wxBitmapButton" name="CasLoadXml">
 <tooltip>Play cassette file</tooltip>
 <enabled>0</enabled>
@@ -27216,6 +27187,44 @@
 <tooltip>Disable / Enable real cassette loading</tooltip>
 <style>wxBU_AUTODRAW</style>
 <bitmap>images/real_cas_off.png</bitmap>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>0</border>
+<object class="wxCheckBox" name="AutoCasLoadXml">
+<tooltip>Enable auto mode for cassette file</tooltip>
+<font>
+<size>14</size>
+</font>
+<label>Auto</label>
+<checked>1</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>4</border>
+<object class="wxStaticText" name="CasCounterXml">
+<font>
+<size>14</size>
+</font>
+<label>00:00:000 </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxStaticBitmap" name="VuXml">
+<size>57,6d</size>
+<style>wxSTATIC_BORDER</style>
+<bitmap>images/vu.png</bitmap>
 </object>
 </object>
 </object>
@@ -27295,6 +27304,17 @@
 <border>4</border>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW</flag>
+<border>2</border>
+<object class="wxButton" name="KeyMapXml">
+<tooltip>Open key map window</tooltip>
+<font>
+<size>14</size>
+</font>
+<label>Key Map</label>
+</object>
+</object>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>2</border>
