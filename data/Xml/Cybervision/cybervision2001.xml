@@ -60,7 +60,7 @@
         <freq type="0">2000</freq>
         <freq type="1">4000</freq>
         <threshold type="8bit">10</threshold>
-        <threshold type="16bit">500</threshold>
+        <threshold type="16bit">50</threshold>
         <filename cassette="0"></filename>
     </cassette>
 
