@@ -83,6 +83,7 @@ public:
     void sleepComputer(long ms);
     void resetPressed();
     
+    void cassetteFred(uint32_t val);
     void cassetteFred(short val);
     void cassetteFred56();
     void cassetteFredPm();

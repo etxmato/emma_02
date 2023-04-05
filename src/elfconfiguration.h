@@ -384,6 +384,8 @@ public:
     int threshold8Bit;
     int threshold16Bit;
     int frequencyBorder;
+    bool audioChannelLeft;
+    bool dataChannelLeft;
     bool revCassetteInput;
     bool rtc;
     bool nvr;

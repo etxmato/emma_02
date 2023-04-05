@@ -4452,6 +4452,7 @@ void XmlParser::parseXml_Cassette (int computer, wxXmlNode &node)
         "filename",
         "dirname",
         "iogroup",
+        "channel",
         "comment",
         "undefined"
     };
@@ -4467,6 +4468,7 @@ void XmlParser::parseXml_Cassette (int computer, wxXmlNode &node)
         TAG_FILENAME,
         TAG_DIRNAME,
         TAG_IOGROUP,
+        TAG_CHANNEL,
         TAG_COMMENT,
         TAG_UNDEFINED
     };
@@ -4484,6 +4486,8 @@ void XmlParser::parseXml_Cassette (int computer, wxXmlNode &node)
     elfConfiguration[computer].frequencyBorder = 3000;
     elfConfiguration[computer].threshold8Bit = 10;
     elfConfiguration[computer].threshold16Bit = 500;
+    elfConfiguration[computer].audioChannelLeft = true;
+    elfConfiguration[computer].dataChannelLeft = true;
     cassetteNumber = 0;
 
     wxXmlNode *child = node.GetChildren();
@@ -4544,6 +4548,19 @@ void XmlParser::parseXml_Cassette (int computer, wxXmlNode &node)
                 conf[computer].wavFileDir_[cassetteNumber] = dataDir_ + child->GetNodeContent();
                 if (conf[computer].wavFileDir_[cassetteNumber].Right(1) != pathSeparator_)
                     conf[computer].wavFileDir_[cassetteNumber] += pathSeparator_;
+            break;
+
+            case TAG_CHANNEL:
+                if (child->GetAttribute("type") == "audio")
+                {
+                    if (child->GetNodeContent() == "right")
+                        elfConfiguration[computer].audioChannelLeft = false;
+                }
+                if (child->GetAttribute("type") == "data")
+                {
+                    if (child->GetNodeContent() == "right")
+                        elfConfiguration[computer].dataChannelLeft = false;
+                }
             break;
 
             case TAG_IOGROUP:

@@ -100,8 +100,9 @@ long WaveReader::openFile(wxString fileName)
 long WaveReader::read(sample_t* outBuffer, size_t remaining, float gain)
 {
     unsigned char buffer [1024];
-    char amplitudeByte = 0;
-    short amplitudeWord = 0;
+    char dataByte = 0, audioByte = 0;
+    short dataWord = 0, audioWord = 0;
+    wxUint32 data24 = 0, audio24 = 0;
 
     size_t in = inFile_.Read(buffer, remaining*frameSize_);
     if (in == wxInvalidOffset)
@@ -114,30 +115,113 @@ long WaveReader::read(sample_t* outBuffer, size_t remaining, float gain)
 
     unsigned char* bufferPointer = &buffer [0];
 
-    if ((frameSize_/channelCount_) == 2)
+    switch (frameSize_/channelCount_)
     {
-        while(in--)
-        {
-            amplitudeWord = *bufferPointer++;
-            amplitudeWord += *bufferPointer-- << 8;
-            *outBuffer++ = (short)amplitudeWord*gain/2;
-            bufferPointer += frameSize_;
-        }
-        p_Computer->cassette(amplitudeWord);
-        p_Computer->cassetteFred(amplitudeWord);
-        p_Computer->cassetteXmlHw(amplitudeWord, remaining);
-    }
-    else
-    {
-        while(in--)
-        {
-            amplitudeByte = *bufferPointer;
-            *outBuffer++ = (short) ((amplitudeByte ^ 0x80) << 8)*gain/2;
-            bufferPointer += frameSize_;
-        }
-        p_Computer->cassette(amplitudeByte);
-        p_Computer->cassetteFred(amplitudeByte);
-        p_Computer->cassetteXmlHw(amplitudeWord, remaining);
+        case 3:
+            while(in--)
+            {
+                if (p_Computer->isAudioChannelLeft())
+                {
+                    audio24 = *bufferPointer++;
+                    audio24 += *bufferPointer++ << 8;
+                    audio24 += *bufferPointer-- << 16;
+                    bufferPointer--;
+                    *outBuffer++ = (short)audio24*gain/2;
+                }
+                if (p_Computer->isDataChannelLeft())
+                {
+                    data24 = *bufferPointer++;
+                    data24 += *bufferPointer++ << 8;
+                    data24 += *bufferPointer-- << 16;
+                    bufferPointer--;
+                }
+                bufferPointer += frameSize_/2;
+
+                if (!p_Computer->isAudioChannelLeft()) // audio channel right
+                {
+                    audio24 = *bufferPointer++;
+                    audio24 += *bufferPointer++ << 8;
+                    audio24 += *bufferPointer-- << 16;
+                    bufferPointer--;
+                    *outBuffer++ = (short)audio24*gain/2;
+                }
+                if (!p_Computer->isDataChannelLeft()) // data channel right
+                {
+                    data24 = *bufferPointer++;
+                    data24 += *bufferPointer++ << 8;
+                    data24 += *bufferPointer-- << 16;
+                    bufferPointer--;
+                }
+                bufferPointer += frameSize_/2;
+            }
+            p_Computer->cassette(data24);
+            p_Computer->cassetteFred(data24);
+            p_Computer->cassetteXmlHw(data24, remaining);
+        break;
+            
+        case 2:
+            while(in--)
+            {
+                if (p_Computer->isAudioChannelLeft())
+                {
+                    audioWord = *bufferPointer++;
+                    audioWord += *bufferPointer-- << 8;
+                    *outBuffer++ = (short)audioWord*gain/2;
+                }
+                if (p_Computer->isDataChannelLeft())
+                {
+                    dataWord = *bufferPointer++;
+                    dataWord += *bufferPointer-- << 8;
+                }
+                bufferPointer += frameSize_/2;
+
+                if (!p_Computer->isAudioChannelLeft()) // audio channel right
+                {
+                    audioWord = *bufferPointer++;
+                    audioWord += *bufferPointer-- << 8;
+                    *outBuffer++ = (short)audioWord*gain/2;
+                }
+                if (!p_Computer->isDataChannelLeft()) // data channel right
+                {
+                    dataWord = *bufferPointer++;
+                    dataWord += *bufferPointer-- << 8;
+                }
+                bufferPointer += frameSize_/2;
+            }
+            p_Computer->cassette(dataWord);
+            p_Computer->cassetteFred(dataWord);
+            p_Computer->cassetteXmlHw(dataWord, remaining);
+        break;
+            
+        case 1:
+            while(in--)
+            {
+                if (p_Computer->isAudioChannelLeft())
+                {
+                    audioByte = *bufferPointer;
+                    *outBuffer++ = (short) ((audioByte ^ 0x80) << 8)*gain/2;
+                }
+                if (p_Computer->isDataChannelLeft())
+                {
+                    dataByte = *bufferPointer;
+                }
+                bufferPointer += frameSize_/2;
+
+                if (!p_Computer->isAudioChannelLeft()) // audio channel right
+                {
+                    audioByte = *bufferPointer;
+                    *outBuffer++ = (short) ((audioByte ^ 0x80) << 8)*gain/2;
+                }
+                if (!p_Computer->isDataChannelLeft()) // data channel right
+                {
+                    dataByte = *bufferPointer;
+                }
+                bufferPointer += frameSize_/2;
+            }
+            p_Computer->cassette(dataByte);
+            p_Computer->cassetteFred(dataByte);
+            p_Computer->cassetteXmlHw(dataByte, remaining);
+        break;
     }
     return remaining;
 }

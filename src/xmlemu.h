@@ -220,6 +220,7 @@ public:
     void removeCosmicosHex();
     
     void startLoad(int tapeNumber, bool button);
+    void cassetteXmlHw(uint32_t val, long size);
     void cassetteXmlHw(short val, long size);
     void cassetteXmlHw(char val, long size);
     void stepCassetteCounter(long step);
@@ -227,6 +228,9 @@ public:
     void cassette56();
     void cassettePm();
     void finishStopTape();
+    
+    bool isAudioChannelLeft() {return elfConfiguration.audioChannelLeft;};
+    bool isDataChannelLeft() {return elfConfiguration.dataChannelLeft;};
 
 private:
     class ElfScreen *elfScreenPointer;
@@ -357,8 +361,8 @@ private:
     int toneTime_;
     Byte tapeError_;
     Byte tapedataReady_;
-    long tapeCounterStep_;
-    long tapePeriod_;
+    long long tapeCounterStep_;
+    long long tapePeriod_;
     int lastSec_;
 
     int pulseCountStopTone_;

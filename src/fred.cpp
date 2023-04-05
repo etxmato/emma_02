@@ -1213,6 +1213,80 @@ void Fred::resetPressed()
     p_Main->setCurrentCardValue();
 }
 
+void Fred::cassetteFred(wxUint32 val)
+{
+    if ((tapeRunSwitch_&1) != 1)
+        return;
+    
+    int difference;
+    if (val < lastSample_)
+        difference = lastSample_ - val;
+    else
+        difference = val - lastSample_;
+    
+    if (difference < threshold16_)
+        silenceCount_++;
+    else
+    {
+        silenceCount_ = 0;
+        toneTime_++;
+    }
+    
+    if (lastSample_ <= 0)
+    {
+        if (val > 0 && silenceCount_ == 0)
+            pulseCount_++;
+    }
+    else
+    {
+        if (val < 0 && silenceCount_ == 0)
+            pulseCount_++;
+    }
+    
+    if (pulseCount_ > pulseCountStopTone_ && silenceCount_ > 10 && fredConfiguration.stopTone)
+    {
+        p_Computer->pauseTape();
+        p_Main->turboOff();
+        tapeRunSwitch_ = tapeRunSwitch_ & 2;
+    }
+    
+    if (!tapeFormatFixed_)
+    {
+        switch (fredConfiguration.tapeFormat_)
+        {
+            case FRED_TAPE_FORMAT_PM:
+                tapeFormatFixed_ = true;
+            break;
+                
+            case FRED_TAPE_FORMAT_56:
+                pulseCountStopTone_ = 2000;
+                tapeFormatFixed_ = true;
+                tapeFormat56_ = true;
+            break;
+                
+            default:
+                if (pulseCount_ > 50 && pulseCount_ < 200 && silenceCount_ > 10)
+                { // 5.2 & 6.2 tone format, if no tone is detected between 50 & 200 pulses at the start it is PM System format
+                    pulseCountStopTone_ = 2000;
+                    tapeFormatFixed_ = true;
+                    tapeFormat56_ = true;
+                    if (computerType_ == FRED1)
+                        p_Main->eventSetStaticTextValue("CurrentTapeFormatTextFRED1", "-> 5.2/6.2 Tone");
+                    else
+                        p_Main->eventSetStaticTextValue("CurrentTapeFormatTextFRED1_5", "-> 5.2/6.2 Tone");
+                }
+            break;
+        }
+    }
+
+    if (tapeFormat56_)
+        cassetteFred56();
+    else
+        cassetteFredPm();
+
+    lastSample_ = val;
+}
+
 void Fred::cassetteFred(short val)
 {
     if ((tapeRunSwitch_&1) != 1)

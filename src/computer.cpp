@@ -1722,6 +1722,50 @@ void Computer::onInButtonPress(Byte WXUNUSED(value))
     p_Main->message("Illegal call to press Elf IN button");
 }
 
+void Computer::cassette(wxUint32 val)
+{
+    if (conversionTypeWav_ == 0)
+    {
+        if (val <= 0)
+        {
+            cassetteEf_ = tapePolarity_; // 0
+            maxTapeInput_ = 0;
+        }
+        else
+        {
+            cassetteEf_ = !tapePolarity_; //1
+            if (val > lastTapeInput_)
+                maxTapeInput_ = val;
+            else
+                gaugeValue_ = maxTapeInput_ / 5;
+        }
+    }
+    else
+    {
+        if (cassetteEf_ != tapePolarity_)
+        {
+            if (val > lastTapeInput_)
+                maxTapeInput_ = val;
+            else
+            {
+                gaugeValue_ = maxTapeInput_ / 5;
+                cassetteEf_ = tapePolarity_; // 0
+            }
+        }
+        else
+        {
+            if (val < lastTapeInput_)
+                maxTapeInput_ = -val;
+            else
+            {
+                gaugeValue_ = maxTapeInput_ / 5;
+                cassetteEf_ = !tapePolarity_; //1
+            }
+        }
+    }
+    lastTapeInput_ = val;
+}
+
 void Computer::cassette(short val)
 {
     if (conversionTypeWav_ == 0)
@@ -1836,11 +1880,19 @@ void Computer::cassette(char val)
     lastTapeInput_ = val;
 }
 
+void Computer::cassetteFred(wxUint32 WXUNUSED(val))
+{
+}
+
 void Computer::cassetteFred(short WXUNUSED(val))
 {
 }
 
 void Computer::cassetteFred(char WXUNUSED(val))
+{
+}
+
+void Computer::cassetteXmlHw(wxUint32 WXUNUSED(val), long WXUNUSED(size))
 {
 }
 

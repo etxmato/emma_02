@@ -62,6 +62,8 @@
         <threshold type="8bit">10</threshold>
         <threshold type="16bit">50</threshold>
         <filename cassette="0"></filename>
+        <channel type="audio">left</channel>
+        <channel type="data">right</channel>
     </cassette>
 
     <xlkeypad>

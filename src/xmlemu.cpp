@@ -5738,6 +5738,106 @@ void Xmlemu::startLoad(int tapeNumber, bool button)
 //    tapeRunSwitch_ = tapeRunSwitch_ | 1;
 }
 
+void Xmlemu::cassetteXmlHw(uint32_t val, long size)
+{
+    stepCassetteCounter(size);
+    
+    if (!elfConfiguration.useTapeHw)
+        return;
+    
+//    if ((tapeRunSwitch_&1) != 1)
+//        return;
+
+    int difference;
+    if (val < lastSample_)
+        difference = lastSample_ - val;
+    else
+        difference = val - lastSample_;
+    
+    if (difference < elfConfiguration.threshold16Bit)
+        silenceCount_++;
+    else
+    {
+        silenceCount_ = 0;
+        toneTime_++;
+    }
+    
+    switch (elfConfiguration.tapeFormat_)
+    {
+        case TAPE_FORMAT_AUTO:
+        case TAPE_FORMAT_PM:
+        case TAPE_FORMAT_56:
+            if (lastSampleChar_ <= 0)
+            {
+                if (val > 0 && silenceCount_ == 0)
+                    pulseCount_++;
+            }
+            else
+            {
+                if (val < 0 && silenceCount_ == 0)
+                    pulseCount_++;
+            }
+            
+            if (pulseCount_ > pulseCountStopTone_ && silenceCount_ > 10 && elfConfiguration.stopTone)
+            {
+                p_Computer->pauseTape();
+                p_Main->turboOff();
+        //        tapeRunSwitch_ = tapeRunSwitch_ & 2;
+            }
+        break;
+            
+        case TAPE_FORMAT_CV:
+            if (lastSample_ <= 0)
+            {
+                if (val > 0 && silenceCount_ == 0)
+                {
+                    pulseCount_++;
+                    cassetteCyberVision();
+                }
+            }
+            if (silenceCount_ > 10)
+                startBytes_ = 2;
+        break;
+    }
+
+    switch (elfConfiguration.tapeFormat_)
+    {
+        case TAPE_FORMAT_PM:
+            tapeFormatFixed_ = true;
+            cassettePm();
+        break;
+            
+        case TAPE_FORMAT_56:
+            pulseCountStopTone_ = 2000;
+            tapeFormatFixed_ = true;
+            tapeFormat56_ = true;
+            cassette56();
+        break;
+            
+        case TAPE_FORMAT_CV:
+        break;
+
+        default:
+            if (pulseCount_ > 50 && pulseCount_ < 200 && silenceCount_ > 10)
+            { // 5.2 & 6.2 tone format, if no tone is detected between 50 & 200 pulses at the start it is PM System format
+                pulseCountStopTone_ = 2000;
+                tapeFormatFixed_ = true;
+                tapeFormat56_ = true;
+//                if (computerType_ == FRED1)
+//                    p_Main->eventSetStaticTextValue("CurrentTapeFormatTextFRED1", "-> 5.2/6.2 Tone");
+//                else
+//                    p_Main->eventSetStaticTextValue("CurrentTapeFormatTextFRED1_5", "-> 5.2/6.2 Tone");
+            }
+            if (tapeFormat56_)
+                cassette56();
+            else
+                cassettePm();
+        break;
+    }
+    
+    lastSample_ = val;
+}
+
 void Xmlemu::cassetteXmlHw(short val, long size)
 {
     stepCassetteCounter(size);
@@ -5953,7 +6053,7 @@ void Xmlemu::stepCassetteCounter(long step)
     if (p_Main->isTurboOn() && p_Main->isForwardActivated())
         stepSize = 1;
 
-    long newPeriod = tapeCounterStep_*stepSize/sampleRate_;
+    long long newPeriod = tapeCounterStep_*stepSize/sampleRate_;
     
     if (tapePeriod_ != newPeriod)
     {

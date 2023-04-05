@@ -424,10 +424,13 @@ public:
     virtual void onInButtonPress();
     virtual void onInButtonPress(Byte value);
     virtual void realCassette(short val);
+    virtual void cassette(wxUint32 val);
     virtual void cassette(short val);
     virtual void cassette(char val);
+    virtual void cassetteFred(wxUint32 val);
     virtual void cassetteFred(short val);
     virtual void cassetteFred(char val);
+    virtual void cassetteXmlHw(wxUint32 val, long size);
     virtual void cassetteXmlHw(short val, long size);
     virtual void cassetteXmlHw(char val, long size);
     virtual void stepCassetteCounter(long step);
@@ -577,6 +580,9 @@ public:
     virtual void setBatchFileNumber(int WXUNUSED(number)) {};
     virtual void resetV1870VideoModeEf();
 
+    virtual bool isAudioChannelLeft() {return true;};
+    virtual bool isDataChannelLeft() {return true;};
+
 protected:
     RunComputer *threadPointer;
 
@@ -589,8 +595,8 @@ protected:
     Byte cassetteEf_;
     Byte oldCassetteEf_;
     short gaugeValue_;
-    short maxTapeInput_;
-    short lastTapeInput_;
+    wxUint32 maxTapeInput_;
+    wxUint32 lastTapeInput_;
     Byte tapePolarity_;
     int conversionType_;
     int conversionTypeWav_;
