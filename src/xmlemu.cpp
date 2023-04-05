@@ -1604,6 +1604,7 @@ void Xmlemu::out(Byte port, Word address, Byte value)
         break;
 
         case TAPE_CV_OUT:
+            
         break;
 
         // Folowing I/O is not adapted to ioGroups
@@ -4697,7 +4698,7 @@ void Xmlemu::configureExtensions()
         printBuffer.Printf("    EF %d: write buffer empty, EF %d: data ready", elfConfiguration.ioConfiguration.tapeEfOut, elfConfiguration.ioConfiguration.tapeEf);
         p_Main->message(printBuffer);
         
-        p_Computer->setInType(elfConfiguration.ioConfiguration.tapeIoGroup+1, elfConfiguration.ioConfiguration.tapeOut, TAPE_CV_OUT);
+        p_Computer->setOutType(elfConfiguration.ioConfiguration.tapeIoGroup+1, elfConfiguration.ioConfiguration.tapeOut, TAPE_CV_OUT);
         p_Computer->setInType(elfConfiguration.ioConfiguration.tapeIoGroup+1, elfConfiguration.ioConfiguration.tapeIn, TAPE_CV_IN);
         printBuffer.Printf("    Output %d: write data, Input %d: read data", elfConfiguration.ioConfiguration.tapeOut, elfConfiguration.ioConfiguration.tapeIn);
         p_Main->message(printBuffer);
