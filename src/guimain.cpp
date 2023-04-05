@@ -3856,7 +3856,11 @@ void GuiMain::startSave(int tapeNumber)
         p_Main->eventSetTapeState(TAPE_RECORD, tapeString);
     else
         p_Main->eventSetTapeState(TAPE_RECORD1, tapeString);
-    p_Computer->psaveStartTape(filePath, tapeString);
+    
+    if (elfConfiguration[runningComputer_].useTapeHw)
+        p_Computer->startSaveTapeHw(filePath, tapeString);
+    else
+        p_Computer->startSaveTape(filePath, tapeString);
 }
 
 void GuiMain::onTerminalSave(wxCommandEvent&WXUNUSED(event))

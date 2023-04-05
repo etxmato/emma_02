@@ -4445,6 +4445,7 @@ void XmlParser::parseXml_Cassette (int computer, wxXmlNode &node)
     {
         "ef",
         "in",
+        "out",
         "freq",
         "threshold",
         "stoptone",
@@ -4461,6 +4462,7 @@ void XmlParser::parseXml_Cassette (int computer, wxXmlNode &node)
     {
         TAG_EF,
         TAG_IN,
+        TAG_OUT,
         TAG_FREQ,
         TAG_THRESHOLD,
         TAG_STOPTONE,
@@ -4502,11 +4504,18 @@ void XmlParser::parseXml_Cassette (int computer, wxXmlNode &node)
         switch (tagTypeInt)
         {
             case TAG_EF:
-                elfConfiguration[computer].ioConfiguration.tapeEf = (int)parseXml_Number(*child);
+                if (child->GetAttribute("type") == "out")
+                    elfConfiguration[computer].ioConfiguration.tapeEfOut = (int)parseXml_Number(*child);
+                else
+                    elfConfiguration[computer].ioConfiguration.tapeEf = (int)parseXml_Number(*child);
             break;
 
             case TAG_IN:
                 elfConfiguration[computer].ioConfiguration.tapeIn = (int)parseXml_Number(*child);
+            break;
+
+            case TAG_OUT:
+                elfConfiguration[computer].ioConfiguration.tapeOut = (int)parseXml_Number(*child);
             break;
 
             case TAG_FREQ:

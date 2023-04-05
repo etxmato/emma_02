@@ -1054,6 +1054,10 @@ Byte Xmlemu::ef(int flag)
             return tapedataReady_;
         break;
 
+        case TAPE_CV_EF_OUT:
+            return 0;
+        break;
+
         case CV_KEYPAD_EF:
             return cvkeypadPointer->ef();
         break;
@@ -1599,7 +1603,9 @@ void Xmlemu::out(Byte port, Word address, Byte value)
             writeGpioControlRegister(value);
         break;
 
-            
+        case TAPE_CV_OUT:
+        break;
+
         // Folowing I/O is not adapted to ioGroups
         case COMXOUT:
             slotOut(value);
@@ -4686,12 +4692,14 @@ void Xmlemu::configureExtensions()
 
         p_Main->message("Configuring CyberVision Cassette" + ioGroup);
         
+        p_Computer->setEfType(elfConfiguration.ioConfiguration.tapeIoGroup+1, elfConfiguration.ioConfiguration.tapeEfOut, TAPE_CV_EF_OUT);
         p_Computer->setEfType(elfConfiguration.ioConfiguration.tapeIoGroup+1, elfConfiguration.ioConfiguration.tapeEf, TAPE_CV_EF);
-        printBuffer.Printf("    EF %d: data ready", elfConfiguration.ioConfiguration.tapeEf);
+        printBuffer.Printf("    EF %d: write buffer empty, EF %d: data ready", elfConfiguration.ioConfiguration.tapeEfOut, elfConfiguration.ioConfiguration.tapeEf);
         p_Main->message(printBuffer);
         
+        p_Computer->setInType(elfConfiguration.ioConfiguration.tapeIoGroup+1, elfConfiguration.ioConfiguration.tapeOut, TAPE_CV_OUT);
         p_Computer->setInType(elfConfiguration.ioConfiguration.tapeIoGroup+1, elfConfiguration.ioConfiguration.tapeIn, TAPE_CV_IN);
-        printBuffer.Printf("    Input %d: read data", elfConfiguration.ioConfiguration.tapeIn);
+        printBuffer.Printf("    Output %d: write data, Input %d: read data", elfConfiguration.ioConfiguration.tapeOut, elfConfiguration.ioConfiguration.tapeIn);
         p_Main->message(printBuffer);
 
         p_Main->eventPlayActivated(true);

@@ -54,7 +54,8 @@ public:
     void startWavSound(wxString fileName);
     void readWav(Uint8* inputBuffer, short* outBuffer, size_t remaining, float gain);
     int LoadAndConvertSound(wxString filename, SDL_AudioSpec *spec);
-    void psaveStartTape(wxString fileName, wxString tapeNumber);
+    void startSaveTape(wxString fileName, wxString tapeNumber);
+    bool startSaveTapeHw(wxString fileName, wxString tapeNumber);
     void stopTape();
     void pauseTape();
     void restartTapeSave(int tapeState);

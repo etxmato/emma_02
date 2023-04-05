@@ -229,6 +229,8 @@ public:
 
     int tapeEf;
     int tapeIn;
+    int tapeEfOut;
+    int tapeOut;
     int tapeIoGroup;
 
     int v1870ioGroup;

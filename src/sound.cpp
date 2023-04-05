@@ -857,7 +857,7 @@ void Sound::startWavSound(wxString fileName)
         delete wavSoundPointer;
 }
 
-void Sound::psaveStartTape(wxString fileName, wxString tapeNumber)
+void Sound::startSaveTape(wxString fileName, wxString tapeNumber)
 {
     tapeNumber_ = tapeNumber;
 
@@ -895,6 +895,43 @@ void Sound::psaveStartTape(wxString fileName, wxString tapeNumber)
         delete psaveWavePointer;
         p_Main->eventSetTapeState(TAPE_STOP, tapeNumber_);
     }
+}
+
+bool Sound::startSaveTapeHw(wxString fileName, wxString tapeNumber)
+{
+    tapeNumber_ = tapeNumber;
+
+    sampleRate_ = 22050;
+    switch (psaveBitRate_)
+    {
+        case 0:
+            sampleRate_ = 11025;
+        break;
+        case 1:
+            sampleRate_ = 22050;
+        break;
+        case 2:
+            sampleRate_ = 44100;
+        break;
+        case 3:
+            sampleRate_ = 88200;
+        break;
+    }
+    if (tapeBufferPointer->set_sample_rate(sampleRate_))
+        p_Main->message("Cassette sound error: out of memory");
+    if (psaveBitsPerSample_ == 0)
+        psaveWavePointer = new WaveWriter(sampleRate_, 8);
+    else
+        psaveWavePointer = new WaveWriter(sampleRate_, 16);
+
+    if (!psaveWavePointer->openFile(fileName))
+    {
+        p_Main->message("Cassette sound error: Can't open file");
+        delete psaveWavePointer;
+        p_Main->eventSetTapeState(TAPE_STOP, tapeNumber_);
+        return false;
+    }
+    return true;
 }
 
 void Sound::stopTape()

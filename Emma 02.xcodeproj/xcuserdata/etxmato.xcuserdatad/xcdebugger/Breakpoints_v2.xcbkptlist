@@ -14,8 +14,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5725"
-            endingLineNumber = "5725"
+            startingLineNumber = "5733"
+            endingLineNumber = "5733"
             landmarkName = "Xmlemu::startLoad(tapeNumber, button)"
             landmarkType = "7">
          </BreakpointContent>
@@ -30,8 +30,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5713"
-            endingLineNumber = "5713"
+            startingLineNumber = "5721"
+            endingLineNumber = "5721"
             landmarkName = "Xmlemu::startLoad(tapeNumber, button)"
             landmarkType = "7">
          </BreakpointContent>
@@ -62,8 +62,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6061"
-            endingLineNumber = "6061"
+            startingLineNumber = "6069"
+            endingLineNumber = "6069"
             landmarkName = "Xmlemu::stepCassetteCounter(step)"
             landmarkType = "7">
          </BreakpointContent>
@@ -78,8 +78,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6063"
-            endingLineNumber = "6063"
+            startingLineNumber = "6071"
+            endingLineNumber = "6071"
             landmarkName = "Xmlemu::stepCassetteCounter(step)"
             landmarkType = "7">
          </BreakpointContent>
@@ -94,8 +94,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6058"
-            endingLineNumber = "6058"
+            startingLineNumber = "6066"
+            endingLineNumber = "6066"
             landmarkName = "Xmlemu::stepCassetteCounter(step)"
             landmarkType = "7">
          </BreakpointContent>
@@ -110,8 +110,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6292"
-            endingLineNumber = "6292"
+            startingLineNumber = "6300"
+            endingLineNumber = "6300"
             landmarkName = "Xmlemu::finishStopTape()"
             landmarkType = "7">
          </BreakpointContent>
@@ -126,8 +126,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6118"
-            endingLineNumber = "6118"
+            startingLineNumber = "6126"
+            endingLineNumber = "6126"
             landmarkName = "Xmlemu::cassetteCyberVision()"
             landmarkType = "7">
          </BreakpointContent>
@@ -142,8 +142,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6133"
-            endingLineNumber = "6133"
+            startingLineNumber = "6141"
+            endingLineNumber = "6141"
             landmarkName = "Xmlemu::cassetteCyberVision()"
             landmarkType = "7">
          </BreakpointContent>
@@ -206,8 +206,8 @@
             filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4369"
-            endingLineNumber = "4369"
+            startingLineNumber = "4373"
+            endingLineNumber = "4373"
             landmarkName = "GuiMain::enableLoadGui(status)"
             landmarkType = "7">
          </BreakpointContent>
@@ -222,8 +222,8 @@
             filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4515"
-            endingLineNumber = "4515"
+            startingLineNumber = "4519"
+            endingLineNumber = "4519"
             landmarkName = "GuiMain::setTapeState(tapeState, tapeNumber)"
             landmarkType = "7">
          </BreakpointContent>
@@ -238,8 +238,8 @@
             filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4416"
-            endingLineNumber = "4416"
+            startingLineNumber = "4420"
+            endingLineNumber = "4420"
             landmarkName = "GuiMain::setTapeState(tapeState, tapeNumber)"
             landmarkType = "7">
          </BreakpointContent>
@@ -254,8 +254,8 @@
             filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4315"
-            endingLineNumber = "4315"
+            startingLineNumber = "4319"
+            endingLineNumber = "4319"
             landmarkName = "GuiMain::enableLoadGui(status)"
             landmarkType = "7">
          </BreakpointContent>
@@ -286,8 +286,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6047"
-            endingLineNumber = "6047"
+            startingLineNumber = "6055"
+            endingLineNumber = "6055"
             landmarkName = "Xmlemu::stepCassetteCounter(step)"
             landmarkType = "7">
          </BreakpointContent>
@@ -302,8 +302,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6048"
-            endingLineNumber = "6048"
+            startingLineNumber = "6056"
+            endingLineNumber = "6056"
             landmarkName = "Xmlemu::stepCassetteCounter(step)"
             landmarkType = "7">
          </BreakpointContent>
@@ -318,8 +318,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6051"
-            endingLineNumber = "6051"
+            startingLineNumber = "6059"
+            endingLineNumber = "6059"
             landmarkName = "Xmlemu::stepCassetteCounter(step)"
             landmarkType = "7">
          </BreakpointContent>
@@ -350,8 +350,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6105"
-            endingLineNumber = "6105"
+            startingLineNumber = "6113"
+            endingLineNumber = "6113"
             landmarkName = "Xmlemu::cassetteCyberVision()"
             landmarkType = "7">
          </BreakpointContent>
@@ -366,8 +366,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6106"
-            endingLineNumber = "6106"
+            startingLineNumber = "6114"
+            endingLineNumber = "6114"
             landmarkName = "Xmlemu::cassetteCyberVision()"
             landmarkType = "7">
          </BreakpointContent>
@@ -382,8 +382,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6132"
-            endingLineNumber = "6132"
+            startingLineNumber = "6140"
+            endingLineNumber = "6140"
             landmarkName = "Xmlemu::cassetteCyberVision()"
             landmarkType = "7">
          </BreakpointContent>
@@ -398,8 +398,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5890"
-            endingLineNumber = "5890"
+            startingLineNumber = "5898"
+            endingLineNumber = "5898"
             landmarkName = "Xmlemu::cassetteXmlHw(val, size)"
             landmarkType = "7">
          </BreakpointContent>
@@ -414,8 +414,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5899"
-            endingLineNumber = "5899"
+            startingLineNumber = "5907"
+            endingLineNumber = "5907"
             landmarkName = "Xmlemu::cassetteXmlHw(val, size)"
             landmarkType = "7">
          </BreakpointContent>
@@ -430,8 +430,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5999"
-            endingLineNumber = "5999"
+            startingLineNumber = "6007"
+            endingLineNumber = "6007"
             landmarkName = "Xmlemu::cassetteXmlHw(val, size)"
             landmarkType = "7">
          </BreakpointContent>
@@ -446,8 +446,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6135"
-            endingLineNumber = "6135"
+            startingLineNumber = "6143"
+            endingLineNumber = "6143"
             landmarkName = "Xmlemu::cassetteCyberVision()"
             landmarkType = "7">
          </BreakpointContent>
@@ -478,8 +478,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5894"
-            endingLineNumber = "5894"
+            startingLineNumber = "5902"
+            endingLineNumber = "5902"
             landmarkName = "Xmlemu::cassetteXmlHw(val, size)"
             landmarkType = "7">
          </BreakpointContent>
@@ -510,8 +510,8 @@
             filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4102"
-            endingLineNumber = "4102"
+            startingLineNumber = "4106"
+            endingLineNumber = "4106"
             landmarkName = "GuiMain::turboOff()"
             landmarkType = "7">
          </BreakpointContent>
@@ -526,8 +526,8 @@
             filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4077"
-            endingLineNumber = "4077"
+            startingLineNumber = "4081"
+            endingLineNumber = "4081"
             landmarkName = "GuiMain::turboOn()"
             landmarkType = "7">
          </BreakpointContent>
@@ -542,8 +542,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5729"
-            endingLineNumber = "5729"
+            startingLineNumber = "5737"
+            endingLineNumber = "5737"
             landmarkName = "Xmlemu::startLoad(tapeNumber, button)"
             landmarkType = "7">
          </BreakpointContent>
@@ -558,8 +558,8 @@
             filePath = "src/sound.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1057"
-            endingLineNumber = "1057"
+            startingLineNumber = "1094"
+            endingLineNumber = "1094"
             landmarkName = "Sound::setPsaveSettings()"
             landmarkType = "7">
          </BreakpointContent>
@@ -574,8 +574,8 @@
             filePath = "src/sound.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1059"
-            endingLineNumber = "1059"
+            startingLineNumber = "1096"
+            endingLineNumber = "1096"
             landmarkName = "Sound::setPsaveSettings()"
             landmarkType = "7">
          </BreakpointContent>
@@ -622,8 +622,8 @@
             filePath = "src/waveReader.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "226"
-            endingLineNumber = "226"
+            startingLineNumber = "239"
+            endingLineNumber = "239"
             landmarkName = "WaveReader::read(outBuffer, remaining, gain)"
             landmarkType = "7">
          </BreakpointContent>

@@ -115,12 +115,25 @@ long WaveReader::read(sample_t* outBuffer, size_t remaining, float gain)
 
     unsigned char* bufferPointer = &buffer [0];
 
+    bool dataChannelLeft, audioChannelLeft;
+    
+    if (channelCount_ == 1)
+    {
+        dataChannelLeft = true;
+        audioChannelLeft = true;
+    }
+    else
+    {
+        dataChannelLeft = p_Computer->isDataChannelLeft();
+        audioChannelLeft = p_Computer->isAudioChannelLeft();
+    }
+    
     switch (frameSize_/channelCount_)
     {
         case 3:
             while(in--)
             {
-                if (p_Computer->isAudioChannelLeft())
+                if (audioChannelLeft)
                 {
                     audio24 = *bufferPointer++;
                     audio24 += *bufferPointer++ << 8;
@@ -128,7 +141,7 @@ long WaveReader::read(sample_t* outBuffer, size_t remaining, float gain)
                     bufferPointer--;
                     *outBuffer++ = (short)audio24*gain/2;
                 }
-                if (p_Computer->isDataChannelLeft())
+                if (dataChannelLeft)
                 {
                     data24 = *bufferPointer++;
                     data24 += *bufferPointer++ << 8;
@@ -137,7 +150,7 @@ long WaveReader::read(sample_t* outBuffer, size_t remaining, float gain)
                 }
                 bufferPointer += frameSize_/2;
 
-                if (!p_Computer->isAudioChannelLeft()) // audio channel right
+                if (!audioChannelLeft) // audio channel right
                 {
                     audio24 = *bufferPointer++;
                     audio24 += *bufferPointer++ << 8;
@@ -145,7 +158,7 @@ long WaveReader::read(sample_t* outBuffer, size_t remaining, float gain)
                     bufferPointer--;
                     *outBuffer++ = (short)audio24*gain/2;
                 }
-                if (!p_Computer->isDataChannelLeft()) // data channel right
+                if (!dataChannelLeft) // data channel right
                 {
                     data24 = *bufferPointer++;
                     data24 += *bufferPointer++ << 8;
@@ -162,26 +175,26 @@ long WaveReader::read(sample_t* outBuffer, size_t remaining, float gain)
         case 2:
             while(in--)
             {
-                if (p_Computer->isAudioChannelLeft())
+                if (audioChannelLeft)
                 {
                     audioWord = *bufferPointer++;
                     audioWord += *bufferPointer-- << 8;
                     *outBuffer++ = (short)audioWord*gain/2;
                 }
-                if (p_Computer->isDataChannelLeft())
+                if (dataChannelLeft)
                 {
                     dataWord = *bufferPointer++;
                     dataWord += *bufferPointer-- << 8;
                 }
                 bufferPointer += frameSize_/2;
 
-                if (!p_Computer->isAudioChannelLeft()) // audio channel right
+                if (!audioChannelLeft) // audio channel right
                 {
                     audioWord = *bufferPointer++;
                     audioWord += *bufferPointer-- << 8;
                     *outBuffer++ = (short)audioWord*gain/2;
                 }
-                if (!p_Computer->isDataChannelLeft()) // data channel right
+                if (!dataChannelLeft) // data channel right
                 {
                     dataWord = *bufferPointer++;
                     dataWord += *bufferPointer-- << 8;
@@ -196,23 +209,23 @@ long WaveReader::read(sample_t* outBuffer, size_t remaining, float gain)
         case 1:
             while(in--)
             {
-                if (p_Computer->isAudioChannelLeft())
+                if (audioChannelLeft)
                 {
                     audioByte = *bufferPointer;
                     *outBuffer++ = (short) ((audioByte ^ 0x80) << 8)*gain/2;
                 }
-                if (p_Computer->isDataChannelLeft())
+                if (dataChannelLeft)
                 {
                     dataByte = *bufferPointer;
                 }
                 bufferPointer += frameSize_/2;
 
-                if (!p_Computer->isAudioChannelLeft()) // audio channel right
+                if (!audioChannelLeft) // audio channel right
                 {
                     audioByte = *bufferPointer;
                     *outBuffer++ = (short) ((audioByte ^ 0x80) << 8)*gain/2;
                 }
-                if (!p_Computer->isDataChannelLeft()) // data channel right
+                if (!dataChannelLeft) // data channel right
                 {
                     dataByte = *bufferPointer;
                 }
