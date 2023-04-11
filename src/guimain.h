@@ -229,8 +229,7 @@ public:
     void onChoiceRam(wxCommandEvent&event);
     void onChoiceCpu(wxCommandEvent&event);
 
-    bool isForwardActivated() {return forwardActivated_;};
-    bool isPlayActivated() {return playActivated_;};
+    int getHwTapeState() {return hwTapeState_;}
 
     void onPsaveMenu(wxCommandEvent& event);
     void onVtSetup(wxCommandEvent& event);
@@ -658,18 +657,18 @@ protected:
     wxColour guiBackGround_;
     wxColour guiTextColour[GUI_COL_MAX];
 
-    bool playActivated_;
-    bool forwardActivated_;
+    int hwTapeState_;
     wxBitmap forwardBlackBitmap;
     wxBitmap forwardGreenBitmap;
     wxBitmap forwardDarkGreenBitmap;
     wxBitmap playBlackBitmap;
     wxBitmap playDarkGreenBitmap;
     wxBitmap playGreenBitmap;
-
-private:
     wxBitmap recOffBitmap;
     wxBitmap recOnBitmap;
+    wxBitmap recPressedBitmap;
+
+private:
     wxBitmap realCasOffBitmap;
     wxBitmap realCasOnBitmap;
     wxBitmap printerOffBitmap;

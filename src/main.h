@@ -260,8 +260,7 @@ protected:
 #define ENABLE_CLOCK 43
 #define PAUSE_STATE 44
 #define SET_BUTTON_LABEL 45
-#define SET_PLAY_ACTIVATED 46
-#define SET_FF_ACTIVATED 47
+#define CHANGE_HW_TAPE_STATE 46
 
 #define OS_WINDOWS_2000 0
 #define OS_WINDOWS_XP 1
@@ -1302,11 +1301,8 @@ public:
     void setEnableClockEvent(guiEvent& event);
     void eventEnableClock(bool state);
 
-    void setPlayActivatedEvent(guiEvent& event);
-    void eventPlayActivated(bool status);
-
-    void setForwardActivatedEvent(guiEvent& event);
-    void eventForwardActivated(bool status);
+    void setHwTapeStateEvent(guiEvent& event);
+    void eventHwTapeStateChange(int status);
 
     void setSaveStartEvent(guiEvent& event);
     void eventSaveStart(Word saveStart);

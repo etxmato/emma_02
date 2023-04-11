@@ -603,8 +603,7 @@ BEGIN_EVENT_TABLE(Main, DebugWindow)
     EVT_GUI_MSG(SET_DIAGLED, Main::setUpdateDiagLedStatus)
     EVT_GUI_MSG(ENABLE_CLOCK, Main::setEnableClockEvent)
     EVT_GUI_MSG(PAUSE_STATE, Main::setPauseStateEvent)
-    EVT_GUI_MSG(SET_PLAY_ACTIVATED, Main::setPlayActivatedEvent)
-    EVT_GUI_MSG(SET_FF_ACTIVATED, Main::setForwardActivatedEvent)
+    EVT_GUI_MSG(CHANGE_HW_TAPE_STATE, Main::setHwTapeStateEvent)
 
 
     EVT_SYS_COLOUR_CHANGED(Main::sysColourChangeEvent)
@@ -8627,54 +8626,48 @@ void Main::eventEnableClock(bool state)
    GetEventHandler()->AddPendingEvent(event);
 }
 
-void Main::setPlayActivatedEvent(guiEvent&event)
+void Main::setHwTapeStateEvent(guiEvent&event)
 {
-    if (!mode_.gui)
-        return;
+   if (!mode_.gui)
+      return;
 
-   playActivated_ = event.GetBoolValue();
-   if (playActivated_)
+   hwTapeState_ = event.GetInt();
+   
+   switch (hwTapeState_)
    {
-       forwardActivated_ = false;
-       XRCCTRL(*this, "CasLoad"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(playDarkGreenBitmap);
-       XRCCTRL(*this, "CasForward"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(forwardBlackBitmap);
+      case HW_TAPE_STATE_PLAY:
+         XRCCTRL(*this, "CasLoad"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(playDarkGreenBitmap);
+         XRCCTRL(*this, "CasForward"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(forwardBlackBitmap);
+         XRCCTRL(*this, "CasSave"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(recOffBitmap);
+      break;
+        
+      case HW_TAPE_STATE_FF:
+         XRCCTRL(*this, "CasLoad"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(playBlackBitmap);
+         XRCCTRL(*this, "CasForward"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(forwardDarkGreenBitmap);
+         XRCCTRL(*this, "CasSave"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(recOffBitmap);
+      break;
+        
+      case HW_TAPE_STATE_REC:
+         XRCCTRL(*this, "CasLoad"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(playBlackBitmap);
+         XRCCTRL(*this, "CasForward"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(forwardBlackBitmap);
+         XRCCTRL(*this, "CasSave"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(recOnBitmap);
+      break;
+        
+      default:
+         hwTapeState_ = HW_TAPE_STATE_OFF;
+         XRCCTRL(*this, "CasLoad"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(playBlackBitmap);
+         XRCCTRL(*this, "CasForward"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(forwardBlackBitmap);
+         XRCCTRL(*this, "CasSave"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(recOffBitmap);
+      break;
    }
-   else
-       XRCCTRL(*this, "CasLoad"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(playBlackBitmap);
 }
 
-void Main::eventPlayActivated(bool status)
+void Main::eventHwTapeStateChange(int status)
 {
-   guiEvent event(GUI_MSG, SET_PLAY_ACTIVATED);
+   guiEvent event(GUI_MSG, CHANGE_HW_TAPE_STATE);
    event.SetEventObject( p_Main );
    
-   event.SetBoolValue(status);
-
-   GetEventHandler()->AddPendingEvent(event);
-}
-
-void Main::setForwardActivatedEvent(guiEvent&event)
-{
-    if (!mode_.gui)
-        return;
-
-   forwardActivated_ = event.GetBoolValue();
-   if (forwardActivated_)
-   {
-       playActivated_ = false;
-       XRCCTRL(*this, "CasForward"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(forwardDarkGreenBitmap);
-       XRCCTRL(*this, "CasLoad"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(playBlackBitmap);
-   }
-   else
-       XRCCTRL(*this, "CasForward"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(forwardBlackBitmap);
-}
-
-void Main::eventForwardActivated(bool status)
-{
-   guiEvent event(GUI_MSG, SET_FF_ACTIVATED);
-   event.SetEventObject( p_Main );
-   
-   event.SetBoolValue(status);
+   event.SetInt(status);
 
    GetEventHandler()->AddPendingEvent(event);
 }

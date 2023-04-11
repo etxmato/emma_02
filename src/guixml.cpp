@@ -244,8 +244,7 @@ void GuiXml::readXmlConig()
     conf[XML].saveStart_ = value;
 
     configPointer->Read("Xmlemu/UseLoadLocation", &conf[XML].useLoadLocation_, false);
-    forwardActivated_ = false;
-    playActivated_ = elfConfiguration[XML].useTapeHw;
+    hwTapeState_ = HW_TAPE_STATE_PLAY;
     
     if (elfConfiguration[XML].useTapeHw)
         conf[XML].autoCassetteLoad_ = true;
@@ -672,14 +671,14 @@ void GuiXml::setXmlGui()
 #endif
 
     XRCCTRL(*this, "CasForwardXml", wxBitmapButton)->Enable(elfConfiguration[XML].useTapeHw);
-    if (forwardActivated_)
+    if (hwTapeState_ == HW_TAPE_STATE_FF)
         XRCCTRL(*this, "CasForwardXml", wxBitmapButton)->SetBitmapLabel(forwardDarkGreenBitmap);
     else
         XRCCTRL(*this, "CasForwardXml", wxBitmapButton)->SetBitmapLabel(forwardBlackBitmap);
     if (elfConfiguration[XML].useTapeHw)
     {
         XRCCTRL(*this, "CasLoadXml", wxBitmapButton)->Enable(true);
-        if (playActivated_)
+        if (hwTapeState_ == HW_TAPE_STATE_PLAY)
             XRCCTRL(*this, "CasLoadXml", wxBitmapButton)->SetBitmapLabel(playDarkGreenBitmap);
         else
             XRCCTRL(*this, "CasLoadXml", wxBitmapButton)->SetBitmapLabel(playBlackBitmap);

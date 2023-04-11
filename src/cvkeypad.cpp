@@ -33,6 +33,7 @@
 CvKeypad::CvKeypad()
 {
     keyPressed_ = 1;
+    unreadInput_ = 0;
 }
 
 void CvKeypad::configure(IoConfiguration ioConf)
@@ -143,6 +144,7 @@ void CvKeypad::keyDown(int keycode,  wxKeyEvent& event)
 
     keyboardCode_ = input | shiftPressed;
     keyPressed_ = 0;
+    unreadInput_ = 1;
 }
 
 void CvKeypad::keyUp(int keycode, wxKeyEvent& WXUNUSED(event))
@@ -208,6 +210,7 @@ void CvKeypad::keyUp(int keycode, wxKeyEvent& WXUNUSED(event))
 
                 keyboardCode_ = newKey | secondKeyboardCodes[5];
                 keyPressed_ = 0;
+                unreadInput_ = 1;
             break;
         }
     }
@@ -217,14 +220,14 @@ Byte CvKeypad::in()
 {
     Byte ret = keyboardCode_;
     
-    keyboardCode_ = 0xff;
+    unreadInput_ = 0;
     return ret;
 }
 
 Byte CvKeypad::ef()
 {
     if (ioConfiguration_.cvKeypad.reversed)
-        return keyPressed_^0x1;
+        return unreadInput_;
     else
-        return keyPressed_;
+        return unreadInput_ ^ 0x1;
 }

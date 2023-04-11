@@ -55,10 +55,14 @@ public:
     void readWav(Uint8* inputBuffer, short* outBuffer, size_t remaining, float gain);
     int LoadAndConvertSound(wxString filename, SDL_AudioSpec *spec);
     void startSaveTape(wxString fileName, wxString tapeNumber);
-    bool startSaveTapeHw(wxString fileName, wxString tapeNumber);
+    void startSaveTapeHw(wxString fileName, wxString tapeNumber);
+    void outSaveTapeHw(Byte value);
+    void writeSilenceTapeHw();
+    int writeSaveTapeHw(Byte value);
     void stopTape();
     void pauseTape();
     void restartTapeSave(int tapeState);
+    void restartHwTapeSave(int tapeState);
     void restartTapeLoad(int tapeState);
     void stopPausedLoad();
     void stopPausedSave();
@@ -91,6 +95,8 @@ protected:
     int forwardSpeed_;
     double remainingForwardSpeed_;
 
+    Byte tapeHwReadyToReceive_;
+
 private:
     Blip_Buffer *soundBufferPointerLeft;
     Blip_Buffer *soundBufferPointerRight;
@@ -120,6 +126,8 @@ private:
 
     bool stopTheTape_;
     wxString tapeNumber_;
+    bool hwSaveOn_;
+    bool hwSavePaused_;
     bool psaveOn_;
     bool ploadOn_;
     bool forwardOn_;
@@ -148,6 +156,9 @@ private:
     int stereo_;
     bool inputChannel_;
     bool studioBeep_;
+    
+    Byte tapeHwOutputValue_;
+    int numberOfSamples_;
 };
 
 #endif  // SOUND_H

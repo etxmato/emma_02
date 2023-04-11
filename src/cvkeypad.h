@@ -20,7 +20,9 @@ private:
 
     Byte keyboardCode_;
     Byte keyPressed_;
-    
+    Byte unreadInput_;
+
+
     int secondKeyboardCodes[6];
 };
 

@@ -70,6 +70,13 @@ Sound::Sound()
 
 Sound::~Sound()
 {
+    if (hwSaveOn_ || hwSavePaused_)
+    {
+        psaveWavePointer->closeFile();
+        delete psaveWavePointer;
+        p_Main->eventHwTapeStateChange(HW_TAPE_STATE_OFF);
+    }
+
     delete soundBufferPointerLeft;
     delete soundBufferPointerRight;
     delete tapeBufferPointer;
@@ -109,9 +116,13 @@ void Sound::initSound(double clock, double percentageClock, int computerType, in
     noiseOn_ = false;
     psaveOn_ = false;
     ploadOn_ = false;
+    hwSaveOn_ = false;
+    hwSavePaused_ = false;
     forwardOn_ = false;
     wavOn_ = false;
     stopTheTape_ = false;
+    tapeHwReadyToReceive_ = 0;
+    numberOfSamples_ = 0;
     soundTime_ = 0;
     decayTime_ = 0;
 
@@ -727,7 +738,7 @@ void Sound::psaveAmplitudeZero()
 
 void Sound::playSaveLoad()
 {
-    if (!psaveOn_ && !ploadOn_ && !wavOn_)
+    if (!psaveOn_ && !ploadOn_ && !wavOn_ && !hwSaveOn_)
         return;
 
     if (stopTheTape_)
@@ -736,15 +747,35 @@ void Sound::playSaveLoad()
         return;
     }
 
+    int sample_count;
+
+    if (hwSaveOn_)
+    {
+        if (numberOfSamples_ <= 0)
+        {
+            if (tapeHwReadyToReceive_ == 1)
+            {
+                sample_count = writeSaveTapeHw(tapeHwOutputValue_);
+                numberOfSamples_ += sample_count;
+            }
+            else
+                writeSilenceTapeHw();
+        }
+        else
+            numberOfSamples_--;
+        return;
+    }
+
     tapeBufferPointer->end_frame(soundTime_);
 
     int const soundBufferSize = 256;
     short samples [soundBufferSize];
     short ploadSamples [soundBufferSize];
+
     while(true)
     {
         // Read as many samples as possible
-        int sample_count = (int)tapeBufferPointer->read_samples(samples, soundBufferSize);
+        sample_count = (int)tapeBufferPointer->read_samples(samples, soundBufferSize);
 
         // Stop if no more samples are avialable
         if (sample_count == 0)
@@ -797,6 +828,7 @@ void Sound::playSaveLoad()
             else
                 psaveWavePointer->write(samples, sample_count);
         }
+        
     }
     playSoundBuffer();
 }
@@ -897,7 +929,7 @@ void Sound::startSaveTape(wxString fileName, wxString tapeNumber)
     }
 }
 
-bool Sound::startSaveTapeHw(wxString fileName, wxString tapeNumber)
+void Sound::startSaveTapeHw(wxString fileName, wxString tapeNumber)
 {
     tapeNumber_ = tapeNumber;
 
@@ -924,19 +956,90 @@ bool Sound::startSaveTapeHw(wxString fileName, wxString tapeNumber)
     else
         psaveWavePointer = new WaveWriter(sampleRate_, 16);
 
-    if (!psaveWavePointer->openFile(fileName))
+    if (psaveWavePointer->openFile(fileName))
+        hwSaveOn_ = true;
+    else
     {
         p_Main->message("Cassette sound error: Can't open file");
         delete psaveWavePointer;
         p_Main->eventSetTapeState(TAPE_STOP, tapeNumber_);
-        return false;
     }
-    return true;
+}
+
+void Sound::outSaveTapeHw(Byte value)
+{
+    tapeHwOutputValue_ = value;
+    tapeHwReadyToReceive_ = 1;
+}
+
+void Sound::writeSilenceTapeHw()
+{
+    short samples [1];
+    unsigned char samples8bit [1];
+
+    samples[0] = 0;
+    if (psaveBitsPerSample_ == 0)
+    {
+        unsigned char samples8bit [1];
+        convertTo8Bit(samples, 1, samples8bit);
+        psaveWavePointer->write(samples8bit, 1);
+    }
+    else
+        psaveWavePointer->write(samples, 1);
+}
+
+int Sound::writeSaveTapeHw(Byte value)
+{
+    if (!hwSaveOn_)
+        return 0;
+    
+    tapeHwReadyToReceive_ = 0;
+
+    short samples [1];
+    unsigned char samples8bit [1];
+    int sample_count = 0;
+
+    int const amplitude_max = 16384;
+    int const freq0 = 4000;
+    int const freq1 = 2000;
+    float const period = (float)1/2000;
+
+    int freq;
+        
+    for (int bit = 0; bit <10; bit++)
+    {
+        if (bit == 0)
+            freq = freq1;
+        else if (bit == 9)
+            freq = freq0;
+        else
+        {
+            if ((value & 0x80) == 0x80)
+                freq = freq1;
+            else
+                freq = freq0;
+            value = value << 1;
+        }
+  
+        while((float)sample_count/sampleRate_ < (float)(bit+1) * period)
+        {
+            samples[0] = (amplitude_max * sin(2 * freq * M_PI*((float)sample_count/sampleRate_ - (float)bit * period)));
+            sample_count++;
+            if (psaveBitsPerSample_ == 0)
+            {
+                convertTo8Bit(samples, 1, samples8bit);
+                psaveWavePointer->write(samples8bit, 1);
+            }
+            else
+                psaveWavePointer->write(samples, 1);
+        }
+    }
+    return sample_count;
 }
 
 void Sound::stopTape()
 {
-    if (!ploadOn_ && !psaveOn_ && !forwardOn_)
+    if (!ploadOn_ && !psaveOn_ && !forwardOn_ && !hwSaveOn_ && !hwSavePaused_)
         return;
 
     p_Computer->resetGaugeValue();
@@ -951,11 +1054,13 @@ void Sound::stopTape()
         if (computerType_ == ETI)
             p_Computer->finishStopTape();
     }
-    if (psaveOn_)
+    if (psaveOn_ || hwSaveOn_ || hwSavePaused_)
     {
         psaveWavePointer->closeFile();
         delete psaveWavePointer;
         psaveOn_ = false;
+        hwSaveOn_ = false;
+        hwSavePaused_ = false;
     }
     p_Main->eventSetTapeState(TAPE_STOP, tapeNumber_);
     if (computerType_ == XML || computerType_ == FRED1 || computerType_ == FRED1_5 || computerType_ == VIP || computerType_ == STUDIOIV)
@@ -978,6 +1083,14 @@ void Sound::pauseTape()
 //        p_Main->turboOff();
         psaveOn_ = false;
     }
+    if (hwSaveOn_)
+    {
+        if (tapeHwReadyToReceive_ == 1)
+            writeSaveTapeHw(tapeHwOutputValue_);
+        hwSaveOn_ = false;
+        hwSavePaused_ = true;
+    }
+
     if (computerType_ == FRED1 || computerType_ == FRED1_5)
         p_Main->eventSetTapeState(TAPE_PAUSE, tapeNumber_);
     else
@@ -989,6 +1102,13 @@ void Sound::restartTapeSave(int tapeState)
 {
 //    p_Main->turboOn();
     psaveOn_ = true;
+    p_Main->eventSetTapeState(tapeState, tapeNumber_);
+}
+
+void Sound::restartHwTapeSave(int tapeState)
+{
+    hwSaveOn_ = true;
+    hwSavePaused_ = false;
     p_Main->eventSetTapeState(tapeState, tapeNumber_);
 }
 

@@ -32,6 +32,14 @@
 
 enum
 {
+    HW_TAPE_STATE_OFF,
+    HW_TAPE_STATE_PLAY,
+    HW_TAPE_STATE_FF,
+    HW_TAPE_STATE_REC,
+};
+
+enum
+{
     COL_V1870_MAIN =56,
     COL_MC6845_FORE =64,
     COL_MC6845_BACK,

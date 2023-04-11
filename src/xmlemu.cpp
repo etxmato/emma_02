@@ -922,7 +922,7 @@ void Xmlemu::resetComputer()
     {
         tapeActivated_ = false;
         p_Computer->stopTape();
-        p_Main->eventPlayActivated(true);
+        p_Main->eventHwTapeStateChange(HW_TAPE_STATE_PLAY);
         p_Main->eventSetStaticTextValue("CasCounterXml", "00:00:000");
     }
 }
@@ -1055,7 +1055,7 @@ Byte Xmlemu::ef(int flag)
         break;
 
         case TAPE_CV_EF_OUT:
-            return 0;
+            return tapeHwReadyToReceive_;
         break;
 
         case CV_KEYPAD_EF:
@@ -1604,7 +1604,7 @@ void Xmlemu::out(Byte port, Word address, Byte value)
         break;
 
         case TAPE_CV_OUT:
-            
+            outSaveTapeHw(value);
         break;
 
         // Folowing I/O is not adapted to ioGroups
@@ -2298,14 +2298,32 @@ void Xmlemu::switchQ(int value)
     {
         if (qState_ == 0)
         {
-            if (tapeActivated_)
-            {
-                p_Computer->pauseTape();
-                p_Main->turboOff();
-            }
+//            if (p_Main->getHwTapeState() == HW_TAPE_STATE_REC)
+//                stopTape();
+//            else
+//            {
+                if (tapeActivated_)
+                {
+                    p_Computer->pauseTape();
+                    p_Main->turboOff();
+                }
+ //           }
         }
         else
-            startLoad(0, false);
+        {
+            if (p_Main->getHwTapeState() == HW_TAPE_STATE_REC)
+            {
+                if (tapeRecording_)
+                    restartHwTapeSave(TAPE_RECORD);
+                else
+                {
+                    p_Main->startSave(0);
+                    tapeRecording_ = true;
+                }
+            }
+            else
+                startLoad(0, false);
+        }
     }
 }
 
@@ -4703,7 +4721,7 @@ void Xmlemu::configureExtensions()
         printBuffer.Printf("    Output %d: write data, Input %d: read data", elfConfiguration.ioConfiguration.tapeOut, elfConfiguration.ioConfiguration.tapeIn);
         p_Main->message(printBuffer);
 
-        p_Main->eventPlayActivated(true);
+        p_Main->eventHwTapeStateChange(HW_TAPE_STATE_PLAY);
     }
 }
 
@@ -5725,10 +5743,16 @@ void Xmlemu::startLoad(int tapeNumber, bool button)
         
         if (elfConfiguration.useTapeHw && elfConfiguration.useCvKeypad)
         {
-            if (p_Main->isForwardActivated())
-                p_Computer->forwardTape(TAPE_FORWARD);
-            else
-                p_Computer->restartTapeLoad(TAPE_PLAY);
+            switch (p_Main->getHwTapeState())
+            {
+                case HW_TAPE_STATE_FF:
+                    p_Computer->forwardTape(TAPE_FORWARD);
+                break;
+
+                default:
+                    p_Computer->restartTapeLoad(TAPE_PLAY);
+                break;
+            }
         }
         else
             p_Computer->restartTapeLoad(TAPE_PLAY);
@@ -5741,7 +5765,7 @@ void Xmlemu::startLoad(int tapeNumber, bool button)
             tapeActivated_ = p_Main->startCassetteLoad(tapeNumber);
         
         if (elfConfiguration.useTapeHw && !tapeActivated_)
-            p_Main->eventPlayActivated(false);
+            p_Main->eventHwTapeStateChange(HW_TAPE_STATE_PLAY);
     }
     
 //    tapeRunSwitch_ = tapeRunSwitch_ | 1;
@@ -6056,10 +6080,10 @@ void Xmlemu::stepCassetteCounter(long step)
     if (p_Main->isTurboOn())
         stepSize = 100;
         
-    if (p_Main->isForwardActivated())
+    if (p_Main->getHwTapeState() == HW_TAPE_STATE_FF)
         stepSize = 100;
 
-    if (p_Main->isTurboOn() && p_Main->isForwardActivated())
+    if (p_Main->isTurboOn() && p_Main->getHwTapeState() == HW_TAPE_STATE_FF)
         stepSize = 1;
 
     long long newPeriod = tapeCounterStep_*stepSize/sampleRate_;
