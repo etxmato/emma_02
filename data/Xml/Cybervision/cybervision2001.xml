@@ -55,12 +55,14 @@
         <filename>: initial cassette filename
         <dirname>: location of cassette file; defined as sub-dir of the main Emma 02 data directory. If not specified the dirname specified in <system> will be used.
         -->
-        <ef>2</ef>
+        <ef type="in">2</ef>
         <in>2</in>
+        <ef type="out">1</ef>
+        <out>4</out>
         <freq type="0">2000</freq>
         <freq type="1">4000</freq>
         <threshold type="8bit">10</threshold>
-        <threshold type="16bit">50</threshold>
+        <threshold type="16bit">290</threshold>
         <filename cassette="0"></filename>
         <channel type="audio">left</channel>
         <channel type="data">right</channel>
@@ -113,8 +115,8 @@
         <keydef value="70">89</keydef>   <!-- Y -->
         <keydef value="6">90</keydef>    <!-- Z -->
 
-        <keydef type="text" value="15">return</keydef>   <!-- ON -->
-        <keydef value="7">32</keydef>    <!-- ENT -->
+        <keydef type="text" value="7">return</keydef>   <!-- ENT -->
+        <keydef value="15">32</keydef>    <!-- ON -->
         <keydef value="39">27</keydef>   <!-- OFF -->
         <keydef value="71">8</keydef>    <!-- CLR -->
 
