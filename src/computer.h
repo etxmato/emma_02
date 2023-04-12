@@ -405,6 +405,7 @@ public:
     virtual void resumeComputer();
     virtual void checkCaps();
     virtual void finishStopTape();
+    virtual void resetTape() {};
     virtual void printOutPecom(int q);
     virtual void setDivider(Byte value);
     virtual void removeElf2KSwitch();

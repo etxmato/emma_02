@@ -58,7 +58,7 @@ public:
     void startSaveTapeHw(wxString fileName, wxString tapeNumber);
     void outSaveTapeHw(Byte value);
     void writeSilenceTapeHw();
-    int writeSaveTapeHw(Byte value);
+    int writeSaveTapeHw(Byte value, Byte stopBits);
     void stopTape();
     void pauseTape();
     void restartTapeSave(int tapeState);
@@ -96,6 +96,8 @@ protected:
     double remainingForwardSpeed_;
 
     Byte tapeHwReadyToReceive_;
+    long long tapeCounterStep_;
+    long long tapePeriod_;
 
 private:
     Blip_Buffer *soundBufferPointerLeft;
@@ -127,6 +129,7 @@ private:
     bool stopTheTape_;
     wxString tapeNumber_;
     bool hwSaveOn_;
+    bool startNewRecording_;
     bool hwSavePaused_;
     bool psaveOn_;
     bool ploadOn_;

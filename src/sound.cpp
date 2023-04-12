@@ -117,6 +117,7 @@ void Sound::initSound(double clock, double percentageClock, int computerType, in
     psaveOn_ = false;
     ploadOn_ = false;
     hwSaveOn_ = false;
+    startNewRecording_ = true;
     hwSavePaused_ = false;
     forwardOn_ = false;
     wavOn_ = false;
@@ -755,11 +756,20 @@ void Sound::playSaveLoad()
         {
             if (tapeHwReadyToReceive_ == 1)
             {
-                sample_count = writeSaveTapeHw(tapeHwOutputValue_);
+                if (startNewRecording_)
+                {
+                    writeSaveTapeHw(0xF8, 4);
+                    writeSaveTapeHw(0xBD, 1);
+                    startNewRecording_ = false;
+                }
+                sample_count = writeSaveTapeHw(tapeHwOutputValue_, 1);
                 numberOfSamples_ += sample_count;
             }
             else
+            {
                 writeSilenceTapeHw();
+                startNewRecording_ = true;
+            }
         }
         else
             numberOfSamples_--;
@@ -975,7 +985,6 @@ void Sound::outSaveTapeHw(Byte value)
 void Sound::writeSilenceTapeHw()
 {
     short samples [1];
-    unsigned char samples8bit [1];
 
     samples[0] = 0;
     if (psaveBitsPerSample_ == 0)
@@ -986,9 +995,11 @@ void Sound::writeSilenceTapeHw()
     }
     else
         psaveWavePointer->write(samples, 1);
+    
+    stepCassetteCounter(1);
 }
 
-int Sound::writeSaveTapeHw(Byte value)
+int Sound::writeSaveTapeHw(Byte value, Byte stopBits)
 {
     if (!hwSaveOn_)
         return 0;
@@ -1006,11 +1017,11 @@ int Sound::writeSaveTapeHw(Byte value)
 
     int freq;
         
-    for (int bit = 0; bit <10; bit++)
+    for (int bit = 0; bit <(9+stopBits); bit++)
     {
         if (bit == 0)
             freq = freq1;
-        else if (bit == 9)
+        else if (bit >= 9)
             freq = freq0;
         else
         {
@@ -1034,6 +1045,8 @@ int Sound::writeSaveTapeHw(Byte value)
                 psaveWavePointer->write(samples, 1);
         }
     }
+    stepCassetteCounter(sample_count);
+
     return sample_count;
 }
 
@@ -1043,6 +1056,8 @@ void Sound::stopTape()
         return;
 
     p_Computer->resetGaugeValue();
+    tapeCounterStep_ = 0;
+    tapePeriod_ = 0;
     stopTheTape_ = false;
     forwardOn_ = false;
     p_Main->turboOff();
@@ -1086,7 +1101,7 @@ void Sound::pauseTape()
     if (hwSaveOn_)
     {
         if (tapeHwReadyToReceive_ == 1)
-            writeSaveTapeHw(tapeHwOutputValue_);
+            writeSaveTapeHw(tapeHwOutputValue_, 1);
         hwSaveOn_ = false;
         hwSavePaused_ = true;
     }

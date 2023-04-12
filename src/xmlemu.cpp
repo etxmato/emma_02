@@ -902,11 +902,7 @@ void Xmlemu::resetComputer()
     printerStatus_ = PRIDLE;
     batchInProgress_ = false;
 
-    tapeCounterStep_ = 0;
-    tapePeriod_ = 0;
-    forwardSpeed_ = 18;
-    remainingForwardSpeed_ = 0;
-    lastSec_ = -1;
+    resetTape();
 
     if (elfConfiguration.usePs2gpio)
         resetPs2gpio();
@@ -917,13 +913,6 @@ void Xmlemu::resetComputer()
         elfConfiguration.useXmodem = false;
         p_Main->eventSetButtonLabel ("XmodemButtonXml", "HEX");
 
-    }
-    if (elfConfiguration.useTapeHw)
-    {
-        tapeActivated_ = false;
-        p_Computer->stopTape();
-        p_Main->eventHwTapeStateChange(HW_TAPE_STATE_PLAY);
-        p_Main->eventSetStaticTextValue("CasCounterXml", "00:00:000");
     }
 }
 
@@ -2298,16 +2287,11 @@ void Xmlemu::switchQ(int value)
     {
         if (qState_ == 0)
         {
-//            if (p_Main->getHwTapeState() == HW_TAPE_STATE_REC)
-//                stopTape();
-//            else
-//            {
-                if (tapeActivated_)
-                {
-                    p_Computer->pauseTape();
-                    p_Main->turboOff();
-                }
- //           }
+            if (tapeActivated_ || tapeRecording_)
+            {
+                p_Computer->pauseTape();
+                p_Main->turboOff();
+            }
         }
         else
         {
@@ -6327,6 +6311,22 @@ void Xmlemu::finishStopTape()
     tapeEnd_ = true;
 }
 
+void Xmlemu::resetTape()
+{
+    tapeCounterStep_ = 0;
+    tapePeriod_ = 0;
+    forwardSpeed_ = 18;
+    remainingForwardSpeed_ = 0;
+    lastSec_ = -1;
+
+    finishStopTape();
+    if (elfConfiguration.useTapeHw)
+    {
+        p_Computer->stopTape();
+        p_Main->eventHwTapeStateChange(HW_TAPE_STATE_PLAY);
+        p_Main->eventSetStaticTextValue("CasCounterXml", "00:00:000");
+    }
+}
 /*
 void MainElf::checkComputerFunction()
 {

@@ -1617,8 +1617,17 @@ void GuiMain::onCassetteFileSelector()
         return;
 
     wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
-    conf[selectedComputer_].wavFileDir_[0] = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
-    conf[selectedComputer_].wavFile_[0] = FullPath.GetFullName();
+    wxString newFileDir = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+    wxString newFile = FullPath.GetFullName();
+
+    if (newFileDir != conf[selectedComputer_].wavFileDir_[0] && newFile != conf[selectedComputer_].wavFile_[0])
+    {
+        if (computerRunning_)
+            p_Computer->resetTape();
+    }
+    
+    conf[selectedComputer_].wavFileDir_[0] = newFileDir;
+    conf[selectedComputer_].wavFile_[0] = newFile;
 
     if (mode_.gui)
         XRCCTRL(*this, "WavFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue(conf[selectedComputer_].wavFile_[0]);
@@ -1764,6 +1773,9 @@ void GuiMain::onTerminalFile(wxCommandEvent& WXUNUSED(event))
 
 void GuiMain::onCassetteEject(wxCommandEvent& WXUNUSED(event) )
 {
+    if (computerRunning_)
+        p_Computer->resetTape();
+    
     conf[selectedComputer_].wavFile_[0] = "";
     if (mode_.gui)
         XRCCTRL(*this, "WavFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue(conf[selectedComputer_].wavFile_[0]);
@@ -1785,7 +1797,15 @@ void GuiMain::onXmodemEject(wxCommandEvent& WXUNUSED(event) )
 
 void GuiMain::onCassetteText(wxCommandEvent&event)
 {
-    conf[selectedComputer_].wavFile_[0] = event.GetString();
+    wxString newFile = event.GetString();
+    
+    if (newFile != conf[selectedComputer_].wavFile_[0])
+    {
+        if (computerRunning_)
+            p_Computer->resetTape();
+
+        conf[selectedComputer_].wavFile_[0] = newFile;
+    }
     
     if (selectedComputer_ == VIP2K || selectedComputer_ == MEMBER || selectedComputer_ == CDP18S020)
         return;
@@ -1907,6 +1927,9 @@ void GuiMain::onCassetteLoad(wxCommandEvent& WXUNUSED(event))
         case XML:
             if (elfConfiguration[XML].useTapeHw)
             {
+                if (hwTapeState_ == HW_TAPE_STATE_REC)
+                    p_Computer->stopTape();
+
                 if (hwTapeState_ == HW_TAPE_STATE_PLAY)
                     hwTapeState_ = HW_TAPE_STATE_OFF;
                 else
@@ -1936,6 +1959,9 @@ void GuiMain::onCassetteLoad(wxCommandEvent& WXUNUSED(event))
 
 void GuiMain::onCassetteForward(wxCommandEvent& WXUNUSED(event))
 {
+    if (hwTapeState_ == HW_TAPE_STATE_REC)
+        p_Computer->stopTape();
+
     if (hwTapeState_ == HW_TAPE_STATE_FF)
         hwTapeState_ = HW_TAPE_STATE_OFF;
     else

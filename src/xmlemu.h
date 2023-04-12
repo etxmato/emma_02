@@ -228,7 +228,8 @@ public:
     void cassette56();
     void cassettePm();
     void finishStopTape();
-    
+    void resetTape();
+
     bool isAudioChannelLeft() {return elfConfiguration.audioChannelLeft;};
     bool isDataChannelLeft() {return elfConfiguration.dataChannelLeft;};
 
@@ -361,8 +362,6 @@ private:
     int toneTime_;
     Byte tapeError_;
     Byte tapedataReady_;
-    long long tapeCounterStep_;
-    long long tapePeriod_;
     int lastSec_;
 
     int pulseCountStopTone_;
