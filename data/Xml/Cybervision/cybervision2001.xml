@@ -58,7 +58,7 @@
         <ef type="in">2</ef>
         <in>2</in>
         <ef type="out">1</ef>
-        <out>4</out>
+        <out q="1">4</out>
         <freq type="0">2000</freq>
         <freq type="1">4000</freq>
         <threshold type="8bit">10</threshold>
@@ -126,5 +126,9 @@
         <keydef type="text" value="0">up</keydef>       <!-- UP -->
 
     </xlkeypad>
+
+    <sound type="bit">
+        <out mask="1" q="0">4</out>
+    </sound>
 
 </emmaconfig>
