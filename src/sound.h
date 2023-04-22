@@ -130,6 +130,7 @@ private:
     wxString tapeNumber_;
     bool hwSaveOn_;
     bool startNewRecording_;
+    bool ploadPaused_;
     bool hwSavePaused_;
     bool psaveOn_;
     bool ploadOn_;

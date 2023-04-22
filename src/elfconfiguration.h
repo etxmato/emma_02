@@ -228,9 +228,9 @@ public:
     Byte ioGroupMask;
 
     int tapeEf;
-    int tapeIn;
+    IoPort tapeIn;
     int tapeEfOut;
-    int tapeOut;
+    IoPort tapeOut;
     int tapeIoGroup;
 
     int v1870ioGroup;
@@ -259,6 +259,10 @@ public:
     int v1870VideoNumber;
 
     int statusBarType;
+
+    IoPort bitSoundOut;
+    int bitSoundIoGroup;
+    int bitSoundMask;
 
     EfKey efKey[5];
     Byte efKeyPressed;
@@ -455,6 +459,8 @@ public:
     bool forceUpperCase;
     int qSound_;
     int tilType;
+    
+    bool useBitSound;
 
     bool vtEf;
     bool vtQ;

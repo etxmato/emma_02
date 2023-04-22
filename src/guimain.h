@@ -208,6 +208,8 @@ public:
     void onCassetteLoad1(wxCommandEvent& event);
     void onCassetteSave1(wxCommandEvent& event);
     void onCassettePause(wxCommandEvent& event);
+    void startHwSave();
+    void startHwLoad();
     void onKeyboard(wxCommandEvent& event);
     void onPsave(wxString fileName);
     void onDataSaveButton(wxCommandEvent& event);
@@ -403,7 +405,9 @@ public:
     bool startLoad(int tapeNumber);
     void stopCassette();
     void startCassetteSave(int tapeNumber);
-    void startSave(int tapeNumber);
+    void startSaveNew(int tapeNumber);
+    void startSaveCont(int tapeNumber, wxString tapeCounterStr);
+    void startSave(int tapeNumber, wxString messageStr, bool cont);
     void onTerminalSave(wxCommandEvent&event);
     void onTerminalLoad(wxCommandEvent&event);
     void onTerminalStop(wxCommandEvent&event);

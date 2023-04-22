@@ -363,6 +363,8 @@ void XmlParser::parseXmlFile(int computer, wxString xmlDir, wxString xmlFile)
     elfConfiguration[computer].ioConfiguration.bitKeypad[0].defined = false;
     elfConfiguration[computer].ioConfiguration.bitKeypad[1].defined = false;
 
+    elfConfiguration[computer].useBitSound = false;
+
     oldXmlFileName_ = xmlDir + xmlFile;
     oldXmlDate_ = newDate;
 
@@ -611,6 +613,9 @@ void XmlParser::parseXmlFile(int computer, wxString xmlDir, wxString xmlFile)
             case TAG_SOUND:
                 if (child->GetAttribute("type") == "q")
                     parseXml_QSound (computer, *child);
+                if (child->GetAttribute("type") == "bit")
+                    parseXml_OutBitSound (computer, *child);
+
             break;
 
             case TAG_XMODEM:
@@ -4478,8 +4483,9 @@ void XmlParser::parseXml_Cassette (int computer, wxXmlNode &node)
     int tagTypeInt, cassetteNumber;
 
     elfConfiguration[computer].ioConfiguration.tapeIoGroup = -1;
-    elfConfiguration[computer].ioConfiguration.tapeIn = -1;
-    
+    elfConfiguration[computer].ioConfiguration.tapeIn.portNumber = -1;
+    elfConfiguration[computer].ioConfiguration.tapeOut.portNumber = -1;
+
     elfConfiguration[computer].stopTone = false;
     elfConfiguration[computer].tapeStart = false;
     int oneFreq = 4000;
@@ -4511,11 +4517,23 @@ void XmlParser::parseXml_Cassette (int computer, wxXmlNode &node)
             break;
 
             case TAG_IN:
-                elfConfiguration[computer].ioConfiguration.tapeIn = (int)parseXml_Number(*child);
+                elfConfiguration[computer].ioConfiguration.tapeIn.qValue = -1;
+                if (child->GetAttribute("q") == "1")
+                    elfConfiguration[computer].ioConfiguration.tapeIn.qValue = 1;
+                if (child->GetAttribute("q") == "0")
+                    elfConfiguration[computer].ioConfiguration.tapeIn.qValue = 0;
+
+                elfConfiguration[computer].ioConfiguration.tapeIn.portNumber = (int)parseXml_Number(*child);
             break;
 
             case TAG_OUT:
-                elfConfiguration[computer].ioConfiguration.tapeOut = (int)parseXml_Number(*child);
+                elfConfiguration[computer].ioConfiguration.tapeOut.qValue = -1;
+                if (child->GetAttribute("q") == "1")
+                    elfConfiguration[computer].ioConfiguration.tapeOut.qValue = 1;
+                if (child->GetAttribute("q") == "0")
+                    elfConfiguration[computer].ioConfiguration.tapeOut.qValue = 0;
+
+                elfConfiguration[computer].ioConfiguration.tapeOut.portNumber = (int)parseXml_Number(*child);
             break;
 
             case TAG_FREQ:
@@ -4991,6 +5009,69 @@ void XmlParser::parseXml_QSound (int computer, wxXmlNode &node)
 
             case TAG_SW:
                 elfConfiguration[computer].qSound_ = QSOUNDSW;
+            break;
+
+            case TAG_COMMENT:
+            break;
+
+            default:
+                warningText_ += "Unkown tag: ";
+                warningText_ += childName;
+                warningText_ += "\n";
+            break;
+        }
+        
+        child = child->GetNext();
+    }
+}
+
+void XmlParser::parseXml_OutBitSound (int computer, wxXmlNode &node)
+{
+    wxString tagList[]=
+    {
+        "out",
+        "iogroup",
+        "comment",
+        "undefined"
+    };
+
+    enum
+    {
+        TAG_OUT,
+        TAG_IOGROUP,
+        TAG_COMMENT,
+        TAG_UNDEFINED
+    };
+    
+    int tagTypeInt;
+    elfConfiguration[computer].ioConfiguration.bitSoundIoGroup = -1;
+
+    wxXmlNode *child = node.GetChildren();
+    while (child)
+    {
+        wxString childName = child->GetName();
+
+        tagTypeInt = 0;
+        while (tagTypeInt != TAG_UNDEFINED && tagList[tagTypeInt] != childName)
+            tagTypeInt++;
+        
+        switch (tagTypeInt)
+        {
+            case TAG_OUT:
+                elfConfiguration[computer].useBitSound = true;
+                
+                elfConfiguration[computer].ioConfiguration.bitSoundOut.portNumber = (int)parseXml_Number(*child);
+                if (child->GetAttribute("q") == "1")
+                    elfConfiguration[computer].ioConfiguration.bitSoundOut.qValue = 1;
+                if (child->GetAttribute("q") == "0")
+                    elfConfiguration[computer].ioConfiguration.bitSoundOut.qValue = 0;
+             
+                elfConfiguration[computer].ioConfiguration.bitSoundMask = 1;
+                elfConfiguration[computer].ioConfiguration.bitSoundMask = (int)parseXml_Number(*child, "mask");
+            break;
+
+            case TAG_IOGROUP:
+                elfConfiguration[computer].ioConfiguration.bitSoundIoGroup = (int)parseXml_Number(*child);
             break;
 
             case TAG_COMMENT:

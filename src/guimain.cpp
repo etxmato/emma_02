@@ -1599,6 +1599,10 @@ void GuiMain::onCassetteFileSelector()
             formatStr = "All files (%s)|%s";
         }
     }
+    
+    wxString oldFile = conf[selectedComputer_].wavFile_[0];
+    wxString oldFileDir = conf[selectedComputer_].wavFileDir_[0];
+
     fileName = wxFileSelector( "Select the "+typeStr+" file to save/load",
                                conf[selectedComputer_].wavFileDir_[0], conf[selectedComputer_].wavFile_[0],
                                "wav",
@@ -1617,18 +1621,15 @@ void GuiMain::onCassetteFileSelector()
         return;
 
     wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
-    wxString newFileDir = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
-    wxString newFile = FullPath.GetFullName();
+    conf[selectedComputer_].wavFileDir_[0] = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+    conf[selectedComputer_].wavFile_[0] = FullPath.GetFullName();
 
-    if (newFileDir != conf[selectedComputer_].wavFileDir_[0] && newFile != conf[selectedComputer_].wavFile_[0])
+    if (oldFileDir != conf[selectedComputer_].wavFileDir_[0] || oldFile != conf[selectedComputer_].wavFile_[0])
     {
         if (computerRunning_)
             p_Computer->resetTape();
     }
     
-    conf[selectedComputer_].wavFileDir_[0] = newFileDir;
-    conf[selectedComputer_].wavFile_[0] = newFile;
-
     if (mode_.gui)
         XRCCTRL(*this, "WavFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue(conf[selectedComputer_].wavFile_[0]);
 }
@@ -1928,7 +1929,7 @@ void GuiMain::onCassetteLoad(wxCommandEvent& WXUNUSED(event))
             if (elfConfiguration[XML].useTapeHw)
             {
                 if (hwTapeState_ == HW_TAPE_STATE_REC)
-                    p_Computer->stopTape();
+                    p_Computer->pauseTape();
 
                 if (hwTapeState_ == HW_TAPE_STATE_PLAY)
                     hwTapeState_ = HW_TAPE_STATE_OFF;
@@ -1960,7 +1961,7 @@ void GuiMain::onCassetteLoad(wxCommandEvent& WXUNUSED(event))
 void GuiMain::onCassetteForward(wxCommandEvent& WXUNUSED(event))
 {
     if (hwTapeState_ == HW_TAPE_STATE_REC)
-        p_Computer->stopTape();
+        p_Computer->pauseTape();
 
     if (hwTapeState_ == HW_TAPE_STATE_FF)
         hwTapeState_ = HW_TAPE_STATE_OFF;
@@ -2011,7 +2012,7 @@ void GuiMain::onCassetteSave(wxCommandEvent& WXUNUSED(event))
         if (hwTapeState_ == HW_TAPE_STATE_REC)
         {
             hwTapeState_ = HW_TAPE_STATE_OFF;
-            p_Computer->stopTape();
+            p_Computer->pauseTape();
         }
         else
             hwTapeState_ = HW_TAPE_STATE_REC;
@@ -2026,15 +2027,15 @@ void GuiMain::onCassetteSave(wxCommandEvent& WXUNUSED(event))
             XRCCTRL(*this, "CasSave"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(recOffBitmap);
 
         if (p_Computer->getFlipFlopQ() == 1)
-            startSave(0);
+            startSaveNew(0);
     }
     else
-        startSave(0);
+        startSaveNew(0);
 }
 
 void GuiMain::onCassetteSave1(wxCommandEvent& WXUNUSED(event))
 {
-    startSave(1);
+    startSaveNew(1);
 }
 
 void GuiMain::onCassetteStop(wxCommandEvent& WXUNUSED(event))
@@ -2051,6 +2052,27 @@ void GuiMain::onCassetteStop(wxCommandEvent& WXUNUSED(event))
 void GuiMain::onCassettePause(wxCommandEvent& WXUNUSED(event))
 {
     p_Computer->pauseTape();
+}
+
+void GuiMain::startHwSave()
+{
+    if (hwTapeState_ == HW_TAPE_STATE_REC)
+        return;
+    
+    hwTapeState_ = HW_TAPE_STATE_REC;
+    startSaveNew(0);
+    p_Main->eventHwTapeStateChange(HW_TAPE_STATE_REC);
+}
+
+void GuiMain::startHwLoad()
+{
+    if (hwTapeState_ == HW_TAPE_STATE_PLAY)
+        return;
+    
+    if (p_Computer->getFlipFlopQ() == 1)
+        p_Xmlemu->startLoad(0, true);
+
+    p_Main->eventHwTapeStateChange(HW_TAPE_STATE_PLAY);
 }
 
 void GuiMain::onKeyboard(wxCommandEvent&event)
@@ -3684,7 +3706,11 @@ void GuiMain::setRealCas(int computerType)
             XRCCTRL(*this, "CasLoad"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_|elfConfiguration[runningComputer_].useTapeHw);
             XRCCTRL(*this, "CasSave"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_|elfConfiguration[runningComputer_].useTapeHw);
             if (runningComputer_ == XML)
+            {
                 XRCCTRL(*this, "CasForward"+computerInfo[computerType].gui, wxButton)->Enable(elfConfiguration[computerType].useTapeHw);
+                if (elfConfiguration[computerType].useTapeHw)
+                    XRCCTRL(*this, "CasStop"+computerInfo[computerType].gui, wxButton)->Enable(true);
+            }
             if (runningComputer_ == MCDS)
             {
                 XRCCTRL(*this, "CasLoad1"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
@@ -3738,7 +3764,11 @@ void GuiMain::setRealCas2(int computerType)
             XRCCTRL(*this, "CasLoad"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_|elfConfiguration[runningComputer_].useTapeHw);
             XRCCTRL(*this, "CasSave"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_|elfConfiguration[runningComputer_].useTapeHw);
             if (runningComputer_ == XML)
+            {
                 XRCCTRL(*this, "CasForward"+computerInfo[computerType].gui, wxButton)->Enable(elfConfiguration[computerType].useTapeHw);
+                if (elfConfiguration[computerType].useTapeHw)
+                    XRCCTRL(*this, "CasStop"+computerInfo[computerType].gui, wxButton)->Enable(true);
+            }
             if (runningComputer_ == MCDS)
             {
                 XRCCTRL(*this, "CasLoad1"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
@@ -3775,7 +3805,11 @@ void GuiMain::setRealCasOff(int computerType)
         XRCCTRL(*this, "CasLoad"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_|elfConfiguration[runningComputer_].useTapeHw);
         XRCCTRL(*this, "CasSave"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_|elfConfiguration[runningComputer_].useTapeHw);
         if (runningComputer_ == XML)
+        {
             XRCCTRL(*this, "CasForward"+computerInfo[computerType].gui, wxButton)->Enable(elfConfiguration[computerType].useTapeHw);
+            if (elfConfiguration[computerType].useTapeHw)
+                XRCCTRL(*this, "CasStop"+computerInfo[computerType].gui, wxButton)->Enable(true);
+        }
         if (runningComputer_ == MCDS)
         {
             XRCCTRL(*this, "CasLoad1"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
@@ -3830,10 +3864,34 @@ void GuiMain::stopCassette()
 void GuiMain::startCassetteSave(int tapeNumber)
 {
     if (conf[runningComputer_].autoCassetteLoad_)
-        startSave(tapeNumber);
+        startSaveNew(tapeNumber);
 }
 
-void GuiMain::startSave(int tapeNumber)
+void GuiMain::startSaveNew(int tapeNumber)
+{
+    startSave(tapeNumber, "Do you want to replace it?", false);
+}
+
+void GuiMain::startSaveCont(int tapeNumber, wxString tapeCounterStr)
+{
+    wxString messageStr;
+    
+    bool cont;
+    if (tapeCounterStr == "00:00:000")
+    {
+        cont = false;
+        messageStr = "Do you want to replace it?";
+    }
+    else
+    {
+        cont = true;
+        messageStr = "Continue save at: " + tapeCounterStr;
+    }
+    
+    startSave(tapeNumber, messageStr, cont);
+}
+
+void GuiMain::startSave(int tapeNumber, wxString messageStr, bool cont)
 {
     wxString filePath, fileName, tapeString;
     tapeString.Printf("%d", tapeNumber);
@@ -3846,7 +3904,7 @@ void GuiMain::startSave(int tapeNumber)
 
     if (fileName.Len() == 0)
     {
-        fileName = p_Main->eventShowFileSelector( "Select the WAV file to save/load",
+        fileName = p_Main->eventShowFileSelector( "Select the WAV file to save",
                        conf[runningComputer_].wavFileDir_[tapeNumber], fileName,
                        "wav",
                        wxString::Format
@@ -3875,12 +3933,21 @@ void GuiMain::startSave(int tapeNumber)
     }
     if (wxFile::Exists(filePath))
     {
-        p_Main->eventShowMessageBox( fileName+" already exists.\n"+"Do you want to replace it?",
+        p_Main->eventShowMessageBox( fileName+" already exists.\n"+messageStr,
                                     "Confirm Save As", wxICON_EXCLAMATION | wxYES_NO);
+
+        if (messageBoxAnswer_ == wxNO && cont)
+        {
+            p_Main->eventShowMessageBox( fileName+" already exists.\n"+"Do you want to overwrite?",
+                                        "Confirm Save As", wxICON_EXCLAMATION | wxYES_NO);
+            
+            if (messageBoxAnswer_ == wxYES)
+                p_Computer->stopTape();
+        }
 
         if (messageBoxAnswer_ == wxNO)
         {
-            fileName = p_Main->eventShowFileSelector( "Select the WAV file to save/load",
+            fileName = p_Main->eventShowFileSelector( "Select the WAV file to save",
                            conf[runningComputer_].wavFileDir_[tapeNumber], fileName,
                            "wav",
                            wxString::Format
@@ -4451,6 +4518,7 @@ void GuiMain::enableLoadGui(bool status)
             XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
             XRCCTRL(*this, "CasForward"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
             XRCCTRL(*this, "CasSave"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
+            XRCCTRL(*this, "CasStop"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
         }
         if (tapeState_ == TAPE_PLAY)
         {

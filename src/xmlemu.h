@@ -232,6 +232,7 @@ public:
 
     bool isAudioChannelLeft() {return elfConfiguration.audioChannelLeft;};
     bool isDataChannelLeft() {return elfConfiguration.dataChannelLeft;};
+    bool isTapeHwActive() {return elfConfiguration.useTapeHw;};
 
 private:
     class ElfScreen *elfScreenPointer;
@@ -368,6 +369,8 @@ private:
     bool tapeFormat56_;
     bool tapeFormatFixed_;
     int startBytes_;
+    
+    wxString tapeCounter_;
 
     DECLARE_EVENT_TABLE()
 };

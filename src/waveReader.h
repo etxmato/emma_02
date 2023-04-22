@@ -13,15 +13,51 @@ public:
     ~WaveReader();
 
     long openFile(wxString fileName);
+    bool createFile(wxString fileName, long sampleRate, int bitsPerSample);
+    long readHeader();
+
+    // Enable stereo output
+    void stereo( int );
+
+    // Append 'count' samples to file. Use every 'skip'th source sample; allows
+    // one channel of stereo sample pairs to be written by specifying a skip of 2.
+    void write(sample_t InBuffer);
+    void write(unsigned char InBuffer);
+    
+    // Number of samples written so far
+    long sample_count() const;
+
     long read(sample_t* OutBuffer, size_t Count, float Gain);
-    void seek(wxFileOffset ofs);
     bool eof();
+    bool seek(wxFileOffset ofs, wxSeekMode mode = wxFromStart);
+
+    // Write sound file header and close file. If no samples were written,
+    void closeFile();
 
 private:
-    wxFFile inFile_;
+    wxFFile wavFile_;
     int channelCount_;
     int frameSize_;
+
+    enum { bufferSize_ = 32768 * 2 };
+    unsigned char* buffer_;
+    FILE*   file_;
+    long    sampleCount_;
+    long    sampleRate_;
+    long    fileSize_;
+    long    sizeOfSampleData_;
+    long    dataPosition_;
+    long    bufferPosition_;
+    int     bitsPerSample_;
 };
+
+inline void WaveReader::stereo( int s ) {
+    channelCount_ = s ? 2 : 1;
+}
+
+inline long WaveReader::sample_count() const {
+    return sampleCount_;
+}
 
 #endif
 

@@ -1270,6 +1270,7 @@ Byte Xmlemu::in(Byte port, Word address)
         break;
 
         case TAPE_CV_IN:
+//            p_Main->startHwLoad();
             ret = lastTapeInpt_;
             tapedataReady_ = 1;
         break;
@@ -1593,7 +1594,16 @@ void Xmlemu::out(Byte port, Word address, Byte value)
         break;
 
         case TAPE_CV_OUT:
+       //     p_Main->startHwSave();
+       //     tapeRecording_ = true;
             outSaveTapeHw(value);
+        break;
+
+        case BITSOUND_OUT:
+            if ((value & elfConfiguration.ioConfiguration.bitSoundMask) == 1)
+                toneElf2KOn();
+            else
+                toneElf2KOff();
         break;
 
         // Folowing I/O is not adapted to ioGroups
@@ -2301,7 +2311,7 @@ void Xmlemu::switchQ(int value)
                     restartHwTapeSave(TAPE_RECORD);
                 else
                 {
-                    p_Main->startSave(0);
+                    p_Main->startSaveCont(0, tapeCounter_);
                     tapeRecording_ = true;
                 }
             }
@@ -4700,12 +4710,47 @@ void Xmlemu::configureExtensions()
         printBuffer.Printf("    EF %d: write buffer empty, EF %d: data ready", elfConfiguration.ioConfiguration.tapeEfOut, elfConfiguration.ioConfiguration.tapeEf);
         p_Main->message(printBuffer);
         
-        p_Computer->setOutType(elfConfiguration.ioConfiguration.tapeIoGroup+1, elfConfiguration.ioConfiguration.tapeOut, TAPE_CV_OUT);
-        p_Computer->setInType(elfConfiguration.ioConfiguration.tapeIoGroup+1, elfConfiguration.ioConfiguration.tapeIn, TAPE_CV_IN);
-        printBuffer.Printf("    Output %d: write data, Input %d: read data", elfConfiguration.ioConfiguration.tapeOut, elfConfiguration.ioConfiguration.tapeIn);
+        p_Computer->setOutType(elfConfiguration.ioConfiguration.tapeOut.qValue, elfConfiguration.ioConfiguration.tapeIoGroup+1, elfConfiguration.ioConfiguration.tapeOut.portNumber, TAPE_CV_OUT);
+        p_Computer->setInType(elfConfiguration.ioConfiguration.tapeIn.qValue, elfConfiguration.ioConfiguration.tapeIoGroup+1, elfConfiguration.ioConfiguration.tapeIn.portNumber, TAPE_CV_IN);
+        
+        if (elfConfiguration.ioConfiguration.tapeOut.qValue == -1)
+            printBuffer.Printf("    Output %d: write data", elfConfiguration.ioConfiguration.tapeOut.portNumber);
+        else
+        {
+            printBuffer.Printf("    Q = %d & output %d: write data", elfConfiguration.ioConfiguration.tapeOut.qValue, elfConfiguration.ioConfiguration.tapeOut.portNumber);
+        }
         p_Main->message(printBuffer);
 
+        if (elfConfiguration.ioConfiguration.tapeIn.qValue == -1)
+            printBuffer.Printf("    Input %d: read data", elfConfiguration.ioConfiguration.tapeIn.portNumber);
+        else
+        {
+            printBuffer.Printf("    Q = %d & input %d: read data ", elfConfiguration.ioConfiguration.tapeIn.qValue, elfConfiguration.ioConfiguration.tapeIn.portNumber);
+        }
+        p_Main->message(printBuffer);
+        p_Main->message("");
+
         p_Main->eventHwTapeStateChange(HW_TAPE_STATE_PLAY);
+    }
+    
+    if (elfConfiguration.useBitSound)
+    {
+        ioGroup = "";
+        if (elfConfiguration.ioConfiguration.bitSoundIoGroup != -1)
+            ioGroup.Printf(" (on group %X)", elfConfiguration.ioConfiguration.bitSoundIoGroup);
+
+        p_Main->message("Configuring sound" + ioGroup);
+        
+        p_Computer->setOutType(elfConfiguration.ioConfiguration.bitSoundOut.qValue, elfConfiguration.ioConfiguration.bitSoundIoGroup+1, elfConfiguration.ioConfiguration.bitSoundOut.portNumber, BITSOUND_OUT);
+        
+        if (elfConfiguration.ioConfiguration.bitSoundOut.qValue == -1)
+            printBuffer.Printf("    Output %d using mask %d: tone wave", elfConfiguration.ioConfiguration.bitSoundOut.portNumber, elfConfiguration.ioConfiguration.bitSoundMask);
+        else
+        {
+            printBuffer.Printf("    Q = %d & output %d using mask %d: tone wave", elfConfiguration.ioConfiguration.bitSoundOut.qValue, elfConfiguration.ioConfiguration.bitSoundOut.portNumber, elfConfiguration.ioConfiguration.bitSoundMask);
+        }
+        p_Main->message(printBuffer);
+        p_Main->message("");
     }
 }
 
@@ -6075,14 +6120,13 @@ void Xmlemu::stepCassetteCounter(long step)
     if (tapePeriod_ != newPeriod)
     {
         tapePeriod_ = newPeriod;
-        wxString value;
         int msec = tapePeriod_ % stepSize;
         int sec = (int) ((tapePeriod_/stepSize) % 60);
         int min = (int) ((tapePeriod_/stepSize) / 60);
         
         int numberOfSeconds = min*60+sec;
         
-        if (numberOfSeconds != lastSec_)
+        if (numberOfSeconds != lastSec_ && p_Main->getHwTapeState() == HW_TAPE_STATE_FF)
         {
             int cva = p_Main->getPsaveData(11);
             float cvb = (float) p_Main->getPsaveData(12)/100;
@@ -6095,31 +6139,32 @@ void Xmlemu::stepCassetteCounter(long step)
         switch (stepSize)
         {
             case 1:
-                value.Printf("%02d:%02d     ",min,sec);
+                tapeCounter_.Printf("%02d:%02d     ",min,sec);
             break;
 
             case 100:
-                value.Printf("%02d:%02d:%02d ",min,sec,msec);
+                tapeCounter_.Printf("%02d:%02d:%02d ",min,sec,msec);
             break;
                 
             default:
-                value.Printf("%02d:%02d:%03d",min,sec,msec);
+                tapeCounter_.Printf("%02d:%02d:%03d",min,sec,msec);
             break;
         }
-        p_Main->eventSetStaticTextValue("CasCounterXml", value);
+        p_Main->eventSetStaticTextValue("CasCounterXml", tapeCounter_);
     }
 
 }
 
 void Xmlemu::cassetteCyberVision()
 {
-    float freq = (float) toneTime_ / pulseCount_ * (sampleRate_/200);
-
-    if ((pulseCount_ == 1 && freq > elfConfiguration.frequencyBorder) || pulseCount_ == 2)  // && silenceCount_ > 10)
+    float period = (float) (toneTime_ / pulseCount_) / sampleRate_;
+    float freq = (float) 1 / period;
+    
+    if ((pulseCount_ == 1 && freq < elfConfiguration.frequencyBorder) || pulseCount_ == 2)  // && silenceCount_ > 10)
     {
         if (bitNumber_ == -1)
         {
-            if (pulseCount_ == 1 && freq > elfConfiguration.frequencyBorder)
+            if (pulseCount_ == 1 && freq < elfConfiguration.frequencyBorder)
                 bitNumber_++;
         }
         else
@@ -6314,6 +6359,7 @@ void Xmlemu::finishStopTape()
 void Xmlemu::resetTape()
 {
     tapeCounterStep_ = 0;
+    tapeCounter_ = "00:00:000";
     tapePeriod_ = 0;
     forwardSpeed_ = 18;
     remainingForwardSpeed_ = 0;

@@ -583,6 +583,7 @@ public:
 
     virtual bool isAudioChannelLeft() {return true;};
     virtual bool isDataChannelLeft() {return true;};
+    virtual bool isTapeHwActive() {return false;};
 
 protected:
     RunComputer *threadPointer;

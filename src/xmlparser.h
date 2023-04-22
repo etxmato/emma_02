@@ -51,6 +51,7 @@ private:
     void parseXml_Diag (int computer, wxXmlNode &node);
     void parseXml_BatchWav (int computer, wxXmlNode &node);
     void parseXml_QSound (int computer, wxXmlNode &node);
+    void parseXml_OutBitSound (int computer, wxXmlNode &node);
     void parseXml_Dip (int computer, wxXmlNode &node);
     void parseXml_IoGroup (int computer, wxXmlNode &node);
     void parseXml_Panel (int computer, wxXmlNode &node);
