@@ -154,7 +154,8 @@ private:
 
     int ioGroup_;
     
-    short lastSample_;
+    uint32_t lastSampleUint32_;
+    short lastSampleShort_;
     char lastSampleChar_;
     int pulseCount_;
     Byte tapeInput_;

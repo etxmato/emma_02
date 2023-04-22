@@ -1522,7 +1522,9 @@ Computer::Computer()
     memoryStart_ = 0;
     loadedProgram_ = NOPROGRAM;
     loadedOs_ = NOOS;
-    lastTapeInput_ = 0;
+    lastTapeInputUint32_ = 0;
+    lastTapeInputShort_ = 0;
+    lastTapeInputChar_ = 0;
     maxTapeInput_ = 0;
     gaugeValue_ = 0;
     sign_ = true;
@@ -1734,7 +1736,7 @@ void Computer::cassette(wxUint32 val)
         else
         {
             cassetteEf_ = !tapePolarity_; //1
-            if (val > lastTapeInput_)
+            if (val > lastTapeInputUint32_)
                 maxTapeInput_ = val;
             else
                 gaugeValue_ = maxTapeInput_ / 5;
@@ -1744,7 +1746,7 @@ void Computer::cassette(wxUint32 val)
     {
         if (cassetteEf_ != tapePolarity_)
         {
-            if (val > lastTapeInput_)
+            if (val > lastTapeInputUint32_)
                 maxTapeInput_ = val;
             else
             {
@@ -1754,7 +1756,7 @@ void Computer::cassette(wxUint32 val)
         }
         else
         {
-            if (val < lastTapeInput_)
+            if (val < lastTapeInputUint32_)
                 maxTapeInput_ = -val;
             else
             {
@@ -1763,7 +1765,7 @@ void Computer::cassette(wxUint32 val)
             }
         }
     }
-    lastTapeInput_ = val;
+    lastTapeInputUint32_ = val;
 }
 
 void Computer::cassette(short val)
@@ -1778,7 +1780,7 @@ void Computer::cassette(short val)
         else
         {
             cassetteEf_ = !tapePolarity_; //1
-            if (val > lastTapeInput_)
+            if (val > lastTapeInputShort_)
                 maxTapeInput_ = val;
             else
                 gaugeValue_ = maxTapeInput_ / 5;
@@ -1788,7 +1790,7 @@ void Computer::cassette(short val)
     {
         if (cassetteEf_ != tapePolarity_)
         {
-            if (val > lastTapeInput_)
+            if (val > lastTapeInputShort_)
                 maxTapeInput_ = val;
             else
             {
@@ -1798,7 +1800,7 @@ void Computer::cassette(short val)
         }
         else
         {
-            if (val < lastTapeInput_)
+            if (val < lastTapeInputShort_)
                 maxTapeInput_ = -val;
             else
             {
@@ -1807,7 +1809,7 @@ void Computer::cassette(short val)
             }
         }
     }
-    lastTapeInput_ = val;
+    lastTapeInputShort_ = val;
 }
 
 void Computer::cassette(char val)
@@ -1823,7 +1825,7 @@ void Computer::cassette(char val)
                 if (period_ < 23 || (period_ > 36 && period_ < 63))
                 {
                     period_++;
-                    lastTapeInput_ = val;
+                    lastTapeInputChar_ = val;
                     return;
                 }
                 period_ = 0; // short 23-29 long 60-64
@@ -1841,14 +1843,14 @@ void Computer::cassette(char val)
                 if (period_ < 23 || (period_ > 36 && period_ < 63))
                 {
                     period_++;
-                    lastTapeInput_ = val;
+                    lastTapeInputChar_ = val;
                     return;
                 }
                 period_ = 0;
             }
             period_++;*/
             cassetteEf_ = !tapePolarity_; //1
-            if (val > lastTapeInput_)
+            if (val > lastTapeInputChar_)
                 maxTapeInput_ = val;
             else
                 gaugeValue_ = maxTapeInput_ * 45;
@@ -1858,7 +1860,7 @@ void Computer::cassette(char val)
     {
         if (cassetteEf_ != tapePolarity_)
         {
-            if (val > lastTapeInput_)
+            if (val > lastTapeInputChar_)
                 maxTapeInput_ = val;
             else
             {
@@ -1868,7 +1870,7 @@ void Computer::cassette(char val)
         }
         else
         {
-            if (val < lastTapeInput_)
+            if (val < lastTapeInputChar_)
                 maxTapeInput_ = -val;
             else
             {
@@ -1877,7 +1879,7 @@ void Computer::cassette(char val)
             }
         }
     }
-    lastTapeInput_ = val;
+    lastTapeInputChar_ = val;
 }
 
 void Computer::cassetteFred(wxUint32 WXUNUSED(val))
@@ -1920,7 +1922,7 @@ void Computer::realCassette(short val)
         else
         {
             cassetteEf_ = !tapePolarity_; //1
-            if (val > lastTapeInput_)
+            if (val > lastTapeInputShort_)
                 maxTapeInput_ = val;
             else
                 gaugeValue_ = maxTapeInput_;
@@ -1930,7 +1932,7 @@ void Computer::realCassette(short val)
     {
         if (cassetteEf_ != tapePolarity_)
         {
-            if (val > lastTapeInput_)
+            if (val > lastTapeInputShort_)
                 maxTapeInput_ = val;
             else
             {
@@ -1940,7 +1942,7 @@ void Computer::realCassette(short val)
         }
         else
         {
-            if (val < lastTapeInput_)
+            if (val < lastTapeInputShort_)
                 maxTapeInput_ = -val;
             else
             {
@@ -1949,7 +1951,7 @@ void Computer::realCassette(short val)
             }
         }
     }
-    lastTapeInput_ = val;
+    lastTapeInputShort_ = val;
 }
 
 void Computer::keyClear()

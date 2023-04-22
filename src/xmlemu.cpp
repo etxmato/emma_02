@@ -5752,8 +5752,9 @@ void Xmlemu::removeCosmicosHex()
 
 void Xmlemu::startLoad(int tapeNumber, bool button)
 {
-    lastSample_ = 0;
+    lastSampleShort_ = 0;
     lastSampleChar_ = 0;
+    lastSampleUint32_ = 0;
     pulseCount_ = 0;
     tapeInput_ = 0;
     polarity_ = 0;
@@ -5811,10 +5812,10 @@ void Xmlemu::cassetteXmlHw(uint32_t val, long size)
 //        return;
 
     int difference;
-    if (val < lastSample_)
-        difference = lastSample_ - val;
+    if (val < lastSampleUint32_)
+        difference = lastSampleUint32_ - val;
     else
-        difference = val - lastSample_;
+        difference = val - lastSampleUint32_;
     
     if (difference < elfConfiguration.threshold16Bit)
         silenceCount_++;
@@ -5829,7 +5830,7 @@ void Xmlemu::cassetteXmlHw(uint32_t val, long size)
         case TAPE_FORMAT_AUTO:
         case TAPE_FORMAT_PM:
         case TAPE_FORMAT_56:
-            if (lastSampleChar_ <= 0)
+            if (lastSampleUint32_ <= 0)
             {
                 if (val > 0 && silenceCount_ == 0)
                     pulseCount_++;
@@ -5849,7 +5850,7 @@ void Xmlemu::cassetteXmlHw(uint32_t val, long size)
         break;
             
         case TAPE_FORMAT_CV:
-            if (lastSample_ <= 0)
+            if (lastSampleUint32_ <= 0)
             {
                 if (val > 0 && silenceCount_ == 0)
                 {
@@ -5897,7 +5898,7 @@ void Xmlemu::cassetteXmlHw(uint32_t val, long size)
         break;
     }
     
-    lastSample_ = val;
+    lastSampleUint32_ = val;
 }
 
 void Xmlemu::cassetteXmlHw(short val, long size)
@@ -5911,10 +5912,10 @@ void Xmlemu::cassetteXmlHw(short val, long size)
 //        return;
 
     int difference;
-    if (val < lastSample_)
-        difference = lastSample_ - val;
+    if (val < lastSampleShort_)
+        difference = lastSampleShort_ - val;
     else
-        difference = val - lastSample_;
+        difference = val - lastSampleShort_;
     
     if (difference < elfConfiguration.threshold16Bit)
         silenceCount_++;
@@ -5929,7 +5930,7 @@ void Xmlemu::cassetteXmlHw(short val, long size)
         case TAPE_FORMAT_AUTO:
         case TAPE_FORMAT_PM:
         case TAPE_FORMAT_56:
-            if (lastSampleChar_ <= 0)
+            if (lastSampleShort_ <= 0)
             {
                 if (val > 0 && silenceCount_ == 0)
                     pulseCount_++;
@@ -5949,7 +5950,7 @@ void Xmlemu::cassetteXmlHw(short val, long size)
         break;
             
         case TAPE_FORMAT_CV:
-            if (lastSample_ <= 0)
+            if (lastSampleShort_ <= 0)
             {
                 if (val > 0 && silenceCount_ == 0)
                 {
@@ -5997,7 +5998,7 @@ void Xmlemu::cassetteXmlHw(short val, long size)
         break;
     }
     
-    lastSample_ = val;
+    lastSampleShort_ = val;
 }
 
 void Xmlemu::cassetteXmlHw(char val, long size)
@@ -6049,7 +6050,7 @@ void Xmlemu::cassetteXmlHw(char val, long size)
         break;
             
         case TAPE_FORMAT_CV:
-            if (lastSample_ <= 0)
+            if (lastSampleChar_ <= 0)
             {
                 if (val > 0 && silenceCount_ == 0)
                 {

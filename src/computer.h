@@ -598,7 +598,9 @@ protected:
     Byte oldCassetteEf_;
     short gaugeValue_;
     wxUint32 maxTapeInput_;
-    wxUint32 lastTapeInput_;
+    wxUint32 lastTapeInputUint32_;
+    wxUint32 lastTapeInputShort_;
+    wxUint32 lastTapeInputChar_;
     Byte tapePolarity_;
     int conversionType_;
     int conversionTypeWav_;
