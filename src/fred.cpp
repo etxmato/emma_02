@@ -255,9 +255,9 @@ Fred::Fred(const wxString& title, const wxPoint& pos, const wxSize& size, double
     cardSwitchOn_ = false;
     readSwitchOn_ = false;
     
-    lastSampleShort_ = 0;
+    lastSampleInt16_ = 0;
     lastSampleChar_ = 0;
-    lastSampleUint32_ = 0;
+    lastSampleInt32_ = 0;
     tapeInput_ = 0;
     polarity_ = 0;
     silenceCount_ = 0;
@@ -863,9 +863,9 @@ void Fred::startLoad(bool button)
     if (tapeRunSwitch_&1)
         return;
     
-    lastSampleShort_ = 0;
+    lastSampleInt16_ = 0;
     lastSampleChar_ = 0;
-    lastSampleUint32_ = 0;
+    lastSampleInt32_ = 0;
     pulseCount_ = 0;
     tapeInput_ = 0;
     polarity_ = 0;
@@ -1215,16 +1215,16 @@ void Fred::resetPressed()
     p_Main->setCurrentCardValue();
 }
 
-void Fred::cassetteFred(wxUint32 val)
+void Fred::cassetteFred(wxInt32 val)
 {
     if ((tapeRunSwitch_&1) != 1)
         return;
     
     int difference;
-    if (val < lastSampleUint32_)
-        difference = lastSampleUint32_ - val;
+    if (val < lastSampleInt32_)
+        difference = lastSampleInt32_ - val;
     else
-        difference = val - lastSampleUint32_;
+        difference = val - lastSampleInt32_;
     
     if (difference < threshold16_)
         silenceCount_++;
@@ -1234,7 +1234,7 @@ void Fred::cassetteFred(wxUint32 val)
         toneTime_++;
     }
     
-    if (lastSampleUint32_ <= 0)
+    if (lastSampleInt32_ <= 0)
     {
         if (val > 0 && silenceCount_ == 0)
             pulseCount_++;
@@ -1286,19 +1286,19 @@ void Fred::cassetteFred(wxUint32 val)
     else
         cassetteFredPm();
 
-    lastSampleUint32_ = val;
+    lastSampleInt32_ = val;
 }
 
-void Fred::cassetteFred(short val)
+void Fred::cassetteFred(wxInt16 val)
 {
     if ((tapeRunSwitch_&1) != 1)
         return;
     
     int difference;
-    if (val < lastSampleShort_)
-        difference = lastSampleShort_ - val;
+    if (val < lastSampleInt16_)
+        difference = lastSampleInt16_ - val;
     else
-        difference = val - lastSampleShort_;
+        difference = val - lastSampleInt16_;
     
     if (difference < threshold16_)
         silenceCount_++;
@@ -1308,7 +1308,7 @@ void Fred::cassetteFred(short val)
         toneTime_++;
     }
     
-    if (lastSampleShort_ <= 0)
+    if (lastSampleInt16_ <= 0)
     {
         if (val > 0 && silenceCount_ == 0)
             pulseCount_++;
@@ -1360,7 +1360,7 @@ void Fred::cassetteFred(short val)
     else
         cassetteFredPm();
 
-    lastSampleShort_ = val;
+    lastSampleInt16_ = val;
 }
 
 void Fred::cassetteFred(char val)

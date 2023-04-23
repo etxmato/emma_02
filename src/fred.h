@@ -83,8 +83,8 @@ public:
     void sleepComputer(long ms);
     void resetPressed();
     
-    void cassetteFred(uint32_t val);
-    void cassetteFred(short val);
+    void cassetteFred(wxInt32 val);
+    void cassetteFred(wxInt16 val);
     void cassetteFred56();
     void cassetteFredPm();
     void cassetteFred(char val);
@@ -154,8 +154,8 @@ private:
 
     int ioGroup_;
     
-    uint32_t lastSampleUint32_;
-    short lastSampleShort_;
+    wxInt32 lastSampleInt32_;
+    wxInt16 lastSampleInt16_;
     char lastSampleChar_;
     int pulseCount_;
     Byte tapeInput_;

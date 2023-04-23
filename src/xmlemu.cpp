@@ -5018,7 +5018,7 @@ Byte Xmlemu::getKey(Byte vtOut)
         break;
 
         case PANEL_COSMICOS:
-            Byte tempVtOut = cosmicosScreenPointer->getKey(vtOut);
+            tempVtOut = cosmicosScreenPointer->getKey(vtOut);
 
             if (tempVtOut == vtOut)
                 return p_Cosmicoshex->getKey(vtOut);
@@ -5727,21 +5727,21 @@ void Xmlemu::activateElfOsChip8()
 
 void Xmlemu::fetchFileName(Word address, size_t length)
 {
-    wxString fileName_ = "";
+    wxString fileName = "";
     Byte MemoryValue = readMem(address++);
     
     while (MemoryValue != 0 && length > 0)
     {
         if (MemoryValue >= 32 && MemoryValue < 128)
-            fileName_ += wxString::FromAscii(MemoryValue);
+            fileName += wxString::FromAscii(MemoryValue);
         MemoryValue = readMem(address++);
         length--;
     }
-    fileName_.MakeLower();
-    fileName_.Trim();
+    fileName.MakeLower();
+    fileName.Trim();
     
-    reLoadKeyDefinition(fileName_);
-    p_Main->eventSetSwName(fileName_);
+    reLoadKeyDefinition(fileName);
+    p_Main->eventSetSwName(fileName);
 }
 
 void Xmlemu::removeCosmicosHex()
@@ -5752,9 +5752,9 @@ void Xmlemu::removeCosmicosHex()
 
 void Xmlemu::startLoad(int tapeNumber, bool button)
 {
-    lastSampleShort_ = 0;
+    lastSampleInt16_ = 0;
     lastSampleChar_ = 0;
-    lastSampleUint32_ = 0;
+    lastSampleInt32_ = 0;
     pulseCount_ = 0;
     tapeInput_ = 0;
     polarity_ = 0;
@@ -5801,7 +5801,7 @@ void Xmlemu::startLoad(int tapeNumber, bool button)
 //    tapeRunSwitch_ = tapeRunSwitch_ | 1;
 }
 
-void Xmlemu::cassetteXmlHw(uint32_t val, long size)
+void Xmlemu::cassetteXmlHw(wxInt32 val, long size)
 {
     stepCassetteCounter(size);
     
@@ -5812,10 +5812,10 @@ void Xmlemu::cassetteXmlHw(uint32_t val, long size)
 //        return;
 
     int difference;
-    if (val < lastSampleUint32_)
-        difference = lastSampleUint32_ - val;
+    if (val < lastSampleInt32_)
+        difference = lastSampleInt32_ - val;
     else
-        difference = val - lastSampleUint32_;
+        difference = val - lastSampleInt32_;
     
     if (difference < elfConfiguration.threshold16Bit)
         silenceCount_++;
@@ -5830,7 +5830,7 @@ void Xmlemu::cassetteXmlHw(uint32_t val, long size)
         case TAPE_FORMAT_AUTO:
         case TAPE_FORMAT_PM:
         case TAPE_FORMAT_56:
-            if (lastSampleUint32_ <= 0)
+            if (lastSampleInt32_ <= 0)
             {
                 if (val > 0 && silenceCount_ == 0)
                     pulseCount_++;
@@ -5850,7 +5850,7 @@ void Xmlemu::cassetteXmlHw(uint32_t val, long size)
         break;
             
         case TAPE_FORMAT_CV:
-            if (lastSampleUint32_ <= 0)
+            if (lastSampleInt32_ <= 0)
             {
                 if (val > 0 && silenceCount_ == 0)
                 {
@@ -5898,10 +5898,10 @@ void Xmlemu::cassetteXmlHw(uint32_t val, long size)
         break;
     }
     
-    lastSampleUint32_ = val;
+    lastSampleInt32_ = val;
 }
 
-void Xmlemu::cassetteXmlHw(short val, long size)
+void Xmlemu::cassetteXmlHw(wxInt16 val, long size)
 {
     stepCassetteCounter(size);
     
@@ -5912,10 +5912,10 @@ void Xmlemu::cassetteXmlHw(short val, long size)
 //        return;
 
     int difference;
-    if (val < lastSampleShort_)
-        difference = lastSampleShort_ - val;
+    if (val < lastSampleInt16_)
+        difference = lastSampleInt16_ - val;
     else
-        difference = val - lastSampleShort_;
+        difference = val - lastSampleInt16_;
     
     if (difference < elfConfiguration.threshold16Bit)
         silenceCount_++;
@@ -5930,7 +5930,7 @@ void Xmlemu::cassetteXmlHw(short val, long size)
         case TAPE_FORMAT_AUTO:
         case TAPE_FORMAT_PM:
         case TAPE_FORMAT_56:
-            if (lastSampleShort_ <= 0)
+            if (lastSampleInt16_ <= 0)
             {
                 if (val > 0 && silenceCount_ == 0)
                     pulseCount_++;
@@ -5950,7 +5950,7 @@ void Xmlemu::cassetteXmlHw(short val, long size)
         break;
             
         case TAPE_FORMAT_CV:
-            if (lastSampleShort_ <= 0)
+            if (lastSampleInt16_ <= 0)
             {
                 if (val > 0 && silenceCount_ == 0)
                 {
@@ -5998,7 +5998,7 @@ void Xmlemu::cassetteXmlHw(short val, long size)
         break;
     }
     
-    lastSampleShort_ = val;
+    lastSampleInt16_ = val;
 }
 
 void Xmlemu::cassetteXmlHw(char val, long size)

@@ -33,6 +33,7 @@ const int header_size = 0x2C;
 
 WaveReader::WaveReader()
 {
+    dataPosition_ = 0x2C;
 }
 
 WaveReader::~WaveReader()
@@ -42,6 +43,7 @@ WaveReader::~WaveReader()
 
 long WaveReader::openFile(wxString fileName)
 {
+    sampleCount_ = 0;
     if (wavFile_.Open(fileName, "rb+"))
         return readHeader();
 
@@ -50,11 +52,13 @@ long WaveReader::openFile(wxString fileName)
 
 bool WaveReader::createFile(wxString fileName, long sampleRate, int bitsPerSample)
 {
+    fileSize_ = 0;
+    sizeOfSampleData_ = 0;
     sampleCount_ = 0;
     sampleRate_ = sampleRate;
-    bufferPosition_ = header_size;
     bitsPerSample_ = bitsPerSample;
     stereo( 0 );
+    frameSize_ = p_Main->getPsaveData(2) + 1;
 
     return wavFile_.Open(fileName, "wb");
 }
@@ -65,35 +69,34 @@ long WaveReader::readHeader()
 
     unsigned char Riff [12];
     wavFile_.Read(Riff, 12);
-    long fiePosition = 12;
-    dataPosition_ = 0;
+    long filePosition = 12;
 
-    long fileSize_ = Riff [4] +(Riff [5]<<8) +(Riff [6]<<16) +(Riff [7]<<24);
+    fileSize_ = Riff [4] +(Riff [5]<<8) +(Riff [6]<<16) +(Riff [7]<<24);
 
-    while(fiePosition < fileSize_)
+    while(filePosition < fileSize_)
     {
         unsigned char chunkId [4];
         wavFile_.Read(chunkId, 4);
 
         unsigned char chunkSize [4];
         wavFile_.Read(chunkSize, 4);
-        fiePosition += 8;
+        filePosition += 8;
 
         long longChunkSize = chunkSize [0] +(chunkSize [1]<<8) +(chunkSize [2]<<16) +(chunkSize [3]<<24);
 
         if ((chunkId[0] == 'd') &&(chunkId[1] == 'a') &&(chunkId[2] == 't') &&(chunkId[3] == 'a'))
         {
             sizeOfSampleData_ = longChunkSize;
-            dataPosition_ = fiePosition;
-            fiePosition += longChunkSize;
-            wavFile_.Seek(fiePosition, wxFromStart);
+            dataPosition_ = filePosition;
+            filePosition += longChunkSize;
+            wavFile_.Seek(filePosition, wxFromStart);
         }
         else
         {
             unsigned char* chunkData;
             chunkData = (unsigned char*) malloc( longChunkSize * sizeof *chunkData );
 
-            fiePosition += longChunkSize;
+            filePosition += longChunkSize;
             wavFile_.Read(chunkData, longChunkSize);
 
             if ((chunkId[0] == 'f') &&(chunkId[1] == 'm') &&(chunkId[2] == 't') &&(chunkId[3] == ' '))
@@ -118,12 +121,12 @@ long WaveReader::readHeader()
     return sampleRate_;
 }
 
-long WaveReader::read(sample_t* outBuffer, size_t remaining, float gain)
+long WaveReader::read(wxInt16* outBuffer, size_t remaining, float gain)
 {
     unsigned char buffer [1024];
     char dataByte = 0, audioByte = 0;
-    short dataWord = 0, audioWord = 0;
-    wxUint32 data24 = 0, audio24 = 0;
+    wxInt16 dataWord = 0, audioWord = 0;
+    wxInt32 data24 = 0, audio24 = 0;
 
     size_t in = wavFile_.Read(buffer, remaining*frameSize_);
     if (in == wxInvalidOffset)
@@ -160,7 +163,7 @@ long WaveReader::read(sample_t* outBuffer, size_t remaining, float gain)
                     audio24 += *bufferPointer++ << 8;
                     audio24 += *bufferPointer-- << 16;
                     bufferPointer--;
-                    *outBuffer++ = (short)audio24*gain/2;
+                    *outBuffer++ = (wxInt16)(audio24>>8)*gain/2;
                 }
                 if (dataChannelLeft)
                 {
@@ -177,7 +180,7 @@ long WaveReader::read(sample_t* outBuffer, size_t remaining, float gain)
                     audio24 += *bufferPointer++ << 8;
                     audio24 += *bufferPointer-- << 16;
                     bufferPointer--;
-                    *outBuffer++ = (short)audio24*gain/2;
+                    *outBuffer++ = (wxInt16)(audio24>>8)*gain/2;
                 }
                 if (!dataChannelLeft) // data channel right
                 {
@@ -200,7 +203,7 @@ long WaveReader::read(sample_t* outBuffer, size_t remaining, float gain)
                 {
                     audioWord = *bufferPointer++;
                     audioWord += *bufferPointer-- << 8;
-                    *outBuffer++ = (short)audioWord*gain/2;
+                    *outBuffer++ = (wxInt16)audioWord*gain/2;
                 }
                 if (dataChannelLeft)
                 {
@@ -213,7 +216,7 @@ long WaveReader::read(sample_t* outBuffer, size_t remaining, float gain)
                 {
                     audioWord = *bufferPointer++;
                     audioWord += *bufferPointer-- << 8;
-                    *outBuffer++ = (short)audioWord*gain/2;
+                    *outBuffer++ = (wxInt16)audioWord*gain/2;
                 }
                 if (!dataChannelLeft) // data channel right
                 {
@@ -233,7 +236,7 @@ long WaveReader::read(sample_t* outBuffer, size_t remaining, float gain)
                 if (audioChannelLeft)
                 {
                     audioByte = *bufferPointer;
-                    *outBuffer++ = (short) ((audioByte ^ 0x80) << 8)*gain/2;
+                    *outBuffer++ = (wxInt16) ((audioByte ^ 0x80) << 8)*gain/2;
                 }
                 if (dataChannelLeft)
                 {
@@ -244,7 +247,7 @@ long WaveReader::read(sample_t* outBuffer, size_t remaining, float gain)
                 if (!audioChannelLeft) // audio channel right
                 {
                     audioByte = *bufferPointer;
-                    *outBuffer++ = (short) ((audioByte ^ 0x80) << 8)*gain/2;
+                    *outBuffer++ = (wxInt16) ((audioByte ^ 0x80) << 8)*gain/2;
                 }
                 if (!dataChannelLeft) // data channel right
                 {
@@ -261,25 +264,23 @@ long WaveReader::read(sample_t* outBuffer, size_t remaining, float gain)
     return remaining;
 }
 
-void WaveReader::write(sample_t inBuffer)
+void WaveReader::write(wxInt16 inBuffer)
 {  
-    frameSize_ = channelCount_ * sizeof(sample_t);
-
     if (channelCount_ == 1)
     {
-        wavFile_.Seek (dataPosition_ + sampleCount_ * frameSize_);
+        wavFile_.Seek (dataPosition_ + sampleCount_ * frameSize_, wxFromStart);
         wavFile_.Write(&inBuffer, frameSize_);
     }
     else
     {
         if (p_Computer->isDataChannelLeft())
         {
-            wavFile_.Seek (dataPosition_ + sampleCount_ * frameSize_);
+            wavFile_.Seek (dataPosition_ + sampleCount_ * frameSize_, wxFromStart);
             wavFile_.Write(&inBuffer, frameSize_/2);
         }
         else
         {
-            wavFile_.Seek (dataPosition_ + sampleCount_ * frameSize_ + frameSize_/2);
+            wavFile_.Seek (dataPosition_ + sampleCount_ * frameSize_ + frameSize_/2, wxFromStart);
             wavFile_.Write(&inBuffer, frameSize_/2);
         }
     }
@@ -289,23 +290,21 @@ void WaveReader::write(sample_t inBuffer)
 
 void WaveReader::write(unsigned char inBuffer)
 {
-    frameSize_ = channelCount_ * sizeof(sample_t);
-
     if (channelCount_ == 1)
     {
-        wavFile_.Seek (dataPosition_ + sampleCount_ * frameSize_);
+        wavFile_.Seek (dataPosition_ + sampleCount_ * frameSize_, wxFromStart);
         wavFile_.Write(&inBuffer, frameSize_);
     }
     else
     {
         if (p_Computer->isDataChannelLeft())
         {
-            wavFile_.Seek (dataPosition_ + sampleCount_ * frameSize_);
+            wavFile_.Seek (dataPosition_ + sampleCount_ * frameSize_, wxFromStart);
             wavFile_.Write(&inBuffer, frameSize_/2);
         }
         else
         {
-            wavFile_.Seek (dataPosition_ + sampleCount_ * frameSize_ + frameSize_/2);
+            wavFile_.Seek (dataPosition_ + sampleCount_ * frameSize_ + frameSize_/2, wxFromStart);
             wavFile_.Write(&inBuffer, frameSize_/2);
         }
     }
@@ -327,7 +326,7 @@ void WaveReader::closeFile()
     else
     {
         // generate header
-        ds = sampleCount_ * sizeof(sample_t) * channelCount_;
+        ds = sampleCount_ * sizeof(wxInt16) * channelCount_;
         rs = header_size - 8 + ds;
         bps = sampleRate_ * frameSize_;
     }
@@ -338,7 +337,7 @@ void WaveReader::closeFile()
     if (ds < sizeOfSampleData_)
         ds = sizeOfSampleData_;
     
-    unsigned char header [header_size] = {
+    Byte header [header_size] = {
         'R','I','F','F',
         rs,rs>>8,           // length of rest of file
         rs>>16,rs>>24,
@@ -354,12 +353,13 @@ void WaveReader::closeFile()
         frameSize_,0,       // bytes per sample frame
         bitsPerSample_, 0,   // bits per sample
         'd','a','t','a',
-        ds,ds>>8,ds>>16,ds>>24// size of sample data
+        ds,ds>>8,
+        ds>>16,ds>>24// size of sample data
         // ...              // sample data
     };
 
     // write header
-    wavFile_.Seek(0);
+    wavFile_.Seek(0, wxFromStart);
     wavFile_.Write(header, sizeof header);
 
     wavFile_.Close();

@@ -594,9 +594,12 @@
     <ClCompile Include="src\xmlemu.cpp" />
     <ClCompile Include="src\xmlparser.cpp" />
     <ClCompile Include="Y:\workspace\emma_02\src\bitkeypad.cpp" />
+    <ClCompile Include="Y:\workspace\emma_02\src\cvkeypad.cpp" />
     <ClCompile Include="Y:\workspace\emma_02\src\keyb1871.cpp" />
     <ClCompile Include="Y:\workspace\emma_02\src\keyblatch.cpp" />
     <ClCompile Include="Y:\workspace\emma_02\src\keybmatrix.cpp" />
+    <ClCompile Include="Y:\workspace\emma_02\src\rtc.cpp" />
+    <ClCompile Include="Y:\workspace\emma_02\src\sn76430n.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\about.h" />
@@ -738,9 +741,12 @@
     <ClInclude Include="src\xmlemu.h" />
     <ClInclude Include="src\xmlparser.h" />
     <ClInclude Include="Y:\workspace\emma_02\src\bitkeypad.h" />
+    <ClInclude Include="Y:\workspace\emma_02\src\cvkeypad.h" />
     <ClInclude Include="Y:\workspace\emma_02\src\keyb1871.h" />
     <ClInclude Include="Y:\workspace\emma_02\src\keyblatch.h" />
     <ClInclude Include="Y:\workspace\emma_02\src\keybmatrix.h" />
+    <ClInclude Include="Y:\workspace\emma_02\src\rtc.h" />
+    <ClInclude Include="Y:\workspace\emma_02\src\sn76430n.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="images\app.ico" />

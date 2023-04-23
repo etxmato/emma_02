@@ -220,8 +220,8 @@ public:
     void removeCosmicosHex();
     
     void startLoad(int tapeNumber, bool button);
-    void cassetteXmlHw(uint32_t val, long size);
-    void cassetteXmlHw(short val, long size);
+    void cassetteXmlHw(wxInt32 val, long size);
+    void cassetteXmlHw(wxInt16 val, long size);
     void cassetteXmlHw(char val, long size);
     void stepCassetteCounter(long step);
     void cassetteCyberVision();
@@ -351,8 +351,8 @@ private:
     bool tapeRecording_;
     int zeroWaveCounter_;
 
-    uint32_t lastSampleUint32_;
-    short lastSampleShort_;
+    wxInt32 lastSampleInt32_;
+    wxInt16 lastSampleInt16_;
     char lastSampleChar_;
     int pulseCount_;
     Byte tapeInput_;

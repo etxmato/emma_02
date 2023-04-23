@@ -7,8 +7,6 @@
 
 class WaveReader {
 public:
-    typedef short sample_t;
-    
     WaveReader();
     ~WaveReader();
 
@@ -21,13 +19,13 @@ public:
 
     // Append 'count' samples to file. Use every 'skip'th source sample; allows
     // one channel of stereo sample pairs to be written by specifying a skip of 2.
-    void write(sample_t InBuffer);
+    void write(wxInt16 InBuffer);
     void write(unsigned char InBuffer);
     
     // Number of samples written so far
     long sample_count() const;
 
-    long read(sample_t* OutBuffer, size_t Count, float Gain);
+    long read(wxInt16* OutBuffer, size_t Count, float Gain);
     bool eof();
     bool seek(wxFileOffset ofs, wxSeekMode mode = wxFromStart);
 
@@ -42,13 +40,12 @@ private:
     enum { bufferSize_ = 32768 * 2 };
     unsigned char* buffer_;
     FILE*   file_;
-    long    sampleCount_;
-    long    sampleRate_;
-    long    fileSize_;
-    long    sizeOfSampleData_;
-    long    dataPosition_;
-    long    bufferPosition_;
-    int     bitsPerSample_;
+    long sampleCount_;
+    long sampleRate_;
+    long fileSize_;
+    long sizeOfSampleData_;
+    long dataPosition_;
+    int bitsPerSample_;
 };
 
 inline void WaveReader::stereo( int s ) {
