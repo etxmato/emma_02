@@ -4455,6 +4455,10 @@ void XmlParser::parseXml_Cassette (int computer, wxXmlNode &node)
         "threshold",
         "stoptone",
         "bootstart",
+        "startbit",
+        "databits",
+        "stopbit",
+        "stopdelay",
         "filename",
         "dirname",
         "iogroup",
@@ -4472,6 +4476,10 @@ void XmlParser::parseXml_Cassette (int computer, wxXmlNode &node)
         TAG_THRESHOLD,
         TAG_STOPTONE,
         TAG_BOOTSTART,
+        TAG_STARTBIT,
+        TAG_DATABITS,
+        TAG_STOPBIT,
+        TAG_STOPDELAY,
         TAG_FILENAME,
         TAG_DIRNAME,
         TAG_IOGROUP,
@@ -4488,14 +4496,18 @@ void XmlParser::parseXml_Cassette (int computer, wxXmlNode &node)
 
     elfConfiguration[computer].stopTone = false;
     elfConfiguration[computer].tapeStart = false;
-    int oneFreq = 4000;
-    int zeroFreq = 2000;
-    elfConfiguration[computer].revCassetteInput = false;
-    elfConfiguration[computer].frequencyBorder = 3000;
-    elfConfiguration[computer].threshold8Bit = 10;
-    elfConfiguration[computer].threshold16Bit = 500;
-    elfConfiguration[computer].audioChannelLeft = true;
-    elfConfiguration[computer].dataChannelLeft = true;
+    elfConfiguration[computer].tape_revInput = false;
+    elfConfiguration[computer].tape_startBit = 1;
+    elfConfiguration[computer].tape_dataBits = 8;
+    elfConfiguration[computer].tape_stopBit = 0;
+    elfConfiguration[computer].tape_stopDelay = 100;
+    elfConfiguration[computer].tape_frequency0 = 4000;
+    elfConfiguration[computer].tape_frequency1 = 2000;
+    elfConfiguration[computer].tape_frequencyBorder = 3000;
+    elfConfiguration[computer].tape_threshold8Bit = 10;
+    elfConfiguration[computer].tape_threshold16Bit = 500;
+    elfConfiguration[computer].tape_audioChannelLeft = true;
+    elfConfiguration[computer].tape_dataChannelLeft = true;
     cassetteNumber = 0;
 
     wxXmlNode *child = node.GetChildren();
@@ -4538,19 +4550,35 @@ void XmlParser::parseXml_Cassette (int computer, wxXmlNode &node)
 
             case TAG_FREQ:
                 if (child->GetAttribute("type") == "0")
-                    zeroFreq = (int)parseXml_Number(*child);
+                    elfConfiguration[computer].tape_frequency0 = (int)parseXml_Number(*child);
                 if (child->GetAttribute("type") == "1")
-                    oneFreq = (int)parseXml_Number(*child);
-                elfConfiguration[computer].frequencyBorder = (oneFreq + zeroFreq) / 2;
-                if (zeroFreq > oneFreq)
-                    elfConfiguration[computer].revCassetteInput = true;
+                    elfConfiguration[computer].tape_frequency1 = (int)parseXml_Number(*child);
+                elfConfiguration[computer].tape_frequencyBorder = (elfConfiguration[computer].tape_frequency1 + elfConfiguration[computer].tape_frequency0) / 2;
+                if (elfConfiguration[computer].tape_frequency0 > elfConfiguration[computer].tape_frequency1)
+                    elfConfiguration[computer].tape_revInput = true;
             break;
 
             case TAG_THRESHOLD:
                 if (child->GetAttribute("type") == "8bit")
-                    elfConfiguration[computer].threshold8Bit = (int)parseXml_Number(*child);
+                    elfConfiguration[computer].tape_threshold8Bit = (int)parseXml_Number(*child);
                 if (child->GetAttribute("type") == "16bit")
-                    elfConfiguration[computer].threshold16Bit  = (int)parseXml_Number(*child);
+                    elfConfiguration[computer].tape_threshold16Bit  = (int)parseXml_Number(*child);
+            break;
+
+            case TAG_STARTBIT:
+                elfConfiguration[computer].tape_startBit = (int)parseXml_Number(*child);
+            break;
+
+            case TAG_DATABITS:
+                elfConfiguration[computer].tape_dataBits = (int)parseXml_Number(*child);
+            break;
+
+            case TAG_STOPBIT:
+                elfConfiguration[computer].tape_stopBit = (int)parseXml_Number(*child);
+            break;
+
+            case TAG_STOPDELAY:
+                elfConfiguration[computer].tape_stopDelay = (int)parseXml_Number(*child);
             break;
 
             case TAG_STOPTONE:
@@ -4581,12 +4609,12 @@ void XmlParser::parseXml_Cassette (int computer, wxXmlNode &node)
                 if (child->GetAttribute("type") == "audio")
                 {
                     if (child->GetNodeContent() == "right")
-                        elfConfiguration[computer].audioChannelLeft = false;
+                        elfConfiguration[computer].tape_audioChannelLeft = false;
                 }
                 if (child->GetAttribute("type") == "data")
                 {
                     if (child->GetNodeContent() == "right")
-                        elfConfiguration[computer].dataChannelLeft = false;
+                        elfConfiguration[computer].tape_dataChannelLeft = false;
                 }
             break;
 

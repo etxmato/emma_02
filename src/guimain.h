@@ -621,6 +621,7 @@ protected:
     wxButton *startButton[NO_COMPUTER];
     wxButton *stopButton[NO_COMPUTER];
 
+    wxTimer *tapePauseTimerPointer;
     wxTimer *traceTimeoutPointer;
     wxTimer *keyDebounceTimeoutPointer;
     wxTimer *vuPointer;

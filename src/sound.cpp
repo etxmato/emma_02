@@ -1063,24 +1063,29 @@ int Sound::writeSaveTapeHw(Byte value, Byte stopBits)
     int sample_count = 0;
 
     int const amplitude_max = 16384;
-    int const freq0 = 4000;
-    int const freq1 = 2000;
-    float const period = (float)1/2000;
+    int const freq0 = p_Computer->getFrequency0();
+    int const freq1 = p_Computer->getFrequency1();
+    float period;
+    
+    if (freq0 < freq1)
+        period = (float)1/freq0;
+    else
+        period = (float)1/freq1;
 
     int freq;
         
     for (int bit = 0; bit <(9+stopBits); bit++)
     {
         if (bit == 0)
-            freq = freq1;
-        else if (bit >= 9)
             freq = freq0;
+        else if (bit >= 9)
+            freq = freq1;
         else
         {
             if ((value & 0x80) == 0x80)
-                freq = freq1;
-            else
                 freq = freq0;
+            else
+                freq = freq1;
             value = value << 1;
         }
   

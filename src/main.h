@@ -261,6 +261,7 @@ protected:
 #define PAUSE_STATE 44
 #define SET_BUTTON_LABEL 45
 #define CHANGE_HW_TAPE_STATE 46
+#define TAPE_PAUSE_TIMER 47
 
 #define OS_WINDOWS_2000 0
 #define OS_WINDOWS_XP 1
@@ -1437,8 +1438,12 @@ public:
     void setDebounceTimer(guiEvent& event);
     void eventDebounceTimer();
 
+    void tapePauseTimeout(wxTimerEvent& event);
+    void setTapePauseTimer(guiEvent& event);
+    void eventTapePauseTimer(int delay);
+
     void guiSizeTimeout(wxTimerEvent& event);
-    
+ 
     void guiRedrawBarTimeOut(wxTimerEvent& event);
 
     wxString getMultiCartGame(Byte msb, Byte lsb);

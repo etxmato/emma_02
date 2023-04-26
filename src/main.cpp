@@ -554,6 +554,7 @@ BEGIN_EVENT_TABLE(Main, DebugWindow)
     EVT_TIMER(908, Main::guiSizeTimeout)
     EVT_TIMER(909, Main::guiRedrawBarTimeOut)
     EVT_TIMER(910, Main::directAssTimeout)
+    EVT_TIMER(911, Main::tapePauseTimeout)
 
     EVT_KEY_DOWN(Main::onKeyDown)
     EVT_KEY_UP(Main::onKeyUp)
@@ -604,7 +605,7 @@ BEGIN_EVENT_TABLE(Main, DebugWindow)
     EVT_GUI_MSG(ENABLE_CLOCK, Main::setEnableClockEvent)
     EVT_GUI_MSG(PAUSE_STATE, Main::setPauseStateEvent)
     EVT_GUI_MSG(CHANGE_HW_TAPE_STATE, Main::setHwTapeStateEvent)
-
+    EVT_GUI_MSG(TAPE_PAUSE_TIMER, Main::setTapePauseTimer)
 
     EVT_SYS_COLOUR_CHANGED(Main::sysColourChangeEvent)
 
@@ -2304,6 +2305,7 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
     guiSizeTimeoutPointer = new wxTimer(this, 908);
     guiRedrawBarTimeOutPointer = new wxTimer(this, 909);
     directAssPointer = new wxTimer(this, 910);
+    tapePauseTimerPointer = new wxTimer(this, 911);
     guiSizeTimerStarted_ = false;
     
     if (mode_.gui)
@@ -2366,6 +2368,7 @@ Main::~Main()
     delete updateCheckPointer;
     delete traceTimeoutPointer;
     delete keyDebounceTimeoutPointer;
+    delete tapePauseTimerPointer;
     delete guiSizeTimeoutPointer;
     delete guiRedrawBarTimeOutPointer;
     delete help_;
@@ -9766,7 +9769,7 @@ void Main::debounceTimeout(wxTimerEvent&WXUNUSED(event))
 
 void Main::setDebounceTimer(guiEvent&WXUNUSED(event))
 {
-    traceTimeoutPointer->Start(80, wxTIMER_ONE_SHOT);
+    keyDebounceTimeoutPointer->Start(80, wxTIMER_ONE_SHOT);
 }
 
 void Main::eventDebounceTimer()
@@ -9775,6 +9778,27 @@ void Main::eventDebounceTimer()
     event.SetEventObject(p_Main);
     
     GetEventHandler()->AddPendingEvent(event);
+}
+
+void Main::tapePauseTimeout(wxTimerEvent&WXUNUSED(event))
+{
+    p_Computer->pauseTape();
+}
+
+void Main::setTapePauseTimer(guiEvent& event)
+{
+   int delay = event.GetInt();
+   tapePauseTimerPointer->Start(delay, wxTIMER_ONE_SHOT);
+}
+
+void Main::eventTapePauseTimer(int delay)
+{
+   guiEvent event(GUI_MSG, TAPE_PAUSE_TIMER);
+   event.SetEventObject(p_Main);
+   
+   event.SetInt(delay);
+   
+   GetEventHandler()->AddPendingEvent(event);
 }
 
 void Main::guiSizeTimeout(wxTimerEvent&WXUNUSED(event))

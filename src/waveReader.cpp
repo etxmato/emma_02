@@ -139,17 +139,17 @@ long WaveReader::read(wxInt16* outBuffer, size_t remaining, float gain)
 
     unsigned char* bufferPointer = &buffer [0];
 
-    bool dataChannelLeft, audioChannelLeft;
+    bool tape_dataChannelLeft, tape_audioChannelLeft;
     
     if (channelCount_ == 1)
     {
-        dataChannelLeft = true;
-        audioChannelLeft = true;
+        tape_dataChannelLeft = true;
+        tape_audioChannelLeft = true;
     }
     else
     {
-        dataChannelLeft = p_Computer->isDataChannelLeft();
-        audioChannelLeft = p_Computer->isAudioChannelLeft();
+        tape_dataChannelLeft = p_Computer->isDataChannelLeft();
+        tape_audioChannelLeft = p_Computer->isAudioChannelLeft();
     }
     
     switch (frameSize_/channelCount_)
@@ -157,36 +157,48 @@ long WaveReader::read(wxInt16* outBuffer, size_t remaining, float gain)
         case 3:
             while(in--)
             {
-                if (audioChannelLeft)
+                if (tape_audioChannelLeft)
                 {
-                    audio24 = *bufferPointer++;
-                    audio24 += *bufferPointer++ << 8;
-                    audio24 += *bufferPointer-- << 16;
+                    bufferPointer++;
+                    audio24 += *bufferPointer++;
+                    audio24 += *bufferPointer-- << 8;
                     bufferPointer--;
-                    *outBuffer++ = (wxInt16)(audio24>>8)*gain/2;
+                    *outBuffer++ = (wxInt16)audio24*gain/2;
                 }
-                if (dataChannelLeft)
+                if (tape_dataChannelLeft)
                 {
                     data24 = *bufferPointer++;
                     data24 += *bufferPointer++ << 8;
-                    data24 += *bufferPointer-- << 16;
+                    if (*bufferPointer & 0x80)
+                    {
+                        data24 += *bufferPointer-- << 16;
+                        data24 += 0xff << 24;
+                    }
+                    else
+                        data24 += *bufferPointer-- << 16;
                     bufferPointer--;
                 }
                 bufferPointer += frameSize_/2;
 
-                if (!audioChannelLeft) // audio channel right
+                if (!tape_audioChannelLeft) // audio channel right
                 {
-                    audio24 = *bufferPointer++;
-                    audio24 += *bufferPointer++ << 8;
-                    audio24 += *bufferPointer-- << 16;
+                    bufferPointer++;
+                    audio24 += *bufferPointer++;
+                    audio24 += *bufferPointer-- << 8;
                     bufferPointer--;
-                    *outBuffer++ = (wxInt16)(audio24>>8)*gain/2;
+                    *outBuffer++ = (wxInt16)audio24*gain/2;
                 }
-                if (!dataChannelLeft) // data channel right
+                if (!tape_dataChannelLeft) // data channel right
                 {
                     data24 = *bufferPointer++;
                     data24 += *bufferPointer++ << 8;
-                    data24 += *bufferPointer-- << 16;
+                    if (*bufferPointer & 0x80)
+                    {
+                        data24 += *bufferPointer-- << 16;
+                        data24 += 0xff << 24;
+                    }
+                    else
+                        data24 += *bufferPointer-- << 16;
                     bufferPointer--;
                 }
                 bufferPointer += frameSize_/2;
@@ -199,26 +211,26 @@ long WaveReader::read(wxInt16* outBuffer, size_t remaining, float gain)
         case 2:
             while(in--)
             {
-                if (audioChannelLeft)
+                if (tape_audioChannelLeft)
                 {
                     audioWord = *bufferPointer++;
                     audioWord += *bufferPointer-- << 8;
                     *outBuffer++ = (wxInt16)audioWord*gain/2;
                 }
-                if (dataChannelLeft)
+                if (tape_dataChannelLeft)
                 {
                     dataWord = *bufferPointer++;
                     dataWord += *bufferPointer-- << 8;
                 }
                 bufferPointer += frameSize_/2;
 
-                if (!audioChannelLeft) // audio channel right
+                if (!tape_audioChannelLeft) // audio channel right
                 {
                     audioWord = *bufferPointer++;
                     audioWord += *bufferPointer-- << 8;
                     *outBuffer++ = (wxInt16)audioWord*gain/2;
                 }
-                if (!dataChannelLeft) // data channel right
+                if (!tape_dataChannelLeft) // data channel right
                 {
                     dataWord = *bufferPointer++;
                     dataWord += *bufferPointer-- << 8;
@@ -233,23 +245,23 @@ long WaveReader::read(wxInt16* outBuffer, size_t remaining, float gain)
         case 1:
             while(in--)
             {
-                if (audioChannelLeft)
+                if (tape_audioChannelLeft)
                 {
                     audioByte = *bufferPointer;
                     *outBuffer++ = (wxInt16) ((audioByte ^ 0x80) << 8)*gain/2;
                 }
-                if (dataChannelLeft)
+                if (tape_dataChannelLeft)
                 {
                     dataByte = *bufferPointer;
                 }
                 bufferPointer += frameSize_/2;
 
-                if (!audioChannelLeft) // audio channel right
+                if (!tape_audioChannelLeft) // audio channel right
                 {
                     audioByte = *bufferPointer;
                     *outBuffer++ = (wxInt16) ((audioByte ^ 0x80) << 8)*gain/2;
                 }
-                if (!dataChannelLeft) // data channel right
+                if (!tape_dataChannelLeft) // data channel right
                 {
                     dataByte = *bufferPointer;
                 }

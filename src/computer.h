@@ -584,6 +584,8 @@ public:
     virtual bool isAudioChannelLeft() {return true;};
     virtual bool isDataChannelLeft() {return true;};
     virtual bool isTapeHwActive() {return false;};
+    virtual int getFrequency0() {return 2000;};
+    virtual int getFrequency1() {return 4000;};
 
 protected:
     RunComputer *threadPointer;

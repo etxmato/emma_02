@@ -52,6 +52,10 @@
         <in>: read data from tape
         <stoptone />: detect stop tone
         <bootstart />: start tape on boot
+        <startbit>: start bit value, 0 or 1
+        <databits>: number of databits
+        <stopbit>: stop bit value, 0 or 1. Use -1 to ignore stop bit value and start next byte as soon as a startbit is reeceived
+        <stopdelay>: delay in stopping cassette in ms
         <filename>: initial cassette filename
         <dirname>: location of cassette file; defined as sub-dir of the main Emma 02 data directory. If not specified the dirname specified in <system> will be used.
         -->
@@ -59,10 +63,14 @@
         <in>2</in>
         <ef type="out">1</ef>
         <out q="1">4</out>
-        <freq type="0">2000</freq>
-        <freq type="1">4000</freq>
+        <freq type="0">1967</freq>
+        <freq type="1">3934</freq>
+        <startbit>1</startbit>
+        <databits>8</databits>
+        <stopbit>-1</stopbit>
+        <stopdelay>10</stopdelay>
         <threshold type="8bit">10</threshold>
-        <threshold type="16bit">290</threshold>
+        <threshold type="16bit">200</threshold>
         <filename cassette="0"></filename>
         <channel type="audio">left</channel>
         <channel type="data">right</channel>

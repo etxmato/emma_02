@@ -230,9 +230,11 @@ public:
     void finishStopTape();
     void resetTape();
 
-    bool isAudioChannelLeft() {return elfConfiguration.audioChannelLeft;};
-    bool isDataChannelLeft() {return elfConfiguration.dataChannelLeft;};
+    bool isAudioChannelLeft() {return elfConfiguration.tape_audioChannelLeft;};
+    bool isDataChannelLeft() {return elfConfiguration.tape_dataChannelLeft;};
     bool isTapeHwActive() {return elfConfiguration.useTapeHw;};
+    virtual int getFrequency0() {return elfConfiguration.tape_frequency0;};
+    virtual int getFrequency1() {return elfConfiguration.tape_frequency1;};
 
 private:
     class ElfScreen *elfScreenPointer;
