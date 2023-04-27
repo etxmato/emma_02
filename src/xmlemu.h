@@ -233,8 +233,11 @@ public:
     bool isAudioChannelLeft() {return elfConfiguration.tape_audioChannelLeft;};
     bool isDataChannelLeft() {return elfConfiguration.tape_dataChannelLeft;};
     bool isTapeHwActive() {return elfConfiguration.useTapeHw;};
-    virtual int getFrequency0() {return elfConfiguration.tape_frequency0;};
-    virtual int getFrequency1() {return elfConfiguration.tape_frequency1;};
+    int getFrequency0() {return elfConfiguration.tape_frequency0;};
+    int getFrequency1() {return elfConfiguration.tape_frequency1;};
+    int getStartBit() {return elfConfiguration.tape_startBit;};
+    int getDataBits() {return elfConfiguration.tape_dataBits;};
+    int getStopBit() {return elfConfiguration.tape_stopBit;};
 
 private:
     class ElfScreen *elfScreenPointer;

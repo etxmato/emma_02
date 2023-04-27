@@ -62,8 +62,8 @@
             filePath = "src/sound.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1113"
-            endingLineNumber = "1113"
+            startingLineNumber = "1117"
+            endingLineNumber = "1117"
             landmarkName = "Sound::stopTape()"
             landmarkType = "7">
          </BreakpointContent>
@@ -513,6 +513,38 @@
             startingLineNumber = "9785"
             endingLineNumber = "9785"
             landmarkName = "Main::tapePauseTimeout()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FF8C197F-FB16-4627-AFD1-D91F9F8D2AA9"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/sound.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1081"
+            endingLineNumber = "1081"
+            landmarkName = "Sound::writeSaveTapeHw(value, numberOfStopBits)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "EEAE6572-6B69-43F0-AA1C-5648B30198D0"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/sound.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1096"
+            endingLineNumber = "1096"
+            landmarkName = "Sound::writeSaveTapeHw(value, numberOfStopBits)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

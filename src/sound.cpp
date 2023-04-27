@@ -1053,7 +1053,7 @@ void Sound::writeSilenceTapeHw()
     stepCassetteCounter(1);
 }
 
-int Sound::writeSaveTapeHw(Byte value, Byte stopBits)
+int Sound::writeSaveTapeHw(Byte value, Byte numberOfStopBits)
 {
     if (!hwSaveOn_)
         return 0;
@@ -1063,32 +1063,23 @@ int Sound::writeSaveTapeHw(Byte value, Byte stopBits)
     int sample_count = 0;
 
     int const amplitude_max = 16384;
-    int const freq0 = p_Computer->getFrequency0();
-    int const freq1 = p_Computer->getFrequency1();
+    int frequency[2];
+    frequency[0] = p_Computer->getFrequency0();
+    frequency[1] = p_Computer->getFrequency1();
+    int const startBit = p_Computer->getStartBit()&1;
+    int const dataBits = p_Computer->getDataBits();
+    int const stopBit = p_Computer->getStopBit();
     float period;
     
-    if (freq0 < freq1)
-        period = (float)1/freq0;
+    if (frequency[0] < frequency[1])
+        period = (float)1/frequency[0];
     else
-        period = (float)1/freq1;
+        period = (float)1/frequency[1];
 
-    int freq;
+    int freq = frequency[startBit];
         
-    for (int bit = 0; bit <(9+stopBits); bit++)
+    for (int bit = 0; bit <(1+dataBits+numberOfStopBits); bit++)
     {
-        if (bit == 0)
-            freq = freq0;
-        else if (bit >= 9)
-            freq = freq1;
-        else
-        {
-            if ((value & 0x80) == 0x80)
-                freq = freq0;
-            else
-                freq = freq1;
-            value = value << 1;
-        }
-  
         while((float)sample_count/sampleRate_ < (float)(bit+1) * period)
         {
             samples[0] = (amplitude_max * sin(2 * freq * M_PI*((float)sample_count/sampleRate_ - (float)bit * period)));
@@ -1100,6 +1091,19 @@ int Sound::writeSaveTapeHw(Byte value, Byte stopBits)
             }
             else
                 ploadWavePointer->write(samples[0]);
+        }
+        
+        if (bit >= dataBits)
+        {
+            if  (stopBit != -1)
+                freq = frequency[stopBit&1];
+            else
+                bit = 1+dataBits+numberOfStopBits;
+        }
+        else
+        {
+            freq = frequency[(value & 0x80)>>7];
+            value = value << 1;
         }
     }
     stepCassetteCounter(sample_count);

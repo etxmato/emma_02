@@ -6191,10 +6191,7 @@ void Xmlemu::cassetteCyberVision()
                 }
                 if (bitNumber_ == elfConfiguration.tape_dataBits)
                 {
-                    if (elfConfiguration.tape_revInput)
-                        lastTapeInpt_ = tapeInput_ ^0xff;
-                    else
-                        lastTapeInpt_ = tapeInput_;
+                    lastTapeInpt_ = tapeInput_;
                     
                     if (startBytes_ > 0 && tapeInput_ == 0)
                         startBytes_--;
@@ -6216,10 +6213,7 @@ void Xmlemu::cassetteCyberVision()
 
                     if (stopBit)
                     {
-                        if (elfConfiguration.tape_revInput)
-                            lastTapeInpt_ = tapeInput_ ^0xff;
-                        else
-                            lastTapeInpt_ = tapeInput_;
+                        lastTapeInpt_ = tapeInput_;
                         
                         if (startBytes_ > 0 && tapeInput_ == 0)
                             startBytes_--;

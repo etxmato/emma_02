@@ -586,6 +586,9 @@ public:
     virtual bool isTapeHwActive() {return false;};
     virtual int getFrequency0() {return 2000;};
     virtual int getFrequency1() {return 4000;};
+    virtual int getStartBit() {return 1;};
+    virtual int getDataBits() {return 8;};
+    virtual int getStopBit() {return 0;};
 
 protected:
     RunComputer *threadPointer;
