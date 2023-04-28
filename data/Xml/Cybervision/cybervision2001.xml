@@ -63,14 +63,14 @@
         <in>2</in>
         <ef type="out">1</ef>
         <out q="1">4</out>
-        <freq type="0">3934</freq>
-        <freq type="1">1967</freq>
+        <freq type="0">4000</freq>
+        <freq type="1">2000</freq>
         <startbit>1</startbit>
         <databits>8</databits>
         <stopbit>-1</stopbit>
         <stopdelay>10</stopdelay>
         <threshold type="8bit">10</threshold>
-        <threshold type="16bit">200</threshold>
+        <threshold type="16bit">100</threshold>
         <filename cassette="0"></filename>
         <channel type="audio">left</channel>
         <channel type="data">right</channel>

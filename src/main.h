@@ -1441,6 +1441,7 @@ public:
     void tapePauseTimeout(wxTimerEvent& event);
     void setTapePauseTimer(guiEvent& event);
     void eventTapePauseTimer(int delay);
+    void cancelTapePause();
 
     void guiSizeTimeout(wxTimerEvent& event);
  
@@ -1509,6 +1510,8 @@ private:
 
     int functionKey_[14];
     CompletedSplashScreen *completedSplashScreen_;
+    
+    bool tapePauseOrdered_;
     
     DECLARE_EVENT_TABLE()
 };

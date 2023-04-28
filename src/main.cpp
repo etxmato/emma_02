@@ -9787,7 +9787,11 @@ void Main::tapePauseTimeout(wxTimerEvent&WXUNUSED(event))
 
 void Main::setTapePauseTimer(guiEvent& event)
 {
+   if (!tapePauseOrdered_)
+      return;
+   
    int delay = event.GetInt();
+   tapePauseOrdered_ = false;
    tapePauseTimerPointer->Start(delay, wxTIMER_ONE_SHOT);
 }
 
@@ -9798,7 +9802,14 @@ void Main::eventTapePauseTimer(int delay)
    
    event.SetInt(delay);
    
+   tapePauseOrdered_ = true;
+   
    GetEventHandler()->AddPendingEvent(event);
+}
+
+void Main::cancelTapePause()
+{
+   tapePauseOrdered_ = false;
 }
 
 void Main::guiSizeTimeout(wxTimerEvent&WXUNUSED(event))

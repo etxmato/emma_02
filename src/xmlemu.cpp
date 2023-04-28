@@ -2299,12 +2299,16 @@ void Xmlemu::switchQ(int value)
             if (tapeActivated_ || tapeRecording_)
             {
                 p_Main->turboOff();
-                p_Main->eventTapePauseTimer(elfConfiguration.tape_stopDelay);
+                if (elfConfiguration.tape_stopDelay <= 0)
+                    p_Computer->pauseTape();
+                else
+                    p_Main->eventTapePauseTimer(elfConfiguration.tape_stopDelay);
                // p_Computer->pauseTape();
             }
         }
         else
         {
+            p_Main->cancelTapePause();
             if (p_Main->getHwTapeState() == HW_TAPE_STATE_REC)
             {
                 if (tapeRecording_)
