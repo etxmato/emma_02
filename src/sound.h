@@ -88,12 +88,14 @@ protected:
     double soundClock_;
     double percentageClock_;
     int computerType_;
-    int threshold8_;
-    int threshold16_;
+    char threshold8_;
+    wxInt16 threshold16_;
+    wxInt32 threshold24_;
     float fredFreq_;
     long sampleRate_;
     int forwardSpeed_;
     double remainingForwardSpeed_;
+    bool useXmlThreshold_;
 
     Byte tapeHwReadyToReceive_;
     long long tapeCounterStep_;

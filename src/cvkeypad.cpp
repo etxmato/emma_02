@@ -95,40 +95,36 @@ void CvKeypad::keyDown(int keycode,  wxKeyEvent& event)
         
     switch (keycode)
     {
-        case WXK_CAPITAL:
-            input = ioConfiguration_.CvKeypadTextKey[MATRIX_CAPS_KEY];
-        break;
-
         case WXK_ESCAPE:
-            input = ioConfiguration_.CvKeypadTextKey[MATRIX_ESC_KEY];
+            input = ioConfiguration_.CvKeypadTextKey[MATRIX_TEXT_ESC_KEY];
         break;
 
         case WXK_RETURN:
-            input = ioConfiguration_.CvKeypadTextKey[MATRIX_RETURN_KEY];
+            input = ioConfiguration_.CvKeypadTextKey[MATRIX_TEXT_RETURN_KEY];
         break;
 
         case WXK_END:
-            input = ioConfiguration_.CvKeypadTextKey[MATRIX_END_KEY];
+            input = ioConfiguration_.CvKeypadTextKey[MATRIX_TEXT_END_KEY];
         break;
 
         case WXK_HOME:
-            input = ioConfiguration_.CvKeypadTextKey[MATRIX_HOME_KEY];
+            input = ioConfiguration_.CvKeypadTextKey[MATRIX_TEXT_HOME_KEY];
         break;
 
         case WXK_DOWN:
-            input = ioConfiguration_.CvKeypadTextKey[MATRIX_DOWN_KEY];
+            input = ioConfiguration_.CvKeypadTextKey[MATRIX_TEXT_DOWN_KEY];
         break;
 
         case WXK_LEFT:
-            input = ioConfiguration_.CvKeypadTextKey[MATRIX_LEFT_KEY];
+            input = ioConfiguration_.CvKeypadTextKey[MATRIX_TEXT_LEFT_KEY];
         break;
 
         case WXK_RIGHT:
-            input = ioConfiguration_.CvKeypadTextKey[MATRIX_RIGHT_KEY];
+            input = ioConfiguration_.CvKeypadTextKey[MATRIX_TEXT_RIGHT_KEY];
         break;
 
         case WXK_UP:
-            input = ioConfiguration_.CvKeypadTextKey[MATRIX_UP_KEY];
+            input = ioConfiguration_.CvKeypadTextKey[MATRIX_TEXT_UP_KEY];
         break;
             
         case WXK_SHIFT:
@@ -183,19 +179,19 @@ void CvKeypad::keyUp(int keycode, wxKeyEvent& WXUNUSED(event))
             break;
 
             case WXK_DOWN:
-                input = ioConfiguration_.CvKeypadTextKey[MATRIX_DOWN_KEY];
+                input = ioConfiguration_.CvKeypadTextKey[MATRIX_TEXT_DOWN_KEY];
             break;
                 
             case WXK_LEFT:
-                input = ioConfiguration_.CvKeypadTextKey[MATRIX_LEFT_KEY];
+                input = ioConfiguration_.CvKeypadTextKey[MATRIX_TEXT_LEFT_KEY];
             break;
                 
             case WXK_RIGHT:
-                input = ioConfiguration_.CvKeypadTextKey[MATRIX_RIGHT_KEY];
+                input = ioConfiguration_.CvKeypadTextKey[MATRIX_TEXT_RIGHT_KEY];
             break;
                 
             case WXK_UP:
-                input = ioConfiguration_.CvKeypadTextKey[MATRIX_UP_KEY];
+                input = ioConfiguration_.CvKeypadTextKey[MATRIX_TEXT_UP_KEY];
             break;
         }
         switch (newKey)

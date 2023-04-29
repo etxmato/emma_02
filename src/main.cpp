@@ -2581,6 +2581,8 @@ void Main::writeConfig()
     configPointer->Write("/Main/Cassette_Fred_Freq", psaveData_[10]);
     configPointer->Write("/Main/Cassette_CV_A", psaveData_[11]);
     configPointer->Write("/Main/Cassette_CV_B", psaveData_[12]);
+    configPointer->Write("/Main/UseXmlThreshold", psaveData_[13]);
+    configPointer->Write("/Main/Cassette_Fred_Threshold_24", psaveData_[14]);
     configPointer->Write("/Main/Window_Positions_Fixed", mode_.window_position_fixed);
 
     writeDebugConfig();
@@ -3430,6 +3432,8 @@ void Main::readConfig()
     psaveData_[10] = (int)configPointer->Read("/Main/Cassette_Fred_Freq", 58l);
     psaveData_[11] = (int)configPointer->Read("/Main/Cassette_CV_A", 17l);
     psaveData_[12] = (int)configPointer->Read("/Main/Cassette_CV_B", 18l);
+    psaveData_[13] = (int)configPointer->Read("/Main/UseXmlThreshold", 1l);
+    psaveData_[14] = (int)configPointer->Read("/Main/Cassette_Fred_Threshold_24", 1000l);
 }
 
 #if defined(__WXMSW__)

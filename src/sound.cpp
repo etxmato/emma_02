@@ -1318,6 +1318,8 @@ void Sound::setPsaveSettings()
     audioPointer->setTapeConfig(inputChannel_, playback);
     threshold8_ = p_Main->getPsaveData(8);
     threshold16_ = p_Main->getPsaveData(9);
+    threshold24_ = p_Main->getPsaveData(14);
     fredFreq_ = (float) p_Main->getPsaveData(10)/10;
+    useXmlThreshold_ = (p_Main->getPsaveData(13) != 0);
 }
 

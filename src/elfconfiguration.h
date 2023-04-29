@@ -387,8 +387,9 @@ public:
     bool stopTone;
     bool utilityMemory;
     bool tapeStart;
-    int tape_threshold8Bit;
-    int tape_threshold16Bit;
+    char tape_threshold8Bit;
+    wxInt16 tape_threshold16Bit;
+    wxInt32 tape_threshold24Bit;
     int tape_frequencyBorder;
     int tape_frequency0;
     int tape_frequency1;

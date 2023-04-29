@@ -155,49 +155,49 @@ bool KeybMatrix::keyDownExtended(int keycode, wxKeyEvent& event)
         break;
 
         case WXK_RETURN:
-            keyValue_[ioConfiguration_.keybMatrixTextKey[MATRIX_RETURN_KEY].keyValue] |= ioConfiguration_.keybMatrixTextKey[MATRIX_RETURN_KEY].bitMaskPressed;
+            keyValue_[ioConfiguration_.keybMatrixTextKey[MATRIX_TEXT_RETURN_KEY].keyValue] |= ioConfiguration_.keybMatrixTextKey[MATRIX_TEXT_RETURN_KEY].bitMaskPressed;
             keyDown_ = true;
             efKeyValue_[ioConfiguration_.keybMatrixEfKey[MATRIX_SHIFT_KEY]] = shiftPressed;
             return true;
         break;
 
         case WXK_END:
-            keyValue_[ioConfiguration_.keybMatrixTextKey[MATRIX_END_KEY].keyValue] |= ioConfiguration_.keybMatrixTextKey[MATRIX_END_KEY].bitMaskPressed;
+            keyValue_[ioConfiguration_.keybMatrixTextKey[MATRIX_TEXT_END_KEY].keyValue] |= ioConfiguration_.keybMatrixTextKey[MATRIX_TEXT_END_KEY].bitMaskPressed;
             keyDown_ = true;
             efKeyValue_[ioConfiguration_.keybMatrixEfKey[MATRIX_SHIFT_KEY]] = shiftPressed;
             return true;
         break;
 
         case WXK_HOME:
-            keyValue_[ioConfiguration_.keybMatrixTextKey[MATRIX_HOME_KEY].keyValue] |= ioConfiguration_.keybMatrixTextKey[MATRIX_HOME_KEY].bitMaskPressed;
+            keyValue_[ioConfiguration_.keybMatrixTextKey[MATRIX_TEXT_HOME_KEY].keyValue] |= ioConfiguration_.keybMatrixTextKey[MATRIX_TEXT_HOME_KEY].bitMaskPressed;
             keyDown_ = true;
             efKeyValue_[ioConfiguration_.keybMatrixEfKey[MATRIX_SHIFT_KEY]] = shiftPressed;
             return true;
         break;
 
         case WXK_DOWN:
-            keyValue_[ioConfiguration_.keybMatrixTextKey[MATRIX_DOWN_KEY].keyValue] |= ioConfiguration_.keybMatrixTextKey[MATRIX_DOWN_KEY].bitMaskPressed;
+            keyValue_[ioConfiguration_.keybMatrixTextKey[MATRIX_TEXT_DOWN_KEY].keyValue] |= ioConfiguration_.keybMatrixTextKey[MATRIX_TEXT_DOWN_KEY].bitMaskPressed;
             keyDown_ = true;
             efKeyValue_[ioConfiguration_.keybMatrixEfKey[MATRIX_SHIFT_KEY]] = shiftPressed;
             return true;
         break;
 
         case WXK_LEFT:
-            keyValue_[ioConfiguration_.keybMatrixTextKey[MATRIX_LEFT_KEY].keyValue] |= ioConfiguration_.keybMatrixTextKey[MATRIX_LEFT_KEY].bitMaskPressed;
+            keyValue_[ioConfiguration_.keybMatrixTextKey[MATRIX_TEXT_LEFT_KEY].keyValue] |= ioConfiguration_.keybMatrixTextKey[MATRIX_TEXT_LEFT_KEY].bitMaskPressed;
             keyDown_ = true;
             efKeyValue_[ioConfiguration_.keybMatrixEfKey[MATRIX_SHIFT_KEY]] = shiftPressed;
             return true;
         break;
 
         case WXK_RIGHT:
-            keyValue_[ioConfiguration_.keybMatrixTextKey[MATRIX_RIGHT_KEY].keyValue] |= ioConfiguration_.keybMatrixTextKey[MATRIX_RIGHT_KEY].bitMaskPressed;
+            keyValue_[ioConfiguration_.keybMatrixTextKey[MATRIX_TEXT_RIGHT_KEY].keyValue] |= ioConfiguration_.keybMatrixTextKey[MATRIX_TEXT_RIGHT_KEY].bitMaskPressed;
             keyDown_ = true;
             efKeyValue_[ioConfiguration_.keybMatrixEfKey[MATRIX_SHIFT_KEY]] = shiftPressed;
             return true;
         break;
 
         case WXK_UP:
-            keyValue_[ioConfiguration_.keybMatrixTextKey[MATRIX_UP_KEY].keyValue] |= ioConfiguration_.keybMatrixTextKey[MATRIX_UP_KEY].bitMaskPressed;
+            keyValue_[ioConfiguration_.keybMatrixTextKey[MATRIX_TEXT_UP_KEY].keyValue] |= ioConfiguration_.keybMatrixTextKey[MATRIX_TEXT_UP_KEY].bitMaskPressed;
             keyDown_ = true;
             efKeyValue_[ioConfiguration_.keybMatrixEfKey[MATRIX_SHIFT_KEY]] = shiftPressed;
             return true;
@@ -230,19 +230,19 @@ void KeybMatrix::keyUpExtended(int keycode, wxKeyEvent& WXUNUSED(event))
         break;
 
         case WXK_RETURN:
-            keyValue_[ioConfiguration_.keybMatrixTextKey[MATRIX_RETURN_KEY].keyValue] &= ioConfiguration_.keybMatrixTextKey[MATRIX_RETURN_KEY].bitMaskNotPressed;
+            keyValue_[ioConfiguration_.keybMatrixTextKey[MATRIX_TEXT_RETURN_KEY].keyValue] &= ioConfiguration_.keybMatrixTextKey[MATRIX_TEXT_RETURN_KEY].bitMaskNotPressed;
             keyDown_ = false;
             efKeyValue_[ioConfiguration_.keybMatrixEfKey[MATRIX_SHIFT_KEY]] = 1;
         break;
 
         case WXK_END:
-            keyValue_[ioConfiguration_.keybMatrixTextKey[MATRIX_END_KEY].keyValue] &= ioConfiguration_.keybMatrixTextKey[MATRIX_END_KEY].bitMaskNotPressed;
+            keyValue_[ioConfiguration_.keybMatrixTextKey[MATRIX_TEXT_END_KEY].keyValue] &= ioConfiguration_.keybMatrixTextKey[MATRIX_TEXT_END_KEY].bitMaskNotPressed;
             keyDown_ = false;
             efKeyValue_[ioConfiguration_.keybMatrixEfKey[MATRIX_SHIFT_KEY]] = 1;
         break;
 
         case WXK_HOME:
-            keyValue_[ioConfiguration_.keybMatrixTextKey[MATRIX_HOME_KEY].keyValue] &= ioConfiguration_.keybMatrixTextKey[MATRIX_HOME_KEY].bitMaskNotPressed;
+            keyValue_[ioConfiguration_.keybMatrixTextKey[MATRIX_TEXT_HOME_KEY].keyValue] &= ioConfiguration_.keybMatrixTextKey[MATRIX_TEXT_HOME_KEY].bitMaskNotPressed;
             keyDown_ = false;
             efKeyValue_[ioConfiguration_.keybMatrixEfKey[MATRIX_SHIFT_KEY]] = 1;
         break;
@@ -254,25 +254,25 @@ void KeybMatrix::keyUpExtended(int keycode, wxKeyEvent& WXUNUSED(event))
         break;
             
         case WXK_DOWN:
-            keyValue_[ioConfiguration_.keybMatrixTextKey[MATRIX_DOWN_KEY].keyValue] &= ioConfiguration_.keybMatrixTextKey[MATRIX_DOWN_KEY].bitMaskNotPressed;
+            keyValue_[ioConfiguration_.keybMatrixTextKey[MATRIX_TEXT_DOWN_KEY].keyValue] &= ioConfiguration_.keybMatrixTextKey[MATRIX_TEXT_DOWN_KEY].bitMaskNotPressed;
             keyDown_ = false;
             efKeyValue_[ioConfiguration_.keybMatrixEfKey[MATRIX_SHIFT_KEY]] = 1;
         break;
 
         case WXK_LEFT:
-            keyValue_[ioConfiguration_.keybMatrixTextKey[MATRIX_LEFT_KEY].keyValue] &= ioConfiguration_.keybMatrixTextKey[MATRIX_LEFT_KEY].bitMaskNotPressed;
+            keyValue_[ioConfiguration_.keybMatrixTextKey[MATRIX_TEXT_LEFT_KEY].keyValue] &= ioConfiguration_.keybMatrixTextKey[MATRIX_TEXT_LEFT_KEY].bitMaskNotPressed;
             keyDown_ = false;
             efKeyValue_[ioConfiguration_.keybMatrixEfKey[MATRIX_SHIFT_KEY]] = 1;
         break;
 
         case WXK_RIGHT:
-            keyValue_[ioConfiguration_.keybMatrixTextKey[MATRIX_RIGHT_KEY].keyValue] &= ioConfiguration_.keybMatrixTextKey[MATRIX_RIGHT_KEY].bitMaskNotPressed;
+            keyValue_[ioConfiguration_.keybMatrixTextKey[MATRIX_TEXT_RIGHT_KEY].keyValue] &= ioConfiguration_.keybMatrixTextKey[MATRIX_TEXT_RIGHT_KEY].bitMaskNotPressed;
             keyDown_ = false;
             efKeyValue_[ioConfiguration_.keybMatrixEfKey[MATRIX_SHIFT_KEY]] = 1;
         break;
 
         case WXK_UP:
-            keyValue_[ioConfiguration_.keybMatrixTextKey[MATRIX_UP_KEY].keyValue] &= ioConfiguration_.keybMatrixTextKey[MATRIX_UP_KEY].bitMaskNotPressed;
+            keyValue_[ioConfiguration_.keybMatrixTextKey[MATRIX_TEXT_UP_KEY].keyValue] &= ioConfiguration_.keybMatrixTextKey[MATRIX_TEXT_UP_KEY].bitMaskNotPressed;
             keyDown_ = false;
             efKeyValue_[ioConfiguration_.keybMatrixEfKey[MATRIX_SHIFT_KEY]] = 1;
         break;
@@ -299,7 +299,7 @@ void KeybMatrix::keyUpExtended(int keycode, wxKeyEvent& WXUNUSED(event))
 
             case WXK_DOWN:
                 keyboardCode_ = newKey;
-                keyValue_[ioConfiguration_.keybMatrixTextKey[MATRIX_DOWN_KEY].keyValue] |= ioConfiguration_.keybMatrixTextKey[MATRIX_DOWN_KEY].bitMaskPressed;
+                keyValue_[ioConfiguration_.keybMatrixTextKey[MATRIX_TEXT_DOWN_KEY].keyValue] |= ioConfiguration_.keybMatrixTextKey[MATRIX_TEXT_DOWN_KEY].bitMaskPressed;
                 keyDown_ = true;
                 efKeyValue_[ioConfiguration_.keybMatrixEfKey[MATRIX_SHIFT_KEY]] = 1;
                 return;
@@ -307,7 +307,7 @@ void KeybMatrix::keyUpExtended(int keycode, wxKeyEvent& WXUNUSED(event))
                 
             case WXK_LEFT:
                 keyboardCode_ = newKey;
-                keyValue_[ioConfiguration_.keybMatrixTextKey[MATRIX_LEFT_KEY].keyValue] |= ioConfiguration_.keybMatrixTextKey[MATRIX_LEFT_KEY].bitMaskPressed;
+                keyValue_[ioConfiguration_.keybMatrixTextKey[MATRIX_TEXT_LEFT_KEY].keyValue] |= ioConfiguration_.keybMatrixTextKey[MATRIX_TEXT_LEFT_KEY].bitMaskPressed;
                 keyDown_ = true;
                 efKeyValue_[ioConfiguration_.keybMatrixEfKey[MATRIX_SHIFT_KEY]] = 1;
                 return;
@@ -315,7 +315,7 @@ void KeybMatrix::keyUpExtended(int keycode, wxKeyEvent& WXUNUSED(event))
                 
             case WXK_RIGHT:
                 keyboardCode_ = newKey;
-                keyValue_[ioConfiguration_.keybMatrixTextKey[MATRIX_RIGHT_KEY].keyValue] |= ioConfiguration_.keybMatrixTextKey[MATRIX_RIGHT_KEY].bitMaskPressed;
+                keyValue_[ioConfiguration_.keybMatrixTextKey[MATRIX_TEXT_RIGHT_KEY].keyValue] |= ioConfiguration_.keybMatrixTextKey[MATRIX_TEXT_RIGHT_KEY].bitMaskPressed;
                 keyDown_ = true;
                 efKeyValue_[ioConfiguration_.keybMatrixEfKey[MATRIX_SHIFT_KEY]] = 1;
                 return;
@@ -323,7 +323,7 @@ void KeybMatrix::keyUpExtended(int keycode, wxKeyEvent& WXUNUSED(event))
                 
             case WXK_UP:
                 keyboardCode_ = newKey;
-                keyValue_[ioConfiguration_.keybMatrixTextKey[MATRIX_UP_KEY].keyValue] |= ioConfiguration_.keybMatrixTextKey[MATRIX_UP_KEY].bitMaskPressed;
+                keyValue_[ioConfiguration_.keybMatrixTextKey[MATRIX_TEXT_UP_KEY].keyValue] |= ioConfiguration_.keybMatrixTextKey[MATRIX_TEXT_UP_KEY].bitMaskPressed;
                 keyDown_ = true;
                 efKeyValue_[ioConfiguration_.keybMatrixEfKey[MATRIX_SHIFT_KEY]] = 1;
                 return;
@@ -347,7 +347,7 @@ void KeybMatrix::keyDownFile()
     if (keyboardCode_ == 13)
     {
         keyDown_ = true;
-        keyValue_[ioConfiguration_.keybMatrixTextKey[MATRIX_RETURN_KEY].keyValue] |= ioConfiguration_.keybMatrixTextKey[MATRIX_RETURN_KEY].bitMaskPressed;
+        keyValue_[ioConfiguration_.keybMatrixTextKey[MATRIX_TEXT_RETURN_KEY].keyValue] |= ioConfiguration_.keybMatrixTextKey[MATRIX_TEXT_RETURN_KEY].bitMaskPressed;
     }
 
     if (keyboardCode_ > 26)
@@ -382,7 +382,7 @@ void KeybMatrix::keyUpFile()
 
 void KeybMatrix::clearReturn()
 {
-    keyValue_[ioConfiguration_.keybMatrixTextKey[MATRIX_RETURN_KEY].keyValue] &= ioConfiguration_.keybMatrixTextKey[MATRIX_RETURN_KEY].bitMaskNotPressed;
+    keyValue_[ioConfiguration_.keybMatrixTextKey[MATRIX_TEXT_RETURN_KEY].keyValue] &= ioConfiguration_.keybMatrixTextKey[MATRIX_TEXT_RETURN_KEY].bitMaskNotPressed;
 }
 
 Byte KeybMatrix::efKey(Byte efNumber)

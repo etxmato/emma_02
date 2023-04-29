@@ -601,7 +601,7 @@ protected:
     wxString workingDir_;
     wxString dataDir_;
     wxString iniDir_;
-    int psaveData_[13];
+    int psaveData_[15];
     wxSize defaultGuiSize_;
 
     bool debugMode_;

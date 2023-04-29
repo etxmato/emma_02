@@ -44,7 +44,7 @@
                                 <border>5</border>
                                 <object class="wxFlexGridSizer">
                                     <cols>2</cols>
-                                    <rows>11</rows>
+                                    <rows>13</rows>
                                     <vgap>1</vgap>
                                     <hgap>0</hgap>
                                     <object class="sizeritem">
@@ -169,6 +169,55 @@
                                     <object class="sizeritem">
                                         <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
                                         <border>5</border>
+                                        <object class="wxStaticText" name="FREDFreqText">
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                                <family>roman</family>
+                                            </font>
+                                            <label>Frequency check:</label>
+                                        </object>
+                                    </object>
+                                    <object class="sizeritem">
+                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+                                        <border>5</border>
+                                        <object class="wxTextCtrl" name="FREDFreq" subclass="FloatEdit">
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                                <family>roman</family>
+                                            </font>
+                                            <value>0000</value>
+                                        </object>
+                                    </object>
+                                    <object class="sizeritem">
+                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP|wxBOTTOM</flag>
+                                        <border>5</border>
+                                        <object class="wxStaticText" name="ID_STATICTEXT">
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                                <family>roman</family>
+                                            </font>
+                                            <label>FRED / CyberVision emulator:</label>
+                                        </object>
+                                    </object>
+                                    <object class="sizeritem">
+                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                        <border>5</border>
+                                        <object class="wxCheckBox" name="UseXml">
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                                <family>roman</family>
+                                            </font>
+                                            <label>XML Threshold</label>
+                                            <checked>0</checked>
+                                        </object>
+                                    </object>
+                                    <object class="sizeritem">
+                                        <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                        <border>5</border>
                                         <object class="wxStaticText" name="FREDThresholdText8">
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -217,19 +266,19 @@
                                     <object class="sizeritem">
                                         <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
                                         <border>5</border>
-                                        <object class="wxStaticText" name="FREDFreqText">
+                                        <object class="wxStaticText" name="FREDThresholdText24">
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
                                                 <family>roman</family>
                                             </font>
-                                            <label>Frequency check:</label>
+                                            <label>Threshold, 24 bit:</label>
                                         </object>
                                     </object>
                                     <object class="sizeritem">
                                         <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
                                         <border>5</border>
-                                        <object class="wxTextCtrl" name="FREDFreq" subclass="FloatEdit">
+                                        <object class="wxTextCtrl" name="FREDThreshold24" subclass="IntEdit">
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>

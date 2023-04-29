@@ -4,7 +4,7 @@
 <emmaconfig>
     
     <system>
-        <name>Cybervision - Bare</name>
+        <name>Cybervision - Escape key map</name>
         <clock>2.52</clock>
         <boot>0</boot>
         <init type="ef1">1</init>
@@ -70,7 +70,7 @@
         <threshold type="8bit">10</threshold>
         <threshold type="16bit">100</threshold>
         <threshold type="24bit">1000</threshold>
-        <filename cassette="0"></filename>
+        <filename cassette="0">Escape (44100Hz 16-Bit).wav</filename>
         <channel type="audio">left</channel>
         <channel type="data">right</channel>
     </cassette>
@@ -85,16 +85,17 @@
 
         <in>1</in>
         <ef>3</ef>
-        <keydef value="23">48</keydef>   <!-- 0 -->
+        <keydef value="15">45</keydef>   <!-- - mapped to ON -->
+        <keydef value="14">48</keydef>   <!-- 0 mapped to 1 -->
         <keydef value="14">49</keydef>
         <keydef value="22">50</keydef>
         <keydef value="38">51</keydef>
-        <keydef value="13">52</keydef>
-        <keydef value="21">53</keydef>
-        <keydef value="37">54</keydef>
-        <keydef value="12">55</keydef>
-        <keydef value="20">56</keydef>
-        <keydef value="36">57</keydef>   <!-- 9 -->
+        <keydef value="8">52</keydef>    <!-- 4 mapped to A -->
+        <keydef value="9">53</keydef>    <!-- 5 mapped to F -->
+        <keydef value="10">54</keydef>   <!-- 6 mapped to K -->
+        <keydef value="11">55</keydef>   <!-- 7 mapped to P -->
+        <keydef value="12">56</keydef>   <!-- 8 mapped to 7 -->
+        <keydef value="13">57</keydef>   <!-- 9 mapped to 4 -->
         <keydef value="8">65</keydef>    <!-- A -->
         <keydef value="16">66</keydef>   <!-- B -->
         <keydef value="32">67</keydef>   <!-- C -->
@@ -127,10 +128,10 @@
         <keydef type="text" value="39">esc</keydef>   <!-- OFF -->
         <keydef value="71">8</keydef>    <!-- CLR -->
 
-        <keydef type="text" value="1">down</keydef>     <!-- DOWN -->
+        <keydef type="text" value="17">down</keydef>    <!-- DOWN -->
         <keydef type="text" value="9">left</keydef>     <!-- LEFT -->
         <keydef type="text" value="8">right</keydef>    <!-- RIGHT -->
-        <keydef type="text" value="0">up</keydef>       <!-- UP -->
+        <keydef type="text" value="16">up</keydef>      <!-- UP -->
 
     </xlkeypad>
 

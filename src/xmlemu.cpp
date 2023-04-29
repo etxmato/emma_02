@@ -2252,6 +2252,39 @@ void Xmlemu::autoBoot()
 
 void Xmlemu::switchQ(int value)
 {
+    if (elfConfiguration.useTapeHw && qState_ != value)
+    {
+        qState_ = value;
+        if (qState_ == 0)
+        {
+            if (tapeActivated_ || tapeRecording_)
+            {
+                p_Main->turboOff();
+                if (elfConfiguration.tape_stopDelay <= 0)
+                    p_Computer->pauseTape();
+                else
+                    p_Main->eventTapePauseTimer(elfConfiguration.tape_stopDelay);
+               // p_Computer->pauseTape();
+            }
+        }
+        else
+        {
+            p_Main->cancelTapePause();
+            if (p_Main->getHwTapeState() == HW_TAPE_STATE_REC)
+            {
+                if (tapeRecording_)
+                    restartHwTapeSave(TAPE_RECORD);
+                else
+                {
+                    p_Main->startSaveCont(0, tapeCounter_);
+                    tapeRecording_ = true;
+                }
+            }
+            else
+                startLoad(0, false);
+        }
+    }
+
     qState_ = value;
     switch (elfConfiguration.panelType_)
     {
@@ -2290,38 +2323,6 @@ void Xmlemu::switchQ(int value)
     {
         if (computerConfiguration.diagCassetteCables_ == 1)
             cassetteEf_ = value;
-    }
-    
-    if (elfConfiguration.useTapeHw)
-    {
-        if (qState_ == 0)
-        {
-            if (tapeActivated_ || tapeRecording_)
-            {
-                p_Main->turboOff();
-                if (elfConfiguration.tape_stopDelay <= 0)
-                    p_Computer->pauseTape();
-                else
-                    p_Main->eventTapePauseTimer(elfConfiguration.tape_stopDelay);
-               // p_Computer->pauseTape();
-            }
-        }
-        else
-        {
-            p_Main->cancelTapePause();
-            if (p_Main->getHwTapeState() == HW_TAPE_STATE_REC)
-            {
-                if (tapeRecording_)
-                    restartHwTapeSave(TAPE_RECORD);
-                else
-                {
-                    p_Main->startSaveCont(0, tapeCounter_);
-                    tapeRecording_ = true;
-                }
-            }
-            else
-                startLoad(0, false);
-        }
     }
 }
 
@@ -5807,6 +5808,12 @@ void Xmlemu::startLoad(int tapeNumber, bool button)
 
 void Xmlemu::cassetteXmlHw(wxInt32 val, long size)
 {
+    wxInt32 tape_threshold;
+    if (useXmlThreshold_)
+        tape_threshold = elfConfiguration.tape_threshold24Bit;
+    else
+        tape_threshold = threshold24_;
+
     stepCassetteCounter(size);
     
     if (!elfConfiguration.useTapeHw)
@@ -5821,7 +5828,7 @@ void Xmlemu::cassetteXmlHw(wxInt32 val, long size)
     else
         difference = val - lastSampleInt32_;
     
-    if (difference < elfConfiguration.tape_threshold16Bit)
+    if (difference < tape_threshold)
         silenceCount_++;
     else
     {
@@ -5907,6 +5914,12 @@ void Xmlemu::cassetteXmlHw(wxInt32 val, long size)
 
 void Xmlemu::cassetteXmlHw(wxInt16 val, long size)
 {
+    wxInt16 tape_threshold;
+    if (useXmlThreshold_)
+        tape_threshold = elfConfiguration.tape_threshold16Bit;
+    else
+        tape_threshold = threshold16_;
+
     stepCassetteCounter(size);
     
     if (!elfConfiguration.useTapeHw)
@@ -5915,13 +5928,13 @@ void Xmlemu::cassetteXmlHw(wxInt16 val, long size)
 //    if ((tapeRunSwitch_&1) != 1)
 //        return;
 
-    int difference;
+    wxInt16 difference;
     if (val < lastSampleInt16_)
         difference = lastSampleInt16_ - val;
     else
         difference = val - lastSampleInt16_;
     
-    if (difference < elfConfiguration.tape_threshold16Bit)
+    if (difference < tape_threshold)
         silenceCount_++;
     else
     {
@@ -6007,6 +6020,12 @@ void Xmlemu::cassetteXmlHw(wxInt16 val, long size)
 
 void Xmlemu::cassetteXmlHw(char val, long size)
 {
+    char tape_threshold;
+    if (useXmlThreshold_)
+        tape_threshold = elfConfiguration.tape_threshold8Bit;
+    else
+        tape_threshold = threshold8_;
+        
     stepCassetteCounter(size);
 
     if (!elfConfiguration.useTapeHw)
@@ -6015,13 +6034,13 @@ void Xmlemu::cassetteXmlHw(char val, long size)
 //    if ((tapeRunSwitch_&1) != 1)
 //        return;
 
-    int difference;
+    char difference;
     if (val < lastSampleChar_)
         difference = lastSampleChar_ - val;
     else
         difference = val - lastSampleChar_;
     
-    if (difference < elfConfiguration.tape_threshold8Bit)
+    if (difference < tape_threshold)
         silenceCount_++;
     else
     {

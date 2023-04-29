@@ -45,6 +45,7 @@ wxString textKeyList[]=
     "left",
     "right",
     "up",
+    "esc",
     "undefined"
 };
 
@@ -4500,12 +4501,13 @@ void XmlParser::parseXml_Cassette (int computer, wxXmlNode &node)
     elfConfiguration[computer].tape_startBit = 1;
     elfConfiguration[computer].tape_dataBits = 8;
     elfConfiguration[computer].tape_stopBit = 0;
-    elfConfiguration[computer].tape_stopDelay = 100;
+    elfConfiguration[computer].tape_stopDelay = 0;
     elfConfiguration[computer].tape_frequency0 = 4000;
     elfConfiguration[computer].tape_frequency1 = 2000;
     elfConfiguration[computer].tape_frequencyBorder = 3000;
     elfConfiguration[computer].tape_threshold8Bit = 10;
-    elfConfiguration[computer].tape_threshold16Bit = 500;
+    elfConfiguration[computer].tape_threshold16Bit = 100;
+    elfConfiguration[computer].tape_threshold24Bit = 1000;
     elfConfiguration[computer].tape_audioChannelLeft = true;
     elfConfiguration[computer].tape_dataChannelLeft = true;
     cassetteNumber = 0;
@@ -4560,9 +4562,11 @@ void XmlParser::parseXml_Cassette (int computer, wxXmlNode &node)
 
             case TAG_THRESHOLD:
                 if (child->GetAttribute("type") == "8bit")
-                    elfConfiguration[computer].tape_threshold8Bit = (int)parseXml_Number(*child);
+                    elfConfiguration[computer].tape_threshold8Bit = (char)parseXml_Number(*child);
                 if (child->GetAttribute("type") == "16bit")
-                    elfConfiguration[computer].tape_threshold16Bit  = (int)parseXml_Number(*child);
+                    elfConfiguration[computer].tape_threshold16Bit  = (wxInt16)parseXml_Number(*child);
+                if (child->GetAttribute("type") == "24bit")
+                    elfConfiguration[computer].tape_threshold24Bit  = (wxInt32)parseXml_Number(*child);
             break;
 
             case TAG_STARTBIT:
