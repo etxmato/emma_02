@@ -272,6 +272,9 @@ public:
     
     CvKeypadDetails cvKeypad;
     int CvKeypadTextKey[LAST_MATRIX_TEXT_KEY];
+    int CvKeypadModKey;
+    int CvKeypadModKeyIgnore;
+    Word CvKeypadPadMask;
 
     int nvRamProtectIn;
     int nvRamIoGroup;

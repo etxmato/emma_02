@@ -60,15 +60,14 @@ void CvKeypad::configure(IoConfiguration ioConf)
 
 void CvKeypad::keyDown(int keycode,  wxKeyEvent& event)
 {
+    if (keycode == ioConfiguration_.CvKeypadModKeyIgnore)
+        return;
+    
     int input = -1;
 
-    int shiftPressed = 0;
-    switch (event.GetModifiers())
-    {
-        case wxMOD_SHIFT:
-            shiftPressed = 0x80;
-        break;
-    }
+    int modKeyPressed = 0;
+    if (event.GetModifiers() == ioConfiguration_.CvKeypadModKey)
+        modKeyPressed = ioConfiguration_.CvKeypadPadMask;
 
     if (keyPressed_ == 0)
     {
@@ -81,12 +80,12 @@ void CvKeypad::keyDown(int keycode,  wxKeyEvent& event)
                 case WXK_RIGHT:
                 case WXK_DOWN:
                     secondKeyboardCodes[keycode-WXK_LEFT] = keycode;
-                    secondKeyboardCodes[5] = shiftPressed;
+                    secondKeyboardCodes[5] = modKeyPressed;
                 break;
                     
                 case WXK_SPACE:
                     secondKeyboardCodes[4] = keycode;
-                    secondKeyboardCodes[5] = shiftPressed;
+                    secondKeyboardCodes[5] = modKeyPressed;
                 break;
             }
         }
@@ -138,13 +137,16 @@ void CvKeypad::keyDown(int keycode,  wxKeyEvent& event)
     if (input == -1)
         return;
 
-    keyboardCode_ = input | shiftPressed;
+    keyboardCode_ = input | modKeyPressed;
     keyPressed_ = 0;
     unreadInput_ = 1;
 }
 
 void CvKeypad::keyUp(int keycode, wxKeyEvent& WXUNUSED(event))
 {
+    if (keycode == ioConfiguration_.CvKeypadModKeyIgnore)
+        return;
+
     switch(keycode)
     {
         case WXK_LEFT:

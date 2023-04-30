@@ -3602,6 +3602,7 @@ void XmlParser::parseXml_CvKeypad (int computer, wxXmlNode &node)
     {
         "in",
         "ef",
+        "pad",
         "keydef",
         "iogroup",
         "comment",
@@ -3612,26 +3613,53 @@ void XmlParser::parseXml_CvKeypad (int computer, wxXmlNode &node)
     {
         TAG_IN,
         TAG_EF,
+        TAG_PAD,
         TAG_KEYDEF,
         TAG_IOGROUP,
         TAG_COMMENT,
         TAG_UNDEFINED
     };
     
+    wxString padModList[]=
+    {
+        "shift",
+        "control",
+        "alt",
+        "cmd",
+        "undefined"
+    };
+
+    int padModValueList[]=
+    {
+        wxMOD_SHIFT,
+        wxMOD_CONTROL,
+        wxMOD_ALT,
+        wxMOD_CMD,
+        0
+    };
+
+    int padModIgnoreValueList[]=
+    {
+        WXK_SHIFT,
+        WXK_CONTROL,
+        WXK_ALT,
+        WXK_COMMAND,
+        0
+    };
+
     int tagTypeInt, keyValue, textEfKeyInt;
     wxString keyText, efText;
     wxString bitNumber;
     elfConfiguration[computer].ioConfiguration.cvKeypad.ioGroup = -1;
     elfConfiguration[computer].ioConfiguration.cvKeypad.reversed = false;
+    elfConfiguration[computer].ioConfiguration.CvKeypadPadMask = 0;
+    elfConfiguration[computer].ioConfiguration.CvKeypadModKey = 0;
 
     for (int i=0; i<255; i++)
-    {
         elfConfiguration[computer].ioConfiguration.cvKeypad.keydef[i] = -1;
-    }
+    
     for (int i=0; i<LAST_MATRIX_TEXT_KEY; i++)
-    {
         elfConfiguration[computer].ioConfiguration.CvKeypadTextKey[i] = -1;
-    }
 
     wxXmlNode *child = node.GetChildren();
     while (child)
@@ -3670,6 +3698,21 @@ void XmlParser::parseXml_CvKeypad (int computer, wxXmlNode &node)
                             elfConfiguration[computer].ioConfiguration.CvKeypadTextKey[textEfKeyInt] = (int)parseXml_Number(*child, "value");
                         textEfKeyInt++;
                     }
+                }
+            break;
+                
+            case TAG_PAD:
+                elfConfiguration[computer].ioConfiguration.CvKeypadPadMask = (int)parseXml_Number(*child, "mask");
+                keyText = child->GetNodeContent();
+                textEfKeyInt = 0;
+                while (padModList[textEfKeyInt] != "undefined")
+                {
+                    if (keyText == padModList[textEfKeyInt])
+                    {
+                        elfConfiguration[computer].ioConfiguration.CvKeypadModKey = padModValueList[textEfKeyInt];
+                        elfConfiguration[computer].ioConfiguration.CvKeypadModKeyIgnore = padModIgnoreValueList[textEfKeyInt];
+                    }
+                    textEfKeyInt++;
                 }
             break;
                 

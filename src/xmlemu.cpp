@@ -6198,43 +6198,10 @@ void Xmlemu::cassetteCyberVision()
         }
         else
         {
-            if (elfConfiguration.tape_stopBit == -1)
+            switch (elfConfiguration.tape_stopBit)
             {
-                if (bitNumber_ < elfConfiguration.tape_dataBits)
-                {
-                    tapeInput_ = (tapeInput_ << 1) | (pulseCount_&1);
-                    bitNumber_++;
-                    
-                    if (startBytes_ > 0 && tapeInput_ !=0)
-                    {
-                        tapeInput_ = 0;
-                        bitNumber_ = -1;
-                        startBytes_ = 2;
-                    }
-                }
-                if (bitNumber_ == elfConfiguration.tape_dataBits)
-                {
-                    lastTapeInpt_ = tapeInput_;
-                    
-                    if (startBytes_ > 0 && tapeInput_ == 0)
-                        startBytes_--;
-                    
-                    tapedataReady_ = 0;
-                    tapeInput_ = 0;
-                    bitNumber_ = -1;
-                }
-            }
-            else
-            {
-                if (bitNumber_ == elfConfiguration.tape_dataBits)
-                {
-                    bool stopBit = false;;
-                    if (freq < elfConfiguration.tape_frequencyBorder && elfConfiguration.tape_stopBit == 1)
-                        stopBit = true;
-                    if (freq >= elfConfiguration.tape_frequencyBorder && elfConfiguration.tape_stopBit == 0)
-                        stopBit = true;
-
-                    if (stopBit)
+                case -2:
+                    if (bitNumber_ == elfConfiguration.tape_dataBits)
                     {
                         lastTapeInpt_ = tapeInput_;
                         
@@ -6245,19 +6212,82 @@ void Xmlemu::cassetteCyberVision()
                         tapeInput_ = 0;
                         bitNumber_ = -1;
                     }
-                }
-                else
-                {
-                    tapeInput_ = (tapeInput_ << 1) | (pulseCount_&1);
-                    bitNumber_++;
-                    
-                    if (startBytes_ > 0 && tapeInput_ !=0)
+                    else
                     {
+                        tapeInput_ = (tapeInput_ << 1) | (pulseCount_&1);
+                        bitNumber_++;
+                        
+                        if (startBytes_ > 0 && tapeInput_ !=0)
+                        {
+                            tapeInput_ = 0;
+                            bitNumber_ = -1;
+                            startBytes_ = 2;
+                        }
+                    }
+                break;
+                break;
+                    
+                case -1:
+                    if (bitNumber_ < elfConfiguration.tape_dataBits)
+                    {
+                        tapeInput_ = (tapeInput_ << 1) | (pulseCount_&1);
+                        bitNumber_++;
+                        
+                        if (startBytes_ > 0 && tapeInput_ !=0)
+                        {
+                            tapeInput_ = 0;
+                            bitNumber_ = -1;
+                            startBytes_ = 2;
+                        }
+                    }
+                    if (bitNumber_ == elfConfiguration.tape_dataBits)
+                    {
+                        lastTapeInpt_ = tapeInput_;
+                        
+                        if (startBytes_ > 0 && tapeInput_ == 0)
+                            startBytes_--;
+                        
+                        tapedataReady_ = 0;
                         tapeInput_ = 0;
                         bitNumber_ = -1;
-                        startBytes_ = 2;
                     }
-                }
+                break;
+
+                case 0:
+                case 1:
+                    if (bitNumber_ == elfConfiguration.tape_dataBits)
+                    {
+                        bool stopBit = false;;
+                        if (freq < elfConfiguration.tape_frequencyBorder && elfConfiguration.tape_stopBit == 1)
+                            stopBit = true;
+                        if (freq >= elfConfiguration.tape_frequencyBorder && elfConfiguration.tape_stopBit == 0)
+                            stopBit = true;
+
+                        if (stopBit)
+                        {
+                            lastTapeInpt_ = tapeInput_;
+                            
+                            if (startBytes_ > 0 && tapeInput_ == 0)
+                                startBytes_--;
+                            
+                            tapedataReady_ = 0;
+                            tapeInput_ = 0;
+                            bitNumber_ = -1;
+                        }
+                    }
+                    else
+                    {
+                        tapeInput_ = (tapeInput_ << 1) | (pulseCount_&1);
+                        bitNumber_++;
+                        
+                        if (startBytes_ > 0 && tapeInput_ !=0)
+                        {
+                            tapeInput_ = 0;
+                            bitNumber_ = -1;
+                            startBytes_ = 2;
+                        }
+                    }
+                break;
             }
         }
         

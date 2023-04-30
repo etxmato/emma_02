@@ -66,7 +66,8 @@
         <freq type="1">1967</freq>
         <startbit>1</startbit>
         <databits>8</databits>
-        <stopbit>0</stopbit>
+        <stopbit>-1</stopbit>
+        <stopdelay>1</stopdelay>
         <threshold type="8bit">10</threshold>
         <threshold type="16bit">100</threshold>
         <threshold type="24bit">1000</threshold>
@@ -80,16 +81,19 @@
         <iogroup>: iogroup, i.e. i/o ports are activate when specified iogroup is selected via the iogroup port
         <in>: input port
         <ef>: date / key ready flag (use pol="rev" to reverse flag)
+        <pad mask="0x80">: define keypad 2, use shift, control, alt, cmd (same as control)
         <keydef value="x">: input code for specified PC key
         -->
 
         <in>1</in>
         <ef>3</ef>
+        <pad mask="0x80">shift</pad>
         <keydef value="15">45</keydef>   <!-- - mapped to ON -->
         <keydef value="14">48</keydef>   <!-- 0 mapped to 1 -->
         <keydef value="14">49</keydef>
         <keydef value="22">50</keydef>
         <keydef value="38">51</keydef>
+        <keydef value="8">52</keydef>    <!-- 4 mapped to A -->
         <keydef value="8">52</keydef>    <!-- 4 mapped to A -->
         <keydef value="9">53</keydef>    <!-- 5 mapped to F -->
         <keydef value="10">54</keydef>   <!-- 6 mapped to K -->
