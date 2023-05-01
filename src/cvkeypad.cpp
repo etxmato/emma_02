@@ -65,9 +65,15 @@ void CvKeypad::keyDown(int keycode,  wxKeyEvent& event)
     
     int input = -1;
 
-    int modKeyPressed = 0;
+    int keyPad = 0;
     if (event.GetModifiers() == ioConfiguration_.CvKeypadModKey)
-        modKeyPressed = ioConfiguration_.CvKeypadPadMask;
+        keyPad = ioConfiguration_.CvKeypadPadMask;
+
+    if (ioConfiguration_.CvKeypadModKey == WXK_CAPITAL)
+    {
+        if (wxGetKeyState (WXK_CAPITAL))
+            keyPad = ioConfiguration_.CvKeypadPadMask;
+    }
 
     if (keyPressed_ == 0)
     {
@@ -80,12 +86,12 @@ void CvKeypad::keyDown(int keycode,  wxKeyEvent& event)
                 case WXK_RIGHT:
                 case WXK_DOWN:
                     secondKeyboardCodes[keycode-WXK_LEFT] = keycode;
-                    secondKeyboardCodes[5] = modKeyPressed;
+                    secondKeyboardCodes[5] = keyPad;
                 break;
                     
                 case WXK_SPACE:
                     secondKeyboardCodes[4] = keycode;
-                    secondKeyboardCodes[5] = modKeyPressed;
+                    secondKeyboardCodes[5] = keyPad;
                 break;
             }
         }
@@ -137,7 +143,7 @@ void CvKeypad::keyDown(int keycode,  wxKeyEvent& event)
     if (input == -1)
         return;
 
-    keyboardCode_ = input | modKeyPressed;
+    keyboardCode_ = input | keyPad;
     keyPressed_ = 0;
     unreadInput_ = 1;
 }

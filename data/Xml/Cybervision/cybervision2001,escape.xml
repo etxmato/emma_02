@@ -67,7 +67,7 @@
         <startbit>1</startbit>
         <databits>8</databits>
         <stopbit>-1</stopbit>
-        <stopdelay>1</stopdelay>
+        <stopdelay>200</stopdelay>
         <threshold type="8bit">10</threshold>
         <threshold type="16bit">100</threshold>
         <threshold type="24bit">1000</threshold>
@@ -87,7 +87,7 @@
 
         <in>1</in>
         <ef>3</ef>
-        <pad mask="0x80">shift</pad>
+        <pad mask="0x80">caps</pad>
         <keydef value="15">45</keydef>   <!-- - mapped to ON -->
         <keydef value="14">48</keydef>   <!-- 0 mapped to 1 -->
         <keydef value="14">49</keydef>
@@ -143,4 +143,10 @@
         <out mask="1" q="0">4</out>
     </sound>
 
+    <locations>
+        <cv_tape_play>0x804e,0xb5</cv_tape_play>
+        <cv_tape_ff>0x668</cv_tape_ff>
+        <cv_tape_rec>0x89</cv_tape_rec>
+    </locations>
+    
 </emmaconfig>

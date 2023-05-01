@@ -1931,7 +1931,7 @@ void GuiMain::onCassetteLoad(wxCommandEvent& WXUNUSED(event))
                 if (hwTapeState_ == HW_TAPE_STATE_REC)
                     p_Computer->pauseTape();
 
-                if (hwTapeState_ == HW_TAPE_STATE_PLAY)
+                if (hwTapeState_ == HW_TAPE_STATE_PLAY && p_Computer->getFlipFlopQ() != 1)
                     hwTapeState_ = HW_TAPE_STATE_OFF;
                 else
                     hwTapeState_ = HW_TAPE_STATE_PLAY;

@@ -1006,6 +1006,9 @@ void XmlParser::parseXml_Locations(int computer, wxXmlNode &node)
         "correct_caps",
         "elfosboot",
         "start_chip8",
+        "cv_tape_play",
+        "cv_tape_ff",
+        "cv_tape_rec",
         "comment",
         "undefined"
     };
@@ -1030,6 +1033,9 @@ void XmlParser::parseXml_Locations(int computer, wxXmlNode &node)
         TAG_CORRECT_CAPS,
         TAG_ELFOS_BOOT,
         TAG_START_CHIP8,
+        TAG_CV_TAPE_PLAY,
+        TAG_CV_TAPE_FF,
+        TAG_CV_TAPE_REC,
         TAG_COMMENT,
         TAG_UNDEFINED
     };
@@ -1078,6 +1084,9 @@ void XmlParser::parseXml_Locations(int computer, wxXmlNode &node)
             case TAG_START_XMODEM_LOAD:
             case TAG_START_YMODEM_SAVE:
             case TAG_CORRECT_CAPS:
+            case TAG_CV_TAPE_PLAY:
+            case TAG_CV_TAPE_FF:
+            case TAG_CV_TAPE_REC:
             case TAG_ELFOS_BOOT:
             case TAG_START_CHIP8:
                 newInfo.type = tagTypeInt-TAG_RESET_STATE;
@@ -3626,6 +3635,7 @@ void XmlParser::parseXml_CvKeypad (int computer, wxXmlNode &node)
         "control",
         "alt",
         "cmd",
+        "caps",
         "undefined"
     };
 
@@ -3635,6 +3645,7 @@ void XmlParser::parseXml_CvKeypad (int computer, wxXmlNode &node)
         wxMOD_CONTROL,
         wxMOD_ALT,
         wxMOD_CMD,
+        WXK_CAPITAL,
         0
     };
 
@@ -3644,6 +3655,7 @@ void XmlParser::parseXml_CvKeypad (int computer, wxXmlNode &node)
         WXK_CONTROL,
         WXK_ALT,
         WXK_COMMAND,
+        0,
         0
     };
 

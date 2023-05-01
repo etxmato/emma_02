@@ -8637,8 +8637,6 @@ void Main::setHwTapeStateEvent(guiEvent&event)
 {
    if (!mode_.gui)
       return;
-
-   hwTapeState_ = event.GetInt();
    
    switch (hwTapeState_)
    {
@@ -8671,6 +8669,8 @@ void Main::setHwTapeStateEvent(guiEvent&event)
 
 void Main::eventHwTapeStateChange(int status)
 {
+   hwTapeState_ = status;
+   
    guiEvent event(GUI_MSG, CHANGE_HW_TAPE_STATE);
    event.SetEventObject( p_Main );
    
@@ -9786,6 +9786,11 @@ void Main::eventDebounceTimer()
 
 void Main::tapePauseTimeout(wxTimerEvent&WXUNUSED(event))
 {
+   if (!tapePauseOrdered_)
+      return;
+
+   tapePauseOrdered_ = false;
+
     p_Computer->pauseTape();
 }
 
@@ -9795,7 +9800,6 @@ void Main::setTapePauseTimer(guiEvent& event)
       return;
    
    int delay = event.GetInt();
-   tapePauseOrdered_ = false;
    tapePauseTimerPointer->Start(delay, wxTIMER_ONE_SHOT);
 }
 

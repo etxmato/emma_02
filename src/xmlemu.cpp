@@ -2263,13 +2263,15 @@ void Xmlemu::switchQ(int value)
                 if (elfConfiguration.tape_stopDelay <= 0)
                     p_Computer->pauseTape();
                 else
-                    p_Main->eventTapePauseTimer(elfConfiguration.tape_stopDelay);
+                    pauseTape_ = true;
+                //    p_Main->eventTapePauseTimer(elfConfiguration.tape_stopDelay);
                // p_Computer->pauseTape();
             }
         }
         else
         {
-            p_Main->cancelTapePause();
+            //p_Main->cancelTapePause();
+            pauseTape_ = false;
             if (p_Main->getHwTapeState() == HW_TAPE_STATE_REC)
             {
                 if (tapeRecording_)
@@ -5308,6 +5310,7 @@ void Xmlemu::checkComputerFunction()
 
 void Xmlemu::executeFunction(int function, Word additionalAddress)
 {
+    int a;
     switch (function)
     {
         case INFO_RESET_STATE:
@@ -5390,6 +5393,20 @@ void Xmlemu::executeFunction(int function, Word additionalAddress)
             activateElfOsChip8();
         break;
 
+        case INFO_CV_TAPE_PLAY:
+            if (readMem(scratchpadRegister_[programCounter_]) == 0x7b)
+                p_Main->eventHwTapeStateChange(HW_TAPE_STATE_PLAY);
+        break;
+            
+        case INFO_CV_TAPE_FF:
+            if (readMem(scratchpadRegister_[programCounter_]) == 0x7b)
+                p_Main->eventHwTapeStateChange(HW_TAPE_STATE_FF);
+        break;
+            
+        case INFO_CV_TAPE_REC:
+            if (readMem(scratchpadRegister_[programCounter_]) == 0x7b)
+                p_Main->eventHwTapeStateChange(HW_TAPE_STATE_REC);
+        break;
     }
 }
 
@@ -5771,7 +5788,8 @@ void Xmlemu::startLoad(int tapeNumber, bool button)
     tapeFormat56_ = false;
     tapeFormatFixed_ = false;
     toneTime_ = 0;
-    
+    pauseTape_ = false;
+
     if (tapeActivated_)
     {
         p_Main->turboOn();
@@ -5940,6 +5958,11 @@ void Xmlemu::cassetteXmlHw(wxInt16 val, long size)
     {
         silenceCount_ = 0;
         toneTime_++;
+    }
+    if (pauseTape_)
+    {
+        if (silenceCount_ > elfConfiguration.tape_stopDelay)
+            pauseTape();
     }
     
     switch (elfConfiguration.tapeFormat_)
@@ -6455,6 +6478,7 @@ void Xmlemu::resetTape()
     forwardSpeed_ = 18;
     remainingForwardSpeed_ = 0;
     lastSec_ = -1;
+    pauseTape_ = false;
 
     finishStopTape();
     if (elfConfiguration.useTapeHw)
