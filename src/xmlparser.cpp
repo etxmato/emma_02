@@ -46,6 +46,7 @@ wxString textKeyList[]=
     "right",
     "up",
     "esc",
+    "back",
     "undefined"
 };
 
@@ -3655,7 +3656,7 @@ void XmlParser::parseXml_CvKeypad (int computer, wxXmlNode &node)
         WXK_CONTROL,
         WXK_ALT,
         WXK_COMMAND,
-        0,
+        WXK_CAPITAL,
         0
     };
 
@@ -4561,7 +4562,7 @@ void XmlParser::parseXml_Cassette (int computer, wxXmlNode &node)
     elfConfiguration[computer].tape_frequency1 = 2000;
     elfConfiguration[computer].tape_frequencyBorder = 3000;
     elfConfiguration[computer].tape_threshold8Bit = 10;
-    elfConfiguration[computer].tape_threshold16Bit = 100;
+    elfConfiguration[computer].tape_threshold16Bit = 120;
     elfConfiguration[computer].tape_threshold24Bit = 1000;
     elfConfiguration[computer].tape_audioChannelLeft = true;
     elfConfiguration[computer].tape_dataChannelLeft = true;

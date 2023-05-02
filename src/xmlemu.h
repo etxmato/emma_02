@@ -354,7 +354,7 @@ private:
 
     bool tapeActivated_;
     bool tapeRecording_;
-    bool pauseTape_;
+    long pauseTapeCounter_;
     int zeroWaveCounter_;
 
     wxInt32 lastSampleInt32_;

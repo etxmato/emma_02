@@ -30,8 +30,8 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3710"
-            endingLineNumber = "3710"
+            startingLineNumber = "3711"
+            endingLineNumber = "3711"
             landmarkName = "XmlParser::parseXml_CvKeypad(computer, node)"
             landmarkType = "7">
             <Locations>
@@ -78,8 +78,8 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3724"
-            endingLineNumber = "3724"
+            startingLineNumber = "3725"
+            endingLineNumber = "3725"
             landmarkName = "XmlParser::parseXml_CvKeypad(computer, node)"
             landmarkType = "7">
          </BreakpointContent>
@@ -94,8 +94,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5402"
-            endingLineNumber = "5402"
+            startingLineNumber = "5399"
+            endingLineNumber = "5399"
             landmarkName = "Xmlemu::executeFunction(function, additionalAddress)"
             landmarkType = "7">
             <Locations>
@@ -158,8 +158,8 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "8674"
-            endingLineNumber = "8674"
+            startingLineNumber = "8672"
+            endingLineNumber = "8672"
             landmarkName = "Main::eventHwTapeStateChange(status)"
             landmarkType = "7">
          </BreakpointContent>
@@ -174,8 +174,8 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "8643"
-            endingLineNumber = "8643"
+            startingLineNumber = "8641"
+            endingLineNumber = "8641"
             landmarkName = "Main::setHwTapeStateEvent(event)"
             landmarkType = "7">
          </BreakpointContent>
@@ -190,8 +190,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5397"
-            endingLineNumber = "5397"
+            startingLineNumber = "5394"
+            endingLineNumber = "5394"
             landmarkName = "Xmlemu::executeFunction(function, additionalAddress)"
             landmarkType = "7">
          </BreakpointContent>

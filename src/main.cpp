@@ -554,7 +554,6 @@ BEGIN_EVENT_TABLE(Main, DebugWindow)
     EVT_TIMER(908, Main::guiSizeTimeout)
     EVT_TIMER(909, Main::guiRedrawBarTimeOut)
     EVT_TIMER(910, Main::directAssTimeout)
-    EVT_TIMER(911, Main::tapePauseTimeout)
 
     EVT_KEY_DOWN(Main::onKeyDown)
     EVT_KEY_UP(Main::onKeyUp)
@@ -605,7 +604,6 @@ BEGIN_EVENT_TABLE(Main, DebugWindow)
     EVT_GUI_MSG(ENABLE_CLOCK, Main::setEnableClockEvent)
     EVT_GUI_MSG(PAUSE_STATE, Main::setPauseStateEvent)
     EVT_GUI_MSG(CHANGE_HW_TAPE_STATE, Main::setHwTapeStateEvent)
-    EVT_GUI_MSG(TAPE_PAUSE_TIMER, Main::setTapePauseTimer)
 
     EVT_SYS_COLOUR_CHANGED(Main::sysColourChangeEvent)
 
@@ -9782,42 +9780,6 @@ void Main::eventDebounceTimer()
     event.SetEventObject(p_Main);
     
     GetEventHandler()->AddPendingEvent(event);
-}
-
-void Main::tapePauseTimeout(wxTimerEvent&WXUNUSED(event))
-{
-   if (!tapePauseOrdered_)
-      return;
-
-   tapePauseOrdered_ = false;
-
-    p_Computer->pauseTape();
-}
-
-void Main::setTapePauseTimer(guiEvent& event)
-{
-   if (!tapePauseOrdered_)
-      return;
-   
-   int delay = event.GetInt();
-   tapePauseTimerPointer->Start(delay, wxTIMER_ONE_SHOT);
-}
-
-void Main::eventTapePauseTimer(int delay)
-{
-   guiEvent event(GUI_MSG, TAPE_PAUSE_TIMER);
-   event.SetEventObject(p_Main);
-   
-   event.SetInt(delay);
-   
-   tapePauseOrdered_ = true;
-   
-   GetEventHandler()->AddPendingEvent(event);
-}
-
-void Main::cancelTapePause()
-{
-   tapePauseOrdered_ = false;
 }
 
 void Main::guiSizeTimeout(wxTimerEvent&WXUNUSED(event))

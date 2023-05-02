@@ -67,9 +67,9 @@
         <startbit>1</startbit>
         <databits>8</databits>
         <stopbit>-1</stopbit>
-        <stopdelay>200</stopdelay>
+        <stopdelay>20</stopdelay>
         <threshold type="8bit">10</threshold>
-        <threshold type="16bit">100</threshold>
+        <threshold type="16bit">120</threshold>
         <threshold type="24bit">1000</threshold>
         <filename cassette="0"></filename>
         <channel type="audio">left</channel>
@@ -126,9 +126,9 @@
         <keydef value="6">90</keydef>    <!-- Z -->
 
         <keydef type="text" value="7">return</keydef>   <!-- ENT -->
-        <keydef value="15">32</keydef>    <!-- ON -->
-        <keydef type="text" value="39">esc</keydef>   <!-- OFF -->
-        <keydef value="71">8</keydef>    <!-- CLR -->
+        <keydef value="15">32</keydef>                  <!-- ON -->
+        <keydef type="text" value="39">back</keydef>    <!-- OFF -->
+        <keydef type="text" value="71">esc</keydef>     <!-- CLR -->
 
         <keydef type="text" value="1">down</keydef>     <!-- DOWN -->
         <keydef type="text" value="9">left</keydef>     <!-- LEFT -->

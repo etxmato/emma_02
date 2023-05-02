@@ -100,6 +100,10 @@ void CvKeypad::keyDown(int keycode,  wxKeyEvent& event)
         
     switch (keycode)
     {
+        case WXK_BACK:
+            input = ioConfiguration_.CvKeypadTextKey[MATRIX_TEXT_BACK_KEY];
+        break;
+
         case WXK_ESCAPE:
             input = ioConfiguration_.CvKeypadTextKey[MATRIX_TEXT_ESC_KEY];
         break;

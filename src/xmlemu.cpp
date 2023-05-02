@@ -2260,18 +2260,15 @@ void Xmlemu::switchQ(int value)
             if (tapeActivated_ || tapeRecording_)
             {
                 p_Main->turboOff();
-                if (elfConfiguration.tape_stopDelay <= 0)
+                if (elfConfiguration.tape_stopDelay <= 0 || tapeRecording_)
                     p_Computer->pauseTape();
                 else
-                    pauseTape_ = true;
-                //    p_Main->eventTapePauseTimer(elfConfiguration.tape_stopDelay);
-               // p_Computer->pauseTape();
+                    pauseTapeCounter_ = (elfConfiguration.tape_stopDelay * sampleRate_) / 1000;
             }
         }
         else
         {
-            //p_Main->cancelTapePause();
-            pauseTape_ = false;
+            pauseTapeCounter_ = 0;
             if (p_Main->getHwTapeState() == HW_TAPE_STATE_REC)
             {
                 if (tapeRecording_)
@@ -5788,7 +5785,7 @@ void Xmlemu::startLoad(int tapeNumber, bool button)
     tapeFormat56_ = false;
     tapeFormatFixed_ = false;
     toneTime_ = 0;
-    pauseTape_ = false;
+    pauseTapeCounter_ = 0;
 
     if (tapeActivated_)
     {
@@ -5959,9 +5956,10 @@ void Xmlemu::cassetteXmlHw(wxInt16 val, long size)
         silenceCount_ = 0;
         toneTime_++;
     }
-    if (pauseTape_)
+    if (pauseTapeCounter_ > 0)
     {
-        if (silenceCount_ > elfConfiguration.tape_stopDelay)
+        pauseTapeCounter_--;
+        if (pauseTapeCounter_ == 0)
             pauseTape();
     }
     
@@ -6478,7 +6476,7 @@ void Xmlemu::resetTape()
     forwardSpeed_ = 18;
     remainingForwardSpeed_ = 0;
     lastSec_ = -1;
-    pauseTape_ = false;
+    pauseTapeCounter_ = 0;
 
     finishStopTape();
     if (elfConfiguration.useTapeHw)
