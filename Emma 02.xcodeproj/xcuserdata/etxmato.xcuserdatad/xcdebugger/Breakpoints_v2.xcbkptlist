@@ -94,8 +94,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5399"
-            endingLineNumber = "5399"
+            startingLineNumber = "5398"
+            endingLineNumber = "5398"
             landmarkName = "Xmlemu::executeFunction(function, additionalAddress)"
             landmarkType = "7">
             <Locations>
@@ -190,9 +190,25 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5394"
-            endingLineNumber = "5394"
+            startingLineNumber = "5393"
+            endingLineNumber = "5393"
             landmarkName = "Xmlemu::executeFunction(function, additionalAddress)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "AB22C2AA-D497-4F53-9206-A75425671E52"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/xmlemu.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2272"
+            endingLineNumber = "2272"
+            landmarkName = "Xmlemu::switchQ(value)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

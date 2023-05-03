@@ -5,7 +5,7 @@
     
     <system>
         <name>Cybervision - Bare</name>
-        <clock>2.52</clock>
+        <clock>2.51748</clock>
         <boot>0</boot>
         <init type="ef1">1</init>
         <init type="ef2">1</init>
@@ -66,7 +66,7 @@
         <freq type="1">1967</freq>
         <startbit>1</startbit>
         <databits>8</databits>
-        <stopbit>-1</stopbit>
+        <stopbit type="ignore">0</stopbit>
         <stopdelay>20</stopdelay>
         <threshold type="8bit">10</threshold>
         <threshold type="16bit">120</threshold>

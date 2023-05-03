@@ -398,6 +398,7 @@ public:
     int tape_frequency1;
     int tape_startBit;
     int tape_stopBit;
+    bool tape_stopBitIgnore;
     int tape_dataBits;
     int tape_stopDelay;
     bool tape_audioChannelLeft;

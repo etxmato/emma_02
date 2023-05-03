@@ -1094,12 +1094,7 @@ int Sound::writeSaveTapeHw(Byte value, Byte numberOfStopBits)
         }
         
         if (bit >= dataBits)
-        {
-            if  (stopBit != -1)
-                freq = frequency[stopBit&1];
-            else
-                bit = 1+dataBits+numberOfStopBits;
-        }
+            freq = frequency[stopBit&1];
         else
         {
             freq = frequency[(value & 0x80)>>7];

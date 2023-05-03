@@ -5307,7 +5307,6 @@ void Xmlemu::checkComputerFunction()
 
 void Xmlemu::executeFunction(int function, Word additionalAddress)
 {
-    int a;
     switch (function)
     {
         case INFO_RESET_STATE:
@@ -5850,7 +5849,13 @@ void Xmlemu::cassetteXmlHw(wxInt32 val, long size)
         silenceCount_ = 0;
         toneTime_++;
     }
-    
+    if (pauseTapeCounter_ > 0)
+    {
+        pauseTapeCounter_--;
+        if (pauseTapeCounter_ == 0)
+            pauseTape();
+    }
+
     switch (elfConfiguration.tapeFormat_)
     {
         case TAPE_FORMAT_AUTO:
@@ -6068,7 +6073,13 @@ void Xmlemu::cassetteXmlHw(char val, long size)
         silenceCount_ = 0;
         toneTime_++;
     }
-    
+    if (pauseTapeCounter_ > 0)
+    {
+        pauseTapeCounter_--;
+        if (pauseTapeCounter_ == 0)
+            pauseTape();
+    }
+
     switch (elfConfiguration.tapeFormat_)
     {
         case TAPE_FORMAT_AUTO:
@@ -6219,49 +6230,43 @@ void Xmlemu::cassetteCyberVision()
         }
         else
         {
-            switch (elfConfiguration.tape_stopBit)
+            if (elfConfiguration.tape_stopBitIgnore)
             {
-                case -2:
-                    if (bitNumber_ == elfConfiguration.tape_dataBits)
-                    {
-                        lastTapeInpt_ = tapeInput_;
-                        
-                        if (startBytes_ > 0 && tapeInput_ == 0)
-                            startBytes_--;
-                        
-                        tapedataReady_ = 0;
-                        tapeInput_ = 0;
-                        bitNumber_ = -1;
-                    }
-                    else
-                    {
-                        tapeInput_ = (tapeInput_ << 1) | (pulseCount_&1);
-                        bitNumber_++;
-                        
-                        if (startBytes_ > 0 && tapeInput_ !=0)
-                        {
-                            tapeInput_ = 0;
-                            bitNumber_ = -1;
-                            startBytes_ = 2;
-                        }
-                    }
-                break;
-                break;
+                if (bitNumber_ < elfConfiguration.tape_dataBits)
+                {
+                    tapeInput_ = (tapeInput_ << 1) | (pulseCount_&1);
+                    bitNumber_++;
                     
-                case -1:
-                    if (bitNumber_ < elfConfiguration.tape_dataBits)
+                    if (startBytes_ > 0 && tapeInput_ !=0)
                     {
-                        tapeInput_ = (tapeInput_ << 1) | (pulseCount_&1);
-                        bitNumber_++;
-                        
-                        if (startBytes_ > 0 && tapeInput_ !=0)
-                        {
-                            tapeInput_ = 0;
-                            bitNumber_ = -1;
-                            startBytes_ = 2;
-                        }
+                        tapeInput_ = 0;
+                        bitNumber_ = -1;
+                        startBytes_ = 2;
                     }
-                    if (bitNumber_ == elfConfiguration.tape_dataBits)
+                }
+                if (bitNumber_ == elfConfiguration.tape_dataBits)
+                {
+                    lastTapeInpt_ = tapeInput_;
+                    
+                    if (startBytes_ > 0 && tapeInput_ == 0)
+                        startBytes_--;
+                    
+                    tapedataReady_ = 0;
+                    tapeInput_ = 0;
+                    bitNumber_ = -1;
+                }
+            }
+            else
+            {
+                if (bitNumber_ == elfConfiguration.tape_dataBits)
+                {
+                    bool stopBit = false;;
+                    if (freq < elfConfiguration.tape_frequencyBorder && elfConfiguration.tape_stopBit == 1)
+                        stopBit = true;
+                    if (freq >= elfConfiguration.tape_frequencyBorder && elfConfiguration.tape_stopBit == 0)
+                        stopBit = true;
+
+                    if (stopBit)
                     {
                         lastTapeInpt_ = tapeInput_;
                         
@@ -6272,43 +6277,19 @@ void Xmlemu::cassetteCyberVision()
                         tapeInput_ = 0;
                         bitNumber_ = -1;
                     }
-                break;
-
-                case 0:
-                case 1:
-                    if (bitNumber_ == elfConfiguration.tape_dataBits)
+                }
+                else
+                {
+                    tapeInput_ = (tapeInput_ << 1) | (pulseCount_&1);
+                    bitNumber_++;
+                    
+                    if (startBytes_ > 0 && tapeInput_ !=0)
                     {
-                        bool stopBit = false;;
-                        if (freq < elfConfiguration.tape_frequencyBorder && elfConfiguration.tape_stopBit == 1)
-                            stopBit = true;
-                        if (freq >= elfConfiguration.tape_frequencyBorder && elfConfiguration.tape_stopBit == 0)
-                            stopBit = true;
-
-                        if (stopBit)
-                        {
-                            lastTapeInpt_ = tapeInput_;
-                            
-                            if (startBytes_ > 0 && tapeInput_ == 0)
-                                startBytes_--;
-                            
-                            tapedataReady_ = 0;
-                            tapeInput_ = 0;
-                            bitNumber_ = -1;
-                        }
+                        tapeInput_ = 0;
+                        bitNumber_ = -1;
+                        startBytes_ = 2;
                     }
-                    else
-                    {
-                        tapeInput_ = (tapeInput_ << 1) | (pulseCount_&1);
-                        bitNumber_++;
-                        
-                        if (startBytes_ > 0 && tapeInput_ !=0)
-                        {
-                            tapeInput_ = 0;
-                            bitNumber_ = -1;
-                            startBytes_ = 2;
-                        }
-                    }
-                break;
+                }
             }
         }
         

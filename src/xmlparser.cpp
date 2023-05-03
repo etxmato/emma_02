@@ -4557,6 +4557,7 @@ void XmlParser::parseXml_Cassette (int computer, wxXmlNode &node)
     elfConfiguration[computer].tape_startBit = 1;
     elfConfiguration[computer].tape_dataBits = 8;
     elfConfiguration[computer].tape_stopBit = 0;
+    elfConfiguration[computer].tape_stopBitIgnore = false;
     elfConfiguration[computer].tape_stopDelay = 0;
     elfConfiguration[computer].tape_frequency0 = 4000;
     elfConfiguration[computer].tape_frequency1 = 2000;
@@ -4635,6 +4636,8 @@ void XmlParser::parseXml_Cassette (int computer, wxXmlNode &node)
 
             case TAG_STOPBIT:
                 elfConfiguration[computer].tape_stopBit = (int)parseXml_Number(*child);
+                if (child->GetAttribute("type") == "ignore")
+                    elfConfiguration[computer].tape_stopBitIgnore = true;
             break;
 
             case TAG_STOPDELAY:
