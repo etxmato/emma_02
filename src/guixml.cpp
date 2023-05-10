@@ -112,6 +112,7 @@ BEGIN_EVENT_TABLE(GuiXml, GuiPico)
     EVT_BUTTON(XRCID("RealCasLoadXml"), GuiMain::onRealCas)
     EVT_BUTTON(XRCID("CasLoadXml"), GuiMain::onCassetteLoad)
     EVT_BUTTON(XRCID("CasForwardXml"), GuiMain::onCassetteForward)
+    EVT_BUTTON(XRCID("CasRewindXml"), GuiMain::onCassetteRewind)
     EVT_BUTTON(XRCID("CasSaveXml"), GuiMain::onCassetteSave)
     EVT_BUTTON(XRCID("CasStopXml"), GuiMain::onCassetteStop)
     EVT_CHECKBOX(XRCID("TurboXml"), GuiMain::onTurbo)
@@ -675,6 +676,10 @@ void GuiXml::setXmlGui()
         XRCCTRL(*this, "CasForwardXml", wxBitmapButton)->SetBitmapLabel(forwardDarkGreenBitmap);
     else
         XRCCTRL(*this, "CasForwardXml", wxBitmapButton)->SetBitmapLabel(forwardBlackBitmap);
+    if (hwTapeState_ == HW_TAPE_STATE_RW)
+        XRCCTRL(*this, "CasRewindXml", wxBitmapButton)->SetBitmapLabel(rewindDarkGreenBitmap);
+    else
+        XRCCTRL(*this, "CasRewindXml", wxBitmapButton)->SetBitmapLabel(rewindBlackBitmap);
     if (elfConfiguration[XML].useTapeHw)
     {
         XRCCTRL(*this, "CasLoadXml", wxBitmapButton)->Enable(true);
@@ -687,6 +692,7 @@ void GuiXml::setXmlGui()
     {
         XRCCTRL(*this, "CasLoadXml", wxButton)->Enable(false);
         XRCCTRL(*this, "CasForwardXml", wxButton)->Enable(false);
+        XRCCTRL(*this, "CasRewindXml", wxButton)->Enable(false);
     }
 
     XRCCTRL(*this, "VTBaudRChoiceXml", wxChoice)->SetSelection(elfConfiguration[XML].baudR);

@@ -43,6 +43,7 @@ WaveReader::~WaveReader()
 
 long WaveReader::openFile(wxString fileName)
 {
+    fileName_ = fileName;
     sampleCount_ = 0;
     if (wavFile_.Open(fileName, "rb+"))
         return readHeader();
@@ -52,6 +53,7 @@ long WaveReader::openFile(wxString fileName)
 
 bool WaveReader::createFile(wxString fileName, long sampleRate, int bitsPerSample)
 {
+    fileName_ = fileName;
     fileSize_ = 0;
     sizeOfSampleData_ = 0;
     sampleCount_ = 0;
@@ -326,6 +328,20 @@ void WaveReader::write(unsigned char inBuffer)
 
 void WaveReader::closeFile()
 {
+    writeHeader();
+    wavFile_.Close();
+}
+
+void WaveReader::flush()
+{
+    writeHeader();
+    wavFile_.Close();
+    wavFile_.Open(fileName_);
+    wavFile_.Seek (dataPosition_ + sampleCount_ * frameSize_ + frameSize_/2, wxFromStart);
+}
+
+void WaveReader::writeHeader()
+{
     long ds, rs, bps;
 
     if (bitsPerSample_ == 8)
@@ -373,13 +389,23 @@ void WaveReader::closeFile()
     // write header
     wavFile_.Seek(0, wxFromStart);
     wavFile_.Write(header, sizeof header);
-
-    wavFile_.Close();
 }
 
 bool WaveReader::seek(wxFileOffset ofs, wxSeekMode mode)
 {
     return wavFile_.Seek(ofs, mode);
+}
+
+long WaveReader::rewind(long step)
+{
+    sampleCount_ -= step;
+    
+    if (sampleCount_ < 0)
+        sampleCount_ = 0;
+    
+    wavFile_.Seek (dataPosition_ + sampleCount_ * frameSize_, wxFromStart);
+    
+    return sampleCount_;
 }
 
 bool WaveReader::eof()

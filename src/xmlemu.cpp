@@ -5786,7 +5786,7 @@ void Xmlemu::startLoad(int tapeNumber, bool button)
     toneTime_ = 0;
     pauseTapeCounter_ = 0;
 
-    if (tapeActivated_)
+    if (tapeActivated_ || tapeRecording_)
     {
         p_Main->turboOn();
         
@@ -5795,7 +5795,11 @@ void Xmlemu::startLoad(int tapeNumber, bool button)
             switch (p_Main->getHwTapeState())
             {
                 case HW_TAPE_STATE_FF:
-                    p_Computer->forwardTape(TAPE_FORWARD);
+                    p_Computer->forwardTape(TAPE_FF);
+                break;
+
+                case HW_TAPE_STATE_RW:
+                    p_Computer->rewindTape(TAPE_RW);
                 break;
 
                 default:
@@ -5814,7 +5818,7 @@ void Xmlemu::startLoad(int tapeNumber, bool button)
             tapeActivated_ = p_Main->startCassetteLoad(tapeNumber);
         
         if (elfConfiguration.useTapeHw && !tapeActivated_)
-            p_Main->eventHwTapeStateChange(HW_TAPE_STATE_PLAY);
+            p_Main->eventHwTapeStateChange(HW_TAPE_STATE_OFF);
     }
     
 //    tapeRunSwitch_ = tapeRunSwitch_ | 1;
@@ -6159,16 +6163,18 @@ void Xmlemu::cassetteXmlHw(char val, long size)
 void Xmlemu::stepCassetteCounter(long step)
 {
     tapeCounterStep_+=step;
+    if (tapeCounterStep_ < 0)
+        tapeCounterStep_ = 0;
     
     int stepSize=1000;
     
     if (p_Main->isTurboOn())
         stepSize = 100;
         
-    if (p_Main->getHwTapeState() == HW_TAPE_STATE_FF)
+    if (p_Main->getHwTapeState() == HW_TAPE_STATE_FF || p_Main->getHwTapeState() == HW_TAPE_STATE_RW)
         stepSize = 100;
 
-    if (p_Main->isTurboOn() && p_Main->getHwTapeState() == HW_TAPE_STATE_FF)
+    if (p_Main->isTurboOn() && (p_Main->getHwTapeState() == HW_TAPE_STATE_FF || p_Main->getHwTapeState() == HW_TAPE_STATE_RW))
         stepSize = 1;
 
     long long newPeriod = tapeCounterStep_*stepSize/sampleRate_;
@@ -6181,8 +6187,11 @@ void Xmlemu::stepCassetteCounter(long step)
         int min = (int) ((tapePeriod_/stepSize) / 60);
         
         int numberOfSeconds = min*60+sec;
+        int numberOfSecondsRewind = 30*60-numberOfSeconds;
+        if (numberOfSecondsRewind < 0)
+            numberOfSecondsRewind = 0;
         
-        if (numberOfSeconds != lastSec_ && p_Main->getHwTapeState() == HW_TAPE_STATE_FF)
+        if (numberOfSeconds != lastSec_ && (p_Main->getHwTapeState() == HW_TAPE_STATE_FF || p_Main->getHwTapeState() == HW_TAPE_STATE_RW))
         {
             int cva = p_Main->getPsaveData(11);
             float cvb = (float) p_Main->getPsaveData(12)/100;
@@ -6190,6 +6199,10 @@ void Xmlemu::stepCassetteCounter(long step)
             remainingForwardSpeed_ += sqrt(cva*cva+2*cvb*numberOfSeconds);
             forwardSpeed_ = (int)remainingForwardSpeed_;
             remainingForwardSpeed_ -= forwardSpeed_;
+            
+            remainingRewindSpeed_ += sqrt(cva*cva+2*cvb*numberOfSecondsRewind);
+            rewindSpeed_ = (int)remainingRewindSpeed_;
+            remainingRewindSpeed_ -= rewindSpeed_;
         }
 
         switch (stepSize)
@@ -6456,6 +6469,8 @@ void Xmlemu::resetTape()
     tapePeriod_ = 0;
     forwardSpeed_ = 18;
     remainingForwardSpeed_ = 0;
+    rewindSpeed_ = 18;
+    remainingRewindSpeed_ = 0;
     lastSec_ = -1;
     pauseTapeCounter_ = 0;
 
@@ -6463,7 +6478,7 @@ void Xmlemu::resetTape()
     if (elfConfiguration.useTapeHw)
     {
         p_Computer->stopTape();
-        p_Main->eventHwTapeStateChange(HW_TAPE_STATE_PLAY);
+        p_Main->eventHwTapeStateChange(HW_TAPE_STATE_OFF);
         p_Main->eventSetStaticTextValue("CasCounterXml", "00:00:000");
     }
 }

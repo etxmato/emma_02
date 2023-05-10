@@ -252,7 +252,7 @@
 <font>
 <size>12</size>
 </font>
-<label>CyberVision FF speed = </label>
+<label>CyberVision FF/RW speed = </label>
 </object>
 </object>
 <object class="sizeritem">

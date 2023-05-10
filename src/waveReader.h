@@ -28,9 +28,13 @@ public:
     long read(wxInt16* OutBuffer, size_t Count, float Gain);
     bool eof();
     bool seek(wxFileOffset ofs, wxSeekMode mode = wxFromStart);
+    long rewind(long step);
 
     // Write sound file header and close file. If no samples were written,
     void closeFile();
+    
+    void flush();
+    void writeHeader();
 
 private:
     wxFFile wavFile_;
@@ -46,6 +50,7 @@ private:
     long sizeOfSampleData_;
     long dataPosition_;
     int bitsPerSample_;
+    wxString fileName_;
 };
 
 inline void WaveReader::stereo( int s ) {

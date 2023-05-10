@@ -1832,7 +1832,7 @@
                     <string name="proxy-Id name">"ID_STATICTEXT"</string>
                     <long name="proxy-Id value">10002</long>
                     <string name="proxy-Implementation filename">""</string>
-                    <string name="proxy-Label">"CyberVision FF speed ="</string>
+                    <string name="proxy-Label">"CyberVision FF/RW speed ="</string>
                     <string name="proxy-Member variable name">""</string>
                     <string name="proxy-Name">""</string>
                     <string name="proxy-Platform">"&lt;Any platform&gt;"</string>

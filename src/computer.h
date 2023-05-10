@@ -590,6 +590,8 @@ public:
     virtual int getDataBits() {return 8;};
     virtual int getStopBit() {return 0;};
 
+    virtual wxString getTapeCounter() {return "00:00:000";};
+
 protected:
     RunComputer *threadPointer;
 

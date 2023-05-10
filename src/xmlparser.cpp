@@ -4570,6 +4570,7 @@ void XmlParser::parseXml_Cassette (int computer, wxXmlNode &node)
     cassetteNumber = 0;
 
     wxXmlNode *child = node.GetChildren();
+    
     while (child)
     {
         wxString childName = child->GetName();
@@ -4613,8 +4614,6 @@ void XmlParser::parseXml_Cassette (int computer, wxXmlNode &node)
                 if (child->GetAttribute("type") == "1")
                     elfConfiguration[computer].tape_frequency1 = (int)parseXml_Number(*child);
                 elfConfiguration[computer].tape_frequencyBorder = (elfConfiguration[computer].tape_frequency1 + elfConfiguration[computer].tape_frequency0) / 2;
-  //              if (elfConfiguration[computer].tape_frequency0 > elfConfiguration[computer].tape_frequency1)
-  //                  elfConfiguration[computer].tape_revInput = true;
             break;
 
             case TAG_THRESHOLD:

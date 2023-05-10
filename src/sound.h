@@ -68,6 +68,7 @@ public:
     void stopPausedSave();
     void stopSaveLoad();
     void forwardTape(int tapeState);
+    void rewindTape(int tapeState);
     void setVolume(int volume);
     void setClockRate(double clock);
     void setPercentageClock(double percentage);
@@ -95,11 +96,14 @@ protected:
     long sampleRate_;
     int forwardSpeed_;
     double remainingForwardSpeed_;
+    int rewindSpeed_;
+    double remainingRewindSpeed_;
     bool useXmlThreshold_;
 
     Byte tapeHwReadyToReceive_;
     long long tapeCounterStep_;
     long long tapePeriod_;
+    bool tapeRecording_;
 
 private:
     Blip_Buffer *soundBufferPointerLeft;
@@ -132,11 +136,13 @@ private:
     wxString tapeNumber_;
     bool hwSaveOn_;
     bool startNewRecording_;
+    bool somethingSaved_;
     bool ploadPaused_;
     bool hwSavePaused_;
     bool psaveOn_;
     bool ploadOn_;
     bool forwardOn_;
+    bool rewindOn_;
     bool wavOn_;
     int psaveAmplitude_;
     int psaveVolume_;

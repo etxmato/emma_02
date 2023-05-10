@@ -121,9 +121,11 @@ void Sound::initSound(double clock, double percentageClock, int computerType, in
     ploadOn_ = false;
     hwSaveOn_ = false;
     startNewRecording_ = true;
+    somethingSaved_ = false;
     hwSavePaused_ = false;
     ploadPaused_ = false;
     forwardOn_ = false;
+    rewindOn_ = false;
     wavOn_ = false;
     stopTheTape_ = false;
     tapeHwReadyToReceive_ = 0;
@@ -747,9 +749,13 @@ void Sound::playSaveLoad()
     {
         if (isTapeHwActive())
         {
-            resetTape();
+ //           resetTape();
+            pauseTape();
+            if (somethingSaved_)
+                ploadWavePointer->flush();
             p_Main->eventHwTapeStateChange(HW_TAPE_STATE_OFF);
             stopTheTape_ = false;
+            somethingSaved_ = false;
         }
         else
             stopTape();
@@ -814,11 +820,24 @@ void Sound::playSaveLoad()
                     else
                         stopTape();
                 }
-                
             }
         }
 
-        if (ploadOn_ && !forwardOn_)
+        if (rewindOn_)
+        {
+            int sample_count = (int)ploadWavePointer->rewind(rewindSpeed_);
+            stepCassetteCounter(-rewindSpeed_);
+
+            if (sample_count <= 0)
+            {
+                if (isTapeHwActive())
+                    pauseTape();
+                else
+                    stopTape();
+            }
+        }
+
+        if (ploadOn_ && !forwardOn_ && !rewindOn_)
         {
             long in = ploadWavePointer->read(ploadSamples, sample_count, gain_);
             if (ploadOn_)
@@ -966,13 +985,24 @@ void Sound::startSaveTapeHw(wxString fileName, wxString tapeNumber)
     if (ploadPaused_)
     {
         hwSaveOn_ = true;
+        tapeRecording_ = true;
+        ploadPaused_ = false;
         return;
     }
     
+    if (hwSavePaused_)
+    {
+        hwSaveOn_ = true;
+        tapeRecording_ = true;
+        hwSavePaused_ = false;
+        return;
+    }
+
     if (ploadOn_)
     {
         pauseTape();
         hwSaveOn_ = true;
+        tapeRecording_ = true;
         return;
     }
     
@@ -1000,7 +1030,10 @@ void Sound::startSaveTapeHw(wxString fileName, wxString tapeNumber)
     if (!wxFile::Exists(fileName))
     {
         if (ploadWavePointer->createFile(fileName, sampleRate_, (psaveBitsPerSample_ + 1) * 8))
+        {
             hwSaveOn_ = true;
+            tapeRecording_ = true;
+        }
         else
         {
             p_Main->message("Cassette sound error: Can't open file");
@@ -1020,7 +1053,10 @@ void Sound::startSaveTapeHw(wxString fileName, wxString tapeNumber)
                 p_Main->eventSetTapeState(TAPE_STOP, tapeNumber_);
             }
             else
+            {
                 hwSaveOn_ = true;
+                tapeRecording_ = true;
+            }
         }
         else
         {
@@ -1038,6 +1074,8 @@ void Sound::outSaveTapeHw(Byte value)
 
 void Sound::writeSilenceTapeHw()
 {
+    somethingSaved_ = true;
+    
     short samples [1];
 
     samples[0] = 0;
@@ -1082,6 +1120,8 @@ int Sound::writeSaveTapeHw(Byte value, Byte numberOfStopBits)
     {
         while((float)sample_count/sampleRate_ < (float)(bit+1) * period)
         {
+            somethingSaved_ = true;
+
             samples[0] = (amplitude_max * sin(2 * freq * M_PI*((float)sample_count/sampleRate_ - (float)bit * period)));
             sample_count++;
             if (psaveBitsPerSample_ == 0)
@@ -1109,14 +1149,16 @@ int Sound::writeSaveTapeHw(Byte value, Byte numberOfStopBits)
 
 void Sound::stopTape()
 {
-    if (!ploadOn_ && !psaveOn_ && !forwardOn_ && !hwSaveOn_ && !hwSavePaused_ && !ploadPaused_)
+    if (!ploadOn_ && !psaveOn_ && !forwardOn_ && !rewindOn_ && !hwSaveOn_ && !hwSavePaused_ && !ploadPaused_)
         return;
 
     p_Computer->resetGaugeValue();
     tapeCounterStep_ = 0;
     tapePeriod_ = 0;
     stopTheTape_ = false;
+    somethingSaved_ = false;
     forwardOn_ = false;
+    rewindOn_ = false;
     p_Main->turboOff();
     if (ploadOn_ || ploadPaused_)
     {
@@ -1154,6 +1196,9 @@ void Sound::stopTape()
 
 void Sound::pauseTape()
 {
+    forwardOn_ = false;
+    rewindOn_ = false;
+
     if (ploadOn_)
     {
 //        p_Main->turboOff();
@@ -1194,6 +1239,7 @@ void Sound::restartTapeSave(int tapeState)
 void Sound::restartHwTapeSave(int tapeState)
 {
     forwardOn_ = false;
+    rewindOn_ = false;
     ploadOn_ = false;
     ploadPaused_ = false;
     hwSaveOn_ = true;
@@ -1205,6 +1251,7 @@ void Sound::restartTapeLoad(int tapeState)
 {
 //    p_Main->turboOn();
     forwardOn_ = false;
+    rewindOn_ = false;
     ploadOn_ = true;
     ploadPaused_ = false;
     hwSavePaused_ = false;
@@ -1232,8 +1279,17 @@ void Sound::stopSaveLoad()
 
 void Sound::forwardTape(int tapeState)
 {
-    forwardOn_ = true;
-    ploadOn_ = true;
+    rewindOn_ = false;
+    forwardOn_ = (tapeState == TAPE_FF);
+    ploadOn_ = (tapeState == TAPE_FF);
+    p_Main->eventSetTapeState(tapeState, tapeNumber_);
+}
+
+void Sound::rewindTape(int tapeState)
+{
+    rewindOn_ = (tapeState == TAPE_RW);
+    forwardOn_ = false;
+    ploadOn_ = (tapeState == TAPE_RW);
     p_Main->eventSetTapeState(tapeState, tapeNumber_);
 }
 

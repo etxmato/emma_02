@@ -8631,7 +8631,7 @@ void Main::eventEnableClock(bool state)
    GetEventHandler()->AddPendingEvent(event);
 }
 
-void Main::setHwTapeStateEvent(guiEvent&event)
+void Main::setHwTapeStateEvent(guiEvent&WXUNUSED(event))
 {
    if (!mode_.gui)
       return;
@@ -8641,18 +8641,28 @@ void Main::setHwTapeStateEvent(guiEvent&event)
       case HW_TAPE_STATE_PLAY:
          XRCCTRL(*this, "CasLoad"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(playDarkGreenBitmap);
          XRCCTRL(*this, "CasForward"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(forwardBlackBitmap);
+         XRCCTRL(*this, "CasRewind"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(rewindBlackBitmap);
          XRCCTRL(*this, "CasSave"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(recOffBitmap);
       break;
         
       case HW_TAPE_STATE_FF:
          XRCCTRL(*this, "CasLoad"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(playBlackBitmap);
          XRCCTRL(*this, "CasForward"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(forwardDarkGreenBitmap);
+         XRCCTRL(*this, "CasRewind"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(rewindBlackBitmap);
          XRCCTRL(*this, "CasSave"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(recOffBitmap);
       break;
         
+      case HW_TAPE_STATE_RW:
+         XRCCTRL(*this, "CasLoad"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(playBlackBitmap);
+         XRCCTRL(*this, "CasForward"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(forwardBlackBitmap);
+         XRCCTRL(*this, "CasRewind"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(rewindDarkGreenBitmap);
+         XRCCTRL(*this, "CasSave"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(recOffBitmap);
+      break;
+
       case HW_TAPE_STATE_REC:
          XRCCTRL(*this, "CasLoad"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(playBlackBitmap);
          XRCCTRL(*this, "CasForward"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(forwardBlackBitmap);
+         XRCCTRL(*this, "CasRewind"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(rewindBlackBitmap);
          XRCCTRL(*this, "CasSave"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(recOnBitmap);
       break;
         
@@ -8660,6 +8670,7 @@ void Main::setHwTapeStateEvent(guiEvent&event)
          hwTapeState_ = HW_TAPE_STATE_OFF;
          XRCCTRL(*this, "CasLoad"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(playBlackBitmap);
          XRCCTRL(*this, "CasForward"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(forwardBlackBitmap);
+         XRCCTRL(*this, "CasRewind"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(rewindBlackBitmap);
          XRCCTRL(*this, "CasSave"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(recOffBitmap);
       break;
    }

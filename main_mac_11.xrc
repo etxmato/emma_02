@@ -28817,11 +28817,11 @@
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
-<object class="wxBitmapButton" name="CasForwardXml">
+<object class="wxBitmapButton" name="CasRewindXml">
 <size>22,22</size>
 <tooltip>Fast forward cassette file</tooltip>
 <enabled>0</enabled>
-<bitmap>images_osx/forward_black.png</bitmap>
+<bitmap>images_osx/rewind_black.png</bitmap>
 </object>
 </object>
 <object class="sizeritem">
@@ -28832,6 +28832,16 @@
 <tooltip>Play cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images_osx/play_black.png</bitmap>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxBitmapButton" name="CasForwardXml">
+<size>22,22</size>
+<tooltip>Fast forward cassette file</tooltip>
+<enabled>0</enabled>
+<bitmap>images_osx/forward_black.png</bitmap>
 </object>
 </object>
 <object class="sizeritem">

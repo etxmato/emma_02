@@ -131,6 +131,10 @@ GuiMain::GuiMain(const wxString& title, const wxPoint& pos, const wxSize& size, 
     playGreenBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/play_green.png", wxBITMAP_TYPE_PNG);
     playDarkGreenBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/play_darkgreen.png", wxBITMAP_TYPE_PNG);
 
+    rewindBlackBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/rewind_black.png", wxBITMAP_TYPE_PNG);
+    rewindGreenBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/rewind_green.png", wxBITMAP_TYPE_PNG);
+    rewindDarkGreenBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/rewind_darkgreen.png", wxBITMAP_TYPE_PNG);
+
     forwardBlackBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/forward_black.png", wxBITMAP_TYPE_PNG);
     forwardGreenBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/forward_green.png", wxBITMAP_TYPE_PNG);
     forwardDarkGreenBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/forward_darkgreen.png", wxBITMAP_TYPE_PNG);
@@ -1871,6 +1875,9 @@ void GuiMain::onAutoLoad(wxCommandEvent&event)
 
 void GuiMain::onTurbo(wxCommandEvent&event)
 {
+    if (computerRunning_ && turboOn_)
+        turboOff();
+    
     conf[selectedComputer_].turbo_ = event.IsChecked();
     turboGui(computerInfo[selectedComputer_].gui);
 }
@@ -1931,7 +1938,7 @@ void GuiMain::onCassetteLoad(wxCommandEvent& WXUNUSED(event))
                 if (hwTapeState_ == HW_TAPE_STATE_REC)
                     p_Computer->pauseTape();
 
-                if (hwTapeState_ == HW_TAPE_STATE_PLAY && p_Computer->getFlipFlopQ() != 1)
+                if (hwTapeState_ == HW_TAPE_STATE_PLAY) // && p_Computer->getFlipFlopQ() != 1)
                     hwTapeState_ = HW_TAPE_STATE_OFF;
                 else
                     hwTapeState_ = HW_TAPE_STATE_PLAY;
@@ -1940,13 +1947,18 @@ void GuiMain::onCassetteLoad(wxCommandEvent& WXUNUSED(event))
                 {
                     XRCCTRL(*this, "CasLoad"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(playDarkGreenBitmap);
                     XRCCTRL(*this, "CasForward"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(forwardBlackBitmap);
+                    XRCCTRL(*this, "CasRewind"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(rewindBlackBitmap);
                     XRCCTRL(*this, "CasSave"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(recOffBitmap);
+                    if (p_Computer->getFlipFlopQ() == 1)
+                        p_Xmlemu->startLoad(0, true);
                 }
                 else
+                {
                     XRCCTRL(*this, "CasLoad"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(playBlackBitmap);
+                    if (p_Computer->getFlipFlopQ() == 1)
+                        p_Computer->pauseTape();
+                }
                 
-                if (p_Computer->getFlipFlopQ() == 1)
-                    p_Xmlemu->startLoad(0, true);
             }
             else
                 p_Xmlemu->startLoad(0, true);
@@ -1971,13 +1983,51 @@ void GuiMain::onCassetteForward(wxCommandEvent& WXUNUSED(event))
     if (hwTapeState_ == HW_TAPE_STATE_FF)
     {
         XRCCTRL(*this, "CasForward"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(forwardDarkGreenBitmap);
+        XRCCTRL(*this, "CasRewind"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(rewindBlackBitmap);
         XRCCTRL(*this, "CasLoad"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(playBlackBitmap);
         XRCCTRL(*this, "CasSave"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(recOffBitmap);
+        if (p_Computer->getFlipFlopQ() == 1)
+        {
+            p_Xmlemu->startLoad(0, true);
+            p_Computer->forwardTape(TAPE_FF);
+        }
     }
     else
+    {
         XRCCTRL(*this, "CasForward"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(forwardBlackBitmap);
+        if (p_Computer->getFlipFlopQ() == 1)
+            p_Computer->forwardTape(TAPE_STOP);
+    }
+}
 
-//    p_Xmlemu->startLoad(0, true);
+void GuiMain::onCassetteRewind(wxCommandEvent& WXUNUSED(event))
+{
+    if (hwTapeState_ == HW_TAPE_STATE_REC)
+        p_Computer->pauseTape();
+
+    if (hwTapeState_ == HW_TAPE_STATE_RW)
+        hwTapeState_ = HW_TAPE_STATE_OFF;
+    else
+        hwTapeState_ = HW_TAPE_STATE_RW;
+
+    if (hwTapeState_ == HW_TAPE_STATE_RW)
+    {
+        XRCCTRL(*this, "CasForward"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(forwardBlackBitmap);
+        XRCCTRL(*this, "CasRewind"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(rewindDarkGreenBitmap);
+        XRCCTRL(*this, "CasLoad"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(playBlackBitmap);
+        XRCCTRL(*this, "CasSave"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(recOffBitmap);
+        if (p_Computer->getFlipFlopQ() == 1)
+        {
+            p_Xmlemu->startLoad(0, true);
+            p_Computer->rewindTape(TAPE_RW);
+        }
+    }
+    else
+    {
+        XRCCTRL(*this, "CasRewind"+computerInfo[XML].gui, wxBitmapButton)->SetBitmapLabel(rewindBlackBitmap);
+        if (p_Computer->getFlipFlopQ() == 1)
+            p_Computer->rewindTape(TAPE_STOP);
+    }
 }
 
 void GuiMain::onCassetteLoad1(wxCommandEvent& WXUNUSED(event))
@@ -2021,13 +2071,17 @@ void GuiMain::onCassetteSave(wxCommandEvent& WXUNUSED(event))
         {
             XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(playBlackBitmap);
             XRCCTRL(*this, "CasForward"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(forwardBlackBitmap);
+            XRCCTRL(*this, "CasRewind"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(rewindBlackBitmap);
             XRCCTRL(*this, "CasSave"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(recPressedBitmap);
+            if (p_Computer->getFlipFlopQ() == 1)
+                startSaveCont(0, p_Computer->getTapeCounter());
         }
         else
+        {
             XRCCTRL(*this, "CasSave"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(recOffBitmap);
-
-        if (p_Computer->getFlipFlopQ() == 1)
-            startSaveNew(0);
+            if (p_Computer->getFlipFlopQ() == 1)
+                p_Computer->pauseTape();
+        }
     }
     else
         startSaveNew(0);
@@ -3680,7 +3734,10 @@ void GuiMain::setRealCas(int computerType)
             XRCCTRL(*this, "CasLoad"+computerInfo[computerType].gui, wxButton)->Enable(false);
             XRCCTRL(*this, "CasSave"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
             if (runningComputer_ == XML)
+            {
                 XRCCTRL(*this, "CasForward"+computerInfo[computerType].gui, wxButton)->Enable(false);
+                XRCCTRL(*this, "CasRewind"+computerInfo[computerType].gui, wxButton)->Enable(false);
+            }
             if (runningComputer_ == MCDS)
             {
                 XRCCTRL(*this, "CasLoad1"+computerInfo[computerType].gui, wxButton)->Enable(false);
@@ -3708,6 +3765,7 @@ void GuiMain::setRealCas(int computerType)
             if (runningComputer_ == XML)
             {
                 XRCCTRL(*this, "CasForward"+computerInfo[computerType].gui, wxButton)->Enable(elfConfiguration[computerType].useTapeHw);
+                XRCCTRL(*this, "CasRewind"+computerInfo[computerType].gui, wxButton)->Enable(elfConfiguration[computerType].useTapeHw);
                 if (elfConfiguration[computerType].useTapeHw)
                     XRCCTRL(*this, "CasStop"+computerInfo[computerType].gui, wxButton)->Enable(true);
             }
@@ -3744,7 +3802,10 @@ void GuiMain::setRealCas2(int computerType)
             XRCCTRL(*this, "CasLoad"+computerInfo[computerType].gui, wxButton)->Enable(false);
             XRCCTRL(*this, "CasSave"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
             if (runningComputer_ == XML)
+            {
                 XRCCTRL(*this, "CasForward"+computerInfo[computerType].gui, wxButton)->Enable(false);
+                XRCCTRL(*this, "CasRewind"+computerInfo[computerType].gui, wxButton)->Enable(false);
+            }
             if (runningComputer_ == MCDS)
             {
                 XRCCTRL(*this, "CasLoad1"+computerInfo[computerType].gui, wxButton)->Enable(false);
@@ -3766,6 +3827,7 @@ void GuiMain::setRealCas2(int computerType)
             if (runningComputer_ == XML)
             {
                 XRCCTRL(*this, "CasForward"+computerInfo[computerType].gui, wxButton)->Enable(elfConfiguration[computerType].useTapeHw);
+                XRCCTRL(*this, "CasRewind"+computerInfo[computerType].gui, wxButton)->Enable(elfConfiguration[computerType].useTapeHw);
                 if (elfConfiguration[computerType].useTapeHw)
                     XRCCTRL(*this, "CasStop"+computerInfo[computerType].gui, wxButton)->Enable(true);
             }
@@ -3807,6 +3869,7 @@ void GuiMain::setRealCasOff(int computerType)
         if (runningComputer_ == XML)
         {
             XRCCTRL(*this, "CasForward"+computerInfo[computerType].gui, wxButton)->Enable(elfConfiguration[computerType].useTapeHw);
+            XRCCTRL(*this, "CasRewind"+computerInfo[computerType].gui, wxButton)->Enable(elfConfiguration[computerType].useTapeHw);
             if (elfConfiguration[computerType].useTapeHw)
                 XRCCTRL(*this, "CasStop"+computerInfo[computerType].gui, wxButton)->Enable(true);
         }
@@ -4517,6 +4580,7 @@ void GuiMain::enableLoadGui(bool status)
         {
             XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
             XRCCTRL(*this, "CasForward"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
+            XRCCTRL(*this, "CasRewind"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
             XRCCTRL(*this, "CasSave"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
             XRCCTRL(*this, "CasStop"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
         }
@@ -4542,8 +4606,10 @@ void GuiMain::enableLoadGui(bool status)
         if (tapeState_ == TAPE_RECORD)
             XRCCTRL(*this, "CasSave"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(recOffBitmap);
     }
-    if (tapeState_ == TAPE_FORWARD)
+    if (tapeState_ == TAPE_FF)
         XRCCTRL(*this, "CasForward"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(forwardDarkGreenBitmap);
+    if (tapeState_ == TAPE_RW)
+        XRCCTRL(*this, "CasRewind"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(rewindDarkGreenBitmap);
     if (tapeState_ == TAPE_RECORD1)
         XRCCTRL(*this, "CasSave1"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(recOffBitmap);
     if (tapeState_ == TAPE_PLAY1)
@@ -4600,7 +4666,7 @@ void GuiMain::setTapeState(int tapeState, wxString tapeNumber)
     }
     if (runningComputer_ == XML)
     {
-        if (tapeState == TAPE_FORWARD)
+        if (tapeState == TAPE_FF)
             XRCCTRL(*this, "CasForward"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(forwardGreenBitmap);
         else
         {
@@ -4608,6 +4674,15 @@ void GuiMain::setTapeState(int tapeState, wxString tapeNumber)
                 XRCCTRL(*this, "CasForward"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(forwardDarkGreenBitmap);
             else
                 XRCCTRL(*this, "CasForward"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(forwardBlackBitmap);
+        }
+        if (tapeState == TAPE_RW)
+            XRCCTRL(*this, "CasRewind"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(rewindGreenBitmap);
+        else
+        {
+            if (hwTapeState_ == HW_TAPE_STATE_RW)
+                XRCCTRL(*this, "CasRewind"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(rewindDarkGreenBitmap);
+            else
+                XRCCTRL(*this, "CasRewind"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(rewindBlackBitmap);
         }
     }
     if (conf[runningComputer_].autoCassetteLoad_)

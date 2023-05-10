@@ -239,6 +239,8 @@ public:
     int getDataBits() {return elfConfiguration.tape_dataBits;};
     int getStopBit() {return elfConfiguration.tape_stopBit;};
 
+    wxString getTapeCounter() {return tapeCounter_;};
+    
 private:
     class ElfScreen *elfScreenPointer;
     class Elf2Screen *elf2ScreenPointer;
@@ -353,7 +355,6 @@ private:
     int qState_;
 
     bool tapeActivated_;
-    bool tapeRecording_;
     long pauseTapeCounter_;
     int zeroWaveCounter_;
 

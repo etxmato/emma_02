@@ -38,6 +38,7 @@ enum
     HW_TAPE_STATE_PLAY,
     HW_TAPE_STATE_FF,
     HW_TAPE_STATE_REC,
+    HW_TAPE_STATE_RW,
 };
 
 enum

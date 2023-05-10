@@ -28855,10 +28855,10 @@
 <object class="sizeritem">
 <flag>wxGROW|wxALL</flag>
 <border>0</border>
-<object class="wxBitmapButton" name="CasForwardXml">
-<tooltip>Play cassette file</tooltip>
+<object class="wxBitmapButton" name="CasRewindXml">
+<tooltip>Rewind cassette file</tooltip>
 <enabled>0</enabled>
-<bitmap>images/forward_black.png</bitmap>
+<bitmap>images/rewind_black.png</bitmap>
 </object>
 </object>
 <object class="sizeritem">
@@ -28868,6 +28868,15 @@
 <tooltip>Play cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images/play_black.png</bitmap>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALL</flag>
+<border>0</border>
+<object class="wxBitmapButton" name="CasForwardXml">
+<tooltip>Fast forward cassette file</tooltip>
+<enabled>0</enabled>
+<bitmap>images/forward_black.png</bitmap>
 </object>
 </object>
 <object class="sizeritem">

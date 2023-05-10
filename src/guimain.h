@@ -203,6 +203,7 @@ public:
     void onUseLocation(wxCommandEvent& event);
     void onCassetteLoad(wxCommandEvent& event);
     void onCassetteForward(wxCommandEvent& event);
+    void onCassetteRewind(wxCommandEvent& event);
     void onCassetteSave(wxCommandEvent& event);
     void onCassetteStop(wxCommandEvent& event);
     void onCassetteLoad1(wxCommandEvent& event);
@@ -663,6 +664,9 @@ protected:
     wxColour guiTextColour[GUI_COL_MAX];
 
     int hwTapeState_;
+    wxBitmap rewindBlackBitmap;
+    wxBitmap rewindGreenBitmap;
+    wxBitmap rewindDarkGreenBitmap;
     wxBitmap forwardBlackBitmap;
     wxBitmap forwardGreenBitmap;
     wxBitmap forwardDarkGreenBitmap;

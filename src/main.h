@@ -509,7 +509,7 @@ public:
 #include "serial.h"
 
 #define EMMA_VERSION 1.47
-#define EMMA_SUB_VERSION 11
+#define EMMA_SUB_VERSION 13
 #define ELF 0
 #define ELFII 1
 #define SUPERELF 2
@@ -983,7 +983,8 @@ public:
 #define TAPE_PAUSE 3
 #define TAPE_PLAY1 4
 #define TAPE_RECORD1 5
-#define TAPE_FORWARD 6
+#define TAPE_FF 6
+#define TAPE_RW 7
 
 #define PRINT_BUFFER_SIZE 1000
 
