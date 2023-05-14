@@ -5390,16 +5390,22 @@ void Xmlemu::executeFunction(int function, Word additionalAddress)
         break;
 
         case INFO_CV_TAPE_PLAY:
+            if (p_Main->getHwTapeState() == HW_TAPE_STATE_RW)
+                return;
             if (readMem(scratchpadRegister_[programCounter_]) == 0x7b)
                 p_Main->eventHwTapeStateChange(HW_TAPE_STATE_PLAY);
         break;
             
         case INFO_CV_TAPE_FF:
+            if (p_Main->getHwTapeState() == HW_TAPE_STATE_RW)
+                return;
             if (readMem(scratchpadRegister_[programCounter_]) == 0x7b)
                 p_Main->eventHwTapeStateChange(HW_TAPE_STATE_FF);
         break;
             
         case INFO_CV_TAPE_REC:
+            if (p_Main->getHwTapeState() == HW_TAPE_STATE_RW)
+                return;
             if (readMem(scratchpadRegister_[programCounter_]) == 0x7b)
                 p_Main->eventHwTapeStateChange(HW_TAPE_STATE_REC);
         break;

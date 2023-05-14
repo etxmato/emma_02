@@ -38,6 +38,8 @@
 #include "psave.h"
 #include "wx/stdpaths.h"
 #include "wx/fileconf.h"
+#include "wx/wfstream.h"
+#include "http.h"
 
 #if defined (__WXMSW__)
 // RTL_OSVERSIONINFOEXW is defined in winnt.h
@@ -5653,3 +5655,19 @@ void GuiMain::onBatchFileDialog(wxCommandEvent&WXUNUSED(event))
         XRCCTRL(*this, "BatchFile"+computerInfo[selectedComputer_].gui, wxStaticText)->SetLabel(numberStr);
 }
 
+void GuiMain::downloadWavFiles(int computer)
+{
+    int answer = wxMessageBox("Additional wav file required: " + conf[computer].wavFile_[0], "Download file?", wxICON_EXCLAMATION | wxYES_NO);
+    if (answer == wxYES)
+    {
+        wxString fileName = conf[computer].wavFileDir_[0] + conf[computer].wavFile_[0];
+        wxFileOutputStream html_stream(fileName);
+
+        wxString url = "https://www.emma02.hobby-site.com/wave/" + conf[computer].wavFile_[0];
+        url.Replace(" ", "%20");
+        wxCurlHTTP http(url);
+    
+        if (!http.Get(html_stream))
+            wxMessageBox( "Download failed", "Emma 02", wxICON_ERROR | wxOK );
+    }
+}

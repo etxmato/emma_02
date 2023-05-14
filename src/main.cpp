@@ -1045,7 +1045,7 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
                         getSoftware(computer, "Chip_8_Software", software);
                     if (parser.Found("r", &software))
                     {
-                        wxMessageOutput::Get()->Printf("Option -r is not supported on ETI 660 emulator");
+                        wxMessageOutput::Get()->Printf("Option -r is not supported on HUG1802/ETI-660 emulator");
                         return false;
                     }
                     return true;
@@ -2977,7 +2977,7 @@ void Main::initConfig()
     borderY[VIDEOPIXIE] = 32;  //CDP1864
 
     setScreenInfo(ETI, 0, 12, colour, 2, borderX, borderY);
-    setComputerInfo(ETI, "Eti", "ETI 660", "");
+    setComputerInfo(ETI, "Eti", "HUG1802/ETI-660", "");
 
     colour[0] = "#ffffff";
     colour[1] = "#ff00ff";

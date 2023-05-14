@@ -25696,7 +25696,7 @@
 </object>
 </object>
 <object class="notebookpage">
-<label>ETI 660</label>
+<label>HUG1802/ETI</label>
 <object class="wxPanel" name="PanelEti">
 <font>
 <size>14</size>

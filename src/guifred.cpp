@@ -554,7 +554,7 @@ void GuiFred::readFred2Config()
     }
 
     conf[FRED1_5].gameId_ = 1;
-//    checkGameFred2(conf[FRED1_5].ram_);
+    checkGameFred2(conf[FRED1_5].ram_);
 }
 
 void GuiFred::writeFred2DirConfig()
@@ -704,7 +704,7 @@ void GuiFred::checkGameFred2(wxString gameName)
         turboGui("FRED1_5");
         conf[FRED1_5].wavFile_[0] = "Fred Demo.wav";
         XRCCTRL(*this, "WavFileFRED1_5", wxTextCtrl)->SetValue(conf[FRED1_5].wavFile_[0]);
-        downloadWavFiles(FRED1_5);
+        downloadFredWavFiles(FRED1_5);
     }
 }
 
@@ -804,7 +804,7 @@ void GuiFred::setGame()
             turboGui("FRED1");
             conf[FRED1].wavFile_[0] = "Add Drill.wav";
             XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_[0]);
-            downloadWavFiles(FRED1);
+            downloadFredWavFiles(FRED1);
         break;
 
         case FRED1_GAME_DEMO:
@@ -817,7 +817,7 @@ void GuiFred::setGame()
             turboGui("FRED1");
             conf[FRED1].wavFile_[0] = "Demo.wav";
             XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_[0]);
-            downloadWavFiles(FRED1);
+            downloadFredWavFiles(FRED1);
         break;
 
         case FRED1_GAME_BOWLING:
@@ -830,7 +830,7 @@ void GuiFred::setGame()
             turboGui("FRED1");
             conf[FRED1].wavFile_[0] = "Bowling.wav";
             XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_[0]);
-            downloadWavFiles(FRED1);
+            downloadFredWavFiles(FRED1);
         break;
 
         case FRED1_GAME_DEDUCE_LEDS:
@@ -843,7 +843,7 @@ void GuiFred::setGame()
             turboGui("FRED1");
             conf[FRED1].wavFile_[0] = "Deduce-leds.wav";
             XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_[0]);
-            downloadWavFiles(FRED1);
+            downloadFredWavFiles(FRED1);
         break;
         
         case FRED1_GAME_CLUE:
@@ -856,7 +856,7 @@ void GuiFred::setGame()
             turboGui("FRED1");
             conf[FRED1].wavFile_[0] = "Clue.wav";
             XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_[0]);
-            downloadWavFiles(FRED1);
+            downloadFredWavFiles(FRED1);
         break;
         
         case FRED1_GAME_PROG_APT:
@@ -869,7 +869,7 @@ void GuiFred::setGame()
             turboGui("FRED1");
             conf[FRED1].wavFile_[0] = "Prog. Apt. Test.wav";
             XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_[0]);
-            downloadWavFiles(FRED1);
+            downloadFredWavFiles(FRED1);
         break;
 
         case FRED1_GAME_ANIMATE:
@@ -882,7 +882,7 @@ void GuiFred::setGame()
             turboGui("FRED1");
             conf[FRED1].wavFile_[0] = "Animate Demo Data.wav";
             XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_[0]);
-            downloadWavFiles(FRED1);
+            downloadFredWavFiles(FRED1);
         break;
             
         default:
@@ -890,22 +890,12 @@ void GuiFred::setGame()
     }
 }
 
-void GuiFred::downloadWavFiles(int computer)
+void GuiFred::downloadFredWavFiles(int computer)
 {
     if (wxFile::Exists(conf[computer].wavFileDir_[0] + conf[computer].wavFile_[0]))
         return;
     
-    int answer = wxMessageBox("Additional wav file required: " + conf[computer].wavFile_[0], "Download file?", wxICON_EXCLAMATION | wxYES_NO);
-    if (answer == wxYES)
-    {
-        wxString fileName = conf[computer].wavFileDir_[0] + conf[computer].wavFile_[0];
-        wxFileOutputStream html_stream(fileName);
-
-        wxCurlHTTP http("https://www.emma02.hobby-site.com/wave/" + conf[computer].wavFile_[0]);
-    
-        if (!http.Get(html_stream))
-            wxMessageBox( "Download failed", "Emma 02", wxICON_ERROR | wxOK );
-    }
+    downloadWavFiles(computer);
 }
 
 void GuiFred::setCurrentCardValue()

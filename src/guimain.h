@@ -507,6 +507,8 @@ public:
     bool isBatchConvertActive() {return batchConvertActive_;};
     bool isTurboOn() {return turboOn_;};
 
+    void downloadWavFiles(int computer);
+
 protected:
     Mode mode_;
 

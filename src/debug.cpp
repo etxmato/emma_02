@@ -17359,7 +17359,7 @@ void DebugWindow::updateTitle()
                 title = title + " ** PAUSED **";
             if (p_Eti->getClear()==0)
                 title = title + " ** CPU STOPPED **";
-            p_Eti->SetTitle("ETI 660" + title);
+            p_Eti->SetTitle("HUG1802/ETI-660" + title);
             p_Eti->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
         break;
 

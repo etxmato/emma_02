@@ -229,6 +229,7 @@ void XmlParser::parseXmlFile(int computer, wxString xmlDir, wxString xmlFile)
 
     conf[computer].numberOfVideoTypes_ = 0;
     elfConfiguration[computer].usePixie = false;
+    elfConfiguration[computer].use1864 = false;
     elfConfiguration[computer].ioConfiguration.pixieDoubleScreenIo = false;
     elfConfiguration[computer].use6845 = false;
     elfConfiguration[computer].use6847 = false;

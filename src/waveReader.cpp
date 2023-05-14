@@ -336,7 +336,7 @@ void WaveReader::flush()
 {
     writeHeader();
     wavFile_.Close();
-    wavFile_.Open(fileName_);
+    wavFile_.Open(fileName_, "rb+");
     wavFile_.Seek (dataPosition_ + sampleCount_ * frameSize_ + frameSize_/2, wxFromStart);
 }
 

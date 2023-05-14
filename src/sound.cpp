@@ -808,17 +808,20 @@ void Sound::playSaveLoad()
 
         if (forwardOn_)
         {
-            long in = ploadWavePointer->read(ploadSamples, sample_count*forwardSpeed_, gain_);
-            if (ploadOn_)
+            if (ploadWavePointer->eof())
             {
-                soundBufferPointerLeft->mix_samples(ploadSamples, in);
-                soundBufferPointerRight->mix_samples(ploadSamples, in);
-                if (ploadWavePointer->eof())
+                if (isTapeHwActive())
+                    pauseTape();
+                else
+                    stopTape();
+            }
+            else
+            {
+                long in = ploadWavePointer->read(ploadSamples, sample_count*forwardSpeed_, gain_);
+                if (ploadOn_)
                 {
-                    if (isTapeHwActive())
-                        pauseTape();
-                    else
-                        stopTape();
+                    soundBufferPointerLeft->mix_samples(ploadSamples, in);
+                    soundBufferPointerRight->mix_samples(ploadSamples, in);
                 }
             }
         }
@@ -839,17 +842,20 @@ void Sound::playSaveLoad()
 
         if (ploadOn_ && !forwardOn_ && !rewindOn_)
         {
-            long in = ploadWavePointer->read(ploadSamples, sample_count, gain_);
-            if (ploadOn_)
+            if (ploadWavePointer->eof())
             {
-                soundBufferPointerLeft->mix_samples(ploadSamples, in);
-                soundBufferPointerRight->mix_samples(ploadSamples, in);
-                if (ploadWavePointer->eof())
+                if (isTapeHwActive())
+                    pauseTape();
+                else
+                    stopTape();
+            }
+            else
+            {
+                long in = ploadWavePointer->read(ploadSamples, sample_count, gain_);
+                if (ploadOn_)
                 {
-                    if (isTapeHwActive())
-                        pauseTape();
-                    else
-                        stopTape();
+                    soundBufferPointerLeft->mix_samples(ploadSamples, in);
+                    soundBufferPointerRight->mix_samples(ploadSamples, in);
                 }
             }
         }
@@ -1216,6 +1222,10 @@ void Sound::pauseTape()
         if (tapeHwReadyToReceive_ == 1)
             writeSaveTapeHw(tapeHwOutputValue_, 1);
 
+        if (somethingSaved_)
+            ploadWavePointer->flush();
+        somethingSaved_ = false;
+        
         hwSaveOn_ = false;
         hwSavePaused_ = true;
         ploadPaused_ = false;
