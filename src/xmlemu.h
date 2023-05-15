@@ -227,6 +227,7 @@ public:
     void cassetteCyberVision();
     void cassette56();
     void cassettePm();
+    void startRecording(int tapeNumber);
     void finishStopTape();
     void resetTape();
 
@@ -238,8 +239,6 @@ public:
     int getStartBit() {return elfConfiguration.tape_startBit;};
     int getDataBits() {return elfConfiguration.tape_dataBits;};
     int getStopBit() {return elfConfiguration.tape_stopBit;};
-
-    wxString getTapeCounter() {return tapeCounter_;};
     
 private:
     class ElfScreen *elfScreenPointer;

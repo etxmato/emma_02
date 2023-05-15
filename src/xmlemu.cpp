@@ -2275,8 +2275,7 @@ void Xmlemu::switchQ(int value)
                     restartHwTapeSave(TAPE_RECORD);
                 else
                 {
-                    p_Main->startSaveCont(0, tapeCounter_);
-                    tapeRecording_ = true;
+                    tapeRecording_ = p_Main->startSaveCont(0, tapeCounter_);
                 }
             }
             else
@@ -6459,6 +6458,11 @@ void Xmlemu::cassettePm()
     }
 }
 
+void Xmlemu::startRecording(int tapeNumber)
+{
+    tapeRecording_ = p_Main->startSaveCont(tapeNumber, tapeCounter_);
+}
+
 void Xmlemu::finishStopTape()
 {
 //    inpMode_ = INP_MODE_NONE;
@@ -6480,13 +6484,13 @@ void Xmlemu::resetTape()
     lastSec_ = -1;
     pauseTapeCounter_ = 0;
 
-    finishStopTape();
     if (elfConfiguration.useTapeHw)
     {
         p_Computer->stopTape();
         p_Main->eventHwTapeStateChange(HW_TAPE_STATE_OFF);
         p_Main->eventSetStaticTextValue("CasCounterXml", "00:00:000");
     }
+    finishStopTape();
 }
 /*
 void MainElf::checkComputerFunction()

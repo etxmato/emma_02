@@ -2076,7 +2076,7 @@ void GuiMain::onCassetteSave(wxCommandEvent& WXUNUSED(event))
             XRCCTRL(*this, "CasRewind"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(rewindBlackBitmap);
             XRCCTRL(*this, "CasSave"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(recPressedBitmap);
             if (p_Computer->getFlipFlopQ() == 1)
-                startSaveCont(0, p_Computer->getTapeCounter());
+                p_Computer->startRecording(0);
         }
         else
         {
@@ -3937,7 +3937,7 @@ void GuiMain::startSaveNew(int tapeNumber)
     startSave(tapeNumber, "Do you want to replace it?", false);
 }
 
-void GuiMain::startSaveCont(int tapeNumber, wxString tapeCounterStr)
+bool GuiMain::startSaveCont(int tapeNumber, wxString tapeCounterStr)
 {
     wxString messageStr;
     
@@ -3953,10 +3953,10 @@ void GuiMain::startSaveCont(int tapeNumber, wxString tapeCounterStr)
         messageStr = "Continue save at: " + tapeCounterStr;
     }
     
-    startSave(tapeNumber, messageStr, cont);
+    return startSave(tapeNumber, messageStr, cont);
 }
 
-void GuiMain::startSave(int tapeNumber, wxString messageStr, bool cont)
+bool GuiMain::startSave(int tapeNumber, wxString messageStr, bool cont)
 {
     wxString filePath, fileName, tapeString;
     tapeString.Printf("%d", tapeNumber);
@@ -3984,7 +3984,7 @@ void GuiMain::startSave(int tapeNumber, wxString messageStr, bool cont)
         {
             if ((runningComputer_ == COMX) || (runningComputer_ == ETI))
                 p_Computer->keyClear();
-            return;
+            return false;
         }
 
         wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
@@ -4027,7 +4027,7 @@ void GuiMain::startSave(int tapeNumber, wxString messageStr, bool cont)
             {
                 if ((runningComputer_ == COMX) || (runningComputer_ == ETI))
                     p_Computer->keyClear();
-                return;
+                return false;
             }
 
             wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
@@ -4053,6 +4053,7 @@ void GuiMain::startSave(int tapeNumber, wxString messageStr, bool cont)
         p_Computer->startSaveTapeHw(filePath, tapeString);
     else
         p_Computer->startSaveTape(filePath, tapeString);
+    return true;
 }
 
 void GuiMain::onTerminalSave(wxCommandEvent&WXUNUSED(event))

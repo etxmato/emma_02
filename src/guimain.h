@@ -407,8 +407,8 @@ public:
     void stopCassette();
     void startCassetteSave(int tapeNumber);
     void startSaveNew(int tapeNumber);
-    void startSaveCont(int tapeNumber, wxString tapeCounterStr);
-    void startSave(int tapeNumber, wxString messageStr, bool cont);
+    bool startSaveCont(int tapeNumber, wxString tapeCounterStr);
+    bool startSave(int tapeNumber, wxString messageStr, bool cont);
     void onTerminalSave(wxCommandEvent&event);
     void onTerminalLoad(wxCommandEvent&event);
     void onTerminalStop(wxCommandEvent&event);
