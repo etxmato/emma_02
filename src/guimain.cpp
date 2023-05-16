@@ -1638,6 +1638,8 @@ void GuiMain::onCassetteFileSelector()
     
     if (mode_.gui)
         XRCCTRL(*this, "WavFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue(conf[selectedComputer_].wavFile_[0]);
+    
+    checkWavFileDownload(selectedComputer_);
 }
 
 void GuiMain::onCassetteFileDialog()
@@ -5671,4 +5673,27 @@ void GuiMain::downloadWavFiles(int computer)
         if (!http.Get(html_stream))
             wxMessageBox( "Download failed", "Emma 02", wxICON_ERROR | wxOK );
     }
+}
+
+void GuiMain::checkWavFileDownload(int computer)
+{
+    wxFFile inFile;
+    size_t length = 8;
+
+    char* buffer = new char[length];
+
+    if (wxFile::Exists(conf[computer].wavFileDir_[0] + conf[computer].wavFile_[0]))
+    {
+        if (inFile.Open(conf[computer].wavFileDir_[0] + conf[computer].wavFile_[0], _("rb")))
+        {
+            length = inFile.Read(buffer, length);
+            if (length == 8)
+            {
+                if (buffer[0] == 'd' && buffer[1] == 'o' && buffer[2] == 'w' && buffer[3] == 'n' && buffer[4] == 'l' && buffer[5] == 'o' && buffer[6] == 'a' && buffer[7] == 'd')
+                    downloadWavFiles(computer);
+            }
+            inFile.Close();
+        }
+    }
+
 }

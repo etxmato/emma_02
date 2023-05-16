@@ -508,6 +508,7 @@ public:
     bool isTurboOn() {return turboOn_;};
 
     void downloadWavFiles(int computer);
+    void checkWavFileDownload(int computer);
 
 protected:
     Mode mode_;
