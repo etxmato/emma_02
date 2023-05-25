@@ -40,6 +40,7 @@
 #include "wx/fileconf.h"
 #include "wx/wfstream.h"
 #include "http.h"
+#include "download.h"
 
 #if defined (__WXMSW__)
 // RTL_OSVERSIONINFOEXW is defined in winnt.h
@@ -1814,6 +1815,8 @@ void GuiMain::onCassetteText(wxCommandEvent&event)
             p_Computer->resetTape();
 
         conf[selectedComputer_].wavFile_[0] = newFile;
+        
+        checkWavFileDownload(selectedComputer_);
     }
     
     if (selectedComputer_ == VIP2K || selectedComputer_ == MEMBER || selectedComputer_ == CDP18S020)
@@ -5674,7 +5677,7 @@ void GuiMain::downloadWavFiles(int computer)
             wxMessageBox( "Download failed", "Emma 02", wxICON_ERROR | wxOK );
     }
 }
-
+/*
 void GuiMain::checkWavFileDownload(int computer)
 {
     wxFFile inFile;
@@ -5696,4 +5699,36 @@ void GuiMain::checkWavFileDownload(int computer)
         }
     }
 
+}*/
+
+void GuiMain::checkWavFileDownload(int computer)
+{
+    wxFFile inFile;
+    size_t length = 8;
+
+    char* waveHeader = new char[length];
+
+    if (wxFile::Exists(conf[computer].wavFileDir_[0] + conf[computer].wavFile_[0]))
+    {
+        if (inFile.Open(conf[computer].wavFileDir_[0] + conf[computer].wavFile_[0], _("rb")))
+        {
+            length = inFile.Read(waveHeader, length);
+            inFile.Close();
+            
+            if (length == 8)
+            {
+                if (waveHeader[0] == 'd' && waveHeader[1] == 'o' && waveHeader[2] == 'w' && waveHeader[3] == 'n' && waveHeader[4] == 'l' && waveHeader[5] == 'o' && waveHeader[6] == 'a' && waveHeader[7] == 'd')
+                {
+                    DownloadDialog downloadDialog(this);
+                    downloadDialog.ShowModal();
+                }
+            }
+            if (length == 0)
+            {
+                DownloadDialog downloadDialog(this);
+                downloadDialog.ShowModal();
+            }
+        }
+    }
 }
+

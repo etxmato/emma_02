@@ -1462,6 +1462,9 @@ public:
     UpdateCheckThread *m_pUpdateCheckThread;
     wxCriticalSection m_pUpdateCheckThreadCS;    // protects the m_pUpdateCheckThread pointer
 
+    bool downloadStatus() { return downloadOngoing_; };
+    void setDownloadStatus(bool status) {downloadOngoing_ = status;};
+
 private:
     MyHtmlHelpController *help_;
     wxString latestVersion_;
@@ -1476,6 +1479,7 @@ private:
     bool panelRefreshOngoing_;
     bool videoRefreshOngoing_;
 
+    bool downloadOngoing_;
     bool emuClosing_;
     bool emmaClosing_;
     int bass_;

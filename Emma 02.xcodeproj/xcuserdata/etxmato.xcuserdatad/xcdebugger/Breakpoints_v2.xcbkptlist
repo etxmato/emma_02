@@ -7,64 +7,128 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "9517ECC7-7530-41AC-B0CB-D7784BF7B46F"
+            uuid = "22718035-027F-4378-8225-C0B6A4E5A2F3"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/sound.cpp"
+            filePath = "src/http.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1205"
-            endingLineNumber = "1205"
-            landmarkName = "Sound::pauseTape()"
+            startingLineNumber = "258"
+            endingLineNumber = "258"
+            landmarkName = "wxCurlHTTP::Get(szFilePath, szRemoteFile)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "3CE4FCB8-557F-41E3-BEB9-D1AFA74383F7"
+            uuid = "32722FA5-B613-429B-94C8-A73EEB6A3961"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/sound.cpp"
+            filePath = "src/base.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1158"
-            endingLineNumber = "1158"
-            landmarkName = "Sound::stopTape()"
+            startingLineNumber = "401"
+            endingLineNumber = "401"
+            landmarkName = "wxCurlBase::wxCurlBase(szURL, szUserName, szPassword, pEvtHandler, id, flags)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "9154E6C4-06A4-42A2-AD03-6E507A16B912"
+            uuid = "7FE8D38C-087D-4E67-84CC-5D1B8C7CDB99"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/download.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "129"
+            endingLineNumber = "129"
+            landmarkName = "DownloadDialog::onTimer()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D0A5ADF4-E660-4657-9FA5-936F6BAB003D"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/download.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "57"
+            endingLineNumber = "57"
+            landmarkName = "DownloadDialog::DownloadDialog(parent)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2CB0C56C-C6E2-4287-9550-A6648D84FE49"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/download.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "30"
+            endingLineNumber = "30"
+            landmarkName = "downloadThread::Entry()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "457AE112-D562-401B-8E3B-85AD2FF510E0"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4001"
-            endingLineNumber = "4001"
-            landmarkName = "GuiMain::startSave(tapeNumber, messageStr, cont)"
+            startingLineNumber = "5723"
+            endingLineNumber = "5723"
+            landmarkName = "GuiMain::checkWavFileDownload(computer)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "7EA73439-22D7-4C43-B245-74CE31E8A896"
+            uuid = "EE275574-E9AD-4CA2-94C6-E93510AB5681"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3985"
-            endingLineNumber = "3985"
-            landmarkName = "GuiMain::startSave(tapeNumber, messageStr, cont)"
+            startingLineNumber = "5729"
+            endingLineNumber = "5729"
+            landmarkName = "GuiMain::checkWavFileDownload(computer)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "519E6ED7-FD5A-4CC2-8B98-0B7530EED098"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/guimain.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "5728"
+            endingLineNumber = "5728"
+            landmarkName = "GuiMain::checkWavFileDownload(computer)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

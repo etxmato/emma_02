@@ -573,6 +573,8 @@ void GuiXml::onMainXmlTextXml(wxCommandEvent& WXUNUSED(event))
     
     parseXmlFile(selectedComputer_, conf[selectedComputer_].xmlDir_, conf[selectedComputer_].xmlFile_);
     setXmlGui();
+    
+    checkWavFileDownload(selectedComputer_);
 }
 
 void GuiXml::onMainXmlComboXml(wxCommandEvent& event)
@@ -586,6 +588,8 @@ void GuiXml::onMainXmlComboXml(wxCommandEvent& event)
 
     parseXmlFile(selectedComputer_, conf[selectedComputer_].xmlDir_, conf[selectedComputer_].xmlFile_);
     setXmlGui();
+
+    checkWavFileDownload(selectedComputer_);
 }
 
 void GuiXml::setXmlDropDown()
