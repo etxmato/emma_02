@@ -590,7 +590,7 @@ public:
     virtual int getDataBits() {return 8;};
     virtual int getStopBit() {return 0;};
 
-    virtual void startRecording(int tapeNumber) {};
+    virtual void startRecording(int WXUNUSED(tapeNumber)) {};
 
 protected:
     RunComputer *threadPointer;

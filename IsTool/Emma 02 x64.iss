@@ -3,8 +3,8 @@
 
 [Setup]
 AppName=Emma 02
-AppVerName=Emma 02 - V1.47.11
-AppVersion=1.47.11
+AppVerName=Emma 02 - V1.47.13
+AppVersion=1.47.13
 AppPublisher=Marcel van Tongeren
 DefaultDirName={pf}\Emma 02
 DefaultGroupName=Emma 02
@@ -52,6 +52,8 @@ Source: ..\datadir_11.xrc; DestDir: {app}; Components: MAIN
 Source: ..\datadir_12.xrc; DestDir: {app}; Components: MAIN
 Source: ..\diag_11.xrc; DestDir: {app}; Components: MAIN
 Source: ..\diag_12.xrc; DestDir: {app}; Components: MAIN
+Source: ..\download_11.xrc; DestDir: {app}; Components: MAIN
+Source: ..\download_12.xrc; DestDir: {app}; Components: MAIN
 Source: ..\eprom_11.xrc; DestDir: {app}; Components: MAIN
 Source: ..\eprom_12.xrc; DestDir: {app}; Components: MAIN
 Source: ..\functionkey_11.xrc; DestDir: {app}; Components: MAIN

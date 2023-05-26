@@ -552,6 +552,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\download.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\elf.cpp"
 				>
 			</File>
@@ -1125,6 +1129,10 @@
 			</File>
 			<File
 				RelativePath=".\src\diagstatusbar.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\download.h"
 				>
 			</File>
 			<File
