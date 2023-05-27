@@ -103,14 +103,14 @@ public:     // wxString getters
     wxString GetURL() const { return m_szURL; }
 
     //! Returns the current download/upload speed in a human readable format.
-    wxString GetHumanReadableSpeed(const wxString &inv = _("Not available"), int prec = 1) const;
+    wxString GetHumanReadableSpeed(const wxString &inv = _("-"), int prec = 1) const;
 
     //! Returns the total bytes to download in a human-readable format.
-    wxString GetHumanReadableTotalBytes(const wxString &inv = _("Not available"), int prec = 1) const
+    wxString GetHumanReadableTotalBytes(const wxString &inv = _("-"), int prec = 1) const
         { return wxFileName::GetHumanReadableSize(wxULongLong((unsigned long)GetTotalBytes()), inv, prec); }
 
     //! Returns the currently transferred bytes in a human-readable format.
-    wxString GetHumanReadableTransferredBytes(const wxString &inv = _("Not available"), int prec = 1) const
+    wxString GetHumanReadableTransferredBytes(const wxString &inv = _("-"), int prec = 1) const
         { return wxFileName::GetHumanReadableSize(wxULongLong((unsigned long)GetTransferredBytes()), inv, prec); }
 
 
@@ -162,7 +162,7 @@ public:
     double GetTotalBytes() const { return m_rDownloadTotal; }
 
     //! Returns the currently downloaded bytes in a human-readable format.
-    wxString GetHumanReadableDownloadedBytes(const wxString &inv = _("Not available"), int prec = 1) const
+    wxString GetHumanReadableDownloadedBytes(const wxString &inv = _("-"), int prec = 1) const
         { return wxFileName::GetHumanReadableSize(wxULongLong((unsigned long)m_rDownloadNow), inv, prec); }
 
 
@@ -207,7 +207,7 @@ public:
     double GetTotalBytes() const { return m_rUploadTotal; }
 
     //! Returns the currently uploaded bytes in a human-readable format.
-    wxString GetHumanReadableUploadedBytes(const wxString &inv = _("Not available"), int prec = 1) const
+    wxString GetHumanReadableUploadedBytes(const wxString &inv = _("-"), int prec = 1) const
         { return wxFileName::GetHumanReadableSize(wxULongLong((unsigned long)m_rUploadNow), inv, prec); }
 
 protected:

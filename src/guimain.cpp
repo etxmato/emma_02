@@ -40,6 +40,7 @@
 #include "wx/fileconf.h"
 #include "wx/wfstream.h"
 #include "http.h"
+#include "dialog.h"
 #include "download.h"
 
 #if defined (__WXMSW__)
@@ -5707,28 +5708,36 @@ void GuiMain::checkWavFileDownload(int computer)
     size_t length = 8;
 
     char* waveHeader = new char[length];
-
-    if (wxFile::Exists(conf[computer].wavFileDir_[0] + conf[computer].wavFile_[0]))
+    wxString fileName = conf[computer].wavFileDir_[0] + conf[computer].wavFile_[0];
+    
+    if (wxFile::Exists(fileName))
     {
-        if (inFile.Open(conf[computer].wavFileDir_[0] + conf[computer].wavFile_[0], _("rb")))
+        if (inFile.Open(fileName, _("rb")))
         {
             length = inFile.Read(waveHeader, length);
             inFile.Close();
             
-            if (length == 8)
+            if (length == 8 || length == 0)
             {
-                if (waveHeader[0] == 'd' && waveHeader[1] == 'o' && waveHeader[2] == 'w' && waveHeader[3] == 'n' && waveHeader[4] == 'l' && waveHeader[5] == 'o' && waveHeader[6] == 'a' && waveHeader[7] == 'd')
+                if ((waveHeader[0] == 'd' && waveHeader[1] == 'o' && waveHeader[2] == 'w' && waveHeader[3] == 'n' && waveHeader[4] == 'l' && waveHeader[5] == 'o' && waveHeader[6] == 'a' && waveHeader[7] == 'd') || length == 0)
                 {
-                    DownloadDialog downloadDialog(this);
-                    downloadDialog.ShowModal();
+                    wxFileOutputStream html_stream(fileName);
+                    
+                    wxString url = "https://www.emma02.hobby-site.com/wave/" + conf[computer].wavFile_[0];
+                    url.Replace(" ", "%20");
+                    wxCurlDownloadDialog downloadDialog;
+                    downloadDialog.Create(url, &html_stream, "Download File?", conf[computer].wavFile_[0], wxNullBitmap, this, wxCTDS_CAN_START|wxCTDS_CAN_PAUSE|wxCTDS_CAN_ABORT|wxCTDS_REMAINING_TIME|wxCTDS_SIZE|wxCTDS_AUTO_CLOSE);
+                    
+           //         DownloadDialog downloadDialog(this);
+                    downloadDialog.RunModal();
                 }
             }
-            if (length == 0)
-            {
-                DownloadDialog downloadDialog(this);
-                downloadDialog.ShowModal();
-            }
+//            if (length == 0)
+//            {
+//                DownloadDialog downloadDialog(this);
+//                downloadDialog.ShowModal();
+//            }
         }
     }
+    delete[] waveHeader;
 }
-
