@@ -1036,7 +1036,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\base.h"
+				RelativePath=".\src\wxcurl_base.h"
 				>
 			</File>
 			<File
@@ -1312,7 +1312,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\http.h"
+				RelativePath=".\src\wxcurl_http.h"
 				>
 			</File>
 			<File

@@ -41,7 +41,7 @@
 #include <wx/wfstream.h>
 #include <wx/filename.h>
 #include <wx/statline.h>
-#include "dialog.h"
+#include "wxcurl_dialog.h"
 
 
 // ----------------------------------------------------------------------------
@@ -81,7 +81,7 @@ BEGIN_EVENT_TABLE( wxCurlTransferDialog, wxDialog )
 END_EVENT_TABLE()
 
 bool wxCurlTransferDialog::Create(const wxString &url, const wxString& title, const wxString& message,
-                              const wxString &sizeLabel, const wxBitmap& bitmap, wxWindow *parent, long style)
+                              const wxString &sizeLabel, const wxBitmap& bitmap, wxWindow *parent, long style, int sizerWidth)
 {
     if (!wxDialog::Create(parent, wxID_ANY, title, wxDefaultPosition, wxDefaultSize,
                           (wxDEFAULT_DIALOG_STYLE |wxRESIZE_BORDER)))
@@ -89,6 +89,7 @@ bool wxCurlTransferDialog::Create(const wxString &url, const wxString& title, co
 
     // save&check our style
     m_nStyle = style;
+    m_sizerWidth = sizerWidth;
     wxASSERT_MSG(HasFlag(wxCTDS_AUTO_CLOSE) || HasFlag(wxCTDS_CAN_ABORT),
              wxS("If both these flags are missing the user will be unable to close the dialog window!"));
 
@@ -133,7 +134,7 @@ wxStaticText *wxCurlTransferDialog::AddSizerRow(wxSizer *sz, const wxString &nam
 
     // the value
     wxStaticText *ret = new wxStaticText( this, wxID_STATIC, _("-"),
-                                          wxDefaultPosition, wxSize(120,-1),
+                                          wxDefaultPosition, wxSize(m_sizerWidth,-1),
                                           wxALIGN_LEFT|wxST_NO_AUTORESIZE );
 
     wxBoxSizer* time = new wxBoxSizer(wxHORIZONTAL);
@@ -521,9 +522,9 @@ END_EVENT_TABLE()
 bool wxCurlDownloadDialog::Create(const wxString &url, wxOutputStream *out,
                                   const wxString& title, const wxString& message,
                                   const wxBitmap& bitmap,
-                                  wxWindow *parent, long style)
+                                  wxWindow *parent, long style, int sizerWidth)
 {
-    if (!wxCurlTransferDialog::Create(url, title, message, wxS("Downloaded:"), bitmap, parent, style))
+    if (!wxCurlTransferDialog::Create(url, title, message, wxS("Downloaded:"), bitmap, parent, style, sizerWidth))
         return false;
 
     // register as the thread's event handler

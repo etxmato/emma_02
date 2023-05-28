@@ -26,7 +26,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 
-#include "base.h"
+#include "wxcurl_base.h"
 #include <wx/filename.h>
 
 

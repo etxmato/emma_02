@@ -32,7 +32,7 @@
 #include "wx/xrc/xmlres.h"
 #include "wx/filesys.h"
 //#include "wx/url.h"
-#include "http.h"
+#include "wxcurl_http.h"
 #include "wx/dir.h"
 #include "wx/fs_zip.h"
 #include "wx/sysopt.h" 

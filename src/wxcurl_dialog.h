@@ -12,8 +12,8 @@
 #define _WXCURL_DIALOG_H_
 
 #include "wx/dialog.h"
-#include "thread.h"
-#include "panel.h"
+#include "wxcurl_thread.h"
+#include "wxcurl_panel.h"
 
 // forward declarations
 class WXDLLIMPEXP_CORE wxStaticText;
@@ -95,7 +95,7 @@ public:
                 const wxString& sizeLabel = _("Transferred:"),
                 const wxBitmap& bitmap = wxNullBitmap,
                 wxWindow *parent = NULL,
-                long style = wxCTDS_DEFAULT_STYLE);
+                long style = wxCTDS_DEFAULT_STYLE, int sizerWidth = -1);
 
     ~wxCurlTransferDialog()
         {
@@ -179,6 +179,7 @@ protected:
     // wxWindow's style member is too small for all our flags and wxWindow/wxDialog ones.
     // So we use our own...
     long m_nStyle;
+    int m_sizerWidth;
 
     // should we be verbose?
     bool m_bVerbose;
@@ -225,7 +226,7 @@ public:
                 const wxString& message = wxEmptyString,
                 const wxBitmap& bitmap = wxNullBitmap,
                 wxWindow *parent = NULL,
-                long style = wxCTDS_DEFAULT_STYLE);
+                long style = wxCTDS_DEFAULT_STYLE, int sizerWidth = -1);
 
     //! Returns the output stream where data has been downloaded.
     //! This function can be used only when the download has been completed.

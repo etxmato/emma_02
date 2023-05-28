@@ -34,7 +34,7 @@
 #include "wx/sstream.h"
 #include "wx/uilocale.h"
 #include "wx/uri.h"
-#include "http.h"
+#include "wxcurl_http.h"
 
 int dummyHeader_ = 0;
 

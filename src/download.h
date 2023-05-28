@@ -1,7 +1,7 @@
 #ifndef DOWNLOADDLG_H
 #define DOWNLOADDLG_H
 
-#include "http.h"
+#include "wxcurl_http.h"
 
 class downloadThread : public wxThread
 {

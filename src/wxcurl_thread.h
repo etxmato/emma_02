@@ -15,7 +15,7 @@
 #include "wx/defs.h"
 #include "wx/thread.h"
 
-#include "base.h"
+#include "wxcurl_base.h"
 
 
 //! One of the protocols supported by wxCurl.

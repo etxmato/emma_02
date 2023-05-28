@@ -32,7 +32,7 @@
 #include "main.h"
 #include "guifred.h"
 #include "pixie.h"
-#include "http.h"
+#include "wxcurl_http.h"
 #include "wx/wfstream.h"
 
 enum

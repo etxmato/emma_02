@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -424,7 +424,7 @@
   <ItemGroup>
     <ClInclude Include="src\about.h" />
     <ClInclude Include="src\audio_detect.h" />
-    <ClInclude Include="src\base.h" />
+    <ClInclude Include="src\wxcurl_base.h" />
     <ClInclude Include="src\Blip_Buffer.h" />
     <ClInclude Include="src\breakpoints.h" />
     <ClInclude Include="src\cdp1802.h" />
@@ -476,7 +476,7 @@
     <ClInclude Include="src\guivip.h" />
     <ClInclude Include="src\guivip2.h" />
     <ClInclude Include="src\hbelf.h" />
-    <ClInclude Include="src\http.h" />
+    <ClInclude Include="src\wxcurl_http.h" />
     <ClInclude Include="src\i8275.h" />
     <ClInclude Include="src\ide.h" />
     <ClInclude Include="src\iodevice.h" />

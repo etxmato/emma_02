@@ -28,9 +28,9 @@
 #include <wx/wfstream.h>
 #include <wx/filename.h>
 
-#include "thread.h"
-#include "http.h"
-#include "ftp.h"
+#include "wxcurl_thread.h"
+#include "wxcurl_http.h"
+#include "wxcurl_ftp.h"
 
 
 // ---------------------
@@ -258,9 +258,10 @@ void *wxCurlDownloadThread::Entry()
 
         case wxCP_FTP:
             return (void*)wx_static_cast(wxCurlFTP*, m_pCurl)->Get(m_output, m_url);
+            
+        default:
+            return NULL;
     }
-
-    return NULL;
 }
 
 
@@ -351,7 +352,8 @@ void *wxCurlUploadThread::Entry()
 
         case wxCP_FTP:
             return (void*)wx_static_cast(wxCurlFTP*, m_pCurl)->Put(m_input, m_url);
-    }
 
-    return NULL;
+        default:
+            return NULL;
+    }
 }

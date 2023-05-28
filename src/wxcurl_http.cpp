@@ -30,7 +30,7 @@
 #include <wx/mstream.h>
 #include <wx/wfstream.h>
 
-#include "http.h"
+#include "wxcurl_http.h"
 
 //////////////////////////////////////////////////////////////////////
 // C Functions for LibCURL

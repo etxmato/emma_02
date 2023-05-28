@@ -41,7 +41,7 @@
 #include <wx/checkbox.h>
 #include <wx/filename.h>
 #include <wx/statline.h>
-#include "panel.h"
+#include "wxcurl_panel.h"
 
 
 // ----------------------------------------------------------------------------
@@ -85,7 +85,7 @@ wxTextCtrl *wxCurlConnectionSettingsPanel::AddSizerRow(wxSizer *sz, const wxStri
     // the value
     wxTextCtrl *ret = new wxTextCtrl( this, wxID_ANY );
 
-    long flags = wxALIGN_CENTER_VERTICAL|wxTOP|wxRIGHT;
+    int flags = wxALIGN_CENTER_VERTICAL|wxTOP|wxRIGHT;
     sz->Add(st, 0, flags, BORDER);
     sz->Add(ret, 1, grow ? flags|wxGROW : flags, BORDER);
 

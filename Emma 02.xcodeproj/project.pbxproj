@@ -25,8 +25,8 @@
 		993B164A211EBD9C008A5656 /* GPL-2.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 993B1649211EBD9C008A5656 /* GPL-2.syntax */; };
 		993B6E4228C68ABD007DF353 /* keyb1871.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 993B6E4128C68ABD007DF353 /* keyb1871.cpp */; };
 		993B6E4328C68ABD007DF353 /* keyb1871.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 993B6E4128C68ABD007DF353 /* keyb1871.cpp */; };
-		9942DD6D1F3B4D3E00569242 /* base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9942DD6B1F3B4D3E00569242 /* base.cpp */; };
-		9942DD701F3B4D6B00569242 /* http.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9942DD6E1F3B4D6B00569242 /* http.cpp */; };
+		9942DD6D1F3B4D3E00569242 /* wxcurl_base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9942DD6B1F3B4D3E00569242 /* wxcurl_base.cpp */; };
+		9942DD701F3B4D6B00569242 /* wxcurl_http.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9942DD6E1F3B4D6B00569242 /* wxcurl_http.cpp */; };
 		99431DEB1F22213400F5A2D4 /* images_osx in Resources */ = {isa = PBXBuildFile; fileRef = 99431DEA1F22213400F5A2D4 /* images_osx */; };
 		9945417127D80AD1001F5131 /* pico.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9945417027D80AD1001F5131 /* pico.cpp */; };
 		9945417527D80AE7001F5131 /* guipico.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9945417327D80AE6001F5131 /* guipico.cpp */; };
@@ -243,14 +243,14 @@
 		99D9441A22FB2DA8007C384A /* guicdp18s600.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99D9441922FB2DA8007C384A /* guicdp18s600.cpp */; };
 		99D9441D22FB2DB7007C384A /* cdp18s600.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99D9441B22FB2DB6007C384A /* cdp18s600.cpp */; };
 		99DA24F11B7D3618003B8560 /* configuration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99DA24F01B7D3618003B8560 /* configuration.cpp */; };
-		99E041812A225A6F00146D04 /* dialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99E0417F2A225A6C00146D04 /* dialog.cpp */; };
-		99E041822A225A7000146D04 /* dialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99E0417F2A225A6C00146D04 /* dialog.cpp */; };
-		99E041862A2294F100146D04 /* thread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99E041852A2294EA00146D04 /* thread.cpp */; };
-		99E041872A2294F200146D04 /* thread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99E041852A2294EA00146D04 /* thread.cpp */; };
-		99E041882A2294F500146D04 /* panel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99E041842A2294EA00146D04 /* panel.cpp */; };
-		99E041892A2294F600146D04 /* panel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99E041842A2294EA00146D04 /* panel.cpp */; };
-		99E0418D2A22955000146D04 /* ftp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99E0418B2A22954E00146D04 /* ftp.cpp */; };
-		99E0418E2A22955100146D04 /* ftp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99E0418B2A22954E00146D04 /* ftp.cpp */; };
+		99E041812A225A6F00146D04 /* wxcurl_dialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99E0417F2A225A6C00146D04 /* wxcurl_dialog.cpp */; };
+		99E041822A225A7000146D04 /* wxcurl_dialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99E0417F2A225A6C00146D04 /* wxcurl_dialog.cpp */; };
+		99E041862A2294F100146D04 /* wxcurl_thread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99E041852A2294EA00146D04 /* wxcurl_thread.cpp */; };
+		99E041872A2294F200146D04 /* wxcurl_thread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99E041852A2294EA00146D04 /* wxcurl_thread.cpp */; };
+		99E041882A2294F500146D04 /* wxcurl_panel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99E041842A2294EA00146D04 /* wxcurl_panel.cpp */; };
+		99E041892A2294F600146D04 /* wxcurl_panel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99E041842A2294EA00146D04 /* wxcurl_panel.cpp */; };
+		99E0418D2A22955000146D04 /* wxcurl_ftp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99E0418B2A22954E00146D04 /* wxcurl_ftp.cpp */; };
+		99E0418E2A22955100146D04 /* wxcurl_ftp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99E0418B2A22954E00146D04 /* wxcurl_ftp.cpp */; };
 		99E4FECF1FF3BD40001A10B7 /* serial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99E4FECE1FF3BD40001A10B7 /* serial.cpp */; };
 		99E940F91FF1746900E69E8B /* libcurl.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 99E940F81FF1746900E69E8B /* libcurl.4.dylib */; };
 		99EBEE8922B55A6A00FF276A /* cdp18s020.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99EBEE8822B55A6A00FF276A /* cdp18s020.cpp */; };
@@ -274,7 +274,7 @@
 		99F37E55285D1D9200C57417 /* printer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647071A61D5EE00FB9B33 /* printer.cpp */; };
 		99F37E56285D1D9200C57417 /* guimembership.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9976470F1A61D5EE00FB9B33 /* guimembership.cpp */; };
 		99F37E57285D1D9200C57417 /* xmlemu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BBC9AC281DD39B00BD9345 /* xmlemu.cpp */; };
-		99F37E58285D1D9200C57417 /* base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9942DD6B1F3B4D3E00569242 /* base.cpp */; };
+		99F37E58285D1D9200C57417 /* wxcurl_base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9942DD6B1F3B4D3E00569242 /* wxcurl_base.cpp */; };
 		99F37E59285D1D9200C57417 /* sound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647401A61D5EE00FB9B33 /* sound.cpp */; };
 		99F37E5A285D1D9200C57417 /* pecom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9976473E1A61D5EE00FB9B33 /* pecom.cpp */; };
 		99F37E5B285D1D9200C57417 /* guipico.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9945417327D80AE6001F5131 /* guipico.cpp */; };
@@ -298,7 +298,7 @@
 		99F37E6D285D1D9200C57417 /* Sync_Audio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647251A61D5EE00FB9B33 /* Sync_Audio.cpp */; };
 		99F37E6E285D1D9200C57417 /* guims2000.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 999CFEDB1DCD33070094BEC8 /* guims2000.cpp */; };
 		99F37E6F285D1D9200C57417 /* guidiag.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BE531E1F1556F5006BD353 /* guidiag.cpp */; };
-		99F37E70285D1D9200C57417 /* http.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9942DD6E1F3B4D6B00569242 /* http.cpp */; };
+		99F37E70285D1D9200C57417 /* wxcurl_http.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9942DD6E1F3B4D6B00569242 /* wxcurl_http.cpp */; };
 		99F37E71285D1D9200C57417 /* waveReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9976476D1A61D5EE00FB9B33 /* waveReader.cpp */; };
 		99F37E72285D1D9200C57417 /* waveWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9976476E1A61D5EE00FB9B33 /* waveWriter.cpp */; };
 		99F37E73285D1D9200C57417 /* nano.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9976474D1A61D5EE00FB9B33 /* nano.cpp */; };
@@ -610,10 +610,10 @@
 		993B1649211EBD9C008A5656 /* GPL-2.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "GPL-2.syntax"; sourceTree = "<group>"; };
 		993B6E4028C68ABD007DF353 /* keyb1871.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = keyb1871.h; path = src/keyb1871.h; sourceTree = "<group>"; };
 		993B6E4128C68ABD007DF353 /* keyb1871.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = keyb1871.cpp; path = src/keyb1871.cpp; sourceTree = "<group>"; };
-		9942DD6B1F3B4D3E00569242 /* base.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = base.cpp; path = src/base.cpp; sourceTree = "<group>"; };
-		9942DD6C1F3B4D3E00569242 /* base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = base.h; path = src/base.h; sourceTree = "<group>"; };
-		9942DD6E1F3B4D6B00569242 /* http.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = http.cpp; path = src/http.cpp; sourceTree = "<group>"; };
-		9942DD6F1F3B4D6B00569242 /* http.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = http.h; path = src/http.h; sourceTree = "<group>"; };
+		9942DD6B1F3B4D3E00569242 /* wxcurl_base.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = wxcurl_base.cpp; path = src/wxcurl_base.cpp; sourceTree = "<group>"; };
+		9942DD6C1F3B4D3E00569242 /* wxcurl_base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = wxcurl_base.h; path = src/wxcurl_base.h; sourceTree = "<group>"; };
+		9942DD6E1F3B4D6B00569242 /* wxcurl_http.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = wxcurl_http.cpp; path = src/wxcurl_http.cpp; sourceTree = "<group>"; };
+		9942DD6F1F3B4D6B00569242 /* wxcurl_http.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = wxcurl_http.h; path = src/wxcurl_http.h; sourceTree = "<group>"; };
 		9942DD711F3B4DA200569242 /* audio_detect.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = audio_detect.h; path = src/audio_detect.h; sourceTree = "<group>"; };
 		9942DD721F3B4DA200569242 /* audioin_devdsp.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = audioin_devdsp.c; path = src/audioin_devdsp.c; sourceTree = "<group>"; };
 		9942DD731F3B4DBE00569242 /* SDL_audioin_internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SDL_audioin_internal.h; path = src/SDL_audioin_internal.h; sourceTree = "<group>"; };
@@ -971,14 +971,14 @@
 		99D9441C22FB2DB7007C384A /* cdp18s600.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cdp18s600.h; path = src/cdp18s600.h; sourceTree = "<group>"; };
 		99DA24F01B7D3618003B8560 /* configuration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = configuration.cpp; path = src/configuration.cpp; sourceTree = "<group>"; };
 		99DA24F21B7D3625003B8560 /* configuration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = configuration.h; path = src/configuration.h; sourceTree = "<group>"; };
-		99E0417F2A225A6C00146D04 /* dialog.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = dialog.cpp; path = src/dialog.cpp; sourceTree = "<group>"; };
-		99E041802A225A6D00146D04 /* dialog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = dialog.h; path = src/dialog.h; sourceTree = "<group>"; };
-		99E041832A2294EA00146D04 /* thread.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = thread.h; path = src/thread.h; sourceTree = "<group>"; };
-		99E041842A2294EA00146D04 /* panel.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = panel.cpp; path = src/panel.cpp; sourceTree = "<group>"; };
-		99E041852A2294EA00146D04 /* thread.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = thread.cpp; path = src/thread.cpp; sourceTree = "<group>"; };
-		99E0418A2A22950100146D04 /* panel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = panel.h; path = src/panel.h; sourceTree = "<group>"; };
-		99E0418B2A22954E00146D04 /* ftp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ftp.cpp; path = src/ftp.cpp; sourceTree = "<group>"; };
-		99E0418C2A22954E00146D04 /* ftp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ftp.h; path = src/ftp.h; sourceTree = "<group>"; };
+		99E0417F2A225A6C00146D04 /* wxcurl_dialog.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = wxcurl_dialog.cpp; path = src/wxcurl_dialog.cpp; sourceTree = "<group>"; };
+		99E041802A225A6D00146D04 /* wxcurl_dialog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = wxcurl_dialog.h; path = src/wxcurl_dialog.h; sourceTree = "<group>"; };
+		99E041832A2294EA00146D04 /* wxcurl_thread.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = wxcurl_thread.h; path = src/wxcurl_thread.h; sourceTree = "<group>"; };
+		99E041842A2294EA00146D04 /* wxcurl_panel.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = wxcurl_panel.cpp; path = src/wxcurl_panel.cpp; sourceTree = "<group>"; };
+		99E041852A2294EA00146D04 /* wxcurl_thread.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = wxcurl_thread.cpp; path = src/wxcurl_thread.cpp; sourceTree = "<group>"; };
+		99E0418A2A22950100146D04 /* wxcurl_panel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = wxcurl_panel.h; path = src/wxcurl_panel.h; sourceTree = "<group>"; };
+		99E0418B2A22954E00146D04 /* wxcurl_ftp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = wxcurl_ftp.cpp; path = src/wxcurl_ftp.cpp; sourceTree = "<group>"; };
+		99E0418C2A22954E00146D04 /* wxcurl_ftp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = wxcurl_ftp.h; path = src/wxcurl_ftp.h; sourceTree = "<group>"; };
 		99E4FECD1FF3BD3F001A10B7 /* serial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = serial.h; path = src/serial.h; sourceTree = "<group>"; };
 		99E4FECE1FF3BD40001A10B7 /* serial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = serial.cpp; path = src/serial.cpp; sourceTree = "<group>"; };
 		99E6EA921F40931D0030F125 /* OpenSSL - LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = "OpenSSL - LICENSE"; sourceTree = "<group>"; };
@@ -1268,8 +1268,6 @@
 				9976478D1A61D5EE00FB9B33 /* about.h */,
 				9942DD711F3B4DA200569242 /* audio_detect.h */,
 				9942DD721F3B4DA200569242 /* audioin_devdsp.c */,
-				9942DD6B1F3B4D3E00569242 /* base.cpp */,
-				9942DD6C1F3B4D3E00569242 /* base.h */,
 				994F84FE28CBD9C200CCFB27 /* bitkeypad.cpp */,
 				994F84FD28CBD9C200CCFB27 /* bitkeypad.h */,
 				997647931A61D5EE00FB9B33 /* Blip_Buffer.cpp */,
@@ -1316,8 +1314,6 @@
 				995B7E9328FAA8F300BBF917 /* definition.h */,
 				99BE53231F156AA1006BD353 /* diagstatusbar.cpp */,
 				99BE53241F156AA1006BD353 /* diagstatusbar.h */,
-				99E0417F2A225A6C00146D04 /* dialog.cpp */,
-				99E041802A225A6D00146D04 /* dialog.h */,
 				995D161F2A1BFDEC0065A7AE /* download.cpp */,
 				995D16202A1BFDEC0065A7AE /* download.h */,
 				997647891A61D5EE00FB9B33 /* elf.cpp */,
@@ -1343,8 +1339,6 @@
 				9976479B1A61D5EE00FB9B33 /* fdc.h */,
 				997C6D60209E3FF000A8704E /* fred.cpp */,
 				997C6D61209E3FF000A8704E /* fred.h */,
-				99E0418B2A22954E00146D04 /* ftp.cpp */,
-				99E0418C2A22954E00146D04 /* ftp.h */,
 				9976471B1A61D5EE00FB9B33 /* functionkey.cpp */,
 				9976476F1A61D5EE00FB9B33 /* functionkey.h */,
 				99EBEE8A22B55A8300FF276A /* guicdp18s020.cpp */,
@@ -1407,8 +1401,6 @@
 				991B061221694CDD0061D86C /* guivip2k.h */,
 				99BBC9A9281DD36F00BD9345 /* guixml.cpp */,
 				99BBC9A8281DD36F00BD9345 /* guixml.h */,
-				9942DD6E1F3B4D6B00569242 /* http.cpp */,
-				9942DD6F1F3B4D6B00569242 /* http.h */,
 				9976473A1A61D5EE00FB9B33 /* hbelf.cpp */,
 				9976475E1A61D5EE00FB9B33 /* hbelf.h */,
 				9976474A1A61D5EE00FB9B33 /* i8275.cpp */,
@@ -1464,8 +1456,6 @@
 				997647601A61D5EE00FB9B33 /* nano.h */,
 				99F263CC220CD4EC00EA87B5 /* network.cpp */,
 				99F263CD220CD4ED00EA87B5 /* network.h */,
-				99E041842A2294EA00146D04 /* panel.cpp */,
-				99E0418A2A22950100146D04 /* panel.h */,
 				9976473E1A61D5EE00FB9B33 /* pecom.cpp */,
 				997647611A61D5EE00FB9B33 /* pecom.h */,
 				9945417027D80AD1001F5131 /* pico.cpp */,
@@ -1509,8 +1499,6 @@
 				997647521A61D5EE00FB9B33 /* super.h */,
 				997647251A61D5EE00FB9B33 /* Sync_Audio.cpp */,
 				9976478E1A61D5EE00FB9B33 /* Sync_Audio.h */,
-				99E041852A2294EA00146D04 /* thread.cpp */,
-				99E041832A2294EA00146D04 /* thread.h */,
 				997647681A61D5EE00FB9B33 /* til311.cpp */,
 				997647B01A61D5EE00FB9B33 /* til311.h */,
 				997647411A61D5EE00FB9B33 /* til313.cpp */,
@@ -1559,6 +1547,18 @@
 				997647B31A61D5EE00FB9B33 /* waveReader.h */,
 				9976476E1A61D5EE00FB9B33 /* waveWriter.cpp */,
 				9976478C1A61D5EE00FB9B33 /* waveWriter.h */,
+				9942DD6B1F3B4D3E00569242 /* wxcurl_base.cpp */,
+				9942DD6C1F3B4D3E00569242 /* wxcurl_base.h */,
+				99E0417F2A225A6C00146D04 /* wxcurl_dialog.cpp */,
+				99E041802A225A6D00146D04 /* wxcurl_dialog.h */,
+				99E0418B2A22954E00146D04 /* wxcurl_ftp.cpp */,
+				99E0418C2A22954E00146D04 /* wxcurl_ftp.h */,
+				9942DD6E1F3B4D6B00569242 /* wxcurl_http.cpp */,
+				9942DD6F1F3B4D6B00569242 /* wxcurl_http.h */,
+				99E041842A2294EA00146D04 /* wxcurl_panel.cpp */,
+				99E0418A2A22950100146D04 /* wxcurl_panel.h */,
+				99E041852A2294EA00146D04 /* wxcurl_thread.cpp */,
+				99E041832A2294EA00146D04 /* wxcurl_thread.h */,
 				99BBC9AC281DD39B00BD9345 /* xmlemu.cpp */,
 				99BBC9AD281DD39B00BD9345 /* xmlemu.h */,
 				99BDFD8528B2C0C000B173A9 /* xmlparser.cpp */,
@@ -1881,7 +1881,7 @@
 				997647C51A61D5EF00FB9B33 /* guimembership.cpp in Sources */,
 				99C11A7329A022AF00DFCACB /* rtc.cpp in Sources */,
 				99BBC9AE281DD39E00BD9345 /* xmlemu.cpp in Sources */,
-				9942DD6D1F3B4D3E00569242 /* base.cpp in Sources */,
+				9942DD6D1F3B4D3E00569242 /* wxcurl_base.cpp in Sources */,
 				997647EE1A61D5EF00FB9B33 /* sound.cpp in Sources */,
 				997647EC1A61D5EF00FB9B33 /* pecom.cpp in Sources */,
 				9945417527D80AE7001F5131 /* guipico.cpp in Sources */,
@@ -1897,7 +1897,7 @@
 				997647B91A61D5EE00FB9B33 /* expansion.cpp in Sources */,
 				997647F41A61D5EF00FB9B33 /* led.cpp in Sources */,
 				99F263CE220CD4ED00EA87B5 /* network.cpp in Sources */,
-				99E0418D2A22955000146D04 /* ftp.cpp in Sources */,
+				99E0418D2A22955000146D04 /* wxcurl_ftp.cpp in Sources */,
 				997647BB1A61D5EE00FB9B33 /* colour.cpp in Sources */,
 				997648071A61D5EF00FB9B33 /* keyboard.cpp in Sources */,
 				997647CE1A61D5EF00FB9B33 /* video.cpp in Sources */,
@@ -1906,10 +1906,10 @@
 				997647D61A61D5EF00FB9B33 /* Sync_Audio.cpp in Sources */,
 				999CFEDD1DCD33070094BEC8 /* guims2000.cpp in Sources */,
 				99BE531F1F1556F5006BD353 /* guidiag.cpp in Sources */,
-				9942DD701F3B4D6B00569242 /* http.cpp in Sources */,
+				9942DD701F3B4D6B00569242 /* wxcurl_http.cpp in Sources */,
 				997647FD1A61D5EF00FB9B33 /* waveReader.cpp in Sources */,
 				997647FE1A61D5EF00FB9B33 /* waveWriter.cpp in Sources */,
-				99E041862A2294F100146D04 /* thread.cpp in Sources */,
+				99E041862A2294F100146D04 /* wxcurl_thread.cpp in Sources */,
 				997647F51A61D5EF00FB9B33 /* nano.cpp in Sources */,
 				997647D01A61D5EF00FB9B33 /* cidelsa.cpp in Sources */,
 				990416781DCDFE9000487FD7 /* ms2000.cpp in Sources */,
@@ -1979,7 +1979,7 @@
 				99BFDEDB29BD2ED300B1F2C6 /* sn76430n.cpp in Sources */,
 				997648001A61D5EF00FB9B33 /* guieti660.cpp in Sources */,
 				99BC74FC1DCFDB5C0000D8A9 /* upd765.cpp in Sources */,
-				99E041812A225A6F00146D04 /* dialog.cpp in Sources */,
+				99E041812A225A6F00146D04 /* wxcurl_dialog.cpp in Sources */,
 				997647F11A61D5EF00FB9B33 /* vt100.cpp in Sources */,
 				991199441E92ECC30074ADAA /* splash.cpp in Sources */,
 				997647F71A61D5EF00FB9B33 /* psave.cpp in Sources */,
@@ -1987,7 +1987,7 @@
 				997647E31A61D5EF00FB9B33 /* portext.cpp in Sources */,
 				99ACCCA022FE99E000DE7617 /* microsetup.cpp in Sources */,
 				99D9441A22FB2DA8007C384A /* guicdp18s600.cpp in Sources */,
-				99E041882A2294F500146D04 /* panel.cpp in Sources */,
+				99E041882A2294F500146D04 /* wxcurl_panel.cpp in Sources */,
 				997647CF1A61D5EF00FB9B33 /* functionkey.cpp in Sources */,
 				997647DF1A61D5EF00FB9B33 /* guielf.cpp in Sources */,
 				997648061A61D5EF00FB9B33 /* guipecom.cpp in Sources */,
@@ -2032,7 +2032,7 @@
 				99F37E56285D1D9200C57417 /* guimembership.cpp in Sources */,
 				99F37E57285D1D9200C57417 /* xmlemu.cpp in Sources */,
 				99C11A7429A022AF00DFCACB /* rtc.cpp in Sources */,
-				99F37E58285D1D9200C57417 /* base.cpp in Sources */,
+				99F37E58285D1D9200C57417 /* wxcurl_base.cpp in Sources */,
 				99F37E59285D1D9200C57417 /* sound.cpp in Sources */,
 				99F37E5A285D1D9200C57417 /* pecom.cpp in Sources */,
 				99F37E5B285D1D9200C57417 /* guipico.cpp in Sources */,
@@ -2049,7 +2049,7 @@
 				99F37E66285D1D9200C57417 /* led.cpp in Sources */,
 				99F37E67285D1D9200C57417 /* network.cpp in Sources */,
 				99F37E68285D1D9200C57417 /* colour.cpp in Sources */,
-				99E0418E2A22955100146D04 /* ftp.cpp in Sources */,
+				99E0418E2A22955100146D04 /* wxcurl_ftp.cpp in Sources */,
 				99F37E69285D1D9200C57417 /* keyboard.cpp in Sources */,
 				99F37E6A285D1D9200C57417 /* video.cpp in Sources */,
 				99F37E6B285D1D9200C57417 /* guimain.cpp in Sources */,
@@ -2057,11 +2057,11 @@
 				99F37E6D285D1D9200C57417 /* Sync_Audio.cpp in Sources */,
 				99F37E6E285D1D9200C57417 /* guims2000.cpp in Sources */,
 				99F37E6F285D1D9200C57417 /* guidiag.cpp in Sources */,
-				99F37E70285D1D9200C57417 /* http.cpp in Sources */,
+				99F37E70285D1D9200C57417 /* wxcurl_http.cpp in Sources */,
 				99F37E71285D1D9200C57417 /* waveReader.cpp in Sources */,
 				99F37E72285D1D9200C57417 /* waveWriter.cpp in Sources */,
 				99F37E73285D1D9200C57417 /* nano.cpp in Sources */,
-				99E041872A2294F200146D04 /* thread.cpp in Sources */,
+				99E041872A2294F200146D04 /* wxcurl_thread.cpp in Sources */,
 				99F37E74285D1D9200C57417 /* cidelsa.cpp in Sources */,
 				99F37E75285D1D9200C57417 /* ms2000.cpp in Sources */,
 				99F37E76285D1D9200C57417 /* vtsetup.cpp in Sources */,
@@ -2131,7 +2131,7 @@
 				99BFDEDC29BD2ED300B1F2C6 /* sn76430n.cpp in Sources */,
 				99F37EB2285D1D9200C57417 /* guieti660.cpp in Sources */,
 				99F37EB3285D1D9200C57417 /* upd765.cpp in Sources */,
-				99E041822A225A7000146D04 /* dialog.cpp in Sources */,
+				99E041822A225A7000146D04 /* wxcurl_dialog.cpp in Sources */,
 				99F37EB4285D1D9200C57417 /* vt100.cpp in Sources */,
 				99F37EB5285D1D9200C57417 /* splash.cpp in Sources */,
 				99F37EB6285D1D9200C57417 /* psave.cpp in Sources */,
@@ -2139,7 +2139,7 @@
 				99F37EB8285D1D9200C57417 /* portext.cpp in Sources */,
 				99F37EB9285D1D9200C57417 /* microsetup.cpp in Sources */,
 				99F37EBA285D1D9200C57417 /* guicdp18s600.cpp in Sources */,
-				99E041892A2294F600146D04 /* panel.cpp in Sources */,
+				99E041892A2294F600146D04 /* wxcurl_panel.cpp in Sources */,
 				99F37EBB285D1D9200C57417 /* functionkey.cpp in Sources */,
 				99F37EBC285D1D9200C57417 /* guielf.cpp in Sources */,
 				99F37EBD285D1D9200C57417 /* guipecom.cpp in Sources */,

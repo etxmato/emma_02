@@ -12,7 +12,7 @@
 #define _WXCURL_PANEL_H_
 
 #include "wx/panel.h"
-#include "base.h"
+#include "wxcurl_base.h"
 
 // forward declarations
 class WXDLLIMPEXP_CORE wxStaticText;
