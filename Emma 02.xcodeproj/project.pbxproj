@@ -34,12 +34,6 @@
 		994F850028CBD9C200CCFB27 /* bitkeypad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 994F84FE28CBD9C200CCFB27 /* bitkeypad.cpp */; };
 		99575CBF278795EA00ED912A /* osx_11.ini in Resources */ = {isa = PBXBuildFile; fileRef = 99575CBD278795EA00ED912A /* osx_11.ini */; };
 		99575CC0278795EA00ED912A /* osx_14.ini in Resources */ = {isa = PBXBuildFile; fileRef = 99575CBE278795EA00ED912A /* osx_14.ini */; };
-		995D16212A1BFDF30065A7AE /* download.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 995D161F2A1BFDEC0065A7AE /* download.cpp */; };
-		995D16222A1BFDF30065A7AE /* download.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 995D161F2A1BFDEC0065A7AE /* download.cpp */; };
-		995D162B2A1C02400065A7AE /* download_14.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 995D16272A1C02400065A7AE /* download_14.xrc */; };
-		995D162C2A1C02400065A7AE /* download_14.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 995D16272A1C02400065A7AE /* download_14.xrc */; };
-		995D162D2A1C02400065A7AE /* download_11.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 995D16282A1C02400065A7AE /* download_11.xrc */; };
-		995D162E2A1C02400065A7AE /* download_11.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 995D16282A1C02400065A7AE /* download_11.xrc */; };
 		995E0CE3254E1378001BA0F8 /* am2020bas.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 995E0CE2254E1378001BA0F8 /* am2020bas.syntax */; };
 		995E76F022B2E5D300817B08 /* Chip8Elf.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 995E76EF22B2E5D200817B08 /* Chip8Elf.syntax */; };
 		995FE8912516136400F96DB8 /* SuperChip.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 995FE8902516136300F96DB8 /* SuperChip.syntax */; };
@@ -630,12 +624,6 @@
 		99575CBD278795EA00ED912A /* osx_11.ini */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = osx_11.ini; sourceTree = "<group>"; };
 		99575CBE278795EA00ED912A /* osx_14.ini */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = osx_14.ini; sourceTree = "<group>"; };
 		995B7E9328FAA8F300BBF917 /* definition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = definition.h; path = src/definition.h; sourceTree = "<group>"; };
-		995D161F2A1BFDEC0065A7AE /* download.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = download.cpp; path = src/download.cpp; sourceTree = "<group>"; };
-		995D16202A1BFDEC0065A7AE /* download.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = download.h; path = src/download.h; sourceTree = "<group>"; };
-		995D16232A1C022A0065A7AE /* Download.pjd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Download.pjd; sourceTree = "<group>"; };
-		995D16262A1C023F0065A7AE /* download_12.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = download_12.xrc; sourceTree = "<group>"; };
-		995D16272A1C02400065A7AE /* download_14.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = download_14.xrc; sourceTree = "<group>"; };
-		995D16282A1C02400065A7AE /* download_11.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = download_11.xrc; sourceTree = "<group>"; };
 		995E0CE2254E1378001BA0F8 /* am2020bas.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = am2020bas.syntax; sourceTree = "<group>"; };
 		995E76EF22B2E5D200817B08 /* Chip8Elf.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Chip8Elf.syntax; sourceTree = "<group>"; };
 		995FE8902516136300F96DB8 /* SuperChip.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SuperChip.syntax; sourceTree = "<group>"; };
@@ -1061,7 +1049,6 @@
 				9909A2251F2144D200B17E58 /* MenuPecom.pjd */,
 				9909A2261F2144D200B17E58 /* MenuMcds.pjd */,
 				9909A2271F2144D200B17E58 /* Diag.pjd */,
-				995D16232A1C022A0065A7AE /* Download.pjd */,
 				9909A2281F2144D200B17E58 /* MenuCosmicos.pjd */,
 				9909A2291F2144D200B17E58 /* MenuVelf.pjd */,
 				9909A22A1F2144D200B17E58 /* Menus_Cas_Mem.pjd */,
@@ -1114,9 +1101,6 @@
 				99B2ABA427863DF000C73EB9 /* diag_11.xrc */,
 				991A43D3279C41E30049C544 /* diag_12.xrc */,
 				99B2ABA327863DF000C73EB9 /* diag_14.xrc */,
-				995D16282A1C02400065A7AE /* download_11.xrc */,
-				995D16262A1C023F0065A7AE /* download_12.xrc */,
-				995D16272A1C02400065A7AE /* download_14.xrc */,
 				99B2ABA927863DFF00C73EB9 /* eprom_11.xrc */,
 				991A43D5279C567B0049C544 /* eprom_12.xrc */,
 				99B2ABAA27863DFF00C73EB9 /* eprom_14.xrc */,
@@ -1314,8 +1298,6 @@
 				995B7E9328FAA8F300BBF917 /* definition.h */,
 				99BE53231F156AA1006BD353 /* diagstatusbar.cpp */,
 				99BE53241F156AA1006BD353 /* diagstatusbar.h */,
-				995D161F2A1BFDEC0065A7AE /* download.cpp */,
-				995D16202A1BFDEC0065A7AE /* download.h */,
 				997647891A61D5EE00FB9B33 /* elf.cpp */,
 				997647A11A61D5EE00FB9B33 /* elf.h */,
 				997647451A61D5EE00FB9B33 /* elf2.cpp */,
@@ -1661,7 +1643,6 @@
 				99F374721CADBBC2000DA615 /* Quest_license.txt in Resources */,
 				99B2ABE827863E8800C73EB9 /* menuMembership_14.xrc in Resources */,
 				99431DEB1F22213400F5A2D4 /* images_osx in Resources */,
-				995D162B2A1C02400065A7AE /* download_14.xrc in Resources */,
 				998AE1961F769A9500D6B0D1 /* Configurations in Resources */,
 				99575CC0278795EA00ED912A /* osx_14.ini in Resources */,
 				99B2ABC727863E4C00C73EB9 /* menuComx_14.xrc in Resources */,
@@ -1705,7 +1686,6 @@
 				99B2ABA527863DF000C73EB9 /* diag_14.xrc in Resources */,
 				99B2AB8727863D8000C73EB9 /* about_11.xrc in Resources */,
 				99FA47C4211E0DC000C399AE /* Chip8Studio.syntax in Resources */,
-				995D162D2A1C02400065A7AE /* download_11.xrc in Resources */,
 				99D5FCD9211C938E001F4391 /* Chip8.syntax in Resources */,
 				99F3746B1CADBB93000DA615 /* copyright.rtf in Resources */,
 				99D62190211B402200E1A471 /* ST4.syntax in Resources */,
@@ -1764,7 +1744,6 @@
 				99F37ED5285D1D9200C57417 /* Quest_license.txt in Resources */,
 				99F37ED6285D1D9200C57417 /* menuMembership_14.xrc in Resources */,
 				99F37ED7285D1D9200C57417 /* images_osx in Resources */,
-				995D162C2A1C02400065A7AE /* download_14.xrc in Resources */,
 				99F37ED8285D1D9200C57417 /* Configurations in Resources */,
 				99F37ED9285D1D9200C57417 /* osx_14.ini in Resources */,
 				99F37EDA285D1D9200C57417 /* menuComx_14.xrc in Resources */,
@@ -1808,7 +1787,6 @@
 				99F37F00285D1D9200C57417 /* diag_14.xrc in Resources */,
 				99F37F01285D1D9200C57417 /* about_11.xrc in Resources */,
 				99F37F02285D1D9200C57417 /* Chip8Studio.syntax in Resources */,
-				995D162E2A1C02400065A7AE /* download_11.xrc in Resources */,
 				99F37F03285D1D9200C57417 /* Chip8.syntax in Resources */,
 				99F37F04285D1D9200C57417 /* copyright.rtf in Resources */,
 				99F37F05285D1D9200C57417 /* ST4.syntax in Resources */,
@@ -1993,7 +1971,6 @@
 				997648061A61D5EF00FB9B33 /* guipecom.cpp in Sources */,
 				997647E51A61D5EF00FB9B33 /* tmc600.cpp in Sources */,
 				993B6E4228C68ABD007DF353 /* keyb1871.cpp in Sources */,
-				995D16212A1BFDF30065A7AE /* download.cpp in Sources */,
 				997648091A61D5EF00FB9B33 /* elf.cpp in Sources */,
 				997647EA1A61D5EF00FB9B33 /* mc6845.cpp in Sources */,
 				994F84FF28CBD9C200CCFB27 /* bitkeypad.cpp in Sources */,
@@ -2145,7 +2122,6 @@
 				99F37EBD285D1D9200C57417 /* guipecom.cpp in Sources */,
 				99F37EBE285D1D9200C57417 /* tmc600.cpp in Sources */,
 				993B6E4328C68ABD007DF353 /* keyb1871.cpp in Sources */,
-				995D16222A1BFDF30065A7AE /* download.cpp in Sources */,
 				99F37EBF285D1D9200C57417 /* elf.cpp in Sources */,
 				99F37EC0285D1D9200C57417 /* mc6845.cpp in Sources */,
 				994F850028CBD9C200CCFB27 /* bitkeypad.cpp in Sources */,

@@ -14,8 +14,8 @@
             filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5742"
-            endingLineNumber = "5742"
+            startingLineNumber = "5741"
+            endingLineNumber = "5741"
             landmarkName = "GuiMain::checkWavFileDownload(computer, downloadIfMissing)"
             landmarkType = "7">
             <Locations>

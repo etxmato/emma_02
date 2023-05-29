@@ -460,10 +460,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\base.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\bitkeypad.cpp"
 				>
 			</File>
@@ -549,10 +545,6 @@
 			</File>
 			<File
 				RelativePath=".\src\diagstatusbar.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\download.cpp"
 				>
 			</File>
 			<File
@@ -725,10 +717,6 @@
 			</File>
 			<File
 				RelativePath=".\src\hbelf.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\http.cpp"
 				>
 			</File>
 			<File
@@ -1016,6 +1004,30 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\wxcurl_base.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\wxcurl_dialog.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\wxcurl_ftp.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\wxcurl_http.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\wxcurl_panel.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\wxcurl_thread.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\xmlemu.cpp"
 				>
 			</File>
@@ -1033,10 +1045,6 @@
 			</File>
 			<File
 				RelativePath=".\src\audio_detect.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\wxcurl_base.h"
 				>
 			</File>
 			<File
@@ -1129,10 +1137,6 @@
 			</File>
 			<File
 				RelativePath=".\src\diagstatusbar.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\download.h"
 				>
 			</File>
 			<File
@@ -1309,10 +1313,6 @@
 			</File>
 			<File
 				RelativePath=".\src\hbelf.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\wxcurl_http.h"
 				>
 			</File>
 			<File
@@ -1601,6 +1601,30 @@
 			</File>
 			<File
 				RelativePath=".\src\waveWriter.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\wxcurl_base.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\wxcurl_dialog.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\wxcurl_ftp.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\wxcurl_http.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\wxcurl_panel.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\wxcurl_thread.h"
 				>
 			</File>
 			<File

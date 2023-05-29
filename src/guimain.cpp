@@ -41,7 +41,6 @@
 #include "wx/wfstream.h"
 #include "wxcurl_http.h"
 #include "wxcurl_dialog.h"
-#include "download.h"
 
 #if defined (__WXMSW__)
 // RTL_OSVERSIONINFOEXW is defined in winnt.h
