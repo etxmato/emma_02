@@ -120,6 +120,9 @@ long WaveReader::readHeader()
     }
     wavFile_.Seek(dataPosition_, wxFromStart);
 
+//    wxString message;
+  //  message.Printf("%d", sampleRate_);
+    //p_Main->eventShowTextMessage(message);
     return sampleRate_;
 }
 

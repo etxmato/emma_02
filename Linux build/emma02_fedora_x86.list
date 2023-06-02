@@ -10,7 +10,7 @@ $srcdir=.
 %vendor Marcel van Tongeren <marcel.v.tongeren@gmail.com>
 %license COPYING
 %readme README
-%description Emma 02 is emulating the COMX-35, COMIX-35, Elf 2000, Cosmicos, Cosmac Elf, Netronics ELF II, Quest Super Elf, Membership Card, VIP2K Membership Card, VELF, Infinite UC1800, Pico/Elf V2, FRED 1, FRED 1.5, Microtutor, Microtutor II, CDP18S020 Evaluation Kit, Cosmac VIP, Cosmac VIPII, Microboard System, MCDS, MS2000, RCA Video Coin Arcade, RCA Studio II, RCA Studio III, RCA Studio IV, Victory MPT-02, Visicom COM-100, Cidelsa, Telmac TMC-600, Telmac 1800, Telmac 2000, Oscam Nano, Pecom 32, Pecom 64 and ETI 660
+%description Emma 02 is emulating the CDP18S020 Evaluation Kit, Cidelsa, COMIX-35, COMX-35, Cosmac Elf, Cosmac Elf 2000, Cosmac VIP, Cosmac VIP II, Cosmicos, Cybervision 2001, ETI-660, FRED 1, FRED 1.5, HUG1802, Infinite UC1800, MCDS, Membership Card, Microboard System, Microtutor, Microtutor II, MS2000, Netronics ELF II, Oscam Nano, Pecom 32, Pecom 64, Pico/Elf V2, Quest Super Elf,  RCA Studio II, RCA Studio III, RCA Studio IV, RCA Video Coin Arcade, Telmac TMC-600, Telmac 1800, Telmac 2000, VELF, Victory MPT-02, VIP2K Membership Card and Visicom COM-100
 %version 1.47.6
 %requires glibc
 %requires libcurl

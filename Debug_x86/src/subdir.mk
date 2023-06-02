@@ -7,7 +7,6 @@ CPP_SRCS += \
 ../src/Blip_Buffer.cpp \
 ../src/Sync_Audio.cpp \
 ../src/about.cpp \
-../src/base.cpp \
 ../src/bitkeypad.cpp \
 ../src/breakpoints.cpp \
 ../src/cdp1802.cpp \
@@ -71,7 +70,6 @@ CPP_SRCS += \
 ../src/guivip2k.cpp \
 ../src/guixml.cpp \
 ../src/hbelf.cpp \
-../src/http.cpp \
 ../src/i8275.cpp \
 ../src/ide.cpp \
 ../src/iodevice.cpp \
@@ -139,6 +137,12 @@ CPP_SRCS += \
 ../src/vtsetup.cpp \
 ../src/waveReader.cpp \
 ../src/waveWriter.cpp \
+../src/wxcurl_base.cpp \
+../src/wxcurl_dialog.cpp \
+../src/wxcurl_ftp.cpp \
+../src/wxcurl_http.cpp \
+../src/wxcurl_panel.cpp \
+../src/wxcurl_thread.cpp \
 ../src/xmlemu.cpp \
 ../src/xmlparser.cpp
 
@@ -155,7 +159,6 @@ OBJS += \
 ./src/about.o \
 ./src/audioin_devdsp.o \
 ./src/audioin_windib.o \
-./src/base.o \
 ./src/bitkeypad.o \
 ./src/breakpoints.o \
 ./src/cdp1802.o \
@@ -219,7 +222,6 @@ OBJS += \
 ./src/guivip2k.o \
 ./src/guixml.o \
 ./src/hbelf.o \
-./src/http.o \
 ./src/i8275.o \
 ./src/ide.o \
 ./src/iodevice.o \
@@ -287,6 +289,12 @@ OBJS += \
 ./src/vtsetup.o \
 ./src/waveReader.o \
 ./src/waveWriter.o \
+./src/wxcurl_base.o \
+./src/wxcurl_dialog.o \
+./src/wxcurl_ftp.o \
+./src/wxcurl_http.o \
+./src/wxcurl_panel.o \
+./src/wxcurl_thread.o \
 ./src/xmlemu.o \
 ./src/xmlparser.o
 
@@ -295,7 +303,6 @@ CPP_DEPS += \
 ./src/Blip_Buffer.d \
 ./src/Sync_Audio.d \
 ./src/about.d \
-./src/base.d \
 ./src/bitkeypad.d \
 ./src/breakpoints.d \
 ./src/cdp1802.d \
@@ -359,7 +366,6 @@ CPP_DEPS += \
 ./src/guivip2k.d \
 ./src/guixml.d \
 ./src/hbelf.d \
-./src/http.d \
 ./src/i8275.d \
 ./src/ide.d \
 ./src/iodevice.d \
@@ -427,6 +433,12 @@ CPP_DEPS += \
 ./src/vtsetup.d \
 ./src/waveReader.d \
 ./src/waveWriter.d \
+./src/wxcurl_base.d \
+./src/wxcurl_dialog.d \
+./src/wxcurl_ftp.d \
+./src/wxcurl_http.d \
+./src/wxcurl_panel.d \
+./src/wxcurl_thread.d \
 ./src/xmlemu.d \
 ./src/xmlparser.d
 

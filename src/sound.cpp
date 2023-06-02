@@ -142,7 +142,7 @@ void Sound::initSound(double clock, double percentageClock, int computerType, in
 
     psaveAmplitude_ = 0;
 
-    tapeBufferPointer->clock_rate((soundClock_/CLOCK_FACTOR * 1000000));
+    tapeBufferPointer->clock_rate((soundClock_/1000000));
     tapeSynthPointer->volume(1);
     tapeSynthPointer->output(tapeBufferPointer);
 

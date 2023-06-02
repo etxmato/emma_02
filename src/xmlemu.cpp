@@ -169,6 +169,7 @@ Xmlemu::Xmlemu(const wxString& title, const wxPoint& pos, const wxSize& size, do
 
 Xmlemu::~Xmlemu()
 {
+    p_Main->turboOff();
     p_Main->batchConvertStop();
     saveRtc();
     if (nvramDetails.size() > 0)

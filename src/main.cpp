@@ -8610,7 +8610,7 @@ void Main::eventSetLocation(bool state)
     guiEvent event(GUI_MSG, SET_LOCATION);
     event.SetEventObject( p_Main );
 
-   conf[runningComputer_].useLoadLocation_ = state;
+    conf[runningComputer_].useLoadLocation_ = state;
     conf[runningComputer_].saveExec_ = 0;
 
     GetEventHandler()->AddPendingEvent(event);
@@ -8618,7 +8618,7 @@ void Main::eventSetLocation(bool state)
 
 void Main::setEnableClockEvent(guiEvent& event)
 {
-   clockTextCtrl[runningComputer_]->Enable(event.GetBoolValue());
+   clockTextCtrl[event.GetInt()]->Enable(event.GetBoolValue());
 }
 
 void Main::eventEnableClock(bool state)
@@ -8626,6 +8626,7 @@ void Main::eventEnableClock(bool state)
    guiEvent event(GUI_MSG, ENABLE_CLOCK);
    event.SetEventObject( p_Main );
 
+   event.SetInt(runningComputer_);
    event.SetBoolValue(state);
 
    GetEventHandler()->AddPendingEvent(event);
