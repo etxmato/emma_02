@@ -24,6 +24,7 @@ CPP_SRCS += \
 ../src/configuration.cpp \
 ../src/cosmicos.cpp \
 ../src/cosmicoshex.cpp \
+../src/cvkeypad.cpp \
 ../src/datadir.cpp \
 ../src/debug.cpp \
 ../src/diagstatusbar.cpp \
@@ -107,7 +108,9 @@ CPP_SRCS += \
 ../src/ps2gpio.cpp \
 ../src/psave.cpp \
 ../src/pushbutton.cpp \
+../src/rtc.cpp \
 ../src/serial.cpp \
+../src/sn76430n.cpp \
 ../src/sound.cpp \
 ../src/splash.cpp \
 ../src/studio2.cpp \
@@ -175,6 +178,7 @@ OBJS += \
 ./src/configuration.o \
 ./src/cosmicos.o \
 ./src/cosmicoshex.o \
+./src/cvkeypad.o \
 ./src/datadir.o \
 ./src/debug.o \
 ./src/diagstatusbar.o \
@@ -258,7 +262,9 @@ OBJS += \
 ./src/ps2gpio.o \
 ./src/psave.o \
 ./src/pushbutton.o \
+./src/rtc.o \
 ./src/serial.o \
+./src/sn76430n.o \
 ./src/sound.o \
 ./src/splash.o \
 ./src/studio2.o \
@@ -319,6 +325,7 @@ CPP_DEPS += \
 ./src/configuration.d \
 ./src/cosmicos.d \
 ./src/cosmicoshex.d \
+./src/cvkeypad.d \
 ./src/datadir.d \
 ./src/debug.d \
 ./src/diagstatusbar.d \
@@ -402,7 +409,9 @@ CPP_DEPS += \
 ./src/ps2gpio.d \
 ./src/psave.d \
 ./src/pushbutton.d \
+./src/rtc.d \
 ./src/serial.d \
+./src/sn76430n.d \
 ./src/sound.d \
 ./src/splash.d \
 ./src/studio2.d \

@@ -4581,6 +4581,15 @@ void Xmlemu::configureExtensions()
         p_Main->message("Configuring Keypad Module\n");
     }
 
+    if (elfConfiguration.panelType_ == PANEL_COSMICOS)
+    {
+        p_Cosmicoshex = new Cosmicoshex("Hex Panel", p_Main->getKeypadPos(COSMICOS), wxSize(185, 160));
+        p_Cosmicoshex->Show(p_Main->getUseElfControlWindows(XML) && elfConfiguration.useHexKeyboard);
+
+        if (elfConfiguration.useHexKeyboard)
+            p_Main->message("Configuring Hex and 7 Segment Module\n");
+    }
+
     if (elfConfiguration.useBitKeypad)
     {
         if (elfConfiguration.ioConfiguration.bitKeypad[0].defined)

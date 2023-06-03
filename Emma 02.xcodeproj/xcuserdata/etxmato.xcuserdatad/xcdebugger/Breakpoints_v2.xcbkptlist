@@ -119,7 +119,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "99A2AF07-C9D4-45E8-9F12-5D757DCF71E8"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/xmlemu.cpp"
@@ -160,6 +160,22 @@
             startingLineNumber = "164"
             endingLineNumber = "164"
             landmarkName = "Xmlemu::Xmlemu(title, pos, size, clock, conf, computerConf)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "477A8907-4B70-4498-818F-7DE5E558FAD1"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/xmlparser.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "3425"
+            endingLineNumber = "3425"
+            landmarkName = "XmlParser::parseXml_ElfKeypad(computer, node)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

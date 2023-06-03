@@ -3871,7 +3871,7 @@ void XmlParser::parseXml_FrontPanel (int computer, wxXmlNode &node)
             break;
                 
             case TAG_IN:
-                if (elfConfiguration[computer].panelType_ != PANEL_COSMAC && elfConfiguration[computer].panelType_ != PANEL_ELF2K)
+                if (elfConfiguration[computer].panelType_ != PANEL_COSMAC && elfConfiguration[computer].panelType_ != PANEL_ELF2K && elfConfiguration[computer].panelType_ != PANEL_COSMICOS)
                     elfConfiguration[computer].useHexKeyboard = true;
                 elfConfiguration[computer].ioConfiguration.hexInput = (int)parseXml_Number(*child);
             break;
