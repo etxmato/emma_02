@@ -11,7 +11,7 @@ $srcdir=.
 %license COPYING
 %readme README
 %description Emma 02 is emulating the CDP18S020 Evaluation Kit, Cidelsa, COMIX-35, COMX-35, Cosmac Elf, Cosmac Elf 2000, Cosmac VIP, Cosmac VIP II, Cosmicos, Cybervision 2001, ETI-660, FRED 1, FRED 1.5, HUG1802, Infinite UC1800, MCDS, Membership Card, Microboard System, Microtutor, Microtutor II, MS2000, Netronics ELF II, Oscam Nano, Pecom 32, Pecom 64, Pico/Elf V2, Quest Super Elf,  RCA Studio II, RCA Studio III, RCA Studio IV, RCA Video Coin Arcade, Telmac TMC-600, Telmac 1800, Telmac 2000, VELF, Victory MPT-02, VIP2K Membership Card and Visicom COM-100
-%version 1.47.6
+%version 1.47.14
 %requires glibc
 %requires libcurl
 %requires SDL
