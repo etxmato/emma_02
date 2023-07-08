@@ -49,9 +49,8 @@
 
 
 ElfScreen::ElfScreen(wxWindow *parent, const wxSize& size, int tilType)
-: Panel(parent, size)
+: Panel(parent, size, tilType)
 {
-    tilType_ = tilType;
 }
 
 ElfScreen::~ElfScreen()
@@ -72,20 +71,12 @@ ElfScreen::~ElfScreen()
     {
         delete efSwitchButton[i];
     }
-    if (tilType_ == TIL311)
-    {
-        for (int i=0; i<4; i++)
-            delete addressPointer[i];
-        for (int i=0; i<2; i++)
-            delete dataPointer[i];
-    }
-    else
-    {
-        for (int i=0; i<4; i++)
-            delete addressTil313PointerItalic[i];
-        for (int i=0; i<2; i++)
-            delete dataTil313PointerItalic[i];
-    }
+
+    for (int i=0; i<4; i++)
+        delete addressPointer[i];
+        
+    for (int i=0; i<2; i++)
+        delete dataPointer[i];
     
      delete qLedPointer;
 }
@@ -95,7 +86,7 @@ void ElfScreen::init()
     keyStart_ = 0;
     keyEnd_ = 0;
     lastKey_ = 0;
-    forceUpperCase_ = p_Main->getUpperCase(ELF);
+    forceUpperCase_ = p_Main->getUpperCase();
 
     wxClientDC dc(this);
 
@@ -121,32 +112,22 @@ void ElfScreen::init()
     for (int i=0; i<4; i++)
     {
         if (tilType_ == TIL311)
-        {
             addressPointer[i] = new Til311();
-            addressPointer[i]->init(dc, 18+i*40, 226);
-            updateAddress_ = true;
-        }
         else
-        {
-            addressTil313PointerItalic[i] = new Til313Italic(false);
-            addressTil313PointerItalic[i]->init(dc, 18+i*40, 226);
-            updateAddressTil313Italic_ = true;
-        }
+            addressPointer[i] = new Til313Italic(false);
+
+        addressPointer[i]->init(dc, 18+i*40, 226);
+        updateAddress_ = true;
     }
     for (int i=0; i<2; i++)
     {
         if (tilType_ == TIL311)
-        {
             dataPointer[i] = new Til311();
-            dataPointer[i]->init(dc, 218+i*40, 226);
-            updateData_ = true;
-        }
         else
-        {
-            dataTil313PointerItalic[i] = new Til313Italic(false);
-            dataTil313PointerItalic[i]->init(dc, 218+i*40, 226);
-            updateDataTil313Italic_ = true;
-        }
+            dataPointer[i] = new Til313Italic(false);
+        
+        dataPointer[i]->init(dc, 218+i*40, 226);
+        updateData_ = true;
     }
     this->connectKeyEvent(this);
 }
@@ -164,20 +145,12 @@ void ElfScreen::onPaint(wxPaintEvent&WXUNUSED(event))
     {
         efSwitchButton[i]->onPaint(dc);
     }
-    if (tilType_ == TIL311)
-    {
-        for (int i=0; i<4; i++)
-            addressPointer[i]->onPaint(dc);
-        for (int i=0; i<2; i++)
-            dataPointer[i]->onPaint(dc);
-    }
-    else
-    {
-        for (int i=0; i<4; i++)
-            addressTil313PointerItalic[i]->onPaint(dc);
-        for (int i=0; i<2; i++)
-            dataTil313PointerItalic[i]->onPaint(dc);
-    }
+
+    for (int i=0; i<4; i++)
+        addressPointer[i]->onPaint(dc);
+    for (int i=0; i<2; i++)
+        dataPointer[i]->onPaint(dc);
+
     qLedPointer->onPaint(dc);
 
     inSwitchButton->onPaint(dc);
@@ -458,11 +431,11 @@ void Elf::configureComputer()
 
     setCycleType(COMPUTERCYCLE, LEDCYCLE);
     p_Main->message("Configuring Elf");
-    printBuffer.Printf("    Output %d: display output, input %d: data input", elfConfiguration.ioConfiguration.hexOutput, elfConfiguration.ioConfiguration.hexInput);
+    printBuffer.Printf("    Output %d: display output, input %d: data input", elfConfiguration.ioConfiguration.hexOutput.portNumber, elfConfiguration.ioConfiguration.hexInput.portNumber);
     p_Main->message(printBuffer);
 
-    p_Computer->setInType(elfConfiguration.ioConfiguration.hexInput, ELFIN);
-    p_Computer->setOutType(elfConfiguration.ioConfiguration.hexOutput, ELFOUT);
+    p_Computer->setInType(elfConfiguration.ioConfiguration.hexInput.portNumber, ELFIN);
+    p_Computer->setOutType(elfConfiguration.ioConfiguration.hexOutput.portNumber, ELFOUT);
 
     if (elfConfiguration.useEms)
     {
@@ -852,10 +825,7 @@ void Elf::out(Byte port, Word WXUNUSED(address), Byte value)
 
 void Elf::showData(Byte val)
 {
-    if (elfConfiguration.tilType == TIL311)
-        elfScreenPointer->showData(val);
-    else
-        elfScreenPointer->showDataTil313Italic(val);
+    elfScreenPointer->showData(val);
 }
 
 void Elf::cycle(int type)
@@ -959,10 +929,7 @@ void Elf::autoBoot()
     setClear(runButtonState_);
     if (cpuMode_ == RESET)  
     {
-        if (elfConfiguration.tilType == TIL311)
-            elfScreenPointer->showAddress(0);
-        else
-            elfScreenPointer->showAddressTil313Italic(0);
+        elfScreenPointer->showAddress(0);
     }
 }
 
@@ -1002,10 +969,7 @@ void Elf::onRun()
     p_Main->eventUpdateTitle();
     if (cpuMode_ == RESET)      
     {
-        if (elfConfiguration.tilType == TIL311)
-            elfScreenPointer->showAddress(0);
-        else
-            elfScreenPointer->showAddressTil313Italic(0);
+        elfScreenPointer->showAddress(0);
     }
 }
 
@@ -1034,10 +998,7 @@ void Elf::onLoadButton()
     setWait(loadButtonState_);
     if (cpuMode_ == RESET)  
     {
-        if (elfConfiguration.tilType == TIL311)
-            elfScreenPointer->showAddress(0);
-        else
-            elfScreenPointer->showAddressTil313Italic(0);
+        elfScreenPointer->showAddress(0);
     }
 }
 
@@ -1162,10 +1123,7 @@ void Elf::startComputer()
     p_Main->updateTitle();
     address_ = 0;
 
-    if (elfConfiguration.tilType == TIL311)
-        elfScreenPointer->showAddress(0);
-    else
-        elfScreenPointer->showAddressTil313Italic(0);
+    elfScreenPointer->showAddress(0);
 
     cpuCycles_ = 0;
     instructionCounter_= 0;
@@ -1316,10 +1274,7 @@ Byte Elf::readMemDebug(Word address)
 
     address = address | bootstrap_;
 
-    if (elfConfiguration.tilType == TIL311)
-        elfScreenPointer->showAddress(address);
-    else
-        elfScreenPointer->showAddressTil313Italic(address);
+    elfScreenPointer->showAddress(address);
 
     switch (memoryType_[address/256]&0xff)
     {
@@ -1407,10 +1362,7 @@ void Elf::writeMemDebug(Word address, Byte value, bool writeRom)
             loadedOs_ = ELFOS_4;
     }
         
-    if (elfConfiguration.tilType == TIL311)
-        elfScreenPointer->showAddress(address);
-    else
-        elfScreenPointer->showAddressTil313Italic(address);
+    elfScreenPointer->showAddress(address);
 
     if (emsRamDefined_)
     {

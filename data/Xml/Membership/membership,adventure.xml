@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>Membership Card - Adventure+</name>
+        <clock>1.75</clock>
+        <boot>0x8000</boot>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init>
+        <init type="ef4">1</init>
+        <dirname>Membership</dirname>
+    </system>
+
+    <frontpanel type="member_j" init="on">
+        <out mask="0x4"></out>
+        <in mask="0x4"></in>
+        <ef type="in">4</ef>
+    </frontpanel>
+
+    <memory>
+        <rom>
+            <start>0x8000</start>
+            <end>0xFFFF</end>
+            <filename verify="true">mcsmp20r_ansi_1.1.bin</filename>
+        </rom>
+
+        <nvram>
+            <start>0</start>
+            <end>0x7FFF</end>
+            <filename>ramdump.bin</filename>
+        </nvram>
+    </memory>
+    
+    <vt type="vt100" connection="serial">
+        <font>vt100.bin</font>
+        <ef pol="rev">3</ef>
+        <q></q>
+        <caps />
+        <baud type="receive">9600</baud>
+        <baud type="transmit">9600</baud>
+        <border>0x0</border>
+        <color type="fore">0, 255, 0</color>
+        <color type="back">0, 0x40, 0</color>
+        <color type="high">0, 0xff, 0</color>
+    </vt>
+
+    <hexmodem>
+    </hexmodem>
+
+</emmaconfig>

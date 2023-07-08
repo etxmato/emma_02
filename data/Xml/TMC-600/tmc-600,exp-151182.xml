@@ -202,4 +202,17 @@
         <ram>0x6300</ram>
     </basic>
 
+    <debugger>
+        <scrt mode="on">
+            <call reg="4">0x16bc</call>
+            <return reg="5">0x16dd</return>
+        </scrt>
+
+        <assembler>
+            <filename>mycode</filename>
+            <code_start>0x6300</code_start>
+            <code_end>0x82ff</code_end>
+        </assembler>
+    </debugger>
+
 </emmaconfig>

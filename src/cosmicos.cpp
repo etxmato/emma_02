@@ -35,8 +35,8 @@
 
 #include "cosmicos.h"
 
-CosmicosScreen::CosmicosScreen(wxWindow *parent, const wxSize& size)
-: Panel(parent, size)
+CosmicosScreen::CosmicosScreen(wxWindow *parent, const wxSize& size, int tilType)
+: Panel(parent, size, tilType)
 {
 }
 
@@ -81,7 +81,7 @@ CosmicosScreen::~CosmicosScreen()
 
     for (int i=0; i<2; i++)
     {
-        delete dataTil313Pointer[i];
+        delete dataPointer[i];
     }
      delete qLedPointer;
 }
@@ -91,7 +91,7 @@ void CosmicosScreen::init()
     keyStart_ = 0;
     keyEnd_ = 0;
     lastKey_ = 0;
-    forceUpperCase_ = p_Main->getUpperCase(COSMICOS);
+    forceUpperCase_ = p_Main->getUpperCase();
 
     wxClientDC dc(this);
     wxString switchNumber;
@@ -109,7 +109,8 @@ void CosmicosScreen::init()
 #endif
 
     mpSwitchButton = new SwitchButton(dc, HORIZONTAL_BUTTON, wxColour(255, 255, 255), BUTTON_LEFT, offsetX, offsetY+10, "");
-    ramSwitchButton = new SwitchButton(dc, HORIZONTAL_BUTTON, wxColour(255, 255, 255), BUTTON_LEFT, offsetX+140, offsetY+10, "");
+    
+    ramSwitchButton = new SwitchButton(dc, HORIZONTAL_BUTTON, wxColour(255, 255, 255), !p_Main->getNvRamDisbale(XML), offsetX+140, offsetY+10, "");
     
 #if defined (__WXMAC__)
     osx_stepButtonPointer = new HexButton(dc, COSMICOS_HEX_BUTTON, offsetX, offsetY+40, "S");
@@ -161,8 +162,8 @@ void CosmicosScreen::init()
     offsetX += 10;
     for (int i=0; i<2; i++)
     {
-        dataTil313Pointer[i] = new Til313();
-        dataTil313Pointer[i]->init(dc, offsetX+45+i*28, offsetY+20);
+        dataPointer[i] = new Til313();
+        dataPointer[i]->init(dc, offsetX+45+i*28, offsetY+20);
     }
     qLedPointer = new Led(dc, offsetX+100, offsetY+20, COSMICOSLED);
 
@@ -186,7 +187,7 @@ void CosmicosScreen::onPaint(wxPaintEvent&WXUNUSED(event))
     }
     for (int i=0; i<2; i++)
     {
-        dataTil313Pointer[i]->onPaint(dc);
+        dataPointer[i]->onPaint(dc);
     }
     runLedPointer->onPaint(dc);
     loadLedPointer->onPaint(dc);
@@ -266,7 +267,7 @@ void CosmicosScreen::onMousePress(wxMouseEvent&event)
     for (int i=0; i<8; i++)
     {
         if (osx_text_dataSwitchPointer[i]->onMousePress(dc, x, y))
-            p_Computer->dataButton(i);
+            p_Computer->dataSwitch(i);
     }
 #endif
 }
@@ -289,14 +290,14 @@ BEGIN_EVENT_TABLE(Cosmicos, wxFrame)
     EVT_COMMAND(8, wxEVT_ButtonUpEvent, Cosmicos::onButtonRelease)
     EVT_BUTTON(9, Cosmicos::onSingleStep)
 
-    EVT_BUTTON(10, Cosmicos::dataButton)
-    EVT_BUTTON(11, Cosmicos::dataButton)
-    EVT_BUTTON(12, Cosmicos::dataButton)
-    EVT_BUTTON(13, Cosmicos::dataButton)
-    EVT_BUTTON(14, Cosmicos::dataButton)
-    EVT_BUTTON(15, Cosmicos::dataButton)
-    EVT_BUTTON(16, Cosmicos::dataButton)
-    EVT_BUTTON(17, Cosmicos::dataButton)
+    EVT_BUTTON(10, Cosmicos::dataSwitch)
+    EVT_BUTTON(11, Cosmicos::dataSwitch)
+    EVT_BUTTON(12, Cosmicos::dataSwitch)
+    EVT_BUTTON(13, Cosmicos::dataSwitch)
+    EVT_BUTTON(14, Cosmicos::dataSwitch)
+    EVT_BUTTON(15, Cosmicos::dataSwitch)
+    EVT_BUTTON(16, Cosmicos::dataSwitch)
+    EVT_BUTTON(17, Cosmicos::dataSwitch)
 
     EVT_LEFT_UP(Cosmicos::onMouseRelease)
 END_EVENT_TABLE()
@@ -315,7 +316,7 @@ Cosmicos::Cosmicos(const wxString& title, const wxPoint& pos, const wxSize& size
 
     this->SetClientSize(size);
 
-    cosmicosScreenPointer = new CosmicosScreen(this, size);
+    cosmicosScreenPointer = new CosmicosScreen(this, size, TIL313);
     cosmicosScreenPointer->init();
 
     cycleSize_ = (int)(1000 / ((1/1.75) * 8)); // ~1000 Hz on 1.75 CPU
@@ -559,23 +560,22 @@ void Cosmicos::onMpButton()
 
 void Cosmicos::onRamButton()
 {
-    if (ramButtonState_)
-        ramButtonState_ = 0;
+    if (nvRamDisable_)
+        nvRamDisable_ = 0;
     else
-        ramButtonState_ = 1;
+        nvRamDisable_ = 1;
 }
-/****  ** below needs to be checked towards XMLEMU   */
 
-void Cosmicos::dataButton(wxCommandEvent&event)
+void Cosmicos::dataSwitch(wxCommandEvent&event)
 {
     int i;
     
     i = event.GetId() - 10;
     
-    dataButton(i);
+    dataSwitch(i);
 }
 
-void Cosmicos::dataButton(int i)
+void Cosmicos::dataSwitch(int i)
 {
     if (dataSwitchState_[i])
         dataSwitchState_[i] = 0;
@@ -649,7 +649,7 @@ void Cosmicos::configureComputer()
 
     resetCpu();
     runButtonState_ = 0;
-    ramButtonState_ = 0;
+    nvRamDisable_ = 0;
     for (int i=0; i<8; i++)  dataSwitchState_[i]=0;
 
     resetCpu();
@@ -676,7 +676,7 @@ void Cosmicos::initComputer()
     cassetteEf_ = 0;
     pixieOn_ = false;
 }
-/****  ** above needs to be checked towards XMLEMU   */
+
 Byte Cosmicos::ef(int flag)
 {
     switch(efType_[0][0][flag])
@@ -805,7 +805,7 @@ void Cosmicos::out(Byte port, Word WXUNUSED(address), Byte value)
             segNumber_&=0x7;
         break;
 
-        case COSMICOSTONE:
+        case CDP1864TONE:
             if (qState_ == 1)
                 tone1864Latch(value);
         break;
@@ -829,7 +829,7 @@ void Cosmicos::switchQ(int value)
 
 void Cosmicos::showData(Byte val)
 {
-    cosmicosScreenPointer->showDataTil313(val);
+    cosmicosScreenPointer->showData(val);
 }
 
 void Cosmicos::cycle(int type)
@@ -1195,7 +1195,7 @@ void Cosmicos::showModules(bool useHex)
 
 void Cosmicos::saveRam()
 {
-    if (ramButtonState_ == 0)
+    if (nvRamDisable_ == 0)
         return;
 
     Byte value;

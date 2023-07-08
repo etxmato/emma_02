@@ -606,13 +606,13 @@
     <ClInclude Include="src\Sync_Audio.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\til311.h">
+    <ClInclude Include="src\til.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\til313.full.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\til313.h">
+    <ClInclude Include="src\til.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\tmc600.h">

@@ -11,6 +11,16 @@
  *******************************************************************
 */
 
+/*
+ *******************************************************************
+ *** This software is copyright 2006 by Michael H Riley          ***
+ *** You have permission to use, modify, copy, and distribute    ***
+ *** this software so long as this copyright notice is retained. ***
+ *** This software may not be used in commercial applications    ***
+ *** without express written permission from the author.         ***
+ *******************************************************************
+*/
+
 #include "wx/wxprec.h"
 
 #ifdef __BORLANDC__
@@ -22,22 +32,87 @@
 #endif
 
 #include "main.h"
-#include "til313.h"
+#include "til.h"
+#include "til.h"
 
-Til313::Til313()
+Til::Til()
 {
     displayedNumber_ = 0;
     x_ = 0;
     y_ = 0;
-
-    til313BitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/til313.png", wxBITMAP_TYPE_PNG);
-    
-    dcMemory.SelectObject(*til313BitmapPointer);
 }
 
-Til313::~Til313()
+Til::Til(bool WXUNUSED(upsideDown))
 {
-    delete til313BitmapPointer;
+    displayedNumber_ = 0;
+    x_ = 0;
+    y_ = 0;
+}
+
+Til::~Til()
+{
+    delete tilBitmapPointer;
+}
+
+void Til::init(wxDC& WXUNUSED(dc), int WXUNUSED(x), int WXUNUSED(y))
+{
+}
+
+void Til::onPaint(wxDC& WXUNUSED(dc))
+{
+}
+ 
+void Til::update(wxDC& WXUNUSED(dc), int WXUNUSED(NewNumber))
+{
+}
+
+void Til::dp(wxDC& WXUNUSED(dc), bool WXUNUSED(status))
+{
+}
+
+void Til::turnOff(wxDC& WXUNUSED(dc), bool WXUNUSED(status))
+{
+}
+
+Til311::Til311()
+:Til()
+{
+    tilBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/til311.png", wxBITMAP_TYPE_PNG);
+    dcMemory.SelectObject(*tilBitmapPointer);
+}
+
+void Til311::init(wxDC& dc, int x, int y)
+{
+    x_ = x;
+    y_ = y;
+
+    dc.Blit(x_, y_, 20 , 32, &dcMemory, 0, 0);
+}
+
+void Til311::onPaint(wxDC& dc)
+{
+    int ox = (displayedNumber_ & 3) * 21;
+    int oy = ((displayedNumber_>>2) & 3) * 33;
+    dc.Blit(x_, y_, 20 , 32, &dcMemory, ox, oy);
+}
+ 
+void Til311::update(wxDC& dc, int NewNumber) 
+{
+    if (displayedNumber_ == NewNumber)  return;
+
+    int ox = (NewNumber & 3) * 21;
+    int oy = ((NewNumber>>2) & 3) * 33;
+    dc.Blit(x_, y_, 20 , 32, &dcMemory, ox, oy);
+
+    displayedNumber_ = NewNumber;
+}
+
+Til313::Til313()
+:Til()
+{
+    tilBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/til313.png", wxBITMAP_TYPE_PNG);
+    
+    dcMemory.SelectObject(*tilBitmapPointer);
 }
 
 void Til313::init(wxDC& dc, int x, int y)
@@ -55,7 +130,7 @@ void Til313::onPaint(wxDC& dc)
     dc.Blit(x_, y_, 25 , 33, &dcMemory, ox, oy);
 }
  
-void Til313::update(wxDC& dc, int NewNumber) 
+void Til313::update(wxDC& dc, int NewNumber)
 {
     if (displayedNumber_ == NewNumber)  return;
 
@@ -67,11 +142,8 @@ void Til313::update(wxDC& dc, int NewNumber)
 }
 
 Til313Italic::Til313Italic(bool upsideDown)
+:Til()
 {
-    displayedNumber_ = 0;
-    x_ = 0;
-    y_ = 0;
-    
     if (upsideDown)
     {
         til313BitmapPointer_led_off = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/til313_upside_down_led_off.png", wxBITMAP_TYPE_PNG);

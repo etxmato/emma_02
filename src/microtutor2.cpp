@@ -35,8 +35,8 @@
 
 #include "microtutor2.h"
 
-Microtutor2Screen::Microtutor2Screen(wxWindow *parent, const wxSize& size)
-: Panel(parent, size)
+Microtutor2Screen::Microtutor2Screen(wxWindow *parent, const wxSize& size, int tilType)
+: Panel(parent, size, tilType)
 {
 }
 
@@ -55,7 +55,7 @@ Microtutor2Screen::~Microtutor2Screen()
     }
     for (int i=0; i<2; i++)
     {
-        delete dataTil313PointerItalic[i];
+        delete dataPointer[i];
     }
 }
 
@@ -78,8 +78,8 @@ void Microtutor2Screen::init()
     
     for (int i=0; i<2; i++)
     {
-        dataTil313PointerItalic[i] = new Til313Italic(true);
-        dataTil313PointerItalic[i]->init(dc, 139+i*28, 30);
+        dataPointer[i] = new Til313Italic(true);
+        dataPointer[i]->init(dc, 139+i*28, 30);
     }
 
     mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/microtutor2.png", wxBITMAP_TYPE_PNG);
@@ -98,7 +98,7 @@ void Microtutor2Screen::onPaint(wxPaintEvent&WXUNUSED(event))
     
     for (int i=0; i<2; i++)
     {
-        dataTil313PointerItalic[i]->onPaint(dc);
+        dataPointer[i]->onPaint(dc);
     }
     
     runSwitchButton->onPaint(dc);
@@ -163,7 +163,7 @@ Microtutor2::Microtutor2(const wxString& title, const wxPoint& pos, const wxSize
 
     this->SetClientSize(size);
 
-    microtutorScreenPointer = new Microtutor2Screen(this, size);
+    microtutorScreenPointer = new Microtutor2Screen(this, size, TIL313ITALIC);
     microtutorScreenPointer->init();
 }
 
@@ -387,7 +387,7 @@ void Microtutor2::out(Byte port, Word WXUNUSED(address), Byte value)
 
 void Microtutor2::showData(Byte val)
 {
-    microtutorScreenPointer->showDataTil313Italic(val);
+    microtutorScreenPointer->showData(val);
 }
 
 void Microtutor2::switchQ(int value)

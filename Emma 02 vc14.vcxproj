@@ -513,9 +513,9 @@
     <ClInclude Include="src\studio2.h" />
     <ClInclude Include="src\super.h" />
     <ClInclude Include="src\Sync_Audio.h" />
-    <ClInclude Include="src\til311.h" />
+    <ClInclude Include="src\til.h" />
     <ClInclude Include="src\til313.full.h" />
-    <ClInclude Include="src\til313.h" />
+    <ClInclude Include="src\til.h" />
     <ClInclude Include="src\tmc1800.h" />
     <ClInclude Include="src\tmc2000.h" />
     <ClInclude Include="src\tmc600.h" />

@@ -1,14 +1,14 @@
 #ifndef MICROTUTOR2_H
 #define MICROTUTOR2_H
 
-#include "til313.h"
+#include "til.h"
 #include "cdp1802.h"
 #include "elfconfiguration.h"
 
 class Microtutor2Screen : public Panel
 {
 public:
-    Microtutor2Screen(wxWindow *parent, const wxSize& size);
+    Microtutor2Screen(wxWindow *parent, const wxSize& size, int tilType);
     ~Microtutor2Screen();
 
     void init();

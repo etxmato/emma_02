@@ -459,8 +459,8 @@ void GuiMain::readElfPortConfig(int elfType, wxString elfTypeStr)
     elfConfiguration[elfType].ioConfiguration.mc6845Data = (int)configPointer->Read(elfTypeStr+"/mc6845Data", 0xe801l);
     elfConfiguration[elfType].ioConfiguration.mc6845Ef = (int)configPointer->Read(elfTypeStr+"/mc6845Ef", 2l);
 
-    elfConfiguration[elfType].ioConfiguration.hexOutput = (int)configPointer->Read(elfTypeStr+"/HexOutput", 4l);
-    elfConfiguration[elfType].ioConfiguration.hexInput = (int)configPointer->Read(elfTypeStr+"/HexInput", 4l);
+    elfConfiguration[elfType].ioConfiguration.hexOutput.portNumber = (int)configPointer->Read(elfTypeStr+"/HexOutput", 4l);
+    elfConfiguration[elfType].ioConfiguration.hexInput.portNumber = (int)configPointer->Read(elfTypeStr+"/HexInput", 4l);
     elfConfiguration[elfType].ioConfiguration.hexEf = (int)configPointer->Read(elfTypeStr+"/HexEf", 3l);
     
     elfConfiguration[elfType].ioConfiguration.tapeEf = (int)configPointer->Read(elfTypeStr+"/TapeEf", 2l);
@@ -555,8 +555,8 @@ void GuiMain::writeElfPortConfig(int elfType, wxString elfTypeStr)
     configPointer->Write(elfTypeStr+"/mc6845Data", elfConfiguration[elfType].ioConfiguration.mc6845Data);
     configPointer->Write(elfTypeStr+"/mc6845Ef", elfConfiguration[elfType].ioConfiguration.mc6845Ef);
 
-    configPointer->Write(elfTypeStr+"/HexOutput", elfConfiguration[elfType].ioConfiguration.hexOutput);
-    configPointer->Write(elfTypeStr+"/HexInput", elfConfiguration[elfType].ioConfiguration.hexInput);
+    configPointer->Write(elfTypeStr+"/HexOutput", elfConfiguration[elfType].ioConfiguration.hexOutput.portNumber);
+    configPointer->Write(elfTypeStr+"/HexInput", elfConfiguration[elfType].ioConfiguration.hexInput.portNumber);
     configPointer->Write(elfTypeStr+"/HexEf", elfConfiguration[elfType].ioConfiguration.hexEf);
     
     configPointer->Write(elfTypeStr+"/TapeEf", elfConfiguration[elfType].ioConfiguration.tapeEf);
@@ -3192,6 +3192,27 @@ void GuiMain::setCdp1864Pos(int computerType, wxPoint position)
             conf[computerType].cdp1864X_ = position.x;
         if (position.y > 0)
             conf[computerType].cdp1864Y_ = position.y;
+    }
+}
+
+wxPoint GuiMain::getVip2KPos(int computerType)
+{
+    return wxPoint(conf[computerType].vip2KX_, conf[computerType].vip2KY_);
+}
+
+void GuiMain::setVip2KPos(int computerType, wxPoint position)
+{
+    if (!mode_.window_position_fixed)
+    {
+        conf[computerType].vip2KX_ = -1;
+        conf[computerType].vip2KY_ = -1;
+    }
+    else
+    {
+        if (position.x > 0)
+            conf[computerType].vip2KX_ = position.x;
+        if (position.y > 0)
+            conf[computerType].vip2KY_ = position.y;
     }
 }
 

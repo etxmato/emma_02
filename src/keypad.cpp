@@ -47,8 +47,8 @@
 #include "pushbutton.h"
 #include "keypad.h"
 
-KeypadScreen::KeypadScreen(wxWindow *parent, const wxSize& size)
-: Panel(parent, size)
+KeypadScreen::KeypadScreen(wxWindow *parent, const wxSize& size, int tilType)
+: Panel(parent, size, tilType)
 {
 }
 
@@ -75,7 +75,7 @@ void KeypadScreen::init(int computerType)
     keyStart_ = 0;
     keyEnd_ = 0;
     lastKey_ = 0;
-    forceUpperCase_ = p_Main->getUpperCase(ELF);
+    forceUpperCase_ = p_Main->getUpperCase();
 
     wxClientDC dc(this);
     wxString buttonText;
@@ -85,7 +85,10 @@ void KeypadScreen::init(int computerType)
 
     for (int i=0;i<2;i++) 
     {
-        ledPointer[i] = new Led(dc, 20+96*(1-i),174, computerType);
+        if (computerType == XML)
+            ledPointer[i] = new Led(dc, 20+96*(1-i),174, ELFLED);
+        else
+            ledPointer[i] = new Led(dc, 20+96*(1-i),174, computerType);
         updateLed_[i] = true;
     }
     ledPointer[1]->setStatus(dc, 1);
@@ -220,7 +223,7 @@ Keypad::Keypad(const wxString& title, const wxPoint& pos, const wxSize& size, in
     SetIcon(wxICON(app_icon));
 #endif
 
-    keypadScreenPointer = new KeypadScreen(this, size);
+    keypadScreenPointer = new KeypadScreen(this, size, TILNONE);
     keypadScreenPointer->init(computerType);
     keypadScreenPointer->setLed(1, 1);
     keypadScreenPointer->setLed(0, 0);

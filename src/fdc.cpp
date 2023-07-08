@@ -57,7 +57,7 @@ void Fdc::configure1793(int sides, int tracks, int sectors, int sectorlength, in
         ioGroupNum = ioConf.fdcIoGroup + 1;
 
     wxString ioGroup = "";
-    if (ioConf.fdcIoGroup != -1)
+    if (ioGroupNum != 0)
     {
         ioGroup.Printf(" on group %d", ioConf.fdcIoGroup);
     }
@@ -207,7 +207,7 @@ void Fdc::configure1770(int sides, int tracks, int sectors, int sectorlength, in
         ioGroupNum = ioConf.fdcIoGroup + 1;
 
     wxString ioGroup = "";
-    if (ioConf.fdcIoGroup != -1)
+    if (ioGroupNum != 0)
     {
         ioGroup.Printf(" on group %d", ioConf.fdcIoGroup);
     }

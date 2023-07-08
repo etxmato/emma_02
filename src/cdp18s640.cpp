@@ -38,8 +38,8 @@
 #define WAITLED 2
 #define CLEARLED 3
 
-Cdp18s640Screen::Cdp18s640Screen(wxWindow *parent, const wxSize& size)
-: Panel(parent, size)
+Cdp18s640Screen::Cdp18s640Screen(wxWindow *parent, const wxSize& size, int tilType)
+: Panel(parent, size, tilType)
 {
 }
 
@@ -61,9 +61,9 @@ Cdp18s640Screen::~Cdp18s640Screen()
         delete stateLedPointer[i];
     }
     for (int i=0; i<4; i++)
-        delete addressTil313PointerItalic[i];
+        delete addressPointer[i];
     for (int i=0; i<2; i++)
-        delete dataTil313PointerItalic[i];
+        delete dataPointer[i];
     delete qLedPointer;
     delete runLedPointer;
 }
@@ -78,15 +78,15 @@ void Cdp18s640Screen::init()
     
     for (int i=0; i<4; i++)
     {
-        addressTil313PointerItalic[i] = new Til313Italic(false);
-        addressTil313PointerItalic[i]->init(dc, 45+i*28, 8);
-        updateAddressTil313Italic_ = true;
+        addressPointer[i] = new Til313Italic(false);
+        addressPointer[i]->init(dc, 45+i*28, 8);
+        updateAddress_ = true;
     }
     for (int i=0; i<2; i++)
     {
-        dataTil313PointerItalic[i] = new Til313Italic(false);
-        dataTil313PointerItalic[i]->init(dc, 205+i*28,8);
-        updateDataTil313Italic_ = true;
+        dataPointer[i] = new Til313Italic(false);
+        dataPointer[i]->init(dc, 205+i*28,8);
+        updateData_ = true;
     }
     stateLedPointer[SC1LED] = new Led(dc, 50, 72, ELFLED);
     stateLedPointer[SC0LED] = new Led(dc, 88, 72, ELFLED);
@@ -151,12 +151,12 @@ void Cdp18s640Screen::onPaint(wxPaintEvent&WXUNUSED(event))
     rePaintLeds(dc);
 #endif
 
-    addressTil313PointerItalic[3]->onPaint(dc);
-    addressTil313PointerItalic[2]->onPaint(dc);
-    addressTil313PointerItalic[1]->onPaint(dc);
-    addressTil313PointerItalic[0]->onPaint(dc);
-    dataTil313PointerItalic[1]->onPaint(dc);
-    dataTil313PointerItalic[0]->onPaint(dc);
+    addressPointer[3]->onPaint(dc);
+    addressPointer[2]->onPaint(dc);
+    addressPointer[1]->onPaint(dc);
+    addressPointer[0]->onPaint(dc);
+    dataPointer[1]->onPaint(dc);
+    dataPointer[0]->onPaint(dc);
     for (int i=0; i<4; i++)
     {
         stateLedPointer[i]->onPaint(dc);
@@ -224,7 +224,7 @@ END_EVENT_TABLE()
 Cdp18s640Frame::Cdp18s640Frame(const wxString& title, const wxPoint& pos, const wxSize& size)
 : wxFrame((wxFrame *)NULL, -1, title, pos, size)
 {
-    cdp18s640ScreenPointer = new Cdp18s640Screen(this, size);
+    cdp18s640ScreenPointer = new Cdp18s640Screen(this, size, TIL313ITALIC);
     cdp18s640ScreenPointer->init();
     
     this->SetClientSize(size);

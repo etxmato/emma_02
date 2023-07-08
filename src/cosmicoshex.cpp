@@ -34,8 +34,8 @@
 #include "cosmicoshex.h"
 #include "pushbutton.h"
 
-CosmicoshexScreen::CosmicoshexScreen(wxWindow *parent, const wxSize& size)
-: Panel(parent, size)
+CosmicoshexScreen::CosmicoshexScreen(wxWindow *parent, const wxSize& size, int tilType)
+: Panel(parent, size, tilType)
 {
     reqState_ = 1;
     seqState_ = 1;
@@ -71,7 +71,7 @@ void CosmicoshexScreen::init()
     keyStart_ = 0;
     keyEnd_ = 0;
     lastKey_ = 0;
-    forceUpperCase_ = p_Main->getUpperCase(COSMICOS);
+    forceUpperCase_ = p_Main->getUpperCase();
 
     wxClientDC dc(this);
     wxString buttonText;
@@ -273,7 +273,7 @@ Cosmicoshex::Cosmicoshex(const wxString& title, const wxPoint& pos, const wxSize
     SetIcon(wxICON(app_icon));
 #endif
 
-    cosmicoshexScreenPointer = new CosmicoshexScreen(this, size);
+    cosmicoshexScreenPointer = new CosmicoshexScreen(this, size, TILNONE);
     cosmicoshexScreenPointer->init();
 
     keypadValue_[0] = 0;

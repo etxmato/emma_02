@@ -197,6 +197,7 @@
         <screen>80x24</screen>
         <char>8x8</char>
         <zoom>1.00</zoom>
+        <pos>0,489</pos>
         <interlace />
         <border>0x0</border>
         <color type="fore">0, 255, 0</color>
@@ -265,5 +266,18 @@
         <out>2</out>
         <in>2</in>
     </printer>
+
+    <debugger>
+        <scrt mode="on">
+            <call reg="4">0x2e14</call>
+            <return reg="5">0x31eb</return>
+        </scrt>
+        
+        <assembler>
+            <filename>mycode</filename>
+            <code_start>0x4400</code_start>
+            <code_end>0x53FF</code_end>
+        </assembler>
+    </debugger>
 
 </emmaconfig>

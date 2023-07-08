@@ -10,7 +10,7 @@
 class Cdp18s020Screen : public Panel
 {
 public:
-    Cdp18s020Screen(wxWindow *parent, const wxSize& size);
+    Cdp18s020Screen(wxWindow *parent, const wxSize& size, int tilType);
     ~Cdp18s020Screen();
     
     void init();

@@ -33,8 +33,8 @@
 #include "main.h"
 #include "cdp1852.h"
 
-Cdp1852Screen::Cdp1852Screen(wxWindow *parent, const wxSize& size)
-: Panel(parent, size)
+Cdp1852Screen::Cdp1852Screen(wxWindow *parent, const wxSize& size, int tilType)
+: Panel(parent, size, tilType)
 {
 }
 
@@ -222,7 +222,7 @@ END_EVENT_TABLE()
 Cdp1852Frame::Cdp1852Frame(const wxString& title, const wxPoint& pos, const wxSize& size)
 : wxFrame((wxFrame *)NULL, -1, title, pos, size)
 {
-    cdp1852ScreenPointer = new Cdp1852Screen(this, size);
+    cdp1852ScreenPointer = new Cdp1852Screen(this, size, TILNONE);
     cdp1852ScreenPointer->init();
     
     this->SetClientSize(size);

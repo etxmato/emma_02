@@ -17,10 +17,10 @@
 class MemberScreen : public Panel
 {
 public:
-    MemberScreen(wxWindow *parent, const wxSize& size);
+    MemberScreen(wxWindow *parent, const wxSize& size, int tilType);
     ~MemberScreen();
 
-    void init(int front);
+    void init();
     void onPaint(wxPaintEvent&event);
     void onMousePress(wxMouseEvent& event);
     void onMouseRelease(wxMouseEvent& event);

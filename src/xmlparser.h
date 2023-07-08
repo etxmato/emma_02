@@ -23,6 +23,8 @@ private:
     void parseXml_FdcDisk(int computer, wxXmlNode &node);
     void parseXml_PixieVideo(int computer, wxXmlNode &node);
     void parseXml_1864Video(int computer, wxXmlNode &node);
+    void parseXml_Vip2KVideo(int computer, wxXmlNode &node);
+    void parseXml_pixieGraphics(int computer, wxXmlNode &node);
     void parseXml_MC6845Video(int computer, wxXmlNode &node);
     void parseXml_MC6847Video(int computer, wxXmlNode &node);
     void parseXml_TMS9918Video(int computer, wxXmlNode &node);
@@ -35,7 +37,9 @@ private:
     void parseXml_1871Keyboard (int computer, wxXmlNode &node);
     void parseXml_LatchKeyboard (int computer, wxXmlNode &node);
     void parseXml_MatrixKeyboard (int computer, wxXmlNode &node);
+    void parseXml_Vip2KKeyboard (int computer, wxXmlNode &node);
     void parseXml_ElfKeypad (int computer, wxXmlNode &node);
+    void parseXml_CosmicosKeypad (int computer, wxXmlNode &node);
     void parseXml_BitKeypad (int computer, int padnumber, wxXmlNode &node);
     void parseXml_CvKeypad (int computer, wxXmlNode &node);
     void parseXml_EfButtons (int computer, wxXmlNode &node);
@@ -49,6 +53,9 @@ private:
     void parseXml_VideoDump (int computer, wxXmlNode &node);
     void parseXml_MemAccess (int computer, wxXmlNode &node);
     void parseXml_Diag (int computer, wxXmlNode &node);
+    void parseXml_Debugger (int computer, wxXmlNode &node);
+    void parseXml_Scrt (int computer, wxXmlNode &node);
+    void parseXml_Assembler (int computer, wxXmlNode &node);
     void parseXml_BatchWav (int computer, wxXmlNode &node);
     void parseXml_QSound (int computer, wxXmlNode &node);
     void parseXml_OutBitSound (int computer, wxXmlNode &node);
@@ -81,6 +88,7 @@ private:
     bool memAccessDirDefined_;
     bool keyFileDirDefined_;
     bool videoDumpDirDefined_;
+    bool assemblerDirDefined_;
     bool charRomDirDefined_;
     bool vt52CharRomDirDefined_;
     bool vt100CharRomDirDefined_;
@@ -88,11 +96,13 @@ private:
     bool printFileDirDefined_;
     bool xmodemFileDirDefined_;
     bool ideFileDirDefined_;
+    bool sequencerFileDirDefined_;
     bool wavFileDirDefined[2];
     bool floppyDirDefined[FDCTYPE_MAX][4];
 
     bool keyFileDefined_;
     bool videoDumpFileDefined_;
+    bool assemblerFileDefined_;
     bool printFileDefined_;
     bool xmodemFileDefined_;
     bool wavFileDefined[2];
@@ -100,6 +110,7 @@ private:
 
     wxString keyFileDir;
     wxString videoDumpFileDir;
+    wxString assemblerFileDir;
     wxString printFileDir;
     wxString xmodemFileDir;
     wxString wavFileDir[2];

@@ -49,9 +49,8 @@
 #include "super.h"
 
 SuperScreen::SuperScreen(wxWindow *parent, const wxSize& size, int tilType)
-: Panel(parent, size)
+: Panel(parent, size, tilType)
 {
-    tilType_ = tilType;
 }
 
 SuperScreen::~SuperScreen()
@@ -86,20 +85,11 @@ SuperScreen::~SuperScreen()
     for (int i=0; i<8; i++)
         delete ledPointer[i];
     
-    if (tilType_ == TIL311)
-    {
-        for (int i=0; i<4; i++)
-            delete addressPointer[i];
-        for (int i=0; i<2; i++)
-            delete dataPointer[i];
-    }
-    else
-    {
-        for (int i=0; i<4; i++)
-            delete addressTil313PointerItalic[i];
-        for (int i=0; i<2; i++)
-            delete dataTil313PointerItalic[i];
-    }
+    for (int i=0; i<4; i++)
+        delete addressPointer[i];
+    for (int i=0; i<2; i++)
+        delete dataPointer[i];
+
     delete qLedPointer;
 }
 
@@ -108,7 +98,7 @@ void SuperScreen::init()
     keyStart_ = 0;
     keyEnd_ = 0;
     lastKey_ = 0;
-    forceUpperCase_ = p_Main->getUpperCase(SUPERELF);
+    forceUpperCase_ = p_Main->getUpperCase();
 
     wxClientDC dc(this);
     wxString Number, buttonText;
@@ -174,32 +164,22 @@ void SuperScreen::init()
     for (int i=0; i<4; i++)
     {
         if (tilType_ == TIL311)
-        {
             addressPointer[i] = new Til311();
-            addressPointer[i]->init(dc, 304+i*28, 140);
-            updateAddress_ = true;
-        }
         else
-        {
-            addressTil313PointerItalic[i] = new Til313Italic(false);
-            addressTil313PointerItalic[i]->init(dc, 304+i*28, 140);
-            updateAddressTil313Italic_ = true;
-        }
+            addressPointer[i] = new Til313Italic(false);
+
+        addressPointer[i]->init(dc, 304+i*28, 140);
+        updateAddress_ = true;
     }
     for (int i=0; i<2; i++)
     {
         if (tilType_ == TIL311)
-        {
             dataPointer[i] = new Til311();
-            dataPointer[i]->init(dc, 434+i*28,140);
-            updateData_ = true;
-        }
         else
-        {
-            dataTil313PointerItalic[i] = new Til313Italic(false);
-            dataTil313PointerItalic[i]->init(dc, 434+i*28,140);
-            updateDataTil313Italic_ = true;
-        }
+            dataPointer[i] = new Til313Italic(false);
+
+        dataPointer[i]->init(dc, 434+i*28,140);
+        updateData_ = true;
     }
 
     qLedPointer = new Led(dc, 284, 210, SUPERELFLED);
@@ -216,24 +196,13 @@ void SuperScreen::onPaint(wxPaintEvent&WXUNUSED(event))
     rePaintLeds(dc);
 #endif
         
-    if (tilType_ == TIL311)
-    {
-        addressPointer[3]->onPaint(dc);
-        addressPointer[2]->onPaint(dc);
-        addressPointer[1]->onPaint(dc);
-        addressPointer[0]->onPaint(dc);
-        dataPointer[1]->onPaint(dc);
-        dataPointer[0]->onPaint(dc);
-    }
-    else
-    {
-        addressTil313PointerItalic[3]->onPaint(dc);
-        addressTil313PointerItalic[2]->onPaint(dc);
-        addressTil313PointerItalic[1]->onPaint(dc);
-        addressTil313PointerItalic[0]->onPaint(dc);
-        dataTil313PointerItalic[1]->onPaint(dc);
-        dataTil313PointerItalic[0]->onPaint(dc);
-    }
+    addressPointer[3]->onPaint(dc);
+    addressPointer[2]->onPaint(dc);
+    addressPointer[1]->onPaint(dc);
+    addressPointer[0]->onPaint(dc);
+    dataPointer[1]->onPaint(dc);
+    dataPointer[0]->onPaint(dc);
+
     qLedPointer->onPaint(dc);
     for (int i=0; i<8; i++)
         ledPointer[i]->onPaint(dc);
@@ -525,11 +494,11 @@ void Super::configureComputer()
     wxString printBuffer;
 
     p_Main->message("Configuring Super Elf");
-    printBuffer.Printf("    Output %d: display output, input %d: data input", elfConfiguration.ioConfiguration.hexOutput, elfConfiguration.ioConfiguration.hexInput);
+    printBuffer.Printf("    Output %d: display output, input %d: data input", elfConfiguration.ioConfiguration.hexOutput.portNumber, elfConfiguration.ioConfiguration.hexInput.portNumber);
     p_Main->message(printBuffer);
 
-    p_Computer->setInType(elfConfiguration.ioConfiguration.hexInput, SUPERIN);
-    p_Computer->setOutType(elfConfiguration.ioConfiguration.hexOutput, SUPEROUT);
+    p_Computer->setInType(elfConfiguration.ioConfiguration.hexInput.portNumber, SUPERIN);
+    p_Computer->setOutType(elfConfiguration.ioConfiguration.hexOutput.portNumber, SUPEROUT);
 
     if (elfConfiguration.useEms)
     {
@@ -908,10 +877,7 @@ void Super::out(Byte port, Word WXUNUSED(address), Byte value)
 
 void Super::showData(Byte val)
 {
-    if (elfConfiguration.tilType == TIL311)
-        superScreenPointer->showData(val);
-    else
-        superScreenPointer->showDataTil313Italic(val);
+    superScreenPointer->showData(val);
 }
 
 void Super::showCycleData(Byte val)
@@ -1118,10 +1084,7 @@ void Super::onRun()
         p_Main->eventUpdateTitle();
         if (cpuMode_ == RESET)
         {
-            if (elfConfiguration.tilType == TIL311)
-                superScreenPointer->showAddress(0);
-            else
-                superScreenPointer->showAddressTil313Italic(0);
+            superScreenPointer->showAddress(0);
         }
         mpButtonState_ = 0;
         monitor_ = false;
@@ -1175,10 +1138,7 @@ void Super::onLoadButton()
 {
     if (cpuMode_ != LOAD)
     {
-        if (elfConfiguration.tilType == TIL311)
-            superScreenPointer->showAddress(0);
-        else
-            superScreenPointer->showAddressTil313Italic(0);
+        superScreenPointer->showAddress(0);
     }
     setClear(0);
     setWait(0);
@@ -1214,10 +1174,7 @@ void Super::onResetButton()
     setWait(1);
     if (cpuMode_ == RESET)
     {
-        if (elfConfiguration.tilType == TIL311)
-            superScreenPointer->showAddress(0);
-        else
-            superScreenPointer->showAddressTil313Italic(0);
+        superScreenPointer->showAddress(0);
     }
     mpButtonState_ = 0;
     monitor_ = false;
@@ -1387,10 +1344,7 @@ void Super::startComputer()
     p_Main->setSwName("");
     p_Main->updateTitle();
     address_ = 0;
-    if (elfConfiguration.tilType == TIL311)
-        superScreenPointer->showAddress(address_);
-    else
-        superScreenPointer->showAddressTil313Italic(address_);
+    superScreenPointer->showAddress(address_);
 
     cpuCycles_ = 0;
     instructionCounter_= 0;
@@ -1529,10 +1483,7 @@ Byte Super::readMem(Word address)
 {
     address_ = address;
     
-    if (elfConfiguration.tilType == TIL311)
-        superScreenPointer->showAddress(address_);
-    else
-        superScreenPointer->showAddressTil313Italic(address_);
+    superScreenPointer->showAddress(address_);
     
     return readMemDebug(address_);
 }
@@ -1626,10 +1577,7 @@ void Super::writeMem(Word address, Byte value, bool writeRom)
 {
     address_ = address;
     
-    if (elfConfiguration.tilType == TIL311)
-        superScreenPointer->showAddress(address_);
-    else
-        superScreenPointer->showAddressTil313Italic(address_);
+    superScreenPointer->showAddress(address_);
     
     writeMemDebug(address_, value, writeRom);
 }

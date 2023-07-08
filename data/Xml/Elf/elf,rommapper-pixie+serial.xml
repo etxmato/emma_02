@@ -38,6 +38,7 @@
         <out>1</out>
         <in>1</in>
         <ef>1</ef>
+        <pos>0, 530</pos>
         <border>33x33</border>
         <color type="fore">255, 255, 255</color>
         <color type="back">0, 0, 0</color>
@@ -80,6 +81,19 @@
         <start_cas_load address="0x9fa, 0x9fb, 0x9fc" value="0xc0, 0x0a, 0x29">0x09FA</start_cas_load>
 
     </locations>
+
+    <debugger>
+        <scrt mode="on">
+            <call reg="4">0x12a</call>
+            <return reg="5">0x13c</return>
+        </scrt>
+
+        <assembler>
+            <filename>mycode</filename>
+            <code_start>0</code_start>
+            <code_end>0xFFF</code_end>
+        </assembler>
+    </debugger>
 
 </emmaconfig>
 

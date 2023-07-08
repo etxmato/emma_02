@@ -138,7 +138,7 @@
 #define COSMICOSDEC 138
 #define COSMICOSRET 139
 #define COSMICOS7SEG 140
-#define COSMICOSTONE 141
+#define CDP1864TONE 141
 #define VIPIIKEYCYCLE 142
 #define VIPIIOUT7 143
 #define COMXEXPIN5 144
@@ -236,8 +236,8 @@
 #define SB_IN5 237
 #define SB_IN6 238
 #define SB_OUT 239
-#define BIT_KEYPAD_IN_0 240
-#define BIT_KEYPAD_IN_1 241
+//#define .. 240
+//#define .. 241
 #define KEYB_MATRIX_IN 242
 #define KEYB_LATCH_OUT 243
 #define KEYB_LATCH_EF 244
@@ -252,12 +252,22 @@
 #define CDP1864DISABLE 253
 #define CDP1864ENABLE 254
 #define CDP1864EF 255
-#define CDP1864TONE 256
-#define CV_KEYPAD_IN 257
-#define CV_KEYPAD_EF 258
-#define TAPE_CV_EF_OUT 259
-#define TAPE_CV_OUT 260
-#define BITSOUND_OUT 261
+#define CV_KEYPAD_IN 256
+#define CV_KEYPAD_EF 257
+#define TAPE_CV_EF_OUT 258
+#define TAPE_CV_OUT 259
+#define BITSOUND_OUT 260
+#define VIP2KVIDEOENABLE 261
+#define VIP2KVIDEODISABLE 262
+#define VIP2KVIDEOCYCLE 263
+#define BIT_KEYPAD_IN_0 264
+#define BIT_KEYPAD_IN_1 265
+#define BIT_KEYPAD_IN_2 266
+#define BIT_KEYPAD_IN_3 267
+#define BIT_KEYPAD_IN_4 268
+#define BIT_KEYPAD_IN_5 269
+#define BIT_KEYPAD_IN_6 270
+#define BIT_KEYPAD_CYCLE 271
 
 #define COMPUTERCYCLE 0
 #define VIDEOCYCLE_V1870 1
@@ -268,20 +278,23 @@
 #define VIDEOCYCLE_TMS9918 6
 #define VIDEOCYCLE_CDP1864 7
 #define VIDEOCYCLE_SN76430N 8
-#define BLINKCYCLE_MC6845 9
-#define BLINKCYCLE_V1870 10
-#define PRINTCYCLE 11
-#define DISKCYCLEFDC 12
-#define DISKCYCLEIDE 13
-#define VTCYCLE 14
-#define SERIALCYCLE 15
-#define KEYCYCLE 16
-#define DRAMDMACYCLE 17
-#define INTCYCLE 18
-#define MAXCYCLE 19
+#define VIDEOCYCLE_VIP2K 9
+#define BLINKCYCLE_MC6845 10
+#define BLINKCYCLE_V1870 11
+#define PRINTCYCLE 12
+#define DISKCYCLEFDC 13
+#define DISKCYCLEIDE 14
+#define VTCYCLE 15
+#define SERIALCYCLE 16
+#define KEYCYCLE 17
+#define DRAMDMACYCLE 18
+#define INTCYCLE 19
+#define MAXCYCLE 20
 
 #ifndef IODEVICE_H
 #define IODEVICE_H
+
+#include "elfconfiguration.h"
 
 class IoDevice 
 {
@@ -301,12 +314,14 @@ public:
     void setInType(int number, int inType);
     void setInType(int iogroup, int number, int inType);
     void setInType(int q, int iogroup, int number, int inType);
+    wxString setInType(int q, int iogroup, IoPort port, int inType);
     int getInType(int number) {return inType_[0][0][number];};
     int getInType(int iogroup, int number) {return inType_[0][iogroup][number];};
     int getInType(int q, int iogroup, int number) {return inType_[q][iogroup][number];};
     void setOutType(int number, int outType);
     void setOutType(int iogroup, int number, int outType);
     void setOutType(int q, int iogroup, int number, int outType);
+    wxString setOutType(int q, int iogroup, IoPort port, int outType);
     void setCycleType(int number, int outCycleType) {cycleType_[number] = outCycleType;};
 
 protected:

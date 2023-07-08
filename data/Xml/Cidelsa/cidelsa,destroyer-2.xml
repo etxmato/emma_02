@@ -36,7 +36,7 @@
         <maxscreenlines>25</maxscreenlines> <!-- 24, 25 or 27 for Cidelsa DRACO) -->
         <mode>ntsc</mode>
         <int>2</int>
-        <ef type="display" pol="rev">1</ef>
+        <ef type="display" pol="rev" write="enable">1</ef>
         <clock>5.626</clock>
         <colorram type="cidelsa" />
         <rotate />
@@ -62,5 +62,18 @@
         <bit4>314</bit4>    <!-- left -->
         <bit5>32</bit5>     <!-- space / fire -->
     </bitkeypad>
+
+    <debugger>
+        <scrt mode="on">
+            <call reg="4">0x2b</call>
+            <return reg="5">0x3c</return>
+        </scrt>
+        
+        <assembler>
+            <filename>destroyer_2_rom</filename>
+            <code_start>0</code_start>
+            <code_end>0x1FFF</code_end>
+        </assembler>
+    </debugger>
 
 </emmaconfig>

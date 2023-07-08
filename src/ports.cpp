@@ -427,8 +427,8 @@ DevicePortsDialog::DevicePortsDialog(wxWindow* parent)
         XRCCTRL(*this, "MC6845SizeRamText", wxStaticText)->Enable(true);
     }    
 
-    XRCCTRL(*this, "HexOutput", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.hexOutput);
-    XRCCTRL(*this, "HexInput", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.hexInput);
+    XRCCTRL(*this, "HexOutput", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.hexOutput.portNumber);
+    XRCCTRL(*this, "HexInput", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.hexInput.portNumber);
     XRCCTRL(*this, "HexEf", wxSpinCtrl)->SetValue(elfConfiguration.ioConfiguration.hexEf);
     if (!(elfConfiguration.useHexKeyboardEf3 || elfConfiguration.useHexKeyboard) && elfTypeStr_ == "Elf")
     {
@@ -616,8 +616,8 @@ void DevicePortsDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
     elfConfiguration.ioConfiguration.mc6845EndRam = end;
     elfConfiguration.ioConfiguration.mc6845Ef = XRCCTRL(*this, "MC6845EF", wxSpinCtrl)->GetValue();
 
-    elfConfiguration.ioConfiguration.hexOutput = XRCCTRL(*this, "HexOutput", wxSpinCtrl)->GetValue();
-    elfConfiguration.ioConfiguration.hexInput = XRCCTRL(*this, "HexInput", wxSpinCtrl)->GetValue();
+    elfConfiguration.ioConfiguration.hexOutput.portNumber = XRCCTRL(*this, "HexOutput", wxSpinCtrl)->GetValue();
+    elfConfiguration.ioConfiguration.hexInput.portNumber = XRCCTRL(*this, "HexInput", wxSpinCtrl)->GetValue();
     elfConfiguration.ioConfiguration.hexEf = XRCCTRL(*this, "HexEf", wxSpinCtrl)->GetValue();
 
     elfConfiguration.ioConfiguration.tapeEf = XRCCTRL(*this, "TapeEf", wxSpinCtrl)->GetValue();

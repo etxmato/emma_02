@@ -81,5 +81,18 @@
         
     </locations>
 
+    <debugger>
+        <scrt mode="on">
+            <call reg="4">0x1FD6</call>
+            <return reg="5">0x813</return>
+        </scrt>
+
+        <assembler>
+            <filename>mycode</filename>
+            <code_start>0x3100</code_start>
+            <code_end>0x50ff</code_end>
+        </assembler>
+    </debugger>
+
 </emmaconfig>
 

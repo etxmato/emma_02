@@ -5,7 +5,7 @@
     
     <system>
         <name>Elf, Quest Superbasic 5.0 &amp; Mini Monitor - Serial I/O</name>
-        <!-- Press return to start mini monitor and the B for BASIC -->
+        <!-- Press return to start mini monitor and then B for BASIC -->
         <clock>1.76</clock>
         <boot>0xc0c0</boot>
         <init type="ef1">1</init>
@@ -93,6 +93,19 @@
         <batch_end_save address="0x100, 0x101, 0x102, 0x103" value="0xc0, 0x18, 0, 0xc0">0x143</batch_end_save>
         
     </locations>
+
+    <debugger>
+        <scrt mode="on">
+            <call reg="4">0x312B</call>
+            <return reg="5">0x7F1</return>
+        </scrt>
+
+        <assembler>
+            <filename>mycode</filename>
+            <code_start>0x3700</code_start>
+            <code_end>0x56ff</code_end>
+        </assembler>
+    </debugger>
 
 </emmaconfig>
 

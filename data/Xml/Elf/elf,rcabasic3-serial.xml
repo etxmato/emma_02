@@ -72,5 +72,18 @@
         
     </locations>
 
+    <debugger>
+        <scrt mode="on">
+            <call reg="4">0x41E8</call>
+            <return reg="5">0x37F2</return>
+        </scrt>
+
+        <assembler>
+            <filename>mycode</filename>
+            <code_start>0x5400</code_start>
+            <code_end>0x73ff</code_end>
+        </assembler>
+    </debugger>
+
 </emmaconfig>
 

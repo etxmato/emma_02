@@ -34,8 +34,8 @@
 
 #include "elf2kswitch.h"
 
-Elf2KswitchScreen::Elf2KswitchScreen(wxWindow *parent, const wxSize& size)
-: Panel(parent, size)
+Elf2KswitchScreen::Elf2KswitchScreen(wxWindow *parent, const wxSize& size, int tilType)
+: Panel(parent, size, tilType)
 {
 }
 
@@ -58,7 +58,7 @@ void Elf2KswitchScreen::init()
     keyStart_ = 0;
     keyEnd_ = 0;
     lastKey_ = 0;
-    forceUpperCase_ = p_Main->getUpperCase(ELF2K);
+    forceUpperCase_ = p_Main->getUpperCase();
 
     wxClientDC dc(this);
     wxString switchNumber;
@@ -137,7 +137,7 @@ Elf2Kswitch::Elf2Kswitch(const wxString& title, const wxPoint& pos, const wxSize
 
     this->SetClientSize(size);
 
-    elf2KswitchScreenPointer = new Elf2KswitchScreen(this, size);
+    elf2KswitchScreenPointer = new Elf2KswitchScreen(this, size, TILNONE);
     elf2KswitchScreenPointer->init();
 }
 

@@ -35,8 +35,8 @@
 
 #include "uc1800.h"
 
-Uc1800Screen::Uc1800Screen(wxWindow *parent, const wxSize& size)
-: Panel(parent, size)
+Uc1800Screen::Uc1800Screen(wxWindow *parent, const wxSize& size, int tilType)
+: Panel(parent, size, tilType)
 {
 }
 
@@ -53,8 +53,9 @@ Uc1800Screen::~Uc1800Screen()
 
     for (int i=0; i<2; i++)
     {
-        delete dataTil313PointerItalic[i];
-        delete addressTil313PointerItalic[i+2];
+        delete dataPointer[i];
+        delete addressPointer[i];
+        delete addressPointer[i+2];
         delete ledPointer[i];
     }
     delete readyLedPointer;
@@ -91,13 +92,14 @@ void Uc1800Screen::init(bool powerButtonState)
 
     for (int i=0; i<2; i++)
     {
-        dataTil313PointerItalic[i] = new Til313Italic(false);
-        dataTil313PointerItalic[i]->init(dc, 330+i*24, 18);
-        updateDataTil313Italic_ = true;
+        dataPointer[i] = new Til313Italic(false);
+        dataPointer[i]->init(dc, 330+i*24, 18);
+        updateData_ = true;
 
-        addressTil313PointerItalic[i+2] = new Til313Italic(false);
-        addressTil313PointerItalic[i+2]->init(dc, 200+i*24, 18);
-        updateAddressTil313Italic_ = true;
+        addressPointer[i] = new Til();
+        addressPointer[i+2] = new Til313Italic(false);
+        addressPointer[i+2]->init(dc, 200+i*24, 18);
+        updateAddress_ = true;
 
         ledPointer[i] = new Led(dc, 347+23*(1-i), 110, ELFLED);
         updateLed_[i]=true;
@@ -155,8 +157,8 @@ void Uc1800Screen::onPaint(wxPaintEvent&WXUNUSED(event))
 
     for (int i=0; i<2; i++)
     {
-        dataTil313PointerItalic[i]->onPaint(dc);
-        addressTil313PointerItalic[i+2]->onPaint(dc);
+        dataPointer[i]->onPaint(dc);
+        addressPointer[i+2]->onPaint(dc);
         ledPointer[i]->onPaint(dc);
     }
 
@@ -288,7 +290,7 @@ Uc1800::Uc1800(const wxString& title, const wxPoint& pos, const wxSize& size, do
 
     powerButtonState_ = p_Main->getConfigBool("UC1800/PowerButtonState", true);
 
-    uc1800ScreenPointer = new Uc1800Screen(this, size);
+    uc1800ScreenPointer = new Uc1800Screen(this, size, TIL313ITALIC);
     uc1800ScreenPointer->init(powerButtonState_);
     setMsValue_ = (int) p_Main->getLedTimeMs(UC1800);
 }
@@ -524,7 +526,7 @@ void Uc1800::onResetButtonPress()
 
     if (cpuMode_ == RESET)
     {
-        uc1800ScreenPointer->showAddressTil313Italic(0);
+        uc1800ScreenPointer->showAddress(0);
     }
 
     uc1800ScreenPointer->resetSetState(BUTTON_DOWN);
@@ -649,7 +651,7 @@ void Uc1800::switchQ(int value)
 
 void Uc1800::showData(Byte val)
 {
-    uc1800ScreenPointer->showDataTil313Italic(val);
+    uc1800ScreenPointer->showData(val);
 }
 
 void Uc1800::showCycleData(Byte val)
@@ -757,7 +759,7 @@ void Uc1800::startComputer()
     p_Main->updateTitle();
 
     address_ = 0;
-    uc1800ScreenPointer->showAddressTil313Italic(address_);
+    uc1800ScreenPointer->showAddress(address_);
 
     cpuCycles_ = 0;
     instructionCounter_= 0;
@@ -824,7 +826,7 @@ Byte Uc1800::readMem(Word address)
 {
     address_ = address;
 
-    uc1800ScreenPointer->showAddressTil313Italic(address_);
+    uc1800ScreenPointer->showAddress(address_);
 
     return readMemDebug(address_);
 }
@@ -855,7 +857,7 @@ void Uc1800::writeMem(Word address, Byte value, bool writeRom)
 {
     address_ = address;
 
-    uc1800ScreenPointer->showAddressTil313Italic(address_);
+    uc1800ScreenPointer->showAddress(address_);
 
     writeMemDebug(address_, value, writeRom);
 }

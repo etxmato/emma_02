@@ -46,8 +46,8 @@
 #include "main.h"
 #include "ledmodule.h"
 
-LedModuleScreen::LedModuleScreen(wxWindow *parent, const wxSize& size)
-: Panel(parent, size)
+LedModuleScreen::LedModuleScreen(wxWindow *parent, const wxSize& size, int tilType)
+: Panel(parent, size, tilType)
 {
 }
 
@@ -65,7 +65,7 @@ void LedModuleScreen::init(int computerType)
     keyStart_ = 0;
     keyEnd_ = 0;
     lastKey_ = 0;
-    forceUpperCase_ = p_Main->getUpperCase(computerType);
+    forceUpperCase_ = p_Main->getUpperCase();
 
     wxClientDC dc(this);
 
@@ -111,7 +111,7 @@ LedModule::LedModule(const wxString& title, const wxPoint& pos, const wxSize& si
 
     this->SetClientSize(size);
 
-    ledModuleScreenPointer = new LedModuleScreen(this, size);
+    ledModuleScreenPointer = new LedModuleScreen(this, size, TILNONE);
     ledModuleScreenPointer->init(computerType);
 }
 

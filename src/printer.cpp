@@ -1477,7 +1477,7 @@ void Printer::configureBasicPrinter(IoConfiguration portConf)
         ioGroupNum = portConf.ideIoGroup + 1;
 
     wxString ioGroup = "";
-    if (portConf.uartIoGroup != -1)
+    if (ioGroupNum != 0)
         ioGroup.Printf(" on group %d", portConf.ideIoGroup);
 
     p_Computer->setOutType(ioGroupNum, portConf.printerOutput, BASIC_PRINT_OUT);

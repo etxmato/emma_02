@@ -57,7 +57,7 @@ void Keyboard::configureKeyboard(int computerType, IoConfiguration portConf)
         case SUPERELF:
         case XML:
         case PICO:
-            forceUpperCase_ = p_Main->getUpperCase(computerType);
+            forceUpperCase_ = p_Main->getUpperCase();
         break;
 
         default:
@@ -89,12 +89,12 @@ void Keyboard::configureKeyboard(int computerType, IoConfiguration portConf)
     keyCycles_ = 500000;
 }
 
-void Keyboard::configureKeyboard(int computerType, IoConfiguration portConf, Locations addressLocations, wxString saveCommand)
+void Keyboard::configureKeyboard(IoConfiguration portConf, Locations addressLocations, wxString saveCommand)
 {
     addressLocations_ = addressLocations;
     saveCommand_ = saveCommand;
 
-    forceUpperCase_ = p_Main->getUpperCase(computerType);
+    forceUpperCase_ = p_Main->getUpperCase();
 
     keyboardEf_ = 1;
     keyboardValue_ = 0;

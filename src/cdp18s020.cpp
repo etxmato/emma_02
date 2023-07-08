@@ -34,8 +34,8 @@
 #define WAITLED 2
 #define CLEARLED 3
 
-Cdp18s020Screen::Cdp18s020Screen(wxWindow *parent, const wxSize& size)
-: Panel(parent, size)
+Cdp18s020Screen::Cdp18s020Screen(wxWindow *parent, const wxSize& size, int tilType)
+: Panel(parent, size, tilType)
 {
 }
 
@@ -245,7 +245,7 @@ Cdp18s020::Cdp18s020(const wxString& title, const wxPoint& pos, const wxSize& si
     
     this->SetClientSize(size);
 
-    cdp18s020ScreenPointer = new Cdp18s020Screen(this, size);
+    cdp18s020ScreenPointer = new Cdp18s020Screen(this, size, TILNONE);
     cdp18s020ScreenPointer->init();
 
     addressLatchCounter_ = 0;

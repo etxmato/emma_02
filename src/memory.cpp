@@ -78,6 +78,19 @@ Memory::Memory()
         break;
     }
     
+    for (int i=0; i<2040; i+=8)
+    {
+        sequencerMemory_[i] = 0xb7;
+        sequencerMemory_[i+1] = 0xb7;
+        sequencerMemory_[i+2] = 0xa6;
+        sequencerMemory_[i+3] = 0xb7;
+        sequencerMemory_[i+4] = 0xb6;
+        sequencerMemory_[i+5] = 0xb7;
+        sequencerMemory_[i+6] = 0xb6;
+        sequencerMemory_[i+7] = 0xb7;
+        sequencerMemory_[i+8] = 0xb6;
+    }
+
     comxExpansionMemoryDefined_ = false;
     slotMemoryDefined_ = false;
     multiCartMemoryDefined_ = false;

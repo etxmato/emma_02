@@ -6,7 +6,7 @@
 class Elf2KswitchScreen: public Panel
 {
 public:
-    Elf2KswitchScreen(wxWindow *parent, const wxSize& size);
+    Elf2KswitchScreen(wxWindow *parent, const wxSize& size, int tilType);
     ~Elf2KswitchScreen();
 
     void init();

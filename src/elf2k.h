@@ -24,7 +24,7 @@ DECLARE_EVENT_TYPE(ON_UART_ELF2K, 808)
 class Elf2KScreen : public Panel
 {
 public:
-    Elf2KScreen(wxWindow *parent, const wxSize& size);
+    Elf2KScreen(wxWindow *parent, const wxSize& size, int tilType);
     ~Elf2KScreen();
 
     void init();

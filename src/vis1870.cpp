@@ -261,6 +261,13 @@ bool VIS1870::configure1870(bool expansionRomLoaded, int expansionTypeCard0)
 
         case STATUSBAR_CIDELSA:
             cidelsaStatusBarPointer->initCidelsaBar();
+            if (ioConfiguration_.statusBarLedOut != -1)
+            {
+                p_Main->message("Configuring Statusbar");
+                message.Printf("    Output %d: led on/off\n", ioConfiguration_.statusBarLedOut);
+                p_Main->message(message);
+                p_Computer->setOutType(ioConfiguration_.statusBarLedOut, CIDELSAOUT1);
+            }
         break;
     }
     return charMemoryIsRom_;
@@ -582,7 +589,7 @@ void VIS1870::blink1870()
 
 int VIS1870::writePram(Word address, Byte v)
 {
-    if (!nonDisplay_)
+    if (!nonDisplay_ && ioConfiguration_.v1870useBlockWrite)
         return -1;
 
     if (cmemAccessMode_)
@@ -610,7 +617,7 @@ int VIS1870::writePram(Word address, Byte v)
 
 int VIS1870::writeCram(Word address, Byte v)
 {
-    if (!nonDisplay_)
+    if (!nonDisplay_ && ioConfiguration_.v1870useBlockWrite)
         return -1;
 
     Word ac;

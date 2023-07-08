@@ -10,15 +10,19 @@ public:
     void configure(IoConfiguration portConf, int pad);
     
     void keyDown(int keycode);
+    bool keyDownCtrlV(int keycode);
     void keyUp(int keycode);
+    void keyUpCtrlV(int keycode);
+    void keysUp();
 
     Byte in();
     void cid1Bit8(bool set);
-
+    
 private:
     IoConfiguration ioConfiguration_;
 
     Byte inputValue_;
+    int lastKey_;
     int pad_;
 };
 

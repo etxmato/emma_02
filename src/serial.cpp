@@ -98,9 +98,9 @@ void Serial::configure(int selectedBaudR, int selectedBaudT, IoConfiguration ioC
     selectedBaudT_ = selectedBaudT;
     selectedBaudR_ = selectedBaudR;
     
-    baudRateT_ = (int) (((clock_ * 1000000) / 8) / baudRateValueSerial_[selectedBaudT_]);
-    baudRateR_ = (int) (((clock_ * 1000000) / 8) / baudRateValueSerial_[selectedBaudR_]);
-    
+    baudRateT_ = (int) ((((clock_ * 1000000) / 8) / baudRateValueSerial_[selectedBaudT_])+0.5);
+    baudRateR_ = (int) ((((clock_ * 1000000) / 8) / baudRateValueSerial_[selectedBaudT_])+0.5);
+
     if (uart_)
     {
         configureUart(ioConfiguration);
@@ -164,9 +164,9 @@ void Serial::configureStandard(int selectedBaudR, int selectedBaudT, int dataRea
     dataReadyFlag_ = dataReadyFlag; // Velf = 2, Member = 3, Mcds, Cosmicos, VIP = 4
     
     if (computerType_ == VELF || computerType_ == VIP || computerType_ == VIP2K)
-        baudRateT_ = (int) (((clock_ * 1000000) / 16) / baudRateValueSerial_[selectedBaudT_]);
+        baudRateT_ = (int) ((((clock_ * 1000000) / 16) / baudRateValueSerial_[selectedBaudT_])+0.5);
     else
-        baudRateT_ = (int) (((clock_ * 1000000) / 8) / baudRateValueSerial_[selectedBaudT_]);
+        baudRateT_ = (int) ((((clock_ * 1000000) / 8) / baudRateValueSerial_[selectedBaudT_])+0.5);
     baudRateR_ = baudRateT_;
     
     p_Computer->setCycleType(VTCYCLE, VTSERIALCYCLE);
@@ -243,9 +243,9 @@ void Serial::configureRcasbc(int selectedBaudR, int selectedBaudT)
     selectedBaudT_ = selectedBaudT;
     selectedBaudR_ = selectedBaudR;
     
-    baudRateT_ = (int) (((clock_ * 1000000) / 8) / baudRateValueSerial_[selectedBaudT_]);
-    baudRateR_ = (int) (((clock_ * 1000000) / 8) / baudRateValueSerial_[selectedBaudR_]);
-    
+    baudRateT_ = (int) ((((clock_ * 1000000) / 8) / baudRateValueSerial_[selectedBaudT_])+0.5);
+    baudRateR_ = (int) ((((clock_ * 1000000) / 8) / baudRateValueSerial_[selectedBaudT_])+0.5);
+
     p_Computer->setCycleType(SERIALCYCLE, VTSERIALCYCLE);
     
     p_Main->message("Configuring external terminal connected to UART1 with MSM82C51");
@@ -279,9 +279,9 @@ void Serial::configureMs2000(int selectedBaudR, int selectedBaudT)
     selectedBaudT_ = selectedBaudT;
     selectedBaudR_ = selectedBaudR;
     
-    baudRateT_ = (int) (((clock_ * 1000000) / 8) / baudRateValueSerial_[selectedBaudT_]);
-    baudRateR_ = (int) (((clock_ * 1000000) / 8) / baudRateValueSerial_[selectedBaudR_]);
-    
+    baudRateT_ = (int) ((((clock_ * 1000000) / 8) / baudRateValueSerial_[selectedBaudT_])+0.5);
+    baudRateR_ = (int) ((((clock_ * 1000000) / 8) / baudRateValueSerial_[selectedBaudT_])+0.5);
+
     p_Computer->setEfType(4, VTSERIALEF);
     p_Computer->setCycleType(VTCYCLE, VTSERIALCYCLE);
     
@@ -313,9 +313,9 @@ void Serial::configureVt2K(int selectedBaudR, int selectedBaudT, IoConfiguration
     selectedBaudT_ = selectedBaudT;
     selectedBaudR_ = selectedBaudR;
     
-    baudRateT_ = (int) (((clock_ * 1000000) / 8) / baudRateValueSerial_[selectedBaudT_]);
-    baudRateR_ = (int) (((clock_ * 1000000) / 8) / baudRateValueSerial_[selectedBaudR_]);
-    
+    baudRateT_ = (int) ((((clock_ * 1000000) / 8) / baudRateValueSerial_[selectedBaudT_])+0.5);
+    baudRateR_ = (int) ((((clock_ * 1000000) / 8) / baudRateValueSerial_[selectedBaudT_])+0.5);
+
     if (uart_)
     {
         p_Computer->setCycleType(VTCYCLE, VTSERIALCYCLE);

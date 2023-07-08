@@ -24,6 +24,7 @@ class MemConfig
 public:
     wxString dirname;
     wxString filename;
+    wxString filename2;
     bool verifyFileExist;
     Word start;
     Word end;
@@ -97,6 +98,13 @@ public:
     bool useIoGroup;
 };
 
+class CheckRegInfo
+{
+public:
+    Byte checkReg;
+    Word checkValue;
+};
+
 class CheckAddressInfo
 {
 public:
@@ -108,6 +116,7 @@ class LocationInfo
 {
 public:
     vector<CheckAddressInfo> checkAddressInfo;
+    vector<CheckRegInfo> checkRegInfo;
     Word additionalAddress;
     int type;
 };
@@ -128,6 +137,11 @@ enum
     INFO_START_XMODEM_SAVE,
     INFO_START_XMODEM_LOAD,
     INFO_START_YMODEM_SAVE,
+    INFO_START_HEXMODEM_SAVE,
+    INFO_START_HEXMODEM_LOAD,
+    INFO_START_BINMODEM_SAVE,
+    INFO_START_BINMODEM_LOAD,
+    INFO_STOP_MODEM,
     INFO_CORRECT_CAPS,
     INFO_ELFOS_BOOT,
     INFO_START_CHIP8,
@@ -185,6 +199,8 @@ public:
     wxString keyFile_;
     wxString screenDumpFileDir_;
     wxString screenDumpFile_;
+    wxString assemblerFileDir_;
+    wxString assemblerFile_;
     wxString printFileDir_;
     wxString printFile_;
     wxString configurationDir_;
@@ -192,6 +208,8 @@ public:
     wxString xmlFile_;
     wxString xmodemFileDir_;
     wxString xmodemFile_;
+    wxString sequencerDir_;
+    wxString sequencerFile_;
 
     bool ramFileFromGui_;
 
@@ -257,12 +275,13 @@ public:
     bool dram_;
     bool st2020Active_;
     bool sbActive_;
+    bool useAssemblerDefaults_;
     
     bool useDiagnosticBoard_;
     int diagRomChecksum_;
     int diagFactory_;
     int diagCassetteCables_;
-
+    
     bool useBatchWav_;
     wxString saveCommand_;
 
@@ -281,6 +300,7 @@ public:
     int v1870X_, v1870Y_;
     int pixieX_, pixieY_;
     int cdp1864X_, cdp1864Y_;
+    int vip2KX_, vip2KY_;
     int tmsX_, tmsY_;
     int vtX_, vtY_;
     int vtUart2X_, vtUart2Y_;
@@ -293,6 +313,17 @@ public:
     int thirdFrameX_, thirdFrameY_;
     int fourthFrameX_, fourthFrameY_;
     int SN76430NX_, SN76430NY_;
+
+    int defv1870X_, defv1870Y_;
+    int defPixieX_, defPixieY_;
+    int defCdp1864X_, defCdp1864Y_;
+    int defVip2KX_, defVip2KY_;
+    int defTmsX_, defTmsY_;
+    int defVtX_, defVtY_;
+    int defMc6845X_, defMc6845Y_;
+    int defMc6847X_, defMc6847Y_;
+    int defi8275X_, defi8275Y_;
+    int defSN76430NX_, defSN76430NY_;
 
     int sizeX_;
     int sizeY_;
@@ -314,6 +345,10 @@ public:
     long debugCallAddress_;
     long debugRetReg_;
     long debugRetAddress_;
+
+    int ass_code_start;
+    int ass_code_end;
+    int ass_end;
 
     int gameId_;
     

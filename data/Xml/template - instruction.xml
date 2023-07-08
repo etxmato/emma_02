@@ -13,12 +13,14 @@
     <video>: video definition
     <keyboard>: keyboard definition
     <keypad>: keypad definition for the elf, elf 2 and super elf
+    <xlkeypad>: large keypad definition for the Cybervision
     <bitkeypad>: keypad definition for a keypad using one bit per key
     <efbuttons>: key definition connected to EF flags
     <vt>: video terminal definition
     <printer>: printer definition
     <cassette>: cassette definition
     <xmodem />: activate xmodem on startup
+    <hexmodem />: activate hex modem on startup
     <sound>: sound definition
     <dip>: dip switch definition
     <rtc>: real time clock definition
@@ -77,7 +79,7 @@
     </bootstrap>
 
     <frontpanel type="netronics" init="off">
-        <!-- front panel definition, type specifies cosmac, netronics, quest, elf2k, microtutor or microtutor2. panel init specifies if front panel should be 'on' or 'off' on startup (default is off).
+        <!-- front panel definition, type specifies cosmac, cosmicos, member (or member_b, member_c, member_i,  member_j), netronics, quest, elf2k, microtutor or microtutor2. panel init specifies if front panel should be 'on' or 'off' on startup (default is off).
         <out>: output port for til display
         <in>: input port to read hex keyboard or switch panel for Elf
         <ef type="ready">: ef port for data ready signal hex keypad (not for type cosmac or elf2k, use <keypad> instead!)
@@ -85,12 +87,12 @@
 
         <led>: show Cosmac Elf LED module panel using specified number as output port
         <switch>: show Cosmac Elf 2000 Switch module panel using specified number as input port, make sure not to use <keypad> as that will show the keypad module panel instead.
-        <til>: TIL type, 311 or 313 (not used for microtutor's or ELF2K)
+        <til>: TIL type, 311 or 313 (not used for membership card, microtutor's or ELF2K), use font="italic" for a 313 italic TIL format
         -->
 
         <out>4</out>
         <in>4</in>
-        <til>311</til>
+        <til font="italic">313</til>
         <led />
         <ef type="ready">3</ef>
         <ef type="in">3</ef>
@@ -114,7 +116,7 @@
         <start>: start location in main memory
         <end>: end location in main memory
         <dirname>: location of file (filename) which is loaded on startup, this is defined as sub folder of the main Emma 02 data folder
-        <filename>: name of file which is loaded on startup
+        <filename>: name of file which is loaded on startup (max 2 files can be loaded into one ram or rom definition, to use 2 just repeat this tag twice)
 
         data folder location:
         Windows Vista and later: C:\Users\username\AppData\Roaming\Emma 02
@@ -171,6 +173,25 @@
             </ram>
         </slot>
         
+        <nvram>
+            <!--
+            Specify NVRAM, NVRAM space is saved to specified file on exit and reloaed on startup
+    
+            <nvram default="off">: this can be used for Cosmicos emulator to start without NVRAM loading or saving, when 'disable' swith is activated NVRAM will be activated.
+            <mp>: specifies iogroup and input port to use to switch NVRAM protection on or off. Return value on input is 1 if protection is on, 0 if not.
+            
+            Using 2 filename tags allows the for the first to be used as nvram dump file for reloading RAM content and the second to load a specific file on startup. The second file will overwrite the NVRAM dump file.
+            -->
+            <start>0xF000</start>
+            <end>0xF3F7</end>
+            <mp>
+                <iogroup>3</iogroup>
+                <in>1</in>
+            </mp>
+            <filename>nvramdump.bin</filename>
+            <filename>software.hex</filename>
+         </nvram>
+
         <ems type="RAM">
             <!--
             Next to the common tags ems also supports:
@@ -343,7 +364,7 @@
          <ram>: video ram definition in a range within the CPU memory map. Always specify a range in hex (0x) format
          <font>: mc6847 binary font file
          <dirname>: location of font file (font) defined as sub-dir of the main Emma 02 data directory. If not specified the dirname specified in <system> will be used.
-         <out type="mode">: output number to select video mode either defined as an output port (0-7), CPU address (use hex, 0x value) or range (use hex, i.e. 0xFF00-0xFFFF).
+         <out>: output number to select video mode either defined as an output port (0-7), CPU address (use hex, 0x value) or range (use hex, i.e. 0xFF00-0xFFFF).
          <inv>, <ext>, <css>, <as>, <gm0>, <gm1>, <gm2>, <ag>: function per bit number; us b0-b7 or 0-7 for bit 0 to 7 or use dd6 to dd11 for dd bits. Note dd8 to dd11 are the same as b0 to b3. When init="high" is used the bit will be initialized as 1 otherwise 0.
          <zoom>: set default zoom, when not specified 2.00 will be used
          <border>: set border size in pixels with format XxY
@@ -352,7 +373,7 @@
 
          <ram>0xE000-0xE3FF</ram>
          <font>mc6847.ntsc.round.bin</font>
-         <out type="mode">5</out>
+         <out>5</out>
          <inv init="high">dd7</inv>
          <ext>dd6</ext>
          <css>b3</css>
@@ -450,6 +471,7 @@
          <int>: VIS 1870 interrupt mode
          <ef type="display" pol="rev">: ef flag for non display period, pol="rev" reverts ef flag polarity
          <ef type="mode">: ef flag to select video mode (used in COMX), function is only active until first Q pulse
+         <ef write="enable">: allow write to video RAM even during display period
          <clock>: VIS clock speed
          <cmamaskfixed />: CMA mask fixed to 0xf independentl of number of lines. ntsc or 8 lines would normally use CMA mask 0x7 but COMX ntsc still uses 16 lines per character in memory so CMX mask is 0xf.
          <colorram type="cidelsa" />: use color ram HW as in Cidelsa
@@ -493,6 +515,21 @@
          <ctone num="6">227</ctone>
          <ctone num="7">255</ctone>
          <cmamaskfixed />
+     </video>
+
+     <video type="sn76430n">
+         <!-- video definition for SN76430N chip
+         <zoom>: set default zoom, when not specified 2.00 will be used
+         <border>: set border size in pixels with format XxY
+         <color type="color">: set specified color (see example below). Color is specified as red, green, blue all 3 values range from 0 to 255.
+         -->
+
+         <color type="white">0xff, 0xff, 0xff</color>
+         <color type="yellow">0xff, 0xff, 0</color>
+         <color type="green">0x00, 0xff, 0</color>
+         <color type="red">0xff, 0xc0, 0xcb</color>
+         <color type="black">0, 0, 0</color>
+         <zoom>4</zoom>
      </video>
 
      <keyboard type="ps2">
@@ -810,6 +847,85 @@
          <ef type="in">3</ef>
      </keypad>
 
+     <keypad type="cosmicos">
+         <!-- keypad definition for the cosmicos keypad
+         <out type="hex">: output port to select hex row
+         <in type="hex">: input port to read hex column
+         <out type="seg">: output port for 7 segment display
+         <in type="seg">: input port to reset 7 segment display
+         <ef type="ret">: hex RET button
+         <ef type="dec">: hex DEC/SEQ button
+         <ef type="req">: hex REQ/SEQ button
+         -->
+         <out type="hex">5</out>
+         <in type="hex">5</in>
+         <out type="seg">6</out>
+         <in type="seg">6</in>
+         <ef type="ret">1</ef>
+         <ef type="dec">2</ef>
+         <ef type="req">3</ef>
+     </keypad>
+
+     <xlkeypad>
+         <!-- CyberVision / XL keypad definition
+         <iogroup>: iogroup, i.e. i/o ports are activate when specified iogroup is selected via the iogroup port
+         <in>: input port
+         <ef>: date / key ready flag (use pol="rev" to reverse flag)
+         <pad mask="0x80">: defines keypad 2, use shift, control, alt, cmd (same as control), mask indicates the bit to be set when keypad 2 is selected
+         <keydef value="x">: input code for specified PC key
+         -->
+
+         <in>1</in>
+         <ef>3</ef>
+         <pad mask="0x80">caps</pad>
+         <keydef value="23">48</keydef>   <!-- 0 -->
+         <keydef value="14">49</keydef>
+         <keydef value="22">50</keydef>
+         <keydef value="38">51</keydef>
+         <keydef value="13">52</keydef>
+         <keydef value="21">53</keydef>
+         <keydef value="37">54</keydef>
+         <keydef value="12">55</keydef>
+         <keydef value="20">56</keydef>
+         <keydef value="36">57</keydef>   <!-- 9 -->
+         <keydef value="8">65</keydef>    <!-- A -->
+         <keydef value="16">66</keydef>   <!-- B -->
+         <keydef value="32">67</keydef>   <!-- C -->
+         <keydef value="64">68</keydef>   <!-- D -->
+         <keydef value="0">69</keydef>    <!-- E -->
+         <keydef value="9">70</keydef>    <!-- F -->
+         <keydef value="17">71</keydef>   <!-- G -->
+         <keydef value="33">72</keydef>   <!-- H -->
+         <keydef value="65">73</keydef>   <!-- I -->
+         <keydef value="1">74</keydef>    <!-- J -->
+         <keydef value="10">75</keydef>   <!-- K -->
+         <keydef value="18">76</keydef>   <!-- L -->
+         <keydef value="34">77</keydef>   <!-- M -->
+         <keydef value="66">78</keydef>   <!-- N -->
+         <keydef value="2">79</keydef>    <!-- O -->
+         <keydef value="11">80</keydef>   <!-- P -->
+         <keydef value="19">81</keydef>   <!-- Q -->
+         <keydef value="35">82</keydef>   <!-- R -->
+         <keydef value="67">83</keydef>   <!-- S -->
+         <keydef value="3">84</keydef>    <!-- T -->
+         <keydef value="68">85</keydef>   <!-- U -->
+         <keydef value="4">86</keydef>    <!-- V -->
+         <keydef value="69">87</keydef>   <!-- W -->
+         <keydef value="5">88</keydef>    <!-- X -->
+         <keydef value="70">89</keydef>   <!-- Y -->
+         <keydef value="6">90</keydef>    <!-- Z -->
+
+         <keydef type="text" value="7">return</keydef>   <!-- ENT -->
+         <keydef value="15">32</keydef>                  <!-- ON -->
+         <keydef type="text" value="39">back</keydef>    <!-- OFF -->
+         <keydef type="text" value="71">esc</keydef>     <!-- CLR -->
+
+         <keydef type="text" value="1">down</keydef>     <!-- DOWN -->
+         <keydef type="text" value="9">left</keydef>     <!-- LEFT -->
+         <keydef type="text" value="8">right</keydef>    <!-- RIGHT -->
+         <keydef type="text" value="0">up</keydef>       <!-- UP -->
+     </xlkeypad>
+
      <bitkeypad pad="a">
          <!-- keypad definition for a keypad using one bit per key, for pad 'a', only two pads can be defined
          <iogroup>: iogroup, i.e. i/o ports are activate when specified iogroup is selected via the iogroup port
@@ -973,16 +1089,16 @@
 
      <keyfile>
          <dirname></dirname>
-         <filename></filename>
      </keyfile>
      
      <videodump>
          <dirname></dirname>
-         <filename></filename>
      </videodump>
 
      <memaccess>
          <dirname></dirname>
+         <location>on</location>
+         <start>2000</start>
      </memaccess>
 
      <cassette decks="1">
@@ -997,13 +1113,56 @@
          <filename cassette="0"></filename>
      </cassette>
 
+     <cassette type="cv">
+         <!-- cassette definition cybervision
+         <ef type="out">: write buffer empty
+         <ef type="in">: data ready
+         <in>: read data from tape
+         <out q="x">: output port and optional Q value x (0 or 1) to write date
+         <freq type="x">: frequency used for tone for bit value x (0 or 1)
+         <stoptone />: detect stop tone
+         <bootstart />: start tape on boot
+         <startbit>: start bit value, 0 or 1
+         <databits>: number of databits
+         <stopbit type="ignore">: stop bit value, 0 or 1, using type="ignore" will not check (i.e. ignore) the stopbit when loading/reading data
+         <stopdelay>: number of ms tape will continue playing when stop command is given by CPU
+         <threshold type="8bit">: threshold used for 8, 16 and 24 bit wav files. The threshold is used to ignore noise; if sound value is read from the wav file lower than the threshold it will not be used as data. If loading does not work, increase of decrease these values.
+         <channel type="audio">: indicates which channel (left or right) is used for audio (speech or music)
+         <channel type="data">: indicates which channel (left or right) is used for data
+         <filename>: initial cassette filename
+         <dirname>: location of cassette file; defined as sub-dir of the main Emma 02 data directory. If not specified the dirname specified in <system> will be used.
+         -->
+         <ef type="in">2</ef>
+         <in>2</in>
+         <ef type="out">1</ef>
+         <out q="1">4</out>
+         <freq type="0">3934</freq>
+         <freq type="1">1967</freq>
+         <startbit>1</startbit>
+         <databits>8</databits>
+         <stopbit type="ignore">0</stopbit>
+         <stopdelay>20</stopdelay>
+         <threshold type="8bit">10</threshold>
+         <threshold type="16bit">120</threshold>
+         <threshold type="24bit">1000</threshold>
+         <filename cassette="0"></filename>
+         <channel type="audio">left</channel>
+         <channel type="data">right</channel>
+     </cassette>
+
      <xmodem>
          <!-- activate xmodem
          <filename>: initial xmodem filename
          <dirname>: location of xmodem file; defined as sub-dir of the main Emma 02 data directory. If not specified the dirname specified in <system> will be used.
          -->
-         <filename></filename>
      </xmodem>
+
+     <hexmodem>
+         <!-- activate hex modem (for Elf2K file transfer)
+         <filename>: initial hex modem filename
+         <dirname>: location of hex modem file; defined as sub-dir of the main Emma 02 data directory. If not specified the dirname specified in <system> will be used.
+         -->
+     </hexmodem>
 
      <sound type="q">
          <!-- sound definition using Q flag if defined either <hw> or <sw> should be used, not both
@@ -1013,6 +1172,14 @@
 
          <hw>250</hw>
          <sw />
+     </sound>
+
+     <sound type="bit">
+         <!-- sound definition using one bit in specified output port. Same concept as using type="q" and <sw> as above, but with one bit in the output port.
+         <out mask="1" q="0">: specifies output port, mask indicates bit number. Optionally q can be specified to define what q value should have to activate the sound.
+         -->
+
+         <out mask="1" q="0">4</out>
      </sound>
 
      <dip>
@@ -1131,6 +1298,11 @@
          <!-- Save start/end during batch conversion -->
          <batch_end_save>0x14e1</batch_end_save>
          <batch_end_save>0x14e1</batch_end_save>
+
+         <!-- Cybervision tape  triggers -->
+         <cv_tape_play>0x804e,0xb5</cv_tape_play>
+         <cv_tape_ff>0x668</cv_tape_ff>
+         <cv_tape_rec>0x89</cv_tape_rec>
 
          <!-- Correct CAPS state on startup (after C/W message has been answered for TMC-600)
          this works and it might be more logic but at the same time it means CAPS should be

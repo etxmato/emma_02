@@ -7,7 +7,7 @@ public:
     Ps2gpio ();
     ~Ps2gpio () {};
 
-    void configurePs2gpioElf2K(int computerType);
+    void configurePs2gpioElf2K();
     void configurePs2gpio(bool forceUpperCase, IoConfiguration portConf);
     void charEventPs2gpio(int keycode);
 

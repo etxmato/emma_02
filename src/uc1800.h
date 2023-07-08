@@ -1,14 +1,14 @@
 #ifndef Uc1800_H
 #define Uc1800_H
     
-#include "til311.h"
+#include "til.h"
 #include "cdp1802.h"
 #include "elfconfiguration.h"
 
 class Uc1800Screen : public Panel
 {
 public:
-    Uc1800Screen(wxWindow *parent, const wxSize& size);
+    Uc1800Screen(wxWindow *parent, const wxSize& size, int tilType);
     ~Uc1800Screen();
 
     void init(bool powerButtonState);

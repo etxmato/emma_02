@@ -8,7 +8,7 @@ public:
     ~Keyboard () {};
 
     void configureKeyboard(int computerType, IoConfiguration portConf);
-    void configureKeyboard(int computerType, IoConfiguration portConf, Locations addressLocations, wxString saveCommand);
+    void configureKeyboard(IoConfiguration portConf, Locations addressLocations, wxString saveCommand);
     void charEventKeyboard(int keycode);
     void keyboardUp();
 

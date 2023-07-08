@@ -35,8 +35,8 @@
 
 #include "microtutor.h"
 
-MicrotutorScreen::MicrotutorScreen(wxWindow *parent, const wxSize& size)
-: Panel(parent, size)
+MicrotutorScreen::MicrotutorScreen(wxWindow *parent, const wxSize& size, int tilType)
+: Panel(parent, size, tilType)
 {
 }
 
@@ -171,7 +171,7 @@ Microtutor::Microtutor(const wxString& title, const wxPoint& pos, const wxSize& 
 
     this->SetClientSize(size);
 
-    microtutorScreenPointer = new MicrotutorScreen(this, size);
+    microtutorScreenPointer = new MicrotutorScreen(this, size, TIL311);
     microtutorScreenPointer->init();
 }
 

@@ -259,6 +259,10 @@ public:
     size_t getNumberOfTerminalFiles(int computerType) {return conf[computerType].numberOfTerminalFiles_;}
     bool getAutCassetteLoad() {return conf[runningComputer_].autoCassetteLoad_;};
     bool getPrinterStatus(int computerType) {return conf[computerType].printerOn_;};
+    PixieGraphics getPixieGraphics(int computerType) {return elfConfiguration[computerType].ioConfiguration.pixieGraphics;};
+    int getVideoHeight(int computerType) {return elfConfiguration[computerType].ioConfiguration.videoHeight;};
+    int getVideoWidth(int computerType) {return elfConfiguration[computerType].ioConfiguration.videoWidth;};
+    int getFrontPanelRevision() {return elfConfiguration[runningComputer_].frontType;};
 
     wxString getSelectedComputerStr() {return computerInfo[selectedComputer_].gui;};
     wxString getRunningComputerStr() {return computerInfo[runningComputer_].gui;};
@@ -372,6 +376,8 @@ public:
     void setPixiePos(int computerType, wxPoint position);
     wxPoint getCdp1864Pos(int computerType);
     void setCdp1864Pos(int computerType, wxPoint position);
+    wxPoint getVip2KPos(int computerType);
+    void setVip2KPos(int computerType, wxPoint position);
     wxPoint getTmsPos(int computerType);
     void setTmsPos(int computerType, wxPoint position);
     wxPoint getVtPos(int computerType);

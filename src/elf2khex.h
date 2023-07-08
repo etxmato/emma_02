@@ -6,7 +6,7 @@
 class Elf2KHexScreen : public Panel
 {
 public:
-    Elf2KHexScreen(wxWindow *parent, const wxSize& size);
+    Elf2KHexScreen(wxWindow *parent, const wxSize& size, int tilType);
     ~Elf2KHexScreen();
 
     void init();

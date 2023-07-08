@@ -237,4 +237,17 @@
         <ram>0x200</ram>
     </basic>
 
+    <debugger>
+        <scrt mode="on">
+            <call reg="4">0xAFE8</call>
+            <return reg="5">0xA5F2</return>
+        </scrt>
+        
+        <assembler>
+            <filename>mycode</filename>
+            <code_start>0x200</code_start>
+            <code_end>0x21FF</code_end>
+        </assembler>
+    </debugger>
+
 </emmaconfig>

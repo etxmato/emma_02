@@ -2,7 +2,7 @@
 #define DEFINITION_H
 
 #define MAXROM 6
-#define VIDEOXMLMAX 8
+#define VIDEOXMLMAX 9
 
 #define STATUSBAR_NONE 0
 #define STATUSBAR_COMX 1
@@ -31,6 +31,8 @@
 #define TAPE_FORMAT_PM 1
 #define TAPE_FORMAT_56 2
 #define TAPE_FORMAT_CV 3
+
+#define MAX_BITKEYPADS 7
 
 enum
 {

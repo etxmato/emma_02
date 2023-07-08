@@ -674,7 +674,8 @@ public:
 #define VIDEOXMLI8275 6
 #define VIDEOXML1864 7
 #define VIDEOXMLSN76430N 8
-//#define VIDEOXMLMAX 8
+#define VIDEOVIP2K 9
+//#define VIDEOXMLMAX 9
 
 #define VIDEOVT 0
 #define VIDEOPIXIE 1
@@ -1071,6 +1072,9 @@ public:
 
 #define TIL311 0
 #define TIL313 1
+#define TIL313ITALIC 2
+#define TIL313FULL 3
+#define TILNONE 4
 
 #define LAPTIME_OFF 0
 #define LAPTIME_Q 1
@@ -1103,6 +1107,7 @@ public:
 #define PANEL_MICROTUTOR2 5
 #define PANEL_ELF2K 6
 #define PANEL_COSMICOS 7
+#define PANEL_MEMBER 8
 
 #define CR_NONE 0
 #define CR_CIDELSA 1

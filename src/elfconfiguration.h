@@ -12,6 +12,8 @@ class EfKey
 public:
     int value;
     bool defined;
+    bool mod;
+    wxString modString;
 };
 
 class BitKey
@@ -22,15 +24,28 @@ public:
     int bitMaskReleased;
 };
 
+class BitModKey
+{
+public:
+    int value;
+    int ef;
+    int bitMaskPressed;
+    int bitMaskReleased;
+};
+
 class BitKeypadDetails
 {
 public:
     wxString number;
     bool defined;
     int inp;
+    bool repeat;
     int ioGroup;
     vector<BitKey> bitkey;
+    vector<BitModKey> bitModkey;
     int numberOfKeys;
+    int numberOfModKeys;
+    Byte bitKeyPressed;
 };
 
 class CvKeypadDetails
@@ -49,6 +64,7 @@ class IoPort
 public:
     int portNumber;
     int qValue;
+    Byte mask;
 };
 
 class KeyDefinition
@@ -57,6 +73,15 @@ public:
     Word keyValue;
     Byte bitMaskPressed;
     Byte bitMaskNotPressed;
+};
+
+class PixieGraphics
+{
+public:
+    int interrupt;
+    int start;
+    int end;
+    int screenend;
 };
 
 class IoConfiguration
@@ -72,6 +97,10 @@ public:
     int pixieOutput;
     int pixieEf;
     int pixieVideoNumber;
+    
+    PixieGraphics pixieGraphics;
+    int videoHeight;
+    int videoWidth;
 
     IoPort cdp1864enable;
     IoPort cdp1864disable;
@@ -79,6 +108,12 @@ public:
     int cdp1864Ef;
     int cdp1864VideoNumber;
     int cdp1864IoGroup;
+
+    int vip2KVideoNumber;
+    int vip2KInput;
+    int vip2KOutput;
+    bool vip2KDoubleScreenIo;
+    int vip2KEf;
 
     int portExtenderSelectOutput;
     int portExtenderWriteOutput;
@@ -211,10 +246,18 @@ public:
     int mc6845IoGroup;
     int mc6845VideoNumber;
 
-    int hexOutput;
-    int hexInput;
+    IoPort hexOutput;
+    IoPort hexInput;
     int hexEf;
     
+    int hexCosmicosHexOutput;
+    int hexCosmicosHexInput;
+    int hexCosmicosSegOutput;
+    int hexCosmicosSegInput;
+    int hexCosmicosEfRet;
+    int hexCosmicosEfDec;
+    int hexCosmicosEfReq;
+
     int inEf;
     
     int bootStrapIn;
@@ -248,6 +291,7 @@ public:
     bool v1870efRev;
     int v1870videoModeEf;
     bool v1870useVideoModeEf;
+    bool v1870useBlockWrite;
     double v1870clock;
     Word v1870charRomStart;
     bool v1870cmaMaskFixed;
@@ -259,6 +303,7 @@ public:
     int v1870VideoNumber;
 
     int statusBarType;
+    int statusBarLedOut;
 
     IoPort bitSoundOut;
     int bitSoundIoGroup;
@@ -267,8 +312,8 @@ public:
     EfKey efKey[5];
     Byte efKeyPressed;
     
-    BitKeypadDetails bitKeypad[2];
-    Byte bitKeyPressed;
+    BitKeypadDetails bitKeypad[MAX_BITKEYPADS];
+    bool bitKeypadEf[5];
     
     CvKeypadDetails cvKeypad;
     int CvKeypadTextKey[LAST_MATRIX_TEXT_KEY];
@@ -337,6 +382,7 @@ class ElfConfiguration
 public:
     bool usePixie;
     bool use1864;
+    bool useVip2KVideo;
     bool useS100;
     bool use6845;
     bool use6847;
@@ -348,6 +394,8 @@ public:
     bool useSN76430N;
     bool useNvRamMp;
     bool useNvRam;
+    bool nvRamDisable;
+    bool nvRamDisableDefault;
     bool useRtcM48T58;
     bool useRtcDS12887;
     bool useUsbSb;
@@ -366,6 +414,7 @@ public:
     int cdp18s660Group2;
     int fdcType_;
     int vtType;
+    bool vtShow;
     int vtCharactersPerRow;
     int vt100CharWidth;
     int vt52CharWidth;
@@ -414,7 +463,6 @@ public:
     bool useXmodem;
     bool useHexModem;
     int packetSize;
-    bool vtShow;
     bool autoKeyDef;
 
     int keyboardType;
@@ -425,6 +473,7 @@ public:
     bool useKeyboard;
     bool useBitKeypad;
     bool useCvKeypad;
+    bool useKeybVip2K;
     bool useLatchKeyboard;
     bool useMatrixKeyboard;
     bool usePS2;

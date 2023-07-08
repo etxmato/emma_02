@@ -289,7 +289,8 @@ void MC6845::configure6845Xml(IoConfiguration ioConfiguration)
     p_Computer->setCycleType(BLINKCYCLE_MC6845, MC6845BLINK);
     p_Computer->setCycleType(VIDEOCYCLE_MC6845, MC6845CYCLE);
 
-    p_Computer->setEfType(ioConfiguration.mc6845Ef, MC6845EF);
+    if (ioConfiguration.mc6845Ef != -1)
+        p_Computer->setEfType(ioConfiguration.mc6845Ef, MC6845EF);
 
     wxString ioGroup = "";
     if (ioConfiguration.mc6845IoGroup != -1)

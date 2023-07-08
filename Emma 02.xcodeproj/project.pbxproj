@@ -102,7 +102,6 @@
 		997647EC1A61D5EF00FB9B33 /* pecom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9976473E1A61D5EE00FB9B33 /* pecom.cpp */; };
 		997647ED1A61D5EF00FB9B33 /* ports.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9976473F1A61D5EE00FB9B33 /* ports.cpp */; };
 		997647EE1A61D5EF00FB9B33 /* sound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647401A61D5EE00FB9B33 /* sound.cpp */; };
-		997647EF1A61D5EF00FB9B33 /* til313.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647411A61D5EE00FB9B33 /* til313.cpp */; };
 		997647F01A61D5EF00FB9B33 /* vip2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647421A61D5EE00FB9B33 /* vip2.cpp */; };
 		997647F11A61D5EF00FB9B33 /* vt100.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647431A61D5EE00FB9B33 /* vt100.cpp */; };
 		997647F21A61D5EF00FB9B33 /* elf2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647451A61D5EE00FB9B33 /* elf2.cpp */; };
@@ -114,7 +113,7 @@
 		997647F81A61D5EF00FB9B33 /* super.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647511A61D5EE00FB9B33 /* super.cpp */; };
 		997647F91A61D5EF00FB9B33 /* vip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647571A61D5EE00FB9B33 /* vip.cpp */; };
 		997647FA1A61D5EF00FB9B33 /* ps2gpio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647641A61D5EE00FB9B33 /* ps2gpio.cpp */; };
-		997647FC1A61D5EF00FB9B33 /* til311.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647681A61D5EE00FB9B33 /* til311.cpp */; };
+		997647FC1A61D5EF00FB9B33 /* til.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647681A61D5EE00FB9B33 /* til.cpp */; };
 		997647FD1A61D5EF00FB9B33 /* waveReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9976476D1A61D5EE00FB9B33 /* waveReader.cpp */; };
 		997647FE1A61D5EF00FB9B33 /* waveWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9976476E1A61D5EE00FB9B33 /* waveWriter.cpp */; };
 		997647FF1A61D5EF00FB9B33 /* guicidelsa.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647701A61D5EE00FB9B33 /* guicidelsa.cpp */; };
@@ -261,7 +260,6 @@
 		99F37E4E285D1D9200C57417 /* ports.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9976473F1A61D5EE00FB9B33 /* ports.cpp */; };
 		99F37E4F285D1D9200C57417 /* cdp18s640.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997915CE2308266B0063A6F3 /* cdp18s640.cpp */; };
 		99F37E50285D1D9200C57417 /* guixml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BBC9A9281DD36F00BD9345 /* guixml.cpp */; };
-		99F37E51285D1D9200C57417 /* til313.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647411A61D5EE00FB9B33 /* til313.cpp */; };
 		99F37E52285D1D9200C57417 /* v1870.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647091A61D5EE00FB9B33 /* v1870.cpp */; };
 		99F37E53285D1D9200C57417 /* pico.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9945417027D80AD1001F5131 /* pico.cpp */; };
 		99F37E54285D1D9200C57417 /* cosmicos.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9976471E1A61D5EE00FB9B33 /* cosmicos.cpp */; };
@@ -338,7 +336,7 @@
 		99F37E9B285D1D9200C57417 /* guicosmicos.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647121A61D5EE00FB9B33 /* guicosmicos.cpp */; };
 		99F37E9C285D1D9200C57417 /* memory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647211A61D5EE00FB9B33 /* memory.cpp */; };
 		99F37E9D285D1D9200C57417 /* guivip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647321A61D5EE00FB9B33 /* guivip.cpp */; };
-		99F37E9E285D1D9200C57417 /* til311.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647681A61D5EE00FB9B33 /* til311.cpp */; };
+		99F37E9E285D1D9200C57417 /* til.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647681A61D5EE00FB9B33 /* til.cpp */; };
 		99F37E9F285D1D9200C57417 /* comx35.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647021A61D5EE00FB9B33 /* comx35.cpp */; };
 		99F37EA0285D1D9200C57417 /* vip2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647421A61D5EE00FB9B33 /* vip2.cpp */; };
 		99F37EA1285D1D9200C57417 /* usb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997646F41A61D5D400FB9B33 /* usb.cpp */; };
@@ -718,7 +716,6 @@
 		9976473E1A61D5EE00FB9B33 /* pecom.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = pecom.cpp; path = src/pecom.cpp; sourceTree = "<group>"; };
 		9976473F1A61D5EE00FB9B33 /* ports.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ports.cpp; path = src/ports.cpp; sourceTree = "<group>"; };
 		997647401A61D5EE00FB9B33 /* sound.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sound.cpp; path = src/sound.cpp; sourceTree = "<group>"; };
-		997647411A61D5EE00FB9B33 /* til313.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = til313.cpp; path = src/til313.cpp; sourceTree = "<group>"; };
 		997647421A61D5EE00FB9B33 /* vip2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = vip2.cpp; path = src/vip2.cpp; sourceTree = "<group>"; };
 		997647431A61D5EE00FB9B33 /* vt100.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = vt100.cpp; path = src/vt100.cpp; sourceTree = "<group>"; };
 		997647441A61D5EE00FB9B33 /* cidelsa.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cidelsa.h; path = src/cidelsa.h; sourceTree = "<group>"; };
@@ -754,7 +751,7 @@
 		997647621A61D5EE00FB9B33 /* pixie.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pixie.h; path = src/pixie.h; sourceTree = "<group>"; };
 		997647631A61D5EE00FB9B33 /* printer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = printer.h; path = src/printer.h; sourceTree = "<group>"; };
 		997647641A61D5EE00FB9B33 /* ps2gpio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ps2gpio.cpp; path = src/ps2gpio.cpp; sourceTree = "<group>"; };
-		997647681A61D5EE00FB9B33 /* til311.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = til311.cpp; path = src/til311.cpp; sourceTree = "<group>"; };
+		997647681A61D5EE00FB9B33 /* til.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = til.cpp; path = src/til.cpp; sourceTree = "<group>"; };
 		997647691A61D5EE00FB9B33 /* tmc600.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tmc600.h; path = src/tmc600.h; sourceTree = "<group>"; };
 		9976476A1A61D5EE00FB9B33 /* tmc1800.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tmc1800.h; path = src/tmc1800.h; sourceTree = "<group>"; };
 		9976476C1A61D5EE00FB9B33 /* guimembership.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = guimembership.h; path = src/guimembership.h; sourceTree = "<group>"; };
@@ -823,8 +820,7 @@
 		997647AD1A61D5EE00FB9B33 /* ps2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ps2.h; path = src/ps2.h; sourceTree = "<group>"; };
 		997647AE1A61D5EE00FB9B33 /* ps2gpio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ps2gpio.h; path = src/ps2gpio.h; sourceTree = "<group>"; };
 		997647AF1A61D5EE00FB9B33 /* psave.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = psave.h; path = src/psave.h; sourceTree = "<group>"; };
-		997647B01A61D5EE00FB9B33 /* til311.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = til311.h; path = src/til311.h; sourceTree = "<group>"; };
-		997647B11A61D5EE00FB9B33 /* til313.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = til313.h; path = src/til313.h; sourceTree = "<group>"; };
+		997647B01A61D5EE00FB9B33 /* til.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = til.h; path = src/til.h; sourceTree = "<group>"; };
 		997647B21A61D5EE00FB9B33 /* vtsetup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = vtsetup.h; path = src/vtsetup.h; sourceTree = "<group>"; };
 		997647B31A61D5EE00FB9B33 /* waveReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = waveReader.h; path = src/waveReader.h; sourceTree = "<group>"; };
 		997915CE2308266B0063A6F3 /* cdp18s640.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cdp18s640.cpp; path = src/cdp18s640.cpp; sourceTree = "<group>"; };
@@ -1481,10 +1477,8 @@
 				997647521A61D5EE00FB9B33 /* super.h */,
 				997647251A61D5EE00FB9B33 /* Sync_Audio.cpp */,
 				9976478E1A61D5EE00FB9B33 /* Sync_Audio.h */,
-				997647681A61D5EE00FB9B33 /* til311.cpp */,
-				997647B01A61D5EE00FB9B33 /* til311.h */,
-				997647411A61D5EE00FB9B33 /* til313.cpp */,
-				997647B11A61D5EE00FB9B33 /* til313.h */,
+				997647681A61D5EE00FB9B33 /* til.cpp */,
+				997647B01A61D5EE00FB9B33 /* til.h */,
 				997647261A61D5EE00FB9B33 /* til313.full.cpp */,
 				9976479E1A61D5EE00FB9B33 /* til313.full.h */,
 				997647371A61D5EE00FB9B33 /* tmc600.cpp */,
@@ -1851,7 +1845,6 @@
 				99321273285FB74F00A7793E /* mac_OS12.cpp in Sources */,
 				997915D02308266B0063A6F3 /* cdp18s640.cpp in Sources */,
 				99BBC9AA281DD37500BD9345 /* guixml.cpp in Sources */,
-				997647EF1A61D5EF00FB9B33 /* til313.cpp in Sources */,
 				997647C21A61D5EE00FB9B33 /* v1870.cpp in Sources */,
 				9945417127D80AD1001F5131 /* pico.cpp in Sources */,
 				997647D11A61D5EF00FB9B33 /* cosmicos.cpp in Sources */,
@@ -1934,7 +1927,7 @@
 				997647C81A61D5EF00FB9B33 /* guicosmicos.cpp in Sources */,
 				997647D21A61D5EF00FB9B33 /* memory.cpp in Sources */,
 				997647E01A61D5EF00FB9B33 /* guivip.cpp in Sources */,
-				997647FC1A61D5EF00FB9B33 /* til311.cpp in Sources */,
+				997647FC1A61D5EF00FB9B33 /* til.cpp in Sources */,
 				997647BC1A61D5EE00FB9B33 /* comx35.cpp in Sources */,
 				997647F01A61D5EF00FB9B33 /* vip2.cpp in Sources */,
 				997646F51A61D5D400FB9B33 /* usb.cpp in Sources */,
@@ -2001,7 +1994,6 @@
 				996D0A1A291D99700021C134 /* keyblatch.cpp in Sources */,
 				99F37E4F285D1D9200C57417 /* cdp18s640.cpp in Sources */,
 				99F37E50285D1D9200C57417 /* guixml.cpp in Sources */,
-				99F37E51285D1D9200C57417 /* til313.cpp in Sources */,
 				99F37E52285D1D9200C57417 /* v1870.cpp in Sources */,
 				99F37E53285D1D9200C57417 /* pico.cpp in Sources */,
 				99F37E54285D1D9200C57417 /* cosmicos.cpp in Sources */,
@@ -2084,7 +2076,7 @@
 				99F37E9B285D1D9200C57417 /* guicosmicos.cpp in Sources */,
 				99F37E9C285D1D9200C57417 /* memory.cpp in Sources */,
 				99F37E9D285D1D9200C57417 /* guivip.cpp in Sources */,
-				99F37E9E285D1D9200C57417 /* til311.cpp in Sources */,
+				99F37E9E285D1D9200C57417 /* til.cpp in Sources */,
 				99F37E9F285D1D9200C57417 /* comx35.cpp in Sources */,
 				99F37EA0285D1D9200C57417 /* vip2.cpp in Sources */,
 				99F37EA1285D1D9200C57417 /* usb.cpp in Sources */,

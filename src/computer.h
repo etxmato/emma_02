@@ -1,8 +1,7 @@
 #ifndef COMP_H
 #define COMP_H
 
-#include "til311.h"
-#include "til313.h"
+#include "til.h"
 #include "til313.full.h"
 #include "led.h"
 
@@ -127,7 +126,7 @@ public:
 class Panel : public wxWindow
 {
 public:
-    Panel(wxWindow *parent, const wxSize& size);
+    Panel(wxWindow *parent, const wxSize& size, int tilType);
     virtual ~Panel();
 
     virtual void init();
@@ -169,21 +168,13 @@ public:
     void updateStateLed(wxDC& dc, int i);
     void showData(Byte value);
     void updateData(wxDC& dc);
-    void showDataTil313(Byte value);
-    void updateDataTil313(wxDC& dc);
-    void showDataTil313Italic(Byte value);
-    void updateDataTil313Italic(wxDC& dc);
     void showDp313Italic(bool status);
     void turnOff313Italic(bool status);
     void updateDp313Italic(wxDC& dc);
     void showSeg(int number, Byte value);
     void updateSeg(wxDC& dc, int number);
     void showAddress(Word address);
-    void showAddressTil313(Word address);
-    void showAddressTil313Italic(Word address);
     void updateAddress(wxDC& dc);
-    void updateAddressTil313(wxDC& dc);
-    void updateAddressTil313Italic(wxDC& dc);
     virtual void inUp();
     virtual void inDown();
     virtual void inSetState(bool state);
@@ -301,23 +292,15 @@ protected:
     wxMask *maskUp;
     wxMask *maskDown;
 
-    Til311 *addressPointer[4];
-    Til311 *dataPointer[2];
-    Til313 *addressTil313Pointer[4];
-    Til313 *dataTil313Pointer[2];
-    Til313Italic *dataTil313PointerItalic[2];
-    Til313Italic *addressTil313PointerItalic[4];
+    Til *addressPointer[4];
+    Til *dataPointer[2];
     Til313full *segPointer[8];
 
     int tilType_;
     int numberOfTil313_;
     
     Word addressStatus;
-    Word addressTil313Status;
-    Word addressTil313StatusItalic;
     Byte dataStatus;
-    Byte dataTil313Status;
-    Byte dataTil313StatusItalic;
     Byte segStatus[8];
     bool dpStatus;
 
@@ -354,11 +337,7 @@ protected:
     bool updateLed_[24];
     bool updateStateLed_[4];
     bool updateAddress_;
-    bool updateAddressTil313_;
-    bool updateAddressTil313Italic_;
     bool updateData_;
-    bool updateDataTil313_;
-    bool updateDataTil313Italic_;
     bool updateDp313_;
     bool updateSeg_[8];
 
@@ -468,7 +447,6 @@ public:
     virtual void onResetButton(wxCommandEvent& event);
     virtual void onLoadButton();
     virtual void onLoadButton(wxCommandEvent& event);
-    virtual void dataButton(int i);
     virtual void onNumberKeyRelease(int i);
     virtual void onNumberKeyPress(int i);
     virtual void onNumberKeyDown(int i);
@@ -592,6 +570,8 @@ public:
 
     virtual void startRecording(int WXUNUSED(tapeNumber)) {};
 
+    void setEfKeyValue(int ef, Byte value);
+
 protected:
     RunComputer *threadPointer;
 
@@ -633,7 +613,9 @@ protected:
     size_t ctrlvTextCharNum_;
     
     int shiftKey_;
-    
+ 
+    Byte efKeyValue[5];
+
 private:
     int chip8Register[16];
 

@@ -87,5 +87,18 @@
         
     </locations>
 
+    <debugger>
+        <scrt mode="on">
+            <call reg="4">0x312B</call>
+            <return reg="5">0x7F1</return>
+        </scrt>
+
+        <assembler>
+            <filename>mycode</filename>
+            <code_start>0x3700</code_start>
+            <code_end>0x56ff</code_end>
+        </assembler>
+    </debugger>
+
 </emmaconfig>
 

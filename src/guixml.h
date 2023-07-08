@@ -13,7 +13,7 @@ public:
     GuiXml(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
     ~GuiXml() {};
 
-    void readXmlConig();
+    void readXmlConfig();
     void writeXmlDirConfig();
     void writeXmlConfig();
     void readXmlWindowConfig();
@@ -36,6 +36,9 @@ public:
     void onXmlF4(bool forceStart);
     void onXmlBaudR(wxCommandEvent&event);
     void onXmlBaudT(wxCommandEvent&event);
+
+    void setNvRamDisable(int computer, bool status){elfConfiguration[computer].nvRamDisable = status;};
+    bool getNvRamDisbale(int computer){return elfConfiguration[computer].nvRamDisable;};
 
 private:    
     wxBitmap tapeOffBitmap;

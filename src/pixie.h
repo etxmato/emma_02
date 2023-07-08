@@ -19,10 +19,11 @@ class Pixie : public Video
 {
 public:
     Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, int videoNumber);
+    Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, int videoNumber, int videoType);
     ~Pixie();
 
     void reset();
-    void configurePixie(IoConfiguration portConf);
+    virtual void configurePixie(IoConfiguration portConf);
     virtual void configurePixie() {};
     void configurePixieSuper(IoConfiguration portConf);
     void configurePixieStudio2();
@@ -81,10 +82,7 @@ protected:
     Byte vidInt_;
     bool studioIVFactor_;
 
-    int interruptGraphicsMode_;
-    int startGraphicsMode_;
-    int endGraphicsMode_;
-    int endScreen_;
+    PixieGraphics pixieGraphics_;
 
     int videoMode_;
     int highRes_;
@@ -121,8 +119,10 @@ class PixieVip2K : public Pixie
 {
 public:
     PixieVip2K(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, int videoNumber);
-    
+    PixieVip2K(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, int videoNumber, int videoType);
+
     void configurePixie();
+    void configureVip2K(IoConfiguration portConf);
     void drawScreen();
     void cyclePixie();
     void executeSequencer(Byte sequencerValue);

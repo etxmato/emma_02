@@ -46,23 +46,61 @@ void BitKeypad::configure(IoConfiguration ioConf, int pad)
         ioGroup.Printf(" on group %d", ioConfiguration_.bitKeypad[pad_].ioGroup);
     }
     
-    p_Main->message("Configuring keypad" + ioConfiguration_.bitKeypad[pad_].number + ioGroup);
-    printBuffer.Printf("    Input %d: read data\n", ioConfiguration_.bitKeypad[pad_].inp);
-    p_Main->message(printBuffer);
+    printBuffer.Printf("    Input %d: read data keypad / row ", ioConfiguration_.bitKeypad[pad_].inp);
+    p_Main->message(printBuffer + ioConfiguration_.bitKeypad[pad_].number + ioGroup);
  
     inputValue_ = 0;
+    lastKey_ = 0;
 }
 
 void BitKeypad::keyDown(int keycode)
 {
+    if (keycode != lastKey_ || ioConfiguration_.bitKeypad[pad_].repeat)
+    {
+        for (int key=0; key<ioConfiguration_.bitKeypad[pad_].numberOfKeys; key++)
+        {
+            if (ioConfiguration_.bitKeypad[pad_].bitkey[key].value == keycode)
+                inputValue_ |= ioConfiguration_.bitKeypad[pad_].bitkey[key].bitMaskPressed;
+        }
+    }
+    lastKey_ = keycode;
+}
+
+bool BitKeypad::keyDownCtrlV(int keycode)
+{
+    bool keyFound = false;
+    
     for (int key=0; key<ioConfiguration_.bitKeypad[pad_].numberOfKeys; key++)
     {
         if (ioConfiguration_.bitKeypad[pad_].bitkey[key].value == keycode)
+        {
             inputValue_ |= ioConfiguration_.bitKeypad[pad_].bitkey[key].bitMaskPressed;
+            keyFound = true;
+        }
     }
+    for (int key=0; key<ioConfiguration_.bitKeypad[pad_].numberOfModKeys; key++)
+    {
+        if (ioConfiguration_.bitKeypad[pad_].bitModkey[key].value == keycode)
+        {
+            p_Computer->setEfKeyValue(ioConfiguration_.bitKeypad[pad_].bitModkey[key].ef, 0);
+            inputValue_ |= ioConfiguration_.bitKeypad[pad_].bitModkey[key].bitMaskPressed;
+            keyFound = true;
+        }
+    }
+    return keyFound;
 }
 
 void BitKeypad::keyUp(int keycode)
+{
+    lastKey_ = 0;
+    for (int key=0; key<ioConfiguration_.bitKeypad[pad_].numberOfKeys; key++)
+    {
+        if (ioConfiguration_.bitKeypad[pad_].bitkey[key].value == keycode)
+            inputValue_ &= ioConfiguration_.bitKeypad[pad_].bitkey[key].bitMaskReleased;
+    }
+}
+
+void BitKeypad::keyUpCtrlV(int keycode)
 {
     for (int key=0; key<ioConfiguration_.bitKeypad[pad_].numberOfKeys; key++)
     {
@@ -71,12 +109,23 @@ void BitKeypad::keyUp(int keycode)
     }
 }
 
+void BitKeypad::keysUp()
+{
+    inputValue_ = 0;
+}
+
 Byte BitKeypad::in()
 {
-    if (ioConfiguration_.bitKeyPressed == 1)
-        return inputValue_;
+    Byte returnValue;
+    
+    if (ioConfiguration_.bitKeypad[pad_].bitKeyPressed == 1)
+        returnValue = inputValue_;
     else
-        return inputValue_^0xff;
+        returnValue = inputValue_^0xff;
+  
+//    if ((p_Computer->getScratchpadRegister(3) & 0xf000) == 0)
+ //       inputValue_ = 0; // VIP2K specific...
+    return returnValue;
 }
 
 void BitKeypad::cid1Bit8(bool set)

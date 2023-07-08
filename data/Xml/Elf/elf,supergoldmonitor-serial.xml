@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>Elf, Super Gold Monitor - Serial I/O</name>
+        <!-- Press return to start monitor -->
+        <clock>1.76</clock>
+        <boot>0xc0c0</boot>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init>
+        <init type="ef4">1</init>
+        <dirname>Elf</dirname>
+    </system>
+    
+    <frontpanel>
+        <in>4</in>
+    </frontpanel>
+
+    <memory>
+        <rom>
+            <start>0xC000</start>
+            <end>0xDFFF</end>
+            <filename verify="true">super.gold.monitor.hex</filename>
+        </rom>
+
+        <mainram>
+            <start>0</start>
+            <end>0xBFFF</end>
+        </mainram>
+    </memory>
+    
+    <vt type="vt100" connection="serial">
+        <font>vt100.bin</font>
+        <out>5</out>
+        <ef pol="rev">4</ef>
+        <q></q>
+        <caps />
+        <baud type="receive">600</baud>
+        <baud type="transmit">600</baud>
+        <border>0x0</border>
+        <color type="fore">0, 255, 0</color>
+        <color type="back">0, 0x40, 0</color>
+        <color type="high">0, 0xff, 0</color>
+    </vt>
+
+    <printer>
+        <out>3</out>
+    </printer>
+
+    <cassette decks="1">
+        <ef>2</ef>
+    </cassette>
+    
+    <locations>
+        <!-- key input -->
+        <key_input>0xc118</key_input>
+
+        <!-- Stop cassette -->
+        <stop_cas>0xc5d3, 0xc6c3, 0xD237, 0xD2cd</stop_cas>
+
+        <!-- Start SAVE GOLD & SAVE ASCII MON -->
+        <start_cas_save>0xd20c, 0xc571</start_cas_save>
+
+        <!-- Start LOAD GOLD & LOAD ASCII MON -->
+        <start_cas_load>0xd28d, 0xc643</start_cas_load>
+        
+    </locations>
+
+    <debugger>
+        <scrt mode="on">
+            <call reg="4">0xC0E0</call>
+            <return reg="5">0xC0F2</return>
+        </scrt>
+
+        <assembler>
+            <filename>mycode</filename>
+            <code_start>0</code_start>
+            <code_end>0xfff</code_end>
+        </assembler>
+    </debugger>
+
+</emmaconfig>
+

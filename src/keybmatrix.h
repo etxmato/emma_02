@@ -47,7 +47,6 @@ private:
     size_t runCommand_;
     size_t ctrlvText_;
     wxString commandText_;
-    wxString ctrlvTextStr_;
 };
 
 #endif  // KEYBMATRIX_H

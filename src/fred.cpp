@@ -49,8 +49,8 @@
 #define FRED_TAPE_FORMAT_PM 1
 #define FRED_TAPE_FORMAT_56 2
 
-FredScreen::FredScreen(wxWindow *parent, const wxSize& size)
-: Panel(parent, size)
+FredScreen::FredScreen(wxWindow *parent, const wxSize& size, int tilType)
+: Panel(parent, size, tilType)
 {
 }
 
@@ -84,7 +84,7 @@ void FredScreen::init()
     keyStart_ = 0;
     keyEnd_ = 0;
     lastKey_ = 0;
-    forceUpperCase_ = p_Main->getUpperCase(ELF);
+    forceUpperCase_ = p_Main->getUpperCase();
     
     wxClientDC dc(this);
     
@@ -276,7 +276,7 @@ Fred::Fred(const wxString& title, const wxPoint& pos, const wxSize& size, double
     
     this->SetClientSize(size);
     
-    fredScreenPointer = new FredScreen(this, size);
+    fredScreenPointer = new FredScreen(this, size, TILNONE);
     fredScreenPointer->init();
     keyCode_ = WXK_NONE;
     keyValue_ = 0;

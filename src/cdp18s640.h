@@ -15,7 +15,7 @@
 class Cdp18s640Screen : public Panel
 {
 public:
-    Cdp18s640Screen(wxWindow *parent, const wxSize& size);
+    Cdp18s640Screen(wxWindow *parent, const wxSize& size, int tilType);
     ~Cdp18s640Screen();
     
     void init();
@@ -42,8 +42,8 @@ public:
     void releaseButtonOnScreen(HexButton* buttonPoint) {cdp18s640ScreenPointer->releaseButtonOnScreen(buttonPoint);};
 
     void setQLed(int status) {cdp18s640ScreenPointer->setQLed(status);};
-    void showDataTil313Italic(Byte value) {cdp18s640ScreenPointer->showDataTil313Italic(value);};
-    void showAddressTil313Italic(Word address) {cdp18s640ScreenPointer->showAddressTil313Italic(address);};
+    void showDataTil313Italic(Byte value) {cdp18s640ScreenPointer->showData(value);};
+    void showAddressTil313Italic(Word address) {cdp18s640ScreenPointer->showAddress(address);};
     void setStateLed(int i, int status) {cdp18s640ScreenPointer->setStateLed(i, status);};
     void setRunLed(int status) {cdp18s640ScreenPointer->setRunLed(status);};
     void ledTimeout() {cdp18s640ScreenPointer->ledTimeout();};

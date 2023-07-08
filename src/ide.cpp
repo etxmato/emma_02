@@ -68,7 +68,7 @@ void Ide::configureIde(wxString ideFile1, wxString ideFile2, IoConfiguration por
         ioGroupNum = portConf.ideIoGroup + 1;
 
     wxString ioGroup = "";
-    if (portConf.uartIoGroup != -1)
+    if (ioGroupNum != 0)
         ioGroup.Printf(" on group %d", portConf.ideIoGroup);
 
     initializeIde(ideFile1);

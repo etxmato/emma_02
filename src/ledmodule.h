@@ -6,7 +6,7 @@
 class LedModuleScreen: public Panel
 {
 public:
-    LedModuleScreen(wxWindow *parent, const wxSize& size);
+    LedModuleScreen(wxWindow *parent, const wxSize& size, int tilType);
     ~LedModuleScreen();
 
     void init(int computerType);

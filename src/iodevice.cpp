@@ -127,6 +127,23 @@ void IoDevice::setInType(int q, int iogroup, int number, int inType)
     }
 }
 
+wxString IoDevice::setInType(int q, int iogroup, IoPort port, int inType)
+{
+    wxString inputPorts = "";
+    for (int number = 0; number < 8; number++)
+    {
+        if ((number & port.mask) == port.mask)
+        {
+            setInType(q, iogroup, number, inType);
+            if (inputPorts != "")
+                inputPorts += ", ";
+            inputPorts.Printf(inputPorts + "%d", number);
+        }
+    }
+    
+    return inputPorts;
+}
+
 void IoDevice::setOutType(int number, int outType)
 {
     for (int q=0; q<2; q++)
@@ -161,3 +178,19 @@ void IoDevice::setOutType(int q, int iogroup, int number, int outType)
     }
 }
 
+wxString IoDevice::setOutType(int q, int iogroup, IoPort port, int outType)
+{
+    wxString outputPorts = "";
+    for (int number = 0; number < 8; number++)
+    {
+        if ((number & port.mask) == port.mask)
+        {
+            setOutType(q, iogroup, number, outType);
+            if (outputPorts != "")
+                outputPorts += ", ";
+            outputPorts.Printf(outputPorts + "%d", number);
+        }
+    }
+    
+    return outputPorts;
+}

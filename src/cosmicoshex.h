@@ -7,7 +7,7 @@
 class CosmicoshexScreen : public Panel
 {
 public:
-    CosmicoshexScreen(wxWindow *parent, const wxSize& size);
+    CosmicoshexScreen(wxWindow *parent, const wxSize& size, int tilType);
     ~CosmicoshexScreen();
 
     void init();

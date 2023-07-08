@@ -375,8 +375,8 @@ void Vt100::configure(int selectedBaudR, int selectedBaudT, IoConfiguration ioCo
     selectedBaudT_ = selectedBaudT;
     selectedBaudR_ = selectedBaudR;
     
-    baudRateT_ = (int) (((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_]);
-    baudRateR_ = (int) (((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudR_]);
+    baudRateT_ = (int) ((((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_])+0.5);
+    baudRateR_ = (int) ((((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_])+0.5);
 
     if (uart_)
     {
@@ -401,7 +401,6 @@ void Vt100::configure(int selectedBaudR, int selectedBaudT, IoConfiguration ioCo
             reverseQ_ = ioConfiguration.vt100ReverseQ;
             
             p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
-            p_Computer->setOutType(ioConfiguration.vt100Output, VT100OUT);
             
             dataReadyFlag_ = ioConfiguration.vt100Ef;
             p_Computer->setEfType(dataReadyFlag_, VT100EF);
@@ -422,7 +421,13 @@ void Vt100::configure(int selectedBaudR, int selectedBaudT, IoConfiguration ioCo
             else
                 p_Main->message("Configuring VT100 terminal");
             
-            printBuffer.Printf("    Output %d: vtEnable, EF %d: serial input", ioConfiguration.vt100Output, ioConfiguration.vt100Ef);
+            if (ioConfiguration.vt100Output == -1)
+                printBuffer.Printf("    EF %d: serial input", ioConfiguration.vt100Ef);
+            else
+            {
+                p_Computer->setOutType(ioConfiguration.vt100Output, VT100OUT);
+                printBuffer.Printf("    Output %d: vtEnable, EF %d: serial input", ioConfiguration.vt100Output, ioConfiguration.vt100Ef);
+            }
             printBuffer = printBuffer + printEfReverse + printQ;
             p_Main->message(printBuffer);
         }
@@ -449,9 +454,9 @@ void Vt100::configureStandard(int selectedBaudR, int selectedBaudT, int dataRead
     dataReadyFlag_ = dataReadyFlag; // Velf = 2, Member = 3, Mcds, Cosmicos, VIP, CDP18S020 = 4
     
     if (computerType_ == VELF || computerType_ == VIP)
-        baudRateT_ = (int) (((clock_ * 1000000) / 16) / baudRateValue_[selectedBaudT_]);
+        baudRateT_ = (int) ((((clock_ * 1000000) / 16) / baudRateValue_[selectedBaudT_])+0.5);
     else
-        baudRateT_ = (int) (((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_]);
+        baudRateT_ = (int) ((((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_])+0.5);
     baudRateR_ = baudRateT_;
     
     p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
@@ -483,7 +488,7 @@ void Vt100::configureUart(IoConfiguration ioConfiguration)
         ioGroupNum = ioConfiguration.ideIoGroup + 1;
 
     wxString ioGroup = "";
-    if (ioConfiguration.uartIoGroup != -1)
+    if (ioGroupNum != 0)
         ioGroup.Printf(" on group %d", ioConfiguration.ideIoGroup);
 
     p_Computer->setOutType(ioGroupNum, ioConfiguration.uartOut, UARTOUT);
@@ -544,9 +549,9 @@ void Vt100::configureRcasbc(int selectedBaudR, int selectedBaudT)
     selectedBaudT_ = selectedBaudT;
     selectedBaudR_ = selectedBaudR;
     
-    baudRateT_ = (int) (((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_]);
-    baudRateR_ = (int) (((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudR_]);
-    
+    baudRateT_ = (int) ((((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_])+0.5);
+    baudRateR_ = (int) ((((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_])+0.5);
+
     p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
     
     wxString printBuffer;
@@ -610,9 +615,9 @@ void Vt100::configureMs2000(int selectedBaudR, int selectedBaudT)
     selectedBaudT_ = selectedBaudT;
     selectedBaudR_ = selectedBaudR;
     
-    baudRateT_ = (int) (((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_]);
-    baudRateR_ = (int) (((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudR_]);
-    
+    baudRateT_ = (int) ((((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_])+0.5);
+    baudRateR_ = (int) ((((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_])+0.5);
+
     p_Computer->setEfType(4, VT100EF);
     p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
     
@@ -662,9 +667,9 @@ void Vt100::configureVt2K(int selectedBaudR, int selectedBaudT, IoConfiguration 
     selectedBaudT_ = selectedBaudT;
     selectedBaudR_ = selectedBaudR;
     
-    baudRateT_ = (int) (((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_]);
-    baudRateR_ = (int) (((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudR_]);
-    
+    baudRateT_ = (int) ((((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_])+0.5);
+    baudRateR_ = (int) ((((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_])+0.5);
+
     if (uart_)
     {
         p_Computer->setCycleType(VTCYCLE, VT100CYCLE);

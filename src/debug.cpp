@@ -12482,6 +12482,37 @@ void DebugWindow::assDefault(wxString fileName, Word start, Word end)
     onAssStore();
 }
 
+void DebugWindow::assDefault(wxString dirName, wxString fileName, int code_start, int code_end, int end)
+{
+    if (!mode_.gui)
+        return;
+
+    wxString valueString;
+    
+    XRCCTRL(*this,"AssProgramSlot",wxTextCtrl)->ChangeValue("");
+    valueString = "";
+    if (code_start >= 0)
+        valueString.Printf("%04X", code_start);
+    XRCCTRL(*this,"AssProgramStart",wxTextCtrl)->ChangeValue(valueString);
+    valueString = "";
+    if (code_start >= 0)
+        valueString.Printf("%04X", code_end);
+    XRCCTRL(*this,"AssCodeEnd",wxTextCtrl)->ChangeValue(valueString);
+    valueString = "";
+    if (code_start >= 0)
+        valueString.Printf("%04X", end);
+    XRCCTRL(*this,"AssProgramEnd",wxTextCtrl)->ChangeValue(valueString);
+    wxString value;
+    value.Printf("%0d:",lastRange_+1);
+    XRCCTRL(*this,"AssRangeNumber",wxStaticText)->SetLabel(value);
+    XRCCTRL(*this,"AssFileName",wxTextCtrl)->ChangeValue(fileName + ".bin");
+    shownRange_ = lastRange_;
+    dirAssNewDir_ = dirName;
+    dirAssConfigFileDir_ = dirName;
+    dirAssConfigFile_ = fileName + ".config";
+    onAssStore();
+}
+
 void DebugWindow::scrtValues(bool status, bool Scrt, long CallReg, long CallAddress, long RetReg, long RetAddress)
 {
     if (status)
@@ -12683,7 +12714,6 @@ void DebugWindow::onAssStore()
         case ELF:
         case ELFII:
         case SUPERELF:
-        case XML:
         case PICO:
             if (start >= 0x8000 && start < 0xc000)
             {

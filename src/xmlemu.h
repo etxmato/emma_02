@@ -65,6 +65,9 @@ public:
     void onHexKeyDown(int keycode);
     void onHexDown(int hex);
     void onHexKeyUp(int keycode);
+    void onNumberKeyPress(int key);
+    void onNumberKeyRelease(int key);
+    void onClearButton();
 
     void configureComputer();
     void switchHexEf(bool state);
@@ -80,6 +83,7 @@ public:
     Byte getData();
     void out(Byte port, Word address, Byte value);
     void cycle(int type);
+    void cycleBitKeyPad();
     void cycleDma();
     void cycleInt();
     void cycleLed();
@@ -97,6 +101,7 @@ public:
     void autoBoot();
     void switchQ(int value);
     int getMpButtonState();
+    void onWaitButton();
     void onRunButton(wxCommandEvent&WXUNUSED(event));
     void onRunButton();
     void onRunButtonPress();
@@ -106,6 +111,7 @@ public:
     void onPause();
     void onMpButton(wxCommandEvent&WXUNUSED(event));
     void onMpButton();
+    void onRamButton();
     void onMonitor(wxCommandEvent&WXUNUSED(event));
     void onMonitor();
     void onLoadButton(wxCommandEvent&WXUNUSED(event));
@@ -159,6 +165,7 @@ public:
     Byte getKey(Byte vtOut);
     void activateMainWindow();
     void releaseButtonOnScreen(HexButton* buttonPointer, int buttonType);
+    void setGreenLed(int status);
     void refreshPanel();
     void OnRtcTimer(wxTimerEvent& event);
     void writeRtc(int address, Byte value);
@@ -179,7 +186,9 @@ public:
     void loadNvRam(size_t configNumber);
 
     void checkComputerFunction();
+    void checkRegFunction(char trigger);
     void executeFunction(int function, Word additionalAddress);
+    bool checkKeyInputAddress(Word address);
 
     void startComputerRun(bool load);
     int getRunState() {return elfRunState_;};
@@ -241,10 +250,12 @@ public:
     int getStopBit() {return elfConfiguration.tape_stopBit;};
     
 private:
+    class Panel *panelPointer;
     class ElfScreen *elfScreenPointer;
     class Elf2Screen *elf2ScreenPointer;
     class SuperScreen *superScreenPointer;
     class Elf2KScreen *elf2KScreenPointer;
+    class MemberScreen *memberScreenPointer;
     class MicrotutorScreen *microtutorScreenPointer;
     class Microtutor2Screen *microtutor2ScreenPointer;
     class CosmicosScreen *cosmicosScreenPointer;
@@ -253,6 +264,7 @@ private:
     SN76430N *sn76430nPointer;
     Pixie *pixiePointer;
     Pixie *cdp1864Pointer;
+    PixieVip2K *vip2KVideoPointer;
     MC6845 *mc6845Pointer;
     mc6847 *mc6847Pointer;
     i8275 *i8275Pointer;
@@ -265,6 +277,8 @@ private:
     LedModule *ledModulePointer;
     Vt100 *vtPointer;
 
+    bool use6845_;
+    
     int ledCycleValue_;
     int ledCycleSize_;
     int setMsValue_;
@@ -273,12 +287,16 @@ private:
     int goCycleSize_;
 
     Byte switches_;
+    int waitButtonState_;
+    int clearButtonState_;
     int runButtonState_;
     int mpButtonState_;
+    bool nvRamDisable_;
     int loadButtonState_;
     Byte inbuttonEfState_;
     Byte hexEfState_;
     Byte printerEfState_;
+    int qLedStatus_;
 
     int keyDefA1_[16];
     int keyDefB1_[16];
@@ -296,8 +314,6 @@ private:
     bool hexKeypadClosed_;
     int dataSwitchState_[8];
     int efSwitchState_[4];
-
-    Byte efKeyValue[5];
 
     Byte lastMode_;
     bool monitor_;
@@ -376,6 +392,9 @@ private:
     bool tapeFormat56_;
     bool tapeFormatFixed_;
     int startBytes_;
+    
+    int bitKeypadValue_;
+    int lastBitKeyPad_;
     
     wxString tapeCounter_;
 

@@ -146,7 +146,7 @@ GuiXml::GuiXml(const wxString& title, const wxPoint& pos, const wxSize& size, Mo
     dropdownUpdateOngoing_ = false;
 }
 
-void GuiXml::readXmlConig()
+void GuiXml::readXmlConfig()
 {
 //    return; // *** to be removed
     
@@ -222,9 +222,9 @@ void GuiXml::readXmlConig()
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 1.0);
     conf[XML].zoomVt_ = convertLocale(configPointer->Read("Xmlemu/Vt_Zoom", defaultZoom));
-    wxString defaultScale;
-    defaultScale.Printf("%i", 3);
-    conf[XML].xScale_ = convertLocale(configPointer->Read("Xmlemu/Window_Scale_Factor_X", defaultScale));
+//    wxString defaultScale;
+//    defaultScale.Printf("%i", 3);
+//    conf[XML].xScale_ = convertLocale(configPointer->Read("Xmlemu/Window_Scale_Factor_X", defaultScale));
 
     wxString defaultTimer;
     defaultTimer.Printf("%d", 100);
@@ -250,6 +250,8 @@ void GuiXml::readXmlConig()
     if (elfConfiguration[XML].useTapeHw)
         conf[XML].autoCassetteLoad_ = true;
     
+    configPointer->Read("Xmlemu/DisableNvRam", &elfConfiguration[XML].nvRamDisable, elfConfiguration[XML].nvRamDisableDefault);
+
     setRealCas(XML);
     setXmlGui();
     
@@ -271,10 +273,6 @@ void GuiXml::readXmlConig()
         XRCCTRL(*this, "VolumeXml", wxSlider)->SetValue(conf[XML].volume_);
 
         XRCCTRL(*this, "ShowAddressXml", wxTextCtrl)->ChangeValue(conf[XML].ledTime_);
-
-        XRCCTRL(*this, "UseLocationXml", wxCheckBox)->SetValue(conf[XML].useLoadLocation_);
-        if (conf[XML].saveStart_ != 0)
-            XRCCTRL(*this, "SaveStartXml", wxTextCtrl)->SetValue(conf[XML].saveStartString_);
     }
 
     conf[XML].loadFileNameFull_ = "";
@@ -372,6 +370,7 @@ void GuiXml::writeXmlConfig()
     configPointer->Write("Xmlemu/Turbo_Clock_Speed", conf[XML].turboClock_);
     configPointer->Write("Xmlemu/Enable_Auto_Cassette", conf[XML].autoCassetteLoad_);
     configPointer->Write("Xmlemu/Enable_Real_Cassette", conf[XML].realCassetteLoad_);
+    configPointer->Write("Xmlemu/DisableNvRam", elfConfiguration[XML].nvRamDisable);
     configPointer->Write("Xmlemu/Ymodem_PacketSize", elfConfiguration[XML].packetSize);
     configPointer->Write("Xmlemu/Volume", conf[XML].volume_);
 }
@@ -380,24 +379,26 @@ void GuiXml::readXmlWindowConfig()
 {
 //    return; // *** to be removed
     
-    conf[XML].pixieX_ = (int)configPointer->Read("Xmlemu/Window_Position_Pixie_X", mainWindowX_+windowInfo.mainwX+windowInfo.xBorder);
-    conf[XML].pixieY_ = (int)configPointer->Read("Xmlemu/Window_Position_Pixie_Y", mainWindowY_);
-    conf[XML].cdp1864X_ = (int)configPointer->Read("Xmlemu/Window_Position_CDP1864_X", mainWindowX_+windowInfo.mainwX+windowInfo.xBorder);
-    conf[XML].cdp1864Y_ = (int)configPointer->Read("Xmlemu/Window_Position_CDP1864_Y", mainWindowY_);
-    conf[XML].tmsX_ = (int)configPointer->Read("Xmlemu/Window_Position_Tms_X", mainWindowX_+windowInfo.mainwX+windowInfo.xBorder);
-    conf[XML].tmsY_ = (int)configPointer->Read("Xmlemu/Window_Position_Tms_Y", mainWindowY_);
-    conf[XML].mc6845X_ = (int)configPointer->Read("Xmlemu/Window_Position_MC6845_X", mainWindowX_+windowInfo.mainwX+windowInfo.xBorder);
-    conf[XML].mc6845Y_ = (int)configPointer->Read("Xmlemu/Window_Position_MC6845_Y", mainWindowY_);
-    conf[XML].mc6847X_ = (int)configPointer->Read("Xmlemu/Window_Position_MC6847_X", mainWindowX_+windowInfo.mainwX+windowInfo.xBorder);
-    conf[XML].mc6847Y_ = (int)configPointer->Read("Xmlemu/Window_Position_MC6847_Y", mainWindowY_);
-    conf[XML].i8275X_ = (int)configPointer->Read("Xmlemu/Window_Position_I8275_X", mainWindowX_+windowInfo.mainwX+windowInfo.xBorder);
-    conf[XML].i8275Y_ = (int)configPointer->Read("Xmlemu/Window_Position_I8275_Y", mainWindowY_);
-    conf[XML].v1870X_ = (int)configPointer->Read("Xmlemu/Window_Position_v1870_X", mainWindowX_+windowInfo.mainwX+windowInfo.xBorder);
-    conf[XML].v1870Y_ = (int)configPointer->Read("Xmlemu/Window_Position_v1870_Y", mainWindowY_);
-    conf[XML].SN76430NX_ = (int)configPointer->Read("Xmlemu/Window_Position_SN76430N_X", mainWindowX_+windowInfo.mainwX+windowInfo.xBorder);
-    conf[XML].SN76430NY_ = (int)configPointer->Read("Xmlemu/Window_Position_SN76430N_Y", mainWindowY_);
-    conf[XML].vtX_ = (int)configPointer->Read("Xmlemu/Window_Position_Vt_X", mainWindowX_+windowInfo.mainwX+windowInfo.xBorder);
-    conf[XML].vtY_ = (int)configPointer->Read("Xmlemu/Window_Position_Vt_Y", mainWindowY_);
+    conf[XML].pixieX_ = (int)configPointer->Read("Xmlemu/Window_Position_Pixie_X", conf[XML].defPixieX_);
+    conf[XML].pixieY_ = (int)configPointer->Read("Xmlemu/Window_Position_Pixie_Y", conf[XML].defPixieY_);
+    conf[XML].cdp1864X_ = (int)configPointer->Read("Xmlemu/Window_Position_CDP1864_X", conf[XML].defCdp1864X_);
+    conf[XML].cdp1864Y_ = (int)configPointer->Read("Xmlemu/Window_Position_CDP1864_Y", conf[XML].defCdp1864Y_);
+    conf[XML].vip2KX_ = (int)configPointer->Read("Xmlemu/Window_Position_VIP2K_X", conf[XML].defVip2KX_);
+    conf[XML].vip2KY_ = (int)configPointer->Read("Xmlemu/Window_Position_VIP2K_Y", conf[XML].defVip2KY_);
+    conf[XML].tmsX_ = (int)configPointer->Read("Xmlemu/Window_Position_Tms_X", conf[XML].defTmsX_);
+    conf[XML].tmsY_ = (int)configPointer->Read("Xmlemu/Window_Position_Tms_Y", conf[XML].defTmsY_);
+    conf[XML].mc6845X_ = (int)configPointer->Read("Xmlemu/Window_Position_MC6845_X", conf[XML].defMc6845X_);
+    conf[XML].mc6845Y_ = (int)configPointer->Read("Xmlemu/Window_Position_MC6845_Y", conf[XML].defMc6845Y_);
+    conf[XML].mc6847X_ = (int)configPointer->Read("Xmlemu/Window_Position_MC6847_X", conf[XML].defMc6847X_);
+    conf[XML].mc6847Y_ = (int)configPointer->Read("Xmlemu/Window_Position_MC6847_Y", conf[XML].defMc6847Y_);
+    conf[XML].i8275X_ = (int)configPointer->Read("Xmlemu/Window_Position_I8275_X", conf[XML].defi8275X_);
+    conf[XML].i8275Y_ = (int)configPointer->Read("Xmlemu/Window_Position_I8275_Y", conf[XML].defi8275Y_);
+    conf[XML].v1870X_ = (int)configPointer->Read("Xmlemu/Window_Position_v1870_X", conf[XML].defv1870X_);
+    conf[XML].v1870Y_ = (int)configPointer->Read("Xmlemu/Window_Position_v1870_Y", conf[XML].defv1870Y_);
+    conf[XML].SN76430NX_ = (int)configPointer->Read("Xmlemu/Window_Position_SN76430N_X", conf[XML].defSN76430NX_);
+    conf[XML].SN76430NY_ = (int)configPointer->Read("Xmlemu/Window_Position_SN76430N_Y", conf[XML].defSN76430NY_);
+    conf[XML].vtX_ = (int)configPointer->Read("Xmlemu/Window_Position_Vt_X", conf[XML].defVtX_);
+    conf[XML].vtY_ = (int)configPointer->Read("Xmlemu/Window_Position_Vt_Y", conf[XML].defVtY_);
     conf[XML].mainX_ = (int)configPointer->Read("Xmlemu/Window_Position_X", mainWindowX_);
     conf[XML].mainY_ = (int)configPointer->Read("Xmlemu/Window_Position_Y", mainWindowY_+windowInfo.mainwY+windowInfo.yBorder);
     ledModuleX_ = (int)configPointer->Read("Xmlemu/Window_Position_Led_Module_X", mainWindowX_+346+windowInfo.xBorder2);
@@ -422,6 +423,10 @@ void GuiXml::writeXmlWindowConfig()
         configPointer->Write("Xmlemu/Window_Position_CDP1864_X", conf[XML].cdp1864X_);
     if (conf[XML].cdp1864Y_ > 0)
         configPointer->Write("Xmlemu/Window_Position_CDP1864_Y", conf[XML].cdp1864Y_);
+    if (conf[XML].vip2KX_ > 0)
+        configPointer->Write("Xmlemu/Window_Position_VIP2K_X", conf[XML].vip2KX_);
+    if (conf[XML].vip2KY_ > 0)
+        configPointer->Write("Xmlemu/Window_Position_VIP2K_Y", conf[XML].vip2KY_);
     if (conf[XML].tmsX_ > 0)
         configPointer->Write("Xmlemu/Window_Position_Tms_X", conf[XML].tmsX_);
     if (conf[XML].tmsY_ > 0)
@@ -639,6 +644,7 @@ void GuiXml::setXmlGui()
     
     XRCCTRL(*this, "WavFileXml", wxTextCtrl)->SetValue(conf[XML].wavFile_[0]);
     XRCCTRL(*this, "WavFile1Xml", wxTextCtrl)->SetValue(conf[XML].wavFile_[1]);
+    XRCCTRL(*this, "XmodemFileXml", wxTextCtrl)->SetValue(conf[XML].xmodemFile_);
 
     XRCCTRL(*this, "CasButtonXml", wxButton)->Enable(elfConfiguration[XML].useTape || elfConfiguration[XML].useTapeHw);
     XRCCTRL(*this, "WavFileXml", wxTextCtrl)->Enable(elfConfiguration[XML].useTape || elfConfiguration[XML].useTapeHw);
@@ -756,6 +762,49 @@ void GuiXml::setXmlGui()
 
     XRCCTRL(*this, "XmlClearRam", wxCheckBox)->Enable(elfConfiguration[XML].useNvRam);
     XRCCTRL(*this, "XmlClearRam", wxCheckBox)->SetValue(elfConfiguration[XML].clearRam);
+
+    XRCCTRL(*this, "UseLocationXml", wxCheckBox)->SetValue(conf[XML].useLoadLocation_);
+    if (conf[XML].saveStart_ != 0)
+        XRCCTRL(*this, "SaveStartXml", wxTextCtrl)->SetValue(conf[XML].saveStartString_);
+
+    XRCCTRL(*this,"DebugSCRT", wxCheckBox)->SetValue(conf[XML].scrtMode_);
+
+    XRCCTRL(*this,"DebugSCRT",wxCheckBox)->Enable(true);
+    if (conf[XML].scrtMode_)
+    {
+        XRCCTRL(*this,"DebugCallText",wxStaticText)->Enable(true);
+        XRCCTRL(*this,"DebugCallReg",wxTextCtrl)->Enable(true);
+        XRCCTRL(*this,"DebugCallAddress",wxTextCtrl)->Enable(true);
+        XRCCTRL(*this,"DebugRetText",wxStaticText)->Enable(true);
+        XRCCTRL(*this,"DebugRetReg",wxTextCtrl)->Enable(true);
+        XRCCTRL(*this,"DebugRetAddress",wxTextCtrl)->Enable(true);
+    }
+    
+    wxString valueString;
+    
+    if (conf[XML].debugCallReg_ == -1)
+        valueString = "";
+    else
+        valueString.Printf("%01X", (int)conf[XML].debugCallReg_);
+    XRCCTRL(*this,"DebugCallReg",wxTextCtrl)->ChangeValue(valueString);
+    
+    if (conf[XML].debugCallAddress_ == -1)
+        valueString = "";
+    else
+        valueString.Printf("%04X", (int)conf[XML].debugCallAddress_);
+    XRCCTRL(*this,"DebugCallAddress",wxTextCtrl)->ChangeValue(valueString);
+    
+    if (conf[XML].debugRetReg_ == -1)
+        valueString = "";
+    else
+        valueString.Printf("%01X", (int)conf[XML].debugRetReg_);
+    
+    XRCCTRL(*this,"DebugRetReg",wxTextCtrl)->ChangeValue(valueString);
+    if (conf[XML].debugRetAddress_ == -1)
+        valueString = "";
+    else
+        valueString.Printf("%04X", (int)conf[XML].debugRetAddress_);
+    XRCCTRL(*this,"DebugRetAddress",wxTextCtrl)->ChangeValue(valueString);
 }
 
 void GuiXml::onVideoNumber(wxCommandEvent&WXUNUSED(event))

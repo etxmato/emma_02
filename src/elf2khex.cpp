@@ -33,8 +33,8 @@
 #include "main.h"
 #include "elf2khex.h"
 
-Elf2KHexScreen::Elf2KHexScreen(wxWindow *parent, const wxSize& size)
-: Panel(parent, size)
+Elf2KHexScreen::Elf2KHexScreen(wxWindow *parent, const wxSize& size, int tilType)
+: Panel(parent, size, tilType)
 {
 }
 
@@ -74,7 +74,7 @@ void Elf2KHexScreen::init()
     keyStart_ = 0;
     keyEnd_ = 0;
     lastKey_ = 0;
-    forceUpperCase_ = p_Main->getUpperCase(ELF2K);
+    forceUpperCase_ = p_Main->getUpperCase();
 
     wxClientDC dc(this);
     wxString buttonText;
@@ -379,7 +379,7 @@ Elf2Khex::Elf2Khex(const wxString& title, const wxPoint& pos, const wxSize& size
 #endif
 
 
-    elf2KHexScreenPointer = new Elf2KHexScreen(this, size);
+    elf2KHexScreenPointer = new Elf2KHexScreen(this, size, TILNONE);
     elf2KHexScreenPointer->init();
 
     keypadValue_ = 0;

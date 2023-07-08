@@ -80,7 +80,7 @@ VideoScreen::VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int 
         case CDP18S020:
         case MICROBOARD:
         case PICO:
-            forceUpperCase_ = p_Main->getUpperCase(computerType);
+            forceUpperCase_ = p_Main->getUpperCase();
         break;
 
         default:
@@ -314,12 +314,16 @@ void VideoScreen::onKeyUp(wxKeyEvent& event)
             case ELF2K:
             case ELFII:
             case SUPERELF:
-            case XML:
             case PICO:
                 if (!p_Computer->keyUpReleased(event.GetKeyCode(), event))
                     event.Skip();
             break;
-                
+
+            case XML:
+                if (!p_Computer->keyUpReleased(event.GetKeyCode(), event))
+                    event.Skip();
+            break;
+
             case FRED1:
             case FRED1_5:
             case VIP2K:
@@ -978,3 +982,4 @@ void Video::setClientSize(wxSize size)
 {
     this->SetClientSize(size);
 }
+

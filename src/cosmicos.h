@@ -1,7 +1,7 @@
 #ifndef COSMICOS_H
 #define COSMICOS_H
 
-#include "til313.h"
+#include "til.h"
 #include "cosmicoshex.h"
 #include "led.h"
 #include "cdp1802.h"
@@ -16,7 +16,7 @@
 class CosmicosScreen : public Panel
 {
 public:
-    CosmicosScreen(wxWindow *parent, const wxSize& size);
+    CosmicosScreen(wxWindow *parent, const wxSize& size, int tilType);
     ~CosmicosScreen();
 
     void init();
@@ -60,8 +60,8 @@ public:
     void onMouseRelease(wxMouseEvent& event);
     Byte getData();
 
-    void dataButton(wxCommandEvent& event);
-    void dataButton(int i);
+    void dataSwitch(wxCommandEvent& event);
+    void dataSwitch(int i);
 
     void onRun();
     void autoBoot();
@@ -144,7 +144,7 @@ private:
     bool inPressed_;
     int loadButtonState_;
     int mpButtonState_;
-    int ramButtonState_;
+    int nvRamDisable_;
     int dataSwitchState_[8];
     int segNumber_;
 

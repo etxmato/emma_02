@@ -33,9 +33,9 @@ Ps2gpio::Ps2gpio()
 {
 }
 
-void Ps2gpio::configurePs2gpioElf2K(int computerType) 
+void Ps2gpio::configurePs2gpioElf2K()
 {
-    forceUpperCase_ = p_Main->getUpperCase(computerType);
+    forceUpperCase_ = p_Main->getUpperCase();
     keyboardEf_ = 1;
     keyboardValue_ = 0;
     rawKeyCode_ = 0;

@@ -36,8 +36,8 @@
 
 const int freq [16] = {0, 256, 128, 8192, 4096, 2048, 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2};
 
-Elf2KScreen::Elf2KScreen(wxWindow *parent, const wxSize& size)
-: Panel(parent, size)
+Elf2KScreen::Elf2KScreen(wxWindow *parent, const wxSize& size, int tilType)
+: Panel(parent, size, tilType)
 {
 }
 
@@ -67,7 +67,7 @@ void Elf2KScreen::init()
     keyStart_ = 0;
     keyEnd_ = 0;
     lastKey_ = 0;
-    forceUpperCase_ = p_Main->getUpperCase(ELF2K);
+    forceUpperCase_ = p_Main->getUpperCase();
 
     wxClientDC dc(this);
     wxString switchNumber;
@@ -157,7 +157,7 @@ Elf2K::Elf2K(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 
     this->SetClientSize(size);
 
-    elf2KScreenPointer = new Elf2KScreen(this, size);
+    elf2KScreenPointer = new Elf2KScreen(this, size, TIL311);
     elf2KScreenPointer->init();
 
     rtcTimerPointer = new wxTimer(this, 900);
@@ -1061,7 +1061,7 @@ void Elf2K::configureExtensions()
     }
 
     if (elfConfiguration.usePs2gpio)
-        configurePs2gpioElf2K(ELF2K);
+        configurePs2gpioElf2K();
 }
 
 void Elf2K::moveWindows()

@@ -21,7 +21,7 @@
 class FredScreen : public Panel
 {
 public:
-    FredScreen(wxWindow *parent, const wxSize& size);
+    FredScreen(wxWindow *parent, const wxSize& size, int tilType);
     ~FredScreen();
     
     void init();

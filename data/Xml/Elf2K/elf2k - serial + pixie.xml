@@ -23,10 +23,12 @@
     </bootstrap>
 
     <hexmodem>
-        <filename></filename>
     </hexmodem>
 
     <locations>
+        <!-- key input -->
+        <key_input>0xfca6</key_input>
+
         <elfosboot>0x892d</elfosboot>
         
         <start_xmodem_save address="0x80, 0x81, 0x82, 0x234d" value="0x78, 0x73, 0, 0x3d">0x20da</start_xmodem_save> <!-- xs -->
@@ -100,5 +102,18 @@
        <in>3</in>
        <iogroup>0x80, 0x90</iogroup>
     </rtc>
+    
+    <debugger>
+        <scrt mode="on">
+            <call reg="4">0xFA7B</call>
+            <return reg="5">0xFA8D</return>
+        </scrt>
+
+        <assembler>
+            <filename>mycode</filename>
+            <code_start>0</code_start>
+            <code_end>0xFFF</code_end>
+        </assembler>
+    </debugger>
 
 </emmaconfig>

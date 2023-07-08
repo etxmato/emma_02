@@ -51,9 +51,8 @@
 #define OFF    1
 
 Elf2Screen::Elf2Screen(wxWindow *parent, const wxSize& size, int tilType)
-: Panel(parent, size)
+: Panel(parent, size, tilType)
 {
-    tilType_ = tilType;
 }
 
 Elf2Screen::~Elf2Screen()
@@ -75,19 +74,9 @@ Elf2Screen::~Elf2Screen()
 
     delete qLedPointer;
 
-    if (tilType_ == TIL311)
+    for (int i=0; i<2; i++)
     {
-        for (int i=0; i<2; i++)
-        {
-            delete dataPointer[i];
-        }
-    }
-    else
-    {
-        for (int i=0; i<2; i++)
-        {
-            delete dataTil313PointerItalic[i];
-        }
+        delete dataPointer[i];
     }
 }
 
@@ -96,7 +85,7 @@ void Elf2Screen::init()
     keyStart_ = 0;
     keyEnd_ = 0;
     lastKey_ = 0;
-    forceUpperCase_ = p_Main->getUpperCase(ELFII);
+    forceUpperCase_ = p_Main->getUpperCase();
 
     wxClientDC dc(this);
     wxString buttonText;
@@ -134,17 +123,12 @@ void Elf2Screen::init()
     for (int i=0; i<2; i++)
     {
         if (tilType_ == TIL311)
-        {
             dataPointer[i] = new Til311();
-            dataPointer[i]->init(dc, 370+i*28,180);
-            updateData_ = true;
-        }
         else
-        {
-            dataTil313PointerItalic[i] = new Til313Italic(false);
-            dataTil313PointerItalic[i]->init(dc, 370+i*28,180);
-            updateDataTil313Italic_ = true;
-        }
+            dataPointer[i] = new Til313Italic(false);
+
+        dataPointer[i]->init(dc, 370+i*28,180);
+        updateData_ = true;
     }
     this->connectKeyEvent(this);
 }
@@ -158,20 +142,11 @@ void Elf2Screen::onPaint(wxPaintEvent&WXUNUSED(event))
     rePaintLeds(dc);
 #endif
 
-    if (tilType_ == TIL311)
+    for (int i=0; i<2; i++)
     {
-        for (int i=0; i<2; i++)
-        {
-            dataPointer[i]->onPaint(dc);
-        }
+        dataPointer[i]->onPaint(dc);
     }
-    else
-    {
-        for (int i=0; i<2; i++)
-        {
-            dataTil313PointerItalic[i]->onPaint(dc);
-        }
-    }
+
     qLedPointer->onPaint(dc);
     runSwitchButton->onPaint(dc);
     mpSwitchButton->onPaint(dc);
@@ -427,11 +402,11 @@ void Elf2::configureComputer()
     wxString printBuffer;
 
     p_Main->message("Configuring Elf II");
-    printBuffer.Printf("    Output %d: display output, input %d: data input", elfConfiguration.ioConfiguration.hexOutput, elfConfiguration.ioConfiguration.hexInput);
+    printBuffer.Printf("    Output %d: display output, input %d: data input", elfConfiguration.ioConfiguration.hexOutput.portNumber, elfConfiguration.ioConfiguration.hexInput.portNumber);
     p_Main->message(printBuffer);
 
-    p_Computer->setInType(elfConfiguration.ioConfiguration.hexInput, ELF2IN);
-    p_Computer->setOutType(elfConfiguration.ioConfiguration.hexOutput, ELF2OUT);
+    p_Computer->setInType(elfConfiguration.ioConfiguration.hexInput.portNumber, ELF2IN);
+    p_Computer->setOutType(elfConfiguration.ioConfiguration.hexOutput.portNumber, ELF2OUT);
 
     if (elfConfiguration.useEms)
     {
@@ -821,10 +796,7 @@ void Elf2::out(Byte port, Word WXUNUSED(address), Byte value)
 
 void Elf2::showData(Byte val)
 {
-    if (elfConfiguration.tilType == TIL311)
-        elf2ScreenPointer->showData(val);
-    else
-        elf2ScreenPointer->showDataTil313Italic(val);
+    elf2ScreenPointer->showData(val);
 }
 
 void Elf2::cycle(int type)

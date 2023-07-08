@@ -29,8 +29,8 @@
 #include "main.h"
 #include "velf.h"
 
-VelfScreen::VelfScreen(wxWindow *parent, const wxSize& size)
-: Panel(parent, size)
+VelfScreen::VelfScreen(wxWindow *parent, const wxSize& size, int tilType)
+: Panel(parent, size, tilType)
 {
 }
 
@@ -59,7 +59,7 @@ void VelfScreen::init()
     keyStart_ = 0;
     keyEnd_ = 0;
     lastKey_ = 0;
-    forceUpperCase_ = p_Main->getUpperCase(ELF);
+    forceUpperCase_ = p_Main->getUpperCase();
     
     wxClientDC dc(this);
     
@@ -202,7 +202,7 @@ Velf::Velf(const wxString& title, const wxPoint& pos, const wxSize& size, double
     
     this->SetClientSize(size);
 
-    velfScreenPointer = new VelfScreen(this, size);
+    velfScreenPointer = new VelfScreen(this, size, TIL311);
     velfScreenPointer->init();
 
 }

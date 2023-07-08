@@ -135,6 +135,7 @@ public:
     virtual bool isMc6845running() {return false;};
     bool arePixieGraphicsOn() {return graphicsOn_;};
     void setPixieGraphics(bool status) {graphicsOn_ = status;};
+    virtual void updateCidelsaLedStatus(int WXUNUSED(number), bool WXUNUSED(status)) {};
 
 protected:
     Byte pageMemory_[4096];

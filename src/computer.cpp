@@ -562,9 +562,10 @@ BEGIN_EVENT_TABLE(Panel, wxWindow)
     EVT_LEFT_UP(Panel::onMouseRelease)
 END_EVENT_TABLE()
 
-Panel::Panel(wxWindow *parent, const wxSize& size)
+Panel::Panel(wxWindow *parent, const wxSize& size, int tilType)
 : wxWindow(parent, wxID_ANY, wxDefaultPosition, size)
 {
+    tilType_ = tilType;
     updateQLed_ = false;
     updateReadyLed_ = false;
     updateStopLed_ = false;
@@ -589,11 +590,7 @@ Panel::Panel(wxWindow *parent, const wxSize& size)
         updateSeg_[i] = false;
     }
     updateAddress_ = false;
-    updateAddressTil313_ = false;
-    updateAddressTil313Italic_ = false;
     updateData_ = false;
-    updateDataTil313_ = false;
-    updateDataTil313Italic_ = false;
     updateDp313_ = false;
 
     qLedStatus = 0;
@@ -605,11 +602,7 @@ Panel::Panel(wxWindow *parent, const wxSize& size)
     runLedStatus = 0;
     loadLedStatus = 0;
     addressStatus = 0;
-    addressTil313Status = 0;
-    addressTil313StatusItalic = 0;
     dataStatus = 0;
-    dataTil313Status = 0;
-    dataTil313StatusItalic = 0;
     numberOfTil313_ = 4;
     dpStatus = false;
     ms_ = 100;
@@ -792,12 +785,8 @@ void Panel::rePaintLeds(wxDC& dc)
     for (int i=0; i<8; i++)
         updateSeg(dc, i);
     updateData(dc);
-    updateDataTil313(dc);
-    updateDataTil313Italic(dc);
     updateDp313Italic(dc);
     updateAddress(dc);
-    updateAddressTil313(dc);
-    updateAddressTil313Italic(dc);
 }
 
 void Panel::setLedMs(long ms)
@@ -1109,62 +1098,6 @@ void Panel::updateData(wxDC& dc)
     }
 }
 
-void Panel::showDataTil313(Byte value)
-{
-    if (dataTil313Status != value)
-    {
-        dataTil313Status = value;
-        updateDataTil313_ = true;
-        if (ms_ == 0)
-        {
-#if defined(__WXMAC__)
-            p_Main->eventRefreshPanel();
-#else
-            wxClientDC dc(this);
-            updateDataTil313(dc);
-#endif
-        }
-    }
-}
-
-void Panel::updateDataTil313(wxDC& dc)
-{
-    if (updateDataTil313_)
-    {
-        dataTil313Pointer[0]->update(dc,(dataTil313Status>>4)&15);
-        dataTil313Pointer[1]->update(dc, dataTil313Status&15);
-        updateDataTil313_ = false;
-    }
-}
-
-void Panel::showDataTil313Italic(Byte value)
-{
-    if (dataTil313StatusItalic != value)
-    {
-        dataTil313StatusItalic = value;
-        updateDataTil313Italic_ = true;
-        if (ms_ == 0)
-        {
-#if defined(__WXMAC__)
-            p_Main->eventRefreshPanel();
-#else
-            wxClientDC dc(this);
-            updateDataTil313Italic(dc);
-#endif
-        }
-    }
-}
-
-void Panel::updateDataTil313Italic(wxDC& dc)
-{
-    if (updateDataTil313Italic_)
-    {
-        dataTil313PointerItalic[0]->update(dc,(dataTil313StatusItalic>>4)&15);
-        dataTil313PointerItalic[1]->update(dc, dataTil313StatusItalic&15);
-        updateDataTil313Italic_ = false;
-    }
-}
-
 void Panel::showDp313Italic(bool status)
 {
     if (dpStatus != status)
@@ -1186,17 +1119,17 @@ void Panel::showDp313Italic(bool status)
 void Panel::turnOff313Italic(bool status)
 {
     wxClientDC dc(this);
-    dataTil313PointerItalic[0]->turnOff(dc, status);
-    dataTil313PointerItalic[1]->turnOff(dc, status);
-    addressTil313PointerItalic[2]->turnOff(dc, status);
-    addressTil313PointerItalic[3]->turnOff(dc, status);
+    dataPointer[0]->turnOff(dc, status);
+    dataPointer[1]->turnOff(dc, status);
+    addressPointer[2]->turnOff(dc, status);
+    addressPointer[3]->turnOff(dc, status);
 }
 
 void Panel::updateDp313Italic(wxDC& dc)
 {
     if (updateDp313_)
     {
-        dataTil313PointerItalic[1]->dp(dc, dpStatus);
+        dataPointer[1]->dp(dc, dpStatus);
         updateDp313_ = false;
     }
 }
@@ -1246,42 +1179,6 @@ void Panel::showAddress(Word address)
     }
 }
 
-void Panel::showAddressTil313(Word address)
-{
-    if (addressTil313Status != address)
-    {
-        addressTil313Status = address;
-        updateAddressTil313_ = true;
-        if (ms_ == 0)
-        {
-#if defined(__WXMAC__)
-            p_Main->eventRefreshPanel();
-#else
-            wxClientDC dc(this);
-            updateAddressTil313(dc);
-#endif
-        }
-    }
-}
-
-void Panel::showAddressTil313Italic(Word address)
-{
-if (addressTil313StatusItalic != address)
-    {
-        addressTil313StatusItalic = address;
-        updateAddressTil313Italic_ = true;
-        if (ms_ == 0)
-        {
-#if defined(__WXMAC__)
-            p_Main->eventRefreshPanel();
-#else
-            wxClientDC dc(this);
-            updateAddressTil313Italic(dc);
-#endif
-        }
-    }
-}
-
 void Panel::updateAddress(wxDC& dc)
 {
     if (updateAddress_)
@@ -1291,33 +1188,6 @@ void Panel::updateAddress(wxDC& dc)
         addressPointer[2]->update(dc,(addressStatus>>4)&15);
         addressPointer[3]->update(dc, addressStatus&15);
         updateAddress_ = false;
-    }
-}
-
-void Panel::updateAddressTil313(wxDC& dc)
-{
-    if (updateAddressTil313_)
-    {
-        addressTil313Pointer[0]->update(dc, addressTil313Status>>12);
-        addressTil313Pointer[1]->update(dc,(addressTil313Status>>8)&15);
-        addressTil313Pointer[2]->update(dc,(addressTil313Status>>4)&15);
-        addressTil313Pointer[3]->update(dc, addressTil313Status&15);
-        updateAddressTil313_ = false;
-    }
-}
-
-void Panel::updateAddressTil313Italic(wxDC& dc)
-{
-    if (updateAddressTil313Italic_)
-    {
-        if (numberOfTil313_ == 4)
-        {
-            addressTil313PointerItalic[0]->update(dc, addressTil313StatusItalic>>12);
-            addressTil313PointerItalic[1]->update(dc,(addressTil313StatusItalic>>8)&15);
-        }
-        addressTil313PointerItalic[2]->update(dc,(addressTil313StatusItalic>>4)&15);
-        addressTil313PointerItalic[3]->update(dc, addressTil313StatusItalic&15);
-        updateAddressTil313Italic_ = false;
     }
 }
 
@@ -1996,10 +1866,6 @@ void Computer::onRunPButton(wxCommandEvent&WXUNUSED(event))
 {
 }
 
-void Computer::dataButton(int WXUNUSED(i))
-{
-}
-
 void Computer::onNumberKeyRelease(int WXUNUSED(i))
 {
 }
@@ -2461,4 +2327,9 @@ void Computer::ctrlvTextCharNumPlusOne()
 
 void Computer::resetV1870VideoModeEf()
 {
+}
+
+void Computer::setEfKeyValue(int ef, Byte value)
+{
+    efKeyValue[ef] = value;
 }

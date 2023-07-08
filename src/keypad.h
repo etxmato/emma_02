@@ -6,7 +6,7 @@
 class KeypadScreen: public Panel
 {
 public:
-    KeypadScreen(wxWindow *parent, const wxSize& size);
+    KeypadScreen(wxWindow *parent, const wxSize& size, int tilType);
     ~KeypadScreen();
 
     void init(int computerType);

@@ -42,7 +42,6 @@ private:
     bool keyFileOpened_;
     int cycleValue_;
     int keyboardCode_;
-    wxString ctrlvTextStr_;
     
     bool load_;
     size_t runCommand_;

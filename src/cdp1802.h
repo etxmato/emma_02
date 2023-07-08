@@ -87,6 +87,7 @@ public:
     bool readIntelFile(wxString fileName, int memoryType, long end, bool showFilename);
     bool readIntelFile(wxString fileName, int memoryType, Word* lastAddress, long end, bool showFilename);
     bool readLstFile(wxString fileName, int memoryType, long end, bool showFilename);
+    bool readIntelSequencerFile(wxString fileName);
     void saveIntelFile(wxString fileName, long start, long end);
     void saveBinFile(wxString fileName, long start, long end);
     bool readBinFile(wxString fileName, int memoryType, Word start, long end, long inhibitStart, long inhibitEnd);
@@ -272,6 +273,8 @@ private:
     Byte ctrMode_;
     Byte ctrRunning_;
     Byte ctrPre_;
+    
+    bool skipMachineCycleAfterIdle_;
 };
 
 #endif    // CDP1802_H

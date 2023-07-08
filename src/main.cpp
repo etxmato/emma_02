@@ -2778,6 +2778,8 @@ void Main::initConfig()
     borderY[VIDEOXML1864] = 0;  //1864
     borderX[VIDEOXMLSN76430N] = 0;
     borderY[VIDEOXMLSN76430N] = 0;  //1864
+    borderX[VIDEOVIP2K] = 0;
+    borderY[VIDEOVIP2K] = 0;  //VIP2K
 
     colour[COL_PIXIE_FORE] = "#ffffff";    // foreground pixie
     colour[COL_PIXIE_BACK] = "#000000";    // background pixie
@@ -3131,7 +3133,7 @@ void Main::readConfig()
     readElfConfig(ELF, "Elf");
     readElfConfig(ELFII, "ElfII");
     readElfConfig(SUPERELF, "SuperElf");
-    readXmlConig();
+    readXmlConfig();
     readPicoConfig();
     readMembershipConfig();
     readUc1800Config();
@@ -4297,7 +4299,7 @@ void Main::loadComputerConfig(wxString fileName)
         break;
             
         case XML:
-            readXmlConig();
+            readXmlConfig();
         break;
 
         case PICO:
@@ -5595,6 +5597,8 @@ void Main::nonFixedWindowPosition()
     conf[XML].SN76430NY_ = -1;
     conf[XML].cdp1864X_ = -1;
     conf[XML].cdp1864Y_ = -1;
+    conf[XML].vip2KX_ = -1;
+    conf[XML].vip2KY_ = -1;
     conf[ELF2K].keypadX_ = -1;
     conf[ELF2K].keypadY_ = -1;
     conf[COSMICOS].keypadX_ = -1;
@@ -5696,31 +5700,54 @@ void Main::fixedWindowPosition()
 
     for (int i=0; i<COSMICOS; i++)
     {
-        conf[i].pixieX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
-        conf[i].pixieY_ = mainWindowY_;
-        conf[i].tmsX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
-        conf[i].tmsY_ = mainWindowY_;
-        conf[i].mc6845X_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
-        conf[i].mc6845Y_ = mainWindowY_;
-        conf[i].mc6847X_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
-        conf[i].mc6847Y_ = mainWindowY_;
-        conf[i].i8275X_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
-        conf[i].i8275Y_ = mainWindowY_;
-        conf[i].vtX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
-        conf[i].vtY_ = mainWindowY_;
+       if (i == XML)
+       {
+          conf[i].pixieX_ = conf[i].defPixieX_;
+          conf[i].pixieY_ = conf[i].defPixieY_;
+          conf[i].tmsX_ = conf[XML].defTmsX_;
+          conf[i].tmsY_ = conf[XML].defTmsY_;
+          conf[i].mc6845X_ = conf[XML].defMc6845X_;
+          conf[i].mc6845Y_ = conf[XML].defMc6845Y_;
+          conf[i].mc6847X_ = conf[XML].defMc6847X_;
+          conf[i].mc6847Y_ = conf[XML].defMc6847Y_;
+          conf[i].i8275X_ = conf[XML].defi8275X_;
+          conf[i].i8275Y_ = conf[XML].defi8275Y_;
+          conf[i].vtX_ = conf[XML].defVtX_;
+          conf[i].vtY_ = conf[XML].defVtY_;
 
-        conf[i].mainX_ = mainWindowX_;
-        conf[i].mainY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
+          conf[i].mainX_ = mainWindowX_;
+          conf[i].mainY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
+       }
+       else
+       {
+           conf[i].pixieX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
+           conf[i].pixieY_ = mainWindowY_;
+           conf[i].tmsX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
+           conf[i].tmsY_ = mainWindowY_;
+           conf[i].mc6845X_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
+           conf[i].mc6845Y_ = mainWindowY_;
+           conf[i].mc6847X_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
+           conf[i].mc6847Y_ = mainWindowY_;
+           conf[i].i8275X_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
+           conf[i].i8275Y_ = mainWindowY_;
+           conf[i].vtX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
+           conf[i].vtY_ = mainWindowY_;
+
+           conf[i].mainX_ = mainWindowX_;
+           conf[i].mainY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
+       }
     }
 
     conf[XML].keypadX_ = mainWindowX_+346+windowInfo.xBorder2;
     conf[XML].keypadY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
-    conf[XML].v1870X_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
-    conf[XML].v1870Y_ = mainWindowY_;
-    conf[XML].SN76430NX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
-    conf[XML].SN76430NY_ = mainWindowY_;
-    conf[XML].cdp1864X_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
-    conf[XML].cdp1864Y_ = mainWindowY_;
+    conf[XML].v1870X_ = conf[XML].defv1870X_;
+    conf[XML].v1870Y_ = conf[XML].defv1870Y_;
+    conf[XML].SN76430NX_ = conf[XML].defSN76430NX_;
+    conf[XML].SN76430NY_ = conf[XML].defSN76430NY_;
+    conf[XML].cdp1864X_ = conf[XML].defCdp1864X_;
+    conf[XML].cdp1864Y_ = conf[XML].defCdp1864Y_;
+    conf[XML].vip2KX_ = conf[XML].defVip2KX_;
+    conf[XML].vip2KY_ = conf[XML].defVip2KY_;
     conf[ELF2K].keypadX_ = mainWindowX_+507+windowInfo.xBorder2;
     conf[ELF2K].keypadY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
     conf[COSMICOS].keypadX_ = mainWindowX_+333+windowInfo.xBorder2;
@@ -5893,7 +5920,6 @@ void Main::onStart(int computer)
             parseXmlFile(XML,conf[XML].xmlDir_, conf[XML].xmlFile_);
             setXmlGui();
 
-          
             switch (elfConfiguration[XML].panelType_)
             {
                case PANEL_COSMAC:
@@ -5906,6 +5932,21 @@ void Main::onStart(int computer)
                   
                case PANEL_COSMICOS:
                   mainWindowSize = wxSize(333, 160);
+               break;
+                  
+               case PANEL_MEMBER:
+                  switch (elfConfiguration[XML].frontType)
+                  {
+                      case FRONT_TYPE_C:
+                      case FRONT_TYPE_I:
+                      case FRONT_TYPE_J:
+                          x = 480; y = 299;
+                      break;
+                      default:
+                          x = 483; y = 297;
+                      break;
+                  }
+                  mainWindowSize = wxSize(x, y);
                break;
                   
                case PANEL_MICROTUTOR:
@@ -7580,6 +7621,9 @@ void Main::enableGui(bool status)
     }
     if (runningComputer_ == XML)
     {
+       if (status)
+           saveScrtValues("");
+
         chip8ProtectedMode_= false;
         XRCCTRL(*this,"Chip8TraceButton", wxToggleButton)->SetValue(false);
         XRCCTRL(*this,"Chip8DebugMode", wxCheckBox)->SetValue(false);

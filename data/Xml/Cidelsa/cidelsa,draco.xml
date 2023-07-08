@@ -35,7 +35,7 @@
         <maxcharlines>8</maxcharlines>
         <maxscreenlines>27</maxscreenlines> <!-- 24, 25 or 27 for Cidelsa DRACO) -->
         <mode>ntsc</mode>
-        <ef type="display">1</ef>
+        <ef type="display" pol="rev" write="enable">1</ef>
         <clock>5.626</clock>
         <colorram type="cidelsa" />
         <rotate />
@@ -72,5 +72,18 @@
         <bit6>316</bit6>    <!-- right 1 -->
         <bit7>314</bit7>    <!-- left 1 -->
     </bitkeypad>
+
+    <debugger>
+        <scrt mode="on">
+            <call reg="4">0x54</call>
+            <return reg="5">0x202</return>
+        </scrt>
+        
+        <assembler>
+            <filename>dracorom</filename>
+            <code_start>0</code_start>
+            <code_end>0x3FFF</code_end>
+        </assembler>
+    </debugger>
 
 </emmaconfig>

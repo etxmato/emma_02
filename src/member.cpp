@@ -48,8 +48,8 @@
 //#include "serial.h"
 #include "member.h"
 
-MemberScreen::MemberScreen(wxWindow *parent, const wxSize& size)
-: Panel(parent, size)
+MemberScreen::MemberScreen(wxWindow *parent, const wxSize& size, int tilType)
+: Panel(parent, size, tilType)
 {
 }
 
@@ -70,12 +70,13 @@ MemberScreen::~MemberScreen()
      delete qLedPointer;
 }
 
-void MemberScreen::init(int front)
+void MemberScreen::init()
 {
     keyStart_ = 0;
     keyEnd_ = 0;
     lastKey_ = 0;
-    forceUpperCase_ = p_Main->getUpperCase(MEMBER);
+    forceUpperCase_ = p_Main->getUpperCase();
+    int front = p_Main->getFrontPanelRevision();
 
     wxClientDC dc(this);
 
@@ -207,8 +208,8 @@ Membership::Membership(const wxString& title, const wxPoint& pos, const wxSize& 
 
     this->SetClientSize(size);
 
-    memberScreenPointer = new MemberScreen(this, size);
-    memberScreenPointer->init(elfConfiguration.frontType);
+    memberScreenPointer = new MemberScreen(this, size, TILNONE);
+    memberScreenPointer->init();
 }
 
 Membership::~Membership()

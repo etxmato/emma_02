@@ -163,6 +163,7 @@ void Cdp1802::initCpu(int computerType)
 void Cdp1802::resetCpu()
 {
     cpuState_ = STATE_FETCH_1;
+    skipMachineCycleAfterIdle_=false;
     flipFlopQ_ = 0;
     interruptEnable_ = 1;
     cie_ = 1;
@@ -1514,15 +1515,24 @@ void Cdp1802::cpuCycleStep()
                 machineCycle();
                 cpuCycles_ ++;
 
-                if (cycle0_ == 0)
+                if (skipMachineCycleAfterIdle_)
                 {
-                    while (numberOfCycles-- != 0)
+                    skipMachineCycleAfterIdle_=false;
+                    cpuCycles_ ++;
+                }
+                else
+                {
+                    if (cycle0_ == 0)
                     {
-                        machineCycle();
-                        cpuCycles_ ++;
+                        while (numberOfCycles-- != 0)
+                        {
+                            machineCycle();
+                            cpuCycles_ ++;
+                        }
                     }
                 }
                 
+
                 if (cycle0_ == 0 && steps_ != 0)
                 {
                     cpuCycleFetch();
@@ -3409,11 +3419,12 @@ void Cdp1802::cpuCycleFinalize()
         if (trace_ && !skipTrace_ && traceBuffer_ != ".")
             p_Main->debugTrace(traceBuffer_);
 
-        if (cpuState_ != STATE_EXECUTE_1)
-            cpuState_ = STATE_FETCH_1;
-        
         machineCycle();
         cpuCycles_ ++;
+        skipMachineCycleAfterIdle_=true;
+
+        if (cpuState_ != STATE_EXECUTE_1) 
+            cpuState_ = STATE_FETCH_1;
     }
     if (stopHiddenTrace_)
         skipTrace_ = false;
@@ -3819,6 +3830,86 @@ bool Cdp1802::readLstFile(wxString fileName, int memoryType, long end, bool show
     }
 }
 
+bool Cdp1802::readIntelSequencerFile(wxString fileName)
+{
+    wxTextFile inFile;
+    wxString line, strValue;
+    long count;
+    long address;
+    long value;
+    int spaces;
+    Word start = 0xffff;
+    Word last = 0;
+
+    if (inFile.Open(fileName))
+    {
+        for (line=inFile.GetFirstLine(); !inFile.Eof(); line=inFile.GetNextLine())
+        {
+            spaces = 0;
+            int maxSpaces = 6;
+            if (line.Len() < 6)  maxSpaces = (int)line.Len();
+            for (int i=0; i<maxSpaces; i++) if (line[i] == 32) spaces++;
+            if (spaces == 0)
+            {
+                strValue = line.Mid(1, 2);
+                if (!strValue.ToLong(&count, 16))
+                    count = 0;
+
+                strValue = line.Mid(3, 4);
+                strValue.ToLong(&address, 16);
+
+                strValue = line.Mid(7, 2);
+                strValue.ToLong(&value, 16);
+
+                if (value == 1)
+                {
+                    inFile.Close();
+                    return true;
+                }
+                if (address < start)
+                    start = address;
+                for (int i=0; i<count; i++)
+                {
+                    strValue = line.Mid((i*2)+9, 2);
+                    strValue.ToLong(&value, 16);
+                    sequencerMemory_[address&0x7ff] = value;
+                    address++;
+                }
+                if (address > last)
+                    last = address;
+            }
+            else
+            {
+                strValue = line.Mid(1, 4);
+                strValue.ToLong(&address, 16);
+                for (size_t i=5; i<line.Len(); i++)
+                {
+                    if ((line[i] >= '0' && line [i] <= '9') ||
+                        (line[i] >= 'A' && line [i] <= 'F') ||
+                        (line[i] >= 'a' && line [i] <= 'f'))
+                    {
+                        strValue = line.Mid(i, 2);
+                        if (strValue.ToLong(&value, 16))
+                        {
+                            value &= 255;
+                            sequencerMemory_[address&0x7ff] = value;
+                            address++;
+                            i++;
+                        }
+                    }
+                }
+            }
+        }
+        inFile.Close();
+        return true;
+    }
+    else
+    {
+        p_Main->errorMessage("Error reading " + fileName);
+        return false;
+    }
+}
+
 void Cdp1802::saveIntelFile(wxString fileName, long start, long end)
 {
     wxTextFile outputFile;
@@ -4128,19 +4219,6 @@ void Cdp1802::checkLoadedSoftware()
     {
         switch (computerType_)
         {
-            case XML:
-//                checkLoadedSoftwareElf();
-                checkLoadedSoftwareCosmicos();
-                checkLoadedSoftwareVip();
-                checkLoadedSoftwareVipII();
-                checkLoadedSoftwareVip2K();
-                checkLoadedSoftwareVelf();
-                checkLoadedSoftwareMember();
-                checkLoadedSoftwareMicroboard();
-                checkLoadedSoftwareMCDS();
-                checkLoadedSoftwareElf2K();
-            break;
-
             case ELFII:
             case SUPERELF:
             case ELF:
@@ -4188,7 +4266,7 @@ void Cdp1802::checkLoadedSoftware()
     }
     if (loadedOs_ == NOOS)
     {
-        if ((computerType_ == ELFII) || (computerType_ == SUPERELF) || (computerType_ == ELF) || (computerType_ == XML) || (computerType_ == PICO))
+        if ((computerType_ == ELFII) || (computerType_ == SUPERELF) || (computerType_ == ELF) || (computerType_ == PICO))
         {
             if ((mainMemory_[0xf900] == 0xf8) && (mainMemory_[0xf901] == 0xf9) && (mainMemory_[0xf902] == 0xb6))
             {
