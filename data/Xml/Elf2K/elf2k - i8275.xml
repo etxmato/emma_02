@@ -4,7 +4,8 @@
 <emmaconfig>
     
     <system>
-        <name>Cosmac Elf 2000 - Intel 8275</name>
+        <name>Cosmac Elf 2000</name>
+        <config>Intel 8275</config>
         <clock>3.5795</clock>
         <boot>0</boot>
         <init type="ef1">1</init>

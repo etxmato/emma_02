@@ -4,7 +4,8 @@
 <emmaconfig>
     
     <system>
-        <name>COMX SuperBoard &amp; 80 Column card</name>
+        <name>COMX-35</name>
+        <config>SuperBoard &amp; 80 Column card</config>
         <clock>2.813</clock>
         <boot>0</boot>
         <init type="ef1">1</init>

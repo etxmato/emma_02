@@ -4,7 +4,8 @@
 <emmaconfig>
     
     <system>
-        <name>Elf, Music Machine - O Christmas Tree</name>
+        <name>Elf</name>
+        <config>Music Machine, O Christmas Tree</config>
         <clock>1</clock>
         <boot>0</boot>
         <init type="ef1">1</init>

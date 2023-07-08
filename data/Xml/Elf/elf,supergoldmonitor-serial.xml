@@ -4,7 +4,8 @@
 <emmaconfig>
     
     <system>
-        <name>Elf, Super Gold Monitor - Serial I/O</name>
+        <name>Elf</name>
+        <config>Super Gold Monitor, Serial I/O</config>
         <!-- Press return to start monitor -->
         <clock>1.76</clock>
         <boot>0xc0c0</boot>
@@ -15,6 +16,10 @@
         <dirname>Elf</dirname>
     </system>
     
+    <splash>
+        <dialog>Monitor</dialog>
+    </splash>
+
     <frontpanel>
         <in>4</in>
     </frontpanel>

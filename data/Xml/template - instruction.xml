@@ -6,6 +6,7 @@
     
     <!--
     <system>: basic system information
+    <splash>: splash screen setting
     <bootstrap>: bootstrap definition
     <frontpanel>: front panel definition, for elf, elf2 or super panel
     <memory>: memory map definition
@@ -30,7 +31,8 @@
     -->
     <system>
         <!-- always specify <system> tag first, clock, dirname and name tags are mandatory
-        <name>: extended machine name
+        <name>: machine name
+        <config>: configuration description
         <clock>: system clock speec
         <boot>: boot address, if not specified the computer will not start unless automatically
         <init type="efX">: set initialization value of unused EF flags, X can be 1 to 4, value 0 or 1
@@ -39,7 +41,8 @@
         <dirname>: main directory name
         <statusbar>: use statusbar; options: comx, diag & cidelsa
         -->
-        <name>DIY Elf</name>
+        <name>computer name</name>
+        <config>configuration description</config>
         <clock>4.0</clock>
         <boot>0xFF00</boot>
         <init type="ef1">1</init>
@@ -48,6 +51,25 @@
         <init type="ef4">1</init>
         <dirname>Elf</dirname>
     </system>
+    
+    <splash>
+        <!-- splash screen shown on computer emulator startup, if dialog is not used DEFAULT splash window is shown.
+        <dialog>: select pre-defined dialog:
+        Vip: Show VIP message for ROM Mode and FPB
+        SBV1_VT: Show SuperBasic V1.4 message on VT
+        SBV1_SUPER: Show SuperBasic V1.4 message on Super Video
+        SBV3_SUPER: Show SuperBasic V3 message on Super Video
+        RCA_BASIC: Show RCA BASIC message
+        ELFOS: Show Elf/Os message on VT
+        Monitor: Show MINIMON and GOLDMON message
+        TINY: Show TINY BASIC message
+        TINY_VT: Show TINY BASIC message on VT
+        Elf2K_VT: Show Elf2K message on VT
+        MCDS: Show MCDS UT62 message
+        When dialog DEFAULT is selected use <mac>, <windows> and <linux> to specify text to be shown for indicated OS.
+        -->
+        <dialog>DEFAULT</dialog>
+    </splash>
     
     <basic>
         <pload>super</pload>
@@ -927,8 +949,9 @@
      </xlkeypad>
 
      <bitkeypad pad="a">
-         <!-- keypad definition for a keypad using one bit per key, for pad 'a', only two pads can be defined
+         <!-- keypad definition for a keypad using one bit per key, for pad 'a', max 7 pads can be defined
          <iogroup>: iogroup, i.e. i/o ports are activate when specified iogroup is selected via the iogroup port
+         <pressed>: specify value for a pressed key, 0 or 1
          <bitX>: X=0 to 7 specifies ascii code for key defined on that specific bit
          <bit key="ascii">: providing the same functionality as bitX except that ascii code is specified after key= and bit number is specified as value. Note multiple bits are possible for one key by using a comma as separator: 0,1,2.
          -->
@@ -952,10 +975,11 @@
          <!-- key definition connected to EF flags
          <pressed>: value ef is when a key is pressed (0 or 1)
          <efX>: X=1 to 4 specifies ascii code for key defined on that specific ef
+         <efX type="mod">: X=1 to 4 specifies modifier key shift, control, alt, altgr, meta (windows), command (macOS)
          -->
 
          <pressed>0</pressed>
-         <ef2>13</ef2>
+         <ef2 type="mod">shift</ef2>
          <ef3>66</ef3>
          <ef4>65</ef4>
      </efbuttons>

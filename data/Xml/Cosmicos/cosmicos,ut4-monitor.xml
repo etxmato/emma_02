@@ -4,7 +4,8 @@
 <emmaconfig>
     
     <system>
-        <name>Cosmicos - Hex and UT4 Monitor</name>
+        <name>Cosmicos</name>
+        <config>Hex and UT4 Monitor</config>
         <clock>1.75</clock>
         <boot>0xC0C0</boot>
         <init type="ef1">1</init>

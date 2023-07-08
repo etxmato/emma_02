@@ -4,7 +4,8 @@
 <emmaconfig>
     
     <system>
-        <name>Elf - VDU with Hex Keypad - select GAME via RAM button</name>
+        <name>Elf</name>
+        <config>VDU with Hex Keypad, select GAME via RAM button</config>
         <!-- Press return to start Tiny Basic -->
         <!-- Load a game via GUI in RAM field -->
         <clock>1.76</clock>

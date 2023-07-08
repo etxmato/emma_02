@@ -4,7 +4,8 @@
 <emmaconfig>
     
     <system>
-        <name>Elf/Os 0.2.8 - Serial I/O</name>
+        <name>Elf</name>
+        <config>Elf/Os 0.2.8, Serial I/O</config>
         <!-- Press return to set default baud rate -->
         <clock>1.76</clock>
         <boot>0xFF00</boot>
@@ -15,6 +16,10 @@
         <dirname>Elf</dirname>
     </system>
     
+    <splash>
+        <dialog>ELFOS</dialog>
+    </splash>
+
     <frontpanel>
         <in>4</in>
     </frontpanel>

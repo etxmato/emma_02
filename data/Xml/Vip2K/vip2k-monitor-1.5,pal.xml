@@ -4,7 +4,8 @@
 <emmaconfig>
     
     <system>
-        <name>VIP2K Membership Card - PAL</name>
+        <name>VIP2K Membership Card</name>
+        <config>1.5, PAL</config>
         <clock>4.0</clock>
         <boot>0</boot>
         <init type="ef1">1</init>

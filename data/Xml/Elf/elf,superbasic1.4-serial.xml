@@ -4,7 +4,8 @@
 <emmaconfig>
     
     <system>
-        <name>Elf, Quest Superbasic 1.4 - Serial I/O</name>
+        <name>Elf</name>
+        <config>Quest Superbasic 1.4, Serial I/O</config>
         <!-- Press Control F12, return, C to start BASIC in Cold mode -->
         <clock>1.76</clock>
         <init type="ef1">1</init>
@@ -13,6 +14,10 @@
         <init type="ef4">1</init>
         <dirname>Elf</dirname>
     </system>
+    
+    <splash>
+        <dialog>SBV1_VT</dialog>
+    </splash>
     
     <frontpanel>
         <in>4</in>

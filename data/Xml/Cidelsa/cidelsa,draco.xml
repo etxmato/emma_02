@@ -4,7 +4,8 @@
 <emmaconfig>
     
     <system>
-        <name>Cidelsa Draco</name>
+        <name>Cidelsa</name>
+        <config>Draco</config>
         <clock>3.579</clock>
         <boot>0</boot>
         <init type="ef1">1</init>

@@ -4,7 +4,8 @@
 <emmaconfig>
     
     <system>
-        <name>Elf/Os BIOSIO - TMS9918</name>
+        <name>Elf</name>
+        <config>Elf/Os BIOSIO, TMS9918</config>
         <clock>1.76</clock>
         <boot>0xFF00</boot>
         <init type="ef1">1</init>

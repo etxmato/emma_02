@@ -3241,6 +3241,16 @@ void Xmlemu::startComputer()
         break;
     }
 
+    if (computerConfiguration.useSplashScreen_)
+    {
+        if (p_Video[VIDEOMAIN] != NULL)
+            p_Video[VIDEOMAIN]->splashScreen();
+        else
+        {
+            if (p_Vt100[UART1] != NULL)
+                p_Vt100[UART1]->splashScreen();
+        }
+    }
     threadPointer->Run();
 }
 

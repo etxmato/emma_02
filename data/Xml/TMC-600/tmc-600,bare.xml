@@ -4,7 +4,8 @@
 <emmaconfig>
     
     <system>
-        <name>TMC600 - Bare, 37K</name>
+        <name>TMC600</name>
+        <config>Bare, 37K</config>
         <clock>3.579</clock>
         <boot>0</boot>
         <init type="ef1">1</init>

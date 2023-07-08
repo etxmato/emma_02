@@ -4,7 +4,8 @@
 <emmaconfig>
     
     <system>
-        <name>COMX SuperBoard</name>
+        <name>COMX-35</name>
+        <config>SuperBoard</config>
         <clock>2.813</clock>
         <boot>0</boot>
         <init type="ef1">1</init>

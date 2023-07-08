@@ -4,7 +4,8 @@
 <emmaconfig>
     
     <system>
-        <name>Cidelsa Xbomber on Draco HW, 32K ROM</name>
+        <name>Cidelsa</name>
+        <config>Xbomber on Draco HW, 32K ROM</config>
         <clock>3.579</clock>
         <boot>0</boot>
         <init type="ef1">1</init>

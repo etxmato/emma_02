@@ -39,18 +39,18 @@ END_EVENT_TABLE()
 SplashScreen::SplashScreen(wxWindow *parent)
 {
     wxString computerStr = p_Main->getRunningComputerStr();
+    wxString dialog;
     int computer = p_Main->getRunningComputerId();
     ElfConfiguration currentElfConfig;
     vt100_ = false;
     
-    wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"splash_" + p_Main->getFontSize() + ".xrc");
     switch (computer)
     {
         case ELF:
         case ELFII:
         case SUPERELF:
-        case XML:
         case PICO:
+            wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"splash_" + p_Main->getFontSize() + ".xrc");
             switch (p_Computer->getLoadedProgram())
             {
                 case SUPERBASICV1:
@@ -97,6 +97,7 @@ SplashScreen::SplashScreen(wxWindow *parent)
             break;
             
         case ELF2K:
+            wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"splash_" + p_Main->getFontSize() + ".xrc");
             currentElfConfig = p_Main->getElfConfiguration(computer);
             if (currentElfConfig.vtType != VTNONE)
             {
@@ -105,7 +106,20 @@ SplashScreen::SplashScreen(wxWindow *parent)
             }
         break;
             
-       default:
+        case XML:
+            wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"splash_" + p_Main->getFontSize() + ".xrc");
+            dialog = p_Main->getSplashDialog(computer);
+            wxXmlResource::Get()->LoadDialog(this, parent, dialog);
+            
+            if (dialog == "DEFAULT")
+            {
+                XRCCTRL(*this,"SplashText",wxStaticText)->SetLabel(p_Main->getSplashText(computer));
+            }
+            Show(true);
+        break;
+            
+        default:
+            wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"splash_" + p_Main->getFontSize() + ".xrc");
             wxXmlResource::Get()->LoadDialog(this, parent, computerStr);
             Show(true);
         break;

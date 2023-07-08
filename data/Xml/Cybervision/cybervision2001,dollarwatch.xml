@@ -4,7 +4,8 @@
 <emmaconfig>
     
     <system>
-        <name>Cybervision - Dollarwatch</name>
+        <name>Cybervision</name>
+        <config>Dollarwatch</config>
         <clock>2.51748</clock>
         <boot>0</boot>
         <init type="ef1">1</init>

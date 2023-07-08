@@ -4,7 +4,8 @@
 <emmaconfig>
     
     <system>
-        <name>Cybervision - Escape key map</name>
+        <name>Cybervision</name>
+        <config>Escape</config>
         <clock>2.52</clock>
         <boot>0</boot>
         <init type="ef1">1</init>

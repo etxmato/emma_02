@@ -115,6 +115,7 @@ class ComputerInfo
 public:
     wxString gui;
     wxString name;
+    wxString configuration;
 //    wxString extension;
     wxString ploadExtension;
 };
@@ -263,6 +264,9 @@ public:
     int getVideoHeight(int computerType) {return elfConfiguration[computerType].ioConfiguration.videoHeight;};
     int getVideoWidth(int computerType) {return elfConfiguration[computerType].ioConfiguration.videoWidth;};
     int getFrontPanelRevision() {return elfConfiguration[runningComputer_].frontType;};
+
+    wxString getSplashDialog(int computerType) {return conf[computerType].splashDialog_;};
+    wxString getSplashText(int computerType) {return conf[computerType].splashText_;};
 
     wxString getSelectedComputerStr() {return computerInfo[selectedComputer_].gui;};
     wxString getRunningComputerStr() {return computerInfo[runningComputer_].gui;};

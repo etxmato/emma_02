@@ -4,7 +4,8 @@
 <emmaconfig>
     
     <system>
-        <name>Elf Tiny Basic Interpreter V2 - MC6847</name>
+        <name>Elf</name>
+        <config>Tiny Basic Interpreter V2, MC6847</config>
         <clock>1.76</clock>
         <boot>0</boot>
         <init type="ef1">1</init>

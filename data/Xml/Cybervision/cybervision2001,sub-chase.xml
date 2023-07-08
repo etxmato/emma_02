@@ -4,7 +4,8 @@
 <emmaconfig>
     
     <system>
-        <name>Cybervision - Sub-Chase</name>
+        <name>Cybervision</name>
+        <config>Sub-Chase</config>
         <clock>2.51748</clock>
         <boot>0</boot>
         <init type="ef1">1</init>

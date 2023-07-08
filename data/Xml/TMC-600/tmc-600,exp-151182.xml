@@ -4,7 +4,8 @@
 <emmaconfig>
     
     <system>
-        <name>TMC600 - Expansion 151182, 37K</name>
+        <name>TMC600</name>
+        <config>Expansion 151182, 37K</config>
         <clock>3.579</clock>
         <boot>0</boot>
         <init type="ef1">1</init>

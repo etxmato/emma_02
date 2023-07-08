@@ -4,7 +4,8 @@
 <emmaconfig>
     
     <system>
-        <name>Pecom 64 - v1</name>
+        <name>Pecom 64</name>
+        <config>v1</config>
         <clock>2.813</clock>
         <boot>0</boot>
         <init type="ef1">1</init>

@@ -50,6 +50,7 @@ private:
     void parseXml_Cassette (int computer, wxXmlNode &node);
     void parseXml_Xmodem (int computer, wxXmlNode &node);
     void parseXml_KeyFile (int computer, wxXmlNode &node);
+    void parseXml_Splash (int computer, wxXmlNode &node);
     void parseXml_VideoDump (int computer, wxXmlNode &node);
     void parseXml_MemAccess (int computer, wxXmlNode &node);
     void parseXml_Diag (int computer, wxXmlNode &node);

@@ -4,7 +4,8 @@
 <emmaconfig>
     
     <system>
-        <name>Elf, UT4 - Serial I/O</name>
+        <name>Elf</name>
+        <config>UT4, Serial I/O</config>
         <!-- Press return to start UT4 -->
         <clock>1.76</clock>
         <boot>0x8000</boot>

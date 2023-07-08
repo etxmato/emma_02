@@ -4,7 +4,8 @@
 <emmaconfig>
     
     <system>
-        <name>Elf - VDU with Ascii Keyboard &amp; Tiny Basic</name>
+        <name>Elf</name>
+        <config>VDU with Ascii Keyboard &amp; Tiny Basic</config>
         <!-- Press return to start Tiny Basic -->
         <clock>1.76</clock>
         <boot>0x0</boot>

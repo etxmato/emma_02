@@ -210,6 +210,8 @@ public:
     wxString xmodemFile_;
     wxString sequencerDir_;
     wxString sequencerFile_;
+    wxString splashDialog_;
+    wxString splashText_;
 
     bool ramFileFromGui_;
 
@@ -276,7 +278,8 @@ public:
     bool st2020Active_;
     bool sbActive_;
     bool useAssemblerDefaults_;
-    
+    bool useSplashScreen_;
+
     bool useDiagnosticBoard_;
     int diagRomChecksum_;
     int diagFactory_;

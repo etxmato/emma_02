@@ -4,7 +4,8 @@
 <emmaconfig>
     
     <system>
-        <name>Netronics Elf II, Tiny Basic - Pixie Video</name>
+        <name>Netronics Elf II</name>
+        <config>Tiny Basic, Pixie Video</config>
         <!-- Press return to start BASIC -->
         <clock>1.76</clock>
         <boot>0</boot>
@@ -15,6 +16,10 @@
         <dirname>Elf</dirname>
     </system>
     
+    <splash>
+        <dialog>TINY</dialog>
+    </splash>
+
     <memory>
         <mainram>
             <start>0x0000</start>

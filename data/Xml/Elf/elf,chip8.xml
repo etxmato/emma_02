@@ -4,7 +4,8 @@
 <emmaconfig>
     
     <system>
-        <name>Elf, Chip 8 - use RAM button to select Chip-8 software</name>
+        <name>Elf</name>
+        <config>Chip-8, use RAM button to select Chip-8 software</config>
         <!-- use RAM button to select CHIP 8 game -->
         <clock>1.76</clock>
         <boot>0</boot>

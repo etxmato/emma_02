@@ -4,7 +4,8 @@
 <emmaconfig>
     
     <system>
-        <name>Pico/Elf V2, TMS Pixie - Elf/Os</name>
+        <name>Pico/Elf V2</name>
+        <config>TMS Pixie, Elf/Os Serial</config>
         <clock>4.0</clock>
         <boot>0</boot>
         <init type="ef1">1</init>

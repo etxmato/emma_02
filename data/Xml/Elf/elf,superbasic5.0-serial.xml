@@ -4,7 +4,8 @@
 <emmaconfig>
     
     <system>
-        <name>Elf, Quest Superbasic 5.0 - Serial I/O</name>
+        <name>Elf</name>
+        <config>Quest Superbasic 5.0, Serial I/O</config>
         <!-- Press return, C to start BASIC in Cold mode -->
         <clock>1.76</clock>
         <boot>0</boot>

@@ -4,7 +4,8 @@
 <emmaconfig>
     
     <system>
-        <name>Cosmicos - Ascii Monitor</name>
+        <name>Cosmicos</name>
+        <config>Ascii Monitor</config>
         <clock>1.75</clock>
         <boot>0xC0C0</boot>
         <init type="ef1">1</init>

@@ -4,7 +4,8 @@
 <emmaconfig>
     
     <system>
-        <name>Pico/Elf V2 - Installation Elf/Os</name>
+        <name>Pico/Elf V2</name>
+        <config>Installation Elf/Os</config>
         <clock>4.0</clock>
         <boot>0</boot>
         <init type="ef1">1</init>

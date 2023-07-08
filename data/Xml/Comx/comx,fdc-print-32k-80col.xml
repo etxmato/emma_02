@@ -4,7 +4,8 @@
 <emmaconfig> 
     
     <system>
-        <name>COMX Original, FDC, Standard Printer, 32K RAM &amp; 80 Column Card</name>
+        <name>COMX-35</name>
+        <config>FDC, Standard Printer, 32K RAM &amp; 80 Column Card</config>
         <clock>2.813</clock>
         <boot>0</boot>
         <init type="ef1">1</init>

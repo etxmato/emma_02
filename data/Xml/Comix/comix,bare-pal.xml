@@ -4,7 +4,8 @@
 <emmaconfig>
     
     <system>
-        <name>COMIX Bare - PAL</name>
+        <name>COMIX-35</name>
+        <config>Bare, PAL</config>
         <clock>2.813</clock>
         <boot>0</boot>
         <init type="ef1">1</init>

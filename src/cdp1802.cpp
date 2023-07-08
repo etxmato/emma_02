@@ -3421,7 +3421,8 @@ void Cdp1802::cpuCycleFinalize()
 
         machineCycle();
         cpuCycles_ ++;
-        skipMachineCycleAfterIdle_=true;
+        if (elfConfiguration.useVip2KVideo || computerType_ == VIP2K)
+            skipMachineCycleAfterIdle_=true;
 
         if (cpuState_ != STATE_EXECUTE_1) 
             cpuState_ = STATE_FETCH_1;

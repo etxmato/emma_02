@@ -4,7 +4,8 @@
 <emmaconfig>
     
     <system>
-        <name>Elf, RCA Bug - Serial I/O</name>
+        <name>Elf</name>
+        <config>RCA Bug, Serial I/O</config>
         <!-- Press return to start RCA Bug -->
         <clock>1.76</clock>
         <boot>0x3800</boot>

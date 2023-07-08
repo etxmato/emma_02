@@ -117,6 +117,7 @@ void XmlParser::parseXmlFile(int computer, wxString xmlDir, wxString xmlFile)
         "rtc",
         "usb",
         "keyfile",
+        "splash",
         "videodump",
         "memaccess",
         "basic",
@@ -153,6 +154,7 @@ void XmlParser::parseXmlFile(int computer, wxString xmlDir, wxString xmlFile)
         TAG_RTC,
         TAG_USB,
         TAG_KEYFILE,
+        TAG_SPLASH,
         TAG_VIDEODUMP,
         TAG_MEMACCESS,
         TAG_BASIC,
@@ -308,9 +310,11 @@ void XmlParser::parseXmlFile(int computer, wxString xmlDir, wxString xmlFile)
     xmodemFileDirDefined_ = false;
     xmodemFileDefined_ = false;
     xmodemFileDir = conf[computer].xmodemFileDir_;
+    sequencerFileDirDefined_ = false;
     conf[computer].sequencerFile_ = "2716-ntsc.hex";
     conf[computer].sequencerDir_ = conf[computer].mainDir_;
-    
+    conf[computer].useSplashScreen_ = false;
+
     for (int fdcType = 0; fdcType<FDCTYPE_MAX; fdcType++)
     {
         for (int disk=0; disk<4; disk++)
@@ -382,6 +386,7 @@ void XmlParser::parseXmlFile(int computer, wxString xmlDir, wxString xmlFile)
     elfConfiguration[computer].ioConfiguration.hexOutput.mask = 0xff;
 
     elfConfiguration[computer].ioConfiguration.hexInput.portNumber = -1;
+    elfConfiguration[computer].ioConfiguration.hexInput.mask = 0xff;
 
     elfConfiguration[computer].useDip = false;
     elfConfiguration[computer].useIoGroup = false;
@@ -753,6 +758,10 @@ void XmlParser::parseXmlFile(int computer, wxString xmlDir, wxString xmlFile)
                 parseXml_KeyFile (computer, *child);
             break;
                 
+            case TAG_SPLASH:
+                parseXml_Splash (computer, *child);
+            break;
+                
             case TAG_VIDEODUMP:
                 parseXml_VideoDump (computer, *child);
             break;
@@ -871,6 +880,7 @@ void XmlParser::parseXml_System(int computer, wxXmlNode &node)
     wxString tagList[]=
     {
         "name",
+        "config",
         "clock",
         "boot",
         "init",
@@ -885,6 +895,7 @@ void XmlParser::parseXml_System(int computer, wxXmlNode &node)
     enum
     {
         TAG_NAME,
+        TAG_CONFIG,
         TAG_CLOCK,
         TAG_BOOT,
         TAG_INIT,
@@ -899,6 +910,9 @@ void XmlParser::parseXml_System(int computer, wxXmlNode &node)
     int tagTypeInt;
     elfConfiguration[computer].dmaOnFirstQ = false;
     elfConfiguration[computer].dmaOnFirstOut = 0;
+    computerInfo[computer].name = "";
+    computerInfo[computer].configuration = "";
+    
     wxString guiName;
 
     wxXmlNode *child = node.GetChildren();
@@ -914,10 +928,30 @@ void XmlParser::parseXml_System(int computer, wxXmlNode &node)
         {
             case TAG_NAME:
                 computerInfo[computer].name = child->GetNodeContent();
-                guiName = computerInfo[computer].name;
-                guiName.Replace("&","&&");
                 if (mode_.gui)
+                {
+                    if (computerInfo[computer].configuration == "")
+                        guiName = computerInfo[computer].name;
+                    else
+                        guiName = computerInfo[computer].name + " - " + computerInfo[computer].configuration;
+                    guiName.Replace("&","&&");
+
                     XRCCTRL(*this,"ConfigTextXml", wxStaticText)->SetLabel(guiName);
+                }
+            break;
+
+            case TAG_CONFIG:
+                computerInfo[computer].configuration = child->GetNodeContent();
+                if (mode_.gui)
+                {
+                    if (computerInfo[computer].configuration == "")
+                        guiName = computerInfo[computer].name;
+                    else
+                        guiName = computerInfo[computer].name + " - " + computerInfo[computer].configuration;
+                    guiName.Replace("&","&&");
+
+                    XRCCTRL(*this,"ConfigTextXml", wxStaticText)->SetLabel(guiName);
+                }
             break;
 
             case TAG_CLOCK:
@@ -2098,6 +2132,7 @@ void XmlParser::parseXml_Vip2KVideo(int computer, wxXmlNode &node)
             break;
 
             case TAG_DIRNAME:
+                sequencerFileDirDefined_ = true;
                 conf[computer].sequencerDir_ = dataDir_ + child->GetNodeContent();
                 if (conf[computer].sequencerDir_.Right(1) != pathSeparator_)
                     conf[computer].sequencerDir_ += pathSeparator_;
@@ -5528,6 +5563,87 @@ void XmlParser::parseXml_KeyFile (int computer, wxXmlNode &node)
                 conf[computer].keyFileDir_ = dataDir_ + child->GetNodeContent();
                 if (conf[computer].keyFileDir_.Right(1) != pathSeparator_)
                     conf[computer].keyFileDir_ += pathSeparator_;
+            break;
+
+            case TAG_COMMENT:
+            break;
+
+            default:
+                warningText_ += "Unkown tag: ";
+                warningText_ += childName;
+                warningText_ += "\n";
+            break;
+        }
+        
+        child = child->GetNext();
+    }
+}
+
+void XmlParser::parseXml_Splash (int computer, wxXmlNode &node)
+{
+    conf[computer].useSplashScreen_ = true;
+
+    wxString tagList[]=
+    {
+        "dialog",
+        "text",
+        "mac",
+        "windows",
+        "linus",
+        "comment",
+        "undefined"
+    };
+
+    enum
+    {
+        TAG_DIALOG,
+        TAG_TEXT,
+        TAG_MAC,
+        TAG_WINDOWS,
+        TAG_LINUX,
+        TAG_COMMENT,
+        TAG_UNDEFINED
+    };
+    
+    int tagTypeInt;
+
+    wxXmlNode *child = node.GetChildren();
+    conf[computer].splashDialog_ = "DEFAULT";
+    
+    while (child)
+    {
+        wxString childName = child->GetName();
+
+        tagTypeInt = 0;
+        while (tagTypeInt != TAG_UNDEFINED && tagList[tagTypeInt] != childName)
+            tagTypeInt++;
+        
+        switch (tagTypeInt)
+        {
+            case TAG_DIALOG:
+                conf[computer].splashDialog_ = child->GetNodeContent();
+            break;
+                
+            case TAG_TEXT:
+                conf[computer].splashText_ = child->GetNodeContent();
+            break;
+                
+            case TAG_MAC:
+#ifdef __WXMAC__
+                conf[computer].splashText_ = child->GetNodeContent();
+#endif
+            break;
+
+            case TAG_WINDOWS:
+#ifdef __WXMSW__
+                conf[computer].splashText_ = child->GetNodeContent();
+#endif
+            break;
+
+            case TAG_LINUX:
+#ifdef __linux__
+                conf[computer].splashText_ = child->GetNodeContent();
+#endif
             break;
 
             case TAG_COMMENT:

@@ -4,7 +4,8 @@
 <emmaconfig>
     
     <system>
-        <name>Cosmac Elf - Bare</name>
+        <name>Cosmac Elf</name>
+        <config>Bare</config>
         <clock>1.76</clock>
         <init type="ef1">1</init>
         <init type="ef2">1</init>

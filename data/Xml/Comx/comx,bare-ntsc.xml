@@ -4,7 +4,8 @@
 <emmaconfig>
     
     <system>
-        <name>COMX Bare - NTSC</name>
+        <name>COMX-35</name>
+        <config>Bare, NTSC</config>
         <clock>2.835</clock>
         <boot>0</boot>
         <init type="ef1">1</init>

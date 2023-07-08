@@ -4,7 +4,8 @@
 <emmaconfig>
     
     <system>
-        <name>Cosmicos - 1864</name>
+        <name>Cosmicos</name>
+        <config>1864</config>
         <clock>1.75</clock>
         <init type="ef1">1</init>
         <init type="ef2">1</init>

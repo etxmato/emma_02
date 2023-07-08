@@ -4,7 +4,8 @@
 <emmaconfig>
     
     <system>
-        <name>Elf, Richard's ROM Mapper - Pixie Video</name>
+        <name>Elf</name>
+        <config>Richard's ROM Mapper, Pixie Video</config>
         <!-- Press return and then RUN to start, load program via number or N for next page  -->
         <clock>1.76</clock>
         <boot>0x8080</boot>

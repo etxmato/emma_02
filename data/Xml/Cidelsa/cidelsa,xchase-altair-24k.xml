@@ -4,14 +4,15 @@
 <emmaconfig>
     
     <system>
-        <name>Cidelsa Xchase on Altair HW - 24K ROM</name>
+        <name>Cidelsa</name>
+        <config>Xchase on Altair HW, 24K ROM</config>
         <clock>3.579</clock>
         <boot>0</boot>
         <init type="ef1">1</init>
         <init type="ef2">1</init>
         <init type="ef3">1</init>
         <init type="ef4">1</init>
-        <statusbar>cidelsa</statusbar>
+        <statusbar out="1">cidelsa</statusbar>
         <dirname>Cidelsa</dirname>
     </system>
 

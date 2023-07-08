@@ -4,7 +4,8 @@
 <emmaconfig>
     
     <system>
-        <name>Elf, RCA Basic 3 - Pixie Video</name>
+        <name>Elf</name>
+        <config>RCA Basic 3, Pixie Video</config>
         <!-- Press return, C to start BASIC in Cold mode -->
         <clock>1.76</clock>
         <boot>0x2200</boot>
@@ -15,6 +16,10 @@
         <dirname>Elf</dirname>
     </system>
     
+    <splash>
+        <dialog>RCA_BASIC</dialog>
+    </splash>
+
     <memory>
         <mainram>
             <start>0x0000</start>

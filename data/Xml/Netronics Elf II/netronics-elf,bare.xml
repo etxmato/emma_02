@@ -4,7 +4,8 @@
 <emmaconfig>
     
     <system>
-        <name>Netronics Elf II - Bare</name>
+        <name>Netronics Elf II</name>
+        <config>Bare</config>
         <clock>1.76</clock>
         <init type="ef1">1</init>
         <init type="ef2">1</init>
