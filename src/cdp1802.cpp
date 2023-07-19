@@ -3154,7 +3154,7 @@ void Cdp1802::cpuCycleExecute2_LBR()
     Word secondOperandAddress = address_+1;
 
     Byte highByteBranchAddress=bus_;
-    Byte lowByteBranchAddress=readMemDebug(secondOperandAddress);
+    Byte lowByteBranchAddress=readMem(secondOperandAddress);
     Word branchAddress=(registerB_<<8)|lowByteBranchAddress;
 
     switch(n)

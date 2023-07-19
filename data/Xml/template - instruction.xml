@@ -33,6 +33,7 @@
         <!-- always specify <system> tag first, clock, dirname and name tags are mandatory
         <name>: machine name
         <config>: configuration description
+        <cpu>: cpu type: system, 1801, 1802, 1804 or 1805 (or system00, cpu1801, cpu1802, cpu1804 or cpu1805, rca1801, rca1802, rca1804 or rca1805)
         <clock>: system clock speec
         <boot>: boot address, if not specified the computer will not start unless automatically
         <init type="efX">: set initialization value of unused EF flags, X can be 1 to 4, value 0 or 1
@@ -66,7 +67,7 @@
         TINY_VT: Show TINY BASIC message on VT
         Elf2K_VT: Show Elf2K message on VT
         MCDS: Show MCDS UT62 message
-        When dialog DEFAULT is selected use <mac>, <windows> and <linux> to specify text to be shown for indicated OS.
+        When dialog DEFAULT is selected use <mac>, <windows> and <linux> if you need differetn text to be shown per OS, use <text> if it can be the same on any OS. Use &#xD; for a carriage return character
         -->
         <dialog>DEFAULT</dialog>
     </splash>
@@ -82,7 +83,7 @@
     </basic>
     
     <iogroup> <!-- define output port to change iogroup to expand number of I/O port options -->
-        <out mask="0x1e">2</out> <!-- port is defined by the specified value (1 in this example), mask is used to identify the used bits -->
+        <out mask="0x1e">2</out> <!-- port is defined by the specified value (2 in this example), mask is used to identify the used bits -->
     </iogroup>
     
     <bootstrap>
@@ -132,7 +133,7 @@
         <giant>: definition for giantboard mapping at 0xF000-0xFFFF. Note this overwrites all other memory options.
         <diagrom>: definition for COMX diagnostic board ROM used from 0-0xFFF replacing COMX system ROM when active.
 
-        mask="0xZZZZ": When used for rom, mainram and ram, memory type will be mapped to other locations using the specified mask (smaller than size of the segment). E.g. is <ram mask="0x3fff" is used ram would be mapped every 1K. When specifying mask=0, or when not specified, no mask will be used.
+        mask="0xZZZZ": When used for rom, mainram, nvram and ram, memory type will be mapped to other locations using the specified mask (smaller than size of the segment). E.g. is <ram mask="0x3fff" is used ram would be mapped every 1K. When specifying mask=0, or when not specified, no mask will be used.
         
         common sub tags:
         <start>: start location in main memory
@@ -888,6 +889,17 @@
          <ef type="req">3</ef>
      </keypad>
 
+     <keypad type="latch">
+         <!-- keypad definition for a keypad solution using a kay latch (VELF, VIP etc)
+         <iogroup>: iogroup, i.e. i/o ports are activate when specified iogroup is selected via the iogroup port
+         <out>: port to set key latch, mask HAS TO be set to max value to be able to use keyfile, ctrl V and memeory access features
+         <ef pol="rev">: ef port indicating if latched key is pressed, if pol="rev" is specified ef will be reversed
+         -->
+  
+         <out mask="0x0f">2</out>
+         <ef pol="rev">3</ef>
+     </keypad>
+     
      <xlkeypad>
          <!-- CyberVision / XL keypad definition
          <iogroup>: iogroup, i.e. i/o ports are activate when specified iogroup is selected via the iogroup port
@@ -1129,6 +1141,7 @@
          <!-- cassette definition for 1 or 2 tape decks
          <ef>: ef port for cassette input
          Q is always used for cassette output
+         <out>: port
          <filename>: initial cassette filename
          <dirname>: location of cassette file; defined as sub-dir of the main Emma 02 data directory. If not specified the dirname specified in <system> will be used.
          -->
@@ -1139,6 +1152,7 @@
 
      <cassette type="cv">
          <!-- cassette definition cybervision
+         <iogroup>: iogroup, i.e. i/o ports are activate when specified iogroup is selected via the iogroup port
          <ef type="out">: write buffer empty
          <ef type="in">: data ready
          <in>: read data from tape

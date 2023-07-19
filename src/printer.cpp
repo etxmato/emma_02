@@ -1474,11 +1474,11 @@ void Printer::configureBasicPrinter(IoConfiguration portConf)
 
     int ioGroupNum = 0;
     if (runningComp == "Xml")
-        ioGroupNum = portConf.ideIoGroup + 1;
+        ioGroupNum = portConf.printerIoGroup + 1;
 
     wxString ioGroup = "";
     if (ioGroupNum != 0)
-        ioGroup.Printf(" on group %d", portConf.ideIoGroup);
+        ioGroup.Printf(" on group %d", portConf.printerIoGroup);
 
     p_Computer->setOutType(ioGroupNum, portConf.printerOutput, BASIC_PRINT_OUT);
 

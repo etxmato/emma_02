@@ -226,6 +226,8 @@
 		99C11A7429A022AF00DFCACB /* rtc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99C11A7129A022AF00DFCACB /* rtc.cpp */; };
 		99C3BFE81C0CF400006E3D82 /* guivelf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99C3BFE61C0CF400006E3D82 /* guivelf.cpp */; };
 		99C567BC24CC4DFC00F11A84 /* am4kbas.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99C567BB24CC4DFB00F11A84 /* am4kbas.syntax */; };
+		99C597802A66BBE500A4F97D /* keypadfred.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99C5977E2A66BBD400A4F97D /* keypadfred.cpp */; };
+		99C597812A66BBE600A4F97D /* keypadfred.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99C5977E2A66BBD400A4F97D /* keypadfred.cpp */; };
 		99C9EABB2145C1FC00C1EA03 /* Test_Word.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99C9EABA2145C1FC00C1EA03 /* Test_Word.syntax */; };
 		99D5FCD7211C938E001F4391 /* Chip8X.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99D5FCD3211C938E001F4391 /* Chip8X.syntax */; };
 		99D5FCD8211C938E001F4391 /* ChipEti.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99D5FCD4211C938E001F4391 /* ChipEti.syntax */; };
@@ -941,6 +943,8 @@
 		99C3BFE61C0CF400006E3D82 /* guivelf.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = guivelf.cpp; path = src/guivelf.cpp; sourceTree = "<group>"; };
 		99C3BFE71C0CF400006E3D82 /* guivelf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = guivelf.h; path = src/guivelf.h; sourceTree = "<group>"; };
 		99C567BB24CC4DFB00F11A84 /* am4kbas.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = am4kbas.syntax; sourceTree = "<group>"; };
+		99C5977E2A66BBD400A4F97D /* keypadfred.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = keypadfred.cpp; path = src/keypadfred.cpp; sourceTree = "<group>"; };
+		99C5977F2A66BBD400A4F97D /* keypadfred.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = keypadfred.h; path = src/keypadfred.h; sourceTree = "<group>"; };
 		99C9EABA2145C1FC00C1EA03 /* Test_Word.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Test_Word.syntax; sourceTree = "<group>"; };
 		99CC30B721DBA0F800B04C7F /* Emma 02 mac.pjd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Emma 02 mac.pjd"; sourceTree = "<group>"; };
 		99D5FCD3211C938E001F4391 /* Chip8X.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Chip8X.syntax; sourceTree = "<group>"; };
@@ -1403,6 +1407,8 @@
 				996F46251AA643B300C88AA6 /* keymaptmc.h */,
 				9976473B1A61D5EE00FB9B33 /* keypad.cpp */,
 				997647A81A61D5EE00FB9B33 /* keypad.h */,
+				99C5977E2A66BBD400A4F97D /* keypadfred.cpp */,
+				99C5977F2A66BBD400A4F97D /* keypadfred.h */,
 				9976474B1A61D5EE00FB9B33 /* led.cpp */,
 				997647A91A61D5EE00FB9B33 /* led.h */,
 				9976472D1A61D5EE00FB9B33 /* ledmodule.cpp */,
@@ -1898,6 +1904,7 @@
 				99F4817B1C0E4A0C002BC0AE /* velf.cpp in Sources */,
 				997647D31A61D5EF00FB9B33 /* tmc2000.cpp in Sources */,
 				991C84F81E37E66A0084DAFB /* microtutor.cpp in Sources */,
+				99C597802A66BBE500A4F97D /* keypadfred.cpp in Sources */,
 				997648081A61D5EF00FB9B33 /* about.cpp in Sources */,
 				997647F91A61D5EF00FB9B33 /* vip.cpp in Sources */,
 				997647BD1A61D5EE00FB9B33 /* guicomx.cpp in Sources */,
@@ -2048,6 +2055,7 @@
 				99F37E82285D1D9200C57417 /* tmc2000.cpp in Sources */,
 				99F37E83285D1D9200C57417 /* microtutor.cpp in Sources */,
 				99F37E84285D1D9200C57417 /* about.cpp in Sources */,
+				99C597812A66BBE600A4F97D /* keypadfred.cpp in Sources */,
 				99F37E85285D1D9200C57417 /* vip.cpp in Sources */,
 				99F37E86285D1D9200C57417 /* guicomx.cpp in Sources */,
 				99F37E87285D1D9200C57417 /* configuration.cpp in Sources */,

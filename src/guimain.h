@@ -382,6 +382,8 @@ public:
     void setCdp1864Pos(int computerType, wxPoint position);
     wxPoint getVip2KPos(int computerType);
     void setVip2KPos(int computerType, wxPoint position);
+    wxPoint getFredPos(int computerType);
+    void setFredPos(int computerType, wxPoint position);
     wxPoint getTmsPos(int computerType);
     void setTmsPos(int computerType, wxPoint position);
     wxPoint getVtPos(int computerType);
@@ -458,6 +460,7 @@ public:
     void correctZoomVt(int computerType, wxString computerTypeString, bool setSpin);
     void onLedTimer(wxCommandEvent&event);
     int getCpuType();
+    void setCpuType(wxString type);
     int getCpuStartupRegisters() {return cpuStartupRegisters_;};
     int getCpuStartupRam() {return cpuStartupRam_;};
     int getCpuStartupVideoRam() {return cpuStartupVideoRam_;};
@@ -601,6 +604,7 @@ protected:
     bool fullScreenFloat_;
     bool useNumPad_;
     int cpuType_;
+    int cpuTypeXml_;
     int defaultCpuType_;
     int cpuStartupRegisters_;
     int cpuStartupRam_;

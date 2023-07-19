@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>FRED</name>
+        <config></config>
+        <clock>1.00</clock>
+        <cpu>system</cpu> 
+        <boot>0</boot>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init>
+        <init type="ef4">1</init>
+        <dirname>FRED</dirname>
+    </system>
+
+<!--    <splash>
+        <text>
+        </text>
+    </splash>-->
+  
+    <iogroup>
+        <out>1</out>
+    </iogroup>
+
+    <frontpanel type="fred1" init="on">
+    </frontpanel>
+
+    <memory>
+        <mainram mask="0x3ff">
+            <start>0x0000</start>
+            <end>0xFFFF</end>
+            <filename>Space War.bin</filename>
+        </mainram>
+    </memory>
+    
+    <keypad type="fred">
+        <iogroup>1</iogroup>
+        <out>2</out>
+        <in type="key" mode="1">0</in>
+        <in type="coin">6</in>
+        <ef type="key" mode="1">1</ef>
+        <ef type="fireb">3</ef>
+        <ef type="coin">4</ef>
+        <mode>hex</mode>
+    </keypad>
+
+    <video type="fred">
+        <iogroup>2</iogroup>
+        <out>2</out>
+        <border>33x33</border>
+        <color type="fore">255, 255, 255</color>
+        <color type="back">0, 0, 0</color>
+     </video>
+
+    <cassette type="fred">
+        <!-- cassette definition cybervision
+        <iogroup>: iogroup, i.e. i/o ports are activate when specified iogroup is selected via the iogroup port
+        <ef type="out">: write buffer empty
+        <ef type="in">: data ready
+        <ef type="run">: tape run/stop
+        <ef type="error">: tape error
+        <in>: read data from tape
+        <out type="mode">: bit 4 = program mode, bit 5 = direct mode, bit 6 = write mode
+        <out type="sound">: bit 0 = 1 - run tape, bit 1 = 1 - sound on, bit 2 = sound
+        <freq type="x">: frequency used for tone for bit value x (0 or 1)
+        <stoptone />: detect stop tone
+        <bootstart />: start tape on boot
+        <startbit>: start bit value, 0 or 1
+        <databits>: number of databits
+        <stopbit type="ignore">: stop bit value, 0 or 1, using type="ignore" will not check (i.e. ignore) the stopbit when loading/reading data
+        <stopdelay>: number of ms tape will continue playing when stop command is given by CPU
+        <threshold type="8bit">: threshold used for 8, 16 and 24 bit wav files. The threshold is used to ignore noise; if sound value is read from the wav file lower than the threshold it will not be used as data. If loading does not work, increase of decrease these values.
+        <channel type="audio">: indicates which channel (left or right) is used for audio (speech or music)
+        <channel type="data">: indicates which channel (left or right) is used for data
+        <filename>: initial cassette filename
+        <dirname>: location of cassette file; defined as sub-dir of the main Emma 02 data directory. If not specified the dirname specified in <system> will be used.
+        -->
+        <iogroup>3</iogroup>
+        <ef type="in" mode="2">1</ef>
+        <ef type="run">2</ef>
+        <ef type="error">4</ef>
+        <in mode="2">0</in>
+        <out type="mode">2</out>
+        <out type="sound">3</out>
+        <freq type="0">3934</freq>
+        <freq type="1">1967</freq>
+        <startbit>1</startbit>
+        <databits>8</databits>
+        <stopbit type="ignore">0</stopbit>
+        <stopdelay>20</stopdelay>
+        <threshold type="8bit">10</threshold>
+        <threshold type="16bit">120</threshold>
+        <threshold type="24bit">1000</threshold>
+        <filename cassette="0"></filename>
+        <channel type="audio">left</channel>
+        <channel type="data">right</channel>
+    </cassette>
+
+    <debugger>
+        <scrt mode="off">
+            <call reg="4">-1</call>
+            <return reg="5">-1</return>
+        </scrt>
+
+        <assembler>
+            <filename>fred.bin</filename>
+            <code_start>0</code_start>
+            <code_end>0x3FF</code_end>
+        </assembler>
+    </debugger>
+
+</emmaconfig>

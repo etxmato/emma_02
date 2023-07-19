@@ -197,6 +197,7 @@ public:
     virtual void dataSetState(int number, bool state);
     void efUp(int number);
     void efDown(int number);
+    virtual void releaseButtonOnScreen(HexButton* buttonPoint) {};
 
 protected:
     wxBitmap *mainBitmapPointer;

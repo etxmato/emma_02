@@ -32,6 +32,7 @@
 
 BEGIN_EVENT_TABLE(SplashScreen, wxDialog)
     EVT_BUTTON(XRCID("NoShow"), SplashScreen::noShow)
+    EVT_BUTTON(XRCID("NoClose"), SplashScreen::noClose)
     EVT_TIMER(1000, SplashScreen::onTimer)
     EVT_CLOSE (SplashScreen::onClose)
 END_EVENT_TABLE()
@@ -114,6 +115,7 @@ SplashScreen::SplashScreen(wxWindow *parent)
             if (dialog == "DEFAULT")
             {
                 XRCCTRL(*this,"SplashText",wxStaticText)->SetLabel(p_Main->getSplashText(computer));
+                XRCCTRL(*this,"DEFAULT",wxDialog)->DoLayoutAdaptation();
             }
             Show(true);
         break;
@@ -139,6 +141,12 @@ void SplashScreen::noShow(wxCommandEvent&WXUNUSED(event))
 {
     p_Main->hideSplashScreen();
     Show(false);
+}
+
+void SplashScreen::noClose(wxCommandEvent&WXUNUSED(event))
+{
+    XRCCTRL(*this,"NoClose",wxButton)->Enable(false);
+    timerPointer->Stop();
 }
 
 void SplashScreen::onClose(wxCloseEvent&WXUNUSED(event))

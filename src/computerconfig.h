@@ -304,6 +304,7 @@ public:
     int pixieX_, pixieY_;
     int cdp1864X_, cdp1864Y_;
     int vip2KX_, vip2KY_;
+    int fredX_, fredY_;
     int tmsX_, tmsY_;
     int vtX_, vtY_;
     int vtUart2X_, vtUart2Y_;
@@ -321,6 +322,7 @@ public:
     int defPixieX_, defPixieY_;
     int defCdp1864X_, defCdp1864Y_;
     int defVip2KX_, defVip2KY_;
+    int defFredX_, defFredY_;
     int defTmsX_, defTmsY_;
     int defVtX_, defVtY_;
     int defMc6845X_, defMc6845Y_;

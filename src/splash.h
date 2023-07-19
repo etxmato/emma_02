@@ -9,6 +9,7 @@ public:
 
 private:
     void noShow(wxCommandEvent&event);
+    void noClose(wxCommandEvent&event);
     void onClose(wxCloseEvent&event);
     void onTimer(wxTimerEvent&event);
       

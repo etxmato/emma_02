@@ -132,7 +132,7 @@ wxString IoDevice::setInType(int q, int iogroup, IoPort port, int inType)
     wxString inputPorts = "";
     if (port.mask == 0xff)
     {
-        setOutType(q, iogroup, port.portNumber, inType);
+        setInType(q, iogroup, port.portNumber, inType);
         inputPorts.Printf("%d", port.portNumber);
         return inputPorts;
     }

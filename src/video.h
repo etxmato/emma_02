@@ -150,14 +150,14 @@ protected:
     wxColour colour_[COL_MAX];
     wxPen penColour_[COL_MAX];
     wxBrush brushColour_[COL_MAX];
-    int borderX_[10];
-    int borderY_[10];
+    int borderX_[VIDEOXMLMAX];
+    int borderY_[VIDEOXMLMAX];
 
     wxColour colourNew_[COL_MAX];
     wxPen penColourNew_[COL_MAX];
     wxBrush brushColourNew_[COL_MAX];
-    int borderXNew_[10];
-    int borderYNew_[10];
+    int borderXNew_[VIDEOXMLMAX];
+    int borderYNew_[VIDEOXMLMAX];
 
     wxMemoryDC dcMemory;
     wxGraphicsContext *gc;

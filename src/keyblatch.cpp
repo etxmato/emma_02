@@ -35,7 +35,7 @@ KeybLatch::KeybLatch()
 {
 }
 
-void KeybLatch::configure(IoConfiguration ioConf, wxString saveCommand)
+void KeybLatch::configure(IoConfiguration ioConf, wxString type, wxString saveCommand)
 {
     ioConfiguration_ = ioConf;
     saveCommand_ = saveCommand;
@@ -47,13 +47,13 @@ void KeybLatch::configure(IoConfiguration ioConf, wxString saveCommand)
         ioGroup.Printf(" on group %d", ioConfiguration_.keybLatchIoGroup);
     }
     
-    p_Main->message("Configuring keyboard" + ioGroup);
+    p_Main->message("Configuring " + type + ioGroup);
     if (ioConfiguration_.keybLatchPressed == 1)
-        efText = "latched key pressed\n";
+        efText = ": latched key pressed\n";
     else
-        efText = "(reversed): latched key pressed\n";
+        efText = " (reversed): latched key pressed\n";
 
-    printBuffer.Printf("    Output %d: keyboard latch, EF %d: ", ioConfiguration_.keybLatchOut, ioConfiguration_.keybLatchEf);
+    printBuffer.Printf("    Output %d: " + type + " latch, EF %d", ioConfiguration_.keybLatchOut, ioConfiguration_.keybLatchEf);
     p_Main->message(printBuffer + efText);
 
     p_Computer->setCycleType(KEYCYCLE, LATCHKEYBCYCLE);

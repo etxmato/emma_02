@@ -11,6 +11,7 @@ public:
     Uc1800Screen(wxWindow *parent, const wxSize& size, int tilType);
     ~Uc1800Screen();
 
+    void init();
     void init(bool powerButtonState);
     void onPaint(wxPaintEvent&event);
     void onMousePress(wxMouseEvent& event);

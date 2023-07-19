@@ -12,6 +12,7 @@
 #include "keyb1871.h"
 #include "bitkeypad.h"
 #include "cvkeypad.h"
+#include "keypadfred.h"
 #include "keyblatch.h"
 #include "keybmatrix.h"
 #include "ledmodule.h"
@@ -23,6 +24,8 @@
 #include "microtutor.h"
 #include "microtutor2.h"
 #include "elf2k.h"
+#include "velf.h"
+#include "fred.h"
 #include "cosmicos.h"
 #include "joycard.h"
 #include "usb.h"
@@ -45,6 +48,7 @@ public:
     ~Xmlemu();
 
     void onClose(wxCloseEvent&WXUNUSED(event));
+    void resumeComputer();
     void showModules(bool status);
     void showModules(bool status, bool useSwitch, bool useHex);
     void removeElfHex() {hexKeypadClosed_ = true; elfConfiguration.useHex = false;};
@@ -102,6 +106,9 @@ public:
     void switchQ(int value);
     int getMpButtonState();
     void onWaitButton();
+    void onPowerButton();
+    void powerOff();
+    void powerOn();
     void onRunButton(wxCommandEvent&WXUNUSED(event));
     void onRunButton();
     void onRunButtonPress();
@@ -122,8 +129,14 @@ public:
     void onSingleStep();
     void onResetButton(wxCommandEvent&WXUNUSED(event));
     void onResetButton();
+    void onResetButtonPress();
+    void onResetButtonRelease();
+    void onReadButton();
+    void onCardButton();
+    void updateCardReadStatus();
     void dataSwitch(int i);
     void efSwitch(int i);
+    void showDataLeds(Byte value);
 
     void onNumberKeyDown(int i);
     void onNumberKeyDown(wxCommandEvent& event);
@@ -259,12 +272,16 @@ private:
     class MicrotutorScreen *microtutorScreenPointer;
     class Microtutor2Screen *microtutor2ScreenPointer;
     class CosmicosScreen *cosmicosScreenPointer;
+    class VelfScreen *velfScreenPointer;
+    class Uc1800Screen *uc1800ScreenPointer;
+    class FredScreen *fredScreenPointer;
 
     Tms9918 *tmsPointer;
     SN76430N *sn76430nPointer;
     Pixie *pixiePointer;
     Pixie *cdp1864Pointer;
     PixieVip2K *vip2KVideoPointer;
+    PixieFred *fredVideoPointer;
     MC6845 *mc6845Pointer;
     mc6847 *mc6847Pointer;
     i8275 *i8275Pointer;
@@ -272,6 +289,7 @@ private:
     Keypad *keypadPointer;
     BitKeypad *bitkeypadPointer[2];
     CvKeypad *cvkeypadPointer;
+    KeypadFred *fredkeypadPointer;
     KeybLatch *latchKeyboardPointer;
     KeybMatrix *matrixKeyboardPointer;
     LedModule *ledModulePointer;
@@ -287,6 +305,7 @@ private:
     int goCycleSize_;
 
     Byte switches_;
+    bool powerButtonState_;
     int waitButtonState_;
     int clearButtonState_;
     int runButtonState_;
@@ -295,8 +314,14 @@ private:
     int loadButtonState_;
     Byte inbuttonEfState_;
     Byte hexEfState_;
+    char nextNybble_;
     Byte printerEfState_;
     int qLedStatus_;
+
+    Byte tapeRunSwitch_;
+    bool cardSwitchOn_;
+    bool readSwitchOn_;
+    int inpMode_;
 
     int keyDefA1_[16];
     int keyDefB1_[16];
@@ -338,6 +363,8 @@ private:
     vector<NvramDetails> nvramDetails;
 
     int elfRunState_;
+    bool runPressed_;
+
     int cycleValue_;
     int cycleSize_;
     double elfClockSpeed_;

@@ -33,21 +33,7 @@
 #include "main.h"
 #include "guimain.h"
 #include "fred.h"
-
-#define TAPE_MODE_PROGRAM 0x10
-#define TAPE_MODE_DIRECT 0x20
-#define TAPE_MODE_WRITE 0x40
-
-#define INP_MODE_NONE 0
-#define INP_MODE_KEYPAD 1
-#define INP_MODE_TAPE_PROGRAM 2
-#define INP_MODE_TAPE_DIRECT 3
-#define INP_MODE_TAPE_RUN 4
-#define INP_MODE_KEY_DIRECT 5
-
-#define FRED_TAPE_FORMAT_AUTO 0
-#define FRED_TAPE_FORMAT_PM 1
-#define FRED_TAPE_FORMAT_56 2
+#include "definition.h"
 
 FredScreen::FredScreen(wxWindow *parent, const wxSize& size, int tilType)
 : Panel(parent, size, tilType)
@@ -1400,30 +1386,33 @@ void Fred::cassetteFred(char val)
         tapeRunSwitch_ = tapeRunSwitch_ & 2;
     }
     
-    switch (fredConfiguration.tapeFormat_)
+    if (!tapeFormatFixed_)
     {
-        case FRED_TAPE_FORMAT_PM:
-            tapeFormatFixed_ = true;
-        break;
-            
-        case FRED_TAPE_FORMAT_56:
-            pulseCountStopTone_ = 2000;
-            tapeFormatFixed_ = true;
-            tapeFormat56_ = true;
-        break;
-            
-        default:
-            if (pulseCount_ > 50 && pulseCount_ < 200 && silenceCount_ > 10)
-            { // 5.2 & 6.2 tone format, if no tone is detected between 50 & 200 pulses at the start it is PM System format
+        switch (fredConfiguration.tapeFormat_)
+        {
+            case FRED_TAPE_FORMAT_PM:
+                tapeFormatFixed_ = true;
+            break;
+                
+            case FRED_TAPE_FORMAT_56:
                 pulseCountStopTone_ = 2000;
                 tapeFormatFixed_ = true;
                 tapeFormat56_ = true;
-                if (computerType_ == FRED1)
-                    p_Main->eventSetStaticTextValue("CurrentTapeFormatTextFRED1", "-> 5.2/6.2 Tone");
-                else
-                    p_Main->eventSetStaticTextValue("CurrentTapeFormatTextFRED1_5", "-> 5.2/6.2 Tone");
-            }
-        break;
+            break;
+                
+            default:
+                if (pulseCount_ > 50 && pulseCount_ < 200 && silenceCount_ > 10)
+                { // 5.2 & 6.2 tone format, if no tone is detected between 50 & 200 pulses at the start it is PM System format
+                    pulseCountStopTone_ = 2000;
+                    tapeFormatFixed_ = true;
+                    tapeFormat56_ = true;
+                    if (computerType_ == FRED1)
+                        p_Main->eventSetStaticTextValue("CurrentTapeFormatTextFRED1", "-> 5.2/6.2 Tone");
+                    else
+                        p_Main->eventSetStaticTextValue("CurrentTapeFormatTextFRED1_5", "-> 5.2/6.2 Tone");
+                }
+            break;
+        }
     }
     
     if (tapeFormat56_)

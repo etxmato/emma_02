@@ -2669,7 +2669,7 @@ void Main::writeConfig()
     writeElfWindowConfig(ELF, "Elf");
     writeElfWindowConfig(ELFII, "ElfII");
     writeElfWindowConfig(SUPERELF, "SuperElf");
-    writeXmlWindowConfig();
+//    writeXmlWindowConfig();
     writePicoWindowConfig();
     writeMembershipWindowConfig();
     writeUc1800WindowConfig();
@@ -2714,8 +2714,8 @@ void Main::initConfig()
     percentageClock_ = 1;
 
     wxString colour[COL_MAX];
-    int borderX[10];
-    int borderY[10];
+    int borderX[VIDEOXMLMAX];
+    int borderY[VIDEOXMLMAX];
 
     for (int i = 0; i < 8; i++)
     {
@@ -2780,6 +2780,8 @@ void Main::initConfig()
     borderY[VIDEOXMLSN76430N] = 0;  //1864
     borderX[VIDEOVIP2K] = 0;
     borderY[VIDEOVIP2K] = 0;  //VIP2K
+    borderX[VIDEOFRED] = 0;
+    borderY[VIDEOFRED] = 0;  //FRED
 
     colour[COL_PIXIE_FORE] = "#ffffff";    // foreground pixie
     colour[COL_PIXIE_BACK] = "#000000";    // background pixie
@@ -2819,7 +2821,7 @@ void Main::initConfig()
     colour[COL_SN76430N_RED] = "#FFC0CB";
     colour[COL_SN76430N_BLACK] = "#000000";
 
-    setScreenInfo(XML, 0, COL_MAX, colour, 10, borderX, borderY);
+    setScreenInfo(XML, 0, COL_MAX, colour, VIDEOXMLMAX, borderX, borderY);
     setComputerInfo(XML, "Xml", "Xml", "");
 
     borderX[VIDEOVT] = 0;
@@ -3168,7 +3170,7 @@ void Main::readConfig()
     readElfWindowConfig(ELF, "Elf");
     readElfWindowConfig(ELFII, "ElfII");
     readElfWindowConfig(SUPERELF, "SuperElf");
-    readXmlWindowConfig();
+//    readXmlWindowConfig();
     readPicoWindowConfig();
     readMembershipWindowConfig();
     readUc1800WindowConfig();
@@ -5344,6 +5346,7 @@ void Main::connectKeyEvent(wxWindow* pclComponent)
 void Main::onDefaultWindowPosition(wxCommandEvent&WXUNUSED(event))
 {
     fixedWindowPosition();
+    p_Main->writeXmlWindowConfig();
 
     this->Move(mainWindowX_, mainWindowY_);
     switch (runningComputer_)
@@ -5501,6 +5504,7 @@ void Main::onDefaultWindowPosition(wxCommandEvent&WXUNUSED(event))
         break;
 
     }
+   
 }
 
 void Main::onDefaultGuiSize(wxCommandEvent& WXUNUSED(event))
@@ -5599,6 +5603,8 @@ void Main::nonFixedWindowPosition()
     conf[XML].cdp1864Y_ = -1;
     conf[XML].vip2KX_ = -1;
     conf[XML].vip2KY_ = -1;
+    conf[XML].fredX_ = -1;
+    conf[XML].fredY_ = -1;
     conf[ELF2K].keypadX_ = -1;
     conf[ELF2K].keypadY_ = -1;
     conf[COSMICOS].keypadX_ = -1;
@@ -5748,6 +5754,8 @@ void Main::fixedWindowPosition()
     conf[XML].cdp1864Y_ = conf[XML].defCdp1864Y_;
     conf[XML].vip2KX_ = conf[XML].defVip2KX_;
     conf[XML].vip2KY_ = conf[XML].defVip2KY_;
+    conf[XML].fredX_ = conf[XML].defFredX_;
+    conf[XML].fredY_ = conf[XML].defFredY_;
     conf[ELF2K].keypadX_ = mainWindowX_+507+windowInfo.xBorder2;
     conf[ELF2K].keypadY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
     conf[COSMICOS].keypadX_ = mainWindowX_+333+windowInfo.xBorder2;
@@ -5952,9 +5960,21 @@ void Main::onStart(int computer)
                case PANEL_MICROTUTOR:
                case PANEL_MICROTUTOR2:
                   mainWindowSize = wxSize(333, 160);
-                  p_Xmlemu = new Xmlemu(computerInfo[XML].name, wxPoint(conf[XML].mainX_, conf[XML].mainY_), wxSize(333, 160), conf[XML].clockSpeed_, elfConfiguration[XML], conf[XML]);
                break;
                   
+               case PANEL_VELF:
+                  mainWindowSize = wxSize(310, 180);
+               break;
+                  
+               case PANEL_UC1800:
+                  mainWindowSize = wxSize(464, 264);
+               break;
+
+               case PANEL_FRED1:
+               case PANEL_FRED1_5:
+                  mainWindowSize = wxSize(310,180);
+               break;
+
                default:
                   mainWindowSize = wxSize(534, 386);
                break;

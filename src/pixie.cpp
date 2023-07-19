@@ -1182,10 +1182,17 @@ void Pixie::reBlit(wxDC &dc)
     }
 }
 
-
-
 PixieFred::PixieFred(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, int videoNumber)
 : Pixie(title, pos, size, zoom, zoomfactor, computerType, videoNumber)
+{
+    displayType_ = 3;
+    setDisplayType(displayType_);
+    colourIndex_ = 0;
+    videoNumber_ = videoNumber;
+}
+
+PixieFred::PixieFred(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, int videoNumber, int videoType)
+: Pixie(title, pos, size, zoom, zoomfactor, computerType, videoNumber, videoType)
 {
     displayType_ = 3;
     setDisplayType(displayType_);
@@ -1197,6 +1204,28 @@ void PixieFred::configurePixie()
 {
     p_Computer->setCycleType(VIDEOCYCLE_PIXIE, PIXIECYCLE);
     
+    backGroundInit_ = 1;
+    colourMask_ = 0;
+}
+
+void PixieFred::configureFredVideo(IoConfiguration portConf)
+{
+    p_Computer->setCycleType(VIDEOCYCLE_FRED, FREDVIDEOCYCLE);
+    
+    p_Computer->setOutType(portConf.fredVideoIoGroup + 1, portConf.fredVideoOutput, FREDVIDEOTYPE);
+
+    wxString ioGroup = "";
+    if (portConf.fredVideoIoGroup != -1)
+    {
+        ioGroup.Printf(" on group %d", portConf.fredVideoIoGroup);
+    }
+
+    wxString printBuffer;
+    p_Main->message("Configuring FRED Video" + ioGroup);
+
+    printBuffer.Printf("    Output %d: display type 0 = TV off, 1 = 32x32, 2 = 64x16, 3 = 64x32\n", portConf.fredVideoOutput);
+    p_Main->message(printBuffer);
+
     backGroundInit_ = 1;
     colourMask_ = 0;
 }
@@ -1225,7 +1254,6 @@ void PixieFred::drawScreen()
             }
         }
     }
-
 }
 
 void PixieFred::setDisplayType(int displayType)

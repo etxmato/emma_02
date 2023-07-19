@@ -59,6 +59,24 @@ public:
     int keydef[256];
 };
 
+class FredKeypadDetails
+{
+public:
+    bool defined;
+    int inpKey;
+    int inpCoin;
+    int output;
+    int input_mode;
+    int keypad_mode;
+    bool coinArcadeControl;
+    int efKey;
+    int ef_mode;
+    int efFireB;
+    int efCoin;
+    bool reversed;
+    int ioGroup;
+};
+
 class IoPort
 {
 public:
@@ -114,6 +132,10 @@ public:
     int vip2KOutput;
     bool vip2KDoubleScreenIo;
     int vip2KEf;
+
+    int fredVideoNumber;
+    int fredVideoOutput;
+    int fredVideoIoGroup;
 
     int portExtenderSelectOutput;
     int portExtenderWriteOutput;
@@ -259,7 +281,8 @@ public:
     int hexCosmicosEfReq;
 
     int inEf;
-    
+    int startEf;
+
     int bootStrapIn;
     int bootStrapOut;
     int bootStrapType;
@@ -271,9 +294,14 @@ public:
     Byte ioGroupMask;
 
     int tapeEf;
+    int tapeEfRun;
+    int tapeEfError;
     IoPort tapeIn;
+    int tapeMode;
     int tapeEfOut;
     IoPort tapeOut;
+    int tapeOutMode;
+    int tapeOutSound;
     int tapeIoGroup;
 
     int v1870ioGroup;
@@ -314,6 +342,8 @@ public:
     
     BitKeypadDetails bitKeypad[MAX_BITKEYPADS];
     bool bitKeypadEf[5];
+    
+    FredKeypadDetails fredKeypad;
     
     CvKeypadDetails cvKeypad;
     int CvKeypadTextKey[LAST_MATRIX_TEXT_KEY];
@@ -383,6 +413,7 @@ public:
     bool usePixie;
     bool use1864;
     bool useVip2KVideo;
+    bool useFredVideo;
     bool useS100;
     bool use6845;
     bool use6847;
@@ -469,10 +500,12 @@ public:
     bool useHexKeyboard;
     bool useHexKeyboardEf3;
     bool useInButton;
+    bool useStartButton;
     bool useKeyb1871;
     bool useKeyboard;
     bool useBitKeypad;
     bool useCvKeypad;
+    bool useLatchKeypad;
     bool useKeybVip2K;
     bool useLatchKeyboard;
     bool useMatrixKeyboard;

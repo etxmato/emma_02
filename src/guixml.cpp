@@ -377,92 +377,133 @@ void GuiXml::writeXmlConfig()
 
 void GuiXml::readXmlWindowConfig()
 {
-//    return; // *** to be removed
-    
-    conf[XML].pixieX_ = (int)configPointer->Read("Xmlemu/Window_Position_Pixie_X", conf[XML].defPixieX_);
-    conf[XML].pixieY_ = (int)configPointer->Read("Xmlemu/Window_Position_Pixie_Y", conf[XML].defPixieY_);
-    conf[XML].cdp1864X_ = (int)configPointer->Read("Xmlemu/Window_Position_CDP1864_X", conf[XML].defCdp1864X_);
-    conf[XML].cdp1864Y_ = (int)configPointer->Read("Xmlemu/Window_Position_CDP1864_Y", conf[XML].defCdp1864Y_);
-    conf[XML].vip2KX_ = (int)configPointer->Read("Xmlemu/Window_Position_VIP2K_X", conf[XML].defVip2KX_);
-    conf[XML].vip2KY_ = (int)configPointer->Read("Xmlemu/Window_Position_VIP2K_Y", conf[XML].defVip2KY_);
-    conf[XML].tmsX_ = (int)configPointer->Read("Xmlemu/Window_Position_Tms_X", conf[XML].defTmsX_);
-    conf[XML].tmsY_ = (int)configPointer->Read("Xmlemu/Window_Position_Tms_Y", conf[XML].defTmsY_);
-    conf[XML].mc6845X_ = (int)configPointer->Read("Xmlemu/Window_Position_MC6845_X", conf[XML].defMc6845X_);
-    conf[XML].mc6845Y_ = (int)configPointer->Read("Xmlemu/Window_Position_MC6845_Y", conf[XML].defMc6845Y_);
-    conf[XML].mc6847X_ = (int)configPointer->Read("Xmlemu/Window_Position_MC6847_X", conf[XML].defMc6847X_);
-    conf[XML].mc6847Y_ = (int)configPointer->Read("Xmlemu/Window_Position_MC6847_Y", conf[XML].defMc6847Y_);
-    conf[XML].i8275X_ = (int)configPointer->Read("Xmlemu/Window_Position_I8275_X", conf[XML].defi8275X_);
-    conf[XML].i8275Y_ = (int)configPointer->Read("Xmlemu/Window_Position_I8275_Y", conf[XML].defi8275Y_);
-    conf[XML].v1870X_ = (int)configPointer->Read("Xmlemu/Window_Position_v1870_X", conf[XML].defv1870X_);
-    conf[XML].v1870Y_ = (int)configPointer->Read("Xmlemu/Window_Position_v1870_Y", conf[XML].defv1870Y_);
-    conf[XML].SN76430NX_ = (int)configPointer->Read("Xmlemu/Window_Position_SN76430N_X", conf[XML].defSN76430NX_);
-    conf[XML].SN76430NY_ = (int)configPointer->Read("Xmlemu/Window_Position_SN76430N_Y", conf[XML].defSN76430NY_);
-    conf[XML].vtX_ = (int)configPointer->Read("Xmlemu/Window_Position_Vt_X", conf[XML].defVtX_);
-    conf[XML].vtY_ = (int)configPointer->Read("Xmlemu/Window_Position_Vt_Y", conf[XML].defVtY_);
-    conf[XML].mainX_ = (int)configPointer->Read("Xmlemu/Window_Position_X", mainWindowX_);
-    conf[XML].mainY_ = (int)configPointer->Read("Xmlemu/Window_Position_Y", mainWindowY_+windowInfo.mainwY+windowInfo.yBorder);
-    ledModuleX_ = (int)configPointer->Read("Xmlemu/Window_Position_Led_Module_X", mainWindowX_+346+windowInfo.xBorder2);
-    ledModuleY_ = (int)configPointer->Read("Xmlemu/Window_Position_Led_Module_Y", mainWindowY_+windowInfo.mainwY+229+windowInfo.yBorder2);
-    conf[XML].keypadX_ = (int)configPointer->Read("Xmlemu/Window_Position_Keypad_X", mainWindowX_+346+windowInfo.xBorder2);
-    conf[XML].keypadY_ = (int)configPointer->Read("Xmlemu/Window_Position_Keypad_Y", mainWindowY_+windowInfo.mainwY+windowInfo.yBorder);
+    conf[XML].pixieX_ = (int)configPointer->Read("Xmlemu/Window_Position_Pixie_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defPixieX_);
+    conf[XML].pixieY_ = (int)configPointer->Read("Xmlemu/Window_Position_Pixie_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defPixieY_);
+    conf[XML].cdp1864X_ = (int)configPointer->Read("Xmlemu/Window_Position_CDP1864_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defCdp1864X_);
+    conf[XML].cdp1864Y_ = (int)configPointer->Read("Xmlemu/Window_Position_CDP1864_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defCdp1864Y_);
+    conf[XML].vip2KX_ = (int)configPointer->Read("Xmlemu/Window_Position_VIP2K_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defVip2KX_);
+    conf[XML].vip2KY_ = (int)configPointer->Read("Xmlemu/Window_Position_VIP2K_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defVip2KY_);
+    conf[XML].fredX_ = (int)configPointer->Read("Xmlemu/Window_Position_FRED_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defFredX_);
+    conf[XML].fredY_ = (int)configPointer->Read("Xmlemu/Window_Position_FRED_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defFredY_);
+    conf[XML].tmsX_ = (int)configPointer->Read("Xmlemu/Window_Position_Tms_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defTmsX_);
+    conf[XML].tmsY_ = (int)configPointer->Read("Xmlemu/Window_Position_Tms_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defTmsY_);
+    conf[XML].mc6845X_ = (int)configPointer->Read("Xmlemu/Window_Position_MC6845_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defMc6845X_);
+    conf[XML].mc6845Y_ = (int)configPointer->Read("Xmlemu/Window_Position_MC6845_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defMc6845Y_);
+    conf[XML].mc6847X_ = (int)configPointer->Read("Xmlemu/Window_Position_MC6847_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defMc6847X_);
+    conf[XML].mc6847Y_ = (int)configPointer->Read("Xmlemu/Window_Position_MC6847_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defMc6847Y_);
+    conf[XML].i8275X_ = (int)configPointer->Read("Xmlemu/Window_Position_I8275_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defi8275X_);
+    conf[XML].i8275Y_ = (int)configPointer->Read("Xmlemu/Window_Position_I8275_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defi8275Y_);
+    conf[XML].v1870X_ = (int)configPointer->Read("Xmlemu/Window_Position_v1870_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defv1870X_);
+    conf[XML].v1870Y_ = (int)configPointer->Read("Xmlemu/Window_Position_v1870_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defv1870Y_);
+    conf[XML].SN76430NX_ = (int)configPointer->Read("Xmlemu/Window_Position_SN76430N_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defSN76430NX_);
+    conf[XML].SN76430NY_ = (int)configPointer->Read("Xmlemu/Window_Position_SN76430N_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defSN76430NY_);
+    conf[XML].vtX_ = (int)configPointer->Read("Xmlemu/Window_Position_Vt_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defVtX_);
+    conf[XML].vtY_ = (int)configPointer->Read("Xmlemu/Window_Position_Vt_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defVtY_);
+    conf[XML].mainX_ = (int)configPointer->Read("Xmlemu/Window_Position_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, mainWindowX_);
+    conf[XML].mainY_ = (int)configPointer->Read("Xmlemu/Window_Position_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, mainWindowY_+windowInfo.mainwY+windowInfo.yBorder);
+    ledModuleX_ = (int)configPointer->Read("Xmlemu/Window_Position_Led_Module_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, mainWindowX_+346+windowInfo.xBorder2);
+    ledModuleY_ = (int)configPointer->Read("Xmlemu/Window_Position_Led_Module_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, mainWindowY_+windowInfo.mainwY+229+windowInfo.yBorder2);
+    conf[XML].keypadX_ = (int)configPointer->Read("Xmlemu/Window_Position_Keypad_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, mainWindowX_+346+windowInfo.xBorder2);
+    conf[XML].keypadY_ = (int)configPointer->Read("Xmlemu/Window_Position_Keypad_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, mainWindowY_+windowInfo.mainwY+windowInfo.yBorder);
 }
 
 void GuiXml::writeXmlWindowConfig()
 {
-//    return; // *** to be removed xx
-    
     if (conf[XML].mainX_ > 0)
-        configPointer->Write("Xmlemu/MainX", conf[XML].mainX_);
+        configPointer->Write("Xmlemu/MainX/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].mainX_);
     if (conf[XML].mainY_ > 0)
-        configPointer->Write("Xmlemu/MainY", conf[XML].mainY_);
-    if (conf[XML].pixieX_ > 0)
-        configPointer->Write("Xmlemu/Window_Position_Pixie_X", conf[XML].pixieX_);
-    if (conf[XML].pixieY_ > 0)
-        configPointer->Write("Xmlemu/Window_Position_Pixie_Y", conf[XML].pixieY_);
-    if (conf[XML].cdp1864X_ > 0)
-        configPointer->Write("Xmlemu/Window_Position_CDP1864_X", conf[XML].cdp1864X_);
-    if (conf[XML].cdp1864Y_ > 0)
-        configPointer->Write("Xmlemu/Window_Position_CDP1864_Y", conf[XML].cdp1864Y_);
-    if (conf[XML].vip2KX_ > 0)
-        configPointer->Write("Xmlemu/Window_Position_VIP2K_X", conf[XML].vip2KX_);
-    if (conf[XML].vip2KY_ > 0)
-        configPointer->Write("Xmlemu/Window_Position_VIP2K_Y", conf[XML].vip2KY_);
-    if (conf[XML].tmsX_ > 0)
-        configPointer->Write("Xmlemu/Window_Position_Tms_X", conf[XML].tmsX_);
-    if (conf[XML].tmsY_ > 0)
-        configPointer->Write("Xmlemu/Window_Position_Tms_Y", conf[XML].tmsY_);
-    if (conf[XML].mc6845X_ > 0)
-        configPointer->Write("Xmlemu/Window_Position_MC6845_X", conf[XML].mc6845X_);
-    if (conf[XML].mc6845Y_ > 0)
-        configPointer->Write("Xmlemu/Window_Position_MC6845_Y", conf[XML].mc6845Y_);
-    if (conf[XML].mc6847X_ > 0)
-        configPointer->Write("Xmlemu/Window_Position_MC6847_X", conf[XML].mc6847X_);
-    if (conf[XML].mc6847Y_ > 0)
-        configPointer->Write("Xmlemu/Window_Position_MC6847_Y", conf[XML].mc6847Y_);
-    if (conf[XML].i8275X_ > 0)
-        configPointer->Write("Xmlemu/Window_Position_I8275_X", conf[XML].i8275X_);
-    if (conf[XML].i8275Y_ > 0)
-        configPointer->Write("Xmlemu/Window_Position_I8275_Y", conf[XML].i8275Y_);
-    if (conf[XML].v1870X_ > 0)
-        configPointer->Write("Xmlemu/Window_Position_v1870_X", conf[XML].v1870X_);
-    if (conf[XML].v1870Y_ > 0)
-        configPointer->Write("Xmlemu/Window_Position_v1870_Y", conf[XML].v1870Y_);
-    if (conf[XML].SN76430NX_ > 0)
-        configPointer->Write("Xmlemu/Window_Position_SN76430N_X", conf[XML].SN76430NX_);
-    if (conf[XML].SN76430NY_ > 0)
-        configPointer->Write("Xmlemu/Window_Position_SN76430N_Y", conf[XML].SN76430NY_);
-    if (conf[XML].vtX_ > 0)
-        configPointer->Write("Xmlemu/Window_Position_Vt_X", conf[XML].vtX_);
-    if (conf[XML].vtY_ > 0)
-        configPointer->Write("Xmlemu/Window_Position_Vt_Y", conf[XML].vtY_);
-    if (conf[XML].keypadX_ > 0)
-        configPointer->Write("Xmlemu//Window_Position_Keypad_X", conf[XML].keypadX_);
-    if (conf[XML].keypadY_ > 0)
-        configPointer->Write("Xmlemu//Window_Position_Keypad_Y", conf[XML].keypadY_);
-    if (ledModuleX_ > 0)
-        configPointer->Write("Xmlemu//Window_Position_Led_Module_X", ledModuleX_);
-    if (ledModuleY_ > 0)
-        configPointer->Write("Xmlemu//Window_Position_Led_Module_Y", ledModuleY_);
+        configPointer->Write("Xmlemu/MainY/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].mainY_);
+    if (elfConfiguration[XML].usePixie)
+    {
+        if (conf[XML].pixieX_ > 0)
+            configPointer->Write("Xmlemu/Window_Position_Pixie_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].pixieX_);
+        if (conf[XML].pixieY_ > 0)
+            configPointer->Write("Xmlemu/Window_Position_Pixie_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].pixieY_);
+    }
+    if (elfConfiguration[XML].use1864)
+    {
+        if (conf[XML].cdp1864X_ > 0)
+            configPointer->Write("Xmlemu/Window_Position_CDP1864_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].cdp1864X_);
+        if (conf[XML].cdp1864Y_ > 0)
+            configPointer->Write("Xmlemu/Window_Position_CDP1864_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].cdp1864Y_);
+    }
+    if (elfConfiguration[XML].useVip2KVideo)
+    {
+        if (conf[XML].vip2KX_ > 0)
+            configPointer->Write("Xmlemu/Window_Position_VIP2K_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].vip2KX_);
+        if (conf[XML].vip2KY_ > 0)
+            configPointer->Write("Xmlemu/Window_Position_VIP2K_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].vip2KY_);
+    }
+    if (elfConfiguration[XML].useFredVideo)
+    {
+        if (conf[XML].fredX_ > 0)
+            configPointer->Write("Xmlemu/Window_Position_FRED_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].fredX_);
+        if (conf[XML].fredY_ > 0)
+            configPointer->Write("Xmlemu/Window_Position_FRED_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].fredY_);
+    }
+    if (elfConfiguration[XML].useTMS9918)
+    {
+        if (conf[XML].tmsX_ > 0)
+            configPointer->Write("Xmlemu/Window_Position_Tms_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].tmsX_);
+        if (conf[XML].tmsY_ > 0)
+            configPointer->Write("Xmlemu/Window_Position_Tms_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].tmsY_);
+    }
+    if (elfConfiguration[XML].use6845)
+    {
+        if (conf[XML].mc6845X_ > 0)
+            configPointer->Write("Xmlemu/Window_Position_MC6845_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].mc6845X_);
+        if (conf[XML].mc6845Y_ > 0)
+            configPointer->Write("Xmlemu/Window_Position_MC6845_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].mc6845Y_);
+    }
+    if (elfConfiguration[XML].use6847)
+    {
+        if (conf[XML].mc6847X_ > 0)
+            configPointer->Write("Xmlemu/Window_Position_MC6847_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].mc6847X_);
+        if (conf[XML].mc6847Y_ > 0)
+            configPointer->Write("Xmlemu/Window_Position_MC6847_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].mc6847Y_);
+    }
+    if (elfConfiguration[XML].use8275)
+    {
+        if (conf[XML].i8275X_ > 0)
+            configPointer->Write("Xmlemu/Window_Position_I8275_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].i8275X_);
+        if (conf[XML].i8275Y_ > 0)
+            configPointer->Write("Xmlemu/Window_Position_I8275_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].i8275Y_);
+    }
+    if (elfConfiguration[XML].usev1870)
+    {
+        if (conf[XML].v1870X_ > 0)
+            configPointer->Write("Xmlemu/Window_Position_v1870_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].v1870X_);
+        if (conf[XML].v1870Y_ > 0)
+            configPointer->Write("Xmlemu/Window_Position_v1870_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].v1870Y_);
+    }
+    if (elfConfiguration[XML].useSN76430N)
+    {
+        if (conf[XML].SN76430NX_ > 0)
+            configPointer->Write("Xmlemu/Window_Position_SN76430N_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].SN76430NX_);
+        if (conf[XML].SN76430NY_ > 0)
+            configPointer->Write("Xmlemu/Window_Position_SN76430N_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].SN76430NY_);
+    }
+    if (elfConfiguration[XML].vtType == VT52 || elfConfiguration[XML].vtType == VT100)
+    {
+        if (conf[XML].vtX_ > 0)
+            configPointer->Write("Xmlemu/Window_Position_Vt_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].vtX_);
+        if (conf[XML].vtY_ > 0)
+            configPointer->Write("Xmlemu/Window_Position_Vt_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].vtY_);
+    }
+    if (((elfConfiguration[XML].panelType_ == PANEL_COSMAC || elfConfiguration[XML].panelType_ == PANEL_COSMICOS) && elfConfiguration[XML].useHexKeyboard) || (elfConfiguration[XML].panelType_ == PANEL_ELF2K &&  elfConfiguration[XML].useHex))
+    {
+        if (conf[XML].keypadX_ > 0)
+            configPointer->Write("Xmlemu//Window_Position_Keypad_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].keypadX_);
+        if (conf[XML].keypadY_ > 0)
+            configPointer->Write("Xmlemu//Window_Position_Keypad_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].keypadY_);
+    }
+    if (elfConfiguration[XML].useLedModule)
+    {
+        if (ledModuleX_ > 0)
+            configPointer->Write("Xmlemu//Window_Position_Led_Module_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, ledModuleX_);
+        if (ledModuleY_ > 0)
+            configPointer->Write("Xmlemu//Window_Position_Led_Module_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, ledModuleY_);
+    }
 }
 
 void GuiXml::onXmlControlWindows(wxCommandEvent&event)
@@ -633,6 +674,8 @@ void GuiXml::setPrintModeXml()
 
 void GuiXml::setXmlGui()
 {
+    readXmlWindowConfig();
+    
     setVtType("Xml", XML, elfConfiguration[XML].vtType, false);
     
     if (!mode_.gui)

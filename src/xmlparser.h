@@ -24,6 +24,7 @@ private:
     void parseXml_PixieVideo(int computer, wxXmlNode &node);
     void parseXml_1864Video(int computer, wxXmlNode &node);
     void parseXml_Vip2KVideo(int computer, wxXmlNode &node);
+    void parseXml_fredVideo(int computer, wxXmlNode &node);
     void parseXml_pixieGraphics(int computer, wxXmlNode &node);
     void parseXml_MC6845Video(int computer, wxXmlNode &node);
     void parseXml_MC6847Video(int computer, wxXmlNode &node);
@@ -42,6 +43,8 @@ private:
     void parseXml_CosmicosKeypad (int computer, wxXmlNode &node);
     void parseXml_BitKeypad (int computer, int padnumber, wxXmlNode &node);
     void parseXml_CvKeypad (int computer, wxXmlNode &node);
+    void parseXml_LatchKeypad (int computer, wxXmlNode &node);
+    void parseXml_FredKeypad (int computer, wxXmlNode &node);
     void parseXml_EfButtons (int computer, wxXmlNode &node);
     void parseXml_FrontPanel (int computer, wxXmlNode &node);
     void parseXml_SerialVt (int computer, wxXmlNode &node);

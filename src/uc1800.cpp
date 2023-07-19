@@ -70,6 +70,11 @@ Uc1800Screen::~Uc1800Screen()
 #endif
 }
 
+void Uc1800Screen::init()
+{
+    init(p_Main->getConfigBool("XML/PowerButtonState", true));
+}
+
 void Uc1800Screen::init(bool powerButtonState)
 {
     wxString buttonText;
@@ -463,6 +468,7 @@ bool Uc1800::keyUpReleased(int key, wxKeyEvent&WXUNUSED(event))
     onHexKeyUp(key);
     return false;
 }
+
 void Uc1800::onInButtonPress()
 {
     onInButtonPress(getData());

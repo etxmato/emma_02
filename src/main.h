@@ -458,8 +458,8 @@ public:
     int number;
     wxString defaultColour[COL_MAX];
     int numberVideo;
-    int borderX[10];
-    int borderY[10];
+    int borderX[VIDEOXMLMAX];
+    int borderY[VIDEOXMLMAX];
 };
 
 class ConfigurationInfo
@@ -675,7 +675,8 @@ public:
 #define VIDEOXML1864 7
 #define VIDEOXMLSN76430N 8
 #define VIDEOVIP2K 9
-//#define VIDEOXMLMAX 9
+#define VIDEOFRED 10
+//#define VIDEOXMLMAX 11
 
 #define VIDEOVT 0
 #define VIDEOPIXIE 1
@@ -1004,9 +1005,6 @@ public:
 #define CHIPSTIV 12
 #define CARDTRAN 13
 
-#define CPU_OVERRIDE_DEFAULT 0
-#define CPU_OVERRIDE_CPU1801 1
-#define CPU_OVERRIDE_SYSTEM00 2
 #define SYSTEM00 1
 #define CPU1801 2
 #define CPU1802 3
@@ -1108,6 +1106,10 @@ public:
 #define PANEL_ELF2K 6
 #define PANEL_COSMICOS 7
 #define PANEL_MEMBER 8
+#define PANEL_VELF 9
+#define PANEL_UC1800 10
+#define PANEL_FRED1 11
+#define PANEL_FRED1_5 12
 
 #define CR_NONE 0
 #define CR_CIDELSA 1

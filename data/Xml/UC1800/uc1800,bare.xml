@@ -4,28 +4,29 @@
 <emmaconfig>
     
     <system>
-        <name>Netronics Elf II</name>
+        <name>Infinite UC1800</name>
         <config>Bare</config>
-        <clock>1.76</clock>
+        <clock>1.75</clock>
         <init type="ef1">1</init>
         <init type="ef2">1</init>
         <init type="ef3">1</init>
         <init type="ef4">1</init>
-        <dirname>Elf</dirname>
+        <dirname>UC1800</dirname>
     </system>
     
-    <frontpanel type="netronics" init="on">
-        <out>4</out>
-        <in>4</in>
-        <ef type="in">4</ef>
-        <til>313</til>
+    <frontpanel type="uc1800" init="on">
+        <out>1</out>
+        <in>1</in>
+        <ef type="start">1</ef>
+        <til font="italic">313</til>
     </frontpanel>
 
      <memory>
-        <mainram>
+        <nvram mask="0x00FF">
             <start>0x0000</start>
-            <end>0x00FF</end>
-        </mainram>
+            <end>0xFFFF</end>
+            <filename>ramdump.bin</filename>
+        </nvram>
     </memory>
     
     <debugger>

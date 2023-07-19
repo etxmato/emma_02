@@ -3216,6 +3216,27 @@ void GuiMain::setVip2KPos(int computerType, wxPoint position)
     }
 }
 
+wxPoint GuiMain::getFredPos(int computerType)
+{
+    return wxPoint(conf[computerType].fredX_, conf[computerType].fredY_);
+}
+
+void GuiMain::setFredPos(int computerType, wxPoint position)
+{
+    if (!mode_.window_position_fixed)
+    {
+        conf[computerType].fredX_ = -1;
+        conf[computerType].fredY_ = -1;
+    }
+    else
+    {
+        if (position.x > 0)
+            conf[computerType].fredX_ = position.x;
+        if (position.y > 0)
+            conf[computerType].fredY_ = position.y;
+    }
+}
+
 wxPoint GuiMain::getTmsPos(int computerType)
 {
     return wxPoint(conf[computerType].tmsX_, conf[computerType].tmsY_);
@@ -4893,9 +4914,33 @@ int GuiMain::getCpuType()
             break;
         }
     }
-    
+    if (runningComputer_ == XML && cpuTypeXml_ != -1)
+        cpuType_ = cpuTypeXml_;
+
     return cpuType_;
 };
+
+void GuiMain::setCpuType(wxString type)
+{
+    cpuTypeXml_ = -1;
+    
+    if (type.Len()<4)
+        return;
+    
+    if (type == "system" || type == "system00")
+        cpuTypeXml_ = SYSTEM00;
+    else
+        type = type.Right(4);
+    
+    if (type == "1801")
+        cpuTypeXml_ = CPU1801;
+    if (type == "1802")
+        cpuTypeXml_ = CPU1802;
+    if (type == "1804")
+        cpuTypeXml_ = CPU1804;
+    if (type == "1805")
+        cpuTypeXml_ = CPU1805;
+}
 
 void GuiMain::onClearRam(wxCommandEvent&event)
 {
@@ -5064,6 +5109,10 @@ bool GuiMain::showSplashScreen()
                 configPointer->Read("/"+computerStr+"/ShowSplashScreenElf2K", &showSplashScreen, true);
         break;
                 
+        case XML:
+            configPointer->Read("/"+computerStr+"/ShowSplashScreen/"+conf[XML].xmlDir_+conf[XML].xmlFile_, &showSplashScreen, true);
+        break;
+            
         default:
             configPointer->Read("/"+computerStr+"/ShowSplashScreen", &showSplashScreen, true);
         break;
@@ -5126,6 +5175,10 @@ void GuiMain::hideSplashScreen()
                 configPointer->Write("/"+computerStr+"/ShowSplashScreenElf2K", false);
         break;
             
+        case XML:
+            configPointer->Write("/"+computerStr+"/ShowSplashScreen/"+conf[XML].xmlDir_+conf[XML].xmlFile_, false);
+        break;
+
         default:
             configPointer->Write("/"+computerStr+"/ShowSplashScreen", false);
         break;

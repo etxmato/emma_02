@@ -94,6 +94,7 @@
         <in>1</in>
         <ef>1</ef>
         <border>33x33</border>
+        <pos>0, 530</pos>
         <color type="fore">255, 255, 255</color>
         <color type="back">0, 0, 0</color>
      </video>

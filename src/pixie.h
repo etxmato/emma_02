@@ -103,8 +103,10 @@ class PixieFred : public Pixie
 {
 public:
     PixieFred(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, int videoNumber);
+    PixieFred(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, int videoNumber, int videoType);
 
     void configurePixie();
+    void configureFredVideo(IoConfiguration portConf);
     void drawScreen();
     void cyclePixie();
     void setDisplayType(int displayType);

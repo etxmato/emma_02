@@ -166,6 +166,23 @@ Xmlemu::Xmlemu(const wxString& title, const wxPoint& pos, const wxSize& size, do
             panelPointer = microtutor2ScreenPointer;
         break;
             
+        case PANEL_VELF:
+            velfScreenPointer = new VelfScreen(this, size, elfConfiguration.tilType);
+            panelPointer = velfScreenPointer;
+        break;
+            
+        case PANEL_UC1800:
+            uc1800ScreenPointer = new Uc1800Screen(this, size, elfConfiguration.tilType);
+            panelPointer = uc1800ScreenPointer;
+            powerButtonState_ = p_Main->getConfigBool("XML/PowerButtonState", true);
+        break;
+
+        case PANEL_FRED1:
+        case PANEL_FRED1_5:
+            fredScreenPointer = new FredScreen(this, size, elfConfiguration.tilType);
+            panelPointer = fredScreenPointer;
+        break;
+
         default:
             panelPointer = new Panel(this, size, elfConfiguration.tilType);
         break;
@@ -202,6 +219,11 @@ Xmlemu::~Xmlemu()
     {
         p_Main->setVip2KPos(XML, vip2KVideoPointer->GetPosition());
         vip2KVideoPointer->Destroy();
+    }
+    if (elfConfiguration.useFredVideo)
+    {
+        p_Main->setFredPos(XML, fredVideoPointer->GetPosition());
+        fredVideoPointer->Destroy();
     }
     if (elfConfiguration.useTMS9918)
     {
@@ -251,7 +273,9 @@ Xmlemu::~Xmlemu()
         if (elfConfiguration.ioConfiguration.cvKeypad.defined)
             delete cvkeypadPointer;
     }
-    if (elfConfiguration.useLatchKeyboard)
+    if (elfConfiguration.ioConfiguration.fredKeypad.defined)
+        delete fredkeypadPointer;
+    if (elfConfiguration.useLatchKeyboard || elfConfiguration.useLatchKeypad)
         delete latchKeyboardPointer;
     if (elfConfiguration.useMatrixKeyboard)
         delete matrixKeyboardPointer;
@@ -315,8 +339,13 @@ Xmlemu::~Xmlemu()
                 p_Cosmicoshex->Destroy();
             }
         break;
+            
+        case PANEL_UC1800:
+            resumeComputer();
+        break;
     }
     delete panelPointer;
+    p_Main->writeXmlWindowConfig();
 }
 
 void Xmlemu::showModules(bool status)
@@ -372,10 +401,20 @@ void Xmlemu::showModules(bool status, bool useSwitch, bool useHex)
     }
 }
 
-
 void Xmlemu::onClose(wxCloseEvent&WXUNUSED(event) )
 {
+    if (elfConfiguration.panelType_ == PANEL_UC1800)
+        resumeComputer();
     p_Main->stopComputer();
+}
+
+void Xmlemu::resumeComputer()
+{
+    if (!powerButtonState_)
+    {
+        threadPointer->Resume();
+        powerButtonState_ = true;
+    }
 }
 
 void Xmlemu::charEvent(int keycode)
@@ -392,6 +431,15 @@ void Xmlemu::charEvent(int keycode)
 
 bool Xmlemu::keyDownPressed(int key)
 {
+    if (elfConfiguration.panelType_ == PANEL_UC1800)
+    {
+        if (key == inKey2_)
+        {
+            onRunButtonPress();
+            return true;
+        }
+    }
+    
     onHexKeyDown(key);
     if (elfConfiguration.gpioJp4)
     {
@@ -473,10 +521,28 @@ bool Xmlemu::keyDownExtended(int keycode, wxKeyEvent& event)
 
 bool Xmlemu::keyUpReleased(int key, wxKeyEvent& event)
 {
-    if (key == inKey1_ || key == inKey2_)
+    switch (elfConfiguration.panelType_)
     {
-        onInButtonRelease();
-        return true;
+        case PANEL_UC1800:
+            if (key == inKey1_)
+            {
+                onInButtonRelease();
+                return true;
+            }
+            if (key == inKey2_)
+            {
+                onRunButtonRelease();
+                return true;
+            }
+        break;
+            
+        default:
+            if (key == inKey1_ || key == inKey2_)
+            {
+                onInButtonRelease();
+                return true;
+            }
+        break;
     }
     onHexKeyUp(key);
     if (elfConfiguration.useKeyboard)
@@ -555,8 +621,23 @@ void Xmlemu::onInButtonPress()
 
         case PANEL_COSMICOS:
         case PANEL_MEMBER:
+        case PANEL_UC1800:
             onInButtonPress(getData());
-       break;
+        break;
+
+        case PANEL_VELF:
+            if (cpuMode_ == LOAD)
+            {
+                Byte value = getData();
+                dmaIn(value);
+                showData(value);
+            }
+            else
+            {
+                inbuttonEfState_ = 0;
+            }
+            velfScreenPointer->inSetState(BUTTON_DOWN);
+        break;
 
         default:
             if (cpuMode_ == LOAD)
@@ -594,7 +675,7 @@ void Xmlemu::onInButtonPress(Byte value)
         case PANEL_ELF2K:
             if (inPressed_ == true)  return;
             inPressed_ = true;
-            if (getCpuMode() == LOAD)
+            if (cpuMode_ == LOAD)
             {
                 dmaIn(value);
                 showData(value);
@@ -608,7 +689,7 @@ void Xmlemu::onInButtonPress(Byte value)
         case PANEL_COSMICOS:
             if (inPressed_ == true)  return;
             inPressed_ = true;
-            if (getCpuMode() == LOAD)
+            if (cpuMode_ == LOAD)
             {
                 dmaIn(value);
                 showData(value);
@@ -637,7 +718,7 @@ void Xmlemu::onInButtonPress(Byte value)
         case PANEL_MICROTUTOR:
             if (loadButtonState_ == 1)
                 inPressed_ = true;
-            if (getCpuMode() == LOAD)
+            if (cpuMode_ == LOAD)
             {
                 dmaIn(value);
                 showData(value);
@@ -648,12 +729,40 @@ void Xmlemu::onInButtonPress(Byte value)
         case PANEL_MICROTUTOR2:
             if (loadButtonState_ == 1)
                 inPressed_ = true;
-            if (getCpuMode() == LOAD)
+            if (cpuMode_ == LOAD)
             {
                 dmaIn(value);
                 showData(value);
             }
             microtutor2ScreenPointer->inSetState(BUTTON_DOWN);
+        break;
+
+        case PANEL_UC1800:
+            if (cpuMode_ == LOAD)
+            {
+                if (singleStateStep_)
+                {
+                    singleStateStep_ = false;
+                    dmaIn(value);
+                    showData(value);
+                    singleStateStep_ = true;
+                }
+                else
+                {
+                    dmaIn(value);
+                    showData(value);
+                }
+            }
+            else
+            {
+                if (singleStateStep_)
+                {
+                    setClear(1);
+                    setWait(1);
+                    p_Main->eventUpdateTitle();
+                }
+            }
+            uc1800ScreenPointer->inSetState(BUTTON_DOWN);
         break;
     }
 }
@@ -711,6 +820,15 @@ void Xmlemu::onInButtonRelease()
             microtutor2ScreenPointer->inSetState(BUTTON_UP);
         break;
 
+        case PANEL_VELF:
+            inbuttonEfState_ = 1;
+            velfScreenPointer->inSetState(BUTTON_UP);
+        break;
+
+        case PANEL_UC1800:
+            uc1800ScreenPointer->inSetState(BUTTON_UP);
+        break;
+            
         default:
             inbuttonEfState_ = 1;
         break;
@@ -730,7 +848,14 @@ void Xmlemu::configureComputer()
     wxString printBuffer;
 
     p_Main->message("Configuring " + p_Main->getRunningComputerText());
-    if (elfConfiguration.panelType_ != PANEL_NONE)
+    
+    if (elfConfiguration.useIoGroup)
+    {
+        printBuffer.Printf("    Output %d: set I/O group", elfConfiguration.ioConfiguration.ioGroupOut);
+        p_Main->message(printBuffer);
+    }
+
+    if (elfConfiguration.panelType_ != PANEL_NONE && elfConfiguration.ioConfiguration.hexOutput.portNumber != -1)
     {
         printBuffer = p_Computer->setOutType(-1, 0, elfConfiguration.ioConfiguration.hexOutput, ELF2OUT);
         p_Main->message("    Output " + printBuffer + ": til display output");
@@ -771,7 +896,7 @@ void Xmlemu::configureComputer()
     {
         ioGroup = "";
         if (elfConfiguration.ioConfiguration.tapeIoGroup != -1)
-            ioGroup.Printf(" (on group %X)", elfConfiguration.ioConfiguration.tapeIoGroup);
+            ioGroup.Printf(" on group %d", elfConfiguration.ioConfiguration.tapeIoGroup);
 
         p_Computer->setEfType(elfConfiguration.ioConfiguration.tapeIoGroup+1, elfConfiguration.ioConfiguration.tapeEf, TAPE_EF);
         printBuffer.Printf("    EF %d: cassette in"+ioGroup, elfConfiguration.ioConfiguration.tapeEf);
@@ -808,6 +933,12 @@ void Xmlemu::configureComputer()
         p_Main->message(printBuffer);
     }
     
+    if (elfConfiguration.useStartButton)
+    {
+        printBuffer.Printf("    EF %d: 0 when start button pressed", elfConfiguration.ioConfiguration.startEf);
+        p_Main->message(printBuffer);
+    }
+
     if (elfConfiguration.bootStrap)
     {
         printBuffer.Printf("    Bootstrap address: %04X", elfConfiguration.strapAddress);
@@ -902,6 +1033,7 @@ void Xmlemu::initComputer()
     
     switches_ = 0;
     inbuttonEfState_ = 1;
+    nextNybble_ = 'H';
 
     hexKeypadClosed_ = false;
     ledModuleClosed_ = false;
@@ -921,6 +1053,21 @@ void Xmlemu::initComputer()
     startBytes_ = 2;
     zeroWaveCounter_ = -1;
     tapedataReady_ = 1;
+    runPressed_ = false;
+
+    tapeRunSwitch_ = 0x2;
+    tapeError_ = 1;
+    inpMode_ = INP_MODE_NONE;
+    cardSwitchOn_ = false;
+    readSwitchOn_ = false;
+
+    if (elfConfiguration.panelType_ == UC1800)
+    {
+        runButtonState_ = 1;
+        uc1800ScreenPointer->setLed(1, 1);
+        uc1800ScreenPointer->setLed(0, 0);
+        uc1800ScreenPointer->setReadyLed(0);
+    }
 
     resetComputer();
 }
@@ -1004,6 +1151,11 @@ Byte Xmlemu::ef(int flag)
         }
     }
 
+    if (flag == elfConfiguration.ioConfiguration.startEf && elfConfiguration.useStartButton)
+    {
+        return runButtonState_;
+    }
+    
     if (elfConfiguration.usev1870)
     {
         if  (elfConfiguration.ioConfiguration.v1870ioGroup == ioGroup_ || elfConfiguration.ioConfiguration.v1870ioGroup == -1)
@@ -1120,7 +1272,7 @@ Byte Xmlemu::ef(int flag)
             return efPs2gpio();
         break;
 
-        case TAPE_CV_EF:
+        case TAPE_HW_EF:
             return tapedataReady_;
         break;
 
@@ -1132,6 +1284,43 @@ Byte Xmlemu::ef(int flag)
             return cvkeypadPointer->ef();
         break;
 
+        case FREDEF1:
+            if (inpMode_ == elfConfiguration.ioConfiguration.tapeMode)
+                return tapedataReady_;
+
+            if (elfConfiguration.ioConfiguration.fredKeypad.defined)
+                return fredkeypadPointer->efHexFireA();
+
+            return 1;
+        break;
+
+        case FREDEF2:
+            if (tapeRunSwitch_&1)
+                return 0;
+            else
+                return 1;
+        break;
+
+        case COINARCADEEF3:
+            return fredkeypadPointer->efFireB();
+        break;
+            
+        case FREDEF4:
+            if (elfConfiguration.ioConfiguration.fredKeypad.defined)
+            {
+                if (tapeError_ == 0 || fredkeypadPointer->efCoin() == 0)
+                    return 0;
+                else
+                    return 1;
+            }
+            else
+            {
+                if (tapeError_ == 0)
+                    return 0;
+                else
+                    return 1;
+            }
+        break;
 
         // Folowing I/O is not adapted to ioGroups
         case 0:
@@ -1154,11 +1343,17 @@ Byte Xmlemu::ef(int flag)
         break;
 
         case VT100EF:
-            return vtPointer->ef();
+            if (isLoading() && elfConfiguration.ioConfiguration.tapeEf == flag)
+                return cassetteEf_;
+            else
+                return vtPointer->ef();
         break;
 
         case VTSERIALEF:
-            return p_Serial->ef();
+            if (isLoading() && elfConfiguration.ioConfiguration.tapeEf == flag)
+                return cassetteEf_;
+            else
+                return p_Serial->ef();
         break;
  
         case I8275EF:
@@ -1370,7 +1565,29 @@ Byte Xmlemu::in(Byte port, Word address)
             tapedataReady_ = 1;
         break;
 
+        case FREDINP0:
+            ret = 255;
+            switch (inpMode_)
+            {
+                case INP_MODE_NONE:
+                    ret = 255;
+                break;
 
+                case INP_MODE_KEYPAD:
+                    ret = fredkeypadPointer->inHex();
+                break;
+
+                case INP_MODE_TAPE_PROGRAM:
+                    ret = lastTapeInpt_;
+                    tapedataReady_ = 1;
+                break;
+            }
+        break;
+
+        case COINARCADEINPKEY6:
+            ret = fredkeypadPointer->inCoin();
+        break;
+            
         // Folowing I/O is not adapted to ioGroups
         case TMSDATAPORT:
             ret = tmsPointer->readVRAM();
@@ -1713,6 +1930,90 @@ void Xmlemu::out(Byte port, Word address, Byte value)
             vip2KVideoPointer->outPixie();
         break;
 
+        case FREDVIDEOTYPE:
+            if (value == 0)
+                fredVideoPointer->outPixie();
+            else
+                fredVideoPointer->inPixie();
+            fredVideoPointer->setDisplayType(value);
+        break;
+
+        case FREDKEYMODE:
+            if (value  == 1)
+                inpMode_ = INP_MODE_KEYPAD;
+            if (value  == 2)
+                inpMode_ = INP_MODE_KEY_DIRECT;
+            fredkeypadPointer->setInputMode(inpMode_);
+        break;
+
+        case FREDTAPEMODE:
+            if ((value & 0x10) == 0x10 && !tapeEnd_)
+            {
+                inpMode_ = INP_MODE_TAPE_PROGRAM;
+                startLoad(0, false);
+            }
+
+            if ((value & 0x20) == 0x20 && !tapeEnd_)
+            {
+                inpMode_ = INP_MODE_TAPE_DIRECT;
+                startLoad(0, false);
+            }
+
+            if ((value & 0x40) == 0x40)
+            {
+                inpMode_ = INP_MODE_NONE;
+                if (tapeActivated_)
+                {
+                    p_Computer->stopTape();
+                    tapeActivated_ = false;
+                }
+                if (!tapeRecording_)
+                    p_Main->startCassetteSave(0);
+                
+                tapeRecording_ = true;
+            }
+            
+            if (value == 0)
+                inpMode_ = INP_MODE_NONE;
+            
+            fredkeypadPointer->setInputMode(inpMode_);
+        break;
+
+        case FREDTAPESOUND:
+            if ((value&1) != (tapeRunSwitch_&1) && !tapeRecording_ && (value&4) != 4)
+            {
+                if ((value&1) == 1)
+                    startLoad(0, false);
+                else
+                {
+                    if (tapeActivated_)
+                    {
+                        p_Computer->pauseTape();
+                        p_Main->turboOff();
+                    }
+                }
+            }
+            
+            if ((value&2) != (tapeRunSwitch_&2))
+            {
+                if ((value&2) == 2)
+                    p_Computer->setVolume(p_Main->getVolume(computerType_));
+                else
+                {
+                    if ((value&4) != 4)
+                        p_Computer->setVolume(0);
+                }
+            }
+            
+            if ((value&4) != (tapeRunSwitch_&4))
+            {
+                psaveAmplitudeChange((value>>2)&1);
+                zeroWaveCounter_ = 7;
+            }
+
+            tapeRunSwitch_ = value;
+        break;
+
         // Folowing I/O is not adapted to ioGroups
         case COMXOUT:
             slotOut(value);
@@ -2013,6 +2314,10 @@ void Xmlemu::cycle(int type)
             cycleKeyboardXml();
         break;
 
+        case FREDKEYCYCLE:
+            fredkeypadPointer->cycle();
+        break;
+
         case PS2GPIOCYCLE:
             cyclePs2gpio();
         break;
@@ -2035,6 +2340,10 @@ void Xmlemu::cycle(int type)
 
         case VIP2KVIDEOCYCLE:
             vip2KVideoPointer->cyclePixie();
+        break;
+
+        case FREDVIDEOCYCLE:
+            fredVideoPointer->cyclePixie();
         break;
 
         case TMSCYCLE:
@@ -2347,11 +2656,33 @@ void Xmlemu::autoBoot()
         break;
 
         case PANEL_MICROTUTOR:
+        case PANEL_UC1800:
             setClear(1);
         break;
             
+        case PANEL_FRED1:
+            dmaOut();
+
+            fredScreenPointer->setReadyLed(0);
+            fredScreenPointer->setStopLed(0);
+
+            setClear(1);
+            setWait(1);
+        break;
+            
+        case PANEL_FRED1_5:
+            scratchpadRegister_[0]=p_Main->getBootAddress("Xml", XML);
+
+            fredScreenPointer->setReadyLed(0);
+            fredScreenPointer->setStopLed(0);
+
+            setClear(1);
+            setWait(1);
+        break;
+
         case PANEL_MICROTUTOR2:
-            microtutor2ScreenPointer->runSetState(BUTTON_UP);
+        case PANEL_VELF:
+            panelPointer->runSetState(BUTTON_UP);
             runButtonState_ = 1;
             setClear(runButtonState_);
         break;
@@ -2435,11 +2766,6 @@ int Xmlemu::getMpButtonState()
     return mpButtonState_;
 }
 
-void Xmlemu::onRunButton(wxCommandEvent&WXUNUSED(event))
-{
-    onRunButton();
-}
-
 void Xmlemu::onWaitButton()
 {
     if (waitButtonState_)
@@ -2448,6 +2774,47 @@ void Xmlemu::onWaitButton()
         waitButtonState_ = 1;
 
     setWait(waitButtonState_);
+}
+
+void Xmlemu::onPowerButton()
+{
+    powerButtonState_ = !powerButtonState_;
+    p_Main->setConfigBool("UC1800/PowerButtonState", powerButtonState_);
+    if (powerButtonState_)
+    {
+ //       loadRam();
+        powerOn();
+    }
+    else
+    {
+        powerOff();
+   //     saveRam();
+    }
+}
+
+void Xmlemu::powerOff()
+{
+    threadPointer->Pause();
+    uc1800ScreenPointer->setLed(0, 0);
+    uc1800ScreenPointer->setLed(1, 0);
+    uc1800ScreenPointer->setReadyLed(1);
+    uc1800ScreenPointer->turnOff313Italic(true);
+    uc1800ScreenPointer->ledTimeout();
+}
+
+void Xmlemu::powerOn()
+{
+    threadPointer->Resume();
+    uc1800ScreenPointer->turnOff313Italic(false);
+    initComputer();
+    setClear(0);
+    setWait(1);
+    uc1800ScreenPointer->ledTimeout();
+}
+
+void Xmlemu::onRunButton(wxCommandEvent&WXUNUSED(event))
+{
+    onRunButton();
 }
 
 void Xmlemu::onRunButton()
@@ -2466,6 +2833,42 @@ void Xmlemu::onRunButton()
             onRun();
         break;
             
+        case PANEL_FRED1:
+            if (cardSwitchOn_ || readSwitchOn_)
+                showDataLeds(dmaOut());
+            else
+            {
+                dmaOut();
+                
+                fredScreenPointer->setReadyLed(0);
+                fredScreenPointer->setStopLed(0);
+                
+                setClear(1);
+                setWait(1);
+                
+                p_Main->eventUpdateTitle();
+                p_Main->startTime();
+            }
+        break;
+            
+        case PANEL_FRED1_5:
+            if (cardSwitchOn_ || readSwitchOn_)
+                showDataLeds(dmaOut());
+            else
+            {
+                scratchpadRegister_[0]=p_Main->getBootAddress("Xml", XML);
+
+                fredScreenPointer->setReadyLed(0);
+                fredScreenPointer->setStopLed(0);
+                
+                setClear(1);
+                setWait(1);
+                
+                p_Main->eventUpdateTitle();
+                p_Main->startTime();
+            }
+        break;
+
         default:
             setClear(1);
             setWait(1);
@@ -2490,12 +2893,15 @@ void Xmlemu::onMouseRelease(wxMouseEvent&event)
 void Xmlemu::onRunButtonPress()
 {
     onRun();
-    microtutorScreenPointer->runSetState(BUTTON_DOWN);
+    panelPointer->runSetState(BUTTON_DOWN);
 }
 
 void Xmlemu::onRunButtonRelease()
 {
-    microtutorScreenPointer->runSetState(BUTTON_UP);
+    if (elfConfiguration.panelType_ == PANEL_UC1800)
+        runButtonState_ = 1;
+
+    panelPointer->runSetState(BUTTON_UP);
 }
 
 void Xmlemu::onRun()
@@ -2504,7 +2910,8 @@ void Xmlemu::onRun()
         bootstrap_ = elfConfiguration.strapAddress;
 
     stopTape();
-    
+    pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);
+
     switch (elfConfiguration.panelType_)
     {
         case PANEL_COSMAC:
@@ -2625,7 +3032,7 @@ void Xmlemu::onRun()
 
         case PANEL_MICROTUTOR:
             showData(dmaOut());
-            if (getCpuMode() != LOAD)
+            if (cpuMode_ != LOAD)
             {
                 setClear(1);
                 setWait(1);
@@ -2652,7 +3059,28 @@ void Xmlemu::onRun()
             setClear(runButtonState_);
             p_Main->eventUpdateTitle();
         break;
+      
+        case PANEL_VELF:
+            runPressed_ = true;
+        break;
+
+        case PANEL_UC1800:
+            runButtonState_ = 0;
             
+            if (singleStateStep_)
+                return;
+            
+            if (cpuMode_ != RUN)
+                resetEffectiveClock();
+
+            if (cpuMode_ != LOAD)
+            {
+                setClear(1);
+                setWait(1);
+                p_Main->eventUpdateTitle();
+            }
+        break;
+
         default:
             if (getClear()==0)
             {
@@ -2794,7 +3222,7 @@ void Xmlemu::onLoadButton()
             
             setWait(loadButtonState_);
             resetVideo();
-            if (getCpuMode() == RESET)
+            if (cpuMode_ == RESET)
                 elf2KScreenPointer->showAddress(0);
         break;
 
@@ -2807,6 +3235,32 @@ void Xmlemu::onLoadButton()
                 cdp1864Pointer->outPixie();
                 cdp1864Pointer->setPixieGraphics(false);
             }
+        break;
+            
+        case PANEL_VELF:
+            if (!loadButtonState_)
+                loadButtonState_ = 1;
+            else
+                loadButtonState_ = 0;
+            setWait(loadButtonState_);
+            if (cpuMode_ == RESET)
+                velfScreenPointer->showAddress(0);
+        break;
+            
+        case PANEL_UC1800:
+            if (!loadButtonState_)
+            {
+                loadButtonState_ = 1;
+                if (singleStateStep_)
+                    setLedMs(0);
+            }
+            else
+            {
+                loadButtonState_ = 0;
+                if (singleStateStep_)
+                    setLedMs(setMsValue_);
+            }
+            setWait(loadButtonState_);
         break;
             
         default:
@@ -2845,6 +3299,10 @@ void Xmlemu::onSingleStep()
             setWait(1);
         break;
 
+        case PANEL_UC1800:
+            singleStateStep_ = !singleStateStep_;
+        break;
+
         default:
             singleStateStep_ = !singleStateStep_;
             if (singleStateStep_)
@@ -2877,7 +3335,7 @@ void Xmlemu::onResetButton()
                 cdp1864Pointer->setPixieGraphics(false);
         break;
 
-        default:
+        case PANEL_SUPER:
             singleStateStep_ = false;
             lastMode_ = UNDEFINDEDMODE;
             setClear(0);
@@ -2887,19 +3345,110 @@ void Xmlemu::onResetButton()
             mpButtonState_ = 0;
             monitor_ = false;
         break;
+            
+        case PANEL_FRED1:
+        case PANEL_FRED1_5:
+            onReset();
+        break;
+
+        default:
+            setClear(0);
+            setWait(1);
+
+            if (cpuMode_ == RESET)
+                panelPointer->showAddress(0);
+        break;
+    }
+}
+
+void Xmlemu::onResetButtonPress()
+{
+    onResetButton();
+    uc1800ScreenPointer->resetSetState(BUTTON_DOWN);
+}
+
+void Xmlemu::onResetButtonRelease()
+{
+    uc1800ScreenPointer->resetSetState(BUTTON_UP);
+}
+
+void Xmlemu::onReadButton()
+{
+    readSwitchOn_ = !readSwitchOn_;
+    tapeEnd_ = false;
+    
+    updateCardReadStatus();
+}
+
+void Xmlemu::onCardButton()
+{
+    cardSwitchOn_ = !cardSwitchOn_;
+    
+    updateCardReadStatus();
+}
+
+void Xmlemu::updateCardReadStatus()
+{
+    if (!readSwitchOn_)
+    {
+        if (inpMode_ == INP_MODE_TAPE_DIRECT)
+        {
+            inpMode_ = INP_MODE_NONE;
+            tapeRunSwitch_ = 0;
+            p_Computer->pauseTape();
+            p_Main->turboOff();
+        
+            setClear(0);
+            setWait(1);
+        
+            fredScreenPointer->setReadyLed(1);
+            fredScreenPointer->setStopLed(1);
+        }
+        if (inpMode_ == INP_MODE_KEY_DIRECT)
+            inpMode_ = INP_MODE_NONE;
+    }
+    
+    if (readSwitchOn_ && !cardSwitchOn_)
+    {
+        if (inpMode_ == INP_MODE_NONE)
+        {
+            inpMode_ = INP_MODE_TAPE_DIRECT;
+            startLoad(0, false);
+        
+            setClear(0);
+            setWait(0);
+        
+            fredScreenPointer->setReadyLed(1);
+            fredScreenPointer->setStopLed(0);
+        }
+        else
+        {
+            inpMode_ = INP_MODE_TAPE_DIRECT;
+            p_Main->turboOn();
+            p_Computer->restartTapeLoad(TAPE_PLAY);
+        }
+    }
+    
+    if (readSwitchOn_ && cardSwitchOn_)
+    {
+        if (inpMode_ == INP_MODE_TAPE_DIRECT)
+        {
+            tapeRunSwitch_ = 0;
+            p_Computer->pauseTape();
+            p_Main->turboOff();
+        }
+        
+        inpMode_ = INP_MODE_KEY_DIRECT;
     }
 }
 
 void Xmlemu::dataSwitch(int i)
 {
     if (dataSwitchState_[i])
-    {
         dataSwitchState_[i] = 0;
-    }
     else
-    {
         dataSwitchState_[i] = 1;
-    }
+
     switch (elfConfiguration.panelType_)
     {
         case PANEL_COSMICOS:
@@ -2924,6 +3473,16 @@ void Xmlemu::efSwitch(int i)
         efSwitchState_[i] = 1;
     }
     setEf(i+1, 1-efSwitchState_[i]);
+}
+
+void Xmlemu::showDataLeds(Byte value)
+{
+    for (int i=0; i<8; i++)
+    {
+        fredScreenPointer->setLed(i, value&1);
+        value = value >> 1;
+    }
+    fredScreenPointer->setReadyLed(1);
 }
 
 void Xmlemu::onNumberKeyDown(wxCommandEvent&event)
@@ -2951,6 +3510,23 @@ void Xmlemu::onNumberKeyDown(int id)
                 p_Elf2Khex->onNumberKeyDown(id);
         break;
             
+        case PANEL_UC1800:
+            hexEfState_ = 0;
+            switches_ = (nextNybble_ == 'H')?(switches_&15)+(id<<4):(switches_&0xf0)+id;
+            if (nextNybble_ == 'H')
+            {
+                nextNybble_ = 'L';
+                uc1800ScreenPointer->setLed(1, 0);
+                uc1800ScreenPointer->setLed(0, 1);
+            }
+            else
+            {
+                nextNybble_ = 'H';
+                uc1800ScreenPointer->setLed(1, 1);
+                uc1800ScreenPointer->setLed(0, 0);
+            }
+        break;
+            
         default:
             hexEfState_ = 0;
             switches_ = ((switches_ << 4) & 0xf0) | id;
@@ -2975,6 +3551,12 @@ void Xmlemu::onHexKeyDown(int keycode)
         return;
 #endif
     
+    if (elfConfiguration.ioConfiguration.fredKeypad.defined)
+    {
+        fredkeypadPointer->keyDown(keycode);
+        return;
+    }
+    
     for (int i=0; i<16; i++)
     {
         if (keycode == keyDefA1_[i])
@@ -2991,6 +3573,15 @@ void Xmlemu::onHexKeyDown(int keycode)
                 case PANEL_COSMICOS:
                     if (elfConfiguration.useHexKeyboard)
                         p_Cosmicoshex->onNumberKeyPress(i);
+                break;
+
+                case PANEL_VELF:
+                    if (elfConfiguration.useLatchKeypad)
+                        latchKeyboardPointer->keyDown(i);
+                break;
+                    
+                case PANEL_UC1800:
+                    onNumberKeyDown(i);
                 break;
 
                 default:
@@ -3015,6 +3606,15 @@ void Xmlemu::onHexKeyDown(int keycode)
                         p_Cosmicoshex->onNumberKeyPress(i);
                 break;
 
+                case PANEL_VELF:
+                    if (elfConfiguration.useLatchKeypad)
+                        latchKeyboardPointer->keyDown(i);
+                break;
+
+                case PANEL_UC1800:
+                    onNumberKeyDown(i);
+                break;
+
                 default:
                     hexEfState_ = 0;
                     switches_ = ((switches_ << 4) & 0xf0) | i;
@@ -3032,6 +3632,12 @@ void Xmlemu::onHexDown(int hex)
 
 void Xmlemu::onHexKeyUp(int keycode)
 {
+    if (elfConfiguration.ioConfiguration.fredKeypad.defined)
+    {
+        fredkeypadPointer->keyUp(keycode);
+        return;
+    }
+
     switch (elfConfiguration.panelType_)
     {
         case PANEL_COSMICOS:
@@ -3041,6 +3647,17 @@ void Xmlemu::onHexKeyUp(int keycode)
                 {
                     if (keycode == keyDefA1_[i] || keycode == keyDefA2_[i])
                         p_Cosmicoshex->onNumberKeyRelease(i);
+                }
+            }
+        break;
+
+        case PANEL_VELF:
+            if (elfConfiguration.useLatchKeypad)
+            {
+                for (int i=0; i<16; i++)
+                {
+                    if (keycode == keyDefA1_[i] || keycode == keyDefA2_[i])
+                        latchKeyboardPointer->keyUp(i);
                 }
             }
         break;
@@ -3138,8 +3755,8 @@ void Xmlemu::startComputer()
     if (elfConfiguration.tapeStart)
     {
         tapeActivated_ =  p_Main->startCassetteLoad(0);
-//        if (tapeActivated_)
-//            tapeRunSwitch_ = tapeRunSwitch_ | 1;
+        if (tapeActivated_)
+            tapeRunSwitch_ = tapeRunSwitch_ | 1;
     }
 
     if (elfConfiguration.vtType != VTNONE)
@@ -3172,7 +3789,8 @@ void Xmlemu::startComputer()
         break;
 
         case PANEL_SUPER:
-            superScreenPointer->showAddress(address_);
+        case PANEL_UC1800:
+            panelPointer->showAddress(address_);
         break;
 
         case PANEL_ELF2K:
@@ -3196,6 +3814,11 @@ void Xmlemu::startComputer()
         case PANEL_COSMICOS:
             if (elfConfiguration.useHexKeyboard)
                 p_Cosmicoshex->setLedMs(ms);
+        break;
+
+        case PANEL_FRED1:
+        case PANEL_FRED1_5:
+            fredScreenPointer->setErrorLed(0);
         break;
     }
 
@@ -3223,6 +3846,8 @@ void Xmlemu::startComputer()
     ledCycleValue_ = ledCycleSize_;
     goCycleSize_ = (((elfClockSpeed_ * 1000000) / 8) / 1000) * 500;
     goCycleValue_ = -1;
+
+    pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);
 
     setForceUpperCase(elfConfiguration.forceUpperCase);
 
@@ -3480,6 +4105,16 @@ Byte Xmlemu::readMem(Word address)
 
     address = address | bootstrap_;
 
+    switch (elfConfiguration.panelType_)
+    {
+        case PANEL_COSMAC:
+        case PANEL_SUPER:
+        case PANEL_ELF2K:
+        case PANEL_UC1800:
+            panelPointer->showAddress(address);
+        break;
+    }
+
     return readMemDebug(address);
 }
 
@@ -3576,21 +4211,6 @@ Byte Xmlemu::readMemDebug(Word address)
 
     size_t number = (memoryType_[address / 256] >> 8);
         
-    switch (elfConfiguration.panelType_)
-    {
-        case PANEL_COSMAC:
-            elfScreenPointer->showAddress(address);
-        break;
-
-        case PANEL_SUPER:
-            superScreenPointer->showAddress(address_);
-        break;
-
-        case PANEL_ELF2K:
-            elf2KScreenPointer->showAddress(address_);
-        break;
-    }
-
     switch (memoryType_[address/256]&0xff)
     {
         case EMSMEMORY:
@@ -3657,6 +4277,7 @@ Byte Xmlemu::readMemDebug(Word address)
         case MAPPEDRAM:
         case MAINRAM:
         case RAM:
+        case NVRAM:
             if (address <32 && monitor_) return minimon[address];
             
             if (computerConfiguration.memConfig_[number].useMemMask)
@@ -3667,6 +4288,7 @@ Byte Xmlemu::readMemDebug(Word address)
             return mainMemory_[address];
         break;
 
+        break;
         case SN76430NRAM:
             return mainMemory_[address];
         break;
@@ -3707,10 +4329,6 @@ Byte Xmlemu::readMemDebug(Word address)
                 break;
             }
         break;
-
-        case NVRAM:
-            return mainMemory_[address];
-        break;
             
         default:
             return 255;
@@ -3721,6 +4339,16 @@ Byte Xmlemu::readMemDebug(Word address)
 void Xmlemu::writeMem(Word address, Byte value, bool writeRom)
 {
     address_ = address;
+
+    switch (elfConfiguration.panelType_)
+    {
+        case PANEL_COSMAC:
+        case PANEL_SUPER:
+        case PANEL_ELF2K:
+        case PANEL_UC1800:
+            panelPointer->showAddress(address);
+        break;
+    }
     writeMemDebug(address, value, writeRom);
 }
 
@@ -3809,20 +4437,6 @@ void Xmlemu::writeMemDebug(Word address, Byte value, bool writeRom)
                 }
             }
         }
-    }
-    switch (elfConfiguration.panelType_)
-    {
-        case PANEL_COSMAC:
-            elfScreenPointer->showAddress(address);
-        break;
-
-        case PANEL_SUPER:
-            superScreenPointer->showAddress(address_);
-        break;
-
-        case PANEL_ELF2K:
-            elf2KScreenPointer->showAddress(address_);
-        break;
     }
 
     if (computerConfiguration.emsConfigNumber_ != 0)
@@ -3951,6 +4565,32 @@ void Xmlemu::writeMemDebug(Word address, Byte value, bool writeRom)
             }
         break;
             
+        case NVRAM:
+            if (nvramWriteProtected_)
+                return;
+
+            if (computerConfiguration.memConfig_[number].useMemMask)
+            {
+                
+                address = (address & computerConfiguration.memConfig_[number].memMask) | computerConfiguration.memConfig_[number].start;
+            }
+
+            if (mainMemory_[address]==value)
+                return;
+            mainMemory_[address]=value;
+            if (computerConfiguration.memConfig_[number].useMemMask)
+            {
+                if (address >= (memoryStart_ & computerConfiguration.memConfig_[number].memMask) && address<((memoryStart_ & computerConfiguration.memConfig_[number].memMask) | 256))
+                    p_Main->updateDebugMemory(address);
+            }
+            else
+            {
+                if (address >= memoryStart_ && address<(memoryStart_ + 256))
+                    p_Main->updateDebugMemory(address);
+            }
+            p_Main->updateAssTabCheck(address);
+        break;
+
         case MAPPEDRAM:
         case MAINRAM:
         case RAM:
@@ -4093,18 +4733,6 @@ void Xmlemu::writeMemDebug(Word address, Byte value, bool writeRom)
                 }
             }
         break;
-
-        case NVRAM:
-            if (nvramWriteProtected_)
-                return;
-
-            if (mainMemory_[address]==value)
-                return;
-            mainMemory_[address]=value;
-            if (address>= memoryStart_ && address<(memoryStart_+256))
-                p_Main->updateDebugMemory(address);
-            p_Main->updateAssTabCheck(address);
-        break;
     }
 }
 
@@ -4242,6 +4870,62 @@ void Xmlemu::cpuInstruction()
             }
         break;
 
+        case PANEL_VELF:
+            if (cpuMode_ == RUN)
+            {
+                cpuCycleStep();
+                if (runPressed_)
+                {
+                    setClear(0);
+                    p_Main->eventUpdateTitle();
+                    velfScreenPointer->runSetState(BUTTON_DOWN);
+                    runPressed_ = false;
+                }
+            }
+            else
+            {
+                if (runPressed_)
+                {
+                    setClear(1);
+                    p_Main->eventUpdateTitle();
+                    velfScreenPointer->runSetState(BUTTON_UP);
+                    resetEffectiveClock();
+                    if (elfConfiguration.usePixie)
+                        pixiePointer->initPixie();
+                    runPressed_ = false;
+                }
+            }
+        break;
+
+        case PANEL_FRED1:
+        case PANEL_FRED1_5:
+            if (cpuMode_ == RUN)
+            {
+                if (tapeRecording_ && zeroWaveCounter_ >= 0)
+                {
+                    zeroWaveCounter_--;
+                    if (zeroWaveCounter_ == -1)
+                        psaveAmplitudeZero();
+                }
+                cpuCycleStep();
+            }
+            else
+            {
+                cpuCycles_ = 0;
+                 instructionCounter_= 0;
+               
+                machineCycle();
+                machineCycle();
+                cpuCycles_ += 2;
+                playSaveLoad();
+
+                if (resetPressed_)
+                    resetPressed();
+
+                p_Main->startTime();
+            }
+        break;
+
         default:
             if (cpuMode_ == RUN)
             {
@@ -4295,7 +4979,7 @@ void Xmlemu::resetPressed()
         }
 
     }
-    if (elfConfiguration.useLatchKeyboard)
+    if (elfConfiguration.useLatchKeyboard || elfConfiguration.useLatchKeypad)
         latchKeyboardPointer->resetKeybLatch();
     if (elfConfiguration.useMatrixKeyboard)
         matrixKeyboardPointer->resetKeyboard();
@@ -4361,6 +5045,22 @@ void Xmlemu::resetPressed()
             qLedStatus_ = (1 ^ elfConfiguration.vtEf) << 1;
             memberScreenPointer->setQLed(qLedStatus_);
         break;
+
+        case PANEL_FRED1:
+        case PANEL_FRED1_5:
+            fredScreenPointer->setErrorLed(0);
+            fredScreenPointer->setReadyLed(1);
+            fredScreenPointer->setStopLed(1);
+            for (int i=0; i<8; i++)
+                fredScreenPointer->setLed(i,0);
+            
+            fredVideoPointer->initPixie();
+
+            if (elfConfiguration.tapeStart)
+                startLoad(0, false);
+            
+            p_Main->setCurrentCardValue();
+        break;
     }
 }
 
@@ -4405,7 +5105,12 @@ void Xmlemu::configureMemory()
 
             case NVRAM:
                 defineMemoryType(computerConfiguration.memConfig_[memConfNumber].start, computerConfiguration.memConfig_[memConfNumber].end, computerConfiguration.memConfig_[memConfNumber].type);
-                
+    
+                if (computerConfiguration.memConfig_[memConfNumber].useMemMask)
+                {
+                    defineMemoryType(computerConfiguration.memConfig_[memConfNumber].start + computerConfiguration.memConfig_[memConfNumber].memMask + 1, computerConfiguration.memConfig_[memConfNumber].end, MAPPEDRAM + (computerConfiguration.memConfig_[memConfNumber].type & 0xff00));
+                }
+
                 initRam(computerConfiguration.memConfig_[memConfNumber].start, computerConfiguration.memConfig_[memConfNumber].end);
                 loadNvRam(memConfNumber);
             break;
@@ -4570,6 +5275,24 @@ void Xmlemu::configureExtensions()
         vip2KVideoPointer->Show(true);
     }
 
+    if (elfConfiguration.ioConfiguration.fredKeypad.defined)
+    {
+        fredkeypadPointer = new KeypadFred();
+        fredkeypadPointer->configure(elfConfiguration.ioConfiguration, keyDefA1_, keyDefA2_);
+    }
+
+    if (elfConfiguration.useFredVideo)
+    {
+        double zoom = p_Main->getZoom(elfConfiguration.ioConfiguration.fredVideoNumber);
+        double scale = p_Main->getScale();
+        fredVideoPointer = new PixieFred(p_Main->getRunningComputerText(), p_Main->getFredPos(XML), wxSize(192*zoom, 128*zoom), zoom, scale, XML, elfConfiguration.ioConfiguration.fredVideoNumber, VIDEOFRED);
+        p_Video[elfConfiguration.ioConfiguration.fredVideoNumber] = fredVideoPointer;
+        fredVideoPointer->configureFredVideo(elfConfiguration.ioConfiguration);
+        fredVideoPointer->initPixie();
+        fredVideoPointer->setZoom(zoom);
+        fredVideoPointer->Show(true);
+    }
+
     if (elfConfiguration.use6845)
     {
         double zoom = p_Main->getZoom(elfConfiguration.ioConfiguration.mc6845VideoNumber);
@@ -4621,7 +5344,6 @@ void Xmlemu::configureExtensions()
         
         defineMemoryType(0x800, 0xFFF, SN76430NRAM);
     }
-
 
     if (elfConfiguration.usev1870)
     {
@@ -4837,11 +5559,19 @@ void Xmlemu::configureExtensions()
     if (elfConfiguration.useLatchKeyboard)
     {
         latchKeyboardPointer = new KeybLatch;
-        latchKeyboardPointer->configure(elfConfiguration.ioConfiguration, computerConfiguration.saveCommand_);
+        latchKeyboardPointer->configure(elfConfiguration.ioConfiguration, "keyboard", computerConfiguration.saveCommand_);
         p_Computer->setOutType(elfConfiguration.ioConfiguration.keybLatchIoGroup +1, elfConfiguration.ioConfiguration.keybLatchOut, KEYB_LATCH_OUT);
         p_Computer->setEfType(elfConfiguration.ioConfiguration.keybLatchIoGroup +1, elfConfiguration.ioConfiguration.keybLatchEf, KEYB_LATCH_EF);
     }
-    
+
+    if (elfConfiguration.useLatchKeypad)
+    {
+        latchKeyboardPointer = new KeybLatch;
+        latchKeyboardPointer->configure(elfConfiguration.ioConfiguration, "keypad", computerConfiguration.saveCommand_);
+        p_Computer->setOutType(elfConfiguration.ioConfiguration.keybLatchIoGroup +1, elfConfiguration.ioConfiguration.keybLatchOut, KEYB_LATCH_OUT);
+        p_Computer->setEfType(elfConfiguration.ioConfiguration.keybLatchIoGroup +1, elfConfiguration.ioConfiguration.keybLatchEf, KEYB_LATCH_EF);
+    }
+
     if (elfConfiguration.useMatrixKeyboard)
     {
         matrixKeyboardPointer = new KeybMatrix;
@@ -4931,43 +5661,72 @@ void Xmlemu::configureExtensions()
     {
         ioGroup = "";
         if (elfConfiguration.ioConfiguration.tapeIoGroup != -1)
-            ioGroup.Printf(" (on group %X)", elfConfiguration.ioConfiguration.tapeIoGroup);
+            ioGroup.Printf(" on group %d", elfConfiguration.ioConfiguration.tapeIoGroup);
 
-        p_Main->message("Configuring CyberVision Cassette" + ioGroup);
-        
-        p_Computer->setEfType(elfConfiguration.ioConfiguration.tapeIoGroup+1, elfConfiguration.ioConfiguration.tapeEfOut, TAPE_CV_EF_OUT);
-        p_Computer->setEfType(elfConfiguration.ioConfiguration.tapeIoGroup+1, elfConfiguration.ioConfiguration.tapeEf, TAPE_CV_EF);
-        printBuffer.Printf("    EF %d: write buffer empty, EF %d: data ready", elfConfiguration.ioConfiguration.tapeEfOut, elfConfiguration.ioConfiguration.tapeEf);
-        p_Main->message(printBuffer);
-        
-        p_Computer->setOutType(elfConfiguration.ioConfiguration.tapeOut.qValue, elfConfiguration.ioConfiguration.tapeIoGroup+1, elfConfiguration.ioConfiguration.tapeOut.portNumber, TAPE_CV_OUT);
-        p_Computer->setInType(elfConfiguration.ioConfiguration.tapeIn.qValue, elfConfiguration.ioConfiguration.tapeIoGroup+1, elfConfiguration.ioConfiguration.tapeIn.portNumber, TAPE_CV_IN);
-        
-        if (elfConfiguration.ioConfiguration.tapeOut.qValue == -1)
-            printBuffer.Printf("    Output %d: write data", elfConfiguration.ioConfiguration.tapeOut.portNumber);
+        if (elfConfiguration.tapeFormat_ == TAPE_FORMAT_CV)
+        {
+            p_Main->message("Configuring CyberVision Cassette" + ioGroup);
+            
+            p_Computer->setEfType(elfConfiguration.ioConfiguration.tapeIoGroup+1, elfConfiguration.ioConfiguration.tapeEfOut, TAPE_CV_EF_OUT);
+            p_Computer->setEfType(elfConfiguration.ioConfiguration.tapeIoGroup+1, elfConfiguration.ioConfiguration.tapeEf, TAPE_HW_EF);
+            printBuffer.Printf("    EF %d: write buffer empty, EF %d: data ready", elfConfiguration.ioConfiguration.tapeEfOut, elfConfiguration.ioConfiguration.tapeEf);
+            p_Main->message(printBuffer);
+            
+            p_Computer->setOutType(elfConfiguration.ioConfiguration.tapeOut.qValue, elfConfiguration.ioConfiguration.tapeIoGroup+1, elfConfiguration.ioConfiguration.tapeOut.portNumber, TAPE_CV_OUT);
+            p_Computer->setInType(elfConfiguration.ioConfiguration.tapeIn.qValue, elfConfiguration.ioConfiguration.tapeIoGroup+1, elfConfiguration.ioConfiguration.tapeIn.portNumber, TAPE_CV_IN);
+            
+            if (elfConfiguration.ioConfiguration.tapeOut.qValue == -1)
+                printBuffer.Printf("    Output %d: write data", elfConfiguration.ioConfiguration.tapeOut.portNumber);
+            else
+            {
+                printBuffer.Printf("    Q = %d & output %d: write data", elfConfiguration.ioConfiguration.tapeOut.qValue, elfConfiguration.ioConfiguration.tapeOut.portNumber);
+            }
+            p_Main->message(printBuffer);
+
+            if (elfConfiguration.ioConfiguration.tapeIn.qValue == -1)
+                printBuffer.Printf("    Input %d: read data", elfConfiguration.ioConfiguration.tapeIn.portNumber);
+            else
+            {
+                printBuffer.Printf("    Q = %d & input %d: read data ", elfConfiguration.ioConfiguration.tapeIn.qValue, elfConfiguration.ioConfiguration.tapeIn.portNumber);
+            }
+            p_Main->message(printBuffer);
+            p_Main->message("");
+
+            p_Main->eventHwTapeStateChange(HW_TAPE_STATE_PLAY);
+        }
         else
         {
-            printBuffer.Printf("    Q = %d & output %d: write data", elfConfiguration.ioConfiguration.tapeOut.qValue, elfConfiguration.ioConfiguration.tapeOut.portNumber);
-        }
-        p_Main->message(printBuffer);
+            p_Main->message("Configuring FRED Cassette" + ioGroup);
+                        
+            p_Computer->setOutType(elfConfiguration.ioConfiguration.tapeIoGroup+1, elfConfiguration.ioConfiguration.tapeOutMode, FREDTAPEMODE);
+            p_Computer->setOutType(elfConfiguration.ioConfiguration.tapeOutSound, FREDTAPESOUND);
+            p_Computer->setInType(elfConfiguration.ioConfiguration.tapeIoGroup+1, elfConfiguration.ioConfiguration.tapeIn.portNumber, FREDINP0);
+            
+            printBuffer.Printf("    Output %d: bit 4 = program mode, bit 5 = direct mode, bit 6 = write mode", elfConfiguration.ioConfiguration.tapeOutMode);
+            p_Main->message(printBuffer);
 
-        if (elfConfiguration.ioConfiguration.tapeIn.qValue == -1)
+            printBuffer.Printf("    Output %d: bit 0 = 1 - run tape, bit 1 = 1 - sound on, bit 2 = sound", elfConfiguration.ioConfiguration.tapeOutSound);
+            p_Main->message(printBuffer);
+
             printBuffer.Printf("    Input %d: read data", elfConfiguration.ioConfiguration.tapeIn.portNumber);
-        else
-        {
-            printBuffer.Printf("    Q = %d & input %d: read data ", elfConfiguration.ioConfiguration.tapeIn.qValue, elfConfiguration.ioConfiguration.tapeIn.portNumber);
-        }
-        p_Main->message(printBuffer);
-        p_Main->message("");
+            p_Main->message(printBuffer);
 
-        p_Main->eventHwTapeStateChange(HW_TAPE_STATE_PLAY);
+            p_Computer->setEfType(elfConfiguration.ioConfiguration.tapeEf, FREDEF1);
+            p_Computer->setEfType(elfConfiguration.ioConfiguration.tapeEfRun, FREDEF2);
+            p_Computer->setEfType(elfConfiguration.ioConfiguration.tapeEfError, FREDEF4);
+            printBuffer.Printf("    EF %d: data ready (if mode = %d), EF %d: tape run/stop, EF %d: tape error", elfConfiguration.ioConfiguration.tapeEf, elfConfiguration.ioConfiguration.tapeMode, elfConfiguration.ioConfiguration.tapeEfRun, elfConfiguration.ioConfiguration.tapeEfError);
+            p_Main->message(printBuffer);
+
+            p_Main->message("");
+
+        }
     }
     
     if (elfConfiguration.useBitSound)
     {
         ioGroup = "";
         if (elfConfiguration.ioConfiguration.bitSoundIoGroup != -1)
-            ioGroup.Printf(" (on group %X)", elfConfiguration.ioConfiguration.bitSoundIoGroup);
+            ioGroup.Printf(" on group %d", elfConfiguration.ioConfiguration.bitSoundIoGroup);
 
         p_Main->message("Configuring sound" + ioGroup);
         
@@ -5011,6 +5770,8 @@ void Xmlemu::moveWindows()
         cdp1864Pointer->Move(p_Main->getCdp1864Pos(XML));
     if (elfConfiguration.useVip2KVideo)
         vip2KVideoPointer->Move(p_Main->getVip2KPos(XML));
+    if (elfConfiguration.useFredVideo)
+        fredVideoPointer->Move(p_Main->getFredPos(XML));
     if (elfConfiguration.useTMS9918)
         tmsPointer->Move(p_Main->getTmsPos(XML));
     if (use6845_)
@@ -5039,6 +5800,8 @@ void Xmlemu::updateTitle(wxString Title)
         cdp1864Pointer->SetTitle(p_Main->getRunningComputerText() + " - CDP1864"+Title);
     if (elfConfiguration.useVip2KVideo)
         vip2KVideoPointer->SetTitle(p_Main->getRunningComputerText() +Title);
+    if (elfConfiguration.useFredVideo)
+        fredVideoPointer->SetTitle(p_Main->getRunningComputerText() +Title);
     if (elfConfiguration.useTMS9918)
         tmsPointer->SetTitle(p_Main->getRunningComputerText() + " - TMS 9918"+Title);
     if (use6845_)
@@ -5272,11 +6035,11 @@ void Xmlemu::releaseButtonOnScreen(HexButton* buttonPointer, int buttonType)
         break;
 
         case PANEL_ELFII:
-            elf2ScreenPointer->releaseButtonOnScreen(buttonPointer);
-        break;
-
         case PANEL_SUPER:
-            superScreenPointer->releaseButtonOnScreen(buttonPointer);
+        case PANEL_UC1800:
+        case PANEL_FRED1:
+        case PANEL_FRED1_5:
+            panelPointer->releaseButtonOnScreen(buttonPointer);
         break;
 
         case PANEL_ELF2K:
@@ -5429,22 +6192,25 @@ void Xmlemu::saveNvRam()
 {
     if (nvRamDisable_)
         return;
-
+    
     Byte value;
     wxFile outputFile;
     
     for (size_t i=0; i<nvramDetails.size(); i++)
     {
-        if (wxFile::Exists(nvramDetails[i].dirname+nvramDetails[i].filename))
-            outputFile.Open(nvramDetails[i].dirname+nvramDetails[i].filename, wxFile::write);
-        else
-            outputFile.Create(nvramDetails[i].dirname+nvramDetails[i].filename);
-        for (long address = nvramDetails[i].start; address <= nvramDetails[i].end; address++)
+        if (nvramDetails[i].filename != "")
         {
-            value = mainMemory_[address];
-            outputFile.Write(&value, 1);
+            if (wxFile::Exists(nvramDetails[i].dirname+nvramDetails[i].filename))
+                outputFile.Open(nvramDetails[i].dirname+nvramDetails[i].filename, wxFile::write);
+            else
+                outputFile.Create(nvramDetails[i].dirname+nvramDetails[i].filename);
+            for (long address = nvramDetails[i].start; address <= nvramDetails[i].end; address++)
+            {
+                value = mainMemory_[address];
+                outputFile.Write(&value, 1);
+            }
+            outputFile.Close();
         }
-        outputFile.Close();
     }
 }
 
@@ -6058,6 +6824,9 @@ void Xmlemu::removeCosmicosHex()
 
 void Xmlemu::startLoad(int tapeNumber, bool button)
 {
+    if (tapeRunSwitch_&1)
+        return;
+    
     lastSampleInt16_ = 0;
     lastSampleChar_ = 0;
     lastSampleInt32_ = 0;
@@ -6078,7 +6847,7 @@ void Xmlemu::startLoad(int tapeNumber, bool button)
     {
         p_Main->turboOn();
         
-        if (elfConfiguration.useTapeHw && elfConfiguration.useCvKeypad)
+        if (elfConfiguration.tapeFormat_ == TAPE_FORMAT_CV && elfConfiguration.useTapeHw)
         {
             switch (p_Main->getHwTapeState())
             {
@@ -6105,15 +6874,19 @@ void Xmlemu::startLoad(int tapeNumber, bool button)
         else
             tapeActivated_ = p_Main->startCassetteLoad(tapeNumber);
         
-        if (elfConfiguration.useTapeHw && !tapeActivated_)
+        if (elfConfiguration.tapeFormat_ == TAPE_FORMAT_CV && !tapeActivated_)
             p_Main->eventHwTapeStateChange(HW_TAPE_STATE_OFF);
     }
-    
-//    tapeRunSwitch_ = tapeRunSwitch_ | 1;
+
+    if (elfConfiguration.tapeFormat_ != TAPE_FORMAT_CV)
+        tapeRunSwitch_ = tapeRunSwitch_ | 1;
 }
 
 void Xmlemu::cassetteXmlHw(wxInt32 val, long size)
 {
+    if ((tapeRunSwitch_&1) != 1 && elfConfiguration.tapeFormat_ != TAPE_FORMAT_CV)
+        return;
+    
     wxInt32 tape_threshold;
     if (useXmlThreshold_)
         tape_threshold = elfConfiguration.tape_threshold24Bit;
@@ -6125,9 +6898,6 @@ void Xmlemu::cassetteXmlHw(wxInt32 val, long size)
     if (!elfConfiguration.useTapeHw)
         return;
     
-//    if ((tapeRunSwitch_&1) != 1)
-//        return;
-
     wxInt32 difference;
     if (val < lastSampleInt32_)
         difference = lastSampleInt32_ - val;
@@ -6141,13 +6911,7 @@ void Xmlemu::cassetteXmlHw(wxInt32 val, long size)
         silenceCount_ = 0;
         toneTime_++;
     }
-    if (pauseTapeCounter_ > 0)
-    {
-        pauseTapeCounter_--;
-        if (pauseTapeCounter_ == 0)
-            pauseTape();
-    }
-
+    
     switch (elfConfiguration.tapeFormat_)
     {
         case TAPE_FORMAT_AUTO:
@@ -6168,11 +6932,18 @@ void Xmlemu::cassetteXmlHw(wxInt32 val, long size)
             {
                 p_Computer->pauseTape();
                 p_Main->turboOff();
-        //        tapeRunSwitch_ = tapeRunSwitch_ & 2;
+                tapeRunSwitch_ = tapeRunSwitch_ & 2;
             }
         break;
             
         case TAPE_FORMAT_CV:
+            if (pauseTapeCounter_ > 0)
+            {
+                pauseTapeCounter_--;
+                if (pauseTapeCounter_ == 0)
+                    pauseTape();
+            }
+
             if (lastSampleInt32_ <= 0)
             {
                 if (val > 0 && silenceCount_ == 0)
@@ -6186,39 +6957,49 @@ void Xmlemu::cassetteXmlHw(wxInt32 val, long size)
         break;
     }
 
-    switch (elfConfiguration.tapeFormat_)
+    if (!tapeFormatFixed_)
     {
-        case TAPE_FORMAT_PM:
-            tapeFormatFixed_ = true;
-            cassettePm();
-        break;
-            
-        case TAPE_FORMAT_56:
-            pulseCountStopTone_ = 2000;
-            tapeFormatFixed_ = true;
-            tapeFormat56_ = true;
-            cassette56();
-        break;
-            
-        case TAPE_FORMAT_CV:
-        break;
-
-        default:
-            if (pulseCount_ > 50 && pulseCount_ < 200 && silenceCount_ > 10)
-            { // 5.2 & 6.2 tone format, if no tone is detected between 50 & 200 pulses at the start it is PM System format
+        switch (elfConfiguration.tapeFormat_)
+        {
+            case TAPE_FORMAT_PM:
+                tapeFormatFixed_ = true;
+                cassettePm();
+            break;
+                
+            case TAPE_FORMAT_56:
                 pulseCountStopTone_ = 2000;
                 tapeFormatFixed_ = true;
                 tapeFormat56_ = true;
-//                if (computerType_ == FRED1)
-//                    p_Main->eventSetStaticTextValue("CurrentTapeFormatTextFRED1", "-> 5.2/6.2 Tone");
-//                else
-//                    p_Main->eventSetStaticTextValue("CurrentTapeFormatTextFRED1_5", "-> 5.2/6.2 Tone");
-            }
-            if (tapeFormat56_)
                 cassette56();
-            else
-                cassettePm();
-        break;
+            break;
+                
+            case TAPE_FORMAT_CV:
+            break;
+
+            default:
+                if (pulseCount_ > 50 && pulseCount_ < 200 && silenceCount_ > 10)
+                { // 5.2 & 6.2 tone format, if no tone is detected between 50 & 200 pulses at the start it is PM System format
+                    pulseCountStopTone_ = 2000;
+                    tapeFormatFixed_ = true;
+                    tapeFormat56_ = true;
+    //                if (computerType_ == FRED1)
+    //                    p_Main->eventSetStaticTextValue("CurrentTapeFormatTextFRED1", "-> 5.2/6.2 Tone");
+    //                else
+    //                    p_Main->eventSetStaticTextValue("CurrentTapeFormatTextFRED1_5", "-> 5.2/6.2 Tone");
+                }
+                if (tapeFormat56_)
+                    cassette56();
+                else
+                    cassettePm();
+            break;
+        }
+    }
+    else
+    {
+        if (tapeFormat56_)
+            cassette56();
+        else
+            cassettePm();
     }
     
     lastSampleInt32_ = val;
@@ -6226,6 +7007,9 @@ void Xmlemu::cassetteXmlHw(wxInt32 val, long size)
 
 void Xmlemu::cassetteXmlHw(wxInt16 val, long size)
 {
+    if ((tapeRunSwitch_&1) != 1 && elfConfiguration.tapeFormat_ != TAPE_FORMAT_CV)
+        return;
+    
     wxInt16 tape_threshold;
     if (useXmlThreshold_)
         tape_threshold = elfConfiguration.tape_threshold16Bit;
@@ -6237,9 +7021,6 @@ void Xmlemu::cassetteXmlHw(wxInt16 val, long size)
     if (!elfConfiguration.useTapeHw)
         return;
     
-//    if ((tapeRunSwitch_&1) != 1)
-//        return;
-
     wxInt16 difference;
     if (val < lastSampleInt16_)
         difference = lastSampleInt16_ - val;
@@ -6253,12 +7034,6 @@ void Xmlemu::cassetteXmlHw(wxInt16 val, long size)
         silenceCount_ = 0;
         toneTime_++;
     }
-    if (pauseTapeCounter_ > 0)
-    {
-        pauseTapeCounter_--;
-        if (pauseTapeCounter_ == 0)
-            pauseTape();
-    }
     
     switch (elfConfiguration.tapeFormat_)
     {
@@ -6280,11 +7055,18 @@ void Xmlemu::cassetteXmlHw(wxInt16 val, long size)
             {
                 p_Computer->pauseTape();
                 p_Main->turboOff();
-        //        tapeRunSwitch_ = tapeRunSwitch_ & 2;
+                tapeRunSwitch_ = tapeRunSwitch_ & 2;
             }
         break;
             
         case TAPE_FORMAT_CV:
+            if (pauseTapeCounter_ > 0)
+            {
+                pauseTapeCounter_--;
+                if (pauseTapeCounter_ == 0)
+                    pauseTape();
+            }
+
             if (lastSampleInt16_ <= 0)
             {
                 if (val > 0 && silenceCount_ == 0)
@@ -6298,46 +7080,59 @@ void Xmlemu::cassetteXmlHw(wxInt16 val, long size)
         break;
     }
 
-    switch (elfConfiguration.tapeFormat_)
+    if (!tapeFormatFixed_)
     {
-        case TAPE_FORMAT_PM:
-            tapeFormatFixed_ = true;
-            cassettePm();
-        break;
-            
-        case TAPE_FORMAT_56:
-            pulseCountStopTone_ = 2000;
-            tapeFormatFixed_ = true;
-            tapeFormat56_ = true;
-            cassette56();
-        break;
-            
-        case TAPE_FORMAT_CV:
-        break;
-
-        default:
-            if (pulseCount_ > 50 && pulseCount_ < 200 && silenceCount_ > 10)
-            { // 5.2 & 6.2 tone format, if no tone is detected between 50 & 200 pulses at the start it is PM System format
+        switch (elfConfiguration.tapeFormat_)
+        {
+            case TAPE_FORMAT_PM:
+                tapeFormatFixed_ = true;
+                cassettePm();
+            break;
+                
+            case TAPE_FORMAT_56:
                 pulseCountStopTone_ = 2000;
                 tapeFormatFixed_ = true;
                 tapeFormat56_ = true;
-//                if (computerType_ == FRED1)
-//                    p_Main->eventSetStaticTextValue("CurrentTapeFormatTextFRED1", "-> 5.2/6.2 Tone");
-//                else
-//                    p_Main->eventSetStaticTextValue("CurrentTapeFormatTextFRED1_5", "-> 5.2/6.2 Tone");
-            }
-            if (tapeFormat56_)
                 cassette56();
-            else
-                cassettePm();
-        break;
+            break;
+                
+            case TAPE_FORMAT_CV:
+            break;
+
+            default:
+                if (pulseCount_ > 50 && pulseCount_ < 200 && silenceCount_ > 10)
+                { // 5.2 & 6.2 tone format, if no tone is detected between 50 & 200 pulses at the start it is PM System format
+                    pulseCountStopTone_ = 2000;
+                    tapeFormatFixed_ = true;
+                    tapeFormat56_ = true;
+    //                if (computerType_ == FRED1)
+    //                    p_Main->eventSetStaticTextValue("CurrentTapeFormatTextFRED1", "-> 5.2/6.2 Tone");
+    //                else
+    //                    p_Main->eventSetStaticTextValue("CurrentTapeFormatTextFRED1_5", "-> 5.2/6.2 Tone");
+                }
+                if (tapeFormat56_)
+                    cassette56();
+                else
+                    cassettePm();
+            break;
+        }
     }
-    
+    else
+    {
+        if (tapeFormat56_)
+            cassette56();
+        else
+            cassettePm();
+    }
+
     lastSampleInt16_ = val;
 }
 
 void Xmlemu::cassetteXmlHw(char val, long size)
 {
+    if ((tapeRunSwitch_&1) != 1 && elfConfiguration.tapeFormat_ != TAPE_FORMAT_CV)
+        return;
+    
     char tape_threshold;
     if (useXmlThreshold_)
         tape_threshold = elfConfiguration.tape_threshold8Bit;
@@ -6348,9 +7143,6 @@ void Xmlemu::cassetteXmlHw(char val, long size)
 
     if (!elfConfiguration.useTapeHw)
         return;
-
-//    if ((tapeRunSwitch_&1) != 1)
-//        return;
 
     char difference;
     if (val < lastSampleChar_)
@@ -6365,12 +7157,6 @@ void Xmlemu::cassetteXmlHw(char val, long size)
         silenceCount_ = 0;
         toneTime_++;
     }
-    if (pauseTapeCounter_ > 0)
-    {
-        pauseTapeCounter_--;
-        if (pauseTapeCounter_ == 0)
-            pauseTape();
-    }
 
     switch (elfConfiguration.tapeFormat_)
     {
@@ -6392,11 +7178,18 @@ void Xmlemu::cassetteXmlHw(char val, long size)
             {
                 p_Computer->pauseTape();
                 p_Main->turboOff();
-        //        tapeRunSwitch_ = tapeRunSwitch_ & 2;
+                tapeRunSwitch_ = tapeRunSwitch_ & 2;
             }
         break;
             
         case TAPE_FORMAT_CV:
+            if (pauseTapeCounter_ > 0)
+            {
+                pauseTapeCounter_--;
+                if (pauseTapeCounter_ == 0)
+                    pauseTape();
+            }
+
             if (lastSampleChar_ <= 0)
             {
                 if (val > 0 && silenceCount_ == 0)
@@ -6410,39 +7203,49 @@ void Xmlemu::cassetteXmlHw(char val, long size)
         break;
     }
 
-    switch (elfConfiguration.tapeFormat_)
+    if (!tapeFormatFixed_)
     {
-        case TAPE_FORMAT_PM:
-            tapeFormatFixed_ = true;
-            cassettePm();
-        break;
-            
-        case TAPE_FORMAT_56:
-            pulseCountStopTone_ = 2000;
-            tapeFormatFixed_ = true;
-            tapeFormat56_ = true;
-            cassette56();
-        break;
-            
-        case TAPE_FORMAT_CV:
-        break;
-
-        default:
-            if (pulseCount_ > 50 && pulseCount_ < 200 && silenceCount_ > 10)
-            { // 5.2 & 6.2 tone format, if no tone is detected between 50 & 200 pulses at the start it is PM System format
+        switch (elfConfiguration.tapeFormat_)
+        {
+            case TAPE_FORMAT_PM:
+                tapeFormatFixed_ = true;
+                cassettePm();
+            break;
+                
+            case TAPE_FORMAT_56:
                 pulseCountStopTone_ = 2000;
                 tapeFormatFixed_ = true;
                 tapeFormat56_ = true;
-//                if (computerType_ == FRED1)
-//                    p_Main->eventSetStaticTextValue("CurrentTapeFormatTextFRED1", "-> 5.2/6.2 Tone");
-//                else
-//                    p_Main->eventSetStaticTextValue("CurrentTapeFormatTextFRED1_5", "-> 5.2/6.2 Tone");
-            }
-            if (tapeFormat56_)
                 cassette56();
-            else
-                cassettePm();
-        break;
+            break;
+                
+            case TAPE_FORMAT_CV:
+            break;
+
+            default:
+                if (pulseCount_ > 50 && pulseCount_ < 200 && silenceCount_ > 10)
+                { // 5.2 & 6.2 tone format, if no tone is detected between 50 & 200 pulses at the start it is PM System format
+                    pulseCountStopTone_ = 2000;
+                    tapeFormatFixed_ = true;
+                    tapeFormat56_ = true;
+    //                if (computerType_ == FRED1)
+    //                    p_Main->eventSetStaticTextValue("CurrentTapeFormatTextFRED1", "-> 5.2/6.2 Tone");
+    //                else
+    //                    p_Main->eventSetStaticTextValue("CurrentTapeFormatTextFRED1_5", "-> 5.2/6.2 Tone");
+                }
+                if (tapeFormat56_)
+                    cassette56();
+                else
+                    cassettePm();
+            break;
+        }
+    }
+    else
+    {
+        if (tapeFormat56_)
+            cassette56();
+        else
+            cassettePm();
     }
 
     lastSampleChar_ = val;
@@ -6613,31 +7416,31 @@ void Xmlemu::cassette56()
             if (freq <= fredFreq_ && (polarity_ & 1) != 1)
             {
                 tapeError_ = 0;
-//                fredScreenPointer->setErrorLed(1);
+                fredScreenPointer->setErrorLed(1);
                 
-//                if (inpMode_ == INP_MODE_TAPE_DIRECT)
-//                {
-//                    message.Printf("Polarity issue at %04X", scratchpadRegister_[0]);
-//                    p_Main->eventShowTextMessage(message);
-//                }
-//                if  (inpMode_ == INP_MODE_TAPE_PROGRAM)
-//                {
-//                    message.Printf("Polarity issue");
-//                    p_Main->eventShowTextMessage(message);
-//                }
+                if (inpMode_ == INP_MODE_TAPE_DIRECT)
+                {
+                    message.Printf("Polarity issue at %04X", scratchpadRegister_[0]);
+                    p_Main->eventShowTextMessage(message);
+                }
+                if  (inpMode_ == INP_MODE_TAPE_PROGRAM)
+                {
+                    message.Printf("Polarity issue");
+                    p_Main->eventShowTextMessage(message);
+                }
 
-//                if (inpMode_ == INP_MODE_TAPE_DIRECT)
-//                    dmaIn(tapeInput_);
+                if (inpMode_ == INP_MODE_TAPE_DIRECT)
+                    dmaIn(tapeInput_);
             }
             else
             {
-//                if (inpMode_ == INP_MODE_TAPE_DIRECT)
-//                    dmaIn(tapeInput_);
-//                if  (inpMode_ == INP_MODE_TAPE_PROGRAM)
-//                {
+                if (inpMode_ == INP_MODE_TAPE_DIRECT)
+                    dmaIn(tapeInput_);
+                if  (inpMode_ == INP_MODE_TAPE_PROGRAM)
+                {
                     lastTapeInpt_ = tapeInput_;
                     tapedataReady_ = 0;
-//                }
+                }
             }
         }
         else
@@ -6673,13 +7476,13 @@ void Xmlemu::cassettePm()
     {
         if (!tapeFormatFixed_)
         {
-//            if (elfConfiguration.tapeFormat_ == TAPE_FORMAT_AUTO)
-//            {
+            if (elfConfiguration.tapeFormat_ == TAPE_FORMAT_AUTO)
+            {
 //                if (computerType_ == FRED1)
 //                    p_Main->eventSetStaticTextValue("CurrentTapeFormatTextFRED1", "-> PM System");
 //                else
 //                    p_Main->eventSetStaticTextValue("CurrentTapeFormatTextFRED1_5", "-> PM SYSTEM");
-//            }
+            }
             tapeFormatFixed_ = true;
         }
         if (bitNumber_ == 8)
@@ -6687,33 +7490,33 @@ void Xmlemu::cassettePm()
             if (pulseCount_ > 6 && (polarity_ & 1) != 1)
             {
                 tapeError_ = 0;
-//                fredScreenPointer->setErrorLed(1);
+                fredScreenPointer->setErrorLed(1);
                 
-//                if (inpMode_ == INP_MODE_TAPE_DIRECT)
-//                {
-//                    message.Printf("Polarity issue at %04X", scratchpadRegister_[0]);
-//                    p_Main->eventShowTextMessage(message);
-//                }
-//                if  (inpMode_ == INP_MODE_TAPE_PROGRAM)
-//                {
-//                    message.Printf("Polarity issue");
-//                    p_Main->eventShowTextMessage(message);
-//                }
+                if (inpMode_ == INP_MODE_TAPE_DIRECT)
+                {
+                    message.Printf("Polarity issue at %04X", scratchpadRegister_[0]);
+                    p_Main->eventShowTextMessage(message);
+                }
+                if  (inpMode_ == INP_MODE_TAPE_PROGRAM)
+                {
+                    message.Printf("Polarity issue");
+                    p_Main->eventShowTextMessage(message);
+                }
                 bitNumber_ = 0;
                 polarity_ = 0;
                 tapeInput_ = 0;
-//                if (inpMode_ == INP_MODE_TAPE_DIRECT)
-//                    dmaIn(tapeInput_);
+                if (inpMode_ == INP_MODE_TAPE_DIRECT)
+                    dmaIn(tapeInput_);
             }
             else
             {
-//                if (inpMode_ == INP_MODE_TAPE_DIRECT)
-//                    dmaIn(tapeInput_);
-//                if  (inpMode_ == INP_MODE_TAPE_PROGRAM)
-//                {
+                if (inpMode_ == INP_MODE_TAPE_DIRECT)
+                    dmaIn(tapeInput_);
+                if  (inpMode_ == INP_MODE_TAPE_PROGRAM)
+                {
                     lastTapeInpt_ = tapeInput_;
                     tapedataReady_ = 0;
-//                }
+                }
             }
         }
         else
@@ -6748,8 +7551,8 @@ void Xmlemu::startRecording(int tapeNumber)
 
 void Xmlemu::finishStopTape()
 {
-//    inpMode_ = INP_MODE_NONE;
-//    tapeRunSwitch_ = tapeRunSwitch_ & 2;
+    inpMode_ = INP_MODE_NONE;
+    tapeRunSwitch_ = tapeRunSwitch_ & 2;
     tapeActivated_ = false;
     tapeRecording_ = false;
     tapeEnd_ = true;
