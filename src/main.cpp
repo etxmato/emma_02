@@ -604,6 +604,8 @@ BEGIN_EVENT_TABLE(Main, DebugWindow)
     EVT_GUI_MSG(ENABLE_CLOCK, Main::setEnableClockEvent)
     EVT_GUI_MSG(PAUSE_STATE, Main::setPauseStateEvent)
     EVT_GUI_MSG(CHANGE_HW_TAPE_STATE, Main::setHwTapeStateEvent)
+    EVT_GUI_MSG(SET_LOCATION_STATE, Main::setLocationStateEvent)
+    EVT_GUI_MSG(SET_VIPIILED, Main::setUpdateVipIILedStatus)
 
     EVT_SYS_COLOUR_CHANGED(Main::sysColourChangeEvent)
 
@@ -2303,7 +2305,6 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
     guiSizeTimeoutPointer = new wxTimer(this, 908);
     guiRedrawBarTimeOutPointer = new wxTimer(this, 909);
     directAssPointer = new wxTimer(this, 910);
-    tapePauseTimerPointer = new wxTimer(this, 911);
     guiSizeTimerStarted_ = false;
     
     if (mode_.gui)
@@ -2366,7 +2367,6 @@ Main::~Main()
     delete updateCheckPointer;
     delete traceTimeoutPointer;
     delete keyDebounceTimeoutPointer;
-    delete tapePauseTimerPointer;
     delete guiSizeTimeoutPointer;
     delete guiRedrawBarTimeOutPointer;
     delete help_;
@@ -2774,8 +2774,8 @@ void Main::initConfig()
     borderY[VIDEOXMLTMS] = 24;  //TMS
     borderX[VIDEOXMLI8275] = 0;
     borderY[VIDEOXMLI8275] = 0;  //i8275
-    borderX[VIDEOXML1864] = 0;
-    borderY[VIDEOXML1864] = 0;  //1864
+    borderX[VIDEOXML1864] = 8;
+    borderY[VIDEOXML1864] = 32;  //1864
     borderX[VIDEOXMLSN76430N] = 0;
     borderY[VIDEOXMLSN76430N] = 0;  //1864
     borderX[VIDEOVIP2K] = 0;
@@ -2785,6 +2785,30 @@ void Main::initConfig()
 
     colour[COL_PIXIE_FORE] = "#ffffff";    // foreground pixie
     colour[COL_PIXIE_BACK] = "#000000";    // background pixie
+    colour[COL_CDP1862_BLACK] = "#141414";
+    colour[COL_CDP1862_RED] = "#ff0000";
+    colour[COL_CDP1862_BLUE] = "#0000ff";
+    colour[COL_CDP1862_MAGENTA] = "#ff00ff";
+    colour[COL_CDP1862_GREEN] = "#00ff00";
+    colour[COL_CDP1862_YELLOW] = "#ffff00";
+    colour[COL_CDP1862_CYAN] = "#00ffff";
+    colour[COL_CDP1862_WHITE] = "#ffffff";
+    colour[COL_CDP1862_BACK_BLUE] = "#000080";
+    colour[COL_CDP1862_BACK_BLACK] = "#000000";
+    colour[COL_CDP1862_BACK_GREEN] = "#008000";
+    colour[COL_CDP1862_BACK_RED] = "#800000";
+    colour[COL_CDP1864_WHITE] = "#ffffff";
+    colour[COL_CDP1864_RED] = "#ff0000";
+    colour[COL_CDP1864_BLUE] = "#0000ff";
+    colour[COL_CDP1864_MAGENTA] = "#ff00ff";
+    colour[COL_CDP1864_GREEN] = "#00ff00";
+    colour[COL_CDP1864_YELLOW] = "#ffff00";
+    colour[COL_CDP1864_CYAN] = "#00ffff";
+    colour[COL_CDP1864_BLACK] = "#141414";
+    colour[COL_CDP1864_BACK_BLUE] = "#000080";
+    colour[COL_CDP1864_BACK_BLACK] = "#000000";
+    colour[COL_CDP1864_BACK_GREEN] = "#008000";
+    colour[COL_CDP1864_BACK_RED] = "#800000";
     colour[COL_I8275_FORE] = "#00ff00";    // foreground i8275
     colour[COL_I8275_BACK] = "#004000";    // background i8275
     colour[COL_I8275_HIGH] = "#00ff00";    // highlight i8275
@@ -5172,7 +5196,9 @@ bool Main::checkFunctionKey(wxKeyEvent& event)
     {
         runPressed_ = true;
         if (runningComputer_ == VIPII)
-            p_Vip2->runPressed();
+           p_Vip2->runPressed();
+       if (runningComputer_ == XML)
+          p_Xmlemu->runPressed();
         return true;
     }
 
@@ -5311,10 +5337,21 @@ void Main::onKeyUp(wxKeyEvent& event)
         if (computerRunning_)
             p_Computer->onRun();
         else
-            onStart(selectedComputer_);
+        {
+            if (selectedComputer_ < NO_COMPUTER)
+               onStart(selectedComputer_);
+        }
         return;
     }
     event.Skip();
+}
+
+bool Main::runPressed()
+{
+   bool returnValue = runPressed_;
+   runPressed_ = false;
+   
+   return returnValue;
 }
 
 void Main::connectKeyEvent(wxWindow* pclComponent)
@@ -5599,6 +5636,8 @@ void Main::nonFixedWindowPosition()
     conf[XML].v1870Y_ = -1;
     conf[XML].SN76430NX_ = -1;
     conf[XML].SN76430NY_ = -1;
+    conf[XML].cdp1862X_ = -1;
+    conf[XML].cdp1862Y_ = -1;
     conf[XML].cdp1864X_ = -1;
     conf[XML].cdp1864Y_ = -1;
     conf[XML].vip2KX_ = -1;
@@ -5750,6 +5789,8 @@ void Main::fixedWindowPosition()
     conf[XML].v1870Y_ = conf[XML].defv1870Y_;
     conf[XML].SN76430NX_ = conf[XML].defSN76430NX_;
     conf[XML].SN76430NY_ = conf[XML].defSN76430NY_;
+    conf[XML].cdp1862X_ = conf[XML].defCdp1862X_;
+    conf[XML].cdp1862Y_ = conf[XML].defCdp1862Y_;
     conf[XML].cdp1864X_ = conf[XML].defCdp1864X_;
     conf[XML].cdp1864Y_ = conf[XML].defCdp1864Y_;
     conf[XML].vip2KX_ = conf[XML].defVip2KX_;
@@ -5863,7 +5904,6 @@ void Main::onStart(int computer)
     if (mode_.gui)
        XRCCTRL(*this, "Chip8Type", wxStaticText)->SetLabel("");
    
-    wxSize mainWindowSize;
     switch (runningComputer_)
     {
         case COMX:
@@ -5931,15 +5971,15 @@ void Main::onStart(int computer)
             switch (elfConfiguration[XML].panelType_)
             {
                case PANEL_COSMAC:
-                  mainWindowSize = wxSize(346, 464);
+                  elfConfiguration[XML].panelSize_ = wxSize(346, 464);
                break;
                   
                case PANEL_ELF2K:
-                  mainWindowSize = wxSize(507, 459);
+                  elfConfiguration[XML].panelSize_ = wxSize(507, 459);
                break;
                   
                case PANEL_COSMICOS:
-                  mainWindowSize = wxSize(333, 160);
+                  elfConfiguration[XML].panelSize_ = wxSize(333, 160);
                break;
                   
                case PANEL_MEMBER:
@@ -5954,34 +5994,38 @@ void Main::onStart(int computer)
                           x = 483; y = 297;
                       break;
                   }
-                  mainWindowSize = wxSize(x, y);
+                  elfConfiguration[XML].panelSize_ = wxSize(x, y);
                break;
                   
                case PANEL_MICROTUTOR:
                case PANEL_MICROTUTOR2:
-                  mainWindowSize = wxSize(333, 160);
+                  elfConfiguration[XML].panelSize_ = wxSize(333, 160);
                break;
                   
                case PANEL_VELF:
-                  mainWindowSize = wxSize(310, 180);
+                  elfConfiguration[XML].panelSize_ = wxSize(310, 180);
                break;
                   
                case PANEL_UC1800:
-                  mainWindowSize = wxSize(464, 264);
+                  elfConfiguration[XML].panelSize_ = wxSize(464, 264);
                break;
 
-               case PANEL_FRED1:
-               case PANEL_FRED1_5:
-                  mainWindowSize = wxSize(310,180);
+               case PANEL_ELFII:
+               case PANEL_SUPER:
+                  elfConfiguration[XML].panelSize_ = wxSize(534, 386);
                break;
 
                default:
-                  mainWindowSize = wxSize(534, 386);
                break;
             }
-
-           p_Xmlemu = new Xmlemu(computerInfo[XML].name, wxPoint(conf[XML].mainX_, conf[XML].mainY_), mainWindowSize, conf[XML].clockSpeed_, elfConfiguration[XML], conf[XML]);
+          
+           p_Xmlemu = new Xmlemu(computerInfo[XML].name, wxPoint(conf[XML].mainX_, conf[XML].mainY_), elfConfiguration[XML].panelSize_, conf[XML].clockSpeed_, conf[XML].tempo_, elfConfiguration[XML], conf[XML]);
            p_Computer = p_Xmlemu;
+           stereo = conf[XML].stereo_;
+           if (conf[XML].soundType_ == SOUND_SUPER_VP550)
+               toneChannels = 2;
+           if (conf[XML].soundType_ == SOUND_SUPER_VP551)
+               toneChannels = 4;
         break;
 
         case PICO:
@@ -6061,9 +6105,9 @@ void Main::onStart(int computer)
             p_Computer = p_Vip;
             if (getVipStereo())
                 stereo = 2;
-            if (conf[VIP].soundType_ == VIP_SUPER2)
+            if (conf[VIP].soundType_ == SOUND_SUPER_VP550)
                 toneChannels = 2;
-            if (conf[VIP].soundType_ == VIP_SUPER4)
+            if (conf[VIP].soundType_ == SOUND_SUPER_VP551)
                 toneChannels = 4;
         break;
 
@@ -7371,7 +7415,7 @@ void Main::enableGui(bool status)
 
         XRCCTRL(*this, "Chip8TraceButton", wxToggleButton)->SetValue(false);
         XRCCTRL(*this, "Chip8DebugMode", wxCheckBox)->SetValue(false);
-        XRCCTRL(*this,"AutoBootTypeMicroboard", wxChoice)->Enable(status);
+        XRCCTRL(*this, "AutoBootTypeMicroboard", wxChoice)->Enable(status);
         XRCCTRL(*this, "AutoBootMicroboard", wxCheckBox)->Enable(status);
         enableMemAccessGui(!status);
         if (!elfConfiguration[runningComputer_].vtExternal)
@@ -8094,7 +8138,6 @@ void Main::zoomEventVt(double zoom)
     correctZoomVtAndValue(runningComputer_, computerInfo[runningComputer_].gui, SET_SPIN);
 }
 
-
 void Main::traceTimeout(wxTimerEvent&WXUNUSED(event))
 {
     if (selectedComputer_ == DEBUGGER && debuggerChoice_ == TRACETAB)
@@ -8352,7 +8395,8 @@ void Main::showTime()
     endTime = wxGetLocalTime();
     s = (int)(endTime - startTime_);
     
-    if (instructionCounter != 0 && lastInstructionCounter_ != instructionCounter)
+   if (lastInstructionCounter_ != instructionCounter || instructionCounter == 0)
+   //if (instructionCounter != 0 && lastInstructionCounter_ != instructionCounter)
     {
         if (instructionCounter < lastInstructionCounter_)
             instructionCounterOverflow_ = true;
@@ -8629,6 +8673,7 @@ void Main::setLocationEvent(guiEvent&WXUNUSED(event))
 
     if (popupDialog_ != NULL)
         popupDialog_->setLocation(conf[runningComputer_].useLoadLocation_, conf[runningComputer_].saveStartString_, conf[runningComputer_].saveEndString_, conf[runningComputer_].saveExecString_);
+   
     if (!mode_.gui)
         return;
 
@@ -8669,13 +8714,28 @@ void Main::eventSetLocation(bool state, Word saveStart, Word saveEnd, Word saveE
     GetEventHandler()->AddPendingEvent(event);
 }
 
+void Main::setLocationStateEvent(guiEvent&WXUNUSED(event))
+{
+    wxString printBuffer;
+
+    if (popupDialog_ != NULL)
+        popupDialog_->setLocation(conf[runningComputer_].useLoadLocation_);
+   
+    if (!mode_.gui)
+        return;
+
+    XRCCTRL(*this, "UseLocation"+computerInfo[runningComputer_].gui, wxCheckBox)->SetValue(conf[runningComputer_].useLoadLocation_);
+   
+    enableLocationGui();
+}
+
 void Main::eventSetLocation(bool state)
 {
-    guiEvent event(GUI_MSG, SET_LOCATION);
+    guiEvent event(GUI_MSG, SET_LOCATION_STATE);
     event.SetEventObject( p_Main );
 
     conf[runningComputer_].useLoadLocation_ = state;
-    conf[runningComputer_].saveExec_ = 0;
+//    conf[runningComputer_].saveExec_ = 0;
 
     GetEventHandler()->AddPendingEvent(event);
 }
@@ -8982,17 +9042,21 @@ void Main::setZoomChange(guiEvent&event)
        return;
    
     p_Video[videoNumber]->setZoom(zoom);
-    switch(runningComputer_)
+    if (computerRunning_)
     {
-        case CIDELSA:
-        case COMX:
-        case VIPII:
+       switch(runningComputer_)
+       {
+           case CIDELSA:
+           case COMX:
+           case VIPII:
+           case XML:
 #if defined(__linux__)
-            guiRedrawBarTimeOutPointer->Start(200, wxTIMER_ONE_SHOT);
+               guiRedrawBarTimeOutPointer->Start(200, wxTIMER_ONE_SHOT);
 #else
-            p_Video[videoNumber]->reDrawBar();
+               p_Video[videoNumber]->reDrawBar();
 #endif
-        break;
+           break;
+       }
     }
     zoomEventFinished();
 }
@@ -9808,6 +9872,25 @@ void Main::eventUpdateComxLedStatus(int card, int i, bool status)
    event.SetBoolValue(status);
    event.SetByteValue1(card);
    event.SetByteValue2(i);
+
+   GetEventHandler()->AddPendingEvent(event);
+}
+
+void Main::setUpdateVipIILedStatus(guiEvent& event)
+{
+   int led = event.GetByteValue1();
+   bool status = event.GetBoolValue();
+   
+   p_Computer->updateStatusBarLedStatus(led, status);
+}
+
+void Main::eventUpdateVipIILedStatus(int led, bool status)
+{
+   guiEvent event(GUI_MSG, SET_VIPIILED);
+   event.SetEventObject( p_Main );
+
+   event.SetBoolValue(status);
+   event.SetByteValue1(led);
 
    GetEventHandler()->AddPendingEvent(event);
 }

@@ -67,17 +67,17 @@ void MicrotutorScreen::init()
 
     wxClientDC dc(this);
 
-    runSwitchButton = new SwitchButton(dc, PUSH_BUTTON_BLACK, wxColour(43, 71, 106), BUTTON_UP, 284, 30, "");
-    loadSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(43, 71, 106), BUTTON_DOWN, 62, 30, "");
-    inSwitchButton = new SwitchButton(dc, PUSH_BUTTON_BLACK, wxColour(43, 71, 106), BUTTON_UP, 25, 30, "");
-    clearSwitchButton = new SwitchButton(dc, PUSH_BUTTON, wxColour(43, 71, 106), BUTTON_UP, 247, 30, "");
+    runSwitchButton = new SwitchButton(dc, PUSH_BUTTON_ROUND_BLACK, wxColour(43, 71, 106), BUTTON_UP, 284, 30, "");
+    loadSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(43, 71, 106), BUTTON_DOWN, 62, 30, "");
+    inSwitchButton = new SwitchButton(dc, PUSH_BUTTON_ROUND_BLACK, wxColour(43, 71, 106), BUTTON_UP, 25, 30, "");
+    clearSwitchButton = new SwitchButton(dc, PUSH_BUTTON_ROUND_RED, wxColour(43, 71, 106), BUTTON_UP, 247, 30, "");
     
     for (int i=0; i<8; i++)
     {
         if (i==0 || i==4)
-            dataSwitchButton[i] = new SwitchButton(dc, VERTICAL_BUTTON_RED, wxColour(43, 71, 106), BUTTON_DOWN, 25+37*(7-i), 100, "");
+            dataSwitchButton[i] = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL_RED, wxColour(43, 71, 106), BUTTON_DOWN, 25+37*(7-i), 100, "");
         else
-            dataSwitchButton[i] = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(43, 71, 106), BUTTON_DOWN, 25+37*(7-i), 100, "");
+            dataSwitchButton[i] = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(43, 71, 106), BUTTON_DOWN, 25+37*(7-i), 100, "");
     }
     
     for (int i=0; i<2; i++)

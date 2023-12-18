@@ -27,7 +27,7 @@ protected:
 
 private:
     void initDisk();
-    long getOffset();
+    wxFileOffset getOffset();
     void writeSector();
     void readSector();
     void readId();

@@ -101,6 +101,8 @@ void GuiCosmicos::readCosmicosConfig()
 {
     selectedComputer_ = COSMICOS;
 
+    elfConfiguration[COSMICOS].useTapeHw = false;
+    elfConfiguration[COSMICOS].vtShow = true;
     conf[COSMICOS].emsConfigNumber_ = 0;
     conf[COSMICOS].videoNumber_ = 0;
 
@@ -217,10 +219,8 @@ void GuiCosmicos::readCosmicosConfig()
         XRCCTRL(*this, "StretchDotCosmicos", wxCheckBox)->SetValue(conf[COSMICOS].stretchDot_);
         XRCCTRL(*this, "RamCosmicos", wxSpinCtrl)->SetValue(conf[COSMICOS].ramType_);
         XRCCTRL(*this, "HexCosmicos", wxCheckBox)->SetValue(elfConfiguration[COSMICOS].useHex);
-        XRCCTRL(*this, "TurboCosmicos", wxCheckBox)->SetValue(conf[COSMICOS].turbo_);
         turboGui("Cosmicos");
         XRCCTRL(*this, "TurboClockCosmicos", wxTextCtrl)->SetValue(conf[COSMICOS].turboClock_);
-        XRCCTRL(*this, "AutoCasLoadCosmicos", wxCheckBox)->SetValue(conf[COSMICOS].autoCassetteLoad_);
         XRCCTRL(*this, "VolumeCosmicos", wxSlider)->SetValue(conf[COSMICOS].volume_);
         if (clockTextCtrl[COSMICOS] != NULL)
             clockTextCtrl[COSMICOS]->ChangeValue(conf[COSMICOS].clock_);

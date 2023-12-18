@@ -28,7 +28,7 @@ public:
 
 private:
     void initIde();
-    long getOffset();
+    wxFileOffset getOffset();
     void writeSector();
     void readSector();
     void readId();

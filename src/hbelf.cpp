@@ -92,22 +92,22 @@ void ElfScreen::init()
 
     mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/elf.png", wxBITMAP_TYPE_PNG);
 
-    runSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(0x31, 0x31, 0x30), BUTTON_DOWN, 190, 312, "");
-    mpSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(0x31, 0x31, 0x30), BUTTON_DOWN, 150, 312, "");
-    powerSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(0x31, 0x31, 0x30), BUTTON_DOWN, 313, 312, "");
-    loadSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(0x31, 0x31, 0x30), BUTTON_DOWN, 75, 312, "");
-    inSwitchButton = new SwitchButton(dc, PUSH_BUTTON, wxColour(0x31, 0x31, 0x30), BUTTON_UP, 32, 312, "");
+    runSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(0x31, 0x31, 0x30), BUTTON_DOWN, 190, 312, "");
+    mpSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(0x31, 0x31, 0x30), BUTTON_DOWN, 150, 312, "");
+    powerSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(0x31, 0x31, 0x30), BUTTON_DOWN, 313, 312, "");
+    loadSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(0x31, 0x31, 0x30), BUTTON_DOWN, 75, 312, "");
+    inSwitchButton = new SwitchButton(dc, PUSH_BUTTON_ROUND_RED, wxColour(0x31, 0x31, 0x30), BUTTON_UP, 32, 312, "");
     
-    qLedPointer = new Led(dc, 324, 250, ELFLED);
+    qLedPointer = new Led(dc, 324, 250, LED_SMALL_RED);
     updateQLed_ = true;
 
     for (int i=0; i<8; i++)
     {
-        dataSwitchButton[i] = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(0x31, 0x31, 0x30), BUTTON_DOWN, 18+30*(7-i), 362, "");
+        dataSwitchButton[i] = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(0x31, 0x31, 0x30), BUTTON_DOWN, 18+30*(7-i), 362, "");
     }
     for (int i=0; i<4; i++)
     {
-        efSwitchButton[i] = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(0x31, 0x31, 0x30), BUTTON_DOWN, 138+30*(3-i), 422, "");
+        efSwitchButton[i] = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(0x31, 0x31, 0x30), BUTTON_DOWN, 138+30*(3-i), 422, "");
     }
     for (int i=0; i<4; i++)
     {
@@ -304,6 +304,11 @@ void Elf::onClose(wxCloseEvent&WXUNUSED(event) )
 
 void Elf::charEvent(int keycode)
 {
+    if (p_Vt100[UART1] != NULL)
+    {
+        if (vtPointer->IsActive())
+            return;
+    }
     if (elfConfiguration.useKeyboard)
         charEventKeyboard(keycode);
 }
@@ -1080,7 +1085,7 @@ void Elf::startComputer()
         {
             computerConfiguration.emsConfig_[0].start = 0x8000;
             computerConfiguration.emsConfig_[0].end = 0xFFFF;
-            computerConfiguration.emsConfig_[0].mask = 0xFFFF;
+            computerConfiguration.emsConfig_[0].mask = 0x7FFF;
             computerConfiguration.emsConfig_[0].outputMask = 0xFf;
             computerConfiguration.emsConfig_[0].maskBits = 15;
 
@@ -1608,7 +1613,7 @@ void Elf::configureExtensions()
         ledModulePointer->Show(p_Main->getUseElfControlWindows(ELF));
     }
 
-    setQsound (elfConfiguration.qSound_);
+    setSoundType (elfConfiguration.qSound_);
 
     if (elfConfiguration.useHexKeyboard)
     {

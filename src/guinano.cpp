@@ -96,6 +96,7 @@ void GuiNano::readNanoConfig()
 {
     selectedComputer_ = NANO;
 
+    elfConfiguration[NANO].useTapeHw = false;
     conf[NANO].emsConfigNumber_ = 0;
     conf[NANO].videoNumber_ = 0;
 

@@ -71,7 +71,7 @@ long WaveReader::readHeader()
 
     unsigned char Riff [12];
     wavFile_.Read(Riff, 12);
-    long filePosition = 12;
+    wxFileOffset filePosition = 12;
 
     fileSize_ = Riff [4] +(Riff [5]<<8) +(Riff [6]<<16) +(Riff [7]<<24);
 

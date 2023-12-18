@@ -153,7 +153,7 @@ int cardValue[FRED1_GAME_END+1][FRED1_CARDS] =
     { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Match II
     { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Memory Test
     { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Minikrieg
-    { 0x1a1, 0xa2, 0xb1, 0xb2, 0xb3, 0xb4,  0xc1, 0xc2, 0xc3, 0xc4, 0xc5, 0xd1, 0xd2, 0xd3, 0xd4, 0xd5, 0xe1, 0xe2, 0xe3, 0xe4, 0xf1, 0xf2, -1, -1 }, // Nimnet
+    { 0xa1, 0xa2, 0xb1, 0xb2, 0xb3, 0xb4,  0xc1, 0xc2, 0xc3, 0xc4, 0xc5, 0xd1, 0xd2, 0xd3, 0xd4, 0xd5, 0xe1, 0xe2, 0xe3, 0xe4, 0xf1, 0xf2, -1, -1 }, // Nimnet
     { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Pattern Puzzle
     { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Prog. Apt. Test
     { 0, 0x31, 0x33, 0x35, -1, -1, 0x6, -1, -1, -1, -1, -1, 0x1, 0xff, -1, -1, -1, -1, 0xfa, -1, -1, -1, -1, -1 }, // Slide Puzzle I
@@ -300,6 +300,7 @@ void GuiFred::readFred1Config()
 {
     selectedComputer_ = FRED1;
     
+    elfConfiguration[FRED1].useTapeHw = true;
     conf[FRED1].emsConfigNumber_ = 0;
     conf[FRED1].videoNumber_ = 0;
 
@@ -466,6 +467,7 @@ void GuiFred::readFred2Config()
 {
     selectedComputer_ = FRED1_5;
     
+    elfConfiguration[FRED1_5].useTapeHw = true;
     conf[FRED1_5].emsConfigNumber_ = 0;
     conf[FRED1_5].videoNumber_ = 0;
 

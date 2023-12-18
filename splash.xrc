@@ -775,10 +775,10 @@ W: Write to tape
         </font>
         <object class="wxBoxSizer">
             <orient>wxVERTICAL</orient>
-            <object platform="mac" class="sizeritem">
+            <object class="sizeritem">
                 <flag>wxALIGN_LEFT|wxALL</flag>
                 <border>5</border>
-                <object platform="mac" class="wxStaticText" name="SplashText">
+                <object class="wxStaticText" name="SplashText">
                     <font>
                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                         <size>-1</size>

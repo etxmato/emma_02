@@ -178,6 +178,7 @@ void GuiComx::readComxConfig()
     configPointer->Read("/Comx/Enable_DIAG", &conf[COMX].useDiagnosticBoard_, false);
     conf[COMX].diagRomOn_ = (int)configPointer->Read("/Comx/Enable_DIAG_ON", 1l);
 
+    elfConfiguration[COMX].useTapeHw = false;
     conf[COMX].emsConfigNumber_ = 0;
     conf[COMX].videoNumber_ = 0;
 
@@ -1137,8 +1138,16 @@ void GuiComx::statusLedOn(wxCommandEvent&WXUNUSED(event))
         break;
 
         case XML:
-            p_Video[elfConfiguration[XML].ioConfiguration.v1870VideoNumber]->updateStatusLed(true);
-            isStatusLedOn_ = true;
+            switch (elfConfiguration[XML].ioConfiguration.statusBarType)
+            {
+                case STATUSBAR_COMX:
+                case STATUSBAR_DIAG:
+                    p_Video[elfConfiguration[XML].ioConfiguration.v1870VideoNumber]->updateStatusLed(true);
+                    isStatusLedOn_ = true;
+                break;
+                    
+                    
+            }
         break;
     }
 }
@@ -1153,8 +1162,14 @@ void GuiComx::statusLedOnDirect()
         break;
 
         case XML:
-            p_Video[elfConfiguration[XML].ioConfiguration.v1870VideoNumber]->updateStatusLed(true);
-            isStatusLedOn_ = true;
+            switch (elfConfiguration[XML].ioConfiguration.statusBarType)
+            {
+                case STATUSBAR_COMX:
+                case STATUSBAR_DIAG:
+                    p_Video[elfConfiguration[XML].ioConfiguration.v1870VideoNumber]->updateStatusLed(true);
+                    isStatusLedOn_ = true;
+                break;
+            }
         break;
     }
 }
@@ -1169,8 +1184,14 @@ void GuiComx::statusLedOff(wxCommandEvent&WXUNUSED(event))
         break;
 
         case XML:
-            p_Video[elfConfiguration[XML].ioConfiguration.v1870VideoNumber]->updateStatusLed(false);
-            isStatusLedOn_ = false;
+            switch (elfConfiguration[XML].ioConfiguration.statusBarType)
+            {
+                case STATUSBAR_COMX:
+                case STATUSBAR_DIAG:
+                    p_Video[elfConfiguration[XML].ioConfiguration.v1870VideoNumber]->updateStatusLed(false);
+                    isStatusLedOn_ = false;
+                break;
+            }
         break;
     }
 }
@@ -1185,8 +1206,14 @@ void GuiComx::statusLedOffDirect()
         break;
 
         case XML:
-            p_Video[elfConfiguration[XML].ioConfiguration.v1870VideoNumber]->updateStatusLed(false);
-            isStatusLedOn_ = false;
+            switch (elfConfiguration[XML].ioConfiguration.statusBarType)
+            {
+                case STATUSBAR_COMX:
+                case STATUSBAR_DIAG:
+                    p_Video[elfConfiguration[XML].ioConfiguration.v1870VideoNumber]->updateStatusLed(false);
+                    isStatusLedOn_ = false;
+                break;
+            }
         break;
     }
 }
@@ -1201,8 +1228,14 @@ void GuiComx::expLedOn(wxCommandEvent&WXUNUSED(event))
         break;
 
         case XML:
-            p_Video[elfConfiguration[XML].ioConfiguration.v1870VideoNumber]->updateExpansionLed(true);
-            isExpLedOn_ = true;
+            switch (elfConfiguration[XML].ioConfiguration.statusBarType)
+            {
+                case STATUSBAR_COMX:
+                case STATUSBAR_DIAG:
+                    p_Video[elfConfiguration[XML].ioConfiguration.v1870VideoNumber]->updateExpansionLed(true);
+                    isExpLedOn_ = true;
+                break;
+            }
         break;
     }
 }
@@ -1217,8 +1250,14 @@ void GuiComx::expLedOnDirect()
         break;
 
         case XML:
-            p_Video[elfConfiguration[XML].ioConfiguration.v1870VideoNumber]->updateExpansionLed(true);
-            isExpLedOn_ = true;
+            switch (elfConfiguration[XML].ioConfiguration.statusBarType)
+            {
+                case STATUSBAR_COMX:
+                case STATUSBAR_DIAG:
+                    p_Video[elfConfiguration[XML].ioConfiguration.v1870VideoNumber]->updateExpansionLed(true);
+                    isExpLedOn_ = true;
+                break;
+            }
         break;
     }
 }
@@ -1233,8 +1272,14 @@ void GuiComx::expLedOff(wxCommandEvent&WXUNUSED(event))
         break;
 
         case XML:
-            p_Video[elfConfiguration[XML].ioConfiguration.v1870VideoNumber]->updateExpansionLed(false);
-            isExpLedOn_ = false;
+            switch (elfConfiguration[XML].ioConfiguration.statusBarType)
+            {
+                case STATUSBAR_COMX:
+                case STATUSBAR_DIAG:
+                    p_Video[elfConfiguration[XML].ioConfiguration.v1870VideoNumber]->updateExpansionLed(false);
+                    isExpLedOn_ = false;
+                break;
+            }
         break;
     }
 }
@@ -1249,8 +1294,14 @@ void GuiComx::expLedOffDirect()
         break;
 
         case XML:
-            p_Video[elfConfiguration[XML].ioConfiguration.v1870VideoNumber]->updateExpansionLed(false);
-            isExpLedOn_ = false;
+            switch (elfConfiguration[XML].ioConfiguration.statusBarType)
+            {
+                case STATUSBAR_COMX:
+                case STATUSBAR_DIAG:
+                    p_Video[elfConfiguration[XML].ioConfiguration.v1870VideoNumber]->updateExpansionLed(false);
+                    isExpLedOn_ = false;
+                break;
+            }
         break;
     }
 }

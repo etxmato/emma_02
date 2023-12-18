@@ -35,31 +35,32 @@ KeybLatch::KeybLatch()
 {
 }
 
-void KeybLatch::configure(IoConfiguration ioConf, wxString type, wxString saveCommand)
+void KeybLatch::configure(IoConfiguration ioConf, wxString type, wxString saveCommand, int pad)
 {
     ioConfiguration_ = ioConf;
     saveCommand_ = saveCommand;
+    pad_ = pad;
     wxString printBuffer, efText;
  
     wxString ioGroup = "";
-    if (ioConfiguration_.keybLatchIoGroup != -1)
+    if (ioConfiguration_.keyLatchDetails[pad_].IoGroup != -1)
     {
-        ioGroup.Printf(" on group %d", ioConfiguration_.keybLatchIoGroup);
+        ioGroup.Printf(" on group %d", ioConfiguration_.keyLatchDetails[pad_].IoGroup);
     }
     
     p_Main->message("Configuring " + type + ioGroup);
-    if (ioConfiguration_.keybLatchPressed == 1)
+    if (ioConfiguration_.keyLatchDetails[pad_].pressed == 1)
         efText = ": latched key pressed\n";
     else
         efText = " (reversed): latched key pressed\n";
 
-    printBuffer.Printf("    Output %d: " + type + " latch, EF %d", ioConfiguration_.keybLatchOut, ioConfiguration_.keybLatchEf);
+    printBuffer.Printf("    Output %d: " + type + " latch, EF %d", ioConfiguration_.keyLatchDetails[pad_].outPort, ioConfiguration_.keyLatchDetails[pad_].ef);
     p_Main->message(printBuffer + efText);
 
     p_Computer->setCycleType(KEYCYCLE, LATCHKEYBCYCLE);
 
     for (int i=0; i<256; i++)
-        keyState_[i] = ioConfiguration_.keybLatchPressed ^ 1;
+        keyState_[i] = ioConfiguration_.keyLatchDetails[pad_].pressed ^ 1;
     
     ctrlAltLeft_ = true;
     
@@ -73,28 +74,28 @@ void KeybLatch::keyDown(int keycode, wxKeyEvent& event)
     switch (modifier)
     {
         case wxMOD_SHIFT:
-            if (ioConfiguration_.keybLatchShift != -1)
+            if (ioConfiguration_.keyLatchDetails[pad_].shift != -1)
             {
                 shiftPressed_ = true;
-                keyState_[ioConfiguration_.keybLatchShift] = ioConfiguration_.keybLatchPressed;
+                keyState_[ioConfiguration_.keyLatchDetails[pad_].shift] = ioConfiguration_.keyLatchDetails[pad_].pressed;
             }
         break;
             
         case wxMOD_CONTROL:
             if (ctrlAltLeft_)
             {
-                if (ioConfiguration_.keybLatchCtrlLeft != -1)
+                if (ioConfiguration_.keyLatchDetails[pad_].ctrlLeft != -1)
                 {
                     ctrlPressed_ = true;
-                    keyState_[ioConfiguration_.keybLatchCtrlLeft] = ioConfiguration_.keybLatchPressed;
+                    keyState_[ioConfiguration_.keyLatchDetails[pad_].ctrlLeft] = ioConfiguration_.keyLatchDetails[pad_].pressed;
                 }
             }
             else
             {
-                if (ioConfiguration_.keybLatchCtrlRight != -1)
+                if (ioConfiguration_.keyLatchDetails[pad_].ctrlRight != -1)
                 {
                     ctrlPressed_ = true;
-                    keyState_[ioConfiguration_.keybLatchCtrlRight] = ioConfiguration_.keybLatchPressed;
+                    keyState_[ioConfiguration_.keyLatchDetails[pad_].ctrlRight] = ioConfiguration_.keyLatchDetails[pad_].pressed;
                 }
             }
         break;
@@ -102,24 +103,24 @@ void KeybLatch::keyDown(int keycode, wxKeyEvent& event)
         case wxMOD_ALT:
             if (ctrlAltLeft_)
             {
-                if (ioConfiguration_.keybLatchAltLeft != -1)
+                if (ioConfiguration_.keyLatchDetails[pad_].altLeft != -1)
                 {
                     altPressed_ = true;
-                    keyState_[ioConfiguration_.keybLatchAltLeft] = ioConfiguration_.keybLatchPressed;
+                    keyState_[ioConfiguration_.keyLatchDetails[pad_].altLeft] = ioConfiguration_.keyLatchDetails[pad_].pressed;
                 }
             }
             else
             {
-                if (ioConfiguration_.keybLatchAltRight != -1)
+                if (ioConfiguration_.keyLatchDetails[pad_].altRight != -1)
                 {
                     altPressed_ = true;
-                    keyState_[ioConfiguration_.keybLatchAltRight] = ioConfiguration_.keybLatchPressed;
+                    keyState_[ioConfiguration_.keyLatchDetails[pad_].altRight] = ioConfiguration_.keyLatchDetails[pad_].pressed;
                 }
             }
         break;
     }
 
-    if (keycode == ioConfiguration_.keybLatchSwitch)
+    if (keycode == ioConfiguration_.keyLatchDetails[pad_].switchAltCtrl)
         ctrlAltLeft_ = !ctrlAltLeft_;
     
     if (keycode == WXK_CAPITAL)
@@ -130,15 +131,15 @@ void KeybLatch::keyDown(int keycode, wxKeyEvent& event)
 
 void KeybLatch::keyDown(int keycode)
 {
-    if (shiftPressed_ && ioConfiguration_.useKeyDefShift)
+    if (shiftPressed_ && ioConfiguration_.keyLatchDetails[pad_].useDefShift)
     {
-        if (ioConfiguration_.keybLatchPcShift[keycode&0x1ff] != -1)
-            keyState_[ioConfiguration_.keybLatchPcShift[keycode&0x1ff]] =  ioConfiguration_.keybLatchPressed;
+        if (ioConfiguration_.keyLatchDetails[pad_].pcShift[keycode&0x1ff] != -1)
+            keyState_[ioConfiguration_.keyLatchDetails[pad_].pcShift[keycode&0x1ff]] =  ioConfiguration_.keyLatchDetails[pad_].pressed;
     }
     else
     {
-        if (ioConfiguration_.keybLatchPc[keycode&0x1ff] != -1)
-            keyState_[ioConfiguration_.keybLatchPc[keycode&0x1ff]] = ioConfiguration_.keybLatchPressed;
+        if (ioConfiguration_.keyLatchDetails[pad_].pc[keycode&0x1ff] != -1)
+            keyState_[ioConfiguration_.keyLatchDetails[pad_].pc[keycode&0x1ff]] = ioConfiguration_.keyLatchDetails[pad_].pressed;
     }
 }
 
@@ -153,54 +154,54 @@ void KeybLatch::keyUp(int keycode, wxKeyEvent& event)
         if (shiftPressed_ && (modifier != wxMOD_SHIFT))
         {
             shiftPressed_ = false;
-            keyState_[ioConfiguration_.keybLatchShift] = ioConfiguration_.keybLatchPressed ^ 1;
+            keyState_[ioConfiguration_.keyLatchDetails[pad_].shift] = ioConfiguration_.keyLatchDetails[pad_].pressed ^ 1;
         }
         
         if (ctrlPressed_ && (modifier != wxMOD_CONTROL))
         {
             ctrlPressed_ = false;
             if (ctrlAltLeft_)
-                keyState_[ioConfiguration_.keybLatchCtrlLeft] = ioConfiguration_.keybLatchPressed ^ 1;
+                keyState_[ioConfiguration_.keyLatchDetails[pad_].ctrlLeft] = ioConfiguration_.keyLatchDetails[pad_].pressed ^ 1;
             else
-                keyState_[ioConfiguration_.keybLatchCtrlRight] = ioConfiguration_.keybLatchPressed ^ 1;
+                keyState_[ioConfiguration_.keyLatchDetails[pad_].ctrlRight] = ioConfiguration_.keyLatchDetails[pad_].pressed ^ 1;
         }
 
         if (altPressed_ && (modifier != wxMOD_ALT))
         {
             altPressed_ = false;
             if (ctrlAltLeft_)
-                keyState_[ioConfiguration_.keybLatchAltLeft] = ioConfiguration_.keybLatchPressed ^ 1;
+                keyState_[ioConfiguration_.keyLatchDetails[pad_].altLeft] = ioConfiguration_.keyLatchDetails[pad_].pressed ^ 1;
             else
-                keyState_[ioConfiguration_.keybLatchAltRight] = ioConfiguration_.keybLatchPressed ^ 1;
+                keyState_[ioConfiguration_.keyLatchDetails[pad_].altRight] = ioConfiguration_.keyLatchDetails[pad_].pressed ^ 1;
         }
     }
 }
 
 void KeybLatch::keyUp(int keycode)
 {
-    if (shiftPressed_ && ioConfiguration_.useKeyDefShift)
+    if (shiftPressed_ && ioConfiguration_.keyLatchDetails[pad_].useDefShift)
     {
-        if (ioConfiguration_.keybLatchPcShift[keycode&0x1ff] != -1)
-            keyState_[ioConfiguration_.keybLatchPcShift[keycode&0x1ff]] = ioConfiguration_.keybLatchPressed ^ 1;
+        if (ioConfiguration_.keyLatchDetails[pad_].pcShift[keycode&0x1ff] != -1)
+            keyState_[ioConfiguration_.keyLatchDetails[pad_].pcShift[keycode&0x1ff]] = ioConfiguration_.keyLatchDetails[pad_].pressed ^ 1;
     }
     else
     {
-        if (ioConfiguration_.keybLatchPc[keycode&0x1ff] != -1)
-            keyState_[ioConfiguration_.keybLatchPc[keycode&0x1ff]] = ioConfiguration_.keybLatchPressed ^ 1;
+        if (ioConfiguration_.keyLatchDetails[pad_].pc[keycode&0x1ff] != -1)
+            keyState_[ioConfiguration_.keyLatchDetails[pad_].pc[keycode&0x1ff]] = ioConfiguration_.keyLatchDetails[pad_].pressed ^ 1;
     }
 }
 
 Byte KeybLatch::ef()
 {
     if (keyLatch_ == -1)
-        return ioConfiguration_.keybLatchPressed ^ 1;
+        return ioConfiguration_.keyLatchDetails[pad_].pressed ^ 1;
     
     return keyState_[keyLatch_];
 }
 
 void KeybLatch::out(Byte value)
 {
-    keyLatch_ = value&ioConfiguration_.keybLatchOutMask;
+    keyLatch_ = value&ioConfiguration_.keyLatchDetails[pad_].mask;
 }
 
 void KeybLatch::resetKeybLatch()
@@ -226,7 +227,7 @@ void KeybLatch::cycleKeybLatch()
             if (keyboardCode_ > 0)
                 keyUp(keyboardCode_);
             if (keyboardCode_ == -2)
-                keyState_[ioConfiguration_.keybLatchCaps] = ioConfiguration_.keybLatchPressed ^ 1;
+                keyState_[ioConfiguration_.keyLatchDetails[pad_].caps] = ioConfiguration_.keyLatchDetails[pad_].pressed ^ 1;
             keyboardCode_ = 0;
         }
         return;
@@ -234,7 +235,7 @@ void KeybLatch::cycleKeybLatch()
 
     if (runCommand_ != 0)
     {
-        if (keyLatch_ == ioConfiguration_.keybLatchOutMask)
+        if (keyLatch_ == ioConfiguration_.keyLatchDetails[pad_].mask)
         {
             if (runCommand_ == 1)
             {
@@ -298,7 +299,7 @@ void KeybLatch::cycleKeybLatch()
 
     if (p_Computer->getCtrlvCharNum() != 0)
     {
-        if (keyLatch_ == ioConfiguration_.keybLatchOutMask)
+        if (keyLatch_ == ioConfiguration_.keyLatchDetails[pad_].mask)
         {
             if (p_Computer->getCtrlvCharNum() <= 3)
             {
@@ -321,7 +322,7 @@ void KeybLatch::cycleKeybLatch()
 
     if (keyFileOpened_)
     {
-        if (keyLatch_ == ioConfiguration_.keybLatchOutMask)
+        if (keyLatch_ == ioConfiguration_.keyLatchDetails[pad_].mask)
         {
             if (keyFile_.Read(&keyboardCode_, 1) == 0)
             {
@@ -373,9 +374,9 @@ bool KeybLatch::keyDown()
     bool keyPressed = false;
     
     Byte latch = 0;
-    while (!keyPressed && latch <= ioConfiguration_.keybLatchOutMask)
+    while (!keyPressed && latch <= ioConfiguration_.keyLatchDetails[pad_].mask)
     {
-        keyPressed = (keyState_[latch] == ioConfiguration_.keybLatchPressed);
+        keyPressed = (keyState_[latch] == ioConfiguration_.keyLatchDetails[pad_].pressed);
         latch++;
     }
     return keyPressed;
@@ -401,5 +402,5 @@ void KeybLatch::switchCaps()
     cycleValue_ = 50000;
     keyboardCode_ = -2;
     capsPressed_ = !capsPressed_;
-    keyState_[ioConfiguration_.keybLatchCaps] = ioConfiguration_.keybLatchPressed;
+    keyState_[ioConfiguration_.keyLatchDetails[pad_].caps] = ioConfiguration_.keyLatchDetails[pad_].pressed;
 }

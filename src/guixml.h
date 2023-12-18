@@ -36,6 +36,7 @@ public:
     void onXmlF4(bool forceStart);
     void onXmlBaudR(wxCommandEvent&event);
     void onXmlBaudT(wxCommandEvent&event);
+    void onTempo(wxScrollEvent&event);
 
     void setNvRamDisable(int computer, bool status){elfConfiguration[computer].nvRamDisable = status;};
     bool getNvRamDisbale(int computer){return elfConfiguration[computer].nvRamDisable;};

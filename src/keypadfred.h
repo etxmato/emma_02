@@ -20,6 +20,7 @@ public:
     Byte efCoin();
     Byte inHex();
     Byte inCoin();
+    void setKeyPress(Byte value);
 
 private:
     IoConfiguration ioConfiguration_;

@@ -360,6 +360,17 @@ void PopupDialog::setLocation(bool state, wxString saveStart, wxString saveEnd, 
     XRCCTRL(*this, "SaveExec", wxTextCtrl)->Enable(state);
 }
 
+void PopupDialog::setLocation(bool state)
+{
+    XRCCTRL(*this, "UseLocation", wxCheckBox)->SetValue(state);
+    XRCCTRL(*this, "TextStart", wxStaticText)->Enable(state);
+    XRCCTRL(*this, "TextEnd", wxStaticText)->Enable(state);
+    XRCCTRL(*this, "TextExec", wxStaticText)->Enable(state);
+    XRCCTRL(*this, "SaveStart", wxTextCtrl)->Enable(state);
+    XRCCTRL(*this, "SaveEnd", wxTextCtrl)->Enable(state);
+    XRCCTRL(*this, "SaveExec", wxTextCtrl)->Enable(state);
+}
+
 void PopupDialog::setStartLocation(wxString saveStart)
 {
     XRCCTRL(*this,"SaveStart", wxTextCtrl)->SetValue(saveStart);

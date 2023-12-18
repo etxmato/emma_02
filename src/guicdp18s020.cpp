@@ -113,6 +113,8 @@ void GuiCdp18s020::readCdp18s020Config()
 {
     selectedComputer_ = CDP18S020;
 
+    elfConfiguration[CDP18S020].useTapeHw = false;
+    elfConfiguration[CDP18S020].vtShow = true;
     conf[CDP18S020].emsConfigNumber_ = 0;
     conf[CDP18S020].videoNumber_ = 0;
 

@@ -132,6 +132,7 @@ void GuiTelmac::readTelmacConfig()
 {
     selectedComputer_ = TMC600;
 
+    elfConfiguration[TMC600].useTapeHw = false;
     conf[TMC600].emsConfigNumber_ = 0;
     conf[TMC600].videoNumber_ = 0;
 

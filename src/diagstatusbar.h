@@ -22,9 +22,9 @@ private:
     void deleteBitmaps();
 
 #if defined(__linux__) || defined(__WXMAC__)
-    wxBitmapButton *ledPointer [NUMBER_OF_DIAG_LEDS];
+    wxBitmapButton *diagLedPointer [NUMBER_OF_DIAG_LEDS];
 #else
-    wxButton *ledPointer [NUMBER_OF_DIAG_LEDS];
+    wxButton *diagLedPointer [NUMBER_OF_DIAG_LEDS];
 #endif
     
     wxBitmap *ledOffPointer;

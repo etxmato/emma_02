@@ -26516,6 +26516,28 @@
 <max>100</max>
 </object>
 </object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxStaticText" name="TempoTextXml">
+<font>
+<size>12</size>
+</font>
+<label>Tempo: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_BOTTOM|wxALL</flag>
+<border>0</border>
+<object class="wxSlider" name="TempoXml">
+<size>51,-1d</size>
+<tooltip>Change music tempo</tooltip>
+<style>wxSL_HORIZONTAL</style>
+<value>100</value>
+<min>50</min>
+<max>250</max>
+</object>
+</object>
 </object>
 </object>
 <object class="sizeritem">
@@ -26689,36 +26711,24 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>0</border>
-<object class="wxCheckBox" name="TurboXml">
-<tooltip>Enable turbo mode for cassette file</tooltip>
+<object class="wxCheckBox" name="AutoCasLoadXml">
+<tooltip>Enable auto mode for cassette file</tooltip>
 <font>
 <size>12</size>
 </font>
-<label>Turbo:</label>
+<label>Auto</label>
 <checked>1</checked>
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxTOP|wxBOTTOM</flag>
-<border>2</border>
-<object class="wxTextCtrl" name="TurboClockXml" subclass="IntEdit">
-<size>20,-1d</size>
-<tooltip>Specify turbo clock speed in MHz</tooltip>
-<font>
-<size>12</size>
-</font>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-<border>2</border>
-<object class="wxStaticText" name="TurboMhzTextXml">
-<font>
-<size>12</size>
-</font>
-<label>MHz </label>
+<flag>wxGROW|wxALL</flag>
+<border>0</border>
+<object class="wxBitmapButton" name="CasStopXml">
+<tooltip>Stop cassette file</tooltip>
+<enabled>0</enabled>
+<bitmap>images/stop.png</bitmap>
 </object>
 </object>
 <object class="sizeritem">
@@ -26749,21 +26759,23 @@
 </object>
 </object>
 <object class="sizeritem">
+<flag>wxGROW|wxLEFT|wxRIGHT</flag>
+<border>0</border>
+<object class="wxBitmapButton" name="CasPauseXml">
+<tooltip>Pause cassette file</tooltip>
+<enabled>0</enabled>
+<bitmap>images/pause_off.png</bitmap>
+<selected>images/pause_off.png</selected>
+<focus>images/pause_off.png</focus>
+</object>
+</object>
+<object class="sizeritem">
 <flag>wxGROW|wxALL</flag>
 <border>0</border>
 <object class="wxBitmapButton" name="CasForwardXml">
 <tooltip>Fast forward cassette file</tooltip>
 <enabled>0</enabled>
 <bitmap>images/forward_black.png</bitmap>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxGROW|wxALL</flag>
-<border>0</border>
-<object class="wxBitmapButton" name="CasStopXml">
-<tooltip>Stop cassette file</tooltip>
-<enabled>0</enabled>
-<bitmap>images/stop.png</bitmap>
 </object>
 </object>
 <object platform="win" class="sizeritem">
@@ -26783,15 +26795,36 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
-<object class="wxCheckBox" name="AutoCasLoadXml">
-<tooltip>Enable auto mode for cassette file</tooltip>
+<object class="wxCheckBox" name="TurboXml">
+<tooltip>Enable turbo mode for cassette file</tooltip>
 <font>
 <size>12</size>
 </font>
-<label>Auto</label>
+<label>Turbo:</label>
 <checked>1</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxTextCtrl" name="TurboClockXml" subclass="IntEdit">
+<size>20,-1d</size>
+<tooltip>Specify turbo clock speed in MHz</tooltip>
+<font>
+<size>12</size>
+</font>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>2</border>
+<object class="wxStaticText" name="TurboMhzTextXml">
+<font>
+<size>12</size>
+</font>
+<label>MHz </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -31626,7 +31659,7 @@
 <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>4</border>
 <object class="wxStaticText" name="MEM_Message">
-<size>87,10d</size>
+<size>100,8d</size>
 <font>
 <size>12</size>
 </font>
@@ -31862,7 +31895,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 <border>2</border>
 <object class="wxStaticBitmap" name="CHAR0">
-<size>90,10d</size>
+<size>100,9d</size>
 <style>wxNO_BORDER</style>
 <bitmap>images/empty_linux.png</bitmap>
 </object>
@@ -32096,7 +32129,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 <border>2</border>
 <object class="wxStaticBitmap" name="CHAR1">
-<size>90,10d</size>
+<size>100,9d</size>
 <style>wxNO_BORDER</style>
 <bitmap>images/empty_linux.png</bitmap>
 </object>
@@ -32329,7 +32362,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 <border>2</border>
 <object class="wxStaticBitmap" name="CHAR2">
-<size>90,10d</size>
+<size>100,9d</size>
 <style>wxNO_BORDER</style>
 <bitmap>images/empty_linux.png</bitmap>
 </object>
@@ -32562,7 +32595,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 <border>2</border>
 <object class="wxStaticBitmap" name="CHAR3">
-<size>90,10d</size>
+<size>100,9d</size>
 <style>wxNO_BORDER</style>
 <bitmap>images/empty_linux.png</bitmap>
 </object>
@@ -32795,7 +32828,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 <border>0</border>
 <object class="wxStaticBitmap" name="CHAR4">
-<size>90,10d</size>
+<size>100,9d</size>
 <style>wxNO_BORDER</style>
 <bitmap>images/empty_linux.png</bitmap>
 </object>
@@ -33028,7 +33061,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 <border>0</border>
 <object class="wxStaticBitmap" name="CHAR5">
-<size>90,10d</size>
+<size>100,9d</size>
 <style>wxNO_BORDER</style>
 <bitmap>images/empty_linux.png</bitmap>
 </object>
@@ -33261,7 +33294,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 <border>0</border>
 <object class="wxStaticBitmap" name="CHAR6">
-<size>90,10d</size>
+<size>100,9d</size>
 <style>wxNO_BORDER</style>
 <bitmap>images/empty_linux.png</bitmap>
 </object>
@@ -33494,7 +33527,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 <border>0</border>
 <object class="wxStaticBitmap" name="CHAR7">
-<size>90,10d</size>
+<size>100,9d</size>
 <style>wxNO_BORDER</style>
 <bitmap>images/empty_linux.png</bitmap>
 </object>
@@ -33727,7 +33760,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 <border>0</border>
 <object class="wxStaticBitmap" name="CHAR8">
-<size>90,10d</size>
+<size>100,9d</size>
 <style>wxNO_BORDER</style>
 <bitmap>images/empty_linux.png</bitmap>
 </object>
@@ -33960,7 +33993,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 <border>0</border>
 <object class="wxStaticBitmap" name="CHAR9">
-<size>90,10d</size>
+<size>100,9d</size>
 <style>wxNO_BORDER</style>
 <bitmap>images/empty_linux.png</bitmap>
 </object>
@@ -34193,7 +34226,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 <border>0</border>
 <object class="wxStaticBitmap" name="CHARA">
-<size>90,10d</size>
+<size>100,9d</size>
 <style>wxNO_BORDER</style>
 <bitmap>images/empty_linux.png</bitmap>
 </object>
@@ -34426,7 +34459,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 <border>2</border>
 <object class="wxStaticBitmap" name="CHARB">
-<size>90,10d</size>
+<size>100,9d</size>
 <style>wxNO_BORDER</style>
 <bitmap>images/empty_linux.png</bitmap>
 </object>
@@ -34659,7 +34692,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 <border>0</border>
 <object class="wxStaticBitmap" name="CHARC">
-<size>90,10d</size>
+<size>100,9d</size>
 <style>wxNO_BORDER</style>
 <bitmap>images/empty_linux.png</bitmap>
 </object>
@@ -34892,7 +34925,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 <border>0</border>
 <object class="wxStaticBitmap" name="CHARD">
-<size>90,10d</size>
+<size>100,9d</size>
 <style>wxNO_BORDER</style>
 <bitmap>images/empty_linux.png</bitmap>
 </object>
@@ -35125,7 +35158,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 <border>0</border>
 <object class="wxStaticBitmap" name="CHARE">
-<size>90,10d</size>
+<size>100,9d</size>
 <style>wxNO_BORDER</style>
 <bitmap>images/empty_linux.png</bitmap>
 </object>
@@ -35358,7 +35391,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 <border>0</border>
 <object class="wxStaticBitmap" name="CHARF">
-<size>90,10d</size>
+<size>100,9d</size>
 <style>wxNO_BORDER</style>
 <bitmap>images/empty_linux.png</bitmap>
 </object>

@@ -125,6 +125,8 @@ void GuiElf2K::readElf2KConfig()
     elfConfiguration[ELF2K].ioConfiguration.emsOutput.resize(1);
     readElfPortConfig(ELF2K, "Elf2K");
     
+    elfConfiguration[ELF2K].useTapeHw = false;
+    elfConfiguration[ELF2K].vtShow = true;
     conf[ELF2K].emsConfigNumber_ = 0;
     conf[ELF2K].videoNumber_ = 0;
 
@@ -272,10 +274,7 @@ void GuiElf2K::readElf2KConfig()
         XRCCTRL(*this, "Elf2KBootRam", wxCheckBox)->SetValue(elfConfiguration[ELF2K].bootRam);
         XRCCTRL(*this, "VolumeElf2K", wxSlider)->SetValue(conf[ELF2K].volume_);
 
-        XRCCTRL(*this, "TurboElf2K", wxCheckBox)->SetValue(conf[ELF2K].turbo_);
-
         XRCCTRL(*this, "TurboClockElf2K", wxTextCtrl)->SetValue(conf[ELF2K].turboClock_);
-        XRCCTRL(*this, "AutoCasLoadElf2K", wxCheckBox)->SetValue(conf[ELF2K].autoCassetteLoad_);
         if (elfConfiguration[runningComputer_].useXmodem || elfConfiguration[runningComputer_].useHexModem)
         {
             turboGui("Elf2K");

@@ -101,12 +101,12 @@ void CosmicoshexScreen::init()
         buttonText.Printf("%01X", i);
         x = 37+(i&0x3)*30;
         y = 126 -(int)i/4*30;
-        osx_buttonPointer[i] = new HexButton(dc, PANEL_HEX_BUTTON, x, y, buttonText);
+        osx_buttonPointer[i] = new HexButton(dc, PUSH_BUTTON, x, y, buttonText);
     }
-    osx_seqButtonPointer = new HexButton(dc, PANEL_WIDE_HEX_BUTTON, 3, 36, "SEQ");
-    osx_reqButtonPointer = new HexButton(dc, PANEL_WIDE_HEX_BUTTON, 3, 66, "REQ");
-    osx_decButtonPointer = new HexButton(dc, PANEL_WIDE_HEX_BUTTON, 3, 96, "DEC");
-    osx_retButtonPointer = new HexButton(dc, PANEL_WIDE_HEX_BUTTON, 3, 126, "RET");
+    osx_seqButtonPointer = new HexButton(dc, PUSH_BUTTON_RECTANGLE, 3, 36, "SEQ");
+    osx_reqButtonPointer = new HexButton(dc, PUSH_BUTTON_RECTANGLE, 3, 66, "REQ");
+    osx_decButtonPointer = new HexButton(dc, PUSH_BUTTON_RECTANGLE, 3, 96, "DEC");
+    osx_retButtonPointer = new HexButton(dc, PUSH_BUTTON_RECTANGLE, 3, 126, "RET");
 #else
     for (int i=0;i<16;i++)
     {

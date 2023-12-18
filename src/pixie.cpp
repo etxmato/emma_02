@@ -202,16 +202,55 @@ Pixie::Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     plotListPointer = NULL;
 }
 
-Pixie::Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, int videoNumber, int videoType)
+Pixie::Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, int videoNumber, int videoType, IoConfiguration portConf)
 : Video(title, pos, size)
 {
+    portConf_ = portConf;
     computerType_ = computerType;
-    colourIndex_ = 0;
     videoNumber_ = videoNumber;
     
     videoType_ = videoType;
-    colourIndex_ = COL_PIXIE_FORE;
-    
+    highRes_ = 1;
+    xZoomFactor_ = zoomfactor;
+
+    switch (videoType)
+    {
+        case VIDEOXML1862:
+            colourIndex_ = COL_CDP1862_BLACK;
+            backGroundInit_ = COL_CDP1862_BACK_BLUE-COL_CDP1862_BLACK;
+            if (p_Main->getCdp1862HighRes(XML))
+            {
+                highRes_ = 2;
+                xZoomFactor_ = zoomfactor/highRes_;
+            }
+        break;
+
+        case VIDEOXML1864:
+            colourIndex_ = COL_CDP1864_WHITE;
+            backGroundInit_ = COL_CDP1864_BACK_BLUE-COL_CDP1864_WHITE;
+        break;
+            
+        case VIDEOSTUDIOIV:
+    //        colourIndex_ = COL_CDP1864_WHITE;
+    //        backGroundInit_ = COL_CDP1864_BACK_BLUE-COL_CDP1864_WHITE;
+    //        if (p_Main->getPixieHighRes(XML))
+    //        {
+    //            highRes_ = 2;
+    //            xZoomFactor_ = zoomfactor/highRes_;
+    //        }
+        break;
+
+        default:
+            colourIndex_ = COL_PIXIE_FORE;
+            backGroundInit_ = COL_PIXIE_BACK;
+            if (p_Main->getPixieHighRes(XML))
+            {
+                highRes_ = 2;
+                xZoomFactor_ = zoomfactor/highRes_;
+            }
+        break;
+    }
+
     runningComputer_ = p_Main->getRunningComputerStr();
     interlace_ = p_Main->getInterlace(computerType_);
 
@@ -226,17 +265,6 @@ Pixie::Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     videoHeight_ = p_Main->getVideoHeight(XML);
     videoWidth_ = p_Main->getVideoWidth(XML);
     
-    if ( (computerType == VIP && p_Main->getVipHighRes()) || (computerType_ == STUDIOIV))
-    {
-        highRes_ = 2;
-        xZoomFactor_ = zoomfactor/highRes_;
-    }
-    else
-    {
-        highRes_ = 1;
-        xZoomFactor_ = zoomfactor;
-    }
-    
     if (!p_Main->isFullScreenFloat())
         xZoomFactor_ = (int) xZoomFactor_;
     
@@ -245,17 +273,17 @@ Pixie::Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     if (computerType == FRED1 || computerType == FRED1_5)
         videoWidth_ = videoWidth_*highRes_*3;
 
-    backGroundInit_ = 1;
-    backGround_ = 1;
+    backGround_ = backGroundInit_;
 
     this->SetClientSize(size);
 
-    videoScreenPointer = new VideoScreen(this, size, zoom, computerType, videoNumber_, xZoomFactor_);
+    videoScreenPointer = new VideoScreen(this, size, zoom, computerType, videoNumber_, xZoomFactor_, (portConf_.statusBarType == STATUSBAR_VIP2 && portConf_.bootStrapType != BOOTSTRAPRUN));
 
 #ifndef __WXMAC__
     SetIcon(wxICON(app_icon));
 #endif
-    if (computerType_ == VIPII)
+
+    if (portConf_.statusBarType == STATUSBAR_VIP2)
     {
         vipIIStatusBarPointer = new VipIIStatusBar(this);
         SetStatusBar(vipIIStatusBarPointer);
@@ -281,6 +309,7 @@ Pixie::Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     defineColours(computerType_);
 
     plotListPointer = NULL;
+    colourType_ = PIXIE_COLOR_DEFAULT;
 }
 
 Pixie::~Pixie()
@@ -304,6 +333,9 @@ Pixie::~Pixie()
     }
     if (computerType_ == VIPII)
         delete vipIIStatusBarPointer;
+    if (computerType_ == XML)
+        if (portConf_.statusBarType == STATUSBAR_VIP2)
+            delete vipIIStatusBarPointer;
 }
 
 void Pixie::reset()
@@ -318,6 +350,7 @@ void Pixie::reset()
 
 void Pixie::configurePixie(IoConfiguration portConf)
 {
+    portConf_ = portConf;
     p_Computer->setOutType(portConf.pixieOutput, PIXIEOUT);
     p_Computer->setCycleType(VIDEOCYCLE_PIXIE, PIXIECYCLE);
     p_Computer->setInType(portConf.pixieInput, PIXIEIN);
@@ -333,8 +366,27 @@ void Pixie::configurePixie(IoConfiguration portConf)
     p_Main->message(printBuffer);
 }
 
+void Pixie::configurePixieIn(IoConfiguration portConf)
+{
+    portConf_ = portConf;
+    p_Computer->setCycleType(VIDEOCYCLE_PIXIE, PIXIECYCLE);
+    p_Computer->setInType(portConf.pixieOutput, PIXIEOUT);
+    p_Computer->setInType(portConf.pixieInput, PIXIEIN);
+    p_Computer->setEfType(portConf.pixieEf, PIXIEEF);
+
+    backGroundInit_ = 1;
+    colourMask_ = 0;
+
+    wxString printBuffer;
+    p_Main->message("Configuring CDP 1861");
+
+    printBuffer.Printf("    Input %d: disable graphics, input %d: enable graphics, EF %d: in frame indicator\n", portConf.pixieOutput, portConf.pixieInput, portConf.pixieEf);
+    p_Main->message(printBuffer);
+}
+
 void Pixie::configurePixieSuper(IoConfiguration portConf)
 {
+    portConf_ = portConf;
     p_Computer->setOutType(portConf.pixieOutput, PIXIEOUT);
     p_Computer->setInType(portConf.pixieOutput, PIXIEOUT);
     p_Computer->setCycleType(VIDEOCYCLE_PIXIE, PIXIECYCLE);
@@ -538,8 +590,66 @@ void Pixie::configurePixieCosmicos()
     p_Main->message("    EF 3: in frame indicator (when graphics enabled)\n");
 }
 
+void Pixie::configureCdp1862(IoConfiguration portConf, bool autoBoot)
+{
+    portConf_ = portConf;
+    wxString ioGroup = "", printBuffer = "";
+
+    int ioGroupNum = portConf.cdp1862IoGroup + 1;
+
+    p_Computer->setCycleType(VIDEOCYCLE_CDP1862, CDP1862CYCLE);
+    
+    if (portConf.cdp1862IoGroup != -1)
+        ioGroup.Printf(" on group %d", portConf.cdp1862IoGroup);
+    
+    p_Main->message("Configuring CDP 1862" + ioGroup);
+
+    if (portConf.cdp1862enable.portNumber != -1)
+    {
+        if (portConf.cdp1862enable.qValue == -1)
+            printBuffer.Printf("    Input %d: enable graphics", portConf.cdp1862enable.portNumber);
+        else
+            printBuffer.Printf("    Q = %d & input %d: enable graphics", portConf.cdp1862enable.qValue,  portConf.cdp1862enable.portNumber);
+        p_Main->message(printBuffer);
+            
+        p_Computer->setInType(portConf.cdp1862enable.qValue, ioGroupNum, portConf.cdp1862enable.portNumber, CDP1862ENABLE);
+    }
+    if (portConf.cdp1862disable.portNumber != -1)
+    {
+        if (portConf.cdp1862disable.qValue == -1)
+            printBuffer.Printf("    Output %d: disable graphics", portConf.cdp1862disable.portNumber);
+        else
+            printBuffer.Printf("    Q = %d & output %d: disable graphics", portConf.cdp1862disable.qValue,  portConf.cdp1862disable.portNumber);
+        p_Main->message(printBuffer);
+
+        p_Computer->setOutType(portConf.cdp1862disable.qValue, ioGroupNum, portConf.cdp1862disable.portNumber, CDP1862DISABLE);
+    }
+
+    if (portConf.cdp1862background.portNumber != -1)
+    {
+        if (portConf.cdp1862background.qValue == -1)
+            printBuffer.Printf("    Output %d: switch background colour", portConf.cdp1862background.portNumber);
+        else
+            printBuffer.Printf("    Q = %d & output %d: switch background colour", portConf.cdp1862background.qValue,  portConf.cdp1862background.portNumber);
+        p_Main->message(printBuffer);
+
+        p_Computer->setOutType(portConf.cdp1862background.qValue, ioGroupNum, portConf.cdp1862background.portNumber, CDP1862BACK);
+    }
+                
+    printBuffer.Printf("    EF %d: in frame indicator\n", portConf.cdp1862Ef);
+    p_Main->message(printBuffer);
+
+    backGroundInit_ = COL_CDP1862_BACK_BLUE-COL_CDP1862_BLACK;
+    colourMask_ = 0;
+    colourType_ = portConf.cdp1862ColorType;
+    
+    if (portConf_.statusBarType == STATUSBAR_VIP2)
+        vipIIStatusBarPointer->initVipIIBar(autoBoot);
+}
+
 void Pixie::configureCdp1864(IoConfiguration portConf)
 {
+    portConf_ = portConf;
     wxString ioGroup = "", printBuffer = "";
 
     int ioGroupNum = portConf.cdp1864IoGroup + 1;
@@ -572,6 +682,28 @@ void Pixie::configureCdp1864(IoConfiguration portConf)
         p_Computer->setInType(portConf.cdp1864disable.qValue, ioGroupNum, portConf.cdp1864disable.portNumber, CDP1864DISABLE);
     }
 
+    if (portConf.cdp1864background.portNumber != -1)
+    {
+        if (portConf.cdp1864background.qValue == -1)
+            printBuffer.Printf("    Output %d: switch background colour", portConf.cdp1864background.portNumber);
+        else
+            printBuffer.Printf("    Q = %d & output %d: switch background colour", portConf.cdp1864background.qValue,  portConf.cdp1864background.portNumber);
+        p_Main->message(printBuffer);
+
+        p_Computer->setOutType(portConf.cdp1864background.qValue, ioGroupNum, portConf.cdp1864background.portNumber, CDP1864BACK);
+    }
+        
+    if (portConf.cdp1864colorMemory.portNumber != -1)
+    {
+        if (portConf.cdp1864colorMemory.qValue == -1)
+            printBuffer.Printf("    Output %d: color RAM (mask %02X)", portConf.cdp1864colorMemory.portNumber, portConf.cdp1864colorMemory.mask);
+        else
+            printBuffer.Printf("    Q = %d & output %d: color RAM (mask %02X)", portConf.cdp1864colorMemory.qValue,  portConf.cdp1864colorMemory.portNumber, portConf.cdp1864colorMemory.mask);
+        p_Main->message(printBuffer);
+
+        p_Computer->setOutType(portConf.cdp1864colorMemory.qValue, ioGroupNum, portConf.cdp1864colorMemory.portNumber, CDP1864COLORRAM);
+    }
+
     if (portConf.cdp1864toneLatch.portNumber != -1)
     {
         if (portConf.cdp1864toneLatch.qValue == -1)
@@ -586,8 +718,9 @@ void Pixie::configureCdp1864(IoConfiguration portConf)
     printBuffer.Printf("    EF %d: in frame indicator\n", portConf.cdp1864Ef);
     p_Main->message(printBuffer);
 
-    backGroundInit_ = 1;
+    backGroundInit_ = COL_CDP1864_BACK_BLUE-COL_CDP1864_WHITE;
     colourMask_ = 0;
+    colourType_ = portConf.cdp1864ColorType;
 }
 
 void Pixie::initiateColour(bool colour)
@@ -653,7 +786,8 @@ Byte Pixie::inPixie()
 void Pixie::outPixie()
 {
     graphicsOn_ = false;
-    if (computerType_ == VIPII || computerType_ == VIP)
+    reBlit_ = true;
+    if (computerType_ == VIPII || computerType_ == VIP) // what about ETI on XML?
     {
 #if defined(__WXMAC__)
         p_Main->eventRefreshVideo(false, videoNumber_);
@@ -670,7 +804,6 @@ void Pixie::outPixieBackGround()
     if (backGround_ == 12)  backGround_ = 8;
     newBackGround_ = true;
     reBlit_ = true;
-//  drawScreen();
 }
 
 void Pixie::cyclePixie()
@@ -683,10 +816,14 @@ void Pixie::cyclePixie()
     {
         p_Computer->debugTrace("----  H.Sync");
         graphicsMode_++;
-        if (graphicsMode_ == pixieGraphics_.interrupt-2) pixieEf_ = 0;
-        if (graphicsMode_ == pixieGraphics_.start) pixieEf_ = 1;
-        if (graphicsMode_ == pixieGraphics_.start+videoHeight_-4) pixieEf_ = 0;
-        if (graphicsMode_ == pixieGraphics_.start+videoHeight_) pixieEf_ = 1;
+        if (graphicsMode_ == pixieGraphics_.interrupt-2)
+            pixieEf_ = 0;
+        if (graphicsMode_ == pixieGraphics_.start)
+            pixieEf_ = 1;
+        if (graphicsMode_ == pixieGraphics_.start+videoHeight_-4)
+            pixieEf_ = 0;
+        if (graphicsMode_ == pixieGraphics_.start+videoHeight_)
+            pixieEf_ = 1;
         if (graphicsMode_ >= pixieGraphics_.screenend)
         {
             if (changeScreenSize_)
@@ -737,7 +874,7 @@ void Pixie::cyclePixie()
             }
             else
             {
-                v = p_Computer->pixieDmaOut(&color);
+                v = p_Computer->pixieDmaOut(&color, colourType_);
                 for (int i=0; i<8; i++)
                 {
                     plot(j+i, (int)graphicsMode_-pixieGraphics_.start,(v & 128) ? 1 : 0, (color|colourMask_)&7);
@@ -765,7 +902,7 @@ void Pixie::dmaEnable()
 
     for(int j=0; j<128; j+=8)
     {
-        v = p_Computer->pixieDmaOut(&color);
+        v = p_Computer->pixieDmaOut(&color, colourType_);
         for (int i=0; i<8; i++)
         {
             plot(j+i, (int)graphicsMode_ - pixieGraphics_.start,(v & 128) ? 1 : 0, (color|colourMask_)&7);
@@ -816,7 +953,7 @@ void Pixie::cyclePixieCoinArcade()
         while(graphicsNext_ >= 4 && graphicsNext_ < 12)
         {
             graphicsNext_ ++;
-            v = p_Computer->pixieDmaOut(&color);
+            v = p_Computer->pixieDmaOut(&color, colourType_);
             for (int i=0; i<8; i++)
             {
                 plot(j+i, (int)graphicsMode_-72,(v & 128) ? 1 : 0, (color|colourMask_)&7);
@@ -836,7 +973,7 @@ void Pixie::cyclePixieCoinArcade()
         graphicsNext_ = 0;
 }
 
-void Pixie::cyclePixieTelmac()
+void Pixie::cyclePixieCdp1864()
 {
     int j;
     Byte v;
@@ -877,13 +1014,15 @@ void Pixie::cyclePixieTelmac()
             else vidInt_ = 0;
         }
     }
+    if (graphicsNext_ == 4)
+         drawBackgroundLine();
     if (graphicsMode_ >= pixieGraphics_.start && graphicsMode_ <=pixieGraphics_.end && graphicsOn_ && vidInt_ == 1 && graphicsNext_ >=4 && graphicsNext_ <=11)
     {
         j = 0;
         while(graphicsNext_ >= 4 && graphicsNext_ <= 11)
         {
             graphicsNext_ ++;
-            v = p_Computer->pixieDmaOut(&color);
+            v = p_Computer->pixieDmaOut(&color, colourType_);
             for (int i=0; i<8; i++)
             {
                 plot(j+i, (int)graphicsMode_-pixieGraphics_.start, (v & 128) ? 1 : 0, (color|colourMask_)&7);
@@ -903,6 +1042,9 @@ void Pixie::copyScreen()
 {
     if (p_Main->isZoomEventOngoing())
         return;
+
+//    if (!graphicsOn_) // for ETI
+//        return;
 
     if (reColour_)
     {
@@ -1131,17 +1273,23 @@ void Pixie::pixieBarSize()
 {
     if (computerType_ == VIPII)
         vipIIStatusBarPointer->reDrawBar();
+    if (portConf_.statusBarType == STATUSBAR_VIP2)
+        vipIIStatusBarPointer->reDrawBar();
 }
 
 void Pixie::reDrawBar()
 {
     if (computerType_ == VIPII)
         vipIIStatusBarPointer->reDrawBar();
+    if (portConf_.statusBarType == STATUSBAR_VIP2)
+        vipIIStatusBarPointer->reDrawBar();
 }
 
 void Pixie::updateLedStatus(int led, bool status)
 {
     if (computerType_ == VIPII)
+        vipIIStatusBarPointer->updateLedStatus(led, status);
+    if (portConf_.statusBarType == STATUSBAR_VIP2)
         vipIIStatusBarPointer->updateLedStatus(led, status);
 }
 
@@ -1191,12 +1339,12 @@ PixieFred::PixieFred(const wxString& title, const wxPoint& pos, const wxSize& si
     videoNumber_ = videoNumber;
 }
 
-PixieFred::PixieFred(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, int videoNumber, int videoType)
-: Pixie(title, pos, size, zoom, zoomfactor, computerType, videoNumber, videoType)
+PixieFred::PixieFred(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, int videoNumber, int videoType, IoConfiguration portConf)
+: Pixie(title, pos, size, zoom, zoomfactor, computerType, videoNumber, videoType, portConf)
 {
     displayType_ = 3;
     setDisplayType(displayType_);
-    colourIndex_ = 0;
+    colourIndex_ = COL_PIXIE_FORE;
     videoNumber_ = videoNumber;
 }
 
@@ -1210,6 +1358,7 @@ void PixieFred::configurePixie()
 
 void PixieFred::configureFredVideo(IoConfiguration portConf)
 {
+    portConf_ = portConf;
     p_Computer->setCycleType(VIDEOCYCLE_FRED, FREDVIDEOCYCLE);
     
     p_Computer->setOutType(portConf.fredVideoIoGroup + 1, portConf.fredVideoOutput, FREDVIDEOTYPE);
@@ -1338,7 +1487,7 @@ void PixieFred::cyclePixie()
             for (int dma=0; dma<numberOfDmaInstructions; dma++)
             {
                 graphicsNext_ += 1;
-                v = p_Computer->pixieDmaOut(&color);
+                v = p_Computer->pixieDmaOut(&color, colourType_);
                 int line = (int)graphicsMode_-16;
                 if (interlace_)
                 {
@@ -1375,10 +1524,10 @@ PixieVip2K::PixieVip2K(const wxString& title, const wxPoint& pos, const wxSize& 
     videoNumber_ = videoNumber;
 }
 
-PixieVip2K::PixieVip2K(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, int videoNumber, int videoType)
-: Pixie(title, pos, size, zoom, zoomfactor, computerType, videoNumber, videoType)
+PixieVip2K::PixieVip2K(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, int videoNumber, int videoType, IoConfiguration portConf)
+: Pixie(title, pos, size, zoom, zoomfactor, computerType, videoNumber, videoType, portConf)
 {
-    colourIndex_ = 0;
+    colourIndex_ = COL_PIXIE_FORE;
     videoNumber_ = videoNumber;
 }
 
@@ -1412,6 +1561,7 @@ void PixieVip2K::configurePixie()
 
 void PixieVip2K::configureVip2K(IoConfiguration portConf)
 {
+    portConf_ = portConf;
     p_Computer->setCycleType(VIDEOCYCLE_VIP2K, VIP2KVIDEOCYCLE);
     p_Computer->setOutType(portConf.vip2KOutput, VIP2KVIDEODISABLE);
     p_Computer->setInType(portConf.vip2KInput, VIP2KVIDEOENABLE);
@@ -1818,6 +1968,11 @@ PixieEti::PixieEti(const wxString& title, const wxPoint& pos, const wxSize& size
 {
 }
 
+PixieEti::PixieEti(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, int videoNumber, int videoType, IoConfiguration portConf)
+: Pixie(title, pos, size, zoom, zoomfactor, computerType, videoNumber, videoType, portConf)
+{
+}
+
 void PixieEti::configurePixie()
 {
     p_Computer->setOutType(1, PIXIEBACKGROUND);
@@ -1982,7 +2137,7 @@ void PixieEti::cyclePixie()
         while(graphicsNext_ >= 4 && graphicsNext_ <= 11)
         {
             graphicsNext_ ++;
-            v = p_Computer->pixieDmaOut(&color);
+            v = p_Computer->pixieDmaOut(&color, colourType_);
             for (int i=0; i<8; i++)
             {
                 plot(j+i, (int)graphicsMode_-pixieGraphics_.start, (v & 128) ? 1 : 0, (color|colourMask_)&7);

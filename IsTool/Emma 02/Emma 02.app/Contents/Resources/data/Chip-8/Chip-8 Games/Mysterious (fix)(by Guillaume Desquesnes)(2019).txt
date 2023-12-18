@@ -1,0 +1,23 @@
+Fix done by Marcel van Tongeren: On the VIP numbers were not shown at all. I added number graphics 0 to 9 @322-352 and changed the LD I,000 @250 & @26A to LD I,322
+
+Mysterious (Guillaume Desquesnes)(2019)
+---------------------------------------
+
+Once "GUESS" appears on screen, press "F" on the hexpad to start and then,
+enter two digits from 0 to 9 to guess the number between 00 and 99 that
+the program has randomly picked. 
+
+If you enter (as an example) "25", the program then will tell you either
+to guess beneath "25" by showing an arrow pointing in the left direction
+or an arrow pointing to the right to guess higher than "25".
+
+Once you guessed the number, you will hear a tone for one second. :)
+
+
+
+Manual written by Sly DC.
+
+
+
+
+https://github.com/elnabo/Chip8-utilities/tree/master/examples

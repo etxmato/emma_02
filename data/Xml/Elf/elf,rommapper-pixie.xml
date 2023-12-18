@@ -57,15 +57,32 @@
     <cassette decks="1">
         <ef>2</ef>
     </cassette>
-    
+
+    <basic>
+        <pload>tiny</pload>
+        <defus>0x79</defus>
+        <eop>0x24</eop>
+        <string>0</string>
+        <array>0</array>
+        <eod>0</eod>
+        <ram>0xf40</ram>
+    </basic>
+
     <locations>
+        <!-- key input -->
+        <key_input>0xab3</key_input>
+
+        <!-- Machine states -->
+        <reset_state>0xbf</reset_state>
+        <basic_state>0x0204</basic_state>
+        <run_state></run_state>
+
         <!-- Stop cassette -->
         <stop_cas address="0x9fa, 0x9fb, 0x9fc" value="0xc0, 0x0a, 0x29">0xA59, 0xA28</stop_cas>
         
         <!-- Start SAVE, LOAD -->
         <start_cas_save address="0x9fa, 0x9fb, 0x9fc" value="0xc0, 0x0a, 0x29">0x9FD</start_cas_save>
         <start_cas_load address="0x9fa, 0x9fb, 0x9fc" value="0xc0, 0x0a, 0x29">0x09FA</start_cas_load>
-
     </locations>
 
     <debugger>

@@ -5,27 +5,6 @@
 #include "til313.full.h"
 #include "led.h"
 
-#define ELF_HEX_BUTTON 0
-#define COSMICOS_HEX_BUTTON 1
-#define PANEL_HEX_BUTTON 2
-#define PANEL_WIDE_HEX_BUTTON 3
-#define ELF2K_RESET_BUTTON 4
-#define PIO_HEX_BUTTON 5
-#define UC1800_HEX_BUTTON 6
-
-#define VERTICAL_BUTTON 0
-#define HORIZONTAL_BUTTON 1
-#define ELF2K_POWER_BUTTON 2
-#define PUSH_BUTTON_BLACK 3
-#define VERTICAL_BUTTON_RED 4
-#define PIO_VERTICAL_BUTTON 5
-#define PUSH_BUTTON 6
-#define ELF2K_LOAD_BUTTON 7
-#define ELF2K_MP_BUTTON 8
-#define ELF2K_RUN_BUTTON 9
-#define ELF2K_IN_BUTTON 10
-#define DIP_SWITCH_BUTTON 11
-
 #define BUTTON_UP true
 #define BUTTON_DOWN false
 #define BUTTON_RIGHT true
@@ -39,38 +18,6 @@ wxDEFINE_EVENT(COMPUTER_MSG, guiEvent);
 #define EVT_COMPUTER_MSG(id, func) \
 wx__DECLARE_EVT1(COMPUTER_MSG, id, (&func))
 
-
-class HexButton : public wxEvtHandler
-{
-public:
-    HexButton(wxDC& dc, int type, wxCoord x, wxCoord y, wxString label);
-    ~HexButton();
-    void onPaint(wxDC& dc);
-    bool onMousePress(wxDC& dc, wxCoord x, wxCoord y);
-    bool onMouseRelease(wxDC& dc, wxCoord x, wxCoord y);
-    virtual void OnTimer(wxTimerEvent& event);
-    void releaseButtonOnScreen(wxDC& dc);
-    void enable(wxDC& dc, bool enabled);
-
-protected:
-    bool state_;
-    int buttonType_;
-
-private:
-    wxBitmap *upBitmapPointer;
-    wxBitmap *downBitmapPointer;
-    wxBitmap *disabledBitmapPointer;
-
-    wxCoord x_;
-    wxCoord y_;
- 
-    bool enabled_;
-
-    wxTimer *focusTimer;
-
-    DECLARE_EVENT_TABLE()
-};
-
 class HexButton2 : public HexButton
 {
 public:
@@ -81,39 +28,6 @@ private:
     int pioNumber_;
     
     DECLARE_EVENT_TABLE()
-};
-
-    
-class SwitchButton
-{
-public:
-    SwitchButton(wxDC& dc, int type, wxColour bkgrClr, bool state, wxCoord x, wxCoord y, wxString label);
-    ~SwitchButton();
-    void onPaint(wxDC& dc);
-    bool onMousePress(wxDC& dc, wxCoord x, wxCoord y);
-    bool onMouseRelease(wxDC& dc, wxCoord x, wxCoord y);
-    void setState(wxDC& dc, bool state);
-    void enable(wxDC& dc, bool enabled);
-
-private:
-    wxBitmap *upBitmapPointer;
-    wxBitmap *downBitmapPointer;
-    wxBitmap *disabledUpBitmapPointer;
-    wxBitmap *disabledDownBitmapPointer;
-
-    wxMask *maskUp;
-    wxMask *maskDown;
-    
-    bool enabled_;
-    
-    wxCoord x_;
-    wxCoord y_;
-    bool state_;
-    wxCoord buttonSizeX_;
-    wxCoord buttonSizeY_;
-    wxCoord buttonStartX_;
-    wxCoord buttonStartY_;
-    int type_;
 };
 
 class RunComputer : public wxThread
@@ -129,6 +43,7 @@ public:
     Panel(wxWindow *parent, const wxSize& size, int tilType);
     virtual ~Panel();
 
+    void init(vector<GuiItemConfig> buttonConfig, wxSize panelSize);
     virtual void init();
     virtual void init(int computerType);
     void connectKeyEvent(wxWindow* pclComponent);
@@ -140,7 +55,10 @@ public:
     void onKeyUp(wxKeyEvent&event);
     Byte getKey(Byte vtOut);
     virtual void onMousePress(wxMouseEvent& event);
+    void executeMousePressFunction(int function, int buttonValue);
     virtual void onMouseRelease(wxMouseEvent& event);
+    void executeMouseReleaseFunction(int function);
+    void executeMouseReleaseFunction(int function, int value);
     void ledTimeout();
     void rePaintLeds(wxDC& dc);
     void setLedMs(long ms);
@@ -197,7 +115,7 @@ public:
     virtual void dataSetState(int number, bool state);
     void efUp(int number);
     void efDown(int number);
-    virtual void releaseButtonOnScreen(HexButton* buttonPoint) {};
+    virtual void releaseButtonOnScreen(HexButton* WXUNUSED(buttonPoint)) {};
 
 protected:
     wxBitmap *mainBitmapPointer;
@@ -313,8 +231,10 @@ protected:
     Led *pauseLedPointer;
     Led *runLedPointer;
     Led *loadLedPointer;
-    Led *ledPointer[24];
-    Led *stateLedPointer[4];
+    Led *ledPointer[MAX_BIT_LEDS];
+    bool ledPointerDefined[MAX_BIT_LEDS];
+    Led *stateLedPointer[MAX_CPU_STATE_LEDS];
+    bool stateLedPointerDefined[MAX_CPU_STATE_LEDS];
 
     int readyLedStatus;
     int stopLedStatus;
@@ -350,10 +270,14 @@ protected:
     int lastKey_;
     bool repeat_;
     bool forceUpperCase_;
-    
-private:
-    bool functionKeyReleaseTwo_;
+    bool xmlButtonDefined_;
 
+private:
+    bool functionKeyReleaseTwo_;\
+    
+    vector<GuiItemConfig> guiItemConfig_;
+    wxSize panelSize_;
+    
     DECLARE_EVENT_TABLE()
 };
 
@@ -421,8 +345,9 @@ public:
     virtual void configureComputer();
     virtual void onPowerButton() {};
     virtual void onReadButton();
-    virtual void onCardButton();
+    virtual void onCardButtonSwitch();
     virtual void onRunButton();
+    virtual void onRunButton(bool run0);
     virtual void onRunPButton();
     virtual void onRunButtonPress() {};
     virtual void onRunButtonRelease() {};
@@ -488,7 +413,7 @@ public:
     virtual void reDefineKeysA(int *, int *);
     virtual void reDefineKeysB(int *, int *);
     virtual uint64_t getCpuCycles() { return 0; };
-    void setQsound(int status) {qSound_ = status;};
+    void setSoundType(int status) {activeSoundType_ = status;};
 
     virtual void onNumberKeyDown(wxCommandEvent& event);
     virtual void onNumberKeyUp(wxCommandEvent& event);
@@ -534,7 +459,7 @@ public:
     virtual void setDisableSystemRom(bool disableSystemRom);
     virtual void setAutoKeyDef(bool autoKeyDef);
     virtual int getDmaCounter() {return 0;};
-    virtual void showAddress(Word address);
+    virtual void showCycleAddress(Word address);
     virtual void showState(int state);
     virtual void checkComputerFunction() {};
     virtual void resetPressed() {};
@@ -562,7 +487,6 @@ public:
 
     virtual bool isAudioChannelLeft() {return true;};
     virtual bool isDataChannelLeft() {return true;};
-    virtual bool isTapeHwActive() {return false;};
     virtual int getFrequency0() {return 2000;};
     virtual int getFrequency1() {return 4000;};
     virtual int getStartBit() {return 1;};
@@ -572,10 +496,13 @@ public:
     virtual void startRecording(int WXUNUSED(tapeNumber)) {};
 
     void setEfKeyValue(int ef, Byte value);
+    
+    virtual void startLoad(int WXUNUSED(tapeNumber), bool WXUNUSED(button)) {};
+    virtual void cardButton(int WXUNUSED(cardValue)) {};
+    virtual void updateStatusBarLedStatus(int led, bool status) {};
 
 protected:
     RunComputer *threadPointer;
-
 
     int baseGiantBoard_;
     int baseQuestLoader_;
@@ -595,7 +522,6 @@ protected:
     int conversionType_;
     int conversionTypeWav_;
     int basicExecAddress_[BASICADDR_MAX];
-    int qSound_;
     bool resetPressed_;
     bool audioIn_;
     bool audioOut_;
@@ -606,6 +532,7 @@ protected:
 
     wxString pseudoType_;
     bool pseudoLoaded_;
+    int activeSoundType_;
 
     int inKey1_;
     int inKey2_;

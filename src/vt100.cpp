@@ -166,10 +166,14 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
             uartEf_ = true;
         break;
     }
-    if (vtType_ == VT52)
-        readCharRomFile(computerType_, p_Main->getVt52CharRomDir(computerType_), p_Main->getVt52CharRomFile(computerType_));
-    else
-        readCharRomFile(computerType_, p_Main->getVt100CharRomDir(computerType_), p_Main->getVt100CharRomFile(computerType_));
+    
+    if (elfConfiguration_.vtShow)
+    {
+        if (vtType_ == VT52)
+            readCharRomFile(computerType_, p_Main->getVt52CharRomDir(computerType_), p_Main->getVt52CharRomFile(computerType_));
+        else
+            readCharRomFile(computerType_, p_Main->getVt100CharRomDir(computerType_), p_Main->getVt100CharRomFile(computerType_));
+    }
     stretchDot_ = p_Main->getStretchDot(computerType_);
     serialLog_ = elfConfiguration_.serialLog;
     uart_ = elfConfiguration_.useUart;
@@ -376,7 +380,7 @@ void Vt100::configure(int selectedBaudR, int selectedBaudT, IoConfiguration ioCo
     selectedBaudR_ = selectedBaudR;
     
     baudRateT_ = (int) ((((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_])+0.5);
-    baudRateR_ = (int) ((((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_])+0.5);
+    baudRateR_ = (int) ((((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudR_])+0.5);
 
     if (uart_)
     {
@@ -550,7 +554,7 @@ void Vt100::configureRcasbc(int selectedBaudR, int selectedBaudT)
     selectedBaudR_ = selectedBaudR;
     
     baudRateT_ = (int) ((((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_])+0.5);
-    baudRateR_ = (int) ((((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_])+0.5);
+    baudRateR_ = (int) ((((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudR_])+0.5);
 
     p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
     
@@ -616,7 +620,7 @@ void Vt100::configureMs2000(int selectedBaudR, int selectedBaudT)
     selectedBaudR_ = selectedBaudR;
     
     baudRateT_ = (int) ((((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_])+0.5);
-    baudRateR_ = (int) ((((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_])+0.5);
+    baudRateR_ = (int) ((((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudR_])+0.5);
 
     p_Computer->setEfType(4, VT100EF);
     p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
@@ -668,7 +672,7 @@ void Vt100::configureVt2K(int selectedBaudR, int selectedBaudT, IoConfiguration 
     selectedBaudR_ = selectedBaudR;
     
     baudRateT_ = (int) ((((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_])+0.5);
-    baudRateR_ = (int) ((((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_])+0.5);
+    baudRateR_ = (int) ((((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudR_])+0.5);
 
     if (uart_)
     {

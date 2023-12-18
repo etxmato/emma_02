@@ -1082,7 +1082,7 @@ void Cdp18s600::showCycleData(Byte val)
     cdp18s640FramePointer->showDataTil313Italic(val);
 }
 
-void Cdp18s600::showAddress(Word val)
+void Cdp18s600::showCycleAddress(Word val)
 {
     cdp18s640FramePointer->showAddressTil313Italic(val);
 }

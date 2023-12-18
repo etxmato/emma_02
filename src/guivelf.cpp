@@ -121,6 +121,8 @@ void GuiVelf::readVelfConfig()
 {
     selectedComputer_ = VELF;
 
+    elfConfiguration[VELF].useTapeHw = false;
+    elfConfiguration[VELF].vtShow = true;
     conf[VELF].emsConfigNumber_ = 0;
     conf[VELF].videoNumber_ = 0;
 
@@ -239,10 +241,8 @@ void GuiVelf::readVelfConfig()
         correctZoomVtAndValue(VELF, "Velf", SET_SPIN);
 
         XRCCTRL(*this, "LatchVelf", wxCheckBox)->SetValue(latch_);
-        XRCCTRL(*this, "TurboVelf", wxCheckBox)->SetValue(conf[VELF].turbo_);
         turboGui("Velf");
         XRCCTRL(*this, "TurboClockVelf", wxTextCtrl)->SetValue(conf[VELF].turboClock_);
-        XRCCTRL(*this, "AutoCasLoadVelf", wxCheckBox)->SetValue(conf[VELF].autoCassetteLoad_);
         setPrinterState(VELF);
         XRCCTRL(*this, "VolumeVelf", wxSlider)->SetValue(conf[VELF].volume_);
         XRCCTRL(*this, "PrintModeVelf", wxChoice)->SetSelection((int)configPointer->Read("/Velf/Print_Mode", 1l));

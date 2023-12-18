@@ -137,6 +137,8 @@ void GuiMcds::readMcdsConfig()
     elfConfiguration[MCDS].ioConfiguration.emsOutput.resize(1);
     readElfPortConfig(MCDS, "Mcds");
 
+    elfConfiguration[MCDS].useTapeHw = false;
+    elfConfiguration[MCDS].vtShow = true;
     conf[MCDS].emsConfigNumber_ = 0;
     conf[MCDS].videoNumber_ = 0;
 
@@ -226,9 +228,7 @@ void GuiMcds::readMcdsConfig()
         XRCCTRL(*this, "ScreenDumpFileMCDS", wxComboBox)->SetValue(conf[MCDS].screenDumpFile_);
         
         XRCCTRL(*this, "TurboClockMCDS", wxTextCtrl)->SetValue(conf[MCDS].turboClock_);
-        XRCCTRL(*this, "TurboMCDS", wxCheckBox)->SetValue(conf[MCDS].turbo_);
         turboGui("MCDS");
-        XRCCTRL(*this, "AutoCasLoadMCDS", wxCheckBox)->SetValue(conf[MCDS].autoCassetteLoad_);
         
         XRCCTRL(*this, "PrintModeMCDS", wxChoice)->SetSelection((int)configPointer->Read("/Mcds/Print_Mode", 1l));
         setPrintMode();

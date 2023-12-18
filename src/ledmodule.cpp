@@ -73,10 +73,7 @@ void LedModuleScreen::init(int computerType)
 
     for (int i=0;i<8;i++)
     {
-        if (computerType == XML)
-            ledPointer[i] = new Led(dc, 20+16*(7-i),16, ELFLED);
-        else
-            ledPointer[i] = new Led(dc, 20+16*(7-i),16, computerType);
+        ledPointer[i] = new Led(dc, 20+16*(7-i),16, LED_SMALL_RED);
         updateLed_[i] = true;
     }
 

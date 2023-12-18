@@ -48,7 +48,7 @@ public:
     void tapeIo(Byte value);
     void switchQ(int value);
     void showCycleData(Byte val);
-    void showAddress(Word val);
+    void showCycleAddress(Word val);
     void showState(int state);
     virtual void setCpuMode(int mode);
     virtual void cycle(int type);

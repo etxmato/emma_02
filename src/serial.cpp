@@ -61,7 +61,7 @@ struct sp_port *port;
 
 int baudRateValueSerial_[] =
 {
-    19200, 9600, 4800, 3600, 2400, 2000, 1800, 1200, 600, 300, 200, 150, 134, 110, 75, 50
+    38400, 19200, 9600, 4800, 3600, 2400, 2000, 1800, 1200, 600, 300, 200, 150, 134, 110, 75, 50
 };
 
 Serial::Serial(int computerType, double clock, ElfConfiguration elfConf)
@@ -83,6 +83,7 @@ Serial::Serial(int computerType, double clock, ElfConfiguration elfConf)
     uart_fe_bit_ = 3;
     uart_tsre_bit_ = 6;
     uart_thre_bit_ = 7;
+    numberOfBitsPerByte_ = 9;
 }
 
 Serial::~Serial()
@@ -99,7 +100,7 @@ void Serial::configure(int selectedBaudR, int selectedBaudT, IoConfiguration ioC
     selectedBaudR_ = selectedBaudR;
     
     baudRateT_ = (int) ((((clock_ * 1000000) / 8) / baudRateValueSerial_[selectedBaudT_])+0.5);
-    baudRateR_ = (int) ((((clock_ * 1000000) / 8) / baudRateValueSerial_[selectedBaudT_])+0.5);
+    baudRateR_ = (int) ((((clock_ * 1000000) / 8) / baudRateValueSerial_[selectedBaudR_])+0.5);
 
     if (uart_)
     {
@@ -109,9 +110,10 @@ void Serial::configure(int selectedBaudR, int selectedBaudT, IoConfiguration ioC
     {
         if (uart16450_)
         {
-            p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
+            p_Computer->setCycleType(VTCYCLE, VTSERIALCYCLE);
             
             p_Main->message("Configuring external terminal with 16450/550 UART");
+            startSerial();
             rs232_ = 0;
         }
         else
@@ -152,6 +154,7 @@ void Serial::configure(int selectedBaudR, int selectedBaudT, IoConfiguration ioC
     vtCount_ = -1;
     vtOutCount_ = -1;
     vtOut_ = 0;
+    vtOutSet_ = false;
     serialEf_ = 1;
 }
 
@@ -183,6 +186,7 @@ void Serial::configureStandard(int selectedBaudR, int selectedBaudT, int dataRea
     vtCount_ = -1;
     vtOutCount_ = -1;
     vtOut_ = 0;
+    vtOutSet_ = false;
     serialEf_ = 1;
 }
 
@@ -244,7 +248,7 @@ void Serial::configureRcasbc(int selectedBaudR, int selectedBaudT)
     selectedBaudR_ = selectedBaudR;
     
     baudRateT_ = (int) ((((clock_ * 1000000) / 8) / baudRateValueSerial_[selectedBaudT_])+0.5);
-    baudRateR_ = (int) ((((clock_ * 1000000) / 8) / baudRateValueSerial_[selectedBaudT_])+0.5);
+    baudRateR_ = (int) ((((clock_ * 1000000) / 8) / baudRateValueSerial_[selectedBaudR_])+0.5);
 
     p_Computer->setCycleType(SERIALCYCLE, VTSERIALCYCLE);
     
@@ -263,6 +267,7 @@ void Serial::configureRcasbc(int selectedBaudR, int selectedBaudT)
     vtCount_ = -1;
     vtOutCount_ = -1;
     vtOut_ = 0;
+    vtOutSet_ = false;
     serialEf_ = 1;
     reverseEf_ = true;
     dataReadyFlag_ = 0;
@@ -280,7 +285,7 @@ void Serial::configureMs2000(int selectedBaudR, int selectedBaudT)
     selectedBaudR_ = selectedBaudR;
     
     baudRateT_ = (int) ((((clock_ * 1000000) / 8) / baudRateValueSerial_[selectedBaudT_])+0.5);
-    baudRateR_ = (int) ((((clock_ * 1000000) / 8) / baudRateValueSerial_[selectedBaudT_])+0.5);
+    baudRateR_ = (int) ((((clock_ * 1000000) / 8) / baudRateValueSerial_[selectedBaudR_])+0.5);
 
     p_Computer->setEfType(4, VTSERIALEF);
     p_Computer->setCycleType(VTCYCLE, VTSERIALCYCLE);
@@ -301,6 +306,7 @@ void Serial::configureMs2000(int selectedBaudR, int selectedBaudT)
     vtCount_ = -1;
     vtOutCount_ = -1;
     vtOut_ = 0;
+    vtOutSet_ = false;
     serialEf_ = 1;
     reverseEf_ = true;
     dataReadyFlag_ = 0;
@@ -314,7 +320,7 @@ void Serial::configureVt2K(int selectedBaudR, int selectedBaudT, IoConfiguration
     selectedBaudR_ = selectedBaudR;
     
     baudRateT_ = (int) ((((clock_ * 1000000) / 8) / baudRateValueSerial_[selectedBaudT_])+0.5);
-    baudRateR_ = (int) ((((clock_ * 1000000) / 8) / baudRateValueSerial_[selectedBaudT_])+0.5);
+    baudRateR_ = (int) ((((clock_ * 1000000) / 8) / baudRateValueSerial_[selectedBaudR_])+0.5);
 
     if (uart_)
     {
@@ -359,11 +365,13 @@ void Serial::configureVt2K(int selectedBaudR, int selectedBaudT, IoConfiguration
     vtCount_ = -1;
     vtOutCount_ = -1;
     vtOut_ = 0;
+    vtOutSet_ = false;
     serialEf_ = 1;
 }
 
 void Serial::startSerial()
 {
+    numberOfBitsPerByte_ = 9;
     sp_return error = sp_get_port_by_name(elfConfiguration_.serialPort_, &port);
     if (error == SP_OK)
     {
@@ -372,14 +380,18 @@ void Serial::startSerial()
         {
             sp_set_baudrate(port, baudRateValueSerial_[selectedBaudT_]);
             if (SetUpFeature_[VTBITS])
-                sp_set_bits    (port, 8);
+                sp_set_bits (port, 8);
             else
-                sp_set_bits    (port, 7);
+            {
+                sp_set_bits (port, 7);
+                numberOfBitsPerByte_--;
+            }
             sp_set_stopbits(port, 1);
             sp_set_xon_xoff(port, SP_XONXOFF_DISABLED);
             sp_set_flowcontrol(port, SP_FLOWCONTROL_NONE);
             if (SetUpFeature_[VTPARITY])
             {
+                numberOfBitsPerByte_++;
                 if (SetUpFeature_[VTPARITYSENSE])
                     sp_set_parity(port, SP_PARITY_EVEN);
                 else
@@ -461,7 +473,10 @@ void Serial::cycleVt()
             numberOfBytes = sp_nonblocking_read(port, &input, 1);
 
             if (numberOfBytes >= 1)
+            {
                 vtOut_ = input;
+                vtOutSet_ = true;
+            }
         }
         cycleValue_ = cycleSize_;
     }
@@ -471,19 +486,19 @@ void Serial::cycleVt()
         vtCount_--;
         if (vtCount_ <= 0)
         {
-            if (rs232_ != 0 && serialOpen_)
+            if (sp_output_waiting(port) == 0 && uartStatus_[uart_thre_bit_] == 0 && serialOpen_)
             {
+#if defined(__ARM64__)
+                sp_blocking_write(port, &rs232_, 1, 60);
+#else
                 sp_nonblocking_write(port, &rs232_, 1);
-                while (sp_output_waiting(port) > 0)
-                    ;
+#endif
+                p_Computer->thrStatusSerial(0);
+                uartStatus_[uart_thre_bit_] = 1;
+                uartStatus_[uart_tsre_bit_] = 1;
             }
-            
-            rs232_ = 0;
-            p_Computer->thrStatusSerial(0);
-            uartStatus_[uart_thre_bit_] = 1;
-            uartStatus_[uart_tsre_bit_] = 1;
-
-            vtCount_ = baudRateR_ * 9;
+            vtCount_ = baudRateR_ * numberOfBitsPerByte_;
+            uartInterrupt();
         }
         if (vtOutCount_ > 0)
         {
@@ -512,6 +527,7 @@ void Serial::cycleVt()
                         uartStatus_[uart_da_bit_] = 1;
                         vtOutCount_ = -1;
                         vtOutBits_=10;
+                        uartInterrupt();
                     }
                     if (vtOutBits_ == 11)
                     {
@@ -528,6 +544,7 @@ void Serial::cycleVt()
                     p_Computer->dataAvailableSerial(1);
                     uartStatus_[uart_da_bit_] = 1;
                     vtOutCount_ = -1;
+                    uartInterrupt();
                 }
             }
         }
@@ -557,6 +574,7 @@ void Serial::cycleVt()
                 if (--vtOutBits_ == 0)
                 {
                     vtOut_ = 0;
+                    vtOutSet_ = false;
                     p_Computer->setNotReadyToReceiveData(dataReadyFlag_-1);
                     vtOutCount_ = -1;
                 }
@@ -564,7 +582,7 @@ void Serial::cycleVt()
         }
         else
         {
-            if (vtOut_ != 0 && vtEnabled_)
+            if (vtOutSet_ && vtEnabled_)
             {
                 serialEf_ = 0;
                 parity_ = Parity(vtOut_);
@@ -620,9 +638,13 @@ void Serial::cycleVt()
                     rs232_ = rs232_ & 0x7f;
                     if (serialOpen_)
                     {
+#if defined(__ARM64__)
+                        sp_blocking_write(port, &rs232_, 1, 60);
+#else
                         sp_nonblocking_write(port, &rs232_, 1);
+#endif
                         while (sp_output_waiting(port) > 0)
-                            ;
+                                       ;
                     }
                 }
             }
@@ -722,10 +744,23 @@ void Serial::selectUart16450Register(Byte value)
 
 void Serial::uartOut(Byte value)
 {
-    rs232_ = value;
-    p_Computer->thrStatusSerial(1);
-    uartStatus_[uart_thre_bit_] = 0;
-    uartStatus_[uart_tsre_bit_] = 0;
+    if (sp_output_waiting(port) == 0)
+    {
+#if defined(__ARM64__)
+        sp_blocking_write(port, &value, 1, 60);
+#else
+        sp_nonblocking_write(port, &rs232_, 1);
+#endif
+        vtCount_ = baudRateR_ * numberOfBitsPerByte_;
+    }
+    else
+    {
+        rs232_ = value;
+        
+        p_Computer->thrStatusSerial(1);
+        uartStatus_[uart_thre_bit_] = 0;
+        uartStatus_[uart_tsre_bit_] = 0;
+    }
 }
 
 void Serial::uart16450Out(Byte value)
@@ -813,3 +848,13 @@ void Serial::thrStatusUart16450(bool data)
     lineStatusRegister_[UART_LSR_THRE] = !data;
     lineStatusRegister_[UART_LSR_TRE] = data;
 }
+
+void Serial::uartInterrupt()
+{
+    if (uart16450_)
+        return;
+    
+    if ((uartControl_ & 0x20) == 0x20)
+        p_Computer->interrupt();
+}
+

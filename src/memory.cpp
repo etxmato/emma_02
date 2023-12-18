@@ -59,19 +59,30 @@ Memory::Memory()
     switch (p_Main->getCpuStartupVideoRam())
     {
         case STARTUP_ZEROED:
-            for (int i=0; i<1024; i++) colorMemory1864_[i] = 0;
+            for (int i=0; i<1024; i++)
+            {
+                colorMemory1862_[i] = 0;
+                colorMemory1864_[i] = 0;
+            }
             for (int i=0; i<16383; i++) mc6845ram_[i] = 0;
         break;
             
         case STARTUP_RANDOM:
-            for (int i=0; i<1024; i++) colorMemory1864_[i] = rand() % 0x100;
+            for (int i=0; i<1024; i++)
+            {
+                colorMemory1862_[i] = rand() % 0x100;
+                colorMemory1864_[i] = rand() % 0x100;
+            }
             for (int i=0; i<16383; i++) mc6845ram_[i] = rand() % 0x100;
         break;
             
         case STARTUP_DYNAMIC:
             setDynamicRandomByte();
             for (int i=0; i<1024; i++)
+            {
+                colorMemory1862_[i] = getDynamicByte(i);
                 colorMemory1864_[i] = getDynamicByte(i);
+            }
             setDynamicRandomByte();
             for (int i=0; i<16383; i++)
                 mc6845ram_[i] = getDynamicByte(i);
@@ -521,7 +532,26 @@ void Memory::allocSlotMemory()
 
     for (wxUint32 i=0; i<slotMemorySize_[numberOfSlots_]; i++)
     {
-        slotMemory_[numberOfSlots_][i] = 0xff;
+        if (computerConfiguration.slotConfig_.slotInfo[numberOfSlots_].type == RAM)
+        {
+            switch (p_Main->getCpuStartupRam())
+            {
+                case STARTUP_ZEROED:
+                    slotMemory_[numberOfSlots_][i] = 0;
+                break;
+                
+                case STARTUP_RANDOM:
+                    slotMemory_[numberOfSlots_][i] = rand() % 0x100;
+                break;
+                
+                case STARTUP_DYNAMIC:
+                    setDynamicRandomByte();
+                    slotMemory_[numberOfSlots_][i] = getDynamicByte(i);
+                break;
+            }
+        }
+        else
+            slotMemory_[numberOfSlots_][i] = 0xff;
         slotMemoryDataType_[numberOfSlots_][i] = MEM_TYPE_DATA;
         if (profilerCounter_ != PROFILER_OFF)
             slotMemoryExecuted_[numberOfSlots_][i] = 0;

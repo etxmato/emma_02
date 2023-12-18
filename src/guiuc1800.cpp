@@ -65,6 +65,7 @@ void GuiUc1800::readUc1800Config()
 {
     selectedComputer_ = UC1800;
 
+    elfConfiguration[UC1800].useTapeHw = false;
     conf[UC1800].emsConfigNumber_ = 0;
     conf[UC1800].videoNumber_ = 0;
 

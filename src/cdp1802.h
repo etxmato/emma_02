@@ -74,7 +74,7 @@ public:
     void cpuCycleExecute2_1805();
     void dmaIn(Byte value);
     Byte dmaOut();
-    Byte pixieDmaOut(int *color);
+    Byte pixieDmaOut(int *color, int colorType);
     void visicomDmaOut(Byte *vram1, Byte *vram2);
     Byte pixieDmaOut();
 
@@ -187,11 +187,16 @@ public:
     void increaseExecutedTestCartRom(Word address, Byte type);
     void increaseExecutedEms(size_t emsNumber, long address, Byte type);
     void clearProfiler();
+    
+    virtual void setMode();
 
 protected:
     Byte cycle0_;
     Byte cpuMode_;
     Byte cpuState_;
+
+    int clear_;
+    int wait_;
 
     // Debug data
     long steps_;
@@ -237,7 +242,6 @@ protected:
     bool interruptRequested_;
   
 private:
-    void setMode();
     void decCounter();
     int colourMask_;
     bool readyToReceiveData[4];
@@ -251,8 +255,6 @@ private:
     Byte efFlags_;
     Byte accumulator_;
 
-    int clear_;
-    int wait_;
     bool trace_;
     bool skipTrace_;
     bool traceDma_;

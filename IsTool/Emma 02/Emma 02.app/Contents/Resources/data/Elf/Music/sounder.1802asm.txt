@@ -1,0 +1,47 @@
+// Sounder
+
+00      90      GHI 0
+01      A1      PLO 1       R1.0=00
+02      21      DEC 1       R1=R1-1
+03      81      GLO 1       D=R1.0
+04      A4      PLO 4       Put value in R4.0
+05      F8  06* LDI **      Load 'Cycle' (** Choose 'CYCLE' 0A...30)
+07      A2      PLO 2       Put value in R2.0   'Cycle'
+08      22      DEC 2       Decrement R2        'Cycle'
+09      82      GLO 2       D=R2.0              'Cycle'
+0A      32  02  BZ  02      Branch if D==00     'Cycle'
+0C      F8  09* LDI **      Load 'TEMPO' (** Choose 'TEMPO' 03...10)
+0E      B3      PHI 3       Put value in R3.1   'Tempo'
+0F      84      GLO 4       D=R4.0
+10      7E*     RSHL*       (** Choose 76 'RSHR' or 7E 'RSHL')
+11      3B* 17  BNF* 17     (** Choose 33 'BDF' or 3B 'BNF')
+13      FB* 09* XRI* 09*    (** Choose ALU F9,FA,FB,FC,FF)
+                            (** Choose immediate data from table)
+15      FA* 6D* *** 6D*     (** Choose ALU F9,FA,FB,FC,FF)
+                            (** Choose immediate data from table)
+17      A4      PLO 4       Put value in R4.0
+18      7A      REQ         Q=OFF
+19      84      GLO 4       D=R4.0
+1A      A5      PLO 5       Put value in R5.0
+1B      25      DEC 5       Dec. R5
+1C      23      DEC 3       Dec. R3             'Tempo'
+1D      85      GLO 5       D=R5.0
+1E      3A 1B   BNZ 1B      If not 00 then goto 1B
+20      93      GHI 3       D=R3.1              'Tempo'
+21      32 08   BZ  08      Branch to 08 if D==00
+23      31 18   BQ          If Q=1 then goto 18
+25      7B      SEQ         Turn on Q
+26      30 19   BRA 19      Branch to loc 19
+
+// ** Choices: from addresses marked *
+Addr    SONGBIRD    WITCH_DOCTOR    ELF_DUET    OVERTURE
+        --------    ------------    --------    --------
+06      30          11              06          06
+0D      03          09              09          09
+10      76          76              7E          7E
+11      3B          3B              33          3B
+13      FF          FB              FB          FB
+14      B7          C9              09          09
+15      FB          FA              FA          FA
+16      BF          BF              6D          6D
+

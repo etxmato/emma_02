@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>Cidelsa</name>
+        <config>Xchase on Altair HW, 12K ROM</config>
+        <clock>3.579</clock>
+        <boot>0</boot>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init>
+        <init type="ef4">1</init>
+        <statusbar out="1">cidelsa</statusbar>
+        <dirname>Cidelsa</dirname>
+    </system>
+
+     <memory>
+         <rom>
+             <start>0</start>
+             <end>0x2FFF</end>
+             <filename verify="true">Xchase_altair_12K.hex</filename>
+         </rom>
+
+         <mainram>
+             <start>0x3000</start>
+             <end>0x30FF</end>
+        </mainram>
+    </memory>
+     
+    <video type="1870">
+        <pagesize type="ram">0x3ff</pagesize>
+        <charsize type="ram">0x7ff</charsize>
+        <pcbmask>0xff</pcbmask>
+        <maxcharlines>8</maxcharlines>
+        <maxscreenlines>25</maxscreenlines> <!-- 24, 25 or 27 for Cidelsa DRACO) -->
+        <mode>ntsc</mode>
+        <int>2</int>
+        <ef type="display" pol="rev" write="enable">1</ef>
+        <clock>5.626</clock>
+        <colorram type="cidelsa" />
+        <rotate />
+    </video>
+
+    <dip>
+        <in>2</in>
+        <value>0xf</value>
+    </dip>
+   
+    <efbuttons>
+        <pressed>0</pressed>
+        <ef2>13</ef2>
+        <ef3>66</ef3>
+        <ef4>65</ef4>
+    </efbuttons>
+
+    <bitkeypad pad="a">
+        <in>1</in>
+        <bit key="49">1</bit>     <!-- 1 player -->
+        <bit key="50">2</bit>     <!-- 2 player -->
+        <bit key="316">3</bit>    <!-- right -->
+        <bit key="314">4</bit>    <!-- left -->
+        <bit key="32">5</bit>     <!-- space / fire -->
+    </bitkeypad>
+
+    <bitkeypad pad="b">
+        <in>4</in>
+        <bit key="315">0</bit>    <!-- up -->
+        <bit key="317">1</bit>    <!-- down -->
+        <bit key="396">2</bit>    <!-- control-->
+    </bitkeypad>
+
+    <debugger>
+        <scrt mode="on">
+            <call reg="4">0x1da1</call>
+            <return reg="5">0x1db1</return>
+        </scrt>
+        
+        <assembler>
+            <filename>xchase</filename>
+            <code_start>0</code_start>
+            <code_end>0x2FFF</code_end>
+        </assembler>
+    </debugger>
+
+</emmaconfig>

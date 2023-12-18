@@ -132,8 +132,8 @@ VtSetupDialog::VtSetupDialog(wxWindow* parent)
         XRCCTRL(*this, "VtXmodemPacketSizeChoice", wxChoice)->Hide();
         XRCCTRL(*this, "ESCError", wxCheckBox)->Hide();
         XRCCTRL(*this, "SerialLog", wxCheckBox)->Hide();
-        XRCCTRL(*this, "Uart1854", wxCheckBox)->Hide();
-        XRCCTRL(*this, "Uart16450", wxCheckBox)->Hide();
+//        XRCCTRL(*this, "Uart1854", wxCheckBox)->Hide();
+//        XRCCTRL(*this, "Uart16450", wxCheckBox)->Hide();
         XRCCTRL(*this, "VtRtcClear", wxCheckBox)->Hide();
         XRCCTRL(*this, "VtSetupCharRomButton", wxButton)->Hide();
         XRCCTRL(*this, "VtSetupCharRom", wxComboBox)->Hide();
@@ -459,7 +459,8 @@ void VtSetupDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
     
 #ifdef __WXMSW__
    int selection = XRCCTRL(*this, "VtSerialPortChoice", wxChoice)->GetSelection();
-    elfConfiguration_.serialPort_= XRCCTRL(*this, "VtSerialPortChoice", wxChoice)->GetString(selection);
+   if (selection != -1)
+		elfConfiguration_.serialPort_= XRCCTRL(*this, "VtSerialPortChoice", wxChoice)->GetString(selection);
 #else
     elfConfiguration_.serialPort_= XRCCTRL(*this, "VtSerialPort", wxTextCtrl)->GetValue();
 #endif

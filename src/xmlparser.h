@@ -22,6 +22,7 @@ private:
     void parseXml_IdeDisk(int computer, wxXmlNode &node);
     void parseXml_FdcDisk(int computer, wxXmlNode &node);
     void parseXml_PixieVideo(int computer, wxXmlNode &node);
+    void parseXml_1862Video(int computer, wxXmlNode &node);
     void parseXml_1864Video(int computer, wxXmlNode &node);
     void parseXml_Vip2KVideo(int computer, wxXmlNode &node);
     void parseXml_fredVideo(int computer, wxXmlNode &node);
@@ -43,10 +44,12 @@ private:
     void parseXml_CosmicosKeypad (int computer, wxXmlNode &node);
     void parseXml_BitKeypad (int computer, int padnumber, wxXmlNode &node);
     void parseXml_CvKeypad (int computer, wxXmlNode &node);
-    void parseXml_LatchKeypad (int computer, wxXmlNode &node);
+    void parseXml_LatchKeypad (int computer, int pad, wxXmlNode &node);
     void parseXml_FredKeypad (int computer, wxXmlNode &node);
+    void parseXml_EtiKeypad (int computer, wxXmlNode &node);
     void parseXml_EfButtons (int computer, wxXmlNode &node);
     void parseXml_FrontPanel (int computer, wxXmlNode &node);
+    void parseXml_FrontPanelItem (int computer, wxXmlNode &node);
     void parseXml_SerialVt (int computer, wxXmlNode &node);
     void parseXml_UartVt (int computer, wxXmlNode &node, bool uart16450);
     void parseXml_Printer (int computer, wxXmlNode &node, int printerType);
@@ -56,6 +59,7 @@ private:
     void parseXml_Splash (int computer, wxXmlNode &node);
     void parseXml_VideoDump (int computer, wxXmlNode &node);
     void parseXml_MemAccess (int computer, wxXmlNode &node);
+    void parseXml_Gui (int computer, wxXmlNode &node);
     void parseXml_Diag (int computer, wxXmlNode &node);
     void parseXml_Debugger (int computer, wxXmlNode &node);
     void parseXml_Scrt (int computer, wxXmlNode &node);
@@ -63,6 +67,7 @@ private:
     void parseXml_BatchWav (int computer, wxXmlNode &node);
     void parseXml_QSound (int computer, wxXmlNode &node);
     void parseXml_OutBitSound (int computer, wxXmlNode &node);
+    void parseXml_Cdp1863Sound (int computer, wxXmlNode &node);
     void parseXml_Dip (int computer, wxXmlNode &node);
     void parseXml_IoGroup (int computer, wxXmlNode &node);
     void parseXml_Panel (int computer, wxXmlNode &node);
@@ -120,6 +125,8 @@ private:
     wxString wavFileDir[2];
     wxString floppyFileDir[FDCTYPE_MAX][4];
 
+    size_t guiItemConfigNumber_;
+    
     DECLARE_EVENT_TABLE()
 };
 

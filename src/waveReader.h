@@ -48,7 +48,7 @@ private:
     long sampleRate_;
     long fileSize_;
     long sizeOfSampleData_;
-    long dataPosition_;
+    wxFileOffset dataPosition_;
     int bitsPerSample_;
     wxString fileName_;
 };

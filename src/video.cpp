@@ -38,6 +38,7 @@ END_EVENT_TABLE()
 VideoScreen::VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int computerType, int videoNumber)
 : wxWindow(parent, wxID_ANY, wxDefaultPosition, size)
 {
+    vipiiRcaMode_ = false;
     zoom_ = zoom;
     xZoomFactor_ = 1;
     computerType_ = computerType;
@@ -48,6 +49,18 @@ VideoScreen::VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int 
 VideoScreen::VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int computerType, int videoNumber, double xZoomFactor)
 : wxWindow(parent, wxID_ANY, wxDefaultPosition, size)
 {
+    vipiiRcaMode_ = false;
+    zoom_ = zoom;
+    xZoomFactor_ = xZoomFactor;
+    computerType_ = computerType;
+    vt100_ = false;
+    videoNumber_ = videoNumber;
+}
+
+VideoScreen::VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int computerType, int videoNumber, double xZoomFactor, bool vipiiRcaMode)
+: wxWindow(parent, wxID_ANY, wxDefaultPosition, size)
+{
+    vipiiRcaMode_ = vipiiRcaMode;
     zoom_ = zoom;
     xZoomFactor_ = xZoomFactor;
     computerType_ = computerType;
@@ -58,6 +71,7 @@ VideoScreen::VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int 
 VideoScreen::VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int computerType, bool vt100, int uartNumber)
 : wxWindow(parent, wxID_ANY, wxDefaultPosition, size)
 {
+    vipiiRcaMode_ = false;
     zoom_ = zoom;
     xZoomFactor_ = 1;
     computerType_ = computerType;
@@ -155,7 +169,7 @@ void VideoScreen::onChar(wxKeyEvent& event)
             }
         }
     }
-    if (computerType_ == VIPII)
+    if (computerType_ == VIPII  || vipiiRcaMode_)
     {
 #ifdef __WXMAC__
         if (event.GetModifiers() == wxMOD_CONTROL)
@@ -320,6 +334,7 @@ void VideoScreen::onKeyUp(wxKeyEvent& event)
             break;
 
             case XML:
+                lastKey_ = 0;
                 if (!p_Computer->keyUpReleased(event.GetKeyCode(), event))
                     event.Skip();
             break;
@@ -479,7 +494,7 @@ void Video::updateStatusLed(bool WXUNUSED(status))
 
 void Video::updateExpansionLed(bool WXUNUSED(status))
 {
-    p_Main->message("Illegal call to update exmpansion led");
+    p_Main->message("Illegal call to update expansion led");
 }
 
 void Video::dataAvailable()

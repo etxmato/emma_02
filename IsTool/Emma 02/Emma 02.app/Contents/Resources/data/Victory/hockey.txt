@@ -1,0 +1,39 @@
+                                ======
+                                Hockey
+                                ======
+
+16th Sept 2000
+
+This is an improved tennis game for the RCA Studio II. It is a 1k
+cartridge. As with the "invaders" game there is spare ROM space
+if you wish to extend the game (about 1/4k in total).
+
+You can get more by removing the (Ahem!) title screen. I think this
+RCAS2 game is unique in having one, most of them present a helpful
+blank screen. I saw an eBay auction where the chap didn't know if
+it worked..... nothing happened when he switched it on. That's what
+it does.
+
+Keys :
+        Up/Down         Key 8 and Key 2 on the appropriate pads
+        Serve           Either Key 0
+
+Start:
+        1       Hockey (Sort of)
+        2       Soccer (or doubles tennis ?)
+        3       Pong
+        4       Squash
+then
+        8       Easy
+        9       Hard
+
+This game is freeware.
+
+The source is included. This is written in 1802 Assembler code, and
+will assemble using TASM301.ZIP, and TASM18.TAB (see my website),
+and the cart can be build using MCART.EXE.
+
+http://www.classicgaming.com/studio2
+
+Paul Robson (autismuk@classicgaming.com)
+

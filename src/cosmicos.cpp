@@ -108,23 +108,23 @@ void CosmicosScreen::init()
     SetFont(defaultFont);
 #endif
 
-    mpSwitchButton = new SwitchButton(dc, HORIZONTAL_BUTTON, wxColour(255, 255, 255), BUTTON_LEFT, offsetX, offsetY+10, "");
+    mpSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_HORIZONTAL, wxColour(255, 255, 255), BUTTON_LEFT, offsetX, offsetY+10, "");
     
-    ramSwitchButton = new SwitchButton(dc, HORIZONTAL_BUTTON, wxColour(255, 255, 255), !p_Main->getNvRamDisbale(XML), offsetX+140, offsetY+10, "");
+    ramSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_HORIZONTAL, wxColour(255, 255, 255), !p_Main->getNvRamDisbale(XML), offsetX+140, offsetY+10, "");
     
 #if defined (__WXMAC__)
-    osx_stepButtonPointer = new HexButton(dc, COSMICOS_HEX_BUTTON, offsetX, offsetY+40, "S");
-    osx_clearButtonPointer = new HexButton(dc, COSMICOS_HEX_BUTTON, offsetX, offsetY+70, "C");
-    osx_enterButtonPointer = new HexButton(dc, COSMICOS_HEX_BUTTON, offsetX, offsetY+100, "E");
-    osx_text_resetButtonPointer = new HexButton(dc, COSMICOS_HEX_BUTTON, offsetX+70+30*(7-0), offsetY+40, "R");
-    osx_pauseButtonPointer = new HexButton(dc, COSMICOS_HEX_BUTTON, offsetX+70+30*(7-1), offsetY+40, "P");
-    osx_text_loadButtonPointer = new HexButton(dc, COSMICOS_HEX_BUTTON, offsetX+70+30*(7-2), offsetY+40, "L");
-    osx_text_runButtonPointer = new HexButton(dc, COSMICOS_HEX_BUTTON, offsetX+70+30*(7-3), offsetY+40, "G");
+    osx_stepButtonPointer = new HexButton(dc, PUSH_BUTTON_SMALL, offsetX, offsetY+40, "S");
+    osx_clearButtonPointer = new HexButton(dc, PUSH_BUTTON_SMALL, offsetX, offsetY+70, "C");
+    osx_enterButtonPointer = new HexButton(dc, PUSH_BUTTON_SMALL, offsetX, offsetY+100, "E");
+    osx_text_resetButtonPointer = new HexButton(dc, PUSH_BUTTON_SMALL, offsetX+70+30*(7-0), offsetY+40, "R");
+    osx_pauseButtonPointer = new HexButton(dc, PUSH_BUTTON_SMALL, offsetX+70+30*(7-1), offsetY+40, "P");
+    osx_text_loadButtonPointer = new HexButton(dc, PUSH_BUTTON_SMALL, offsetX+70+30*(7-2), offsetY+40, "L");
+    osx_text_runButtonPointer = new HexButton(dc, PUSH_BUTTON_SMALL, offsetX+70+30*(7-3), offsetY+40, "G");
     for (int i=0; i<8; i++)
     {
         switchNumber.Printf("%i", i);
-        ledPointer[i] = new Led(dc, offsetX+77+30*(7-i), offsetY+80, COSMICOSLED);
-        osx_text_dataSwitchPointer[i] = new HexButton(dc, COSMICOS_HEX_BUTTON, offsetX+70+30*(7-i), offsetY+100, switchNumber);
+        ledPointer[i] = new Led(dc, offsetX+77+30*(7-i), offsetY+80, LED_SMALL_RED);
+        osx_text_dataSwitchPointer[i] = new HexButton(dc, PUSH_BUTTON_SMALL, offsetX+70+30*(7-i), offsetY+100, switchNumber);
         if (i == 3)
             offsetX -= 10;
     }
@@ -147,17 +147,17 @@ void CosmicosScreen::init()
     for (int i=0; i<8; i++)
     {
         switchNumber.Printf("%i", i);
-        ledPointer[i] = new Led(dc, offsetX+77+30*(7-i), offsetY+80, COSMICOSLED);
+        ledPointer[i] = new Led(dc, offsetX+77+30*(7-i), offsetY+80, LED_SMALL_RED);
         text_dataSwitchPointer[i] = new wxButton(this, i+10, switchNumber, wxPoint(offsetX+70+30*(7-i), offsetY+100), wxSize(25, 25));
         if (i == 3)
             offsetX -= 10;
     }
 #endif
     offsetX = 10;
-    resetLedPointer = new Led(dc, offsetX+77+30*(7-0), offsetY+20, COSMICOSLED);
-    pauseLedPointer = new Led(dc, offsetX+77+30*(7-1), offsetY+20, COSMICOSLED);
-    loadLedPointer = new Led(dc, offsetX+77+30*(7-2), offsetY+20, COSMICOSLED);
-    runLedPointer = new Led(dc, offsetX+77+30*(7-3), offsetY+20, COSMICOSLED);
+    resetLedPointer = new Led(dc, offsetX+77+30*(7-0), offsetY+20, LED_SMALL_RED);
+    pauseLedPointer = new Led(dc, offsetX+77+30*(7-1), offsetY+20, LED_SMALL_RED);
+    loadLedPointer = new Led(dc, offsetX+77+30*(7-2), offsetY+20, LED_SMALL_RED);
+    runLedPointer = new Led(dc, offsetX+77+30*(7-3), offsetY+20, LED_SMALL_RED);
 
     offsetX += 10;
     for (int i=0; i<2; i++)
@@ -165,7 +165,7 @@ void CosmicosScreen::init()
         dataPointer[i] = new Til313();
         dataPointer[i]->init(dc, offsetX+45+i*28, offsetY+20);
     }
-    qLedPointer = new Led(dc, offsetX+100, offsetY+20, COSMICOSLED);
+    qLedPointer = new Led(dc, offsetX+100, offsetY+20, LED_SMALL_RED);
 
     mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/cosmicos.png", wxBITMAP_TYPE_PNG);
 
@@ -841,7 +841,7 @@ void Cosmicos::cycle(int type)
         break;
 
         case PIXIECYCLE:
-            pixiePointer->cyclePixieTelmac();
+            pixiePointer->cyclePixieCdp1864();
         break;
 
         case COSMICOS7SEG:
@@ -1315,7 +1315,7 @@ void Cosmicos::activateMainWindow()
 
 void Cosmicos::releaseButtonOnScreen(HexButton* buttonPointer, int buttonType)
 {
-    if (buttonType == PANEL_HEX_BUTTON || buttonType == PANEL_WIDE_HEX_BUTTON)
+    if (buttonType == PUSH_BUTTON || buttonType == PUSH_BUTTON_RECTANGLE)
         p_Cosmicoshex->releaseButtonOnScreen(buttonPointer);
     else
         cosmicosScreenPointer->releaseButtonOnScreen(buttonPointer);

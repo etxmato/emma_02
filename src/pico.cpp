@@ -816,6 +816,8 @@ void Pico::configureExtensions()
     {
         p_Serial = new Serial(PICO, elfClockSpeed_, elfConfiguration);
         p_Serial->configure(elfConfiguration.baudR, elfConfiguration.baudT, elfConfiguration.ioConfiguration);
+        if (elfConfiguration.useUart16450)
+            configureUart16450(elfConfiguration.ioConfiguration);
     }
 
     if (elfConfiguration.usePixie)
@@ -897,7 +899,7 @@ void Pico::configureExtensions()
         p_Printer->init(p_Printer, PRINTER_BASIC);
     }
 
-    setQsound (elfConfiguration.qSound_);
+    setSoundType (elfConfiguration.qSound_);
 
     if (elfConfiguration.useKeyboard)
         configureKeyboard(PICO, elfConfiguration.ioConfiguration);
@@ -1074,3 +1076,4 @@ void Pico::OnRtcTimer(wxTimerEvent&WXUNUSED(event))
     p_Main->updateDebugMemory(0xa);
     p_Main->updateDebugMemory(0xc);
 }
+

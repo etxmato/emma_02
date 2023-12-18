@@ -353,6 +353,8 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
     
     conf[elfType].volume_ = 0;
 
+    elfConfiguration[elfType].useTapeHw = false;
+    elfConfiguration[elfType].vtShow = true;
     conf[elfType].emsConfigNumber_ = 0;
     conf[elfType].videoNumber_ = 0;
 
@@ -389,7 +391,7 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
     conf[elfType].saveEndString_ = "";
     conf[elfType].saveExecString_ = "";
 
-    elfConfiguration[elfType].qSound_ = (int)configPointer->Read(elfTypeStr+"/Enable_Q_Sound", 1l);
+    elfConfiguration[elfType].qSound_ = (int)configPointer->Read(elfTypeStr+"/Enable_Q_Sound", 4l);
     elfConfiguration[elfType].vtType = (int)configPointer->Read(elfTypeStr+"/VT_Type", 2l);
     elfConfiguration[elfType].vt52SetUpFeature_ = configPointer->Read(elfTypeStr+"/VT52Setup", 0x00004092l);
     elfConfiguration[elfType].vt100SetUpFeature_ = configPointer->Read(elfTypeStr+"/VT100Setup", 0x0000ca52l);
@@ -504,13 +506,13 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
             XRCCTRL(*this, "VTType"+elfTypeStr, wxChoice)->SetSelection(EXTERNAL_TERMINAL);
         else
             XRCCTRL(*this, "VTType"+elfTypeStr, wxChoice)->SetSelection(elfConfiguration[elfType].vtType);
-        XRCCTRL(*this, "BeepFrequency"+elfTypeStr, wxTextCtrl)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
+        XRCCTRL(*this, "BeepFrequency"+elfTypeStr, wxTextCtrl)->Enable(elfConfiguration[elfType].qSound_ == SOUND_EXT_BEEPER);
 
         XRCCTRL(*this, "VTBaudRChoice" + elfTypeStr, wxChoice)->SetSelection(elfConfiguration[elfType].baudR);
         XRCCTRL(*this, "VTBaudTChoice" + elfTypeStr, wxChoice)->SetSelection(elfConfiguration[elfType].baudT);
 //        XRCCTRL(*this, "VTBaudRChoice" + elfTypeStr, wxChoice)->Enable((elfConfiguration[elfType].vtType != VTNONE) && elfConfiguration[elfType].useUart);
-        XRCCTRL(*this, "BeepFrequencyText"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
-        XRCCTRL(*this, "BeepFrequencyTextHz"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
+        XRCCTRL(*this, "BeepFrequencyText"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == SOUND_EXT_BEEPER);
+        XRCCTRL(*this, "BeepFrequencyTextHz"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == SOUND_EXT_BEEPER);
 //        XRCCTRL(*this, "VTBaudRText" + elfTypeStr, wxStaticText)->Enable((elfConfiguration[elfType].vtType != VTNONE) && elfConfiguration[elfType].useUart);
 //        XRCCTRL(*this, "VTBaudTText" + elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].vtType != VTNONE);
         XRCCTRL(*this,"AddressText1"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].useElfControlWindows);
@@ -556,11 +558,9 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
         beepFrequency.Printf("%d", conf[elfType].beepFrequency_);
         XRCCTRL(*this, "BeepFrequency"+elfTypeStr, wxTextCtrl)->ChangeValue(beepFrequency);
 
-        XRCCTRL(*this, "Turbo"+elfTypeStr, wxCheckBox)->SetValue(conf[elfType].turbo_);
         turboGui(elfTypeStr);
 
         XRCCTRL(*this, "TurboClock"+elfTypeStr, wxTextCtrl)->SetValue(conf[elfType].turboClock_);
-        XRCCTRL(*this, "AutoCasLoad"+elfTypeStr, wxCheckBox)->SetValue(conf[elfType].autoCassetteLoad_);
         setTapeType(elfTypeStr, elfType);
 
         XRCCTRL(*this, "Volume"+elfTypeStr, wxSlider)->SetValue(conf[elfType].volume_);
@@ -1481,11 +1481,11 @@ void GuiElf::onQsound(wxCommandEvent&event)
 {
     elfConfiguration[selectedComputer_].qSound_ = event.GetSelection();
     if ((selectedComputer_ == runningComputer_) && computerRunning_)
-        p_Computer->setQsound(elfConfiguration[selectedComputer_].qSound_);
+        p_Computer->setSoundType(elfConfiguration[selectedComputer_].qSound_);
 
-    XRCCTRL(*this, "BeepFrequencyText"+computerInfo[selectedComputer_].gui, wxStaticText)->Enable(elfConfiguration[selectedComputer_].qSound_ == QSOUNDEXT);
-    XRCCTRL(*this, "BeepFrequencyTextHz"+computerInfo[selectedComputer_].gui, wxStaticText)->Enable(elfConfiguration[selectedComputer_].qSound_ == QSOUNDEXT);
-    XRCCTRL(*this, "BeepFrequency"+computerInfo[selectedComputer_].gui, wxTextCtrl)->Enable(elfConfiguration[selectedComputer_].qSound_ == QSOUNDEXT);
+    XRCCTRL(*this, "BeepFrequencyText"+computerInfo[selectedComputer_].gui, wxStaticText)->Enable(elfConfiguration[selectedComputer_].qSound_ == SOUND_EXT_BEEPER);
+    XRCCTRL(*this, "BeepFrequencyTextHz"+computerInfo[selectedComputer_].gui, wxStaticText)->Enable(elfConfiguration[selectedComputer_].qSound_ == SOUND_EXT_BEEPER);
+    XRCCTRL(*this, "BeepFrequency"+computerInfo[selectedComputer_].gui, wxTextCtrl)->Enable(elfConfiguration[selectedComputer_].qSound_ == SOUND_EXT_BEEPER);
 }
 
 void GuiElf::onHexEf(wxCommandEvent&event)

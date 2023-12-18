@@ -19,12 +19,13 @@ class Pixie : public Video
 {
 public:
     Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, int videoNumber);
-    Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, int videoNumber, int videoType);
+    Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, int videoNumber, int videoType, IoConfiguration portConf);
     ~Pixie();
 
     void reset();
     virtual void configurePixie(IoConfiguration portConf);
     virtual void configurePixie() {};
+    void configurePixieIn(IoConfiguration portConf);
     void configurePixieSuper(IoConfiguration portConf);
     void configurePixieStudio2();
     void configurePixieCoinArcade();
@@ -39,6 +40,8 @@ public:
     void initiateColour(bool colour);
     void configurePixieNano();
     void configurePixieCosmicos();
+    void configureCdp1862(IoConfiguration portConf, bool autoBoot);
+    void configureCdp1863(IoConfiguration portConf);
     void configureCdp1864(IoConfiguration portConf);
     void initPixie();
     Byte efPixie();
@@ -47,7 +50,7 @@ public:
     virtual void outPixieBackGround();
     virtual void cyclePixie();
     void cyclePixieCoinArcade();
-    void cyclePixieTelmac();
+    void cyclePixieCdp1864();
     void dmaEnable();
     
     virtual void copyScreen();
@@ -65,6 +68,7 @@ public:
     void reBlit(wxDC &dc);
 
 protected:
+    IoConfiguration portConf_;
     PlotList *plotListPointer;
     Byte pbacking_[384][208];
     Byte color_[384][208];
@@ -89,6 +93,7 @@ protected:
     int graphicsX_;
 
     int updatePlot_;
+    int colourType_;
 
 private:
     wxString runningComputer_;
@@ -103,7 +108,7 @@ class PixieFred : public Pixie
 {
 public:
     PixieFred(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, int videoNumber);
-    PixieFred(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, int videoNumber, int videoType);
+    PixieFred(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, int videoNumber, int videoType, IoConfiguration portConf);
 
     void configurePixie();
     void configureFredVideo(IoConfiguration portConf);
@@ -121,7 +126,7 @@ class PixieVip2K : public Pixie
 {
 public:
     PixieVip2K(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, int videoNumber);
-    PixieVip2K(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, int videoNumber, int videoType);
+    PixieVip2K(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, int videoNumber, int videoType, IoConfiguration portConf);
 
     void configurePixie();
     void configureVip2K(IoConfiguration portConf);
@@ -165,6 +170,7 @@ class PixieEti : public Pixie
 {
 public:
     PixieEti(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, int videoNumber);
+    PixieEti(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, int videoNumber, int videoType, IoConfiguration portConf);
 
     void configurePixie();
     void copyScreen();

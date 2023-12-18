@@ -1,0 +1,114 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>JVIP</name>
+        <config>Chip-8</config>
+        <clock>1.79</clock>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init>
+        <init type="ef4">1</init>
+        <dirname>Velf</dirname>
+    </system>
+
+    <splash>
+        <text>Load Chip-8:&#xD;- Before startup in RAM field and press F12&#xD;- During runtime via LOAD button and press F12
+        </text>
+    </splash>
+
+    <memaccess>
+        <location>on</location>
+        <start>0x200</start>
+    </memaccess>
+
+    <locations>
+        <!-- Stop cassette -->
+        <stop_cas>0x80c0, 0x80ed</stop_cas>
+        
+        <!-- Start SAVE / LOAD -->
+        <start_cas_save>0x8091</start_cas_save>
+        <start_cas_load>0x80c2</start_cas_load>
+    </locations>
+    
+    <frontpanel type="velf" init="on">
+        <out>4</out>
+        <in>4</in>
+        <ef type="in">4</ef>
+    </frontpanel>
+
+    <bootstrap>
+        <address>0x8000</address>
+    </bootstrap>
+
+    <memory>
+        <rom mask="0xffff">
+            <start>0x8000</start>
+            <end>0xAFFF</end>
+            <filename verify="true">jvip310x.bin</filename>
+        </rom>
+
+        <ram>
+            <start>0x0000</start>
+            <end>0x01FF</end>
+            <filename>chip8.ram</filename>
+        </ram>
+
+        <mainram>
+            <start>0x0200</start>
+            <end>0x7FFF</end>
+            <dirname>Chip-8/Chip-8 Games</dirname>
+        </mainram>
+    </memory>
+    
+    <vt type="vt100" connection="serial">
+        <font>vt100.bin</font>
+        <ef pol="rev">2</ef>
+        <q pol="rev"></q>
+        <baud type="receive">9600</baud>
+        <baud type="transmit">9600</baud>
+        <border>0x0</border>
+        <color type="fore">0, 255, 0</color>
+        <color type="back">0, 0x40, 0</color>
+        <color type="high">0, 0xff, 0</color>
+    </vt>
+
+    <video type="pixie">
+        <out>1</out>
+        <in>1</in>
+        <ef>1</ef>
+        <border>33x33</border>
+        <pos>0, 530</pos>
+        <color type="fore">255, 255, 255</color>
+        <color type="back">0, 0, 0</color>
+     </video>
+
+    <keypad type="latch">
+        <out mask="0x0f">2</out>
+        <ef pol="rev">3</ef>
+    </keypad>
+    
+    <cassette decks="1">
+        <ef>2</ef>
+    </cassette>
+
+    <sound type="q">
+        <hw>650</hw>
+    </sound>
+
+    <debugger>
+        <scrt mode="on">
+            <call reg="4">0x8324</call>
+            <return reg="5">0x8336</return>
+        </scrt>
+
+        <assembler>
+            <filename>mycode</filename>
+            <code_start>0</code_start>
+            <code_end>0xFFF</code_end>
+        </assembler>
+    </debugger>
+
+</emmaconfig>

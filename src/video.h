@@ -9,6 +9,7 @@ class VideoScreen : public wxWindow
 public:
     VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int computerType, int videoNumber);
     VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int computerType, int videoNumber, double xZoomFactor);
+    VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int computerType, int videoNumber, double xZoomFactor, bool vipiiRcaMode);
     VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int computerType, bool vt100, int uartNumber);
     ~VideoScreen() {};
 
@@ -32,6 +33,7 @@ public:
     void setScale(double scaleX) {xZoomFactor_ = scaleX;};
 
 private:
+    bool vipiiRcaMode_;
     double zoom_;
     double xZoomFactor_;
     int computerType_;

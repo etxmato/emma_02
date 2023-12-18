@@ -259,6 +259,8 @@ void GuiCdp18s600::readCdp18s600Config()
     conf[MICROBOARD].saveEndString_ = "";
     conf[MICROBOARD].saveExecString_ = "";
 
+    elfConfiguration[MICROBOARD].useTapeHw = false;
+    elfConfiguration[MICROBOARD].vtShow = true;
     conf[MICROBOARD].emsConfigNumber_ = 0;
     conf[MICROBOARD].videoNumber_ = 0;
 
@@ -514,9 +516,7 @@ void GuiCdp18s600::readCdp18s600Config()
         XRCCTRL(*this, "Card5ChoiceMicroboard", wxChoice)->SetSelection(conf[MICROBOARD].microboardType_[4]);
 
         XRCCTRL(*this, "TurboClockMicroboard", wxTextCtrl)->SetValue(conf[MICROBOARD].turboClock_);
-        XRCCTRL(*this, "TurboMicroboard", wxCheckBox)->SetValue(conf[MICROBOARD].turbo_);
         turboGui("Microboard");
-        XRCCTRL(*this, "AutoCasLoadMicroboard", wxCheckBox)->SetValue(conf[MICROBOARD].autoCassetteLoad_);
 
         XRCCTRL(*this, "WavFileMicroboard", wxTextCtrl)->SetValue(conf[MICROBOARD].wavFile_[0]);
         XRCCTRL(*this, "WavFile1Microboard", wxTextCtrl)->SetValue(conf[MICROBOARD].wavFile_[1]);

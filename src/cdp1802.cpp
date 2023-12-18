@@ -295,7 +295,7 @@ void Cdp1802::dmaIn(Byte value)
 //    machineCycle(); // Using this will crash Elfs when tying in keys with Q sound on 'Hardware'
     if (singleStateStep_)
     {
-        showAddress(address_);
+        showCycleAddress(address_);
         showCycleData(value);
         singleStateStep();
     }
@@ -321,7 +321,7 @@ Byte Cdp1802::dmaOut()
     
     if (singleStateStep_)
     {
-        showAddress(address_);
+        showCycleAddress(address_);
         showCycleData(ret);
         singleStateStep();
     }
@@ -329,7 +329,7 @@ Byte Cdp1802::dmaOut()
     return ret;
 }
 
-Byte Cdp1802::pixieDmaOut(int *color)
+Byte Cdp1802::pixieDmaOut(int *color, int colourType)
 {
     showDmaLed();
     Byte ret;
@@ -368,12 +368,45 @@ Byte Cdp1802::pixieDmaOut(int *color)
         case ELF:
         case ELFII:
         case SUPERELF:
-        case XML:
         case PICO:
             *color = 0;
         break;
         case STUDIOIV:
             *color = colorMemory1864_[(scratchpadRegister_[0]&0xf) +  ((scratchpadRegister_[0]&0x3c0) >> 2)] & 0x7;
+        break;
+        case XML:
+            switch (colourType)
+            {
+                case PIXIE_COLOR_ETI:
+                    *color = colorMemory1864_[((scratchpadRegister_[0] >> 1) & 0xf8) + (scratchpadRegister_[0] & 0x7)] & 0x7;
+                break;
+                    
+                case PIXIE_COLOR_VIP:
+                    if (colourMask_ == 0)
+                        *color = 7;
+                    else
+                        *color = colorMemory1862_[scratchpadRegister_[0] & colourMask_] & 0x7;
+                break;
+                    
+                case PIXIE_COLOR_VICTORY:
+                    if (colourMask_ == 0)
+                        *color = 7;
+                    else
+                        *color = colorMemory1864_[((scratchpadRegister_[0] >> 2) & 0x38) + (scratchpadRegister_[0] & 0x7)] & 0x7;
+                break;
+
+                case PIXIE_COLOR_STUDIOIV:
+                    *color = colorMemory1864_[(scratchpadRegister_[0]&0xf) +  ((scratchpadRegister_[0]&0x3c0) >> 2)] & 0x7;
+                break;
+
+                case PIXIE_COLOR_TMC2000:
+                    *color = colorMemory1864_[scratchpadRegister_[0] & 0x3ff] & 0x7;
+                break;
+
+                default:
+                    *color = 0;
+                break;
+            }
         break;
         default:
             *color = colorMemory1864_[scratchpadRegister_[0] & 0x3ff] & 0x7;
@@ -388,7 +421,7 @@ Byte Cdp1802::pixieDmaOut(int *color)
 
     if (singleStateStep_)
     {
-        showAddress(address_);
+        showCycleAddress(address_);
         showCycleData(ret);
         singleStateStep();
     }
@@ -436,7 +469,7 @@ Byte Cdp1802::pixieDmaOut()
 
     if (singleStateStep_)
     {
-        showAddress(address_);
+        showCycleAddress(address_);
         showCycleData(ret);
         singleStateStep();
     }
@@ -569,7 +602,7 @@ void Cdp1802::interrupt()
         
         if (singleStateStep_)
         {
-            showAddress(scratchpadRegister_[programCounter_]);
+            showCycleAddress(scratchpadRegister_[programCounter_]);
             showCycleData(0);
             singleStateStep();
         }
@@ -1609,7 +1642,7 @@ void Cdp1802::cpuCycleStep()
     if (resetPressed_)
         p_Computer->resetPressed();
     
-    showAddress(address_);
+    showCycleAddress(address_);
     showCycleData(bus_);
     
     if (singleStateStep_)
@@ -3426,6 +3459,11 @@ void Cdp1802::cpuCycleFinalize()
 
         if (cpuState_ != STATE_EXECUTE_1) 
             cpuState_ = STATE_FETCH_1;
+        else
+        {
+            if (steps_ != 0)
+                playSaveLoad();
+        }
     }
     if (stopHiddenTrace_)
         skipTrace_ = false;

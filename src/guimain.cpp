@@ -40,7 +40,9 @@
 #include "wx/fileconf.h"
 #include "wx/wfstream.h"
 #include "wxcurl_http.h"
+#if !defined (_DEBUG)
 #include "wxcurl_dialog.h"
+#endif
 
 #if defined (__WXMSW__)
 // RTL_OSVERSIONINFOEXW is defined in winnt.h
@@ -389,8 +391,7 @@ void GuiMain::readElfPortConfig(int elfType, wxString elfTypeStr)
     elfConfiguration[elfType].ioConfiguration.printerEf = (int)configPointer->Read(elfTypeStr + "/PrinterEf", 0l);
     elfConfiguration[elfType].ioConfiguration.printerOutput = (int)configPointer->Read(elfTypeStr + "/PrinterOutput", 7l);
 
-    if (elfConfiguration[elfType].useEms)
-        elfConfiguration[elfType].ioConfiguration.emsOutput[0] = (int)configPointer->Read(elfTypeStr+"/EmsOutput", 7l);
+    elfConfiguration[elfType].ioConfiguration.emsOutput[0] = (int)configPointer->Read(elfTypeStr+"/EmsOutput", 7l);
 
     elfConfiguration[elfType].ioConfiguration.vt100Output = (int)configPointer->Read(elfTypeStr+"/Vt100Output", 7l);
     if (elfTypeStr != "Elf2K")
@@ -901,7 +902,7 @@ int GuiMain::getPrintMode()
 
 void GuiMain::openPrinterFrame(wxCommandEvent&WXUNUSED(event))
 {
-#define NO_FORECE_START false
+#define NO_FORCE_START false
     switch (runningComputer_)
     {
         case COMX:
@@ -909,7 +910,7 @@ void GuiMain::openPrinterFrame(wxCommandEvent&WXUNUSED(event))
         break;
 
         case XML:
-            p_Main->onXmlF4(NO_FORECE_START);
+            p_Main->onXmlF4(NO_FORCE_START);
         break;
             
         default:
@@ -1095,13 +1096,19 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool Gu
                 XRCCTRL(*this, "VTBaudRText"+elfTypeStr, wxStaticText)->Enable(false);
                 XRCCTRL(*this, "VTBaudTText"+elfTypeStr, wxStaticText)->Enable(false);
                 XRCCTRL(*this, "VtSetup"+elfTypeStr, wxButton)->Enable(false);
+                if (elfType != CDP18S020)
+                {
+                    XRCCTRL(*this, "AutoCasLoad"+elfTypeStr, wxCheckBox)->SetValue(conf[elfType].autoCassetteLoad_);
+                    if (elfType != MEMBER && elfType != VIP2K)
+                        XRCCTRL(*this, "Turbo"+elfTypeStr, wxCheckBox)->SetValue(conf[elfType].turbo_);
+                }
                 if (elfType == ELF || elfType == ELFII || elfType == SUPERELF || elfType == PICO)
                 {
                     XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->Enable(true);
                     XRCCTRL(*this, "QsoundText"+elfTypeStr, wxStaticText)->Enable(true);
-                    XRCCTRL(*this, "BeepFrequency"+elfTypeStr, wxTextCtrl)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
-                    XRCCTRL(*this, "BeepFrequencyText"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
-                    XRCCTRL(*this, "BeepFrequencyTextHz"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
+                    XRCCTRL(*this, "BeepFrequency"+elfTypeStr, wxTextCtrl)->Enable(elfConfiguration[elfType].qSound_ == SOUND_EXT_BEEPER);
+                    XRCCTRL(*this, "BeepFrequencyText"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == SOUND_EXT_BEEPER);
+                    XRCCTRL(*this, "BeepFrequencyTextHz"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == SOUND_EXT_BEEPER);
                 }
 
                 XRCCTRL(*this, "ZoomTextVt"+elfTypeStr, wxStaticText)->Enable(false);
@@ -1121,6 +1128,12 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool Gu
                 XRCCTRL(*this, "VTBaudTText"+elfTypeStr, wxStaticText)->Enable(true);
                 XRCCTRL(*this, "ZoomTextVt"+elfTypeStr, wxStaticText)->Enable(true);
                 XRCCTRL(*this, "VtSetup"+elfTypeStr, wxButton)->Enable(true);
+                if (elfType != CDP18S020)
+                {
+                    XRCCTRL(*this, "AutoCasLoad"+elfTypeStr, wxCheckBox)->SetValue(conf[elfType].autoCassetteLoad_);
+                    if (elfType != MEMBER && elfType != VIP2K)
+                        XRCCTRL(*this, "Turbo"+elfTypeStr, wxCheckBox)->SetValue(conf[elfType].turbo_);
+                }
                 XRCCTRL(*this, "ZoomSpinVt"+elfTypeStr, wxSpinButton)->Enable(true);
                 XRCCTRL(*this, "ZoomValueVt"+elfTypeStr, wxTextCtrl)->Enable(true);
                 XRCCTRL(*this, "StretchDot"+elfTypeStr, wxCheckBox)->Enable(true);
@@ -1129,10 +1142,10 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool Gu
             {
                 if (!(elfConfiguration[elfType].useUart || elfConfiguration[elfType].useUart16450))
                 {
-                    elfConfiguration[elfType].qSound_ = QSOUNDOFF;
+                    elfConfiguration[elfType].qSound_ = SOUND_OFF;
                     if (mode_.gui)
                     {
-                        XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->SetSelection(QSOUNDOFF);
+                        XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->SetSelection(SOUND_OFF);
                         XRCCTRL(*this, "BeepFrequency"+elfTypeStr, wxTextCtrl)->Enable(false);
                         XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->Enable(false);
                         XRCCTRL(*this, "BeepFrequencyText"+elfTypeStr, wxStaticText)->Enable(false);
@@ -1146,9 +1159,9 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool Gu
                     {
                         XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->Enable(true);
                         XRCCTRL(*this, "QsoundText"+elfTypeStr, wxStaticText)->Enable(true);
-                        XRCCTRL(*this, "BeepFrequency"+elfTypeStr, wxTextCtrl)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
-                        XRCCTRL(*this, "BeepFrequencyText"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
-                        XRCCTRL(*this, "BeepFrequencyTextHz"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
+                        XRCCTRL(*this, "BeepFrequency"+elfTypeStr, wxTextCtrl)->Enable(elfConfiguration[elfType].qSound_ == SOUND_EXT_BEEPER);
+                        XRCCTRL(*this, "BeepFrequencyText"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == SOUND_EXT_BEEPER);
+                        XRCCTRL(*this, "BeepFrequencyTextHz"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == SOUND_EXT_BEEPER);
                     }
                 }
             }
@@ -1164,6 +1177,12 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool Gu
                 XRCCTRL(*this, "VTBaudTText"+elfTypeStr, wxStaticText)->Enable(true);
                 XRCCTRL(*this, "ZoomTextVt"+elfTypeStr, wxStaticText)->Enable(true);
                 XRCCTRL(*this, "VtSetup"+elfTypeStr, wxButton)->Enable(true);
+                if (elfType != CDP18S020)
+                {
+                    XRCCTRL(*this, "AutoCasLoad"+elfTypeStr, wxCheckBox)->SetValue(conf[elfType].autoCassetteLoad_);
+                    if (elfType != MEMBER && elfType != VIP2K)
+                        XRCCTRL(*this, "Turbo"+elfTypeStr, wxCheckBox)->SetValue(conf[elfType].turbo_);
+                }
                 XRCCTRL(*this, "ZoomSpinVt"+elfTypeStr, wxSpinButton)->Enable(true);
                 XRCCTRL(*this, "ZoomValueVt"+elfTypeStr, wxTextCtrl)->Enable(true);
                 XRCCTRL(*this, "StretchDot"+elfTypeStr, wxCheckBox)->Enable(true);
@@ -1172,10 +1191,10 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool Gu
             {
                 if (!(elfConfiguration[elfType].useUart || elfConfiguration[elfType].useUart16450))
                 {
-                    elfConfiguration[elfType].qSound_ = QSOUNDOFF;
+                    elfConfiguration[elfType].qSound_ = SOUND_OFF;
                     if (mode_.gui)
                     {
-                        XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->SetSelection(QSOUNDOFF);
+                        XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->SetSelection(SOUND_OFF);
                         XRCCTRL(*this, "BeepFrequency"+elfTypeStr, wxTextCtrl)->Enable(false);
                         XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->Enable(false);
                         XRCCTRL(*this, "BeepFrequencyTextHz"+elfTypeStr, wxStaticText)->Enable(false);
@@ -1189,9 +1208,9 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool Gu
                     {
                         XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->Enable(true);
                         XRCCTRL(*this, "QsoundText"+elfTypeStr, wxStaticText)->Enable(true);
-                        XRCCTRL(*this, "BeepFrequency"+elfTypeStr, wxTextCtrl)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
-                        XRCCTRL(*this, "BeepFrequencyText"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
-                        XRCCTRL(*this, "BeepFrequencyTextHz"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
+                        XRCCTRL(*this, "BeepFrequency"+elfTypeStr, wxTextCtrl)->Enable(elfConfiguration[elfType].qSound_ == SOUND_EXT_BEEPER);
+                        XRCCTRL(*this, "BeepFrequencyText"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == SOUND_EXT_BEEPER);
+                        XRCCTRL(*this, "BeepFrequencyTextHz"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == SOUND_EXT_BEEPER);
                     }
                 }
             }
@@ -1206,14 +1225,20 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool Gu
                 XRCCTRL(*this, "VTBaudRText"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].useUart || elfConfiguration[elfType].useUart16450);
                 XRCCTRL(*this, "VTBaudTText"+elfTypeStr, wxStaticText)->Enable(true);
                 XRCCTRL(*this, "VtSetup"+elfTypeStr, wxButton)->Enable(true);
+                if (elfType != CDP18S020)
+                {
+                    XRCCTRL(*this, "AutoCasLoad"+elfTypeStr, wxCheckBox)->SetValue(false);
+                    if (elfType != MEMBER && elfType != VIP2K)
+                        XRCCTRL(*this, "Turbo"+elfTypeStr, wxCheckBox)->SetValue(false);
+                }
                 if (elfType == ELF || elfType == ELFII || elfType == SUPERELF || elfType == PICO)
                 {
                     if (!(elfConfiguration[elfType].useUart || elfConfiguration[elfType].useUart16450))
                     {
-                        elfConfiguration[elfType].qSound_ = QSOUNDOFF;
+                        elfConfiguration[elfType].qSound_ = SOUND_OFF;
                         if (mode_.gui)
                         {
-                            XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->SetSelection(QSOUNDOFF);
+                            XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->SetSelection(SOUND_OFF);
                             XRCCTRL(*this, "BeepFrequency"+elfTypeStr, wxTextCtrl)->Enable(false);
                             XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->Enable(false);
                             XRCCTRL(*this, "BeepFrequencyText"+elfTypeStr, wxStaticText)->Enable(false);
@@ -1225,9 +1250,9 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool Gu
                     {
                         XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->Enable(true);
                         XRCCTRL(*this, "QsoundText"+elfTypeStr, wxStaticText)->Enable(true);
-                        XRCCTRL(*this, "BeepFrequency"+elfTypeStr, wxTextCtrl)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
-                        XRCCTRL(*this, "BeepFrequencyText"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
-                        XRCCTRL(*this, "BeepFrequencyTextHz"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
+                        XRCCTRL(*this, "BeepFrequency"+elfTypeStr, wxTextCtrl)->Enable(elfConfiguration[elfType].qSound_ == SOUND_EXT_BEEPER);
+                        XRCCTRL(*this, "BeepFrequencyText"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == SOUND_EXT_BEEPER);
+                        XRCCTRL(*this, "BeepFrequencyTextHz"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == SOUND_EXT_BEEPER);
                    }
                 }
             }
@@ -1856,7 +1881,7 @@ void GuiMain::onAutoLoad(wxCommandEvent&event)
     conf[selectedComputer_].autoCassetteLoad_ = event.IsChecked();
     if (computerRunning_ && (selectedComputer_ == runningComputer_))
     {
-        XRCCTRL(*this, "CasLoad"+computerInfo[selectedComputer_].gui, wxButton)->Enable(!conf[runningComputer_].autoCassetteLoad_|elfConfiguration[runningComputer_].useTapeHw);
+        XRCCTRL(*this, "CasLoad"+computerInfo[selectedComputer_].gui, wxButton)->Enable(!conf[runningComputer_].autoCassetteLoad_);
         switch (runningComputer_)
         {
             case ELF2K:
@@ -1940,7 +1965,7 @@ void GuiMain::onCassetteLoad(wxCommandEvent& WXUNUSED(event))
         break;
 
         case XML:
-            if (elfConfiguration[XML].useTapeHw)
+            if (isTapeHwCybervision(XML))
             {
                 if (hwTapeState_ == HW_TAPE_STATE_REC)
                     p_Computer->pauseTape();
@@ -2064,7 +2089,7 @@ void GuiMain::onCassetteSave(wxCommandEvent& WXUNUSED(event))
         return;
     }
     
-    if (elfConfiguration[runningComputer_].useTapeHw)
+    if (isTapeHwCybervision(runningComputer_))
     {
         if (hwTapeState_ == HW_TAPE_STATE_REC)
         {
@@ -2237,7 +2262,7 @@ void GuiMain::onDataSaveButton(wxCommandEvent& WXUNUSED(event) )
 {
     wxFile outputFile;
     size_t dataLength, arrayLength;
-    int address, start, arrayStart, stringStart, dataEnd;
+    int address, start, arrayStart, stringStart, dataEnd, eop;
     char buffer[65536];
     wxString fileName, stringAdress;
 
@@ -2263,6 +2288,8 @@ void GuiMain::onDataSaveButton(wxCommandEvent& WXUNUSED(event) )
     {
         if (outputFile.Create(fileName, true))
         {
+            eop = p_Computer->getRam(conf[runningComputer_].eop_) << 8;
+            eop += p_Computer->getRam(conf[runningComputer_].eop_+1);
             arrayStart = p_Computer->getRam(conf[runningComputer_].arrayValue_) << 8;
             arrayStart += p_Computer->getRam(conf[runningComputer_].arrayValue_+1);
             stringStart = p_Computer->getRam(conf[runningComputer_].string_) << 8;
@@ -2274,8 +2301,8 @@ void GuiMain::onDataSaveButton(wxCommandEvent& WXUNUSED(event) )
             buffer [0] = 5;
             buffer [1] = conf[runningComputer_].pLoadSaveName_[0];
             buffer [2] = conf[runningComputer_].pLoadSaveName_[1];
-            buffer [3] = conf[runningComputer_].pLoadSaveName_[2];
-            buffer [4] = conf[runningComputer_].pLoadSaveName_[3];
+            buffer [3] = (dataLength >> 8) &0xff;
+            buffer [4] = dataLength &0xff;
             buffer [5] = (arrayLength >> 8) &0xff;
             buffer [6] = arrayLength &0xff;
             address = arrayStart;
@@ -2283,8 +2310,8 @@ void GuiMain::onDataSaveButton(wxCommandEvent& WXUNUSED(event) )
             dataLength += start;
             dataLength &= 0xffff;
             address &= 0xffff;
-            
-            for (size_t i=start; i<(dataLength); i++)
+
+            for (size_t i=start; i<dataLength; i++)
             {
                 buffer[i] = p_Computer->getRam(address);
                 address++;
@@ -2489,7 +2516,6 @@ void GuiMain::onLoad(bool load)
     p_Main->updateTitle();
 
 #define SHOW_ADDRESS_POPUP_WINDOW true
-    
     switch(selectedComputer_)
     {
         case COMX:
@@ -2503,7 +2529,9 @@ void GuiMain::onLoad(bool load)
         case MCDS:
         case MICROBOARD:
         case XML:
-            if (swFullPath.GetExt() == computerInfo[selectedComputer_].ploadExtension)
+            extension = swFullPath.GetExt();
+            extension.Trim();
+            if (extension == computerInfo[selectedComputer_].ploadExtension)
                 p_Computer->startComputerRun(load);
             else
                 p_Computer->readFile(fileName, NOCHANGE, 0, 0x10000, SHOWNAME, SHOW_ADDRESS_POPUP_WINDOW, conf[selectedComputer_].saveStart_);
@@ -3174,6 +3202,27 @@ void GuiMain::setPixiePos(int computerType, wxPoint position)
     }
 }
 
+wxPoint GuiMain::getCdp1862Pos(int computerType)
+{
+    return wxPoint(conf[computerType].cdp1862X_, conf[computerType].cdp1862Y_);
+}
+
+void GuiMain::setCdp1862Pos(int computerType, wxPoint position)
+{
+    if (!mode_.window_position_fixed)
+    {
+        conf[computerType].cdp1862X_ = -1;
+        conf[computerType].cdp1862Y_ = -1;
+    }
+    else
+    {
+        if (position.x > 0)
+            conf[computerType].cdp1862X_ = position.x;
+        if (position.y > 0)
+            conf[computerType].cdp1862Y_ = position.y;
+    }
+}
+
 wxPoint GuiMain::getCdp1864Pos(int computerType)
 {
     return wxPoint(conf[computerType].cdp1864X_, conf[computerType].cdp1864Y_);
@@ -3525,7 +3574,7 @@ int GuiMain::pload()
         length = inputFile.Read(buffer, 65536);
         address = conf[runningComputer_].basicRamAddress_;
         start = conf[runningComputer_].basicRamAddress_ & 0xf00;
-        if ((buffer [0] == 1 || buffer [0] == 2 || buffer [0] == 3 || buffer [0] == 4 || buffer [0] == 5 || buffer [0] == 6) && (buffer [1] == conf[runningComputer_].pLoadSaveName_[0]) && (buffer [2] == conf[runningComputer_].pLoadSaveName_[1]) && (buffer [3] == conf[runningComputer_].pLoadSaveName_[2]) && (buffer [4] == conf[runningComputer_].pLoadSaveName_[3]))
+        if ((buffer [0] == 1 || buffer [0] == 2 || buffer [0] == 3 || buffer [0] == 4 || buffer [0] == 5 || buffer [0] == 6) && (buffer [1] == conf[runningComputer_].pLoadSaveName_[0]) && (buffer [2] == conf[runningComputer_].pLoadSaveName_[1]))
         {
             switch(buffer [0])
             {
@@ -3804,7 +3853,7 @@ void GuiMain::setRealCas(int computerType)
 #endif
         XRCCTRL(*this, "Turbo"+computerInfo[computerType].gui, wxCheckBox)->Enable(useTape);
         if (computerType == XML)
-            XRCCTRL(*this, "AutoCasLoad"+computerInfo[computerType].gui, wxCheckBox)->Enable((useTape || elfConfiguration[computerType].useXmodem || elfConfiguration[computerType].useHexModem) & !elfConfiguration[computerType].useTapeHw);
+            XRCCTRL(*this, "AutoCasLoad"+computerInfo[computerType].gui, wxCheckBox)->Enable((useTape || elfConfiguration[computerType].useXmodem || elfConfiguration[computerType].useHexModem || isTapeHwFred(computerType)) & !isTapeHwCybervision(computerType));
         else
             XRCCTRL(*this, "AutoCasLoad"+computerInfo[computerType].gui, wxCheckBox)->Enable(useTape);
         if (computerRunning_ && (computerType == runningComputer_))
@@ -3866,7 +3915,7 @@ void GuiMain::setRealCas2(int computerType)
     {
         XRCCTRL(*this, "Turbo"+computerInfo[computerType].gui, wxCheckBox)->Enable(useTape || elfConfiguration[computerType].useXmodem || elfConfiguration[computerType].useHexModem);
         if (computerType == XML)
-            XRCCTRL(*this, "AutoCasLoad"+computerInfo[computerType].gui, wxCheckBox)->Enable((useTape || elfConfiguration[computerType].useXmodem || elfConfiguration[computerType].useHexModem) & !elfConfiguration[computerType].useTapeHw);
+            XRCCTRL(*this, "AutoCasLoad"+computerInfo[computerType].gui, wxCheckBox)->Enable((useTape || elfConfiguration[computerType].useXmodem || elfConfiguration[computerType].useHexModem || isTapeHwFred(computerType)) & !isTapeHwCybervision(computerType));
         else
             XRCCTRL(*this, "AutoCasLoad"+computerInfo[computerType].gui, wxCheckBox)->Enable(useTape);
         if (computerRunning_ && (computerType == runningComputer_))
@@ -3908,7 +3957,7 @@ void GuiMain::setRealCasOff(int computerType)
 #endif
     XRCCTRL(*this, "Turbo"+computerInfo[computerType].gui, wxCheckBox)->Enable(useTape);
     if (computerType == XML)
-        XRCCTRL(*this, "AutoCasLoad"+computerInfo[computerType].gui, wxCheckBox)->Enable((useTape || elfConfiguration[computerType].useXmodem || elfConfiguration[computerType].useHexModem) & !elfConfiguration[computerType].useTapeHw);
+        XRCCTRL(*this, "AutoCasLoad"+computerInfo[computerType].gui, wxCheckBox)->Enable((useTape || elfConfiguration[computerType].useXmodem || elfConfiguration[computerType].useHexModem || isTapeHwFred(computerType)) & !isTapeHwCybervision(computerType));
     else
         XRCCTRL(*this, "AutoCasLoad"+computerInfo[computerType].gui, wxCheckBox)->Enable(useTape);
     if (computerRunning_ && (computerType == runningComputer_))
@@ -4096,7 +4145,7 @@ bool GuiMain::startSave(int tapeNumber, wxString messageStr, bool cont)
     else
         p_Main->eventSetTapeState(TAPE_RECORD1, tapeString);
     
-    if (elfConfiguration[runningComputer_].useTapeHw)
+    if (isTapeHwCybervision(runningComputer_))
         p_Computer->startSaveTapeHw(filePath, tapeString);
     else
         p_Computer->startSaveTape(filePath, tapeString);
@@ -4535,7 +4584,7 @@ void GuiMain::enableTapeGui(bool status, int computerType)
     XRCCTRL(*this, "CasButton"+computerInfo[computerType].gui, wxButton)->Enable(status);
     XRCCTRL(*this, "WavFile"+computerInfo[computerType].gui, wxTextCtrl)->Enable(status);
     XRCCTRL(*this, "EjectCas"+computerInfo[computerType].gui, wxButton)->Enable(status);
-    XRCCTRL(*this, "AutoCasLoad"+computerInfo[computerType].gui, wxCheckBox)->Enable((status&!conf[computerType].realCassetteLoad_) & !elfConfiguration[computerType].useTapeHw);
+    XRCCTRL(*this, "AutoCasLoad"+computerInfo[computerType].gui, wxCheckBox)->Enable((status&!conf[computerType].realCassetteLoad_) & !isTapeHwCybervision(computerType));
     XRCCTRL(*this, "Turbo"+computerInfo[computerType].gui, wxCheckBox)->Enable(status&!conf[computerType].realCassetteLoad_);
     XRCCTRL(*this, "TurboClock"+computerInfo[computerType].gui, wxTextCtrl)->Enable(status);
     XRCCTRL(*this, "TurboMhzText"+computerInfo[computerType].gui, wxStaticText)->Enable(status);
@@ -4577,7 +4626,7 @@ void GuiMain::enableLoadGui(bool status)
             XRCCTRL(*this, "WavFile"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(status);
             XRCCTRL(*this, "EjectCas"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
         }
-        XRCCTRL(*this, "AutoCasLoad"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable((status&!conf[runningComputer_].realCassetteLoad_) & !elfConfiguration[runningComputer_].useTapeHw);
+        XRCCTRL(*this, "AutoCasLoad"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable((status&!conf[runningComputer_].realCassetteLoad_) & !isTapeHwCybervision(runningComputer_));
         XRCCTRL(*this, "Turbo"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable(status&!conf[runningComputer_].realCassetteLoad_);
         if (!status)
         {
@@ -4594,7 +4643,7 @@ void GuiMain::enableLoadGui(bool status)
     {
         if (runningComputer_ == ELFII || runningComputer_ == SUPERELF || runningComputer_ == ELF || runningComputer_ == ELF2K || runningComputer_ == PICO)
             XRCCTRL(*this, "Tape"+computerInfo[runningComputer_].gui, wxButton)->Enable(true);
-        XRCCTRL(*this, "AutoCasLoad"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable(true  & !elfConfiguration[runningComputer_].useTapeHw);
+        XRCCTRL(*this, "AutoCasLoad"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable(true  & !isTapeHwCybervision(runningComputer_));
         XRCCTRL(*this, "Turbo"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable(true);
         if (runningComputer_ != XML || elfConfiguration[runningComputer_].useTape || elfConfiguration[runningComputer_].useTapeHw)
         {
@@ -4607,10 +4656,10 @@ void GuiMain::enableLoadGui(bool status)
     }
     if (!conf[runningComputer_].autoCassetteLoad_)
     {
-        if (runningComputer_ == FRED1 || runningComputer_ == FRED1_5)
+        if (isTapeHwFred(runningComputer_))
             XRCCTRL(*this, "CasPause"+computerInfo[runningComputer_].gui, wxButton)->Enable(false);
-        XRCCTRL(*this, "CasStop"+computerInfo[runningComputer_].gui, wxButton)->Enable(false);
-        XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxButton)->Enable((status&!conf[runningComputer_].realCassetteLoad_)|elfConfiguration[runningComputer_].useTapeHw);
+        XRCCTRL(*this, "CasStop"+computerInfo[runningComputer_].gui, wxButton)->Enable(status&!conf[runningComputer_].realCassetteLoad_);
+        XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxButton)->Enable(status&!conf[runningComputer_].realCassetteLoad_);
         if (runningComputer_ == ELF2K || runningComputer_ == XML)
         {
             XRCCTRL(*this, "CasSave"+computerInfo[runningComputer_].gui, wxButton)->Enable(status&!elfConfiguration[runningComputer_].useHexModem);
@@ -4624,7 +4673,7 @@ void GuiMain::enableLoadGui(bool status)
             XRCCTRL(*this, "CasSave1"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
         }
     }
-    if (runningComputer_ == XML)
+    if (runningComputer_ == XML && isTapeHwCybervision(runningComputer_))
     {
         if (elfConfiguration[runningComputer_].useTapeHw)
         {
@@ -4676,7 +4725,7 @@ void GuiMain::setTapeState(int tapeState, wxString tapeNumber)
     if (!mode_.gui)
         return;
 
-    if (runningComputer_ == FRED1 || runningComputer_ == FRED1_5)
+    if (isTapeHwFred(runningComputer_))
     {
         if (tapeState == TAPE_PAUSE)
         {
@@ -4702,7 +4751,7 @@ void GuiMain::setTapeState(int tapeState, wxString tapeNumber)
     XRCCTRL(*this, "CasButton"+tapeNumber+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState == TAPE_STOP);
     XRCCTRL(*this, "WavFile"+tapeNumber+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(tapeState == TAPE_STOP);
     XRCCTRL(*this, "EjectCas"+tapeNumber+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState == TAPE_STOP);
-    XRCCTRL(*this, "AutoCasLoad"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable(((tapeState == TAPE_STOP)&!conf[runningComputer_].realCassetteLoad_) & !elfConfiguration[runningComputer_].useTapeHw);
+    XRCCTRL(*this, "AutoCasLoad"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable(((tapeState == TAPE_STOP)&!conf[runningComputer_].realCassetteLoad_) & !isTapeHwCybervision(runningComputer_));
     XRCCTRL(*this, "Turbo"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable((tapeState == TAPE_STOP)&!conf[runningComputer_].realCassetteLoad_);
     if (tapeState != TAPE_STOP)
     {
@@ -4714,7 +4763,7 @@ void GuiMain::setTapeState(int tapeState, wxString tapeNumber)
         XRCCTRL(*this, "TurboClock"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(XRCCTRL(*this, "Turbo"+computerInfo[runningComputer_].gui, wxCheckBox)->IsChecked());
         XRCCTRL(*this, "TurboMhzText"+computerInfo[runningComputer_].gui, wxStaticText)->Enable(XRCCTRL(*this, "Turbo"+computerInfo[runningComputer_].gui, wxCheckBox)->IsChecked());
     }
-    if (runningComputer_ == XML)
+    if (runningComputer_ == XML && isTapeHwCybervision(runningComputer_))
     {
         if (tapeState == TAPE_FF)
             XRCCTRL(*this, "CasForward"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(forwardGreenBitmap);
@@ -4737,7 +4786,7 @@ void GuiMain::setTapeState(int tapeState, wxString tapeNumber)
     }
     if (conf[runningComputer_].autoCassetteLoad_)
     {
-        if (runningComputer_ == XML)
+        if (runningComputer_ == XML && isTapeHwCybervision(runningComputer_))
         {
             if (tapeState == TAPE_PLAY)
                 XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(playGreenBitmap);
@@ -4783,7 +4832,7 @@ void GuiMain::setTapeState(int tapeState, wxString tapeNumber)
     }
     else
     {
-        if (runningComputer_ == FRED1 || runningComputer_ == FRED1_5)
+        if (isTapeHwFred(runningComputer_))
             XRCCTRL(*this, "CasPause"+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState != TAPE_STOP);
         XRCCTRL(*this, "CasStop"+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState != TAPE_STOP);
         XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxButton)->Enable((tapeState == TAPE_STOP)&!conf[runningComputer_].realCassetteLoad_);
@@ -5808,10 +5857,12 @@ void GuiMain::checkWavFileDownload(int computer, bool downloadIfMissing)
                 
                 wxString url = "https://www.emma02.hobby-site.com/wave/" + conf[computer].wavFile_[0];
                 url.Replace(" ", "%20");
+#if !defined (_DEBUG)
                 wxCurlDownloadDialog downloadDialog;
                 downloadDialog.Create(url, &html_stream, "Download File?", conf[computer].wavFile_[0], wxNullBitmap, this, wxCTDS_CAN_START|wxCTDS_CAN_PAUSE|wxCTDS_CAN_ABORT|wxCTDS_REMAINING_TIME|wxCTDS_SIZE|wxCTDS_AUTO_CLOSE, 120);
                 
                 downloadDialog.RunModal();
+#endif
             }
         }
     }

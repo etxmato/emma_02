@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resource version="2.3.0.1" xmlns="http://www.wxwidgets.org/wxxrc">
+<object class="wxDialog" name="PopupElf2K">
+<style>wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLOSE_BOX|wxTAB_TRAVERSAL</style>
+<exstyle>wxWS_EX_BLOCK_EVENTS</exstyle>
+<size>400,300</size>
+<title>Elf 2000 Menu</title>
+<centered>1</centered>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxGROW</flag>
+<border>0</border>
+<object class="wxButton" name="ID_BUTTON">
+<size>75,25</size>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<hidden>1</hidden>
+<label>Dummy button</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALL</flag>
+<border>5</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxHORIZONTAL</orient>
+<label>Control Windows</label>
+<object class="sizeritem">
+<flag>wxALIGN_TOP|wxLEFT|wxRIGHT</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALL</flag>
+<border>5</border>
+<object class="wxCheckBox" name="Elf2KControlWindowsPopup">
+<tooltip>Show Elf 2000 main board window</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>Main board</label>
+<checked>0</checked>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_TOP|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALL</flag>
+<border>5</border>
+<object class="wxCheckBox" name="Elf2KSwitchPopup">
+<tooltip>Show Elf 2000 switch panel</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>Switch Panel</label>
+<checked>0</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALL</flag>
+<border>5</border>
+<object class="wxCheckBox" name="Elf2KHexPopup">
+<tooltip>Show Elf 2000 hex panel</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>Hex Panel</label>
+<checked>0</checked>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxLEFT|wxRIGHT</flag>
+<border>5</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxVERTICAL</orient>
+<label>Memory Access</label>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>0</border>
+<object class="wxFlexGridSizer">
+<cols>3</cols>
+<rows>2</rows>
+<vgap>0</vgap>
+<hgap>0</hgap>
+<object class="sizeritem">
+<flag>wxGROW</flag>
+<border>0</border>
+<object class="wxButton" name="LoadButton">
+<tooltip>Load .hex file into Elf 2000 emulator memory</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>LOAD</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>2</border>
+<object class="wxStaticText" name="TextStart">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<style>wxALIGN_RIGHT</style>
+<label>Start </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxTextCtrl" name="SaveStart" subclass="HexEdit">
+<size>50,-1</size>
+<tooltip>Specify start address in hexadecimal</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<maxlength>4</maxlength>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW</flag>
+<border>0</border>
+<object class="wxButton" name="SaveButton">
+<tooltip>Save Elf 2000 emulator memory to .hex file</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>SAVE</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>2</border>
+<object class="wxStaticText" name="TextEnd">
+<size>30,-1</size>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<style>wxALIGN_RIGHT</style>
+<label>End </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxTextCtrl" name="SaveEnd" subclass="HexEdit">
+<size>50,-1</size>
+<tooltip>Specify end address in hexadecimal</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<maxlength>4</maxlength>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW</flag>
+<border>5</border>
+<object class="wxButton" name="OK">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>Dismiss</label>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</resource>

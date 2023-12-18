@@ -110,6 +110,7 @@ void GuiPecom::readPecomConfig()
 {
     selectedComputer_ = PECOM;
 
+    elfConfiguration[PECOM].useTapeHw = false;
     conf[PECOM].emsConfigNumber_ = 0;
     conf[PECOM].videoNumber_ = 0;
 

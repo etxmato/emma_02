@@ -116,6 +116,8 @@ void GuiPico::readPicoConfig()
     
     conf[PICO].volume_ = 0;
 
+    elfConfiguration[PICO].useTapeHw = false;
+    elfConfiguration[PICO].vtShow = true;
     conf[PICO].emsConfigNumber_ = 0;
     conf[PICO].videoNumber_ = 0;
 
@@ -149,7 +151,7 @@ void GuiPico::readPicoConfig()
     conf[PICO].saveEndString_ = "";
     conf[PICO].saveExecString_ = "";
 
-    elfConfiguration[PICO].qSound_ = (int)configPointer->Read("Pico/Enable_Q_Sound", 0l);
+    elfConfiguration[PICO].qSound_ = (int)configPointer->Read("Pico/Enable_Q_Sound", 5l);
     elfConfiguration[PICO].vtType = (int)configPointer->Read("Pico/VT_Type", 2l);
     elfConfiguration[PICO].vt52SetUpFeature_ = configPointer->Read("Pico/VT52Setup", 0x00004092l);
     elfConfiguration[PICO].vt100SetUpFeature_ = configPointer->Read("Pico/VT100Setup", 0x0000ca52l);
@@ -236,12 +238,12 @@ void GuiPico::readPicoConfig()
         XRCCTRL(*this, "PicoRtc", wxCheckBox)->SetValue(elfConfiguration[PICO].rtc);
         XRCCTRL(*this, "PicoClearRtc", wxCheckBox)->Enable(elfConfiguration[ELF2K].rtc);
         XRCCTRL(*this, "PicoClearRtc", wxCheckBox)->SetValue(elfConfiguration[PICO].clearRtc);
-        XRCCTRL(*this, "BeepFrequencyPico", wxTextCtrl)->Enable(elfConfiguration[PICO].qSound_ == QSOUNDEXT);
+        XRCCTRL(*this, "BeepFrequencyPico", wxTextCtrl)->Enable(elfConfiguration[PICO].qSound_ == SOUND_EXT_BEEPER);
 
         XRCCTRL(*this, "VTBaudRChoicePico", wxChoice)->SetSelection(elfConfiguration[PICO].baudR);
         XRCCTRL(*this, "VTBaudTChoicePico", wxChoice)->SetSelection(elfConfiguration[PICO].baudT);
-        XRCCTRL(*this, "BeepFrequencyTextPico", wxStaticText)->Enable(elfConfiguration[PICO].qSound_ == QSOUNDEXT);
-        XRCCTRL(*this, "BeepFrequencyTextHzPico", wxStaticText)->Enable(elfConfiguration[PICO].qSound_ == QSOUNDEXT);
+        XRCCTRL(*this, "BeepFrequencyTextPico", wxStaticText)->Enable(elfConfiguration[PICO].qSound_ == SOUND_EXT_BEEPER);
+        XRCCTRL(*this, "BeepFrequencyTextHzPico", wxStaticText)->Enable(elfConfiguration[PICO].qSound_ == SOUND_EXT_BEEPER);
 
         XRCCTRL(*this, "VideoTypePico", wxChoice)->SetSelection(conf[PICO].videoMode_);
         XRCCTRL(*this, "DiskTypePico", wxChoice)->SetSelection(elfConfiguration[PICO].diskType);
@@ -261,11 +263,9 @@ void GuiPico::readPicoConfig()
         beepFrequency.Printf("%d", conf[PICO].beepFrequency_);
         XRCCTRL(*this, "BeepFrequencyPico", wxTextCtrl)->ChangeValue(beepFrequency);
 
-        XRCCTRL(*this, "TurboPico", wxCheckBox)->SetValue(conf[PICO].turbo_);
         turboGui("Pico");
 
         XRCCTRL(*this, "TurboClockPico", wxTextCtrl)->SetValue(conf[PICO].turboClock_);
-        XRCCTRL(*this, "AutoCasLoadPico", wxCheckBox)->SetValue(conf[PICO].autoCassetteLoad_);
         setTapeType("Pico", PICO);
 
         XRCCTRL(*this, "VolumePico", wxSlider)->SetValue(conf[PICO].volume_);

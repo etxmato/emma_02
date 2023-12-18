@@ -51,7 +51,6 @@ Til::Til(bool WXUNUSED(upsideDown))
 
 Til::~Til()
 {
-    delete tilBitmapPointer;
 }
 
 void Til::init(wxDC& WXUNUSED(dc), int WXUNUSED(x), int WXUNUSED(y))
@@ -79,6 +78,11 @@ Til311::Til311()
 {
     tilBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/til311.png", wxBITMAP_TYPE_PNG);
     dcMemory.SelectObject(*tilBitmapPointer);
+}
+
+Til311::~Til311()
+{
+    delete tilBitmapPointer;
 }
 
 void Til311::init(wxDC& dc, int x, int y)
@@ -115,6 +119,11 @@ Til313::Til313()
     dcMemory.SelectObject(*tilBitmapPointer);
 }
 
+Til313::~Til313()
+{
+    delete tilBitmapPointer;
+}
+
 void Til313::init(wxDC& dc, int x, int y)
 {
     x_ = x;
@@ -144,7 +153,8 @@ void Til313::update(wxDC& dc, int NewNumber)
 Til313Italic::Til313Italic(bool upsideDown)
 :Til()
 {
-    if (upsideDown)
+    upsideDown_ = upsideDown;
+    if (upsideDown_)
     {
         til313BitmapPointer_led_off = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/til313_upside_down_led_off.png", wxBITMAP_TYPE_PNG);
         til313BitmapPointer_led_on = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/til313_upside_down_led_on.png", wxBITMAP_TYPE_PNG);
@@ -163,6 +173,8 @@ Til313Italic::~Til313Italic()
 {
     delete til313BitmapPointer_led_off;
     delete til313BitmapPointer_led_on;
+    if (!upsideDown_)
+        delete til313BitmapPointer_off;
 }
 
 void Til313Italic::init(wxDC& dc, int x, int y)

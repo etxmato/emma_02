@@ -66,7 +66,7 @@ public:
     void autoBoot();
     void startLoad(bool button);
     void onReadButton();
-    void onCardButton();
+    void onCardButtonSwitch();
     void updateCardReadStatus();
     
     void startComputer();
@@ -139,7 +139,7 @@ private:
     Byte shiftPressed_;
  
     Byte ef1State_;
-    Byte ef1StateTape_;
+    Byte tapedataReady_;
     Byte ef4State_;
     Byte keyValue_;
 

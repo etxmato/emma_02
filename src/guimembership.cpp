@@ -105,6 +105,8 @@ void GuiMembership::readMembershipConfig()
     elfConfiguration[MEMBER].bellFrequency_ = (int)configPointer->Read("/Membership/Bell_Frequency", 800);
     elfConfiguration[MEMBER].useUart = false;
 
+    elfConfiguration[MEMBER].useTapeHw = false;
+    elfConfiguration[MEMBER].vtShow = true;
     conf[MEMBER].emsConfigNumber_ = 0;
     conf[MEMBER].videoNumber_ = 0;
 
@@ -197,7 +199,6 @@ void GuiMembership::readMembershipConfig()
         XRCCTRL(*this, "MainRomMembership", wxComboBox)->SetValue(conf[MEMBER].rom_[MAINROM1]);
         XRCCTRL(*this, "ScreenDumpFileMembership", wxComboBox)->SetValue(conf[MEMBER].screenDumpFile_);
         XRCCTRL(*this, "WavFileMembership", wxTextCtrl)->SetValue(conf[MEMBER].wavFile_[0]);
-        XRCCTRL(*this, "AutoCasLoadMembership", wxCheckBox)->SetValue(conf[MEMBER].autoCassetteLoad_);
 
         if (elfConfiguration[MEMBER].vtExternal)
             XRCCTRL(*this, "VTTypeMembership", wxChoice)->SetSelection(EXTERNAL_TERMINAL);

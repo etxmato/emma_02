@@ -65,25 +65,25 @@ void VelfScreen::init()
     
     for (int i=0; i<8; i++)
     {
-        dataSwitchButton[i] = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 18+34*(7-i), 116, "");
-        ledPointer[i] = new Led(dc, 24+34*(7-i), 100, ELFLED);
+        dataSwitchButton[i] = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(255, 255, 255), BUTTON_DOWN, 18+34*(7-i), 116, "");
+        ledPointer[i] = new Led(dc, 24+34*(7-i), 100, LED_SMALL_RED);
         dataSwitchState_[i]=0;
    }
     
-    inSwitchButton = new SwitchButton(dc, PUSH_BUTTON, wxColour(255, 255, 255), BUTTON_UP, 18, 40, "");
-    loadSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 52, 40, "");
+    inSwitchButton = new SwitchButton(dc, PUSH_BUTTON_ROUND_RED, wxColour(255, 255, 255), BUTTON_UP, 18, 40, "");
+    loadSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(255, 255, 255), BUTTON_DOWN, 52, 40, "");
     
     if (p_Main->getVelfMode() == 0)
     {
-        velfSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_UP, 188, 40, "");
-        runSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_UP, 256, 40, "");
+        velfSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(255, 255, 255), BUTTON_UP, 188, 40, "");
+        runSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(255, 255, 255), BUTTON_UP, 256, 40, "");
     }
     else
     {
-        velfSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 188, 40, "");
-        runSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 256, 40, "");
+        velfSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(255, 255, 255), BUTTON_DOWN, 188, 40, "");
+        runSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(255, 255, 255), BUTTON_DOWN, 256, 40, "");
     }
-    mpSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 222, 40, "");
+    mpSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(255, 255, 255), BUTTON_DOWN, 222, 40, "");
 
     for (int i=0; i<2; i++)
     {

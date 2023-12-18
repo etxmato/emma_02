@@ -30001,6 +30001,31 @@
                                                                                 <max>100</max>
                                                                             </object>
                                                                         </object>
+                                                                        <object class="sizeritem">
+                                                                            <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                            <border>0</border>
+                                                                            <object class="wxStaticText" name="TempoTextXml">
+                                                                                <size>47,-1</size>
+                                                                                <font>
+                                                                                    <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                    <size>-1</size>
+                                                                                    <family>roman</family>
+                                                                                </font>
+                                                                                <label>Tempo:</label>
+                                                                            </object>
+                                                                        </object>
+                                                                        <object class="sizeritem">
+                                                                            <flag>wxALIGN_BOTTOM|wxALL</flag>
+                                                                            <border>0</border>
+                                                                            <object class="wxSlider" name="TempoXml">
+                                                                                <size>90,24</size>
+                                                                                <tooltip>Change music tempo</tooltip>
+                                                                                <style>wxSL_HORIZONTAL</style>
+                                                                                <value>100</value>
+                                                                                <min>50</min>
+                                                                                <max>250</max>
+                                                                            </object>
+                                                                        </object>
                                                                     </object>
                                                                 </object>
                                                                 <object class="sizeritem">
@@ -30204,20 +30229,6 @@
                                                                         <object class="sizeritem">
                                                                             <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                             <border>0</border>
-                                                                            <object class="wxCheckBox" name="AutoCasLoadXml">
-                                                                                <tooltip>Enable auto mode for cassette file</tooltip>
-                                                                                <font>
-                                                                                    <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                    <size>-1</size>
-                                                                                    <family>roman</family>
-                                                                                </font>
-                                                                                <label>Auto</label>
-                                                                                <checked>1</checked>
-                                                                            </object>
-                                                                        </object>
-                                                                        <object class="sizeritem">
-                                                                            <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                            <border>0</border>
                                                                             <object class="wxCheckBox" name="TurboXml">
                                                                                 <tooltip>Enable turbo mode for cassette file</tooltip>
                                                                                 <font>
@@ -30252,6 +30263,16 @@
                                                                                     <family>roman</family>
                                                                                 </font>
                                                                                 <label>MHz</label>
+                                                                            </object>
+                                                                        </object>
+                                                                        <object class="sizeritem">
+                                                                            <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                            <border>0</border>
+                                                                            <object class="wxBitmapButton" name="CasStopXml">
+                                                                                <size>22,22</size>
+                                                                                <tooltip>Stop cassette file</tooltip>
+                                                                                <enabled>0</enabled>
+                                                                                <bitmap>images_osx/stop.png</bitmap>
                                                                             </object>
                                                                         </object>
                                                                         <object class="sizeritem">
@@ -30295,13 +30316,15 @@
                                                                             </object>
                                                                         </object>
                                                                         <object class="sizeritem">
-                                                                            <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                            <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                             <border>0</border>
-                                                                            <object class="wxBitmapButton" name="CasStopXml">
+                                                                            <object class="wxBitmapButton" name="CasPauseXml">
                                                                                 <size>22,22</size>
-                                                                                <tooltip>Stop cassette file</tooltip>
+                                                                                <tooltip>Pause cassette file</tooltip>
                                                                                 <enabled>0</enabled>
-                                                                                <bitmap>images_osx/stop.png</bitmap>
+                                                                                <bitmap>images_osx/pause_off.png</bitmap>
+                                                                                <selected>images_osx/pause_off.png</selected>
+                                                                                <focus>images_osx/pause_off.png</focus>
                                                                             </object>
                                                                         </object>
                                                                         <object class="sizeritem">
@@ -30322,6 +30345,20 @@
                                                                     <border>2</border>
                                                                     <object class="wxBoxSizer">
                                                                         <orient>wxHORIZONTAL</orient>
+                                                                        <object class="sizeritem">
+                                                                            <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                            <border>0</border>
+                                                                            <object class="wxCheckBox" name="AutoCasLoadXml">
+                                                                                <tooltip>Enable auto mode for cassette file</tooltip>
+                                                                                <font>
+                                                                                    <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                    <size>-1</size>
+                                                                                    <family>roman</family>
+                                                                                </font>
+                                                                                <label>Auto</label>
+                                                                                <checked>1</checked>
+                                                                            </object>
+                                                                        </object>
                                                                         <object class="sizeritem">
                                                                             <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                             <border>2</border>

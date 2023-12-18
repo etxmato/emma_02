@@ -1,0 +1,393 @@
+Note on stack representation:
+-----------------------------
+In the instructions listed below, the state of the stack is shown in
+parentheses.  symbols before the -- represent the stack before the instruction
+is executed, symbols after the -- represent the stack after execution.
+The top of stack is to the right. Example:  (1 2 -- 3) This shows that 2
+is on the top of the stack, and 1 is 2nd from the top, after the instruction
+is executed 3 will be on the stack, the 1 and 2 will be consumed.
+
+Arithmetic Operators:
+---------------------
++        (a b -- c) - Add top 2 stack entries
+-        (a b -- c) - Subtract top 2 stack entries
+*        (a b -- c) - Multiply top 2 stack entries
+=        (a b -- c) - Check equality, 1=equal, 0=unequal
+<>       (a b -- c) - Check inequality, 1-unequal, 0=equal
+and      (a b -- c) - Logically and top 2 stack values
+or       (a b -- c) - Logically or top 2 stack values
+xor      (a b -- c) - Logically xor top 2 stack values
+
+Control Operators:
+------------------
+BEGIN    ( -- )           - Beginning of BEGIN-UNTIL loop
+UNTIL    (B -- )          - Ending of BEGIN-UNTIL loop
+WHILE    (B -- )          - Beginning of while-repeat loop
+REPEAT   ( -- )           - End of while-repeat loop
+DO       (T S -- )        - Start of DO LOOP
+I        ( -- c)          - Put current loop count onto stack
+LOOP     ( -- )           - End of DO LOOP
++LOOP    (v -- )          - End of loop with specified increment
+IF       (B -- )          - Beginnig of IF-ELSE-THEN structure
+ELSE     ( -- )           - ELSE portion of IF-ELSE-THEN
+THEN     ( -- )           - End of IF-ELSE-THEN
+>R       (a -- )          - Move top of data stack to return stack
+R>       ( -- a)          - move top of return stack to data stack
+
+Variables:
+----------
+VARIABLE name             - Create a variable (not allowed in functions)
+@        (a -- v)         - Retrieve value from address
+!        (v a -- )        - Store value at address
+C@       (a -- v)         - Retrieve byte value from address
+C!       (v a -- )        - Store byte value at address
+ALLOT    (n -- )          - Increase the last defined vars storage space
+
+Function definition:
+--------------------
+: name                    - Create a function
+;                         - End of function
+
+Stack Operators:
+----------------
+DUP      (a -- a a)       - Duplicate top stack value
+DROP     (a -- )          - Drop top stack value
+SAWP     (a b -- b a)     - Swap top 2 stack entries
+OVER     (a b -- a b a)   - Copy 2nd stack value to top
+ROT      (a b c -- b c a) - Rotate 3rd stack item to top
+-ROT     (a b c -- c a b) - Rotate top of stack to 3rd position
+DEPTH    ( -- a)          - Get number of items on stack
+.        (a -- )          - print top of stack as signed integer
+U.       (a -- )          - print top of stack as unsigned integer
+EMIT     (a -- )          - print top of stack as ascii character
+KEY      ( -- v)          - Read a charfrom the keyboard and place on stack
+
+Others:
+-------
+CR       ( -- )           - Print a CR/LF pair
+MEM      ( -- a)          - return amount of memory
+WORDS    ( -- )           - Display vocabulary words
+SEE name                  - See what is bound to a name
+FORGET name               - Remove a variable or function
+." text "                 - Print specified text on the terminal
+
+Extended Functions:
+-------------------
+The extended functions are implemented as pre-loaded Forth programs.  As such they
+can be viewed with the SEE command and removed with the FORGET command.
+
+1+       (v -- v)         - Add 1 to the top of stack
+1-       (v -- v)         - Subtract 1 from the top of stack
+2+       (v -- v)         - Add 2 to the top of stack
+2-       (v -- v)         - Subtract 2 from the top of stack
+FREE     ( -- )           - Display free memory
+LSHIFT   (v c -- )        - Left shift value v by c bits
+RSHIFT   (v c -- )        - Right shift value v by c bits
+FILL     (ad ch cn -- )   - Fill cn bytes with ch starting at ad
+CLEAR    ( -- )           - Clears the stack of all entries
+SPACES   (v -- )          - Display specified number of spaces
++!       (v a -- )        - Add value to specified variable address
+-!       (v a -- )        - Subtract value from specified variable address
+*!       (v a -- )        - Multiply specified variable address by value
+NOT      (v -- v)         - Return 0 if TOS <> 0, otherwise 1
+0=       (v -- v)         - Returns 1 if TOS is zero, otherwise 0
+@+       (a -- a v)       - Like @ except preserve address incremented by 2
+>0       (v -- v)         - Return 1 if TOS > 0 else 0
+<0       (v -- v)         - Return 1 if TOS < 0 else 0
+>        (a b -- v)       - Return 1 if a > b else 0
+<        (a b -- v)       - Return 1 if a < b else 0
+>=       (a b -- v)       - Return 1 if a >= b else 0
+<=       (a b -- v)       - Return 1 if a <= b else 0
+.S       ( -- )           - Display entire contents of stack
+?        (a -- )          - Display value at address
+NEG      (v -- v)         - Negate a number
+MAX      (a b -- v)       - Return largest of 2 numbers
+MIN      (a b -- v)       - Return smallest of 2 numbers
+?DUP     (a -- a | a a)   - Duplicate TOS if nonzero
+ABS      (v -- v)         - Return absolute value of a number
+BL       ( -- 32)         - Place a blank on the stack
+SPACE    ( -- )           - Display a single space
+NIP      (b a -- a)       - Drop 2nd item from stack
+TUCK     (b a -- a b a)   - Place copy of TOS before 2nd on stack
+TRUE     ( -- 1)          - Place true value on stack
+FALSE    ( -- 0)          - Place false value on stack
+CLS      ( -- )           - Clear screen
+MOD      (a b -- v)       - Get remainder of a/b
+INVERT   (a -- v)         - Invert the bits of TOS
+TYPE     (a v -- )        - Display v bytes from address a
+SGN      (v -- v)         - Return sign of number
+2DUP     (b a -- b a b a) - Duplicate top 2 stack values
+PICK     (a -- v)         - Duplicate a'th element of stack on top
+/MOD     (a b -- r q)     - Perform both mod and functions
+
+
+
+Forth Tutorial:
+---------------
+Forth is primarily a stack based language.  Arguments for functions are first
+pushed onto the stack and then the instruction is executed.  Pushing a number
+onto the stack is done merely by mentioning the number:
+   
+    ok 5
+
+This instruction will leave 5 on the top of the stack.  the '.' command will
+take the top of the stack and display it in signed integer notation:
+
+    ok .
+    5 ok
+
+The '.' took the 5 we pushed earlier, removed it from the stack and printed it.
+If we execute the command again:
+
+    ok .
+    stack empty
+    ok
+
+the interpreter will complain about an empty stack and abort any further
+processing.
+
+Commands can be placed multiply on a line, with just spaces separating each
+command:
+
+    ok 5 4 . .
+    4 5 ok
+
+In this example, 4 was the last value pushed onto the stack, therefore the
+first value popped off by the first '.' command.
+
+To keep the prompt off the line with the answers, you can use the CR command:
+
+    ok 5 4 . . CR
+    4 5
+    ok
+
+Note also that commands are executed left to right, there is no order of
+operations other than left to right
+
+It is also possible to display text using the ." operator:
+
+    ok ." HELLO WORLD!!!" CR
+    HELLO WORLD!!!
+    ok
+
+Arithmetic can be performed as well. try this example:
+
+    ok 5 4 + . CR
+    9
+    ok
+
+Again, notice all the arguments are pushed onto the stack before the
+command is executed.
+
+Equality is tested with the = operator:
+
+    ok 5 4 = . CR
+    0
+    ok 5 5 = . CR
+    1
+
+Note that when two numbers are equal, a 1 is left on the stack, whereas 0
+is left when they are not equal.
+
+The DEPTH command will place onto the top of the stack the number of items in
+the stack:
+    ok 4 5 6 DEPTH . CR
+    3
+    ok
+
+Note that the depth command does not include its own answer in the total.
+
+The top two stack values can be swapped using the SWAP command:
+    ok 2 3 . . CR
+    3 2
+    ok 2 3 SWAP . . CR
+    2 3
+    ok
+
+The top of the stack can be duplicated using the DUP command:
+    ok 2 . . CR
+    2 stack empty
+    ok 3 DUP . . CR
+    3 3
+    ok
+
+The IF command can be used for conditional exection.  IF examines the top of
+the stack to determine what to execute:
+
+    ok 1 IF 1 . THEN 2 . CR
+    1 2
+    ok 0 IF 1 . THEN 2 . CR
+    2
+    ok
+
+When IF finds 0 on the stack, execution begins after the matching THEN.  It
+is also possible to have an ELSE.  Try these:
+
+    ok 1 IF 1 . ELSE 2 . THEN 3 . CR
+    1 3
+    ok 0 IF 1 . ELSE 2 . THEN 3 . CR
+    2 3
+
+If an ELSE is found before the next THEN on a failed IF test, the ELSE code
+block will be executed
+
+There are 3 looping constructs in FORTH.  The first is the DO LOOP.  this is
+a controlled loop with a specific start and a specific end.  The I command can
+be used inside of a loop to retrieve the loop counter:
+
+    ok 10 0 DO I . LOOP CR
+    0 1 2 3 4 5 6 7 8 9
+    ok
+
+Notice that the loop terminates once the end condition is reached.  The test
+occurs at the LOOP command, therefore the loop is not executed again when I
+reaches 10.  Notice also that a loop is always executed at least once:
+
+    ok 10 15 DO I . LOOP CR
+    15
+    ok
+
+To increment the loop counter by something other than 1, use the +LOOP command:
+    ok 10 0 DO I . 2 +LOOP CR
+    0 2 4 6 8
+    ok 10 0 DO I . 3 +LOOP CR
+    0 3 6 9
+
+The next two loop types are uncontrolled, they loops are executed so long as
+the top of stack is non-zero at the time of test.  The BEGIN UNTIL loop
+has its test at the end, and therefore just like DO loops, the loop will
+always be executed at least once:
+    ok 5 BEGIN DUP . 1 - DUP UNTIL CR
+    5 4 3 2 1
+    ok
+
+Notice we used the DUP command here first to make a duplicate of our counter
+for the . command, and then a second DUP before the UNTIL.  UNTIL takes the
+top of the stack in order to determine if another loop is needed.
+
+The second uncontrolled loop is the WHILE REPEAT loop.  This loop has its
+test at the beginning, therefore if WHILE finds a 0 on the stack the loop
+will not even execute the first time:
+
+    ok 5 DUP WHILE DUP . 1 - DUP REPEAT CR
+    5 4 3 2 1 
+    ok 0 DUP WHILE DUP . 1 - DUP REPEAT CR
+    ok
+
+Variables can be created with the VARIABLE command.  Note, variables should not
+be given the same names as built in commands.  Here are some example variables:
+
+    ok VARIABLE A
+    ok VARIABLE B
+
+If you execute a WORDS command, you will see that your new variable names now
+appear in the list.
+
+To store a value in a variable we use the ! command.  First we push the value
+we want to store on the stack, and then mention the variable:
+
+    ok 5 A !
+    ok 10 B !
+
+This then stores 5 into A and 10 into B.  To retrieve the values of variables,
+use the @ command:
+    ok A @ . CR
+    5
+    ok B @ . CR
+    10
+    ok A @ B @ + . CR
+    15
+
+To immediately print the value in a variale, you can use the SEE command:
+    ok SEE A
+    5
+    ok
+
+Note that the SEE command provides its own CR/LF.
+    ok SEE A SEE B
+    5
+    10
+    ok
+
+The real power of forth is that it allows you to define your own commands!
+Commands are defined using the : command and terminated with the ; command.
+Note. that Rc/Forth requires the entire command to be created in one input
+cycle.  try this one:
+
+    ok : STARS 0 DO 42 EMIT LOOP ;
+    ok
+
+If you look at the WORDS now, you will see another new name: STARS.  You can
+also use the SEE command on functions to see their definitions:
+    ok SEE STARS
+    : STARS 0 DO 42 EMIT LOOP ;
+
+This command can now be used just like any other forth command:
+
+    ok 5 STARS CR
+    *****
+    ok
+
+Custom functions can even be used inside other custom functions:
+
+    ok : PYRAMID 1 DO I STARS CR LOOP ;
+    ok
+
+now run it:
+
+    ok 5 PYRAMID
+    *
+    **
+    ***
+    ****
+
+This completes this introductory tutorial on Forth.  Experiment with the
+commands and you will find it is really easy to pick it up!
+
+Expansion Funtions Definitions:
+-------------------------------
+: 1+ 1 + ; 
+: 1- 1 - ;
+: 2+ 2 + ;
+: 2- 2 - ;
+: 0= 0 = ;
+: >0 DUP IF -32768 AND IF 0 ELSE 1 THEN ELSE DROP 0 THEN ;
+: <0 DUP IF -32768 AND IF 1 ELSE 0 THEN ELSE DROP 0 THEN ;
+: > - DUP IF -32768 AND IF 0 ELSE 1 THEN ELSE DROP 0 THEN ;
+: < - DUP IF -32768 AND IF 1 ELSE 0 THEN ELSE DROP 0 THEN ;
+: >= - DUP IF -32768 AND IF 0 ELSE 1 THEN ELSE DROP 1 THEN ;
+: <= - DUP IF -32768 AND IF 1 ELSE 0 THEN ELSE DROP 1 THEN ;
+: CLEAR DEPTH WHILE DROP DEPTH REPEAT ;
+: FREE MEM U. CR ;
+: SPACES 0 DO 32 EMIT LOOP ;
+: +! DUP ROT SWAP @ + SWAP ! ;
+: -! DUP ROT SWAP @ SWAP - SWAP ! ;
+: *! DUP ROT SWAP @ * SWAP ! ;
+: /! DUP ROT SWAP @ SWAP / SWAP ! ;
+: NOT IF 0 ELSE 1 THEN ;
+: @+ DUP @ SWAP 2 + SWAP ;
+: .S 8206 @ 1 + DEPTH 1 - 0 DO DUP @ . 2 + LOOP DROP ;
+: ? @ . ;
+: NEG 0 SWAP - ;
+: MAX DUP ROT DUP ROT > IF SWAP DROP ELSE DROP THEN ;
+: MIN DUP ROT DUP ROT > IF DROP ELSE SWAP DROP THEN ;
+: ?DUP DUP IF DUP THEN ;
+: ABS DUP <0 IF 0 SWAP - THEN ;
+: BL 32 ;
+: SPACE 32 EMIT ;
+: NIP SWAP DROP ;
+: TUCK SWAP OVER ;
+: TRUE 1 ;
+: FALSE 0 ;
+: CLS 27 EMIT 91 EMIT 50 EMIT 74 EMIT ;
+: MOD DUP ROT DUP ROT / ROT * - ;
+: LSHIFT DUP WHILE SWAP 2 * SWAP 1 - DUP REPEAT DROP ;
+: RSHIFT DUP WHILE SWAP 2 / SWAP 1 - DUP REPEAT DROP ;
+: FILL SWAP -ROT DUP IF 0 DO OVER OVER C! 1 + LOOP ELSE DROP THEN DROP DROP ;
+: INVERT -1 XOR ;
+: TYPE DUP IF 0 DO DUP C@ EMIT 1 + LOOP ELSE DROP THEN DROP ;
+: SGN DUP IF -32768 AND IF -1 ELSE 1 THEN THEN ;
+: 2DUP OVER OVER ;
+: PICK DUP DEPTH 1 - < IF 2 * 8206 @ 1 + + @ ELSE DROP 1 ERROR THEN ;
+: /MOD OVER OVER MOD -ROT / ;
+

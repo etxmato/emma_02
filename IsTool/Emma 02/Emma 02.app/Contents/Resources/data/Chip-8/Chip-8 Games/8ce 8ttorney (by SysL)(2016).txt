@@ -1,0 +1,12 @@
+8CE 8TTORNEY: (Disk 1, 2 and 3)
+
+The most expensive CHIP8 game made, taking up multiple game 'disks' to tell the story of the 
+Lawyer Bell defending a courtroom janitor from murder charges. 
+
+Controls:
+---------
+W (4) - Advance Text
+Q (5) - (In Cross Exam) Press
+E (6) - (In Cross Exam) Show Evidence
+A (7) - Move Left in Evidence
+D (9) - Move Right in Evidence

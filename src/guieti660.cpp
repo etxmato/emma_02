@@ -88,6 +88,7 @@ void GuiEti::readEtiConfig()
 {
     selectedComputer_ = ETI;
 
+    elfConfiguration[ETI].useTapeHw = false;
     conf[ETI].emsConfigNumber_ = 0;
     conf[ETI].videoNumber_ = 0;
 

@@ -42,7 +42,7 @@
 #include <wx/filename.h>
 #include <wx/statline.h>
 #include "wxcurl_panel.h"
-
+#include <wx/event.h>
 
 // ----------------------------------------------------------------------------
 // wxCurlConnectionSettingsPanel

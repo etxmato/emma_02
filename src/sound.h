@@ -28,7 +28,6 @@ public:
     void tone(short reg4);  
     void tone1864Latch(Byte audioLatch1864);
     void tone1864On();  
-    void setVipSound (int vipSound){vipSound_ = vipSound;};
     void amplitudeSuper(int channel, int amplitude);
     void frequencySuper(int channel, int frequency);
     void octaveSuper(int channel, int octave);
@@ -82,7 +81,6 @@ public:
 
 protected:
     Byte flipFlopQ_;
-    int vipSound_;
     bool realCassetteLoad_;
     uint64_t cpuCycles_;
     uint64_t instructionCounter_;
@@ -104,6 +102,7 @@ protected:
     long long tapeCounterStep_;
     long long tapePeriod_;
     bool tapeRecording_;
+    long stopTapeCounter_;
 
 private:
     Blip_Buffer *soundBufferPointerLeft;
@@ -158,7 +157,7 @@ private:
 
     int decayTime_;
     int saveDecayPeriod_;
-
+    
     Byte audioLatch1864_;
 
     Byte frequencySuper_[8];

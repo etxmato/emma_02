@@ -1,0 +1,1 @@
+An online horse breeding game. Breed horses to win. Hold the "A" key to breed.

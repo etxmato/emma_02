@@ -119,6 +119,8 @@ void GuiVip2K::readVip2KConfig()
 {
     selectedComputer_ = VIP2K;
 
+    elfConfiguration[VIP2K].useTapeHw = false;
+    elfConfiguration[VIP2K].vtShow = true;
     conf[VIP2K].emsConfigNumber_ = 0;
     conf[VIP2K].videoNumber_ = 0;
 
@@ -224,7 +226,6 @@ void GuiVip2K::readVip2KConfig()
         XRCCTRL(*this, "VtShowVip2K", wxCheckBox)->SetValue(elfConfiguration[VIP2K].vtShow);
         XRCCTRL(*this, "AutoKeyDefVip2K", wxCheckBox)->SetValue(elfConfiguration[VIP2K].autoKeyDef);
 
-        XRCCTRL(*this, "AutoCasLoadVip2K", wxCheckBox)->SetValue(conf[VIP2K].autoCassetteLoad_);
         XRCCTRL(*this, "VolumeVip2K", wxSlider)->SetValue(conf[VIP2K].volume_);
         if (clockTextCtrl[VIP2K] != NULL)
             clockTextCtrl[VIP2K]->ChangeValue(conf[VIP2K].clock_);

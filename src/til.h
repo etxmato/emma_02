@@ -27,6 +27,7 @@ class Til311 : public Til
 {
 public:
     Til311();
+    ~Til311();
 
     void init(wxDC& dc, int x, int p);
     void onPaint(wxDC& dc);
@@ -37,6 +38,7 @@ class Til313 : public Til
 {
 public:
     Til313();
+    ~Til313();
 
     void init(wxDC& dc, int x, int p);
     void onPaint(wxDC& dc);
@@ -56,6 +58,8 @@ public:
     void turnOff(wxDC& dc, bool status);
     
 private:    
+    bool upsideDown_;
+    
     wxBitmap *til313BitmapPointer_led_off;
     wxBitmap *til313BitmapPointer_led_on;
     wxBitmap *til313BitmapPointer_off;

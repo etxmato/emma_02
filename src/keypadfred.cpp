@@ -41,7 +41,10 @@ KeypadFred::KeypadFred()
     directionKey_ = 0;
     fireKeyA_ = 1;
     fireKeyB_ = 1;
-    coinKey_ = 1;
+    coinKey_ = 0;
+    efState_ = 1;
+
+    keyCycles_ = 20000;
 }
 
 void KeypadFred::configure(IoConfiguration ioConf, int keyDefA1[], int keyDefA2[])
@@ -90,13 +93,14 @@ void KeypadFred::configure(IoConfiguration ioConf, int keyDefA1[], int keyDefA2[
 
     if (ioConfiguration_.fredKeypad.coinArcadeControl)
     {
+        coinKey_ = 1;
         p_Main->message("Configuring RCA Video Coin Arcade controls");
         
         printBuffer.Printf("    EF %d: fire player A, EF %d: fire player B, EF %d: coin", ioConfiguration_.fredKeypad.efKey, ioConfiguration_.fredKeypad.efFireB, ioConfiguration_.fredKeypad.efCoin);
         p_Main->message(printBuffer);
         p_Computer->setEfType(ioConfiguration_.fredKeypad.efFireB, COINARCADEEF3);
 
-        printBuffer.Printf("    Input %d: direction keys & coin reset", ioConfiguration_.fredKeypad.inpCoin);
+        printBuffer.Printf("    Input %d: direction keys & coin reset\n", ioConfiguration_.fredKeypad.inpCoin);
         p_Main->message(printBuffer);
         p_Computer->setInType(ioConfiguration_.fredKeypad.inpCoin, COINARCADEINPKEY6);
 
@@ -317,4 +321,10 @@ Byte KeypadFred::inCoin()
 {
     coinKey_ = 1;
     return directionKey_;
+}
+
+void KeypadFred::setKeyPress(Byte value)
+{
+    keyValue_ = value;
+    efState_ = 0;
 }

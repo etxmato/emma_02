@@ -107,6 +107,7 @@ protected:
     Byte* pagerMemoryDataType_;
     Byte* pagerMemoryLabelType_;
     Byte* pagerMemoryType_;
+    int colorMemory1862_[1024];
     int colorMemory1864_[1024];
     Byte mc6845ram_[16383];
     Byte mc6845CharRom_[2048];

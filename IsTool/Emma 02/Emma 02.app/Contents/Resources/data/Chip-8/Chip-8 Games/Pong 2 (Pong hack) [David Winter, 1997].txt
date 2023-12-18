@@ -1,0 +1,4 @@
+Here is the well known pong game. Two versions are available.
+          The only difference is that PONG2 is mostly like the original
+          game. Player 1 uses 1 and 4, player 2 uses C and D.
+

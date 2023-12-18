@@ -3,8 +3,8 @@
 
 [Setup]
 AppName=Emma 02
-AppVerName=Emma 02 - V1.47.14
-AppVersion=1.47.14
+AppVerName=Emma 02 - V1.47.15
+AppVersion=1.47.15
 AppPublisher=Marcel van Tongeren
 DefaultDirName={pf}\Emma 02
 DefaultGroupName=Emma 02
@@ -245,9 +245,11 @@ Source: ..\data\Xml\Cidelsa\*.*; DestDir: {app}\data\Xml\Cidelsa; Components: MA
 Source: ..\data\Xml\Comix\*.*; DestDir: {app}\data\Xml\Comix; Components: MAIN
 Source: ..\data\Xml\Comx\*.*; DestDir: {app}\data\Xml\Comx; Components: MAIN
 Source: ..\data\Xml\Cosmac Elf\*.*; DestDir: {app}\data\Xml\Cosmac Elf; Components: MAIN
+Source: ..\data\Xml\Cosmicos\*.*; DestDir: {app}\data\Xml\Cosmicos; Components: MAIN
 Source: ..\data\Xml\Cybervision\*.*; DestDir: {app}\data\Xml\Cybervision; Components: MAIN
 Source: ..\data\Xml\Elf\*.*; DestDir: {app}\data\Xml\Elf; Components: MAIN
 Source: ..\data\Xml\Elf2K\*.*; DestDir: {app}\data\Xml\Elf2K; Components: MAIN
+Source: ..\data\Xml\Membership\*.*; DestDir: {app}\data\Xml\Membership; Components: MAIN
 Source: ..\data\Xml\Microtutor\*.*; DestDir: {app}\data\Xml\Microtutor; Components: MAIN
 Source: ..\data\Xml\Microtutor II\*.*; DestDir: {app}\data\Xml\Microtutor II; Components: MAIN   
 Source: ..\data\Xml\Netronics Elf II\*.*; DestDir: {app}\data\Xml\Netronics Elf II; Components: MAIN
@@ -255,6 +257,9 @@ Source: ..\data\Xml\Pecom\*.*; DestDir: {app}\data\Xml\Pecom; Components: MAIN
 Source: ..\data\Xml\Pico Elf V2\*.*; DestDir: {app}\data\Xml\Pico Elf V2; Components: MAIN
 Source: ..\data\Xml\Quest Super Elf\*.*; DestDir: {app}\data\Xml\Quest Super Elf; Components: MAIN
 Source: ..\data\Xml\TMC-600\*.*; DestDir: {app}\data\Xml\TMC-600; Components: MAIN
+Source: ..\data\Xml\UC1800\*.*; DestDir: {app}\data\Xml\UC1800; Components: MAIN
+Source: ..\data\Xml\Velf\*.*; DestDir: {app}\data\Xml\Velf; Components: MAIN
+Source: ..\data\Xml\Vip2K\*.*; DestDir: {app}\data\Xml\Vip2K; Components: MAIN
 Source: ..\images\*.*; DestDir: {app}\images; Components: MAIN
 Source: ..\src\*.*; DestDir: {app}\src; Components: SOURCEFILES
 Source: ..\Emma 02 vc9.sln; DestDir: {app}; Components: SOURCEFILES

@@ -33,11 +33,11 @@ New hand flashes number of hands won by P&D so far (up to 10). Simulates actual 
 </p>
 <h3>Acey Duecy</h3>
 <p>
-Two playing card values appear in the upper left corner. $25 appears in the upper right corner. This is the money you have. The flashing question marks mean that the computer is waiting for you to place your bet. You will bet that the value of the next card dealt by the computer lies between the two card values shown (not equal to either). Bet by pressing any keyboard positions (2 = 2$, 8 = $8, A = $10, F = $15). You can bet a maximum of $15 (press F) and a minimum of $1 (press 1). You can' bet more than you have. You have to get $100 to break the bank. New game = reset/run.
+Two playing card values appear in the upper left corner. $25 appears in the upper right corner. This is the money you have. The flashing question marks mean that the computer is waiting for you to place your bet. You will bet that the value of the next card dealt by the computer lies between the two card values shown (not equal to either). Bet by pressing any keyboard positions (2 = 2$, 8 = $8, A = $10, F = $15). You can bet a maximum of $15 (press F) and a minimum of $1 (press 1). You can't bet more than you have. You have to get $100 to break the bank. New game = reset/run.
 </p>
 <h3>Add Drill</h3>
 <p>
-This SW needs spoken text and tones recorded on the original tape and included in Add Drill.wav (if not available it will be downloaded). Start card will be requested which card '0' (code hex FE). Press the start card 2 times and after the tone a 3rd time. Then type the sum of the 'add' question when one pops up.
+This SW needs spoken text and tones recorded on the original tape and included in Add Drill.wav (if not available it will be downloaded). Start card will be requested with card '0' (code hex FE). Press the start card 2 times and after the tone a 3rd time. Then type the sum of the 'add' question when one pops up.
 </p>
 <h3>Animate demo</h3>
 <p>

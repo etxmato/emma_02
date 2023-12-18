@@ -1,0 +1,4 @@
+MISSILE COMMAND: You must shoot the 8 targets on the screen using key 8. Your
+	  shooter moves a little bit faster each time you shoot. You
+	  have 12 missiles to shoot all the targets, and you win 5
+	  points per target shot.

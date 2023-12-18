@@ -15,9 +15,11 @@ public:
     void keyUpFile();
     void clearReturn();
 
-    Byte efKey(Byte efNumber);
+    int efKey(Byte efNumber);
     Byte in(Word address);
+    Byte in();
 
+    void setRow(Byte row);
     void resetKeyboard();
     int getCtrlvChar();
     void startKeyFile();
@@ -47,6 +49,7 @@ private:
     size_t runCommand_;
     size_t ctrlvText_;
     wxString commandText_;
+    Byte row_;
 };
 
 #endif  // KEYBMATRIX_H

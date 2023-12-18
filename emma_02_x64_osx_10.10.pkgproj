@@ -1927,7 +1927,7 @@
 						<key>BACKGROUND_PATH</key>
 						<dict>
 							<key>PATH</key>
-							<string>/Users/etxmato/Dropbox/Emma 02/images/Emma 02.png</string>
+							<string>/Users/etxmato/workspace/emma_02/images/Emma 02.png</string>
 							<key>PATH_TYPE</key>
 							<integer>0</integer>
 						</dict>
@@ -1942,7 +1942,7 @@
 				<key>BACKGROUND_PATH</key>
 				<dict>
 					<key>PATH</key>
-					<string>/Users/etxmato/Dropbox/Emma 02/images/Emma 02.png</string>
+					<string>/Users/etxmato/workspace/emma_02/images/Emma 02.png</string>
 					<key>PATH_TYPE</key>
 					<integer>0</integer>
 				</dict>

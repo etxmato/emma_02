@@ -88,12 +88,12 @@ void Uc1800Screen::init(bool powerButtonState)
 
     wxClientDC dc(this);
 
-    runSwitchButton = new SwitchButton(dc, PUSH_BUTTON_BLACK, wxColour(43, 71, 106), BUTTON_UP, 160, 114, "");
-    loadSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(43, 71, 106), BUTTON_UP, 85, 188, "");
-    inSwitchButton = new SwitchButton(dc, PUSH_BUTTON_BLACK, wxColour(43, 71, 106), BUTTON_UP, 160, 188, "");
-    resetSwitchButton = new SwitchButton(dc, PUSH_BUTTON, wxColour(43, 71, 106), BUTTON_UP, 25, 114, "");
-    stepSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(43, 71, 106), BUTTON_DOWN, 85, 114, "");
-    powerSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(43, 71, 106), powerButtonState, 25, 188, "");
+    runSwitchButton = new SwitchButton(dc, PUSH_BUTTON_ROUND_BLACK, wxColour(43, 71, 106), BUTTON_UP, 160, 114, "");
+    loadSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(43, 71, 106), BUTTON_UP, 85, 188, "");
+    inSwitchButton = new SwitchButton(dc, PUSH_BUTTON_ROUND_BLACK, wxColour(43, 71, 106), BUTTON_UP, 160, 188, "");
+    resetSwitchButton = new SwitchButton(dc, PUSH_BUTTON_ROUND_RED, wxColour(43, 71, 106), BUTTON_UP, 25, 114, "");
+    stepSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(43, 71, 106), BUTTON_DOWN, 85, 114, "");
+    powerSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(43, 71, 106), powerButtonState, 25, 188, "");
 
     for (int i=0; i<2; i++)
     {
@@ -106,14 +106,14 @@ void Uc1800Screen::init(bool powerButtonState)
         addressPointer[i+2]->init(dc, 200+i*24, 18);
         updateAddress_ = true;
 
-        ledPointer[i] = new Led(dc, 347+23*(1-i), 110, ELFLED);
+        ledPointer[i] = new Led(dc, 347+23*(1-i), 110, LED_SMALL_RED);
         updateLed_[i]=true;
     }
 
-    readyLedPointer = new Led(dc, 32, 245, ELFLED);
+    readyLedPointer = new Led(dc, 32, 245, LED_SMALL_RED);
     updateReadyLed_ = true;
 
-    qLedPointer = new Led(dc, 116, 44, ELFLED);
+    qLedPointer = new Led(dc, 116, 44, LED_SMALL_RED);
 
     mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/uc1800.png", wxBITMAP_TYPE_PNG);
 
@@ -136,7 +136,7 @@ void Uc1800Screen::init(bool powerButtonState)
         buttonText.Printf("%01X", i);
         x = xPos + (i & 0x3)*(xSize + 2);
         y = (yPos + 3 * (ySize + 2)) + (int)(i / 4 * (ySize + 12));
-        osx_buttonPointer[i] = new HexButton(dc, UC1800_HEX_BUTTON, x, y, buttonText);
+        osx_buttonPointer[i] = new HexButton(dc, PUSH_BUTTON_RECTANGLE_SMALL, x, y, buttonText);
     }
 #else
     for (int i = 0; i<16; i++)

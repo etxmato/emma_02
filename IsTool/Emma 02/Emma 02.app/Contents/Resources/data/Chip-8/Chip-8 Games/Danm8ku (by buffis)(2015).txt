@@ -1,0 +1,5 @@
+Bullet hell for the Chip-8!
+
+WASD controls.
+
+Survive 8 waves of exciting bullet patterns!

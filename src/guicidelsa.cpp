@@ -75,6 +75,7 @@ void GuiCidelsa::readCidelsaConfig()
 {
     selectedComputer_ = CIDELSA;
 
+    elfConfiguration[CIDELSA].useTapeHw = false;
     conf[CIDELSA].emsConfigNumber_ = 0;
     conf[CIDELSA].videoNumber_ = 0;
 

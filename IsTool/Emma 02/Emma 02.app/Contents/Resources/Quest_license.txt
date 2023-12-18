@@ -1,0 +1,11 @@
+This notice must be included with any copies
+
+Quest Electronics Documentation and Software by Roger Pitkin is licensed under a 
+Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
+
+Roger Pitkin, Founder and Owner of Quest Electronics,
+on November 16, 2010 authorized release
+of all software and documentation marked with
+QUEST ELECTRONICS COPYRIGHT
+under Creative Commons License with attribution to Roger Pitkin
+for all non-commercial use.

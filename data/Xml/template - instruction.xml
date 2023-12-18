@@ -35,17 +35,22 @@
         <config>: configuration description
         <cpu>: cpu type: system, 1801, 1802, 1804 or 1805 (or system00, cpu1801, cpu1802, cpu1804 or cpu1805, rca1801, rca1802, rca1804 or rca1805)
         <clock>: system clock speec
-        <boot>: boot address, if not specified the computer will not start unless automatically
+        <boot>: boot address, if not specified the computer will not start automatically
+        <f12>stop</f12>: change F12 button to stop computer instead of reset
+        <boot dma="on"> autoboot, execute dmaOut on boot and startbutton
+        <boot start="no"> no autoboot, use specified boot address when run is pressed
+        <boot dma="on" start="no"> no autoboot, execute dmaOut on startbutton
         <init type="efX">: set initialization value of unused EF flags, X can be 1 to 4, value 0 or 1
         <dma out="q">: after every specified number of cpu cycles generate a dmaOut, if out="q" is use dmaOut will start after the first q pulsem in="x" with x being a number on OUT x otherwise on startup
         <int>: after every specified number of cpu cycles generate an interrupt
         <dirname>: main directory name
-        <statusbar>: use statusbar; options: comx, diag & cidelsa
+        <statusbar>: use statusbar; options: comx, diag, vip2 & cidelsa
         -->
         <name>computer name</name>
         <config>configuration description</config>
         <clock>4.0</clock>
         <boot>0xFF00</boot>
+        <f12>stop</f12>
         <init type="ef1">1</init>
         <init type="ef2">1</init>
         <init type="ef3">1</init>
@@ -88,11 +93,12 @@
     
     <bootstrap>
         <!--
-        <address>: specify bootstrap address, e.g. when 0x8000 is specified ROM connected to 0x8000 will be switched to address 0 on startup. When bootstrap is released via out, in or read instruction ROM is switched to specified location only. When no <out> or <in> port is specified, bootstrap release is done on the first memory read instruction on an address >= as the specified bootstrap address.
+        <address>: specify bootstrap address, e.g. when 0x8000 is specified ROM connected to 0x8000 will be switched to address 0 on startup. When bootstrap is released via out, in or read instruction ROM is switched to specified location only. When no <out> or <in> port or <run> is specified, bootstrap release is done on the first memory read instruction on an address >= as the specified bootstrap address.
         <out>: output port to release bootstrap
         <in>: input port to release bootstrap
         <io>: output & input port to release bootstrap
-        
+        <run>: set bootstrap if run is pressed on startup
+
         It is possible to define a bootstrap in, out or io while using the same input or output port for other HW.
          -->
 
@@ -106,6 +112,7 @@
         <out>: output port for til display
         <in>: input port to read hex keyboard or switch panel for Elf
         <ef type="ready">: ef port for data ready signal hex keypad (not for type cosmac or elf2k, use <keypad> instead!)
+        <ef type="ready">: ef port for run button press (UC1800)
         <ef type="in">: ef port for in button
 
         <led>: show Cosmac Elf LED module panel using specified number as output port
@@ -121,19 +128,331 @@
         <ef type="in">3</ef>
     </frontpanel>
 
-    <memory>
+    <frontpanel init="on">
+        <!-- frontpanel definition
+        <size>: size of the panel horizontal, vertical
+        <item>: gui item specification
+        -->
+        <size>460, 180</size>
+        <item>
+            <!-- item definition
+            
+            <type>push: frontpanel push button
+            <type>push</type>: square pushbutton (on windows/linux size & form, for this button only, are set in <size>)
+            <type color="red">push</type>: red square pushbutton
+            <type form="round">push</type>: black round pushbutton
+            <type form="round" color="red">push</type>: red round pushbutton
+    
+            Only used on macOS:
+                <type size="small">push</type>: small square pushbutton
+                <type form="rectangle">push</type>: rectangle pushbutton
+                <type form="rectangle" size="small">push</type>: small rectangle pushbutton
+
+            <type>switch: frontpanel switch button
+            <type>switch</type>: vertical switch button
+            <type direction="horizontal">switch</type>: vertical switch button
+        
+            <type>text: frontpanel text
+
+            <type>png: png graphic file
+
+            <type>dipswitch: dip switch button; current supported function only includes dipmp for CDP18S020 memory protect for dipswitch 0 to 3
+
+            <type>led: frontpanel led
+            <type>led</type>: small red led
+            <type form="large">led</type>: large red led (used on Membership Card)
+            <type form="largegreen">led</type>: large red/green/orange led (used on Membership Card)
+            <type form="realred">led</type>: real looking red led (used on Elf2K)
+            <type form="realgreen">led</type>: real looking green led (used on Elf2K)
+            <type form="realorange">led</type>: real looking orange led (used on Elf2K)
+            <type form="disable">led</type>: small red led with option to disable (used on Microboard PIO)
+
+            <value>:
+            1. in combination with <type>led</type> and <function>bitled</function> indicates the led bit number (0-7)
+            2. in combination with <type>push</type> and <function>card</function> indicates card button value (used with FRED card buttons)
+
+            <function>: defines function of the button or led
+            
+            function options for buttons are:
+            power - power on/off
+            load - CPU LOAD
+            mp - memory protect
+            run - start CPU, with types (type="xx"):
+                boot - start at defined boot address
+                reset - reset cpu and start at defined boot address
+            run0 - start CPU with types (type="xx"):
+                boot - start at address 0
+                reset - reset cpu and start at address 0
+            in - elf IN button
+            reset - reset CPU with types (type="xx") on reset press:
+                default (or no type) - setclear 0 / setWait 1
+                full - execute full Emma gui reset routine (used on FRED1, FRED1.5)
+                
+            card - FRED CARD buttons
+            read - FRED READ
+            cardswitch - FRED CARD frontpanl switch
+            
+            function options for leds are:
+            stopled - FRED stop led
+            readyled - FRED ready led
+            errorled - FRED error led
+            qled - CPU q led
+            resetled - CPU reset led
+            pauseled - CPU pause led
+            runled - CPU run led
+            loadled - CPU load led
+            bitled - data bit led (0 to 7)
+            - add option load="show" to show current data value on leds when CPU is in LOAD
+            - add option cycle="show" to show current data value on every CPU cycle
+            addressled - address bit led (0 to 15)
+            - add option cycle="show" to show current address value on every CPU cycle
+            cpustateled - CPU state led (0 = SC0, 1 = SC1, 2 = WAIT, 3 = CLEAR)
+
+            <label>: defines label name for push buttons and text string for text type.
+            <label size="x">: defines text string for text type in font size x.
+
+            <pos>: item postition x, y
+
+            <size>: item size x, y
+
+            <init>: use down or up for initial postion of switch button
+
+            -->
+            <type size="small">push</type>
+            <function>reset</function>
+            <label></label>
+            <pos>35, 60</pos>
+            <size>25, 25</size>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="16">RESET</label>
+            <pos>20, 88</pos>
+        </item>
+        <item>
+            <type size="small">push</type>
+            <function>run</function>
+            <label></label>
+            <pos>85, 60</pos>
+            <size>25, 25</size>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="16">RUN</label>
+            <pos>80, 88</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <function>read</function>
+            <init>down</init>
+            <pos>135, 60</pos>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="16">READ</label>
+            <pos>125, 88</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <function>cardswitch</function>
+            <init>down</init>
+            <pos>185, 60</pos>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="16">CARD</label>
+            <pos>175, 88</pos>
+        </item>
+       <item>
+            <type>switch</type>
+            <function>power</function>
+            <init>up</init>
+            <pos>235, 60</pos>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="16">OFF</label>
+            <pos>232, 88</pos>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="16">STOP</label>
+            <pos>42, 138</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <function>stopled</function>
+            <pos>55, 160</pos>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="16">READY</label>
+            <pos>120, 138</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <function>readyled</function>
+            <pos>140, 160</pos>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="16">ERROR</label>
+            <pos>205, 138</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <function>errorled</function>
+            <pos>225, 160</pos>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="16">0</label>
+            <pos>262, 35</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>0</value>
+            <load="show">bitled</function>
+            <pos>262, 15</pos>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="16">1</label>
+            <pos>228, 35</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>1</value>
+            <load="show">bitled</function>
+            <pos>228, 15</pos>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="16">2</label>
+            <pos>194, 35</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>2</value>
+            <load="show">bitled</function>
+            <pos>194, 15</pos>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="16">3</label>
+            <pos>160, 35</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>3</value>
+            <load="show">bitled</function>
+            <pos>160, 15</pos>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="16">4</label>
+            <pos>126, 35</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>4</value>
+            <load="show">bitled</function>
+            <pos>126, 15</pos>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="16">5</label>
+            <pos>92, 35</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>5</value>
+            <load="show">bitled</function>
+            <pos>92, 15</pos>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="16">6</label>
+            <pos>58, 35</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>6</value>
+            <load="show">bitled</function>
+            <pos>58, 15</pos>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="16">7</label>
+            <pos>24, 35</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>7</value>
+            <load="show">bitled</function>
+            <pos>24, 15</pos>
+        </item>
+        <item>
+            <type size="small">push</type>
+            <value>189</value>
+            <function>card</function>
+            <label>0</label>
+            <pos>300, 40</pos>
+            <size>25, 25</size>
+        </item>
+        <item>
+            <type size="small">push</type>
+            <value>204</value>
+            <function>card</function>
+            <label>1</label>
+            <pos>330, 40</pos>
+            <size>25, 25</size>
+        </item>
+        <item>
+            <type size="small">push</type>
+            <value>120</value>
+            <function>card</function>
+            <label>2</label>
+            <pos>360, 40</pos>
+            <size>25, 25</size>
+        </item>
+        <item>
+            <type size="small">push</type>
+            <value>115</value>
+            <function>card</function>
+            <label>3</label>
+            <pos>390, 40</pos>
+            <size>25, 25</size>
+        </item>
+        <item>
+            <type size="small">push</type>
+            <value>177</value>
+            <function>card</function>
+            <label>4</label>
+            <pos>420, 40</pos>
+            <size>25, 25</size>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="16">Cards:</label>
+            <pos>300, 10</pos>
+        </item>
+    </frontpanel>
+
+    <memory mask="0xffff">
         <!--
         <rom mask="0xZZZZ">: definition of a rom segment, mutliple definitions are supported
         <mainram mask="0xZZZZ">: definition of the main ram segment, if a filename is specified it will be shown on the GUI. Only one definition is supported. For additional segments use <ram>
         <ram mask="0xZZZZ">: definition of a ram segment, mutliple definitions are supported
-        <copy>:copy or duplicate part of memory to a second memory location
+        <copy start="0xXXXX" end="0xYYYY">: copy or duplicate part of memory from XXXX-YYYY to specified  memory location
+        <mampart start="0xXXXX" end="0xYYYY">: define memory from XXXX-YYYY as RAM; allowing any start/end address location - other ROM/RAM options are always one page length.
         <slot max="4">:  define memory slot's, max specifies the maximum number of slots
         <ems type="RyM">: definition of an ems (extended memory system) segment of either type RAM or ROM, mutliple definitions are supported
         <mapper>: definition of a 1 MB RAM mapper using a port extender, only one definition is supported.
         <giant>: definition for giantboard mapping at 0xF000-0xFFFF. Note this overwrites all other memory options.
         <diagrom>: definition for COMX diagnostic board ROM used from 0-0xFFF replacing COMX system ROM when active.
 
-        mask="0xZZZZ": When used for rom, mainram, nvram and ram, memory type will be mapped to other locations using the specified mask (smaller than size of the segment). E.g. is <ram mask="0x3fff" is used ram would be mapped every 1K. When specifying mask=0, or when not specified, no mask will be used.
+        mask="0xZZZZ": When used for rom, mainram, nvram and ram, memory type will be mapped to other locations using the specified mask (smaller than size of the segment). E.g. is <ram mask="0x3ff" is used ram would be mapped every 1K. When specifying mask=0, or when not specified, no mask will be used. For masking memory sections of ROM/RAM combined use mask on <memory> level.
         
         common sub tags:
         <start>: start location in main memory
@@ -335,6 +654,8 @@
         <io type="on">: output & input number to enable graphics, i.e. set screen on
         <out>: output number to disable graphics
         <in>: input number to enable graphics
+        <in type="on">: input number to enable graphics (only use if enable and disable is done via IN port)
+        <in type="off">: input number to disable graphics (only use if enable and disable is done via IN port)
         <ef>: ef number for frame indicator
         <zoom>: set default zoom, when not specified 2.00 will be used
         <border>: set border size in pixels with format XxY, note that X should always be in steps of 3 pixels.
@@ -350,6 +671,91 @@
         <color type="back">0, 0, 0</color>
      </video>
      
+     <video type="1862">
+         <!-- video definition for cdp 1862 chip
+         <out type="back">: output number to switch background colour
+         <out type="color_ram" mask="0xf">: write to color RAM, address = ((output_address >> 1) & 0xf8) + (output_address & 0x7), RAM value bits as defined in mask
+         <in>: input number to enable graphics
+         <out>: output number to disable graphics
+         <ef>: ef number for frame indicator
+         <ef type="on">: ef number for frame indicator, but only used when screen is enable/on
+         <colorram>: define color RAM range
+         <colortype>: color type used, only option supported is vip for COSMAC VIP
+         <zoom>: set default zoom, when not specified 2.00 will be used
+         <border>: set border size in pixels with format XxY, note that X should always be in steps of 3 pixels.
+         <color type="fore">: set foregorund color. Color is specified as red, green, blue all 3 values range from 0 to 255.
+         <color type="back">: set foregorund color. Color is specified as red, green, blue all 3 values range from 0 to 255.
+         <color type="xxx">: set specified color, see values in example below. Use either fore/back or range below.
+         -->
+
+         <out>1</out>
+         <in>1</in>
+         <ef>1</ef>
+         <out type="back">5</out>
+         <colorram>0xc000-0xdfff</colorram>
+         <colortype>vip</colortype>
+         <border>33x33</border>
+         <color type="white">255, 255, 255</color>
+         <color type="red">255, 0, 0</color>
+         <color type="blue">0, 0, 255</color>
+         <color type="magenta">255, 0, 255</color>
+         <color type="green">0, 255, 0</color>
+         <color type="yellow">255, 255, 0</color>
+         <color type="cyan">0, 255, 255</color>
+         <color type="black">20, 20, 20</color>
+         <color type="back_blue">0, 0, 128</color>
+         <color type="back_black">0, 0, 0</color>
+         <color type="back_green">0, 128, 0</color>
+         <color type="back_red">128, 0, 0</color>
+      </video>
+
+      <video type="1864">
+         <!-- video definition for cdp 1864 chip
+         <out type="tone">: output number to set tone latch
+         <out type="back">: output number to switch background colour
+         <out type="color_ram" mask="0xf">: write to color RAM, address = ((output_address >> 1) & 0xf8) + (output_address & 0x7), RAM value bits as defined in mask
+         <in type="on">: input number to enable graphics
+         <in type="off">: input number to disable graphics
+         <ef>: ef number for frame indicator
+         <ef type="on">: ef number for frame indicator, but only used when screen is enable/on
+         <colortype>: color type used, eti/hug for ETI/HUG, vic for VICTORY, studio for Studio IV or tmc for TMC2000, cos for black/white Cosmicos
+         <zoom>: set default zoom, when not specified 2.00 will be used
+         <border>: set border size in pixels with format XxY, note that X should always be in steps of 3 pixels.
+         <color type="fore">: set foregorund color. Color is specified as red, green, blue all 3 values range from 0 to 255. This type is used for a black/white configured 1864 like in the Cosmicos
+         <color type="back">: set foregorund color. Color is specified as red, green, blue all 3 values range from 0 to 255. This type is used for a black/white configured 1864 like in the Cosmicos
+         <color type="xxx">: set specified color, see values in example below. Use either fore/back or range below.
+         -->
+
+         <in type="on">1</in>
+         <in type="off">4</in>
+         <out type="back">1</out>
+         <out type="color_ram" mask="0xf">3</out>
+         <out type="tone">4</out>
+         <ef>1</ef>
+         <height>192</height>
+         <graphics>
+             <interrupt>74</interrupt>
+             <start>76</start>
+             <end>267</end>
+             <screenend>312</screenend>
+         </graphics>
+         <border>32x32</border>
+         <xscale>4</xscale>
+         <colortype>eti</colortype>
+         <color type="white">255, 255, 255</color>
+         <color type="red">255, 0, 0</color>
+         <color type="blue">0, 0, 255</color>
+         <color type="magenta">255, 0, 255</color>
+         <color type="green">0, 255, 0</color>
+         <color type="yellow">255, 255, 0</color>
+         <color type="cyan">0, 255, 255</color>
+         <color type="black">20, 20, 20</color>
+         <color type="back_blue">0, 0, 128</color>
+         <color type="back_black">0, 0, 0</color>
+         <color type="back_green">0, 128, 0</color>
+         <color type="back_red">128, 0, 0</color>
+      </video>
+
      <video type="mc6845">
          <!-- video definition for the mc6845 chip
          <ram>: video ram definition in a range within the CPU memory map. Always specify a range in hex (0x) format
@@ -870,6 +1276,18 @@
          <ef type="in">3</ef>
      </keypad>
 
+     <keypad type="hug">
+         <!-- keypad definition for the hug1802 and eti-660
+         <out>: write pia port
+         <in>: read pia port
+         <ef>: ef port for step key signal
+         -->
+
+         <out>2</out>
+         <in>2</in>
+         <ef>4</ef>
+     </keypad>
+
      <keypad type="cosmicos">
          <!-- keypad definition for the cosmicos keypad
          <out type="hex">: output port to select hex row
@@ -889,8 +1307,9 @@
          <ef type="req">3</ef>
      </keypad>
 
-     <keypad type="latch">
-         <!-- keypad definition for a keypad solution using a kay latch (VELF, VIP etc)
+     <keypad type="latch" pad="a">
+         <!-- keypad definition for a keypad solution using a kay latch (VELF, VIP etc).
+         Two pads can be defined a (or 1) and/or b (or 2). When no pad is specified it defaults to pad a.
          <iogroup>: iogroup, i.e. i/o ports are activate when specified iogroup is selected via the iogroup port
          <out>: port to set key latch, mask HAS TO be set to max value to be able to use keyfile, ctrl V and memeory access features
          <ef pol="rev">: ef port indicating if latched key is pressed, if pol="rev" is specified ef will be reversed
@@ -1032,6 +1451,7 @@
          <serialport>: specify PC serial port
          <baud type="receive">: specify receive baud rate; baud rate can also be changed in the GUI
          <baud type="transmit">: specif transmit baud rate; baud rate can also be changed in the GUI
+         <timeout>: timeout in milliseconds, or zero to wait indefinitely (default 60 ms)
          -->
 
          <out>7</out>
@@ -1040,6 +1460,7 @@
          <serialport></serialport>
          <baud type="receive">19200</baud>
          <baud type="transmit">19200</baud>
+         <timeout>60</timeout>
      </vt>
 
      <vt type="vt100" connection="uart16450" >
@@ -1107,7 +1528,7 @@
      </vt>
 
      <printer>
-         <!-- basic printer definition add type="parallel", type="serial" or type="thermal" for COMX type printer cards, type="q" for a serial printer using q flag output (like for Pecom)
+         <!-- basic printer definition add type="parallel", type="serial" or type="thermal" for COMX type printer cards, type="q" for a serial printer using q flag output (like for Pecom), type="centronics" for a q strobe P-1 or PR-40 printer
          <iogroup>: iogroup, i.e. i/o ports are activate when specified iogroup is selected via the iogroup port
          <out>: output port to write data to printer interface
          <in>: input port to check printer status (used for parallel, serial, thermal printer)
@@ -1141,9 +1562,10 @@
          <!-- cassette definition for 1 or 2 tape decks
          <ef>: ef port for cassette input
          Q is always used for cassette output
-         <out>: port
+         <out>: control port (for VIP 1=load, 2=save, 0=stop)
          <filename>: initial cassette filename
          <dirname>: location of cassette file; defined as sub-dir of the main Emma 02 data directory. If not specified the dirname specified in <system> will be used.
+         <stopdelay>: number of ms tape will continue saving when stop command is given by CPU
          -->
 
          <ef>2</ef>
@@ -1204,12 +1626,31 @@
 
      <sound type="q">
          <!-- sound definition using Q flag if defined either <hw> or <sw> should be used, not both
-         <hw>: play tone with specified frequency when Q=1
+         <hw>: play beeper tone with specified frequency when Q=1
          <sw>: play tone with frequency as Q flag is switched between 1/0 by the 1802 CPU
          -->
 
          <hw>250</hw>
          <sw />
+     </sound>
+
+     <sound type="cdp1863">
+         <!-- sound definition using Q flag and output to latch tone frequency
+         -->
+
+         <out>4</out>
+     </sound>
+
+     <sound type="vp550" stereo="off">
+         <!-- VIP supersound board VP550
+         -->
+         
+     </sound>
+
+     <sound type="vp551" stereo="on">
+         <!-- VIP supersound board VP551
+         -->
+
      </sound>
 
      <sound type="bit">
@@ -1341,6 +1782,14 @@
          <cv_tape_play>0x804e,0xb5</cv_tape_play>
          <cv_tape_ff>0x668</cv_tape_ff>
          <cv_tape_rec>0x89</cv_tape_rec>
+
+         <!-- FRED tape Tape Software [AUD_2464_09_B41_ID33_02].bin triggers -->
+         <stop_cas>0xae</stop_cas>
+         <fred_tape_rec>0x6f</fred_tape_rec>
+
+         <!-- FRED tape FEL-1.bin triggers -->
+         <stop_cas reg="5" value="0xe0">0x13b</stop_cas>
+         <fred_tape_rec reg="5" value="0xca">0x13b</fred_tape_rec>
 
          <!-- Correct CAPS state on startup (after C/W message has been answered for TMC-600)
          this works and it might be more logic but at the same time it means CAPS should be

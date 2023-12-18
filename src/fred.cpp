@@ -42,6 +42,9 @@ FredScreen::FredScreen(wxWindow *parent, const wxSize& size, int tilType)
 
 FredScreen::~FredScreen()
 {
+    if (xmlButtonDefined_)
+        return;
+
 #if defined (__WXMAC__)
     delete osx_text_runButtonPointer;
     delete osx_text_resetButtonPointer;
@@ -66,7 +69,7 @@ FredScreen::~FredScreen()
 }
 
 void FredScreen::init()
-{
+{    
     keyStart_ = 0;
     keyEnd_ = 0;
     lastKey_ = 0;
@@ -84,9 +87,9 @@ void FredScreen::init()
 #endif
 
 #if defined (__WXMAC__)
-    osx_text_resetButtonPointer = new HexButton(dc, COSMICOS_HEX_BUTTON, 35, 60, "");
-    osx_text_runButtonPointer = new HexButton(dc, COSMICOS_HEX_BUTTON, 85, 60, "");
-//    osx_text_readButtonPointer = new HexButton(dc, COSMICOS_HEX_BUTTON, 135, 60, "");
+    osx_text_resetButtonPointer = new HexButton(dc, PUSH_BUTTON_SMALL, 35, 60, "");
+    osx_text_runButtonPointer = new HexButton(dc, PUSH_BUTTON_SMALL, 85, 60, "");
+//    osx_text_readButtonPointer = new HexButton(dc, PUSH_BUTTON_SMALL, 135, 60, "");
 #else
     text_resetButtonPointer = new wxButton(this, 2, "", wxPoint(35, 60), wxSize(25, 25), 0, wxDefaultValidator, "ResetButton");
     text_resetButtonPointer->SetToolTip("Reset");
@@ -98,22 +101,28 @@ void FredScreen::init()
 
     for (int i=0; i<8; i++)
     {
-        ledPointer[i] = new Led(dc, 24+34*(7-i), 15, ELFLED);
+        ledPointer[i] = new Led(dc, 24+34*(7-i), 15, LED_SMALL_RED);
     }
     
-    readSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 135, 60, "");
-    cardSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 185, 60, "");
-    powerSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_UP, 235, 60, "");
+    readSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(255, 255, 255), BUTTON_DOWN, 135, 60, "");
+    cardSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(255, 255, 255), BUTTON_DOWN, 185, 60, "");
+    powerSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(255, 255, 255), BUTTON_UP, 235, 60, "");
 
-    stopLedPointer = new Led(dc, 55, 160, ELFLED);
-    readyLedPointer = new Led(dc, 140, 160, ELFLED);
-    errorLedPointer = new Led(dc, 225, 160, ELFLED);
+    stopLedPointer = new Led(dc, 55, 160, LED_SMALL_RED);
+    readyLedPointer = new Led(dc, 140, 160, LED_SMALL_RED);
+    errorLedPointer = new Led(dc, 225, 160, LED_SMALL_RED);
 
     this->connectKeyEvent(this);
 }
 
-void FredScreen::onPaint(wxPaintEvent&WXUNUSED(event))
+void FredScreen::onPaint(wxPaintEvent &event)
 {
+    if (xmlButtonDefined_)
+    {
+        Panel::onPaint(event);
+        return;
+    }
+
     wxPaintDC dc(this);
 
 #if defined(__WXMAC__)
@@ -123,6 +132,7 @@ void FredScreen::onPaint(wxPaintEvent&WXUNUSED(event))
     dc.SetPen(*wxWHITE_PEN);
     dc.SetBrush(*wxWHITE_BRUSH);
     dc.DrawRectangle(0, 0, 310, 180);
+
 #if defined(__WXMAC__)
     wxFont defaultFont(16, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
 #else
@@ -135,7 +145,7 @@ void FredScreen::onPaint(wxPaintEvent&WXUNUSED(event))
     for (int i=0; i<8; i++)
     {
         number.Printf("%d", i);
-//        dc.DrawText(number, 24+34*(7-i), 35);
+        dc.DrawText(number, 24+34*(7-i), 35);
     }
     
     dc.DrawText("RESET", 20, 88);
@@ -151,10 +161,12 @@ void FredScreen::onPaint(wxPaintEvent&WXUNUSED(event))
     readSwitchButton->onPaint(dc);
     cardSwitchButton->onPaint(dc);
     powerSwitchButton->onPaint(dc);
+
     for (int i=0; i<8; i++)
     {
         ledPointer[i]->onPaint(dc);
     }
+
     stopLedPointer->onPaint(dc);
     readyLedPointer->onPaint(dc);
     errorLedPointer->onPaint(dc);
@@ -168,6 +180,12 @@ void FredScreen::onPaint(wxPaintEvent&WXUNUSED(event))
 
 void FredScreen::onMousePress(wxMouseEvent&event)
 {
+    if (xmlButtonDefined_)
+    {
+        Panel::onMousePress(event);
+        return;
+    }
+
     int x, y;
     event.GetPosition(&x, &y);
     
@@ -187,6 +205,12 @@ void FredScreen::onMousePress(wxMouseEvent&event)
 
 void FredScreen::onMouseRelease(wxMouseEvent&event)
 {
+    if (xmlButtonDefined_)
+    {
+        Panel::onMouseRelease(event);
+        return;
+    }
+
     int x, y;
     event.GetPosition(&x, &y);
     
@@ -195,10 +219,10 @@ void FredScreen::onMouseRelease(wxMouseEvent&event)
     if (readSwitchButton->onMouseRelease(dc, x, y))
         p_Computer->onReadButton();
     if (cardSwitchButton->onMouseRelease(dc, x, y))
-        p_Computer->onCardButton();
+        p_Computer->onCardButtonSwitch();
     if (powerSwitchButton->onMouseRelease(dc, x, y))
         p_Main->stopComputer();
-    
+
 #if defined (__WXMAC__)
     osx_text_resetButtonPointer->onMouseRelease(dc, x, y);
     osx_text_runButtonPointer->onMouseRelease(dc, x, y);
@@ -233,7 +257,7 @@ Fred::Fred(const wxString& title, const wxPoint& pos, const wxSize& size, double
     
     ef1State_ = 1;
     ef4State_ = 1;
-    ef1StateTape_ = 1;
+    tapedataReady_ = 1;
     
     tapeRunSwitch_ = 0x2;
 
@@ -585,7 +609,7 @@ Byte Fred::ef1()
         break;
 
         case INP_MODE_TAPE_PROGRAM:
-            return ef1StateTape_;
+            return tapedataReady_;
         break;
 
         default:
@@ -641,7 +665,7 @@ Byte Fred::in(Byte port, Word WXUNUSED(address))
 
                 case INP_MODE_TAPE_PROGRAM:
                     ret = lastTapeInpt_;
-                    ef1StateTape_ = 1;
+                    tapedataReady_ = 1;
                 break;
             }
         break;
@@ -846,7 +870,7 @@ void Fred::autoBoot()
 
 void Fred::startLoad(bool button)
 {
-    if (tapeRunSwitch_&1)
+    if ((tapeRunSwitch_&1) & !button)
         return;
     
     lastSampleInt16_ = 0;
@@ -888,7 +912,7 @@ void Fred::onReadButton()
     updateCardReadStatus();
 }
 
-void Fred::onCardButton()
+void Fred::onCardButtonSwitch()
 {
     cardSwitchOn_ = !cardSwitchOn_;
     
@@ -1462,7 +1486,7 @@ void Fred::cassetteFred56()
                 if  (inpMode_ == INP_MODE_TAPE_PROGRAM)
                 {
                     lastTapeInpt_ = tapeInput_;
-                    ef1StateTape_ = 0;
+                    tapedataReady_ = 0;
                 }
             }
         }
@@ -1538,7 +1562,7 @@ void Fred::cassetteFredPm()
                 if  (inpMode_ == INP_MODE_TAPE_PROGRAM)
                 {
                     lastTapeInpt_ = tapeInput_;
-                    ef1StateTape_ = 0;
+                    tapedataReady_ = 0;
                 }
             }
         }

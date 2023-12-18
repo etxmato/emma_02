@@ -62,7 +62,7 @@ Sound::Sound()
     }
     tapeSynthPointer = new Blip_Synth<blip_high_quality,30>;
 
-    vipSound_ = VIP_BEEP;
+    activeSoundType_ = SOUND_EXT_BEEPER;
     followQ_ = false;
     studioBeep_ = false;
     audioIn_ = false;
@@ -592,16 +592,16 @@ void Sound::psaveAmplitudeChange(int q)
                 case VIP:
                     if (q)
                     {
-                        switch(vipSound_)
+                        switch(activeSoundType_)
                         {
-                            case VIP_BEEP:
+                            case SOUND_EXT_BEEPER:
                                 beepOn();
                             break;
-                            case VIP_1864:
+                            case SOUND_1863_1864:
                                 tone1864On();
                             break;
-                            case VIP_SUPER2:
-                            case VIP_SUPER4:
+                            case SOUND_SUPER_VP550:
+                            case SOUND_SUPER_VP551:
                                 toneSuper();
                             break;
                         }
@@ -676,16 +676,16 @@ void Sound::psaveAmplitudeChange(int q)
                 case ELFII:
                 case SUPERELF:
                 case PICO:
-                    switch (qSound_)
+                    switch (activeSoundType_)
                     {
-                        case QSOUNDSW:
+                        case SOUND_Q_SW:
                             if (q)
                                 toneElf2KOn();
                             else
                                 toneElf2KOff();
                         break;
 
-                        case QSOUNDEXT:
+                        case SOUND_EXT_BEEPER:
                             toneAmplitude_[0] = 8;
                             toneAmplitude_[1] = 8;
                             if (q)
@@ -697,20 +697,35 @@ void Sound::psaveAmplitudeChange(int q)
                 break;
 
                 case XML:
-                    switch (qSound_)
+                    switch (activeSoundType_)
                     {
-                        case QSOUNDSW:
+                        case SOUND_Q_SW:
                             if (q)
                                 toneElf2KOn();
                             else
                                 toneElf2KOff();
                         break;
 
-                        case QSOUNDEXT:
+                        case SOUND_EXT_BEEPER:
                             toneAmplitude_[0] = 8;
                             toneAmplitude_[1] = 8;
                             if (q)
                                 beepOn();
+                            else
+                                beepOff();
+                        break;
+
+                        case SOUND_1863_1864:
+                            if (q)
+                                tone1864On();
+                            else
+                                beepOff();
+                        break;
+
+                        case SOUND_SUPER_VP550:
+                        case SOUND_SUPER_VP551:
+                            if (q)
+                                toneSuper();
                             else
                                 beepOff();
                         break;
@@ -747,7 +762,7 @@ void Sound::playSaveLoad()
 {
     if (stopTheTape_)
     {
-        if (isTapeHwActive())
+        if (p_Main->isTapeHwCybervision(computerType_))
         {
  //           resetTape();
             pauseTape();
@@ -778,7 +793,9 @@ void Sound::playSaveLoad()
 
         // Stop if no more samples are avialable
         if (sample_count == 0)
+        {
             break;
+        }
 
         if (hwSaveOn_)
         {
@@ -810,7 +827,7 @@ void Sound::playSaveLoad()
         {
             if (ploadWavePointer->eof())
             {
-                if (isTapeHwActive())
+                if (p_Main->isTapeHwCybervision(computerType_))
                     pauseTape();
                 else
                     stopTape();
@@ -828,12 +845,12 @@ void Sound::playSaveLoad()
 
         if (rewindOn_)
         {
-            int sample_count = (int)ploadWavePointer->rewind(rewindSpeed_);
+            sample_count = (int)ploadWavePointer->rewind(rewindSpeed_);
             stepCassetteCounter(-rewindSpeed_);
 
             if (sample_count <= 0)
             {
-                if (isTapeHwActive())
+                if (p_Main->isTapeHwCybervision(computerType_))
                     pauseTape();
                 else
                     stopTape();
@@ -844,7 +861,7 @@ void Sound::playSaveLoad()
         {
             if (ploadWavePointer->eof())
             {
-                if (isTapeHwActive())
+                if (p_Main->isTapeHwCybervision(computerType_))
                     pauseTape();
                 else
                     stopTape();
@@ -874,6 +891,16 @@ void Sound::playSaveLoad()
         
         if (psaveOn_)
         {
+            if (stopTapeCounter_ > 0)
+            {
+                stopTapeCounter_--;
+                if (stopTapeCounter_ == 0)
+                {
+                    p_Computer->stopTape();
+                    return;
+                }
+            }
+
             if (psaveBitsPerSample_ == 0)
             {
                 unsigned char samples8bit [soundBufferSize/2];
@@ -974,6 +1001,7 @@ void Sound::startSaveTape(wxString fileName, wxString tapeNumber)
     if (psaveWavePointer->openFile(fileName))
     {
         psaveOn_ = true;
+        stopTapeCounter_ = 0;
         p_Main->turboOn();
     }
     else
@@ -1232,7 +1260,8 @@ void Sound::pauseTape()
         startNewRecording_ = true;
     }
 
-    if (computerType_ == FRED1 || computerType_ == FRED1_5)
+//    if (computerType_ == FRED1 || computerType_ == FRED1_5)
+    if (p_Main->isTapeHwFred(computerType_))
         p_Main->eventSetTapeState(TAPE_PAUSE, tapeNumber_);
     else
         p_Main->eventSetTapeState(TAPE_STOP, tapeNumber_);

@@ -114,20 +114,20 @@ void SuperScreen::init()
     int ySize = 30;
 
 #if defined (__WXMAC__)
-    osx_push_inButtonPointer = new HexButton(dc, ELF_HEX_BUTTON, xPos+5*(xSize+2), yPos+3*(ySize+2), "IN");
-    osx_text_resetButtonPointer = new HexButton(dc, ELF_HEX_BUTTON, xPos+4*(xSize+2), yPos+ySize+2, "R");
-    osx_text_loadButtonPointer = new HexButton(dc, ELF_HEX_BUTTON, xPos+4*(xSize+2), yPos, "L");
-    osx_text_runButtonPointer = new HexButton(dc, ELF_HEX_BUTTON, xPos+4*(xSize+2), yPos+2*(ySize+2), "G");
-    osx_pauseButtonPointer = new HexButton(dc, ELF_HEX_BUTTON, xPos+4*(xSize+2), yPos+3*(ySize+2), "W");
-    osx_monitorButtonPointer = new HexButton(dc, ELF_HEX_BUTTON, xPos+5*(xSize+2), yPos, "M");
-    osx_stepButtonPointer = new HexButton(dc, ELF_HEX_BUTTON, xPos+5*(xSize+2), yPos+(ySize+2), "S");
-    osx_text_mpButtonPointer = new HexButton(dc, ELF_HEX_BUTTON, xPos+5*(xSize + 2), yPos+2*(ySize+2), "P");
+    osx_push_inButtonPointer = new HexButton(dc, PUSH_BUTTON, xPos+5*(xSize+2), yPos+3*(ySize+2), "IN");
+    osx_text_resetButtonPointer = new HexButton(dc, PUSH_BUTTON, xPos+4*(xSize+2), yPos+ySize+2, "R");
+    osx_text_loadButtonPointer = new HexButton(dc, PUSH_BUTTON, xPos+4*(xSize+2), yPos, "L");
+    osx_text_runButtonPointer = new HexButton(dc, PUSH_BUTTON, xPos+4*(xSize+2), yPos+2*(ySize+2), "G");
+    osx_pauseButtonPointer = new HexButton(dc, PUSH_BUTTON, xPos+4*(xSize+2), yPos+3*(ySize+2), "W");
+    osx_monitorButtonPointer = new HexButton(dc, PUSH_BUTTON, xPos+5*(xSize+2), yPos, "M");
+    osx_stepButtonPointer = new HexButton(dc, PUSH_BUTTON, xPos+5*(xSize+2), yPos+(ySize+2), "S");
+    osx_text_mpButtonPointer = new HexButton(dc, PUSH_BUTTON, xPos+5*(xSize + 2), yPos+2*(ySize+2), "P");
     for (int i = 0; i<16; i++)
     {
         buttonText.Printf("%01X", i);
         x = xPos + (i & 0x3)*(xSize + 2);
         y = (yPos + 3 * (ySize + 2)) - (int)(i / 4 * (ySize + 2));
-        osx_buttonPointer[i] = new HexButton(dc, ELF_HEX_BUTTON, x, y, buttonText);
+        osx_buttonPointer[i] = new HexButton(dc, PUSH_BUTTON, x, y, buttonText);
     }
 #else
     push_inButtonPointer = new PushButton(this, 20, "IN", wxPoint(xPos+5*(xSize+2), yPos+3*(ySize+2)), wxSize(xSize, ySize), 0);
@@ -154,11 +154,11 @@ void SuperScreen::init()
     }
 #endif
     
-    powerSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(0xbd, 0xb2, 0xa5), BUTTON_UP, 464, 42, "");
+    powerSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(0xbd, 0xb2, 0xa5), BUTTON_UP, 464, 42, "");
 
     for (int i=0; i<8; i++)
     {
-        ledPointer[i] = new Led(dc, 284, 233+15*i, SUPERELFLED);
+        ledPointer[i] = new Led(dc, 284, 233+15*i, LED_SMALL_RED);
         updateLed_[i] = true;
     }
     for (int i=0; i<4; i++)
@@ -182,7 +182,7 @@ void SuperScreen::init()
         updateData_ = true;
     }
 
-    qLedPointer = new Led(dc, 284, 210, SUPERELFLED);
+    qLedPointer = new Led(dc, 284, 210, LED_SMALL_RED);
     updateQLed_ = true;
     this->connectKeyEvent(this);
 }
@@ -420,6 +420,11 @@ void Super::onClose(wxCloseEvent&WXUNUSED(event) )
 
 void Super::charEvent(int keycode)
 {
+    if (p_Vt100[UART1] != NULL)
+    {
+        if (vtPointer->IsActive())
+            return;
+    }
     if (elfConfiguration.useKeyboard)
         charEventKeyboard(keycode);
 }
@@ -1859,7 +1864,7 @@ void Super::configureExtensions()
         p_Printer->init(p_Printer, PRINTER_BASIC);
     }
 
-    setQsound (elfConfiguration.qSound_);
+    setSoundType (elfConfiguration.qSound_);
 
     if (elfConfiguration.useKeyboard)
         configureKeyboard(SUPERELF, elfConfiguration.ioConfiguration);

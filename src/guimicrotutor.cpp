@@ -60,6 +60,7 @@ void GuiMicrotutor::readMicrotutorConfig()
 {
     selectedComputer_ = MICROTUTOR;
 
+    elfConfiguration[MICROTUTOR].useTapeHw = false;
     conf[MICROTUTOR].emsConfigNumber_ = 0;
     conf[MICROTUTOR].videoNumber_ = 0;
 
@@ -179,6 +180,7 @@ void GuiMicrotutor2::readMicrotutor2Config()
 {
     selectedComputer_ = MICROTUTOR2;
     
+    elfConfiguration[MICROTUTOR2].useTapeHw = false;
     conf[MICROTUTOR2].emsConfigNumber_ = 0;
     conf[MICROTUTOR2].videoNumber_ = 0;
 

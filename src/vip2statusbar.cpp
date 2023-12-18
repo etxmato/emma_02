@@ -133,23 +133,35 @@ void VipIIStatusBar::displayLeds()
 #if defined(__WXMAC__)
         if (ledStatus[led])
             ledBitmapPointers [led] = new PushBitmapButton(this, led, *ledOnPointer,
-                                     wxPoint(led*((int)rect.GetWidth()+ledSpacing_)+2+(led*3), 2), wxSize(-1, -1),
+                                     wxPoint(led*((int)rect.GetWidth()+ledSpacing_)+2+(led*3), led_pos_y_), wxSize(-1, -1),
                                      wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
         else
             ledBitmapPointers [led] = new PushBitmapButton(this, led, *ledOffPointer,
-                                     wxPoint(led*((int)rect.GetWidth()+ledSpacing_)+2+(led*3), 2), wxSize(-1, -1),
+                                     wxPoint(led*((int)rect.GetWidth()+ledSpacing_)+2+(led*3), led_pos_y_), wxSize(-1, -1),
                                      wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
 #endif
 #if defined(__WXMSW__)
         ledBitmapPointers [led] = new PushButton(this, led, wxEmptyString,
                                  wxPoint(led*(rect.GetWidth()+ledSpacing_)+2, 6), wxSize(12, 12), 
                                  wxBORDER_NONE);
+#endif
 
         if (ledStatus[led])
+        {
+    #if wxCHECK_VERSION(2, 9, 0)
             ledBitmapPointers [led]->SetBitmap(*ledOnPointer);
+    #else
+            ledBitmapPointers [led]->SetBitmapLabel(*ledOnPointer);
+    #endif
+        }
         else
+        {
+    #if wxCHECK_VERSION(2, 9, 0)
             ledBitmapPointers [led]->SetBitmap(*ledOffPointer);
-#endif
+    #else
+            ledBitmapPointers [led]->SetBitmapLabel(*ledOffPointer);
+    #endif
+        }
     }
     ledsDefined_ = true;
 }

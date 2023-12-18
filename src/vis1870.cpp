@@ -520,8 +520,7 @@ void VIS1870::out7_1870(Word address)
 
 void VIS1870::cycle1870()
 {
-    if (p_Computer->getFlipFlopQ())
-        p_Computer->resetV1870VideoModeEf();
+    p_Computer->resetV1870VideoModeEf();
 
     cycleValue_ --;
     if (cycleValue_ == preDisplayPeriod_)

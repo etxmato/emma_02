@@ -15,7 +15,7 @@ public:
 
     Byte efKeyb1871();
     Byte efKeybRepeat1871();
-    void keyClear();
+    void keyClear1871();
     Byte inKeyb1871();
     void cycleKeyb1871();
 

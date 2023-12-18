@@ -248,7 +248,7 @@
       <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <AdditionalIncludeDirectories>.;.\images;$(SDL)\include;$(WXWIN)\lib\vc_arm64_lib\mswu;$(WXWIN)\include;$(WXWIN)\include\msvc;$(CURL)\include\;$(SERIALPORT)\Win64\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN64;WINVER=0x0500;__WXMSW__;_WINDOWS;NOPCH;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN64;WINVER=0x0500;__WXMSW__;__ARM64__;_WINDOWS;NOPCH;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -380,7 +380,7 @@
       <AdditionalIncludeDirectories>$(WXWIN)\lib\vc_lib\mswd;$(WXWIN)\include;.;.\..\..\samples;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>comctl32.lib;rpcrt4.lib;winmm.lib;advapi32.lib;SDL2.lib;SDL2test.lib;SDL2main.lib;wxmsw32ud_xrc.lib;wxmsw32ud_html.lib;wxmsw32ud_adv.lib;wxmsw32ud_core.lib;wxbase32ud_xml.lib;wxbase32ud_net.lib;wxbase32ud.lib;libcurld.lib;wxregexud.lib;wxexpatd.lib;wsock32.lib;wxtiffd.lib;wxjpegd.lib;wxpngd.lib;wxzlibd.lib;ws2_32.lib;wldap32.lib;libserialport.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>comctl32.lib;rpcrt4.lib;winmm.lib;advapi32.lib;SDL2.lib;SDL2test.lib;SDL2main.lib;wxmsw31ud_xrc.lib;wxmsw31ud_html.lib;wxmsw31ud_adv.lib;wxmsw31ud_core.lib;wxbase31ud_xml.lib;wxbase31ud_net.lib;wxbase31ud.lib;libcurld.lib;wxregexud.lib;wxexpatd.lib;wsock32.lib;wxtiffd.lib;wxjpegd.lib;wxpngd.lib;wxzlibd.lib;ws2_32.lib;wldap32.lib;libserialport.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ShowProgress>NotSet</ShowProgress>
       <OutputFile>$(SolutionDir)$(Platform)\$(Configuration)\Emma 02.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -460,7 +460,6 @@
   <ItemGroup>
     <ClCompile Include="src\about.cpp" />
     <ClCompile Include="src\audioin_windib.c" />
-    <ClCompile Include="src\base.cpp" />
     <ClCompile Include="src\Blip_Buffer.cpp" />
     <ClCompile Include="src\breakpoints.cpp" />
     <ClCompile Include="src\cdp1802.cpp" />
@@ -524,7 +523,6 @@
     <ClCompile Include="src\guivip2k.cpp" />
     <ClCompile Include="src\guixml.cpp" />
     <ClCompile Include="src\hbelf.cpp" />
-    <ClCompile Include="src\http.cpp" />
     <ClCompile Include="src\i8275.cpp" />
     <ClCompile Include="src\ide.cpp" />
     <ClCompile Include="src\iodevice.cpp" />
@@ -567,8 +565,6 @@
     <ClCompile Include="src\studioiv.cpp" />
     <ClCompile Include="src\super.cpp" />
     <ClCompile Include="src\Sync_Audio.cpp" />
-    <ClCompile Include="src\til311.cpp" />
-    <ClCompile Include="src\til313.cpp" />
     <ClCompile Include="src\til313.full.cpp" />
     <ClCompile Include="src\tmc1800.cpp" />
     <ClCompile Include="src\tmc2000.cpp" />
@@ -598,13 +594,20 @@
     <ClCompile Include="Y:\workspace\emma_02\src\keyb1871.cpp" />
     <ClCompile Include="Y:\workspace\emma_02\src\keyblatch.cpp" />
     <ClCompile Include="Y:\workspace\emma_02\src\keybmatrix.cpp" />
+    <ClCompile Include="Y:\workspace\emma_02\src\keypadfred.cpp" />
     <ClCompile Include="Y:\workspace\emma_02\src\rtc.cpp" />
     <ClCompile Include="Y:\workspace\emma_02\src\sn76430n.cpp" />
+    <ClCompile Include="Y:\workspace\emma_02\src\til.cpp" />
+    <ClCompile Include="Y:\workspace\emma_02\src\wxcurl_base.cpp" />
+    <ClCompile Include="Y:\workspace\emma_02\src\wxcurl_dialog.cpp" />
+    <ClCompile Include="Y:\workspace\emma_02\src\wxcurl_ftp.cpp" />
+    <ClCompile Include="Y:\workspace\emma_02\src\wxcurl_http.cpp" />
+    <ClCompile Include="Y:\workspace\emma_02\src\wxcurl_panel.cpp" />
+    <ClCompile Include="Y:\workspace\emma_02\src\wxcurl_thread.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\about.h" />
     <ClInclude Include="src\audio_detect.h" />
-    <ClInclude Include="src\base.h" />
     <ClInclude Include="src\Blip_Buffer.h" />
     <ClInclude Include="src\breakpoints.h" />
     <ClInclude Include="src\cdp1802.h" />
@@ -670,7 +673,6 @@
     <ClInclude Include="src\guivip2k.h" />
     <ClInclude Include="src\guixml.h" />
     <ClInclude Include="src\hbelf.h" />
-    <ClInclude Include="src\http.h" />
     <ClInclude Include="src\i8275.h" />
     <ClInclude Include="src\ide.h" />
     <ClInclude Include="src\iodevice.h" />
@@ -714,9 +716,7 @@
     <ClInclude Include="src\studioiv.h" />
     <ClInclude Include="src\super.h" />
     <ClInclude Include="src\Sync_Audio.h" />
-    <ClInclude Include="src\til311.h" />
     <ClInclude Include="src\til313.full.h" />
-    <ClInclude Include="src\til313.h" />
     <ClInclude Include="src\tmc1800.h" />
     <ClInclude Include="src\tmc2000.h" />
     <ClInclude Include="src\tmc600.h" />
@@ -745,8 +745,16 @@
     <ClInclude Include="Y:\workspace\emma_02\src\keyb1871.h" />
     <ClInclude Include="Y:\workspace\emma_02\src\keyblatch.h" />
     <ClInclude Include="Y:\workspace\emma_02\src\keybmatrix.h" />
+    <ClInclude Include="Y:\workspace\emma_02\src\keypadfred.h" />
     <ClInclude Include="Y:\workspace\emma_02\src\rtc.h" />
     <ClInclude Include="Y:\workspace\emma_02\src\sn76430n.h" />
+    <ClInclude Include="Y:\workspace\emma_02\src\til.h" />
+    <ClInclude Include="Y:\workspace\emma_02\src\wxcurl_base.h" />
+    <ClInclude Include="Y:\workspace\emma_02\src\wxcurl_dialog.h" />
+    <ClInclude Include="Y:\workspace\emma_02\src\wxcurl_ftp.h" />
+    <ClInclude Include="Y:\workspace\emma_02\src\wxcurl_http.h" />
+    <ClInclude Include="Y:\workspace\emma_02\src\wxcurl_panel.h" />
+    <ClInclude Include="Y:\workspace\emma_02\src\wxcurl_thread.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="images\app.ico" />

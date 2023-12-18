@@ -122,6 +122,7 @@ void GuiVipII::readVipIIConfig()
 {
     selectedComputer_ = VIPII;
 
+    elfConfiguration[VIPII].useTapeHw = false;
     conf[VIPII].emsConfigNumber_ = 0;
     conf[VIPII].videoNumber_ = 0;
 

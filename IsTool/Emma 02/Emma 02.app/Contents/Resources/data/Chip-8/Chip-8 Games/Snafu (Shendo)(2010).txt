@@ -1,0 +1,28 @@
+
+=====================
+ "Snafu" for Chip8:
+=====================
+ 
+ Author: Shendo
+ Date: 2010
+
+========
+ About:
+========
+
+ Snafu is a clone of the Intellivision game by the same name.
+ The goal of the game is to block your opponent.
+ In order to win you need to score 10 points.
+
+===========
+ Controls:
+===========
+
+To move player (on a hexpad):
+
+5 to go UP
+7 to go Left
+8 to go Down
+9 to go right
+
+

@@ -62,38 +62,38 @@ void PioScreen::init()
     
     for (int i=0; i<8; i++)
     {
-        ledPointer[i] = new Led(dc, 33+23*(7-i), 30, PIOLED);
+        ledPointer[i] = new Led(dc, 33+23*(7-i), 30, LED_SMALL_RED_DISABLE);
         updateLed_[i]=true;
         setLed(i, 2);
-        dataSwitchButton[i] = new SwitchButton(dc, PIO_VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 27+23*(7-i), 50, "");
+        dataSwitchButton[i] = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL_PIO, wxColour(255, 255, 255), BUTTON_DOWN, 27+23*(7-i), 50, "");
         ioSwitchState_[i] = 0;
         ioSwitchEnabled_[i] = true;
     }
     for (int i=8; i<16; i++)
     {
-        ledPointer[i] = new Led(dc, 33+23*(15-i), 90, PIOLED);
+        ledPointer[i] = new Led(dc, 33+23*(15-i), 90, LED_SMALL_RED_DISABLE);
         updateLed_[i]=true;
         setLed(i, 2);
-        dataSwitchButton[i] = new SwitchButton(dc, PIO_VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 27+23*(15-i), 110, "");
+        dataSwitchButton[i] = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL_PIO, wxColour(255, 255, 255), BUTTON_DOWN, 27+23*(15-i), 110, "");
         ioSwitchState_[i] = 0;
         ioSwitchEnabled_[i] = true;
     }
     for (int i=16; i<18; i++)
     {
-        ledPointer[i] = new Led(dc, 229+37*(i-16), 30, PIOLED);
+        ledPointer[i] = new Led(dc, 229+37*(i-16), 30, LED_SMALL_RED_DISABLE);
         updateLed_[i]=true;
         setLed(i, 2);
-        dataSwitchButton[i] = new SwitchButton(dc, PIO_VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 223+37*(i-16), 50, "");
+        dataSwitchButton[i] = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL_PIO, wxColour(255, 255, 255), BUTTON_DOWN, 223+37*(i-16), 50, "");
         ioSwitchState_[i] = 0;
         ioSwitchEnabled_[i] = false;
         dataSwitchButton[i]->enable(dc, false);
     }
     for (int i=18; i<20; i++)
     {
-        ledPointer[i] = new Led(dc, 229+37*(i-18), 90, PIOLED);
+        ledPointer[i] = new Led(dc, 229+37*(i-18), 90, LED_SMALL_RED_DISABLE);
         updateLed_[i]=true;
         setLed(i, 2);
-        dataSwitchButton[i] = new SwitchButton(dc, PIO_VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 223+37*(i-18), 110, "");
+        dataSwitchButton[i] = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL_PIO, wxColour(255, 255, 255), BUTTON_DOWN, 223+37*(i-18), 110, "");
         ioSwitchState_[i] = 0;
         ioSwitchEnabled_[i] = false;
         dataSwitchButton[i]->enable(dc, false);
@@ -103,8 +103,8 @@ void PioScreen::init()
     inPutValueA_ = 0;
 
 #if defined (__WXMAC__)
-    osx_ardyButtonPointer = new HexButton2(dc, PIO_HEX_BUTTON, 55, 144, "A", pioNumber_);
-    osx_brdyButtonPointer = new HexButton2(dc, PIO_HEX_BUTTON, 95, 144, "B", pioNumber_);
+    osx_ardyButtonPointer = new HexButton2(dc, PUSH_BUTTON_PIO, 55, 144, "A", pioNumber_);
+    osx_brdyButtonPointer = new HexButton2(dc, PUSH_BUTTON_PIO, 95, 144, "B", pioNumber_);
 #else
     text_ardyButtonPointer = new wxButton(this, 1, "A", wxPoint(55, 144), wxSize(25, 25), 0, wxDefaultValidator, "ArdyButton");
     text_ardyButtonPointer->SetToolTip("ARDY");

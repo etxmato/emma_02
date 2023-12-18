@@ -5,7 +5,8 @@
 #define BOOTSTRAPOUT 1
 #define BOOTSTRAPIN 2
 #define BOOTSTRAPIO 3
-#define BOOTSTRAPNONE 4
+#define BOOTSTRAPRUN 4
+#define BOOTSTRAPNONE 5
 
 class EfKey
 {
@@ -59,6 +60,17 @@ public:
     int keydef[256];
 };
 
+class EtiKeypadDetails
+{
+public:
+    bool defined;
+    int inp;
+    int out;
+    int ef;
+    bool reversed;
+    int ioGroup;
+};
+
 class FredKeypadDetails
 {
 public:
@@ -77,6 +89,28 @@ public:
     int ioGroup;
 };
 
+class KeyLatchDetails
+{
+public:
+    bool defined;
+    wxString padNumberStr;
+    int pc[512];
+    int pcShift[512];
+    bool useDefShift;
+    Byte pressed;
+    int IoGroup;
+    int outPort;
+    int mask;
+    int ef;
+    int altRight;
+    int altLeft;
+    int ctrlRight;
+    int ctrlLeft;
+    int shift;
+    int caps;
+    int switchAltCtrl;
+};
+    
 class IoPort
 {
 public:
@@ -110,23 +144,44 @@ public:
     int ef3default;
     int ef4default;
 
-    bool pixieDoubleScreenIo;
+    int pixieDoubleScreenIo;
     int pixieInput;
     int pixieOutput;
     int pixieEf;
+    int pixieEfScreenOn;
     int pixieVideoNumber;
-    
+    int pixieHighRes;
+
     PixieGraphics pixieGraphics;
     int videoHeight;
     int videoWidth;
 
+    IoPort cdp1863toneLatch;
+    int cdp1863IoGroup;
+
+    IoPort cdp1862enable;
+    IoPort cdp1862disable;
+    IoPort cdp1862background;
+    int cdp1862Ef;
+    bool cdp1862EfScreenOn;
+    int cdp1862VideoNumber;
+    int cdp1862IoGroup;
+    int cdp1862StartRam;
+    int cdp1862EndRam;
+    int cdp1862ColorType;
+    int cdp1862HighRes;
+
     IoPort cdp1864enable;
     IoPort cdp1864disable;
     IoPort cdp1864toneLatch;
+    IoPort cdp1864background;
+    IoPort cdp1864colorMemory;
     int cdp1864Ef;
+    bool cdp1864EfScreenOn;
     int cdp1864VideoNumber;
     int cdp1864IoGroup;
-
+    int cdp1864ColorType;
+    
     int vip2KVideoNumber;
     int vip2KInput;
     int vip2KOutput;
@@ -193,6 +248,10 @@ public:
     int qSerialPrinterIoGroup;
     int qSerialPrinterEf;
     
+    int centronicsPrinterIoGroup;
+    int centronicsPrinterEf;
+    int centronicsPrinterOutput;
+
     int thermalPrinterIoGroup;
     int thermalPrinterOutput;
     int thermalPrinterInput;
@@ -285,6 +344,7 @@ public:
 
     int bootStrapIn;
     int bootStrapOut;
+    int bootStrapOut2;
     int bootStrapType;
     
     int dipIn;
@@ -346,6 +406,7 @@ public:
     FredKeypadDetails fredKeypad;
     
     CvKeypadDetails cvKeypad;
+    EtiKeypadDetails etiKeypad;
     int CvKeypadTextKey[LAST_MATRIX_TEXT_KEY];
     int CvKeypadModKey;
     int CvKeypadModKeyIgnore;
@@ -377,40 +438,41 @@ public:
     int diagIn1;
     int diagIn2;
     int diagOut;
-    
-    int keybLatchPc[512];
-    int keybLatchPcShift[512];
-    bool useKeyDefShift;
-    Byte keybLatchPressed;
-    int keybLatchIoGroup;
-    int keybLatchOut;
-    int keybLatchOutMask;
-    int keybLatchEf;
-    int keybLatchAltRight;
-    int keybLatchAltLeft;
-    int keybLatchCtrlRight;
-    int keybLatchCtrlLeft;
-    int keybLatchShift;
-    int keybLatchCaps;
-    int keybLatchSwitch;
-    
+        
+    KeyLatchDetails keyLatchDetails[MAX_LATCHKEYPADS+1];
+
     int keybMatrixKeyValue[256];
     Byte keybMatrixBitValue[256];
     Byte keybMatrixShiftValue[256];
     Byte keybMatrixCtrlValue[256];
+    int keybMatrixOut;
     int keybMatrixIn;
+    bool keybMatrixAddressMode;
     int keybMatrixInMask;
     int keybMatrixIoGroup;
     Byte keybMatrixEfKey[LAST_MATRIX_EF_KEY];
     bool keybMatrixEfKeyRev[LAST_MATRIX_EF_KEY];
     KeyDefinition keybMatrixTextKey[LAST_MATRIX_TEXT_KEY];
     Byte keybMatrixPressed;
+    
+    bool errorLed;
+    bool readyLed;
+    bool stopLed;
+    bool bitLed[MAX_BIT_LEDS];
+    bool showDataOnLoad;
+    bool showDataOnCycle;
+    bool cpuStatusLed[MAX_CPU_STATE_LEDS];
+    bool showAddressOnCycle;
+
+    int runPressType;
+    int resetPressType;
 };
 
 class ElfConfiguration
 {
 public:
     bool usePixie;
+    bool use1862;
     bool use1864;
     bool useVip2KVideo;
     bool useFredVideo;
@@ -460,13 +522,16 @@ public:
     wxString vt52CharRomDir_;
     wxString vt52CharRom_;
     wxString serialPort_;
+    int serialPortTimeout_;
     bool useUart;
     bool useUart16450;
     int uartGroup;
     int baudR;
     int baudT;
     bool autoBoot;
+    bool f12reset;
     int autoBootType;
+    int dmaOnBoot;
     bool stopTone;
     bool utilityMemory;
     bool tapeStart;
@@ -505,9 +570,7 @@ public:
     bool useKeyboard;
     bool useBitKeypad;
     bool useCvKeypad;
-    bool useLatchKeypad;
     bool useKeybVip2K;
-    bool useLatchKeyboard;
     bool useMatrixKeyboard;
     bool usePS2;
     bool ps2Interrupt;
@@ -527,6 +590,7 @@ public:
     bool fdc1793Enabled;
     bool fdc1770Enabled;
 
+    int memoryMask;
     int memoryType;
     bool usePortExtender;
     bool usePager;
@@ -564,8 +628,10 @@ public:
     int tapeFormat_;
     bool coinArcadeControl_;
     
+    bool flexPanel_;
     int panelType_;
-    
+    wxSize panelSize_;
+
     IoConfiguration ioConfiguration;
 };
 

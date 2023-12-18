@@ -1,0 +1,1177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resource version="2.3.0.1" xmlns="http://www.wxwidgets.org/wxxrc">
+<object class="wxDialog" name="SBDialog">
+<style>wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLOSE_BOX|wxTAB_TRAVERSAL</style>
+<exstyle>wxWS_EX_BLOCK_EVENTS</exstyle>
+<title>Super Board Settings</title>
+<centered>1</centered>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxNotebook" name="ID_NOTEBOOK">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<object class="notebookpage">
+<label>Online</label>
+<object class="wxPanel" name="SB_Online">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<style>wxSUNKEN_BORDER|wxTAB_TRAVERSAL</style>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_TOP|wxALL</flag>
+<border>5</border>
+<object class="wxStaticBitmap" name="wxID_STATIC">
+<size>32,32</size>
+<bitmap>images/usb.bmp</bitmap>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_TOP|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxFlexGridSizer">
+<cols>2</cols>
+<rows>3</rows>
+<vgap>0</vgap>
+<hgap>0</hgap>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="wxID_STATIC">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>Player name: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+<border>5</border>
+<object class="wxTextCtrl" name="OnlinePlayer">
+<size>360,-1</size>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<maxlength>25</maxlength>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="wxID_STATIC">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>Player location: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+<border>5</border>
+<object class="wxTextCtrl" name="OnlineLocation">
+<size>360,-1</size>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<maxlength>25</maxlength>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="wxID_STATIC">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>Email address: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+<border>5</border>
+<object class="wxTextCtrl" name="OnlineEmailAddress">
+<size>360,-1</size>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="wxID_STATIC">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>The maximum length of both player name and location is 25 characters and the following characters are not allowed and will be ignored: # ~ ; :. </label>
+<wrap>390</wrap>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALL</flag>
+<border>5</border>
+<object class="wxStaticLine" name="wxID_STATIC">
+<style>wxLI_HORIZONTAL</style>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxFlexGridSizer">
+<cols>2</cols>
+<rows>2</rows>
+<vgap>0</vgap>
+<hgap>0</hgap>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP|wxBOTTOM</flag>
+<border>5</border>
+<object class="wxStaticText" name="wxID_STATIC">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>Home page: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+<border>5</border>
+<object class="wxTextCtrl" name="OnlineHome">
+<size>360,-1</size>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<maxlength>126</maxlength>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>5</border>
+<object class="wxChoice" name="OnlineBMChoice">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<content>
+<item>Bookmark 0</item>
+<item>Bookmark 1</item>
+<item>Bookmark 2</item>
+<item>Bookmark 3</item>
+<item>Bookmark 4</item>
+<item>Bookmark 5</item>
+<item>Bookmark 6</item>
+<item>Bookmark 7</item>
+<item>Bookmark 8</item>
+<item>Bookmark 9</item>
+</content>
+<selection>0</selection>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_TOP|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>5</border>
+<option>30</option>
+<object class="wxTextCtrl" name="OnlineBM">
+<size>276,-1</size>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<maxlength>126</maxlength>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW</flag>
+<border>5</border>
+<object class="wxButton" name="OnlineBMStore">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<enabled>0</enabled>
+<label>Store</label>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALL</flag>
+<border>5</border>
+<object class="wxStaticLine" name="wxID_STATIC">
+<style>wxLI_HORIZONTAL</style>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>5</border>
+<object class="wxStaticText" name="ID_STATICTEXT">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>Aliases: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>5</border>
+<object class="wxChoice" name="OnlineAliasChoice">
+<size>120,-1</size>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<content>
+<item>NEW</item>
+</content>
+</object>
+</object>
+<object class="spacer">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<size>5,5</size>
+</object>
+<object class="sizeritem">
+<flag>wxGROW</flag>
+<border>5</border>
+<object class="wxButton" name="OnlineAliasDel">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>Delete</label>
+</object>
+</object>
+<object class="spacer">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<size>5,5</size>
+</object>
+<object class="sizeritem">
+<flag>wxGROW</flag>
+<border>5</border>
+<object class="wxButton" name="OnlineAliasStore">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>Store</label>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>5</border>
+<object class="wxTextCtrl" name="OnlineAlias">
+<size>100,-1</size>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<value>alias</value>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>5</border>
+<object class="wxTextCtrl" name="OnlineAliasEmail">
+<size>342,-1</size>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<value>email address</value>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW</flag>
+<border>5</border>
+<object class="wxButton" name="SBSave">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>Save All</label>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="notebookpage">
+<label>USB</label>
+<object class="wxPanel" name="SB_USB">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<style>wxSUNKEN_BORDER|wxTAB_TRAVERSAL</style>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_TOP|wxALL</flag>
+<border>5</border>
+<object class="wxStaticBitmap" name="wxID_STATIC">
+<size>32,32</size>
+<bitmap>images/usb.bmp</bitmap>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_TOP|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW</flag>
+<border>3</border>
+<object class="wxButton" name="SettingsRoot">
+<tooltip>Browse for COMX USB root directory</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>Root</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxTextCtrl" name="SettingsRootTxt">
+<size>360,-1</size>
+<tooltip>Specify COMX USB root directory</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="wxID_STATIC">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>Show top directory in USB CD: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxChoice" name="SettingsCdRoot">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<content>
+<item>Yes</item>
+<item>No</item>
+</content>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALL</flag>
+<border>5</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxVERTICAL</orient>
+<label>Case conversion</label>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALL</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="wxID_STATIC">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>Filenames: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxChoice" name="SettingsCaseFile">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<content>
+<item>Lower case</item>
+<item>Upper case</item>
+<item>Capitalize</item>
+</content>
+<selection>0</selection>
+</object>
+</object>
+</object>
+</object>
+<object class="spacer">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxLEFT|wxRIGHT</flag>
+<border>5</border>
+<size>5,8</size>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALL</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="wxID_STATIC">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>Directories: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxChoice" name="SettingsCaseDir">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<content>
+<item>Lower case</item>
+<item>Upper case</item>
+<item>Capitalize</item>
+</content>
+<selection>2</selection>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALL</flag>
+<border>5</border>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxVERTICAL</orient>
+<label>Back-up</label>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="wxID_STATIC">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>BSAVE, DSAVE, PSAVE and DISKTOIMG: </label>
+<wrap>160</wrap>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxChoice" name="SettingsBackup">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<content>
+<item>Yes</item>
+<item>No</item>
+</content>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxTOP|wxBOTTOM</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="wxID_STATIC">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>SYSSAVE and NVSAVE: </label>
+<wrap>160</wrap>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxChoice" name="SettingsBackupSys">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<content>
+<item>Yes</item>
+<item>No</item>
+</content>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW</flag>
+<border>5</border>
+<object class="wxButton" name="SBSave">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>Save All</label>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="notebookpage">
+<label>ROM files</label>
+<object class="wxPanel" name="SB_ROMS">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<style>wxSUNKEN_BORDER|wxTAB_TRAVERSAL</style>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_TOP|wxALL</flag>
+<border>5</border>
+<object class="wxStaticBitmap" name="wxID_STATIC">
+<size>32,32</size>
+<bitmap>images/usb.bmp</bitmap>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_TOP|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxGROW|wxALL</flag>
+<border>5</border>
+<object class="wxFlexGridSizer">
+<cols>2</cols>
+<rows>11</rows>
+<vgap>2</vgap>
+<hgap>2</hgap>
+<object class="sizeritem">
+<flag>wxGROW</flag>
+<border>3</border>
+<object class="wxButton" name="SB_ROM_00_Button">
+<tooltip>Browse for SB file for the Main ROM replacement at address 0000-3FFF</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>0000-3FFF</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>3</border>
+<object class="wxComboBox" name="SB_ROM_00">
+<size>320,-1</size>
+<tooltip>Specify SB file for the Main ROM replacement at address 0000-3FFF</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<style>wxCB_DROPDOWN</style>
+<content>
+<item>sb.0000.bin</item>
+</content>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW</flag>
+<border>3</border>
+<object class="wxButton" name="SB_ROM_01_Button">
+<tooltip>Browse for SB file for the Expansion ROM at address E000-EFFF</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>E000-EFFF</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>3</border>
+<object class="wxComboBox" name="SB_ROM_01">
+<size>320,-1</size>
+<tooltip>Specify SB file for the Expansion ROM at address E000-EFFF</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<style>wxCB_DROPDOWN</style>
+<content>
+<item>sb.e000.bin</item>
+</content>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW</flag>
+<border>3</border>
+<object class="wxButton" name="SB_ROM_02_Button">
+<tooltip>Browse for SB file for the Expansion ROM at address F800-FFFF</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>F800-FFFF</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>3</border>
+<object class="wxComboBox" name="SB_ROM_02">
+<size>320,-1</size>
+<tooltip>Specify SB file for the Expansion ROM at address F800-FFFF</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<style>wxCB_DROPDOWN</style>
+<content>
+<item>sb.f800.bin</item>
+</content>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW</flag>
+<border>3</border>
+<object class="wxButton" name="SB_ROM_03_Button">
+<tooltip>Browse for SB file for BANK 0</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>BANK 0</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>3</border>
+<object class="wxComboBox" name="SB_ROM_03">
+<size>320,-1</size>
+<tooltip>Specify SB file for BANK 0</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<style>wxCB_DROPDOWN</style>
+<content>
+<item>sb.c000-0.bin</item>
+</content>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW</flag>
+<border>3</border>
+<object class="wxButton" name="SB_ROM_04_Button">
+<tooltip>Browse for SB file for BANK 1</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>BANK 1</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>3</border>
+<object class="wxComboBox" name="SB_ROM_04">
+<size>320,-1</size>
+<tooltip>Specify SB file for BANK 1</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<style>wxCB_DROPDOWN</style>
+<content>
+<item>sb.c000-1.bin</item>
+</content>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW</flag>
+<border>3</border>
+<object class="wxButton" name="SB_ROM_05_Button">
+<tooltip>Browse for SB file for BANK 2</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>BANK 2</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>3</border>
+<object class="wxComboBox" name="SB_ROM_05">
+<size>320,-1</size>
+<tooltip>Specify SB file for BANK 2</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<style>wxCB_DROPDOWN</style>
+<content>
+<item>sb.c000-2.bin</item>
+</content>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW</flag>
+<border>3</border>
+<object class="wxButton" name="SB_ROM_06_Button">
+<tooltip>Browse for SB file for BANK 3</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>BANK 3</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>3</border>
+<object class="wxComboBox" name="SB_ROM_06">
+<size>320,-1</size>
+<tooltip>Specify SB file for BANK 3</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<style>wxCB_DROPDOWN</style>
+<content>
+<item>sb.c000-3.bin</item>
+</content>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW</flag>
+<border>3</border>
+<object class="wxButton" name="SB_ROM_07_Button">
+<tooltip>Browse for SB file for BANK 4</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>BANK 4</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>3</border>
+<object class="wxComboBox" name="SB_ROM_07">
+<size>320,-1</size>
+<tooltip>Specify SB file for BANK 4</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<style>wxCB_DROPDOWN</style>
+<content>
+<item>sb.c000-4.bin</item>
+</content>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW</flag>
+<border>3</border>
+<object class="wxButton" name="SB_ROM_08_Button">
+<tooltip>Browse for SB file for BANK 5</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>BANK 5</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>3</border>
+<object class="wxComboBox" name="SB_ROM_08">
+<size>320,-1</size>
+<tooltip>Specify SB file for BANK 5</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<style>wxCB_DROPDOWN</style>
+<content>
+<item>sb.c000-5.bin</item>
+</content>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW</flag>
+<border>3</border>
+<object class="wxButton" name="SB_ROM_09_Button">
+<tooltip>Browse for SB file for BANK 6</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>BANK 6</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>3</border>
+<object class="wxComboBox" name="SB_ROM_09">
+<size>320,-1</size>
+<tooltip>Specify SB file for BANK 6</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<style>wxCB_DROPDOWN</style>
+<content>
+<item>sb.c000-6.bin</item>
+</content>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW</flag>
+<border>3</border>
+<object class="wxButton" name="SB_ROM_10_Button">
+<tooltip>Browse for SB file for BANK 7</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>BANK 7</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>3</border>
+<object class="wxComboBox" name="SB_ROM_10">
+<size>320,-1</size>
+<tooltip>Specify SB file for BANK 7</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<style>wxCB_DROPDOWN</style>
+<content>
+<item>sb.c000-7.bin</item>
+</content>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW</flag>
+<border>8</border>
+<object class="wxButton" name="SBSave">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>Save All</label>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="notebookpage">
+<label>Backup</label>
+<object class="wxPanel" name="SB_Backup">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<style>wxSUNKEN_BORDER|wxTAB_TRAVERSAL</style>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_TOP|wxALL</flag>
+<border>5</border>
+<object class="wxStaticBitmap" name="wxID_STATIC">
+<size>32,32</size>
+<bitmap>images/usb.bmp</bitmap>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_TOP|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="BackupActivate">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>Activate backup delete option by starting the COMX emulator </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW</flag>
+<border>0</border>
+<object class="wxButton" name="BackupFolder">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>Folder: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxTextCtrl" name="BackupRootTxt">
+<size>360,-1</size>
+<tooltip>Selected folder</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<style>wxTE_READONLY</style>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxTextCtrl" name="BackupList">
+<size>445,292</size>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<style>wxTE_MULTILINE|wxTE_READONLY</style>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxStaticText" name="BackupWarning">
+<size>445,-1</size>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<style>wxALIGN_CENTRE|wxSTATIC_BORDER</style>
+<label>Delete ALL above listed back-up files (.bak) as stored in the specified folder and if selected below in all sub directories!
+
+Please note that this can NOT be undone, are you sure?</label>
+<wrap>360</wrap>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<object class="wxCheckBox" name="BackupSub">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>Include sub directories</label>
+<checked>0</checked>
+</object>
+</object>
+<object class="spacer">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<size>65,5</size>
+</object>
+<object class="sizeritem">
+<flag>wxGROW</flag>
+<border>5</border>
+<object class="wxButton" name="BackupYes">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>Yes</label>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</resource>

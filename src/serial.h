@@ -39,6 +39,7 @@ public:
     Byte uart16450In();
     Byte uartStatus();
     void thrStatusUart16450(bool data);
+    void uartInterrupt();
 
 private:
     ElfConfiguration elfConfiguration_;
@@ -51,6 +52,7 @@ private:
     int cycleSize_;
 
     long vtCount_;
+    int numberOfBitsPerByte_;
     int baudRateT_;
     int selectedBaudT_;
     int baudRateR_;
@@ -60,6 +62,7 @@ private:
     int vtOutBits_;
     long vtOutCount_;
     Byte vtOut_;
+    bool vtOutSet_;
 
     int parity_;
 

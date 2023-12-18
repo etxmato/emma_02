@@ -1025,7 +1025,7 @@ Byte Usbcard::usbIn()
                     case 5: // DSAVE
                         bufferPos_ = 7;
                         break;
-                        
+                                                
                     case 0x10: // binary
                         bufferPos_ = 0;
                         break;
@@ -2787,8 +2787,8 @@ void Usbcard::save()
             buffer_[0] = header[HEADER_TYPE]&0x7f;
             buffer_[1] = 'C';
             buffer_[2] = 'O';
-            buffer_[3] = 'M';
-            buffer_[4] = 'X';
+            buffer_[3] = (length_ >> 8) &0xff;
+            buffer_[4] = length_ &0xff;
             buffer_[5] = (arrayLength >> 8) &0xff;
             buffer_[6] = arrayLength &0xff;
             saveLength_ = length_ + 7;
@@ -2815,7 +2815,7 @@ void Usbcard::save()
             buffer_[14] = header[HEADER_EXEC_L];
             saveLength_ = length_ + 15;
             break;
-            
+      
         case 0x10:
         case 0x11:
             end_ = (header[HEADER_END_H]<<8) + header[HEADER_END_L];
@@ -2892,7 +2892,7 @@ void Usbcard::load()
             real_length = inputFile.Read(buffer_, 65536);
             length_ = real_length;
             real_length = (size_t)inputFile.Length();
-            if ((buffer_[0] == 1 || buffer_[0] == 2 || buffer_[0] == 3 || buffer_[0] == 4 || buffer_[0] == 5 || buffer_[0] == 6) && (buffer_[1] == 'C') && (buffer_[2] == 'O') && (buffer_[3] == 'M') && (buffer_[4] == 'X'))
+            if ((buffer_[0] == 1 || buffer_[0] == 2 || buffer_[0] == 3 || buffer_[0] == 4 || buffer_[0] == 5 || buffer_[0] == 6) && (buffer_[1] == 'C') && (buffer_[2] == 'O'))
             {
                 switch (buffer_[0])
                 {

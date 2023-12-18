@@ -8,6 +8,7 @@
 // Licence:     wxWidgets licence
 /////////////////////////////////////////////////////////////////////////////
 
+#if !defined (_DEBUG)
 
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
@@ -25,13 +26,12 @@
     #include <wx/msw/msvcrt.h>      // useful to catch memory leaks when compiling under MSVC 
 #endif
 
-#include <wx/wfstream.h>
+//#include <wx/wfstream.h>
 #include <wx/filename.h>
 
 #include "wxcurl_thread.h"
 #include "wxcurl_http.h"
 #include "wxcurl_ftp.h"
-
 
 // ---------------------
 // wxCurlBaseThread
@@ -198,7 +198,7 @@ wxCurlThreadError wxCurlDownloadThread::SetOutputStream(wxOutputStream *out)
             // NOTE: by default we create a wxFileOutputStream and not e.g. a wxMemoryOutputStream
             //       because the downloaded file may be quite large and thus we don't want to
             //       eat lots of RAM. Also, the hard disk should be fast enough for any download.
-            m_output.SetStream( new wxFileOutputStream(wxFileName::CreateTempFileName(wxS("download"))) );
+//            m_output.SetStream( new wxFileOutputStream(wxFileName::CreateTempFileName(wxS("download"))) );
             if (!m_output.IsOk())
                 return wxCTE_NO_VALID_STREAM;
         }
@@ -357,3 +357,5 @@ void *wxCurlUploadThread::Entry()
             return NULL;
     }
 }
+
+#endif

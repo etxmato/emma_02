@@ -59,7 +59,25 @@
         <ef>2</ef>
     </cassette>
     
+    <basic>
+        <pload>tiny</pload>
+        <defus>0x79</defus>
+        <eop>0x24</eop>
+        <string>0</string>
+        <array>0</array>
+        <eod>0</eod>
+        <ram>0xf40</ram>
+    </basic>
+
     <locations>
+        <!-- key input -->
+        <key_input>0xab3</key_input>
+
+        <!-- Machine states -->
+        <reset_state>0xbf</reset_state>
+        <basic_state>0x0204</basic_state>
+        <run_state></run_state>
+
         <!-- Stop cassette -->
         <stop_cas>0xA59, 0xA28</stop_cas>
         

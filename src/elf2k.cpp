@@ -87,11 +87,11 @@ void Elf2KScreen::init()
         dataPointer[i]->init(dc, 301+i*36, 354);
     }
     updateData_ = true;
-    runLedPointer = new Led(dc, 48, 309, ELF2KLED1);
+    runLedPointer = new Led(dc, 48, 309, LED_REAL_RED);
     updateRunLed_ = true;
-    loadLedPointer = new Led(dc, 51, 333, ELF2KLED2);
+    loadLedPointer = new Led(dc, 51, 333, LED_REAL_GREEN);
     updateLoadLed_ = true;
-    qLedPointer = new Led(dc, 50, 354, ELF2KLED3);
+    qLedPointer = new Led(dc, 50, 354, LED_REAL_ORANGE);
     updateQLed_ = true;
 //    sc0LedPointer = new Led(dc, 50, 379, ELF2K);
 //    sc1LedPointer = new Led(dc, 50, 401, ELF2K);

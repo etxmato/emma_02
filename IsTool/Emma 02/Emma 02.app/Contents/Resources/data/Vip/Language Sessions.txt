@@ -1,0 +1,18 @@
+The Sarnoff Collection at TCNJ, S.572.6
+
+Language sessions
+=================
+Session 1.bin: Generates a tone and on key 0 and 1 some numbers on the screen
+
+Session 3.bin: Generates a tone but not sure what it does after that....
+
+Session 4.bin: Drawing example
+
+Session 7.bin: Picture example
+
+Session 8.bin: Picture example
+
+Final Exam Question.bin: Generates a tone on every key press and show pressed key on screen
+
+Team Project.bin Generates a tone but not sure what it does after that....
+

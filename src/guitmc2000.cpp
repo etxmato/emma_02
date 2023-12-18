@@ -140,6 +140,7 @@ void GuiTMC2000::readTMC2000Config()
 {
     selectedComputer_ = TMC2000;
 
+    elfConfiguration[TMC2000].useTapeHw = false;
     conf[TMC2000].emsConfigNumber_ = 0;
     conf[TMC2000].videoNumber_ = 0;
 
@@ -262,6 +263,7 @@ void GuiTMC2000::readTMC1800Config()
 {
     selectedComputer_ = TMC1800;
 
+    elfConfiguration[TMC1800].useTapeHw = false;
     conf[TMC1800].emsConfigNumber_ = 0;
     conf[TMC1800].videoNumber_ = 0;
 

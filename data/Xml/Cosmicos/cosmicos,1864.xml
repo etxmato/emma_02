@@ -40,21 +40,10 @@
     </memory>
     
     <video type="1864">
-        <!-- video definition for cdp 1864 chip, use <io> or <out>/<in> not both!
-        <out>: output number to set tone latch
-        <in type="on">: input number to enable graphics, type can be left out
-        <in type="off">: input number to disable graphics
-        <ef>: ef number for frame indicator
-        <zoom>: set default zoom, when not specified 2.00 will be used
-        <border>: set border size in pixels with format XxY, note that X should always be in steps of 3 pixels.
-        <color type="fore">: set foregorund color. Color is specified as red, green, blue all 3 values range from 0 to 255.
-        <color type="back">: set foregorund color. Color is specified as red, green, blue all 3 values range from 0 to 255.
-        -->
-
         <in q="0" type="on">1</in>
         <in q="0" type="off">2</in>
-        <out q="1">2</out>
-        <ef>3</ef>
+        <out q="1" type="tone">2</out>
+        <ef type="on">3</ef>
         <height>192</height>
         <graphics>
             <interrupt>74</interrupt>

@@ -57,8 +57,15 @@
 #define PRW_STOP 2
 #define PRBUSY 3
 
+#if defined (__WXMAC__)
 BEGIN_EVENT_TABLE(Xmlemu, wxFrame)
     EVT_CLOSE (Xmlemu::onClose)
+    EVT_TIMER(900, Xmlemu::OnRtcTimer)
+END_EVENT_TABLE()
+#else
+BEGIN_EVENT_TABLE(Xmlemu, wxFrame)
+    EVT_CLOSE (Xmlemu::onClose)
+
     EVT_COMMAND(0, wxEVT_ButtonDownEvent, Xmlemu::onNumberKeyDown)
     EVT_COMMAND(1, wxEVT_ButtonDownEvent, Xmlemu::onNumberKeyDown)
     EVT_COMMAND(2, wxEVT_ButtonDownEvent, Xmlemu::onNumberKeyDown)
@@ -75,6 +82,7 @@ BEGIN_EVENT_TABLE(Xmlemu, wxFrame)
     EVT_COMMAND(13, wxEVT_ButtonDownEvent, Xmlemu::onNumberKeyDown)
     EVT_COMMAND(14, wxEVT_ButtonDownEvent, Xmlemu::onNumberKeyDown)
     EVT_COMMAND(15, wxEVT_ButtonDownEvent, Xmlemu::onNumberKeyDown)
+
     EVT_COMMAND(0, wxEVT_ButtonUpEvent, Xmlemu::onNumberKeyUp)
     EVT_COMMAND(1, wxEVT_ButtonUpEvent, Xmlemu::onNumberKeyUp)
     EVT_COMMAND(2, wxEVT_ButtonUpEvent, Xmlemu::onNumberKeyUp)
@@ -91,19 +99,300 @@ BEGIN_EVENT_TABLE(Xmlemu, wxFrame)
     EVT_COMMAND(13, wxEVT_ButtonUpEvent, Xmlemu::onNumberKeyUp)
     EVT_COMMAND(14, wxEVT_ButtonUpEvent, Xmlemu::onNumberKeyUp)
     EVT_COMMAND(15, wxEVT_ButtonUpEvent, Xmlemu::onNumberKeyUp)
+
     EVT_COMMAND(20, wxEVT_ButtonDownEvent, Xmlemu::onButtonPress)
     EVT_COMMAND(20, wxEVT_ButtonUpEvent, Xmlemu::onButtonRelease)
     EVT_BUTTON(21, Xmlemu::onRunButton)
     EVT_BUTTON(22, Xmlemu::onMpButton)
+    EVT_BUTTON(23, Xmlemu::onRunButton0)
     EVT_BUTTON(24, Xmlemu::onLoadButton)
     EVT_BUTTON(25, Xmlemu::onPause)
     EVT_BUTTON(26, Xmlemu::onSingleStep)
     EVT_BUTTON(27, Xmlemu::onResetButton)
     EVT_BUTTON(28, Xmlemu::onMonitor)
-    EVT_TIMER(900, Xmlemu::OnRtcTimer)
-END_EVENT_TABLE()
 
-Xmlemu::Xmlemu(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf, Conf computerConf)
+    EVT_BUTTON(29, Xmlemu::onPowerButton)
+    EVT_BUTTON(30, Xmlemu::onReadButton)
+    EVT_BUTTON(31, Xmlemu::onCardButtonSwitch)
+
+    EVT_BUTTON(0x100, Xmlemu::onCardButton)
+    EVT_BUTTON(0x101, Xmlemu::onCardButton)
+    EVT_BUTTON(0x102, Xmlemu::onCardButton)
+    EVT_BUTTON(0x103, Xmlemu::onCardButton)
+    EVT_BUTTON(0x104, Xmlemu::onCardButton)
+    EVT_BUTTON(0x105, Xmlemu::onCardButton)
+    EVT_BUTTON(0x106, Xmlemu::onCardButton)
+    EVT_BUTTON(0x107, Xmlemu::onCardButton)
+    EVT_BUTTON(0x108, Xmlemu::onCardButton)
+    EVT_BUTTON(0x109, Xmlemu::onCardButton)
+    EVT_BUTTON(0x10A, Xmlemu::onCardButton)
+    EVT_BUTTON(0x10B, Xmlemu::onCardButton)
+    EVT_BUTTON(0x10C, Xmlemu::onCardButton)
+    EVT_BUTTON(0x10D, Xmlemu::onCardButton)
+    EVT_BUTTON(0x10E, Xmlemu::onCardButton)
+    EVT_BUTTON(0x10F, Xmlemu::onCardButton)
+
+    EVT_BUTTON(0x110, Xmlemu::onCardButton)
+    EVT_BUTTON(0x111, Xmlemu::onCardButton)
+    EVT_BUTTON(0x112, Xmlemu::onCardButton)
+    EVT_BUTTON(0x113, Xmlemu::onCardButton)
+    EVT_BUTTON(0x114, Xmlemu::onCardButton)
+    EVT_BUTTON(0x115, Xmlemu::onCardButton)
+    EVT_BUTTON(0x116, Xmlemu::onCardButton)
+    EVT_BUTTON(0x117, Xmlemu::onCardButton)
+    EVT_BUTTON(0x118, Xmlemu::onCardButton)
+    EVT_BUTTON(0x119, Xmlemu::onCardButton)
+    EVT_BUTTON(0x11A, Xmlemu::onCardButton)
+    EVT_BUTTON(0x11B, Xmlemu::onCardButton)
+    EVT_BUTTON(0x11C, Xmlemu::onCardButton)
+    EVT_BUTTON(0x11D, Xmlemu::onCardButton)
+    EVT_BUTTON(0x11E, Xmlemu::onCardButton)
+    EVT_BUTTON(0x11F, Xmlemu::onCardButton)
+
+    EVT_BUTTON(0x120, Xmlemu::onCardButton)
+    EVT_BUTTON(0x121, Xmlemu::onCardButton)
+    EVT_BUTTON(0x122, Xmlemu::onCardButton)
+    EVT_BUTTON(0x123, Xmlemu::onCardButton)
+    EVT_BUTTON(0x124, Xmlemu::onCardButton)
+    EVT_BUTTON(0x125, Xmlemu::onCardButton)
+    EVT_BUTTON(0x126, Xmlemu::onCardButton)
+    EVT_BUTTON(0x127, Xmlemu::onCardButton)
+    EVT_BUTTON(0x128, Xmlemu::onCardButton)
+    EVT_BUTTON(0x129, Xmlemu::onCardButton)
+    EVT_BUTTON(0x12A, Xmlemu::onCardButton)
+    EVT_BUTTON(0x12B, Xmlemu::onCardButton)
+    EVT_BUTTON(0x12C, Xmlemu::onCardButton)
+    EVT_BUTTON(0x12D, Xmlemu::onCardButton)
+    EVT_BUTTON(0x12E, Xmlemu::onCardButton)
+    EVT_BUTTON(0x12F, Xmlemu::onCardButton)
+
+    EVT_BUTTON(0x130, Xmlemu::onCardButton)
+    EVT_BUTTON(0x131, Xmlemu::onCardButton)
+    EVT_BUTTON(0x132, Xmlemu::onCardButton)
+    EVT_BUTTON(0x133, Xmlemu::onCardButton)
+    EVT_BUTTON(0x134, Xmlemu::onCardButton)
+    EVT_BUTTON(0x135, Xmlemu::onCardButton)
+    EVT_BUTTON(0x136, Xmlemu::onCardButton)
+    EVT_BUTTON(0x137, Xmlemu::onCardButton)
+    EVT_BUTTON(0x138, Xmlemu::onCardButton)
+    EVT_BUTTON(0x139, Xmlemu::onCardButton)
+    EVT_BUTTON(0x13A, Xmlemu::onCardButton)
+    EVT_BUTTON(0x13B, Xmlemu::onCardButton)
+    EVT_BUTTON(0x13C, Xmlemu::onCardButton)
+    EVT_BUTTON(0x13D, Xmlemu::onCardButton)
+    EVT_BUTTON(0x13E, Xmlemu::onCardButton)
+    EVT_BUTTON(0x13F, Xmlemu::onCardButton)
+
+    EVT_BUTTON(0x140, Xmlemu::onCardButton)
+    EVT_BUTTON(0x141, Xmlemu::onCardButton)
+    EVT_BUTTON(0x142, Xmlemu::onCardButton)
+    EVT_BUTTON(0x143, Xmlemu::onCardButton)
+    EVT_BUTTON(0x144, Xmlemu::onCardButton)
+    EVT_BUTTON(0x145, Xmlemu::onCardButton)
+    EVT_BUTTON(0x146, Xmlemu::onCardButton)
+    EVT_BUTTON(0x147, Xmlemu::onCardButton)
+    EVT_BUTTON(0x148, Xmlemu::onCardButton)
+    EVT_BUTTON(0x149, Xmlemu::onCardButton)
+    EVT_BUTTON(0x14A, Xmlemu::onCardButton)
+    EVT_BUTTON(0x14B, Xmlemu::onCardButton)
+    EVT_BUTTON(0x14C, Xmlemu::onCardButton)
+    EVT_BUTTON(0x14D, Xmlemu::onCardButton)
+    EVT_BUTTON(0x14E, Xmlemu::onCardButton)
+    EVT_BUTTON(0x14F, Xmlemu::onCardButton)
+
+    EVT_BUTTON(0x150, Xmlemu::onCardButton)
+    EVT_BUTTON(0x151, Xmlemu::onCardButton)
+    EVT_BUTTON(0x152, Xmlemu::onCardButton)
+    EVT_BUTTON(0x153, Xmlemu::onCardButton)
+    EVT_BUTTON(0x154, Xmlemu::onCardButton)
+    EVT_BUTTON(0x155, Xmlemu::onCardButton)
+    EVT_BUTTON(0x156, Xmlemu::onCardButton)
+    EVT_BUTTON(0x157, Xmlemu::onCardButton)
+    EVT_BUTTON(0x158, Xmlemu::onCardButton)
+    EVT_BUTTON(0x159, Xmlemu::onCardButton)
+    EVT_BUTTON(0x15A, Xmlemu::onCardButton)
+    EVT_BUTTON(0x15B, Xmlemu::onCardButton)
+    EVT_BUTTON(0x15C, Xmlemu::onCardButton)
+    EVT_BUTTON(0x15D, Xmlemu::onCardButton)
+    EVT_BUTTON(0x15E, Xmlemu::onCardButton)
+    EVT_BUTTON(0x15F, Xmlemu::onCardButton)
+
+    EVT_BUTTON(0x160, Xmlemu::onCardButton)
+    EVT_BUTTON(0x161, Xmlemu::onCardButton)
+    EVT_BUTTON(0x162, Xmlemu::onCardButton)
+    EVT_BUTTON(0x163, Xmlemu::onCardButton)
+    EVT_BUTTON(0x164, Xmlemu::onCardButton)
+    EVT_BUTTON(0x165, Xmlemu::onCardButton)
+    EVT_BUTTON(0x166, Xmlemu::onCardButton)
+    EVT_BUTTON(0x167, Xmlemu::onCardButton)
+    EVT_BUTTON(0x168, Xmlemu::onCardButton)
+    EVT_BUTTON(0x169, Xmlemu::onCardButton)
+    EVT_BUTTON(0x16A, Xmlemu::onCardButton)
+    EVT_BUTTON(0x16B, Xmlemu::onCardButton)
+    EVT_BUTTON(0x16C, Xmlemu::onCardButton)
+    EVT_BUTTON(0x16D, Xmlemu::onCardButton)
+    EVT_BUTTON(0x16E, Xmlemu::onCardButton)
+    EVT_BUTTON(0x16F, Xmlemu::onCardButton)
+
+    EVT_BUTTON(0x170, Xmlemu::onCardButton)
+    EVT_BUTTON(0x171, Xmlemu::onCardButton)
+    EVT_BUTTON(0x172, Xmlemu::onCardButton)
+    EVT_BUTTON(0x173, Xmlemu::onCardButton)
+    EVT_BUTTON(0x174, Xmlemu::onCardButton)
+    EVT_BUTTON(0x175, Xmlemu::onCardButton)
+    EVT_BUTTON(0x176, Xmlemu::onCardButton)
+    EVT_BUTTON(0x177, Xmlemu::onCardButton)
+    EVT_BUTTON(0x178, Xmlemu::onCardButton)
+    EVT_BUTTON(0x179, Xmlemu::onCardButton)
+    EVT_BUTTON(0x17A, Xmlemu::onCardButton)
+    EVT_BUTTON(0x17B, Xmlemu::onCardButton)
+    EVT_BUTTON(0x17C, Xmlemu::onCardButton)
+    EVT_BUTTON(0x17D, Xmlemu::onCardButton)
+    EVT_BUTTON(0x17E, Xmlemu::onCardButton)
+    EVT_BUTTON(0x17F, Xmlemu::onCardButton)
+
+    EVT_BUTTON(0x180, Xmlemu::onCardButton)
+    EVT_BUTTON(0x181, Xmlemu::onCardButton)
+    EVT_BUTTON(0x182, Xmlemu::onCardButton)
+    EVT_BUTTON(0x183, Xmlemu::onCardButton)
+    EVT_BUTTON(0x184, Xmlemu::onCardButton)
+    EVT_BUTTON(0x185, Xmlemu::onCardButton)
+    EVT_BUTTON(0x186, Xmlemu::onCardButton)
+    EVT_BUTTON(0x187, Xmlemu::onCardButton)
+    EVT_BUTTON(0x188, Xmlemu::onCardButton)
+    EVT_BUTTON(0x189, Xmlemu::onCardButton)
+    EVT_BUTTON(0x18A, Xmlemu::onCardButton)
+    EVT_BUTTON(0x18B, Xmlemu::onCardButton)
+    EVT_BUTTON(0x18C, Xmlemu::onCardButton)
+    EVT_BUTTON(0x18D, Xmlemu::onCardButton)
+    EVT_BUTTON(0x18E, Xmlemu::onCardButton)
+    EVT_BUTTON(0x18F, Xmlemu::onCardButton)
+
+    EVT_BUTTON(0x190, Xmlemu::onCardButton)
+    EVT_BUTTON(0x191, Xmlemu::onCardButton)
+    EVT_BUTTON(0x192, Xmlemu::onCardButton)
+    EVT_BUTTON(0x193, Xmlemu::onCardButton)
+    EVT_BUTTON(0x194, Xmlemu::onCardButton)
+    EVT_BUTTON(0x195, Xmlemu::onCardButton)
+    EVT_BUTTON(0x196, Xmlemu::onCardButton)
+    EVT_BUTTON(0x197, Xmlemu::onCardButton)
+    EVT_BUTTON(0x198, Xmlemu::onCardButton)
+    EVT_BUTTON(0x199, Xmlemu::onCardButton)
+    EVT_BUTTON(0x19A, Xmlemu::onCardButton)
+    EVT_BUTTON(0x19B, Xmlemu::onCardButton)
+    EVT_BUTTON(0x19C, Xmlemu::onCardButton)
+    EVT_BUTTON(0x19D, Xmlemu::onCardButton)
+    EVT_BUTTON(0x19E, Xmlemu::onCardButton)
+    EVT_BUTTON(0x19F, Xmlemu::onCardButton)
+
+    EVT_BUTTON(0x1A0, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1A1, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1A2, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1A3, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1A4, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1A5, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1A6, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1A7, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1A8, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1A9, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1AA, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1AB, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1AC, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1AD, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1AE, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1AF, Xmlemu::onCardButton)
+
+    EVT_BUTTON(0x1B0, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1B1, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1B2, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1B3, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1B4, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1B5, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1B6, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1B7, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1B8, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1B9, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1BA, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1BB, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1BC, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1BD, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1BE, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1BF, Xmlemu::onCardButton)
+
+    EVT_BUTTON(0x1C0, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1C1, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1C2, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1C3, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1C4, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1C5, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1C6, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1C7, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1C8, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1C9, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1CA, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1CB, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1CC, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1CD, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1CE, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1CF, Xmlemu::onCardButton)
+
+    EVT_BUTTON(0x1D0, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1D1, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1D2, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1D3, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1D4, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1D5, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1D6, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1D7, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1D8, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1D9, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1DA, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1DB, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1DC, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1DD, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1DE, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1DF, Xmlemu::onCardButton)
+
+    EVT_BUTTON(0x1E0, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1E1, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1E2, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1E3, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1E4, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1E5, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1E6, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1E7, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1E8, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1E9, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1EA, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1EB, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1EC, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1ED, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1EE, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1EF, Xmlemu::onCardButton)
+
+    EVT_BUTTON(0x1F0, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1F1, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1F2, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1F3, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1F4, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1F5, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1F6, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1F7, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1F8, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1F9, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1FA, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1FB, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1FC, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1FD, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1FE, Xmlemu::onCardButton)
+    EVT_BUTTON(0x1FF, Xmlemu::onCardButton)
+
+    EVT_TIMER(900, Xmlemu::OnRtcTimer)
+
+END_EVENT_TABLE()
+#endif
+
+Xmlemu::Xmlemu(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, int tempo, ElfConfiguration conf, Conf computerConf)
 : wxFrame((wxFrame *)NULL, -1, title, pos, size)
 {
     computerConfiguration = computerConf;
@@ -177,23 +466,24 @@ Xmlemu::Xmlemu(const wxString& title, const wxPoint& pos, const wxSize& size, do
             powerButtonState_ = p_Main->getConfigBool("XML/PowerButtonState", true);
         break;
 
-        case PANEL_FRED1:
-        case PANEL_FRED1_5:
-            fredScreenPointer = new FredScreen(this, size, elfConfiguration.tilType);
-            panelPointer = fredScreenPointer;
-        break;
-
         default:
             panelPointer = new Panel(this, size, elfConfiguration.tilType);
         break;
     }
-    panelPointer->init();
+ 
+    if (elfConfiguration.flexPanel_)
+        panelPointer->init(computerConfiguration.guiItemConfig_, elfConfiguration.panelSize_);
+    else
+        panelPointer->init();
 
     rtcTimerPointer = new wxTimer(this, 900);
     
     runningGame_ = "";
     use6845_ = false;
     bitKeypadValue_ = 0;
+
+    soundTempoCycleSize_ = (int) (((clock * 1000000) / 8) / tempo);
+    vipIIRunCycleSize_ = (int) (((clock * 800000) / 8) ) * 2;
 }
 
 Xmlemu::~Xmlemu()
@@ -209,6 +499,11 @@ Xmlemu::~Xmlemu()
     {
         p_Main->setPixiePos(XML, pixiePointer->GetPosition());
         pixiePointer->Destroy();
+    }
+    if (elfConfiguration.use1862)
+    {
+        p_Main->setCdp1862Pos(XML, cdp1862Pointer->GetPosition());
+        cdp1862Pointer->Destroy();
     }
     if (elfConfiguration.use1864)
     {
@@ -273,15 +568,20 @@ Xmlemu::~Xmlemu()
         if (elfConfiguration.ioConfiguration.cvKeypad.defined)
             delete cvkeypadPointer;
     }
+    if (elfConfiguration.ioConfiguration.etiKeypad.defined)
+        delete etikeypadPointer;
     if (elfConfiguration.ioConfiguration.fredKeypad.defined)
         delete fredkeypadPointer;
-    if (elfConfiguration.useLatchKeyboard || elfConfiguration.useLatchKeypad)
-        delete latchKeyboardPointer;
+    for (int pad=0; pad<=lastLatchKeyPad_; pad++)
+    {
+        if (elfConfiguration.ioConfiguration.keyLatchDetails[pad].defined)
+            delete latchKeyPointer[pad];
+    }
     if (elfConfiguration.useMatrixKeyboard)
         delete matrixKeyboardPointer;
     if (elfConfiguration.vtExternal)
         delete p_Serial;
-    if (computerConfiguration.useBasicPrinter_ || computerConfiguration.useQSerialPrinter_)
+    if (computerConfiguration.useBasicPrinter_ || computerConfiguration.useQSerialPrinter_ || computerConfiguration.useCentronicsPrinter_)
     {
         p_Printer->closeFrames();
         delete p_Printer;
@@ -419,6 +719,11 @@ void Xmlemu::resumeComputer()
 
 void Xmlemu::charEvent(int keycode)
 {
+    if (p_Vt100[UART1] != NULL)
+    {
+        if (vtPointer->IsActive())
+            return;
+    }
     if (elfConfiguration.useKeyboard)
         charEventKeyboard(keycode);
     if (elfConfiguration.useKeyb1871)
@@ -510,8 +815,13 @@ bool Xmlemu::keyDownExtended(int keycode, wxKeyEvent& event)
         if (elfConfiguration.ioConfiguration.cvKeypad.defined)
             cvkeypadPointer->keyDown(keycode, event);
     }
-    if (elfConfiguration.useLatchKeyboard)
-        latchKeyboardPointer->keyDown(keycode, event);
+    if (elfConfiguration.ioConfiguration.etiKeypad.defined)
+        etikeypadPointer->keyDown(keycode, event);
+    for (int pad=0; pad<=lastLatchKeyPad_; pad++)
+    {
+        if (elfConfiguration.ioConfiguration.keyLatchDetails[pad].defined)
+            latchKeyPointer[pad]->keyDown(keycode, event);
+    }
     if (elfConfiguration.useMatrixKeyboard)
         matrixKeyboardPointer->keyDownExtended(keycode, event);
     if (elfConfiguration.useKeyb1871)
@@ -588,8 +898,13 @@ bool Xmlemu::keyUpReleased(int key, wxKeyEvent& event)
         if (elfConfiguration.ioConfiguration.cvKeypad.defined)
            cvkeypadPointer->keyUp(key, event);
     }
-    if (elfConfiguration.useLatchKeyboard)
-        latchKeyboardPointer->keyUp(key, event);
+    if (elfConfiguration.ioConfiguration.etiKeypad.defined)
+        etikeypadPointer->keyUp(key, event);
+    for (int pad=0; pad<=lastLatchKeyPad_; pad++)
+    {
+        if (elfConfiguration.ioConfiguration.keyLatchDetails[pad].defined)
+            latchKeyPointer[pad]->keyUp(key, event);
+    }
     if (elfConfiguration.useMatrixKeyboard)
         matrixKeyboardPointer->keyUpExtended(key, event);
     return false;
@@ -609,6 +924,9 @@ void Xmlemu::onButtonPress(wxCommandEvent& event)
 
 void Xmlemu::onInButtonPress()
 {
+    if (elfConfiguration.ioConfiguration.etiKeypad.defined)
+        etikeypadPointer->onInButtonPress();
+    
     switch (elfConfiguration.panelType_)
     {
         case PANEL_COSMAC:
@@ -774,6 +1092,9 @@ void Xmlemu::onElf2KInButton()
 
 void Xmlemu::onInButtonRelease()
 {
+    if (elfConfiguration.ioConfiguration.etiKeypad.defined)
+        etikeypadPointer->onInButtonRelease();
+
     switch (elfConfiguration.panelType_)
     {
         case PANEL_COSMAC:
@@ -844,7 +1165,6 @@ void Xmlemu::configureComputer()
     setEfType(3, EF3UNDEFINED);
     setEfType(4, EF4UNDEFINED);
 
-    setCycleType(COMPUTERCYCLE, LEDCYCLE);
     wxString printBuffer;
 
     p_Main->message("Configuring " + p_Main->getRunningComputerText());
@@ -899,8 +1219,22 @@ void Xmlemu::configureComputer()
             ioGroup.Printf(" on group %d", elfConfiguration.ioConfiguration.tapeIoGroup);
 
         p_Computer->setEfType(elfConfiguration.ioConfiguration.tapeIoGroup+1, elfConfiguration.ioConfiguration.tapeEf, TAPE_EF);
-        printBuffer.Printf("    EF %d: cassette in"+ioGroup, elfConfiguration.ioConfiguration.tapeEf);
+        
+        if (elfConfiguration.ioConfiguration.tapeEfRun != -1)
+        {
+            p_Computer->setEfType(elfConfiguration.ioConfiguration.tapeIoGroup+1, elfConfiguration.ioConfiguration.tapeEfRun, TAPE_RUNNING_EF);
+            printBuffer.Printf("    EF %d: cassette in, EF %d: cassette running"+ioGroup, elfConfiguration.ioConfiguration.tapeEf, elfConfiguration.ioConfiguration.tapeEfRun);
+        }
+        else
+            printBuffer.Printf("    EF %d: cassette in"+ioGroup, elfConfiguration.ioConfiguration.tapeEf);
         p_Main->message(printBuffer);
+        
+        if (elfConfiguration.ioConfiguration.tapeOut.portNumber != -1)
+        {
+            printBuffer.Printf("    Output %d: cassette on/off"+ioGroup, elfConfiguration.ioConfiguration.tapeOut.portNumber);
+            p_Main->message(printBuffer);
+            p_Computer->setOutType(elfConfiguration.ioConfiguration.tapeIoGroup+1, elfConfiguration.ioConfiguration.tapeOut.portNumber, TAPE_OUT);
+        }
     }
     if (elfConfiguration.useHexKeyboardEf3)
     {
@@ -953,7 +1287,10 @@ void Xmlemu::configureComputer()
 
             case BOOTSTRAPOUT:
 //                p_Computer->setOutType(elfConfiguration.ioConfiguration.bootStrapOut, BOOTSTRAPDISABLE);
-                printBuffer.Printf("    Output %d: release bootstrap", elfConfiguration.ioConfiguration.bootStrapOut);
+                if (elfConfiguration.ioConfiguration.bootStrapOut2 == -1)
+                    printBuffer.Printf("    Output %d: release bootstrap", elfConfiguration.ioConfiguration.bootStrapOut);
+                else
+                    printBuffer.Printf("    Output %d, %d: release bootstrap", elfConfiguration.ioConfiguration.bootStrapOut, elfConfiguration.ioConfiguration.bootStrapOut2);
                 p_Main->message(printBuffer);
             break;
 
@@ -968,6 +1305,13 @@ void Xmlemu::configureComputer()
                 printBuffer.Printf("    Input & output %d: release bootstrap", elfConfiguration.ioConfiguration.bootStrapIn);
                 p_Main->message(printBuffer);
             break;
+
+            case BOOTSTRAPRUN:
+                printBuffer.Printf("    Set bootstrap if RUN is pressed on startup");
+                p_Main->message(printBuffer);
+                printBuffer.Printf("    Read address >= %04X: release bootstrap", elfConfiguration.strapAddress);
+                p_Main->message(printBuffer);
+            break;
         }
     }
     
@@ -978,6 +1322,7 @@ void Xmlemu::configureComputer()
     inKey1_ = p_Main->getDefaultInKey1("Xml");
     inKey2_ = p_Main->getDefaultInKey2("Xml");
     p_Main->getDefaultHexKeys(XML, "Xml", "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
+    p_Main->getDefaultHexKeys(XML, "Xml", "B", keyDefB1_, keyDefB2_, keyDefGameHexB_);
 
     if (p_Main->getConfigBool("/Xml/GameAuto", true))
         p_Main->loadKeyDefinition(computerConfiguration.memConfig_[0].dirname, computerConfiguration.memConfig_[0].filename, keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
@@ -1025,12 +1370,14 @@ void Xmlemu::initComputer()
     Show(p_Main->getUseElfControlWindows(XML));
 
     waitButtonState_ = 0;
-    clearButtonState_ = 0;
     mpButtonState_ = 0;
+    for (int i=0; i<4; i++)
+        mpButtonState[i] = false;
     loadButtonState_ = 1;
     runButtonState_ = 0;
     nvRamDisable_ = elfConfiguration.nvRamDisable;
-    
+    endSave_ = computerConfiguration.memConfig_[0].start;
+
     switches_ = 0;
     inbuttonEfState_ = 1;
     nextNybble_ = 'H';
@@ -1046,6 +1393,11 @@ void Xmlemu::initComputer()
     
     bootstrap_ = 0;
 
+    pulseCountStopTone_ = 2000;
+    tapeFormat56_ = false;
+    tapeFormatFixed_ = false;
+    toneTime_ = 0;
+
     pulseCount_ = 0;
     tapeRecording_ = false;
     tapeActivated_ = false;
@@ -1060,6 +1412,7 @@ void Xmlemu::initComputer()
     inpMode_ = INP_MODE_NONE;
     cardSwitchOn_ = false;
     readSwitchOn_ = false;
+    colourMask1862_ = 0xff;
 
     if (elfConfiguration.panelType_ == UC1800)
     {
@@ -1069,13 +1422,25 @@ void Xmlemu::initComputer()
         uc1800ScreenPointer->setReadyLed(0);
     }
 
+    soundTempoCycleValue_ = soundTempoCycleSize_;
+    vp550IntOn_ = false;
+    printLatch_ = 0;
+    updateQLed_ = false;
+    updateTapeLed_ = false;
+
+    cycleKeyOn_ = false;
+    cycleFlashOn_ = false;
+    runPressedAtStartup_ = false;
+
     resetComputer();
+    resetTape();
 }
 
 void Xmlemu::resetComputer()
 {
     inPressed_ = false;
     cassetteEf_ = 0;
+    oldCassetteEf_ = 1;
 
     printerEfState_ = 1;
     hexEfState_ = 1;
@@ -1103,7 +1468,8 @@ void Xmlemu::resetComputer()
     printerStatus_ = PRIDLE;
     batchInProgress_ = false;
 
-    resetTape();
+    if (elfConfiguration.tapeFormat_ == TAPE_FORMAT_CV)
+        resetTape();
 
     if (elfConfiguration.usePs2gpio)
         resetPs2gpio();
@@ -1176,7 +1542,9 @@ Byte Xmlemu::ef(int flag)
     {
         if  (elfConfiguration.ioConfiguration.keybMatrixIoGroup == ioGroup_ || elfConfiguration.ioConfiguration.keybMatrixIoGroup == -1)
         {
-            return matrixKeyboardPointer->efKey(flag);
+            int returnValue = matrixKeyboardPointer->efKey(flag);
+            if (returnValue != -1)
+                return returnValue&0xff;
         }
     }
         
@@ -1184,8 +1552,17 @@ Byte Xmlemu::ef(int flag)
     {
         if (elfConfiguration.ioConfiguration.pixieEf == flag)
         {
-            if (pixiePointer->arePixieGraphicsOn())
+            if (pixiePointer->arePixieGraphicsOn() || !elfConfiguration.ioConfiguration.pixieEfScreenOn)
                 return pixiePointer->efPixie();
+        }
+    }
+
+    if (elfConfiguration.use1862)
+    {
+        if (elfConfiguration.ioConfiguration.cdp1862Ef == flag)
+        {
+            if (cdp1862Pointer->arePixieGraphicsOn() || !elfConfiguration.ioConfiguration.cdp1862EfScreenOn)
+                return cdp1862Pointer->efPixie();
         }
     }
 
@@ -1193,7 +1570,7 @@ Byte Xmlemu::ef(int flag)
     {
         if (elfConfiguration.ioConfiguration.cdp1864Ef == flag)
         {
-            if (cdp1864Pointer->arePixieGraphicsOn())
+            if (cdp1864Pointer->arePixieGraphicsOn() || !elfConfiguration.ioConfiguration.cdp1864EfScreenOn)
                 return cdp1864Pointer->efPixie();
         }
     }
@@ -1249,6 +1626,10 @@ Byte Xmlemu::ef(int flag)
                 return cassetteEf_;
         break;
 
+        case CENTRONICS_PRINT_EF:
+                return true;
+        break;
+
         case BASIC_PRINT_EF:
             return printerEfState_;
         break;
@@ -1264,8 +1645,14 @@ Byte Xmlemu::ef(int flag)
             return cassetteEf_;
         break;
 
+        case TAPE_RUNNING_EF:
+            return !(isSaving()|isLoading());
+        break;
+            
         case KEYB_LATCH_EF:
-            return latchKeyboardPointer->ef();
+        case KEYPAD_LATCH_EF1:
+        case KEYPAD_LATCH_EF2:
+            return latchKeyPointer[efType_[qState_][ioGroup_+1][flag] - KEYB_LATCH_EF]->ef();
         break;
 
         case PS2GPIOEF:
@@ -1282,6 +1669,10 @@ Byte Xmlemu::ef(int flag)
 
         case CV_KEYPAD_EF:
             return cvkeypadPointer->ef();
+        break;
+
+        case ETI_KEYPAD_EF:
+            return etikeypadPointer->ef();
         break;
 
         case FREDEF1:
@@ -1533,12 +1924,20 @@ Byte Xmlemu::in(Byte port, Word address)
             ret = cvkeypadPointer->in();
         break;
 
+        case ETI_KEYPAD_IN:
+            ret = etikeypadPointer->in(address);
+        break;
+
         case KEYB_MATRIX_IN:
             ret = matrixKeyboardPointer->in(address);
         break;
 
         case PS2GPIOIN:
             ret = inPs2gpio();
+        break;
+
+        case CDP1862ENABLE:
+            ret = cdp1862Pointer->inPixie();
         break;
 
         case CDP1864ENABLE:
@@ -1732,7 +2131,7 @@ void Xmlemu::out(Byte port, Word address, Byte value)
 
     if (elfConfiguration.bootStrap)
     {
-        if (port == elfConfiguration.ioConfiguration.bootStrapOut)
+        if (port == elfConfiguration.ioConfiguration.bootStrapOut || port == elfConfiguration.ioConfiguration.bootStrapOut2)
         {
             bootstrap_ = 0;
         }
@@ -1748,6 +2147,18 @@ void Xmlemu::out(Byte port, Word address, Byte value)
         if (elfConfiguration.dmaOnFirstOut == port && dmaCounter_ == -1)
             dmaCounter_ = elfConfiguration.dmaCycleValue;
 
+    if (computerConfiguration.useCentronicsPrinter_)
+    {
+        if  (elfConfiguration.ioConfiguration.centronicsPrinterIoGroup == ioGroup_ || elfConfiguration.ioConfiguration.centronicsPrinterIoGroup == -1)
+        {
+            if (elfConfiguration.ioConfiguration.centronicsPrinterOutput == port)
+            {
+                if (value != 0)
+                    printLatch_ = value;
+            }
+        }
+    }
+    
     switch (outType_[qState_][ioGroup_+1][port])
     {
         case UARTOUT:
@@ -1898,9 +2309,11 @@ void Xmlemu::out(Byte port, Word address, Byte value)
         break;
 
         case KEYB_LATCH_OUT:
-            latchKeyboardPointer->out(value);
+        case KEYPAD_LATCH_OUT1:
+        case KEYPAD_LATCH_OUT2:
+            latchKeyPointer[outType_[qState_][ioGroup_+1][port] - KEYB_LATCH_OUT]->out(value);
         break;
-            
+
         case ELF2KGPIO:
             writeGpioControlRegister(value);
         break;
@@ -1911,6 +2324,26 @@ void Xmlemu::out(Byte port, Word address, Byte value)
             outSaveTapeHw(value);
         break;
 
+        case TAPE_OUT:
+            if (value == 1)
+            {
+                p_Main->startCassetteLoad(0);
+                return;
+            }
+            if (value == 2)
+            {
+                p_Main->startCassetteSave(0);
+                return;
+            }
+            if (elfConfiguration.tape_stopDelay <= 0 || !isSaving())
+                p_Main->stopCassette();
+            else
+            {
+                if (stopTapeCounter_ == 0)
+                    stopTapeCounter_ = (elfConfiguration.tape_stopDelay * sampleRate_) / 1000;
+            }
+        break;
+
         case BITSOUND_OUT:
             if ((value & elfConfiguration.ioConfiguration.bitSoundMask) == 1)
                 toneElf2KOn();
@@ -1918,6 +2351,26 @@ void Xmlemu::out(Byte port, Word address, Byte value)
                 toneElf2KOff();
         break;
 
+        case CDP1862DISABLE:
+            cdp1862Pointer->outPixie();
+        break;
+
+        case CDP1862BACK:
+            cdp1862Pointer->outPixieBackGround();
+        break;
+
+        case CDP1864BACK:
+            cdp1864Pointer->outPixieBackGround();
+        break;
+
+        case CDP1864COLORRAM:
+            address = ((address >> 1) & 0xf8) + (address & 0x7);
+            colorMemory1864_[address] = value & elfConfiguration.ioConfiguration.cdp1864colorMemory.mask;
+            if (address >= memoryStart_ && address <(memoryStart_+256))
+                p_Main->updateDebugMemory(address);
+        break;
+            
+        case CDP1863TONE:
         case CDP1864TONE:
             tone1864Latch(value);
         break;
@@ -2014,6 +2467,11 @@ void Xmlemu::out(Byte port, Word address, Byte value)
             tapeRunSwitch_ = value;
         break;
 
+        case ETI_KEYPAD_OUT:
+            if (etikeypadPointer->out(address, value) && elfConfiguration.use1864)
+                cdp1864Pointer->initiateColour(true);
+        break;
+
         // Folowing I/O is not adapted to ioGroups
         case COMXOUT:
             slotOut(value);
@@ -2092,7 +2550,7 @@ void Xmlemu::out(Byte port, Word address, Byte value)
         case EMSMAPPEROUT:
             for (size_t emsNumber=0; emsNumber<computerConfiguration.emsConfigNumber_; emsNumber++)
             {
-                if (computerConfiguration.emsConfig_[emsNumber].outputEnd == port)
+                if (elfConfiguration.ioConfiguration.emsOutput[emsNumber] == port)
                     setEmsPage(emsNumber, value);
             }
         break;
@@ -2204,6 +2662,8 @@ void Xmlemu::onXmlF4(bool WXUNUSED(forceStart))
         return;
 //        }
     }
+ 
+    p_Printer->onF4();
 }
 
 void Xmlemu::slotOut(Byte value)
@@ -2280,6 +2740,15 @@ Byte Xmlemu::slotShift(Byte value, int shift)
 
 void Xmlemu::showData(Byte val)
 {
+    for (int i=0; i<8; i++)
+    {
+        if (elfConfiguration.ioConfiguration.bitLed[i])
+        {
+            panelPointer->setLed(i, val&1);
+            val = val>>1;
+        }
+    }
+
     switch (elfConfiguration.panelType_)
     {
         case PANEL_MEMBER:
@@ -2291,7 +2760,8 @@ void Xmlemu::showData(Byte val)
         break;
             
         default:
-            panelPointer->showData(val);
+            if (!elfConfiguration.ioConfiguration.bitLed[0]) // temp - replace with a check if data til is used
+                panelPointer->showData(val);
         break;
     }
 }
@@ -2300,6 +2770,33 @@ void Xmlemu::showCycleData(Byte val)
 {
     if (singleStateStep_)
         showData(val);
+    
+    if (elfConfiguration.ioConfiguration.showDataOnCycle)
+    {
+        for (int i=0; i<8; i++)
+        {
+            if (elfConfiguration.ioConfiguration.bitLed[i])
+            {
+                panelPointer->setLed(i, val&1);
+                val = val >> 1;
+            }
+        }
+    }
+}
+
+void Xmlemu::showCycleAddress(Word val)
+{
+    if (elfConfiguration.ioConfiguration.showDataOnCycle)
+    {
+        for (int i=8; i<24; i++)
+        {
+            if (elfConfiguration.ioConfiguration.bitLed[i])
+            {
+                panelPointer->setLed(i, val&1);
+                val = val >> 1;
+            }
+        }
+    }
 }
 
 void Xmlemu::cycle(int type)
@@ -2334,8 +2831,12 @@ void Xmlemu::cycle(int type)
             pixiePointer->cyclePixie();
         break;
             
+        case CDP1862CYCLE:
+            cdp1862Pointer->cyclePixie();
+        break;
+
         case CDP1864CYCLE:
-            cdp1864Pointer->cyclePixieTelmac();
+            cdp1864Pointer->cyclePixieCdp1864();
         break;
 
         case VIP2KVIDEOCYCLE:
@@ -2415,7 +2916,11 @@ void Xmlemu::cycle(int type)
         break;
             
         case LATCHKEYBCYCLE:
-            latchKeyboardPointer->cycleKeybLatch();
+            for (int pad=0; pad<=lastLatchKeyPad_; pad++)
+            {
+                if (elfConfiguration.ioConfiguration.keyLatchDetails[pad].defined)
+                    latchKeyPointer[pad]->cycleKeybLatch();
+            }
         break;
 
         case COSMICOS7SEG:
@@ -2432,6 +2937,23 @@ void Xmlemu::cycle(int type)
                 cycleValue_ = cycleSize_;
             }
         break;
+
+        case VP550CYCLE:
+            cycleVP550();
+        break;
+    }
+}
+
+void Xmlemu::cycleVP550()
+{
+    if (vp550IntOn_)
+    {
+        soundTempoCycleValue_--;
+        if (soundTempoCycleValue_ <= 0)
+        {
+            p_Computer->interrupt();
+            soundTempoCycleValue_ = soundTempoCycleSize_;
+        }
     }
 }
 
@@ -2539,6 +3061,16 @@ void Xmlemu::cycleLed()
                 break;
             }
             panelPointer->ledTimeout();
+            if (updateQLed_)
+            {
+                p_Main->eventUpdateVipIILedStatus(BAR_LED_Q, qState_ == 1);
+                updateQLed_ = false;
+            }
+            if (updateTapeLed_)
+            {
+                p_Main->eventUpdateVipIILedStatus(BAR_LED_TAPE, cassetteEf_ != 0);
+                updateTapeLed_ = false;
+            }
         }
         if (goCycleValue_ > 0)
         {
@@ -2555,6 +3087,36 @@ void Xmlemu::cycleLed()
             }
         }
     }
+    if (cycleKeyOn_)
+    {
+        flashCycleValue_--;
+        if (flashCycleValue_ <= 0)
+        {
+            if (runReleased_)
+            {
+                runReleased_ = false;
+                cycleKeyOn_ = false;
+                onRun();
+            }
+            else
+            {
+                flashState_ = false;
+                cycleFlashOn_ = true;
+                cycleKeyOn_ = false;
+                flashCycleValue_ = vipIIRunCycleSize_;
+            }
+        }
+    }
+    if (cycleFlashOn_)
+    {
+        flashCycleValue_--;
+        if (flashCycleValue_ <= 0)
+        {
+            p_Main->eventUpdateVipIILedStatus(BAR_LED_RUN, flashState_);
+            flashState_ = !flashState_;
+            flashCycleValue_ = vipIIRunCycleSize_/5;
+        }
+    }
 }
 
 void Xmlemu::setGoTimer()
@@ -2562,8 +3124,40 @@ void Xmlemu::setGoTimer()
     goCycleValue_ = goCycleSize_;
 }
 
+void Xmlemu::setMode()
+{
+    if (clear_ == 0 && wait_==1)
+    {
+        cpuMode_ = RESET;
+        if (cpuType_ > CPU1801)
+            resetCpu();
+    }
+    if (clear_ == 1 && wait_==1) cpuMode_ = RUN;
+    if (clear_ == 0 && wait_==0) cpuMode_ = LOAD;
+    if (clear_ == 1 && wait_==0) cpuMode_ = PAUSE;
+
+    if (cpuMode_ != RUN)
+    {
+        for (int video=0; video<computerConfiguration.numberOfVideoTypes_; video++)
+        {
+            if (p_Video[video] != NULL)
+                p_Video[video]->reset();
+        }
+    }
+    
+    if (elfConfiguration.ioConfiguration.cpuStatusLed[CLEARLED])
+        panelPointer->setStateLed(CLEARLED, clear_ ^ 1);
+    if (elfConfiguration.ioConfiguration.cpuStatusLed[WAITLED])
+        panelPointer->setStateLed(WAITLED, wait_ ^ 1);
+}
+
 void Xmlemu::showState(int state)
 {
+    if (elfConfiguration.ioConfiguration.cpuStatusLed[SC0LED])
+        panelPointer->setStateLed(SC0LED, state&1);
+    if (elfConfiguration.ioConfiguration.cpuStatusLed[SC1LED])
+        panelPointer->setStateLed(SC1LED, (state&2)>>1);
+
     if (elfConfiguration.panelType_ != PANEL_SUPER)
         return;
 
@@ -2604,45 +3198,56 @@ void Xmlemu::showIntLed()
     superScreenPointer->setLed(7, 1);
 }
 
+void Xmlemu::updateStatusBarLedStatus(int led, bool status)
+{
+    if (elfConfiguration.ioConfiguration.statusBarType == STATUSBAR_VIP2)
+    {
+        if (elfConfiguration.usePixie)
+            pixiePointer->updateLedStatus(led, status);
+        if (elfConfiguration.use1862)
+            cdp1862Pointer->updateLedStatus(led, status);
+        if (elfConfiguration.use1864)
+            cdp1864Pointer->updateLedStatus(led, status);
+    }
+}
+
 void Xmlemu::autoBoot()
 {
+    runButtonState_ = 1;
+    setClear(runButtonState_);
+
+    if (elfConfiguration.ioConfiguration.readyLed)
+        panelPointer->setReadyLed(0);
+
+    if (elfConfiguration.ioConfiguration.stopLed)
+        panelPointer->setStopLed(0);
+
+    if (elfConfiguration.dmaOnBoot)
+        dmaOut();
+
     switch (elfConfiguration.panelType_)
     {
         case PANEL_COSMAC:
             elfScreenPointer->runSetState(BUTTON_UP);
-            runButtonState_ = 1;
-            setClear(runButtonState_);
             if (cpuMode_ == RESET)
                 elfScreenPointer->showAddress(0);
         break;
 
         case PANEL_ELFII:
             elf2ScreenPointer->runSetState(BUTTON_UP);
-            runButtonState_ = 1;
-            setClear(runButtonState_);
         break;
 
-        case PANEL_SUPER:
-            setClear(1);
-            setWait(1);
-        break;
-            
         case PANEL_ELF2K:
-            runButtonState_ = 1;
             if (elfConfiguration.useSwitch)
                 p_Elf2Kswitch->setRunButtonUp(runButtonState_);
             if (elfConfiguration.useHex)
                 p_Elf2Khex->setRunButtonUp(runButtonState_);
 
-            setClear(runButtonState_);
             if (cpuMode_ == RESET)
                 elf2KScreenPointer->showAddress(0);
         break;
             
         case PANEL_COSMICOS:
-            runButtonState_ = 1;
-
-            setClear(runButtonState_);
             segNumber_ = 0;
         break;
             
@@ -2650,53 +3255,30 @@ void Xmlemu::autoBoot()
             memberScreenPointer->waitSetState(BUTTON_UP);
             memberScreenPointer->clearSetState(BUTTON_UP);
             waitButtonState_ = 1;
-            clearButtonState_ = 1;
-            setClear(clearButtonState_);
             setWait(waitButtonState_);
-        break;
-
-        case PANEL_MICROTUTOR:
-        case PANEL_UC1800:
-            setClear(1);
-        break;
-            
-        case PANEL_FRED1:
-            dmaOut();
-
-            fredScreenPointer->setReadyLed(0);
-            fredScreenPointer->setStopLed(0);
-
-            setClear(1);
-            setWait(1);
-        break;
-            
-        case PANEL_FRED1_5:
-            scratchpadRegister_[0]=p_Main->getBootAddress("Xml", XML);
-
-            fredScreenPointer->setReadyLed(0);
-            fredScreenPointer->setStopLed(0);
-
-            setClear(1);
-            setWait(1);
         break;
 
         case PANEL_MICROTUTOR2:
         case PANEL_VELF:
             panelPointer->runSetState(BUTTON_UP);
-            runButtonState_ = 1;
-            setClear(runButtonState_);
         break;
             
         default:
-            runButtonState_ = 1;
-            setClear(runButtonState_);
         break;
     }
 }
 
 void Xmlemu::switchQ(int value)
 {
-    if (elfConfiguration.useTapeHw && qState_ != value)
+    if (qState_ != value)
+    {
+        if (ledTimeMs_ == 0)
+            p_Main->eventUpdateVipIILedStatus(BAR_LED_Q, value == 1);
+        else
+            updateQLed_ = true;
+    }
+
+    if (elfConfiguration.tapeFormat_ == TAPE_FORMAT_CV && elfConfiguration.useTapeHw && qState_ != value)
     {
         qState_ = value;
         if (qState_ == 0)
@@ -2727,6 +3309,15 @@ void Xmlemu::switchQ(int value)
         }
     }
 
+    if (computerConfiguration.useCentronicsPrinter_)
+    {
+        if (value == 0 && qState_ == 1 && printLatch_ != 0)
+        {
+            p_Printer->printerOut(printLatch_);
+            printLatch_ = 0;
+        }
+    }
+
     qState_ = value;
     switch (elfConfiguration.panelType_)
     {
@@ -2735,6 +3326,7 @@ void Xmlemu::switchQ(int value)
         case PANEL_SUPER:
         case PANEL_ELF2K:
         case PANEL_COSMICOS:
+        case PANEL_XML:
             panelPointer->setQLed(value);
         break;
 
@@ -2776,6 +3368,11 @@ void Xmlemu::onWaitButton()
     setWait(waitButtonState_);
 }
 
+void Xmlemu::onPowerButton(wxCommandEvent&WXUNUSED(event))
+{
+    p_Main->stopComputer();
+}
+
 void Xmlemu::onPowerButton()
 {
     powerButtonState_ = !powerButtonState_;
@@ -2812,74 +3409,6 @@ void Xmlemu::powerOn()
     uc1800ScreenPointer->ledTimeout();
 }
 
-void Xmlemu::onRunButton(wxCommandEvent&WXUNUSED(event))
-{
-    onRunButton();
-}
-
-void Xmlemu::onRunButton()
-{
-    switch (elfConfiguration.panelType_)
-    {
-        case PANEL_COSMICOS:
-            singleStateStep_ = false;
-            resetEffectiveClock();
-            setClear(1);
-            setWait(1);
-            p_Main->eventUpdateTitle();
-        break;
-            
-        case PANEL_MICROTUTOR2:
-            onRun();
-        break;
-            
-        case PANEL_FRED1:
-            if (cardSwitchOn_ || readSwitchOn_)
-                showDataLeds(dmaOut());
-            else
-            {
-                dmaOut();
-                
-                fredScreenPointer->setReadyLed(0);
-                fredScreenPointer->setStopLed(0);
-                
-                setClear(1);
-                setWait(1);
-                
-                p_Main->eventUpdateTitle();
-                p_Main->startTime();
-            }
-        break;
-            
-        case PANEL_FRED1_5:
-            if (cardSwitchOn_ || readSwitchOn_)
-                showDataLeds(dmaOut());
-            else
-            {
-                scratchpadRegister_[0]=p_Main->getBootAddress("Xml", XML);
-
-                fredScreenPointer->setReadyLed(0);
-                fredScreenPointer->setStopLed(0);
-                
-                setClear(1);
-                setWait(1);
-                
-                p_Main->eventUpdateTitle();
-                p_Main->startTime();
-            }
-        break;
-
-        default:
-            setClear(1);
-            setWait(1);
-            p_Main->eventUpdateTitle();
-            
-            if (cpuMode_ != RUN)
-                resetEffectiveClock();
-        break;
-    }
-}
-
 void Xmlemu::onMouseRelease(wxMouseEvent&event)
 {
     switch (elfConfiguration.panelType_)
@@ -2887,6 +3416,23 @@ void Xmlemu::onMouseRelease(wxMouseEvent&event)
         case PANEL_COSMICOS:
             cosmicosScreenPointer->onMouseRelease(event);
         break;
+    }
+}
+
+void Xmlemu::runPressed()
+{
+    if (elfConfiguration.ioConfiguration.bootStrapType == BOOTSTRAPRUN)
+    {
+        if (cycleKeyOn_ || cycleFlashOn_ || vipMode_)
+            return;
+
+        flashCycleValue_ = vipIIRunCycleSize_;
+        runReleased_ = false;
+        if (cpuMode_ != RESET)
+        {
+            cycleKeyOn_ = true;
+            cycleFlashOn_ = false;
+        }
     }
 }
 
@@ -2906,6 +3452,18 @@ void Xmlemu::onRunButtonRelease()
 
 void Xmlemu::onRun()
 {
+    if (cycleFlashOn_)
+    {
+        p_Main->eventUpdateVipIILedStatus(BAR_LED_RUN, true);
+        cycleFlashOn_ = false;
+        return;
+    }
+    if (cycleKeyOn_ && cpuMode_ != RESET)
+    {
+        runReleased_ = true;
+        return;
+    }
+
     if (elfConfiguration.bootStrap)
         bootstrap_ = elfConfiguration.strapAddress;
 
@@ -3015,18 +3573,18 @@ void Xmlemu::onRun()
         break;
 
         case PANEL_MEMBER:
-            if (clearButtonState_)
+            if (runButtonState_)
             {
                 memberScreenPointer->clearSetState(BUTTON_DOWN);
-                clearButtonState_ = 0;
+                runButtonState_ = 0;
             }
             else
             {
                 memberScreenPointer->clearSetState(BUTTON_UP);
-                clearButtonState_ = 1;
+                runButtonState_ = 1;
                 p_Main->startTime();
             }
-            setClear(clearButtonState_);
+            setClear(runButtonState_);
             p_Main->eventUpdateTitle();
         break;
 
@@ -3042,9 +3600,6 @@ void Xmlemu::onRun()
         break;
 
         case PANEL_MICROTUTOR2:
-  //**          if (microtutorConfiguration.utilityMemory)
-  //**              bootstrap_ = 0x8000;
-            
             if (runButtonState_)
             {
                 microtutor2ScreenPointer->runSetState(BUTTON_DOWN);
@@ -3082,22 +3637,111 @@ void Xmlemu::onRun()
         break;
 
         default:
-            if (getClear()==0)
+            if (!elfConfiguration.autoBoot || !elfConfiguration.f12reset)
             {
-                setClear(1);
-                setWait(1);
-                p_Main->eventUpdateTitle();
-                resetEffectiveClock();
+                if (getClear()==0)
+                {
+                    setClear(1);
+                    setWait(1);
+                    p_Main->eventUpdateTitle();
+                    resetEffectiveClock();
+                }
+                else
+                {
+                    setClear(0);
+                    setWait(1);
+                    p_Main->eventUpdateTitle();
+                }
             }
             else
+                onReset();
+            
+            if (runPressedAtStartup_)
             {
-                setClear(0);
-                setWait(1);
-                p_Main->eventUpdateTitle();
+                runPressedAtStartup_ = false;
+                cycleKeyOn_ = false;
+                cycleFlashOn_ = false;
+                runReleased_ = false;
             }
         break;
     }
 }
+
+void Xmlemu::onRunButton(wxCommandEvent&WXUNUSED(event))
+{
+    onRunButton(false);
+}
+
+void Xmlemu::onRunButton0(wxCommandEvent&WXUNUSED(event))
+{
+    onRunButton(true);
+}
+
+void Xmlemu::onRunButton(bool run0)
+{
+    if (cardSwitchOn_ || readSwitchOn_)
+    {
+        showData(dmaOut());
+        
+        if (elfConfiguration.ioConfiguration.readyLed)
+            panelPointer->setReadyLed(1);
+    }
+    else
+    {
+        if (elfConfiguration.ioConfiguration.readyLed)
+            panelPointer->setReadyLed(0);
+        if (elfConfiguration.ioConfiguration.stopLed)
+            panelPointer->setStopLed(0);
+
+        switch (elfConfiguration.panelType_)
+        {
+            case PANEL_COSMICOS:
+                singleStateStep_ = false;
+                resetEffectiveClock();
+                setClear(1);
+                setWait(1);
+                p_Main->eventUpdateTitle();
+            break;
+                
+            case PANEL_MICROTUTOR2:
+                onRun();
+            break;
+                
+            default:
+                if (elfConfiguration.dmaOnBoot)
+                    dmaOut();
+
+                switch (elfConfiguration.ioConfiguration.runPressType)
+                {
+                    case RUN_TYPE_BOOT:
+                        scratchpadRegister_[0]=p_Main->getBootAddress("Xml", XML);
+                        if (run0)
+                            scratchpadRegister_[0]=0;
+                        else
+                            scratchpadRegister_[0]=p_Main->getBootAddress("Xml", XML);
+                    break;
+
+                    case RUN_TYPE_RESET:
+                        if (!singleStateStep_)
+                            resetCpu();
+                        if (run0)
+                            scratchpadRegister_[0]=0;
+                        else
+                            scratchpadRegister_[0]=p_Main->getBootAddress("Xml", XML);
+                    break;
+                }
+                
+                if (cpuMode_ != RUN)
+                    resetEffectiveClock();
+
+                setClear(1);
+                setWait(1);
+                p_Main->eventUpdateTitle();
+            break;
+        }
+    }
+}
+
 
 void Xmlemu::onPause(wxCommandEvent&WXUNUSED(event))
 {
@@ -3156,6 +3800,11 @@ void Xmlemu::onMpButton()
                 mpButtonState_ = 1;
         break;
     }
+}
+
+void Xmlemu::onMpButton(int buttonNumber)
+{
+    mpButtonState[buttonNumber] = !mpButtonState[buttonNumber];
 }
 
 void Xmlemu::onRamButton()
@@ -3252,13 +3901,13 @@ void Xmlemu::onLoadButton()
             {
                 loadButtonState_ = 1;
                 if (singleStateStep_)
-                    setLedMs(0);
+                    setLedMsTemp(0);
             }
             else
             {
                 loadButtonState_ = 0;
                 if (singleStateStep_)
-                    setLedMs(setMsValue_);
+                    setLedMs(ledTimeMs_);
             }
             setWait(loadButtonState_);
         break;
@@ -3306,12 +3955,9 @@ void Xmlemu::onSingleStep()
         default:
             singleStateStep_ = !singleStateStep_;
             if (singleStateStep_)
-            {
-                setMsValue_ = (int) p_Main->getLedTimeMs(SUPERELF);
-                setLedMs(0);
-            }
+                setLedMsTemp(0);
             else
-                setLedMs(setMsValue_);
+                setLedMs(ledTimeMs_);
         break;
     }
 }
@@ -3323,41 +3969,40 @@ void Xmlemu::onResetButton(wxCommandEvent&WXUNUSED(event))
 
 void Xmlemu::onResetButton()
 {
-    switch (elfConfiguration.panelType_)
+    if (elfConfiguration.ioConfiguration.resetPressType == RESET_TYPE_FULL)
+        onReset();
+    else
     {
-        case PANEL_COSMICOS:
-            singleStateStep_ = false;
-            lastMode_ = UNDEFINDEDMODE;
-            setClear(0);
-            setWait(1);
-            segNumber_ = 0;
-            if (elfConfiguration.use1864)
-                cdp1864Pointer->setPixieGraphics(false);
-        break;
+        switch (elfConfiguration.panelType_)
+        {
+            case PANEL_COSMICOS:
+                singleStateStep_ = false;
+                setClear(0);
+                setWait(1);
+                segNumber_ = 0;
+                if (elfConfiguration.use1864)
+                    cdp1864Pointer->setPixieGraphics(false);
+            break;
 
-        case PANEL_SUPER:
-            singleStateStep_ = false;
-            lastMode_ = UNDEFINDEDMODE;
-            setClear(0);
-            setWait(1);
-            if (cpuMode_ == RESET)
-                superScreenPointer->showAddress(0);
-            mpButtonState_ = 0;
-            monitor_ = false;
-        break;
-            
-        case PANEL_FRED1:
-        case PANEL_FRED1_5:
-            onReset();
-        break;
+            case PANEL_SUPER:
+                singleStateStep_ = false;
+                setClear(0);
+                setWait(1);
+                if (cpuMode_ == RESET)
+                    superScreenPointer->showAddress(0);
+                mpButtonState_ = 0;
+                monitor_ = false;
+            break;
+                
+            default:
+                setClear(0);
+                setWait(1);
 
-        default:
-            setClear(0);
-            setWait(1);
-
-            if (cpuMode_ == RESET)
-                panelPointer->showAddress(0);
-        break;
+                if (cpuMode_ == RESET)
+                    panelPointer->showAddress(0);
+            break;
+        }
+        lastMode_ = UNDEFINDEDMODE;
     }
 }
 
@@ -3372,6 +4017,11 @@ void Xmlemu::onResetButtonRelease()
     uc1800ScreenPointer->resetSetState(BUTTON_UP);
 }
 
+void Xmlemu::onReadButton(wxCommandEvent&WXUNUSED(event))
+{
+    onReadButton();
+}
+
 void Xmlemu::onReadButton()
 {
     readSwitchOn_ = !readSwitchOn_;
@@ -3380,7 +4030,12 @@ void Xmlemu::onReadButton()
     updateCardReadStatus();
 }
 
-void Xmlemu::onCardButton()
+void Xmlemu::onCardButtonSwitch(wxCommandEvent&WXUNUSED(event))
+{
+    onCardButtonSwitch();
+}
+
+void Xmlemu::onCardButtonSwitch()
 {
     cardSwitchOn_ = !cardSwitchOn_;
     
@@ -3401,8 +4056,10 @@ void Xmlemu::updateCardReadStatus()
             setClear(0);
             setWait(1);
         
-            fredScreenPointer->setReadyLed(1);
-            fredScreenPointer->setStopLed(1);
+            if (elfConfiguration.ioConfiguration.readyLed)
+                panelPointer->setReadyLed(1);
+            if (elfConfiguration.ioConfiguration.stopLed)
+                panelPointer->setStopLed(1);
         }
         if (inpMode_ == INP_MODE_KEY_DIRECT)
             inpMode_ = INP_MODE_NONE;
@@ -3418,8 +4075,10 @@ void Xmlemu::updateCardReadStatus()
             setClear(0);
             setWait(0);
         
-            fredScreenPointer->setReadyLed(1);
-            fredScreenPointer->setStopLed(0);
+            if (elfConfiguration.ioConfiguration.readyLed)
+                panelPointer->setReadyLed(1);
+            if (elfConfiguration.ioConfiguration.stopLed)
+                panelPointer->setStopLed(0);
         }
         else
         {
@@ -3473,16 +4132,6 @@ void Xmlemu::efSwitch(int i)
         efSwitchState_[i] = 1;
     }
     setEf(i+1, 1-efSwitchState_[i]);
-}
-
-void Xmlemu::showDataLeds(Byte value)
-{
-    for (int i=0; i<8; i++)
-    {
-        fredScreenPointer->setLed(i, value&1);
-        value = value >> 1;
-    }
-    fredScreenPointer->setReadyLed(1);
 }
 
 void Xmlemu::onNumberKeyDown(wxCommandEvent&event)
@@ -3576,8 +4225,8 @@ void Xmlemu::onHexKeyDown(int keycode)
                 break;
 
                 case PANEL_VELF:
-                    if (elfConfiguration.useLatchKeypad)
-                        latchKeyboardPointer->keyDown(i);
+                    if (elfConfiguration.ioConfiguration.keyLatchDetails[1].defined)
+                        latchKeyPointer[1]->keyDown(i);
                 break;
                     
                 case PANEL_UC1800:
@@ -3585,6 +4234,8 @@ void Xmlemu::onHexKeyDown(int keycode)
                 break;
 
                 default:
+                    if (elfConfiguration.ioConfiguration.keyLatchDetails[1].defined)
+                        latchKeyPointer[1]->keyDown(i);
                     hexEfState_ = 0;
                     switches_ = ((switches_ << 4) & 0xf0) | i;
                 break;
@@ -3607,8 +4258,8 @@ void Xmlemu::onHexKeyDown(int keycode)
                 break;
 
                 case PANEL_VELF:
-                    if (elfConfiguration.useLatchKeypad)
-                        latchKeyboardPointer->keyDown(i);
+                    if (elfConfiguration.ioConfiguration.keyLatchDetails[1].defined)
+                        latchKeyPointer[1]->keyDown(i);
                 break;
 
                 case PANEL_UC1800:
@@ -3616,10 +4267,22 @@ void Xmlemu::onHexKeyDown(int keycode)
                 break;
 
                 default:
+                    if (elfConfiguration.ioConfiguration.keyLatchDetails[1].defined)
+                        latchKeyPointer[1]->keyDown(i);
                     hexEfState_ = 0;
                     switches_ = ((switches_ << 4) & 0xf0) | i;
                 break;
             }
+        }
+        if (keycode == keyDefB1_[i])
+        {
+            if (elfConfiguration.ioConfiguration.keyLatchDetails[2].defined)
+                latchKeyPointer[2]->keyDown(i);
+        }
+        if (keycode == keyDefB2_[i])
+        {
+            if (elfConfiguration.ioConfiguration.keyLatchDetails[2].defined)
+                latchKeyPointer[2]->keyDown(i);
         }
     }
 }
@@ -3652,17 +4315,34 @@ void Xmlemu::onHexKeyUp(int keycode)
         break;
 
         case PANEL_VELF:
-            if (elfConfiguration.useLatchKeypad)
+            if (elfConfiguration.ioConfiguration.keyLatchDetails[1].defined)
             {
                 for (int i=0; i<16; i++)
                 {
                     if (keycode == keyDefA1_[i] || keycode == keyDefA2_[i])
-                        latchKeyboardPointer->keyUp(i);
+                        latchKeyPointer[1]->keyUp(i);
                 }
             }
         break;
 
         default:
+            if (elfConfiguration.ioConfiguration.keyLatchDetails[1].defined)
+            {
+                for (int i=0; i<16; i++)
+                {
+                    if (keycode == keyDefA1_[i] || keycode == keyDefA2_[i])
+                        latchKeyPointer[1]->keyUp(i);
+                }
+            }
+            if (elfConfiguration.ioConfiguration.keyLatchDetails[2].defined)
+            {
+                for (int i=0; i<16; i++)
+                {
+                    if (keycode == keyDefB1_[i] || keycode == keyDefB2_[i])
+                        latchKeyPointer[2]->keyUp(i);
+                }
+            }
+
             if (elfConfiguration.useHexKeyboard)
             {
                 for (int i=0; i<5; i++)
@@ -3705,12 +4385,12 @@ void Xmlemu::onClearButton()
         break;
             
         case PANEL_MEMBER:
-            if (clearButtonState_)
-                clearButtonState_ = 0;
+            if (runButtonState_)
+                runButtonState_ = 0;
             else
-                clearButtonState_ = 1;
+                runButtonState_ = 1;
 
-            setClear(clearButtonState_);
+            setClear(runButtonState_);
             p_Main->eventUpdateTitle();
         break;
             
@@ -3745,19 +4425,15 @@ void Xmlemu::startComputer()
         startElfKeyFile("Xml");
     if (elfConfiguration.useKeyb1871)
         start1871KeyFile();
-    if (elfConfiguration.useLatchKeyboard)
-        latchKeyboardPointer->startKeyFile();
+    for (int pad=0; pad<=lastLatchKeyPad_; pad++)
+    {
+        if (elfConfiguration.ioConfiguration.keyLatchDetails[pad].defined)
+            latchKeyPointer[pad]->startKeyFile();
+    }
     if (elfConfiguration.useMatrixKeyboard)
         matrixKeyboardPointer->startKeyFile();
     if (elfConfiguration.usePs2gpio)
         startPs2gpioKeyFile();
-
-    if (elfConfiguration.tapeStart)
-    {
-        tapeActivated_ =  p_Main->startCassetteLoad(0);
-        if (tapeActivated_)
-            tapeRunSwitch_ = tapeRunSwitch_ | 1;
-    }
 
     if (elfConfiguration.vtType != VTNONE)
         setEf(elfConfiguration.ioConfiguration.vt100Ef,0);
@@ -3776,16 +4452,20 @@ void Xmlemu::startComputer()
     rtcCycle_ = 4;
     rtcTimerPointer->Start(250, wxTIMER_CONTINUOUS);
 
-    int ms = (int) p_Main->getLedTimeMs(XML);
-    panelPointer->setLedMs(ms);
+    ledTimeMs_ = (int) p_Main->getLedTimeMs(XML);
+    panelPointer->setLedMs(ledTimeMs_);
+    
+    if (elfConfiguration.ioConfiguration.errorLed)
+        panelPointer->setErrorLed(0);
+
     switch (elfConfiguration.panelType_)
     {
         case PANEL_COSMAC:
             elfScreenPointer->showAddress(0);
             if (elfConfiguration.useHexKeyboard && !hexKeypadClosed_)
-                keypadPointer->setLedMs(ms);
+                keypadPointer->setLedMs(ledTimeMs_);
             if (elfConfiguration.useLedModule && !ledModuleClosed_)
-                ledModulePointer->setLedMs(ms);
+                ledModulePointer->setLedMs(ledTimeMs_);
         break;
 
         case PANEL_SUPER:
@@ -3813,12 +4493,7 @@ void Xmlemu::startComputer()
 
         case PANEL_COSMICOS:
             if (elfConfiguration.useHexKeyboard)
-                p_Cosmicoshex->setLedMs(ms);
-        break;
-
-        case PANEL_FRED1:
-        case PANEL_FRED1_5:
-            fredScreenPointer->setErrorLed(0);
+                p_Cosmicoshex->setLedMs(ledTimeMs_);
         break;
     }
 
@@ -3839,10 +4514,10 @@ void Xmlemu::startComputer()
     p_Main->setSwName("");
     p_Main->updateTitle();
 
-    if (ms == 0)
+    if (ledTimeMs_ == 0)
         ledCycleSize_ = -1;
     else
-        ledCycleSize_ = (((elfClockSpeed_ * 1000000) / 8) / 1000) * ms;
+        ledCycleSize_ = (((elfClockSpeed_ * 1000000) / 8) / 1000) * ledTimeMs_;
     ledCycleValue_ = ledCycleSize_;
     goCycleSize_ = (((elfClockSpeed_ * 1000000) / 8) / 1000) * 500;
     goCycleValue_ = -1;
@@ -3851,8 +4526,29 @@ void Xmlemu::startComputer()
 
     setForceUpperCase(elfConfiguration.forceUpperCase);
 
-    if (elfConfiguration.bootStrap)
-        bootstrap_ = elfConfiguration.strapAddress;
+    vipMode_ = false;
+    switch (elfConfiguration.ioConfiguration.bootStrapType)
+    {
+        case BOOTSTRAPRUN:
+            runPressedAtStartup_ = p_Main->runPressed();
+            if (runPressedAtStartup_)
+            {
+                bootstrap_ = elfConfiguration.strapAddress;
+                slotOut(2);
+                vipMode_ = true;
+            }
+            else
+            {
+                bootstrap_ = 0;
+                slotOut(1);
+            }
+        break;
+
+        default:
+            if (elfConfiguration.bootStrap)
+                bootstrap_ = elfConfiguration.strapAddress;
+        break;
+    }
 
     switch (elfConfiguration.ioConfiguration.statusBarType)
     {
@@ -3863,6 +4559,16 @@ void Xmlemu::startComputer()
                 vis1870Pointer->reDrawBar();
                 vis1870Pointer->updateExpansionLed(true);
             }
+        break;
+            
+        case STATUSBAR_VIP2:
+            lastMode_ = cpuMode_;
+            if (elfConfiguration.usePixie)
+                pixiePointer->reDrawBar();
+            if (elfConfiguration.use1862)
+                cdp1862Pointer->reDrawBar();
+            if (elfConfiguration.use1864)
+                cdp1864Pointer->reDrawBar();
         break;
     }
 
@@ -3877,6 +4583,15 @@ void Xmlemu::startComputer()
         }
     }
     threadPointer->Run();
+
+    if (elfConfiguration.tapeStart)
+    {
+        tapeActivated_ =  p_Main->startCassetteLoad(0);
+        if (tapeActivated_)
+            tapeRunSwitch_ = tapeRunSwitch_ | 1;
+    }
+
+    setCycleType(COMPUTERCYCLE, LEDCYCLE);
 }
 
 void Xmlemu::loadRomRam(size_t configNumber)
@@ -3886,22 +4601,22 @@ void Xmlemu::loadRomRam(size_t configNumber)
         if (computerConfiguration.memConfig_[configNumber].verifyFileExist)
             p_Main->checkAndReInstallFile(computerConfiguration.memConfig_[configNumber].dirname + computerConfiguration.memConfig_[configNumber].filename, XML, computerConfiguration.memConfig_[configNumber].filename);
 
-        readProgram(computerConfiguration.memConfig_[configNumber].dirname, computerConfiguration.memConfig_[configNumber].filename, computerConfiguration.memConfig_[configNumber].type,  computerConfiguration.memConfig_[configNumber].start, NONAME); // type & 0xff causes loading ROM to end up without congif number in the higher 8 bit.
+        readProgram(computerConfiguration.memConfig_[configNumber].dirname, computerConfiguration.memConfig_[configNumber].filename, NOCHANGE,  computerConfiguration.memConfig_[configNumber].start, NONAME); // type & 0xff causes loading ROM to end up without congif number in the higher 8 bit.
     }
     if (computerConfiguration.memConfig_[configNumber].filename2 != "")
     {
         if (computerConfiguration.memConfig_[configNumber].verifyFileExist)
             p_Main->checkAndReInstallFile(computerConfiguration.memConfig_[configNumber].dirname + computerConfiguration.memConfig_[configNumber].filename2, XML, computerConfiguration.memConfig_[configNumber].filename);
 
-        readProgram(computerConfiguration.memConfig_[configNumber].dirname, computerConfiguration.memConfig_[configNumber].filename2, computerConfiguration.memConfig_[configNumber].type,  computerConfiguration.memConfig_[configNumber].start, NONAME); // type & 0xff causes loading ROM to end up without congif number in the higher 8 bit.
+        readProgram(computerConfiguration.memConfig_[configNumber].dirname, computerConfiguration.memConfig_[configNumber].filename2, NOCHANGE,  computerConfiguration.memConfig_[configNumber].start, NONAME); // type & 0xff causes loading ROM to end up without congif number in the higher 8 bit.
     }
 }
 
 void Xmlemu::writeMemDataType(Word address, Byte type)
 {
     size_t number = (memoryType_[address / 256] >> 8);
-    address = address | bootstrap_;
-    
+    address = (address | bootstrap_) & elfConfiguration.memoryMask;
+
     switch (memoryType_[address/256]&0xff)
     {
         case EMSMEMORY:
@@ -4006,8 +4721,14 @@ void Xmlemu::writeMemDataType(Word address, Byte type)
 
 Byte Xmlemu::readMemDataType(Word address, uint64_t* executed)
 {
-    address = address | bootstrap_;
+    address = (address | bootstrap_) & elfConfiguration.memoryMask;
     size_t number = (memoryType_[address / 256] >> 8);
+
+    for (size_t i=0; i<computerConfiguration.ramPartConfigNumber_; i++)
+    {
+        if (address >= computerConfiguration.ramPartConfig_[i].start && address <=   computerConfiguration.ramPartConfig_[i].end)
+                return mainMemoryDataType_[address];
+    }
 
     switch (memoryType_[address/256]&0xff)
     {
@@ -4100,7 +4821,7 @@ Byte Xmlemu::readMem(Word address)
 {
     address_ = address;
 
-    if (address >= elfConfiguration.strapAddress && elfConfiguration.ioConfiguration.bootStrapType == BOOTSTRAPREAD)
+    if (address >= elfConfiguration.strapAddress && (elfConfiguration.ioConfiguration.bootStrapType == BOOTSTRAPREAD || elfConfiguration.ioConfiguration.bootStrapType == BOOTSTRAPRUN))
         bootstrap_ = 0;
 
     address = address | bootstrap_;
@@ -4120,6 +4841,8 @@ Byte Xmlemu::readMem(Word address)
 
 Byte Xmlemu::readMemDebug(Word address)
 {
+    address = address & elfConfiguration.memoryMask;
+
     wxDateTime systemNow;
     wxDateTime now;
     wxTimeSpan timeDiff;
@@ -4139,6 +4862,12 @@ Byte Xmlemu::readMemDebug(Word address)
                 return (readMemDebug(address + computerConfiguration.copyConfig_[i].copy));
     }
     
+    for (size_t i=0; i<computerConfiguration.ramPartConfigNumber_; i++)
+    {
+        if (address >= computerConfiguration.ramPartConfig_[i].start && address <=   computerConfiguration.ramPartConfig_[i].end)
+                return mainMemory_[address];
+    }
+
     if (use6845_)
     {
         if  (elfConfiguration.ioConfiguration.mc6845IoGroup == ioGroup_ || elfConfiguration.ioConfiguration.mc6845IoGroup == -1)
@@ -4148,6 +4877,14 @@ Byte Xmlemu::readMemDebug(Word address)
             
             if (address >=elfConfiguration.ioConfiguration.mc6845StartRam && address <= elfConfiguration.ioConfiguration.mc6845EndRam)
                 return mc6845Pointer->read6845(address & elfConfiguration.ioConfiguration.mc6845RamMask);
+        }
+    }
+
+    if (elfConfiguration.ioConfiguration.keybMatrixAddressMode)
+    {
+        if (address == elfConfiguration.ioConfiguration.keybMatrixIn)
+        {
+            return matrixKeyboardPointer->in();
         }
     }
 
@@ -4354,6 +5091,8 @@ void Xmlemu::writeMem(Word address, Byte value, bool writeRom)
 
 void Xmlemu::writeMemDebug(Word address, Byte value, bool writeRom)
 {
+    address = address & elfConfiguration.memoryMask;
+
     wxDateTime systemNow;
     wxDateTime now;
     wxTimeSpan timeDiff;
@@ -4362,12 +5101,21 @@ void Xmlemu::writeMemDebug(Word address, Byte value, bool writeRom)
     address = address | bootstrap_;
     size_t number = (memoryType_[address / 256] >> 8);
     
+    if (address > endSave_)
+        endSave_ = address;
+
     if (loadedOs_ == ELFOS)
     {
         if (address == 0x400 && value >= 4 && value <= 128)
             loadedOs_ = ELFOS_4;
     }
         
+    for (size_t i=0; i<computerConfiguration.ramPartConfigNumber_; i++)
+    {
+        if (address >= computerConfiguration.ramPartConfig_[i].start && address <=   computerConfiguration.ramPartConfig_[i].end)
+            mainMemory_[address]=value;
+    }
+
     if (elfConfiguration.useRtcM48T58)
     {
         if  (elfConfiguration.ioConfiguration.rtcIoGroup1 == ioGroup_ || elfConfiguration.ioConfiguration.rtcIoGroup1 == -1)
@@ -4452,7 +5200,7 @@ void Xmlemu::writeMemDebug(Word address, Byte value, bool writeRom)
             }
         }
     }
-    if (elfConfiguration.ioConfiguration.mc6847OutputMode == 1)
+    if (elfConfiguration.ioConfiguration.mc6847OutputMode == 1 && elfConfiguration.use6847)
     {
         if (address>=elfConfiguration.ioConfiguration.mc6847OutputStart && address <=elfConfiguration.ioConfiguration.mc6847OutputEnd)
             mc6847Pointer->outMc6847(value);
@@ -4479,6 +5227,47 @@ void Xmlemu::writeMemDebug(Word address, Byte value, bool writeRom)
                 mc6845Pointer->write6845(address & elfConfiguration.ioConfiguration.mc6845RamMask, value);
                 return;
             }
+        }
+    }
+
+    if (elfConfiguration.ioConfiguration.keybMatrixAddressMode)
+    {
+        if (address == 0xe001)
+        {
+        }
+
+        if (address == elfConfiguration.ioConfiguration.keybMatrixOut)
+        {
+            matrixKeyboardPointer->setRow(value);
+            return;
+        }
+    }
+
+    if (computerConfiguration.soundType_ == SOUND_SUPER_VP551)
+    {
+        switch (address)
+        {
+            case 0x4001:
+                frequencySuper(2, value);
+            return;
+            case 0x4002:
+                frequencySuper(3, value);
+            return;
+            case 0x4003:
+                if (value & 0x4)
+                    octaveSuper(3, value);
+                else
+                    octaveSuper(2, value);
+            return;
+            case 0x4010:
+                amplitudeSuper(2, value);
+            return;
+            case 0x4020:
+                amplitudeSuper(3, value);
+            return;
+            case 0x4030:
+                vp550IntOn_ = (value == 1);
+            return;
         }
     }
 
@@ -4526,6 +5315,20 @@ void Xmlemu::writeMemDebug(Word address, Byte value, bool writeRom)
                 p_Main->updateDebugMemory(address);
         break;
 
+        case COLOURRAM:
+            if ((address >= 0xc000) && (address < 0xd000))
+                colourMask1862_ = 0xe7;
+            else
+                colourMask1862_ = 0xff;
+            colorMemory1862_[address&colourMask1862_] = value & 0xf;
+            if ((address&colourMask1862_) >= memoryStart_ && (address&colourMask1862_) <(memoryStart_+256))
+                p_Main->updateDebugMemory(address&colourMask1862_);
+            if (address >= memoryStart_ && address<(memoryStart_ + 256))
+                p_Main->updateDebugMemory(address);
+            p_Main->updateAssTabCheck(address);
+            useColour(colourMask1862_);
+        break;
+
         case SN76430NRAM:
             mainMemory_[address] = value;
             sn76430nPointer->writeRam(address, value);
@@ -4553,6 +5356,36 @@ void Xmlemu::writeMemDebug(Word address, Byte value, bool writeRom)
 
             if (writeRom)
                 mainMemory_[address]=value;
+            else
+            {
+                if (computerConfiguration.soundType_ == SOUND_SUPER_VP550 || computerConfiguration.soundType_ == SOUND_SUPER_VP551)
+                {
+                    switch (address)
+                    {
+                        case 0x8001:
+                            frequencySuper(0, value);
+                        return;
+                        case 0x8002:
+                            frequencySuper(1, value);
+                        return;
+                        case 0x8003:
+                            if (value & 0x4)
+                                octaveSuper(1, value);
+                            else
+                                octaveSuper(0, value);
+                        return;
+                        case 0x8010:
+                            amplitudeSuper(0, value);
+                        return;
+                        case 0x8020:
+                            amplitudeSuper(1, value);
+                        return;
+                        case 0x8030:
+                            vp550IntOn_ = (value == 1);
+                        return;
+                    }
+                }
+            }
         break;
 
         case DIAGROM:
@@ -4594,7 +5427,7 @@ void Xmlemu::writeMemDebug(Word address, Byte value, bool writeRom)
         case MAPPEDRAM:
         case MAINRAM:
         case RAM:
-            if (!getMpButtonState())
+            if (!getMpButtonState() && !mpButtonState[(address>>10)&0x3])
             {
                 if (address < 32 && monitor_) return;
                 
@@ -4776,9 +5609,9 @@ void Xmlemu::cpuInstruction()
             }
         break;
 
-        case PANEL_MICROTUTOR:
-            cpuCycleStep();
-        break;
+//        case PANEL_MICROTUTOR:
+//            cpuCycleStep();
+//        break;
 
         case PANEL_ELF2K:
             if (cpuMode_ != lastMode_)
@@ -4897,8 +5730,15 @@ void Xmlemu::cpuInstruction()
             }
         break;
 
-        case PANEL_FRED1:
-        case PANEL_FRED1_5:
+        default:
+            if (cpuMode_ != lastMode_)
+            {
+                if (cpuMode_ == RUN)
+                    p_Main->eventUpdateVipIILedStatus(BAR_LED_RUN, true);
+                else
+                    p_Main->eventUpdateVipIILedStatus(BAR_LED_RUN, false);
+                lastMode_ = cpuMode_;
+            }
             if (cpuMode_ == RUN)
             {
                 if (tapeRecording_ && zeroWaveCounter_ >= 0)
@@ -4912,8 +5752,8 @@ void Xmlemu::cpuInstruction()
             else
             {
                 cpuCycles_ = 0;
-                 instructionCounter_= 0;
-               
+                instructionCounter_= 0;
+
                 machineCycle();
                 machineCycle();
                 cpuCycles_ += 2;
@@ -4923,22 +5763,8 @@ void Xmlemu::cpuInstruction()
                     resetPressed();
 
                 p_Main->startTime();
-            }
-        break;
-
-        default:
-            if (cpuMode_ == RUN)
-            {
-                cpuCycleStep();
-            }
-            else
-            {
-                machineCycle();
-                machineCycle();
-                cpuCycles_ = 0;
-                instructionCounter_= 0;
-                p_Main->startTime();
-                if (cpuMode_ == LOAD)
+                
+                if (cpuMode_ == LOAD && elfConfiguration.ioConfiguration.showDataOnLoad)
                 {
                     showData(readMem(address_));
                     ledCycleValue_ = 1;
@@ -4950,9 +5776,30 @@ void Xmlemu::cpuInstruction()
 
 void Xmlemu::resetPressed()
 {
-    if (elfConfiguration.bootStrap)
-        bootstrap_ = elfConfiguration.strapAddress;
+    switch (elfConfiguration.ioConfiguration.bootStrapType)
+    {
+        case BOOTSTRAPRUN:
+            runPressedAtStartup_ = p_Main->runPressed();
+            if (runPressedAtStartup_)
+            {
+                bootstrap_ = elfConfiguration.strapAddress;
+                slotOut(2);
+                vipMode_ = true;
+            }
+            else
+            {
+                bootstrap_ = 0;
+                slotOut(1);
+                vipMode_ = false;
+            }
+        break;
 
+        default:
+            if (elfConfiguration.bootStrap)
+                bootstrap_ = elfConfiguration.strapAddress;
+        break;
+    }
+    
     p_Main->stopTerminal();
     terminalStop();
 
@@ -4979,10 +5826,15 @@ void Xmlemu::resetPressed()
         }
 
     }
-    if (elfConfiguration.useLatchKeyboard || elfConfiguration.useLatchKeypad)
-        latchKeyboardPointer->resetKeybLatch();
+    for (int pad=0; pad<=lastLatchKeyPad_; pad++)
+    {
+        if (elfConfiguration.ioConfiguration.keyLatchDetails[pad].defined)
+            latchKeyPointer[pad]->resetKeybLatch();
+    }
     if (elfConfiguration.useMatrixKeyboard)
         matrixKeyboardPointer->resetKeyboard();
+
+    showCycleData(0);
     if (elfConfiguration.autoBoot)
     {
         scratchpadRegister_[0]=p_Main->getBootAddress("Xml", XML);
@@ -4994,6 +5846,11 @@ void Xmlemu::resetPressed()
         {
             scratchpadRegister_[0] = baseGiantBoard_;
             autoBoot();
+        }
+        else
+        {
+            setClear(0);
+            setWait(1);
         }
     }
     resetPressed_ = false;
@@ -5007,8 +5864,11 @@ void Xmlemu::resetPressed()
         startElfKeyFile("Xml");
     if (elfConfiguration.useKeyb1871)
         start1871KeyFile();
-    if (elfConfiguration.useLatchKeyboard)
-        latchKeyboardPointer->startKeyFile();
+    for (int pad=0; pad<=lastLatchKeyPad_; pad++)
+    {
+        if (elfConfiguration.ioConfiguration.keyLatchDetails[pad].defined)
+            latchKeyPointer[pad]->startKeyFile();
+    }
     if (elfConfiguration.useMatrixKeyboard)
         matrixKeyboardPointer->startKeyFile();
     if (elfConfiguration.usePs2gpio)
@@ -5039,27 +5899,32 @@ void Xmlemu::resetPressed()
         p_Main->setElfConfiguration(currentElfConfig);
         p_Main->eventSetCheckBox("XmlClearRtc", false);
     }
+    if (elfConfiguration.useFredVideo)
+        fredVideoPointer->initPixie();
+
+    if (elfConfiguration.tapeStart)
+        startLoad(0, false);
+
+    if (elfConfiguration.ioConfiguration.errorLed)
+        panelPointer->setErrorLed(0);
+
+    if (elfConfiguration.ioConfiguration.readyLed)
+        panelPointer->setReadyLed(1);
+
+    if (elfConfiguration.ioConfiguration.stopLed)
+        panelPointer->setStopLed(1);
+    
+    for (int i=0; i<8; i++)
+    {
+        if (elfConfiguration.ioConfiguration.bitLed[i])
+            panelPointer->setLed(i,0);
+    }
+
     switch (elfConfiguration.panelType_)
     {
         case PANEL_MEMBER:
             qLedStatus_ = (1 ^ elfConfiguration.vtEf) << 1;
             memberScreenPointer->setQLed(qLedStatus_);
-        break;
-
-        case PANEL_FRED1:
-        case PANEL_FRED1_5:
-            fredScreenPointer->setErrorLed(0);
-            fredScreenPointer->setReadyLed(1);
-            fredScreenPointer->setStopLed(1);
-            for (int i=0; i<8; i++)
-                fredScreenPointer->setLed(i,0);
-            
-            fredVideoPointer->initPixie();
-
-            if (elfConfiguration.tapeStart)
-                startLoad(0, false);
-            
-            p_Main->setCurrentCardValue();
         break;
     }
 }
@@ -5080,15 +5945,12 @@ void Xmlemu::configureMemory()
                 {
                     defineMemoryType(computerConfiguration.memConfig_[memConfNumber].start + computerConfiguration.memConfig_[memConfNumber].memMask + 1, computerConfiguration.memConfig_[memConfNumber].end, MAPPEDROM + (computerConfiguration.memConfig_[memConfNumber].type & 0xff00));
                 }
-
-                loadRomRam(memConfNumber);
             break;
                 
             case DIAGROM:
                 defineMemoryType(computerConfiguration.memConfig_[memConfNumber].start, computerConfiguration.memConfig_[memConfNumber].end, computerConfiguration.memConfig_[memConfNumber].type);
 
                 diagRomActive_ = true;
-                loadRomRam(memConfNumber);
             break;
                 
             case RAM:
@@ -5100,7 +5962,6 @@ void Xmlemu::configureMemory()
                 }
 
                 initRam(computerConfiguration.memConfig_[memConfNumber].start, computerConfiguration.memConfig_[memConfNumber].end);
-                loadRomRam(memConfNumber);
             break;
 
             case NVRAM:
@@ -5112,7 +5973,6 @@ void Xmlemu::configureMemory()
                 }
 
                 initRam(computerConfiguration.memConfig_[memConfNumber].start, computerConfiguration.memConfig_[memConfNumber].end);
-                loadNvRam(memConfNumber);
             break;
 
             case MAINRAM:
@@ -5124,8 +5984,6 @@ void Xmlemu::configureMemory()
                 }
 
                 initRam(computerConfiguration.memConfig_[memConfNumber].start, computerConfiguration.memConfig_[memConfNumber].end);
-
-                loadRomRam(memConfNumber);
             break;
                 
             case PAGER:
@@ -5157,7 +6015,9 @@ void Xmlemu::configureMemory()
         emsMemory_.resize(emsNumber+1);
         
         if (computerConfiguration.emsConfig_[emsNumber].emsType == ROM)
+        {
             readRomMapperBinFile(emsNumber, computerConfiguration.emsConfig_[emsNumber].dirname+computerConfiguration.emsConfig_[emsNumber].filename);
+        }
         else
             allocEmsMemorySegment(emsNumber);
 
@@ -5183,7 +6043,7 @@ void Xmlemu::configureMemory()
                 for (int bank=0; bank<computerConfiguration.slotConfig_.slotInfo[slot].maxBankNumber_; bank++)
                 {
                     selectedBank_ = bank;
-
+                    
                     defineXmlBankMemoryType(slot, bank, 0, slotSize_[slot]-1, computerConfiguration.slotConfig_.slotInfo[slot].bankInfo[bank].type);
 
                     if (computerConfiguration.slotConfig_.slotInfo[slot].bankInfo[bank].filename != "")
@@ -5196,6 +6056,14 @@ void Xmlemu::configureMemory()
                 
                 if (computerConfiguration.slotConfig_.slotInfo[slot].filename != "")
                     readProgram(computerConfiguration.slotConfig_.slotInfo[slot].dirname, computerConfiguration.slotConfig_.slotInfo[slot].filename, SLOTMEM,  computerConfiguration.slotConfig_.start, NONAME);
+                
+                for (int ramPart = 0; ramPart<4; ramPart++)
+                {
+                    if (computerConfiguration.slotConfig_.slotInfo[slot].ramStart[ramPart] != 0)
+                    {
+                        defineXmlSlotMemoryType(slot, computerConfiguration.slotConfig_.slotInfo[slot].ramStart[ramPart]-computerConfiguration.slotConfig_.start, computerConfiguration.slotConfig_.slotInfo[slot].ramEnd[ramPart]-computerConfiguration.slotConfig_.start, RAM);
+                    }
+                }
             }
         }
         if (computerConfiguration.slotConfig_.useIoGroup)
@@ -5204,6 +6072,25 @@ void Xmlemu::configureMemory()
     }
     selectedSlot_ = 0;
     selectedBank_ = 0;
+
+    memConfNumber = 0;
+    while (memConfNumber < computerConfiguration.memConfigNumber_)
+    {
+        switch (computerConfiguration.memConfig_[memConfNumber].type & 0xff)
+        {
+            case ROM:
+            case DIAGROM:
+            case RAM:
+            case MAINRAM:
+                loadRomRam(memConfNumber);
+            break;
+
+            case NVRAM:
+                loadNvRam(memConfNumber);
+            break;
+        }
+        memConfNumber++;
+    }
 }
 
 void Xmlemu::configureExtensions()
@@ -5239,22 +6126,45 @@ void Xmlemu::configureExtensions()
     {
         double zoom = p_Main->getZoom(elfConfiguration.ioConfiguration.pixieVideoNumber);
         double scale = p_Main->getScale();
-        pixiePointer = new Pixie(p_Main->getRunningComputerText() + " - Pixie", p_Main->getPixiePos(XML), wxSize(64*zoom*scale, 128*zoom), zoom, scale, XML, elfConfiguration.ioConfiguration.pixieVideoNumber, VIDEOXMLPIXIE);
+        pixiePointer = new Pixie(p_Main->getRunningComputerText() + " - Pixie", p_Main->getPixiePos(XML), wxSize(64*zoom*scale, 128*zoom), zoom, scale, XML, elfConfiguration.ioConfiguration.pixieVideoNumber, VIDEOXMLPIXIE, elfConfiguration.ioConfiguration);
         p_Video[elfConfiguration.ioConfiguration.pixieVideoNumber] = pixiePointer;
-        if (elfConfiguration.ioConfiguration.pixieDoubleScreenIo)
-            pixiePointer->configurePixieSuper(elfConfiguration.ioConfiguration);
-        else
-            pixiePointer->configurePixie(elfConfiguration.ioConfiguration);
+        switch (elfConfiguration.ioConfiguration.pixieDoubleScreenIo)
+        {
+            case PIXIE_IN_OUT:
+                pixiePointer->configurePixie(elfConfiguration.ioConfiguration);
+            break;
+
+            case PIXIE_IN_IN:
+                pixiePointer->configurePixieIn(elfConfiguration.ioConfiguration);
+            break;
+
+            case PIXIE_DOUBLE:
+                pixiePointer->configurePixieSuper(elfConfiguration.ioConfiguration);
+            break;
+        }
         pixiePointer->initPixie();
         pixiePointer->setZoom(zoom);
         pixiePointer->Show(true);
+    }
+
+    if (elfConfiguration.use1862)
+    {
+        double zoom = p_Main->getZoom(elfConfiguration.ioConfiguration.cdp1862VideoNumber);
+        double scale = p_Main->getScale();
+        cdp1862Pointer = new Pixie(p_Main->getRunningComputerText() + " - CDP1862", p_Main->getCdp1862Pos(XML), wxSize(64*zoom*scale, 192*zoom), zoom, scale, XML, elfConfiguration.ioConfiguration.cdp1864VideoNumber, VIDEOXML1862, elfConfiguration.ioConfiguration);
+        p_Video[elfConfiguration.ioConfiguration.cdp1862VideoNumber] = cdp1862Pointer;
+        defineMemoryType(elfConfiguration.ioConfiguration.cdp1862StartRam, elfConfiguration.ioConfiguration.cdp1862EndRam, COLOURRAM);
+        cdp1862Pointer->configureCdp1862(elfConfiguration.ioConfiguration, elfConfiguration.autoBoot);
+        cdp1862Pointer->initPixie();
+        cdp1862Pointer->setZoom(zoom);
+        cdp1862Pointer->Show(true);
     }
 
     if (elfConfiguration.use1864)
     {
         double zoom = p_Main->getZoom(elfConfiguration.ioConfiguration.cdp1864VideoNumber);
         double scale = p_Main->getScale();
-        cdp1864Pointer = new Pixie(p_Main->getRunningComputerText() + " - CDP1864", p_Main->getCdp1864Pos(XML), wxSize(64*zoom*scale, 192*zoom), zoom, scale, XML, elfConfiguration.ioConfiguration.cdp1864VideoNumber, VIDEOXML1864);
+        cdp1864Pointer = new Pixie(p_Main->getRunningComputerText() + " - CDP1864", p_Main->getCdp1864Pos(XML), wxSize(64*zoom*scale, 192*zoom), zoom, scale, XML, elfConfiguration.ioConfiguration.cdp1864VideoNumber, VIDEOXML1864, elfConfiguration.ioConfiguration);
         p_Video[elfConfiguration.ioConfiguration.cdp1864VideoNumber] = cdp1864Pointer;
         cdp1864Pointer->configureCdp1864(elfConfiguration.ioConfiguration);
         cdp1864Pointer->initPixie();
@@ -5262,11 +6172,19 @@ void Xmlemu::configureExtensions()
         cdp1864Pointer->Show(true);
     }
 
+    if (computerConfiguration.soundType_ == SOUND_1863_1864)
+        configureCdp1863();
+    
+    if (computerConfiguration.soundType_ == SOUND_SUPER_VP550 || computerConfiguration.soundType_ == SOUND_SUPER_VP551)
+    {
+        cycleType_[SOUNDCYCLE] = VP550CYCLE;
+    }
+
     if (elfConfiguration.useVip2KVideo)
     {
         double zoom = p_Main->getZoom(elfConfiguration.ioConfiguration.vip2KVideoNumber);
         double scale = p_Main->getScale();
-        vip2KVideoPointer = new PixieVip2K(p_Main->getRunningComputerText(), p_Main->getVip2KPos(XML), wxSize(64*zoom*scale, 192*zoom), zoom, scale, XML, elfConfiguration.ioConfiguration.vip2KVideoNumber, VIDEOVIP2K);
+        vip2KVideoPointer = new PixieVip2K(p_Main->getRunningComputerText(), p_Main->getVip2KPos(XML), wxSize(64*zoom*scale, 192*zoom), zoom, scale, XML, elfConfiguration.ioConfiguration.vip2KVideoNumber, VIDEOVIP2K, elfConfiguration.ioConfiguration);
         p_Video[elfConfiguration.ioConfiguration.vip2KVideoNumber] = vip2KVideoPointer;
         p_Computer->readIntelSequencerFile(computerConfiguration.sequencerDir_ + computerConfiguration.sequencerFile_);
         vip2KVideoPointer->configureVip2K(elfConfiguration.ioConfiguration);
@@ -5285,7 +6203,7 @@ void Xmlemu::configureExtensions()
     {
         double zoom = p_Main->getZoom(elfConfiguration.ioConfiguration.fredVideoNumber);
         double scale = p_Main->getScale();
-        fredVideoPointer = new PixieFred(p_Main->getRunningComputerText(), p_Main->getFredPos(XML), wxSize(192*zoom, 128*zoom), zoom, scale, XML, elfConfiguration.ioConfiguration.fredVideoNumber, VIDEOFRED);
+        fredVideoPointer = new PixieFred(p_Main->getRunningComputerText(), p_Main->getFredPos(XML), wxSize(192*zoom, 128*zoom), zoom, scale, XML, elfConfiguration.ioConfiguration.fredVideoNumber, VIDEOFRED, elfConfiguration.ioConfiguration);
         p_Video[elfConfiguration.ioConfiguration.fredVideoNumber] = fredVideoPointer;
         fredVideoPointer->configureFredVideo(elfConfiguration.ioConfiguration);
         fredVideoPointer->initPixie();
@@ -5471,7 +6389,7 @@ void Xmlemu::configureExtensions()
         ledModulePointer->Show(p_Main->getUseElfControlWindows(XML));
     }
 
-    setQsound (elfConfiguration.qSound_);
+    setSoundType (computerConfiguration.soundType_);
 
     if (elfConfiguration.useDip)
     {
@@ -5556,27 +6474,45 @@ void Xmlemu::configureExtensions()
         }
     }
 
-    if (elfConfiguration.useLatchKeyboard)
+    if (elfConfiguration.ioConfiguration.etiKeypad.defined)
     {
-        latchKeyboardPointer = new KeybLatch;
-        latchKeyboardPointer->configure(elfConfiguration.ioConfiguration, "keyboard", computerConfiguration.saveCommand_);
-        p_Computer->setOutType(elfConfiguration.ioConfiguration.keybLatchIoGroup +1, elfConfiguration.ioConfiguration.keybLatchOut, KEYB_LATCH_OUT);
-        p_Computer->setEfType(elfConfiguration.ioConfiguration.keybLatchIoGroup +1, elfConfiguration.ioConfiguration.keybLatchEf, KEYB_LATCH_EF);
+        etikeypadPointer = new EtiKeypad();
+        etikeypadPointer->configure(elfConfiguration.ioConfiguration, keyDefA1_, keyDefA2_);
+        p_Computer->setOutType(elfConfiguration.ioConfiguration.etiKeypad.ioGroup+1, elfConfiguration.ioConfiguration.etiKeypad.out , ETI_KEYPAD_OUT);
+        p_Computer->setInType(elfConfiguration.ioConfiguration.etiKeypad.ioGroup+1, elfConfiguration.ioConfiguration.etiKeypad.inp , ETI_KEYPAD_IN);
+        p_Computer->setEfType(elfConfiguration.ioConfiguration.etiKeypad.ioGroup+1, elfConfiguration.ioConfiguration.etiKeypad.ef , ETI_KEYPAD_EF);
     }
 
-    if (elfConfiguration.useLatchKeypad)
+    lastLatchKeyPad_ = 0;
+    if (elfConfiguration.ioConfiguration.keyLatchDetails[0].defined)
     {
-        latchKeyboardPointer = new KeybLatch;
-        latchKeyboardPointer->configure(elfConfiguration.ioConfiguration, "keypad", computerConfiguration.saveCommand_);
-        p_Computer->setOutType(elfConfiguration.ioConfiguration.keybLatchIoGroup +1, elfConfiguration.ioConfiguration.keybLatchOut, KEYB_LATCH_OUT);
-        p_Computer->setEfType(elfConfiguration.ioConfiguration.keybLatchIoGroup +1, elfConfiguration.ioConfiguration.keybLatchEf, KEYB_LATCH_EF);
+        latchKeyPointer[0]= new KeybLatch;
+        latchKeyPointer[0]->configure(elfConfiguration.ioConfiguration, "keyboard", computerConfiguration.saveCommand_, 0);
+        p_Computer->setOutType(elfConfiguration.ioConfiguration.keyLatchDetails[0].IoGroup +1, elfConfiguration.ioConfiguration.keyLatchDetails[0].outPort, KEYB_LATCH_OUT);
+        p_Computer->setEfType(elfConfiguration.ioConfiguration.keyLatchDetails[0].IoGroup +1, elfConfiguration.ioConfiguration.keyLatchDetails[0].ef, KEYB_LATCH_EF);
+        lastLatchKeyPad_ = 1;
+    }
+
+    for (int pad=1; pad<MAX_LATCHKEYPADS; pad++)
+    {
+        if (elfConfiguration.ioConfiguration.keyLatchDetails[pad].defined)
+        {
+            latchKeyPointer[pad] = new KeybLatch;
+            latchKeyPointer[pad]->configure(elfConfiguration.ioConfiguration, "keypad" + elfConfiguration.ioConfiguration.keyLatchDetails[pad].padNumberStr, computerConfiguration.saveCommand_, pad);
+            p_Computer->setOutType(elfConfiguration.ioConfiguration.keyLatchDetails[pad].IoGroup +1, elfConfiguration.ioConfiguration.keyLatchDetails[pad].outPort, KEYPAD_LATCH_OUT1+pad-1);
+            p_Computer->setEfType(elfConfiguration.ioConfiguration.keyLatchDetails[pad].IoGroup +1, elfConfiguration.ioConfiguration.keyLatchDetails[pad].ef, KEYPAD_LATCH_EF1+pad-1);
+            lastLatchKeyPad_ = pad+1;
+        }
     }
 
     if (elfConfiguration.useMatrixKeyboard)
     {
         matrixKeyboardPointer = new KeybMatrix;
         matrixKeyboardPointer->configure(elfConfiguration.ioConfiguration, computerConfiguration.saveCommand_);
-        p_Computer->setInType(elfConfiguration.ioConfiguration.keybMatrixIoGroup +1, elfConfiguration.ioConfiguration.keybMatrixIn, KEYB_MATRIX_IN);
+        if (!elfConfiguration.ioConfiguration.keybMatrixAddressMode)
+        {
+            p_Computer->setInType(elfConfiguration.ioConfiguration.keybMatrixIoGroup +1, elfConfiguration.ioConfiguration.keybMatrixIn, KEYB_MATRIX_IN);
+        }
     }
 
     if (elfConfiguration.useKeyboard)
@@ -5741,6 +6677,42 @@ void Xmlemu::configureExtensions()
         p_Main->message(printBuffer);
         p_Main->message("");
     }
+
+    if (computerConfiguration.useCentronicsPrinter_)
+    {
+        p_Printer = new Printer();
+        p_Printer->init(p_Printer, PRINTER_BASIC);
+        if (efType_[0][elfConfiguration.ioConfiguration.printerIoGroup +1][elfConfiguration.ioConfiguration.centronicsPrinterEf] == 0)
+            p_Computer->setEfType(elfConfiguration.ioConfiguration.printerIoGroup +1, elfConfiguration.ioConfiguration.centronicsPrinterEf, CENTRONICS_PRINT_EF);
+        
+        p_Main->message("Configuring Centronics P-1/PR-40 Printer" + ioGroup);
+
+        printBuffer.Printf("    Output %d: latch, Q: strobe, EF  %d: busy\n", elfConfiguration.ioConfiguration.centronicsPrinterOutput, elfConfiguration.ioConfiguration.centronicsPrinterEf);
+        p_Main->message(printBuffer);
+    }
+}
+
+void Xmlemu::configureCdp1863()
+{
+    wxString ioGroup = "", printBuffer = "";
+
+    int ioGroupNum = elfConfiguration.ioConfiguration.cdp1863IoGroup + 1;
+    
+    if (elfConfiguration.ioConfiguration.cdp1863IoGroup != -1)
+        ioGroup.Printf(" on group %d", elfConfiguration.ioConfiguration.cdp1863IoGroup);
+    
+    p_Main->message("Configuring CDP 1863" + ioGroup);
+
+    if (elfConfiguration.ioConfiguration.cdp1863toneLatch.portNumber != -1)
+    {
+        if (elfConfiguration.ioConfiguration.cdp1863toneLatch.qValue == -1)
+            printBuffer.Printf("    Output %d: tone latch\n", elfConfiguration.ioConfiguration.cdp1863toneLatch.portNumber);
+        else
+            printBuffer.Printf("    Q = %d & output %d: tone latch\n", elfConfiguration.ioConfiguration.cdp1863toneLatch.qValue,  elfConfiguration.ioConfiguration.cdp1863toneLatch.portNumber);
+        p_Main->message(printBuffer);
+
+        p_Computer->setOutType(elfConfiguration.ioConfiguration.cdp1863toneLatch.qValue, ioGroupNum, elfConfiguration.ioConfiguration.cdp1863toneLatch.portNumber, CDP1863TONE);
+    }
 }
 
 void Xmlemu::moveWindows()
@@ -5766,6 +6738,8 @@ void Xmlemu::moveWindows()
     }
     if (elfConfiguration.usePixie)
         pixiePointer->Move(p_Main->getPixiePos(XML));
+    if (elfConfiguration.use1862)
+        cdp1862Pointer->Move(p_Main->getCdp1862Pos(XML));
     if (elfConfiguration.use1864)
         cdp1864Pointer->Move(p_Main->getCdp1864Pos(XML));
     if (elfConfiguration.useVip2KVideo)
@@ -5796,6 +6770,8 @@ void Xmlemu::updateTitle(wxString Title)
         ledModulePointer->SetTitle("Led Module"+Title);
     if (elfConfiguration.usePixie)
         pixiePointer->SetTitle(p_Main->getRunningComputerText() + " - Pixie"+Title);
+    if (elfConfiguration.use1862)
+        cdp1862Pointer->SetTitle(p_Main->getRunningComputerText() + " - CDP1862"+Title);
     if (elfConfiguration.use1864)
         cdp1864Pointer->SetTitle(p_Main->getRunningComputerText() + " - CDP1864"+Title);
     if (elfConfiguration.useVip2KVideo)
@@ -5846,6 +6822,14 @@ void Xmlemu::setForceUpperCase(bool status)
         setForceUpperCasePs2gpio(status);
 }
 
+void Xmlemu::keyClear()
+{
+    if (elfConfiguration.ioConfiguration.etiKeypad.defined)
+        etikeypadPointer->keyClear();
+    if (elfConfiguration.useKeyb1871)
+        keyClear1871();
+}
+
 void Xmlemu::onReset()
 {
     if (elfConfiguration.usev1870)
@@ -5856,20 +6840,6 @@ void Xmlemu::onReset()
 void Xmlemu::sleepComputer(long ms)
 {
     threadPointer->Sleep(ms);
-}
-
-Byte Xmlemu::read6845CharRom(Word address)
-{
-    if (use6845_)
-        return mc6845Pointer->read6845CharRom(address);
-    else
-        return 0;
-}
-
-void Xmlemu::write6845CharRom(Word address, Byte value)
-{
-    if (use6845_)
-        mc6845Pointer->write6845CharRom(address, value);
 }
 
 Byte Xmlemu::read8275CharRom(Word address)
@@ -5898,6 +6868,40 @@ void Xmlemu::write8275VideoRam(Word address, Byte value)
 {
     if (elfConfiguration.use8275)
         i8275Pointer->write8275VideoRam(address, value);
+}
+
+Byte Xmlemu::read1862ColorDirect(Word addr)
+{
+    return colorMemory1862_[addr&colourMask1862_];
+}
+
+void Xmlemu::write1862ColorDirect(Word addr, Byte value)
+{
+    colorMemory1862_[addr&colourMask1862_] = value;
+}
+
+Byte Xmlemu::read1864ColorDirect(Word addr)
+{
+    return colorMemory1864_[addr] & elfConfiguration.ioConfiguration.cdp1864colorMemory.mask;
+}
+
+void Xmlemu::write1864ColorDirect(Word addr, Byte value)
+{
+    colorMemory1864_[addr] = value & elfConfiguration.ioConfiguration.cdp1864colorMemory.mask;
+}
+
+Byte Xmlemu::read6845CharRom(Word address)
+{
+    if (use6845_)
+        return mc6845Pointer->read6845CharRom(address);
+    else
+        return 0;
+}
+
+void Xmlemu::write6845CharRom(Word address, Byte value)
+{
+    if (use6845_)
+        mc6845Pointer->write6845CharRom(address, value);
 }
 
 Byte Xmlemu::read6847CharRom(Word address)
@@ -5937,6 +6941,12 @@ Word Xmlemu::get6847RamMask()
 }
 
 void Xmlemu::setLedMs(long ms)
+{
+    ledTimeMs_ = ms;
+    setLedMsTemp(ms);
+}
+
+void Xmlemu::setLedMsTemp(long ms)
 {
     switch (elfConfiguration.panelType_)
     {
@@ -6034,24 +7044,20 @@ void Xmlemu::releaseButtonOnScreen(HexButton* buttonPointer, int buttonType)
                 keypadPointer->releaseButtonOnScreen(buttonPointer);
         break;
 
-        case PANEL_ELFII:
-        case PANEL_SUPER:
-        case PANEL_UC1800:
-        case PANEL_FRED1:
-        case PANEL_FRED1_5:
-            panelPointer->releaseButtonOnScreen(buttonPointer);
-        break;
-
         case PANEL_ELF2K:
             if (elfConfiguration.useHex)
                 p_Elf2Khex->releaseButtonOnScreen(buttonPointer);
         break;
 
         case PANEL_COSMICOS:
-            if ((buttonType == PANEL_HEX_BUTTON || buttonType == PANEL_WIDE_HEX_BUTTON) && elfConfiguration.useHexKeyboard)
+            if ((buttonType == PUSH_BUTTON || buttonType == PUSH_BUTTON_RECTANGLE) && elfConfiguration.useHexKeyboard)
                 p_Cosmicoshex->releaseButtonOnScreen(buttonPointer);
             else
                 cosmicosScreenPointer->releaseButtonOnScreen(buttonPointer);
+        break;
+            
+        default:
+            panelPointer->releaseButtonOnScreen(buttonPointer);
         break;
     }
 }
@@ -6339,14 +7345,41 @@ void Xmlemu::executeFunction(int function, Word additionalAddress)
         break;
 
         case INFO_STOP_CAS:
-            p_Main->stopCassette();
+            if (elfConfiguration.tape_stopDelay <= 0 || !isSaving())
+                p_Main->stopCassette();
+            else
+            {
+                if (stopTapeCounter_ == 0)
+                    stopTapeCounter_ = (elfConfiguration.tape_stopDelay * sampleRate_) / 1000;
+            }
         break;
 
         case INFO_START_CAS_SAVE:
+            if (computerConfiguration.addressLocations.code_start_high != -1 && computerConfiguration.addressLocations.code_start_low != -1)
+            {
+                writeMem(computerConfiguration.addressLocations.code_start_high, (computerConfiguration.memConfig_[0].start>>8)&0xff, false);
+                writeMem(computerConfiguration.addressLocations.code_start_low, computerConfiguration.memConfig_[0].start&0xff, false);
+                p_Main->eventSaveStart(computerConfiguration.memConfig_[0].start);
+                p_Main->eventSetLocation(true);
+            }
+            if (computerConfiguration.addressLocations.code_end_high != -1 && computerConfiguration.addressLocations.code_end_low != -1)
+            {
+                writeMem(computerConfiguration.addressLocations.code_end_high, (endSave_>>8)&0xff, false);
+                writeMem(computerConfiguration.addressLocations.code_end_low, endSave_&0xff, false);
+                p_Main->eventSaveEnd(endSave_);
+                p_Main->eventSetLocation(true);
+            }
             p_Main->startCassetteSave(0);
         break;
 
         case INFO_START_CAS_LOAD:
+            if (computerConfiguration.addressLocations.code_start_high != -1 && computerConfiguration.addressLocations.code_start_low != -1)
+            {
+                writeMem(computerConfiguration.addressLocations.code_start_high, (computerConfiguration.memConfig_[0].start>>8)&0xff, false);
+                writeMem(computerConfiguration.addressLocations.code_start_low, computerConfiguration.memConfig_[0].start&0xff, false);
+                p_Main->eventSaveStart(computerConfiguration.memConfig_[0].start);
+                p_Main->eventSetLocation(true);
+            }
             p_Main->setSwName ("");
             p_Main->eventUpdateTitle();
             p_Main->startCassetteLoad(0);
@@ -6406,8 +7439,11 @@ void Xmlemu::executeFunction(int function, Word additionalAddress)
         break;
 
         case INFO_CORRECT_CAPS:
-            if (elfConfiguration.useLatchKeyboard)
-                latchKeyboardPointer->checkCaps();
+            for (int pad=0; pad<=lastLatchKeyPad_; pad++)
+            {
+                if (elfConfiguration.ioConfiguration.keyLatchDetails[pad].defined)
+                    latchKeyPointer[pad]->checkCaps();
+            }
             if (elfConfiguration.useMatrixKeyboard)
                 matrixKeyboardPointer->checkCaps();
         break;
@@ -6446,6 +7482,18 @@ void Xmlemu::executeFunction(int function, Word additionalAddress)
             if (readMem(scratchpadRegister_[programCounter_]) == 0x7b)
                 p_Main->eventHwTapeStateChange(HW_TAPE_STATE_REC);
         break;
+
+        case INFO_FRED_TAPE_REC:
+            if (tapeActivated_)
+            {
+                p_Computer->stopTape();
+                tapeActivated_ = false;
+            }
+            if (!tapeRecording_)
+                p_Main->startCassetteSave(0);
+        
+            tapeRecording_ = true;
+        break;
     }
 }
 
@@ -6466,8 +7514,11 @@ void Xmlemu::startComputerRun(bool load)
         startElfRun(load);
     if (elfConfiguration.useKeyb1871)
         start1871Run(load);
-    if (elfConfiguration.useLatchKeyboard)
-        latchKeyboardPointer->startLatchRun(load);
+    for (int pad=0; pad<=lastLatchKeyPad_; pad++)
+    {
+        if (elfConfiguration.ioConfiguration.keyLatchDetails[pad].defined)
+            latchKeyPointer[pad]->startLatchRun(load);
+    }
     if (elfConfiguration.useMatrixKeyboard)
         matrixKeyboardPointer->startRun(load);
 
@@ -6775,8 +7826,11 @@ void Xmlemu::closeKeyFile()
         closeElfKeyFile();
     if (elfConfiguration.useKeyb1871)
         close1871KeyFile();
-    if (elfConfiguration.useLatchKeyboard)
-        latchKeyboardPointer->closeKeyFile();
+    for (int pad=0; pad<=lastLatchKeyPad_; pad++)
+    {
+        if (elfConfiguration.ioConfiguration.keyLatchDetails[pad].defined)
+            latchKeyPointer[pad]->closeKeyFile();
+    }
     if (elfConfiguration.useMatrixKeyboard)
         matrixKeyboardPointer->closeKeyFile();
     if (elfConfiguration.usePs2gpio)
@@ -6785,7 +7839,8 @@ void Xmlemu::closeKeyFile()
 
 void Xmlemu::resetV1870VideoModeEf()
 {
-    elfConfiguration.ioConfiguration.v1870useVideoModeEf = false;
+    if (p_Computer->getFlipFlopQ() || (elfConfiguration.ioConfiguration.vt100ReverseQ == 0))
+        elfConfiguration.ioConfiguration.v1870useVideoModeEf = false;
 }
 
 void Xmlemu::activateElfOsChip8()
@@ -6824,7 +7879,7 @@ void Xmlemu::removeCosmicosHex()
 
 void Xmlemu::startLoad(int tapeNumber, bool button)
 {
-    if (tapeRunSwitch_&1)
+    if ((tapeRunSwitch_&1) & !button)
         return;
     
     lastSampleInt16_ = 0;
@@ -6843,43 +7898,219 @@ void Xmlemu::startLoad(int tapeNumber, bool button)
     toneTime_ = 0;
     pauseTapeCounter_ = 0;
 
-    if (tapeActivated_ || tapeRecording_)
+    switch (elfConfiguration.tapeFormat_)
     {
-        p_Main->turboOn();
-        
-        if (elfConfiguration.tapeFormat_ == TAPE_FORMAT_CV && elfConfiguration.useTapeHw)
-        {
-            switch (p_Main->getHwTapeState())
+        case TAPE_FORMAT_CV:
+            if (tapeActivated_ || tapeRecording_)
             {
-                case HW_TAPE_STATE_FF:
-                    p_Computer->forwardTape(TAPE_FF);
-                break;
+                p_Main->turboOn();
+                
+                switch (p_Main->getHwTapeState())
+                {
+                    case HW_TAPE_STATE_FF:
+                        p_Computer->forwardTape(TAPE_FF);
+                    break;
 
-                case HW_TAPE_STATE_RW:
-                    p_Computer->rewindTape(TAPE_RW);
-                break;
+                    case HW_TAPE_STATE_RW:
+                        p_Computer->rewindTape(TAPE_RW);
+                    break;
 
-                default:
-                    p_Computer->restartTapeLoad(TAPE_PLAY);
-                break;
+                    default:
+                        p_Computer->restartTapeLoad(TAPE_PLAY);
+                    break;
+                }
             }
+            else
+            {
+                if (button)
+                    tapeActivated_ = p_Main->startLoad(tapeNumber);
+                else
+                    tapeActivated_ = p_Main->startCassetteLoad(tapeNumber);
+                
+                if (!tapeActivated_)
+                    p_Main->eventHwTapeStateChange(HW_TAPE_STATE_OFF);
+            }
+        break;
+            
+        default:
+            if (tapeActivated_)
+            {
+                p_Main->turboOn();
+                p_Computer->restartTapeLoad(TAPE_PLAY);
+            }
+            else
+            {
+                if (button)
+                    tapeActivated_ = p_Main->startLoad(0);
+                else
+                    tapeActivated_ = p_Main->startCassetteLoad(0);
+            }
+            
+            tapeRunSwitch_ = tapeRunSwitch_ | 1;
+        break;
+    }
+}
+
+void Xmlemu::cassette(wxInt32 val)
+{
+    if (conversionTypeWav_ == 0)
+    {
+        if (val <= 0)
+        {
+            cassetteEf_ = tapePolarity_; // 0
+            maxTapeInputInt32_ = 0;
         }
         else
-            p_Computer->restartTapeLoad(TAPE_PLAY);
+        {
+            cassetteEf_ = !tapePolarity_; //1
+            if (val > lastTapeInputInt32_)
+                maxTapeInputInt32_ = val;
+            else
+                gaugeValue_ = maxTapeInputInt32_ / 5;
+        }
     }
     else
     {
-        if (button)
-            tapeActivated_ = p_Main->startLoad(tapeNumber);
+        if (cassetteEf_ != tapePolarity_)
+        {
+            if (val > lastTapeInputInt32_)
+                maxTapeInputInt32_ = val;
+            else
+            {
+                gaugeValue_ = maxTapeInputInt32_ / 5;
+                cassetteEf_ = tapePolarity_; // 0
+            }
+        }
         else
-            tapeActivated_ = p_Main->startCassetteLoad(tapeNumber);
-        
-        if (elfConfiguration.tapeFormat_ == TAPE_FORMAT_CV && !tapeActivated_)
-            p_Main->eventHwTapeStateChange(HW_TAPE_STATE_OFF);
+        {
+            if (val < lastTapeInputInt32_)
+                maxTapeInputInt32_ = -val;
+            else
+            {
+                gaugeValue_ = maxTapeInputInt32_ / 5;
+                cassetteEf_ = !tapePolarity_; //1
+            }
+        }
     }
+    lastTapeInputInt32_ = val;
+    
+    if (cassetteEf_ != oldCassetteEf_)
+    {
+        oldCassetteEf_ = cassetteEf_;
 
-    if (elfConfiguration.tapeFormat_ != TAPE_FORMAT_CV)
-        tapeRunSwitch_ = tapeRunSwitch_ | 1;
+        if (ledTimeMs_ == 0)
+            p_Main->eventUpdateVipIILedStatus(BAR_LED_TAPE, cassetteEf_ != 0);
+        else
+            updateTapeLed_ = true;
+    }
+}
+
+void Xmlemu::cassette(wxInt16 val)
+{
+    if (conversionTypeWav_ == 0)
+    {
+        if (val <= 0)
+        {
+            cassetteEf_ = tapePolarity_; // 0
+            maxTapeInputInt16_ = 0;
+        }
+        else
+        {
+            cassetteEf_ = !tapePolarity_; //1
+            if (val > lastTapeInputInt16_)
+                maxTapeInputInt16_ = val;
+            else
+                gaugeValue_ = maxTapeInputInt16_ / 5;
+        }
+    }
+    else
+    {
+        if (cassetteEf_ != tapePolarity_)
+        {
+            if (val > lastTapeInputInt16_)
+                maxTapeInputInt16_ = val;
+            else
+            {
+                gaugeValue_ = maxTapeInputInt16_ / 5;
+                cassetteEf_ = tapePolarity_; // 0
+            }
+        }
+        else
+        {
+            if (val < lastTapeInputInt16_)
+                maxTapeInputInt16_ = -val;
+            else
+            {
+                gaugeValue_ = maxTapeInputInt16_ / 5;
+                cassetteEf_ = !tapePolarity_; //1
+            }
+        }
+    }
+    lastTapeInputInt16_ = val;
+
+    if (cassetteEf_ != oldCassetteEf_)
+    {
+        oldCassetteEf_ = cassetteEf_;
+
+        if (ledTimeMs_ == 0)
+            p_Main->eventUpdateVipIILedStatus(BAR_LED_TAPE, cassetteEf_ != 0);
+        else
+            updateTapeLed_ = true;
+    }
+}
+
+void Xmlemu::cassette(char val)
+{
+    if (conversionTypeWav_ == 0)
+    {
+        if (val < 0)
+        {
+            cassetteEf_ = tapePolarity_; // 0
+            maxTapeInputChar_ = 0;
+        }
+        else
+        {
+            cassetteEf_ = !tapePolarity_; //1
+            if (val > lastTapeInputChar_)
+                maxTapeInputChar_ = val;
+            else
+                gaugeValue_ = maxTapeInputChar_ * 45;
+        }
+    }
+    else
+    {
+        if (cassetteEf_ != tapePolarity_)
+        {
+            if (val > lastTapeInputChar_)
+                maxTapeInputChar_ = val;
+            else
+            {
+                gaugeValue_ = maxTapeInputChar_ * 45;
+                cassetteEf_ = tapePolarity_; // 0
+            }
+        }
+        else
+        {
+            if (val < lastTapeInputChar_)
+                maxTapeInputChar_ = -val;
+            else
+            {
+                gaugeValue_ = maxTapeInputChar_ * 45;
+                cassetteEf_ = !tapePolarity_; //1
+            }
+        }
+    }
+    lastTapeInputChar_ = val;
+
+    if (cassetteEf_ != oldCassetteEf_)
+    {
+        oldCassetteEf_ = cassetteEf_;
+
+        if (ledTimeMs_ == 0)
+            p_Main->eventUpdateVipIILedStatus(BAR_LED_TAPE, cassetteEf_ != 0);
+        else
+            updateTapeLed_ = true;
+    }
 }
 
 void Xmlemu::cassetteXmlHw(wxInt32 val, long size)
@@ -6898,7 +8129,7 @@ void Xmlemu::cassetteXmlHw(wxInt32 val, long size)
     if (!elfConfiguration.useTapeHw)
         return;
     
-    wxInt32 difference;
+    wxInt64 difference;
     if (val < lastSampleInt32_)
         difference = lastSampleInt32_ - val;
     else
@@ -7021,7 +8252,7 @@ void Xmlemu::cassetteXmlHw(wxInt16 val, long size)
     if (!elfConfiguration.useTapeHw)
         return;
     
-    wxInt16 difference;
+    wxInt32 difference;
     if (val < lastSampleInt16_)
         difference = lastSampleInt16_ - val;
     else
@@ -7144,7 +8375,7 @@ void Xmlemu::cassetteXmlHw(char val, long size)
     if (!elfConfiguration.useTapeHw)
         return;
 
-    char difference;
+    int difference;
     if (val < lastSampleChar_)
         difference = lastSampleChar_ - val;
     else
@@ -7411,12 +8642,13 @@ void Xmlemu::cassette56()
     {
         tapeFormatFixed_ = true;
         freq = (float) toneTime_ / (pulseCount_ - 1);
-        if (bitNumber_ == 8)
+        if (bitNumber_ == elfConfiguration.tape_dataBits)
         {
-            if (freq <= fredFreq_ && (polarity_ & 1) != 1)
+            if (freq <= elfConfiguration.tape_frequencyBorder && (polarity_ & 1) != 1)
             {
                 tapeError_ = 0;
-                fredScreenPointer->setErrorLed(1);
+                if (elfConfiguration.ioConfiguration.errorLed)
+                    panelPointer->setErrorLed(1);
                 
                 if (inpMode_ == INP_MODE_TAPE_DIRECT)
                 {
@@ -7447,14 +8679,14 @@ void Xmlemu::cassette56()
         {
             if (bitNumber_ != -1)
             {
-                if (freq <= fredFreq_)
+                if (freq <= elfConfiguration.tape_frequencyBorder)
                     tapeInput_ = (1 << bitNumber_) | tapeInput_;
             }
-            if (freq <= fredFreq_)
+            if (freq <= elfConfiguration.tape_frequencyBorder)
                 polarity_++;
         }
         
-        if (bitNumber_ == 8)
+        if (bitNumber_ == elfConfiguration.tape_dataBits)
         {
             polarity_ = 0;
             tapeInput_ = 0;
@@ -7485,12 +8717,13 @@ void Xmlemu::cassettePm()
             }
             tapeFormatFixed_ = true;
         }
-        if (bitNumber_ == 8)
+        if (bitNumber_ == elfConfiguration.tape_dataBits)
         {
             if (pulseCount_ > 6 && (polarity_ & 1) != 1)
             {
                 tapeError_ = 0;
-                fredScreenPointer->setErrorLed(1);
+                if (elfConfiguration.ioConfiguration.errorLed)
+                    panelPointer->setErrorLed(1);
                 
                 if (inpMode_ == INP_MODE_TAPE_DIRECT)
                 {
@@ -7530,7 +8763,7 @@ void Xmlemu::cassettePm()
                 polarity_++;
         }
         
-        if (bitNumber_ == 8)
+        if (bitNumber_ == elfConfiguration.tape_dataBits)
         {
             polarity_ = 0;
             tapeInput_ = 0;
@@ -7551,11 +8784,22 @@ void Xmlemu::startRecording(int tapeNumber)
 
 void Xmlemu::finishStopTape()
 {
+    if (computerConfiguration.addressLocations.code_end_high != -1 && computerConfiguration.addressLocations.code_end_low != -1)
+    {
+        Word end = scratchpadRegister_[computerConfiguration.addressLocations.reg_end] + computerConfiguration.addressLocations.reg_end_adjust;
+        
+        writeMem(computerConfiguration.addressLocations.code_end_high, (end>>8)&0xff, false);
+        writeMem(computerConfiguration.addressLocations.code_end_low, end&0xff, false);
+        p_Main->eventSaveEnd(end);
+        resetPressed_ = true;
+    }
     inpMode_ = INP_MODE_NONE;
     tapeRunSwitch_ = tapeRunSwitch_ & 2;
     tapeActivated_ = false;
     tapeRecording_ = false;
     tapeEnd_ = true;
+    cassetteEf_ = 0;
+    p_Main->eventUpdateVipIILedStatus(BAR_LED_TAPE, cassetteEf_ != 0);
 }
 
 void Xmlemu::resetTape()
@@ -7572,12 +8816,39 @@ void Xmlemu::resetTape()
 
     if (elfConfiguration.useTapeHw)
     {
-        p_Computer->stopTape();
-        p_Main->eventHwTapeStateChange(HW_TAPE_STATE_OFF);
         p_Main->eventSetStaticTextValue("CasCounterXml", "00:00:000");
+
+        if (elfConfiguration.tapeFormat_ == TAPE_FORMAT_CV)
+        {
+            p_Computer->stopTape();
+            p_Main->eventHwTapeStateChange(HW_TAPE_STATE_OFF);
+            finishStopTape();
+        }
     }
-    finishStopTape();
 }
+
+void Xmlemu::onCardButton(wxCommandEvent&(event))
+{
+    cardButton(event.GetId()-0x100);
+}
+
+void Xmlemu::cardButton(int cardValue)
+{
+    if (inpMode_ == INP_MODE_KEY_DIRECT)
+        dmaIn(cardValue);
+    else
+    {
+        if (elfConfiguration.ioConfiguration.fredKeypad.defined)
+            fredkeypadPointer->setKeyPress(cardValue);
+    }
+}
+
+void Xmlemu::setTempo(int tempo)
+{
+    soundTempoCycleSize_ = (int) (((elfClockSpeed_ * 1000000) / 8) / tempo);
+}
+
+
 /*
 void MainElf::checkComputerFunction()
 {

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "VIS1870::out5_1870(unsigned short):vis1870.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "(VIS1870 *)this">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "Tms9918::writeVRAM(unsigned char):tms9918.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "(Byte)value">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

@@ -136,6 +136,8 @@ void GuiVip::readVipConfig()
 {
     selectedComputer_ = VIP;
 
+    elfConfiguration[VIP].useTapeHw = false;
+    elfConfiguration[VIP].vtShow = true;
     conf[VIP].emsConfigNumber_ = 0;
     conf[VIP].videoNumber_ = 0;
 
@@ -258,10 +260,8 @@ void GuiVip::readVipConfig()
         XRCCTRL(*this, "StereoVip", wxCheckBox)->SetValue(stereo_);
         XRCCTRL(*this, "LatchVip", wxCheckBox)->SetValue(latch_);
         XRCCTRL(*this, "KeyboardVip", wxCheckBox)->SetValue(conf[VIP].useKeyboard_);
-        XRCCTRL(*this, "TurboVip", wxCheckBox)->SetValue(conf[VIP].turbo_);
         turboGui("Vip");
         XRCCTRL(*this, "TurboClockVip", wxTextCtrl)->SetValue(conf[VIP].turboClock_);
-        XRCCTRL(*this, "AutoCasLoadVip", wxCheckBox)->SetValue(conf[VIP].autoCassetteLoad_);
         setPrinterState(VIP);
         XRCCTRL(*this, "VolumeVip", wxSlider)->SetValue(conf[VIP].volume_);
         XRCCTRL(*this, "TempoVip", wxSlider)->SetValue(conf[VIP].tempo_);
@@ -405,11 +405,11 @@ void GuiVip::onRamSWTextVip(wxCommandEvent& WXUNUSED(event))
 void GuiVip::setSoundGui(int sound)
 {
     conf[VIP].soundType_ = sound;
-    XRCCTRL(*this, "BeepFrequencyTextVip", wxStaticText)->Enable(conf[VIP].soundType_ == VIP_BEEP);
-    XRCCTRL(*this, "BeepFrequencyTextHzVip", wxStaticText)->Enable(conf[VIP].soundType_ == VIP_BEEP);
-    XRCCTRL(*this, "BeepFrequencyVip", wxTextCtrl)->Enable(conf[VIP].soundType_ == VIP_BEEP);
+    XRCCTRL(*this, "BeepFrequencyTextVip", wxStaticText)->Enable(conf[VIP].soundType_ == SOUND_EXT_BEEPER);
+    XRCCTRL(*this, "BeepFrequencyTextHzVip", wxStaticText)->Enable(conf[VIP].soundType_ == SOUND_EXT_BEEPER);
+    XRCCTRL(*this, "BeepFrequencyVip", wxTextCtrl)->Enable(conf[VIP].soundType_ == SOUND_EXT_BEEPER);
 
-    if (conf[VIP].soundType_ == VIP_SUPER2 || conf[VIP].soundType_ == VIP_SUPER4)
+    if (conf[VIP].soundType_ == SOUND_SUPER_VP550 || conf[VIP].soundType_ == SOUND_SUPER_VP551)
     {
         XRCCTRL(*this,"TempoTextVip", wxStaticText)->Enable(true);
         XRCCTRL(*this,"TempoVip", wxSlider)->Enable(true);

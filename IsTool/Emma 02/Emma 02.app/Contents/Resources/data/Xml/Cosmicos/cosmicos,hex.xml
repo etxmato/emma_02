@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>Cosmicos</name>
+        <config>Hex and 7 Segment</config>
+        <clock>1.75</clock>
+        <boot>0xC0C0</boot>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init>
+        <init type="ef4">1</init>
+        <dirname>Cosmicos</dirname>
+    </system>
+
+    <frontpanel type="cosmicos" init="on">
+        <out>7</out>
+        <in>7</in>
+        <ef type="in">4</ef>
+        <til type="full">313</til>
+    </frontpanel>
+    
+    <keypad type="cosmicos">
+        <out type="hex">5</out>
+        <in type="hex">5</in>
+        <out type="seg">6</out>
+        <in type="seg">6</in>
+        <ef type="ret">1</ef>
+        <ef type="dec">2</ef>
+        <ef type="req">3</ef>
+    </keypad>
+
+     <memory>
+         <nvram default="off">
+            <start>0x0000</start>
+            <end>0x00FF</end>
+            <filename>ramdump.bin</filename>
+         </nvram>
+
+         <mainram>
+            <start>0x0100</start>
+            <end>0xBFFF</end>
+         </mainram>
+         
+         <rom>
+             <start>0xC000</start>
+             <end>0xC7FF</end>
+             <filename>hex.and.UT4.monitor.bin</filename>
+         </rom>
+     </memory>
+ 
+     <cassette decks="1">
+         <ef>2</ef>
+     </cassette>
+
+     <debugger>
+         <scrt mode="on">
+             <call reg="4">0xc055</call>
+             <return reg="5">0xc065</return>
+         </scrt>
+
+         <assembler>
+             <filename>mycode</filename>
+             <code_start>0</code_start>
+             <code_end>0xFFF</code_end>
+         </assembler>
+     </debugger>
+
+     <locations>
+         <!-- key input -->
+         <key_input>0xC54f</key_input>
+     </locations>
+     
+</emmaconfig>

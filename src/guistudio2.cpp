@@ -188,6 +188,7 @@ void GuiStudio2::readStudioConfig()
 {
     selectedComputer_ = STUDIO;
 
+    elfConfiguration[STUDIO].useTapeHw = false;
     conf[STUDIO].emsConfigNumber_ = 0;
     conf[STUDIO].videoNumber_ = 0;
 
@@ -323,6 +324,7 @@ void GuiStudio2::readCoinArcadeConfig()
 {
     selectedComputer_ = COINARCADE;
     
+    elfConfiguration[COINARCADE].useTapeHw = false;
     conf[COINARCADE].emsConfigNumber_ = 0;
     conf[COINARCADE].videoNumber_ = 0;
 
@@ -401,6 +403,7 @@ void GuiStudio2::readVisicomConfig()
 {
     selectedComputer_ = VISICOM;
 
+    elfConfiguration[VISICOM].useTapeHw = false;
     conf[VISICOM].emsConfigNumber_ = 0;
     conf[VISICOM].videoNumber_ = 0;
 
@@ -485,6 +488,7 @@ void GuiStudio2::readVictoryConfig()
 {
     selectedComputer_ = VICTORY;
 
+    elfConfiguration[VICTORY].useTapeHw = false;
     conf[VICTORY].emsConfigNumber_ = 0;
     conf[VICTORY].videoNumber_ = 0;
 
@@ -652,6 +656,7 @@ void GuiStudio2::readStudioIVConfig()
 
     selectedComputer_ = STUDIOIV;
     
+    elfConfiguration[STUDIOIV].useTapeHw = false;
     conf[STUDIOIV].emsConfigNumber_ = 0;
     conf[STUDIOIV].videoNumber_ = 0;
 

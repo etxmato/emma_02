@@ -253,7 +253,7 @@ Byte Keyb1871::efKeybRepeat1871()
     return keyboardRepeatEf_;
 }
 
-void Keyb1871::keyClear()
+void Keyb1871::keyClear1871()
 {
     keyboardRepeatEf_ = 1;
     keyboardEf_ = 1;

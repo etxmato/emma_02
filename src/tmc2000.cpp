@@ -239,7 +239,7 @@ void Tmc2000::cycle(int type)
         break;
 
         case PIXIECYCLE:
-            cyclePixieTelmac();
+            cyclePixieCdp1864();
         break;
     }
 }

@@ -163,9 +163,9 @@ void Ide::cycleIde()
     if (command_ != 0)  onCommand();
 }
 
-long Ide::getOffset() 
+wxFileOffset Ide::getOffset() 
 {
-    long ret;
+    wxFileOffset ret;
     Byte sec;
     
     int drive = (headDevice_ & 16) ? 1 : 0;
@@ -216,7 +216,7 @@ void Ide::writeSector()
 {
     wxFFile diskFile;
     int drive;
-    long offset;
+    wxFileOffset offset;
 
     offset = getOffset();
     if (offset < 0) 
@@ -247,7 +247,7 @@ void Ide::readSector()
 {
     wxFFile diskFile;
     int drive;
-    long offset;
+    wxFileOffset offset;
 
     offset = getOffset();
     if (offset < 0) 

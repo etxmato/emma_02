@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>Cosmac VIP</name>
+        <config>Bare</config>
+        <clock>1.7609</clock>
+        <boot>0</boot>
+        <f12>stop</f12>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init>
+        <init type="ef4">1</init>
+        <dirname>Vip</dirname>
+    </system>
+    
+    <splash>
+        <text>To start the VIP Operating System:&#xD;While keeping ‘C’ pressed, press ‘F12’ twice</text>
+    </splash>
+
+    <bootstrap>
+        <address>0x8000</address>
+        <out>4</out>
+    </bootstrap>
+
+    <memory>
+        <rom>
+            <start>0x8000</start>
+            <end>0x81FF</end>
+            <filename>vip.rom</filename>
+        </rom>
+
+        <mainram mask="0xfff">
+            <start>0x000</start>
+            <end>0x7FFF</end>
+        </mainram>
+    </memory>
+    
+    <video type="pixie">
+        <out>1</out>
+        <in>1</in>
+        <ef>1</ef>
+        <border>33x33</border>
+        <color type="fore">255, 255, 255</color>
+        <color type="back">0, 0, 0</color>
+     </video>
+
+    <keypad type="latch">
+        <out mask="0x0f">2</out>
+        <ef pol="rev">3</ef>
+    </keypad>
+
+    <cassette decks="1">
+        <out>7</out>
+        <ef>2</ef>
+        <stopdelay>20</stopdelay>
+    </cassette>
+
+    <sound type="q">
+        <hw>650</hw>
+    </sound>
+
+    <locations>
+        <!-- Stop cassette -->
+        <stop_cas>0x80c0, 0x80ed</stop_cas>
+        
+        <!-- Start PSAVE, PLOAD -->
+        <start_cas_save>0x8091</start_cas_save>
+        <start_cas_load>0x80c2</start_cas_load>
+    </locations>
+
+    <debugger>
+        <scrt mode="off">
+            <call reg="4">-1</call>
+            <return reg="5">-1</return>
+        </scrt>
+
+        <assembler>
+            <filename>mycode</filename>
+            <code_start>0x000</code_start>
+            <code_end>0xFFF</code_end>
+        </assembler>
+    </debugger>
+
+</emmaconfig>
+

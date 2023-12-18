@@ -7,7 +7,7 @@ public:
     KeybLatch();
     ~KeybLatch() {};
 
-    void configure(IoConfiguration portConf, wxString type, wxString saveCommand);
+    void configure(IoConfiguration portConf, wxString type, wxString saveCommand, int pad);
     void keyDown(int keycode, wxKeyEvent& event);
     void keyDown(int keycode);
     void keyUp(int keycode, wxKeyEvent& event);
@@ -49,6 +49,7 @@ private:
     wxString commandText_;
 
     wxString saveCommand_;
+    int pad_;
 };
 
 #endif  // KEYBLATCH_H

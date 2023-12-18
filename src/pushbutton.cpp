@@ -27,6 +27,7 @@
 #endif
 
 #include "pushbutton.h"
+#include <wx/event.h>
 
 DEFINE_EVENT_TYPE(wxEVT_ButtonDownEvent) 
 DEFINE_EVENT_TYPE(wxEVT_ButtonUpEvent) 

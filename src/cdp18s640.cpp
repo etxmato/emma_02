@@ -88,17 +88,17 @@ void Cdp18s640Screen::init()
         dataPointer[i]->init(dc, 205+i*28,8);
         updateData_ = true;
     }
-    stateLedPointer[SC1LED] = new Led(dc, 50, 72, ELFLED);
-    stateLedPointer[SC0LED] = new Led(dc, 88, 72, ELFLED);
-    stateLedPointer[WAITLED] = new Led(dc, 126, 72, ELFLED);
-    stateLedPointer[CLEARLED] = new Led(dc, 164, 72, ELFLED);
-    qLedPointer = new Led(dc, 202, 72, ELFLED);
-    runLedPointer = new Led(dc, 240, 72, ELFLED);
+    stateLedPointer[SC1LED] = new Led(dc, 50, 72, LED_SMALL_RED);
+    stateLedPointer[SC0LED] = new Led(dc, 88, 72, LED_SMALL_RED);
+    stateLedPointer[WAITLED] = new Led(dc, 126, 72, LED_SMALL_RED);
+    stateLedPointer[CLEARLED] = new Led(dc, 164, 72, LED_SMALL_RED);
+    qLedPointer = new Led(dc, 202, 72, LED_SMALL_RED);
+    runLedPointer = new Led(dc, 240, 72, LED_SMALL_RED);
 
 #if defined (__WXMAC__)
-    osx_text_resetButtonPointer = new HexButton(dc, COSMICOS_HEX_BUTTON, 50, 126, "");
-    osx_text_runButtonPointer = new HexButton(dc, COSMICOS_HEX_BUTTON, 110, 126, "U");
-    osx_text_runPButtonPointer = new HexButton(dc, COSMICOS_HEX_BUTTON, 170, 126, "P");
+    osx_text_resetButtonPointer = new HexButton(dc, PUSH_BUTTON_SMALL, 50, 126, "");
+    osx_text_runButtonPointer = new HexButton(dc, PUSH_BUTTON_SMALL, 110, 126, "U");
+    osx_text_runPButtonPointer = new HexButton(dc, PUSH_BUTTON_SMALL, 170, 126, "P");
 #else
     text_resetButtonPointer = new wxButton(this, 3, "", wxPoint(50, 126), wxSize(25, 25), 0, wxDefaultValidator, "ResetButton");
     text_resetButtonPointer->SetToolTip("Reset");
@@ -107,7 +107,7 @@ void Cdp18s640Screen::init()
     text_runPButtonPointer = new wxButton(this, 2, "P", wxPoint(170, 126), wxSize(25, 25), 0, wxDefaultValidator, "RunPButton");
     text_runPButtonPointer->SetToolTip("RUN-P");
 #endif
-    stepSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 230, 126, "");
+    stepSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(255, 255, 255), BUTTON_DOWN, 230, 126, "");
 
     this->connectKeyEvent(this);
 }

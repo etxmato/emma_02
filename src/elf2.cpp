@@ -94,13 +94,13 @@ void Elf2Screen::init()
     mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/elf2.png", wxBITMAP_TYPE_PNG);
     
 #if defined (__WXMAC__)
-    osx_push_inButtonPointer = new HexButton(dc, ELF_HEX_BUTTON, 435, 327, "IN");
+    osx_push_inButtonPointer = new HexButton(dc, PUSH_BUTTON, 435, 327, "IN");
     for (int i=0; i<16; i++)
     {
         buttonText.Printf("%01X", i);
         x = 304 +(i&0x3)*32;
         y = 327 -(int)i/4*32;
-        osx_buttonPointer[i] = new HexButton(dc, ELF_HEX_BUTTON, x, y, buttonText);
+        osx_buttonPointer[i] = new HexButton(dc, PUSH_BUTTON, x, y, buttonText);
     }
 #else
     push_inButtonPointer = new PushButton(this, 20, "IN", wxPoint(435, 327), wxSize(30, 30), 0);
@@ -112,12 +112,12 @@ void Elf2Screen::init()
         buttonPointer[i] = new PushButton(this, i, buttonText, wxPoint(x, y), wxSize(30, 30), 0);
     }
 #endif
-    runSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(0x5a, 0x8a, 0xa5), BUTTON_DOWN, 440, 235, "");
-    mpSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(0x5a, 0x8a, 0xa5), BUTTON_DOWN, 440, 295, "");
-    powerSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(0x5a, 0x8a, 0xa5), BUTTON_UP, 490, 20, "");
-    loadSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(0x5a, 0x8a, 0xa5), BUTTON_DOWN, 440, 265, "");
+    runSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(0x5a, 0x8a, 0xa5), BUTTON_DOWN, 440, 235, "");
+    mpSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(0x5a, 0x8a, 0xa5), BUTTON_DOWN, 440, 295, "");
+    powerSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(0x5a, 0x8a, 0xa5), BUTTON_UP, 490, 20, "");
+    loadSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(0x5a, 0x8a, 0xa5), BUTTON_DOWN, 440, 265, "");
 
-    qLedPointer = new Led(dc, 440, 190, ELFIILED);
+    qLedPointer = new Led(dc, 440, 190, LED_SMALL_RED);
     updateQLed_ = true;
 
     for (int i=0; i<2; i++)
@@ -327,6 +327,11 @@ void Elf2::onClose(wxCloseEvent&WXUNUSED(event) )
 
 void Elf2::charEvent(int keycode)
 {
+    if (p_Vt100[UART1] != NULL)
+    {
+        if (vtPointer->IsActive())
+            return;
+    }
     if (elfConfiguration.useKeyboard)
         charEventKeyboard(keycode);
 }
@@ -1611,7 +1616,7 @@ void Elf2::configureExtensions()
         p_Printer->init(p_Printer, PRINTER_BASIC);
     }
 
-    setQsound (elfConfiguration.qSound_);
+    setSoundType (elfConfiguration.qSound_);
 
     if (elfConfiguration.useKeyboard)
         configureKeyboard(ELFII, elfConfiguration.ioConfiguration);

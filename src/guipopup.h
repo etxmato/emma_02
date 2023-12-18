@@ -11,6 +11,7 @@ public:
     void init();
 
     void setLocation(bool state, wxString saveStart, wxString saveEnd, wxString saveExec);
+    void setLocation(bool state);
     void setStartLocation(wxString saveStart);
     void setEndLocation(wxString saveEnd);
     void setTapeType(bool useTape);

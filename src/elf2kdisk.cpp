@@ -366,7 +366,7 @@ void Elf2KDisk::cycleDisk()
     if (command_ != 0)  onCommand();
 }
 
-long Elf2KDisk::getOffset()
+wxFileOffset Elf2KDisk::getOffset()
 {
     long ret;
     Byte sec;
@@ -419,7 +419,7 @@ void Elf2KDisk::writeSector()
 {
     wxFFile diskFile;
     int drive;
-    long offset;
+    wxFileOffset offset;
 
     offset = getOffset();
     if (offset < 0)
@@ -451,7 +451,7 @@ void Elf2KDisk::readSector()
 {
     wxFFile diskFile;
     int drive;
-    long offset;
+    wxFileOffset offset;
 
     offset = getOffset();
     if (offset < 0)

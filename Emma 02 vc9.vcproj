@@ -158,7 +158,7 @@
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories=".;.\images;&quot;$(SDL)\include&quot;;&quot;$(WXWIN)\lib\vc_x64_lib\mswu&quot;;&quot;$(WXWIN)\include&quot;;&quot;$(WXWIN)\include\msvc&quot;;&quot;$(CURL)\include\&quot;;&quot;$(SERIALPORT)\Win64\include\&quot;"
-				PreprocessorDefinitions="WIN32;WINVER=0x0500;__WXMSW__;_WINDOWS;NOPCH"
+				PreprocessorDefinitions="WIN64;WINVER=0x0500;__WXMSW__;_WINDOWS;NOPCH"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -369,9 +369,9 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/EHsc /bigobj"
 				Optimization="0"
-				InlineFunctionExpansion="0"
+				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories=".\images;&quot;$(SDL)\include&quot;;&quot;$(WXWIN)\lib\vc_x64_lib\mswud&quot;;&quot;$(WXWIN)\include&quot;;&quot;$(WXWIN)\include\msvc&quot;;&quot;$(CURL)\include\&quot;;&quot;$(SERIALPORT)\Win64\include\&quot;"
-				PreprocessorDefinitions="WIN64;WIN32=0;_DEBUG;__WXMSW__;__WXDEBUG__;_WINDOWS;NOPCH"
+				PreprocessorDefinitions="WIN32;WINVER=0x0500;_DEBUG;__WXMSW__;__WXDEBUG__;_WINDOWS;NOPCH"
 				StringPooling="true"
 				MinimalRebuild="false"
 				BasicRuntimeChecks="3"
@@ -379,7 +379,7 @@
 				EnableFunctionLevelLinking="true"
 				RuntimeTypeInfo="true"
 				UsePrecompiledHeader="0"
-				PrecompiledHeaderFile="$(SolutionDir)$(PlatformName)\$(ConfigurationName)\Emma 02\Emma 02.pch"
+				PrecompiledHeaderFile="$(SolutionDir)$(PlatformName)\$(ConfigurationName)\Emma 02.pch"
 				AssemblerListingLocation="$(SolutionDir)$(PlatformName)\$(ConfigurationName)\Emma 02\"
 				ObjectFile="$(SolutionDir)$(PlatformName)\$(ConfigurationName)\Emma 02\"
 				ProgramDataBaseFileName="$(SolutionDir)$(PlatformName)\$(ConfigurationName)\Emma 02.pdb"
@@ -761,6 +761,10 @@
 			</File>
 			<File
 				RelativePath=".\src\keypad.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\keypadfred.cpp"
 				>
 			</File>
 			<File
@@ -1353,6 +1357,10 @@
 			</File>
 			<File
 				RelativePath=".\src\keypad.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\keypadfred.h"
 				>
 			</File>
 			<File

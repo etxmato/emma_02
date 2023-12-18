@@ -81,12 +81,12 @@ void Vip::configureComputer()
     efType_[0][0][3] = VIPKEYEF;
     setCycleType(COMPUTERCYCLE, LEDCYCLE);
 
-    vipSound_ = p_Main->getSound(VIP);
+    activeSoundType_ = p_Main->getSound(VIP);
     cdp1862_ = p_Main->getVipVp590();
     vp580_ = p_Main->getVipVp580();
 
     p_Main->message("Configuring Cosmac VIP");
-    if (vipSound_ == VIP_1864)
+    if (activeSoundType_ == SOUND_1863_1864)
     {
         outType_[0][0][3] = VIPOUT3;
         p_Main->message("    Output 2: hex key latch, output 3: tone latch");
@@ -98,7 +98,7 @@ void Vip::configureComputer()
         p_Main->message("    output 7: cassette on/off");
     }
 
-    if (vipSound_ == VIP_SUPER2 || vipSound_ == VIP_SUPER4)
+    if (activeSoundType_ == SOUND_SUPER_VP550 || activeSoundType_ == SOUND_SUPER_VP551)
         cycleType_[COMPUTERCYCLE] = VP550CYCLE;
 
     cycleType_[KEYCYCLE] = VIPIIKEYCYCLE;
@@ -425,7 +425,8 @@ void Vip::out(Byte port, Word WXUNUSED(address), Byte value)
         break;
 
         case VIPOUT3:
-            printLatch_ = value;
+            if (value != 0)
+                printLatch_ = value;
             tone1864Latch(value);
         break;
 
@@ -482,7 +483,10 @@ void Vip::switchQ(int value)
     if (!usePrinter_)  return;
 
     if (value == 0 && stateQ_ == 1 && printLatch_ != 0)
+    {
         p_Printer->printerOut(printLatch_);
+        printLatch_ = 0;
+    }
 //        p_Main->eventPrintDefault(printLatch_);
     stateQ_ = value;
 }
@@ -701,7 +705,6 @@ void Vip::startComputer()
     initPixie();
     setZoom(zoom);
     Show(true);
-    setVipSound(vipSound_);
 
     p_Main->updateTitle();
 
@@ -813,7 +816,7 @@ Byte Vip::readMemDebug(Word address)
 
 void Vip::writeMem(Word address, Byte value, bool writeRom)
 {
-    if (vipSound_ == VIP_SUPER4)
+    if (activeSoundType_ == SOUND_SUPER_VP551)
     {
         switch (address)
         {
@@ -878,7 +881,7 @@ void Vip::writeMem(Word address, Byte value, bool writeRom)
                 mainMemory_[address]=value;
             else
             {
-                if (vipSound_ == VIP_SUPER2 || vipSound_ == VIP_SUPER4)
+                if (activeSoundType_ == SOUND_SUPER_VP550 || activeSoundType_ == SOUND_SUPER_VP551)
                 {
                     switch (address)
                     {

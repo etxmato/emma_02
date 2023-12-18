@@ -125,6 +125,8 @@ void GuiMS2000::readMS2000Config()
 
     elfConfiguration[MS2000].fdcType_ = FDCTYPE_MS2000;
     
+    elfConfiguration[MS2000].useTapeHw = false;
+    elfConfiguration[MS2000].vtShow = true;
     conf[MS2000].emsConfigNumber_ = 0;
     conf[MS2000].videoNumber_ = 0;
 
@@ -226,9 +228,7 @@ void GuiMS2000::readMS2000Config()
         XRCCTRL(*this, "ScreenDumpFileMS2000", wxComboBox)->SetValue(conf[MS2000].screenDumpFile_);
         
         XRCCTRL(*this, "TurboClockMS2000", wxTextCtrl)->SetValue(conf[MS2000].turboClock_);
-        XRCCTRL(*this, "TurboMS2000", wxCheckBox)->SetValue(conf[MS2000].turbo_);
         turboGui("MS2000");
-        XRCCTRL(*this, "AutoCasLoadMS2000", wxCheckBox)->SetValue(conf[MS2000].autoCassetteLoad_);
         
         XRCCTRL(*this, "PrintModeMS2000", wxChoice)->SetSelection((int)configPointer->Read("/MS2000/Print_Mode", 1l));
         setPrintMode();

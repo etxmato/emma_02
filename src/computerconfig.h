@@ -19,6 +19,31 @@ public:
     wxMenu *deleteSubMenu;
 };
 
+class GuiItemConfig
+{
+public:
+    int type;           // PUSH_BUTTON_ROUND_RED or SWITCHBUTTON
+    int function;       // card, reset, run etc.
+    bool initup;        // BUTTON_DOWN (false) or BUTTON_UP (true)
+    wxString label;
+    wxPoint position;
+    wxSize size;
+    int value;
+    int textSize;
+    int color;
+    bool useImageDir;
+    wxString fileName;
+    wxString dirName;
+    
+    wxBitmap *bitmapPointer;
+
+    SwitchButton *switchButton;
+    SwitchButton *dipSwitchButton;
+
+    HexButton *hexButton;
+    wxButton *windowsButton;
+};
+
 class MemConfig
 {
 public:
@@ -40,6 +65,7 @@ class EmsConfig
 public:
     wxString dirname;
     wxString filename;
+    wxString filename2;
     Word start;
     Word end;
     Word mask;
@@ -76,6 +102,9 @@ public:
     wxString filename;
     int type;
     
+    Word ramStart[4];
+    Word ramEnd[4];
+
     int maxBankNumber_;
     vector<BankInfo> bankInfo;
     Byte bankOutputMaskInSlot;
@@ -148,12 +177,19 @@ enum
     INFO_CV_TAPE_PLAY,
     INFO_CV_TAPE_FF,
     INFO_CV_TAPE_REC,
+    INFO_FRED_TAPE_REC,
 };
 
 class Locations
 {
 public:
     vector<Word> keyInputAddress;
+    int code_start_high;
+    int code_start_low;
+    int code_end_high;
+    int code_end_low;
+    int reg_end;
+    int reg_end_adjust;
     vector<LocationInfo> locationInfo;
 };
 
@@ -176,6 +212,11 @@ public:
 
     size_t copyConfigNumber_;
     vector<CopyConfig> copyConfig_;
+    
+    size_t ramPartConfigNumber_;
+    vector<CopyConfig> ramPartConfig_;
+
+    vector<GuiItemConfig> guiItemConfig_;
     
     SlotConfig slotConfig_;
     Locations addressLocations;
@@ -247,6 +288,7 @@ public:
     int volume_;
     int tempo_;
     int soundType_;
+    int stereo_;
     double clockSpeed_;
     int beepFrequency_;
     wxString ledTime_;
@@ -269,6 +311,7 @@ public:
     bool useParallelPrinter_;
     bool useSerialPrinter_;
     bool useQSerialPrinter_;
+    bool useCentronicsPrinter_;
     bool useThermalPrinter_;
     bool useLoadLocation_;
     bool autoCassetteLoad_;
@@ -302,6 +345,7 @@ public:
     int numberOfVideoTypes_;
     int v1870X_, v1870Y_;
     int pixieX_, pixieY_;
+    int cdp1862X_, cdp1862Y_;
     int cdp1864X_, cdp1864Y_;
     int vip2KX_, vip2KY_;
     int fredX_, fredY_;
@@ -320,6 +364,7 @@ public:
 
     int defv1870X_, defv1870Y_;
     int defPixieX_, defPixieY_;
+    int defCdp1862X_, defCdp1862Y_;
     int defCdp1864X_, defCdp1864Y_;
     int defVip2KX_, defVip2KY_;
     int defFredX_, defFredY_;

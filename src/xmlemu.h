@@ -43,11 +43,11 @@ public:
 class Xmlemu : public wxFrame, public Cdp1802, public Fdc, public Ide, public Keyboard, public Keyb1871, public PortExt, public Ps2, public Ps2gpio, public Joycard, public Usbcard, public Rtc
 {
 public:
-    Xmlemu(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf, Conf computerConf);
+    Xmlemu(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, int tempo, ElfConfiguration conf, Conf computerConf);
     Xmlemu() {};
     ~Xmlemu();
 
-    void onClose(wxCloseEvent&WXUNUSED(event));
+    void onClose(wxCloseEvent&event);
     void resumeComputer();
     void showModules(bool status);
     void showModules(bool status, bool useSwitch, bool useHex);
@@ -87,6 +87,7 @@ public:
     Byte getData();
     void out(Byte port, Word address, Byte value);
     void cycle(int type);
+    void cycleVP550();
     void cycleBitKeyPad();
     void cycleDma();
     void cycleInt();
@@ -97,46 +98,54 @@ public:
     Byte slotShift(Byte value, int shift);
     void showData(Byte value);
     void showCycleData(Byte val);
+    void showCycleAddress(Word val);
     void setGoTimer();
+    void setMode();
     void showState(int state);
     void showDmaLed();
     void showIntLed();
+    void updateStatusBarLedStatus(int led, bool status);
 
     void autoBoot();
     void switchQ(int value);
     int getMpButtonState();
     void onWaitButton();
+    void onPowerButton(wxCommandEvent&event);
     void onPowerButton();
     void powerOff();
     void powerOn();
-    void onRunButton(wxCommandEvent&WXUNUSED(event));
-    void onRunButton();
+    void runPressed();
+    void onRunButton(wxCommandEvent&event);
+    void onRunButton0(wxCommandEvent&event);
+    void onRunButton(bool run0);
     void onRunButtonPress();
     void onRunButtonRelease();
     void onMouseRelease(wxMouseEvent&event);
-    void onPause(wxCommandEvent&WXUNUSED(event));
+    void onPause(wxCommandEvent&event);
     void onPause();
-    void onMpButton(wxCommandEvent&WXUNUSED(event));
+    void onMpButton(wxCommandEvent&event);
     void onMpButton();
+    void onMpButton(int buttonNumber);
     void onRamButton();
-    void onMonitor(wxCommandEvent&WXUNUSED(event));
+    void onMonitor(wxCommandEvent&event);
     void onMonitor();
-    void onLoadButton(wxCommandEvent&WXUNUSED(event));
+    void onLoadButton(wxCommandEvent&event);
     void onLoadButton();
     void onClearButtonPress();
     void onClearButtonRelease();
-    void onSingleStep(wxCommandEvent&WXUNUSED(event));
+    void onSingleStep(wxCommandEvent&event);
     void onSingleStep();
-    void onResetButton(wxCommandEvent&WXUNUSED(event));
+    void onResetButton(wxCommandEvent&event);
     void onResetButton();
     void onResetButtonPress();
     void onResetButtonRelease();
+    void onReadButton(wxCommandEvent&event);
     void onReadButton();
-    void onCardButton();
+    void onCardButtonSwitch(wxCommandEvent&event);
+    void onCardButtonSwitch();
     void updateCardReadStatus();
     void dataSwitch(int i);
     void efSwitch(int i);
-    void showDataLeds(Byte value);
 
     void onNumberKeyDown(int i);
     void onNumberKeyDown(wxCommandEvent& event);
@@ -155,9 +164,11 @@ public:
     void resetPressed();
     void configureMemory();
     void configureExtensions();
+    void configureCdp1863();
     void moveWindows();
     void updateTitle(wxString Title);
     void setForceUpperCase(bool status);
+    void keyClear();
     void onReset();
     void sleepComputer(long ms);
 
@@ -167,6 +178,10 @@ public:
     void write8275CharRom(Word address, Byte value);
     Byte read8275VideoRam(Word address);
     void write8275VideoRam(Word address, Byte value);
+    Byte read1862ColorDirect(Word address);
+    void write1862ColorDirect(Word address, Byte value);
+    Byte read1864ColorDirect(Word address);
+    void write1864ColorDirect(Word address, Byte value);
     Byte read6845CharRom(Word address);
     void write6845CharRom(Word address, Byte value);
     Byte read6847CharRom(Word address);
@@ -175,6 +190,7 @@ public:
     Word get6847RamMask();
     void writeDirect6847(Word address, int value); 
     void setLedMs(long ms);
+    void setLedMsTemp(long ms);
     Byte getKey(Byte vtOut);
     void activateMainWindow();
     void releaseButtonOnScreen(HexButton* buttonPointer, int buttonType);
@@ -242,6 +258,9 @@ public:
     void removeCosmicosHex();
     
     void startLoad(int tapeNumber, bool button);
+    void cassette(wxInt32 val);
+    void cassette(wxInt16 val);
+    void cassette(char val);
     void cassetteXmlHw(wxInt32 val, long size);
     void cassetteXmlHw(wxInt16 val, long size);
     void cassetteXmlHw(char val, long size);
@@ -252,10 +271,12 @@ public:
     void startRecording(int tapeNumber);
     void finishStopTape();
     void resetTape();
+    void onCardButton(wxCommandEvent&event);
+    void cardButton(int cardValue);
+    void setTempo(int tempo);
 
     bool isAudioChannelLeft() {return elfConfiguration.tape_audioChannelLeft;};
     bool isDataChannelLeft() {return elfConfiguration.tape_dataChannelLeft;};
-    bool isTapeHwActive() {return elfConfiguration.useTapeHw;};
     int getFrequency0() {return elfConfiguration.tape_frequency0;};
     int getFrequency1() {return elfConfiguration.tape_frequency1;};
     int getStartBit() {return elfConfiguration.tape_startBit;};
@@ -263,7 +284,6 @@ public:
     int getStopBit() {return elfConfiguration.tape_stopBit;};
     
 private:
-    class Panel *panelPointer;
     class ElfScreen *elfScreenPointer;
     class Elf2Screen *elf2ScreenPointer;
     class SuperScreen *superScreenPointer;
@@ -274,11 +294,11 @@ private:
     class CosmicosScreen *cosmicosScreenPointer;
     class VelfScreen *velfScreenPointer;
     class Uc1800Screen *uc1800ScreenPointer;
-    class FredScreen *fredScreenPointer;
 
     Tms9918 *tmsPointer;
     SN76430N *sn76430nPointer;
     Pixie *pixiePointer;
+    Pixie *cdp1862Pointer;
     Pixie *cdp1864Pointer;
     PixieVip2K *vip2KVideoPointer;
     PixieFred *fredVideoPointer;
@@ -287,10 +307,11 @@ private:
     i8275 *i8275Pointer;
     VIS1870 *vis1870Pointer;
     Keypad *keypadPointer;
-    BitKeypad *bitkeypadPointer[2];
+    BitKeypad *bitkeypadPointer[MAX_BITKEYPADS];
     CvKeypad *cvkeypadPointer;
+    EtiKeypad *etikeypadPointer;
     KeypadFred *fredkeypadPointer;
-    KeybLatch *latchKeyboardPointer;
+    KeybLatch *latchKeyPointer[MAX_LATCHKEYPADS+1];
     KeybMatrix *matrixKeyboardPointer;
     LedModule *ledModulePointer;
     Vt100 *vtPointer;
@@ -299,7 +320,16 @@ private:
     
     int ledCycleValue_;
     int ledCycleSize_;
-    int setMsValue_;
+    long ledTimeMs_;
+    bool updateQLed_;
+    bool updateTapeLed_;
+
+    bool cycleKeyOn_;
+    bool cycleFlashOn_;
+    bool flashState_;
+    bool runReleased_;
+    int flashCycleValue_;
+    bool vipMode_;
 
     int goCycleValue_;
     int goCycleSize_;
@@ -307,9 +337,9 @@ private:
     Byte switches_;
     bool powerButtonState_;
     int waitButtonState_;
-    int clearButtonState_;
     int runButtonState_;
     int mpButtonState_;
+    bool mpButtonState[4];
     bool nvRamDisable_;
     int loadButtonState_;
     Byte inbuttonEfState_;
@@ -369,6 +399,10 @@ private:
     int cycleSize_;
     double elfClockSpeed_;
 
+    int soundTempoCycleValue_;
+    int soundTempoCycleSize_;
+    int vipIIRunCycleSize_;
+
     wxString runningGame_;
 
     wxTimer *rtcTimerPointer;
@@ -422,8 +456,16 @@ private:
     
     int bitKeypadValue_;
     int lastBitKeyPad_;
-    
+    int lastLatchKeyPad_;
+
     wxString tapeCounter_;
+    Word endSave_;
+
+    int colourMask1862_;
+
+    bool vp550IntOn_;
+    bool runPressedAtStartup_;
+    Byte printLatch_;
 
     DECLARE_EVENT_TABLE()
 };

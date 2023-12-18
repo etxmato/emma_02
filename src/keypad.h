@@ -47,4 +47,38 @@ private:
     DECLARE_EVENT_TABLE()
 };
 
+class EtiKeypad
+{
+public:
+    EtiKeypad ();
+    ~EtiKeypad () {};
+
+    void configure(IoConfiguration portConf, int keyDefA1[], int keyDefA2[]);
+    
+    void keyDown(int keycode, wxKeyEvent& event);
+    void keyUp(int keycode, wxKeyEvent& event);
+    void onInButtonPress();
+    void onInButtonRelease();
+
+    Byte ef();
+    Byte in(Word address);
+    bool out(Word address, Byte value);
+    void keyClear();
+
+private:
+    IoConfiguration ioConfiguration_;
+
+    int keyDefA1_[16];
+    int keyDefA2_[16];
+
+    bool eti660KeyState_[16];
+    bool DataDirection_;
+    Byte outputKeyLatch_;
+    Byte inputKeyLatch_;
+    Byte outputKeyValue_;
+
+    bool step_;
+};
+
+
 #endif  // KEYPAD_H

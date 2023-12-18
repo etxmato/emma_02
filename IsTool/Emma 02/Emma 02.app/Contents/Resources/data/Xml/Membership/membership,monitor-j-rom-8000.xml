@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>Membership Card</name>
+        <config>Monitor, Front panel J, 32KB NVRAM - 32KB ROM</config>
+        <clock>1.75</clock>
+        <boot>0x8000</boot>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init>
+        <init type="ef4">1</init>
+        <dirname>Membership</dirname>
+    </system>
+
+    <frontpanel type="member_j" init="on">
+        <out mask="0x4"></out>
+        <in mask="0x4"></in>
+        <ef type="in">4</ef>
+    </frontpanel>
+
+    <memory>
+        <rom>
+            <start>0x8000</start>
+            <end>0xFFFF</end>
+            <filename verify="true">MCSMP20J.bin</filename>
+        </rom>
+
+        <nvram>
+            <start>0</start>
+            <end>0x7FFF</end>
+            <filename>ramdump.bin</filename>
+        </nvram>
+    </memory>
+    
+    <vt type="vt100" connection="serial">
+        <font>vt100.bin</font>
+        <ef pol="rev">3</ef>
+        <q></q>
+        <caps />
+        <baud type="receive">9600</baud>
+        <baud type="transmit">9600</baud>
+        <border>0x0</border>
+        <color type="fore">0, 255, 0</color>
+        <color type="back">0, 0x40, 0</color>
+        <color type="high">0, 0xff, 0</color>
+    </vt>
+ 
+    <debugger>
+        <scrt mode="on">
+            <call reg="4">0x8adb</call>
+            <return reg="5">0x8aed</return>
+        </scrt>
+    </debugger>
+
+    <hexmodem>
+    </hexmodem>
+
+    <locations>
+        <!-- key input -->
+        <key_input>0x8062</key_input>
+
+        <start_hexmodem_load>0x86fd</start_hexmodem_load>
+        <start_hexmodem_save reg="7" value="0x2fd">0x87DC</start_hexmodem_save>
+        <stop_modem>0x887B</stop_modem>
+    </locations>
+    
+</emmaconfig>

@@ -1,0 +1,114 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>Cosmac VIP</name>
+        <config>Super-Chip, VP590 &amp; VP595</config>
+        <clock>1.7609</clock>
+        <boot>0</boot>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init>
+        <init type="ef4">1</init>
+        <dirname>Chip-8/Super-Chip Games</dirname>
+    </system>
+    
+    <splash>
+        <text>Specify Super-Chip program in RAM field</text>
+    </splash>
+
+    <bootstrap>
+        <address>0x8000</address>
+        <out>4</out>
+    </bootstrap>
+
+    <memaccess>
+        <location>on</location>
+        <start>0x800</start>
+    </memaccess>
+
+    <memory>
+        <rom>
+            <start>0x8000</start>
+            <end>0x81FF</end>
+            <dirname>Vip</dirname>
+            <filename>vip.32.rom</filename>
+        </rom>
+
+        <ram>
+            <start>0x000</start>
+            <end>0x07FF</end>
+            <dirname>Vip</dirname>
+            <filename>super-chip.bin</filename>
+        </ram>
+
+        <mainram>
+            <start>0x0800</start>
+            <end>0x7FFF</end>
+        </mainram>
+    </memory>
+    
+    <video type="1862">
+        <out>1</out>
+        <in>1</in>
+        <ef>1</ef>
+        <highres />
+        <out type="back">5</out>
+        <colorram>0xc000-0xdfff</colorram>
+        <colortype>vip</colortype>
+        <border>33x33</border>
+        <color type="white">255, 255, 255</color>
+        <color type="red">255, 0, 0</color>
+        <color type="blue">0, 0, 255</color>
+        <color type="magenta">255, 0, 255</color>
+        <color type="green">0, 255, 0</color>
+        <color type="yellow">255, 255, 0</color>
+        <color type="cyan">0, 255, 255</color>
+        <color type="black">20, 20, 20</color>
+        <color type="back_blue">0, 0, 128</color>
+        <color type="back_black">0, 0, 0</color>
+        <color type="back_green">0, 128, 0</color>
+        <color type="back_red">128, 0, 0</color>
+     </video>
+
+    <keypad type="latch">
+        <out mask="0x0f">2</out>
+        <ef pol="rev">3</ef>
+    </keypad>
+
+    <cassette decks="1">
+        <out>7</out>
+        <ef>2</ef>
+        <stopdelay>20</stopdelay>
+    </cassette>
+
+    <sound type="cdp1863">
+        <out>3</out>
+    </sound>
+
+    <locations>
+        <!-- Stop cassette -->
+        <stop_cas>0x80c0, 0x80ed</stop_cas>
+        
+        <!-- Start PSAVE, PLOAD -->
+        <start_cas_save>0x8091</start_cas_save>
+        <start_cas_load>0x80c2</start_cas_load>
+    </locations>
+
+    <debugger>
+        <scrt mode="off">
+            <call reg="4">-1</call>
+            <return reg="5">-1</return>
+        </scrt>
+
+        <assembler>
+            <filename>mycode</filename>
+            <code_start>0x000</code_start>
+            <code_end>0xFFF</code_end>
+        </assembler>
+    </debugger>
+
+</emmaconfig>
+

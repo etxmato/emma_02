@@ -8,6 +8,7 @@
 // Licence:     wxWidgets licence
 /////////////////////////////////////////////////////////////////////////////
 
+#if !defined (_DEBUG)
 
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
@@ -42,7 +43,7 @@
 #include <wx/filename.h>
 #include <wx/statline.h>
 #include "wxcurl_dialog.h"
-
+#include <wx/event.h>
 
 // ----------------------------------------------------------------------------
 // wxCurlTransferDialog
@@ -641,3 +642,4 @@ void wxCurlConnectionSettingsDialog::RunModal(wxCurlBase *pCURL)
         m_pPanel->SetCURLOptions(pCURL);
 }
 
+#endif

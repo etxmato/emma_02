@@ -58,17 +58,17 @@ void Cdp1852Screen::init()
     
     for (int i=0; i<8; i++)
     {
-        ledPointer[i] = new Led(dc, 56+27*(7-i), 60, PIOLED);
+        ledPointer[i] = new Led(dc, 56+27*(7-i), 60, LED_SMALL_RED_DISABLE);
         updateLed_[i]=true;
         setLed(i, 0);
-        dataSwitchButton[i] = new SwitchButton(dc, PIO_VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 50+27*(7-i), 94, "");
+        dataSwitchButton[i] = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL_PIO, wxColour(255, 255, 255), BUTTON_DOWN, 50+27*(7-i), 94, "");
         ioSwitchState_[i] = 0;
     }
     outPutValue_ = 0;
     inPutValue_ = 0;
 
 #if defined (__WXMAC__)
-    osx_stbButtonPointer = new HexButton2(dc, PIO_HEX_BUTTON, 55, 144, "", 0);
+    osx_stbButtonPointer = new HexButton2(dc, PUSH_BUTTON_PIO, 55, 144, "", 0);
 #else
     text_stbButtonPointer = new wxButton(this, 1, "", wxPoint(55, 144), wxSize(25, 25), 0, wxDefaultValidator, "StbButton");
     text_stbButtonPointer->SetToolTip("STB");

@@ -29,11 +29,6 @@
 #include "main.h"
 #include "cdp18s020.h"
 
-#define SC0LED 0
-#define SC1LED 1
-#define WAITLED 2
-#define CLEARLED 3
-
 Cdp18s020Screen::Cdp18s020Screen(wxWindow *parent, const wxSize& size, int tilType)
 : Panel(parent, size, tilType)
 {
@@ -78,24 +73,24 @@ void Cdp18s020Screen::init()
     
     for (int i=8; i<24; i++)
     {
-        ledPointer[i] = new Led(dc, 14+17*(23-i), 140, ELFLED);
+        ledPointer[i] = new Led(dc, 14+17*(23-i), 140, LED_SMALL_RED);
         updateLed_[i]=true;
     }
     for (int i=0; i<8; i++)
     {
-        ledPointer[i] = new Led(dc, 14+17*(7-i), 80, ELFLED);
+        ledPointer[i] = new Led(dc, 14+17*(7-i), 80, LED_SMALL_RED);
         updateLed_[i]=true;
     }
-    stateLedPointer[SC1LED] = new Led(dc, 167, 80, ELFLED);
-    stateLedPointer[SC0LED] = new Led(dc, 184, 80, ELFLED);
-    stateLedPointer[WAITLED] = new Led(dc, 227, 80, ELFLED);
-    stateLedPointer[CLEARLED] = new Led(dc, 244, 80, ELFLED);
-    qLedPointer = new Led(dc, 269, 80, ELFLED);
+    stateLedPointer[SC1LED] = new Led(dc, 167, 80, LED_SMALL_RED);
+    stateLedPointer[SC0LED] = new Led(dc, 184, 80, LED_SMALL_RED);
+    stateLedPointer[WAITLED] = new Led(dc, 227, 80, LED_SMALL_RED);
+    stateLedPointer[CLEARLED] = new Led(dc, 244, 80, LED_SMALL_RED);
+    qLedPointer = new Led(dc, 269, 80, LED_SMALL_RED);
 
 #if defined (__WXMAC__)
-    osx_text_resetButtonPointer = new HexButton(dc, COSMICOS_HEX_BUTTON, 70, 30, "");
-    osx_text_runPButtonPointer = new HexButton(dc, COSMICOS_HEX_BUTTON, 130, 30, "P");
-    osx_text_runButtonPointer = new HexButton(dc, COSMICOS_HEX_BUTTON, 190, 30, "U");
+    osx_text_resetButtonPointer = new HexButton(dc, PUSH_BUTTON_SMALL, 70, 30, "");
+    osx_text_runPButtonPointer = new HexButton(dc, PUSH_BUTTON_SMALL, 130, 30, "P");
+    osx_text_runButtonPointer = new HexButton(dc, PUSH_BUTTON_SMALL, 190, 30, "U");
 #else
     text_resetButtonPointer = new wxButton(this, 3, "", wxPoint(70, 30), wxSize(25, 25), 0, wxDefaultValidator, "ResetButton");
     text_resetButtonPointer->SetToolTip("Reset");
@@ -104,7 +99,7 @@ void Cdp18s020Screen::init()
     text_runButtonPointer = new wxButton(this, 1, "U", wxPoint(190, 30), wxSize(25, 25), 0, wxDefaultValidator, "RunButton");
     text_runButtonPointer->SetToolTip("RUN-U");
 #endif
-    stepSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 15, 30, "");
+    stepSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(255, 255, 255), BUTTON_DOWN, 15, 30, "");
     dipSwitchButton[0] = new SwitchButton(dc, DIP_SWITCH_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 252, 25, "");
     dipSwitchButton[1] = new SwitchButton(dc, DIP_SWITCH_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 263, 25, "");
     dipSwitchButton[2] = new SwitchButton(dc, DIP_SWITCH_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 274, 25, "");
@@ -467,7 +462,7 @@ void Cdp18s020::showCycleData(Byte val)
     }
 }
 
-void Cdp18s020::showAddress(Word val)
+void Cdp18s020::showCycleAddress(Word val)
 {
     for (int i=8; i<24; i++)
     {

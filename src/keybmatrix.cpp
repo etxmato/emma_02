@@ -39,7 +39,7 @@ void KeybMatrix::configure(IoConfiguration ioConf, wxString saveCommand)
 {
     ioConfiguration_ = ioConf;
     saveCommand_ = saveCommand;
-    wxString printBuffer, efText;
+    wxString printBuffer;
  
     wxString ioGroup = "";
     if (ioConfiguration_.keybMatrixIoGroup != -1)
@@ -49,29 +49,36 @@ void KeybMatrix::configure(IoConfiguration ioConf, wxString saveCommand)
     
     p_Main->message("Configuring keyboard" + ioGroup);
     
-    printBuffer.Printf("    Input %d: key input ", ioConfiguration_.keybMatrixIn);
-    p_Main->message(printBuffer);
-    printBuffer.Printf("    ");
+    if (ioConfiguration_.keybMatrixAddressMode)
+    {
+        printBuffer.Printf("    Write address %04X: set row, read address %04X: key input", ioConfiguration_.keybMatrixOut, ioConfiguration_.keybMatrixIn);
+        p_Main->message(printBuffer);
+    }
+    else
+    {
+        printBuffer.Printf("    Input %d: key input ", ioConfiguration_.keybMatrixIn);
+        p_Main->message(printBuffer);
+    }
     
     if (ioConfiguration_.keybMatrixEfKey[MATRIX_CTRL_KEY] != 0)
     {
         printBuffer.Printf("    EF %d: CTRL", ioConfiguration_.keybMatrixEfKey[MATRIX_CTRL_KEY]);
-        p_Main->message(printBuffer + efText);
+        p_Main->message(printBuffer);
     }
     if (ioConfiguration_.keybMatrixEfKey[MATRIX_SHIFT_KEY] != 0)
     {
         printBuffer.Printf("    EF %d: SHIFT", ioConfiguration_.keybMatrixEfKey[MATRIX_SHIFT_KEY]);
-        p_Main->message(printBuffer + efText);
+        p_Main->message(printBuffer);
     }
     if (ioConfiguration_.keybMatrixEfKey[MATRIX_CAPS_KEY] != 0)
     {
         printBuffer.Printf("    EF %d: CAPS", ioConfiguration_.keybMatrixEfKey[MATRIX_CAPS_KEY]);
-        p_Main->message(printBuffer + efText);
+        p_Main->message(printBuffer);
     }
     if (ioConfiguration_.keybMatrixEfKey[MATRIX_ESC_KEY] != 0)
     {
         printBuffer.Printf("    EF %d: ESC", ioConfiguration_.keybMatrixEfKey[MATRIX_ESC_KEY]);
-        p_Main->message(printBuffer + efText);
+        p_Main->message(printBuffer);
     }
     
     resetKeyboard();
@@ -385,9 +392,9 @@ void KeybMatrix::clearReturn()
     keyValue_[ioConfiguration_.keybMatrixTextKey[MATRIX_TEXT_RETURN_KEY].keyValue] &= ioConfiguration_.keybMatrixTextKey[MATRIX_TEXT_RETURN_KEY].bitMaskNotPressed;
 }
 
-Byte KeybMatrix::efKey(Byte efNumber)
+int KeybMatrix::efKey(Byte efNumber)
 {
-    Byte ret = 1;
+    int ret = -1;
     
     int flag = 0;
     bool continueLoop = true;
@@ -516,10 +523,20 @@ Byte KeybMatrix::in(Word address)
     return ret;
 }
 
+Byte KeybMatrix::in()
+{
+    return in(row_);
+}
+
+void KeybMatrix::setRow(Byte row)
+{
+    row_ = row;
+}
+
 void KeybMatrix::resetKeyboard()
 {
     for (int i=0; i<256; i++)
-        keyValue_[i] = ioConfiguration_.keybMatrixPressed ^ 0xff;
+        keyValue_[i] = 0;
     
     for (int i=0; i<5; i++)
         secondKeyboardCodes[i] = 0;
@@ -532,6 +549,8 @@ void KeybMatrix::resetKeyboard()
     keyboardCode_ = 0;
     keyDown_ = false;
 
+    row_ = 0;
+    
     runCommand_ = 0;
     
     cycleValue_ = 1;

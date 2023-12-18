@@ -1,0 +1,1 @@
+Game style like Flappy Birds. Press "5" to flap.

@@ -261,6 +261,8 @@ protected:
 #define PAUSE_STATE 44
 #define SET_BUTTON_LABEL 45
 #define CHANGE_HW_TAPE_STATE 46
+#define SET_LOCATION_STATE 47
+#define SET_VIPIILED 48
 
 #define OS_WINDOWS_2000 0
 #define OS_WINDOWS_XP 1
@@ -509,7 +511,7 @@ public:
 #include "serial.h"
 
 #define EMMA_VERSION 1.47
-#define EMMA_SUB_VERSION 14
+#define EMMA_SUB_VERSION 26
 #define ELF 0
 #define ELFII 1
 #define SUPERELF 2
@@ -557,6 +559,7 @@ public:
 #define COMXJOY 16
 #define PRINTER_SERIAL 17
 #define PRINTER_SERIAL_Q 18
+#define PRINTER_CENTRONICS 19
 #define COMXSUPERBOARD 0x21
 #define COMXEPROMBOARD 0x73
 #define COMXDIAG 0xC2
@@ -672,11 +675,13 @@ public:
 #define VIDEOXML6847 4
 #define VIDEOXMLTMS 5
 #define VIDEOXMLI8275 6
-#define VIDEOXML1864 7
-#define VIDEOXMLSN76430N 8
-#define VIDEOVIP2K 9
-#define VIDEOFRED 10
-//#define VIDEOXMLMAX 11
+#define VIDEOXML1862 7
+#define VIDEOXML1864 8
+#define VIDEOXMLSN76430N 9
+#define VIDEOVIP2K 10
+#define VIDEOFRED 11
+#define VIDEOSTUDIOIV 12
+//#define VIDEOXMLMAX 13
 
 #define VIDEOVT 0
 #define VIDEOPIXIE 1
@@ -693,17 +698,6 @@ public:
 //#define VIDEOVT 0
 //#define VIDEOPIXIE 1
 #define VIDEOTMSPICO 2
-
-#define ELFLED 0
-#define ELFIILED 1
-#define SUPERELFLED 2
-#define ELF2KLED1 3
-#define ELF2KLED2 4
-#define ELF2KLED3 5
-#define COSMICOSLED 6
-#define MEMBERLED 7
-#define MEMBERLEDGREEN 8
-#define PIOLED 9
 
 #define KEYBOARDNONE 0
 #define KEYBOARD_PS2 1
@@ -897,6 +891,19 @@ public:
 #define QSOUNDOFF 0
 #define QSOUNDSW 1
 #define QSOUNDEXT 2
+#define QSOUND1864 4
+
+#define VIP_BEEP 0
+#define VIP_1864 1
+#define VIP_SUPER2 2
+#define VIP_SUPER4 3
+
+#define SOUND_EXT_BEEPER 0
+#define SOUND_1863_1864 1
+#define SOUND_SUPER_VP550 2
+#define SOUND_SUPER_VP551 3
+#define SOUND_Q_SW 4
+#define SOUND_OFF 5
 
 #define VTNONE 0
 #define VT52 1
@@ -928,11 +935,6 @@ public:
 #define VTPARITY 2
 #define VTBITS 1
 #define VTPOWER 0
-
-#define VIP_BEEP 0
-#define VIP_1864 1
-#define VIP_SUPER2 2
-#define VIP_SUPER4 3
 
 #define GUISAVEONEXIT "MI_SaveOnExit"
 #define GUISAVECONFIG "MI_SaveConfig"
@@ -1108,8 +1110,7 @@ public:
 #define PANEL_MEMBER 8
 #define PANEL_VELF 9
 #define PANEL_UC1800 10
-#define PANEL_FRED1 11
-#define PANEL_FRED1_5 12
+#define PANEL_XML 11
 
 #define CR_NONE 0
 #define CR_CIDELSA 1
@@ -1237,7 +1238,7 @@ public:
     void popUp();
     void onKeyUp(wxKeyEvent&event);
     void connectKeyEvent(wxWindow* pclComponent);
-    bool runPressed() {return runPressed_;};
+    bool runPressed();
 
     void onComputer(wxNotebookEvent& event);
     void onStudioChoiceBook(wxChoicebookEvent& event);
@@ -1304,6 +1305,8 @@ public:
 
     void setLocationEvent(guiEvent& event);
     void eventSetLocation(bool state, Word saveStart, Word saveEnd, Word saveExec);
+
+    void setLocationStateEvent(guiEvent& event);
     void eventSetLocation(bool state);
 
     void setEnableClockEvent(guiEvent& event);
@@ -1438,6 +1441,9 @@ public:
     void setUpdateComxLedStatus(guiEvent& event);
     void eventUpdateComxLedStatus(int card, int i, bool status);
 
+    void setUpdateVipIILedStatus(guiEvent& event);
+    void eventUpdateVipIILedStatus(int number, bool status);
+
     void setUpdateDiagLedStatus(guiEvent& event);
     void eventUpdateDiagLedStatus(int i, bool status);
 
@@ -1517,8 +1523,6 @@ private:
     int functionKey_[14];
     CompletedSplashScreen *completedSplashScreen_;
     
-    bool tapePauseOrdered_;
-    
     DECLARE_EVENT_TABLE()
 };
 
@@ -1537,6 +1541,7 @@ EXT Video *p_Video[VIDEOXMLMAX];
 EXT Video *p_Vt100[2];
 EXT Serial *p_Serial;
 EXT Cdp1802 *p_Computer;
+EXT Panel *panelPointer;
 
 EXT Printer *p_PrinterParallel;
 EXT Printer *p_PrinterSerial;

@@ -47,45 +47,42 @@ Led::Led(wxDC& dc, int x, int y, int ledType)
     
     switch(ledType)
     {
-        case ELF2KLED1:
+        case LED_REAL_RED:
             ledOnBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/Elf2Kredledon.png", wxBITMAP_TYPE_PNG);
             ledOffBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/Elf2Kredledoff.png", wxBITMAP_TYPE_PNG);
             maskOn = new wxMask(*ledOnBitmapPointer, pink);
             maskOff = new wxMask(*ledOnBitmapPointer, pink);
         break;
 
-        case ELF2KLED2:
+        case LED_REAL_GREEN:
             ledOnBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/Elf2Kgreenledon.png", wxBITMAP_TYPE_PNG);
             ledOffBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/Elf2Kgreenledoff.png", wxBITMAP_TYPE_PNG);
             maskOn = new wxMask(*ledOnBitmapPointer, pink);
             maskOff = new wxMask(*ledOnBitmapPointer, pink);
         break;
 
-        case ELF2KLED3:
+        case LED_REAL_ORANGE:
             ledOnBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/Elf2Korangeledon.png", wxBITMAP_TYPE_PNG);
             ledOffBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/Elf2Korangeledoff.png", wxBITMAP_TYPE_PNG);
             maskOn = new wxMask(*ledOnBitmapPointer, pink);
             maskOff = new wxMask(*ledOnBitmapPointer, pink);
         break;
 
-        case ELFLED:
-        case ELFIILED:
-        case SUPERELFLED:
-        case COSMICOSLED:
+        case LED_SMALL_RED:
             ledOnBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/ledon.png", wxBITMAP_TYPE_PNG);
             ledOffBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/ledoff.png", wxBITMAP_TYPE_PNG);
             maskOn = new wxMask(*ledOnBitmapPointer, white);
             maskOff = new wxMask(*ledOnBitmapPointer, white);
         break;
 
-        case MEMBERLED:
+        case LED_LARGE_RED:
             ledOnBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/largeledon.png", wxBITMAP_TYPE_PNG);
             ledOffBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/largeledoff.png", wxBITMAP_TYPE_PNG);
             maskOn = new wxMask(*ledOnBitmapPointer, white);
             maskOff = new wxMask(*ledOnBitmapPointer, white);
         break;
 
-        case MEMBERLEDGREEN:
+        case LED_LARGE_GREEN:
             ledOnBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/largeledredon.png", wxBITMAP_TYPE_PNG);
             ledOnGreenBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/largeledgreenon.png", wxBITMAP_TYPE_PNG);
             ledOnOrangeBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/largeledorangeon.png", wxBITMAP_TYPE_PNG);
@@ -94,7 +91,7 @@ Led::Led(wxDC& dc, int x, int y, int ledType)
             maskOff = new wxMask(*ledOnBitmapPointer, white);
         break;
 
-        case PIOLED:
+        case LED_SMALL_RED_DISABLE:
             ledOnBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/ledon.png", wxBITMAP_TYPE_PNG);
             ledOffBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/ledoff.png", wxBITMAP_TYPE_PNG);
             ledOnGreenBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/leddisabled.png", wxBITMAP_TYPE_PNG);
@@ -104,7 +101,7 @@ Led::Led(wxDC& dc, int x, int y, int ledType)
         break;
     }
 
-    if (ledType == MEMBERLEDGREEN || ledType == PIOLED)
+    if (ledType == LED_LARGE_GREEN || ledType == LED_SMALL_RED_DISABLE)
     {
         ledOnBitmapPointer->SetMask(maskOn);
         ledOnGreenBitmapPointer->SetMask(maskOn);
@@ -122,10 +119,11 @@ Led::Led(wxDC& dc, int x, int y, int ledType)
 
 Led::~Led()
 {
-    if (ledType_ == MEMBERLEDGREEN || ledType_ == PIOLED)
+    if (ledType_ == LED_LARGE_GREEN || ledType_ == LED_SMALL_RED_DISABLE)
     {
         delete ledOnBitmapPointer;
 //        delete ledOnGreenBitmapPointer;
+//        delete ledOnOrangeBitmapPointer;
         delete ledOffBitmapPointer;
     }
     else
@@ -137,7 +135,7 @@ Led::~Led()
 
 void Led::onPaint(wxDC& dc)
 {
-    if (ledType_ == MEMBERLEDGREEN || ledType_ == PIOLED)
+    if (ledType_ == LED_LARGE_GREEN || ledType_ == LED_SMALL_RED_DISABLE)
     {
         switch (status_)
         {

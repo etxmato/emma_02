@@ -1,0 +1,404 @@
+ARD
+R0 , vv det code=1200vv
+R1 , vv det code=1202vv
+R2 , vv det code=1204vv
+R3 , vv det code=1206vv
+R4 , vv det code=1208vv
+R5 , vv det code=120Avv
+R6 , vv det code=120Cvv
+R7 , vv det code=120Evv
+mkk , vv code=12kkvv
+kk , vv code=12kkvv
+/ARD
+ARG
+Ry , Rz det code=20yz
+/ARG
+ARI
+Rx , kk det code=Cxkk
+/ARI
+ARX
+Ry , [Rz] det code=21yz
+Ry , Rz det code=21yz
+/ARX
+AV
+Vy , Vz det code=22yz
+/AV
+AVI
+Vx , kk det code=Exkk
+/AVI
+CHGS
+R0 det code=3900
+R1 det code=3902
+R2 det code=3904
+R3 det code=3906
+R4 det code=3908
+R5 det code=390A
+R6 det code=390C
+R7 det code=390E
+mkk code=39kk
+kk code=39kk
+/CHGS
+CLRTV
+code=0C
+/CLRTV
+COLOR
+Ry , Vz code=2Fyz
+/COLOR
+DO
+CBDOUT code=010700
+SETCOL code=010737
+SKSP code=010752
+KEYOUT code=010550
+INTEG code=010763
+LOOKUP code=010520
+DIGIT code=01078F
+SYNC code=0101F8
+ISIGN code=0104ED
+IFLOAT code=01017F
+IADD code=010143
+ISUB code=010152
+GOEZ code=0101D7
+COLDOT code=01073D
+hex=0000-FFFF code=01jjjj
+/DO
+EML
+code=0E
+/EML
+EXEC
+INIT code=00002C
+hex=0000-FFFF code=00jjjj
+/EXEC
+FIX
+R0 , mvv det code=3B00vv
+R1 , mvv det code=3B02vv
+R2 , mvv det code=3B04vv
+R3 , mvv det code=3B06vv
+R4 , mvv det code=3B08vv
+R5 , mvv det code=3B0Avv
+R6 , mvv det code=3B0Cvv
+R7 , mvv det code=3B0Evv
+mkk , mvv code=3Bkkvv
+kk , mvv code=3Bkkvv
+kk , vv code=3Bkkvv
+mkk , vv code=3Bkkvv
+/FIX
+FADD
+mkk , mvv code=3Ckkvv
+kk , mvv code=3Ckkvv
+kk , vv code=3Ckkvv
+mkk , vv code=3Ckkvv
+/FADD
+FDIV
+mkk , mvv code=3Fkkvv
+kk , mvv code=3Fkkvv
+kk , vv code=3Fkkvv
+mkk , vv code=3Fkkvv
+/FDIV
+FLOAT
+mkk , R0 code=3Akk00
+mkk , R1 code=3Akk02
+mkk , R2 code=3Akk04
+mkk , R3 code=3Akk06
+mkk , R4 code=3Akk08
+mkk , R5 code=3Akk0A
+mkk , R6 code=3Akk0C
+mkk , R7 code=3Akk0E
+kk , R0 code=3Akk00
+kk , R1 code=3Akk02
+kk , R2 code=3Akk04
+kk , R3 code=3Akk06
+kk , R4 code=3Akk08
+kk , R5 code=3Akk0A
+kk , R6 code=3Akk0C
+kk , R7 code=3Akk0E
+mkk , mvv code=3Akkvv
+kk , mvv code=3Akkvv
+kk , vv code=3Akkvv
+mkk , vv code=3Akkvv
+/FLOAT
+FMOV
+mkk , mvv code=38kkvv
+kk , mvv code=38kkvv
+kk , vv code=38kkvv
+mkk , vv code=38kkvv
+/FMOV
+FMPY
+mkk , mvv code=3Ekkvv
+kk , mvv code=3Ekkvv
+kk , vv code=3Ekkvv
+mkk , vv code=3Ekkvv
+/FMPY
+FSUB
+mkk , mvv code=3Dkkvv
+kk , mvv code=3Dkkvv
+kk , vv code=3Dkkvv
+mkk , vv code=3Dkkvv
+/FSUB
+GO
+hex=0000-00FF code=04jj
+/GO
+GOCR
+hex=0000-00FF code=05jj
+/GOCR
+GOEZ
+R0 , hex=0000-00FF code=1700jj
+R1 , hex=0000-00FF code=1702jj
+R2 , hex=0000-00FF code=1704jj
+R3 , hex=0000-00FF code=1706jj
+R4 , hex=0000-00FF code=1708jj
+R5 , hex=0000-00FF code=170Ajj
+R6 , hex=0000-00FF code=170Cjj
+R7 , hex=0000-00FF code=170Ejj
+mkk , hex=0000-00FF code=17kkjj
+kk , hex=0000-00FF code=17kkjj
+mkk , hex=0000-00FF code=35kkjj
+/GOEZ
+GOEQ
+V0 , kk , hex=0000-00FF code=D0kkjj
+V1 , kk , hex=0000-00FF code=D1kkjj
+V2 , kk , hex=0000-00FF code=D2kkjj
+V3 , kk , hex=0000-00FF code=D3kkjj
+V4 , kk , hex=0000-00FF code=D4kkjj
+V5 , kk , hex=0000-00FF code=D5kkjj
+V6 , kk , hex=0000-00FF code=D6kkjj
+V7 , kk , hex=0000-00FF code=D7kkjj
+V8 , kk , hex=0000-00FF code=D8kkjj
+V9 , kk , hex=0000-00FF code=D9kkjj
+VA , kk , hex=0000-00FF code=DAkkjj
+VB , kk , hex=0000-00FF code=DBkkjj
+VC , kk , hex=0000-00FF code=DCkkjj
+VD , kk , hex=0000-00FF code=DDkkjj
+VE , kk , hex=0000-00FF code=DEkkjj
+VF , kk , hex=0000-00FF code=DFkkjj
+/GOEQ
+GOGE
+Vy , vv , hex=0000-00FF code=140yvvjj
+mkk , vv , hex=0000-00FF code=14kkvvjj
+kk , vv , hex=0000-00FF code=14kkvvjj
+/GOGE
+GOLT
+Vy , vv , hex=0000-00FF code=150yvvjj
+mkk , vv , hex=0000-00FF code=15kkvvjj
+kk , vv , hex=0000-00FF code=15kkvvjj
+/GOLT
+GONC
+hex=0000-00FF code=06jj
+/GONC
+GONE
+V0 , kk , hex=0000-00FF code=F0kkjj
+V1 , kk , hex=0000-00FF code=F1kkjj
+V2 , kk , hex=0000-00FF code=F2kkjj
+V3 , kk , hex=0000-00FF code=F3kkjj
+V4 , kk , hex=0000-00FF code=F4kkjj
+V5 , kk , hex=0000-00FF code=F5kkjj
+V6 , kk , hex=0000-00FF code=F6kkjj
+V7 , kk , hex=0000-00FF code=F7kkjj
+V8 , kk , hex=0000-00FF code=F8kkjj
+V9 , kk , hex=0000-00FF code=F9kkjj
+VA , kk , hex=0000-00FF code=FAkkjj
+VB , kk , hex=0000-00FF code=FBkkjj
+VC , kk , hex=0000-00FF code=FCkkjj
+VD , kk , hex=0000-00FF code=FDkkjj
+VE , kk , hex=0000-00FF code=FEkkjj
+VF , kk , hex=0000-00FF code=FFkkjj
+/GONE
+GONZ
+Vx , hex=0000-00FF code=5xjj
+/GONZ
+GOTO
+hex=0000-FFFF code=03jjjj
+/GOTO
+GOZR
+Vx , hex=0000-00FF code=4xjj
+/GOZR
+GOX
+R0 code=0700
+R1 code=0702
+R2 code=0704
+R3 code=0706
+R4 code=0708
+R5 code=070A
+R6 code=070C
+R7 code=070E
+mkk code=07kk
+kk code=07kk
+/GOX
+KEY
+Vy , hex=0000-00FF code=0B0yjj
+mkk , hex=0000-00FF code=0Bkkjj
+kk , hex=0000-00FF code=0Bkkjj
+/KEY
+KEYT
+code=09
+/KEYT
+LRD
+Rx , mkk det code=7xkk
+Rx , kk det code=7xkk
+/LRD
+LRG
+Ry , Rz det code=26yz
+/LRG
+LRGI
+R0 , hex=0000-FFFF code=60jjjj
+R1 , hex=0000-FFFF code=62jjjj
+R2 , hex=0000-FFFF code=64jjjj
+R3 , hex=0000-FFFF code=66jjjj
+R4 , hex=0000-FFFF code=68jjjj
+R5 , hex=0000-FFFF code=6Ajjjj
+R6 , hex=0000-FFFF code=6Cjjjj
+R7 , hex=0000-FFFF code=6Ejjjj
+/LRGI
+LRX
+Ry , [Rz] det code=27yz
+Ry , Rz det code=27yz
+/LRX
+LV
+Vy , Vz det code=28yz
+/LV
+LVD
+Vx , mkk det code=9xkk
+Vx , kk det code=9xkk
+/LVD
+LVI
+Vx , kk det code=8xkk
+/LVI
+LVX
+Vy , [Rz] det code=29yz
+Vy , Rz det code=29yz
+/LVX
+OUTS
+Vz code=160z
+mkk code=16kk
+kk code=16kk
+/OUTS
+OUTSI
+code=0F
+/OUTSI
+POPM
+R0 , vv det code=1B00vv
+R1 , vv det code=1B02vv
+R2 , vv det code=1B04vv
+R3 , vv det code=1B06vv
+R4 , vv det code=1B08vv
+R5 , vv det code=1B0Avv
+R6 , vv det code=1B0Cvv
+R7 , vv det code=1B0Evv
+mkk , vv code=1Bkkvv
+kk , vv code=1Bkkvv
+/POPM
+PUSHM
+R0 , vv code=1A00vv
+R1 , vv code=1A02vv
+R2 , vv code=1A04vv
+R3 , vv code=1A06vv
+R4 , vv code=1A08vv
+R5 , vv code=1A0Avv
+R6 , vv code=1A0Cvv
+R7 , vv code=1A0Evv
+mkk , vv code=1Akkvv
+kk , vv code=1Akkvv
+/PUSHM
+RAND
+Vz det code=190z
+mkk code=19kk
+kk code=19kk
+/RAND
+RCR
+code=11
+/RCR
+RETURN
+code=02
+/RETURN
+RT
+[Ry] , Vz code=1Fyz
+Ry , Vz code=1Fyz
+/RT
+SCR
+code=10
+/SCR
+SHOW
+Rz , mvv , mww code=180zvvww
+Rz , vv , mww code=180zvvww
+Rz , vv , ww code=180zvvww
+Rz , mvv , ww code=180zvvww
+/SHOW
+SHL
+Ry , l det code=1Cyl
+/SHL
+SHR
+Ry , l det code=1Dyl
+/SHR
+SIGN
+mkk code=37kk
+kk code=37kk
+/SIGN
+SKSP
+Vy , [Rz] det code=33yz
+Vy , Rz det code=33yz
+/SKSP
+SRI
+R0 , vv det code=1300vv
+R1 , vv det code=1302vv
+R2 , vv det code=1304vv
+R3 , vv det code=1306vv
+R4 , vv det code=1308vv
+R5 , vv det code=130Avv
+R6 , vv det code=130Cvv
+R7 , vv det code=130Evv
+mkk , vv code=13kkvv
+kk , vv code=13kkvv
+/SRI
+SRG
+Ry , Rz det code=23yz
+/SRG
+SRX
+Ry , [Rz] det code=24yz
+Ry , Rz det code=24yz
+/SRX
+STRD
+mkk , Rx det code=Axkk
+kk , Rx det code=Axkk
+/STRD
+STRX
+[Ry] , Rx det code=2Axy
+Ry , Rx det code=2Axy
+/STRX
+STVD
+mkk , Vx det code=Bxkk
+kk , Vx det code=Bxkk
+/STVD
+STVX
+Vy , [Rz] det code=2Byz
+Vy , Rz det code=2Byz
+/STVX
+SV
+Vy , Vz det code=25yz
+/SV
+SYNC
+code=34
+/SYNC
+TAPE
+kk code=0Akk
+/TAPE
+TV
+Vz code=0D0z
+mkk code=0Dkk
+kk code=0Dkk
+/TV
+VAND
+Vy , Vz det code=2Cyz
+/VAND
+VOR
+Vy , Vz det code=2Dyz
+/VOR
+VXOR
+Vy , Vz det code=2Eyz
+/VXOR
+WKEY
+code=08
+/WKEY
+WT
+[Ry] , Rz code=1Eyz
+Ry , Rz code=1Eyz
+/WT
+

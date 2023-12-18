@@ -263,6 +263,8 @@ public:
     PixieGraphics getPixieGraphics(int computerType) {return elfConfiguration[computerType].ioConfiguration.pixieGraphics;};
     int getVideoHeight(int computerType) {return elfConfiguration[computerType].ioConfiguration.videoHeight;};
     int getVideoWidth(int computerType) {return elfConfiguration[computerType].ioConfiguration.videoWidth;};
+    int getPixieHighRes(int computerType) {return elfConfiguration[computerType].ioConfiguration.pixieHighRes;};
+    int getCdp1862HighRes(int computerType) {return elfConfiguration[computerType].ioConfiguration.cdp1862HighRes;};
     int getFrontPanelRevision() {return elfConfiguration[runningComputer_].frontType;};
 
     wxString getSplashDialog(int computerType) {return conf[computerType].splashDialog_;};
@@ -378,6 +380,8 @@ public:
     void setMainPos(int computerType, wxPoint position);
     wxPoint getPixiePos(int computerType);
     void setPixiePos(int computerType, wxPoint position);
+    wxPoint getCdp1862Pos(int computerType);
+    void setCdp1862Pos(int computerType, wxPoint position);
     wxPoint getCdp1864Pos(int computerType);
     void setCdp1864Pos(int computerType, wxPoint position);
     wxPoint getVip2KPos(int computerType);
@@ -520,6 +524,9 @@ public:
     bool isBatchConvertActive() {return batchConvertActive_;};
     bool isTurboOn() {return turboOn_;};
 
+    bool isTapeHwFred(int computer) {return (elfConfiguration[computer].tapeFormat_ != TAPE_FORMAT_CV && elfConfiguration[computer].useTapeHw);}
+    bool isTapeHwCybervision(int computer) {return (elfConfiguration[computer].tapeFormat_ == TAPE_FORMAT_CV && elfConfiguration[computer].useTapeHw);}
+
     void downloadWavFiles(int computer);
     void checkWavFileDownload(int computer, bool downloadIfMissing = false);
 
@@ -572,7 +579,7 @@ protected:
     size_t configurationMenuInfoNumber_;
     vector<ConfigurationMenuInfo> configurationMenuInfo_;
     
-    ElfConfiguration elfConfiguration[LAST_ELF_TYPE+1];
+    ElfConfiguration elfConfiguration[NO_COMPUTER];
     wxConfigBase *configPointer;
     Byte portExtender_;
 
@@ -639,7 +646,6 @@ protected:
     wxButton *startButton[NO_COMPUTER];
     wxButton *stopButton[NO_COMPUTER];
 
-    wxTimer *tapePauseTimerPointer;
     wxTimer *traceTimeoutPointer;
     wxTimer *keyDebounceTimeoutPointer;
     wxTimer *vuPointer;

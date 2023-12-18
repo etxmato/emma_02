@@ -120,11 +120,11 @@ void Elf2KHexScreen::init()
 
 #if wxCHECK_VERSION(2, 9, 0) 
 #if defined (__WXMAC__)
-    powerSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(0xbd, 0xb2, 0xa5), BUTTON_UP, 464, 42, "");
+    powerSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(0xbd, 0xb2, 0xa5), BUTTON_UP, 464, 42, "");
     runSwitchButton = new SwitchButton(dc, ELF2K_RUN_BUTTON, wxColour(0xbd, 0xb2, 0xa5), BUTTON_UP, 153 + offSetX, 63 + offSetY, "G");
     mpSwitchButton = new SwitchButton(dc, ELF2K_MP_BUTTON, wxColour(0xbd, 0xb2, 0xa5), BUTTON_UP, 123+offSetX, 63+offSetY, "M");
     loadSwitchButton = new SwitchButton(dc, ELF2K_LOAD_BUTTON, wxColour(0xbd, 0xb2, 0xa5), BUTTON_UP, 153+offSetX, 33+offSetY, "L");
-    osx_text_resetButtonPointer = new HexButton(dc, ELF2K_RESET_BUTTON, 153+offSetX, 3+offSetY, "R");
+    osx_text_resetButtonPointer = new HexButton(dc, PUSH_BUTTON_RED, 153+offSetX, 3+offSetY, "R");
     inSwitchButton = new SwitchButton(dc, ELF2K_IN_BUTTON, wxColour(0xbd, 0xb2, 0xa5), BUTTON_UP, 123+offSetX, 93+offSetY, "I");
 #else
     runButtonPointer = new wxButton(this, 20, wxEmptyString, wxPoint(153 + offSetX, 63 + offSetY), buttonSize, wxBU_EXACTFIT);
@@ -152,7 +152,7 @@ void Elf2KHexScreen::init()
         buttonText.Printf("%01X", i);
         x = 3+(i&0x3)*30;
         y = 93 -(int)i/4*30;
-        osx_buttonPointer[i] = new HexButton(dc, PANEL_HEX_BUTTON, x, y, buttonText);
+        osx_buttonPointer[i] = new HexButton(dc, PUSH_BUTTON, x, y, buttonText);
     }
 #else
     for (int i = 0; i<16; i++)

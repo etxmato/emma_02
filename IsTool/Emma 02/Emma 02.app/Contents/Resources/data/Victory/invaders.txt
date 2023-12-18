@@ -1,0 +1,33 @@
+                                ========
+                                Invaders
+                                ========
+
+15th Sept 2000
+
+This is my "Space Invaders" game for the RCA Studio II. It is a 1k
+cartridge. This is the first game I have written for this antique
+console, and the first to be released in about 22 to years. I
+reckon it beats the "Tetris" John D is working on :)
+
+There are 4 rows of 8 invaders ; and no mothership (due to screen space
+restrictions (invader rows) and memory restrictions (mothership).
+
+There are about 128 bytes of space left in the cartridge for anything
+else I want to do with it ; it is effectively finished though.
+
+Keys :
+        Left    [4, Left  Pad]
+        Right   [6, Left  Pad]
+        Fire    [0, Right Pad]
+        Restart [0, Left  Pad]
+
+This game is freeware.
+
+The source is included. This is written in 1802 Assembler code, and
+will assemble using TASM301.ZIP, and TASM18.TAB (see my website),
+and the cart can be build using MCART.EXE
+
+http://www.classicgaming.com/studio2
+
+Paul Robson (autismuk@classicgaming.com)
+
