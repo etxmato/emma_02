@@ -574,7 +574,7 @@ wxFileOffset Memory::allocRomMapperMemory(size_t emsNumber, wxFileOffset length)
         emsMemory_[emsNumber].executed_ = (uint64_t*)malloc((size_t)emsSize_*8);
     emsMemory_[emsNumber].labelType_ = (Byte*)malloc((size_t)emsSize_);
     emsMemory_[emsNumber].memoryType_ = (Byte*)malloc(emsSize_/256);
-    computerConfiguration.emsConfig_[0].page = 0;
+    computerConfiguration.emsConfig_[emsNumber].page = 0;
 
     for (wxUint32 i = 0; i<(emsSize_/256); i++) emsMemory_[emsNumber].memoryType_[i] = ROM;
 

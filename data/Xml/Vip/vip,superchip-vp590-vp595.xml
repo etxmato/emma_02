@@ -5,7 +5,7 @@
     
     <system>
         <name>Cosmac VIP</name>
-        <config>Super-Chip, VP590 &amp; VP595</config>
+        <config>Super-Chip, VP590 &amp; VP595 (select Super-Chip file in RAM field)</config>
         <clock>1.7609</clock>
         <boot>0</boot>
         <init type="ef1">1</init>
@@ -15,10 +15,6 @@
         <dirname>Chip-8/Super-Chip Games</dirname>
     </system>
     
-    <splash>
-        <text>Specify Super-Chip program in RAM field</text>
-    </splash>
-
     <bootstrap>
         <address>0x8000</address>
         <out>4</out>

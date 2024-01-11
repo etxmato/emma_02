@@ -5,7 +5,7 @@
     
     <system>
         <name>Cosmac VIP</name>
-        <config>Chip-8X, VP580, VP590 &amp; VP595</config>
+        <config>Chip-8X, VP580, VP590 &amp; VP595 (select Chip-8X file in RAM field)</config>
         <clock>1.7609</clock>
         <boot>0</boot>
         <init type="ef1">1</init>
@@ -15,10 +15,6 @@
         <dirname>Chip-8/Chip-8X</dirname>
     </system>
     
-    <splash>
-        <text>Specify Chip-8X program in RAM field</text>
-    </splash>
-
     <memaccess>
         <location>on</location>
         <start>0x300</start>

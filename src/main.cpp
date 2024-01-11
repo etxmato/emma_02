@@ -2782,6 +2782,8 @@ void Main::initConfig()
     borderY[VIDEOVIP2K] = 0;  //VIP2K
     borderX[VIDEOFRED] = 0;
     borderY[VIDEOFRED] = 0;  //FRED
+    borderX[VIDEOCOIN] = 11;
+    borderY[VIDEOCOIN] = 33;  //Coin
 
     colour[COL_PIXIE_FORE] = "#ffffff";    // foreground pixie
     colour[COL_PIXIE_BACK] = "#000000";    // background pixie
@@ -5636,6 +5638,8 @@ void Main::nonFixedWindowPosition()
     conf[XML].v1870Y_ = -1;
     conf[XML].SN76430NX_ = -1;
     conf[XML].SN76430NY_ = -1;
+    conf[XML].coinX_ = -1;
+    conf[XML].coinY_ = -1;
     conf[XML].cdp1862X_ = -1;
     conf[XML].cdp1862Y_ = -1;
     conf[XML].cdp1864X_ = -1;
@@ -5747,18 +5751,18 @@ void Main::fixedWindowPosition()
     {
        if (i == XML)
        {
-          conf[i].pixieX_ = conf[i].defPixieX_;
-          conf[i].pixieY_ = conf[i].defPixieY_;
-          conf[i].tmsX_ = conf[XML].defTmsX_;
-          conf[i].tmsY_ = conf[XML].defTmsY_;
-          conf[i].mc6845X_ = conf[XML].defMc6845X_;
-          conf[i].mc6845Y_ = conf[XML].defMc6845Y_;
-          conf[i].mc6847X_ = conf[XML].defMc6847X_;
-          conf[i].mc6847Y_ = conf[XML].defMc6847Y_;
-          conf[i].i8275X_ = conf[XML].defi8275X_;
-          conf[i].i8275Y_ = conf[XML].defi8275Y_;
-          conf[i].vtX_ = conf[XML].defVtX_;
-          conf[i].vtY_ = conf[XML].defVtY_;
+          conf[XML].pixieX_ = conf[XML].defPixieX_;
+          conf[XML].pixieY_ = conf[XML].defPixieY_;
+          conf[XML].tmsX_ = conf[XML].defTmsX_;
+          conf[XML].tmsY_ = conf[XML].defTmsY_;
+          conf[XML].mc6845X_ = conf[XML].defMc6845X_;
+          conf[XML].mc6845Y_ = conf[XML].defMc6845Y_;
+          conf[XML].mc6847X_ = conf[XML].defMc6847X_;
+          conf[XML].mc6847Y_ = conf[XML].defMc6847Y_;
+          conf[XML].i8275X_ = conf[XML].defi8275X_;
+          conf[XML].i8275Y_ = conf[XML].defi8275Y_;
+          conf[XML].vtX_ = conf[XML].defVtX_;
+          conf[XML].vtY_ = conf[XML].defVtY_;
 
           conf[i].mainX_ = mainWindowX_;
           conf[i].mainY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
@@ -5789,6 +5793,8 @@ void Main::fixedWindowPosition()
     conf[XML].v1870Y_ = conf[XML].defv1870Y_;
     conf[XML].SN76430NX_ = conf[XML].defSN76430NX_;
     conf[XML].SN76430NY_ = conf[XML].defSN76430NY_;
+    conf[XML].coinX_ = conf[XML].defCoinX_;
+    conf[XML].coinY_ = conf[XML].defCoinY_;
     conf[XML].cdp1862X_ = conf[XML].defCdp1862X_;
     conf[XML].cdp1862Y_ = conf[XML].defCdp1862Y_;
     conf[XML].cdp1864X_ = conf[XML].defCdp1864X_;
@@ -7698,10 +7704,15 @@ void Main::enableGui(bool status)
         XRCCTRL(*this, "BatchConvertButtonXml", wxButton)->Enable(conf[XML].useBatchWav_ && !status);
         XRCCTRL(*this,"MainXmlXml", wxComboBox)->Enable(status);
         XRCCTRL(*this,"XmlButtonXml", wxButton)->Enable(status);
-       if (conf[runningComputer_].ramFileFromGui_)
+        if (conf[runningComputer_].ramFileFromGui_ && conf[runningComputer_].memConfig_[0].type == MAINRAM)
         {
             XRCCTRL(*this,"MainRamXml", wxComboBox)->Enable(status);
             XRCCTRL(*this,"RamButtonXml", wxButton)->Enable(status);
+        }
+        if (conf[runningComputer_].romFileFromGui_ && conf[runningComputer_].memConfig_[1].type == MAINROM)
+        {
+            XRCCTRL(*this,"MainRomXml", wxComboBox)->Enable(status);
+            XRCCTRL(*this,"RomButtonXml", wxButton)->Enable(status);
         }
         XRCCTRL(*this,"PrintButtonXml", wxButton)->Enable(!status && conf[runningComputer_].printerOn_);
 
@@ -8592,6 +8603,8 @@ void Main::setSysColours()
     darkMode_ = system.IsDark();
     guiBackGround_ = wxSystemSettings::GetColour(wxSYS_COLOUR_FRAMEBK);
     guiTextColour[GUI_COL_BLACK] = wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT);
+    guiTextColour[GUI_COL_WHITE] = wxSystemSettings::GetColour(wxSYS_COLOUR_APPWORKSPACE);
+   
 #else
     darkMode_ = false;
     guiBackGround_ = wxColour(windowInfo.red, windowInfo.green, windowInfo.blue);

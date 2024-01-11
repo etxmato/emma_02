@@ -8,6 +8,7 @@ using namespace std;
 #include "memory.h"
 #include "sound.h"
 #include "elfconfiguration.h"
+#include "computerconfig.h"
 
 #define LOAD 0
 #define RESET 1
@@ -92,6 +93,7 @@ public:
     void saveBinFile(wxString fileName, long start, long end);
     bool readBinFile(wxString fileName, int memoryType, Word start, long end, long inhibitStart, long inhibitEnd);
     bool readBinFile(wxString fileName, int memoryType, Word address, long end, bool showFilename, bool showAddressPopup, Word specifiedStartAddress);
+    bool readBinFile(wxString fileName, int memoryType, Word address, long end, LoadOffSet loadOffSet, bool showFilename, bool showAddressPopup, Word specifiedStartAddress);
     bool readBinFile(wxString fileName, int memoryType, Word address, Word* lastAddress, long end, bool showFilename);
     bool readRomMapperBinFile(size_t emsNumber, wxString fileName);
     bool readMultiCartBinFile(wxString dirName, wxString fileName);
@@ -108,6 +110,7 @@ public:
     void checkLoadedSoftwareMCDS();
     void checkLoadedSoftwareElf2K();
     bool readProgram(wxString romDir, wxString rom, int memoryType, Word address, bool showFilename);
+    bool readProgram(wxString romDir, wxString rom, int memoryType, Word address, LoadOffSet loadOffSet, bool showFilename);
     bool readProgram(wxString romDir, wxString rom, int memoryType, Word address, Word* lastAddress, bool showFilename);
     bool readProgramMicro(wxString romDir, wxString rom, int memoryType, Word address, long lastAddress, bool showFilename);
     bool readProgramMicro(wxString romDir, wxString rom, int memoryType1, int memoryType2, long address, long lastAddress, long inhibitstart, long inhibitEnd_);
@@ -115,8 +118,10 @@ public:
     bool readProgramTmc600(wxString romDir, wxString rom, int memoryType, Word address, bool showFilename);
     bool readProgramPecom(wxString romDir, wxString rom, int memoryType, Word address, bool showFilename);
     void readSt2Program(int computerType, int memoryType);
-    bool readFile(wxString fileName, int memoryType, Word address, long end, long inhibitStart, long inhibitEnd);
+    void readSt2Program(wxString dirName, wxString fileName, int computerType, int memoryType);
+    bool readFile(wxString fileName, int memoryType, Word adress, long end, long inhibitStart, long inhibitEnd);
     bool readFile(wxString fileName, int memoryType, Word address, long end, bool showFilename);
+    bool readFile(wxString fileName, int memoryType, Word address, long end, LoadOffSet loadOffSet, bool showFilename);
     bool readFile(wxString fileName, int memoryType, Word address, long end, bool showFilename, bool showAddressPopup, Word specifiedStartAddress);
     bool readFile(wxString fileName, int memoryType, Word address, Word* lastAddress, long end, bool showFilename);
 

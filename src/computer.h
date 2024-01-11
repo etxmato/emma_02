@@ -57,8 +57,10 @@ public:
     virtual void onMousePress(wxMouseEvent& event);
     void executeMousePressFunction(int function, int buttonValue);
     virtual void onMouseRelease(wxMouseEvent& event);
+    virtual void onMouseRightRelease(wxMouseEvent& event);
     void executeMouseReleaseFunction(int function);
     void executeMouseReleaseFunction(int function, int value);
+    void executeMouseRightReleaseFunction(int function, int value);
     void ledTimeout();
     void rePaintLeds(wxDC& dc);
     void setLedMs(long ms);
@@ -362,6 +364,9 @@ public:
     virtual void onMpButton();
     virtual void onMpButton(int buttonNumber);
     virtual void onMpButton(wxCommandEvent& event);
+    virtual void onMpButtonMulti(wxCommandEvent& event);
+    virtual void onEmsButton(int buttonNumber, bool up);
+    virtual void onEmsButton(wxCommandEvent& event);
     virtual void onWaitButton();
     virtual void onClearButton();
     virtual void onClearButtonPress() {};
@@ -499,7 +504,7 @@ public:
     
     virtual void startLoad(int WXUNUSED(tapeNumber), bool WXUNUSED(button)) {};
     virtual void cardButton(int WXUNUSED(cardValue)) {};
-    virtual void updateStatusBarLedStatus(int led, bool status) {};
+    virtual void updateStatusBarLedStatus(int WXUNUSED(led), bool WXUNUSED(status)) {};
 
 protected:
     RunComputer *threadPointer;

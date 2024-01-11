@@ -8,6 +8,7 @@ public:
     ~KeybLatch() {};
 
     void configure(IoConfiguration portConf, wxString type, wxString saveCommand, int pad);
+    void reDefineHexKeys(int hexKeyDef1[], int hexKeyDef2[], bool simDef2);
     void keyDown(int keycode, wxKeyEvent& event);
     void keyDown(int keycode);
     void keyUp(int keycode, wxKeyEvent& event);
@@ -32,6 +33,10 @@ private:
     Byte keyState_[255];
     int keyLatch_;
     
+    int keyDef1_[16];
+    int keyDef2_[16];
+    bool simDef2_;
+
     bool ctrlAltLeft_;
     bool shiftPressed_;
     bool altPressed_;

@@ -26,6 +26,7 @@ public:
     virtual void configurePixie(IoConfiguration portConf);
     virtual void configurePixie() {};
     void configurePixieIn(IoConfiguration portConf);
+    void configurePixieOut(IoConfiguration portConf);
     void configurePixieSuper(IoConfiguration portConf);
     void configurePixieStudio2();
     void configurePixieCoinArcade();
@@ -40,6 +41,7 @@ public:
     void initiateColour(bool colour);
     void configurePixieNano();
     void configurePixieCosmicos();
+    void configurePixieCoinArcade(IoConfiguration portConf);
     void configureCdp1862(IoConfiguration portConf, bool autoBoot);
     void configureCdp1863(IoConfiguration portConf);
     void configureCdp1864(IoConfiguration portConf);

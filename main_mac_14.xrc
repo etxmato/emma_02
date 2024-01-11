@@ -26300,7 +26300,7 @@
 <border>2</border>
 <object class="wxFlexGridSizer">
 <cols>2</cols>
-<rows>14</rows>
+<rows>15</rows>
 <vgap>2</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
@@ -26347,6 +26347,44 @@
 <item>-</item>
 <item>-</item>
 <item>-</item>
+</content>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_TOP|wxBOTTOM</flag>
+<border>3</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW</flag>
+<border>0</border>
+<object class="wxButton" name="RomButtonXml">
+<tooltip>Browse for ROM file</tooltip>
+<font>
+<size>14</size>
+</font>
+<label>ROM</label>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_TOP|wxBOTTOM</flag>
+<border>3</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<object class="wxComboBox" name="MainRomXml">
+<size>226,-1</size>
+<tooltip>Specify ROM file</tooltip>
+<font>
+<size>14</size>
+</font>
+<style>wxCB_DROPDOWN</style>
+<content>
+<item></item>
 </content>
 </object>
 </object>

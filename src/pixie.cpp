@@ -131,6 +131,14 @@ Pixie::Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, doub
             videoHeight_ = 128;
         break;
             
+        case COINARCADE:
+            pixieGraphics_.interrupt = 62;
+            pixieGraphics_.start = 72;
+            pixieGraphics_.end = 199;
+            pixieGraphics_.screenend = 322;
+            videoHeight_ = 128;
+        break;
+
         case XML:
             pixieGraphics_ = p_Main->getPixieGraphics(XML);
             videoHeight_ = p_Main->getVideoHeight(XML);
@@ -384,6 +392,43 @@ void Pixie::configurePixieIn(IoConfiguration portConf)
     p_Main->message(printBuffer);
 }
 
+void Pixie::configurePixieOut(IoConfiguration portConf)
+{
+    portConf_ = portConf;
+    p_Computer->setCycleType(VIDEOCYCLE_PIXIE, PIXIECYCLE);
+
+    backGroundInit_ = 1;
+    colourMask_ = 0;
+
+    wxString printBuffer, printBuffer2, printComma = "";
+    p_Main->message("Configuring CDP 1861");
+
+    printBuffer.Printf("    ");
+    
+    if (portConf.pixieOutput != -1)
+    {
+        p_Computer->setOutType(portConf.pixieOutput, PIXIEOUT);
+        printBuffer2.Printf("Output %d: disable graphics", portConf.pixieOutput);
+        printBuffer = printBuffer + printComma + printBuffer2;
+        printComma = ", ";
+    }
+    if (portConf.pixieInput != -1)
+    {
+        p_Computer->setOutType(portConf.pixieInput, PIXIEIN);
+        printBuffer2.Printf("Output %d: enable graphics", portConf.pixieInput);
+        printBuffer = printBuffer + printComma + printBuffer2;
+        printComma = ", ";
+    }
+    if (portConf.pixieEf != -1)
+    {
+        p_Computer->setEfType(portConf.pixieEf, PIXIEEF);
+        printBuffer2.Printf("EF %d: in frame indicator", portConf.pixieEf);
+        printBuffer = printBuffer + printComma + printBuffer2;
+    }
+    printBuffer += "\n";
+    p_Main->message(printBuffer);
+}
+
 void Pixie::configurePixieSuper(IoConfiguration portConf)
 {
     portConf_ = portConf;
@@ -589,6 +634,29 @@ void Pixie::configurePixieCosmicos()
     p_Main->message("    Q=1: Output 2: tone latch");
     p_Main->message("    EF 3: in frame indicator (when graphics enabled)\n");
 }
+
+void Pixie::configurePixieCoinArcade(IoConfiguration portConf)
+{
+    portConf_ = portConf;
+    wxString ioGroup = "", printBuffer = "";
+
+    int ioGroupNum = portConf.coinIoGroup + 1;
+
+    p_Computer->setCycleType(VIDEOCYCLE_COIN, COINCYCLE);
+    p_Computer->setOutType(ioGroupNum, portConf.coinOutput, COINVIDEOENABLE);
+
+    if (portConf.coinIoGroup != -1)
+        ioGroup.Printf(" on group %d", portConf.coinIoGroup);
+    
+    p_Main->message("Configuring Coin Arcade Video" + ioGroup);
+
+    printBuffer.Printf("    Output %d: enable graphics\n", portConf.coinOutput);
+    p_Main->message(printBuffer);
+    
+    backGroundInit_ = 1;
+    colourMask_ = 0;
+}
+
 
 void Pixie::configureCdp1862(IoConfiguration portConf, bool autoBoot)
 {
@@ -922,7 +990,7 @@ void Pixie::cyclePixieCoinArcade()
     {
         p_Computer->debugTrace("----  H.Sync");
         graphicsMode_++;
-        if (graphicsMode_ >= 322)
+        if (graphicsMode_ >= pixieGraphics_.screenend)
         {
             if (changeScreenSize_)
             {
@@ -936,7 +1004,7 @@ void Pixie::cyclePixieCoinArcade()
     }
     if (graphicsNext_ == 2)
     {
-        if (graphicsMode_ == 62)
+        if (graphicsMode_ == pixieGraphics_.interrupt)
         {
             if (graphicsOn_)
             {
@@ -947,7 +1015,7 @@ void Pixie::cyclePixieCoinArcade()
             else vidInt_ = 0;
         }
     }
-    if (graphicsMode_ >= 72 && graphicsMode_ <=199 && graphicsOn_ && vidInt_ == 1 && graphicsNext_ >=4 && graphicsNext_ < 12)
+    if (graphicsMode_ >= pixieGraphics_.start && graphicsMode_ <=pixieGraphics_.end && graphicsOn_ && vidInt_ == 1 && graphicsNext_ >=4 && graphicsNext_ < 12)
     {
         j = 0;
         while(graphicsNext_ >= 4 && graphicsNext_ < 12)
@@ -956,10 +1024,10 @@ void Pixie::cyclePixieCoinArcade()
             v = p_Computer->pixieDmaOut(&color, colourType_);
             for (int i=0; i<8; i++)
             {
-                plot(j+i, (int)graphicsMode_-72,(v & 128) ? 1 : 0, (color|colourMask_)&7);
-                plot(j+i, (int)graphicsMode_-71,(v & 128) ? 1 : 0, (color|colourMask_)&7);
-                plot(j+i, (int)graphicsMode_-70,(v & 128) ? 1 : 0, (color|colourMask_)&7);
-                plot(j+i, (int)graphicsMode_-69,(v & 128) ? 1 : 0, (color|colourMask_)&7);
+                plot(j+i, (int)graphicsMode_-pixieGraphics_.start,(v & 128) ? 1 : 0, (color|colourMask_)&7);
+                plot(j+i, (int)graphicsMode_-pixieGraphics_.start+1,(v & 128) ? 1 : 0, (color|colourMask_)&7);
+                plot(j+i, (int)graphicsMode_-pixieGraphics_.start+2,(v & 128) ? 1 : 0, (color|colourMask_)&7);
+                plot(j+i, (int)graphicsMode_-pixieGraphics_.start+3,(v & 128) ? 1 : 0, (color|colourMask_)&7);
                 v <<= 1;
             }
             j += 8;

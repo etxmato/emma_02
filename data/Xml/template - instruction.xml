@@ -7,6 +7,7 @@
     <!--
     <system>: basic system information
     <splash>: splash screen setting
+    <gui>: specific GUI settings
     <bootstrap>: bootstrap definition
     <frontpanel>: front panel definition, for elf, elf2 or super panel
     <memory>: memory map definition
@@ -77,6 +78,22 @@
         <dialog>DEFAULT</dialog>
     </splash>
     
+    <gui>
+        <!-- GUI settings.
+        <ledtimer>: set value Leds field
+        <memaccess>:
+            <location>: set 'Specify Location' field on/off
+            <dirname>: location file browser will use on memaccess buttons
+            <start>: Start location
+       -->
+
+        <ledtimer>0</ledtimer>
+        <memaccess>
+            <location>off</location>
+            <start>0</start>
+        </memaccess>
+    </gui>
+
     <basic>
         <pload>super</pload>
         <defus>0x4281</defus>
@@ -97,7 +114,7 @@
         <out>: output port to release bootstrap
         <in>: input port to release bootstrap
         <io>: output & input port to release bootstrap
-        <run>: set bootstrap if run is pressed on startup
+        <run>: select memory configuration pending if run is pressed on startup (slot 1 or 2), used in Ed's version of the VIP II
 
         It is possible to define a bootstrap in, out or io while using the same input or output port for other HW.
          -->
@@ -459,6 +476,7 @@
         <end>: end location in main memory
         <dirname>: location of file (filename) which is loaded on startup, this is defined as sub folder of the main Emma 02 data folder
         <filename>: name of file which is loaded on startup (max 2 files can be loaded into one ram or rom definition, to use 2 just repeat this tag twice)
+        <map>: list memory mapped address map, every address listed maps memory as specified in the definition (used in Coin Arcade machine)
 
         data folder location:
         Windows Vista and later: C:\Users\username\AppData\Roaming\Emma 02
@@ -647,6 +665,21 @@
         <sectorlength>256</sectorlength>
         <maxfmtcount>6256</maxfmtcount>
     </disk>
+
+    <video type="coin">
+        <!-- video definition for coin arcade video
+        <out>: output number to enable graphics
+        <zoom>: set default zoom, when not specified 2.00 will be used
+        <border>: set border size in pixels with format XxY, note that X should always be in steps of 3 pixels.
+        <color type="fore">: set foregorund color. Color is specified as red, green, blue all 3 values range from 0 to 255.
+        <color type="back">: set foregorund color. Color is specified as red, green, blue all 3 values range from 0 to 255.
+        -->
+        
+        <out>2</out>
+        <border>33x33</border>
+        <color type="fore">255, 255, 255</color>
+        <color type="back">0, 0, 0</color>
+    </video>
 
     <video type="pixie">
         <!-- video definition for pixie / cdp 1861 chip, use <io> or <out>/<in> not both!
@@ -1407,9 +1440,11 @@
          <pressed>: value ef is when a key is pressed (0 or 1)
          <efX>: X=1 to 4 specifies ascii code for key defined on that specific ef
          <efX type="mod">: X=1 to 4 specifies modifier key shift, control, alt, altgr, meta (windows), command (macOS)
+         <efX type="reset" in="Y">: ef will not be reset on key up but instead on INP Y (used for COIN in COINARCADE)
          -->
 
          <pressed>0</pressed>
+         <ef1 type="reset" in="6">67</ef1>
          <ef2 type="mod">shift</ef2>
          <ef3>66</ef3>
          <ef4>65</ef4>
@@ -1551,12 +1586,6 @@
      <videodump>
          <dirname></dirname>
      </videodump>
-
-     <memaccess>
-         <dirname></dirname>
-         <location>on</location>
-         <start>2000</start>
-     </memaccess>
 
      <cassette decks="1">
          <!-- cassette definition for 1 or 2 tape decks

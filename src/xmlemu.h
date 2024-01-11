@@ -124,8 +124,12 @@ public:
     void onPause(wxCommandEvent&event);
     void onPause();
     void onMpButton(wxCommandEvent&event);
+    void onMpButtonMulti(wxCommandEvent&event);
     void onMpButton();
     void onMpButton(int buttonNumber);
+    void onEmsButton(int buttonNumber, bool up);
+    void onEmsButton(wxCommandEvent&event);
+    void setMultiCartGame();
     void onRamButton();
     void onMonitor(wxCommandEvent&event);
     void onMonitor();
@@ -297,6 +301,7 @@ private:
 
     Tms9918 *tmsPointer;
     SN76430N *sn76430nPointer;
+    Pixie *coinPointer;
     Pixie *pixiePointer;
     Pixie *cdp1862Pointer;
     Pixie *cdp1864Pointer;
@@ -467,6 +472,9 @@ private:
     bool runPressedAtStartup_;
     Byte printLatch_;
 
+    bool specifiedSoftwareLoaded_;
+    int emsButton_[2];
+    
     DECLARE_EVENT_TABLE()
 };
 

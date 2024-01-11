@@ -14,6 +14,7 @@ public:
     int value;
     bool defined;
     bool mod;
+    int resetInp;
     wxString modString;
 };
 
@@ -111,6 +112,14 @@ public:
     int switchAltCtrl;
 };
     
+class DiagonalKeys
+{
+public:
+    int mainKey;
+    int key1;
+    int key2;
+};
+
 class IoPort
 {
 public:
@@ -152,11 +161,17 @@ public:
     int pixieVideoNumber;
     int pixieHighRes;
 
+    int coinOutput;
+    int coinIoGroup;
+    int coinVideoNumber;
+
     PixieGraphics pixieGraphics;
     int videoHeight;
     int videoWidth;
 
     IoPort cdp1863toneLatch;
+    IoPort cdp1863toneSwitch1;
+    IoPort cdp1863toneSwitch2;
     int cdp1863IoGroup;
 
     IoPort cdp1862enable;
@@ -181,7 +196,9 @@ public:
     int cdp1864VideoNumber;
     int cdp1864IoGroup;
     int cdp1864ColorType;
-    
+    int cdp1864StartRam;
+    int cdp1864EndRam;
+
     int vip2KVideoNumber;
     int vip2KInput;
     int vip2KOutput;
@@ -438,6 +455,10 @@ public:
     int diagIn1;
     int diagIn2;
     int diagOut;
+    
+    wxString keyPadDefinitionFile;
+    int keypadCheckMemConfig;
+    vector<DiagonalKeys> diagonalKeys;
         
     KeyLatchDetails keyLatchDetails[MAX_LATCHKEYPADS+1];
 
@@ -455,6 +476,7 @@ public:
     KeyDefinition keybMatrixTextKey[LAST_MATRIX_TEXT_KEY];
     Byte keybMatrixPressed;
     
+    bool qLed;
     bool errorLed;
     bool readyLed;
     bool stopLed;
@@ -471,6 +493,7 @@ public:
 class ElfConfiguration
 {
 public:
+    bool useCoinVideo;
     bool usePixie;
     bool use1862;
     bool use1864;

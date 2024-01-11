@@ -14375,6 +14375,9 @@ void DebugWindow::DebugDisplayMap()
         value.Printf("  %01X", x);
         XRCCTRL(*this, idReference, wxStaticText)->SetLabel(value);
     }
+    
+    Word mainAddressRange, pagerEmsAddressRange, bankSlotAddressRange, mask;
+    
     for (int y=0; y<16; y++)
     {
         idReference.Printf("MEM_HEADER%01X", y);
@@ -14385,7 +14388,22 @@ void DebugWindow::DebugDisplayMap()
         for (int x=0; x<16; x++)
         {
             textColor = COL_BLACK;
-            switch (p_Computer->getMemoryType((y<<4)+x)& 0xff)
+            
+            if (runningComputer_ == XML)
+            {
+                mask = elfConfiguration[runningComputer_].memoryMask >> 8;
+                mainAddressRange = ((y<<4)+x) & mask;
+                pagerEmsAddressRange = (y*16+x) & mask;
+                bankSlotAddressRange = ((y&1)*16+x) & mask;
+            }
+            else
+            {
+                mainAddressRange = (y<<4)+x;
+                pagerEmsAddressRange = y*16+x;
+                bankSlotAddressRange = (y&1)*16+x;
+            }
+            
+            switch (p_Computer->getMemoryType(mainAddressRange) & 0xff)
             {
                 case UNDEFINED:
                     value.Printf (" ");
@@ -14448,7 +14466,7 @@ void DebugWindow::DebugDisplayMap()
                     
                 case COMXEXPBOX:
                     XRCCTRL(*this, idReference, wxStaticText)->SetForegroundColour(guiTextColour[GUI_COL_ORANGE]);
-                    switch (p_Computer->getExpansionMemoryType(p_Comx->getComxExpansionSlot(), (y&1)*16+x))
+                    switch (p_Computer->getExpansionMemoryType(p_Comx->getComxExpansionSlot(), bankSlotAddressRange))
                     {
                         case MC6845RAM:
                             value.Printf ("M5");
@@ -14460,7 +14478,7 @@ void DebugWindow::DebugDisplayMap()
 
                         case RAMBANK:
                             textColor = COL_GREEN;
-                            switch (p_Computer->getBankMemoryType(p_Comx->getComxExpansionRamBank(), (y&1)*16+x))
+                            switch (p_Computer->getBankMemoryType(p_Comx->getComxExpansionRamBank(), bankSlotAddressRange))
                             {
                                 case RAM:
                                     value.Printf (".");
@@ -14482,7 +14500,7 @@ void DebugWindow::DebugDisplayMap()
 
                         case EPROMBANK:
                             textColor = COL_ORANGE;
-                            switch (p_Computer->getEpromBankMemoryType(p_Comx->getComxExpansionEpromBank(), (y&1)*16+x))
+                            switch (p_Computer->getEpromBankMemoryType(p_Comx->getComxExpansionEpromBank(), bankSlotAddressRange))
                             {
                                 case RAM:
                                     value.Printf (".");
@@ -14504,7 +14522,7 @@ void DebugWindow::DebugDisplayMap()
                             
                         case SUPERBANK:
                             textColor = COL_ORANGE;
-                            switch (p_Computer->getEpromBankMemoryType(p_Comx->getComxExpansionEpromBank(), (y&1)*16+x))
+                            switch (p_Computer->getEpromBankMemoryType(p_Comx->getComxExpansionEpromBank(), bankSlotAddressRange))
                             {
                                 case RAM:
                                     value.Printf (".");
@@ -14552,8 +14570,8 @@ void DebugWindow::DebugDisplayMap()
 
                 case EMSMEMORY:
                     XRCCTRL(*this, idReference, wxStaticText)->SetForegroundColour(guiTextColour[GUI_COL_BLUE]);
-                    
-                    switch (p_Computer->getEmsMemoryType((y*16+x)*256, p_Computer->getMemoryType((y<<4)+x)>>8))
+
+                    switch (p_Computer->getEmsMemoryType((pagerEmsAddressRange)*256, p_Computer->getMemoryType(mainAddressRange)>>8))
                     {
                         case RAM:
                             value.Printf (".");
@@ -14579,7 +14597,7 @@ void DebugWindow::DebugDisplayMap()
                         textColor = COL_PURPLE;
                         XRCCTRL(*this, idReference, wxStaticText)->SetForegroundColour(guiTextColour[GUI_COL_PURPLE]);
                     }
-                    switch (p_Computer->getPagerMemoryType(y*16+x))
+                    switch (p_Computer->getPagerMemoryType(pagerEmsAddressRange))
                     {
                         case RAM:
                             value.Printf (".");

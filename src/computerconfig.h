@@ -39,9 +39,17 @@ public:
 
     SwitchButton *switchButton;
     SwitchButton *dipSwitchButton;
+    RotButton *rotButton;
 
     HexButton *hexButton;
     wxButton *windowsButton;
+};
+
+class LoadOffSet
+{
+public:
+    Word addressStart;
+    Word offSet;
 };
 
 class MemConfig
@@ -58,6 +66,9 @@ public:
     Word outputStart;
     Word outputEnd;
     int type;
+    LoadOffSet loadOffSet;
+    
+    vector<Word> mappingList;
 };
 
 class EmsConfig
@@ -68,6 +79,10 @@ public:
     wxString filename2;
     Word start;
     Word end;
+    Word start2;
+    Word end2;
+    Word start3;
+    Word end3;
     Word mask;
     Word outputStart;
     Word outputEnd;
@@ -178,6 +193,9 @@ enum
     INFO_CV_TAPE_FF,
     INFO_CV_TAPE_REC,
     INFO_FRED_TAPE_REC,
+    INFO_CHECK_SW,
+    INFO_STUDIO_BUILD_IN_GAME,
+    INFO_VICTORY_BUILD_IN_GAME,
 };
 
 class Locations
@@ -191,6 +209,18 @@ public:
     int reg_end;
     int reg_end_adjust;
     vector<LocationInfo> locationInfo;
+};
+
+class AssemblerInfo
+{
+public:
+    wxString dir;
+    bool dirDefined;
+    wxString file;
+    bool fileDefined;
+    int code_start;
+    int code_end;
+    int end;
 };
 
 class LocationTrigger
@@ -209,6 +239,7 @@ public:
     
     size_t emsConfigNumber_;
     vector<EmsConfig> emsConfig_;
+    int multicartEmsNumber_;
 
     size_t copyConfigNumber_;
     vector<CopyConfig> copyConfig_;
@@ -240,8 +271,6 @@ public:
     wxString keyFile_;
     wxString screenDumpFileDir_;
     wxString screenDumpFile_;
-    wxString assemblerFileDir_;
-    wxString assemblerFile_;
     wxString printFileDir_;
     wxString printFile_;
     wxString configurationDir_;
@@ -255,7 +284,10 @@ public:
     wxString splashText_;
 
     bool ramFileFromGui_;
+    bool romFileFromGui_;
 
+    vector<AssemblerInfo> assemblerInfo_;
+    
     wxArrayString terminalPaths_;
     wxArrayString terminalFiles_;
     size_t numberOfTerminalFiles_;
@@ -320,7 +352,6 @@ public:
     bool dram_;
     bool st2020Active_;
     bool sbActive_;
-    bool useAssemblerDefaults_;
     bool useSplashScreen_;
 
     bool useDiagnosticBoard_;
@@ -344,6 +375,7 @@ public:
 
     int numberOfVideoTypes_;
     int v1870X_, v1870Y_;
+    int coinX_, coinY_;
     int pixieX_, pixieY_;
     int cdp1862X_, cdp1862Y_;
     int cdp1864X_, cdp1864Y_;
@@ -363,6 +395,7 @@ public:
     int SN76430NX_, SN76430NY_;
 
     int defv1870X_, defv1870Y_;
+    int defCoinX_, defCoinY_;
     int defPixieX_, defPixieY_;
     int defCdp1862X_, defCdp1862Y_;
     int defCdp1864X_, defCdp1864Y_;
@@ -395,10 +428,6 @@ public:
     long debugCallAddress_;
     long debugRetReg_;
     long debugRetAddress_;
-
-    int ass_code_start;
-    int ass_code_end;
-    int ass_end;
 
     int gameId_;
     

@@ -5,7 +5,7 @@
     
     <system>
         <name>Cosmac VIP</name>
-        <config>Chip-8</config>
+        <config>Chip-8 (select Chip-8 file in RAM field)</config>
         <clock>1.7609</clock>
         <boot>0</boot>
         <init type="ef1">1</init>
@@ -15,10 +15,6 @@
         <dirname>Chip-8/Chip-8 Games</dirname>
     </system>
     
-    <splash>
-        <text>Specify Chip-8 program in RAM field</text>
-    </splash>
-
     <memaccess>
         <location>on</location>
         <start>0x200</start>

@@ -21,6 +21,7 @@ private:
     void parseXml_Bootstrap(int computer, wxXmlNode &node);
     void parseXml_IdeDisk(int computer, wxXmlNode &node);
     void parseXml_FdcDisk(int computer, wxXmlNode &node);
+    void parseXml_CoinVideo(int computer, wxXmlNode &node);
     void parseXml_PixieVideo(int computer, wxXmlNode &node);
     void parseXml_1862Video(int computer, wxXmlNode &node);
     void parseXml_1864Video(int computer, wxXmlNode &node);
@@ -97,7 +98,6 @@ private:
     bool memAccessDirDefined_;
     bool keyFileDirDefined_;
     bool videoDumpDirDefined_;
-    bool assemblerDirDefined_;
     bool charRomDirDefined_;
     bool vt52CharRomDirDefined_;
     bool vt100CharRomDirDefined_;
@@ -111,7 +111,6 @@ private:
 
     bool keyFileDefined_;
     bool videoDumpFileDefined_;
-    bool assemblerFileDefined_;
     bool printFileDefined_;
     bool xmodemFileDefined_;
     bool wavFileDefined[2];
@@ -119,7 +118,6 @@ private:
 
     wxString keyFileDir;
     wxString videoDumpFileDir;
-    wxString assemblerFileDir;
     wxString printFileDir;
     wxString xmodemFileDir;
     wxString wavFileDir[2];

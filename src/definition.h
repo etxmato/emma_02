@@ -2,7 +2,7 @@
 #define DEFINITION_H
 
 #define MAXROM 6
-#define VIDEOXMLMAX 13
+#define VIDEOXMLMAX 14
 
 #define STATUSBAR_NONE 0
 #define STATUSBAR_COMX 1
@@ -62,6 +62,7 @@ enum
 {
     PIXIE_IN_OUT,
     PIXIE_IN_IN,
+    PIXIE_OUT_OUT,
     PIXIE_DOUBLE
 };
 
@@ -76,11 +77,12 @@ enum
     BUTTON_FUNC_STEP,
     BUTTON_FUNC_RESET,
     BUTTON_FUNC_MONITOR,
-    BUTTON_FUNC_DIPMP,
     BUTTON_FUNC_POWER,
     BUTTON_FUNC_READ,
     BUTTON_FUNC_CARDSWITCH,
     BUTTON_FUNC_CARD,
+    BUTTON_FUNC_DIPMP,
+    BUTTON_FUNC_EMS,
     LED_FUNC_STOP,
     LED_FUNC_READY,
     LED_FUNC_ERROR,
@@ -108,6 +110,7 @@ enum
     ELF2K_RUN_BUTTON,
     ELF2K_IN_BUTTON,
     DIP_SWITCH_BUTTON,
+    ROT_SWITCH_BUTTON,
     PUSH_BUTTON,
     PUSH_BUTTON_SMALL,
     PUSH_BUTTON_RECTANGLE,
@@ -266,6 +269,28 @@ private:
     wxCoord buttonStartX_;
     wxCoord buttonStartY_;
     int type_;
+};
+
+class RotButton
+{
+public:
+    RotButton(wxDC& dc, int state, wxCoord x, wxCoord y);
+    ~RotButton();
+    void onPaint(wxDC& dc);
+    bool onMouseLeftRelease(wxDC& dc, wxCoord x, wxCoord y);
+    bool onMouseRightRelease(wxDC& dc, wxCoord x, wxCoord y);
+    void setState(wxDC& dc, int state);
+
+private:
+    wxBitmap *bitmapPointer[16];
+        
+    wxCoord x_;
+    wxCoord y_;
+    int state_;
+    wxCoord buttonSizeX_;
+    wxCoord buttonSizeY_;
+    wxCoord buttonStartX_;
+    wxCoord buttonStartY_;
 };
 
 class HexButton : public wxEvtHandler

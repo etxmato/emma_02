@@ -67,6 +67,25 @@ void KeybLatch::configure(IoConfiguration ioConf, wxString type, wxString saveCo
     resetKeybLatch();
 }
 
+void KeybLatch::reDefineHexKeys(int hexKeyDef1[], int hexKeyDef2[], bool simDef2)
+{
+    for (int i=0; i<512; i++)
+    {
+        ioConfiguration_.keyLatchDetails[pad_].pc[i] = -1;
+    }
+    for (int i=0; i<10; i++)
+    {
+        keyDef1_[i] = hexKeyDef1[i];
+        if (hexKeyDef1[i] != 0)
+            ioConfiguration_.keyLatchDetails[pad_].pc[keyDef1_[i]] = i;
+
+        keyDef2_[i] = hexKeyDef2[i];
+        if (hexKeyDef2[i] != 0)
+            ioConfiguration_.keyLatchDetails[pad_].pc[keyDef2_[i]] = i;
+    }
+    simDef2_ = simDef2;
+}
+
 void KeybLatch::keyDown(int keycode, wxKeyEvent& event)
 {
     int modifier = event.GetModifiers();
@@ -139,7 +158,36 @@ void KeybLatch::keyDown(int keycode)
     else
     {
         if (ioConfiguration_.keyLatchDetails[pad_].pc[keycode&0x1ff] != -1)
+        {
+            if (simDef2_)
+            {
+                for (std::vector<DiagonalKeys>::iterator diagonalKeys = ioConfiguration_.diagonalKeys.begin (); diagonalKeys != ioConfiguration_.diagonalKeys.end (); ++diagonalKeys)
+                {
+                    if (keycode == keyDef2_[diagonalKeys->key1])
+                    {
+                        if (::wxGetKeyState((wxKeyCode)keyDef2_[diagonalKeys->key2]) == true)
+                        {
+                            keyState_[diagonalKeys->mainKey] = ioConfiguration_.keyLatchDetails[pad_].pressed;
+                            keyState_[diagonalKeys->key1] = ioConfiguration_.keyLatchDetails[pad_].pressed ^ 1;
+                            keyState_[diagonalKeys->key2] = ioConfiguration_.keyLatchDetails[pad_].pressed ^ 1;
+                            return;
+                        }
+                    }
+                    if (keycode == keyDef2_[diagonalKeys->key2])
+                    {
+                        if (::wxGetKeyState((wxKeyCode)keyDef2_[diagonalKeys->key1]) == true)
+                        {
+                            keyState_[diagonalKeys->mainKey] = ioConfiguration_.keyLatchDetails[pad_].pressed;
+                            keyState_[diagonalKeys->key1] = ioConfiguration_.keyLatchDetails[pad_].pressed ^ 1;
+                            keyState_[diagonalKeys->key2] = ioConfiguration_.keyLatchDetails[pad_].pressed ^ 1;
+                            return;
+                        }
+                    }
+                }
+            }
+            
             keyState_[ioConfiguration_.keyLatchDetails[pad_].pc[keycode&0x1ff]] = ioConfiguration_.keyLatchDetails[pad_].pressed;
+        }
     }
 }
 
@@ -186,6 +234,21 @@ void KeybLatch::keyUp(int keycode)
     }
     else
     {
+        if (simDef2_)
+        {
+            for (std::vector<DiagonalKeys>::iterator diagonalKeys = ioConfiguration_.diagonalKeys.begin (); diagonalKeys != ioConfiguration_.diagonalKeys.end (); ++diagonalKeys)
+            {
+                if (keycode == keyDef2_[diagonalKeys->key1] || keycode == keyDef2_[diagonalKeys->key2])
+                {
+                    keyState_[diagonalKeys->mainKey] = ioConfiguration_.keyLatchDetails[pad_].pressed ^ 1;
+                    if (::wxGetKeyState((wxKeyCode)keyDef2_[diagonalKeys->key1]) == true)
+                        keyState_[diagonalKeys->key1] = ioConfiguration_.keyLatchDetails[pad_].pressed;
+                    if (::wxGetKeyState((wxKeyCode)keyDef2_[diagonalKeys->key2]) == true)
+                        keyState_[diagonalKeys->key2] = ioConfiguration_.keyLatchDetails[pad_].pressed;
+                }
+            }
+        }
+        
         if (ioConfiguration_.keyLatchDetails[pad_].pc[keycode&0x1ff] != -1)
             keyState_[ioConfiguration_.keyLatchDetails[pad_].pc[keycode&0x1ff]] = ioConfiguration_.keyLatchDetails[pad_].pressed ^ 1;
     }

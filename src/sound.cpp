@@ -717,6 +717,13 @@ void Sound::psaveAmplitudeChange(int q)
 
                         case SOUND_1863_1864:
                             if (q)
+                                beepOnStudio();
+                            else
+                                beepOff();
+                        break;
+
+                        case SOUND_STUDIO:
+                            if (q)
                                 tone1864On();
                             else
                                 beepOff();

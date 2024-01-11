@@ -21,6 +21,8 @@ public:
 
     void onXmlControlWindows(wxCommandEvent& event);
 
+    void onMainRomXml(wxCommandEvent& event);
+    void onMainRomTextXml(wxCommandEvent& event);
     void onMainRamXml(wxCommandEvent& event);
     void onMainRamTextXml(wxCommandEvent& event);
     void onMainXmlXml(wxCommandEvent& event);

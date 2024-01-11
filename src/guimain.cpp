@@ -3181,6 +3181,27 @@ void GuiMain::setMainPos(int computerType, wxPoint position)
     }
 }
 
+wxPoint GuiMain::getCoinPos(int computerType)
+{
+    return wxPoint(conf[computerType].coinX_, conf[computerType].coinY_);
+}
+
+void GuiMain::setCoinPos(int computerType, wxPoint position)
+{
+    if (!mode_.window_position_fixed)
+    {
+        conf[computerType].coinX_ = -1;
+        conf[computerType].coinY_ = -1;
+    }
+    else
+    {
+        if (position.x > 0)
+            conf[computerType].coinX_ = position.x;
+        if (position.y > 0)
+            conf[computerType].coinY_ = position.y;
+    }
+}
+
 wxPoint GuiMain::getPixiePos(int computerType)
 {
     return wxPoint(conf[computerType].pixieX_, conf[computerType].pixieY_);

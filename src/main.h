@@ -511,7 +511,7 @@ public:
 #include "serial.h"
 
 #define EMMA_VERSION 1.47
-#define EMMA_SUB_VERSION 26
+#define EMMA_SUB_VERSION 27
 #define ELF 0
 #define ELFII 1
 #define SUPERELF 2
@@ -681,7 +681,8 @@ public:
 #define VIDEOVIP2K 10
 #define VIDEOFRED 11
 #define VIDEOSTUDIOIV 12
-//#define VIDEOXMLMAX 13
+#define VIDEOCOIN 13
+//#define VIDEOXMLMAX 14
 
 #define VIDEOVT 0
 #define VIDEOPIXIE 1
@@ -760,6 +761,8 @@ public:
 #define MAINRAM 36
 #define SLOTMEM 37
 #define SN76430NRAM 38
+#define MAINROM 39
+#define COLOURRAM1864 40
 
 #define MICRO_ROM 0
 #define MICRO_RAM 1
@@ -904,6 +907,8 @@ public:
 #define SOUND_SUPER_VP551 3
 #define SOUND_Q_SW 4
 #define SOUND_OFF 5
+#define SOUND_1863_NOQ 6
+#define SOUND_STUDIO 7
 
 #define VTNONE 0
 #define VT52 1

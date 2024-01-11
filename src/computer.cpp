@@ -539,6 +539,83 @@ void SwitchButton::enable(wxDC& dc, bool enabled)
     }
 }
 
+RotButton::RotButton(wxDC& dc, int state, wxCoord x, wxCoord y)
+{
+    wxBitmap *bitmap;
+    wxString linuxExtension = "";
+#if defined (__linux__)
+    linuxExtension = "_linux";
+#endif
+    
+    buttonSizeX_ = 60;
+    buttonSizeY_ = 60;
+    buttonStartX_ = 0;
+    buttonStartY_ = 0;
+    
+    wxString number;
+   
+    state_ = state & 0xf;
+
+    for (int i=0; i<16; i++)
+    {
+        number.Printf("%01X", i);
+        bitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/16_pos_rot_"+ number +".png", wxBITMAP_TYPE_PNG);
+        
+        bitmapPointer[i] = new wxBitmap(bitmap->GetWidth(), bitmap->GetHeight());
+
+        wxMemoryDC memDC(*bitmapPointer[i]);
+        memDC.Clear();
+        memDC.DrawBitmap(*bitmap, 0, 0, true);
+        memDC.SelectObject(wxNullBitmap);
+        
+        delete bitmap;
+    }
+    
+    x_ = x;
+    y_ = y;
+
+    dc.DrawBitmap(*bitmapPointer[state_], x, y);
+}
+
+RotButton::~RotButton()
+{
+}
+
+void RotButton::onPaint(wxDC& dc)
+{
+    dc.DrawBitmap(*bitmapPointer[state_], x_, y_);
+}
+
+bool RotButton::onMouseLeftRelease(wxDC& dc, wxCoord x, wxCoord y)
+{
+    if ((x >= (x_+buttonStartX_)) &&(x <= (x_+buttonSizeX_)) &&(y >= (y_+buttonStartY_)) &&(y <= (y_+buttonSizeY_)))
+    {
+        state_++;
+        state_ &= 0xf;
+        dc.DrawBitmap(*bitmapPointer[state_], x_, y_);
+        return true;
+    }
+    return false;
+}
+
+bool RotButton::onMouseRightRelease(wxDC& dc, wxCoord x, wxCoord y)
+{
+    if ((x >= (x_+buttonStartX_)) &&(x <= (x_+buttonSizeX_)) &&(y >= (y_+buttonStartY_)) &&(y <= (y_+buttonSizeY_)))
+    {
+        state_--;
+        state_ &= 0xf;
+        dc.DrawBitmap(*bitmapPointer[state_], x_, y_);
+        return true;
+    }
+    return false;
+}
+
+void RotButton::setState(wxDC& dc, int state)
+{
+    state_ = state & 0xf;
+    dc.DrawBitmap(*bitmapPointer[state_], x_, y_);
+}
+
 void *RunComputer::Entry()
 {
     while(!p_Main->emuClosing())
@@ -558,6 +635,7 @@ BEGIN_EVENT_TABLE(Panel, wxWindow)
     EVT_KEY_UP(Panel::onKeyUp)
     EVT_LEFT_DOWN(Panel::onMousePress)
     EVT_LEFT_UP(Panel::onMouseRelease)
+    EVT_RIGHT_UP(Panel::onMouseRightRelease)
 END_EVENT_TABLE()
 
 Panel::Panel(wxWindow *parent, const wxSize& size, int tilType)
@@ -626,6 +704,10 @@ Panel::~Panel()
 
             case DIP_SWITCH_BUTTON:
                 delete button->dipSwitchButton;
+            break;
+
+            case ROT_SWITCH_BUTTON:
+                delete button->rotButton;
             break;
 
             case PUSH_BUTTON:
@@ -729,6 +811,10 @@ void Panel::init(vector<GuiItemConfig> buttonConfig, wxSize panelSize)
                 button->dipSwitchButton = new SwitchButton(dc, button->type, wxColour(255, 255, 255), button->initup, button->position.x, button->position.y, "");
             break;
                 
+            case ROT_SWITCH_BUTTON:
+                button->rotButton = new RotButton(dc, 0, button->position.x, button->position.y);
+            break;
+
             case PUSH_BUTTON:
             case PUSH_BUTTON_SMALL:
             case PUSH_BUTTON_RECTANGLE:
@@ -858,8 +944,8 @@ void Panel::onPaint(wxPaintEvent&WXUNUSED(event))
     rePaintLeds(dc);
 #endif
 
-    dc.SetPen(*wxWHITE_PEN);
-    dc.SetBrush(*wxWHITE_BRUSH);
+    dc.SetPen(p_Main->getGuiTextColour(GUI_COL_WHITE));
+    dc.SetBrush(p_Main->getGuiTextColour(GUI_COL_WHITE));
     dc.DrawRectangle(0, 0, panelSize_.x, panelSize_.y);
 
     for (std::vector<GuiItemConfig>::iterator button = guiItemConfig_.begin (); button != guiItemConfig_.end (); ++button)
@@ -877,6 +963,10 @@ void Panel::onPaint(wxPaintEvent&WXUNUSED(event))
                 button->dipSwitchButton->onPaint(dc);
             break;
                 
+            case ROT_SWITCH_BUTTON:
+                button->rotButton->onPaint(dc);
+            break;
+
             case PUSH_BUTTON:
             case PUSH_BUTTON_SMALL:
             case PUSH_BUTTON_RECTANGLE:
@@ -1132,6 +1222,11 @@ void Panel::onMouseRelease(wxMouseEvent&event)
                     executeMouseReleaseFunction(button->function, button->value);
             break;
                 
+            case ROT_SWITCH_BUTTON:
+                if (button->rotButton->onMouseLeftRelease(dc, x, y))
+                    executeMouseReleaseFunction(button->function, button->value);
+            break;
+
             case PUSH_BUTTON:
             case PUSH_BUTTON_SMALL:
             case PUSH_BUTTON_RECTANGLE:
@@ -1146,6 +1241,25 @@ void Panel::onMouseRelease(wxMouseEvent&event)
             case PUSH_BUTTON_PIO:
                 if (button->hexButton->onMouseRelease(dc, x, y))
                     executeMouseReleaseFunction(button->function);
+            break;
+        }
+    }
+}
+
+void Panel::onMouseRightRelease(wxMouseEvent&event)
+{
+    int x, y;
+    event.GetPosition(&x, &y);
+    
+    wxClientDC dc(this);
+
+    for (std::vector<GuiItemConfig>::iterator button = guiItemConfig_.begin (); button != guiItemConfig_.end (); ++button)
+    {
+        switch (button->type)
+        {
+            case ROT_SWITCH_BUTTON:
+                if (button->rotButton->onMouseRightRelease(dc, x, y))
+                    executeMouseRightReleaseFunction(button->function, button->value);
             break;
         }
     }
@@ -1184,10 +1298,26 @@ void Panel::executeMouseReleaseFunction(int function, int value)
             p_Computer->onMpButton(value&0x3);
         break;
 
+        case BUTTON_FUNC_EMS:
+            p_Computer->onEmsButton(value, true);
+        break;
+
         default:
         break;
     }
+}
 
+void Panel::executeMouseRightReleaseFunction(int function, int value)
+{
+    switch (function)
+    {
+        case BUTTON_FUNC_EMS:
+            p_Computer->onEmsButton(value, false);
+        break;
+
+        default:
+        break;
+    }
 }
 
 void Panel::ledTimeout()
@@ -2353,6 +2483,18 @@ void Computer::onMpButton(int WXUNUSED(buttonNumber))
 }
 
 void Computer::onMpButton(wxCommandEvent&WXUNUSED(event))
+{
+}
+
+void Computer::onMpButtonMulti(wxCommandEvent&WXUNUSED(event))
+{
+}
+
+void Computer::onEmsButton(int WXUNUSED(buttonNumber), bool WXUNUSED(up))
+{
+}
+
+void Computer::onEmsButton(wxCommandEvent&WXUNUSED(event))
 {
 }
 

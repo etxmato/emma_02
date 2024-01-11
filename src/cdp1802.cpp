@@ -4092,7 +4092,68 @@ bool Cdp1802::readBinFile(wxString fileName, int memoryType, Word address, long 
             address++;
             
             if (computerType_ == STUDIO && address == 0x800 && start == 0x300)
-                address =  0xc00;
+                address = 0xc00;
+        }
+        inFile.Close();
+        if (overloaded)
+        {
+            wxString endStr;
+            endStr.Printf("%04X", (int)end);
+            if (computerType_ != MICROBOARD)
+                p_Main->errorMessage("Attempt to load after address " + endStr);
+        }
+        setAddress(showFilename, start, address-1);
+        return true;
+    }
+    else
+    {
+        p_Main->errorMessage("Error reading " + fileName);
+        return false;
+    }
+}
+
+bool Cdp1802::readBinFile(wxString fileName, int memoryType, Word address, long end, LoadOffSet loadOffSet, bool showFilename, bool showAddressPopup, Word specifiedStartAddress)
+{
+    wxFFile inFile;
+    size_t length;
+    char buffer[65535];
+    bool overloaded = false;
+    Word start;
+
+    start = address;
+    if (showAddressPopup && specifiedStartAddress != 0)
+    {
+        p_Main->eventShowAddressPopup(specifiedStartAddress);
+
+        int answer = p_Main->getAddressPopupAnswer();
+#if defined (__WXMAC__)
+        if (answer == wxID_YES)
+            start = specifiedStartAddress;
+#else
+        if (answer == wxID_NO)
+            start = specifiedStartAddress;
+#endif
+        if (answer == wxID_CANCEL)
+            return false;
+    }
+
+    address = start;
+    
+    if (inFile.Open(fileName, _("rb")))
+    {
+        length = inFile.Read(buffer, 65535);
+        for (size_t i=0; i<length; i++)
+        {
+            if ((memoryType&0xff) != NOCHANGE && (memoryType&0xff) != RAM)
+                defineMemoryType(address, memoryType);
+            if (address < end)
+                writeMemDebug(address,(Byte)buffer[i], true);
+            else
+                overloaded = true;
+            address++;
+            
+            if (address == loadOffSet.addressStart)
+                address += loadOffSet.offSet;
         }
         inFile.Close();
         if (overloaded)
@@ -4605,6 +4666,15 @@ bool Cdp1802::readProgram(wxString romDir, wxString rom, int memoryType, Word ad
     else return false;
 }
 
+bool Cdp1802::readProgram(wxString romDir, wxString rom, int memoryType, Word address, LoadOffSet loadOffSet, bool showFilename)
+{
+    if (rom.Len() != 0)
+    {
+        return readFile(romDir+rom, memoryType, address, 0x10000, loadOffSet, showFilename);
+    }
+    else return false;
+}
+
 bool Cdp1802::readProgram(wxString romDir, wxString rom, int memoryType, Word address, Word* lastAddress, bool showFilename)
 {
     if (rom.Len() != 0)
@@ -4728,8 +4798,17 @@ bool Cdp1802::readProgramPecom(wxString romDir, wxString rom, int memoryType, Wo
 
 void Cdp1802::readSt2Program(int computerType, int memoryType)
 {
-    wxString fileName, file;
+    wxString dirName, fileName;
+    dirName = p_Main->getRomDir(computerType, CARTROM);
+    fileName = p_Main->getRomFile(computerType, CARTROM);
+    
+    readSt2Program (dirName, fileName, computerType, memoryType);
+}
+
+void Cdp1802::readSt2Program(wxString dirName, wxString fileName, int computerType, int memoryType)
+{
     wxFFile inFile;
+    
     struct
     {
         char header[4];
@@ -4747,12 +4826,9 @@ void Cdp1802::readSt2Program(int computerType, int memoryType)
         Byte notUsed4[128];
     } st2Header;
 
-    fileName = p_Main->getRomDir(computerType, CARTROM);
-    file = p_Main->getRomFile(computerType, CARTROM);
-    fileName.operator += (file);
-
-    if (file.Len() != 0)
+    if (fileName.Len() != 0)
     {
+        fileName = dirName + fileName;
         if (wxFile::Exists(fileName))
         {
             if (inFile.Open(fileName, _(_("rb"))))
@@ -4775,8 +4851,11 @@ void Cdp1802::readSt2Program(int computerType, int memoryType)
                 }
                 inFile.Close();
                 wxFileName swFullPath = wxFileName(fileName, wxPATH_NATIVE);
-                p_Main->setSwName (swFullPath.GetName());
-                p_Main->updateTitle();
+                if (computerType != XML)
+                {
+                    p_Main->setSwName (swFullPath.GetName());
+                    p_Main->updateTitle();
+                }
             }
             else
             {
@@ -4849,6 +4928,45 @@ bool Cdp1802::readFile(wxString fileName, int memoryType, Word address, long end
                 return readLstFile(fileName, memoryType, end, showFilename);
             else
                 return readBinFile(fileName, memoryType, address, end, showFilename, false, 0);
+        }
+        else
+        {
+            p_Main->errorMessage("Error reading " + fileName);
+            return false;
+        }
+    }
+    else
+    {
+        p_Main->errorMessage("File " + fileName + " not found");
+        return false;
+    }
+}
+
+bool Cdp1802::readFile(wxString fileName, int memoryType, Word address, long end, LoadOffSet loadOffSet, bool showFilename)
+{
+    wxFFile inFile;
+    char buffer[4];
+
+    if (wxFile::Exists(fileName))
+    {
+        if (inFile.Open(fileName, _("rb")))
+        {
+            inFile.Read(buffer, 4);
+            inFile.Close();
+
+            if (showFilename)
+            {
+                wxFileName swFullPath = wxFileName(fileName, wxPATH_NATIVE);
+                p_Main->setSwName (swFullPath.GetName());
+                p_Main->updateTitle();
+            }
+
+            if (buffer[0] == ':' || (buffer[0] == 0x0d && buffer[1] == 0x0a && buffer[2] == ':'))
+                return readIntelFile(fileName, memoryType, end, showFilename);
+            else if (buffer[0] == '0' && buffer[1] == '0' && buffer[2] == '0' && buffer[3] == '0')
+                return readLstFile(fileName, memoryType, end, showFilename);
+            else
+                return readBinFile(fileName, memoryType, address, end, loadOffSet, showFilename, false, 0);
         }
         else
         {

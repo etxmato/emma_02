@@ -38,6 +38,10 @@ BEGIN_EVENT_TABLE(GuiXml, GuiPico)
     EVT_COMBOBOX(XRCID("MainRamXml"), GuiXml::onMainRamTextXml)
     EVT_BUTTON(XRCID("RamButtonXml"), GuiXml::onMainRamXml)
 
+    EVT_TEXT(XRCID("MainRomXml"), GuiXml::onMainRomTextXml)
+    EVT_COMBOBOX(XRCID("MainRomXml"), GuiXml::onMainRomTextXml)
+    EVT_BUTTON(XRCID("RomButtonXml"), GuiXml::onMainRomXml)
+
     EVT_TEXT(XRCID("MainXmlXml"), GuiXml::onMainXmlTextXml)
     EVT_COMBOBOX(XRCID("MainXmlXml"), GuiXml::onMainXmlComboXml)
     EVT_BUTTON(XRCID("XmlButtonXml"), GuiXml::onMainXmlXml)
@@ -378,6 +382,8 @@ void GuiXml::writeXmlConfig()
 
 void GuiXml::readXmlWindowConfig()
 {
+    conf[XML].coinX_ = (int)configPointer->Read("Xmlemu/Window_Position_CoinVideo_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defCoinX_);
+    conf[XML].coinY_ = (int)configPointer->Read("Xmlemu/Window_Position_CoinVideo_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defCoinY_);
     conf[XML].pixieX_ = (int)configPointer->Read("Xmlemu/Window_Position_Pixie_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defPixieX_);
     conf[XML].pixieY_ = (int)configPointer->Read("Xmlemu/Window_Position_Pixie_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defPixieY_);
     conf[XML].cdp1862X_ = (int)configPointer->Read("Xmlemu/Window_Position_CDP1862_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defCdp1862X_);
@@ -416,6 +422,13 @@ void GuiXml::writeXmlWindowConfig()
         configPointer->Write("Xmlemu/MainX/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].mainX_);
     if (conf[XML].mainY_ > 0)
         configPointer->Write("Xmlemu/MainY/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].mainY_);
+    if (elfConfiguration[XML].useCoinVideo)
+    {
+        if (conf[XML].coinX_ > 0)
+            configPointer->Write("Xmlemu/Window_Position_Pixie_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].coinX_);
+        if (conf[XML].coinY_ > 0)
+            configPointer->Write("Xmlemu/Window_Position_Pixie_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].coinY_);
+    }
     if (elfConfiguration[XML].usePixie)
     {
         if (conf[XML].pixieX_ > 0)
@@ -537,6 +550,40 @@ void GuiXml::onXmlControlWindows(wxCommandEvent&event)
         if (elfConfiguration[runningComputer_].panelType_ == PANEL_COSMICOS)
             p_Xmlemu->showModules(elfConfiguration[runningComputer_].useElfControlWindows);
     }
+}
+
+void GuiXml::onMainRomXml(wxCommandEvent& WXUNUSED(event) )
+{
+    wxString fileName;
+
+    if (conf[selectedComputer_].memConfig_[1].dirname == "")
+        conf[selectedComputer_].memConfig_[1].dirname = conf[selectedComputer_].mainDir_ ;
+
+    fileName = wxFileSelector( "Select the ROM file to load",
+                              conf[selectedComputer_].memConfig_[1].dirname, XRCCTRL(*this, "MainRomXml", wxComboBox)->GetValue(),
+                               "",
+                               wxString::Format
+                              (
+                                   "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos|Intel Hex File|*.hex|All files (%s)|%s",
+                                   wxFileSelectorDefaultWildcardStr,
+                                   wxFileSelectorDefaultWildcardStr
+                               ),
+                               wxFD_OPEN|wxFD_CHANGE_DIR|wxFD_PREVIEW,
+                               this
+                              );
+    if (!fileName)
+        return;
+
+    wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
+    conf[selectedComputer_].memConfig_[1].dirname = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+    conf[selectedComputer_].memConfig_[1].filename = FullPath.GetFullName();
+
+    XRCCTRL(*this, "MainRomXml", wxComboBox)->SetValue(conf[selectedComputer_].memConfig_[1].filename);
+}
+
+void GuiXml::onMainRomTextXml(wxCommandEvent& WXUNUSED(event))
+{
+    conf[selectedComputer_].memConfig_[1].filename = XRCCTRL(*this, "MainRomXml", wxComboBox)->GetValue();
 }
 
 void GuiXml::onMainRamXml(wxCommandEvent& WXUNUSED(event) )
@@ -693,9 +740,13 @@ void GuiXml::setXmlGui()
   
     XRCCTRL(*this, "ShowAddressXml", wxTextCtrl)->ChangeValue(conf[XML].ledTime_);
 
-    XRCCTRL(*this,"MainRamXml", wxComboBox)->Enable(conf[XML].ramFileFromGui_);
-    XRCCTRL(*this,"RamButtonXml", wxButton)->Enable(conf[XML].ramFileFromGui_);
+    XRCCTRL(*this,"MainRamXml", wxComboBox)->Enable(conf[XML].ramFileFromGui_ && conf[XML].memConfig_[0].type == MAINRAM);
+    XRCCTRL(*this,"RamButtonXml", wxButton)->Enable(conf[XML].ramFileFromGui_ && conf[XML].memConfig_[0].type == MAINRAM);
     XRCCTRL(*this, "MainRamXml", wxComboBox)->SetValue(conf[XML].memConfig_[0].filename);
+    
+    XRCCTRL(*this,"MainRomXml", wxComboBox)->Enable(conf[XML].romFileFromGui_ && (conf[XML].memConfig_[1].type & 0xff) == MAINROM);
+    XRCCTRL(*this,"RomButtonXml", wxButton)->Enable(conf[XML].romFileFromGui_ && (conf[XML].memConfig_[1].type & 0xff) == MAINROM);
+    XRCCTRL(*this, "MainRomXml", wxComboBox)->SetValue(conf[XML].memConfig_[1].filename);
     
     XRCCTRL(*this, "WavFileXml", wxTextCtrl)->SetValue(conf[XML].wavFile_[0]);
     XRCCTRL(*this, "WavFile1Xml", wxTextCtrl)->SetValue(conf[XML].wavFile_[1]);

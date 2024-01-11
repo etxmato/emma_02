@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>RCA Video Coin Arcade</name>
+        <config>En Garde !!</config>
+        <clock>1.6</clock>
+        <cpu>1801</cpu>
+        <boot>0</boot>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init>
+        <init type="ef4">1</init>
+        <dirname>CoinArcade</dirname>
+    </system>
+    
+    <splash>
+        <text>C: coin / start&#xD;&#xD;Up &amp; W: sword up&#xD;Left &amp; S: back&#xD;Right &amp; A: attack&#xD;Down &amp; Z: sword down&#xD;Space &amp; TaB: player shape
+        </text>
+    </splash>
+
+    <memory>
+        <rom>
+            <start>0</start>
+            <end>0x7FF</end>
+            <filename>En Garde !!.arc</filename>
+        </rom>
+
+        <mainram mask="0x3ff">
+            <start>0x800</start>
+            <end>0x9FF</end>
+            <map>0x1800, 0x1c00, 0x2000, 0x2400, 0x2800, 0x2c00, 0x3000, 0x3400, 0x3800, 0x3c00, 0x4000, 0x4400, 0x4800, 0x4c00, 0x5000, 0x5400, 0x5800, 0x5c00, 0x6000, 0x6400, 0x6800, 0x6c00, 0x7000, 0x7400, 0x7800, 0x7c00, 0x8000, 0x8400, 0x8800, 0x8c00, 0x9000, 0x9400, 0x9800, 0x9c00, 0xa000, 0xa400, 0xa800, 0xac00, 0xb000, 0xb400, 0xb800, 0xbc00, 0xc000, 0xc400, 0xc800, 0xcc00, 0xd000, 0xd400, 0xd800, 0xdc00, 0xe000, 0xe400, 0xe800, 0xec00, 0xf000, 0xf400, 0xf800, 0xfc00</map>
+         </mainram>
+    </memory>
+    
+    <video type="coin">
+        <out>2</out>
+        <border>33x33</border>
+        <color type="fore">255, 255, 255</color>
+        <color type="back">0, 0, 0</color>
+    </video>
+    
+    <sound type="cdp1863">
+        <out>5</out>
+        <out type="switch">3</out>
+        <out type="switch">6</out>
+    </sound>
+    
+    <efbuttons>
+        <pressed>0</pressed>
+        <ef1>32</ef1>
+        <ef3>9</ef3>
+        <ef4 type="reset" in="6">67</ef4>
+    </efbuttons>
+    
+    <bitkeypad pad="a">
+        <in>6</in>
+        <pressed>1</pressed>
+        <bit key="314">0</bit>    <!-- A left-->
+        <bit key="315">1</bit>    <!-- A Up-->
+        <bit key="316">2</bit>    <!-- A Right-->
+        <bit key="317">3</bit>    <!-- A Down-->
+        <bit key="65">4</bit>    <!-- B left-->
+        <bit key="87">5</bit>    <!-- B Up-->
+        <bit key="83">6</bit>    <!-- B Right-->
+        <bit key="90">7</bit>    <!-- B Down-->
+    </bitkeypad>
+
+    <dip>
+        <in>5</in>
+        <value>1</value>
+    </dip>
+    
+    <debugger>
+        <scrt mode="off">
+            <call reg="4">-1</call>
+            <return reg="5">-1</return>
+        </scrt>
+
+        <assembler>
+            <filename>coinarcade</filename>
+            <code_start>0x000</code_start>
+            <code_end>0x7FF</code_end>
+        </assembler>
+    </debugger>
+
+</emmaconfig>
+

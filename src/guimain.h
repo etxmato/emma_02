@@ -106,7 +106,8 @@
 #define GUI_COL_STEEL 6
 #define GUI_COL_GREY 7
 #define GUI_COL_GREEN 8
-#define GUI_COL_MAX 9
+#define GUI_COL_WHITE 9
+#define GUI_COL_MAX 10
 
 DECLARE_EVENT_TYPE(OPEN_PRINTER_WINDOW, 800) 
 
@@ -378,6 +379,8 @@ public:
     void set6845Size(int computerType, wxSize size);
     wxPoint getMainPos(int computerType);
     void setMainPos(int computerType, wxPoint position);
+    wxPoint getCoinPos(int computerType);
+    void setCoinPos(int computerType, wxPoint position);
     wxPoint getPixiePos(int computerType);
     void setPixiePos(int computerType, wxPoint position);
     wxPoint getCdp1862Pos(int computerType);
