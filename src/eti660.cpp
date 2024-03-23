@@ -53,8 +53,8 @@ void Eti::configureComputer()
     efType_[0][0][4] = VIPKEYEF;
 
     p_Main->message("Configuring HUG1802/ETI-660");
-    p_Main->message("    Output/input 2: PIA, output 3: colour RAM");
-    p_Main->message("    EF 2: cassette in, EF 4: step key\n");
+    p_Main->message("	Output/input 2: PIA, output 3: colour RAM");
+    p_Main->message("	EF 2: cassette in, EF 4: step key\n");
 
     inKey1_ = p_Main->getDefaultInKey1("Eti");
     inKey2_ = p_Main->getDefaultInKey2("Eti");

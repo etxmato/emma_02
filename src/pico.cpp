@@ -172,7 +172,7 @@ void Pico::configureComputer()
     if (elfConfiguration.useTape && !elfConfiguration.useXmodem)
     {
         efType_[0][0][elfConfiguration.ioConfiguration.tapeEf] = ELF2EF2;
-        printBuffer.Printf("    EF %d: cassette in", elfConfiguration.ioConfiguration.tapeEf);
+        printBuffer.Printf("	EF %d: cassette in", elfConfiguration.ioConfiguration.tapeEf);
         p_Main->message(printBuffer);
     }
 

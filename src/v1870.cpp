@@ -301,8 +301,8 @@ void V1870::configure1870Comx(bool expansionRomLoaded, int expansionTypeCard0)
     outType_[0][0][6] = V1870OUT6;
     outType_[0][0][7] = V1870OUT7;
     p_Main->message("Configuring Video Interface System CDP 1869/1870");
-    p_Main->message("    Output 3 to 7: VIS OUT 3 to 7");
-    p_Main->message("    EF 1: display/non display period\n");
+    p_Main->message("	Output 3 to 7: VIS OUT 3 to 7");
+    p_Main->message("	EF 1: display/non display period\n");
 }
 
 bool V1870::configure1870Microboard(int v1870group, int v1870pageMemSize, int videoMode, int interruptMode)
@@ -426,24 +426,24 @@ bool V1870::configure1870Microboard(int v1870group, int v1870pageMemSize, int vi
     message.Printf("Configuring Video Interface System CDP 1869/1870 on group %02X", v1870group);
     p_Main->message(message);
     
-    p_Main->message("    Output 3 to 7: VIS OUT 3 to 7");
-    p_Main->message("    EF 1: display/non display period");
-    message.Printf("    Page RAM Size = %d KB", (pageMemorySize_+1)/0x400);
+    p_Main->message("	Output 3 to 7: VIS OUT 3 to 7");
+    p_Main->message("	EF 1: display/non display period");
+    message.Printf("	Page RAM Size = %d KB", (pageMemorySize_+1)/0x400);
     p_Main->message(message);
     if (charMemoryIsRom_)
     {
         if (romAddress_ == 0)
-            message.Printf("    Character ROM Size = %d KB", (charMemorySize_+1)/0x400);
+            message.Printf("	Character ROM Size = %d KB", (charMemorySize_+1)/0x400);
         else
-            message.Printf("    Character RAM+ROM Size = %d KB; RAM 0-%03X, ROM %03X-%03X", (charMemorySize_+1)/0x400, romAddress_-1, romAddress_, charMemorySize_);
+            message.Printf("	Character RAM+ROM Size = %d KB; RAM 0-%03X, ROM %03X-%03X", (charMemorySize_+1)/0x400, romAddress_-1, romAddress_, charMemorySize_);
     }
     else
-        message.Printf("    Character RAM Size = %d KB", (charMemorySize_+1)/0x400);
+        message.Printf("	Character RAM Size = %d KB", (charMemorySize_+1)/0x400);
     p_Main->message(message);
     if (videoMode_ == PAL && maxLinesPerCharacters_ == 16 )
-        message.Printf("    64 Characters with size: 6x%d", maxLinesPerCharacters_);
+        message.Printf("	64 Characters with size: 6x%d", maxLinesPerCharacters_);
     else
-        message.Printf("    %d Characters with size: 6x%d", pcbMask_+1, maxLinesPerCharacters_);
+        message.Printf("	%d Characters with size: 6x%d", pcbMask_+1, maxLinesPerCharacters_);
     p_Main->message(message);
     p_Main->message("\n");
     
@@ -496,8 +496,8 @@ void V1870::configure1870Cidelsa()
     outType_[0][0][6] = V1870OUT6;
     outType_[0][0][7] = V1870OUT7;
     p_Main->message("Configuring Video Interface System CDP 1869/1876");
-    p_Main->message("    Output 3 to 7: VIS OUT 3 to 7");
-    p_Main->message("    EF 1: display/non display period\n");
+    p_Main->message("	Output 3 to 7: VIS OUT 3 to 7");
+    p_Main->message("	EF 1: display/non display period\n");
 }
 
 void V1870::configure1870Telmac()
@@ -527,8 +527,8 @@ void V1870::configure1870Telmac()
     outType_[0][0][5] = TELMACOUTDATA;
     outType_[0][0][7] = TELMACOUTREGISTER;
     p_Main->message("Configuring Video Interface System CDP 1869/1870");
-    p_Main->message("    Output 5: VIS data, output 7: VIS register select");
-    p_Main->message("    EF 1: display/non display period\n");
+    p_Main->message("	Output 5: VIS data, output 7: VIS register select");
+    p_Main->message("	EF 1: display/non display period\n");
 }
 
 void V1870::configure1870Pecom()
@@ -558,7 +558,7 @@ void V1870::configure1870Pecom()
     outType_[0][0][6] = V1870OUT6;
     outType_[0][0][7] = V1870OUT7;
     p_Main->message("Configuring Video Interface System CDP 1869/1870");
-    p_Main->message("    Output 3 to 7: VIS OUT 3 to 7\n");
+    p_Main->message("	Output 3 to 7: VIS OUT 3 to 7\n");
 }
 
 void V1870::v1870BarSize()

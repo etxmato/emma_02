@@ -13,11 +13,11 @@ public:
     int key;
 };
 
-class Studio2 : public Cdp1802, public Pixie
+class StudioII : public Cdp1802, public Pixie
 {
 public:
-    Studio2(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, Conf computerConf);
-    ~Studio2();
+    StudioII(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, Conf computerConf);
+    ~StudioII();
 
     void configureComputer();
     void reDefineKeysA(int *, int *);

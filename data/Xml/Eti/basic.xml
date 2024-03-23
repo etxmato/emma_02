@@ -1,0 +1,134 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>ETI-660</name>
+        <config>BASIC</config>
+        <clock>1.773</clock>
+        <boot>0</boot>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init>
+        <init type="ef4">1</init>
+        <dirname>Eti</dirname>
+    </system>
+
+    <splash>
+        <text>Press: 0, C, 0, 0, reset and 6 to start BASIC</text>
+    </splash>
+
+    <memory mask="0xfff">
+         <guirom>
+            <start>0x0000</start>
+            <end>0x03FF</end>
+            <pulldown mask="*eti*.bin">Eti</pulldown>
+            <filename>eti-660.bin</filename>
+        </guirom>
+
+         <guiram>
+             <start>0x0600</start>
+             <end>0x0BFF</end>
+         </guiram>
+
+         <ram>
+             <start>0x0400</start>
+             <end>0x05FF</end>
+        </ram>
+
+         <rom>
+            <start>0x0C00</start>
+            <end>0x0FFF</end>
+            <filename>BASIC1.bin</filename>
+        </rom>
+    </memory>
+    
+    <keypad type="hug">
+        <!-- keypad definition for the hug1802 and eti-660
+        <out>: write pia port
+        <in>: read pia port
+        <ef>: ef port for step key signal
+        -->
+
+        <out>2</out>
+        <in>2</in>
+        <ef>4</ef>
+    </keypad>
+
+    <video type="1864">
+        <!-- video definition for cdp 1864 chip
+        <out type="tone">: output number to set tone latch
+        <out type="back">: output number to switch background colour
+        <out type="color_ram" mask="0xf">: write to color RAM, address = ((output_address >> 1) & 0xf8) + (output_address & 0x7), RAM value bits as defined in mask
+        <in type="on">: input number to enable graphics
+        <in type="off">: input number to disable graphics
+        <ef>: ef number for frame indicator
+        <zoom>: set default zoom, when not specified 2.00 will be used
+        <border>: set border size in pixels with format XxY, note that X should always be in steps of 3 pixels.
+        <color type="fore">: set foregorund color. Color is specified as red, green, blue all 3 values range from 0 to 255.
+        <color type="back">: set foregorund color. Color is specified as red, green, blue all 3 values range from 0 to 255.
+        <color type="xxx">: set specified color, see values in example below. Use either fore/back or range below.
+        -->
+
+        <in type="on">1</in>
+        <in type="off">4</in>
+        <out type="back">1</out>
+        <out type="color_ram" mask="0xf">3</out>
+        <out type="tone">4</out>
+        <ef>1</ef>
+        <height>192</height>
+        <graphics>
+            <interrupt>74</interrupt>
+            <start>76</start>
+            <end>267</end>
+            <screenend>312</screenend>
+        </graphics>
+        <border>32x32</border>
+        <xscale>4</xscale>
+        <colortype>eti</colortype>
+        <color type="white">255, 255, 255</color>
+        <color type="red">255, 0, 0</color>
+        <color type="blue">0, 0, 255</color>
+        <color type="magenta">255, 0, 255</color>
+        <color type="green">0, 255, 0</color>
+        <color type="yellow">255, 255, 0</color>
+        <color type="cyan">0, 255, 255</color>
+        <color type="black">20, 20, 20</color>
+        <color type="back_blue">0, 0, 128</color>
+        <color type="back_black">0, 0, 0</color>
+        <color type="back_green">0, 128, 0</color>
+        <color type="back_red">128, 0, 0</color>
+     </video>
+
+    <cassette decks="1">
+        <ef>2</ef>
+    </cassette>
+    
+    <locations>
+        <stop_cas>0xfa</stop_cas>
+        <start_cas_save>0x18B</start_cas_save>
+        <start_cas_load>0x160</start_cas_load>
+        
+        <code_start>0x600</code_start>
+        <code_start_high>0x400</code_start_high>
+        <code_start_low>0x401</code_start_low>
+        <code_end_high>0x402</code_end_high>
+        <code_end_low>0x403</code_end_low>
+        <reg_end adjust="-1">0xe</reg_end>
+    </locations>
+    
+    <debugger>
+        <scrt mode="off">
+            <call reg="4">-1</call>
+            <return reg="5">-1</return>
+        </scrt>
+
+        <assembler>
+            <filename>mycode</filename>
+            <code_start>0x400</code_start>
+            <code_end>0xFFF</code_end>
+        </assembler>
+    </debugger>
+
+</emmaconfig>

@@ -113,8 +113,8 @@ void Comx::configureComputer()
 //    cycleType_[KEYCYCLE] = KEYBRDCYCLE;
 
     p_Main->message("Configuring Comx");
-    p_Main->message("    Input 3: keyboard input");
-    p_Main->message("    EF 2: PAL/NTSC and keyboard RPT, EF 3: keyboard DA, EF 4: cassette in\n");
+    p_Main->message("	Input 3: keyboard input");
+    p_Main->message("	EF 2: PAL/NTSC and keyboard RPT, EF 3: keyboard DA, EF 4: cassette in\n");
 
     resetCpu();
 }
@@ -650,7 +650,7 @@ void Comx::cycleComx()
             else if (comxRunCommand_ == 2)
             {
                 int saveExec = p_Main->pload();
-                if (saveExec == 1)
+                if (saveExec == -1)
                     comxRunCommand_ = 0;
                 else
                 {

@@ -1,0 +1,160 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>COSMAC VIP II</name>
+        <config>Ed Keefe version</config>
+        <clock>1.7898</clock>
+        <boot>0</boot>
+        <f12>stop</f12>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init> 
+        <init type="ef4">1</init>
+        <statusbar>vip2</statusbar>
+        <dirname>VipII</dirname>
+    </system>
+    
+    <splash>
+        <text>To start the VIP Operating System:&#xD;Start/Reset computer with 'RUN' pressed (F12) and then while&#xD;keeping ‘C’ pressed, press ‘F12’ twice</text>
+    </splash>
+
+    <gui>
+        <ledtimer>0</ledtimer>
+        <memaccess>
+            <location>off</location>
+            <start>0</start>
+        </memaccess>
+    </gui>
+
+    <bootstrap>
+        <address>0x8000</address>
+        <run />
+    </bootstrap>
+
+    <memory>
+        <slot max="2">
+            <start>0x0000</start>
+            <end>0x3FFF</end>
+            <slotshift type="bit">0</slotshift>
+            <rom slot="0">
+                <filename>fpb.rom</filename>
+                
+                <ramstart number="0">0x0400</ramstart>
+                <ramend number="0">0x07FF</ramend>
+
+                <ramstart number="1">0x0C00</ramstart>
+                <ramend number="1">0x0FFF</ramend>
+            </rom>
+            <ram slot="1">
+            </ram>
+        </slot>
+
+        <guiram>
+            <start>0x4000</start>
+            <end>0x7FFF</end>
+        </guiram>
+
+        <guirom>
+            <start>0x8000</start>
+            <end>0x81FF</end>
+            <filename>vip.32.rom</filename>
+        </guirom>
+
+    </memory>
+    
+    <video type="pixie">
+        <out>1</out>
+        <in>1</in>
+        <ef>1</ef>
+        <border>33x33</border>
+     </video>
+
+    <video type="cdp1862">
+        <out type="back">5</out>
+        <colorram>0xd000-0xd3ff</colorram>
+        <colortype>vip</colortype>
+        <color type="white">255, 255, 255</color>
+        <color type="red">255, 0, 0</color>
+        <color type="blue">0, 0, 255</color>
+        <color type="magenta">255, 0, 255</color>
+        <color type="green">0, 255, 0</color>
+        <color type="yellow">255, 255, 0</color>
+        <color type="cyan">0, 255, 255</color>
+        <color type="black">20, 20, 20</color>
+        <color type="back_blue">0, 0, 128</color>
+        <color type="back_black">0, 0, 0</color>
+        <color type="back_green">0, 128, 0</color>
+        <color type="back_red">128, 0, 0</color>
+     </video>
+
+    <keyboard type="ascii">
+        <in>3</in>
+        <ef>4</ef>
+        <caps />
+    </keyboard>
+
+    <keypad type="latch">
+        <out mask="0x0f">2</out>
+        <ef pol="rev">3</ef>
+        <auto>on</auto>
+    </keypad>
+
+    <cassette decks="1">
+        <out>7</out>
+        <ef>2</ef>
+        <stopdelay>20</stopdelay>
+    </cassette>
+
+    <sound type="cdp1863">
+        <out>3</out>
+    </sound>
+
+    <printer type="centronics">
+        <out>3</out>
+        <ef>3</ef>
+    </printer>
+
+    <locations>
+        <key_input>0x8c6</key_input>
+
+        <!-- Machine states -->
+        <basic_state_cw command="C">0x2</basic_state_cw>
+        <basic_state>0x1038</basic_state>
+        <run_state>0x1ADE, 0x2162, 0x2165</run_state>
+        
+        <!-- Stop cassette -->
+        <stop_cas>0xcc, 0x80c0, 0x80ed</stop_cas>
+        
+        <!-- Start PSAVE, PLOAD -->
+        <start_cas_save>0x87, 0x8091</start_cas_save>
+        <start_cas_load>0x2d, 0x80c2</start_cas_load>
+    </locations>
+
+    <basic>
+        <pload>fpb</pload>
+        <defus>0x4081</defus>
+        <eop>0x4083</eop>
+        <string>0x4092</string>
+        <array>0x4094</array>
+        <eod>0x4099</eod>
+        <ram>0x4200</ram>
+    </basic>
+
+    <debugger>
+        <scrt mode="off">
+            <call reg="4">-1</call>
+            <return reg="5">-1</return>
+        </scrt>
+
+        <assembler>
+            <filename>mycode</filename>
+            <code_start>0x000</code_start>
+            <code_end>0xFFF</code_end>
+        </assembler>
+    </debugger>
+
+</emmaconfig>
+

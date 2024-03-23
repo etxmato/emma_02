@@ -90,16 +90,16 @@ void Ide::configureIde(wxString ideFile1, wxString ideFile2, IoConfiguration por
     wxString printBuffer;
     p_Main->message("Configuring IDE" + ioGroup);
 
-    printBuffer.Printf("    Output %d: select port, output %d: write selected", portConf.ideSelectOutput, portConf.ideWriteOutput);
+    printBuffer.Printf("	Output %d: select port, output %d: write selected", portConf.ideSelectOutput, portConf.ideWriteOutput);
     p_Main->message(printBuffer);
 
     if (portConf.ideStatus != -1)
-        printBuffer.Printf("    Input %d: read status, input %d: read selected", portConf.ideStatus, portConf.ideInput);
+        printBuffer.Printf("	Input %d: read status, input %d: read selected", portConf.ideStatus, portConf.ideInput);
     else
-        printBuffer.Printf("    Input %d: read selected", portConf.ideInput);
+        printBuffer.Printf("	Input %d: read selected", portConf.ideInput);
     p_Main->message(printBuffer);
 
-    printBuffer.Printf("    Disk geometry: %d tracks, %d heads, %d sectors\n", portConf.ideTracks, portConf.ideHeads, portConf.ideSectors);
+    printBuffer.Printf("	Disk geometry: %d tracks, %d heads, %d sectors\n", portConf.ideTracks, portConf.ideHeads, portConf.ideSectors);
     p_Main->message(printBuffer);
 
     setGeometry(portConf.ideTracks, portConf.ideHeads, portConf.ideSectors);

@@ -198,8 +198,8 @@ void GuiComx::readComxConfig()
     conf[COMX].romDir_[CARTROM3] = readConfigDir("/Dir/Comx/Card_3_Rom_File", dataDir_ + "Comx" + pathSeparator_);
     Pl80Data_[0] = readConfigDir("/Dir/Comx/PL80_Rom_Files", dataDir_ + "Comx" + pathSeparator_);
     conf[COMX].ramDir_ = readConfigDir("/Dir/Comx/Software_File", dataDir_ + "Comx" + pathSeparator_);
-    floppyDir_[0] = readConfigDir("/Dir/Comx/Floppy_1_File", dataDir_ + "Comx" + pathSeparator_ + "Disks" + pathSeparator_);
-    floppyDir_[1] = readConfigDir("/Dir/Comx/Floppy_2_File", dataDir_ + "Comx" + pathSeparator_ + "Disks" + pathSeparator_);
+    floppyDir_[FDCTYPE_17XX][0] = readConfigDir("/Dir/Comx/Floppy_1_File", dataDir_ + "Comx" + pathSeparator_ + "Disks" + pathSeparator_);
+    floppyDir_[FDCTYPE_17XX][1] = readConfigDir("/Dir/Comx/Floppy_2_File", dataDir_ + "Comx" + pathSeparator_ + "Disks" + pathSeparator_);
     conf[COMX].keyFileDir_ = readConfigDir("/Dir/Comx/Key_File", dataDir_ + "Comx" + pathSeparator_);
     conf[COMX].printFileDir_ = readConfigDir("/Dir/Comx/Print_File", dataDir_ + "Comx" + pathSeparator_);
     conf[COMX].screenDumpFileDir_ = readConfigDir("/Dir/Comx/Video_Dump_File", dataDir_ + "Comx" + pathSeparator_);
@@ -211,8 +211,8 @@ void GuiComx::readComxConfig()
     conf[COMX].rom_[CARTROM3] = configPointer->Read("/Comx/Card_3_Rom_File", "80column.1.1.bin");
     Pl80Data_[1] = configPointer->Read("/Comx/PL80_Rom_File", "pl80.bin");
     Pl80Data_[2] = configPointer->Read("/Comx/PL80_Extension_Rom_File", "pl80.it.em.ou.bin");
-    floppy_[0] = configPointer->Read("/Comx/Floppy_1_File", "dos.1.4+f&m.disk.tools.img");
-    floppy_[1] = configPointer->Read("/Comx/Floppy_2_File", "f&m-heijmans.sw.img");
+    floppy_[FDCTYPE_17XX][0] = configPointer->Read("/Comx/Floppy_1_File", "dos.1.4+f&m.disk.tools.img");
+    floppy_[FDCTYPE_17XX][1] = configPointer->Read("/Comx/Floppy_2_File", "f&m-heijmans.sw.img");
     conf[COMX].keyFile_ = configPointer->Read("/Comx/Key_File", "");
     conf[COMX].printFile_ = configPointer->Read("/Comx/Print_File", "printerout.txt");
     conf[COMX].screenDumpFile_ = configPointer->Read("/Comx/Video_Dump_File", "screendump.png");
@@ -293,8 +293,8 @@ void GuiComx::readComxConfig()
         XRCCTRL(*this, "Cart2RomComx", wxComboBox)->SetValue(conf[COMX].rom_[CARTROM2]);
         XRCCTRL(*this, "Cart3RomComx", wxComboBox)->SetValue(conf[COMX].rom_[CARTROM3]);
         XRCCTRL(*this, "Cart4RomComx", wxComboBox)->SetValue(conf[COMX].rom_[CARTROM4]);
-        XRCCTRL(*this, "Disk1FileComx", wxTextCtrl)->SetValue(floppy_[0]);
-        XRCCTRL(*this, "Disk2FileComx", wxTextCtrl)->SetValue(floppy_[1]);
+        XRCCTRL(*this, "Disk1FileComx", wxTextCtrl)->SetValue(floppy_[FDCTYPE_17XX][0]);
+        XRCCTRL(*this, "Disk2FileComx", wxTextCtrl)->SetValue(floppy_[FDCTYPE_17XX][1]);
         XRCCTRL(*this, "KeyFileComx", wxTextCtrl)->SetValue(conf[COMX].keyFile_);
         XRCCTRL(*this, "PrintFileComx", wxTextCtrl)->SetValue(conf[COMX].printFile_);
         XRCCTRL(*this, "ScreenDumpFileComx", wxComboBox)->SetValue(conf[COMX].screenDumpFile_);
@@ -480,8 +480,8 @@ void GuiComx::writeComxDirConfig()
     writeConfigDir("/Dir/Comx/Card_3_Rom_File", conf[COMX].romDir_[CARTROM3]);
     writeConfigDir("/Dir/Comx/PL80_Rom_Files", Pl80Data_[0]);
     writeConfigDir("/Dir/Comx/Software_File", conf[COMX].ramDir_);
-    writeConfigDir("/Dir/Comx/Floppy_1_File", floppyDir_[0]);
-    writeConfigDir("/Dir/Comx/Floppy_2_File", floppyDir_[1]);
+    writeConfigDir("/Dir/Comx/Floppy_1_File", floppyDir_[FDCTYPE_17XX][0]);
+    writeConfigDir("/Dir/Comx/Floppy_2_File", floppyDir_[FDCTYPE_17XX][1]);
     writeConfigDir("/Dir/Comx/Key_File", conf[COMX].keyFileDir_);
     writeConfigDir("/Dir/Comx/Print_File", conf[COMX].printFileDir_);
     writeConfigDir("/Dir/Comx/Video_Dump_File", conf[COMX].screenDumpFileDir_);
@@ -518,8 +518,8 @@ void GuiComx::writeComxConfig()
     configPointer->Write("/Comx/Card_3_Rom_File", conf[COMX].rom_[CARTROM3]);
     configPointer->Write("/Comx/PL80_Rom_File", Pl80Data_[1]);
     configPointer->Write("/Comx/PL80_Extension_Rom_File", Pl80Data_[2]);
-    configPointer->Write("/Comx/Floppy_1_File", floppy_[0]);
-    configPointer->Write("/Comx/Floppy_2_File", floppy_[1]);
+    configPointer->Write("/Comx/Floppy_1_File", floppy_[FDCTYPE_17XX][0]);
+    configPointer->Write("/Comx/Floppy_2_File", floppy_[FDCTYPE_17XX][1]);
     configPointer->Write("/Comx/Key_File", conf[COMX].keyFile_);
     configPointer->Write("/Comx/Print_File", conf[COMX].printFile_);
     configPointer->Write("/Comx/Video_Dump_File", conf[COMX].screenDumpFile_);
@@ -786,7 +786,7 @@ void GuiComx::onComxDisk1(wxCommandEvent& WXUNUSED(event) )
     wxString fileName;
 
     fileName = wxFileSelector( "Select the Disk 1 file to load",
-                               floppyDir_[0], floppy_[0],
+                               floppyDir_[FDCTYPE_17XX][0], floppy_[FDCTYPE_17XX][0],
                                "img",
                                wxString::Format
                               (
@@ -801,30 +801,30 @@ void GuiComx::onComxDisk1(wxCommandEvent& WXUNUSED(event) )
         return;
 
     wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
-    floppyDir_[0] = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
-    floppy_[0] = FullPath.GetFullName();
+    floppyDir_[FDCTYPE_17XX][0] = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+    floppy_[FDCTYPE_17XX][0] = FullPath.GetFullName();
 
     if (mode_.gui)
-        XRCCTRL(*this, "Disk1FileComx", wxTextCtrl)->SetValue(floppy_[0]);
+        XRCCTRL(*this, "Disk1FileComx", wxTextCtrl)->SetValue(floppy_[FDCTYPE_17XX][0]);
 }
 
 void GuiComx::onComxDiskText1(wxCommandEvent&event)
 {
-    floppy_[0] = event.GetString();
+    floppy_[FDCTYPE_17XX][0] = event.GetString();
     if ((runningComputer_ == COMX) && diskRomLoaded_)
     {
-        if (floppy_[0].Len() == 0)
+        if (floppy_[FDCTYPE_17XX][0].Len() == 0)
             p_Comx->setFdcDiskname(1, "");
         else
-            p_Comx->setFdcDiskname(1, floppyDir_[0] + floppy_[0]);
+            p_Comx->setFdcDiskname(1, floppyDir_[FDCTYPE_17XX][0] + floppy_[FDCTYPE_17XX][0]);
     }
 }
 
 void GuiComx::onComxDiskEject1(wxCommandEvent& WXUNUSED(event) )
 {
-    floppy_[0] = "";
+    floppy_[FDCTYPE_17XX][0] = "";
     if (mode_.gui)
-        XRCCTRL(*this, "Disk1FileComx", wxTextCtrl)->SetValue(floppy_[0]);
+        XRCCTRL(*this, "Disk1FileComx", wxTextCtrl)->SetValue(floppy_[FDCTYPE_17XX][0]);
 }
 
 void GuiComx::onComxDisk2(wxCommandEvent& WXUNUSED(event) )
@@ -832,7 +832,7 @@ void GuiComx::onComxDisk2(wxCommandEvent& WXUNUSED(event) )
     wxString fileName;
 
     fileName = wxFileSelector( "Select the Disk 2 file to load",
-                               floppyDir_[1], floppy_[1],
+                               floppyDir_[FDCTYPE_17XX][1], floppy_[FDCTYPE_17XX][1],
                                "img",
                                wxString::Format
                               (
@@ -847,30 +847,30 @@ void GuiComx::onComxDisk2(wxCommandEvent& WXUNUSED(event) )
         return;
 
     wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
-    floppyDir_[1] = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
-    floppy_[1] = FullPath.GetFullName();
+    floppyDir_[FDCTYPE_17XX][1] = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+    floppy_[FDCTYPE_17XX][1] = FullPath.GetFullName();
 
     if (mode_.gui)
-        XRCCTRL(*this, "Disk2FileComx", wxTextCtrl)->SetValue(floppy_[1]);
+        XRCCTRL(*this, "Disk2FileComx", wxTextCtrl)->SetValue(floppy_[FDCTYPE_17XX][1]);
 }
 
 void GuiComx::onComxDiskText2(wxCommandEvent&event)
 {
-    floppy_[1] = event.GetString();
+    floppy_[FDCTYPE_17XX][1] = event.GetString();
     if ((runningComputer_ == COMX) && diskRomLoaded_)
     {
-        if (floppy_[1].Len() == 0)
+        if (floppy_[FDCTYPE_17XX][1].Len() == 0)
             p_Comx->setFdcDiskname(2, "");
         else
-            p_Comx->setFdcDiskname(2, floppyDir_[1] + floppy_[1]);
+            p_Comx->setFdcDiskname(2, floppyDir_[FDCTYPE_17XX][1] + floppy_[FDCTYPE_17XX][1]);
     }
 }
 
 void GuiComx::onComxDiskEject2(wxCommandEvent& WXUNUSED(event) )
 {
-    floppy_[1] = "";
+    floppy_[FDCTYPE_17XX][1] = "";
     if (mode_.gui)
-        XRCCTRL(*this, "Disk2FileComx", wxTextCtrl)->SetValue(floppy_[1]);
+        XRCCTRL(*this, "Disk2FileComx", wxTextCtrl)->SetValue(floppy_[FDCTYPE_17XX][1]);
 }
 
 void GuiComx::onComxPrintFileText(wxCommandEvent&WXUNUSED(event))
@@ -1080,12 +1080,12 @@ void GuiComx::v1870BarSizeEvent()
 
 wxString GuiComx::getFloppyDir(int drive)
 {
-    return floppyDir_[drive];
+    return floppyDir_[FDCTYPE_17XX][drive];
 }
 
 wxString GuiComx::getFloppyFile(int drive)
 {
-    return floppy_[drive];
+    return floppy_[FDCTYPE_17XX][drive];
 }
 
 wxString GuiComx::getPL80Data(int item)

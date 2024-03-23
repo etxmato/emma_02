@@ -485,10 +485,10 @@ void Pecom::configureComputer()
     efType_[0][0][4] = PECOMEF4;
 
     p_Main->message("Configuring Pecom 32/64");
-    p_Main->message("    Input 3: keyboard, output 1: bank switch");
-    p_Main->message("    EF 1: CTRL or display/non display period, depending on OUT1 state");
-    p_Main->message("    EF 2: cassette in, printer ready and SHIFT, depending on OUT1 state");
-    p_Main->message("    EF 3: CAPS, EF 4: ESC \n");
+    p_Main->message("	Input 3: keyboard, output 1: bank switch");
+    p_Main->message("	EF 1: CTRL or display/non display period, depending on OUT1 state");
+    p_Main->message("	EF 2: cassette in, printer ready and SHIFT, depending on OUT1 state");
+    p_Main->message("	EF 3: CAPS, EF 4: ESC \n");
 
     resetCpu();
 }
@@ -623,7 +623,7 @@ Byte Pecom::in(Byte port, Word address)
                             if (pecomRunCommand_ == 1)
                             {
                                 int saveExec = p_Main->pload();
-                                if (saveExec == 1)
+                                if (saveExec == -1)
                                     pecomRunCommand_ = 0;
                                 else
                                 {

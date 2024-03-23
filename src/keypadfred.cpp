@@ -67,27 +67,27 @@ void KeypadFred::configure(IoConfiguration ioConf, int keyDefA1[], int keyDefA2[
     switch(ioConfiguration_.fredKeypad.keypad_mode)
     {
         case FRED_HEX_MODE:
-            p_Main->message("    Hex mode");
+            p_Main->message("	Hex mode");
         break;
 
         case FRED_BYTE_MODE:
-            p_Main->message("    Byte mode");
+            p_Main->message("	Byte mode");
         break;
 
         case FRED_HEX_PULSE_MODE:
-            p_Main->message("    Hex pulse mode");
+            p_Main->message("	Hex pulse mode");
         break;
 
     }
-    printBuffer.Printf("    Output %d: 1 = program mode, 2 = direct mode", ioConfiguration_.fredKeypad.output);
+    printBuffer.Printf("	Output %d: 1 = program mode, 2 = direct mode", ioConfiguration_.fredKeypad.output);
     p_Main->message(printBuffer);
     p_Computer->setOutType(ioConfiguration_.fredKeypad.ioGroup + 1, ioConfiguration_.fredKeypad.output, FREDKEYMODE);
 
-    printBuffer.Printf("    Input %d: read data keypad (if mode = %d)", ioConfiguration_.fredKeypad.inpKey, ioConfiguration_.fredKeypad.input_mode);
+    printBuffer.Printf("	Input %d: read data keypad (if mode = %d)", ioConfiguration_.fredKeypad.inpKey, ioConfiguration_.fredKeypad.input_mode);
     p_Main->message(printBuffer);
     p_Computer->setInType(ioConfiguration_.fredKeypad.inpKey, FREDINP0);
 
-    printBuffer.Printf("    EF %d: data ready (if mode = %d)\n", ioConfiguration_.fredKeypad.efKey, ioConfiguration_.fredKeypad.ef_mode);
+    printBuffer.Printf("	EF %d: data ready (if mode = %d)\n", ioConfiguration_.fredKeypad.efKey, ioConfiguration_.fredKeypad.ef_mode);
     p_Main->message(printBuffer);
     p_Computer->setEfType(ioConfiguration_.fredKeypad.efKey, FREDEF1);
 
@@ -96,11 +96,11 @@ void KeypadFred::configure(IoConfiguration ioConf, int keyDefA1[], int keyDefA2[
         coinKey_ = 1;
         p_Main->message("Configuring RCA Video Coin Arcade controls");
         
-        printBuffer.Printf("    EF %d: fire player A, EF %d: fire player B, EF %d: coin", ioConfiguration_.fredKeypad.efKey, ioConfiguration_.fredKeypad.efFireB, ioConfiguration_.fredKeypad.efCoin);
+        printBuffer.Printf("	EF %d: fire player A, EF %d: fire player B, EF %d: coin", ioConfiguration_.fredKeypad.efKey, ioConfiguration_.fredKeypad.efFireB, ioConfiguration_.fredKeypad.efCoin);
         p_Main->message(printBuffer);
         p_Computer->setEfType(ioConfiguration_.fredKeypad.efFireB, COINARCADEEF3);
 
-        printBuffer.Printf("    Input %d: direction keys & coin reset\n", ioConfiguration_.fredKeypad.inpCoin);
+        printBuffer.Printf("	Input %d: direction keys & coin reset\n", ioConfiguration_.fredKeypad.inpCoin);
         p_Main->message(printBuffer);
         p_Computer->setInType(ioConfiguration_.fredKeypad.inpCoin, COINARCADEINPKEY6);
 

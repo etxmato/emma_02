@@ -253,13 +253,13 @@ void Velf::configureComputer()
     setCycleType(COMPUTERCYCLE, LEDCYCLE);
 
     p_Main->message("Configuring VELF");
-    p_Main->message("    Output 2: hex key latch, output 4: display output");
-    p_Main->message("    output 7: cassette on/off, input 4: data input");
+    p_Main->message("	Output 2: hex key latch, output 4: display output");
+    p_Main->message("	output 7: cassette on/off, input 4: data input");
 
     cycleType_[KEYCYCLE] = VIPIIKEYCYCLE;
 
-    p_Main->message("    EF 2: cassette in, EF 3: hex keypad");
-    p_Main->message("    EF 4: 0 when in button pressed\n");
+    p_Main->message("	EF 2: cassette in, EF 3: hex keypad");
+    p_Main->message("	EF 4: 0 when in button pressed\n");
     
     usePrinter_ = false;
     if (p_Main->getPrinterStatus(VELF))
@@ -267,7 +267,7 @@ void Velf::configureComputer()
         outType_[0][0][3] = VIPOUT3;
         usePrinter_ = true;
         p_Main->message("Configuring Centronics P-1/PR-40 Printer");
-        p_Main->message("    Output 3: latch, Q: strobe, EF 3: busy\n");
+        p_Main->message("	Output 3: latch, Q: strobe, EF 3: busy\n");
     }
     
     if (vipConfiguration.vtType != VTNONE)

@@ -254,12 +254,12 @@ void mc6847::configure(IoConfiguration ioConfiguration)
 
     if (ioConfiguration.mc6847OutputMode == 1)
     {
-        printBuffer = "    Write mem FFxx: video mode\n";
+        printBuffer = "	Write mem FFxx: video mode\n";
     }
     else
     {
         p_Computer->setOutType(ioConfiguration.mc6847Output, MC6847OUT);
-        printBuffer.Printf("    Output %d: video mode\n", ioConfiguration.mc6847Output);
+        printBuffer.Printf("	Output %d: video mode\n", ioConfiguration.mc6847Output);
     }
     p_Main->message(printBuffer);
 }

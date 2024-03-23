@@ -330,16 +330,16 @@ void Membership::configureComputer()
     switch (elfConfiguration.ioType)
     {
         case IO_TYPE_N0:
-            p_Main->message("    Output 1, 3, 5, 7: display output, input 1, 3, 5, 7: data input");
+            p_Main->message("	Output 1, 3, 5, 7: display output, input 1, 3, 5, 7: data input");
         break;
         case IO_TYPE_N1:
-            p_Main->message("    Output 2, 3, 6, 7: display output, input 2, 3, 6, 7: data input");
+            p_Main->message("	Output 2, 3, 6, 7: display output, input 2, 3, 6, 7: data input");
         break;
         case IO_TYPE_N2:
-            p_Main->message("    Output 4, 5, 6, 7: display output, input 4, 5, 6, 7: data input");
+            p_Main->message("	Output 4, 5, 6, 7: display output, input 4, 5, 6, 7: data input");
         break;
     }
-    p_Main->message("    EF 4: 0 when in button pressed");
+    p_Main->message("	EF 4: 0 when in button pressed");
 
     p_Main->message("");
     inKey1_ = p_Main->getDefaultInKey1("Membership");

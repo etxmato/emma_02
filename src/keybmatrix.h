@@ -25,7 +25,8 @@ public:
     void startKeyFile();
     void closeKeyFile();
     bool keyDown();
-    void startRun(bool load);
+    void startRun(bool load, wxString command);
+    void startCtrlV(wxString command);
     void checkCaps();
 
 private:
@@ -46,7 +47,7 @@ private:
     int secondKeyboardCodes[5];
 
     bool load_;
-    size_t runCommand_;
+    bool fileToBeLoaded_;
     size_t ctrlvText_;
     wxString commandText_;
     Byte row_;

@@ -37,6 +37,7 @@ PioScreen::PioScreen(wxWindow *parent, const wxSize& size, int pioNumber, int ti
 : Panel(parent, size, tilType)
 {
     pioNumber_ = pioNumber;
+    
 //    this->SetClientSize(size);
 }
 
@@ -103,8 +104,8 @@ void PioScreen::init()
     inPutValueA_ = 0;
 
 #if defined (__WXMAC__)
-    osx_ardyButtonPointer = new HexButton2(dc, PUSH_BUTTON_PIO, 55, 144, "A", pioNumber_);
-    osx_brdyButtonPointer = new HexButton2(dc, PUSH_BUTTON_PIO, 95, 144, "B", pioNumber_);
+    osx_ardyButtonPointer = new HexButtonCdp1851(dc, PUSH_BUTTON_PIO, 55, 144, "A", pioNumber_);
+    osx_brdyButtonPointer = new HexButtonCdp1851(dc, PUSH_BUTTON_PIO, 95, 144, "B", pioNumber_);
 #else
     text_ardyButtonPointer = new wxButton(this, 1, "A", wxPoint(55, 144), wxSize(25, 25), 0, wxDefaultValidator, "ArdyButton");
     text_ardyButtonPointer->SetToolTip("ARDY");
@@ -223,7 +224,7 @@ void PioScreen::interruptCycle()
 
 void PioScreen::onArdyButton()
 {
-    p_Computer->setEfState(pioNumber_, 1, 0);
+    pioEfState_[1] = 0;
    
     if (pioAMode_ == PIO_BI_DRECT)
         pioStatus_ |= 0x8;
@@ -236,7 +237,7 @@ void PioScreen::onArdyButton()
 
 void PioScreen::onBrdyButton()
 {
-    p_Computer->setEfState(pioNumber_, 2, 0);
+    pioEfState_[2] = 0;
     
     if (pioAMode_ == PIO_BI_DRECT)
         pioStatus_ |= 0x4;
@@ -317,7 +318,7 @@ void PioScreen::reset()
     pioBInterruptMask_ = 0;
     pioStatus_ = 0;
     commandByteNumber_ = PIO_COMMAND_NONE;
-    writeControlRegister(0x1b);
+    writeControlRegister(0x4b);
 
     clearA();
     clearB();
@@ -863,7 +864,7 @@ void PioScreen::writePortB(Byte value)
 
 Byte PioScreen::readPortA()
 {
-    p_Computer->setEfState(pioNumber_, 1, 1);
+    pioEfState_[1] = 1;
     pioStatus_ &= 0xFD;
  
     if (pioAMode_ == PIO_BI_DRECT)
@@ -874,7 +875,7 @@ Byte PioScreen::readPortA()
 
 Byte PioScreen::readPortB()
 {
-    p_Computer->setEfState(pioNumber_, 2, 1);
+    pioEfState_[2] = 1;
     pioStatus_ &= 0xFE;
 
     return outPutValueB_;
@@ -971,6 +972,11 @@ void PioScreen::refreshLeds()
         refreshLed(dc, i);
 }
 
+Byte PioScreen::getEfState(int number)
+{
+    return pioEfState_[number];
+}
+
 BEGIN_EVENT_TABLE(PioFrame, wxFrame)
     EVT_CLOSE (PioFrame::onClose)
     EVT_BUTTON(1, PioFrame::onArdyButton)
@@ -999,7 +1005,7 @@ PioFrame::~PioFrame()
 
 void PioFrame::onClose(wxCloseEvent&WXUNUSED(event))
 {
-    p_Computer->removePio(pioNumber_);
+    p_Computer->removeCdp1851(pioNumber_);
 }
 
 void PioFrame::onArdyButton(wxCommandEvent&WXUNUSED(event))

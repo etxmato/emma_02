@@ -448,17 +448,17 @@ void Elf2K::configureComputer()
 
     setCycleType(COMPUTERCYCLE, ELF2KCYCLE);
     p_Main->message("Configuring Elf2K");
-    p_Main->message("    Output 4: display output, input 4: data input");
-    p_Main->message("    Output 7: Write GPIO Control Register");
+    p_Main->message("	Output 4: display output, input 4: data input");
+    p_Main->message("	Output 7: Write GPIO Control Register");
     if (elfConfiguration.useHexKeyboardEf3)
     {
         efType_[0][0][3] = ELF2KEF3;
-        p_Main->message("    EF 3: 0 when hex button pressed");
+        p_Main->message("	EF 3: 0 when hex button pressed");
     }
     if (efType_[0][0][4] == 0)
     {
         efType_[0][0][4] = ELF2KEF;
-        p_Main->message("    EF 4: 0 when in button pressed");
+        p_Main->message("	EF 4: 0 when in button pressed");
     }
     p_Main->message("");
 

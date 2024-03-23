@@ -225,30 +225,37 @@ bool VIS1870::configure1870(bool expansionRomLoaded, int expansionTypeCard0)
     }
     p_Main->message("Configuring Video Interface System CDP 1869/1870" + ioGroup);
     
+    p_Computer->setOutTypeAndNumber(ioConfiguration_.v1870ioGroup+1, ioConfiguration_.v1870outIntEnable, V1870OUT2, 0, "Interrupt enable");
+
     if (ioConfiguration_.v1870outWrite == -1 && ioConfiguration_.v1870outSelect == -1)
-        p_Main->message("    Output 3 to 7: VIS OUT 3 to 7");
+        p_Main->message("	Output 3 to 7: VIS OUT 3 to 7");
     else
     {
-        message.Printf("    Output %d: VIS data, output 7: VIS register select", ioConfiguration_.v1870outWrite, ioConfiguration_.v1870outSelect);
+        message.Printf("	Output %d: VIS data, output 7: VIS register select", ioConfiguration_.v1870outWrite, ioConfiguration_.v1870outSelect);
     }
-    message.Printf("    EF %d: display/non display period", ioConfiguration_.v1870ef);
+    
+    message.Printf("	EF %d: display/non display period", ioConfiguration_.v1870ef);
     p_Main->message(message);
-    message.Printf("    Page RAM Size = %d KB", (pageMemorySize_+1)/0x400);
+    message.Printf("	Page RAM Size = %d KB", (pageMemorySize_+1)/0x400);
     p_Main->message(message);
     if (charMemoryIsRom_)
     {
         if (romAddress_ == 0)
-            message.Printf("    Character ROM Size = %d KB", (charMemorySize_+1)/0x400);
+            message.Printf("	Character ROM Size = %d KB", (charMemorySize_+1)/0x400);
         else
-            message.Printf("    Character RAM+ROM Size = %d KB; RAM 0-%03X, ROM %03X-%03X", (charMemorySize_+1)/0x400, romAddress_-1, romAddress_, charMemorySize_);
+            message.Printf("	Character RAM+ROM Size = %d KB; RAM 0-%03X, ROM %03X-%03X", (charMemorySize_+1)/0x400, romAddress_-1, romAddress_, charMemorySize_);
     }
     else
-        message.Printf("    Character RAM Size = %d KB", (charMemorySize_+1)/0x400);
+        message.Printf("	Character RAM Size = %d KB", (charMemorySize_+1)/0x400);
     p_Main->message(message);
     
-    message.Printf("    %d Characters with size: 6x%d\n", pcbMask_+1, linesPerCharacters_);
+//    message.Printf("	%d Characters with size: 6x%d\n", pcbMask_+1, linesPerCharacters_);
+    if (maxLinesPerCharacters_ > linesPerCharacters_)
+        message.Printf("	%d Characters with size: 6x%d (max 6x%d)\n", (charMemorySize_+1)/maxLinesPerCharacters_, linesPerCharacters_, maxLinesPerCharacters_);
+    else
+        message.Printf("	%d Characters with size: 6x%d\n", (charMemorySize_+1)/maxLinesPerCharacters_, linesPerCharacters_);
     p_Main->message(message);
-  
+
     switch (ioConfiguration_.statusBarType)
     {
         case STATUSBAR_COMX:
@@ -264,7 +271,7 @@ bool VIS1870::configure1870(bool expansionRomLoaded, int expansionTypeCard0)
             if (ioConfiguration_.statusBarLedOut != -1)
             {
                 p_Main->message("Configuring Statusbar");
-                message.Printf("    Output %d: led on/off\n", ioConfiguration_.statusBarLedOut);
+                message.Printf("	Output %d: led on/off\n", ioConfiguration_.statusBarLedOut);
                 p_Main->message(message);
                 p_Computer->setOutType(ioConfiguration_.statusBarLedOut, CIDELSAOUT1);
             }
@@ -299,16 +306,14 @@ void VIS1870::init1870()
         case STARTUP_ZEROED:
             for (int i=0; i<4096; i++) v1870pcb_[i] = 0;
             for (int i=0; i<4096; i++) vismacColorRam_[i] = 0;
-            if (!charMemoryIsRom_)
-                for (int i=0; i<4096; i++) characterMemory_[i] = 0;
+            for (int i=0; i<4096; i++) characterMemory_[i] = 0;
             for (int i=0; i<4096; i++) pageMemory_[i] = 0;
         break;
             
         case STARTUP_RANDOM:
             for (int i=0; i<4096; i++) v1870pcb_[i] = rand() % 0x100;
             for (int i=0; i<4096; i++) vismacColorRam_[i] = rand() % 0x10;
-            if (!charMemoryIsRom_)
-                for (int i=0; i<4096; i++) characterMemory_[i] = rand() % 0x100;
+            for (int i=0; i<4096; i++) characterMemory_[i] = rand() % 0x100;
             for (int i=0; i<4096; i++) pageMemory_[i] = rand() % 0x100;
         break;
             
@@ -318,8 +323,7 @@ void VIS1870::init1870()
             p_Computer->setDynamicRandomByte();
             for (int i=0; i<4096; i++) vismacColorRam_[i] = p_Computer->getDynamicByte(i);
             p_Computer->setDynamicRandomByte();
-            if (!charMemoryIsRom_)
-                for (int i=0; i<4096; i++) characterMemory_[i] = p_Computer->getDynamicByte(i);
+            for (int i=0; i<4096; i++) characterMemory_[i] = p_Computer->getDynamicByte(i);
             p_Computer->setDynamicRandomByte();
             for (int i=0; i<4096; i++) pageMemory_[i] = p_Computer->getDynamicByte(i);
         break;

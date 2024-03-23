@@ -53,11 +53,11 @@ void Nano::configureComputer()
 
     p_Main->message("Configuring Telmac Nano");
     if (p_Main->getSound(NANO) == 0)
-        p_Main->message("    Output 2: key latch, output 4: address and CDP 1864 tone latch");
+        p_Main->message("	Output 2: key latch, output 4: address and CDP 1864 tone latch");
     else
-        p_Main->message("    Output 2: key latch, output 4: address latch");
+        p_Main->message("	Output 2: key latch, output 4: address latch");
 
-    p_Main->message("    EF 2: cassette in, EF 3: keyboard, EF 4: monitor enable\n");
+    p_Main->message("	EF 2: cassette in, EF 3: keyboard, EF 4: monitor enable\n");
 
     simDefA2_ = false;
     simDefB2_ = false;

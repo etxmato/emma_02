@@ -1282,7 +1282,7 @@ void GuiMain::onFullScreenFloat(wxCommandEvent&WXUNUSED(event))
     correctZoomAndValue(VIPII, "VipII", SET_SPIN, VIDEOMAIN);
     correctZoomAndValue(MICROBOARD, "Microboard", SET_SPIN, VIDEOMAIN);
     correctZoomAndValue(COINARCADE, "CoinArcade", SET_SPIN, VIDEOMAIN);
-    correctZoomAndValue(STUDIO, "Studio2", SET_SPIN, VIDEOMAIN);
+    correctZoomAndValue(STUDIO, "StudioII", SET_SPIN, VIDEOMAIN);
     correctZoomAndValue(VISICOM, "Visicom", SET_SPIN, VIDEOMAIN);
     correctZoomAndValue(STUDIOIV, "StudioIV", SET_SPIN, VIDEOMAIN);
     correctZoomAndValue(VICTORY, "Victory", SET_SPIN, VIDEOMAIN);
@@ -1890,6 +1890,11 @@ void GuiMain::onAutoLoad(wxCommandEvent&event)
                 
             case XML:
                 XRCCTRL(*this, "CasSave"+computerInfo[runningComputer_].gui, wxButton)->Enable(!conf[runningComputer_].autoCassetteLoad_ && !elfConfiguration[runningComputer_].useHexModem);
+                if (elfConfiguration[runningComputer_].useTapeMicro)
+                {
+                    XRCCTRL(*this, "CasLoad1"+computerInfo[selectedComputer_].gui, wxButton)->Enable(!conf[runningComputer_].autoCassetteLoad_);
+                    XRCCTRL(*this, "CasSave1"+computerInfo[selectedComputer_].gui, wxButton)->Enable(!conf[runningComputer_].autoCassetteLoad_);
+                }
             break;
 
             case MCDS:
@@ -2528,10 +2533,18 @@ void GuiMain::onLoad(bool load)
 
         case MCDS:
         case MICROBOARD:
-        case XML:
             extension = swFullPath.GetExt();
             extension.Trim();
             if (extension == computerInfo[selectedComputer_].ploadExtension)
+                p_Computer->startComputerRun(load);
+            else
+                p_Computer->readFile(fileName, NOCHANGE, 0, 0x10000, SHOWNAME, SHOW_ADDRESS_POPUP_WINDOW, conf[selectedComputer_].saveStart_);
+        break;
+
+        case XML:
+            extension = swFullPath.GetExt();
+            extension.Trim();
+            if (extension == "tmc600" || extension == "comx" || extension == "pecom" || extension == "rca" || extension == "tiny" || extension == "super" || extension == "fpb")
                 p_Computer->startComputerRun(load);
             else
                 p_Computer->readFile(fileName, NOCHANGE, 0, 0x10000, SHOWNAME, SHOW_ADDRESS_POPUP_WINDOW, conf[selectedComputer_].saveStart_);
@@ -3223,27 +3236,6 @@ void GuiMain::setPixiePos(int computerType, wxPoint position)
     }
 }
 
-wxPoint GuiMain::getCdp1862Pos(int computerType)
-{
-    return wxPoint(conf[computerType].cdp1862X_, conf[computerType].cdp1862Y_);
-}
-
-void GuiMain::setCdp1862Pos(int computerType, wxPoint position)
-{
-    if (!mode_.window_position_fixed)
-    {
-        conf[computerType].cdp1862X_ = -1;
-        conf[computerType].cdp1862Y_ = -1;
-    }
-    else
-    {
-        if (position.x > 0)
-            conf[computerType].cdp1862X_ = position.x;
-        if (position.y > 0)
-            conf[computerType].cdp1862Y_ = position.y;
-    }
-}
-
 wxPoint GuiMain::getCdp1864Pos(int computerType)
 {
     return wxPoint(conf[computerType].cdp1864X_, conf[computerType].cdp1864Y_);
@@ -3262,6 +3254,27 @@ void GuiMain::setCdp1864Pos(int computerType, wxPoint position)
             conf[computerType].cdp1864X_ = position.x;
         if (position.y > 0)
             conf[computerType].cdp1864Y_ = position.y;
+    }
+}
+
+wxPoint GuiMain::getSt4Pos(int computerType)
+{
+    return wxPoint(conf[computerType].st4X_, conf[computerType].st4Y_);
+}
+
+void GuiMain::setSt4Pos(int computerType, wxPoint position)
+{
+    if (!mode_.window_position_fixed)
+    {
+        conf[computerType].st4X_ = -1;
+        conf[computerType].st4Y_ = -1;
+    }
+    else
+    {
+        if (position.x > 0)
+            conf[computerType].st4X_ = position.x;
+        if (position.y > 0)
+            conf[computerType].st4Y_ = position.y;
     }
 }
 
@@ -3560,6 +3573,38 @@ void GuiMain::setSN76430NPos(int computerType, wxPoint position)
     }
 }
 
+void GuiMain::setCdp1851Pos(int computerType, wxPoint position, int number)
+{
+    if (!mode_.window_position_fixed)
+    {
+        elfConfiguration[computerType].ioConfiguration.cdp1851[number].pos.x = -1;
+        elfConfiguration[computerType].ioConfiguration.cdp1851[number].pos.y = -1;
+    }
+    else
+    {
+        if (position.y > 0)
+            elfConfiguration[computerType].ioConfiguration.cdp1851[number].pos.x = position.x;
+        if (position.x > 0)
+            elfConfiguration[computerType].ioConfiguration.cdp1851[number].pos.y = position.y;
+    }
+}
+
+void GuiMain::setCdp1852Pos(int computerType, wxPoint position, int number)
+{
+    if (!mode_.window_position_fixed)
+    {
+        elfConfiguration[computerType].ioConfiguration.cdp1852[number].pos.x = -1;
+        elfConfiguration[computerType].ioConfiguration.cdp1852[number].pos.y = -1;
+    }
+    else
+    {
+        if (position.y > 0)
+            elfConfiguration[computerType].ioConfiguration.cdp1852[number].pos.x = position.x;
+        if (position.x > 0)
+            elfConfiguration[computerType].ioConfiguration.cdp1852[number].pos.y = position.y;
+    }
+}
+
 int GuiMain::pload()
 {
     wxFFile inputFile;
@@ -3578,9 +3623,19 @@ int GuiMain::pload()
         inputFile.Close();
 
         if (buffer[0] == ':')
-            return p_Computer->readIntelFile(conf[runningComputer_].loadFileNameFull_, RAM, 0x10000, true);
+        {
+            if (p_Computer->readIntelFile(conf[runningComputer_].loadFileNameFull_, RAM, 0x10000, true))
+                return 0;
+            else
+                return wxNOT_FOUND;
+        }
         else if (buffer[0] == '0' && buffer[1] == '0' && buffer[2] == '0' && buffer[3] == '0')
-            return p_Computer->readLstFile(conf[runningComputer_].loadFileNameFull_, RAM, 0x10000, true);
+        {
+            if (p_Computer->readLstFile(conf[runningComputer_].loadFileNameFull_, RAM, 0x10000, true))
+                return 0;
+            else
+                return wxNOT_FOUND;
+        }
     }
 
     if (buffer [0] != 1)
@@ -3595,7 +3650,17 @@ int GuiMain::pload()
         length = inputFile.Read(buffer, 65536);
         address = conf[runningComputer_].basicRamAddress_;
         start = conf[runningComputer_].basicRamAddress_ & 0xf00;
-        if ((buffer [0] == 1 || buffer [0] == 2 || buffer [0] == 3 || buffer [0] == 4 || buffer [0] == 5 || buffer [0] == 6) && (buffer [1] == conf[runningComputer_].pLoadSaveName_[0]) && (buffer [2] == conf[runningComputer_].pLoadSaveName_[1]))
+        
+        if (!(buffer [1] == conf[runningComputer_].pLoadSaveName_[0] && buffer [2] == conf[runningComputer_].pLoadSaveName_[1]))
+        {
+            p_Main->eventShowMessageBox( conf[runningComputer_].loadFileName_+" might not be compatible.",
+                                        "Load anyway?", wxICON_EXCLAMATION | wxYES_NO);
+
+            if (messageBoxAnswer_ == wxNO)
+                return wxNOT_FOUND;
+        }
+        
+        if (buffer [0] == 1 || buffer [0] == 2 || buffer [0] == 3 || buffer [0] == 4 || buffer [0] == 5 || buffer [0] == 6)
         {
             switch(buffer [0])
             {
@@ -3616,7 +3681,7 @@ int GuiMain::pload()
                             if (buffer[5] != 0x44)
                             {
                                 p_Main->errorMessage(    "File " + conf[runningComputer_].loadFileNameFull_ + " can only be loaded in COMX Basic");
-                                return 1;
+                                return wxNOT_FOUND;
                             }
                             address = 0x6700;
                         }
@@ -3643,13 +3708,13 @@ int GuiMain::pload()
                         else
                         {
                             p_Main->errorMessage( "File " + conf[runningComputer_].loadFileNameFull_ + " can only be loaded in F&M Basic V2.00");
-                            return 1;
+                            return wxNOT_FOUND;
                         }
                     }
                     else
                     {
                         p_Main->errorMessage( "File " + conf[runningComputer_].loadFileNameFull_ + " can only be loaded in COMX F&M Basic V2.00");
-                        return 1;
+                        return wxNOT_FOUND;
                     }
                     p_Computer->setRam(conf[runningComputer_].defus_, (Byte)buffer[5]);
                     p_Computer->setRam(conf[runningComputer_].defus_+1, (Byte)buffer[6]);
@@ -3700,27 +3765,60 @@ int GuiMain::pload()
                             if (buffer[5] != 0)
                             {
                                 p_Main->errorMessage("File " + conf[runningComputer_].loadFileNameFull_ + " can only be loaded in COMX Basic");
-                                return 1;
+                                return wxNOT_FOUND;
                             }
                             address = 0x6700;
                         }
                     }
-                    if (runningComputer_ != STUDIOIV)
+                    
+                    if (runningComputer_ == XML)
                     {
-                        if (p_Computer->getLoadedProgram() != VIPTINY)
+                        if (conf[runningComputer_].defusDefined_)
                         {
                             p_Computer->setRam(conf[runningComputer_].defus_, (Byte)buffer[5]+fAndMBasicOffset+highRamAddress);
                             p_Computer->setRam(conf[runningComputer_].defus_+1, (Byte)buffer[6]);
+                        }
+                        if (conf[runningComputer_].stringDefined_)
+                        {
                             p_Computer->setRam(conf[runningComputer_].string_, (Byte)buffer[9]+fAndMBasicOffset+highRamAddress);
                             p_Computer->setRam(conf[runningComputer_].string_+1, (Byte)buffer[10]);
+                        }
+                        if (conf[runningComputer_].arrayValueDefined_)
+                        {
                             p_Computer->setRam(conf[runningComputer_].arrayValue_, (Byte)buffer[11]+fAndMBasicOffset+highRamAddress);
                             p_Computer->setRam(conf[runningComputer_].arrayValue_+1, (Byte)buffer[12]);
+                        }
+                        if (conf[runningComputer_].eodDefined_)
+                        {
                             p_Computer->setRam(conf[runningComputer_].eod_, (Byte)buffer[9]+fAndMBasicOffset+highRamAddress);
                             p_Computer->setRam(conf[runningComputer_].eod_+1, (Byte)buffer[10]);
                         }
+                        if (conf[runningComputer_].eopDefined_)
+                        {
+                            p_Computer->setRam(conf[runningComputer_].eop_, (Byte)buffer[7]+fAndMBasicOffset+highRamAddress);
+                            p_Computer->setRam(conf[runningComputer_].eop_+1, (Byte)buffer[8]);
+                        }
                     }
-                    p_Computer->setRam(conf[runningComputer_].eop_, (Byte)buffer[7]+fAndMBasicOffset+highRamAddress);
-                    p_Computer->setRam(conf[runningComputer_].eop_+1, (Byte)buffer[8]);
+                    else
+                    {
+                        if (runningComputer_ != STUDIOIV)
+                        {
+                            if (p_Computer->getLoadedProgram() != VIPTINY)
+                            {
+                                p_Computer->setRam(conf[runningComputer_].defus_, (Byte)buffer[5]+fAndMBasicOffset+highRamAddress);
+                                p_Computer->setRam(conf[runningComputer_].defus_+1, (Byte)buffer[6]);
+                                p_Computer->setRam(conf[runningComputer_].string_, (Byte)buffer[9]+fAndMBasicOffset+highRamAddress);
+                                p_Computer->setRam(conf[runningComputer_].string_+1, (Byte)buffer[10]);
+                                p_Computer->setRam(conf[runningComputer_].arrayValue_, (Byte)buffer[11]+fAndMBasicOffset+highRamAddress);
+                                p_Computer->setRam(conf[runningComputer_].arrayValue_+1, (Byte)buffer[12]);
+                                p_Computer->setRam(conf[runningComputer_].eod_, (Byte)buffer[9]+fAndMBasicOffset+highRamAddress);
+                                p_Computer->setRam(conf[runningComputer_].eod_+1, (Byte)buffer[10]);
+                            }
+                        }
+                        p_Computer->setRam(conf[runningComputer_].eop_, (Byte)buffer[7]+fAndMBasicOffset+highRamAddress);
+                        p_Computer->setRam(conf[runningComputer_].eop_+1, (Byte)buffer[8]);
+                    }
+
                     p_Main->eventSetLocation(false);
                     start = 15;
                 break;
@@ -3747,7 +3845,7 @@ int GuiMain::pload()
                 if (p_Comx->isFAndMBasicRunning())
                 {
                     p_Main->errorMessage("File " + conf[runningComputer_].loadFileNameFull_ + " can only be loaded in COMX Basic");
-                    return 1;
+                    return wxNOT_FOUND;
                 }
             }
             p_Computer->setRam(conf[runningComputer_].defus_, (Byte)buffer[0x281]);
@@ -3775,7 +3873,7 @@ int GuiMain::pload()
                     address = 0;
 #endif
                 if (answer == wxID_CANCEL)
-                    return false;
+                    return wxNOT_FOUND;
             }
             startAddress = address;
             for (size_t i = 0; i<length; i++)
@@ -3791,7 +3889,7 @@ int GuiMain::pload()
     else
     {
         p_Main->errorMessage("Error reading " + conf[runningComputer_].loadFileNameFull_);
-        return 1;
+        return wxNOT_FOUND;
     }
 }
 
@@ -3856,6 +3954,11 @@ void GuiMain::setRealCas(int computerType)
             {
                 XRCCTRL(*this, "CasForward"+computerInfo[computerType].gui, wxButton)->Enable(false);
                 XRCCTRL(*this, "CasRewind"+computerInfo[computerType].gui, wxButton)->Enable(false);
+                if (elfConfiguration[runningComputer_].useTapeMicro)
+                {
+                    XRCCTRL(*this, "CasLoad1"+computerInfo[computerType].gui, wxButton)->Enable(false);
+                    XRCCTRL(*this, "CasSave1"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
+                }
             }
             if (runningComputer_ == MCDS)
             {
@@ -3887,6 +3990,11 @@ void GuiMain::setRealCas(int computerType)
                 XRCCTRL(*this, "CasRewind"+computerInfo[computerType].gui, wxButton)->Enable(elfConfiguration[computerType].useTapeHw);
                 if (elfConfiguration[computerType].useTapeHw)
                     XRCCTRL(*this, "CasStop"+computerInfo[computerType].gui, wxButton)->Enable(true);
+                if (elfConfiguration[runningComputer_].useTapeMicro)
+                {
+                    XRCCTRL(*this, "CasLoad1"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
+                    XRCCTRL(*this, "CasSave1"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
+                }
             }
             if (runningComputer_ == MCDS)
             {
@@ -3924,6 +4032,11 @@ void GuiMain::setRealCas2(int computerType)
             {
                 XRCCTRL(*this, "CasForward"+computerInfo[computerType].gui, wxButton)->Enable(false);
                 XRCCTRL(*this, "CasRewind"+computerInfo[computerType].gui, wxButton)->Enable(false);
+                if (elfConfiguration[runningComputer_].useTapeMicro)
+                {
+                    XRCCTRL(*this, "CasLoad1"+computerInfo[computerType].gui, wxButton)->Enable(false);
+                    XRCCTRL(*this, "CasSave1"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
+                }
             }
             if (runningComputer_ == MCDS)
             {
@@ -3949,6 +4062,11 @@ void GuiMain::setRealCas2(int computerType)
                 XRCCTRL(*this, "CasRewind"+computerInfo[computerType].gui, wxButton)->Enable(elfConfiguration[computerType].useTapeHw);
                 if (elfConfiguration[computerType].useTapeHw)
                     XRCCTRL(*this, "CasStop"+computerInfo[computerType].gui, wxButton)->Enable(true);
+                if (elfConfiguration[runningComputer_].useTapeMicro)
+                {
+                    XRCCTRL(*this, "CasLoad1"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
+                    XRCCTRL(*this, "CasSave1"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
+                }
             }
             if (runningComputer_ == MCDS)
             {
@@ -3991,6 +4109,11 @@ void GuiMain::setRealCasOff(int computerType)
             XRCCTRL(*this, "CasRewind"+computerInfo[computerType].gui, wxButton)->Enable(elfConfiguration[computerType].useTapeHw);
             if (elfConfiguration[computerType].useTapeHw)
                 XRCCTRL(*this, "CasStop"+computerInfo[computerType].gui, wxButton)->Enable(true);
+            if (elfConfiguration[runningComputer_].useTapeMicro)
+            {
+                XRCCTRL(*this, "CasLoad1"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
+                XRCCTRL(*this, "CasSave1"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
+            }
         }
         if (runningComputer_ == MCDS)
         {
@@ -4687,7 +4810,7 @@ void GuiMain::enableLoadGui(bool status)
         }
         else
             XRCCTRL(*this, "CasSave"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
-        if (runningComputer_ == MCDS)
+        if (runningComputer_ == MCDS || (runningComputer_ == XML && elfConfiguration[runningComputer_].useTapeMicro))
         {
             XRCCTRL(*this, "CasStop1"+computerInfo[runningComputer_].gui, wxButton)->Enable(false);
             XRCCTRL(*this, "CasLoad1"+computerInfo[runningComputer_].gui, wxButton)->Enable(status&!conf[runningComputer_].realCassetteLoad_);
@@ -4839,7 +4962,7 @@ void GuiMain::setTapeState(int tapeState, wxString tapeNumber)
             else
                 XRCCTRL(*this, "CasSave"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(recOffBitmap);
         }
-        if (runningComputer_ == MCDS)
+        if (runningComputer_ == MCDS || (runningComputer_ == XML && elfConfiguration[runningComputer_].useTapeMicro))
         {
             if (tapeState == TAPE_RECORD1)
                 XRCCTRL(*this, "CasSave1"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(recOnBitmap);
@@ -4859,7 +4982,7 @@ void GuiMain::setTapeState(int tapeState, wxString tapeNumber)
         XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxButton)->Enable((tapeState == TAPE_STOP)&!conf[runningComputer_].realCassetteLoad_);
         if (!((runningComputer_ == ELF2K || runningComputer_ == XML) && elfConfiguration[runningComputer_].useHexModem))
             XRCCTRL(*this, "CasSave"+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState == TAPE_STOP);
-        if (runningComputer_ == MCDS)
+        if (runningComputer_ == MCDS || (runningComputer_ == XML && elfConfiguration[runningComputer_].useTapeMicro))
         {
             XRCCTRL(*this, "CasStop1"+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState != TAPE_STOP);
             XRCCTRL(*this, "CasLoad1"+computerInfo[runningComputer_].gui, wxButton)->Enable((tapeState == TAPE_STOP)&!conf[runningComputer_].realCassetteLoad_);
@@ -5633,6 +5756,7 @@ void GuiMain::setUpdFloppyGui(int drive, int computerType)
         {
             deActivateFdc = true;
             
+            XRCCTRL(*this, "FDC"+driveStr+"_Switch" + computerInfo[computerType].gui, wxBitmapButton)->Enable(false);
             if (elfConfiguration[XML].fdc1770Enabled)
             {
                 if (drive < 2 && drive < elfConfiguration[XML].ioConfiguration.fdcDrives)
@@ -5645,7 +5769,13 @@ void GuiMain::setUpdFloppyGui(int drive, int computerType)
                     deActivateFdc = false;
                 XRCCTRL(*this, "FDC"+driveStr+"_Button" + computerInfo[computerType].gui, wxButton)->Enable(elfConfiguration[XML].fdc1793Enabled && drive < elfConfiguration[XML].ioConfiguration.fdcDrives);
             }
-            XRCCTRL(*this, "FDC"+driveStr+"_Switch" + computerInfo[computerType].gui, wxBitmapButton)->Enable(false);
+            if (elfConfiguration[XML].useUpd765)
+            {
+                if (drive < elfConfiguration[XML].ioConfiguration.fdcDrives)
+                    deActivateFdc = false;
+                XRCCTRL(*this, "FDC"+driveStr+"_Button" + computerInfo[computerType].gui, wxButton)->Enable(elfConfiguration[XML].useUpd765 && drive < elfConfiguration[XML].ioConfiguration.fdcDrives);
+                XRCCTRL(*this, "FDC"+driveStr+"_Switch" + computerInfo[computerType].gui, wxBitmapButton)->Enable(true);
+            }
         }
         else
             deActivateFdc = false;

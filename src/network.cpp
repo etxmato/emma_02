@@ -54,6 +54,7 @@ void Network::configureNetwork(int sides, int tracks, int sectors, int sectorlen
     numberOfSectors_ = sectors;
     sectorLength_ = sectorlength;
     maxFmtCount_ = 2740;
+    uartControl_ = 0;
 }
 
 Byte Network::efNetwork()

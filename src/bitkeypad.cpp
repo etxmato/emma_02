@@ -46,7 +46,7 @@ void BitKeypad::configure(IoConfiguration ioConf, int pad)
         ioGroup.Printf(" on group %d", ioConfiguration_.bitKeypad[pad_].ioGroup);
     }
     
-    printBuffer.Printf("    Input %d: read data keypad / row ", ioConfiguration_.bitKeypad[pad_].inp);
+    printBuffer.Printf("	Input %d: read data keypad / row ", ioConfiguration_.bitKeypad[pad_].inp);
     p_Main->message(printBuffer + ioConfiguration_.bitKeypad[pad_].number + ioGroup);
  
     inputValue_ = 0;

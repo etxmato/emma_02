@@ -18,6 +18,17 @@
                 <object class="wxMenuItem" name="MI_DefaultSettings">
                     <label>Set Default (All)</label>
                 </object>
+                <object class="wxMenu" name="XmlRomRam">
+                    <label>XML ROM/RAM</label>
+                    <object class="wxMenuItem" name="GUI">
+                        <label>Latest from GUI (Default from XML)</label>
+                        <radio>1</radio>
+                    </object>
+                    <object class="wxMenuItem" name="XML">
+                        <label>Always from XML</label>
+                        <radio>1</radio>
+                    </object>
+                </object>
             </object>
             <object class="wxMenu" name="Re_Install">
                 <label>Re-install</label>
@@ -15165,7 +15176,7 @@
                                 </object>
                                 <object class="choicebookpage">
                                     <label>Microtutor II</label>
-                                    <object class="wxPanel" name="PanelMicrotutor2">
+                                    <object class="wxPanel" name="PanelMicrotutorII">
                                         <font>
                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                             <size>-1</size>
@@ -15192,7 +15203,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_TOP</flag>
                                                                         <border>3</border>
-                                                                        <object class="wxButton" name="RamButtonMMicrotutor2">
+                                                                        <object class="wxButton" name="RamButtonMMicrotutorII">
                                                                             <tooltip>Browse for Microtutor II slot M RAM file</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -15205,7 +15216,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>3</border>
-                                                                        <object class="wxComboBox" name="MainRamMMicrotutor2">
+                                                                        <object class="wxComboBox" name="MainRamMMicrotutorII">
                                                                             <size>192,-1</size>
                                                                             <tooltip>Specify Microtutor II slot M RAM file</tooltip>
                                                                             <font>
@@ -15243,7 +15254,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_TOP</flag>
                                                                         <border>3</border>
-                                                                        <object class="wxButton" name="RamButtonEMicrotutor2">
+                                                                        <object class="wxButton" name="RamButtonEMicrotutorII">
                                                                             <tooltip>Browse for Microtutor II slot E RAM file</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -15256,7 +15267,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>3</border>
-                                                                        <object class="wxComboBox" name="MainRamEMicrotutor2">
+                                                                        <object class="wxComboBox" name="MainRamEMicrotutorII">
                                                                             <size>192,-1</size>
                                                                             <tooltip>Specify Microtutor II slot E RAM file</tooltip>
                                                                             <font>
@@ -15282,7 +15293,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
                                                                         <border>4</border>
-                                                                        <object class="wxStaticText" name="RamTextMicrotutor2">
+                                                                        <object class="wxStaticText" name="RamTextMicrotutorII">
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
@@ -15294,7 +15305,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                         <border>0</border>
-                                                                        <object class="wxChoice" name="RamMicrotutor2">
+                                                                        <object class="wxChoice" name="RamMicrotutorII">
                                                                             <tooltip>Microtutor II RAM size (per slot)</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -15317,7 +15328,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                         <border>4</border>
-                                                                        <object class="wxStaticText" name="RamText2Microtutor2">
+                                                                        <object class="wxStaticText" name="RamText2MicrotutorII">
                                                                             <size>100,-1</size>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -15370,7 +15381,7 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
                                                                                 <border>3</border>
-                                                                                <object class="wxStaticText" name="AddressText1Microtutor2">
+                                                                                <object class="wxStaticText" name="AddressText1MicrotutorII">
                                                                                     <font>
                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                         <size>-1</size>
@@ -15382,7 +15393,7 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                                 <border>3</border>
-                                                                                <object class="wxTextCtrl" name="ShowAddressMicrotutor2" subclass="IntEdit">
+                                                                                <object class="wxTextCtrl" name="ShowAddressMicrotutorII" subclass="IntEdit">
                                                                                     <size>45,-1</size>
                                                                                     <tooltip>Led updates in run mode every X ms</tooltip>
                                                                                     <font>
@@ -15396,7 +15407,7 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                                                 <border>3</border>
-                                                                                <object class="wxStaticText" name="AddressText2Microtutor2">
+                                                                                <object class="wxStaticText" name="AddressText2MicrotutorII">
                                                                                     <font>
                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                         <size>-1</size>
@@ -15420,7 +15431,7 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
                                                                                 <border>3</border>
-                                                                                <object class="wxCheckBox" name="AutoBootMicrotutor2">
+                                                                                <object class="wxCheckBox" name="AutoBootMicrotutorII">
                                                                                     <tooltip>Enable auto boot at specified address</tooltip>
                                                                                     <font>
                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -15434,7 +15445,7 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                                 <border>0</border>
-                                                                                <object class="wxTextCtrl" name="BootAddressMicrotutor2" subclass="HexEdit">
+                                                                                <object class="wxTextCtrl" name="BootAddressMicrotutorII" subclass="HexEdit">
                                                                                     <size>50,-1</size>
                                                                                     <tooltip>Specify auto boot address in hexadecimal</tooltip>
                                                                                     <font>
@@ -15471,7 +15482,7 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                                 <border>2</border>
-                                                                                <object class="wxButton" name="LoadButtonMicrotutor2">
+                                                                                <object class="wxButton" name="LoadButtonMicrotutorII">
                                                                                     <tooltip>Load .hex file into Microtutor II emulator memory</tooltip>
                                                                                     <font>
                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -15485,7 +15496,7 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                                 <border>2</border>
-                                                                                <object class="wxStaticText" name="TextStartMicrotutor2">
+                                                                                <object class="wxStaticText" name="TextStartMicrotutorII">
                                                                                     <font>
                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                         <size>-1</size>
@@ -15499,7 +15510,7 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                                 <border>2</border>
-                                                                                <object class="wxTextCtrl" name="SaveStartMicrotutor2" subclass="HexEdit">
+                                                                                <object class="wxTextCtrl" name="SaveStartMicrotutorII" subclass="HexEdit">
                                                                                     <size>50,-1</size>
                                                                                     <tooltip>Specify start address in hexadecimal</tooltip>
                                                                                     <font>
@@ -15514,7 +15525,7 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                                 <border>2</border>
-                                                                                <object class="wxButton" name="SaveButtonMicrotutor2">
+                                                                                <object class="wxButton" name="SaveButtonMicrotutorII">
                                                                                     <tooltip>Save Microtutor II emulator memory to .hex file</tooltip>
                                                                                     <font>
                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -15528,7 +15539,7 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                                 <border>2</border>
-                                                                                <object class="wxStaticText" name="TextEndMicrotutor2">
+                                                                                <object class="wxStaticText" name="TextEndMicrotutorII">
                                                                                     <font>
                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                         <size>-1</size>
@@ -15542,7 +15553,7 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                                 <border>2</border>
-                                                                                <object class="wxTextCtrl" name="SaveEndMicrotutor2" subclass="HexEdit">
+                                                                                <object class="wxTextCtrl" name="SaveEndMicrotutorII" subclass="HexEdit">
                                                                                     <size>50,-1</size>
                                                                                     <tooltip>Specify end address in hexadecimal</tooltip>
                                                                                     <font>
@@ -22406,7 +22417,7 @@
                                 </object>
                                 <object class="choicebookpage">
                                     <label>RCA Studio II</label>
-                                    <object class="wxPanel" name="PanelStudio2">
+                                    <object class="wxPanel" name="PanelStudioII">
                                         <font>
                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                             <size>-1</size>
@@ -22436,7 +22447,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_LEFT|wxALIGN_TOP|wxRIGHT</flag>
                                                                         <border>0</border>
-                                                                        <object class="wxButton" name="RomButtonStudio2">
+                                                                        <object class="wxButton" name="RomButtonStudioII">
                                                                             <tooltip>Browse for Studio II system ROM file</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -22450,7 +22461,7 @@
                                                                         <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                         <border>0</border>
                                                                         <option>20</option>
-                                                                        <object class="wxComboBox" name="MainRomStudio2">
+                                                                        <object class="wxComboBox" name="MainRomStudioII">
                                                                             <size>192,-1</size>
                                                                             <tooltip>Specify Studio II system ROM file</tooltip>
                                                                             <font>
@@ -22461,7 +22472,7 @@
                                                                             <style>wxCB_DROPDOWN</style>
                                                                             <content>
                                                                                 <item></item>
-                                                                                <item>studio2.rom</item>
+                                                                                <item>StudioII.rom</item>
                                                                                 <item>chip8.bin</item>
                                                                             </content>
                                                                         </object>
@@ -22469,7 +22480,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_LEFT|wxALIGN_TOP|wxALL</flag>
                                                                         <border>0</border>
-                                                                        <object class="wxButton" name="CartRomButtonStudio2">
+                                                                        <object class="wxButton" name="CartRomButtonStudioII">
                                                                             <tooltip>Browse for cartridge ST2 ROM file</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -22483,7 +22494,7 @@
                                                                         <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                         <border>0</border>
                                                                         <option>20</option>
-                                                                        <object class="wxComboBox" name="CartRomStudio2">
+                                                                        <object class="wxComboBox" name="CartRomStudioII">
                                                                             <size>192,-1</size>
                                                                             <tooltip>Specify cartridge ST2 ROM file</tooltip>
                                                                             <font>
@@ -22494,48 +22505,26 @@
                                                                             <style>wxCB_DROPDOWN</style>
                                                                             <content>
                                                                                 <item></item>
-                                                                                <item>39sf040.auto.bin</item>
-                                                                                <item>asteroids.st2</item>
                                                                                 <item>baseball.st2</item>
-                                                                                <item>berzerk.st2</item>
-                                                                                <item>bingo.st2</item>
                                                                                 <item>biorhythm.st2</item>
                                                                                 <item>blackjack.st2</item>
-                                                                                <item>climber.st2</item>
-                                                                                <item>combat.st2</item>
-                                                                                <item>computer.st2</item>
-                                                                                <item>concentration-match.st2</item>
                                                                                 <item>fun-with-numbers.st2</item>
-                                                                                <item>fifteen.st2</item>
                                                                                 <item>game_pack.st2</item>
                                                                                 <item>gunfighter.st2</item>
-                                                                                <item>hockey.st2</item>
-                                                                                <item>invaders.st2</item>
-                                                                                <item>kaboom.st2</item>
                                                                                 <item>mathfun.st2</item>
-                                                                                <item>outbreak.st2</item>
-                                                                                <item>pacman.st2</item>
-                                                                                <item>pinball.st2</item>
-                                                                                <item>rocket.st2</item>
-                                                                                <item>race.st2</item>
                                                                                 <item>RCA_demo.st2</item>
                                                                                 <item>RCA_TEST_CARTRIDGE_TESTER1.st2</item>
                                                                                 <item>school.st2</item>
-                                                                                <item>scramble.st2</item>
                                                                                 <item>spacewar.st2</item>
-                                                                                <item>spacewar-2.st2</item>
-                                                                                <item>spacewar-3.st2</item>
                                                                                 <item>speedway.st2</item>
-                                                                                <item>star-wars.st2</item>
                                                                                 <item>tennis.st2</item>
-                                                                                <item>tv-arcade-2012.st2</item>
                                                                             </content>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
                                                                         <border>1</border>
-                                                                        <object class="wxButton" name="ScreenDumpFileButtonStudio2">
+                                                                        <object class="wxButton" name="ScreenDumpFileButtonStudioII">
                                                                             <tooltip>Browse for video dump file</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -22555,7 +22544,7 @@
                                                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                                 <border>0</border>
                                                                                 <option>20</option>
-                                                                                <object class="wxComboBox" name="ScreenDumpFileStudio2">
+                                                                                <object class="wxComboBox" name="ScreenDumpFileStudioII">
                                                                                     <size>166,-1</size>
                                                                                     <tooltip>Specify video dump file</tooltip>
                                                                                     <font>
@@ -22576,7 +22565,7 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
                                                                                 <border>4</border>
-                                                                                <object class="wxBitmapButton" name="ScreenDumpF5Studio2">
+                                                                                <object class="wxBitmapButton" name="ScreenDumpF5StudioII">
                                                                                     <size>22,22</size>
                                                                                     <tooltip>Save video dump to file (F5)</tooltip>
                                                                                     <enabled>0</enabled>
@@ -22588,7 +22577,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
                                                                         <border>1</border>
-                                                                        <object class="wxButton" name="KeyMapStudio2">
+                                                                        <object class="wxButton" name="KeyMapStudioII">
                                                                             <tooltip>Open key map window</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -22615,7 +22604,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                         <border>0</border>
-                                                                        <object class="wxStaticText" name="ZoomTextStudio2">
+                                                                        <object class="wxStaticText" name="ZoomTextStudioII">
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
@@ -22627,7 +22616,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                         <border>1</border>
-                                                                        <object class="wxTextCtrl" name="ZoomValueStudio2" subclass="FloatEdit">
+                                                                        <object class="wxTextCtrl" name="ZoomValueStudioII" subclass="FloatEdit">
                                                                             <size>50,-1</size>
                                                                             <tooltip>Select RCA Studio II screen size</tooltip>
                                                                             <font>
@@ -22640,7 +22629,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>5</border>
-                                                                        <object class="wxSpinButton" name="ZoomSpinStudio2">
+                                                                        <object class="wxSpinButton" name="ZoomSpinStudioII">
                                                                             <size>-1,23</size>
                                                                             <tooltip>Select RCA Studio II screen size</tooltip>
                                                                             <style>wxSP_VERTICAL</style>
@@ -22652,7 +22641,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                         <border>0</border>
-                                                                        <object class="wxBitmapButton" name="FullScreenF3Studio2">
+                                                                        <object class="wxBitmapButton" name="FullScreenF3StudioII">
                                                                             <size>22,22</size>
                                                                             <tooltip>Activate full screen mode (F3)</tooltip>
                                                                             <enabled>0</enabled>
@@ -22662,7 +22651,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>2</border>
-                                                                        <object class="wxButton" name="ColoursStudio2">
+                                                                        <object class="wxButton" name="ColoursStudioII">
                                                                             <tooltip>Open video setup window</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -22682,7 +22671,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                         <border>0</border>
-                                                                        <object class="wxStaticText" name="VolumeTextStudio2">
+                                                                        <object class="wxStaticText" name="VolumeTextStudioII">
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
@@ -22694,7 +22683,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_TOP|wxALL</flag>
                                                                         <border>0</border>
-                                                                        <object class="wxSlider" name="VolumeStudio2">
+                                                                        <object class="wxSlider" name="VolumeStudioII">
                                                                             <size>100,24</size>
                                                                             <tooltip>Change emulator sound volume</tooltip>
                                                                             <style>wxSL_HORIZONTAL</style>
@@ -22713,7 +22702,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
                                                                         <border>4</border>
-                                                                        <object class="wxStaticText" name="BeepFrequencyTextStudio2">
+                                                                        <object class="wxStaticText" name="BeepFrequencyTextStudioII">
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
@@ -22726,7 +22715,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>4</border>
-                                                                        <object class="wxTextCtrl" name="BeepFrequencyStudio2" subclass="IntEdit">
+                                                                        <object class="wxTextCtrl" name="BeepFrequencyStudioII" subclass="IntEdit">
                                                                             <size>40,23</size>
                                                                             <tooltip>Specify oscilator frequency speed in Hz</tooltip>
                                                                             <font>
@@ -22740,7 +22729,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                         <border>4</border>
-                                                                        <object class="wxStaticText" name="BeepFrequencyTextHzStudio2">
+                                                                        <object class="wxStaticText" name="BeepFrequencyTextHzStudioII">
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
@@ -22760,7 +22749,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                         <border>4</border>
-                                                                        <object class="wxCheckBox" name="MultiCartStudio2">
+                                                                        <object class="wxCheckBox" name="MultiCartStudioII">
                                                                             <tooltip>Enable Multi-Cart</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -22781,7 +22770,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                         <border>0</border>
-                                                                        <object class="wxStaticText" name="MsbTextStudio2">
+                                                                        <object class="wxStaticText" name="MsbTextStudioII">
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
@@ -22793,7 +22782,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_TOP|wxLEFT|wxRIGHT</flag>
                                                                         <border>3</border>
-                                                                        <object class="wxSpinCtrl" name="MsbStudio2">
+                                                                        <object class="wxSpinCtrl" name="MsbStudioII">
                                                                             <size>50,23</size>
                                                                             <tooltip>Multi-Cart MSB Dial</tooltip>
                                                                             <font>
@@ -22809,7 +22798,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                         <border>0</border>
-                                                                        <object class="wxStaticText" name="LsbTextStudio2">
+                                                                        <object class="wxStaticText" name="LsbTextStudioII">
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
@@ -22821,7 +22810,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_TOP|wxLEFT|wxRIGHT</flag>
                                                                         <border>3</border>
-                                                                        <object class="wxSpinCtrl" name="LsbStudio2">
+                                                                        <object class="wxSpinCtrl" name="LsbStudioII">
                                                                             <size>50,23</size>
                                                                             <tooltip>Multi-Cart LSB Dial</tooltip>
                                                                             <font>
@@ -22844,7 +22833,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                         <border>4</border>
-                                                                        <object class="wxCheckBox" name="DisableSystemRomStudio2">
+                                                                        <object class="wxCheckBox" name="DisableSystemRomStudioII">
                                                                             <tooltip>Disable Studio II System ROM</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -22955,38 +22944,20 @@
                                                                             <style>wxCB_DROPDOWN</style>
                                                                             <content>
                                                                                 <item></item>
-                                                                                <item>39sf040.auto.bin</item>
-                                                                                <item>asteroids.st2</item>
                                                                                 <item>baseball.st2</item>
-                                                                                <item>berzerk.st2</item>
                                                                                 <item>bingo.st2</item>
                                                                                 <item>biorhythm.st2</item>
-                                                                                <item>blackjack.st2</item>
-                                                                                <item>climber.st2</item>
-                                                                                <item>combat.st2</item>
-                                                                                <item>computer.st2</item>
                                                                                 <item>concentration-match.st2</item>
                                                                                 <item>fun-with-numbers.st2</item>
-                                                                                <item>fifteen.st2</item>
                                                                                 <item>grand-pack.st2</item>
                                                                                 <item>gunfighter.st2</item>
-                                                                                <item>hockey.st2</item>
-                                                                                <item>invaders.st2</item>
-                                                                                <item>kaboom.st2</item>
                                                                                 <item>mathfun.st2</item>
-                                                                                <item>pacman.st2</item>
                                                                                 <item>pinball.st2</item>
-                                                                                <item>rocket.st2</item>
-                                                                                <item>RCA_demo.st2</item>
-                                                                                <item>RCA_TEST_CARTRIDGE_TESTER1.st2</item>
-                                                                                <item>ST3CTA Tester 3.st2</item>
                                                                                 <item>school.st2</item>
-                                                                                <item>scramble.st2</item>
                                                                                 <item>spacewar.st2</item>
                                                                                 <item>speedway.st2</item>
                                                                                 <item>star-wars.st2</item>
                                                                                 <item>tennis.st2</item>
-                                                                                <item>tv-arcade-2012.st2</item>
                                                                             </content>
                                                                         </object>
                                                                     </object>
@@ -24168,11 +24139,11 @@
                                                                             <style>wxCB_DROPDOWN</style>
                                                                             <content>
                                                                                 <item></item>
-                                                                                <item>cas-110.st2</item>
-                                                                                <item>cas-130.st2</item>
-                                                                                <item>cas-140.st2</item>
-                                                                                <item>cas-141.st2</item>
-                                                                                <item>cas-160.st2</item>
+                                                                                <item>cas-110-arithmetic_drill.st2</item>
+                                                                                <item>cas-130-sports_fan.st2</item>
+                                                                                <item>cas-140-gambler_i.st2</item>
+                                                                                <item>cas-141-gambler_ii.st2</item>
+                                                                                <item>cas-160-space_command.st2</item>
                                                                             </content>
                                                                         </object>
                                                                     </object>
@@ -29231,6 +29202,27 @@
                                                             <object class="wxBoxSizer">
                                                                 <orient>wxVERTICAL</orient>
                                                                 <object class="sizeritem">
+                                                                    <flag>wxGROW|wxBOTTOM</flag>
+                                                                    <border>3</border>
+                                                                    <object class="wxBoxSizer">
+                                                                        <orient>wxHORIZONTAL</orient>
+                                                                        <object class="sizeritem">
+                                                                            <flag>wxGROW</flag>
+                                                                            <border>4</border>
+                                                                            <option>20</option>
+                                                                            <object class="wxChoice" name="MainDirXml">
+                                                                                <size>166,-1</size>
+                                                                                <tooltip>Select Computer</tooltip>
+                                                                                <font>
+                                                                                    <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                    <size>-1</size>
+                                                                                    <family>roman</family>
+                                                                                </font>
+                                                                            </object>
+                                                                        </object>
+                                                                    </object>
+                                                                </object>
+                                                                <object class="sizeritem">
                                                                     <flag>wxALIGN_LEFT|wxBOTTOM</flag>
                                                                     <border>2</border>
                                                                     <object class="wxFlexGridSizer">
@@ -29276,20 +29268,6 @@
                                                                                             <family>roman</family>
                                                                                         </font>
                                                                                         <style>wxCB_DROPDOWN</style>
-                                                                                        <content>
-                                                                                            <item>-</item>
-                                                                                            <item>-</item>
-                                                                                            <item>-</item>
-                                                                                            <item>-</item>
-                                                                                            <item>-</item>
-                                                                                            <item>-</item>
-                                                                                            <item>-</item>
-                                                                                            <item>-</item>
-                                                                                            <item>-</item>
-                                                                                            <item>-</item>
-                                                                                            <item>-</item>
-                                                                                            <item>-</item>
-                                                                                        </content>
                                                                                     </object>
                                                                                 </object>
                                                                             </object>
@@ -29302,8 +29280,8 @@
                                                                                 <object class="sizeritem">
                                                                                     <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                                     <border>0</border>
-                                                                                    <object class="wxButton" name="RomButtonXml">
-                                                                                        <tooltip>Browse for ROM file</tooltip>
+                                                                                    <object class="wxButton" name="RomRamButton0Xml">
+                                                                                        <tooltip>Browse for ROM or RAM file</tooltip>
                                                                                         <font>
                                                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                             <size>-1</size>
@@ -29323,9 +29301,9 @@
                                                                                     <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                                     <border>0</border>
                                                                                     <option>20</option>
-                                                                                    <object class="wxComboBox" name="MainRomXml">
+                                                                                    <object class="wxComboBox" name="RomRam0Xml">
                                                                                         <size>166,-1</size>
-                                                                                        <tooltip>Specify ROM file</tooltip>
+                                                                                        <tooltip>Specify ROM or RAM file</tooltip>
                                                                                         <font>
                                                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                             <size>-1</size>
@@ -29342,8 +29320,8 @@
                                                                         <object class="sizeritem">
                                                                             <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                             <border>0</border>
-                                                                            <object class="wxButton" name="RamButtonXml">
-                                                                                <tooltip>Browse for RAM file</tooltip>
+                                                                            <object class="wxButton" name="RomRamButton1Xml">
+                                                                                <tooltip>Browse for ROM or RAM file</tooltip>
                                                                                 <font>
                                                                                     <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                     <size>-1</size>
@@ -29361,9 +29339,9 @@
                                                                                     <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                                     <border>0</border>
                                                                                     <option>20</option>
-                                                                                    <object class="wxComboBox" name="MainRamXml">
+                                                                                    <object class="wxComboBox" name="RomRam1Xml">
                                                                                         <size>166,-1</size>
-                                                                                        <tooltip>Specify RAM file</tooltip>
+                                                                                        <tooltip>Specify ROM or RAM file</tooltip>
                                                                                         <font>
                                                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                             <size>-1</size>
@@ -30015,6 +29993,20 @@
                                                                                 <bitmap>images_osx/screen.png</bitmap>
                                                                             </object>
                                                                         </object>
+                                                                        <object class="sizeritem">
+                                                                            <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+                                                                            <border>3</border>
+                                                                            <object class="wxCheckBox" name="InterlaceXml">
+                                                                                <tooltip>Enable interlace mode MC 6845 or intel 8275 video</tooltip>
+                                                                                <font>
+                                                                                    <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                    <size>-1</size>
+                                                                                    <family>roman</family>
+                                                                                </font>
+                                                                                <label>Interlace</label>
+                                                                                <checked>0</checked>
+                                                                            </object>
+                                                                        </object>
                                                                     </object>
                                                                 </object>
                                                                 <object class="sizeritem">
@@ -30272,6 +30264,154 @@
                                                                     <object class="wxBoxSizer">
                                                                         <orient>wxHORIZONTAL</orient>
                                                                         <object class="sizeritem">
+                                                                            <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                                                            <border>2</border>
+                                                                            <object class="wxStaticText" name="CassetteTextXml">
+                                                                                <font>
+                                                                                    <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                    <size>-1</size>
+                                                                                    <family>roman</family>
+                                                                                </font>
+                                                                                <label>Cassette 0:</label>
+                                                                            </object>
+                                                                        </object>
+                                                                        <object class="sizeritem">
+                                                                            <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                            <border>0</border>
+                                                                            <object class="wxBitmapButton" name="CasStopXml">
+                                                                                <size>22,22</size>
+                                                                                <tooltip>Stop cassette file 0</tooltip>
+                                                                                <enabled>0</enabled>
+                                                                                <bitmap>images_osx/stop.png</bitmap>
+                                                                            </object>
+                                                                        </object>
+                                                                        <object class="sizeritem">
+                                                                            <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                            <border>0</border>
+                                                                            <object class="wxBitmapButton" name="CasSaveXml">
+                                                                                <size>22,22</size>
+                                                                                <tooltip>Start recording to cassette file 0</tooltip>
+                                                                                <enabled>0</enabled>
+                                                                                <bitmap>images_osx/rec_off.png</bitmap>
+                                                                            </object>
+                                                                        </object>
+                                                                        <object class="sizeritem">
+                                                                            <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                            <border>0</border>
+                                                                            <object class="wxBitmapButton" name="CasRewindXml">
+                                                                                <size>22,22</size>
+                                                                                <tooltip>Fast forward cassette file 0</tooltip>
+                                                                                <enabled>0</enabled>
+                                                                                <bitmap>images_osx/rewind_black.png</bitmap>
+                                                                            </object>
+                                                                        </object>
+                                                                        <object class="sizeritem">
+                                                                            <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                            <border>0</border>
+                                                                            <object class="wxBitmapButton" name="CasLoadXml">
+                                                                                <size>22,22</size>
+                                                                                <tooltip>Play cassette file 0</tooltip>
+                                                                                <enabled>0</enabled>
+                                                                                <bitmap>images_osx/play_black.png</bitmap>
+                                                                            </object>
+                                                                        </object>
+                                                                        <object class="sizeritem">
+                                                                            <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                            <border>0</border>
+                                                                            <object class="wxBitmapButton" name="CasForwardXml">
+                                                                                <size>22,22</size>
+                                                                                <tooltip>Fast forward cassette file 0</tooltip>
+                                                                                <enabled>0</enabled>
+                                                                                <bitmap>images_osx/forward_black.png</bitmap>
+                                                                            </object>
+                                                                        </object>
+                                                                        <object class="sizeritem">
+                                                                            <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                            <border>0</border>
+                                                                            <object class="wxBitmapButton" name="CasPauseXml">
+                                                                                <size>22,22</size>
+                                                                                <tooltip>Pause cassette file 0</tooltip>
+                                                                                <enabled>0</enabled>
+                                                                                <bitmap>images_osx/pause_off.png</bitmap>
+                                                                                <selected>images_osx/pause_off.png</selected>
+                                                                                <focus>images_osx/pause_off.png</focus>
+                                                                            </object>
+                                                                        </object>
+                                                                        <object class="sizeritem">
+                                                                            <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                            <border>2</border>
+                                                                            <object class="wxBitmapButton" name="RealCasLoadXml">
+                                                                                <size>22,22</size>
+                                                                                <tooltip>Disable / Enable real cassette loading</tooltip>
+                                                                                <style>wxBU_AUTODRAW</style>
+                                                                                <hidden>1</hidden>
+                                                                                <bitmap>images_osx/real_cas_off.png</bitmap>
+                                                                            </object>
+                                                                        </object>
+                                                                        <object class="sizeritem">
+                                                                            <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                                                            <border>2</border>
+                                                                            <object class="wxStaticText" name="CassetteTextXml1">
+                                                                                <font>
+                                                                                    <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                    <size>-1</size>
+                                                                                    <family>roman</family>
+                                                                                </font>
+                                                                                <label>1:</label>
+                                                                            </object>
+                                                                        </object>
+                                                                        <object class="sizeritem">
+                                                                            <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                            <border>0</border>
+                                                                            <object class="wxBitmapButton" name="CasStop1Xml">
+                                                                                <size>22,22</size>
+                                                                                <tooltip>Stop cassette file 1</tooltip>
+                                                                                <enabled>0</enabled>
+                                                                                <bitmap>images_osx/stop.png</bitmap>
+                                                                            </object>
+                                                                        </object>
+                                                                        <object class="sizeritem">
+                                                                            <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                            <border>0</border>
+                                                                            <object class="wxBitmapButton" name="CasSave1Xml">
+                                                                                <size>22,22</size>
+                                                                                <tooltip>Start recording to cassette file 1</tooltip>
+                                                                                <enabled>0</enabled>
+                                                                                <bitmap>images_osx/rec_off.png</bitmap>
+                                                                            </object>
+                                                                        </object>
+                                                                        <object class="sizeritem">
+                                                                            <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                            <border>0</border>
+                                                                            <object class="wxBitmapButton" name="CasLoad1Xml">
+                                                                                <size>22,22</size>
+                                                                                <tooltip>Play cassette file 1</tooltip>
+                                                                                <enabled>0</enabled>
+                                                                                <bitmap>images_osx/play_black.png</bitmap>
+                                                                            </object>
+                                                                        </object>
+                                                                    </object>
+                                                                </object>
+                                                                <object class="sizeritem">
+                                                                    <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+                                                                    <border>2</border>
+                                                                    <object class="wxBoxSizer">
+                                                                        <orient>wxHORIZONTAL</orient>
+                                                                        <object class="sizeritem">
+                                                                            <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                            <border>0</border>
+                                                                            <object class="wxCheckBox" name="AutoCasLoadXml">
+                                                                                <tooltip>Enable auto mode for cassette file</tooltip>
+                                                                                <font>
+                                                                                    <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                    <size>-1</size>
+                                                                                    <family>roman</family>
+                                                                                </font>
+                                                                                <label>Auto</label>
+                                                                                <checked>1</checked>
+                                                                            </object>
+                                                                        </object>
+                                                                        <object class="sizeritem">
                                                                             <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                             <border>0</border>
                                                                             <object class="wxCheckBox" name="TurboXml">
@@ -30311,112 +30451,6 @@
                                                                             </object>
                                                                         </object>
                                                                         <object class="sizeritem">
-                                                                            <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                            <border>0</border>
-                                                                            <object class="wxBitmapButton" name="CasStopXml">
-                                                                                <size>22,22</size>
-                                                                                <tooltip>Stop cassette file</tooltip>
-                                                                                <enabled>0</enabled>
-                                                                                <bitmap>images_osx/stop.png</bitmap>
-                                                                            </object>
-                                                                        </object>
-                                                                        <object class="sizeritem">
-                                                                            <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                            <border>0</border>
-                                                                            <object class="wxBitmapButton" name="CasSaveXml">
-                                                                                <size>22,22</size>
-                                                                                <tooltip>Start recording to cassette file</tooltip>
-                                                                                <enabled>0</enabled>
-                                                                                <bitmap>images_osx/rec_off.png</bitmap>
-                                                                            </object>
-                                                                        </object>
-                                                                        <object class="sizeritem">
-                                                                            <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                            <border>0</border>
-                                                                            <object class="wxBitmapButton" name="CasRewindXml">
-                                                                                <size>22,22</size>
-                                                                                <tooltip>Fast forward cassette file</tooltip>
-                                                                                <enabled>0</enabled>
-                                                                                <bitmap>images_osx/rewind_black.png</bitmap>
-                                                                            </object>
-                                                                        </object>
-                                                                        <object class="sizeritem">
-                                                                            <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                            <border>0</border>
-                                                                            <object class="wxBitmapButton" name="CasLoadXml">
-                                                                                <size>22,22</size>
-                                                                                <tooltip>Play cassette file</tooltip>
-                                                                                <enabled>0</enabled>
-                                                                                <bitmap>images_osx/play_black.png</bitmap>
-                                                                            </object>
-                                                                        </object>
-                                                                        <object class="sizeritem">
-                                                                            <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                            <border>0</border>
-                                                                            <object class="wxBitmapButton" name="CasForwardXml">
-                                                                                <size>22,22</size>
-                                                                                <tooltip>Fast forward cassette file</tooltip>
-                                                                                <enabled>0</enabled>
-                                                                                <bitmap>images_osx/forward_black.png</bitmap>
-                                                                            </object>
-                                                                        </object>
-                                                                        <object class="sizeritem">
-                                                                            <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-                                                                            <border>0</border>
-                                                                            <object class="wxBitmapButton" name="CasPauseXml">
-                                                                                <size>22,22</size>
-                                                                                <tooltip>Pause cassette file</tooltip>
-                                                                                <enabled>0</enabled>
-                                                                                <bitmap>images_osx/pause_off.png</bitmap>
-                                                                                <selected>images_osx/pause_off.png</selected>
-                                                                                <focus>images_osx/pause_off.png</focus>
-                                                                            </object>
-                                                                        </object>
-                                                                        <object class="sizeritem">
-                                                                            <flag>wxALIGN_CENTER_VERTICAL</flag>
-                                                                            <border>2</border>
-                                                                            <object class="wxBitmapButton" name="RealCasLoadXml">
-                                                                                <size>22,22</size>
-                                                                                <tooltip>Disable / Enable real cassette loading</tooltip>
-                                                                                <style>wxBU_AUTODRAW</style>
-                                                                                <hidden>1</hidden>
-                                                                                <bitmap>images_osx/real_cas_off.png</bitmap>
-                                                                            </object>
-                                                                        </object>
-                                                                    </object>
-                                                                </object>
-                                                                <object class="sizeritem">
-                                                                    <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
-                                                                    <border>2</border>
-                                                                    <object class="wxBoxSizer">
-                                                                        <orient>wxHORIZONTAL</orient>
-                                                                        <object class="sizeritem">
-                                                                            <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                            <border>0</border>
-                                                                            <object class="wxCheckBox" name="AutoCasLoadXml">
-                                                                                <tooltip>Enable auto mode for cassette file</tooltip>
-                                                                                <font>
-                                                                                    <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                    <size>-1</size>
-                                                                                    <family>roman</family>
-                                                                                </font>
-                                                                                <label>Auto</label>
-                                                                                <checked>1</checked>
-                                                                            </object>
-                                                                        </object>
-                                                                        <object class="sizeritem">
-                                                                            <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-                                                                            <border>2</border>
-                                                                            <object class="wxStaticText" name="CasCounterXml">
-                                                                                <font>
-                                                                                    <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                    <size>-1</size>
-                                                                                    <family>roman</family>
-                                                                                </font>
-                                                                                <label>00:00:000</label>
-                                                                            </object>
-                                                                        </object>
-                                                                        <object class="sizeritem">
                                                                             <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxBOTTOM</flag>
                                                                             <border>3</border>
                                                                             <object class="wxStaticBitmap" name="VuXml">
@@ -30432,6 +30466,32 @@
                                                                     <border>3</border>
                                                                     <object class="wxBoxSizer">
                                                                         <orient>wxHORIZONTAL</orient>
+                                                                        <object class="sizeritem">
+                                                                            <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                            <border>2</border>
+                                                                            <object class="wxStaticText" name="CasCounterXml">
+                                                                                <font>
+                                                                                    <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                    <size>-1</size>
+                                                                                    <family>roman</family>
+                                                                                </font>
+                                                                                <label>00:00:000</label>
+                                                                            </object>
+                                                                        </object>
+                                                                        <object class="sizeritem">
+                                                                            <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+                                                                            <border>5</border>
+                                                                            <object class="wxCheckBox" name="ControlWindowsXml">
+                                                                                <tooltip>Show Xml Elf II control windows</tooltip>
+                                                                                <font>
+                                                                                    <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                    <size>-1</size>
+                                                                                    <family>roman</family>
+                                                                                </font>
+                                                                                <label>Front Panel</label>
+                                                                                <checked>0</checked>
+                                                                            </object>
+                                                                        </object>
                                                                         <object class="sizeritem">
                                                                             <flag>wxALIGN_TOP</flag>
                                                                             <border>3</border>
@@ -30477,34 +30537,6 @@
                                                                                 </object>
                                                                             </object>
                                                                         </object>
-                                                                        <object class="sizeritem">
-                                                                            <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-                                                                            <border>5</border>
-                                                                            <object class="wxCheckBox" name="ControlWindowsXml">
-                                                                                <tooltip>Show Xml Elf II control windows</tooltip>
-                                                                                <font>
-                                                                                    <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                    <size>-1</size>
-                                                                                    <family>roman</family>
-                                                                                </font>
-                                                                                <label>Front Panel</label>
-                                                                                <checked>0</checked>
-                                                                            </object>
-                                                                        </object>
-                                                                        <object class="sizeritem">
-                                                                            <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-                                                                            <border>3</border>
-                                                                            <object class="wxCheckBox" name="InterlaceXml">
-                                                                                <tooltip>Enable interlace mode MC 6845 or intel 8275 video</tooltip>
-                                                                                <font>
-                                                                                    <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                    <size>-1</size>
-                                                                                    <family>roman</family>
-                                                                                </font>
-                                                                                <label>Interlace</label>
-                                                                                <checked>0</checked>
-                                                                            </object>
-                                                                        </object>
                                                                     </object>
                                                                 </object>
                                                                 <object class="sizeritem">
@@ -30526,44 +30558,51 @@
                                                                             </object>
                                                                         </object>
                                                                         <object class="sizeritem">
-                                                                            <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                                                            <flag>wxALIGN_TOP</flag>
                                                                             <border>1</border>
-                                                                            <object class="wxStaticText" name="TextClearXml">
-                                                                                <font>
-                                                                                    <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                    <size>-1</size>
-                                                                                    <family>roman</family>
-                                                                                </font>
-                                                                                <style>wxALIGN_RIGHT</style>
-                                                                                <label>Clear non-volatile</label>
-                                                                            </object>
-                                                                        </object>
-                                                                        <object class="sizeritem">
-                                                                            <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-                                                                            <border>3</border>
-                                                                            <object class="wxCheckBox" name="XmlClearRam">
-                                                                                <tooltip>Clear non-volatile RAM on start-up</tooltip>
-                                                                                <font>
-                                                                                    <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                    <size>-1</size>
-                                                                                    <family>roman</family>
-                                                                                </font>
-                                                                                <label>RAM</label>
-                                                                                <checked>0</checked>
-                                                                            </object>
-                                                                        </object>
-                                                                        <object class="sizeritem">
-                                                                            <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-                                                                            <border>3</border>
-                                                                            <object class="wxCheckBox" name="XmlClearRtc">
-                                                                                <tooltip>Clear non-volatile RAM on start-up</tooltip>
-                                                                                <font>
-                                                                                    <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                    <size>-1</size>
-                                                                                    <family>roman</family>
-                                                                                </font>
-                                                                                <label>RTC</label>
-                                                                                <checked>0</checked>
+                                                                            <object class="wxBoxSizer">
+                                                                                <orient>wxHORIZONTAL</orient>
+                                                                                <object class="sizeritem">
+                                                                                    <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                                                                    <border>1</border>
+                                                                                    <object class="wxStaticText" name="TextClearXml">
+                                                                                        <font>
+                                                                                            <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                            <size>-1</size>
+                                                                                            <family>roman</family>
+                                                                                        </font>
+                                                                                        <style>wxALIGN_RIGHT</style>
+                                                                                        <label>Clear non-volatile</label>
+                                                                                    </object>
+                                                                                </object>
+                                                                                <object class="sizeritem">
+                                                                                    <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                                    <border>3</border>
+                                                                                    <object class="wxCheckBox" name="XmlClearRam">
+                                                                                        <tooltip>Clear non-volatile RAM on start-up</tooltip>
+                                                                                        <font>
+                                                                                            <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                            <size>-1</size>
+                                                                                            <family>roman</family>
+                                                                                        </font>
+                                                                                        <label>RAM</label>
+                                                                                        <checked>0</checked>
+                                                                                    </object>
+                                                                                </object>
+                                                                                <object class="sizeritem">
+                                                                                    <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                                    <border>3</border>
+                                                                                    <object class="wxCheckBox" name="XmlClearRtc">
+                                                                                        <tooltip>Clear non-volatile RAM on start-up</tooltip>
+                                                                                        <font>
+                                                                                            <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                            <size>-1</size>
+                                                                                            <family>roman</family>
+                                                                                        </font>
+                                                                                        <label>RTC</label>
+                                                                                        <checked>0</checked>
+                                                                                    </object>
+                                                                                </object>
                                                                             </object>
                                                                         </object>
                                                                     </object>
@@ -36022,7 +36061,7 @@
                                                                         <object class="wxSpinButton" name="DebugDisplayPageSpinButton">
                                                                             <size>30,-1</size>
                                                                             <tooltip>Show next or previous 256 bytes of memory</tooltip>
-                                                                            <style>wxSP_HORIZONTAL|wxSP_ARROW_KEYS|wxSP_WRAP|wxNO_BORDER</style>
+                                                                            <style>wxSP_VERTICAL|wxSP_ARROW_KEYS|wxSP_WRAP|wxNO_BORDER</style>
                                                                             <value>0</value>
                                                                             <min>0</min>
                                                                             <max>100</max>

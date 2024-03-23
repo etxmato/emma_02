@@ -621,7 +621,7 @@ void Cosmicos::configureComputer()
 
     setCycleType(COMPUTERCYCLE, LEDCYCLE);
     p_Main->message("Configuring Cosmicos");
-    p_Main->message("    Output 7: display output, input 7: data input");
+    p_Main->message("	Output 7: display output, input 7: data input");
     if (cosmicosConfiguration.useHexKeyboardEf3 || cosmicosConfiguration.useHex)
     {
         efType_[0][0][1] = COSMICOSRET;
@@ -632,14 +632,14 @@ void Cosmicos::configureComputer()
         outType_[0][0][5] = COSMICOSHEX;
         outType_[0][0][6] = COSMICOS7SEG;
         cycleType_[5] = COSMICOS7SEG;
-        p_Main->message("    Output 5: select hex row, input 5: hex column");
-        p_Main->message("    Output 6: 7 segment display, input 6: reset 7 segment");
-        p_Main->message("    EF 1: hex RET, EF2: hex DEC/SEQ, EF3: hex REQ/SEQ");
+        p_Main->message("	Output 5: select hex row, input 5: hex column");
+        p_Main->message("	Output 6: 7 segment display, input 6: reset 7 segment");
+        p_Main->message("	EF 1: hex RET, EF2: hex DEC/SEQ, EF3: hex REQ/SEQ");
     }
     if (cosmicosConfiguration.vtType == VTNONE)
     {
         efType_[0][0][4] = COSMICOSEF;
-        p_Main->message("    EF 4: 0 when in button pressed");
+        p_Main->message("	EF 4: 0 when in button pressed");
     }
     p_Main->message("");
 

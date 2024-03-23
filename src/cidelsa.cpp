@@ -293,9 +293,9 @@ void Cidelsa::configureComputer()
     efType_[0][0][4] = BUTTON_EF4;
 
     p_Main->message("Configuring Cidelsa");
-    p_Main->message("    Input 1: input A, input 2: dip settings, input 4: input B");
-    p_Main->message("    Output 1: output A");
-    p_Main->message("    EF 2: return(test mode), EF 3: shift(coin B), EF 4: tab(coin A)\n");
+    p_Main->message("	Input 1: input A, input 2: dip settings, input 4: input B");
+    p_Main->message("	Output 1: output A");
+    p_Main->message("	EF 2: return(test mode), EF 3: shift(coin B), EF 4: tab(coin A)\n");
 
     cidEF2_ = 1;
     cidEF3_ = 1;

@@ -19,12 +19,12 @@ public:
 private:
 };
 
-class Microtutor2 : public wxFrame, public Cdp1802
+class MicrotutorII : public wxFrame, public Cdp1802
 {
 public:
-    Microtutor2(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf, Conf computerConf);
-    Microtutor2() {};
-    ~Microtutor2();
+    MicrotutorII(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf, Conf computerConf);
+    MicrotutorII() {};
+    ~MicrotutorII();
 
     void onClose(wxCloseEvent&WXUNUSED(event));
     bool keyUpReleased(int key, wxKeyEvent& event);

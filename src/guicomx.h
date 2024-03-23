@@ -162,8 +162,6 @@ protected:
 
 private:
     wxString Pl80Data_[3];
-    wxString floppyDir_[2];
-    wxString floppy_[2];
     bool useExpansionRam_;
     int expansionRamSlot_;
     wxString saveCardText_;

@@ -159,7 +159,10 @@ void VideoScreen::onChar(wxKeyEvent& event)
 #endif
                         wxTextDataObject data;
                         wxTheClipboard->GetData( data );
-                        p_Computer->ctrlvText(data.GetText());
+                        if (computerType_ == XML)
+                            p_Computer->ctrlvTextXml(data.GetText());
+                        else
+                            p_Computer->ctrlvText(data.GetText());
 #ifndef __WXMAC__
                     }
 #endif

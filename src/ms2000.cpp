@@ -97,10 +97,10 @@ void Ms2000::configureComputer()
     efType_[0][0][2] = MS2000CASEF;
     
     p_Main->message("Configuring MS2000");
-    p_Main->message("    Output 1: set I/O group, input 1: read I/O group");
-    p_Main->message("    I/O group 1: video terminal & printer");
-    p_Main->message("    I/O group 2: tape");
-    p_Main->message("    I/O group 8: 18S651 and uPD765");
+    p_Main->message("	Output 1: set I/O group, input 1: read I/O group");
+    p_Main->message("	I/O group 1: video terminal & printer");
+    p_Main->message("	I/O group 2: tape");
+    p_Main->message("	I/O group 8: 18S651 and uPD765");
  
     p_Main->message("");
     
@@ -122,12 +122,12 @@ void Ms2000::configureComputer()
     }
 
     p_Main->message("Configuring printer support");
-    p_Main->message("    Output 6: data out");
-    p_Main->message("    EF 1: printer ready\n");
+    p_Main->message("	Output 6: data out");
+    p_Main->message("	EF 1: printer ready\n");
 
     p_Main->message("Configuring tape support");
-    p_Main->message("    Output 4: tape motor, output 5: cassette out");
-    p_Main->message("    EF 2: cassette in\n");
+    p_Main->message("	Output 4: tape motor, output 5: cassette out");
+    p_Main->message("	EF 2: cassette in\n");
 
     configureUpd765(ms2000Configuration.fdcType_, MS2000EF);
     resetCpu();

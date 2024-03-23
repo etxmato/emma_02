@@ -89,13 +89,13 @@ void Vip::configureComputer()
     if (activeSoundType_ == SOUND_1863_1864)
     {
         outType_[0][0][3] = VIPOUT3;
-        p_Main->message("    Output 2: hex key latch, output 3: tone latch");
-        p_Main->message("    output 4: address latch, output 7: cassette on/off");
+        p_Main->message("	Output 2: hex key latch, output 3: tone latch");
+        p_Main->message("	output 4: address latch, output 7: cassette on/off");
     }
     else
     {
-        p_Main->message("    Output 2: hex key latch, output 4: address latch");
-        p_Main->message("    output 7: cassette on/off");
+        p_Main->message("	Output 2: hex key latch, output 4: address latch");
+        p_Main->message("	output 7: cassette on/off");
     }
 
     if (activeSoundType_ == SOUND_SUPER_VP550 || activeSoundType_ == SOUND_SUPER_VP551)
@@ -105,11 +105,11 @@ void Vip::configureComputer()
 
     if (vp580_ || cdp1862_)
     {
-        p_Main->message("    EF 2: cassette in, EF 3: hex keypad A, EF 4: hex keypad B\n");
+        p_Main->message("	EF 2: cassette in, EF 3: hex keypad A, EF 4: hex keypad B\n");
         efType_[0][0][4] = VIPKEYEF4;
     }
     else
-        p_Main->message("    EF 2: cassette in, EF 3: hex keypad\n");
+        p_Main->message("	EF 2: cassette in, EF 3: hex keypad\n");
 
     usePrinter_ = false;
     if (p_Main->getPrinterStatus(VIP))
@@ -117,7 +117,7 @@ void Vip::configureComputer()
         outType_[0][0][3] = VIPOUT3;
         usePrinter_ = true;
         p_Main->message("Configuring Centronics P-1/PR-40 Printer");
-        p_Main->message("    Output 3: latch, Q: strobe, EF 3: busy\n");
+        p_Main->message("	Output 3: latch, Q: strobe, EF 3: busy\n");
     }
     if (vipConfiguration.vtType != VTNONE)
     {
@@ -243,7 +243,7 @@ void Vip::configureKeyboard()
     wxString printBuffer;
     p_Main->message("Configuring Ascii Keyboard");
 
-    printBuffer.Printf("    Input 3: read data, EF 4: data ready flag\n");
+    printBuffer.Printf("	Input 3: read data, EF 4: data ready flag\n");
     p_Main->message(printBuffer);
 }
 
@@ -550,7 +550,7 @@ void Vip::cycleKey()
             else if (vipRunCommand_ == 2)
             {
                 int saveExec = p_Main->pload();
-                if (saveExec == 1)
+                if (saveExec == -1)
                     vipRunCommand_ = 0;
                 else
                 {

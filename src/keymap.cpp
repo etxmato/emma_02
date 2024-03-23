@@ -802,7 +802,7 @@ void KeyMapDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
         p_Main->setConfigItem(computerTypeStr_+conf, hexKeyDefA2_[i]);
     }
 
-    if ((computerTypeStr_ == "Vip") || (computerTypeStr_ == "Studio2") || (computerTypeStr_ == "Visicom") || (computerTypeStr_ == "Victory") || (computerTypeStr_ == "StudioIV"))
+    if ((computerTypeStr_ == "Vip") || (computerTypeStr_ == "StudioII") || (computerTypeStr_ == "Visicom") || (computerTypeStr_ == "Victory") || (computerTypeStr_ == "StudioIV"))
     {
         for (int i= 0; i < numberOfKeys_; i++)
         {    
@@ -829,7 +829,7 @@ void KeyMapDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
         }
         p_Computer->reDefineInKey(inButton1_, inButton2_);
     }
-    if (computerTypeStr_ == "Studio2" || computerTypeStr_ == "Visicom" || computerTypeStr_ == "Victory")
+    if (computerTypeStr_ == "StudioII" || computerTypeStr_ == "Visicom" || computerTypeStr_ == "Victory")
     {
         p_Main->setConfigBool(computerTypeStr_+"/DiagonalA2", simDefA2_);
         p_Main->setConfigBool(computerTypeStr_+"/DiagonalB2", simDefB2_);
@@ -2151,7 +2151,7 @@ void KeyMapDialog::enableAuto(bool status)
         XRCCTRL(*this, button, wxButton)->Enable(!status);
     }
     
-    if ((computerTypeStr_ == "Studio2") || (computerTypeStr_ == "Visicom") || (computerTypeStr_ == "Victory"))
+    if ((computerTypeStr_ == "StudioII") || (computerTypeStr_ == "Visicom") || (computerTypeStr_ == "Victory"))
     {
         XRCCTRL(*this, "StudioChar", wxButton)->Enable(!status);
         XRCCTRL(*this, "StudioLocation", wxButton)->Enable(!status);

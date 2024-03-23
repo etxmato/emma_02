@@ -1,0 +1,147 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>RCA Microboard Computer Development System</name>
+        <config>CDP18S693, 601 1802, Q/F &amp; PIO - 652 Memory &amp; Tape</config>
+        <cpu>1802</cpu>
+        <clock>2.0</clock>
+        <boot>0</boot>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init>
+        <dirname>MCDS</dirname>
+    </system>
+    
+    <splash>
+        <text>To start the MCDS UT62 Monitor:&#xD;- Press ‘return’ to set default baud rate&#xD;&#xD;UT62 Command summary:&#xD;A: Assembler&#xD;B: BASIC&#xD;C: Read &amp; display from tape&#xD;D: Memory Display&#xD;E: Tape Editor&#xD;F: Memory Fill&#xD;I: Memory Insert&#xD;J: Rewind&#xD;M: Memory Move&#xD;P: Program Run&#xD;R: Read from tape&#xD;S: Memory Substitute&#xD;W: Write to tape</text>
+    </splash>
+    
+    <bootstrap>
+        <address>0x8000</address>
+        <timer>64</timer>
+    </bootstrap>
+    
+    <iogroup>
+        <out mask="0xff">1</out>
+    </iogroup>
+    
+    <gui>
+        <ledtimer>100</ledtimer>
+        <memaccess>
+            <location>off</location>
+            <start>0</start>
+        </memaccess>
+    </gui>
+
+    <memory>
+        <!-- CDP18S601, 4K RAM @0000, 4*1K ROM not used -->
+        <guiram>
+            <start>0x0000</start>
+            <end>0x0FFF</end>
+        </guiram>
+
+        <!-- CDP18S652, 2K ROM @8000, 8K ROM @9000, 8K ROM @B000, 4K ROM @E000 (not used), 1K RAM @8C00 -->
+        <guirom>
+            <start>0x8000</start>
+            <end>0x87FF</end>
+            <pulldown mask="ut*.bin" exclude="part">Microboard</pulldown>
+            <filename verify="true">ut62_rev2.bin</filename>
+        </guirom>
+        
+        <rom>
+            <start>0x9000</start>
+            <end>0xA7FF</end>
+            <filename verify="true">edit_asm.bin</filename>
+        </rom>
+        
+        <rom>
+            <start>0xB000</start>
+            <end>0xDFFF</end>
+            <filename verify="true">basic_3.bin</filename>
+        </rom>
+        
+        <rom>
+            <start>0xE000</start>
+            <end>0xEFFF</end>
+        </rom>
+        
+        <ram>
+            <start>0x8C00</start>
+            <end>0x8FFF</end>
+        </ram>
+        
+    </memory>
+        
+    <cdp1851 init="off">
+        <iogroup>8</iogroup>
+        <pos>310, 0</pos>   
+        <out type="a">4</out>
+        <out type="b">6</out>
+        <in type="a">4</in>
+        <in type="b">6</in>
+        <out type="control">2</out>
+        <in type="status">2</in>
+        <ef type="a">1</ef>
+        <ef type="b">2</ef>
+    </cdp1851>
+    
+    <vt type="vt100" connection="serial">
+        <font>vt100.bin</font>
+        <ef>4</ef>
+        <q></q>
+        <caps />
+        <baud type="receive">1200</baud>
+        <baud type="transmit">1200</baud>
+        <border>0x0</border>
+        <color type="fore">0, 255, 0</color>
+        <color type="back">0, 0x40, 0</color>
+        <color type="high">0, 0xff, 0</color>
+    </vt>
+
+    <cassette decks="2" type="micro">
+        <iogroup>2</iogroup>
+        <out>4</out>
+        <out type="q">5</out>
+        <ef>2</ef>
+    </cassette>
+
+    <basic>
+        <pload>super</pload>
+        <defus>0x81</defus>
+        <eop>0x83</eop>
+        <string>0x92</string>
+        <array>0x94</array>
+        <eod>0x99</eod>
+        <ram>0x200</ram>
+    </basic>
+
+    <locations>
+        <key_input>0x8107, 0x8145</key_input>
+        
+        <!-- Machine states -->
+        <reset_state command="&#xD;BC">0x8029</reset_state>
+        <ut_state command="BC">0x83ff, 0xB225</ut_state>
+        <basic_state_cw command="C">0xb011</basic_state_cw>
+        <basic_state>0xb053</basic_state>
+        <run_state>0xc076, 0xc79f</run_state>
+
+        <stop_cas_micro>0x813e</stop_cas_micro>
+    </locations>
+
+    <debugger>
+        <scrt mode="off">
+            <call reg="4">-1</call>
+            <return reg="5">-1</return>
+        </scrt>
+
+        <assembler>
+            <filename>mycode</filename>
+            <code_start>0</code_start>
+            <code_end>0xFFF</code_end>
+        </assembler>
+    </debugger>
+
+</emmaconfig>

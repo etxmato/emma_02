@@ -1413,7 +1413,7 @@ void Printer::configureParallelPrinter(IoConfiguration portConf)
 
     p_Main->message("Configuring Parallel Printer" + ioGroup);
 
-    printBuffer.Printf("    Output %d: write data, input %d: status\n", portConf.parallelPrinterOutput, portConf.parallelPrinterInput);
+    printBuffer.Printf("	Output %d: write data, input %d: status\n", portConf.parallelPrinterOutput, portConf.parallelPrinterInput);
     p_Main->message(printBuffer);
 }
 
@@ -1433,7 +1433,7 @@ void Printer::configureSerialPrinter(IoConfiguration portConf)
 
     p_Main->message("Configuring Serial Printer" + ioGroup);
 
-    printBuffer.Printf("    Output %d: write data, input %d: status\n", portConf.serialPrinterOutput, portConf.serialPrinterInput);
+    printBuffer.Printf("	Output %d: write data, input %d: status\n", portConf.serialPrinterOutput, portConf.serialPrinterInput);
     p_Main->message(printBuffer);
 
     dataBits_ = portConf.serialPrinterBits;
@@ -1463,7 +1463,7 @@ void Printer::configureThermalPrinter(IoConfiguration portConf)
 
     p_Main->message("Configuring Thermal Printer" + ioGroup);
 
-    printBuffer.Printf("    Q = mode, Output %d: write data, input %d: status, ef %d: busy\n", portConf.thermalPrinterOutput, portConf.thermalPrinterInput, portConf.thermalPrinterEf);
+    printBuffer.Printf("	Q = mode, Output %d: write data, input %d: status, ef %d: busy\n", portConf.thermalPrinterOutput, portConf.thermalPrinterInput, portConf.thermalPrinterEf);
     p_Main->message(printBuffer);
     p_Computer->setCycleType(PRINTCYCLE, THERMALCYCLE);
 }
@@ -1488,10 +1488,10 @@ void Printer::configureBasicPrinter(IoConfiguration portConf)
     if (portConf.printerEf != 0)
     {
         p_Computer->setEfType(ioGroupNum, portConf.printerEf, BASIC_PRINT_EF);
-        printBuffer.Printf("    Output %d: write data, EF %d: data ready\n", portConf.printerOutput, portConf.printerEf);
+        printBuffer.Printf("	Output %d: write data, EF %d: data ready\n", portConf.printerOutput, portConf.printerEf);
     }
     else
-        printBuffer.Printf("    Output %d: write data\n", portConf.printerOutput);
+        printBuffer.Printf("	Output %d: write data\n", portConf.printerOutput);
     p_Main->message(printBuffer);
 }
 

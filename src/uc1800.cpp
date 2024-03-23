@@ -558,8 +558,8 @@ void Uc1800::configureComputer()
     setCycleType(COMPUTERCYCLE, LEDCYCLE);
     
     p_Main->message("Configuring UC1800");
-    p_Main->message("    Output 1: display output, input 1: data input");
-    p_Main->message("    EF 1: 0 when start button pressed");
+    p_Main->message("	Output 1: display output, input 1: data input");
+    p_Main->message("	EF 1: 0 when start button pressed");
     p_Main->message("");
 
     inKey1_ = p_Main->getDefaultInKey1("UC1800");

@@ -499,7 +499,7 @@ void Super::configureComputer()
     wxString printBuffer;
 
     p_Main->message("Configuring Super Elf");
-    printBuffer.Printf("    Output %d: display output, input %d: data input", elfConfiguration.ioConfiguration.hexOutput.portNumber, elfConfiguration.ioConfiguration.hexInput.portNumber);
+    printBuffer.Printf("	Output %d: display output, input %d: data input", elfConfiguration.ioConfiguration.hexOutput.portNumber, elfConfiguration.ioConfiguration.hexInput.portNumber);
     p_Main->message(printBuffer);
 
     p_Computer->setInType(elfConfiguration.ioConfiguration.hexInput.portNumber, SUPERIN);
@@ -509,27 +509,27 @@ void Super::configureComputer()
     {
         if (elfConfiguration.emsType_ == RAM)
         {
-            printBuffer.Printf("    Address C000-FFFF: EMS-512KB page select");
+            printBuffer.Printf("	Address C000-FFFF: EMS-512KB page select");
             p_Main->message(printBuffer);
         }
 
-        printBuffer.Printf("    Output %d: EMS-512KB page select", elfConfiguration.ioConfiguration.emsOutput[0]);
+        printBuffer.Printf("	Output %d: EMS-512KB page select", elfConfiguration.ioConfiguration.emsOutput[0]);
         p_Computer->setOutType(elfConfiguration.ioConfiguration.emsOutput[0], EMSMAPPEROUT);
         p_Main->message(printBuffer);
     }
     if (elfConfiguration.useTape && !elfConfiguration.useXmodem)
     {
         efType_[0][0][elfConfiguration.ioConfiguration.tapeEf] = ELF2EF2;
-        printBuffer.Printf("    EF %d: cassette in", elfConfiguration.ioConfiguration.tapeEf);
+        printBuffer.Printf("	EF %d: cassette in", elfConfiguration.ioConfiguration.tapeEf);
         p_Main->message(printBuffer);
     }
     if (elfConfiguration.useHexKeyboardEf3)
     {
-        printBuffer.Printf("    EF %d: 0 when hex button pressed", elfConfiguration.ioConfiguration.hexEf);
+        printBuffer.Printf("	EF %d: 0 when hex button pressed", elfConfiguration.ioConfiguration.hexEf);
         p_Main->message(printBuffer);
     }
 
-    p_Main->message("    EF 4: 0 when in button pressed");
+    p_Main->message("	EF 4: 0 when in button pressed");
 
     p_Main->message("");
 

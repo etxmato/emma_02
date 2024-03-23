@@ -21,10 +21,12 @@ private:
     void parseXml_Bootstrap(int computer, wxXmlNode &node);
     void parseXml_IdeDisk(int computer, wxXmlNode &node);
     void parseXml_FdcDisk(int computer, wxXmlNode &node);
+    void parseXml_Upd765(int computer, wxXmlNode &node);
     void parseXml_CoinVideo(int computer, wxXmlNode &node);
     void parseXml_PixieVideo(int computer, wxXmlNode &node);
     void parseXml_1862Video(int computer, wxXmlNode &node);
     void parseXml_1864Video(int computer, wxXmlNode &node);
+    void parseXml_St4Video(int computer, wxXmlNode &node);
     void parseXml_Vip2KVideo(int computer, wxXmlNode &node);
     void parseXml_fredVideo(int computer, wxXmlNode &node);
     void parseXml_pixieGraphics(int computer, wxXmlNode &node);
@@ -49,8 +51,12 @@ private:
     void parseXml_FredKeypad (int computer, wxXmlNode &node);
     void parseXml_EtiKeypad (int computer, wxXmlNode &node);
     void parseXml_EfButtons (int computer, wxXmlNode &node);
+    void parseXml_AdConvertor (int computer, wxXmlNode &node);
     void parseXml_FrontPanel (int computer, wxXmlNode &node);
     void parseXml_FrontPanelItem (int computer, wxXmlNode &node);
+    void parseXml_Cdp1851 (int computer, wxXmlNode &node, bool windowOn);
+    void parseXml_Cdp1852 (int computer, wxXmlNode &node, bool windowOn);
+    void parseXml_Cd4536b (int computer, wxXmlNode &node);
     void parseXml_SerialVt (int computer, wxXmlNode &node);
     void parseXml_UartVt (int computer, wxXmlNode &node, bool uart16450);
     void parseXml_Printer (int computer, wxXmlNode &node, int printerType);
@@ -85,6 +91,8 @@ private:
     void parseXml_RtcDS12887(int computer, wxXmlNode &node);
     void parseXml_UsbSuperBoard(int computer, wxXmlNode &node);
     void parseXml_nvRamMp(int computer, wxXmlNode &node);
+    IoPort parseXml_IoPort(wxXmlNode &node);
+    IoPort init_IoPort();
     long parseXml_Number(wxXmlNode &node);
     long parseXml_Number(wxXmlNode &node, wxString attribute);
     bool parseXml_Range(wxXmlNode &node, long *start, long *end);

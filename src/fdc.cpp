@@ -91,14 +91,14 @@ void Fdc::configure1793(int sides, int tracks, int sectors, int sectorlength, in
 
     wxString printBuffer;
     p_Main->message("Configuring WD1793 Floppy Disk Controller" + ioGroup);
-    printBuffer.Printf("    Output %d: register select, output %d: write register", ioConf.fdcSelectOutput.portNumber, ioConf.fdcWriteOutput.portNumber);
+    printBuffer.Printf("	Output %d: register select, output %d: write register", ioConf.fdcSelectOutput.portNumber, ioConf.fdcWriteOutput.portNumber);
     p_Main->message(printBuffer);
-    printBuffer.Printf("    Input %d: read register", ioConf.fdcReadInput.portNumber);
+    printBuffer.Printf("	Input %d: read register", ioConf.fdcReadInput.portNumber);
     p_Main->message(printBuffer);
-    printBuffer.Printf("    EF %d: DRQ", ioConf.fdcEf);
+    printBuffer.Printf("	EF %d: DRQ", ioConf.fdcEf);
     p_Main->message(printBuffer);
 
-    printBuffer.Printf("    Disk geometry: %d side, %d tracks, %d sectors per track and %d bytes per sector\n", sides, tracks, sectors, sectorlength);
+    printBuffer.Printf("	Disk geometry: %d side, %d tracks, %d sectors per track and %d bytes per sector\n", sides, tracks, sectors, sectorlength);
     p_Main->message(printBuffer);
 }
 
@@ -215,12 +215,12 @@ void Fdc::configure1770(int sides, int tracks, int sectors, int sectorlength, in
     p_Main->message("Configuring WD1770 Floppy Disk Controller" + ioGroup);
     if (ioConf.fdcSelectOutput.qValue == -1)
     {
-        printBuffer1.Printf("    Output %d: register select, ", ioConf.fdcSelectOutput.portNumber);
+        printBuffer1.Printf("	Output %d: register select, ", ioConf.fdcSelectOutput.portNumber);
         p_Computer->setOutType(ioGroupNum, ioConf.fdcSelectOutput.portNumber, FDC1770_SELECTOUT);
     }
     else
     {
-        printBuffer1.Printf("    Q = %d & output %d: register select, ", ioConf.fdcSelectOutput.qValue, ioConf.fdcSelectOutput.portNumber);
+        printBuffer1.Printf("	Q = %d & output %d: register select, ", ioConf.fdcSelectOutput.qValue, ioConf.fdcSelectOutput.portNumber);
         p_Computer->setOutType(ioConf.fdcSelectOutput.qValue, ioGroupNum, ioConf.fdcSelectOutput.portNumber, FDC1770_SELECTOUT);
     }
 
@@ -249,21 +249,21 @@ void Fdc::configure1770(int sides, int tracks, int sectors, int sectorlength, in
 
     if (ioConf.fdcIntrqInput.qValue == -1)
     {
-        printBuffer1.Printf("    Input %d: INTRQ, ", ioConf.fdcIntrqInput.portNumber);
+        printBuffer1.Printf("	Input %d: INTRQ, ", ioConf.fdcIntrqInput.portNumber);
         p_Computer->setInType(ioGroupNum, ioConf.fdcIntrqInput.portNumber, FDC1770_INTRQIN);
     }
     else
     {
-        printBuffer1.Printf("    Q = %d & input %d: INTRQ, ", ioConf.fdcIntrqInput.qValue, ioConf.fdcIntrqInput.portNumber);
+        printBuffer1.Printf("	Q = %d & input %d: INTRQ, ", ioConf.fdcIntrqInput.qValue, ioConf.fdcIntrqInput.portNumber);
         p_Computer->setInType(ioConf.fdcIntrqInput.qValue, ioGroupNum, ioConf.fdcIntrqInput.portNumber, FDC1770_INTRQIN);
     }
     p_Main->message(printBuffer1 + printBuffer2);
 
-    printBuffer1.Printf("    EF %d: DRQ", ioConf.fdcEf);
+    printBuffer1.Printf("	EF %d: DRQ", ioConf.fdcEf);
     p_Computer->setEfType(ioGroupNum, ioConf.fdcEf, FDC1770_EF);
     p_Main->message(printBuffer1);
 
-    printBuffer1.Printf("    Disk geometry: %d side, %d tracks, %d sectors per track and %d bytes per sector\n", ioConf.fdcSides, ioConf.fdcTracks, ioConf.fdcSectors, ioConf.fdcSectorLength);
+    printBuffer1.Printf("	Disk geometry: %d side, %d tracks, %d sectors per track and %d bytes per sector\n", ioConf.fdcSides, ioConf.fdcTracks, ioConf.fdcSectors, ioConf.fdcSectorLength);
     p_Main->message(printBuffer1);
 }
 

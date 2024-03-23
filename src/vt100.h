@@ -72,7 +72,7 @@ public:
     void thrStatusUart16450(bool data);
     void uartInterrupt();
     void getKey();
-    bool checkKeyInputAddress(Word address);
+    bool checkInReleaseAddress(Word address);
     void checkCtrlvText();
     Byte checkCtrlvTextUart();
     void checkXmlCommand();
@@ -89,6 +89,7 @@ public:
     void terminalStopVt();
     void startElfRun(bool load, bool overRide);
     void startMcdsRun(bool load);
+    void startXmlRun(bool load, wxString command);
     bool readCharRomFile(int computerType, wxString romDir, wxString FileRef);
     void setFullScreen(bool fullScreenSet);
     void onF3();
@@ -232,6 +233,7 @@ private:
     size_t elfRunCommand_;
     size_t mcdsRunCommand_;
     wxString commandText_;
+    bool fileToBeLoaded_;
 
     Byte uartControl_;
     bitset<8> uartStatus_;

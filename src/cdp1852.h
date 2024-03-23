@@ -20,7 +20,7 @@
 class Cdp1852Screen : public Panel
 {
 public:
-    Cdp1852Screen(wxWindow *parent, const wxSize& size, int tilType);
+    Cdp1852Screen(wxWindow *parent, const wxSize& size, int cdp1852Number, int tilType);
     ~Cdp1852Screen();
     
     void init();
@@ -28,27 +28,32 @@ public:
     void onMousePress(wxMouseEvent& event);
     void onMouseRelease(wxMouseEvent& event);
     void releaseButtonOnScreen(HexButton* buttonPointer);
-   
+    
     void onStbButton();
-
+    
     void ioSwitch(int i);
-
+    
     void reset();
     void writePort(Byte value);
     Byte readPort();
     void refreshLeds();
-    
+    Byte getEfState();
+
 private:
     Byte outPutValue_;
     Byte inPutValue_;
-
+    
     int ioSwitchState_[8];
+
+    int cdp1852Number_;
+
+    Byte pioEfState_;
 };
 
 class Cdp1852Frame : public wxFrame
 {
 public:
-    Cdp1852Frame(const wxString& title, const wxPoint& pos, const wxSize& size);
+    Cdp1852Frame(const wxString& title, const wxPoint& pos, const wxSize& size, int cdp1852Number);
     ~Cdp1852Frame();
   
     void onClose(wxCloseEvent& event);
@@ -61,9 +66,12 @@ public:
     void refreshLeds() {cdp1852ScreenPointer->refreshLeds();};
     void onStbButton(wxCommandEvent&event);
     void releaseButtonOnScreen(HexButton* buttonPoint) {cdp1852ScreenPointer->releaseButtonOnScreen(buttonPoint);};
-    
+    Byte getEfState() {return cdp1852ScreenPointer->getEfState();};
+
 private:
     class Cdp1852Screen *cdp1852ScreenPointer;
+
+    int cdp1852Number_;
 
     DECLARE_EVENT_TABLE()
 };

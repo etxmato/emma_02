@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>Elf</name>
+        <config>Chip-8 (select Chip-8 file in RAM field or use LOAD after Start)</config>
+        <clock>1.76</clock>
+        <boot>0</boot>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init>
+        <init type="ef4">1</init>
+        <dirname>Chip-8/Chip-8 Games</dirname>
+    </system>
+    
+    <splash>
+        <text>Use LOAD button to load Chip-8 at 0200</text>
+    </splash>
+
+    <memaccess>
+        <location>on</location>
+        <start>0x200</start>
+    </memaccess>
+
+    <memory>
+        <guiram>
+            <start>0</start>
+            <end>0x1FF</end>
+            <dirname>Elf</dirname>
+            <pulldown mask="chip8*.*">Elf</pulldown>
+            <filename>chip8.hex</filename>
+        </guiram>
+
+        <guiram>
+            <start>0x200</start>
+            <end>0xFFFF</end>
+            <pulldown mask="*.ch8">Chip-8/Chip-8 Games</pulldown>
+            <filename>Blinky [Hans Christian Egeberg, 1991].ch8</filename>
+        </guiram>
+
+    </memory>
+    
+    <video type="pixie">
+        <out>1</out>
+        <in>1</in>
+        <ef>1</ef>
+        <border>33x33</border>
+        <color type="fore">255, 255, 255</color>
+        <color type="back">0, 0, 0</color>
+     </video>
+
+    <frontpanel type="io">
+        <in>4</in>
+        <ef type="ready">3</ef>
+    </frontpanel>
+
+    <debugger>
+        <scrt mode="off">
+            <call reg="4">-1</call>
+            <return reg="5">-1</return>
+        </scrt>
+
+        <assembler>
+            <filename>mycode</filename>
+            <code_start>0x200</code_start>
+            <code_end>0xFFF</code_end>
+        </assembler>
+    </debugger>
+
+</emmaconfig>
+

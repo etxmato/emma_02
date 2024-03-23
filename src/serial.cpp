@@ -76,6 +76,7 @@ Serial::Serial(int computerType, double clock, ElfConfiguration elfConf)
 
     setCycle();
     uartEf_ = false;
+    uartControl_ = 0;
 
     serialOpen_ = false;
     
@@ -141,13 +142,13 @@ void Serial::configure(int selectedBaudR, int selectedBaudT, IoConfiguration ioC
             p_Main->message("Configuring external terminal");
             startSerial();
             
-            printBuffer.Printf("    Output %d: vtEnable, EF %d: serial input", ioConfiguration.vt100Output, ioConfiguration.vt100Ef);
+            printBuffer.Printf("	Output %d: vtEnable, EF %d: serial input", ioConfiguration.vt100Output, ioConfiguration.vt100Ef);
             printBuffer = printBuffer + printEfReverse + printQ;
             p_Main->message(printBuffer);
         }
     }
     
-    printBuffer.Printf("    Transmit baud rate: %d, receive baud rate: %d\n", baudRateValueSerial_[selectedBaudT_], baudRateValueSerial_[selectedBaudR_]);
+    printBuffer.Printf("	Transmit baud rate: %d, receive baud rate: %d\n", baudRateValueSerial_[selectedBaudT_], baudRateValueSerial_[selectedBaudR_]);
     p_Main->message(printBuffer);
     
     vtEnabled_ = 1;
@@ -179,7 +180,7 @@ void Serial::configureStandard(int selectedBaudR, int selectedBaudT, int dataRea
     
     p_Main->message("Configuring external terminal");
     configureQandEfPolarity(dataReadyFlag_, false);
-    printBuffer.Printf("    Transmit baud rate: %d, receive baud rate: %d\n", baudRateValueSerial_[selectedBaudT_], baudRateValueSerial_[selectedBaudR_]);
+    printBuffer.Printf("	Transmit baud rate: %d, receive baud rate: %d\n", baudRateValueSerial_[selectedBaudT_], baudRateValueSerial_[selectedBaudR_]);
     p_Main->message(printBuffer);
     
     vtEnabled_ = 1;
@@ -203,10 +204,10 @@ void Serial::configureUart(IoConfiguration ioConfiguration)
     p_Main->message("Configuring external terminal connected to CDP1854/UART");
     startSerial();
     
-    printBuffer.Printf("    Output %d: load transmitter, input %d: read receiver", ioConfiguration.uartOut, ioConfiguration.uartIn);
+    printBuffer.Printf("	Output %d: load transmitter, input %d: read receiver", ioConfiguration.uartOut, ioConfiguration.uartIn);
     p_Main->message(printBuffer);
     
-    printBuffer.Printf("    Output %d: load control, input %d: read status", ioConfiguration.uartControl, ioConfiguration.uartStatus);
+    printBuffer.Printf("	Output %d: load control, input %d: read status", ioConfiguration.uartControl, ioConfiguration.uartStatus);
     p_Main->message(printBuffer);
     rs232_ = 0;
 }
@@ -229,10 +230,10 @@ void Serial::configureUart16450(IoConfiguration ioConfiguration)
     wxString printBuffer;
     p_Main->message("Configuring external terminal connected to 16450 Uart" + ioGroup);
 
-    printBuffer.Printf("    Output %d: register select, output %d: write selected", ioConfiguration.uartControl, ioConfiguration.uartOut);
+    printBuffer.Printf("	Output %d: register select, output %d: write selected", ioConfiguration.uartControl, ioConfiguration.uartOut);
     p_Main->message(printBuffer);
 
-    printBuffer.Printf("    Input %d: read status, input %d: read selected\n", ioConfiguration.uartStatus, ioConfiguration.uartIn);
+    printBuffer.Printf("	Input %d: read status, input %d: read selected\n", ioConfiguration.uartStatus, ioConfiguration.uartIn);
     p_Main->message(printBuffer);
 
     registerSelect_ = 0;
@@ -255,11 +256,11 @@ void Serial::configureRcasbc(int selectedBaudR, int selectedBaudT)
     p_Main->message("Configuring external terminal connected to UART1 with MSM82C51");
     startSerial();
     
-    p_Main->message("    A000-AFFF, 0: Data, 1: Status/Control Word");
-    p_Main->message("    EF4/INT: RxRDY (reversed), EF3: TxRDY");
+    p_Main->message("	A000-AFFF, 0: Data, 1: Status/Control Word");
+    p_Main->message("	EF4/INT: RxRDY (reversed), EF3: TxRDY");
 
     wxString printBuffer;
-    printBuffer.Printf("    Transmit baud rate: %d, receive baud rate: %d\n", baudRateValueSerial_[selectedBaudT_], baudRateValueSerial_[selectedBaudR_]);
+    printBuffer.Printf("	Transmit baud rate: %d, receive baud rate: %d\n", baudRateValueSerial_[selectedBaudT_], baudRateValueSerial_[selectedBaudR_]);
     p_Main->message(printBuffer);
     
     rs232_ = 0;
@@ -293,12 +294,12 @@ void Serial::configureMs2000(int selectedBaudR, int selectedBaudT)
     p_Main->message("Configuring external terminal");
     startSerial();
     
-    p_Main->message("    Output 2: load transmitter, input 2: read receiver");
-    p_Main->message("    Output 3: load control, input 3: read status");
-    p_Main->message("    EF 4: serial input");
+    p_Main->message("	Output 2: load transmitter, input 2: read receiver");
+    p_Main->message("	Output 3: load control, input 3: read status");
+    p_Main->message("	EF 4: serial input");
     
     wxString printBuffer;
-    printBuffer.Printf("    Transmit baud rate: %d, receive baud rate: %d\n", baudRateValueSerial_[selectedBaudT_], baudRateValueSerial_[selectedBaudR_]);
+    printBuffer.Printf("	Transmit baud rate: %d, receive baud rate: %d\n", baudRateValueSerial_[selectedBaudT_], baudRateValueSerial_[selectedBaudR_]);
     p_Main->message(printBuffer);
     
     rs232_ = 0;
@@ -353,12 +354,12 @@ void Serial::configureVt2K(int selectedBaudR, int selectedBaudT, IoConfiguration
         p_Main->message("Configuring external terminal");
         startSerial();
         
-        printBuffer.Printf("    EF %d: serial input", ioConfiguration.vt100Ef);
+        printBuffer.Printf("	EF %d: serial input", ioConfiguration.vt100Ef);
         printBuffer = printBuffer + printEfReverse + printQ;
         p_Main->message(printBuffer);
     }
     
-    printBuffer.Printf("    Transmit baud rate: %d, receive baud rate: %d\n", baudRateValueSerial_[selectedBaudT_], baudRateValueSerial_[selectedBaudR_]);
+    printBuffer.Printf("	Transmit baud rate: %d, receive baud rate: %d\n", baudRateValueSerial_[selectedBaudT_], baudRateValueSerial_[selectedBaudR_]);
     p_Main->message(printBuffer);
     
     vtEnabled_ = 1;
@@ -438,9 +439,9 @@ void Serial::configureQandEfPolarity(int ef, bool vtEnable)
     wxString messageText="";
 
     if (vtEnable)
-        messageText.Printf("    Output 7: vtEnable, EF %d: serial input", ef);
+        messageText.Printf("	Output 7: vtEnable, EF %d: serial input", ef);
     else
-        messageText.Printf("    EF %d: serial input", ef);
+        messageText.Printf("	EF %d: serial input", ef);
     p_Main->message(messageText + efPolarity + ", Serial out: Q" + qPolarity);
 }
 

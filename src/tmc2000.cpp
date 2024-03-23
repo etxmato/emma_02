@@ -48,8 +48,8 @@ void Tmc2000::configureComputer()
     efType_[0][0][3] = VIPKEYEF;
 
     p_Main->message("Configuring Telmac TMC-2000");
-    p_Main->message("    Output 2: key latch, output 4: address, colour and CDP 1864 tone latch");
-    p_Main->message("    EF 2: cassette in, EF 3: keyboard\n");
+    p_Main->message("	Output 2: key latch, output 4: address, colour and CDP 1864 tone latch");
+    p_Main->message("	EF 2: cassette in, EF 3: keyboard\n");
 
     for (int i=0; i<64; i++)
         hexKeyDefA1_[i] = 0;

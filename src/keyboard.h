@@ -17,11 +17,12 @@ public:
     void cycleKeyboard();
     void cycleKeyboardXml();
 
-    bool checkKeyInputAddress(Word address);
     void startElfKeyFile(wxString elfTypeStr);
     void closeElfKeyFile();
     void setForceUpperCaseKeyboard(bool status);
     void startElfRun(bool load);
+    void startElfRun(bool load, wxString command);
+    void startCtrlV(wxString command);
 
 private:
     char keyboardValue_;
@@ -35,6 +36,7 @@ private:
     bool forceUpperCase_;
 
     bool load_;
+    bool fileToBeLoaded_;
     size_t elfRunCommand_;
     wxString commandText_; 
 

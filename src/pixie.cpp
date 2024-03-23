@@ -208,6 +208,7 @@ Pixie::Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     defineColours(computerType_);
 
     plotListPointer = NULL;
+    bgChanged = false;
 }
 
 Pixie::Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, int videoNumber, int videoType, IoConfiguration portConf)
@@ -223,34 +224,32 @@ Pixie::Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 
     switch (videoType)
     {
-        case VIDEOXML1862:
-            colourIndex_ = COL_CDP1862_BLACK;
-            backGroundInit_ = COL_CDP1862_BACK_BLUE-COL_CDP1862_BLACK;
-            if (p_Main->getCdp1862HighRes(XML))
-            {
-                highRes_ = 2;
-                xZoomFactor_ = zoomfactor/highRes_;
-            }
-        break;
-
         case VIDEOXML1864:
             colourIndex_ = COL_CDP1864_WHITE;
             backGroundInit_ = COL_CDP1864_BACK_BLUE-COL_CDP1864_WHITE;
         break;
             
         case VIDEOSTUDIOIV:
-    //        colourIndex_ = COL_CDP1864_WHITE;
-    //        backGroundInit_ = COL_CDP1864_BACK_BLUE-COL_CDP1864_WHITE;
-    //        if (p_Main->getPixieHighRes(XML))
-    //        {
-    //            highRes_ = 2;
-    //            xZoomFactor_ = zoomfactor/highRes_;
-    //        }
+            colourIndex_ = COL_ST4_BLACK;
+            backGroundInit_ = COL_ST4_BACK_BLACK-COL_ST4_BLACK;
+            studioIVFactor_ = true;
+            highRes_ = 2;
+            xZoomFactor_ = zoomfactor/highRes_;
         break;
 
         default:
-            colourIndex_ = COL_PIXIE_FORE;
-            backGroundInit_ = COL_PIXIE_BACK;
+            if (portConf_.use1862)
+            {
+                colourIndex_ = COL_CDP1862_WHITE;
+                backGroundInit_ = COL_CDP1862_BACK_BLUE-COL_CDP1862_WHITE;
+            }
+            else
+            {
+                colourIndex_ = COL_PIXIE_FORE;
+                backGroundInit_ = COL_PIXIE_BACK;
+            }
+            if (portConf.pixieColorType == PIXIE_COLOR_VISICOM)
+                colourIndex_ = COL_PIXIE_BACK;
             if (p_Main->getPixieHighRes(XML))
             {
                 highRes_ = 2;
@@ -317,7 +316,8 @@ Pixie::Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     defineColours(computerType_);
 
     plotListPointer = NULL;
-    colourType_ = PIXIE_COLOR_DEFAULT;
+    colourType_ = portConf.pixieColorType;
+    bgChanged = false;
 }
 
 Pixie::~Pixie()
@@ -364,13 +364,16 @@ void Pixie::configurePixie(IoConfiguration portConf)
     p_Computer->setInType(portConf.pixieInput, PIXIEIN);
     p_Computer->setEfType(portConf.pixieEf, PIXIEEF);
 
-    backGroundInit_ = 1;
+    if (portConf.pixieColorType == PIXIE_COLOR_VISICOM)
+        backGroundInit_ = 0;
+    else
+        backGroundInit_ = 1;
     colourMask_ = 0;
 
     wxString printBuffer;
     p_Main->message("Configuring CDP 1861");
 
-    printBuffer.Printf("    Output %d: disable graphics, input %d: enable graphics, EF %d: in frame indicator\n", portConf.pixieOutput, portConf.pixieInput, portConf.pixieEf);
+    printBuffer.Printf("	Output %d: disable graphics, input %d: enable graphics, EF %d: in frame indicator\n", portConf.pixieOutput, portConf.pixieInput, portConf.pixieEf);
     p_Main->message(printBuffer);
 }
 
@@ -382,13 +385,16 @@ void Pixie::configurePixieIn(IoConfiguration portConf)
     p_Computer->setInType(portConf.pixieInput, PIXIEIN);
     p_Computer->setEfType(portConf.pixieEf, PIXIEEF);
 
-    backGroundInit_ = 1;
+    if (portConf.pixieColorType == PIXIE_COLOR_VISICOM)
+        backGroundInit_ = 0;
+    else
+        backGroundInit_ = 1;
     colourMask_ = 0;
 
     wxString printBuffer;
     p_Main->message("Configuring CDP 1861");
 
-    printBuffer.Printf("    Input %d: disable graphics, input %d: enable graphics, EF %d: in frame indicator\n", portConf.pixieOutput, portConf.pixieInput, portConf.pixieEf);
+    printBuffer.Printf("	Input %d: disable graphics, input %d: enable graphics, EF %d: in frame indicator\n", portConf.pixieOutput, portConf.pixieInput, portConf.pixieEf);
     p_Main->message(printBuffer);
 }
 
@@ -397,13 +403,16 @@ void Pixie::configurePixieOut(IoConfiguration portConf)
     portConf_ = portConf;
     p_Computer->setCycleType(VIDEOCYCLE_PIXIE, PIXIECYCLE);
 
-    backGroundInit_ = 1;
+    if (portConf.pixieColorType == PIXIE_COLOR_VISICOM)
+        backGroundInit_ = 0;
+    else
+        backGroundInit_ = 1;
     colourMask_ = 0;
 
     wxString printBuffer, printBuffer2, printComma = "";
     p_Main->message("Configuring CDP 1861");
 
-    printBuffer.Printf("    ");
+    printBuffer.Printf("	");
     
     if (portConf.pixieOutput != -1)
     {
@@ -445,7 +454,7 @@ void Pixie::configurePixieSuper(IoConfiguration portConf)
     wxString printBuffer;
     p_Main->message("Configuring CDP 1861");
 
-    printBuffer.Printf("    Output/input %d: disable graphics, Output/input %d: enable graphics, EF %d: in frame indicator\n", portConf.pixieOutput, portConf.pixieInput, portConf.pixieEf);
+    printBuffer.Printf("	Output/input %d: disable graphics, Output/input %d: enable graphics, EF %d: in frame indicator\n", portConf.pixieOutput, portConf.pixieInput, portConf.pixieEf);
     p_Main->message(printBuffer);
 }
 
@@ -460,7 +469,7 @@ void Pixie::configurePixieStudio2()
     colourMask_ = 0;
 
     p_Main->message("Configuring CDP 1861");
-    p_Main->message("    Output 1: disable graphics, input 1: enable graphics, EF 1: in frame indicator\n");
+    p_Main->message("	Output 1: disable graphics, input 1: enable graphics, EF 1: in frame indicator\n");
 }
 
 void Pixie::configurePixieCoinArcade()
@@ -472,7 +481,7 @@ void Pixie::configurePixieCoinArcade()
     backGroundInit_ = 1;
     colourMask_ = 0;
     
-    p_Main->message("    Output 1: enable graphics\n");
+    p_Main->message("	Output 1: enable graphics\n");
 }
 
 void Pixie::configurePixieVisicom()
@@ -485,7 +494,7 @@ void Pixie::configurePixieVisicom()
     colourMask_ = 0; 
 
     p_Main->message("Configuring CDP 1861");
-    p_Main->message("    Output 1: enable graphics, EF 1: in frame indicator\n");
+    p_Main->message("	Output 1: enable graphics, EF 1: in frame indicator\n");
 }
 
 void Pixie::configurePixieVip()
@@ -502,8 +511,8 @@ void Pixie::configurePixieVip()
         p_Computer->setOutType(5, VIPOUT5);
 
         p_Main->message("Configuring CDP 1861/1862");
-        p_Main->message("    Output 1: disable graphics, input 1: enable graphics, EF 1: in frame indicator");
-        p_Main->message("    Output 5: step background colour\n");
+        p_Main->message("	Output 1: disable graphics, input 1: enable graphics, EF 1: in frame indicator");
+        p_Main->message("	Output 5: step background colour\n");
     }
     else
     {
@@ -511,7 +520,7 @@ void Pixie::configurePixieVip()
         colourMask_ = 7;
 
         p_Main->message("Configuring CDP 1861");
-        p_Main->message("    Output 1: disable graphics, input 1: enable graphics, EF 1: in frame indicator\n");
+        p_Main->message("	Output 1: disable graphics, input 1: enable graphics, EF 1: in frame indicator\n");
     }
 }
 
@@ -526,7 +535,7 @@ void Pixie::configurePixieVelf()
     colourMask_ = 0;
 
     p_Main->message("Configuring CDP 1861");
-    p_Main->message("    Output 1: disable graphics, input 1: enable graphics, EF 1: in frame indicator\n");
+    p_Main->message("	Output 1: disable graphics, input 1: enable graphics, EF 1: in frame indicator\n");
 }
 
 void Pixie::configurePixieVipII(bool runLed)
@@ -541,8 +550,8 @@ void Pixie::configurePixieVipII(bool runLed)
     p_Computer->setOutType(5, VIPOUT5);
 
     p_Main->message("Configuring CDP 1862");
-    p_Main->message("    Output 1: disable graphics, input 1: enable graphics, EF 1: in frame indicator");
-    p_Main->message("    Output 5: step background colour\n");
+    p_Main->message("	Output 1: disable graphics, input 1: enable graphics, EF 1: in frame indicator");
+    p_Main->message("	Output 5: step background colour\n");
 
     vipIIStatusBarPointer->initVipIIBar(runLed);
 }
@@ -558,8 +567,8 @@ void Pixie::configurePixieTmc1800()
     colourMask_ = 0;
 
     p_Main->message("Configuring CDP 1861");
-    p_Main->message("    Input 1: enable graphics, input 4: disable graphics");
-    p_Main->message("    EF 1: in frame indicator\n");
+    p_Main->message("	Input 1: enable graphics, input 4: disable graphics");
+    p_Main->message("	EF 1: in frame indicator\n");
 }
 
 void Pixie::configurePixieTelmac()
@@ -575,9 +584,9 @@ void Pixie::configurePixieTelmac()
 
     p_Main->message("Configuring CDP 1864");
 
-    p_Main->message("    Output 1: switch background colour");
-    p_Main->message("    Input 1: enable graphics, input 4: disable graphics");
-    p_Main->message("    EF 1: in frame indicator\n");
+    p_Main->message("	Output 1: switch background colour");
+    p_Main->message("	Input 1: enable graphics, input 4: disable graphics");
+    p_Main->message("	EF 1: in frame indicator\n");
 }
 
 void Pixie::configurePixieVictory()
@@ -592,9 +601,9 @@ void Pixie::configurePixieVictory()
     
     p_Main->message("Configuring CDP 1864");
     
-    p_Main->message("    Output 1: switch background colour, output 4: tone latch");
-    p_Main->message("    Input 1: enable graphics");
-    p_Main->message("    EF 1: in frame indicator\n");
+    p_Main->message("	Output 1: switch background colour, output 4: tone latch");
+    p_Main->message("	Input 1: enable graphics");
+    p_Main->message("	EF 1: in frame indicator\n");
 }
 
 void Pixie::configurePixieNano()
@@ -609,8 +618,8 @@ void Pixie::configurePixieNano()
     colourMask_ = 0;
 
     p_Main->message("Configuring CDP 1864");
-    p_Main->message("    Input 1: enable graphics, input 4: disable graphics");
-    p_Main->message("    EF 1: in frame indicator\n");
+    p_Main->message("	Input 1: enable graphics, input 4: disable graphics");
+    p_Main->message("	EF 1: in frame indicator\n");
 
     if (p_Main->getSound(NANO) == 0)
         p_Computer->setSoundFollowQ(false);
@@ -630,9 +639,9 @@ void Pixie::configurePixieCosmicos()
     colourMask_ = 0;
 
     p_Main->message("Configuring CDP 1864");
-    p_Main->message("    Q=0: Input 1: enable graphics, input 2: disable graphics");
-    p_Main->message("    Q=1: Output 2: tone latch");
-    p_Main->message("    EF 3: in frame indicator (when graphics enabled)\n");
+    p_Main->message("	Q=0: Input 1: enable graphics, input 2: disable graphics");
+    p_Main->message("	Q=1: Output 2: tone latch");
+    p_Main->message("	EF 3: in frame indicator (when graphics enabled)\n");
 }
 
 void Pixie::configurePixieCoinArcade(IoConfiguration portConf)
@@ -650,13 +659,12 @@ void Pixie::configurePixieCoinArcade(IoConfiguration portConf)
     
     p_Main->message("Configuring Coin Arcade Video" + ioGroup);
 
-    printBuffer.Printf("    Output %d: enable graphics\n", portConf.coinOutput);
+    printBuffer.Printf("	Output %d: enable graphics\n", portConf.coinOutput);
     p_Main->message(printBuffer);
     
     backGroundInit_ = 1;
     colourMask_ = 0;
 }
-
 
 void Pixie::configureCdp1862(IoConfiguration portConf, bool autoBoot)
 {
@@ -665,33 +673,12 @@ void Pixie::configureCdp1862(IoConfiguration portConf, bool autoBoot)
 
     int ioGroupNum = portConf.cdp1862IoGroup + 1;
 
-    p_Computer->setCycleType(VIDEOCYCLE_CDP1862, CDP1862CYCLE);
-    
+    p_Computer->setCycleType(VIDEOCYCLE_PIXIE, CDP1862CYCLE);
+
     if (portConf.cdp1862IoGroup != -1)
         ioGroup.Printf(" on group %d", portConf.cdp1862IoGroup);
     
     p_Main->message("Configuring CDP 1862" + ioGroup);
-
-    if (portConf.cdp1862enable.portNumber != -1)
-    {
-        if (portConf.cdp1862enable.qValue == -1)
-            printBuffer.Printf("    Input %d: enable graphics", portConf.cdp1862enable.portNumber);
-        else
-            printBuffer.Printf("    Q = %d & input %d: enable graphics", portConf.cdp1862enable.qValue,  portConf.cdp1862enable.portNumber);
-        p_Main->message(printBuffer);
-            
-        p_Computer->setInType(portConf.cdp1862enable.qValue, ioGroupNum, portConf.cdp1862enable.portNumber, CDP1862ENABLE);
-    }
-    if (portConf.cdp1862disable.portNumber != -1)
-    {
-        if (portConf.cdp1862disable.qValue == -1)
-            printBuffer.Printf("    Output %d: disable graphics", portConf.cdp1862disable.portNumber);
-        else
-            printBuffer.Printf("    Q = %d & output %d: disable graphics", portConf.cdp1862disable.qValue,  portConf.cdp1862disable.portNumber);
-        p_Main->message(printBuffer);
-
-        p_Computer->setOutType(portConf.cdp1862disable.qValue, ioGroupNum, portConf.cdp1862disable.portNumber, CDP1862DISABLE);
-    }
 
     if (portConf.cdp1862background.portNumber != -1)
     {
@@ -703,11 +690,20 @@ void Pixie::configureCdp1862(IoConfiguration portConf, bool autoBoot)
 
         p_Computer->setOutType(portConf.cdp1862background.qValue, ioGroupNum, portConf.cdp1862background.portNumber, CDP1862BACK);
     }
-                
-    printBuffer.Printf("    EF %d: in frame indicator\n", portConf.cdp1862Ef);
-    p_Main->message(printBuffer);
 
-    backGroundInit_ = COL_CDP1862_BACK_BLUE-COL_CDP1862_BLACK;
+    if (portConf.cdp1862colorMemory.portNumber != -1)
+    {
+        if (portConf.cdp1862colorMemory.qValue == -1)
+            printBuffer.Printf("    Output %d: color RAM (mask %02X)", portConf.cdp1862colorMemory.portNumber, portConf.cdp1862colorMemory.mask);
+        else
+            printBuffer.Printf("    Q = %d & output %d: color RAM (mask %02X)", portConf.cdp1862colorMemory.qValue,  portConf.cdp1862colorMemory.portNumber, portConf.cdp1862colorMemory.mask);
+        p_Main->message(printBuffer);
+
+        p_Computer->setOutType(portConf.cdp1862colorMemory.qValue, ioGroupNum, portConf.cdp1862colorMemory.portNumber, CDP1862COLORRAM);
+    }
+    p_Main->message("");
+
+    backGroundInit_ = COL_CDP1862_BACK_BLUE-COL_CDP1862_WHITE;
     colourMask_ = 0;
     colourType_ = portConf.cdp1862ColorType;
     
@@ -732,9 +728,9 @@ void Pixie::configureCdp1864(IoConfiguration portConf)
     if (portConf.cdp1864enable.portNumber != -1)
     {
         if (portConf.cdp1864enable.qValue == -1)
-            printBuffer.Printf("    Input %d: enable graphics", portConf.cdp1864enable.portNumber);
+            printBuffer.Printf("	Input %d: enable graphics", portConf.cdp1864enable.portNumber);
         else
-            printBuffer.Printf("    Q = %d & input %d: enable graphics", portConf.cdp1864enable.qValue,  portConf.cdp1864enable.portNumber);
+            printBuffer.Printf("	Q = %d & input %d: enable graphics", portConf.cdp1864enable.qValue,  portConf.cdp1864enable.portNumber);
         p_Main->message(printBuffer);
             
         p_Computer->setInType(portConf.cdp1864enable.qValue, ioGroupNum, portConf.cdp1864enable.portNumber, CDP1864ENABLE);
@@ -742,9 +738,9 @@ void Pixie::configureCdp1864(IoConfiguration portConf)
     if (portConf.cdp1864disable.portNumber != -1)
     {
         if (portConf.cdp1864disable.qValue == -1)
-            printBuffer.Printf("    Input %d: disable graphics", portConf.cdp1864disable.portNumber);
+            printBuffer.Printf("	Input %d: disable graphics", portConf.cdp1864disable.portNumber);
         else
-            printBuffer.Printf("    Q = %d & input %d: disable graphics", portConf.cdp1864disable.qValue,  portConf.cdp1864disable.portNumber);
+            printBuffer.Printf("	Q = %d & input %d: disable graphics", portConf.cdp1864disable.qValue,  portConf.cdp1864disable.portNumber);
         p_Main->message(printBuffer);
 
         p_Computer->setInType(portConf.cdp1864disable.qValue, ioGroupNum, portConf.cdp1864disable.portNumber, CDP1864DISABLE);
@@ -753,9 +749,9 @@ void Pixie::configureCdp1864(IoConfiguration portConf)
     if (portConf.cdp1864background.portNumber != -1)
     {
         if (portConf.cdp1864background.qValue == -1)
-            printBuffer.Printf("    Output %d: switch background colour", portConf.cdp1864background.portNumber);
+            printBuffer.Printf("	Output %d: switch background colour", portConf.cdp1864background.portNumber);
         else
-            printBuffer.Printf("    Q = %d & output %d: switch background colour", portConf.cdp1864background.qValue,  portConf.cdp1864background.portNumber);
+            printBuffer.Printf("	Q = %d & output %d: switch background colour", portConf.cdp1864background.qValue,  portConf.cdp1864background.portNumber);
         p_Main->message(printBuffer);
 
         p_Computer->setOutType(portConf.cdp1864background.qValue, ioGroupNum, portConf.cdp1864background.portNumber, CDP1864BACK);
@@ -764,9 +760,9 @@ void Pixie::configureCdp1864(IoConfiguration portConf)
     if (portConf.cdp1864colorMemory.portNumber != -1)
     {
         if (portConf.cdp1864colorMemory.qValue == -1)
-            printBuffer.Printf("    Output %d: color RAM (mask %02X)", portConf.cdp1864colorMemory.portNumber, portConf.cdp1864colorMemory.mask);
+            printBuffer.Printf("	Output %d: color RAM (mask %02X)", portConf.cdp1864colorMemory.portNumber, portConf.cdp1864colorMemory.mask);
         else
-            printBuffer.Printf("    Q = %d & output %d: color RAM (mask %02X)", portConf.cdp1864colorMemory.qValue,  portConf.cdp1864colorMemory.portNumber, portConf.cdp1864colorMemory.mask);
+            printBuffer.Printf("	Q = %d & output %d: color RAM (mask %02X)", portConf.cdp1864colorMemory.qValue,  portConf.cdp1864colorMemory.portNumber, portConf.cdp1864colorMemory.mask);
         p_Main->message(printBuffer);
 
         p_Computer->setOutType(portConf.cdp1864colorMemory.qValue, ioGroupNum, portConf.cdp1864colorMemory.portNumber, CDP1864COLORRAM);
@@ -775,15 +771,18 @@ void Pixie::configureCdp1864(IoConfiguration portConf)
     if (portConf.cdp1864toneLatch.portNumber != -1)
     {
         if (portConf.cdp1864toneLatch.qValue == -1)
-            printBuffer.Printf("    Output %d: tone latch", portConf.cdp1864toneLatch.portNumber);
+            printBuffer.Printf("	Output %d: tone", portConf.cdp1864toneLatch.portNumber);
         else
-            printBuffer.Printf("    Q = %d & output %d: tone latch", portConf.cdp1864toneLatch.qValue,  portConf.cdp1864toneLatch.portNumber);
+            printBuffer.Printf("	Q = %d & output %d: tone", portConf.cdp1864toneLatch.qValue,  portConf.cdp1864toneLatch.portNumber);
+        if (portConf.cdp1864ColorLatch)
+            printBuffer += " & colour";
+        printBuffer += " latch";
         p_Main->message(printBuffer);
 
         p_Computer->setOutType(portConf.cdp1864toneLatch.qValue, ioGroupNum, portConf.cdp1864toneLatch.portNumber, CDP1864TONE);
     }
         
-    printBuffer.Printf("    EF %d: in frame indicator\n", portConf.cdp1864Ef);
+    printBuffer.Printf("	EF %d: in frame indicator\n", portConf.cdp1864Ef);
     p_Main->message(printBuffer);
 
     backGroundInit_ = COL_CDP1864_BACK_BLUE-COL_CDP1864_WHITE;
@@ -927,7 +926,7 @@ void Pixie::cyclePixie()
         while(graphicsNext_ >= 4 && graphicsNext_ < (4+graphicsX_))
         {
             graphicsNext_ ++;
-            if (computerType_ == VISICOM)
+            if (computerType_ == VISICOM || (computerType_ == XML && colourType_ == PIXIE_COLOR_VISICOM))
             {
                 p_Computer->visicomDmaOut(&vram1, &vram2);
                 for (int i=0; i<8; i++)
@@ -1240,7 +1239,8 @@ void Pixie::plot(int x, int y, int c, int color)
 
     if (!bgChanged)
         if (pbacking_[x][y] == c)
-            if (!c || (color_[x][y] == color))  return;
+            if (!c || (color_[x][y] == color))  
+                return;
 
     color_[x][y] = color;
     pbacking_[x][y] = c;
@@ -1248,12 +1248,16 @@ void Pixie::plot(int x, int y, int c, int color)
     if (c)
     {
         setColour(colourIndex_+color);
+#if defined(__WXMAC__) || defined(__linux__)
         penClr = penColour_[color];
+#endif
     }
     else
     {
         setColour(colourIndex_+backGround_);
+#if defined(__WXMAC__) || defined(__linux__)
         penClr = penColour_[backGround_+colourIndex_];
+#endif
     }
     drawPoint(x+offsetX_, y+offsetY_);
 
@@ -1440,7 +1444,7 @@ void PixieFred::configureFredVideo(IoConfiguration portConf)
     wxString printBuffer;
     p_Main->message("Configuring FRED Video" + ioGroup);
 
-    printBuffer.Printf("    Output %d: display type 0 = TV off, 1 = 32x32, 2 = 64x16, 3 = 64x32\n", portConf.fredVideoOutput);
+    printBuffer.Printf("	Output %d: display type 0 = TV off, 1 = 32x32, 2 = 64x16, 3 = 64x32\n", portConf.fredVideoOutput);
     p_Main->message(printBuffer);
 
     backGroundInit_ = 1;
@@ -1612,8 +1616,8 @@ void PixieVip2K::configurePixie()
     colourMask_ = 0;
     
     p_Main->message("Configuring VIP2K Video");
-    p_Main->message("    Input 6: enable graphics, input 7: disable graphics, EF 1: DMA indicator");
-    p_Main->message("    Output 6: enable graphics, ouptut 7: disable graphics\n");
+    p_Main->message("	Input 6: enable graphics, input 7: disable graphics, EF 1: DMA indicator");
+    p_Main->message("	Output 6: enable graphics, ouptut 7: disable graphics\n");
     
     sequencerAddress_ = 0;
     scanLine_ = 0;
@@ -1641,11 +1645,11 @@ void PixieVip2K::configureVip2K(IoConfiguration portConf)
     {
         p_Computer->setInType(portConf.vip2KOutput, VIP2KVIDEODISABLE);
         p_Computer->setOutType(portConf.vip2KInput, VIP2KVIDEOENABLE);
-        printBuffer.Printf("    Output/input %d: disable graphics, Output/input %d: enable graphics, EF %d: in frame indicator\n", portConf.vip2KOutput, portConf.vip2KInput, portConf.vip2KEf);
+        printBuffer.Printf("	Output/input %d: disable graphics, Output/input %d: enable graphics, EF %d: in frame indicator\n", portConf.vip2KOutput, portConf.vip2KInput, portConf.vip2KEf);
     }
     else
     {
-        printBuffer.Printf("    Output %d: disable graphics, input %d: enable graphics, EF %d: in frame indicator\n", portConf.vip2KOutput, portConf.vip2KInput, portConf.vip2KEf);
+        printBuffer.Printf("	Output %d: disable graphics, input %d: enable graphics, EF %d: in frame indicator\n", portConf.vip2KOutput, portConf.vip2KInput, portConf.vip2KEf);
     }
     p_Main->message(printBuffer);
 
@@ -1860,6 +1864,11 @@ PixieStudioIV::PixieStudioIV(const wxString& title, const wxPoint& pos, const wx
 {
 }
 
+PixieStudioIV::PixieStudioIV(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, int videoNumber, int videoType, IoConfiguration portConf)
+: Pixie(title, pos, size, zoom, zoomfactor, computerType, videoNumber, videoType, portConf)
+{
+}
+
 void PixieStudioIV::configurePixie()
 {
     p_Computer->setOutType(4, PIXIEOUT);
@@ -1873,9 +1882,57 @@ void PixieStudioIV::configurePixie()
 
     p_Main->message("Configuring RCA Studio IV Video Chip");
 
-    p_Main->message("    Output 4/6: bit 0-2 background colour, bit 3 white foreground");
-    p_Main->message("    Output 4/6: bit 4-5 enable graphics, bit 6 PAL/NTSC");
-    p_Main->message("    Output 5, enable DMA");
+    p_Main->message("	Output 4/6: bit 0-2 background colour, bit 3 white foreground");
+    p_Main->message("	Output 4/6: bit 4-5 enable graphics, bit 6 PAL/NTSC");
+    p_Main->message("	Output 5, enable DMA");
+}
+
+void PixieStudioIV::configureSt4(IoConfiguration portConf)
+{
+    portConf_ = portConf;
+    p_Computer->setCycleType(VIDEOCYCLE_ST4, STUDIOIV_VIDEO_CYCLE);
+    p_Computer->setOutType(portConf.st4VideoOut1.portNumber, STUDIOIV_VIDEO_OUT);
+    p_Computer->setOutType(portConf.st4VideoOut2.portNumber, STUDIOIV_VIDEO_OUT);
+    p_Computer->setOutType(portConf.st4VideoDmaEnable.portNumber, STUDIOIVDMA);
+
+    wxString printBuffer, printBufferOut1, printBufferOut2;
+    p_Main->message("Configuring RCA Studio IV Video Chip");
+
+    printBuffer = "	Output ";
+    printBufferOut1 = "";
+    printBufferOut2 = "";
+
+    if (portConf.st4VideoOut1.portNumber != -1)
+        printBufferOut1.Printf("%d", portConf.st4VideoOut1.portNumber);
+    if (portConf.st4VideoOut2.portNumber != -1)
+        printBufferOut2.Printf("%d", portConf.st4VideoOut2.portNumber);
+
+    printBuffer += printBufferOut1;
+    if (portConf.st4VideoOut1.portNumber != -1 && portConf.st4VideoOut2.portNumber != -1)
+        printBuffer += "/";
+    
+    if (portConf.st4VideoOut1.portNumber != -1 || portConf.st4VideoOut2.portNumber != -1)
+    {
+        p_Main->message(printBuffer + printBufferOut2 + " bit 0-2 background colour, bit 3 white foreground");
+        p_Main->message(printBuffer + printBufferOut2 + " bit 4-5 enable graphics, bit 6 PAL/NTSC");
+    }
+
+    if (portConf.st4VideoDmaEnable.portNumber != -1)
+    {
+        printBuffer.Printf("	Output %d, enable DMA", portConf.st4VideoDmaEnable.portNumber);
+        p_Main->message(printBuffer);
+    }
+
+    if (portConf.st4VideoEf != -1)
+    {
+        printBuffer.Printf("	EF %d, in frame indicator", portConf.st4VideoEf);
+        p_Main->message(printBuffer);
+    }
+    
+    p_Main->message("");
+
+    colourMask_ = 0;
+    colourType_ = PIXIE_COLOR_STUDIOIV;
 }
 
 void PixieStudioIV::cyclePixie()
@@ -1924,7 +1981,7 @@ void PixieStudioIV::drawScreen()
     int v;
     int color;
 
-    setColour(backGround_);
+    setColour(colourIndex_+backGround_);
     drawRectangle(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_);
 
     for (int x=0; x<videoWidth_; x++)
@@ -2054,9 +2111,9 @@ void PixieEti::configurePixie()
 
     p_Main->message("Configuring CDP 1864");
 
-    p_Main->message("    Output 1: switch background colour, output 4: tone latch");
-    p_Main->message("    Input 1: enable graphics, input 4: disable graphics");
-    p_Main->message("    EF 1: in frame indicator\n");
+    p_Main->message("	Output 1: switch background colour, output 4: tone latch");
+    p_Main->message("	Input 1: enable graphics, input 4: disable graphics");
+    p_Main->message("	EF 1: in frame indicator\n");
 }
 
 void PixieEti::copyScreen()

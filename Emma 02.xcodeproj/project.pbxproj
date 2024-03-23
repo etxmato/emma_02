@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		99034D172130AFDC007F1BF3 /* FPL-4.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99034D162130AFDC007F1BF3 /* FPL-4.syntax */; };
 		990416781DCDFE9000487FD7 /* ms2000.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 990416761DCDFE9000487FD7 /* ms2000.cpp */; };
+		99048D702B76B72E00F2F648 /* cd4536b.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99048D6F2B76B72000F2F648 /* cd4536b.cpp */; };
+		99048D712B76B72F00F2F648 /* cd4536b.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99048D6F2B76B72000F2F648 /* cd4536b.cpp */; };
 		99090B0F2118CFD7008B16DA /* FPL-2.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99090B0E2118CFD7008B16DA /* FPL-2.syntax */; };
 		99090B112118D720008B16DA /* GPL-A_RAM.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99090B102118D720008B16DA /* GPL-A_RAM.syntax */; };
 		991199441E92ECC30074ADAA /* splash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 991199421E92ECC30074ADAA /* splash.cpp */; };
@@ -510,6 +512,8 @@
 		99034D162130AFDC007F1BF3 /* FPL-4.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "FPL-4.syntax"; sourceTree = "<group>"; };
 		990416761DCDFE9000487FD7 /* ms2000.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ms2000.cpp; path = src/ms2000.cpp; sourceTree = "<group>"; };
 		990416771DCDFE9000487FD7 /* ms2000.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ms2000.h; path = src/ms2000.h; sourceTree = "<group>"; };
+		99048D6E2B76B72000F2F648 /* cd4536b.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = cd4536b.h; path = src/cd4536b.h; sourceTree = "<group>"; };
+		99048D6F2B76B72000F2F648 /* cd4536b.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = cd4536b.cpp; path = src/cd4536b.cpp; sourceTree = "<group>"; };
 		99090B0E2118CFD7008B16DA /* FPL-2.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "FPL-2.syntax"; sourceTree = "<group>"; };
 		99090B102118D720008B16DA /* GPL-A_RAM.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "GPL-A_RAM.syntax"; sourceTree = "<group>"; };
 		9909A2151F2144B200B17E58 /* Emma 02.pjd */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Emma 02.pjd"; sourceTree = "<group>"; };
@@ -1273,6 +1277,8 @@
 				997647941A61D5EE00FB9B33 /* Blip_Buffer.h */,
 				9976479C1A61D5EE00FB9B33 /* breakpoints.cpp */,
 				9976479D1A61D5EE00FB9B33 /* breakpoints.h */,
+				99048D6F2B76B72000F2F648 /* cd4536b.cpp */,
+				99048D6E2B76B72000F2F648 /* cd4536b.h */,
 				99EBEE8822B55A6A00FF276A /* cdp18s020.cpp */,
 				99EBEE8722B55A6900FF276A /* cdp18s020.h */,
 				99D9441B22FB2DB6007C384A /* cdp18s600.cpp */,
@@ -1893,6 +1899,7 @@
 				99E0418D2A22955000146D04 /* wxcurl_ftp.cpp in Sources */,
 				997647BB1A61D5EE00FB9B33 /* colour.cpp in Sources */,
 				997648071A61D5EF00FB9B33 /* keyboard.cpp in Sources */,
+				99048D702B76B72E00F2F648 /* cd4536b.cpp in Sources */,
 				997647CE1A61D5EF00FB9B33 /* video.cpp in Sources */,
 				997647BE1A61D5EE00FB9B33 /* guimain.cpp in Sources */,
 				997647F81A61D5EF00FB9B33 /* super.cpp in Sources */,
@@ -2044,6 +2051,7 @@
 				99E0418E2A22955100146D04 /* wxcurl_ftp.cpp in Sources */,
 				99F37E69285D1D9200C57417 /* keyboard.cpp in Sources */,
 				99F37E6A285D1D9200C57417 /* video.cpp in Sources */,
+				99048D712B76B72F00F2F648 /* cd4536b.cpp in Sources */,
 				99F37E6B285D1D9200C57417 /* guimain.cpp in Sources */,
 				99F37E6C285D1D9200C57417 /* super.cpp in Sources */,
 				99F37E6D285D1D9200C57417 /* Sync_Audio.cpp in Sources */,

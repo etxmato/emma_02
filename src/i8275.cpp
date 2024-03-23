@@ -213,11 +213,11 @@ void i8275::configure8275(IoConfiguration ioConfiguration)
     p_Main->message("Configuring intel 8275");
 
     wxString printBuffer;
-    printBuffer.Printf("    Output %d write command, input %d read status", ioConfiguration.i8275WriteCommand, ioConfiguration.i8275ReadStatus);
+    printBuffer.Printf("	Output %d write command, input %d read status", ioConfiguration.i8275WriteCommand, ioConfiguration.i8275ReadStatus);
     p_Main->message(printBuffer);
-    printBuffer.Printf("    Output %d write parameter, input %d read parameter", ioConfiguration.i8275WriteParameter, ioConfiguration.i8275ReadParameter);
+    printBuffer.Printf("	Output %d write parameter, input %d read parameter", ioConfiguration.i8275WriteParameter, ioConfiguration.i8275ReadParameter);
     p_Main->message(printBuffer);
-    printBuffer.Printf("    EF %d: vertical retrace\n", ioConfiguration.i8275VerticalRetrace);
+    printBuffer.Printf("	EF %d: vertical retrace\n", ioConfiguration.i8275VerticalRetrace);
     p_Main->message(printBuffer);
 }
 

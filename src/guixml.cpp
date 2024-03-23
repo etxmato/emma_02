@@ -34,17 +34,19 @@
 
 BEGIN_EVENT_TABLE(GuiXml, GuiPico)
 
-    EVT_TEXT(XRCID("MainRamXml"), GuiXml::onMainRamTextXml)
-    EVT_COMBOBOX(XRCID("MainRamXml"), GuiXml::onMainRamTextXml)
-    EVT_BUTTON(XRCID("RamButtonXml"), GuiXml::onMainRamXml)
+    EVT_TEXT(XRCID("RomRam1Xml"), GuiXml::onRomRom1TextXml)
+    EVT_COMBOBOX(XRCID("RomRam1Xml"), GuiXml::onRomRom1ComboXml)
+    EVT_BUTTON(XRCID("RomRamButton1Xml"), GuiXml::onRomRam1Xml)
 
-    EVT_TEXT(XRCID("MainRomXml"), GuiXml::onMainRomTextXml)
-    EVT_COMBOBOX(XRCID("MainRomXml"), GuiXml::onMainRomTextXml)
-    EVT_BUTTON(XRCID("RomButtonXml"), GuiXml::onMainRomXml)
+    EVT_TEXT(XRCID("RomRam0Xml"), GuiXml::onRomRom0TextXml)
+    EVT_COMBOBOX(XRCID("RomRam0Xml"), GuiXml::onRomRom0ComboXml)
+    EVT_BUTTON(XRCID("RomRamButton0Xml"), GuiXml::onRomRam0Xml)
 
     EVT_TEXT(XRCID("MainXmlXml"), GuiXml::onMainXmlTextXml)
     EVT_COMBOBOX(XRCID("MainXmlXml"), GuiXml::onMainXmlComboXml)
     EVT_BUTTON(XRCID("XmlButtonXml"), GuiXml::onMainXmlXml)
+
+    EVT_CHOICE(XRCID("MainDirXml"), GuiXml::onMainDirComboXml)
 
     EVT_TEXT(XRCID("KeyFileXml"), GuiMain::onKeyFileText)
     EVT_BUTTON(XRCID("KeyFileButtonXml"), GuiMain::onKeyFile)
@@ -153,54 +155,45 @@ GuiXml::GuiXml(const wxString& title, const wxPoint& pos, const wxSize& size, Mo
     tapeOffBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/minus.png", wxBITMAP_TYPE_PNG);
     
     dropdownUpdateOngoing_ = false;
+    xmlFileComboSelection = 0;
+    xmlDirComboSelection = 0;
+    romRamFileComboSelection[0] = 0;
+    romRamFileComboSelection[1] = 0;
 }
 
 void GuiXml::readXmlConfig()
 {
-//    return; // *** to be removed
-    
     selectedComputer_ = XML; // *** to be removed
     elfConfiguration[XML].ioConfiguration.emsOutput.resize(1);
-
-    fileNameXml[0] = "";
-    fileDirXml[0] = dataDir_ + "Xml" + pathSeparator_;
-    fileNameXml[1] = configPointer->Read("Xmlemu/XmlFile1", "comx,superboard.xml");
-    fileDirXml[1] = readConfigDir("Dir/Xmlemu/XmlFile1", dataDir_ + "Xml" + pathSeparator_ + "Comx" + pathSeparator_);
-    fileNameXml[2] = configPointer->Read("Xmlemu/XmlFile2", "comx,fdc-print-32k-eprom.xml");
-    fileDirXml[2] = readConfigDir("Dir/Xmlemu/XmlFile2", dataDir_ + "Xml" + pathSeparator_ + "Comx" + pathSeparator_);
-    fileNameXml[3] = configPointer->Read("Xmlemu/XmlFile3", "cidelsa,altair.xml");
-    fileDirXml[3] = readConfigDir("Dir/Xmlemu/XmlFile3", dataDir_ + "Xml" + pathSeparator_ + "Cidelsa" + pathSeparator_);
-    fileNameXml[4] = configPointer->Read("Xmlemu/XmlFile4", "comix,bare-pal.xml");
-    fileDirXml[4] = readConfigDir("Dir/Xmlemu/XmlFile4", dataDir_ + "Xml" + pathSeparator_ + "Comix" + pathSeparator_);
-    fileNameXml[5] = configPointer->Read("Xmlemu/XmlFile5", "cosmac-elf,bare.xml");
-    fileDirXml[5] = readConfigDir("Dir/Xmlemu/XmlFile5", dataDir_ + "Xml" + pathSeparator_ + "Cosmac Elf" + pathSeparator_);
-    fileNameXml[6] = configPointer->Read("Xmlemu/XmlFile6", "elf,superbasic6.0-supervideo.xml");
-    fileDirXml[6] = readConfigDir("Dir/Xmlemu/XmlFile6", dataDir_ + "Xml" + pathSeparator_ + "Elf" + pathSeparator_);
-    fileNameXml[7] = configPointer->Read("Xmlemu/XmlFile7", "microtutor2-tops.xml");
-    fileDirXml[7] = readConfigDir("Dir/Xmlemu/XmlFile7", dataDir_ + "Xml" + pathSeparator_ + "Microtutor II" + pathSeparator_);
-    fileNameXml[8] = configPointer->Read("Xmlemu/XmlFile8", "pecom,64.v4.xml");
-    fileDirXml[8] = readConfigDir("Dir/Xmlemu/XmlFile8", dataDir_ + "Xml" + pathSeparator_ + "Pecom" + pathSeparator_);
-    fileNameXml[9] = configPointer->Read("Xmlemu/XmlFile9", "pico,elfos-uart.xml");
-    fileDirXml[9] = readConfigDir("Dir/Xmlemu/XmlFile9", dataDir_ + "Xml" + pathSeparator_ + "Pico Elf V2" + pathSeparator_);
-    fileNameXml[10] = configPointer->Read("Xmlemu/XmlFile10", "tmc-600,exp-151182.xml");
-    fileDirXml[10] = readConfigDir("Dir/Xmlemu/XmlFile10", dataDir_ + "Xml" + pathSeparator_ + "TMC-600" + pathSeparator_);
-    fileNameXml[11] = configPointer->Read("Xmlemu/XmlFile11", "cybervision2001.xml");
-    fileDirXml[11] = readConfigDir("Dir/Xmlemu/XmlFile11", dataDir_ + "Xml" + pathSeparator_ + "Cybervision" + pathSeparator_);
 
     wxString defaultTimer;
     defaultTimer.Printf("%d", 100);
     conf[XML].ledTime_ = configPointer->Read("Xmlemu/Led_Update_Frequency", defaultTimer);
 
-    if (mode_.gui)
-        setXmlDropDown();
-    dropdownUpdateOngoing_ = false;
+    xmlDirComboSelection = (int)configPointer->Read("Xmlemu/XmlDirComboSelection", 2);
+    conf[XML].xmlMainDir_ = readConfigDir("Dir/Xmlemu/XmlFile", dataDir_ + "Xml" + pathSeparator_);
+    
+    setXmlDirDropDown();
+    conf[XML].xmlDir_ = conf[XML].xmlMainDir_ + conf[XML].xmlSubDir_ + pathSeparator_;
+    setXmlDropDown();
 
-    conf[XML].xmlDir_ = fileDirXml[1];
-    conf[XML].xmlFile_ = fileNameXml[1];
+    dropdownUpdateOngoing_ = false;
 
     clearXmlData(XML);
     parseXmlFile(XML,conf[XML].xmlDir_, conf[XML].xmlFile_);
- 
+    
+    setRomRamButtonOrder();
+    
+    dropdownUpdateOngoing_ = true;
+    if (mode_.gui)
+    {
+        XRCCTRL(*this, "RomRam1Xml", wxComboBox)->Clear();
+        XRCCTRL(*this, "RomRam0Xml", wxComboBox)->Clear();
+    }
+    dropdownUpdateOngoing_ = false;
+    setRomRamDropDown(romRamButton0_, "0");
+    setRomRamDropDown(romRamButton1_, "1");
+
     selectedComputer_ = XML;
 
     conf[XML].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + computerInfo[XML].gui + pathSeparator_;
@@ -212,9 +205,9 @@ void GuiXml::readXmlConfig()
     conf[XML].saveEndString_ = "";
     conf[XML].saveExecString_ = "";
 
-    elfConfiguration[XML].vt52SetUpFeature_ = configPointer->Read("Xmlemu/VT52Setup", 0x00004092l);
-    elfConfiguration[XML].vt100SetUpFeature_ = configPointer->Read("Xmlemu/VT100Setup", 0x0000ca52l);
-    elfConfiguration[XML].vtExternalSetUpFeature_ = configPointer->Read("Xmlemu/VTExternalSetup", 0x0000ca52l);
+    elfConfiguration[XML].vt52SetUpFeature_ = configPointer->Read("Xmlemu/VT52Setup", 0x4092l);
+    elfConfiguration[XML].vt100SetUpFeature_ = configPointer->Read("Xmlemu/VT100Setup", 0xcad2l);
+    elfConfiguration[XML].vtExternalSetUpFeature_ = configPointer->Read("Xmlemu/VTExternalSetup", 0xcad2l);
     
     elfConfiguration[XML].vtCharactersPerRow = (int)configPointer->Read("Xmlemu/VT100CharPerRow", 80);
     elfConfiguration[XML].vt100CharWidth = (int)configPointer->Read("Xmlemu/VT100CharWidth", 10);
@@ -266,8 +259,6 @@ void GuiXml::readXmlConfig()
 
     if (mode_.gui)
     {
-        XRCCTRL(*this, "MainXmlXml", wxComboBox)->SetValue(conf[XML].xmlFile_);
-    
         correctZoomVtAndValue(XML, "Xml", SET_SPIN);
             
         XRCCTRL(*this, "StretchDotXml", wxCheckBox)->SetValue(conf[XML].stretchDot_);
@@ -287,12 +278,7 @@ void GuiXml::writeXmlDirConfig()
 {
     wxString number, type;
     
-    for (int i=1; i<MAX_XML_DROPDOWN_FILES; i++)
-    {
-        number.Printf("%d",i);
-        writeConfigDir("/Dir/Xmlemu/XmlFile" + number, fileDirXml[i]);
-    }
-    
+    writeConfigDir("/Dir/Xmlemu/XmlFile", conf[XML].xmlMainDir_);
     writeConfigDir("/Dir/Xmlemu/Key_File", conf[XML].keyFileDir_);
     writeConfigDir("/Dir/Xmlemu/Video_Dump_File", conf[XML].screenDumpFileDir_);
     writeConfigDir("/Dir/Xmlemu/Print_File", conf[XML].printFileDir_);
@@ -316,12 +302,22 @@ void GuiXml::writeXmlDirConfig()
 void GuiXml::writeXmlConfig()
 {
     wxString buffer, number, type;
-    for (int i=1; i<MAX_XML_DROPDOWN_FILES; i++)
+
+    configPointer->Write("Xmlemu/XmlDirComboSelection", xmlDirComboSelection);
+    for (size_t number=0; number < dirNameList_.GetCount(); number++)
     {
-        number.Printf("%d",i);
-        configPointer->Write("Xmlemu/XmlFile" + number, fileNameXml[i]);
+        if (dirNameListDefaultFile_.GetCount() > 0)
+            configPointer->Write("/Xmlemu/XmlFile/"+dirNameList_[number], dirNameListDefaultFile_[number]);
+        if (dirNameListGui_.GetCount() > 0)
+        {
+            configPointer->Write("/Xmlemu/XmlGui/"+dirNameList_[number], dirNameListGui_[number]);
+            configPointer->Write("/Xmlemu/XmlDir/"+dirNameListGui_[number], dirNameList_[number]);
+        }
     }
-    
+
+    configPointer->Write("/Xmlemu/GuiRomRam0/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], conf[XML].memConfig_[romRamButton0_].filename);
+    configPointer->Write("/Xmlemu/GuiRomRam1/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], conf[XML].memConfig_[romRamButton1_].filename);
+
     configPointer->Write("/Xmlemu/Key_File", conf[XML].keyFile_);
     configPointer->Write("/Xmlemu/Video_Dump_File", conf[XML].screenDumpFile_);
     configPointer->Write("/Xmlemu/Print_File", conf[XML].printFile_);
@@ -386,10 +382,10 @@ void GuiXml::readXmlWindowConfig()
     conf[XML].coinY_ = (int)configPointer->Read("Xmlemu/Window_Position_CoinVideo_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defCoinY_);
     conf[XML].pixieX_ = (int)configPointer->Read("Xmlemu/Window_Position_Pixie_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defPixieX_);
     conf[XML].pixieY_ = (int)configPointer->Read("Xmlemu/Window_Position_Pixie_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defPixieY_);
-    conf[XML].cdp1862X_ = (int)configPointer->Read("Xmlemu/Window_Position_CDP1862_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defCdp1862X_);
-    conf[XML].cdp1862Y_ = (int)configPointer->Read("Xmlemu/Window_Position_CDP1862_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defCdp1862Y_);
-   conf[XML].cdp1864X_ = (int)configPointer->Read("Xmlemu/Window_Position_CDP1864_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defCdp1864X_);
+    conf[XML].cdp1864X_ = (int)configPointer->Read("Xmlemu/Window_Position_CDP1864_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defCdp1864X_);
     conf[XML].cdp1864Y_ = (int)configPointer->Read("Xmlemu/Window_Position_CDP1864_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defCdp1864Y_);
+    conf[XML].st4X_ = (int)configPointer->Read("Xmlemu/Window_Position_ST4_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defSt4X_);
+    conf[XML].st4Y_ = (int)configPointer->Read("Xmlemu/Window_Position_ST4_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defSt4Y_);
     conf[XML].vip2KX_ = (int)configPointer->Read("Xmlemu/Window_Position_VIP2K_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defVip2KX_);
     conf[XML].vip2KY_ = (int)configPointer->Read("Xmlemu/Window_Position_VIP2K_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defVip2KY_);
     conf[XML].fredX_ = (int)configPointer->Read("Xmlemu/Window_Position_FRED_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defFredX_);
@@ -406,6 +402,20 @@ void GuiXml::readXmlWindowConfig()
     conf[XML].v1870Y_ = (int)configPointer->Read("Xmlemu/Window_Position_v1870_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defv1870Y_);
     conf[XML].SN76430NX_ = (int)configPointer->Read("Xmlemu/Window_Position_SN76430N_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defSN76430NX_);
     conf[XML].SN76430NY_ = (int)configPointer->Read("Xmlemu/Window_Position_SN76430N_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defSN76430NY_);
+    int num=0;
+    wxString numStr;
+    for (std::vector<Cdp1851>::iterator cdp1851 = elfConfiguration[XML].ioConfiguration.cdp1851.begin (); cdp1851 != elfConfiguration[XML].ioConfiguration.cdp1851.end (); ++cdp1851)
+    {
+        numStr.Printf("%d",num);
+        cdp1851->pos.x = (int)configPointer->Read("Xmlemu/Window_Position_Cdp1851_"+numStr+"_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, cdp1851->defaultPos.x);
+        cdp1851->pos.y = (int)configPointer->Read("Xmlemu/Window_Position_Cdp1851_"+numStr+"_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, cdp1851->defaultPos.y);
+    }
+    for (std::vector<Cdp1852>::iterator cdp1852 = elfConfiguration[XML].ioConfiguration.cdp1852.begin (); cdp1852 != elfConfiguration[XML].ioConfiguration.cdp1852.end (); ++cdp1852)
+    {
+        numStr.Printf("%d",num);
+        cdp1852->pos.x = (int)configPointer->Read("Xmlemu/Window_Position_Cdp1852_"+numStr+"_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, cdp1852->defaultPos.x);
+        cdp1852->pos.y = (int)configPointer->Read("Xmlemu/Window_Position_Cdp1852_"+numStr+"_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, cdp1852->defaultPos.y);
+    }
     conf[XML].vtX_ = (int)configPointer->Read("Xmlemu/Window_Position_Vt_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defVtX_);
     conf[XML].vtY_ = (int)configPointer->Read("Xmlemu/Window_Position_Vt_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defVtY_);
     conf[XML].mainX_ = (int)configPointer->Read("Xmlemu/Window_Position_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, mainWindowX_);
@@ -436,19 +446,19 @@ void GuiXml::writeXmlWindowConfig()
         if (conf[XML].pixieY_ > 0)
             configPointer->Write("Xmlemu/Window_Position_Pixie_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].pixieY_);
     }
-    if (elfConfiguration[XML].use1862)
-    {
-        if (conf[XML].cdp1862X_ > 0)
-            configPointer->Write("Xmlemu/Window_Position_CDP1862_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].cdp1862X_);
-        if (conf[XML].cdp1862Y_ > 0)
-            configPointer->Write("Xmlemu/Window_Position_CDP1862_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].cdp1862Y_);
-    }
     if (elfConfiguration[XML].use1864)
     {
         if (conf[XML].cdp1864X_ > 0)
             configPointer->Write("Xmlemu/Window_Position_CDP1864_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].cdp1864X_);
         if (conf[XML].cdp1864Y_ > 0)
             configPointer->Write("Xmlemu/Window_Position_CDP1864_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].cdp1864Y_);
+    }
+    if (elfConfiguration[XML].useSt4Video)
+    {
+        if (conf[XML].st4X_ > 0)
+            configPointer->Write("Xmlemu/Window_Position_ST4_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].st4X_);
+        if (conf[XML].st4Y_ > 0)
+            configPointer->Write("Xmlemu/Window_Position_ST4_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].st4Y_);
     }
     if (elfConfiguration[XML].useVip2KVideo)
     {
@@ -506,6 +516,24 @@ void GuiXml::writeXmlWindowConfig()
         if (conf[XML].SN76430NY_ > 0)
             configPointer->Write("Xmlemu/Window_Position_SN76430N_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].SN76430NY_);
     }
+    int num=0;
+    wxString numStr;
+    for (std::vector<Cdp1851>::iterator cdp1851 = elfConfiguration[XML].ioConfiguration.cdp1851.begin (); cdp1851 != elfConfiguration[XML].ioConfiguration.cdp1851.end (); ++cdp1851)
+    {
+        numStr.Printf("%d",num);
+        if (cdp1851->pos.x > 0)
+            configPointer->Write("Xmlemu/Window_Position_Cdp1851_"+numStr+"_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, cdp1851->pos.x);
+        if (cdp1851->pos.y > 0)
+            configPointer->Write("Xmlemu/Window_Position_Cdp1851_"+numStr+"_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, cdp1851->pos.y);
+    }
+    for (std::vector<Cdp1852>::iterator cdp1852 = elfConfiguration[XML].ioConfiguration.cdp1852.begin (); cdp1852 != elfConfiguration[XML].ioConfiguration.cdp1852.end (); ++cdp1852)
+    {
+        numStr.Printf("%d",num);
+        if (cdp1852->pos.x > 0)
+            configPointer->Write("Xmlemu/Window_Position_Cdp1852_"+numStr+"_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, cdp1852->pos.x);
+        if (cdp1852->pos.y > 0)
+            configPointer->Write("Xmlemu/Window_Position_Cdp1852_"+numStr+"_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, cdp1852->pos.y);
+    }
     if (elfConfiguration[XML].vtType == VT52 || elfConfiguration[XML].vtType == VT100)
     {
         if (conf[XML].vtX_ > 0)
@@ -552,15 +580,25 @@ void GuiXml::onXmlControlWindows(wxCommandEvent&event)
     }
 }
 
-void GuiXml::onMainRomXml(wxCommandEvent& WXUNUSED(event) )
+void GuiXml::onRomRam0Xml(wxCommandEvent& WXUNUSED(event) )
 {
-    wxString fileName;
+    romRamXml(romRamButton0_, "0");
+}
 
-    if (conf[selectedComputer_].memConfig_[1].dirname == "")
-        conf[selectedComputer_].memConfig_[1].dirname = conf[selectedComputer_].mainDir_ ;
+void GuiXml::onRomRam1Xml(wxCommandEvent& WXUNUSED(event) )
+{
+    romRamXml(romRamButton1_, "1");
+}
 
-    fileName = wxFileSelector( "Select the ROM file to load",
-                              conf[selectedComputer_].memConfig_[1].dirname, XRCCTRL(*this, "MainRomXml", wxComboBox)->GetValue(),
+void GuiXml::romRamXml(int romRamButton, wxString romRamButtonString)
+{
+    wxString fileName, romRam = "ROM";
+
+    if (conf[selectedComputer_].memConfig_[romRamButton].type == MAINRAM)
+        romRam = "RAM";
+    
+    fileName = wxFileSelector( "Select the " + romRam + " file to load",
+                              conf[selectedComputer_].memConfig_[romRamButton].dirname, XRCCTRL(*this, "RomRam"+romRamButtonString+"Xml", wxComboBox)->GetValue(),
                                "",
                                wxString::Format
                               (
@@ -575,96 +613,80 @@ void GuiXml::onMainRomXml(wxCommandEvent& WXUNUSED(event) )
         return;
 
     wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
-    conf[selectedComputer_].memConfig_[1].dirname = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
-    conf[selectedComputer_].memConfig_[1].filename = FullPath.GetFullName();
+    conf[selectedComputer_].memConfig_[romRamButton].dirname = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+    conf[selectedComputer_].memConfig_[romRamButton].filename = FullPath.GetFullName();
 
-    XRCCTRL(*this, "MainRomXml", wxComboBox)->SetValue(conf[selectedComputer_].memConfig_[1].filename);
+    XRCCTRL(*this, "RomRam"+romRamButtonString+"Xml", wxComboBox)->SetValue(conf[selectedComputer_].memConfig_[romRamButton].filename);
+
+    configPointer->Write("/Xmlemu/GuiRomRam"+romRamButtonString+"/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], conf[XML].memConfig_[romRamButton].filename);
+    configPointer->Flush();
 }
 
-void GuiXml::onMainRomTextXml(wxCommandEvent& WXUNUSED(event))
+void GuiXml::onRomRom0TextXml(wxCommandEvent& WXUNUSED(event))
 {
-    conf[selectedComputer_].memConfig_[1].filename = XRCCTRL(*this, "MainRomXml", wxComboBox)->GetValue();
+    romRomTextXml(romRamButton0_, "0");
 }
 
-void GuiXml::onMainRamXml(wxCommandEvent& WXUNUSED(event) )
+void GuiXml::onRomRom1TextXml(wxCommandEvent& WXUNUSED(event))
 {
-    wxString fileName;
+    romRomTextXml(romRamButton1_, "1");
+}
 
-    fileName = wxFileSelector( "Select the RAM file to load",
-                              conf[selectedComputer_].memConfig_[0].dirname, XRCCTRL(*this, "MainRamXml", wxComboBox)->GetValue(),
-                               "",
-                               wxString::Format
-                              (
-                                   "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos|Intel Hex File|*.hex|All files (%s)|%s",
-                                   wxFileSelectorDefaultWildcardStr,
-                                   wxFileSelectorDefaultWildcardStr
-                               ),
-                               wxFD_OPEN|wxFD_CHANGE_DIR|wxFD_PREVIEW,
-                               this
-                              );
-    if (!fileName)
+void GuiXml::romRomTextXml(int romRamButton, wxString romRamButtonString)
+{
+    if (dropdownUpdateOngoing_)
         return;
 
-    wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
-    conf[selectedComputer_].memConfig_[0].dirname = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
-    conf[selectedComputer_].memConfig_[0].filename = FullPath.GetFullName();
+    conf[selectedComputer_].memConfig_[romRamButton].filename = XRCCTRL(*this, "RomRam"+romRamButtonString+"Xml", wxComboBox)->GetValue();
 
-    XRCCTRL(*this, "MainRamXml", wxComboBox)->SetValue(conf[selectedComputer_].memConfig_[0].filename);
+    configPointer->Write("/Xmlemu/GuiRomRam"+romRamButtonString+"/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], conf[XML].memConfig_[romRamButton].filename);
+    configPointer->Flush();
 }
 
-void GuiXml::onMainRamTextXml(wxCommandEvent& WXUNUSED(event))
+void GuiXml::onRomRom0ComboXml(wxCommandEvent& event)
 {
-    conf[selectedComputer_].memConfig_[0].filename = XRCCTRL(*this, "MainRamXml", wxComboBox)->GetValue();
+    if (dropdownUpdateOngoing_)
+        return;
+
+    romRamFileComboSelection[romRamButton0_] = event.GetSelection();
+
+    romRomComboXml(romRamButton0_, "0");
+}
+
+void GuiXml::onRomRom1ComboXml(wxCommandEvent& event)
+{
+    if (dropdownUpdateOngoing_)
+        return;
+
+    romRamFileComboSelection[romRamButton1_] = event.GetSelection();
+
+    romRomComboXml(romRamButton1_, "1");
+}
+
+void GuiXml::romRomComboXml(int romRamButton, wxString romRamButtonString)
+{
+    conf[selectedComputer_].memConfig_[romRamButton].dirname = romRamDirNameListGui_[romRamButton][romRamFileComboSelection[romRamButton]];
+    conf[selectedComputer_].memConfig_[romRamButton].filename = XRCCTRL(*this, "RomRam"+romRamButtonString+"Xml", wxComboBox)->GetValue();
+
+    configPointer->Write("/Xmlemu/GuiRomRam"+romRamButtonString+"/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], conf[XML].memConfig_[romRamButton].filename);
+    configPointer->Flush();
 }
 
 void GuiXml::onMainXmlXml(wxCommandEvent& WXUNUSED(event) )
 {
     wxString fileName;
 
-    fileName = wxFileSelector( "Select the XML file to load",
-                              conf[selectedComputer_].xmlDir_, XRCCTRL(*this, "MainXmlXml", wxComboBox)->GetValue(),
-                               "",
-                               wxString::Format
-                              (
-                                   "XML|*.xml|All files (%s)|%s",
-                                   wxFileSelectorDefaultWildcardStr,
-                                   wxFileSelectorDefaultWildcardStr
-                               ),
-                               wxFD_OPEN|wxFD_CHANGE_DIR|wxFD_PREVIEW,
-                               this
-                              );
-    if (!fileName)
+    wxString dirName = wxDirSelector( "Select main XML folder", conf[selectedComputer_].xmlMainDir_);
+    if (!dirName)
         return;
-
-    wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
-    conf[selectedComputer_].xmlDir_ = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
-    conf[selectedComputer_].xmlFile_ = FullPath.GetFullName();
-
-    bool found = false;
     
-    for (int i=1; i<MAX_XML_DROPDOWN_FILES; i++)
-    {
-        if (fileNameXml[i] == conf[selectedComputer_].xmlFile_ && fileDirXml[i] == conf[selectedComputer_].xmlDir_)
-            found = true;
-    }
+    conf[selectedComputer_].xmlMainDir_ = dirName + pathSeparator_;
     
-    if (found)
-        XRCCTRL(*this, "MainXmlXml", wxComboBox)->SetValue(conf[selectedComputer_].xmlFile_);
-    else
-    {
-        for (int i=MAX_XML_DROPDOWN_FILES-1; i>1; i--)
-        {
-            fileNameXml[i] = fileNameXml[i-1];
-            fileDirXml[i] = fileDirXml[i-1];
-        }
-        fileNameXml[1] = conf[selectedComputer_].xmlFile_;
-        fileDirXml[1] = conf[selectedComputer_].xmlDir_;
-        
-        setXmlDropDown();
-        dropdownUpdateOngoing_ = false;
+    setXmlDirDropDown();
+    conf[XML].xmlDir_ = conf[XML].xmlMainDir_ + conf[XML].xmlSubDir_ + pathSeparator_;
+    setXmlDropDown();
 
-        XRCCTRL(*this, "MainXmlXml", wxComboBox)->SetValue(fileNameXml[1]);
-    }
+    dropdownUpdateOngoing_ = false;
 }
 
 void GuiXml::onMainXmlTextXml(wxCommandEvent& WXUNUSED(event))
@@ -674,22 +696,52 @@ void GuiXml::onMainXmlTextXml(wxCommandEvent& WXUNUSED(event))
 
     conf[selectedComputer_].xmlFile_ = XRCCTRL(*this, "MainXmlXml", wxComboBox)->GetValue();
     
-    parseXmlFile(selectedComputer_, conf[selectedComputer_].xmlDir_, conf[selectedComputer_].xmlFile_);
-    setXmlGui();
-    
-    checkWavFileDownload(selectedComputer_, true);
+    setXmlDirFileGui();
+    setRomRamDropDown(romRamButton0_, "0");
+    setRomRamDropDown(romRamButton1_, "1");
 }
 
 void GuiXml::onMainXmlComboXml(wxCommandEvent& event)
 {
-    int selection = event.GetSelection();
-    if (selection >= MAX_XML_DROPDOWN_FILES)
-        selection = MAX_XML_DROPDOWN_FILES-1;
-    
-    conf[selectedComputer_].xmlFile_ = fileNameXml[selection];
-    conf[selectedComputer_].xmlDir_ = fileDirXml[selection];
+    xmlFileComboSelection = event.GetSelection();
 
+    conf[selectedComputer_].xmlFile_ = event.GetString();
+    if (dirNameListDefaultFile_.GetCount() > 0)
+        dirNameListDefaultFile_[xmlDirComboSelection] = conf[selectedComputer_].xmlFile_;
+
+    setXmlDirFileGui();
+    setRomRamDropDown(romRamButton0_, "0");
+    setRomRamDropDown(romRamButton1_, "1");
+}
+
+void GuiXml::onMainDirComboXml(wxCommandEvent& event)
+{
+    xmlDirComboSelection = event.GetSelection();
+    
+    if (dirNameList_.GetCount() > 0)
+        conf[selectedComputer_].xmlSubDir_ = dirNameList_[xmlDirComboSelection];
+    conf[selectedComputer_].xmlDir_ = conf[selectedComputer_].xmlMainDir_ + conf[selectedComputer_].xmlSubDir_ + pathSeparator_;
+ 
+    setXmlDropDown();
+    setXmlDirFileGui();
+    setRomRamDropDown(romRamButton0_, "0");
+    setRomRamDropDown(romRamButton1_, "1");
+}
+
+void GuiXml::setXmlDirFileGui()
+{
+    dropdownUpdateOngoing_ = true;
+    if (mode_.gui)
+    {
+        XRCCTRL(*this, "RomRam1Xml", wxComboBox)->Clear();
+        XRCCTRL(*this, "RomRam0Xml", wxComboBox)->Clear();
+    }
+    dropdownUpdateOngoing_ = false;
+    
     parseXmlFile(selectedComputer_, conf[selectedComputer_].xmlDir_, conf[selectedComputer_].xmlFile_);
+    if (conf[selectedComputer_].xmlFile_ != "")
+        if (dirNameListGui_.GetCount() > 0)
+            dirNameListGui_[xmlDirComboSelection] = computerInfo[selectedComputer_].name;
     setXmlGui();
 
     checkWavFileDownload(selectedComputer_, true);
@@ -698,9 +750,321 @@ void GuiXml::onMainXmlComboXml(wxCommandEvent& event)
 void GuiXml::setXmlDropDown()
 {
     dropdownUpdateOngoing_ = true;
-    for (int i=0; i<MAX_XML_DROPDOWN_FILES; i++)
-        XRCCTRL(*this, "MainXmlXml", wxComboBox)->SetString(i, fileNameXml[i]);
+
+    if (mode_.gui)
+        XRCCTRL(*this, "MainXmlXml", wxComboBox)->Clear();
+    conf[selectedComputer_].xmlFile_ = "";
+    xmlFileComboSelection = 0;
+    
+    wxArrayString fileNameList;
+    wxString fileName;
+    fileNameList.Clear();
+    
+    wxDir *dir;
+    dir = new wxDir (conf[selectedComputer_].xmlDir_);
+    
+    bool dirFound = dir->GetFirst(&fileName,  wxEmptyString, wxDIR_FILES);
+    while (dirFound)
+    {
+        fileNameList.Add(fileName);
+        dirFound = dir->GetNext(&fileName);
+    }
+    fileNameList.Sort();
+    for (size_t number=0; number < fileNameList.GetCount(); number++)
+    {
+        if (mode_.gui)
+            XRCCTRL(*this, "MainXmlXml", wxComboBox)->Append(fileNameList[number]);
+        
+        if (dirNameListDefaultFile_.GetCount() > 0)
+        {
+            if (dirNameListDefaultFile_[xmlDirComboSelection] == fileNameList[number])
+            {
+                conf[selectedComputer_].xmlFile_ = dirNameListDefaultFile_[xmlDirComboSelection];
+                xmlFileComboSelection =  number;
+            }
+        }
+    }
+    
+    if (mode_.gui)
+        XRCCTRL(*this, "MainXmlXml", wxComboBox)->SetValue(conf[selectedComputer_].xmlFile_);
+
+    dropdownUpdateOngoing_ = false;
+    delete dir;
 }
+
+void GuiXml::setRomRamDropDown(int romRamButton, wxString romRamButtonString)
+{
+    if (conf[XML].memConfig_[romRamButton].pulldownDir.Count() == 0)
+        return;
+    
+    dropdownUpdateOngoing_ = true;
+
+    wxArrayString fileNameList;
+    wxArrayString lowerCaseFileNameList;
+    wxArrayString dirNameList;
+    wxString fileName;
+    romRamFileNameListGui_[romRamButton].Clear();
+    romRamDirNameListGui_[romRamButton].Clear();
+
+    wxDir *dir;
+    dir = new wxDir;
+    bool dirFound;
+    
+    fileNameList.Add("");
+    romRamFileNameListGui_[romRamButton].Add("");
+    lowerCaseFileNameList.Add("");
+    dirNameList.Add(conf[XML].memConfig_[romRamButton].pulldownDir[0]);
+    romRamDirNameListGui_[romRamButton].Add(conf[XML].memConfig_[romRamButton].pulldownMask[0]);
+
+    for (size_t number=0; number < conf[XML].memConfig_[romRamButton].pulldownDir.GetCount(); number++)
+    {
+        if (!dir->Open(conf[XML].memConfig_[romRamButton].pulldownDir[number]))
+        {
+            dropdownUpdateOngoing_ = false;
+            delete dir;
+            return;
+        }
+        dirFound = dir->GetFirst(&fileName, conf[XML].memConfig_[romRamButton].pulldownMask[number], wxDIR_FILES);
+        while (dirFound)
+        {
+            if ((conf[XML].memConfig_[romRamButton].pulldownExclude[number] == "" || fileName.Find(conf[XML].memConfig_[romRamButton].pulldownExclude[number]) == wxNOT_FOUND) && (conf[XML].memConfig_[romRamButton].pulldownExclude2[number] == "" || fileName.Find(conf[XML].memConfig_[romRamButton].pulldownExclude2[number]) == wxNOT_FOUND))
+            {
+                fileNameList.Add(fileName);
+                romRamFileNameListGui_[romRamButton].Add(fileName);
+                fileName.LowerCase();
+                lowerCaseFileNameList.Add(fileName);
+                dirNameList.Add(conf[XML].memConfig_[romRamButton].pulldownDir[number]);
+                romRamDirNameListGui_[romRamButton].Add(conf[XML].memConfig_[romRamButton].pulldownMask[number]);
+            }
+            dirFound = dir->GetNext(&fileName);
+        }
+    }
+    lowerCaseFileNameList.Sort();
+    for (size_t number=0; number < romRamFileNameListGui_[romRamButton].GetCount(); number++)
+    {
+        for (size_t gameNumber=0; gameNumber < fileNameList.GetCount(); gameNumber++)
+        {
+            fileName = fileNameList[gameNumber];
+            fileName.LowerCase();
+
+            if (lowerCaseFileNameList[number] == fileName)
+            {
+                romRamDirNameListGui_[romRamButton][number] = dirNameList[gameNumber];
+                romRamFileNameListGui_[romRamButton][number] = fileNameList[gameNumber];
+            }
+        }
+
+        if (mode_.gui)
+            XRCCTRL(*this, "RomRam"+romRamButtonString+"Xml", wxComboBox)->Append(romRamFileNameListGui_[romRamButton][number]);
+    }
+
+    dropdownUpdateOngoing_ = false;
+    delete dir;
+}
+
+void GuiXml::setXmlDirDropDown()
+{
+    wxString defaultList[]=
+    {
+        "CDP18S020",
+        "CDP18S020 Evaluation Kit",
+        "tiny basic ram.xml",
+        "Cidelsa",
+        "Cidelsa Arcade Game Console",
+        "altair.xml",
+        "CoinArcade",
+        "RCA Video Coin Arcade Game Console",
+        "bare.xml",
+        "Comix",
+        "COMIX-35",
+        "pal_high_speed_direct_connect.xml",
+        "Comx",
+        "COMX-35",
+        "superboard.xml",
+        "Conic",
+        "Conic (Apollo, Mustang, MPT-02 and M1200)",
+        "soundic_victory_mpt-02.xml",
+        "CosmacElf",
+        "COSMAC Elf",
+        "bare.xml",
+        "CosmacGameSystem",
+        "RCA COSMAC Computer Game System",
+        "bare.xml",
+        "Cosmicos",
+        "Cosmicos - COSmac MIcro COmputer System",
+        "ut4-monitor.xml",
+        "Cybervision",
+        "Cybervision 2001",
+        "escape.xml",
+        "Elf",
+        "Elf",
+        "elfos-serial.xml",
+        "Elf2K",
+        "COSMAC Elf 2000",
+        "i8275.xml",
+        "Eti",
+        "ETI-660",
+        "wipeout.xml",
+        "FRED1",
+        "FRED 1",
+        "animate demo.xml",
+        "FRED1_5",
+        "FRED 1.5",
+        "bare.xml",
+        "HUG1802",
+        "HUG1802",
+        "basic.xml",
+        "JVIP",
+        "JVIP",
+        "bare.xml",
+        "Macbug",
+        "Macbug",
+        "bare.xml",
+        "MCDS",
+        "RCA Microboard Computer Development System",
+        "cdp18s695.xml",
+        "Membership",
+        "Membership Card",
+        "monitor-j-basic3-rom-8000.xml",
+        "Microboard",
+        "RCA COSMAC Microboard Computer",
+        "cdp18s600.xml",
+        "Microtutor",
+        "COSMAC Microtutor I",
+        "bare.xml",
+        "MicrotutorII",
+        "COSMAC Microtutor II",
+        "tops.xml",
+        "MS2000",
+        "RCA MicroDisk Development System MS2000",
+        "hd.xml",
+        "Nano",
+        "Oscom Nano",
+        "chip8.xml",
+        "NetronicsElfII",
+        "Netronics Elf II",
+        "tinybasic-serial.xml",
+        "Pecom32",
+        "PECOM 32",
+        "bare.xml",
+        "Pecom64",
+        "PECOM 64",
+        "rom_v4.xml",
+        "PicoElfV2",
+        "Pico/Elf V2",
+        "elfos-uart.xml",
+        "QuestSuperElf",
+        "Quest Super Elf",
+        "bare.xml",
+        "Studio2020",
+        "Studio 2020",
+        "pal.xml",
+        "StudioII",
+        "RCA Studio II",
+        "multicart.xml",
+        "StudioIII",
+        "RCA Studio III",
+        "chip8-ntsc.xml",
+        "StudioIV",
+        "RCA Studio IV",
+        "ntsc-basic-32k-2020.xml",
+        "TMC600",
+        "Telmac TMC-600",
+        "exp-151182.xml",
+        "TMC1800",
+        "Telmac 1800",
+        "chip8.xml",
+        "TMC2000",
+        "Telmac 2000",
+        "chip8.xml",
+        "UC1800",
+        "Infinite UC1800",
+        "keybug2020.xml",
+        "Velf",
+        "VELF",
+        "bare.xml",
+        "Vip",
+        "COSMAC VIP",
+        "fpb-vp590.xml",
+        "Vip2K",
+        "VIP2K Membership Card",
+        "monitor-1.5,ntsc.xml",
+        "VipII",
+        "COSMAC VIP II",
+        "ed.xml",
+        "Visicom",
+        "Visicom COM-100",
+        "standard.xml",
+        "",
+        "",
+        "",
+    };
+    
+    dropdownUpdateOngoing_ = true;
+    if (mode_.gui)
+        XRCCTRL(*this, "MainDirXml", wxChoice)->Clear();
+
+    wxString dirName;
+    dirNameList_.Clear();
+    dirNameListDefaultFile_.Clear();
+    dirNameListGui_.Clear();
+
+    wxDir *dir;
+    dir = new wxDir (conf[XML].xmlMainDir_);
+    
+    bool dirFound = dir->GetFirst(&dirName,  wxEmptyString, wxDIR_DIRS);
+    while (dirFound)
+    {
+        size_t number=0;
+        while (defaultList[number] != "" && defaultList[number] != dirName)
+            number += 3;
+
+        if (defaultList[number] != "")
+            dirNameListGui_.Add(configPointer->Read("Xmlemu/XmlGui/"+dirName, defaultList[number+1]));
+        else
+            dirNameListGui_.Add(configPointer->Read("Xmlemu/XmlGui/"+dirName, dirName));
+
+        dirNameList_.Add("");
+        dirNameListDefaultFile_.Add("");
+        dirFound = dir->GetNext(&dirName);
+    }
+                                
+    dirNameListGui_.Sort();
+
+    for (size_t number=0; number < dirNameListGui_.GetCount(); number++)
+    {
+        int defaultNumber=1;
+        while (defaultList[defaultNumber] != "" && defaultList[defaultNumber] != dirNameListGui_[number])
+            defaultNumber += 3;
+        
+        if (defaultList[defaultNumber] != "")
+            dirNameList_[number] = configPointer->Read("/Xmlemu/XmlDir/"+dirNameListGui_[number], defaultList[defaultNumber-1]);
+        else
+            dirNameList_[number] = configPointer->Read("/Xmlemu/XmlDir/"+dirNameListGui_[number], dirNameListGui_[number]);
+
+        dirNameListDefaultFile_[number] = configPointer->Read("/Xmlemu/XmlFile/"+dirNameList_[number], defaultList[defaultNumber+1]);
+
+        if (mode_.gui)
+            XRCCTRL(*this, "MainDirXml", wxChoice)->Append(dirNameListGui_[number]);
+    }
+    
+    if (dirNameList_.GetCount() > 0)
+        conf[XML].xmlSubDir_ = dirNameList_[xmlDirComboSelection];
+    else
+        conf[XML].xmlSubDir_ = "";
+    
+    if (mode_.gui)
+    {
+        if (dirNameListGui_.GetCount() > 0)
+            XRCCTRL(*this, "MainDirXml", wxChoice)->SetSelection((int)xmlDirComboSelection);
+   //     else
+   //        XRCCTRL(*this, "MainDirXml", wxComboBox)->SetString("");
+    }
+    
+    dropdownUpdateOngoing_ = false;
+    delete dir;
+}
+
 
 void GuiXml::setPrintModeXml()
 {
@@ -729,6 +1093,32 @@ void GuiXml::setPrintModeXml()
     }
 }
 
+void GuiXml::setRomRamButtonOrder()
+{
+    romRamButton0_ = 0;
+    romRamButton1_ = 1;
+
+    bool romRamButtonEnable0 = (conf[XML].memConfig_[romRamButton0_].type & 0xff) == MAINRAM || (conf[XML].memConfig_[romRamButton0_].type & 0xff) == MAINROM;
+    bool romRamButtonEnable1 = (conf[XML].memConfig_[romRamButton1_].type & 0xff) == MAINRAM || (conf[XML].memConfig_[romRamButton1_].type & 0xff) == MAINROM;
+
+    if (romRamButtonEnable0 && romRamButtonEnable1)
+    {
+        if (conf[XML].memConfig_[romRamButton0_].start > conf[XML].memConfig_[romRamButton1_].start)
+        {
+            romRamButton0_ = 1;
+            romRamButton1_ = 0;
+        }
+    }
+    else
+    {
+        if (romRamButtonEnable1)
+        {
+            romRamButton0_ = 1;
+            romRamButton1_ = 0;
+        }
+    }
+}
+
 void GuiXml::setXmlGui()
 {
     readXmlWindowConfig();
@@ -740,13 +1130,40 @@ void GuiXml::setXmlGui()
   
     XRCCTRL(*this, "ShowAddressXml", wxTextCtrl)->ChangeValue(conf[XML].ledTime_);
 
-    XRCCTRL(*this,"MainRamXml", wxComboBox)->Enable(conf[XML].ramFileFromGui_ && conf[XML].memConfig_[0].type == MAINRAM);
-    XRCCTRL(*this,"RamButtonXml", wxButton)->Enable(conf[XML].ramFileFromGui_ && conf[XML].memConfig_[0].type == MAINRAM);
-    XRCCTRL(*this, "MainRamXml", wxComboBox)->SetValue(conf[XML].memConfig_[0].filename);
-    
-    XRCCTRL(*this,"MainRomXml", wxComboBox)->Enable(conf[XML].romFileFromGui_ && (conf[XML].memConfig_[1].type & 0xff) == MAINROM);
-    XRCCTRL(*this,"RomButtonXml", wxButton)->Enable(conf[XML].romFileFromGui_ && (conf[XML].memConfig_[1].type & 0xff) == MAINROM);
-    XRCCTRL(*this, "MainRomXml", wxComboBox)->SetValue(conf[XML].memConfig_[1].filename);
+    setRomRamButtonOrder();
+    bool ramButtonEnable = (conf[XML].memConfig_[romRamButton1_].type & 0xff) == MAINRAM || (conf[XML].memConfig_[romRamButton1_].type & 0xff) == MAINROM;
+    wxString buttonText = "....";
+    if (ramButtonEnable)
+    {
+        if (conf[XML].memConfig_[romRamButton1_].type == MAINRAM)
+            buttonText.Printf("RAM @%04X", conf[XML].memConfig_[romRamButton1_].start);
+        else
+            buttonText.Printf("ROM @%04X", conf[XML].memConfig_[romRamButton1_].start);
+    }
+    XRCCTRL(*this,"RomRamButton1Xml", wxButton)->SetLabel(buttonText);
+    XRCCTRL(*this,"RomRam1Xml", wxComboBox)->Enable(ramButtonEnable);
+    XRCCTRL(*this,"RomRamButton1Xml", wxButton)->Enable(ramButtonEnable);
+        
+    bool romButtonEnable = (conf[XML].memConfig_[romRamButton0_].type & 0xff) == MAINRAM || (conf[XML].memConfig_[romRamButton0_].type & 0xff) == MAINROM;
+    buttonText = "....";
+    if (romButtonEnable)
+    {
+        if (conf[XML].memConfig_[romRamButton0_].type == MAINRAM)
+            buttonText.Printf("RAM @%04X", conf[XML].memConfig_[romRamButton0_].start);
+        else
+            buttonText.Printf("ROM @%04X", conf[XML].memConfig_[romRamButton0_].start);
+    }
+    XRCCTRL(*this,"RomRamButton0Xml", wxButton)->SetLabel(buttonText);
+    XRCCTRL(*this,"RomRam0Xml", wxComboBox)->Enable(romButtonEnable);
+    XRCCTRL(*this,"RomRamButton0Xml", wxButton)->Enable(romButtonEnable);
+
+    if (isXmlRomRamOptionGui())
+    {
+        conf[XML].memConfig_[romRamButton1_].filename = configPointer->Read("/Xmlemu/GuiRomRam0/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], conf[XML].memConfig_[romRamButton1_].filename);
+        conf[XML].memConfig_[romRamButton0_].filename = configPointer->Read("/Xmlemu/GuiRomRam1/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], conf[XML].memConfig_[romRamButton0_].filename);
+    }
+    XRCCTRL(*this, "RomRam1Xml", wxComboBox)->SetValue(conf[XML].memConfig_[romRamButton1_].filename);
+    XRCCTRL(*this, "RomRam0Xml", wxComboBox)->SetValue(conf[XML].memConfig_[romRamButton0_].filename);
     
     XRCCTRL(*this, "WavFileXml", wxTextCtrl)->SetValue(conf[XML].wavFile_[0]);
     XRCCTRL(*this, "WavFile1Xml", wxTextCtrl)->SetValue(conf[XML].wavFile_[1]);

@@ -704,13 +704,13 @@ BEGIN_EVENT_TABLE(DebugWindow, GuiComx)
     EVT_CHOICE(XRCID("LapTimeTrigger"), DebugWindow::onLaptimeTrigger)
 
     EVT_TEXT(XRCID("DebugDisplayPage"), DebugWindow::onDebugDisplayPage)
-#ifdef __WXMAC__
-    EVT_SPIN_UP(XRCID("DebugDisplayPageSpinButton"), DebugWindow::onDebugDisplayPageSpinDown)
-    EVT_SPIN_DOWN(XRCID("DebugDisplayPageSpinButton"), DebugWindow::onDebugDisplayPageSpinUp)
-#else
+//#ifdef __WXMAC__
+//    EVT_SPIN_UP(XRCID("DebugDisplayPageSpinButton"), DebugWindow::onDebugDisplayPageSpinDown)
+//    EVT_SPIN_DOWN(XRCID("DebugDisplayPageSpinButton"), DebugWindow::onDebugDisplayPageSpinUp)
+//#else
     EVT_SPIN_UP(XRCID("DebugDisplayPageSpinButton"), DebugWindow::onDebugDisplayPageSpinUp)
     EVT_SPIN_DOWN(XRCID("DebugDisplayPageSpinButton"), DebugWindow::onDebugDisplayPageSpinDown)
-#endif
+//#endif
     EVT_CHOICE(XRCID("DebugMemType"), DebugWindow::onDebugMemType)
     EVT_TEXT(XRCID("DebugExpansionSlot"), DebugWindow::onDebugExpansionSlot)
     EVT_TEXT(XRCID("DebugExpansionRam"), DebugWindow::onDebugExpansionRam)

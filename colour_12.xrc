@@ -6210,7 +6210,7 @@
 </object>
 </object>
 </object>
-<object class="wxDialog" name="ColourDialogStudio2">
+<object class="wxDialog" name="ColourDialogStudioII">
 <style>wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLOSE_BOX|wxWANTS_CHARS|wxTAB_TRAVERSAL</style>
 <exstyle>wxWS_EX_BLOCK_EVENTS</exstyle>
 <title>Video Setup RCA Studio II</title>

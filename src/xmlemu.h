@@ -30,6 +30,10 @@
 #include "joycard.h"
 #include "usb.h"
 #include "rtc.h"
+#include "pio.h"
+#include "cdp1852.h"
+#include "cd4536b.h"
+#include "upd765.h"
 
 class NvramDetails
 {
@@ -40,7 +44,7 @@ public:
     Word end;
 };
 
-class Xmlemu : public wxFrame, public Cdp1802, public Fdc, public Ide, public Keyboard, public Keyb1871, public PortExt, public Ps2, public Ps2gpio, public Joycard, public Usbcard, public Rtc
+class Xmlemu : public wxFrame, public Cdp1802, public Fdc, public Ide, public Keyboard, public Keyb1871, public PortExt, public Ps2, public Ps2gpio, public Joycard, public Usbcard, public Rtc, public Upd765
 {
 public:
     Xmlemu(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, int tempo, ElfConfiguration conf, Conf computerConf);
@@ -87,6 +91,7 @@ public:
     Byte getData();
     void out(Byte port, Word address, Byte value);
     void cycle(int type);
+    void cycleCd();
     void cycleVP550();
     void cycleBitKeyPad();
     void cycleDma();
@@ -133,6 +138,8 @@ public:
     void onRamButton();
     void onMonitor(wxCommandEvent&event);
     void onMonitor();
+    void onNanoMonitor(wxCommandEvent&event);
+    void onNanoMonitor();
     void onLoadButton(wxCommandEvent&event);
     void onLoadButton();
     void onClearButtonPress();
@@ -171,6 +178,12 @@ public:
     void configureCdp1863();
     void moveWindows();
     void updateTitle(wxString Title);
+    void releaseButtonOnScreen1851(HexButton* buttonPointer, int buttonType, int pioNumber);
+    void releaseButtonOnScreen1852(HexButton* buttonPointer, int buttonType, int pioNumber);
+    void showCdp1851(int pioNumber, bool state);
+    void showCdp1852(int pioNumber, bool state);
+    void removeCdp1851(int pioNumber);
+    void removeCdp1852(int pioNumber);
     void setForceUpperCase(bool status);
     void keyClear();
     void onReset();
@@ -222,8 +235,10 @@ public:
     void checkRegFunction(char trigger);
     void executeFunction(int function, Word additionalAddress);
     bool checkKeyInputAddress(Word address);
+    bool checkKeyInputAddress();
 
     void startComputerRun(bool load);
+    void ctrlvTextXml(wxString text);
     int getRunState() {return elfRunState_;};
     bool isComputerRunning();
     wxString getRunningGame(){return runningGame_;};
@@ -275,6 +290,7 @@ public:
     void startRecording(int tapeNumber);
     void finishStopTape();
     void resetTape();
+    void tapeIo(Byte value);
     void onCardButton(wxCommandEvent&event);
     void cardButton(int cardValue);
     void setTempo(int tempo);
@@ -299,12 +315,21 @@ private:
     class VelfScreen *velfScreenPointer;
     class Uc1800Screen *uc1800ScreenPointer;
 
+    vector<PioFrame *> cdp1851FramePointer;
+    int numberOfCdp1851Frames_;
+
+    vector<Cdp1852Frame *> cdp1852FramePointer;
+    int numberOfCdp1852Frames_;
+
+    vector<Cd4536b *> cd4536bPointer;
+    int numberOfCd4536b_;
+
     Tms9918 *tmsPointer;
     SN76430N *sn76430nPointer;
     Pixie *coinPointer;
     Pixie *pixiePointer;
-    Pixie *cdp1862Pointer;
     Pixie *cdp1864Pointer;
+    PixieStudioIV *st4VideoPointer;
     PixieVip2K *vip2KVideoPointer;
     PixieFred *fredVideoPointer;
     MC6845 *mc6845Pointer;
@@ -316,7 +341,7 @@ private:
     CvKeypad *cvkeypadPointer;
     EtiKeypad *etikeypadPointer;
     KeypadFred *fredkeypadPointer;
-    KeybLatch *latchKeyPointer[MAX_LATCHKEYPADS+1];
+    KeybLatch *latchKeyPointer[MAX_LATCHKEYPADS];
     KeybMatrix *matrixKeyboardPointer;
     LedModule *ledModulePointer;
     Vt100 *vtPointer;
@@ -377,6 +402,7 @@ private:
 
     Byte lastMode_;
     bool monitor_;
+    int nanoMonitor_;
     
     Byte vismacRegisterLatch_;
     
@@ -459,6 +485,9 @@ private:
     bool tapeFormatFixed_;
     int startBytes_;
     
+    bool saveStarted_;
+    bool loadStarted_;
+
     int bitKeypadValue_;
     int lastBitKeyPad_;
     int lastLatchKeyPad_;
@@ -467,6 +496,7 @@ private:
     Word endSave_;
 
     int colourMask1862_;
+    bool colourLatch_;
 
     bool vp550IntOn_;
     bool runPressedAtStartup_;
@@ -474,6 +504,14 @@ private:
 
     bool specifiedSoftwareLoaded_;
     int emsButton_[2];
+    
+    int adInputNumber_;
+    int adOutputFunction_;
+    int adiValue_;
+    int adiChannel_;
+    
+    int addressLatchCounter_;
+
     
     DECLARE_EVENT_TABLE()
 };

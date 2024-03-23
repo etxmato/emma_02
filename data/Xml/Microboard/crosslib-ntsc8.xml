@@ -1,0 +1,112 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>RCA COSMAC Microboard Computer</name>
+        <config>Crosslib, NTSC8</config>
+        <cpu>1805</cpu>
+        <clock>4.9152</clock>
+        <boot>0</boot>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init>
+        <init type="ef4">1</init>
+        <dirname>Microboard</dirname>
+    </system>
+        
+    <iogroup>
+        <out mask="0xff">1</out>
+    </iogroup>
+    
+    <gui>
+        <ledtimer>100</ledtimer>
+        <memaccess>
+            <location>off</location>
+            <start>0</start>
+        </memaccess>
+    </gui>
+
+    <memory>
+        <!-- CDP18S600, 8K RAM @0000, @2000, @4000, @6000, @8000 -->
+        <ram>
+            <start>0x0000</start>
+            <end>0x1FFF</end>
+            <filename verify="true">FULL_microboard_ntsc1_4_8.hex</filename>
+        </ram>
+        
+        <ram>
+            <start>0x2000</start>
+            <end>0x3FFF</end>
+        </ram>
+        
+        <ram>
+            <start>0x4000</start>
+            <end>0x5FFF</end>
+        </ram>
+        
+        <ram>
+            <start>0x6000</start>
+            <end>0x7FFF</end>
+        </ram>
+     
+         <ram>
+             <start>0x8000</start>
+             <end>0x9FFF</end>
+         </ram>
+    </memory>
+            
+    <video type="1870">
+        <iogroup>0x80</iogroup>
+        <pagesize type="ram">0x7ff</pagesize>
+        <charsize type="rom">0x7ff</charsize>
+        <charrom>0x400</charrom>
+        <filename>character_cl_8lines_256char_part2.bin</filename>
+        <pcbmask>0xff</pcbmask>
+        <maxcharlines>8</maxcharlines>
+        <maxscreenlines>24</maxscreenlines> <!-- 24, 25 or 27 for Cidelsa DRACO) -->
+        <mode>ntsc</mode>
+        <int>2</int>
+        <out type="int">2</out>
+        <ef type="display">1</ef>
+        <clock>5.626</clock>
+        <border>2x2</border>
+        <color num="0" type="mask">0,0,0</color>
+        <color num="1" type="mask">0,0xFF,0</color>
+        <color num="2" type="mask">0,0,0xFF</color>
+        <color num="3" type="mask">0,0xFF,0xFF</color>
+        <color num="4" type="mask">0xFF,0,0</color>
+        <color num="5" type="mask">0xFF,0xFF,0</color>
+        <color num="6" type="mask">0xFF,0,0xFF</color>
+        <color num="7" type="mask">0xFF,0xFF,0xFF</color>
+        <ctone num="0">0</ctone>
+        <ctone num="1">28</ctone>
+        <ctone num="2">77</ctone>
+        <ctone num="3">105</ctone>
+        <ctone num="4">150</ctone>
+        <ctone num="5">194</ctone>
+        <ctone num="6">227</ctone>
+        <ctone num="7">255</ctone>
+    </video>
+
+    <keyboard type="ascii">
+        <iogroup>0x80</iogroup>
+        <in>3</in>
+        <ef>2</ef>
+    </keyboard>
+
+    <debugger>
+        <scrt mode="off">
+            <call reg="4">-1</call>
+            <return reg="5">-1</return>
+        </scrt>
+
+        <assembler>
+            <filename>mycode</filename>
+            <code_start>0</code_start>
+            <code_end>0xFFF</code_end>
+        </assembler>
+    </debugger>
+
+</emmaconfig>

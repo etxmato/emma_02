@@ -66,7 +66,7 @@ void Visicom::configureComputer()
         studioKeyState_[j][i] = 0;
 
     p_Main->message("Configuring Visicom COM-100");
-    p_Main->message("    Output 2: select port, EF 3: read selected port 1, EF4: read selected port 2\n");
+    p_Main->message("	Output 2: select port, EF 3: read selected port 1, EF4: read selected port 2\n");
 
     p_Main->getDefaultHexKeys(VISICOM, "Visicom", "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
     p_Main->getDefaultHexKeys(VISICOM, "Visicom", "B", keyDefB1_, keyDefB2_, keyDefGameHexB_);

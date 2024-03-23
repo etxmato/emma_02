@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>RCA Studio III</name>
+        <config>PAL, Chip-8 (select Chip-8 file in ROM field)</config>
+        <clock>1.76</clock>
+        <boot>0</boot>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init>
+        <init type="ef4">1</init>
+        <dirname>StudioIII</dirname>
+    </system>
+    
+    <memory>
+        <rom>
+            <start>0</start>
+            <end>0x2FF</end>
+            <filename>chip8.bin</filename>
+        </rom>
+
+        <guirom>
+            <start>0x300</start>
+            <end>0x7FF</end>
+            <pulldown mask="*.ch8">Chip-8/Chip-8 Games</pulldown>
+            <load_offset address="0x800">0x400</load_offset>
+        </guirom>
+
+        <rom>
+            <start>0xC00</start>
+            <end>0xFFF</end>
+        </rom>
+
+        <ram mask="0x3ff">
+            <start>0x800</start>
+            <end>0x9FF</end>
+            <map>0x1000, 0x1400, 0x1800, 0x1c00, 0x2000, 0x2400, 0x2800, 0x2c00, 0x3000, 0x3400, 0x3800, 0x3c00, 0x4000, 0x4400, 0x4800, 0x4c00, 0x5000, 0x5400, 0x5800, 0x5c00, 0x6000, 0x6400, 0x6800, 0x6c00, 0x7000, 0x7400, 0x7800, 0x7c00, 0x8000, 0x8400, 0x8800, 0x8c00, 0x9000, 0x9400, 0x9800, 0x9c00, 0xa000, 0xa400, 0xa800, 0xac00, 0xb000, 0xb400, 0xb800, 0xbc00, 0xc000, 0xc400, 0xc800, 0xcc00, 0xd000, 0xd400, 0xd800, 0xdc00, 0xe000, 0xe400, 0xe800, 0xec00, 0xf000, 0xf400, 0xf800, 0xfc00</map>
+        </ram>
+    </memory>
+    
+    <video type="1864">
+        <in type="on">1</in>
+        <out type="back">1</out>
+        <out type="tone">4</out>
+        <ef>1</ef>
+        <colorram>0xb00-0xbff</colorram>
+        <height>192</height>
+        <graphics>
+            <interrupt>74</interrupt>
+            <start>76</start>
+            <end>267</end>
+            <screenend>312</screenend>
+        </graphics>
+        <border>32x32</border>
+        <xscale>4</xscale>
+        <colortype>vic</colortype>
+        <color type="white">255, 255, 255</color>
+        <color type="red">255, 0, 0</color>
+        <color type="blue">0, 0, 255</color>
+        <color type="magenta">255, 0, 255</color>
+        <color type="green">0, 255, 0</color>
+        <color type="yellow">255, 255, 0</color>
+        <color type="cyan">0, 255, 255</color>
+        <color type="black">20, 20, 20</color>
+        <color type="back_blue">0, 0, 128</color>
+        <color type="back_black">0, 0, 0</color>
+        <color type="back_green">0, 128, 0</color>
+        <color type="back_red">128, 0, 0</color>
+     </video>
+
+    <keypad type="latch" pad="1">
+        <out mask="0x0f">2</out>
+        <ef pol="rev">3</ef>
+        <auto>on</auto>
+
+        <keydef type="file" check="rom">keydefinition_studio.txt</keydef>
+        
+        <diagonal key1="2" key2="4">1</diagonal>
+        <diagonal key1="2" key2="6">3</diagonal>
+        <diagonal key1="4" key2="8">7</diagonal>
+        <diagonal key1="6" key2="8">9</diagonal>
+    </keypad>
+
+    <keypad type="latch" pad="2">
+        <out mask="0x0f">2</out>
+        <ef pol="rev">4</ef>
+        <auto>on</auto>
+
+        <diagonal key1="2" key2="4">1</diagonal>
+        <diagonal key1="2" key2="6">3</diagonal>
+        <diagonal key1="4" key2="8">7</diagonal>
+        <diagonal key1="6" key2="8">9</diagonal>
+    </keypad>
+
+    <sound type="studio">
+    </sound>
+
+    <debugger>
+        <scrt mode="off">
+            <call reg="4">-1</call>
+            <return reg="5">-1</return>
+        </scrt>
+
+        <assembler>
+            <filename>chip8_code_part1</filename>
+            <code_start>0x300</code_start>
+            <code_end>0x7FF</code_end>
+        </assembler>
+        
+        <assembler>
+            <filename>chip8_code_part2</filename>
+            <code_start>0xC00</code_start>
+            <code_end>0xFFF</code_end>
+        </assembler>
+    </debugger>
+
+</emmaconfig>
+

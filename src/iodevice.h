@@ -283,9 +283,9 @@
 #define CDP1863TONESWITCH1 284
 #define CDP1863TONESWITCH2 285
 #define TAPE_RUNNING_EF 286
-#define CDP1862DISABLE 287
-#define CDP1862ENABLE 288
-#define CDP1862EF 289
+#define CDP1862COLORRAM 287
+//#define CDP1862ENABLE 288
+//#define CDP1862EF 289
 #define CDP1862BACK 290
 #define TAPE_OUT 291
 #define KEYB_LATCH_OUT 292
@@ -296,6 +296,35 @@
 #define CENTRONICS_PRINT_EF 297
 #define CENTRONICS_PRINT_OUT 298
 #define COINVIDEOENABLE 299
+#define STUDIOIV_VIDEO_OUT 300
+#define STUDIOIV_VIDEO_CYCLE 301
+#define AD_CONVERTOR_IN 302
+#define AD_CONVERTOR_OUT 303
+#define NANO_MONITOR 304
+#define CDP1851_WRITE_A 305
+#define CDP1851_WRITE_B 306
+#define CDP1851_READ_A 307
+#define CDP1851_READ_B 308
+#define CDP1851_WRITE_CONTROL 309
+#define CDP1851_READ_STATUS 310
+#define CDP1851_EF_A 311
+#define CDP1851_EF_B 312
+#define CDP1852_WRITE 313
+#define CDP1852_READ 314
+#define CDP1852_EF 315
+#define CD4536B_WRITE 316
+#define CD4536B_EF 317
+#define CD4536BCYCLE 318
+#define TAPE_OUT_MICRO 319
+#define TAPE_OUT_Q 320
+#define V1870OUT2 321
+#define UPD765_CYCLE 322
+#define UPD765_EF 323
+#define UPD765_DMA_CONTROL 324
+#define UPD765_DMA_COUNT 325
+#define UPD765_WRITE_COMMAND 326
+#define UPD765_READ_COMMAND 327
+#define UPD765_READ_STATUS 328
 
 #define COMPUTERCYCLE 0
 #define VIDEOCYCLE_V1870 1
@@ -304,24 +333,26 @@
 #define VIDEOCYCLE_MC6845 4
 #define VIDEOCYCLE_MC6847 5
 #define VIDEOCYCLE_TMS9918 6
-#define VIDEOCYCLE_CDP1862 7
+//#define VIDEOCYCLE_CDP1862 7
 #define VIDEOCYCLE_CDP1864 8
 #define VIDEOCYCLE_SN76430N 9
 #define VIDEOCYCLE_VIP2K 10
 #define VIDEOCYCLE_FRED 11
-#define VIDEOCYCLE_COIN 12
-#define BLINKCYCLE_MC6845 13
-#define BLINKCYCLE_V1870 14
-#define PRINTCYCLE 15
-#define DISKCYCLEFDC 16
-#define DISKCYCLEIDE 17
-#define VTCYCLE 18
-#define SERIALCYCLE 19
-#define KEYCYCLE 20
-#define DRAMDMACYCLE 21
-#define INTCYCLE 22
-#define SOUNDCYCLE 23
-#define MAXCYCLE 24
+#define VIDEOCYCLE_ST4 12
+#define VIDEOCYCLE_COIN 13
+#define BLINKCYCLE_MC6845 14
+#define BLINKCYCLE_V1870 15
+#define PRINTCYCLE 16
+#define DISKCYCLEFDC 17
+#define DISKCYCLEIDE 18
+#define VTCYCLE 19
+#define SERIALCYCLE 20
+#define KEYCYCLE 21
+#define DRAMDMACYCLE 22
+#define INTCYCLE 23
+#define SOUNDCYCLE 24
+#define CDCYCLE 25
+#define MAXCYCLE 26
 
 #ifndef IODEVICE_H
 #define IODEVICE_H
@@ -346,20 +377,34 @@ public:
     void setInType(int number, int inType);
     void setInType(int iogroup, int number, int inType);
     void setInType(int q, int iogroup, int number, int inType);
-    wxString setInType(int q, int iogroup, IoPort port, int inType);
     int getInType(int number) {return inType_[0][0][number];};
     int getInType(int iogroup, int number) {return inType_[0][iogroup][number];};
     int getInType(int q, int iogroup, int number) {return inType_[q][iogroup][number];};
     void setOutType(int number, int outType);
     void setOutType(int iogroup, int number, int outType);
     void setOutType(int q, int iogroup, int number, int outType);
-    wxString setOutType(int q, int iogroup, IoPort port, int outType);
     void setCycleType(int number, int outCycleType) {cycleType_[number] = outCycleType;};
+
+    void setEfTypeAndNumber(int number, int efType, int itemNumber);
+    void setEfTypeAndNumber(int iogroup, int number, int efType, int itemNumber);
+    void setEfTypeAndNumber(int q, int iogroup, int number, int efType, int itemNumber);
+    void setEfTypeAndNumber(int q, int iogroup, int number, int efType, int itemNumber, wxString message);
+    void setInTypeAndNumber(int number, int inType, int itemNumber);
+    void setInTypeAndNumber(int iogroup, int number, int inType, int itemNumber);
+    void setInTypeAndNumber(int q, int iogroup, int number, int inType, int itemNumber);
+    void setInTypeAndNumber(int iogroup, IoPort port, int inType, int itemNumber, wxString message);
+    void setOutTypeAndNumber(int number, int outType, int itemNumber);
+    void setOutTypeAndNumber(int iogroup, int number, int outType, int itemNumber);
+    void setOutTypeAndNumber(int q, int iogroup, int number, int outType, int itemNumber);
+    void setOutTypeAndNumber(int iogroup, IoPort port, int outType, int itemNumber, wxString message);
 
 protected:
     int efType_[2][257][5];
+    int efItemNumber_[2][257][5];
     int inType_[2][257][8];
+    int inItemNumber_[2][257][5];
     int outType_[2][257][8];
+    int outItemNumber_[2][257][5];
     int cycleType_[MAXCYCLE];
 
 private:

@@ -307,8 +307,8 @@ void Microtutor::configureComputer()
     setCycleType(COMPUTERCYCLE, LEDCYCLE);
     
     p_Main->message("Configuring Microtutor");
-    p_Main->message("    Output 0: display output, input 0: data input");
-    p_Main->message("    EF 4: 0 when in button pressed");
+    p_Main->message("	Output 0: display output, input 0: data input");
+    p_Main->message("	EF 4: 0 when in button pressed");
     p_Main->message("");
 
     inKey1_ = p_Main->getDefaultInKey1("Microtutor");

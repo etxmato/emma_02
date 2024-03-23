@@ -74,8 +74,8 @@ void Vip2K::configureComputer()
 
     p_Main->message("Configuring VIP2K Membership Card");
     
-    p_Main->message("    Input 1-5: keyboard input keycol 1-5");
-    p_Main->message("    EF 2: CTL, EF 3: SHIFT\n");
+    p_Main->message("	Input 1-5: keyboard input keycol 1-5");
+    p_Main->message("	EF 2: CTL, EF 3: SHIFT\n");
 
     if (vipConfiguration.vtType != VTNONE)
     {

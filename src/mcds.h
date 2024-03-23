@@ -62,7 +62,6 @@ private:
 
     bool saveStarted_;
     bool loadStarted_;
-    wxString tapeNumber_;
     
     int mcdsRunState_;
 };

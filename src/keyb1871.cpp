@@ -44,6 +44,8 @@
 
 Keyb1871::Keyb1871()
 {
+    fileToBeLoaded_ = false;
+    commandText_ = "";
 }
 
 void Keyb1871::configureKeyb1871(int WXUNUSED(computerType), IoConfiguration portConf, Locations addressLocations, wxString saveCommand)
@@ -63,7 +65,6 @@ void Keyb1871::configureKeyb1871(int WXUNUSED(computerType), IoConfiguration por
         secondKeyboardCodes[i] = 0;
     previousKeyCode_ = (wxKeyCode) 0;
 
-    runCommand1871_ = 0;
     keyFileOpen_ = false;
 
     wxString runningComp = p_Main->getRunningComputerStr();
@@ -75,7 +76,7 @@ void Keyb1871::configureKeyb1871(int WXUNUSED(computerType), IoConfiguration por
 
     wxString printBuffer;
     p_Main->message("Configuring CDP1871 Keyboard");
-    printBuffer.Printf("    Input %d: read data, EF %d: keyboard RPT, EF %d: keyboard DA\n", portConf.keyboardInput , portConf.keyboardRepeatEf, portConf.keyboardEf);
+    printBuffer.Printf("	Input %d: read data, EF %d: keyboard RPT, EF %d: keyboard DA\n", portConf.keyboardInput , portConf.keyboardRepeatEf, portConf.keyboardEf);
     p_Main->message(printBuffer);
 }
 
@@ -324,91 +325,61 @@ void Keyb1871::cycleKeyb1871()
     if (debounceCounter_ > 0)
         debounceCounter_--;
 
-    if ((runCommand1871_ != 0) && (keyboardEf_ == 1))
+    if ((fileToBeLoaded_ || commandText_ != "") && (keyboardEf_ == 1))
     {
-        if (checkKeyInputAddress(p_Computer->getScratchpadRegister(p_Computer->getProgramCounter())))
+        if (p_Computer->checkKeyInputAddress())
         {
-            if (runCommand1871_ == 1)
+            if (commandText_ != "")
             {
-                keyboardCode_ = 3;
-                keyboardEf_ = 0;
-                runCommand1871_++;
-            }
-            else if (runCommand1871_ == 2)
-            {
-                int saveExec = p_Main->pload();
-                if (saveExec == 1)
-                    runCommand1871_ = 0;
+                keyboardCode_ = commandText_.GetChar(0);
+
+                if (keyboardCode_ == 13)
+                    keyboardCode_ = 128;
+
+                if (keyboardCode_ >= 'a' && keyboardCode_ <= 'z')
+                    keyboardCode_ -= 32;
                 else
                 {
+                    if (keyboardCode_ >= 'A' && keyboardCode_ <= 'Z')
+                        keyboardCode_ += 32;
+                }
+                commandText_ = commandText_.Right(commandText_.Len()-1);
+                keyboardEf_ = 0;
+            }
+            else
+            {
+                int saveExec = p_Main->pload();
+                fileToBeLoaded_ = false;
+                if (saveExec != wxNOT_FOUND)
+                {
                     if (p_Main->isBatchConvertActive())
-                    {
-                        commandText_ = saveCommand_;
-                    }
+                        commandText_ = saveCommand_ + "\r";
                     else
                     {
-                        if (saveExec == 0)
-                            commandText_ = "run";
-                        else
+                        if (!load_)
                         {
-                            wxString buffer;
-                            buffer.Printf("%04x", saveExec);
-                            commandText_ = "call(@" + buffer + ")";
+                            if (saveExec == 0)
+                            {
+                                commandText_ = "RUN\r";
+                            }
+                            else
+                            {
+                                wxString buffer;
+                                buffer.Printf("%04x", saveExec);
+                                commandText_ = "CALL(@" + buffer + ")\r";
+                            }
                         }
                     }
                     keyboardCode_ = 0;
                     keyboardEf_ = 0;
-                    runCommand1871_++;
                 }
             }
-            else
-            {
-                if (load_)
-                    runCommand1871_ = 0;
-                else
-                {
-                    if ((runCommand1871_ - 2) <= commandText_.Len())
-                    {
-                        keyboardCode_ = commandText_.GetChar(runCommand1871_ - 3);
-                        keyboardEf_ = 0;
-                        runCommand1871_++;
-                    }
-                    else
-                    {
-                        keyboardCode_ = 128;
-                        keyboardEf_ = 0;
-                        runCommand1871_ = 0;
-                    }
-                }
-            }
-        }
-    }
-
-    if (p_Computer->getCtrlvCharNum() != 0 && keyboardEf_ == 1)
-    {
-        if (checkKeyInputAddress(p_Computer->getScratchpadRegister(p_Computer->getProgramCounter())))
-        {
-            keyboardCode_ = p_Computer->getCtrlvChar();
-            
-            if (keyboardCode_ == 13)
-                keyboardCode_ = 128;
-            
-            if (keyboardCode_ >= 'a' && keyboardCode_ <= 'z')
-                keyboardCode_ -= 32;
-            else
-            {
-                if (keyboardCode_ >= 'A' && keyboardCode_ <= 'Z')
-                    keyboardCode_ += 32;
-            }
-
-            if (keyboardCode_ != 0)
-                keyboardEf_ = 0;
         }
     }
 
     if ((keyFileOpen_) && (keyboardEf_ == 1))
     {
-        if (checkKeyInputAddress(p_Computer->getScratchpadRegister(p_Computer->getProgramCounter())))
+        if (p_Computer->checkKeyInputAddress())
         {
             if (keyFile_.Read(&keyboardCode_, 1) == 0)
             {
@@ -431,17 +402,6 @@ void Keyb1871::cycleKeyb1871()
             }
         }
     }
-}
-
-bool Keyb1871::checkKeyInputAddress(Word address)
-{
-// ***   for (int i : addressLocations_.keyInputAddress)
-	for (std::vector<Word>::iterator i = addressLocations_.keyInputAddress.begin (); i != addressLocations_.keyInputAddress.end (); ++i)
-    {
-        if (address == *i)
-            return true;
-    }
-    return false;
 }
 
 void Keyb1871::start1871KeyFile()
@@ -472,13 +432,17 @@ void Keyb1871::close1871KeyFile()
     }
 }
 
-void Keyb1871::start1871Run(bool load)
+void Keyb1871::start1871Run(bool load, wxString command)
 {
     load_ = load;
-    if (p_Computer->getRunState() == RESETSTATE)
-        runCommand1871_ = 1;
-    else
-        runCommand1871_ = 2;
+    commandText_ = command;
+    fileToBeLoaded_ = true;
+}
+
+void Keyb1871::start1871CtrlV(wxString command)
+{
+    commandText_ = command;
+    fileToBeLoaded_ = false;
 }
 
 Byte Keyb1871::getDiagInput()

@@ -393,8 +393,8 @@ void Tmc600::configureComputer()
     cycleType_[COMPUTERCYCLE] = TELMACCYCLE;
 
     p_Main->message("Configuring Telmac TMC-600");
-    p_Main->message("    Output 3: keyboard latch, output 4: printer data");
-    p_Main->message("    EF 2: cassette in, EF 3: keyboard\n");
+    p_Main->message("	Output 3: keyboard latch, output 4: printer data");
+    p_Main->message("	EF 2: cassette in, EF 3: keyboard\n");
 
     if (p_Main->getRealTimeClock())
         clockValue_ = clockSize_;
@@ -686,7 +686,7 @@ void Tmc600::cycleTelmac()
             else if (telmacRunCommand_ == 2)
             {
                 int saveExec = p_Main->pload();
-                if (saveExec == 1)
+                if (saveExec == -1)
                     telmacRunCommand_ = 0;
                 else
                 {
@@ -795,9 +795,9 @@ void Tmc600::startComputer()
     {
         inType_[0][0][4] = TELMACIN;
         p_Main->message("Configuring 151182 Expansion Rom");
-        p_Main->message("    Output 4: select channel/printer data (channel F)");
-        p_Main->message("    Input 4: AD/I Input (channel 0 to E)");
-        p_Main->message("    @F400-@F40F: AD/S Input (channel 0 to F)\n");
+        p_Main->message("	Output 4: select channel/printer data (channel F)");
+        p_Main->message("	Input 4: AD/I Input (channel 0 to E)");
+        p_Main->message("	@F400-@F40F: AD/S Input (channel 0 to F)\n");
         p_Main->enableIoGui();
     }
     p_Main->checkAndReInstallCharFile(TMC600, "Character", EXPROM);

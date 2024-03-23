@@ -65,7 +65,7 @@ void Expansion::configureExpansion()
     if (expansionRomLoaded_)
     {
         p_Main->message("Configuring Expansion Box");
-        p_Main->message("    Output 1: Select expansion slot(bit 1 to 4)\n");
+        p_Main->message("	Output 1: Select expansion slot(bit 1 to 4)\n");
     }
 
     expansionSlot_ = 0;
@@ -102,7 +102,7 @@ void Expansion::configureCard(int slot)
         comxExpansionType_ [slot] = COMXRAM;
         print_buffer = "Configuring 32K RAM Card" + slotString;
         p_Main->message(print_buffer);
-        p_Main->message("    Output 1: Select RAM bank(bit 5 and 6)\n");
+        p_Main->message("	Output 1: Select RAM bank(bit 5 and 6)\n");
         defineExpansionMemoryType(slot, 0, 0x1fff, RAMBANK);
     }
     else
@@ -140,11 +140,11 @@ void Expansion::configureCard(int slot)
 
                     print_buffer = "Configuring WD1770 Floppy Disk Controller" + slotString;
                     p_Main->message(print_buffer);
-                    p_Main->message("    Q = 1, Output 2: register select,    Q = 0, Output 2: write register");
-                    p_Main->message("    Q = 1, Input 2: INTRQ,        Q = 0, Input 2: read register");
-                    p_Main->message("    EF 4: DRQ");
+                    p_Main->message("	Q = 1, Output 2: register select,    Q = 0, Output 2: write register");
+                    p_Main->message("	Q = 1, Input 2: INTRQ,        Q = 0, Input 2: read register");
+                    p_Main->message("	EF 4: DRQ");
 
-                    p_Main->message("    Disk geometry: 2 sides, 35/70 tracks, 16 sectors per track and 128 bytes per sector\n");
+                    p_Main->message("	Disk geometry: 2 sides, 35/70 tracks, 16 sectors per track and 128 bytes per sector\n");
                     defineMemoryType(0x0d00, 0x0dff, COPYFLOPROM);
                 }
             break;
@@ -158,7 +158,7 @@ void Expansion::configureCard(int slot)
                     p_PrinterParallel->init(p_PrinterParallel, PRINTER_PARALLEL);
                     print_buffer = "Configuring Parallel Printer Card" + slotString;
                     p_Main->message(print_buffer);
-                    p_Main->message("    Output 2: printer output, input 2: printer status\n");
+                    p_Main->message("	Output 2: printer output, input 2: printer status\n");
                 }
             break;
 
@@ -172,14 +172,14 @@ void Expansion::configureCard(int slot)
                     p_PrinterThermal->setThermalPrinterCycle();
                     print_buffer = "Configuring Thermal Printer Card" + slotString;
                     p_Main->message(print_buffer);
-                    p_Main->message("    Q = mode, Output 2: control head, input 2: printer status\n");
+                    p_Main->message("	Q = mode, Output 2: control head, input 2: printer status\n");
                 }
             break;
 
             case COMXJOY:
                 print_buffer = "Configuring F&M Joy Card" + slotString;
                 p_Main->message(print_buffer);
-                p_Main->message("    Input 2: joystick 1, input 4: joystick 2 and fire buttons\n");
+                p_Main->message("	Input 2: joystick 1, input 4: joystick 2 and fire buttons\n");
                 defineExpansionMemoryType(slot, 0, 0x1fff, UNDEFINED);
             break;
 
@@ -192,7 +192,7 @@ void Expansion::configureCard(int slot)
                     p_PrinterSerial->init(p_PrinterSerial, PRINTER_SERIAL);
                     print_buffer = "Configuring Serial Printer Card" + slotString;
                     p_Main->message(print_buffer);
-                    p_Main->message("    Output 2: printer output, input 2: printer status\n");
+                    p_Main->message("	Output 2: printer output, input 2: printer status\n");
                 }
             break;
 
@@ -202,9 +202,9 @@ void Expansion::configureCard(int slot)
                     columnSlot_ = slot;
                     print_buffer = "Configuring 80 Column Card" + slotString;
                     p_Main->message(print_buffer);
-                    p_Main->message("    EF 4: Display enable");
-                    p_Main->message("    @D000-@D7FF: Video RAM");
-                    p_Main->message("    @D800: CRTC address register, @D801: CRTC data register\n");
+                    p_Main->message("	EF 4: Display enable");
+                    p_Main->message("	@D000-@D7FF: Video RAM");
+                    p_Main->message("	@D800: CRTC address register, @D801: CRTC data register\n");
                     defineExpansionMemoryType(slot, 0, 0x7ff, ROM);
                     defineExpansionMemoryType(slot, 0x800, 0xfff, UNDEFINED);
                     defineExpansionMemoryType(slot, 0x1000, 0x17ff, MC6845RAM);
@@ -228,8 +228,8 @@ void Expansion::configureCard(int slot)
 
                     print_buffer = "Configuring Network Card" + slotString;
                     p_Main->message(print_buffer);
-                    p_Main->message("    Q = 0, Output 2: load transmitter, Q = 0, input 2: read receiver");
-                    p_Main->message("    Q = 1, Output 2: load control, Q = 1, input 2: read status");
+                    p_Main->message("	Q = 0, Output 2: load transmitter, Q = 0, input 2: read receiver");
+                    p_Main->message("	Q = 1, Output 2: load control, Q = 1, input 2: read status");
 
                     FullPath = wxFileName(p_Main->getRomDir(COMX, slot+2) + p_Main->getRomFile(COMX, slot+2), wxPATH_NATIVE);
                     FileName = FullPath.GetName();
@@ -246,7 +246,7 @@ void Expansion::configureCard(int slot)
                     epromSlot_ = slot;
                     print_buffer = "Configuring F&M EPROM Switch Board" + slotString;
                     p_Main->message(print_buffer);
-                    p_Main->message("    Output 1, bit 765: Select EPROM bank (0-7)\n");
+                    p_Main->message("	Output 1, bit 765: Select EPROM bank (0-7)\n");
                     defineExpansionMemoryType(slot, 0, 0x1fff, EPROMBANK);
                     for (int i=0; i<0x800; i++)
                     {
@@ -284,13 +284,13 @@ void Expansion::configureCard(int slot)
 
                     print_buffer = "Configuring Super Board" + slotString;
                     p_Main->message(print_buffer);
-                    p_Main->message("    Output 1, bit 0: Select EPROM = 0, RAM = 1");
-                    p_Main->message("    Output 1, bit 765: Select EPROM bank (0-7)");
-                    p_Main->message("    Output 1, bit 765: Select RAM bank (0-7)");
-                    p_Main->message("    Output 2: UART out, Input 5: UART in, Q UART register select");
-                    p_Main->message("    Input 1: NVRAM write enable/disable");
-                    p_Main->message("    Input 2: joystick 1, input 4: joystick 2 and fire buttons");
-                    p_Main->message("    NVRAM F000-F3F7, RTC F3F8-F3FF\n");
+                    p_Main->message("	Output 1, bit 0: Select EPROM = 0, RAM = 1");
+                    p_Main->message("	Output 1, bit 765: Select EPROM bank (0-7)");
+                    p_Main->message("	Output 1, bit 765: Select RAM bank (0-7)");
+                    p_Main->message("	Output 2: UART out, Input 5: UART in, Q UART register select");
+                    p_Main->message("	Input 1: NVRAM write enable/disable");
+                    p_Main->message("	Input 2: joystick 1, input 4: joystick 2 and fire buttons");
+                    p_Main->message("	NVRAM F000-F3F7, RTC F3F8-F3FF\n");
                     defineExpansionMemoryType(slot, 0, 0x1fff, SUPERBANK);
                     defineMemoryType(0xf000, 0xf3ff, NVRAM);
                     for (int i=0; i<0x800; i++)
@@ -339,10 +339,10 @@ void Expansion::configureCard(int slot)
                     
                     print_buffer = "Configuring Diagnose Card" + slotString;
                     p_Main->message(print_buffer);
-                    p_Main->message("    Input 1, bit 1: debounce, bit 2: Step, bit 6: Abort, bit 7 Repeat");
-                    p_Main->message("    Input 2, bit 1: ROM Checksum, bit 2: IDEN, bit 3: Factory unit");
-                    p_Main->message("    Output 1, automated keyboard test");
-                    p_Main->message("    @D800-@DFFF: RAM");
+                    p_Main->message("	Input 1, bit 1: debounce, bit 2: Step, bit 6: Abort, bit 7 Repeat");
+                    p_Main->message("	Input 2, bit 1: ROM Checksum, bit 2: IDEN, bit 3: Factory unit");
+                    p_Main->message("	Output 1, automated keyboard test");
+                    p_Main->message("	@D800-@DFFF: RAM");
                     defineExpansionMemoryType(slot, 0, 0x17ff, ROM);
                     defineExpansionMemoryType(slot, 0x1800, 0x1fff, RAM);
                 }

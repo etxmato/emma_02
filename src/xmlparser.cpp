@@ -124,6 +124,10 @@ void XmlParser::parseXmlFile(int computer, wxString xmlDir, wxString xmlFile)
         "diagnostic",
         "batchwav",
         "gpio",
+        "cdp1851",
+        "cdp1852",
+        "cd4536b",
+        "ad_convertor",
         "debugger",
         "comment",
         "undefined"
@@ -162,12 +166,16 @@ void XmlParser::parseXmlFile(int computer, wxString xmlDir, wxString xmlFile)
         TAG_DIAG,
         TAG_BATCHWAV,
         TAG_GPIO,
+        TAG_CDP1851,
+        TAG_CDP1852,
+        TAG_CD4536B,
+        TAG_AD_CONVERTOR,
         TAG_DEBUGGER,
         TAG_COMMENT,
         TAG_UNDEFINED
     };
     
-    if (!wxFile::Exists(xmlDir + xmlFile))
+    if (!wxFile::Exists(xmlDir + xmlFile) || xmlFile == "" || xmlDir == "")
     {
         conf[computer].memConfigNumber_ = 2;
         conf[computer].memConfig_.resize(2);
@@ -208,6 +216,7 @@ void XmlParser::parseXmlFile(int computer, wxString xmlDir, wxString xmlFile)
     elfConfiguration[computer].f12reset = true;
     elfConfiguration[computer].dmaOnBoot = false;
     conf[computer].bootAddress_ = 0;
+    elfConfiguration[computer].ioConfiguration.efMonitor = -1;
 
     elfConfiguration[computer].bootStrap = false;
     elfConfiguration[computer].useDma = false;
@@ -221,14 +230,13 @@ void XmlParser::parseXmlFile(int computer, wxString xmlDir, wxString xmlFile)
     elfConfiguration[computer].memoryMask = 0xffff;
     conf[computer].memConfigNumber_ = 2;
     conf[computer].memConfig_.resize(2);
+    
     conf[computer].memConfig_[0].filename = "";
     conf[computer].memConfig_[0].start = 0;
     conf[computer].memConfig_[0].type = UNDEFINED;
     conf[computer].memConfig_[1].filename = "";
     conf[computer].memConfig_[1].start = 0;
     conf[computer].memConfig_[1].type = UNDEFINED;
-    conf[computer].ramFileFromGui_ = true;
-    conf[computer].romFileFromGui_ = true;
     conf[computer].mainDir_ =  dataDir_;
     conf[computer].emsConfigNumber_ = 0;
     conf[computer].copyConfigNumber_ = 0;
@@ -248,6 +256,7 @@ void XmlParser::parseXmlFile(int computer, wxString xmlDir, wxString xmlFile)
     conf[computer].multicartEmsNumber_ = -1;
     elfConfiguration[computer].fdc1793Enabled = false;
     elfConfiguration[computer].fdc1770Enabled = false;
+    elfConfiguration[computer].useUpd765 = false;
     elfConfiguration[computer].ideEnabled = false;
     elfConfiguration[computer].ioConfiguration.fdcIoGroup = -1;
     elfConfiguration[computer].ioConfiguration.ideIoGroup = -1;
@@ -257,14 +266,14 @@ void XmlParser::parseXmlFile(int computer, wxString xmlDir, wxString xmlFile)
     elfConfiguration[computer].usePixie = false;
     elfConfiguration[computer].ioConfiguration.pixieEfScreenOn = false;
     elfConfiguration[computer].ioConfiguration.pixieHighRes = false;
+    elfConfiguration[computer].ioConfiguration.pixieColorType = PIXIE_COLOR_DEFAULT;
     elfConfiguration[computer].ioConfiguration.videoWidth = 64;
-    elfConfiguration[computer].use1862 = false;
-    elfConfiguration[computer].ioConfiguration.cdp1862EfScreenOn = false;
     elfConfiguration[computer].ioConfiguration.cdp1862ColorType = PIXIE_COLOR_DEFAULT;
-    elfConfiguration[computer].ioConfiguration.cdp1862HighRes = false;
+    elfConfiguration[computer].ioConfiguration.use1862 = false;
     elfConfiguration[computer].use1864 = false;
     elfConfiguration[computer].ioConfiguration.cdp1864EfScreenOn = false;
     elfConfiguration[computer].ioConfiguration.cdp1864ColorType = PIXIE_COLOR_DEFAULT;
+    elfConfiguration[computer].useSt4Video = false;
     elfConfiguration[computer].useVip2KVideo = false;
     elfConfiguration[computer].useFredVideo = false;
     conf[computer].xScale_ = "3";
@@ -297,11 +306,16 @@ void XmlParser::parseXmlFile(int computer, wxString xmlDir, wxString xmlFile)
     elfConfiguration[computer].forceUpperCase = false;
     elfConfiguration[computer].useBitKeypad = false;
     for (int pad=0; pad<MAX_LATCHKEYPADS; pad++)
+    {
         elfConfiguration[computer].ioConfiguration.keyLatchDetails[pad].defined = false;
+        elfConfiguration[computer].ioConfiguration.keyLatchDetails[pad].outPort = -1;
+    }
     elfConfiguration[computer].ioConfiguration.fredKeypad.defined= false;
     elfConfiguration[computer].ioConfiguration.etiKeypad.defined= false;
     elfConfiguration[computer].ioConfiguration.gpioIoGroup = -1;
-
+    elfConfiguration[computer].ioConfiguration.keyboardIoGroup = -1;
+    elfConfiguration[computer].useAdConvertor = false;
+    
     elfConfiguration[computer].vtType = VTNONE;
     elfConfiguration[computer].vtShow = true;
     elfConfiguration[computer].ioConfiguration.vt100ReverseQ = -1;
@@ -374,9 +388,21 @@ void XmlParser::parseXmlFile(int computer, wxString xmlDir, wxString xmlFile)
     
     conf[computer].addressLocations.locationInfo.clear();
     conf[computer].addressLocations.keyInputAddress.clear();
+    conf[computer].addressLocations.inReleaseAddress.clear();
     conf[computer].assemblerInfo_.clear();
     elfConfiguration[computer].ioConfiguration.diagonalKeys.clear();
-    
+    elfConfiguration[computer].ioConfiguration.cdp1851.clear();
+    elfConfiguration[computer].ioConfiguration.cdp1852.clear();
+    elfConfiguration[computer].ioConfiguration.cd4536bIo.clear();
+    conf[computer].memConfig_[0].pulldownDir.Clear();
+    conf[computer].memConfig_[0].pulldownMask.Clear();
+    conf[computer].memConfig_[0].pulldownExclude.Clear();
+    conf[computer].memConfig_[0].pulldownExclude2.Clear();
+    conf[computer].memConfig_[1].pulldownDir.Clear();
+    conf[computer].memConfig_[1].pulldownMask.Clear();
+    conf[computer].memConfig_[1].pulldownExclude.Clear();
+    conf[computer].memConfig_[1].pulldownExclude2.Clear();
+
     vt52CharRomDirDefined_ = false;
     elfConfiguration[computer].vt52CharRom_ = "vt52.a.bin";
     elfConfiguration[computer].vt52CharRomDir_ = conf[computer].mainDir_ ;
@@ -387,6 +413,7 @@ void XmlParser::parseXmlFile(int computer, wxString xmlDir, wxString xmlFile)
     elfConfiguration[computer].vtWavFile_ = "";
     elfConfiguration[computer].vtWavFileDir_ = conf[computer].mainDir_ ;
 
+    conf[computer].addressLocations.code_start = -1;
     conf[computer].addressLocations.code_start_high = -1;
     conf[computer].addressLocations.code_start_low = -1;
     conf[computer].addressLocations.code_end_high = -1;
@@ -408,6 +435,7 @@ void XmlParser::parseXmlFile(int computer, wxString xmlDir, wxString xmlFile)
     elfConfiguration[computer].useHexModem = false;
     elfConfiguration[computer].useTape = false;
     elfConfiguration[computer].useTape1 = false;
+    elfConfiguration[computer].useTapeMicro = false;
     elfConfiguration[computer].useTapeHw = false;
 
     conf[computer].soundType_ = SOUND_OFF;
@@ -424,12 +452,8 @@ void XmlParser::parseXmlFile(int computer, wxString xmlDir, wxString xmlFile)
     elfConfiguration[computer].giantBoardMapping = false;
     elfConfiguration[computer].ioConfiguration.bootStrapType = BOOTSTRAPNONE;
 
-    elfConfiguration[computer].ioConfiguration.hexOutput.portNumber = -1;
-    elfConfiguration[computer].ioConfiguration.hexOutput.qValue = -1;
-    elfConfiguration[computer].ioConfiguration.hexOutput.mask = 0xff;
-
-    elfConfiguration[computer].ioConfiguration.hexInput.portNumber = -1;
-    elfConfiguration[computer].ioConfiguration.hexInput.mask = 0xff;
+    elfConfiguration[computer].ioConfiguration.hexOutput = init_IoPort();
+    elfConfiguration[computer].ioConfiguration.hexInput = init_IoPort();
 
     elfConfiguration[computer].useDip = false;
     elfConfiguration[computer].useIoGroup = false;
@@ -446,10 +470,10 @@ void XmlParser::parseXmlFile(int computer, wxString xmlDir, wxString xmlFile)
     conf[computer].defCoinY_ = mainWindowY_;
     conf[computer].defPixieX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
     conf[computer].defPixieY_ = mainWindowY_;
-    conf[computer].defCdp1862X_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
-    conf[computer].defCdp1862Y_ = mainWindowY_;
     conf[computer].defCdp1864X_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
     conf[computer].defCdp1864Y_ = mainWindowY_;
+    conf[computer].defSt4X_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
+    conf[computer].defSt4Y_ = mainWindowY_;
     conf[computer].defVip2KX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
     conf[computer].defVip2KY_ = mainWindowY_;
     conf[computer].defFredX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
@@ -466,6 +490,8 @@ void XmlParser::parseXmlFile(int computer, wxString xmlDir, wxString xmlFile)
     conf[computer].defv1870Y_ = mainWindowY_;
     conf[computer].defSN76430NX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
     conf[computer].defSN76430NY_ = mainWindowY_;
+    conf[computer].defaultFrontPanelX_ = mainWindowX_+windowInfo.xBorder2;
+    conf[computer].defaultFrontPanelY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
 
     configPointer->Read("/Xml/DebugScrt", &conf[computer].scrtMode_, true);
     conf[computer].debugCallReg_ = configPointer->Read("/Xml/DebugCallReg", 4);
@@ -474,17 +500,23 @@ void XmlParser::parseXmlFile(int computer, wxString xmlDir, wxString xmlFile)
     conf[computer].debugRetAddress_ = configPointer->Read("/Xml/DebugRetAddress", -1);
 
     elfConfiguration[computer].ioConfiguration.qLed = false;
+    elfConfiguration[computer].ioConfiguration.runLed = false;
     elfConfiguration[computer].ioConfiguration.errorLed = false;
     elfConfiguration[computer].ioConfiguration.readyLed = false;
     elfConfiguration[computer].ioConfiguration.stopLed = false;
     elfConfiguration[computer].ioConfiguration.showDataOnLoad = false;
     elfConfiguration[computer].ioConfiguration.showDataOnCycle = false;
     elfConfiguration[computer].ioConfiguration.runPressType = RUN_TYPE_DEFAULT;
+    elfConfiguration[computer].ioConfiguration.runPressType0 = RUN_TYPE_DEFAULT;
     elfConfiguration[computer].ioConfiguration.resetPressType = RESET_TYPE_DEFAULT;
     for (int bit=0; bit<MAX_BIT_LEDS; bit++)
         elfConfiguration[computer].ioConfiguration.bitLed[bit] = false;
     for (int bit=0; bit<MAX_CPU_STATE_LEDS; bit++)
         elfConfiguration[computer].ioConfiguration.cpuStatusLed[bit] = false;
+    for (int til=0; til<MAX_DATA_TIL; til++)
+        elfConfiguration[computer].ioConfiguration.datatil[til] = false;
+    for (int til=0; til<MAX_ADDRESS_TIL; til++)
+        elfConfiguration[computer].ioConfiguration.addresstil[til] = false;
 
     for (int ef=1; ef<5; ef++)
         elfConfiguration[computer].ioConfiguration.bitKeypadEf[ef] = false;
@@ -639,6 +671,8 @@ void XmlParser::parseXmlFile(int computer, wxString xmlDir, wxString xmlFile)
 
             case TAG_DISK:
                 elfConfiguration[computer].ioConfiguration.fdcDrives = (int) ((parseXml_Number(*child, "drives")-1)&0x3) + 1;
+                if (child->GetAttribute("type") == "upd765")
+                    parseXml_Upd765 (computer, *child);
                 if (child->GetAttribute("type") == "1793")
                 {
                     elfConfiguration[computer].fdc1793Enabled = true;
@@ -656,11 +690,11 @@ void XmlParser::parseXmlFile(int computer, wxString xmlDir, wxString xmlFile)
             case TAG_VIDEO:
                 if (child->GetAttribute("type") == "coin")
                     parseXml_CoinVideo (computer, *child);
-                if (child->GetAttribute("type") == "pixie")
+                if (child->GetAttribute("type") == "pixie" || child->GetAttribute("type") == "cdp1861" || child->GetAttribute("type") == "1861")
                     parseXml_PixieVideo (computer, *child);
-                if (child->GetAttribute("type") == "1862")
+                if (child->GetAttribute("type") == "cdp1862" || child->GetAttribute("type") == "1862")
                     parseXml_1862Video (computer, *child);
-                if (child->GetAttribute("type") == "1864")
+                if (child->GetAttribute("type") == "cdp1864" || child->GetAttribute("type") == "1864")
                     parseXml_1864Video (computer, *child);
                 if (child->GetAttribute("type") == "vip2k")
                     parseXml_Vip2KVideo (computer, *child);
@@ -678,6 +712,8 @@ void XmlParser::parseXmlFile(int computer, wxString xmlDir, wxString xmlFile)
                     parseXml_VisVideo (computer, *child);
                 if (child->GetAttribute("type") == "sn76430n")
                     parseXml_SN76430NVideo (computer, *child);
+                if (child->GetAttribute("type") == "st4")
+                    parseXml_St4Video (computer, *child);
             break;
 
             case TAG_KEYBOARD:
@@ -705,6 +741,22 @@ void XmlParser::parseXmlFile(int computer, wxString xmlDir, wxString xmlFile)
                 parseXml_Gpio (computer, *child);
             break;
                 
+            case TAG_CDP1851:
+                parseXml_Cdp1851 (computer, *child, child->GetAttribute("init") == "on");
+            break;
+
+            case TAG_CDP1852:
+                parseXml_Cdp1852 (computer, *child, child->GetAttribute("init") == "on");
+            break;
+
+            case TAG_CD4536B:
+                parseXml_Cd4536b (computer, *child);
+            break;
+
+            case TAG_AD_CONVERTOR:
+                parseXml_AdConvertor (computer, *child);
+            break;
+
             case TAG_KEYPAD:
                 if (child->GetAttribute("type") == "elf")
                     parseXml_ElfKeypad (computer, *child);
@@ -816,6 +868,8 @@ void XmlParser::parseXmlFile(int computer, wxString xmlDir, wxString xmlFile)
             case TAG_CASSETTE:
                 if (child->GetAttribute("decks") == "2")
                     elfConfiguration[computer].useTape1 = true;
+                if (child->GetAttribute("type") == "micro")
+                    elfConfiguration[computer].useTapeMicro = true;
                 if (child->GetAttribute("type") == "cv")
                 {
                     elfConfiguration[computer].useTapeHw = true;
@@ -845,7 +899,7 @@ void XmlParser::parseXmlFile(int computer, wxString xmlDir, wxString xmlFile)
                     conf[computer].soundType_ = SOUND_STUDIO;
                 if (child->GetAttribute("type") == "bit")
                     parseXml_OutBitSound (computer, *child);
-                if (child->GetAttribute("type") == "cdp1863")
+                if (child->GetAttribute("type") == "cdp1863" || child->GetAttribute("type") == "1863")
                     parseXml_Cdp1863Sound (computer, *child);
                 if (child->GetAttribute("type") == "vp550")
                     conf[computer].soundType_ = SOUND_SUPER_VP550;
@@ -1026,6 +1080,7 @@ void XmlParser::parseXml_System(int computer, wxXmlNode &node)
         "boot",
         "f12",
         "init",
+        "monitor",
         "dirname",
         "dma",
         "int",
@@ -1043,6 +1098,7 @@ void XmlParser::parseXml_System(int computer, wxXmlNode &node)
         TAG_BOOT,
         TAG_F12,
         TAG_INIT,
+        TAG_MONITOR,
         TAG_DIRNAME,
         TAG_DMA,
         TAG_INT,
@@ -1072,7 +1128,7 @@ void XmlParser::parseXml_System(int computer, wxXmlNode &node)
         {
             case TAG_NAME:
                 computerInfo[computer].name = child->GetNodeContent();
-                if (mode_.gui)
+         /*       if (mode_.gui)
                 {
                     if (computerInfo[computer].configuration == "")
                         guiName = computerInfo[computer].name;
@@ -1081,21 +1137,11 @@ void XmlParser::parseXml_System(int computer, wxXmlNode &node)
                     guiName.Replace("&","&&");
 
                     XRCCTRL(*this,"ConfigTextXml", wxStaticText)->SetLabel(guiName);
-                }
+                }*/
             break;
 
             case TAG_CONFIG:
                 computerInfo[computer].configuration = child->GetNodeContent();
-                if (mode_.gui)
-                {
-                    if (computerInfo[computer].configuration == "")
-                        guiName = computerInfo[computer].name;
-                    else
-                        guiName = computerInfo[computer].name + " - " + computerInfo[computer].configuration;
-                    guiName.Replace("&","&&");
-
-                    XRCCTRL(*this,"ConfigTextXml", wxStaticText)->SetLabel(guiName);
-                }
             break;
                 
             case TAG_CPU:
@@ -1130,6 +1176,10 @@ void XmlParser::parseXml_System(int computer, wxXmlNode &node)
                     elfConfiguration[computer].ioConfiguration.ef3default = (int)parseXml_Number(*child);
                 if (child->GetAttribute("type") == "ef4")
                     elfConfiguration[computer].ioConfiguration.ef4default = (int)parseXml_Number(*child);
+            break;
+
+            case TAG_MONITOR:
+                elfConfiguration[computer].ioConfiguration.efMonitor = (int)parseXml_Number(*child);
             break;
 
             case TAG_DIRNAME:
@@ -1179,6 +1229,16 @@ void XmlParser::parseXml_System(int computer, wxXmlNode &node)
         
         child = child->GetNext();
     }
+    if (mode_.gui)
+    {
+        if (computerInfo[computer].configuration == "")
+            guiName = computerInfo[computer].name;
+        else
+            guiName = computerInfo[computer].configuration;
+        guiName.Replace("&","&&");
+
+        XRCCTRL(*this,"ConfigTextXml", wxStaticText)->SetLabel(guiName);
+    }
 }
 
 void XmlParser::parseXml_Basic(int computer, wxXmlNode &node)
@@ -1213,6 +1273,13 @@ void XmlParser::parseXml_Basic(int computer, wxXmlNode &node)
     
     int tagTypeInt;
     wxString ploadUpper;
+
+    conf[computer].defusDefined_ = false;
+    conf[computer].eopDefined_ = false;
+    conf[computer].stringDefined_ = false;
+    conf[computer].arrayValueDefined_ = false;
+    conf[computer].eodDefined_ = false;
+    conf[computer].basicRamAddressDefined_ = false;
 
     wxXmlNode *child = node.GetChildren();
     while (child)
@@ -1252,26 +1319,32 @@ void XmlParser::parseXml_Basic(int computer, wxXmlNode &node)
             break;
 
             case TAG_DEFUS:
+                conf[computer].defusDefined_ = true;
                 conf[computer].defus_ = (int)parseXml_Number(*child);
             break;
 
             case TAG_EOP:
+                conf[computer].eopDefined_ = true;
                 conf[computer].eop_ = (int)parseXml_Number(*child);
             break;
 
             case TAG_STRING:
+                conf[computer].stringDefined_ = true;
                 conf[computer].string_ = (int)parseXml_Number(*child);
             break;
 
             case TAG_ARRAY:
+                conf[computer].arrayValueDefined_ = true;
                 conf[computer].arrayValue_ = (int)parseXml_Number(*child);
             break;
 
             case TAG_EOD:
+                conf[computer].eodDefined_ = true;
                 conf[computer].eod_ = (int)parseXml_Number(*child);
             break;
 
             case TAG_RAM:
+                conf[computer].basicRamAddressDefined_ = true;
                 conf[computer].basicRamAddress_ = (int)parseXml_Number(*child);
             break;
 
@@ -1294,16 +1367,21 @@ void XmlParser::parseXml_Locations(int computer, wxXmlNode &node)
     wxString tagList[]=
     {
         "key_input",
+        "in_release",
+        "code_start",
         "code_start_high",
         "code_start_low",
         "code_end_high",
         "code_end_low",
         "reg_end",
         "reset_state",
+        "ut_state",
         "basic_state",
+        "basic_state_cw",
         "run_state",
         "stop_thermal",
         "stop_cas",
+        "stop_cas_micro",
         "start_cas_save",
         "start_cas_load",
         "start_cas_dload",
@@ -1328,6 +1406,9 @@ void XmlParser::parseXml_Locations(int computer, wxXmlNode &node)
         "check_sw",
         "st2_buildin_game",
         "vic_buildin_game",
+        "vis_buildin_game",
+        "set_pseudo_am4kbas2020",
+        "set_pseudo_am4kbas1978",
         "comment",
         "undefined"
     };
@@ -1335,16 +1416,21 @@ void XmlParser::parseXml_Locations(int computer, wxXmlNode &node)
     enum
     {
         TAG_KEYINPUT,
+        TAG_IN_RELEASE,
+        TAG_CODE_START,
         TAG_CODE_START_HIGH,
         TAG_CODE_START_LOW,
         TAG_CODE_END_HIGH,
         TAG_CODE_END_LOW,
         TAG_REG_END,
         TAG_RESET_STATE,
+        TAG_UT_STATE,
         TAG_BASIC_STATE,
+        TAG_BASIC_STATE_CW,
         TAG_RUN_STATE,
         TAG_STOP_THERMAL,
         TAG_STOP_CAS,
+        TAG_STOP_CAS_MICRO,
         TAG_START_CAS_SAVE,
         TAG_START_CAS_LOAD,
         TAG_START_CAS_DLOAD,
@@ -1369,6 +1455,9 @@ void XmlParser::parseXml_Locations(int computer, wxXmlNode &node)
         TAG_CHECK_SW,
         TAG_STUDIO_BUILD_IN_GAME,
         TAG_VICTORY_BUILD_IN_GAME,
+        TAG_VISICOM_BUILD_IN_GAME,
+        TAG_SET_PSEUDO_AM4KBAS2020,
+        TAG_SET_PSEUDO_AM4KBAS1978,
         TAG_COMMENT,
         TAG_UNDEFINED,
     };
@@ -1403,6 +1492,20 @@ void XmlParser::parseXml_Locations(int computer, wxXmlNode &node)
                 }
             break;
 
+            case TAG_IN_RELEASE:
+                addressLocations = child->GetNodeContent();
+                while (addressLocations != "")
+                {
+                    address = getNextHexDec(&addressLocations);
+                    if (address != 0)
+                        conf[computer].addressLocations.inReleaseAddress.push_back(address);
+                }
+            break;
+
+            case TAG_CODE_START:
+                conf[computer].addressLocations.code_start = (int)getHexDec(child->GetNodeContent());
+            break;
+                
             case TAG_CODE_START_HIGH:
                 conf[computer].addressLocations.code_start_high = (int)getHexDec(child->GetNodeContent());
             break;
@@ -1427,10 +1530,13 @@ void XmlParser::parseXml_Locations(int computer, wxXmlNode &node)
             break;
 
             case TAG_RESET_STATE:
+            case TAG_UT_STATE:
             case TAG_BASIC_STATE:
+            case TAG_BASIC_STATE_CW:
             case TAG_RUN_STATE:
             case TAG_STOP_THERMAL:
             case TAG_STOP_CAS:
+            case TAG_STOP_CAS_MICRO:
             case TAG_START_CAS_SAVE:
             case TAG_START_CAS_LOAD:
             case TAG_START_CAS_DLOAD:
@@ -1455,6 +1561,9 @@ void XmlParser::parseXml_Locations(int computer, wxXmlNode &node)
             case TAG_CHECK_SW:
             case TAG_STUDIO_BUILD_IN_GAME:
             case TAG_VICTORY_BUILD_IN_GAME:
+            case TAG_VISICOM_BUILD_IN_GAME:
+            case TAG_SET_PSEUDO_AM4KBAS2020:
+            case TAG_SET_PSEUDO_AM4KBAS1978:
                 newInfo.type = tagTypeInt-TAG_RESET_STATE;
 
                 newInfo.additionalAddress = getHexDec(child->GetAttribute("info"));
@@ -1484,6 +1593,25 @@ void XmlParser::parseXml_Locations(int computer, wxXmlNode &node)
 
                         if (newRegInfo.checkReg != 0)
                             newInfo.checkRegInfo.push_back(newRegInfo);
+                    }
+                }
+
+                if (child->HasAttribute("command"))
+                {
+                    switch (tagTypeInt)
+                    {
+                        case TAG_RESET_STATE:
+                            conf[computer].stateCommand_[RESETSTATE] = child->GetAttribute("command");
+                        break;
+                        case TAG_UT_STATE:
+                            conf[computer].stateCommand_[UTSTATE] = child->GetAttribute("command");
+                        break;
+                        case TAG_BASIC_STATE:
+                            conf[computer].stateCommand_[BASICSTATE] = child->GetAttribute("command");
+                        break;
+                        case TAG_BASIC_STATE_CW:
+                            conf[computer].stateCommand_[BASICSTATECW] = child->GetAttribute("command");
+                        break;
                     }
                 }
 
@@ -1537,6 +1665,8 @@ void XmlParser::parseXml_Bootstrap(int computer, wxXmlNode &node)
         "out",
         "io",
         "run",
+        "timer",
+        "read",
         "comment",
         "undefined"
     };
@@ -1548,6 +1678,8 @@ void XmlParser::parseXml_Bootstrap(int computer, wxXmlNode &node)
         TAG_OUT,
         TAG_IO,
         TAG_RUN,
+        TAG_TIMER,
+        TAG_READ,
         TAG_COMMENT,
         TAG_UNDEFINED
     };
@@ -1597,6 +1729,15 @@ void XmlParser::parseXml_Bootstrap(int computer, wxXmlNode &node)
 
             case TAG_RUN:
                 elfConfiguration[computer].ioConfiguration.bootStrapType = BOOTSTRAPRUN;
+            break;
+
+            case TAG_TIMER:
+                elfConfiguration[computer].ioConfiguration.bootStrapType = BOOTSTRAPTIMER;
+                elfConfiguration[computer].ioConfiguration.bootStrapTimer = (int)parseXml_Number(*child);
+            break;
+
+            case TAG_READ:
+                elfConfiguration[computer].ioConfiguration.bootStrapType = BOOTSTRAPREAD;
             break;
 
             case TAG_COMMENT:
@@ -1865,6 +2006,116 @@ void XmlParser::parseXml_FdcDisk(int computer, wxXmlNode &node)
     }
 }
 
+void XmlParser::parseXml_Upd765(int computer, wxXmlNode &node)
+{
+    wxString tagList[]=
+    {
+        "out",
+        "in",
+        "ef",
+        "iogroup",
+        "filename",
+        "dirname",
+        "hdname",
+        "comment",
+        "undefined"
+    };
+
+    enum
+    {
+        TAG_OUT,
+        TAG_IN,
+        TAG_EF,
+        TAG_IOGROUP,
+        TAG_FILENAME,
+        TAG_DIRNAME,
+        TAG_HDNAME,
+        TAG_COMMENT,
+        TAG_UNDEFINED
+    };
+
+    elfConfiguration[computer].fdcType_ = FDCTYPE_MICROBOARD;
+    elfConfiguration[computer].useUpd765 = true;
+    elfConfiguration[computer].ioConfiguration.upd765Io.readStatus = init_IoPort();
+    elfConfiguration[computer].ioConfiguration.upd765Io.readCommand = init_IoPort();
+    elfConfiguration[computer].ioConfiguration.upd765Io.dmaControl = init_IoPort();
+    elfConfiguration[computer].ioConfiguration.upd765Io.dmaCount = init_IoPort();
+    elfConfiguration[computer].ioConfiguration.upd765Io.writeCommand = init_IoPort();
+    
+    int tagTypeInt, diskNumber;
+    
+    wxXmlNode *child = node.GetChildren();
+    while (child)
+    {
+        wxString childName = child->GetName();
+
+        tagTypeInt = 0;
+        while (tagTypeInt != TAG_UNDEFINED && tagList[tagTypeInt] != childName)
+            tagTypeInt++;
+
+        switch (tagTypeInt)
+        {
+            case TAG_IN:
+                if (child->GetAttribute("type") == "status")
+                    elfConfiguration[computer].ioConfiguration.upd765Io.readStatus = parseXml_IoPort(*child);
+                if (child->GetAttribute("type") == "command")
+                    elfConfiguration[computer].ioConfiguration.upd765Io.readCommand = parseXml_IoPort(*child);
+            break;
+                
+            case TAG_OUT:
+                if (child->GetAttribute("type") == "control")
+                    elfConfiguration[computer].ioConfiguration.upd765Io.dmaControl = parseXml_IoPort(*child);
+                if (child->GetAttribute("type") == "count")
+                    elfConfiguration[computer].ioConfiguration.upd765Io.dmaCount = parseXml_IoPort(*child);
+                if (child->GetAttribute("type") == "command")
+                    elfConfiguration[computer].ioConfiguration.upd765Io.writeCommand = parseXml_IoPort(*child);
+            break;
+                
+            case TAG_EF:
+                    elfConfiguration[computer].ioConfiguration.upd765Io.efInterrupt  = (int)parseXml_Number(*child);
+            break;
+                
+            case TAG_IOGROUP:
+                elfConfiguration[computer].ioConfiguration.upd765Io.ioGroup = (int)parseXml_Number(*child);
+            break;
+
+            case TAG_FILENAME:
+                diskNumber = (int)parseXml_Number(*child, "disk");
+                floppy_[FDCTYPE_MICROBOARD][diskNumber] = child->GetNodeContent();
+                floppyDefined[FDCTYPE_MICROBOARD][diskNumber] = true;
+            break;
+
+            case TAG_DIRNAME:
+                diskNumber = (int)parseXml_Number(*child, "disk");
+                floppyDirDefined[FDCTYPE_MICROBOARD][diskNumber] = true;
+                floppyDir_[FDCTYPE_MICROBOARD][diskNumber] = dataDir_ + child->GetNodeContent();
+                if (floppyDir_[FDCTYPE_MICROBOARD][diskNumber].Right(1) != pathSeparator_)
+                    floppyDir_[FDCTYPE_MICROBOARD][diskNumber] += pathSeparator_;
+            break;
+
+            case TAG_HDNAME:
+                diskNumber = (int)parseXml_Number(*child, "disk");
+                floppyDirSwitched_[FDCTYPE_MICROBOARD][diskNumber] = conf[computer].mainDir_ + child->GetNodeContent();
+                if (floppyDirSwitched_[FDCTYPE_MICROBOARD][diskNumber].Right(1) != pathSeparator_)
+                    floppyDirSwitched_[FDCTYPE_MICROBOARD][diskNumber] += pathSeparator_;
+                if (child->GetAttribute("default") == "yes")
+                    directoryMode_[FDCTYPE_MICROBOARD][diskNumber] = true;
+            break;
+
+            case TAG_COMMENT:
+            break;
+
+            default:
+                warningText_ += "Unkown tag: ";
+                warningText_ += childName;
+                warningText_ += "\n";
+            break;
+        }
+        
+        child = child->GetNext();
+    }
+}
+
 void XmlParser::parseXml_CoinVideo(int computer, wxXmlNode &node)
 {
     if (!elfConfiguration[computer].useCoinVideo)
@@ -2031,6 +2282,7 @@ void XmlParser::parseXml_PixieVideo(int computer, wxXmlNode &node)
         "pos",
         "xscale",
         "color",
+        "colortype",
         "graphics",
         "highres",
         "height",
@@ -2049,6 +2301,7 @@ void XmlParser::parseXml_PixieVideo(int computer, wxXmlNode &node)
         TAG_POS,
         TAG_XSCALE,
         TAG_COLOR,
+        TAG_COLOR_TYPE,
         TAG_GRAPHICS,
         TAG_HIGH_RES,
         TAG_HEIGHT,
@@ -2170,10 +2423,21 @@ void XmlParser::parseXml_PixieVideo(int computer, wxXmlNode &node)
                 
                 if (child->GetAttribute("type") == "fore")
                     screenInfo[computer].defaultColour[COL_PIXIE_FORE].Printf("#%02X%02X%02X", red, green, blue);
+                if (child->GetAttribute("type") == "fore1")
+                    screenInfo[computer].defaultColour[COL_PIXIE_VISICOM_COL1].Printf("#%02X%02X%02X", red, green, blue);
+                if (child->GetAttribute("type") == "fore2")
+                    screenInfo[computer].defaultColour[COL_PIXIE_VISICOM_COL2].Printf("#%02X%02X%02X", red, green, blue);
+                if (child->GetAttribute("type") == "fore3")
+                    screenInfo[computer].defaultColour[COL_PIXIE_VISICOM_COL3].Printf("#%02X%02X%02X", red, green, blue);
                 if (child->GetAttribute("type") == "back")
                     screenInfo[computer].defaultColour[COL_PIXIE_BACK].Printf("#%02X%02X%02X", red, green, blue);
             break;
                 
+            case TAG_COLOR_TYPE:
+                if (child->GetNodeContent() == "vis")
+                    elfConfiguration[computer].ioConfiguration.pixieColorType = PIXIE_COLOR_VISICOM;
+            break;
+
             case TAG_GRAPHICS:
                 parseXml_pixieGraphics (computer, *child);
             break;
@@ -2202,30 +2466,15 @@ void XmlParser::parseXml_PixieVideo(int computer, wxXmlNode &node)
 
 void XmlParser::parseXml_1862Video(int computer, wxXmlNode &node)
 {
-    if (!elfConfiguration[computer].use1862)
-    {
-        elfConfiguration[computer].ioConfiguration.cdp1862VideoNumber = conf[computer].numberOfVideoTypes_;
-        conf[computer].numberOfVideoTypes_++;
-    }
-
-    elfConfiguration[computer].use1862 = true;
+    elfConfiguration[computer].ioConfiguration.use1862 = true;
 
     wxString tagList[]=
     {
         "out",
-        "in",
-        "ef",
-        "zoom",
-        "border",
-        "pos",
-        "xscale",
         "colorram",
         "colortype",
         "color",
         "iogroup",
-        "graphics",
-        "highres",
-        "height",
         "comment",
         "undefined"
     };
@@ -2233,41 +2482,25 @@ void XmlParser::parseXml_1862Video(int computer, wxXmlNode &node)
     enum
     {
         TAG_OUT,
-        TAG_IN,
-        TAG_EF,
-        TAG_ZOOM,
-        TAG_BORDER,
-        TAG_POS,
-        TAG_XSCALE,
         TAG_COLOR_RAM,
         TAG_COLOR_TYPE,
         TAG_COLOR,
         TAG_IOGROUP,
-        TAG_GRAPHICS,
-        TAG_HIGH_RES,
-        TAG_HEIGHT,
         TAG_COMMENT,
         TAG_UNDEFINED
     };
     
     long start, end;
     int tagTypeInt;
-    long width, height;
-    int red, green, blue, xpos, ypos, xScale = 3;
+    int red, green, blue;
     wxString color, scale, position;
+    bool whiteDefined = false, blackDefined = false;
 
-    conf[computer].zoom_[elfConfiguration[computer].ioConfiguration.cdp1862VideoNumber] = "2.00";
-    conf[computer].videoName_[elfConfiguration[computer].ioConfiguration.cdp1862VideoNumber] = "CDP1862";
-    elfConfiguration[computer].ioConfiguration.cdp1862disable.portNumber = -1;
-    elfConfiguration[computer].ioConfiguration.cdp1862enable.portNumber = -1;
     elfConfiguration[computer].ioConfiguration.cdp1862background.portNumber = -1;
     elfConfiguration[computer].ioConfiguration.cdp1862IoGroup = -1;
-
-    elfConfiguration[computer].ioConfiguration.pixieGraphics.interrupt = 62;
-    elfConfiguration[computer].ioConfiguration.pixieGraphics.start = 64;
-    elfConfiguration[computer].ioConfiguration.pixieGraphics.end = 191;
-    elfConfiguration[computer].ioConfiguration.pixieGraphics.screenend = 262;
-    elfConfiguration[computer].ioConfiguration.videoHeight = 128;
+    elfConfiguration[computer].ioConfiguration.cdp1862colorMemory.portNumber = -1;
+    elfConfiguration[computer].ioConfiguration.cdp1862StartRam = -1;
+    elfConfiguration[computer].ioConfiguration.cdp1862EndRam = -1;
 
     wxXmlNode *child = node.GetChildren();
     while (child)
@@ -2296,16 +2529,31 @@ void XmlParser::parseXml_1862Video(int computer, wxXmlNode &node)
 
             case TAG_COLOR_TYPE:
                 if (child->GetNodeContent() == "vip")
-                    elfConfiguration[computer].ioConfiguration.cdp1862ColorType = PIXIE_COLOR_VIP;
-            break;
+                    elfConfiguration[computer].ioConfiguration.cdp1862ColorType = PIXIE_COLOR_VIP_1862;
+                if (child->GetNodeContent() == "eti" || child->GetNodeContent() == "hug" || child->GetNodeContent() == "hec")
+                    elfConfiguration[computer].ioConfiguration.cdp1862ColorType = PIXIE_COLOR_ETI_1862;
+                if (child->GetNodeContent() == "vic")
+                {
+                    elfConfiguration[computer].ioConfiguration.cdp1862ColorType = PIXIE_COLOR_VICTORY_1862;
+                    if (whiteDefined && blackDefined)
+                    {
+                        color = screenInfo[computer].defaultColour[COL_CDP1862_BLACK];
+                        screenInfo[computer].defaultColour[COL_CDP1862_BLACK] = screenInfo[computer].defaultColour[COL_CDP1862_WHITE];
+                        screenInfo[computer].defaultColour[COL_CDP1862_WHITE] = color;
+                    }
+                    else
+                    {
+                        if (whiteDefined)
+                            screenInfo[computer].defaultColour[COL_CDP1862_BLACK] = screenInfo[computer].defaultColour[COL_CDP1862_WHITE];
+                        if (blackDefined)
+                            screenInfo[computer].defaultColour[COL_CDP1862_WHITE] = screenInfo[computer].defaultColour[COL_CDP1862_BLACK];
+                    }
+                }
 
-            case TAG_IN:
-                elfConfiguration[computer].ioConfiguration.cdp1862enable.portNumber = (int)parseXml_Number(*child);
-                elfConfiguration[computer].ioConfiguration.cdp1862enable.qValue = -1;
-                if (child->GetAttribute("q") == "1")
-                    elfConfiguration[computer].ioConfiguration.cdp1862enable.qValue = 1;
-                if (child->GetAttribute("q") == "0")
-                    elfConfiguration[computer].ioConfiguration.cdp1862enable.qValue = 0;
+                if (child->GetNodeContent() == "tmc")
+                    elfConfiguration[computer].ioConfiguration.cdp1862ColorType = PIXIE_COLOR_TMC2000_1862;
+                if (child->GetNodeContent() == "cos")
+                    elfConfiguration[computer].ioConfiguration.cdp1862ColorType = PIXIE_COLOR_DEFAULT;
             break;
                 
             case TAG_OUT:
@@ -2318,60 +2566,20 @@ void XmlParser::parseXml_1862Video(int computer, wxXmlNode &node)
                     if (child->GetAttribute("q") == "0")
                         elfConfiguration[computer].ioConfiguration.cdp1862background.qValue = 0;
                 }
-                else
+                if (child->GetAttribute("type") == "color_ram")
                 {
-                    elfConfiguration[computer].ioConfiguration.cdp1862disable.portNumber = (int)parseXml_Number(*child);
-                    elfConfiguration[computer].ioConfiguration.cdp1862disable.qValue = -1;
+                    elfConfiguration[computer].ioConfiguration.cdp1862colorMemory.portNumber = (int)parseXml_Number(*child);
+                    elfConfiguration[computer].ioConfiguration.cdp1862colorMemory.mask = 0xff;
+                    if (child->HasAttribute("mask"))
+                        elfConfiguration[computer].ioConfiguration.cdp1862colorMemory.mask = (int)parseXml_Number(*child, "mask");
+                    elfConfiguration[computer].ioConfiguration.cdp1862colorMemory.qValue = -1;
                     if (child->GetAttribute("q") == "1")
-                        elfConfiguration[computer].ioConfiguration.cdp1862disable.qValue = 1;
+                        elfConfiguration[computer].ioConfiguration.cdp1862colorMemory.qValue = 1;
                     if (child->GetAttribute("q") == "0")
-                        elfConfiguration[computer].ioConfiguration.cdp1862disable.qValue = 0;
+                        elfConfiguration[computer].ioConfiguration.cdp1862colorMemory.qValue = 0;
                 }
             break;
                 
-            case TAG_EF:
-                if (child->GetAttribute("type") == "on")
-                    elfConfiguration[computer].ioConfiguration.cdp1862EfScreenOn = true;
-                elfConfiguration[computer].ioConfiguration.cdp1862Ef = (int)parseXml_Number(*child);
-            break;
-                
-            case TAG_ZOOM:
-                conf[computer].zoom_[elfConfiguration[computer].ioConfiguration.cdp1862VideoNumber] = child->GetNodeContent();
-            break;
-
-            case TAG_BORDER:
-                if (!parseXml_Size(*child, &width, &height))
-                {
-                    warningText_ += "Incorrect border size";
-                    warningText_ += childName;
-                    warningText_ += "\n";
-                }
-                else
-                {
-                    screenInfo[computer].borderX[VIDEOXML1862] = (int)width/xScale;
-                    screenInfo[computer].borderY[VIDEOXML1862] = (int)height;
-                }
-            break;
-
-            case TAG_POS:
-                position = child->GetNodeContent();
-                xpos = (int)getNextHexDec(&position);
-                ypos = (int)getNextHexDec(&position);
-                if (xpos != -1)
-                    xpos += conf[computer].defCdp1862X_;
-                if (ypos != -1)
-                    ypos += conf[computer].defCdp1862Y_;
-                conf[computer].defCdp1862X_ = xpos;
-                conf[computer].defCdp1862Y_ = ypos;
-            break;
-
-            case TAG_XSCALE:
-                screenInfo[computer].borderX[VIDEOXML1862] = screenInfo[computer].borderX[VIDEOXML1862] * xScale;
-                conf[computer].xScale_ = convertLocale(child->GetNodeContent());
-                xScale = (int)parseXml_Number(*child);
-                screenInfo[computer].borderX[VIDEOXML1862] = (int)screenInfo[computer].borderX[VIDEOXML1862] / xScale;
-            break;
-
             case TAG_COLOR:
                 color = child->GetNodeContent();
                 red = (int)getNextHexDec(&color) & 0xff;
@@ -2380,8 +2588,9 @@ void XmlParser::parseXml_1862Video(int computer, wxXmlNode &node)
                 
                 if (child->GetAttribute("type") == "fore")
                     screenInfo[computer].defaultColour[COL_CDP1862_WHITE].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "white")
-                    screenInfo[computer].defaultColour[COL_CDP1862_WHITE].Printf("#%02X%02X%02X", red, green, blue);
+                if (child->GetAttribute("type") == "back")
+                    screenInfo[computer].defaultColour[COL_CDP1862_BACK_BLUE].Printf("#%02X%02X%02X", red, green, blue);
+
                 if (child->GetAttribute("type") == "red")
                     screenInfo[computer].defaultColour[COL_CDP1862_RED].Printf("#%02X%02X%02X", red, green, blue);
                 if (child->GetAttribute("type") == "blue")
@@ -2394,10 +2603,6 @@ void XmlParser::parseXml_1862Video(int computer, wxXmlNode &node)
                     screenInfo[computer].defaultColour[COL_CDP1862_YELLOW].Printf("#%02X%02X%02X", red, green, blue);
                 if (child->GetAttribute("type") == "cyan")
                     screenInfo[computer].defaultColour[COL_CDP1862_CYAN].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "black")
-                    screenInfo[computer].defaultColour[COL_CDP1862_BLACK].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "back")
-                    screenInfo[computer].defaultColour[COL_CDP1862_BACK_BLUE].Printf("#%02X%02X%02X", red, green, blue);
                 if (child->GetAttribute("type") == "back_blue")
                     screenInfo[computer].defaultColour[COL_CDP1862_BACK_BLUE].Printf("#%02X%02X%02X", red, green, blue);
                 if (child->GetAttribute("type") == "back_black")
@@ -2406,22 +2611,31 @@ void XmlParser::parseXml_1862Video(int computer, wxXmlNode &node)
                     screenInfo[computer].defaultColour[COL_CDP1862_BACK_GREEN].Printf("#%02X%02X%02X", red, green, blue);
                 if (child->GetAttribute("type") == "back_red")
                     screenInfo[computer].defaultColour[COL_CDP1862_BACK_RED].Printf("#%02X%02X%02X", red, green, blue);
+
+                if (elfConfiguration[computer].ioConfiguration.cdp1862ColorType == PIXIE_COLOR_VICTORY_1862)
+                {
+                    if (child->GetAttribute("type") == "white")
+                        screenInfo[computer].defaultColour[COL_CDP1862_BLACK].Printf("#%02X%02X%02X", red, green, blue);
+                    if (child->GetAttribute("type") == "black")
+                        screenInfo[computer].defaultColour[COL_CDP1862_WHITE].Printf("#%02X%02X%02X", red, green, blue);
+                }
+                else
+                {
+                    if (child->GetAttribute("type") == "white")
+                    {
+                        whiteDefined = true;
+                        screenInfo[computer].defaultColour[COL_CDP1862_WHITE].Printf("#%02X%02X%02X", red, green, blue);
+                    }
+                    if (child->GetAttribute("type") == "black")
+                    {
+                        blackDefined = true;
+                        screenInfo[computer].defaultColour[COL_CDP1862_BLACK].Printf("#%02X%02X%02X", red, green, blue);
+                    }
+                }
             break;
                 
             case TAG_IOGROUP:
                 elfConfiguration[computer].ioConfiguration.cdp1862IoGroup = (int)parseXml_Number(*child);
-            break;
-
-            case TAG_GRAPHICS:
-                parseXml_pixieGraphics (computer, *child);
-            break;
-
-            case TAG_HIGH_RES:
-                elfConfiguration[computer].ioConfiguration.cdp1862HighRes = true;
-            break;
-
-            case TAG_HEIGHT:
-                elfConfiguration[computer].ioConfiguration.videoHeight = (int)parseXml_Number(*child);
             break;
 
             case TAG_COMMENT:
@@ -2437,7 +2651,6 @@ void XmlParser::parseXml_1862Video(int computer, wxXmlNode &node)
         child = child->GetNext();
     }
 }
-
 
 void XmlParser::parseXml_1864Video(int computer, wxXmlNode &node)
 {
@@ -2505,6 +2718,8 @@ void XmlParser::parseXml_1864Video(int computer, wxXmlNode &node)
     elfConfiguration[computer].ioConfiguration.cdp1864background.portNumber = -1;
     elfConfiguration[computer].ioConfiguration.cdp1864IoGroup = -1;
     elfConfiguration[computer].ioConfiguration.cdp1864StartRam = -1;
+    elfConfiguration[computer].ioConfiguration.cdp1864RamMask = 0xff;
+    elfConfiguration[computer].ioConfiguration.cdp1864ColorLatch = false;
     elfConfiguration[computer].ioConfiguration.cdp1864EndRam = -1;
 
     elfConfiguration[computer].ioConfiguration.pixieGraphics.interrupt = 62;
@@ -2546,13 +2761,13 @@ void XmlParser::parseXml_1864Video(int computer, wxXmlNode &node)
             break;
                 
             case TAG_COLOR_TYPE:
-                if (child->GetNodeContent() == "eti")
-                    elfConfiguration[computer].ioConfiguration.cdp1864ColorType = PIXIE_COLOR_ETI;
-                if (child->GetNodeContent() == "hug")
-                    elfConfiguration[computer].ioConfiguration.cdp1864ColorType = PIXIE_COLOR_ETI;
+                if (child->GetNodeContent() == "vip")
+                    elfConfiguration[computer].ioConfiguration.cdp1864ColorType = PIXIE_COLOR_VIP_1864;
+                if (child->GetNodeContent() == "eti" || child->GetNodeContent() == "hug" || child->GetNodeContent() == "hec")
+                    elfConfiguration[computer].ioConfiguration.cdp1864ColorType = PIXIE_COLOR_ETI_1864;
                 if (child->GetNodeContent() == "vic")
                 {
-                    elfConfiguration[computer].ioConfiguration.cdp1864ColorType = PIXIE_COLOR_VICTORY;
+                    elfConfiguration[computer].ioConfiguration.cdp1864ColorType = PIXIE_COLOR_VICTORY_1864;
                     if (whiteDefined && blackDefined)
                     {
                         color = screenInfo[computer].defaultColour[COL_CDP1864_BLACK];
@@ -2567,10 +2782,8 @@ void XmlParser::parseXml_1864Video(int computer, wxXmlNode &node)
                             screenInfo[computer].defaultColour[COL_CDP1864_WHITE] = screenInfo[computer].defaultColour[COL_CDP1864_BLACK];
                     }
                 }
-                if (child->GetNodeContent() == "studio")
-                    elfConfiguration[computer].ioConfiguration.cdp1864ColorType = PIXIE_COLOR_STUDIOIV;
                 if (child->GetNodeContent() == "tmc")
-                    elfConfiguration[computer].ioConfiguration.cdp1864ColorType = PIXIE_COLOR_TMC2000;
+                    elfConfiguration[computer].ioConfiguration.cdp1864ColorType = PIXIE_COLOR_TMC2000_1864;
                 if (child->GetNodeContent() == "cos")
                     elfConfiguration[computer].ioConfiguration.cdp1864ColorType = PIXIE_COLOR_DEFAULT;
             break;
@@ -2607,6 +2820,17 @@ void XmlParser::parseXml_1864Video(int computer, wxXmlNode &node)
                     if (child->GetAttribute("q") == "0")
                         elfConfiguration[computer].ioConfiguration.cdp1864colorMemory.qValue = 0;
                 }
+                if (child->GetAttribute("type") == "color_tone")
+                {
+                    elfConfiguration[computer].ioConfiguration.cdp1864ColorLatch = true;
+                    conf[computer].soundType_ = SOUND_1863_1864;
+                    elfConfiguration[computer].ioConfiguration.cdp1864toneLatch.portNumber = (int)parseXml_Number(*child);
+                    elfConfiguration[computer].ioConfiguration.cdp1864toneLatch.qValue = -1;
+                    if (child->GetAttribute("q") == "1")
+                        elfConfiguration[computer].ioConfiguration.cdp1864toneLatch.qValue = 1;
+                    if (child->GetAttribute("q") == "0")
+                        elfConfiguration[computer].ioConfiguration.cdp1864toneLatch.qValue = 0;
+                }
             break;
                 
             case TAG_EF:
@@ -2618,7 +2842,7 @@ void XmlParser::parseXml_1864Video(int computer, wxXmlNode &node)
             case TAG_COLOR_RAM:
                 if (!parseXml_Range(*child, &start, &end))
                 {
-                    warningText_ += "No CDP1862 Colour RAM range defined";
+                    warningText_ += "No CDP1864 Colour RAM range defined";
                     warningText_ += childName;
                     warningText_ += "\n";
                 }
@@ -2627,6 +2851,8 @@ void XmlParser::parseXml_1864Video(int computer, wxXmlNode &node)
                     elfConfiguration[computer].ioConfiguration.cdp1864StartRam = (int)start;
                     elfConfiguration[computer].ioConfiguration.cdp1864EndRam = (int)end;
                 }
+                if (child->HasAttribute("mask"))
+                    elfConfiguration[computer].ioConfiguration.cdp1864RamMask = (int)parseXml_Number(*child, "mask") & 0x3ff;
             break;
 
             case TAG_ZOOM:
@@ -2697,8 +2923,8 @@ void XmlParser::parseXml_1864Video(int computer, wxXmlNode &node)
                     screenInfo[computer].defaultColour[COL_CDP1864_BACK_GREEN].Printf("#%02X%02X%02X", red, green, blue);
                 if (child->GetAttribute("type") == "back_red")
                     screenInfo[computer].defaultColour[COL_CDP1864_BACK_RED].Printf("#%02X%02X%02X", red, green, blue);
-                
-                if (elfConfiguration[computer].ioConfiguration.cdp1864ColorType == PIXIE_COLOR_VICTORY)
+
+                if (elfConfiguration[computer].ioConfiguration.cdp1864ColorType == PIXIE_COLOR_VICTORY_1864)
                 {
                     if (child->GetAttribute("type") == "white")
                         screenInfo[computer].defaultColour[COL_CDP1864_BLACK].Printf("#%02X%02X%02X", red, green, blue);
@@ -2722,6 +2948,237 @@ void XmlParser::parseXml_1864Video(int computer, wxXmlNode &node)
                 
             case TAG_IOGROUP:
                 elfConfiguration[computer].ioConfiguration.cdp1864IoGroup = (int)parseXml_Number(*child);
+            break;
+
+            case TAG_GRAPHICS:
+                parseXml_pixieGraphics (computer, *child);
+            break;
+
+            case TAG_HEIGHT:
+                elfConfiguration[computer].ioConfiguration.videoHeight = (int)parseXml_Number(*child);
+            break;
+
+            case TAG_COMMENT:
+            break;
+
+            default:
+                warningText_ += "Unkown tag: ";
+                warningText_ += childName;
+                warningText_ += "\n";
+            break;
+        }
+        
+        child = child->GetNext();
+    }
+}
+
+void XmlParser::parseXml_St4Video(int computer, wxXmlNode &node)
+{
+    if (!elfConfiguration[computer].useSt4Video)
+    {
+        elfConfiguration[computer].ioConfiguration.st4VideoNumber = conf[computer].numberOfVideoTypes_;
+        conf[computer].numberOfVideoTypes_++;
+    }
+
+    elfConfiguration[computer].useSt4Video = true;
+
+    wxString tagList[]=
+    {
+        "out",
+        "ef",
+        "zoom",
+        "border",
+        "pos",
+        "xscale",
+        "color",
+        "colorram",
+        "iogroup",
+        "graphics",
+        "height",
+        "comment",
+        "undefined"
+    };
+
+    enum
+    {
+        TAG_OUT,
+        TAG_EF,
+        TAG_ZOOM,
+        TAG_BORDER,
+        TAG_POS,
+        TAG_XSCALE,
+        TAG_COLOR,
+        TAG_COLOR_RAM,
+        TAG_IOGROUP,
+        TAG_GRAPHICS,
+        TAG_HEIGHT,
+        TAG_COMMENT,
+        TAG_UNDEFINED
+    };
+    
+    int tagTypeInt;
+    long width, height;
+    long start, end;
+    int red, green, blue, xpos, ypos, xScale = 4;
+    wxString color, scale, position;
+
+    conf[computer].zoom_[elfConfiguration[computer].ioConfiguration.st4VideoNumber] = "2.00";
+    conf[computer].videoName_[elfConfiguration[computer].ioConfiguration.st4VideoNumber] = "Studio IV";
+    elfConfiguration[computer].ioConfiguration.st4VideoDmaEnable.portNumber = -1;
+    elfConfiguration[computer].ioConfiguration.st4VideoOut1.portNumber = -1;
+    elfConfiguration[computer].ioConfiguration.st4VideoOut2.portNumber = -1;
+    elfConfiguration[computer].ioConfiguration.st4VideoEf = -1;
+    elfConfiguration[computer].ioConfiguration.st4VideoIoGroup = -1;
+    elfConfiguration[computer].ioConfiguration.st4VideoStartRam = -1;
+    elfConfiguration[computer].ioConfiguration.st4VideoEndRam = -1;
+
+    elfConfiguration[computer].ioConfiguration.pixieGraphics.interrupt = 62;
+    elfConfiguration[computer].ioConfiguration.pixieGraphics.start = 64;
+    elfConfiguration[computer].ioConfiguration.pixieGraphics.end = 191;
+    elfConfiguration[computer].ioConfiguration.pixieGraphics.screenend = 262;
+    elfConfiguration[computer].ioConfiguration.videoHeight = 192;
+
+    wxXmlNode *child = node.GetChildren();
+    while (child)
+    {
+        wxString childName = child->GetName();
+
+        tagTypeInt = 0;
+        while (tagTypeInt != TAG_UNDEFINED && tagList[tagTypeInt] != childName)
+            tagTypeInt++;
+        
+        switch (tagTypeInt)
+        {
+            case TAG_OUT:
+                if (child->GetAttribute("type") == "color")
+                {
+                    if (elfConfiguration[computer].ioConfiguration.st4VideoOut1.portNumber != -1)
+                    {
+                        elfConfiguration[computer].ioConfiguration.st4VideoOut2.qValue = -1;
+                        elfConfiguration[computer].ioConfiguration.st4VideoOut2.portNumber = (int)parseXml_Number(*child);
+                        if (child->GetAttribute("q") == "1")
+                            elfConfiguration[computer].ioConfiguration.st4VideoOut2.qValue = 1;
+                        if (child->GetAttribute("q") == "0")
+                            elfConfiguration[computer].ioConfiguration.st4VideoOut2.qValue = 0;
+                    }
+                    else
+                    {
+                        elfConfiguration[computer].ioConfiguration.st4VideoOut1.qValue = -1;
+                        elfConfiguration[computer].ioConfiguration.st4VideoOut1.portNumber = (int)parseXml_Number(*child);
+                        if (child->GetAttribute("q") == "1")
+                            elfConfiguration[computer].ioConfiguration.st4VideoOut1.qValue = 1;
+                        if (child->GetAttribute("q") == "0")
+                            elfConfiguration[computer].ioConfiguration.st4VideoOut1.qValue = 0;
+                    }
+                }
+                if (child->GetAttribute("type") == "dma")
+                {
+                    elfConfiguration[computer].ioConfiguration.st4VideoDmaEnable.portNumber = (int)parseXml_Number(*child);
+                    elfConfiguration[computer].ioConfiguration.st4VideoDmaEnable.qValue = -1;
+                    if (child->GetAttribute("q") == "1")
+                        elfConfiguration[computer].ioConfiguration.st4VideoDmaEnable.qValue = 1;
+                    if (child->GetAttribute("q") == "0")
+                        elfConfiguration[computer].ioConfiguration.st4VideoDmaEnable.qValue = 0;
+                }
+            break;
+                
+            case TAG_EF:
+                elfConfiguration[computer].ioConfiguration.st4VideoEf = (int)parseXml_Number(*child);
+            break;
+                
+            case TAG_COLOR_RAM:
+                if (!parseXml_Range(*child, &start, &end))
+                {
+                    warningText_ += "No Studio IV Colour RAM range defined";
+                    warningText_ += childName;
+                    warningText_ += "\n";
+                }
+                else
+                {
+                    elfConfiguration[computer].ioConfiguration.st4VideoStartRam = (int)start;
+                    elfConfiguration[computer].ioConfiguration.st4VideoEndRam = (int)end;
+                }
+            break;
+
+            case TAG_ZOOM:
+                conf[computer].zoom_[elfConfiguration[computer].ioConfiguration.st4VideoNumber] = child->GetNodeContent();
+            break;
+
+            case TAG_BORDER:
+                if (!parseXml_Size(*child, &width, &height))
+                {
+                    warningText_ += "Incorrect border size";
+                    warningText_ += childName;
+                    warningText_ += "\n";
+                }
+                else
+                {
+                    screenInfo[computer].borderX[VIDEOSTUDIOIV] = (int)width/xScale;
+                    screenInfo[computer].borderY[VIDEOSTUDIOIV] = (int)height;
+                }
+            break;
+
+            case TAG_POS:
+                position = child->GetNodeContent();
+                xpos = (int)getNextHexDec(&position);
+                ypos = (int)getNextHexDec(&position);
+                if (xpos != -1)
+                    xpos += conf[computer].defSt4X_;
+                if (ypos != -1)
+                    ypos += conf[computer].defSt4Y_;
+                conf[computer].defSt4X_ = xpos;
+                conf[computer].defSt4Y_ = ypos;
+            break;
+
+            case TAG_XSCALE:
+                screenInfo[computer].borderX[VIDEOSTUDIOIV] = screenInfo[computer].borderX[VIDEOSTUDIOIV] * xScale;
+                conf[computer].xScale_ = convertLocale(child->GetNodeContent());
+                xScale = (int)parseXml_Number(*child);
+                screenInfo[computer].borderX[VIDEOSTUDIOIV] = (int)screenInfo[computer].borderX[VIDEOSTUDIOIV] / xScale;
+            break;
+
+            case TAG_COLOR:
+                color = child->GetNodeContent();
+                red = (int)getNextHexDec(&color) & 0xff;
+                green = (int)getNextHexDec(&color) & 0xff;
+                blue = (int)getNextHexDec(&color) & 0xff;
+                
+                if (child->GetAttribute("type") == "black")
+                    screenInfo[computer].defaultColour[COL_ST4_BLACK].Printf("#%02X%02X%02X", red, green, blue);
+                if (child->GetAttribute("type") == "red")
+                    screenInfo[computer].defaultColour[COL_ST4_RED].Printf("#%02X%02X%02X", red, green, blue);
+                if (child->GetAttribute("type") == "blue")
+                    screenInfo[computer].defaultColour[COL_ST4_BLUE].Printf("#%02X%02X%02X", red, green, blue);
+                if (child->GetAttribute("type") == "magenta")
+                    screenInfo[computer].defaultColour[COL_ST4_MAGENTA].Printf("#%02X%02X%02X", red, green, blue);
+                if (child->GetAttribute("type") == "green")
+                    screenInfo[computer].defaultColour[COL_ST4_GREEN].Printf("#%02X%02X%02X", red, green, blue);
+                if (child->GetAttribute("type") == "yellow")
+                    screenInfo[computer].defaultColour[COL_ST4_YELLOW].Printf("#%02X%02X%02X", red, green, blue);
+                if (child->GetAttribute("type") == "cyan")
+                    screenInfo[computer].defaultColour[COL_ST4_CYAN].Printf("#%02X%02X%02X", red, green, blue);
+                if (child->GetAttribute("type") == "white")
+                    screenInfo[computer].defaultColour[COL_ST4_WHITE].Printf("#%02X%02X%02X", red, green, blue);
+                if (child->GetAttribute("type") == "back_black")
+                    screenInfo[computer].defaultColour[COL_ST4_BACK_BLACK].Printf("#%02X%02X%02X", red, green, blue);
+                if (child->GetAttribute("type") == "back_red")
+                    screenInfo[computer].defaultColour[COL_ST4_BACK_RED].Printf("#%02X%02X%02X", red, green, blue);
+                if (child->GetAttribute("type") == "back_blue")
+                    screenInfo[computer].defaultColour[COL_ST4_BACK_BLUE].Printf("#%02X%02X%02X", red, green, blue);
+                if (child->GetAttribute("type") == "back_magenta")
+                    screenInfo[computer].defaultColour[COL_ST4_BACK_MAGENTA].Printf("#%02X%02X%02X", red, green, blue);
+                if (child->GetAttribute("type") == "back_green")
+                    screenInfo[computer].defaultColour[COL_ST4_BACK_GREEN].Printf("#%02X%02X%02X", red, green, blue);
+                if (child->GetAttribute("type") == "back_yellow")
+                    screenInfo[computer].defaultColour[COL_ST4_BACK_YELLOW].Printf("#%02X%02X%02X", red, green, blue);
+                if (child->GetAttribute("type") == "back_cyan")
+                    screenInfo[computer].defaultColour[COL_ST4_BACK_CYAN].Printf("#%02X%02X%02X", red, green, blue);
+                if (child->GetAttribute("type") == "back_white")
+                    screenInfo[computer].defaultColour[COL_ST4_BACK_WHITE].Printf("#%02X%02X%02X", red, green, blue);
+            break;
+                
+            case TAG_IOGROUP:
+                elfConfiguration[computer].ioConfiguration.st4VideoIoGroup = (int)parseXml_Number(*child);
             break;
 
             case TAG_GRAPHICS:
@@ -4001,6 +4458,7 @@ void XmlParser::parseXml_VisVideo(int computer, wxXmlNode &node)
     elfConfiguration[computer].ioConfiguration.v1870outSelect = -1;
     elfConfiguration[computer].ioConfiguration.v1870ioGroup = -1;
     elfConfiguration[computer].ioConfiguration.v1870cursorBlink = false;
+    elfConfiguration[computer].ioConfiguration.v1870outIntEnable = init_IoPort();
 
     conf[computer].videoMode_ = PAL;
     conf[computer].zoom_[elfConfiguration[computer].ioConfiguration.v1870VideoNumber] = "2.00";
@@ -4109,6 +4567,8 @@ void XmlParser::parseXml_VisVideo(int computer, wxXmlNode &node)
                     elfConfiguration[computer].ioConfiguration.v1870outWrite = (int)parseXml_Number(*child);
                 if (child->GetAttribute("type") == "select")
                     elfConfiguration[computer].ioConfiguration.v1870outSelect = (int)parseXml_Number(*child);
+                if (child->GetAttribute("type") == "int")
+                    elfConfiguration[computer].ioConfiguration.v1870outIntEnable = parseXml_IoPort(*child);
             break;
 
             case TAG_ZOOM:
@@ -4485,6 +4945,7 @@ void XmlParser::parseXml_AsciiKeyboard (int computer, wxXmlNode &node)
         "in",
         "ef",
         "caps",
+        "iogroup",
         "comment",
         "undefined"
     };
@@ -4494,6 +4955,7 @@ void XmlParser::parseXml_AsciiKeyboard (int computer, wxXmlNode &node)
         TAG_IN,
         TAG_EF,
         TAG_CAPS,
+        TAG_IOGROUP,
         TAG_COMMENT,
         TAG_UNDEFINED
     };
@@ -4521,6 +4983,10 @@ void XmlParser::parseXml_AsciiKeyboard (int computer, wxXmlNode &node)
                 
             case TAG_CAPS:
                 elfConfiguration[computer].forceUpperCase = true;
+            break;
+
+            case TAG_IOGROUP:
+                elfConfiguration[computer].ioConfiguration.keyboardIoGroup = (int)parseXml_Number(*child);
             break;
 
             case TAG_COMMENT:
@@ -4618,7 +5084,6 @@ void XmlParser::parseXml_LatchKeyboard(int computer, wxXmlNode &node)
         "out",
         "ef",
         "keydef",
-        "keydefshift",
         "iogroup",
         "comment",
         "undefined"
@@ -4629,7 +5094,6 @@ void XmlParser::parseXml_LatchKeyboard(int computer, wxXmlNode &node)
         TAG_OUT,
         TAG_EF,
         TAG_KEYDEF,
-        TAG_KEYDEFSHIFT,
         TAG_IOGROUP,
         TAG_COMMENT,
         TAG_UNDEFINED,
@@ -4642,6 +5106,8 @@ void XmlParser::parseXml_LatchKeyboard(int computer, wxXmlNode &node)
     {
         elfConfiguration[computer].ioConfiguration.keyLatchDetails[0].pc[i] = -1;
         elfConfiguration[computer].ioConfiguration.keyLatchDetails[0].pcShift[i] = -1;
+        elfConfiguration[computer].ioConfiguration.keyLatchDetails[0].pcForceShift[i] = -1;
+        elfConfiguration[computer].ioConfiguration.keyLatchDetails[0].pcForceNoShift[i] = -1;
     }
     
     elfConfiguration[computer].ioConfiguration.keyLatchDetails[0].altRight = -1;
@@ -4650,7 +5116,6 @@ void XmlParser::parseXml_LatchKeyboard(int computer, wxXmlNode &node)
     elfConfiguration[computer].ioConfiguration.keyLatchDetails[0].ctrlLeft = -1;
     elfConfiguration[computer].ioConfiguration.keyLatchDetails[0].shift = -1;
     elfConfiguration[computer].ioConfiguration.keyLatchDetails[0].switchAltCtrl = -1;
-    elfConfiguration[computer].ioConfiguration.keyLatchDetails[0].useDefShift = false;
 
     wxXmlNode *child = node.GetChildren();
     while (child)
@@ -4682,8 +5147,12 @@ void XmlParser::parseXml_LatchKeyboard(int computer, wxXmlNode &node)
                     keyValue = (int)parseXml_Number(*child)&0x1ff;
                     if (keyValue != 0)
                     {
-                        elfConfiguration[computer].ioConfiguration.keyLatchDetails[0].pc[keyValue] = (int)parseXml_Number(*child, "out");
-                        elfConfiguration[computer].ioConfiguration.keyLatchDetails[0].pcShift[keyValue] = (int)parseXml_Number(*child, "out");
+                        if (child->HasAttribute("out"))
+                            elfConfiguration[computer].ioConfiguration.keyLatchDetails[0].pc[keyValue] = (int)parseXml_Number(*child, "out");
+                    }
+                    if (child->HasAttribute("map"))
+                    {
+                        elfConfiguration[computer].ioConfiguration.keyLatchDetails[0].pcMap[(int)parseXml_Number(*child, "map")] = (int)parseXml_Number(*child)&0x1ff;
                     }
                 }
                 
@@ -4705,14 +5174,41 @@ void XmlParser::parseXml_LatchKeyboard(int computer, wxXmlNode &node)
                     if (keyText == "caps")
                         elfConfiguration[computer].ioConfiguration.keyLatchDetails[0].caps = (int)parseXml_Number(*child, "out");
                 }
+
+                if (child->GetAttribute("type") == "force")
+                {
+                    keyValue = (int)parseXml_Number(*child)&0x1ff;
+                    if (keyValue != 0)
+                        if (child->HasAttribute("out"))
+                            elfConfiguration[computer].ioConfiguration.keyLatchDetails[0].pcForceShift[keyValue] = (int)parseXml_Number(*child, "out");
+                }
+
+                if (child->GetAttribute("type") == "force_noshift")
+                {
+                    keyValue = (int)parseXml_Number(*child)&0x1ff;
+                    if (keyValue != 0)
+                        if (child->HasAttribute("out"))
+                            elfConfiguration[computer].ioConfiguration.keyLatchDetails[0].pcForceNoShift[keyValue] = (int)parseXml_Number(*child, "out");
+                }
+
+                if (child->GetAttribute("type") == "shift")
+                {
+                    keyValue = (int)parseXml_Number(*child)&0x1ff;
+                    if (keyValue != 0)
+                        if (child->HasAttribute("out"))
+                            elfConfiguration[computer].ioConfiguration.keyLatchDetails[0].pcShift[keyValue] = (int)parseXml_Number(*child, "out");
+                    if (child->HasAttribute("map"))
+                    {
+                        elfConfiguration[computer].ioConfiguration.keyLatchDetails[0].pcMapShift[(int)parseXml_Number(*child, "map")] = (int)parseXml_Number(*child)&0x1ff;
+                    }
+                }
             break;
 
-            case TAG_KEYDEFSHIFT:
-                elfConfiguration[computer].ioConfiguration.keyLatchDetails[0].useDefShift = true;
+/*            case TAG_KEYDEFSHIFT:
                 keyValue = (int)parseXml_Number(*child)&0x1ff;
                 if (keyValue != 0)
                     elfConfiguration[computer].ioConfiguration.keyLatchDetails[0].pcShift[keyValue] = (int)parseXml_Number(*child, "out");
-            break;
+            break;*/
 
             case TAG_IOGROUP:
                 elfConfiguration[computer].ioConfiguration.keyLatchDetails[0].IoGroup = (int)parseXml_Number(*child);
@@ -5338,6 +5834,7 @@ void XmlParser::parseXml_LatchKeypad(int computer, int pad, wxXmlNode &node)
         "ef",
         "keydef",
         "diagonal",
+        "auto",
         "iogroup",
         "comment",
         "undefined"
@@ -5349,6 +5846,7 @@ void XmlParser::parseXml_LatchKeypad(int computer, int pad, wxXmlNode &node)
         TAG_EF,
         TAG_KEYDEF,
         TAG_DIAGONAL,
+        TAG_AUTO,
         TAG_IOGROUP,
         TAG_COMMENT,
         TAG_UNDEFINED,
@@ -5366,6 +5864,10 @@ void XmlParser::parseXml_LatchKeypad(int computer, int pad, wxXmlNode &node)
     {
         elfConfiguration[computer].ioConfiguration.keyLatchDetails[pad].pc[i] = -1;
         elfConfiguration[computer].ioConfiguration.keyLatchDetails[pad].pcShift[i] = -1;
+        elfConfiguration[computer].ioConfiguration.keyLatchDetails[pad].pcForceShift[i] = -1;
+        elfConfiguration[computer].ioConfiguration.keyLatchDetails[pad].pcForceNoShift[i] = -1;
+        elfConfiguration[computer].ioConfiguration.keyLatchDetails[pad].pcMapShift[i] = -1;
+        elfConfiguration[computer].ioConfiguration.keyLatchDetails[pad].pcMap[i] = -1;
     }
     
     elfConfiguration[computer].ioConfiguration.keyLatchDetails[pad].ef = -1;
@@ -5375,7 +5877,7 @@ void XmlParser::parseXml_LatchKeypad(int computer, int pad, wxXmlNode &node)
     elfConfiguration[computer].ioConfiguration.keyLatchDetails[pad].ctrlLeft = -1;
     elfConfiguration[computer].ioConfiguration.keyLatchDetails[pad].shift = -1;
     elfConfiguration[computer].ioConfiguration.keyLatchDetails[pad].switchAltCtrl = -1;
-    elfConfiguration[computer].ioConfiguration.keyLatchDetails[pad].useDefShift = false;
+    elfConfiguration[computer].ioConfiguration.keyLatchDetails[pad].loadAutoConfig = false;
 
     wxXmlNode *child = node.GetChildren();
     while (child)
@@ -5407,8 +5909,12 @@ void XmlParser::parseXml_LatchKeypad(int computer, int pad, wxXmlNode &node)
                     keyValue = (int)parseXml_Number(*child)&0x1ff;
                     if (keyValue != 0)
                     {
-                        elfConfiguration[computer].ioConfiguration.keyLatchDetails[pad].pc[keyValue] = (int)parseXml_Number(*child, "out");
-                        elfConfiguration[computer].ioConfiguration.keyLatchDetails[pad].pcShift[keyValue] = (int)parseXml_Number(*child, "out");
+                        if (child->HasAttribute("out"))
+                            elfConfiguration[computer].ioConfiguration.keyLatchDetails[pad].pc[keyValue] = (int)parseXml_Number(*child, "out");
+                    }
+                    if (child->HasAttribute("map"))
+                    {
+                        elfConfiguration[computer].ioConfiguration.keyLatchDetails[pad].pcMap[(int)parseXml_Number(*child, "map")] = (int)parseXml_Number(*child)&0x1ff;
                     }
                 }
                 
@@ -5437,6 +5943,26 @@ void XmlParser::parseXml_LatchKeypad(int computer, int pad, wxXmlNode &node)
                     if (child->GetAttribute("check") == "rom")
                         elfConfiguration[computer].ioConfiguration.keypadCheckMemConfig = 1;  // Check ROM
                 }
+
+                if (child->GetAttribute("type") == "force")
+                {
+                    keyValue = (int)parseXml_Number(*child)&0x1ff;
+                    if (keyValue != 0)
+                        if (child->HasAttribute("out"))
+                            elfConfiguration[computer].ioConfiguration.keyLatchDetails[pad].pcForceShift[keyValue] = (int)parseXml_Number(*child, "out");
+                }
+
+                if (child->GetAttribute("type") == "shift")
+                {
+                    keyValue = (int)parseXml_Number(*child)&0x1ff;
+                    if (keyValue != 0)
+                        if (child->HasAttribute("out"))
+                            elfConfiguration[computer].ioConfiguration.keyLatchDetails[pad].pcShift[keyValue] = (int)parseXml_Number(*child, "out");
+                    if (child->HasAttribute("map"))
+                    {
+                        elfConfiguration[computer].ioConfiguration.keyLatchDetails[pad].pcMapShift[(int)parseXml_Number(*child, "map")] = (int)parseXml_Number(*child)&0x1ff;
+                    }
+                }
             break;
                 
             case TAG_DIAGONAL:
@@ -5448,6 +5974,11 @@ void XmlParser::parseXml_LatchKeypad(int computer, int pad, wxXmlNode &node)
 
             case TAG_IOGROUP:
                 elfConfiguration[computer].ioConfiguration.keyLatchDetails[pad].IoGroup = (int)parseXml_Number(*child);
+            break;
+
+            case TAG_AUTO:
+                if (child->GetNodeContent() == "on")
+                    elfConfiguration[computer].ioConfiguration.keyLatchDetails[pad].loadAutoConfig = true;
             break;
 
             case TAG_COMMENT:
@@ -5777,6 +6308,82 @@ void XmlParser::parseXml_EfButtons (int computer, wxXmlNode &node)
     }
 }
 
+void XmlParser::parseXml_AdConvertor (int computer, wxXmlNode &node)
+{
+    elfConfiguration[computer].useAdConvertor = true;
+
+    wxString tagList[]=
+    {
+        "out",
+        "in",
+        "address",
+        "comment",
+        "undefined"
+    };
+
+    enum
+    {
+        TAG_OUT,
+        TAG_IN,
+        TAG_ADDRESS,
+        TAG_COMMENT,
+        TAG_UNDEFINED
+    };
+    
+    int tagTypeInt;
+    long start, end;
+
+    elfConfiguration[computer].ioConfiguration.adConvertorAddressStart = -1;
+    elfConfiguration[computer].ioConfiguration.adConvertorAddressEnd = -1;
+    elfConfiguration[computer].ioConfiguration.adConvertorIn = -1;
+    elfConfiguration[computer].ioConfiguration.adConvertorOut = -1;
+
+    wxXmlNode *child = node.GetChildren();
+    while (child)
+    {
+        wxString childName = child->GetName();
+
+        tagTypeInt = 0;
+        while (tagTypeInt != TAG_UNDEFINED && tagList[tagTypeInt] != childName)
+            tagTypeInt++;
+        
+        switch (tagTypeInt)
+        {
+            case TAG_IN:
+                elfConfiguration[computer].ioConfiguration.adConvertorIn = (int)parseXml_Number(*child);
+            break;
+                                
+            case TAG_OUT:
+                elfConfiguration[computer].ioConfiguration.adConvertorOut = (int)parseXml_Number(*child);
+            break;
+
+            case TAG_ADDRESS:
+                if (!parseXml_Range(*child, &start, &end))
+                {
+                    elfConfiguration[computer].ioConfiguration.adConvertorAddressStart = (Word) start;
+                    elfConfiguration[computer].ioConfiguration.adConvertorAddressEnd = (Word) start;
+                }
+                else
+                {
+                    elfConfiguration[computer].ioConfiguration.adConvertorAddressStart = (Word) start;
+                    elfConfiguration[computer].ioConfiguration.adConvertorAddressEnd = (Word) end;
+                }
+            break;
+
+            case TAG_COMMENT:
+            break;
+
+            default:
+                warningText_ += "Unkown tag: ";
+                warningText_ += childName;
+                warningText_ += "\n";
+            break;
+        }
+        
+        child = child->GetNext();
+    }
+}
+
 void XmlParser::parseXml_FrontPanel (int computer, wxXmlNode &node)
 {
     wxString tagList[]=
@@ -5923,6 +6530,7 @@ void XmlParser::parseXml_FrontPanelItem (int computer, wxXmlNode &node)
     {
         "type",
         "value",
+        "range",
         "function",
         "label",
         "init",
@@ -5938,6 +6546,7 @@ void XmlParser::parseXml_FrontPanelItem (int computer, wxXmlNode &node)
     {
         TAG_TYPE,
         TAG_VALUE,
+        TAG_RANGE,
         TAG_FUNCTION,
         TAG_LABEL,
         TAG_INIT,
@@ -5962,10 +6571,12 @@ void XmlParser::parseXml_FrontPanelItem (int computer, wxXmlNode &node)
         "monitor",
         "power",
         "read",
+        "nano_monitor",
         "cardswitch",
         "card",
         "dipmp",
         "ems",
+        "tmc_ad",
         "stopled",
         "readyled",
         "errorled",
@@ -5977,6 +6588,8 @@ void XmlParser::parseXml_FrontPanelItem (int computer, wxXmlNode &node)
         "bitled",
         "addressled",
         "cpustateled",
+        "datatil",
+        "addresstil",
         "undefined"
     };
 
@@ -5993,10 +6606,12 @@ void XmlParser::parseXml_FrontPanelItem (int computer, wxXmlNode &node)
         BUTTON_FUNC_MONITOR,
         BUTTON_FUNC_POWER,
         BUTTON_FUNC_READ,
+        BUTTON_FUNC_NANO_MONITOR,
         BUTTON_FUNC_CARDSWITCH,
         BUTTON_FUNC_CARD,
         BUTTON_FUNC_DIPMP,
         BUTTON_FUNC_EMS,
+        BUTTON_FUNC_TMC_AD,
         LED_FUNC_STOP,
         LED_FUNC_READY,
         LED_FUNC_ERROR,
@@ -6008,13 +6623,16 @@ void XmlParser::parseXml_FrontPanelItem (int computer, wxXmlNode &node)
         LED_FUNC_BIT,
         LED_FUNC_ADDRESS,
         LED_FUNC_CPUSTATE,
+        TIL_DATA,
+        TIL_ADDRESS,
         0
     };
 
     int tagTypeInt, itemFunctionId;
     int xpos, ypos;
     int xSize, ySize;
-    wxString position, size, itemFunctionText;
+    int rangeLow, rangeHigh;
+    wxString position, size, range, itemFunctionText;
 
     conf[computer].guiItemConfig_.resize(guiItemConfigNumber_+1);
     conf[computer].guiItemConfig_[guiItemConfigNumber_].type = SWITCH_BUTTON_VERTICAL;
@@ -6054,6 +6672,18 @@ void XmlParser::parseXml_FrontPanelItem (int computer, wxXmlNode &node)
 
                 if (child->GetNodeContent() == "rot")
                     conf[computer].guiItemConfig_[guiItemConfigNumber_].type = ROT_SWITCH_BUTTON;
+
+                if (child->GetNodeContent() == "spin_adi")
+                    conf[computer].guiItemConfig_[guiItemConfigNumber_].type = ADI_SPINCTRL;
+
+                if (child->GetNodeContent() == "spin_adi_volt")
+                    conf[computer].guiItemConfig_[guiItemConfigNumber_].type = ADI_VOLT_SPINCTRL;
+
+                if (child->GetNodeContent() == "spin_ads")
+                    conf[computer].guiItemConfig_[guiItemConfigNumber_].type = ADS_SPINCTRL;
+
+                if (child->GetNodeContent() == "spin_ads_volt")
+                    conf[computer].guiItemConfig_[guiItemConfigNumber_].type = ADS_VOLT_SPINCTRL;
 
                 if (child->GetNodeContent() == "push")
                 {
@@ -6125,6 +6755,17 @@ void XmlParser::parseXml_FrontPanelItem (int computer, wxXmlNode &node)
                     if (child->GetAttribute("form") == "disable")
                         conf[computer].guiItemConfig_[guiItemConfigNumber_].type = LED_SMALL_RED_DISABLE;
                 }
+
+                if (child->GetNodeContent() == "til")
+                {
+                    conf[computer].guiItemConfig_[guiItemConfigNumber_].type = TIL_311;
+                    if (child->GetAttribute("form") == "313")
+                    {
+                        conf[computer].guiItemConfig_[guiItemConfigNumber_].type = TIL_313;
+                        if (child->GetAttribute("font") == "italic")
+                            conf[computer].guiItemConfig_[guiItemConfigNumber_].type = TIL_313_ITALIC;
+                    }
+                }
             break;
 
             case TAG_VALUE:
@@ -6140,6 +6781,10 @@ void XmlParser::parseXml_FrontPanelItem (int computer, wxXmlNode &node)
 
                     case BUTTON_FUNC_EMS:
                         conf[computer].guiItemConfig_[guiItemConfigNumber_].value += 0x60;
+                    break;
+
+                    case BUTTON_FUNC_TMC_AD:
+                        conf[computer].guiItemConfig_[guiItemConfigNumber_].value += 0x70;
                     break;
 
                     case BUTTON_FUNC_CARD:
@@ -6166,9 +6811,39 @@ void XmlParser::parseXml_FrontPanelItem (int computer, wxXmlNode &node)
                         if (conf[computer].guiItemConfig_[guiItemConfigNumber_].value != -1)
                             elfConfiguration[computer].ioConfiguration.cpuStatusLed[conf[computer].guiItemConfig_[guiItemConfigNumber_].value] = true;
                     break;
+                        
+                    case TIL_DATA:
+                        if (conf[computer].guiItemConfig_[guiItemConfigNumber_].value >= MAX_DATA_TIL)
+                            conf[computer].guiItemConfig_[guiItemConfigNumber_].value = 0;
+                        if (conf[computer].guiItemConfig_[guiItemConfigNumber_].value != -1)
+                            elfConfiguration[computer].ioConfiguration.datatil[conf[computer].guiItemConfig_[guiItemConfigNumber_].value] = true;
+                    break;
+
+                    case TIL_ADDRESS:
+                        if (conf[computer].guiItemConfig_[guiItemConfigNumber_].value >= MAX_ADDRESS_TIL)
+                            conf[computer].guiItemConfig_[guiItemConfigNumber_].value = 0;
+                        if (conf[computer].guiItemConfig_[guiItemConfigNumber_].value != -1)
+                            elfConfiguration[computer].ioConfiguration.addresstil[conf[computer].guiItemConfig_[guiItemConfigNumber_].value] = true;
+                    break;
                 }
             break;
                 
+            case TAG_RANGE:
+                range = child->GetNodeContent();
+                rangeLow = (int)getNextHexDec(&range);
+                rangeHigh = (int)getNextHexDec(&range);
+                if (rangeLow > rangeHigh)
+                {
+                    conf[computer].guiItemConfig_[guiItemConfigNumber_].rangeLow = rangeHigh;
+                    conf[computer].guiItemConfig_[guiItemConfigNumber_].rangeHigh = rangeLow;
+                }
+                else
+                {
+                    conf[computer].guiItemConfig_[guiItemConfigNumber_].rangeLow = rangeLow;
+                    conf[computer].guiItemConfig_[guiItemConfigNumber_].rangeHigh = rangeHigh;
+                }
+            break;
+
             case TAG_FUNCTION:
                 itemFunctionText = child->GetNodeContent();
                 itemFunctionId = 0;
@@ -6187,6 +6862,10 @@ void XmlParser::parseXml_FrontPanelItem (int computer, wxXmlNode &node)
 
                             case BUTTON_FUNC_EMS:
                                 conf[computer].guiItemConfig_[guiItemConfigNumber_].value += 0x60;
+                            break;
+
+                            case BUTTON_FUNC_TMC_AD:
+                                conf[computer].guiItemConfig_[guiItemConfigNumber_].value += 0x70;
                             break;
 
                             case BUTTON_FUNC_CARD:
@@ -6220,6 +6899,10 @@ void XmlParser::parseXml_FrontPanelItem (int computer, wxXmlNode &node)
                                 elfConfiguration[computer].ioConfiguration.errorLed = true;
                             break;
 
+                            case LED_FUNC_RUN:
+                                elfConfiguration[computer].ioConfiguration.runLed = true;
+                            break;
+
                             case LED_FUNC_READY:
                                 elfConfiguration[computer].ioConfiguration.readyLed = true;
                             break;
@@ -6247,6 +6930,20 @@ void XmlParser::parseXml_FrontPanelItem (int computer, wxXmlNode &node)
                             case LED_FUNC_CPUSTATE:
                                 if (conf[computer].guiItemConfig_[guiItemConfigNumber_].value != -1)
                                     elfConfiguration[computer].ioConfiguration.cpuStatusLed[conf[computer].guiItemConfig_[guiItemConfigNumber_].value] = true;
+                            break;
+
+                            case TIL_DATA:
+                                if (conf[computer].guiItemConfig_[guiItemConfigNumber_].value != -1)
+                                    elfConfiguration[computer].ioConfiguration.datatil[conf[computer].guiItemConfig_[guiItemConfigNumber_].value] = true;
+                                if (child->GetAttribute("cycle") == "show")
+                                    elfConfiguration[computer].ioConfiguration.showDataOnCycle = true;
+                            break;
+
+                            case TIL_ADDRESS:
+                                if (conf[computer].guiItemConfig_[guiItemConfigNumber_].value != -1)
+                                    elfConfiguration[computer].ioConfiguration.addresstil[conf[computer].guiItemConfig_[guiItemConfigNumber_].value] = true;
+                                if (child->GetAttribute("cycle") == "show")
+                                    elfConfiguration[computer].ioConfiguration.showAddressOnCycle = true;
                             break;
                         }
                     }
@@ -6308,6 +7005,260 @@ void XmlParser::parseXml_FrontPanelItem (int computer, wxXmlNode &node)
         child = child->GetNext();
     }
     guiItemConfigNumber_++;
+}
+
+void XmlParser::parseXml_Cdp1851 (int computer, wxXmlNode &node, bool windowOn)
+{
+    Cdp1851 cdp1851;
+    
+    cdp1851.windowOpen = windowOn;
+
+    wxString tagList[]=
+    {
+        "out",
+        "in",
+        "ef",
+        "pos",
+        "iogroup",
+        "comment",
+        "undefined"
+    };
+
+    enum
+    {
+        TAG_OUT,
+        TAG_IN,
+        TAG_EF,
+        TAG_POS,
+        TAG_IOGROUP,
+        TAG_COMMENT,
+        TAG_UNDEFINED
+    };
+    
+    int tagTypeInt;
+    wxString position;
+    
+    cdp1851.writePortA = init_IoPort();
+    cdp1851.writePortB = init_IoPort();
+    cdp1851.readPortA = init_IoPort();
+    cdp1851.readPortB = init_IoPort();
+
+    wxXmlNode *child = node.GetChildren();
+    while (child)
+    {
+        wxString childName = child->GetName();
+
+        tagTypeInt = 0;
+        while (tagTypeInt != TAG_UNDEFINED && tagList[tagTypeInt] != childName)
+            tagTypeInt++;
+        
+        switch (tagTypeInt)
+        {
+            case TAG_OUT:
+                if (child->GetAttribute("type") == "a")
+                    cdp1851.writePortA = parseXml_IoPort(*child);
+                if (child->GetAttribute("type") == "b")
+                    cdp1851.writePortB = parseXml_IoPort(*child);
+                if (child->GetAttribute("type") == "control")
+                    cdp1851.writeControl = parseXml_IoPort(*child);
+            break;
+                
+            case TAG_IN:
+                if (child->GetAttribute("type") == "a")
+                    cdp1851.readPortA = parseXml_IoPort(*child);
+                if (child->GetAttribute("type") == "b")
+                    cdp1851.readPortB = parseXml_IoPort(*child);
+                if (child->GetAttribute("type") == "status")
+                    cdp1851.readStatus = parseXml_IoPort(*child);
+            break;
+                
+            case TAG_EF:
+                if (child->GetAttribute("type") == "a")
+                    cdp1851.efaRdy = (int)parseXml_Number(*child);
+                if (child->GetAttribute("type") == "b")
+                    cdp1851.efbRdy = (int)parseXml_Number(*child);
+            break;
+
+            case TAG_POS:
+                position = child->GetNodeContent();
+                cdp1851.defaultPos.x = (int)getNextHexDec(&position);
+                cdp1851.defaultPos.y = (int)getNextHexDec(&position);
+                if (cdp1851.defaultPos.x != -1)
+                    cdp1851.defaultPos.x += conf[computer].defaultFrontPanelX_;
+                if (cdp1851.defaultPos.y != -1)
+                    cdp1851.defaultPos.y += conf[computer].defaultFrontPanelY_;
+            break;
+
+            case TAG_IOGROUP:
+                cdp1851.ioGroup = (int)parseXml_Number(*child);
+            break;
+
+            case TAG_COMMENT:
+            break;
+
+            default:
+                warningText_ += "Unkown tag: ";
+                warningText_ += childName;
+                warningText_ += "\n";
+            break;
+        }
+        
+        child = child->GetNext();
+    }
+    elfConfiguration[computer].ioConfiguration.cdp1851.push_back(cdp1851);
+}
+
+void XmlParser::parseXml_Cdp1852 (int computer, wxXmlNode &node, bool windowOn)
+{
+    Cdp1852 cdp1852;
+    
+    cdp1852.windowOpen = windowOn;
+
+    wxString tagList[]=
+    {
+        "out",
+        "in",
+        "ef",
+        "pos",
+        "iogroup",
+        "comment",
+        "undefined"
+    };
+
+    enum
+    {
+        TAG_OUT,
+        TAG_IN,
+        TAG_EF,
+        TAG_POS,
+        TAG_IOGROUP,
+        TAG_COMMENT,
+        TAG_UNDEFINED
+    };
+    
+    int tagTypeInt;
+    wxString position;
+    
+    cdp1852.writePort = init_IoPort();
+    cdp1852.readPort = init_IoPort();
+    cdp1852.efStb = -1;
+
+    wxXmlNode *child = node.GetChildren();
+    while (child)
+    {
+        wxString childName = child->GetName();
+
+        tagTypeInt = 0;
+        while (tagTypeInt != TAG_UNDEFINED && tagList[tagTypeInt] != childName)
+            tagTypeInt++;
+        
+        switch (tagTypeInt)
+        {
+            case TAG_OUT:
+                cdp1852.writePort = parseXml_IoPort(*child);
+            break;
+                
+            case TAG_IN:
+                cdp1852.readPort = parseXml_IoPort(*child);
+            break;
+                
+            case TAG_EF:
+                cdp1852.efStb = (int)parseXml_Number(*child);
+            break;
+
+            case TAG_POS:
+                position = child->GetNodeContent();
+                cdp1852.defaultPos.x = (int)getNextHexDec(&position);
+                cdp1852.defaultPos.y = (int)getNextHexDec(&position);
+                if (cdp1852.defaultPos.x != -1)
+                    cdp1852.defaultPos.x += conf[computer].defaultFrontPanelX_;
+                if (cdp1852.defaultPos.y != -1)
+                    cdp1852.defaultPos.y += conf[computer].defaultFrontPanelY_;
+            break;
+
+            case TAG_IOGROUP:
+                cdp1852.ioGroup = (int)parseXml_Number(*child);
+            break;
+
+            case TAG_COMMENT:
+            break;
+
+            default:
+                warningText_ += "Unkown tag: ";
+                warningText_ += childName;
+                warningText_ += "\n";
+            break;
+        }
+        
+        child = child->GetNext();
+    }
+    elfConfiguration[computer].ioConfiguration.cdp1852.push_back(cdp1852);
+}
+
+void XmlParser::parseXml_Cd4536b (int computer, wxXmlNode &node)
+{
+    Cd4536bIo cd4536bIo;
+    
+    wxString tagList[]=
+    {
+        "out",
+        "ef",
+        "iogroup",
+        "comment",
+        "undefined"
+    };
+
+    enum
+    {
+        TAG_OUT,
+        TAG_EF,
+        TAG_IOGROUP,
+        TAG_COMMENT,
+        TAG_UNDEFINED
+    };
+    
+    int tagTypeInt;
+    wxString position;
+    
+    cd4536bIo.writeControl = init_IoPort();
+    cd4536bIo.ef = -1;
+
+    wxXmlNode *child = node.GetChildren();
+    while (child)
+    {
+        wxString childName = child->GetName();
+
+        tagTypeInt = 0;
+        while (tagTypeInt != TAG_UNDEFINED && tagList[tagTypeInt] != childName)
+            tagTypeInt++;
+        
+        switch (tagTypeInt)
+        {
+            case TAG_OUT:
+                cd4536bIo.writeControl = parseXml_IoPort(*child);
+            break;
+                
+            case TAG_EF:
+                cd4536bIo.ef = (int)parseXml_Number(*child);
+            break;
+
+            case TAG_IOGROUP:
+                cd4536bIo.ioGroup = (int)parseXml_Number(*child);
+            break;
+
+            case TAG_COMMENT:
+            break;
+
+            default:
+                warningText_ += "Unkown tag: ";
+                warningText_ += childName;
+                warningText_ += "\n";
+            break;
+        }
+        
+        child = child->GetNext();
+    }
+    elfConfiguration[computer].ioConfiguration.cd4536bIo.push_back(cd4536bIo);
 }
 
 void XmlParser::parseXml_SerialVt (int computer, wxXmlNode &node)
@@ -6544,6 +7495,7 @@ void XmlParser::parseXml_UartVt (int computer, wxXmlNode &node, bool uart16450)
         "dirname",
         "in",
         "out",
+        "ef",
         "serialport",
         "timeout",
         "baud",
@@ -6565,6 +7517,7 @@ void XmlParser::parseXml_UartVt (int computer, wxXmlNode &node, bool uart16450)
         TAG_DIRNAME,
         TAG_IN,
         TAG_OUT,
+        TAG_EF,
         TAG_SERIALPORT,
         TAG_TIMEOUT,
         TAG_BAUD,
@@ -6585,6 +7538,8 @@ void XmlParser::parseXml_UartVt (int computer, wxXmlNode &node, bool uart16450)
     long width, height;
     wxString color, position;
     
+    elfConfiguration[computer].ioConfiguration.vt100Ef = -1;
+
     wxXmlNode *child = node.GetChildren();
     while (child)
     {
@@ -6666,6 +7621,14 @@ void XmlParser::parseXml_UartVt (int computer, wxXmlNode &node, bool uart16450)
                     if (child->GetAttribute("type") == "control")
                         elfConfiguration[computer].ioConfiguration.uartControl = (int)parseXml_Number(*child);
                 }
+            break;
+                
+            case TAG_EF:
+                elfConfiguration[computer].ioConfiguration.vt100Ef = (int)parseXml_Number(*child);
+                if (child->GetAttribute("pol") == "rev")
+                    elfConfiguration[computer].ioConfiguration.vt100ReverseEf = 0;
+                else
+                    elfConfiguration[computer].ioConfiguration.vt100ReverseEf = 1;
             break;
                 
             case TAG_SERIALPORT:
@@ -6971,6 +7934,7 @@ void XmlParser::parseXml_Cassette (int computer, wxXmlNode &node)
         "databits",
         "stopbit",
         "stopdelay",
+        "endtapedelay",
         "filename",
         "dirname",
         "iogroup",
@@ -6992,6 +7956,7 @@ void XmlParser::parseXml_Cassette (int computer, wxXmlNode &node)
         TAG_DATABITS,
         TAG_STOPBIT,
         TAG_STOPDELAY,
+        TAG_ENDTAPEDELAY,
         TAG_FILENAME,
         TAG_DIRNAME,
         TAG_IOGROUP,
@@ -7003,8 +7968,9 @@ void XmlParser::parseXml_Cassette (int computer, wxXmlNode &node)
     int tagTypeInt, cassetteNumber;
 
     elfConfiguration[computer].ioConfiguration.tapeIoGroup = -1;
-    elfConfiguration[computer].ioConfiguration.tapeIn.portNumber = -1;
-    elfConfiguration[computer].ioConfiguration.tapeOut.portNumber = -1;
+    elfConfiguration[computer].ioConfiguration.tapeIn = init_IoPort();
+    elfConfiguration[computer].ioConfiguration.tapeOut = init_IoPort();
+    elfConfiguration[computer].ioConfiguration.tapeQOut = init_IoPort();
 
     elfConfiguration[computer].stopTone = false;
     elfConfiguration[computer].tapeStart = false;
@@ -7054,15 +8020,10 @@ void XmlParser::parseXml_Cassette (int computer, wxXmlNode &node)
             break;
 
             case TAG_IN:
-                elfConfiguration[computer].ioConfiguration.tapeIn.qValue = -1;
-                if (child->GetAttribute("q") == "1")
-                    elfConfiguration[computer].ioConfiguration.tapeIn.qValue = 1;
-                if (child->GetAttribute("q") == "0")
-                    elfConfiguration[computer].ioConfiguration.tapeIn.qValue = 0;
                 if (child->HasAttribute("mode"))
                     elfConfiguration[computer].ioConfiguration.tapeMode = (int)parseXml_Number(*child, "mode");
 
-                elfConfiguration[computer].ioConfiguration.tapeIn.portNumber = (int)parseXml_Number(*child);
+                elfConfiguration[computer].ioConfiguration.tapeIn = parseXml_IoPort(*child);
             break;
 
             case TAG_OUT:
@@ -7075,16 +8036,12 @@ void XmlParser::parseXml_Cassette (int computer, wxXmlNode &node)
                         elfConfiguration[computer].ioConfiguration.tapeOutSound = (int)parseXml_Number(*child);
                         conf[computer].soundType_ = SOUND_Q_SW;
                     }
+                    if (child->GetAttribute("type") == "q")
+                        elfConfiguration[computer].ioConfiguration.tapeQOut = parseXml_IoPort(*child);
                 }
                 else
                 {
-                    elfConfiguration[computer].ioConfiguration.tapeOut.qValue = -1;
-                    if (child->GetAttribute("q") == "1")
-                        elfConfiguration[computer].ioConfiguration.tapeOut.qValue = 1;
-                    if (child->GetAttribute("q") == "0")
-                        elfConfiguration[computer].ioConfiguration.tapeOut.qValue = 0;
-
-                    elfConfiguration[computer].ioConfiguration.tapeOut.portNumber = (int)parseXml_Number(*child);
+                    elfConfiguration[computer].ioConfiguration.tapeOut = parseXml_IoPort(*child);
                 }
             break;
 
@@ -7121,6 +8078,10 @@ void XmlParser::parseXml_Cassette (int computer, wxXmlNode &node)
 
             case TAG_STOPDELAY:
                 elfConfiguration[computer].tape_stopDelay = (int)parseXml_Number(*child);
+            break;
+
+            case TAG_ENDTAPEDELAY:
+                elfConfiguration[computer].end_tape_delay = (int)parseXml_Number(*child);
             break;
 
             case TAG_STOPTONE:
@@ -8278,8 +9239,8 @@ void XmlParser::parseXml_Memory(int computer, wxXmlNode &node)
     {
         "rom",
         "diagrom",
-        "mainram",
-        "mainrom",
+        "guiram",
+        "guirom",
         "ram",
         "nvram",
         "ems",
@@ -8310,7 +9271,7 @@ void XmlParser::parseXml_Memory(int computer, wxXmlNode &node)
         TAG_UNDEFINED
     };
     
-    int tagTypeInt;
+    int tagTypeInt, romRamButton;
 
     wxXmlNode *child = node.GetChildren();
     while (child)
@@ -8349,27 +9310,33 @@ void XmlParser::parseXml_Memory(int computer, wxXmlNode &node)
             break;
 
             case TAG_MAINRAM:
-                parseXml_RomRam (computer, *child, MAINRAM, 0);
-                conf[computer].memConfig_[0].memMask = parseXml_Number(*child, "mask");
-                if (conf[computer].memConfig_[0].memMask != 0)
+                romRamButton = 0;
+                if ((conf[computer].memConfig_[romRamButton].type & 0xff) == MAINRAM || (conf[computer].memConfig_[romRamButton].type & 0xff) == MAINROM)
+                    romRamButton = 1;
+                parseXml_RomRam (computer, *child, (int)(MAINRAM + 256*romRamButton), romRamButton);
+                conf[computer].memConfig_[romRamButton].memMask = parseXml_Number(*child, "mask");
+                if (conf[computer].memConfig_[romRamButton].memMask != 0)
                 {
-                    conf[computer].memConfig_[0].useMemMask = true;
-                    conf[computer].memConfig_[0].memMask |= 0xff;
+                    conf[computer].memConfig_[romRamButton].useMemMask = true;
+                    conf[computer].memConfig_[romRamButton].memMask |= 0xff;
                 }
                 else
-                    conf[computer].memConfig_[0].useMemMask = false;
+                    conf[computer].memConfig_[romRamButton].useMemMask = false;
             break;
 
             case TAG_MAINROM:
-                parseXml_RomRam (computer, *child, MAINROM + 256, 1);
-                conf[computer].memConfig_[1].memMask = parseXml_Number(*child, "mask");
-                if (conf[computer].memConfig_[1].memMask != 0)
+                romRamButton = 0;
+                if ((conf[computer].memConfig_[romRamButton].type & 0xff) == MAINRAM || (conf[computer].memConfig_[romRamButton].type & 0xff) == MAINROM)
+                    romRamButton = 1;
+                parseXml_RomRam (computer, *child, (int)(MAINROM + 256*romRamButton), romRamButton);
+                conf[computer].memConfig_[romRamButton].memMask = parseXml_Number(*child, "mask");
+                if (conf[computer].memConfig_[romRamButton].memMask != 0)
                 {
-                    conf[computer].memConfig_[1].useMemMask = true;
-                    conf[computer].memConfig_[1].memMask |= 0xff;
+                    conf[computer].memConfig_[romRamButton].useMemMask = true;
+                    conf[computer].memConfig_[romRamButton].memMask |= 0xff;
                 }
                 else
-                    conf[computer].memConfig_[1].useMemMask = false;
+                    conf[computer].memConfig_[romRamButton].useMemMask = false;
             break;
 
             case TAG_RAM:
@@ -8491,6 +9458,7 @@ void XmlParser::parseXml_RomRam(int computer, wxXmlNode &node, int type, size_t 
         "end",
         "filename",
         "dirname",
+        "pulldown",
         "mp",
         "map",
         "load_offset",
@@ -8504,6 +9472,7 @@ void XmlParser::parseXml_RomRam(int computer, wxXmlNode &node, int type, size_t 
         TAG_END,
         TAG_FILENAME,
         TAG_DIRNAME,
+        TAG_PULLDOWN,
         TAG_MP,
         TAG_MAP,
         TAG_LOAD_OFFSET,
@@ -8512,7 +9481,7 @@ void XmlParser::parseXml_RomRam(int computer, wxXmlNode &node, int type, size_t 
     };
     
     int tagTypeInt;
-    wxString addressMap;
+    wxString addressMap, pulldownString;
     Word address;
 
     conf[computer].memConfig_[configNumber].start = 0;
@@ -8548,11 +9517,6 @@ void XmlParser::parseXml_RomRam(int computer, wxXmlNode &node, int type, size_t 
             break;
 
             case TAG_FILENAME:
-                if (node.GetName() == "mainram")
-                    conf[computer].ramFileFromGui_ = false;
-                if (node.GetName() == "mainrom")
-                    conf[computer].romFileFromGui_ = false;
-
                 if (conf[computer].memConfig_[configNumber].filename != "")
                     conf[computer].memConfig_[configNumber].filename2 = child->GetNodeContent();
                 else
@@ -8567,6 +9531,31 @@ void XmlParser::parseXml_RomRam(int computer, wxXmlNode &node, int type, size_t 
                 {
                     conf[computer].memConfig_[configNumber].dirname += pathSeparator_;
                 }
+            break;
+
+            case TAG_PULLDOWN:
+                pulldownString = dataDir_ + child->GetNodeContent();
+                if (pulldownString.Right(1) != pathSeparator_)
+                    pulldownString += pathSeparator_;
+                conf[computer].memConfig_[configNumber].pulldownDir.Add(pulldownString);
+                conf[computer].memConfig_[configNumber].dirname = pulldownString;
+                
+                pulldownString = "";
+                if (child->HasAttribute("mask"))
+                    pulldownString = child->GetAttribute("mask");
+                conf[computer].memConfig_[configNumber].pulldownMask.Add(pulldownString);
+
+                pulldownString = "";
+                if (child->HasAttribute("exclude"))
+                    pulldownString = child->GetAttribute("exclude");
+                if (child->HasAttribute("exclude1"))
+                    pulldownString = child->GetAttribute("exclude1");
+                conf[computer].memConfig_[configNumber].pulldownExclude.Add(pulldownString);
+
+                pulldownString = "";
+                if (child->HasAttribute("exclude2"))
+                    pulldownString = child->GetAttribute("exclude2");
+                conf[computer].memConfig_[configNumber].pulldownExclude2.Add(pulldownString);
             break;
 
             case TAG_MP:
@@ -9497,6 +10486,39 @@ void XmlParser::parseXml_nvRamMp(int computer, wxXmlNode &node)
         
         child = child->GetNext();
     }
+}
+
+IoPort XmlParser::parseXml_IoPort(wxXmlNode &node)
+{
+    IoPort ioPort;
+    
+    ioPort.portNumber = (int)parseXml_Number(node);
+    ioPort.qValue = -1;
+    if (node.GetAttribute("q") == "1")
+        ioPort.qValue = 1;
+    if (node.GetAttribute("q") == "0")
+        ioPort.qValue = 0;
+
+    ioPort.mask = 0xff;
+    if (node.HasAttribute("mask"))
+        ioPort.mask = (Byte)parseXml_Number(node, "mask");
+
+    ioPort.xorMask = 0;
+    if (node.HasAttribute("xor"))
+        ioPort.xorMask = (Byte)parseXml_Number(node, "xor");
+
+    return ioPort;
+}
+
+IoPort XmlParser::init_IoPort()
+{
+    IoPort ioPort;
+
+    ioPort.portNumber = -1;
+    ioPort.qValue = -1;
+    ioPort.mask = 0xff;
+
+    return ioPort;
 }
 
 long XmlParser::parseXml_Number(wxXmlNode &node)

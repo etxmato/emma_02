@@ -7,6 +7,7 @@
 #define BOOTSTRAPIO 3
 #define BOOTSTRAPRUN 4
 #define BOOTSTRAPNONE 5
+#define BOOTSTRAPTIMER 6
 
 class EfKey
 {
@@ -97,7 +98,10 @@ public:
     wxString padNumberStr;
     int pc[512];
     int pcShift[512];
-    bool useDefShift;
+    int pcForceShift[512];
+    int pcForceNoShift[512];
+    int pcMapShift[512];
+    int pcMap[512];
     Byte pressed;
     int IoGroup;
     int outPort;
@@ -110,6 +114,7 @@ public:
     int shift;
     int caps;
     int switchAltCtrl;
+    bool loadAutoConfig;
 };
     
 class DiagonalKeys
@@ -126,6 +131,7 @@ public:
     int portNumber;
     int qValue;
     Byte mask;
+    Byte xorMask;
 };
 
 class KeyDefinition
@@ -145,6 +151,55 @@ public:
     int screenend;
 };
 
+class Cdp1851
+{
+public:
+    bool windowOpen;
+    wxPoint pos;
+    wxPoint defaultPos;
+    int ioGroup;
+    IoPort writePortA;
+    IoPort writePortB;
+    IoPort readPortA;
+    IoPort readPortB;
+    IoPort writeControl;
+    IoPort readStatus;
+    int efaRdy;
+    int efbRdy;
+};
+
+class Cdp1852
+{
+public:
+    bool windowOpen;
+    wxPoint pos;
+    wxPoint defaultPos;
+    int ioGroup;
+    IoPort writePort;
+    IoPort readPort;
+    int efStb;
+};
+
+class Cd4536bIo
+{
+public:
+    int ioGroup;
+    IoPort writeControl;
+    int ef;
+};
+
+class Upd765Io
+{
+public:
+    int ioGroup;
+    IoPort dmaControl;
+    IoPort dmaCount;
+    IoPort readStatus;
+    IoPort writeCommand;
+    IoPort readCommand;
+    int efInterrupt;
+};
+
 class IoConfiguration
 {
 public:
@@ -153,6 +208,8 @@ public:
     int ef3default;
     int ef4default;
 
+    int efMonitor;
+
     int pixieDoubleScreenIo;
     int pixieInput;
     int pixieOutput;
@@ -160,6 +217,8 @@ public:
     int pixieEfScreenOn;
     int pixieVideoNumber;
     int pixieHighRes;
+    int pixieColorType;
+    bool use1862;
 
     int coinOutput;
     int coinIoGroup;
@@ -174,23 +233,19 @@ public:
     IoPort cdp1863toneSwitch2;
     int cdp1863IoGroup;
 
-    IoPort cdp1862enable;
-    IoPort cdp1862disable;
     IoPort cdp1862background;
-    int cdp1862Ef;
-    bool cdp1862EfScreenOn;
-    int cdp1862VideoNumber;
+    IoPort cdp1862colorMemory;
     int cdp1862IoGroup;
     int cdp1862StartRam;
     int cdp1862EndRam;
     int cdp1862ColorType;
-    int cdp1862HighRes;
 
     IoPort cdp1864enable;
     IoPort cdp1864disable;
     IoPort cdp1864toneLatch;
     IoPort cdp1864background;
     IoPort cdp1864colorMemory;
+    IoPort cdp1864colorTone;
     int cdp1864Ef;
     bool cdp1864EfScreenOn;
     int cdp1864VideoNumber;
@@ -198,6 +253,17 @@ public:
     int cdp1864ColorType;
     int cdp1864StartRam;
     int cdp1864EndRam;
+    Word cdp1864RamMask;
+    bool cdp1864ColorLatch;
+
+    IoPort st4VideoDmaEnable;
+    IoPort st4VideoOut1;
+    IoPort st4VideoOut2;
+    int st4VideoEf;
+    int st4VideoNumber;
+    int st4VideoIoGroup;
+    int st4VideoStartRam;
+    int st4VideoEndRam;
 
     int vip2KVideoNumber;
     int vip2KInput;
@@ -235,6 +301,7 @@ public:
     int fdcMaxFmtCount;
     int fdcIoGroup;
 
+    int keyboardIoGroup;
     int keyboardInput;
     int keyboardEf;
     int keyboardRepeatEf;
@@ -363,7 +430,8 @@ public:
     int bootStrapOut;
     int bootStrapOut2;
     int bootStrapType;
-    
+    int bootStrapTimer;
+
     int dipIn;
     int dipValue;
 
@@ -377,6 +445,7 @@ public:
     int tapeMode;
     int tapeEfOut;
     IoPort tapeOut;
+    IoPort tapeQOut;
     int tapeOutMode;
     int tapeOutSound;
     int tapeIoGroup;
@@ -406,6 +475,7 @@ public:
     int v1870outWrite;
     int v1870outSelect;
     int v1870VideoNumber;
+    IoPort v1870outIntEnable;
 
     int statusBarType;
     int statusBarLedOut;
@@ -459,8 +529,12 @@ public:
     wxString keyPadDefinitionFile;
     int keypadCheckMemConfig;
     vector<DiagonalKeys> diagonalKeys;
-        
-    KeyLatchDetails keyLatchDetails[MAX_LATCHKEYPADS+1];
+    vector<Cdp1851> cdp1851;
+    vector<Cdp1852> cdp1852;
+    vector<Cd4536bIo> cd4536bIo;
+    Upd765Io upd765Io;
+
+    KeyLatchDetails keyLatchDetails[MAX_LATCHKEYPADS];
 
     int keybMatrixKeyValue[256];
     Byte keybMatrixBitValue[256];
@@ -477,6 +551,7 @@ public:
     Byte keybMatrixPressed;
     
     bool qLed;
+    bool runLed;
     bool errorLed;
     bool readyLed;
     bool stopLed;
@@ -485,9 +560,17 @@ public:
     bool showDataOnCycle;
     bool cpuStatusLed[MAX_CPU_STATE_LEDS];
     bool showAddressOnCycle;
+    bool datatil[MAX_DATA_TIL];
+    bool addresstil[MAX_ADDRESS_TIL];
 
     int runPressType;
+    int runPressType0;
     int resetPressType;
+    
+    int adConvertorOut;
+    int adConvertorIn;
+    int adConvertorAddressStart;
+    int adConvertorAddressEnd;
 };
 
 class ElfConfiguration
@@ -495,8 +578,8 @@ class ElfConfiguration
 public:
     bool useCoinVideo;
     bool usePixie;
-    bool use1862;
     bool use1864;
+    bool useSt4Video;
     bool useVip2KVideo;
     bool useFredVideo;
     bool useS100;
@@ -569,6 +652,7 @@ public:
     bool tape_stopBitIgnore;
     int tape_dataBits;
     int tape_stopDelay;
+    int end_tape_delay;
     bool tape_audioChannelLeft;
     bool tape_dataChannelLeft;
     bool tape_revInput;
@@ -578,6 +662,7 @@ public:
     bool useHex;
     bool useTape;
     bool useTape1;
+    bool useTapeMicro;
     bool useTapeHw;
     bool useXmodem;
     bool useHexModem;
@@ -599,6 +684,7 @@ public:
     bool ps2Interrupt;
     bool gpioJp4;
     bool usePs2gpio;
+    bool useAdConvertor;
     bool useDma;
     bool useInt;
 

@@ -194,6 +194,7 @@ public:
     void clearProfiler();
     
     virtual void setMode();
+    virtual void setCpuMode(int mode);
 
 protected:
     Byte cycle0_;

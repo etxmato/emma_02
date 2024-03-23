@@ -1,0 +1,146 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>COSMAC VIP II</name>
+        <config>RCA version</config>
+        <clock>1.7898</clock>
+        <boot>0</boot>
+        <f12>stop</f12>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init>
+        <init type="ef4">1</init>
+        <statusbar>vip2</statusbar>
+        <dirname>VipII</dirname>
+    </system>
+    
+    <splash>
+        <mac>⌘ 1 (Cmd 1): Fixed Point BASIC&#xD;⌘ 2 (Cmd 2): Boot in RAM&#xD;⌘ 3 (Cmd 3): Halt VIP II&#xD;⌘ C (Cmd C): VIP Operating System&#xD;</mac>
+        <windows>Alt 1: Fixed Point BASIC&#xD;Alt 2: Boot in RAM&#xD;Alt 3: Halt VIP II&#xD;Alt C: VIP Operating System&#xD;</windows>
+        <linux>Alt 1: Fixed Point BASIC&#xD;Alt 2: Boot in RAM&#xD;Alt 3: Halt VIP II&#xD;Alt C: VIP Operating System&#xD;</linux>
+    </splash>
+
+    <gui>
+        <ledtimer>0</ledtimer>
+        <memaccess>
+            <location>off</location>
+            <start>0</start>
+        </memaccess>
+    </gui>
+
+    <bootstrap>
+        <address>0x8000</address>
+        <out>2</out>
+        <out>4</out>
+    </bootstrap>
+
+    <memory>
+        <guiram>
+            <start>0x0000</start>
+            <end>0x7FFF</end>
+        </guiram>
+
+        <guirom mask="0x3FFF">
+            <start>0x8000</start>
+            <end>0xFFFF</end>
+            <filename>vipii_2020.bin</filename>
+        </guirom>
+
+    </memory>
+    
+    <video type="pixie">
+        <out>1</out>
+        <in>1</in>
+        <ef>1</ef>
+        <border>33x33</border>
+     </video>
+
+    <video type="cdp1862">
+        <out type="back">5</out>
+        <colorram>0xd000-0xd3ff</colorram>
+        <colortype>vip</colortype>
+        <color type="white">255, 255, 255</color>
+        <color type="red">255, 0, 0</color>
+        <color type="blue">0, 0, 255</color>
+        <color type="magenta">255, 0, 255</color>
+        <color type="green">0, 255, 0</color>
+        <color type="yellow">255, 255, 0</color>
+        <color type="cyan">0, 255, 255</color>
+        <color type="black">20, 20, 20</color>
+        <color type="back_blue">0, 0, 128</color>
+        <color type="back_black">0, 0, 0</color>
+        <color type="back_green">0, 128, 0</color>
+        <color type="back_red">128, 0, 0</color>
+     </video>
+
+    <keyboard type="ascii">
+        <in>3</in>
+        <ef>4</ef>
+        <caps />
+    </keyboard>
+
+    <keypad type="latch">
+        <out mask="0x0f">2</out>
+        <ef pol="rev">3</ef>
+        <auto>on</auto>
+    </keypad>
+
+    <cassette decks="1">
+        <out>7</out>
+        <ef>2</ef>
+        <stopdelay>20</stopdelay>
+    </cassette>
+
+    <sound type="cdp1863">
+        <out>3</out>
+    </sound>
+
+    <printer type="centronics">
+        <out>3</out>
+        <ef>3</ef>
+    </printer>
+
+    <locations>
+        <key_input>0x88c6</key_input>
+
+        <!-- Machine states -->
+        <basic_state_cw command="C">0x8200</basic_state_cw>
+        <basic_state>0x9038</basic_state>
+        <run_state>0x9ADE, 0xA162, 0xA165</run_state>
+        
+        <!-- Stop cassette -->
+        <stop_cas>0x80c0, 0x80ed</stop_cas>
+        
+        <!-- Start PSAVE, PLOAD -->
+        <start_cas_save>0x8091</start_cas_save>
+        <start_cas_load>0x80c2</start_cas_load>
+    </locations>
+
+    <basic>
+        <pload>fpb</pload>
+        <defus>0x7A81</defus>
+        <eop>0x7A83</eop>
+        <string>0x7A92</string>
+        <array>0x7A94</array>
+        <eod>0x7A99</eod>
+        <ram>0</ram>
+    </basic>
+
+    <debugger>
+        <scrt mode="off">
+            <call reg="4">-1</call>
+            <return reg="5">-1</return>
+        </scrt>
+
+        <assembler>
+            <filename>mycode</filename>
+            <code_start>0x000</code_start>
+            <code_end>0xFFF</code_end>
+        </assembler>
+    </debugger>
+
+</emmaconfig>
+

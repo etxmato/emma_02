@@ -49,10 +49,10 @@ void CvKeypad::configure(IoConfiguration ioConf)
     
     p_Main->message("Configuring CyberVision keypad" + ioGroup);
 
-    printBuffer.Printf("    Input %d: read data", ioConfiguration_.cvKeypad.inp);
+    printBuffer.Printf("	Input %d: read data", ioConfiguration_.cvKeypad.inp);
     p_Main->message(printBuffer);
  
-    printBuffer.Printf("    Ef %d: data ready\n", ioConfiguration_.cvKeypad.ef);
+    printBuffer.Printf("	Ef %d: data ready\n", ioConfiguration_.cvKeypad.ef);
     p_Main->message(printBuffer);
 
     keyboardCode_ = 0xff;

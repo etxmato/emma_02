@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>Cosmicos - COSmac MIcro COmputer System</name>
+        <config>1864</config>
+        <clock>1.75</clock>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init>
+        <init type="ef4">1</init>
+        <dirname>Cosmicos</dirname>
+    </system>
+
+    <frontpanel type="cosmicos" init="on">
+        <out>7</out>
+        <in>7</in>
+        <ef type="in">4</ef>
+        <til type="full">313</til>
+    </frontpanel>
+
+    <keypad type="cosmicos">
+        <out type="hex">5</out>
+        <in type="hex">5</in>
+        <out type="seg">6</out>
+        <in type="seg">6</in>
+        <ef type="ret">1</ef>
+        <ef type="dec">2</ef>
+        <ef type="req">3</ef>
+    </keypad>
+
+    <memory>
+        <nvram default="off">
+            <start>0x0000</start>
+            <end>0x00FF</end>
+            <filename>ramdump.bin</filename>
+         </nvram>
+
+        <guirom>
+            <start>0xC000</start>
+            <end>0xC7FF</end>
+            <pulldown mask="*.bin" exclude1="vt" exclude2="ramdump.bin">Cosmicos</pulldown>
+        </guirom>
+    </memory>
+    
+    <video type="1864">
+        <in q="0" type="on">1</in>
+        <in q="0" type="off">2</in>
+        <out q="1" type="tone">2</out>
+        <ef type="on">3</ef>
+        <height>192</height>
+        <graphics>
+            <interrupt>74</interrupt>
+            <start>76</start>
+            <end>267</end>
+            <screenend>312</screenend>
+        </graphics>
+        <border>32x32</border>
+        <xscale>4</xscale>
+        <color type="fore">255, 255, 255</color>
+        <color type="back">0, 0, 0</color>
+     </video>
+
+    <cassette decks="1">
+        <ef>2</ef>
+    </cassette>
+
+    <debugger>
+        <scrt mode="off">
+            <call reg="4">-1</call>
+            <return reg="5">-1</return>
+        </scrt>
+
+        <assembler>
+            <filename>mycode</filename>
+            <code_start>0</code_start>
+            <code_end>0xFF</code_end>
+        </assembler>
+    </debugger>
+    
+</emmaconfig>

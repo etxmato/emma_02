@@ -265,7 +265,6 @@ public:
     int getVideoHeight(int computerType) {return elfConfiguration[computerType].ioConfiguration.videoHeight;};
     int getVideoWidth(int computerType) {return elfConfiguration[computerType].ioConfiguration.videoWidth;};
     int getPixieHighRes(int computerType) {return elfConfiguration[computerType].ioConfiguration.pixieHighRes;};
-    int getCdp1862HighRes(int computerType) {return elfConfiguration[computerType].ioConfiguration.cdp1862HighRes;};
     int getFrontPanelRevision() {return elfConfiguration[runningComputer_].frontType;};
 
     wxString getSplashDialog(int computerType) {return conf[computerType].splashDialog_;};
@@ -383,10 +382,10 @@ public:
     void setCoinPos(int computerType, wxPoint position);
     wxPoint getPixiePos(int computerType);
     void setPixiePos(int computerType, wxPoint position);
-    wxPoint getCdp1862Pos(int computerType);
-    void setCdp1862Pos(int computerType, wxPoint position);
     wxPoint getCdp1864Pos(int computerType);
     void setCdp1864Pos(int computerType, wxPoint position);
+    wxPoint getSt4Pos(int computerType);
+    void setSt4Pos(int computerType, wxPoint position);
     wxPoint getVip2KPos(int computerType);
     void setVip2KPos(int computerType, wxPoint position);
     wxPoint getFredPos(int computerType);
@@ -415,7 +414,9 @@ public:
     void setV1870Pos(int computerType, wxPoint position);
     wxPoint getSN76430NPos(int computerType);
     void setSN76430NPos(int computerType, wxPoint position);
-    
+    void setCdp1851Pos(int computerType, wxPoint position, int number);
+    void setCdp1852Pos(int computerType, wxPoint position, int number);
+
     wxString getDataDir() {return dataDir_;};
     wxString getApplicationDir() {return applicationDirectory_;};
     void setDataDir(wxString dataDir) {dataDir_ = dataDir;};
@@ -468,6 +469,7 @@ public:
     void onLedTimer(wxCommandEvent&event);
     int getCpuType();
     void setCpuType(wxString type);
+    bool isXmlRomRamOptionGui() {return XmlRomRamOptionGui_;};
     int getCpuStartupRegisters() {return cpuStartupRegisters_;};
     int getCpuStartupRam() {return cpuStartupRam_;};
     int getCpuStartupVideoRam() {return cpuStartupVideoRam_;};
@@ -550,7 +552,7 @@ protected:
     Nano *p_Nano;
     Tmc1800 *p_Tmc1800;
     Tmc2000 *p_Tmc2000;
-    Studio2 *p_Studio2;
+    StudioII *p_Studio2;
     CoinArcade *p_CoinArcade;
     Fred *p_Fred;
     Visicom *p_Visicom;
@@ -572,7 +574,7 @@ protected:
     Membership *p_Membership;
     Uc1800 *p_Uc1800;
     Microtutor *p_Microtutor;
-    Microtutor2 *p_Microtutor2;
+    MicrotutorII *p_Microtutor2;
     Elf *p_Elf;
     wxConfigBase *regPointer;
     wxMenu *configurationMenu;
@@ -621,6 +623,8 @@ protected:
     int cpuStartupVideoRam_;
     wxString keyboardType_;
     wxString keyboardTypeMenuItem_;
+    
+    bool XmlRomRamOptionGui_;
 
     bool useCtrlvKey_;
     bool useExitKey_;

@@ -260,6 +260,13 @@ void Cdp1802::setMode()
     }
 }
 
+void Cdp1802::setCpuMode(int mode)
+{
+    clear_ = (mode>>1)&1;
+    wait_ = mode&1;
+    setMode();
+}
+
 void Cdp1802::setClear(int value)
 {
     clear_= (value)?1:0;
@@ -377,18 +384,36 @@ Byte Cdp1802::pixieDmaOut(int *color, int colourType)
         case XML:
             switch (colourType)
             {
-                case PIXIE_COLOR_ETI:
+                case PIXIE_COLOR_ETI_1864:
                     *color = colorMemory1864_[((scratchpadRegister_[0] >> 1) & 0xf8) + (scratchpadRegister_[0] & 0x7)] & 0x7;
                 break;
                     
-                case PIXIE_COLOR_VIP:
+                case PIXIE_COLOR_ETI_1862:
+                    *color = colorMemory1862_[((scratchpadRegister_[0] >> 1) & 0xf8) + (scratchpadRegister_[0] & 0x7)] & 0x7;
+                break;
+                    
+                case PIXIE_COLOR_VIP_1862:
                     if (colourMask_ == 0)
-                        *color = 7;
+                        *color = 0;
                     else
                         *color = colorMemory1862_[scratchpadRegister_[0] & colourMask_] & 0x7;
                 break;
                     
-                case PIXIE_COLOR_VICTORY:
+                case PIXIE_COLOR_VIP_1864:
+                    if (colourMask_ == 0)
+                        *color = 7;
+                    else
+                        *color = colorMemory1864_[scratchpadRegister_[0] & colourMask_] & 0x7;
+                break;
+
+                case PIXIE_COLOR_VICTORY_1862:
+                    if (colourMask_ == 0)
+                        *color = 7;
+                    else
+                        *color = colorMemory1862_[((scratchpadRegister_[0] >> 2) & 0x38) + (scratchpadRegister_[0] & 0x7)] & 0x7;
+                break;
+
+                case PIXIE_COLOR_VICTORY_1864:
                     if (colourMask_ == 0)
                         *color = 7;
                     else
@@ -399,7 +424,11 @@ Byte Cdp1802::pixieDmaOut(int *color, int colourType)
                     *color = colorMemory1864_[(scratchpadRegister_[0]&0xf) +  ((scratchpadRegister_[0]&0x3c0) >> 2)] & 0x7;
                 break;
 
-                case PIXIE_COLOR_TMC2000:
+                case PIXIE_COLOR_TMC2000_1862:
+                    *color = colorMemory1862_[scratchpadRegister_[0] & 0x3ff] & 0x7;
+                break;
+
+                case PIXIE_COLOR_TMC2000_1864:
                     *color = colorMemory1864_[scratchpadRegister_[0] & 0x3ff] & 0x7;
                 break;
 
@@ -4654,7 +4683,7 @@ void Cdp1802::checkLoadedSoftwareMCDS()
 
 void Cdp1802::checkLoadedSoftwareElf2K()
 {
-    basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0xfc9b;
+    basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0xfca6; ///0xfc9b;
 }
 
 bool Cdp1802::readProgram(wxString romDir, wxString rom, int memoryType, Word address, bool showFilename)
@@ -4826,6 +4855,8 @@ void Cdp1802::readSt2Program(wxString dirName, wxString fileName, int computerTy
         Byte notUsed4[128];
     } st2Header;
 
+    Word address;
+    
     if (fileName.Len() != 0)
     {
         fileName = dirName + fileName;
@@ -4845,8 +4876,10 @@ void Cdp1802::readSt2Program(wxString dirName, wxString fileName, int computerTy
                     }
                     else
                     {
-                        inFile.Read((&mainMemory_[st2Header.offsets[i-1] << 8]),256);
-                        defineMemoryType(st2Header.offsets[i-1] << 8, memoryType);
+                        address = st2Header.offsets[i-1] << 8;
+                        inFile.Read((&mainMemory_[address]),256);
+                        if ((memoryType&0xff) != NOCHANGE)
+                            defineMemoryType(st2Header.offsets[i-1] << 8, memoryType);
                     }
                 }
                 inFile.Close();

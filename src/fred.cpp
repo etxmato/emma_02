@@ -324,26 +324,26 @@ void Fred::configureComputer()
         p_Main->message("Configuring FRED 1");
     else 
         p_Main->message("Configuring FRED 1.5");
-    p_Main->message("    Output 1: set I/O group");
-    p_Main->message("    I/O group 1: hex keypad & card");
-    p_Main->message("    I/O group 2: TV");
-    p_Main->message("    I/O group 3: tape");
+    p_Main->message("	Output 1: set I/O group");
+    p_Main->message("	I/O group 1: hex keypad & card");
+    p_Main->message("	I/O group 2: TV");
+    p_Main->message("	I/O group 3: tape");
     
     p_Main->message("");
     
     p_Main->message("Configuring hex keypad & card support");
-    p_Main->message("    Output 2: 1 = program mode, 2 = direct mode");
-    p_Main->message("    Input 0: read byte");
-    p_Main->message("    EF 1: data ready\n");
+    p_Main->message("	Output 2: 1 = program mode, 2 = direct mode");
+    p_Main->message("	Input 0: read byte");
+    p_Main->message("	EF 1: data ready\n");
     
     p_Main->message("Configuring TV support");
-    p_Main->message("    Output 2: display type 0 = TV off, 1 = 32x32, 2 = 64x16, 3 = 64x32\n");
+    p_Main->message("	Output 2: display type 0 = TV off, 1 = 32x32, 2 = 64x16, 3 = 64x32\n");
     
     p_Main->message("Configuring tape support");
-    p_Main->message("    Output 2: bit 4 = program mode, bit 5 = direct mode, bit 6 = write mode");
-    p_Main->message("    Output 3: bit 0 = 1 - run tape, bit 1 = 1 - sound on, bit 2 = sound");
-    p_Main->message("    Input 0: read byte");
-    p_Main->message("    EF 1: data ready, EF 2: tape run/stop, EF 4: tape error\n");
+    p_Main->message("	Output 2: bit 4 = program mode, bit 5 = direct mode, bit 6 = write mode");
+    p_Main->message("	Output 3: bit 0 = 1 - run tape, bit 1 = 1 - sound on, bit 2 = sound");
+    p_Main->message("	Input 0: read byte");
+    p_Main->message("	EF 1: data ready, EF 2: tape run/stop, EF 4: tape error\n");
     
     if (fredConfiguration.coinArcadeControl_)
     {
@@ -356,8 +356,8 @@ void Fred::configureComputer()
         coinKey_ = 1;
     
         p_Main->message("Configuring RCA Video Coin Arcade controls");
-        p_Main->message("    EF1: fire player A, EF3: fire player B, EF4: coin");
-        p_Main->message("    input 6: direction keys & coin reset");
+        p_Main->message("	EF1: fire player A, EF3: fire player B, EF4: coin");
+        p_Main->message("	input 6: direction keys & coin reset");
 
         keyDefCoin_ = p_Main->getDefaultCoinArcadeKeys(keyDefA_, keyDefB_);
     }

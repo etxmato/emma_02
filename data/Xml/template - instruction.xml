@@ -27,7 +27,9 @@
     <dip>: dip switch definition
     <rtc>: real time clock definition
     <usb>: COMX SuperBoad configuration and simpulation
-
+    <locations>: Locations is used to define certain triggers to the emulator based on execution address and optionally specific values in one or multiple memeory locations
+    <basic>: info and BASIC address locations used in memory access functions as well as tape loading.
+    
     decimal or hexadecimal (starting with 0x) numbers are supported
     -->
     <system>
@@ -93,16 +95,6 @@
             <start>0</start>
         </memaccess>
     </gui>
-
-    <basic>
-        <pload>super</pload>
-        <defus>0x4281</defus>
-        <eop>0x4283</eop>
-        <string>0x4292</string>
-        <array>0x4294</array>
-        <eod>0x4299</eod>
-        <ram>0x4400</ram>
-    </basic>
     
     <iogroup> <!-- define output port to change iogroup to expand number of I/O port options -->
         <out mask="0x1e">2</out> <!-- port is defined by the specified value (2 in this example), mask is used to identify the used bits -->
@@ -115,6 +107,8 @@
         <in>: input port to release bootstrap
         <io>: output & input port to release bootstrap
         <run>: select memory configuration pending if run is pressed on startup (slot 1 or 2), used in Ed's version of the VIP II
+        <timer>: release bootstrap after specified number of CPU instructions
+        <read>: default when no in, out, run or timer is specified - release bootstrap on read >= specified bootstrap address
 
         It is possible to define a bootstrap in, out or io while using the same input or output port for other HW.
          -->
@@ -704,18 +698,11 @@
         <color type="back">0, 0, 0</color>
      </video>
      
-     <video type="1862">
-         <!-- video definition for cdp 1862 chip
+     <video type="cdp1862">
+         <!-- video color definition for cdp 1862 chip - always define cdp1861/pixie in combination
          <out type="back">: output number to switch background colour
-         <out type="color_ram" mask="0xf">: write to color RAM, address = ((output_address >> 1) & 0xf8) + (output_address & 0x7), RAM value bits as defined in mask
-         <in>: input number to enable graphics
-         <out>: output number to disable graphics
-         <ef>: ef number for frame indicator
-         <ef type="on">: ef number for frame indicator, but only used when screen is enable/on
          <colorram>: define color RAM range
-         <colortype>: color type used, only option supported is vip for COSMAC VIP
-         <zoom>: set default zoom, when not specified 2.00 will be used
-         <border>: set border size in pixels with format XxY, note that X should always be in steps of 3 pixels.
+         <colortype>: color type used, options supported are vip for COSMAC VIP and hec for HEC1802
          <color type="fore">: set foregorund color. Color is specified as red, green, blue all 3 values range from 0 to 255.
          <color type="back">: set foregorund color. Color is specified as red, green, blue all 3 values range from 0 to 255.
          <color type="xxx">: set specified color, see values in example below. Use either fore/back or range below.
@@ -727,7 +714,6 @@
          <out type="back">5</out>
          <colorram>0xc000-0xdfff</colorram>
          <colortype>vip</colortype>
-         <border>33x33</border>
          <color type="white">255, 255, 255</color>
          <color type="red">255, 0, 0</color>
          <color type="blue">0, 0, 255</color>
@@ -751,7 +737,7 @@
          <in type="off">: input number to disable graphics
          <ef>: ef number for frame indicator
          <ef type="on">: ef number for frame indicator, but only used when screen is enable/on
-         <colortype>: color type used, eti/hug for ETI/HUG, vic for VICTORY, studio for Studio IV or tmc for TMC2000, cos for black/white Cosmicos
+         <colortype>: color type used, eti/hug for ETI/HUG, vic for VICTORY or tmc for TMC2000, cos for black/white Cosmicos
          <zoom>: set default zoom, when not specified 2.00 will be used
          <border>: set border size in pixels with format XxY, note that X should always be in steps of 3 pixels.
          <color type="fore">: set foregorund color. Color is specified as red, green, blue all 3 values range from 0 to 255. This type is used for a black/white configured 1864 like in the Cosmicos
@@ -787,6 +773,46 @@
          <color type="back_black">0, 0, 0</color>
          <color type="back_green">0, 128, 0</color>
          <color type="back_red">128, 0, 0</color>
+      </video>
+
+      <video type="st4">
+         <!-- video definition for the Studio IV
+         <out type="color">: output number to set color, enable graphics and PAL?NTSC mode, two outputs can be defined by repeating this tag
+         <out type="dma">: output number to enable dma burst
+         <zoom>: set default zoom, when not specified 2.00 will be used
+         <border>: set border size in pixels with format XxY, note that X should always be in steps of 3 pixels.
+         <color type="xxx">: set specified color, see values in example below. Use either fore/back or range below.
+         -->
+
+         <out type="color">4</out>
+         <out type="color">6</out>
+         <out type="dma">5</out>
+         <colorram>0x2800-0x2bff</colorram>
+         <height>192</height>
+         <graphics>
+             <interrupt>32</interrupt>
+             <start>34</start>
+             <end>225</end>
+             <screenend>262</screenend>
+         </graphics>
+         <border>33x20</border>
+         <xscale>4</xscale>
+         <color type="black">20, 20, 20</color>
+         <color type="red">255, 64, 64</color>
+         <color type="blue">64, 64, 255</color>
+         <color type="magenta">255, 64, 255</color>
+         <color type="green">64, 255, 64</color>
+         <color type="yellow">255, 255, 64</color>
+         <color type="cyan">64, 255, 255</color>
+         <color type="white">255, 255, 255</color>
+         <color type="back_black">0, 0, 0</color>
+         <color type="back_red">160, 0, 0</color>
+         <color type="back_blue">0, 0, 160</color>
+         <color type="back_magenta">160, 0, 160</color>
+         <color type="back_green">0, 160, 0</color>
+         <color type="back_yellow">208, 208, 0</color>
+         <color type="back_cyan">0, 208, 208</color>
+         <color type="back_white">251, 251, 251</color>
       </video>
 
      <video type="mc6845">
@@ -942,6 +968,7 @@
          <rotate />: rotate screen 90% as in Cidelsa
          <out type="write">: use specified output port to write to selected VIS 1870 output (as used in TMC600)
          <out type="select">: use specified output port to select VIS 1870 output port (as used in TMC600)
+         <out type="int">: use specified output port to set interrupt enable (2 on Microboard)
          <zoom>: set default zoom, when not specified 2.00 will be used
          <border>: set border size in pixels with format XxY
          <color num="x">: set color x where x=0 to 7. Color is specified as red, green, blue all 3 values range from 0 to 255.
@@ -1055,7 +1082,7 @@
   
          <out mask="0x3f">3</out>
          <ef pol="rev">3</ef>
-                                         <!--    SHIFT -->
+                                       <!--    SHIFT -->
          <keydef out="0">48</keydef>   <!-- 0  _ -->
          <keydef out="0x1">49</keydef> <!-- 1  ! -->
          <keydef out="0x2">50</keydef> <!-- 2  " -->
@@ -1346,6 +1373,14 @@
          <iogroup>: iogroup, i.e. i/o ports are activate when specified iogroup is selected via the iogroup port
          <out>: port to set key latch, mask HAS TO be set to max value to be able to use keyfile, ctrl V and memeory access features
          <ef pol="rev">: ef port indicating if latched key is pressed, if pol="rev" is specified ef will be reversed
+         <auto>on: loads a keydefinition file and sets keymap automatically
+         <diagonal key1="x" key2="y">: Activate diagonal direction key specified key will be emulated if key x and key y are pressed. All specified keys are key values for emulated computer. See Studio II xml file for example.
+         <keydef type="file" check="rom">: load specified file to check auto keydefinitions, use ROM field or RAM field file as specified in check option. If not use keydefinition.txt will be used
+         <keydef out="x">: map key latch key x value to PC key (using raw key value, i.e. shift, ctrl are NOT making any difference), use this for keys when SHIFT is not pressed
+         <keydef type="shift" out="x">: map key latch key x value to PC SHIFT key (using raw key value, i.e. shift, ctrl are NOT making any difference), use this for keys when SHIFT is pressed
+         <keydef type="force" out="x">: map key latch key x value to PC SHIFT key (using raw key value, i.e. shift, ctrl are NOT making any difference), towards the emulated computer a shift press is forced
+         <keydef type="map": used for CTRL V feature to map specified ascii value to a raw key code. can be used on its own or in combination with type="shift" and out="x"
+         <keydef type="text" out="x">: map key latch key x value to predefined PC key. This should be used to map shift, ctrl and alt buttons as well as a key to switch left/right alt/ctrl functions
          -->
   
          <out mask="0x0f">2</out>
@@ -1417,6 +1452,7 @@
          <iogroup>: iogroup, i.e. i/o ports are activate when specified iogroup is selected via the iogroup port
          <pressed>: specify value for a pressed key, 0 or 1
          <bitX>: X=0 to 7 specifies ascii code for key defined on that specific bit
+         <bitX ef="x">: X=0 to 7 specifies ascii code for key defined on that specific bit, ef flag specified is used to force SHIFT or CONTROL. For example use see VIP2K xml file
          <bit key="ascii">: providing the same functionality as bitX except that ascii code is specified after key= and bit number is specified as value. Note multiple bits are possible for one key by using a comma as separator: 0,1,2.
          -->
 
@@ -1748,6 +1784,9 @@
          -->
          <key_input>0x1bc, 0x39a, 0x5344</key_input>
          
+         <!-- in_release is used to simulate Elf IN button release at the specified address. Used in Super BASIC 1.4 serial mode to release IN button during startup. Only supported in VT mode -->
+         <in_release>0xe</in_release>
+
          <!-- Machine states: used to detect if running machine is in reset. BASIC or RUNNING program used in memory access function. Examples below are for COMX.
          address= and value= specify one or multiple address locations with values. If these match in memory the trigger is active, if not it is skipped. In example below address 0x42a0 should contain 0 otherwise BASIC state will not be identified.
          -->
@@ -1820,6 +1859,26 @@
          <stop_cas reg="5" value="0xe0">0x13b</stop_cas>
          <fred_tape_rec reg="5" value="0xca">0x13b</fred_tape_rec>
 
+         <!-- set PSEUDO debugger to am4kbas2020 or 1978 when executing at specified address, info is used to set pseudo main loop address -->
+         <set_pseudo_am4kbas2020 info="0xA0AB">0xa00a</set_pseudo_am4kbas2020>
+         <set_pseudo_am4kbas1978 info="0xB0A3">0xb00a</set_pseudo_am4kbas1978>
+
+         <!-- Load key definition for build in Studio II games at specified address when R5 has specified value, info indicates build in game key press. Only active if the values specified in check_sw are defined in the ROM  -->
+         <check_sw address="0x402, 0x403, 0x404, 0x405" value="0xd1, 0xe, 0xd2, 0x39">0x6b</check_sw>
+         <st2_buildin_game info="1" reg="5" value="0x40e">0x6b</st2_buildin_game>
+         <st2_buildin_game info="2" reg="5" value="0x439">0x6b</st2_buildin_game>
+         <st2_buildin_game info="3" reg="5" value="0x48b">0x6b</st2_buildin_game>
+         <st2_buildin_game info="4" reg="5" value="0x48d">0x6b</st2_buildin_game>
+         <st2_buildin_game info="5" reg="5" value="0x48f">0x6b</st2_buildin_game>
+
+         <!-- Load key definition for build in Victory games at specified address when R5 has specified value, info indicates build in game key press. Only active if the values specified in check_sw are defined in the ROM  -->
+         <check_sw address="0x40e, 0x40f, 0x410, 0x411" value="0xd1, 0x1e, 0xd2, 0x4a">0x6b</check_sw>
+         <vic_buildin_game info="1" reg="5" value="0x41e">0x6b</vic_buildin_game>
+         <vic_buildin_game info="2" reg="5" value="0x44a">0x6b</vic_buildin_game>
+         <vic_buildin_game info="3" reg="5" value="0x4e0">0x6b</vic_buildin_game>
+         <vic_buildin_game info="4" reg="5" value="0x41a">0x6b</vic_buildin_game>
+         <vic_buildin_game info="5" reg="5" value="0x41c">0x6b</vic_buildin_game>
+
          <!-- Correct CAPS state on startup (after C/W message has been answered for TMC-600)
          this works and it might be more logic but at the same time it means CAPS should be
          pressed before any commands can be given. -->
@@ -1836,6 +1895,8 @@
          <string>: location of high byte of Array storage location
          <eod>: location of high byte of End of Data
          <ram>: exact start of user RAM
+         
+         When a value is not specified it will not be set on a PLOAD, used for tiny basic
          -->
          
          <pload>comx</pload>

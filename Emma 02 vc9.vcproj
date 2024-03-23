@@ -472,6 +472,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\cd4536b.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\cdp1802.cpp"
 				>
 			</File>
@@ -1057,6 +1061,10 @@
 			</File>
 			<File
 				RelativePath=".\src\breakpoints.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\cd4536b.h"
 				>
 			</File>
 			<File

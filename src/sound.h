@@ -103,8 +103,11 @@ protected:
     long long tapePeriod_;
     bool tapeRecording_;
     long stopTapeCounter_;
+    wxString tapeNumber_;
 
 private:
+    short ploadSamples_[256];
+
     Blip_Buffer *soundBufferPointerLeft;
     Blip_Buffer *soundBufferPointerRight;
     Blip_Buffer *tapeBufferPointer;
@@ -132,7 +135,6 @@ private:
     int noiseAmplitude_;
 
     bool stopTheTape_;
-    wxString tapeNumber_;
     bool hwSaveOn_;
     bool startNewRecording_;
     bool somethingSaved_;

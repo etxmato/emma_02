@@ -3,8 +3,8 @@
 
 [Setup]
 AppName=Emma 02
-AppVerName=Emma 02 - V1.47.26
-AppVersion=1.47.26
+AppVerName=Emma 02 - V1.47.27
+AppVersion=1.47.27
 AppPublisher=Marcel van Tongeren
 DefaultDirName={pf}\Emma 02
 DefaultGroupName=Emma 02
@@ -130,12 +130,12 @@ Source: ..\Configurations Windows\MCDS\*.*; DestDir: {app}\Configurations\MCDS; 
 Source: ..\Configurations Windows\Membership\*.*; DestDir: {app}\Configurations\Membership; Components: MAIN
 Source: ..\Configurations Windows\Microboard\*.*; DestDir: {app}\Configurations\Microboard; Components: MAIN
 Source: ..\Configurations Windows\Microtutor\*.*; DestDir: {app}\Configurations\Microtutor; Components: MAIN
-Source: ..\Configurations Windows\Microtutor2\*.*; DestDir: {app}\Configurations\Microtutor2; Components: MAIN
+Source: ..\Configurations Windows\MicrotutorII\*.*; DestDir: {app}\Configurations\MicrotutorII; Components: MAIN
 Source: ..\Configurations Windows\MS2000\*.*; DestDir: {app}\Configurations\MS2000; Components: MAIN
 Source: ..\Configurations Windows\Nano\*.*; DestDir: {app}\Configurations\Nano; Components: MAIN
 Source: ..\Configurations Windows\Pecom\*.*; DestDir: {app}\Configurations\Pecom; Components: MAIN
 Source: ..\Configurations Windows\Pico\*.*; DestDir: {app}\Configurations\Pico; Components: MAIN
-Source: ..\Configurations Windows\Studio2\*.*; DestDir: {app}\Configurations\Studio2; Components: MAIN
+Source: ..\Configurations Windows\StudioII\*.*; DestDir: {app}\Configurations\StudioII; Components: MAIN
 Source: ..\Configurations Windows\StudioIV\*.*; DestDir: {app}\Configurations\StudioIV; Components: MAIN
 Source: ..\Configurations Windows\TMC600\*.*; DestDir: {app}\Configurations\TMC600; Components: MAIN
 Source: ..\Configurations Windows\TMC1800\*.*; DestDir: {app}\Configurations\TMC1800; Components: MAIN
@@ -222,7 +222,7 @@ Source: ..\data\Microboard\PLM\*.*; DestDir: {app}\data\Microboard\PLM; Componen
 Source: ..\data\Microboard\RP\*.*; DestDir: {app}\data\Microboard\RP; Components: MAIN
 Source: ..\data\Microboard\Software\*.*; DestDir: {app}\data\Microboard\Software; Components: MAIN
 Source: ..\data\Microtutor\*.*; DestDir: {app}\data\Microtutor; Components: MAIN
-Source: ..\data\Microtutor2\*.*; DestDir: {app}\data\Microtutor2; Components: MAIN
+Source: ..\data\MicrotutorII\*.*; DestDir: {app}\data\MicrotutorII; Components: MAIN
 Source: ..\data\MS2000\*.*; DestDir: {app}\data\MS2000; Components: MAIN
 Source: ..\data\MS2000\BASIC\*.*; DestDir: {app}\data\MS2000\BASIC; Components: MAIN
 Source: ..\data\MS2000\MICRODOS\*.*; DestDir: {app}\data\MS2000\MICRODOS; Components: MAIN
@@ -232,7 +232,7 @@ Source: ..\data\MS2000\Software\*.*; DestDir: {app}\data\MS2000\Software; Compon
 Source: ..\data\Nano\*.*; DestDir: {app}\data\Nano; Components: MAIN
 Source: ..\data\Pecom\*.*; DestDir: {app}\data\Pecom; Components: MAIN
 Source: ..\data\Pico\*.*; DestDir: {app}\data\Pico; Components: MAIN
-Source: ..\data\Studio2\*.*; DestDir: {app}\data\Studio2; Components: MAIN
+Source: ..\data\StudioII\*.*; DestDir: {app}\data\StudioII; Components: MAIN
 Source: ..\data\StudioIV\*.*; DestDir: {app}\data\StudioIV; Components: MAIN
 Source: ..\data\TMC600\*.*; DestDir: {app}\data\TMC600; Components: MAIN
 Source: ..\data\TMC1800\*.*; DestDir: {app}\data\TMC1800; Components: MAIN
@@ -248,7 +248,7 @@ Source: ..\data\Xml\*.*; DestDir: {app}\data\Xml; Components: MAIN
 Source: ..\data\Xml\Cidelsa\*.*; DestDir: {app}\data\Xml\Cidelsa; Components: MAIN
 Source: ..\data\Xml\Comix\*.*; DestDir: {app}\data\Xml\Comix; Components: MAIN
 Source: ..\data\Xml\Comx\*.*; DestDir: {app}\data\Xml\Comx; Components: MAIN
-Source: ..\data\Xml\Cosmac Elf\*.*; DestDir: {app}\data\Xml\Cosmac Elf; Components: MAIN
+Source: ..\data\Xml\CosmacElf\*.*; DestDir: {app}\data\Xml\CosmacElf; Components: MAIN
 Source: ..\data\Xml\Cosmicos\*.*; DestDir: {app}\data\Xml\Cosmicos; Components: MAIN
 Source: ..\data\Xml\Cybervision\*.*; DestDir: {app}\data\Xml\Cybervision; Components: MAIN
 Source: ..\data\Xml\Elf\*.*; DestDir: {app}\data\Xml\Elf; Components: MAIN
@@ -259,12 +259,12 @@ Source: ..\data\Xml\FRED1_5\*.*; DestDir: {app}\data\Xml\FRED1_5; Components: MA
 Source: ..\data\Xml\HUG1802\*.*; DestDir: {app}\data\Xml\HUG1802; Components: MAIN
 Source: ..\data\Xml\Membership\*.*; DestDir: {app}\data\Xml\Membership; Components: MAIN
 Source: ..\data\Xml\Microtutor\*.*; DestDir: {app}\data\Xml\Microtutor; Components: MAIN
-Source: ..\data\Xml\Microtutor II\*.*; DestDir: {app}\data\Xml\Microtutor II; Components: MAIN
-Source: ..\data\Xml\Netronics Elf II\*.*; DestDir: {app}\data\Xml\Netronics Elf II; Components: MAIN
+Source: ..\data\Xml\MicrotutorII\*.*; DestDir: {app}\data\Xml\MicrotutorII; Components: MAIN
+Source: ..\data\Xml\NetronicsElfII\*.*; DestDir: {app}\data\Xml\NetronicsElfII; Components: MAIN
 Source: ..\data\Xml\Pecom\*.*; DestDir: {app}\data\Xml\Pecom; Components: MAIN
-Source: ..\data\Xml\Pico Elf V2\*.*; DestDir: {app}\data\Xml\Pico Elf V2; Components: MAIN
-Source: ..\data\Xml\Quest Super Elf\*.*; DestDir: {app}\data\Xml\Quest Super Elf; Components: MAIN
-Source: ..\data\Xml\TMC-600\*.*; DestDir: {app}\data\Xml\TMC-600; Components: MAIN
+Source: ..\data\Xml\PicoElfV2\*.*; DestDir: {app}\data\Xml\PicoElfV2; Components: MAIN
+Source: ..\data\Xml\QuestSuperElf\*.*; DestDir: {app}\data\Xml\QuestSuperElf; Components: MAIN
+Source: ..\data\Xml\TMC600\*.*; DestDir: {app}\data\Xml\TMC600; Components: MAIN
 Source: ..\data\Xml\UC1800\*.*; DestDir: {app}\data\Xml\UC1800; Components: MAIN
 Source: ..\data\Xml\Velf\*.*; DestDir: {app}\data\Xml\Velf; Components: MAIN
 Source: ..\data\Xml\Vip2K\*.*; DestDir: {app}\data\Xml\Vip2K; Components: MAIN

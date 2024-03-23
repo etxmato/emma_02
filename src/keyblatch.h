@@ -7,10 +7,11 @@ public:
     KeybLatch();
     ~KeybLatch() {};
 
-    void configure(IoConfiguration portConf, wxString type, wxString saveCommand, int pad);
+    void configure(IoConfiguration portConf, Locations addressLocations, wxString type, wxString saveCommand, int pad);
     void reDefineHexKeys(int hexKeyDef1[], int hexKeyDef2[], bool simDef2);
     void keyDown(int keycode, wxKeyEvent& event);
     void keyDown(int keycode);
+    void keyDownNoShift(int keycode);
     void keyUp(int keycode, wxKeyEvent& event);
     void keyUp(int keycode);
 
@@ -19,16 +20,19 @@ public:
 
     void resetKeybLatch();
     void cycleKeybLatch();
+    int translateKey(int key);
     int getCtrlvChar();
     void startKeyFile();
     void closeKeyFile();
     bool keyDown();
-    void startLatchRun(bool load);
+    void startLatchRun(bool load, wxString command);
+    void startCtrlV(wxString command);
     void checkCaps();
     void switchCaps();
 
 private:
     IoConfiguration ioConfiguration_;
+    Locations addressLocations_;
 
     Byte keyState_[255];
     int keyLatch_;
@@ -42,6 +46,11 @@ private:
     bool altPressed_;
     bool ctrlPressed_;
     bool capsPressed_;
+    
+    bool forceShiftActive_;
+    bool forceNoShiftActive_;
+
+    int shiftKey_;
 
     wxFile keyFile_;
     bool keyFileOpened_;
@@ -49,8 +58,9 @@ private:
     int keyboardCode_;
     
     bool load_;
-    size_t runCommand_;
+    bool fileToBeLoaded_;
     size_t ctrlvText_;
+    bool ctrlvFound_;
     wxString commandText_;
 
     wxString saveCommand_;

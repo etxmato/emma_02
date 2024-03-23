@@ -25,6 +25,7 @@ public:
     ~Upd765() {};
 
     void configureUpd765(int fdcType, int efnumber);
+    void configureUpd765(int fdcType, Upd765Io upd765Io);
     Byte efInterrupt();
     Byte inputMasterStatus();
     void outputCommand(Byte value);

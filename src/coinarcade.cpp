@@ -60,9 +60,9 @@ void CoinArcade::configureComputer()
     coinKey_ = 1;
     
     p_Main->message("Configuring RCA Video Coin Arcade");
-    p_Main->message("    EF1: fire player A, EF3: fire player B, EF4: coin");
-    p_Main->message("    Input 5: parameter switch, input 6: direction keys & coin reset");
-    p_Main->message("    Output 5: tone latch, output 3 & 6: tone on/off");
+    p_Main->message("	EF1: fire player A, EF3: fire player B, EF4: coin");
+    p_Main->message("	Input 5: parameter switch, input 6: direction keys & coin reset");
+    p_Main->message("	Output 5: tone latch, output 3 & 6: tone on/off");
 
     keyDefCoin_ = p_Main->getDefaultCoinArcadeKeys(keyDefA_, keyDefB_);
 

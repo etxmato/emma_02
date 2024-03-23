@@ -1,0 +1,132 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>RCA COSMAC Microboard Computer</name>
+        <config>MS2000 - CDP18S605 1802 &amp; UART - CDP18S651 FDC - CDP18S646 Printer</config>
+        <cpu>1802</cpu>
+        <clock>2.0</clock>
+        <boot>0</boot>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init>
+        <dirname>Microboard</dirname>
+    </system>
+    
+    <bootstrap>
+        <address>0x8000</address>
+        <timer>64</timer>
+    </bootstrap>
+    
+    <iogroup>
+        <out mask="0xff">1</out>
+    </iogroup>
+    
+    <gui>
+        <ledtimer>100</ledtimer>
+        <memaccess>
+            <location>off</location>
+            <start>0</start>
+        </memaccess>
+    </gui>
+
+    <memory>
+        <!-- CDP18SS628 32K RAM -->
+        <guiram>
+            <start>0x0000</start>
+            <end>0x7FFF</end>
+        </guiram>
+
+        <!-- CDP18S605, 2K RAM @0000, 2*1K ROM @8000 & @8800 -->
+        <guirom>
+            <start>0x8000</start>
+            <end>0x87FF</end>
+            <pulldown mask="ut*.bin" exclude="part">Microboard</pulldown>
+            <filename verify="true">ut71.bin</filename>
+        </guirom>
+
+        <ram>
+            <start>0x8800</start>
+            <end>0x8FFF</end>
+        </ram>
+        
+        <!-- CDP18SS628 32K RAM, @8000-8FFF disabled -->
+        <ram>
+            <start>0x9000</start>
+            <end>0xFFFF</end>
+        </ram>
+    </memory>
+        
+    <vt type="vt100" connection="uart1854">
+        <iogroup>1</iogroup>
+        <font>vt100.bin</font>
+        <out type="register">2</out>
+        <out type="control">3</out>
+        <in type="register">2</in>
+        <in type="status">3</in>
+        <ef>4</ef>
+        <baud type="receive">19200</baud>
+        <baud type="transmit">19200</baud>
+        <caps />
+        <characters>80</characters>
+        <border>0x0</border>
+        <color type="fore">0, 255, 0</color>
+        <color type="back">0, 0x40, 0</color>
+        <color type="high">0, 0xff, 0</color>
+     </vt>
+
+    <disk type="upd765" drives="4">
+        <!-- disk definition for fdc upd765
+        <out type="control">: output number DMA control
+        <out type="count">: output number DMA count
+        <out type="command">: output number to write uPD765 command register
+        <in type="status">: input number to read uPD765 status
+        <in type="command">: input number to read uPD765 command register
+        <ef>: ef number interrupt
+        -->
+
+        <iogroup>8</iogroup> 
+        <filename disk="0">microdos.img</filename>
+        <filename disk="1">PLM 1800.img</filename>
+        <filename disk="2">basic1.img</filename>
+        <hdname disk="0">Software</hdname>
+        <hdname disk="1">Software</hdname>
+        <hdname disk="2">PLM</hdname>
+        <hdname disk="3">BASIC</hdname>
+        <out type="control">4</out>
+        <out type="count">7</out>
+        <out type="command">5</out>
+        <in type="status">4</in>
+        <in type="command">5</in>
+        <ef>3</ef>
+    </disk>
+
+    <printer>
+        <iogroup>1</iogroup>
+        <out>6</out>
+        <ef>1</ef>
+    </printer>
+
+    <cassette decks="2" type="micro">
+        <iogroup>2</iogroup>
+        <out>4</out>
+        <out type="q">5</out>
+        <ef>2</ef>
+    </cassette>
+
+    <debugger>
+        <scrt mode="off">
+            <call reg="4">-1</call>
+            <return reg="5">-1</return>
+        </scrt>
+
+        <assembler>
+            <filename>mycode</filename>
+            <code_start>0</code_start>
+            <code_end>0xFFF</code_end>
+        </assembler>
+    </debugger>
+
+</emmaconfig>

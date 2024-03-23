@@ -2428,7 +2428,7 @@ void GuiCdp18s600::onPioWindows(wxCommandEvent&event)
     }
     
     if (runningComputer_ == selectedComputer_)
-        p_Computer->showPio(elfConfiguration[selectedComputer_].usePio);
+        p_Computer->showCdp1851(elfConfiguration[selectedComputer_].usePio);
 }
 
 void GuiCdp18s600::pioWindows(int computerType, bool state)

@@ -541,6 +541,9 @@ BEGIN_EVENT_TABLE(Main, DebugWindow)
     EVT_MENU(XRCID("MI_FontSize11"), Main::onFontSize11)
     EVT_MENU(XRCID("MI_FontSize14"), Main::onFontSize14)
 
+    EVT_MENU(XRCID("GUI"), Main::onXmlRomRamOptionGui)
+    EVT_MENU(XRCID("XML"), Main::onXmlRomRamOptionXml)
+
     EVT_CHOICEBOOK_PAGE_CHANGED(XRCID("StudioChoiceBook"), Main::onStudioChoiceBook)
     EVT_CHOICEBOOK_PAGE_CHANGED(XRCID("TelmacChoiceBook"), Main::onTelmacChoiceBook)
     EVT_CHOICEBOOK_PAGE_CHANGED(XRCID("ElfChoiceBook"), Main::onElfChoiceBook)
@@ -1378,7 +1381,7 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
                 if (computer == "Studio" || computer == "Studio2" || computer == "Studioii")
                 {
                     startComputer_ = STUDIO;
-                    computer = "Studio2";
+                    computer = "StudioII";
                     mode_.gui = false;
                     if (parser.Found("s", &software))
                         getSoftware(computer, "St2_File", software);
@@ -2238,6 +2241,15 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
         if (answer == wxYES)
         {
             reInstall(applicationDirectory_ + "data" + pathSeparator_, dataDir_, pathSeparator_);
+           
+            if (wxFile::Exists(dataDir_ + "CosmacElf"  + pathSeparator_+ "cosmac-elf,bare.xml"))
+            {
+               answer = wxMessageBox("Old XML files detected: \n\nCleanup of Xml folder recommended\n\nThis will remove older .xml files:\n"+dataDir_+"\n\nContinue cleanup of Xml folder?", "Emma 02",  wxICON_EXCLAMATION | wxYES_NO);
+               if (answer == wxYES)
+               {
+                  removeOldXml(dataDir_ + "Xml" + pathSeparator_, pathSeparator_);
+               }
+            }
         }
     }
 
@@ -2530,6 +2542,11 @@ void Main::writeConfig()
             configPointer->Write("/Main/Equalization", "TV Speaker");
         if (menubarPointer->IsChecked(XRCID("Handheld")))
             configPointer->Write("/Main/Equalization", "Handheld");
+
+       if (menubarPointer->IsChecked(XRCID("GUI")))
+           configPointer->Write("/Main/XmlRomRamOption", "GUI");
+       if (menubarPointer->IsChecked(XRCID("XML")))
+           configPointer->Write("/Main/XmlRomRamOption", "XML");
     }
     if (!mode_.portable)
     {
@@ -2846,6 +2863,22 @@ void Main::initConfig()
     colour[COL_SN76430N_GREEN] = "#00FF00";
     colour[COL_SN76430N_RED] = "#FFC0CB";
     colour[COL_SN76430N_BLACK] = "#000000";
+    colour[COL_ST4_BLACK] = "#141414"; // Black
+    colour[COL_ST4_RED] = "#ff4040"; // Red
+    colour[COL_ST4_BLUE] = "#4040ff"; // Blue
+    colour[COL_ST4_MAGENTA] = "#ff40ff"; // Pink
+    colour[COL_ST4_GREEN] = "#40ff40"; // Green
+    colour[COL_ST4_YELLOW] = "#ffff40"; // Yellow
+    colour[COL_ST4_CYAN] = "#40ffff"; // Cyan
+    colour[COL_ST4_WHITE] = "#ffffff"; // white
+    colour[COL_ST4_BACK_BLACK] = "#000000";
+    colour[COL_ST4_BACK_RED] = "#a00000";
+    colour[COL_ST4_BACK_BLUE] = "#0000a0";
+    colour[COL_ST4_BACK_MAGENTA] = "#a000a0";
+    colour[COL_ST4_BACK_GREEN] = "#00a000";
+    colour[COL_ST4_BACK_YELLOW] = "#d0d000";
+    colour[COL_ST4_BACK_CYAN] = "#00d0d0";
+    colour[COL_ST4_BACK_WHITE] = "#fbfbfb";
 
     setScreenInfo(XML, 0, COL_MAX, colour, VIDEOXMLMAX, borderX, borderY);
     setComputerInfo(XML, "Xml", "Xml", "");
@@ -2886,7 +2919,7 @@ void Main::initConfig()
     setComputerInfo(MICROTUTOR, "Microtutor", "RCA Microtutor", "");
     
     setScreenInfo(MICROTUTOR2, 0, 5, colour, 2, borderX, borderY);
-    setComputerInfo(MICROTUTOR2, "Microtutor2", "RCA Microtutor II", "");
+    setComputerInfo(MICROTUTOR2, "MicrotutorII", "RCA Microtutor II", "");
     
     colour[5] = "#000000";    // background mc6847
     colour[6] = "#00ff00";    // text green
@@ -2940,7 +2973,7 @@ void Main::initConfig()
     setComputerInfo(PICO, "Pico", "Pico/Elf V2", "super");
 
     setScreenInfo(STUDIO, 0, 2, colour, 2, borderX, borderY);
-    setComputerInfo(STUDIO, "Studio2", "Studio II", "");
+    setComputerInfo(STUDIO, "StudioII", "Studio II", "");
     
     setScreenInfo(COINARCADE, 0, 2, colour, 2, borderX, borderY);
     setComputerInfo(COINARCADE, "CoinArcade", "RCA Video Coin Arcade", "");
@@ -3144,6 +3177,11 @@ void Main::readConfig()
 
     int saveSelectedComputer = selectedComputer_;
     configPointer->Read("/Main/Floating_Point_Zoom", &fullScreenFloat_, true);
+
+    wxString RomRamOptionString = configPointer->Read("/Main/XmlRomRamOption", "GUI");
+    if (mode_.gui)
+       menubarPointer->Check(XRCID(RomRamOptionString), true);
+    XmlRomRamOptionGui_ = (RomRamOptionString == "GUI");
 
     readDebugConfig();
     readComxConfig();
@@ -3420,7 +3458,7 @@ void Main::readConfig()
             XRCCTRL(*this, "PanelFRED1", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelFRED1_5", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelMicrotutor", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
-            XRCCTRL(*this, "PanelMicrotutor2", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
+            XRCCTRL(*this, "PanelMicrotutorII", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelCDP18S020", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelVip", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelVipII", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
@@ -3428,7 +3466,7 @@ void Main::readConfig()
             XRCCTRL(*this, "PanelMCDS", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelMS2000", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelCoinArcade", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
-            XRCCTRL(*this, "PanelStudio2", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
+            XRCCTRL(*this, "PanelStudioII", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelVictory", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelStudioIV", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelVisicom", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
@@ -4375,12 +4413,21 @@ void Main::onReInstallConfig(wxCommandEvent&WXUNUSED(event))
 
 void Main::onReInstallData(wxCommandEvent&WXUNUSED(event))
 {
-    int answer = wxMessageBox("This will overwrite files in the 1802 software directory:\n"+dataDir_+"\n\nContinue to install default 1802 software files?", "Emma 02",  wxICON_EXCLAMATION | wxYES_NO);
-    if (answer == wxYES)
-    {
-        reInstall(applicationDirectory_ + "data" + pathSeparator_, dataDir_, pathSeparator_);
-        completedSplashScreen_ = new CompletedSplashScreen(this);
-    }
+   int answer = wxMessageBox("This will overwrite files in the 1802 software directory:\n"+dataDir_+"\n\nContinue to install default 1802 software files?", "Emma 02",  wxICON_EXCLAMATION | wxYES_NO);
+   if (answer == wxYES)
+   {
+      reInstall(applicationDirectory_ + "data" + pathSeparator_, dataDir_, pathSeparator_);
+
+      if (wxFile::Exists(dataDir_ + "Xml" + pathSeparator_+ "CosmacElf" + pathSeparator_+ "cosmac-elf,bare.xml"))
+      {
+         answer = wxMessageBox("Old XML files detected: \n\nCleanup of Xml folder recommended\n\nThis will remove older .xml files in:\n"+dataDir_+"Xml\n\nContinue cleanup of Xml folder?", "Emma 02",  wxICON_EXCLAMATION | wxYES_NO);
+         if (answer == wxYES)
+         {
+            removeOldXml(dataDir_ + "Xml" + pathSeparator_, pathSeparator_);
+         }
+      }
+      completedSplashScreen_ = new CompletedSplashScreen(this);
+   }
 }
 
 void Main::removeRedundantFiles()
@@ -4450,22 +4497,182 @@ void Main::deleteDir(wxString directory)
 
 void Main::reInstall(wxString sourceDir, wxString destinationDir, wxString pathSep)
 {
-    wxString filename;
+   wxString filename;
 
-    wxFileName destination(destinationDir);
-    wxDir dir (sourceDir);
-    bool cont = dir.GetFirst(&filename);
-    
-    while ( cont )
-    {
-        if (wxDir::Exists(sourceDir + filename))
-            filename += pathSep;
-        
-        wxFileName source(sourceDir + filename);
-        
-        copyTree(&source, &destination, pathSep);
-        cont = dir.GetNext(&filename);
-    }
+   wxFileName destination(destinationDir);
+   wxDir dir (sourceDir);
+   bool cont = dir.GetFirst(&filename);
+
+   while ( cont )
+   {
+     if (wxDir::Exists(sourceDir + filename))
+         filename += pathSep;
+     
+     wxFileName source(sourceDir + filename);
+     
+     copyTree(&source, &destination, pathSep);
+     cont = dir.GetNext(&filename);
+   }
+}
+
+void Main::removeOldXml(wxString dirName, wxString pathSep)
+{
+   wxString dirList[]=
+   {
+      "CDP18S020",
+      "cdp18s020",
+      "Cidelsa",
+      "cidelsa",
+      "CoinArcade",
+      "coinarcade",
+      "Comix",
+      "comix",
+      "Comx",
+      "comx",
+      "CosmacElf",
+      "cosmac-elf",
+      "CosmacGameSystem",
+      "cosmacgame",
+      "Cosmicos",
+      "cosmicos",
+      "Cybervision",
+      "cybervision2001",
+      "Elf",
+      "elf",
+      "Elf2K",
+      "elf2k",
+      "Eti",
+      "eti-660",
+      "FRED1",
+      "fred1",
+      "FRED1_5",
+      "fred1.5",
+      "HUG1802",
+      "hug1802",
+      "JVIP",
+      "jvip",
+      "Velf",
+      "jvip",
+      "Macbug",
+      "macbug",
+      "MCDS",
+      "mcds",
+      "Membership",
+      "membership",
+      "Microboard",
+      "microboard",
+      "Microtutor",
+      "microtutor",
+      "MicrotutorII",
+      "microtutor2",
+      "MS2000",
+      "ms2000",
+      "Nano",
+      "nano",
+      "NetronicsElfII",
+      "netronics-elf",
+      "PicoElfV2",
+      "pico",
+      "QuestSuperElf",
+      "quest-super-elf",
+      "Studio2020",
+      "studioiv",
+      "StudioII",
+      "studioii",
+      "StudioIII",
+      "studioiii",
+      "StudioIV",
+      "studioiv",
+      "TMC600",
+      "tmc-600",
+      "TMC1800",
+      "tmc1800",
+      "TMC2000",
+      "tmc2000",
+      "UC1800",
+      "uc1800",
+      "Velf",
+      "velf",
+      "Victory",
+      "victory",
+      "Vip",
+      "vip",
+      "Vip2K",
+      "vip2k",
+      "VipII",
+      "vipii",
+      "Visicom",
+      "visicom",
+      "",
+   };
+   
+   wxString fileDeleteList[]=
+   {
+      "Pecom",
+      "pecom,32.xml",
+      "Pecom",
+      "pecom,64.v1.xml",
+      "Pecom",
+      "pecom,64.v4.xml",
+      "",
+   };
+
+   wxString dirDeleteList[]=
+   {
+      "Pecom",
+      "",
+   };
+
+   wxDir dir (dirName);
+   bool cont;
+   size_t number=0;
+   wxString filename;
+
+   while (dirList[number] != "")
+   {
+      dir.Open(dirName + dirList[number]);
+      cont = dir.GetFirst(&filename);
+      
+      while ( cont )
+      {
+         if (filename.Left(dirList[number+1].Len()) == dirList[number+1])
+         {
+            wxString folder = dirName + dirList[number] + pathSeparator_;
+            wxString newFileName = filename.Right(filename.Len() - dirList[number+1].Len() - 1);
+            wxString newFileName2 = filename.Right(filename.Len() - dirList[number+1].Len() - 3);
+            newFileName2.Replace(" + ", "+");
+
+            if (newFileName == "xml")
+               newFileName = dirList[number+1] + ".xml";
+
+            if (wxFile::Exists(folder + newFileName))
+               wxRemoveFile(folder + filename);
+            if (wxFile::Exists(folder + newFileName2))
+               wxRemoveFile(folder + filename);
+         }
+         cont = dir.GetNext(&filename);
+      }
+      number += 2;
+   }
+  
+   number=0;
+   while (fileDeleteList[number] != "")
+   {
+      if (wxFile::Exists(dirName + fileDeleteList[number] + pathSeparator_ + fileDeleteList[number+1]))
+         wxRemoveFile(dirName + fileDeleteList[number] + pathSeparator_ + fileDeleteList[number+1]);
+      number += 2;
+   }
+
+   number=0;
+   while (dirDeleteList[number] != "")
+   {
+      dir.Open(dirName + fileDeleteList[number]);
+
+      if (wxDir::Exists(dirName + fileDeleteList[number]) && !dir.HasFiles() && !dir.HasSubDirs())
+          wxDir::Remove(dirName + fileDeleteList[number]);
+      number ++;
+   }
+
 }
 
 void Main::reInstallOnNotFound(int computerType, wxString fileTypeString)
@@ -4725,6 +4932,11 @@ void Main::setDefaultSettings()
         if (menubarPointer->IsChecked(XRCID("Handheld")))
             configPointer->Write("/Main/Equalization", "Handheld");
  
+       if (menubarPointer->IsChecked(XRCID("GUI")))
+           configPointer->Write("/Main/XmlRomRamOption", "GUI");
+       if (menubarPointer->IsChecked(XRCID("XML")))
+           configPointer->Write("/Main/XmlRomRamOption", "XML");
+
         if (menubarPointer->IsChecked(XRCID("CDP1802")))
             configPointer->Write("/Main/Cpu_Type", "CDP1802");
         if (menubarPointer->IsChecked(XRCID("CDP1804")))
@@ -5023,6 +5235,16 @@ void Main::onHandheld(wxCommandEvent&WXUNUSED(event))
     treble_ = -47;
     if (computerRunning_)
         p_Computer->setEqualization(bass_, treble_);
+}
+
+void Main::onXmlRomRamOptionGui(wxCommandEvent&WXUNUSED(event))
+{
+    XmlRomRamOptionGui_ = true;
+}
+
+void Main::onXmlRomRamOptionXml(wxCommandEvent&WXUNUSED(event))
+{
+    XmlRomRamOptionGui_ = false;
 }
 
 void Main::onChar(wxKeyEvent& event)
@@ -5640,14 +5862,24 @@ void Main::nonFixedWindowPosition()
     conf[XML].SN76430NY_ = -1;
     conf[XML].coinX_ = -1;
     conf[XML].coinY_ = -1;
-    conf[XML].cdp1862X_ = -1;
-    conf[XML].cdp1862Y_ = -1;
     conf[XML].cdp1864X_ = -1;
     conf[XML].cdp1864Y_ = -1;
+    conf[XML].st4X_ = -1;
+    conf[XML].st4Y_ = -1;
     conf[XML].vip2KX_ = -1;
     conf[XML].vip2KY_ = -1;
     conf[XML].fredX_ = -1;
     conf[XML].fredY_ = -1;
+    for (std::vector<Cdp1851>::iterator cdp1851 = elfConfiguration[XML].ioConfiguration.cdp1851.begin (); cdp1851 != elfConfiguration[XML].ioConfiguration.cdp1851.end (); ++cdp1851)
+    {
+       cdp1851->pos.x = -1;
+       cdp1851->pos.y = -1;
+    }
+    for (std::vector<Cdp1852>::iterator cdp1852 = elfConfiguration[XML].ioConfiguration.cdp1852.begin (); cdp1852 != elfConfiguration[XML].ioConfiguration.cdp1852.end (); ++cdp1852)
+    {
+       cdp1852->pos.x = -1;
+       cdp1852->pos.y = -1;
+    }
     conf[ELF2K].keypadX_ = -1;
     conf[ELF2K].keypadY_ = -1;
     conf[COSMICOS].keypadX_ = -1;
@@ -5795,14 +6027,24 @@ void Main::fixedWindowPosition()
     conf[XML].SN76430NY_ = conf[XML].defSN76430NY_;
     conf[XML].coinX_ = conf[XML].defCoinX_;
     conf[XML].coinY_ = conf[XML].defCoinY_;
-    conf[XML].cdp1862X_ = conf[XML].defCdp1862X_;
-    conf[XML].cdp1862Y_ = conf[XML].defCdp1862Y_;
     conf[XML].cdp1864X_ = conf[XML].defCdp1864X_;
     conf[XML].cdp1864Y_ = conf[XML].defCdp1864Y_;
+    conf[XML].st4X_ = conf[XML].defSt4X_;
+    conf[XML].st4Y_ = conf[XML].defSt4Y_;
     conf[XML].vip2KX_ = conf[XML].defVip2KX_;
     conf[XML].vip2KY_ = conf[XML].defVip2KY_;
     conf[XML].fredX_ = conf[XML].defFredX_;
     conf[XML].fredY_ = conf[XML].defFredY_;
+    for (std::vector<Cdp1851>::iterator cdp1851 = elfConfiguration[XML].ioConfiguration.cdp1851.begin (); cdp1851 != elfConfiguration[XML].ioConfiguration.cdp1851.end (); ++cdp1851)
+    {
+       cdp1851->pos.x = cdp1851->defaultPos.x;
+       cdp1851->pos.y = cdp1851->defaultPos.y;
+    }
+    for (std::vector<Cdp1852>::iterator cdp1852 = elfConfiguration[XML].ioConfiguration.cdp1852.begin (); cdp1852 != elfConfiguration[XML].ioConfiguration.cdp1852.end (); ++cdp1852)
+    {
+       cdp1852->pos.x = cdp1852->defaultPos.x;
+       cdp1852->pos.y = cdp1852->defaultPos.y;
+    }
     conf[ELF2K].keypadX_ = mainWindowX_+507+windowInfo.xBorder2;
     conf[ELF2K].keypadY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
     conf[COSMICOS].keypadX_ = mainWindowX_+333+windowInfo.xBorder2;
@@ -5951,7 +6193,7 @@ void Main::onStart(int computer)
         break;
 
         case MICROTUTOR2:
-            p_Microtutor2 = new Microtutor2(computerInfo[MICROTUTOR2].name, wxPoint(conf[MICROTUTOR2].mainX_, conf[MICROTUTOR2].mainY_), wxSize(333, 160), conf[MICROTUTOR2].clockSpeed_, elfConfiguration[MICROTUTOR2], conf[MICROTUTOR2]);
+            p_Microtutor2 = new MicrotutorII(computerInfo[MICROTUTOR2].name, wxPoint(conf[MICROTUTOR2].mainX_, conf[MICROTUTOR2].mainY_), wxSize(333, 160), conf[MICROTUTOR2].clockSpeed_, elfConfiguration[MICROTUTOR2], conf[MICROTUTOR2]);
             p_Computer = p_Microtutor2;
         break;
             
@@ -6060,7 +6302,7 @@ void Main::onStart(int computer)
         break;
 
         case STUDIO:
-            p_Studio2 = new Studio2(computerInfo[STUDIO].name, wxPoint(conf[STUDIO].mainX_, conf[STUDIO].mainY_), wxSize(64*zoom*xScale, 128*zoom), zoom, xScale, STUDIO, conf[STUDIO]);
+            p_Studio2 = new StudioII(computerInfo[STUDIO].name, wxPoint(conf[STUDIO].mainX_, conf[STUDIO].mainY_), wxSize(64*zoom*xScale, 128*zoom), zoom, xScale, STUDIO, conf[STUDIO]);
             p_Video[VIDEOMAIN] = p_Studio2;
             conf[STUDIO].numberOfVideoTypes_ = 1;
             p_Computer = p_Studio2;
@@ -7059,7 +7301,7 @@ void Main::enableColorbutton(bool status)
     XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status | (runningComputer_ == COINARCADE));
     XRCCTRL(*this,"ColoursFRED1", wxButton)->Enable(status | (runningComputer_ == FRED1));
     XRCCTRL(*this,"ColoursFRED1_5", wxButton)->Enable(status | (runningComputer_ == FRED1_5));
-    XRCCTRL(*this,"ColoursStudio2", wxButton)->Enable(status | (runningComputer_ == STUDIO));
+    XRCCTRL(*this,"ColoursStudioII", wxButton)->Enable(status | (runningComputer_ == STUDIO));
     XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status | (runningComputer_ == VICTORY));
     XRCCTRL(*this,"ColoursStudioIV", wxButton)->Enable(status | (runningComputer_ == STUDIOIV));
     XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status | (runningComputer_ == VISICOM));
@@ -7446,13 +7688,13 @@ void Main::enableGui(bool status)
         p_Main->scrtValues(status, false, -1, -1, -1, -1);
 
         enableChip8DebugGui(!status);
-        XRCCTRL(*this,"MainRomStudio2", wxComboBox)->Enable(status&(!conf[STUDIO].disableSystemRom_ | !conf[STUDIO].multiCart_));
-        XRCCTRL(*this,"RomButtonStudio2", wxButton)->Enable(status&(!conf[STUDIO].disableSystemRom_ | !conf[STUDIO].multiCart_));
-        XRCCTRL(*this,"CartRomStudio2", wxComboBox)->Enable(status);
-        XRCCTRL(*this,"CartRomButtonStudio2", wxButton)->Enable(status);
-        XRCCTRL(*this,"FullScreenF3Studio2", wxButton)->Enable(!status);
-        XRCCTRL(*this,"ScreenDumpF5Studio2", wxButton)->Enable(!status);
-        XRCCTRL(*this,"MultiCartStudio2", wxCheckBox)->Enable(status);
+        XRCCTRL(*this,"MainRomStudioII", wxComboBox)->Enable(status&(!conf[STUDIO].disableSystemRom_ | !conf[STUDIO].multiCart_));
+        XRCCTRL(*this,"RomButtonStudioII", wxButton)->Enable(status&(!conf[STUDIO].disableSystemRom_ | !conf[STUDIO].multiCart_));
+        XRCCTRL(*this,"CartRomStudioII", wxComboBox)->Enable(status);
+        XRCCTRL(*this,"CartRomButtonStudioII", wxButton)->Enable(status);
+        XRCCTRL(*this,"FullScreenF3StudioII", wxButton)->Enable(!status);
+        XRCCTRL(*this,"ScreenDumpF5StudioII", wxButton)->Enable(!status);
+        XRCCTRL(*this,"MultiCartStudioII", wxCheckBox)->Enable(status);
     }
     if (runningComputer_ == COINARCADE)
     {
@@ -7702,17 +7944,19 @@ void Main::enableGui(bool status)
         setRealCas2(runningComputer_);
         
         XRCCTRL(*this, "BatchConvertButtonXml", wxButton)->Enable(conf[XML].useBatchWav_ && !status);
+        XRCCTRL(*this,"MainDirXml", wxChoice)->Enable(status);
         XRCCTRL(*this,"MainXmlXml", wxComboBox)->Enable(status);
         XRCCTRL(*this,"XmlButtonXml", wxButton)->Enable(status);
-        if (conf[runningComputer_].ramFileFromGui_ && conf[runningComputer_].memConfig_[0].type == MAINRAM)
+       
+        if ((conf[XML].memConfig_[romRamButton0_].type & 0xff) == MAINRAM || (conf[XML].memConfig_[romRamButton0_].type & 0xff) == MAINROM)
         {
-            XRCCTRL(*this,"MainRamXml", wxComboBox)->Enable(status);
-            XRCCTRL(*this,"RamButtonXml", wxButton)->Enable(status);
+            XRCCTRL(*this,"RomRam0Xml", wxComboBox)->Enable(status);
+            XRCCTRL(*this,"RomRamButton0Xml", wxButton)->Enable(status);
         }
-        if (conf[runningComputer_].romFileFromGui_ && conf[runningComputer_].memConfig_[1].type == MAINROM)
+        if ((conf[XML].memConfig_[romRamButton1_].type & 0xff) == MAINRAM || (conf[XML].memConfig_[romRamButton1_].type & 0xff) == MAINROM)
         {
-            XRCCTRL(*this,"MainRomXml", wxComboBox)->Enable(status);
-            XRCCTRL(*this,"RomButtonXml", wxButton)->Enable(status);
+            XRCCTRL(*this,"RomRam1Xml", wxComboBox)->Enable(status);
+            XRCCTRL(*this,"RomRamButton1Xml", wxButton)->Enable(status);
         }
         XRCCTRL(*this,"PrintButtonXml", wxButton)->Enable(!status && conf[runningComputer_].printerOn_);
 
@@ -7977,19 +8221,19 @@ void Main::enableGui(bool status)
     {
         XRCCTRL(*this, "Chip8TraceButton", wxToggleButton)->SetValue(false);
         XRCCTRL(*this, "Chip8DebugMode", wxCheckBox)->SetValue(false);
-        XRCCTRL(*this, "RamButtonMMicrotutor2", wxButton)->Enable(status);
-        XRCCTRL(*this, "MainRamMMicrotutor2", wxComboBox)->Enable(status);
+        XRCCTRL(*this, "RamButtonMMicrotutorII", wxButton)->Enable(status);
+        XRCCTRL(*this, "MainRamMMicrotutorII", wxComboBox)->Enable(status);
         if (elfConfiguration[runningComputer_].utilityMemory)
         {
-            XRCCTRL(*this, "RamButtonEMicrotutor2", wxButton)->Enable(status);
-            XRCCTRL(*this, "MainRamEMicrotutor2", wxComboBox)->Enable(status);
+            XRCCTRL(*this, "RamButtonEMicrotutorII", wxButton)->Enable(status);
+            XRCCTRL(*this, "MainRamEMicrotutorII", wxComboBox)->Enable(status);
         }
         else
         {
-            XRCCTRL(*this, "RamButtonEMicrotutor2", wxButton)->Enable(false);
-            XRCCTRL(*this, "MainRamEMicrotutor2", wxComboBox)->Enable(false);
+            XRCCTRL(*this, "RamButtonEMicrotutorII", wxButton)->Enable(false);
+            XRCCTRL(*this, "MainRamEMicrotutorII", wxComboBox)->Enable(false);
         }
-        XRCCTRL(*this,"RamMicrotutor2", wxChoice)->Enable(status);
+        XRCCTRL(*this,"RamMicrotutorII", wxChoice)->Enable(status);
         enableMemAccessGui(!status);
     }
     enableDebugGui(!status);

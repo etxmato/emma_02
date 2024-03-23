@@ -675,13 +675,12 @@ public:
 #define VIDEOXML6847 4
 #define VIDEOXMLTMS 5
 #define VIDEOXMLI8275 6
-#define VIDEOXML1862 7
+#define VIDEOCOIN 7
 #define VIDEOXML1864 8
 #define VIDEOXMLSN76430N 9
 #define VIDEOVIP2K 10
 #define VIDEOFRED 11
 #define VIDEOSTUDIOIV 12
-#define VIDEOCOIN 13
 //#define VIDEOXMLMAX 14
 
 #define VIDEOVT 0
@@ -763,6 +762,7 @@ public:
 #define SN76430NRAM 38
 #define MAINROM 39
 #define COLOURRAM1864 40
+#define COLOURRAMST4 41
 
 #define MICRO_ROM 0
 #define MICRO_RAM 1
@@ -950,12 +950,6 @@ public:
 #define GUIPROTECTEDMODE "ProtectedMode"
 
 #define GUICOMPUTERNOTEBOOK "Computer"
-
-#define RESETSTATE 0
-#define RESETSTATECW 3
-#define BASICSTATE 1
-#define RUNSTATE 2
-#define COMMAND_C 3
 
 #define LEFTCHANNEL false
 #define RIGHTCHANNEL true
@@ -1176,6 +1170,7 @@ public:
     void removeRedundantFiles();
     void deleteDir(wxString directory);
     void reInstall(wxString source, wxString destination, wxString pathSep);
+    void removeOldXml(wxString dir, wxString pathSep);
     void reInstallOnNotFound(int computerType, wxString fileTypeString);
     void checkAndReInstallMainRom(int computerType);
     void checkAndReInstallFile(int computerType, wxString fileTypeString, int fileType);
@@ -1231,6 +1226,8 @@ public:
     void onDefault(wxCommandEvent& event);
     void onTvSpeaker(wxCommandEvent& event);
     void onHandheld(wxCommandEvent& event);
+    void onXmlRomRamOptionGui(wxCommandEvent& event);
+    void onXmlRomRamOptionXml(wxCommandEvent& event);
     void onChar(wxKeyEvent&event);
     void onKeyDown(wxKeyEvent&event);
     void onWheel(wxMouseEvent&event);

@@ -717,15 +717,15 @@ void Sound::psaveAmplitudeChange(int q)
 
                         case SOUND_1863_1864:
                             if (q)
-                                beepOnStudio();
+                                tone1864On();
                             else
                                 beepOff();
                         break;
 
                         case SOUND_STUDIO:
                             if (q)
-                                tone1864On();
-                            else
+                                beepOnStudio();
+                           else
                                 beepOff();
                         break;
 
@@ -791,7 +791,6 @@ void Sound::playSaveLoad()
 
     int const soundBufferSize = 256;
     short samples [soundBufferSize];
-    short ploadSamples [soundBufferSize];
 
     while(true)
     {
@@ -841,11 +840,11 @@ void Sound::playSaveLoad()
             }
             else
             {
-                long in = ploadWavePointer->read(ploadSamples, sample_count*forwardSpeed_, gain_);
+                long in = ploadWavePointer->read(ploadSamples_, sample_count*forwardSpeed_, gain_);
                 if (ploadOn_)
                 {
-                    soundBufferPointerLeft->mix_samples(ploadSamples, in);
-                    soundBufferPointerRight->mix_samples(ploadSamples, in);
+                    soundBufferPointerLeft->mix_samples(ploadSamples_, in);
+                    soundBufferPointerRight->mix_samples(ploadSamples_, in);
                 }
             }
         }
@@ -875,20 +874,20 @@ void Sound::playSaveLoad()
             }
             else
             {
-                long in = ploadWavePointer->read(ploadSamples, sample_count, gain_);
+                long in = ploadWavePointer->read(ploadSamples_, sample_count, gain_);
                 if (ploadOn_)
                 {
-                    soundBufferPointerLeft->mix_samples(ploadSamples, in);
-                    soundBufferPointerRight->mix_samples(ploadSamples, in);
+                    soundBufferPointerLeft->mix_samples(ploadSamples_, in);
+                    soundBufferPointerRight->mix_samples(ploadSamples_, in);
                 }
             }
         }
 
         if (wavOn_)
         {
-            long in = wavSoundPointer->read(ploadSamples, sample_count, gain_);
-            soundBufferPointerLeft->mix_samples(ploadSamples, in);
-            soundBufferPointerRight->mix_samples(ploadSamples, in);
+            long in = wavSoundPointer->read(ploadSamples_, sample_count, gain_);
+            soundBufferPointerLeft->mix_samples(ploadSamples_, in);
+            soundBufferPointerRight->mix_samples(ploadSamples_, in);
             if (wavSoundPointer->eof())
             {
                 delete wavSoundPointer;

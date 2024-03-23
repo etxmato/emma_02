@@ -29,6 +29,8 @@ public:
     wxPoint position;
     wxSize size;
     int value;
+    int rangeLow;
+    int rangeHigh;
     int textSize;
     int color;
     bool useImageDir;
@@ -55,6 +57,10 @@ public:
 class MemConfig
 {
 public:
+    wxArrayString pulldownDir;
+    wxArrayString pulldownMask;
+    wxArrayString pulldownExclude;
+    wxArrayString pulldownExclude2;
     wxString dirname;
     wxString filename;
     wxString filename2;
@@ -168,10 +174,13 @@ public:
 enum
 {
     INFO_RESET_STATE = 0,
+    INFO_UT_STATE,
     INFO_BASIC_STATE,
+    INFO_BASIC_STATE_CW,
     INFO_RUN_STATE,
     INFO_STOP_THERMAL,
     INFO_STOP_CAS,
+    INFO_STOP_CAS_MICRO,
     INFO_START_CAS_SAVE,
     INFO_START_CAS_LOAD,
     INFO_START_CAS_DLOAD,
@@ -196,12 +205,17 @@ enum
     INFO_CHECK_SW,
     INFO_STUDIO_BUILD_IN_GAME,
     INFO_VICTORY_BUILD_IN_GAME,
+    INFO_VISICOM_BUILD_IN_GAME,
+    INFO_SET_PSEUDO_AM4KBAS2020,
+    INFO_SET_PSEUDO_AM4KBAS1978,
 };
 
 class Locations
 {
 public:
     vector<Word> keyInputAddress;
+    vector<Word> inReleaseAddress;
+    int code_start;
     int code_start_high;
     int code_start_low;
     int code_end_high;
@@ -253,6 +267,8 @@ public:
     Locations addressLocations;
     vector<LocationTrigger> locationTrigger;
     
+    wxString stateCommand_[LAST_COMMAND_STATE];
+
     wxString romDir_[MAXROM];
     wxString rom_[MAXROM];
     wxString ramDir_;
@@ -274,6 +290,8 @@ public:
     wxString printFileDir_;
     wxString printFile_;
     wxString configurationDir_;
+    wxString xmlMainDir_;
+    wxString xmlSubDir_;
     wxString xmlDir_;
     wxString xmlFile_;
     wxString xmodemFileDir_;
@@ -282,9 +300,6 @@ public:
     wxString sequencerFile_;
     wxString splashDialog_;
     wxString splashText_;
-
-    bool ramFileFromGui_;
-    bool romFileFromGui_;
 
     vector<AssemblerInfo> assemblerInfo_;
     
@@ -306,6 +321,13 @@ public:
     wxString loadFileNameFull_;
 
     char pLoadSaveName_[4];
+    bool defusDefined_;
+    bool eopDefined_;
+    bool stringDefined_;
+    bool arrayValueDefined_;
+    bool eodDefined_;
+    bool basicRamAddressDefined_;
+
     Word defus_;
     Word eop_;
     Word string_;
@@ -377,8 +399,8 @@ public:
     int v1870X_, v1870Y_;
     int coinX_, coinY_;
     int pixieX_, pixieY_;
-    int cdp1862X_, cdp1862Y_;
     int cdp1864X_, cdp1864Y_;
+    int st4X_, st4Y_;
     int vip2KX_, vip2KY_;
     int fredX_, fredY_;
     int tmsX_, tmsY_;
@@ -397,8 +419,8 @@ public:
     int defv1870X_, defv1870Y_;
     int defCoinX_, defCoinY_;
     int defPixieX_, defPixieY_;
-    int defCdp1862X_, defCdp1862Y_;
     int defCdp1864X_, defCdp1864Y_;
+    int defSt4X_, defSt4Y_;
     int defVip2KX_, defVip2KY_;
     int defFredX_, defFredY_;
     int defTmsX_, defTmsY_;
@@ -407,6 +429,7 @@ public:
     int defMc6847X_, defMc6847Y_;
     int defi8275X_, defi8275Y_;
     int defSN76430NX_, defSN76430NY_;
+    int defaultFrontPanelX_, defaultFrontPanelY_;
 
     int sizeX_;
     int sizeY_;

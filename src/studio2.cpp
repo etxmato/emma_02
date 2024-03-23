@@ -44,18 +44,18 @@
 
 #define CHIP8_PC 5
 
-Studio2::Studio2(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, Conf computerConf)
+StudioII::StudioII(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, Conf computerConf)
 :Pixie(title, pos, size, zoom, zoomfactor, computerType, 0)
 {
     computerConfiguration = computerConf;
 }
 
-Studio2::~Studio2()
+StudioII::~StudioII()
 {
     p_Main->setMainPos(STUDIO, GetPosition());
 }
 
-void Studio2::configureComputer()
+void StudioII::configureComputer()
 {
     buildInGame_ = 0;
 
@@ -68,15 +68,15 @@ void Studio2::configureComputer()
         studioKeyState_[j][i] = 0;
 
     p_Main->message("Configuring Studio II");
-    p_Main->message("    Output 2: select port, EF 3: read selected port 1, EF4: read selected port 2\n");
+    p_Main->message("	Output 2: select port, EF 3: read selected port 1, EF4: read selected port 2\n");
 
-    p_Main->getDefaultHexKeys(STUDIO, "Studio2", "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
-    p_Main->getDefaultHexKeys(STUDIO, "Studio2", "B", keyDefB1_, keyDefB2_, keyDefGameHexB_);
+    p_Main->getDefaultHexKeys(STUDIO, "StudioII", "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
+    p_Main->getDefaultHexKeys(STUDIO, "StudioII", "B", keyDefB1_, keyDefB2_, keyDefGameHexB_);
 
-    gameAuto_ = p_Main->getConfigBool("/Studio2/GameAuto", true);
+    gameAuto_ = p_Main->getConfigBool("/StudioII/GameAuto", true);
     
-    simDefA2_ = p_Main->getConfigBool("/Studio2/DiagonalA2", true);
-    simDefB2_ = p_Main->getConfigBool("/Studio2/DiagonalB2", true);
+    simDefA2_ = p_Main->getConfigBool("/StudioII/DiagonalA2", true);
+    simDefB2_ = p_Main->getConfigBool("/StudioII/DiagonalB2", true);
 
     multiCart_ = p_Main->getUseMultiCart(STUDIO);
     disableSystemRom_ = p_Main->getDisableSystemRom(STUDIO);
@@ -86,7 +86,7 @@ void Studio2::configureComputer()
     resetCpu();
 }
 
-void Studio2::reDefineKeysA(int hexKeyDefA1[], int hexKeyDefA2[])
+void StudioII::reDefineKeysA(int hexKeyDefA1[], int hexKeyDefA2[])
 {
     for (int i=0; i<512; i++)
     {
@@ -111,7 +111,7 @@ void Studio2::reDefineKeysA(int hexKeyDefA1[], int hexKeyDefA2[])
     }
 }
 
-void Studio2::reDefineKeysB(int hexKeyDefB1[], int hexKeyDefB2[])
+void StudioII::reDefineKeysB(int hexKeyDefB1[], int hexKeyDefB2[])
 {
     for (int i=0; i<10; i++)
     {
@@ -132,7 +132,7 @@ void Studio2::reDefineKeysB(int hexKeyDefB1[], int hexKeyDefB2[])
     }
 }
 
-void Studio2::keyDown(int keycode)
+void StudioII::keyDown(int keycode)
 {
     if (keyDefinition[keycode].defined)
     {
@@ -283,7 +283,7 @@ void Studio2::keyDown(int keycode)
     }
 }
 
-void Studio2::keyUp(int keycode)
+void StudioII::keyUp(int keycode)
 {
     if (simDefA2_)
     {
@@ -325,7 +325,7 @@ void Studio2::keyUp(int keycode)
         studioKeyState_[keyDefinition[keycode].player][keyDefinition[keycode].key] = 0;
 }
 
-Byte Studio2::ef(int flag)
+Byte StudioII::ef(int flag)
 {
     switch(efType_[0][0][flag])
     {
@@ -350,21 +350,21 @@ Byte Studio2::ef(int flag)
     }
 }
 
-Byte Studio2::ef3()
+Byte StudioII::ef3()
 {
     if (studioKeyPort_<0 || studioKeyPort_>9)
         return 1;
     return(studioKeyState_[0][studioKeyPort_]) ? 0 : 1;
 }
 
-Byte Studio2::ef4()
+Byte StudioII::ef4()
 {
     if (studioKeyPort_<0 || studioKeyPort_>9)
         return 1;
     return(studioKeyState_[1][studioKeyPort_]) ? 0 : 1;
 }
 
-void Studio2::switchQ(int value)
+void StudioII::switchQ(int value)
 {
     if (value == 0)
     {
@@ -374,7 +374,7 @@ void Studio2::switchQ(int value)
     }
 }
 
-Byte Studio2::in(Byte port, Word WXUNUSED(address))
+Byte StudioII::in(Byte port, Word WXUNUSED(address))
 {
     Byte ret;
 
@@ -395,7 +395,7 @@ Byte Studio2::in(Byte port, Word WXUNUSED(address))
     return ret;
 }
 
-void Studio2::out(Byte port, Word WXUNUSED(address), Byte value)
+void StudioII::out(Byte port, Word WXUNUSED(address), Byte value)
 {
     outValues_[port] = value;
 
@@ -415,13 +415,13 @@ void Studio2::out(Byte port, Word WXUNUSED(address), Byte value)
     }
 }
 
-void Studio2::outStudio(Byte value)
+void StudioII::outStudio(Byte value)
 {
 //    while(value >= 0x10) value -= 0x10;
     studioKeyPort_ = value & 0xf;
 }
 
-void Studio2::cycle(int type)
+void StudioII::cycle(int type)
 {
     switch(cycleType_[type])
     {
@@ -435,7 +435,7 @@ void Studio2::cycle(int type)
     }
 }
 
-void Studio2::startComputer()
+void StudioII::startComputer()
 {
     resetPressed_ = false;
 
@@ -547,7 +547,7 @@ void Studio2::startComputer()
     threadPointer->Run();
 }
 
-void Studio2::writeMemDataType(Word address, Byte type)
+void StudioII::writeMemDataType(Word address, Byte type)
 {
     switch (memoryType_[address/256]&0xff)
     {
@@ -618,7 +618,7 @@ void Studio2::writeMemDataType(Word address, Byte type)
     }
 }
 
-Byte Studio2::readMemDataType(Word address, uint64_t* executed)
+Byte StudioII::readMemDataType(Word address, uint64_t* executed)
 {
     switch (memoryType_[address/256]&0xff)
     {
@@ -672,7 +672,7 @@ Byte Studio2::readMemDataType(Word address, uint64_t* executed)
     return MEM_TYPE_UNDEFINED;
 }
 
-Byte Studio2::readMem(Word address)
+Byte StudioII::readMem(Word address)
 {
     switch (memoryType_[address/256]&0xff)
     {
@@ -710,12 +710,12 @@ Byte Studio2::readMem(Word address)
     return mainMemory_[address];
 }
 
-Byte Studio2::readMemDebug(Word address)
+Byte StudioII::readMemDebug(Word address)
 {
     return readMem(address);
 }
 
-void Studio2::writeMem(Word address, Byte value, bool writeRom)
+void StudioII::writeMem(Word address, Byte value, bool writeRom)
 {
     switch (memoryType_[address/256]&0xff)
     {
@@ -773,12 +773,12 @@ void Studio2::writeMem(Word address, Byte value, bool writeRom)
     }
 }
 
-void Studio2::writeMemDebug(Word address, Byte value, bool writeRom)
+void StudioII::writeMemDebug(Word address, Byte value, bool writeRom)
 {
     writeMem(address, value, writeRom);
 }
 
-void Studio2::cpuInstruction()
+void StudioII::cpuInstruction()
 {
     if (cpuMode_ == RUN)
     {
@@ -793,18 +793,18 @@ void Studio2::cpuInstruction()
     }
 }
 
-void Studio2::resetPressed()
+void StudioII::resetPressed()
 {
     resetCpu();
     resetPressed_ = false;
     
     pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);
     
-    p_Main->getDefaultHexKeys(STUDIO, "Studio2", "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
-    p_Main->getDefaultHexKeys(STUDIO, "Studio2", "B", keyDefB1_, keyDefB2_, keyDefGameHexB_);
+    p_Main->getDefaultHexKeys(STUDIO, "StudioII", "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
+    p_Main->getDefaultHexKeys(STUDIO, "StudioII", "B", keyDefB1_, keyDefB2_, keyDefGameHexB_);
     
-    simDefA2_ = p_Main->getConfigBool("/Studio2/DiagonalA2", true);
-    simDefB2_ = p_Main->getConfigBool("/Studio2/DiagonalB2", true);
+    simDefA2_ = p_Main->getConfigBool("/StudioII/DiagonalA2", true);
+    simDefB2_ = p_Main->getConfigBool("/StudioII/DiagonalB2", true);
     
     if (multiCart_)
     {
@@ -836,12 +836,12 @@ void Studio2::resetPressed()
     initPixie();
 }
 
-void Studio2::onReset()
+void StudioII::onReset()
 {
     resetPressed_ = true;
 }
 
-void Studio2::checkComputerFunction()
+void StudioII::checkComputerFunction()
 {
     if (!gameAuto_)
         return;
@@ -888,13 +888,13 @@ void Studio2::checkComputerFunction()
     }
 }
 
-void Studio2::setMultiCartLsb(Byte lsb)
+void StudioII::setMultiCartLsb(Byte lsb)
 {
     multiCartLsb_ = lsb;
     resetPressed_ = true;
 }
 
-void Studio2::setMultiCartMsb(Byte msb)
+void StudioII::setMultiCartMsb(Byte msb)
 {
     multiCartMsb_ = msb;
     resetPressed_ = true;

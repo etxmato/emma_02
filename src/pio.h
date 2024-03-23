@@ -28,13 +28,13 @@ public:
     void onMousePress(wxMouseEvent& event);
     void onMouseRelease(wxMouseEvent& event);
     void releaseButtonOnScreen(HexButton* buttonPointer);
-   
+    
     void interruptCycle();
     void onArdyButton();
     void onBrdyButton();
-
+    
     void ioSwitch(int i);
-
+    
     void setProgBitsA(wxDC& dc, Byte value);
     void setProgBitsB(wxDC& dc, Byte value);
     void enableStbRdyA(wxDC& dc);
@@ -42,7 +42,7 @@ public:
     void disableStbRdyA(wxDC& dc);
     void disableStbRdyB(wxDC& dc);
     void enableInterruptButton(wxDC& dc);
-
+    
     void reset();
     void clearA();
     void clearB();
@@ -56,10 +56,11 @@ public:
     void maskInterruptA();
     void maskInterruptB();
     void refreshLeds();
-    
+    Byte getEfState(int number);
+
 private:
     int pioNumber_;
-
+    
     int pioAMode_;
     int pioBMode_;
     int pioStbAMode_;
@@ -78,18 +79,20 @@ private:
     Byte pioBInterruptLogical_;
     Byte pioStatus_;
     int commandByteNumber_;
-
+    
     Byte outPutValueA_;
     Byte outPutValueB_;
     Byte inPutValueA_;
-
+    
     bool pioAInterruptButtonEnabled_;
     bool pioBInterruptButtonEnabled_;
     bool pioAInterruptButtonState_;
     bool pioBInterruptButtonState_;
-
+    
     int ioSwitchState_[20];
     bool ioSwitchEnabled_[20];
+    
+    Byte pioEfState_[5];
 };
 
 class PioFrame : public wxFrame
@@ -115,12 +118,13 @@ public:
     void onBrdyButton(wxCommandEvent&event);
     void releaseButtonOnScreen(HexButton* buttonPoint) {pioScreenPointer->releaseButtonOnScreen(buttonPoint);};
     void refreshPanel();
+    Byte getEfState( int number) {return pioScreenPointer->getEfState(number);};
 
 private:
     class PioScreen *pioScreenPointer;
 
     int pioNumber_;
-    
+
     DECLARE_EVENT_TABLE()
 };
 

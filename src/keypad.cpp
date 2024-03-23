@@ -354,13 +354,13 @@ void EtiKeypad::configure(IoConfiguration ioConf, int keyDefA1[], int keyDefA2[]
     
     p_Main->message("Configuring HUG1802 keypad" + ioGroup);
 
-    printBuffer.Printf("    Output %d: write PIA", ioConfiguration_.etiKeypad.out);
+    printBuffer.Printf("	Output %d: write PIA", ioConfiguration_.etiKeypad.out);
     p_Main->message(printBuffer);
 
-    printBuffer.Printf("    Input %d: read PIA", ioConfiguration_.etiKeypad.inp);
+    printBuffer.Printf("	Input %d: read PIA", ioConfiguration_.etiKeypad.inp);
     p_Main->message(printBuffer);
  
-    printBuffer.Printf("    Ef %d: step key\n", ioConfiguration_.etiKeypad.ef);
+    printBuffer.Printf("	Ef %d: step key\n", ioConfiguration_.etiKeypad.ef);
     p_Main->message(printBuffer);
 
     DataDirection_ = true;

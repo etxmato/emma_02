@@ -236,7 +236,7 @@ void Tms9918::configure(IoConfiguration ioConfiguration)
     wxString printBuffer;
     p_Main->message("Configuring TMS 9918");
 
-    printBuffer.Printf("    Output %d: register port, input/output %d: data port\n", ioConfiguration.tmsModeHighOutput, ioConfiguration.tmsModeLowOutput);
+    printBuffer.Printf("	Output %d: register port, input/output %d: data port\n", ioConfiguration.tmsModeHighOutput, ioConfiguration.tmsModeLowOutput);
     p_Main->message(printBuffer);
 }
 

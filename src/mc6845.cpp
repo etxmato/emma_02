@@ -272,14 +272,14 @@ void MC6845::configure6845(IoConfiguration ioConfiguration)
     wxString printBuffer;
     if (ioConfiguration.mc6845Ef != -1)
     {
-        printBuffer.Printf("    EF %d: Display enable", ioConfiguration.mc6845Ef);
+        printBuffer.Printf("	EF %d: Display enable", ioConfiguration.mc6845Ef);
         p_Main->message(printBuffer);
     }
-    printBuffer.Printf("    %04X-%04X: Video RAM", mc6845RamStart_, mc6845RamEnd_);
+    printBuffer.Printf("	%04X-%04X: Video RAM", mc6845RamStart_, mc6845RamEnd_);
     p_Main->message(printBuffer);
     if (ioConfiguration.mc6845Address != -1)
     {
-        printBuffer.Printf("    %04X: CRTC address register, %04X: CRTC data register\n", mc6845AddressRegister_, mc6845DataRegister_);
+        printBuffer.Printf("	%04X: CRTC address register, %04X: CRTC data register\n", mc6845AddressRegister_, mc6845DataRegister_);
         p_Main->message(printBuffer);
     }
 }
@@ -303,14 +303,14 @@ void MC6845::configure6845Xml(IoConfiguration ioConfiguration)
     wxString printBuffer;
     if (ioConfiguration.mc6845Ef != -1)
     {
-        printBuffer.Printf("    EF %d: Display enable", ioConfiguration.mc6845Ef);
+        printBuffer.Printf("	EF %d: Display enable", ioConfiguration.mc6845Ef);
         p_Main->message(printBuffer);
     }
-    printBuffer.Printf("    %04X-%04X: Video RAM", mc6845RamStart_, mc6845RamEnd_);
+    printBuffer.Printf("	%04X-%04X: Video RAM", mc6845RamStart_, mc6845RamEnd_);
     p_Main->message(printBuffer);
     if (ioConfiguration.mc6845Address != -1)
     {
-        printBuffer.Printf("    %04X: CRTC address register, %04X: CRTC data register", mc6845AddressRegister_, mc6845DataRegister_);
+        printBuffer.Printf("	%04X: CRTC address register, %04X: CRTC data register", mc6845AddressRegister_, mc6845DataRegister_);
         p_Main->message(printBuffer);
     }
     p_Main->message("");
@@ -326,7 +326,7 @@ void MC6845::configureSuperVideo()
     p_Main->message("Configuring MC6845");
 
     wxString printBuffer;
-    printBuffer.Printf("    %04X-%04X: Video RAM\n", mc6845RamStart_, mc6845RamEnd_);
+    printBuffer.Printf("	%04X-%04X: Video RAM\n", mc6845RamStart_, mc6845RamEnd_);
     p_Main->message(printBuffer);
 }
 

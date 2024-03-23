@@ -14422,7 +14422,7 @@
 </object>
 <object class="choicebookpage">
 <label>Microtutor II</label>
-<object class="wxPanel" name="PanelMicrotutor2">
+<object class="wxPanel" name="PanelMicrotutorII">
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -14448,7 +14448,7 @@
 <object class="sizeritem">
 <flag>wxGROW</flag>
 <border>3</border>
-<object class="wxButton" name="RamButtonMMicrotutor2">
+<object class="wxButton" name="RamButtonMMicrotutorII">
 <tooltip>Browse for Microtutor II slot M RAM file</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -14460,7 +14460,7 @@
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>3</border>
-<object class="wxComboBox" name="MainRamMMicrotutor2">
+<object class="wxComboBox" name="MainRamMMicrotutorII">
 <size>192,-1</size>
 <tooltip>Specify Microtutor II slot M RAM file</tooltip>
 <font>
@@ -14497,7 +14497,7 @@
 <object class="sizeritem">
 <flag>wxGROW</flag>
 <border>3</border>
-<object class="wxButton" name="RamButtonEMicrotutor2">
+<object class="wxButton" name="RamButtonEMicrotutorII">
 <tooltip>Browse for Microtutor II slot E RAM file</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -14509,7 +14509,7 @@
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>3</border>
-<object class="wxComboBox" name="MainRamEMicrotutor2">
+<object class="wxComboBox" name="MainRamEMicrotutorII">
 <size>192,-1</size>
 <tooltip>Specify Microtutor II slot E RAM file</tooltip>
 <font>
@@ -14534,7 +14534,7 @@
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
 <border>4</border>
-<object class="wxStaticText" name="RamTextMicrotutor2">
+<object class="wxStaticText" name="RamTextMicrotutorII">
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -14545,7 +14545,7 @@
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
-<object class="wxChoice" name="RamMicrotutor2">
+<object class="wxChoice" name="RamMicrotutorII">
 <tooltip>Microtutor II RAM size (per slot)</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -14567,7 +14567,7 @@
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>4</border>
-<object class="wxStaticText" name="RamText2Microtutor2">
+<object class="wxStaticText" name="RamText2MicrotutorII">
 <size>100,-1</size>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -14618,7 +14618,7 @@
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>3</border>
-<object class="wxStaticText" name="AddressText1Microtutor2">
+<object class="wxStaticText" name="AddressText1MicrotutorII">
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -14629,7 +14629,7 @@
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>3</border>
-<object class="wxTextCtrl" name="ShowAddressMicrotutor2" subclass="IntEdit">
+<object class="wxTextCtrl" name="ShowAddressMicrotutorII" subclass="IntEdit">
 <size>45,-1</size>
 <tooltip>Led updates in run mode every X ms</tooltip>
 <font>
@@ -14642,7 +14642,7 @@
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>3</border>
-<object class="wxStaticText" name="AddressText2Microtutor2">
+<object class="wxStaticText" name="AddressText2MicrotutorII">
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -14665,7 +14665,7 @@
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>3</border>
-<object class="wxCheckBox" name="AutoBootMicrotutor2">
+<object class="wxCheckBox" name="AutoBootMicrotutorII">
 <tooltip>Enable auto boot at specified address</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -14678,7 +14678,7 @@
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>0</border>
-<object class="wxTextCtrl" name="BootAddressMicrotutor2" subclass="HexEdit">
+<object class="wxTextCtrl" name="BootAddressMicrotutorII" subclass="HexEdit">
 <size>50,-1</size>
 <tooltip>Specify auto boot address in hexadecimal</tooltip>
 <font>
@@ -14713,7 +14713,7 @@
 <object class="sizeritem">
 <flag>wxGROW</flag>
 <border>2</border>
-<object class="wxButton" name="LoadButtonMicrotutor2">
+<object class="wxButton" name="LoadButtonMicrotutorII">
 <tooltip>Load .hex file into Microtutor II emulator memory</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -14726,7 +14726,7 @@
 <object class="sizeritem">
 <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>2</border>
-<object class="wxStaticText" name="TextStartMicrotutor2">
+<object class="wxStaticText" name="TextStartMicrotutorII">
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -14739,7 +14739,7 @@
 <object class="sizeritem">
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>2</border>
-<object class="wxTextCtrl" name="SaveStartMicrotutor2" subclass="HexEdit">
+<object class="wxTextCtrl" name="SaveStartMicrotutorII" subclass="HexEdit">
 <size>50,-1</size>
 <tooltip>Specify start address in hexadecimal</tooltip>
 <font>
@@ -14753,7 +14753,7 @@
 <object class="sizeritem">
 <flag>wxGROW</flag>
 <border>2</border>
-<object class="wxButton" name="SaveButtonMicrotutor2">
+<object class="wxButton" name="SaveButtonMicrotutorII">
 <tooltip>Save Microtutor II emulator memory to .hex file</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -14766,7 +14766,7 @@
 <object class="sizeritem">
 <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>2</border>
-<object class="wxStaticText" name="TextEndMicrotutor2">
+<object class="wxStaticText" name="TextEndMicrotutorII">
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -14779,7 +14779,7 @@
 <object class="sizeritem">
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>2</border>
-<object class="wxTextCtrl" name="SaveEndMicrotutor2" subclass="HexEdit">
+<object class="wxTextCtrl" name="SaveEndMicrotutorII" subclass="HexEdit">
 <size>50,-1</size>
 <tooltip>Specify end address in hexadecimal</tooltip>
 <font>
@@ -21324,7 +21324,7 @@
 </object>
 <object class="choicebookpage">
 <label>RCA Studio II</label>
-<object class="wxPanel" name="PanelStudio2">
+<object class="wxPanel" name="PanelStudioII">
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -21353,7 +21353,7 @@
 <object class="sizeritem">
 <flag>wxGROW</flag>
 <border>0</border>
-<object class="wxButton" name="RomButtonStudio2">
+<object class="wxButton" name="RomButtonStudioII">
 <tooltip>Browse for Studio II system ROM file</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -21366,7 +21366,7 @@
 <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <option>20</option>
-<object class="wxComboBox" name="MainRomStudio2">
+<object class="wxComboBox" name="MainRomStudioII">
 <size>192,-1</size>
 <tooltip>Specify Studio II system ROM file</tooltip>
 <font>
@@ -21384,7 +21384,7 @@
 <object class="sizeritem">
 <flag>wxGROW</flag>
 <border>0</border>
-<object class="wxButton" name="CartRomButtonStudio2">
+<object class="wxButton" name="CartRomButtonStudioII">
 <tooltip>Browse for cartridge ST2 ROM file</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -21397,7 +21397,7 @@
 <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <option>20</option>
-<object class="wxComboBox" name="CartRomStudio2">
+<object class="wxComboBox" name="CartRomStudioII">
 <size>192,-1</size>
 <tooltip>Specify cartridge ST2 ROM file</tooltip>
 <font>
@@ -21448,7 +21448,7 @@
 <object class="sizeritem">
 <flag>wxGROW</flag>
 <border>1</border>
-<object class="wxButton" name="ScreenDumpFileButtonStudio2">
+<object class="wxButton" name="ScreenDumpFileButtonStudioII">
 <tooltip>Browse for video dump file</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -21467,7 +21467,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <option>20</option>
-<object class="wxComboBox" name="ScreenDumpFileStudio2">
+<object class="wxComboBox" name="ScreenDumpFileStudioII">
 <size>166,-1</size>
 <tooltip>Specify video dump file</tooltip>
 <font>
@@ -21487,7 +21487,7 @@
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
 <border>4</border>
-<object class="wxBitmapButton" name="ScreenDumpF5Studio2">
+<object class="wxBitmapButton" name="ScreenDumpF5StudioII">
 <size>22,22</size>
 <tooltip>Save video dump to file (F5)</tooltip>
 <enabled>0</enabled>
@@ -21499,7 +21499,7 @@
 <object class="sizeritem">
 <flag>wxGROW</flag>
 <border>1</border>
-<object class="wxButton" name="KeyMapStudio2">
+<object class="wxButton" name="KeyMapStudioII">
 <tooltip>Open key map window</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -21525,7 +21525,7 @@
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
-<object class="wxStaticText" name="ZoomTextStudio2">
+<object class="wxStaticText" name="ZoomTextStudioII">
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -21536,7 +21536,7 @@
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>1</border>
-<object class="wxTextCtrl" name="ZoomValueStudio2" subclass="FloatEdit">
+<object class="wxTextCtrl" name="ZoomValueStudioII" subclass="FloatEdit">
 <size>50,-1</size>
 <tooltip>Select RCA Studio II screen size</tooltip>
 <font>
@@ -21548,7 +21548,7 @@
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>5</border>
-<object class="wxSpinButton" name="ZoomSpinStudio2">
+<object class="wxSpinButton" name="ZoomSpinStudioII">
 <size>-1,23</size>
 <tooltip>Select RCA Studio II screen size</tooltip>
 <style>wxSP_VERTICAL</style>
@@ -21560,7 +21560,7 @@
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
-<object class="wxBitmapButton" name="FullScreenF3Studio2">
+<object class="wxBitmapButton" name="FullScreenF3StudioII">
 <size>22,22</size>
 <tooltip>Activate full screen mode (F3)</tooltip>
 <enabled>0</enabled>
@@ -21570,7 +21570,7 @@
 <object class="sizeritem">
 <flag>wxGROW</flag>
 <border>2</border>
-<object class="wxButton" name="ColoursStudio2">
+<object class="wxButton" name="ColoursStudioII">
 <tooltip>Open video setup window</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -21589,7 +21589,7 @@
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
-<object class="wxStaticText" name="VolumeTextStudio2">
+<object class="wxStaticText" name="VolumeTextStudioII">
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -21600,7 +21600,7 @@
 <object class="sizeritem">
 <flag>wxALIGN_TOP|wxALL</flag>
 <border>0</border>
-<object class="wxSlider" name="VolumeStudio2">
+<object class="wxSlider" name="VolumeStudioII">
 <size>100,24</size>
 <tooltip>Change emulator sound volume</tooltip>
 <style>wxSL_HORIZONTAL</style>
@@ -21619,7 +21619,7 @@
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
 <border>4</border>
-<object class="wxStaticText" name="BeepFrequencyTextStudio2">
+<object class="wxStaticText" name="BeepFrequencyTextStudioII">
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -21631,7 +21631,7 @@
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>4</border>
-<object class="wxTextCtrl" name="BeepFrequencyStudio2" subclass="IntEdit">
+<object class="wxTextCtrl" name="BeepFrequencyStudioII" subclass="IntEdit">
 <size>40,23</size>
 <tooltip>Specify oscilator frequency speed in Hz</tooltip>
 <font>
@@ -21644,7 +21644,7 @@
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>4</border>
-<object class="wxStaticText" name="BeepFrequencyTextHzStudio2">
+<object class="wxStaticText" name="BeepFrequencyTextHzStudioII">
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -21663,7 +21663,7 @@
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>4</border>
-<object class="wxCheckBox" name="MultiCartStudio2">
+<object class="wxCheckBox" name="MultiCartStudioII">
 <tooltip>Enable Multi-Cart</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -21683,7 +21683,7 @@
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
-<object class="wxStaticText" name="MsbTextStudio2">
+<object class="wxStaticText" name="MsbTextStudioII">
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -21694,7 +21694,7 @@
 <object class="sizeritem">
 <flag>wxALIGN_TOP|wxLEFT|wxRIGHT</flag>
 <border>3</border>
-<object class="wxSpinCtrl" name="MsbStudio2">
+<object class="wxSpinCtrl" name="MsbStudioII">
 <size>50,23</size>
 <tooltip>Multi-Cart MSB Dial</tooltip>
 <font>
@@ -21709,7 +21709,7 @@
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
-<object class="wxStaticText" name="LsbTextStudio2">
+<object class="wxStaticText" name="LsbTextStudioII">
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -21720,7 +21720,7 @@
 <object class="sizeritem">
 <flag>wxALIGN_TOP|wxLEFT|wxRIGHT</flag>
 <border>3</border>
-<object class="wxSpinCtrl" name="LsbStudio2">
+<object class="wxSpinCtrl" name="LsbStudioII">
 <size>50,23</size>
 <tooltip>Multi-Cart LSB Dial</tooltip>
 <font>
@@ -21742,7 +21742,7 @@
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>4</border>
-<object class="wxCheckBox" name="DisableSystemRomStudio2">
+<object class="wxCheckBox" name="DisableSystemRomStudioII">
 <tooltip>Disable Studio II System ROM</tooltip>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>

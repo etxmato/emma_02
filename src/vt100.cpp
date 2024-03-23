@@ -106,6 +106,7 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     colourIndex_ = 2;
     videoType_ = VIDEOVT;
     uartEf_ = false;
+    uartControl_ = 0;
     switch(computerType_)
     {
         case ELF:
@@ -426,18 +427,18 @@ void Vt100::configure(int selectedBaudR, int selectedBaudT, IoConfiguration ioCo
                 p_Main->message("Configuring VT100 terminal");
             
             if (ioConfiguration.vt100Output == -1)
-                printBuffer.Printf("    EF %d: serial input", ioConfiguration.vt100Ef);
+                printBuffer.Printf("	EF %d: serial input", ioConfiguration.vt100Ef);
             else
             {
                 p_Computer->setOutType(ioConfiguration.vt100Output, VT100OUT);
-                printBuffer.Printf("    Output %d: vtEnable, EF %d: serial input", ioConfiguration.vt100Output, ioConfiguration.vt100Ef);
+                printBuffer.Printf("	Output %d: vtEnable, EF %d: serial input", ioConfiguration.vt100Output, ioConfiguration.vt100Ef);
             }
             printBuffer = printBuffer + printEfReverse + printQ;
             p_Main->message(printBuffer);
         }
     }
     
-    printBuffer.Printf("    Transmit baud rate: %d, receive baud rate: %d\n", baudRateValue_[selectedBaudT_], baudRateValue_[selectedBaudR_]);
+    printBuffer.Printf("	Transmit baud rate: %d, receive baud rate: %d\n", baudRateValue_[selectedBaudT_], baudRateValue_[selectedBaudR_]);
     p_Main->message(printBuffer);
     
     vtEnabled_ = 1;
@@ -471,7 +472,7 @@ void Vt100::configureStandard(int selectedBaudR, int selectedBaudT, int dataRead
     else
         p_Main->message("Configuring VT100 terminal");
     configureQandEfPolarity(dataReadyFlag_, false);
-    printBuffer.Printf("    Transmit baud rate: %d, receive baud rate: %d\n", baudRateValue_[selectedBaudT_], baudRateValue_[selectedBaudR_]);
+    printBuffer.Printf("	Transmit baud rate: %d, receive baud rate: %d\n", baudRateValue_[selectedBaudT_], baudRateValue_[selectedBaudR_]);
     p_Main->message(printBuffer);
     
     vtEnabled_ = 1;
@@ -489,11 +490,11 @@ void Vt100::configureUart(IoConfiguration ioConfiguration)
     
     int ioGroupNum = 0;
     if (computerType_ == XML)
-        ioGroupNum = ioConfiguration.ideIoGroup + 1;
+        ioGroupNum = ioConfiguration.uartIoGroup + 1;
 
     wxString ioGroup = "";
     if (ioGroupNum != 0)
-        ioGroup.Printf(" on group %d", ioConfiguration.ideIoGroup);
+        ioGroup.Printf(" on group %d", ioConfiguration.uartIoGroup);
 
     p_Computer->setOutType(ioGroupNum, ioConfiguration.uartOut, UARTOUT);
     p_Computer->setInType(ioGroupNum, ioConfiguration.uartIn, UARTIN);
@@ -508,11 +509,13 @@ void Vt100::configureUart(IoConfiguration ioConfiguration)
     else
         p_Main->message("Configuring VT100 terminal with CDP1854/UART" + ioGroup);
     
-    printBuffer.Printf("    Output %d: load transmitter, input %d: read receiver", ioConfiguration.uartOut, ioConfiguration.uartIn);
+    printBuffer.Printf("	Output %d: load transmitter, input %d: read receiver", ioConfiguration.uartOut, ioConfiguration.uartIn);
     p_Main->message(printBuffer);
     
-    printBuffer.Printf("    Output %d: load control, input %d: read status", ioConfiguration.uartControl, ioConfiguration.uartStatus);
+    printBuffer.Printf("	Output %d: load control, input %d: read status", ioConfiguration.uartControl, ioConfiguration.uartStatus);
     p_Main->message(printBuffer);
+    
+    p_Computer->setEfTypeAndNumber(-1, ioGroupNum, ioConfiguration.vt100Ef, VT100EF, 0, "serial input");
     rs232_ = 0;
 }
 
@@ -534,10 +537,10 @@ void Vt100::configureUart16450(IoConfiguration ioConfiguration)
     wxString printBuffer;
     p_Main->message("Configuring 16450 Uart" + ioGroup);
 
-    printBuffer.Printf("    Output %d: register select, output %d: write selected", ioConfiguration.uartControl, ioConfiguration.uartOut);
+    printBuffer.Printf("	Output %d: register select, output %d: write selected", ioConfiguration.uartControl, ioConfiguration.uartOut);
     p_Main->message(printBuffer);
 
-    printBuffer.Printf("    Input %d: read status, input %d: read selected\n", ioConfiguration.uartStatus, ioConfiguration.uartIn);
+    printBuffer.Printf("	Input %d: read status, input %d: read selected\n", ioConfiguration.uartStatus, ioConfiguration.uartIn);
     p_Main->message(printBuffer);
 
     registerSelect_ = 0;
@@ -559,7 +562,7 @@ void Vt100::configureRcasbc(int selectedBaudR, int selectedBaudT)
     p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
     
     wxString printBuffer;
-    printBuffer.Printf("    Transmit baud rate: %d, receive baud rate: %d\n", baudRateValue_[selectedBaudT_], baudRateValue_[selectedBaudR_]);
+    printBuffer.Printf("	Transmit baud rate: %d, receive baud rate: %d\n", baudRateValue_[selectedBaudT_], baudRateValue_[selectedBaudR_]);
 
     if (uartNumber_ == UART1)
     {
@@ -568,8 +571,8 @@ void Vt100::configureRcasbc(int selectedBaudR, int selectedBaudT)
         else
             p_Main->message("Configuring VT100 terminal connected to UART1 with MSM82C51");
 
-        p_Main->message("    A000-AFFF, 0: Data, 1: Status/Control Word");
-        p_Main->message("    EF4/INT: RxRDY (reversed), EF3: TxRDY");
+        p_Main->message("	A000-AFFF, 0: Data, 1: Status/Control Word");
+        p_Main->message("	EF4/INT: RxRDY (reversed), EF3: TxRDY");
     }
     else
     {
@@ -578,8 +581,8 @@ void Vt100::configureRcasbc(int selectedBaudR, int selectedBaudT)
         else
             p_Main->message("Configuring VT100 terminal connected to UART2 with MSM82C51");
 
-        p_Main->message("    B000-BFFF, 0: Data, 1: Status/Control Word");
-        p_Main->message("    EF1: RxRDY, EF2: TxRDY");
+        p_Main->message("	B000-BFFF, 0: Data, 1: Status/Control Word");
+        p_Main->message("	EF1: RxRDY, EF2: TxRDY");
     }
     
     p_Main->message(printBuffer);
@@ -588,8 +591,8 @@ void Vt100::configureRcasbc(int selectedBaudR, int selectedBaudT)
         p_Main->message("Configuring VT52 terminal with MSM82C51/UART2");
     else
         p_Main->message("Configuring VT100 terminal with MSM82C51/UART2");
-    p_Main->message("    B000-BFFF, 0: Data, 1: Status/Control Word");
-    p_Main->message("    EF 1: RxRDY, EF2: TxRDY");
+    p_Main->message("	B000-BFFF, 0: Data, 1: Status/Control Word");
+    p_Main->message("	EF 1: RxRDY, EF2: TxRDY");
     p_Main->message(printBuffer);*/
     
     rs232_ = 0;
@@ -633,14 +636,14 @@ void Vt100::configureMs2000(int selectedBaudR, int selectedBaudT)
     else
         p_Main->message("Configuring VT100 terminal with CDP1854/UART on group " + groupString);
     
-    message.Printf("    Output %d: load transmitter, input %d: read receiver", elfConfiguration_.ioConfiguration.uartOut, elfConfiguration_.ioConfiguration.uartOut);
+    message.Printf("	Output %d: load transmitter, input %d: read receiver", elfConfiguration_.ioConfiguration.uartOut, elfConfiguration_.ioConfiguration.uartOut);
     p_Main->message(message);
-    message.Printf("    Output %d: load control, input %d: read status", elfConfiguration_.ioConfiguration.uartControl, elfConfiguration_.ioConfiguration.uartControl);
+    message.Printf("	Output %d: load control, input %d: read status", elfConfiguration_.ioConfiguration.uartControl, elfConfiguration_.ioConfiguration.uartControl);
     p_Main->message(message);
-    p_Main->message("    EF 4: serial input");
+    p_Main->message("	EF 4: serial input");
     
     wxString printBuffer;
-    printBuffer.Printf("    Transmit baud rate: %d, receive baud rate: %d\n", baudRateValue_[selectedBaudT_], baudRateValue_[selectedBaudR_]);
+    printBuffer.Printf("	Transmit baud rate: %d, receive baud rate: %d\n", baudRateValue_[selectedBaudT_], baudRateValue_[selectedBaudR_]);
     p_Main->message(printBuffer);
     
     rs232_ = 0;
@@ -709,12 +712,12 @@ void Vt100::configureVt2K(int selectedBaudR, int selectedBaudT, IoConfiguration 
         else
             p_Main->message("Configuring VT100 terminal");
         
-        printBuffer.Printf("    EF %d: serial input", ioConfiguration.vt100Ef);
+        printBuffer.Printf("	EF %d: serial input", ioConfiguration.vt100Ef);
         printBuffer = printBuffer + printEfReverse + printQ;
         p_Main->message(printBuffer);
     }
     
-    printBuffer.Printf("    Transmit baud rate: %d, receive baud rate: %d\n", baudRateValue_[selectedBaudT_], baudRateValue_[selectedBaudR_]);
+    printBuffer.Printf("	Transmit baud rate: %d, receive baud rate: %d\n", baudRateValue_[selectedBaudT_], baudRateValue_[selectedBaudR_]);
     p_Main->message(printBuffer);
     
     vtEnabled_ = 1;
@@ -755,9 +758,9 @@ void Vt100::configureQandEfPolarity(int ef, bool vtEnable)
     wxString messageText="";
 
     if (vtEnable)
-        messageText.Printf("    Output 7: vtEnable, EF %d: serial input", ef);
+        messageText.Printf("	Output 7: vtEnable, EF %d: serial input", ef);
     else
-        messageText.Printf("    EF %d: serial input", ef);
+        messageText.Printf("	EF %d: serial input", ef);
     p_Main->message(messageText + efPolarity + ", Serial out: Q" + qPolarity);
 }
 
@@ -1518,8 +1521,17 @@ void Vt100::startMcdsRun(bool load)
     mcdsRunCommand_ = 3;
     if (p_Computer->getRunState() == RESETSTATE)
         mcdsRunCommand_ = 1;
-    if (p_Computer->getRunState() == RESETSTATECW)
+    if (p_Computer->getRunState() == BASICSTATECW)
         mcdsRunCommand_ = 2;
+}
+
+void Vt100::startXmlRun(bool load, wxString command)
+{
+    load_ = load;
+    commandText_ = command;
+    elfRunCommand_ = 1;
+    if (commandText_ == "")
+        elfRunCommand_++;
 }
 
 int Vt100::Parity(int value)
@@ -3673,7 +3685,7 @@ void Vt100::getKey()
                 {
                     if (computerType_ == XML)
                     {
-                        if (checkKeyInputAddress(p_Computer->getScratchpadRegister(p_Computer->getProgramCounter())))
+                        if (p_Computer->checkKeyInputAddress())
                             checkCtrlvText();
                     }
                     else
@@ -3693,10 +3705,9 @@ void Vt100::getKey()
     }
 }
 
-bool Vt100::checkKeyInputAddress(Word address)
+bool Vt100::checkInReleaseAddress(Word address)
 {
-// ***  for (int i : addressLocations_.keyInputAddress)
-    for (std::vector<Word>::iterator i = addressLocations_.keyInputAddress.begin (); i != addressLocations_.keyInputAddress.end (); ++i)
+    for (std::vector<Word>::iterator i = addressLocations_.inReleaseAddress.begin (); i != addressLocations_.inReleaseAddress.end (); ++i)
     {
         if (address == *i)
             return true;
@@ -3761,7 +3772,7 @@ void Vt100::checkElfCommand()
             else if (elfRunCommand_ == 2)
             {
                 int saveExec = p_Main->pload();
-                if (saveExec == 1)
+                if (saveExec == -1)
                     elfRunCommand_ = 0;
                 else
                 {
@@ -3800,63 +3811,51 @@ void Vt100::checkElfCommand()
 
 void Vt100::checkXmlCommand()
 {
-    if (p_Computer->getCpuMode() != RUN)
+    if (checkInReleaseAddress(p_Computer->getScratchpadRegister(p_Computer->getProgramCounter())))
         p_Computer->onInButtonRelease();
 
-    if (p_Computer->getRunState() == RESETSTATE)
-        vtOut_ = 13;
-    else
+    if (p_Computer->checkKeyInputAddress())
     {
-        if (checkKeyInputAddress(p_Computer->getScratchpadRegister(p_Computer->getProgramCounter())))
+        if (elfRunCommand_ == 1 || commandText_ != "")
         {
-            if (elfRunCommand_ == 1)
-            {
-                vtOut_ = 'C';
+            vtOut_ = commandText_.GetChar(0);
+            commandText_ = commandText_.Right(commandText_.Len()-1);
+            if (commandText_.Len() == 0)
                 elfRunCommand_++;
-            }
-            else if (elfRunCommand_ == 2)
+        }
+        else if (elfRunCommand_ == 2)
+        {
+            int saveExec = p_Main->pload();
+            if (saveExec == -1)
+                elfRunCommand_ = 0;
+            else
             {
-                int saveExec = p_Main->pload();
-                if (saveExec == 1)
-                    elfRunCommand_ = 0;
+                if (p_Main->isBatchConvertActive())
+                {
+                    commandText_ = saveCommand_ + "\r";
+                }
                 else
                 {
-                    if (p_Main->isBatchConvertActive())
-                    {
-                        commandText_ = saveCommand_;
-                    }
-                    else
+                    if (!load_)
                     {
                         if (saveExec == 0)
-                            commandText_ = "RUN";
+                            commandText_ = "RUN\r";
                         else
                         {
                             wxString buffer;
                             buffer.Printf("%04x", saveExec);
-                            commandText_ = "PR CALL(@" + buffer + ")";
+                            commandText_ = "PR CALL(@" + buffer + ")\r";
                         }
                     }
-                    elfRunCommand_++;
-                }
-            }
-            else
-            {
-                if (load_)
-                    elfRunCommand_ = 0;
-                else
-                {
-                    if ((elfRunCommand_ - 2) <= commandText_.Len())
-                    {
-                        vtOut_ = commandText_.GetChar(elfRunCommand_ - 3);
-                        elfRunCommand_++;
-                    }
                     else
-                    {
-                        vtOut_ = 13;
                         elfRunCommand_ = 0;
-                    }
                 }
+                elfRunCommand_++;
             }
+        }
+        else
+        {
+            elfRunCommand_ = 0;
         }
     }
 }
@@ -3894,7 +3893,7 @@ void Vt100::checkMcdsCommand()
     if (mcdsRunCommand_ == 3)
     {
         int saveExec = p_Main->pload();
-        if (saveExec == 1)
+        if (saveExec == -1)
             mcdsRunCommand_ = 0;
         else
         {

@@ -58,9 +58,9 @@ void StudioIV::configureComputer()
         victoryKeyState_[j][i] = 0;
 
     p_Main->message("Configuring Studio IV");
-    p_Main->message("    Output 1: tone latch");
-    p_Main->message("    Output 2: select port, EF 3: read selected port 1, EF4: read selected port 2");
-    p_Main->message("    output 7: cassette on/off, EF 2: cassette in\n");
+    p_Main->message("	Output 1: tone latch");
+    p_Main->message("	Output 2: select port, EF 3: read selected port 1, EF4: read selected port 2");
+    p_Main->message("	output 7: cassette on/off, EF 2: cassette in\n");
 
     p_Main->getDefaultHexKeys(STUDIOIV, "StudioIV", "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
     p_Main->getDefaultHexKeys(STUDIOIV, "StudioIV", "B", keyDefB1_, keyDefB2_, keyDefGameHexB_);
@@ -905,12 +905,12 @@ void StudioIV::checkComputerFunction()
         break;
 
         case 0xb00a:
-            pseudoType_ = "AM4KBAS2020";
+            pseudoType_ = "AM4KBAS1978";
             chip8baseVar_ = 0x7b00;
             chip8mainLoop_ = 0xB0A3;
             chip8register12bit_ = false;
             pseudoLoaded_ = true;
-            p_Main->forcePseudoDefinition(pseudoType_, "am2020bas.syntax", "AM4KBAS 2020");
+            p_Main->forcePseudoDefinition(pseudoType_, "am4kbas.syntax", "AM4KBAS 1978");
         break;
     }
 }

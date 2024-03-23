@@ -133,7 +133,7 @@ void LedModule::configure(IoConfiguration ioConfiguration)
     wxString printBuffer;
     p_Main->message("Configuring Led Module");
 
-    printBuffer.Printf("    Output %d: write data\n", ioConfiguration.led_Module_Output);
+    printBuffer.Printf("	Output %d: write data\n", ioConfiguration.led_Module_Output);
     p_Main->message(printBuffer);
 }
 

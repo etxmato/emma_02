@@ -46,10 +46,10 @@ void Rtc::configureRtc(IoConfiguration ioConf)
     wxString printBuffer;
     p_Main->message("Configuring RTC DS12788" + ioGroup1 + ioGroup2);
 
-    printBuffer.Printf("    Output %d: select port, output %d: write selected", ioConf.rtcSelect, ioConf.rtcOut);
+    printBuffer.Printf("	Output %d: select port, output %d: write selected", ioConf.rtcSelect, ioConf.rtcOut);
     p_Main->message(printBuffer);
 
-    printBuffer.Printf("    Input %d: read port\n", ioConf.rtcIn);
+    printBuffer.Printf("	Input %d: read port\n", ioConf.rtcIn);
     p_Main->message(printBuffer);
 }
 

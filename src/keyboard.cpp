@@ -44,6 +44,8 @@
 
 Keyboard::Keyboard()
 {
+    fileToBeLoaded_ = false;
+    commandText_ = "";
 }
 
 void Keyboard::configureKeyboard(int computerType, IoConfiguration portConf) 
@@ -83,7 +85,7 @@ void Keyboard::configureKeyboard(int computerType, IoConfiguration portConf)
     wxString printBuffer;
     p_Main->message("Configuring Ascii Keyboard");
 
-    printBuffer.Printf("    Input %d: read data, EF %d: data ready flag\n", portConf.keyboardInput , portConf.keyboardEf);
+    printBuffer.Printf("	Input %d: read data, EF %d: data ready flag\n", portConf.keyboardInput , portConf.keyboardEf);
     p_Main->message(printBuffer);
 
     keyCycles_ = 500000;
@@ -104,14 +106,18 @@ void Keyboard::configureKeyboard(IoConfiguration portConf, Locations addressLoca
 
     wxString runningComp = p_Main->getRunningComputerStr();
 
-    p_Computer->setInType(portConf.keyboardInput, KEYBRDIN);
-    p_Computer->setEfType(portConf.keyboardEf, KEYBRDEF);
+    wxString ioGroup = "";
+    if (portConf.keyboardIoGroup != -1)
+        ioGroup.Printf(" on group %d", portConf.keyboardIoGroup);
+
+    p_Computer->setInType(portConf.keyboardIoGroup+1, portConf.keyboardInput, KEYBRDIN);
+    p_Computer->setEfType(portConf.keyboardIoGroup+1, portConf.keyboardEf, KEYBRDEF);
     p_Computer->setCycleType(KEYCYCLE, KEYBRDCYCLE);
 
     wxString printBuffer;
-    p_Main->message("Configuring Ascii Keyboard");
+    p_Main->message("Configuring Ascii Keyboard" + ioGroup);
 
-    printBuffer.Printf("    Input %d: read data, EF %d: data ready flag\n", portConf.keyboardInput , portConf.keyboardEf);
+    printBuffer.Printf("	Input %d: read data, EF %d: data ready flag\n", portConf.keyboardInput , portConf.keyboardEf);
     p_Main->message(printBuffer);
 
     keyCycles_ = 500000;
@@ -124,6 +130,7 @@ void Keyboard::charEventKeyboard(int keycode)
 
 void Keyboard::keyboardUp() 
 {
+    keyboardValue_ = 0;
     keyboardEf_ = 1;
 }
 
@@ -151,14 +158,14 @@ void Keyboard::cycleKeyboard()
         {
             if (elfRunCommand_ == 1)
             {
-                    rawKeyCode_ = 'C';
-                    keyboardEf_ = 0;
-                    elfRunCommand_++;
+                rawKeyCode_ = 'C';
+                keyboardEf_ = 0;
+                elfRunCommand_++;
             }
             else if (elfRunCommand_ == 2)
             {
                 int saveExec = p_Main->pload();
-                if (saveExec == 1)
+                if (saveExec == -1)
                     elfRunCommand_ = 0;
                 else
                 {
@@ -239,80 +246,49 @@ void Keyboard::cycleKeyboard()
 
 void Keyboard::cycleKeyboardXml()
 {
-    if ((elfRunCommand_ != 0) && (keyboardEf_ == 1))
+    if ((fileToBeLoaded_ || commandText_ != "") && (keyboardEf_ == 1))
     {
         if (p_Computer->getScratchpadRegister(p_Computer->getProgramCounter()) == 0xf1c0)
         {
             rawKeyCode_ = 13;
             keyboardEf_ = 0;
         }
-        if (checkKeyInputAddress(p_Computer->getScratchpadRegister(p_Computer->getProgramCounter())))
+        if (p_Computer->checkKeyInputAddress())
         {
-            if (elfRunCommand_ == 1)
+            if (commandText_ != "")
             {
-                    rawKeyCode_ = 'C';
-                    keyboardEf_ = 0;
-                    elfRunCommand_++;
-            }
-            else if (elfRunCommand_ == 2)
-            {
-                int saveExec = p_Main->pload();
-                if (saveExec == 1)
-                    elfRunCommand_ = 0;
-                else
-                {
-                    if (p_Main->isBatchConvertActive())
-                    {
-                        commandText_ = saveCommand_;
-                    }
-                    else
-                    {
-                        if (saveExec == 0)
-                            commandText_ = "run";
-                        else
-                        {
-                            wxString buffer;
-                            buffer.Printf("%04x", saveExec);
-                            commandText_ = "call(@" + buffer + ")";
-                        }
-                    }
-                    rawKeyCode_ = 0;
-                    elfRunCommand_++;
-                }
+                rawKeyCode_ = commandText_.GetChar(0);
+                commandText_ = commandText_.Right(commandText_.Len()-1);
+                keyboardEf_ = 0;
             }
             else
             {
-                if (load_)
-                    elfRunCommand_ = 0;
-                else
+                int saveExec = p_Main->pload();
+                fileToBeLoaded_ = false;
+                if (saveExec != wxNOT_FOUND)
                 {
-                    if ((elfRunCommand_-2) <= commandText_.Len())
-                    {
-                        rawKeyCode_ = commandText_.GetChar(elfRunCommand_-3);
-                        keyboardEf_ = 0;
-                        elfRunCommand_++;
-                    }
+                    if (p_Main->isBatchConvertActive())
+                        commandText_ = saveCommand_ + "\r";
                     else
                     {
-                        rawKeyCode_ = 13;
-                        keyboardEf_ = 0;
-                        elfRunCommand_ = 0;
+                        if (!load_)
+                        {
+                            if (saveExec == 0)
+                                commandText_ = "run\r";
+                            else
+                            {
+                                wxString buffer;
+                                buffer.Printf("%04x", saveExec);
+                                commandText_ = "call(@" + buffer + ")\r";
+                            }
+                        }
                     }
+                    rawKeyCode_ = 0;
                 }
             }
         }
     }
 
-    if (p_Computer->getCtrlvCharNum() != 0  && keyboardEf_ == 1)
-    {
-        if (checkKeyInputAddress(p_Computer->getScratchpadRegister(p_Computer->getProgramCounter())))
-        {
-            rawKeyCode_ = p_Computer->getCtrlvChar();
-            if (rawKeyCode_ != 0)
-                keyboardEf_ = 0;
-        }
-    }
-    
     if (elfKeyFileOpen_ && keyboardEf_ == 1 && keyCycles_ == 0)
     {
         if (elfKeyFile_.Read(&rawKeyCode_, 1) == 0)
@@ -341,17 +317,6 @@ void Keyboard::cycleKeyboardXml()
         rawKeyCode_ = 0;
         keyboardEf_ = 0;
     }
-}
-
-bool Keyboard::checkKeyInputAddress(Word address)
-{
-// ***    for (int i : addressLocations_.keyInputAddress)
-    for (std::vector<Word>::iterator i = addressLocations_.keyInputAddress.begin (); i != addressLocations_.keyInputAddress.end (); ++i)
-    {
-        if (address == *i)
-            return true;
-    }
-    return false;
 }
 
 void Keyboard::startElfKeyFile(wxString elfTypeStr)
@@ -388,6 +353,19 @@ void Keyboard::startElfRun(bool load)
         elfRunCommand_ = 1;
     else
         elfRunCommand_ = 2;
+}
+
+void Keyboard::startElfRun(bool load, wxString command)
+{
+    load_ = load;
+    commandText_ = command;
+    fileToBeLoaded_ = true;
+}
+
+void Keyboard::startCtrlV(wxString command)
+{
+    commandText_ = command;
+    fileToBeLoaded_ = false;
 }
 
 void Keyboard::setForceUpperCaseKeyboard(bool status)

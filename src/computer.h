@@ -18,10 +18,22 @@ wxDEFINE_EVENT(COMPUTER_MSG, guiEvent);
 #define EVT_COMPUTER_MSG(id, func) \
 wx__DECLARE_EVT1(COMPUTER_MSG, id, (&func))
 
-class HexButton2 : public HexButton
+class HexButtonCdp1851 : public HexButton
 {
 public:
-    HexButton2(wxDC& dc, int type, wxCoord x, wxCoord y, wxString label, int pioNumber);
+    HexButtonCdp1851(wxDC& dc, int type, wxCoord x, wxCoord y, wxString label, int pioNumber);
+    void OnTimer(wxTimerEvent& event);
+    
+private:
+    int pioNumber_;
+    
+    DECLARE_EVENT_TABLE()
+};
+
+class HexButtonCdp1852 : public HexButton
+{
+public:
+    HexButtonCdp1852(wxDC& dc, int type, wxCoord x, wxCoord y, wxString label, int pioNumber);
     void OnTimer(wxTimerEvent& event);
     
 private:
@@ -117,8 +129,22 @@ public:
     virtual void dataSetState(int number, bool state);
     void efUp(int number);
     void efDown(int number);
-    virtual void releaseButtonOnScreen(HexButton* WXUNUSED(buttonPoint)) {};
+    virtual void releaseButtonOnScreen(HexButton* WXUNUSED(buttonPoint));
 
+    void onAdsChannel(wxSpinEvent&event);
+    void onAdsVolt(wxSpinEvent&event);
+    void onAdsChannelText(wxCommandEvent& event);
+    void onAdsVoltText(wxCommandEvent& event);
+    void onAdiChannel(wxSpinEvent&event);
+    void onAdiVolt(wxSpinEvent&event);
+    void onAdiChannelText(wxCommandEvent& event);
+    void onAdiVoltText(wxCommandEvent& event);
+
+    void setAds(int i, int val){adsArray_[i] = val;};
+    int getAds(int i){return adsArray_[i];};
+    void setAdi(int i, int val){adiArray_[i] = val;};
+    int getAdi(int i){return adiArray_[i];};
+    
 protected:
     wxBitmap *mainBitmapPointer;
 
@@ -274,6 +300,14 @@ protected:
     bool forceUpperCase_;
     bool xmlButtonDefined_;
 
+    wxSpinCtrl *spinCtrlAdi;
+    wxSpinCtrl *spinCtrlAdiVolt;
+    wxSpinCtrl *spinCtrlAds;
+    wxSpinCtrl *spinCtrlAdsVolt;
+
+    int adiArray_[16];
+    int adsArray_[16];
+
 private:
     bool functionKeyReleaseTwo_;\
     
@@ -316,7 +350,8 @@ public:
     virtual void setDivider(Byte value);
     virtual void removeElf2KSwitch();
     virtual void removeElfHex();
-    virtual void removePio(int pioNumber);
+    virtual void removeCdp1851(int pioNumber);
+    virtual void removeCdp1852(int pioNumber);
     virtual void removeCosmicosHex();
     virtual void removeElfLedModule(); 
     virtual void showData(Byte val);
@@ -359,6 +394,8 @@ public:
     virtual void onPause(wxCommandEvent& event);
     virtual void onMonitor();
     virtual void onMonitor(wxCommandEvent& event);
+    virtual void onNanoMonitor(wxCommandEvent&event);
+    virtual void onNanoMonitor();
     virtual void onSingleStep();
     virtual void onSingleStep(wxCommandEvent& event);
     virtual void onMpButton();
@@ -384,7 +421,6 @@ public:
     virtual void onRamButton();
     virtual void efSwitch(int number);
     virtual void setEfState(int number, Byte value);
-    virtual void setEfState(int pioNumber, int number, Byte value);
     virtual void dataSwitch(int number);
     virtual Byte getData();
     virtual void onHexDown(int hex);
@@ -423,7 +459,7 @@ public:
     virtual void onNumberKeyDown(wxCommandEvent& event);
     virtual void onNumberKeyUp(wxCommandEvent& event);
     virtual void onNumberKeyUp();
-    virtual void ledTimeout();
+//    virtual void ledTimeout();
     virtual void setLedMs(long ms);
     virtual void showDataLeds(Byte value);
     virtual Byte getKey(Byte vtOut);
@@ -452,7 +488,8 @@ public:
     virtual int getBuildInGame(){return 0;};
 
     virtual void releaseButtonOnScreen(HexButton* buttonPointer, int buttonType);
-    virtual void releaseButtonOnScreen2(HexButton* buttonPointer, int buttonType, int pioNumber);
+    virtual void releaseButtonOnScreen1851(HexButton* buttonPointer, int buttonType, int pioNumber);
+    virtual void releaseButtonOnScreen1852(HexButton* buttonPointer, int buttonType, int pioNumber);
     virtual void reLoadKeyDefinition(wxString fileName) {};
     virtual void setPrinterEf() {};
     virtual void switchHexEf(bool state);
@@ -468,17 +505,18 @@ public:
     virtual void showState(int state);
     virtual void checkComputerFunction() {};
     virtual void resetPressed() {};
-    virtual void setCpuMode(int mode);
     virtual void setGoTimer() {};
     virtual void setForceUpperCase(bool status);
     virtual void moveWindows() {};
-    virtual void showPio(bool state);
+    virtual void showCdp1851(bool state);
     virtual void showCdp18s660Pio1(bool state);
     virtual void showCdp18s660Pio2(bool state);
     virtual void showControlWindow(bool state);
     virtual void setAddressLatch(Word bootAddress);
     void ctrlvText(wxString text);
+    virtual void ctrlvTextXml(wxString text) {};
     int getCtrlvChar();
+    int getCtrlvChar(bool increase);
     int getCtrlvCharTmc();
     size_t getCtrlvCharNum() {return ctrlvTextCharNum_;};
     void ctrlvTextCharNumPlusOne();
@@ -505,6 +543,8 @@ public:
     virtual void startLoad(int WXUNUSED(tapeNumber), bool WXUNUSED(button)) {};
     virtual void cardButton(int WXUNUSED(cardValue)) {};
     virtual void updateStatusBarLedStatus(int WXUNUSED(led), bool WXUNUSED(status)) {};
+    virtual bool checkKeyInputAddress(Word WXUNUSED(address)) {return false;};
+    virtual bool checkKeyInputAddress() {return false;};
 
 protected:
     RunComputer *threadPointer;
@@ -514,6 +554,7 @@ protected:
     int loadedProgram_;
     int loadedOs_;
 
+    long tapeFinished_;
     Byte cassetteEf_;
     Byte oldCassetteEf_;
     short gaugeValue_;

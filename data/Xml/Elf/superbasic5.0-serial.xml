@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>Elf</name>
+        <config>Quest Superbasic 5.0, Serial I/O</config>
+        <!-- Press return, C to start BASIC in Cold mode -->
+        <clock>1.76</clock>
+        <boot>0</boot>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init>
+        <init type="ef4">1</init>
+        <dirname>Elf</dirname>
+    </system>
+    
+    <frontpanel type="io">
+        <in>4</in>
+        <ef type="in">4</ef>
+    </frontpanel>
+
+    <memory>
+        <guiram>
+            <start>0x0000</start>
+            <end>0xFEFF</end>
+            <pulldown mask="superbasic.5*.*">Elf</pulldown>
+            <filename verify="true">superbasic.5.0_serial.bin</filename>
+        </guiram>
+    </memory>
+    
+    <vt type="vt100" connection="serial">
+        <font>vt100.bin</font>
+        <out>5</out>
+        <ef>2</ef>
+        <q></q>
+        <caps />
+        <baud type="receive">2400</baud>
+        <baud type="transmit">2400</baud>
+        <border>0x0</border>
+        <color type="fore">0, 255, 0</color>
+        <color type="back">0, 0x40, 0</color>
+        <color type="high">0, 0xff, 0</color>
+    </vt>
+
+    <printer>
+        <out>3</out>
+    </printer>
+
+    <cassette decks="1">
+        <ef>3</ef>
+    </cassette>
+    
+    <basic>
+        <pload>super</pload>
+        <defus>0x3581</defus>
+        <eop>0x3583</eop>
+        <string>0x3592</string>
+        <array>0x3594</array>
+        <eod>0x3599</eod>
+        <ram>0x3700</ram>
+    </basic>
+
+    <batchwav>
+        <command>PSAVE C</command>
+    </batchwav>
+
+    <locations>
+        <!-- key input -->
+        <key_input>0x3328, 0x33a3, 0x143</key_input>
+
+        <!-- Machine states -->
+        <reset_state command="&#xD;C">0x33a3</reset_state>
+        <basic_state_cw command="C">0x1ced</basic_state_cw>
+        <basic_state>0x143</basic_state>
+        <run_state>0x1691, 0x0900</run_state>
+
+        <!-- Stop cassette -->
+        <stop_cas>0x143</stop_cas>
+        
+        <!-- Start PSAVE, DSAVE, PLOAD, DLOAD -->
+        <start_cas_save>0x0E06, 0x0E09</start_cas_save>
+        <start_cas_load>0x0E00</start_cas_load>
+        <start_cas_dload>0x0E03</start_cas_dload>
+
+        <!-- Save start/end during batch conversion -->
+        <batch_start_save>0x3328</batch_start_save>
+        <batch_end_save>0x143</batch_end_save>
+        
+    </locations>
+
+    <debugger>
+        <scrt mode="on">
+            <call reg="4">0x312B</call>
+            <return reg="5">0x7F1</return>
+        </scrt>
+
+        <assembler>
+            <filename>mycode</filename>
+            <code_start>0x3700</code_start>
+            <code_end>0x56ff</code_end>
+        </assembler>
+    </debugger>
+
+</emmaconfig>
+

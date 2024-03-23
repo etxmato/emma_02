@@ -1,0 +1,253 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>PECOM 64</name>
+        <config>v1</config>
+        <clock>2.813</clock>
+        <boot>0</boot>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init>
+        <init type="ef4">1</init>
+        <dma out="1">2</dma>
+        <dirname>Pecom</dirname>
+    </system>
+
+    <batchwav>
+        <command>psave</command>
+    </batchwav>
+    
+    <bootstrap>
+        <address>0x8000</address>
+        <out>1</out>
+    </bootstrap>
+
+    <iogroup>
+        <out mask="0x2">1</out>
+    </iogroup>
+
+    <memory>
+         <rom>
+             <start>0x8000</start>
+             <end>0xF3FF</end>
+             <filename verify="true">pecom64.v1.bin</filename>
+         </rom>
+
+         <guiram>
+            <start>0x0000</start>
+            <end>0x7FFF</end>
+        </guiram>
+    </memory>
+  
+      <keyboard type="matrix">
+          <!-- keyboard definition for a keyboard solution using a matrix with address latch
+          <iogroup>: iogroup, i.e. i/o ports are activate when specified iogroup is selected via the iogroup port
+          <in mask="0x3f" pol="rev">: port to read key address latch, mask specifies the address mask used. When using pol="rev" input bits are reversed
+          <keydef type="z" address="x" bit="y">: map address latch and bit number to specified PC ASCII value. Use the type field to specify:
+            1. "text" for predefined keys: return, end, home, up, down, left or right
+            2. "shift" for ASCII values representing SHIFT keys on the emulated keyboard
+            3. "ctrl" for ASCII values representing CTRL keys on the emulated keyboard
+          <efX>: map keys to EF flag X (1 to 4) for keys: ctrl, shift, caps or esc. use pol="rev" to reverse EF value
+          -->
+
+          <iogroup>0</iogroup>
+          <in mask="0x3f">3</in>
+          <keydef type="ctrl" address="0x14" bit="1">1</keydef>     <!-- CTRL A -->
+          <keydef type="ctrl" address="0x15" bit="0">2</keydef>
+          <keydef type="ctrl" address="0x15" bit="1">3</keydef>
+          <keydef type="ctrl" address="0x16" bit="0">4</keydef>
+          <keydef type="ctrl" address="0x16" bit="1">5</keydef>
+          <keydef type="ctrl" address="0x17" bit="0">6</keydef>
+          <keydef type="ctrl" address="0x17" bit="1">7</keydef>
+          <keydef type="ctrl" address="0x18" bit="0">8</keydef>
+          <keydef type="ctrl" address="0x18" bit="1">9</keydef>
+          <keydef type="ctrl" address="0x19" bit="0">10</keydef>
+          <keydef type="ctrl" address="0x19" bit="1">11</keydef>
+          <keydef type="ctrl" address="0x1A" bit="0">12</keydef>
+          <keydef type="ctrl" address="0x1A" bit="1">13</keydef>
+          <keydef type="ctrl" address="0x1B" bit="0">14</keydef>
+          <keydef type="ctrl" address="0x1B" bit="1">15</keydef>
+          <keydef type="ctrl" address="0x1C" bit="0">16</keydef>
+          <keydef type="ctrl" address="0x1C" bit="1">17</keydef>
+          <keydef type="ctrl" address="0x1D" bit="0">18</keydef>
+          <keydef type="ctrl" address="0x1D" bit="1">19</keydef>
+          <keydef type="ctrl" address="0x1E" bit="0">20</keydef>
+          <keydef type="ctrl" address="0x1E" bit="1">21</keydef>
+          <keydef type="ctrl" address="0x1F" bit="0">22</keydef>
+          <keydef type="ctrl" address="0x1F" bit="1">23</keydef>
+          <keydef type="ctrl" address="0x20" bit="0">24</keydef>
+          <keydef type="ctrl" address="0x20" bit="1">25</keydef>
+          <keydef type="ctrl" address="0x21" bit="0">26</keydef>    <!-- CTRL Z -->
+
+          <keydef address="0x14" bit="0">32</keydef>               <!-- Space -->
+          <keydef type="shift" address="0xc" bit="1">33</keydef>   <!-- ! -->
+          <keydef type="shift" address="0xd" bit="0">34</keydef>   <!-- " -->
+          <keydef type="shift" address="0xd" bit="1">35</keydef>   <!-- # -->
+          <keydef type="shift" address="0xe" bit="0">36</keydef>   <!-- $ -->
+          <keydef type="shift" address="0xe" bit="1">37</keydef>   <!-- % -->
+          <keydef type="shift" address="0xf" bit="0">38</keydef>   <!-- & -->
+          <keydef type="shift" address="0xf" bit="1">39</keydef>   <!-- ' -->
+          <keydef type="shift" address="0x10" bit="0">40</keydef>  <!-- ( -->
+          <keydef type="shift" address="0x10" bit="1">41</keydef>  <!-- ) -->
+          <keydef type="shift" address="0x11" bit="0">42</keydef>  <!-- * -->
+          <keydef type="shift" address="0x11" bit="1">43</keydef>  <!-- + -->
+          <keydef address="0x12" bit="0">44</keydef>               <!-- , -->
+          <keydef type="shift" address="0x12" bit="1">45</keydef>  <!-- - -->
+          <keydef address="0x13" bit="0">46</keydef>               <!-- . -->
+          <keydef address="0x13" bit="1">47</keydef>               <!-- / -->
+          <keydef address="0xc" bit="0">48</keydef>                <!-- 0 -->
+          <keydef address="0xc" bit="1">49</keydef>
+          <keydef address="0xd" bit="0">50</keydef>
+          <keydef address="0xd" bit="1">51</keydef>
+          <keydef address="0xe" bit="0">52</keydef>
+          <keydef address="0xe" bit="1">53</keydef>
+          <keydef address="0xf" bit="0">54</keydef>
+          <keydef address="0xf" bit="1">55</keydef>
+          <keydef address="0x10" bit="0">56</keydef>
+          <keydef address="0x10" bit="1">57</keydef>               <!-- 9 -->
+          <keydef address="0x11" bit="0">58</keydef>               <!-- : -->
+          <keydef address="0x11" bit="1">59</keydef>               <!-- ; -->
+          <keydef type="shift" address="0x12" bit="0">60</keydef>  <!-- < -->
+          <keydef address="0x12" bit="1">61</keydef>               <!-- = -->
+          <keydef type="shift" address="0x13" bit="0">62</keydef>  <!-- > -->
+          <keydef type="shift" address="0x13" bit="1">63</keydef>  <!-- ? -->
+
+          <keydef type="shift" address="0x14" bit="1">65</keydef>  <!-- A -->
+          <keydef type="shift" address="0x15" bit="0">66</keydef>
+          <keydef type="shift" address="0x15" bit="1">67</keydef>
+          <keydef type="shift" address="0x16" bit="0">68</keydef>
+          <keydef type="shift" address="0x16" bit="1">69</keydef>
+          <keydef type="shift" address="0x17" bit="0">70</keydef>
+          <keydef type="shift" address="0x17" bit="1">71</keydef>
+          <keydef type="shift" address="0x18" bit="0">72</keydef>
+          <keydef type="shift" address="0x18" bit="1">73</keydef>
+          <keydef type="shift" address="0x19" bit="0">74</keydef>
+          <keydef type="shift" address="0x19" bit="1">75</keydef>
+          <keydef type="shift" address="0x1A" bit="0">76</keydef>
+          <keydef type="shift" address="0x1A" bit="1">77</keydef>
+          <keydef type="shift" address="0x1B" bit="0">78</keydef>
+          <keydef type="shift" address="0x1B" bit="1">79</keydef>
+          <keydef type="shift" address="0x1C" bit="0">80</keydef>
+          <keydef type="shift" address="0x1C" bit="1">81</keydef>
+          <keydef type="shift" address="0x1D" bit="0">82</keydef>
+          <keydef type="shift" address="0x1D" bit="1">83</keydef>
+          <keydef type="shift" address="0x1E" bit="0">84</keydef>
+          <keydef type="shift" address="0x1E" bit="1">85</keydef>
+          <keydef type="shift" address="0x1F" bit="0">86</keydef>
+          <keydef type="shift" address="0x1F" bit="1">87</keydef>
+          <keydef type="shift" address="0x20" bit="0">88</keydef>
+          <keydef type="shift" address="0x20" bit="1">89</keydef>
+          <keydef type="shift" address="0x21" bit="0">90</keydef>  <!-- Z -->
+
+          <keydef address="0x14" bit="1">97</keydef>               <!-- a -->
+          <keydef address="0x15" bit="0">98</keydef>
+          <keydef address="0x15" bit="1">99</keydef>
+          <keydef address="0x16" bit="0">100</keydef>
+          <keydef address="0x16" bit="1">101</keydef>
+          <keydef address="0x17" bit="0">102</keydef>
+          <keydef address="0x17" bit="1">103</keydef>
+          <keydef address="0x18" bit="0">104</keydef>
+          <keydef address="0x18" bit="1">105</keydef>
+          <keydef address="0x19" bit="0">106</keydef>
+          <keydef address="0x19" bit="1">107</keydef>
+          <keydef address="0x1A" bit="0">108</keydef>
+          <keydef address="0x1A" bit="1">109</keydef>
+          <keydef address="0x1B" bit="0">110</keydef>
+          <keydef address="0x1B" bit="1">111</keydef>
+          <keydef address="0x1C" bit="0">112</keydef>
+          <keydef address="0x1C" bit="1">113</keydef>
+          <keydef address="0x1D" bit="0">114</keydef>
+          <keydef address="0x1D" bit="1">115</keydef>
+          <keydef address="0x1E" bit="0">116</keydef>
+          <keydef address="0x1E" bit="1">117</keydef>
+          <keydef address="0x1F" bit="0">118</keydef>
+          <keydef address="0x1F" bit="1">119</keydef>
+          <keydef address="0x20" bit="0">120</keydef>
+          <keydef address="0x20" bit="1">121</keydef>
+          <keydef address="0x21" bit="0">122</keydef>               <!-- z -->
+
+          <ef1>ctrl</ef1>
+          <ef2>shift</ef2>
+          <ef3 pol="rev">caps</ef3>
+          <ef4>esc</ef4>
+
+          <!-- TEXT definitions -->
+          <keydef type="text" address="0xa" bit="0">return</keydef>
+          <keydef type="text" address="0xb" bit="0">end</keydef>
+          <keydef type="text" address="0xa" bit="1">home</keydef>
+          <keydef type="text" address="0x21" bit="1">down</keydef>
+          <keydef type="text" address="0x22" bit="0">left</keydef>
+          <keydef type="text" address="0x22" bit="1">right</keydef>
+          <keydef type="text" address="0x23" bit="0">up</keydef>
+
+    </keyboard>
+          
+    <video type="1870">
+        <iogroup>2</iogroup>
+        <pagesize type="ram">0x3ff</pagesize>
+        <charsize type="ram">0xfff</charsize>
+        <pcbmask>0x7f</pcbmask>
+        <maxcharlines>16</maxcharlines>
+        <maxscreenlines>24</maxscreenlines> <!-- 24, 25 or 27 for Cidelsa DRACO) -->
+        <mode>pal</mode>
+        <ef type="display">1</ef>
+        <clock>5.626</clock>
+    </video>
+
+    <cassette decks="1">
+        <iogroup>2</iogroup>
+        <ef>2</ef>
+    </cassette>
+
+    <printer type="q">
+        <iogroup>2</iogroup>
+        <ef>2</ef>
+    </printer>
+
+    <locations>
+        <!-- Machine states -->
+        <basic_state address="0xa0" value="0">0x80D0</basic_state>
+        <run_state>0xA076, 0xA96B</run_state>
+
+        <!-- Stop cassette -->
+        <stop_cas>0x80D0, 0x904A</stop_cas>
+        
+        <!-- Start PSAVE, DSAVE, PLOAD, DLOAD -->
+        <start_cas_save>0x953F, 0x9542, 0xCAAB, 0xCACF, 0x8532</start_cas_save>
+        <start_cas_load>0x8E8B, 0xCB50, 0x860B</start_cas_load>
+        <start_cas_dload>0x8E8E</start_cas_dload>
+        
+        <!-- Save start/end during batch conversion -->
+        <batch_start_save>0x80e3</batch_start_save>
+        <batch_end_save>0x903F</batch_end_save>
+
+    </locations>
+    
+    <basic>
+        <pload>pecom</pload>
+        <id>P-64</id>
+        <defus>0x81</defus>
+        <eop>0x83</eop>
+        <string>0x92</string>
+        <array>0x94</array>
+        <eod>0x99</eod>
+        <ram>0x200</ram>
+    </basic>
+
+    <debugger>
+        <scrt mode="on">
+            <call reg="4">0xAFE8</call>
+            <return reg="5">0xA5F2</return>
+        </scrt>
+        
+        <assembler>
+            <filename>mycode</filename>
+            <code_start>0x200</code_start>
+            <code_end>0x21FF</code_end>
+        </assembler>
+    </debugger>
+
+</emmaconfig>

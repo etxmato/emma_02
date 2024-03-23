@@ -33,6 +33,8 @@
 
 KeybMatrix::KeybMatrix()
 {
+    fileToBeLoaded_ = false;
+    commandText_ = "";
 }
 
 void KeybMatrix::configure(IoConfiguration ioConf, wxString saveCommand)
@@ -51,33 +53,33 @@ void KeybMatrix::configure(IoConfiguration ioConf, wxString saveCommand)
     
     if (ioConfiguration_.keybMatrixAddressMode)
     {
-        printBuffer.Printf("    Write address %04X: set row, read address %04X: key input", ioConfiguration_.keybMatrixOut, ioConfiguration_.keybMatrixIn);
+        printBuffer.Printf("	Write address %04X: set row, read address %04X: key input", ioConfiguration_.keybMatrixOut, ioConfiguration_.keybMatrixIn);
         p_Main->message(printBuffer);
     }
     else
     {
-        printBuffer.Printf("    Input %d: key input ", ioConfiguration_.keybMatrixIn);
+        printBuffer.Printf("	Input %d: key input ", ioConfiguration_.keybMatrixIn);
         p_Main->message(printBuffer);
     }
     
     if (ioConfiguration_.keybMatrixEfKey[MATRIX_CTRL_KEY] != 0)
     {
-        printBuffer.Printf("    EF %d: CTRL", ioConfiguration_.keybMatrixEfKey[MATRIX_CTRL_KEY]);
+        printBuffer.Printf("	EF %d: CTRL", ioConfiguration_.keybMatrixEfKey[MATRIX_CTRL_KEY]);
         p_Main->message(printBuffer);
     }
     if (ioConfiguration_.keybMatrixEfKey[MATRIX_SHIFT_KEY] != 0)
     {
-        printBuffer.Printf("    EF %d: SHIFT", ioConfiguration_.keybMatrixEfKey[MATRIX_SHIFT_KEY]);
+        printBuffer.Printf("	EF %d: SHIFT", ioConfiguration_.keybMatrixEfKey[MATRIX_SHIFT_KEY]);
         p_Main->message(printBuffer);
     }
     if (ioConfiguration_.keybMatrixEfKey[MATRIX_CAPS_KEY] != 0)
     {
-        printBuffer.Printf("    EF %d: CAPS", ioConfiguration_.keybMatrixEfKey[MATRIX_CAPS_KEY]);
+        printBuffer.Printf("	EF %d: CAPS", ioConfiguration_.keybMatrixEfKey[MATRIX_CAPS_KEY]);
         p_Main->message(printBuffer);
     }
     if (ioConfiguration_.keybMatrixEfKey[MATRIX_ESC_KEY] != 0)
     {
-        printBuffer.Printf("    EF %d: ESC", ioConfiguration_.keybMatrixEfKey[MATRIX_ESC_KEY]);
+        printBuffer.Printf("	EF %d: ESC", ioConfiguration_.keybMatrixEfKey[MATRIX_ESC_KEY]);
         p_Main->message(printBuffer);
     }
     
@@ -102,7 +104,7 @@ void KeybMatrix::charEvent(int keycode)
 
 bool KeybMatrix::keyDownExtended(int keycode, wxKeyEvent& event)
 {
-    if (runCommand_ != 0)
+    if (fileToBeLoaded_ || commandText_ != "")
     {
         if (keyDown_)
         {
@@ -116,7 +118,8 @@ bool KeybMatrix::keyDownExtended(int keycode, wxKeyEvent& event)
                 keyValue_[ioConfiguration_.keybMatrixKeyValue[(unsigned char)keyboardCode_]]  &= ((ioConfiguration_.keybMatrixBitValue[(unsigned char)keyboardCode_]&0xff) ^ 0xff);
             keyboardCode_ = 0;
         }
-        runCommand_ = 0;
+        fileToBeLoaded_ = false;
+        commandText_ = "";
     }
 
     if (keyDown_)
@@ -418,62 +421,43 @@ Byte KeybMatrix::in(Word address)
 {
     Byte ret = keyValue_[address&ioConfiguration_.keybMatrixInMask] ^ (ioConfiguration_.keybMatrixPressed ^ 0xff);
     
-    if (runCommand_ != 0)
+    if (fileToBeLoaded_ || commandText_ != "")
     {
         cycleValue_--;
         if (cycleValue_ <= 0)
         {
             cycleValue_ = 52;
             if (keyDown_)
-            {
                 keyUpFile();
-                if (runCommand_ >= 255)
-                    runCommand_ = 0;
-            }
             else
             {
-                if (runCommand_ == 2)
+                if (commandText_ != "")
                 {
-                    int saveExec = p_Main->pload();
-                    if (saveExec == 1)
-                        runCommand_ = 0;
-                    else
-                    {
-                        if (p_Main->isBatchConvertActive())
-                        {
-                            commandText_ = saveCommand_;
-                        }
-                        else
-                        {
-                            if (saveExec == 0)
-                                commandText_ = "run";
-                            else
-                            {
-                                wxString buffer;
-                                buffer.Printf("%d", saveExec);
-                                commandText_ = "call(" + buffer + ")";
-                            }
-                        }
-                        runCommand_++;
-                    }
+                    keyboardCode_ = commandText_.GetChar(0);
+                    commandText_ = commandText_.Right(commandText_.Len()-1);
+                    keyDownFile();
                 }
                 else
                 {
-                    if (load_)
-                        runCommand_ = 0;
-                    else
+                    int saveExec = p_Main->pload();
+                    fileToBeLoaded_ = false;
+                    if (saveExec != wxNOT_FOUND)
                     {
-                        if ((runCommand_-2) <= commandText_.Len())
-                        {
-                            keyboardCode_ = commandText_.GetChar(runCommand_-3);
-                            keyDownFile();
-                            runCommand_++;
-                        }
+                        if (p_Main->isBatchConvertActive())
+                            commandText_ = saveCommand_ + "\r";
                         else
                         {
-                            keyboardCode_ = 13;
-                            keyDownFile();
-                            runCommand_ = 255;
+                            if (!load_)
+                            {
+                                if (saveExec == 0)
+                                    commandText_ = "run\r";
+                                else
+                                {
+                                    wxString buffer;
+                                    buffer.Printf("%d", saveExec);
+                                    commandText_ = "call(" + buffer + ")\r";
+                                }
+                            }
                         }
                     }
                 }
@@ -550,9 +534,7 @@ void KeybMatrix::resetKeyboard()
     keyDown_ = false;
 
     row_ = 0;
-    
-    runCommand_ = 0;
-    
+        
     cycleValue_ = 1;
 
     capsPressed_ = wxGetKeyState (WXK_CAPITAL);
@@ -586,13 +568,17 @@ void KeybMatrix::closeKeyFile()
     keyboardCode_ = 0;
 }
 
-void KeybMatrix::startRun(bool load)
+void KeybMatrix::startRun(bool load, wxString command)
 {
     load_ = load;
-    if (p_Computer->getRunState() == RESETSTATE)
-        runCommand_ = 1;
-    else
-        runCommand_ = 2;
+    commandText_ = command;
+    fileToBeLoaded_ = true;
+}
+
+void KeybMatrix::startCtrlV(wxString command)
+{
+    commandText_ = command;
+    fileToBeLoaded_ = false;
 }
 
 void KeybMatrix::checkCaps()

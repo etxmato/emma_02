@@ -19,10 +19,10 @@ public:
     Byte inKeyb1871();
     void cycleKeyb1871();
 
-    bool checkKeyInputAddress(Word address);
     void start1871KeyFile();
     void close1871KeyFile();
-    void start1871Run(bool load);
+    void start1871Run(bool load, wxString command);
+    void start1871CtrlV(wxString command);
     Byte getDiagInput();
     void diagOut(Byte value);
 
@@ -43,7 +43,7 @@ private:
     bool keyFileOpen_;
 
     bool load_;
-    size_t runCommand1871_;
+    bool fileToBeLoaded_;
     size_t ctrlvText_;
     wxString commandText_;
     

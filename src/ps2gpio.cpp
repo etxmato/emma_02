@@ -47,7 +47,7 @@ void Ps2gpio::configurePs2gpioElf2K()
     wxString printBuffer;
     p_Main->message("Configuring GPIO PS2 Keyboard");
 
-    printBuffer.Printf("    Input 7: read data, EF 2: data ready flag\n");
+    printBuffer.Printf("	Input 7: read data, EF 2: data ready flag\n");
     p_Main->message(printBuffer);
 
     startUp_ = 3;
@@ -79,7 +79,7 @@ void Ps2gpio::configurePs2gpio(bool forceUpperCase, IoConfiguration portConf)
     if (portConf.gpioOutput != -1)
     {
         p_Computer->setOutType(portConf.gpioIoGroup+1, portConf.gpioOutput, ELF2KGPIO);
-        printBuffer.Printf("    Output %d: Write GPIO Control Register", portConf.gpioOutput);
+        printBuffer.Printf("	Output %d: Write GPIO Control Register", portConf.gpioOutput);
         p_Main->message(printBuffer);
     }
     if (portConf.gpioInput != -1 && portConf.gpioEf != -1)
@@ -88,7 +88,7 @@ void Ps2gpio::configurePs2gpio(bool forceUpperCase, IoConfiguration portConf)
         p_Computer->setEfType(portConf.gpioIoGroup+1, portConf.gpioEf, PS2GPIOEF);
         p_Computer->setCycleType(KEYCYCLE, PS2GPIOCYCLE);
 
-        printBuffer.Printf("    Input %d: read data, EF %d: data ready flag", portConf.gpioInput, portConf.gpioEf);
+        printBuffer.Printf("	Input %d: read data, EF %d: data ready flag", portConf.gpioInput, portConf.gpioEf);
         p_Main->message(printBuffer);
     }
 

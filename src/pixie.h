@@ -156,8 +156,10 @@ class PixieStudioIV : public Pixie
 {
 public:
     PixieStudioIV(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, int videoNumber);
+    PixieStudioIV(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, int videoNumber, int videoType, IoConfiguration portConf);
 
     void configurePixie();
+    void configureSt4(IoConfiguration portConf);
     void drawScreen();
     void cyclePixie();
     void outPixie();
