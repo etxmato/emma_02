@@ -250,7 +250,7 @@ void GuiXml::readXmlConfig()
     if (elfConfiguration[XML].useTapeHw)
         conf[XML].autoCassetteLoad_ = true;
     
-    configPointer->Read("Xmlemu/DisableNvRam", &elfConfiguration[XML].nvRamDisable, elfConfiguration[XML].nvRamDisableDefault);
+//    configPointer->Read("Xmlemu/DisableNvRam", &elfConfiguration[XML].nvRamDisable, elfConfiguration[XML].nvRamDisableDefault);
 
     setRealCas(XML);
     setXmlGui();
@@ -597,6 +597,9 @@ void GuiXml::romRamXml(int romRamButton, wxString romRamButtonString)
     if (conf[selectedComputer_].memConfig_[romRamButton].type == MAINRAM)
         romRam = "RAM";
     
+    if (conf[selectedComputer_].memConfig_[romRamButton].type == NVRAM)
+        romRam = "NVR";
+
     fileName = wxFileSelector( "Select the " + romRam + " file to load",
                               conf[selectedComputer_].memConfig_[romRamButton].dirname, XRCCTRL(*this, "RomRam"+romRamButtonString+"Xml", wxComboBox)->GetValue(),
                                "",
@@ -1098,8 +1101,8 @@ void GuiXml::setRomRamButtonOrder()
     romRamButton0_ = 0;
     romRamButton1_ = 1;
 
-    bool romRamButtonEnable0 = (conf[XML].memConfig_[romRamButton0_].type & 0xff) == MAINRAM || (conf[XML].memConfig_[romRamButton0_].type & 0xff) == MAINROM;
-    bool romRamButtonEnable1 = (conf[XML].memConfig_[romRamButton1_].type & 0xff) == MAINRAM || (conf[XML].memConfig_[romRamButton1_].type & 0xff) == MAINROM;
+    bool romRamButtonEnable0 = (conf[XML].memConfig_[romRamButton0_].type & 0xff) == MAINRAM || (conf[XML].memConfig_[romRamButton0_].type & 0xff) == MAINROM || (conf[XML].memConfig_[romRamButton0_].type & 0xff) == NVRAM;
+    bool romRamButtonEnable1 = (conf[XML].memConfig_[romRamButton1_].type & 0xff) == MAINRAM || (conf[XML].memConfig_[romRamButton1_].type & 0xff) == MAINROM || (conf[XML].memConfig_[romRamButton1_].type & 0xff) == NVRAM;
 
     if (romRamButtonEnable0 && romRamButtonEnable1)
     {
@@ -1131,27 +1134,31 @@ void GuiXml::setXmlGui()
     XRCCTRL(*this, "ShowAddressXml", wxTextCtrl)->ChangeValue(conf[XML].ledTime_);
 
     setRomRamButtonOrder();
-    bool ramButtonEnable = (conf[XML].memConfig_[romRamButton1_].type & 0xff) == MAINRAM || (conf[XML].memConfig_[romRamButton1_].type & 0xff) == MAINROM;
+    bool ramButtonEnable = (conf[XML].memConfig_[romRamButton1_].type & 0xff) == MAINRAM || (conf[XML].memConfig_[romRamButton1_].type & 0xff) == MAINROM || (conf[XML].memConfig_[romRamButton1_].type & 0xff) == NVRAM;
     wxString buttonText = "....";
     if (ramButtonEnable)
     {
-        if (conf[XML].memConfig_[romRamButton1_].type == MAINRAM)
+        if ((conf[XML].memConfig_[romRamButton1_].type & 0xff) == MAINRAM)
             buttonText.Printf("RAM @%04X", conf[XML].memConfig_[romRamButton1_].start);
-        else
+        if ((conf[XML].memConfig_[romRamButton1_].type & 0xff) == MAINROM)
             buttonText.Printf("ROM @%04X", conf[XML].memConfig_[romRamButton1_].start);
+        if ((conf[XML].memConfig_[romRamButton1_].type & 0xff) == NVRAM)
+            buttonText.Printf("NVR @%04X", conf[XML].memConfig_[romRamButton1_].start);
     }
     XRCCTRL(*this,"RomRamButton1Xml", wxButton)->SetLabel(buttonText);
     XRCCTRL(*this,"RomRam1Xml", wxComboBox)->Enable(ramButtonEnable);
     XRCCTRL(*this,"RomRamButton1Xml", wxButton)->Enable(ramButtonEnable);
         
-    bool romButtonEnable = (conf[XML].memConfig_[romRamButton0_].type & 0xff) == MAINRAM || (conf[XML].memConfig_[romRamButton0_].type & 0xff) == MAINROM;
+    bool romButtonEnable = (conf[XML].memConfig_[romRamButton0_].type & 0xff) == MAINRAM || (conf[XML].memConfig_[romRamButton0_].type & 0xff) == MAINROM || (conf[XML].memConfig_[romRamButton0_].type & 0xff) == NVRAM;
     buttonText = "....";
     if (romButtonEnable)
     {
-        if (conf[XML].memConfig_[romRamButton0_].type == MAINRAM)
+        if ((conf[XML].memConfig_[romRamButton0_].type & 0xff) == MAINRAM)
             buttonText.Printf("RAM @%04X", conf[XML].memConfig_[romRamButton0_].start);
-        else
+        if ((conf[XML].memConfig_[romRamButton0_].type & 0xff) == MAINROM)
             buttonText.Printf("ROM @%04X", conf[XML].memConfig_[romRamButton0_].start);
+        if ((conf[XML].memConfig_[romRamButton0_].type & 0xff) == NVRAM)
+            buttonText.Printf("NVR @%04X", conf[XML].memConfig_[romRamButton0_].start);
     }
     XRCCTRL(*this,"RomRamButton0Xml", wxButton)->SetLabel(buttonText);
     XRCCTRL(*this,"RomRam0Xml", wxComboBox)->Enable(romButtonEnable);

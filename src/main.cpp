@@ -7948,12 +7948,12 @@ void Main::enableGui(bool status)
         XRCCTRL(*this,"MainXmlXml", wxComboBox)->Enable(status);
         XRCCTRL(*this,"XmlButtonXml", wxButton)->Enable(status);
        
-        if ((conf[XML].memConfig_[romRamButton0_].type & 0xff) == MAINRAM || (conf[XML].memConfig_[romRamButton0_].type & 0xff) == MAINROM)
+        if ((conf[XML].memConfig_[romRamButton0_].type & 0xff) == MAINRAM || (conf[XML].memConfig_[romRamButton0_].type & 0xff) == MAINROM || (conf[XML].memConfig_[romRamButton0_].type & 0xff) == NVRAM)
         {
             XRCCTRL(*this,"RomRam0Xml", wxComboBox)->Enable(status);
             XRCCTRL(*this,"RomRamButton0Xml", wxButton)->Enable(status);
         }
-        if ((conf[XML].memConfig_[romRamButton1_].type & 0xff) == MAINRAM || (conf[XML].memConfig_[romRamButton1_].type & 0xff) == MAINROM)
+        if ((conf[XML].memConfig_[romRamButton1_].type & 0xff) == MAINRAM || (conf[XML].memConfig_[romRamButton1_].type & 0xff) == MAINROM || (conf[XML].memConfig_[romRamButton1_].type & 0xff) == NVRAM)
         {
             XRCCTRL(*this,"RomRam1Xml", wxComboBox)->Enable(status);
             XRCCTRL(*this,"RomRamButton1Xml", wxButton)->Enable(status);

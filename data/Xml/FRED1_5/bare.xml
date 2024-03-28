@@ -5,16 +5,21 @@
     
     <system>
         <name>FRED 1.5</name>
-        <config>Bare</config>
+        <config>Bare (select game file in RAM field or use LOAD after Start)</config>
         <clock>1.00</clock>
         <cpu>1801</cpu>
-        <boot start="no">1</boot>
+        <boot start="no" dma_zero="on">0</boot>
         <init type="ef1">1</init>
         <init type="ef2">1</init>
         <init type="ef3">1</init>
         <init type="ef4">1</init>
         <dirname>FRED1_5</dirname>
     </system>
+
+    <memaccess>
+        <location>on</location>
+        <start>0</start>
+    </memaccess>
 
     <splash>
         <text>Load game via LOAD button and press RUN</text>

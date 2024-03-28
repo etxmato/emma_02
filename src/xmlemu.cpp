@@ -3492,6 +3492,9 @@ void Xmlemu::autoBoot()
     if (elfConfiguration.dmaOnBoot)
         dmaOut();
 
+    if (elfConfiguration.dmaOnBoot0 && readMemDebug(0) == 0)
+        dmaOut();
+
     switch (elfConfiguration.panelType_)
     {
         case PANEL_COSMAC:
@@ -3989,9 +3992,6 @@ void Xmlemu::onRunButton(bool run0)
             break;
                 
             default:
-                if (elfConfiguration.dmaOnBoot)
-                    dmaOut();
-
                 if (!run0)
                 {
                     switch (elfConfiguration.ioConfiguration.bootStrapType)
@@ -4033,6 +4033,13 @@ void Xmlemu::onRunButton(bool run0)
 
                 setClear(1);
                 setWait(1);
+
+                if (elfConfiguration.dmaOnBoot)
+                    dmaOut();
+
+                if (elfConfiguration.dmaOnBoot0 && readMemDebug(0) == 0)
+                    dmaOut();
+
                 p_Main->eventUpdateTitle();
             break;
         }
@@ -5018,7 +5025,7 @@ void Xmlemu::loadRomRam(size_t configNumber)
     if (computerConfiguration.memConfig_[configNumber].filename2 != "")
     {
         if (computerConfiguration.memConfig_[configNumber].verifyFileExist)
-            p_Main->checkAndReInstallFile(computerConfiguration.memConfig_[configNumber].dirname + computerConfiguration.memConfig_[configNumber].filename2, XML, computerConfiguration.memConfig_[configNumber].filename);
+            p_Main->checkAndReInstallFile(computerConfiguration.memConfig_[configNumber].dirname + computerConfiguration.memConfig_[configNumber].filename2, XML, computerConfiguration.memConfig_[configNumber].filename2);
 
         readProgram(computerConfiguration.memConfig_[configNumber].dirname, computerConfiguration.memConfig_[configNumber].filename2, NOCHANGE,  computerConfiguration.memConfig_[configNumber].start, NONAME); 
         // type & 0xff causes loading ROM to end up without congif number in the higher 8 bit.
@@ -6667,10 +6674,14 @@ void Xmlemu::configureMemory()
         }
         memConfNumber++;
     }
-    if ((computerConfiguration.memConfig_[0].type & 0xff) == MAINRAM || (computerConfiguration.memConfig_[0].type & 0xff) == MAINROM)
+    if ((computerConfiguration.memConfig_[p_Main->getRomRamButton0()].type & 0xff) == MAINRAM || (computerConfiguration.memConfig_[p_Main->getRomRamButton0()].type & 0xff) == MAINROM)
         loadRomRam(p_Main->getRomRamButton0());
-    if ((computerConfiguration.memConfig_[1].type & 0xff) == MAINRAM || (computerConfiguration.memConfig_[1].type & 0xff) == MAINROM)
+    if ((computerConfiguration.memConfig_[p_Main->getRomRamButton0()].type & 0xff) == NVRAM)
+        loadNvRam(p_Main->getRomRamButton0());
+    if ((computerConfiguration.memConfig_[p_Main->getRomRamButton0()].type & 0xff) == MAINRAM || (computerConfiguration.memConfig_[p_Main->getRomRamButton0()].type & 0xff) == MAINROM)
         loadRomRam(p_Main->getRomRamButton1());
+    if ((computerConfiguration.memConfig_[p_Main->getRomRamButton0()].type & 0xff) == NVRAM)
+        loadNvRam(p_Main->getRomRamButton1());
 }
 
 void Xmlemu::configureExtensions()
@@ -8069,7 +8080,7 @@ void Xmlemu::loadNvRam(size_t configNumber)
     newNvram.start = computerConfiguration.memConfig_[configNumber].start;
     newNvram.end = computerConfiguration.memConfig_[configNumber].end;
     newNvram.dirname = computerConfiguration.memConfig_[configNumber].dirname;
-    newNvram.filename = computerConfiguration.memConfig_[configNumber].filename;
+    newNvram.filename = computerConfiguration.memConfig_[configNumber].dumpFilename;
     nvramDetails.push_back(newNvram);
 
     if (nvRamDisable_)
@@ -8092,12 +8103,12 @@ void Xmlemu::loadNvRam(size_t configNumber)
             inFile.Close();
         }
     }
-    if (computerConfiguration.memConfig_[configNumber].filename2 != "")
+    if (computerConfiguration.memConfig_[configNumber].filename != "")
     {
         if (computerConfiguration.memConfig_[configNumber].verifyFileExist)
-            p_Main->checkAndReInstallFile(computerConfiguration.memConfig_[configNumber].dirname + computerConfiguration.memConfig_[configNumber].filename2, XML, computerConfiguration.memConfig_[configNumber].filename);
+            p_Main->checkAndReInstallFile(computerConfiguration.memConfig_[configNumber].dirname + computerConfiguration.memConfig_[configNumber].filename, XML, computerConfiguration.memConfig_[configNumber].filename);
 
-        readProgram(computerConfiguration.memConfig_[configNumber].dirname, computerConfiguration.memConfig_[configNumber].filename2, computerConfiguration.memConfig_[configNumber].type,  computerConfiguration.memConfig_[configNumber].start, NONAME);
+        readProgram(computerConfiguration.memConfig_[configNumber].dirname, computerConfiguration.memConfig_[configNumber].filename, computerConfiguration.memConfig_[configNumber].type,  computerConfiguration.memConfig_[configNumber].start, NONAME);
     }
 
     delete[] buffer;

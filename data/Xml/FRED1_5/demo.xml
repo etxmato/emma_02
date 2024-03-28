@@ -8,13 +8,18 @@
         <config>Fred Demo</config>
         <clock>1.00</clock>
         <cpu>1801</cpu>
-        <boot>1</boot>
+        <boot dma_zero="on">0</boot>
         <init type="ef1">1</init>
         <init type="ef2">1</init>
         <init type="ef3">1</init>
         <init type="ef4">1</init>
         <dirname>FRED1_5</dirname>
     </system>
+
+    <memaccess>
+        <location>on</location>
+        <start>0</start>
+    </memaccess>
 
     <splash>
         <text>Press 0 to start the Fred Demo</text>
@@ -207,6 +212,7 @@
         <guiram mask="0xfff">
             <start>0x0000</start>
             <end>0xFFFF</end>
+            <pulldown mask="Fred Demo*.bin">FRED1_5</pulldown>
             <filename>Fred Demo.bin</filename>
         </guiram>
     </memory>

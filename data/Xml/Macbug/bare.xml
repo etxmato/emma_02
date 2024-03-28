@@ -23,6 +23,7 @@
         <guirom>
             <start>0</start>
             <end>0x7FF</end>
+            <pulldown mask="mac*.bin">Macbug</pulldown>
             <filename verify="true">macbug.bin</filename>
         </guirom>
 

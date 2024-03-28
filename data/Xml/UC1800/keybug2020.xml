@@ -22,10 +22,10 @@
     </frontpanel>
 
      <memory>
-        <nvram mask="0x00FF">
+        <nvram mask="0x00FF" type="gui">
             <start>0x0000</start>
             <end>0xFFFF</end>
-            <filename>ramdump.bin</filename>
+            <dump>ramdump.bin</dump>
             <filename>keybug_2020.bin</filename>
         </nvram>
     </memory>

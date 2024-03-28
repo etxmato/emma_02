@@ -208,6 +208,7 @@
         <guiram mask="0x3ff">
             <start>0x0000</start>
             <end>0xFFFF</end>
+            <pulldown mask="Memory Test.bin">FRED1</pulldown>
             <filename>Memory Test.bin</filename>
         </guiram>
     </memory>

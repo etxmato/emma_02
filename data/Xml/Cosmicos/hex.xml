@@ -36,7 +36,7 @@
          <nvram default="off">
             <start>0x0000</start>
             <end>0x00FF</end>
-            <filename>ramdump.bin</filename>
+            <dump>ramdump.bin</dump>
          </nvram>
 
          <guiram>

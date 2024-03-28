@@ -113,7 +113,7 @@
                 <iogroup>3</iogroup>
                 <in>1</in>
             </mp>
-            <filename>nvramdump.bin</filename>
+            <dump>nvramdump.bin</dump>
          </nvram>
          
          <slot max="4">

@@ -8,13 +8,18 @@
         <config>Tape Software</config>
         <clock>1.00</clock>
         <cpu>1801</cpu>
-        <boot>1</boot>
+        <boot dma_zero="on">0</boot>
         <init type="ef1">1</init>
         <init type="ef2">1</init>
         <init type="ef3">1</init>
         <init type="ef4">1</init>
         <dirname>FRED1_5</dirname>
     </system>
+
+    <memaccess>
+        <location>on</location>
+        <start>0</start>
+    </memaccess>
 
     <splash>
         <text>Save/load software, to load a program from tape press 0, code will be&#xD;loaded at address hex 100. To save memory to tape press C (memory hex&#xD;100-7FF will be saved to tape).</text>
@@ -207,6 +212,7 @@
         <guiram mask="0xfff">
             <start>0x0000</start>
             <end>0xFFFF</end>
+            <pulldown mask="Tape Software*.bin">FRED1_5</pulldown>
             <filename>Tape Software [AUD_2464_09_B41_ID33_02].bin</filename>
         </guiram>
     </memory>

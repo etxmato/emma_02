@@ -221,6 +221,7 @@
         <guiram mask="0x3ff">
             <start>0x0000</start>
             <end>0xFFFF</end>
+            <pulldown mask="Match I.bin">FRED1</pulldown>
             <filename>Match I.bin</filename>
         </guiram>
     </memory>

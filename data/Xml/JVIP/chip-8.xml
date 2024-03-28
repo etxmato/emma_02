@@ -50,12 +50,12 @@
             <filename verify="true">jvip310x.bin</filename>
         </rom>
 
-        <ram>
+        <guiram>
             <start>0x0000</start>
             <end>0x01FF</end>
-            <dirname>Velf</dirname>
+            <pulldown mask="chip8.ram">Velf</pulldown>
             <filename>chip8.ram</filename>
-        </ram>
+        </guiram>
 
         <guiram>
             <start>0x0200</start>

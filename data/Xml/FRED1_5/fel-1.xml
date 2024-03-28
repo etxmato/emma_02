@@ -8,13 +8,18 @@
         <config>FEL-1</config>
         <clock>1.00</clock>
         <cpu>1801</cpu>
-        <boot>1</boot>
+        <boot dma_zero="on">0</boot>
         <init type="ef1">1</init>
         <init type="ef2">1</init>
         <init type="ef3">1</init>
         <init type="ef4">1</init>
         <dirname>FRED1_5</dirname>
     </system>
+
+    <memaccess>
+        <location>on</location>
+        <start>0</start>
+    </memaccess>
 
     <iogroup>
         <out>1</out>
@@ -203,6 +208,7 @@
         <guiram mask="0xfff">
             <start>0x0000</start>
             <end>0xFFFF</end>
+            <pulldown mask="FEL-1*.bin">FRED1_5</pulldown>
             <filename>FEL-1.bin</filename>
         </guiram>
     </memory>

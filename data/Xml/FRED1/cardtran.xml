@@ -278,6 +278,7 @@
         <guiram mask="0x3ff">
             <start>0x0000</start>
             <end>0xFFFF</end>
+            <pulldown mask="Cardtran.bin">FRED1</pulldown>
             <filename>Cardtran.bin</filename>
         </guiram>
     </memory>

@@ -22,16 +22,17 @@
     </frontpanel>
 
     <memory>
-        <rom>
+        <guirom>
             <start>0</start>
             <end>0x7FFF</end>
+            <pulldown mask="monitor_0*.hex">Membership</pulldown>
             <filename verify="true">monitor_0000h.hex</filename>
-        </rom>
+        </guirom>
 
         <nvram>
             <start>0x8000</start>
             <end>0xFFFF</end>
-            <filename>ramdump.bin</filename>
+            <dump>ramdump.bin</dump>
         </nvram>
     </memory>
     

@@ -15,7 +15,8 @@
     </system>
 
     <splash>
-        <text>Press one of following keys while starting (F12 or RUN switch)&#xD;D: VELF Serial monitor&#xD;E: Copy Chip-8 to RAM and halt for reset&#xD;F: Copy Chip-8 and PinBall ro ram and halt for reset&#xD;A: Copy Chip-8 and Animal Race to RAM and halt for reset&#xD;1: Copy the COSMAC Starship image to RAM and halt for reset&#xD;2: Copy Chip-8 and Lunar Lander to RAM and halt for reset&#xD;NO KEY: start executing code at 0
+        <text>
+Press one of following keys on Pixie Screen while starting (F12 or RUN&#xD;switch) and hold until the beep:&#xD;D: VELF Serial monitor&#xD;E: Copy Chip-8 to RAM and halt for reset&#xD;F: Copy Chip-8 and PinBall ro ram and halt for reset&#xD;A: Copy Chip-8 and Animal Race to RAM and halt for reset&#xD;1: Copy the COSMAC Starship image to RAM and halt for reset&#xD;2: Copy Chip-8 and Lunar Lander to RAM and halt for reset&#xD;NO KEY: start executing code at 0
     </text>
     </splash>
 
@@ -39,11 +40,12 @@
     </bootstrap>
 
     <memory>
-        <rom mask="0xffff">
+        <guirom mask="0xffff">
             <start>0x8000</start>
             <end>0xAFFF</end>
+            <pulldown mask="jvip*.bin">Velf</pulldown>
             <filename verify="true">jvip310x.bin</filename>
-        </rom>
+        </guirom>
 
         <guiram>
             <start>0x0000</start>

@@ -230,6 +230,7 @@
         <guiram mask="0x3ff">
             <start>0x0000</start>
             <end>0xFFFF</end>
+            <pulldown mask="Deduce-leds.bin">FRED1</pulldown>
             <filename>Deduce-leds.bin</filename>
         </guiram>
     </memory>

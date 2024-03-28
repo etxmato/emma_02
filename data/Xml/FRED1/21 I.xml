@@ -253,6 +253,7 @@
         <guiram mask="0x3ff">
             <start>0x0000</start>
             <end>0xFFFF</end>
+            <pulldown mask="21 I.bin">FRED1</pulldown>
             <filename>21 I.bin</filename>
         </guiram>
     </memory>

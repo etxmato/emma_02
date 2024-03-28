@@ -64,6 +64,7 @@ public:
     wxString dirname;
     wxString filename;
     wxString filename2;
+    wxString dumpFilename;
     bool verifyFileExist;
     Word start;
     Word end;

@@ -245,6 +245,7 @@
         <guiram mask="0x3ff">
             <start>0x0000</start>
             <end>0xFFFF</end>
+            <pulldown mask="Flip I.bin">FRED1</pulldown>
             <filename>Flip I.bin</filename>
         </guiram>
     </memory>

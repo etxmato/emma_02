@@ -221,6 +221,7 @@
         <guiram mask="0x3ff">
             <start>0x0000</start>
             <end>0xFFFF</end>
+            <pulldown mask="Add Drill.bin">FRED1</pulldown>
             <filename>Add Drill.bin</filename>
         </guiram>
     </memory>

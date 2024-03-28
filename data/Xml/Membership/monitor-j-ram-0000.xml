@@ -22,10 +22,11 @@
     </frontpanel>
 
     <memory>
-        <nvram>
+        <nvram type="gui">
             <start>0x0</start>
             <end>0xFFFF</end>
-            <filename>ramdump.bin</filename>
+            <dump>ramdump.bin</dump>
+            <pulldown mask="MCSMP*.bin">Membership</pulldown>
             <filename verify="true">MCSMP20B.bin</filename>
         </nvram>
     </memory>

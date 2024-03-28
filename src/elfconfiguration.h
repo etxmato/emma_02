@@ -594,7 +594,7 @@ public:
     bool useNvRamMp;
     bool useNvRam;
     bool nvRamDisable;
-    bool nvRamDisableDefault;
+//    bool nvRamDisableDefault;
     bool useRtcM48T58;
     bool useRtcDS12887;
     bool useUsbSb;
@@ -638,6 +638,7 @@ public:
     bool f12reset;
     int autoBootType;
     int dmaOnBoot;
+    int dmaOnBoot0;
     bool stopTone;
     bool utilityMemory;
     bool tapeStart;
