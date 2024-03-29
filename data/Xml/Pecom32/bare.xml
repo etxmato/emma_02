@@ -5,6 +5,7 @@
     
     <system>
         <name>PECOM 32</name>
+        <config>Bare</config>
         <clock>2.813</clock>
         <boot>0</boot>
         <init type="ef1">1</init>
