@@ -16,12 +16,12 @@
     </system>
     
     <memory>
-        <rom>
+        <guirom>
             <start>0</start>
             <end>0x3FF</end>
-            <dirname>StudioIII</dirname>
+            <pulldown mask="studio3_ntsc*.*">StudioIII</pulldown>
             <filename>studio3_ntsc.bin</filename>
-        </rom>
+        </guirom>
 
         <guirom>
             <start>0x400</start>
