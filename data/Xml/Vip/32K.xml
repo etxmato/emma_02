@@ -26,11 +26,12 @@
     </bootstrap>
 
     <memory>
-        <rom>
+        <guirom>
             <start>0x8000</start>
             <end>0x81FF</end>
+            <pulldown mask="vip.32*.*">Vip</pulldown>
             <filename>vip.32.rom</filename>
-        </rom>
+        </guirom>
 
         <guiram>
             <start>0x0000</start>
