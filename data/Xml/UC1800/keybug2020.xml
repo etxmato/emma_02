@@ -26,6 +26,7 @@
             <start>0x0000</start>
             <end>0xFFFF</end>
             <dump>ramdump.bin</dump>
+            <pulldown mask="keybug*.*">UC1800</pulldown>
             <filename>keybug_2020.bin</filename>
         </nvram>
     </memory>
