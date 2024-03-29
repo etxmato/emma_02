@@ -24,7 +24,7 @@
         <guiram>
             <start>0x0000</start>
             <end>0xEFFF</end>
-            <pulldown mask="tiny*.*">Elf</pulldown>
+            <pulldown mask="tiny*.*">Elf/TinyBasic</pulldown>
             <filename>netronic.tinyBasic.hex</filename>
         </guiram>
 
