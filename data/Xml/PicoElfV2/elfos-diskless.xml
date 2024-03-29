@@ -32,6 +32,7 @@
         <guirom mask="0xffff">
             <start>0x8000</start>
             <end>0xFFFF</end>
+             <pulldown mask="pico_diskless*.*">Pico</pulldown>
             <filename verify="true">pico_diskless.bin</filename>
         </guirom>
 
