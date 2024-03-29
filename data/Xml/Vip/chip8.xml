@@ -37,12 +37,12 @@
             <filename>vip.32.rom</filename>
         </rom>
 
-        <ram>
+        <guiram>
             <start>0x000</start>
             <end>0x01FF</end>
-            <dirname>Vip</dirname>
+            <pulldown mask="chip8*.*">Vip</pulldown>
             <filename>chip8.ram</filename>
-        </ram>
+        </guiram>
 
         <guiram>
             <start>0x0200</start>
