@@ -40,11 +40,12 @@
     </bootstrap>
 
     <memory>
-        <rom mask="0xffff">
+        <guirom mask="0xffff">
             <start>0x8000</start>
             <end>0x8FFF</end>
+            <pulldown mask="VELFbios*.*">Velf</pulldown>
             <filename verify="true">VELFbios-v3.1.bin</filename>
-        </rom>
+        </guirom>
 
         <guiram>
             <start>0x0000</start>
