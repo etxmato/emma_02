@@ -19,7 +19,7 @@
         <guirom>
             <start>0</start>
             <end>0xFFF</end>
-            <pulldown mask="am4kbas*.*">StudioIV</pulldown>
+            <pulldown mask="am4kbas 1978*.*">StudioIV</pulldown>
             <filename>am4kbas 1978.bin</filename>
         </guirom>
 
