@@ -12,7 +12,7 @@
         <init type="ef2">1</init>
         <init type="ef3">1</init>
         <init type="ef4">1</init>
-        <dirname>TMC1800</dirname>
+        <dirname>TMC2000</dirname>
     </system>
     
     <memaccess>
@@ -29,8 +29,8 @@
         <guirom mask="0x1ff">
             <start>0x8000</start>
             <end>0xFFFF</end>
-            <pulldown mask="telmac1800*.*">TMC1800</pulldown>
-            <filename>telmac1800.rom</filename>
+            <pulldown mask="telmac2000*.*">TMC2000</pulldown>
+            <filename>telmac2000.rom</filename>
         </guirom>
 
         <guiram mask="0xfff">
