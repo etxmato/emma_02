@@ -26,6 +26,7 @@
          <guirom>
              <start>0xF000</start>
              <end>0xF0FF</end>
+             <pulldown mask="giantboard*.*">Elf</pulldown>
              <filename verify="true">giantboard.hex</filename>
          </guirom>
 
