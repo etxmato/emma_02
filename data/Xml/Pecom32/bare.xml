@@ -29,11 +29,12 @@
     </iogroup>
 
     <memory>
-         <rom>
+         <guirom>
              <start>0x8000</start>
              <end>0xBFFF</end>
+             <pulldown mask="pecom32*.*">Pecom</pulldown>
              <filename verify="true">pecom32.bin</filename>
-         </rom>
+         </guirom>
 
          <guiram>
             <start>0x0000</start>
