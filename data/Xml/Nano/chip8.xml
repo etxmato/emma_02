@@ -65,12 +65,12 @@
             <filename>nano.rom</filename>
         </rom>
 
-        <ram>
+        <guiram>
             <start>0x000</start>
             <end>0x01FF</end>
-            <dirname>nano</dirname>
+            <pulldown mask="*.ram">nano</pulldown>
             <filename>chip8.ram</filename>
-        </ram>
+        </guiram>
         
         <guiram>
             <start>0x0200</start>
