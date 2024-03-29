@@ -19,13 +19,14 @@
         <guirom>
             <start>0</start>
             <end>0xFFF</end>
+            <pulldown mask="am4kbas*.*">StudioIV</pulldown>
             <filename>am4kbas 1978.bin</filename>
         </guirom>
 
-        <ram>
+        <guiram>
             <start>0x1800</start>
             <end>0x27FF</end>
-        </ram>
+        </guiram>
     </memory>
     
     <video type="st4">
