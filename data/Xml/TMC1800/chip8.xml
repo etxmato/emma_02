@@ -37,12 +37,12 @@
             <filename>telmac1800.rom</filename>
         </rom>
 
-        <ram>
+        <guiram>
             <start>0x000</start>
             <end>0x01FF</end>
-            <dirname>TMC1800</dirname>
+            <pulldown mask="chip8*.*">TMC1800</pulldown>
             <filename>chip8.ram</filename>
-        </ram>
+        </guiram>
 
         <guiram>
             <start>0x0200</start>
