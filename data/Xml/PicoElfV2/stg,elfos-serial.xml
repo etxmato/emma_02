@@ -34,7 +34,7 @@
         <guirom mask="0xffff">
             <start>0x8000</start>
             <end>0xFFFF</end>
-            <pulldown mask="PicoElf*.*">Pico</pulldown>
+            <pulldown mask="PicoElf*.*" exclude="Video">Pico</pulldown>
             <filename verify="true">PicoElfv112.bin</filename>
         </guirom>
 
