@@ -24,6 +24,7 @@
         <guiram>
             <start>0x0000</start>
             <end>0xEFFF</end>
+            <pulldown mask="tiny*.*">Elf</pulldown>
             <filename>netronic.tinyBasic.hex</filename>
         </guiram>
 
@@ -32,6 +33,7 @@
         <guirom>
             <start>0xF000</start>
             <end>0xF0FF</end>
+            <pulldown mask="giantboard*.*">Elf</pulldown>
             <filename>giantboard.hex</filename>
         </guirom>
     </memory>
