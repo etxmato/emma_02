@@ -16,11 +16,12 @@
     </system>
     
     <memory>
-        <rom>
+        <guirom>
             <start>0</start>
             <end>0x2FF</end>
+            <pulldown mask="chip8*.*">StudioII</pulldown>
             <filename>chip8.bin</filename>
-        </rom>
+        </guirom>
 
         <guirom>
             <start>0x300</start>
