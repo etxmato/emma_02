@@ -34,6 +34,7 @@
         <guirom mask="0xffff">
             <start>0x8000</start>
             <end>0xFFFF</end>
+            <pulldown mask="pico_elfos_032*.*">Pico</pulldown>
             <filename verify="true">pico_elfos_032.bin</filename>
         </guirom>
 
