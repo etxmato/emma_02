@@ -16,12 +16,12 @@
     </system>
     
     <memory>
-        <rom>
+        <guirom>
             <start>0</start>
             <end>0x7FF</end>
-            <dirname>StudioIV</dirname>
+            <pulldown mask="super-chip PAL*.*">StudioIV</pulldown>
             <filename>super-chip PAL.bin</filename>
-        </rom>
+        </guirom>
 
         <guiram>
             <start>0x800</start>
