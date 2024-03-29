@@ -5,7 +5,7 @@
     
     <system>
         <name>PECOM 64</name>
-        <config>v4</config>
+        <config>Bare</config>
         <clock>2.813</clock>
         <boot>0</boot>
         <init type="ef1">1</init>
@@ -30,11 +30,12 @@
     </iogroup>
 
     <memory>
-         <rom>
+         <guirom>
              <start>0x8000</start>
              <end>0xFFFF</end>
+             <pulldown mask="pecom64*.*">Pecom</pulldown>
              <filename verify="true">pecom64.v4.bin</filename>
-         </rom>
+         </guirom>
 
          <guiram>
             <start>0x0000</start>
