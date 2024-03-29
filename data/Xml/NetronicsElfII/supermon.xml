@@ -26,6 +26,7 @@
          <guirom>
              <start>0x8000</start>
              <end>0x80FF</end>
+             <pulldown mask="supermon*.*">Elf</pulldown>
              <filename verify="true">supermon.hex</filename>
          </guirom>
 
