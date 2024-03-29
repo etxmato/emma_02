@@ -30,16 +30,17 @@
 
     <memory>
         <!-- CDP18S600, 8K RAM @0000, @2000, @4000, @6000, @8000 -->
-        <ram>
+        <guiram>
             <start>0x0000</start>
             <end>0x1FFF</end>
+            <pulldown mask="FULL_microboard_pal2.hex">Microboard</pulldown>
             <filename verify="true">FULL_microboard_pal2.hex</filename>
-        </ram>
+        </guiram>
         
-        <ram>
+        <guiram>
             <start>0x2000</start>
             <end>0x3FFF</end>
-        </ram>
+        </guiram>
         
         <ram>
             <start>0x4000</start>
