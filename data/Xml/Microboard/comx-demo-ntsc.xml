@@ -32,14 +32,14 @@
         <guirom>
             <start>0x0000</start>
             <end>0x1FFF</end>
-            <pulldown mask="comx*.bin" exclude="part">Microboard</pulldown>
+            <pulldown mask="comx*.bin">Microboard</pulldown>
             <filename verify="true">comx35_NTSC_part1.bin</filename>
         </guirom>
         
         <guirom>
             <start>0x2000</start>
             <end>0x3FFF</end>
-            <pulldown mask="comx*.bin" exclude="part">Microboard</pulldown>
+            <pulldown mask="comx*.bin">Microboard</pulldown>
             <filename verify="true">comx35_part2.bin</filename>
         </guirom>
         
