@@ -34,6 +34,7 @@
         <guirom mask="0xffff">
             <start>0x8000</start>
             <end>0xFFFF</end>
+            <pulldown mask="*Video*.bin">Pico</pulldown>
             <filename verify="true">PicoElfSTG112Video.bin</filename>
         </guirom>
 
