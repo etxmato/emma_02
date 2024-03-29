@@ -5,7 +5,7 @@
     
     <system>
         <name>RCA COSMAC Microboard Computer</name>
-        <config>Xchase, Crosslib game demo</config>
+        <config>Crosslib game demo</config>
         <cpu>1805</cpu>
         <clock>4.9152</clock>
         <boot>0</boot>
