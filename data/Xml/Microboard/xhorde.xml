@@ -33,7 +33,7 @@
         <guiram>
             <start>0x0000</start>
             <end>0x1FFF</end>
-            <pulldown mask="X*.hex">Microboard</pulldown>
+            <pulldown mask="Xhorde*.hex">Microboard</pulldown>
             <filename verify="true">Xhorde_pal2.hex</filename>
         </guiram>
         
