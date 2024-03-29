@@ -33,16 +33,16 @@
         <rom mask="0x1ff">
             <start>0x8000</start>
             <end>0x81FF</end>
-            <dirname>TMC1800</dirname>
-            <filename>telmac1800.rom</filename>
+            <dirname>TMC2000</dirname>
+            <filename>telmac2000.rom</filename>
         </rom>
 
-        <ram>
+        <guiram>
             <start>0x000</start>
             <end>0x01FF</end>
-            <dirname>TMC1800</dirname>
+            <pulldown mask="chip8*.*">TMC2000</pulldown>
             <filename>chip8.ram</filename>
-        </ram>
+        </guiram>
 
         <guiram>
             <start>0x0200</start>
