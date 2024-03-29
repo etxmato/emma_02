@@ -16,12 +16,12 @@
     </system>
     
     <memory>
-        <rom>
+        <guirom>
             <start>0</start>
             <end>0x7FF</end>
-            <dirname>StudioIV</dirname>
+            <pulldown mask="super-chip NTSC*.*">StudioIV</pulldown>
             <filename>super-chip NTSC.bin</filename>
-        </rom>
+        </guirom>
 
         <guiram>
             <start>0x800</start>
