@@ -54,11 +54,12 @@
     </bootstrap>
 
     <memory>
-        <rom>
+        <guirom>
             <start>0x8000</start>
             <end>0x81FF</end>
+            <pulldown mask="*.rom">nano</pulldown>
             <filename>nano.rom</filename>
-        </rom>
+        </guirom>
 
         <guiram>
             <start>0</start>
