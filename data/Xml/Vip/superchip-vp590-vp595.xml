@@ -37,12 +37,12 @@
             <filename>vip.32.rom</filename>
         </rom>
 
-        <ram>
+        <guiram>
             <start>0x000</start>
             <end>0x07FF</end>
-            <dirname>Vip</dirname>
+            <pulldown mask="super-chip*.*">Vip</pulldown>
             <filename>super-chip.bin</filename>
-        </ram>
+        </guiram>
 
         <guiram>
             <start>0x0800</start>
