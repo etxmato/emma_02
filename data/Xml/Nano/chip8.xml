@@ -68,7 +68,7 @@
         <guiram>
             <start>0x000</start>
             <end>0x01FF</end>
-            <pulldown mask="*.ram">nano</pulldown>
+            <pulldown mask="chip*.ram">nano</pulldown>
             <filename>chip8.ram</filename>
         </guiram>
         
