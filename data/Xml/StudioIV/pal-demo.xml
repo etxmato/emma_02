@@ -16,11 +16,12 @@
     </system>
     
     <memory>
-        <rom>
+        <guirom>
             <start>0</start>
             <end>0x7FF</end>
+            <pulldown mask="Studio IV V3 PAL*.*">StudioIV</pulldown>
             <filename>Studio IV V3 PAL.bin</filename>
-        </rom>
+        </guirom>
 
         <guirom>
             <start>0x800</start>
