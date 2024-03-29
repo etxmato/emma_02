@@ -19,6 +19,7 @@
         <guirom>
             <start>0</start>
             <end>0x7FFF</end>
+            <pulldown mask="vip2k13a*.*">Vip2K</pulldown>
             <filename verify="true">vip2k13a.hex</filename>
         </guirom>
 
