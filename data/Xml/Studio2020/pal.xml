@@ -20,16 +20,17 @@
     </bootstrap>
 
     <memory>
-        <rom>
+        <guirom>
             <start>0x8000</start>
             <end>0xffff</end>
+            <pulldown mask="*PAL*.*">Studio2020</pulldown>
             <filename>studio_2020 PAL.bin</filename>
-        </rom>
+        </guirom>
 
-        <ram>
+        <guiram>
             <start>0</start>
             <end>0x7bff</end>
-        </ram>
+        </guiram>
     </memory>
     
     <video type="st4">
