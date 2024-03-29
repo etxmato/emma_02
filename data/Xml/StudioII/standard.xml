@@ -16,11 +16,12 @@
     </system>
     
     <memory>
-        <rom>
+        <guirom>
             <start>0</start>
             <end>0x3FF</end>
+            <pulldown mask="studio2*.*">StudioII</pulldown>
             <filename>studio2.rom</filename>
-        </rom>
+        </guirom>
 
         <guirom>
             <start>0x400</start>
