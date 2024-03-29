@@ -16,12 +16,12 @@
     </system>
     
     <memory>
-        <rom>
+        <guirom>
             <start>0</start>
             <end>0x3FF</end>
-            <dirname>StudioIII</dirname>
+            <pulldown mask="studio3_pal*.*">StudioIII</pulldown>
             <filename>studio3_pal.bin</filename>
-        </rom>
+        </guirom>
 
         <guirom>
             <start>0x400</start>
