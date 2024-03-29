@@ -26,11 +26,12 @@
     </bootstrap>
 
     <memory>
-        <rom mask="0x1ff">
+        <guirom mask="0x1ff">
             <start>0x8000</start>
             <end>0xFFFF</end>
+            <pulldown mask="telmac1800*.*">TMC1800</pulldown>
             <filename>telmac1800.rom</filename>
-        </rom>
+        </guirom>
 
         <guiram mask="0xfff">
             <start>0x000</start>
