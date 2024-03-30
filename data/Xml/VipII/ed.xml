@@ -60,6 +60,7 @@
         <guirom>
             <start>0x8000</start>
             <end>0x81FF</end>
+            <pulldown mask="vip*.*">VipII</pulldown>
             <filename>vip.32.rom</filename>
         </guirom>
 
