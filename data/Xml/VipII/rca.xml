@@ -46,6 +46,7 @@
         <guirom mask="0x3FFF">
             <start>0x8000</start>
             <end>0xFFFF</end>
+            <pulldown mask="vipii*.*">VipII</pulldown>
             <filename>vipii_2020.bin</filename>
         </guirom>
 
