@@ -9362,18 +9362,7 @@ void XmlParser::parseXml_Memory(int computer, wxXmlNode &node)
                 if (child->GetAttribute("default") == "off")
                     elfConfiguration[computer].nvRamDisable = true;
                 
-                if (child->GetAttribute("type") == "gui")
-                {
-                    configNumber = 0;
-                    if ((conf[computer].memConfig_[configNumber].type & 0xff) == MAINRAM || (conf[computer].memConfig_[configNumber].type & 0xff) == MAINROM || (conf[computer].memConfig_[configNumber].type & 0xff) == NVRAM)
-                        configNumber = 1;
-                    
-                }
-                else
-                {
-                    configNumber = conf[computer].memConfigNumber_++;
-                    conf[computer].memConfig_.resize(configNumber+1);
-                }
+                configNumber = getMemConfig(computer, child->GetAttribute("type"));
                 parseXml_RomRam (computer, *child, (int)(NVRAM + 256*configNumber), configNumber);
                 conf[computer].memConfig_[configNumber].memMask = parseXml_Number(*child, "mask");
                 if (conf[computer].memConfig_[configNumber].memMask != 0)
@@ -9462,6 +9451,24 @@ void XmlParser::parseXml_Memory(int computer, wxXmlNode &node)
         
         child = child->GetNext();
     }
+}
+
+int XmlParser::getMemConfig(int computer, wxString type)
+{
+    int configNumber;
+
+    if (type == "gui")
+    {
+        configNumber = 0;
+        if ((conf[computer].memConfig_[configNumber].type & 0xff) == MAINRAM || (conf[computer].memConfig_[configNumber].type & 0xff) == MAINROM || (conf[computer].memConfig_[configNumber].type & 0xff) == NVRAM)
+            configNumber = 1;
+    }
+    else
+    {
+        configNumber = conf[computer].memConfigNumber_++;
+        conf[computer].memConfig_.resize(configNumber+1);
+    }
+    return configNumber;
 }
 
 void XmlParser::parseXml_RomRam(int computer, wxXmlNode &node, int type, size_t configNumber)
