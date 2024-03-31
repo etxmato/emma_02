@@ -9289,18 +9289,9 @@ void XmlParser::parseXml_Memory(int computer, wxXmlNode &node)
         switch (tagTypeInt)
         {
             case TAG_ROM:
-                //conf[computer].memConfig_.resize(conf[computer].memConfigNumber_+1);
                 configNumber = getMemConfig(computer, child->GetAttribute("type"));
-
                 parseXml_RomRam (computer, *child, (int)(ROM + 256*configNumber), configNumber);
-                conf[computer].memConfig_[configNumber].memMask = parseXml_Number(*child, "mask");
-                if (conf[computer].memConfig_[configNumber].memMask != 0)
-                {
-                    conf[computer].memConfig_[configNumber].useMemMask = true;
-                    conf[computer].memConfig_[configNumber].memMask |= 0xff;
-                }
-                else
-                    conf[computer].memConfig_[configNumber].useMemMask = false;
+                setMask(computer, configNumber, parseXml_Number(*child, "mask"));
             break;
 
             case TAG_DIAG:
@@ -9345,18 +9336,9 @@ void XmlParser::parseXml_Memory(int computer, wxXmlNode &node)
             break;
 
             case TAG_RAM:
-                //conf[computer].memConfig_.resize(conf[computer].memConfigNumber_+1);
                 configNumber = getMemConfig(computer, child->GetAttribute("type"));
-
                 parseXml_RomRam (computer, *child, (int)(RAM + 256*configNumber), configNumber);
-                conf[computer].memConfig_[configNumber].memMask = parseXml_Number(*child, "mask");
-                if (conf[computer].memConfig_[configNumber].memMask != 0)
-                {
-                    conf[computer].memConfig_[configNumber].useMemMask = true;
-                    conf[computer].memConfig_[configNumber].memMask |= 0xff;
-                }
-                else
-                    conf[computer].memConfig_[configNumber].useMemMask = false;
+                setMask(computer, configNumber, parseXml_Number(*child, "mask"));
             break;
 
             case TAG_NVRAM:
@@ -9366,14 +9348,7 @@ void XmlParser::parseXml_Memory(int computer, wxXmlNode &node)
                 
                 configNumber = getMemConfig(computer, child->GetAttribute("type"));
                 parseXml_RomRam (computer, *child, (int)(NVRAM + 256*configNumber), configNumber);
-                conf[computer].memConfig_[configNumber].memMask = parseXml_Number(*child, "mask");
-                if (conf[computer].memConfig_[configNumber].memMask != 0)
-                {
-                    conf[computer].memConfig_[configNumber].useMemMask = true;
-                    conf[computer].memConfig_[configNumber].memMask |= 0xff;
-                }
-                else
-                    conf[computer].memConfig_[configNumber].useMemMask = false;
+                setMask(computer, configNumber, parseXml_Number(*child, "mask"));
             break;
 
             case TAG_EMS:
