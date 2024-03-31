@@ -9455,7 +9455,19 @@ void XmlParser::parseXml_Memory(int computer, wxXmlNode &node)
     }
 }
 
-int XmlParser::getMemConfig(int computer, wxString type)
+int XmlParser::setMemMask(int computer, size_t configNumber)
+{
+    conf[computer].memConfig_[configNumber].memMask = parseXml_Number(*child, "mask");
+    if (conf[computer].memConfig_[configNumber].memMask != 0)
+    {
+        conf[computer].memConfig_[configNumber].useMemMask = true;
+        conf[computer].memConfig_[configNumber].memMask |= 0xff;
+    }
+    else
+        conf[computer].memConfig_[configNumber].useMemMask = false;
+}
+
+size_t XmlParser::getMemConfig(int computer, wxString type)
 {
     int configNumber;
 
