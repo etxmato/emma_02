@@ -9460,7 +9460,7 @@ int XmlParser::getMemConfig(int computer, wxString type)
     if (type == "gui")
     {
         configNumber = 0;
-        if ((conf[computer].memConfig_[configNumber].type & 0xff) == MAINRAM || (conf[computer].memConfig_[configNumber].type & 0xff) == MAINROM || (conf[computer].memConfig_[configNumber].type & 0xff) == NVRAM)
+        if ((conf[computer].memConfig_[configNumber].type & 0xff) != UNDEFINED)
             configNumber = 1;
     }
     else
