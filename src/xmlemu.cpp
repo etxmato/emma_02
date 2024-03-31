@@ -6674,14 +6674,20 @@ void Xmlemu::configureMemory()
         }
         memConfNumber++;
     }
-    if ((computerConfiguration.memConfig_[p_Main->getRomRamButton0()].type & 0xff) == MAINRAM || (computerConfiguration.memConfig_[p_Main->getRomRamButton0()].type & 0xff) == MAINROM)
-        loadRomRam(p_Main->getRomRamButton0());
     if ((computerConfiguration.memConfig_[p_Main->getRomRamButton0()].type & 0xff) == NVRAM)
         loadNvRam(p_Main->getRomRamButton0());
-    if ((computerConfiguration.memConfig_[p_Main->getRomRamButton0()].type & 0xff) == MAINRAM || (computerConfiguration.memConfig_[p_Main->getRomRamButton0()].type & 0xff) == MAINROM)
-        loadRomRam(p_Main->getRomRamButton1());
+    else
+    {
+        if ((computerConfiguration.memConfig_[p_Main->getRomRamButton0()].type & 0xff) != UNDEFINED)
+            loadRomRam(p_Main->getRomRamButton0());
+    }
     if ((computerConfiguration.memConfig_[p_Main->getRomRamButton0()].type & 0xff) == NVRAM)
         loadNvRam(p_Main->getRomRamButton1());
+    else
+    {
+        if ((computerConfiguration.memConfig_[p_Main->getRomRamButton0()].type & 0xff) != UNDEFINED)
+            loadRomRam(p_Main->getRomRamButton1());
+    }
 }
 
 void Xmlemu::configureExtensions()
