@@ -9345,17 +9345,18 @@ void XmlParser::parseXml_Memory(int computer, wxXmlNode &node)
             break;
 
             case TAG_RAM:
-                conf[computer].memConfig_.resize(conf[computer].memConfigNumber_+1);
-                parseXml_RomRam (computer, *child, (int)(RAM + 256*conf[computer].memConfigNumber_), conf[computer].memConfigNumber_);
-                conf[computer].memConfig_[conf[computer].memConfigNumber_].memMask = parseXml_Number(*child, "mask");
-                if (conf[computer].memConfig_[conf[computer].memConfigNumber_].memMask != 0)
+                //conf[computer].memConfig_.resize(conf[computer].memConfigNumber_+1);
+                configNumber = getMemConfig(computer, child->GetAttribute("type"));
+
+                parseXml_RomRam (computer, *child, (int)(RAM + 256*configNumber), configNumber);
+                conf[computer].memConfig_[configNumber].memMask = parseXml_Number(*child, "mask");
+                if (conf[computer].memConfig_[configNumber].memMask != 0)
                 {
-                    conf[computer].memConfig_[conf[computer].memConfigNumber_].useMemMask = true;
-                    conf[computer].memConfig_[conf[computer].memConfigNumber_].memMask |= 0xff;
+                    conf[computer].memConfig_[configNumber].useMemMask = true;
+                    conf[computer].memConfig_[configNumber].memMask |= 0xff;
                 }
                 else
-                    conf[computer].memConfig_[conf[computer].memConfigNumber_].useMemMask = false;
-                conf[computer].memConfigNumber_++;
+                    conf[computer].memConfig_[configNumber].useMemMask = false;
             break;
 
             case TAG_NVRAM:
