@@ -171,6 +171,7 @@ void GuiXml::readXmlConfig()
     conf[XML].ledTime_ = configPointer->Read("Xmlemu/Led_Update_Frequency", defaultTimer);
 
     xmlDirComboSelection = (int)configPointer->Read("Xmlemu/XmlDirComboSelection", 2);
+    xmlDirComboString = configPointer->Read("Xmlemu/XmlDirComboString", "Comx");
     conf[XML].xmlMainDir_ = readConfigDir("Dir/Xmlemu/XmlFile", dataDir_ + "Xml" + pathSeparator_);
     
     setXmlDirDropDown();
@@ -1071,11 +1072,19 @@ void GuiXml::setXmlDirDropDown()
 void GuiXml::setXmlSubDir(wxString directory)
 {
     if (dirNameListGui_.GetCount() <= 0)
+    {
+        conf[XML].xmlSubDir_ = "";
         return;
+    }
 
     xmlDirComboSelection = 0;
     while (dirNameList[xmlDirComboSelection] != directory || xmlDirComboSelection == (dirNameList_.GetCount() - 1))     
         xmlDirComboSelection++;
+
+    conf[XML].xmlSubDir_ = dirNameList_[xmlDirComboSelection];
+
+    if (mode_.gui)
+        XRCCTRL(*this, "MainDirXml", wxChoice)->SetSelection((int)xmlDirComboSelection);
 }
 
 void GuiXml::setPrintModeXml()
