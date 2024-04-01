@@ -889,6 +889,7 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
  
 // XML - Dir/Xmlemu/XmlFile for main dir
 // as in conf[XML].xmlMainDir_ = readConfigDir("Dir/Xmlemu/XmlFile", dataDir_ + "Xml" + pathSeparator_);
+//     xmlDirComboString = configPointer->Read("Xmlemu/XmlDirComboString", "Comx");
 
     if (parser.Found("c", &computer))
     {
