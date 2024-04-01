@@ -887,6 +887,8 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
     wxString software = "";
     wxString computer;
  
+// XML - Dir/Xmlemu/XmlFile for main dir
+
     if (parser.Found("c", &computer))
     {
 #if wxCHECK_VERSION(2, 9, 0)
