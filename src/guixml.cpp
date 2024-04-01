@@ -1068,6 +1068,15 @@ void GuiXml::setXmlDirDropDown()
     delete dir;
 }
 
+void GuiXml::setXmlSubDir(wxString directory)
+{
+    if (dirNameListGui_.GetCount() <= 0)
+        return;
+
+    xmlDirComboSelection = 0;
+    while (dirNameList[xmlDirComboSelection] != directory || xmlDirComboSelection == (dirNameList_.GetCount() - 1))     
+        xmlDirComboSelection++;
+}
 
 void GuiXml::setPrintModeXml()
 {
