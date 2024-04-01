@@ -175,6 +175,7 @@ void GuiXml::readXmlConfig()
     conf[XML].xmlMainDir_ = readConfigDir("Dir/Xmlemu/XmlFile", dataDir_ + "Xml" + pathSeparator_);
     
     setXmlDirDropDown();
+    setXmlSubDir(xmlDirComboString);
     conf[XML].xmlDir_ = conf[XML].xmlMainDir_ + conf[XML].xmlSubDir_ + pathSeparator_;
     setXmlDropDown();
 
@@ -305,6 +306,8 @@ void GuiXml::writeXmlConfig()
     wxString buffer, number, type;
 
     configPointer->Write("Xmlemu/XmlDirComboSelection", xmlDirComboSelection);
+    configPointer->Write("Xmlemu/XmlDirComboString", xmlDirComboString);
+
     for (size_t number=0; number < dirNameList_.GetCount(); number++)
     {
         if (dirNameListDefaultFile_.GetCount() > 0)
@@ -721,6 +724,7 @@ void GuiXml::onMainXmlComboXml(wxCommandEvent& event)
 void GuiXml::onMainDirComboXml(wxCommandEvent& event)
 {
     xmlDirComboSelection = event.GetSelection();
+    xmlDirComboString = event.Get
     
     if (dirNameList_.GetCount() > 0)
         conf[selectedComputer_].xmlSubDir_ = dirNameList_[xmlDirComboSelection];
