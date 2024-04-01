@@ -724,7 +724,7 @@ void GuiXml::onMainXmlComboXml(wxCommandEvent& event)
 void GuiXml::onMainDirComboXml(wxCommandEvent& event)
 {
     xmlDirComboSelection = event.GetSelection();
-    xmlDirComboString = event.Get
+    xmlDirComboString = event.GetString();
     
     if (dirNameList_.GetCount() > 0)
         conf[selectedComputer_].xmlSubDir_ = dirNameList_[xmlDirComboSelection];
