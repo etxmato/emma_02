@@ -74,6 +74,7 @@ public:
     Word outputEnd;
     int type;
     LoadOffSet loadOffSet;
+    bool cmd;
     
     vector<Word> mappingList;
 };
