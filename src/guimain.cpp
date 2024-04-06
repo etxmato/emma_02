@@ -2402,7 +2402,7 @@ void GuiMain::runSoftware(bool load)
 
         case XML:
             extension = conf[runningComputer_].loadFileName_.Right(conf[runningComputer_].loadFileName_.Len()-conf[runningComputer_].loadFileName_.Find('.', false));
-            if (extension == conf[runningComputer_].pload)
+            if (extension == computerInfo[XML].ploadExtension)
                 p_Computer->startComputerRun(load);
             else
             {
