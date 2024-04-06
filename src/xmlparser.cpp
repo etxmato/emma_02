@@ -9424,11 +9424,17 @@ size_t XmlParser::getMemConfig(int computer, wxString type)
 {
     size_t configNumber;
 
-    if (type == "gui")
+    if (type == "gui" || type == "cmd")
     {
         configNumber = 0;
         if ((conf[computer].memConfig_[configNumber].type & 0xff) != UNDEFINED)
             configNumber = 1;
+        if (type == "cmd")
+        {
+            conf[computer].memConfig_[0].cmd = false;
+            conf[computer].memConfig_[1].cmd = false;
+            conf[computer].memConfig_[configNumber].cmd = true;
+        }
     }
     else
     {
