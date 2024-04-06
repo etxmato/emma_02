@@ -74,7 +74,7 @@ public:
     Word outputEnd;
     int type;
     LoadOffSet loadOffSet;
-    bool cmd;
+    int cartType;
     
     vector<Word> mappingList;
 };

@@ -235,11 +235,11 @@ void XmlParser::parseXmlFile(int computer, wxString xmlDir, wxString xmlFile)
     conf[computer].memConfig_[0].filename = "";
     conf[computer].memConfig_[0].start = 0;
     conf[computer].memConfig_[0].type = UNDEFINED;
-    conf[computer].memConfig_[0].cmd = true;
+    conf[computer].memConfig_[0].cartType = CART_BIN;
     conf[computer].memConfig_[1].filename = "";
     conf[computer].memConfig_[1].start = 0;
     conf[computer].memConfig_[1].type = UNDEFINED;
-    conf[computer].memConfig_[1].cmd = false;
+    conf[computer].memConfig_[1].cartType = CART_NONE;
     conf[computer].mainDir_ =  dataDir_;
     conf[computer].emsConfigNumber_ = 0;
     conf[computer].copyConfigNumber_ = 0;
@@ -9298,6 +9298,7 @@ void XmlParser::parseXml_Memory(int computer, wxXmlNode &node)
         {
             case TAG_ROM:
                 configNumber = getMemConfig(computer, child->GetAttribute("type"));
+                setCartType(computer, configNumber, child->GetAttribute("cart"));
                 parseXml_RomRam (computer, *child, (int)(ROM + 256*configNumber), configNumber);
                 setMemMask(computer, configNumber, parseXml_Number(*child, "mask"));
             break;
@@ -9315,6 +9316,7 @@ void XmlParser::parseXml_Memory(int computer, wxXmlNode &node)
 
             case TAG_RAM:
                 configNumber = getMemConfig(computer, child->GetAttribute("type"));
+                setCartType(computer, configNumber, child->GetAttribute("cart"));
                 parseXml_RomRam (computer, *child, (int)(RAM + 256*configNumber), configNumber);
                 setMemMask(computer, configNumber, parseXml_Number(*child, "mask"));
             break;
@@ -9325,6 +9327,7 @@ void XmlParser::parseXml_Memory(int computer, wxXmlNode &node)
                     elfConfiguration[computer].nvRamDisable = true;
                 
                 configNumber = getMemConfig(computer, child->GetAttribute("type"));
+                setCartType(computer, configNumber, child->GetAttribute("cart"));
                 parseXml_RomRam (computer, *child, (int)(NVRAM + 256*configNumber), configNumber);
                 setMemMask(computer, configNumber, parseXml_Number(*child, "mask"));
             break;
@@ -9424,24 +9427,28 @@ size_t XmlParser::getMemConfig(int computer, wxString type)
 {
     size_t configNumber;
 
-    if (type == "gui" || type == "cmd")
+    if (type == "gui")
     {
         configNumber = 0;
         if ((conf[computer].memConfig_[configNumber].type & 0xff) != UNDEFINED)
             configNumber = 1;
-        if (type == "cmd")
-        {
-            conf[computer].memConfig_[0].cmd = false;
-            conf[computer].memConfig_[1].cmd = false;
-            conf[computer].memConfig_[configNumber].cmd = true;
-        }
     }
     else
     {
         configNumber = conf[computer].memConfigNumber_++;
         conf[computer].memConfig_.resize(configNumber+1);
     }
+    
     return configNumber;
+}
+
+void XmlParser::setCartType(int computer, size_t configNumber, wxString type)
+{
+    if (type == "st2")
+        conf[computer].memConfig_[configNumber].cartType = CART_ST2;
+
+    if (type == "ch8")
+        conf[computer].memConfig_[configNumber].cartType = CART_CH8;
 }
 
 void XmlParser::parseXml_RomRam(int computer, wxXmlNode &node, int type, size_t configNumber)
@@ -9537,6 +9544,8 @@ void XmlParser::parseXml_RomRam(int computer, wxXmlNode &node, int type, size_t 
             break;
 
             case TAG_PULLDOWN:
+                if (configNumber == 0 || configNumber == 1)
+                    memDirDefined[configNumber] = true;
                 pulldownString = dataDir_ + child->GetNodeContent();
                 if (pulldownString.Right(1) != pathSeparator_)
                     pulldownString += pathSeparator_;

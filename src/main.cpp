@@ -738,11 +738,10 @@ static const wxCmdLineEntryDesc cmdLineDesc[] =
     { wxCMD_LINE_SWITCH, "w", "window", "non fixed window positions"},                                    
     { wxCMD_LINE_OPTION, "c", "computer", "start emulator without gui and for specified computer" }, // Switch off GUI
     { wxCMD_LINE_OPTION, "s", "software", "load specified software on start" },          // only valid in combination with -c
-    { wxCMD_LINE_OPTION, "s0", "software0", "load specified software in slot 0 on start" }, // only valid in combination with -c
-    { wxCMD_LINE_OPTION, "s1", "software1", "load specified software in slot 1 on start" }, // only valid in combination with -c
     { wxCMD_LINE_OPTION, "r", "run", "run specified software on start" },                // only valid in combination with -c
     { wxCMD_LINE_OPTION, "x", "xml", "load specified xml file on start" },               // only valid in combination with -c
     { wxCMD_LINE_OPTION, "ch", "chip8", "load specified chip8 software on start" },      // only valid in combination with -c
+    { wxCMD_LINE_OPTION, "st", "st2", "load specified st2 software on start" },          // only valid in combination with -c
 
     { wxCMD_LINE_NONE }
 };
@@ -889,7 +888,6 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
     mode_.load = false;
     wxString software = "", xmlFile = "";
     wxString computer, computerLower, dirName, dirNameLower, computerFound = "";
-    char computerFoundChar0;
  
 // XML - Dir/Xmlemu/XmlFile for main dir
 // as in conf[XML].xmlMainDir_ = readConfigDir("Dir/Xmlemu/XmlFile", dataDir_ + "Xml" + pathSeparator_);
@@ -955,42 +953,43 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
                 }
             }
             
+            getSoftware("Xml", "Software_File", "");
             if (parser.Found("s", &software))
             {
-                if (computer == "Comx" || computer == "Comix" || computer == "Pecom32" || computer == "Pecom64" || computer == "TMC600")
-                {
-                   mode_.load = true;
-                   getSoftware("Xml", "Software_File", software);
-                }
+                mode_.load = true;
+                if (software.Right(3) == ".st2")
+                   getSoftware("Xml", "St2_File", software);
                 else
                 {
-                   if (computer == "StudioII" || computer == "Conic" || computer == "Eti")
-                      configPointer->Write("Xmlemu/GuiRomRam1/" + computerFound + "/" + xmlFile, software);
+                   if (software.Right(3) == ".ch8" || software.Right(3) == ".c8x" || software.Right(4) == ".ch10" || software.Right(3) == ".sc8")
+                      getSoftware("Xml", "Chip_8_Software", software);
                    else
-                      configPointer->Write("Xmlemu/GuiRomRam0/" + computerFound + "/" + xmlFile, software);
+                      getSoftware("Xml", "Software_File", software);
                 }
             }
             if (parser.Found("r", &software))
             {
-               if (computer == "Comx" || computer == "Comix" || computer == "Pecom32" || computer == "Pecom64" || computer == "TMC600")
-               {
-                  mode_.run = true;
-                  getSoftware("Xml", "Software_File", software);
-               }
+               mode_.run = true;
+               if (software.Right(3) == ".st2")
+                  getSoftware("Xml", "St2_File", software);
                else
                {
-                  if (computer == "StudioII" || computer == "Conic" || computer == "Eti")
-                     configPointer->Write("Xmlemu/GuiRomRam1/" + computerFound + "/" + xmlFile, software);
+                  if (software.Right(3) == ".ch8" || software.Right(3) == ".c8x" || software.Right(4) == ".ch10" || software.Right(3) == ".sc8")
+                     getSoftware("Xml", "Chip_8_Software", software);
                   else
-                     configPointer->Write("Xmlemu/GuiRomRam0/" + computerFound + "/" + xmlFile, software);
+                     getSoftware("Xml", "Software_File", software);
                }
             }
-
-            if (parser.Found("s0", &software))
-               configPointer->Write("Xmlemu/GuiRomRam0/" + computerFound + "/" + xmlFile, software);
-
-            if (parser.Found("s1", &software))
-               configPointer->Write("Xmlemu/GuiRomRam1/" + computerFound + "/" + xmlFile, software);
+            if (parser.Found("ch", &software))
+            {
+               mode_.load = true;
+               getSoftware("Xml", "Chip_8_Software", software);
+            }
+            if (parser.Found("st", &software))
+            {
+               mode_.load = true;
+               getSoftware("Xml", "St2_File", software);
+            }
 
             return true;
         }
@@ -2583,11 +2582,12 @@ void Main::writeConfig()
 //#if defined (__linux__)
 //    windowInfo.mainwY -= 28;
 //#endif
-    configPointer->Write("/Main/Window_Size_X_133", windowInfo.mainwX);
-    configPointer->Write("/Main/Window_Size_Y_133", windowInfo.mainwY);
     
     if (mode_.gui)
     {
+        configPointer->Write("/Main/Window_Size_X_133", windowInfo.mainwX);
+        configPointer->Write("/Main/Window_Size_Y_133", windowInfo.mainwY);
+       
         configPointer->Write("/Main/Selected_Tab", XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->GetSelection());
         configPointer->Write("/Main/Selected_Cosmac_Tab", XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->GetSelection());
         configPointer->Write("/Main/Selected_Rca_Tab", XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->GetSelection());

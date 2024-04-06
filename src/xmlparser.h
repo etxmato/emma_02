@@ -81,6 +81,7 @@ private:
     void parseXml_Memory(int computer, wxXmlNode &node);
     void setMemMask(int computer, size_t configNumber, long mask);
     size_t getMemConfig(int computer, wxString type);
+    void setCartType(int computer, size_t configNumber, wxString type);
     void parseXml_RomRam(int computer, wxXmlNode &node, int type, size_t configNumber);
     void parseXml_Ems(int computer, wxXmlNode &node, int type, size_t configNumber);
     void parseXml_Slot(int computer, wxXmlNode &node, int maxSlots);

@@ -290,6 +290,14 @@ enum
     BAR_LED_TAPE,
 };
 
+enum
+{
+    CART_NONE,
+    CART_BIN,
+    CART_ST2,
+    CART_CH8,
+};
+
 static wxString defaultComputerList_[]=
 {
     "CDP18S020",

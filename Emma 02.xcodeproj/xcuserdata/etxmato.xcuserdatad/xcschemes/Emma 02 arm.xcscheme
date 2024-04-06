@@ -67,26 +67,30 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-c=Pecom32 -r=&quot;Osvajaci Svemira.pecom&quot;"
-            isEnabled = "NO">
+            isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-c=Cidelsa -x=altair -s=Xchase_altair_12K.hex"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-c=CoinArcade -x=bare -s=&quot;Kaleidoscope.arc&quot;"
+            argument = "-c=CoinArcade -x=bare -s=Kaleidoscope.arc"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-xd "
+            argument = "-c=StudioII -x=standard -s=tennis.st2"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-c=StudioII -x=standard -s=studio2.rom -st=tennis.st2"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-c=StudioII -x=chip8 -s=chip8.bin -ch=&quot;Pong (1 player).ch8&quot;"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-v"
-            isEnabled = "NO">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "-x=bare-pal"
             isEnabled = "NO">
          </CommandLineArgument>
       </CommandLineArguments>
