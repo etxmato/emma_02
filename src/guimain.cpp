@@ -2396,10 +2396,14 @@ void GuiMain::runSoftware(bool load)
         case PECOM:
         case TMC600:
         case MICROBOARD:
-        case XML:
             p_Computer->startComputerRun(load);
         break;
 
+        case XML:
+            conf[XML].memConfig_[0].start
+            p_Computer->startComputerRun(load);
+        break;
+            
         case SUPERELF:
         case ELFII:
         case ELF:

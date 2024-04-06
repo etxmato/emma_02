@@ -2013,8 +2013,8 @@
             filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4967"
-            endingLineNumber = "4967"
+            startingLineNumber = "4971"
+            endingLineNumber = "4971"
             landmarkName = "GuiMain::setTapeState(tapeState, tapeNumber)"
             landmarkType = "7">
             <Locations>
@@ -2061,8 +2061,8 @@
             filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4965"
-            endingLineNumber = "4965"
+            startingLineNumber = "4969"
+            endingLineNumber = "4969"
             landmarkName = "GuiMain::setTapeState(tapeState, tapeNumber)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2077,8 +2077,8 @@
             filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4956"
-            endingLineNumber = "4956"
+            startingLineNumber = "4960"
+            endingLineNumber = "4960"
             landmarkName = "GuiMain::setTapeState(tapeState, tapeNumber)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2093,8 +2093,8 @@
             filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4957"
-            endingLineNumber = "4957"
+            startingLineNumber = "4961"
+            endingLineNumber = "4961"
             landmarkName = "GuiMain::setTapeState(tapeState, tapeNumber)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2109,8 +2109,8 @@
             filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4972"
-            endingLineNumber = "4972"
+            startingLineNumber = "4976"
+            endingLineNumber = "4976"
             landmarkName = "GuiMain::setTapeState(tapeState, tapeNumber)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2448,22 +2448,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "EFAB2DC2-353E-44ED-AA67-7824ACE7F5F7"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/guimain.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2400"
-            endingLineNumber = "2400"
-            landmarkName = "GuiMain::runSoftware(load)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "963495DF-553E-40DC-9D8E-FB4DFC471028"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -2471,8 +2455,8 @@
             filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2432"
-            endingLineNumber = "2432"
+            startingLineNumber = "2436"
+            endingLineNumber = "2436"
             landmarkName = "GuiMain::onLoad(load)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2774,8 +2758,8 @@
             filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3654"
-            endingLineNumber = "3654"
+            startingLineNumber = "3658"
+            endingLineNumber = "3658"
             landmarkName = "GuiMain::pload()"
             landmarkType = "7">
          </BreakpointContent>
@@ -2790,8 +2774,8 @@
             filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3610"
-            endingLineNumber = "3610"
+            startingLineNumber = "3614"
+            endingLineNumber = "3614"
             landmarkName = "GuiMain::pload()"
             landmarkType = "7">
          </BreakpointContent>
@@ -4467,8 +4451,8 @@
             filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5802"
-            endingLineNumber = "5802"
+            startingLineNumber = "5806"
+            endingLineNumber = "5806"
             landmarkName = "GuiMain::setUpdFloppyGui(drive, computerType)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4627,8 +4611,8 @@
             filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5786"
-            endingLineNumber = "5786"
+            startingLineNumber = "5790"
+            endingLineNumber = "5790"
             landmarkName = "GuiMain::setUpdFloppyGui(drive, computerType)"
             landmarkType = "7">
             <Locations>
@@ -4675,8 +4659,8 @@
             filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5797"
-            endingLineNumber = "5797"
+            startingLineNumber = "5801"
+            endingLineNumber = "5801"
             landmarkName = "GuiMain::setUpdFloppyGui(drive, computerType)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4691,8 +4675,8 @@
             filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5723"
-            endingLineNumber = "5723"
+            startingLineNumber = "5727"
+            endingLineNumber = "5727"
             landmarkName = "GuiMain::setDirectoryMode(fdcType, drive, state)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4723,8 +4707,8 @@
             filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5469"
-            endingLineNumber = "5469"
+            startingLineNumber = "5473"
+            endingLineNumber = "5473"
             landmarkName = "GuiMain::onUpdDiskDirSwitch0()"
             landmarkType = "7">
          </BreakpointContent>
@@ -4803,8 +4787,8 @@
             filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5743"
-            endingLineNumber = "5743"
+            startingLineNumber = "5747"
+            endingLineNumber = "5747"
             landmarkName = "GuiMain::setUpdFloppyGui(drive, computerType)"
             landmarkType = "7">
          </BreakpointContent>
