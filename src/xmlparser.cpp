@@ -235,9 +235,11 @@ void XmlParser::parseXmlFile(int computer, wxString xmlDir, wxString xmlFile)
     conf[computer].memConfig_[0].filename = "";
     conf[computer].memConfig_[0].start = 0;
     conf[computer].memConfig_[0].type = UNDEFINED;
+    conf[computer].memConfig_[0].cmd = true;
     conf[computer].memConfig_[1].filename = "";
     conf[computer].memConfig_[1].start = 0;
     conf[computer].memConfig_[1].type = UNDEFINED;
+    conf[computer].memConfig_[1].cmd = false;
     conf[computer].mainDir_ =  dataDir_;
     conf[computer].emsConfigNumber_ = 0;
     conf[computer].copyConfigNumber_ = 0;
