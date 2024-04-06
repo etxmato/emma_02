@@ -732,14 +732,17 @@ static const wxCmdLineEntryDesc cmdLineDesc[] =
 {
     { wxCMD_LINE_SWITCH, "h", "help", "show this help message", wxCMD_LINE_VAL_NONE, wxCMD_LINE_OPTION_HELP },
     { wxCMD_LINE_SWITCH, "p", "portable", "run in portable mode" },                                    
-    { wxCMD_LINE_SWITCH, "v", "verbose", "verbose output"},                                            // only valid in combination with -c
-    { wxCMD_LINE_SWITCH, "f", "fullscreen", "full screen mode"},                                    // only valid in combination with -c
+    { wxCMD_LINE_SWITCH, "v", "verbose", "verbose output"},                              // only valid in combination with -c
+    { wxCMD_LINE_SWITCH, "f", "fullscreen", "full screen mode"},                         // only valid in combination with -c
     { wxCMD_LINE_SWITCH, "u", "skipupdate", "skip update check"},                                    
     { wxCMD_LINE_SWITCH, "w", "window", "non fixed window positions"},                                    
-    { wxCMD_LINE_OPTION, "c", "computer", "start emulator without gui and for specified computer" },// Switch off GUI
-    { wxCMD_LINE_OPTION, "s", "software", "load specified software on start" },                        // only valid in combination with -c
-    { wxCMD_LINE_OPTION, "r", "run", "run specified software on start" },                            // only valid in combination with -c
-    { wxCMD_LINE_OPTION, "ch", "chip8", "load specified chip8 software on start" },                    // only valid in combination with -c
+    { wxCMD_LINE_OPTION, "c", "computer", "start emulator without gui and for specified computer" }, // Switch off GUI
+    { wxCMD_LINE_OPTION, "s", "software", "load specified software on start" },          // only valid in combination with -c
+    { wxCMD_LINE_OPTION, "s0", "software0", "load specified software in slot 0 on start" }, // only valid in combination with -c
+    { wxCMD_LINE_OPTION, "s1", "software1", "load specified software in slot 1 on start" }, // only valid in combination with -c
+    { wxCMD_LINE_OPTION, "r", "run", "run specified software on start" },                // only valid in combination with -c
+    { wxCMD_LINE_OPTION, "x", "xml", "load specified xml file on start" },               // only valid in combination with -c
+    { wxCMD_LINE_OPTION, "ch", "chip8", "load specified chip8 software on start" },      // only valid in combination with -c
 
     { wxCMD_LINE_NONE }
 };
@@ -754,7 +757,7 @@ void Emu1802::OnInitCmdLine(wxCmdLineParser& parser)
 bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
 {
     mode_.window_position_fixed = !parser.Found("w");
-     mode_.portable = parser.Found("p");
+    mode_.portable = parser.Found("p");
     mode_.verbose = parser.Found("v");
     mode_.full_screen = parser.Found("f");
     mode_.update_check = !parser.Found("u");
@@ -884,16 +887,114 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
     mode_.gui = true;
     mode_.run = false;
     mode_.load = false;
-    wxString software = "";
-    wxString computer;
+    wxString software = "", xmlFile = "";
+    wxString computer, computerLower, dirName, dirNameLower, computerFound = "";
+    char computerFoundChar0;
  
 // XML - Dir/Xmlemu/XmlFile for main dir
 // as in conf[XML].xmlMainDir_ = readConfigDir("Dir/Xmlemu/XmlFile", dataDir_ + "Xml" + pathSeparator_);
 //     xmlDirComboString = configPointer->Read("Xmlemu/XmlDirComboString", "Comx");
-//. configPointer->Read("/Xmlemu/XmlFile/"+dirNameList_[number], defaultList[defaultNumber+1]);
+//. configPointer->Read("/Xmlemu/XmlFile/"+dirNameList_[number], defaultComputerList__[defaultNumber+1]);
 
     if (parser.Found("c", &computer))
     {
+        wxDir *dir;
+        dir = new wxDir (dataDir_ + "Xml");
+
+        computerLower = computer;
+        computerLower.MakeLower();
+        bool dirFound = dir->GetFirst(&dirName,  wxEmptyString, wxDIR_DIRS);
+        while (dirFound)
+        {
+            dirNameLower = dirName;
+            dirNameLower.MakeLower();
+            if (dirNameLower == computerLower)
+                computerFound = dirName;
+
+            dirFound = dir->GetNext(&dirName);
+        }
+       
+        if (computerFound != "")
+        {
+            configPointer->Write("Xmlemu/XmlDirComboString", computerFound);
+            startComputer_ = XML;
+            mode_.gui = false;
+
+            if (parser.Found("x", &xmlFile))
+            {
+                if (xmlFile.Right(4) != ".xml")
+                    xmlFile += ".xml";
+               
+                if (wxFile::Exists(dataDir_ + "Xml" + pathSeparator_ + computerFound + pathSeparator_ + xmlFile))
+                {
+                   configPointer->Write("/Xmlemu/XmlFile/" + computerFound, xmlFile);
+                }
+                else
+                {
+                   wxMessageOutput::Get()->Printf("Xml file not found");
+                   return false;
+                }
+            }
+            else
+            {
+                xmlFile = configPointer->Read("/Xmlemu/XmlFile/"+ computerFound, "");
+                if (xmlFile == "")
+                {
+                   int number = 0;
+                   while (defaultComputerList_[number] != "" && defaultComputerList_[number] != computerFound)
+                       number += 3;
+
+                   if (defaultComputerList_[number] != "")
+                       xmlFile = defaultComputerList_[number+2];
+                }
+               
+                if (xmlFile == "")
+                {
+                   wxMessageOutput::Get()->Printf("Xml file not found");
+                   return false;
+                }
+            }
+            
+            if (parser.Found("s", &software))
+            {
+                if (computer == "Comx" || computer == "Comix" || computer == "Pecom32" || computer == "Pecom64" || computer == "TMC600")
+                {
+                   mode_.load = true;
+                   getSoftware("Xml", "Software_File", software);
+                }
+                else
+                {
+                   if (computer == "StudioII" || computer == "Conic" || computer == "Eti")
+                      configPointer->Write("Xmlemu/GuiRomRam1/" + computerFound + "/" + xmlFile, software);
+                   else
+                      configPointer->Write("Xmlemu/GuiRomRam0/" + computerFound + "/" + xmlFile, software);
+                }
+            }
+            if (parser.Found("r", &software))
+            {
+               if (computer == "Comx" || computer == "Comix" || computer == "Pecom32" || computer == "Pecom64" || computer == "TMC600")
+               {
+                  mode_.run = true;
+                  getSoftware("Xml", "Software_File", software);
+               }
+               else
+               {
+                  if (computer == "StudioII" || computer == "Conic" || computer == "Eti")
+                     configPointer->Write("Xmlemu/GuiRomRam1/" + computerFound + "/" + xmlFile, software);
+                  else
+                     configPointer->Write("Xmlemu/GuiRomRam0/" + computerFound + "/" + xmlFile, software);
+               }
+            }
+
+            if (parser.Found("s0", &software))
+               configPointer->Write("Xmlemu/GuiRomRam0/" + computerFound + "/" + xmlFile, software);
+
+            if (parser.Found("s1", &software))
+               configPointer->Write("Xmlemu/GuiRomRam1/" + computerFound + "/" + xmlFile, software);
+
+            return true;
+        }
+
 #if wxCHECK_VERSION(2, 9, 0)
         computer = computer.Capitalize();
         switch(computer[0].GetValue())
@@ -7953,12 +8054,12 @@ void Main::enableGui(bool status)
         XRCCTRL(*this,"MainXmlXml", wxComboBox)->Enable(status);
         XRCCTRL(*this,"XmlButtonXml", wxButton)->Enable(status);
        
-        if ((conf[XML].memConfig_[romRamButton0_].type & 0xff) == MAINRAM || (conf[XML].memConfig_[romRamButton0_].type & 0xff) == MAINROM || (conf[XML].memConfig_[romRamButton0_].type & 0xff) == NVRAM)
+        if ((conf[XML].memConfig_[romRamButton0_].type & 0xff) != UNDEFINED)
         {
             XRCCTRL(*this,"RomRam0Xml", wxComboBox)->Enable(status);
             XRCCTRL(*this,"RomRamButton0Xml", wxButton)->Enable(status);
         }
-        if ((conf[XML].memConfig_[romRamButton1_].type & 0xff) == MAINRAM || (conf[XML].memConfig_[romRamButton1_].type & 0xff) == MAINROM || (conf[XML].memConfig_[romRamButton1_].type & 0xff) == NVRAM)
+        if ((conf[XML].memConfig_[romRamButton1_].type & 0xff) != UNDEFINED)
         {
             XRCCTRL(*this,"RomRam1Xml", wxComboBox)->Enable(status);
             XRCCTRL(*this,"RomRamButton1Xml", wxButton)->Enable(status);

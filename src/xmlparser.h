@@ -117,6 +117,7 @@ private:
     bool ideFileDirDefined_;
     bool sequencerFileDirDefined_;
     bool wavFileDirDefined[2];
+    bool memDirDefined[2];
     bool floppyDirDefined[FDCTYPE_MAX][4];
 
     bool keyFileDefined_;

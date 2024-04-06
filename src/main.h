@@ -757,12 +757,10 @@ public:
 #define UART1_82C51 33
 #define UART2_82C51 34
 #define NOCHANGE 35
-#define MAINRAM 36
-#define SLOTMEM 37
-#define SN76430NRAM 38
-#define MAINROM 39
-#define COLOURRAM1864 40
-#define COLOURRAMST4 41
+#define SLOTMEM 36
+#define SN76430NRAM 37
+#define COLOURRAM1864 38
+#define COLOURRAMST4 39
 
 #define MICRO_ROM 0
 #define MICRO_RAM 1

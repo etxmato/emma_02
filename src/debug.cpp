@@ -14410,7 +14410,6 @@ void DebugWindow::DebugDisplayMap()
                 break;
 
                 case RAM:
-                case MAINRAM:
                     value.Printf (".");
                 break;
 

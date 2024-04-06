@@ -62,7 +62,31 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "-c=eti"
+            argument = "-c=Comx -r=Games/Trainspotting.comx"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-c=Pecom32 -r=&quot;Osvajaci Svemira.pecom&quot;"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-c=Cidelsa -x=altair -s=Xchase_altair_12K.hex"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-c=CoinArcade -x=bare -s=&quot;Kaleidoscope.arc&quot;"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-xd "
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-v"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-x=bare-pal"
             isEnabled = "NO">
          </CommandLineArgument>
       </CommandLineArguments>

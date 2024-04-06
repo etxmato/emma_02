@@ -377,6 +377,8 @@ void XmlParser::parseXmlFile(int computer, wxString xmlDir, wxString xmlFile)
         wavFileDefined[tape] = false;
         wavFileDir[tape] = conf[computer].wavFileDir_[tape];
     }
+    for (int mem=0; mem<2; mem++)
+        memDirDefined[mem] = false;
     
     elfConfiguration[computer].fdcType_ = FDCTYPE_17XX;
 
@@ -1066,6 +1068,14 @@ void XmlParser::parseXmlFile(int computer, wxString xmlDir, wxString xmlFile)
                 conf[computer].wavFileDir_[tape] = conf[computer].mainDir_;
             if (!wavFileDefined[tape])
                 conf[computer].wavFile_[tape] = "";
+        }
+    }
+    for (int mem=0; mem<2; mem++)
+    {
+        if (conf[computer].memConfig_[mem].dirname.Left(conf[computer].mainDir_.Len()) != conf[computer].mainDir_)
+        {
+            if (!memDirDefined[mem])
+                conf[computer].memConfig_[mem].dirname = conf[computer].mainDir_;
         }
     }
 }
@@ -9242,8 +9252,6 @@ void XmlParser::parseXml_Memory(int computer, wxXmlNode &node)
     {
         "rom",
         "diagrom",
-        "guiram",
-        "guirom",
         "ram",
         "nvram",
         "ems",
@@ -9260,8 +9268,6 @@ void XmlParser::parseXml_Memory(int computer, wxXmlNode &node)
     {
         TAG_ROM,
         TAG_DIAG,
-        TAG_MAINRAM,
-        TAG_MAINROM,
         TAG_RAM,
         TAG_NVRAM,
         TAG_EMS,
@@ -9291,7 +9297,7 @@ void XmlParser::parseXml_Memory(int computer, wxXmlNode &node)
             case TAG_ROM:
                 configNumber = getMemConfig(computer, child->GetAttribute("type"));
                 parseXml_RomRam (computer, *child, (int)(ROM + 256*configNumber), configNumber);
-                setMask(computer, configNumber, parseXml_Number(*child, "mask"));
+                setMemMask(computer, configNumber, parseXml_Number(*child, "mask"));
             break;
 
             case TAG_DIAG:
@@ -9305,40 +9311,10 @@ void XmlParser::parseXml_Memory(int computer, wxXmlNode &node)
                 conf[computer].memConfigNumber_++;
             break;
 
-            case TAG_MAINRAM:
-                romRamButton = 0;
-                if ((conf[computer].memConfig_[romRamButton].type & 0xff) == MAINRAM || (conf[computer].memConfig_[romRamButton].type & 0xff) == MAINROM || (conf[computer].memConfig_[romRamButton].type & 0xff) == NVRAM)
-                    romRamButton = 1;
-                parseXml_RomRam (computer, *child, (int)(MAINRAM + 256*romRamButton), romRamButton);
-                conf[computer].memConfig_[romRamButton].memMask = parseXml_Number(*child, "mask");
-                if (conf[computer].memConfig_[romRamButton].memMask != 0)
-                {
-                    conf[computer].memConfig_[romRamButton].useMemMask = true;
-                    conf[computer].memConfig_[romRamButton].memMask |= 0xff;
-                }
-                else
-                    conf[computer].memConfig_[romRamButton].useMemMask = false;
-            break;
-
-            case TAG_MAINROM:
-                romRamButton = 0;
-                if ((conf[computer].memConfig_[romRamButton].type & 0xff) == MAINRAM || (conf[computer].memConfig_[romRamButton].type & 0xff) == MAINROM || (conf[computer].memConfig_[romRamButton].type & 0xff) == NVRAM)
-                    romRamButton = 1;
-                parseXml_RomRam (computer, *child, (int)(MAINROM + 256*romRamButton), romRamButton);
-                conf[computer].memConfig_[romRamButton].memMask = parseXml_Number(*child, "mask");
-                if (conf[computer].memConfig_[romRamButton].memMask != 0)
-                {
-                    conf[computer].memConfig_[romRamButton].useMemMask = true;
-                    conf[computer].memConfig_[romRamButton].memMask |= 0xff;
-                }
-                else
-                    conf[computer].memConfig_[romRamButton].useMemMask = false;
-            break;
-
             case TAG_RAM:
                 configNumber = getMemConfig(computer, child->GetAttribute("type"));
                 parseXml_RomRam (computer, *child, (int)(RAM + 256*configNumber), configNumber);
-                setMask(computer, configNumber, parseXml_Number(*child, "mask"));
+                setMemMask(computer, configNumber, parseXml_Number(*child, "mask"));
             break;
 
             case TAG_NVRAM:
@@ -9348,7 +9324,7 @@ void XmlParser::parseXml_Memory(int computer, wxXmlNode &node)
                 
                 configNumber = getMemConfig(computer, child->GetAttribute("type"));
                 parseXml_RomRam (computer, *child, (int)(NVRAM + 256*configNumber), configNumber);
-                setMask(computer, configNumber, parseXml_Number(*child, "mask"));
+                setMemMask(computer, configNumber, parseXml_Number(*child, "mask"));
             break;
 
             case TAG_EMS:
@@ -9430,7 +9406,7 @@ void XmlParser::parseXml_Memory(int computer, wxXmlNode &node)
     }
 }
 
-int XmlParser::setMemMask(int computer, size_t configNumber, long mask)
+void XmlParser::setMemMask(int computer, size_t configNumber, long mask)
 {
     conf[computer].memConfig_[configNumber].memMask = mask;
     if (conf[computer].memConfig_[configNumber].memMask != 0)
@@ -9444,7 +9420,7 @@ int XmlParser::setMemMask(int computer, size_t configNumber, long mask)
 
 size_t XmlParser::getMemConfig(int computer, wxString type)
 {
-    int configNumber;
+    size_t configNumber;
 
     if (type == "gui")
     {
@@ -9499,7 +9475,8 @@ void XmlParser::parseXml_RomRam(int computer, wxXmlNode &node, int type, size_t 
     conf[computer].memConfig_[configNumber].start = 0;
     conf[computer].memConfig_[configNumber].end = 0;
     conf[computer].memConfig_[configNumber].memMask = 0;
-    conf[computer].memConfig_[configNumber].dirname = conf[computer].mainDir_ ;
+    if (configNumber != 0 && configNumber != 1)
+        conf[computer].memConfig_[configNumber].dirname = conf[computer].mainDir_ ;
     conf[computer].memConfig_[configNumber].filename = "";
     conf[computer].memConfig_[configNumber].filename2 = "";
     conf[computer].memConfig_[configNumber].type = type;
@@ -9542,6 +9519,8 @@ void XmlParser::parseXml_RomRam(int computer, wxXmlNode &node, int type, size_t 
             break;
 
            case TAG_DIRNAME:
+                if (configNumber == 0 || configNumber == 1)
+                    memDirDefined[configNumber] = true;
                 conf[computer].memConfig_[configNumber].dirname =  dataDir_ + child->GetNodeContent();
                 if (conf[computer].memConfig_[configNumber].dirname.Right(1) != pathSeparator_)
                 {

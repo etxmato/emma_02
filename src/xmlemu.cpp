@@ -5071,7 +5071,6 @@ void Xmlemu::writeMemDataType(Word address, Byte type)
 
         case MAPPEDROM:
         case ROM:
-        case MAINROM:
         case DIAGROM:
             if (elfConfiguration.giantBoardMapping)
             {
@@ -5101,7 +5100,6 @@ void Xmlemu::writeMemDataType(Word address, Byte type)
             increaseExecutedTestCartRom(address, type);
         break;
             
-        case MAINRAM:
         case MAPPEDRAM:
         case RAM:
         case NVRAM:
@@ -5188,7 +5186,6 @@ Byte Xmlemu::readMemDataType(Word address, uint64_t* executed)
 
         case MAPPEDROM:
         case ROM:
-        case MAINROM:
         case DIAGROM:
             if (elfConfiguration.giantBoardMapping)
             {
@@ -5206,7 +5203,6 @@ Byte Xmlemu::readMemDataType(Word address, uint64_t* executed)
             return mainMemoryDataType_[address];
         break;
 
-        case MAINRAM:
         case MAPPEDRAM:
         case RAM:
         case NVRAM:
@@ -5433,7 +5429,6 @@ Byte Xmlemu::readMemDebug(Word address)
         break;
 
         case ROM:
-        case MAINROM:
         case MAPPEDROM:
             if (address <32 && monitor_) return minimon[address];
             
@@ -5463,7 +5458,6 @@ Byte Xmlemu::readMemDebug(Word address)
         break;
             
         case MAPPEDRAM:
-        case MAINRAM:
         case RAM:
         case NVRAM:
             if (address <32 && monitor_) return minimon[address];
@@ -5849,7 +5843,6 @@ void Xmlemu::writeMemDebug(Word address, Byte value, bool writeRom)
 
         case MAPPEDROM:
         case ROM:
-        case MAINROM:
             if (address < 32 && monitor_) return;
 
             if (elfConfiguration.giantBoardMapping)
@@ -5939,7 +5932,6 @@ void Xmlemu::writeMemDebug(Word address, Byte value, bool writeRom)
         break;
 
         case MAPPEDRAM:
-        case MAINRAM:
         case RAM:
             if (!getMpButtonState() && !mpButtonState[(address>>10)&0x3])
             {
@@ -6478,7 +6470,6 @@ void Xmlemu::configureMemory()
         switch (computerConfiguration.memConfig_[memConfNumber].type & 0xff)
         {
             case ROM:
-            case MAINROM:
                 defineMemoryType(computerConfiguration.memConfig_[memConfNumber].start, computerConfiguration.memConfig_[memConfNumber].end, computerConfiguration.memConfig_[memConfNumber].type);
 
                 if (computerConfiguration.memConfig_[memConfNumber].useMemMask)
@@ -6498,7 +6489,7 @@ void Xmlemu::configureMemory()
                 diagRomActive_ = true;
             break;
                 
-            case MAINRAM:
+/*            case MAINRAM:
                 defineMemoryType(computerConfiguration.memConfig_[memConfNumber].start, computerConfiguration.memConfig_[memConfNumber].end, computerConfiguration.memConfig_[memConfNumber].type);
                 
                 if (computerConfiguration.memConfig_[memConfNumber].useMemMask)
@@ -6512,7 +6503,7 @@ void Xmlemu::configureMemory()
                 }
 
                 initRam(computerConfiguration.memConfig_[memConfNumber].start, computerConfiguration.memConfig_[memConfNumber].end);
-            break;
+            break;*/
                 
             case RAM:
                 defineMemoryType(computerConfiguration.memConfig_[memConfNumber].start, computerConfiguration.memConfig_[memConfNumber].end, computerConfiguration.memConfig_[memConfNumber].type);

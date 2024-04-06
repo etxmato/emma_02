@@ -36,6 +36,7 @@ public:
     void setXmlDropDown();
     void setRomRamDropDown(int romRamButton, wxString romRamButtonString);
     void setXmlDirDropDown();
+    void setXmlSubDir(wxString directory);
     void setPrintModeXml();
     void setRomRamButtonOrder();
     void setXmlGui();
@@ -68,6 +69,7 @@ private:
 
     size_t xmlFileComboSelection;
     size_t xmlDirComboSelection;
+    wxString xmlDirComboString;
 
     wxArrayString romRamFileNameListGui_[2];
     wxArrayString romRamDirNameListGui_[2];
