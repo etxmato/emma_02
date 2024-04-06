@@ -2389,6 +2389,7 @@ void GuiMain::runSoftware(bool load)
     conf[runningComputer_].loadFileNameFull_ = conf[runningComputer_].ramDir_ + conf[runningComputer_].loadFileName_;
     p_Main->setSwName (conf[runningComputer_].loadFileName_);
     p_Main->updateTitle();
+    wxString extension;
 
     switch(runningComputer_)
     {
@@ -2400,8 +2401,16 @@ void GuiMain::runSoftware(bool load)
         break;
 
         case XML:
-            conf[XML].memConfig_[0].start
-            p_Computer->startComputerRun(load);
+            extension = conf[runningComputer_].loadFileName_.Right(conf[runningComputer_].loadFileName_.Len()-conf[runningComputer_].loadFileName_.Find('.', false));
+            if (extension == conf[runningComputer_].pload)
+                p_Computer->startComputerRun(load);
+            else
+            {
+                if (conf[XML].memConfig_[0].cmd)
+                    p_Computer->readFile(conf[runningComputer_].loadFileNameFull_, NOCHANGE, conf[XML].memConfig_[0].start, 0x10000, SHOWNAME);
+                if (conf[XML].memConfig_[1].cmd)
+                    p_Computer->readFile(conf[runningComputer_].loadFileNameFull_, NOCHANGE, conf[XML].memConfig_[1].start, 0x10000, SHOWNAME);
+            }
         break;
             
         case SUPERELF:
