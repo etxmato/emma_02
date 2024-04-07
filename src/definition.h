@@ -1,3 +1,4 @@
+
 #ifndef DEFINITION_H
 #define DEFINITION_H
 
@@ -296,6 +297,12 @@ enum
     CART_BIN,
     CART_ST2,
     CART_CH8,
+};
+
+static wxString commandComputerList_[]=
+{
+    "comx35",
+    "Comx",
 };
 
 static wxString defaultComputerList_[]=
