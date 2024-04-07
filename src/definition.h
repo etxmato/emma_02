@@ -301,11 +301,17 @@ enum
 
 static wxString commandComputerList_[]=
 {
+    "coin",
+    "CoinArcade",
     "comx35",
     "Comx",
     "comix35",
     "Comx",
+    "Cosmac",
+    "CosmacElf",
     "Eti660", 
+    "Eti",
+    "Eti-660", 
     "Eti",
     "Fred15", 
     "Fred1_5",
