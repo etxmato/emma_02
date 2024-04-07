@@ -1366,7 +1366,7 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
                 wxMessageOutput::Get()->Printf("Incorrect computer name specified");
                 return false;
             break;
-//Eti660, Fred15, Fred1.5, Infinite, Microtutor, Microtutor2, MicrotutorII
+
             case 'N':
                 if (computer == "Netronics")
                 {
