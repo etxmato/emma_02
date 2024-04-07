@@ -320,7 +320,7 @@ static wxString commandComputerList_[]=
     "Pecom",
     "Pecom64",
     "Pico", 
-    "Pico/ElfV2",
+    "PicoElfV2",
     "Quest", 
     "QuestSuperElf",
     "Studio", 
