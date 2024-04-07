@@ -1299,7 +1299,7 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
                         return false;
                     }
                     return true;
-                }
+                } 
                 if (computer == "Microtutor2" || computer == "MicrotutorII")
                 {
                     startComputer_ = MICROTUTOR2;
@@ -1320,7 +1320,7 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
                         return false;
                     }
                     return true;
-                }
+                } 
                 if (computer == "Ms2000" || computer == "MS2000")
                 {
                     startComputer_ = MS2000;
@@ -1366,7 +1366,7 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
                 wxMessageOutput::Get()->Printf("Incorrect computer name specified");
                 return false;
             break;
-
+//Eti660, Fred15, Fred1.5, Infinite, Microtutor, Microtutor2, MicrotutorII
             case 'N':
                 if (computer == "Netronics")
                 {
