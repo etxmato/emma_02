@@ -303,6 +303,8 @@ static wxString commandComputerList_[]=
 {
     "comx35",
     "Comx",
+    "comix35",
+    "Comx",
     "Eti660", 
     "Eti",
     "Fred15", 
@@ -311,20 +313,16 @@ static wxString commandComputerList_[]=
     "Fred1_5",
     "Infinite", 
     "UC1800",
-    "Microtutor",
-    "Microtutor1",
-    "Microtutor2", 
     "Microtutor2",
     "MicrotutorII", 
-    "Microtutor2",
     "Netronics", 
-    "NetronicsElf",
+    "NetronicsElfII",
     "Pecom",
     "Pecom64",
     "Pico", 
     "Pico/Elf v2",
     "Quest", 
-    "QuestElf",
+    "QuestSuperElf",
     "Studio", 
     "StudioII",
     "Studio2", 
@@ -339,8 +337,9 @@ static wxString commandComputerList_[]=
     "TMC1800",
     "Telmac2000", 
     "TMC1800",
-    "Visicom", "Victory"
-
+    "Visicom", 
+    "Victory"
+    "Comic"
 };
 
 static wxString defaultComputerList_[]=
