@@ -911,6 +911,16 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
 
             dirFound = dir->GetNext(&dirName);
         }
+
+        if (computerFound == "")
+        {
+            size_t number = 0;
+            while (commandComputerList_[number] != computerLower && commandComputerList_[number] != "")
+                number+=2;
+
+            if (commandComputerList_[number] == computerLower)
+                computerFound = commandComputerList_[number+1];
+        }
        
         if (computerFound != "")
         {
@@ -993,7 +1003,7 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
 
             return true;
         }
-
+/*
 #if wxCHECK_VERSION(2, 9, 0)
         computer = computer.Capitalize();
         switch(computer[0].GetValue())
@@ -1716,7 +1726,9 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
                 wxMessageOutput::Get()->Printf("Incorrect computer name specified");
                 return false;
             break;
-        }
+        }*/
+        wxMessageOutput::Get()->Printf("Incorrect computer name specified");
+        return false;
     } 
     return true;
 }
