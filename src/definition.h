@@ -320,7 +320,7 @@ static wxString commandComputerList_[]=
     "Pecom",
     "Pecom64",
     "Pico", 
-    "Pico/Elf v2",
+    "Pico/ElfV2",
     "Quest", 
     "QuestSuperElf",
     "Studio", 
@@ -336,10 +336,9 @@ static wxString commandComputerList_[]=
     "Telmac1800",
     "TMC1800",
     "Telmac2000", 
-    "TMC1800",
-    "Visicom", 
+    "TMC2000",
     "Victory"
-    "Comic"
+    "Conic"
 };
 
 static wxString defaultComputerList_[]=
