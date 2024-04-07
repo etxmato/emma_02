@@ -309,6 +309,8 @@ static wxString commandComputerList_[]=
     "Comx",
     "Cosmac",
     "CosmacElf",
+    "",
+    "CosmacGameSystem",
     "Eti660", 
     "Eti",
     "Eti-660", 
