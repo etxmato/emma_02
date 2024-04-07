@@ -337,8 +337,10 @@ static wxString commandComputerList_[]=
     "TMC1800",
     "Telmac2000", 
     "TMC2000",
-    "Victory"
-    "Conic"
+    "Victory",
+    "Conic",
+    "",
+    ""
 };
 
 static wxString defaultComputerList_[]=
