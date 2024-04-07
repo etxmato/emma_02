@@ -190,8 +190,8 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "10347"
-            endingLineNumber = "10347"
+            startingLineNumber = "10376"
+            endingLineNumber = "10376"
             landmarkName = "Main::getMultiCartGame(findMsb, findLsb)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1166,8 +1166,8 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6774"
-            endingLineNumber = "6774"
+            startingLineNumber = "6777"
+            endingLineNumber = "6777"
             landmarkName = "XmlParser::parseXml_FrontPanelItem(computer, node)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1182,13 +1182,13 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6829"
-            endingLineNumber = "6829"
+            startingLineNumber = "6832"
+            endingLineNumber = "6832"
             landmarkName = "XmlParser::parseXml_FrontPanelItem(computer, node)"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "45962B9C-231C-4319-81AA-9F2B880EA339 - a9c22441284d894c"
+                  uuid = "45962B9C-231C-4319-81AA-9F2B880EA339 - a9c22441284d8b33"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -1198,12 +1198,12 @@
                   urlString = "file:///Users/etxmato/workspace/emma_02/src/xmlparser.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "6819"
-                  endingLineNumber = "6819"
-                  offsetFromSymbolStart = "12560">
+                  startingLineNumber = "6832"
+                  endingLineNumber = "6832"
+                  offsetFromSymbolStart = "12428">
                </Location>
                <Location
-                  uuid = "45962B9C-231C-4319-81AA-9F2B880EA339 - a9c22441284d894c"
+                  uuid = "45962B9C-231C-4319-81AA-9F2B880EA339 - a9c22441284d8b7d"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -1213,38 +1213,8 @@
                   urlString = "file:///Users/etxmato/workspace/emma_02/src/xmlparser.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "6819"
-                  endingLineNumber = "6819"
-                  offsetFromSymbolStart = "12352">
-               </Location>
-               <Location
-                  uuid = "45962B9C-231C-4319-81AA-9F2B880EA339 - a9c22441284d8b96"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "XmlParser::parseXml_FrontPanelItem(int, wxXmlNode&amp;)"
-                  moduleName = "Emma 02"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/etxmato/workspace/emma_02/src/xmlparser.cpp"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "6829"
-                  endingLineNumber = "6829"
-                  offsetFromSymbolStart = "12352">
-               </Location>
-               <Location
-                  uuid = "45962B9C-231C-4319-81AA-9F2B880EA339 - a9c22441284d8bd0"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "XmlParser::parseXml_FrontPanelItem(int, wxXmlNode&amp;)"
-                  moduleName = "Emma 02"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/etxmato/workspace/emma_02/src/xmlparser.cpp"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "6831"
-                  endingLineNumber = "6831"
+                  startingLineNumber = "6834"
+                  endingLineNumber = "6834"
                   offsetFromSymbolStart = "12352">
                </Location>
             </Locations>
@@ -1260,8 +1230,8 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6785"
-            endingLineNumber = "6785"
+            startingLineNumber = "6788"
+            endingLineNumber = "6788"
             landmarkName = "XmlParser::parseXml_FrontPanelItem(computer, node)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1276,8 +1246,8 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6861"
-            endingLineNumber = "6861"
+            startingLineNumber = "6864"
+            endingLineNumber = "6864"
             landmarkName = "XmlParser::parseXml_FrontPanelItem(computer, node)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1292,8 +1262,8 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6949"
-            endingLineNumber = "6949"
+            startingLineNumber = "6952"
+            endingLineNumber = "6952"
             landmarkName = "XmlParser::parseXml_FrontPanelItem(computer, node)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1436,8 +1406,8 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "7102"
-            endingLineNumber = "7102"
+            startingLineNumber = "7105"
+            endingLineNumber = "7105"
             landmarkName = "XmlParser::parseXml_Cdp1851(computer, node, windowOn)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1484,8 +1454,8 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6139"
-            endingLineNumber = "6139"
+            startingLineNumber = "6168"
+            endingLineNumber = "6168"
             landmarkName = "Main::fixedWindowPosition()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1532,8 +1502,8 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6141"
-            endingLineNumber = "6141"
+            startingLineNumber = "6170"
+            endingLineNumber = "6170"
             landmarkName = "Main::fixedWindowPosition()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1676,8 +1646,8 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "7171"
-            endingLineNumber = "7171"
+            startingLineNumber = "7174"
+            endingLineNumber = "7174"
             landmarkName = "XmlParser::parseXml_Cdp1852(computer, node, windowOn)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1692,8 +1662,8 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "7175"
-            endingLineNumber = "7175"
+            startingLineNumber = "7178"
+            endingLineNumber = "7178"
             landmarkName = "XmlParser::parseXml_Cdp1852(computer, node, windowOn)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2012,8 +1982,8 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "9236"
-            endingLineNumber = "9236"
+            startingLineNumber = "9265"
+            endingLineNumber = "9265"
             landmarkName = "Main::eventSetSwName(swName)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2028,8 +1998,8 @@
             filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5006"
-            endingLineNumber = "5006"
+            startingLineNumber = "4993"
+            endingLineNumber = "4993"
             landmarkName = "GuiMain::setTapeState(tapeState, tapeNumber)"
             landmarkType = "7">
             <Locations>
@@ -2076,8 +2046,8 @@
             filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5004"
-            endingLineNumber = "5004"
+            startingLineNumber = "4991"
+            endingLineNumber = "4991"
             landmarkName = "GuiMain::setTapeState(tapeState, tapeNumber)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2092,8 +2062,8 @@
             filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4995"
-            endingLineNumber = "4995"
+            startingLineNumber = "4982"
+            endingLineNumber = "4982"
             landmarkName = "GuiMain::setTapeState(tapeState, tapeNumber)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2108,8 +2078,8 @@
             filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4996"
-            endingLineNumber = "4996"
+            startingLineNumber = "4983"
+            endingLineNumber = "4983"
             landmarkName = "GuiMain::setTapeState(tapeState, tapeNumber)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2124,8 +2094,8 @@
             filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5011"
-            endingLineNumber = "5011"
+            startingLineNumber = "4998"
+            endingLineNumber = "4998"
             landmarkName = "GuiMain::setTapeState(tapeState, tapeNumber)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2463,22 +2433,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "963495DF-553E-40DC-9D8E-FB4DFC471028"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/guimain.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2471"
-            endingLineNumber = "2471"
-            landmarkName = "GuiMain::runSoftware(load)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "A263E8A0-2EF3-4090-87E3-DD2AE41BBA83"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -2773,8 +2727,8 @@
             filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3693"
-            endingLineNumber = "3693"
+            startingLineNumber = "3680"
+            endingLineNumber = "3680"
             landmarkName = "GuiMain::pload()"
             landmarkType = "7">
          </BreakpointContent>
@@ -2789,8 +2743,8 @@
             filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3649"
-            endingLineNumber = "3649"
+            startingLineNumber = "3636"
+            endingLineNumber = "3636"
             landmarkName = "GuiMain::setCdp1852Pos(computerType, position, number)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2869,8 +2823,8 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1630"
-            endingLineNumber = "1630"
+            startingLineNumber = "1633"
+            endingLineNumber = "1633"
             landmarkName = "XmlParser::parseXml_Locations(computer, node)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3269,8 +3223,8 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "10258"
-            endingLineNumber = "10258"
+            startingLineNumber = "10287"
+            endingLineNumber = "10287"
             landmarkName = "Main::eventUpdateVipIILedStatus(led, status)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3301,9 +3255,9 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "9239"
-            endingLineNumber = "9239"
-            landmarkName = "Main::setTapeStateEvent(event)"
+            startingLineNumber = "9268"
+            endingLineNumber = "9268"
+            landmarkName = "Main::eventSetSwName(swName)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -3989,8 +3943,8 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4555"
-            endingLineNumber = "4555"
+            startingLineNumber = "4558"
+            endingLineNumber = "4558"
             landmarkName = "XmlParser::parseXml_VisVideo(computer, node)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4466,8 +4420,8 @@
             filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5841"
-            endingLineNumber = "5841"
+            startingLineNumber = "5828"
+            endingLineNumber = "5828"
             landmarkName = "GuiMain::setUpdFloppyGui(drive, computerType)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4626,8 +4580,8 @@
             filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5825"
-            endingLineNumber = "5825"
+            startingLineNumber = "5812"
+            endingLineNumber = "5812"
             landmarkName = "GuiMain::setUpdFloppyGui(drive, computerType)"
             landmarkType = "7">
             <Locations>
@@ -4674,8 +4628,8 @@
             filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5836"
-            endingLineNumber = "5836"
+            startingLineNumber = "5823"
+            endingLineNumber = "5823"
             landmarkName = "GuiMain::setUpdFloppyGui(drive, computerType)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4690,8 +4644,8 @@
             filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5762"
-            endingLineNumber = "5762"
+            startingLineNumber = "5749"
+            endingLineNumber = "5749"
             landmarkName = "GuiMain::onUpdDiskDirSwitch3()"
             landmarkType = "7">
          </BreakpointContent>
@@ -4722,8 +4676,8 @@
             filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5508"
-            endingLineNumber = "5508"
+            startingLineNumber = "5495"
+            endingLineNumber = "5495"
             landmarkName = "GuiMain::onUpdDiskEject0()"
             landmarkType = "7">
          </BreakpointContent>
@@ -4802,8 +4756,8 @@
             filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5782"
-            endingLineNumber = "5782"
+            startingLineNumber = "5769"
+            endingLineNumber = "5769"
             landmarkName = "GuiMain::getUpdFloppyDir(fdcType, drive)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4994,8 +4948,8 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2809"
-            endingLineNumber = "2809"
+            startingLineNumber = "2838"
+            endingLineNumber = "2838"
             landmarkName = "Main::writeConfig()"
             landmarkType = "7">
          </BreakpointContent>
@@ -5010,8 +4964,8 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2512"
-            endingLineNumber = "2512"
+            startingLineNumber = "2541"
+            endingLineNumber = "2541"
             landmarkName = "Main::~Main()"
             landmarkType = "7">
          </BreakpointContent>
@@ -5026,8 +4980,8 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2510"
-            endingLineNumber = "2510"
+            startingLineNumber = "2539"
+            endingLineNumber = "2539"
             landmarkName = "Main::~Main()"
             landmarkType = "7">
          </BreakpointContent>
@@ -5058,8 +5012,8 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2345"
-            endingLineNumber = "2345"
+            startingLineNumber = "2374"
+            endingLineNumber = "2374"
             landmarkName = "Main::Main(title, pos, size, mode, dataDir, iniDir)"
             landmarkType = "7">
          </BreakpointContent>
@@ -5074,9 +5028,9 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4522"
-            endingLineNumber = "4522"
-            landmarkName = "Main::onReInstallData()"
+            startingLineNumber = "4551"
+            endingLineNumber = "4551"
+            landmarkName = "Main::onReInstallConfig()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -5090,8 +5044,8 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4739"
-            endingLineNumber = "4739"
+            startingLineNumber = "4768"
+            endingLineNumber = "4768"
             landmarkName = "Main::removeOldXml(dirName, pathSep)"
             landmarkType = "7">
          </BreakpointContent>
@@ -5106,8 +5060,8 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4756"
-            endingLineNumber = "4756"
+            startingLineNumber = "4785"
+            endingLineNumber = "4785"
             landmarkName = "Main::removeOldXml(dirName, pathSep)"
             landmarkType = "7">
             <Locations>
@@ -5154,8 +5108,8 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "797"
-            endingLineNumber = "797"
+            startingLineNumber = "800"
+            endingLineNumber = "800"
             landmarkName = "XmlParser::parseXmlFile(computer, xmlDir, xmlFile)"
             landmarkType = "7">
          </BreakpointContent>
@@ -5170,8 +5124,8 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4518"
-            endingLineNumber = "4518"
+            startingLineNumber = "4547"
+            endingLineNumber = "4547"
             landmarkName = "Main::onReInstallConfig()"
             landmarkType = "7">
          </BreakpointContent>
@@ -5186,8 +5140,8 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4759"
-            endingLineNumber = "4759"
+            startingLineNumber = "4788"
+            endingLineNumber = "4788"
             landmarkName = "Main::removeOldXml(dirName, pathSep)"
             landmarkType = "7">
          </BreakpointContent>
@@ -5202,8 +5156,8 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4741"
-            endingLineNumber = "4741"
+            startingLineNumber = "4770"
+            endingLineNumber = "4770"
             landmarkName = "Main::removeOldXml(dirName, pathSep)"
             landmarkType = "7">
          </BreakpointContent>
@@ -6118,8 +6072,8 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "7368"
-            endingLineNumber = "7368"
+            startingLineNumber = "7371"
+            endingLineNumber = "7371"
             landmarkName = "XmlParser::parseXml_SerialVt(computer, node)"
             landmarkType = "7">
          </BreakpointContent>
@@ -6134,8 +6088,8 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "7349"
-            endingLineNumber = "7349"
+            startingLineNumber = "7352"
+            endingLineNumber = "7352"
             landmarkName = "XmlParser::parseXml_SerialVt(computer, node)"
             landmarkType = "7">
          </BreakpointContent>
@@ -6246,8 +6200,8 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "9520"
-            endingLineNumber = "9520"
+            startingLineNumber = "9541"
+            endingLineNumber = "9541"
             landmarkName = "XmlParser::parseXml_RomRam(computer, node, type, configNumber)"
             landmarkType = "7">
          </BreakpointContent>
@@ -6262,8 +6216,8 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "9535"
-            endingLineNumber = "9535"
+            startingLineNumber = "9556"
+            endingLineNumber = "9556"
             landmarkName = "XmlParser::parseXml_RomRam(computer, node, type, configNumber)"
             landmarkType = "7">
          </BreakpointContent>
@@ -6406,8 +6360,8 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3287"
-            endingLineNumber = "3287"
+            startingLineNumber = "3316"
+            endingLineNumber = "3316"
             landmarkName = "Main::readConfig()"
             landmarkType = "7">
             <Locations>
@@ -6582,9 +6536,9 @@
             filePath = "src/cdp1802.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4875"
-            endingLineNumber = "4875"
-            landmarkName = "Cdp1802::readSt2Program(dirName, fileName, computerType, memoryType)"
+            startingLineNumber = "4880"
+            endingLineNumber = "4880"
+            landmarkName = "Cdp1802::readSt2Program(fileNameFull, computerType, memoryType)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -6598,9 +6552,9 @@
             filePath = "src/cdp1802.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4882"
-            endingLineNumber = "4882"
-            landmarkName = "Cdp1802::readSt2Program(dirName, fileName, computerType, memoryType)"
+            startingLineNumber = "4887"
+            endingLineNumber = "4887"
+            landmarkName = "Cdp1802::readSt2Program(fileNameFull, computerType, memoryType)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -6646,9 +6600,9 @@
             filePath = "src/cdp1802.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4880"
-            endingLineNumber = "4880"
-            landmarkName = "Cdp1802::readSt2Program(dirName, fileName, computerType, memoryType)"
+            startingLineNumber = "4885"
+            endingLineNumber = "4885"
+            landmarkName = "Cdp1802::readSt2Program(fileNameFull, computerType, memoryType)"
             landmarkType = "7">
             <Locations>
                <Location
@@ -6870,8 +6824,8 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "9531"
-            endingLineNumber = "9531"
+            startingLineNumber = "9552"
+            endingLineNumber = "9552"
             landmarkName = "XmlParser::parseXml_RomRam(computer, node, type, configNumber)"
             landmarkType = "7">
          </BreakpointContent>
@@ -6902,8 +6856,8 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "9340"
-            endingLineNumber = "9340"
+            startingLineNumber = "9361"
+            endingLineNumber = "9361"
             landmarkName = "XmlParser::parseXml_Memory(computer, node)"
             landmarkType = "7">
          </BreakpointContent>
@@ -6998,8 +6952,8 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "9299"
-            endingLineNumber = "9299"
+            startingLineNumber = "9320"
+            endingLineNumber = "9320"
             landmarkName = "XmlParser::parseXml_Memory(computer, node)"
             landmarkType = "7">
          </BreakpointContent>
@@ -7126,8 +7080,8 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "902"
-            endingLineNumber = "902"
+            startingLineNumber = "904"
+            endingLineNumber = "904"
             landmarkName = "Emu1802::OnCmdLineParsed(parser)"
             landmarkType = "7">
          </BreakpointContent>
@@ -7142,8 +7096,8 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "907"
-            endingLineNumber = "907"
+            startingLineNumber = "909"
+            endingLineNumber = "909"
             landmarkName = "Emu1802::OnCmdLineParsed(parser)"
             landmarkType = "7">
          </BreakpointContent>
@@ -7158,8 +7112,8 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "926"
-            endingLineNumber = "926"
+            startingLineNumber = "928"
+            endingLineNumber = "928"
             landmarkName = "Emu1802::OnCmdLineParsed(parser)"
             landmarkType = "7">
             <Locations>
@@ -7206,8 +7160,8 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "915"
-            endingLineNumber = "915"
+            startingLineNumber = "917"
+            endingLineNumber = "917"
             landmarkName = "Emu1802::OnCmdLineParsed(parser)"
             landmarkType = "7">
          </BreakpointContent>
@@ -7222,8 +7176,8 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "897"
-            endingLineNumber = "897"
+            startingLineNumber = "899"
+            endingLineNumber = "899"
             landmarkName = "Emu1802::OnCmdLineParsed(parser)"
             landmarkType = "7">
          </BreakpointContent>
@@ -7238,8 +7192,8 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "758"
-            endingLineNumber = "758"
+            startingLineNumber = "760"
+            endingLineNumber = "760"
             landmarkName = "Emu1802::OnCmdLineParsed(parser)"
             landmarkType = "7">
          </BreakpointContent>
@@ -7270,8 +7224,8 @@
             filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2388"
-            endingLineNumber = "2388"
+            startingLineNumber = "2402"
+            endingLineNumber = "2402"
             landmarkName = "GuiMain::runSoftware(load)"
             landmarkType = "7">
          </BreakpointContent>
@@ -7286,8 +7240,8 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "921"
-            endingLineNumber = "921"
+            startingLineNumber = "923"
+            endingLineNumber = "923"
             landmarkName = "Emu1802::OnCmdLineParsed(parser)"
             landmarkType = "7">
          </BreakpointContent>
@@ -7302,8 +7256,8 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6322"
-            endingLineNumber = "6322"
+            startingLineNumber = "6351"
+            endingLineNumber = "6351"
             landmarkName = "Main::onStart(computer)"
             landmarkType = "7">
          </BreakpointContent>
@@ -7318,8 +7272,8 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "938"
-            endingLineNumber = "938"
+            startingLineNumber = "940"
+            endingLineNumber = "940"
             landmarkName = "Emu1802::OnCmdLineParsed(parser)"
             landmarkType = "7">
          </BreakpointContent>
@@ -7382,8 +7336,8 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3288"
-            endingLineNumber = "3288"
+            startingLineNumber = "3317"
+            endingLineNumber = "3317"
             landmarkName = "Main::readConfig()"
             landmarkType = "7">
          </BreakpointContent>
@@ -7414,8 +7368,8 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "964"
-            endingLineNumber = "964"
+            startingLineNumber = "967"
+            endingLineNumber = "967"
             landmarkName = "Emu1802::OnCmdLineParsed(parser)"
             landmarkType = "7">
          </BreakpointContent>
@@ -7430,8 +7384,8 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "914"
-            endingLineNumber = "914"
+            startingLineNumber = "916"
+            endingLineNumber = "916"
             landmarkName = "Emu1802::OnCmdLineParsed(parser)"
             landmarkType = "7">
          </BreakpointContent>
@@ -7446,8 +7400,8 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "945"
-            endingLineNumber = "945"
+            startingLineNumber = "947"
+            endingLineNumber = "947"
             landmarkName = "Emu1802::OnCmdLineParsed(parser)"
             landmarkType = "7">
          </BreakpointContent>
@@ -7462,8 +7416,8 @@
             filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2408"
-            endingLineNumber = "2408"
+            startingLineNumber = "2405"
+            endingLineNumber = "2405"
             landmarkName = "GuiMain::runSoftware(load)"
             landmarkType = "7">
          </BreakpointContent>
@@ -7478,8 +7432,8 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2241"
-            endingLineNumber = "2241"
+            startingLineNumber = "2270"
+            endingLineNumber = "2270"
             landmarkName = "Main::Main(title, pos, size, mode, dataDir, iniDir)"
             landmarkType = "7">
          </BreakpointContent>
@@ -7494,8 +7448,8 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "959"
-            endingLineNumber = "959"
+            startingLineNumber = "961"
+            endingLineNumber = "961"
             landmarkName = "Emu1802::OnCmdLineParsed(parser)"
             landmarkType = "7">
          </BreakpointContent>
@@ -7510,8 +7464,8 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "990"
-            endingLineNumber = "990"
+            startingLineNumber = "1019"
+            endingLineNumber = "1019"
             landmarkName = "Emu1802::OnCmdLineParsed(parser)"
             landmarkType = "7">
          </BreakpointContent>
@@ -7526,13 +7480,13 @@
             filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2420"
-            endingLineNumber = "2420"
+            startingLineNumber = "2425"
+            endingLineNumber = "2425"
             landmarkName = "GuiMain::runSoftware(load)"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "84DF9916-A952-42BB-9A00-C2C82D21CFEF - 2c0a0bc9ccaa41d9"
+                  uuid = "84DF9916-A952-42BB-9A00-C2C82D21CFEF - 2c0a0bc9ccaa4055"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -7542,12 +7496,12 @@
                   urlString = "file:///Users/etxmato/workspace/emma_02/src/guimain.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "2421"
-                  endingLineNumber = "2421"
-                  offsetFromSymbolStart = "1332">
+                  startingLineNumber = "2425"
+                  endingLineNumber = "2425"
+                  offsetFromSymbolStart = "1004">
                </Location>
                <Location
-                  uuid = "84DF9916-A952-42BB-9A00-C2C82D21CFEF - 2c0a0bc9ccaa4138"
+                  uuid = "84DF9916-A952-42BB-9A00-C2C82D21CFEF - 2c0a0bc9ccaa4055"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -7557,9 +7511,9 @@
                   urlString = "file:///Users/etxmato/workspace/emma_02/src/guimain.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "2420"
-                  endingLineNumber = "2420"
-                  offsetFromSymbolStart = "1332">
+                  startingLineNumber = "2425"
+                  endingLineNumber = "2425"
+                  offsetFromSymbolStart = "1040">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -7574,8 +7528,72 @@
             filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2422"
-            endingLineNumber = "2422"
+            startingLineNumber = "2427"
+            endingLineNumber = "2427"
+            landmarkName = "GuiMain::runSoftware(load)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "23B73F97-A5AF-412A-A60C-10A6BEB746D3"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/guimain.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2419"
+            endingLineNumber = "2419"
+            landmarkName = "GuiMain::runSoftware(load)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "8BDE1975-1E9E-4561-9C01-E7FF83E0FD6E"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/keyb1871.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "351"
+            endingLineNumber = "351"
+            landmarkName = "Keyb1871::cycleKeyb1871()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9148B657-5A3C-498B-AB20-5C86715DED04"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/guimain.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2439"
+            endingLineNumber = "2439"
+            landmarkName = "GuiMain::runSoftware(load)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "76A9E39F-60A8-4C76-B20B-98C92E2429A4"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/guimain.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2407"
+            endingLineNumber = "2407"
             landmarkName = "GuiMain::runSoftware(load)"
             landmarkType = "7">
          </BreakpointContent>

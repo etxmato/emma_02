@@ -62,12 +62,20 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
+            argument = "-c=Comx -s=Games/Trainspotting.comx"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
             argument = "-c=Comx -r=Games/Trainspotting.comx"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-c=Pecom32 -r=&quot;Osvajaci Svemira.pecom&quot;"
-            isEnabled = "YES">
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-c=Pecom -r=&quot;Osvajaci Svemira.pecom&quot;"
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-c=Cidelsa -x=altair -s=Xchase_altair_12K.hex"
@@ -78,8 +86,12 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-c=StudioII -x=standard -s=tennis.st2"
+            argument = "-c=cv"
             isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-c=StudioII -x=standard -s=tennis.st2"
+            isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-c=StudioII -x=standard -s=studio2.rom -st=tennis.st2"
@@ -90,7 +102,7 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-v"
+            argument = "-c=victory -s=tennis.st2 "
             isEnabled = "NO">
          </CommandLineArgument>
       </CommandLineArguments>

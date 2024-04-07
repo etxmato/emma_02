@@ -4836,8 +4836,14 @@ void Cdp1802::readSt2Program(int computerType, int memoryType)
 
 void Cdp1802::readSt2Program(wxString dirName, wxString fileName, int computerType, int memoryType)
 {
+    readSt2Program(dirName+fileName, computerType, memoryType);
+}
+
+void Cdp1802::readSt2Program(wxString fileNameFull, int computerType, int memoryType)
+{
     wxFFile inFile;
-    
+    wxFileName swFullPath = wxFileName(fileNameFull, wxPATH_NATIVE);
+
     struct
     {
         char header[4];
@@ -4857,12 +4863,11 @@ void Cdp1802::readSt2Program(wxString dirName, wxString fileName, int computerTy
 
     Word address;
     
-    if (fileName.Len() != 0)
+    if (fileNameFull.Len() != 0)
     {
-        fileName = dirName + fileName;
-        if (wxFile::Exists(fileName))
+        if (wxFile::Exists(fileNameFull))
         {
-            if (inFile.Open(fileName, _(_("rb"))))
+            if (inFile.Open(fileNameFull, _(_("rb"))))
             {
                 inFile.Read(&st2Header, 256);
                 if (st2Header.offsets[0] == 0 && st2Header.offsets[4] == 0x24)
@@ -4883,7 +4888,6 @@ void Cdp1802::readSt2Program(wxString dirName, wxString fileName, int computerTy
                     }
                 }
                 inFile.Close();
-                wxFileName swFullPath = wxFileName(fileName, wxPATH_NATIVE);
                 if (computerType != XML)
                 {
                     p_Main->setSwName (swFullPath.GetName());
@@ -4892,13 +4896,13 @@ void Cdp1802::readSt2Program(wxString dirName, wxString fileName, int computerTy
             }
             else
             {
-                (void)wxMessageBox( "Error reading " + fileName,  // Works correct, via p_Main->errorMessage it will NOT
+                (void)wxMessageBox( "Error reading " + swFullPath.GetName(),  // Works correct, via p_Main->errorMessage it will NOT
                                     "Emma 02", wxICON_ERROR | wxOK );
             }
         }
         else
         {
-            (void)wxMessageBox( "File " + fileName + " not found", // Works correct, via p_Main->errorMessage it will NOT
+            (void)wxMessageBox( "File " + swFullPath.GetName() + " not found", // Works correct, via p_Main->errorMessage it will NOT
                                 "Emma 02", wxICON_ERROR | wxOK );
         }
     }

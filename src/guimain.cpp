@@ -2383,95 +2383,82 @@ void GuiMain::onSaveExec(wxCommandEvent& event)
         conf[selectedComputer_].saveExec_ = 0;
 }
 
+void GuiMain::getSoftware(wxString computer, wxString type, wxString software)
+{
+    wxFileName FullPath = wxFileName(software, wxPATH_NATIVE);
+    if (FullPath.IsRelative())
+    {
+        configPointer->Write(computer + "/"+type, software);
+    }
+    else
+    {
+        configPointer->Write("/Dir/"+computer+"/"+type, FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE));
+        configPointer->Write(computer + "/"+type, FullPath.GetFullName());
+    }
+}
+
 void GuiMain::runSoftware(bool load)
 {
-    conf[runningComputer_].loadFileName_ = configPointer->Read("/"+computerInfo[runningComputer_].gui+"/Software_File", "");
-    if (wxFile::Exists(conf[runningComputer_].loadFileName_))
-        conf[runningComputer_].loadFileNameFull_ = conf[runningComputer_].loadFileName_;
-    else
-        conf[runningComputer_].loadFileNameFull_ = conf[runningComputer_].ramDir_ + conf[runningComputer_].loadFileName_;
+    wxString fileName, fileNameFull, extension;
     
-    p_Main->setSwName (conf[runningComputer_].loadFileName_);
-    p_Main->updateTitle();
-    wxString extension;
+    fileName = configPointer->Read("/"+computerInfo[XML].gui+"/Software_File0", "");
+    extension = fileName.Right(fileName.Len()-fileName.Find('.', false)-1);
     
-    switch(runningComputer_)
+    if (extension == computerInfo[XML].ploadExtension && fileName != "")
     {
-        case COMX:
-        case PECOM:
-        case TMC600:
-        case MICROBOARD:
-            p_Computer->startComputerRun(load);
-        break;
+        if (wxFile::Exists(fileName))
+            conf[XML].loadFileNameFull_ = conf[XML].loadFileName_;
+        else
+            conf[XML].loadFileNameFull_ = conf[XML].ramDir_ + conf[XML].loadFileName_;
+        
+        if (wxFile::Exists(conf[XML].loadFileNameFull_))
+            return;
 
-        case XML:
-            extension = conf[XML].loadFileName_.Right(conf[XML].loadFileName_.Len()-conf[XML].loadFileName_.Find('.', false)-1);
-            if (extension == computerInfo[XML].ploadExtension)
+        p_Main->setSwName(conf[XML].loadFileName_);
+        p_Main->updateTitle();
+        p_Computer->startComputerRun(load);
+    }
+    else
+    {
+        for (size_t config=0; config<2; config++)
+        {
+            if (conf[XML].memConfig_[config].cartType == CART_CH8)
             {
-                if (!wxFile::Exists(conf[XML].loadFileNameFull_))
-                    return;
+                fileName = configPointer->Read("/"+computerInfo[XML].gui+"/Chip_8_Software", "");
+                if (wxFile::Exists(fileName))
+                    fileNameFull = fileName;
+                else
+                    fileNameFull = conf[XML].memConfig_[config].dirname + fileName;
                 
-                p_Computer->startComputerRun(load);
+                if (wxFile::Exists(fileNameFull))
+                    p_Computer->readFile(fileNameFull, NOCHANGE, conf[XML].memConfig_[config].start, 0x10000,  conf[XML].memConfig_[config].loadOffSet, NONAME);
             }
-            else
+
+            if (conf[XML].memConfig_[config].cartType == CART_ST2)
             {
-                for (size_t config=0; config<2; config++)
-                {
-                    if (conf[XML].memConfig_[config].cartType == CART_CH8)
-                    {
-                        conf[runningComputer_].loadFileName_ = configPointer->Read("/"+computerInfo[XML].gui+"/Chip_8_Software", "");
-                        conf[XML].loadFileNameFull_ = conf[XML].memConfig_[config].dirname + conf[XML].loadFileName_;
-                        if (!wxFile::Exists(conf[XML].loadFileNameFull_))
-                            return;
-                        
-                        p_Computer->readProgram(conf[XML].memConfig_[config].dirname, conf[runningComputer_].loadFileName_, NOCHANGE, conf[XML].memConfig_[config].start, conf[XML].memConfig_[config].loadOffSet, NONAME);
-                    }
-
-                    if (conf[XML].memConfig_[config].cartType == CART_ST2)
-                    {
-                        conf[runningComputer_].loadFileName_ = configPointer->Read("/"+computerInfo[XML].gui+"/St2_File", "");
-                        conf[XML].loadFileNameFull_ = conf[XML].memConfig_[config].dirname + conf[XML].loadFileName_;
-                        if (!wxFile::Exists(conf[XML].loadFileNameFull_))
-                            return;
-                        
-                        p_Computer->readSt2Program(conf[XML].memConfig_[config].dirname, conf[XML].memConfig_[config].filename, XML, NOCHANGE);
-                    }
-                    if (conf[XML].memConfig_[config].cartType == CART_BIN)
-                    {
-                        conf[XML].loadFileNameFull_ = conf[XML].memConfig_[config].dirname + conf[XML].loadFileName_;
-                        if (!wxFile::Exists(conf[XML].loadFileNameFull_))
-                            return;
-
-                        p_Computer->readFile(conf[XML].loadFileNameFull_, NOCHANGE, conf[XML].memConfig_[config].start, 0x10000, SHOWNAME);
-                    }
-                }
+                fileName = configPointer->Read("/"+computerInfo[XML].gui+"/St2_File", "");
+                if (wxFile::Exists(fileName))
+                    fileNameFull = fileName;
+                else
+                    fileNameFull = conf[XML].memConfig_[config].dirname + fileName;
+                
+                if (wxFile::Exists(fileNameFull))
+                    p_Computer->readSt2Program(fileNameFull, XML, NOCHANGE);
             }
-        break;
-            
-        case SUPERELF:
-        case ELFII:
-        case ELF:
-        case PICO:
-            if (p_Computer->getLoadedProgram()&0x1)
-                p_Computer->startComputerRun(load);
-            else
-                p_Computer->readFile(conf[runningComputer_].loadFileNameFull_, NOCHANGE, 0, 0x10000, SHOWNAME);
-        break;
+            if (conf[XML].memConfig_[config].cartType == CART_BIN)
+            {
+                if (config == 1)
+                    fileName = configPointer->Read("/"+computerInfo[runningComputer_].gui+"/Software_File1", "");
 
-        case ELF2K:
-            if (elfConfiguration[ELF2K].use8275)
-                p_Elf2K->readFile(conf[runningComputer_].loadFileNameFull_, NOCHANGE, 0, 0x7700, SHOWNAME);
-            else
-                p_Elf2K->readFile(conf[runningComputer_].loadFileNameFull_, NOCHANGE, 0, 0x7f00, SHOWNAME);
-        break;
-
-        case ETI:
-            p_Eti->readFile(conf[runningComputer_].loadFileNameFull_, NOCHANGE, 0x600, 0xfff, SHOWNAME);
-        break;
-
-        default:
-            p_Computer->readFile(conf[runningComputer_].loadFileNameFull_, NOCHANGE, 0, 0x10000, SHOWNAME);
-        break;
+                if (wxFile::Exists(fileName))
+                    fileNameFull = fileName;
+                else
+                    fileNameFull = conf[XML].memConfig_[config].dirname + fileName;
+                
+                if (wxFile::Exists(fileNameFull))
+                    p_Computer->readFile(fileNameFull, NOCHANGE, conf[XML].memConfig_[config].start, 0x10000, SHOWNAME);
+            }
+        }
     }
 }
 

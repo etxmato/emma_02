@@ -334,6 +334,9 @@ void XmlParser::parseXmlFile(int computer, wxString xmlDir, wxString xmlFile)
     elfConfiguration[computer].ioConfiguration.rtcIoGroup1 = -1;
     elfConfiguration[computer].ioConfiguration.rtcIoGroup2 = -1;
 
+    conf[computer].autoCassetteLoad_ = true;
+    conf[computer].turbo_ = true;
+
     memAccessDirDefined_ = false;
     conf[computer].ramDir_ = conf[computer].mainDir_ ;
     charRomDirDefined_ = false;
@@ -8486,6 +8489,8 @@ void XmlParser::parseXml_Gui (int computer, wxXmlNode &node)
     {
         "memaccess",
         "ledtimer",
+        "auto",
+        "turbo",
         "comment",
         "undefined"
     };
@@ -8494,6 +8499,8 @@ void XmlParser::parseXml_Gui (int computer, wxXmlNode &node)
     {
         TAG_MEMACCESS,
         TAG_LED_TIMER,
+        TAG_AUTO,
+        TAG_TURBO,
         TAG_COMMENT,
         TAG_UNDEFINED
     };
@@ -8517,6 +8524,20 @@ void XmlParser::parseXml_Gui (int computer, wxXmlNode &node)
 
             case TAG_LED_TIMER:
                 conf[computer].ledTime_ = child->GetNodeContent();
+            break;
+
+            case TAG_AUTO:
+                if (child->GetNodeContent() == "off")
+                    conf[computer].autoCassetteLoad_ = false;
+                else
+                    conf[computer].autoCassetteLoad_ = true;
+            break;
+
+            case TAG_TURBO:
+                if (child->GetNodeContent() == "off")
+                    conf[computer].turbo_ = false;
+                else
+                    conf[computer].turbo_ = true;
             break;
 
             case TAG_COMMENT:

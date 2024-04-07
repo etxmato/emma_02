@@ -348,6 +348,7 @@ public:
     double clockSpeed_;
     int beepFrequency_;
     wxString ledTime_;
+    
     long ledTimeMs_;
     wxString clock_;
     wxString zoom_[VIDEOXMLMAX];

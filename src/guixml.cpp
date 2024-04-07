@@ -233,7 +233,7 @@ void GuiXml::readXmlConfig()
 //    conf[XML].xScale_ = convertLocale(configPointer->Read("Xmlemu/Window_Scale_Factor_X", defaultScale));
 
     configPointer->Read("Xmlemu/Enable_Turbo_Cassette", &conf[XML].turbo_, true);
-    conf[XML].turboClock_ = configPointer->Read("Xmlemu/Turbo_Clock_Speed", "15");
+    conf[XML].turboClock_ = configPointer->Read("Xmlemu/Turbo_Clock_Speed", "50");
     configPointer->Read("Xmlemu/Enable_Auto_Cassette", &conf[XML].autoCassetteLoad_, true);
     elfConfiguration[XML].packetSize = (int)configPointer->Read("Xmlemu/Ymodem_PacketSize", 0l);
     configPointer->Read("Xmlemu/Enable_Real_Cassette", &conf[XML].realCassetteLoad_, false);

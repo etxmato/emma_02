@@ -738,6 +738,8 @@ static const wxCmdLineEntryDesc cmdLineDesc[] =
     { wxCMD_LINE_SWITCH, "w", "window", "non fixed window positions"},                                    
     { wxCMD_LINE_OPTION, "c", "computer", "start emulator without gui and for specified computer" }, // Switch off GUI
     { wxCMD_LINE_OPTION, "s", "software", "load specified software on start" },          // only valid in combination with -c
+    { wxCMD_LINE_OPTION, "s0", "software", "load binary software in slot 0 on start" },  // only valid in combination with -c
+    { wxCMD_LINE_OPTION, "s1", "software", "load binary software on slot 1 on start" },  // only valid in combination with -c
     { wxCMD_LINE_OPTION, "r", "run", "run specified software on start" },                // only valid in combination with -c
     { wxCMD_LINE_OPTION, "x", "xml", "load specified xml file on start" },               // only valid in combination with -c
     { wxCMD_LINE_OPTION, "ch", "chip8", "load specified chip8 software on start" },      // only valid in combination with -c
@@ -958,31 +960,58 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
                 }
             }
             
-            getSoftware("Xml", "Software_File", "");
+            getSoftware("Xml", "Software_File0", "");
+            getSoftware("Xml", "Software_File1", "");
             if (parser.Found("s", &software))
             {
                 mode_.load = true;
-                if (software.Right(3) == ".st2")
+                if (software.Right(4) == ".st2")
                    getSoftware("Xml", "St2_File", software);
                 else
                 {
-                   if (software.Right(3) == ".ch8" || software.Right(3) == ".c8x" || software.Right(4) == ".ch10" || software.Right(3) == ".sc8")
+                   if (software.Right(4) == ".ch8" || software.Right(4) == ".c8x" || software.Right(5) == ".ch10" || software.Right(4) == ".sc8")
                       getSoftware("Xml", "Chip_8_Software", software);
                    else
-                      getSoftware("Xml", "Software_File", software);
+                      getSoftware("Xml", "Software_File0", software);
+                }
+            }
+            if (parser.Found("s0", &software))
+            {
+                mode_.load = true;
+                if (software.Right(4) == ".st2")
+                   getSoftware("Xml", "St2_File", software);
+                else
+                {
+                   if (software.Right(4) == ".ch8" || software.Right(4) == ".c8x" || software.Right(5) == ".ch10" || software.Right(4) == ".sc8")
+                      getSoftware("Xml", "Chip_8_Software", software);
+                   else
+                      getSoftware("Xml", "Software_File0", software);
+                }
+            }
+            if (parser.Found("s1", &software))
+            {
+                mode_.load = true;
+                if (software.Right(4) == ".st2")
+                   getSoftware("Xml", "St2_File", software);
+                else
+                {
+                   if (software.Right(4) == ".ch8" || software.Right(4) == ".c8x" || software.Right(5) == ".ch10" || software.Right(4) == ".sc8")
+                      getSoftware("Xml", "Chip_8_Software", software);
+                   else
+                      getSoftware("Xml", "Software_File1", software);
                 }
             }
             if (parser.Found("r", &software))
             {
                mode_.run = true;
-               if (software.Right(3) == ".st2")
+               if (software.Right(4) == ".st2")
                   getSoftware("Xml", "St2_File", software);
                else
                {
-                  if (software.Right(3) == ".ch8" || software.Right(3) == ".c8x" || software.Right(4) == ".ch10" || software.Right(3) == ".sc8")
+                  if (software.Right(4) == ".ch8" || software.Right(4) == ".c8x" || software.Right(5) == ".ch10" || software.Right(4) == ".sc8")
                      getSoftware("Xml", "Chip_8_Software", software);
                   else
-                     getSoftware("Xml", "Software_File", software);
+                     getSoftware("Xml", "Software_File0", software);
                }
             }
             if (parser.Found("ch", &software))

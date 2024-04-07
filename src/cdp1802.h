@@ -119,6 +119,7 @@ public:
     bool readProgramPecom(wxString romDir, wxString rom, int memoryType, Word address, bool showFilename);
     void readSt2Program(int computerType, int memoryType);
     void readSt2Program(wxString dirName, wxString fileName, int computerType, int memoryType);
+    void readSt2Program(wxString fileNameFull, int computerType, int memoryType);
     bool readFile(wxString fileName, int memoryType, Word adress, long end, long inhibitStart, long inhibitEnd);
     bool readFile(wxString fileName, int memoryType, Word address, long end, bool showFilename);
     bool readFile(wxString fileName, int memoryType, Word address, long end, LoadOffSet loadOffSet, bool showFilename);

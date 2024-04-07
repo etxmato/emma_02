@@ -221,6 +221,7 @@ public:
     void onSaveStart(wxCommandEvent& event);
     void onSaveEnd(wxCommandEvent& event);
     void onSaveExec(wxCommandEvent& event);
+    void getSoftware(wxString computer, wxString type, wxString software);
     void runSoftware(bool load);
     void onLoad(bool load);
     void onSaveButton(wxCommandEvent& event);
