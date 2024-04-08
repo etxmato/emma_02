@@ -321,6 +321,7 @@ void GuiXml::writeXmlConfig()
 
     configPointer->Write("/Xmlemu/GuiRomRam0/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], conf[XML].memConfig_[romRamButton0_].filename);
     configPointer->Write("/Xmlemu/GuiRomRam1/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], conf[XML].memConfig_[romRamButton1_].filename);
+    configPointer->Write("/Xmlemu/Led_Update_Frequency"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], conf[XML].ledTime_);
 
     configPointer->Write("/Xmlemu/Key_File", conf[XML].keyFile_);
     configPointer->Write("/Xmlemu/Video_Dump_File", conf[XML].screenDumpFile_);
@@ -369,7 +370,6 @@ void GuiXml::writeXmlConfig()
     configPointer->Write("Xmlemu/Enable_Vt_Stretch_Dot", conf[XML].stretchDot_);
     configPointer->Write("Xmlemu/Enable_Vt_External", elfConfiguration[XML].vtExternal);
 
-    configPointer->Write("Xmlemu/Led_Update_Frequency", conf[XML].ledTime_);
     configPointer->Write("Xmlemu/Enable_Turbo_Cassette", conf[XML].turbo_);
     configPointer->Write("Xmlemu/Turbo_Clock_Speed", conf[XML].turboClock_);
     configPointer->Write("Xmlemu/Enable_Auto_Cassette", conf[XML].autoCassetteLoad_);
@@ -1023,7 +1023,7 @@ void GuiXml::setXmlGui()
         conf[XML].memConfig_[romRamButton0_].filename = configPointer->Read("/Xmlemu/GuiRomRam0/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], conf[XML].memConfig_[romRamButton0_].filename);
         conf[XML].memConfig_[romRamButton1_].filename = configPointer->Read("/Xmlemu/GuiRomRam1/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], conf[XML].memConfig_[romRamButton1_].filename);
     }
-    conf[XML].ledTime_ = configPointer->Read("Xmlemu/Led_Update_Frequency", conf[XML].ledTime_);
+    conf[XML].ledTime_ = configPointer->Read("/Xmlemu/Led_Update_Frequency/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], conf[XML].ledTime_);
 
     if (!mode_.gui)
         return;
