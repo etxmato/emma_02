@@ -166,9 +166,9 @@ void GuiXml::readXmlConfig()
     selectedComputer_ = XML; // *** to be removed
     elfConfiguration[XML].ioConfiguration.emsOutput.resize(1);
 
-    wxString defaultTimer;
-    defaultTimer.Printf("%d", 100);
-    conf[XML].ledTime_ = configPointer->Read("Xmlemu/Led_Update_Frequency", defaultTimer);
+//    wxString defaultTimer;
+//    defaultTimer.Printf("%d", 100);
+//    conf[XML].ledTime_ = configPointer->Read("Xmlemu/Led_Update_Frequency", defaultTimer);
 
     xmlDirComboSelection = (int)configPointer->Read("Xmlemu/XmlDirComboSelection", 2);
     xmlDirComboString = configPointer->Read("Xmlemu/XmlDirComboString", "Comx");
@@ -1023,6 +1023,7 @@ void GuiXml::setXmlGui()
         conf[XML].memConfig_[romRamButton0_].filename = configPointer->Read("/Xmlemu/GuiRomRam0/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], conf[XML].memConfig_[romRamButton0_].filename);
         conf[XML].memConfig_[romRamButton1_].filename = configPointer->Read("/Xmlemu/GuiRomRam1/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], conf[XML].memConfig_[romRamButton1_].filename);
     }
+    conf[XML].ledTime_ = configPointer->Read("Xmlemu/Led_Update_Frequency", conf[XML].ledTime_);
 
     if (!mode_.gui)
         return;
