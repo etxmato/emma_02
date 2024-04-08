@@ -321,7 +321,7 @@ void GuiXml::writeXmlConfig()
 
     configPointer->Write("/Xmlemu/GuiRomRam0/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], conf[XML].memConfig_[romRamButton0_].filename);
     configPointer->Write("/Xmlemu/GuiRomRam1/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], conf[XML].memConfig_[romRamButton1_].filename);
-    configPointer->Write("/Xmlemu/Led_Update_Frequency"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], conf[XML].ledTime_);
+    configPointer->Write("/Xmlemu/Led_Update_Frequency/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], conf[XML].ledTime_);
 
     configPointer->Write("/Xmlemu/Key_File", conf[XML].keyFile_);
     configPointer->Write("/Xmlemu/Video_Dump_File", conf[XML].screenDumpFile_);
