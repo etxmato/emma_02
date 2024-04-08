@@ -597,7 +597,7 @@ void GuiXml::onLedTimerXml(wxCommandEvent&event)
     configPointer->Flush();
 }
 
-void GuiMain::onAutoLoadXml(wxCommandEvent&event)
+void GuiXml::onAutoLoadXml(wxCommandEvent&event)
 {
     conf[selectedComputer_].autoCassetteLoad_ = event.IsChecked();
     if (computerRunning_ && (selectedComputer_ == runningComputer_))
@@ -614,6 +614,19 @@ void GuiMain::onAutoLoadXml(wxCommandEvent&event)
     configPointer->Write("/Xmlemu/Enable_Auto_Cassette/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], conf[XML].autoCassetteLoad_);
     configPointer->Flush();
 }
+
+void GuiXml::onTurbo(wxCommandEvent&event)
+{
+    if (computerRunning_ && turboOn_)
+        turboOff();
+    
+    conf[XML].turbo_ = event.IsChecked();
+    turboGui(computerInfo[XML].gui);
+
+    configPointer->Write("/Xmlemu/Enable_Turbo_Cassette/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], conf[XML].turbo_);
+    configPointer->Flush();
+}
+
 
 void GuiXml::onRomRam0Xml(wxCommandEvent& WXUNUSED(event) )
 {
