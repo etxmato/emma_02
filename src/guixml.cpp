@@ -123,7 +123,7 @@ BEGIN_EVENT_TABLE(GuiXml, GuiPico)
     EVT_BUTTON(XRCID("CasForwardXml"), GuiMain::onCassetteForward)
     EVT_BUTTON(XRCID("CasPauseXml"), GuiMain::onCassettePause)
 
-    EVT_CHECKBOX(XRCID("TurboXml"), GuiMain::onTurbo)
+    EVT_CHECKBOX(XRCID("TurboXml"), GuiXml::onTurboXml)
     EVT_TEXT(XRCID("TurboClockXml"), GuiMain::onTurboClock)
     EVT_CHECKBOX(XRCID("AutoCasLoadXml"), GuiXml::onAutoLoadXml)
 
