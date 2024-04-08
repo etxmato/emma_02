@@ -125,7 +125,7 @@ BEGIN_EVENT_TABLE(GuiXml, GuiPico)
 
     EVT_CHECKBOX(XRCID("TurboXml"), GuiMain::onTurbo)
     EVT_TEXT(XRCID("TurboClockXml"), GuiMain::onTurboClock)
-    EVT_CHECKBOX(XRCID("AutoCasLoadXml"), GuiMain::onAutoLoad)
+    EVT_CHECKBOX(XRCID("AutoCasLoadXml"), GuiXml::onAutoLoadXml)
 
     EVT_COMMAND_SCROLL_THUMBTRACK(XRCID("VolumeXml"), GuiMain::onVolume)
     EVT_COMMAND_SCROLL_CHANGED(XRCID("VolumeXml"), GuiMain::onVolume)
@@ -595,7 +595,24 @@ void GuiXml::onLedTimerXml(wxCommandEvent&event)
 
     configPointer->Write("/Xmlemu/Led_Update_Frequency/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], conf[XML].ledTime_);
     configPointer->Flush();
+}
 
+void GuiMain::onAutoLoadXml(wxCommandEvent&event)
+{
+    conf[selectedComputer_].autoCassetteLoad_ = event.IsChecked();
+    if (computerRunning_ && (selectedComputer_ == runningComputer_))
+    {
+        XRCCTRL(*this, "CasLoad"+computerInfo[XML].gui, wxButton)->Enable(!conf[XML].autoCassetteLoad_);
+        XRCCTRL(*this, "CasSave"+computerInfo[XML].gui, wxButton)->Enable(!conf[XML].autoCassetteLoad_ && !elfConfiguration[XML].useHexModem);
+        if (elfConfiguration[XML].useTapeMicro)
+        {
+            XRCCTRL(*this, "CasLoad1"+computerInfo[XML].gui, wxButton)->Enable(!conf[XML].autoCassetteLoad_);
+            XRCCTRL(*this, "CasSave1"+computerInfo[XML].gui, wxButton)->Enable(!conf[XML].autoCassetteLoad_);
+        }
+    }
+
+    configPointer->Write("/Xmlemu/Enable_Auto_Cassette/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], conf[XML].autoCassetteLoad_);
+    configPointer->Flush();
 }
 
 void GuiXml::onRomRam0Xml(wxCommandEvent& WXUNUSED(event) )
