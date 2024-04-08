@@ -336,6 +336,7 @@ void XmlParser::parseXmlFile(int computer, wxString xmlDir, wxString xmlFile)
 
     conf[computer].autoCassetteLoad_ = true;
     conf[computer].turbo_ = true;
+    conf[computer].ledTime_ = "100";
 
     memAccessDirDefined_ = false;
     conf[computer].ramDir_ = conf[computer].mainDir_ ;
