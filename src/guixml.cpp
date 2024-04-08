@@ -130,7 +130,7 @@ BEGIN_EVENT_TABLE(GuiXml, GuiPico)
     EVT_COMMAND_SCROLL_THUMBTRACK(XRCID("VolumeXml"), GuiMain::onVolume)
     EVT_COMMAND_SCROLL_CHANGED(XRCID("VolumeXml"), GuiMain::onVolume)
 
-    EVT_TEXT(XRCID("ShowAddressXml"), GuiMain::onLedTimer)
+    EVT_TEXT(XRCID("ShowAddressXml"), GuiXml::onLedTimerXml)
     EVT_TEXT(XRCID("SaveStartXml"), GuiMain::onSaveStart)
     EVT_TEXT(XRCID("SaveEndXml"), GuiMain::onSaveEnd)
     EVT_TEXT(XRCID("SaveExecXml"), GuiMain::onSaveExec)
@@ -582,6 +582,25 @@ void GuiXml::onXmlControlWindows(wxCommandEvent&event)
         if (elfConfiguration[runningComputer_].panelType_ == PANEL_COSMICOS)
             p_Xmlemu->showModules(elfConfiguration[runningComputer_].useElfControlWindows);
     }
+}
+
+void GuiXml::onLedTimerXml(wxCommandEvent&event)
+{
+    wxString stringMs = event.GetString();
+    if (stringMs == "")  stringMs = "0";
+    long ms;
+    if (!stringMs.ToLong(&ms, 10))
+        return;
+    
+    conf[selectedComputer_].ledTime_ = stringMs;
+    conf[selectedComputer_].ledTimeMs_ = ms;
+    
+    if (computerRunning_ && (selectedComputer_ == runningComputer_))
+        p_Computer->setLedMs(ms);
+
+    configPointer->Write("/Xmlemu/Led_Update_Frequency/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], conf[XML].ledTime_);
+    configPointer->Flush();
+
 }
 
 void GuiXml::onRomRam0Xml(wxCommandEvent& WXUNUSED(event) )
