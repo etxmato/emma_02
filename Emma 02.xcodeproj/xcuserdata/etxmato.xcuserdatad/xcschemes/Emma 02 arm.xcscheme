@@ -91,7 +91,7 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-c=StudioII -x=standard -s=tennis.st2"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-c=StudioII -x=standard -s=studio2.rom -st=tennis.st2"

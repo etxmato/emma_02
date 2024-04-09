@@ -19,6 +19,10 @@ public:
 
     void onXmlControlWindows(wxCommandEvent& event);
 
+    void onLedTimerXml(wxCommandEvent&event);
+    void onAutoLoadXml(wxCommandEvent&event);
+    void onTurboXml(wxCommandEvent&event);
+    void onUseLocationXml(wxCommandEvent&event);
     void onRomRam0Xml(wxCommandEvent& event);
     void onRomRam1Xml(wxCommandEvent& event);
     void romRamXml(int romRamButton, wxString romRamButtonString);

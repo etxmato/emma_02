@@ -338,6 +338,8 @@ void XmlParser::parseXmlFile(int computer, wxString xmlDir, wxString xmlFile)
     conf[computer].turbo_ = true;
     conf[computer].ledTime_ = "100";
     conf[computer].useLoadLocation_ = false;
+    conf[computer].saveStart_ = 0;
+    conf[computer].saveStartString_ = "0";
 
     memAccessDirDefined_ = false;
     conf[computer].ramDir_ = conf[computer].mainDir_ ;

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resource version="2.3.0.1" xmlns="http://www.wxwidgets.org/wxxrc">
-    <object class="wxDialog" name="PopupMicroboard">
+    <object class="wxDialog" name="PopupXml">
         <style>wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLOSE_BOX|wxCLIP_CHILDREN|wxTAB_TRAVERSAL</style>
         <size>400,300</size>
-        <title>Microboard System Menu</title>
+        <title>Menu</title>
         <centered>1</centered>
         <font>
             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -35,7 +35,7 @@
                         <flag>wxALIGN_CENTER_VERTICAL</flag>
                         <border>3</border>
                         <object class="wxButton" name="FDC0_ButtonMS2000">
-                            <tooltip>Browse for MS2000 FDC 0 image file or HD 0 Directory</tooltip>
+                            <tooltip>Browse for FDC 0 image file or HD 0 Directory</tooltip>
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>
@@ -49,7 +49,7 @@
                         <border>4</border>
                         <object platform="mac" class="wxTextCtrl" name="FDC0_FileMS2000">
                             <size>127,-1</size>
-                            <tooltip>Specify MS2000 FDC 0 image file</tooltip>
+                            <tooltip>Specify FDC 0 image file</tooltip>
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>
@@ -62,7 +62,7 @@
                         <border>1</border>
                         <object platform="unix|win" class="wxTextCtrl" name="FDC0_FileMS2000">
                             <size>127,-1</size>
-                            <tooltip>Specify MS2000 FDC 0 image file</tooltip>
+                            <tooltip>Specify FDC 0 image file</tooltip>
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>
@@ -92,7 +92,7 @@
                         <border>3</border>
                         <object platform="mac" class="wxBitmapButton" name="Eject_FDC0MS2000">
                             <size>26,27</size>
-                            <tooltip>Eject MS2000 FDC 0 image file</tooltip>
+                            <tooltip>Eject FDC 0 image file</tooltip>
                             <bitmap>images_osx/eject.png</bitmap>
                             <selected>images_osx/eject.png</selected>
                             <focus>images_osx/eject.png</focus>
@@ -102,7 +102,7 @@
                         <flag>wxGROW</flag>
                         <border>3</border>
                         <object platform="unix|win" class="wxBitmapButton" name="Eject_FDC0MS2000">
-                            <tooltip>Eject MS2000 FDC 0 image file</tooltip>
+                            <tooltip>Eject FDC 0 image file</tooltip>
                             <bitmap>images/eject.png</bitmap>
                             <selected>images/eject.png</selected>
                             <focus>images/eject.png</focus>
@@ -119,7 +119,7 @@
                         <flag>wxALIGN_CENTER_VERTICAL</flag>
                         <border>3</border>
                         <object class="wxButton" name="FDC1_ButtonMS2000">
-                            <tooltip>Browse for MS2000 FDC 1 image file or HD 1 Directory</tooltip>
+                            <tooltip>Browse for FDC 1 image file or HD 1 Directory</tooltip>
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>
@@ -203,7 +203,7 @@
                         <flag>wxALIGN_CENTER_VERTICAL</flag>
                         <border>3</border>
                         <object class="wxButton" name="FDC2_ButtonMS2000">
-                            <tooltip>Browse for MS2000 FDC 2 image file or HD 2 Directory</tooltip>
+                            <tooltip>Browse for FDC 2 image file or HD 2 Directory</tooltip>
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>
@@ -287,7 +287,7 @@
                         <flag>wxALIGN_CENTER_VERTICAL</flag>
                         <border>3</border>
                         <object class="wxButton" name="FDC3_ButtonMS2000">
-                            <tooltip>Browse for MS2000 FDC 3 image file or HD 3 Directory</tooltip>
+                            <tooltip>Browse for FDC 3 image file or HD 3 Directory</tooltip>
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>

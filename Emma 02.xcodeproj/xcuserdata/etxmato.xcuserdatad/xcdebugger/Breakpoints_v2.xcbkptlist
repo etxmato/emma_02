@@ -1166,8 +1166,8 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6777"
-            endingLineNumber = "6777"
+            startingLineNumber = "6779"
+            endingLineNumber = "6779"
             landmarkName = "XmlParser::parseXml_FrontPanelItem(computer, node)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1182,8 +1182,8 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6832"
-            endingLineNumber = "6832"
+            startingLineNumber = "6834"
+            endingLineNumber = "6834"
             landmarkName = "XmlParser::parseXml_FrontPanelItem(computer, node)"
             landmarkType = "7">
             <Locations>
@@ -1217,6 +1217,36 @@
                   endingLineNumber = "6834"
                   offsetFromSymbolStart = "12352">
                </Location>
+               <Location
+                  uuid = "45962B9C-231C-4319-81AA-9F2B880EA339 - a9c22441284d8b33"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "XmlParser::parseXml_FrontPanelItem(int, wxXmlNode&amp;)"
+                  moduleName = "Emma 02"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/etxmato/workspace/emma_02/src/xmlparser.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "6832"
+                  endingLineNumber = "6832"
+                  offsetFromSymbolStart = "12228">
+               </Location>
+               <Location
+                  uuid = "45962B9C-231C-4319-81AA-9F2B880EA339 - a9c22441284d8b7d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "XmlParser::parseXml_FrontPanelItem(int, wxXmlNode&amp;)"
+                  moduleName = "Emma 02"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/etxmato/workspace/emma_02/src/xmlparser.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "6834"
+                  endingLineNumber = "6834"
+                  offsetFromSymbolStart = "12228">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
@@ -1230,8 +1260,8 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6788"
-            endingLineNumber = "6788"
+            startingLineNumber = "6790"
+            endingLineNumber = "6790"
             landmarkName = "XmlParser::parseXml_FrontPanelItem(computer, node)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1246,8 +1276,8 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6864"
-            endingLineNumber = "6864"
+            startingLineNumber = "6866"
+            endingLineNumber = "6866"
             landmarkName = "XmlParser::parseXml_FrontPanelItem(computer, node)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1262,8 +1292,8 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6952"
-            endingLineNumber = "6952"
+            startingLineNumber = "6954"
+            endingLineNumber = "6954"
             landmarkName = "XmlParser::parseXml_FrontPanelItem(computer, node)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1406,8 +1436,8 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "7105"
-            endingLineNumber = "7105"
+            startingLineNumber = "7107"
+            endingLineNumber = "7107"
             landmarkName = "XmlParser::parseXml_Cdp1851(computer, node, windowOn)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1438,8 +1468,8 @@
             filePath = "src/guixml.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "409"
-            endingLineNumber = "409"
+            startingLineNumber = "401"
+            endingLineNumber = "401"
             landmarkName = "GuiXml::readXmlWindowConfig()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1518,8 +1548,8 @@
             filePath = "src/guixml.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "523"
-            endingLineNumber = "523"
+            startingLineNumber = "515"
+            endingLineNumber = "515"
             landmarkName = "GuiXml::writeXmlWindowConfig()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1646,8 +1676,8 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "7174"
-            endingLineNumber = "7174"
+            startingLineNumber = "7176"
+            endingLineNumber = "7176"
             landmarkName = "XmlParser::parseXml_Cdp1852(computer, node, windowOn)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1662,8 +1692,8 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "7178"
-            endingLineNumber = "7178"
+            startingLineNumber = "7180"
+            endingLineNumber = "7180"
             landmarkName = "XmlParser::parseXml_Cdp1852(computer, node, windowOn)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2823,8 +2853,8 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1633"
-            endingLineNumber = "1633"
+            startingLineNumber = "1635"
+            endingLineNumber = "1635"
             landmarkName = "XmlParser::parseXml_Locations(computer, node)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3943,8 +3973,8 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4558"
-            endingLineNumber = "4558"
+            startingLineNumber = "4560"
+            endingLineNumber = "4560"
             landmarkName = "XmlParser::parseXml_VisVideo(computer, node)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4774,7 +4804,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "726"
             endingLineNumber = "726"
-            landmarkName = "GuiXml::onMainDirComboXml(event)"
+            landmarkName = "GuiXml::onMainXmlXml()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -4806,7 +4836,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "724"
             endingLineNumber = "724"
-            landmarkName = "GuiXml::onMainDirComboXml(event)"
+            landmarkName = "GuiXml::romRomComboXml(romRamButton, romRamButtonString)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -4822,7 +4852,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "785"
             endingLineNumber = "785"
-            landmarkName = "GuiXml::setXmlDropDown()"
+            landmarkName = "GuiXml::setXmlDirFileGui()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -4838,7 +4868,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "781"
             endingLineNumber = "781"
-            landmarkName = "GuiXml::setXmlDropDown()"
+            landmarkName = "GuiXml::onMainDirComboXml(event)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -4854,7 +4884,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "902"
             endingLineNumber = "902"
-            landmarkName = "GuiXml::setXmlDirDropDown()"
+            landmarkName = "GuiXml::setRomRamDropDown(romRamButton, romRamButtonString)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -4870,7 +4900,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "745"
             endingLineNumber = "745"
-            landmarkName = "GuiXml::setXmlDirFileGui()"
+            landmarkName = "GuiXml::onMainXmlTextXml()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -4916,8 +4946,8 @@
             filePath = "src/guixml.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "314"
-            endingLineNumber = "314"
+            startingLineNumber = "306"
+            endingLineNumber = "306"
             landmarkName = "GuiXml::writeXmlConfig()"
             landmarkType = "7">
          </BreakpointContent>
@@ -4932,8 +4962,8 @@
             filePath = "src/guixml.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "321"
-            endingLineNumber = "321"
+            startingLineNumber = "313"
+            endingLineNumber = "313"
             landmarkName = "GuiXml::writeXmlConfig()"
             landmarkType = "7">
          </BreakpointContent>
@@ -4998,7 +5028,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "709"
             endingLineNumber = "709"
-            landmarkName = "GuiXml::onMainXmlTextXml()"
+            landmarkName = "GuiXml::onRomRom1ComboXml(event)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -5108,8 +5138,8 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "800"
-            endingLineNumber = "800"
+            startingLineNumber = "802"
+            endingLineNumber = "802"
             landmarkName = "XmlParser::parseXmlFile(computer, xmlDir, xmlFile)"
             landmarkType = "7">
          </BreakpointContent>
@@ -6072,8 +6102,8 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "7371"
-            endingLineNumber = "7371"
+            startingLineNumber = "7373"
+            endingLineNumber = "7373"
             landmarkName = "XmlParser::parseXml_SerialVt(computer, node)"
             landmarkType = "7">
          </BreakpointContent>
@@ -6088,8 +6118,8 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "7352"
-            endingLineNumber = "7352"
+            startingLineNumber = "7354"
+            endingLineNumber = "7354"
             landmarkName = "XmlParser::parseXml_SerialVt(computer, node)"
             landmarkType = "7">
          </BreakpointContent>
@@ -6120,10 +6150,10 @@
             filePath = "src/guixml.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "630"
-            endingLineNumber = "630"
-            landmarkName = "GuiXml::romRamXml(romRamButton, romRamButtonString)"
-            landmarkType = "7">
+            startingLineNumber = "621"
+            endingLineNumber = "621"
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -6138,7 +6168,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "803"
             endingLineNumber = "803"
-            landmarkName = "GuiXml::setRomRamDropDown(romRamButton, romRamButtonString)"
+            landmarkName = "GuiXml::setXmlDropDown()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -6154,7 +6184,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "739"
             endingLineNumber = "739"
-            landmarkName = "GuiXml::setXmlDirFileGui()"
+            landmarkName = "GuiXml::onMainXmlXml()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -6170,8 +6200,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "757"
             endingLineNumber = "757"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "GuiXml::onMainXmlComboXml(event)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -6186,7 +6216,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1041"
             endingLineNumber = "1041"
-            landmarkName = "GuiXml::setXmlGui()"
+            landmarkName = "GuiXml::setRomRamButtonOrder()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -6200,8 +6230,8 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "9541"
-            endingLineNumber = "9541"
+            startingLineNumber = "9543"
+            endingLineNumber = "9543"
             landmarkName = "XmlParser::parseXml_RomRam(computer, node, type, configNumber)"
             landmarkType = "7">
          </BreakpointContent>
@@ -6216,8 +6246,8 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "9556"
-            endingLineNumber = "9556"
+            startingLineNumber = "9558"
+            endingLineNumber = "9558"
             landmarkName = "XmlParser::parseXml_RomRam(computer, node, type, configNumber)"
             landmarkType = "7">
          </BreakpointContent>
@@ -6314,7 +6344,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1043"
             endingLineNumber = "1043"
-            landmarkName = "GuiXml::setXmlGui()"
+            landmarkName = "GuiXml::setRomRamButtonOrder()"
             landmarkType = "7">
             <Locations>
                <Location
@@ -6410,7 +6440,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1042"
             endingLineNumber = "1042"
-            landmarkName = "GuiXml::setXmlGui()"
+            landmarkName = "GuiXml::setRomRamButtonOrder()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -6458,7 +6488,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "978"
             endingLineNumber = "978"
-            landmarkName = "GuiXml::setPrintModeXml()"
+            landmarkName = "GuiXml::setXmlDirDropDown()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -6474,7 +6504,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "986"
             endingLineNumber = "986"
-            landmarkName = "GuiXml::setPrintModeXml()"
+            landmarkName = "GuiXml::setXmlSubDir(directory)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -6824,8 +6854,8 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "9552"
-            endingLineNumber = "9552"
+            startingLineNumber = "9554"
+            endingLineNumber = "9554"
             landmarkName = "XmlParser::parseXml_RomRam(computer, node, type, configNumber)"
             landmarkType = "7">
          </BreakpointContent>
@@ -6856,8 +6886,8 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "9361"
-            endingLineNumber = "9361"
+            startingLineNumber = "9363"
+            endingLineNumber = "9363"
             landmarkName = "XmlParser::parseXml_Memory(computer, node)"
             landmarkType = "7">
          </BreakpointContent>
@@ -6888,8 +6918,8 @@
             filePath = "src/guixml.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "255"
-            endingLineNumber = "255"
+            startingLineNumber = "247"
+            endingLineNumber = "247"
             landmarkName = "GuiXml::readXmlConfig()"
             landmarkType = "7">
          </BreakpointContent>
@@ -6906,8 +6936,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1031"
             endingLineNumber = "1031"
-            landmarkName = "GuiXml::setXmlGui()"
-            landmarkType = "7">
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -6922,7 +6952,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1008"
             endingLineNumber = "1008"
-            landmarkName = "GuiXml::setRomRamButtonOrder()"
+            landmarkName = "GuiXml::setPrintModeXml()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -6952,8 +6982,8 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "9320"
-            endingLineNumber = "9320"
+            startingLineNumber = "9322"
+            endingLineNumber = "9322"
             landmarkName = "XmlParser::parseXml_Memory(computer, node)"
             landmarkType = "7">
          </BreakpointContent>
@@ -6968,10 +6998,10 @@
             filePath = "src/guixml.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "599"
-            endingLineNumber = "599"
-            landmarkName = "GuiXml::romRamXml(romRamButton, romRamButtonString)"
-            landmarkType = "7">
+            startingLineNumber = "591"
+            endingLineNumber = "591"
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -6986,7 +7016,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "996"
             endingLineNumber = "996"
-            landmarkName = "GuiXml::setRomRamButtonOrder()"
+            landmarkName = "GuiXml::setXmlSubDir(directory)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -7002,7 +7032,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1034"
             endingLineNumber = "1034"
-            landmarkName = "GuiXml::setXmlGui()"
+            landmarkName = "GuiXml::setRomRamButtonOrder()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -7018,7 +7048,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1049"
             endingLineNumber = "1049"
-            landmarkName = "GuiXml::setXmlGui()"
+            landmarkName = "GuiXml::setRomRamButtonOrder()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -7034,7 +7064,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1052"
             endingLineNumber = "1052"
-            landmarkName = "GuiXml::setXmlGui()"
+            landmarkName = "GuiXml::setRomRamButtonOrder()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -7050,7 +7080,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1037"
             endingLineNumber = "1037"
-            landmarkName = "GuiXml::setXmlGui()"
+            landmarkName = "GuiXml::setRomRamButtonOrder()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -7306,7 +7336,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1023"
             endingLineNumber = "1023"
-            landmarkName = "GuiXml::setXmlGui()"
+            landmarkName = "GuiXml::setPrintModeXml()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -7320,8 +7350,8 @@
             filePath = "src/guixml.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "258"
-            endingLineNumber = "258"
+            startingLineNumber = "250"
+            endingLineNumber = "250"
             landmarkName = "GuiXml::readXmlConfig()"
             landmarkType = "7">
          </BreakpointContent>
@@ -7354,7 +7384,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1020"
             endingLineNumber = "1020"
-            landmarkName = "GuiXml::setXmlGui()"
+            landmarkName = "GuiXml::setPrintModeXml()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -7595,6 +7625,166 @@
             startingLineNumber = "2407"
             endingLineNumber = "2407"
             landmarkName = "GuiMain::runSoftware(load)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "8D20A36A-437A-4FD6-950A-40B7548CA19E"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/guixml.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "612"
+            endingLineNumber = "612"
+            landmarkName = "GuiXml::onTurboXml(event)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "51372BD5-E563-4D47-8271-15DC18D1A411"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/guixml.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1071"
+            endingLineNumber = "1071"
+            landmarkName = "GuiXml::setXmlGui()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "84DE03CD-2D57-4E0D-807C-230528A50705"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/guimain.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "3980"
+            endingLineNumber = "3980"
+            landmarkName = "GuiMain::setRealCas(computerType)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5A3C75FE-3613-487E-8A24-E917B83F1C28"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/guimain.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "4057"
+            endingLineNumber = "4057"
+            landmarkName = "GuiMain::setRealCas2(computerType)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1868799B-734B-457B-8B72-A0B58033B595"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/guimain.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1103"
+            endingLineNumber = "1103"
+            landmarkName = "GuiMain::setVtType(elfTypeStr, elfType, Selection, GuiChange)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4A9C05B4-BEEB-4266-9CA8-096AB733EC60"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/guimain.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1135"
+            endingLineNumber = "1135"
+            landmarkName = "GuiMain::setVtType(elfTypeStr, elfType, Selection, GuiChange)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "140DDC51-823C-4F53-B028-1D26B2410291"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/guimain.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1232"
+            endingLineNumber = "1232"
+            landmarkName = "GuiMain::setVtType(elfTypeStr, elfType, Selection, GuiChange)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4561AD88-07A8-4FAA-8A57-9C5F96A786AB"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/guixml.h"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "25"
+            endingLineNumber = "25"
+            landmarkName = "GuiXml"
+            landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E35B383F-60A9-461A-B5B9-967E6AA6ECD4"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/guipopup.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "103"
+            endingLineNumber = "103"
+            landmarkName = "PopupDialog::PopupDialog(parent)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2B7B731B-A14D-4887-A8D0-BAF5FE44B2FF"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/guipopup.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "179"
+            endingLineNumber = "179"
+            landmarkName = "PopupDialog::init()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

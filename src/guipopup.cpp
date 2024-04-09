@@ -105,7 +105,6 @@ PopupDialog::PopupDialog(wxWindow* parent)
     {
         case ELFII:
         case SUPERELF:
-        case XML:
         case PICO:
             wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"menuElf_" + p_Main->getFontSize() + ".xrc");
             wxXmlResource::Get()->LoadDialog(this, parent, wxT("PopupElf"));
@@ -243,7 +242,6 @@ void PopupDialog::init()
         case ELF:
         case ELFII:
         case SUPERELF:
-        case XML:
         case PICO:
             setTapeType(p_Main->getUseTape(computer_));
             enableMemAccessGui(true);
@@ -253,6 +251,18 @@ void PopupDialog::init()
             }
             XRCCTRL(*this, "WavFile", wxTextCtrl)->SetValue(p_Main->getWaveFile(computer_));
             XRCCTRL(*this, "ControlWindowsPopupElf", wxCheckBox)->SetValue(p_Main->getUseElfControlWindows(computer_));
+            setLocation(p_Main->getUseLoadLocation(computer_), p_Main->getSaveStartString(computer_), p_Main->getSaveEndString(computer_), p_Main->getSaveExecString(computer_));
+        break;
+
+        case XML:
+            setTapeType(p_Main->getUseTape(computer_));
+            enableMemAccessGui(true);
+            if (p_Main->getUseXmodem(computer_))
+            {
+                XRCCTRL(*this, "CasButton", wxButton)->SetLabel("XMODEM");
+            }
+            XRCCTRL(*this, "WavFile", wxTextCtrl)->SetValue(p_Main->getWaveFile(computer_));
+//            XRCCTRL(*this, "ControlWindowsPopupElf", wxCheckBox)->SetValue(p_Main->getUseElfControlWindows(computer_));
             setLocation(p_Main->getUseLoadLocation(computer_), p_Main->getSaveStartString(computer_), p_Main->getSaveEndString(computer_), p_Main->getSaveExecString(computer_));
         break;
 

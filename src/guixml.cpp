@@ -71,7 +71,7 @@ BEGIN_EVENT_TABLE(GuiXml, GuiPico)
     EVT_BUTTON(XRCID("LoadButtonXml"), GuiMain::onLoadButton)
     EVT_BUTTON(XRCID("RunButtonXml"), GuiMain::onLoadRunButton)
     EVT_BUTTON(XRCID("DsaveButtonXml"), GuiMain::onDataSaveButton)
-    EVT_CHECKBOX(XRCID("UseLocationXml"), GuiMain::onUseLocation)
+    EVT_CHECKBOX(XRCID("UseLocationXml"), GuiXml::onUseLocationXml)
 
     EVT_BUTTON(XRCID("FullScreenF3Xml"), GuiMain::onFullScreen)
 
@@ -237,14 +237,6 @@ void GuiXml::readXmlConfig()
     configPointer->Read("Xmlemu/Enable_Real_Cassette", &conf[XML].realCassetteLoad_, false);
     conf[XML].volume_ = (int)configPointer->Read("Xmlemu/Volume", 25l);
 
-    long value; 
-
-    conf[XML].saveStartString_ = configPointer->Read("Xmlemu/SaveStart", "0");
-    if (!conf[XML].saveStartString_.ToLong(&value, 16))
-        value = 0;
-    conf[XML].saveStart_ = value;
-
-    configPointer->Read("Xmlemu/UseLoadLocation", &conf[XML].useLoadLocation_, false);
     hwTapeState_ = HW_TAPE_STATE_PLAY;
         
 //    configPointer->Read("Xmlemu/DisableNvRam", &elfConfiguration[XML].nvRamDisable, elfConfiguration[XML].nvRamDisableDefault);
@@ -319,6 +311,8 @@ void GuiXml::writeXmlConfig()
     configPointer->Write("/Xmlemu/Led_Update_Frequency/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], conf[XML].ledTime_);
     configPointer->Write("/Xmlemu/Enable_Turbo_Cassette/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], conf[XML].turbo_);
     configPointer->Write("/Xmlemu/Enable_Auto_Cassette/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], conf[XML].autoCassetteLoad_);
+    configPointer->Write("/Xmlemu/UseLoadLocation/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], conf[XML].useLoadLocation_);
+    configPointer->Write("/Xmlemu/SaveStart/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], conf[XML].saveStartString_);
 
     configPointer->Write("/Xmlemu/Key_File", conf[XML].keyFile_);
     configPointer->Write("/Xmlemu/Video_Dump_File", conf[XML].screenDumpFile_);
@@ -358,8 +352,6 @@ void GuiXml::writeXmlConfig()
     configPointer->Write("Xmlemu/SerialLog", elfConfiguration[XML].serialLog);
     configPointer->Write("Xmlemu/ESCError", elfConfiguration[XML].escError);
     configPointer->Write("Xmlemu/Vt_Zoom", conf[XML].zoomVt_);
-    configPointer->Write("Xmlemu/UseLoadLocation", conf[XML].useLoadLocation_);
-    configPointer->Write("Xmlemu/SaveStart", conf[XML].saveStartString_);
 
     configPointer->Write("Xmlemu/Enable_Printer", conf[XML].printerOn_);
     configPointer->Write("Xmlemu/Print_Mode", conf[XML].printMode_);
@@ -615,7 +607,7 @@ void GuiXml::onAutoLoadXml(wxCommandEvent&event)
     configPointer->Flush();
 }
 
-void GuiXml::onTurbo(wxCommandEvent&event)
+void GuiXml::onTurboXml(wxCommandEvent&event)
 {
     if (computerRunning_ && turboOn_)
         turboOff();
@@ -627,6 +619,14 @@ void GuiXml::onTurbo(wxCommandEvent&event)
     configPointer->Flush();
 }
 
+void GuiXml::onUseLocationXml(wxCommandEvent&event)
+{
+    conf[runningComputer_].useLoadLocation_ = event.IsChecked();
+    enableLocationGui();
+
+    configPointer->Write("/Xmlemu/UseLoadLocation/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], conf[XML].useLoadLocation_);
+    configPointer->Flush();
+}
 
 void GuiXml::onRomRam0Xml(wxCommandEvent& WXUNUSED(event) )
 {
@@ -1070,12 +1070,19 @@ void GuiXml::setXmlGui()
     conf[XML].ledTime_ = configPointer->Read("/Xmlemu/Led_Update_Frequency/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], conf[XML].ledTime_);
     configPointer->Read("/Xmlemu/Enable_Turbo_Cassette/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], &conf[XML].turbo_, conf[XML].turbo_);
     configPointer->Read("/Xmlemu/Enable_Auto_Cassette/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], &conf[XML].autoCassetteLoad_, conf[XML].autoCassetteLoad_);
-    if (elfConfiguration[XML].useTapeHw)
-        conf[XML].autoCassetteLoad_ = true;
+    configPointer->Read("/Xmlemu/UseLoadLocation/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], &conf[XML].useLoadLocation_, conf[XML].useLoadLocation_);
+    conf[XML].saveStartString_ = configPointer->Read("/Xmlemu/SaveStart/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], conf[XML].saveStartString_);
+    long value;
+    if (!conf[XML].saveStartString_.ToLong(&value, 16))
+        value = 0;
+    conf[XML].saveStart_ = value;
 
     if (!mode_.gui)
         return;
   
+    XRCCTRL(*this, "AutoCasLoadXml", wxCheckBox)->SetValue(conf[XML].autoCassetteLoad_);
+    XRCCTRL(*this, "TurboXml", wxCheckBox)->SetValue(conf[XML].turbo_);
+
     XRCCTRL(*this, "ShowAddressXml", wxTextCtrl)->ChangeValue(conf[XML].ledTime_);
 
     bool ramButtonEnable = (conf[XML].memConfig_[romRamButton1_].type & 0xff) != UNDEFINED;

@@ -708,6 +708,8 @@ protected:
     wxBitmap recOnBitmap;
     wxBitmap recPressedBitmap;
 
+    bool turboOn_;
+
 private:
     wxBitmap realCasOffBitmap;
     wxBitmap realCasOnBitmap;
@@ -717,7 +719,6 @@ private:
     wxBitmap pauseOnBitmap;
 
     double savedSpeed_;
-    bool turboOn_;
 
     bool batchConvertActive_;
     wxString batchSaveWavFileDir_;
