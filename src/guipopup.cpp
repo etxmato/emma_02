@@ -333,6 +333,51 @@ void PopupDialog::init()
             setLocation(p_Main->getUseLoadLocation(computer_), p_Main->getSaveStartString(computer_), p_Main->getSaveEndString(computer_), p_Main->getSaveExecString(computer_));
         break;
 
+        case XML:
+            currentElfConfig = p_Main->getElfConfiguration(computer_);
+            setTapeType(p_Main->getUseTape(computer_));
+            setTape1Type(p_Main->getUseTape(computer_));
+            //enableMemAccessGui(true);
+            XRCCTRL(*this, "WavFile", wxTextCtrl)->SetValue(p_Main->getWaveFile(computer_));
+
+            //if (p_Main->getUseXmodem(computer_))
+                //XRCCTRL(*this, "CasButton", wxButton)->SetLabel("XMODEM");
+            
+            //XRCCTRL(*this, "Disk1File", wxTextCtrl)->SetValue(p_Main->getFloppyFile(0));
+            //XRCCTRL(*this, "Disk2File", wxTextCtrl)->SetValue(p_Main->getFloppyFile(1));
+            //XRCCTRL(*this, "Elf2KControlWindowsPopup", wxCheckBox)->SetValue(p_Main->getUseElfControlWindows(computer_));
+            setLocation(p_Main->getUseLoadLocation(computer_), p_Main->getSaveStartString(computer_), p_Main->getSaveEndString(computer_), p_Main->getSaveExecString(computer_));
+
+            XRCCTRL(*this, "FDC0_FileMS2000", wxTextCtrl)->SetValue(getFdcName(0));
+            XRCCTRL(*this, "FDC1_FileMS2000", wxTextCtrl)->SetValue(getFdcName(1));
+            XRCCTRL(*this, "FDC2_FileMS2000", wxTextCtrl)->SetValue(getFdcName(2));
+            XRCCTRL(*this, "FDC3_FileMS2000", wxTextCtrl)->SetValue(getFdcName(3));
+            setDirSwitch(0);
+            setDirSwitch(1);
+            setDirSwitch(2);
+            setDirSwitch(3);
+
+            if (!currentElfConfig.useUpd765)
+            {
+                XRCCTRL(*this, "FDC0_ButtonMS2000", wxButton)->Enable(false);
+                XRCCTRL(*this, "FDC0_FileMS2000", wxTextCtrl)->Enable(false);
+                XRCCTRL(*this, "FDC0_SwitchMS2000", wxBitmapButton)->Enable(false);
+                XRCCTRL(*this, "Eject_FDC0MS2000", wxBitmapButton)->Enable(false);
+                XRCCTRL(*this, "FDC1_ButtonMS2000", wxButton)->Enable(false);
+                XRCCTRL(*this, "FDC1_FileMS2000", wxTextCtrl)->Enable(false);
+                XRCCTRL(*this, "FDC1_SwitchMS2000", wxBitmapButton)->Enable(false);
+                XRCCTRL(*this, "Eject_FDC1MS2000", wxBitmapButton)->Enable(false);
+                XRCCTRL(*this, "FDC2_ButtonMS2000", wxButton)->Enable(false);
+                XRCCTRL(*this, "FDC2_FileMS2000", wxTextCtrl)->Enable(false);
+                XRCCTRL(*this, "FDC2_SwitchMS2000", wxBitmapButton)->Enable(false);
+                XRCCTRL(*this, "Eject_FDC2MS2000", wxBitmapButton)->Enable(false);
+                XRCCTRL(*this, "FDC3_ButtonMS2000", wxButton)->Enable(false);
+                XRCCTRL(*this, "FDC3_FileMS2000", wxTextCtrl)->Enable(false);
+                XRCCTRL(*this, "FDC3_SwitchMS2000", wxBitmapButton)->Enable(false);
+                XRCCTRL(*this, "Eject_FDC3MS2000", wxBitmapButton)->Enable(false);
+            }
+        break;
+
     }
 }
 
