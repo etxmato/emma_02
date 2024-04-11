@@ -1,0 +1,34 @@
+<html>
+<title>XML</title>
+<body>
+<h1>XML</h1>
+<p>
+The XML tab allows multiple computer emulations based on XML files. All other computer tabs will be removed in the next Emma 02 revision to simplify maintenance and reduce code complexity. To select an XML file, first select the XML tab (yellow ellipse) followed by the desired computer (orange ellipse) and last the xml file itself (blue ellipse):
+</p>
+<p>
+<IMG SRC="images/xml.png" BORDER="0">
+</p>
+<p>
+When selecting the xml file a short description of the selected configuration for that file is shown in the Configuration field (green ellipse). The rest of the GUI will be enabled or disabled based on the XML file content. Start any selected XML emulation by selecting 'Start' (purple ellipse).
+</p>
+<p>
+The computer list (orange ellipse) is generated based on the folder structure in the Xml folder within the data folder (see also <a href="MainFile.htm">Directory and File Structure</a>). A different Xml folder can be selected via the XML button (brown ellipse). 
+</p>
+<p>
+The current defined computer list is show when using the computer selector (orange ellipse above):
+</p>
+<p>
+<IMG SRC="images/xml_computers.png" BORDER="0">
+</p>
+<p>
+If a new folder is created within the Xml folder it will show up as a computer on next startup or when reselecting the XML folder via the XML button (brown ellipse). If defined the extended computer name will replace the computer folder name if defined in the xml file via the &lt;system&gt;&lt;name&gt; tag. As such it is recommended to use one and the same name tag in all xml files within one computer folder.
+</p>
+<p>
+Each computer includes one or more xml files depending on number of available configurations.
+</p>
+<p>
+Some explanation of the used XML language is available in the 'template - instruction.xml' file stored within the Xml folder. Note that this is not complete and will likely change in future releases. Full backward compatibility and a more detailed XML specification is planned for a later release.
+</p>
+<p>
+</body>
+</html>

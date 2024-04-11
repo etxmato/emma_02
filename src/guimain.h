@@ -317,6 +317,8 @@ public:
     wxString getVt100CharRomFile(int computerType) {return elfConfiguration[computerType].vt100CharRom_;};
     wxString getVt52CharRomFile(int computerType) {return elfConfiguration[computerType].vt52CharRom_;};
     wxString getWaveFile(int computerType) {return conf[computerType].wavFile_[0];};
+    wxString getXmodemFile(int computerType) {return conf[computerType].xmodemFile_;};
+    wxString getXmodemFileFullStr(int computerType) {return conf[computerType].xmodemFileFullStr_;};
     void setWaveFile(int computerType, wxString fileName) {conf[computerType].wavFile_[0] = fileName;};
     wxString getWaveFile1(int computerType) {return conf[computerType].wavFile_[1];};
     wxString getKeyFile();

@@ -1739,8 +1739,6 @@ void GuiMain::onCassette1(wxCommandEvent& WXUNUSED(event))
 
 void GuiMain::onXmodem(wxCommandEvent& WXUNUSED(event))
 {
-    wxString fileName;
-    
     wxFileDialog openFileDialog(this,
                                 "Select the XMODEM file(s) to save/load",
                                 conf[selectedComputer_].xmodemFileDir_,
@@ -1760,7 +1758,7 @@ void GuiMain::onXmodem(wxCommandEvent& WXUNUSED(event))
     conf[selectedComputer_].numberOfTerminalFiles_ = conf[selectedComputer_].terminalPaths_.GetCount();
     
     wxFileName FullPath;
-    fileName = "";
+    conf[selectedComputer_].xmodemFileFullStr_ = "";
     for (int i=0; i<(int)conf[selectedComputer_].numberOfTerminalFiles_; i++)
     {
         FullPath = wxFileName(conf[selectedComputer_].terminalPaths_[i], wxPATH_NATIVE);
@@ -1769,12 +1767,12 @@ void GuiMain::onXmodem(wxCommandEvent& WXUNUSED(event))
             conf[selectedComputer_].xmodemFileDir_ = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
             conf[selectedComputer_].xmodemFile_ = FullPath.GetFullName();
         }
-        fileName += conf[selectedComputer_].terminalFiles_[i];
-        fileName += " ";
+        conf[selectedComputer_].xmodemFileFullStr_ += conf[selectedComputer_].terminalFiles_[i];
+        conf[selectedComputer_].xmodemFileFullStr_ += " ";
     }
 
     if (mode_.gui)
-        XRCCTRL(*this, "XmodemFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->ChangeValue(fileName);
+        XRCCTRL(*this, "XmodemFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->ChangeValue(conf[selectedComputer_].xmodemFileFullStr_);
 }
 
 void GuiMain::onTerminalFile(wxCommandEvent& WXUNUSED(event))
@@ -2407,12 +2405,14 @@ void GuiMain::runSoftware(bool load)
     if (extension == computerInfo[XML].ploadExtension && fileName != "")
     {
         if (wxFile::Exists(fileName))
-            conf[XML].loadFileNameFull_ = conf[XML].loadFileName_;
+            conf[XML].loadFileNameFull_ = fileName;
         else
-            conf[XML].loadFileNameFull_ = conf[XML].ramDir_ + conf[XML].loadFileName_;
+            conf[XML].loadFileNameFull_ = conf[XML].ramDir_ + fileName;
         
-        if (wxFile::Exists(conf[XML].loadFileNameFull_))
+        if (!wxFile::Exists(conf[XML].loadFileNameFull_))
             return;
+        
+        conf[XML].loadFileName_ = fileName;
 
         p_Main->setSwName(conf[XML].loadFileName_);
         p_Main->updateTitle();

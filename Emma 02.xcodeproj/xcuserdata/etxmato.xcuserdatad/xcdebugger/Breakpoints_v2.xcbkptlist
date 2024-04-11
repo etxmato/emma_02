@@ -5558,83 +5558,6 @@
             endingLineNumber = "7720"
             landmarkName = "Xmlemu::read1862ColorDirect(addr)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "6E4585D3-260B-4501-B95B-F134E0BEAF13 - 5b89db8224abb062"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Xmlemu::write1862ColorDirect(unsigned short, unsigned char)"
-                  moduleName = "Emma 02"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/etxmato/workspace/emma_02/src/xmlemu.cpp"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "7724"
-                  endingLineNumber = "7724"
-                  offsetFromSymbolStart = "20">
-               </Location>
-               <Location
-                  uuid = "6E4585D3-260B-4501-B95B-F134E0BEAF13 - 5b89db8224abb041"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Xmlemu::write1862ColorDirect(unsigned short, unsigned char)"
-                  moduleName = "Emma 02"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/etxmato/workspace/emma_02/src/xmlemu.cpp"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "7725"
-                  endingLineNumber = "7725"
-                  offsetFromSymbolStart = "20">
-               </Location>
-               <Location
-                  uuid = "6E4585D3-260B-4501-B95B-F134E0BEAF13 - 5b89db8224abb0c5"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Xmlemu::write1862ColorDirect(unsigned short, unsigned char)"
-                  moduleName = "Emma 02"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/etxmato/workspace/emma_02/src/xmlemu.cpp"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "7729"
-                  endingLineNumber = "7729"
-                  offsetFromSymbolStart = "20">
-               </Location>
-               <Location
-                  uuid = "6E4585D3-260B-4501-B95B-F134E0BEAF13 - 874aa13fd48bfd9a"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Xmlemu::read1862ColorDirect(unsigned short)"
-                  moduleName = "Emma 02"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/etxmato/workspace/emma_02/src/xmlemu.cpp"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "7730"
-                  endingLineNumber = "7730"
-                  offsetFromSymbolStart = "24">
-               </Location>
-               <Location
-                  uuid = "6E4585D3-260B-4501-B95B-F134E0BEAF13 - 874aa13fd48bfef3"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Xmlemu::read1862ColorDirect(unsigned short)"
-                  moduleName = "Emma 02"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/etxmato/workspace/emma_02/src/xmlemu.cpp"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "7721"
-                  endingLineNumber = "7721"
-                  offsetFromSymbolStart = "24">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -5651,83 +5574,6 @@
             endingLineNumber = "7715"
             landmarkName = "Xmlemu::write8275VideoRam(address, value)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "B842C522-2B7F-4696-A8C6-37C011061CF0 - 874aa13fd48bfe31"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Xmlemu::read1862ColorDirect(unsigned short)"
-                  moduleName = "Emma 02"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/etxmato/workspace/emma_02/src/xmlemu.cpp"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "7719"
-                  endingLineNumber = "7719"
-                  offsetFromSymbolStart = "24">
-               </Location>
-               <Location
-                  uuid = "B842C522-2B7F-4696-A8C6-37C011061CF0 - 874aa13fd48bfed0"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Xmlemu::read1862ColorDirect(unsigned short)"
-                  moduleName = "Emma 02"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/etxmato/workspace/emma_02/src/xmlemu.cpp"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "7720"
-                  endingLineNumber = "7720"
-                  offsetFromSymbolStart = "24">
-               </Location>
-               <Location
-                  uuid = "B842C522-2B7F-4696-A8C6-37C011061CF0 - 874aa13fd48bfd5c"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Xmlemu::read1862ColorDirect(unsigned short)"
-                  moduleName = "Emma 02"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/etxmato/workspace/emma_02/src/xmlemu.cpp"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "7724"
-                  endingLineNumber = "7724"
-                  offsetFromSymbolStart = "24">
-               </Location>
-               <Location
-                  uuid = "B842C522-2B7F-4696-A8C6-37C011061CF0 - 95f78b1d10a77d21"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Xmlemu::write8275VideoRam(unsigned short, unsigned char)"
-                  moduleName = "Emma 02"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/etxmato/workspace/emma_02/src/xmlemu.cpp"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "7724"
-                  endingLineNumber = "7724"
-                  offsetFromSymbolStart = "40">
-               </Location>
-               <Location
-                  uuid = "B842C522-2B7F-4696-A8C6-37C011061CF0 - 95f78b1d10a77fc8"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Xmlemu::write8275VideoRam(unsigned short, unsigned char)"
-                  moduleName = "Emma 02"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/etxmato/workspace/emma_02/src/xmlemu.cpp"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "7715"
-                  endingLineNumber = "7715"
-                  offsetFromSymbolStart = "40">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -5744,83 +5590,6 @@
             endingLineNumber = "7725"
             landmarkName = "Xmlemu::write1862ColorDirect(addr, value)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "FEBDADA9-105D-441F-96BF-220B6E5CC904 - bcb101321a1db7f9"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Xmlemu::read1864ColorDirect(unsigned short)"
-                  moduleName = "Emma 02"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/etxmato/workspace/emma_02/src/xmlemu.cpp"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "7729"
-                  endingLineNumber = "7729"
-                  offsetFromSymbolStart = "24">
-               </Location>
-               <Location
-                  uuid = "FEBDADA9-105D-441F-96BF-220B6E5CC904 - bcb101321a1db798"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Xmlemu::read1864ColorDirect(unsigned short)"
-                  moduleName = "Emma 02"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/etxmato/workspace/emma_02/src/xmlemu.cpp"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "7730"
-                  endingLineNumber = "7730"
-                  offsetFromSymbolStart = "24">
-               </Location>
-               <Location
-                  uuid = "FEBDADA9-105D-441F-96BF-220B6E5CC904 - bcb101321a1db604"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Xmlemu::read1864ColorDirect(unsigned short)"
-                  moduleName = "Emma 02"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/etxmato/workspace/emma_02/src/xmlemu.cpp"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "7734"
-                  endingLineNumber = "7734"
-                  offsetFromSymbolStart = "24">
-               </Location>
-               <Location
-                  uuid = "FEBDADA9-105D-441F-96BF-220B6E5CC904 - 5b89db8224abb11f"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Xmlemu::write1862ColorDirect(unsigned short, unsigned char)"
-                  moduleName = "Emma 02"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/etxmato/workspace/emma_02/src/xmlemu.cpp"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "7735"
-                  endingLineNumber = "7735"
-                  offsetFromSymbolStart = "20">
-               </Location>
-               <Location
-                  uuid = "FEBDADA9-105D-441F-96BF-220B6E5CC904 - 5b89db8224abb020"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Xmlemu::write1862ColorDirect(unsigned short, unsigned char)"
-                  moduleName = "Emma 02"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/etxmato/workspace/emma_02/src/xmlemu.cpp"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "7726"
-                  endingLineNumber = "7726"
-                  offsetFromSymbolStart = "20">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -5837,83 +5606,6 @@
             endingLineNumber = "7730"
             landmarkName = "Xmlemu::read1864ColorDirect(addr)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "6E59B204-9E04-424D-8BA3-6D46D69CB9E4 - b77b312663f11d3e"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Xmlemu::write1864ColorDirect(unsigned short, unsigned char)"
-                  moduleName = "Emma 02"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/etxmato/workspace/emma_02/src/xmlemu.cpp"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "7734"
-                  endingLineNumber = "7734"
-                  offsetFromSymbolStart = "20">
-               </Location>
-               <Location
-                  uuid = "6E59B204-9E04-424D-8BA3-6D46D69CB9E4 - b77b312663f11d19"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Xmlemu::write1864ColorDirect(unsigned short, unsigned char)"
-                  moduleName = "Emma 02"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/etxmato/workspace/emma_02/src/xmlemu.cpp"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "7735"
-                  endingLineNumber = "7735"
-                  offsetFromSymbolStart = "20">
-               </Location>
-               <Location
-                  uuid = "6E59B204-9E04-424D-8BA3-6D46D69CB9E4 - b77b312663f11d95"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Xmlemu::write1864ColorDirect(unsigned short, unsigned char)"
-                  moduleName = "Emma 02"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/etxmato/workspace/emma_02/src/xmlemu.cpp"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "7739"
-                  endingLineNumber = "7739"
-                  offsetFromSymbolStart = "20">
-               </Location>
-               <Location
-                  uuid = "6E59B204-9E04-424D-8BA3-6D46D69CB9E4 - bcb101321a1db14e"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Xmlemu::read1864ColorDirect(unsigned short)"
-                  moduleName = "Emma 02"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/etxmato/workspace/emma_02/src/xmlemu.cpp"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "7740"
-                  endingLineNumber = "7740"
-                  offsetFromSymbolStart = "24">
-               </Location>
-               <Location
-                  uuid = "6E59B204-9E04-424D-8BA3-6D46D69CB9E4 - bcb101321a1db7a7"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Xmlemu::read1864ColorDirect(unsigned short)"
-                  moduleName = "Emma 02"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/etxmato/workspace/emma_02/src/xmlemu.cpp"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "7731"
-                  endingLineNumber = "7731"
-                  offsetFromSymbolStart = "24">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -7254,8 +6946,8 @@
             filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2402"
-            endingLineNumber = "2402"
+            startingLineNumber = "2400"
+            endingLineNumber = "2400"
             landmarkName = "GuiMain::runSoftware(load)"
             landmarkType = "7">
          </BreakpointContent>
@@ -7446,8 +7138,8 @@
             filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2405"
-            endingLineNumber = "2405"
+            startingLineNumber = "2403"
+            endingLineNumber = "2403"
             landmarkName = "GuiMain::runSoftware(load)"
             landmarkType = "7">
          </BreakpointContent>
@@ -7622,8 +7314,8 @@
             filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2407"
-            endingLineNumber = "2407"
+            startingLineNumber = "2405"
+            endingLineNumber = "2405"
             landmarkName = "GuiMain::runSoftware(load)"
             landmarkType = "7">
          </BreakpointContent>
@@ -7674,6 +7366,38 @@
             endingLineNumber = "3980"
             landmarkName = "GuiMain::setRealCas(computerType)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "84DE03CD-2D57-4E0D-807C-230528A50705 - 5dfa3a66dd3faa4c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "GuiMain::setRealCas(int)"
+                  moduleName = "Emma 02"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/etxmato/workspace/emma_02/src/guimain.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "3980"
+                  endingLineNumber = "3980"
+                  offsetFromSymbolStart = "744">
+               </Location>
+               <Location
+                  uuid = "84DE03CD-2D57-4E0D-807C-230528A50705 - 5dfa3a66dd3faa4c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "GuiMain::setRealCas(int)"
+                  moduleName = "Emma 02"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/etxmato/workspace/emma_02/src/guimain.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "3980"
+                  endingLineNumber = "3980"
+                  offsetFromSymbolStart = "508">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -7690,6 +7414,38 @@
             endingLineNumber = "4057"
             landmarkName = "GuiMain::setRealCas2(computerType)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "5A3C75FE-3613-487E-8A24-E917B83F1C28 - 6904ecba3d17500c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "GuiMain::setRealCas2(int)"
+                  moduleName = "Emma 02"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/etxmato/workspace/emma_02/src/guimain.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "4057"
+                  endingLineNumber = "4057"
+                  offsetFromSymbolStart = "708">
+               </Location>
+               <Location
+                  uuid = "5A3C75FE-3613-487E-8A24-E917B83F1C28 - 6904ecba3d17500c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "GuiMain::setRealCas2(int)"
+                  moduleName = "Emma 02"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/etxmato/workspace/emma_02/src/guimain.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "4057"
+                  endingLineNumber = "4057"
+                  offsetFromSymbolStart = "472">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -7766,8 +7522,8 @@
             filePath = "src/guipopup.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "103"
-            endingLineNumber = "103"
+            startingLineNumber = "113"
+            endingLineNumber = "113"
             landmarkName = "PopupDialog::PopupDialog(parent)"
             landmarkType = "7">
          </BreakpointContent>
@@ -7782,9 +7538,153 @@
             filePath = "src/guipopup.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "179"
-            endingLineNumber = "179"
+            startingLineNumber = "197"
+            endingLineNumber = "197"
             landmarkName = "PopupDialog::init()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A4A4459B-FED2-49E2-9F66-7B6AD438D7CF"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/guimain.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2450"
+            endingLineNumber = "2450"
+            landmarkName = "GuiMain::runSoftware(load)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "389F61AE-4A54-48A9-8B10-977F7278669D"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/guimain.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2402"
+            endingLineNumber = "2402"
+            landmarkName = "GuiMain::runSoftware(load)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6AB010A8-72DD-4C9B-AB8F-BD2D26C29549"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/guimain.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2417"
+            endingLineNumber = "2417"
+            landmarkName = "GuiMain::runSoftware(load)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "AD364D10-EB09-45E3-A454-CFDF1090613F"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/guimain.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "3655"
+            endingLineNumber = "3655"
+            landmarkName = "GuiMain::pload()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "AD364D10-EB09-45E3-A454-CFDF1090613F - ed36f838eb46ef91"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "GuiMain::pload()"
+                  moduleName = "Emma 02"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/etxmato/workspace/emma_02/src/guimain.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "3655"
+                  endingLineNumber = "3655"
+                  offsetFromSymbolStart = "348">
+               </Location>
+               <Location
+                  uuid = "AD364D10-EB09-45E3-A454-CFDF1090613F - ed36f838eb46ef91"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "GuiMain::pload()"
+                  moduleName = "Emma 02"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/etxmato/workspace/emma_02/src/guimain.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "3655"
+                  endingLineNumber = "3655"
+                  offsetFromSymbolStart = "160">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "58D08D4F-98FC-4BF8-A807-164AAB138902"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/guixml.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "262"
+            endingLineNumber = "262"
+            landmarkName = "GuiXml::readXmlConfig()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "EB766491-B0D5-4742-AE0C-6BD856C1C3EA"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/guimain.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2407"
+            endingLineNumber = "2407"
+            landmarkName = "GuiMain::runSoftware(load)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1EAE735A-4C31-4519-B332-FE4466931083"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/xmlemu.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "6680"
+            endingLineNumber = "6680"
+            landmarkName = "Xmlemu::configureMemory()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

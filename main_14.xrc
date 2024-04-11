@@ -27322,7 +27322,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>4</border>
 <object class="wxCheckBox" name="ControlWindowsXml">
-<tooltip>Show control windows</tooltip>
+<tooltip>Show Front Panel windows</tooltip>
 <font>
 <size>14</size>
 </font>

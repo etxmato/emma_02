@@ -30,6 +30,8 @@ private:
     void onComxDiskText2(wxCommandEvent&event);
     void onComxDiskEject2(wxCommandEvent&event);
 
+    void onXmlControlWindows(wxCommandEvent& event);
+
     void onElf2KControlWindows(wxCommandEvent& event);
     void onElf2KSwitch(wxCommandEvent& event);
     void onElf2KHex(wxCommandEvent& event);
@@ -61,6 +63,10 @@ private:
     void onCassetteText1(wxCommandEvent& event);
     void onCassetteEject1(wxCommandEvent& event);
 
+    void onXmodem(wxCommandEvent& event);
+    void onXmodemEject(wxCommandEvent& event);
+    void onXmodemText(wxCommandEvent& event);
+
     void onLoadRunButton(wxCommandEvent& event);
     void onLoadButton(wxCommandEvent& event);
     void onSaveButton(wxCommandEvent& event);
@@ -75,22 +81,29 @@ private:
     void onUpdDiskText0(wxCommandEvent& event);
     void onUpdDiskEject0(wxCommandEvent& event);
     void onUpdDiskDirSwitch0(wxCommandEvent& event);
+    void onUpdDiskDirSwitch0Xml(wxCommandEvent& event);
     void onUpdDisk1(wxCommandEvent& event);
     void onUpdDiskText1(wxCommandEvent& event);
     void onUpdDiskEject1(wxCommandEvent& event);
     void onUpdDiskDirSwitch1(wxCommandEvent& event);
+    void onUpdDiskDirSwitch1Xml(wxCommandEvent& event);
     void onUpdDisk2(wxCommandEvent& event);
     void onUpdDiskText2(wxCommandEvent& event);
     void onUpdDiskEject2(wxCommandEvent& event);
     void onUpdDiskDirSwitch2(wxCommandEvent& event);
+    void onUpdDiskDirSwitch2Xml(wxCommandEvent& event);
     void onUpdDisk3(wxCommandEvent& event);
     void onUpdDiskText3(wxCommandEvent& event);
     void onUpdDiskEject3(wxCommandEvent& event);
     void onUpdDiskDirSwitch3(wxCommandEvent& event);
-    
+    void onUpdDiskDirSwitch3Xml(wxCommandEvent& event);
+
+    ElfConfiguration currentElfConfig;
+
     wxString getFdcName(int drive);
     void setDirSwitch(int drive);
-    
+    void setUpdFloppyGui(int drive);
+
     wxString computerStr_;
     int computer_;
     int fdcType_;

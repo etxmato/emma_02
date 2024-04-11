@@ -738,8 +738,8 @@ static const wxCmdLineEntryDesc cmdLineDesc[] =
     { wxCMD_LINE_SWITCH, "w", "window", "non fixed window positions"},                                    
     { wxCMD_LINE_OPTION, "c", "computer", "start emulator without gui and for specified computer" }, // Switch off GUI
     { wxCMD_LINE_OPTION, "s", "software", "load specified software on start" },          // only valid in combination with -c
-    { wxCMD_LINE_OPTION, "s0", "software", "load binary software in slot 0 on start" },  // only valid in combination with -c
-    { wxCMD_LINE_OPTION, "s1", "software", "load binary software on slot 1 on start" },  // only valid in combination with -c
+    { wxCMD_LINE_OPTION, "s0", "software0", "load binary software in gui slot 0 on start" },  // only valid in combination with -c
+    { wxCMD_LINE_OPTION, "s1", "software1", "load binary software in gui slot 1 on start" },  // only valid in combination with -c
     { wxCMD_LINE_OPTION, "r", "run", "run specified software on start" },                // only valid in combination with -c
     { wxCMD_LINE_OPTION, "x", "xml", "load specified xml file on start" },               // only valid in combination with -c
     { wxCMD_LINE_OPTION, "ch", "chip8", "load specified chip8 software on start" },      // only valid in combination with -c

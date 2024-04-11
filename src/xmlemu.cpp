@@ -6672,11 +6672,11 @@ void Xmlemu::configureMemory()
         if ((computerConfiguration.memConfig_[p_Main->getRomRamButton0()].type & 0xff) != UNDEFINED)
             loadRomRam(p_Main->getRomRamButton0());
     }
-    if ((computerConfiguration.memConfig_[p_Main->getRomRamButton0()].type & 0xff) == NVRAM)
+    if ((computerConfiguration.memConfig_[p_Main->getRomRamButton1()].type & 0xff) == NVRAM)
         loadNvRam(p_Main->getRomRamButton1());
     else
     {
-        if ((computerConfiguration.memConfig_[p_Main->getRomRamButton0()].type & 0xff) != UNDEFINED)
+        if ((computerConfiguration.memConfig_[p_Main->getRomRamButton1()].type & 0xff) != UNDEFINED)
             loadRomRam(p_Main->getRomRamButton1());
     }
 }

@@ -298,6 +298,7 @@ public:
     wxString xmlFile_;
     wxString xmodemFileDir_;
     wxString xmodemFile_;
+    wxString xmodemFileFullStr_;
     wxString sequencerDir_;
     wxString sequencerFile_;
     wxString splashDialog_;

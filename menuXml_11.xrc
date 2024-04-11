@@ -68,7 +68,7 @@
 <object platform="mac" class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>5</border>
-<object platform="mac" class="wxBitmapButton" name="FDC0_SwitchMS2000">
+<object platform="mac" class="wxBitmapButton" name="FDC0_SwitchXml">
 <size>26,27</size>
 <help>Toggle FDC/HD</help>
 <bitmap>images_osx/switch.png</bitmap>
@@ -77,7 +77,7 @@
 <object platform="unix|win" class="sizeritem">
 <flag>wxGROW</flag>
 <border>5</border>
-<object platform="unix|win" class="wxBitmapButton" name="FDC0_SwitchMS2000">
+<object platform="unix|win" class="wxBitmapButton" name="FDC0_SwitchXml">
 <help>Toggle FDC/HD</help>
 <bitmap>images/switch.png</bitmap>
 </object>
@@ -149,7 +149,7 @@
 <object platform="mac" class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>5</border>
-<object platform="mac" class="wxBitmapButton" name="FDC1_SwitchMS2000">
+<object platform="mac" class="wxBitmapButton" name="FDC1_SwitchXml">
 <size>26,27</size>
 <help>Toggle FDC/HD</help>
 <bitmap>images_osx/switch.png</bitmap>
@@ -158,7 +158,7 @@
 <object platform="unix|win" class="sizeritem">
 <flag>wxGROW</flag>
 <border>5</border>
-<object platform="unix|win" class="wxBitmapButton" name="FDC1_SwitchMS2000">
+<object platform="unix|win" class="wxBitmapButton" name="FDC1_SwitchXml">
 <help>Toggle FDC/HD</help>
 <bitmap>images/switch.png</bitmap>
 </object>
@@ -230,7 +230,7 @@
 <object platform="mac" class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>5</border>
-<object platform="mac" class="wxBitmapButton" name="FDC2_SwitchMS2000">
+<object platform="mac" class="wxBitmapButton" name="FDC2_SwitchXml">
 <size>26,27</size>
 <help>Toggle FDC/HD</help>
 <bitmap>images_osx/switch.png</bitmap>
@@ -239,7 +239,7 @@
 <object platform="unix|win" class="sizeritem">
 <flag>wxGROW</flag>
 <border>5</border>
-<object platform="unix|win" class="wxBitmapButton" name="FDC2_SwitchMS2000">
+<object platform="unix|win" class="wxBitmapButton" name="FDC2_SwitchXml">
 <help>Toggle FDC/HD</help>
 <bitmap>images/switch.png</bitmap>
 </object>
@@ -311,7 +311,7 @@
 <object platform="mac" class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>5</border>
-<object platform="mac" class="wxBitmapButton" name="FDC3_SwitchMS2000">
+<object platform="mac" class="wxBitmapButton" name="FDC3_SwitchXml">
 <size>26,27</size>
 <help>Toggle FDC/HD</help>
 <bitmap>images_osx/switch.png</bitmap>
@@ -320,7 +320,7 @@
 <object platform="unix|win" class="sizeritem">
 <flag>wxGROW</flag>
 <border>5</border>
-<object platform="unix|win" class="wxBitmapButton" name="FDC3_SwitchMS2000">
+<object platform="unix|win" class="wxBitmapButton" name="FDC3_SwitchXml">
 <help>Toggle FDC/HD</help>
 <bitmap>images/switch.png</bitmap>
 </object>
@@ -472,6 +472,90 @@
 <bitmap>images/eject.png</bitmap>
 <selected>images/eject.png</selected>
 <focus>images/eject.png</focus>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALL</flag>
+<border>2</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxGROW</flag>
+<border>3</border>
+<object class="wxButton" name="XmodemButton">
+<tooltip>Browse for XMODEM file</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>XMODEM</label>
+</object>
+</object>
+<object platform="mac" class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object platform="mac" class="wxTextCtrl" name="XmodemFile">
+<size>153,-1</size>
+<tooltip>Specify XMODEM file</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+</object>
+</object>
+<object platform="unix|win" class="sizeritem">
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
+<border>1</border>
+<object platform="unix|win" class="wxTextCtrl" name="XmodemFile">
+<size>153,-1</size>
+<tooltip>Specify XMODEM file</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+</object>
+</object>
+<object platform="mac" class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>3</border>
+<object platform="mac" class="wxBitmapButton" name="EjectXmodem">
+<size>26,27</size>
+<tooltip>Eject XMODEM file</tooltip>
+<bitmap>images_osx/eject.png</bitmap>
+<selected>images_osx/eject.png</selected>
+<focus>images_osx/eject.png</focus>
+</object>
+</object>
+<object platform="unix|win" class="sizeritem">
+<flag>wxGROW</flag>
+<border>3</border>
+<object platform="unix|win" class="wxBitmapButton" name="EjectXmodem">
+<tooltip>Eject XMODEM file</tooltip>
+<bitmap>images/eject.png</bitmap>
+<selected>images/eject.png</selected>
+<focus>images/eject.png</focus>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxTOP|wxBOTTOM</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+<border>3</border>
+<object class="wxCheckBox" name="ControlWindowsPopupXml">
+<tooltip>Show Front Panel windows</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>Front Panel</label>
+<checked>0</checked>
 </object>
 </object>
 </object>
