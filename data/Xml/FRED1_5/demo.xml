@@ -16,10 +16,14 @@
         <dirname>FRED1_5</dirname>
     </system>
 
-    <memaccess>
-        <location>on</location>
-        <start>0</start>
-    </memaccess>
+    <gui>
+        <memaccess>
+            <location>on</location>
+            <start>0</start>
+        </memaccess>
+        <auto>on</auto>
+        <turbo>off</turbo>
+    </gui>
 
     <splash>
         <text>Press 0 to start the Fred Demo</text>
@@ -209,12 +213,12 @@
     </frontpanel>
 
     <memory>
-        <guiram mask="0xfff">
+        <ram type="gui" mask="0xfff">
             <start>0x0000</start>
             <end>0xFFFF</end>
             <pulldown mask="Fred Demo*.bin">FRED1_5</pulldown>
             <filename>Fred Demo.bin</filename>
-        </guiram>
+        </ram>
     </memory>
     
     <keypad type="fred">

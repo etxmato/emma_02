@@ -21,19 +21,19 @@
     </frontpanel>
 
     <memory>
-        <guiram>
+        <ram type="gui">
             <start>0x0000</start>
             <end>0xF7FF</end>
             <pulldown mask="elfos*.*">Elf</pulldown>
             <filename verify="true">elfos.0.2.8.hex</filename>
-        </guiram>
+        </ram>
 
-        <guirom>
+        <rom type="gui">
             <start>0xF800</start>
             <end>0xFFFF</end>
             <pulldown mask="bios.*.*">Elf</pulldown>
             <filename verify="true">bios.1.0.4.rom</filename>
-        </guirom>
+        </rom>
     </memory>
     
     <vt type="vt100" connection="serial">

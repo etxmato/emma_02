@@ -38,11 +38,11 @@
             <dump>ramdump.bin</dump>
          </nvram>
 
-        <guirom>
+        <rom type="gui">
             <start>0xC000</start>
             <end>0xC7FF</end>
             <pulldown mask="*.bin" exclude1="vt" exclude2="ramdump.bin">Cosmicos</pulldown>
-        </guirom>
+        </rom>
     </memory>
     
     <video type="1864">

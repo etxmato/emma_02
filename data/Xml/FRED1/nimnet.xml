@@ -16,6 +16,11 @@
         <dirname>FRED1</dirname>
     </system>
 
+    <gui>
+        <auto>on</auto>
+        <turbo>off</turbo>
+    </gui>
+
     <splash>
         <text>Similar to Luckypath, uses cards with hex codes A1/A2, B1-B4, C1-C5,&#xD;D1-D5, E1-E4 and F1/F2. I think the cards were not marked and with luck&#xD;you had to create a path from the left 'dot' to the right 'dot' using&#xD;random cards.</text>
     </splash>
@@ -390,12 +395,12 @@
     </frontpanel>
 
     <memory>
-        <guiram mask="0x3ff">
+        <ram type="gui" mask="0x3ff">
             <start>0x0000</start>
             <end>0xFFFF</end>
             <pulldown mask="nimnet.bin">FRED1</pulldown>
             <filename>nimnet.bin</filename>
-        </guiram>
+        </ram>
     </memory>
     
     <keypad type="fred">

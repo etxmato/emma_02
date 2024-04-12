@@ -16,10 +16,14 @@
         <dirname>FRED1_5</dirname>
     </system>
 
-    <memaccess>
-        <location>on</location>
-        <start>0</start>
-    </memaccess>
+    <gui>
+        <memaccess>
+            <location>on</location>
+            <start>0</start>
+        </memaccess>
+        <auto>on</auto>
+        <turbo>off</turbo>
+    </gui>
 
     <iogroup>
         <out>1</out>
@@ -205,12 +209,12 @@
     </frontpanel>
 
     <memory>
-        <guiram mask="0xfff">
+        <ram type="gui" mask="0xfff">
             <start>0x0000</start>
             <end>0xFFFF</end>
             <pulldown mask="FEL-1*.bin">FRED1_5</pulldown>
             <filename>FEL-1.bin</filename>
-        </guiram>
+        </ram>
     </memory>
     
     <keypad type="fred">

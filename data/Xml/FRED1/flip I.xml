@@ -16,6 +16,11 @@
         <dirname>FRED1</dirname>
     </system>
 
+    <gui>
+        <auto>on</auto>
+        <turbo>off</turbo>
+    </gui>
+
     <splash>
         <text>Start game with card '0' (twice). The game uses two players, white and&#xD;black square. First player to get 8 squares of his type wins. Centre&#xD;square indicates which player gets the next turn. Use card 1, 2 or 3 to&#xD;flip squares. If no player wins by turn 50 the player with the most&#xD; squares wins.</text>
     </splash>
@@ -242,12 +247,12 @@
     </frontpanel>
 
     <memory>
-        <guiram mask="0x3ff">
+        <ram type="gui" mask="0x3ff">
             <start>0x0000</start>
             <end>0xFFFF</end>
             <pulldown mask="Flip I.bin">FRED1</pulldown>
             <filename>Flip I.bin</filename>
-        </guiram>
+        </ram>
     </memory>
     
     <keypad type="fred">

@@ -28,10 +28,10 @@
     </keypad>
 
     <memory>
-         <guiram>
+         <ram type="gui">
             <start>0x0000</start>
             <end>0xFFFF</end>
-        </guiram>
+        </ram>
     </memory>
     
     <debugger>

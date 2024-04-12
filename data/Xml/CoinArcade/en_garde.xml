@@ -22,12 +22,12 @@
     </splash>
 
     <memory>
-        <guirom>
+        <rom type="gui">
             <start>0</start>
             <end>0x7FF</end>
             <pulldown mask="*Garde*.arc">CoinArcade</pulldown>
             <filename>En Garde !!.arc</filename>
-        </guirom>
+        </rom>
 
         <ram mask="0x3ff">
             <start>0x800</start>

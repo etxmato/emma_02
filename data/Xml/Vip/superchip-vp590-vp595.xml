@@ -37,19 +37,19 @@
             <filename>vip.32.rom</filename>
         </rom>
 
-        <guiram>
+        <ram type="gui">
             <start>0x000</start>
             <end>0x07FF</end>
             <pulldown mask="super-chip*.*">Vip</pulldown>
             <filename>super-chip.bin</filename>
-        </guiram>
+        </ram>
 
-        <guiram>
+        <ram type="gui" cart="ch8">
             <start>0x0800</start>
             <end>0x7FFF</end>
             <pulldown mask="*.ch8">Chip-8/Super-Chip Games</pulldown>
             <filename>Blinky (by Hans Christian Egeberg)(1991).sc8</filename>
-        </guiram>
+        </ram>
     </memory>
     
     <video type="cdp1861">

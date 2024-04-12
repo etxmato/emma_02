@@ -48,12 +48,12 @@
     </frontpanel>
 
     <memory>
-        <guirom mask="0xffff">
+        <rom type="gui" mask="0xffff">
             <start>0x8000</start>
             <end>0xFFFF</end>
             <pulldown mask="Elf2Kv*.*">Elf2K</pulldown>
             <filename verify="true">Elf2Kv112.bin</filename>
-        </guirom>
+        </rom>
 
         <nvram type="gui">
             <start>0x0000</start>

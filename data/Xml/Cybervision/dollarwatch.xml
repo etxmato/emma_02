@@ -15,18 +15,23 @@
         <dirname>Cybervision</dirname>
     </system>
 
-     <memory>
-         <guirom>
+    <gui>
+        <auto>on</auto>
+        <turbo>off</turbo>
+    </gui>
+
+    <memory>
+         <rom type="gui">
              <start>0x8000</start>
              <end>0x83ff</end>
              <pulldown mask="cybervision*.bin">Cybervision</pulldown>
              <filename verify="true">cybervision2001.bin</filename>
-         </guirom>
+         </rom>
 
-         <guiram>
+         <ram type="gui">
             <start>0</start>
             <end>0xFFF</end>
-        </guiram>
+        </ram>
     </memory>
     
     <bootstrap>

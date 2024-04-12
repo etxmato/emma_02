@@ -31,17 +31,17 @@
     </bootstrap>
 
     <memory>
-        <guirom>
+        <rom type="gui">
             <start>0x8000</start>
             <end>0x81FF</end>
             <pulldown mask="vip*.*">Vip</pulldown>
             <filename>vip.rom</filename>
-        </guirom>
+        </rom>
 
-        <guiram mask="0xfff">
+        <ram type="gui" mask="0xfff">
             <start>0x000</start>
             <end>0x7FFF</end>
-        </guiram>
+        </ram>
     </memory>
     
     <video type="pixie">

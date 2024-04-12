@@ -16,6 +16,11 @@
         <dirname>FRED1</dirname>
     </system>
 
+    <gui>
+        <auto>on</auto>
+        <turbo>off</turbo>
+    </gui>
+
     <splash>
         <text>Demo that loads data from tape and displays that data on the screen. The&#xD;data is included in the file Animate Demo Data.wav (if not available it&#xD;will be downloaded). The same data is also included in binary form in the&#xD;'Animate demo data.bin' file but that one is not loadable as such in &#xD;Emma 02.</text>
     </splash>
@@ -204,12 +209,12 @@
     </frontpanel>
 
     <memory>
-        <guiram mask="0x3ff">
+        <ram type="gui" mask="0x3ff">
             <start>0x0000</start>
             <end>0xFFFF</end>
             <pulldown mask="Animate Demo.bin">FRED1</pulldown>
             <filename>Animate Demo.bin</filename>
-        </guiram>
+        </ram>
     </memory>
     
     <keypad type="fred">

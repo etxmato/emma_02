@@ -21,12 +21,12 @@
     </splash>
 
     <memory>
-        <guiram>
+        <ram type="gui">
             <start>0x0000</start>
             <end>0xDFFF</end>
             <pulldown mask="superbasic.3*.*">Elf</pulldown>
             <filename verify="true">superbasic.3.0.bin</filename>
-        </guiram>
+        </ram>
     </memory>
     
     <video type="mc6845">

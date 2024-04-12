@@ -29,19 +29,19 @@
 
     <memory>
         <!-- CDP18S600, 8K RAM @0000, @2000, @4000, @6000, socket 1 disabled -->
-        <guirom>
+        <rom type="gui">
             <start>0x0000</start>
             <end>0x1FFF</end>
             <pulldown mask="comx*.bin">Microboard</pulldown>
             <filename verify="true">comx35_PAL_part1.bin</filename>
-        </guirom>
+        </rom>
         
-        <guirom>
+        <rom type="gui">
             <start>0x2000</start>
             <end>0x3FFF</end>
             <pulldown mask="comx*.bin">Microboard</pulldown>
             <filename verify="true">comx35_part2.bin</filename>
-        </guirom>
+        </rom>
         
         <ram>
             <start>0x4000</start>

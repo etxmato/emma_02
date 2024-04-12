@@ -16,13 +16,19 @@
     </system>
     
     <memory> 
-        <guiram mask="0xFF">
-            <start>0</start>
+        <ram type="gui" mask="0xFF">
+            <start>0x50</start>
             <end>0xFFFF</end>
             <pulldown mask="*.hex" exclude="Music Machine">Elf/Music</pulldown>
             <filename>O Christmas Tree.hex</filename>
+        </ram>
+
+        <ram type="gui" mask="0xFF">
+            <start>0</start>
+            <end>0xFFFF</end>
+            <pulldown mask="Music Machine*.hex">Elf/Music</pulldown>
             <filename>Music Machine.hex</filename>
-        </guiram>
+        </ram>
     </memory>
     
     <sound type="q">

@@ -453,7 +453,7 @@
     <memory mask="0xffff">
         <!--
         <rom mask="0xZZZZ">: definition of a rom segment, mutliple definitions are supported
-        <mainram mask="0xZZZZ">: definition of the main ram segment, if a filename is specified it will be shown on the GUI. Only one definition is supported. For additional segments use <ram>
+        <ram type="gui" mask="0xZZZZ">: definition of the main ram segment, if a filename is specified it will be shown on the GUI. Only one definition is supported. For additional segments use <ram>
         <ram mask="0xZZZZ">: definition of a ram segment, mutliple definitions are supported
         <copy start="0xXXXX" end="0xYYYY">: copy or duplicate part of memory from XXXX-YYYY to specified  memory location
         <mampart start="0xXXXX" end="0xYYYY">: define memory from XXXX-YYYY as RAM; allowing any start/end address location - other ROM/RAM options are always one page length.
@@ -489,10 +489,10 @@
             <filename verify="true">bios.1.0.4.rom</filename>
         </rom>
 
-        <mainram mask="0x3fff">
+        <ram type="gui" mask="0x3fff">
             <start>0x0000</start>
             <end>0x3FFF</end>
-        </mainram>
+        </ram>
 
         <ram mask="0x3fff">
             <start>0x4000</start>

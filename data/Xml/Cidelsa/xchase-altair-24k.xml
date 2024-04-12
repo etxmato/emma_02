@@ -17,12 +17,12 @@
     </system>
 
      <memory>
-         <guirom>
+         <rom type="gui">
              <start>0</start>
              <end>0x5FFF</end>
              <pulldown mask="*altair_24*.*">Cidelsa</pulldown>
              <filename verify="true">Xchase_altair_24K.hex</filename>
-         </guirom>
+         </rom>
 
          <ram>
              <start>0x6000</start>

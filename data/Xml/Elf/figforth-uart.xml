@@ -15,12 +15,12 @@
     </system>
     
     <memory>
-        <guiram>
+        <ram type="gui">
             <start>0x0000</start>
             <end>0xFFFF</end>
             <pulldown mask="fig*.*">Elf</pulldown>
             <filename verify="true">fig.forth.1802.hex</filename>
-        </guiram>
+        </ram>
 
     </memory>
         

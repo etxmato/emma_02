@@ -7,6 +7,7 @@
         <name>Telmac 2000</name>
         <config>Bare</config>
         <clock>1.75</clock>
+        <f12>stop</f12>
         <boot>0</boot>
         <init type="ef1">1</init>
         <init type="ef2">1</init>
@@ -14,6 +15,10 @@
         <init type="ef4">1</init>
         <dirname>TMC2000</dirname>
     </system>
+    
+    <splash>
+        <text>To start the Telmac 2000 Operating System:&#xD;While keeping ‘C’ pressed, press ‘F12’ twice</text>
+    </splash>
     
     <memaccess>
         <location>on</location>
@@ -26,17 +31,17 @@
     </bootstrap>
 
     <memory>
-        <guirom mask="0x1ff">
+        <rom type="gui" mask="0x1ff">
             <start>0x8000</start>
             <end>0xFFFF</end>
             <pulldown mask="telmac2000*.*">TMC2000</pulldown>
             <filename>telmac2000.rom</filename>
-        </guirom>
+        </rom>
 
-        <guiram mask="0xfff">
+        <ram type="gui" mask="0xfff">
             <start>0x000</start>
             <end>0x7FFF</end>
-        </guiram>
+        </ram>
     </memory>
     
     <video type="1864">

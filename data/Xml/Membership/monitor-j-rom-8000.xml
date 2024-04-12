@@ -22,12 +22,12 @@
     </frontpanel>
 
     <memory>
-        <guirom>
+        <rom type="gui">
             <start>0x8000</start>
             <end>0xFFFF</end>
             <pulldown mask="MCSMP*.bin">Membership</pulldown>
             <filename verify="true">MCSMP20J.bin</filename>
-        </guirom>
+        </rom>
 
         <nvram type="gui">
             <start>0</start>

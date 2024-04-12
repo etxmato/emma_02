@@ -20,22 +20,22 @@
     </batchwav>
     
     <memory>
-        <guirom>
+        <rom type="gui">
             <start>0</start>
             <end>0x3FFF</end>
             <pulldown mask="comx35*.bin">Comx</pulldown>
             <filename verify="true">comx35.1.3.bin</filename>
-        </guirom>
+        </rom>
         
         <ram>
            <start>0x4000</start>
            <end>0x43FF</end>
         </ram>
 
-        <guiram>
+        <ram type="gui">
            <start>0x4400</start>
            <end>0xBFFF</end>
-        </guiram>
+        </ram>
     </memory>
   
     <video type="1870">

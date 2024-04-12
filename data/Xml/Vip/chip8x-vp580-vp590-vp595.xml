@@ -37,19 +37,19 @@
             <filename>vip.32.rom</filename>
         </rom>
 
-        <guiram>
+        <ram type="gui">
             <start>0x000</start>
             <end>0x02FF</end>
             <pulldown mask="chip8x*.*">Vip</pulldown>
             <filename>chip8x.ram</filename>
-        </guiram>
+        </ram>
 
-        <guiram>
+        <ram type="gui" cart="ch8">
             <start>0x0300</start>
             <end>0x7FFF</end>
             <pulldown mask="*.c8x">Chip-8/Chip-8X</pulldown>
             <filename>bombs_away_color.c8x</filename>
-        </guiram>
+        </ram>
     </memory>
     
     <video type="pixie">

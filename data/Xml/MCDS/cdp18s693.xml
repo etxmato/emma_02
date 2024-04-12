@@ -38,18 +38,18 @@
 
     <memory>
         <!-- CDP18S601, 4K RAM @0000, 4*1K ROM not used -->
-        <guiram>
+        <ram type="gui">
             <start>0x0000</start>
             <end>0x0FFF</end>
-        </guiram>
+        </ram>
 
         <!-- CDP18S652, 2K ROM @8000, 8K ROM @9000, 8K ROM @B000, 4K ROM @E000 (not used), 1K RAM @8C00 -->
-        <guirom>
+        <rom type="gui">
             <start>0x8000</start>
             <end>0x87FF</end>
             <pulldown mask="ut*.bin" exclude="part">Microboard</pulldown>
             <filename verify="true">ut62_rev2.bin</filename>
-        </guirom>
+        </rom>
         
         <rom>
             <start>0x9000</start>

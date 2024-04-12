@@ -21,10 +21,10 @@
     </frontpanel>
 
      <memory>
-        <guiram mask="0xFF">
+        <ram type="gui" mask="0xFF">
             <start>0x0000</start>
             <end>0xFFFF</end>
-        </guiram>
+        </ram>
     </memory>
     
     <debugger>

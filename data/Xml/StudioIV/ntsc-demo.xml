@@ -16,17 +16,17 @@
     </system>
     
     <memory>
-        <guirom>
+        <rom type="gui">
             <start>0</start>
             <end>0x7FF</end>
             <pulldown mask="Studio IV V3 NTSC*.*">StudioIV</pulldown>
             <filename>Studio IV V3 NTSC.bin</filename>
-        </guirom>
+        </rom>
 
-        <guirom>
+        <rom type="gui">
             <start>0x800</start>
             <end>0xFFF</end>
-        </guirom>
+        </rom>
 
         <ram>
             <start>0x1800</start>

@@ -21,21 +21,21 @@
     </splash>
 
     <memory>
-        <guiram>
+        <ram type="gui">
             <start>0x0000</start>
             <end>0xEFFF</end>
-            <pulldown mask="tiny*.*">Elf/TinyBasic</pulldown>
+            <pulldown mask="tiny*.*">Elf</pulldown>
             <filename>netronic.tinyBasic.hex</filename>
-        </guiram>
+        </ram>
 
         <giant />
 
-        <guirom>
+        <rom type="gui">
             <start>0xF000</start>
             <end>0xF0FF</end>
             <pulldown mask="giantboard*.*">Elf</pulldown>
             <filename>giantboard.hex</filename>
-        </guirom>
+        </rom>
         
     </memory>
     

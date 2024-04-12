@@ -16,12 +16,12 @@
     </system>
     
     <memory>
-        <guirom>
+        <rom type="gui">
             <start>0xf100</start>
             <end>0xFFFF</end>
             <pulldown mask="bios+*.*">Elf</pulldown>
             <filename verify="true">bios+biosiov93.rom</filename>
-        </guirom>
+        </rom>
 
         <guiram>
             <start>0x0000</start>

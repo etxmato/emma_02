@@ -22,12 +22,12 @@
     </frontpanel>
 
     <memory>
-        <guiram>
+        <ram type="gui">
             <start>0x0000</start>
             <end>0xFEFF</end>
             <pulldown mask="superbasic.5*.*">Elf</pulldown>
             <filename verify="true">superbasic.5.0_serial.bin</filename>
-        </guiram>
+        </ram>
     </memory>
     
     <vt type="vt100" connection="serial">

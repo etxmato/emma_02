@@ -73,7 +73,7 @@
         <array>0x4294</array>
         <eod>0x4299</eod>
         <ram>0x4400</ram>
-    </basic>
+    </basic> 
 
     <memory>
          <rom>
@@ -102,11 +102,11 @@
             <end>0x43FF</end>
          </ram>
 
-         <guiram>
+         <ram type="gui">
             <start>0x4400</start>
             <end>0xBFFF</end>
-         </guiram>
-
+         </ram>
+  
          <nvram>
             <start>0xF000</start>
             <end>0xF3F7</end>

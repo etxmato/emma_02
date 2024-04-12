@@ -16,12 +16,12 @@
     </system>
     
     <memory>
-        <guiram>
+        <ram type="gui">
             <start>0</start>
             <end>0xFFFF</end>
             <pulldown mask="*.bin">Elf/Games</pulldown>
             <filename>elfinvad.bin</filename>
-        </guiram>
+        </ram>
     </memory>
     
     <video type="pixie">

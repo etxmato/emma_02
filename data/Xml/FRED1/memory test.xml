@@ -16,6 +16,11 @@
         <dirname>FRED1</dirname>
     </system>
 
+    <gui>
+        <auto>on</auto>
+        <turbo>off</turbo>
+    </gui>
+
     <splash>
         <text>Press a digit between 00 and 80 and after that a second byte. The second&#xD;byte will be stored in memory 01xx where xx is the first byte. Also a&#xD;'binary' representation is shown on the screen. The screen has 128&#xD;positions reserved for the 128 memory locations.</text>
     </splash>
@@ -205,12 +210,12 @@
     </frontpanel>
 
     <memory>
-        <guiram mask="0x3ff">
+        <ram type="gui" mask="0x3ff">
             <start>0x0000</start>
             <end>0xFFFF</end>
             <pulldown mask="Memory Test.bin">FRED1</pulldown>
             <filename>Memory Test.bin</filename>
-        </guiram>
+        </ram>
     </memory>
     
     <keypad type="fred">

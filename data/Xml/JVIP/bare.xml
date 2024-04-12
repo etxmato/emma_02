@@ -40,17 +40,17 @@ Press one of following keys on Pixie Screen while starting (F12 or RUN&#xD;switc
     </bootstrap>
 
     <memory>
-        <guirom mask="0xffff">
+        <rom type="gui" mask="0xffff">
             <start>0x8000</start>
             <end>0xAFFF</end>
             <pulldown mask="jvip*.bin">Velf</pulldown>
             <filename verify="true">jvip310x.bin</filename>
-        </guirom>
+        </rom>
 
-        <guiram>
+        <ram type="gui">
             <start>0x0000</start>
             <end>0x7FFF</end>
-        </guiram>
+        </ram>
     </memory>
     
     <vt type="vt100" connection="serial">

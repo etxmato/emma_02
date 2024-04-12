@@ -26,19 +26,19 @@
     </frontpanel>
 
      <memory>
-        <guiram mask="0xFF">
+        <ram type="gui" mask="0xFF">
             <start>0x0000</start>
             <end>0x7FFF</end>
             <pulldown mask="*.bin" exclude="TOPS">MicrotutorII</pulldown>
             <filename verify="true">IN Count Program.bin</filename>
-        </guiram>
+        </ram>
 
-        <guiram mask="0xFF">
+        <ram type="gui" mask="0xFF">
             <start>0x8000</start>
             <end>0xFFFF</end> 
             <pulldown mask="TOPS*.bin">MicrotutorII</pulldown>
             <filename verify="true">TOPS.bin</filename>
-        </guiram>
+        </ram>
      </memory>
     
     <debugger>

@@ -26,17 +26,17 @@
     </cassette>
 
     <memory>
-        <guirom>
+        <rom type="gui">
             <start>0x8000</start>
             <end>0x81FF</end>
             <pulldown mask="ut4*.*">Elf</pulldown>
             <filename verify="true">ut4.hex</filename>
-        </guirom>
+        </rom>
 
-        <guiram>
+        <ram type="gui">
             <start>0</start>
             <end>0x7FFF</end>
-        </guiram>
+        </ram>
 
     </memory>
     

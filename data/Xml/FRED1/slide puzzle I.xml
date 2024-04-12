@@ -16,6 +16,11 @@
         <dirname>FRED1</dirname>
     </system>
 
+    <gui>
+        <auto>on</auto>
+        <turbo>off</turbo>
+    </gui>
+
     <splash>
         <text>Start game with card 0, followed by card 1, 2 or 3 to select the game&#xD;type. Move the squares with the card arrow cards. For type 2 and 3 try to&#xD;get a pattern of squares symmetrical about the centre row in a minimum&#xD;number of turns (10 for type 2). For type 1 you must swap the 'full' and&#xD;'empty' squares and keep the rest as they are at the start in no more&#xD;than 18 turns.</text>
     </splash>
@@ -277,12 +282,12 @@
     </frontpanel>
 
     <memory>
-        <guiram mask="0x3ff">
+        <ram type="gui" mask="0x3ff">
             <start>0x0000</start>
             <end>0xFFFF</end>
             <pulldown mask="Slide Puzzle I.bin">FRED1</pulldown>
             <filename>Slide Puzzle I.bin</filename>
-        </guiram>
+        </ram>
     </memory>
     
     <keypad type="fred">

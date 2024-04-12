@@ -19,23 +19,24 @@
     <splash>
         <text>To start the TMC1800 Operating System:&#xD;While keeping ‘C’ pressed, press ‘F12’ twice</text>
     </splash>
+    
     <bootstrap>
         <address>0x8000</address>
         <out>4</out>
     </bootstrap>
 
     <memory>
-        <guirom>
+        <rom type="gui">
             <start>0x8000</start>
             <end>0x81FF</end>
             <pulldown mask="telmac1800*.*">TMC1800</pulldown>
             <filename>telmac1800.rom</filename>
-        </guirom>
+        </rom>
 
-        <guiram>
+        <ram type="gui">
             <start>0x000</start>
             <end>0xFFF</end>
-        </guiram>
+        </ram>
     </memory>
     
     <video type="pixie">

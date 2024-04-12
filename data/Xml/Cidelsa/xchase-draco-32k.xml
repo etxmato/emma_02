@@ -17,12 +17,12 @@
     </system>
 
      <memory>
-         <guirom>
+         <rom type="gui">
              <start>0</start>
              <end>0x7FFF</end>
              <pulldown mask="*draco*.*" exclude="16">Cidelsa</pulldown>
              <filename verify="true">Xchase_draco_32K.hex</filename>
-         </guirom>
+         </rom>
 
          <ram>
             <start>0x8000</start>

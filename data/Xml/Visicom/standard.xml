@@ -16,18 +16,19 @@
     </system>
     
     <memory>
-        <rom>
+        <rom type="gui">
             <start>0</start>
             <end>0x3FF</end>
+            <pulldown mask="visicom*.rom">Visicom</pulldown>
             <filename>visicom.rom</filename>
         </rom>
 
-        <guirom>
+        <rom type="gui" cart="st2">
             <start>0x400</start>
             <end>0x7FF</end>
             <pulldown mask="*.st2">St2/Visicom-Cartridges</pulldown>
             <filename>cas-110-arithmetic_drill.st2</filename>
-        </guirom>
+        </rom>
 
         <rom>
             <start>0x800</start>

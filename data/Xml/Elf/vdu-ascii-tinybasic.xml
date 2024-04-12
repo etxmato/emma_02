@@ -17,17 +17,17 @@
     </system>
     
     <memory>
-        <guiram>
+        <ram type="gui">
             <start>0x0000</start>
             <end>0xDFFF</end>
             <pulldown mask="tinybasic*.*">Elf/VDU</pulldown>
             <filename verify="true">tinybasic_vdu.bin</filename>
-        </guiram>
+        </ram>
 
-        <guiram>
+        <ram type="gui">
             <start>0xE400</start>
             <end>0xFFFF</end>
-        </guiram>
+        </ram>
     </memory>
     
     <video type="mc6847">

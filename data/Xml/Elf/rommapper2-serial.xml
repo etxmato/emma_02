@@ -17,10 +17,10 @@
     </system>
     
     <memory>
-        <guiram>
+        <ram type="gui">
             <start>0x0000</start>
             <end>0x7FFF</end>
-        </guiram>
+        </ram>
 
         <ems type="ROM">
             <!--

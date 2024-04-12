@@ -16,19 +16,19 @@
     </system>
     
     <memory>
-        <guirom>
+        <rom type="gui">
             <start>0</start>
             <end>0x7FF</end>
             <pulldown mask="super-chip NTSC*.*">StudioIV</pulldown>
             <filename>super-chip NTSC.bin</filename>
-        </guirom>
+        </rom>
 
-        <guiram>
+        <ram type="gui" cart="ch8">
             <start>0x800</start>
             <end>0x27FF</end>
             <pulldown mask="*.ch8">Chip-8/Super-Chip Games</pulldown>
             <filename>Minesweeper (by AKouZ1)(2017).sc8</filename>
-        </guiram>
+        </ram>
     </memory>
     
     <video type="st4">

@@ -30,17 +30,17 @@
     </locations>
 
     <memory>
-        <guirom mask="0xffff">
+        <rom type="gui" mask="0xffff">
             <start>0x8000</start>
             <end>0xFFFF</end>
             <pulldown mask="runtime.*">Pico</pulldown>
             <filename verify="true">runtime_410.bin</filename>
-        </guirom>
+        </rom>
 
-        <guiram>
+        <ram type="gui">
             <start>0x0000</start>
             <end>0x7FFF</end>
-        </guiram>
+        </ram>
 
     </memory>
     

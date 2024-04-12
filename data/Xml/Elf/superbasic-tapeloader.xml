@@ -16,17 +16,17 @@
     </system>
     
     <memory>
-        <guiram>
+        <ram type="gui">
             <start>0x0000</start>
             <end>0xDFFF</end>
-        </guiram>
+        </ram>
 
-        <guiram>
+        <ram type="gui">
             <start>0xF000</start>
             <end>0xFFFF</end>
             <pulldown mask="quest.tape.*.*">Elf</pulldown>
             <filename verify="true">quest.tape.loader.hex</filename>
-        </guiram>
+        </ram>
     </memory>
     
     <video type="mc6845">

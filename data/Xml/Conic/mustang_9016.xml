@@ -16,14 +16,14 @@
     </system>
     
     <memory>
-        <guirom>
+        <rom type="gui">
             <start>0</start>
             <end>0x3ff</end>
             <pulldown mask="*conic_pal*.bin">Conic</pulldown>
             <filename>conic_pal.bin</filename>
-        </guirom>
+        </rom>
 
-        <guirom>
+        <rom type="gui">
             <start>0x400</start>
             <end>0x7FF</end>
             <pulldown mask="*.st2">St2/Conic_StudioIII-Cartridges</pulldown>
@@ -31,7 +31,7 @@
             <pulldown mask="*.st2">St2/Conic_StudioIII-Sarnoff-Collection</pulldown>
             <dirname>St2/Conic_StudioIII-Cartridges</dirname>
             <filename>concentration-match.st2</filename>
-        </guirom>
+        </rom>
 
         <rom>
             <start>0xc00</start>

@@ -29,12 +29,12 @@
     </locations>
 
     <memory>
-        <guirom mask="0xffff">
+        <rom type="gui" mask="0xffff">
             <start>0x8000</start>
             <end>0xFFFF</end>
             <pulldown mask="pico_diskless*.*">Pico</pulldown>
             <filename verify="true">pico_diskless.bin</filename>
-        </guirom>
+        </rom>
 
         <guiram>
             <start>0x0000</start>

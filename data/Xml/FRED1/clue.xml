@@ -16,6 +16,11 @@
         <dirname>FRED1</dirname>
     </system>
 
+    <gui>
+        <auto>on</auto>
+        <turbo>off</turbo>
+    </gui>
+
     <splash>
         <text>This game uses spoken text and tones recorded on the original tape and&#xD;included in Clue.wav (if not available it will be downloaded).</text>
     </splash>
@@ -275,12 +280,12 @@
     </frontpanel>
 
     <memory>
-        <guiram mask="0x3ff">
+        <ram type="gui" mask="0x3ff">
             <start>0x0000</start>
             <end>0xFFFF</end>
             <pulldown mask="Clue.bin">FRED1</pulldown>
             <filename>Clue.bin</filename>
-        </guiram>
+        </ram>
     </memory>
     
     <keypad type="fred">

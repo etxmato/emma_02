@@ -34,12 +34,12 @@
 
     <memory>
         <!-- CDP18S640, 2K ROM @8000, 1K RAM @8C00 -->
-        <guirom>
+        <rom type="gui">
             <start>0x8000</start>
             <end>0x87FF</end>
             <pulldown mask="ut*.bin" exclude="_">Microboard</pulldown>
             <filename verify="true">ut71.bin</filename>
-        </guirom>
+        </rom>
         
         <ram>
             <start>0x8C00</start>
@@ -47,10 +47,10 @@
         </ram>
         
         <!-- CDP18S600, 8K RAM @0000, @2000, @4000, @6000, @A000 -->
-        <guiram>
+        <ram type="gui">
             <start>0x0000</start>
             <end>0x1FFF</end>
-        </guiram>
+        </ram>
         
         <ram>
             <start>0x2000</start>

@@ -40,17 +40,17 @@
     </bootstrap>
 
     <memory>
-        <guirom mask="0xffff">
+        <rom type="gui" mask="0xffff">
             <start>0x8000</start>
             <end>0x8FFF</end>
             <pulldown mask="VELFbios*.*">Velf</pulldown>
             <filename verify="true">VELFbios-v3.1.bin</filename>
-        </guirom>
+        </rom>
 
-        <guiram>
+        <ram type="gui">
             <start>0x0000</start>
             <end>0x7FFF</end>
-        </guiram>
+        </ram>
     </memory>
     
     <vt type="vt100" connection="serial">

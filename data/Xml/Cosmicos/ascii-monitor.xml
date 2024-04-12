@@ -33,23 +33,23 @@
     </keypad>
 
      <memory>
-         <nvram default="off">
+         <nvram default="off" type="gui">
             <start>0x0000</start>
             <end>0x00FF</end>
             <dump>ramdump.bin</dump>
          </nvram>
 
-         <guiram>
+         <ram>
             <start>0x0100</start>
             <end>0xBFFF</end>
-         </guiram>
+         </ram>
          
-         <guirom>
+         <rom type="gui">
              <start>0xC000</start>
              <end>0xC7FF</end>
              <filename>ascii.monitor.bin</filename>
              <pulldown mask="ascii*.bin">Cosmicos</pulldown>
-         </guirom>
+         </rom>
      </memory>
  
      <cassette decks="1">

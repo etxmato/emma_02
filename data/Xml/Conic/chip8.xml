@@ -16,20 +16,20 @@
     </system>
     
     <memory>
-        <guirom>
+        <rom type="gui">
             <start>0</start>
             <end>0x2FF</end>
             <pulldown mask="*chip8*.bin">Conic</pulldown>
             <filename>chip8.bin</filename>
-        </guirom>
+        </rom>
 
-        <guirom>
+        <rom type="gui">
             <start>0x300</start>
             <end>0x7FF</end>
             <pulldown mask="*.ch8">Chip-8/Chip-8 Games</pulldown>
             <filename>Space Invaders [David Winter].ch8</filename>
             <load_offset address="0x800">0x400</load_offset>
-        </guirom>
+        </rom>
 
         <rom>
             <start>0xC00</start>

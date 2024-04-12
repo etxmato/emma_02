@@ -16,6 +16,11 @@
         <dirname>FRED1</dirname>
     </system>
 
+    <gui>
+        <auto>on</auto>
+        <turbo>off</turbo>
+    </gui>
+
     <splash>
         <text>Two players, X and O. 5 Frames, 2 balls/frame. Enter any number to roll&#xD;ball. F1, F2 etc. indicates frame number. X1, X2, O1, O2 indicates player&#xD;and ball number. New game = reset/run.</text>
     </splash>
@@ -204,12 +209,12 @@
     </frontpanel>
 
     <memory>
-        <guiram mask="0x3ff">
+        <ram type="gui" mask="0x3ff">
             <start>0x0000</start>
             <end>0xFFFF</end>
             <pulldown mask="Bowling.bin">FRED1</pulldown>
             <filename>Bowling.bin</filename>
-        </guiram>
+        </ram>
     </memory>
     
     <keypad type="fred">

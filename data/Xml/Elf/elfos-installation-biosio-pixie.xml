@@ -16,12 +16,12 @@
     </system>
     
     <memory>
-        <guirom>
+        <rom type="gui">
             <start>0x8000</start>
             <end>0xFFFF</end>
             <pulldown mask="biosio*.*">Elf</pulldown>
             <filename verify="true">biosio.elfos.0.2.5.rom</filename>
-        </guirom>
+        </rom>
 
         <guiram>
             <start>0x0000</start>
