@@ -9307,7 +9307,7 @@ void XmlParser::parseXml_Memory(int computer, wxXmlNode &node)
         TAG_UNDEFINED
     };
     
-    int tagTypeInt, romRamButton;
+    int tagTypeInt;
     size_t configNumber;
 
     wxXmlNode *child = node.GetChildren();
