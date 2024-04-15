@@ -290,7 +290,7 @@ void GuiXml::writeXmlDirConfig()
 
 void GuiXml::writeXmlConfig()
 {
-    wxString buffer, number, type;
+    wxString buffer, numberStr, type;
 
     configPointer->Write("Xmlemu/XmlDirComboSelection", xmlDirComboSelection);
     configPointer->Write("Xmlemu/XmlDirComboString", xmlDirComboString);
@@ -320,16 +320,16 @@ void GuiXml::writeXmlConfig()
     configPointer->Write("/Xmlemu/Xmodem_File", conf[XML].xmodemFile_);
     for (int tape=0; tape<2; tape++)
     {
-        number.Printf("%d", tape);
-        configPointer->Write("/Xmlemu/Wav_File" + number, conf[XML].wavFile_[tape]);
+        numberStr.Printf("%d", tape);
+        configPointer->Write("/Xmlemu/Wav_File" + numberStr, conf[XML].wavFile_[tape]);
     }
     for (int fdcType = 0; fdcType<FDCTYPE_MAX; fdcType++)
     {
         type.Printf("%d", fdcType);
         for (int disk=0; disk<4; disk++)
         {
-            number.Printf("%d", disk);
-            configPointer->Write("/Xmlemu/FDC" + number + "_File_" + type, floppy_[fdcType][disk]);
+            numberStr.Printf("%d", disk);
+            configPointer->Write("/Xmlemu/FDC" + numberStr + "_File_" + type, floppy_[fdcType][disk]);
         }
     }
 
@@ -920,7 +920,7 @@ void GuiXml::setXmlDirDropDown()
     if (mode_.gui)
         XRCCTRL(*this, "MainDirXml", wxChoice)->Clear();
 
-    wxString dirName;
+    wxString dirName, dummyFile;
     dirNameList_.Clear();
     dirNameListDefaultFile_.Clear();
     dirNameListGui_.Clear();
@@ -928,13 +928,13 @@ void GuiXml::setXmlDirDropDown()
     wxDir *dir;
     dir = new wxDir (conf[XML].xmlMainDir_);
     
-    bool dirFound = dir->GetFirst(&dirName,  wxEmptyString, wxDIR_DIRS);
+    bool dirFound = dir->GetFirst(&dirName, wxEmptyString, wxDIR_DIRS);
     while (dirFound)
     {
         size_t number=0;
         while (defaultComputerList_[number] != "" && defaultComputerList_[number] != dirName)
             number += 3;
-
+        
         if (defaultComputerList_[number] != "")
             dirNameListGui_.Add(configPointer->Read("Xmlemu/XmlGui/"+dirName, defaultComputerList_[number+1]));
         else

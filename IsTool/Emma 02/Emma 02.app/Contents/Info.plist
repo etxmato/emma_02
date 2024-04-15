@@ -9,7 +9,7 @@
 	<key>CFBundleExecutable</key>
 	<string>Emma 02</string>
 	<key>CFBundleGetInfoString</key>
-	<string>Emma 02 version 1.47, (c) 2007-2023 Marcel van Tongeren</string>
+	<string>Emma 02 version 1.47, (c) 2007-2024 Marcel van Tongeren</string>
 	<key>CFBundleIconFile</key>
 	<string>images/app.icns</string>
 	<key>CFBundleIdentifier</key>
@@ -24,11 +24,11 @@
 		<string>it</string>
 	</array>
 	<key>CFBundleLongVersionString</key>
-	<string>1.47, (c) 2007-2023 Marcel van Tongeren</string>
+	<string>1.48, (c) 2007-2024 Marcel van Tongeren</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.47</string>
+	<string>1.48</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleSupportedPlatforms</key>
@@ -56,7 +56,7 @@
 	<key>LSMinimumSystemVersion</key>
 	<string>12.0</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright 2007-2023 Marcel van Tongeren</string>
+	<string>Copyright 2007-2024 Marcel van Tongeren</string>
 	<key>NSPrincipalClass</key>
 	<string>wxNSApplication</string>
 </dict>

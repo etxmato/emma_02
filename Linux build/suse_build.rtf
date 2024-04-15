@@ -1,14 +1,21 @@
-{\rtf1\ansi\ansicpg1252\cocoartf2638
+{\rtf1\ansi\ansicpg1252\cocoartf2761
 \cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 {\*\expandedcolortbl;;}
-\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\paperw11900\paperh16840\margl1440\margr1440\vieww13700\viewh10140\viewkind0
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
 \f0\fs24 \cf0 To build feeder rpm, in linux build folder:\
 /media/psf/Home/workspace/emma_02/Linux\\ build/rpm_emma\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+Fedora: \
+/run/user/1000/gvfs/sftp\\:host\\=marcels-mac-pro.local/Users/etxmato/workspace/emma_02/Linux\\ build/rpm_emma_fedora\
+/usr/bin/rpmbuild -bb \'97buildroot \'93run/user/1000/gvfs/sftp:host=marcels-mac-pro.local/Users/etxmato/workspace/emma_02/Linux\\ build/linux-5.18-aarch64/buildroot\'94\'97target aarch64 linux-5.18-aarch64/emma02_fedora.spec\
 \
-To install\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 To install\
 - connect to internet\
 - copy rpm file to Documents\
 - In Documents: sudo dnf install emma02-1.4x\'85\

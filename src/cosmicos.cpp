@@ -631,7 +631,7 @@ void Cosmicos::configureComputer()
         inType_[0][0][6] = COSMICOS7SEG;
         outType_[0][0][5] = COSMICOSHEX;
         outType_[0][0][6] = COSMICOS7SEG;
-        cycleType_[5] = COSMICOS7SEG;
+        cycleType_[SEG_CYCLE] = COSMICOS7SEG;
         p_Main->message("	Output 5: select hex row, input 5: hex column");
         p_Main->message("	Output 6: 7 segment display, input 6: reset 7 segment");
         p_Main->message("	EF 1: hex RET, EF2: hex DEC/SEQ, EF3: hex REQ/SEQ");

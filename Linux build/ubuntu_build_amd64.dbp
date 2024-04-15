@@ -195,16 +195,16 @@ fi
 <</SCRIPTS>>
 <<CHANGELOG>>
 <<DEST>>DEFAULT<</DEST>>
-emma-02 (1.47.14) xenial; urgency=medium
+emma-02 (1.48) xenial; urgency=medium
 
   * See http://www.emma02.hobby-site.com
 
- -- Marcel van Tongeren <marcel.v.tongeren@gmail.com>, 3 Jun 2023 22:58:12 +0200
+ -- Marcel van Tongeren <marcel.v.tongeren@gmail.com>, 14 Apr 2024 19:41:35 +0200
 
 <</CHANGELOG>>
 <<COPYRIGHT>>
 Emma 02 Emulator 
-Copyright (C) 2007-2023 Marcel van Tongeren, core based on RCS Elf Emulator copyright (C) 2006 by Michael H Riley
+Copyright (C) 2007-2024 Marcel van Tongeren, core based on RCS Elf Emulator copyright (C) 2006 by Michael H Riley
 
 ElfOS BIOS, Edt/Asm, Rc/Forth, Rc/Lisp and Rc/Basic
 Copyright (C) 2004 by Michael H Riley

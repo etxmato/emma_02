@@ -3836,7 +3836,7 @@ void Main::onReInstallData(wxCommandEvent&WXUNUSED(event))
    {
       reInstall(applicationDirectory_ + "data" + pathSeparator_, dataDir_, pathSeparator_);
 
-      if (wxFile::Exists(dataDir_ + "Xml" + pathSeparator_+ "CosmacElf" + pathSeparator_+ "cosmac-elf,bare.xml"))
+      if (wxFile::Exists(dataDir_ + "Xml" + pathSeparator_+ "CosmacElf" + pathSeparator_+ "cosmac-elf,bare.xml") || wxFile::Exists(dataDir_ + "Xml" + pathSeparator_+ "Cosmac Elf" + pathSeparator_+ "cosmac-elf,bare.xml") )
       {
          answer = wxMessageBox("Old XML files detected: \n\nCleanup of Xml folder recommended\n\nThis will remove older .xml files in:\n"+dataDir_+"Xml\n\nContinue cleanup of Xml folder?", "Emma 02",  wxICON_EXCLAMATION | wxYES_NO);
          if (answer == wxYES)
@@ -3949,6 +3949,8 @@ void Main::removeOldXml(wxString dirName, wxString pathSep)
       "comx",
       "CosmacElf",
       "cosmac-elf",
+      "Cosmac Elf",
+      "cosmac-elf",
       "CosmacGameSystem",
       "cosmacgame",
       "Cosmicos",
@@ -4011,8 +4013,6 @@ void Main::removeOldXml(wxString dirName, wxString pathSep)
       "uc1800",
       "Velf",
       "velf",
-      "Victory",
-      "victory",
       "Vip",
       "vip",
       "Vip2K",
@@ -4021,6 +4021,7 @@ void Main::removeOldXml(wxString dirName, wxString pathSep)
       "vipii",
       "Visicom",
       "visicom",
+      "",
       "",
    };
    
@@ -4032,12 +4033,60 @@ void Main::removeOldXml(wxString dirName, wxString pathSep)
       "pecom,64.v1.xml",
       "Pecom",
       "pecom,64.v4.xml",
+      "Pecom",
+      ".DS_Store",
+      "Cosmac Elf",
+      "cosmac-elf,bare.xml",
+      "Cosmac Elf",
+      "cosmac-elf,led,keypad.xml",
+      "Cosmac Elf",
+      ".DS_Store",
+      "Pico Elf V2",
+      "pico,elfos0.3.2-serial.xml",
+      "Pico Elf V2",
+      "pico,elfos0.3.2-uart.xml",
+      "Pico Elf V2",
+      "pico,elfos-diskless.xml",
+      "Pico Elf V2",
+      "pico,elfos-serial.xml",
+      "Pico Elf V2",
+      "pico,elfos-uart.xml",
+      "Pico Elf V2",
+      ".DS_Store",
+      "Quest Super Elf",
+      "quest-super-elf,bare.xml",
+      "Quest Super Elf",
+      ".DS_Store",
+      "Microtutor II",
+      "microtutor2-bare.xml",
+      "Microtutor II",
+      "microtutor2-tops.xml",
+      "Microtutor II",
+      ".DS_Store",
+      "Netronics Elf II",
+      "netronics-elf,bare.xml",
+      "Netronics Elf II",
+      ".DS_Store",
+      "TMC-600",
+      "tmc-600,bare.xml",
+      "TMC-600",
+      "tmc-600,exp-151182.xml",
+      "TMC-600",
+      ".DS_Store",
+      "",
       "",
    };
 
    wxString dirDeleteList[]=
    {
       "Pecom",
+      "Cosmac Elf",
+      "Pico Elf V2",
+      "Quest Super Elf",
+      "Microtutor II",
+      "Netronics Elf II",
+      "TMC-600",
+      "",
       "",
    };
 
@@ -4082,15 +4131,15 @@ void Main::removeOldXml(wxString dirName, wxString pathSep)
    }
 
    number=0;
+   wxString dummyFile;
    while (dirDeleteList[number] != "")
    {
-      dir.Open(dirName + fileDeleteList[number]);
+      dir.Open(dirName + dirDeleteList[number]);
 
-      if (wxDir::Exists(dirName + fileDeleteList[number]) && !dir.HasFiles() && !dir.HasSubDirs())
-          wxDir::Remove(dirName + fileDeleteList[number]);
+      if (wxDir::Exists(dirName + dirDeleteList[number]) && !dir.HasFiles() && !dir.HasSubDirs())
+          wxDir::Remove(dirName + dirDeleteList[number]);
       number ++;
    }
-
 }
 
 void Main::reInstallOnNotFound(int computerType, wxString fileTypeString)

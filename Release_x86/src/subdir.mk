@@ -9,6 +9,7 @@ CPP_SRCS += \
 ../src/about.cpp \
 ../src/bitkeypad.cpp \
 ../src/breakpoints.cpp \
+../src/cd4536b.cpp \
 ../src/cdp1802.cpp \
 ../src/cdp1852.cpp \
 ../src/cdp18s020.cpp \
@@ -82,6 +83,7 @@ CPP_SRCS += \
 ../src/keymap.cpp \
 ../src/keymaptmc.cpp \
 ../src/keypad.cpp \
+../src/keypadfred.cpp \
 ../src/led.cpp \
 ../src/ledmodule.cpp \
 ../src/mac.cpp \
@@ -116,8 +118,7 @@ CPP_SRCS += \
 ../src/studio2.cpp \
 ../src/studioiv.cpp \
 ../src/super.cpp \
-../src/til311.cpp \
-../src/til313.cpp \
+../src/til.cpp \
 ../src/til313.full.cpp \
 ../src/tmc1800.cpp \
 ../src/tmc2000.cpp \
@@ -163,6 +164,7 @@ OBJS += \
 ./src/audioin_windib.o \
 ./src/bitkeypad.o \
 ./src/breakpoints.o \
+./src/cd4536b.o \
 ./src/cdp1802.o \
 ./src/cdp1852.o \
 ./src/cdp18s020.o \
@@ -236,6 +238,7 @@ OBJS += \
 ./src/keymap.o \
 ./src/keymaptmc.o \
 ./src/keypad.o \
+./src/keypadfred.o \
 ./src/led.o \
 ./src/ledmodule.o \
 ./src/mac.o \
@@ -270,8 +273,7 @@ OBJS += \
 ./src/studio2.o \
 ./src/studioiv.o \
 ./src/super.o \
-./src/til311.o \
-./src/til313.o \
+./src/til.o \
 ./src/til313.full.o \
 ./src/tmc1800.o \
 ./src/tmc2000.o \
@@ -310,6 +312,7 @@ CPP_DEPS += \
 ./src/about.d \
 ./src/bitkeypad.d \
 ./src/breakpoints.d \
+./src/cd4536b.d \
 ./src/cdp1802.d \
 ./src/cdp1852.d \
 ./src/cdp18s020.d \
@@ -383,6 +386,7 @@ CPP_DEPS += \
 ./src/keymap.d \
 ./src/keymaptmc.d \
 ./src/keypad.d \
+./src/keypadfred.d \
 ./src/led.d \
 ./src/ledmodule.d \
 ./src/mac.d \
@@ -417,8 +421,7 @@ CPP_DEPS += \
 ./src/studio2.d \
 ./src/studioiv.d \
 ./src/super.d \
-./src/til311.d \
-./src/til313.d \
+./src/til.d \
 ./src/til313.full.d \
 ./src/tmc1800.d \
 ./src/tmc2000.d \

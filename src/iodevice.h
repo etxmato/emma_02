@@ -333,7 +333,7 @@
 #define VIDEOCYCLE_MC6845 4
 #define VIDEOCYCLE_MC6847 5
 #define VIDEOCYCLE_TMS9918 6
-//#define VIDEOCYCLE_CDP1862 7
+#define SEG_CYCLE 7
 #define VIDEOCYCLE_CDP1864 8
 #define VIDEOCYCLE_SN76430N 9
 #define VIDEOCYCLE_VIP2K 10
@@ -383,7 +383,7 @@ public:
     void setOutType(int number, int outType);
     void setOutType(int iogroup, int number, int outType);
     void setOutType(int q, int iogroup, int number, int outType);
-    void setCycleType(int number, int outCycleType) {cycleType_[number] = outCycleType;};
+    void setCycleType(int number, int outCycleType);
 
     void setEfTypeAndNumber(int number, int efType, int itemNumber);
     void setEfTypeAndNumber(int iogroup, int number, int efType, int itemNumber);
@@ -402,9 +402,10 @@ protected:
     int efType_[2][257][5];
     int efItemNumber_[2][257][5];
     int inType_[2][257][8];
-    int inItemNumber_[2][257][5];
+    int inItemNumber_[2][257][8];
     int outType_[2][257][8];
-    int outItemNumber_[2][257][5];
+    int outItemNumber_[2][257][8];
+    
     int cycleType_[MAXCYCLE];
 
 private:

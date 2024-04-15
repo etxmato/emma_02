@@ -394,7 +394,7 @@ Byte Cdp1802::pixieDmaOut(int *color, int colourType)
                     
                 case PIXIE_COLOR_VIP_1862:
                     if (colourMask_ == 0)
-                        *color = 0;
+                        *color = 7;
                     else
                         *color = colorMemory1862_[scratchpadRegister_[0] & colourMask_] & 0x7;
                 break;
@@ -4831,7 +4831,8 @@ void Cdp1802::readSt2Program(int computerType, int memoryType)
     dirName = p_Main->getRomDir(computerType, CARTROM);
     fileName = p_Main->getRomFile(computerType, CARTROM);
     
-    readSt2Program (dirName, fileName, computerType, memoryType);
+    if (fileName != "")
+        readSt2Program (dirName, fileName, computerType, memoryType);
 }
 
 void Cdp1802::readSt2Program(wxString dirName, wxString fileName, int computerType, int memoryType)

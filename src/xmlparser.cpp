@@ -2554,9 +2554,12 @@ void XmlParser::parseXml_1862Video(int computer, wxXmlNode &node)
                     elfConfiguration[computer].ioConfiguration.cdp1862ColorType = PIXIE_COLOR_VIP_1862;
                 if (child->GetNodeContent() == "eti" || child->GetNodeContent() == "hug" || child->GetNodeContent() == "hec")
                     elfConfiguration[computer].ioConfiguration.cdp1862ColorType = PIXIE_COLOR_ETI_1862;
-                if (child->GetNodeContent() == "vic")
+                if (child->GetNodeContent() == "vic" || child->GetNodeContent() == "vip")
                 {
-                    elfConfiguration[computer].ioConfiguration.cdp1862ColorType = PIXIE_COLOR_VICTORY_1862;
+                    if (child->GetNodeContent() == "vip")
+                        elfConfiguration[computer].ioConfiguration.cdp1862ColorType = PIXIE_COLOR_VIP_1862;
+                    else
+                        elfConfiguration[computer].ioConfiguration.cdp1862ColorType = PIXIE_COLOR_VICTORY_1862;
                     if (whiteDefined && blackDefined)
                     {
                         color = screenInfo[computer].defaultColour[COL_CDP1862_BLACK];
@@ -2634,7 +2637,7 @@ void XmlParser::parseXml_1862Video(int computer, wxXmlNode &node)
                 if (child->GetAttribute("type") == "back_red")
                     screenInfo[computer].defaultColour[COL_CDP1862_BACK_RED].Printf("#%02X%02X%02X", red, green, blue);
 
-                if (elfConfiguration[computer].ioConfiguration.cdp1862ColorType == PIXIE_COLOR_VICTORY_1862)
+                if (elfConfiguration[computer].ioConfiguration.cdp1862ColorType == PIXIE_COLOR_VICTORY_1862 || elfConfiguration[computer].ioConfiguration.cdp1862ColorType == PIXIE_COLOR_VIP_1862)
                 {
                     if (child->GetAttribute("type") == "white")
                         screenInfo[computer].defaultColour[COL_CDP1862_BLACK].Printf("#%02X%02X%02X", red, green, blue);
@@ -2783,13 +2786,14 @@ void XmlParser::parseXml_1864Video(int computer, wxXmlNode &node)
             break;
                 
             case TAG_COLOR_TYPE:
-                if (child->GetNodeContent() == "vip")
-                    elfConfiguration[computer].ioConfiguration.cdp1864ColorType = PIXIE_COLOR_VIP_1864;
                 if (child->GetNodeContent() == "eti" || child->GetNodeContent() == "hug" || child->GetNodeContent() == "hec")
                     elfConfiguration[computer].ioConfiguration.cdp1864ColorType = PIXIE_COLOR_ETI_1864;
-                if (child->GetNodeContent() == "vic")
+                if (child->GetNodeContent() == "vic" || child->GetNodeContent() == "vip")
                 {
-                    elfConfiguration[computer].ioConfiguration.cdp1864ColorType = PIXIE_COLOR_VICTORY_1864;
+                    if (child->GetNodeContent() == "vip")
+                        elfConfiguration[computer].ioConfiguration.cdp1864ColorType = PIXIE_COLOR_VIP_1864;
+                    else
+                        elfConfiguration[computer].ioConfiguration.cdp1864ColorType = PIXIE_COLOR_VICTORY_1864;
                     if (whiteDefined && blackDefined)
                     {
                         color = screenInfo[computer].defaultColour[COL_CDP1864_BLACK];
@@ -2946,7 +2950,7 @@ void XmlParser::parseXml_1864Video(int computer, wxXmlNode &node)
                 if (child->GetAttribute("type") == "back_red")
                     screenInfo[computer].defaultColour[COL_CDP1864_BACK_RED].Printf("#%02X%02X%02X", red, green, blue);
 
-                if (elfConfiguration[computer].ioConfiguration.cdp1864ColorType == PIXIE_COLOR_VICTORY_1864)
+                if (elfConfiguration[computer].ioConfiguration.cdp1864ColorType == PIXIE_COLOR_VICTORY_1864 || elfConfiguration[computer].ioConfiguration.cdp1862ColorType == PIXIE_COLOR_VIP_1864)
                 {
                     if (child->GetAttribute("type") == "white")
                         screenInfo[computer].defaultColour[COL_CDP1864_BLACK].Printf("#%02X%02X%02X", red, green, blue);

@@ -164,6 +164,11 @@ void IoDevice::setOutType(int q, int iogroup, int number, int outType)
     }
 }
 
+void IoDevice::setCycleType(int number, int outCycleType)
+{
+    cycleType_[number] = outCycleType;
+}
+
 void IoDevice::setEfTypeAndNumber(int number, int efType, int itemNumber)
 {
     for (int q=0; q<2; q++)

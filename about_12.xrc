@@ -55,7 +55,7 @@
 <font>
 <size>12</size>
 </font>
-<label>Emma 02 is emulating the CDP18S020 Evaluation Kit, Cidelsa, COMIX-35, COMX-35, Cosmac Elf, Cosmac Elf 2000, Cosmac VIP, Cosmac VIP II, Cosmicos, Cybervision 2001, ETI-660, FRED 1, FRED 1.5, HUG1802, Infinite UC1800, MCDS, Membership Card, Microboard System, Microtutor, Microtutor II, MS2000, Netronics ELF II, Oscam Nano, Pecom 32, Pecom 64, Pico/Elf V2, Quest Super Elf,  RCA Studio II, RCA Studio III, RCA Studio IV, RCA Video Coin Arcade, Telmac TMC-600, Telmac 1800, Telmac 2000, VELF, Victory MPT-02, VIP2K Membership Card and Visicom COM-100 </label>
+<label>Emma 02 is emulating the CDP18S020 Evaluation Kit, COMIX-35, COMX-35, Cosmac Elf, Cosmac Elf 2000, Cosmac Microtutor I, Cosmac Microtutor II, Cosmac VIP, Cosmac VIP II, Cidelsa Arcade Game Console, Conic (Apollo, Mustang, MPT-02 and M1200), Cosmicos, Cybervision 2001, ETI-660, FRED 1, FRED 1.5, HEC1802, HUG1802, Infinite UC1800, JVIP, Macbug, Membership Card, Netronics ELF II, Oscom Nano, PECOM 32, PECOM 64, Pico/Elf V2, Quest Super Elf, RCA COSMAC Computer Game System, RCA COSMAC Microboard Computer, RCA MicroDisk Development System MS2000, RCA Microboard Computer Development System, RCA Studio II, RCA Studio III, RCA Studio IV, RCA Video Coin Arcade Console, Telmac 1800, Telmac 2000, Telmac TMC-600, VELF, VIP2K Membership Card and Visicom COM-100 </label>
 <wrap>400</wrap>
 </object>
 </object>
@@ -72,7 +72,7 @@
 <size>12</size>
 </font>
 <style>wxALIGN_CENTRE</style>
-<label>Emma 02 Copyright (C) 2007-2023 Marcel van Tongeren, 
+<label>Emma 02 Copyright (C) 2007-2024 Marcel van Tongeren, 
 core based on RCS Elf Emulator copyright (C) 2006 by Michael H Riley</label>
 <wrap>400</wrap>
 </object>

@@ -510,8 +510,8 @@ public:
 #include "video.h"
 #include "serial.h"
 
-#define EMMA_VERSION 1.47
-#define EMMA_SUB_VERSION 27
+#define EMMA_VERSION 1.48
+#define EMMA_SUB_VERSION 0
 #define ELF 0
 #define ELFII 1
 #define SUPERELF 2
@@ -585,15 +585,15 @@ public:
 #define PRINTERFONT 6006
 #define PAL 0
 #define NTSC 1
-#define COMXTAB 0
-#define COSMACELFTAB 1
-#define RCATAB 2
-#define STUDIOTAB 3
-#define CIDELSATAB 4
-#define TELMACTAB 5
-#define PECOMTAB 6
-#define ETITAB 7
-#define XMLTAB 8
+#define XMLTAB 0
+#define COMXTAB 1
+#define COSMACELFTAB 2
+#define RCATAB 3
+#define STUDIOTAB 4
+#define CIDELSATAB 5
+#define TELMACTAB 6
+#define PECOMTAB 7
+#define ETITAB 8
 #define DEBUGGERTAB 9
 #define DISKNONE 0
 #define DISKFDC 1

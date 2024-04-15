@@ -3,8 +3,8 @@
 
 [Setup]
 AppName=Emma 02
-AppVerName=Emma 02 - V1.47.15
-AppVersion=1.47.15
+AppVerName=Emma 02 - V1.48
+AppVersion=1.48
 AppPublisher=Marcel van Tongeren
 DefaultDirName={pf}\Emma 02
 DefaultGroupName=Emma 02
@@ -86,6 +86,8 @@ Source: ..\menuVelf_11.xrc; DestDir: {app}; Components: MAIN
 Source: ..\menuVelf_12.xrc; DestDir: {app}; Components: MAIN
 Source: ..\menuVip_11.xrc; DestDir: {app}; Components: MAIN
 Source: ..\menuVip_12.xrc; DestDir: {app}; Components: MAIN
+Source: ..\menuXml_11.xrc; DestDir: {app}; Components: MAIN
+Source: ..\menuXml_12.xrc; DestDir: {app}; Components: MAIN
 Source: ..\microsetup_11.xrc; DestDir: {app}; Components: MAIN
 Source: ..\microsetup_12.xrc; DestDir: {app}; Components: MAIN
 Source: ..\ports_11.xrc; DestDir: {app}; Components: MAIN
@@ -154,13 +156,16 @@ Source: ..\data\dutch.ini; DestDir: {app}\data; Components: MAIN
 Source: ..\data\french.ini; DestDir: {app}\data; Components: MAIN
 Source: ..\data\CDP18S020\*.*; DestDir: {app}\data\CDP18S020; Components: MAIN
 Source: ..\data\Chip-8\Chip-8 Demos\*.*; DestDir: {app}\data\Chip-8\Chip-8 Demos; Components: MAIN
-Source: ..\data\Chip-8\Chip-8 Games\*.*; DestDir: {app}\data\Chip-8\Chip-8 Games; Components: MAIN
-Source: ..\data\Chip-8\Chip-8 Programs\*.*; DestDir: {app}\data\Chip-8\Chip-8 Programs; Components: MAIN
+Source: ..\data\Chip-8\Chip-8 ETI660 Games\*.*; DestDir: {app}\data\Chip-8\Chip-8 ETI660 Games; Components: MAIN
 Source: ..\data\Chip-8\Chip-8 ETI660 Hybrids\*.*; DestDir: {app}\data\Chip-8\Chip-8 ETI660 Hybrids; Components: MAIN
+Source: ..\data\Chip-8\Chip-8 ETI660 Programs\*.*; DestDir: {app}\data\Chip-8\Chip-8 ETI660 Programs; Components: MAIN
+Source: ..\data\Chip-8\Chip-8 Games\*.*; DestDir: {app}\data\Chip-8\Chip-8 Games; Components: MAIN
 Source: ..\data\Chip-8\Chip-8 Hires\*.*; DestDir: {app}\data\Chip-8\Chip-8 Hires; Components: MAIN
 Source: ..\data\Chip-8\Chip-8 Hybrids\*.*; DestDir: {app}\data\Chip-8\Chip-8 Hybrids; Components: MAIN
+Source: ..\data\Chip-8\Chip-8 Programs\*.*; DestDir: {app}\data\Chip-8\Chip-8 Programs; Components: MAIN
 Source: ..\data\Chip-8\Chip-8X\*.*; DestDir: {app}\data\Chip-8\Chip-8X; Components: MAIN
 Source: ..\data\Chip-8\Chip-10\*.*; DestDir: {app}\data\Chip-8\Chip-10; Components: MAIN
+Source: ..\data\Chip-8\Super-Chip Games\*.*; DestDir: {app}\data\Chip-8\Super-Chip Games; Components: MAIN
 Source: ..\data\Cidelsa\*.*; DestDir: {app}\data\Cidelsa; Components: MAIN
 Source: ..\data\CoinArcade\*.*; DestDir: {app}\data\CoinArcade; Components: MAIN
 Source: ..\data\Comx\*.*; DestDir: {app}\data\Comx; Components: MAIN
@@ -180,6 +185,8 @@ Source: ..\data\Comx\Talen - Languages\*.*; DestDir: {app}\data\Comx\Talen - Lan
 Source: ..\data\Comx\Usb FW Development\sb*.bin; DestDir: {app}\data\Comx\Usb FW; Components: MAIN
 Source: ..\data\Comx\Usb FW Development\*.debug; DestDir: {app}\data\Comx\Usb FW; Components: MAIN
 Source: ..\data\Comx\Usb FW\sb.config; DestDir: {app}\data\Comx\Usb FW; Components: MAIN
+Source: ..\data\Conic\*.*; DestDir: {app}\data\Conic; Components: MAIN
+Source: ..\data\CosmacGameSystem\*.*; DestDir: {app}\data\CosmacGameSystem; Components: MAIN
 Source: ..\data\Cosmicos\*.*; DestDir: {app}\data\Cosmicos; Components: MAIN
 Source: ..\data\Cybervision\*.*; DestDir: {app}\data\Cybervision; Components: MAIN
 Source: ..\data\Elf\*.*; DestDir: {app}\data\Elf; Components: MAIN
@@ -209,8 +216,11 @@ Source: ..\data\Elf2K\Tinyos2k\*.*; DestDir: {app}\data\Elf2K\Tinyos2k; Componen
 Source: ..\data\Eti\*.*; DestDir: {app}\data\Eti; Components: MAIN
 Source: ..\data\FRED1\*.*; DestDir: {app}\data\FRED1; Components: MAIN
 Source: ..\data\FRED1_5\*.*; DestDir: {app}\data\FRED1_5; Components: MAIN
-Source: ..\data\Membership\*.*; DestDir: {app}\data\Membership; Components: MAIN
+Source: ..\data\HEC1802\*.*; DestDir: {app}\data\HEC1802; Components: MAIN
+Source: ..\data\HUG1802\*.*; DestDir: {app}\data\HUG1802; Components: MAIN
+Source: ..\data\Macbug\*.*; DestDir: {app}\data\Macbug; Components: MAIN
 Source: ..\data\MCDS\*.*; DestDir: {app}\data\MCDS; Components: MAIN
+Source: ..\data\Membership\*.*; DestDir: {app}\data\Membership; Components: MAIN
 Source: ..\data\Microboard\*.*; DestDir: {app}\data\Microboard; Components: MAIN
 Source: ..\data\Microboard\BASIC\*.*; DestDir: {app}\data\Microboard\BASIC; Components: MAIN
 Source: ..\data\Microboard\MICRODOS\*.*; DestDir: {app}\data\Microboard\MICRODOS; Components: MAIN
@@ -228,7 +238,15 @@ Source: ..\data\MS2000\Software\*.*; DestDir: {app}\data\MS2000\Software; Compon
 Source: ..\data\Nano\*.*; DestDir: {app}\data\Nano; Components: MAIN
 Source: ..\data\Pecom\*.*; DestDir: {app}\data\Pecom; Components: MAIN
 Source: ..\data\Pico\*.*; DestDir: {app}\data\Pico; Components: MAIN
+Source: ..\data\St2\Conic_StudioIII-Cartridges\*.*; DestDir: {app}\data\St2\Conic_StudioIII-Cartridges; Components: MAIN
+Source: ..\data\St2\Conic_StudioIII-Homebrew\*.*; DestDir: {app}\data\St2\Conic_StudioIII-Homebrew; Components: MAIN
+Source: ..\data\St2\Conic_StudioIII-Sarnoff-Collection\*.*; DestDir: {app}\data\St2\Conic_StudioIII-Sarnoff-Collection; Components: MAIN
+Source: ..\data\St2\StudioII-Cartridges\*.*; DestDir: {app}\data\St2\StudioII-Cartridges; Components: MAIN
+Source: ..\data\St2\StudioII-Homebrew\*.*; DestDir: {app}\data\St2\StudioII-Homebrew; Components: MAIN
+Source: ..\data\St2\StudioII-Sarnoff-Collection\*.*; DestDir: {app}\data\St2\StudioII-Sarnoff-Collection; Components: MAIN
+Source: ..\data\St2\Visicom-Cartridges\*.*; DestDir: {app}\data\St2\Visicom-Cartridges; Components: MAIN
 Source: ..\data\StudioII\*.*; DestDir: {app}\data\StudioII; Components: MAIN
+Source: ..\data\StudioIII\*.*; DestDir: {app}\data\StudioIII; Components: MAIN
 Source: ..\data\StudioIV\*.*; DestDir: {app}\data\StudioIV; Components: MAIN
 Source: ..\data\TMC600\*.*; DestDir: {app}\data\TMC600; Components: MAIN
 Source: ..\data\TMC1800\*.*; DestDir: {app}\data\TMC1800; Components: MAIN
@@ -241,25 +259,50 @@ Source: ..\data\Vip2K\*.*; DestDir: {app}\data\Vip2K; Components: MAIN
 Source: ..\data\VipII\*.*; DestDir: {app}\data\VipII; Components: MAIN
 Source: ..\data\Visicom\*.*; DestDir: {app}\data\Visicom; Components: MAIN
 Source: ..\data\Xml\*.*; DestDir: {app}\data\Xml; Components: MAIN
+Source: ..\data\Xml\CDP18S020\*.*; DestDir: {app}\data\Xml\CDP18S020; Components: MAIN
 Source: ..\data\Xml\Cidelsa\*.*; DestDir: {app}\data\Xml\Cidelsa; Components: MAIN
+Source: ..\data\Xml\CoinArcade\*.*; DestDir: {app}\data\Xml\CoinArcade; Components: MAIN
 Source: ..\data\Xml\Comix\*.*; DestDir: {app}\data\Xml\Comix; Components: MAIN
 Source: ..\data\Xml\Comx\*.*; DestDir: {app}\data\Xml\Comx; Components: MAIN
-Source: ..\data\Xml\Cosmac Elf\*.*; DestDir: {app}\data\Xml\Cosmac Elf; Components: MAIN
+Source: ..\data\Xml\Conic\*.*; DestDir: {app}\data\Xml\Conic; Components: MAIN
+Source: ..\data\Xml\CosmacElf\*.*; DestDir: {app}\data\Xml\CosmacElf; Components: MAIN
+Source: ..\data\Xml\CosmacGameSystem\*.*; DestDir: {app}\data\Xml\CosmacGameSystem; Components: MAIN
 Source: ..\data\Xml\Cosmicos\*.*; DestDir: {app}\data\Xml\Cosmicos; Components: MAIN
 Source: ..\data\Xml\Cybervision\*.*; DestDir: {app}\data\Xml\Cybervision; Components: MAIN
 Source: ..\data\Xml\Elf\*.*; DestDir: {app}\data\Xml\Elf; Components: MAIN
 Source: ..\data\Xml\Elf2K\*.*; DestDir: {app}\data\Xml\Elf2K; Components: MAIN
+Source: ..\data\Xml\Eti\*.*; DestDir: {app}\data\Xml\Eti; Components: MAIN
+Source: ..\data\Xml\FRED1\*.*; DestDir: {app}\data\Xml\FRED1; Components: MAIN
+Source: ..\data\Xml\FRED1_5\*.*; DestDir: {app}\data\Xml\FRED1_5; Components: MAIN
+Source: ..\data\Xml\HEC1802\*.*; DestDir: {app}\data\Xml\HEC1802; Components: MAIN
+Source: ..\data\Xml\HUG1802\*.*; DestDir: {app}\data\Xml\HUG1802; Components: MAIN
+Source: ..\data\Xml\JVIP\*.*; DestDir: {app}\data\Xml\JVIP; Components: MAIN
+Source: ..\data\Xml\Macbug\*.*; DestDir: {app}\data\Xml\Macbug; Components: MAIN
+Source: ..\data\Xml\MCDS\*.*; DestDir: {app}\data\Xml\MCDS; Components: MAIN
 Source: ..\data\Xml\Membership\*.*; DestDir: {app}\data\Xml\Membership; Components: MAIN
+Source: ..\data\Xml\Microboard\*.*; DestDir: {app}\data\Xml\Microboard; Components: MAIN
 Source: ..\data\Xml\Microtutor\*.*; DestDir: {app}\data\Xml\Microtutor; Components: MAIN
-Source: ..\data\Xml\Microtutor II\*.*; DestDir: {app}\data\Xml\Microtutor II; Components: MAIN   
-Source: ..\data\Xml\Netronics Elf II\*.*; DestDir: {app}\data\Xml\Netronics Elf II; Components: MAIN
-Source: ..\data\Xml\Pecom\*.*; DestDir: {app}\data\Xml\Pecom; Components: MAIN
-Source: ..\data\Xml\Pico Elf V2\*.*; DestDir: {app}\data\Xml\Pico Elf V2; Components: MAIN
-Source: ..\data\Xml\Quest Super Elf\*.*; DestDir: {app}\data\Xml\Quest Super Elf; Components: MAIN
-Source: ..\data\Xml\TMC-600\*.*; DestDir: {app}\data\Xml\TMC-600; Components: MAIN
+Source: ..\data\Xml\MicrotutorII\*.*; DestDir: {app}\data\Xml\MicrotutorII; Components: MAIN
+Source: ..\data\Xml\MS2000\*.*; DestDir: {app}\data\Xml\MS2000; Components: MAIN
+Source: ..\data\Xml\Nano\*.*; DestDir: {app}\data\Xml\Nano; Components: MAIN
+Source: ..\data\Xml\NetronicsElfII\*.*; DestDir: {app}\data\Xml\NetronicsElfII; Components: MAIN
+Source: ..\data\Xml\Pecom32\*.*; DestDir: {app}\data\Xml\Pecom32; Components: MAIN
+Source: ..\data\Xml\Pecom64\*.*; DestDir: {app}\data\Xml\Pecom64; Components: MAIN
+Source: ..\data\Xml\PicoElfV2\*.*; DestDir: {app}\data\Xml\PicoElfV2; Components: MAIN
+Source: ..\data\Xml\QuestSuperElf\*.*; DestDir: {app}\data\Xml\QuestSuperElf; Components: MAIN
+Source: ..\data\Xml\Studio2020\*.*; DestDir: {app}\data\Xml\Studio2020; Components: MAIN
+Source: ..\data\Xml\StudioII\*.*; DestDir: {app}\data\Xml\StudioII; Components: MAIN
+Source: ..\data\Xml\StudioIII\*.*; DestDir: {app}\data\Xml\StudioIII; Components: MAIN
+Source: ..\data\Xml\StudioIV\*.*; DestDir: {app}\data\Xml\StudioIV; Components: MAIN
+Source: ..\data\Xml\TMC600\*.*; DestDir: {app}\data\Xml\TMC600; Components: MAIN
+Source: ..\data\Xml\TMC1800\*.*; DestDir: {app}\data\Xml\TMC1800; Components: MAIN
+Source: ..\data\Xml\TMC2000\*.*; DestDir: {app}\data\Xml\TMC2000; Components: MAIN
 Source: ..\data\Xml\UC1800\*.*; DestDir: {app}\data\Xml\UC1800; Components: MAIN
 Source: ..\data\Xml\Velf\*.*; DestDir: {app}\data\Xml\Velf; Components: MAIN
+Source: ..\data\Xml\Vip\*.*; DestDir: {app}\data\Xml\Vip; Components: MAIN
 Source: ..\data\Xml\Vip2K\*.*; DestDir: {app}\data\Xml\Vip2K; Components: MAIN
+Source: ..\data\Xml\VipII\*.*; DestDir: {app}\data\Xml\VipII; Components: MAIN
+Source: ..\data\Xml\Visicom\*.*; DestDir: {app}\data\Xml\Visicom; Components: MAIN
 Source: ..\images\*.*; DestDir: {app}\images; Components: MAIN
 Source: ..\src\*.*; DestDir: {app}\src; Components: SOURCEFILES
 Source: ..\Emma 02 vc9.sln; DestDir: {app}; Components: SOURCEFILES
@@ -349,6 +392,48 @@ procedure CurStepChanged(CurStep: TSetupStep);
       end;
 
       cdpDir := ExpandConstant('{app}') + '\Configurations\CDP18S603A';
+      if DirExists(cdpDir) then
+      begin
+        DelTree(cdpDir, True, True, True);
+      end;
+
+      cdpDir := ExpandConstant('{app}') + '\data\Xml\Cosmac Elf';
+      if DirExists(cdpDir) then
+      begin
+        DelTree(cdpDir, True, True, True);
+      end;
+
+      cdpDir := ExpandConstant('{app}') + '\data\Xml\Microtutor II';
+      if DirExists(cdpDir) then
+      begin
+        DelTree(cdpDir, True, True, True);
+      end;
+
+      cdpDir := ExpandConstant('{app}') + '\data\Xml\Netronics Elf II';
+      if DirExists(cdpDir) then
+      begin
+        DelTree(cdpDir, True, True, True);
+      end;
+
+      cdpDir := ExpandConstant('{app}') + '\data\Xml\Pecom';
+      if DirExists(cdpDir) then
+      begin
+        DelTree(cdpDir, True, True, True);
+      end;
+
+      cdpDir := ExpandConstant('{app}') + '\data\Xml\Pico Elf V2';
+      if DirExists(cdpDir) then
+      begin
+        DelTree(cdpDir, True, True, True);
+      end;
+
+      cdpDir := ExpandConstant('{app}') + '\data\Xml\Quest Super Elf';
+      if DirExists(cdpDir) then
+      begin
+        DelTree(cdpDir, True, True, True);
+      end;
+
+      cdpDir := ExpandConstant('{app}') + '\data\Xml\TMC-600';
       if DirExists(cdpDir) then
       begin
         DelTree(cdpDir, True, True, True);

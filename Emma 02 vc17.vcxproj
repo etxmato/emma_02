@@ -462,6 +462,7 @@
     <ClCompile Include="src\audioin_windib.c" />
     <ClCompile Include="src\Blip_Buffer.cpp" />
     <ClCompile Include="src\breakpoints.cpp" />
+    <ClCompile Include="src\cd4536b.cpp" />
     <ClCompile Include="src\cdp1802.cpp" />
     <ClCompile Include="src\cdp1852.cpp" />
     <ClCompile Include="src\cdp18s020.cpp" />
@@ -610,6 +611,7 @@
     <ClInclude Include="src\audio_detect.h" />
     <ClInclude Include="src\Blip_Buffer.h" />
     <ClInclude Include="src\breakpoints.h" />
+    <ClInclude Include="src\cd4536b.h" />
     <ClInclude Include="src\cdp1802.h" />
     <ClInclude Include="src\cdp1852.h" />
     <ClInclude Include="src\cdp18s020.h" />

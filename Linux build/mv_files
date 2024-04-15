@@ -40,3 +40,38 @@ then
   rm /usr/share/emma_02/Configurations/CDP18S603A/*.*
   rmdir /usr/share/emma_02/Configurations/CDP18S603A
 fi
+if test -d /usr/share/emma_02/data/Xml/Cosmac\ Elf
+then
+  rm /usr/share/emma_02/data/Xml/Cosmac\ Elf/*.*
+  rmdir /usr/share/emma_02/data/Xml/Cosmac\ Elf
+fi
+if test -d /usr/share/emma_02/data/Xml/Microtutor\ II
+then
+  rm /usr/share/emma_02/data/Xml/Microtutor\ II/*.*
+  rmdir /usr/share/emma_02/data/Xml/Microtutor\ II
+fi
+if test -d /usr/share/emma_02/data/Xml/Netronics\ Elf\ II
+then
+  rm /usr/share/emma_02/data/Xml/Netronics\ Elf\ II/*.*
+  rmdir /usr/share/emma_02/data/Xml/Netronics\ Elf\ II
+fi
+if test -d /usr/share/emma_02/data/Xml/Pecom
+then
+  rm /usr/share/emma_02/data/Xml/Pecom/*.*
+  rmdir /usr/share/emma_02/data/Xml/Pecom
+fi
+if test -d /usr/share/emma_02/data/Xml/Pico\ Elf\ V2
+then
+  rm /usr/share/emma_02/data/Xml/Pico\ Elf\ V2/*.*
+  rmdir /usr/share/emma_02/data/Xml/Pico\ Elf\ V2
+fi
+if test -d /usr/share/emma_02/data/Xml/Quest\ Super\ Elf
+then
+  rm /usr/share/emma_02/data/Xml/Quest\ Super\ Elf/*.*
+  rmdir /usr/share/emma_02/data/Xml/Quest\ Super\ Elf
+fi
+if test -d /usr/share/emma_02/data/Xml/TMC-600
+then
+  rm /usr/share/emma_02/data/Xml/TMC-600/*.*
+  rmdir /usr/share/emma_02/data/Xml/TMC-600
+fi

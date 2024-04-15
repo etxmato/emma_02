@@ -4810,7 +4810,14 @@ void Xmlemu::startComputer()
     p_Main->enableDebugGuiMemory();
 
     configureExtensions();
-        
+    configureVideoExtensions();
+    configureV1870Extension();
+    configureKeyboardExtensions();
+    configureDiskExtensions();
+    configurePrinterExtensions();
+    configureSoundExtensions();
+    configureTapeExtensions();
+
     if (!p_Main->getUseElfControlWindows(XML))
     {
         elfConfiguration.useSwitch = false;
@@ -6695,27 +6702,6 @@ void Xmlemu::configureExtensions()
     if (p_Main->getConfigBool("/Xml/GameAuto", true))
         p_Main->loadKeyDefinition(computerConfiguration.memConfig_[elfConfiguration.ioConfiguration.keypadCheckMemConfig].dirname, computerConfiguration.memConfig_[elfConfiguration.ioConfiguration.keypadCheckMemConfig].filename, keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, elfConfiguration.ioConfiguration.keyPadDefinitionFile);
 
-    if (elfConfiguration.useTape)
-    {
-        ioGroup = "";
-        if (elfConfiguration.ioConfiguration.tapeIoGroup != -1)
-            ioGroup.Printf(" on group %d", elfConfiguration.ioConfiguration.tapeIoGroup);
-
-        p_Main->message("Configuring Cassette" + ioGroup);
-
-        setEfTypeAndNumber(-1, elfConfiguration.ioConfiguration.tapeIoGroup+1, elfConfiguration.ioConfiguration.tapeEf, TAPE_EF, 0, "cassette in");
-        setEfTypeAndNumber(-1, elfConfiguration.ioConfiguration.tapeIoGroup+1, elfConfiguration.ioConfiguration.tapeEfRun, TAPE_RUNNING_EF, 0, "cassette running");
-        
-        if (elfConfiguration.useTapeMicro)
-            setOutTypeAndNumber(elfConfiguration.ioConfiguration.tapeIoGroup+1, elfConfiguration.ioConfiguration.tapeOut, TAPE_OUT_MICRO, 0, "tape motor output");
-        else
-            setOutTypeAndNumber(elfConfiguration.ioConfiguration.tapeIoGroup+1, elfConfiguration.ioConfiguration.tapeOut, TAPE_OUT, 0, "cassette on/off");
-        
-        setOutTypeAndNumber(elfConfiguration.ioConfiguration.tapeIoGroup+1, elfConfiguration.ioConfiguration.tapeQOut, TAPE_OUT_Q, 0, "cassette out (insead of Q)");
-
-        p_Main->message("");
-    }
-
     if (elfConfiguration.vtType != VTNONE)
     {
         double zoom = p_Main->getZoomVt();
@@ -6739,6 +6725,247 @@ void Xmlemu::configureExtensions()
             p_Serial->configureUart16450(elfConfiguration.ioConfiguration);
     }
 
+    if (elfConfiguration.useRtcDS12887)
+    {
+        configureRtc(elfConfiguration.ioConfiguration);
+    }
+
+    if (elfConfiguration.useLedModule)
+    {
+        ledModulePointer = new LedModule("Led Module", p_Main->getLedModulePos(), wxSize(172, 116), XML);
+        ledModulePointer->configure(elfConfiguration.ioConfiguration);
+        ledModulePointer->Show(p_Main->getUseElfControlWindows(XML));
+    }
+
+    if (elfConfiguration.useDip)
+    {
+        setInType(elfConfiguration.ioConfiguration.dipIn, CIDELSAIN2);
+
+        p_Main->message("Configuring DIP switch");
+        
+        message.Printf("	Input %d, hex value: %02X\n", elfConfiguration.ioConfiguration.dipIn, elfConfiguration.ioConfiguration.dipValue);
+        p_Main->message(message);
+    }
+    
+    if (elfConfiguration.useAdConvertor)
+    {
+        setInType(elfConfiguration.ioConfiguration.adConvertorIn, AD_CONVERTOR_IN);
+        setOutType(elfConfiguration.ioConfiguration.adConvertorOut, AD_CONVERTOR_OUT);
+
+        p_Main->message("Configuring A/D Convertor & Printer");
+        
+        if (elfConfiguration.ioConfiguration.adConvertorOut != -1)
+        {
+            message.Printf("	Output %d, select channel/printer data (channel F)", elfConfiguration.ioConfiguration.adConvertorOut);
+            p_Main->message(message);
+        }
+
+        if (elfConfiguration.ioConfiguration.adConvertorIn != -1)
+        {
+            message.Printf("	Input %d, AD/I Input (channel 0 to E)", elfConfiguration.ioConfiguration.adConvertorIn);
+            p_Main->message(message);
+        }
+    
+        if (elfConfiguration.ioConfiguration.adConvertorAddressStart != -1 && elfConfiguration.ioConfiguration.adConvertorAddressEnd != -1)
+        {
+            message.Printf("	@%04X-@%04X: AD/S Input (channel 0 to F)", elfConfiguration.ioConfiguration.adConvertorAddressStart, elfConfiguration.ioConfiguration.adConvertorAddressEnd);
+            p_Main->message(message);
+        }
+        p_Main->message("");
+    }
+
+    if (elfConfiguration.useDma)
+        setCycleType(DRAMDMACYCLE, DRAMDMA);
+
+    if (elfConfiguration.useInt)
+        setCycleType(INTCYCLE, INTCLOCK);
+
+    if (elfConfiguration.useNvRamMp)
+        setInType(elfConfiguration.ioConfiguration.nvRamIoGroup+1, elfConfiguration.ioConfiguration.nvRamProtectIn, NVRAM_MP_IN);
+
+    if (elfConfiguration.panelType_ == PANEL_COSMAC && elfConfiguration.useHexKeyboard)
+    {
+        keypadPointer = new Keypad("Keypad", p_Main->getKeypadPos(XML), wxSize(172, 229), ELF);
+        keypadPointer->Show(p_Main->getUseElfControlWindows(XML));
+        p_Main->message("Configuring Keypad Module\n");
+    }
+
+    if (elfConfiguration.panelType_ == PANEL_COSMICOS && elfConfiguration.useHexKeyboard)
+    {
+        p_Cosmicoshex = new Cosmicoshex("Hex Panel", p_Main->getKeypadPos(COSMICOS), wxSize(185, 160));
+        p_Cosmicoshex->Show(p_Main->getUseElfControlWindows(XML) && elfConfiguration.useHexKeyboard);
+
+        setOutType(elfConfiguration.ioConfiguration.hexCosmicosHexOutput, COSMICOSHEX);
+        setOutType(elfConfiguration.ioConfiguration.hexCosmicosSegOutput, COSMICOS7SEG);
+        setInType(elfConfiguration.ioConfiguration.hexCosmicosHexInput, COSMICOSHEX);
+        setInType(elfConfiguration.ioConfiguration.hexCosmicosSegInput, COSMICOS7SEG);
+        setEfType(elfConfiguration.ioConfiguration.hexCosmicosEfRet, COSMICOSRET);
+        setEfType(elfConfiguration.ioConfiguration.hexCosmicosEfDec, COSMICOSDEC);
+        setEfType(elfConfiguration.ioConfiguration.hexCosmicosEfReq, COSMICOSREQ);
+
+        setCycleType(SEG_CYCLE, COSMICOS7SEG);
+
+        p_Main->message("Configuring Hex and 7 Segment Module");
+        
+        printBuffer.Printf("	Output %d: select hex row, input %d: hex column", elfConfiguration.ioConfiguration.hexCosmicosHexOutput, elfConfiguration.ioConfiguration.hexCosmicosHexInput);
+        p_Main->message(printBuffer);
+        
+        printBuffer.Printf("	Output %d: 7 segment display, input %d: reset 7 segment", elfConfiguration.ioConfiguration.hexCosmicosSegOutput, elfConfiguration.ioConfiguration.hexCosmicosSegInput);
+        p_Main->message(printBuffer);
+
+        printBuffer.Printf("	EF%d: hex RET, EF%d: hex DEC/SEQ, EF%d: hex REQ/SEQ\n", elfConfiguration.ioConfiguration.hexCosmicosEfRet, elfConfiguration.ioConfiguration.hexCosmicosEfDec, elfConfiguration.ioConfiguration.hexCosmicosEfReq);
+        p_Main->message(printBuffer);
+    }
+
+    if (elfConfiguration.useUsbSb)
+    {
+        ioGroup = "";
+        wxString printBuffer1 = "", printBuffer2 = "", printBuffer3 = "";
+        if (elfConfiguration.ioConfiguration.usbSbIoGroup != -1)
+            ioGroup.Printf(" on group %d", elfConfiguration.ioConfiguration.usbSbIoGroup);
+
+        setEfType(elfConfiguration.ioConfiguration.usbSbIoGroup+1, elfConfiguration.ioConfiguration.usbSbEf, SB_EF);
+        setInType(elfConfiguration.ioConfiguration.usbSbIn5.qValue, elfConfiguration.ioConfiguration.usbSbIoGroup+1, elfConfiguration.ioConfiguration.usbSbIn5.portNumber, SB_IN5);
+        setInType(elfConfiguration.ioConfiguration.usbSbIn5.qValue, elfConfiguration.ioConfiguration.usbSbIoGroup+1, elfConfiguration.ioConfiguration.usbSbIn6.portNumber, SB_IN6);
+        setOutType(elfConfiguration.ioConfiguration.usbSbOut.qValue, elfConfiguration.ioConfiguration.usbSbIoGroup+1, elfConfiguration.ioConfiguration.usbSbOut.portNumber, SB_OUT);
+
+        p_Main->message("Configuring USB for COMX Super Board" + ioGroup);
+        if (elfConfiguration.ioConfiguration.usbSbOut.qValue == -1)
+            printBuffer1.Printf("	Output %d: UART out, ", elfConfiguration.ioConfiguration.usbSbOut.portNumber);
+        else
+        {
+            printBuffer1.Printf("	Q = %d & output %d: UART out, ", elfConfiguration.ioConfiguration.usbSbOut.qValue, elfConfiguration.ioConfiguration.usbSbOut.portNumber);
+        }
+
+        if (elfConfiguration.ioConfiguration.usbSbIn5.qValue == -1)
+            printBuffer2.Printf("input %d: UART in, ", elfConfiguration.ioConfiguration.usbSbIn5.portNumber);
+        else
+        {
+            printBuffer2.Printf("Q = %d & input %d: UART in, ", elfConfiguration.ioConfiguration.usbSbIn5.qValue, elfConfiguration.ioConfiguration.usbSbIn5.portNumber);
+        }
+
+        if (elfConfiguration.ioConfiguration.usbSbIn6.qValue == -1)
+            printBuffer3.Printf("input %d: reset ef", elfConfiguration.ioConfiguration.usbSbIn6.portNumber);
+        else
+        {
+            printBuffer3.Printf("Q = %d & input %d: reset ef", elfConfiguration.ioConfiguration.usbSbIn6.qValue, elfConfiguration.ioConfiguration.usbSbIn5.portNumber);
+        }
+
+        p_Main->message(printBuffer1+printBuffer2+printBuffer3);
+    }
+    
+    diagDmaLedOn_ = false;
+    if (computerConfiguration.useDiagnosticBoard_)
+    {
+        setInType(elfConfiguration.ioConfiguration.diagIn1, COMXDIAGIN1);
+        setInType(elfConfiguration.ioConfiguration.diagIn2, COMXDIAGIN2);
+        setOutType(elfConfiguration.ioConfiguration.diagOut, COMXDIAGOUT1);
+        
+        p_Main->message("Configuring Diagnose Card");
+
+        printBuffer.Printf("	Input %d, bit 1: debounce, bit 2: Step, bit 6: Abort, bit 7 Repeat", elfConfiguration.ioConfiguration.diagIn1);
+        p_Main->message(printBuffer);
+
+        printBuffer.Printf("	Input %d, bit 1: ROM Checksum, bit 2: IDEN, bit 3: Factory unit", elfConfiguration.ioConfiguration.diagIn2);
+        p_Main->message(printBuffer);
+
+        printBuffer.Printf("	Output %d, automated keyboard test", elfConfiguration.ioConfiguration.diagOut);
+        p_Main->message(printBuffer);
+
+        if (computerConfiguration.diagRomOn_ == 1)
+            diagRomActive_ = true;
+        else
+            diagRomActive_ = false;
+
+        if (elfConfiguration.usev1870)
+        {
+            p_Main->eventUpdateDiagLedStatus(1, diagRomActive_);
+            p_Main->eventUpdateDiagLedStatus(2, diagDmaLedOn_);
+        }
+    }
+    
+    cdp1851FramePointer.clear();
+    numberOfCdp1851Frames_ = 0;
+    for (std::vector<Cdp1851>::iterator cdp1851 = elfConfiguration.ioConfiguration.cdp1851.begin (); cdp1851 != elfConfiguration.ioConfiguration.cdp1851.end (); ++cdp1851)
+    {
+        cdp1851FramePointer.resize(numberOfCdp1851Frames_+1);
+#if defined (__WXMAC__) || (__linux__)
+        cdp1851FramePointer[numberOfCdp1851Frames_] = new PioFrame("CDP1851 PIO", cdp1851->pos, wxSize(310, 180), numberOfCdp1851Frames_);
+#else
+        cdp1851FramePointer[numberOfCdp1851Frames_] = new PioFrame("CDP1851 PIO", cdp1851->pos, wxSize(329, 180), numberOfCdp1851Frames_);
+#endif
+        
+        ioGroup = "";
+        if (cdp1851->ioGroup != -1)
+            ioGroup.Printf(" on group %d", cdp1851->ioGroup);
+
+        p_Main->message("Configuring CDP1851 PIO" + ioGroup);
+
+        setOutTypeAndNumber(cdp1851->ioGroup+1, cdp1851->writePortA, CDP1851_WRITE_A, numberOfCdp1851Frames_, "write to port A");
+        
+        setOutTypeAndNumber(cdp1851->ioGroup+1, cdp1851->writePortB, CDP1851_WRITE_B, numberOfCdp1851Frames_, "write to port B");
+
+        setInTypeAndNumber(cdp1851->ioGroup+1, cdp1851->readPortA, CDP1851_READ_A, numberOfCdp1851Frames_, "read port A");
+
+        setInTypeAndNumber(cdp1851->ioGroup+1, cdp1851->readPortB, CDP1851_READ_B, numberOfCdp1851Frames_, "read port B");
+
+        setOutTypeAndNumber(cdp1851->ioGroup+1, cdp1851->writeControl, CDP1851_WRITE_CONTROL, numberOfCdp1851Frames_, "write control register");
+
+        setInTypeAndNumber(cdp1851->ioGroup+1, cdp1851->readStatus, CDP1851_READ_STATUS, numberOfCdp1851Frames_, "read status");
+
+        setEfTypeAndNumber(-1, cdp1851->ioGroup+1, cdp1851->efaRdy, CDP1851_EF_A, numberOfCdp1851Frames_, "ARDY");
+        setEfTypeAndNumber(-1, cdp1851->ioGroup+1, cdp1851->efbRdy, CDP1851_EF_B, numberOfCdp1851Frames_, "BRDY");
+
+        p_Main->message("");
+
+        cdp1851FramePointer[numberOfCdp1851Frames_]->reset();
+        numberOfCdp1851Frames_++;
+    }
+
+    cdp1852FramePointer.clear();
+    numberOfCdp1852Frames_ = 0;
+    for (std::vector<Cdp1852>::iterator cdp1852 = elfConfiguration.ioConfiguration.cdp1852.begin (); cdp1852 != elfConfiguration.ioConfiguration.cdp1852.end (); ++cdp1852)
+    {
+        cdp1852FramePointer.resize(numberOfCdp1852Frames_+1);
+#if defined (__WXMAC__) || (__linux__)
+        cdp1852FramePointer[numberOfCdp1852Frames_] = new Cdp1852Frame("CDP1852", cdp1852->pos, wxSize(310, 180), numberOfCdp1852Frames_);
+#else
+        cdp1852FramePointer[numberOfCdp1852Frames_] = new Cdp1852Frame("CDP1852", cdp1852->pos, wxSize(329, 180), numberOfCdp1852Frames_);
+#endif
+        
+        ioGroup = "";
+        if (cdp1852->ioGroup != -1)
+            ioGroup.Printf(" on group %d", cdp1852->ioGroup);
+
+        p_Main->message("Configuring CDP1852" + ioGroup);
+
+        setOutTypeAndNumber(cdp1852->ioGroup+1, cdp1852->writePort, CDP1852_WRITE, numberOfCdp1852Frames_, "write to port");
+
+        setInTypeAndNumber(cdp1852->ioGroup+1, cdp1852->readPort, CDP1852_READ, numberOfCdp1852Frames_, "read port");
+
+        setEfTypeAndNumber(-1, cdp1852->ioGroup+1, cdp1852->efStb, CDP1852_EF, numberOfCdp1852Frames_, "STB");
+
+        p_Main->message("");
+
+        cdp1852FramePointer[numberOfCdp1852Frames_]->reset();
+        numberOfCdp1852Frames_++;
+    }
+
+    cd4536bPointer.clear();
+    numberOfCd4536b_ = 0;
+    for (std::vector<Cd4536bIo>::iterator cd4536bIo = elfConfiguration.ioConfiguration.cd4536bIo.begin (); cd4536bIo != elfConfiguration.ioConfiguration.cd4536bIo.end (); ++cd4536bIo)
+    {
+        cd4536bPointer.resize(numberOfCd4536b_+1);
+        cd4536bPointer[numberOfCd4536b_] = new Cd4536b();
+        
+        cd4536bPointer[numberOfCd4536b_]->Configure(*cd4536bIo, numberOfCd4536b_);
+
+        numberOfCd4536b_++;
+    }
+}
+
+void Xmlemu::configureVideoExtensions()
+{
     if (elfConfiguration.useCoinVideo)
     {
         double zoom = p_Main->getZoom(elfConfiguration.ioConfiguration.coinVideoNumber);
@@ -6821,11 +7048,6 @@ void Xmlemu::configureExtensions()
         st4VideoPointer->Show(true);
     }
 
-    if (computerConfiguration.soundType_ == SOUND_SUPER_VP550 || computerConfiguration.soundType_ == SOUND_SUPER_VP551)
-    {
-        cycleType_[SOUNDCYCLE] = VP550CYCLE;
-    }
-     
     if (elfConfiguration.useVip2KVideo)
     {
         double zoom = p_Main->getZoom(elfConfiguration.ioConfiguration.vip2KVideoNumber);
@@ -6839,12 +7061,6 @@ void Xmlemu::configureExtensions()
         vip2KVideoPointer->Show(true);
     }
 
-    if (elfConfiguration.ioConfiguration.fredKeypad.defined)
-    {
-        fredkeypadPointer = new KeypadFred();
-        fredkeypadPointer->configure(elfConfiguration.ioConfiguration, keyDefA1_, keyDefA2_);
-    }
-
     if (elfConfiguration.useFredVideo)
     {
         double zoom = p_Main->getZoom(elfConfiguration.ioConfiguration.fredVideoNumber);
@@ -6856,7 +7072,7 @@ void Xmlemu::configureExtensions()
         fredVideoPointer->setZoom(zoom);
         fredVideoPointer->Show(true);
     }
-
+    
     if (elfConfiguration.use6845)
     {
         double zoom = p_Main->getZoom(elfConfiguration.ioConfiguration.mc6845VideoNumber);
@@ -6908,7 +7124,10 @@ void Xmlemu::configureExtensions()
         
         defineMemoryType(0x800, 0xFFF, SN76430NRAM);
     }
+}
 
+void Xmlemu::configureV1870Extension()
+{
     if (elfConfiguration.usev1870)
     {
         double zoom = p_Main->getZoom(elfConfiguration.ioConfiguration.v1870VideoNumber);
@@ -6927,9 +7146,9 @@ void Xmlemu::configureExtensions()
              
         efType_[0][0][elfConfiguration.ioConfiguration.v1870ef] = V1870EF;
 
-        cycleType_[VIDEOCYCLE_V1870] = V1870CYCLE;
+        setCycleType(VIDEOCYCLE_V1870, V1870CYCLE);
         if (elfConfiguration.ioConfiguration.v1870cursorBlink)
-            cycleType_[BLINKCYCLE_V1870] = V1870BLINK;
+            setCycleType(BLINKCYCLE_V1870, V1870BLINK);
 
         if (elfConfiguration.ioConfiguration.v1870outWrite == -1 && elfConfiguration.ioConfiguration.v1870outSelect == -1)
         {
@@ -6953,191 +7172,10 @@ void Xmlemu::configureExtensions()
         defineMemoryType(0xf800, 0xffff, PRAM1870);
         vis1870Pointer->Show(true);
     }
+}
 
-    if (elfConfiguration.fdc1793Enabled)
-    {
-        configure1793(elfConfiguration.ioConfiguration.fdcSides, elfConfiguration.ioConfiguration.fdcTracks, elfConfiguration.ioConfiguration.fdcSectors, elfConfiguration.ioConfiguration.fdcSectorLength, elfConfiguration.ioConfiguration.fdcMaxFmtCount, XML, elfConfiguration.ioConfiguration, false);
-        resetFdc();
-
-        for (int disk=0; disk<4; disk++)
-        {
-            fileName = p_Main->getUpdFloppyFile(FDCTYPE_17XX, disk);
-            if (fileName.Len() == 0)
-                setFdcDiskname(disk+1, "");
-            else
-                setFdcDiskname(disk+1, p_Main->getUpdFloppyDir(FDCTYPE_17XX, disk)+p_Main->getUpdFloppyFile(FDCTYPE_17XX, disk));
-        }
-    }
-
-    if (elfConfiguration.fdc1770Enabled)
-    {
-        configure1770(elfConfiguration.ioConfiguration.fdcSides, elfConfiguration.ioConfiguration.fdcTracks, elfConfiguration.ioConfiguration.fdcSectors, elfConfiguration.ioConfiguration.fdcSectorLength, elfConfiguration.ioConfiguration.fdcMaxFmtCount, XML, elfConfiguration.ioConfiguration);
-        resetFdc();
-
-        for (int disk=0; disk<4; disk++)
-        {
-            fileName = p_Main->getUpdFloppyFile(FDCTYPE_17XX, disk);
-            if (fileName.Len() == 0)
-                setFdcDiskname(disk+1, "");
-            else
-                setFdcDiskname(disk+1, p_Main->getUpdFloppyDir(FDCTYPE_17XX, disk)+p_Main->getUpdFloppyFile(FDCTYPE_17XX, disk));
-        }
-    }
-
-    if (elfConfiguration.useUpd765)
-    {
-        configureUpd765(FDCTYPE_MICROBOARD, elfConfiguration.ioConfiguration.upd765Io);
-
-        for (int disk=0; disk<4; disk++)
-        {
-            if (p_Main->getDirectoryMode(FDCTYPE_MICROBOARD, disk))
-                setUpdDiskname(disk+1, p_Main->getUpdFloppyDirSwitched(FDCTYPE_MICROBOARD, disk), "");
-            else
-            {
-                fileName = p_Main->getUpdFloppyFile(FDCTYPE_MICROBOARD, disk);
-                if (fileName.Len() == 0)
-                    setUpdDiskname(disk+1, p_Main->getUpdFloppyDir(FDCTYPE_MICROBOARD, disk), "");
-                else
-                    setUpdDiskname(disk+1, p_Main->getUpdFloppyDir(FDCTYPE_MICROBOARD, disk), p_Main->getUpdFloppyFile(FDCTYPE_MICROBOARD, disk));
-            }
-        }
-    }
-
-    if (elfConfiguration.ideEnabled)
-    {
-        configureIde(p_Main->getIdeDir(XML) + p_Main->getIdeFile(XML), p_Main->getIdeDir(XML) + "disk2.ide", elfConfiguration.ioConfiguration);
-    }
-
-    if (elfConfiguration.useRtcDS12887)
-    {
-        configureRtc(elfConfiguration.ioConfiguration);
-    }
-
-    if (computerConfiguration.useBasicPrinter_)
-    {
-        p_Printer = new Printer();
-        p_Printer->configureBasicPrinter(elfConfiguration.ioConfiguration);
-        p_Printer->init(p_Printer, PRINTER_BASIC);
-    }
-
-    if (computerConfiguration.useParallelPrinter_)
-    {
-        p_PrinterParallel = new Printer();
-        p_PrinterParallel->configureParallelPrinter(elfConfiguration.ioConfiguration);
-        p_PrinterParallel->init(p_PrinterParallel, PRINTER_PARALLEL);
-    }
-    
-    if (computerConfiguration.useSerialPrinter_)
-    {
-        p_PrinterSerial = new Printer();
-        p_PrinterSerial->configureSerialPrinter(elfConfiguration.ioConfiguration);
-        p_PrinterSerial->init(p_PrinterSerial, PRINTER_SERIAL);
-    }
-    
-    if (computerConfiguration.useQSerialPrinter_)
-    {
-        p_Printer = new Printer();
-        p_Printer->init(p_Printer, PRINTER_BASIC);
-        setEfType(elfConfiguration.ioConfiguration.printerIoGroup +1, elfConfiguration.ioConfiguration.qSerialPrinterEf, BASICQ_PRINT_EF);
-    }
-    
-    if (computerConfiguration.useThermalPrinter_)
-    {
-        p_PrinterThermal = new Printer();
-        p_PrinterThermal->configureThermalPrinter(elfConfiguration.ioConfiguration);
-        p_PrinterThermal->init(p_PrinterThermal, COMXTHPRINTER);
-    }
-
-    if (elfConfiguration.useLedModule)
-    {
-        ledModulePointer = new LedModule("Led Module", p_Main->getLedModulePos(), wxSize(172, 116), XML);
-        ledModulePointer->configure(elfConfiguration.ioConfiguration);
-        ledModulePointer->Show(p_Main->getUseElfControlWindows(XML));
-    }
-
-    setSoundType (computerConfiguration.soundType_);
-
-    if (elfConfiguration.useDip)
-    {
-        setInType(elfConfiguration.ioConfiguration.dipIn, CIDELSAIN2);
-
-        p_Main->message("Configuring DIP switch");
-        
-        message.Printf("	Input %d, hex value: %02X\n", elfConfiguration.ioConfiguration.dipIn, elfConfiguration.ioConfiguration.dipValue);
-        p_Main->message(message);
-    }
-    
-    if (elfConfiguration.useAdConvertor)
-    {
-        setInType(elfConfiguration.ioConfiguration.adConvertorIn, AD_CONVERTOR_IN);
-        setOutType(elfConfiguration.ioConfiguration.adConvertorOut, AD_CONVERTOR_OUT);
-
-        p_Main->message("Configuring A/D Convertor & Printer");
-        
-        if (elfConfiguration.ioConfiguration.adConvertorOut != -1)
-        {
-            message.Printf("	Output %d, select channel/printer data (channel F)", elfConfiguration.ioConfiguration.adConvertorOut);
-            p_Main->message(message);
-        }
-
-        if (elfConfiguration.ioConfiguration.adConvertorIn != -1)
-        {
-            message.Printf("	Input %d, AD/I Input (channel 0 to E)", elfConfiguration.ioConfiguration.adConvertorIn);
-            p_Main->message(message);
-        }
-    
-        if (elfConfiguration.ioConfiguration.adConvertorAddressStart != -1 && elfConfiguration.ioConfiguration.adConvertorAddressEnd != -1)
-        {
-            message.Printf("	@%04X-@%04X: AD/S Input (channel 0 to F)", elfConfiguration.ioConfiguration.adConvertorAddressStart, elfConfiguration.ioConfiguration.adConvertorAddressEnd);
-            p_Main->message(message);
-        }
-        p_Main->message("");
-    }
-
-
-    if (elfConfiguration.useDma)
-        setCycleType(DRAMDMACYCLE, DRAMDMA);
-
-    if (elfConfiguration.useInt)
-        setCycleType(INTCYCLE, INTCLOCK);
-
-    if (elfConfiguration.useNvRamMp)
-        setInType(elfConfiguration.ioConfiguration.nvRamIoGroup+1, elfConfiguration.ioConfiguration.nvRamProtectIn, NVRAM_MP_IN);
-
-    if (elfConfiguration.panelType_ == PANEL_COSMAC && elfConfiguration.useHexKeyboard)
-    {
-        keypadPointer = new Keypad("Keypad", p_Main->getKeypadPos(XML), wxSize(172, 229), ELF);
-        keypadPointer->Show(p_Main->getUseElfControlWindows(XML));
-        p_Main->message("Configuring Keypad Module\n");
-    }
-
-    if (elfConfiguration.panelType_ == PANEL_COSMICOS && elfConfiguration.useHexKeyboard)
-    {
-        p_Cosmicoshex = new Cosmicoshex("Hex Panel", p_Main->getKeypadPos(COSMICOS), wxSize(185, 160));
-        p_Cosmicoshex->Show(p_Main->getUseElfControlWindows(XML) && elfConfiguration.useHexKeyboard);
-
-        setOutType(elfConfiguration.ioConfiguration.hexCosmicosHexOutput, COSMICOSHEX);
-        setOutType(elfConfiguration.ioConfiguration.hexCosmicosSegOutput, COSMICOS7SEG);
-        setInType(elfConfiguration.ioConfiguration.hexCosmicosHexInput, COSMICOSHEX);
-        setInType(elfConfiguration.ioConfiguration.hexCosmicosSegInput, COSMICOS7SEG);
-        setEfType(elfConfiguration.ioConfiguration.hexCosmicosEfRet, COSMICOSRET);
-        setEfType(elfConfiguration.ioConfiguration.hexCosmicosEfDec, COSMICOSDEC);
-        setEfType(elfConfiguration.ioConfiguration.hexCosmicosEfReq, COSMICOSREQ);
-
-        cycleType_[5] = COSMICOS7SEG;
-        
-        p_Main->message("Configuring Hex and 7 Segment Module");
-        
-        printBuffer.Printf("	Output %d: select hex row, input %d: hex column", elfConfiguration.ioConfiguration.hexCosmicosHexOutput, elfConfiguration.ioConfiguration.hexCosmicosHexInput);
-        p_Main->message(printBuffer);
-        
-        printBuffer.Printf("	Output %d: 7 segment display, input %d: reset 7 segment", elfConfiguration.ioConfiguration.hexCosmicosSegOutput, elfConfiguration.ioConfiguration.hexCosmicosSegInput);
-        p_Main->message(printBuffer);
-
-        printBuffer.Printf("	EF%d: hex RET, EF%d: hex DEC/SEQ, EF%d: hex REQ/SEQ\n", elfConfiguration.ioConfiguration.hexCosmicosEfRet, elfConfiguration.ioConfiguration.hexCosmicosEfDec, elfConfiguration.ioConfiguration.hexCosmicosEfReq);
-        p_Main->message(printBuffer);
-    }
-
+void Xmlemu::configureKeyboardExtensions()
+{
     if (elfConfiguration.useBitKeypad)
     {
         p_Main->message("Configuring keypad / keyboard");
@@ -7221,6 +7259,12 @@ void Xmlemu::configureExtensions()
         }
     }
 
+    if (elfConfiguration.ioConfiguration.fredKeypad.defined)
+    {
+        fredkeypadPointer = new KeypadFred();
+        fredkeypadPointer->configure(elfConfiguration.ioConfiguration, keyDefA1_, keyDefA2_);
+    }
+
     if (elfConfiguration.useKeyboard)
         configureKeyboard(elfConfiguration.ioConfiguration, computerConfiguration.addressLocations, computerConfiguration.saveCommand_);
 
@@ -7232,73 +7276,180 @@ void Xmlemu::configureExtensions()
     
     if (elfConfiguration.usePs2gpio)
         configurePs2gpio(elfConfiguration.forceUpperCase, elfConfiguration.ioConfiguration);
+}
+
+void Xmlemu::configureDiskExtensions()
+{
+    wxString fileName;
     
-    if (elfConfiguration.useUsbSb)
+    if (elfConfiguration.fdc1793Enabled)
+    {
+        configure1793(elfConfiguration.ioConfiguration.fdcSides, elfConfiguration.ioConfiguration.fdcTracks, elfConfiguration.ioConfiguration.fdcSectors, elfConfiguration.ioConfiguration.fdcSectorLength, elfConfiguration.ioConfiguration.fdcMaxFmtCount, XML, elfConfiguration.ioConfiguration, false);
+        resetFdc();
+
+        for (int disk=0; disk<4; disk++)
+        {
+            fileName = p_Main->getUpdFloppyFile(FDCTYPE_17XX, disk);
+            if (fileName.Len() == 0)
+                setFdcDiskname(disk+1, "");
+            else
+                setFdcDiskname(disk+1, p_Main->getUpdFloppyDir(FDCTYPE_17XX, disk)+p_Main->getUpdFloppyFile(FDCTYPE_17XX, disk));
+        }
+    }
+
+    if (elfConfiguration.fdc1770Enabled)
+    {
+        configure1770(elfConfiguration.ioConfiguration.fdcSides, elfConfiguration.ioConfiguration.fdcTracks, elfConfiguration.ioConfiguration.fdcSectors, elfConfiguration.ioConfiguration.fdcSectorLength, elfConfiguration.ioConfiguration.fdcMaxFmtCount, XML, elfConfiguration.ioConfiguration);
+        resetFdc();
+
+        for (int disk=0; disk<4; disk++)
+        {
+            fileName = p_Main->getUpdFloppyFile(FDCTYPE_17XX, disk);
+            if (fileName.Len() == 0)
+                setFdcDiskname(disk+1, "");
+            else
+                setFdcDiskname(disk+1, p_Main->getUpdFloppyDir(FDCTYPE_17XX, disk)+p_Main->getUpdFloppyFile(FDCTYPE_17XX, disk));
+        }
+    }
+
+    if (elfConfiguration.useUpd765)
+    {
+        configureUpd765(FDCTYPE_MICROBOARD, elfConfiguration.ioConfiguration.upd765Io);
+
+        for (int disk=0; disk<4; disk++)
+        {
+            if (p_Main->getDirectoryMode(FDCTYPE_MICROBOARD, disk))
+                setUpdDiskname(disk+1, p_Main->getUpdFloppyDirSwitched(FDCTYPE_MICROBOARD, disk), "");
+            else
+            {
+                fileName = p_Main->getUpdFloppyFile(FDCTYPE_MICROBOARD, disk);
+                if (fileName.Len() == 0)
+                    setUpdDiskname(disk+1, p_Main->getUpdFloppyDir(FDCTYPE_MICROBOARD, disk), "");
+                else
+                    setUpdDiskname(disk+1, p_Main->getUpdFloppyDir(FDCTYPE_MICROBOARD, disk), p_Main->getUpdFloppyFile(FDCTYPE_MICROBOARD, disk));
+            }
+        }
+    }
+
+    if (elfConfiguration.ideEnabled)
+    {
+        configureIde(p_Main->getIdeDir(XML) + p_Main->getIdeFile(XML), p_Main->getIdeDir(XML) + "disk2.ide", elfConfiguration.ioConfiguration);
+    }
+}
+
+void Xmlemu::configurePrinterExtensions()
+{
+    wxString ioGroup;
+    wxString printBuffer;
+
+    if (computerConfiguration.useBasicPrinter_)
+    {
+        p_Printer = new Printer();
+        p_Printer->configureBasicPrinter(elfConfiguration.ioConfiguration);
+        p_Printer->init(p_Printer, PRINTER_BASIC);
+    }
+
+    if (computerConfiguration.useParallelPrinter_)
+    {
+        p_PrinterParallel = new Printer();
+        p_PrinterParallel->configureParallelPrinter(elfConfiguration.ioConfiguration);
+        p_PrinterParallel->init(p_PrinterParallel, PRINTER_PARALLEL);
+    }
+    
+    if (computerConfiguration.useSerialPrinter_)
+    {
+        p_PrinterSerial = new Printer();
+        p_PrinterSerial->configureSerialPrinter(elfConfiguration.ioConfiguration);
+        p_PrinterSerial->init(p_PrinterSerial, PRINTER_SERIAL);
+    }
+    
+    if (computerConfiguration.useQSerialPrinter_)
+    {
+        p_Printer = new Printer();
+        p_Printer->init(p_Printer, PRINTER_BASIC);
+        setEfType(elfConfiguration.ioConfiguration.printerIoGroup +1, elfConfiguration.ioConfiguration.qSerialPrinterEf, BASICQ_PRINT_EF);
+    }
+    
+    if (computerConfiguration.useThermalPrinter_)
+    {
+        p_PrinterThermal = new Printer();
+        p_PrinterThermal->configureThermalPrinter(elfConfiguration.ioConfiguration);
+        p_PrinterThermal->init(p_PrinterThermal, COMXTHPRINTER);
+    }
+
+    if (computerConfiguration.useCentronicsPrinter_)
+    {
+        p_Printer = new Printer();
+        p_Printer->init(p_Printer, PRINTER_BASIC);
+        if (efType_[0][elfConfiguration.ioConfiguration.printerIoGroup +1][elfConfiguration.ioConfiguration.centronicsPrinterEf] == 0)
+            setEfType(elfConfiguration.ioConfiguration.printerIoGroup +1, elfConfiguration.ioConfiguration.centronicsPrinterEf, CENTRONICS_PRINT_EF);
+        
+        p_Main->message("Configuring Centronics P-1/PR-40 Printer" + ioGroup);
+
+        printBuffer.Printf("    Output %d: latch, Q: strobe, EF  %d: busy\n", elfConfiguration.ioConfiguration.centronicsPrinterOutput, elfConfiguration.ioConfiguration.centronicsPrinterEf);
+        p_Main->message(printBuffer);
+    }
+}
+
+void Xmlemu::configureSoundExtensions()
+{
+    wxString ioGroup;
+    wxString printBuffer;
+
+    if (computerConfiguration.soundType_ == SOUND_SUPER_VP550 || computerConfiguration.soundType_ == SOUND_SUPER_VP551)
+    {
+        setCycleType(SOUNDCYCLE, VP550CYCLE);
+    }
+     
+    setSoundType (computerConfiguration.soundType_);
+
+    if (elfConfiguration.useBitSound)
     {
         ioGroup = "";
-        wxString printBuffer1 = "", printBuffer2 = "", printBuffer3 = "";
-        if (elfConfiguration.ioConfiguration.usbSbIoGroup != -1)
-            ioGroup.Printf(" on group %d", elfConfiguration.ioConfiguration.usbSbIoGroup);
+        if (elfConfiguration.ioConfiguration.bitSoundIoGroup != -1)
+            ioGroup.Printf(" on group %d", elfConfiguration.ioConfiguration.bitSoundIoGroup);
 
-        setEfType(elfConfiguration.ioConfiguration.usbSbIoGroup+1, elfConfiguration.ioConfiguration.usbSbEf, SB_EF);
-        setInType(elfConfiguration.ioConfiguration.usbSbIn5.qValue, elfConfiguration.ioConfiguration.usbSbIoGroup+1, elfConfiguration.ioConfiguration.usbSbIn5.portNumber, SB_IN5);
-        setInType(elfConfiguration.ioConfiguration.usbSbIn5.qValue, elfConfiguration.ioConfiguration.usbSbIoGroup+1, elfConfiguration.ioConfiguration.usbSbIn6.portNumber, SB_IN6);
-        setOutType(elfConfiguration.ioConfiguration.usbSbOut.qValue, elfConfiguration.ioConfiguration.usbSbIoGroup+1, elfConfiguration.ioConfiguration.usbSbOut.portNumber, SB_OUT);
-
-        p_Main->message("Configuring USB for COMX Super Board" + ioGroup);
-        if (elfConfiguration.ioConfiguration.usbSbOut.qValue == -1)
-            printBuffer1.Printf("	Output %d: UART out, ", elfConfiguration.ioConfiguration.usbSbOut.portNumber);
-        else
-        {
-            printBuffer1.Printf("	Q = %d & output %d: UART out, ", elfConfiguration.ioConfiguration.usbSbOut.qValue, elfConfiguration.ioConfiguration.usbSbOut.portNumber);
-        }
-
-        if (elfConfiguration.ioConfiguration.usbSbIn5.qValue == -1)
-            printBuffer2.Printf("input %d: UART in, ", elfConfiguration.ioConfiguration.usbSbIn5.portNumber);
-        else
-        {
-            printBuffer2.Printf("Q = %d & input %d: UART in, ", elfConfiguration.ioConfiguration.usbSbIn5.qValue, elfConfiguration.ioConfiguration.usbSbIn5.portNumber);
-        }
-
-        if (elfConfiguration.ioConfiguration.usbSbIn6.qValue == -1)
-            printBuffer3.Printf("input %d: reset ef", elfConfiguration.ioConfiguration.usbSbIn6.portNumber);
-        else
-        {
-            printBuffer3.Printf("Q = %d & input %d: reset ef", elfConfiguration.ioConfiguration.usbSbIn6.qValue, elfConfiguration.ioConfiguration.usbSbIn5.portNumber);
-        }
-
-        p_Main->message(printBuffer1+printBuffer2+printBuffer3);
-    }
-    
-    diagDmaLedOn_ = false;
-    if (computerConfiguration.useDiagnosticBoard_)
-    {
-        setInType(elfConfiguration.ioConfiguration.diagIn1, COMXDIAGIN1);
-        setInType(elfConfiguration.ioConfiguration.diagIn2, COMXDIAGIN2);
-        setOutType(elfConfiguration.ioConfiguration.diagOut, COMXDIAGOUT1);
+        p_Main->message("Configuring sound" + ioGroup);
         
-        p_Main->message("Configuring Diagnose Card");
-
-        printBuffer.Printf("	Input %d, bit 1: debounce, bit 2: Step, bit 6: Abort, bit 7 Repeat", elfConfiguration.ioConfiguration.diagIn1);
-        p_Main->message(printBuffer);
-
-        printBuffer.Printf("	Input %d, bit 1: ROM Checksum, bit 2: IDEN, bit 3: Factory unit", elfConfiguration.ioConfiguration.diagIn2);
-        p_Main->message(printBuffer);
-
-        printBuffer.Printf("	Output %d, automated keyboard test", elfConfiguration.ioConfiguration.diagOut);
-        p_Main->message(printBuffer);
-
-        if (computerConfiguration.diagRomOn_ == 1)
-            diagRomActive_ = true;
+        setOutType(elfConfiguration.ioConfiguration.bitSoundOut.qValue, elfConfiguration.ioConfiguration.bitSoundIoGroup+1, elfConfiguration.ioConfiguration.bitSoundOut.portNumber, BITSOUND_OUT);
+        
+        if (elfConfiguration.ioConfiguration.bitSoundOut.qValue == -1)
+            printBuffer.Printf("    Output %d using mask %d: tone wave", elfConfiguration.ioConfiguration.bitSoundOut.portNumber, elfConfiguration.ioConfiguration.bitSoundMask);
         else
-            diagRomActive_ = false;
-
-        if (elfConfiguration.usev1870)
         {
-            p_Main->eventUpdateDiagLedStatus(1, diagRomActive_);
-            p_Main->eventUpdateDiagLedStatus(2, diagDmaLedOn_);
+            printBuffer.Printf("    Q = %d & output %d using mask %d: tone wave", elfConfiguration.ioConfiguration.bitSoundOut.qValue, elfConfiguration.ioConfiguration.bitSoundOut.portNumber, elfConfiguration.ioConfiguration.bitSoundMask);
         }
+        p_Main->message(printBuffer);
+        p_Main->message("");
     }
+}
+
+void Xmlemu::configureTapeExtensions()
+{
+    wxString ioGroup;
+    wxString printBuffer;
+
+    if (elfConfiguration.useTape)
+    {
+        ioGroup = "";
+        if (elfConfiguration.ioConfiguration.tapeIoGroup != -1)
+            ioGroup.Printf(" on group %d", elfConfiguration.ioConfiguration.tapeIoGroup);
+
+        p_Main->message("Configuring Cassette" + ioGroup);
+
+        setEfTypeAndNumber(-1, elfConfiguration.ioConfiguration.tapeIoGroup+1, elfConfiguration.ioConfiguration.tapeEf, TAPE_EF, 0, "cassette in");
+        setEfTypeAndNumber(-1, elfConfiguration.ioConfiguration.tapeIoGroup+1, elfConfiguration.ioConfiguration.tapeEfRun, TAPE_RUNNING_EF, 0, "cassette running");
+        
+        if (elfConfiguration.useTapeMicro)
+            setOutTypeAndNumber(elfConfiguration.ioConfiguration.tapeIoGroup+1, elfConfiguration.ioConfiguration.tapeOut, TAPE_OUT_MICRO, 0, "tape motor output");
+        else
+            setOutTypeAndNumber(elfConfiguration.ioConfiguration.tapeIoGroup+1, elfConfiguration.ioConfiguration.tapeOut, TAPE_OUT, 0, "cassette on/off");
+        
+        setOutTypeAndNumber(elfConfiguration.ioConfiguration.tapeIoGroup+1, elfConfiguration.ioConfiguration.tapeQOut, TAPE_OUT_Q, 0, "cassette out (insead of Q)");
+
+        p_Main->message("");
+    }
+
     if (elfConfiguration.useTapeHw)
     {
         ioGroup = "";
@@ -7311,25 +7462,25 @@ void Xmlemu::configureExtensions()
             
             setEfType(elfConfiguration.ioConfiguration.tapeIoGroup+1, elfConfiguration.ioConfiguration.tapeEfOut, TAPE_CV_EF_OUT);
             setEfType(elfConfiguration.ioConfiguration.tapeIoGroup+1, elfConfiguration.ioConfiguration.tapeEf, TAPE_HW_EF);
-            printBuffer.Printf("	EF %d: write buffer empty, EF %d: data ready", elfConfiguration.ioConfiguration.tapeEfOut, elfConfiguration.ioConfiguration.tapeEf);
+            printBuffer.Printf("    EF %d: write buffer empty, EF %d: data ready", elfConfiguration.ioConfiguration.tapeEfOut, elfConfiguration.ioConfiguration.tapeEf);
             p_Main->message(printBuffer);
             
             setOutType(elfConfiguration.ioConfiguration.tapeOut.qValue, elfConfiguration.ioConfiguration.tapeIoGroup+1, elfConfiguration.ioConfiguration.tapeOut.portNumber, TAPE_CV_OUT);
             setInType(elfConfiguration.ioConfiguration.tapeIn.qValue, elfConfiguration.ioConfiguration.tapeIoGroup+1, elfConfiguration.ioConfiguration.tapeIn.portNumber, TAPE_CV_IN);
             
             if (elfConfiguration.ioConfiguration.tapeOut.qValue == -1)
-                printBuffer.Printf("	Output %d: write data", elfConfiguration.ioConfiguration.tapeOut.portNumber);
+                printBuffer.Printf("    Output %d: write data", elfConfiguration.ioConfiguration.tapeOut.portNumber);
             else
             {
-                printBuffer.Printf("	Q = %d & output %d: write data", elfConfiguration.ioConfiguration.tapeOut.qValue, elfConfiguration.ioConfiguration.tapeOut.portNumber);
+                printBuffer.Printf("    Q = %d & output %d: write data", elfConfiguration.ioConfiguration.tapeOut.qValue, elfConfiguration.ioConfiguration.tapeOut.portNumber);
             }
             p_Main->message(printBuffer);
 
             if (elfConfiguration.ioConfiguration.tapeIn.qValue == -1)
-                printBuffer.Printf("	Input %d: read data", elfConfiguration.ioConfiguration.tapeIn.portNumber);
+                printBuffer.Printf("    Input %d: read data", elfConfiguration.ioConfiguration.tapeIn.portNumber);
             else
             {
-                printBuffer.Printf("	Q = %d & input %d: read data ", elfConfiguration.ioConfiguration.tapeIn.qValue, elfConfiguration.ioConfiguration.tapeIn.portNumber);
+                printBuffer.Printf("    Q = %d & input %d: read data ", elfConfiguration.ioConfiguration.tapeIn.qValue, elfConfiguration.ioConfiguration.tapeIn.portNumber);
             }
             p_Main->message(printBuffer);
             p_Main->message("");
@@ -7344,136 +7495,23 @@ void Xmlemu::configureExtensions()
             setOutType(elfConfiguration.ioConfiguration.tapeOutSound, FREDTAPESOUND);
             setInType(elfConfiguration.ioConfiguration.tapeIoGroup+1, elfConfiguration.ioConfiguration.tapeIn.portNumber, FREDINP0);
             
-            printBuffer.Printf("	Output %d: bit 4 = program mode, bit 5 = direct mode, bit 6 = write mode", elfConfiguration.ioConfiguration.tapeOutMode);
+            printBuffer.Printf("    Output %d: bit 4 = program mode, bit 5 = direct mode, bit 6 = write mode", elfConfiguration.ioConfiguration.tapeOutMode);
             p_Main->message(printBuffer);
 
-            printBuffer.Printf("	Output %d: bit 0 = 1 - run tape, bit 1 = 1 - sound on, bit 2 = sound", elfConfiguration.ioConfiguration.tapeOutSound);
+            printBuffer.Printf("    Output %d: bit 0 = 1 - run tape, bit 1 = 1 - sound on, bit 2 = sound", elfConfiguration.ioConfiguration.tapeOutSound);
             p_Main->message(printBuffer);
 
-            printBuffer.Printf("	Input %d: read data", elfConfiguration.ioConfiguration.tapeIn.portNumber);
+            printBuffer.Printf("    Input %d: read data", elfConfiguration.ioConfiguration.tapeIn.portNumber);
             p_Main->message(printBuffer);
 
             setEfType(elfConfiguration.ioConfiguration.tapeEf, FREDEF1);
             setEfType(elfConfiguration.ioConfiguration.tapeEfRun, FREDEF2);
             setEfType(elfConfiguration.ioConfiguration.tapeEfError, FREDEF4);
-            printBuffer.Printf("	EF %d: data ready (if mode = %d), EF %d: tape run/stop, EF %d: tape error", elfConfiguration.ioConfiguration.tapeEf, elfConfiguration.ioConfiguration.tapeMode, elfConfiguration.ioConfiguration.tapeEfRun, elfConfiguration.ioConfiguration.tapeEfError);
+            printBuffer.Printf("    EF %d: data ready (if mode = %d), EF %d: tape run/stop, EF %d: tape error", elfConfiguration.ioConfiguration.tapeEf, elfConfiguration.ioConfiguration.tapeMode, elfConfiguration.ioConfiguration.tapeEfRun, elfConfiguration.ioConfiguration.tapeEfError);
             p_Main->message(printBuffer);
 
             p_Main->message("");
-
         }
-    }
-    
-    if (elfConfiguration.useBitSound)
-    {
-        ioGroup = "";
-        if (elfConfiguration.ioConfiguration.bitSoundIoGroup != -1)
-            ioGroup.Printf(" on group %d", elfConfiguration.ioConfiguration.bitSoundIoGroup);
-
-        p_Main->message("Configuring sound" + ioGroup);
-        
-        setOutType(elfConfiguration.ioConfiguration.bitSoundOut.qValue, elfConfiguration.ioConfiguration.bitSoundIoGroup+1, elfConfiguration.ioConfiguration.bitSoundOut.portNumber, BITSOUND_OUT);
-        
-        if (elfConfiguration.ioConfiguration.bitSoundOut.qValue == -1)
-            printBuffer.Printf("	Output %d using mask %d: tone wave", elfConfiguration.ioConfiguration.bitSoundOut.portNumber, elfConfiguration.ioConfiguration.bitSoundMask);
-        else
-        {
-            printBuffer.Printf("	Q = %d & output %d using mask %d: tone wave", elfConfiguration.ioConfiguration.bitSoundOut.qValue, elfConfiguration.ioConfiguration.bitSoundOut.portNumber, elfConfiguration.ioConfiguration.bitSoundMask);
-        }
-        p_Main->message(printBuffer);
-        p_Main->message("");
-    }
-
-    if (computerConfiguration.useCentronicsPrinter_)
-    {
-        p_Printer = new Printer();
-        p_Printer->init(p_Printer, PRINTER_BASIC);
-        if (efType_[0][elfConfiguration.ioConfiguration.printerIoGroup +1][elfConfiguration.ioConfiguration.centronicsPrinterEf] == 0)
-            setEfType(elfConfiguration.ioConfiguration.printerIoGroup +1, elfConfiguration.ioConfiguration.centronicsPrinterEf, CENTRONICS_PRINT_EF);
-        
-        p_Main->message("Configuring Centronics P-1/PR-40 Printer" + ioGroup);
-
-        printBuffer.Printf("	Output %d: latch, Q: strobe, EF  %d: busy\n", elfConfiguration.ioConfiguration.centronicsPrinterOutput, elfConfiguration.ioConfiguration.centronicsPrinterEf);
-        p_Main->message(printBuffer);
-    }
-
-    cdp1851FramePointer.clear();
-    numberOfCdp1851Frames_ = 0;
-    for (std::vector<Cdp1851>::iterator cdp1851 = elfConfiguration.ioConfiguration.cdp1851.begin (); cdp1851 != elfConfiguration.ioConfiguration.cdp1851.end (); ++cdp1851)
-    {
-        cdp1851FramePointer.resize(numberOfCdp1851Frames_+1);
-#if defined (__WXMAC__) || (__linux__)
-        cdp1851FramePointer[numberOfCdp1851Frames_] = new PioFrame("CDP1851 PIO", cdp1851->pos, wxSize(310, 180), numberOfCdp1851Frames_);
-#else
-        cdp1851FramePointer[numberOfCdp1851Frames_] = new PioFrame("CDP1851 PIO", cdp1851->pos, wxSize(329, 180), numberOfCdp1851Frames_);
-#endif
-        
-        ioGroup = "";
-        if (cdp1851->ioGroup != -1)
-            ioGroup.Printf(" on group %d", cdp1851->ioGroup);
-
-        p_Main->message("Configuring CDP1851 PIO" + ioGroup);
-
-        setOutTypeAndNumber(cdp1851->ioGroup+1, cdp1851->writePortA, CDP1851_WRITE_A, numberOfCdp1851Frames_, "write to port A");
-        
-        setOutTypeAndNumber(cdp1851->ioGroup+1, cdp1851->writePortB, CDP1851_WRITE_B, numberOfCdp1851Frames_, "write to port B");
-
-        setInTypeAndNumber(cdp1851->ioGroup+1, cdp1851->readPortA, CDP1851_READ_A, numberOfCdp1851Frames_, "read port A");
-
-        setInTypeAndNumber(cdp1851->ioGroup+1, cdp1851->readPortB, CDP1851_READ_B, numberOfCdp1851Frames_, "read port B");
-
-        setOutTypeAndNumber(cdp1851->ioGroup+1, cdp1851->writeControl, CDP1851_WRITE_CONTROL, numberOfCdp1851Frames_, "write control register");
-
-        setInTypeAndNumber(cdp1851->ioGroup+1, cdp1851->readStatus, CDP1851_READ_STATUS, numberOfCdp1851Frames_, "read status");
-
-        setEfTypeAndNumber(-1, cdp1851->ioGroup+1, cdp1851->efaRdy, CDP1851_EF_A, numberOfCdp1851Frames_, "ARDY");
-        setEfTypeAndNumber(-1, cdp1851->ioGroup+1, cdp1851->efbRdy, CDP1851_EF_B, numberOfCdp1851Frames_, "BRDY");
-
-        p_Main->message("");
-
-        cdp1851FramePointer[numberOfCdp1851Frames_]->reset();
-        numberOfCdp1851Frames_++;
-    }
-
-    cdp1852FramePointer.clear();
-    numberOfCdp1852Frames_ = 0;
-    for (std::vector<Cdp1852>::iterator cdp1852 = elfConfiguration.ioConfiguration.cdp1852.begin (); cdp1852 != elfConfiguration.ioConfiguration.cdp1852.end (); ++cdp1852)
-    {
-        cdp1852FramePointer.resize(numberOfCdp1852Frames_+1);
-#if defined (__WXMAC__) || (__linux__)
-        cdp1852FramePointer[numberOfCdp1852Frames_] = new Cdp1852Frame("CDP1852", cdp1852->pos, wxSize(310, 180), numberOfCdp1852Frames_);
-#else
-        cdp1852FramePointer[numberOfCdp1852Frames_] = new Cdp1852Frame("CDP1852", cdp1852->pos, wxSize(329, 180), numberOfCdp1852Frames_);
-#endif
-        
-        ioGroup = "";
-        if (cdp1852->ioGroup != -1)
-            ioGroup.Printf(" on group %d", cdp1852->ioGroup);
-
-        p_Main->message("Configuring CDP1852" + ioGroup);
-
-        setOutTypeAndNumber(cdp1852->ioGroup+1, cdp1852->writePort, CDP1852_WRITE, numberOfCdp1852Frames_, "write to port");
-
-        setInTypeAndNumber(cdp1852->ioGroup+1, cdp1852->readPort, CDP1852_READ, numberOfCdp1852Frames_, "read port");
-
-        setEfTypeAndNumber(-1, cdp1852->ioGroup+1, cdp1852->efStb, CDP1852_EF, numberOfCdp1852Frames_, "STB");
-
-        p_Main->message("");
-
-        cdp1852FramePointer[numberOfCdp1852Frames_]->reset();
-        numberOfCdp1852Frames_++;
-    }
-
-    cd4536bPointer.clear();
-    numberOfCd4536b_ = 0;
-    for (std::vector<Cd4536bIo>::iterator cd4536bIo = elfConfiguration.ioConfiguration.cd4536bIo.begin (); cd4536bIo != elfConfiguration.ioConfiguration.cd4536bIo.end (); ++cd4536bIo)
-    {
-        cd4536bPointer.resize(numberOfCd4536b_+1);
-        cd4536bPointer[numberOfCd4536b_] = new Cd4536b();
-        
-        cd4536bPointer[numberOfCd4536b_]->Configure(*cd4536bIo, numberOfCd4536b_);
-
-        numberOfCd4536b_++;
     }
 }
 

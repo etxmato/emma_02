@@ -175,6 +175,13 @@ public:
     void resetPressed();
     void configureMemory();
     void configureExtensions();
+    void configureVideoExtensions();
+    void configureV1870Extension();
+    void configureKeyboardExtensions();
+    void configureDiskExtensions();
+    void configurePrinterExtensions();
+    void configureSoundExtensions();
+    void configureTapeExtensions();
     void configureCdp1863();
     void moveWindows();
     void updateTitle(wxString Title);
