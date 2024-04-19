@@ -1,0 +1,241 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>RCA Studio IV</name>
+        <config>PAL, 32K BASIC, 2020 Version</config>
+        <clock>3.58</clock>
+        <boot>0</boot>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init>
+        <init type="ef4">1</init>
+        <dirname>StudioIV</dirname>
+    </system>
+    
+    <memory>
+        <rom type="gui">
+            <start>0</start>
+            <end>0xFFF</end>
+            <pulldown mask="am4kbas 32K 2020 PAL*.*">StudioIV</pulldown>
+            <filename>am4kbas 32K 2020 PAL.bin</filename>
+        </rom>
+
+        <ram type="gui">
+            <start>0x1800</start>
+            <end>0x97FF</end>
+        </ram>
+    </memory>
+    
+    <video type="st4">
+        <out type="color">4</out>
+        <out type="color">6</out>
+        <out type="dma">5</out>
+        <colorram>0x1000-0x13ff</colorram>
+        <height>192</height>
+        <graphics>
+            <interrupt>32</interrupt>
+            <start>34</start>
+            <end>225</end>
+            <screenend>262</screenend>
+        </graphics>
+        <border>33x20</border>
+        <xscale>4</xscale>
+        <color type="black">20, 20, 20</color>
+        <color type="red">255, 64, 64</color>
+        <color type="blue">64, 64, 255</color>
+        <color type="magenta">255, 64, 255</color>
+        <color type="green">64, 255, 64</color>
+        <color type="yellow">255, 255, 64</color>
+        <color type="cyan">64, 255, 255</color>
+        <color type="white">255, 255, 255</color>
+        <color type="back_black">0, 0, 0</color>
+        <color type="back_red">160, 0, 0</color>
+        <color type="back_blue">0, 0, 160</color>
+        <color type="back_magenta">160, 0, 160</color>
+        <color type="back_green">0, 160, 0</color>
+        <color type="back_yellow">208, 208, 0</color>
+        <color type="back_cyan">0, 208, 208</color>
+        <color type="back_white">251, 251, 251</color>
+     </video>
+
+    <keypad type="latch" pad="1">
+        <out mask="0x0f">2</out>
+        <ef pol="rev">3</ef>
+
+        <keydef map="78" out="0x0">78</keydef> <!-- N -->
+        <keydef map="65" out="0x1">65</keydef> <!-- A -->
+        <keydef map="66" out="0x2">66</keydef> <!-- B -->
+        <keydef map="67" out="0x3">67</keydef> <!-- C -->
+        <keydef map="69" out="0x4">69</keydef> <!-- E -->
+        <keydef map="70" out="0x5">70</keydef> <!-- F -->
+        <keydef map="71" out="0x6">71</keydef> <!-- G -->
+        <keydef map="73" out="0x7">73</keydef> <!-- I -->
+        <keydef map="74" out="0x8">74</keydef> <!-- J -->
+        <keydef map="75" out="0x9">75</keydef> <!-- K -->
+        <keydef map="77" out="0xa">77</keydef> <!-- M -->
+        <keydef map="79" out="0xb">79</keydef> <!-- O -->
+        <keydef map="68" out="0xc">68</keydef> <!-- D -->
+        <keydef map="72" out="0xd">72</keydef> <!-- H -->
+        <keydef map="76" out="0xe">76</keydef> <!-- L -->
+        <keydef type="text" out="0xf">shift</keydef>
+
+        <keydef map="97">65</keydef>
+        <keydef map="98">66</keydef>
+        <keydef map="99">67</keydef>
+        <keydef map="100">68</keydef>
+        <keydef map="101">69</keydef>
+        <keydef map="102">70</keydef>
+        <keydef map="103">71</keydef>
+        <keydef map="104">72</keydef>
+        <keydef map="105">73</keydef>
+        <keydef map="106">74</keydef>
+        <keydef map="107">75</keydef>
+        <keydef map="108">76</keydef>
+        <keydef map="109">77</keydef>
+        <keydef map="110">78</keydef>
+        <keydef map="111">79</keydef>
+
+        <keydef map="48" type="shift" out="0x0">78</keydef> <!-- 0, shift N -->
+        <keydef map="49" type="shift" out="0x1">65</keydef> <!-- 1, shift A -->
+        <keydef map="50" type="shift" out="0x2">66</keydef> <!-- 2, shift B -->
+        <keydef map="51" type="shift" out="0x3">67</keydef> <!-- 3, shift C -->
+        <keydef map="52" type="shift" out="0x4">69</keydef> <!-- 4, shift E -->
+        <keydef map="53" type="shift" out="0x5">70</keydef> <!-- 5, shift F -->
+        <keydef map="54" type="shift" out="0x6">71</keydef> <!-- 6, shift G -->
+        <keydef map="55" type="shift" out="0x7">73</keydef> <!-- 7, shift I -->
+        <keydef map="56" type="shift" out="0x8">74</keydef> <!-- 8, shift J -->
+        <keydef map="57" type="shift" out="0x9">75</keydef> <!-- 9, shift K -->
+        <keydef map="44" type="shift" out="0xa">77</keydef> <!-- ,, shift M -->
+        <keydef map="59" type="shift" out="0xb">79</keydef> <!-- ;, shift O -->
+        <keydef map="60" type="shift" out="0xc">68</keydef> <!-- <, shift D -->
+        <keydef map="61" type="shift" out="0xd">72</keydef> <!-- =, shift H -->
+        <keydef map="62" type="shift" out="0xe">76</keydef> <!-- >, shift L -->
+
+        <keydef type="force" out="0x0">48</keydef> <!-- 0 -->
+        <keydef type="force" out="0x1">49</keydef> <!-- 1 -->
+        <keydef type="force" out="0x2">50</keydef> <!-- 2 -->
+        <keydef type="force" out="0x3">51</keydef> <!-- 3 -->
+        <keydef type="force" out="0x4">52</keydef> <!-- 4 -->
+        <keydef type="force" out="0x5">53</keydef> <!-- 5 -->
+        <keydef type="force" out="0x6">54</keydef> <!-- 6 -->
+        <keydef type="force" out="0x7">55</keydef> <!-- 7 -->
+        <keydef type="force" out="0x8">56</keydef> <!-- 8 -->
+        <keydef type="force" out="0x9">57</keydef> <!-- 9 -->
+        <keydef type="force" out="0xa">44</keydef> <!-- , -->
+        <keydef type="force" out="0xb">59</keydef> <!-- ; -->
+        <keydef type="shift" out="0xc">44</keydef> <!-- < -->
+        <keydef type="force" out="0xd">61</keydef> <!-- = -->
+        <keydef type="shift" out="0xe">46</keydef> <!-- > -->
+    </keypad>
+
+    <keypad type="latch" pad="2">
+        <out mask="0x0f">2</out>
+        <ef pol="rev">4</ef>
+
+        <keydef map="32" out="0x0">32</keydef> <!-- space -->
+        <keydef map="80" out="0x1">80</keydef> <!-- P -->
+        <keydef map="81" out="0x2">81</keydef> <!-- Q -->
+        <keydef map="82" out="0x3">82</keydef> <!-- R -->
+        <keydef map="84" out="0x4">84</keydef> <!-- T -->
+        <keydef map="85" out="0x5">85</keydef> <!-- U -->
+        <keydef map="86" out="0x6">86</keydef> <!-- V -->
+        <keydef map="88" out="0x7">88</keydef> <!-- X -->
+        <keydef map="89" out="0x8">89</keydef> <!-- Y -->
+        <keydef map="90" out="0x9">90</keydef> <!-- Z -->
+        <keydef map="46" out="0xa">46</keydef> <!-- . -->
+        <keydef out="0xb">8</keydef>  <!-- delete -->
+        <keydef map="83" out="0xc">83</keydef> <!-- S -->
+        <keydef map="87" out="0xd">87</keydef> <!-- W -->
+        <keydef out="0xe">13</keydef> <!-- return -->
+        <keydef type="text" out="0xf">shift</keydef>
+
+        <keydef map="112">80</keydef>
+        <keydef map="113">81</keydef>
+        <keydef map="114">82</keydef>
+        <keydef map="115">83</keydef>
+        <keydef map="116">84</keydef>
+        <keydef map="117">85</keydef>
+        <keydef map="118">86</keydef>
+        <keydef map="119">87</keydef>
+        <keydef map="120">88</keydef>
+        <keydef map="121">89</keydef>
+        <keydef map="122">90</keydef>
+        <keydef map="10">13</keydef>
+
+        <keydef map="33" type="shift" out="0x1">80</keydef>  <!-- !, shift P -->
+        <keydef map="28" type="shift" out="0x2">81</keydef>  <!-- ", shift Q -->
+        <keydef map="29" type="shift" out="0x2">81</keydef>  <!-- ", shift Q -->
+        <keydef map="34" type="shift" out="0x2">81</keydef>  <!-- ", shift Q -->
+        <keydef map="35" type="shift" out="0x3">82</keydef>  <!-- #, shift R -->
+        <keydef map="37" type="shift" out="0x4">84</keydef>  <!-- %, shift T -->
+        <keydef map="40" type="shift" out="0x5">85</keydef>  <!-- (, shift U -->
+        <keydef map="41" type="shift" out="0x6">86</keydef>  <!-- ), shift V -->
+        <keydef map="47" type="shift" out="0x7">88</keydef>  <!-- /, shift X -->
+        <keydef map="126" type="shift" out="0x8">89</keydef> <!-- ~, shift Y -->
+        <keydef map="58" type="shift" out="0x9">90</keydef>  <!-- :, shift Z -->
+        <keydef map="43" type="shift">46</keydef>            <!-- + -->
+        <keydef map="36" type="shift" out="0xc">83</keydef>  <!-- $, shift S -->
+        <keydef map="42" type="shift" out="0xd">87</keydef>  <!-- *, shift W -->
+        <keydef map="63" type="shift">13</keydef>            <!-- ? -->
+
+        <keydef type="shift" out="0x1">49</keydef> <!-- ! -->
+        <keydef type="shift" out="0x2">39</keydef> <!-- " -->
+        <keydef type="shift" out="0x3">51</keydef> <!-- # -->
+        <keydef type="shift" out="0x4">53</keydef> <!-- % -->
+        <keydef type="shift" out="0x5">57</keydef> <!-- ( -->
+        <keydef type="shift" out="0x6">48</keydef> <!-- ) -->
+        <keydef type="force" out="0x7">47</keydef> <!-- / -->
+        <keydef type="shift" out="0x8">96</keydef> <!-- ~ -->
+        <keydef type="shift" out="0x9">59</keydef> <!-- : -->
+        <keydef type="shift" out="0xa">61</keydef> <!-- + -->
+        <keydef type="force" out="0xb">27</keydef> <!-- ESC -->
+        <keydef type="shift" out="0xc">52</keydef> <!-- $ -->
+        <keydef type="shift" out="0xd">56</keydef> <!-- * -->
+        <keydef type="shift" out="0xe">47</keydef> <!-- ? -->
+    </keypad>
+
+    <sound type="cdp1863">
+        <out>1</out>
+    </sound>
+
+    <cassette decks="1">
+        <out>7</out>
+        <ef>2</ef>
+        <endtapedelay>500</endtapedelay>
+    </cassette>
+
+    <locations>
+        <!-- key input -->
+        <key_input>0x5ce</key_input>
+
+        <!-- Machine states -->
+        <reset_state></reset_state>
+        <basic_state>0x6</basic_state>
+        <run_state></run_state>
+    </locations>
+
+    <basic>
+        <pload>tiny</pload>
+        <defus>0x826</defus>
+        <eop>0x1c8e</eop>
+        <ram>0x1D00</ram>
+    </basic>
+
+    <debugger>
+        <scrt mode="off">
+            <call reg="4">-1</call>
+            <return reg="5">-1</return>
+        </scrt>
+
+        <assembler>
+            <filename>studioivrom</filename>
+            <code_start>0</code_start>
+            <code_end>0xFFF</code_end>
+        </assembler>
+    </debugger>
+
+</emmaconfig>
+

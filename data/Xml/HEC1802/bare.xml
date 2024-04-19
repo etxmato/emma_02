@@ -1,0 +1,114 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>HEC1802</name>
+        <config>Bare</config>
+        <clock>1.773</clock>
+        <boot>0</boot>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init>
+        <init type="ef4">1</init>
+        <dirname>HEC1802</dirname>
+
+    </system>
+
+    <memory mask="0xfff">
+        <rom type="gui">
+           <start>0x0000</start>
+           <end>0x03FF</end>
+           <pulldown mask="*hec*.bin">HEC1802</pulldown>
+           <filename>hec1802.bin</filename>
+        </rom>
+
+         <ram type="gui">
+             <start>0x0600</start>
+             <end>0x0FFF</end>
+         </ram>
+
+         <ram>
+             <start>0x0400</start>
+             <end>0x05FF</end>
+        </ram>
+    </memory>
+    
+    <keypad type="hug">
+        <!-- keypad definition for the hug1802 and eti-660
+        <out>: write pia port
+        <in>: read pia port
+        <ef>: ef port for step key signal
+        -->
+
+        <out>2</out>
+        <in>2</in>
+        <ef>4</ef>
+    </keypad>
+
+    <video type="cdp1861">
+        <in type="on">1</in>
+        <in type="off">4</in>
+        <ef>1</ef>
+        <border>33x33</border>
+        <color type="fore">255, 255, 255</color>
+        <color type="back">0, 0, 0</color>
+    </video>
+
+    <video type="cdp1862">
+        <out type="back">1</out>
+        <out type="color_ram" mask="0xf">3</out>
+        <colortype>hec</colortype>
+        <color type="white">255, 255, 255</color>
+        <color type="red">255, 0, 0</color>
+        <color type="blue">0, 0, 255</color>
+        <color type="magenta">255, 0, 255</color>
+        <color type="green">0, 255, 0</color>
+        <color type="yellow">255, 255, 0</color>
+        <color type="cyan">0, 255, 255</color>
+        <color type="black">20, 20, 20</color>
+        <color type="back_blue">0, 0, 128</color>
+        <color type="back_black">0, 0, 0</color>
+        <color type="back_green">0, 128, 0</color>
+        <color type="back_red">128, 0, 0</color>
+     </video>
+
+    <sound type="cdp1863">
+        <!-- sound definition using Q flag and output to latch tone frequency
+        -->
+
+        <out>4</out>
+    </sound>
+
+    <cassette decks="1">
+        <ef>2</ef>
+    </cassette>
+    
+    <locations>
+        <stop_cas>0xfa</stop_cas>
+        <start_cas_save>0x18B</start_cas_save>
+        <start_cas_load>0x160</start_cas_load>
+        
+        <code_start>0x600</code_start>
+        <code_start_high>0x400</code_start_high>
+        <code_start_low>0x401</code_start_low>
+        <code_end_high>0x402</code_end_high>
+        <code_end_low>0x403</code_end_low>
+        <reg_end adjust="-1">0xe</reg_end>
+    </locations>
+    
+    <debugger>
+        <scrt mode="off">
+            <call reg="4">-1</call>
+            <return reg="5">-1</return>
+        </scrt>
+
+        <assembler>
+            <filename>mycode</filename>
+            <code_start>0x400</code_start>
+            <code_end>0xCFF</code_end>
+        </assembler>
+    </debugger>
+
+</emmaconfig>

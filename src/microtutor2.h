@@ -1,14 +1,14 @@
 #ifndef MICROTUTOR2_H
 #define MICROTUTOR2_H
 
-#include "til313.h"
+#include "til.h"
 #include "cdp1802.h"
 #include "elfconfiguration.h"
 
 class Microtutor2Screen : public Panel
 {
 public:
-    Microtutor2Screen(wxWindow *parent, const wxSize& size);
+    Microtutor2Screen(wxWindow *parent, const wxSize& size, int tilType);
     ~Microtutor2Screen();
 
     void init();
@@ -19,15 +19,15 @@ public:
 private:
 };
 
-class Microtutor2 : public wxFrame, public Cdp1802
+class MicrotutorII : public wxFrame, public Cdp1802
 {
 public:
-    Microtutor2(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf, Conf computerConf);
-    Microtutor2() {};
-    ~Microtutor2();
+    MicrotutorII(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf, Conf computerConf);
+    MicrotutorII() {};
+    ~MicrotutorII();
 
     void onClose(wxCloseEvent&WXUNUSED(event));
-    bool keyUpReleased(int keycode);
+    bool keyUpReleased(int key, wxKeyEvent& event);
 
     void onRunButton();
     void onLoadButton();
@@ -78,7 +78,6 @@ private:
     int ledCycleSize_;
 
     Byte switches_;
-    Byte data_;
 
     double microtutorClockSpeed_;
 

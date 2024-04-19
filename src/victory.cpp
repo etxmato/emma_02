@@ -34,7 +34,7 @@
 #define CHIP8_PC 5
 
 Victory::Victory(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, Conf computerConf)
-:Pixie(title, pos, size, zoom, zoomfactor, computerType)
+:Pixie(title, pos, size, zoom, zoomfactor, computerType, 0)
 {
     computerConfiguration = computerConf;
 }
@@ -46,17 +46,17 @@ Victory::~Victory()
 
 void Victory::configureComputer()
 {
-    outType_[2] = STUDIOOUT;
-    outType_[4] = VIPOUT4;
+    outType_[0][0][2] = STUDIOOUT;
+    outType_[0][0][4] = VIPOUT4;
     victoryKeyPort_ = 0;
-    efType_[3] = STUDIOEF3;
-    efType_[4] = STUDIOEF4;
+    efType_[0][0][3] = STUDIOEF3;
+    efType_[0][0][4] = STUDIOEF4;
 
     for (int j=0; j<2; j++) for (int i=0; i<10; i++)
         victoryKeyState_[j][i] = 0;
 
     p_Main->message("Configuring Studio III / Victory MPT-02");
-    p_Main->message("    Output 2: select port, EF 3: read selected port 1, EF4: read selected port 2\n");
+    p_Main->message("	Output 2: select port, EF 3: read selected port 1, EF4: read selected port 2\n");
 
     p_Main->getDefaultHexKeys(VICTORY, "Victory", "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
     p_Main->getDefaultHexKeys(VICTORY, "Victory", "B", keyDefB1_, keyDefB2_, keyDefGameHexB_);
@@ -315,7 +315,7 @@ void Victory::keyUp(int keycode)
 
 Byte Victory::ef(int flag)
 {
-    switch(efType_[flag])
+    switch(efType_[0][0][flag])
     {
         case 0:
             return 1;
@@ -356,7 +356,7 @@ Byte Victory::in(Byte port, Word WXUNUSED(address))
 {
     Byte ret;
 
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case 0:
             ret = 255;
@@ -377,7 +377,7 @@ void Victory::out(Byte port, Word WXUNUSED(address), Byte value)
 {
     outValues_[port] = value;
 
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;
@@ -411,7 +411,7 @@ void Victory::cycle(int type)
         break;
 
         case PIXIECYCLE:
-            cyclePixieTelmac();
+            cyclePixieCdp1864();
         break;
     }
 }
@@ -489,7 +489,7 @@ void Victory::startComputer()
         defineMemoryType(0x4000, 0x7fff, CARTRIDGEROM);
     }
 
-    double zoom = p_Main->getZoom();
+    double zoom = p_Main->getZoom(VIDEOMAIN);
 
     configurePixieVictory();
     initPixie();

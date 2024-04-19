@@ -33,7 +33,7 @@
 #include "nano.h"
 
 Nano::Nano(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, Conf computerConf)
-:Pixie(title, pos, size, zoom, zoomfactor, computerType)
+:Pixie(title, pos, size, zoom, zoomfactor, computerType, 0)
 {
     computerConfiguration = computerConf;
 }
@@ -45,19 +45,19 @@ Nano::~Nano()
 
 void Nano::configureComputer()
 {
-    outType_[2] = VIPKEYOUT;
-    outType_[4] = VIPOUT4;
-    efType_[2] = VIPEF2;
-    efType_[3] = VIPKEYEF;
-    efType_[4] = NANOEF4;
+    outType_[0][0][2] = VIPKEYOUT;
+    outType_[0][0][4] = VIPOUT4;
+    efType_[0][0][2] = VIPEF2;
+    efType_[0][0][3] = VIPKEYEF;
+    efType_[0][0][4] = NANOEF4;
 
     p_Main->message("Configuring Telmac Nano");
     if (p_Main->getSound(NANO) == 0)
-        p_Main->message("    Output 2: key latch, output 4: address and CDP 1864 tone latch");
+        p_Main->message("	Output 2: key latch, output 4: address and CDP 1864 tone latch");
     else
-        p_Main->message("    Output 2: key latch, output 4: address latch");
+        p_Main->message("	Output 2: key latch, output 4: address latch");
 
-    p_Main->message("    EF 2: cassette in, EF 3: keyboard, EF 4: monitor enable\n");
+    p_Main->message("	EF 2: cassette in, EF 3: keyboard, EF 4: monitor enable\n");
 
     simDefA2_ = false;
     simDefB2_ = false;
@@ -122,7 +122,7 @@ void Nano::keyUp(int keycode)
 
 Byte Nano::ef(int flag)
 {
-    switch(efType_[flag])
+    switch(efType_[0][0][flag])
     {
         case 0:
             return 1;
@@ -164,7 +164,7 @@ Byte Nano::in(Byte port, Word WXUNUSED(address))
 {
     Byte ret;
 
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case 0:
             ret = 255;
@@ -190,7 +190,7 @@ void Nano::out(Byte port, Word WXUNUSED(address), Byte value)
 {
     outValues_[port] = value;
 
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;
@@ -229,7 +229,7 @@ void Nano::cycle(int type)
         break;
 
         case PIXIECYCLE:
-            cyclePixieTelmac();
+            cyclePixieCdp1864();
         break;
     }
 }
@@ -249,7 +249,7 @@ void Nano::startComputer()
 
     pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);
 
-    double zoom = p_Main->getZoom();
+    double zoom = p_Main->getZoom(VIDEOMAIN);
 
     configurePixieNano();
     initPixie();

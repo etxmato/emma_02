@@ -24,7 +24,7 @@ DECLARE_EVENT_TYPE(ON_UART_ELF2K, 808)
 class Elf2KScreen : public Panel
 {
 public:
-    Elf2KScreen(wxWindow *parent, const wxSize& size);
+    Elf2KScreen(wxWindow *parent, const wxSize& size, int tilType);
     ~Elf2KScreen();
 
     void init();
@@ -43,7 +43,7 @@ public:
 
     void onClose(wxCloseEvent&event);
     bool keyDownPressed(int keycode);
-    bool keyUpReleased(int keycode);
+    bool keyUpReleased(int key, wxKeyEvent& event);
     void charEvent(int keycode);
 
     void onLoadButton();
@@ -85,7 +85,7 @@ public:
     void writeMemDebug(Word address, Byte value, bool writeRom);
     void cpuInstruction();
     void resetPressed();
-    void configureElfExtensions();
+    void configureExtensions();
     void moveWindows();
     void updateTitle(wxString Title);
     void setForceUpperCase(bool status);
@@ -110,7 +110,8 @@ public:
     void setElf2KClockSpeed(double clock) {elfClockSpeed_ = clock;};
     void dataAvailableVt100(bool data, int uartNumber);
     void dataAvailableSerial(bool data);
-    void thrStatus(bool data);
+    void thrStatusVt100(bool data);
+    void thrStatusSerial(bool data);
     void sleepComputer(long ms);
     void setLedMs(long ms);
     Byte getKey(Byte vtOut);
@@ -140,14 +141,12 @@ private:
 
     Byte ef3State_;
     Byte switches_;
-    Byte data_;
     Byte lastMode_;
 
     int keyDefA1_[16];
     int keyDefA2_[16];
     
     double elfClockSpeed_;
-    Word lastAddress_;
 
     int cycleValue_;
     int cycleSize_;

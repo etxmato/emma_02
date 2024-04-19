@@ -10,7 +10,7 @@
 class Cdp18s020Screen : public Panel
 {
 public:
-    Cdp18s020Screen(wxWindow *parent, const wxSize& size);
+    Cdp18s020Screen(wxWindow *parent, const wxSize& size, int tilType);
     ~Cdp18s020Screen();
     
     void init();
@@ -48,7 +48,7 @@ public:
     void out(Byte port, Word address, Byte value);
     void switchQ(int value);
     void showCycleData(Byte val);
-    void showAddress(Word val);
+    void showCycleAddress(Word val);
     void showState(int state);
     void setCpuMode(int mode);
     void cycle(int type);

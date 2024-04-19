@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>Infinite UC1800</name>
+        <config>Keybug 2020</config>
+        <clock>1.75</clock>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init>
+        <init type="ef4">1</init>
+        <dirname>UC1800</dirname>
+    </system>
+    
+    <frontpanel type="uc1800" init="on">
+        <out>1</out>
+        <in>1</in>
+        <ef type="start">1</ef>
+        <til font="italic">313</til>
+    </frontpanel>
+
+     <memory>
+        <nvram mask="0x00FF" type="gui">
+            <start>0x0000</start>
+            <end>0xFFFF</end>
+            <dump>ramdump.bin</dump>
+            <pulldown mask="keybug*.*">UC1800</pulldown>
+            <filename>keybug_2020.bin</filename>
+        </nvram>
+    </memory>
+    
+    <debugger>
+        <scrt mode="off">
+            <call reg="4">-1</call>
+            <return reg="5">-1</return>
+        </scrt>
+
+        <assembler>
+            <filename>mycode</filename>
+            <code_start>0</code_start>
+            <code_end>0xFF</code_end>
+        </assembler>
+    </debugger>
+
+</emmaconfig>

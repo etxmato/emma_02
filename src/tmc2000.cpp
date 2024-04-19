@@ -30,7 +30,7 @@
 #include "tmc2000.h"
 
 Tmc2000::Tmc2000(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, Conf computerConf)
-:Pixie(title, pos, size, zoom, zoomfactor, computerType)
+:Pixie(title, pos, size, zoom, zoomfactor, computerType, 0)
 {
     computerConfiguration = computerConf;
 }
@@ -42,14 +42,14 @@ Tmc2000::~Tmc2000()
 
 void Tmc2000::configureComputer()
 {
-    outType_[2] = VIPKEYOUT;
-    outType_[4] = VIPOUT4;
-    efType_[2] = VIPEF2;
-    efType_[3] = VIPKEYEF;
+    outType_[0][0][2] = VIPKEYOUT;
+    outType_[0][0][4] = VIPOUT4;
+    efType_[0][0][2] = VIPEF2;
+    efType_[0][0][3] = VIPKEYEF;
 
     p_Main->message("Configuring Telmac TMC-2000");
-    p_Main->message("    Output 2: key latch, output 4: address, colour and CDP 1864 tone latch");
-    p_Main->message("    EF 2: cassette in, EF 3: keyboard\n");
+    p_Main->message("	Output 2: key latch, output 4: address, colour and CDP 1864 tone latch");
+    p_Main->message("	EF 2: cassette in, EF 3: keyboard\n");
 
     for (int i=0; i<64; i++)
         hexKeyDefA1_[i] = 0;
@@ -136,7 +136,7 @@ void Tmc2000::onRun()
 
 Byte Tmc2000::ef(int flag)
 {
-    switch(efType_[flag])
+    switch(efType_[0][0][flag])
     {
         case 0:
             return 1;
@@ -168,7 +168,7 @@ Byte Tmc2000::in(Byte port, Word WXUNUSED(address))
 {
     Byte ret;
 
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case 0:
             ret = 255;
@@ -194,7 +194,7 @@ void Tmc2000::out(Byte port, Word WXUNUSED(address), Byte value)
 {
     outValues_[port] = value;
 
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;
@@ -239,7 +239,7 @@ void Tmc2000::cycle(int type)
         break;
 
         case PIXIECYCLE:
-            cyclePixieTelmac();
+            cyclePixieCdp1864();
         break;
     }
 }
@@ -281,7 +281,7 @@ void Tmc2000::startComputer()
     readProgram(p_Main->getChip8Dir(TMC2000), p_Main->getChip8SW(TMC2000), NOCHANGE, 0x200, SHOWNAME);
     pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);
 
-    double zoom = p_Main->getZoom();
+    double zoom = p_Main->getZoom(VIDEOMAIN);
 
     configurePixieTelmac();
     initPixie();

@@ -49,6 +49,7 @@ public:
     void setMs2000ClockSpeed(double clock) {ms2000ClockSpeed_ = clock;};
     void activateMainWindow();
     void switchQ(int value);
+    void changeDiskName(int disk, wxString dirName, wxString fileName);
 
 private:
     Vt100 *vtPointer;
@@ -56,7 +57,6 @@ private:
     ElfConfiguration ms2000Configuration;
 
     double ms2000ClockSpeed_;
-    Word lastAddress_;
 
     int ioGroup_;
 

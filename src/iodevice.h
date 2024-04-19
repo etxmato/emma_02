@@ -1,11 +1,11 @@
 #define COMXEF2 1
 #define PIXIEEF 2 
-#define CIDELSAEF2 3
+#define CIDELSAOUT1 3
 #define V1870EF 4
 #define KEYBRDEF 5 
 #define PS2EF 6
 #define STUDIOEF3 7
-#define FDCEF 8
+#define FDC1770_EF 8
 #define VT100EF 9
 #define COMXIN 10
 #define COMXOUT 11
@@ -22,9 +22,9 @@
 #define CIDELSAIN4 22
 #define ELF2OUT 23
 #define ELF2IN 24
-#define FDCIN 25
-#define FDCSELECTOUT 26
-#define FDCWRITEOUT 27
+#define FDC1770_READIN 25
+#define FDC1770_SELECTOUT 26
+#define FDC1770_WRITEOUT 27
 #define ELFOUT 28
 #define ELFIN 29
 #define IDEIN 30
@@ -35,7 +35,7 @@
 #define PORTEXTIN 35
 #define PORTEXTSELECTOUT 36
 #define PORTEXTWRITEOUT 37
-#define PRINTEROUT 38
+#define BASIC_PRINT_OUT 38
 #define PS2OUT 39
 #define PS2IN 40
 #define SUPEROUT 41
@@ -43,8 +43,8 @@
 #define TMSREGISTERPORT 43
 #define TMSDATAPORT 44
 #define VT100OUT 45
-//#define ELFINEF 46
-//#define VTINEF 47
+#define CDP1864CYCLE 46
+#define STUDIOEF4 47
 #define NETWORKCYCLE 48
 #define COMXCYCLE 49
 #define V1870CYCLE 50
@@ -62,10 +62,10 @@
 #define THERMALCYCLE 62
 #define COMXEF3 63
 #define COMXEF4 64
-#define CIDELSAEF4 65
-#define STUDIOEF4 66
-#define CIDELSAEF3 67
-#define CIDELSAOUT1 68
+#define IDEREADSTATUS 65
+#define BUTTON_EF2 66
+#define BUTTON_EF3 67
+#define BUTTON_EF4 68
 #define TELMACIN 69
 #define TELMACOUTDATA 70
 #define TELMACOUTREGISTER 71
@@ -81,9 +81,9 @@
 #define VIPOUT4 81
 #define PIXIEBACKGROUND 82
 #define NANOEF4 83
-//#define ELF2EF3 84
-//#define SUPEREF3 85
-//#define ELFEF3 86
+#define FDC1793_READIN 84
+#define FDC1793_SELECTOUT 85
+#define FDC1793_WRITEOUT 86
 #define VIPOUT3 87
 #define VIPOUT5 88
 #define VIPKEYEF4 89
@@ -98,7 +98,7 @@
 #define PECOMEF4 98
 #define MC6847CYCLE 99
 #define MC6847OUT 100
-#define MC6847EF 101
+#define MC6845EF 101
 #define I8275CYCLE 102
 #define I8275CREGWRITE 103
 #define I8275SREGREAD 104
@@ -138,7 +138,7 @@
 #define COSMICOSDEC 138
 #define COSMICOSRET 139
 #define COSMICOS7SEG 140
-#define COSMICOSTONE 141
+#define CDP1864TONE 141
 #define VIPIIKEYCYCLE 142
 #define VIPIIOUT7 143
 #define COMXEXPIN5 144
@@ -148,7 +148,7 @@
 #define EF2UNDEFINED 148
 #define EF3UNDEFINED 149
 #define EMSMAPPEROUT 151
-#define ELFPRINTEREF 152
+#define BASIC_PRINT_EF 152
 #define INPUTUNDEFINED 153
 #define MS2000IOGROUP 154
 #define MS2000IO2 155
@@ -173,7 +173,7 @@
 #define UARTOUTSERIAL 174
 #define UARTSTATUSSERIAL 175
 #define UARTCONTROLSERIAL 176
-//#define VTINEFSERIAL 177
+#define EF4UNDEFINED 177
 #define VTOUTSERIAL 178
 #define COINARCADEINPPAR5 179
 #define COINARCADEINPKEY6 180
@@ -209,21 +209,155 @@
 #define UC1800OUT 210
 #define UC1800EF 211
 #define TMSINTERRUPT 212
+#define BOOTSTRAPDISABLE 213
+#define FDC1770_INTRQIN 214
+#define SN76430NCYCLE 215
+#define DRAMDMA 216
+#define INTCLOCK 217
+#define COINCYCLE 218
+#define MATRIXKEYBCYCLE 219
+#define UART16450_IN 220
+#define UART16450_OUT 221
+#define UART16450_STATUS 222
+#define UART16450_CONTROL 223
+#define UART16450_INSERIAL 224
+#define UART16450_OUTSERIAL 225
+#define UART16450_STATUSSERIAL 226
+#define UART16450_CONTROLSERIAL 227
+#define TAPE_HW_EF 228
+#define TAPE_CV_IN 229
+#define THERMAL_PRINT_OUT 230
+#define THERMAL_PRINT_IN 231
+#define SERIAL_PRINT_OUT 232
+#define SERIAL_PRINT_IN 233
+#define PARALLEL_PRINT_OUT 234
+#define PARALLEL_PRINT_IN 235
+#define NVRAM_MP_IN 236
+#define SB_IN5 237
+#define SB_IN6 238
+#define SB_OUT 239
+#define CDP1862CYCLE 240
+#define KEYB_MATRIX_IN 241
+#define KEYB_LATCH_EF 242
+#define KEYPAD_LATCH_EF1 243
+#define KEYPAD_LATCH_EF2 244
+#define SB_EF 245
+#define TAPE_EF 246
+#define FDC1793_EF 247
+#define THERMAL_PRINT_EF 248
+#define BASICQ_PRINT_EF 249
+#define RTCIN 250
+#define RTCOUT 251
+#define RTCSELECT 252
+#define CDP1864DISABLE 253
+#define CDP1864ENABLE 254
+#define CDP1864EF 255
+#define CV_KEYPAD_IN 256
+#define CV_KEYPAD_EF 257
+#define TAPE_CV_EF_OUT 258
+#define TAPE_CV_OUT 259
+#define BITSOUND_OUT 260
+#define VIP2KVIDEOENABLE 261
+#define VIP2KVIDEODISABLE 262
+#define VIP2KVIDEOCYCLE 263
+#define BIT_KEYPAD_IN_0 264
+#define BIT_KEYPAD_IN_1 265
+#define BIT_KEYPAD_IN_2 266
+#define BIT_KEYPAD_IN_3 267
+#define BIT_KEYPAD_IN_4 268
+#define BIT_KEYPAD_IN_5 269
+#define BIT_KEYPAD_IN_6 270
+#define BIT_KEYPAD_CYCLE 271
+#define FREDVIDEOTYPE 272
+#define FREDVIDEOCYCLE 273
+#define FREDTAPEMODE 274
+#define FREDTAPESOUND 275
+#define FREDKEYMODE 276
+#define FREDKEYCYCLE 277
+#define CDP1864BACK 278
+#define CDP1864COLORRAM 279
+#define ETI_KEYPAD_OUT 280
+#define ETI_KEYPAD_IN 281
+#define ETI_KEYPAD_EF 282
+#define CDP1863TONE 283
+#define CDP1863TONESWITCH1 284
+#define CDP1863TONESWITCH2 285
+#define TAPE_RUNNING_EF 286
+#define CDP1862COLORRAM 287
+//#define CDP1862ENABLE 288
+//#define CDP1862EF 289
+#define CDP1862BACK 290
+#define TAPE_OUT 291
+#define KEYB_LATCH_OUT 292
+#define KEYPAD_LATCH_OUT1 293
+#define KEYPAD_LATCH_OUT2 294
+#define KEYPAD_LATCH_OUT_DOUBLE 295
+#define LATCHKEYBCYCLE 296
+#define CENTRONICS_PRINT_EF 297
+#define CENTRONICS_PRINT_OUT 298
+#define COINVIDEOENABLE 299
+#define STUDIOIV_VIDEO_OUT 300
+#define STUDIOIV_VIDEO_CYCLE 301
+#define AD_CONVERTOR_IN 302
+#define AD_CONVERTOR_OUT 303
+#define NANO_MONITOR 304
+#define CDP1851_WRITE_A 305
+#define CDP1851_WRITE_B 306
+#define CDP1851_READ_A 307
+#define CDP1851_READ_B 308
+#define CDP1851_WRITE_CONTROL 309
+#define CDP1851_READ_STATUS 310
+#define CDP1851_EF_A 311
+#define CDP1851_EF_B 312
+#define CDP1852_WRITE 313
+#define CDP1852_READ 314
+#define CDP1852_EF 315
+#define CD4536B_WRITE 316
+#define CD4536B_EF 317
+#define CD4536BCYCLE 318
+#define TAPE_OUT_MICRO 319
+#define TAPE_OUT_Q 320
+#define V1870OUT2 321
+#define UPD765_CYCLE 322
+#define UPD765_EF 323
+#define UPD765_DMA_CONTROL 324
+#define UPD765_DMA_COUNT 325
+#define UPD765_WRITE_COMMAND 326
+#define UPD765_READ_COMMAND 327
+#define UPD765_READ_STATUS 328
 
 #define COMPUTERCYCLE 0
-#define VIDEOCYCLE 1
-#define BLINKCYCLE 2
-#define PRINTCYCLE 3
-#define DISKCYCLEFDC 4
-#define DISKCYCLEIDE 5
-#define VTCYCLE 6
-#define SERIALCYCLE 7
-#define VIDEOCYCLE1870 8
-#define KEYCYCLE 9
-#define MAXCYCLE 10
+#define VIDEOCYCLE_V1870 1
+#define VIDEOCYCLE_PIXIE 2
+#define VIDEOCYCLE_I8275 3
+#define VIDEOCYCLE_MC6845 4
+#define VIDEOCYCLE_MC6847 5
+#define VIDEOCYCLE_TMS9918 6
+#define SEG_CYCLE 7
+#define VIDEOCYCLE_CDP1864 8
+#define VIDEOCYCLE_SN76430N 9
+#define VIDEOCYCLE_VIP2K 10
+#define VIDEOCYCLE_FRED 11
+#define VIDEOCYCLE_ST4 12
+#define VIDEOCYCLE_COIN 13
+#define BLINKCYCLE_MC6845 14
+#define BLINKCYCLE_V1870 15
+#define PRINTCYCLE 16
+#define DISKCYCLEFDC 17
+#define DISKCYCLEIDE 18
+#define VTCYCLE 19
+#define SERIALCYCLE 20
+#define KEYCYCLE 21
+#define DRAMDMACYCLE 22
+#define INTCYCLE 23
+#define SOUNDCYCLE 24
+#define CDCYCLE 25
+#define MAXCYCLE 26
 
 #ifndef IODEVICE_H
 #define IODEVICE_H
+
+#include "elfconfiguration.h"
 
 class IoDevice 
 {
@@ -237,17 +371,41 @@ public:
     virtual void out(Byte port, Word address, Byte value) = 0;
     virtual void cycle(int type) = 0;
 
-    void setEfType(int number, int efType) {efType_[number] = efType;};
-    int getEfType(int number) {return efType_[number];};
-    void setInType(int number, int inType) {inType_[number] = inType;};
-    int getInType(int number) {return inType_[number];};
-    void setOutType(int number, int outType) {outType_[number] = outType;};
-    void setCycleType(int number, int outCycleType) {cycleType_[number] = outCycleType;};
+    void setEfType(int number, int efType);
+    void setEfType(int iogroup, int number, int efType);
+    void setEfType(int q, int iogroup, int number, int efType);
+    void setInType(int number, int inType);
+    void setInType(int iogroup, int number, int inType);
+    void setInType(int q, int iogroup, int number, int inType);
+    int getInType(int number) {return inType_[0][0][number];};
+    int getInType(int iogroup, int number) {return inType_[0][iogroup][number];};
+    int getInType(int q, int iogroup, int number) {return inType_[q][iogroup][number];};
+    void setOutType(int number, int outType);
+    void setOutType(int iogroup, int number, int outType);
+    void setOutType(int q, int iogroup, int number, int outType);
+    void setCycleType(int number, int outCycleType);
+
+    void setEfTypeAndNumber(int number, int efType, int itemNumber);
+    void setEfTypeAndNumber(int iogroup, int number, int efType, int itemNumber);
+    void setEfTypeAndNumber(int q, int iogroup, int number, int efType, int itemNumber);
+    void setEfTypeAndNumber(int q, int iogroup, int number, int efType, int itemNumber, wxString message);
+    void setInTypeAndNumber(int number, int inType, int itemNumber);
+    void setInTypeAndNumber(int iogroup, int number, int inType, int itemNumber);
+    void setInTypeAndNumber(int q, int iogroup, int number, int inType, int itemNumber);
+    void setInTypeAndNumber(int iogroup, IoPort port, int inType, int itemNumber, wxString message);
+    void setOutTypeAndNumber(int number, int outType, int itemNumber);
+    void setOutTypeAndNumber(int iogroup, int number, int outType, int itemNumber);
+    void setOutTypeAndNumber(int q, int iogroup, int number, int outType, int itemNumber);
+    void setOutTypeAndNumber(int iogroup, IoPort port, int outType, int itemNumber, wxString message);
 
 protected:
-    int efType_[5];
-    int inType_[8];
-    int outType_[8];
+    int efType_[2][257][5];
+    int efItemNumber_[2][257][5];
+    int inType_[2][257][8];
+    int inItemNumber_[2][257][8];
+    int outType_[2][257][8];
+    int outItemNumber_[2][257][8];
+    
     int cycleType_[MAXCYCLE];
 
 private:

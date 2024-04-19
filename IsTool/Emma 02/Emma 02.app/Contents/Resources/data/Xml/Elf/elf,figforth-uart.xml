@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>Elf</name>
+        <config>Fig Forth, UART</config>
+        <clock>1.76</clock>
+        <boot>0</boot>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init>
+        <dirname>Elf</dirname>
+    </system>
+    
+    <memory>
+        <mainram>
+            <start>0x0000</start>
+            <end>0xFFFF</end>
+            <filename verify="true">fig.forth.1802.hex</filename>
+        </mainram>
+
+    </memory>
+        
+    <vt type="vt100" connection="uart1854" >
+        <font>vt100.bin</font>
+        <out type="register">2</out>
+        <out type="control">3</out>
+        <in type="register">2</in>
+        <in type="status">3</in>
+        <baud type="receive">19200</baud>
+        <baud type="transmit">19200</baud>
+        <characters>80</characters>
+        <border>0x0</border>
+        <color type="fore">0, 255, 0</color>
+        <color type="back">0, 0x40, 0</color>
+        <color type="high">0, 0xff, 0</color>
+     </vt>
+
+    <debugger>
+        <scrt mode="off">
+            <call reg="4">-1</call>
+            <return reg="5">-1</return>
+        </scrt>
+
+        <assembler>
+            <filename>mycode</filename>
+            <code_start>0</code_start>
+            <code_end>0xFFF</code_end>
+        </assembler>
+    </debugger>
+
+</emmaconfig>

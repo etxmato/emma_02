@@ -6,8 +6,6 @@
  *** This software may not be used in commercial applications    ***
  *** without express written permission from the author.         ***
  ***                                                             ***
- *** 1802 Code based on elf emulator by Michael H Riley with     ***
- *** copyright as below                                          ***
  *******************************************************************
 */
 
@@ -95,12 +93,12 @@ int specialKey[] =
 };
 
 Tmc600::Tmc600(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock, Conf computerConf)
-:V1870(title, pos, size, zoomLevel, computerType, clock)
+:V1870(title, pos, size, zoomLevel, computerType, clock, 0)
 {
     computerConfiguration = computerConf;
 
     p_Printer = new Printer();
-    p_Printer->initTelmac(p_Printer);
+    p_Printer->init(p_Printer, PRINTER_BASIC);
 
     clockSize_ = (int) (((clock * 1000000) / 8)/3.13);
     
@@ -387,16 +385,16 @@ void Tmc600::onRun()
 
 void Tmc600::configureComputer()
 {
-    outType_[3] = TELMACOUTKEY;
-    outType_[4] = TELMAPRINTER;
+    outType_[0][0][3] = TELMACOUTKEY;
+    outType_[0][0][4] = TELMAPRINTER;
 
-    efType_[3] = TELMACEF3;
-    efType_[2] = TELMACEF2;
+    efType_[0][0][3] = TELMACEF3;
+    efType_[0][0][2] = TELMACEF2;
     cycleType_[COMPUTERCYCLE] = TELMACCYCLE;
 
     p_Main->message("Configuring Telmac TMC-600");
-    p_Main->message("    Output 3: keyboard latch, output 4: printer data");
-    p_Main->message("    EF 2: cassette in, EF 3: keyboard\n");
+    p_Main->message("	Output 3: keyboard latch, output 4: printer data");
+    p_Main->message("	EF 2: cassette in, EF 3: keyboard\n");
 
     if (p_Main->getRealTimeClock())
         clockValue_ = clockSize_;
@@ -460,7 +458,7 @@ Byte Tmc600::ef(int flag)
 {
     int ef3, port;
 
-    switch(efType_[flag])
+    switch(efType_[0][0][flag])
     {
         case 0:
             return 1;
@@ -490,7 +488,7 @@ Byte Tmc600::in(Byte port, Word WXUNUSED(address))
     Byte ret;
 
 //    p_Main->messageInt(port);
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case 0:
             ret = 255;
@@ -539,7 +537,7 @@ Byte Tmc600::in(Byte port, Word WXUNUSED(address))
 void Tmc600::out(Byte port, Word address, Byte value)
 {
     outValues_[port] = value;
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;
@@ -606,6 +604,7 @@ void Tmc600::out(Byte port, Word address, Byte value)
                     out7_1870(address);
                 break;
             }
+        break;
     }
 //    if (port == 3 || port == 5)  return;
 //    if (port == 7 && (outValues_[port] &1) == 0) return;
@@ -687,7 +686,7 @@ void Tmc600::cycleTelmac()
             else if (telmacRunCommand_ == 2)
             {
                 int saveExec = p_Main->pload();
-                if (saveExec == 1)
+                if (saveExec == -1)
                     telmacRunCommand_ = 0;
                 else
                 {
@@ -747,7 +746,7 @@ void Tmc600::cycleTelmac()
             }
             else
             {
-                keyboardCode_ = getCtrlvChar();
+                keyboardCode_ = p_Computer->getCtrlvCharTmc();
             
                 if (keyboardCode_ != 0)
                 {
@@ -778,21 +777,6 @@ void Tmc600::cycleTelmac()
     }
 }
 
-int Tmc600::getCtrlvChar()
-{
-    int character = 0;
-    
-    if (ctrlvTextCharNum_ <= (ctrlvTextStr_.Len() + 3))
-    {
-        character = ctrlvTextStr_.GetChar(ctrlvTextCharNum_ - 4);
-        ctrlvTextCharNum_++;
-    }
-    else
-        ctrlvTextCharNum_ = 0;
-    
-    return character;
-}
-
 void Tmc600::startComputer()
 {
     startTelmacKeyFile();
@@ -809,11 +793,11 @@ void Tmc600::startComputer()
     
     if ((mainMemory_[0x4017] == 0x31) && (mainMemory_[0x4018] == 0x35) && (mainMemory_[0x4019] == 0x31) && (mainMemory_[0x401A] == 0x31) && (mainMemory_[0x401B] == 0x38) && (mainMemory_[0x401C] == 0x32))
     {
-        inType_[4] = TELMACIN;
+        inType_[0][0][4] = TELMACIN;
         p_Main->message("Configuring 151182 Expansion Rom");
-        p_Main->message("    Output 4: select channel/printer data (channel F)");
-        p_Main->message("    Input 4: AD/I Input (channel 0 to E)");
-        p_Main->message("    @F400-@F40F: AD/S Input (channel 0 to F)\n");
+        p_Main->message("	Output 4: select channel/printer data (channel F)");
+        p_Main->message("	Input 4: AD/I Input (channel 0 to E)");
+        p_Main->message("	@F400-@F40F: AD/S Input (channel 0 to F)\n");
         p_Main->enableIoGui();
     }
     p_Main->checkAndReInstallCharFile(TMC600, "Character", EXPROM);

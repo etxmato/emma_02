@@ -1,0 +1,37 @@
+/.metadata/
+/.vs/
+/ARM64/
+/Win32/
+/x64/
+/vc9/
+/Release/src/*.o
+/Release/src/*.d
+/Release_x86/src/*.o
+/Release_x86/src/*.d
+/IsTool/x64/emma_02_x64_windows.exe
+/IsTool/x86/emma_02_x86_windows.exe
+/Debug/src/*.o
+/Debug/src/*.d
+/Debug_x86/src/*.o
+/Debug_x86/src/*.d
+/Linux build/linux-5.18-aarch64/
+/Linux build/linux-5.14-aarch64/
+/Linux build/linux-5.11-aarch64/
+/Linux build/linux-4.11-x86_64/
+/Linux build/.project
+/Linux build/.rpmmacros
+/Linux build/emma02_full_dependency.list
+/Linux build/emma02_min_dependency.list
+/Linux build/file2brl.temp
+/Linux build/ubuntu_build-pi.dbp
+/Helpfiles/emma_02.hhc
+/Helpfiles/emma_02.hhk
+/Helpfiles/emma_02.hhp
+/Helpfiles/emma_02_ids.h
+/Helpfiles/macros.h
+/Helpfiles/macros.db
+/IsTool/vccrt.msi
+*.pjd.bak
+.DS_Store
+emma_02
+Makefile

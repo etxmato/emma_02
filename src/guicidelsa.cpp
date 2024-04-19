@@ -75,7 +75,9 @@ void GuiCidelsa::readCidelsaConfig()
 {
     selectedComputer_ = CIDELSA;
 
+    elfConfiguration[CIDELSA].useTapeHw = false;
     conf[CIDELSA].emsConfigNumber_ = 0;
+    conf[CIDELSA].videoNumber_ = 0;
 
     conf[CIDELSA].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "Cidelsa" + pathSeparator_;
     
@@ -87,7 +89,7 @@ void GuiCidelsa::readCidelsaConfig()
 
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 2.0);
-    conf[CIDELSA].zoom_ = convertLocale(configPointer->Read("/Cidelsa/Zoom", defaultZoom));
+    conf[CIDELSA].zoom_[VIDEOMAIN] = convertLocale(configPointer->Read("/Cidelsa/Zoom", defaultZoom));
     conf[CIDELSA].volume_ = (int)configPointer->Read("/Cidelsa/Volume", 25l);
 
     in2Value_ = configPointer->Read("/Cidelsa/Difficulty", 0l) ^ 0x3;
@@ -111,7 +113,7 @@ void GuiCidelsa::readCidelsaConfig()
     {
         XRCCTRL(*this, "MainRomCidelsa", wxComboBox)->SetValue(conf[CIDELSA].rom_[MAINROM1]);
         
-        correctZoomAndValue(CIDELSA, "Cidelsa", SET_SPIN);
+        correctZoomAndValue(CIDELSA, "Cidelsa", SET_SPIN, VIDEOMAIN);
 
         XRCCTRL(*this, "VolumeCidelsa", wxSlider)->SetValue(conf[CIDELSA].volume_);
         XRCCTRL(*this, "ScreenDumpFileCidelsa", wxComboBox)->SetValue(conf[CIDELSA].screenDumpFile_);
@@ -145,7 +147,7 @@ void GuiCidelsa::writeCidelsaConfig()
     configPointer->Write("/Cidelsa/Main_Rom_File", conf[CIDELSA].rom_[MAINROM1]);
     configPointer->Write("/Cidelsa/Video_Dump_File", conf[CIDELSA].screenDumpFile_);
 
-    configPointer->Write("/Cidelsa/Zoom", conf[CIDELSA].zoom_);
+    configPointer->Write("/Cidelsa/Zoom", conf[CIDELSA].zoom_[VIDEOMAIN]);
     configPointer->Write("/Cidelsa/Volume", conf[CIDELSA].volume_);
     configPointer->Write("/Cidelsa/Difficulty", (in2Value_ & 0x03) ^ 0x3);
     configPointer->Write("/Cidelsa/Bonus_Lives", ((in2Value_ & 0xc) >> 2) ^ 0x3);

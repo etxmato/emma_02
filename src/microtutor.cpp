@@ -35,8 +35,8 @@
 
 #include "microtutor.h"
 
-MicrotutorScreen::MicrotutorScreen(wxWindow *parent, const wxSize& size)
-: Panel(parent, size)
+MicrotutorScreen::MicrotutorScreen(wxWindow *parent, const wxSize& size, int tilType)
+: Panel(parent, size, tilType)
 {
 }
 
@@ -67,17 +67,17 @@ void MicrotutorScreen::init()
 
     wxClientDC dc(this);
 
-    runSwitchButton = new SwitchButton(dc, PUSH_BUTTON_BLACK, wxColour(43, 71, 106), BUTTON_UP, 284, 30, "");
-    loadSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(43, 71, 106), BUTTON_DOWN, 62, 30, "");
-    inSwitchButton = new SwitchButton(dc, PUSH_BUTTON_BLACK, wxColour(43, 71, 106), BUTTON_UP, 25, 30, "");
-    clearSwitchButton = new SwitchButton(dc, PUSH_BUTTON, wxColour(43, 71, 106), BUTTON_UP, 247, 30, "");
+    runSwitchButton = new SwitchButton(dc, PUSH_BUTTON_ROUND_BLACK, wxColour(43, 71, 106), BUTTON_UP, 284, 30, "");
+    loadSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(43, 71, 106), BUTTON_DOWN, 62, 30, "");
+    inSwitchButton = new SwitchButton(dc, PUSH_BUTTON_ROUND_BLACK, wxColour(43, 71, 106), BUTTON_UP, 25, 30, "");
+    clearSwitchButton = new SwitchButton(dc, PUSH_BUTTON_ROUND_RED, wxColour(43, 71, 106), BUTTON_UP, 247, 30, "");
     
     for (int i=0; i<8; i++)
     {
         if (i==0 || i==4)
-            dataSwitchButton[i] = new SwitchButton(dc, VERTICAL_BUTTON_RED, wxColour(43, 71, 106), BUTTON_DOWN, 25+37*(7-i), 100, "");
+            dataSwitchButton[i] = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL_RED, wxColour(43, 71, 106), BUTTON_DOWN, 25+37*(7-i), 100, "");
         else
-            dataSwitchButton[i] = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(43, 71, 106), BUTTON_DOWN, 25+37*(7-i), 100, "");
+            dataSwitchButton[i] = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(43, 71, 106), BUTTON_DOWN, 25+37*(7-i), 100, "");
     }
     
     for (int i=0; i<2; i++)
@@ -164,7 +164,6 @@ Microtutor::Microtutor(const wxString& title, const wxPoint& pos, const wxSize& 
     computerConfiguration = computerConf;
     microtutorConfiguration = conf;
     microtutorClockSpeed_ = clock;
-    data_ = 0;
 
 #ifndef __WXMAC__
     SetIcon(wxICON(app_icon));
@@ -172,7 +171,7 @@ Microtutor::Microtutor(const wxString& title, const wxPoint& pos, const wxSize& 
 
     this->SetClientSize(size);
 
-    microtutorScreenPointer = new MicrotutorScreen(this, size);
+    microtutorScreenPointer = new MicrotutorScreen(this, size, TIL311);
     microtutorScreenPointer->init();
 }
 
@@ -188,7 +187,7 @@ void Microtutor::onClose(wxCloseEvent&WXUNUSED(event) )
     p_Main->stopComputer();
 }
 
-bool Microtutor::keyUpReleased(int key)
+bool Microtutor::keyUpReleased(int key, wxKeyEvent&WXUNUSED(event))
 {
     if (key == inKey1_ || key == inKey2_)
     {
@@ -302,14 +301,14 @@ Byte Microtutor::getData()
 
 void Microtutor::configureComputer()
 {
-    inType_[0] = MICROTUTORIN;
-    outType_[0] = MICROTUTOROUT;
-    efType_[4] = MICROTUTOREF;
+    inType_[0][0][0] = MICROTUTORIN;
+    outType_[0][0][0] = MICROTUTOROUT;
+    efType_[0][0][4] = MICROTUTOREF;
     setCycleType(COMPUTERCYCLE, LEDCYCLE);
     
     p_Main->message("Configuring Microtutor");
-    p_Main->message("    Output 0: display output, input 0: data input");
-    p_Main->message("    EF 4: 0 when in button pressed");
+    p_Main->message("	Output 0: display output, input 0: data input");
+    p_Main->message("	EF 4: 0 when in button pressed");
     p_Main->message("");
 
     inKey1_ = p_Main->getDefaultInKey1("Microtutor");
@@ -326,13 +325,12 @@ void Microtutor::initComputer()
 
     for (int i=0; i<8; i++)  dataSwitchState_[i]=0;
     
-    switches_ = 0;
     inPressed_ = false;
 }
 
 Byte Microtutor::ef(int flag)
 {
-    switch(efType_[flag])
+    switch(efType_[0][0][flag])
     {
         case 0:
             return 1;
@@ -352,7 +350,7 @@ Byte Microtutor::in(Byte port, Word WXUNUSED(address))
     Byte ret;
     ret = 0;
 
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case 0:
             ret = 255;
@@ -374,7 +372,7 @@ void Microtutor::out(Byte port, Word WXUNUSED(address), Byte value)
 {
     outValues_[port] = value;
 
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;

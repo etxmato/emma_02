@@ -58,11 +58,12 @@ BEGIN_EVENT_TABLE(V1870, wxFrame)
     EVT_SIZE(V1870::onSize)
 END_EVENT_TABLE()
 
-V1870::V1870(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, int computerType, double clock)
+V1870::V1870(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, int computerType, double clock, int videoNumber)
 : Video(title, pos, size)
 {
     int regVal [16] = {129, 80, 102, 20, 34, 0, 24, 27, 0, 8, 72, 8, 0, 0, 0, 0};
     clock_ = clock;
+    videoNumber_ = videoNumber;
 
     v1870Configured_ = false;
     windowSize_ = size;
@@ -167,7 +168,22 @@ V1870::V1870(const wxString& title, const wxPoint& pos, const wxSize& size, doub
         break;
 
         case MICROBOARD:
-            videoMode_ = p_Main->getVideoMode(MICROBOARD);
+            videoType_ = VIDEO1870;
+            videoMode_ = p_Main->getVideoMode(computerType_);
+            if (videoMode_ == PAL)
+            {
+                videoWidth_ = 240;
+                videoHeight_ = 216;
+            }
+            else
+            {
+                videoWidth_ = 240;
+                videoHeight_ = 192;
+            }
+        break;
+            
+        case XML:
+            videoMode_ = p_Main->getVideoMode(computerType_);
             if (videoMode_ == PAL)
             {
                 videoWidth_ = 240;
@@ -183,7 +199,7 @@ V1870::V1870(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 
     setCycle();
 
-    videoScreenPointer = new VideoScreen(this, wxSize(videoWidth_, videoHeight_), zoom, computerType);
+    videoScreenPointer = new VideoScreen(this, wxSize(videoWidth_, videoHeight_), zoom, computerType, videoNumber_);
     this->SetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_, (videoHeight_+2*borderY_[videoType_])*zoom_);
     this->SetBackgroundColour(wxColour(0, 0, 0));
     characterListPointer = NULL;
@@ -276,24 +292,24 @@ void V1870::configure1870Comx(bool expansionRomLoaded, int expansionTypeCard0)
     gc->SetAntialiasMode(wxANTIALIAS_NONE);
 #endif
 
-    cycleType_[VIDEOCYCLE1870] = V1870CYCLE;
-    efType_[1] = V1870EF;
+    cycleType_[VIDEOCYCLE_V1870] = V1870CYCLE;
+    efType_[0][0][1] = V1870EF;
 
-    outType_[3] = V1870OUT3;
-    outType_[4] = V1870OUT4;
-    outType_[5] = V1870OUT5;
-    outType_[6] = V1870OUT6;
-    outType_[7] = V1870OUT7;
+    outType_[0][0][3] = V1870OUT3;
+    outType_[0][0][4] = V1870OUT4;
+    outType_[0][0][5] = V1870OUT5;
+    outType_[0][0][6] = V1870OUT6;
+    outType_[0][0][7] = V1870OUT7;
     p_Main->message("Configuring Video Interface System CDP 1869/1870");
-    p_Main->message("    Output 3 to 7: VIS OUT 3 to 7");
-    p_Main->message("    EF 1: display/non display period\n");
+    p_Main->message("	Output 3 to 7: VIS OUT 3 to 7");
+    p_Main->message("	EF 1: display/non display period\n");
 }
 
-bool V1870::configure1870Microboard(int v1870group, int pageMemSize, int videoMode, int interruptMode)
+bool V1870::configure1870Microboard(int v1870group, int v1870pageMemSize, int videoMode, int interruptMode)
 {
     v1870Configured_ = true;
-    pageMemorySize_ = (0x400 << pageMemSize) - 1;
-    maxPageMemory_ = (pageMemSize == 0) ? 960 : 1920;
+    pageMemorySize_ = (0x400 << v1870pageMemSize) - 1;
+    maxPageMemory_ = (v1870pageMemSize == 0) ? 960 : 1920;
     if (videoMode_ == PAL)
     {
         switch (videoMode)
@@ -406,28 +422,28 @@ bool V1870::configure1870Microboard(int v1870group, int pageMemSize, int videoMo
     gc->SetAntialiasMode(wxANTIALIAS_NONE);
 #endif
     
-    cycleType_[VIDEOCYCLE1870] = V1870CYCLE;
+    cycleType_[VIDEOCYCLE_V1870] = V1870CYCLE;
     message.Printf("Configuring Video Interface System CDP 1869/1870 on group %02X", v1870group);
     p_Main->message(message);
     
-    p_Main->message("    Output 3 to 7: VIS OUT 3 to 7");
-    p_Main->message("    EF 1: display/non display period");
-    message.Printf("    Page RAM Size = %d KB", (pageMemorySize_+1)/0x400);
+    p_Main->message("	Output 3 to 7: VIS OUT 3 to 7");
+    p_Main->message("	EF 1: display/non display period");
+    message.Printf("	Page RAM Size = %d KB", (pageMemorySize_+1)/0x400);
     p_Main->message(message);
     if (charMemoryIsRom_)
     {
         if (romAddress_ == 0)
-            message.Printf("    Character ROM Size = %d KB", (charMemorySize_+1)/0x400);
+            message.Printf("	Character ROM Size = %d KB", (charMemorySize_+1)/0x400);
         else
-            message.Printf("    Character RAM+ROM Size = %d KB; RAM 0-%03X, ROM %03X-%03X", (charMemorySize_+1)/0x400, romAddress_-1, romAddress_, charMemorySize_);
+            message.Printf("	Character RAM+ROM Size = %d KB; RAM 0-%03X, ROM %03X-%03X", (charMemorySize_+1)/0x400, romAddress_-1, romAddress_, charMemorySize_);
     }
     else
-        message.Printf("    Character RAM Size = %d KB", (charMemorySize_+1)/0x400);
+        message.Printf("	Character RAM Size = %d KB", (charMemorySize_+1)/0x400);
     p_Main->message(message);
     if (videoMode_ == PAL && maxLinesPerCharacters_ == 16 )
-        message.Printf("    64 Characters with size: 6x%d", maxLinesPerCharacters_);
+        message.Printf("	64 Characters with size: 6x%d", maxLinesPerCharacters_);
     else
-        message.Printf("    %d Characters with size: 6x%d", pcbMask_+1, maxLinesPerCharacters_);
+        message.Printf("	%d Characters with size: 6x%d", pcbMask_+1, maxLinesPerCharacters_);
     p_Main->message(message);
     p_Main->message("\n");
     
@@ -471,17 +487,17 @@ void V1870::configure1870Cidelsa()
     gc->SetAntialiasMode(wxANTIALIAS_NONE);
 #endif
 
-    cycleType_[VIDEOCYCLE1870] = V1870CYCLE;
-    efType_[1] = V1870EF;
+    cycleType_[VIDEOCYCLE_V1870] = V1870CYCLE;
+    efType_[0][0][1] = V1870EF;
 
-    outType_[3] = V1870OUT3;
-    outType_[4] = V1870OUT4;
-    outType_[5] = V1870OUT5;
-    outType_[6] = V1870OUT6;
-    outType_[7] = V1870OUT7;
+    outType_[0][0][3] = V1870OUT3;
+    outType_[0][0][4] = V1870OUT4;
+    outType_[0][0][5] = V1870OUT5;
+    outType_[0][0][6] = V1870OUT6;
+    outType_[0][0][7] = V1870OUT7;
     p_Main->message("Configuring Video Interface System CDP 1869/1876");
-    p_Main->message("    Output 3 to 7: VIS OUT 3 to 7");
-    p_Main->message("    EF 1: display/non display period\n");
+    p_Main->message("	Output 3 to 7: VIS OUT 3 to 7");
+    p_Main->message("	EF 1: display/non display period\n");
 }
 
 void V1870::configure1870Telmac()
@@ -503,16 +519,16 @@ void V1870::configure1870Telmac()
     gc->SetAntialiasMode(wxANTIALIAS_NONE);
 #endif
 
-    cycleType_[BLINKCYCLE] = V1870BLINK;
-    cycleType_[VIDEOCYCLE1870] = V1870CYCLE;
+    cycleType_[BLINKCYCLE_V1870] = V1870BLINK;
+    cycleType_[VIDEOCYCLE_V1870] = V1870CYCLE;
 
-    efType_[1] = V1870EF;
+    efType_[0][0][1] = V1870EF;
 
-    outType_[5] = TELMACOUTDATA;
-    outType_[7] = TELMACOUTREGISTER;
+    outType_[0][0][5] = TELMACOUTDATA;
+    outType_[0][0][7] = TELMACOUTREGISTER;
     p_Main->message("Configuring Video Interface System CDP 1869/1870");
-    p_Main->message("    Output 5: VIS data, output 7: VIS register select");
-    p_Main->message("    EF 1: display/non display period\n");
+    p_Main->message("	Output 5: VIS data, output 7: VIS register select");
+    p_Main->message("	EF 1: display/non display period\n");
 }
 
 void V1870::configure1870Pecom()
@@ -534,15 +550,15 @@ void V1870::configure1870Pecom()
     gc->SetAntialiasMode(wxANTIALIAS_NONE);
 #endif
 
-    cycleType_[VIDEOCYCLE1870] = V1870CYCLE;
+    cycleType_[VIDEOCYCLE_V1870] = V1870CYCLE;
 
-    outType_[3] = V1870OUT3;
-    outType_[4] = V1870OUT4;
-    outType_[5] = V1870OUT5;
-    outType_[6] = V1870OUT6;
-    outType_[7] = V1870OUT7;
+    outType_[0][0][3] = V1870OUT3;
+    outType_[0][0][4] = V1870OUT4;
+    outType_[0][0][5] = V1870OUT5;
+    outType_[0][0][6] = V1870OUT6;
+    outType_[0][0][7] = V1870OUT7;
     p_Main->message("Configuring Video Interface System CDP 1869/1870");
-    p_Main->message("    Output 3 to 7: VIS OUT 3 to 7\n");
+    p_Main->message("	Output 3 to 7: VIS OUT 3 to 7\n");
 }
 
 void V1870::v1870BarSize()
@@ -576,15 +592,15 @@ void V1870::configure6845()
     videoHeight_ = rows_*scanLine_*2;
 
     setCycle();
-    setCycleType(BLINKCYCLE, MC6845BLINK);
-    setCycleType(VIDEOCYCLE, MC6845CYCLE);
+    setCycleType(BLINKCYCLE_MC6845, MC6845BLINK);
+    setCycleType(VIDEOCYCLE_MC6845, MC6845CYCLE);
     if (fullScreenSet_)
     {
         changeScreenSize();
     }
     else
     {
-        p_Main->eventSetClientSize(p_Main->get6845Size(computerType_), CALL_CHANGE_SCREEN_SIZE, false, 0);
+        p_Main->eventSetClientSize(p_Main->get6845Size(computerType_), CALL_CHANGE_SCREEN_SIZE, false, videoNumber_);
         
         p_Main->v1870BarSizeEvent();
     }
@@ -601,8 +617,8 @@ void V1870::stop6845()
     videoHeight_ = save_v1870Y_;
 
     setCycle();
-    setCycleType(BLINKCYCLE, 0);
-    setCycleType(VIDEOCYCLE, 0);
+    setCycleType(BLINKCYCLE_MC6845, 0);
+    setCycleType(VIDEOCYCLE_MC6845, 0);
     reDraw_ = true;
     if (fullScreenSet_)
     {
@@ -610,7 +626,7 @@ void V1870::stop6845()
     }
     else
     {
-        p_Main->eventSetClientSize(p_Main->getMainSize(computerType_), CALL_CHANGE_SCREEN_SIZE, false, 0);
+        p_Main->eventSetClientSize(p_Main->getMainSize(computerType_), CALL_CHANGE_SCREEN_SIZE, false, videoNumber_);
 
         p_Main->v1870BarSizeEvent();
     }
@@ -832,7 +848,7 @@ void V1870::out7_1870(Word address)
     register7_ = (address & pageMemoryMask_ & 0x7fc);
 
     if (mc6845started_)  return;
-    if ((pixelWidth_ == 1) && (pixelHeight_ == 1) && ((computerType_ == COMX) || (computerType_ == TMC600) || (computerType_ == PECOM)  || (computerType_ == MICROBOARD)))
+    if ((pixelWidth_ == 1) && (pixelHeight_ == 1) && ((computerType_ == COMX) || (computerType_ == TMC600) || (computerType_ == PECOM) || (computerType_ == MICROBOARD) || (computerType_ == XML)))
     {
         if (pageMemoryMask_ == 0x7ff)
             reDraw_ = true;
@@ -867,7 +883,7 @@ void V1870::cycle1870()
         if (!displayOff_)
         {
             ef1Value_ = efDisplay_;
-            if (computerType_ == MICROBOARD)
+            if (computerType_ == MICROBOARD || computerType_ == XML)
             {
                 if (interruptMode_ == INT_MODE1)
                     p_Computer->interrupt();
@@ -886,7 +902,7 @@ void V1870::cycle1870()
             if (wxIsMainThread())
                 size = GetClientSize();
             else
-                size = p_Main->eventGetClientSize(false, 0);
+                size = p_Main->eventGetClientSize(false, videoNumber_);
 
             if (mc6845started_)
                 p_Main->set6845Size(computerType_, size);
@@ -915,9 +931,10 @@ void V1870::cycle1870()
         {
             case COMX:
                 if (!displayOff_)
-                        p_Computer->interrupt();
+                    p_Computer->interrupt();
             break;
 
+            case XML:
             case MICROBOARD:
                 if (!displayOff_)
                 {
@@ -953,15 +970,18 @@ void V1870::blink1870()
 
 void V1870::writePram(Word address, Byte v)
 {
+    if (!nonDisplay_ && computerType_ != CIDELSA)
+        return;
+
     if (cmemAccessMode_)
         address = register6_ & pageMemoryMask_;
     else
     {
         if (!nonDisplay_)
-//        if (ef1Value_ == efDisplay_)
             return;
         address &= pageMemoryMask_;
     }
+
     address &= pageMemorySize_;
 
     pageMemory_[address] = v;
@@ -984,17 +1004,19 @@ void V1870::writePram(Word address, Byte v)
 
 void V1870::writeCram(Word address, Byte v)
 {
+    if (!nonDisplay_ && computerType_ != CIDELSA)
+        return;
+
     Word ac;
     if (cmemAccessMode_)
         ac = register6_ & pageMemoryMask_;
     else
     {
         if (!nonDisplay_)
-//        if (ef1Value_ == efDisplay_)
             return;
         ac = address & pageMemoryMask_;
     }
-
+    
     address &= CmaMask_;
     address += ((pageMemory_[ac]&pcbMask_) * maxLinesPerCharacters_);
     
@@ -1034,7 +1056,6 @@ Byte V1870::readPram(Word address)
     
 
     if (!nonDisplay_)
-//    if (ef1Value_ == efDisplay_)
         return 0xff;
 
     if (cmemAccessMode_)
@@ -1047,7 +1068,6 @@ Byte V1870::readPram(Word address)
 Byte V1870::readCram(Word address)
 {
     if (!nonDisplay_)
-//    if (ef1Value_ == efDisplay_)
         return 0xff;
 
     Word ac;
@@ -1170,7 +1190,7 @@ void V1870::copyScreen()
 #if defined(__WXMAC__)
     if (reBlit_ || reDraw_)
     {
-        p_Main->eventRefreshVideo(false, 0);
+        p_Main->eventRefreshVideo(false, videoNumber_);
         reBlit_ = false;
         reDraw_ = false;
     }
@@ -1412,12 +1432,12 @@ void V1870::reDrawBar()
 
 void V1870::updateExpansionLed(bool status)
 {
-    updateLedStatus(expansionSlot_, 0, status);
+    p_Main->eventUpdateComxLedStatus(expansionSlot_, 0, status);
 }
 
 void V1870::updateStatusLed(bool status)
 {
-    updateLedStatus(expansionSlot_, 1, status);
+    p_Main->eventUpdateComxLedStatus(expansionSlot_, 1, status);
 }
 
 void V1870::updateLedStatus(int card, int i, bool status)
@@ -1738,7 +1758,7 @@ void V1870::blink6845()
         if (cursorOn_)
             drawCursor6845(cursorAddress_, cursorBlinkOn_);
 #else
-        p_Main->eventRefreshVideo(false, 0);
+        p_Main->eventRefreshVideo(false, videoNumber_);
 #endif
     }
 }
@@ -1798,7 +1818,7 @@ void V1870::copyScreen6845()
 #if defined(__WXMAC__)
     if (reBlit_ || reDraw_)
     {
-        p_Main->eventRefreshVideo(false, 0);
+        p_Main->eventRefreshVideo(false, videoNumber_);
         reBlit_ = false;
         reDraw_ = false;
     }
@@ -1865,8 +1885,8 @@ void V1870::draw6845(Word addr, Byte value)
     addr = (addr - startAddress_) & 0x7ff;
 
     int y = (addr/charLine_)*scanLine_*videoM_;
-     int x = (addr%charLine_)*MC6845CHARW;
-     drawCharacter6845(x, y, value);
+    int x = (addr%charLine_)*MC6845CHARW;
+    drawCharacter6845(x, y, value);
 }
 
 void V1870::drawCharacter6845(wxCoord x, wxCoord y, Byte v)
@@ -1931,7 +1951,7 @@ void V1870::drawCursor6845(Word addr, bool status)
     addr = (addr - startAddress_) & 0x7ff;
 
     int y = (addr/charLine_)*scanLine_*videoM_;
-     int x = (addr%charLine_)*MC6845CHARW;
+    int x = (addr%charLine_)*MC6845CHARW;
 
     v = mc6845ram_[addr];
     line = cursorStartLine_;
@@ -2000,7 +2020,7 @@ void V1870::drawCursor6845(wxDC &dc, Word addr, bool status)
     addr = (addr - startAddress_) & 0x7ff;
 
     int y = (addr/charLine_)*scanLine_*videoM_;
-     int x = (addr%charLine_)*MC6845CHARW;
+    int x = (addr%charLine_)*MC6845CHARW;
 
     v = mc6845ram_[addr];
     line = cursorStartLine_;
@@ -2025,9 +2045,9 @@ void V1870::drawCursor6845(wxDC &dc, Word addr, bool status)
             dc.SetBrush(wxBrush(clr));
             dc.SetPen(wxPen(clr));
             if (interlace_ & !(videoM_ == 1))
-                dc.DrawRectangle((x+offsetX_)*zoom_, (yLine+offsetY_)*zoom_, MC6845CHARW*zoom_, 2*zoom_);
+                dc.DrawRectangle(x+offsetX_, yLine+offsetY_, MC6845CHARW, 2);
             else
-                dc.DrawRectangle((x+offsetX_)*zoom_, (yLine+offsetY_)*zoom_, MC6845CHARW*zoom_, zoom_);
+                dc.DrawRectangle(x+offsetX_, yLine+offsetY_, MC6845CHARW, 1);
         }
         else
         {
@@ -2051,9 +2071,9 @@ void V1870::drawCursor6845(wxDC &dc, Word addr, bool status)
                 dc.SetBrush(wxBrush(clr));
                 dc.SetPen(wxPen(clr));
                 if (interlace_ & !(videoM_ == 1))
-                    dc.DrawRectangle((i+offsetX_)*zoom_, (yLine+offsetY_)*zoom_, zoom_, 2*zoom_);
+                    dc.DrawRectangle(i+offsetX_, yLine+offsetY_, 1, 2);
                 else
-                    dc.DrawRectangle((i+offsetX_)*zoom_, (yLine+offsetY_)*zoom_, zoom_, zoom_);
+                    dc.DrawRectangle(i+offsetX_, yLine+offsetY_, 1, 1);
                 line_byte <<= 1;
             }
         }
@@ -2142,6 +2162,7 @@ void V1870::setCycle()
             preDisplayPeriod_ = (int) ((float) cycleSize_ / 312 * 269);
         break;
 
+        case XML:
         case MICROBOARD:
         case TMC600:
         case PECOM:  // DOT = 5.626
@@ -2184,14 +2205,13 @@ void V1870::setFullScreen(bool fullScreenSet)
             SetStatusBar(cidelsaStatusBarPointer);
     }
 #endif
-    
     ShowFullScreen(fullScreenSet);
 }
 
 void V1870::onF3()
 {
     fullScreenSet_ = !fullScreenSet_;
-    p_Main->eventVideoSetFullScreen(fullScreenSet_);
+    p_Main->eventVideoSetFullScreen(fullScreenSet_, videoNumber_);
 }
 
 void V1870::reBlit(wxDC &dc)

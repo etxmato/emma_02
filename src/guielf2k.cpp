@@ -91,7 +91,7 @@ BEGIN_EVENT_TABLE(GuiElf2K, GuiMS2000)
     EVT_CHECKBOX(XRCID("Elf2KSwitch"), GuiElf2K::onElf2KSwitch)
     EVT_CHECKBOX(XRCID("Elf2KHex"), GuiElf2K::onElf2KHex)
     EVT_CHECKBOX(XRCID("Elf2KBootRam"), GuiElf2K::onBootRam)
-    EVT_CHECKBOX(XRCID("Elf2KClearRtc"), GuiElf2K::onClearRtc)
+    EVT_CHECKBOX(XRCID("Elf2KClearRtc"), GuiMain::onClearRtc)
 
     EVT_CHOICE(XRCID("VTBaudTChoiceElf2K"), GuiElf2K::onElf2KBaudT)
     EVT_CHOICE(XRCID("VTBaudRChoiceElf2K"), GuiElf2K::onElf2KBaudR)
@@ -122,17 +122,21 @@ void GuiElf2K::readElf2KConfig()
 {
     selectedComputer_ = ELF2K;
 
-    elfConfiguration[ELF2K].elfPortConf.emsOutput.resize(1);
+    elfConfiguration[ELF2K].ioConfiguration.emsOutput.resize(1);
     readElfPortConfig(ELF2K, "Elf2K");
     
+    elfConfiguration[ELF2K].useTapeHw = false;
+    elfConfiguration[ELF2K].vtShow = true;
     conf[ELF2K].emsConfigNumber_ = 0;
+    conf[ELF2K].videoNumber_ = 0;
 
     conf[ELF2K].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "Elf2K" + pathSeparator_;
 
     conf[ELF2K].mainDir_ = readConfigDir("/Dir/Elf2K/Main", dataDir_ + "Elf2K" + pathSeparator_);
     conf[ELF2K].romDir_[MAINROM1] = readConfigDir("/Dir/Elf2K/Main_Rom_File", dataDir_ + "Elf2K" + pathSeparator_);
     conf[ELF2K].charRomDir_ = readConfigDir("/Dir/Elf2K/Font_Rom_File", dataDir_ + "Elf2K" + pathSeparator_);
-    elfConfiguration[ELF2K].vtCharRomDir_ = readConfigDir("/Dir/Elf2K/Vt_Font_Rom_File", dataDir_ + "Elf2K" + pathSeparator_);
+    elfConfiguration[ELF2K].vt100CharRomDir_ = readConfigDir("/Dir/Elf2K/Vt100_Font_Rom_File", dataDir_ + "Elf2K" + pathSeparator_);
+    elfConfiguration[ELF2K].vt52CharRomDir_ = readConfigDir("/Dir/Elf2K/Vt52_Font_Rom_File", dataDir_ + "Elf2K" + pathSeparator_);
     conf[ELF2K].ramDir_ = readConfigDir("/Dir/Elf2K/Software_File", dataDir_ + "Elf2K" + pathSeparator_);
     conf[ELF2K].ideDir_ = readConfigDir("/Dir/Elf2K/Ide_File", dataDir_ + "Elf2K" + pathSeparator_);
     conf[ELF2K].keyFileDir_ = readConfigDir("/Dir/Elf2K/Key_File", dataDir_ + "Elf2K" + pathSeparator_);
@@ -185,7 +189,7 @@ void GuiElf2K::readElf2KConfig()
 
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 1.0);
-    conf[ELF2K].zoom_ = convertLocale(configPointer->Read("/Elf2K/Zoom", defaultZoom));
+    conf[ELF2K].zoom_[VIDEOMAIN] = convertLocale(configPointer->Read("/Elf2K/Zoom", defaultZoom));
     conf[ELF2K].zoomVt_ = convertLocale(configPointer->Read("/Elf2K/Vt_Zoom", defaultZoom));
     wxString defaultScale;
     defaultScale.Printf("%i", 3);
@@ -219,7 +223,8 @@ void GuiElf2K::readElf2KConfig()
     setVtType("Elf2K", ELF2K, elfConfiguration[ELF2K].vtType, false);
     setElf2KVideoType(conf[ELF2K].videoMode_);
 
-    elfConfiguration[ELF2K].vtCharRom_ = configPointer->Read("/Elf2K/Vt_Font_Rom_File", "vt52.a.bin");
+    elfConfiguration[ELF2K].vt100CharRom_ = configPointer->Read("/Elf2K/Vt100_Font_Rom_File", "vt100.bin");
+    elfConfiguration[ELF2K].vt52CharRom_ = configPointer->Read("/Elf2K/Vt52_Font_Rom_File", "vt52.a.bin");
   
     long value;
     conf[ELF2K].saveStartString_ = configPointer->Read("/Elf2K/SaveStart", "0");
@@ -250,7 +255,7 @@ void GuiElf2K::readElf2KConfig()
 
         XRCCTRL(*this, "Elf2KKeyboard", wxChoice)->SetSelection(elfConfiguration[ELF2K].keyboardType);
         
-        correctZoomAndValue(ELF2K, "Elf2K", SET_SPIN);
+        correctZoomAndValue(ELF2K, "Elf2K", SET_SPIN, VIDEOMAIN);
         correctZoomVtAndValue(ELF2K, "Elf2K", SET_SPIN);
 
         XRCCTRL(*this, "ShowAddressElf2K", wxTextCtrl)->ChangeValue(conf[ELF2K].ledTime_);
@@ -269,10 +274,7 @@ void GuiElf2K::readElf2KConfig()
         XRCCTRL(*this, "Elf2KBootRam", wxCheckBox)->SetValue(elfConfiguration[ELF2K].bootRam);
         XRCCTRL(*this, "VolumeElf2K", wxSlider)->SetValue(conf[ELF2K].volume_);
 
-        XRCCTRL(*this, "TurboElf2K", wxCheckBox)->SetValue(conf[ELF2K].turbo_);
-
         XRCCTRL(*this, "TurboClockElf2K", wxTextCtrl)->SetValue(conf[ELF2K].turboClock_);
-        XRCCTRL(*this, "AutoCasLoadElf2K", wxCheckBox)->SetValue(conf[ELF2K].autoCassetteLoad_);
         if (elfConfiguration[runningComputer_].useXmodem || elfConfiguration[runningComputer_].useHexModem)
         {
             turboGui("Elf2K");
@@ -297,7 +299,7 @@ void GuiElf2K::readElf2KConfig()
 
     elfConfiguration[ELF2K].usePortExtender = false;
     elfConfiguration[ELF2K].ideEnabled = true;
-    elfConfiguration[ELF2K].fdcEnabled = false;
+    elfConfiguration[ELF2K].fdc1793Enabled = false;
     elfConfiguration[ELF2K].useLedModule = false;
     elfConfiguration[ELF2K].useTape = false;
     conf[ELF2K].realCassetteLoad_ = false;
@@ -309,7 +311,8 @@ void GuiElf2K::writeElf2KDirConfig()
     writeConfigDir("/Dir/Elf2K/Main", conf[ELF2K].mainDir_);
     writeConfigDir("/Dir/Elf2K/Main_Rom_File", conf[ELF2K].romDir_[MAINROM1]);
     writeConfigDir("/Dir/Elf2K/I8275_Font_Rom_File", conf[ELF2K].charRomDir_);
-    writeConfigDir("/Dir/Elf2K/Vt_Font_Rom_File", elfConfiguration[ELF2K].vtCharRomDir_);
+    writeConfigDir("/Dir/Elf2K/Vt100_Font_Rom_File", elfConfiguration[ELF2K].vt100CharRomDir_);
+    writeConfigDir("/Dir/Elf2K/Vt52_Font_Rom_File", elfConfiguration[ELF2K].vt52CharRomDir_);
     writeConfigDir("/Dir/Elf2K/Software_File", conf[ELF2K].ramDir_);
     writeConfigDir("/Dir/Elf2K/Ide_File", conf[ELF2K].ideDir_);
     writeConfigDir("/Dir/Elf2K/Key_File", conf[ELF2K].keyFileDir_);
@@ -324,7 +327,8 @@ void GuiElf2K::writeElf2KConfig()
 
     configPointer->Write("/Elf2K/Main_Rom_File", conf[ELF2K].rom_[MAINROM1]);
     configPointer->Write("/Elf2K/I8275_Font_Rom_File", conf[ELF2K].charRom_);
-    configPointer->Write("/Elf2K/Vt_Font_Rom_File", elfConfiguration[ELF2K].vtCharRom_);
+    configPointer->Write("/Elf2K/Vt100_Font_Rom_File", elfConfiguration[ELF2K].vt100CharRom_);
+    configPointer->Write("/Elf2K/Vt52_Font_Rom_File", elfConfiguration[ELF2K].vt52CharRom_);
     configPointer->Write("/Elf2K/Ide_File", conf[ELF2K].ide_);
     configPointer->Write("/Elf2K/Key_File", conf[ELF2K].keyFile_);
     configPointer->Write("/Elf2K/Video_Dump_File", conf[ELF2K].screenDumpFile_);
@@ -349,7 +353,7 @@ void GuiElf2K::writeElf2KConfig()
     configPointer->Write("/Elf2K/Vt_Baud_Transmit", elfConfiguration[ELF2K].baudT);
     configPointer->Write("/Elf2K/Video_Type", conf[ELF2K].videoMode_);
     configPointer->Write("/Elf2K/Keyboard_Type", elfConfiguration[ELF2K].keyboardType);
-    configPointer->Write("/Elf2K/Zoom", conf[ELF2K].zoom_);
+    configPointer->Write("/Elf2K/Zoom", conf[ELF2K].zoom_[VIDEOMAIN]);
     configPointer->Write("/Elf2K/Vt_Zoom", conf[ELF2K].zoomVt_);
     configPointer->Write("/Elf2K/Force_Uppercase", elfConfiguration[ELF2K].forceUpperCase);
     configPointer->Write("/Elf2K/SerialLog", elfConfiguration[ELF2K].serialLog);
@@ -497,11 +501,6 @@ void GuiElf2K::onBootRam(wxCommandEvent&event)
     elfConfiguration[ELF2K].bootRam = event.IsChecked();
 }
 
-void GuiElf2K::onClearRtc(wxCommandEvent&event)
-{
-    elfConfiguration[ELF2K].clearRtc = event.IsChecked();
-}
-
 void GuiElf2K::onTape(wxCommandEvent&WXUNUSED(event))
 {
     if (!elfConfiguration[selectedComputer_].useXmodem)
@@ -547,7 +546,7 @@ void GuiElf2K::setElf2KKeyboard(int Selection)
         case KEYBOARDNONE:
             elfConfiguration[ELF2K].useHexKeyboardEf3 = false;
             elfConfiguration[ELF2K].useKeyboard = false;
-            elfConfiguration[ELF2K].UsePS2 = false;
+            elfConfiguration[ELF2K].usePS2 = false;
             elfConfiguration[ELF2K].usePs2gpio = false;
             if (mode_.gui)
             {
@@ -559,7 +558,7 @@ void GuiElf2K::setElf2KKeyboard(int Selection)
         case KEYBOARDELF2KHEX:
             elfConfiguration[ELF2K].useHexKeyboardEf3 = true;
             elfConfiguration[ELF2K].useKeyboard = false;
-            elfConfiguration[ELF2K].UsePS2 = false;
+            elfConfiguration[ELF2K].usePS2 = false;
             elfConfiguration[ELF2K].usePs2gpio = false;
             if (mode_.gui)
             {
@@ -571,7 +570,7 @@ void GuiElf2K::setElf2KKeyboard(int Selection)
         case KEYBOARD_PS2:
             elfConfiguration[ELF2K].useHexKeyboardEf3 = false;
             elfConfiguration[ELF2K].useKeyboard = false;
-            elfConfiguration[ELF2K].UsePS2 = false;
+            elfConfiguration[ELF2K].usePS2 = false;
             elfConfiguration[ELF2K].usePs2gpio = true;
             if (mode_.gui)
             {
@@ -583,7 +582,7 @@ void GuiElf2K::setElf2KKeyboard(int Selection)
         case KEYBOARD2KPS2GPIOJP4:
             elfConfiguration[ELF2K].useHexKeyboardEf3 = false;
             elfConfiguration[ELF2K].useKeyboard = false;
-            elfConfiguration[ELF2K].UsePS2 = true;
+            elfConfiguration[ELF2K].usePS2 = true;
             elfConfiguration[ELF2K].usePs2gpio = true;
             if (mode_.gui)
             {

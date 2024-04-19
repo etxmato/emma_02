@@ -35,8 +35,8 @@
 
 #include "uc1800.h"
 
-Uc1800Screen::Uc1800Screen(wxWindow *parent, const wxSize& size)
-: Panel(parent, size)
+Uc1800Screen::Uc1800Screen(wxWindow *parent, const wxSize& size, int tilType)
+: Panel(parent, size, tilType)
 {
 }
 
@@ -53,8 +53,9 @@ Uc1800Screen::~Uc1800Screen()
 
     for (int i=0; i<2; i++)
     {
-        delete dataTil313PointerItalic[i];
-        delete addressTil313PointerItalic[i+2];
+        delete dataPointer[i];
+        delete addressPointer[i];
+        delete addressPointer[i+2];
         delete ledPointer[i];
     }
     delete readyLedPointer;
@@ -67,6 +68,11 @@ Uc1800Screen::~Uc1800Screen()
     for (int i = 0; i<16; i++)
         delete buttonPointer[i];
 #endif
+}
+
+void Uc1800Screen::init()
+{
+    init(p_Main->getConfigBool("XML/PowerButtonState", true));
 }
 
 void Uc1800Screen::init(bool powerButtonState)
@@ -82,31 +88,32 @@ void Uc1800Screen::init(bool powerButtonState)
 
     wxClientDC dc(this);
 
-    runSwitchButton = new SwitchButton(dc, PUSH_BUTTON_BLACK, wxColour(43, 71, 106), BUTTON_UP, 160, 114, "");
-    loadSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(43, 71, 106), BUTTON_UP, 85, 188, "");
-    inSwitchButton = new SwitchButton(dc, PUSH_BUTTON_BLACK, wxColour(43, 71, 106), BUTTON_UP, 160, 188, "");
-    resetSwitchButton = new SwitchButton(dc, PUSH_BUTTON, wxColour(43, 71, 106), BUTTON_UP, 25, 114, "");
-    stepSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(43, 71, 106), BUTTON_DOWN, 85, 114, "");
-    powerSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(43, 71, 106), powerButtonState, 25, 188, "");
+    runSwitchButton = new SwitchButton(dc, PUSH_BUTTON_ROUND_BLACK, wxColour(43, 71, 106), BUTTON_UP, 160, 114, "");
+    loadSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(43, 71, 106), BUTTON_UP, 85, 188, "");
+    inSwitchButton = new SwitchButton(dc, PUSH_BUTTON_ROUND_BLACK, wxColour(43, 71, 106), BUTTON_UP, 160, 188, "");
+    resetSwitchButton = new SwitchButton(dc, PUSH_BUTTON_ROUND_RED, wxColour(43, 71, 106), BUTTON_UP, 25, 114, "");
+    stepSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(43, 71, 106), BUTTON_DOWN, 85, 114, "");
+    powerSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(43, 71, 106), powerButtonState, 25, 188, "");
 
     for (int i=0; i<2; i++)
     {
-        dataTil313PointerItalic[i] = new Til313Italic(false);
-        dataTil313PointerItalic[i]->init(dc, 330+i*24, 18);
-        updateDataTil313Italic_ = true;
+        dataPointer[i] = new Til313Italic(false);
+        dataPointer[i]->init(dc, 330+i*24, 18);
+        updateData_ = true;
 
-        addressTil313PointerItalic[i+2] = new Til313Italic(false);
-        addressTil313PointerItalic[i+2]->init(dc, 200+i*24, 18);
-        updateAddressTil313Italic_ = true;
+        addressPointer[i] = new Til();
+        addressPointer[i+2] = new Til313Italic(false);
+        addressPointer[i+2]->init(dc, 200+i*24, 18);
+        updateAddress_ = true;
 
-        ledPointer[i] = new Led(dc, 347+23*(1-i), 110, ELFLED);
+        ledPointer[i] = new Led(dc, 347+23*(1-i), 110, LED_SMALL_RED);
         updateLed_[i]=true;
     }
 
-    readyLedPointer = new Led(dc, 32, 245, ELFLED);
+    readyLedPointer = new Led(dc, 32, 245, LED_SMALL_RED);
     updateReadyLed_ = true;
 
-    qLedPointer = new Led(dc, 116, 44, ELFLED);
+    qLedPointer = new Led(dc, 116, 44, LED_SMALL_RED);
 
     mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/uc1800.png", wxBITMAP_TYPE_PNG);
 
@@ -129,7 +136,7 @@ void Uc1800Screen::init(bool powerButtonState)
         buttonText.Printf("%01X", i);
         x = xPos + (i & 0x3)*(xSize + 2);
         y = (yPos + 3 * (ySize + 2)) + (int)(i / 4 * (ySize + 12));
-        osx_buttonPointer[i] = new HexButton(dc, UC1800_HEX_BUTTON, x, y, buttonText);
+        osx_buttonPointer[i] = new HexButton(dc, PUSH_BUTTON_RECTANGLE_SMALL, x, y, buttonText);
     }
 #else
     for (int i = 0; i<16; i++)
@@ -155,8 +162,8 @@ void Uc1800Screen::onPaint(wxPaintEvent&WXUNUSED(event))
 
     for (int i=0; i<2; i++)
     {
-        dataTil313PointerItalic[i]->onPaint(dc);
-        addressTil313PointerItalic[i+2]->onPaint(dc);
+        dataPointer[i]->onPaint(dc);
+        addressPointer[i+2]->onPaint(dc);
         ledPointer[i]->onPaint(dc);
     }
 
@@ -279,7 +286,6 @@ Uc1800::Uc1800(const wxString& title, const wxPoint& pos, const wxSize& size, do
     computerConfiguration = computerConf;
     uc1800Configuration = conf;
     uc1800ClockSpeed_ = clock;
-    data_ = 0;
 
 #ifndef __WXMAC__
     SetIcon(wxICON(app_icon));
@@ -289,7 +295,7 @@ Uc1800::Uc1800(const wxString& title, const wxPoint& pos, const wxSize& size, do
 
     powerButtonState_ = p_Main->getConfigBool("UC1800/PowerButtonState", true);
 
-    uc1800ScreenPointer = new Uc1800Screen(this, size);
+    uc1800ScreenPointer = new Uc1800Screen(this, size, TIL313ITALIC);
     uc1800ScreenPointer->init(powerButtonState_);
     setMsValue_ = (int) p_Main->getLedTimeMs(UC1800);
 }
@@ -447,7 +453,7 @@ bool Uc1800::keyDownPressed(int key)
     return false;
 }
 
-bool Uc1800::keyUpReleased(int key)
+bool Uc1800::keyUpReleased(int key, wxKeyEvent&WXUNUSED(event))
 {
     if (key == inKey1_)
     {
@@ -462,6 +468,7 @@ bool Uc1800::keyUpReleased(int key)
     onHexKeyUp(key);
     return false;
 }
+
 void Uc1800::onInButtonPress()
 {
     onInButtonPress(getData());
@@ -525,7 +532,7 @@ void Uc1800::onResetButtonPress()
 
     if (cpuMode_ == RESET)
     {
-        uc1800ScreenPointer->showAddressTil313Italic(0);
+        uc1800ScreenPointer->showAddress(0);
     }
 
     uc1800ScreenPointer->resetSetState(BUTTON_DOWN);
@@ -545,14 +552,14 @@ void Uc1800::configureComputer()
 {
     wxString printBuffer;
 
-    inType_[1] = UC1800IN;
-    outType_[1] = UC1800OUT;
-    efType_[1] = UC1800EF;
+    inType_[0][0][1] = UC1800IN;
+    outType_[0][0][1] = UC1800OUT;
+    efType_[0][0][1] = UC1800EF;
     setCycleType(COMPUTERCYCLE, LEDCYCLE);
     
     p_Main->message("Configuring UC1800");
-    p_Main->message("    Output 1: display output, input 1: data input");
-    p_Main->message("    EF 1: 0 when start button pressed");
+    p_Main->message("	Output 1: display output, input 1: data input");
+    p_Main->message("	EF 1: 0 when start button pressed");
     p_Main->message("");
 
     inKey1_ = p_Main->getDefaultInKey1("UC1800");
@@ -590,7 +597,7 @@ void Uc1800::initComputer()
 
 Byte Uc1800::ef(int flag)
 {
-    switch(efType_[flag])
+    switch(efType_[0][0][flag])
     {
         case 0:
             return 1;
@@ -610,7 +617,7 @@ Byte Uc1800::in(Byte port, Word WXUNUSED(address))
     Byte ret;
     ret = 0;
 
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case 0:
             ret = 255;
@@ -631,7 +638,7 @@ void Uc1800::out(Byte port, Word WXUNUSED(address), Byte value)
 {
     outValues_[port] = value;
 
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;
@@ -650,7 +657,7 @@ void Uc1800::switchQ(int value)
 
 void Uc1800::showData(Byte val)
 {
-    uc1800ScreenPointer->showDataTil313Italic(val);
+    uc1800ScreenPointer->showData(val);
 }
 
 void Uc1800::showCycleData(Byte val)
@@ -758,7 +765,7 @@ void Uc1800::startComputer()
     p_Main->updateTitle();
 
     address_ = 0;
-    uc1800ScreenPointer->showAddressTil313Italic(address_);
+    uc1800ScreenPointer->showAddress(address_);
 
     cpuCycles_ = 0;
     instructionCounter_= 0;
@@ -825,7 +832,7 @@ Byte Uc1800::readMem(Word address)
 {
     address_ = address;
 
-    uc1800ScreenPointer->showAddressTil313Italic(address_);
+    uc1800ScreenPointer->showAddress(address_);
 
     return readMemDebug(address_);
 }
@@ -856,7 +863,7 @@ void Uc1800::writeMem(Word address, Byte value, bool writeRom)
 {
     address_ = address;
 
-    uc1800ScreenPointer->showAddressTil313Italic(address_);
+    uc1800ScreenPointer->showAddress(address_);
 
     writeMemDebug(address_, value, writeRom);
 }

@@ -15,10 +15,10 @@ class mc6847 : public Video
 {
 public:
 
-    mc6847(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, int computerType, double clock, ElfPortConfiguration elfPortConf);
+    mc6847(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, int computerType, double clock, IoConfiguration ioConfiguration, int videoNumber);
     ~mc6847();
 
-    void configure(ElfPortConfiguration elfPortConf);
+    void configure(IoConfiguration ioConfiguration);
     void init6847();
     void setMCBit(int bit, int selection);
     void cycle6847();

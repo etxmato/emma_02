@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>Elf</name>
+        <config>Game Mode, Space Invaders</config>
+        <clock>1.76</clock>
+        <boot>0</boot>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init>
+        <init type="ef4">1</init>
+        <dirname>Elf/Games</dirname>
+    </system>
+    
+    <memory>
+        <ram type="gui">
+            <start>0</start>
+            <end>0xFFFF</end>
+            <pulldown mask="*.bin">Elf/Games</pulldown>
+            <filename>elfinvad.bin</filename>
+        </ram>
+    </memory>
+    
+    <video type="pixie">
+        <out>1</out>
+        <in>1</in>
+        <ef>1</ef>
+        <border>33x33</border>
+        <color type="fore">255, 255, 255</color>
+        <color type="back">0, 0, 0</color>
+     </video>
+
+    <frontpanel type="io">
+        <in>4</in>
+        <ef type="in">4</ef>
+        <ef type="ready">3</ef>
+    </frontpanel>
+
+    <debugger>
+        <scrt mode="off">
+            <call reg="4">0x1d7</call>
+            <return reg="5">0x1e7</return>
+        </scrt>
+
+        <assembler>
+            <filename>elfinvad</filename>
+            <code_start>0</code_start>
+            <code_end>0xFFF</code_end>
+        </assembler>
+    </debugger>
+
+</emmaconfig>
+

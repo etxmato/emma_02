@@ -1,0 +1,45 @@
+The Sarnoff Collection at TCNJ, S.572.93, S.572.91, S.572.64, S.572.50, S.572.32, S.572.23,
+
+CARDTRAN definition
+
+Instruction       Code        Operation
+===========       ====        =========
+SKIP              0...        Skip
+INPUT [2aa]       10aa        Wait for 4 digit word input and put word -> M[2aa]
+JP 2aa            20aa        JumP to 2aa
+JZ DR, 2aa        21aa        Jump to 2aa if DR = 0
+JNZ DR, 2aa       22aa        Jump to 2aa if DR != 0
+LD DR, [2aa]      30aa        M[2aa] -> DR
+ADD [2aa], DR     40aa        M[2aa] + DR -> M[2aa], 000C -> DR
+SUB [2aa], DR     50aa        M[2aa] - DR -> M[2aa], 000B -> DR
+LD [2aa], DR      60aa        DR -> M[2aa]
+DISP0 [2aa]       70aa        Display word on M[2aa] on TV(0) display position
+DISP1 [2aa]       71aa        Display word on M[2aa] on TV(1) display position
+RSH [2aa]         80aa        Ring SHift M[2aa] right 1 digit
+LDD [2aa], DR     90aa        LSD of DR -> LSD of M[2aa]
+
+DR is a 4 digit variable stored at location 02E0/02E1
+aa is 2 digits
+
+Both DR and aa are decimal only, making the max value of aa 99. As each 'address' takes 2 bytes for an instruction or 4 digit word, the user area is max 200 bytes, i.e. 0200-02C7
+
+TV display:
+===========
+TV(0) TV(1)
+TV(2)
+
+CONTROL codes:
+==============
+F0 -  Load program mode @ M[200]. Cardtran interpreter will wait for for a 4 digit word which will be stored at location M[200] next word at M[202] etc. TV(2) position will show the 4 digiti instruction after 4 digits are received.
+F1 -  Execute CARDTRAN program at M[200]
+F2 -  Input aa, DDDD after which DDDD is stored at M[2aa]
+F3 -  Show value of DR on TV(2) display position
+F4 -  Input aa after which 4 digit word stored on M[2aa] is shown on TV(2) display position
+F5 -  Halt execution (except 70/71)
+F6 -  Resume execution
+F7 -  Execute next instruction only
+
+Example CARDTRAN code:
+======================
+
+This program waits for two four digit numbers, when the numbers are given it will multiply them and show a counter counting up to the result. At the end it will wait for two new numbers. If no input is given I think some random numbers are chosen.

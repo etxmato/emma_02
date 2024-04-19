@@ -1,7 +1,7 @@
 #ifndef COSMICOS_H
 #define COSMICOS_H
 
-#include "til313.h"
+#include "til.h"
 #include "cosmicoshex.h"
 #include "led.h"
 #include "cdp1802.h"
@@ -16,7 +16,7 @@
 class CosmicosScreen : public Panel
 {
 public:
-    CosmicosScreen(wxWindow *parent, const wxSize& size);
+    CosmicosScreen(wxWindow *parent, const wxSize& size, int tilType);
     ~CosmicosScreen();
 
     void init();
@@ -37,7 +37,7 @@ public:
 
     void onClose(wxCloseEvent&WXUNUSED(event));
     bool keyDownPressed(int keycode);
-    bool keyUpReleased(int keycode);
+    bool keyUpReleased(int keycode, wxKeyEvent& event);
     void onButtonRelease(wxCommandEvent& event);
     void onButtonPress(wxCommandEvent& event);
 
@@ -60,8 +60,8 @@ public:
     void onMouseRelease(wxMouseEvent& event);
     Byte getData();
 
-    void dataButton(wxCommandEvent& event);
-    void dataButton(int i);
+    void dataSwitch(wxCommandEvent& event);
+    void dataSwitch(int i);
 
     void onRun();
     void autoBoot();
@@ -94,7 +94,7 @@ public:
     void writeMemDebug(Word address, Byte value, bool writeRom);
     void cpuInstruction();
     void resetPressed();
-    void configureElfExtensions();
+    void configureExtensions();
     void moveWindows();
     void updateTitle(wxString Title);
     void setForceUpperCase(bool status);
@@ -125,7 +125,6 @@ private:
 
     int qState_;
     Byte switches_;
-    Byte data_;
     Byte lastMode_;
 
     int keyDefA1_[16];
@@ -140,13 +139,12 @@ private:
     int keyDefGameHexB_[5];
 
     double cosmicosClockSpeed_;
-    Word lastAddress_;
 
     int runButtonState_;
     bool inPressed_;
     int loadButtonState_;
     int mpButtonState_;
-    int ramButtonState_;
+    int nvRamDisable_;
     int dataSwitchState_[8];
     int segNumber_;
 

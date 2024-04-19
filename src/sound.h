@@ -28,7 +28,6 @@ public:
     void tone(short reg4);  
     void tone1864Latch(Byte audioLatch1864);
     void tone1864On();  
-    void setVipSound (int vipSound){vipSound_ = vipSound;};
     void amplitudeSuper(int channel, int amplitude);
     void frequencySuper(int channel, int frequency);
     void octaveSuper(int channel, int octave);
@@ -54,14 +53,21 @@ public:
     void startWavSound(wxString fileName);
     void readWav(Uint8* inputBuffer, short* outBuffer, size_t remaining, float gain);
     int LoadAndConvertSound(wxString filename, SDL_AudioSpec *spec);
-    void psaveStartTape(wxString fileName, wxString tapeNumber);
+    void startSaveTape(wxString fileName, wxString tapeNumber);
+    void startSaveTapeHw(wxString fileName, wxString tapeNumber);
+    void outSaveTapeHw(Byte value);
+    void writeSilenceTapeHw();
+    int writeSaveTapeHw(Byte value, Byte stopBits);
     void stopTape();
     void pauseTape();
     void restartTapeSave(int tapeState);
+    void restartHwTapeSave(int tapeState);
     void restartTapeLoad(int tapeState);
     void stopPausedLoad();
     void stopPausedSave();
     void stopSaveLoad();
+    void forwardTape(int tapeState);
+    void rewindTape(int tapeState);
     void setVolume(int volume);
     void setClockRate(double clock);
     void setPercentageClock(double percentage);
@@ -75,18 +81,33 @@ public:
 
 protected:
     Byte flipFlopQ_;
-    int vipSound_;
     bool realCassetteLoad_;
     uint64_t cpuCycles_;
     uint64_t instructionCounter_;
     double soundClock_;
     double percentageClock_;
     int computerType_;
-    int threshold8_;
-    int threshold16_;
+    char threshold8_;
+    wxInt16 threshold16_;
+    wxInt32 threshold24_;
     float fredFreq_;
-    
+    long sampleRate_;
+    int forwardSpeed_;
+    double remainingForwardSpeed_;
+    int rewindSpeed_;
+    double remainingRewindSpeed_;
+    bool useXmlThreshold_;
+
+    Byte tapeHwReadyToReceive_;
+    long long tapeCounterStep_;
+    long long tapePeriod_;
+    bool tapeRecording_;
+    long stopTapeCounter_;
+    wxString tapeNumber_;
+
 private:
+    short ploadSamples_[256];
+
     Blip_Buffer *soundBufferPointerLeft;
     Blip_Buffer *soundBufferPointerRight;
     Blip_Buffer *tapeBufferPointer;
@@ -114,9 +135,15 @@ private:
     int noiseAmplitude_;
 
     bool stopTheTape_;
-    wxString tapeNumber_;
+    bool hwSaveOn_;
+    bool startNewRecording_;
+    bool somethingSaved_;
+    bool ploadPaused_;
+    bool hwSavePaused_;
     bool psaveOn_;
     bool ploadOn_;
+    bool forwardOn_;
+    bool rewindOn_;
     bool wavOn_;
     int psaveAmplitude_;
     int psaveVolume_;
@@ -132,7 +159,7 @@ private:
 
     int decayTime_;
     int saveDecayPeriod_;
-
+    
     Byte audioLatch1864_;
 
     Byte frequencySuper_[8];
@@ -142,6 +169,9 @@ private:
     int stereo_;
     bool inputChannel_;
     bool studioBeep_;
+    
+    Byte tapeHwOutputValue_;
+    int numberOfSamples_;
 };
 
 #endif  // SOUND_H

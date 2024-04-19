@@ -57,13 +57,11 @@ private:
     ElfConfiguration McdsConfiguration;
 
     double McdsClockSpeed_;
-    Word lastAddress_;
 
     int ioGroup_;
 
     bool saveStarted_;
     bool loadStarted_;
-    wxString tapeNumber_;
     
     int mcdsRunState_;
 };

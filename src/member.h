@@ -17,10 +17,10 @@
 class MemberScreen : public Panel
 {
 public:
-    MemberScreen(wxWindow *parent, const wxSize& size);
+    MemberScreen(wxWindow *parent, const wxSize& size, int tilType);
     ~MemberScreen();
 
-    void init(int front);
+    void init();
     void onPaint(wxPaintEvent&event);
     void onMousePress(wxMouseEvent& event);
     void onMouseRelease(wxMouseEvent& event);
@@ -37,7 +37,7 @@ public:
 
     void onClose(wxCloseEvent&WXUNUSED(event));
     bool keyDownPressed(int keycode);
-    bool keyUpReleased(int keycode);
+    bool keyUpReleased(int key, wxKeyEvent& event);
 
     void onRun();
     void onInButtonPress();
@@ -71,7 +71,7 @@ public:
     void writeMemDebug(Word address, Byte value, bool writeRom);
     void cpuInstruction();
     void resetPressed();
-    void configureElfExtensions();
+    void configureExtensions();
     void moveWindows();
     void updateTitle(wxString Title);
     void setForceUpperCase(bool status);

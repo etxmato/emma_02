@@ -479,7 +479,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="VtSetupCharRomButton">
 <tooltip>Browse for video terminal font file</tooltip>
@@ -557,7 +557,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="VtSetupWavButton">
 <tooltip>Browse for wav file</tooltip>
@@ -818,7 +818,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP|wxALL</flag>
+<flag>wxGROW</flag>
 <border>8</border>
 <object class="wxButton" name="VtSetupSave">
 <font>

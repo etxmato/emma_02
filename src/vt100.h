@@ -13,13 +13,15 @@ public:
     Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, int computerType, double clock, ElfConfiguration elfConfiguration, int uartNumber);
     ~Vt100();
 
-    void configure(int selectedBaudR, int selectedBaudT, ElfPortConfiguration elfPortConf);
+    void configure(int selectedBaudR, int selectedBaudT, IoConfiguration ioConfiguration, Locations addressLocations, wxString saveCommand);
+    void configure(int selectedBaudR, int selectedBaudT, IoConfiguration ioConfiguration);
     void configureStandard(int selectedBaudR, int selectedBaudT, int dataReadyFlag);
-    void configureUart(ElfPortConfiguration elfPortConf);
+    void configureUart(IoConfiguration ioConfiguration);
+    void configureUart16450(IoConfiguration ioConfiguration);
     void configureRcasbc(int selectedBaudR, int selectedBaudT);
     void configureMs2000(int selectedBaudR, int selectedBaudT);
     void setTabChar(Byte value);
-    void configureVt2K(int SelectedBaudR, int SelectedBaudT, ElfPortConfiguration elfPortConf);
+    void configureVt2K(int SelectedBaudR, int SelectedBaudT, IoConfiguration ioConfiguration);
     void configureQandEfPolarity(int ef, bool vtEnable);
     Byte ef();
     void out(Byte value);
@@ -57,16 +59,23 @@ public:
     void escapeVT100(Byte byt);
     void dataAvailable();
     void dataAvailable(Byte value);
+    void dataAvailableUart16450(bool data);
     void framingError(bool data);
-    void uartOut(Byte value); 
-    void uartControl(Byte value); 
+    void selectUart16450Register(Byte value);
+    void uartOut(Byte value);
+    void uart16450Out(Byte value);
+    void uartControl(Byte value);
     Byte uartIn(); 
+    Byte uart16450In();
     Byte uartStatus();
     Byte uartThreStatus();
+    void thrStatusUart16450(bool data);
     void uartInterrupt();
     void getKey();
+    bool checkInReleaseAddress(Word address);
     void checkCtrlvText();
     Byte checkCtrlvTextUart();
+    void checkXmlCommand();
     void checkElfCommand();
     void checkMcdsCommand();
     void ResetVt();
@@ -80,6 +89,7 @@ public:
     void terminalStopVt();
     void startElfRun(bool load, bool overRide);
     void startMcdsRun(bool load);
+    void startXmlRun(bool load, wxString command);
     bool readCharRomFile(int computerType, wxString romDir, wxString FileRef);
     void setFullScreen(bool fullScreenSet);
     void onF3();
@@ -223,6 +233,7 @@ private:
     size_t elfRunCommand_;
     size_t mcdsRunCommand_;
     wxString commandText_;
+    bool fileToBeLoaded_;
 
     Byte uartControl_;
     bitset<8> uartStatus_;
@@ -269,6 +280,16 @@ private:
     int uart_fe_bit_;
     int uart_tsre_bit_;
     int uart_thre_bit_;
+
+    Locations addressLocations_;
+    wxString saveCommand_;
+
+    bitset<8> modemControlRegister_;
+    bitset<8> modemStatusRegister_;
+    bitset<8> lineStatusRegister_;
+    Byte thr_;
+    
+    int registerSelect_;
 };
 
 #endif  // VT100_H

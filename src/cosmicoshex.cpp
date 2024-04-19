@@ -34,8 +34,8 @@
 #include "cosmicoshex.h"
 #include "pushbutton.h"
 
-CosmicoshexScreen::CosmicoshexScreen(wxWindow *parent, const wxSize& size)
-: Panel(parent, size)
+CosmicoshexScreen::CosmicoshexScreen(wxWindow *parent, const wxSize& size, int tilType)
+: Panel(parent, size, tilType)
 {
     reqState_ = 1;
     seqState_ = 1;
@@ -71,7 +71,7 @@ void CosmicoshexScreen::init()
     keyStart_ = 0;
     keyEnd_ = 0;
     lastKey_ = 0;
-    forceUpperCase_ = p_Main->getUpperCase(COSMICOS);
+    forceUpperCase_ = p_Main->getUpperCase();
 
     wxClientDC dc(this);
     wxString buttonText;
@@ -101,12 +101,12 @@ void CosmicoshexScreen::init()
         buttonText.Printf("%01X", i);
         x = 37+(i&0x3)*30;
         y = 126 -(int)i/4*30;
-        osx_buttonPointer[i] = new HexButton(dc, PANEL_HEX_BUTTON, x, y, buttonText);
+        osx_buttonPointer[i] = new HexButton(dc, PUSH_BUTTON, x, y, buttonText);
     }
-    osx_seqButtonPointer = new HexButton(dc, PANEL_WIDE_HEX_BUTTON, 3, 36, "SEQ");
-    osx_reqButtonPointer = new HexButton(dc, PANEL_WIDE_HEX_BUTTON, 3, 66, "REQ");
-    osx_decButtonPointer = new HexButton(dc, PANEL_WIDE_HEX_BUTTON, 3, 96, "DEC");
-    osx_retButtonPointer = new HexButton(dc, PANEL_WIDE_HEX_BUTTON, 3, 126, "RET");
+    osx_seqButtonPointer = new HexButton(dc, PUSH_BUTTON_RECTANGLE, 3, 36, "SEQ");
+    osx_reqButtonPointer = new HexButton(dc, PUSH_BUTTON_RECTANGLE, 3, 66, "REQ");
+    osx_decButtonPointer = new HexButton(dc, PUSH_BUTTON_RECTANGLE, 3, 96, "DEC");
+    osx_retButtonPointer = new HexButton(dc, PUSH_BUTTON_RECTANGLE, 3, 126, "RET");
 #else
     for (int i=0;i<16;i++)
     {
@@ -273,7 +273,7 @@ Cosmicoshex::Cosmicoshex(const wxString& title, const wxPoint& pos, const wxSize
     SetIcon(wxICON(app_icon));
 #endif
 
-    cosmicoshexScreenPointer = new CosmicoshexScreen(this, size);
+    cosmicoshexScreenPointer = new CosmicoshexScreen(this, size, TILNONE);
     cosmicoshexScreenPointer->init();
 
     keypadValue_[0] = 0;

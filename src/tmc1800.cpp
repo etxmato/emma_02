@@ -30,7 +30,7 @@
 #include "tmc1800.h"
 
 Tmc1800::Tmc1800(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, Conf computerConf)
-:Pixie(title, pos, size, zoom, zoomfactor, computerType)
+:Pixie(title, pos, size, zoom, zoomfactor, computerType, 0)
 {
     computerConfiguration = computerConf;
 }
@@ -42,14 +42,14 @@ Tmc1800::~Tmc1800()
 
 void Tmc1800::configureComputer()
 {
-    outType_[2] = VIPKEYOUT;
-    outType_[4] = VIPOUT4;
-    efType_[2] = VIPEF2;
-    efType_[3] = VIPKEYEF;
+    outType_[0][0][2] = VIPKEYOUT;
+    outType_[0][0][4] = VIPOUT4;
+    efType_[0][0][2] = VIPEF2;
+    efType_[0][0][3] = VIPKEYEF;
 
     p_Main->message("Configuring Telmac TMC-1800");
-    p_Main->message("    Output 2: key latch, output 4: address latch");
-    p_Main->message("    EF 2: cassette in, EF 3: keyboard\n");
+    p_Main->message("	Output 2: key latch, output 4: address latch");
+    p_Main->message("	EF 2: cassette in, EF 3: keyboard\n");
 
     for (int i=0; i<64; i++)
         hexKeyDefA1_[i] = 0;
@@ -135,7 +135,7 @@ void Tmc1800::onRun()
 
 Byte Tmc1800::ef(int flag)
 {
-    switch(efType_[flag])
+    switch(efType_[0][0][flag])
     {
         case 0:
             return 1;
@@ -167,7 +167,7 @@ Byte Tmc1800::in(Byte port, Word WXUNUSED(address))
 {
     Byte ret;
 
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case 0:
             ret = 255;
@@ -193,7 +193,7 @@ void Tmc1800::out(Byte port, Word WXUNUSED(address), Byte value)
 {
     outValues_[port] = value;
 
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;
@@ -269,7 +269,7 @@ void Tmc1800::startComputer()
     readProgram(p_Main->getChip8Dir(TMC1800), p_Main->getChip8SW(TMC1800), NOCHANGE, 0x200, SHOWNAME);
     pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);
 
-    double zoom = p_Main->getZoom();
+    double zoom = p_Main->getZoom(VIDEOMAIN);
 
     configurePixieTmc1800();
     initPixie();

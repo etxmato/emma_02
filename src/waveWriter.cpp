@@ -72,7 +72,7 @@ void WaveWriter::flush()
     bufferPosition_ = 0;
 }
 
-void WaveWriter::write( const sample_t* in, long remain, int skip )
+void WaveWriter::write( const wxInt16* in, long remain, int skip )
 {
     sampleCount_ += remain;
     while( remain )
@@ -80,7 +80,7 @@ void WaveWriter::write( const sample_t* in, long remain, int skip )
         if ( bufferPosition_ >= bufferSize_ )
             flush();
         
-        long n = (unsigned long) (bufferSize_ - bufferPosition_) / sizeof(sample_t);
+        long n = (unsigned long) (bufferSize_ - bufferPosition_) / sizeof(wxInt16);
         if ( n > remain )
             n = remain;
         remain -= n;
@@ -145,9 +145,9 @@ void WaveWriter::closeFile()
     else
     {
         // generate header
-        ds = sampleCount_ * sizeof(sample_t);
+        ds = sampleCount_ * sizeof(wxInt16);
         rs = header_size - 8 + ds;
-        frame_size = channelCount_ * sizeof(sample_t);
+        frame_size = channelCount_ * sizeof(wxInt16);
         bps = sampleRate_ * frame_size;
     }
 

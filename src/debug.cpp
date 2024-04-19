@@ -704,13 +704,13 @@ BEGIN_EVENT_TABLE(DebugWindow, GuiComx)
     EVT_CHOICE(XRCID("LapTimeTrigger"), DebugWindow::onLaptimeTrigger)
 
     EVT_TEXT(XRCID("DebugDisplayPage"), DebugWindow::onDebugDisplayPage)
-#ifdef __WXMAC__
-    EVT_SPIN_UP(XRCID("DebugDisplayPageSpinButton"), DebugWindow::onDebugDisplayPageSpinDown)
-    EVT_SPIN_DOWN(XRCID("DebugDisplayPageSpinButton"), DebugWindow::onDebugDisplayPageSpinUp)
-#else
+//#ifdef __WXMAC__
+//    EVT_SPIN_UP(XRCID("DebugDisplayPageSpinButton"), DebugWindow::onDebugDisplayPageSpinDown)
+//    EVT_SPIN_DOWN(XRCID("DebugDisplayPageSpinButton"), DebugWindow::onDebugDisplayPageSpinUp)
+//#else
     EVT_SPIN_UP(XRCID("DebugDisplayPageSpinButton"), DebugWindow::onDebugDisplayPageSpinUp)
     EVT_SPIN_DOWN(XRCID("DebugDisplayPageSpinButton"), DebugWindow::onDebugDisplayPageSpinDown)
-#endif
+//#endif
     EVT_CHOICE(XRCID("DebugMemType"), DebugWindow::onDebugMemType)
     EVT_TEXT(XRCID("DebugExpansionSlot"), DebugWindow::onDebugExpansionSlot)
     EVT_TEXT(XRCID("DebugExpansionRam"), DebugWindow::onDebugExpansionRam)
@@ -1212,7 +1212,7 @@ void DebugWindow::enableDebugGuiMemory ()
             p_Main->updateSlotInfo();
         break;
             
-        case DIY:
+        case XML:
 #ifndef __WXMAC__
             XRCCTRL(*this, "DebugExpansionSlotText", wxStaticText)->Enable(false);
             XRCCTRL(*this, "DebugExpansionRamText", wxStaticText)->Enable(false);
@@ -1339,7 +1339,7 @@ void DebugWindow::enableDebugGui(bool status)
     XRCCTRL(*this,"DebugStepButton", wxBitmapButton)->Enable(false);
 
     if (computerRunning_)
-        setPauseState();
+        p_Main->eventPauseState();
     else
         XRCCTRL(*this, "DebugPauseButton", wxBitmapButton)->SetBitmapLabel(pauseOffBitmap);
 
@@ -1565,7 +1565,7 @@ void DebugWindow::cycleDebug()
             {
                 p_Computer->setSteps(0);
                 debugTrace("Hit Breakpoint");
-                setPauseState();
+                p_Main->eventPauseState();
                 i = numberOfBreakPoints_;
             }
         }
@@ -1620,7 +1620,7 @@ void DebugWindow::cycleDebug()
                 {
                     p_Computer->setSteps(0);
                     debugTrace("Instruction Trap");
-                    setPauseState();
+                    p_Main->eventPauseState();
                     i = numberOfTraps_;
                 }
             }
@@ -1692,7 +1692,7 @@ void DebugWindow::cycleDebug()
             p_Computer->setSteps(0);
             printBuffer2.operator += (printBuffer);
             debugTrace(printBuffer2);
-            setPauseState();
+            p_Main->eventPauseState();
         }
     }
 
@@ -1702,7 +1702,7 @@ void DebugWindow::cycleDebug()
             p_Computer->setSteps(p_Computer->getSteps()-1);
 
         if (p_Computer->getSteps() == 0)
-            setPauseState();
+            p_Main->eventPauseState();
     }
 
     if (performStep_)
@@ -1755,7 +1755,7 @@ void DebugWindow::cycleDebug()
         }
         p_Computer->setSteps(steps_);
         performStep_ = false;
-        setPauseState();
+        p_Main->eventPauseState();
     }
 }
 
@@ -1881,6 +1881,7 @@ void DebugWindow::updateWindow()
                         buffer.Printf("%02X",p_Computer->getOutValue(i));
                 break;
 
+                case XML:
                 case MICROBOARD:
                     if (i>3 && elfConfiguration[runningComputer_].usev1870)
                         buffer.Printf("%04X",p_Computer->getOutValue(i));
@@ -3397,6 +3398,7 @@ wxString DebugWindow::cdp1802disassemble(Word* address, bool showDetails, bool s
                                 printBufferDetails.Printf("[%02X]", p_Computer->readMemDebug(p_Computer->getScratchpadRegister(p_Computer->getDataPointer())-1));
                         break;
 
+                        case XML:
                         case MICROBOARD:
                             if (n>3 && elfConfiguration[runningComputer_].usev1870)
                                 printBufferDetails.Printf("[%04X]", p_Computer->getScratchpadRegister(p_Computer->getDataPointer())-1);
@@ -7946,7 +7948,7 @@ void DebugWindow::O4(wxCommandEvent&WXUNUSED(event))
 {
     long value;
 
-    if (runningComputer_ == COMX || runningComputer_ == CIDELSA || runningComputer_ ==  TMC600 || runningComputer_ == PECOM || (runningComputer_ == MICROBOARD && elfConfiguration[runningComputer_].usev1870))
+    if (runningComputer_ == COMX || runningComputer_ == CIDELSA || runningComputer_ ==  TMC600 || runningComputer_ == PECOM || (runningComputer_ == MICROBOARD && elfConfiguration[runningComputer_].usev1870) || (runningComputer_ == XML && elfConfiguration[runningComputer_].usev1870) )
     {
         value = get16BitValue("O4");
         if (value == -1)  return;
@@ -7964,7 +7966,7 @@ void DebugWindow::O5(wxCommandEvent&WXUNUSED(event))
 {
     long value;
 
-    if (runningComputer_ == COMX || runningComputer_ == CIDELSA || runningComputer_ ==  TMC600 || runningComputer_ == PECOM || (runningComputer_ == MICROBOARD && elfConfiguration[runningComputer_].usev1870))
+    if (runningComputer_ == COMX || runningComputer_ == CIDELSA || runningComputer_ ==  TMC600 || runningComputer_ == PECOM || (runningComputer_ == MICROBOARD && elfConfiguration[runningComputer_].usev1870) || (runningComputer_ == XML && elfConfiguration[runningComputer_].usev1870) )
     {
         value = get16BitValue("O5");
         if (value == -1)  return;
@@ -7982,7 +7984,7 @@ void DebugWindow::O6(wxCommandEvent&WXUNUSED(event))
 {
     long value;
 
-    if (runningComputer_ == COMX || runningComputer_ == CIDELSA || runningComputer_ ==  TMC600 || runningComputer_ == PECOM || (runningComputer_ == MICROBOARD && elfConfiguration[runningComputer_].usev1870))
+    if (runningComputer_ == COMX || runningComputer_ == CIDELSA || runningComputer_ ==  TMC600 || runningComputer_ == PECOM || (runningComputer_ == MICROBOARD && elfConfiguration[runningComputer_].usev1870) || (runningComputer_ == XML && elfConfiguration[runningComputer_].usev1870) )
     {
         value = get16BitValue("O6");
         if (value == -1)  return;
@@ -8000,7 +8002,7 @@ void DebugWindow::O7(wxCommandEvent&WXUNUSED(event))
 {
     long value;
 
-    if (runningComputer_ == COMX || runningComputer_ == CIDELSA || runningComputer_ ==  TMC600 || runningComputer_ == PECOM || (runningComputer_ == MICROBOARD && elfConfiguration[runningComputer_].usev1870))
+    if (runningComputer_ == COMX || runningComputer_ == CIDELSA || runningComputer_ ==  TMC600 || runningComputer_ == PECOM || (runningComputer_ == MICROBOARD && elfConfiguration[runningComputer_].usev1870) || (runningComputer_ == XML && elfConfiguration[runningComputer_].usev1870) )
     {
         value = get16BitValue("O7");
         if (value == -1)  return;
@@ -8165,7 +8167,7 @@ void DebugWindow::directAss()
                     case ELFII:
                     case SUPERELF:
                     case PICO:
-                    case DIY:
+                    case XML:
                         if (elfConfiguration[runningComputer_].useEms)
                         {
                             for (size_t emsNumber=0; emsNumber<conf[runningComputer_].emsConfigNumber_; emsNumber++)
@@ -8762,21 +8764,35 @@ void DebugWindow::drawAssCharacter(Word address, int line, int count)
 {
     int t;
     char bits [9];
-
+    
 //    dcAss.SetTextForeground(guiTextColour[GUI_COL_BLACK]);
     dcAss.SetTextBackground(guiBackGround_);
-    if ((runningComputer_ == COMX) || (runningComputer_ == TMC600) || (runningComputer_ == PECOM) || (runningComputer_ == MICROBOARD && elfConfiguration[runningComputer_].usev1870))
+    if ((runningComputer_ == COMX) || (runningComputer_ == TMC600) || (runningComputer_ == PECOM) || (runningComputer_ == MICROBOARD && elfConfiguration[runningComputer_].usev1870) || (runningComputer_ == XML && elfConfiguration[runningComputer_].usev1870) )
     {
         for (int i=0; i<9; i++)
         {
-            if (runningComputer_ == COMX)
-                t = p_Comx->readCramDirect((p_Comx->readMemDebug(address)&0x7f)*p_Video->getMaxLinesPerChar()+i);
-            else if (runningComputer_ == TMC600)
-                t = p_Tmc600->readCramDirect((p_Tmc600->readMemDebug(address)&0xff)*p_Video->getMaxLinesPerChar()+i);
-            else if (runningComputer_ == PECOM)
-                t = p_Pecom->readCramDirect((p_Pecom->readMemDebug(address)&0x7f)*p_Video->getMaxLinesPerChar()+i);
-            else
-                t = p_Video->readCramDirect((p_Computer->readMemDebug(address)&0x7f)*p_Video->getMaxLinesPerChar()+i);
+            switch (runningComputer_)
+            {
+                case COMX:
+                    t = p_Comx->readCramDirect((p_Comx->readMemDebug(address)&0x7f)*p_Video[VIDEOMAIN]->getMaxLinesPerChar()+i);
+                break;
+                    
+                case TMC600:
+                    t = p_Tmc600->readCramDirect((p_Tmc600->readMemDebug(address)&0xff)*p_Video[VIDEOMAIN]->getMaxLinesPerChar()+i);
+                break;
+                    
+                case PECOM:
+                    t = p_Pecom->readCramDirect((p_Pecom->readMemDebug(address)&0x7f)*p_Video[VIDEOMAIN]->getMaxLinesPerChar()+i);
+                break;
+                    
+                case XML:
+                    t = p_Xmlemu->readCramDirect((p_Xmlemu->readMemDebug(address)&0x7f)*p_Xmlemu->getMaxLinesPerChar()+i);
+                break;
+                    
+                default:
+                    t = p_Video[VIDEOMAIN]->readCramDirect((p_Computer->readMemDebug(address)&0x7f)*p_Video[VIDEOMAIN]->getMaxLinesPerChar()+i);
+                break;
+            }
             if (darkMode_)
                 t = t ^ 0xff;
             bits[i] = (t & 0x1) << 5;
@@ -9318,7 +9334,7 @@ bool DebugWindow::slotAddress(Word branchAddress)
         case ELF:
         case ELFII:
         case SUPERELF:
-//        case DIY:
+//        case XML:
         case PICO:
             if (elfConfiguration[runningComputer_].useEms)
             {
@@ -10144,9 +10160,9 @@ Byte DebugWindow::getOut1()
         case ELF:
         case ELFII:
         case SUPERELF:
-        case DIY:
+        case XML:
         case PICO:
-                out1 = p_Computer->getEmsPage(emsNumber_);
+            out1 = p_Computer->getEmsPage(emsNumber_);
         break;
     }
     return out1;
@@ -10163,7 +10179,7 @@ void DebugWindow::setOut1(Byte out1)
         case ELF:
         case ELFII:
         case SUPERELF:
-        case DIY:
+        case XML:
         case PICO:
             if (elfConfiguration[runningComputer_].useEms)
                 p_Computer->setEmsPage(emsNumber_, out1);
@@ -10384,7 +10400,7 @@ void DebugWindow::checkBranch(bool function, Word checkAddress)
                         case ELFII:
                         case SUPERELF:
                         case PICO:
-                        case DIY:
+                        case XML:
                             if (elfConfiguration[runningComputer_].useEms)
                             {
                                 for (size_t emsNumber=0; emsNumber<conf[runningComputer_].emsConfigNumber_; emsNumber++)
@@ -10521,7 +10537,7 @@ void DebugWindow::checkLoadL(bool function, Word checkAddress)
                         case ELFII:
                         case SUPERELF:
                         case PICO:
-                        case DIY:
+                        case XML:
                             if (elfConfiguration[runningComputer_].useEms)
                             {
                                 for (size_t emsNumber=0; emsNumber<conf[runningComputer_].emsConfigNumber_; emsNumber++)
@@ -10719,7 +10735,7 @@ void DebugWindow::checkLoadV()
                     case ELFII:
                     case SUPERELF:
                     case PICO:
-                    case DIY:
+                    case XML:
                         if (elfConfiguration[runningComputer_].useEms)
                         {
                             for (size_t emsNumber=0; emsNumber<conf[runningComputer_].emsConfigNumber_; emsNumber++)
@@ -10770,7 +10786,7 @@ bool DebugWindow::findWorkingRang()
                 case ELFII:
                 case SUPERELF:
                 case PICO:
-                case DIY:
+                case XML:
                     if (elfConfiguration[runningComputer_].useEms)
                     {
                         for (size_t emsNumber=0; emsNumber<conf[runningComputer_].emsConfigNumber_; emsNumber++)
@@ -11387,7 +11403,7 @@ bool DebugWindow::branchChangeNeeded(int range, Word address, Word branchAddr)
         case ELFII:
         case SUPERELF:
         case PICO:
-        case DIY:
+        case XML:
             if (elfConfiguration[runningComputer_].useEms)
             {
                 for (size_t emsNumber=0; emsNumber<conf[runningComputer_].emsConfigNumber_; emsNumber++)
@@ -12466,6 +12482,37 @@ void DebugWindow::assDefault(wxString fileName, Word start, Word end)
     onAssStore();
 }
 
+void DebugWindow::assDefault(wxString dirName, wxString fileName, int code_start, int code_end, int end)
+{
+    if (!mode_.gui)
+        return;
+
+    wxString valueString;
+    
+    XRCCTRL(*this,"AssProgramSlot",wxTextCtrl)->ChangeValue("");
+    valueString = "";
+    if (code_start >= 0)
+        valueString.Printf("%04X", code_start);
+    XRCCTRL(*this,"AssProgramStart",wxTextCtrl)->ChangeValue(valueString);
+    valueString = "";
+    if (code_start >= 0)
+        valueString.Printf("%04X", code_end);
+    XRCCTRL(*this,"AssCodeEnd",wxTextCtrl)->ChangeValue(valueString);
+    valueString = "";
+    if (code_start >= 0)
+        valueString.Printf("%04X", end);
+    XRCCTRL(*this,"AssProgramEnd",wxTextCtrl)->ChangeValue(valueString);
+    wxString value;
+    value.Printf("%0d:",lastRange_+1);
+    XRCCTRL(*this,"AssRangeNumber",wxStaticText)->SetLabel(value);
+    XRCCTRL(*this,"AssFileName",wxTextCtrl)->ChangeValue(fileName + ".bin");
+    shownRange_ = lastRange_;
+    dirAssNewDir_ = dirName;
+    dirAssConfigFileDir_ = dirName;
+    dirAssConfigFile_ = fileName + ".config";
+    onAssStore();
+}
+
 void DebugWindow::scrtValues(bool status, bool Scrt, long CallReg, long CallAddress, long RetReg, long RetAddress)
 {
     if (status)
@@ -12667,7 +12714,6 @@ void DebugWindow::onAssStore()
         case ELF:
         case ELFII:
         case SUPERELF:
-        case DIY:
         case PICO:
             if (start >= 0x8000 && start < 0xc000)
             {
@@ -13949,7 +13995,7 @@ void DebugWindow::DebugDisplayPage()
                 XRCCTRL(*this, "DebugEmsPage", HexEdit)->changeNumber(p_Computer->getEmsPage(emsNumber_));
         break;
 
-        case DIY:
+        case XML:
             if (elfConfiguration[runningComputer_].useEms)
             {
                 XRCCTRL(*this, "DebugEmsNumber", HexEdit)->changeNumber((int)emsNumber_);
@@ -14059,7 +14105,7 @@ void DebugWindow::DebugDisplayProfiler()
                 XRCCTRL(*this, "DebugEmsPage", HexEdit)->changeNumber(p_Computer->getEmsPage(emsNumber_));
         break;
 
-        case DIY:
+        case XML:
             if (elfConfiguration[runningComputer_].useEms)
             {
                 XRCCTRL(*this, "DebugEmsNumber", HexEdit)->changeNumber((int)emsNumber_);
@@ -14135,70 +14181,141 @@ void DebugWindow::ShowCharacters(Word address, int y)
     dcLine.SetTextForeground(*wxWHITE);
     int lineWidth = charWidth_ * 16 + charWidth_/2;
     dcLine.DrawRectangle(0, 0, lineWidth, 16);
-#if defined(__WXMAC__)
-    wxFont exactFont(fontSize_+2, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
-#else
-    wxFont exactFont(fontSize_+1, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
-#endif
+
     dcLine.SetTextForeground(guiTextColour[GUI_COL_BLACK]);
     dcLine.SetTextBackground(guiBackGround_);
 
-    for (int j=0; j<16; j++)
+    switch (runningComputer_)
     {
-        if ((runningComputer_ == COMX) || (runningComputer_ == TMC600) || (runningComputer_ == PECOM) || (runningComputer_ == MICROBOARD && elfConfiguration[runningComputer_].usev1870))
-        {
-            int lines =9;
-            if (p_Video->getMaxLinesPerChar() == 8)
-                lines = 8;
-            for (int i=0; i<lines; i++)
+        case COMX:
+        case TMC600:
+        case PECOM:
+            for (int j=0; j<16; j++)
             {
-                t = p_Video->readCramDirect((debugReadMem(address+j)&p_Video->getPcbMask())*p_Video->getMaxLinesPerChar()+i);
-                if (darkMode_)
-                    t = t ^ 0xff;
-                bits[i] = (t & 0x1) << 5;
-                bits[i] |= (t & 0x2) << 3;
-                bits[i] |= (t & 0x4) << 1;
-                bits[i] |= (t & 0x8) >> 1;
-                bits[i] |= (t & 0x10) >> 3;
-                bits[i] |= (t & 0x20) >> 5;
+                int lines =9;
+                if (p_Video[VIDEOMAIN]->getMaxLinesPerChar() == 8)
+                    lines = 8;
+                for (int i=0; i<lines; i++)
+                {
+                    t = p_Video[VIDEOMAIN]->readCramDirect((debugReadMem(address+j)&p_Video[VIDEOMAIN]->getPcbMask())*p_Video[VIDEOMAIN]->getMaxLinesPerChar()+i);
+                    if (darkMode_)
+                        t = t ^ 0xff;
+                    bits[i] = (t & 0x1) << 5;
+                    bits[i] |= (t & 0x2) << 3;
+                    bits[i] |= (t & 0x4) << 1;
+                    bits[i] |= (t & 0x8) >> 1;
+                    bits[i] |= (t & 0x10) >> 3;
+                    bits[i] |= (t & 0x20) >> 5;
+                }
+                wxBitmap character(bits, 6, 9, 1);
+                dcLine.DrawBitmap(character, j*8+1, 5, false);
             }
-            wxBitmap character(bits, 6, 9, 1);
-            dcLine.DrawBitmap(character, j*8+1, 5, false);
-        }
-        else
-        {
-            wxString character;
-            Byte byteValue;
-            if (memoryDisplay_ == RTCRAM && (address+j) > 0x7f)
-                byteValue = 0x20;
+        break;
+            
+        case MICROBOARD:
+            if (elfConfiguration[runningComputer_].usev1870)
+            {
+                for (int j=0; j<16; j++)
+                {
+                    int lines =9;
+                    if (p_Video[VIDEOMAIN]->getMaxLinesPerChar() == 8)
+                        lines = 8;
+                    for (int i=0; i<lines; i++)
+                    {
+                        t = p_Video[VIDEOMAIN]->readCramDirect((debugReadMem(address+j)&p_Video[VIDEOMAIN]->getPcbMask())*p_Video[VIDEOMAIN]->getMaxLinesPerChar()+i);
+                        if (darkMode_)
+                            t = t ^ 0xff;
+                        bits[i] = (t & 0x1) << 5;
+                        bits[i] |= (t & 0x2) << 3;
+                        bits[i] |= (t & 0x4) << 1;
+                        bits[i] |= (t & 0x8) >> 1;
+                        bits[i] |= (t & 0x10) >> 3;
+                        bits[i] |= (t & 0x20) >> 5;
+                    }
+                    wxBitmap character(bits, 6, 9, 1);
+                    dcLine.DrawBitmap(character, j*8+1, 5, false);
+                }
+            }
             else
-                byteValue = debugReadMem(address+j)&0x7f;
-            character.Printf("%c", byteValue);
-            dcLine.SetFont(exactFont);
-/*            int offset = 1;
-            if (byteValue == 0x4d || byteValue == 0x57)
-                offset = 0;
-            if (byteValue == 0x49)
-                offset = 3;
-            if (byteValue == 0x54)
-                offset = 2;*/
-#if defined(__WXMAC__)
-            if (fontSize_ == 11)
-                dcLine.DrawText(character, (j*charWidth_), 1);
+                ShowStandardCharacter(address);
+        break;
+
+        case XML:
+            if (elfConfiguration[runningComputer_].usev1870)
+            {
+                for (int j=0; j<16; j++)
+                {
+                    int lines =9;
+                    if (p_Xmlemu->getMaxLinesPerChar() == 8)
+                        lines = 8;
+                    for (int i=0; i<lines; i++)
+                    {
+                        t = p_Xmlemu->readCramDirect((debugReadMem(address+j)&p_Xmlemu->getPcbMask())*p_Xmlemu->getMaxLinesPerChar()+i);
+
+                        if (darkMode_)
+                            t = t ^ 0xff;
+                        bits[i] = (t & 0x1) << 5;
+                        bits[i] |= (t & 0x2) << 3;
+                        bits[i] |= (t & 0x4) << 1;
+                        bits[i] |= (t & 0x8) >> 1;
+                        bits[i] |= (t & 0x10) >> 3;
+                        bits[i] |= (t & 0x20) >> 5;
+                    }
+                    wxBitmap character(bits, 6, 9, 1);
+                    dcLine.DrawBitmap(character, j*8+1, 5, false);
+                }
+            }
             else
-                dcLine.DrawText(character, (j*charWidth_), -1);
-#else
-            if (fontSize_ == 9)
-                dcLine.DrawText(character, (j*charWidth_), 1);
-            else
-                dcLine.DrawText(character, (j*charWidth_), -2);
-#endif
-        }
+                ShowStandardCharacter(address);
+        break;
+
+        default:
+            ShowStandardCharacter(address);
+        break;
     }
 
     dcLine.SelectObject(wxNullBitmap);
     XRCCTRL(*this, idReference, wxStaticBitmap)->SetForegroundColour(guiTextColour[GUI_COL_BLACK]);
     XRCCTRL(*this, idReference, wxStaticBitmap)->SetBitmap(*lineBmp[y]);
+}
+
+void DebugWindow::ShowStandardCharacter(Word address)
+{
+#if defined(__WXMAC__)
+    wxFont exactFont(fontSize_+2, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+#else
+    wxFont exactFont(fontSize_+1, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+#endif
+
+    for (int j=0; j<16; j++)
+    {
+        wxString character;
+        Byte byteValue;
+        if (memoryDisplay_ == RTCRAM && (address+j) > 0x7f)
+            byteValue = 0x20;
+        else
+            byteValue = debugReadMem(address+j)&0x7f;
+        character.Printf("%c", byteValue);
+        dcLine.SetFont(exactFont);
+    /*            int offset = 1;
+        if (byteValue == 0x4d || byteValue == 0x57)
+            offset = 0;
+        if (byteValue == 0x49)
+            offset = 3;
+        if (byteValue == 0x54)
+            offset = 2;*/
+    #if defined(__WXMAC__)
+        if (fontSize_ == 11)
+            dcLine.DrawText(character, (j*charWidth_), 1);
+        else
+            dcLine.DrawText(character, (j*charWidth_), -1);
+    #else
+        if (fontSize_ == 9)
+            dcLine.DrawText(character, (j*charWidth_), 1);
+        else
+            dcLine.DrawText(character, (j*charWidth_), -2);
+    #endif
+    }
 }
 
 void DebugWindow::DebugDisplayMap()
@@ -14243,7 +14360,7 @@ void DebugWindow::DebugDisplayMap()
                 XRCCTRL(*this, "DebugEmsPage", HexEdit)->changeNumber(p_Computer->getEmsPage(emsNumber_));
         break;
 
-        case DIY:
+        case XML:
             if (elfConfiguration[runningComputer_].useEms)
             {
                 XRCCTRL(*this, "DebugEmsNumber", HexEdit)->changeNumber((int)emsNumber_);
@@ -14258,6 +14375,9 @@ void DebugWindow::DebugDisplayMap()
         value.Printf("  %01X", x);
         XRCCTRL(*this, idReference, wxStaticText)->SetLabel(value);
     }
+    
+    Word mainAddressRange, pagerEmsAddressRange, bankSlotAddressRange, mask;
+    
     for (int y=0; y<16; y++)
     {
         idReference.Printf("MEM_HEADER%01X", y);
@@ -14268,14 +14388,28 @@ void DebugWindow::DebugDisplayMap()
         for (int x=0; x<16; x++)
         {
             textColor = COL_BLACK;
-            switch (p_Computer->getMemoryType((y<<4)+x)& 0xff)
+            
+            if (runningComputer_ == XML)
+            {
+                mask = elfConfiguration[runningComputer_].memoryMask >> 8;
+                mainAddressRange = ((y<<4)+x) & mask;
+                pagerEmsAddressRange = (y*16+x) & mask;
+                bankSlotAddressRange = ((y&1)*16+x) & mask;
+            }
+            else
+            {
+                mainAddressRange = (y<<4)+x;
+                pagerEmsAddressRange = y*16+x;
+                bankSlotAddressRange = (y&1)*16+x;
+            }
+            
+            switch (p_Computer->getMemoryType(mainAddressRange) & 0xff)
             {
                 case UNDEFINED:
                     value.Printf (" ");
                 break;
 
                 case RAM:
-                case MAINRAM:
                     value.Printf (".");
                 break;
 
@@ -14331,7 +14465,7 @@ void DebugWindow::DebugDisplayMap()
                     
                 case COMXEXPBOX:
                     XRCCTRL(*this, idReference, wxStaticText)->SetForegroundColour(guiTextColour[GUI_COL_ORANGE]);
-                    switch (p_Computer->getExpansionMemoryType(p_Comx->getComxExpansionSlot(), (y&1)*16+x))
+                    switch (p_Computer->getExpansionMemoryType(p_Comx->getComxExpansionSlot(), bankSlotAddressRange))
                     {
                         case MC6845RAM:
                             value.Printf ("M5");
@@ -14343,7 +14477,7 @@ void DebugWindow::DebugDisplayMap()
 
                         case RAMBANK:
                             textColor = COL_GREEN;
-                            switch (p_Computer->getBankMemoryType(p_Comx->getComxExpansionRamBank(), (y&1)*16+x))
+                            switch (p_Computer->getBankMemoryType(p_Comx->getComxExpansionRamBank(), bankSlotAddressRange))
                             {
                                 case RAM:
                                     value.Printf (".");
@@ -14365,7 +14499,7 @@ void DebugWindow::DebugDisplayMap()
 
                         case EPROMBANK:
                             textColor = COL_ORANGE;
-                            switch (p_Computer->getEpromBankMemoryType(p_Comx->getComxExpansionEpromBank(), (y&1)*16+x))
+                            switch (p_Computer->getEpromBankMemoryType(p_Comx->getComxExpansionEpromBank(), bankSlotAddressRange))
                             {
                                 case RAM:
                                     value.Printf (".");
@@ -14387,7 +14521,7 @@ void DebugWindow::DebugDisplayMap()
                             
                         case SUPERBANK:
                             textColor = COL_ORANGE;
-                            switch (p_Computer->getEpromBankMemoryType(p_Comx->getComxExpansionEpromBank(), (y&1)*16+x))
+                            switch (p_Computer->getEpromBankMemoryType(p_Comx->getComxExpansionEpromBank(), bankSlotAddressRange))
                             {
                                 case RAM:
                                     value.Printf (".");
@@ -14435,8 +14569,8 @@ void DebugWindow::DebugDisplayMap()
 
                 case EMSMEMORY:
                     XRCCTRL(*this, idReference, wxStaticText)->SetForegroundColour(guiTextColour[GUI_COL_BLUE]);
-                    
-                    switch (p_Computer->getEmsMemoryType((y*16+x)*256, p_Computer->getMemoryType((y<<4)+x)>>8))
+
+                    switch (p_Computer->getEmsMemoryType((pagerEmsAddressRange)*256, p_Computer->getMemoryType(mainAddressRange)>>8))
                     {
                         case RAM:
                             value.Printf (".");
@@ -14462,7 +14596,7 @@ void DebugWindow::DebugDisplayMap()
                         textColor = COL_PURPLE;
                         XRCCTRL(*this, idReference, wxStaticText)->SetForegroundColour(guiTextColour[GUI_COL_PURPLE]);
                     }
-                    switch (p_Computer->getPagerMemoryType(y*16+x))
+                    switch (p_Computer->getPagerMemoryType(pagerEmsAddressRange))
                     {
                         case RAM:
                             value.Printf (".");
@@ -14614,7 +14748,7 @@ void DebugWindow::DebugDisplayVip2kSequencer()
  
 void DebugWindow::DebugDisplayRtcRam()
 {
-    if (runningComputer_ != ELF2K && runningComputer_ != ELF && runningComputer_ != ELFII && runningComputer_ != SUPERELF && runningComputer_ != DIY && runningComputer_ != PICO)
+    if (runningComputer_ != ELF2K && runningComputer_ != ELF && runningComputer_ != ELFII && runningComputer_ != SUPERELF && runningComputer_ != XML && runningComputer_ != PICO)
     {
         if (xmlLoaded_)
         {
@@ -14634,7 +14768,7 @@ void DebugWindow::DebugDisplayRtcRam()
         }
         return;
     }
-    if (!currentElfConfig.useUart16450 && (runningComputer_ == ELF || runningComputer_ == ELFII || runningComputer_ == SUPERELF || runningComputer_ == DIY || runningComputer_ == PICO))
+    if (!currentElfConfig.useUart16450 && (runningComputer_ == ELF || runningComputer_ == ELFII || runningComputer_ == SUPERELF || runningComputer_ == XML || runningComputer_ == PICO))
     {
         if (xmlLoaded_)
         {
@@ -14696,7 +14830,7 @@ void DebugWindow::DebugDisplayRtcRam()
  
 void DebugWindow::DebugDisplay1870VideoRam()
 {
-    if (!(runningComputer_ == COMX || runningComputer_ == CIDELSA || runningComputer_ ==  TMC600 || runningComputer_ == PECOM  || (runningComputer_ == MICROBOARD && elfConfiguration[runningComputer_].usev1870)))
+    if (!(runningComputer_ == COMX || runningComputer_ == CIDELSA || runningComputer_ ==  TMC600 || runningComputer_ == PECOM || (runningComputer_ == MICROBOARD && elfConfiguration[runningComputer_].usev1870) || (runningComputer_ == XML && elfConfiguration[runningComputer_].usev1870) ))
     {
         if (xmlLoaded_)
         {
@@ -14879,7 +15013,7 @@ void DebugWindow::DebugDisplay6845CharRom()
     switch (runningComputer_)
     {
         case COMX:
-            if (!p_Video->isMc6845running())
+            if (!p_Video[VIDEOMAIN]->isMc6845running())
             {
                 if (xmlLoaded_)
                 {
@@ -14894,7 +15028,7 @@ void DebugWindow::DebugDisplay6845CharRom()
         case ELF:
         case ELFII:
         case SUPERELF:
-        case DIY:
+        case XML:
         case PICO:
             if (!(elfConfiguration[runningComputer_].use6845 || elfConfiguration[runningComputer_].useS100))
             {
@@ -14973,7 +15107,7 @@ void DebugWindow::DebugDisplay8275CharRom()
         case ELFII:
         case SUPERELF:
         case ELF2K:
-        case DIY:
+        case XML:
         case PICO:
             if (!elfConfiguration[runningComputer_].use8275)
             {
@@ -15052,7 +15186,7 @@ void DebugWindow::DebugDisplay8275VideoRam()
         case ELFII:
         case SUPERELF:
         case ELF2K:
-        case DIY:
+        case XML:
         case PICO:
             if (!elfConfiguration[runningComputer_].use8275)
             {
@@ -15130,7 +15264,7 @@ void DebugWindow::DebugDisplay6847CharRom()
         case ELF:
         case ELFII:
         case SUPERELF:
-        case DIY:
+        case XML:
         case PICO:
             if (!elfConfiguration[runningComputer_].use6847)
             {
@@ -15212,7 +15346,7 @@ void DebugWindow::DebugDisplay6847VideoRam()
         case ELF:
         case ELFII:
         case SUPERELF:
-        case DIY:
+        case XML:
         case PICO:
             if (!elfConfiguration[runningComputer_].use6847)
             {
@@ -15301,7 +15435,7 @@ void DebugWindow::DebugDisplayTmsRam()
         case ELF:
         case ELFII:
         case SUPERELF:
-        case DIY:
+        case XML:
         case PICO:
             if (!elfConfiguration[runningComputer_].useTMS9918)
             {
@@ -15376,8 +15510,8 @@ void DebugWindow::DebugDisplayTmsRam()
                     value.Printf("%02X", p_Super->getTmsMemory((int)start));
                 break;
 
-                case DIY:
-                    value.Printf("%02X", p_Diy->getTmsMemory((int)start));
+                case XML:
+                    value.Printf("%02X", p_Xmlemu->getTmsMemory((int)start));
                 break;
 
                 case PICO:
@@ -15410,7 +15544,7 @@ void DebugWindow::DebugDisplayVtRam()
         case CDP18S020:
         case MEMBER:
         case SUPERELF:
-        case DIY:
+        case XML:
         case PICO:
             if (elfConfiguration[runningComputer_].vtType == VTNONE)
             {
@@ -15691,8 +15825,6 @@ void DebugWindow::setMemoryType(int id, int setType)
         case ELF:
         case ELFII:
         case SUPERELF:
-        case DIY:
-        case PICO:
             if ((setType == RAM) || (setType == ROM) || (setType == UNDEFINED) || (setType == MAPPEDRAM) || (setType == MC6847RAM) || (setType == MC6845RAM) || (setType == MC6845REGISTERS) )
             {
                 if (!(elfConfiguration[runningComputer_].use6845 || elfConfiguration[runningComputer_].useS100) && ((setType == MC6845RAM) || (setType == MC6845REGISTERS)))
@@ -15733,6 +15865,16 @@ void DebugWindow::setMemoryType(int id, int setType)
             else
             {
                 (void)wxMessageBox( "Only RAM (.), Mapped RAM (M.), ROM (R), MC6845 (M5/MR), MC6847 (M7) or UNDEFINED (space) allowed in Elf emulation\n",
+                                            "Emma 02", wxICON_ERROR | wxOK );
+            }
+        break;
+
+        case PICO:
+            if ((setType == RAM) || (setType == ROM) || (setType == UNDEFINED) || (setType == MAPPEDRAM) )
+                p_Computer->defineMemoryType(id*256, setType);
+            else
+            {
+                (void)wxMessageBox( "Only RAM (.), Mapped RAM (M.), ROM (R) or UNDEFINED (space) allowed in Pico emulation\n",
                                             "Emma 02", wxICON_ERROR | wxOK );
             }
         break;
@@ -15817,6 +15959,58 @@ void DebugWindow::setMemoryType(int id, int setType)
             {
                 (void)wxMessageBox( "Only RAM (.), ROM (R), MAPPED RAM (M.), MAPPED ROM (MR), CDP1870 (PR/CR), or UNDEFINED (space) allowed in "+computerInfo[runningComputer_].name+" emulation\n",
                                    "Emma 02", wxICON_ERROR | wxOK );
+            }
+        break;
+
+        case XML:
+            if ((setType == RAM) || (setType == ROM) || (setType == UNDEFINED) || (setType == MAPPEDRAM) || (setType == MC6847RAM) || (setType == MC6845RAM) || (setType == MC6845REGISTERS)  || (setType == CRAM1870) || (setType == PRAM1870))
+            {
+                if (!(elfConfiguration[runningComputer_].use6845 || elfConfiguration[runningComputer_].useS100) && ((setType == MC6845RAM) || (setType == MC6845REGISTERS)))
+                {
+                    (void)wxMessageBox( "No MC6845 configured\n",
+                                                "Emma 02", wxICON_ERROR | wxOK );
+                    return;
+                }
+                if (!elfConfiguration[runningComputer_].use6847 && (setType == MC6847RAM))
+                {
+                    (void)wxMessageBox( "No MC6847 configured\n",
+                                                "Emma 02", wxICON_ERROR | wxOK );
+                    return;
+                }
+                if ((p_Computer->getMemoryType(id) & 0xff) == EMSMEMORY)
+                {
+                    if ((setType == RAM) || (setType == ROM) || (setType == UNDEFINED))
+                        p_Computer->defineEmsMemoryType(p_Computer->getMemoryType(id)>>8, id*256, setType);
+                    else
+                    {
+                        (void)wxMessageBox( "Only RAM (.), ROM (R), or UNDEFINED (space) allowed in EMS Memory bank\n",
+                                           "Emma 02", wxICON_ERROR | wxOK );
+                    }
+                }
+                else if (p_Computer->getMemoryType(id) == PAGER)
+                {
+                    if ((setType == RAM) || (setType == ROM) || (setType == UNDEFINED))
+                        p_Computer->definePagerMemoryType(id*256, setType);
+                    else
+                    {
+                        (void)wxMessageBox( "Only RAM (.), ROM (R), or UNDEFINED (space) allowed in Pager Memory\n",
+                                                    "Emma 02", wxICON_ERROR | wxOK );
+                    }
+                }
+                else if (!elfConfiguration[runningComputer_].usev1870 && ((setType == CRAM1870) || (setType == PRAM1870)))
+                {
+                    (void)wxMessageBox( "No VIS 1870 configured\n",
+                                       "Emma 02", wxICON_ERROR | wxOK );
+                    return;
+                }
+                else
+
+                    p_Computer->defineMemoryType(id*256, setType);
+            }
+            else
+            {
+                (void)wxMessageBox( "Only RAM (.), ROM (R), MAPPED RAM (M.), MAPPED ROM (MR), CDP1870 (PR/CR), MC6845 (M5/MR), MC6847 (M7) or UNDEFINED (space) allowed in Xml emulation\n",
+                                            "Emma 02", wxICON_ERROR | wxOK );
             }
         break;
 
@@ -16019,7 +16213,10 @@ Word DebugWindow::getAddressMask()
                 case TMC600:
                 case PECOM:
                 case MICROBOARD:
-                    return p_Video->getCharMemorySize();
+                    return p_Video[VIDEOMAIN]->getCharMemorySize();
+                break;
+                case XML:
+                    return p_Xmlemu->getCharMemorySize();
                 break;
                 default:
                     return 0x7ff;
@@ -16031,6 +16228,9 @@ Word DebugWindow::getAddressMask()
         case CDP_1870_COLOUR:
             switch (runningComputer_)
             {
+                case XML:
+                    return p_Xmlemu->getCharMemorySize();
+                break;
                 case CIDELSA:
                     return p_Cidelsa->getCharMemorySize();
                 break;
@@ -16051,7 +16251,10 @@ Word DebugWindow::getAddressMask()
                 case PECOM:
                 case MICROBOARD:
                 case CIDELSA:
-                    return p_Video->getPageMemorySize();
+                    return p_Video[VIDEOMAIN]->getPageMemorySize();
+                break;
+                case XML:
+                    return p_Xmlemu->getPageMemorySize();
                 break;
                 default:
                     return 0x3ff;
@@ -16118,8 +16321,8 @@ Word DebugWindow::getAddressMask()
                     return p_Super->get6847RamMask();
                 break;
 
-                case DIY:
-                    return p_Diy->get6847RamMask();
+                case XML:
+                    return p_Xmlemu->get6847RamMask();
                 break;
                     
                 case PICO:
@@ -16240,7 +16443,7 @@ void DebugWindow::onDebugEmsPage(wxCommandEvent&WXUNUSED(event))
     if (!value.ToLong(&page, 16))
         return;
 
-    if (runningComputer_ == DIY)
+    if (runningComputer_ == XML)
     {
         value = XRCCTRL(*this, "DebugEmsNumber", HexEdit)->GetValue();
         if (!value.ToLong(&emsNumber_, 16))
@@ -16267,7 +16470,7 @@ void DebugWindow::onDebugEmsNumber(wxCommandEvent&WXUNUSED(event))
         return;
 
     if (!computerRunning_) return;
-    if (runningComputer_ != DIY) return;
+    if (runningComputer_ != XML) return;
 
     wxString value;
     long page;
@@ -16308,10 +16511,10 @@ void DebugWindow::onDebugPager(wxCommandEvent&WXUNUSED(event))
     XRCCTRL(*this, "DebugPager", HexEdit)->saveNumber((int)page);
 
 //    int selectOutput = getConfigItem(computerInfo[runningComputer_].gui+"/PortExtenderSelectOutput", 5l);
-    p_Computer->out(elfConfiguration[runningComputer_].elfPortConf.portExtenderSelectOutput, 0, portExtender_);
+    p_Computer->out(elfConfiguration[runningComputer_].ioConfiguration.portExtenderSelectOutput, 0, portExtender_);
 
 //    int writeOutput = getConfigItem(computerInfo[runningComputer_].gui+"PortExtenderWriteOutput", 6l);
-    p_Computer->out(elfConfiguration[runningComputer_].elfPortConf.portExtenderWriteOutput, 0, page);
+    p_Computer->out(elfConfiguration[runningComputer_].ioConfiguration.portExtenderWriteOutput, 0, page);
 }
 
 void DebugWindow::onDebugPortExtender(wxCommandEvent&WXUNUSED(event))
@@ -16422,7 +16625,10 @@ Byte DebugWindow::debugReadMem(Word address)
                 case TMC600:
                 case PECOM:
                 case MICROBOARD:
-                    return p_Video->readCramDirect(address);
+                    return p_Video[VIDEOMAIN]->readCramDirect(address);
+                break;
+                case XML:
+                    return p_Xmlemu->readCramDirect(address);
                 break;
                 default:
                     return 0;
@@ -16435,6 +16641,9 @@ Byte DebugWindow::debugReadMem(Word address)
             {
                 case TMC600:
                     return p_Tmc600->readColourRamDirect(address);
+                break;
+                case XML:
+                    return p_Xmlemu->readColourRamDirect(address);
                 break;
                 case CIDELSA:
                     return p_Cidelsa->readColourRamDirect(address);
@@ -16453,7 +16662,10 @@ Byte DebugWindow::debugReadMem(Word address)
                 case TMC600:
                 case PECOM:
                 case MICROBOARD:
-                    return p_Video->readPramDirect(address);
+                    return p_Video[VIDEOMAIN]->readPramDirect(address);
+                break;
+                case XML:
+                    return p_Xmlemu->readPramDirect(address);
                 break;
                 default:
                     return 0;
@@ -16476,8 +16688,8 @@ Byte DebugWindow::debugReadMem(Word address)
                     return p_Super->getTmsMemory(address);
                 break;
 
-                case DIY:
-                    return p_Diy->getTmsMemory(address);
+                case XML:
+                    return p_Xmlemu->getTmsMemory(address);
                 break;
 
                 case PICO:
@@ -16536,8 +16748,8 @@ Byte DebugWindow::debugReadMem(Word address)
                     return p_Super->read8275CharRom(address);
                 break;
 
-                case DIY:
-                    return p_Diy->read8275CharRom(address);
+                case XML:
+                    return p_Xmlemu->read8275CharRom(address);
                 break;
 
                 case PICO:
@@ -16569,8 +16781,8 @@ Byte DebugWindow::debugReadMem(Word address)
                     return p_Super->read8275VideoRam(address);
                 break;
                 
-                case DIY:
-                    return p_Diy->read8275VideoRam(address);
+                case XML:
+                    return p_Xmlemu->read8275VideoRam(address);
                 break;
                 
                 case PICO:
@@ -16606,8 +16818,8 @@ Byte DebugWindow::debugReadMem(Word address)
                     return p_Super->read6845CharRom(address);
                 break;
 
-                case DIY:
-                    return p_Diy->read6845CharRom(address);
+                case XML:
+                    return p_Xmlemu->read6845CharRom(address);
                 break;
 
                 case PICO:
@@ -16635,8 +16847,8 @@ Byte DebugWindow::debugReadMem(Word address)
                     return p_Super->read6847CharRom(address);
                 break;
 
-                case DIY:
-                    return p_Diy->read6847CharRom(address);
+                case XML:
+                    return p_Xmlemu->read6847CharRom(address);
                 break;
 
                 case PICO:
@@ -16664,8 +16876,8 @@ Byte DebugWindow::debugReadMem(Word address)
                     return p_Super->readDirect6847(address);
                 break;
 
-                case DIY:
-                    return p_Diy->readDirect6847(address);
+                case XML:
+                    return p_Xmlemu->readDirect6847(address);
                 break;
 
                 case PICO:
@@ -16710,8 +16922,8 @@ Byte DebugWindow::debugReadMem(Word address)
                     return p_Super->readDirectRtc(address);
                 break;
 
-                case DIY:
-                    return p_Diy->readDirectRtc(address);
+                case XML:
+                    return p_Xmlemu->readDirectRtc(address);
                 break;
 
                 case PICO:
@@ -16746,7 +16958,10 @@ void DebugWindow::debugWriteMem(Word address, Byte value)
                 case TMC600:
                 case PECOM:
                 case MICROBOARD:
-                    p_Video->writeCramDirect(address, value);
+                    p_Video[VIDEOMAIN]->writeCramDirect(address, value);
+                break;
+                case XML:
+                    p_Xmlemu->writeCramDirect(address, value);
                 break;
             }
         break;
@@ -16756,6 +16971,9 @@ void DebugWindow::debugWriteMem(Word address, Byte value)
             {
                 case TMC600:
                     p_Tmc600->writeColourRamDirect(address, value);
+                break;
+                case XML:
+                    p_Xmlemu->writeColourRamDirect(address, value);
                 break;
                 case CIDELSA:
                     p_Cidelsa->writeColourRamDirect(address, value);
@@ -16771,7 +16989,10 @@ void DebugWindow::debugWriteMem(Word address, Byte value)
                 case TMC600:
                 case PECOM:
                 case MICROBOARD:
-                    p_Video->writePramDirect(address, value);
+                    p_Video[VIDEOMAIN]->writePramDirect(address, value);
+                break;
+                case XML:
+                    p_Xmlemu->writePramDirect(address, value);
                 break;
             }
         break;
@@ -16791,8 +17012,8 @@ void DebugWindow::debugWriteMem(Word address, Byte value)
                     p_Super->setTmsMemory(address, value);
                 break;
 
-                case DIY:
-                    p_Diy->setTmsMemory(address, value);
+                case XML:
+                    p_Xmlemu->setTmsMemory(address, value);
                 break;
 
                 case PICO:
@@ -16842,8 +17063,8 @@ void DebugWindow::debugWriteMem(Word address, Byte value)
                     p_Super->write8275CharRom(address, value);
                 break;
 
-                case DIY:
-                    p_Diy->write8275CharRom(address, value);
+                case XML:
+                    p_Xmlemu->write8275CharRom(address, value);
                 break;
 
                 case PICO:
@@ -16871,8 +17092,8 @@ void DebugWindow::debugWriteMem(Word address, Byte value)
                     p_Super->write8275VideoRam(address, value);
                 break;
                 
-                case DIY:
-                    p_Diy->write8275VideoRam(address, value);
+                case XML:
+                    p_Xmlemu->write8275VideoRam(address, value);
                 break;
                 
                 case PICO:
@@ -16904,8 +17125,8 @@ void DebugWindow::debugWriteMem(Word address, Byte value)
                     p_Super->write6845CharRom(address, value);
                 break;
                     
-                case DIY:
-                    p_Diy->write6845CharRom(address, value);
+                case XML:
+                    p_Xmlemu->write6845CharRom(address, value);
                 break;
                     
                 case PICO:
@@ -16929,8 +17150,8 @@ void DebugWindow::debugWriteMem(Word address, Byte value)
                     p_Super->write6847CharRom(address, value);
                 break;
                     
-                case DIY:
-                    p_Diy->write6847CharRom(address, value);
+                case XML:
+                    p_Xmlemu->write6847CharRom(address, value);
                 break;
                     
                 case PICO:
@@ -16954,8 +17175,8 @@ void DebugWindow::debugWriteMem(Word address, Byte value)
                     p_Super->writeDirect6847(address, value);
                 break;
 
-                case DIY:
-                    p_Diy->writeDirect6847(address, value);
+                case XML:
+                    p_Xmlemu->writeDirect6847(address, value);
                 break;
 
                 case PICO:
@@ -16992,8 +17213,8 @@ void DebugWindow::debugWriteMem(Word address, Byte value)
                     p_Super->writeDirectRtc(address&0x7f, value);
                 break;
 
-                case DIY:
-                    p_Diy->writeDirectRtc(address&0x7f, value);
+                case XML:
+                    p_Xmlemu->writeDirectRtc(address&0x7f, value);
                 break;
 
                 case PICO:
@@ -17185,7 +17406,7 @@ void DebugWindow::updateTitle()
                 title = title + " ** PAUSED **";
             if (p_Eti->getClear()==0)
                 title = title + " ** CPU STOPPED **";
-            p_Eti->SetTitle("ETI 660" + title);
+            p_Eti->SetTitle("HUG1802/ETI-660" + title);
             p_Eti->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
         break;
 
@@ -17262,7 +17483,7 @@ void DebugWindow::updateTitle()
                 title = title + " ** PAUSED **";
             if (p_Uc1800->getClear() == 0)
                 title = title + " ** CPU STOPPED **";
-            p_Uc1800->SetTitle("Infinifte UC1800" + title);
+            p_Uc1800->SetTitle("Infinite UC1800" + title);
             p_Uc1800->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
         break;
 
@@ -17314,14 +17535,14 @@ void DebugWindow::updateTitle()
             p_Super->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
         break;
 
-        case DIY:
-            if (p_Diy->getSteps()==0)
+        case XML:
+            if (p_Xmlemu->getSteps()==0)
                 title = title + " ** PAUSED **";
-            if (p_Diy->getClear()==0)
+            if (p_Xmlemu->getClear()==0)
                 title = title + " ** CPU STOPPED **";
-            p_Diy->SetTitle("Elf II" + title);
-            p_Diy->updateTitle(title);
-            p_Diy->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
+            p_Xmlemu->SetTitle(getRunningComputerText() + title);
+            p_Xmlemu->updateTitle(title);
+            p_Xmlemu->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
         break;
 
         case PICO:
@@ -17520,7 +17741,8 @@ wxString DebugWindow::getPseudoDefinition(Word* pseudoBaseVar, Word* pseudoMainL
                 {
                     pseudoLine.Trim(false);
                     pseudoLine.Trim(true);
-                    XRCCTRL(*this, "Chip8Type", wxStaticText)->SetLabel(pseudoLine);
+                    if (mode_.gui)
+                        XRCCTRL(*this, "Chip8Type", wxStaticText)->SetLabel(pseudoLine);
                 }
                 pseudoLine=defFile.GetNextLine();
                 pseudoLine.Trim(false);

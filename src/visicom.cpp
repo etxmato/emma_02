@@ -45,7 +45,7 @@
 #define CHIP8_PC 5
 
 Visicom::Visicom(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, Conf computerConf)
-:Pixie(title, pos, size, zoom, zoomfactor, computerType)
+:Pixie(title, pos, size, zoom, zoomfactor, computerType, 0)
 {
     computerConfiguration = computerConf;
 }
@@ -57,16 +57,16 @@ Visicom::~Visicom()
 
 void Visicom::configureComputer()
 {
-    outType_[2] = STUDIOOUT;
+    outType_[0][0][2] = STUDIOOUT;
     studioKeyPort_ = 0;
-    efType_[3] = STUDIOEF3;
-    efType_[4] = STUDIOEF4;
+    efType_[0][0][3] = STUDIOEF3;
+    efType_[0][0][4] = STUDIOEF4;
 
     for (int j=0; j<2; j++) for (int i=0; i<10; i++)
         studioKeyState_[j][i] = 0;
 
     p_Main->message("Configuring Visicom COM-100");
-    p_Main->message("    Output 2: select port, EF 3: read selected port 1, EF4: read selected port 2\n");
+    p_Main->message("	Output 2: select port, EF 3: read selected port 1, EF4: read selected port 2\n");
 
     p_Main->getDefaultHexKeys(VISICOM, "Visicom", "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
     p_Main->getDefaultHexKeys(VISICOM, "Visicom", "B", keyDefB1_, keyDefB2_, keyDefGameHexB_);
@@ -326,7 +326,7 @@ void Visicom::keyUp(int keycode)
 
 Byte Visicom::ef(int flag)
 {
-    switch(efType_[flag])
+    switch(efType_[0][0][flag])
     {
         case 0:
             return 1;
@@ -373,7 +373,7 @@ Byte Visicom::in(Byte port, Word WXUNUSED(address))
 {
     Byte ret;
 
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case 0:
             ret = 255;
@@ -390,7 +390,7 @@ void Visicom::out(Byte port, Word WXUNUSED(address), Byte value)
 {
     outValues_[port] = value;
 
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;
@@ -451,7 +451,7 @@ void Visicom::startComputer()
     initRam(0x1000, 0x11ff);
     defineMemoryType(0x1300, 0x13ff, RAM);
     initRam(0x1300, 0x13ff);
-    double zoom = p_Main->getZoom();
+    double zoom = p_Main->getZoom(VIDEOMAIN);
  
     pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);
     

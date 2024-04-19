@@ -34,8 +34,8 @@
 
 #include "elf2kswitch.h"
 
-Elf2KswitchScreen::Elf2KswitchScreen(wxWindow *parent, const wxSize& size)
-: Panel(parent, size)
+Elf2KswitchScreen::Elf2KswitchScreen(wxWindow *parent, const wxSize& size, int tilType)
+: Panel(parent, size, tilType)
 {
 }
 
@@ -58,21 +58,21 @@ void Elf2KswitchScreen::init()
     keyStart_ = 0;
     keyEnd_ = 0;
     lastKey_ = 0;
-    forceUpperCase_ = p_Main->getUpperCase(ELF2K);
+    forceUpperCase_ = p_Main->getUpperCase();
 
     wxClientDC dc(this);
     wxString switchNumber;
 
     mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/elf2kswitches.png", wxBITMAP_TYPE_PNG);
 
-    runSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 380, 31, "");
-    mpSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 332, 31, "");
-    loadSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 93, 31, "");
-    inSwitchButton = new SwitchButton(dc, PUSH_BUTTON, wxColour(255, 255, 255), BUTTON_UP, 45, 31, "");
+    runSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(255, 255, 255), BUTTON_DOWN, 380, 31, "");
+    mpSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(255, 255, 255), BUTTON_DOWN, 332, 31, "");
+    loadSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(255, 255, 255), BUTTON_DOWN, 93, 31, "");
+    inSwitchButton = new SwitchButton(dc, PUSH_BUTTON_ROUND_RED, wxColour(255, 255, 255), BUTTON_UP, 45, 31, "");
 
     for (int i=0; i<8; i++)
     {
-        dataSwitchButton[i] = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 45+48*(7-i), 111, "");
+        dataSwitchButton[i] = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(255, 255, 255), BUTTON_DOWN, 45+48*(7-i), 111, "");
     }
     this->connectKeyEvent(this);
 }
@@ -137,7 +137,7 @@ Elf2Kswitch::Elf2Kswitch(const wxString& title, const wxPoint& pos, const wxSize
 
     this->SetClientSize(size);
 
-    elf2KswitchScreenPointer = new Elf2KswitchScreen(this, size);
+    elf2KswitchScreenPointer = new Elf2KswitchScreen(this, size, TILNONE);
     elf2KswitchScreenPointer->init();
 }
 

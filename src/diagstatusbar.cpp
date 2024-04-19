@@ -39,7 +39,7 @@ DiagStatusBar::DiagStatusBar(wxWindow *parent)
     ledOffPointer->SetMask(maskOff);
     ledsDefined_ = false;
     
-    linux_led_pos_y_ = p_Main->getBarLedPosDiagY();
+    led_pos_y_ = p_Main->getBarLedPosDiagY();
     leaderString_ = p_Main->getBarLeaderCidelsa();
     statusBarElementMeasure0_ = p_Main->getStatusBarElementMeasure(0);
     statusBarElementMeasure1_ = p_Main->getStatusBarElementMeasure(1);
@@ -74,17 +74,17 @@ void DiagStatusBar::updateLedStatus(int led, bool status)
     if (status)
     {
 #if wxCHECK_VERSION(2, 9, 0)
-        ledPointer [led]->SetBitmap(*ledOnPointer);
+        diagLedPointer [led]->SetBitmap(*ledOnPointer);
 #else
-        ledPointer [led]->SetBitmapLabel(*ledOnPointer);
+        diagLedPointer [led]->SetBitmapLabel(*ledOnPointer);
 #endif
     }
     else
     {
 #if wxCHECK_VERSION(2, 9, 0)
-        ledPointer [led]->SetBitmap(*ledOffPointer);
+        diagLedPointer [led]->SetBitmap(*ledOffPointer);
 #else
-        ledPointer [led]->SetBitmapLabel(*ledOffPointer);
+        diagLedPointer [led]->SetBitmapLabel(*ledOffPointer);
 #endif
     }
 }
@@ -141,24 +141,36 @@ void DiagStatusBar::displayLeds()
     {
 #if defined(__linux__)
        if (ledStatus_[led])
-           ledPointer [led] = new PushBitmapButton(this, led, *ledOnPointer, wxPoint(led*((int)rect.GetWidth()+1)+(led*3)+2, linux_led_pos_y_), wxSize(-1, -1), wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
+           diagLedPointer [led] = new PushBitmapButton(this, led, *ledOnPointer, wxPoint(led*((int)rect.GetWidth()+1)+(led*3)+2, led_pos_y_), wxSize(-1, -1), wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
         else
-            ledPointer [led] = new PushBitmapButton(this, led, *ledOffPointer, wxPoint(led*((int)rect.GetWidth()+1)+(led*3)+2, linux_led_pos_y_), wxSize(-1, -1), wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
+            diagLedPointer [led] = new PushBitmapButton(this, led, *ledOffPointer, wxPoint(led*((int)rect.GetWidth()+1)+(led*3)+2, led_pos_y_), wxSize(-1, -1), wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
 #endif
 #if defined(__WXMAC__)
         if (ledStatus_[led])
-            ledPointer [led] = new PushBitmapButton(this, led, *ledOnPointer, wxPoint(led*((int)rect.GetWidth()+1)+(led*3)+2, 2), wxSize(-1, -1), wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
+            diagLedPointer [led] = new PushBitmapButton(this, led, *ledOnPointer, wxPoint(led*((int)rect.GetWidth()+1)+(led*3)+2, 2), wxSize(-1, -1), wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
         else
-            ledPointer [led] = new PushBitmapButton(this, led, *ledOffPointer, wxPoint(led*((int)rect.GetWidth()+1)+(led*3)+2, 2), wxSize(-1, -1), wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
+            diagLedPointer [led] = new PushBitmapButton(this, led, *ledOffPointer, wxPoint(led*((int)rect.GetWidth()+1)+(led*3)+2, 2), wxSize(-1, -1), wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
 #endif
 #if defined(__WXMSW__)
-        ledPointer [led] = new PushButton(this, led, wxEmptyString, wxPoint(led*((int)rect.GetWidth()+1)+led+2, 4), wxSize(DIAG_LED_SIZE_X, DIAG_LED_SIZE_Y), wxBORDER_NONE);
+        diagLedPointer [led] = new PushButton(this, led, wxEmptyString, wxPoint(led*((int)rect.GetWidth()+1)+led+2, 4), wxSize(DIAG_LED_SIZE_X, DIAG_LED_SIZE_Y), wxBORDER_NONE);
+#endif
 
         if (ledStatus_[led])
-            ledPointer [led]->SetBitmap(*ledOnPointer);
+        {
+    #if wxCHECK_VERSION(2, 9, 0)
+            diagLedPointer [led]->SetBitmap(*ledOnPointer);
+    #else
+            diagLedPointer [led]->SetBitmapLabel(*ledOnPointer);
+    #endif
+        }
         else
-            ledPointer [led]->SetBitmap(*ledOffPointer);
-#endif
+        {
+    #if wxCHECK_VERSION(2, 9, 0)
+            diagLedPointer [led]->SetBitmap(*ledOffPointer);
+    #else
+            diagLedPointer [led]->SetBitmapLabel(*ledOffPointer);
+    #endif
+        }
     }
     ledsDefined_ = true;
 }
@@ -168,7 +180,7 @@ void DiagStatusBar::deleteBitmaps()
     if (!ledsDefined_)  return;
       for (int led = 0; led < NUMBER_OF_DIAG_LEDS; led++)
     {
-        delete ledPointer [led];
+        delete diagLedPointer [led];
     }
     ledsDefined_ = false;
 }

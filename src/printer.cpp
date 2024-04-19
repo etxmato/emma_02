@@ -1031,9 +1031,9 @@ PrinterFrame::PrinterFrame(const wxString& title, const wxPoint& pos, const wxSi
 
     switch (printerType)
     {
-        case COMXPRINTER:
-        case COMXRS232:
-            if (p_Main->getComxPrintMode() == COMXPRINTPRINTER) 
+        case PRINTER_PARALLEL:
+        case PRINTER_SERIAL:
+            if (p_Main->getPrintMode() == PRINTWINDOW) 
                 paperWidth_ = p_Main->getConfigItem("PrinterPaperWidth", 960l);
             else
                 paperWidth_ = 960;
@@ -1066,15 +1066,11 @@ void PrinterFrame::onClose(wxCloseEvent&WXUNUSED(event))
 {
     switch(printerType_)
     {
-        case TELMACPRINTER:
-        case PECOMPRINTER:
-        case MS2000PRINTER:
-        case VIPPRINTER:
-        case ELFPRINTER:
+        case PRINTER_BASIC:
             p_Printer->closePreviewWindow();
         break;
 
-        case COMXPRINTER:
+        case PRINTER_PARALLEL:
             p_Main->setPL80Data(0, plotterRomDir_);
             p_Main->setPL80Data(1, plotterRomFile_);
             p_Main->setPL80Data(2, plotterRomExtensionFile_);
@@ -1085,7 +1081,7 @@ void PrinterFrame::onClose(wxCloseEvent&WXUNUSED(event))
             p_PrinterThermal->closePreviewWindow();
         break;
 
-        case COMXRS232:
+        case PRINTER_SERIAL:
             p_Main->setPL80Data(0, plotterRomDir_);
             p_Main->setPL80Data(1, plotterRomFile_);
             p_Main->setPL80Data(2, plotterRomExtensionFile_);
@@ -1226,15 +1222,11 @@ void PrinterFrame::onPrint(wxCommandEvent&WXUNUSED(event))
 {
     switch(printerType_)
     {
-        case TELMACPRINTER:
-        case PECOMPRINTER:
-        case MS2000PRINTER:
-        case VIPPRINTER:
-        case ELFPRINTER:
+        case PRINTER_BASIC:
             p_Printer->printOut();
         break;
 
-        case COMXPRINTER:
+        case PRINTER_PARALLEL:
             p_PrinterParallel->printOut();
         break;
 
@@ -1242,7 +1234,7 @@ void PrinterFrame::onPrint(wxCommandEvent&WXUNUSED(event))
             p_PrinterThermal->printOut();
         break;
 
-        case COMXRS232:
+        case PRINTER_SERIAL:
             p_PrinterSerial->printOut();
         break;
     }
@@ -1252,15 +1244,11 @@ void PrinterFrame::onPreview(wxCommandEvent&WXUNUSED(event))
 {
     switch(printerType_)
     {
-        case TELMACPRINTER:
-        case PECOMPRINTER:
-        case MS2000PRINTER:
-        case VIPPRINTER:
-        case ELFPRINTER:
+        case PRINTER_BASIC:
             p_Printer->printPreview();
         break;
 
-        case COMXPRINTER:
+        case PRINTER_PARALLEL:
             p_PrinterParallel->printPreview();
         break;
 
@@ -1268,7 +1256,7 @@ void PrinterFrame::onPreview(wxCommandEvent&WXUNUSED(event))
             p_PrinterThermal->printPreview();
         break;
 
-        case COMXRS232:
+        case PRINTER_SERIAL:
             p_PrinterSerial->printPreview();
         break;
     }
@@ -1308,15 +1296,11 @@ void PrinterFrame::showPlotterRomFile(wxString fileName)
 {
     switch(printerType_)
     {
-        case TELMACPRINTER:
-        case PECOMPRINTER:
-        case MS2000PRINTER:
-        case VIPPRINTER:
-        case ELFPRINTER:
+        case PRINTER_BASIC:
             p_Printer->showPlotterRomFile(fileName);
         break;
 
-        case COMXPRINTER:
+        case PRINTER_PARALLEL:
             p_PrinterParallel->showPlotterRomFile(fileName);
         break;
 
@@ -1324,7 +1308,7 @@ void PrinterFrame::showPlotterRomFile(wxString fileName)
             p_PrinterThermal->showPlotterRomFile(fileName);
         break;
 
-        case COMXRS232:
+        case PRINTER_SERIAL:
             p_PrinterSerial->showPlotterRomFile(fileName);
         break;
     }
@@ -1334,15 +1318,11 @@ void PrinterFrame::showPlotterRomExtensionFile(wxString fileName)
 {
     switch(printerType_)
     {
-        case TELMACPRINTER:
-        case PECOMPRINTER:
-        case MS2000PRINTER:
-        case VIPPRINTER:
-        case ELFPRINTER:
+        case PRINTER_BASIC:
             p_Printer->showPlotterRomExtensionFile(fileName);
         break;
 
-        case COMXPRINTER:
+        case PRINTER_PARALLEL:
             p_PrinterParallel->showPlotterRomExtensionFile(fileName);
         break;
 
@@ -1350,7 +1330,7 @@ void PrinterFrame::showPlotterRomExtensionFile(wxString fileName)
             p_PrinterThermal->showPlotterRomExtensionFile(fileName);
         break;
 
-        case COMXRS232:
+        case PRINTER_SERIAL:
             p_PrinterSerial->showPlotterRomExtensionFile(fileName);
         break;
     }
@@ -1360,15 +1340,11 @@ wxString PrinterFrame::getPlotterRomFile()
 {
     switch(printerType_)
     {
-        case TELMACPRINTER:
-        case PECOMPRINTER:
-        case MS2000PRINTER:
-        case VIPPRINTER:
-        case ELFPRINTER:
+        case PRINTER_BASIC:
             return p_Printer->getPlotterRomFile();
         break;
 
-        case COMXPRINTER:
+        case PRINTER_PARALLEL:
             return p_PrinterParallel->getPlotterRomFile();
         break;
 
@@ -1376,7 +1352,7 @@ wxString PrinterFrame::getPlotterRomFile()
             return p_PrinterThermal->getPlotterRomFile();
         break;
 
-        case COMXRS232:
+        case PRINTER_SERIAL:
             return p_PrinterSerial->getPlotterRomFile();
         break;
     }
@@ -1387,15 +1363,11 @@ wxString PrinterFrame::getPlotterRomExtensionFile()
 {
     switch(printerType_)
     {
-        case TELMACPRINTER:
-        case PECOMPRINTER:
-        case MS2000PRINTER:
-        case VIPPRINTER:
-        case ELFPRINTER:
+        case PRINTER_BASIC:
             return p_Printer->getPlotterRomExtensionFile();
         break;
 
-        case COMXPRINTER:
+        case PRINTER_PARALLEL:
             return p_PrinterParallel->getPlotterRomExtensionFile();
         break;
 
@@ -1403,7 +1375,7 @@ wxString PrinterFrame::getPlotterRomExtensionFile()
             return p_PrinterThermal->getPlotterRomExtensionFile();
         break;
 
-        case COMXRS232:
+        case PRINTER_SERIAL:
             return p_PrinterSerial->getPlotterRomExtensionFile();
         break;
     }
@@ -1425,129 +1397,138 @@ Printer::~Printer()
         printFile_.Close();
 }
 
-void Printer::configureElfPrinter(ElfPortConfiguration portConf)
+void Printer::configureParallelPrinter(IoConfiguration portConf)
 {
-//    int output;
-
     wxString runningComp = p_Main->getRunningComputerStr();
 
-//    output = p_Main->getConfigItem(runningComp +"/PrinterOutput", 7l);
-    p_Computer->setOutType(portConf.printerOutput, PRINTEROUT);
-
     wxString printBuffer;
-    p_Main->message("Configuring Printer");
-
-    if (portConf.printerEf != 0)
+    wxString ioGroup = "";
+    if (portConf.parallelPrinterIoGroup != -1)
     {
-        p_Computer->setEfType(portConf.printerEf, ELFPRINTEREF); 
-        printBuffer.Printf("    Output %d: write data, EF %d: data ready\n", portConf.printerOutput, portConf.printerEf);
+        ioGroup.Printf(" on group %d", portConf.parallelPrinterIoGroup);
     }
-    else
-        printBuffer.Printf("    Output %d: write data\n", portConf.printerOutput);
+
+    p_Computer->setOutType(portConf.parallelPrinterIoGroup+1, portConf.parallelPrinterOutput, PARALLEL_PRINT_OUT);
+    p_Computer->setInType(portConf.parallelPrinterIoGroup+1, portConf.parallelPrinterInput, PARALLEL_PRINT_IN);
+
+    p_Main->message("Configuring Parallel Printer" + ioGroup);
+
+    printBuffer.Printf("	Output %d: write data, input %d: status\n", portConf.parallelPrinterOutput, portConf.parallelPrinterInput);
     p_Main->message(printBuffer);
 }
 
-void Printer::configureThermalPrinter()
+void Printer::configureSerialPrinter(IoConfiguration portConf)
+{
+    wxString runningComp = p_Main->getRunningComputerStr();
+
+    wxString printBuffer;
+    wxString ioGroup = "";
+    if (portConf.serialPrinterIoGroup != -1)
+    {
+        ioGroup.Printf(" on group %d", portConf.serialPrinterIoGroup);
+    }
+
+    p_Computer->setOutType(portConf.serialPrinterIoGroup+1, portConf.serialPrinterOutput, SERIAL_PRINT_OUT);
+    p_Computer->setInType(portConf.serialPrinterIoGroup+1, portConf.serialPrinterInput, SERIAL_PRINT_IN);
+
+    p_Main->message("Configuring Serial Printer" + ioGroup);
+
+    printBuffer.Printf("	Output %d: write data, input %d: status\n", portConf.serialPrinterOutput, portConf.serialPrinterInput);
+    p_Main->message(printBuffer);
+
+    dataBits_ = portConf.serialPrinterBits;
+    stopBit_ = dataBits_ + 1;
+    serialPrinterParity_ = portConf.serialPrinterParity;
+    if (serialPrinterParity_ != PRINTER_PARITY_NONE)
+    {
+        parityBit_ = stopBit_;
+        stopBit_++;
+    }
+}
+
+void Printer::configureThermalPrinter(IoConfiguration portConf)
+{
+    wxString runningComp = p_Main->getRunningComputerStr();
+
+    wxString printBuffer;
+    wxString ioGroup = "";
+    if (portConf.thermalPrinterIoGroup != -1)
+    {
+        ioGroup.Printf(" on group %d", portConf.thermalPrinterIoGroup);
+    }
+
+    p_Computer->setEfType(portConf.thermalPrinterIoGroup+1, portConf.thermalPrinterEf, THERMAL_PRINT_EF);
+    p_Computer->setOutType(portConf.thermalPrinterIoGroup+1, portConf.thermalPrinterOutput, THERMAL_PRINT_OUT);
+    p_Computer->setInType(portConf.thermalPrinterIoGroup+1, portConf.thermalPrinterInput, THERMAL_PRINT_IN);
+
+    p_Main->message("Configuring Thermal Printer" + ioGroup);
+
+    printBuffer.Printf("	Q = mode, Output %d: write data, input %d: status, ef %d: busy\n", portConf.thermalPrinterOutput, portConf.thermalPrinterInput, portConf.thermalPrinterEf);
+    p_Main->message(printBuffer);
+    p_Computer->setCycleType(PRINTCYCLE, THERMALCYCLE);
+}
+
+void Printer::configureBasicPrinter(IoConfiguration portConf)
+{
+    wxString runningComp = p_Main->getRunningComputerStr();
+
+    int ioGroupNum = 0;
+    if (runningComp == "Xml")
+        ioGroupNum = portConf.printerIoGroup + 1;
+
+    wxString ioGroup = "";
+    if (ioGroupNum != 0)
+        ioGroup.Printf(" on group %d", portConf.printerIoGroup);
+
+    p_Computer->setOutType(ioGroupNum, portConf.printerOutput, BASIC_PRINT_OUT);
+
+    wxString printBuffer;
+    p_Main->message("Configuring Printer" + ioGroup);
+
+    if (portConf.printerEf != 0)
+    {
+        p_Computer->setEfType(ioGroupNum, portConf.printerEf, BASIC_PRINT_EF);
+        printBuffer.Printf("	Output %d: write data, EF %d: data ready\n", portConf.printerOutput, portConf.printerEf);
+    }
+    else
+        printBuffer.Printf("	Output %d: write data\n", portConf.printerOutput);
+    p_Main->message(printBuffer);
+}
+
+void Printer::setThermalPrinterCycle()
 {
     p_Computer->setCycleType(PRINTCYCLE, THERMALCYCLE);
 }
 
-void Printer::init(Printer *pointer, wxString computerName, int printerType)
+void Printer::init(Printer *pointer, int printerType)
 {
     printerPointer = pointer;
-    computerName_ = computerName;
+    computerName_ = p_Main->getRunningComputerText();
     printerType_ = printerType;
 
     printMode_ = p_Main->getPrintMode();
-    printerFrameOpen_ = false;
-    setPrintfileName(p_Main->getPrintFile());
-    line_ = "";
-}
-
-void Printer::initComx(Printer *pointer)
-{
-    printerPointer = pointer;
-    computerName_ = "COMX-35";
-    comxPrintMode_ = p_Main->getComxPrintMode();
-
     printEscape_ = false;
-    setPrintfileName(p_Main->getPrintFile());
     printStarted_ = false;
     thermalEf4_ = false;
     parallelFrameOpen_ = false;
     serialFrameOpen_ = false;
     thermalFrameOpen_ = false;
-    line_ = "";
-}
-
-void Printer::initTelmac(Printer *pointer)
-{
-    printerPointer = pointer;
-    computerName_ = "Telmac";
-    printerType_ = TELMACPRINTER;
-
-    printMode_ = p_Main->getPrintMode();
-    printerFrameOpen_ = false;
-    setPrintfileName(p_Main->getPrintFile());
-}
-
-void Printer::initPecom(Printer *pointer)
-{
-    printerPointer = pointer;
-    computerName_ = "Pecom";
-    printerType_ = PECOMPRINTER;
-    
-    printMode_ = p_Main->getPrintMode();
     printerFrameOpen_ = false;
     setPrintfileName(p_Main->getPrintFile());
     line_ = "";
-}
-
-void Printer::initMS2000(Printer *pointer)
-{
-    printerPointer = pointer;
-    computerName_ = "MS2000";
-    printerType_ = MS2000PRINTER;
-    
-    printMode_ = p_Main->getPrintMode();
-    printerFrameOpen_ = false;
-    setPrintfileName(p_Main->getPrintFile());
-    line_ = "";
-}
-
-void Printer::initVip(Printer *pointer)
-{
-    printerPointer = pointer;
-    computerName_ = "Vip";
-    printerType_ = VIPPRINTER;
-
-    printMode_ = p_Main->getPrintMode();
-    printerFrameOpen_ = false;
-    setPrintfileName(p_Main->getPrintFile());
-}
-
-void Printer::initElf(Printer *pointer, wxString computerName)
-{
-    printerPointer = pointer;
-    computerName_ = computerName;
-    printerType_ = ELFPRINTER;
-
-    printMode_ = p_Main->getPrintMode();
-    printerFrameOpen_ = false;
-    setPrintfileName(p_Main->getPrintFile());
 }
 
 Byte Printer::inParallel()
 {
-    if (comxPrintMode_ == PRINTFILE)
+    if (printMode_ == PRINTFILE)
         return 0x6;
     else
     {
-        if ((parallelFrameOpen_)  || printStarted_)
+        if ((parallelFrameOpen_) || printStarted_)
             return 0x6;
         else
         {
-            wxCommandEvent event(OPEN_COMX_PRINTER_WINDOW, 800);
+            wxCommandEvent event(OPEN_PRINTER_WINDOW, 800);
             event.SetEventObject(this);
             wxPostEvent(p_Main, event);
             while(!parallelFrameOpen_)
@@ -1557,7 +1538,7 @@ Byte Printer::inParallel()
     }
 }
 
-Byte Printer::inSerial()
+Byte Printer::inSerialComx()
 {
     printValue_ = 0;
     bit_ = 0;
@@ -1566,11 +1547,30 @@ Byte Printer::inSerial()
     if (p_Computer->getRam(0x41b2) & 0x30)
         stopBit_++;
 
-    if (comxPrintMode_ != PRINTFILE && !printStarted_)
+    if (printMode_ != PRINTFILE && !printStarted_)
     {
         if (!serialFrameOpen_)
         {
-            wxCommandEvent event(OPEN_COMX_PRINTER_WINDOW, 800);
+            wxCommandEvent event(OPEN_PRINTER_WINDOW, 800);
+            event.SetEventObject(this);
+            wxPostEvent(p_Main, event);
+            while(!serialFrameOpen_)
+                p_Computer->sleepComputer(1000);
+        }
+    }
+    return 0;
+}
+
+Byte Printer::inSerial()
+{
+    printValue_ = 0;
+    bit_ = 0;
+    parity_ = 0;
+    if (printMode_ != PRINTFILE && !printStarted_)
+    {
+        if (!serialFrameOpen_)
+        {
+            wxCommandEvent event(OPEN_PRINTER_WINDOW, 800);
             event.SetEventObject(this);
             wxPostEvent(p_Main, event);
             while(!serialFrameOpen_)
@@ -1586,7 +1586,7 @@ Byte Printer::inThermal()
         return printerFramePointer->inThermal();
     else
     {
-        wxCommandEvent event(OPEN_COMX_PRINTER_WINDOW, 800);
+        wxCommandEvent event(OPEN_PRINTER_WINDOW, 800);
         event.SetEventObject(this);
         wxPostEvent(p_Main, event);
         while(!thermalFrameOpen_)
@@ -1640,7 +1640,7 @@ void Printer::printerOut(Byte value)
     {
         if (!printerFrameOpen_)
         {
-            wxCommandEvent event(OPEN_PRINTER_WINDOW, 811);
+            wxCommandEvent event(OPEN_PRINTER_WINDOW, 800);
             event.SetEventObject(this);
             wxPostEvent(p_Main, event);
             while(!printerFrameOpen_)
@@ -1680,7 +1680,7 @@ void Printer::startPecomChar()
     {
         if (!printerFrameOpen_)
         {
-            wxCommandEvent event(OPEN_PRINTER_WINDOW, 811);
+            wxCommandEvent event(OPEN_PRINTER_WINDOW, 800);
             event.SetEventObject(this);
             wxPostEvent(p_Main, event);
             while(!printerFrameOpen_)
@@ -1702,7 +1702,7 @@ void Printer::outParallel(Byte value)
     switch(value)
     {
         case '@':
-            if (comxPrintMode_ != PRINTFILE)
+            if (printMode_ != PRINTFILE)
                 value = 219;
         break;
 
@@ -1715,7 +1715,7 @@ void Printer::outParallel(Byte value)
         break;
 
         case 0x1b:
-            if (comxPrintMode_ != COMXPRINTPLOTTER)
+            if (printMode_ != PRINTPLOTTER)
             {
                 printEscape_ = true;
                 return;
@@ -1723,7 +1723,7 @@ void Printer::outParallel(Byte value)
         break;
 
         case 0x8:
-            if (comxPrintMode_ != COMXPRINTPLOTTER)
+            if (printMode_ != PRINTPLOTTER)
             {
                 printEscape_ = true;
                 return;
@@ -1737,7 +1737,7 @@ void Printer::outParallel(Byte value)
     {
         if (value == 0xd)
         {
-            if (comxPrintMode_ == COMXPRINTPRINTER)
+            if (printMode_ == PRINTWINDOW)
                 printerFramePointer->matrixLine(line_);
             else
                 printerFramePointer->plotterLine(line_);
@@ -1752,7 +1752,7 @@ void Printer::outParallel(Byte value)
             }
         }
     }
-    if (comxPrintMode_ == PRINTFILE)
+    if (printMode_ == PRINTFILE)
     {
         if (printFileName_.Len() != 0)
         {
@@ -1771,11 +1771,28 @@ void Printer::outParallel(Byte value)
 
 void Printer::outSerial(Byte value)
 {
-    if (bit_ == stopBit_)  outParallel(printValue_);
+    if (bit_ == stopBit_)
+        outParallel(printValue_);
+    if (bit_ == parityBit_)
+    {
+        if (serialPrinterParity_ == PRINTER_PARITY_EVEN)
+        {
+            if (((parity_&0x1) == 0) != (value == 0x80))
+                p_Main->eventShowTextMessage("Printer parity error");
+        }
+        if (serialPrinterParity_ == PRINTER_PARITY_ODD)
+        {
+            if (((parity_&0x1) == 0) != (value == 0))
+                p_Main->eventShowTextMessage("Printer parity error");
+        }
+    }
     if ((bit_ > 0) &&(bit_ <= dataBits_))
     {
         if (value == 0)
+        {
+            parity_++;
             printValue_ += (1 <<(bit_ -1));
+        }
     }
     bit_++;
 }
@@ -1796,11 +1813,6 @@ void Printer::cycleThermal()
     }
     else
         thermalEf4_ = false;
-}
-
-void Printer::setComxPrintMode(int mode)
-{
-    comxPrintMode_ = mode;
 }
 
 void Printer::setPrintMode(int mode)
@@ -1838,7 +1850,7 @@ void Printer::closePreviewWindow()
 
 void Printer::onF4Parallel()
 {
-    printerType_ = COMXPRINTER;
+    printerType_ = PRINTER_PARALLEL;
 
     if (!parallelFrameOpen_)
     {
@@ -1849,7 +1861,7 @@ void Printer::onF4Parallel()
 
 void Printer::onF4Serial()
 {
-    printerType_ = COMXRS232;
+    printerType_ = PRINTER_SERIAL;
 
     if (!serialFrameOpen_)
     {
@@ -1982,7 +1994,7 @@ void Printer::onF4Thermal()
 
 void Printer::onComxF4()
 {
-    if (comxPrintMode_ == COMXPRINTPRINTER)
+    if (printMode_ == PRINTWINDOW)
         onComxF4Printer();
     else
         onComxF4Plotter();
@@ -1994,7 +2006,7 @@ void Printer::onComxF4Printer()
     int paperWidth;
 
     paperWidth = p_Main->getConfigItem("PrinterPaperWidth", 960l);
-    printerFramePointer = new PrinterFrame( "COMX Printer Output", wxPoint(-1, -1), wxSize(paperWidth, 1408/4*3), printerType_);
+    printerFramePointer = new PrinterFrame( computerName_ + " Printer Output", wxPoint(-1, -1), wxSize(paperWidth, 1408/4*3), printerType_);
 
     printerFramePointer->CreateToolBar(wxTB_HORZ_TEXT);
 
@@ -2070,7 +2082,7 @@ void Printer::onComxF4Plotter()
 {
     wxString choices[6];
 
-    printerFramePointer = new PrinterFrame( "COMX Plotter Output", wxPoint(-1, -1), wxSize(960, 1408/4*3), printerType_);
+    printerFramePointer = new PrinterFrame( computerName_ + " Plotter Output", wxPoint(-1, -1), wxSize(960, 1408/4*3), printerType_);
 
     printerFramePointer->CreateToolBar(wxTB_HORZ_TEXT);
 

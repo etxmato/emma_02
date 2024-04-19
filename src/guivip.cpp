@@ -81,7 +81,6 @@ BEGIN_EVENT_TABLE(GuiVip, GuiVipII)
     EVT_BUTTON(XRCID("PrintButtonVip"), GuiMain::onPrintButton)
     EVT_CHOICE(XRCID("PrintModeVip"), GuiMain::onPrintMode)
     EVT_BUTTON(XRCID("PrintFileButtonVip"), GuiMain::onPrintFile)
-    EVT_COMMAND(wxID_ANY, OPEN_PRINTER_WINDOW, GuiMain::openPrinterFrame) 
     EVT_TEXT(XRCID("BeepFrequencyVip"), GuiMain::onBeepFrequency)
     EVT_SPINCTRL(XRCID("RamVip"), GuiVip::onVipRam)
     EVT_SPINCTRL(XRCID("VP570"), GuiVip::onVipVp570)
@@ -137,14 +136,18 @@ void GuiVip::readVipConfig()
 {
     selectedComputer_ = VIP;
 
+    elfConfiguration[VIP].useTapeHw = false;
+    elfConfiguration[VIP].vtShow = true;
     conf[VIP].emsConfigNumber_ = 0;
+    conf[VIP].videoNumber_ = 0;
 
     conf[VIP].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "Vip" + pathSeparator_;
     conf[VIP].mainDir_ = readConfigDir("/Dir/Vip/Main", dataDir_ + "Vip" + pathSeparator_);
     
     conf[VIP].romDir_[MAINROM1] = readConfigDir("/Dir/Vip/Main_Rom_File", dataDir_ + "Vip"  + pathSeparator_);
     conf[VIP].ramDir_ = readConfigDir("/Dir/Vip/Software_File", dataDir_ + "Vip"  + pathSeparator_);
-    elfConfiguration[VIP].vtCharRomDir_ = readConfigDir("/Dir/Vip/Vt_Font_Rom_File", dataDir_ + "Vip" + pathSeparator_);
+    elfConfiguration[VIP].vt100CharRomDir_ = readConfigDir("/Dir/Vip/Vt100_Font_Rom_File", dataDir_ + "Vip" + pathSeparator_);
+    elfConfiguration[VIP].vt52CharRomDir_ = readConfigDir("/Dir/Vip/Vt52_Font_Rom_File", dataDir_ + "Vip" + pathSeparator_);
     conf[VIP].chip8SWDir_ = readConfigDir("/Dir/Vip/Chip_8_Software", dataDir_ + "Chip-8"  + pathSeparator_ + "Chip-8 Games"  + pathSeparator_);
     conf[VIP].printFileDir_ = readConfigDir("/Dir/Vip/Print_File", dataDir_ + "Vip" + pathSeparator_);
     conf[VIP].screenDumpFileDir_ = readConfigDir("/Dir/Vip/Video_Dump_File", dataDir_ + "Vip" + pathSeparator_);
@@ -165,7 +168,7 @@ void GuiVip::readVipConfig()
 
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 2.0);
-    conf[VIP].zoom_ = convertLocale(configPointer->Read("/Vip/Zoom", defaultZoom));
+    conf[VIP].zoom_[VIDEOMAIN] = convertLocale(configPointer->Read("/Vip/Zoom", defaultZoom));
     defaultZoom.Printf("%2.2f", 1.0);
     conf[VIP].zoomVt_ = convertLocale(configPointer->Read("/Vip/Vt_Zoom", defaultZoom));
     wxString defaultScale;
@@ -220,7 +223,8 @@ void GuiVip::readVipConfig()
 
     setVtType("Vip", VIP, elfConfiguration[VIP].vtType, false);
 
-    elfConfiguration[VIP].vtCharRom_ = configPointer->Read("/Vip/Vt_Font_Rom_File", "vt52.a.bin");
+    elfConfiguration[VIP].vt100CharRom_ = configPointer->Read("/Vip/Vt100_Font_Rom_File", "vt100.bin");
+    elfConfiguration[VIP].vt52CharRom_ = configPointer->Read("/Vip/Vt52_Font_Rom_File", "vt52.a.bin");
 
     long value;
     conf[VIP].saveStartString_ = configPointer->Read("/Vip/SaveStart", "0");
@@ -245,7 +249,7 @@ void GuiVip::readVipConfig()
         XRCCTRL(*this, "VTBaudTChoiceVip", wxChoice)->SetSelection(elfConfiguration[VIP].baudT);
         XRCCTRL(*this, "VTBaudRChoiceVip", wxChoice)->SetSelection(elfConfiguration[VIP].baudT);
         
-        correctZoomAndValue(VIP, "Vip", SET_SPIN);
+        correctZoomAndValue(VIP, "Vip", SET_SPIN, VIDEOMAIN);
         correctZoomVtAndValue(VIP, "Vip", SET_SPIN);
 
         XRCCTRL(*this, "HighResVip", wxCheckBox)->SetValue(highRes_);
@@ -256,10 +260,8 @@ void GuiVip::readVipConfig()
         XRCCTRL(*this, "StereoVip", wxCheckBox)->SetValue(stereo_);
         XRCCTRL(*this, "LatchVip", wxCheckBox)->SetValue(latch_);
         XRCCTRL(*this, "KeyboardVip", wxCheckBox)->SetValue(conf[VIP].useKeyboard_);
-        XRCCTRL(*this, "TurboVip", wxCheckBox)->SetValue(conf[VIP].turbo_);
         turboGui("Vip");
         XRCCTRL(*this, "TurboClockVip", wxTextCtrl)->SetValue(conf[VIP].turboClock_);
-        XRCCTRL(*this, "AutoCasLoadVip", wxCheckBox)->SetValue(conf[VIP].autoCassetteLoad_);
         setPrinterState(VIP);
         XRCCTRL(*this, "VolumeVip", wxSlider)->SetValue(conf[VIP].volume_);
         XRCCTRL(*this, "TempoVip", wxSlider)->SetValue(conf[VIP].tempo_);
@@ -285,7 +287,8 @@ void GuiVip::writeVipDirConfig()
     writeConfigDir("/Dir/Vip/Software_File", conf[VIP].ramDir_);
     writeConfigDir("/Dir/Vip/Chip_8_Software", conf[VIP].chip8SWDir_);
     writeConfigDir("/Dir/Vip/Print_File", conf[VIP].printFileDir_);
-    writeConfigDir("/Dir/Vip/Vt_Font_Rom_File", elfConfiguration[VIP].vtCharRomDir_);
+    writeConfigDir("/Dir/Vip/Vt100_Font_Rom_File", elfConfiguration[VIP].vt100CharRomDir_);
+    writeConfigDir("/Dir/Vip/Vt52_Font_Rom_File", elfConfiguration[VIP].vt52CharRomDir_);
     writeConfigDir("/Dir/Vip/Video_Dump_File", conf[VIP].screenDumpFileDir_);
     writeConfigDir("/Dir/Vip/Wav_File", conf[VIP].wavFileDir_[0]);
     writeConfigDir("/Dir/Vip/Vt_Wav_File", elfConfiguration[VIP].vtWavFileDir_);
@@ -294,7 +297,8 @@ void GuiVip::writeVipDirConfig()
 void GuiVip::writeVipConfig()
 {
     configPointer->Write("/Vip/Main_Rom_File", conf[VIP].rom_[MAINROM1]);
-    configPointer->Write("/Vip/Vt_Font_Rom_File", elfConfiguration[VIP].vtCharRom_);
+    configPointer->Write("/Vip/Vt100_Font_Rom_File", elfConfiguration[VIP].vt100CharRom_);
+    configPointer->Write("/Vip/Vt52_Font_Rom_File", elfConfiguration[VIP].vt52CharRom_);
     configPointer->Write("/Vip/Ram_Software", conf[VIP].ram_);
     configPointer->Write("/Vip/Chip_8_Software", conf[VIP].chip8SW_);
     configPointer->Write("/Vip/Print_File", conf[VIP].printFile_);
@@ -322,7 +326,7 @@ void GuiVip::writeVipConfig()
 
     configPointer->Write("/Vip/Vt_Baud", elfConfiguration[VIP].baudT);
 
-    configPointer->Write("/Vip/Zoom", conf[VIP].zoom_);
+    configPointer->Write("/Vip/Zoom", conf[VIP].zoom_[VIDEOMAIN]);
     configPointer->Write("/Vip/Vt_Zoom", conf[VIP].zoomVt_);
     configPointer->Write("/Vip/Enable_Vt_Stretch_Dot", conf[VIP].stretchDot_);
     configPointer->Write("/Vip/Enable_Vt_External", elfConfiguration[VIP].vtExternal);
@@ -401,11 +405,11 @@ void GuiVip::onRamSWTextVip(wxCommandEvent& WXUNUSED(event))
 void GuiVip::setSoundGui(int sound)
 {
     conf[VIP].soundType_ = sound;
-    XRCCTRL(*this, "BeepFrequencyTextVip", wxStaticText)->Enable(conf[VIP].soundType_ == VIP_BEEP);
-    XRCCTRL(*this, "BeepFrequencyTextHzVip", wxStaticText)->Enable(conf[VIP].soundType_ == VIP_BEEP);
-    XRCCTRL(*this, "BeepFrequencyVip", wxTextCtrl)->Enable(conf[VIP].soundType_ == VIP_BEEP);
+    XRCCTRL(*this, "BeepFrequencyTextVip", wxStaticText)->Enable(conf[VIP].soundType_ == SOUND_EXT_BEEPER);
+    XRCCTRL(*this, "BeepFrequencyTextHzVip", wxStaticText)->Enable(conf[VIP].soundType_ == SOUND_EXT_BEEPER);
+    XRCCTRL(*this, "BeepFrequencyVip", wxTextCtrl)->Enable(conf[VIP].soundType_ == SOUND_EXT_BEEPER);
 
-    if (conf[VIP].soundType_ == VIP_SUPER2 || conf[VIP].soundType_ == VIP_SUPER4)
+    if (conf[VIP].soundType_ == SOUND_SUPER_VP550 || conf[VIP].soundType_ == SOUND_SUPER_VP551)
     {
         XRCCTRL(*this,"TempoTextVip", wxStaticText)->Enable(true);
         XRCCTRL(*this,"TempoVip", wxSlider)->Enable(true);

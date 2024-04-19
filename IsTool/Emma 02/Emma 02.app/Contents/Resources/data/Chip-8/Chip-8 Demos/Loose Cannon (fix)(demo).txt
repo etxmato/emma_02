@@ -1,0 +1,2 @@
+Code correction done by Marcel van Tongeren:
+Added a JP 200 at end of code to get Code to loop instead of executing SYS 000 which would crash the VIP or any other undefined instruction that would be @2D6

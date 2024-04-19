@@ -1,23 +1,25 @@
 [DEBREATE-0.7.13]
 <<CTRL>>
 Package: emma-02
-Version: 1.47
+Version: 1.48
 Maintainer: Marcel van Tongeren <marcel.v.tongeren@gmail.com>
 Homepage: http://www.emma02.hobby-site.com
 Architecture: arm64
 Priority: standard
-Depends: libc6, libcurl3-gnutls, libsdl1.2debian, libcurl3 | libcurl4, libwxgtk3.0-gtk3-0v5 | libwxgtk3.0-0v5 | libwxgtk3.0-0, libwxbase3.0-gtk3-0v5 | libwxbase3.0-0v5 | libwxbase3.0-0
+Depends: libc6, libcurl3-gnutls, libsdl1.2debian, libcurl3 | libcurl4, libwxgtk3.0-gtk3-0v5 | libwxgtk3.0-0v5 | libwxgtk3.0-0, libwxbase3.0-gtk3-0v5 | libwxbase3.0-0v5 | libwxbase3.0-0, libserialport0
 Description: Emma 02, the RCA 1802 Emulator
- Emma 02 is emulating the COMX-35, COMIX-35, Elf 2000,
- Cosmicos, Cosmac Elf, Netronics ELF II, Quest Super Elf,
- Membership Card, VIP2K Membership Card, VELF, Infinite
- UC1800, Pico/Elf V2, FRED 1, FRED 1.5, Microtutor,
- Microtutor II, CDP18S020 Evaluation Kit, Cosmac VIP,
- Cosmac VIP II, Microboard System, MCDS, MS2000,
- RCA Video Coin Arcade, RCA Studio II, RCA Studio III,
- Studio IV, Victory MPT-02, Visicom COM-100, Cidelsa,
- Telmac TMC-600, Telmac 1800, Telmac 2000, Oscam
- Nano, Pecom 32, Pecom 64 and ETI 660
+ Emma 02 is emulating the CDP18S020 Evaluation Kit, COMIX-35, COMX-35,
+ Cosmac Elf, Cosmac Elf 2000, Cosmac Microtutor I, Cosmac Microtutor II,
+ Cosmac VIP, Cosmac VIP II, Cidelsa Arcade Game Console, Conic (Apollo,
+ Mustang, MPT-02 and M1200), Cosmicos, Cybervision 2001, ETI-660,
+ FRED 1, FRED 1.5, HEC1802, HUG1802, Infinite UC1800, JVIP, Macbug,
+ Membership Card, Netronics ELF II, Oscom Nano, PECOM 32, PECOM 64,
+ Pico/Elf V2, Quest Super Elf, RCA COSMAC Computer Game System,
+ RCA COSMAC Microboard Computer, RCA MicroDisk Development
+ System MS2000, RCA Microboard Computer Development System,
+ RCA Studio II, RCA Studio III, RCA Studio IV, RCA Video Coin Arcade
+ Console, Telmac 1800, Telmac 2000, Telmac TMC-600, VELF, VIP2K
+ Membership Card and Visicom COM-100
 
 <</CTRL>>
 <<FILES>>
@@ -137,18 +139,22 @@ Description: Emma 02, the RCA 1802 Emulator
 /media/psf/Home/workspace/emma_02/menuFred_12.xrc -> menuFred_12.xrc -> /usr/share/emma_02
 /media/psf/Home/workspace/emma_02/microsetup_11.xrc -> microsetup_11.xrc -> /usr/share/emma_02
 /media/psf/Home/workspace/emma_02/microsetup_12.xrc -> microsetup_12.xrc -> /usr/share/emma_02
+/media/psf/Home/workspace/emma_02/menuXml_11.xrc -> menuXml_11.xrc -> /usr/share/emma_02
+/media/psf/Home/workspace/emma_02/menuXml_12.xrc -> menuXml_12.xrc -> /usr/share/emma_02
 <</FILES>>
 <<SCRIPTS>>
 <<PREINST>>
 1
 #!/bin/sh 
-if test -d /usr/share/emma_02/data/FRED2
+if test -d /usr/share/emma_02/data/FRED1_5/FRED2
 then
-   mv /usr/share/emma_02/data/FRED2 /usr/share/emma_02/data/FRED1_5
+   rm -r /usr/share/emma_02/data/FRED2
+   rm -r /usr/share/emma_02/data/FRED1_5/FRED2
 fi
-if test -d /usr/share/emma_02/Configurations/FRED2
+if test -d /usr/share/emma_02/Configurations/FRED1_5/FRED2
 then
-  mv /usr/share/emma_02/Configurations/FRED2 /usr/share/emma_02/Configurations/FRED1_5
+  rm -r /usr/share/emma_02/Configurations/FRED2
+  rm -r /usr/share/emma_02/Configurations/FRED1_5/FRED2
 fi
 if test -d /usr/share/emma_02/data/CDP18S600
 then
@@ -180,6 +186,41 @@ then
   rm /usr/share/emma_02/Configurations/CDP18S603A/*.*
   rmdir /usr/share/emma_02/Configurations/CDP18S603A
 fi
+if test -d /usr/share/emma_02/data/Xml/Cosmac\ Elf
+then
+  rm /usr/share/emma_02/data/Xml/Cosmac\ Elf/*.*
+  rmdir /usr/share/emma_02/data/Xml/Cosmac\ Elf
+fi
+if test -d /usr/share/emma_02/data/Xml/Microtutor\ II
+then
+  rm /usr/share/emma_02/data/Xml/Microtutor\ II/*.*
+  rmdir /usr/share/emma_02/data/Xml/Microtutor\ II
+fi
+if test -d /usr/share/emma_02/data/Xml/Netronics\ Elf\ II
+then
+  rm /usr/share/emma_02/data/Xml/Netronics\ Elf\ II/*.*
+  rmdir /usr/share/emma_02/data/Xml/Netronics\ Elf\ II
+fi
+if test -d /usr/share/emma_02/data/Xml/Pecom
+then
+  rm /usr/share/emma_02/data/Xml/Pecom/*.*
+  rmdir /usr/share/emma_02/data/Xml/Pecom
+fi
+if test -d /usr/share/emma_02/data/Xml/Pico\ Elf\ V2
+then
+  rm /usr/share/emma_02/data/Xml/Pico\ Elf\ V2/*.*
+  rmdir /usr/share/emma_02/data/Xml/Pico\ Elf\ V2
+fi
+if test -d /usr/share/emma_02/data/Xml/Quest\ Super\ Elf
+then
+  rm /usr/share/emma_02/data/Xml/Quest\ Super\ Elf/*.*
+  rmdir /usr/share/emma_02/data/Xml/Quest\ Super\ Elf
+fi
+if test -d /usr/share/emma_02/data/Xml/TMC-600
+then
+  rm /usr/share/emma_02/data/Xml/TMC-600/*.*
+  rmdir /usr/share/emma_02/data/Xml/TMC-600
+fi
 
 <</PREINST>>
 <<POSTINST>>
@@ -194,16 +235,16 @@ fi
 <</SCRIPTS>>
 <<CHANGELOG>>
 <<DEST>>DEFAULT<</DEST>>
-emma-02 (1.47) xenial; urgency=medium
+emma-02 (1.48) xenial; urgency=medium
 
   * See http://www.emma02.hobby-site.com
 
- -- Marcel van Tongeren <marcel.v.tongeren@gmail.com>, 12 Jul 2022 22:42:52 +0200
+ -- Marcel van Tongeren <marcel.v.tongeren@gmail.com>, 17 Apr 2024 21:43:15 +0200
 
 <</CHANGELOG>>
 <<COPYRIGHT>>
 Emma 02 Emulator 
-Copyright (C) 2007-2022 Marcel van Tongeren, core based on RCS Elf Emulator copyright (C) 2006 by Michael H Riley
+Copyright (C) 2007-2023 Marcel van Tongeren, core based on RCS Elf Emulator copyright (C) 2006 by Michael H Riley
 
 ElfOS BIOS, Edt/Asm, Rc/Forth, Rc/Lisp and Rc/Basic
 Copyright (C) 2004 by Michael H Riley

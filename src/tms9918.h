@@ -17,10 +17,10 @@ class Tms9918 : public Video
 {
 public:
 
-    Tms9918(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, int computerType, double clock);
+    Tms9918(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, int computerType, double clock, int videoNumber);
     ~Tms9918();
 
-    void configure(ElfPortConfiguration elfPortConf);
+    void configure(IoConfiguration ioConfiguration);
     Byte readEf();
     Byte readDataPort();
     Byte readVRAM();

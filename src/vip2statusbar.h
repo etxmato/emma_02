@@ -32,7 +32,7 @@ private:
     wxMask *maskOn;
     wxMask *maskOff;
 
-    int linux_led_pos_y_;
+    int led_pos_y_;
     int statusBarElementMeasure0_;
     int statusBarElementMeasure1_;
     int ledSpacing_;

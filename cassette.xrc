@@ -5,6 +5,7 @@
         <font>
             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
             <size>-1</size>
+            <family>roman</family>
         </font>
         <object class="wxBoxSizer">
             <orient>wxVERTICAL</orient>
@@ -16,6 +17,7 @@
                     <font>
                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                         <size>-1</size>
+                        <family>roman</family>
                     </font>
                     <hidden>1</hidden>
                     <label>Dummy button</label>
@@ -35,13 +37,14 @@
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>
+                                <family>roman</family>
                             </font>
                             <object class="sizeritem">
                                 <flag>wxALIGN_CENTER_HORIZONTAL</flag>
                                 <border>5</border>
                                 <object class="wxFlexGridSizer">
                                     <cols>2</cols>
-                                    <rows>8</rows>
+                                    <rows>13</rows>
                                     <vgap>1</vgap>
                                     <hgap>0</hgap>
                                     <object class="sizeritem">
@@ -51,6 +54,7 @@
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <label>Input channel: </label>
                                         </object>
@@ -63,6 +67,7 @@
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <content>
                                                 <item>Left</item>
@@ -77,6 +82,7 @@
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <label>Wav file conversion:</label>
                                         </object>
@@ -89,6 +95,7 @@
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <content>
                                                 <item>Amplitude</item>
@@ -103,6 +110,7 @@
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <label>Cassette Conversion:</label>
                                         </object>
@@ -115,6 +123,7 @@
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <content>
                                                 <item>Amplitude</item>
@@ -129,6 +138,7 @@
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <label>Reversed Polarity</label>
                                             <checked>0</checked>
@@ -146,8 +156,9 @@
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
-                                            <label>For FRED emulator:</label>
+                                            <label>FRED emulator:</label>
                                         </object>
                                     </object>
                                     <object class="spacer">
@@ -156,66 +167,196 @@
                                         <size>5,5</size>
                                     </object>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-                                        <border>5</border>
-                                        <object class="wxStaticText" name="FREDThresholdText8">
-                                            <font>
-                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                <size>-1</size>
-                                            </font>
-                                            <label>Threshold, 8 bit:</label>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
-                                        <border>5</border>
-                                        <object class="wxTextCtrl" name="FREDThreshold8" subclass="IntEdit">
-                                            <font>
-                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                <size>-1</size>
-                                            </font>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-                                        <border>5</border>
-                                        <object class="wxStaticText" name="FREDThresholdText16">
-                                            <font>
-                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                <size>-1</size>
-                                            </font>
-                                            <label>Threshold, 16 bit:</label>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
-                                        <border>5</border>
-                                        <object class="wxTextCtrl" name="FREDThreshold16" subclass="IntEdit">
-                                            <font>
-                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                <size>-1</size>
-                                            </font>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                        <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
                                         <border>5</border>
                                         <object class="wxStaticText" name="FREDFreqText">
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <label>Frequency check:</label>
                                         </object>
                                     </object>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
                                         <border>5</border>
                                         <object class="wxTextCtrl" name="FREDFreq" subclass="FloatEdit">
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
+                                            <value>0000</value>
+                                        </object>
+                                    </object>
+                                    <object class="sizeritem">
+                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP|wxBOTTOM</flag>
+                                        <border>5</border>
+                                        <object class="wxStaticText" name="ID_STATICTEXT">
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                                <family>roman</family>
+                                            </font>
+                                            <label>FRED / CyberVision emulator:</label>
+                                        </object>
+                                    </object>
+                                    <object class="sizeritem">
+                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                        <border>5</border>
+                                        <object class="wxCheckBox" name="UseXml">
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                                <family>roman</family>
+                                            </font>
+                                            <label>XML Threshold</label>
+                                            <checked>0</checked>
+                                        </object>
+                                    </object>
+                                    <object class="sizeritem">
+                                        <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                        <border>5</border>
+                                        <object class="wxStaticText" name="FREDThresholdText8">
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                                <family>roman</family>
+                                            </font>
+                                            <label>Threshold, 8 bit:</label>
+                                        </object>
+                                    </object>
+                                    <object class="sizeritem">
+                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+                                        <border>5</border>
+                                        <object class="wxTextCtrl" name="FREDThreshold8" subclass="IntEdit">
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                                <family>roman</family>
+                                            </font>
+                                            <value>0000</value>
+                                        </object>
+                                    </object>
+                                    <object class="sizeritem">
+                                        <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                        <border>5</border>
+                                        <object class="wxStaticText" name="FREDThresholdText16">
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                                <family>roman</family>
+                                            </font>
+                                            <label>Threshold, 16 bit:</label>
+                                        </object>
+                                    </object>
+                                    <object class="sizeritem">
+                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+                                        <border>5</border>
+                                        <object class="wxTextCtrl" name="FREDThreshold16" subclass="IntEdit">
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                                <family>roman</family>
+                                            </font>
+                                            <value>0000</value>
+                                        </object>
+                                    </object>
+                                    <object class="sizeritem">
+                                        <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                        <border>5</border>
+                                        <object class="wxStaticText" name="FREDThresholdText24">
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                                <family>roman</family>
+                                            </font>
+                                            <label>Threshold, 24 bit:</label>
+                                        </object>
+                                    </object>
+                                    <object class="sizeritem">
+                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+                                        <border>5</border>
+                                        <object class="wxTextCtrl" name="FREDThreshold24" subclass="IntEdit">
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                                <family>roman</family>
+                                            </font>
+                                            <value>0000</value>
+                                        </object>
+                                    </object>
+                                    <object class="sizeritem">
+                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP|wxBOTTOM</flag>
+                                        <border>5</border>
+                                        <object class="wxStaticText" name="ID_STATICTEXT">
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                                <family>roman</family>
+                                            </font>
+                                            <label>CyberVision FF/RW speed =</label>
+                                        </object>
+                                    </object>
+                                    <object class="sizeritem">
+                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP|wxBOTTOM</flag>
+                                        <border>5</border>
+                                        <object class="wxStaticText" name="ID_STATICTEXT">
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                                <family>roman</family>
+                                            </font>
+                                            <label>sqrt(b*b+2*a*s)</label>
+                                        </object>
+                                    </object>
+                                    <object class="sizeritem">
+                                        <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                        <border>5</border>
+                                        <object class="wxStaticText" name="CVaText">
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                                <family>roman</family>
+                                            </font>
+                                            <label>a: </label>
+                                        </object>
+                                    </object>
+                                    <object class="sizeritem">
+                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+                                        <border>5</border>
+                                        <object class="wxTextCtrl" name="CVa" subclass="IntEdit">
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                                <family>roman</family>
+                                            </font>
+                                            <value>17</value>
+                                        </object>
+                                    </object>
+                                    <object class="sizeritem">
+                                        <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                        <border>5</border>
+                                        <object class="wxStaticText" name="CVaText">
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                                <family>roman</family>
+                                            </font>
+                                            <label>b: </label>
+                                        </object>
+                                    </object>
+                                    <object class="sizeritem">
+                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+                                        <border>5</border>
+                                        <object class="wxTextCtrl" name="CVb" subclass="FloatEdit">
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                                <family>roman</family>
+                                            </font>
+                                            <value>0.18</value>
                                         </object>
                                     </object>
                                 </object>
@@ -227,6 +368,7 @@
                                     <font>
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
+                                        <family>roman</family>
                                     </font>
                                     <hidden>1</hidden>
                                     <label>Tape input playback</label>
@@ -244,6 +386,7 @@
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>
+                                <family>roman</family>
                             </font>
                             <object class="sizeritem">
                                 <flag>wxALIGN_CENTER_HORIZONTAL</flag>
@@ -260,6 +403,7 @@
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <label>Wave volume: </label>
                                         </object>
@@ -273,6 +417,7 @@
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <value>0</value>
                                             <min>1</min>
@@ -286,6 +431,7 @@
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <label>Bit rate: </label>
                                         </object>
@@ -298,6 +444,7 @@
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <content>
                                                 <item>11025</item>
@@ -314,6 +461,7 @@
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <label>Bits per samlpe: </label>
                                         </object>
@@ -326,6 +474,7 @@
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <content>
                                                 <item>8</item>
@@ -354,6 +503,7 @@
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <fg>#FF0000</fg>
                                             <label>Note: For F&amp;&amp;M TOS/Turbo loaders use</label>
@@ -366,6 +516,7 @@
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
+                                                <family>roman</family>
                                             </font>
                                             <fg>#FF0000</fg>
                                             <label>a high volume and 16 bits per sample</label>
@@ -385,6 +536,7 @@
                     <font>
                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                         <size>-1</size>
+                        <family>roman</family>
                     </font>
                     <label>Save</label>
                 </object>

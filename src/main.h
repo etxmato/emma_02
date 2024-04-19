@@ -12,6 +12,7 @@ typedef unsigned short Word;
 #include "vector"
 #include "wx/listctrl.h"
 #include "wx/html/helpctrl.h"
+#include "definition.h"
 
 class MyHtmlHelpController : public wxHtmlHelpController
 {
@@ -254,6 +255,14 @@ protected:
 #define REFRESH_PANEL 38
 #define EVENT_ZOOM 39
 #define SET_CONVERT_STATE 40
+#define SET_COMXLED 41
+#define SET_DIAGLED 42
+#define ENABLE_CLOCK 43
+#define PAUSE_STATE 44
+#define SET_BUTTON_LABEL 45
+#define CHANGE_HW_TAPE_STATE 46
+#define SET_LOCATION_STATE 47
+#define SET_VIPIILED 48
 
 #define OS_WINDOWS_2000 0
 #define OS_WINDOWS_XP 1
@@ -449,10 +458,10 @@ class ScreenInfo
 public:
     int start;
     int number;
-    wxString defaultColour[67];
+    wxString defaultColour[COL_MAX];
     int numberVideo;
-    int borderX[10];
-    int borderY[10];
+    int borderX[VIDEOXMLMAX];
+    int borderY[VIDEOXMLMAX];
 };
 
 class ConfigurationInfo
@@ -495,19 +504,19 @@ public:
 #include "tmc2000.h"
 #include "eti660.h"
 #include "nano.h"
-#include "diy.h"
+#include "xmlemu.h"
 #include "guicomx.h"
 #include "debug.h"
 #include "video.h"
 #include "serial.h"
 
-#define EMMA_VERSION 1.47
+#define EMMA_VERSION 1.48
 #define EMMA_SUB_VERSION 0
 #define ELF 0
 #define ELFII 1
 #define SUPERELF 2
 #define ELF2K 3
-#define DIY 4
+#define XML 4
 #define PICO 5
 #define COSMICOS 6
 #define MEMBER 7
@@ -540,28 +549,32 @@ public:
 #define STUDIOIV 33
 #define DEBUGGER 34
 
-#define TELMACPRINTER 0
-#define PECOMPRINTER 3
-#define VIPPRINTER 4
-#define ELFPRINTER 5
-#define MS2000PRINTER 6
-#define COMXPRINTER 1
+#define PRINTER_BASIC 0
+#define PRINTER_PARALLEL 1
 #define COMXTHPRINTER 2
 #define COMXFLOP 3
 #define COMX80COLUMN 4
 #define NETWORK 6
 #define COMXRAM 7
 #define COMXJOY 16
-#define COMXRS232 17
+#define PRINTER_SERIAL 17
+#define PRINTER_SERIAL_Q 18
+#define PRINTER_CENTRONICS 19
 #define COMXSUPERBOARD 0x21
 #define COMXEPROMBOARD 0x73
 #define COMXDIAG 0xC2
 #define COMXEMPTY 255
+
+#define PRINTER_PARITY_NONE 0
+#define PRINTER_PARITY_ODD 1
+#define PRINTER_PARITY_EVEN 2
+
+#define NOPRINTER 2
+
 #define PRINTFILE 0
 #define PRINTWINDOW 1
-#define NOPRINTER 2
-#define COMXPRINTPLOTTER 1
-#define COMXPRINTPRINTER 2
+#define PRINTPLOTTER 2
+
 #define TIMERINTERVAL 50
 #define PRINTER_PLOTTER 6000
 #define PLOTTEREXTTEXT 6001
@@ -572,16 +585,16 @@ public:
 #define PRINTERFONT 6006
 #define PAL 0
 #define NTSC 1
-#define COMXTAB 0
-#define COSMACELFTAB 1
-#define RCATAB 2
-#define STUDIOTAB 3
-#define CIDELSATAB 4
-#define TELMACTAB 5
-#define PECOMTAB 6
-#define ETITAB 7
-#define DIYTAB 9
-#define DEBUGGERTAB 8
+#define XMLTAB 0
+#define COMXTAB 1
+#define COSMACELFTAB 2
+#define RCATAB 3
+#define STUDIOTAB 4
+#define CIDELSATAB 5
+#define TELMACTAB 6
+#define PECOMTAB 7
+#define ETITAB 8
+#define DEBUGGERTAB 9
 #define DISKNONE 0
 #define DISKFDC 1
 #define DISKIDE 2
@@ -650,7 +663,25 @@ public:
 #define VIDEONONE 0
 #define VIDEO1870 0
 #define VIDEO80COL 2
+
+//#define VIDEO1870 0
 #define VIDEOMICROVT 1
+
+#define VIDEOMAIN 0
+//#define VIDEOVT 0
+#define VIDEOXML1870 1
+#define VIDEOXMLPIXIE 2
+#define VIDEOXML6845 3
+#define VIDEOXML6847 4
+#define VIDEOXMLTMS 5
+#define VIDEOXMLI8275 6
+#define VIDEOCOIN 7
+#define VIDEOXML1864 8
+#define VIDEOXMLSN76430N 9
+#define VIDEOVIP2K 10
+#define VIDEOFRED 11
+#define VIDEOSTUDIOIV 12
+//#define VIDEOXMLMAX 14
 
 #define VIDEOVT 0
 #define VIDEOPIXIE 1
@@ -667,17 +698,6 @@ public:
 //#define VIDEOVT 0
 //#define VIDEOPIXIE 1
 #define VIDEOTMSPICO 2
-
-#define ELFLED 0
-#define ELFIILED 1
-#define SUPERELFLED 2
-#define ELF2KLED1 3
-#define ELF2KLED2 4
-#define ELF2KLED3 5
-#define COSMICOSLED 6
-#define MEMBERLED 7
-#define MEMBERLEDGREEN 8
-#define PIOLED 9
 
 #define KEYBOARDNONE 0
 #define KEYBOARD_PS2 1
@@ -726,8 +746,7 @@ public:
 #define VP570RAM 22 
 #define EPROMBANK 23
 #define SUPERBANK 24
-#define NVRAM 24
-//
+#define NVRAM 25
 #define MULTICART 26
 #define DIAGROM 27
 #define MAPPEDROM 28
@@ -738,7 +757,10 @@ public:
 #define UART1_82C51 33
 #define UART2_82C51 34
 #define NOCHANGE 35
-#define MAINRAM 36
+#define SLOTMEM 36
+#define SN76430NRAM 37
+#define COLOURRAM1864 38
+#define COLOURRAMST4 39
 
 #define MICRO_ROM 0
 #define MICRO_RAM 1
@@ -770,6 +792,7 @@ public:
 #define FPBBOOT 14
 #define FPBBASIC_AT_8000 15
 #define VIPTINY 17
+#define COMXBASIC 19
 
 #define TINYBASIC 2
 #define MINIMON 4
@@ -869,6 +892,21 @@ public:
 #define QSOUNDOFF 0
 #define QSOUNDSW 1
 #define QSOUNDEXT 2
+#define QSOUND1864 4
+
+#define VIP_BEEP 0
+#define VIP_1864 1
+#define VIP_SUPER2 2
+#define VIP_SUPER4 3
+
+#define SOUND_EXT_BEEPER 0
+#define SOUND_1863_1864 1
+#define SOUND_SUPER_VP550 2
+#define SOUND_SUPER_VP551 3
+#define SOUND_Q_SW 4
+#define SOUND_OFF 5
+#define SOUND_1863_NOQ 6
+#define SOUND_STUDIO 7
 
 #define VTNONE 0
 #define VT52 1
@@ -901,11 +939,6 @@ public:
 #define VTBITS 1
 #define VTPOWER 0
 
-#define VIP_BEEP 0
-#define VIP_1864 1
-#define VIP_SUPER2 2
-#define VIP_SUPER4 3
-
 #define GUISAVEONEXIT "MI_SaveOnExit"
 #define GUISAVECONFIG "MI_SaveConfig"
 #define GUISAVECOMPUTERCONFIG "MI_SaveComputerConfig"
@@ -915,12 +948,6 @@ public:
 #define GUIPROTECTEDMODE "ProtectedMode"
 
 #define GUICOMPUTERNOTEBOOK "Computer"
-
-#define RESETSTATE 0
-#define RESETSTATECW 3
-#define BASICSTATE 1
-#define RUNSTATE 2
-#define COMMAND_C 3
 
 #define LEFTCHANNEL false
 #define RIGHTCHANNEL true
@@ -957,6 +984,8 @@ public:
 #define TAPE_PAUSE 3
 #define TAPE_PLAY1 4
 #define TAPE_RECORD1 5
+#define TAPE_FF 6
+#define TAPE_RW 7
 
 #define PRINT_BUFFER_SIZE 1000
 
@@ -975,9 +1004,6 @@ public:
 #define CHIPSTIV 12
 #define CARDTRAN 13
 
-#define CPU_OVERRIDE_DEFAULT 0
-#define CPU_OVERRIDE_CPU1801 1
-#define CPU_OVERRIDE_SYSTEM00 2
 #define SYSTEM00 1
 #define CPU1801 2
 #define CPU1802 3
@@ -1043,6 +1069,9 @@ public:
 
 #define TIL311 0
 #define TIL313 1
+#define TIL313ITALIC 2
+#define TIL313FULL 3
+#define TILNONE 4
 
 #define LAPTIME_OFF 0
 #define LAPTIME_Q 1
@@ -1066,6 +1095,23 @@ public:
 #define TERM_XMODEM_SAVE 5
 #define TERM_YMODEM_SAVE 6
 //#define TERM_XMODEM_SAVE_128 6
+
+#define PANEL_NONE 0
+#define PANEL_COSMAC 1
+#define PANEL_ELFII 2
+#define PANEL_SUPER 3
+#define PANEL_MICROTUTOR 4
+#define PANEL_MICROTUTOR2 5
+#define PANEL_ELF2K 6
+#define PANEL_COSMICOS 7
+#define PANEL_MEMBER 8
+#define PANEL_VELF 9
+#define PANEL_UC1800 10
+#define PANEL_XML 11
+
+#define CR_NONE 0
+#define CR_CIDELSA 1
+#define CR_TMC600 2
 
 class Emu1802: public wxApp
 {
@@ -1122,6 +1168,7 @@ public:
     void removeRedundantFiles();
     void deleteDir(wxString directory);
     void reInstall(wxString source, wxString destination, wxString pathSep);
+    void removeOldXml(wxString dir, wxString pathSep);
     void reInstallOnNotFound(int computerType, wxString fileTypeString);
     void checkAndReInstallMainRom(int computerType);
     void checkAndReInstallFile(int computerType, wxString fileTypeString, int fileType);
@@ -1177,6 +1224,8 @@ public:
     void onDefault(wxCommandEvent& event);
     void onTvSpeaker(wxCommandEvent& event);
     void onHandheld(wxCommandEvent& event);
+    void onXmlRomRamOptionGui(wxCommandEvent& event);
+    void onXmlRomRamOptionXml(wxCommandEvent& event);
     void onChar(wxKeyEvent&event);
     void onKeyDown(wxKeyEvent&event);
     void onWheel(wxMouseEvent&event);
@@ -1189,7 +1238,7 @@ public:
     void popUp();
     void onKeyUp(wxKeyEvent&event);
     void connectKeyEvent(wxWindow* pclComponent);
-    bool runPressed() {return runPressed_;};
+    bool runPressed();
 
     void onComputer(wxNotebookEvent& event);
     void onStudioChoiceBook(wxChoicebookEvent& event);
@@ -1248,7 +1297,7 @@ public:
     void setSysColours();
     void setMemDumpColours();
 
-    void zoomEvent(double zoom);
+    void zoomEvent(double zoom, int videoNumber);
     void zoomEventVt(double zoom);
     void vuSet(wxString Item, int value);
     void errorMessageEvent(wxErrorMsgEvent& event);
@@ -1256,7 +1305,15 @@ public:
 
     void setLocationEvent(guiEvent& event);
     void eventSetLocation(bool state, Word saveStart, Word saveEnd, Word saveExec);
+
+    void setLocationStateEvent(guiEvent& event);
     void eventSetLocation(bool state);
+
+    void setEnableClockEvent(guiEvent& event);
+    void eventEnableClock(bool state);
+
+    void setHwTapeStateEvent(guiEvent& event);
+    void eventHwTapeStateChange(int status);
 
     void setSaveStartEvent(guiEvent& event);
     void eventSaveStart(Word saveStart);
@@ -1279,6 +1336,9 @@ public:
     void setStaticTextValueEvent(guiEvent& event);
     void eventSetStaticTextValue(wxString info, wxString value);
     
+    void setButtonLabelEvent(guiEvent& event);
+    void eventSetButtonLabel(wxString info, wxString value);
+    
     void setCheckBoxEvent(guiEvent& event);
     void eventSetCheckBox(wxString info, bool state);
 
@@ -1289,16 +1349,17 @@ public:
     void eventShowTextMessage(wxString messageText);
     
     void setZoomChange(guiEvent& event);
-    void eventZoomChange(double zoom);
+    void eventZoomChange(double zoom, int videoNumber);
     void zoomEventFinished();
     bool isZoomEventOngoing();
-    
+    bool isZoomEventOngoingButNotFullScreen();
+
     void setZoomVtChange(guiEvent& event);
     void eventZoomVtChange(double zoom, int uartNumber);
     void zoomVtEventFinished();
 
     void SetZoomEvent(guiEvent& event);
-    void eventZoom(double zoom, bool isVt);
+    void eventZoom(double zoom, int videoNumber, bool isVt);
 
     void printDefaultEvent(guiEvent& event);
     void eventPrintDefault(Byte value);
@@ -1323,7 +1384,7 @@ public:
     void eventPrintPecom(Byte value);
 
     void refreshVideoEvent(guiEvent& event);
-    void eventRefreshVideo(bool isVt, int uartNumber);
+    void eventRefreshVideo(bool isVt, int uart_video_Number);
     bool isVideoRefreshOngoing() {return videoRefreshOngoing_;};
 
     void refreshPanelEvent(guiEvent& event);
@@ -1334,7 +1395,7 @@ public:
     void setMessageBoxAnswer(int answer);
 
     void GetClientSizeEvent(guiEvent& event);
-    wxSize eventGetClientSize(bool isVt, int uartNumber);
+    wxSize eventGetClientSize(bool isVt, int uart_video_Number);
 
     void SetClientSizeEvent(guiEvent& event);
     void eventSetClientSize(wxSize size, bool changeScreenSize, bool isVt, int uartNumber);
@@ -1360,7 +1421,7 @@ public:
     void eventEnableMemAccess(bool state);
 
     void setVideoFullScreenEvent(guiEvent& event);
-    void eventVideoSetFullScreen(bool state);
+    void eventVideoSetFullScreen(bool state, int videoNumber);
 
     void setVtFullScreenEvent(guiEvent& event);
     void eventVtSetFullScreen(bool state, int uartNumber);
@@ -1374,12 +1435,24 @@ public:
     void setUpdateTitle(guiEvent& event);
     void eventUpdateTitle();
 
+    void setPauseStateEvent(guiEvent& event);
+    void eventPauseState();
+
+    void setUpdateComxLedStatus(guiEvent& event);
+    void eventUpdateComxLedStatus(int card, int i, bool status);
+
+    void setUpdateVipIILedStatus(guiEvent& event);
+    void eventUpdateVipIILedStatus(int number, bool status);
+
+    void setUpdateDiagLedStatus(guiEvent& event);
+    void eventUpdateDiagLedStatus(int i, bool status);
+
     void debounceTimeout(wxTimerEvent& event);
     void setDebounceTimer(guiEvent& event);
     void eventDebounceTimer();
 
     void guiSizeTimeout(wxTimerEvent& event);
-    
+ 
     void guiRedrawBarTimeOut(wxTimerEvent& event);
 
     wxString getMultiCartGame(Byte msb, Byte lsb);
@@ -1402,6 +1475,9 @@ public:
     UpdateCheckThread *m_pUpdateCheckThread;
     wxCriticalSection m_pUpdateCheckThreadCS;    // protects the m_pUpdateCheckThread pointer
 
+    bool downloadStatus() { return downloadOngoing_; };
+    void setDownloadStatus(bool status) {downloadOngoing_ = status;};
+
 private:
     MyHtmlHelpController *help_;
     wxString latestVersion_;
@@ -1416,6 +1492,7 @@ private:
     bool panelRefreshOngoing_;
     bool videoRefreshOngoing_;
 
+    bool downloadOngoing_;
     bool emuClosing_;
     bool emmaClosing_;
     int bass_;
@@ -1460,14 +1537,15 @@ private:
 #endif
 
 EXT Main *p_Main;
-EXT Video *p_Video;
+EXT Video *p_Video[VIDEOXMLMAX];
 EXT Video *p_Vt100[2];
 EXT Serial *p_Serial;
 EXT Cdp1802 *p_Computer;
+EXT Panel *panelPointer;
 
-EXT    Printer *p_PrinterParallel;
-EXT    Printer *p_PrinterSerial;
-EXT    Printer *p_PrinterThermal;
-EXT    Printer *p_Printer;
+EXT Printer *p_PrinterParallel;
+EXT Printer *p_PrinterSerial;
+EXT Printer *p_PrinterThermal;
+EXT Printer *p_Printer;
 EXT wxPrintData *PrintDataPointer;
 EXT wxPageSetupDialogData *p_PageSetupData;

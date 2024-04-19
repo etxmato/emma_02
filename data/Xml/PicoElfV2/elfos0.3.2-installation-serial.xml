@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>Pico/Elf V2</name>
+        <config>Installation Elf/Os 0.3.2</config>
+        <clock>4.0</clock>
+        <boot>0</boot>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init>
+        <init type="ef4">1</init>
+        <dirname>Pico</dirname>
+    </system>
+    
+    <bootstrap>
+        <address>0x8000</address>
+    </bootstrap>
+
+    <xmodem>
+    </xmodem>
+
+    <locations>
+        <start_xmodem_save address="0x380, 0x381, 0x382, 0x234d" value="0x78, 0x73, 0, 0x3d">0x20da</start_xmodem_save> <!-- xs -->
+        <start_ymodem_save address="0x380, 0x381, 0x382" value="0x79, 0x73, 0">0x2186</start_ymodem_save> <!-- ys -->
+
+        <start_xmodem_load address="0x380, 0x381, 0x382, 0x234b" value="0x78, 0x72, 0, 0x3d">0x20bd</start_xmodem_load> <!-- xr -->
+        <start_xmodem_load address="0x380, 0x381, 0x382, 0x2681" value="0x79, 0x72, 0, 0x35">0x207E</start_xmodem_load> <!-- yr -->
+    </locations>
+
+    <memory>
+        <rom type="gui" mask="0xffff">
+            <start>0x8000</start>
+            <end>0xFFFF</end>
+            <pulldown mask="pico_elfos_032*.*">Pico</pulldown>
+            <filename verify="true">pico_elfos_032.bin</filename>
+        </rom>
+
+        <ram type="gui">
+            <start>0x0000</start>
+            <end>0x7FFF</end>
+        </ram>
+    </memory>
+    
+    <disk type="ide">
+        <filename>pico_0_3_2.ide</filename>
+        <out type="select">2</out>
+        <out type="write">3</out>
+        <in type="status">2</in>
+        <in type="read">3</in>
+        <tracks>512</tracks>
+        <heads>4</heads>
+        <sectors>26</sectors>
+    </disk>
+
+    <vt type="vt100" connection="serial">
+        <font>vt100.bin</font>
+        <out>5</out>
+        <ef pol="rev">2</ef>
+        <q pol="rev"></q>
+        <baud type="receive">4800</baud>
+        <baud type="transmit">4800</baud>
+        <border>0x0</border>
+        <color type="fore">0, 255, 0</color>
+        <color type="back">0, 0x40, 0</color>
+        <color type="high">0, 0xff, 0</color>
+    </vt>
+
+    <debugger>
+        <scrt mode="on">
+            <call reg="4">0xFA7B</call>
+            <return reg="5">0xFA8D</return>
+        </scrt>
+
+        <assembler>
+            <filename>elfos-install</filename>
+            <code_start>0x8000</code_start>
+            <code_end>0xffff</code_end>
+        </assembler>
+    </debugger>
+
+</emmaconfig>

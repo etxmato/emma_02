@@ -1,0 +1,15 @@
+2 Player worm type of game, 1802 code.
+
+Key definition, player 1:
+8: Up
+C: Down
+0: left
+4: right
+
+player 2:
+B: Up
+F: Down
+3: left
+7: right
+
+Aim is not to hit any 'wall'

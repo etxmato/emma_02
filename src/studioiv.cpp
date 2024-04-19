@@ -32,7 +32,7 @@
 #include "studioiv.h"
 
 StudioIV::StudioIV(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, Conf computerConf)
-:Pixie(title, pos, size, zoom, zoomfactor, computerType)
+:PixieStudioIV(title, pos, size, zoom, zoomfactor, computerType, 0)
 {
     computerConfiguration = computerConf;
 }
@@ -44,13 +44,13 @@ StudioIV::~StudioIV()
 
 void StudioIV::configureComputer()
 {
-    outType_[1] = VIPOUT4;
-    outType_[2] = STUDIOOUT;
-    outType_[7] = VIPIIOUT7;
+    outType_[0][0][1] = VIPOUT4;
+    outType_[0][0][2] = STUDIOOUT;
+    outType_[0][0][7] = VIPIIOUT7;
     victoryKeyPort_ = 0;
-    efType_[2] = VIPEF2;
-    efType_[3] = STUDIOEF3;
-    efType_[4] = STUDIOEF4;
+    efType_[0][0][2] = VIPEF2;
+    efType_[0][0][3] = STUDIOEF3;
+    efType_[0][0][4] = STUDIOEF4;
 
     cycleType_[COMPUTERCYCLE] = VIPIIKEYCYCLE;
 
@@ -58,9 +58,9 @@ void StudioIV::configureComputer()
         victoryKeyState_[j][i] = 0;
 
     p_Main->message("Configuring Studio IV");
-    p_Main->message("    Output 1: tone latch");
-    p_Main->message("    Output 2: select port, EF 3: read selected port 1, EF4: read selected port 2");
-    p_Main->message("    output 7: cassette on/off, EF 2: cassette in\n");
+    p_Main->message("	Output 1: tone latch");
+    p_Main->message("	Output 2: select port, EF 3: read selected port 1, EF4: read selected port 2");
+    p_Main->message("	output 7: cassette on/off, EF 2: cassette in\n");
 
     p_Main->getDefaultHexKeys(STUDIOIV, "StudioIV", "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
     p_Main->getDefaultHexKeys(STUDIOIV, "StudioIV", "B", keyDefB1_, keyDefB2_, keyDefGameHexB_);
@@ -349,7 +349,7 @@ void StudioIV::keyUp(int keycode)
 
 Byte StudioIV::ef(int flag)
 {
-    switch(efType_[flag])
+    switch(efType_[0][0][flag])
     {
         case 0:
             return 1;
@@ -402,7 +402,7 @@ Byte StudioIV::in(Byte port, Word WXUNUSED(address))
 {
     Byte ret;
 
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case 0:
             ret = 255;
@@ -423,7 +423,7 @@ void StudioIV::out(Byte port, Word WXUNUSED(address), Byte value)
 {
     outValues_[port] = value;
 
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;
@@ -482,7 +482,7 @@ void StudioIV::cycle(int type)
         break;
 
         case PIXIECYCLE:
-            cyclePixieStudioIV();
+            cyclePixie();
         break;
             
         case VIPIIKEYCYCLE:
@@ -593,9 +593,9 @@ void StudioIV::startComputer()
     defineMemoryType(0x1800, 0x27FF, RAM);
     initRam(0x1800, 0x27FF);
     
-    double zoom = p_Main->getZoom();
+    double zoom = p_Main->getZoom(VIDEOMAIN);
 
-    configurePixieStudioIV();
+    configurePixie();
     initPixie();
     setZoom(zoom);
     Show(true);
@@ -667,9 +667,9 @@ void StudioIV::startComputer2020()
     defineMemoryType(0x7C00, 0x7FFF, COLOURRAM);
 //    initRam(0xBC00, 0xBFFF);
 
-    double zoom = p_Main->getZoom();
+    double zoom = p_Main->getZoom(VIDEOMAIN);
     
-    configurePixieStudioIV();
+    configurePixie();
     initPixie();
     setZoom(zoom);
     Show(true);
@@ -905,12 +905,12 @@ void StudioIV::checkComputerFunction()
         break;
 
         case 0xb00a:
-            pseudoType_ = "AM4KBAS2020";
+            pseudoType_ = "AM4KBAS1978";
             chip8baseVar_ = 0x7b00;
             chip8mainLoop_ = 0xB0A3;
             chip8register12bit_ = false;
             pseudoLoaded_ = true;
-            p_Main->forcePseudoDefinition(pseudoType_, "am2020bas.syntax", "AM4KBAS 2020");
+            p_Main->forcePseudoDefinition(pseudoType_, "am4kbas.syntax", "AM4KBAS 1978");
         break;
     }
 }

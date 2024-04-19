@@ -21,6 +21,8 @@ private:
     void displayLeds();
     void deleteBitmaps();
     void updateStatusBarText();
+    wxString getStatusBarTextComx(int slot, wxRect rect);
+    wxString getStatusBarTextXml(int slot, wxRect rect);
 
 #if defined(__linux__) || defined(__WXMAC__)
     wxBitmapButton *ledBitmapPointers [4][2];
@@ -32,6 +34,7 @@ private:
     wxBitmap *ledOnPointer;
     wxBitmap *ledDisabledPointer;
 
+    int runningComputer_;
     bool expansionRomLoaded_;
     int expansionTypeCard0_;
     bool ledsDefined_;
@@ -39,7 +42,7 @@ private:
     bool slotLedUpdate_;
     bool ledStatus_[4];
     
-    int linux_led_pos_y_;
+    int led_pos_y_;
     int ledPosX1_;
     int ledPosX2_;
     int lastLedPosX_;

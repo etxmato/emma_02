@@ -50,20 +50,31 @@
 #define SPRITE_16_16 2
 #define SPRITE_16_16_MAG 3
 
-Tms9918::Tms9918(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, int computerType, double clock)
+Tms9918::Tms9918(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, int computerType, double clock, int videoNumber)
 : Video(title, pos, size)
 {
     computerType_ = computerType;
     zoom_ = zoom;
     clock_ = clock;
+    colourIndex_ = 0;
+    videoNumber_ = videoNumber;
+
+    if (computerType_ == XML)
+    {
+        videoType_ = VIDEOXMLTMS;
+        colourIndex_ = COL_TMS_TRANSPARANT-16;
+    }
+    else
+    {
+        videoType_ = VIDEOTMS;
+    }
 
     double intPart;
     zoomFraction_ = (modf(zoom_, &intPart) != 0);
 
     defineColours(computerType_);
-    videoType_ = VIDEOTMS;
 
-    videoScreenPointer = new VideoScreen(this, size, zoom, computerType);
+    videoScreenPointer = new VideoScreen(this, size, zoom, computerType, videoNumber_);
 
 #ifndef __WXMAC__
     SetIcon(wxICON(app_icon));
@@ -167,11 +178,11 @@ Tms9918::Tms9918(const wxString& title, const wxPoint& pos, const wxSize& size, 
     this->SetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_, (videoHeight_+2*borderY_[videoType_])*zoom_);
     
 #if defined(__linux__) || defined (__WXMSW__)
-    setColourMutex(backgroundColor_+16);
+    setColourMutex(colourIndex_+backgroundColor_+16);
     drawRectangle(0, 0, videoWidth_ + 2*offsetX_, videoHeight_ + 2*offsetY_);
 #endif
     
-    setColourMutexMainPlane(backgroundColor_+16);
+    setColourMutexMainPlane(colourIndex_+backgroundColor_+16);
     drawRectangleMainPlane(0, 0, videoWidth_ + 2*offsetX_, videoHeight_ + 2*offsetY_);
 }
 
@@ -203,7 +214,7 @@ Tms9918::~Tms9918()
     }
 }
 
-void Tms9918::configure(ElfPortConfiguration elfPortConf)
+void Tms9918::configure(IoConfiguration ioConfiguration)
 {
     changeScreenSize();
 //    int highOutput, lowOutput;
@@ -213,19 +224,19 @@ void Tms9918::configure(ElfPortConfiguration elfPortConf)
 //    highOutput = p_Main->getConfigItem(runningComp +"/TmsModeHighOutput", 5l);
 //    lowOutput = p_Main->getConfigItem(runningComp +"/TmsModeLowOutput", 6l);
 
-    p_Computer->setOutType(elfPortConf.tmsModeHighOutput, TMSREGISTERPORT);
-    p_Computer->setOutType(elfPortConf.tmsModeLowOutput, TMSDATAPORT);
-    p_Computer->setInType(elfPortConf.tmsModeLowOutput, TMSDATAPORT);
-    p_Computer->setInType(elfPortConf.tmsModeHighOutput, TMSREGISTERPORT);
-    if (elfPortConf.tmsInterrupt > 0)
-        p_Computer->setEfType(elfPortConf.tmsInterrupt, TMSINTERRUPT);
+    p_Computer->setOutType(ioConfiguration.tmsModeHighOutput, TMSREGISTERPORT);
+    p_Computer->setOutType(ioConfiguration.tmsModeLowOutput, TMSDATAPORT);
+    p_Computer->setInType(ioConfiguration.tmsModeLowOutput, TMSDATAPORT);
+    p_Computer->setInType(ioConfiguration.tmsModeHighOutput, TMSREGISTERPORT);
+    if (ioConfiguration.tmsInterrupt > 0)
+        p_Computer->setEfType(ioConfiguration.tmsInterrupt, TMSINTERRUPT);
 
-    p_Computer->setCycleType(VIDEOCYCLE, TMSCYCLE);
+    p_Computer->setCycleType(VIDEOCYCLE_TMS9918, TMSCYCLE);
 
     wxString printBuffer;
     p_Main->message("Configuring TMS 9918");
 
-    printBuffer.Printf("    Output %d: register port, input/output %d: data port\n", elfPortConf.tmsModeHighOutput, elfPortConf.tmsModeLowOutput);
+    printBuffer.Printf("	Output %d: register port, input/output %d: data port\n", ioConfiguration.tmsModeHighOutput, ioConfiguration.tmsModeLowOutput);
     p_Main->message(printBuffer);
 }
 
@@ -426,9 +437,12 @@ void Tms9918::writeRegister(Byte reg, Byte value)
     registers_[reg] = value_;
     
     mode_ = TMS_GRAPHICS_I; // Graphics I
-    if (registers_[0] & 2) mode_ = TMS_GRAPHICS_II; // Graphics II
-    if (registers_[1] & 8) mode_ = TMS_MULTICOLOR; // Multicolor
-    if (registers_[1] & 16) mode_ = TMS_TEXT; // Text
+    if (registers_[0] & 2)
+        mode_ = TMS_GRAPHICS_II; // Graphics II
+    if (registers_[1] & 8)
+        mode_ = TMS_MULTICOLOR; // Multicolor
+    if (registers_[1] & 16)
+        mode_ = TMS_TEXT; // Text
 
     switch (reg)
     {
@@ -566,13 +580,13 @@ void Tms9918::copyScreen()
             dcMemoryMainAndSpritePlane.Blit(offsetX_, offsetY_, videoWidth_, videoHeight_, &dcMemorySpritePlane, offsetX_, offsetY_);
         dcMemory.Blit(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_, &dcMemoryMainAndSpritePlane, 0, 0);
 
-        p_Main->eventRefreshVideo(false, 0);
+        p_Main->eventRefreshVideo(false, videoNumber_);
         reBlit_ = false;
         reDraw_ = false;
     }
 #else
     if (extraBackGround_ && newBackGround_)
-        drawExtraBackground(colour_[backgroundColor_+16]);
+        drawExtraBackground(colour_[colourIndex_+backgroundColor_+16]);
 
     TileList *temp;
 
@@ -642,9 +656,10 @@ void Tms9918::drawSprites()
 
     gcSpritePlane = wxGraphicsContext::Create(dcMemorySpritePlane);
     gcSpritePlane->SetAntialiasMode(wxANTIALIAS_NONE);
-#else
-    dcMemorySpritePlane.Blit(offsetX_, offsetY_, videoWidth_, videoHeight_, &dcMemoryMainPlane, offsetX_, offsetY_);
 #endif
+//#else
+    dcMemorySpritePlane.Blit(offsetX_, offsetY_, videoWidth_, videoHeight_, &dcMemoryMainPlane, offsetX_, offsetY_);
+//#endif
 
     while (tmsMemory_[spriteAttributeTableAddress] != 0xD0 && spriteAttributeTableAddress < (spriteAttributeTableAddress_+128))
     {
@@ -657,10 +672,10 @@ void Tms9918::drawSprites()
         spritePatternTableAddress = spritePatternTableAddress_ + namePointer * 8;
 
 #if defined(__WXMAC__)
-        gcSpritePlane->SetBrush(brushColour_[color+16]);
+        gcSpritePlane->SetBrush(brushColour_[colourIndex_+color+16]);
         gcSpritePlane->SetPen(penColour_[color+16]);
 #else
-        dcMemorySpritePlane.SetBrush(brushColour_[color+16]);
+        dcMemorySpritePlane.SetBrush(brushColour_[colourIndex_+color+16]);
         dcMemorySpritePlane.SetPen(penColour_[color+16]);
 #endif
         int numberOfLines = 8;
@@ -1064,10 +1079,10 @@ void Tms9918::drawTile(Word tile)
                     if (cl == 0) cl = backgroundColor_;
                     if (cl == 0) cl = 1;
 #if defined(__linux__) || defined (__WXMSW__)
-                    setColourMutex(cl+16);
+                    setColourMutex(colourIndex_+cl+16);
                     drawPoint(x+px+offsetX_, y+py+offsetY_);
 #endif
-                    setColourMutexMainPlane(cl+16);
+                    setColourMutexMainPlane(colourIndex_+cl+16);
                     drawPointMainPlane(x+px+offsetX_, y+py+offsetY_);
                     b = (b << 1) & 0xff;
                 }
@@ -1098,10 +1113,10 @@ void Tms9918::drawTile(Word tile)
                     if (cl == 0) cl = backgroundColor_;
                     if (cl == 0) cl = 1;
 #if defined(__linux__) || defined (__WXMSW__)
-                     setColourMutex(cl+16);
+                     setColourMutex(colourIndex_+cl+16);
                     drawPoint(x+px+offsetX_, y+py+offsetY_);
 #endif
-                    setColourMutexMainPlane(cl+16);
+                    setColourMutexMainPlane(colourIndex_+cl+16);
                     drawPointMainPlane(x+px+offsetX_, y+py+offsetY_);
                     b = (b << 1) & 0xff;
                 }
@@ -1115,7 +1130,7 @@ void Tms9918::drawTile(Word tile)
             size = 6;
 #endif
 
-            setColourMutexMainPlane(backgroundColor_+16);
+            setColourMutexMainPlane(colourIndex_+backgroundColor_+16);
             drawRectangleMainPlane(x+offsetX_, y+offsetY_, 6, 8);
 
             for (int py=0; py<8; py++)
@@ -1130,10 +1145,10 @@ void Tms9918::drawTile(Word tile)
                     
                     if (cl == 0) cl = backgroundColor_;
 #if defined(__linux__) || defined (__WXMSW__)
-                    setColourMutex(cl+16);
+                    setColourMutex(colourIndex_+cl+16);
                     drawPoint(x+px+offsetX_, y+py+offsetY_);
 #endif
-                    setColourMutexMainPlane(cl+16);
+                    setColourMutexMainPlane(colourIndex_+cl+16);
                     drawPointMainPlane(x+px+offsetX_, y+py+offsetY_);
                     b = (b << 1) & 0xff;
                 }
@@ -1151,20 +1166,20 @@ void Tms9918::drawTile(Word tile)
             
             multiColour_[x][y] = cl;
 #if defined(__linux__) || defined (__WXMSW__)
-            setColourMutex(cl+16);
+            setColourMutex(colourIndex_+cl+16);
             drawRectangle(x+offsetX_, y+offsetY_, 4 ,4);
 #endif
-            setColourMutexMainPlane(cl+16);
+            setColourMutexMainPlane(colourIndex_+cl+16);
             drawRectangleMainPlane(x+offsetX_, y+offsetY_, 4 ,4);
             
             cl = tmsMemory_[patternAddress_+b] & 0xf;
             
             multiColour_[x+1][y] = cl;
 #if defined(__linux__) || defined (__WXMSW__)
-            setColourMutex(cl+16);
+            setColourMutex(colourIndex_+cl+16);
             drawRectangle(x+offsetX_ + 4, y+offsetY_, 4 ,4);
 #endif
-            setColourMutexMainPlane(cl+16);
+            setColourMutexMainPlane(colourIndex_+cl+16);
             drawRectangleMainPlane(x+offsetX_ + 4, y+offsetY_, 4 ,4);
 
             b++;
@@ -1173,19 +1188,19 @@ void Tms9918::drawTile(Word tile)
 
             multiColour_[x][y+1] = cl;
 #if defined(__linux__) || defined (__WXMSW__)
-            setColourMutex(cl+16);
+            setColourMutex(colourIndex_+cl+16);
             drawRectangle(x+offsetX_, y+offsetY_ + 4, 4 ,4);
 #endif
-            setColourMutexMainPlane(cl+16);
+            setColourMutexMainPlane(colourIndex_+cl+16);
             drawRectangleMainPlane(x+offsetX_, y+offsetY_ + 4, 4 ,4);
             cl = tmsMemory_[patternAddress_+b] & 0xf;
             
             multiColour_[x+1][y+1] = cl;
 #if defined(__linux__) || defined (__WXMSW__)
-            setColourMutex(cl+16);
+            setColourMutex(colourIndex_+cl+16);
             drawRectangle(x+offsetX_ + 4, y+offsetY_ + 4, 4 ,4);
 #endif
-            setColourMutexMainPlane(cl+16);
+            setColourMutexMainPlane(colourIndex_+cl+16);
             drawRectangleMainPlane(x+offsetX_ + 4, y+offsetY_ + 4, 4 ,4);
         break;
 
@@ -1239,10 +1254,10 @@ void Tms9918::drawTileMultiColor(Word tile)
     {
         multiColour_[x][y] = cl;
 #if defined(__linux__) || defined (__WXMSW__)
-        setColourMutex(cl+16);
+        setColourMutex(colourIndex_+cl+16);
         drawRectangle(x+offsetX_, y+offsetY_, 4 ,4);
 #endif
-        setColourMutexMainPlane(cl+16);
+        setColourMutexMainPlane(colourIndex_+cl+16);
         drawRectangleMainPlane(x+offsetX_, y+offsetY_, 4 ,4);
     }
     
@@ -1252,10 +1267,10 @@ void Tms9918::drawTileMultiColor(Word tile)
     {
         multiColour_[x+1][y] = cl;
 #if defined(__linux__) || defined (__WXMSW__)
-        setColourMutex(cl+16);
+        setColourMutex(colourIndex_+cl+16);
         drawRectangle(x+offsetX_ + 4, y+offsetY_, 4 ,4);
 #endif
-        setColourMutexMainPlane(cl+16);
+        setColourMutexMainPlane(colourIndex_+cl+16);
         drawRectangleMainPlane(x+offsetX_ + 4, y+offsetY_, 4 ,4);
     }
     b++;
@@ -1266,10 +1281,10 @@ void Tms9918::drawTileMultiColor(Word tile)
     {
         multiColour_[x][y+1] = cl;
 #if defined(__linux__) || defined (__WXMSW__)
-        setColourMutex(cl+16);
+        setColourMutex(colourIndex_+cl+16);
         drawRectangle(x+offsetX_, y+offsetY_ + 4, 4 ,4);
 #endif
-        setColourMutexMainPlane(cl+16);
+        setColourMutexMainPlane(colourIndex_+cl+16);
         drawRectangleMainPlane(x+offsetX_, y+offsetY_ + 4, 4 ,4);
     }
     cl = tmsMemory_[patternAddress_+b] & 0xf;
@@ -1278,10 +1293,10 @@ void Tms9918::drawTileMultiColor(Word tile)
     {
         multiColour_[x+1][y+1] = cl;
 #if defined(__linux__) || defined (__WXMSW__)
-        setColourMutex(cl+16);
+        setColourMutex(colourIndex_+cl+16);
         drawRectangle(x+offsetX_ + 4, y+offsetY_ + 4, 4 ,4);
 #endif
-        setColourMutexMainPlane(cl+16);
+        setColourMutexMainPlane(colourIndex_+cl+16);
         drawRectangleMainPlane(x+offsetX_ + 4, y+offsetY_ + 4, 4 ,4);
     }
     reBlit_ = true;
@@ -1320,10 +1335,10 @@ void Tms9918::drawTilePatternUpdate(Word tile, Word address)
                 if (cl == 0) cl = backgroundColor_;
                 if (cl == 0) cl = 1;
 #if defined(__linux__) || defined (__WXMSW__)
-                setColourMutex(cl+16);
+                setColourMutex(colourIndex_+cl+16);
                 drawPoint(x+px+offsetX_, y+pytemp+offsetY_);
 #endif
-                setColourMutexMainPlane(cl+16);
+                setColourMutexMainPlane(colourIndex_+cl+16);
                 drawPointMainPlane(x+px+offsetX_, y+pytemp+offsetY_);
                 b = (b << 1) & 0xff;
             }
@@ -1351,10 +1366,10 @@ void Tms9918::drawTilePatternUpdate(Word tile, Word address)
                 if (cl == 0) cl = backgroundColor_;
                 if (cl == 0) cl = 1;
 #if defined(__linux__) || defined (__WXMSW__)
-                setColourMutex(cl+16);
+                setColourMutex(colourIndex_+cl+16);
                 drawPoint(x+px+offsetX_, y+pytemp+offsetY_);
 #endif
-                setColourMutexMainPlane(cl+16);
+                setColourMutexMainPlane(colourIndex_+cl+16);
                 drawPointMainPlane(x+px+offsetX_, y+pytemp+offsetY_);
                 b = (b << 1) & 0xff;
             }
@@ -1371,19 +1386,19 @@ void Tms9918::drawTilePatternUpdate(Word tile, Word address)
                 cl = (tmsMemory_[patternAddress_+b] & 0xf0) >> 4;
                 
 #if defined(__linux__) || defined (__WXMSW__)
-                setColourMutex(cl+16);
+                setColourMutex(colourIndex_+cl+16);
                 drawRectangle(x * 8 + offsetX_, y * 8 + offsetY_, 4 ,4);
 #endif
-                setColourMutexMainPlane(cl+16);
+                setColourMutexMainPlane(colourIndex_+cl+16);
                 drawRectangleMainPlane(x * 8 + offsetX_, y * 8 + offsetY_, 4 ,4);
                 
                 cl = tmsMemory_[patternAddress_+b] & 0xf;
                 
 #if defined(__linux__) || defined (__WXMSW__)
-                setColourMutex(cl+16);
+                setColourMutex(colourIndex_+cl+16);
                 drawRectangle(x * 8 + 4 + offsetX_, y * 8 + offsetY_, 4 ,4);
 #endif
-                setColourMutexMainPlane(cl+16);
+                setColourMutexMainPlane(colourIndex_+cl+16);
                 drawRectangleMainPlane(x * 8 + 4 + offsetX_, y * 8 + offsetY_, 4 ,4);
             }
             else
@@ -1393,19 +1408,19 @@ void Tms9918::drawTilePatternUpdate(Word tile, Word address)
                 cl = (tmsMemory_[patternAddress_+b] & 0xf0) >> 4;
 
 #if defined(__linux__) || defined (__WXMSW__)
-                setColourMutex(cl+16);
+                setColourMutex(colourIndex_+cl+16);
                 drawRectangle(x * 8 + offsetX_, y * 8 + 4 + offsetY_, 4 ,4);
 #endif
-                setColourMutexMainPlane(cl+16);
+                setColourMutexMainPlane(colourIndex_+cl+16);
                 drawRectangleMainPlane(x * 8 + offsetX_, y * 8 + 4 + offsetY_, 4 ,4);
                 
                 cl = tmsMemory_[patternAddress_+b] & 0xf;
                 
 #if defined(__linux__) || defined (__WXMSW__)
-                setColourMutex(cl+16);
+                setColourMutex(colourIndex_+cl+16);
                 drawRectangle(x * 8 + 4 + offsetX_, y * 8 + 4 + offsetY_, 4 ,4);
 #endif
-                setColourMutexMainPlane(cl+16);
+                setColourMutexMainPlane(colourIndex_+cl+16);
                 drawRectangleMainPlane(x * 8 + 4 + offsetX_, y * 8 + 4 + offsetY_, 4 ,4);
             }
         break;
@@ -1442,10 +1457,10 @@ void Tms9918::drawTilePatternUpdate(Word tile, Word address)
 void Tms9918::drawScreen()
 {
 #if defined(__WXMAC__)
-    setColourMutexMainPlane(backgroundColor_+16);
+    setColourMutexMainPlane(colourIndex_+backgroundColor_+16);
     drawRectangleMainPlane(0, 0, videoWidth_ + 2*offsetX_, videoHeight_ + 2*offsetY_);
 #else
-    setColourMutex(backgroundColor_+16);
+    setColourMutex(colourIndex_+backgroundColor_+16);
     drawRectangle(0, 0, videoWidth_ + 2*offsetX_, videoHeight_ + 2*offsetY_);
 #endif
     if (mode_ == TMS_GRAPHICS_I)
@@ -1485,7 +1500,7 @@ void Tms9918::setFullScreen(bool fullScreenSet)
 void Tms9918::onF3()
 {
     fullScreenSet_ = !fullScreenSet_;
-    p_Main->eventVideoSetFullScreen(fullScreenSet_);
+    p_Main->eventVideoSetFullScreen(fullScreenSet_, videoNumber_);
 }
 
 void Tms9918::reBlit(wxDC &dc)
@@ -1496,8 +1511,8 @@ void Tms9918::reBlit(wxDC &dc)
     if (disableScreen_)
     {
         dc.SetUserScale(zoom_*xZoomFactor_, zoom_);
-        dc.SetBrush(wxBrush(colour_[backgroundColor_+16]));
-        dc.SetPen(wxPen(colour_[backgroundColor_+16]));
+        dc.SetBrush(wxBrush(colour_[colourIndex_+backgroundColor_+16]));
+        dc.SetPen(wxPen(colour_[colourIndex_+backgroundColor_+16]));
         dc.DrawRectangle(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_);
         return;
     }
@@ -1508,8 +1523,8 @@ void Tms9918::reBlit(wxDC &dc)
     {
         wxSize size = wxGetDisplaySize();
 
-        dc.SetBrush(wxBrush(colour_[backgroundColor_+16]));
-        dc.SetPen(wxPen(colour_[backgroundColor_+16]));
+        dc.SetBrush(wxBrush(colour_[colourIndex_+backgroundColor_+16]));
+        dc.SetPen(wxPen(colour_[colourIndex_+backgroundColor_+16]));
 
         int xStart = (int)((2*offsetX_+videoWidth_)*zoom_*xZoomFactor_);
         dc.DrawRectangle(xStart, 0, size.x-xStart, size.y);

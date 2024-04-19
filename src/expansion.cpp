@@ -31,7 +31,7 @@
 #include "printer.h"
 
 Expansion::Expansion(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock)
-:V1870(title, pos, size, zoomLevel, computerType, clock)
+:V1870(title, pos, size, zoomLevel, computerType, clock, 0)
 {
 }
 
@@ -40,9 +40,9 @@ void Expansion::configureExpansion()
     for (int i=0; i<4; i++)
         comxExpansionType_[i] = COMXEMPTY;
 
-    inType_[2] = COMXEXPIN2;
-    inType_[4] = COMXEXPIN4;
-    outType_[2] = COMXEXPOUT;
+    inType_[0][0][2] = COMXEXPIN2;
+    inType_[0][0][4] = COMXEXPIN4;
+    outType_[0][0][2] = COMXEXPOUT;
 
     out1value_ = 0;
 
@@ -65,7 +65,7 @@ void Expansion::configureExpansion()
     if (expansionRomLoaded_)
     {
         p_Main->message("Configuring Expansion Box");
-        p_Main->message("    Output 1: Select expansion slot(bit 1 to 4)\n");
+        p_Main->message("	Output 1: Select expansion slot(bit 1 to 4)\n");
     }
 
     expansionSlot_ = 0;
@@ -102,7 +102,7 @@ void Expansion::configureCard(int slot)
         comxExpansionType_ [slot] = COMXRAM;
         print_buffer = "Configuring 32K RAM Card" + slotString;
         p_Main->message(print_buffer);
-        p_Main->message("    Output 1: Select RAM bank(bit 5 and 6)\n");
+        p_Main->message("	Output 1: Select RAM bank(bit 5 and 6)\n");
         defineExpansionMemoryType(slot, 0, 0x1fff, RAMBANK);
     }
     else
@@ -124,9 +124,9 @@ void Expansion::configureCard(int slot)
         if (expansionRom_[slot*0x2000] == 0x30)
             comxExpansionType_ [slot] = COMXSUPERBOARD;
 
-        if (comxExpansionType_[slot] == COMXPRINTER)
+        if (comxExpansionType_[slot] == PRINTER_PARALLEL)
             if (expansionRom_[(slot*0x2000)+0x14] == 0x52)
-                comxExpansionType_[slot] = COMXRS232;
+                comxExpansionType_[slot] = PRINTER_SERIAL;
 
         switch(comxExpansionType_[slot])
         {
@@ -135,30 +135,30 @@ void Expansion::configureCard(int slot)
                 {
                     fdcSlot_ = slot;
                     diskRomLoaded_ = true;
-                    configure1770(2, 35, 16, 128, COMX);
+                    configureComx1770(2, 35, 16, 128, 2740, COMX);
                     resetFdc();
 
                     print_buffer = "Configuring WD1770 Floppy Disk Controller" + slotString;
                     p_Main->message(print_buffer);
-                    p_Main->message("    Q = 1, Output 2: register select,    Q = 0, Output 2: write register");
-                    p_Main->message("    Q = 1, Input 2: INTRQ,        Q = 0, Input 2: read register");
-                    p_Main->message("    EF 4: DRQ");
+                    p_Main->message("	Q = 1, Output 2: register select,    Q = 0, Output 2: write register");
+                    p_Main->message("	Q = 1, Input 2: INTRQ,        Q = 0, Input 2: read register");
+                    p_Main->message("	EF 4: DRQ");
 
-                    p_Main->message("    Disk geometry: 2 sides, 35/70 tracks, 16 sectors per track and 128 bytes per sector\n");
+                    p_Main->message("	Disk geometry: 2 sides, 35/70 tracks, 16 sectors per track and 128 bytes per sector\n");
                     defineMemoryType(0x0d00, 0x0dff, COPYFLOPROM);
                 }
             break;
 
-            case COMXPRINTER:
+            case PRINTER_PARALLEL:
                 if (printerSlot_ == 0xff)
                 {
                     printerSlot_ = slot;
                     printRomLoaded_[COMXPARALLEL] = true;
                     p_PrinterParallel = new Printer();
-                    p_PrinterParallel->initComx(p_PrinterParallel);
+                    p_PrinterParallel->init(p_PrinterParallel, PRINTER_PARALLEL);
                     print_buffer = "Configuring Parallel Printer Card" + slotString;
                     p_Main->message(print_buffer);
-                    p_Main->message("    Output 2: printer output, input 2: printer status\n");
+                    p_Main->message("	Output 2: printer output, input 2: printer status\n");
                 }
             break;
 
@@ -168,31 +168,31 @@ void Expansion::configureCard(int slot)
                     thermalSlot_ = slot;
                     printRomLoaded_[COMXTHERMAL] = true;
                     p_PrinterThermal = new Printer();
-                    p_PrinterThermal->initComx(p_PrinterThermal);
-                    p_PrinterThermal->configureThermalPrinter();
+                    p_PrinterThermal->init(p_PrinterThermal, COMXTHPRINTER);
+                    p_PrinterThermal->setThermalPrinterCycle();
                     print_buffer = "Configuring Thermal Printer Card" + slotString;
                     p_Main->message(print_buffer);
-                    p_Main->message("    Q = mode, Output 2: control head, input 2: printer status\n");
+                    p_Main->message("	Q = mode, Output 2: control head, input 2: printer status\n");
                 }
             break;
 
             case COMXJOY:
                 print_buffer = "Configuring F&M Joy Card" + slotString;
                 p_Main->message(print_buffer);
-                p_Main->message("    Input 2: joystick 1, input 4: joystick 2 and fire buttons\n");
+                p_Main->message("	Input 2: joystick 1, input 4: joystick 2 and fire buttons\n");
                 defineExpansionMemoryType(slot, 0, 0x1fff, UNDEFINED);
             break;
 
-            case COMXRS232:
+            case PRINTER_SERIAL:
                 if (serialSlot_ == 0xff)
                 {
                     serialSlot_ = slot;
                     printRomLoaded_[COMXSERIAL] = true;
                     p_PrinterSerial = new Printer();
-                    p_PrinterSerial->initComx(p_PrinterSerial);
+                    p_PrinterSerial->init(p_PrinterSerial, PRINTER_SERIAL);
                     print_buffer = "Configuring Serial Printer Card" + slotString;
                     p_Main->message(print_buffer);
-                    p_Main->message("    Output 2: printer output, input 2: printer status\n");
+                    p_Main->message("	Output 2: printer output, input 2: printer status\n");
                 }
             break;
 
@@ -202,9 +202,9 @@ void Expansion::configureCard(int slot)
                     columnSlot_ = slot;
                     print_buffer = "Configuring 80 Column Card" + slotString;
                     p_Main->message(print_buffer);
-                    p_Main->message("    EF 4: Display enable");
-                    p_Main->message("    @D000-@D7FF: Video RAM");
-                    p_Main->message("    @D800: CRTC address register, @D801: CRTC data register\n");
+                    p_Main->message("	EF 4: Display enable");
+                    p_Main->message("	@D000-@D7FF: Video RAM");
+                    p_Main->message("	@D800: CRTC address register, @D801: CRTC data register\n");
                     defineExpansionMemoryType(slot, 0, 0x7ff, ROM);
                     defineExpansionMemoryType(slot, 0x800, 0xfff, UNDEFINED);
                     defineExpansionMemoryType(slot, 0x1000, 0x17ff, MC6845RAM);
@@ -228,8 +228,8 @@ void Expansion::configureCard(int slot)
 
                     print_buffer = "Configuring Network Card" + slotString;
                     p_Main->message(print_buffer);
-                    p_Main->message("    Q = 0, Output 2: load transmitter, Q = 0, input 2: read receiver");
-                    p_Main->message("    Q = 1, Output 2: load control, Q = 1, input 2: read status");
+                    p_Main->message("	Q = 0, Output 2: load transmitter, Q = 0, input 2: read receiver");
+                    p_Main->message("	Q = 1, Output 2: load control, Q = 1, input 2: read status");
 
                     FullPath = wxFileName(p_Main->getRomDir(COMX, slot+2) + p_Main->getRomFile(COMX, slot+2), wxPATH_NATIVE);
                     FileName = FullPath.GetName();
@@ -246,7 +246,7 @@ void Expansion::configureCard(int slot)
                     epromSlot_ = slot;
                     print_buffer = "Configuring F&M EPROM Switch Board" + slotString;
                     p_Main->message(print_buffer);
-                    p_Main->message("    Output 1, bit 765: Select EPROM bank (0-7)\n");
+                    p_Main->message("	Output 1, bit 765: Select EPROM bank (0-7)\n");
                     defineExpansionMemoryType(slot, 0, 0x1fff, EPROMBANK);
                     for (int i=0; i<0x800; i++)
                     {
@@ -278,19 +278,19 @@ void Expansion::configureCard(int slot)
                 if (superSlot_ == 0xff)
                 {
                     superSlot_ = slot;
-                    inType_[1] = COMXRTCIN1;
-                    inType_[5] = COMXEXPIN5;
-                    inType_[6] = COMXEXPIN6;
+                    inType_[0][0][1] = COMXRTCIN1;
+                    inType_[0][0][5] = COMXEXPIN5;
+                    inType_[0][0][6] = COMXEXPIN6;
 
                     print_buffer = "Configuring Super Board" + slotString;
                     p_Main->message(print_buffer);
-                    p_Main->message("    Output 1, bit 0: Select EPROM = 0, RAM = 1");
-                    p_Main->message("    Output 1, bit 765: Select EPROM bank (0-7)");
-                    p_Main->message("    Output 1, bit 765: Select RAM bank (0-7)");
-                    p_Main->message("    Output 2: UART out, Input 5: UART in, Q UART register select");
-                    p_Main->message("    Input 1: NVRAM write enable/disable");
-                    p_Main->message("    Input 2: joystick 1, input 4: joystick 2 and fire buttons");
-                    p_Main->message("    NVRAM F000-F3F7, RTC F3F8-F3FF\n");
+                    p_Main->message("	Output 1, bit 0: Select EPROM = 0, RAM = 1");
+                    p_Main->message("	Output 1, bit 765: Select EPROM bank (0-7)");
+                    p_Main->message("	Output 1, bit 765: Select RAM bank (0-7)");
+                    p_Main->message("	Output 2: UART out, Input 5: UART in, Q UART register select");
+                    p_Main->message("	Input 1: NVRAM write enable/disable");
+                    p_Main->message("	Input 2: joystick 1, input 4: joystick 2 and fire buttons");
+                    p_Main->message("	NVRAM F000-F3F7, RTC F3F8-F3FF\n");
                     defineExpansionMemoryType(slot, 0, 0x1fff, SUPERBANK);
                     defineMemoryType(0xf000, 0xf3ff, NVRAM);
                     for (int i=0; i<0x800; i++)
@@ -333,16 +333,16 @@ void Expansion::configureCard(int slot)
                 if (diagSlot_ == 0xff)
                 {
                     diagSlot_ = slot;
-                    inType_[1] = COMXDIAGIN1;
-                    inType_[2] = COMXDIAGIN2;
-                    outType_[1] = COMXDIAGOUT1;
+                    inType_[0][0][1] = COMXDIAGIN1;
+                    inType_[0][0][2] = COMXDIAGIN2;
+                    outType_[0][0][1] = COMXDIAGOUT1;
                     
                     print_buffer = "Configuring Diagnose Card" + slotString;
                     p_Main->message(print_buffer);
-                    p_Main->message("    Input 1, bit 1: debounce, bit 2: Step, bit 6: Abort, bit 7 Repeat");
-                    p_Main->message("    Input 2, bit 1: ROM Checksum, bit 2: IDEN, bit 3: Factory unit");
-                    p_Main->message("    Output 1, automated keyboard test");
-                    p_Main->message("    @D800-@DFFF: RAM");
+                    p_Main->message("	Input 1, bit 1: debounce, bit 2: Step, bit 6: Abort, bit 7 Repeat");
+                    p_Main->message("	Input 2, bit 1: ROM Checksum, bit 2: IDEN, bit 3: Factory unit");
+                    p_Main->message("	Output 1, automated keyboard test");
+                    p_Main->message("	@D800-@DFFF: RAM");
                     defineExpansionMemoryType(slot, 0, 0x17ff, ROM);
                     defineExpansionMemoryType(slot, 0x1800, 0x1fff, RAM);
                 }
@@ -378,7 +378,7 @@ Byte Expansion::expansionIn2()
             return stick1();
         break;
 
-        case COMXPRINTER:
+        case PRINTER_PARALLEL:
             return p_PrinterParallel->inParallel();
         break;
 
@@ -386,8 +386,8 @@ Byte Expansion::expansionIn2()
             return p_PrinterThermal->inThermal();
         break;
 
-        case COMXRS232:
-            return p_PrinterSerial->inSerial();
+        case PRINTER_SERIAL:
+            return p_PrinterSerial->inSerialComx();
         break;
     }
     return 0;
@@ -444,7 +444,7 @@ void Expansion::expansionOut(Byte value)
         //    usbOutVspe(value);
         break;
 
-        case COMXPRINTER:
+        case PRINTER_PARALLEL:
             p_Main->eventPrintParallel(value);
         break;
 
@@ -453,7 +453,7 @@ void Expansion::expansionOut(Byte value)
             p_Main->eventPrintThermal(value, getFlipFlopQ());
         break;
 
-        case COMXRS232:
+        case PRINTER_SERIAL:
             p_Main->eventPrintSerial(value);
         break;
     }
@@ -463,7 +463,7 @@ void Expansion::onComxF4()
 {
     switch(comxExpansionType_[expansionSlot_])
     {
-        case COMXPRINTER:
+        case PRINTER_PARALLEL:
             p_PrinterParallel->onF4Parallel();
             return;
         break;
@@ -473,7 +473,7 @@ void Expansion::onComxF4()
             return;
         break;
 
-        case COMXRS232:
+        case PRINTER_SERIAL:
             p_PrinterSerial->onF4Serial();
             return;
         break;

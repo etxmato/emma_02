@@ -48,8 +48,8 @@
 //#include "serial.h"
 #include "member.h"
 
-MemberScreen::MemberScreen(wxWindow *parent, const wxSize& size)
-: Panel(parent, size)
+MemberScreen::MemberScreen(wxWindow *parent, const wxSize& size, int tilType)
+: Panel(parent, size, tilType)
 {
 }
 
@@ -70,12 +70,13 @@ MemberScreen::~MemberScreen()
      delete qLedPointer;
 }
 
-void MemberScreen::init(int front)
+void MemberScreen::init()
 {
     keyStart_ = 0;
     keyEnd_ = 0;
     lastKey_ = 0;
-    forceUpperCase_ = p_Main->getUpperCase(MEMBER);
+    forceUpperCase_ = p_Main->getUpperCase();
+    int front = p_Main->getFrontPanelRevision();
 
     wxClientDC dc(this);
 
@@ -83,49 +84,49 @@ void MemberScreen::init(int front)
     {
         case FRONT_TYPE_B:
             mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/membership.png", wxBITMAP_TYPE_PNG);
-            waitSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 57, 212, "");
-            clearSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 95, 212, "");
-            mpSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_UP, 128, 212, "");
-            inSwitchButton = new SwitchButton(dc, PUSH_BUTTON, wxColour(255, 255, 255), BUTTON_UP, 18, 212, "");
+            waitSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(255, 255, 255), BUTTON_DOWN, 57, 212, "");
+            clearSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(255, 255, 255), BUTTON_DOWN, 95, 212, "");
+            mpSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(255, 255, 255), BUTTON_UP, 128, 212, "");
+            inSwitchButton = new SwitchButton(dc, PUSH_BUTTON_ROUND_RED, wxColour(255, 255, 255), BUTTON_UP, 18, 212, "");
             
             for (int i=0; i<8; i++)
             {
-                dataSwitchButton[i] = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 197+34*(7-i), 212, "");
-                ledPointer[i] = new Led(dc, 197+34*(7-i), 136, MEMBERLED);
+                dataSwitchButton[i] = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(255, 255, 255), BUTTON_DOWN, 197+34*(7-i), 212, "");
+                ledPointer[i] = new Led(dc, 197+34*(7-i), 136, LED_LARGE_RED);
                 updateLed_[i] = true;
             }
-            qLedPointer = new Led(dc, 20, 136, MEMBERLEDGREEN);
+            qLedPointer = new Led(dc, 20, 136, LED_LARGE_GREEN);
         break;
         case FRONT_TYPE_C:
             mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/membership2.png", wxBITMAP_TYPE_PNG);
-            waitSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 59, 210, "");
-            clearSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 93, 210, "");
-            mpSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_UP, 127, 210, "");
-            inSwitchButton = new SwitchButton(dc, PUSH_BUTTON, wxColour(255, 255, 255), BUTTON_UP, 25, 210, "");
+            waitSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(255, 255, 255), BUTTON_DOWN, 59, 210, "");
+            clearSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(255, 255, 255), BUTTON_DOWN, 93, 210, "");
+            mpSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(255, 255, 255), BUTTON_UP, 127, 210, "");
+            inSwitchButton = new SwitchButton(dc, PUSH_BUTTON_ROUND_RED, wxColour(255, 255, 255), BUTTON_UP, 25, 210, "");
             
             for (int i=0; i<8; i++)
             {
-                dataSwitchButton[i] = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 194+34*(7-i), 210, "");
-                ledPointer[i] = new Led(dc, 194+34*(7-i), 136, MEMBERLED);
+                dataSwitchButton[i] = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(255, 255, 255), BUTTON_DOWN, 194+34*(7-i), 210, "");
+                ledPointer[i] = new Led(dc, 194+34*(7-i), 136, LED_LARGE_RED);
                 updateLed_[i] = true;
             }
-            qLedPointer = new Led(dc, 25, 136, MEMBERLEDGREEN);
+            qLedPointer = new Led(dc, 25, 136, LED_LARGE_GREEN);
         break;
         case FRONT_TYPE_I:
         case FRONT_TYPE_J:
             mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/membership3.png", wxBITMAP_TYPE_PNG);
-            waitSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 59, 210, "");
-            clearSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 93, 210, "");
-            mpSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_UP, 127, 210, "");
-            inSwitchButton = new SwitchButton(dc, PUSH_BUTTON, wxColour(255, 255, 255), BUTTON_UP, 25, 210, "");
+            waitSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(255, 255, 255), BUTTON_DOWN, 59, 210, "");
+            clearSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(255, 255, 255), BUTTON_DOWN, 93, 210, "");
+            mpSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(255, 255, 255), BUTTON_UP, 127, 210, "");
+            inSwitchButton = new SwitchButton(dc, PUSH_BUTTON_ROUND_RED, wxColour(255, 255, 255), BUTTON_UP, 25, 210, "");
             
             for (int i=0; i<8; i++)
             {
-                dataSwitchButton[i] = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 194+34*(7-i), 210, "");
-                ledPointer[i] = new Led(dc, 194+34*(7-i), 136, MEMBERLED);
+                dataSwitchButton[i] = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(255, 255, 255), BUTTON_DOWN, 194+34*(7-i), 210, "");
+                ledPointer[i] = new Led(dc, 194+34*(7-i), 136, LED_LARGE_RED);
                 updateLed_[i] = true;
             }
-            qLedPointer = new Led(dc, 25, 136, MEMBERLEDGREEN);
+            qLedPointer = new Led(dc, 25, 136, LED_LARGE_GREEN);
         break;
     }
 
@@ -207,8 +208,8 @@ Membership::Membership(const wxString& title, const wxPoint& pos, const wxSize& 
 
     this->SetClientSize(size);
 
-    memberScreenPointer = new MemberScreen(this, size);
-    memberScreenPointer->init(elfConfiguration.frontType);
+    memberScreenPointer = new MemberScreen(this, size, TILNONE);
+    memberScreenPointer->init();
 }
 
 Membership::~Membership()
@@ -251,7 +252,7 @@ bool Membership::keyDownPressed(int WXUNUSED(key))
     return false;
 }
 
-bool Membership::keyUpReleased(int key)
+bool Membership::keyUpReleased(int key, wxKeyEvent&WXUNUSED(event))
 {
     if (key == inKey1_ || key == inKey2_)
     {
@@ -297,28 +298,28 @@ void Membership::configureComputer()
 
     for (int i = 0; i < 8; i++)
     {
-        inType_[i] = INPUTUNDEFINED;
+        inType_[0][0][i] = INPUTUNDEFINED;
         switch (elfConfiguration.ioType)
         {
             case IO_TYPE_N0:
                 if (i & 1)
                 {
-                    inType_[i] = ELFIN;
-                    outType_[i] = ELFOUT;
+                    inType_[0][0][i] = ELFIN;
+                    outType_[0][0][i] = ELFOUT;
                 }
             break;
             case IO_TYPE_N1:
                 if (i & 2)
                 {
-                    inType_[i] = ELFIN;
-                    outType_[i] = ELFOUT;
+                    inType_[0][0][i] = ELFIN;
+                    outType_[0][0][i] = ELFOUT;
                 }
             break;
             case IO_TYPE_N2:
                 if (i & 4)
                 {
-                    inType_[i] = ELFIN;
-                    outType_[i] = ELFOUT;
+                    inType_[0][0][i] = ELFIN;
+                    outType_[0][0][i] = ELFOUT;
                 }
             break;
         }
@@ -329,16 +330,16 @@ void Membership::configureComputer()
     switch (elfConfiguration.ioType)
     {
         case IO_TYPE_N0:
-            p_Main->message("    Output 1, 3, 5, 7: display output, input 1, 3, 5, 7: data input");
+            p_Main->message("	Output 1, 3, 5, 7: display output, input 1, 3, 5, 7: data input");
         break;
         case IO_TYPE_N1:
-            p_Main->message("    Output 2, 3, 6, 7: display output, input 2, 3, 6, 7: data input");
+            p_Main->message("	Output 2, 3, 6, 7: display output, input 2, 3, 6, 7: data input");
         break;
         case IO_TYPE_N2:
-            p_Main->message("    Output 4, 5, 6, 7: display output, input 4, 5, 6, 7: data input");
+            p_Main->message("	Output 4, 5, 6, 7: display output, input 4, 5, 6, 7: data input");
         break;
     }
-    p_Main->message("    EF 4: 0 when in button pressed");
+    p_Main->message("	EF 4: 0 when in button pressed");
 
     p_Main->message("");
     inKey1_ = p_Main->getDefaultInKey1("Membership");
@@ -371,7 +372,7 @@ Byte Membership::ef(int flag)
         if (inPressed_ == true)
             return 0;
     }
-    switch(efType_[flag])
+    switch(efType_[0][0][flag])
     {
         case 0:
             return 1;
@@ -394,7 +395,7 @@ Byte Membership::in(Byte port, Word WXUNUSED(address))
 {
     Byte ret;
 
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case 0:
             ret = 255;
@@ -424,7 +425,7 @@ void Membership::out(Byte port, Word WXUNUSED(address), Byte value)
 {
     outValues_[port] = value;
 
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;
@@ -643,7 +644,7 @@ void Membership::startComputer()
     p_Main->checkAndReInstallMainRom(MEMBER);
     readProgram(p_Main->getRomDir(MEMBER, MAINROM1), p_Main->getRomFile(MEMBER, MAINROM1), p_Main->getLoadromModeMembership(), loadStart, NONAME);
     
-    configureElfExtensions();
+    configureExtensions();
     if (elfConfiguration.autoBoot)
     {
         scratchpadRegister_[0]=p_Main->getBootAddress("Membership", MEMBER);
@@ -822,7 +823,7 @@ void Membership::resetPressed()
     p_Main->eventUpdateTitle();
 }
 
-void Membership::configureElfExtensions()
+void Membership::configureExtensions()
 {
     double zoom;
 

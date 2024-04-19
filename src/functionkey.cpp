@@ -125,7 +125,7 @@ FunctionKeyMapDialog::FunctionKeyMapDialog(wxWindow* parent)
     LoadAndCompare(ELF, "Elf");
     LoadAndCompare(ELFII, "ElfII");
     LoadAndCompare(SUPERELF, "SuperElf");
-    LoadAndCompare(DIY, "Diy");
+    LoadAndCompare(XML, "Xml");
     LoadAndCompare(PICO, "Pico");
     LoadAndCompare(ELF2K, "Elf2K");
     LoadAndCompare(COSMICOS, "Cosmicos");
@@ -138,7 +138,7 @@ FunctionKeyMapDialog::FunctionKeyMapDialog(wxWindow* parent)
     LoadAndCompare(VELF, "Velf");
     LoadAndCompare(FRED1, "FRED1");
     LoadAndCompare(FRED1_5, "FRED1_5");
-    LoadAndCompareStudio(STUDIO, "Studio2");
+    LoadAndCompareStudio(STUDIO, "StudioII");
     LoadAndCompareStudio(COINARCADE, "CoinArcade");
     LoadAndCompareStudio(VISICOM, "Visicom");
     LoadAndCompareStudio(VICTORY, "Victory");

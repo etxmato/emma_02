@@ -32,7 +32,7 @@
 #include "main.h"
 #include "guifred.h"
 #include "pixie.h"
-#include "http.h"
+#include "wxcurl_http.h"
 #include "wx/wfstream.h"
 
 enum
@@ -153,7 +153,7 @@ int cardValue[FRED1_GAME_END+1][FRED1_CARDS] =
     { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Match II
     { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Memory Test
     { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Minikrieg
-    { 0x1a1, 0xa2, 0xb1, 0xb2, 0xb3, 0xb4,  0xc1, 0xc2, 0xc3, 0xc4, 0xc5, 0xd1, 0xd2, 0xd3, 0xd4, 0xd5, 0xe1, 0xe2, 0xe3, 0xe4, 0xf1, 0xf2, -1, -1 }, // Nimnet
+    { 0xa1, 0xa2, 0xb1, 0xb2, 0xb3, 0xb4,  0xc1, 0xc2, 0xc3, 0xc4, 0xc5, 0xd1, 0xd2, 0xd3, 0xd4, 0xd5, 0xe1, 0xe2, 0xe3, 0xe4, 0xf1, 0xf2, -1, -1 }, // Nimnet
     { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Pattern Puzzle
     { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Prog. Apt. Test
     { 0, 0x31, 0x33, 0x35, -1, -1, 0x6, -1, -1, -1, -1, -1, 0x1, 0xff, -1, -1, -1, -1, 0xfa, -1, -1, -1, -1, -1 }, // Slide Puzzle I
@@ -238,7 +238,7 @@ BEGIN_EVENT_TABLE(GuiFred, GuiVip)
     EVT_BUTTON(XRCID("RealCasLoadFRED1"), GuiMain::onRealCas)
 
     EVT_TEXT(XRCID("ShowAddressFRED1"), GuiMain::onLedTimer)
-    EVT_TEXT(XRCID("BootAddressFRED1"), GuiElf::onBootAddress)
+    EVT_TEXT(XRCID("BootAddressFRED1"), GuiMain::onBootAddress)
 
     EVT_TEXT(XRCID("RamSWFRED1_5"), GuiMain::onRamSWText)
     EVT_COMBOBOX(XRCID("RamSWFRED1_5"), GuiFred::onRamSWText)
@@ -287,7 +287,7 @@ BEGIN_EVENT_TABLE(GuiFred, GuiVip)
     EVT_BUTTON(XRCID("RealCasLoadFRED1_5"), GuiMain::onRealCas)
 
     EVT_TEXT(XRCID("ShowAddressFRED1_5"), GuiMain::onLedTimer)
-    EVT_TEXT(XRCID("BootAddressFRED1_5"), GuiElf::onBootAddress)
+    EVT_TEXT(XRCID("BootAddressFRED1_5"), GuiMain::onBootAddress)
 
 END_EVENT_TABLE()
 
@@ -300,7 +300,9 @@ void GuiFred::readFred1Config()
 {
     selectedComputer_ = FRED1;
     
+    elfConfiguration[FRED1].useTapeHw = true;
     conf[FRED1].emsConfigNumber_ = 0;
+    conf[FRED1].videoNumber_ = 0;
 
     conf[FRED1].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "FRED1" + pathSeparator_;
     conf[FRED1].mainDir_ = readConfigDir("/Dir/FRED1/Main", dataDir_ + "FRED1" + pathSeparator_);
@@ -315,7 +317,7 @@ void GuiFred::readFred1Config()
 
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 2.0);
-    conf[FRED1].zoom_ = convertLocale(configPointer->Read("/FRED1/Zoom", defaultZoom));
+    conf[FRED1].zoom_[VIDEOMAIN] = convertLocale(configPointer->Read("/FRED1/Zoom", defaultZoom));
     wxString defaultClock;
     defaultClock.Printf("%1.2f", 1.0);
     conf[FRED1].clock_ = convertLocale(configPointer->Read("/FRED1/Clock_Speed", defaultClock));
@@ -359,7 +361,7 @@ void GuiFred::readFred1Config()
         XRCCTRL(*this, "RamSWFRED1", wxComboBox)->SetValue(conf[FRED1].ram_);
         XRCCTRL(*this, "ScreenDumpFileFRED1", wxComboBox)->SetValue(conf[FRED1].screenDumpFile_);
         
-        correctZoomAndValue(FRED1, "FRED1", SET_SPIN);
+        correctZoomAndValue(FRED1, "FRED1", SET_SPIN, VIDEOMAIN);
 
         if (clockTextCtrl[FRED1] != NULL)
             clockTextCtrl[FRED1]->ChangeValue(conf[FRED1].clock_);
@@ -406,7 +408,7 @@ void GuiFred::writeFred1Config()
     configPointer->Write("/FRED1/Video_Dump_File", conf[FRED1].screenDumpFile_);
     configPointer->Write("/FRED1/Wav_File", conf[FRED1].wavFile_[0]);
 
-    configPointer->Write("/FRED1/Zoom", conf[FRED1].zoom_);
+    configPointer->Write("/FRED1/Zoom", conf[FRED1].zoom_[VIDEOMAIN]);
     configPointer->Write("/FRED1/Clock_Speed", conf[FRED1].clock_);
     configPointer->Write("/FRED1/Turbo_Clock_Speed", conf[FRED1].turboClock_);
     configPointer->Write("/FRED1/Enable_Turbo_Cassette", conf[FRED1].turbo_);
@@ -465,7 +467,9 @@ void GuiFred::readFred2Config()
 {
     selectedComputer_ = FRED1_5;
     
+    elfConfiguration[FRED1_5].useTapeHw = true;
     conf[FRED1_5].emsConfigNumber_ = 0;
+    conf[FRED1_5].videoNumber_ = 0;
 
     conf[FRED1_5].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "FRED1_5" + pathSeparator_;
     conf[FRED1_5].mainDir_ = readConfigDir("/Dir/FRED1_5/Main", dataDir_ + "FRED1_5" + pathSeparator_);
@@ -480,7 +484,7 @@ void GuiFred::readFred2Config()
     
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 2.0);
-    conf[FRED1_5].zoom_ = convertLocale(configPointer->Read("/FRED1_5/Zoom", defaultZoom));
+    conf[FRED1_5].zoom_[VIDEOMAIN] = convertLocale(configPointer->Read("/FRED1_5/Zoom", defaultZoom));
     wxString defaultClock;
     defaultClock.Printf("%1.2f", 1.0);
     conf[FRED1_5].clock_ = convertLocale(configPointer->Read("/FRED1_5/Clock_Speed", defaultClock));
@@ -523,7 +527,7 @@ void GuiFred::readFred2Config()
         XRCCTRL(*this, "RamSWFRED1_5", wxComboBox)->SetValue(conf[FRED1_5].ram_);
         XRCCTRL(*this, "ScreenDumpFileFRED1_5", wxComboBox)->SetValue(conf[FRED1_5].screenDumpFile_);
 
-        correctZoomAndValue(FRED1_5, "FRED1_5", SET_SPIN);
+        correctZoomAndValue(FRED1_5, "FRED1_5", SET_SPIN, VIDEOMAIN);
 
         if (clockTextCtrl[FRED1_5] != NULL)
             clockTextCtrl[FRED1_5]->ChangeValue(conf[FRED1_5].clock_);
@@ -552,7 +556,7 @@ void GuiFred::readFred2Config()
     }
 
     conf[FRED1_5].gameId_ = 1;
-//    checkGameFred2(conf[FRED1_5].ram_);
+    checkGameFred2(conf[FRED1_5].ram_);
 }
 
 void GuiFred::writeFred2DirConfig()
@@ -571,7 +575,7 @@ void GuiFred::writeFred2Config()
     configPointer->Write("/FRED1_5/Video_Dump_File", conf[FRED1_5].screenDumpFile_);
     configPointer->Write("/FRED1_5/Wav_File", conf[FRED1_5].wavFile_[0]);
     
-    configPointer->Write("/FRED1_5/Zoom", conf[FRED1_5].zoom_);
+    configPointer->Write("/FRED1_5/Zoom", conf[FRED1_5].zoom_[VIDEOMAIN]);
     configPointer->Write("/FRED1_5/Clock_Speed", conf[FRED1_5].clock_);
     configPointer->Write("/FRED1_5/Turbo_Clock_Speed", conf[FRED1_5].turboClock_);
     configPointer->Write("/FRED1_5/Enable_Turbo_Cassette", conf[FRED1_5].turbo_);
@@ -702,7 +706,7 @@ void GuiFred::checkGameFred2(wxString gameName)
         turboGui("FRED1_5");
         conf[FRED1_5].wavFile_[0] = "Fred Demo.wav";
         XRCCTRL(*this, "WavFileFRED1_5", wxTextCtrl)->SetValue(conf[FRED1_5].wavFile_[0]);
-        downloadWavFiles(FRED1_5);
+        downloadFredWavFiles(FRED1_5);
     }
 }
 
@@ -802,7 +806,7 @@ void GuiFred::setGame()
             turboGui("FRED1");
             conf[FRED1].wavFile_[0] = "Add Drill.wav";
             XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_[0]);
-            downloadWavFiles(FRED1);
+            downloadFredWavFiles(FRED1);
         break;
 
         case FRED1_GAME_DEMO:
@@ -815,7 +819,7 @@ void GuiFred::setGame()
             turboGui("FRED1");
             conf[FRED1].wavFile_[0] = "Demo.wav";
             XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_[0]);
-            downloadWavFiles(FRED1);
+            downloadFredWavFiles(FRED1);
         break;
 
         case FRED1_GAME_BOWLING:
@@ -828,7 +832,7 @@ void GuiFred::setGame()
             turboGui("FRED1");
             conf[FRED1].wavFile_[0] = "Bowling.wav";
             XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_[0]);
-            downloadWavFiles(FRED1);
+            downloadFredWavFiles(FRED1);
         break;
 
         case FRED1_GAME_DEDUCE_LEDS:
@@ -841,7 +845,7 @@ void GuiFred::setGame()
             turboGui("FRED1");
             conf[FRED1].wavFile_[0] = "Deduce-leds.wav";
             XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_[0]);
-            downloadWavFiles(FRED1);
+            downloadFredWavFiles(FRED1);
         break;
         
         case FRED1_GAME_CLUE:
@@ -854,7 +858,7 @@ void GuiFred::setGame()
             turboGui("FRED1");
             conf[FRED1].wavFile_[0] = "Clue.wav";
             XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_[0]);
-            downloadWavFiles(FRED1);
+            downloadFredWavFiles(FRED1);
         break;
         
         case FRED1_GAME_PROG_APT:
@@ -867,7 +871,7 @@ void GuiFred::setGame()
             turboGui("FRED1");
             conf[FRED1].wavFile_[0] = "Prog. Apt. Test.wav";
             XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_[0]);
-            downloadWavFiles(FRED1);
+            downloadFredWavFiles(FRED1);
         break;
 
         case FRED1_GAME_ANIMATE:
@@ -880,7 +884,7 @@ void GuiFred::setGame()
             turboGui("FRED1");
             conf[FRED1].wavFile_[0] = "Animate Demo Data.wav";
             XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_[0]);
-            downloadWavFiles(FRED1);
+            downloadFredWavFiles(FRED1);
         break;
             
         default:
@@ -888,22 +892,12 @@ void GuiFred::setGame()
     }
 }
 
-void GuiFred::downloadWavFiles(int computer)
+void GuiFred::downloadFredWavFiles(int computer)
 {
     if (wxFile::Exists(conf[computer].wavFileDir_[0] + conf[computer].wavFile_[0]))
         return;
     
-    int answer = wxMessageBox("Additional wav file required: " + conf[computer].wavFile_[0], "Download file?", wxICON_EXCLAMATION | wxYES_NO);
-    if (answer == wxYES)
-    {
-        wxString fileName = conf[computer].wavFileDir_[0] + conf[computer].wavFile_[0];
-        wxFileOutputStream html_stream(fileName);
-
-        wxCurlHTTP http("https://www.emma02.hobby-site.com/wave/" + conf[computer].wavFile_[0]);
-    
-        if (!http.Get(html_stream))
-            wxMessageBox( "Download failed", "Emma 02", wxICON_ERROR | wxOK );
-    }
+    downloadWavFiles(computer);
 }
 
 void GuiFred::setCurrentCardValue()

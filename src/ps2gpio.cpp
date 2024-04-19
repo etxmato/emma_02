@@ -33,9 +33,9 @@ Ps2gpio::Ps2gpio()
 {
 }
 
-void Ps2gpio::configurePs2gpioElf2K(int computerType) 
+void Ps2gpio::configurePs2gpioElf2K()
 {
-    forceUpperCase_ = p_Main->getUpperCase(computerType);
+    forceUpperCase_ = p_Main->getUpperCase();
     keyboardEf_ = 1;
     keyboardValue_ = 0;
     rawKeyCode_ = 0;
@@ -47,8 +47,52 @@ void Ps2gpio::configurePs2gpioElf2K(int computerType)
     wxString printBuffer;
     p_Main->message("Configuring GPIO PS2 Keyboard");
 
-    printBuffer.Printf("    Input 7: read data, EF 2: data ready flag\n");
+    printBuffer.Printf("	Input 7: read data, EF 2: data ready flag\n");
     p_Main->message(printBuffer);
+
+    startUp_ = 3;
+    escKey_ = 0;
+    escKey2_ = 0;
+    keyCycles_ = 500000;
+}
+
+void Ps2gpio::configurePs2gpio(bool forceUpperCase, IoConfiguration portConf)
+{
+    forceUpperCase_ = forceUpperCase;
+    keyboardEf_ = 1;
+    keyboardValue_ = 0;
+    rawKeyCode_ = 0;
+
+    wxString printBuffer = "";
+    
+    if (portConf.gpioOutput != -1)
+        printBuffer = "Sound";
+    if (portConf.gpioInput != -1 && portConf.gpioEf != -1)
+    {
+        if (portConf.gpioOutput != -1)
+            printBuffer = "PS2 Keyboard and Sound";
+        else
+            printBuffer = "PS2 Keyboard";
+    }
+    p_Main->message("Configuring GPIO " + printBuffer);
+
+    if (portConf.gpioOutput != -1)
+    {
+        p_Computer->setOutType(portConf.gpioIoGroup+1, portConf.gpioOutput, ELF2KGPIO);
+        printBuffer.Printf("	Output %d: Write GPIO Control Register", portConf.gpioOutput);
+        p_Main->message(printBuffer);
+    }
+    if (portConf.gpioInput != -1 && portConf.gpioEf != -1)
+    {
+        p_Computer->setInType(portConf.gpioIoGroup+1, portConf.gpioInput, PS2GPIOIN);
+        p_Computer->setEfType(portConf.gpioIoGroup+1, portConf.gpioEf, PS2GPIOEF);
+        p_Computer->setCycleType(KEYCYCLE, PS2GPIOCYCLE);
+
+        printBuffer.Printf("	Input %d: read data, EF %d: data ready flag", portConf.gpioInput, portConf.gpioEf);
+        p_Main->message(printBuffer);
+    }
+
+    p_Main->message("");
 
     startUp_ = 3;
     escKey_ = 0;
@@ -298,3 +342,31 @@ void Ps2gpio::resetPs2gpio()
     keyboardValue_ = 0;
 }
 
+void Ps2gpio::writeGpioControlRegister(Byte value)
+{
+    if ((value & 0x20) == 0x20) // SPEN
+    {
+        p_Computer->setSoundFollowQ (false);
+        switch (value & 0x18)
+        {
+            case 0:
+                p_Computer->toneElf2KOff();
+            break;
+
+            case 0x8:
+                p_Computer->beepOn();
+            break;
+
+            case 0x10:
+                p_Computer->setSoundFollowQ (true);
+            break;
+
+            case 0x18:
+                p_Computer->toneElf2KOn();
+            break;
+        }
+    }
+    if ((value & 0x4) == 0x4) // PPIEN
+    {
+    }
+}

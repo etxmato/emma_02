@@ -49,17 +49,28 @@ BEGIN_EVENT_TABLE(i8275, wxFrame)
     EVT_SIZE(i8275::onSize)
 END_EVENT_TABLE()
 
-i8275::i8275(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, int computerType, double clock)
+i8275::i8275(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, int computerType, double clock, int videoNumber)
 : Video(title, pos, size)
 {
     computerType_ = computerType;
     clock_ = clock;
+    colourIndex_ = 0;
+    videoNumber_ = videoNumber;
 
 #ifndef __WXMAC__
     SetIcon(wxICON(app_icon));
 #endif
 
-    videoType_ = VIDEOI8275;
+    if (computerType_ == XML)
+    {
+        videoType_ = VIDEOXMLI8275;
+        colourIndex_ = COL_I8275_FORE-2;
+    }
+    else
+    {
+        videoType_ = VIDEOI8275;
+    }
+    
     readCharRomFile(p_Main->getCharRomDir(computerType_), p_Main->getCharRomFile(computerType_));
     interlace_ = p_Main->getInterlace(computerType_);
 
@@ -98,10 +109,10 @@ i8275::i8275(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     gc->SetAntialiasMode(wxANTIALIAS_NONE);
 #endif
 
-    setColour(backGround_);
+    setColour(colourIndex_+backGround_);
     drawRectangle(0, 0, videoWidth_, videoHeight_);
 
-    videoScreenPointer = new VideoScreen(this, size, zoom, computerType);
+    videoScreenPointer = new VideoScreen(this, size, zoom, computerType, videoNumber_);
 
     setCycle();
 
@@ -156,7 +167,7 @@ i8275::i8275(const wxString& title, const wxPoint& pos, const wxSize& size, doub
         gpaScr_[i] = 0;
     }
 
-    this->SetBackgroundColour(colour_[backGround_]);
+    this->SetBackgroundColour(colour_[colourIndex_+backGround_]);
     this->SetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_, (videoHeight_+2*borderY_[videoType_])*zoom_);
     characterListPointer8275 = NULL;
 }
@@ -182,7 +193,7 @@ i8275::~i8275()
     }
 }
 
-void i8275::configure8275(ElfPortConfiguration elfPortConf)
+void i8275::configure8275(IoConfiguration ioConfiguration)
 {
     wxString runningComp = p_Main->getRunningComputerStr();
 
@@ -192,21 +203,21 @@ void i8275::configure8275(ElfPortConfiguration elfPortConf)
 //    int i8275ReadParameter = p_Main->getConfigItem(runningComp+"/I8275ReadParameter", 1l);
 //    int i8275VerticalRetrace = p_Main->getConfigItem(runningComp+"/I8275VerticalRetrace", 1l);
 
-    p_Computer->setCycleType(VIDEOCYCLE, I8275CYCLE);
-    p_Computer->setOutType(elfPortConf.i8275WriteParameter, I8275PREGWRITE);
-    p_Computer->setOutType(elfPortConf.i8275WriteCommand, I8275CREGWRITE);
-    p_Computer->setInType(elfPortConf.i8275ReadParameter, I8275PREGREAD);
-    p_Computer->setInType(elfPortConf.i8275ReadStatus, I8275SREGREAD);
-    p_Computer->setEfType(elfPortConf.i8275VerticalRetrace, I8275EF);
+    p_Computer->setCycleType(VIDEOCYCLE_I8275, I8275CYCLE);
+    p_Computer->setOutType(ioConfiguration.i8275WriteParameter, I8275PREGWRITE);
+    p_Computer->setOutType(ioConfiguration.i8275WriteCommand, I8275CREGWRITE);
+    p_Computer->setInType(ioConfiguration.i8275ReadParameter, I8275PREGREAD);
+    p_Computer->setInType(ioConfiguration.i8275ReadStatus, I8275SREGREAD);
+    p_Computer->setEfType(ioConfiguration.i8275VerticalRetrace, I8275EF);
 
     p_Main->message("Configuring intel 8275");
 
     wxString printBuffer;
-    printBuffer.Printf("    Output %d write command, input %d read status", elfPortConf.i8275WriteCommand, elfPortConf.i8275ReadStatus);
+    printBuffer.Printf("	Output %d write command, input %d read status", ioConfiguration.i8275WriteCommand, ioConfiguration.i8275ReadStatus);
     p_Main->message(printBuffer);
-    printBuffer.Printf("    Output %d write parameter, input %d read parameter", elfPortConf.i8275WriteParameter, elfPortConf.i8275ReadParameter);
+    printBuffer.Printf("	Output %d write parameter, input %d read parameter", ioConfiguration.i8275WriteParameter, ioConfiguration.i8275ReadParameter);
     p_Main->message(printBuffer);
-    printBuffer.Printf("    EF %d: vertical retrace\n", elfPortConf.i8275VerticalRetrace);
+    printBuffer.Printf("	EF %d: vertical retrace\n", ioConfiguration.i8275VerticalRetrace);
     p_Main->message(printBuffer);
 }
 
@@ -339,7 +350,7 @@ void i8275::cRegWrite(Byte value)
         dmaCycleValue8275_ = -1;
         status_ &= 0xfb;
 
-        setColour(backGround_);
+        setColour(colourIndex_+backGround_);
         drawRectangle(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_);
 //        reBlit_ = true;
 //        copyScreen();
@@ -411,7 +422,7 @@ void i8275::cycle8275()
             reBlit_ = true;
             reDraw_ = false;
 
-            setColour(backGround_);
+            setColour(colourIndex_+backGround_);
             drawRectangle(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_);
 
             copyScreen();
@@ -623,13 +634,13 @@ void i8275::copyScreen()
 #if defined(__WXMAC__)
     if (reBlit_ || reBlitAfterReDraw || reBlink_)
     {
-        p_Main->eventRefreshVideo(false, 0);
+        p_Main->eventRefreshVideo(false, videoNumber_);
         reBlit_ = false;
         reBlink_ = false;
     }
 #else
     if (extraBackGround_ && newBackGround_)
-        drawExtraBackground(colour_[backGround_]);
+        drawExtraBackground(colour_[colourIndex_+backGround_]);
 
     CharacterList8275 *temp;
 
@@ -667,7 +678,7 @@ void i8275::drawScreen()
 {
     int addr = 0;
 
-    setColour(backGround_);
+    setColour(colourIndex_+backGround_);
     drawRectangle(0, 0, videoWidth_ + 2*offsetX_, videoHeight_ + 2*offsetY_);
 
     for (int i=0; i<(horizontalCharactersPerRow_*verticalRowsPerFrame_); i++)
@@ -734,15 +745,15 @@ void i8275::drawCharacter8275(wxCoord x, wxCoord y, Byte v, bool cursor, Word ad
         highlight_ = ((v &0x1) == 0x1);
         gpa_ = (v &0xc) << 9;*/
 
-        setColour(backGround_);
+        setColour(colourIndex_+backGround_);
         if ((cursor && cursorBlinkOn_) && !cursorLine_)
         {
-            setColour(FOREGROUND8275);
+            setColour(colourIndex_+FOREGROUND8275);
         }
         drawRectangle(x+offsetX_, y+offsetY_, I8275CHARW, linesPerCharacterRow_*videoM_);
         if ((cursor && cursorBlinkOn_) && cursorLine_)
         {
-            setColour(FOREGROUND8275);
+            setColour(colourIndex_+FOREGROUND8275);
             drawRectangle(x+offsetX_, y+offsetY_+(underLinePlacement_-2), I8275CHARW, videoM_);
         }
 
@@ -753,28 +764,28 @@ void i8275::drawCharacter8275(wxCoord x, wxCoord y, Byte v, bool cursor, Word ad
     {
         if (highlightScr_[addr])
         {
-            setColour(HIGHLIGHT8275);
+            setColour(colourIndex_+HIGHLIGHT8275);
         }
         else
         {
-            setColour(FOREGROUND8275);
+            setColour(colourIndex_+FOREGROUND8275);
         }
         drawRectangle(x+offsetX_, y+offsetY_, I8275CHARW, linesPerCharacterRow_*videoM_);
 
-        setColour(backGround_);
+        setColour(colourIndex_+backGround_);
     }
     else
     {
-        setColour(backGround_);
+        setColour(colourIndex_+backGround_);
         drawRectangle(x+offsetX_, y+offsetY_, I8275CHARW, linesPerCharacterRow_*videoM_);
 
         if (highlightScr_[addr])
         {
-            setColour(HIGHLIGHT8275);
+            setColour(colourIndex_+HIGHLIGHT8275);
         }
         else
         {
-            setColour(FOREGROUND8275);
+            setColour(colourIndex_+FOREGROUND8275);
         }
     }
 
@@ -878,6 +889,6 @@ void i8275::setFullScreen(bool fullScreenSet)
 void i8275::onF3()
 {
     fullScreenSet_ = !fullScreenSet_;
-    p_Main->eventVideoSetFullScreen(fullScreenSet_);
+    p_Main->eventVideoSetFullScreen(fullScreenSet_, videoNumber_);
 }
 

@@ -10,7 +10,7 @@ public:
     bool keyDownPs2(int keycode);
     bool keyUpPs2(int keycode);
 
-    void configurePs2(bool ps2Interrupt, ElfPortConfiguration portConf);
+    void configurePs2(bool ps2Interrupt, IoConfiguration portConf);
     Byte efPs2();
     Byte inPs2();
     void outPs2(Byte value); 

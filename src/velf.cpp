@@ -29,8 +29,8 @@
 #include "main.h"
 #include "velf.h"
 
-VelfScreen::VelfScreen(wxWindow *parent, const wxSize& size)
-: Panel(parent, size)
+VelfScreen::VelfScreen(wxWindow *parent, const wxSize& size, int tilType)
+: Panel(parent, size, tilType)
 {
 }
 
@@ -59,31 +59,31 @@ void VelfScreen::init()
     keyStart_ = 0;
     keyEnd_ = 0;
     lastKey_ = 0;
-    forceUpperCase_ = p_Main->getUpperCase(ELF);
+    forceUpperCase_ = p_Main->getUpperCase();
     
     wxClientDC dc(this);
     
     for (int i=0; i<8; i++)
     {
-        dataSwitchButton[i] = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 18+34*(7-i), 116, "");
-        ledPointer[i] = new Led(dc, 24+34*(7-i), 100, ELFLED);
+        dataSwitchButton[i] = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(255, 255, 255), BUTTON_DOWN, 18+34*(7-i), 116, "");
+        ledPointer[i] = new Led(dc, 24+34*(7-i), 100, LED_SMALL_RED);
         dataSwitchState_[i]=0;
    }
     
-    inSwitchButton = new SwitchButton(dc, PUSH_BUTTON, wxColour(255, 255, 255), BUTTON_UP, 18, 40, "");
-    loadSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 52, 40, "");
+    inSwitchButton = new SwitchButton(dc, PUSH_BUTTON_ROUND_RED, wxColour(255, 255, 255), BUTTON_UP, 18, 40, "");
+    loadSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(255, 255, 255), BUTTON_DOWN, 52, 40, "");
     
     if (p_Main->getVelfMode() == 0)
     {
-        velfSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_UP, 188, 40, "");
-        runSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_UP, 256, 40, "");
+        velfSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(255, 255, 255), BUTTON_UP, 188, 40, "");
+        runSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(255, 255, 255), BUTTON_UP, 256, 40, "");
     }
     else
     {
-        velfSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 188, 40, "");
-        runSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 256, 40, "");
+        velfSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(255, 255, 255), BUTTON_DOWN, 188, 40, "");
+        runSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(255, 255, 255), BUTTON_DOWN, 256, 40, "");
     }
-    mpSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 222, 40, "");
+    mpSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(255, 255, 255), BUTTON_DOWN, 222, 40, "");
 
     for (int i=0; i<2; i++)
     {
@@ -198,11 +198,11 @@ Velf::Velf(const wxString& title, const wxPoint& pos, const wxSize& size, double
 
     velfClockSpeed_ = clock;
     p_Printer = new Printer();
-    p_Printer->initVip(p_Printer);
+    p_Printer->init(p_Printer, PRINTER_BASIC);
     
     this->SetClientSize(size);
 
-    velfScreenPointer = new VelfScreen(this, size);
+    velfScreenPointer = new VelfScreen(this, size, TIL311);
     velfScreenPointer->init();
 
 }
@@ -245,29 +245,29 @@ void Velf::onClose(wxCloseEvent&WXUNUSED(event) )
 
 void Velf::configureComputer()
 {
-    outType_[2] = VIPKEYOUT;
-    outType_[4] = VIPOUT4;
-    outType_[7] = VIPIIOUT7;
-    inType_[4] = ELFIN;
-    efType_[3] = VIPKEYEF;
+    outType_[0][0][2] = VIPKEYOUT;
+    outType_[0][0][4] = VIPOUT4;
+    outType_[0][0][7] = VIPIIOUT7;
+    inType_[0][0][4] = ELFIN;
+    efType_[0][0][3] = VIPKEYEF;
     setCycleType(COMPUTERCYCLE, LEDCYCLE);
 
     p_Main->message("Configuring VELF");
-    p_Main->message("    Output 2: hex key latch, output 4: display output");
-    p_Main->message("    output 7: cassette on/off, input 4: data input");
+    p_Main->message("	Output 2: hex key latch, output 4: display output");
+    p_Main->message("	output 7: cassette on/off, input 4: data input");
 
     cycleType_[KEYCYCLE] = VIPIIKEYCYCLE;
 
-    p_Main->message("    EF 2: cassette in, EF 3: hex keypad");
-    p_Main->message("    EF 4: 0 when in button pressed\n");
+    p_Main->message("	EF 2: cassette in, EF 3: hex keypad");
+    p_Main->message("	EF 4: 0 when in button pressed\n");
     
     usePrinter_ = false;
     if (p_Main->getPrinterStatus(VELF))
     {
-        outType_[3] = VIPOUT3;
+        outType_[0][0][3] = VIPOUT3;
         usePrinter_ = true;
         p_Main->message("Configuring Centronics P-1/PR-40 Printer");
-        p_Main->message("    Output 3: latch, Q: strobe, EF 3: busy\n");
+        p_Main->message("	Output 3: latch, Q: strobe, EF 3: busy\n");
     }
     
     if (vipConfiguration.vtType != VTNONE)
@@ -476,7 +476,7 @@ Byte Velf::ef(int flag)
         if (ef4State_ == 0)
             return ef4State_;
     }
-    switch(efType_[flag])
+    switch(efType_[0][0][flag])
     {
         case 0:
             return 1;
@@ -522,7 +522,7 @@ Byte Velf::in(Byte port, Word WXUNUSED(address))
 {
     Byte ret;
 
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case 0:
             ret = 255;
@@ -552,7 +552,7 @@ void Velf::out(Byte port, Word WXUNUSED(address), Byte value)
 {
     outValues_[port] = value;
 
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;
@@ -694,10 +694,11 @@ void Velf::startComputer()
     resetPressed_ = false;
     Word lastAddress;
 
-    double zoom = p_Main->getZoom();
+    double zoom = p_Main->getZoom(VIDEOMAIN);
     double scale = p_Main->getScale();
-    pixiePointer = new Pixie( "VELF - CDP1861", p_Main->getPixiePos(VELF), wxSize(64*zoom*scale, 192*zoom), zoom, scale, VELF);
-    p_Video = pixiePointer;
+    pixiePointer = new Pixie( "VELF - CDP1861", p_Main->getPixiePos(VELF), wxSize(64*zoom*scale, 192*zoom), zoom, scale, VELF, computerConfiguration.numberOfVideoTypes_ );
+    computerConfiguration.numberOfVideoTypes_ = 0;
+    p_Video[computerConfiguration.numberOfVideoTypes_++] = pixiePointer;
 
     if (wxFile::Exists(p_Main->getRomDir(VIP, MAINROM1) + "cosmac.ram"))
         readFile(p_Main->getRomDir(VIP, MAINROM1) + "cosmac.ram", RAM, 0xf00, 0x10000, NONAME);

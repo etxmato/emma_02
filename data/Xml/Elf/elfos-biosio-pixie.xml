@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>Elf</name>
+        <config>Elf/Os BIOSIO,Pixie</config>
+        <clock>1.76</clock>
+        <boot>0xFF00</boot>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">0</init>
+        <init type="ef4">1</init>
+        <dirname>Elf</dirname>
+    </system>
+    
+    <memory>
+        <rom type="gui">
+            <start>0xf100</start>
+            <end>0xFFFF</end>
+            <pulldown mask="bios+*.*">Elf</pulldown>
+            <filename verify="true">bios+biosiov93.rom</filename>
+        </rom>
+
+        <guiram>
+            <start>0x0000</start>
+            <end>0xF0FF</end>
+        </guiram>
+    </memory>
+    
+    <disk type="ide">
+        <filename>pixie.ide</filename>
+        <out type="select">2</out>
+        <out type="write">3</out>
+        <in type="status">2</in>
+        <in type="read">3</in>
+        <tracks>512</tracks>
+        <heads>4</heads>
+        <sectors>26</sectors>
+    </disk>
+
+    <video type="pixie">
+        <out>1</out>
+        <in>1</in>
+        <ef>1</ef>
+        <border>33x33</border>
+        <color type="fore">255, 255, 255</color>
+        <color type="back">0, 0, 0</color>
+     </video>
+
+     <keyboard type="ascii">
+         <in>7</in>
+         <ef>3</ef>
+         <caps />
+     </keyboard>
+
+     <debugger>
+         <scrt mode="on">
+             <call reg="4">0xF56f</call>
+             <return reg="5">0xF581</return>
+         </scrt>
+
+         <assembler>
+             <filename>mycode</filename>
+             <code_start>0</code_start>
+             <code_end>0xfff</code_end>
+         </assembler>
+     </debugger>
+
+</emmaconfig>

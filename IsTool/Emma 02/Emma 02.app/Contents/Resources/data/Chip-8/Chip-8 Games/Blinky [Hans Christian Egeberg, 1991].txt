@@ -1,0 +1,3 @@
+This game is a PACMAN clone. Your goal is to eat all the balls in
+          the maze. There are some enemies, so be careful. Use 2 4 6 and 8
+          to move.

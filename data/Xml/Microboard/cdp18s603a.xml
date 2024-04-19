@@ -1,0 +1,261 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>RCA COSMAC Microboard Computer</name>
+        <config>CDP18S603A 1802, Q/F &amp; PIO - CDP18S640 A/A1 Display</config>
+        <cpu>1802</cpu>
+        <clock>2.0</clock>
+        <boot>0</boot>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init>
+        <dirname>Microboard</dirname>
+    </system>
+    
+    <bootstrap>
+        <address>0x8000</address>
+        <timer>64</timer>
+    </bootstrap>
+    
+    <iogroup>
+        <out mask="0xff">1</out>
+    </iogroup>
+    
+    <gui>
+        <ledtimer>100</ledtimer>
+        <memaccess>
+            <location>off</location>
+            <start>0</start>
+        </memaccess>
+    </gui>
+
+    <memory>
+        <!-- CDP18S640, 2K ROM @8000, 1K RAM @8C00 -->
+        <rom type="gui">
+            <start>0x8000</start>
+            <end>0x87FF</end>
+            <pulldown mask="ut*.bin" exclude="part">Microboard</pulldown>
+            <filename verify="true">ut4.bin</filename>
+        </rom>
+        
+        <ram>
+            <start>0x8C00</start>
+            <end>0x8FFF</end>
+        </ram>
+        
+        <!-- CDP18S603A, 1K RAM @0000, ROM not used -->
+        <guiram mask="0x3ff">
+            <start>0x0000</start>
+            <end>0x0FFF</end>
+        </guiram>
+    </memory>
+        
+    <frontpanel init="on">
+        <size>310, 180</size>
+        <item>
+            <type>text</type>
+            <label size="12">ADDRESS</label>
+            <pos>65, 43</pos>
+        </item>
+        <item>
+            <type form="313" font="italic">til</type>
+            <value>0</value>
+            <function cycle="show">addresstil</function>
+            <pos>45, 8</pos>
+        </item>
+        <item>
+            <type form="313" font="italic">til</type>
+            <value>1</value>
+            <function cycle="show">addresstil</function>
+            <pos>73, 8</pos>
+        </item>
+        <item>
+            <type form="313" font="italic">til</type>
+            <value>2</value>
+            <function cycle="show">addresstil</function>
+            <pos>101, 8</pos>
+        </item>
+        <item>
+            <type form="313" font="italic">til</type>
+            <value>3</value>
+            <function cycle="show">addresstil</function>
+            <pos>129, 8</pos>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="12">BUS</label>
+            <pos>218, 43</pos>
+        </item>
+        <item>
+            <type form="313" font="italic">til</type>
+            <value>0</value>
+            <function cycle="show">datatil</function>
+            <pos>205, 8</pos>
+        </item>
+        <item>
+            <type form="313" font="italic">til</type>
+            <value>1</value>
+            <function cycle="show">datatil</function>
+            <pos>233, 8</pos>
+        </item>
+        <item>
+            <type size="small">push</type>
+            <function type="full">reset</function>
+            <label></label>
+            <pos>50, 126</pos>
+            <size>25, 25</size>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="12">RESET</label>
+            <pos>36, 152</pos>
+        </item>
+        <item>
+            <type size="small">push</type>
+            <function type="reset">run</function>
+            <label>U</label>
+            <pos>110, 126</pos>
+            <size>25, 25</size>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="12">RUN</label>
+            <pos>106, 152</pos>
+        </item>
+        <item>
+            <type size="small">push</type>
+            <function type="reset">run0</function>
+            <label>P</label>
+            <pos>170, 126</pos>
+            <size>25, 25</size>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="12">RUN</label>
+            <pos>166, 152</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <function>step</function>
+            <init>down</init>
+            <pos>230, 126</pos>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="12">STEP</label>
+            <pos>224, 108</pos>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="12">CONT</label>
+            <pos>219, 152</pos>
+        </item>
+        <item>
+            <type color="grey">text</type>
+            <label size="12">SC1</label>
+            <pos>40, 84</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>1</value>
+            <function cycle="show">cpustateled</function>
+            <pos>50, 72</pos>
+        </item>
+        <item>
+            <type color="grey">text</type>
+            <label size="12">SC0</label>
+            <pos>78, 84</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>0</value>
+            <function cycle="show">cpustateled</function>
+            <pos>88, 72</pos>
+        </item>
+        <item>
+            <type color="grey">text</type>
+            <label size="12">WT</label>
+            <pos>119, 84</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>2</value>
+            <function cycle="show">cpustateled</function>
+            <pos>126, 72</pos>
+        </item>
+        <item>
+            <type color="grey">text</type>
+            <label size="12">CLR</label>
+            <pos>154, 84</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>3</value>
+            <function cycle="show">cpustateled</function>
+            <pos>164, 72</pos>
+        </item>
+        <item>
+            <type color="grey">text</type>
+            <label size="12">Q</label>
+            <pos>201, 84</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <function cycle="show">qled</function>
+            <pos>202, 72</pos>
+        </item>
+        <item>
+            <type color="grey">text</type>
+            <label size="12">RUN</label>
+            <pos>229, 84</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <function cycle="show">runled</function>
+            <pos>240, 72</pos>
+        </item>
+    </frontpanel>
+
+    <cdp1851 init="on">
+        <iogroup>8</iogroup>
+        <pos>310, 0</pos>   
+        <out type="a" mask="0x6" xor="0x2">4</out>
+        <out type="b" mask="0x6">6</out>
+        <in type="a" mask="0x6" xor="0x2">4</in>
+        <in type="b" mask="0x6">6</in>
+        <out type="control" mask="0x6" xor="0x4">2</out>
+        <in type="status" mask="0x6" xor="0x4">2</in>
+        <ef type="a">1</ef>
+        <ef type="b">2</ef>
+    </cdp1851>
+    
+    <vt type="vt100" connection="serial">
+        <font>vt100.bin</font>
+        <ef>4</ef>
+        <q></q>
+        <caps />
+        <baud type="receive">300</baud>
+        <baud type="transmit">300</baud>
+        <border>0x0</border>
+        <color type="fore">0, 255, 0</color>
+        <color type="back">0, 0x40, 0</color>
+        <color type="high">0, 0xff, 0</color>
+    </vt>
+
+    <debugger>
+        <scrt mode="off">
+            <call reg="4">-1</call>
+            <return reg="5">-1</return>
+        </scrt>
+
+        <assembler>
+            <filename>mycode</filename>
+            <code_start>0</code_start>
+            <code_end>0xFFF</code_end>
+        </assembler>
+    </debugger>
+
+</emmaconfig>

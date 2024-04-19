@@ -35,7 +35,6 @@ public:
 
     virtual Byte ef(int flag);
     int defaultEf(int flag);
-    void setEfState(int pioNumber, int number, Byte value);
     virtual Byte in(Byte port, Word address);
     int defaultIn(Byte port);
     virtual void out(Byte port, Word address, Byte value);
@@ -48,7 +47,7 @@ public:
     void tapeIo(Byte value);
     void switchQ(int value);
     void showCycleData(Byte val);
-    void showAddress(Word val);
+    void showCycleAddress(Word val);
     void showState(int state);
     virtual void setCpuMode(int mode);
     virtual void cycle(int type);
@@ -59,6 +58,7 @@ public:
     virtual void startPio(long ms);
     void startCdp18s660(long ms);
     void setDiskNames();
+    void changeDiskName(int disk, wxString dirName, wxString fileName);
     virtual void readRoms();
     void configureCards();
     void readMicro(int romNumber, Word startAddress, Word lastAddress);
@@ -84,19 +84,19 @@ public:
 
     void setCdp18s600ClockSpeed(double clock) {Cdp18s600ClockSpeed_ = clock;};
     void releaseButtonOnScreen(HexButton* buttonPointer, int buttonType);
-    virtual void releaseButtonOnScreen2(HexButton* buttonPointer, int buttonType, int pioNumber);
+    virtual void releaseButtonOnScreen1851(HexButton* buttonPointer, int buttonType, int pioNumber);
     void activateMainWindow();
-    virtual void showPio(bool state);
+    virtual void showCdp1851(bool state);
     void showCdp18s660Pio1(bool state);
     void showCdp18s660Pio2(bool state);
-    void removePio(int pioNumber);
+    void removeCdp1851(int pioNumber);
+    void removeCdp1852(int pioNumber);
     void setHeaderTitle(const wxString& title);
     void showControlWindow(bool state);
     void refreshPanel();
 
 protected:
     Byte efState_[5];
-    Byte pioEfState_[3][5];
     ElfConfiguration Cdp18s600Configuration;
     
     wxString computerTypeStr_;
@@ -120,17 +120,13 @@ protected:
 
     int addressLatchCounter_;
 
-private:
-    Word lastAddress_;
-    
+private:    
     int setMsValue_;
     int cdpRunState_;
     bool saveStarted_;
     bool loadStarted_;
     bool microDosRunning_;
     bool resetHdData_;
-
-    wxString tapeNumber_;
 
     int keyboardCode_;
     int secondKeyboardCodes[5];
@@ -171,9 +167,9 @@ public:
     void cycle(int type);
     void cycleLed();
     void setLedMs(long ms);
-    void releaseButtonOnScreen2(HexButton* buttonPointer, int buttonType, int pioNumber);
+    void releaseButtonOnScreen1852(HexButton* buttonPointer, int buttonType, int pioNumber);
     void moveWindows();
-    void showPio(bool state);
+    void showCdp1851(bool state);
     
 private:
 };
@@ -212,9 +208,9 @@ public:
     void cycle(int type);
     void cycleLed();
     void setLedMs(long ms);
-    void releaseButtonOnScreen2(HexButton* buttonPointer, int buttonType, int pioNumber);
+    void releaseButtonOnScreen1852(HexButton* buttonPointer, int buttonType, int pioNumber);
     void moveWindows();
-    void showPio(bool state);
+    void showCdp1851(bool state);
 
 private:
     int counterCycleValue_;

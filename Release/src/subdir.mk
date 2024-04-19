@@ -7,8 +7,9 @@ CPP_SRCS += \
 ../src/Blip_Buffer.cpp \
 ../src/Sync_Audio.cpp \
 ../src/about.cpp \
-../src/base.cpp \
+../src/bitkeypad.cpp \
 ../src/breakpoints.cpp \
+../src/cd4536b.cpp \
 ../src/cdp1802.cpp \
 ../src/cdp1852.cpp \
 ../src/cdp18s020.cpp \
@@ -24,10 +25,10 @@ CPP_SRCS += \
 ../src/configuration.cpp \
 ../src/cosmicos.cpp \
 ../src/cosmicoshex.cpp \
+../src/cvkeypad.cpp \
 ../src/datadir.cpp \
 ../src/debug.cpp \
 ../src/diagstatusbar.cpp \
-../src/diy.cpp \
 ../src/elf.cpp \
 ../src/elf2.cpp \
 ../src/elf2k.cpp \
@@ -46,7 +47,6 @@ CPP_SRCS += \
 ../src/guicomx.cpp \
 ../src/guicosmicos.cpp \
 ../src/guidiag.cpp \
-../src/guidiy.cpp \
 ../src/guielf.cpp \
 ../src/guielf2k.cpp \
 ../src/guieprom.cpp \
@@ -70,16 +70,20 @@ CPP_SRCS += \
 ../src/guivip.cpp \
 ../src/guivip2.cpp \
 ../src/guivip2k.cpp \
+../src/guixml.cpp \
 ../src/hbelf.cpp \
-../src/http.cpp \
 ../src/i8275.cpp \
 ../src/ide.cpp \
 ../src/iodevice.cpp \
 ../src/joycard.cpp \
+../src/keyb1871.cpp \
+../src/keyblatch.cpp \
+../src/keybmatrix.cpp \
 ../src/keyboard.cpp \
 ../src/keymap.cpp \
 ../src/keymaptmc.cpp \
 ../src/keypad.cpp \
+../src/keypadfred.cpp \
 ../src/led.cpp \
 ../src/ledmodule.cpp \
 ../src/mac.cpp \
@@ -106,14 +110,15 @@ CPP_SRCS += \
 ../src/ps2gpio.cpp \
 ../src/psave.cpp \
 ../src/pushbutton.cpp \
+../src/rtc.cpp \
 ../src/serial.cpp \
+../src/sn76430n.cpp \
 ../src/sound.cpp \
 ../src/splash.cpp \
 ../src/studio2.cpp \
 ../src/studioiv.cpp \
 ../src/super.cpp \
-../src/til311.cpp \
-../src/til313.cpp \
+../src/til.cpp \
 ../src/til313.full.cpp \
 ../src/tmc1800.cpp \
 ../src/tmc2000.cpp \
@@ -130,11 +135,20 @@ CPP_SRCS += \
 ../src/vip2.cpp \
 ../src/vip2k.cpp \
 ../src/vip2statusbar.cpp \
+../src/vis1870.cpp \
 ../src/visicom.cpp \
 ../src/vt100.cpp \
 ../src/vtsetup.cpp \
 ../src/waveReader.cpp \
-../src/waveWriter.cpp 
+../src/waveWriter.cpp \
+../src/wxcurl_base.cpp \
+../src/wxcurl_dialog.cpp \
+../src/wxcurl_ftp.cpp \
+../src/wxcurl_http.cpp \
+../src/wxcurl_panel.cpp \
+../src/wxcurl_thread.cpp \
+../src/xmlemu.cpp \
+../src/xmlparser.cpp
 
 C_SRCS += \
 ../src/SDL_audioin.c \
@@ -148,8 +162,9 @@ OBJS += \
 ./src/about.o \
 ./src/audioin_devdsp.o \
 ./src/audioin_windib.o \
-./src/base.o \
+./src/bitkeypad.o \
 ./src/breakpoints.o \
+./src/cd4536b.o \
 ./src/cdp1802.o \
 ./src/cdp1852.o \
 ./src/cdp18s020.o \
@@ -165,10 +180,10 @@ OBJS += \
 ./src/configuration.o \
 ./src/cosmicos.o \
 ./src/cosmicoshex.o \
+./src/cvkeypad.o \
 ./src/datadir.o \
 ./src/debug.o \
 ./src/diagstatusbar.o \
-./src/diy.o \
 ./src/elf.o \
 ./src/elf2.o \
 ./src/elf2k.o \
@@ -187,7 +202,6 @@ OBJS += \
 ./src/guicomx.o \
 ./src/guicosmicos.o \
 ./src/guidiag.o \
-./src/guidiy.o \
 ./src/guielf.o \
 ./src/guielf2k.o \
 ./src/guieprom.o \
@@ -211,16 +225,20 @@ OBJS += \
 ./src/guivip.o \
 ./src/guivip2.o \
 ./src/guivip2k.o \
+./src/guixml.o \
 ./src/hbelf.o \
-./src/http.o \
 ./src/i8275.o \
 ./src/ide.o \
 ./src/iodevice.o \
 ./src/joycard.o \
+./src/keyb1871.o \
+./src/keyblatch.o \
+./src/keybmatrix.o \
 ./src/keyboard.o \
 ./src/keymap.o \
 ./src/keymaptmc.o \
 ./src/keypad.o \
+./src/keypadfred.o \
 ./src/led.o \
 ./src/ledmodule.o \
 ./src/mac.o \
@@ -247,14 +265,15 @@ OBJS += \
 ./src/ps2gpio.o \
 ./src/psave.o \
 ./src/pushbutton.o \
+./src/rtc.o \
 ./src/serial.o \
+./src/sn76430n.o \
 ./src/sound.o \
 ./src/splash.o \
 ./src/studio2.o \
 ./src/studioiv.o \
 ./src/super.o \
-./src/til311.o \
-./src/til313.o \
+./src/til.o \
 ./src/til313.full.o \
 ./src/tmc1800.o \
 ./src/tmc2000.o \
@@ -271,18 +290,29 @@ OBJS += \
 ./src/vip2.o \
 ./src/vip2k.o \
 ./src/vip2statusbar.o \
+./src/vis1870.o \
 ./src/visicom.o \
 ./src/vt100.o \
 ./src/vtsetup.o \
 ./src/waveReader.o \
-./src/waveWriter.o 
+./src/waveWriter.o \
+./src/wxcurl_base.o \
+./src/wxcurl_dialog.o \
+./src/wxcurl_ftp.o \
+./src/wxcurl_http.o \
+./src/wxcurl_panel.o \
+./src/wxcurl_thread.o \
+./src/xmlemu.o \
+./src/xmlparser.o
+
 
 CPP_DEPS += \
 ./src/Blip_Buffer.d \
 ./src/Sync_Audio.d \
 ./src/about.d \
-./src/base.d \
+./src/bitkeypad.d \
 ./src/breakpoints.d \
+./src/cd4536b.d \
 ./src/cdp1802.d \
 ./src/cdp1852.d \
 ./src/cdp18s020.d \
@@ -298,10 +328,10 @@ CPP_DEPS += \
 ./src/configuration.d \
 ./src/cosmicos.d \
 ./src/cosmicoshex.d \
+./src/cvkeypad.d \
 ./src/datadir.d \
 ./src/debug.d \
 ./src/diagstatusbar.d \
-./src/diy.d \
 ./src/elf.d \
 ./src/elf2.d \
 ./src/elf2k.d \
@@ -320,7 +350,6 @@ CPP_DEPS += \
 ./src/guicomx.d \
 ./src/guicosmicos.d \
 ./src/guidiag.d \
-./src/guidiy.d \
 ./src/guielf.d \
 ./src/guielf2k.d \
 ./src/guieprom.d \
@@ -344,16 +373,20 @@ CPP_DEPS += \
 ./src/guivip.d \
 ./src/guivip2.d \
 ./src/guivip2k.d \
+./src/guixml.d \
 ./src/hbelf.d \
-./src/http.d \
 ./src/i8275.d \
 ./src/ide.d \
 ./src/iodevice.d \
 ./src/joycard.d \
+./src/keyb1871.d \
+./src/keyblatch.d \
+./src/keybmatrix.d \
 ./src/keyboard.d \
 ./src/keymap.d \
 ./src/keymaptmc.d \
 ./src/keypad.d \
+./src/keypadfred.d \
 ./src/led.d \
 ./src/ledmodule.d \
 ./src/mac.d \
@@ -380,14 +413,15 @@ CPP_DEPS += \
 ./src/ps2gpio.d \
 ./src/psave.d \
 ./src/pushbutton.d \
+./src/rtc.d \
 ./src/serial.d \
+./src/sn76430n.d \
 ./src/sound.d \
 ./src/splash.d \
 ./src/studio2.d \
 ./src/studioiv.d \
 ./src/super.d \
-./src/til311.d \
-./src/til313.d \
+./src/til.d \
 ./src/til313.full.d \
 ./src/tmc1800.d \
 ./src/tmc2000.d \
@@ -404,11 +438,20 @@ CPP_DEPS += \
 ./src/vip2.d \
 ./src/vip2k.d \
 ./src/vip2statusbar.d \
+./src/vis1870.d \
 ./src/visicom.d \
 ./src/vt100.d \
 ./src/vtsetup.d \
 ./src/waveReader.d \
-./src/waveWriter.d 
+./src/waveWriter.d \
+./src/wxcurl_base.d \
+./src/wxcurl_dialog.d \
+./src/wxcurl_ftp.d \
+./src/wxcurl_http.d \
+./src/wxcurl_panel.d \
+./src/wxcurl_thread.d \
+./src/xmlemu.d \
+./src/xmlparser.d
 
 C_DEPS += \
 ./src/SDL_audioin.d \

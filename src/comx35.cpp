@@ -58,6 +58,7 @@ Comx::Comx(const wxString& title, const wxPoint& pos, const wxSize& size, double
 
 Comx::~Comx()
 {
+    p_Main->batchConvertStop();
     saveRam();
 
     int numberOfSlots = 4;
@@ -67,7 +68,7 @@ Comx::~Comx()
     {
         switch(comxExpansionType_[slot])
         {
-            case COMXPRINTER:
+            case PRINTER_PARALLEL:
                 if (slot == printerSlot_)
                 {
                     p_PrinterParallel->closeFrames();
@@ -83,7 +84,7 @@ Comx::~Comx()
                 }
             break;
 
-            case COMXRS232:
+            case PRINTER_SERIAL:
                 if (slot == serialSlot_)
                 {
                     p_PrinterSerial->closeFrames();
@@ -103,17 +104,17 @@ Comx::~Comx()
 
 void Comx::configureComputer()
 {
-    inType_[3] = COMXIN;
-    outType_[1] = COMXOUT;
-    efType_[2] = COMXEF2;
-    efType_[3] = COMXEF3;
-    efType_[4] = COMXEF4;
+    inType_[0][0][3] = COMXIN;
+    outType_[0][0][1] = COMXOUT;
+    efType_[0][0][2] = COMXEF2;
+    efType_[0][0][3] = COMXEF3;
+    efType_[0][0][4] = COMXEF4;
     cycleType_[COMPUTERCYCLE] = COMXCYCLE;
 //    cycleType_[KEYCYCLE] = KEYBRDCYCLE;
 
     p_Main->message("Configuring Comx");
-    p_Main->message("    Input 3: keyboard input");
-    p_Main->message("    EF 2: PAL/NTSC and keyboard RPT, EF 3: keyboard DA, EF 4: cassette in\n");
+    p_Main->message("	Input 3: keyboard input");
+    p_Main->message("	EF 2: PAL/NTSC and keyboard RPT, EF 3: keyboard DA, EF 4: cassette in\n");
 
     resetCpu();
 }
@@ -149,6 +150,8 @@ void Comx::initComputer()
     systemTime_ = wxDateTime::Now();
     comxTime_ = wxDateTime::Now();
 
+    batchInProgress_ = false;
+
 /*    wxString fileName_pc = p_Main->getDataDir() + "key_pc_in.log";
     if (wxFile::Exists(fileName_pc))
         keyLogFilePc_.Open(fileName_pc, wxFile::write);
@@ -168,7 +171,7 @@ void Comx::initComputer()
 
 Byte Comx::ef(int flag)
 {
-    switch(efType_[flag])
+    switch(efType_[0][0][flag])
     {
         case 0:
             return 1;
@@ -219,7 +222,7 @@ Byte Comx::ef4()
         break;
             
         case COMXFLOP:
-            if ((registerSelect_&0x10) == 0x10)
+            if ((fdcRegisterSelect_&0x10) == 0x10)
                 return ef1770();
         break;
 
@@ -264,7 +267,7 @@ void Comx::switchQ(int value)
 {
     if (p_Main->isDiagActive(COMX))
     {
-        if (p_Main->getDiagCassetteCables() == 1)
+        if (p_Main->getDiagCassetteCables(COMX) == 1)
             cassetteEf_ = value;
     }
 }
@@ -333,7 +336,7 @@ Byte Comx::in(Byte port, Word WXUNUSED(address))
 {
     Byte ret;
 
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case 0:
             ret = 255;
@@ -372,7 +375,7 @@ Byte Comx::in(Byte port, Word WXUNUSED(address))
             if (diagRomActive_)
             {
                 diagRomActive_ = false;
-                updateDiagLedStatus(1, diagRomActive_);
+                p_Main->eventUpdateDiagLedStatus(1, diagRomActive_);
             }
             ret = 0xff;
             if (keyboardEf3_ == 0)
@@ -396,11 +399,11 @@ Byte Comx::in(Byte port, Word WXUNUSED(address))
             
         case COMXDIAGIN2:
             ret = 0;
-            if (p_Main->getDiagRomChecksum() == 0)
+            if (p_Main->getDiagRomChecksum(COMX) == 0)
                 ret = 2;
             if (dmaCounter_ == -100)
                 ret = ret ^ 4;
-            if (p_Main->getDiagFactory() == 1)
+            if (p_Main->getDiagFactory(COMX) == 1)
                 ret = ret ^ 8;
             // bit 1 ROM checksum
             // bit 2 IDEN itself
@@ -417,7 +420,7 @@ Byte Comx::in(Byte port, Word WXUNUSED(address))
 void Comx::out(Byte port, Word address, Byte value)
 {
     outValues_[port] = value;
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;
@@ -456,7 +459,7 @@ void Comx::out(Byte port, Word address, Byte value)
         break;
             
         case COMXDIAGOUT1:
-            if (p_Main->getDiagFactory() == 0)
+            if (p_Main->getDiagFactory(COMX) == 0)
                 return;
             switch (value)
             {
@@ -629,7 +632,7 @@ void Comx::cycleComx()
             if (!diagDmaLedOn_)
             {
                 diagDmaLedOn_ = true;
-                updateDiagLedStatus(2, diagDmaLedOn_);
+                p_Main->eventUpdateDiagLedStatus(2, diagDmaLedOn_);
             }
         }
     }
@@ -647,7 +650,7 @@ void Comx::cycleComx()
             else if (comxRunCommand_ == 2)
             {
                 int saveExec = p_Main->pload();
-                if (saveExec == 1)
+                if (saveExec == -1)
                     comxRunCommand_ = 0;
                 else
                 {
@@ -914,14 +917,14 @@ void Comx::startComputer()
     {
         wxString fileName = p_Main->getFloppyFile(0);
         if (fileName.Len() == 0)
-            setDiskName(1, "");
+            setFdcDiskname(1, "");
         else
-            setDiskName(1, p_Main->getFloppyDir(0)+p_Main->getFloppyFile(0));
+            setFdcDiskname(1, p_Main->getFloppyDir(0)+p_Main->getFloppyFile(0));
         fileName = p_Main->getFloppyFile(1);
         if (fileName.Len() == 0)
-            setDiskName(2, "");
+            setFdcDiskname(2, "");
         else
-            setDiskName(2, p_Main->getFloppyDir(1)+p_Main->getFloppyFile(1));
+            setFdcDiskname(2, p_Main->getFloppyDir(1)+p_Main->getFloppyFile(1));
     }
     p_Main->enableDiskRomGui(diskRomLoaded_);
 
@@ -933,8 +936,8 @@ void Comx::startComputer()
     month_ = comxTime_.GetMonth();
     year_ = comxTime_.GetYear();
 
-    updateDiagLedStatus(1, diagRomActive_);
-    updateDiagLedStatus(2, diagDmaLedOn_);
+    p_Main->eventUpdateDiagLedStatus(1, diagRomActive_);
+    p_Main->eventUpdateDiagLedStatus(2, diagDmaLedOn_);
     if (threadPointer->Run() != wxTHREAD_NO_ERROR )
     {
         p_Main->message("Can't start thread!");
@@ -1651,8 +1654,8 @@ void Comx::resetPressed()
     stop6845();
     out5_1870(0x0080);
     //mc6845started_ = false;
-    setCycleType(BLINKCYCLE, 0);
-    setCycleType(VIDEOCYCLE, 0);
+    setCycleType(BLINKCYCLE_MC6845, 0);
+    setCycleType(VIDEOCYCLE_MC6845, 0);
     startComxKeyFile();
     if (expansionRomLoaded_)
         out(1, 0, 0x10);
@@ -1671,10 +1674,10 @@ void Comx::resetPressed()
         diagRomActive_ = true;
     else
         diagRomActive_ = false;
-    updateDiagLedStatus(1, diagRomActive_);
+    p_Main->eventUpdateDiagLedStatus(1, diagRomActive_);
     diagDmaLedOn_ = false;
-    updateDiagLedStatus(2, diagDmaLedOn_);
-    updateDiagLedStatus(5, false);
+    p_Main->eventUpdateDiagLedStatus(2, diagDmaLedOn_);
+    p_Main->eventUpdateDiagLedStatus(5, false);
 }
 
 void Comx::charEvent(int keycode)
@@ -2272,7 +2275,7 @@ void Comx::closeComxKeyFile()
 
 void Comx::onReset()
 {
-    updateDiagLedStatus(5, true);
+    p_Main->eventUpdateDiagLedStatus(5, true);
     resetPressed_ = true;
 }
 

@@ -32,6 +32,7 @@
 
 BEGIN_EVENT_TABLE(SplashScreen, wxDialog)
     EVT_BUTTON(XRCID("NoShow"), SplashScreen::noShow)
+    EVT_BUTTON(XRCID("NoClose"), SplashScreen::noClose)
     EVT_TIMER(1000, SplashScreen::onTimer)
     EVT_CLOSE (SplashScreen::onClose)
 END_EVENT_TABLE()
@@ -39,18 +40,18 @@ END_EVENT_TABLE()
 SplashScreen::SplashScreen(wxWindow *parent)
 {
     wxString computerStr = p_Main->getRunningComputerStr();
+    wxString dialog;
     int computer = p_Main->getRunningComputerId();
     ElfConfiguration currentElfConfig;
     vt100_ = false;
     
-    wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"splash_" + p_Main->getFontSize() + ".xrc");
     switch (computer)
     {
         case ELF:
         case ELFII:
         case SUPERELF:
-        case DIY:
         case PICO:
+            wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"splash_" + p_Main->getFontSize() + ".xrc");
             switch (p_Computer->getLoadedProgram())
             {
                 case SUPERBASICV1:
@@ -97,6 +98,7 @@ SplashScreen::SplashScreen(wxWindow *parent)
             break;
             
         case ELF2K:
+            wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"splash_" + p_Main->getFontSize() + ".xrc");
             currentElfConfig = p_Main->getElfConfiguration(computer);
             if (currentElfConfig.vtType != VTNONE)
             {
@@ -105,7 +107,21 @@ SplashScreen::SplashScreen(wxWindow *parent)
             }
         break;
             
-       default:
+        case XML:
+            wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"splash_" + p_Main->getFontSize() + ".xrc");
+            dialog = p_Main->getSplashDialog(computer);
+            wxXmlResource::Get()->LoadDialog(this, parent, dialog);
+            
+            if (dialog == "DEFAULT")
+            {
+                XRCCTRL(*this,"SplashText",wxStaticText)->SetLabel(p_Main->getSplashText(computer));
+                XRCCTRL(*this,"DEFAULT",wxDialog)->DoLayoutAdaptation();
+            }
+            Show(true);
+        break;
+            
+        default:
+            wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"splash_" + p_Main->getFontSize() + ".xrc");
             wxXmlResource::Get()->LoadDialog(this, parent, computerStr);
             Show(true);
         break;
@@ -125,6 +141,12 @@ void SplashScreen::noShow(wxCommandEvent&WXUNUSED(event))
 {
     p_Main->hideSplashScreen();
     Show(false);
+}
+
+void SplashScreen::noClose(wxCommandEvent&WXUNUSED(event))
+{
+    XRCCTRL(*this,"NoClose",wxButton)->Enable(false);
+    timerPointer->Stop();
 }
 
 void SplashScreen::onClose(wxCloseEvent&WXUNUSED(event))

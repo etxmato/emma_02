@@ -8,6 +8,7 @@ using namespace std;
 #include "memory.h"
 #include "sound.h"
 #include "elfconfiguration.h"
+#include "computerconfig.h"
 
 #define LOAD 0
 #define RESET 1
@@ -74,7 +75,7 @@ public:
     void cpuCycleExecute2_1805();
     void dmaIn(Byte value);
     Byte dmaOut();
-    Byte pixieDmaOut(int *color);
+    Byte pixieDmaOut(int *color, int colorType);
     void visicomDmaOut(Byte *vram1, Byte *vram2);
     Byte pixieDmaOut();
 
@@ -87,16 +88,29 @@ public:
     bool readIntelFile(wxString fileName, int memoryType, long end, bool showFilename);
     bool readIntelFile(wxString fileName, int memoryType, Word* lastAddress, long end, bool showFilename);
     bool readLstFile(wxString fileName, int memoryType, long end, bool showFilename);
+    bool readIntelSequencerFile(wxString fileName);
     void saveIntelFile(wxString fileName, long start, long end);
     void saveBinFile(wxString fileName, long start, long end);
     bool readBinFile(wxString fileName, int memoryType, Word start, long end, long inhibitStart, long inhibitEnd);
     bool readBinFile(wxString fileName, int memoryType, Word address, long end, bool showFilename, bool showAddressPopup, Word specifiedStartAddress);
+    bool readBinFile(wxString fileName, int memoryType, Word address, long end, LoadOffSet loadOffSet, bool showFilename, bool showAddressPopup, Word specifiedStartAddress);
     bool readBinFile(wxString fileName, int memoryType, Word address, Word* lastAddress, long end, bool showFilename);
     bool readRomMapperBinFile(size_t emsNumber, wxString fileName);
     bool readMultiCartBinFile(wxString dirName, wxString fileName);
     void setAddress(bool showFilename, Word start, Word end);
     void checkLoadedSoftware();
+    void checkLoadedSoftwareElf();
+    void checkLoadedSoftwareCosmicos();
+    void checkLoadedSoftwareVip();
+    void checkLoadedSoftwareVipII();
+    void checkLoadedSoftwareVip2K();
+    void checkLoadedSoftwareVelf();
+    void checkLoadedSoftwareMember();
+    void checkLoadedSoftwareMicroboard();
+    void checkLoadedSoftwareMCDS();
+    void checkLoadedSoftwareElf2K();
     bool readProgram(wxString romDir, wxString rom, int memoryType, Word address, bool showFilename);
+    bool readProgram(wxString romDir, wxString rom, int memoryType, Word address, LoadOffSet loadOffSet, bool showFilename);
     bool readProgram(wxString romDir, wxString rom, int memoryType, Word address, Word* lastAddress, bool showFilename);
     bool readProgramMicro(wxString romDir, wxString rom, int memoryType, Word address, long lastAddress, bool showFilename);
     bool readProgramMicro(wxString romDir, wxString rom, int memoryType1, int memoryType2, long address, long lastAddress, long inhibitstart, long inhibitEnd_);
@@ -104,8 +118,11 @@ public:
     bool readProgramTmc600(wxString romDir, wxString rom, int memoryType, Word address, bool showFilename);
     bool readProgramPecom(wxString romDir, wxString rom, int memoryType, Word address, bool showFilename);
     void readSt2Program(int computerType, int memoryType);
-    bool readFile(wxString fileName, int memoryType, Word address, long end, long inhibitStart, long inhibitEnd);
+    void readSt2Program(wxString dirName, wxString fileName, int computerType, int memoryType);
+    void readSt2Program(wxString fileNameFull, int computerType, int memoryType);
+    bool readFile(wxString fileName, int memoryType, Word adress, long end, long inhibitStart, long inhibitEnd);
     bool readFile(wxString fileName, int memoryType, Word address, long end, bool showFilename);
+    bool readFile(wxString fileName, int memoryType, Word address, long end, LoadOffSet loadOffSet, bool showFilename);
     bool readFile(wxString fileName, int memoryType, Word address, long end, bool showFilename, bool showAddressPopup, Word specifiedStartAddress);
     bool readFile(wxString fileName, int memoryType, Word address, Word* lastAddress, long end, bool showFilename);
 
@@ -167,6 +184,7 @@ public:
 
     void increaseExecutedMainMemory(long address, Byte type);
     void increaseExecutedExpansionRom(long address, Byte type);
+    void increaseExecutedSlotMemory(int slot, long address, Byte type);
     void increaseExecutedExpansionRam(Word address, Byte type);
     void increaseExecutedExpansionEprom(Word address, Byte type);
     void increaseExecutedExpansionSuper(Word address, Byte type);
@@ -175,11 +193,17 @@ public:
     void increaseExecutedTestCartRom(Word address, Byte type);
     void increaseExecutedEms(size_t emsNumber, long address, Byte type);
     void clearProfiler();
+    
+    virtual void setMode();
+    virtual void setCpuMode(int mode);
 
 protected:
     Byte cycle0_;
     Byte cpuMode_;
     Byte cpuState_;
+
+    int clear_;
+    int wait_;
 
     // Debug data
     long steps_;
@@ -225,7 +249,6 @@ protected:
     bool interruptRequested_;
   
 private:
-    void setMode();
     void decCounter();
     int colourMask_;
     bool readyToReceiveData[4];
@@ -239,8 +262,6 @@ private:
     Byte efFlags_;
     Byte accumulator_;
 
-    int clear_;
-    int wait_;
     bool trace_;
     bool skipTrace_;
     bool traceDma_;
@@ -261,6 +282,8 @@ private:
     Byte ctrMode_;
     Byte ctrRunning_;
     Byte ctrPre_;
+    
+    bool skipMachineCycleAfterIdle_;
 };
 
 #endif    // CDP1802_H

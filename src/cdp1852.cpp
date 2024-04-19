@@ -33,9 +33,10 @@
 #include "main.h"
 #include "cdp1852.h"
 
-Cdp1852Screen::Cdp1852Screen(wxWindow *parent, const wxSize& size)
-: Panel(parent, size)
+Cdp1852Screen::Cdp1852Screen(wxWindow *parent, const wxSize& size, int cdp1852Number, int tilType)
+: Panel(parent, size, tilType)
 {
+    cdp1852Number_ = cdp1852Number;
 }
 
 Cdp1852Screen::~Cdp1852Screen()
@@ -58,17 +59,17 @@ void Cdp1852Screen::init()
     
     for (int i=0; i<8; i++)
     {
-        ledPointer[i] = new Led(dc, 56+27*(7-i), 60, PIOLED);
+        ledPointer[i] = new Led(dc, 56+27*(7-i), 60, LED_SMALL_RED_DISABLE);
         updateLed_[i]=true;
         setLed(i, 0);
-        dataSwitchButton[i] = new SwitchButton(dc, PIO_VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 50+27*(7-i), 94, "");
+        dataSwitchButton[i] = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL_PIO, wxColour(255, 255, 255), BUTTON_DOWN, 50+27*(7-i), 94, "");
         ioSwitchState_[i] = 0;
     }
     outPutValue_ = 0;
     inPutValue_ = 0;
 
 #if defined (__WXMAC__)
-    osx_stbButtonPointer = new HexButton2(dc, PIO_HEX_BUTTON, 55, 144, "", 0);
+    osx_stbButtonPointer = new HexButtonCdp1852(dc, PUSH_BUTTON_PIO, 55, 144, "", cdp1852Number_);
 #else
     text_stbButtonPointer = new wxButton(this, 1, "", wxPoint(55, 144), wxSize(25, 25), 0, wxDefaultValidator, "StbButton");
     text_stbButtonPointer->SetToolTip("STB");
@@ -158,8 +159,8 @@ void Cdp1852Screen::releaseButtonOnScreen(HexButton* buttonPoint)
 
 void Cdp1852Screen::onStbButton()
 {
-    p_Computer->setEfState(0, 3, 0);
-   
+    pioEfState_ = 0;
+
     p_Computer->requestInterrupt();
 }
 
@@ -201,7 +202,7 @@ void Cdp1852Screen::writePort(Byte value)
 
 Byte Cdp1852Screen::readPort()
 {
-    p_Computer->setEfState(0, 3, 1);
+    pioEfState_ = 1;
  
     return outPutValue_;
 }
@@ -214,16 +215,23 @@ void Cdp1852Screen::refreshLeds()
         refreshLed(dc, i);
 }
 
+Byte Cdp1852Screen::getEfState()
+{
+    return pioEfState_;
+}
+
 BEGIN_EVENT_TABLE(Cdp1852Frame, wxFrame)
     EVT_CLOSE (Cdp1852Frame::onClose)
     EVT_BUTTON(1, Cdp1852Frame::onStbButton)
 END_EVENT_TABLE()
 
-Cdp1852Frame::Cdp1852Frame(const wxString& title, const wxPoint& pos, const wxSize& size)
+Cdp1852Frame::Cdp1852Frame(const wxString& title, const wxPoint& pos, const wxSize& size, int cdp1852Number)
 : wxFrame((wxFrame *)NULL, -1, title, pos, size)
 {
-    cdp1852ScreenPointer = new Cdp1852Screen(this, size);
+    cdp1852ScreenPointer = new Cdp1852Screen(this, size, cdp1852Number, TILNONE);
     cdp1852ScreenPointer->init();
+    
+    cdp1852Number_ = cdp1852Number;
     
     this->SetClientSize(size);
     
@@ -239,7 +247,7 @@ Cdp1852Frame::~Cdp1852Frame()
 
 void Cdp1852Frame::onClose(wxCloseEvent&WXUNUSED(event))
 {
-    p_Computer->removePio(0);
+    p_Computer->removeCdp1852(cdp1852Number_);
 }
 
 void Cdp1852Frame::onStbButton(wxCommandEvent&WXUNUSED(event))

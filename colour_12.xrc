@@ -11,7 +11,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="ID_BUTTON">
 <font>
@@ -32,8 +32,6 @@
 <object class="wxStaticText" name="ColourText">
 <font>
 <size>12</size>
-<family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>CDP 1869 / 1870 </label>
@@ -999,8 +997,6 @@
 <object class="wxStaticText" name="ID_STATICTEXT">
 <font>
 <size>12</size>
-<family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>80 Column Video </label>
@@ -1204,7 +1200,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourDefault1">
 <font>
@@ -1214,7 +1210,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourTest">
 <font>
@@ -1224,7 +1220,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourSave">
 <font>
@@ -1248,7 +1244,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="ID_BUTTON">
 <font>
@@ -1269,8 +1265,6 @@
 <object class="wxStaticText" name="ColourText">
 <font>
 <size>12</size>
-<family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>CDP 1861 </label>
@@ -1468,8 +1462,6 @@
 <object class="wxStaticText" name="ID_STATICTEXT">
 <font>
 <size>12</size>
-<family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>Intel 8275 / Video Terminal </label>
@@ -1727,7 +1719,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourDefault1">
 <font>
@@ -1737,7 +1729,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourTest">
 <font>
@@ -1747,7 +1739,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourSave">
 <font>
@@ -1771,7 +1763,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="ID_BUTTON">
 <font>
@@ -1792,8 +1784,6 @@
 <object class="wxStaticText" name="ColourText">
 <font>
 <size>12</size>
-<family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>CDP 1861 / CDP 1862 </label>
@@ -2307,8 +2297,6 @@
 <object class="wxStaticText" name="ID_STATICTEXT">
 <font>
 <size>12</size>
-<family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>Video Terminal </label>
@@ -2514,7 +2502,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourDefault1">
 <font>
@@ -2524,7 +2512,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourTest">
 <font>
@@ -2534,7 +2522,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourSave">
 <font>
@@ -2558,7 +2546,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="ID_BUTTON">
 <font>
@@ -2579,8 +2567,6 @@
 <object class="wxStaticText" name="ColourText">
 <font>
 <size>12</size>
-<family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>CDP 1861 </label>
@@ -2784,8 +2770,6 @@
 <object class="wxStaticText" name="ID_STATICTEXT">
 <font>
 <size>12</size>
-<family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>Video Terminal </label>
@@ -2991,7 +2975,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourDefault1">
 <font>
@@ -3001,7 +2985,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourTest">
 <font>
@@ -3011,7 +2995,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourSave">
 <font>
@@ -3035,7 +3019,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="ID_BUTTON">
 <font>
@@ -3056,8 +3040,6 @@
 <object class="wxStaticText" name="ColourText">
 <font>
 <size>12</size>
-<family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>CDP 1861 </label>
@@ -3248,8 +3230,6 @@
 <object class="wxStaticText" name="ID_STATICTEXT">
 <font>
 <size>12</size>
-<family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>Intel 8275 / Video Terminal / MC6845 (Super Video) </label>
@@ -3581,8 +3561,6 @@
 <object class="wxStaticText" name="ID_STATICTEXT1">
 <font>
 <size>12</size>
-<family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>MC6847 </label>
@@ -4034,8 +4012,6 @@
 <object class="wxStaticText" name="ID_STATICTEXT2">
 <font>
 <size>12</size>
-<family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>TMS 9918 </label>
@@ -4519,7 +4495,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourCol">
 <font>
@@ -4529,7 +4505,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourGray">
 <font>
@@ -4615,7 +4591,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourDefault1">
 <font>
@@ -4625,7 +4601,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourTest">
 <font>
@@ -4635,7 +4611,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourDefault2">
 <font>
@@ -4646,7 +4622,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourSave">
 <font>
@@ -4672,7 +4648,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="ID_BUTTON">
 <font>
@@ -4693,8 +4669,6 @@
 <object class="wxStaticText" name="ColourText">
 <font>
 <size>12</size>
-<family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>CDP 1861 </label>
@@ -4885,8 +4859,6 @@
 <object class="wxStaticText" name="ID_STATICTEXT">
 <font>
 <size>12</size>
-<family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>Video Terminal </label>
@@ -5218,8 +5190,6 @@
 <object class="wxStaticText" name="ID_STATICTEXT1">
 <font>
 <size>12</size>
-<family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <hidden>1</hidden>
@@ -5594,65 +5564,6 @@
 </object>
 </object>
 </object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP|wxBOTTOM</flag>
-<border>5</border>
-<object class="wxStaticText" name="wxID_STATIC">
-<font>
-<size>12</size>
-</font>
-<hidden>1</hidden>
-<label>Border MC6847 X: </label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
-<border>5</border>
-<object class="wxSpinCtrl" name="BorderX3">
-<size>70,-1</size>
-<font>
-<size>12</size>
-</font>
-<style>wxSP_ARROW_KEYS</style>
-<hidden>1</hidden>
-<value>0</value>
-<min>0</min>
-<max>100</max>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
-<border>5</border>
-<object class="wxStaticText" name="wxID_STATIC">
-<font>
-<size>12</size>
-</font>
-<hidden>1</hidden>
-<label>Y: </label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
-<border>5</border>
-<object class="wxSpinCtrl" name="BorderY3">
-<size>70,-1</size>
-<font>
-<size>12</size>
-</font>
-<style>wxSP_ARROW_KEYS</style>
-<hidden>1</hidden>
-<value>0</value>
-<min>0</min>
-<max>100</max>
-</object>
-</object>
-</object>
-</object>
 </object>
 </object>
 <object class="sizeritem">
@@ -5674,8 +5585,6 @@
 <object class="wxStaticText" name="ID_STATICTEXT2">
 <font>
 <size>12</size>
-<family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>TMS 9918 </label>
@@ -6159,7 +6068,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourCol">
 <font>
@@ -6169,7 +6078,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourGray">
 <font>
@@ -6250,12 +6159,12 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_HORIZONTAL|wxBOTTOM</flag>
+<border>5</border>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourDefault1">
 <font>
@@ -6265,7 +6174,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourTest">
 <font>
@@ -6275,7 +6184,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourDefault2">
 <font>
@@ -6286,7 +6195,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourSave">
 <font>
@@ -6301,7 +6210,7 @@
 </object>
 </object>
 </object>
-<object class="wxDialog" name="ColourDialogStudio2">
+<object class="wxDialog" name="ColourDialogStudioII">
 <style>wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLOSE_BOX|wxWANTS_CHARS|wxTAB_TRAVERSAL</style>
 <exstyle>wxWS_EX_BLOCK_EVENTS</exstyle>
 <title>Video Setup RCA Studio II</title>
@@ -6312,7 +6221,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="ID_BUTTON">
 <font>
@@ -6333,8 +6242,6 @@
 <object class="wxStaticText" name="ColourText">
 <font>
 <size>12</size>
-<family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>CDP 1861 </label>
@@ -6557,7 +6464,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourDefault1">
 <font>
@@ -6567,7 +6474,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourTest">
 <font>
@@ -6577,7 +6484,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourDefault2">
 <font>
@@ -6588,7 +6495,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourSave">
 <font>
@@ -6612,7 +6519,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="ID_BUTTON">
 <font>
@@ -6633,8 +6540,6 @@
 <object class="wxStaticText" name="ColourText">
 <font>
 <size>12</size>
-<family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>CDP 1861 </label>
@@ -6956,7 +6861,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourDefault1">
 <font>
@@ -6966,7 +6871,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourTest">
 <font>
@@ -6976,7 +6881,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourSave">
 <font>
@@ -7002,7 +6907,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="ID_BUTTON">
 <font>
@@ -7023,8 +6928,6 @@
 <object class="wxStaticText" name="ColourText">
 <font>
 <size>12</size>
-<family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>CDP 1864 </label>
@@ -7567,7 +7470,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourDefault2">
 <font>
@@ -7577,7 +7480,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourTest">
 <font>
@@ -7594,7 +7497,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourDefault1">
 <font>
@@ -7604,7 +7507,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourSave">
 <font>
@@ -7632,7 +7535,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="ID_BUTTON">
 <font>
@@ -7653,8 +7556,6 @@
 <object class="wxStaticText" name="ColourText">
 <font>
 <size>12</size>
-<family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>CDP 1869 / 1876 </label>
@@ -7995,7 +7896,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourDefault1">
 <font>
@@ -8005,7 +7906,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourTest">
 <font>
@@ -8015,7 +7916,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourSave">
 <font>
@@ -8041,7 +7942,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="ID_BUTTON">
 <font>
@@ -8062,8 +7963,6 @@
 <object class="wxStaticText" name="ColourText">
 <font>
 <size>12</size>
-<family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>CDP 1869 / 1870 </label>
@@ -8404,7 +8303,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourDefault1">
 <font>
@@ -8414,7 +8313,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourTest">
 <font>
@@ -8424,7 +8323,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourSave">
 <font>
@@ -8450,7 +8349,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="ID_BUTTON">
 <font>
@@ -8471,8 +8370,6 @@
 <object class="wxStaticText" name="ColourText">
 <font>
 <size>12</size>
-<family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>CDP 1861 </label>
@@ -8706,7 +8603,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourDefault1">
 <font>
@@ -8716,7 +8613,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourTest">
 <font>
@@ -8726,7 +8623,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourDefault2">
 <font>
@@ -8737,7 +8634,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourSave">
 <font>
@@ -8763,7 +8660,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="ID_BUTTON">
 <font>
@@ -8784,8 +8681,6 @@
 <object class="wxStaticText" name="ColourText">
 <font>
 <size>12</size>
-<family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>CDP 1861 / CDP 1862 </label>
@@ -9329,7 +9224,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourDefault1">
 <font>
@@ -9339,7 +9234,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourTest">
 <font>
@@ -9349,7 +9244,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourSave">
 <font>
@@ -9375,7 +9270,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="ID_BUTTON">
 <font>
@@ -9396,8 +9291,6 @@
 <object class="wxStaticText" name="ColourText">
 <font>
 <size>12</size>
-<family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>CDP 1861 </label>
@@ -9631,7 +9524,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourDefault1">
 <font>
@@ -9641,7 +9534,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourTest">
 <font>
@@ -9651,7 +9544,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourDefault2">
 <font>
@@ -9662,7 +9555,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourSave">
 <font>
@@ -9688,7 +9581,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="ID_BUTTON">
 <font>
@@ -9709,8 +9602,6 @@
 <object class="wxStaticText" name="ColourText">
 <font>
 <size>12</size>
-<family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>CDP 1869 / 1870 </label>
@@ -10051,7 +9942,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourDefault1">
 <font>
@@ -10061,7 +9952,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourTest">
 <font>
@@ -10071,7 +9962,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourSave">
 <font>
@@ -10097,7 +9988,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="ID_BUTTON">
 <font>
@@ -10118,8 +10009,6 @@
 <object class="wxStaticText" name="ColourText">
 <font>
 <size>12</size>
-<family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>CDP 1861 / CDP 1862 </label>
@@ -10657,7 +10546,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourDefault1">
 <font>
@@ -10667,7 +10556,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourTest">
 <font>
@@ -10677,7 +10566,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourSave">
 <font>
@@ -10703,7 +10592,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="ID_BUTTON">
 <font>
@@ -10724,8 +10613,6 @@
 <object class="wxStaticText" name="ID_STATICTEXT">
 <font>
 <size>12</size>
-<family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>Video Terminal </label>
@@ -10953,7 +10840,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourDefault1">
 <font>
@@ -10963,7 +10850,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourTest">
 <font>
@@ -10973,7 +10860,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourSave">
 <font>
@@ -10997,7 +10884,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="ID_BUTTON">
 <font>
@@ -11018,8 +10905,6 @@
 <object class="wxStaticText" name="ColourText">
 <font>
 <size>12</size>
-<family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>CDP 1862 </label>
@@ -11558,7 +11443,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourDefault1">
 <font>
@@ -11568,7 +11453,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourTest">
 <font>
@@ -11578,7 +11463,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourSave">
 <font>
@@ -11602,7 +11487,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="ID_BUTTON">
 <font>
@@ -11623,8 +11508,6 @@
 <object class="wxStaticText" name="ColourText">
 <font>
 <size>12</size>
-<family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>CDP 1861 </label>
@@ -11828,8 +11711,6 @@
 <object class="wxStaticText" name="ID_STATICTEXT">
 <font>
 <size>12</size>
-<family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>Video Terminal </label>
@@ -12035,7 +11916,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourDefault1">
 <font>
@@ -12045,7 +11926,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourTest">
 <font>
@@ -12055,7 +11936,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourSave">
 <font>
@@ -12079,7 +11960,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="ID_BUTTON">
 <font>
@@ -12100,8 +11981,6 @@
 <object class="wxStaticText" name="ColourText">
 <font>
 <size>12</size>
-<family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <hidden>1</hidden>
@@ -12286,8 +12165,6 @@
 <object class="wxStaticText" name="ID_STATICTEXT">
 <font>
 <size>12</size>
-<family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>Video Terminal </label>
@@ -12552,7 +12429,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourDefault1">
 <font>
@@ -12562,7 +12439,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourTest">
 <font>
@@ -12572,7 +12449,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourSave">
 <font>
@@ -12596,7 +12473,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="ID_BUTTON">
 <font>
@@ -12617,8 +12494,6 @@
 <object class="wxStaticText" name="ColourText">
 <font>
 <size>12</size>
-<family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <hidden>1</hidden>
@@ -12803,8 +12678,6 @@
 <object class="wxStaticText" name="ID_STATICTEXT">
 <font>
 <size>12</size>
-<family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>Video Terminal </label>
@@ -13069,7 +12942,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourDefault1">
 <font>
@@ -13079,7 +12952,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourTest">
 <font>
@@ -13089,7 +12962,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourSave">
 <font>
@@ -13113,7 +12986,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="ID_BUTTON">
 <font>
@@ -13342,7 +13215,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourDefault1">
 <font>
@@ -13352,7 +13225,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourTest">
 <font>
@@ -13362,7 +13235,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourDefault2">
 <font>
@@ -13373,7 +13246,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourSave">
 <font>
@@ -13397,7 +13270,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="ID_BUTTON">
 <font>
@@ -13626,7 +13499,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourDefault1">
 <font>
@@ -13636,7 +13509,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourTest">
 <font>
@@ -13646,7 +13519,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourDefault2">
 <font>
@@ -13657,7 +13530,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourSave">
 <font>
@@ -13681,7 +13554,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="ID_BUTTON">
 <font>
@@ -13702,8 +13575,6 @@
 <object class="wxStaticText" name="ColourText">
 <font>
 <size>12</size>
-<family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>CDP 1861 </label>
@@ -13926,7 +13797,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourDefault1">
 <font>
@@ -13936,7 +13807,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourTest">
 <font>
@@ -13946,7 +13817,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourDefault2">
 <font>
@@ -13957,7 +13828,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourSave">
 <font>
@@ -13981,7 +13852,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="ID_BUTTON">
 <font>
@@ -14639,7 +14510,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourTest">
 <font>
@@ -14656,7 +14527,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourDefault1">
 <font>
@@ -14666,7 +14537,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourSave">
 <font>
@@ -14694,7 +14565,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="ID_BUTTON">
 <font>
@@ -14715,8 +14586,6 @@
 <object class="wxStaticText" name="ColourText">
 <font>
 <size>12</size>
-<family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>VIP2K Video </label>
@@ -14920,8 +14789,6 @@
 <object class="wxStaticText" name="ID_STATICTEXT">
 <font>
 <size>12</size>
-<family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>Video Terminal </label>
@@ -15127,7 +14994,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourDefault1">
 <font>
@@ -15137,7 +15004,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourTest">
 <font>
@@ -15147,7 +15014,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourSave">
 <font>
@@ -15171,7 +15038,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="ID_BUTTON">
 <font>
@@ -15192,8 +15059,6 @@
 <object class="wxStaticText" name="ID_STATICTEXT">
 <font>
 <size>12</size>
-<family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>Video Terminal </label>
@@ -15421,7 +15286,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourDefault1">
 <font>
@@ -15431,7 +15296,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourTest">
 <font>
@@ -15441,7 +15306,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourSave">
 <font>
@@ -15465,7 +15330,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_LEFT|wxALL</flag>
+<flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="ID_BUTTON">
 <font>
@@ -15486,8 +15351,6 @@
 <object class="wxStaticText" name="ColourText">
 <font>
 <size>12</size>
-<family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>CDP 1869 / 1870 </label>
@@ -16453,8 +16316,6 @@
 <object class="wxStaticText" name="ID_STATICTEXT">
 <font>
 <size>12</size>
-<family>swiss</family>
-<weight>bold</weight>
 <face>Arial</face>
 </font>
 <label>Video Terminal </label>
@@ -16671,7 +16532,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourDefault1">
 <font>
@@ -16681,7 +16542,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourTest">
 <font>
@@ -16691,7 +16552,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="ColourSave">
 <font>

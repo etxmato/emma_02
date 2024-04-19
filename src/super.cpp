@@ -49,9 +49,8 @@
 #include "super.h"
 
 SuperScreen::SuperScreen(wxWindow *parent, const wxSize& size, int tilType)
-: Panel(parent, size)
+: Panel(parent, size, tilType)
 {
-    tilType_ = tilType;
 }
 
 SuperScreen::~SuperScreen()
@@ -86,20 +85,11 @@ SuperScreen::~SuperScreen()
     for (int i=0; i<8; i++)
         delete ledPointer[i];
     
-    if (tilType_ == TIL311)
-    {
-        for (int i=0; i<4; i++)
-            delete addressPointer[i];
-        for (int i=0; i<2; i++)
-            delete dataPointer[i];
-    }
-    else
-    {
-        for (int i=0; i<4; i++)
-            delete addressTil313PointerItalic[i];
-        for (int i=0; i<2; i++)
-            delete dataTil313PointerItalic[i];
-    }
+    for (int i=0; i<4; i++)
+        delete addressPointer[i];
+    for (int i=0; i<2; i++)
+        delete dataPointer[i];
+
     delete qLedPointer;
 }
 
@@ -108,7 +98,7 @@ void SuperScreen::init()
     keyStart_ = 0;
     keyEnd_ = 0;
     lastKey_ = 0;
-    forceUpperCase_ = p_Main->getUpperCase(SUPERELF);
+    forceUpperCase_ = p_Main->getUpperCase();
 
     wxClientDC dc(this);
     wxString Number, buttonText;
@@ -124,20 +114,20 @@ void SuperScreen::init()
     int ySize = 30;
 
 #if defined (__WXMAC__)
-    osx_push_inButtonPointer = new HexButton(dc, ELF_HEX_BUTTON, xPos+5*(xSize+2), yPos+3*(ySize+2), "IN");
-    osx_text_resetButtonPointer = new HexButton(dc, ELF_HEX_BUTTON, xPos+4*(xSize+2), yPos+ySize+2, "R");
-    osx_text_loadButtonPointer = new HexButton(dc, ELF_HEX_BUTTON, xPos+4*(xSize+2), yPos, "L");
-    osx_text_runButtonPointer = new HexButton(dc, ELF_HEX_BUTTON, xPos+4*(xSize+2), yPos+2*(ySize+2), "G");
-    osx_pauseButtonPointer = new HexButton(dc, ELF_HEX_BUTTON, xPos+4*(xSize+2), yPos+3*(ySize+2), "W");
-    osx_monitorButtonPointer = new HexButton(dc, ELF_HEX_BUTTON, xPos+5*(xSize+2), yPos, "M");
-    osx_stepButtonPointer = new HexButton(dc, ELF_HEX_BUTTON, xPos+5*(xSize+2), yPos+(ySize+2), "S");
-    osx_text_mpButtonPointer = new HexButton(dc, ELF_HEX_BUTTON, xPos+5*(xSize + 2), yPos+2*(ySize+2), "P");
+    osx_push_inButtonPointer = new HexButton(dc, PUSH_BUTTON, xPos+5*(xSize+2), yPos+3*(ySize+2), "IN");
+    osx_text_resetButtonPointer = new HexButton(dc, PUSH_BUTTON, xPos+4*(xSize+2), yPos+ySize+2, "R");
+    osx_text_loadButtonPointer = new HexButton(dc, PUSH_BUTTON, xPos+4*(xSize+2), yPos, "L");
+    osx_text_runButtonPointer = new HexButton(dc, PUSH_BUTTON, xPos+4*(xSize+2), yPos+2*(ySize+2), "G");
+    osx_pauseButtonPointer = new HexButton(dc, PUSH_BUTTON, xPos+4*(xSize+2), yPos+3*(ySize+2), "W");
+    osx_monitorButtonPointer = new HexButton(dc, PUSH_BUTTON, xPos+5*(xSize+2), yPos, "M");
+    osx_stepButtonPointer = new HexButton(dc, PUSH_BUTTON, xPos+5*(xSize+2), yPos+(ySize+2), "S");
+    osx_text_mpButtonPointer = new HexButton(dc, PUSH_BUTTON, xPos+5*(xSize + 2), yPos+2*(ySize+2), "P");
     for (int i = 0; i<16; i++)
     {
         buttonText.Printf("%01X", i);
         x = xPos + (i & 0x3)*(xSize + 2);
         y = (yPos + 3 * (ySize + 2)) - (int)(i / 4 * (ySize + 2));
-        osx_buttonPointer[i] = new HexButton(dc, ELF_HEX_BUTTON, x, y, buttonText);
+        osx_buttonPointer[i] = new HexButton(dc, PUSH_BUTTON, x, y, buttonText);
     }
 #else
     push_inButtonPointer = new PushButton(this, 20, "IN", wxPoint(xPos+5*(xSize+2), yPos+3*(ySize+2)), wxSize(xSize, ySize), 0);
@@ -164,45 +154,35 @@ void SuperScreen::init()
     }
 #endif
     
-    powerSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(0xbd, 0xb2, 0xa5), BUTTON_UP, 464, 42, "");
+    powerSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(0xbd, 0xb2, 0xa5), BUTTON_UP, 464, 42, "");
 
     for (int i=0; i<8; i++)
     {
-        ledPointer[i] = new Led(dc, 284, 233+15*i, SUPERELFLED);
+        ledPointer[i] = new Led(dc, 284, 233+15*i, LED_SMALL_RED);
         updateLed_[i] = true;
     }
     for (int i=0; i<4; i++)
     {
         if (tilType_ == TIL311)
-        {
             addressPointer[i] = new Til311();
-            addressPointer[i]->init(dc, 304+i*28, 140);
-            updateAddress_ = true;
-        }
         else
-        {
-            addressTil313PointerItalic[i] = new Til313Italic(false);
-            addressTil313PointerItalic[i]->init(dc, 304+i*28, 140);
-            updateAddressTil313Italic_ = true;
-        }
+            addressPointer[i] = new Til313Italic(false);
+
+        addressPointer[i]->init(dc, 304+i*28, 140);
+        updateAddress_ = true;
     }
     for (int i=0; i<2; i++)
     {
         if (tilType_ == TIL311)
-        {
             dataPointer[i] = new Til311();
-            dataPointer[i]->init(dc, 434+i*28,140);
-            updateData_ = true;
-        }
         else
-        {
-            dataTil313PointerItalic[i] = new Til313Italic(false);
-            dataTil313PointerItalic[i]->init(dc, 434+i*28,140);
-            updateDataTil313Italic_ = true;
-        }
+            dataPointer[i] = new Til313Italic(false);
+
+        dataPointer[i]->init(dc, 434+i*28,140);
+        updateData_ = true;
     }
 
-    qLedPointer = new Led(dc, 284, 210, SUPERELFLED);
+    qLedPointer = new Led(dc, 284, 210, LED_SMALL_RED);
     updateQLed_ = true;
     this->connectKeyEvent(this);
 }
@@ -216,24 +196,13 @@ void SuperScreen::onPaint(wxPaintEvent&WXUNUSED(event))
     rePaintLeds(dc);
 #endif
         
-    if (tilType_ == TIL311)
-    {
-        addressPointer[3]->onPaint(dc);
-        addressPointer[2]->onPaint(dc);
-        addressPointer[1]->onPaint(dc);
-        addressPointer[0]->onPaint(dc);
-        dataPointer[1]->onPaint(dc);
-        dataPointer[0]->onPaint(dc);
-    }
-    else
-    {
-        addressTil313PointerItalic[3]->onPaint(dc);
-        addressTil313PointerItalic[2]->onPaint(dc);
-        addressTil313PointerItalic[1]->onPaint(dc);
-        addressTil313PointerItalic[0]->onPaint(dc);
-        dataTil313PointerItalic[1]->onPaint(dc);
-        dataTil313PointerItalic[0]->onPaint(dc);
-    }
+    addressPointer[3]->onPaint(dc);
+    addressPointer[2]->onPaint(dc);
+    addressPointer[1]->onPaint(dc);
+    addressPointer[0]->onPaint(dc);
+    dataPointer[1]->onPaint(dc);
+    dataPointer[0]->onPaint(dc);
+
     qLedPointer->onPaint(dc);
     for (int i=0; i<8; i++)
         ledPointer[i]->onPaint(dc);
@@ -389,7 +358,6 @@ Super::Super(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     superScreenPointer->init();
 
     this->SetClientSize(size);
-    lastAddress_ = 0;
 
     rtcTimerPointer = new wxTimer(this, 900);
     cycleValue_ = -1;
@@ -452,6 +420,11 @@ void Super::onClose(wxCloseEvent&WXUNUSED(event) )
 
 void Super::charEvent(int keycode)
 {
+    if (p_Vt100[UART1] != NULL)
+    {
+        if (vtPointer->IsActive())
+            return;
+    }
     if (elfConfiguration.useKeyboard)
         charEventKeyboard(keycode);
 }
@@ -459,7 +432,7 @@ void Super::charEvent(int keycode)
 bool Super::keyDownPressed(int key)
 {
     onHexKeyDown(key);
-    if (elfConfiguration.UsePS2)
+    if (elfConfiguration.usePS2)
     {
         keyDownPs2(key);
         return true;
@@ -467,7 +440,7 @@ bool Super::keyDownPressed(int key)
     return false;
 }
 
-bool Super::keyUpReleased(int key)
+bool Super::keyUpReleased(int key, wxKeyEvent&WXUNUSED(event))
 {
     if (key == inKey1_ || key == inKey2_)
     {
@@ -477,7 +450,7 @@ bool Super::keyUpReleased(int key)
     onHexKeyUp(key);
 //    if (elfConfiguration.useKeyboard)
 //        keyboardUp();
-    if (elfConfiguration.UsePS2)
+    if (elfConfiguration.usePS2)
     {
         keyUpPs2(key);
         return true;
@@ -518,45 +491,45 @@ void Super::onInButtonRelease()
 
 void Super::configureComputer()
 {
-    efType_[1] = EF1UNDEFINED;
-    efType_[2] = EF2UNDEFINED;
-    efType_[3] = EF3UNDEFINED;
+    efType_[0][0][1] = EF1UNDEFINED;
+    efType_[0][0][2] = EF2UNDEFINED;
+    efType_[0][0][3] = EF3UNDEFINED;
     setCycleType(COMPUTERCYCLE, LEDCYCLE);
 
     wxString printBuffer;
 
     p_Main->message("Configuring Super Elf");
-    printBuffer.Printf("    Output %d: display output, input %d: data input", elfConfiguration.elfPortConf.hexOutput, elfConfiguration.elfPortConf.hexInput);
+    printBuffer.Printf("	Output %d: display output, input %d: data input", elfConfiguration.ioConfiguration.hexOutput.portNumber, elfConfiguration.ioConfiguration.hexInput.portNumber);
     p_Main->message(printBuffer);
 
-    p_Computer->setInType(elfConfiguration.elfPortConf.hexInput, SUPERIN);
-    p_Computer->setOutType(elfConfiguration.elfPortConf.hexOutput, SUPEROUT);
+    p_Computer->setInType(elfConfiguration.ioConfiguration.hexInput.portNumber, SUPERIN);
+    p_Computer->setOutType(elfConfiguration.ioConfiguration.hexOutput.portNumber, SUPEROUT);
 
     if (elfConfiguration.useEms)
     {
         if (elfConfiguration.emsType_ == RAM)
         {
-            printBuffer.Printf("    Address C000-FFFF: EMS-512KB page select");
+            printBuffer.Printf("	Address C000-FFFF: EMS-512KB page select");
             p_Main->message(printBuffer);
         }
 
-        printBuffer.Printf("    Output %d: EMS-512KB page select", elfConfiguration.elfPortConf.emsOutput[0]);
-        p_Computer->setOutType(elfConfiguration.elfPortConf.emsOutput[0], EMSMAPPEROUT);
+        printBuffer.Printf("	Output %d: EMS-512KB page select", elfConfiguration.ioConfiguration.emsOutput[0]);
+        p_Computer->setOutType(elfConfiguration.ioConfiguration.emsOutput[0], EMSMAPPEROUT);
         p_Main->message(printBuffer);
     }
     if (elfConfiguration.useTape && !elfConfiguration.useXmodem)
     {
-        efType_[elfConfiguration.elfPortConf.tapeEf] = ELF2EF2;
-        printBuffer.Printf("    EF %d: cassette in", elfConfiguration.elfPortConf.tapeEf);
+        efType_[0][0][elfConfiguration.ioConfiguration.tapeEf] = ELF2EF2;
+        printBuffer.Printf("	EF %d: cassette in", elfConfiguration.ioConfiguration.tapeEf);
         p_Main->message(printBuffer);
     }
     if (elfConfiguration.useHexKeyboardEf3)
     {
-        printBuffer.Printf("    EF %d: 0 when hex button pressed", elfConfiguration.elfPortConf.hexEf);
+        printBuffer.Printf("	EF %d: 0 when hex button pressed", elfConfiguration.ioConfiguration.hexEf);
         p_Main->message(printBuffer);
     }
 
-    p_Main->message("    EF 4: 0 when in button pressed");
+    p_Main->message("	EF 4: 0 when in button pressed");
 
     p_Main->message("");
 
@@ -620,10 +593,10 @@ Byte Super::ef(int flag)
     }
     if (elfConfiguration.useHexKeyboardEf3)
     {
-        if (flag == elfConfiguration.elfPortConf.hexEf)
+        if (flag == elfConfiguration.ioConfiguration.hexEf)
             return ef3State_;
     }
-    switch(efType_[flag])
+    switch(efType_[0][0][flag])
     {
         case 0:
             return 1;
@@ -649,7 +622,7 @@ Byte Super::ef(int flag)
             return efPs2();
         break;
 
-        case FDCEF:
+        case FDC1793_EF:
             return ef1793();
         break;
 
@@ -661,7 +634,7 @@ Byte Super::ef(int flag)
             return p_Serial->ef();
         break;
  
-        case MC6847EF:
+        case MC6845EF:
             return mc6845Pointer->ef6845();
         break;
 
@@ -674,18 +647,18 @@ Byte Super::ef(int flag)
         break;
 
         case EF1UNDEFINED:
-            return elfConfiguration.elfPortConf.ef1default;
+            return elfConfiguration.ioConfiguration.ef1default;
         break;
 
         case EF2UNDEFINED:
-            return elfConfiguration.elfPortConf.ef2default;
+            return elfConfiguration.ioConfiguration.ef2default;
         break;
 
         case EF3UNDEFINED:
-            return elfConfiguration.elfPortConf.ef3default;
+            return elfConfiguration.ioConfiguration.ef3default;
         break;
 
-        case ELFPRINTEREF:
+        case BASIC_PRINT_EF:
             return ef3State_;
         break;
 
@@ -698,7 +671,7 @@ Byte Super::in(Byte port, Word WXUNUSED(address))
 {
     Byte ret;
 
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case 0:
             ret = 255;
@@ -714,6 +687,11 @@ Byte Super::in(Byte port, Word WXUNUSED(address))
 
         case PIXIEIN:
             ret = pixiePointer->inPixie();
+        break;
+
+        case PIXIEOUT:
+            ret = 255;
+            pixiePointer->outPixie();
         break;
 
         case I8275PREGREAD:
@@ -740,7 +718,7 @@ Byte Super::in(Byte port, Word WXUNUSED(address))
             ret = getData();
         break;
 
-        case FDCIN:
+        case FDC1793_READIN:
             ret = in1793();
         break;
 
@@ -753,27 +731,27 @@ Byte Super::in(Byte port, Word WXUNUSED(address))
         break;
 
         case UARTIN:
-            return vtPointer->uartIn();
+            ret = vtPointer->uartIn();
         break;
 
         case UARTINSERIAL:
-            return p_Serial->uartIn();
+            ret = p_Serial->uartIn();
         break;
 
         case UARTSTATUS:
-            return vtPointer->uartStatus();
+            ret = vtPointer->uartStatus();
         break;
 
         case UARTSTATUSSERIAL:
-            return p_Serial->uartStatus();
+            ret = p_Serial->uartStatus();
         break;
 
         case ELF2KDISKREADREGISTER:
-            return inDisk();
+            ret = inDisk();
         break;
 
         case ELF2KDISKREADSTATUS:
-            return readDiskStatus();
+            ret = readDiskStatus();
         break;
 
         default:
@@ -792,7 +770,7 @@ void Super::out(Byte port, Word WXUNUSED(address), Byte value)
 {
     outValues_[port] = value;
 
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;
@@ -808,6 +786,10 @@ void Super::out(Byte port, Word WXUNUSED(address), Byte value)
 
         case PIXIEOUT:
             pixiePointer->outPixie();
+        break;
+
+        case PIXIEIN:
+            pixiePointer->inPixie();
         break;
 
         case MC6847OUT:
@@ -830,7 +812,7 @@ void Super::out(Byte port, Word WXUNUSED(address), Byte value)
             p_Serial->out(value);
         break;
 
-        case PRINTEROUT:
+        case BASIC_PRINT_OUT:
 //            p_Main->eventPrintDefault(value);
             if ((value & 0xfc) != 0)
                 p_Printer->printerOut(value);
@@ -844,11 +826,11 @@ void Super::out(Byte port, Word WXUNUSED(address), Byte value)
             showData(value);
         break;
 
-        case FDCSELECTOUT:
+        case FDC1793_SELECTOUT:
             selectRegister1793(value);
         break;
 
-        case FDCWRITEOUT:
+        case FDC1793_WRITEOUT:
             writeRegister1793(value);
         break;
 
@@ -900,10 +882,7 @@ void Super::out(Byte port, Word WXUNUSED(address), Byte value)
 
 void Super::showData(Byte val)
 {
-    if (elfConfiguration.tilType == TIL311)
-        superScreenPointer->showData(val);
-    else
-        superScreenPointer->showDataTil313Italic(val);
+    superScreenPointer->showData(val);
 }
 
 void Super::showCycleData(Byte val)
@@ -1110,10 +1089,7 @@ void Super::onRun()
         p_Main->eventUpdateTitle();
         if (cpuMode_ == RESET)
         {
-            if (elfConfiguration.tilType == TIL311)
-                superScreenPointer->showAddress(0);
-            else
-                superScreenPointer->showAddressTil313Italic(0);
+            superScreenPointer->showAddress(0);
         }
         mpButtonState_ = 0;
         monitor_ = false;
@@ -1167,10 +1143,7 @@ void Super::onLoadButton()
 {
     if (cpuMode_ != LOAD)
     {
-        if (elfConfiguration.tilType == TIL311)
-            superScreenPointer->showAddress(0);
-        else
-            superScreenPointer->showAddressTil313Italic(0);
+        superScreenPointer->showAddress(0);
     }
     setClear(0);
     setWait(0);
@@ -1206,10 +1179,7 @@ void Super::onResetButton()
     setWait(1);
     if (cpuMode_ == RESET)
     {
-        if (elfConfiguration.tilType == TIL311)
-            superScreenPointer->showAddress(0);
-        else
-            superScreenPointer->showAddressTil313Italic(0);
+        superScreenPointer->showAddress(0);
     }
     mpButtonState_ = 0;
     monitor_ = false;
@@ -1281,7 +1251,7 @@ void Super::startComputer()
     resetPressed_ = false;
 
     if (elfConfiguration.usePortExtender)
-        configurePortExt(elfConfiguration.elfPortConf);
+        configurePortExt(elfConfiguration.ioConfiguration);
 
     ramStart_ = p_Main->getStartRam("SuperElf", SUPERELF);
     Word ramEnd = p_Main->getEndRam("SuperElf", SUPERELF);
@@ -1356,7 +1326,7 @@ void Super::startComputer()
         offset = 0x200;
     readProgram(p_Main->getRomDir(SUPERELF, MAINROM2), p_Main->getRomFile(SUPERELF, MAINROM2), p_Main->getLoadromMode(SUPERELF, 1), offset, NONAME);
 
-    configureElfExtensions();
+    configureExtensions();
     startElfKeyFile("SuperElf");
 
     if (elfConfiguration.autoBoot)
@@ -1379,10 +1349,7 @@ void Super::startComputer()
     p_Main->setSwName("");
     p_Main->updateTitle();
     address_ = 0;
-    if (elfConfiguration.tilType == TIL311)
-        superScreenPointer->showAddress(address_);
-    else
-        superScreenPointer->showAddressTil313Italic(address_);
+    superScreenPointer->showAddress(address_);
 
     cpuCycles_ = 0;
     instructionCounter_= 0;
@@ -1405,7 +1372,7 @@ void Super::startComputer()
     if (p_Vt100[UART1] != NULL)
         p_Vt100[UART1]->splashScreen();
     else
-        p_Video->splashScreen();
+        p_Video[VIDEOMAIN]->splashScreen();
     
     if (elfConfiguration.bootStrap)
         bootstrap_ = 0x8000;
@@ -1521,10 +1488,7 @@ Byte Super::readMem(Word address)
 {
     address_ = address;
     
-    if (elfConfiguration.tilType == TIL311)
-        superScreenPointer->showAddress(address_);
-    else
-        superScreenPointer->showAddressTil313Italic(address_);
+    superScreenPointer->showAddress(address_);
     
     return readMemDebug(address_);
 }
@@ -1618,10 +1582,7 @@ void Super::writeMem(Word address, Byte value, bool writeRom)
 {
     address_ = address;
     
-    if (elfConfiguration.tilType == TIL311)
-        superScreenPointer->showAddress(address_);
-    else
-        superScreenPointer->showAddressTil313Italic(address_);
+    superScreenPointer->showAddress(address_);
     
     writeMemDebug(address_, value, writeRom);
 }
@@ -1799,10 +1760,11 @@ void Super::resetPressed()
     startElfKeyFile("SuperElf");
 }
 
-void Super::configureElfExtensions()
+void Super::configureExtensions()
 {
     wxString fileName, fileName2;
 
+    computerConfiguration.numberOfVideoTypes_ = 0;
     if (elfConfiguration.vtType != VTNONE)
     {
         double zoom = p_Main->getZoomVt();
@@ -1811,9 +1773,9 @@ void Super::configureElfExtensions()
         else
             vtPointer = new Vt100("Super Elf - VT 100", p_Main->getVtPos(SUPERELF), wxSize(640*zoom, 400*zoom), zoom, SUPERELF, elfClockSpeed_, elfConfiguration, UART1);
         p_Vt100[UART1] = vtPointer;
-        vtPointer->configure(elfConfiguration.baudR, elfConfiguration.baudT, elfConfiguration.elfPortConf);
+        vtPointer->configure(elfConfiguration.baudR, elfConfiguration.baudT, elfConfiguration.ioConfiguration);
         if (elfConfiguration.useUart16450)
-            configureUart16450(elfConfiguration.elfPortConf);
+            configureUart16450(elfConfiguration.ioConfiguration);
         vtPointer->Show(true);
         vtPointer->drawScreen();
     }
@@ -1821,16 +1783,16 @@ void Super::configureElfExtensions()
     if (elfConfiguration.vtExternal)
     {
         p_Serial = new Serial(SUPERELF, elfClockSpeed_, elfConfiguration);
-        p_Serial->configure(elfConfiguration.baudR, elfConfiguration.baudT, elfConfiguration.elfPortConf);
+        p_Serial->configure(elfConfiguration.baudR, elfConfiguration.baudT, elfConfiguration.ioConfiguration);
     }
 
     if (elfConfiguration.usePixie)
     {
-        double zoom = p_Main->getZoom();
+        double zoom = p_Main->getZoom(VIDEOMAIN);
         double scale = p_Main->getScale();
-        pixiePointer = new Pixie( "Super Elf - Pixie", p_Main->getPixiePos(SUPERELF), wxSize(64*zoom*scale, 128*zoom), zoom, scale, SUPERELF);
-        p_Video = pixiePointer;
-        pixiePointer->configurePixie(elfConfiguration.elfPortConf);
+        pixiePointer = new Pixie( "Super Elf - Pixie", p_Main->getPixiePos(SUPERELF), wxSize(64*zoom*scale, 128*zoom), zoom, scale, SUPERELF, computerConfiguration.numberOfVideoTypes_);
+        p_Video[computerConfiguration.numberOfVideoTypes_++] = pixiePointer;
+        pixiePointer->configurePixieSuper(elfConfiguration.ioConfiguration);
         pixiePointer->initPixie();
         pixiePointer->setZoom(zoom);
         pixiePointer->Show(true);
@@ -1838,19 +1800,19 @@ void Super::configureElfExtensions()
 
     if (elfConfiguration.use6845)
     {
-        double zoom = p_Main->getZoom();
-        mc6845Pointer = new MC6845( "Super Elf - MC6845", p_Main->get6845Pos(SUPERELF), wxSize(64*8*zoom, 16*8*2*zoom), zoom, SUPERELF, elfClockSpeed_, 8, elfConfiguration.elfPortConf);
-        p_Video = mc6845Pointer;
-        mc6845Pointer->configure6845(elfConfiguration.elfPortConf);
+        double zoom = p_Main->getZoom(VIDEOMAIN);
+        mc6845Pointer = new MC6845( "Super Elf - MC6845", p_Main->get6845Pos(SUPERELF), wxSize(64*8*zoom, 16*8*2*zoom), zoom, SUPERELF, elfClockSpeed_, 8, elfConfiguration.ioConfiguration, computerConfiguration.numberOfVideoTypes_);
+        p_Video[computerConfiguration.numberOfVideoTypes_++] = mc6845Pointer;
+        mc6845Pointer->configure6845(elfConfiguration.ioConfiguration);
         mc6845Pointer->init6845();
         mc6845Pointer->Show(true);
     }
 
     if (elfConfiguration.useS100)
     {
-        double zoom = p_Main->getZoom();
-        mc6845Pointer = new MC6845( "Super Elf - Quest Super Video", p_Main->get6845Pos(SUPERELF), wxSize(64*7*zoom, 16*9*zoom), zoom, SUPERELF, elfClockSpeed_, 7, elfConfiguration.elfPortConf);
-        p_Video = mc6845Pointer;
+        double zoom = p_Main->getZoom(VIDEOMAIN);
+        mc6845Pointer = new MC6845( "Super Elf - Quest Super Video", p_Main->get6845Pos(SUPERELF), wxSize(64*7*zoom, 16*9*zoom), zoom, SUPERELF, elfClockSpeed_, 7, elfConfiguration.ioConfiguration, computerConfiguration.numberOfVideoTypes_);
+        p_Video[computerConfiguration.numberOfVideoTypes_++] = mc6845Pointer;
         mc6845Pointer->configureSuperVideo();
         mc6845Pointer->init6845();
         mc6845Pointer->Show(true);
@@ -1858,57 +1820,57 @@ void Super::configureElfExtensions()
 
     if (elfConfiguration.use6847)
     {
-        double zoom = p_Main->getZoom();
-        mc6847Pointer = new mc6847( "Super Elf - MC6847", p_Main->get6847Pos(SUPERELF), wxSize(elfConfiguration.charLine*8*zoom, elfConfiguration.screenHeight6847*zoom), zoom, SUPERELF, elfClockSpeed_, elfConfiguration.elfPortConf);
-        p_Video = mc6847Pointer;
-        mc6847Pointer->configure(elfConfiguration.elfPortConf);
+        double zoom = p_Main->getZoom(VIDEOMAIN);
+        mc6847Pointer = new mc6847( "Super Elf - MC6847", p_Main->get6847Pos(SUPERELF), wxSize(elfConfiguration.charLine*8*zoom, elfConfiguration.screenHeight6847*zoom), zoom, SUPERELF, elfClockSpeed_, elfConfiguration.ioConfiguration, computerConfiguration.numberOfVideoTypes_);
+        p_Video[computerConfiguration.numberOfVideoTypes_++] = mc6847Pointer;
+        mc6847Pointer->configure(elfConfiguration.ioConfiguration);
         mc6847Pointer->Show(true);
     }
 
     if (elfConfiguration.use8275)
     {
-        double zoom = p_Main->getZoom();
-        i8275Pointer = new i8275( "Super Elf - Intel 8275", p_Main->get8275Pos(SUPERELF), wxSize(80*8*zoom, 24*10*2*zoom), zoom, SUPERELF, elfClockSpeed_);
-        p_Video = i8275Pointer;
-        i8275Pointer->configure8275(elfConfiguration.elfPortConf);
+        double zoom = p_Main->getZoom(VIDEOMAIN);
+        i8275Pointer = new i8275( "Super Elf - Intel 8275", p_Main->get8275Pos(SUPERELF), wxSize(80*8*zoom, 24*10*2*zoom), zoom, SUPERELF, elfClockSpeed_, computerConfiguration.numberOfVideoTypes_);
+        p_Video[computerConfiguration.numberOfVideoTypes_++] = i8275Pointer;
+        i8275Pointer->configure8275(elfConfiguration.ioConfiguration);
         i8275Pointer->init8275();
         i8275Pointer->Show(true);
     }
 
     if (elfConfiguration.useTMS9918)
     {
-        double zoom = p_Main->getZoom();
-        tmsPointer = new Tms9918( "Super Elf - TMS 9918", p_Main->getTmsPos(SUPERELF), wxSize(320*zoom,240*zoom), zoom, SUPERELF, elfClockSpeed_);
-        p_Video = tmsPointer;
-        tmsPointer->configure(elfConfiguration.elfPortConf);
+        double zoom = p_Main->getZoom(VIDEOMAIN);
+        tmsPointer = new Tms9918( "Super Elf - TMS 9918", p_Main->getTmsPos(SUPERELF), wxSize(320*zoom,240*zoom), zoom, SUPERELF, elfClockSpeed_, computerConfiguration.numberOfVideoTypes_);
+        p_Video[computerConfiguration.numberOfVideoTypes_++] = tmsPointer;
+        tmsPointer->configure(elfConfiguration.ioConfiguration);
         tmsPointer->Show(true);
     }
 
-    if (elfConfiguration.fdcEnabled)
+    if (elfConfiguration.fdc1793Enabled)
     {
-        configure1793(1, 40, 18, 256, SUPERELF, elfConfiguration.elfPortConf);
+        configure1793(1, 40, 18, 256, 6256, SUPERELF, elfConfiguration.ioConfiguration, true);
         resetFdc();
     }
 
     if (elfConfiguration.ideEnabled)
     {
-        configureIde(p_Main->getIdeDir(SUPERELF) + p_Main->getIdeFile(SUPERELF), p_Main->getIdeDir(SUPERELF) + "disk2.ide", elfConfiguration.elfPortConf);
+        configureIde(p_Main->getIdeDir(SUPERELF) + p_Main->getIdeFile(SUPERELF), p_Main->getIdeDir(SUPERELF) + "disk2.ide", elfConfiguration.ioConfiguration);
     }
 
     if (p_Main->getPrinterStatus(SUPERELF))
     {
         p_Printer = new Printer();
-        p_Printer->configureElfPrinter(elfConfiguration.elfPortConf);
-        p_Printer->initElf(p_Printer, "Quest Super Elf");
+        p_Printer->configureBasicPrinter(elfConfiguration.ioConfiguration);
+        p_Printer->init(p_Printer, PRINTER_BASIC);
     }
 
-    setQsound (elfConfiguration.qSound_);
+    setSoundType (elfConfiguration.qSound_);
 
     if (elfConfiguration.useKeyboard)
-        configureKeyboard(SUPERELF, elfConfiguration.elfPortConf);
+        configureKeyboard(SUPERELF, elfConfiguration.ioConfiguration);
 
-    if (elfConfiguration.UsePS2)
-        configurePs2(elfConfiguration.ps2Interrupt, elfConfiguration.elfPortConf);
+    if (elfConfiguration.usePS2)
+        configurePs2(elfConfiguration.ps2Interrupt, elfConfiguration.ioConfiguration);
 }
 
 void Super::moveWindows()

@@ -9,7 +9,7 @@ public:
     PortExt();
     ~PortExt() {};
 
-    void configurePortExt(ElfPortConfiguration portConf);
+    void configurePortExt(IoConfiguration portConf);
     void definePortExtForPager();
     void definePortExtForPager(Byte startPort, Byte endPort);
     Byte inPortExtender();

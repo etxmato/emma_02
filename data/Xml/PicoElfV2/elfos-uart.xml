@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>Pico/Elf V2</name>
+        <config>Elf/Os UART</config>
+        <clock>4.0</clock>
+        <boot>0</boot>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init>
+        <init type="ef4">1</init>
+        <dirname>Pico</dirname>
+    </system>
+    
+    <bootstrap>
+        <address>0x8000</address>
+    </bootstrap>
+
+    <xmodem>
+    </xmodem>
+
+    <locations>
+        <start_xmodem_save address="0x80, 0x81, 0x82, 0x83" value="0x78, 0x73, 0x62, 0">0x2079</start_xmodem_save> <!-- xsb -->
+        <start_ymodem_save address="0x80, 0x81, 0x82" value="0x79, 0x73, 0">0x2186</start_ymodem_save> <!-- ys -->
+
+        <start_xmodem_load address="0x80, 0x81, 0x82, 0x83" value="0x78, 0x72, 0x62, 0">0x2093</start_xmodem_load> <!-- xrb -->
+    </locations>
+
+    <memory>
+        <rom type="gui" mask="0xffff">
+            <start>0x8000</start>
+            <end>0xFFFF</end>
+            <pulldown mask="runtime.*">Pico</pulldown>
+            <filename verify="true">runtime_410.bin</filename>
+        </rom>
+
+        <ram type="gui">
+            <start>0x0000</start>
+            <end>0x7FFF</end>
+        </ram>
+
+    </memory>
+    
+    <disk type="ide">
+        <filename>pico.ide</filename>
+        <out type="select">2</out>
+        <out type="write">3</out>
+        <in type="status">2</in>
+        <in type="read">3</in>
+        <tracks>512</tracks>
+        <heads>4</heads>
+        <sectors>26</sectors>
+    </disk>
+    
+    <vt type="vt100" connection="uart16450" >
+        <font>vt100.bin</font>
+        <out type="select">6</out>
+        <out type="port">7</out>
+        <in type="status">6</in>
+        <in type="port">7</in>
+        <baud type="receive">19200</baud>
+        <baud type="transmit">19200</baud>
+        <characters>80</characters>
+        <border>0x0</border>
+        <color type="fore">0, 255, 0</color>
+        <color type="back">0, 0x40, 0</color>
+        <color type="high">0, 0xff, 0</color>
+     </vt>
+
+    <debugger>
+        <scrt mode="on">
+            <call reg="4">0xFA7B</call>
+            <return reg="5">0xFA8D</return>
+        </scrt>
+
+        <assembler>
+            <filename>mycode</filename>
+            <code_start>0</code_start>
+            <code_end>0xfff</code_end>
+        </assembler>
+    </debugger>
+
+</emmaconfig>

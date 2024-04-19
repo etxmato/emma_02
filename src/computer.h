@@ -1,31 +1,9 @@
 #ifndef COMP_H
 #define COMP_H
 
-#include "til311.h"
-#include "til313.h"
+#include "til.h"
 #include "til313.full.h"
 #include "led.h"
-
-#define ELF_HEX_BUTTON 0
-#define COSMICOS_HEX_BUTTON 1
-#define PANEL_HEX_BUTTON 2
-#define PANEL_WIDE_HEX_BUTTON 3
-#define ELF2K_RESET_BUTTON 4
-#define PIO_HEX_BUTTON 5
-#define UC1800_HEX_BUTTON 6
-
-#define VERTICAL_BUTTON 0
-#define HORIZONTAL_BUTTON 1
-#define ELF2K_POWER_BUTTON 2
-#define PUSH_BUTTON_BLACK 3
-#define VERTICAL_BUTTON_RED 4
-#define PIO_VERTICAL_BUTTON 5
-#define PUSH_BUTTON 6
-#define ELF2K_LOAD_BUTTON 7
-#define ELF2K_MP_BUTTON 8
-#define ELF2K_RUN_BUTTON 9
-#define ELF2K_IN_BUTTON 10
-#define DIP_SWITCH_BUTTON 11
 
 #define BUTTON_UP true
 #define BUTTON_DOWN false
@@ -40,42 +18,10 @@ wxDEFINE_EVENT(COMPUTER_MSG, guiEvent);
 #define EVT_COMPUTER_MSG(id, func) \
 wx__DECLARE_EVT1(COMPUTER_MSG, id, (&func))
 
-
-class HexButton : public wxEvtHandler
+class HexButtonCdp1851 : public HexButton
 {
 public:
-    HexButton(wxDC& dc, int type, wxCoord x, wxCoord y, wxString label);
-    ~HexButton();
-    void onPaint(wxDC& dc);
-    bool onMousePress(wxDC& dc, wxCoord x, wxCoord y);
-    bool onMouseRelease(wxDC& dc, wxCoord x, wxCoord y);
-    virtual void OnTimer(wxTimerEvent& event);
-    void releaseButtonOnScreen(wxDC& dc);
-    void enable(wxDC& dc, bool enabled);
-
-protected:
-    bool state_;
-    int buttonType_;
-
-private:
-    wxBitmap *upBitmapPointer;
-    wxBitmap *downBitmapPointer;
-    wxBitmap *disabledBitmapPointer;
-
-    wxCoord x_;
-    wxCoord y_;
- 
-    bool enabled_;
-
-    wxTimer *focusTimer;
-
-    DECLARE_EVENT_TABLE()
-};
-
-class HexButton2 : public HexButton
-{
-public:
-    HexButton2(wxDC& dc, int type, wxCoord x, wxCoord y, wxString label, int pioNumber);
+    HexButtonCdp1851(wxDC& dc, int type, wxCoord x, wxCoord y, wxString label, int pioNumber);
     void OnTimer(wxTimerEvent& event);
     
 private:
@@ -84,37 +30,16 @@ private:
     DECLARE_EVENT_TABLE()
 };
 
-    
-class SwitchButton
+class HexButtonCdp1852 : public HexButton
 {
 public:
-    SwitchButton(wxDC& dc, int type, wxColour bkgrClr, bool state, wxCoord x, wxCoord y, wxString label);
-    ~SwitchButton();
-    void onPaint(wxDC& dc);
-    bool onMousePress(wxDC& dc, wxCoord x, wxCoord y);
-    bool onMouseRelease(wxDC& dc, wxCoord x, wxCoord y);
-    void setState(wxDC& dc, bool state);
-    void enable(wxDC& dc, bool enabled);
-
+    HexButtonCdp1852(wxDC& dc, int type, wxCoord x, wxCoord y, wxString label, int pioNumber);
+    void OnTimer(wxTimerEvent& event);
+    
 private:
-    wxBitmap *upBitmapPointer;
-    wxBitmap *downBitmapPointer;
-    wxBitmap *disabledUpBitmapPointer;
-    wxBitmap *disabledDownBitmapPointer;
-
-    wxMask *maskUp;
-    wxMask *maskDown;
+    int pioNumber_;
     
-    bool enabled_;
-    
-    wxCoord x_;
-    wxCoord y_;
-    bool state_;
-    wxCoord buttonSizeX_;
-    wxCoord buttonSizeY_;
-    wxCoord buttonStartX_;
-    wxCoord buttonStartY_;
-    int type_;
+    DECLARE_EVENT_TABLE()
 };
 
 class RunComputer : public wxThread
@@ -127,9 +52,10 @@ public:
 class Panel : public wxWindow
 {
 public:
-    Panel(wxWindow *parent, const wxSize& size);
+    Panel(wxWindow *parent, const wxSize& size, int tilType);
     virtual ~Panel();
 
+    void init(vector<GuiItemConfig> buttonConfig, wxSize panelSize);
     virtual void init();
     virtual void init(int computerType);
     void connectKeyEvent(wxWindow* pclComponent);
@@ -141,7 +67,12 @@ public:
     void onKeyUp(wxKeyEvent&event);
     Byte getKey(Byte vtOut);
     virtual void onMousePress(wxMouseEvent& event);
+    void executeMousePressFunction(int function, int buttonValue);
     virtual void onMouseRelease(wxMouseEvent& event);
+    virtual void onMouseRightRelease(wxMouseEvent& event);
+    void executeMouseReleaseFunction(int function);
+    void executeMouseReleaseFunction(int function, int value);
+    void executeMouseRightReleaseFunction(int function, int value);
     void ledTimeout();
     void rePaintLeds(wxDC& dc);
     void setLedMs(long ms);
@@ -169,21 +100,13 @@ public:
     void updateStateLed(wxDC& dc, int i);
     void showData(Byte value);
     void updateData(wxDC& dc);
-    void showDataTil313(Byte value);
-    void updateDataTil313(wxDC& dc);
-    void showDataTil313Italic(Byte value);
-    void updateDataTil313Italic(wxDC& dc);
     void showDp313Italic(bool status);
     void turnOff313Italic(bool status);
     void updateDp313Italic(wxDC& dc);
     void showSeg(int number, Byte value);
     void updateSeg(wxDC& dc, int number);
     void showAddress(Word address);
-    void showAddressTil313(Word address);
-    void showAddressTil313Italic(Word address);
     void updateAddress(wxDC& dc);
-    void updateAddressTil313(wxDC& dc);
-    void updateAddressTil313Italic(wxDC& dc);
     virtual void inUp();
     virtual void inDown();
     virtual void inSetState(bool state);
@@ -206,7 +129,22 @@ public:
     virtual void dataSetState(int number, bool state);
     void efUp(int number);
     void efDown(int number);
+    virtual void releaseButtonOnScreen(HexButton* WXUNUSED(buttonPoint));
 
+    void onAdsChannel(wxSpinEvent&event);
+    void onAdsVolt(wxSpinEvent&event);
+    void onAdsChannelText(wxCommandEvent& event);
+    void onAdsVoltText(wxCommandEvent& event);
+    void onAdiChannel(wxSpinEvent&event);
+    void onAdiVolt(wxSpinEvent&event);
+    void onAdiChannelText(wxCommandEvent& event);
+    void onAdiVoltText(wxCommandEvent& event);
+
+    void setAds(int i, int val){adsArray_[i] = val;};
+    int getAds(int i){return adsArray_[i];};
+    void setAdi(int i, int val){adiArray_[i] = val;};
+    int getAdi(int i){return adiArray_[i];};
+    
 protected:
     wxBitmap *mainBitmapPointer;
 
@@ -301,23 +239,15 @@ protected:
     wxMask *maskUp;
     wxMask *maskDown;
 
-    Til311 *addressPointer[4];
-    Til311 *dataPointer[2];
-    Til313 *addressTil313Pointer[4];
-    Til313 *dataTil313Pointer[2];
-    Til313Italic *dataTil313PointerItalic[2];
-    Til313Italic *addressTil313PointerItalic[4];
+    Til *addressPointer[4];
+    Til *dataPointer[2];
     Til313full *segPointer[8];
 
     int tilType_;
     int numberOfTil313_;
     
     Word addressStatus;
-    Word addressTil313Status;
-    Word addressTil313StatusItalic;
     Byte dataStatus;
-    Byte dataTil313Status;
-    Byte dataTil313StatusItalic;
     Byte segStatus[8];
     bool dpStatus;
 
@@ -329,8 +259,10 @@ protected:
     Led *pauseLedPointer;
     Led *runLedPointer;
     Led *loadLedPointer;
-    Led *ledPointer[24];
-    Led *stateLedPointer[4];
+    Led *ledPointer[MAX_BIT_LEDS];
+    bool ledPointerDefined[MAX_BIT_LEDS];
+    Led *stateLedPointer[MAX_CPU_STATE_LEDS];
+    bool stateLedPointerDefined[MAX_CPU_STATE_LEDS];
 
     int readyLedStatus;
     int stopLedStatus;
@@ -354,11 +286,7 @@ protected:
     bool updateLed_[24];
     bool updateStateLed_[4];
     bool updateAddress_;
-    bool updateAddressTil313_;
-    bool updateAddressTil313Italic_;
     bool updateData_;
-    bool updateDataTil313_;
-    bool updateDataTil313Italic_;
     bool updateDp313_;
     bool updateSeg_[8];
 
@@ -370,10 +298,22 @@ protected:
     int lastKey_;
     bool repeat_;
     bool forceUpperCase_;
-    
-private:
-    bool functionKeyReleaseTwo_;
+    bool xmlButtonDefined_;
 
+    wxSpinCtrl *spinCtrlAdi;
+    wxSpinCtrl *spinCtrlAdiVolt;
+    wxSpinCtrl *spinCtrlAds;
+    wxSpinCtrl *spinCtrlAdsVolt;
+
+    int adiArray_[16];
+    int adsArray_[16];
+
+private:
+    bool functionKeyReleaseTwo_;\
+    
+    vector<GuiItemConfig> guiItemConfig_;
+    wxSize panelSize_;
+    
     DECLARE_EVENT_TABLE()
 };
 
@@ -390,9 +330,11 @@ public:
     virtual void keyDown(int keycode);
     virtual bool keyDownExtended(int keycode, wxKeyEvent& event);
     virtual bool keyDownPressed(int keycode);
+    virtual void cidelsaStatusBarDown(int WXUNUSED(keycode)) {};
     virtual void keyUp(int keycode);
     virtual void keyUpExtended(int keycode, wxKeyEvent& event);
-    virtual bool keyUpReleased(int keycode);
+    virtual bool keyUpReleased(int keycode, wxKeyEvent& event);
+    virtual void cidelsaStatusBarUp(int WXUNUSED(keycode)) {};
     virtual void charEvent(int keycode);
     virtual void onButtonRelease(wxCommandEvent& event);
     virtual void onButtonPress(wxCommandEvent& event);
@@ -403,11 +345,13 @@ public:
     virtual void resumeComputer();
     virtual void checkCaps();
     virtual void finishStopTape();
+    virtual void resetTape() {};
     virtual void printOutPecom(int q);
     virtual void setDivider(Byte value);
     virtual void removeElf2KSwitch();
     virtual void removeElfHex();
-    virtual void removePio(int pioNumber);
+    virtual void removeCdp1851(int pioNumber);
+    virtual void removeCdp1852(int pioNumber);
     virtual void removeCosmicosHex();
     virtual void removeElfLedModule(); 
     virtual void showData(Byte val);
@@ -422,18 +366,25 @@ public:
     virtual void onInButtonPress();
     virtual void onInButtonPress(Byte value);
     virtual void realCassette(short val);
-    virtual void cassette(short val);
+    virtual void cassette(wxInt32 val);
+    virtual void cassette(wxInt16 val);
     virtual void cassette(char val);
-    virtual void cassetteFred(short val);
+    virtual void cassetteFred(wxInt32 val);
+    virtual void cassetteFred(wxInt16 val);
     virtual void cassetteFred(char val);
+    virtual void cassetteXmlHw(wxInt32 val, long size);
+    virtual void cassetteXmlHw(wxInt16 val, long size);
+    virtual void cassetteXmlHw(char val, long size);
+    virtual void stepCassetteCounter(long step);
     virtual void keyClear();
     virtual void startComputer();
     virtual void initComputer();
     virtual void configureComputer();
     virtual void onPowerButton() {};
     virtual void onReadButton();
-    virtual void onCardButton();
+    virtual void onCardButtonSwitch();
     virtual void onRunButton();
+    virtual void onRunButton(bool run0);
     virtual void onRunPButton();
     virtual void onRunButtonPress() {};
     virtual void onRunButtonRelease() {};
@@ -443,11 +394,16 @@ public:
     virtual void onPause(wxCommandEvent& event);
     virtual void onMonitor();
     virtual void onMonitor(wxCommandEvent& event);
+    virtual void onNanoMonitor(wxCommandEvent&event);
+    virtual void onNanoMonitor();
     virtual void onSingleStep();
     virtual void onSingleStep(wxCommandEvent& event);
     virtual void onMpButton();
     virtual void onMpButton(int buttonNumber);
     virtual void onMpButton(wxCommandEvent& event);
+    virtual void onMpButtonMulti(wxCommandEvent& event);
+    virtual void onEmsButton(int buttonNumber, bool up);
+    virtual void onEmsButton(wxCommandEvent& event);
     virtual void onWaitButton();
     virtual void onClearButton();
     virtual void onClearButtonPress() {};
@@ -459,14 +415,12 @@ public:
     virtual void onResetButton(wxCommandEvent& event);
     virtual void onLoadButton();
     virtual void onLoadButton(wxCommandEvent& event);
-    virtual void dataButton(int i);
     virtual void onNumberKeyRelease(int i);
     virtual void onNumberKeyPress(int i);
     virtual void onNumberKeyDown(int i);
     virtual void onRamButton();
     virtual void efSwitch(int number);
     virtual void setEfState(int number, Byte value);
-    virtual void setEfState(int pioNumber, int number, Byte value);
     virtual void dataSwitch(int number);
     virtual Byte getData();
     virtual void onHexDown(int hex);
@@ -477,7 +431,8 @@ public:
     virtual void checkLoadedSoftware();
     virtual void dataAvailableVt100(bool data, int uartNumber);
     virtual void dataAvailableSerial(bool data);
-    virtual void thrStatus(bool data);
+    virtual void thrStatusVt100(bool data);
+    virtual void thrStatusSerial(bool data);
     virtual void setTempo(int tempo);
     virtual void switchQ(int value);
     int getGaugeValue() {return gaugeValue_;};
@@ -499,12 +454,12 @@ public:
     virtual void reDefineKeysA(int *, int *);
     virtual void reDefineKeysB(int *, int *);
     virtual uint64_t getCpuCycles() { return 0; };
-    void setQsound(int status) {qSound_ = status;};
+    void setSoundType(int status) {activeSoundType_ = status;};
 
     virtual void onNumberKeyDown(wxCommandEvent& event);
     virtual void onNumberKeyUp(wxCommandEvent& event);
     virtual void onNumberKeyUp();
-    virtual void ledTimeout();
+//    virtual void ledTimeout();
     virtual void setLedMs(long ms);
     virtual void showDataLeds(Byte value);
     virtual Byte getKey(Byte vtOut);
@@ -533,7 +488,8 @@ public:
     virtual int getBuildInGame(){return 0;};
 
     virtual void releaseButtonOnScreen(HexButton* buttonPointer, int buttonType);
-    virtual void releaseButtonOnScreen2(HexButton* buttonPointer, int buttonType, int pioNumber);
+    virtual void releaseButtonOnScreen1851(HexButton* buttonPointer, int buttonType, int pioNumber);
+    virtual void releaseButtonOnScreen1852(HexButton* buttonPointer, int buttonType, int pioNumber);
     virtual void reLoadKeyDefinition(wxString fileName) {};
     virtual void setPrinterEf() {};
     virtual void switchHexEf(bool state);
@@ -545,44 +501,73 @@ public:
     virtual void setDisableSystemRom(bool disableSystemRom);
     virtual void setAutoKeyDef(bool autoKeyDef);
     virtual int getDmaCounter() {return 0;};
-    virtual void showAddress(Word address);
+    virtual void showCycleAddress(Word address);
     virtual void showState(int state);
     virtual void checkComputerFunction() {};
     virtual void resetPressed() {};
-    virtual void setCpuMode(int mode);
     virtual void setGoTimer() {};
     virtual void setForceUpperCase(bool status);
     virtual void moveWindows() {};
-    virtual void showPio(bool state);
+    virtual void showCdp1851(bool state);
     virtual void showCdp18s660Pio1(bool state);
     virtual void showCdp18s660Pio2(bool state);
     virtual void showControlWindow(bool state);
     virtual void setAddressLatch(Word bootAddress);
     void ctrlvText(wxString text);
-    virtual int getCtrlvChar();
+    virtual void ctrlvTextXml(wxString text) {};
+    int getCtrlvChar();
+    int getCtrlvChar(bool increase);
+    int getCtrlvCharTmc();
     size_t getCtrlvCharNum() {return ctrlvTextCharNum_;};
+    void ctrlvTextCharNumPlusOne();
 
     virtual void refreshPanel() {};
+    virtual void changeDiskName(int WXUNUSED(disk), wxString WXUNUSED(dirName), wxString WXUNUSED(fileName)) {};
+    virtual int getSelectedSlot() {return 0;};
+    virtual void setSelectedSlot(int WXUNUSED(slot)) {};
+    virtual void setBatchFileNumber(int WXUNUSED(number)) {};
+    virtual void resetV1870VideoModeEf();
+
+    virtual bool isAudioChannelLeft() {return true;};
+    virtual bool isDataChannelLeft() {return true;};
+    virtual int getFrequency0() {return 2000;};
+    virtual int getFrequency1() {return 4000;};
+    virtual int getStartBit() {return 1;};
+    virtual int getDataBits() {return 8;};
+    virtual int getStopBit() {return 0;};
+
+    virtual void startRecording(int WXUNUSED(tapeNumber)) {};
+
+    void setEfKeyValue(int ef, Byte value);
+    
+    virtual void startLoad(int WXUNUSED(tapeNumber), bool WXUNUSED(button)) {};
+    virtual void cardButton(int WXUNUSED(cardValue)) {};
+    virtual void updateStatusBarLedStatus(int WXUNUSED(led), bool WXUNUSED(status)) {};
+    virtual bool checkKeyInputAddress(Word WXUNUSED(address)) {return false;};
+    virtual bool checkKeyInputAddress() {return false;};
 
 protected:
     RunComputer *threadPointer;
-
 
     int baseGiantBoard_;
     int baseQuestLoader_;
     int loadedProgram_;
     int loadedOs_;
 
+    long tapeFinished_;
     Byte cassetteEf_;
     Byte oldCassetteEf_;
     short gaugeValue_;
-    short maxTapeInput_;
-    short lastTapeInput_;
+    wxInt32 maxTapeInputInt32_;
+    wxInt16 maxTapeInputInt16_;
+    char maxTapeInputChar_;
+    wxInt32 lastTapeInputInt32_;
+    wxInt16 lastTapeInputInt16_;
+    char lastTapeInputChar_;
     Byte tapePolarity_;
     int conversionType_;
     int conversionTypeWav_;
     int basicExecAddress_[BASICADDR_MAX];
-    int qSound_;
     bool resetPressed_;
     bool audioIn_;
     bool audioOut_;
@@ -593,6 +578,7 @@ protected:
 
     wxString pseudoType_;
     bool pseudoLoaded_;
+    int activeSoundType_;
 
     int inKey1_;
     int inKey2_;
@@ -601,7 +587,9 @@ protected:
     size_t ctrlvTextCharNum_;
     
     int shiftKey_;
-    
+ 
+    Byte efKeyValue[5];
+
 private:
     int chip8Register[16];
 

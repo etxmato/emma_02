@@ -140,7 +140,9 @@ void GuiTMC2000::readTMC2000Config()
 {
     selectedComputer_ = TMC2000;
 
+    elfConfiguration[TMC2000].useTapeHw = false;
     conf[TMC2000].emsConfigNumber_ = 0;
+    conf[TMC2000].videoNumber_ = 0;
 
     conf[TMC2000].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "TMC2000" + pathSeparator_;
     conf[TMC2000].mainDir_ = readConfigDir("/Dir/TMC2000/Main", dataDir_ + "TMC2000" + pathSeparator_);
@@ -168,7 +170,7 @@ void GuiTMC2000::readTMC2000Config()
 
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 2.0);
-    conf[TMC2000].zoom_ = convertLocale(configPointer->Read("/TMC2000/Zoom", defaultZoom));
+    conf[TMC2000].zoom_[VIDEOMAIN] = convertLocale(configPointer->Read("/TMC2000/Zoom", defaultZoom));
     wxString defaultScale;
     defaultScale.Printf("%i", 4);
     conf[TMC2000].xScale_ = convertLocale(configPointer->Read("/TMC2000/Window_Scale_Factor_X", defaultScale));
@@ -192,7 +194,7 @@ void GuiTMC2000::readTMC2000Config()
         XRCCTRL(*this, "ScreenDumpFileTMC2000", wxComboBox)->SetValue(conf[TMC2000].screenDumpFile_);
         XRCCTRL(*this, "WavFileTMC2000", wxTextCtrl)->SetValue(conf[TMC2000].wavFile_[0]);
 
-        correctZoomAndValue(TMC2000, "TMC2000", SET_SPIN);
+        correctZoomAndValue(TMC2000, "TMC2000", SET_SPIN, VIDEOMAIN);
 
         XRCCTRL(*this, "TurboTMC2000", wxCheckBox)->SetValue(conf[TMC2000].turbo_);
         turboGui("TMC2000");
@@ -228,7 +230,7 @@ void GuiTMC2000::writeTMC2000Config()
     configPointer->Write("/TMC2000/Video_Dump_File", conf[TMC2000].screenDumpFile_);
     configPointer->Write("/TMC2000/Wav_File", conf[TMC2000].wavFile_[0]);
 
-    configPointer->Write("/TMC2000/Zoom", conf[TMC2000].zoom_);
+    configPointer->Write("/TMC2000/Zoom", conf[TMC2000].zoom_[VIDEOMAIN]);
 
     configPointer->Write("/TMC2000/Enable_Turbo_Cassette", conf[TMC2000].turbo_);
     configPointer->Write("/TMC2000/Turbo_Clock_Speed", conf[TMC2000].turboClock_);
@@ -261,7 +263,9 @@ void GuiTMC2000::readTMC1800Config()
 {
     selectedComputer_ = TMC1800;
 
+    elfConfiguration[TMC1800].useTapeHw = false;
     conf[TMC1800].emsConfigNumber_ = 0;
+    conf[TMC1800].videoNumber_ = 0;
 
     conf[TMC1800].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "TMC1800" + pathSeparator_;
     conf[TMC1800].mainDir_ = readConfigDir("/Dir/TMC1800/Main", dataDir_ + "TMC1800" + pathSeparator_);
@@ -290,7 +294,7 @@ void GuiTMC2000::readTMC1800Config()
 
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 2.0);
-    conf[TMC1800].zoom_ = convertLocale(configPointer->Read("/TMC1800/Zoom", defaultZoom));
+    conf[TMC1800].zoom_[VIDEOMAIN] = convertLocale(configPointer->Read("/TMC1800/Zoom", defaultZoom));
     wxString defaultScale;
     defaultScale.Printf("%i", 3);
     conf[TMC1800].xScale_ = convertLocale(configPointer->Read("/TMC1800/Window_Scale_Factor_X", defaultScale));
@@ -314,7 +318,7 @@ void GuiTMC2000::readTMC1800Config()
         XRCCTRL(*this, "ScreenDumpFileTMC1800", wxComboBox)->SetValue(conf[TMC1800].screenDumpFile_);
         XRCCTRL(*this, "WavFileTMC1800", wxTextCtrl)->SetValue(conf[TMC1800].wavFile_[0]);
 
-        correctZoomAndValue(TMC1800, "TMC1800", SET_SPIN);
+        correctZoomAndValue(TMC1800, "TMC1800", SET_SPIN, VIDEOMAIN);
 
         XRCCTRL(*this, "TurboTMC1800", wxCheckBox)->SetValue(conf[TMC1800].turbo_);
         turboGui("TMC1800");
@@ -355,7 +359,7 @@ void GuiTMC2000::writeTMC1800Config()
     configPointer->Write("/TMC1800/Video_Dump_File", conf[TMC1800].screenDumpFile_);
     configPointer->Write("/TMC1800/Wav_File", conf[TMC1800].wavFile_[0]);
 
-    configPointer->Write("/TMC1800/Zoom", conf[TMC1800].zoom_);
+    configPointer->Write("/TMC1800/Zoom", conf[TMC1800].zoom_[VIDEOMAIN]);
 
     configPointer->Write("/TMC1800/Enable_Turbo_Cassette", conf[TMC1800].turbo_);
     configPointer->Write("/TMC1800/Turbo_Clock_Speed", conf[TMC1800].turboClock_);

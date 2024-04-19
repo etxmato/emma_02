@@ -35,8 +35,8 @@
 
 #include "microtutor2.h"
 
-Microtutor2Screen::Microtutor2Screen(wxWindow *parent, const wxSize& size)
-: Panel(parent, size)
+Microtutor2Screen::Microtutor2Screen(wxWindow *parent, const wxSize& size, int tilType)
+: Panel(parent, size, tilType)
 {
 }
 
@@ -55,7 +55,7 @@ Microtutor2Screen::~Microtutor2Screen()
     }
     for (int i=0; i<2; i++)
     {
-        delete dataTil313PointerItalic[i];
+        delete dataPointer[i];
     }
 }
 
@@ -67,19 +67,19 @@ void Microtutor2Screen::init()
 
     wxClientDC dc(this);
 
-    runSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(43, 71, 106), BUTTON_DOWN, 284, 30, "");
-    loadSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(43, 71, 106), BUTTON_DOWN, 62, 30, "");
-    inSwitchButton = new SwitchButton(dc, PUSH_BUTTON_BLACK, wxColour(43, 71, 106), BUTTON_UP, 25, 30, "");
-    mpSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(43, 71, 106), BUTTON_DOWN, 247, 30, "");
+    runSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(43, 71, 106), BUTTON_DOWN, 284, 30, "");
+    loadSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(43, 71, 106), BUTTON_DOWN, 62, 30, "");
+    inSwitchButton = new SwitchButton(dc, PUSH_BUTTON_ROUND_BLACK, wxColour(43, 71, 106), BUTTON_UP, 25, 30, "");
+    mpSwitchButton = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(43, 71, 106), BUTTON_DOWN, 247, 30, "");
 
     
     for (int i=0; i<8; i++)
-        dataSwitchButton[i] = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(43, 71, 106), BUTTON_DOWN, 25+37*(7-i), 100, "");
+        dataSwitchButton[i] = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL, wxColour(43, 71, 106), BUTTON_DOWN, 25+37*(7-i), 100, "");
     
     for (int i=0; i<2; i++)
     {
-        dataTil313PointerItalic[i] = new Til313Italic(true);
-        dataTil313PointerItalic[i]->init(dc, 139+i*28, 30);
+        dataPointer[i] = new Til313Italic(true);
+        dataPointer[i]->init(dc, 139+i*28, 30);
     }
 
     mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/microtutor2.png", wxBITMAP_TYPE_PNG);
@@ -98,7 +98,7 @@ void Microtutor2Screen::onPaint(wxPaintEvent&WXUNUSED(event))
     
     for (int i=0; i<2; i++)
     {
-        dataTil313PointerItalic[i]->onPaint(dc);
+        dataPointer[i]->onPaint(dc);
     }
     
     runSwitchButton->onPaint(dc);
@@ -146,17 +146,16 @@ void Microtutor2Screen::onMousePress(wxMouseEvent&event)
         p_Computer->onInButtonPress(p_Computer->getData());
 }
 
-BEGIN_EVENT_TABLE(Microtutor2, wxFrame)
-    EVT_CLOSE (Microtutor2::onClose)
+BEGIN_EVENT_TABLE(MicrotutorII, wxFrame)
+    EVT_CLOSE (MicrotutorII::onClose)
 END_EVENT_TABLE()
 
-Microtutor2::Microtutor2(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf, Conf computerConf)
+MicrotutorII::MicrotutorII(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf, Conf computerConf)
 : wxFrame((wxFrame *)NULL, -1, title, pos, size)
 {
     computerConfiguration = computerConf;
     microtutorConfiguration = conf;
     microtutorClockSpeed_ = clock;
-    data_ = 0;
 
 #ifndef __WXMAC__
     SetIcon(wxICON(app_icon));
@@ -164,23 +163,23 @@ Microtutor2::Microtutor2(const wxString& title, const wxPoint& pos, const wxSize
 
     this->SetClientSize(size);
 
-    microtutorScreenPointer = new Microtutor2Screen(this, size);
+    microtutorScreenPointer = new Microtutor2Screen(this, size, TIL313ITALIC);
     microtutorScreenPointer->init();
 }
 
-Microtutor2::~Microtutor2()
+MicrotutorII::~MicrotutorII()
 {
     p_Main->setMainPos(MICROTUTOR2, GetPosition());
 
     delete microtutorScreenPointer;
 }
 
-void Microtutor2::onClose(wxCloseEvent&WXUNUSED(event) )
+void MicrotutorII::onClose(wxCloseEvent&WXUNUSED(event) )
 {
     p_Main->stopComputer();
 }
 
-bool Microtutor2::keyUpReleased(int key)
+bool MicrotutorII::keyUpReleased(int key, wxKeyEvent&WXUNUSED(event))
 {
     if (key == inKey1_ || key == inKey2_)
     {
@@ -190,12 +189,12 @@ bool Microtutor2::keyUpReleased(int key)
     return false;
 }
 
-void Microtutor2::onRunButton()
+void MicrotutorII::onRunButton()
 {
     onRun();
 }
 
-void Microtutor2::onRun()
+void MicrotutorII::onRun()
 {
     if (microtutorConfiguration.utilityMemory)
         bootstrap_ = 0x8000;
@@ -215,14 +214,14 @@ void Microtutor2::onRun()
     p_Main->eventUpdateTitle();
 }
 
-void Microtutor2::autoBoot()
+void MicrotutorII::autoBoot()
 {
     microtutorScreenPointer->runSetState(BUTTON_UP);
     runButtonState_ = 1;
     setClear(runButtonState_);
 }
 
-Byte Microtutor2::inPressed()
+Byte MicrotutorII::inPressed()
 {
     if (inPressed_ == true)
         return 0;
@@ -230,7 +229,7 @@ Byte Microtutor2::inPressed()
         return 1;
 }
 
-void Microtutor2::onInButtonPress(Byte value)
+void MicrotutorII::onInButtonPress(Byte value)
 {
     if (loadButtonState_ == 1)
         inPressed_ = true;
@@ -242,7 +241,7 @@ void Microtutor2::onInButtonPress(Byte value)
     microtutorScreenPointer->inSetState(BUTTON_DOWN);
 }
 
-void Microtutor2::onInButtonRelease()
+void MicrotutorII::onInButtonRelease()
 {
     if (loadButtonState_ == 1)
         inPressed_ = false;
@@ -250,7 +249,7 @@ void Microtutor2::onInButtonRelease()
     microtutorScreenPointer->inSetState(BUTTON_UP);
 }
 
-void Microtutor2::onLoadButton()
+void MicrotutorII::onLoadButton()
 {
     if (!loadButtonState_)
     {
@@ -264,7 +263,7 @@ void Microtutor2::onLoadButton()
     setWait(loadButtonState_);
 }
 
-void Microtutor2::onMpButton()
+void MicrotutorII::onMpButton()
 {
     if (mpButtonState_)
     {
@@ -276,7 +275,7 @@ void Microtutor2::onMpButton()
     }
 }
 
-void Microtutor2::dataSwitch(int i)
+void MicrotutorII::dataSwitch(int i)
 {
     if (dataSwitchState_[i])
     {
@@ -288,32 +287,32 @@ void Microtutor2::dataSwitch(int i)
     }
 }
 
-Byte Microtutor2::getData()
+Byte MicrotutorII::getData()
 {
     return(dataSwitchState_[7]?128:0) +(dataSwitchState_[6]?64:0) +(dataSwitchState_[5]?32:0) +(dataSwitchState_[4]?16:0) +(dataSwitchState_[3]?8:0) +(dataSwitchState_[2]?4:0) +(dataSwitchState_[1]?2:0) +(dataSwitchState_[0]?1:0);
 }
 
-void Microtutor2::configureComputer()
+void MicrotutorII::configureComputer()
 {
-    inType_[4] = MICROTUTORIN;
-    outType_[4] = MICROTUTOROUT;
-    efType_[4] = MICROTUTOREF;
+    inType_[0][0][4] = MICROTUTORIN;
+    outType_[0][0][4] = MICROTUTOROUT;
+    efType_[0][0][4] = MICROTUTOREF;
     setCycleType(COMPUTERCYCLE, LEDCYCLE);
     
     p_Main->message("Configuring Microtutor II");
-    p_Main->message("    Output 4: display output, input 4: data input");
+    p_Main->message("	Output 4: display output, input 4: data input");
     if (microtutorConfiguration.utilityMemory)
-        p_Main->message("    Output 4 & input 4: switch in E slot");
-    p_Main->message("    EF 4: 0 when in button pressed");
+        p_Main->message("	Output 4 & input 4: switch in E slot");
+    p_Main->message("	EF 4: 0 when in button pressed");
     p_Main->message("");
 
-    inKey1_ = p_Main->getDefaultInKey1("Microtutor2");
-    inKey2_ = p_Main->getDefaultInKey2("Microtutor2");
+    inKey1_ = p_Main->getDefaultInKey1("MicrotutorII");
+    inKey2_ = p_Main->getDefaultInKey2("MicrotutorII");
 
     resetCpu();
 }
 
-void Microtutor2::initComputer()
+void MicrotutorII::initComputer()
 {
     Show(true);
 
@@ -327,9 +326,9 @@ void Microtutor2::initComputer()
     inPressed_ = false;
 }
 
-Byte Microtutor2::ef(int flag)
+Byte MicrotutorII::ef(int flag)
 {
-    switch(efType_[flag])
+    switch(efType_[0][0][flag])
     {
         case 0:
             return 1;
@@ -344,12 +343,12 @@ Byte Microtutor2::ef(int flag)
     }
 }
 
-Byte Microtutor2::in(Byte port, Word WXUNUSED(address))
+Byte MicrotutorII::in(Byte port, Word WXUNUSED(address))
 {
     Byte ret;
     ret = 0;
 
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case 0:
             ret = 255;
@@ -368,11 +367,11 @@ Byte Microtutor2::in(Byte port, Word WXUNUSED(address))
     return ret;
 }
 
-void Microtutor2::out(Byte port, Word WXUNUSED(address), Byte value)
+void MicrotutorII::out(Byte port, Word WXUNUSED(address), Byte value)
 {
     outValues_[port] = value;
 
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;
@@ -386,17 +385,17 @@ void Microtutor2::out(Byte port, Word WXUNUSED(address), Byte value)
     }
 }
 
-void Microtutor2::showData(Byte val)
+void MicrotutorII::showData(Byte val)
 {
-    microtutorScreenPointer->showDataTil313Italic(val);
+    microtutorScreenPointer->showData(val);
 }
 
-void Microtutor2::switchQ(int value)
+void MicrotutorII::switchQ(int value)
 {
     microtutorScreenPointer->showDp313Italic(value == 1);
 }
 
-void Microtutor2::cycle(int type)
+void MicrotutorII::cycle(int type)
 {
     switch(cycleType_[type])
     {
@@ -410,7 +409,7 @@ void Microtutor2::cycle(int type)
     }
 }
 
-void Microtutor2::cycleLed()
+void MicrotutorII::cycleLed()
 {
     ledCycleValue_ --;
     if (ledCycleValue_ <= 0)
@@ -420,7 +419,7 @@ void Microtutor2::cycleLed()
     }
 }
 
-void Microtutor2::startComputer()
+void MicrotutorII::startComputer()
 {
     resetPressed_ = false;
    
@@ -455,7 +454,7 @@ void Microtutor2::startComputer()
 
     if (microtutorConfiguration.autoBoot)
     {
-        scratchpadRegister_[0]=p_Main->getBootAddress("Microtutor2", MICROTUTOR2);
+        scratchpadRegister_[0]=p_Main->getBootAddress("MicrotutorII", MICROTUTOR2);
         autoBoot();
     }
 
@@ -477,7 +476,7 @@ void Microtutor2::startComputer()
     threadPointer->Run();
 }
 
-void Microtutor2::writeMemDataType(Word address, Byte type)
+void MicrotutorII::writeMemDataType(Word address, Byte type)
 {
     switch (memoryType_[address/256]&0xff)
     {
@@ -507,7 +506,7 @@ void Microtutor2::writeMemDataType(Word address, Byte type)
     }
 }
 
-Byte Microtutor2::readMemDataType(Word address, uint64_t* executed)
+Byte MicrotutorII::readMemDataType(Word address, uint64_t* executed)
 {
     switch (memoryType_[address/256]&0xff)
     {
@@ -528,7 +527,7 @@ Byte Microtutor2::readMemDataType(Word address, uint64_t* executed)
     return mainMemoryDataType_[address];
 }
 
-Byte Microtutor2::readMem(Word address)
+Byte MicrotutorII::readMem(Word address)
 {
     switch (memoryType_[address / 256]&0xff)
     {
@@ -552,7 +551,7 @@ Byte Microtutor2::readMem(Word address)
     }
 }
 
-Byte Microtutor2::readMemDebug(Word address)
+Byte MicrotutorII::readMemDebug(Word address)
 {
     switch (memoryType_[address / 256]&0xff)
     {
@@ -576,7 +575,7 @@ Byte Microtutor2::readMemDebug(Word address)
     }
 }
 
-void Microtutor2::writeMem(Word address, Byte value, bool writeRom)
+void MicrotutorII::writeMem(Word address, Byte value, bool writeRom)
 {
     switch (memoryType_[address/256]&0xff)
     {
@@ -611,7 +610,7 @@ void Microtutor2::writeMem(Word address, Byte value, bool writeRom)
     }
 }
 
-void Microtutor2::writeMemDebug(Word address, Byte value, bool writeRom)
+void MicrotutorII::writeMemDebug(Word address, Byte value, bool writeRom)
 {
     switch (memoryType_[address/256]&0xff)
     {
@@ -646,7 +645,7 @@ void Microtutor2::writeMemDebug(Word address, Byte value, bool writeRom)
     }
 }
 
-void Microtutor2::cpuInstruction()
+void MicrotutorII::cpuInstruction()
 {
     if (cpuMode_ == RUN)
     {
@@ -667,7 +666,7 @@ void Microtutor2::cpuInstruction()
     }
 }
 
-void Microtutor2::resetPressed()
+void MicrotutorII::resetPressed()
 {
     resetCpu();
     initComputer();
@@ -682,12 +681,12 @@ void Microtutor2::resetPressed()
     p_Main->eventUpdateTitle();
 }
 
-void Microtutor2::onReset()
+void MicrotutorII::onReset()
 {
     resetPressed_ = true;
 }
 
-void Microtutor2::setLedMs(long ms)
+void MicrotutorII::setLedMs(long ms)
 {
     microtutorScreenPointer->setLedMs(ms);
     if (ms == 0)
@@ -697,7 +696,7 @@ void Microtutor2::setLedMs(long ms)
     ledCycleValue_ = ledCycleSize_;
 }
 
-void Microtutor2::activateMainWindow()
+void MicrotutorII::activateMainWindow()
 {
     bool maximize = IsMaximized();
     Iconize(false);
@@ -706,7 +705,7 @@ void Microtutor2::activateMainWindow()
     Maximize(maximize);
 }
 
-void Microtutor2::refreshPanel()
+void MicrotutorII::refreshPanel()
 {
     microtutorScreenPointer->refreshPanel();
 }

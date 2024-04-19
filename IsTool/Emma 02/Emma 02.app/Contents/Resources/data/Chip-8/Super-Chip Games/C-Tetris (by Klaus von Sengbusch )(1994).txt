@@ -1,0 +1,15 @@
+Hello out there
+
+Somehow I didn't manage to find a good Tetris for my HP48GX yet so I wrote one
+myself. It is a S-CHIP48 Program. I think it is quite good, at least very fast
+and full screen!!!
+Every 15 lines a new level starts with more lines at the bottom.
+
+
+The Keys:
+    7   - left
+    5   - turn
+    1   - right
+    4   - drop
+    3   - begin pause
+    9   - stop pause

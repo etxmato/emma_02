@@ -22,9 +22,9 @@ private:
     void deleteBitmaps();
 
 #if defined(__linux__) || defined(__WXMAC__)
-    wxBitmapButton *ledPointer [NUMBER_OF_DIAG_LEDS];
+    wxBitmapButton *diagLedPointer [NUMBER_OF_DIAG_LEDS];
 #else
-    wxButton *ledPointer [NUMBER_OF_DIAG_LEDS];
+    wxButton *diagLedPointer [NUMBER_OF_DIAG_LEDS];
 #endif
     
     wxBitmap *ledOffPointer;
@@ -33,7 +33,7 @@ private:
     wxMask *maskOff;
     wxMask *maskOn;
     
-    int linux_led_pos_y_;
+    int led_pos_y_;
     int statusBarElementMeasure0_;
     int statusBarElementMeasure1_;
     wxString leaderString_;

@@ -7,7 +7,8 @@ public:
     Ps2gpio ();
     ~Ps2gpio () {};
 
-    void configurePs2gpioElf2K(int computerType);
+    void configurePs2gpioElf2K();
+    void configurePs2gpio(bool forceUpperCase, IoConfiguration portConf);
     void charEventPs2gpio(int keycode);
 
     Byte efPs2gpio();
@@ -18,6 +19,7 @@ public:
     void closePs2gpioKeyFile();
     void setForceUpperCasePs2gpio(bool status);
     void resetPs2gpio();
+    void writeGpioControlRegister(Byte value);
 
 private:
     int keyboardValue_;

@@ -63,8 +63,6 @@ BEGIN_EVENT_TABLE(GuiMcds, GuiCosmicos)
     EVT_CHOICE(XRCID("PrintModeMCDS"), GuiMain::onPrintMode)
     EVT_BUTTON(XRCID("PrintFileButtonMCDS"), GuiMain::onPrintFile)
 
-    EVT_COMMAND(wxID_ANY, OPEN_PRINTER_WINDOW, GuiMain::openPrinterFrame)
-
     EVT_CHOICE(XRCID("VTTypeMCDS"), GuiMain::onVT100)
     EVT_SPIN_UP(XRCID("ZoomSpinVtMCDS"), GuiMain::onZoomVt)
     EVT_SPIN_DOWN(XRCID("ZoomSpinVtMCDS"), GuiMain::onZoomVt)
@@ -136,10 +134,13 @@ void GuiMcds::readMcdsConfig()
 {
     selectedComputer_ = MCDS;
 
-    elfConfiguration[MCDS].elfPortConf.emsOutput.resize(1);
+    elfConfiguration[MCDS].ioConfiguration.emsOutput.resize(1);
     readElfPortConfig(MCDS, "Mcds");
 
+    elfConfiguration[MCDS].useTapeHw = false;
+    elfConfiguration[MCDS].vtShow = true;
     conf[MCDS].emsConfigNumber_ = 0;
+    conf[MCDS].videoNumber_ = 0;
 
     conf[MCDS].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "MCDS" + pathSeparator_;
 
@@ -147,7 +148,8 @@ void GuiMcds::readMcdsConfig()
     conf[MCDS].romDir_[MAINROM1] = readConfigDir("/Dir/Mcds/Main_Rom_File1", dataDir_ + "MCDS" + pathSeparator_);
     conf[MCDS].romDir_[MAINROM2] = readConfigDir("/Dir/Mcds/Main_Rom_File2", dataDir_ + "MCDS" + pathSeparator_);
     conf[MCDS].romDir_[MAINROM3] = readConfigDir("/Dir/Mcds/Main_Rom_File3", dataDir_ + "MCDS" + pathSeparator_);
-    elfConfiguration[MCDS].vtCharRomDir_ = readConfigDir("/Dir/Mcds/Vt_Font_Rom_File", dataDir_ + "MCDS" + pathSeparator_);
+    elfConfiguration[MCDS].vt100CharRomDir_ = readConfigDir("/Dir/Mcds/Vt100_Font_Rom_File", dataDir_ + "MCDS" + pathSeparator_);
+    elfConfiguration[MCDS].vt52CharRomDir_ = readConfigDir("/Dir/Mcds/Vt52_Font_Rom_File", dataDir_ + "MCDS" + pathSeparator_);
     conf[MCDS].keyFileDir_ = readConfigDir("/Dir/Mcds/Key_File", dataDir_ + "MCDS" + pathSeparator_);
     conf[MCDS].printFileDir_ = readConfigDir("Dir/Mcds/Print_File", dataDir_ + "MCDS" + pathSeparator_);
     conf[MCDS].screenDumpFileDir_ = readConfigDir("/Dir/Mcds/Video_Dump_File", dataDir_ + "MCDS" + pathSeparator_);
@@ -207,7 +209,8 @@ void GuiMcds::readMcdsConfig()
 
      setVtType("MCDS", MCDS, elfConfiguration[MCDS].vtType, false);
 
-    elfConfiguration[MCDS].vtCharRom_ = configPointer->Read("/Mcds/Vt_Font_Rom_File", "vt100.bin");
+    elfConfiguration[MCDS].vt100CharRom_ = configPointer->Read("/Mcds/Vt100_Font_Rom_File", "vt100.bin");
+    elfConfiguration[MCDS].vt52CharRom_ = configPointer->Read("/Mcds/Vt52_Font_Rom_File", "vt52.a.bin");
 
     long value;
     conf[MCDS].saveStartString_ = configPointer->Read("/Mcds/SaveStart", "0");
@@ -225,9 +228,7 @@ void GuiMcds::readMcdsConfig()
         XRCCTRL(*this, "ScreenDumpFileMCDS", wxComboBox)->SetValue(conf[MCDS].screenDumpFile_);
         
         XRCCTRL(*this, "TurboClockMCDS", wxTextCtrl)->SetValue(conf[MCDS].turboClock_);
-        XRCCTRL(*this, "TurboMCDS", wxCheckBox)->SetValue(conf[MCDS].turbo_);
         turboGui("MCDS");
-        XRCCTRL(*this, "AutoCasLoadMCDS", wxCheckBox)->SetValue(conf[MCDS].autoCassetteLoad_);
         
         XRCCTRL(*this, "PrintModeMCDS", wxChoice)->SetSelection((int)configPointer->Read("/Mcds/Print_Mode", 1l));
         setPrintMode();
@@ -265,7 +266,8 @@ void GuiMcds::writeMcdsDirConfig()
     writeConfigDir("/Dir/Mcds/Main_Rom_File1", conf[MCDS].romDir_[MAINROM1]);
     writeConfigDir("/Dir/Mcds/Main_Rom_File2", conf[MCDS].romDir_[MAINROM2]);
     writeConfigDir("/Dir/Mcds/Main_Rom_File3", conf[MCDS].romDir_[MAINROM3]);
-    writeConfigDir("/Dir/Mcds/Vt_Font_Rom_File", elfConfiguration[MCDS].vtCharRomDir_);
+    writeConfigDir("/Dir/Mcds/Vt100_Font_Rom_File", elfConfiguration[MCDS].vt100CharRomDir_);
+    writeConfigDir("/Dir/Mcds/Vt52_Font_Rom_File", elfConfiguration[MCDS].vt52CharRomDir_);
     writeConfigDir("/Dir/Mcds/Key_File", conf[MCDS].keyFileDir_);
     writeConfigDir("/Dir/Mcds/Print_File", conf[MCDS].printFileDir_);
     writeConfigDir("/Dir/Mcds/Video_Dump_File", conf[MCDS].screenDumpFileDir_);
@@ -280,7 +282,8 @@ void GuiMcds::writeMcdsConfig()
     configPointer->Write("/Mcds/Main_Rom_File1", conf[MCDS].rom_[MAINROM1]);
     configPointer->Write("/Mcds/Main_Rom_File2", conf[MCDS].rom_[MAINROM2]);
     configPointer->Write("/Mcds/Main_Rom_File3", conf[MCDS].rom_[MAINROM3]);
-    configPointer->Write("/Mcds/Vt_Font_Rom_File", elfConfiguration[MCDS].vtCharRom_);
+    configPointer->Write("/Mcds/Vt100_Font_Rom_File", elfConfiguration[MCDS].vt100CharRom_);
+    configPointer->Write("/Mcds/Vt52_Font_Rom_File", elfConfiguration[MCDS].vt52CharRom_);
     configPointer->Write("/Mcds/Key_File", conf[MCDS].keyFile_);
     configPointer->Write("/Mcds/Print_File", conf[MCDS].printFile_);
     configPointer->Write("/Mcds/Video_Dump_File", conf[MCDS].screenDumpFile_);

@@ -39,7 +39,7 @@
 #include "upd765.h"
 
 Cdp18s600::Cdp18s600(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock, ElfConfiguration conf, Conf computerConf)
-:V1870(title, pos, size, zoomLevel, computerType, clock)
+:V1870(title, pos, size, zoomLevel, computerType, clock, 0)
 {
     computerConfiguration = computerConf;
     Cdp18s600Configuration = conf;
@@ -48,7 +48,6 @@ Cdp18s600::Cdp18s600(const wxString& title, const wxPoint& pos, const wxSize& si
     computerType_ = p_Main->getRunningComputerId();
     microboardType_ = p_Main->getMicroboardType(computerType_);
     Cdp18s600ClockSpeed_ = clock;
-    lastAddress_ = 0;
    
     saveStarted_ = false;
     loadStarted_ = false;
@@ -66,7 +65,7 @@ Cdp18s600::Cdp18s600(const wxString& title, const wxPoint& pos, const wxSize& si
     pioMessage_ = "CDP1851 PIO";
 
     p_Printer = new Printer();
-    p_Printer->init(p_Printer, computerTypeStr_, MS2000PRINTER);
+    p_Printer->init(p_Printer, PRINTER_BASIC);
 
     addressLatchCounter_ = 64;
 }
@@ -121,25 +120,25 @@ void Cdp18s600::configureComputer()
     
     setCycleType(COMPUTERCYCLE, LEDCYCLE);
 
-    inType_[1] = MS2000IOGROUP;
-    inType_[2] = MS2000IO2;
-    inType_[3] = MS2000IO3;
-    inType_[4] = MS2000IO4;
-    inType_[5] = MS2000IO5;
-    inType_[6] = MS2000IO6;
-    inType_[7] = MS2000IO7;
-    outType_[1] = MS2000IOGROUP;
-    outType_[2] = MS2000IO2;
-    outType_[3] = MS2000IO3;
-    outType_[4] = MS2000IO4;
-    outType_[5] = MS2000IO5;
-    outType_[6] = MS2000IO6;
-    outType_[7] = MS2000IO7;
+    inType_[0][0][1] = MS2000IOGROUP;
+    inType_[0][0][2] = MS2000IO2;
+    inType_[0][0][3] = MS2000IO3;
+    inType_[0][0][4] = MS2000IO4;
+    inType_[0][0][5] = MS2000IO5;
+    inType_[0][0][6] = MS2000IO6;
+    inType_[0][0][7] = MS2000IO7;
+    outType_[0][0][1] = MS2000IOGROUP;
+    outType_[0][0][2] = MS2000IO2;
+    outType_[0][0][3] = MS2000IO3;
+    outType_[0][0][4] = MS2000IO4;
+    outType_[0][0][5] = MS2000IO5;
+    outType_[0][0][6] = MS2000IO6;
+    outType_[0][0][7] = MS2000IO7;
     
-    efType_[1] = CDP18SEF1;
-    efType_[2] = CDP18SEF2;
-    efType_[3] = CDP18SEF3;
-    efType_[4] = CDP18SEF4;
+    efType_[0][0][1] = CDP18SEF1;
+    efType_[0][0][2] = CDP18SEF2;
+    efType_[0][0][3] = CDP18SEF3;
+    efType_[0][0][4] = CDP18SEF4;
 
     efState_[1] = 1;
     efState_[2] = 1;
@@ -151,33 +150,33 @@ void Cdp18s600::configureComputer()
     else
         p_Main->message("Configuring " + computerTypeStr_);
 
-    p_Main->message("    Output 1: set I/O group");
+    p_Main->message("	Output 1: set I/O group");
  
     p_Main->message("");
 
     if (p_Main->getPrinterStatus(computerType_))
     {
-        messageStr.Printf("    I/O group %X: printer", Cdp18s600Configuration.printerGroup);
+        messageStr.Printf("	I/O group %X: printer", Cdp18s600Configuration.printerGroup);
         p_Main->message(messageStr);
     }
 
     if (Cdp18s600Configuration.useUart)
     {
-        messageStr.Printf("    I/O group %X: video terminal", Cdp18s600Configuration.uartGroup);
+        messageStr.Printf("	I/O group %X: video terminal", Cdp18s600Configuration.uartGroup);
         p_Main->message(messageStr);
     }
 
     if (Cdp18s600Configuration.useTape)
-        p_Main->message("    I/O group 2: tape");
+        p_Main->message("	I/O group 2: tape");
 
-    messageStr = "    I/O group 8: " + pioMessage_;
+    messageStr = "	I/O group 8: " + pioMessage_;
     if (Cdp18s600Configuration.useUpd765 && Cdp18s600Configuration.upd765Group == 8)
         messageStr += " & CDP18S651 (using uPD765)";
     p_Main->message(messageStr);
 
     if (Cdp18s600Configuration.useUpd765 && Cdp18s600Configuration.upd765Group != 8)
     {
-        messageStr.Printf("    I/O group %X: CDP18S651 (using uPD765)", Cdp18s600Configuration.upd765Group);
+        messageStr.Printf("	I/O group %X: CDP18S651 (using uPD765)", Cdp18s600Configuration.upd765Group);
         p_Main->message(messageStr);
     }
 
@@ -196,14 +195,14 @@ void Cdp18s600::configureComputer()
     {
         messageStr.Printf("Configuring printer support on group %X", Cdp18s600Configuration.printerGroup);
         p_Main->message(messageStr);
-        p_Main->message("    Output 6: write data, EF 1: data ready\n");
+        p_Main->message("	Output 6: write data, EF 1: data ready\n");
     }
 
     if (Cdp18s600Configuration.useTape)
     {
         p_Main->message("Configuring tape support on group 2");
-        p_Main->message("    Output 4: tape motor, output 5: cassette out");
-        p_Main->message("    EF 2: cassette in\n");
+        p_Main->message("	Output 4: tape motor, output 5: cassette out");
+        p_Main->message("	EF 2: cassette in\n");
     }
 
     if (Cdp18s600Configuration.useUpd765)
@@ -240,10 +239,10 @@ void Cdp18s600::configurePio()
 #endif
     
     p_Main->message("Configuring CDP1851 PIO on group 8");
-    p_Main->message("    Output 3: write to port A, output 2: write to port B");
-    p_Main->message("    Input 3: read port A, input 2: read port B");
-    p_Main->message("    Output 6: write control register, input 6: read status");
-    p_Main->message("    EF 1: ARDY, EF 2: BRDY");
+    p_Main->message("	Output 3: write to port A, output 2: write to port B");
+    p_Main->message("	Input 3: read port A, input 2: read port B");
+    p_Main->message("	Output 6: write control register, input 6: read status");
+    p_Main->message("	EF 1: ARDY, EF 2: BRDY");
     p_Main->message("");
 }
 
@@ -259,10 +258,10 @@ void Cdp18s600::configureCdp18s660()
     
     messageStr.Printf("Configuring CDP18S660 PIO 1 on group %X", Cdp18s600Configuration.cdp18s660Group1);
     p_Main->message(messageStr);
-    p_Main->message("    Output 4: write to port A, output 6: write to port B");
-    p_Main->message("    Input 4: read port A, input 6: read port B");
-    p_Main->message("    Output 2: write control register, input 2: read status");
-    p_Main->message("    EF 1: ARDY, EF 2: BRDY");
+    p_Main->message("	Output 4: write to port A, output 6: write to port B");
+    p_Main->message("	Input 4: read port A, input 6: read port B");
+    p_Main->message("	Output 2: write control register, input 2: read status");
+    p_Main->message("	EF 1: ARDY, EF 2: BRDY");
     p_Main->message("");
 
 #if defined (__WXMAC__) || (__linux__)
@@ -273,10 +272,10 @@ void Cdp18s600::configureCdp18s660()
     
     messageStr.Printf("Configuring CDP18S660 PIO 2 on group %X", Cdp18s600Configuration.cdp18s660Group2);
     p_Main->message(messageStr);
-    p_Main->message("    Output 4: write to port A, output 6: write to port B");
-    p_Main->message("    Input 4: read port A, input 6: read port B");
-    p_Main->message("    Output 2: write control register, input 2: read status");
-    p_Main->message("    EF 1: ARDY, EF 2: BRDY");
+    p_Main->message("	Output 4: write to port A, output 6: write to port B");
+    p_Main->message("	Input 4: read port A, input 6: read port B");
+    p_Main->message("	Output 2: write control register, input 2: read status");
+    p_Main->message("	EF 1: ARDY, EF 2: BRDY");
     p_Main->message("");
 }
 
@@ -360,7 +359,7 @@ Byte Cdp18s600::ef(int flag)
     if (defaultRet != -1)
         return defaultRet;
     
-    switch(efType_[flag])
+    switch(efType_[0][0][flag])
     {
         case 0:
             return 1;
@@ -380,7 +379,7 @@ Byte Cdp18s600::ef(int flag)
             switch (ioGroup_)
             {
                 case IO_GRP_PIO:
-                    return pioEfState_[0][1];
+                    return pioFramePointer->getEfState(1);
                 break;
                     
                 default:
@@ -393,7 +392,7 @@ Byte Cdp18s600::ef(int flag)
             switch (ioGroup_)
             {
                 case IO_GRP_PIO:
-                    return pioEfState_[0][2];
+                    return pioFramePointer->getEfState(2);
                 break;
 
                 case IO_GRP_TAPE:
@@ -426,12 +425,12 @@ Byte Cdp18s600::ef(int flag)
 
 int Cdp18s600::defaultEf(int flag)
 {
-    if  (ioGroup_ == Cdp18s600Configuration.v1870Group && Cdp18s600Configuration.usev1870)
+    if  (ioGroup_ == Cdp18s600Configuration.ioConfiguration.v1870ioGroup && Cdp18s600Configuration.usev1870)
     {
         if (flag == 1)
             return ef1_1870();
         
-        if (flag == Cdp18s600Configuration.elfPortConf.keyboardEf)
+        if (flag == Cdp18s600Configuration.ioConfiguration.keyboardEf)
             return keyboardEf3_;
     }
     if  (ioGroup_ == Cdp18s600Configuration.printerGroup && p_Main->getPrinterStatus(computerType_))
@@ -444,23 +443,18 @@ int Cdp18s600::defaultEf(int flag)
     if  (ioGroup_ == Cdp18s600Configuration.cdp18s660Group1 && Cdp18s600Configuration.useCdp18s660)
     {
         if (flag == 1)
-            return pioEfState_[1][1];
+            return pioFramePointer1->getEfState(1);
         if (flag == 2)
-            return pioEfState_[1][2];
+            return pioFramePointer1->getEfState(2);
     }
     if  (ioGroup_ == Cdp18s600Configuration.cdp18s660Group2 && Cdp18s600Configuration.useCdp18s660)
     {
         if (flag == 1)
-            return pioEfState_[2][1];
+            return pioFramePointer2->getEfState(1);
         if (flag == 2)
-            return pioEfState_[2][2];
+            return pioFramePointer2->getEfState(2);
     }
     return -1;
-}
-
-void Cdp18s600::setEfState(int pioNumber, int number, Byte value)
-{
-    pioEfState_[pioNumber][number] = value;
 }
 
 Byte Cdp18s600::in(Byte port, Word WXUNUSED(address))
@@ -471,7 +465,7 @@ Byte Cdp18s600::in(Byte port, Word WXUNUSED(address))
     if (defaultRet != -1)
         return defaultRet;
     
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case 0:
             ret = 255;
@@ -531,14 +525,14 @@ int Cdp18s600::defaultIn(Byte port)
 {
     if  (ioGroup_ == Cdp18s600Configuration.uartGroup)
     {
-        if (port == Cdp18s600Configuration.elfPortConf.uartOut)
+        if (port == Cdp18s600Configuration.ioConfiguration.uartOut)
         {
             if (p_Vt100[UART1] != NULL)
                 return p_Vt100[UART1]->uartIn();
             if (p_Serial != NULL)
                 return p_Serial->uartIn();
         }
-        if (port == Cdp18s600Configuration.elfPortConf.uartControl)
+        if (port == Cdp18s600Configuration.ioConfiguration.uartControl)
         {
             if (p_Vt100[UART1] != NULL)
                 return p_Vt100[UART1]->uartStatus();
@@ -546,7 +540,7 @@ int Cdp18s600::defaultIn(Byte port)
                 return p_Serial->uartStatus();
         }
     }
-    if  (ioGroup_ == Cdp18s600Configuration.v1870Group && Cdp18s600Configuration.usev1870)
+    if  (ioGroup_ == Cdp18s600Configuration.ioConfiguration.v1870ioGroup && Cdp18s600Configuration.usev1870)
     {
         if (port == 3)
             return keyboardIn();
@@ -577,7 +571,7 @@ void Cdp18s600::out(Byte port, Word address, Byte value)
     outValues_[port] = value;
     
     defaultOut(port, address, value);
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;
@@ -649,14 +643,14 @@ void Cdp18s600::defaultOut(Byte port, Word address, Byte value)
 {
     if  (ioGroup_ == Cdp18s600Configuration.uartGroup)
     {
-        if (port == Cdp18s600Configuration.elfPortConf.uartOut)
+        if (port == Cdp18s600Configuration.ioConfiguration.uartOut)
         {
             if (p_Vt100[UART1] != NULL)
                 p_Vt100[UART1]->uartOut(value);
             if (p_Serial != NULL)
                 p_Serial->uartOut(value);
         }
-        if (port == Cdp18s600Configuration.elfPortConf.uartControl)
+        if (port == Cdp18s600Configuration.ioConfiguration.uartControl)
         {
             if (p_Vt100[UART1] != NULL)
                 p_Vt100[UART1]->uartControl(value);
@@ -664,37 +658,37 @@ void Cdp18s600::defaultOut(Byte port, Word address, Byte value)
                 p_Serial->uartControl(value);
         }
     }
-    if  (ioGroup_ == Cdp18s600Configuration.v1870Group && Cdp18s600Configuration.usev1870)
+    if  (ioGroup_ == Cdp18s600Configuration.ioConfiguration.v1870ioGroup && Cdp18s600Configuration.usev1870)
     {
         switch (port)
         {
             case 2:
-                p_Video->setInterruptEnable(value == 1);
-                break;
+                p_Video[VIDEOMAIN]->setInterruptEnable(value == 1);
+            break;
                 
             case 3:
                 out3_1870(value);
-                break;
+            break;
                 
             case 4:
                 outValues_[port] = address;
                 out4_1870(address);
-                break;
+            break;
                 
             case 5:
                 outValues_[port] = address;
                 out5_1870(address);
-                break;
+            break;
                 
             case 6:
                 outValues_[port] = address;
                 out6_1870(address);
-                break;
+            break;
                 
             case 7:
                 outValues_[port] = address;
                 out7_1870(address);
-                break;
+            break;
         }
     }
     if  (ioGroup_ == Cdp18s600Configuration.printerGroup && p_Main->getPrinterStatus(computerType_))
@@ -1083,7 +1077,7 @@ void Cdp18s600::showCycleData(Byte val)
     cdp18s640FramePointer->showDataTil313Italic(val);
 }
 
-void Cdp18s600::showAddress(Word val)
+void Cdp18s600::showCycleAddress(Word val)
 {
     cdp18s640FramePointer->showAddressTil313Italic(val);
 }
@@ -1211,7 +1205,7 @@ void Cdp18s600::cycleKeyInput()
                     
                 case 3:
                     saveExec = p_Main->pload();
-                    if (saveExec == 1)
+                    if (saveExec == -1)
                         microRunCommand_ = 0;
                     else
                     {
@@ -1283,7 +1277,7 @@ void Cdp18s600::startComputer()
     
     if (Cdp18s600Configuration.usev1870)
     {
-        if (configure1870Microboard(Cdp18s600Configuration.v1870Group, Cdp18s600Configuration.pageMemSize, Cdp18s600Configuration.v1870VideoMode, Cdp18s600Configuration.v1870InterruptMode))
+        if (configure1870Microboard(Cdp18s600Configuration.ioConfiguration.v1870ioGroup, Cdp18s600Configuration.ioConfiguration.v1870pageMemSize, Cdp18s600Configuration.ioConfiguration.v1870videoMode, Cdp18s600Configuration.ioConfiguration.v1870interruptMode))
         {
             readChargenFile(p_Main->getCharRomDir(MICROBOARD), p_Main->getCharRomFile(MICROBOARD));
         }
@@ -1340,48 +1334,53 @@ void Cdp18s600::startCdp18s660(long ms)
 void Cdp18s600::setDiskNames()
 {
     if (p_Main->getDirectoryMode(Cdp18s600Configuration.fdcType_, 0))
-        setDiskName(1, p_Main->getUpdFloppyDirSwitched(Cdp18s600Configuration.fdcType_, 0), "");
+        setUpdDiskname(1, p_Main->getUpdFloppyDirSwitched(Cdp18s600Configuration.fdcType_, 0), "");
     else
     {
         wxString fileName = p_Main->getUpdFloppyFile(Cdp18s600Configuration.fdcType_, 0);
         if (fileName.Len() == 0)
-            setDiskName(1, p_Main->getUpdFloppyDir(Cdp18s600Configuration.fdcType_, 0), "");
+            setUpdDiskname(1, p_Main->getUpdFloppyDir(Cdp18s600Configuration.fdcType_, 0), "");
         else
-            setDiskName(1, p_Main->getUpdFloppyDir(Cdp18s600Configuration.fdcType_, 0), p_Main->getUpdFloppyFile(Cdp18s600Configuration.fdcType_, 0));
+            setUpdDiskname(1, p_Main->getUpdFloppyDir(Cdp18s600Configuration.fdcType_, 0), p_Main->getUpdFloppyFile(Cdp18s600Configuration.fdcType_, 0));
     }
     
     if (p_Main->getDirectoryMode(Cdp18s600Configuration.fdcType_, 1))
-        setDiskName(2, p_Main->getUpdFloppyDirSwitched(Cdp18s600Configuration.fdcType_, 1), "");
+        setUpdDiskname(2, p_Main->getUpdFloppyDirSwitched(Cdp18s600Configuration.fdcType_, 1), "");
     else
     {
         wxString fileName = p_Main->getUpdFloppyFile(Cdp18s600Configuration.fdcType_, 1);
         if (fileName.Len() == 0)
-            setDiskName(2, p_Main->getUpdFloppyDir(Cdp18s600Configuration.fdcType_, 1), "");
+            setUpdDiskname(2, p_Main->getUpdFloppyDir(Cdp18s600Configuration.fdcType_, 1), "");
         else
-            setDiskName(2, p_Main->getUpdFloppyDir(Cdp18s600Configuration.fdcType_, 1), p_Main->getUpdFloppyFile(Cdp18s600Configuration.fdcType_, 1));
+            setUpdDiskname(2, p_Main->getUpdFloppyDir(Cdp18s600Configuration.fdcType_, 1), p_Main->getUpdFloppyFile(Cdp18s600Configuration.fdcType_, 1));
     }
     
     if (p_Main->getDirectoryMode(Cdp18s600Configuration.fdcType_, 2))
-        setDiskName(3, p_Main->getUpdFloppyDirSwitched(Cdp18s600Configuration.fdcType_, 2), "");
+        setUpdDiskname(3, p_Main->getUpdFloppyDirSwitched(Cdp18s600Configuration.fdcType_, 2), "");
     else
     {
         wxString fileName = p_Main->getUpdFloppyFile(Cdp18s600Configuration.fdcType_, 2);
         if (fileName.Len() == 0)
-            setDiskName(3, p_Main->getUpdFloppyDir(Cdp18s600Configuration.fdcType_, 2), "");
+            setUpdDiskname(3, p_Main->getUpdFloppyDir(Cdp18s600Configuration.fdcType_, 2), "");
         else
-            setDiskName(3, p_Main->getUpdFloppyDir(Cdp18s600Configuration.fdcType_, 2), p_Main->getUpdFloppyFile(Cdp18s600Configuration.fdcType_, 2));
+            setUpdDiskname(3, p_Main->getUpdFloppyDir(Cdp18s600Configuration.fdcType_, 2), p_Main->getUpdFloppyFile(Cdp18s600Configuration.fdcType_, 2));
     }
     
     if (p_Main->getDirectoryMode(Cdp18s600Configuration.fdcType_, 3))
-        setDiskName(4, p_Main->getUpdFloppyDirSwitched(Cdp18s600Configuration.fdcType_, 3), "");
+        setUpdDiskname(4, p_Main->getUpdFloppyDirSwitched(Cdp18s600Configuration.fdcType_, 3), "");
     else
     {
         wxString fileName = p_Main->getUpdFloppyFile(Cdp18s600Configuration.fdcType_, 3);
         if (fileName.Len() == 0)
-            setDiskName(4, p_Main->getUpdFloppyDir(Cdp18s600Configuration.fdcType_, 3), "");
+            setUpdDiskname(4, p_Main->getUpdFloppyDir(Cdp18s600Configuration.fdcType_, 3), "");
         else
-            setDiskName(4, p_Main->getUpdFloppyDir(Cdp18s600Configuration.fdcType_, 3), p_Main->getUpdFloppyFile(Cdp18s600Configuration.fdcType_, 3));
+            setUpdDiskname(4, p_Main->getUpdFloppyDir(Cdp18s600Configuration.fdcType_, 3), p_Main->getUpdFloppyFile(Cdp18s600Configuration.fdcType_, 3));
     }
+}
+
+void Cdp18s600::changeDiskName(int disk, wxString dirName, wxString fileName)
+{
+    setUpdDiskname(disk, dirName, fileName);
 }
 
 void Cdp18s600::readRoms()
@@ -1800,7 +1799,7 @@ void Cdp18s600::checkComputerFunction()
                 break;
                     
                 case 0xb011:
-                    cdpRunState_ = RESETSTATECW;
+                    cdpRunState_ = BASICSTATECW;
                 break;
                 
                 case 0xb053:
@@ -1851,7 +1850,7 @@ void Cdp18s600::checkComputerFunction()
                 break;
 
                 case 0xb011:
-                    cdpRunState_ = RESETSTATECW;
+                    cdpRunState_ = BASICSTATECW;
                     p_Main->setScrtValues(true, 4, 0xc6bc, 5, 0xc6dd, "UT63_BASIC");
                 break;
                     
@@ -1994,7 +1993,7 @@ void Cdp18s600::startComputerRun(bool load)
     {
         load_ = load;
         microRunCommand_ = 1;
-        if (cdpRunState_ == RESETSTATECW)
+        if (cdpRunState_ == BASICSTATECW)
             microRunCommand_ = 2;
         if (cdpRunState_ == BASICSTATE)
             microRunCommand_ = 3;
@@ -2014,7 +2013,7 @@ void Cdp18s600::releaseButtonOnScreen(HexButton* buttonPointer, int WXUNUSED(but
     cdp18s640FramePointer->releaseButtonOnScreen(buttonPointer);
 }
 
-void Cdp18s600::releaseButtonOnScreen2(HexButton* buttonPointer, int WXUNUSED(buttonType), int pioNumber)
+void Cdp18s600::releaseButtonOnScreen1851(HexButton* buttonPointer, int WXUNUSED(buttonType), int pioNumber)
 {
     switch (pioNumber)
     {
@@ -2041,7 +2040,7 @@ void Cdp18s600::activateMainWindow()
     Maximize(maximize);*/
 }
 
-void Cdp18s600::showPio(bool state)
+void Cdp18s600::showCdp1851(bool state)
 {
     pioFramePointer->Show(state);
     if (state)
@@ -2062,14 +2061,14 @@ void Cdp18s600::showCdp18s660Pio2(bool state)
         pioFramePointer2->refreshLeds();
 }
 
-void Cdp18s600::removePio(int pioNumber)
+void Cdp18s600::removeCdp1851(int pioNumber)
 {
     switch (pioNumber)
     {
         case 0:
             Cdp18s600Configuration.usePio = false;
             p_Main->pioWindows(computerType_, false);
-            showPio(false);
+            showCdp1851(false);
         break;
 
         case 1:
@@ -2084,6 +2083,13 @@ void Cdp18s600::removePio(int pioNumber)
             pioFramePointer2->Show(false);
         break;
     }
+}
+
+void Cdp18s600::removeCdp1852(int pioNumber)
+{
+    Cdp18s600Configuration.usePio = false;
+    p_Main->pioWindows(computerType_, false);
+    showCdp1851(false);
 }
 
 void Cdp18s600::setHeaderTitle(const wxString& title)
@@ -2118,17 +2124,17 @@ void Cdp18s601::configurePio()
     p_Main->message("Configuring CDP1851 PIO on group 8");
     if (microboardType_ == MICROBOARD_CDP18S603A || microboardType_ == MICROBOARD_CDP18S606  || microboardType_ == MICROBOARD_CDP18S608)
     {
-        p_Main->message("    Output 4/5: write to port A, output 6/7: write to port B");
-        p_Main->message("    Input 4/5: read port A, input 6/7: read port B");
-        p_Main->message("    Output 2/3: write control register, input 2/3: read status");
+        p_Main->message("	Output 4/5: write to port A, output 6/7: write to port B");
+        p_Main->message("	Input 4/5: read port A, input 6/7: read port B");
+        p_Main->message("	Output 2/3: write control register, input 2/3: read status");
     }
     else
     {
-        p_Main->message("    Output 4: write to port A, output 6: write to port B");
-        p_Main->message("    Input 4: read port A, input 6: read port B");
-        p_Main->message("    Output 2: write control register, input 2: read status");
+        p_Main->message("	Output 4: write to port A, output 6: write to port B");
+        p_Main->message("	Input 4: read port A, input 6: read port B");
+        p_Main->message("	Output 2: write control register, input 2: read status");
     }
-    p_Main->message("    EF 1: ARDY, EF 2: BRDY");
+    p_Main->message("	EF 1: ARDY, EF 2: BRDY");
     p_Main->message("");
 }
 
@@ -2140,7 +2146,7 @@ Byte Cdp18s601::in(Byte port, Word WXUNUSED(address))
     if (defaultRet != -1)
         return defaultRet;
     
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case 0:
             ret = 255;
@@ -2219,7 +2225,7 @@ void Cdp18s601::out(Byte port, Word address, Byte value)
     outValues_[port] = value;
     
     defaultOut(port, address, value);
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;
@@ -2328,9 +2334,9 @@ Cdp18s602::~Cdp18s602()
 void Cdp18s602::configurePio()
 {
 #if defined (__WXMAC__) || (__linux__)
-    cdp1852FramePointer = new Cdp1852Frame("CDP1852", p_Main->getSecondFramePos(computerType_), wxSize(310, 180));
+    cdp1852FramePointer = new Cdp1852Frame("CDP1852", p_Main->getSecondFramePos(computerType_), wxSize(310, 180), 0);
 #else
-    cdp1852FramePointer = new Cdp1852Frame("CDP1852", p_Main->getSecondFramePos(computerType_), wxSize(329, 180));
+    cdp1852FramePointer = new Cdp1852Frame("CDP1852", p_Main->getSecondFramePos(computerType_), wxSize(329, 180), 0);
 #endif
    
     if (microboardType_ == MICROBOARD_CDP18S605 || microboardType_ == MICROBOARD_CDP18S610)
@@ -2340,8 +2346,8 @@ void Cdp18s602::configurePio()
     }
     
     p_Main->message("Configuring CDP1852 on group 8");
-    p_Main->message("    Output 2: write to port, input 2: read port");
-    p_Main->message("    EF 3: STB");
+    p_Main->message("	Output 2: write to port, input 2: read port");
+    p_Main->message("	EF 3: STB");
     p_Main->message("");
 }
 
@@ -2423,7 +2429,7 @@ Byte Cdp18s602::ef(int flag)
     if (defaultRet != -1)
         return defaultRet;
     
-    switch(efType_[flag])
+    switch(efType_[0][0][flag])
     {
         case 0:
             return 1;
@@ -2462,7 +2468,7 @@ Byte Cdp18s602::ef(int flag)
                 {
                     case IO_GRP_PIO:
                         if (Cdp18s600Configuration.usePio)
-                            return pioEfState_[0][3];
+                            return cdp1852FramePointer->getEfState();
                         else
                             return 1;
                     break;
@@ -2493,7 +2499,7 @@ Byte Cdp18s602::in(Byte port, Word WXUNUSED(address))
     if (defaultRet != -1)
         return defaultRet;
     
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case 0:
             ret = 255;
@@ -2543,7 +2549,7 @@ void Cdp18s602::out(Byte port, Word address, Byte value)
     outValues_[port] = value;
     
     defaultOut(port, address, value);
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;
@@ -2624,7 +2630,7 @@ void Cdp18s602::setLedMs(long ms)
     ledCycleValue_ = ledCycleSize_;
 }
 
-void Cdp18s602::releaseButtonOnScreen2(HexButton* buttonPointer, int WXUNUSED(buttonType), int WXUNUSED(pioNumber))
+void Cdp18s602::releaseButtonOnScreen1852(HexButton* buttonPointer, int WXUNUSED(buttonType), int WXUNUSED(pioNumber))
 {
     cdp1852FramePointer->releaseButtonOnScreen(buttonPointer);
 }
@@ -2643,7 +2649,7 @@ void Cdp18s602::moveWindows()
         cdp18s640FramePointer->Move(p_Main->getMainPos(computerType_));
 }
 
-void Cdp18s602::showPio(bool state)
+void Cdp18s602::showCdp1851(bool state)
 {
     cdp1852FramePointer->Show(state);
     if (state)
@@ -2679,19 +2685,19 @@ Cdp18s604b::~Cdp18s604b()
 void Cdp18s604b::configurePio()
 {
 #if defined (__WXMAC__) || (__linux__)
-    cdp1852FramePointer = new Cdp1852Frame("CDP1852", p_Main->getSecondFramePos(computerType_), wxSize(310, 180));
+    cdp1852FramePointer = new Cdp1852Frame("CDP1852", p_Main->getSecondFramePos(computerType_), wxSize(310, 180), 0);
 #else
-    cdp1852FramePointer = new Cdp1852Frame("CDP1852", p_Main->getSecondFramePos(computerType_), wxSize(329, 180));
+    cdp1852FramePointer = new Cdp1852Frame("CDP1852", p_Main->getSecondFramePos(computerType_), wxSize(329, 180), 0);
 #endif
     
     p_Main->message("Configuring CDP1852 on group 8");
-    p_Main->message("    Output 2: write to port, input 2: read port");
-    p_Main->message("    EF 3: STB");
+    p_Main->message("	Output 2: write to port, input 2: read port");
+    p_Main->message("	EF 3: STB");
     p_Main->message("");
     
     p_Main->message("Configuring CD4536B on group 8");
-    p_Main->message("    Output 3: write control byte");
-    p_Main->message("    EF 2: Timer out");
+    p_Main->message("	Output 3: write control byte");
+    p_Main->message("	EF 2: Timer out");
     p_Main->message("");
 }
 
@@ -2791,7 +2797,7 @@ Byte Cdp18s604b::ef(int flag)
     if (defaultRet != -1)
         return defaultRet;
     
-    switch(efType_[flag])
+    switch(efType_[0][0][flag])
     {
         case 0:
             return 1;
@@ -2833,7 +2839,7 @@ Byte Cdp18s604b::ef(int flag)
                 switch (ioGroup_)
                 {
                     case IO_GRP_PIO:
-                        return pioEfState_[0][3];
+                        return cdp1852FramePointer->getEfState();
                     break;
                     
                     default:
@@ -2862,7 +2868,7 @@ Byte Cdp18s604b::in(Byte port, Word WXUNUSED(address))
     if (defaultRet != -1)
         return defaultRet;
     
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case 0:
             ret = 255;
@@ -2911,7 +2917,7 @@ void Cdp18s604b::out(Byte port, Word address, Byte value)
     outValues_[port] = value;
     
     defaultOut(port, address, value);
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;
@@ -3014,7 +3020,7 @@ void Cdp18s604b::startComputer()
     
     if (Cdp18s600Configuration.usev1870)
     {
-        if (configure1870Microboard(Cdp18s600Configuration.v1870Group, Cdp18s600Configuration.pageMemSize, Cdp18s600Configuration.v1870VideoMode, Cdp18s600Configuration.v1870InterruptMode))
+        if (configure1870Microboard(Cdp18s600Configuration.ioConfiguration.v1870ioGroup, Cdp18s600Configuration.ioConfiguration.v1870pageMemSize, Cdp18s600Configuration.ioConfiguration.v1870videoMode, Cdp18s600Configuration.ioConfiguration.v1870interruptMode))
         {
             readChargenFile(p_Main->getCharRomDir(MICROBOARD), p_Main->getCharRomFile(MICROBOARD));
         }
@@ -3187,7 +3193,7 @@ void Cdp18s604b::setLedMs(long ms)
     ledCycleValue_ = ledCycleSize_;
 }
 
-void Cdp18s604b::releaseButtonOnScreen2(HexButton* buttonPointer, int WXUNUSED(buttonType), int WXUNUSED(pioNumber))
+void Cdp18s604b::releaseButtonOnScreen1852(HexButton* buttonPointer, int WXUNUSED(buttonType), int WXUNUSED(pioNumber))
 {
     cdp1852FramePointer->releaseButtonOnScreen(buttonPointer);
 }
@@ -3206,7 +3212,7 @@ void Cdp18s604b::moveWindows()
         cdp18s640FramePointer->Move(p_Main->getMainPos(computerType_));
 }
 
-void Cdp18s604b::showPio(bool state)
+void Cdp18s604b::showCdp1851(bool state)
 {
     cdp1852FramePointer->Show(state);
     if (state)
@@ -3251,25 +3257,25 @@ void Rcasbc::configureComputer()
     
     setCycleType(COMPUTERCYCLE, LEDCYCLE);
     
-    inType_[1] = MS2000IOGROUP;
-    inType_[2] = MS2000IO2;
-    inType_[3] = MS2000IO3;
-    inType_[4] = MS2000IO4;
-    inType_[5] = MS2000IO5;
-    inType_[6] = MS2000IO6;
-    inType_[7] = MS2000IO7;
-    outType_[1] = MS2000IOGROUP;
-    outType_[2] = MS2000IO2;
-    outType_[3] = MS2000IO3;
-    outType_[4] = MS2000IO4;
-    outType_[5] = MS2000IO5;
-    outType_[6] = MS2000IO6;
-    outType_[7] = MS2000IO7;
+    inType_[0][0][1] = MS2000IOGROUP;
+    inType_[0][0][2] = MS2000IO2;
+    inType_[0][0][3] = MS2000IO3;
+    inType_[0][0][4] = MS2000IO4;
+    inType_[0][0][5] = MS2000IO5;
+    inType_[0][0][6] = MS2000IO6;
+    inType_[0][0][7] = MS2000IO7;
+    outType_[0][0][1] = MS2000IOGROUP;
+    outType_[0][0][2] = MS2000IO2;
+    outType_[0][0][3] = MS2000IO3;
+    outType_[0][0][4] = MS2000IO4;
+    outType_[0][0][5] = MS2000IO5;
+    outType_[0][0][6] = MS2000IO6;
+    outType_[0][0][7] = MS2000IO7;
     
-    efType_[1] = CDP18SEF1;
-    efType_[2] = CDP18SEF2;
-    efType_[3] = CDP18SEF3;
-    efType_[4] = CDP18SEF4;
+    efType_[0][0][1] = CDP18SEF1;
+    efType_[0][0][2] = CDP18SEF2;
+    efType_[0][0][3] = CDP18SEF3;
+    efType_[0][0][4] = CDP18SEF4;
 
     efState_[1] = 1;
     efState_[2] = 1;
@@ -3279,20 +3285,20 @@ void Rcasbc::configureComputer()
     p_Main->message("Configuring " + computerTypeStr_ + " with " + p_Main->getMicroboardTypeStr(microboardType_));
 
     if (p_Main->getPrinterStatus(computerType_) || Cdp18s600Configuration.useTape || Cdp18s600Configuration.useUpd765)
-        p_Main->message("    Output 1: set I/O group\n");
+        p_Main->message("	Output 1: set I/O group\n");
     
     if (p_Main->getPrinterStatus(computerType_))
     {
-        messageStr.Printf("    I/O group %X: printer", Cdp18s600Configuration.printerGroup);
+        messageStr.Printf("	I/O group %X: printer", Cdp18s600Configuration.printerGroup);
         p_Main->message(messageStr);
     }
     
     if (Cdp18s600Configuration.useTape)
-        p_Main->message("    I/O group 2: tape");
+        p_Main->message("	I/O group 2: tape");
     
     if (Cdp18s600Configuration.useUpd765)
     {
-        messageStr.Printf("    I/O group %X: CDP18S651 (using uPD765)", Cdp18s600Configuration.upd765Group);
+        messageStr.Printf("	I/O group %X: CDP18S651 (using uPD765)", Cdp18s600Configuration.upd765Group);
         p_Main->message(messageStr);
     }
     p_Main->message("");
@@ -3323,14 +3329,14 @@ void Rcasbc::configureComputer()
     {
         messageStr.Printf("Configuring printer support on group %X", Cdp18s600Configuration.printerGroup);
         p_Main->message(messageStr);
-        p_Main->message("    Output 6: write data, EF 1: data ready\n");
+        p_Main->message("	Output 6: write data, EF 1: data ready\n");
     }
     
     if (Cdp18s600Configuration.useTape)
     {
         p_Main->message("Configuring tape support on group 2");
-        p_Main->message("    Output 4: tape motor, output 5: cassette out");
-        p_Main->message("    EF 2: cassette in\n");
+        p_Main->message("	Output 4: tape motor, output 5: cassette out");
+        p_Main->message("	EF 2: cassette in\n");
     }
     
     if (Cdp18s600Configuration.useUpd765)
@@ -3360,9 +3366,9 @@ void Rcasbc::configurePio()
 #endif
     
     p_Main->message("Configuring CDP1851 PIO");
-    p_Main->message("    Output 2: write to port A, output 3: write to port B");
-    p_Main->message("    Input 2: read port A, input 3: read port B");
-    p_Main->message("    Output 1: write control register, input 1: read status");
+    p_Main->message("	Output 2: write to port A, output 3: write to port B");
+    p_Main->message("	Input 2: read port A, input 3: read port B");
+    p_Main->message("	Output 1: write control register, input 1: read status");
     p_Main->message("");
 }
 
@@ -3372,7 +3378,7 @@ Byte Rcasbc::ef(int flag)
     if (defaultRet != -1)
         return defaultRet;
     
-    switch(efType_[flag])
+    switch(efType_[0][0][flag])
     {
         case 0:
             return 1;
@@ -3421,7 +3427,7 @@ Byte Rcasbc::in(Byte port, Word WXUNUSED(address))
     if (defaultRet != -1)
         return defaultRet;
     
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case 0:
             ret = 255;
@@ -3472,7 +3478,7 @@ void Rcasbc::out(Byte port, Word address, Byte value)
     outValues_[port] = value;
     
     defaultOut(port, address, value);
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;
@@ -3551,7 +3557,7 @@ void Rcasbc::startComputer()
     
     if (Cdp18s600Configuration.usev1870)
     {
-        if (configure1870Microboard(Cdp18s600Configuration.v1870Group, Cdp18s600Configuration.pageMemSize, Cdp18s600Configuration.v1870VideoMode, Cdp18s600Configuration.v1870InterruptMode))
+        if (configure1870Microboard(Cdp18s600Configuration.ioConfiguration.v1870ioGroup, Cdp18s600Configuration.ioConfiguration.v1870pageMemSize, Cdp18s600Configuration.ioConfiguration.v1870videoMode, Cdp18s600Configuration.ioConfiguration.v1870interruptMode))
         {
             readChargenFile(p_Main->getCharRomDir(MICROBOARD), p_Main->getCharRomFile(MICROBOARD));
         }

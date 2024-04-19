@@ -105,13 +105,17 @@ void GuiMembership::readMembershipConfig()
     elfConfiguration[MEMBER].bellFrequency_ = (int)configPointer->Read("/Membership/Bell_Frequency", 800);
     elfConfiguration[MEMBER].useUart = false;
 
+    elfConfiguration[MEMBER].useTapeHw = false;
+    elfConfiguration[MEMBER].vtShow = true;
     conf[MEMBER].emsConfigNumber_ = 0;
+    conf[MEMBER].videoNumber_ = 0;
 
     conf[MEMBER].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "Membership" + pathSeparator_;
 
     conf[MEMBER].mainDir_ = readConfigDir("/Dir/Membership/Main", dataDir_ + "Membership" + pathSeparator_);
     conf[MEMBER].romDir_[MAINROM1] = readConfigDir("/Dir/Membership/Main_Rom_File", dataDir_ + "Membership" + pathSeparator_);
-    elfConfiguration[MEMBER].vtCharRomDir_ = readConfigDir("/Dir/Membership/Vt_Font_Rom_File", dataDir_ + "Membership" + pathSeparator_);
+    elfConfiguration[MEMBER].vt100CharRomDir_ = readConfigDir("/Dir/Membership/Vt100_Font_Rom_File", dataDir_ + "Membership" + pathSeparator_);
+    elfConfiguration[MEMBER].vt52CharRomDir_ = readConfigDir("/Dir/Membership/Vt52_Font_Rom_File", dataDir_ + "Membership" + pathSeparator_);
     conf[MEMBER].ramDir_ = readConfigDir("/Dir/Membership/Software_File", dataDir_ + "Membership" + pathSeparator_);
     conf[MEMBER].screenDumpFileDir_ = readConfigDir("/Dir/Membership/Video_Dump_File", dataDir_ + "Membership" + pathSeparator_);
     conf[MEMBER].wavFileDir_[0] = readConfigDir("/Dir/Membership/Terminal_File", dataDir_ + "Membership" + pathSeparator_);
@@ -177,7 +181,8 @@ void GuiMembership::readMembershipConfig()
     conf[MEMBER].realCassetteLoad_ = false;
 
     setVtType("Membership", MEMBER, elfConfiguration[MEMBER].vtType, false);
-    elfConfiguration[MEMBER].vtCharRom_ = configPointer->Read("/Membership/Vt_Font_Rom_File", "vt100.bin");
+    elfConfiguration[MEMBER].vt100CharRom_ = configPointer->Read("/Membership/Vt100_Font_Rom_File", "vt100.bin");
+    elfConfiguration[MEMBER].vt52CharRom_ = configPointer->Read("/Membership/Vt52_Font_Rom_File", "vt52.a.bin");
 
     conf[MEMBER].saveStartString_ = configPointer->Read("/Membership/SaveStart", "0");
     if (!conf[MEMBER].saveStartString_.ToLong(&value, 16))
@@ -194,7 +199,6 @@ void GuiMembership::readMembershipConfig()
         XRCCTRL(*this, "MainRomMembership", wxComboBox)->SetValue(conf[MEMBER].rom_[MAINROM1]);
         XRCCTRL(*this, "ScreenDumpFileMembership", wxComboBox)->SetValue(conf[MEMBER].screenDumpFile_);
         XRCCTRL(*this, "WavFileMembership", wxTextCtrl)->SetValue(conf[MEMBER].wavFile_[0]);
-        XRCCTRL(*this, "AutoCasLoadMembership", wxCheckBox)->SetValue(conf[MEMBER].autoCassetteLoad_);
 
         if (elfConfiguration[MEMBER].vtExternal)
             XRCCTRL(*this, "VTTypeMembership", wxChoice)->SetSelection(EXTERNAL_TERMINAL);
@@ -231,7 +235,7 @@ void GuiMembership::readMembershipConfig()
 
     elfConfiguration[MEMBER].usePortExtender = false;
     elfConfiguration[MEMBER].ideEnabled = false;
-    elfConfiguration[MEMBER].fdcEnabled = false;
+    elfConfiguration[MEMBER].fdc1793Enabled = false;
     elfConfiguration[MEMBER].useLedModule = false;
     elfConfiguration[MEMBER].useTape = false;
 }
@@ -241,7 +245,8 @@ void GuiMembership::writeMembershipDirConfig()
     writeConfigDir("/Dir/Membership/Main", conf[MEMBER].mainDir_);
     writeConfigDir("/Dir/Membership/Main_Rom_File", conf[MEMBER].romDir_[MAINROM1]);
     writeConfigDir("/Dir/Membership/Software_File", conf[MEMBER].ramDir_);
-    writeConfigDir("/Dir/Membership/Vt_Font_Rom_File", elfConfiguration[MEMBER].vtCharRomDir_);
+    writeConfigDir("/Dir/Membership/Vt100_Font_Rom_File", elfConfiguration[MEMBER].vt100CharRomDir_);
+    writeConfigDir("/Dir/Membership/Vt52_Font_Rom_File", elfConfiguration[MEMBER].vt52CharRomDir_);
     writeConfigDir("/Dir/Membership/Video_Dump_File", conf[MEMBER].screenDumpFileDir_);
     writeConfigDir("/Dir/Membership/Terminal_File", conf[MEMBER].wavFileDir_[0]);
     writeConfigDir("/Dir/Membership/Vt_Wav_File", elfConfiguration[MEMBER].vtWavFileDir_);
@@ -252,7 +257,8 @@ void GuiMembership::writeMembershipConfig()
     wxString buffer;
 
     configPointer->Write("/Membership/Main_Rom_File", conf[MEMBER].rom_[MAINROM1]);
-    configPointer->Write("/Membership/Vt_Font_Rom_File", elfConfiguration[MEMBER].vtCharRom_);
+    configPointer->Write("/Membership/Vt100_Font_Rom_File", elfConfiguration[MEMBER].vt100CharRom_);
+    configPointer->Write("/Membership/Vt52_Font_Rom_File", elfConfiguration[MEMBER].vt52CharRom_);
     configPointer->Write("/Membership/Video_Dump_File", conf[MEMBER].screenDumpFile_);
     configPointer->Write("/Membership/Terminal_File", conf[MEMBER].wavFile_[0]);
     configPointer->Write("/Membership/Vt_Wav_File", elfConfiguration[MEMBER].vtWavFile_);
@@ -283,7 +289,7 @@ void GuiMembership::writeMembershipConfig()
     configPointer->Write("/Membership/Enable_Auto_Boot", elfConfiguration[MEMBER].autoBoot);
     buffer.Printf("%04X", (unsigned int)conf[MEMBER].bootAddress_);
     configPointer->Write("/Membership/Boot_Address", buffer);
-    configPointer->Write("/Membership/Zoom", conf[MEMBER].zoom_);
+    configPointer->Write("/Membership/Zoom", conf[MEMBER].zoom_[VIDEOMAIN]);
     configPointer->Write("/Membership/Vt_Zoom", conf[MEMBER].zoomVt_);
     configPointer->Write("/Membership/Force_Uppercase", elfConfiguration[MEMBER].forceUpperCase);
     configPointer->Write("/Membership/Open_Control_Windows", elfConfiguration[MEMBER].useElfControlWindows);

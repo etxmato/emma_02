@@ -42,7 +42,6 @@ Mcds::Mcds(const wxString& title, const wxPoint& pos, const wxSize& size, double
     McdsConfiguration = conf;
 
     McdsClockSpeed_ = clock;
-    lastAddress_ = 0;
 
 #ifndef __WXMAC__
     SetIcon(wxICON(app_icon));
@@ -54,7 +53,7 @@ Mcds::Mcds(const wxString& title, const wxPoint& pos, const wxSize& size, double
     loadStarted_ = false;
 
     p_Printer = new Printer();
-    p_Printer->init(p_Printer, "MCDS", MS2000PRINTER);
+    p_Printer->init(p_Printer, PRINTER_BASIC);
 }
 
 Mcds::~Mcds()
@@ -78,27 +77,27 @@ void Mcds::onClose(wxCloseEvent&WXUNUSED(event) )
 
 void Mcds::configureComputer()
 {
-    inType_[1] = MS2000IOGROUP;
-    inType_[2] = MS2000IO2;
-    inType_[3] = MS2000IO3;
-    inType_[4] = MS2000IO4;
-    inType_[5] = MS2000IO5;
-    inType_[6] = MS2000IO6;
-    inType_[7] = MS2000IO7;
-    outType_[1] = MS2000IOGROUP;
-    outType_[2] = MS2000IO2;
-    outType_[3] = MS2000IO3;
-    outType_[4] = MS2000IO4;
-    outType_[5] = MS2000IO5;
-    outType_[6] = MS2000IO6;
-    outType_[7] = MS2000IO7;
+    inType_[0][0][1] = MS2000IOGROUP;
+    inType_[0][0][2] = MS2000IO2;
+    inType_[0][0][3] = MS2000IO3;
+    inType_[0][0][4] = MS2000IO4;
+    inType_[0][0][5] = MS2000IO5;
+    inType_[0][0][6] = MS2000IO6;
+    inType_[0][0][7] = MS2000IO7;
+    outType_[0][0][1] = MS2000IOGROUP;
+    outType_[0][0][2] = MS2000IO2;
+    outType_[0][0][3] = MS2000IO3;
+    outType_[0][0][4] = MS2000IO4;
+    outType_[0][0][5] = MS2000IO5;
+    outType_[0][0][6] = MS2000IO6;
+    outType_[0][0][7] = MS2000IO7;
 
-    efType_[2] = MS2000CASEF;
+    efType_[0][0][2] = MS2000CASEF;
     
     p_Main->message("Configuring MCDS");
-    p_Main->message("    Output 1: set I/O group, input 1: read I/O group");
-    p_Main->message("    I/O group 1: video terminal & printer");
-    p_Main->message("    I/O group 2: tape");
+    p_Main->message("	Output 1: set I/O group, input 1: read I/O group");
+    p_Main->message("	I/O group 1: video terminal & printer");
+    p_Main->message("	I/O group 2: tape");
  
     p_Main->message("");
     
@@ -120,12 +119,12 @@ void Mcds::configureComputer()
     }
 
     p_Main->message("Configuring printer support");
-    p_Main->message("    Output 6: data out");
-    p_Main->message("    EF 1: printer ready\n");
+    p_Main->message("	Output 6: data out");
+    p_Main->message("	EF 1: printer ready\n");
 
     p_Main->message("Configuring tape support");
-    p_Main->message("    Output 4: tape motor, output 5: cassette out");
-    p_Main->message("    EF 2: cassette in\n");
+    p_Main->message("	Output 4: tape motor, output 5: cassette out");
+    p_Main->message("	EF 2: cassette in\n");
 
     resetCpu();
 }
@@ -143,7 +142,7 @@ void Mcds::initComputer()
 
 Byte Mcds::ef(int flag)
 {
-    switch(efType_[flag])
+    switch(efType_[0][0][flag])
     {
         case 0:
             return 1;
@@ -175,7 +174,7 @@ Byte Mcds::in(Byte port, Word WXUNUSED(address))
     Byte ret;
     ret = 0;
 
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case 0:
             ret = 255;
@@ -214,7 +213,7 @@ void Mcds::out(Byte port, Word WXUNUSED(address), Byte value)
 {
     outValues_[port] = value;
 
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;
@@ -533,7 +532,7 @@ void Mcds::checkComputerFunction()
         break;
             
         case 0xb011:
-            mcdsRunState_ = RESETSTATECW;
+            mcdsRunState_ = BASICSTATECW;
         break;
     
         case BASICADDR_READY_MCDS:

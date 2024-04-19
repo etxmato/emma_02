@@ -84,7 +84,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libserialport.a comctl32.lib rpcrt4.lib winmm.lib advapi32.lib SDL2.lib SDL2main.lib wxmsw31u_xrc.lib wxmsw31u_html.lib wxmsw31u_adv.lib wxmsw31u_core.lib wxbase31u_xml.lib wxbase31u_net.lib wxbase31u.lib wxregexu.lib wxexpat.lib wsock32.lib wxtiff.lib wxjpeg.lib wxpng.lib wxzlib.lib libcurl.lib ws2_32.lib wldap32.lib crypt32.lib"
+				AdditionalDependencies="libserialport.a comctl32.lib rpcrt4.lib winmm.lib advapi32.lib SDL2.lib SDL2main.lib wxmsw32u_xrc.lib wxmsw32u_html.lib wxmsw32u_adv.lib wxmsw32u_core.lib wxbase32u_xml.lib wxbase32u_net.lib wxbase32u.lib wxregexu.lib wxexpat.lib wsock32.lib wxtiff.lib wxjpeg.lib wxpng.lib wxzlib.lib libcurl.lib ws2_32.lib wldap32.lib crypt32.lib"
 				OutputFile="$(SolutionDir)$(PlatformName)\$(ConfigurationName)\Emma 02.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
@@ -158,7 +158,7 @@
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories=".;.\images;&quot;$(SDL)\include&quot;;&quot;$(WXWIN)\lib\vc_x64_lib\mswu&quot;;&quot;$(WXWIN)\include&quot;;&quot;$(WXWIN)\include\msvc&quot;;&quot;$(CURL)\include\&quot;;&quot;$(SERIALPORT)\Win64\include\&quot;"
-				PreprocessorDefinitions="WIN32;WINVER=0x0500;__WXMSW__;_WINDOWS;NOPCH"
+				PreprocessorDefinitions="WIN64;WINVER=0x0500;__WXMSW__;_WINDOWS;NOPCH"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -188,7 +188,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libserialport.lib comctl32.lib rpcrt4.lib winmm.lib advapi32.lib SDL2.lib SDL2main.lib wxmsw31u_xrc.lib wxmsw31u_html.lib wxmsw31u_adv.lib wxmsw31u_core.lib wxbase31u_xml.lib wxbase31u_net.lib wxbase31u.lib wxregexu.lib wxexpat.lib wsock32.lib wxtiff.lib wxjpeg.lib wxpng.lib wxzlib.lib libcurl.lib ws2_32.lib wldap32.lib crypt32.lib"
+				AdditionalDependencies="libserialport.lib comctl32.lib rpcrt4.lib winmm.lib advapi32.lib SDL2.lib SDL2main.lib wxmsw32u_xrc.lib wxmsw32u_html.lib wxmsw32u_adv.lib wxmsw32u_core.lib wxbase32u_xml.lib wxbase32u_net.lib wxbase32u.lib wxregexu.lib wxexpat.lib wsock32.lib wxtiff.lib wxjpeg.lib wxpng.lib wxzlib.lib libcurl.lib ws2_32.lib wldap32.lib crypt32.lib"
 				OutputFile="$(SolutionDir)$(PlatformName)\$(ConfigurationName)\Emma 02.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
@@ -196,6 +196,7 @@
 				GenerateManifest="true"
 				IgnoreAllDefaultLibraries="false"
 				IgnoreDefaultLibraryNames=""
+				GenerateDebugInformation="false"
 				ProgramDatabaseFile="$(SolutionDir)$(PlatformName)\$(ConfigurationName)\Emma 02.pdb"
 				SubSystem="2"
 				LargeAddressAware="2"
@@ -295,7 +296,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libserialport.a comctl32.lib rpcrt4.lib winmm.lib advapi32.lib SDL2.lib SDL2main.lib wxmsw31ud_xrc.lib wxmsw31ud_html.lib wxmsw31ud_adv.lib wxmsw31ud_core.lib wxbase31ud_xml.lib wxbase31ud_net.lib wxbase31ud.lib libcurld.lib wxregexud.lib wxexpatd.lib wsock32.lib wxtiffd.lib wxjpegd.lib wxpngd.lib wxzlibd.lib ws2_32.lib wldap32.lib crypt32.lib"
+				AdditionalDependencies="libserialport.a comctl32.lib rpcrt4.lib winmm.lib advapi32.lib SDL2.lib SDL2main.lib wxmsw32ud_xrc.lib wxmsw32ud_html.lib wxmsw32ud_adv.lib wxmsw32ud_core.lib wxbase32ud_xml.lib wxbase32ud_net.lib wxbase32ud.lib libcurld.lib wxregexud.lib wxexpatd.lib wsock32.lib wxtiffd.lib wxjpegd.lib wxpngd.lib wxzlibd.lib ws2_32.lib wldap32.lib crypt32.lib"
 				ShowProgress="0"
 				OutputFile="$(SolutionDir)$(PlatformName)\$(ConfigurationName)\Emma 02.exe"
 				LinkIncremental="1"
@@ -335,8 +336,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|x64"
-			OutputDirectory="$(SolutionDir)vc9\$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="vc9\$(PlatformName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
@@ -368,9 +369,9 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/EHsc /bigobj"
 				Optimization="0"
-				InlineFunctionExpansion="0"
+				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories=".\images;&quot;$(SDL)\include&quot;;&quot;$(WXWIN)\lib\vc_x64_lib\mswud&quot;;&quot;$(WXWIN)\include&quot;;&quot;$(WXWIN)\include\msvc&quot;;&quot;$(CURL)\include\&quot;;&quot;$(SERIALPORT)\Win64\include\&quot;"
-				PreprocessorDefinitions="WIN64;WIN32=0;_DEBUG;__WXMSW__;__WXDEBUG__;_WINDOWS;NOPCH"
+				PreprocessorDefinitions="WIN32;WINVER=0x0500;_DEBUG;__WXMSW__;__WXDEBUG__;_WINDOWS;NOPCH"
 				StringPooling="true"
 				MinimalRebuild="false"
 				BasicRuntimeChecks="3"
@@ -378,7 +379,7 @@
 				EnableFunctionLevelLinking="true"
 				RuntimeTypeInfo="true"
 				UsePrecompiledHeader="0"
-				PrecompiledHeaderFile="$(SolutionDir)$(PlatformName)\$(ConfigurationName)\Emma 02\Emma 02.pch"
+				PrecompiledHeaderFile="$(SolutionDir)$(PlatformName)\$(ConfigurationName)\Emma 02.pch"
 				AssemblerListingLocation="$(SolutionDir)$(PlatformName)\$(ConfigurationName)\Emma 02\"
 				ObjectFile="$(SolutionDir)$(PlatformName)\$(ConfigurationName)\Emma 02\"
 				ProgramDataBaseFileName="$(SolutionDir)$(PlatformName)\$(ConfigurationName)\Emma 02.pdb"
@@ -401,12 +402,12 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="comctl32.lib rpcrt4.lib winmm.lib advapi32.lib SDL2.lib SDL2main.lib wxmsw30ud_xrc.lib wxmsw30ud_html.lib wxmsw30ud_adv.lib wxmsw30ud_core.lib wxbase30ud_xml.lib wxbase30ud_net.lib wxbase30ud.lib libcurld.lib wxregexud.lib wxexpatd.lib wsock32.lib wxtiffd.lib wxjpegd.lib wxpngd.lib wxzlibd.lib ws2_32.lib wldap32.lib libserialport.lib crypt32.lib"
+				AdditionalDependencies="comctl32.lib rpcrt4.lib winmm.lib advapi32.lib SDL2.lib SDL2main.lib wxmsw32ud_xrc.lib wxmsw32ud_html.lib wxmsw32ud_adv.lib wxmsw32ud_core.lib wxbase32ud_xml.lib wxbase32ud_net.lib wxbase32ud.lib libcurld.lib wxregexud.lib wxexpatd.lib wsock32.lib wxtiffd.lib wxjpegd.lib wxpngd.lib wxzlibd.lib ws2_32.lib wldap32.lib libserialport.lib crypt32.lib"
 				ShowProgress="0"
-				OutputFile="$(SolutionDir)vc9\$(PlatformName)\$(ConfigurationName)\Emma 02.exe"
+				OutputFile="$(SolutionDir)$(PlatformName)\$(ConfigurationName)\Emma 02.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;$(SDL)\lib\x64&quot;;&quot;$(WXWIN)\lib\vc_x64_lib\mswud\&quot;;&quot;$(WXWIN)\lib\vc_x64_lib\&quot;;&quot;$(CURL)\build\Win64\VC9\LIB Debug - DLL Windows SSPI&quot;;&quot;$(SERIALPORT)\Win64\lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(SDL)\lib\x64&quot;;&quot;$(WXWIN)\lib\vc_x64_lib\mswud\&quot;;&quot;$(WXWIN)\lib\vc_x64_lib\&quot;;&quot;$(CURL)\build\Win64\VC9\LIB Debug&quot;;&quot;$(SERIALPORT)\Win64\lib&quot;"
 				ManifestFile="$(IntDir)\vc9\$(TargetFileName).intermediate.manifest"
 				IgnoreAllDefaultLibraries="false"
 				GenerateDebugInformation="true"
@@ -421,9 +422,9 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
-				OutputManifestFile="$(IntDir)\vc9\$(TargetFileName).embed.manifest"
-				ManifestResourceFile="$(IntDir)\vc9\$(TargetFileName).embed.manifest.res"
-				DependencyInformationFile="$(IntDir)\vc9\mt.dep"
+				OutputManifestFile="$(IntDir)\$(TargetFileName).embed.manifest"
+				ManifestResourceFile="$(IntDir)\$(TargetFileName).embed.manifest.res"
+				DependencyInformationFile="$(IntDir)\mt.dep"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -459,7 +460,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\base.cpp"
+				RelativePath=".\src\bitkeypad.cpp"
 				>
 			</File>
 			<File
@@ -468,6 +469,10 @@
 			</File>
 			<File
 				RelativePath=".\src\breakpoints.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\cd4536b.cpp"
 				>
 			</File>
 			<File
@@ -531,6 +536,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\cvkeypad.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\datadir.cpp"
 				>
 			</File>
@@ -540,10 +549,6 @@
 			</File>
 			<File
 				RelativePath=".\src\diagstatusbar.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\diy.cpp"
 				>
 			</File>
 			<File
@@ -616,10 +621,6 @@
 			</File>
 			<File
 				RelativePath=".\src\guidiag.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\guidiy.cpp"
 				>
 			</File>
 			<File
@@ -715,11 +716,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\hbelf.cpp"
+				RelativePath=".\src\guixml.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\http.cpp"
+				RelativePath=".\src\hbelf.cpp"
 				>
 			</File>
 			<File
@@ -739,6 +740,18 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\keyb1871.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\keyblatch.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\keybmatrix.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\keyboard.cpp"
 				>
 			</File>
@@ -752,6 +765,10 @@
 			</File>
 			<File
 				RelativePath=".\src\keypad.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\keypadfred.cpp"
 				>
 			</File>
 			<File
@@ -859,11 +876,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\rtc.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\SDL_audioin.c"
 				>
 			</File>
 			<File
 				RelativePath=".\src\serial.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\sn76430n.cpp"
 				>
 			</File>
 			<File
@@ -891,11 +916,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\til311.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\til313.cpp"
+				RelativePath=".\src\til.cpp"
 				>
 			</File>
 			<File
@@ -963,6 +984,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\vis1870.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\visicom.cpp"
 				>
 			</File>
@@ -982,6 +1007,38 @@
 				RelativePath=".\src\waveWriter.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\src\wxcurl_base.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\wxcurl_dialog.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\wxcurl_ftp.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\wxcurl_http.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\wxcurl_panel.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\wxcurl_thread.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\xmlemu.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\xmlparser.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -995,7 +1052,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\base.h"
+				RelativePath=".\src\bitkeypad.h"
 				>
 			</File>
 			<File
@@ -1004,6 +1061,10 @@
 			</File>
 			<File
 				RelativePath=".\src\breakpoints.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\cd4536b.h"
 				>
 			</File>
 			<File
@@ -1071,6 +1132,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\cvkeypad.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\datadir.h"
 				>
 			</File>
@@ -1080,10 +1145,6 @@
 			</File>
 			<File
 				RelativePath=".\src\diagstatusbar.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\diy.h"
 				>
 			</File>
 			<File
@@ -1160,10 +1221,6 @@
 			</File>
 			<File
 				RelativePath=".\src\guidiag.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\guidiy.h"
 				>
 			</File>
 			<File
@@ -1259,11 +1316,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\hbelf.h"
+				RelativePath=".\src\guixml.h"
 				>
 			</File>
 			<File
-				RelativePath=".\src\http.h"
+				RelativePath=".\src\hbelf.h"
 				>
 			</File>
 			<File
@@ -1283,6 +1340,18 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\keyb1871.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\keyblatch.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\keybmatrix.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\keyboard.h"
 				>
 			</File>
@@ -1296,6 +1365,10 @@
 			</File>
 			<File
 				RelativePath=".\src\keypad.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\keypadfred.h"
 				>
 			</File>
 			<File
@@ -1403,6 +1476,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\rtc.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\SDL_audioin.h"
 				>
 			</File>
@@ -1412,6 +1489,10 @@
 			</File>
 			<File
 				RelativePath=".\src\serial.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\sn76430n.h"
 				>
 			</File>
 			<File
@@ -1439,15 +1520,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\til311.h"
+				RelativePath=".\src\til.h"
 				>
 			</File>
 			<File
 				RelativePath=".\src\til313.full.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\til313.h"
 				>
 			</File>
 			<File
@@ -1511,6 +1588,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\vis1870.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\visicom.h"
 				>
 			</File>
@@ -1528,6 +1609,38 @@
 			</File>
 			<File
 				RelativePath=".\src\waveWriter.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\wxcurl_base.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\wxcurl_dialog.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\wxcurl_ftp.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\wxcurl_http.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\wxcurl_panel.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\wxcurl_thread.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\xmlemu.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\xmlparser.h"
 				>
 			</File>
 		</Filter>

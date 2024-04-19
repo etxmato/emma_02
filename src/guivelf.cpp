@@ -75,7 +75,6 @@ BEGIN_EVENT_TABLE(GuiVelf, GuiCdp18s020)
     EVT_BUTTON(XRCID("PrintButtonVelf"), GuiMain::onPrintButton)
     EVT_CHOICE(XRCID("PrintModeVelf"), GuiMain::onPrintMode)
     EVT_BUTTON(XRCID("PrintFileButtonVelf"), GuiMain::onPrintFile)
-    EVT_COMMAND(wxID_ANY, OPEN_PRINTER_WINDOW, GuiMain::openPrinterFrame) 
     EVT_TEXT(XRCID("BeepFrequencyVelf"), GuiMain::onBeepFrequency)
 
     EVT_TEXT(XRCID("SaveStartVelf"), GuiMain::onSaveStart)
@@ -122,14 +121,18 @@ void GuiVelf::readVelfConfig()
 {
     selectedComputer_ = VELF;
 
+    elfConfiguration[VELF].useTapeHw = false;
+    elfConfiguration[VELF].vtShow = true;
     conf[VELF].emsConfigNumber_ = 0;
+    conf[VELF].videoNumber_ = 0;
 
     conf[VELF].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "Velf" + pathSeparator_;
     conf[VELF].mainDir_ = readConfigDir("/Dir/Velf/Main", dataDir_ + "Velf" + pathSeparator_);
     
     conf[VELF].romDir_[MAINROM1] = readConfigDir("/Dir/Velf/Main_Rom_File", dataDir_ + "Velf"  + pathSeparator_);
     conf[VELF].ramDir_ = readConfigDir("/Dir/Velf/Software_File", dataDir_ + "Velf"  + pathSeparator_);
-    elfConfiguration[VELF].vtCharRomDir_ = readConfigDir("/Dir/Velf/Vt_Font_Rom_File", dataDir_ + "Velf" + pathSeparator_);
+    elfConfiguration[VELF].vt100CharRomDir_ = readConfigDir("/Dir/Velf/Vt100_Font_Rom_File", dataDir_ + "Velf" + pathSeparator_);
+    elfConfiguration[VELF].vt52CharRomDir_ = readConfigDir("/Dir/Velf/Vt52_Font_Rom_File", dataDir_ + "Velf" + pathSeparator_);
     conf[VELF].chip8SWDir_ = readConfigDir("/Dir/Velf/Chip_8_Software", dataDir_ + "Chip-8"  + pathSeparator_ + "Chip-8 Games"  + pathSeparator_);
     conf[VELF].printFileDir_ = readConfigDir("/Dir/Velf/Print_File", dataDir_ + "Velf" + pathSeparator_);
     conf[VELF].screenDumpFileDir_ = readConfigDir("/Dir/Velf/Video_Dump_File", dataDir_ + "Velf" + pathSeparator_);
@@ -153,7 +156,7 @@ void GuiVelf::readVelfConfig()
 
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 2.0);
-    conf[VELF].zoom_ = convertLocale(configPointer->Read("/Velf/Zoom", defaultZoom));
+    conf[VELF].zoom_[VIDEOMAIN] = convertLocale(configPointer->Read("/Velf/Zoom", defaultZoom));
     defaultZoom.Printf("%2.2f", 1.0);
     conf[VELF].zoomVt_ = convertLocale(configPointer->Read("/Velf/Vt_Zoom", defaultZoom));
     wxString defaultScale;
@@ -201,7 +204,8 @@ void GuiVelf::readVelfConfig()
 
     setVtType("Velf", VELF, elfConfiguration[VELF].vtType, false);
 
-    elfConfiguration[VELF].vtCharRom_ = configPointer->Read("/Velf/Vt_Font_Rom_File", "vt100.bin");
+    elfConfiguration[VELF].vt100CharRom_ = configPointer->Read("/Velf/Vt100_Font_Rom_File", "vt100.bin");
+    elfConfiguration[VELF].vt52CharRom_ = configPointer->Read("/Velf/Vt52_Font_Rom_File", "vt52.a.bin");
 
     conf[VELF].velfMode_ = (int)configPointer->Read("/Velf/ModeVelf", 0l);
     configPointer->Read("/Velf/Enable_Auto_Boot", &elfConfiguration[VELF].autoBoot, true);
@@ -233,14 +237,12 @@ void GuiVelf::readVelfConfig()
         XRCCTRL(*this,"AddressText2Velf", wxStaticText)->Enable(elfConfiguration[VELF].useElfControlWindows);
         XRCCTRL(*this, "ControlWindowsVelf", wxCheckBox)->SetValue(elfConfiguration[VELF].useElfControlWindows);
         
-        correctZoomAndValue(VELF, "Velf", SET_SPIN);
+        correctZoomAndValue(VELF, "Velf", SET_SPIN, VIDEOMAIN);
         correctZoomVtAndValue(VELF, "Velf", SET_SPIN);
 
         XRCCTRL(*this, "LatchVelf", wxCheckBox)->SetValue(latch_);
-        XRCCTRL(*this, "TurboVelf", wxCheckBox)->SetValue(conf[VELF].turbo_);
         turboGui("Velf");
         XRCCTRL(*this, "TurboClockVelf", wxTextCtrl)->SetValue(conf[VELF].turboClock_);
-        XRCCTRL(*this, "AutoCasLoadVelf", wxCheckBox)->SetValue(conf[VELF].autoCassetteLoad_);
         setPrinterState(VELF);
         XRCCTRL(*this, "VolumeVelf", wxSlider)->SetValue(conf[VELF].volume_);
         XRCCTRL(*this, "PrintModeVelf", wxChoice)->SetSelection((int)configPointer->Read("/Velf/Print_Mode", 1l));
@@ -265,7 +267,8 @@ void GuiVelf::writeVelfDirConfig()
     writeConfigDir("/Dir/Velf/Software_File", conf[VELF].ramDir_);
     writeConfigDir("/Dir/Velf/Chip_8_Software", conf[VELF].chip8SWDir_);
     writeConfigDir("/Dir/Velf/Print_File", conf[VELF].printFileDir_);
-    writeConfigDir("/Dir/Velf/Vt_Font_Rom_File", elfConfiguration[VELF].vtCharRomDir_);
+    writeConfigDir("/Dir/Velf/Vt100_Font_Rom_File", elfConfiguration[VELF].vt100CharRomDir_);
+    writeConfigDir("/Dir/Velf/Vt52_Font_Rom_File", elfConfiguration[VELF].vt52CharRomDir_);
     writeConfigDir("/Dir/Velf/Video_Dump_File", conf[VELF].screenDumpFileDir_);
     writeConfigDir("/Dir/Velf/Wav_File", conf[VELF].wavFileDir_[0]);
     writeConfigDir("/Dir/Velf/Vt_Wav_File", elfConfiguration[VELF].vtWavFileDir_);
@@ -274,7 +277,8 @@ void GuiVelf::writeVelfDirConfig()
 void GuiVelf::writeVelfConfig()
 {
     configPointer->Write("/Velf/Main_Rom_File", conf[VELF].rom_[MAINROM1]);
-    configPointer->Write("/Velf/Vt_Font_Rom_File", elfConfiguration[VELF].vtCharRom_);
+    configPointer->Write("/Velf/Vt100_Font_Rom_File", elfConfiguration[VELF].vt100CharRom_);
+    configPointer->Write("/Velf/Vt52_Font_Rom_File", elfConfiguration[VELF].vt52CharRom_);
     configPointer->Write("/Velf/Ram_Software", conf[VELF].ram_);
     configPointer->Write("/Velf/Chip_8_Software", conf[VELF].chip8SW_);
     configPointer->Write("/Velf/Print_File", conf[VELF].printFile_);
@@ -302,7 +306,7 @@ void GuiVelf::writeVelfConfig()
     configPointer->Write("/Velf/Vt_Baud", elfConfiguration[VELF].baudT);
     configPointer->Write("/Velf/Enable_Auto_Boot", elfConfiguration[VELF].autoBoot);
 
-    configPointer->Write("/Velf/Zoom", conf[VELF].zoom_);
+    configPointer->Write("/Velf/Zoom", conf[VELF].zoom_[VIDEOMAIN]);
     configPointer->Write("/Velf/Vt_Zoom", conf[VELF].zoomVt_);
     configPointer->Write("/Velf/Enable_Vt_Stretch_Dot", conf[VELF].stretchDot_);
     configPointer->Write("/Velf/Enable_Vt_External", elfConfiguration[VELF].vtExternal);

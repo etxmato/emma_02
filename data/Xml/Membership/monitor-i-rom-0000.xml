@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>Membership Card</name>
+        <config>Monitor, Front panel I, 32KB ROM - 32KB NVRAM</config>
+        <clock>1.75</clock>
+        <boot>0</boot>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init>
+        <init type="ef4">1</init>
+        <dirname>Membership</dirname>
+    </system>
+
+    <frontpanel type="member_i" init="on">
+        <out mask="0x4"></out>
+        <in mask="0x4"></in>
+        <ef type="in">4</ef>
+    </frontpanel>
+
+    <memory>
+        <rom type="gui">
+            <start>0</start>
+            <end>0x7FFF</end>
+            <pulldown mask="monitor_0*.hex">Membership</pulldown>
+            <filename verify="true">monitor_0000h.hex</filename>
+        </rom>
+
+        <nvram>
+            <start>0x8000</start>
+            <end>0xFFFF</end>
+            <dump>ramdump.bin</dump>
+        </nvram>
+    </memory>
+    
+    <vt type="vt100" connection="serial">
+        <font>vt100.bin</font>
+        <ef pol="rev">3</ef>
+        <q pol="rev"></q>
+        <caps />
+        <baud type="receive">9600</baud>
+        <baud type="transmit">9600</baud>
+        <border>0x0</border>
+        <color type="fore">0, 255, 0</color>
+        <color type="back">0, 0x40, 0</color>
+        <color type="high">0, 0xff, 0</color>
+    </vt>
+
+    <debugger>
+        <scrt mode="on">
+            <call reg="4">0x30</call>
+            <return reg="5">0x42</return>
+        </scrt>
+    </debugger>
+
+    <hexmodem>
+    </hexmodem>
+
+    <locations>
+        <!-- key input -->
+        <key_input>0x8a3</key_input>
+
+        <start_hexmodem_load>0xf4e, 0x1300</start_hexmodem_load>
+        <start_hexmodem_save reg="7" value="0x2fd">0x102D, 0x11EA</start_hexmodem_save>
+        <stop_modem>0x10C5</stop_modem>
+    </locations>
+
+</emmaconfig>

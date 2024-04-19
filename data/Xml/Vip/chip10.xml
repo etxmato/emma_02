@@ -1,0 +1,104 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>COSMAC VIP</name>
+        <config>Chip-10 (select Chip-10 file in RAM field or use LOAD after Start)</config>
+        <clock>1.7609</clock>
+        <boot>0</boot>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init>
+        <init type="ef4">1</init>
+        <dirname>Chip-8/Chip-10</dirname>
+    </system>
+    
+    <splash>
+        <text>Use LOAD button to load Chip-10 at 0200</text>
+    </splash>
+
+    <memaccess>
+        <location>on</location>
+        <start>0x200</start>
+    </memaccess>
+
+    <bootstrap>
+        <address>0x8000</address>
+        <out>4</out>
+    </bootstrap>
+
+    <memory>
+        <rom>
+            <start>0x8000</start>
+            <end>0x81FF</end>
+            <dirname>Vip</dirname>
+            <filename>vip.32.rom</filename>
+        </rom>
+
+        <ram type="gui">
+            <start>0x000</start>
+            <end>0x01FF</end>
+            <pulldown mask="chip10*.*">Vip</pulldown>
+            <filename>chip10.hex</filename>
+        </ram>
+
+        <ram type="gui" cart="ch8">
+            <start>0x0200</start>
+            <end>0x7FFF</end>
+            <pulldown mask="*.c8x">Chip-8/Chip-10</pulldown>
+            <filename>Kaleidoscope [Joseph Weisbecker, 1978].ch10</filename>
+        </ram>
+    </memory>
+    
+    <video type="pixie">
+        <out>1</out>
+        <in>1</in>
+        <ef>1</ef>
+        <highres />
+        <border>33x33</border>
+        <color type="fore">255, 255, 255</color>
+        <color type="back">0, 0, 0</color>
+     </video>
+
+    <keypad type="latch">
+        <out mask="0x0f">2</out>
+        <ef pol="rev">3</ef>
+        <auto>on</auto>
+    </keypad>
+
+    <cassette decks="1">
+        <out>7</out>
+        <ef>2</ef>
+        <stopdelay>20</stopdelay>
+    </cassette>
+
+    <sound type="q">
+        <hw>650</hw>
+    </sound>
+
+    <locations>
+        <!-- Stop cassette -->
+        <stop_cas>0x80c0, 0x80ed</stop_cas>
+        
+        <!-- Start PSAVE, PLOAD -->
+        <start_cas_save>0x8091</start_cas_save>
+        <start_cas_load>0x80c2</start_cas_load>
+    </locations>
+
+    <debugger>
+        <scrt mode="off">
+            <call reg="4">-1</call>
+            <return reg="5">-1</return>
+        </scrt>
+
+        <assembler>
+            <filename>mycode</filename>
+            <code_start>0x000</code_start>
+            <code_end>0xFFF</code_end>
+        </assembler>
+    </debugger>
+
+</emmaconfig>
+

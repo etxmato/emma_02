@@ -5,6 +5,7 @@
 #include "fdc.h"
 #include "ide.h"
 #include "keyboard.h"
+#include "keyb1871.h"
 #include "ps2gpio.h"
 #include "portext.h"
 #include "printer.h"
@@ -13,7 +14,7 @@
 #include "vt100.h"
 #include "serial.h"
 
-class MainElf : public Cdp1802, public Fdc, public Ide, public Keyboard, public PortExt, public Ps2, public Ps2gpio, public Elf2KDisk
+class MainElf : public Cdp1802, public Fdc, public Ide, public Keyboard, public Keyb1871, public PortExt, public Ps2, public Ps2gpio, public Elf2KDisk
 {            
 public:
     MainElf();
@@ -35,7 +36,8 @@ public:
     void setDivider(Byte value);
     void dataAvailableVt100(bool data, int uartNumber);
     void dataAvailableSerial(bool data);
-    void thrStatus(bool data);
+    void thrStatusVt100(bool data);
+    void thrStatusSerial(bool data);
     void saveRtc();
     void loadRtc();
     Byte readDirectRtc(Word address);

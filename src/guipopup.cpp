@@ -63,6 +63,16 @@ BEGIN_EVENT_TABLE(PopupDialog, wxDialog)
     EVT_BUTTON(XRCID("Eject_FDC3MS2000"), PopupDialog::onUpdDiskEject3)
     EVT_BUTTON(XRCID("FDC3_SwitchMS2000"), PopupDialog::onUpdDiskDirSwitch3)
 
+    EVT_BUTTON(XRCID("FDC0_SwitchXml"), PopupDialog::onUpdDiskDirSwitch0Xml)
+    EVT_BUTTON(XRCID("FDC1_SwitchXml"), PopupDialog::onUpdDiskDirSwitch1Xml)
+    EVT_BUTTON(XRCID("FDC2_SwitchXml"), PopupDialog::onUpdDiskDirSwitch2Xml)
+    EVT_BUTTON(XRCID("FDC3_SwitchXml"), PopupDialog::onUpdDiskDirSwitch3Xml)
+    EVT_CHECKBOX(XRCID("ControlWindowsPopupXml"), PopupDialog::onXmlControlWindows)
+
+    EVT_BUTTON(XRCID("XmodemButton"), PopupDialog::onXmodem)
+    EVT_BUTTON(XRCID("EjectXmodem"), PopupDialog::onXmodemEject)
+    EVT_TEXT(XRCID("XmodemFile"), PopupDialog::onXmodemText)
+
     EVT_CHECKBOX(XRCID("Elf2KControlWindowsPopup"), PopupDialog::onElf2KControlWindows)
     EVT_CHECKBOX(XRCID("Elf2KSwitchPopup"), PopupDialog::onElf2KSwitch)
     EVT_CHECKBOX(XRCID("Elf2KHexPopup"), PopupDialog::onElf2KHex)
@@ -105,7 +115,6 @@ PopupDialog::PopupDialog(wxWindow* parent)
     {
         case ELFII:
         case SUPERELF:
-        case DIY:
         case PICO:
             wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"menuElf_" + p_Main->getFontSize() + ".xrc");
             wxXmlResource::Get()->LoadDialog(this, parent, wxT("PopupElf"));
@@ -157,6 +166,14 @@ PopupDialog::PopupDialog(wxWindow* parent)
         break;
 
         case MICROBOARD:
+            currentElfConfig = p_Main->getElfConfiguration(computer_);
+            wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"menu"+computerStr_+"_" + p_Main->getFontSize() + ".xrc");
+            wxXmlResource::Get()->LoadDialog(this, parent, "Popup"+computerStr_);
+            XRCCTRL(*this, "Popup"+computerStr_, wxDialog)->SetLabel(p_Main->getSelectedComputerText()+" Menu");
+        break;
+
+        case XML:
+            currentElfConfig = p_Main->getElfConfiguration(computer_);
             wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"menu"+computerStr_+"_" + p_Main->getFontSize() + ".xrc");
             wxXmlResource::Get()->LoadDialog(this, parent, "Popup"+computerStr_);
             XRCCTRL(*this, "Popup"+computerStr_, wxDialog)->SetLabel(p_Main->getSelectedComputerText()+" Menu");
@@ -178,7 +195,6 @@ PopupDialog::~PopupDialog()
 void PopupDialog::init()
 {
     p_Main->setNoteBook();
-    ElfConfiguration currentElfConfig;
 
     switch (computer_)
     {
@@ -243,7 +259,6 @@ void PopupDialog::init()
         case ELF:
         case ELFII:
         case SUPERELF:
-        case DIY:
         case PICO:
             setTapeType(p_Main->getUseTape(computer_));
             enableMemAccessGui(true);
@@ -254,6 +269,26 @@ void PopupDialog::init()
             XRCCTRL(*this, "WavFile", wxTextCtrl)->SetValue(p_Main->getWaveFile(computer_));
             XRCCTRL(*this, "ControlWindowsPopupElf", wxCheckBox)->SetValue(p_Main->getUseElfControlWindows(computer_));
             setLocation(p_Main->getUseLoadLocation(computer_), p_Main->getSaveStartString(computer_), p_Main->getSaveEndString(computer_), p_Main->getSaveExecString(computer_));
+        break;
+
+        case XML:
+            setTapeType(currentElfConfig.useTape);
+            setTape1Type(currentElfConfig.useTape1);
+            XRCCTRL(*this, "WavFile", wxTextCtrl)->SetValue(p_Main->getWaveFile(computer_));
+
+            XRCCTRL(*this, "XmodemButton", wxButton)->Enable(currentElfConfig.useXmodem || currentElfConfig.useHexModem);
+            XRCCTRL(*this, "XmodemFile", wxTextCtrl)->Enable(currentElfConfig.useXmodem || currentElfConfig.useHexModem);
+            XRCCTRL(*this, "EjectXmodem", wxBitmapButton)->Enable(currentElfConfig.useXmodem || currentElfConfig.useHexModem);
+            if (currentElfConfig.useHexModem)
+                XRCCTRL(*this, "XmodemButton", wxButton)->SetLabel("HEX");
+            else
+                XRCCTRL(*this, "XmodemButton", wxButton)->SetLabel("XMODEM");
+            
+            XRCCTRL(*this, "ControlWindowsPopupXml", wxCheckBox)->SetValue(currentElfConfig.useElfControlWindows);
+            setLocation(p_Main->getUseLoadLocation(computer_), p_Main->getSaveStartString(computer_), p_Main->getSaveEndString(computer_), p_Main->getSaveExecString(computer_));
+
+            for (int drive=0; drive <4; drive++)
+                setUpdFloppyGui(drive);
         break;
 
         case MEMBER:
@@ -285,7 +320,6 @@ void PopupDialog::init()
         break;
       
         case MICROBOARD:
-            currentElfConfig = p_Main->getElfConfiguration(computer_);
             setTapeType(p_Main->getUseTape(computer_));
             setTape1Type(p_Main->getUseTape(computer_));
             enableMemAccessGui(true);
@@ -405,6 +439,17 @@ void PopupDialog::setLocation(bool state, wxString saveStart, wxString saveEnd, 
     XRCCTRL(*this, "SaveExec", wxTextCtrl)->Enable(state);
 }
 
+void PopupDialog::setLocation(bool state)
+{
+    XRCCTRL(*this, "UseLocation", wxCheckBox)->SetValue(state);
+    XRCCTRL(*this, "TextStart", wxStaticText)->Enable(state);
+    XRCCTRL(*this, "TextEnd", wxStaticText)->Enable(state);
+    XRCCTRL(*this, "TextExec", wxStaticText)->Enable(state);
+    XRCCTRL(*this, "SaveStart", wxTextCtrl)->Enable(state);
+    XRCCTRL(*this, "SaveEnd", wxTextCtrl)->Enable(state);
+    XRCCTRL(*this, "SaveExec", wxTextCtrl)->Enable(state);
+}
+
 void PopupDialog::setStartLocation(wxString saveStart)
 {
     XRCCTRL(*this,"SaveStart", wxTextCtrl)->SetValue(saveStart);
@@ -504,6 +549,13 @@ void PopupDialog::onComxDiskEject2(wxCommandEvent&event)
 {
     p_Main->onComxDiskEject2(event);
     XRCCTRL(*this, "Disk2File", wxTextCtrl)->SetValue(p_Main->getFloppyFile(1));
+}
+
+void PopupDialog::onXmlControlWindows(wxCommandEvent& event)
+{
+    p_Main->onXmlControlWindows(event);
+   if (p_Main->getGuiMode())
+       p_Main->setCheckBox("ControlWindowsXml", event.IsChecked());
 }
 
 void PopupDialog::onElf2KControlWindows(wxCommandEvent&event)
@@ -685,13 +737,13 @@ void PopupDialog::onTelmacAdiVoltText(wxCommandEvent&event)
 
 void PopupDialog::onTerminalFile(wxCommandEvent&event)
 {
-     p_Main->onTerminalFile(event);
+    p_Main->onTerminalFile(event);
     XRCCTRL(*this, "WavFile", wxTextCtrl)->SetValue(p_Main->getWaveFile(computer_));
 }
 
 void PopupDialog::onCassette(wxCommandEvent&event)
 {
-     p_Main->onCassette(event);
+    p_Main->onCassette(event);
     XRCCTRL(*this, "WavFile", wxTextCtrl)->SetValue(p_Main->getWaveFile(computer_));
 }
 
@@ -700,14 +752,14 @@ void PopupDialog::onCassetteText(wxCommandEvent&event)
     if (computer_ == MICROTUTOR || computer_ == MICROTUTOR2 || computer_ == UC1800)
         return;
 
-     p_Main->onCassetteText(event);
+    p_Main->onCassetteText(event);
     if (p_Main->getGuiMode())
         p_Main->setTextCtrl("WavFile"+computerStr_, p_Main->getWaveFile(computer_));
 }
 
 void PopupDialog::onCassetteEject(wxCommandEvent&event)
 {
-     p_Main->onCassetteEject(event);
+    p_Main->onCassetteEject(event);
     XRCCTRL(*this, "WavFile", wxTextCtrl)->SetValue(p_Main->getWaveFile(computer_));
 }
 
@@ -728,6 +780,25 @@ void PopupDialog::onCassetteEject1(wxCommandEvent&event)
 {
     p_Main->onCassette1Eject(event);
     XRCCTRL(*this, "WavFile1", wxTextCtrl)->SetValue(p_Main->getWaveFile1(computer_));
+}
+
+void PopupDialog::onXmodem(wxCommandEvent& event)
+{
+    p_Main->onXmodem(event);
+    XRCCTRL(*this, "XmodemFile", wxTextCtrl)->SetValue(p_Main->getXmodemFileFullStr(computer_));
+}
+
+void PopupDialog::onXmodemEject(wxCommandEvent& event)
+{
+    p_Main->onXmodemEject(event);
+    XRCCTRL(*this, "XmodemFile", wxTextCtrl)->SetValue(p_Main->getXmodemFile(computer_));
+}
+
+void PopupDialog::onXmodemText(wxCommandEvent& event)
+{
+    p_Main->onXmodemText(event);
+    if (p_Main->getGuiMode())
+        p_Main->setTextCtrl("XmodemFileXml", p_Main->getXmodemFile(computer_));
 }
 
 void PopupDialog::onLoadRunButton(wxCommandEvent&event)
@@ -806,6 +877,12 @@ void PopupDialog::onUpdDiskDirSwitch0(wxCommandEvent&event)
     setDirSwitch(0);
 }
 
+void PopupDialog::onUpdDiskDirSwitch0Xml(wxCommandEvent&event)
+{
+    p_Main->onUpdDiskDirSwitch0(event);
+    setUpdFloppyGui(0);
+}
+
 void PopupDialog::onUpdDisk1(wxCommandEvent&event)
 {
     p_Main->onUpdDisk1(event);
@@ -831,9 +908,15 @@ void PopupDialog::onUpdDiskDirSwitch1(wxCommandEvent&event)
     setDirSwitch(1);
 }
 
+void PopupDialog::onUpdDiskDirSwitch1Xml(wxCommandEvent&event)
+{
+    p_Main->onUpdDiskDirSwitch1(event);
+    setUpdFloppyGui(1);
+}
+
 void PopupDialog::onUpdDisk2(wxCommandEvent&event)
 {
-    p_Main->onUpdDisk1(event);
+    p_Main->onUpdDisk2(event);
     XRCCTRL(*this, "FDC2_FileMS2000", wxTextCtrl)->SetValue(getFdcName(2));
 }
 
@@ -854,6 +937,12 @@ void PopupDialog::onUpdDiskDirSwitch2(wxCommandEvent&event)
 {
     p_Main->onUpdDiskDirSwitch2(event);
     setDirSwitch(2);
+}
+
+void PopupDialog::onUpdDiskDirSwitch2Xml(wxCommandEvent&event)
+{
+    p_Main->onUpdDiskDirSwitch2(event);
+    setUpdFloppyGui(2);
 }
 
 void PopupDialog::onUpdDisk3(wxCommandEvent&event)
@@ -879,6 +968,12 @@ void PopupDialog::onUpdDiskDirSwitch3(wxCommandEvent&event)
 {
     p_Main->onUpdDiskDirSwitch3(event);
     setDirSwitch(3);
+}
+
+void PopupDialog::onUpdDiskDirSwitch3Xml(wxCommandEvent&event)
+{
+    p_Main->onUpdDiskDirSwitch3(event);
+    setUpdFloppyGui(3);
 }
 
 wxString PopupDialog::getFdcName(int drive)
@@ -909,4 +1004,55 @@ void PopupDialog::setDirSwitch(int drive)
         XRCCTRL(*this, ejectButton, wxBitmapButton)->Enable(true);
     }
     XRCCTRL(*this, textCtrl, wxTextCtrl)->SetValue(getFdcName(drive));
+}
+
+void PopupDialog::setUpdFloppyGui(int drive)
+{
+    wxString driveStr;
+    driveStr.Printf("%d", drive);
+    bool deActivateFdc;
+    
+    deActivateFdc = true;
+    
+    XRCCTRL(*this, "FDC"+driveStr+"_SwitchXml", wxBitmapButton)->Enable(false);
+    if (currentElfConfig.fdc1770Enabled)
+    {
+        if (drive < 2 && drive < currentElfConfig.ioConfiguration.fdcDrives)
+            deActivateFdc = false;
+        XRCCTRL(*this, "FDC"+driveStr+"_ButtonMS2000", wxButton)->Enable( currentElfConfig.fdc1770Enabled && drive < 2 && drive < currentElfConfig.ioConfiguration.fdcDrives);
+    }
+    if (currentElfConfig.fdc1793Enabled)
+    {
+        if (drive < currentElfConfig.ioConfiguration.fdcDrives)
+            deActivateFdc = false;
+        XRCCTRL(*this, "FDC"+driveStr+"_ButtonMS2000", wxButton)->Enable(currentElfConfig.fdc1793Enabled && drive < currentElfConfig.ioConfiguration.fdcDrives);
+    }
+    if (currentElfConfig.useUpd765)
+    {
+        if (drive < currentElfConfig.ioConfiguration.fdcDrives)
+            deActivateFdc = false;
+        XRCCTRL(*this, "FDC"+driveStr+"_ButtonMS2000", wxButton)->Enable(currentElfConfig.useUpd765 && drive < currentElfConfig.ioConfiguration.fdcDrives);
+        XRCCTRL(*this, "FDC"+driveStr+"_SwitchXml", wxBitmapButton)->Enable(true);
+    }
+        
+    if (p_Main->getDirectoryMode(fdcType_, drive))
+    {
+        XRCCTRL(*this, "FDC"+driveStr+"_ButtonMS2000", wxButton)->SetLabel("HD "+driveStr);
+        XRCCTRL(*this, "FDC"+driveStr+"_ButtonMS2000", wxButton)->SetToolTip("Browse for HD Directory "+driveStr);
+        XRCCTRL(*this, "FDC"+driveStr+"_FileMS2000", wxTextCtrl)->Enable(false);
+        XRCCTRL(*this, "Eject_FDC"+driveStr+"MS2000", wxBitmapButton)->Enable(false);
+        wxFileName selectedDirFile = wxFileName(p_Main->getUpdFloppyDirSwitched(fdcType_, drive));
+        wxArrayString dirArray = selectedDirFile.GetDirs();
+        wxString dirName = dirArray.Last();
+        XRCCTRL(*this, "FDC"+driveStr+"_FileMS2000", wxTextCtrl)->SetValue(dirName);
+    }
+    else
+    {
+        XRCCTRL(*this, "FDC"+driveStr+"_ButtonMS2000", wxButton)->SetLabel("FDC "+driveStr);
+        XRCCTRL(*this, "FDC"+driveStr+"_ButtonMS2000", wxButton)->SetToolTip("Browse for FDC "+driveStr+" image file");
+        XRCCTRL(*this, "FDC"+driveStr+"_ButtonMS2000", wxButton)->Enable(!deActivateFdc);
+        XRCCTRL(*this, "FDC"+driveStr+"_FileMS2000", wxTextCtrl)->Enable(!deActivateFdc);
+        XRCCTRL(*this, "Eject_FDC"+driveStr+"MS2000", wxBitmapButton)->Enable(!deActivateFdc);
+        XRCCTRL(*this, "FDC"+driveStr+"_FileMS2000", wxTextCtrl)->SetValue(p_Main->getUpdFloppyFile(fdcType_, drive));
+    }
 }

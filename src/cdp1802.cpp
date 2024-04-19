@@ -163,6 +163,7 @@ void Cdp1802::initCpu(int computerType)
 void Cdp1802::resetCpu()
 {
     cpuState_ = STATE_FETCH_1;
+    skipMachineCycleAfterIdle_=false;
     flipFlopQ_ = 0;
     interruptEnable_ = 1;
     cie_ = 1;
@@ -180,8 +181,11 @@ void Cdp1802::resetCpu()
     address_ = 0;
     colourMask_ = 0;
     bus_ = 0;
-    if (p_Video != NULL)
-        p_Video->reset();
+    for (int video=0; video<computerConfiguration.numberOfVideoTypes_; video++)
+    {
+        if (p_Video[video] != NULL)
+            p_Video[video]->reset();
+    }
 }
 
 void Cdp1802::resetEffectiveClock()
@@ -189,8 +193,11 @@ void Cdp1802::resetEffectiveClock()
     p_Main->startTime();
     cpuCycles_ = 0;
     instructionCounter_ = 0;
-    if (p_Video != NULL)
-        p_Video->resetVideoSyncCount();
+    for (int video=0; video<computerConfiguration.numberOfVideoTypes_; video++)
+    {
+        if (p_Video[video] != NULL)
+            p_Video[video]->resetVideoSyncCount();
+    }
 }
 
 void Cdp1802::machineCycle()
@@ -245,9 +252,19 @@ void Cdp1802::setMode()
 
     if (cpuMode_ != RUN)
     {
-        if (p_Video != NULL)
-            p_Video->reset();
+        for (int video=0; video<computerConfiguration.numberOfVideoTypes_; video++)
+        {
+            if (p_Video[video] != NULL)
+                p_Video[video]->reset();
+        }
     }
+}
+
+void Cdp1802::setCpuMode(int mode)
+{
+    clear_ = (mode>>1)&1;
+    wait_ = mode&1;
+    setMode();
 }
 
 void Cdp1802::setClear(int value)
@@ -285,7 +302,7 @@ void Cdp1802::dmaIn(Byte value)
 //    machineCycle(); // Using this will crash Elfs when tying in keys with Q sound on 'Hardware'
     if (singleStateStep_)
     {
-        showAddress(address_);
+        showCycleAddress(address_);
         showCycleData(value);
         singleStateStep();
     }
@@ -311,7 +328,7 @@ Byte Cdp1802::dmaOut()
     
     if (singleStateStep_)
     {
-        showAddress(address_);
+        showCycleAddress(address_);
         showCycleData(ret);
         singleStateStep();
     }
@@ -319,7 +336,7 @@ Byte Cdp1802::dmaOut()
     return ret;
 }
 
-Byte Cdp1802::pixieDmaOut(int *color)
+Byte Cdp1802::pixieDmaOut(int *color, int colourType)
 {
     showDmaLed();
     Byte ret;
@@ -358,12 +375,67 @@ Byte Cdp1802::pixieDmaOut(int *color)
         case ELF:
         case ELFII:
         case SUPERELF:
-        case DIY:
         case PICO:
             *color = 0;
         break;
         case STUDIOIV:
             *color = colorMemory1864_[(scratchpadRegister_[0]&0xf) +  ((scratchpadRegister_[0]&0x3c0) >> 2)] & 0x7;
+        break;
+        case XML:
+            switch (colourType)
+            {
+                case PIXIE_COLOR_ETI_1864:
+                    *color = colorMemory1864_[((scratchpadRegister_[0] >> 1) & 0xf8) + (scratchpadRegister_[0] & 0x7)] & 0x7;
+                break;
+                    
+                case PIXIE_COLOR_ETI_1862:
+                    *color = colorMemory1862_[((scratchpadRegister_[0] >> 1) & 0xf8) + (scratchpadRegister_[0] & 0x7)] & 0x7;
+                break;
+                    
+                case PIXIE_COLOR_VIP_1862:
+                    if (colourMask_ == 0)
+                        *color = 7;
+                    else
+                        *color = colorMemory1862_[scratchpadRegister_[0] & colourMask_] & 0x7;
+                break;
+                    
+                case PIXIE_COLOR_VIP_1864:
+                    if (colourMask_ == 0)
+                        *color = 7;
+                    else
+                        *color = colorMemory1864_[scratchpadRegister_[0] & colourMask_] & 0x7;
+                break;
+
+                case PIXIE_COLOR_VICTORY_1862:
+                    if (colourMask_ == 0)
+                        *color = 7;
+                    else
+                        *color = colorMemory1862_[((scratchpadRegister_[0] >> 2) & 0x38) + (scratchpadRegister_[0] & 0x7)] & 0x7;
+                break;
+
+                case PIXIE_COLOR_VICTORY_1864:
+                    if (colourMask_ == 0)
+                        *color = 7;
+                    else
+                        *color = colorMemory1864_[((scratchpadRegister_[0] >> 2) & 0x38) + (scratchpadRegister_[0] & 0x7)] & 0x7;
+                break;
+
+                case PIXIE_COLOR_STUDIOIV:
+                    *color = colorMemory1864_[(scratchpadRegister_[0]&0xf) +  ((scratchpadRegister_[0]&0x3c0) >> 2)] & 0x7;
+                break;
+
+                case PIXIE_COLOR_TMC2000_1862:
+                    *color = colorMemory1862_[scratchpadRegister_[0] & 0x3ff] & 0x7;
+                break;
+
+                case PIXIE_COLOR_TMC2000_1864:
+                    *color = colorMemory1864_[scratchpadRegister_[0] & 0x3ff] & 0x7;
+                break;
+
+                default:
+                    *color = 0;
+                break;
+            }
         break;
         default:
             *color = colorMemory1864_[scratchpadRegister_[0] & 0x3ff] & 0x7;
@@ -378,7 +450,7 @@ Byte Cdp1802::pixieDmaOut(int *color)
 
     if (singleStateStep_)
     {
-        showAddress(address_);
+        showCycleAddress(address_);
         showCycleData(ret);
         singleStateStep();
     }
@@ -426,7 +498,7 @@ Byte Cdp1802::pixieDmaOut()
 
     if (singleStateStep_)
     {
-        showAddress(address_);
+        showCycleAddress(address_);
         showCycleData(ret);
         singleStateStep();
     }
@@ -517,18 +589,25 @@ void Cdp1802::interrupt()
 {
     interruptRequested_ = false;
     showIntLed();
-    if (p_Main->isDiagActive(COMX) && computerType_ == COMX)
+    
+    switch (computerType_)
     {
-        if (interruptEnable_ && (clear_ == 1))
-        {
-            p_Video->updateDiagLedStatus(3, false); //INT
-            p_Video->updateDiagLedStatus(4, true); //INTACK
-        }
-        else
-        {
-            p_Video->updateDiagLedStatus(3, true); //INT
-            p_Video->updateDiagLedStatus(4, false); //INTACK
-        }
+        case COMX:
+        case XML:
+            if (p_Main->isDiagActive(computerType_))
+            {
+                if (interruptEnable_ && (clear_ == 1))
+                {
+                    p_Main->eventUpdateDiagLedStatus(3, false); //INT
+                    p_Main->eventUpdateDiagLedStatus(4, true); //INTACK
+                }
+                else
+                {
+                    p_Main->eventUpdateDiagLedStatus(3, true); //INT
+                    p_Main->eventUpdateDiagLedStatus(4, false); //INTACK
+                }
+            }
+        break;
     }
     if (interruptEnable_ && (clear_ == 1) && (getDmaCounter() != -100))
     {
@@ -552,7 +631,7 @@ void Cdp1802::interrupt()
         
         if (singleStateStep_)
         {
-            showAddress(scratchpadRegister_[programCounter_]);
+            showCycleAddress(scratchpadRegister_[programCounter_]);
             showCycleData(0);
             singleStateStep();
         }
@@ -1498,15 +1577,24 @@ void Cdp1802::cpuCycleStep()
                 machineCycle();
                 cpuCycles_ ++;
 
-                if (cycle0_ == 0)
+                if (skipMachineCycleAfterIdle_)
                 {
-                    while (numberOfCycles-- != 0)
+                    skipMachineCycleAfterIdle_=false;
+                    cpuCycles_ ++;
+                }
+                else
+                {
+                    if (cycle0_ == 0)
                     {
-                        machineCycle();
-                        cpuCycles_ ++;
+                        while (numberOfCycles-- != 0)
+                        {
+                            machineCycle();
+                            cpuCycles_ ++;
+                        }
                     }
                 }
                 
+
                 if (cycle0_ == 0 && steps_ != 0)
                 {
                     cpuCycleFetch();
@@ -1514,8 +1602,8 @@ void Cdp1802::cpuCycleStep()
             
                 showState(STATE_FETCH);
             }
-            else
-                soundCycle();
+ //           else
+  //              soundCycle();
         break;
             
         case STATE_FETCH_2:
@@ -1574,14 +1662,16 @@ void Cdp1802::cpuCycleStep()
         if (pseudoLoaded_)
             p_Main->cyclePseudoDebug();
 
-        playSaveLoad();
+        if (steps_ != 0)
+            playSaveLoad();
+        
         p_Computer->checkComputerFunction();
     }
     
     if (resetPressed_)
         p_Computer->resetPressed();
     
-    showAddress(address_);
+    showCycleAddress(address_);
     showCycleData(bus_);
     
     if (singleStateStep_)
@@ -3126,7 +3216,7 @@ void Cdp1802::cpuCycleExecute2_LBR()
     Word secondOperandAddress = address_+1;
 
     Byte highByteBranchAddress=bus_;
-    Byte lowByteBranchAddress=readMemDebug(secondOperandAddress);
+    Byte lowByteBranchAddress=readMem(secondOperandAddress);
     Word branchAddress=(registerB_<<8)|lowByteBranchAddress;
 
     switch(n)
@@ -3391,11 +3481,18 @@ void Cdp1802::cpuCycleFinalize()
         if (trace_ && !skipTrace_ && traceBuffer_ != ".")
             p_Main->debugTrace(traceBuffer_);
 
-        if (cpuState_ != STATE_EXECUTE_1)
-            cpuState_ = STATE_FETCH_1;
-        
         machineCycle();
         cpuCycles_ ++;
+        if (elfConfiguration.useVip2KVideo || computerType_ == VIP2K)
+            skipMachineCycleAfterIdle_=true;
+
+        if (cpuState_ != STATE_EXECUTE_1) 
+            cpuState_ = STATE_FETCH_1;
+        else
+        {
+            if (steps_ != 0)
+                playSaveLoad();
+        }
     }
     if (stopHiddenTrace_)
         skipTrace_ = false;
@@ -3537,7 +3634,7 @@ bool Cdp1802::readIntelFile(wxString fileName, int memoryType, long end, bool sh
                         if (computerType_ != MICROBOARD)
                             p_Main->errorMessage("Attempt to load after address " + endStr);
                     }
-                    setAddress(showFilename, start, last);
+                    setAddress(showFilename, start, last-1);
                     return true;
                 }
                 if (address < start)
@@ -3591,7 +3688,7 @@ bool Cdp1802::readIntelFile(wxString fileName, int memoryType, long end, bool sh
             endStr.Printf("%04X", (int)end);
             p_Main->errorMessage("Attempt to load after address " + endStr);
         }
-        setAddress(showFilename, start, last);
+        setAddress(showFilename, start, last-1);
         return true;
     }
     else
@@ -3642,7 +3739,7 @@ bool Cdp1802::readIntelFile(wxString fileName, int memoryType, Word* lastAddress
                         endStr.Printf("%04X", (int)end);
                         p_Main->errorMessage("Attempt to load after address " + endStr);
                     }
-                    setAddress(showFilename, start, last);
+                    setAddress(showFilename, start, last-1);
                     *lastAddress = address - 1;
                     return true;
                 }
@@ -3698,7 +3795,7 @@ bool Cdp1802::readIntelFile(wxString fileName, int memoryType, Word* lastAddress
             endStr.Printf("%04X", (int)end);
             p_Main->errorMessage("Attempt to load after address " + endStr);
         }
-        setAddress(showFilename, start, last);
+        setAddress(showFilename, start, last-1);
         return true;
     }
     else
@@ -3801,6 +3898,86 @@ bool Cdp1802::readLstFile(wxString fileName, int memoryType, long end, bool show
     }
 }
 
+bool Cdp1802::readIntelSequencerFile(wxString fileName)
+{
+    wxTextFile inFile;
+    wxString line, strValue;
+    long count;
+    long address;
+    long value;
+    int spaces;
+    Word start = 0xffff;
+    Word last = 0;
+
+    if (inFile.Open(fileName))
+    {
+        for (line=inFile.GetFirstLine(); !inFile.Eof(); line=inFile.GetNextLine())
+        {
+            spaces = 0;
+            int maxSpaces = 6;
+            if (line.Len() < 6)  maxSpaces = (int)line.Len();
+            for (int i=0; i<maxSpaces; i++) if (line[i] == 32) spaces++;
+            if (spaces == 0)
+            {
+                strValue = line.Mid(1, 2);
+                if (!strValue.ToLong(&count, 16))
+                    count = 0;
+
+                strValue = line.Mid(3, 4);
+                strValue.ToLong(&address, 16);
+
+                strValue = line.Mid(7, 2);
+                strValue.ToLong(&value, 16);
+
+                if (value == 1)
+                {
+                    inFile.Close();
+                    return true;
+                }
+                if (address < start)
+                    start = address;
+                for (int i=0; i<count; i++)
+                {
+                    strValue = line.Mid((i*2)+9, 2);
+                    strValue.ToLong(&value, 16);
+                    sequencerMemory_[address&0x7ff] = value;
+                    address++;
+                }
+                if (address > last)
+                    last = address;
+            }
+            else
+            {
+                strValue = line.Mid(1, 4);
+                strValue.ToLong(&address, 16);
+                for (size_t i=5; i<line.Len(); i++)
+                {
+                    if ((line[i] >= '0' && line [i] <= '9') ||
+                        (line[i] >= 'A' && line [i] <= 'F') ||
+                        (line[i] >= 'a' && line [i] <= 'f'))
+                    {
+                        strValue = line.Mid(i, 2);
+                        if (strValue.ToLong(&value, 16))
+                        {
+                            value &= 255;
+                            sequencerMemory_[address&0x7ff] = value;
+                            address++;
+                            i++;
+                        }
+                    }
+                }
+            }
+        }
+        inFile.Close();
+        return true;
+    }
+    else
+    {
+        p_Main->errorMessage("Error reading " + fileName);
+        return false;
+    }
+}
+
 void Cdp1802::saveIntelFile(wxString fileName, long start, long end)
 {
     wxTextFile outputFile;
@@ -3817,11 +3994,18 @@ void Cdp1802::saveIntelFile(wxString fileName, long start, long end)
         else
             outputFile.Create(fileName);
 
-        while (start < end)
+        int blockLength;
+        while (start <= end)
         {
-            line.Printf(":%02X%04X%02X", 0x10, (int)start, 0x00);
-            checkSum = 0x10+((start>>8)&0xff)+(start&0xff);
-            for (int i = 0; i<16; i++)
+            blockLength = (int)(end-start+1);
+            if (blockLength > 16)
+                blockLength = 16;
+            line.Printf(":%02X%04X%02X", blockLength, (int)start, 0x00);
+            checkSum = blockLength+((start>>8)&0xff)+(start&0xff);
+            for (int i = 0; i<blockLength; i++)
+//            line.Printf(":%02X%04X%02X", 0x10, (int)start, 0x00);
+//            checkSum = 0x10+((start>>8)&0xff)+(start&0xff);
+//            for (int i = 0; i<16; i++)
             {
                 checkSum += readMem(start);
                 byteStr.Printf("%02X", readMem(start));
@@ -3937,7 +4121,68 @@ bool Cdp1802::readBinFile(wxString fileName, int memoryType, Word address, long 
             address++;
             
             if (computerType_ == STUDIO && address == 0x800 && start == 0x300)
-                address =  0xc00;
+                address = 0xc00;
+        }
+        inFile.Close();
+        if (overloaded)
+        {
+            wxString endStr;
+            endStr.Printf("%04X", (int)end);
+            if (computerType_ != MICROBOARD)
+                p_Main->errorMessage("Attempt to load after address " + endStr);
+        }
+        setAddress(showFilename, start, address-1);
+        return true;
+    }
+    else
+    {
+        p_Main->errorMessage("Error reading " + fileName);
+        return false;
+    }
+}
+
+bool Cdp1802::readBinFile(wxString fileName, int memoryType, Word address, long end, LoadOffSet loadOffSet, bool showFilename, bool showAddressPopup, Word specifiedStartAddress)
+{
+    wxFFile inFile;
+    size_t length;
+    char buffer[65535];
+    bool overloaded = false;
+    Word start;
+
+    start = address;
+    if (showAddressPopup && specifiedStartAddress != 0)
+    {
+        p_Main->eventShowAddressPopup(specifiedStartAddress);
+
+        int answer = p_Main->getAddressPopupAnswer();
+#if defined (__WXMAC__)
+        if (answer == wxID_YES)
+            start = specifiedStartAddress;
+#else
+        if (answer == wxID_NO)
+            start = specifiedStartAddress;
+#endif
+        if (answer == wxID_CANCEL)
+            return false;
+    }
+
+    address = start;
+    
+    if (inFile.Open(fileName, _("rb")))
+    {
+        length = inFile.Read(buffer, 65535);
+        for (size_t i=0; i<length; i++)
+        {
+            if ((memoryType&0xff) != NOCHANGE && (memoryType&0xff) != RAM)
+                defineMemoryType(address, memoryType);
+            if (address < end)
+                writeMemDebug(address,(Byte)buffer[i], true);
+            else
+                overloaded = true;
+            address++;
+            
+            if (address == loadOffSet.addressStart)
+                address += loadOffSet.offSet;
         }
         inFile.Close();
         if (overloaded)
@@ -4083,7 +4328,7 @@ void Cdp1802::setAddress(bool showFilename, Word start, Word end)
 
         }
     }
-    if ((computerType_ == ELF) || (computerType_ == ELFII) || (computerType_ == SUPERELF) || (computerType_ == DIY) || (computerType_ == PICO))
+    if ((computerType_ == ELF) || (computerType_ == ELFII) || (computerType_ == SUPERELF) || (computerType_ == XML) || (computerType_ == PICO))
     {
         if ((mainMemory_[start] == 0x90) && (mainMemory_[start+1] == 0xa1) && (mainMemory_[start+2] == 0xb3))
         {
@@ -4106,269 +4351,51 @@ void Cdp1802::checkLoadedSoftware()
             case ELFII:
             case SUPERELF:
             case ELF:
-            case DIY:
             case PICO:
-                pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);
-                
-                if ((mainMemory_[0] == 0xc0) && (mainMemory_[1] == 0x25) && (mainMemory_[2] == 0xf4))
-                {
-                    loadedProgram_ = SUPERBASICV1;
-                    basicExecAddress_[BASICADDR_KEY] = BASICADDR_KEY_SB1;
-                    basicExecAddress_[BASICADDR_READY] = BASICADDR_READY_SB1;
-                    basicExecAddress_[BASICADDR_KEY_VT_RESTART] = BASICADDR_VT_RESTART_SB1;
-                    basicExecAddress_[BASICADDR_KEY_VT_INPUT] = BASICADDR_VT_INPUT_SB1;
-                    p_Main->eventEnableMemAccess(true);
-                    p_Main->setScrtValues(true, 4, 0x185F, 5, 0x1871, "SUPERBASICV1");
-                }
-                if ((mainMemory_[0] == 0xc0) && (mainMemory_[1] == 0x1d) && (mainMemory_[2] == 0x39) && (mainMemory_[3] == 0xc0))
-                {
-                    loadedProgram_ = SUPERBASICV3;
-                    basicExecAddress_[BASICADDR_KEY] = BASICADDR_KEY_SB3;
-                    basicExecAddress_[BASICADDR_READY] = BASICADDR_READY_SB3;
-                    basicExecAddress_[BASICADDR_KEY_VT_RESTART] = BASICADDR_VT_RESTART_SB3;
-                    basicExecAddress_[BASICADDR_KEY_VT_INPUT] = BASICADDR_VT_INPUT_SB3;
-                    p_Main->eventEnableMemAccess(true);
-                    p_Main->setScrtValues(true, 4, 0x1FD6, 5, 0x813, "SUPERBASICV3");
-                }
-                if ((mainMemory_[0x100] == 0xc0) && (mainMemory_[0x101] == 0x18) && (mainMemory_[0x102] == 0x00) && (mainMemory_[0x103] == 0xc0))
-                {
-                    loadedProgram_ = SUPERBASICV5;
-                    basicExecAddress_[BASICADDR_KEY] = BASICADDR_KEY_SB5;
-                    basicExecAddress_[BASICADDR_READY] = BASICADDR_READY_SB5;
-                    basicExecAddress_[BASICADDR_KEY_VT_RESTART] = BASICADDR_VT_RESTART_SB5;
-                    basicExecAddress_[BASICADDR_KEY_VT_INPUT] = BASICADDR_VT_INPUT_SB5;
-                    p_Main->eventEnableMemAccess(true);
-                    p_Main->setScrtValues(true, 4, 0x312B, 5, 0x7F1, "SUPERBASICV5");
-                }
-                if ((mainMemory_[0x100] == 0xc0) && (mainMemory_[0x101] == 0x2f) && (mainMemory_[0x102] == 0x00) && (mainMemory_[0x103] == 0xc0))
-                {
-                    loadedProgram_ = SUPERBASICV6;
-                    basicExecAddress_[BASICADDR_KEY] = BASICADDR_KEY_SB6;
-                    basicExecAddress_[BASICADDR_READY] = BASICADDR_READY_SB6;
-                    basicExecAddress_[BASICADDR_KEY_VT_RESTART] = BASICADDR_VT_RESTART_SB6;
-                    basicExecAddress_[BASICADDR_KEY_VT_INPUT] = BASICADDR_VT_INPUT_SB6;
-                    p_Main->eventEnableMemAccess(true);
-                    p_Main->setScrtValues(true, 4, 0x22BC, 5, 0x21F2, "SUPERBASICV6");
-                }
-                if ((mainMemory_[0x2202] == 0xc0) && (mainMemory_[0x2203] == 0x28) && (mainMemory_[0x2204] == 0x65) && (mainMemory_[0x226f] == 0x52))
-                {
-                    loadedProgram_ = RCABASIC3;
-                    basicExecAddress_[BASICADDR_READY] = BASICADDR_READY_RCA3;
-                    basicExecAddress_[BASICADDR_KEY_VT_RESTART] = BASICADDR_VT_RESTART_RCA;
-                    basicExecAddress_[BASICADDR_KEY_VT_INPUT] = BASICADDR_VT_INPUT_RCA;
-                    p_Main->eventEnableMemAccess(true);
-                    p_Main->setScrtValues(true, 4, 0x41E8, 5, 0x37F2, "RCABASIC3");
-                }
-                if ((mainMemory_[0x2202] == 0xc0) && (mainMemory_[0x2203] == 0x28) && (mainMemory_[0x2204] == 0x65) && (mainMemory_[0x226f] == 0x55))
-                {
-                    loadedProgram_ = RCABASIC4;
-                    basicExecAddress_[BASICADDR_READY] = BASICADDR_READY_RCA4;
-                    basicExecAddress_[BASICADDR_KEY_VT_RESTART] = BASICADDR_VT_RESTART_RCA;
-                    basicExecAddress_[BASICADDR_KEY_VT_INPUT] = BASICADDR_VT_INPUT_RCA;
-                    p_Main->eventEnableMemAccess(true);
-                    p_Main->setScrtValues(true, 4, 0x41E8, 5, 0x37F2, "RCABASIC4");
-                }
-                if ((mainMemory_[0xc000] == 0x90) && (mainMemory_[0xc001] == 0xb4) && (mainMemory_[0xc002] == 0xb5) && (mainMemory_[0xc003] == 0xfc))
-                {
-                    loadedProgram_ = MINIMON;
-                    basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0xc1a0;
-                    p_Main->eventEnableMemAccess(true);
-                    p_Main->setScrtValues(false, -1, -1, -1, -1, "MINIMON");
-                }
-                if ((mainMemory_[0xc000] == 0xc4) && (mainMemory_[0xc001] == 0xb4) && (mainMemory_[0xc002] == 0xf8) && (mainMemory_[0xc003] == 0xc0))
-                {
-                    loadedProgram_ = GOLDMON;
-                    basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0xc118;
-                    p_Main->eventEnableMemAccess(true);
-                    p_Main->setScrtValues(true, 4, 0xC0E0, 5, 0xC0F2, "GOLDMON");
-                }
-                if ((mainMemory_[0x100] == 0xc4) && (mainMemory_[0x101] == 0x30) && (mainMemory_[0x102] == 0xb0))
-                {
-                    loadedProgram_ = TINYBASIC;
-                    p_Main->eventEnableMemAccess(true);
-                    p_Main->setScrtValues(false, -1, -1, -1, -1, "TINYBASIC");
-                    basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0xa5d;
-                }
-                if (loadedProgram_ == NOPROGRAM && loadedOs_ == NOOS)
-                {
-                    basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0xfc98;
-                    p_Main->setScrtValues(false, -1, -1, -1, -1, "");
-                }
+                checkLoadedSoftwareElf();
             break;
                 
             case COSMICOS:
-                if ((mainMemory_[0xc0f7] == 0x22) && (mainMemory_[0xc0f8] == 0x73) && (mainMemory_[0xc0f9] == 0x3e) && (mainMemory_[0xc0fa] == 0))
-                {
-                    loadedProgram_ = HEXMON;
-                    basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0xC54f;
-                    p_Main->setScrtValues(false, -1, -1, -1, -1, "");
-                }
-                if ((mainMemory_[0xc084] == 0x4e) && (mainMemory_[0xc085] == 0x4f) && (mainMemory_[0xc086] == 0x20) && (mainMemory_[0xc087] == 0x43))
-                {
-                    loadedProgram_ = ASCIIMON;
-                    p_Main->setScrtValues(true, 4, 0xC0E0, 5, 0xC0F2, "ASCIIMON");
-                }
-                if (loadedProgram_ == NOPROGRAM)
-                    p_Main->setScrtValues(false, -1, -1, -1, -1, "");
+                checkLoadedSoftwareCosmicos();
             break;
                 
             case VIP:
-                if ((mainMemory_[0x1025] == 0x42) && (mainMemory_[0x1026] == 0x41) && (mainMemory_[0x1027] == 0x53) && (mainMemory_[0x1028] == 0x49))
-                {
-                    loadedProgram_ = FPBBASIC;
-                    p_Main->setScrtValues(true, 4, 0x28EF, 5, 0x23E7, "FPBBASIC");
-                    p_Main->eventEnableMemAccess(true);
-                }
-                else
-                {
-                    if ((mainMemory_[0xa0] == 0xd3) && (mainMemory_[0xa1] == 0xf8) && (mainMemory_[0xa2] == 0x40) && (mainMemory_[0xa3] == 0xb9))
-                    {
-                        loadedProgram_ = FPBBOOT;
-                        p_Main->setScrtValues(false, -1, -1, -1, -1, "");
-                    }
-                    else
-                    {
-                     if ((mainMemory_[2] == 0xf8) && (mainMemory_[0xa8] == 0x5) && (mainMemory_[0x107] == 0xd4) && (mainMemory_[0x11b] == 0xb4))
-                        {
-                            loadedProgram_ = VIPTINY;
-                            p_Main->setScrtValues(false, -1, -1, -1, -1, "");
-                            p_Main->eventEnableMemAccess(true);
-                        }
-                    }
-                }
-                if (loadedProgram_ == NOPROGRAM)
-                    p_Main->setScrtValues(false, -1, -1, -1, -1, "");
+                checkLoadedSoftwareVip();
             break;
 
             case VELF:
-                if ((mainMemory_[0x1025] == 0x42) && (mainMemory_[0x1026] == 0x41) && (mainMemory_[0x1027] == 0x53) && (mainMemory_[0x1028] == 0x49))
-                {
-                    loadedProgram_ = FPBBASIC;
-                    p_Main->setScrtValues(true, 4, 0x28EF, 5, 0x23E7, "FPBBASIC");
-                    p_Main->eventEnableMemAccess(true);
-                }
-                else
-                {
-                    if ((mainMemory_[0xa0] == 0xd3) && (mainMemory_[0xa1] == 0xf8) && (mainMemory_[0xa2] == 0x40) && (mainMemory_[0xa3] == 0xb9))
-                    {
-                        loadedProgram_ = FPBBOOT;
-                        p_Main->setScrtValues(false, -1, -1, -1, -1, "");
-                    }
-                }
-                if (loadedProgram_ == NOPROGRAM)
-                {
-                    basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0x8275;
-                    p_Main->setScrtValues(true, 4, 0x8224, 5, 0x8236, "");
-                }
+                checkLoadedSoftwareVelf();
             break;
 
             case VIPII:
-                if ((mainMemory_[0x1025] == 0x42) && (mainMemory_[0x1026] == 0x41) && (mainMemory_[0x1027] == 0x53) && (mainMemory_[0x1028] == 0x49))
-                {
-                    loadedProgram_ = FPBBASIC;
-                    p_Main->setScrtValues(true, 4, 0x28EF, 5, 0x23E7, "FPBBASIC");
-                    p_Main->eventEnableMemAccess(true);
-                }
-                else
-                {
-                    if ((mainMemory_[0x9025] == 0x42) && (mainMemory_[0x9026] == 0x41) && (mainMemory_[0x9027] == 0x53) && (mainMemory_[0x9028] == 0x49))
-                    {
-                        loadedProgram_ = FPBBASIC_AT_8000;
-                        p_Main->setScrtValues(true, 4, 0xA8EF, 5, 0xA3E7, "FPBBASIC_AT_8000");
-                        p_Main->eventEnableMemAccess(true);
-                    }
-                }
+                checkLoadedSoftwareVipII();
             break;
           
             case VIP2K:
-                if ((mainMemory_[0x1025] == 0x42) && (mainMemory_[0x1026] == 0x41) && (mainMemory_[0x1027] == 0x53) && (mainMemory_[0x1028] == 0x49))
-                {
-                    loadedProgram_ = FPBBASIC;
-                    p_Main->setScrtValues(true, 4, 0x39E8, 5, 0x2FF2, "FPBBASIC");
-                    p_Main->eventEnableMemAccess(true);
-                }
-                else
-                {
-                    if ((mainMemory_[0xa0] == 0xd3) && (mainMemory_[0xa1] == 0xf8) && (mainMemory_[0xa2] == 0x40) && (mainMemory_[0xa3] == 0xb9))
-                    {
-                        loadedProgram_ = FPBBOOT;
-                        p_Main->setScrtValues(false, -1, -1, -1, -1, "");
-                    }
-                }
-                if (loadedProgram_ == NOPROGRAM)
-                    p_Main->setScrtValues(true, 4, 0x9DA, 5, 0x9EC, "");
+                checkLoadedSoftwareVip2K();
             break;
                 
             case MEMBER:
-                if ((mainMemory_[0x2f] == 0xd3) && (mainMemory_[0x30] == 0xbf) && (mainMemory_[0x31] == 0xe2) && (mainMemory_[0x32] == 0x86))
-                {
-                    loadedProgram_ = MONITOR_CHUCK_LOW;
-                    basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0x8a3;
-                    p_Main->setScrtValues(true, 4, 0x30, 5, 0x42, "MONITOR_CHUCK_LOW");
-                }
-                if ((mainMemory_[0x802f] == 0xd3) && (mainMemory_[0x8030] == 0xbf) && (mainMemory_[0x8031] == 0xe2) && (mainMemory_[0x8032] == 0x86))
-                {
-                    loadedProgram_ = MONITOR_CHUCK_HIGH;
-                    basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0x88a3;
-                    p_Main->setScrtValues(true, 4, 0x8030, 5, 0x8042, "MONITOR_CHUCK_HIGH");
-                }
-                if ((mainMemory_[0x2f] == 0x2c) && (mainMemory_[0x30] == 0x8b) && (mainMemory_[0x31] == 0x36) && (mainMemory_[0x32] == 0x37))
-                {
-                    loadedProgram_ = MONITOR_CHUCK_LOW;
-                    basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0x62;
-                    p_Main->setScrtValues(true, 4, 0xadb, 5, 0xaed, "MONITOR_CHUCK_J_LOW");
-                }
-                if ((mainMemory_[0x802f] == 0x2c) && (mainMemory_[0x8030] == 0x8b) && (mainMemory_[0x8031] == 0x36) && (mainMemory_[0x8032] == 0x37))
-                {
-                    loadedProgram_ = MONITOR_CHUCK_HIGH;
-                    basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0x8062;
-                    p_Main->setScrtValues(true, 4, 0x8adb, 5, 0x8aed, "MONITOR_CHUCK_J_HIGH");
-                }
-                if (loadedProgram_ == NOPROGRAM)
-                    p_Main->setScrtValues(false, -1, -1, -1, -1, "");
+                checkLoadedSoftwareMember();
             break;
                 
             case CDP18S020:
             case MICROBOARD:
-                p_Main->setScrtValues(false, -1, -1, -1, -1, "");
-                if ((mainMemory_[0x8024] == 0x51) && (mainMemory_[0x8030] == 0xe5) && (mainMemory_[0x8048] == 0xa3) && (mainMemory_[0x80d8] == 0x50))
-                {
-                    basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0x814f;
-                    loadedProgram_ = UT4;
-                }
-                if ((mainMemory_[0x8024] == 0x94) && (mainMemory_[0x8030] == 0x83) && (mainMemory_[0x8048] == 0x1b) && (mainMemory_[0x80d8] == 0xae))
-                {
-                    basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0x8145;
-                    p_Main->setScrtValues(true, 4, 0x8364, 5, 0x8374, "UT62");
-                    loadedProgram_ = UT62;
-                }
-                if ((mainMemory_[0x8024] == 0xFB) && (mainMemory_[0x8030] == 0x47) && (mainMemory_[0x8048] == 0x1b) && (mainMemory_[0x80d8] == 0x83))
-                {
-                    basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0x8144;
-                    p_Main->setScrtValues(true, 4, 0x8364, 5, 0x8374, "UT63");
-                    loadedProgram_ = UT63;
-                }
-                if ((mainMemory_[0x8111] == 0x55) && (mainMemory_[0x8112] == 0x54) && (mainMemory_[0x8113] == 0x37) && (mainMemory_[0x8114] == 0x31))
-                {
-                    p_Main->setScrtValues(true, 4, 0x8364, 5, 0x8374, "UT71");
-                    loadedProgram_ = UT71;
-                }
+                checkLoadedSoftwareMicroboard();
             break;
          
             case MCDS:
-                basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0x8145;
-                p_Main->setScrtValues(true, 4, 0x8364, 5, 0x8374, "UT62");
-                loadedProgram_ = UT62;
+                checkLoadedSoftwareMCDS();
             break;
 
             case ELF2K:
-                basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0xfc9b;
+                checkLoadedSoftwareElf2K();
             break;
         }
     }
     if (loadedOs_ == NOOS)
     {
-        if ((computerType_ == ELFII) || (computerType_ == SUPERELF) || (computerType_ == ELF) || (computerType_ == DIY) || (computerType_ == PICO))
+        if ((computerType_ == ELFII) || (computerType_ == SUPERELF) || (computerType_ == ELF) || (computerType_ == PICO))
         {
             if ((mainMemory_[0xf900] == 0xf8) && (mainMemory_[0xf901] == 0xf9) && (mainMemory_[0xf902] == 0xb6))
             {
@@ -4379,11 +4406,300 @@ void Cdp1802::checkLoadedSoftware()
     }
 }
 
+void Cdp1802::checkLoadedSoftwareElf()
+{
+    if (loadedProgram_ == NOPROGRAM)
+    {
+        pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);
+        
+        if ((mainMemory_[0x10] == 0xc0) && (mainMemory_[0x11] == 0x02) && (mainMemory_[0x12] == 0x58))
+        {
+            loadedProgram_ = COMXBASIC;
+//            basicExecAddress_[BASICADDR_KEY] = BASICADDR_KEY_SB1;
+//            basicExecAddress_[BASICADDR_READY] = BASICADDR_READY_SB1;
+//            basicExecAddress_[BASICADDR_KEY_VT_RESTART] = BASICADDR_VT_RESTART_SB1;
+//            basicExecAddress_[BASICADDR_KEY_VT_INPUT] = BASICADDR_VT_INPUT_SB1;
+            p_Main->eventEnableMemAccess(true);
+            p_Main->setScrtValues(true, 4, 0x2e14, 5, 0x31EB, "COMXBASIC");
+        }
+        if ((mainMemory_[0] == 0xc0) && (mainMemory_[1] == 0x25) && (mainMemory_[2] == 0xf4))
+        {
+            loadedProgram_ = SUPERBASICV1;
+            basicExecAddress_[BASICADDR_KEY] = BASICADDR_KEY_SB1;
+            basicExecAddress_[BASICADDR_READY] = BASICADDR_READY_SB1;
+            basicExecAddress_[BASICADDR_KEY_VT_RESTART] = BASICADDR_VT_RESTART_SB1;
+            basicExecAddress_[BASICADDR_KEY_VT_INPUT] = BASICADDR_VT_INPUT_SB1;
+            p_Main->eventEnableMemAccess(true);
+            p_Main->setScrtValues(true, 4, 0x185F, 5, 0x1871, "SUPERBASICV1");
+        }
+        if ((mainMemory_[0] == 0xc0) && (mainMemory_[1] == 0x1d) && (mainMemory_[2] == 0x39) && (mainMemory_[3] == 0xc0))
+        {
+            loadedProgram_ = SUPERBASICV3;
+            basicExecAddress_[BASICADDR_KEY] = BASICADDR_KEY_SB3;
+            basicExecAddress_[BASICADDR_READY] = BASICADDR_READY_SB3;
+            basicExecAddress_[BASICADDR_KEY_VT_RESTART] = BASICADDR_VT_RESTART_SB3;
+            basicExecAddress_[BASICADDR_KEY_VT_INPUT] = BASICADDR_VT_INPUT_SB3;
+            p_Main->eventEnableMemAccess(true);
+            p_Main->setScrtValues(true, 4, 0x1FD6, 5, 0x813, "SUPERBASICV3");
+        }
+        if ((mainMemory_[0x100] == 0xc0) && (mainMemory_[0x101] == 0x18) && (mainMemory_[0x102] == 0x00) && (mainMemory_[0x103] == 0xc0))
+        {
+            loadedProgram_ = SUPERBASICV5;
+            basicExecAddress_[BASICADDR_KEY] = BASICADDR_KEY_SB5;
+            basicExecAddress_[BASICADDR_READY] = BASICADDR_READY_SB5;
+            basicExecAddress_[BASICADDR_KEY_VT_RESTART] = BASICADDR_VT_RESTART_SB5;
+            basicExecAddress_[BASICADDR_KEY_VT_INPUT] = BASICADDR_VT_INPUT_SB5;
+            p_Main->eventEnableMemAccess(true);
+            p_Main->setScrtValues(true, 4, 0x312B, 5, 0x7F1, "SUPERBASICV5");
+        }
+        if ((mainMemory_[0x100] == 0xc0) && (mainMemory_[0x101] == 0x2f) && (mainMemory_[0x102] == 0x00) && (mainMemory_[0x103] == 0xc0))
+        {
+            loadedProgram_ = SUPERBASICV6;
+            basicExecAddress_[BASICADDR_KEY] = BASICADDR_KEY_SB6;
+            basicExecAddress_[BASICADDR_READY] = BASICADDR_READY_SB6;
+            basicExecAddress_[BASICADDR_KEY_VT_RESTART] = BASICADDR_VT_RESTART_SB6;
+            basicExecAddress_[BASICADDR_KEY_VT_INPUT] = BASICADDR_VT_INPUT_SB6;
+            p_Main->eventEnableMemAccess(true);
+            p_Main->setScrtValues(true, 4, 0x22BC, 5, 0x21F2, "SUPERBASICV6");
+        }
+        if ((mainMemory_[0x2202] == 0xc0) && (mainMemory_[0x2203] == 0x28) && (mainMemory_[0x2204] == 0x65) && (mainMemory_[0x226f] == 0x52))
+        {
+            loadedProgram_ = RCABASIC3;
+            basicExecAddress_[BASICADDR_READY] = BASICADDR_READY_RCA3;
+            basicExecAddress_[BASICADDR_KEY_VT_RESTART] = BASICADDR_VT_RESTART_RCA;
+            basicExecAddress_[BASICADDR_KEY_VT_INPUT] = BASICADDR_VT_INPUT_RCA;
+            p_Main->eventEnableMemAccess(true);
+            p_Main->setScrtValues(true, 4, 0x41E8, 5, 0x37F2, "RCABASIC3");
+        }
+        if ((mainMemory_[0x2202] == 0xc0) && (mainMemory_[0x2203] == 0x28) && (mainMemory_[0x2204] == 0x65) && (mainMemory_[0x226f] == 0x55))
+        {
+            loadedProgram_ = RCABASIC4;
+            basicExecAddress_[BASICADDR_READY] = BASICADDR_READY_RCA4;
+            basicExecAddress_[BASICADDR_KEY_VT_RESTART] = BASICADDR_VT_RESTART_RCA;
+            basicExecAddress_[BASICADDR_KEY_VT_INPUT] = BASICADDR_VT_INPUT_RCA;
+            p_Main->eventEnableMemAccess(true);
+            p_Main->setScrtValues(true, 4, 0x41E8, 5, 0x37F2, "RCABASIC4");
+        }
+        if ((mainMemory_[0xc000] == 0x90) && (mainMemory_[0xc001] == 0xb4) && (mainMemory_[0xc002] == 0xb5) && (mainMemory_[0xc003] == 0xfc))
+        {
+            loadedProgram_ = MINIMON;
+            basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0xc1a0;
+            p_Main->eventEnableMemAccess(true);
+            p_Main->setScrtValues(false, -1, -1, -1, -1, "MINIMON");
+        }
+        if ((mainMemory_[0xc000] == 0xc4) && (mainMemory_[0xc001] == 0xb4) && (mainMemory_[0xc002] == 0xf8) && (mainMemory_[0xc003] == 0xc0))
+        {
+            loadedProgram_ = GOLDMON;
+            basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0xc118;
+            p_Main->eventEnableMemAccess(true);
+            p_Main->setScrtValues(true, 4, 0xC0E0, 5, 0xC0F2, "GOLDMON");
+        }
+        if ((mainMemory_[0x100] == 0xc4) && (mainMemory_[0x101] == 0x30) && (mainMemory_[0x102] == 0xb0))
+        {
+            loadedProgram_ = TINYBASIC;
+            p_Main->eventEnableMemAccess(true);
+            p_Main->setScrtValues(false, -1, -1, -1, -1, "TINYBASIC");
+            basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0xa5d;
+        }
+        if (loadedProgram_ == NOPROGRAM && loadedOs_ == NOOS)
+        {
+            basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0xfc98;
+            p_Main->setScrtValues(false, -1, -1, -1, -1, "");
+        }
+    }
+}
+ 
+void Cdp1802::checkLoadedSoftwareCosmicos()
+{
+    if ((mainMemory_[0xc0f7] == 0x22) && (mainMemory_[0xc0f8] == 0x73) && (mainMemory_[0xc0f9] == 0x3e) && (mainMemory_[0xc0fa] == 0))
+    {
+        loadedProgram_ = HEXMON;
+        basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0xC54f;
+        p_Main->setScrtValues(false, -1, -1, -1, -1, "");
+    }
+    if ((mainMemory_[0xc084] == 0x4e) && (mainMemory_[0xc085] == 0x4f) && (mainMemory_[0xc086] == 0x20) && (mainMemory_[0xc087] == 0x43))
+    {
+        loadedProgram_ = ASCIIMON;
+        p_Main->setScrtValues(true, 4, 0xC0E0, 5, 0xC0F2, "ASCIIMON");
+    }
+    if (loadedProgram_ == NOPROGRAM)
+        p_Main->setScrtValues(false, -1, -1, -1, -1, "");
+}
+
+void Cdp1802::checkLoadedSoftwareVip()
+{
+    if ((mainMemory_[0x1025] == 0x42) && (mainMemory_[0x1026] == 0x41) && (mainMemory_[0x1027] == 0x53) && (mainMemory_[0x1028] == 0x49))
+    {
+        loadedProgram_ = FPBBASIC;
+        p_Main->setScrtValues(true, 4, 0x28EF, 5, 0x23E7, "FPBBASIC");
+        p_Main->eventEnableMemAccess(true);
+    }
+    else
+    {
+        if ((mainMemory_[0xa0] == 0xd3) && (mainMemory_[0xa1] == 0xf8) && (mainMemory_[0xa2] == 0x40) && (mainMemory_[0xa3] == 0xb9))
+        {
+            loadedProgram_ = FPBBOOT;
+            p_Main->setScrtValues(false, -1, -1, -1, -1, "");
+        }
+        else
+        {
+         if ((mainMemory_[2] == 0xf8) && (mainMemory_[0xa8] == 0x5) && (mainMemory_[0x107] == 0xd4) && (mainMemory_[0x11b] == 0xb4))
+            {
+                loadedProgram_ = VIPTINY;
+                p_Main->setScrtValues(false, -1, -1, -1, -1, "");
+                p_Main->eventEnableMemAccess(true);
+            }
+        }
+    }
+    if (loadedProgram_ == NOPROGRAM)
+        p_Main->setScrtValues(false, -1, -1, -1, -1, "");
+}
+
+void Cdp1802::checkLoadedSoftwareVipII()
+{
+    if ((mainMemory_[0x1025] == 0x42) && (mainMemory_[0x1026] == 0x41) && (mainMemory_[0x1027] == 0x53) && (mainMemory_[0x1028] == 0x49))
+    {
+        loadedProgram_ = FPBBASIC;
+        p_Main->setScrtValues(true, 4, 0x28EF, 5, 0x23E7, "FPBBASIC");
+        p_Main->eventEnableMemAccess(true);
+    }
+    else
+    {
+        if ((mainMemory_[0x9025] == 0x42) && (mainMemory_[0x9026] == 0x41) && (mainMemory_[0x9027] == 0x53) && (mainMemory_[0x9028] == 0x49))
+        {
+            loadedProgram_ = FPBBASIC_AT_8000;
+            p_Main->setScrtValues(true, 4, 0xA8EF, 5, 0xA3E7, "FPBBASIC_AT_8000");
+            p_Main->eventEnableMemAccess(true);
+        }
+    }
+}
+
+void Cdp1802::checkLoadedSoftwareVip2K()
+{
+    if ((mainMemory_[0x1025] == 0x42) && (mainMemory_[0x1026] == 0x41) && (mainMemory_[0x1027] == 0x53) && (mainMemory_[0x1028] == 0x49))
+    {
+        loadedProgram_ = FPBBASIC;
+        p_Main->setScrtValues(true, 4, 0x39E8, 5, 0x2FF2, "FPBBASIC");
+        p_Main->eventEnableMemAccess(true);
+    }
+    else
+    {
+        if ((mainMemory_[0xa0] == 0xd3) && (mainMemory_[0xa1] == 0xf8) && (mainMemory_[0xa2] == 0x40) && (mainMemory_[0xa3] == 0xb9))
+        {
+            loadedProgram_ = FPBBOOT;
+            p_Main->setScrtValues(false, -1, -1, -1, -1, "");
+        }
+    }
+    if (loadedProgram_ == NOPROGRAM)
+        p_Main->setScrtValues(true, 4, 0x9DA, 5, 0x9EC, "");
+}
+
+void Cdp1802::checkLoadedSoftwareVelf()
+{
+    if ((mainMemory_[0x1025] == 0x42) && (mainMemory_[0x1026] == 0x41) && (mainMemory_[0x1027] == 0x53) && (mainMemory_[0x1028] == 0x49))
+    {
+        loadedProgram_ = FPBBASIC;
+        p_Main->setScrtValues(true, 4, 0x28EF, 5, 0x23E7, "FPBBASIC");
+        p_Main->eventEnableMemAccess(true);
+    }
+    else
+    {
+        if ((mainMemory_[0xa0] == 0xd3) && (mainMemory_[0xa1] == 0xf8) && (mainMemory_[0xa2] == 0x40) && (mainMemory_[0xa3] == 0xb9))
+        {
+            loadedProgram_ = FPBBOOT;
+            p_Main->setScrtValues(false, -1, -1, -1, -1, "");
+        }
+    }
+    if (loadedProgram_ == NOPROGRAM)
+    {
+        basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0x8275;
+        p_Main->setScrtValues(true, 4, 0x8224, 5, 0x8236, "");
+    }
+}
+
+void Cdp1802::checkLoadedSoftwareMember()
+{
+    if ((mainMemory_[0x2f] == 0xd3) && (mainMemory_[0x30] == 0xbf) && (mainMemory_[0x31] == 0xe2) && (mainMemory_[0x32] == 0x86))
+    {
+        loadedProgram_ = MONITOR_CHUCK_LOW;
+        basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0x8a3;
+        p_Main->setScrtValues(true, 4, 0x30, 5, 0x42, "MONITOR_CHUCK_LOW");
+    }
+    if ((mainMemory_[0x802f] == 0xd3) && (mainMemory_[0x8030] == 0xbf) && (mainMemory_[0x8031] == 0xe2) && (mainMemory_[0x8032] == 0x86))
+    {
+        loadedProgram_ = MONITOR_CHUCK_HIGH;
+        basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0x88a3;
+        p_Main->setScrtValues(true, 4, 0x8030, 5, 0x8042, "MONITOR_CHUCK_HIGH");
+    }
+    if ((mainMemory_[0x2f] == 0x2c) && (mainMemory_[0x30] == 0x8b) && (mainMemory_[0x31] == 0x36) && (mainMemory_[0x32] == 0x37))
+    {
+        loadedProgram_ = MONITOR_CHUCK_LOW;
+        basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0x62;
+        p_Main->setScrtValues(true, 4, 0xadb, 5, 0xaed, "MONITOR_CHUCK_J_LOW");
+    }
+    if ((mainMemory_[0x802f] == 0x2c) && (mainMemory_[0x8030] == 0x8b) && (mainMemory_[0x8031] == 0x36) && (mainMemory_[0x8032] == 0x37))
+    {
+        loadedProgram_ = MONITOR_CHUCK_HIGH;
+        basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0x8062;
+        p_Main->setScrtValues(true, 4, 0x8adb, 5, 0x8aed, "MONITOR_CHUCK_J_HIGH");
+    }
+    if (loadedProgram_ == NOPROGRAM)
+        p_Main->setScrtValues(false, -1, -1, -1, -1, "");
+}
+
+void Cdp1802::checkLoadedSoftwareMicroboard()
+{
+    p_Main->setScrtValues(false, -1, -1, -1, -1, "");
+    if ((mainMemory_[0x8024] == 0x51) && (mainMemory_[0x8030] == 0xe5) && (mainMemory_[0x8048] == 0xa3) && (mainMemory_[0x80d8] == 0x50))
+    {
+        basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0x814f;
+        loadedProgram_ = UT4;
+    }
+    if ((mainMemory_[0x8024] == 0x94) && (mainMemory_[0x8030] == 0x83) && (mainMemory_[0x8048] == 0x1b) && (mainMemory_[0x80d8] == 0xae))
+    {
+        basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0x8145;
+        p_Main->setScrtValues(true, 4, 0x8364, 5, 0x8374, "UT62");
+        loadedProgram_ = UT62;
+    }
+    if ((mainMemory_[0x8024] == 0xFB) && (mainMemory_[0x8030] == 0x47) && (mainMemory_[0x8048] == 0x1b) && (mainMemory_[0x80d8] == 0x83))
+    {
+        basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0x8144;
+        p_Main->setScrtValues(true, 4, 0x8364, 5, 0x8374, "UT63");
+        loadedProgram_ = UT63;
+    }
+    if ((mainMemory_[0x8111] == 0x55) && (mainMemory_[0x8112] == 0x54) && (mainMemory_[0x8113] == 0x37) && (mainMemory_[0x8114] == 0x31))
+    {
+        p_Main->setScrtValues(true, 4, 0x8364, 5, 0x8374, "UT71");
+        loadedProgram_ = UT71;
+    }
+}
+
+void Cdp1802::checkLoadedSoftwareMCDS()
+{
+    basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0x8145;
+    p_Main->setScrtValues(true, 4, 0x8364, 5, 0x8374, "UT62");
+    loadedProgram_ = UT62;
+}
+
+void Cdp1802::checkLoadedSoftwareElf2K()
+{
+    basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0xfca6; ///0xfc9b;
+}
+
 bool Cdp1802::readProgram(wxString romDir, wxString rom, int memoryType, Word address, bool showFilename)
 {
     if (rom.Len() != 0)
     {
         return readFile(romDir+rom, memoryType, address, 0x10000, showFilename);
+    }
+    else return false;
+}
+
+bool Cdp1802::readProgram(wxString romDir, wxString rom, int memoryType, Word address, LoadOffSet loadOffSet, bool showFilename)
+{
+    if (rom.Len() != 0)
+    {
+        return readFile(romDir+rom, memoryType, address, 0x10000, loadOffSet, showFilename);
     }
     else return false;
 }
@@ -4511,8 +4827,24 @@ bool Cdp1802::readProgramPecom(wxString romDir, wxString rom, int memoryType, Wo
 
 void Cdp1802::readSt2Program(int computerType, int memoryType)
 {
-    wxString fileName, file;
+    wxString dirName, fileName;
+    dirName = p_Main->getRomDir(computerType, CARTROM);
+    fileName = p_Main->getRomFile(computerType, CARTROM);
+    
+    if (fileName != "")
+        readSt2Program (dirName, fileName, computerType, memoryType);
+}
+
+void Cdp1802::readSt2Program(wxString dirName, wxString fileName, int computerType, int memoryType)
+{
+    readSt2Program(dirName+fileName, computerType, memoryType);
+}
+
+void Cdp1802::readSt2Program(wxString fileNameFull, int computerType, int memoryType)
+{
     wxFFile inFile;
+    wxFileName swFullPath = wxFileName(fileNameFull, wxPATH_NATIVE);
+
     struct
     {
         char header[4];
@@ -4530,15 +4862,13 @@ void Cdp1802::readSt2Program(int computerType, int memoryType)
         Byte notUsed4[128];
     } st2Header;
 
-    fileName = p_Main->getRomDir(computerType, CARTROM);
-    file = p_Main->getRomFile(computerType, CARTROM);
-    fileName.operator += (file);
-
-    if (file.Len() != 0)
+    Word address;
+    
+    if (fileNameFull.Len() != 0)
     {
-        if (wxFile::Exists(fileName))
+        if (wxFile::Exists(fileNameFull))
         {
-            if (inFile.Open(fileName, _(_("rb"))))
+            if (inFile.Open(fileNameFull, _(_("rb"))))
             {
                 inFile.Read(&st2Header, 256);
                 if (st2Header.offsets[0] == 0 && st2Header.offsets[4] == 0x24)
@@ -4552,24 +4882,28 @@ void Cdp1802::readSt2Program(int computerType, int memoryType)
                     }
                     else
                     {
-                        inFile.Read((&mainMemory_[st2Header.offsets[i-1] << 8]),256);
-                        defineMemoryType(st2Header.offsets[i-1] << 8, memoryType);
+                        address = st2Header.offsets[i-1] << 8;
+                        inFile.Read((&mainMemory_[address]),256);
+                        if ((memoryType&0xff) != NOCHANGE)
+                            defineMemoryType(st2Header.offsets[i-1] << 8, memoryType);
                     }
                 }
                 inFile.Close();
-                wxFileName swFullPath = wxFileName(fileName, wxPATH_NATIVE);
-                p_Main->setSwName (swFullPath.GetName());
-                p_Main->updateTitle();
+                if (computerType != XML)
+                {
+                    p_Main->setSwName (swFullPath.GetName());
+                    p_Main->updateTitle();
+                }
             }
             else
             {
-                (void)wxMessageBox( "Error reading " + fileName,  // Works correct, via p_Main->errorMessage it will NOT
+                (void)wxMessageBox( "Error reading " + swFullPath.GetName(),  // Works correct, via p_Main->errorMessage it will NOT
                                     "Emma 02", wxICON_ERROR | wxOK );
             }
         }
         else
         {
-            (void)wxMessageBox( "File " + fileName + " not found", // Works correct, via p_Main->errorMessage it will NOT
+            (void)wxMessageBox( "File " + swFullPath.GetName() + " not found", // Works correct, via p_Main->errorMessage it will NOT
                                 "Emma 02", wxICON_ERROR | wxOK );
         }
     }
@@ -4632,6 +4966,45 @@ bool Cdp1802::readFile(wxString fileName, int memoryType, Word address, long end
                 return readLstFile(fileName, memoryType, end, showFilename);
             else
                 return readBinFile(fileName, memoryType, address, end, showFilename, false, 0);
+        }
+        else
+        {
+            p_Main->errorMessage("Error reading " + fileName);
+            return false;
+        }
+    }
+    else
+    {
+        p_Main->errorMessage("File " + fileName + " not found");
+        return false;
+    }
+}
+
+bool Cdp1802::readFile(wxString fileName, int memoryType, Word address, long end, LoadOffSet loadOffSet, bool showFilename)
+{
+    wxFFile inFile;
+    char buffer[4];
+
+    if (wxFile::Exists(fileName))
+    {
+        if (inFile.Open(fileName, _("rb")))
+        {
+            inFile.Read(buffer, 4);
+            inFile.Close();
+
+            if (showFilename)
+            {
+                wxFileName swFullPath = wxFileName(fileName, wxPATH_NATIVE);
+                p_Main->setSwName (swFullPath.GetName());
+                p_Main->updateTitle();
+            }
+
+            if (buffer[0] == ':' || (buffer[0] == 0x0d && buffer[1] == 0x0a && buffer[2] == ':'))
+                return readIntelFile(fileName, memoryType, end, showFilename);
+            else if (buffer[0] == '0' && buffer[1] == '0' && buffer[2] == '0' && buffer[3] == '0')
+                return readLstFile(fileName, memoryType, end, showFilename);
+            else
+                return readBinFile(fileName, memoryType, address, end, loadOffSet, showFilename, false, 0);
         }
         else
         {
@@ -4775,6 +5148,7 @@ void Cdp1802::writeMemLabelType(Word address, Byte type)
            switch (computerType_)
             {
                 case ELFII:
+                case XML:
                     if (elfConfiguration.giantBoardMapping)
                         if (address >= baseGiantBoard_)
                             address = (address & 0xff) | 0xf000;
@@ -4840,7 +5214,7 @@ void Cdp1802::writeMemLabelType(Word address, Byte type)
                 case ELF:
                 case ELFII:
                 case SUPERELF:
-                case DIY:
+                case XML:
                 case PICO:
                     address = (address & ramMask_) + ramStart_;
                 break;
@@ -4914,7 +5288,7 @@ void Cdp1802::writeMemLabelType(Word address, Byte type)
                 case ELF:
                 case ELFII:
                 case SUPERELF:
-                case DIY:
+                case XML:
                 case PICO:
                    address = (address & ramMask_) + ramStart_;
                 break;
@@ -5140,6 +5514,7 @@ Byte Cdp1802::readMemLabelType(Word address)
             switch (computerType_)
             {
                 case ELFII:
+                case XML:
                     if (elfConfiguration.giantBoardMapping)
                         if (address >= baseGiantBoard_)
                             address = (address & 0xff) | 0xf000;
@@ -5203,7 +5578,7 @@ Byte Cdp1802::readMemLabelType(Word address)
                 case ELF:
                 case ELFII:
                 case SUPERELF:
-                case DIY:
+                case XML:
                 case PICO:
                     address = (address & ramMask_) + ramStart_;
                 break;
@@ -5270,7 +5645,7 @@ Byte Cdp1802::readMemLabelType(Word address)
                 case ELF:
                 case ELFII:
                 case SUPERELF:
-                case DIY:
+                case XML:
                 case PICO:
                     address = (address & ramMask_) + ramStart_;
                 break;
@@ -5439,6 +5814,16 @@ void Cdp1802::increaseExecutedExpansionRom(long address, Byte type)
     {
         if (expansionRomExecuted_[address] < UINT64_MAX)
             expansionRomExecuted_[address]++;
+        p_Main->updateAssTabCheck(address);
+    }
+}
+
+void Cdp1802::increaseExecutedSlotMemory(int slot, long address, Byte type)
+{
+    if ((type == MEM_TYPE_OPCODE || type >= MEM_TYPE_OPCODE_RSHR) && profilerCounter_ != PROFILER_OFF)
+    {
+        if (slotMemoryExecuted_[slot][address] < UINT64_MAX)
+            slotMemoryExecuted_[slot][address]++;
         p_Main->updateAssTabCheck(address);
     }
 }

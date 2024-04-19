@@ -1,0 +1,165 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>COMX-35</name>
+        <config>Diagnostic Board, NTSC</config>
+        <clock>2.835</clock>
+        <boot>0</boot>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init>
+        <dma out="q">5</dma>
+        <statusbar>diag</statusbar>
+        <dirname>Comx</dirname>
+    </system>
+    
+    <memory>
+         <rom>
+             <start>0</start>
+             <end>0x3FFF</end>
+             <filename verify="true">comx35.bin</filename>
+         </rom>
+         
+         <diagrom type="on">
+             <start>0</start>
+             <end>0xFFF</end>
+             <filename verify="true">diag_ntsc1.bin</filename>
+         </diagrom>
+
+         <mainram>
+            <start>0x4000</start>
+            <end>0xBFFF</end>
+         </mainram>
+
+         <rom>
+             <start>0xC000</start>
+             <end>0xD7FF</end>
+             <filename verify="true">diag_ntsc2.bin</filename>
+         </rom>
+
+         <ram>
+            <start>0xD800</start>
+            <end>0xDFFF</end>
+         </ram>
+    </memory>
+  
+    <video type="1870">
+        <pagesize type="ram">0x3ff</pagesize>
+        <charsize type="ram">0x7ff</charsize>
+        <pcbmask>0x7f</pcbmask>
+        <maxcharlines>16</maxcharlines>
+        <maxscreenlines>24</maxscreenlines> <!-- 24, 25 or 27 for Cidelsa DRACO) -->
+        <mode>ntsc</mode>
+        <int>2</int>
+        <ef type="display">1</ef>
+        <ef type="mode">2</ef> <!-- only active until first Q pulse -->
+        <clock>5.670</clock>
+        <border>2x2</border>
+        <color num="0" type="mask">0,0,0</color>
+        <color num="1" type="mask">0,0xFF,0</color>
+        <color num="2" type="mask">0,0,0xFF</color>
+        <color num="3" type="mask">0,0xFF,0xFF</color>
+        <color num="4" type="mask">0xFF,0,0</color>
+        <color num="5" type="mask">0xFF,0xFF,0</color>
+        <color num="6" type="mask">0xFF,0,0xFF</color>
+        <color num="7" type="mask">0xFF,0xFF,0xFF</color>
+        <ctone num="0">0</ctone>
+        <ctone num="1">28</ctone>
+        <ctone num="2">77</ctone>
+        <ctone num="3">105</ctone>
+        <ctone num="4">150</ctone>
+        <ctone num="5">194</ctone>
+        <ctone num="6">227</ctone>
+        <ctone num="7">255</ctone>
+        <cmamaskfixed />
+    </video>
+
+    <keyboard type="1871">
+        <in>3</in>
+        <ef type="rpt">2</ef>
+        <ef type="data">3</ef>
+    </keyboard>
+
+    <cassette decks="1">
+        <ef>4</ef>
+    </cassette>
+    
+    <diagnostic>
+        <in type="1">1</in>
+        <in type="2">2</in>
+        <out>1</out>
+        <checksum>on</checksum>         <!-- on / off -->
+        <factory>yes</factory>          <!-- yes / no -->
+        <cassette>connected</cassette>  <!-- connected / disconnected -->
+    </diagnostic>
+            
+    <locations>
+        <!--
+        <keyinput>:
+        0x1bc: wait for key on reset screen
+        0x39a: wait for key in BASIC
+        0x5344: wait for key in F&M BASIC
+        -->
+        <key_input>0x1bc, 0x39a, 0x5344</key_input>
+        
+        <!-- Machine states -->
+        <reset_state>0x1bc</reset_state>
+        <basic_state address="0x42a0" value="0">0x39a, 0x5344</basic_state>
+        <run_state>0x1f76, 0x2c00</run_state>
+
+        <!-- Stop thermal printer output -->
+        <stop_thermal address="0x428b" value="0x14">0x1047</stop_thermal>
+        
+        <!-- Stop cassette -->
+        <stop_cas>0x1047</stop_cas>
+        
+        <!-- Start PSAVE, DSAVE, PLOAD, DLOAD -->
+        <start_cas_save>0x1672, 0x1675</start_cas_save>
+        <start_cas_load>0x0e00</start_cas_load>
+        <start_cas_dload>0x0e03</start_cas_dload>
+
+        <!-- Start F&M BASIC BSAVE, BLOAD -->
+        <start_cas_save address="0x428b" value="0x53">0x4dc3</start_cas_save>
+        <start_cas_load address="0x428b" value="0x53">0x4daa</start_cas_load>
+
+        <!-- Start TURBO PSAVE/PLOAD V1.00 -->
+        <start_cas_save address="0xbfd0, 0xbfd1, 0xbf02, 0xbfac" value="0x54, 0x41, 0xc3, 0x91">0xbf00</start_cas_save>
+        <start_cas_load address="0xbfd0, 0xbfd1, 0xbf02, 0xbfac" value="0x54, 0x41, 0xc3, 0x91">0xbf70</start_cas_load>
+
+        <!-- Start TURBO PSAVE/PLOAD V2.00 -->
+        <start_cas_save address="0xbfe3, 0xbfe4, 0xbe93, 0xbe94" value="0x54, 0x41, 0x4c, 0x4f">0xbee7</start_cas_save>
+        <start_cas_load address="0xbfe3, 0xbfe4, 0xbe93, 0xbe94" value="0x54, 0x41, 0x4c, 0x4f">0xbf78</start_cas_load>
+
+        <!-- Start TOS V2.00 -->
+        <start_cas_save address="0xbd52, 0xbd53, 0xb934, 0xb935" value="0x54, 0x4f, 0x3a, 0xb6">0xbae7, 0xbce1</start_cas_save>
+        <start_cas_load address="0xbd52, 0xbd53, 0xb934, 0xb935" value="0x54, 0x4f, 0x3a, 0xb6">0xbb78</start_cas_load>
+        <start_cas_dload address="0xbd52, 0xbd53, 0xb934, 0xb935" value="0x54, 0x4f, 0x3a, 0xb6">0xbcf4</start_cas_dload>
+    </locations>
+    
+    <basic>
+        <pload>comx</pload>
+        <defus>0x4281</defus>
+        <eop>0x4283</eop>
+        <string>0x4292</string>
+        <array>0x4294</array>
+        <eod>0x4299</eod>
+        <ram>0x4400</ram>
+    </basic>
+
+    <debugger>
+        <scrt mode="on">
+            <call reg="4">0xc101</call>
+            <return reg="5">0xc113</return>
+        </scrt>
+        
+        <assembler>
+            <filename>mycode</filename>
+            <code_start>0x4400</code_start>
+            <code_end>0x53FF</code_end>
+        </assembler>
+    </debugger>
+
+</emmaconfig>

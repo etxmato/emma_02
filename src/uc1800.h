@@ -1,16 +1,17 @@
 #ifndef Uc1800_H
 #define Uc1800_H
     
-#include "til311.h"
+#include "til.h"
 #include "cdp1802.h"
 #include "elfconfiguration.h"
 
 class Uc1800Screen : public Panel
 {
 public:
-    Uc1800Screen(wxWindow *parent, const wxSize& size);
+    Uc1800Screen(wxWindow *parent, const wxSize& size, int tilType);
     ~Uc1800Screen();
 
+    void init();
     void init(bool powerButtonState);
     void onPaint(wxPaintEvent&event);
     void onMousePress(wxMouseEvent& event);
@@ -38,7 +39,7 @@ public:
     Byte getData();
 
     bool keyDownPressed(int keycode);
-    bool keyUpReleased(int keycode);
+    bool keyUpReleased(int key, wxKeyEvent& event);
 
     void onRun();
     void onSingleStep();
@@ -102,7 +103,6 @@ private:
     Byte keypadValue_;
     char nextNybble_;
 
-    Byte data_;
     Byte ef1State_;
     Byte ef3State_;
 

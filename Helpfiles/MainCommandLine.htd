@@ -7,38 +7,50 @@ Any of the Emma 02 computers can be started via the command line. If the option 
 </p>
 <p>
 <UL>
-<LI>cdp18s020
-<LI>coinarcade
-<LI>comx
-<LI>cosmicos
-<LI>cosmac (Cosmas Elf)
+<LI>cdp18s020 or evaluationkit
 <LI>cidelsa
-<LI>elf2k
-<LI>eti or eti660 (ETI 660)
-<LI>fred1
+<LI>coinarcade or coin
+<LI>comx or comx35
+<LI>comix or comix35
+<LI>conic or victory
+<LI>cosmacelf or cosmac
+<LI>cosmacgamesystem, gamesystem or cosmacgame
+<LI>cosmicos
+<LI>cybervision, cyber or cv
+<LI>elf (Generic Elf System)
+<LI>elf2k or elf2000
+<LI>eti, eti-660 or eti660
+<LI>fred or fred1
 <LI>fred15 or fred1.5
-<LI>infinite or uc1800
-<LI>membership
+<LI>hec or hec1802
+<LI>hug or hug1802
+<LI>jvip
+<LI>macbug
 <LI>mcds
-<LI>microtutor
+<LI>membership or member
+<LI>microboard
+<LI>microtutor, microtutori or microtutor1
 <LI>microtutorii or microtutor2
 <LI>ms2000
-<LI>netronics
-<LI>nano (Oscom Nano)
-<LI>pecom
-<LI>quest (Quest Super Elf)
+<LI>nano, oscom or oscomnano
+<LI>netronicselfii, netronics, elfii or elf2
+<LI>pecom32
+<LI>pecom or pecom64
+<LI>picoelfv2 or pico
+<LI>questsuperelf or quest
+<LI>studio2020
 <LI>studio, studioii or studio2
 <LI>studioiii or studio3
 <LI>studioiv or studio4
 <LI>tmc600 or telmac600
-<LI>tmc2000 or telmac2000
 <LI>tmc1800 or telmac1800
+<LI>tmc2000 or telmac2000
+<LI>uc1800 or infinite
 <LI>velf 
-<LI>visicom
-<LI>victory
 <LI>vip 
-<LI>vipII
 <LI>vip2k
+<LI>vipii or vip2
+<LI>visicom
 </UL>
 </p>
 <p>
@@ -53,15 +65,19 @@ Options valid for all command line cases:<BR>
 Options only valid when &quot;-c&quot; is specified:<BR>
 -v, --verbose, verbose output<BR>
 -f, --fullscreen, full screen mode<BR>
+-x, --xml=&lt;str&gt;, load specified xml file on start<BR>
 -s, --software=&lt;str&gt;, load specified software on start<BR>
 -r, --run=&lt;str&gt;, run specified software on start<BR>
--ch, --chip8=&lt;str&gt;, load specified chip8 software on start
+-ch, --chip8=&lt;str&gt;, load specified chip8 software on start<BR>
+-st, --st2=&lt;str&gt;, load specified chip8 software on start<BR>
+-s0, --software0=&lt;str&gt;, load binary software in GUI slot 0 on start<BR>
+-s1, --software1=&lt;str&gt;, load binary software in GUI slot 1 on start
 </p>
 <p>
-Note the equal sign is optional in the above commands. All commands where software files are specified can either include  the full path (c:\games\invaders.st2) or just the file name. If only a file name is used Emma 02 will try to load the game file from the directory specified in the emma_02.ini file (set manually or via the GUI).
+Note the equal sign is optional in the above commands. All commands where software files are specified can either include  the full path (c:\games\invaders.st2) or just the file name. If only a file name is used Emma 02 will try to load the game file from the directory specified in the used xml file.
 </p>
 <p>
-It is possible to specify -s=&quot;&quot; (for a Studio II, Studio III / Victory MPT-02 or Visicom COM-100) to start without st2 file loaded, i.e. to run emulator with the build-in games.
+It is possible to specify -s=&quot;&quot; (for a Studio II, Studio III / Victory MPT-02 or Visicom COM-100) to start without st2 file loaded, i.e. to run emulator with the build-in games. This will result in the same behavior as not using a -s or -st option.
 </p>
 <p>
 In portable mode (-p) the emulator can run from any location and will expect all data and setting files in the sub directory &quot;data&quot; in the application directory (wherever the Emma 02.exe file is located). The first time option -p is used all directory entries in the .ini file will be set to the application folder on start-up. Also if the &quot;data&quot; folder does not exist it will be created.

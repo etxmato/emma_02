@@ -1,0 +1,635 @@
+                                Rc/Lisp V1.0
+                                    by
+                              Michael H. Riley
+
+Supported Dialect:
+------------------
+(CAR arg)                    - Return car (or head) of list
+(CDR arg)                    - Return cdr (or tail) of list
+(EQ arg1 arg2)               - T if args are at same address, else NIL
+(CONS arg1 arg2)             - Create a consing cell
+(SET arg1 arg2)              - Bind arg2 to arg1 (arg1 must eval to an atom)
+(PRINT arg)                  - Print arg
+(ATOM arg)                   - T if arg is an atom, else NIL
+(BOUNDP arg)                 - T if arg is bound, else NIL
+(T)                          - Returns T
+(NIL)                        - Returns NIL
+(EVAL arg)                   - Evaluate arg
+(NULL arg)                   - T if arg is NIL, else NIL
+(LIST arg arg ...)           - Create a list
+(REVERSE arg)                - Produce a reversed list of arg
+(COND (form) (from) ...)     - Conditional form
+(DEFUN name (args) (form))   - Define a function
+(RETURN arg)                 - Return argument
+(ADD arg1 arg2)              - Numerical add of arg1 and arg2
+(SUB arg1 arg2)              - Numerical subtract, arg1-arg2
+(LESSP arg1 arg2)            - T if arg1 numerically less than arg2
+
+OBLIST                       - Print the object list
+FREE                         - Print the amount of free memory
+GC                           - Force garbage collection
+CLEAR                        - Clear the lisp environment
+
+Learning Lisp:
+--------------
+  Lisp is an acronym for LISt Processor.  Lisp is very commonly used for AI
+(Artificial Intelligence) programming.  Unlike most other programming
+languages, Lisp does not use numbers as the basis of its data types.  Since
+Lisp was designed for artificial intelligence work, it works with words and 
+lists as its primary data types.
+
+  Lisp's 3 main data types are:
+
+  1) Atoms.  Atoms are the smallest entity lisp works with.
+  2) Lists. These are the complex data structures.  Lists can be made of 
+     atoms or even other lists.
+  3) Dotted Pairs.  These are usually 2 atoms together in a special kind of
+     list
+
+  An atom in lisp is simply a word.  Atoms are stored in a special table 
+called the 'object list'.  An atom can be bound to any other lisp data type.
+A bound atom is similar to a variable in other programming languages, and 
+when used in an expression, the value the atom is bound to will be used.
+If an atom is not bound, its value is considered to be NIL.
+
+  Here are some examples of atoms:
+     A B NAME LISP CAR CDR
+
+  Note that Lisps inbuilt commands are atoms.  They are also considered to be
+bound, since they are bound to the internal functions that perform the work.
+
+  A list is how multiple atoms are put together.  Lists are also often referred
+to as an S-Expression.  All lisp commands are used in lists.  Usually the 
+command is the first (or car) of the list, while the arguments are the rest
+(or cdr) of the list.  Lists can also contain other lists as their elements.
+
+  Here are some examples of lists:
+     (A B C)  (A (B C) D)  ((A B) (C D))  (CAR '(A B C))
+
+  The final example above is a sample of how the CAR command is used.  Also
+note that the list (A B C) has a tick (') mark in front of it.  The tick mark
+denotes that the element (either an atom or a list) is not to be evaluated
+during the eval phase.
+
+  Dotted Pairs are a special kind of list that has only 2 elements, usually
+atoms.  Dotted Pairs (or Consing nodes) are usually used for key/value pairs.
+
+  Here are some examples of Dotted Pairs:
+     (A . B) (FIRST . LAST)
+
+  Dotted pairs can alsu be created with lists, but these are considered to be
+non-standard.
+
+  Now that you know about the basic data type, lets look at the lisp command
+set as used by Rc/Lisp.
+
+  In the following examples.  Code typed into the computer will be indented
+by 5 spaces, the results as given by the computer will be indented 10 spaces.
+
+  We will first look at how to bind values.  The SET command is used to bind
+an atom to a value.  The value could be another atom or a list.  The first
+argument of the SET command must evaluate to an atom, since it is not possible
+to assign values to lists.
+
+  Here is how you set an atom equal to another atom:
+     (SET 'A 'B)
+          B
+
+  Note that the SET command returns as its value the value that was assigned.
+
+  You can also assign lists using the SET command.  Try this one:
+     (SET 'X '(X Y Z))
+          (X Y Z)
+
+  Note that in these two SET commands, we quoted (the ' mark) the arguments.
+This was to prevent the lisp evaluator from attempting to evaluate the 
+arguments.  Try this:
+     (SET 'A (A B C))
+          ??? Evaluation Error ???
+
+  Here is why you get the error.  The SET command first passes its arguments
+to the lisp evaluator before it does its work (this is referred to as tail-
+recursion).  When the (A B C) list was passed to the evaluator, the evaluator
+looks to see if A is a valid function, since it currently is not, the evaluator
+returns with an error.  Try this command:
+
+     (SET 'A (CDR '(A B C)))
+          (B C)
+
+  We will talk about the CDR command shortly.  Just notice what happened in
+the SET command.   The (CDR '(A B C)) was evaluated, and the result was then
+bound to A.
+
+  The first argument of SET can also be an expression, so long as the result
+of the evaluator is an atom.  Try this one:
+     (SET (CAR '(D E F)) '(A B C))
+          (A B C)
+
+  This commmand will first evaluate the (CAR '(D E F)) expression, which will
+result in D (an atom), and then assign the list (A B C) to it.
+
+  Now lets look at the CAR and CDR commands that we have been using in the
+past few examples.  CAR and CDR are the 2 commands that allow you to take
+lists apart.
+
+  We will first look at the CAR command, which returns the first element of a
+list.  It does not matter whether the element is an atom or an embedded list.
+Try these examples:
+     (CAR '(A B C))
+          A
+     (CAR '((A B) C D))
+          (A B)
+
+  Like SET, CAR will evaluate its arguments.  Try this example:
+     (SET 'X '(A B C D))
+          (A B C D)
+     (CAR X)
+          A
+
+  Note that in this example, we first bound a list to the X atom.  Then, in
+the CAR command the X gets evaluated.  When an atom is evaluated, it always
+returns what it is bound to, in this case (A B C D).  Then the CAR command
+took the first element of this list, or A.
+
+  try this one:
+     (CAR (CAR '((A B) (C D))))
+          A
+
+  Do you see how this result occured?  When the outermost CAR command is
+evalauated, it first looks at its argument, which is not quoted, and therefore
+the argument needs to be evaluated.  The innermost CAR command is given a 
+quoted argument of ((A B) (C D)), of which the CAR of this is (A B).  The
+(A B) is returned as the result of the innermost CAR command to the outermost
+CAR command which then takes the CAR of this list, or A.
+
+  If you attempt to take the CAR of an atom, you will get NIL:
+     (CAR 'A)
+          NIL
+
+  The CDR command returns everything except the first element.  Try these
+examples:
+     (CDR '(A B C D))
+          (B C D)
+     (CDR '(A B))
+          (B)
+     (CDR '((A B) (C D)))
+          ((C D))
+
+  The bottom 2 examples may need some explanation.  Why when there were only
+2 elements in the list, the CDR command still returned a list? Each with a 
+single element.  The answer to this comes in how lists are stored.  Every
+list has a NIL value as its final element, which is unseen.  The reason for
+this is that it is possible to have an empty list.  try this:
+     (CDR '(A))
+          ()
+  Notice that when we take the CDR of this, we get the empty list, this is
+that final NIL that is stored in the list.  Look now what happens when you
+take the CDR of an empty list:
+     (CDR '())
+          NIL
+
+  This indicates that there is nothing left to take the CDR of when the list
+is empty.  Note also that taking the CDR of an atom will also return NIL:
+     (CDR 'A)
+          NIL
+
+  Using the CAR and CDR commands you can obtain any portion of a list you
+want.  For example, to get the 2nd element of the list, you would do:
+     (CAR (CDR '(A B C D)))
+          B
+
+  The thirst element could be obtained with:
+     (CAR (CDR (CDR '(A B C D))))
+          C
+
+  Here is an explanation of the last example, just in case you are not sure
+how the answer of C was derived.  Evaluation is going to occur from the 
+innermost expressions outward.  The innermost CDR command has as its argument
+'(A B C D), which will result in (B C D).  This is then passed as the 
+argument to the next outer CDR which will evaluate the list to produce (C D).
+This is then passed out to the CAR command will takes the first element, or C.
+
+  Be sure that you understand how evaluation is working.  It is important to
+understand how evaluation works in order to effectively program in lisp.
+
+  Now that you understand how to take lists apart, lets look at how to build
+them.  There are 2 commands used to build lists: LIST and CONS.  We will
+first look at LIST.
+ 
+  The LIST command takes any number of arguments and builds a list using them.
+  
+  Here are some examples:
+     (LIST 'A)
+          (A)
+     (LIST 'A 'B 'C)
+          (A B C)
+     (LIST '(A B) '(C D) 'E)
+          ((A B) (C D) E)
+
+  Again note how we are quoting all the arguments, this is to prevent the
+evaluation from attempting to evaluate the arguments.  Try this one:
+     (LIST '(A B) (CDR '(X Y Z)) '(C D))
+          ((A B) (Y Z) (C D))
+
+  The second instruction for building lists is CONS.  CONS builds a list by
+creating a new node, of which the CAR value will be the first argument of
+CONS, and the CDR value of the node will be the second argument.  Depending
+on the result types, this could result in several different results.
+
+  First look at what happends when both the arguments are atoms:
+     (CONS 'A 'B)
+          (A . B)
+
+  This is called a dotted pair.  Anytime that the CDR of a node is an atom,
+you will get a dotted pair.  There are some other special properties of 
+dotted pairs that we will talk about shortly.
+
+  Next, try a CONS with the first argument is a list, and the second is an
+atom:
+     (CONS '(A B C) 'D)
+          ((A B C) . D)
+
+  Note that again you get a dotted pair.
+
+  Now try swapping the list and the atom:
+     (CONS 'D '(A B C))
+          (D A B C)
+
+  Note how this takes the first argument and puts it at the beginning of the
+list.
+
+  Now try two lists:
+     (CONS '(A B C) '(D E F))
+          ((A B C) D E F)
+
+  Note that here, just like in the last example, the first argument was 
+placed at the head of the list of the second argument.
+
+  Here are the 2 important characteristics of CONS:  If the second arg is an
+atom, the result will be a dotted pair.  If the second arg is a list, then
+the first arg will be placed at the head of the list.
+
+  Lets go back real quick to dotted pairs.  Execute the following commands:
+      (SET 'X (CONS 'A 'B))       - Bind X to the dotted pair (A . B)
+           (A . B)
+      (CAR X)                     - Get the car of the dotted pair
+           A
+
+  What do you whink will happen when we take the CDR of the dotted pair?  lets
+try it:
+     (CDR X)
+          B
+
+  Note how different this is from taking the CDR of a 2 element list:
+     (CDR '(A B))
+          (B)
+
+  Since in the Consing cell, the final element is an atom, the result will be
+an atom and not a list.  Refer back to the section on the CDR command if you
+cannot remember why you get (B) when taking the CDR of (A B).
+
+  Next lets take a look at the EQ command.  This instruction returns T if 
+both of its arguments are equal, otherwise NIL,  Try these examples:
+     (EQ 'A 'A)
+          T
+     (EQ 'A 'B)
+          NIL
+     (EQ '(A B) '(A B))
+          NIL
+
+  That last example will probably need some explanation.  EQ returns T only
+if the ADDRESSES of the 2 arguments are the same.  In the case of atoms, an
+atom will only exist once in the object list, therefore specifying it more
+than once will always result in the same object.  In the case of the last
+example, the 2 lists, even tho they look the same, are most likely not at the
+same address in memory, and therefore EQ will return NIL.  There is an
+extended function called EQUAL that can tell if 2 lists are equivalent.
+
+  Try this one:
+     (EQ (CAR '(A B)) (CAR '(A B)))
+          T
+
+  Do you understand why this one is true?  evaluate each of the CAR commands.
+Each one will result in A, since A can only exist once in the object list,
+both results have the same address, and therefore EQual.  Therefore, if you
+want to determine if two lists are equal, you must recurse through them and
+determine if they have the same structure with all the same atoms in the same
+place.
+
+  Before we go on with other test functions, Lets look at T and NIL.  These
+are 2 special values.  T is always used to represent Truth, and Nil is used
+to represent False.  These two elements can also be used as functions:
+     (T)
+          T
+     (NIL)
+          NIL
+
+  Now back to test functions.  Lets look at the ATOM instruction.  This 
+command determines if its argument is an atom or a list.  Try these:
+     (ATOM 'A)
+          T
+     (ATOM '(A B))
+          NIL
+     (ATOM '(A))
+          NIL
+     (SET 'A '(A B))
+     (ATOM A)
+          NIL
+
+  Study these examples and make sure you understand why each returns the 
+value that it does.
+
+  The next test function is BOUNDP, which tests to see if an atom is bound to
+any value.
+  Try these commands:
+     (SET 'A (NIL))               - This will ensure A is not bound
+          NIL
+     (BOUNDP 'A)
+          NIL
+     (SET 'A '(A B))
+          (A B)
+     (BOUNDP 'A)
+          T
+
+  the NULL command can be used to reverse the sense of a boolean.  Try these:
+     (NULL (T))
+          NIL
+     (NULL (NIL))
+          T
+     (ATOM 'A)
+          T
+     (NULL (ATOM 'A))
+          NIL
+     (ATOM '(A B))
+          NIL
+     (NULL (ATOM '(A B)))
+          T
+
+  Note that using NULL, you can use the ATOM command to identify lists.
+
+  The EVAL command is used to apply the lisp evaluator to an argument.  Take
+a look at this:
+     (SET 'A '(CDR '(A B C D)))
+          (CDR '(A B C D))
+
+  We just bound A to the command (CDR '(A B C D)).  Do you understand why
+the CDR command was not executed?  Remember, when an arg is preceeded by the
+tick (') mark, it will not be evaluated.  So, now A is bound to an s-expression
+that is the CDR command.  Using the EVAL command we can now execute the 
+command that was stored in A:
+     (EVAL A)
+          (B C D)
+
+  Just so that you understand this correctly, here is what happened.  When
+EVAL looks at its arguments, in this case A, and it is not quoted, then 
+evaluate the argument first.  Remember when evaluating an atom, whatever the
+atom is bound to is returned, there forewe get the (CDR '(A B C D)), which now
+becomes the argument for EVAL, or (EVAL '(CDR '(A B C D))), which EVAL will
+then execute, and produce the anser of the CDR statement, (B C D)
+
+  Now try this one:
+     (EVAL 'A)
+          (CDR '(A B C D))
+
+  Again, just so that you fully understand what happened here.  First since 
+the first argument is quoted, it is not evaluated before the EVAL, so the 
+result of the statement is to get the expression: (EVAL A), which is then
+evaluated, A as an atom evaluates to what it is bound to, and therefore the
+result of the EVAL is (CDR '(A B C D)).  This is how you can look at what
+any atom is bound to.  Try these:
+     (SET 'A '(A B C))
+          (A B C)
+     (SET 'X '(X Y Z))
+          (X Y Z)
+     (EVAL 'A)
+          (A B C)
+     (EVAL 'X)
+          (X Y Z)
+     (EVAL X)
+          ??? Evaluation Error ???
+
+  Do you understand how all the answers were derived?  Maybe that last one
+needs to be explained?  Well, when EVAL evaluates its arguments the X will
+result in (X Y Z) which is then evaluated, since X is not a valid function
+it results in the error.  Keep in mind EVAL works by first evaluating its
+argument, and then evaluting the result.
+
+  Now lets look at lisp's only descision branching instruction, COND.  This
+command gets a little complicated.  It expects as arguments lists, each of,
+of which  contains 2 elements.  The first is evaluated for truth, if found
+true, then the 2nd element is exectued and returned as the value of the whole
+COND expression, If the 1st expression evaluates false, then the 2nd is
+skipped and the next condition/value pair is tried.  Lets take a look at a
+condition form (do not type this one):
+
+(COND ( (CAR A) (CDR A))
+      ( (CAR B) (CDR B))
+      ( (T)     (NIL)))
+
+  In the first line, the (CAR A) is the test.  If the CAR can be taken of A,
+then the result of the COND expression will be the CDR A, if the CAR of A
+cannot be taken, then it attempts to get the CAR of B, if that is possible
+then the CDR of B is returned, otherwise the next line will be evaluated.  
+This line represents the default case, since (T) will always evaluate true, 
+and therefore the result of the COND expression will be NIL.  Lets type this
+in a way that will be easier to experiment with (we will talk about the 
+DEFUN statement later):
+
+	(DEFUN TEST () (COND ((CAR A) (CDR A))
+                             ((CAR B) (CDR B))
+                             ((T)     (NIL))
+                       )
+        )
+
+  Note that you can type this in with the whitespaces and multiple lines
+without causing any problems.  This is actually desired since it makes it 
+easier for you to see the structure and close all the correct open parens.
+
+  We have essentially created a function called TEST, which we will use to
+try out the COND form:
+
+     (SET 'A '(A B C))
+          (A B C)
+     (SET 'B '(X Y Z))
+          (X Y Z)
+     (TEST)
+          (B C)
+
+  Do you understand how we got the (B C)?  The first line of the COND form is
+what counts here.  When the (CAR A) takes the car of A (which is (A B C)), it 
+returns A, which is not NIL, and so the test succeeds, and so the (CDR A) is
+executed, which results in (B C), which is returned.  Now do this:
+     (SET 'A (NIL))
+          NIL
+     (TEST)
+          (Y Z)
+
+  Do you understand this one?  Since A is no longer bound (bound to NIL), you
+cannot take the CAR of it, and therefore the first COND line will fail.  The
+second COND line tests to see if it can take the CAR of B (which is (X Y Z)),
+which it can, therefore the CDR B will be evaluated and the COND form finished
+
+  Now try this:
+     (SET 'B 'A)
+          A
+     (TEST)
+          NIL
+
+  Here the test of (CAR B) will fail, since B is now bound to an atom, and the
+CAR of an atom is always NIL, therefore the second line of the COND form fails.
+The third line uses (T) as its test, which will alwyas evalute to true, and
+therefore the (NIL) on this line will be executed, returning a value of NIL
+for the entire COND form.
+
+  One last function to look at, that is DEFUN.  DEFUN allows you to define
+your own functions.  Here is a sample function definition:
+     (DEFUN CADR (X) (CAR (CDR X)))
+          (LAMBDA (X) (CAR (CDR X)))
+
+  We have now defined a new command called CADR, which has one argument, X, and
+takes the CAR of the CDR of its argument.  If you remember from earlier, this
+will produce the 2nd element of a list.  Try this:
+     (SET 'A '(A B C D))
+          (A B C D)
+     (CADR A)
+          B
+
+  You could also define a CDDR function, which takes the CDR of the CDR of its
+argument:
+     (DEFUN CDDR (X) (CDR (CDR X)))
+          (LAMBDA (X) (CDR (CDR X)))
+     (CDDR A)
+          (C D)
+
+  You can use your new functions anywhere you could use builtin functions. For
+example, to get the 3rd item from the list in A:
+     (CAR (CDDR A))
+          C
+
+  Rc/Lisp provides an enhancement over standard lisp when it comes to defining
+functions.  Take a look at this function:
+     (DEFUN SETQ ('X Y) (SET X Y))
+
+  This function is similar to the SET function we looked at, at the beginning
+of this tutorial.  Notice in the function definition, the tick (') mark before
+the X argument, this will prevent evaluation of this argument when it is bound.
+
+  Try this:
+     (SETQ B '(B C D))
+          (B C D)
+
+  Notice that we did not need to quote the B like we had to before using the
+standard SET function.  The 'X in the function definition does this for us.
+
+  At the end of this manual, you can find additional function definitions,
+study these and you will soon be proficient at writing in Lisp!
+
+
+Expansion Functions:
+--------------------
+(DEFUN CADR (X) (CAR (CDR X)))
+     This function returns the car of the cdr of its argument
+
+(DEFUN CDDR (X) (CDR (CDR X)))
+     This function returns the cdr of the cdr of its argument
+
+(DEFUN LAST (X) (COND ((CAR (CDR X)) (LAST (CDR X)))
+                      ((T)           (CAR X))))
+     This function returns the last element of a list
+
+(DEFUN LISTP (X) (NULL (ATOM X)))
+     This function is the opposite of ATOM.  It returns T if its arguments 
+     evaluates to a list, otherwise NIL
+
+(DEFUN SETQ ('X Y) (SET X Y))
+     This function sets the symbol X to expression Y.  This is similar to SET
+     but does not require the first argument to be quoted.
+
+(DEFUN IF ('CND 'DO 'ELSE) (COND ((EVAL CND) (RETURN (EVAL DO)))
+                                 ((T)        (RETURN (EVAL ELSE)))))
+     This function evaluates the CND argument, if it is non NIL, then the DO
+     argument will be evaluated and returned, else teh ELSE argument will be
+     evaluated and returned
+
+(DEFUN OR ('X 'Y) (COND ((EVAL X) (RETURN (EVAL X)))
+                        ((EVAL Y) (RETURN (EVAL Y)))
+                        ((T)      (NIL))))
+     This functions evaluates its first argument, if it is non NIL, it returns
+     the value, otherwise it will evaluate the second argument, if it is non
+     NIL, it will be returned, otherwise NIL is returned.
+
+
+(DEFUN AND ('X 'Y) (COND ((EVAL X) (COND ((EVAL Y) (RETURN (EVAL Y)))
+                                         ((T)      (NIL))))
+                         ((T) (NIL))))
+     This function evaluates its first argument, if it is non NIL, then the
+     second argument will be evaluated, if it also non NIL, then this value
+     will be returned, otherwise NIL is returned
+
+(DEFUN RPLACA (X Y) (CONS X (CDR Y)))
+     This function will replace the CAR of Y with X
+
+(DEFUN RPLACD (X Y) (CONS (CAR Y) X))
+     This function will replace the CDR of Y with X
+
+(DEFUN UNBIND (X) (SET X (NIL)))
+     This function will remove the binding of its argument
+
+(DEFUN EQUAL (X Y) (COND ( (ATOM X) (COND ( (ATOM Y) (EQ X Y))
+                                          ( (T)      (NIL))))
+                         ( (ATOM Y) (NIL))
+                         ( (EQUAL (CAR X) (CAR Y)) (EQUAL (CDR X) (CDR Y)))
+                         ( (T) (NIL))))
+     This functions compares two arguments to determine if they are alike.
+     Unlike EQ, this function will determine if two lists are equivalent
+
+(DEFUN MOREP (X Y) (COND ((EQ X Y) (NIL))
+                         ((T)      (NULL (LESSP X Y)))))
+     This function returns T if X is numericaly creater than Y.
+
+(DEFUN APPEND (X Y) (REVERSE (CONS Y (REVERSE X))))
+     This function will append element Y to list X
+
+(DEFUN PROGN (X) (COND ((CAR (CDR X)) (EVAL (CAR X)))
+                       ((T)     (NIL)))
+                 (COND ((CAR (CDR X)) (PROGN (CDR X)))
+                       ((T )    (EVAL (CAR X)))))
+     This function allows for multiple s-expressions to be evaluated where
+     nomally only one could.  The single argument is a list of s-expressions
+     containing the expressions to be evaluated.  The return value is the
+     value of the last s-expression evaluated.
+
+
+(DEFUN MUL (X Y) (COND ((EQ Y 0) (RETURN 0))
+                       ((EQ X 0) (RETURN 0))
+                       ((EQ Y 1) (EVAL 'X))
+                       ((T)      (ADD X (MUL X (SUB Y 1))))))
+
+(DEFUN DIV (X Y) (COND ((EQ X 0)    (RETURN 0))
+                       ((EQ Y 0)    (RETURN 0))
+                       ((LESSP X Y) (RETURN 0))
+                       ((T)         (ADD 1 (DIV (SUB X Y) Y)))))
+
+(DEFUN MOD (X Y) (COND ((EQ X 0)    (RETURN 0))
+                       ((EQ Y 0)    (RETURN 0))
+                       ((LESSP X Y) (EVAL 'X))
+                       ((T)         (MOD (SUB X Y) Y))))
+
+(DEFUN MIN (X Y) (COND ((LESSP X Y) (EVAL 'X))
+                       ((T)         (EVAL 'Y))))
+
+(DEFUN MAX (X Y) (COND ((LESSP X Y) (EVAL 'Y))
+                       ((T)         (EVAL 'X))))
+
+(DEFUN LAST (X) (COND ((CAR (CDR X)) (LAST (CDR X)))
+                      ((T)           (CAR X))))
+
+(DEFUN LENGTH (X) (COND ((CAR X) (ADD 1 (LENGTH (CDR X))))
+                        ((T)     (RETURN 0))))
+
+(DEFUN MEMBER (X Y) (COND ((CAR Y) (COND ((EQUAL X (CAR Y)) (T))
+                                         ((CAR Y) (MEMBER X (CDR Y)))
+                                         ((T)     (NIL))))
+                          ((T)     (NIL))))
+
+

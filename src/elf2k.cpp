@@ -36,8 +36,8 @@
 
 const int freq [16] = {0, 256, 128, 8192, 4096, 2048, 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2};
 
-Elf2KScreen::Elf2KScreen(wxWindow *parent, const wxSize& size)
-: Panel(parent, size)
+Elf2KScreen::Elf2KScreen(wxWindow *parent, const wxSize& size, int tilType)
+: Panel(parent, size, tilType)
 {
 }
 
@@ -67,7 +67,7 @@ void Elf2KScreen::init()
     keyStart_ = 0;
     keyEnd_ = 0;
     lastKey_ = 0;
-    forceUpperCase_ = p_Main->getUpperCase(ELF2K);
+    forceUpperCase_ = p_Main->getUpperCase();
 
     wxClientDC dc(this);
     wxString switchNumber;
@@ -87,11 +87,11 @@ void Elf2KScreen::init()
         dataPointer[i]->init(dc, 301+i*36, 354);
     }
     updateData_ = true;
-    runLedPointer = new Led(dc, 48, 309, ELF2KLED1);
+    runLedPointer = new Led(dc, 48, 309, LED_REAL_RED);
     updateRunLed_ = true;
-    loadLedPointer = new Led(dc, 51, 333, ELF2KLED2);
+    loadLedPointer = new Led(dc, 51, 333, LED_REAL_GREEN);
     updateLoadLed_ = true;
-    qLedPointer = new Led(dc, 50, 354, ELF2KLED3);
+    qLedPointer = new Led(dc, 50, 354, LED_REAL_ORANGE);
     updateQLed_ = true;
 //    sc0LedPointer = new Led(dc, 50, 379, ELF2K);
 //    sc1LedPointer = new Led(dc, 50, 401, ELF2K);
@@ -148,8 +148,6 @@ Elf2K::Elf2K(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     elfConfiguration = conf;
 
     elfClockSpeed_ = clock;
-    data_ = 0;
-    lastAddress_ = 0;
 
     wxString switchNumber;
 
@@ -159,7 +157,7 @@ Elf2K::Elf2K(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 
     this->SetClientSize(size);
 
-    elf2KScreenPointer = new Elf2KScreen(this, size);
+    elf2KScreenPointer = new Elf2KScreen(this, size, TIL311);
     elf2KScreenPointer->init();
 
     rtcTimerPointer = new wxTimer(this, 900);
@@ -229,7 +227,7 @@ bool Elf2K::keyDownPressed(int key)
         case WXK_NUMPAD_MULTIPLY:
         case WXK_NUMPAD_SUBTRACT:
         case WXK_NUMPAD_ENTER:
-            if (elfConfiguration.UsePS2)
+            if (elfConfiguration.usePS2)
             {
                 charEventPs2gpio(key);
                 return true;
@@ -241,7 +239,7 @@ bool Elf2K::keyDownPressed(int key)
     return false;
 }
 
-bool Elf2K::keyUpReleased(int key)
+bool Elf2K::keyUpReleased(int key, wxKeyEvent&WXUNUSED(event))
 {
     if (key == inKey1_ || key == inKey2_)
     {
@@ -438,29 +436,29 @@ Byte Elf2K::getData()
 
 void Elf2K::configureComputer()
 {
-    efType_[1] = EF1UNDEFINED;
-    efType_[2] = EF2UNDEFINED;
-    efType_[3] = EF3UNDEFINED;
+    efType_[0][0][1] = EF1UNDEFINED;
+    efType_[0][0][2] = EF2UNDEFINED;
+    efType_[0][0][3] = EF3UNDEFINED;
 
     int dummy[5];
     
-    inType_[4] = ELF2KIN;
-    outType_[4] = ELF2KOUT;
-    outType_[7] = ELF2KGPIO;
+    inType_[0][0][4] = ELF2KIN;
+    outType_[0][0][4] = ELF2KOUT;
+    outType_[0][0][7] = ELF2KGPIO;
 
     setCycleType(COMPUTERCYCLE, ELF2KCYCLE);
     p_Main->message("Configuring Elf2K");
-    p_Main->message("    Output 4: display output, input 4: data input");
-    p_Main->message("    Output 7: Write GPIO Control Register");
+    p_Main->message("	Output 4: display output, input 4: data input");
+    p_Main->message("	Output 7: Write GPIO Control Register");
     if (elfConfiguration.useHexKeyboardEf3)
     {
-        efType_[3] = ELF2KEF3;
-        p_Main->message("    EF 3: 0 when hex button pressed");
+        efType_[0][0][3] = ELF2KEF3;
+        p_Main->message("	EF 3: 0 when hex button pressed");
     }
-    if (efType_[4] == 0)
+    if (efType_[0][0][4] == 0)
     {
-        efType_[4] = ELF2KEF;
-        p_Main->message("    EF 4: 0 when in button pressed");
+        efType_[0][0][4] = ELF2KEF;
+        p_Main->message("	EF 4: 0 when in button pressed");
     }
     p_Main->message("");
 
@@ -497,7 +495,7 @@ void Elf2K::initComputer()
 
 Byte Elf2K::ef(int flag)
 {
-    switch(efType_[flag])
+    switch(efType_[0][0][flag])
     {
         case 0:
             return 0;
@@ -532,15 +530,15 @@ Byte Elf2K::ef(int flag)
         break;
 
         case EF1UNDEFINED:
-            return elfConfiguration.elfPortConf.ef1default;
+            return elfConfiguration.ioConfiguration.ef1default;
         break;
             
         case EF2UNDEFINED:
-            return elfConfiguration.elfPortConf.ef2default;
+            return elfConfiguration.ioConfiguration.ef2default;
         break;
             
         case EF3UNDEFINED:
-            return elfConfiguration.elfPortConf.ef3default;
+            return elfConfiguration.ioConfiguration.ef3default;
         break;
 
         default:
@@ -552,7 +550,7 @@ Byte Elf2K::in(Byte port, Word WXUNUSED(address))
 {
     Byte ret;
 
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case 0:
             ret = 255;
@@ -610,7 +608,7 @@ void Elf2K::out(Byte port, Word WXUNUSED(address), Byte value)
 //    p_Main->messageInt(port);
 //    p_Main->messageInt(value);
 
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;
@@ -780,7 +778,7 @@ void Elf2K::startComputer()
     loadRam();
     loadRtc();
 
-    configureElfExtensions();
+    configureExtensions();
     scratchpadRegister_[0]=0;
     if (elfConfiguration.bootRam)
         bootstrap_ = 0;
@@ -1011,9 +1009,11 @@ void Elf2K::resetVideo()
         i8275Pointer->cRegWrite(0x40);
 }
 
-void Elf2K::configureElfExtensions()
+void Elf2K::configureExtensions()
 {
     wxString path, fileName1, fileName2;
+
+    computerConfiguration.numberOfVideoTypes_ = 0;
 
     if (elfConfiguration.vtType != VTNONE)
     {
@@ -1023,23 +1023,23 @@ void Elf2K::configureElfExtensions()
         else
             vtPointer = new Vt100("Elf 2000 - VT 100", p_Main->getVtPos(ELF2K), wxSize(640*zoom, 400*zoom), zoom, ELF2K, elfClockSpeed_, elfConfiguration, UART1);
         p_Vt100[UART1] = vtPointer;
-        vtPointer->configureVt2K(elfConfiguration.baudR, elfConfiguration.baudT, elfConfiguration.elfPortConf);
+        vtPointer->configureVt2K(elfConfiguration.baudR, elfConfiguration.baudT, elfConfiguration.ioConfiguration);
         vtPointer->Show(true);
     }
 
     if (elfConfiguration.vtExternal)
     {
         p_Serial = new Serial(MEMBER, elfClockSpeed_, elfConfiguration);
-        p_Serial->configureVt2K(elfConfiguration.baudR, elfConfiguration.baudT, elfConfiguration.elfPortConf);
+        p_Serial->configureVt2K(elfConfiguration.baudR, elfConfiguration.baudT, elfConfiguration.ioConfiguration);
     }
 
     if (elfConfiguration.usePixie)
     {
-        double zoom = p_Main->getZoom();
+        double zoom = p_Main->getZoom(VIDEOMAIN);
         double scale = p_Main->getScale();
-        pixiePointer = new Pixie( "Elf 2000 - Pixie", p_Main->getPixiePos(ELF2K), wxSize(64*zoom*scale, 128*zoom), zoom, scale, ELF2K);
-        p_Video = pixiePointer;
-        pixiePointer->configurePixie(elfConfiguration.elfPortConf);
+        pixiePointer = new Pixie( "Elf 2000 - Pixie", p_Main->getPixiePos(ELF2K), wxSize(64*zoom*scale, 128*zoom), zoom, scale, ELF2K, computerConfiguration.numberOfVideoTypes_);
+        p_Video[computerConfiguration.numberOfVideoTypes_++] = pixiePointer;
+        pixiePointer->configurePixie(elfConfiguration.ioConfiguration);
         pixiePointer->initPixie();
         pixiePointer->setZoom(zoom);
         pixiePointer->Show(true);
@@ -1047,21 +1047,21 @@ void Elf2K::configureElfExtensions()
 
     if (elfConfiguration.use8275)
     {
-        double zoom = p_Main->getZoom();
-        i8275Pointer = new i8275( "Elf 2000 - Intel 8275", p_Main->get8275Pos(ELF2K), wxSize(80*8*zoom, 24*10*2*zoom), zoom, ELF2K, elfClockSpeed_);
-        p_Video = i8275Pointer;
-        i8275Pointer->configure8275(elfConfiguration.elfPortConf);
+        double zoom = p_Main->getZoom(VIDEOMAIN);
+        i8275Pointer = new i8275( "Elf 2000 - Intel 8275", p_Main->get8275Pos(ELF2K), wxSize(80*8*zoom, 24*10*2*zoom), zoom, ELF2K, elfClockSpeed_, computerConfiguration.numberOfVideoTypes_);
+        p_Video[computerConfiguration.numberOfVideoTypes_++] = i8275Pointer;
+        i8275Pointer->configure8275(elfConfiguration.ioConfiguration);
         i8275Pointer->init8275();
         i8275Pointer->Show(true);
     }
 
     if (p_Main->getIdeFile(ELF2K) != "")
     {
-        configureDisk(p_Main->getIdeDir(ELF2K) + p_Main->getIdeFile(ELF2K), p_Main->getIdeDir(ELF2K) + "disk2.ide", elfConfiguration.rtc, elfConfiguration.useUart, elfConfiguration.elfPortConf, elfConfiguration.use8275);
+        configureDisk(p_Main->getIdeDir(ELF2K) + p_Main->getIdeFile(ELF2K), p_Main->getIdeDir(ELF2K) + "disk2.ide", elfConfiguration.rtc, elfConfiguration.useUart, elfConfiguration.ioConfiguration, elfConfiguration.use8275);
     }
 
     if (elfConfiguration.usePs2gpio)
-        configurePs2gpioElf2K(ELF2K);
+        configurePs2gpioElf2K();
 }
 
 void Elf2K::moveWindows()
@@ -1360,7 +1360,12 @@ void Elf2K::dataAvailableSerial(bool data)
     dataAvailableUart(data);
 }
 
-void Elf2K::thrStatus(bool data)
+void Elf2K::thrStatusVt100(bool data)
+{
+    thrStatusUart(data);
+}
+
+void Elf2K::thrStatusSerial(bool data)
 {
     thrStatusUart(data);
 }
@@ -1550,7 +1555,7 @@ void Elf2K::checkComputerFunction()
                     p_Main->startYsTerminalSave(TERM_YMODEM_SAVE);
                 }
             }
-            if (scratchpadRegister_[programCounter_] == 0x8800)
+            if (scratchpadRegister_[programCounter_] == 0x8325)
             { // Memory dump diskless ROM (Pico Elf)
                 if ((mainMemory_[0x8800] == 0x8f) && (mainMemory_[0x8801] == 0x73) && (mainMemory_[0x8816] == 0x3d) && (mainMemory_[0x8817]== 0x16))
                 {
@@ -1655,7 +1660,7 @@ void Elf2K::checkComputerFunction()
                     p_Main->startYsTerminalSave(TERM_YMODEM_SAVE);
                 }
             }
-            if (scratchpadRegister_[programCounter_] == 0x8800)
+            if (scratchpadRegister_[programCounter_] == 0x8325)
             { // Memory dump diskless ROM (Pico Elf)
                 if ((mainMemory_[0x8800] == 0x8f) && (mainMemory_[0x8801] == 0x73) && (mainMemory_[0x8816] == 0x3d) && (mainMemory_[0x8817]== 0x16))
                 {

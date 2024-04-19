@@ -47,8 +47,8 @@
 #include "pushbutton.h"
 #include "keypad.h"
 
-KeypadScreen::KeypadScreen(wxWindow *parent, const wxSize& size)
-: Panel(parent, size)
+KeypadScreen::KeypadScreen(wxWindow *parent, const wxSize& size, int tilType)
+: Panel(parent, size, tilType)
 {
 }
 
@@ -75,7 +75,7 @@ void KeypadScreen::init(int computerType)
     keyStart_ = 0;
     keyEnd_ = 0;
     lastKey_ = 0;
-    forceUpperCase_ = p_Main->getUpperCase(ELF);
+    forceUpperCase_ = p_Main->getUpperCase();
 
     wxClientDC dc(this);
     wxString buttonText;
@@ -85,19 +85,19 @@ void KeypadScreen::init(int computerType)
 
     for (int i=0;i<2;i++) 
     {
-        ledPointer[i] = new Led(dc, 20+96*(1-i),174, computerType);
+        ledPointer[i] = new Led(dc, 20+96*(1-i),174, LED_SMALL_RED);
         updateLed_[i] = true;
     }
     ledPointer[1]->setStatus(dc, 1);
 
 #if defined (__WXMAC__)
-    osx_push_inButtonPointer = new HexButton(dc, ELF_HEX_BUTTON, 8, 11, "IN");
+    osx_push_inButtonPointer = new HexButton(dc, PUSH_BUTTON, 8, 11, "IN");
     for (int i=0; i<16; i++)
     {
         buttonText.Printf("%01X", i);
         x = 8+(i&0x3)*32;
         y = 139 -(int)i/4*32;
-        osx_buttonPointer[i] = new HexButton(dc, ELF_HEX_BUTTON, x, y, buttonText);
+        osx_buttonPointer[i] = new HexButton(dc, PUSH_BUTTON, x, y, buttonText);
     }
 #else
     push_inButtonPointer = new PushButton(this, 20, "IN", wxPoint(8, 11), wxSize(30, 30), 0);
@@ -220,7 +220,7 @@ Keypad::Keypad(const wxString& title, const wxPoint& pos, const wxSize& size, in
     SetIcon(wxICON(app_icon));
 #endif
 
-    keypadScreenPointer = new KeypadScreen(this, size);
+    keypadScreenPointer = new KeypadScreen(this, size, TILNONE);
     keypadScreenPointer->init(computerType);
     keypadScreenPointer->setLed(1, 1);
     keypadScreenPointer->setLed(0, 0);
@@ -327,4 +327,254 @@ void Keypad::releaseButtonOnScreen(HexButton* buttonPointer)
 void Keypad::refreshPanel()
 {
     keypadScreenPointer->refreshPanel();
+}
+
+EtiKeypad::EtiKeypad()
+{
+    keyClear();
+    step_ = false;
+}
+
+void EtiKeypad::configure(IoConfiguration ioConf, int keyDefA1[], int keyDefA2[])
+{
+    for (int i=0; i<16; i++)
+    {
+        keyDefA1_[i] = keyDefA1[i];
+        keyDefA2_[i] = keyDefA2[i];
+    }
+    ioConfiguration_ = ioConf;
+
+    wxString printBuffer;
+ 
+    wxString ioGroup = "";
+    if (ioConfiguration_.etiKeypad.ioGroup != -1)
+    {
+        ioGroup.Printf(" on group %d", ioConfiguration_.etiKeypad.ioGroup);
+    }
+    
+    p_Main->message("Configuring HUG1802 keypad" + ioGroup);
+
+    printBuffer.Printf("	Output %d: write PIA", ioConfiguration_.etiKeypad.out);
+    p_Main->message(printBuffer);
+
+    printBuffer.Printf("	Input %d: read PIA", ioConfiguration_.etiKeypad.inp);
+    p_Main->message(printBuffer);
+ 
+    printBuffer.Printf("	Ef %d: step key\n", ioConfiguration_.etiKeypad.ef);
+    p_Main->message(printBuffer);
+
+    DataDirection_ = true;
+}
+
+void EtiKeypad::keyDown(int keycode,  wxKeyEvent& event)
+{
+    for (int i=0; i<16; i++)
+    {
+        if (keycode == keyDefA1_[i])
+            eti660KeyState_[i] = true;
+        if (keycode == keyDefA2_[i])
+            eti660KeyState_[i] = true;
+    }
+
+    if (keycode == 43)
+        step_ = true;
+
+    if (keycode == WXK_NUMPAD_ADD)
+        step_ = true;
+}
+
+void EtiKeypad::keyUp(int keycode, wxKeyEvent& WXUNUSED(event))
+{
+    for (int i=0; i<16; i++)
+    {
+        if (keycode == keyDefA1_[i])
+            eti660KeyState_[i] = false;
+        if (keycode == keyDefA2_[i])
+            eti660KeyState_[i] = false;
+    }
+
+    if (keycode == 43)
+        step_ = false;
+
+    if (keycode == WXK_NUMPAD_ADD)
+        step_ = false;
+}
+
+void EtiKeypad::onInButtonPress()
+{
+    step_ = true;
+}
+
+void EtiKeypad::onInButtonRelease()
+{
+    step_ = false;
+}
+
+Byte EtiKeypad::ef()
+{
+    return step_;
+}
+
+Byte EtiKeypad::in(Word address)
+{
+    Byte ret = 0xff;
+
+    if ((address&0x3) == 0)
+    {
+        if (DataDirection_)    // Data Direction A
+        {
+//            p_Main->message("Data Direction Register: Input");
+        }
+        else                // Output Register
+        {
+            if ((outputKeyValue_&0x1) == 0)
+            {
+                if (eti660KeyState_[3])
+                    ret &= 0x7f;
+                if (eti660KeyState_[2])
+                    ret &= 0xbf;
+                if (eti660KeyState_[1])
+                    ret &= 0xdf;
+                if (eti660KeyState_[0])
+                    ret &= 0xef;
+            }
+
+            if ((outputKeyValue_&0x2) == 0)
+            {
+                if (eti660KeyState_[7])
+                    ret &= 0x7f;
+                if (eti660KeyState_[6])
+                    ret &= 0xbf;
+                if (eti660KeyState_[5])
+                    ret &= 0xdf;
+                if (eti660KeyState_[4])
+                    ret &= 0xef;
+            }
+
+            if ((outputKeyValue_&0x4) == 0)
+            {
+                if (eti660KeyState_[0xb])
+                    ret &= 0x7f;
+                if (eti660KeyState_[0xa])
+                    ret &= 0xbf;
+                if (eti660KeyState_[9])
+                    ret &= 0xdf;
+                if (eti660KeyState_[8])
+                    ret &= 0xef;
+            }
+
+            if ((outputKeyValue_&0x8) == 0)
+            {
+                if (eti660KeyState_[0xf])
+                    ret &= 0x7f;
+                if (eti660KeyState_[0xe])
+                    ret &= 0xbf;
+                if (eti660KeyState_[0xd])
+                    ret &= 0xdf;
+                if (eti660KeyState_[0xc])
+                    ret &= 0xef;
+            }
+
+            if ((outputKeyValue_&0x10) == 0)
+            {
+                if (eti660KeyState_[0xc])
+                    ret &= 0xf7;
+                if (eti660KeyState_[8])
+                    ret &= 0xfb;
+                if (eti660KeyState_[4])
+                    ret &= 0xfd;
+                if (eti660KeyState_[0])
+                    ret &= 0xfe;
+            }
+
+            if ((outputKeyValue_&0x20) == 0)
+            {
+                if (eti660KeyState_[0xd])
+                    ret &= 0xf7;
+                if (eti660KeyState_[9])
+                    ret &= 0xfb;
+                if (eti660KeyState_[5])
+                    ret &= 0xfd;
+                if (eti660KeyState_[1])
+                    ret &= 0xfe;
+            }
+
+            if ((outputKeyValue_&0x40) == 0)
+            {
+                if (eti660KeyState_[0xe])
+                    ret &= 0xf7;
+                if (eti660KeyState_[0xa])
+                    ret &= 0xfb;
+                if (eti660KeyState_[6])
+                    ret &= 0xfd;
+                if (eti660KeyState_[2])
+                    ret &= 0xfe;
+            }
+
+            if ((outputKeyValue_&0x80) == 0)
+            {
+                if (eti660KeyState_[0xf])
+                    ret &= 0xf7;
+                if (eti660KeyState_[0xb])
+                    ret &= 0xfb;
+                if (eti660KeyState_[7])
+                    ret &= 0xfd;
+                if (eti660KeyState_[3])
+                    ret &= 0xfe;
+            }
+
+            ret &= inputKeyLatch_;
+            ret |= (outputKeyValue_&outputKeyLatch_);
+//            p_Main->eventMessageHex(ret);
+        }
+    }
+//    else
+//        p_Main->message("Other Input");
+    return ret;
+}
+
+bool EtiKeypad::out(Word address, Byte value)
+{
+    bool returnValue = false;
+    
+    if ((address&0x3) == 1)    // Control register A
+    {
+        if ((value&0x4) == 0x4)
+        {
+//            p_Main->message("Data Direction Register Selected");
+            returnValue = true;
+            DataDirection_ = true;
+        }
+        else
+        {
+//            p_Main->message("Output Register Selected");
+            DataDirection_ = false;
+        }
+//        p_Main->eventMessageHex(value);
+    }
+
+    if ((address&0x3) == 0)
+    {
+        if (DataDirection_)    // Data Direction A
+        {
+//            p_Main->message("Data Direction Register");
+//            p_Main->eventMessageHex(value);
+            outputKeyLatch_ = value;
+            inputKeyLatch_ = value^0xff;
+        }
+        else                // Output Register A
+        {
+//            p_Main->message("Output Register");
+            outputKeyValue_ = value&outputKeyLatch_;
+            outputKeyValue_ |= inputKeyLatch_;
+//            p_Main->eventMessageHex(outputKeyValue_);
+        }
+    }
+    return returnValue;
+}
+
+void EtiKeypad::keyClear()
+{
+    for (int i=0; i<16; i++)
+        eti660KeyState_[i] = false;
 }

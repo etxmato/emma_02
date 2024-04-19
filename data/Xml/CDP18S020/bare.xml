@@ -1,0 +1,435 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+     
+    <system>
+        <name>CDP18S020 Evaluation Kit</name>
+        <config>Bare</config>
+        <clock>2.00</clock>
+        <cpu>1802</cpu>
+        <boot>0x8000</boot>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init>
+        <init type="ef4">1</init>
+        <dirname>CDP18S020</dirname>
+    </system>
+
+    <splash>
+        <text>Press return to set baud rate and start Utility Program UT4..&#xD;&#xD;UT4 Commands:&#xD;?Mx y - Show memory location starting at x and showing 3 addresses&#xD;!Mx y - Store byte string y at location x&#xD;$Px - Start execution at address x&#xD;</text>
+    </splash>
+
+    <frontpanel init="on">
+        <size>310, 180</size>
+        <item>
+            <type size="small">push</type>
+            <function type="full">reset</function>
+            <label></label>
+            <pos>70, 30</pos>
+            <size>25, 25</size>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="12">RESET</label>
+            <pos>60, 8</pos>
+        </item>
+        <item>
+            <type size="small">push</type>
+            <function type="reset">run0</function>
+            <label>P</label>
+            <pos>130, 30</pos>
+            <size>25, 25</size>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="12">RUN</label>
+            <pos>126, 8</pos>
+        </item>
+        <item>
+            <type size="small">push</type>
+            <function type="reset">run</function>
+            <label>U</label>
+            <pos>190, 30</pos>
+            <size>25, 25</size>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="12">RUN</label>
+            <pos>186, 8</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <function>step</function>
+            <init>down</init>
+            <pos>15, 30</pos>
+        </item>
+        <item>
+            <filename dirname="images">dip_switch.png</filename>
+            <type>png</type>
+            <pos>245, 13</pos>
+        </item>
+        <item>
+            <type>dipswitch</type>
+            <value>0</value>
+            <function>dipmp</function>
+            <init>down</init>
+            <pos>252, 25</pos>
+        </item>
+        <item>
+            <type>dipswitch</type>
+            <value>1</value>
+            <function>dipmp</function>
+            <init>down</init>
+            <pos>263, 25</pos>
+        </item>
+        <item>
+            <type>dipswitch</type>
+            <value>2</value>
+            <function>dipmp</function>
+            <init>down</init>
+            <pos>274, 25</pos>
+        </item>
+        <item>
+            <type>dipswitch</type>
+            <value>3</value>
+            <function>dipmp</function>
+            <init>down</init>
+            <pos>285, 25</pos>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="12">STEP</label>
+            <pos>10, 8</pos>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="12">DATA</label>
+            <pos>30, 62</pos>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="12">BUS</label>
+            <pos>100, 62</pos>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="12">STATUS</label>
+            <pos>180, 62</pos>
+        </item>
+        <item>
+            <type color="grey">text</type>
+            <label size="12">0</label>
+            <pos>133, 92</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>0</value>
+            <function cycle="show">bitled</function>
+            <pos>133, 80</pos>
+        </item>
+        <item>
+            <type color="grey">text</type>
+            <label size="12">1</label>
+            <pos>116, 92</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>1</value>
+            <function cycle="show">bitled</function>
+            <pos>116, 80</pos>
+        </item>
+        <item>
+            <type color="grey">text</type>
+            <label size="12">2</label>
+            <pos>99, 92</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>2</value>
+            <function cycle="show">bitled</function>
+            <pos>99, 80</pos>
+        </item>
+        <item>
+            <type color="grey">text</type>
+            <label size="12">3</label>
+            <pos>82, 92</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>3</value>
+            <function cycle="show">bitled</function>
+            <pos>82, 80</pos>
+        </item>
+        <item>
+            <type color="grey">text</type>
+            <label size="12">4</label>
+            <pos>65, 92</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>4</value>
+            <function cycle="show">bitled</function>
+            <pos>65, 80</pos>
+        </item>
+        <item>
+            <type color="grey">text</type>
+            <label size="12">5</label>
+            <pos>48, 92</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>5</value>
+            <function cycle="show">bitled</function>
+            <pos>48, 80</pos>
+        </item>
+        <item>
+            <type color="grey">text</type>
+            <label size="12">6</label>
+            <pos>31, 92</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>6</value>
+            <function cycle="show">bitled</function>
+            <pos>31, 80</pos>
+        </item>
+        <item>
+            <type color="grey">text</type>
+            <label size="12">7</label>
+            <pos>14, 92</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>7</value>
+            <function cycle="show">bitled</function>
+            <pos>14, 80</pos>
+        </item>
+        <item>
+            <type color="grey">text</type>
+            <label size="12">SC1</label>
+            <pos>150, 92</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>1</value>
+            <function cycle="show">cpustateled</function>
+            <pos>167, 80</pos>
+        </item>
+        <item>
+            <type color="grey">text</type>
+            <label size="12">SC0</label>
+            <pos>184, 92</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>0</value>
+            <function cycle="show">cpustateled</function>
+            <pos>184, 80</pos>
+        </item>
+        <item>
+            <type color="grey">text</type>
+            <label size="12">W</label>
+            <pos>227, 92</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>2</value>
+            <function cycle="show">cpustateled</function>
+            <pos>226, 80</pos>
+        </item>
+        <item>
+            <type color="grey">text</type>
+            <label size="12">C</label>
+            <pos>244, 92</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>3</value>
+            <function cycle="show">cpustateled</function>
+            <pos>243, 80</pos>
+        </item>
+        <item>
+            <type color="grey">text</type>
+            <label size="12">Q</label>
+            <pos>269, 92</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <function cycle="show">qled</function>
+            <pos>269, 80</pos>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="12">MEMORY</label>
+            <pos>45, 122</pos>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="12">ADDRESS</label>
+            <pos>180, 122</pos>
+        </item>
+        <item>
+            <type color="grey">text</type>
+            <label size="12">0</label>
+            <pos>269, 152</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>0</value>
+            <function cycle="show">addressled</function>
+            <pos>269, 140</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>1</value>
+            <function cycle="show">addressled</function>
+            <pos>252, 140</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>2</value>
+            <function cycle="show">addressled</function>
+            <pos>235, 140</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>3</value>
+            <function cycle="show">addressled</function>
+            <pos>218, 140</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>4</value>
+            <function cycle="show">addressled</function>
+            <pos>201, 140</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>5</value>
+            <function cycle="show">addressled</function>
+            <pos>184, 140</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>6</value>
+            <function cycle="show">addressled</function>
+            <pos>167, 140</pos>
+        </item>
+        <item>
+            <type color="grey">text</type>
+            <label size="12">7</label>
+            <pos>150, 152</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>7</value>
+            <function cycle="show">addressled</function>
+            <pos>150, 140</pos>
+        </item>
+        <item>
+            <type color="grey">text</type>
+            <label size="12">8</label>
+            <pos>133, 152</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>8</value>
+            <function cycle="show">addressled</function>
+            <pos>133, 140</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>9</value>
+            <function cycle="show">addressled</function>
+            <pos>116, 140</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>10</value>
+            <function cycle="show">addressled</function>
+            <pos>99, 140</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>11</value>
+            <function cycle="show">addressled</function>
+            <pos>82, 140</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>12</value>
+            <function cycle="show">addressled</function>
+            <pos>65, 140</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>13</value>
+            <function cycle="show">addressled</function>
+            <pos>48, 140</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>14</value>
+            <function cycle="show">addressled</function>
+            <pos>31, 140</pos>
+        </item>
+        <item>
+            <type color="grey">text</type>
+            <label size="12">15</label>
+            <pos>7, 152</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>15</value>
+            <function cycle="show">addressled</function>
+            <pos>14, 140</pos>
+        </item>
+    </frontpanel>
+
+    <memory>
+        <ram type="gui">
+            <start>0x0000</start>
+            <end>0xFFF</end>
+        </ram>
+
+        <rampart start="0x8c00" end="0x8c1F"></rampart>
+        
+        <rom type="gui">
+            <start>0x8000</start>
+            <end>0x81FF</end>
+            <pulldown mask="ut*.bin">CDP18S020</pulldown>
+            <filename verify="true">ut4.bin</filename>
+        </rom>
+    </memory>
+    
+    <vt type="vt100" connection="serial">
+        <font>vt100.bin</font>
+        <ef>4</ef>
+        <q></q>
+        <caps />
+        <baud type="receive">300</baud>
+        <baud type="transmit">300</baud>
+        <border>0x0</border>
+        <color type="fore">0, 255, 0</color>
+        <color type="back">0, 0x40, 0</color>
+        <color type="high">0, 0xff, 0</color>
+    </vt>
+
+    <hexmodem>
+    </hexmodem>
+
+    <debugger>
+        <scrt mode="off">
+            <call reg="4">-1</call>
+            <return reg="5">-1</return>
+        </scrt>
+
+        <assembler>
+            <filename>mycode.bin</filename>
+            <code_start>0</code_start>
+            <code_end>0xFFF</code_end>
+        </assembler>
+    </debugger>
+
+</emmaconfig>

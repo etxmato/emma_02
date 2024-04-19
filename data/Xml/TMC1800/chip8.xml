@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>Telmac 1800</name>
+        <config>Chip-8 (select Chip-8 file in RAM field or use LOAD after Start)</config>
+        <clock>1.75</clock>
+        <boot>0</boot>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init>
+        <init type="ef4">1</init>
+        <dirname>Chip-8/Chip-8 Games</dirname>
+    </system>
+    
+    <splash>
+        <text>Use LOAD button to load Chip-8 at 0200</text>
+    </splash>
+
+    <memaccess>
+        <location>on</location>
+        <start>0x200</start>
+    </memaccess>
+
+    <bootstrap>
+        <address>0x8000</address>
+        <out>4</out>
+    </bootstrap>
+
+    <memory>
+        <rom>
+            <start>0x8000</start>
+            <end>0x81FF</end>
+            <dirname>TMC1800</dirname>
+            <filename>telmac1800.rom</filename>
+        </rom>
+
+        <ram type="gui">
+            <start>0x000</start>
+            <end>0x01FF</end>
+            <pulldown mask="chip8*.*">TMC1800</pulldown>
+            <filename>chip8.ram</filename>
+        </ram>
+
+        <ram type="gui" cart="ch8">
+            <start>0x0200</start>
+            <end>0x7FFF</end>
+            <pulldown mask="*.ch8">Chip-8/Chip-8 Games</pulldown>
+            <filename>Pong (1 player).ch8</filename>
+        </ram>
+    </memory>
+    
+    <video type="pixie">
+        <in type="off">4</in>
+        <in type="on">1</in>
+        <ef>1</ef>
+        <border>33x33</border>
+        <color type="fore">255, 255, 255</color>
+        <color type="back">0, 0, 0</color>
+     </video>
+
+    <keypad type="latch">
+        <out mask="0x3f">2</out>
+        <ef pol="rev">3</ef>
+        <auto>on</auto>
+    </keypad>
+
+    <cassette decks="1">
+        <ef>2</ef>
+    </cassette>
+
+    <sound type="q">
+        <hw>250</hw>
+    </sound>
+
+    <locations>
+        <!-- Stop cassette -->
+        <stop_cas>0x80c0, 0x80ed</stop_cas>
+        
+        <!-- Start PSAVE, PLOAD -->
+        <start_cas_save>0x8091</start_cas_save>
+        <start_cas_load>0x80c2</start_cas_load>
+    </locations>
+
+    <debugger>
+        <scrt mode="off">
+            <call reg="4">-1</call>
+            <return reg="5">-1</return>
+        </scrt>
+
+        <assembler>
+            <filename>mycode</filename>
+            <code_start>0x000</code_start>
+            <code_end>0xFFF</code_end>
+        </assembler>
+    </debugger>
+
+</emmaconfig>
+

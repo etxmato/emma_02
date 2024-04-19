@@ -30,7 +30,7 @@
 #include "vip2k.h"
 
 Vip2K::Vip2K(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, double clock, ElfConfiguration conf, Conf computerConf)
-:PixieVip2K(title, pos, size, zoom, zoomfactor, computerType)
+:PixieVip2K(title, pos, size, zoom, zoomfactor, computerType, 0)
 {
     computerConfiguration = computerConf;
     vipConfiguration = conf;
@@ -62,20 +62,20 @@ Vip2K::~Vip2K()
 
 void Vip2K::configureComputer()
 {
-    inType_[1] = VIP2KCOL1;
-    inType_[2] = VIP2KCOL2;
-    inType_[3] = VIP2KCOL3;
-    inType_[4] = VIP2KCOL4;
-    inType_[5] = VIP2KCOL5;
-    efType_[2] = VIP2KEF2;
-    efType_[3] = VIP2KEF3;
+    inType_[0][0][1] = VIP2KCOL1;
+    inType_[0][0][2] = VIP2KCOL2;
+    inType_[0][0][3] = VIP2KCOL3;
+    inType_[0][0][4] = VIP2KCOL4;
+    inType_[0][0][5] = VIP2KCOL5;
+    efType_[0][0][2] = VIP2KEF2;
+    efType_[0][0][3] = VIP2KEF3;
 
     cycleType_[COMPUTERCYCLE] = VIPIIKEYCYCLE;
 
     p_Main->message("Configuring VIP2K Membership Card");
     
-    p_Main->message("    Input 1-5: keyboard input keycol 1-5");
-    p_Main->message("    EF 2: CTL, EF 3: SHIFT\n");
+    p_Main->message("	Input 1-5: keyboard input keycol 1-5");
+    p_Main->message("	EF 2: CTL, EF 3: SHIFT\n");
 
     if (vipConfiguration.vtType != VTNONE)
     {
@@ -315,7 +315,7 @@ void Vip2K::keyUp(int keycode)
 
 Byte Vip2K::ef(int flag)
 {
-    switch(efType_[flag])
+    switch(efType_[0][0][flag])
     {
         case 0:
             return 1;
@@ -351,7 +351,7 @@ Byte Vip2K::in(Byte port, Word WXUNUSED(address))
     Byte ret=255;
     Word address;
 
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case VIP2KCOL1:
             ret = vipKeyState_[1];
@@ -429,7 +429,7 @@ void Vip2K::out(Byte port, Word WXUNUSED(address), Byte value)
 {
     outValues_[port] = value;
 
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;
@@ -601,7 +601,7 @@ void Vip2K::startComputer()
             readProgram(p_Main->getChip8Dir(VIP2K), p_Main->getChip8SW(VIP2K), NOCHANGE, 0x8200, SHOWNAME);
     }
 
-    double zoom = p_Main->getZoom();
+    double zoom = p_Main->getZoom(VIDEOMAIN);
 
     configurePixie();
     initPixie();
@@ -614,7 +614,7 @@ void Vip2K::startComputer()
     instructionCounter_= 0;
     p_Main->startTime();
     
-//    p_Video->splashScreen();
+//    p_Video[VIDEOMAIN]->splashScreen();
 
     threadPointer->Run();
 }

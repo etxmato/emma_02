@@ -30,13 +30,13 @@
 #include "vip2.h"
 
 VipII::VipII(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, double clock, int tempo, Conf computerConf)
-:Pixie(title, pos, size, zoom, zoomfactor, computerType)
+:Pixie(title, pos, size, zoom, zoomfactor, computerType, 0)
 {
     computerConfiguration = computerConf;
 
     clock_ = clock;
     p_Printer = new Printer();
-    p_Printer->initVip(p_Printer);
+    p_Printer->init(p_Printer, PRINTER_BASIC);
 
     cycleSize_ = (int) (((clock_ * 1000000) / 8) / tempo);
     autoBooting_ = 0;
@@ -68,33 +68,33 @@ void VipII::setTempo(int tempo)
 void VipII::configureComputer()
 {
     vipMode_ = false;
-    outType_[2] = VIPKEYOUT;
-    outType_[4] = VIPOUT4;
-    outType_[7] = VIPIIOUT7;
-    efType_[2] = VIPEF2;
-    efType_[3] = VIPKEYEF;
+    outType_[0][0][2] = VIPKEYOUT;
+    outType_[0][0][4] = VIPOUT4;
+    outType_[0][0][7] = VIPIIOUT7;
+    efType_[0][0][2] = VIPEF2;
+    efType_[0][0][3] = VIPKEYEF;
     setCycleType(COMPUTERCYCLE, LEDCYCLE);
 
     p_Main->message("Configuring Cosmac VIP II");
 
-    outType_[3] = VIPOUT3;
+    outType_[0][0][3] = VIPOUT3;
 
     cycleType_[COMPUTERCYCLE] = VIPIIKEYCYCLE;
 
-    p_Main->message("    Output 2: hex key latch, output 3: tone latch");
-    p_Main->message("    output 4: address latch, output 7: cassette on/off");
+    p_Main->message("	Output 2: hex key latch, output 3: tone latch");
+    p_Main->message("	output 4: address latch, output 7: cassette on/off");
 
-    p_Main->message("    EF 2: cassette in, EF 3: hex keypad A, EF 4: hex keypad B\n");
-    efType_[4] = VIPKEYEF4;
+    p_Main->message("	EF 2: cassette in, EF 3: hex keypad A, EF 4: hex keypad B\n");
+    efType_[0][0][4] = VIPKEYEF4;
 
     usePrinter_ = false;
     
 /*    if (p_Main->getPrinterStatus(VIPII))
     {
-        outType_[3] = VIPOUT3;
+        outType_[0][0][3] = VIPOUT3;
         usePrinter_ = true;
         p_Main->message("Configuring Centronics P-1/PR-40 Printer");
-        p_Main->message("    Output 3: latch, Q: strobe, EF 3: busy\n");
+        p_Main->message("	Output 3: latch, Q: strobe, EF 3: busy\n");
     }*/
     defineKeys();
     resetCpu();
@@ -202,7 +202,7 @@ void VipII::configureKeyboard()
     wxString printBuffer;
     p_Main->message("Configuring Ascii Keyboard");
 
-    printBuffer.Printf("    Input 3: read data, EF 4: data ready flag\n");
+    printBuffer.Printf("	Input 3: read data, EF 4: data ready flag\n");
     p_Main->message(printBuffer);
 }
 
@@ -273,12 +273,12 @@ void VipII::onRun()
         return;
     }
 
-    lastMode_ = cpuMode_;
+//    lastMode_ = cpuMode_;
     if (!vipMode_ && cpuMode_ != RESET)
     {
         cycleKeyOn_ = false;
         cycleFlashOn_ = false;
-        updateLedStatus(0, true);
+        updateLedStatus(BAR_LED_RUN, true);
 
         if (keyTimerExpired_)
             runPressed_ = true;
@@ -314,7 +314,7 @@ void VipII::setCycle()
 
 Byte VipII::ef(int flag)
 {
-    switch(efType_[flag])
+    switch(efType_[0][0][flag])
     {
         case 0:
             return 1;
@@ -366,7 +366,7 @@ Byte VipII::in(Byte port, Word WXUNUSED(address))
 {
     Byte ret;
 
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case 0:
             ret = 255;
@@ -398,7 +398,7 @@ void VipII::out(Byte port, Word WXUNUSED(address), Byte value)
 {
     outValues_[port] = value;
 
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;
@@ -459,7 +459,7 @@ void VipII::switchQ(int value)
     {
         updateQLed_ = true;
         if (ms_ == 0)
-            updateLedStatus(1, value == 1);
+            updateLedStatus(BAR_LED_Q, value == 1);
     }
 
     if (usePrinter_)  
@@ -496,6 +496,10 @@ void VipII::cycle(int type)
         case VIPIIKEYCYCLE:
             cycleKey();
         break;
+
+        case LEDCYCLE:
+            cycleLed();
+        break;
     }
 }
 
@@ -526,7 +530,7 @@ void VipII::cycleKey()
         cycleValue_--;
         if (cycleValue_ <= 0)
         {
-            updateLedStatus(0, flashState_);
+            updateLedStatus(BAR_LED_RUN, flashState_);
             flashState_ = !flashState_;
             cycleValue_ = cycleSize_/5;
         }
@@ -544,7 +548,7 @@ void VipII::cycleKey()
             else if (vipRunCommand_ == 2)
             {
                 int saveExec = p_Main->pload();
-                if (saveExec == 1)
+                if (saveExec == -1)
                     vipRunCommand_ = 0;
                 else
                 {
@@ -604,11 +608,11 @@ void VipII::cycleLed()
         {
             ledCycleValue_ = ledCycleSize_;
             if (updateQLed_)
-                updateLedStatus(1, stateQ_ == 1);
+                updateLedStatus(BAR_LED_Q, stateQ_ == 1);
             if (cassetteEf_ != oldCassetteEf_)
             {
                 oldCassetteEf_ = cassetteEf_;
-                updateLedStatus(2, cassetteEf_ != 0);
+                updateLedStatus(BAR_LED_TAPE, cassetteEf_ != 0);
             }
         }
     }
@@ -708,7 +712,7 @@ void VipII::startComputer()
             readProgram(p_Main->getChip8Dir(VIPII), p_Main->getChip8SW(VIPII), NOCHANGE, 0x200, SHOWNAME);
     }
 
-    double zoom = p_Main->getZoom();
+    double zoom = p_Main->getZoom(VIDEOMAIN);
 
     if (vipMode_ || (computerVersion_ == VIPII_RCA && bootAddress == 3))
         setClear(0);
@@ -905,9 +909,9 @@ void VipII::cpuInstruction()
     if (cpuMode_ != lastMode_)
     {
         if (cpuMode_ == RUN)
-            updateLedStatus(0, true);
+            updateLedStatus(BAR_LED_RUN, true);
         else
-            updateLedStatus(0, false);
+            updateLedStatus(BAR_LED_RUN, false);
         lastMode_ = cpuMode_;
     }
     if (cpuMode_ == RUN)

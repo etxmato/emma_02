@@ -18,16 +18,17 @@ public:
     Ide();
     ~Ide() {};
 
-    void configureIde(wxString ideFile1, wxString ideFile2, ElfPortConfiguration portConf);
+    void configureIde(wxString ideFile1, wxString ideFile2, IoConfiguration portConf);
     void initializeIde(wxString ideFile);
     Byte inIde();
     void outIde(Byte value);
     void selectIdeRegister(Byte value);
     void cycleIde();
+    Byte readIdeStatus() {return 255;};
 
 private:
     void initIde();
-    long getOffset();
+    wxFileOffset getOffset();
     void writeSector();
     void readSector();
     void readId();

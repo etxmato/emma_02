@@ -58,10 +58,18 @@ Ide::Ide()
 {
 }
 
-void Ide::configureIde(wxString ideFile1, wxString ideFile2, ElfPortConfiguration portConf)
+void Ide::configureIde(wxString ideFile1, wxString ideFile2, IoConfiguration portConf)
 {
 //    int input, selectOutput, writeOutput;
     wxString runningComp = p_Main->getRunningComputerStr();
+
+    int ioGroupNum = 0;
+    if (runningComp == "Xml")
+        ioGroupNum = portConf.ideIoGroup + 1;
+
+    wxString ioGroup = "";
+    if (ioGroupNum != 0)
+        ioGroup.Printf(" on group %d", portConf.ideIoGroup);
 
     initializeIde(ideFile1);
     
@@ -72,18 +80,26 @@ void Ide::configureIde(wxString ideFile1, wxString ideFile2, ElfPortConfiguratio
 //    int hd = p_Main->getConfigItem(runningComp +"/IdeHeads", 4l);
 //    int sc = p_Main->getConfigItem(runningComp +"/IdeSectors", 26l);
 
-    p_Computer->setInType(portConf.ideInput, IDEIN);
-    p_Computer->setOutType(portConf.ideSelectOutput, IDESELECTOUT);
+    p_Computer->setInType(ioGroupNum, portConf.ideInput, IDEIN);
+    if (portConf.ideStatus != -1)
+        p_Computer->setInType(ioGroupNum, portConf.ideStatus, IDEREADSTATUS);
+    p_Computer->setOutType(ioGroupNum, portConf.ideSelectOutput, IDESELECTOUT);
     p_Computer->setCycleType(DISKCYCLEIDE, IDECYCLE);
-    p_Computer->setOutType(portConf.ideWriteOutput, IDEWRITEOUT);
+    p_Computer->setOutType(ioGroupNum, portConf.ideWriteOutput, IDEWRITEOUT);
 
     wxString printBuffer;
-    p_Main->message("Configuring IDE");
+    p_Main->message("Configuring IDE" + ioGroup);
 
-    printBuffer.Printf("    Output %d: select port, output %d: write selected, input %d: read selected", portConf.ideSelectOutput, portConf.ideWriteOutput, portConf.ideInput);
+    printBuffer.Printf("	Output %d: select port, output %d: write selected", portConf.ideSelectOutput, portConf.ideWriteOutput);
     p_Main->message(printBuffer);
 
-    printBuffer.Printf("    Disk geometry: %d tracks, %d heads, %d sectors\n", portConf.ideTracks, portConf.ideHeads, portConf.ideSectors);
+    if (portConf.ideStatus != -1)
+        printBuffer.Printf("	Input %d: read status, input %d: read selected", portConf.ideStatus, portConf.ideInput);
+    else
+        printBuffer.Printf("	Input %d: read selected", portConf.ideInput);
+    p_Main->message(printBuffer);
+
+    printBuffer.Printf("	Disk geometry: %d tracks, %d heads, %d sectors\n", portConf.ideTracks, portConf.ideHeads, portConf.ideSectors);
     p_Main->message(printBuffer);
 
     setGeometry(portConf.ideTracks, portConf.ideHeads, portConf.ideSectors);
@@ -147,9 +163,9 @@ void Ide::cycleIde()
     if (command_ != 0)  onCommand();
 }
 
-long Ide::getOffset() 
+wxFileOffset Ide::getOffset() 
 {
-    long ret;
+    wxFileOffset ret;
     Byte sec;
     
     int drive = (headDevice_ & 16) ? 1 : 0;
@@ -200,7 +216,7 @@ void Ide::writeSector()
 {
     wxFFile diskFile;
     int drive;
-    long offset;
+    wxFileOffset offset;
 
     offset = getOffset();
     if (offset < 0) 
@@ -231,7 +247,7 @@ void Ide::readSector()
 {
     wxFFile diskFile;
     int drive;
-    long offset;
+    wxFileOffset offset;
 
     offset = getOffset();
     if (offset < 0) 

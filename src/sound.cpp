@@ -62,7 +62,7 @@ Sound::Sound()
     }
     tapeSynthPointer = new Blip_Synth<blip_high_quality,30>;
 
-    vipSound_ = VIP_BEEP;
+    activeSoundType_ = SOUND_EXT_BEEPER;
     followQ_ = false;
     studioBeep_ = false;
     audioIn_ = false;
@@ -70,6 +70,16 @@ Sound::Sound()
 
 Sound::~Sound()
 {
+    if (hwSaveOn_ || hwSavePaused_)
+    {
+        if (tapeHwReadyToReceive_ == 1)
+            writeSaveTapeHw(tapeHwOutputValue_, 1);
+
+        ploadWavePointer->closeFile();
+        delete ploadWavePointer;
+        p_Main->eventHwTapeStateChange(HW_TAPE_STATE_OFF);
+    }
+
     delete soundBufferPointerLeft;
     delete soundBufferPointerRight;
     delete tapeBufferPointer;
@@ -109,8 +119,17 @@ void Sound::initSound(double clock, double percentageClock, int computerType, in
     noiseOn_ = false;
     psaveOn_ = false;
     ploadOn_ = false;
+    hwSaveOn_ = false;
+    startNewRecording_ = true;
+    somethingSaved_ = false;
+    hwSavePaused_ = false;
+    ploadPaused_ = false;
+    forwardOn_ = false;
+    rewindOn_ = false;
     wavOn_ = false;
     stopTheTape_ = false;
+    tapeHwReadyToReceive_ = 0;
+    numberOfSamples_ = 0;
     soundTime_ = 0;
     decayTime_ = 0;
 
@@ -123,7 +142,7 @@ void Sound::initSound(double clock, double percentageClock, int computerType, in
 
     psaveAmplitude_ = 0;
 
-    tapeBufferPointer->clock_rate((soundClock_/CLOCK_FACTOR * 1000000));
+    tapeBufferPointer->clock_rate((soundClock_ * 1000000));
     tapeSynthPointer->volume(1);
     tapeSynthPointer->output(tapeBufferPointer);
 
@@ -523,7 +542,7 @@ void Sound::soundCycle()
 
 void Sound::playSound()
 {
-    if (psaveOn_ || ploadOn_ || wavOn_)
+    if (psaveOn_ || ploadOn_ || wavOn_ || hwSaveOn_)
         return;
 
     playSoundBuffer();
@@ -573,16 +592,16 @@ void Sound::psaveAmplitudeChange(int q)
                 case VIP:
                     if (q)
                     {
-                        switch(vipSound_)
+                        switch(activeSoundType_)
                         {
-                            case VIP_BEEP:
+                            case SOUND_EXT_BEEPER:
                                 beepOn();
                             break;
-                            case VIP_1864:
+                            case SOUND_1863_1864:
                                 tone1864On();
                             break;
-                            case VIP_SUPER2:
-                            case VIP_SUPER4:
+                            case SOUND_SUPER_VP550:
+                            case SOUND_SUPER_VP551:
                                 toneSuper();
                             break;
                         }
@@ -656,18 +675,17 @@ void Sound::psaveAmplitudeChange(int q)
                 case ELF:
                 case ELFII:
                 case SUPERELF:
-                case DIY:
                 case PICO:
-                    switch (qSound_)
+                    switch (activeSoundType_)
                     {
-                        case QSOUNDSW:
+                        case SOUND_Q_SW:
                             if (q)
                                 toneElf2KOn();
                             else
                                 toneElf2KOff();
                         break;
 
-                        case QSOUNDEXT:
+                        case SOUND_EXT_BEEPER:
                             toneAmplitude_[0] = 8;
                             toneAmplitude_[1] = 8;
                             if (q)
@@ -676,6 +694,50 @@ void Sound::psaveAmplitudeChange(int q)
                                 beepOff();
                         break;
                     }
+                break;
+
+                case XML:
+                    switch (activeSoundType_)
+                    {
+                        case SOUND_Q_SW:
+                            if (q)
+                                toneElf2KOn();
+                            else
+                                toneElf2KOff();
+                        break;
+
+                        case SOUND_EXT_BEEPER:
+                            toneAmplitude_[0] = 8;
+                            toneAmplitude_[1] = 8;
+                            if (q)
+                                beepOn();
+                            else
+                                beepOff();
+                        break;
+
+                        case SOUND_1863_1864:
+                            if (q)
+                                tone1864On();
+                            else
+                                beepOff();
+                        break;
+
+                        case SOUND_STUDIO:
+                            if (q)
+                                beepOnStudio();
+                           else
+                                beepOff();
+                        break;
+
+                        case SOUND_SUPER_VP550:
+                        case SOUND_SUPER_VP551:
+                            if (q)
+                                toneSuper();
+                            else
+                                beepOff();
+                        break;
+                    }
+                    p_Computer->printOutPecom(q);
                 break;
 
                 case PECOM:
@@ -705,20 +767,31 @@ void Sound::psaveAmplitudeZero()
 
 void Sound::playSaveLoad()
 {
-    if (!psaveOn_ && !ploadOn_ && !wavOn_)
-        return;
-
     if (stopTheTape_)
     {
-        stopTape();
+        if (p_Main->isTapeHwCybervision(computerType_))
+        {
+ //           resetTape();
+            pauseTape();
+            if (somethingSaved_)
+                ploadWavePointer->flush();
+            p_Main->eventHwTapeStateChange(HW_TAPE_STATE_OFF);
+            stopTheTape_ = false;
+            somethingSaved_ = false;
+        }
+        else
+            stopTape();
         return;
     }
+
+    if (!psaveOn_ && !ploadOn_ && !wavOn_ && !hwSaveOn_)
+        return;
 
     tapeBufferPointer->end_frame(soundTime_);
 
     int const soundBufferSize = 256;
     short samples [soundBufferSize];
-    short ploadSamples [soundBufferSize];
+
     while(true)
     {
         // Read as many samples as possible
@@ -726,25 +799,95 @@ void Sound::playSaveLoad()
 
         // Stop if no more samples are avialable
         if (sample_count == 0)
-            break;
-
-        if (ploadOn_)
         {
-            long in = ploadWavePointer->read(ploadSamples, sample_count, gain_);
-            if (ploadOn_)
+            break;
+        }
+
+        if (hwSaveOn_)
+        {
+            numberOfSamples_ += sample_count;
+            if (tapeHwReadyToReceive_ == 1)
             {
-                soundBufferPointerLeft->mix_samples(ploadSamples, in);
-                soundBufferPointerRight->mix_samples(ploadSamples, in);
-                if (ploadWavePointer->eof())
+                if (numberOfSamples_ > (sampleRate_/401))
+                {
+                    if (startNewRecording_)
+                    {
+                        numberOfSamples_ -= writeSaveTapeHw(0xF8, 4);
+                        numberOfSamples_ -= writeSaveTapeHw(0xBD, 1);
+                        startNewRecording_ = false;
+                    }
+                    numberOfSamples_ -= writeSaveTapeHw(tapeHwOutputValue_, 1);
+                }
+            }
+            else
+            {
+                while (numberOfSamples_ > 0)
+                {
+                    writeSilenceTapeHw();
+                    numberOfSamples_--;
+                }
+            }
+        }
+
+        if (forwardOn_)
+        {
+            if (ploadWavePointer->eof())
+            {
+                if (p_Main->isTapeHwCybervision(computerType_))
+                    pauseTape();
+                else
+                    stopTape();
+            }
+            else
+            {
+                long in = ploadWavePointer->read(ploadSamples_, sample_count*forwardSpeed_, gain_);
+                if (ploadOn_)
+                {
+                    soundBufferPointerLeft->mix_samples(ploadSamples_, in);
+                    soundBufferPointerRight->mix_samples(ploadSamples_, in);
+                }
+            }
+        }
+
+        if (rewindOn_)
+        {
+            sample_count = (int)ploadWavePointer->rewind(rewindSpeed_);
+            stepCassetteCounter(-rewindSpeed_);
+
+            if (sample_count <= 0)
+            {
+                if (p_Main->isTapeHwCybervision(computerType_))
+                    pauseTape();
+                else
                     stopTape();
             }
         }
-        
+
+        if (ploadOn_ && !forwardOn_ && !rewindOn_)
+        {
+            if (ploadWavePointer->eof())
+            {
+                if (p_Main->isTapeHwCybervision(computerType_))
+                    pauseTape();
+                else
+                    stopTape();
+            }
+            else
+            {
+                long in = ploadWavePointer->read(ploadSamples_, sample_count, gain_);
+                if (ploadOn_)
+                {
+                    soundBufferPointerLeft->mix_samples(ploadSamples_, in);
+                    soundBufferPointerRight->mix_samples(ploadSamples_, in);
+                }
+            }
+        }
+
         if (wavOn_)
         {
-            long in = wavSoundPointer->read(ploadSamples, sample_count, gain_);
-            soundBufferPointerLeft->mix_samples(ploadSamples, in);
-            soundBufferPointerRight->mix_samples(ploadSamples, in);
+            long in = wavSoundPointer->read(ploadSamples_, sample_count, gain_);
+            soundBufferPointerLeft->mix_samples(ploadSamples_, in);
+            soundBufferPointerRight->mix_samples(ploadSamples_, in);
             if (wavSoundPointer->eof())
             {
                 delete wavSoundPointer;
@@ -754,6 +897,16 @@ void Sound::playSaveLoad()
         
         if (psaveOn_)
         {
+            if (stopTapeCounter_ > 0)
+            {
+                stopTapeCounter_--;
+                if (stopTapeCounter_ == 0)
+                {
+                    p_Computer->stopTape();
+                    return;
+                }
+            }
+
             if (psaveBitsPerSample_ == 0)
             {
                 unsigned char samples8bit [soundBufferSize/2];
@@ -763,6 +916,7 @@ void Sound::playSaveLoad()
             else
                 psaveWavePointer->write(samples, sample_count);
         }
+        
     }
     playSoundBuffer();
 }
@@ -775,15 +929,14 @@ void Sound::convertTo8Bit(const short* in, int count, unsigned char* out)
 
 bool Sound::ploadStartTape(wxString fileName, wxString tapeNumber)
 {
-    long sampleRate;
     tapeNumber_ = tapeNumber;
     
     ploadWavePointer = new WaveReader();
     
-    sampleRate = ploadWavePointer->openFile(fileName);
-    if (sampleRate != 0)
+    sampleRate_ = ploadWavePointer->openFile(fileName);
+    if (sampleRate_ != 0)
     {
-        if (tapeBufferPointer->set_sample_rate(sampleRate))
+        if (tapeBufferPointer->set_sample_rate(sampleRate_))
         {
             p_Main->message("Cassette sound error: out of memory");
             delete ploadWavePointer;
@@ -807,14 +960,12 @@ bool Sound::ploadStartTape(wxString fileName, wxString tapeNumber)
 
 void Sound::startWavSound(wxString fileName)
 {
-    long sampleRate;
- 
     wavSoundPointer = new WaveReader();
     
-    sampleRate = wavSoundPointer->openFile(fileName);
-    if (sampleRate != 0)
+    sampleRate_ = wavSoundPointer->openFile(fileName);
+    if (sampleRate_ != 0)
     {
-        if (tapeBufferPointer->set_sample_rate(sampleRate))
+        if (tapeBufferPointer->set_sample_rate(sampleRate_))
         {
             p_Main->message("Wav sound error: out of memory");
             delete wavSoundPointer;
@@ -826,37 +977,37 @@ void Sound::startWavSound(wxString fileName)
         delete wavSoundPointer;
 }
 
-void Sound::psaveStartTape(wxString fileName, wxString tapeNumber)
+void Sound::startSaveTape(wxString fileName, wxString tapeNumber)
 {
-    long sampleRate;
     tapeNumber_ = tapeNumber;
 
-    sampleRate = 22050;
+    sampleRate_ = 22050;
     switch (psaveBitRate_)
     {
         case 0:
-            sampleRate = 11025;
+            sampleRate_ = 11025;
         break;
         case 1:
-            sampleRate = 22050;
+            sampleRate_ = 22050;
         break;
         case 2:
-            sampleRate = 44100;
+            sampleRate_ = 44100;
         break;
         case 3:
-            sampleRate = 88200;
+            sampleRate_ = 88200;
         break;
     }
-    if (tapeBufferPointer->set_sample_rate(sampleRate))
+    if (tapeBufferPointer->set_sample_rate(sampleRate_))
         p_Main->message("Cassette sound error: out of memory");
     if (psaveBitsPerSample_ == 0)
-        psaveWavePointer = new WaveWriter(sampleRate, 8);
+        psaveWavePointer = new WaveWriter(sampleRate_, 8);
     else
-        psaveWavePointer = new WaveWriter(sampleRate, 16);
+        psaveWavePointer = new WaveWriter(sampleRate_, 16);
 
     if (psaveWavePointer->openFile(fileName))
     {
         psaveOn_ = true;
+        stopTapeCounter_ = 0;
         p_Main->turboOn();
     }
     else
@@ -867,31 +1018,215 @@ void Sound::psaveStartTape(wxString fileName, wxString tapeNumber)
     }
 }
 
+void Sound::startSaveTapeHw(wxString fileName, wxString tapeNumber)
+{
+    tapeNumber_ = tapeNumber;
+    
+    if (ploadPaused_)
+    {
+        hwSaveOn_ = true;
+        tapeRecording_ = true;
+        ploadPaused_ = false;
+        return;
+    }
+    
+    if (hwSavePaused_)
+    {
+        hwSaveOn_ = true;
+        tapeRecording_ = true;
+        hwSavePaused_ = false;
+        return;
+    }
+
+    if (ploadOn_)
+    {
+        pauseTape();
+        hwSaveOn_ = true;
+        tapeRecording_ = true;
+        return;
+    }
+    
+    sampleRate_ = 22050;
+    switch (psaveBitRate_)
+    {
+        case 0:
+            sampleRate_ = 11025;
+        break;
+        case 1:
+            sampleRate_ = 22050;
+        break;
+        case 2:
+            sampleRate_ = 44100;
+        break;
+        case 3:
+            sampleRate_ = 88200;
+        break;
+    }
+    
+    if (tapeBufferPointer->set_sample_rate(sampleRate_))
+        p_Main->message("Cassette sound error: out of memory");
+    ploadWavePointer = new WaveReader();
+    
+    if (!wxFile::Exists(fileName))
+    {
+        if (ploadWavePointer->createFile(fileName, sampleRate_, (psaveBitsPerSample_ + 1) * 8))
+        {
+            hwSaveOn_ = true;
+            tapeRecording_ = true;
+        }
+        else
+        {
+            p_Main->message("Cassette sound error: Can't open file");
+            delete ploadWavePointer;
+            p_Main->eventSetTapeState(TAPE_STOP, tapeNumber_);
+        }
+    }
+    else
+    {
+        sampleRate_ = ploadWavePointer->openFile(fileName);
+        if (sampleRate_ != 0)
+        {
+            if (tapeBufferPointer->set_sample_rate(sampleRate_))
+            {
+                p_Main->message("Cassette sound error: out of memory");
+                delete ploadWavePointer;
+                p_Main->eventSetTapeState(TAPE_STOP, tapeNumber_);
+            }
+            else
+            {
+                hwSaveOn_ = true;
+                tapeRecording_ = true;
+            }
+        }
+        else
+        {
+            delete ploadWavePointer;
+            p_Main->eventSetTapeState(TAPE_STOP, tapeNumber_);
+        }
+    }
+}
+
+void Sound::outSaveTapeHw(Byte value)
+{
+    tapeHwOutputValue_ = value;
+    tapeHwReadyToReceive_ = 1;
+}
+
+void Sound::writeSilenceTapeHw()
+{
+    somethingSaved_ = true;
+    
+    short samples [1];
+
+    samples[0] = 0;
+    if (psaveBitsPerSample_ == 0)
+    {
+        unsigned char samples8bit [1];
+        convertTo8Bit(samples, 1, samples8bit);
+        ploadWavePointer->write(samples8bit[0]);
+    }
+    else
+        ploadWavePointer->write(samples[0]);
+    
+    stepCassetteCounter(1);
+}
+
+int Sound::writeSaveTapeHw(Byte value, Byte numberOfStopBits)
+{
+    if (!hwSaveOn_)
+        return 0;
+    
+    short samples [1];
+    unsigned char samples8bit [1];
+    int sample_count = 0;
+
+    int const amplitude_max = 16384;
+    int frequency[2];
+    frequency[0] = p_Computer->getFrequency0();
+    frequency[1] = p_Computer->getFrequency1();
+    int const startBit = p_Computer->getStartBit()&1;
+    int const dataBits = p_Computer->getDataBits();
+    int const stopBit = p_Computer->getStopBit();
+    float period;
+    
+    if (frequency[0] < frequency[1])
+        period = (float)1/frequency[0];
+    else
+        period = (float)1/frequency[1];
+
+    int freq = frequency[startBit];
+        
+    for (int bit = 0; bit <(1+dataBits+numberOfStopBits); bit++)
+    {
+        while((float)sample_count/sampleRate_ < (float)(bit+1) * period)
+        {
+            somethingSaved_ = true;
+
+            samples[0] = (amplitude_max * sin(2 * freq * M_PI*((float)sample_count/sampleRate_ - (float)bit * period)));
+            sample_count++;
+            if (psaveBitsPerSample_ == 0)
+            {
+                convertTo8Bit(samples, 1, samples8bit);
+                ploadWavePointer->write(samples8bit[0]);
+            }
+            else
+                ploadWavePointer->write(samples[0]);
+        }
+        
+        if (bit >= dataBits)
+            freq = frequency[stopBit&1];
+        else
+        {
+            freq = frequency[(value & 0x80)>>7];
+            value = value << 1;
+        }
+    }
+    stepCassetteCounter(sample_count);
+    tapeHwReadyToReceive_ = 0;
+
+    return sample_count;
+}
+
 void Sound::stopTape()
 {
-    if (!ploadOn_ && !psaveOn_)
+    if (!ploadOn_ && !psaveOn_ && !forwardOn_ && !rewindOn_ && !hwSaveOn_ && !hwSavePaused_ && !ploadPaused_)
         return;
 
     p_Computer->resetGaugeValue();
+    tapeCounterStep_ = 0;
+    tapePeriod_ = 0;
     stopTheTape_ = false;
-    if (ploadOn_)
+    somethingSaved_ = false;
+    forwardOn_ = false;
+    rewindOn_ = false;
+    p_Main->turboOff();
+    if (ploadOn_ || ploadPaused_)
     {
-        p_Main->turboOff();
         delete ploadWavePointer;
         ploadOn_ = false;
+        ploadPaused_ = false;
         p_Computer->checkLoadedSoftware();
         if (computerType_ == ETI)
             p_Computer->finishStopTape();
     }
+    if (hwSaveOn_ || hwSavePaused_)
+    {
+        if (tapeHwReadyToReceive_ == 1)
+            writeSaveTapeHw(tapeHwOutputValue_, 1);
+
+        ploadWavePointer->closeFile();
+        delete ploadWavePointer;
+        hwSaveOn_ = false;
+        hwSavePaused_ = false;
+    }
     if (psaveOn_)
     {
-        p_Main->turboOff();
         psaveWavePointer->closeFile();
         delete psaveWavePointer;
         psaveOn_ = false;
     }
     p_Main->eventSetTapeState(TAPE_STOP, tapeNumber_);
-    if (computerType_ == FRED1 || computerType_ == FRED1_5 || computerType_ == VIP || computerType_ == STUDIOIV)
+    if (computerType_ == XML || computerType_ == FRED1 || computerType_ == FRED1_5 || computerType_ == VIP || computerType_ == STUDIOIV)
         p_Computer->finishStopTape();
     if (p_Vt100[UART1] != NULL)
         p_Vt100[UART1]->ResetIo();
@@ -901,17 +1236,38 @@ void Sound::stopTape()
 
 void Sound::pauseTape()
 {
+    forwardOn_ = false;
+    rewindOn_ = false;
+
     if (ploadOn_)
     {
 //        p_Main->turboOff();
         ploadOn_ = false;
+        ploadPaused_ = true;
+        hwSavePaused_ = false;
     }
     if (psaveOn_)
     {
 //        p_Main->turboOff();
         psaveOn_ = false;
     }
-    if (computerType_ == FRED1 || computerType_ == FRED1_5)
+    if (hwSaveOn_)
+    {
+        if (tapeHwReadyToReceive_ == 1)
+            writeSaveTapeHw(tapeHwOutputValue_, 1);
+
+        if (somethingSaved_)
+            ploadWavePointer->flush();
+        somethingSaved_ = false;
+        
+        hwSaveOn_ = false;
+        hwSavePaused_ = true;
+        ploadPaused_ = false;
+        startNewRecording_ = true;
+    }
+
+//    if (computerType_ == FRED1 || computerType_ == FRED1_5)
+    if (p_Main->isTapeHwFred(computerType_))
         p_Main->eventSetTapeState(TAPE_PAUSE, tapeNumber_);
     else
         p_Main->eventSetTapeState(TAPE_STOP, tapeNumber_);
@@ -925,16 +1281,33 @@ void Sound::restartTapeSave(int tapeState)
     p_Main->eventSetTapeState(tapeState, tapeNumber_);
 }
 
+void Sound::restartHwTapeSave(int tapeState)
+{
+    forwardOn_ = false;
+    rewindOn_ = false;
+    ploadOn_ = false;
+    ploadPaused_ = false;
+    hwSaveOn_ = true;
+    hwSavePaused_ = false;
+    p_Main->eventSetTapeState(tapeState, tapeNumber_);
+}
+
 void Sound::restartTapeLoad(int tapeState)
 {
 //    p_Main->turboOn();
+    forwardOn_ = false;
+    rewindOn_ = false;
     ploadOn_ = true;
+    ploadPaused_ = false;
+    hwSavePaused_ = false;
+    hwSaveOn_ = false;
     p_Main->eventSetTapeState(tapeState, tapeNumber_);
 }
 
 void Sound::stopPausedLoad()
 {
     ploadOn_ = true;
+    ploadPaused_ = false;
     stopTheTape_ = true;
 }
 
@@ -947,6 +1320,22 @@ void Sound::stopPausedSave()
 void Sound::stopSaveLoad()
 {
     stopTheTape_ = true;
+}
+
+void Sound::forwardTape(int tapeState)
+{
+    rewindOn_ = false;
+    forwardOn_ = (tapeState == TAPE_FF);
+    ploadOn_ = (tapeState == TAPE_FF);
+    p_Main->eventSetTapeState(tapeState, tapeNumber_);
+}
+
+void Sound::rewindTape(int tapeState)
+{
+    rewindOn_ = (tapeState == TAPE_RW);
+    forwardOn_ = false;
+    ploadOn_ = (tapeState == TAPE_RW);
+    p_Main->eventSetTapeState(tapeState, tapeNumber_);
 }
 
 void Sound::setVolume(int volume)
@@ -1025,6 +1414,8 @@ void Sound::setPsaveSettings()
     audioPointer->setTapeConfig(inputChannel_, playback);
     threshold8_ = p_Main->getPsaveData(8);
     threshold16_ = p_Main->getPsaveData(9);
+    threshold24_ = p_Main->getPsaveData(14);
     fredFreq_ = (float) p_Main->getPsaveData(10)/10;
+    useXmlThreshold_ = (p_Main->getPsaveData(13) != 0);
 }
 

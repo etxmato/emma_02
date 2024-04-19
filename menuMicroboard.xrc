@@ -8,6 +8,7 @@
         <font>
             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
             <size>-1</size>
+            <family>roman</family>
         </font>
         <object class="wxBoxSizer">
             <orient>wxVERTICAL</orient>
@@ -19,6 +20,7 @@
                     <font>
                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                         <size>-1</size>
+                        <family>roman</family>
                     </font>
                     <hidden>1</hidden>
                     <label>Dummy button</label>
@@ -37,6 +39,7 @@
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>
+                                <family>roman</family>
                             </font>
                             <label>FDC 0/HD 0</label>
                         </object>
@@ -50,6 +53,7 @@
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>
+                                <family>roman</family>
                             </font>
                         </object>
                     </object>
@@ -62,6 +66,7 @@
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>
+                                <family>roman</family>
                             </font>
                         </object>
                     </object>
@@ -118,6 +123,7 @@
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>
+                                <family>roman</family>
                             </font>
                             <label>FDC 1/HD 1</label>
                         </object>
@@ -131,6 +137,7 @@
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>
+                                <family>roman</family>
                             </font>
                         </object>
                     </object>
@@ -143,6 +150,7 @@
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>
+                                <family>roman</family>
                             </font>
                         </object>
                     </object>
@@ -199,6 +207,7 @@
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>
+                                <family>roman</family>
                             </font>
                             <label>FDC 2/HD 2</label>
                         </object>
@@ -212,6 +221,7 @@
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>
+                                <family>roman</family>
                             </font>
                         </object>
                     </object>
@@ -224,6 +234,7 @@
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>
+                                <family>roman</family>
                             </font>
                         </object>
                     </object>
@@ -280,6 +291,7 @@
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>
+                                <family>roman</family>
                             </font>
                             <label>FDC 3/HD 3</label>
                         </object>
@@ -293,6 +305,7 @@
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>
+                                <family>roman</family>
                             </font>
                         </object>
                     </object>
@@ -305,6 +318,7 @@
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>
+                                <family>roman</family>
                             </font>
                         </object>
                     </object>
@@ -361,6 +375,7 @@
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>
+                                <family>roman</family>
                             </font>
                             <label>Cassette 0</label>
                         </object>
@@ -374,6 +389,7 @@
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>
+                                <family>roman</family>
                             </font>
                         </object>
                     </object>
@@ -386,6 +402,7 @@
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>
+                                <family>roman</family>
                             </font>
                         </object>
                     </object>
@@ -425,6 +442,7 @@
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>
+                                <family>roman</family>
                             </font>
                             <label>Cassette 1</label>
                         </object>
@@ -438,6 +456,7 @@
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>
+                                <family>roman</family>
                             </font>
                         </object>
                     </object>
@@ -450,6 +469,7 @@
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>
+                                <family>roman</family>
                             </font>
                         </object>
                     </object>
@@ -485,6 +505,7 @@
                     <font>
                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                         <size>-1</size>
+                        <family>roman</family>
                     </font>
                     <object class="sizeritem">
                         <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
@@ -502,6 +523,7 @@
                                     <font>
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
+                                        <family>roman</family>
                                     </font>
                                     <label>Specify</label>
                                     <checked>0</checked>
@@ -514,6 +536,7 @@
                                     <font>
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
+                                        <family>roman</family>
                                     </font>
                                     <style>wxALIGN_RIGHT</style>
                                     <label>Location</label>
@@ -526,6 +549,7 @@
                                     <font>
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
+                                        <family>roman</family>
                                     </font>
                                     <style>wxALIGN_RIGHT</style>
                                     <label>Start</label>
@@ -540,6 +564,7 @@
                                     <font>
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
+                                        <family>roman</family>
                                     </font>
                                     <maxlength>4</maxlength>
                                 </object>
@@ -552,6 +577,7 @@
                                     <font>
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
+                                        <family>roman</family>
                                     </font>
                                     <label>LOAD</label>
                                 </object>
@@ -564,6 +590,7 @@
                                     <font>
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
+                                        <family>roman</family>
                                     </font>
                                     <label>RUN</label>
                                 </object>
@@ -575,6 +602,7 @@
                                     <font>
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
+                                        <family>roman</family>
                                     </font>
                                     <style>wxALIGN_RIGHT</style>
                                     <label>End</label>
@@ -589,6 +617,7 @@
                                     <font>
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
+                                        <family>roman</family>
                                     </font>
                                     <maxlength>4</maxlength>
                                 </object>
@@ -601,6 +630,7 @@
                                     <font>
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
+                                        <family>roman</family>
                                     </font>
                                     <label>SAVE</label>
                                 </object>
@@ -613,6 +643,7 @@
                                     <font>
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
+                                        <family>roman</family>
                                     </font>
                                     <label>Data SAVE</label>
                                 </object>
@@ -624,6 +655,7 @@
                                     <font>
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
+                                        <family>roman</family>
                                     </font>
                                     <style>wxALIGN_RIGHT</style>
                                     <label>Exec</label>
@@ -638,6 +670,7 @@
                                     <font>
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
+                                        <family>roman</family>
                                     </font>
                                     <maxlength>4</maxlength>
                                 </object>
@@ -659,6 +692,7 @@
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>
+                                <family>roman</family>
                             </font>
                             <label>Dismiss</label>
                         </object>

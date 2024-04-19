@@ -77,7 +77,6 @@ BEGIN_EVENT_TABLE(GuiPecom, GuiMain)
     EVT_BUTTON(XRCID("LoadButtonPecom"), GuiMain::onLoadButton)
     EVT_BUTTON(XRCID("RunButtonPecom"), GuiMain::onLoadRunButton)
     EVT_BUTTON(XRCID("DsaveButtonPecom"), GuiMain::onDataSaveButton)
-    EVT_COMMAND(wxID_ANY, OPEN_PRINTER_WINDOW, GuiMain::openPrinterFrame) 
     EVT_BUTTON(XRCID("ColoursPecom"), Main::onColoursDef)
 
     EVT_CHECKBOX(XRCID("DramPecom"), GuiPecom::onPecomDram)
@@ -85,7 +84,7 @@ BEGIN_EVENT_TABLE(GuiPecom, GuiMain)
 END_EVENT_TABLE()
 
 GuiPecom::GuiPecom(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
-: GuiMain(title, pos, size, mode, dataDir, iniDir)
+: XmlParser(title, pos, size, mode, dataDir, iniDir)
 {
     conf[PECOM].loadFileNameFull_ = "";
     conf[PECOM].loadFileName_ = "";
@@ -111,7 +110,9 @@ void GuiPecom::readPecomConfig()
 {
     selectedComputer_ = PECOM;
 
+    elfConfiguration[PECOM].useTapeHw = false;
     conf[PECOM].emsConfigNumber_ = 0;
+    conf[PECOM].videoNumber_ = 0;
 
     conf[PECOM].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "Pecom" + pathSeparator_;
     conf[PECOM].mainDir_ = readConfigDir("/Dir/Pecom/Main", dataDir_ + "Pecom" + pathSeparator_);
@@ -140,7 +141,7 @@ void GuiPecom::readPecomConfig()
 
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 2.0);
-    conf[PECOM].zoom_ = convertLocale(configPointer->Read("/Pecom/Zoom", defaultZoom));
+    conf[PECOM].zoom_[VIDEOMAIN] = convertLocale(configPointer->Read("/Pecom/Zoom", defaultZoom));
     wxString defaultClock;
     defaultClock.Printf("%1.3f", 2.813);
     conf[PECOM].clock_ = convertLocale(configPointer->Read("/Pecom/Clock_Speed", defaultClock));
@@ -163,7 +164,7 @@ void GuiPecom::readPecomConfig()
         XRCCTRL(*this, "ScreenDumpFilePecom", wxComboBox)->SetValue(conf[PECOM].screenDumpFile_);
         XRCCTRL(*this, "WavFilePecom", wxTextCtrl)->SetValue(conf[PECOM].wavFile_[0]);
 
-        correctZoomAndValue(PECOM, "Pecom", SET_SPIN);
+        correctZoomAndValue(PECOM, "Pecom", SET_SPIN, VIDEOMAIN);
 
         XRCCTRL(*this, "VolumePecom", wxSlider)->SetValue(conf[PECOM].volume_);
 
@@ -203,7 +204,7 @@ void GuiPecom::writePecomConfig()
     configPointer->Write("/Pecom/Video_Dump_File", conf[PECOM].screenDumpFile_);
     configPointer->Write("/Pecom/Wav_File", conf[PECOM].wavFile_[0]);
 
-    configPointer->Write("/Pecom/Zoom", conf[PECOM].zoom_);
+    configPointer->Write("/Pecom/Zoom", conf[PECOM].zoom_[VIDEOMAIN]);
     configPointer->Write("/Pecom/Volume", conf[PECOM].volume_);
 
     configPointer->Write("/Pecom/Clock_Speed", conf[PECOM].clock_);

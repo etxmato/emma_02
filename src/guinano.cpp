@@ -96,7 +96,9 @@ void GuiNano::readNanoConfig()
 {
     selectedComputer_ = NANO;
 
+    elfConfiguration[NANO].useTapeHw = false;
     conf[NANO].emsConfigNumber_ = 0;
+    conf[NANO].videoNumber_ = 0;
 
     conf[NANO].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "Nano" + pathSeparator_;
     conf[NANO].mainDir_ = readConfigDir("/Dir/Nano/Main", dataDir_ + "Nano" + pathSeparator_);
@@ -123,7 +125,7 @@ void GuiNano::readNanoConfig()
 
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 2.0);
-    conf[NANO].zoom_ = convertLocale(configPointer->Read("/Nano/Zoom", defaultZoom));
+    conf[NANO].zoom_[VIDEOMAIN] = convertLocale(configPointer->Read("/Nano/Zoom", defaultZoom));
     wxString defaultScale;
     defaultScale.Printf("%i", 4);
     conf[NANO].xScale_ = convertLocale(configPointer->Read("/Nano/Window_Scale_Factor_X", defaultScale));
@@ -147,7 +149,7 @@ void GuiNano::readNanoConfig()
         XRCCTRL(*this, "ScreenDumpFileNano", wxComboBox)->SetValue(conf[NANO].screenDumpFile_);
         XRCCTRL(*this, "WavFileNano", wxTextCtrl)->SetValue(conf[NANO].wavFile_[0]);
 
-        correctZoomAndValue(NANO, "Nano", SET_SPIN);
+        correctZoomAndValue(NANO, "Nano", SET_SPIN, VIDEOMAIN);
 
         XRCCTRL(*this, "TurboNano", wxCheckBox)->SetValue(conf[NANO].turbo_);
         turboGui("Nano");
@@ -182,7 +184,7 @@ void GuiNano::writeNanoConfig()
     configPointer->Write("/Nano/Video_Dump_File", conf[NANO].screenDumpFile_);
     configPointer->Write("/Nano/Wav_File", conf[NANO].wavFile_[0]);
 
-    configPointer->Write("/Nano/Zoom", conf[NANO].zoom_);
+    configPointer->Write("/Nano/Zoom", conf[NANO].zoom_[VIDEOMAIN]);
 
     configPointer->Write("/Nano/Enable_Turbo_Cassette", conf[NANO].turbo_);
     configPointer->Write("/Nano/Turbo_Clock_Speed", conf[NANO].turboClock_);

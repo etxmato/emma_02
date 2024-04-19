@@ -101,13 +101,17 @@ void GuiCosmicos::readCosmicosConfig()
 {
     selectedComputer_ = COSMICOS;
 
+    elfConfiguration[COSMICOS].useTapeHw = false;
+    elfConfiguration[COSMICOS].vtShow = true;
     conf[COSMICOS].emsConfigNumber_ = 0;
+    conf[COSMICOS].videoNumber_ = 0;
 
     conf[COSMICOS].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "Cosmicos" + pathSeparator_;
 
     conf[COSMICOS].mainDir_ = readConfigDir("/Dir/Cosmicos/Main", dataDir_ + "Cosmicos" + pathSeparator_);
     conf[COSMICOS].romDir_[MAINROM1] = readConfigDir("/Dir/Cosmicos/Main_Rom_File", dataDir_ + "Cosmicos" + pathSeparator_);
-    elfConfiguration[COSMICOS].vtCharRomDir_ = readConfigDir("/Dir/Cosmicos/Vt_Font_Rom_File", dataDir_ + "Cosmicos" + pathSeparator_);
+    elfConfiguration[COSMICOS].vt100CharRomDir_ = readConfigDir("/Dir/Cosmicos/Vt100_Font_Rom_File", dataDir_ + "Cosmicos" + pathSeparator_);
+    elfConfiguration[COSMICOS].vt52CharRomDir_ = readConfigDir("/Dir/Cosmicos/Vt52_Font_Rom_File", dataDir_ + "Cosmicos" + pathSeparator_);
     conf[COSMICOS].ramDir_ = readConfigDir("/Dir/Cosmicos/Software_File", dataDir_ + "Cosmicos" + pathSeparator_);
     conf[COSMICOS].screenDumpFileDir_ = readConfigDir("/Dir/Cosmicos/Video_Dump_File", dataDir_ + "Cosmicos" + pathSeparator_);
     conf[COSMICOS].wavFileDir_[0] = readConfigDir("/Dir/Cosmicos/Wav_File", dataDir_ + "Cosmicos" + pathSeparator_);
@@ -156,7 +160,7 @@ void GuiCosmicos::readCosmicosConfig()
 
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 2.0);
-    conf[COSMICOS].zoom_ = convertLocale(configPointer->Read("/Cosmicos/Zoom", defaultZoom));
+    conf[COSMICOS].zoom_[VIDEOMAIN] = convertLocale(configPointer->Read("/Cosmicos/Zoom", defaultZoom));
     defaultZoom.Printf("%2.2f", 1.0);
     conf[COSMICOS].zoomVt_ = convertLocale(configPointer->Read("/Cosmicos/Vt_Zoom", defaultZoom));
     wxString defaultScale;
@@ -175,7 +179,8 @@ void GuiCosmicos::readCosmicosConfig()
     setCosmicosVideoType(conf[COSMICOS].videoMode_);
     setRealCas(COSMICOS);
 
-    elfConfiguration[COSMICOS].vtCharRom_ = configPointer->Read("/Cosmicos/Vt_Font_Rom_File", "vt52.a.bin");
+    elfConfiguration[COSMICOS].vt100CharRom_ = configPointer->Read("/Cosmicos/Vt100_Font_Rom_File", "vt100.bin");
+    elfConfiguration[COSMICOS].vt52CharRom_ = configPointer->Read("/Cosmicos/Vt52_Font_Rom_File", "vt52.a.bin");
 
     long value;
     conf[COSMICOS].saveStartString_ = configPointer->Read("/Cosmicos/SaveStart", "0");
@@ -206,7 +211,7 @@ void GuiCosmicos::readCosmicosConfig()
         XRCCTRL(*this, "AutoBootCosmicos", wxCheckBox)->SetValue(elfConfiguration[COSMICOS].autoBoot);
         XRCCTRL(*this, "KeyboardCosmicos", wxChoice)->SetSelection(elfConfiguration[COSMICOS].keyboardType);
         
-        correctZoomAndValue(COSMICOS, "Cosmicos", SET_SPIN);
+        correctZoomAndValue(COSMICOS, "Cosmicos", SET_SPIN, VIDEOMAIN);
         correctZoomVtAndValue(COSMICOS, "Cosmicos", SET_SPIN);
 
         XRCCTRL(*this, "ControlWindowsCosmicos", wxCheckBox)->SetValue(elfConfiguration[COSMICOS].useElfControlWindows);
@@ -214,10 +219,8 @@ void GuiCosmicos::readCosmicosConfig()
         XRCCTRL(*this, "StretchDotCosmicos", wxCheckBox)->SetValue(conf[COSMICOS].stretchDot_);
         XRCCTRL(*this, "RamCosmicos", wxSpinCtrl)->SetValue(conf[COSMICOS].ramType_);
         XRCCTRL(*this, "HexCosmicos", wxCheckBox)->SetValue(elfConfiguration[COSMICOS].useHex);
-        XRCCTRL(*this, "TurboCosmicos", wxCheckBox)->SetValue(conf[COSMICOS].turbo_);
         turboGui("Cosmicos");
         XRCCTRL(*this, "TurboClockCosmicos", wxTextCtrl)->SetValue(conf[COSMICOS].turboClock_);
-        XRCCTRL(*this, "AutoCasLoadCosmicos", wxCheckBox)->SetValue(conf[COSMICOS].autoCassetteLoad_);
         XRCCTRL(*this, "VolumeCosmicos", wxSlider)->SetValue(conf[COSMICOS].volume_);
         if (clockTextCtrl[COSMICOS] != NULL)
             clockTextCtrl[COSMICOS]->ChangeValue(conf[COSMICOS].clock_);
@@ -230,7 +233,7 @@ void GuiCosmicos::readCosmicosConfig()
 
     elfConfiguration[COSMICOS].usePortExtender = false;
     elfConfiguration[COSMICOS].ideEnabled = false;
-    elfConfiguration[COSMICOS].fdcEnabled = false;
+    elfConfiguration[COSMICOS].fdc1793Enabled = false;
     elfConfiguration[COSMICOS].useLedModule = false;
     elfConfiguration[COSMICOS].useTape = true;
 }
@@ -239,7 +242,8 @@ void GuiCosmicos::writeCosmicosDirConfig()
 {
     writeConfigDir("/Dir/Cosmicos/Main", conf[COSMICOS].mainDir_);
     writeConfigDir("/Dir/Cosmicos/Main_Rom_File", conf[COSMICOS].romDir_[MAINROM1]);
-    writeConfigDir("/Dir/Cosmicos/Vt_Font_Rom_File", elfConfiguration[COSMICOS].vtCharRomDir_);
+    writeConfigDir("/Dir/Cosmicos/Vt100_Font_Rom_File", elfConfiguration[COSMICOS].vt100CharRomDir_);
+    writeConfigDir("/Dir/Cosmicos/Vt52_Font_Rom_File", elfConfiguration[COSMICOS].vt52CharRomDir_);
     writeConfigDir("/Dir/Cosmicos/Software_File", conf[COSMICOS].ramDir_);
     writeConfigDir("/Dir/Cosmicos/Video_Dump_File", conf[COSMICOS].screenDumpFileDir_);
     writeConfigDir("/Dir/Cosmicos/Wav_File", conf[COSMICOS].wavFileDir_[0]);
@@ -249,7 +253,8 @@ void GuiCosmicos::writeCosmicosDirConfig()
 void GuiCosmicos::writeCosmicosConfig()
 {
     configPointer->Write("/Cosmicos/Main_Rom_File", conf[COSMICOS].rom_[MAINROM1]);
-    configPointer->Write("/Cosmicos/Vt_Font_Rom_File", elfConfiguration[COSMICOS].vtCharRom_);
+    configPointer->Write("/Cosmicos/Vt100_Font_Rom_File", elfConfiguration[COSMICOS].vt100CharRom_);
+    configPointer->Write("/Cosmicos/Vt52_Font_Rom_File", elfConfiguration[COSMICOS].vt52CharRom_);
     configPointer->Write("/Cosmicos/Video_Dump_File", conf[COSMICOS].screenDumpFile_);
     configPointer->Write("/Cosmicos/Wav_File", conf[COSMICOS].wavFile_[0]);
     configPointer->Write("/Cosmicos/Vt_Wav_File", elfConfiguration[COSMICOS].vtWavFile_);
@@ -275,7 +280,7 @@ void GuiCosmicos::writeCosmicosConfig()
     configPointer->Write("/Cosmicos/Enable_Auto_Boot", elfConfiguration[COSMICOS].autoBoot);
     configPointer->Write("/Cosmicos/Video_Type", conf[COSMICOS].videoMode_);
     configPointer->Write("/Cosmicos/Keyboard_Type", elfConfiguration[COSMICOS].keyboardType);
-    configPointer->Write("/Cosmicos/Zoom", conf[COSMICOS].zoom_);
+    configPointer->Write("/Cosmicos/Zoom", conf[COSMICOS].zoom_[VIDEOMAIN]);
     configPointer->Write("/Cosmicos/Vt_Zoom", conf[COSMICOS].zoomVt_);
     configPointer->Write("/Cosmicos/Force_Uppercase", elfConfiguration[COSMICOS].forceUpperCase);
     configPointer->Write("/Cosmicos/Use_Hex_Panel", elfConfiguration[COSMICOS].useHex);
@@ -374,13 +379,13 @@ void GuiCosmicos::setCosmicosKeyboard(int Selection)
         case KEYBOARDNONE:
             elfConfiguration[COSMICOS].useHexKeyboardEf3 = false;
             elfConfiguration[COSMICOS].useKeyboard = false;
-            elfConfiguration[COSMICOS].UsePS2 = false;
+            elfConfiguration[COSMICOS].usePS2 = false;
             elfConfiguration[COSMICOS].usePs2gpio = false;
         break;
         case KEYBOARD_HEXCOSMICOS:
             elfConfiguration[COSMICOS].useHexKeyboardEf3 = true;
             elfConfiguration[COSMICOS].useKeyboard = false;
-            elfConfiguration[COSMICOS].UsePS2 = false;
+            elfConfiguration[COSMICOS].usePS2 = false;
             elfConfiguration[COSMICOS].usePs2gpio = false;
         break;
     }

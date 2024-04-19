@@ -1,0 +1,285 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig> 
+    
+    <system>
+        <name>COMX-35</name>
+        <config>FDC, Standard Printer, 32K RAM &amp; 80 Column Card</config>
+        <clock>2.813</clock>
+        <boot>0</boot>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init>
+        <dma out="q">5</dma>
+        <statusbar>comx</statusbar>
+        <dirname>Comx</dirname>
+    </system>
+    
+    <locations>
+        <!--
+        <keyinput>:
+        0x1bc: wait for key on reset screen
+        0x39a: wait for key in BASIC (when using printer I/O)
+        0x5344: wait for key in F&M BASIC
+        0xc10c: wait for key when using 80 column card
+        -->
+        <key_input>0x1bc, 0x39a, 0x5344, 0xc10c</key_input>
+        
+        <!-- Machine states -->
+        <reset_state>0x1bc</reset_state>
+        <basic_state address="0x42a0" value="0">0x39a, 0x5344, 0xc10c</basic_state>
+        <run_state>0x1f76, 0x2c00</run_state>
+        
+        <!-- Stop cassette -->
+        <stop_cas>0x1047</stop_cas>
+
+        <!-- Start PSAVE, DSAVE, PLOAD, DLOAD -->
+        <start_cas_save>0x1672, 0x1675</start_cas_save>
+        <start_cas_load>0x0e00</start_cas_load>
+        <start_cas_dload>0x0e03</start_cas_dload>
+
+        <!-- Start Printer ROM PSAVE/DSAVE/PLOAD/DLOAD/+  -->
+        <start_cas_save address="0xc001" value="0x1">0xcbe2, 0xcde2, 0xccb1, 0xceb1</start_cas_save>
+        <start_cas_load address="0xc001" value="0x1">0xcc41, 0xce41</start_cas_load>
+        <start_cas_dload address="0xc001" value="0x1">0xcd00, 0xcf00</start_cas_dload>
+
+        <!-- Set DOS Filenam end DOS command -->
+        <set_dos_filename address="0xc001, 0x42d2, 0x42d4, 0x42d6, 0x42d8" value="0x3, 0x4c, 0x4f, 0x41, 0x44">0xd527</set_dos_filename>
+        <set_dos_filename address="0xc001, 0x42d2, 0x42d4, 0x42d6, 0x42d8" value="0x3, 0x4c, 0x4f, 0x41, 0x44">0xd527</set_dos_filename>
+
+        <!-- Set DOS Filenam end DOS RUN command -->
+        <set_dos_filename address="0xc001, 0x42d2, 0x42d3" value="0x3, 0xc2, 0xcf">0xcda1</set_dos_filename>
+        
+        <!-- Set DOS Filenam end DOS URUN command -->
+        <set_dos_filename address="0xc001, 0x42d2, 0x42d3" value="0x3, 0x55, 0x83">0xdec9</set_dos_filename>
+
+        <!-- Save end during batch conversion -->
+        <batch_start_save>0x1bc, 0x39a</batch_start_save>
+        <batch_end_save>0x14e1</batch_end_save>
+    </locations>
+
+    <basic>
+        <pload>comx</pload>
+        <defus>0x4281</defus>
+        <eop>0x4283</eop>
+        <string>0x4292</string>
+        <array>0x4294</array>
+        <eod>0x4299</eod>
+        <ram>0x4400</ram>
+    </basic>
+
+    <memory>
+         <rom>
+             <start>0</start>
+             <end>0x3FFF</end>
+             <filename verify="true">comx35.1.3.bin</filename>
+         </rom>
+
+         <rom>
+             <start>0xE000</start>
+             <end>0xEFFF</end>
+             <filename verify="true">expansion.bin</filename>
+         </rom>
+         
+         <mainram>
+            <start>0x4000</start>
+            <end>0xBFFF</end>
+         </mainram>
+         
+         <copy start="0xdd0" end="0xddf" slot="0">0xc000</copy>
+         <copy start="0x1000" end="0x17ff" slot="-1">0xD000</copy>
+
+         <slot max="4">
+             <start>0xC000</start>
+             <end>0xDFFF</end>
+             <out>1</out>
+             <slotshift type="bit">1</slotshift>
+             <bankshift type="number" mask="0xf">-3</bankshift>
+             <iogroup />
+             <rom slot="0">
+                 <filename verify="true">fdc.bin</filename>
+             </rom>
+             <rom slot="1">
+                 <filename verify="true">f&amp;m.printer.1.2.bin</filename>
+             </rom>
+             <bank slot="2" max="4">
+                 <ram bank="0">
+                 </ram>
+                 <ram bank="1">
+                 </ram>
+                 <ram bank="2">
+                 </ram>
+                 <ram bank="3">
+                 </ram>
+             </bank>
+             <rom slot="3">
+                 <filename verify="true">80column.1.1.bin</filename>
+             </rom>
+         </slot>
+         
+    </memory>
+  
+    <video type="1870">
+        <!-- video definition for the VIS 1870
+        <iogroup>: iogroup, i.e. i/o ports are activate when specified iogroup is selected via the iogroup port
+        <pagesize type="ram">: specify page memory as RAM with size 0x3ff or 0x7ff
+        <pagesize type="rom">: specify page memory as RAM with size 0x3ff or 0x7ff, however when using type rom a ROM can be loaded/used at F800-FFFF
+        <charsize type="ram">: specify charcater memory as RAM with size 0x3ff or 0x7ff
+        <charsize type="rom">: specify charcater memory as ROM with size 0x3ff or 0x7ff
+        <filename format="tmc">: load specified filename into character ROM using TMC format
+        <pcbmask>: pcb mask 0x7f or 0xff
+        <maxcharlines>: maximum number of character lines 8 or 16. When using PAL 9 lines are visible but 16 are reserved in character memory
+        <maxscreenlines>: specify number of lines on one screen: 24, 25 or 27 for Cidelsa DRACO
+        <mode>: video mode pal or ntsc
+        <int>: VIS 1870 interrupt mode
+        <ef type="display" pol="rev">: ef flag for non display period, pol="rev" reverts ef flag polarity
+        <ef type="mode">: ef flag to select video mode (used in COMX), function is only active until first Q pulse
+        <clock>: VIS clock speed
+        <cmamaskfixed />: CMA mask fixed to 0xf independentl of number of lines. ntsc or 8 lines would normally use CMA mask 0x7 but COMX ntsc still uses 16 lines per character in memory so CMX mask is 0xf.
+        <colorram type="cidelsa" />: use color ram HW as in Cidelsa
+        <colorram type="tmc" />: use color ram HW as in TMC600
+        <rotate />: rotate screen 90% as in Cidelsa
+        <out type="write">: use specified output port to write to selected VIS 1870 output (as used in TMC600)
+        <out type="select">: use specified output port to select VIS 1870 output port (as used in TMC600)
+        <zoom>: set default zoom, when not specified 2.00 will be used
+        -->
+
+        <pagesize type="ram">0x3ff</pagesize>
+        <charsize type="ram">0x7ff</charsize>
+        <pcbmask>0x7f</pcbmask>
+        <maxcharlines>16</maxcharlines>
+        <maxscreenlines>24</maxscreenlines> <!-- 24, 25 or 27 for Cidelsa DRACO) -->
+        <mode>pal</mode>
+        <int>2</int>
+        <ef type="display">1</ef>
+        <ef type="mode">2</ef> <!-- only active until first Q pulse -->
+        <clock>5.626</clock>
+        <cmamaskfixed />
+    </video>
+
+    <keyboard type="1871">
+        <!-- keyboard definition for the RCA 1871 chip
+        <in>: input port to read data
+        <ef type="rpt">: ef port for key repeat signal
+        <ef type="data">: ef port for data ready signal
+        -->
+
+        <in>3</in>
+        <ef type="rpt">2</ef>
+        <ef type="data">3</ef>
+    </keyboard>
+    
+    <video type="mc6845">
+        <!-- video definition for the mc6845 chip
+        <ram>: video ram definition in a range within the CPU memory map. Always specify a range in hex (0x) format
+        <iogroup>: iogroup, i.e. i/o ports are activate when specified iogroup is selected via the iogroup port
+        <font>: mc6845 binary font file
+        <dirname>: location of font file (font) defined as sub-dir of the main Emma 02 data directory. If not specified the dirname specified in <info> will be used.
+        <out type="register">: output number to select register, specified in hex (0x) and as an address location in the CPU memory map. Adding the mask option will allow using a range of addresses. In example below any even address from 0xE800-0xE8FF will be used to select register.
+        <out type="data">: output number to write data to select register, specified in hex (0x) and as an address location in the CPU memory map. Adding the mask option will allow using a range of addresses.
+        <in>: input number to enable graphics
+        <ef>: ef number for display enable
+        <screen>: define initial screen size in characters, e.g. 64x16 will define a screen of 64 characters wide and 16 lines. Note that screen size can be changed via out instructions.
+        <char> define initial character size in pixels, e.g. 7x8 will define characters of 7 pixels wide and 8 pixels high. Note that charcater height can be changed via out instructions.
+        <interlace />: set interlace option on
+        <zoom>: set default zoom, when not specified 2.00 will be used
+        <border>: set border size in pixels with format XxY
+        <color type="fore">: set foregorund color. Color is specified as red, green, blue all 3 values range from 0 to 255.
+        <color type="back">: set foregorund color. Color is specified as red, green, blue all 3 values range from 0 to 255.
+        <color type="high">: set highlight color. Color is specified as red, green, blue all 3 values range from 0 to 255.
+        -->
+
+        <iogroup>3</iogroup>
+        <ram>0xD000-0xD7FF</ram>
+        <font>mc6845.comx.bin</font>
+        <out type="register" mask="0xFF01">0xD800</out>
+        <out type="data" mask="0xFF01">0xD801</out>
+        <ef>4</ef>
+        <screen>80x24</screen>
+        <char>8x8</char>
+        <zoom>1.00</zoom>
+        <interlace />
+        <border>0x0</border>
+        <pos>0,489</pos>
+        <color type="fore">0, 255, 0</color>
+        <color type="back">0, 0x40, 0</color>
+        <color type="high">0, 0xff, 0</color>
+    </video>
+
+    <disk type="1770" drives="2">
+        <!-- disk definition for fdc 1770 using 1 or 2 drives
+        <filename  disk="0">: fdc filename for disk 0
+        <dirname>: location of fdc file (filename) defined as sub-dir of the main Emma 02 data directory. If not specified the dirname specified in <info> will be used.
+        <iogroup>: iogroup, i.e. i/o ports are activate when specified iogroup is selected via the iogroup port
+        <out type="select">: output number to select fdc port
+        <out type="write">: output number to write to selected fdc port
+        <in type="read">: input number to read from selected fdc port
+        <in type="intrq">: input number to read intra
+        <ef>: ef number for data request
+        <sides>: number of disk sides
+        <tracks>: number of tracks
+        <sectors>: number of sectors
+        <sectorlength>: sector length in bytes
+        <maxfmtcount>: max format count, use 2740 for COMX drive with 16 sectors. Other values might not work.
+        -->
+
+        <iogroup>0</iogroup>
+        <dirname disk="0">Comx/Disks</dirname>
+        <dirname disk="1">Comx/Disks</dirname>
+        <filename disk="0">dos.1.4+f&amp;m.disk.tools.img</filename>
+        <filename disk="1">f&amp;m-heijmans.sw.img</filename>
+        <out type="select" q="1">2</out>
+        <out type="write" q="0">2</out>
+        <in type="read" q="0">2</in>
+        <in type="intrq" q="1">2</in>
+        <ef>4</ef>
+        <sides>2</sides>
+        <tracks>35</tracks>
+        <sectors>16</sectors>
+        <sectorlength>128</sectorlength>
+        <maxfmtcount>2740</maxfmtcount>
+    </disk>
+
+    <cassette decks="1">
+        <!-- cassette definition for 1 or 2 tape decks
+        <ef>: ef port for cassette input
+        Q is always used for cassette output
+        <filename>: initial printer filename
+        <dirname>: location of printer file; defined as sub-dir of the main Emma 02 data directory. If not specified the dirname specified in <info> will be used.
+        -->
+
+        <ef>4</ef>
+    </cassette>
+
+    <printer type="parallel">
+        <!-- basic printer definition add type="parallel", type="serial" or type="thermal" for COMX type printer cards
+        <out>: output port to write data to printer interface
+        <in>: input port to check printer status (used for parallel, serial, thermal printer)
+        <ef>: ef port for data ready flag; set to 0 or leave out if no data ready flag is used (used by basic printer)
+        <ef>: ef port for printer busy flag; set to 0 or leave out if no data busy flag is used (used by thermal printer)
+        <bits>: number of bits (5 to 8) used in serial printer interface
+        <parity>: none, odd or even used in serial printer interface, parity errors are shown in the Tools/Configuration tab if they occur
+        <filename>: initial printer filename
+        <dirname>: location of printer file; defined as sub-dir of the main Emma 02 data directory. If not specified the dirname specified in <info> will be used.
+        -->
+
+        <iogroup>1</iogroup>
+        <out>2</out>
+        <in>2</in>
+    </printer>
+
+    <debugger>
+        <scrt mode="on">
+            <call reg="4">0x2e14</call>
+            <return reg="5">0x31eb</return>
+        </scrt>
+        
+        <assembler>
+            <filename>mycode</filename>
+            <code_start>0x4400</code_start>
+            <code_end>0x53FF</code_end>
+        </assembler>
+    </debugger>
+
+</emmaconfig>

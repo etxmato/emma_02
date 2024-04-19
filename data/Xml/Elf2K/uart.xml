@@ -1,0 +1,113 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>COSMAC Elf 2000</name>
+        <config>UART VT</config>
+        <clock>3.5795</clock>
+        <boot>0</boot>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">0</init>
+        <init type="ef4">1</init>
+        <dirname>Elf2K</dirname>
+    </system>
+
+    <splash>
+        <dialog>Elf2K_VT</dialog>
+    </splash>
+
+    <iogroup>
+        <out mask="0x90">2</out>
+    </iogroup>
+
+    <bootstrap>
+        <address>0x8000</address>
+    </bootstrap>
+
+    <hexmodem>
+    </hexmodem>
+
+    <locations>
+        <elfosboot>0x892d</elfosboot>
+        
+        <start_xmodem_save address="0x80, 0x81, 0x82, 0x234d" value="0x78, 0x73, 0, 0x3d">0x20da</start_xmodem_save> <!-- xs -->
+        <start_ymodem_save address="0x80, 0x81, 0x82" value="0x79, 0x73, 0">0x2186</start_ymodem_save> <!-- ys -->
+
+        <start_xmodem_load address="0x80, 0x81, 0x82, 0x234b" value="0x78, 0x72, 0, 0x3d">0x20bd</start_xmodem_load> <!-- xr -->
+        <start_xmodem_load address="0x80, 0x81, 0x82, 0x2681" value="0x79, 0x72, 0, 0x35">0x207E</start_xmodem_load> <!-- yr -->
+        
+    </locations>
+    
+    <frontpanel type="elf2k" init="off">
+        <out>4</out>
+        <in>4</in>
+        <ef type="in">4</ef>
+    </frontpanel>
+
+    <memory>
+        <rom type="gui" mask="0xffff">
+            <start>0x8000</start>
+            <end>0xFFFF</end>
+            <pulldown mask="Elf2Kv*.*">Elf2K</pulldown>
+            <filename verify="true">Elf2Kv112.bin</filename>
+        </rom>
+
+        <nvram type="gui">
+            <start>0x0000</start>
+            <end>0x7FFF</end>
+            <dump>ramdump.bin</dump>
+        </nvram>
+    </memory>
+    
+    <disk type="ide">
+        <filename>elf2k.ide</filename>
+        <out type="select">2</out>
+        <out type="write">3</out>
+        <in type="status">2</in>
+        <in type="read">3</in>
+        <tracks>512</tracks>
+        <heads>4</heads>
+        <sectors>26</sectors>
+        <iogroup>0</iogroup>
+    </disk>
+    
+    <vt type="vt100" connection="uart16450" >
+        <font>vt100.bin</font>
+        <out type="select">2</out>
+        <out type="port">3</out>
+        <in type="status">2</in>
+        <in type="port">3</in>
+        <baud type="receive">19200</baud>
+        <baud type="transmit">19200</baud>
+        <characters>80</characters>
+        <iogroup>0x10</iogroup>
+        <border>0x0</border>
+        <color type="fore">0, 255, 0</color>
+        <color type="back">0, 0x40, 0</color>
+        <color type="high">0, 0xff, 0</color>
+     </vt>
+
+     <rtc type="ds12887">
+        <out type="select">2</out>
+        <out type="port">3</out>
+        <in>3</in>
+        <iogroup>0x80, 0x90</iogroup>
+     </rtc>
+
+     <debugger>
+         <scrt mode="on">
+             <call reg="4">0xFA7B</call>
+             <return reg="5">0xFA8D</return>
+         </scrt>
+
+         <assembler>
+             <filename>mycode</filename>
+             <code_start>0</code_start>
+             <code_end>0xFFF</code_end>
+         </assembler>
+     </debugger>
+
+</emmaconfig>

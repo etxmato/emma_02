@@ -10,6 +10,8 @@ public:
     PsaveDialog(wxWindow* parent);
     ~PsaveDialog(){};
 
+    void onuseXml(wxCommandEvent&event);
+
 private:
     void onSaveButton( wxCommandEvent &event );
 

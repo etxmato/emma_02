@@ -88,7 +88,9 @@ void GuiEti::readEtiConfig()
 {
     selectedComputer_ = ETI;
 
+    elfConfiguration[ETI].useTapeHw = false;
     conf[ETI].emsConfigNumber_ = 0;
+    conf[ETI].videoNumber_ = 0;
 
     conf[ETI].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "Eti" + pathSeparator_;
     conf[ETI].mainDir_ = readConfigDir("/Dir/Eti/Main", dataDir_ + "Eti" + pathSeparator_);
@@ -115,7 +117,7 @@ void GuiEti::readEtiConfig()
 
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 2.0);
-    conf[ETI].zoom_ = convertLocale(configPointer->Read("/Eti/Zoom", defaultZoom));
+    conf[ETI].zoom_[VIDEOMAIN] = convertLocale(configPointer->Read("/Eti/Zoom", defaultZoom));
     wxString defaultScale;
     defaultScale.Printf("%i", 4);
     conf[ETI].xScale_ = convertLocale(configPointer->Read("/Eti/Window_Scale_Factor_X", defaultScale));
@@ -138,7 +140,7 @@ void GuiEti::readEtiConfig()
         XRCCTRL(*this, "ScreenDumpFileEti", wxComboBox)->SetValue(conf[ETI].screenDumpFile_);
         XRCCTRL(*this, "WavFileEti", wxTextCtrl)->SetValue(conf[ETI].wavFile_[0]);
 
-        correctZoomAndValue(ETI, "Eti", SET_SPIN);
+        correctZoomAndValue(ETI, "Eti", SET_SPIN, VIDEOMAIN);
 
         XRCCTRL(*this, "TurboEti", wxCheckBox)->SetValue(conf[ETI].turbo_);
         turboGui("Eti");
@@ -172,7 +174,7 @@ void GuiEti::writeEtiConfig()
     configPointer->Write("/Eti/Video_Dump_File", conf[ETI].screenDumpFile_);
     configPointer->Write("/Eti/Wav_File", conf[ETI].wavFile_[0]);
 
-    configPointer->Write("/Eti/Zoom", conf[ETI].zoom_);
+    configPointer->Write("/Eti/Zoom", conf[ETI].zoom_[VIDEOMAIN]);
 
     configPointer->Write("/Eti/Enable_Turbo_Cassette", conf[ETI].turbo_);
     configPointer->Write("/Eti/Turbo_Clock_Speed", conf[ETI].turboClock_);

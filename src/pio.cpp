@@ -33,10 +33,11 @@
 #include "main.h"
 #include "pio.h"
 
-PioScreen::PioScreen(wxWindow *parent, const wxSize& size, int pioNumber)
-: Panel(parent, size)
+PioScreen::PioScreen(wxWindow *parent, const wxSize& size, int pioNumber, int tilType)
+: Panel(parent, size, tilType)
 {
     pioNumber_ = pioNumber;
+    
 //    this->SetClientSize(size);
 }
 
@@ -62,38 +63,38 @@ void PioScreen::init()
     
     for (int i=0; i<8; i++)
     {
-        ledPointer[i] = new Led(dc, 33+23*(7-i), 30, PIOLED);
+        ledPointer[i] = new Led(dc, 33+23*(7-i), 30, LED_SMALL_RED_DISABLE);
         updateLed_[i]=true;
         setLed(i, 2);
-        dataSwitchButton[i] = new SwitchButton(dc, PIO_VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 27+23*(7-i), 50, "");
+        dataSwitchButton[i] = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL_PIO, wxColour(255, 255, 255), BUTTON_DOWN, 27+23*(7-i), 50, "");
         ioSwitchState_[i] = 0;
         ioSwitchEnabled_[i] = true;
     }
     for (int i=8; i<16; i++)
     {
-        ledPointer[i] = new Led(dc, 33+23*(15-i), 90, PIOLED);
+        ledPointer[i] = new Led(dc, 33+23*(15-i), 90, LED_SMALL_RED_DISABLE);
         updateLed_[i]=true;
         setLed(i, 2);
-        dataSwitchButton[i] = new SwitchButton(dc, PIO_VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 27+23*(15-i), 110, "");
+        dataSwitchButton[i] = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL_PIO, wxColour(255, 255, 255), BUTTON_DOWN, 27+23*(15-i), 110, "");
         ioSwitchState_[i] = 0;
         ioSwitchEnabled_[i] = true;
     }
     for (int i=16; i<18; i++)
     {
-        ledPointer[i] = new Led(dc, 229+37*(i-16), 30, PIOLED);
+        ledPointer[i] = new Led(dc, 229+37*(i-16), 30, LED_SMALL_RED_DISABLE);
         updateLed_[i]=true;
         setLed(i, 2);
-        dataSwitchButton[i] = new SwitchButton(dc, PIO_VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 223+37*(i-16), 50, "");
+        dataSwitchButton[i] = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL_PIO, wxColour(255, 255, 255), BUTTON_DOWN, 223+37*(i-16), 50, "");
         ioSwitchState_[i] = 0;
         ioSwitchEnabled_[i] = false;
         dataSwitchButton[i]->enable(dc, false);
     }
     for (int i=18; i<20; i++)
     {
-        ledPointer[i] = new Led(dc, 229+37*(i-18), 90, PIOLED);
+        ledPointer[i] = new Led(dc, 229+37*(i-18), 90, LED_SMALL_RED_DISABLE);
         updateLed_[i]=true;
         setLed(i, 2);
-        dataSwitchButton[i] = new SwitchButton(dc, PIO_VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 223+37*(i-18), 110, "");
+        dataSwitchButton[i] = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL_PIO, wxColour(255, 255, 255), BUTTON_DOWN, 223+37*(i-18), 110, "");
         ioSwitchState_[i] = 0;
         ioSwitchEnabled_[i] = false;
         dataSwitchButton[i]->enable(dc, false);
@@ -103,8 +104,8 @@ void PioScreen::init()
     inPutValueA_ = 0;
 
 #if defined (__WXMAC__)
-    osx_ardyButtonPointer = new HexButton2(dc, PIO_HEX_BUTTON, 55, 144, "A", pioNumber_);
-    osx_brdyButtonPointer = new HexButton2(dc, PIO_HEX_BUTTON, 95, 144, "B", pioNumber_);
+    osx_ardyButtonPointer = new HexButtonCdp1851(dc, PUSH_BUTTON_PIO, 55, 144, "A", pioNumber_);
+    osx_brdyButtonPointer = new HexButtonCdp1851(dc, PUSH_BUTTON_PIO, 95, 144, "B", pioNumber_);
 #else
     text_ardyButtonPointer = new wxButton(this, 1, "A", wxPoint(55, 144), wxSize(25, 25), 0, wxDefaultValidator, "ArdyButton");
     text_ardyButtonPointer->SetToolTip("ARDY");
@@ -223,7 +224,7 @@ void PioScreen::interruptCycle()
 
 void PioScreen::onArdyButton()
 {
-    p_Computer->setEfState(pioNumber_, 1, 0);
+    pioEfState_[1] = 0;
    
     if (pioAMode_ == PIO_BI_DRECT)
         pioStatus_ |= 0x8;
@@ -236,7 +237,7 @@ void PioScreen::onArdyButton()
 
 void PioScreen::onBrdyButton()
 {
-    p_Computer->setEfState(pioNumber_, 2, 0);
+    pioEfState_[2] = 0;
     
     if (pioAMode_ == PIO_BI_DRECT)
         pioStatus_ |= 0x4;
@@ -317,7 +318,7 @@ void PioScreen::reset()
     pioBInterruptMask_ = 0;
     pioStatus_ = 0;
     commandByteNumber_ = PIO_COMMAND_NONE;
-    writeControlRegister(0x1b);
+    writeControlRegister(0x4b);
 
     clearA();
     clearB();
@@ -863,7 +864,7 @@ void PioScreen::writePortB(Byte value)
 
 Byte PioScreen::readPortA()
 {
-    p_Computer->setEfState(pioNumber_, 1, 1);
+    pioEfState_[1] = 1;
     pioStatus_ &= 0xFD;
  
     if (pioAMode_ == PIO_BI_DRECT)
@@ -874,7 +875,7 @@ Byte PioScreen::readPortA()
 
 Byte PioScreen::readPortB()
 {
-    p_Computer->setEfState(pioNumber_, 2, 1);
+    pioEfState_[2] = 1;
     pioStatus_ &= 0xFE;
 
     return outPutValueB_;
@@ -971,6 +972,11 @@ void PioScreen::refreshLeds()
         refreshLed(dc, i);
 }
 
+Byte PioScreen::getEfState(int number)
+{
+    return pioEfState_[number];
+}
+
 BEGIN_EVENT_TABLE(PioFrame, wxFrame)
     EVT_CLOSE (PioFrame::onClose)
     EVT_BUTTON(1, PioFrame::onArdyButton)
@@ -982,7 +988,7 @@ PioFrame::PioFrame(const wxString& title, const wxPoint& pos, const wxSize& size
 {
     pioNumber_ = pioNumber;
     
-    pioScreenPointer = new PioScreen(this, size, pioNumber);
+    pioScreenPointer = new PioScreen(this, size, pioNumber, TILNONE);
     pioScreenPointer->init();
     
     this->SetClientSize(size);
@@ -999,7 +1005,7 @@ PioFrame::~PioFrame()
 
 void PioFrame::onClose(wxCloseEvent&WXUNUSED(event))
 {
-    p_Computer->removePio(pioNumber_);
+    p_Computer->removeCdp1851(pioNumber_);
 }
 
 void PioFrame::onArdyButton(wxCommandEvent&WXUNUSED(event))

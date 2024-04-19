@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>Microtutor II</name>
+        <config>Bare</config>
+        <clock>1.75</clock>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init>
+        <init type="ef4">1</init>
+        <dirname>MicrotutorII</dirname>
+    </system>
+    
+    <frontpanel type="microtutor2" init="on">
+        <out>4</out>
+        <in>4</in>
+        <ef type="in">4</ef>
+    </frontpanel>
+
+     <memory>
+        <mainram mask="0xFF">
+            <start>0x0000</start>
+            <end>0xFFFF</end>
+        </mainram>
+    </memory>
+    
+    <debugger>
+        <scrt mode="off">
+            <call reg="4">-1</call>
+            <return reg="5">-1</return>
+        </scrt>
+
+        <assembler>
+            <filename>mycode</filename>
+            <code_start>0</code_start>
+            <code_end>0xFFF</code_end>
+        </assembler>
+    </debugger>
+
+</emmaconfig>

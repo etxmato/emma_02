@@ -21,7 +21,7 @@
 class FredScreen : public Panel
 {
 public:
-    FredScreen(wxWindow *parent, const wxSize& size);
+    FredScreen(wxWindow *parent, const wxSize& size, int tilType);
     ~FredScreen();
     
     void init();
@@ -66,7 +66,7 @@ public:
     void autoBoot();
     void startLoad(bool button);
     void onReadButton();
-    void onCardButton();
+    void onCardButtonSwitch();
     void updateCardReadStatus();
     
     void startComputer();
@@ -83,7 +83,8 @@ public:
     void sleepComputer(long ms);
     void resetPressed();
     
-    void cassetteFred(short val);
+    void cassetteFred(wxInt32 val);
+    void cassetteFred(wxInt16 val);
     void cassetteFred56();
     void cassetteFredPm();
     void cassetteFred(char val);
@@ -138,7 +139,7 @@ private:
     Byte shiftPressed_;
  
     Byte ef1State_;
-    Byte ef1StateTape_;
+    Byte tapedataReady_;
     Byte ef4State_;
     Byte keyValue_;
 
@@ -153,7 +154,8 @@ private:
 
     int ioGroup_;
     
-    short lastSample_;
+    wxInt32 lastSampleInt32_;
+    wxInt16 lastSampleInt16_;
     char lastSampleChar_;
     int pulseCount_;
     Byte tapeInput_;

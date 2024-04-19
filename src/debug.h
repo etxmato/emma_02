@@ -368,6 +368,7 @@ public:
     void onAssNew(wxCommandEvent&event);
     void assNew(int range);
     void assDefault(wxString fileName, Word start, Word end);
+    void assDefault(wxString dirName, wxString fileName, int code_start, int code_end, int end);
     void scrtValues(bool status, bool Scrt, long CallReg, long CallAddress, long RetReg, long RetAddress);
     void setScrtValues(bool Scrt, long CallReg, long CallAddress, long RetReg, long RetAddress, wxString Game);
     void saveScrtValues(wxString Game);
@@ -405,6 +406,7 @@ public:
     void DebugDisplayPage();
     void DebugDisplayProfiler();
     void ShowCharacters(Word address, int y);
+    void ShowStandardCharacter(Word address);
     void DebugDisplayMap();
     void DebugDisplay();
     void onDebugMemType(wxCommandEvent&event);

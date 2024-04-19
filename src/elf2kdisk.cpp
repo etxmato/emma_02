@@ -86,7 +86,7 @@ Elf2KDisk::Elf2KDisk()
 {
 }
 
-void Elf2KDisk::configureDisk(wxString ideFile1, wxString ideFile2, bool rtc, bool uart, ElfPortConfiguration portConf, bool use8275)
+void Elf2KDisk::configureDisk(wxString ideFile1, wxString ideFile2, bool rtc, bool uart, IoConfiguration portConf, bool use8275)
 {
 //    int input, status, selectOutput, writeOutput;
     wxString runningComp = p_Main->getRunningComputerStr();
@@ -116,13 +116,13 @@ void Elf2KDisk::configureDisk(wxString ideFile1, wxString ideFile2, bool rtc, bo
     wxString printBuffer;
     p_Main->message("Configuring Disk Expansion Board");
 
-    printBuffer.Printf("    Output %d: device/register select, output %d: write selected", portConf.ideSelectOutput, portConf.ideWriteOutput);
+    printBuffer.Printf("	Output %d: device/register select, output %d: write selected", portConf.ideSelectOutput, portConf.ideWriteOutput);
     p_Main->message(printBuffer);
 
-    printBuffer.Printf("    Input %d: read status, input %d: read selected", portConf.ideStatus, portConf.ideInput);
+    printBuffer.Printf("	Input %d: read status, input %d: read selected", portConf.ideStatus, portConf.ideInput);
     p_Main->message(printBuffer);
 
-    printBuffer.Printf("    Disk geometry: %d tracks, %d heads, %d sectors\n", portConf.ideTracks, portConf.ideHeads, portConf.ideSectors);
+    printBuffer.Printf("	Disk geometry: %d tracks, %d heads, %d sectors\n", portConf.ideTracks, portConf.ideHeads, portConf.ideSectors);
     p_Main->message(printBuffer);
 
     setGeometry(portConf.ideTracks, portConf.ideHeads, portConf.ideSectors);
@@ -138,7 +138,7 @@ void Elf2KDisk::configureDisk(wxString ideFile1, wxString ideFile2, bool rtc, bo
     initDisk();
 }
 
-void Elf2KDisk::configureUart16450(ElfPortConfiguration portConf)
+void Elf2KDisk::configureUart16450(IoConfiguration portConf)
 {
     wxString runningComp = p_Main->getRunningComputerStr();
 
@@ -156,10 +156,10 @@ void Elf2KDisk::configureUart16450(ElfPortConfiguration portConf)
     wxString printBuffer;
     p_Main->message("Configuring 16450 Uart Expansion Board");
 
-    printBuffer.Printf("    Output %d: device/register select, output %d: write selected", portConf.uartControl, portConf.uartOut);
+    printBuffer.Printf("	Output %d: device/register select, output %d: write selected", portConf.uartControl, portConf.uartOut);
     p_Main->message(printBuffer);
 
-    printBuffer.Printf("    Input %d: read status, input %d: read selected\n", portConf.uartStatus, portConf.uartIn);
+    printBuffer.Printf("	Input %d: read status, input %d: read selected\n", portConf.uartStatus, portConf.uartIn);
     p_Main->message(printBuffer);
 
     initDisk();
@@ -366,7 +366,7 @@ void Elf2KDisk::cycleDisk()
     if (command_ != 0)  onCommand();
 }
 
-long Elf2KDisk::getOffset()
+wxFileOffset Elf2KDisk::getOffset()
 {
     long ret;
     Byte sec;
@@ -419,7 +419,7 @@ void Elf2KDisk::writeSector()
 {
     wxFFile diskFile;
     int drive;
-    long offset;
+    wxFileOffset offset;
 
     offset = getOffset();
     if (offset < 0)
@@ -451,7 +451,7 @@ void Elf2KDisk::readSector()
 {
     wxFFile diskFile;
     int drive;
-    long offset;
+    wxFileOffset offset;
 
     offset = getOffset();
     if (offset < 0)

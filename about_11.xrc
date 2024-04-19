@@ -3,7 +3,7 @@
 <object class="wxDialog" name="AboutDialog">
 <style>wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLOSE_BOX|wxTAB_TRAVERSAL</style>
 <exstyle>wxWS_EX_BLOCK_EVENTS</exstyle>
-<size>400,300</size>
+<size>600,500</size>
 <title>About 1802 Emulator</title>
 <centered>1</centered>
 <object class="wxBoxSizer">
@@ -45,40 +45,19 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxALIGN_LEFT|wxALL</flag>
 <border>0</border>
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
-<object platform="mac" class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALL</flag>
 <border>1</border>
-<object platform="mac" class="wxStaticText" name="wxID_STATIC">
-<size>400,-1</size>
+<object class="wxStaticText" name="wxID_STATIC">
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Emma 02 is emulating the COMX-35, COMIX-35, Elf 2000, Cosmicos, 
-Cosmac Elf, Netronics ELF II, Quest Super Elf, Membership Card, 
-VIP2K Memberhip Card, VELF, Infinite UC1800, Pico/Elf V2, FRED 1, 
-FRED 1.5, Microtutor, Microtutor II, CDP18S020 Evaluation Kit, 
-Cosmac VIP, Cosmac VIPII, Microboard System, MCDS, MS2000, 
-RCA Video Coin Arcade, RCA Studio II, RCA Studio III, Victory MPT-02, 
-Visicom COM-100, Cidelsa, Telmac TMC-600, Telmac 1800, 
-Telmac 2000, Oscam Nano, Pecom 32, Pecom 64 and ETI 660 </label>
-<wrap>400</wrap>
-</object>
-</object>
-<object platform="win|unix" class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-<border>1</border>
-<object platform="win|unix" class="wxStaticText" name="wxID_STATIC">
-<size>400,-1</size>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>Emma 02 is emulating the COMX-35, COMIX-35, Elf 2000, Cosmicos, Cosmac Elf, Netronics ELF II, Quest Super Elf, Membership Card, VIP2K Membership Card, VELF, Inifinite UC1800, Pico/Elf V2, FRED 1, FRED 1.5, Microtutor, Microtutor II, CDP18S020 Evaluation Kit, Cosmac VIP, Cosmac VIPII, Microboard System, MCDS, MS2000, RCA Video Coin Arcade, RCA Studio II, RCA Studio III, Victory MPT-02, Visicom COM-100, Cidelsa, Telmac TMC-600, Telmac 1800, Telmac 2000, Oscam Nano, Pecom 32, Pecom 64 and ETI 660 </label>
+<label>Emma 02 is emulating the CDP18S020 Evaluation Kit, COMIX-35, COMX-35, Cosmac Elf, Cosmac Elf 2000, Cosmac Microtutor I, Cosmac Microtutor II, Cosmac VIP, Cosmac VIP II, Cidelsa Arcade Game Console, Conic (Apollo, Mustang, MPT-02 and M1200), Cosmicos, Cybervision 2001, ETI-660, FRED 1, FRED 1.5, HEC1802, HUG1802, Infinite UC1800, JVIP, Macbug, Membership Card, Netronics ELF II, Oscom Nano, PECOM 32, PECOM 64, Pico/Elf V2, Quest Super Elf, RCA COSMAC Computer Game System, RCA COSMAC Microboard Computer, RCA MicroDisk Development System MS2000, RCA Microboard Computer Development System, RCA Studio II, RCA Studio III, RCA Studio IV, RCA Video Coin Arcade Console, Telmac 1800, Telmac 2000, Telmac TMC-600, VELF, VIP2K Membership Card and Visicom COM-100 </label>
 <wrap>400</wrap>
 </object>
 </object>
@@ -88,16 +67,15 @@ Telmac 2000, Oscam Nano, Pecom 32, Pecom 64 and ETI 660 </label>
 <size>5,1</size>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxALIGN_LEFT|wxALL</flag>
 <border>1</border>
 <object class="wxStaticText" name="wxID_STATIC">
-<size>400,-1</size>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
 <style>wxALIGN_CENTRE</style>
-<label>Emma 02 Copyright (C) 2007-2022 Marcel van Tongeren, 
+<label>Emma 02 Copyright (C) 2007-2024 Marcel van Tongeren, 
 core based on RCS Elf Emulator copyright (C) 2006 by Michael H Riley</label>
 <wrap>400</wrap>
 </object>
@@ -199,15 +177,14 @@ core based on RCS Elf Emulator copyright (C) 2006 by Michael H Riley</label>
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxALIGN_LEFT|wxALL</flag>
 <border>1</border>
 <object class="wxStaticText" name="wxID_STATIC">
-<size>400,-1</size>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Special Thanks to: Niamh Barrett, Mike Riley, Dennis Heijmans, Shay Green, Frank van Tongeren, Peter de Vroomen, Barend Scholtus, Stefan de Bruin, Han de Bruin, Richard Peters, Bob Armstrong, Curt Coder, Miodrag Milanovic, Bruce Czerniec, Ray Sills, Sly DC, Paul Messinger, Eric Tchong, Martijn Wenting, Lee Romanow, Matthew Mikolay, Lee Hart, David Winter, Brolly, William Donnelly, Ed Keefe, Paul Robson, Chuck Yakym, Bernie Murphy, David Schultz, Bill Rowe, FLiP, Herb Johnson, Mark Abene, Andy Modla, Florencia Pierri, Kevin Bunch, Fabrizio Caruso, Branko Trenkoski, Craig Ledbetter, Gaston Williams, David Madole, Wayne Hortensius, Glenn Jolly and Marc Bertrand </label>
+<label>Special Thanks to: Niamh Barrett, Mike Riley, Dennis Heijmans, Shay Green, Frank van Tongeren, Peter de Vroomen, Barend Scholtus, Stefan de Bruin, Han de Bruin, Richard Peters, Bob Armstrong, Curt Coder, Miodrag Milanovic, Bruce Czerniec, Ray Sills, Sly DC, Paul Messinger, Eric Tchong, Martijn Wenting, Lee Romanow, Matthew Mikolay, Lee Hart, David Winter, Brolly, William Donnelly, Ed Keefe, Paul Robson, Chuck Yakym, Bernie Murphy, David Schultz, Bill Rowe, FLiP, Herb Johnson, Mark Abene, Andy Modla, Florencia Pierri, Kevin Bunch, Fabrizio Caruso, Branko Trenkoski, Craig Ledbetter, Gaston Williams, David Madole, Wayne Hortensius, Glenn Jolly, Marc Bertrand, Nobuyoshi Takeshita and Todd Ferguson </label>
 <wrap>400</wrap>
 </object>
 </object>
@@ -219,34 +196,19 @@ core based on RCS Elf Emulator copyright (C) 2006 by Michael H Riley</label>
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxALIGN_LEFT|wxALL</flag>
 <border>0</border>
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
-<object platform="mac" class="sizeritem">
+<object class="sizeritem">
 <flag>wxALIGN_CENTER_HORIZONTAL|wxLEFT|wxRIGHT|wxTOP</flag>
 <border>1</border>
-<object platform="mac" class="wxStaticText" name="wxID_STATIC">
-<size>400,-1</size>
+<object class="wxStaticText" name="wxID_STATIC">
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>ElfOS BIOS, Edt/Asm, Rc/Forth, Rc/Lisp, Rc/Basic and Bascom
-Copyright (C) 2004 by Michael H Riley</label>
-<wrap>400</wrap>
-</object>
-</object>
-<object platform="win|unix" class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxLEFT|wxRIGHT|wxTOP</flag>
-<border>1</border>
-<object platform="win|unix" class="wxStaticText" name="wxID_STATIC">
-<size>400,-1</size>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>ElfOS BIOS, Edt/Asm, Rc/Forth, Rc/Lisp, Rc/Basic and Bascom Copyright (C) 2004 by Michael H Riley</label>
+<label>ElfOS BIOS, Edt/Asm, Rc/Forth, Rc/Lisp, Rc/Basic and Bascom Copyright (C) 2004 by Michael H Riley </label>
 <wrap>400</wrap>
 </object>
 </object>
@@ -273,7 +235,7 @@ Copyright (C) 2004 by Michael H Riley</label>
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxALIGN_LEFT|wxALL</flag>
 <border>0</border>
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
@@ -281,7 +243,6 @@ Copyright (C) 2004 by Michael H Riley</label>
 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
 <border>1</border>
 <object class="wxStaticText" name="wxID_STATIC">
-<size>400,-1</size>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -300,7 +261,7 @@ Copyright (C) 2004 by Michael H Riley</label>
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxALIGN_LEFT|wxALL</flag>
 <border>0</border>
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
@@ -308,7 +269,6 @@ Copyright (C) 2004 by Michael H Riley</label>
 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
 <border>1</border>
 <object class="wxStaticText" name="wxID_STATIC">
-<size>400,-1</size>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -327,7 +287,7 @@ Copyright (C) 2004 by Michael H Riley</label>
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxALIGN_LEFT|wxALL</flag>
 <border>0</border>
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
@@ -335,7 +295,6 @@ Copyright (C) 2004 by Michael H Riley</label>
 <flag>wxALIGN_CENTER_HORIZONTAL|wxLEFT|wxRIGHT|wxTOP</flag>
 <border>1</border>
 <object class="wxStaticText" name="wxID_STATIC">
-<size>400,-1</size>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -345,10 +304,17 @@ Copyright (C) 2004 by Spare Time Gizmos </label>
 <wrap>400</wrap>
 </object>
 </object>
+</object>
+</object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxLEFT|wxRIGHT|wxBOTTOM</flag>
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxBOTTOM</flag>
 <border>1</border>
-<object class="wxHyperlinkCtrl" name="ID_HYPERLINKCTRL2">
+<object class="wxHyperlinkCtrl" name="ID_HYPERLINKCTRL7">
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -368,35 +334,19 @@ Copyright (C) 2004 by Spare Time Gizmos </label>
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxALIGN_LEFT|wxALL</flag>
 <border>0</border>
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
-<object platform="mac" class="sizeritem">
+<object class="sizeritem">
 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
 <border>1</border>
-<object platform="mac" class="wxStaticText" name="wxID_STATIC">
-<size>400,-1</size>
+<object class="wxStaticText" name="wxID_STATIC">
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>The Sarnoff Collection at TCNJ - Chip 8, Coin Arcade, FRED 1, 
-FRED 1.5, VIP and Studio II, III and IV SW. See readme and/or txt
-files for details</label>
-<wrap>400</wrap>
-</object>
-</object>
-<object platform="win|unix" class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-<border>1</border>
-<object platform="win|unix" class="wxStaticText" name="wxID_STATIC">
-<size>400,-1</size>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>The Sarnoff Collection at TCNJ - Chip 8, Coin Arcade, FRED 1, FRED 1.5, VIP and Studio II, III and IV SW. See readme and/or txt files for details</label>
+<label>The Sarnoff Collection at TCNJ - Chip 8, Coin Arcade, FRED 1, FRED 1.5, VIP and Studio II, III and IV SW. See readme and/or txt files for details </label>
 <wrap>400</wrap>
 </object>
 </object>
@@ -410,7 +360,7 @@ files for details</label>
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxALIGN_LEFT|wxALL</flag>
 <border>0</border>
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
@@ -418,7 +368,6 @@ files for details</label>
 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
 <border>1</border>
 <object class="wxStaticText" name="wxID_STATIC">
-<size>400,-1</size>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -437,36 +386,19 @@ files for details</label>
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxALIGN_LEFT|wxALL</flag>
 <border>0</border>
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
-<object platform="mac" class="sizeritem">
+<object class="sizeritem">
 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
 <border>1</border>
-<object platform="mac" class="wxStaticText" name="wxID_STATIC">
-<size>400,-1</size>
+<object class="wxStaticText" name="wxID_STATIC">
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>The following libraries are licensed under the GNU Lesser General Public 
-License (LGPL): wxWidgets, wxCurl, Blargg's Blip Buffer library, 
-libserialport, SDL (Simple DirectMedia Library) and SDL Audioin. Curl and 
-libcurl are licensed under a MIT/X derivate license</label>
-<wrap>400</wrap>
-</object>
-</object>
-<object platform="win|unix" class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-<border>1</border>
-<object platform="win|unix" class="wxStaticText" name="wxID_STATIC">
-<size>400,-1</size>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>The following libraries are licensed under the GNU Lesser General Public License (LGPL): wxWidgets, wxCurl, Blargg's Blip Buffer library, libserialport, SDL (Simple DirectMedia Library) and SDL Audioin. Curl and libcurl are licensed under a MIT/X derivate license</label>
+<label>The following libraries are licensed under the GNU Lesser General Public License (LGPL): wxWidgets, wxCurl, Blargg's Blip Buffer library, libserialport, SDL (Simple DirectMedia Library) and SDL Audioin. Curl and libcurl are licensed under a MIT/X derivate license </label>
 <wrap>400</wrap>
 </object>
 </object>
@@ -480,34 +412,19 @@ libcurl are licensed under a MIT/X derivate license</label>
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+<flag>wxALIGN_LEFT|wxALL</flag>
 <border>0</border>
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
-<object platform="mac" class="sizeritem">
+<object class="sizeritem">
 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
 <border>1</border>
-<object platform="mac" class="wxStaticText" name="wxID_STATIC">
-<size>400,-1</size>
+<object class="wxStaticText" name="wxID_STATIC">
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>Xchase, Xshoot, Xbomber, Xsnake and Xhorde games are build using: 
-Crosslib library, 1802 devkit and the LCC1802 compiler</label>
-<wrap>400</wrap>
-</object>
-</object>
-<object platform="win|unix" class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-<border>1</border>
-<object platform="win|unix" class="wxStaticText" name="wxID_STATIC">
-<size>400,-1</size>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>Xchase, Xshoot, Xbomber, Xsnake and Xhorde games are build using: Crosslib library, 1802 devkit and the LCC1802 compiler</label>
+<label>Xchase, Xshoot, Xbomber, Xsnake and Xhorde games are build using: Crosslib library, 1802 devkit and the LCC1802 compiler </label>
 <wrap>400</wrap>
 </object>
 </object>
@@ -582,7 +499,7 @@ Crosslib library, 1802 devkit and the LCC1802 compiler</label>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW</flag>
 <border>5</border>
 <object class="wxButton" name="AboutOk">
 <font>

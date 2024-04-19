@@ -1,0 +1,193 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>Macbug</name>
+        <config></config>
+        <clock>1.76</clock>
+        <boot>0</boot>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init>
+        <init type="ef4">1</init>
+        <dirname>Macbug</dirname>
+    </system>
+    
+    <splash>
+        <text>Commands:&#xD;D - Dump&#xD;F - Fill&#xD;L - Load&#xD;M - Monitor&#xD;Q - Reset&#xD;R - RUN at address&#xD;S - Save</text>
+    </splash>
+
+    <memory>
+        <rom type="gui">
+            <start>0</start>
+            <end>0x7FF</end>
+            <pulldown mask="mac*.bin">Macbug</pulldown>
+            <filename verify="true">macbug.bin</filename>
+        </rom>
+
+        <ram type="gui">
+            <start>0xf000</start>
+            <end>0xF3FF</end>
+        </ram>
+    </memory>
+    
+    <video type="mc6847">
+        <ram>0xC000-0xC1FF</ram>
+        <font>mc6847.ntsc.round.bin</font>
+        <out>0xD8FC-0xD8FC</out>
+        <inv>b0</inv>
+        <css>b1</css>
+        <ext>b2</ext>
+        <as>dd7</as>
+        <ag>b4</ag>
+        <gm0>b5</gm0>
+        <gm1>b6</gm1>
+        <gm2>b7</gm2>
+        <color type="text_back">0, 0, 0</color>
+        <color type="text_green">0, 0xff, 0</color>
+        <color type="text_orange">0xff, 0xc4, 0x18</color>
+        <color type="graph_green">0, 0xff, 0</color>
+        <color type="graph_yellow">0xff, 0xff, 0</color>
+        <color type="graph_blue">0, 0, 0xff</color>
+        <color type="graph_red">0xff, 0, 0</color>
+        <color type="graph_buff">0xff, 0xff, 0xff</color>
+        <color type="graph_cyan">0, 0xff, 0xff</color>
+        <color type="graph_magenta">0xff, 0, 0xff</color>
+        <color type="graph_orange">0xff, 0xc4, 0x18</color>
+    </video>
+
+    <keyboard type="matrix">
+        <out>0xE002</out>
+        <in pol="rev">0xE003</in>
+        
+        <keydef address="0" bit="1">46</keydef>         <!-- . -->
+        <keydef address="0" bit="2">109</keydef>        <!-- M -->
+        <keydef address="0" bit="3">98</keydef>         <!-- B -->
+        <keydef address="0" bit="4">99</keydef>         <!-- C -->
+        <keydef address="0" bit="5">122</keydef>        <!-- Z -->
+        <keydef address="0" bit="6">62</keydef>         <!-- > -->
+        <keydef address="0" bit="7">58</keydef>         <!-- : -->
+
+        <keydef type="text" address="0x10" bit="0">right</keydef>
+        <keydef address="0x10" bit="0">32</keydef>      <!-- space -->
+        <keydef address="0x10" bit="1">89</keydef>      <!-- inverse Y -->
+        <keydef address="0x10" bit="3">94</keydef>      <!-- inverse ^ -->
+        <keydef address="0x10" bit="4">123</keydef>     <!-- inverse [ -->
+        <keydef address="0x10" bit="6">90</keydef>      <!-- inverse Z -->
+        <keydef address="0x10" bit="7">33</keydef>      <!-- ! -->
+
+        <keydef address="0x20" bit="1">112</keydef>     <!-- P -->
+        <keydef address="0x20" bit="2">105</keydef>     <!-- I -->
+        <keydef address="0x20" bit="3">121</keydef>     <!-- Y -->
+        <keydef address="0x20" bit="4">114</keydef>     <!-- R -->
+        <keydef address="0x20" bit="5">119</keydef>     <!-- W -->
+        <keydef address="0x20" bit="6">79</keydef>      <!-- inverse O -->
+        <keydef address="0x20" bit="7">61</keydef>      <!-- = -->
+
+        <keydef type="text" address="0x30" bit="1">up</keydef>
+        <keydef type="text" address="0x30" bit="4">down</keydef>
+        <keydef type="text" address="0x30" bit="6">home</keydef>
+
+        <keydef address="0x40" bit="0">32</keydef>      <!-- space  -->
+        <keydef address="0x40" bit="1">39</keydef>      <!-- ' -->
+        <keydef address="0x40" bit="2">108</keydef>     <!-- L -->
+        <keydef address="0x40" bit="3">106</keydef>     <!-- J -->
+        <keydef address="0x40" bit="4">103</keydef>     <!-- G -->
+        <keydef address="0x40" bit="5">100</keydef>     <!-- D -->
+        <keydef address="0x40" bit="6">97</keydef>      <!-- A -->
+        
+        <keydef address="0x50" bit="1">83</keydef>       <!-- inverse O  -->
+        <keydef address="0x50" bit="4">85</keydef>       <!-- inverse U -->
+        <keydef address="0x50" bit="6">84</keydef>       <!-- inverse T -->
+
+        <keydef address="0x60" bit="1">45</keydef>      <!-- - -->
+        <keydef address="0x60" bit="2">57</keydef>      <!-- 9 -->
+        <keydef address="0x60" bit="3">55</keydef>      <!-- 7 -->
+        <keydef address="0x60" bit="4">53</keydef>      <!-- 5 -->
+        <keydef address="0x60" bit="5">51</keydef>      <!-- 3 -->
+        <keydef address="0x60" bit="6">49</keydef>      <!-- 1 -->
+
+        <keydef address="0x70" bit="1">47</keydef>      <!-- / -->
+        <keydef address="0x70" bit="2">44</keydef>      <!-- , -->
+        <keydef address="0x70" bit="3">110</keydef>     <!-- N -->
+        <keydef address="0x70" bit="4">118</keydef>     <!-- V -->
+        <keydef address="0x70" bit="5">120</keydef>     <!-- X -->
+        <keydef address="0x70" bit="6">42</keydef>      <!-- inverse * -->
+
+        <keydef address="0x80" bit="1">59</keydef>      <!-- ; -->
+        <keydef address="0x80" bit="2">107</keydef>     <!-- K -->
+        <keydef address="0x80" bit="3">104</keydef>     <!-- H -->
+        <keydef address="0x80" bit="4">102</keydef>     <!-- F -->
+        <keydef address="0x80" bit="5">115</keydef>     <!-- S -->
+        <keydef address="0x80" bit="7">60</keydef>      <!-- < -->
+
+        <keydef address="0x90" bit="1">86</keydef>       <!-- inverse V -->
+        <keydef address="0x90" bit="3">125</keydef>      <!-- inverse ] -->
+        <keydef address="0x90" bit="4">87</keydef>       <!-- inverse W -->
+        <keydef address="0x90" bit="6">88</keydef>       <!-- inverse X -->
+        <keydef address="0x90" bit="7">35</keydef>       <!-- # -->
+
+        <keydef address="0xA0" bit="0">43</keydef>      <!-- + -->
+        <keydef address="0xA0" bit="1">48</keydef>      <!-- 0 -->
+        <keydef address="0xA0" bit="2">56</keydef>      <!-- 8 -->
+        <keydef address="0xA0" bit="3">54</keydef>      <!-- 6 -->
+        <keydef address="0xA0" bit="4">52</keydef>      <!-- 4 -->
+        <keydef address="0xA0" bit="5">50</keydef>      <!-- 2 -->
+        <keydef address="0xA0" bit="6">67</keydef>      <!-- CLS -->
+        <keydef address="0xA0" bit="7">0</keydef>       <!-- inverse O ? -->
+
+        <keydef address="0xB0" bit="0">0</keydef>       <!-- inverse / -->
+        <keydef type="text" address="0xB0" bit="1">left</keydef>
+        <keydef address="0xB0" bit="5">0</keydef>       <!-- space ? -->
+
+        <keydef address="0xC0" bit="0">0</keydef>       <!-- left ? -->
+        <keydef address="0xC0" bit="1">93</keydef>      <!-- ] -->
+        <keydef address="0xC0" bit="2">111</keydef>     <!-- O -->
+        <keydef address="0xC0" bit="3">117</keydef>     <!-- U -->
+        <keydef address="0xC0" bit="4">116</keydef>     <!-- T -->
+        <keydef address="0xC0" bit="5">101</keydef>     <!-- E -->
+        <keydef address="0xC0" bit="6">113</keydef>     <!-- Q -->
+
+        <keydef address="0xD0" bit="0">0</keydef>       <!-- ? -->
+        <keydef address="0xD0" bit="1">80</keydef>      <!-- inverse P -->
+        <keydef address="0xD0" bit="3">92</keydef>      <!-- inverse \ -->
+        <keydef address="0xD0" bit="4">82</keydef>      <!-- inverse R -->
+        <keydef address="0xD0" bit="6">81</keydef>      <!-- inverse Q -->
+        <keydef address="0xD0" bit="7">64</keydef>      <!-- @ -->
+
+        <keydef address="0xF0" bit="0">0</keydef>       <!-- inverse < -->
+        <keydef address="0xF0" bit="1">0</keydef>       <!-- inverse / -->
+        <keydef address="0xF0" bit="5">34</keydef>      <!-- " -->
+
+    </keyboard>
+    
+    <cassette decks="1">
+        <ef>1</ef>
+        <ef type="run">2</ef>
+    </cassette>
+    
+    <locations>
+        <!-- Stop cassette -->
+        <stop_cas>0x29, 0x45B, 0x613</stop_cas>
+        
+        <!-- Start PSAVE, DSAVE, PLOAD, DLOAD -->
+        <start_cas_save>0x40C</start_cas_save>
+        <start_cas_load>0x58C</start_cas_load>
+    </locations>
+
+    <debugger>
+         <scrt mode="on">
+             <call reg="0xe">0x53</call>
+             <return reg="0xf">0x66</return>
+         </scrt>
+
+         <assembler>
+             <filename>mycode</filename>
+             <code_start>0xf000</code_start>
+             <code_end>0xf3ff</code_end>
+         </assembler>
+    </debugger>
+
+</emmaconfig>

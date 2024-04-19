@@ -1,0 +1,31 @@
+Disk ID = MICRODISK 1.1                               
+Date = 03/05/84
+    DIR.CM load=0x0000 entry=0x0000 attribute = 0xf1 last block = 242
+    MEM.CM load=0xfb2d entry=0xfb2d attribute = 0xf1 last block = 151
+  TAPED.CM load=0x024c entry=0x024c attribute = 0xf1 last block = 262
+   ASM8.CM load=0x0000 entry=0x0000 attribute = 0xf1 last block = 169
+ CDSBIN.SR load=0x0000 entry=0x0000 attribute = 0xc2 last block = 0
+   HELP.CM load=0x0000 entry=0x0000 attribute = 0xf1 last block = 176
+  HELP.MSG load=0x0000 entry=0x0000 attribute = 0xe2 last block = 0
+  MERGE.CM load=0x0000 entry=0x0ecc attribute = 0xf1 last block = 95
+ RENAME.CM load=0x0000 entry=0x0000 attribute = 0xf1 last block = 158
+ SYSGEN.CM load=0x0000 entry=0x0000 attribute = 0xf1 last block = 190
+ CONASM.CM load=0x0000 entry=0x0000 attribute = 0xf1 last block = 13
+   FREE.CM load=0x0000 entry=0x0000 attribute = 0xf1 last block = 100
+ FORMAT.CM load=0x0000 entry=0x0000 attribute = 0xf1 last block = 67
+   EXAM.CM load=0x0000 entry=0x0000 attribute = 0xf1 last block = 130
+ MEMTST.CM load=0x8d00 entry=0x8d00 attribute = 0xf1 last block = 263
+   COPY.CM load=0x024c entry=0x024c attribute = 0xf1 last block = 136
+ CDSBIN.CM load=0xf97d entry=0xf97d attribute = 0xf1 last block = 46
+    MEM.SR load=0x0000 entry=0x0000 attribute = 0xc2 last block = 0
+ PERTEC.CM load=0xe800 entry=0xe800 attribute = 0xf1 last block = 335
+ SUBMIT.CM load=0xc000 entry=0xc000 attribute = 0xf1 last block = 1
+    DEL.CM load=0x0000 entry=0x0000 attribute = 0xf1 last block = 59
+      U.CM load=0xbf90 entry=0xbf90 attribute = 0xf1 last block = 58
+   DIAG.CM load=0x0000 entry=0x0000 attribute = 0xf1 last block = 161
+    OP.SYS load=0x1000 entry=0x9000 attribute = 0xf3 last block = 0
+ VERIFY.CM load=0x024c entry=0x024c attribute = 0xf1 last block = 160
+  PRINT.CM load=0x0000 entry=0x0000 attribute = 0xf1 last block = 329
+   XREF.CM load=0x0000 entry=0x0000 attribute = 0xf1 last block = 325
+   EDIT.CM load=0x0000 entry=0x0000 attribute = 0xf1 last block = 189
+ PROM25.CM load=0x2000 entry=0x2000 attribute = 0xf1 last block = 215

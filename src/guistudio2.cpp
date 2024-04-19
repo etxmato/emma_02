@@ -35,33 +35,33 @@
 
 BEGIN_EVENT_TABLE(GuiStudio2, GuiFred)
 
-    EVT_TEXT(XRCID("MainRomStudio2"), GuiMain::onMainRom1Text)
-    EVT_COMBOBOX(XRCID("MainRomStudio2"), GuiMain::onMainRom1Text)
-    EVT_BUTTON(XRCID("RomButtonStudio2"), GuiMain::onMainRom1)
+    EVT_TEXT(XRCID("MainRomStudioII"), GuiMain::onMainRom1Text)
+    EVT_COMBOBOX(XRCID("MainRomStudioII"), GuiMain::onMainRom1Text)
+    EVT_BUTTON(XRCID("RomButtonStudioII"), GuiMain::onMainRom1)
 
-    EVT_TEXT(XRCID("CartRomStudio2"), GuiMain::onCartRomText)
-    EVT_COMBOBOX(XRCID("CartRomStudio2"), GuiMain::onCartRomText)
-    EVT_BUTTON(XRCID("CartRomButtonStudio2"), GuiMain::onCartRom)
+    EVT_TEXT(XRCID("CartRomStudioII"), GuiMain::onCartRomText)
+    EVT_COMBOBOX(XRCID("CartRomStudioII"), GuiMain::onCartRomText)
+    EVT_BUTTON(XRCID("CartRomButtonStudioII"), GuiMain::onCartRom)
 
-    EVT_BUTTON(XRCID("ScreenDumpFileButtonStudio2"), GuiMain::onScreenDumpFile)
-    EVT_TEXT(XRCID("ScreenDumpFileStudio2"), GuiMain::onScreenDumpFileText)
-    EVT_COMBOBOX(XRCID("ScreenDumpFileStudio2"), GuiMain::onScreenDumpFileText)
+    EVT_BUTTON(XRCID("ScreenDumpFileButtonStudioII"), GuiMain::onScreenDumpFile)
+    EVT_TEXT(XRCID("ScreenDumpFileStudioII"), GuiMain::onScreenDumpFileText)
+    EVT_COMBOBOX(XRCID("ScreenDumpFileStudioII"), GuiMain::onScreenDumpFileText)
 
-    EVT_SPIN_UP(XRCID("ZoomSpinStudio2"), GuiMain::onZoom)
-    EVT_SPIN_DOWN(XRCID("ZoomSpinStudio2"), GuiMain::onZoom)
-    EVT_TEXT(XRCID("ZoomValueStudio2"), GuiMain::onZoomValue)
-    EVT_BUTTON(XRCID("FullScreenF3Studio2"), GuiMain::onFullScreen)
-    EVT_BUTTON(XRCID("ScreenDumpF5Studio2"), GuiMain::onScreenDump)
-    EVT_COMMAND_SCROLL_THUMBTRACK(XRCID("VolumeStudio2"), GuiMain::onVolume)
-    EVT_COMMAND_SCROLL_CHANGED(XRCID("VolumeStudio2"), GuiMain::onVolume)
-    EVT_BUTTON(XRCID("KeyMapStudio2"), Main::onHexKeyDef)
-    EVT_BUTTON(XRCID("ColoursStudio2"), Main::onColoursDef)
-    EVT_TEXT(XRCID("BeepFrequencyStudio2"), GuiMain::onBeepFrequency)
+    EVT_SPIN_UP(XRCID("ZoomSpinStudioII"), GuiMain::onZoom)
+    EVT_SPIN_DOWN(XRCID("ZoomSpinStudioII"), GuiMain::onZoom)
+    EVT_TEXT(XRCID("ZoomValueStudioII"), GuiMain::onZoomValue)
+    EVT_BUTTON(XRCID("FullScreenF3StudioII"), GuiMain::onFullScreen)
+    EVT_BUTTON(XRCID("ScreenDumpF5StudioII"), GuiMain::onScreenDump)
+    EVT_COMMAND_SCROLL_THUMBTRACK(XRCID("VolumeStudioII"), GuiMain::onVolume)
+    EVT_COMMAND_SCROLL_CHANGED(XRCID("VolumeStudioII"), GuiMain::onVolume)
+    EVT_BUTTON(XRCID("KeyMapStudioII"), Main::onHexKeyDef)
+    EVT_BUTTON(XRCID("ColoursStudioII"), Main::onColoursDef)
+    EVT_TEXT(XRCID("BeepFrequencyStudioII"), GuiMain::onBeepFrequency)
 
-    EVT_CHECKBOX(XRCID("MultiCartStudio2"), GuiStudio2::onMultiCartStudio)
-    EVT_CHECKBOX(XRCID("DisableSystemRomStudio2"), GuiStudio2::onDisableSystemRomStudio)
-    EVT_SPINCTRL(XRCID("MsbStudio2"), GuiStudio2::onMsbStudio)
-    EVT_SPINCTRL(XRCID("LsbStudio2"), GuiStudio2::onLsbStudio)
+    EVT_CHECKBOX(XRCID("MultiCartStudioII"), GuiStudio2::onMultiCartStudio)
+    EVT_CHECKBOX(XRCID("DisableSystemRomStudioII"), GuiStudio2::onDisableSystemRomStudio)
+    EVT_SPINCTRL(XRCID("MsbStudioII"), GuiStudio2::onMsbStudio)
+    EVT_SPINCTRL(XRCID("LsbStudioII"), GuiStudio2::onLsbStudio)
 
 
     EVT_TEXT(XRCID("MainRomCoinArcade"), GuiMain::onMainRom1Text)
@@ -188,108 +188,110 @@ void GuiStudio2::readStudioConfig()
 {
     selectedComputer_ = STUDIO;
 
+    elfConfiguration[STUDIO].useTapeHw = false;
     conf[STUDIO].emsConfigNumber_ = 0;
+    conf[STUDIO].videoNumber_ = 0;
 
-    conf[STUDIO].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "Studio2" + pathSeparator_;
-    conf[STUDIO].mainDir_ = readConfigDir("/Dir/Studio2/Main", dataDir_ + "Studio2" + pathSeparator_);
+    conf[STUDIO].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "StudioII" + pathSeparator_;
+    conf[STUDIO].mainDir_ = readConfigDir("/Dir/StudioII/Main", dataDir_ + "StudioII" + pathSeparator_);
     
-    conf[STUDIO].romDir_[MAINROM1] = readConfigDir("/Dir/Studio2/Main_Rom_File", dataDir_ + "Studio2"  + pathSeparator_);
-    conf[STUDIO].romDir_[CARTROM] = readConfigDir("/Dir/Studio2/St2_File", dataDir_ + "Studio2" + pathSeparator_);
-    conf[STUDIO].screenDumpFileDir_ = readConfigDir("/Dir/Studio2/Video_Dump_File", dataDir_ + "Studio2" + pathSeparator_);
+    conf[STUDIO].romDir_[MAINROM1] = readConfigDir("/Dir/StudioII/Main_Rom_File", dataDir_ + "StudioII"  + pathSeparator_);
+    conf[STUDIO].romDir_[CARTROM] = readConfigDir("/Dir/StudioII/St2_File", dataDir_ + "St2" + pathSeparator_ + "StudioII-Cartridges" + pathSeparator_);
+    conf[STUDIO].screenDumpFileDir_ = readConfigDir("/Dir/StudioII/Video_Dump_File", dataDir_ + "StudioII" + pathSeparator_);
 
-    conf[STUDIO].rom_[MAINROM1] = configPointer->Read("/Studio2/Main_Rom_File", "studio2.rom");
-    conf[STUDIO].rom_[CARTROM] = configPointer->Read("/Studio2/St2_File", "");
-    conf[STUDIO].screenDumpFile_ = configPointer->Read("/Studio2/Video_Dump_File", "screendump.png");
+    conf[STUDIO].rom_[MAINROM1] = configPointer->Read("/StudioII/Main_Rom_File", "studio2.rom");
+    conf[STUDIO].rom_[CARTROM] = configPointer->Read("/StudioII/St2_File", "");
+    conf[STUDIO].screenDumpFile_ = configPointer->Read("/StudioII/Video_Dump_File", "screendump.png");
 
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 2.0);
-    conf[STUDIO].zoom_ = convertLocale(configPointer->Read("/Studio2/Zoom", defaultZoom));
+    conf[STUDIO].zoom_[VIDEOMAIN] = convertLocale(configPointer->Read("/StudioII/Zoom", defaultZoom));
     wxString defaultClock;
     defaultClock.Printf("%1.2f", 1.76);
-    conf[STUDIO].clock_ = convertLocale(configPointer->Read("/Studio2/Clock_Speed", defaultClock));
- //   conf[STUDIO].beepFrequency_ = (int)configPointer->Read("/Studio2/Beep_Frequency", 480);
+    conf[STUDIO].clock_ = convertLocale(configPointer->Read("/StudioII/Clock_Speed", defaultClock));
+ //   conf[STUDIO].beepFrequency_ = (int)configPointer->Read("/StudioII/Beep_Frequency", 480);
     conf[STUDIO].beepFrequency_ = 640;
-    conf[STUDIO].volume_ = (int)configPointer->Read("/Studio2/Volume", 25l);
+    conf[STUDIO].volume_ = (int)configPointer->Read("/StudioII/Volume", 25l);
 
     wxString defaultScale;
     defaultScale.Printf("%i", 3);
-    conf[STUDIO].xScale_ = convertLocale(configPointer->Read("/Studio2/Window_Scale_Factor_X", defaultScale));
+    conf[STUDIO].xScale_ = convertLocale(configPointer->Read("/StudioII/Window_Scale_Factor_X", defaultScale));
     conf[STUDIO].realCassetteLoad_ = false;
 
-    configPointer->Read("/Studio2/MultiCart", &conf[STUDIO].multiCart_, false);
-    configPointer->Read("/Studio2/DisableSystemRom", &conf[STUDIO].disableSystemRom_, true);
-    conf[STUDIO].lsb_ = (Byte)configPointer->Read("/Studio2/Lsb", 0l);
-    conf[STUDIO].msb_ = (Byte)configPointer->Read("/Studio2/Msb", 0l);
+    configPointer->Read("/StudioII/MultiCart", &conf[STUDIO].multiCart_, false);
+    configPointer->Read("/StudioII/DisableSystemRom", &conf[STUDIO].disableSystemRom_, true);
+    conf[STUDIO].lsb_ = (Byte)configPointer->Read("/StudioII/Lsb", 0l);
+    conf[STUDIO].msb_ = (Byte)configPointer->Read("/StudioII/Msb", 0l);
     
     if (mode_.gui)
     {
-        XRCCTRL(*this, "MainRomStudio2", wxComboBox)->SetValue(conf[STUDIO].rom_[MAINROM1]);
-        XRCCTRL(*this, "CartRomStudio2", wxComboBox)->SetValue(conf[STUDIO].rom_[CARTROM]);
-        XRCCTRL(*this, "ScreenDumpFileStudio2", wxComboBox)->SetValue(conf[STUDIO].screenDumpFile_);
+        XRCCTRL(*this, "MainRomStudioII", wxComboBox)->SetValue(conf[STUDIO].rom_[MAINROM1]);
+        XRCCTRL(*this, "CartRomStudioII", wxComboBox)->SetValue(conf[STUDIO].rom_[CARTROM]);
+        XRCCTRL(*this, "ScreenDumpFileStudioII", wxComboBox)->SetValue(conf[STUDIO].screenDumpFile_);
         
-        correctZoomAndValue(STUDIO, "Studio2", SET_SPIN);
+        correctZoomAndValue(STUDIO, "StudioII", SET_SPIN, VIDEOMAIN);
 
         if (clockTextCtrl[STUDIO] != NULL)
             clockTextCtrl[STUDIO]->ChangeValue(conf[STUDIO].clock_);
 //        wxString beepFrequency;
 //        beepFrequency.Printf("%d", conf[STUDIO].beepFrequency_);
-//        XRCCTRL(*this, "BeepFrequencyStudio2", wxTextCtrl)->ChangeValue(beepFrequency);
-        XRCCTRL(*this, "VolumeStudio2", wxSlider)->SetValue(conf[STUDIO].volume_);
+//        XRCCTRL(*this, "BeepFrequencyStudioII", wxTextCtrl)->ChangeValue(beepFrequency);
+        XRCCTRL(*this, "VolumeStudioII", wxSlider)->SetValue(conf[STUDIO].volume_);
 
-        XRCCTRL(*this, "MultiCartStudio2", wxCheckBox)->SetValue(conf[STUDIO].multiCart_);
-        XRCCTRL(*this, "DisableSystemRomStudio2", wxCheckBox)->SetValue(conf[STUDIO].disableSystemRom_);
-        XRCCTRL(*this, "LsbStudio2", wxSpinCtrl)->SetValue(conf[STUDIO].lsb_);
-        XRCCTRL(*this, "MsbStudio2", wxSpinCtrl)->SetValue(conf[STUDIO].msb_);
-        XRCCTRL(*this, "DisableSystemRomStudio2", wxCheckBox)->Enable(conf[STUDIO].multiCart_);
-        XRCCTRL(*this, "MainRomStudio2", wxComboBox)->Enable(!conf[STUDIO].disableSystemRom_ | !conf[STUDIO].multiCart_);
-        XRCCTRL(*this, "RomButtonStudio2", wxButton)->Enable(!conf[STUDIO].disableSystemRom_ | !conf[STUDIO].multiCart_);
+        XRCCTRL(*this, "MultiCartStudioII", wxCheckBox)->SetValue(conf[STUDIO].multiCart_);
+        XRCCTRL(*this, "DisableSystemRomStudioII", wxCheckBox)->SetValue(conf[STUDIO].disableSystemRom_);
+        XRCCTRL(*this, "LsbStudioII", wxSpinCtrl)->SetValue(conf[STUDIO].lsb_);
+        XRCCTRL(*this, "MsbStudioII", wxSpinCtrl)->SetValue(conf[STUDIO].msb_);
+        XRCCTRL(*this, "DisableSystemRomStudioII", wxCheckBox)->Enable(conf[STUDIO].multiCart_);
+        XRCCTRL(*this, "MainRomStudioII", wxComboBox)->Enable(!conf[STUDIO].disableSystemRom_ | !conf[STUDIO].multiCart_);
+        XRCCTRL(*this, "RomButtonStudioII", wxButton)->Enable(!conf[STUDIO].disableSystemRom_ | !conf[STUDIO].multiCart_);
     }
 }
 
 void GuiStudio2::writeStudioDirConfig()
 {
-    writeConfigDir("/Dir/Studio2/Main", conf[STUDIO].mainDir_);
-    writeConfigDir("/Dir/Studio2/Main_Rom_File", conf[STUDIO].romDir_[MAINROM1]);
-    writeConfigDir("/Dir/Studio2/St2_File", conf[STUDIO].romDir_[CARTROM]);
-    writeConfigDir("/Dir/Studio2/Video_Dump_File", conf[STUDIO].screenDumpFileDir_);
+    writeConfigDir("/Dir/StudioII/Main", conf[STUDIO].mainDir_);
+    writeConfigDir("/Dir/StudioII/Main_Rom_File", conf[STUDIO].romDir_[MAINROM1]);
+    writeConfigDir("/Dir/StudioII/St2_File", conf[STUDIO].romDir_[CARTROM]);
+    writeConfigDir("/Dir/StudioII/Video_Dump_File", conf[STUDIO].screenDumpFileDir_);
 }
 
 void GuiStudio2::writeStudioConfig()
 {
-    configPointer->Write("/Studio2/Main_Rom_File", conf[STUDIO].rom_[MAINROM1]);
-    configPointer->Write("/Studio2/St2_File", conf[STUDIO].rom_[CARTROM]);
-    configPointer->Write("/Studio2/Video_Dump_File", conf[STUDIO].screenDumpFile_);
+    configPointer->Write("/StudioII/Main_Rom_File", conf[STUDIO].rom_[MAINROM1]);
+    configPointer->Write("/StudioII/St2_File", conf[STUDIO].rom_[CARTROM]);
+    configPointer->Write("/StudioII/Video_Dump_File", conf[STUDIO].screenDumpFile_);
 
-    configPointer->Write("/Studio2/Zoom", conf[STUDIO].zoom_);
-    configPointer->Write("/Studio2/Clock_Speed", conf[STUDIO].clock_);
-//    configPointer->Write("/Studio2/Beep_Frequency", conf[STUDIO].beepFrequency_);
-    configPointer->Write("/Studio2/Volume", conf[STUDIO].volume_);
-    configPointer->Write("/Studio2/MultiCart", conf[STUDIO].multiCart_);
-    configPointer->Write("/Studio2/DisableSystemRom", conf[STUDIO].disableSystemRom_);
-    configPointer->Write("/Studio2/Lsb", conf[STUDIO].lsb_);
-    configPointer->Write("/Studio2/Msb", conf[STUDIO].msb_);
+    configPointer->Write("/StudioII/Zoom", conf[STUDIO].zoom_[VIDEOMAIN]);
+    configPointer->Write("/StudioII/Clock_Speed", conf[STUDIO].clock_);
+//    configPointer->Write("/StudioII/Beep_Frequency", conf[STUDIO].beepFrequency_);
+    configPointer->Write("/StudioII/Volume", conf[STUDIO].volume_);
+    configPointer->Write("/StudioII/MultiCart", conf[STUDIO].multiCart_);
+    configPointer->Write("/StudioII/DisableSystemRom", conf[STUDIO].disableSystemRom_);
+    configPointer->Write("/StudioII/Lsb", conf[STUDIO].lsb_);
+    configPointer->Write("/StudioII/Msb", conf[STUDIO].msb_);
 }
 
 void GuiStudio2::readStudioWindowConfig()
 {
-    conf[STUDIO].mainX_ = (int)configPointer->Read("/Studio2/Window_Position_X", mainWindowX_+windowInfo.mainwX+windowInfo.xBorder);
-    conf[STUDIO].mainY_ = (int)configPointer->Read("/Studio2/Window_Position_Y", mainWindowY_);
+    conf[STUDIO].mainX_ = (int)configPointer->Read("/StudioII/Window_Position_X", mainWindowX_+windowInfo.mainwX+windowInfo.xBorder);
+    conf[STUDIO].mainY_ = (int)configPointer->Read("/StudioII/Window_Position_Y", mainWindowY_);
 }
 
 void GuiStudio2::writeStudioWindowConfig()
 {
     if (conf[STUDIO].mainX_ > 0)
-        configPointer->Write("/Studio2/Window_Position_X", conf[STUDIO].mainX_);
+        configPointer->Write("/StudioII/Window_Position_X", conf[STUDIO].mainX_);
     if (conf[STUDIO].mainY_ > 0)
-        configPointer->Write("/Studio2/Window_Position_Y", conf[STUDIO].mainY_);
+        configPointer->Write("/StudioII/Window_Position_Y", conf[STUDIO].mainY_);
 }
 
 void GuiStudio2::onMultiCartStudio(wxCommandEvent&event)
 {
     conf[STUDIO].multiCart_ = event.IsChecked();
-    XRCCTRL(*this,"DisableSystemRomStudio2", wxCheckBox)->Enable(conf[STUDIO].multiCart_);
-    XRCCTRL(*this,"MainRomStudio2", wxComboBox)->Enable(!conf[STUDIO].disableSystemRom_ | !conf[STUDIO].multiCart_);
-    XRCCTRL(*this,"RomButtonStudio2", wxButton)->Enable(!conf[STUDIO].disableSystemRom_ | !conf[STUDIO].multiCart_);
+    XRCCTRL(*this,"DisableSystemRomStudioII", wxCheckBox)->Enable(conf[STUDIO].multiCart_);
+    XRCCTRL(*this,"MainRomStudioII", wxComboBox)->Enable(!conf[STUDIO].disableSystemRom_ | !conf[STUDIO].multiCart_);
+    XRCCTRL(*this,"RomButtonStudioII", wxButton)->Enable(!conf[STUDIO].disableSystemRom_ | !conf[STUDIO].multiCart_);
 }
 
 void GuiStudio2::onDisableSystemRomStudio(wxCommandEvent&event)
@@ -299,8 +301,8 @@ void GuiStudio2::onDisableSystemRomStudio(wxCommandEvent&event)
         p_Computer->setDisableSystemRom(conf[STUDIO].disableSystemRom_);
     else
     {
-        XRCCTRL(*this,"MainRomStudio2", wxComboBox)->Enable(!conf[STUDIO].disableSystemRom_ | !conf[STUDIO].multiCart_);
-        XRCCTRL(*this,"RomButtonStudio2", wxButton)->Enable(!conf[STUDIO].disableSystemRom_ | !conf[STUDIO].multiCart_);
+        XRCCTRL(*this,"MainRomStudioII", wxComboBox)->Enable(!conf[STUDIO].disableSystemRom_ | !conf[STUDIO].multiCart_);
+        XRCCTRL(*this,"RomButtonStudioII", wxButton)->Enable(!conf[STUDIO].disableSystemRom_ | !conf[STUDIO].multiCart_);
     }
 }
 
@@ -322,7 +324,9 @@ void GuiStudio2::readCoinArcadeConfig()
 {
     selectedComputer_ = COINARCADE;
     
+    elfConfiguration[COINARCADE].useTapeHw = false;
     conf[COINARCADE].emsConfigNumber_ = 0;
+    conf[COINARCADE].videoNumber_ = 0;
 
     conf[COINARCADE].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "CoinArcade" + pathSeparator_;
     conf[COINARCADE].mainDir_ = readConfigDir("/Dir/CoinArcade/Main", dataDir_ + "CoinArcade" + pathSeparator_);
@@ -337,7 +341,7 @@ void GuiStudio2::readCoinArcadeConfig()
     
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 2.0);
-    conf[COINARCADE].zoom_ = convertLocale(configPointer->Read("/CoinArcade/Zoom", defaultZoom));
+    conf[COINARCADE].zoom_[VIDEOMAIN] = convertLocale(configPointer->Read("/CoinArcade/Zoom", defaultZoom));
     wxString defaultClock;
     defaultClock.Printf("%1.2f", 1.6);
     conf[COINARCADE].clock_ = convertLocale(configPointer->Read("/CoinArcade/Clock_Speed", defaultClock));
@@ -354,7 +358,7 @@ void GuiStudio2::readCoinArcadeConfig()
         XRCCTRL(*this, "MainRomCoinArcade", wxComboBox)->SetValue(conf[COINARCADE].rom_[MAINROM1]);
         XRCCTRL(*this, "ScreenDumpFileCoinArcade", wxComboBox)->SetValue(conf[COINARCADE].screenDumpFile_);
         
-        correctZoomAndValue(COINARCADE, "CoinArcade", SET_SPIN);
+        correctZoomAndValue(COINARCADE, "CoinArcade", SET_SPIN, VIDEOMAIN);
 
         if (clockTextCtrl[COINARCADE] != NULL)
             clockTextCtrl[COINARCADE]->ChangeValue(conf[COINARCADE].clock_);
@@ -376,7 +380,7 @@ void GuiStudio2::writeCoinArcadeConfig()
     configPointer->Write("/CoinArcade/St2_File", conf[COINARCADE].rom_[CARTROM]);
     configPointer->Write("/CoinArcade/Video_Dump_File", conf[COINARCADE].screenDumpFile_);
     
-    configPointer->Write("/CoinArcade/Zoom", conf[COINARCADE].zoom_);
+    configPointer->Write("/CoinArcade/Zoom", conf[COINARCADE].zoom_[VIDEOMAIN]);
     configPointer->Write("/CoinArcade/Clock_Speed", conf[COINARCADE].clock_);
     configPointer->Write("/CoinArcade/Volume", conf[COINARCADE].volume_);
 }
@@ -399,13 +403,15 @@ void GuiStudio2::readVisicomConfig()
 {
     selectedComputer_ = VISICOM;
 
+    elfConfiguration[VISICOM].useTapeHw = false;
     conf[VISICOM].emsConfigNumber_ = 0;
+    conf[VISICOM].videoNumber_ = 0;
 
     conf[VISICOM].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "Visicom" + pathSeparator_;
     conf[VISICOM].mainDir_ = readConfigDir("/Dir/Visicom/Main", dataDir_ + "Visicom" + pathSeparator_);
     
     conf[VISICOM].romDir_[MAINROM1] = readConfigDir("/Dir/Visicom/Main_Rom_File", dataDir_ + "Visicom"  + pathSeparator_);
-    conf[VISICOM].romDir_[CARTROM] = readConfigDir("/Dir/Visicom/St2_File", dataDir_ + "Visicom" + pathSeparator_);
+    conf[VISICOM].romDir_[CARTROM] = readConfigDir("/Dir/Visicom/St2_File", dataDir_ + "St2" + pathSeparator_ + "Visicom-Cartridges" + pathSeparator_);
     conf[VISICOM].screenDumpFileDir_ = readConfigDir("/Dir/Visicom/Video_Dump_File", dataDir_ + "Visicom" + pathSeparator_);
 
     conf[VISICOM].rom_[MAINROM1] = configPointer->Read("/Visicom/Main_Rom_File", "visicom.rom");
@@ -414,7 +420,7 @@ void GuiStudio2::readVisicomConfig()
 
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 2.0);
-    conf[VISICOM].zoom_ = convertLocale(configPointer->Read("/Visicom/Zoom", defaultZoom));
+    conf[VISICOM].zoom_[VIDEOMAIN] = convertLocale(configPointer->Read("/Visicom/Zoom", defaultZoom));
     wxString defaultClock;
     defaultClock.Printf("%1.2f", 1.76);
     conf[VISICOM].clock_ = convertLocale(configPointer->Read("/Visicom/Clock_Speed", defaultClock));
@@ -433,7 +439,7 @@ void GuiStudio2::readVisicomConfig()
         XRCCTRL(*this, "CartRomVisicom", wxComboBox)->SetValue(conf[VISICOM].rom_[CARTROM]);
         XRCCTRL(*this, "ScreenDumpFileVisicom", wxComboBox)->SetValue(conf[VISICOM].screenDumpFile_);
         
-        correctZoomAndValue(VISICOM, "Visicom", SET_SPIN);
+        correctZoomAndValue(VISICOM, "Visicom", SET_SPIN, VIDEOMAIN);
 
         if (clockTextCtrl[VISICOM] != NULL)
             clockTextCtrl[VISICOM]->ChangeValue(conf[VISICOM].clock_);
@@ -458,7 +464,7 @@ void GuiStudio2::writeVisicomConfig()
     configPointer->Write("/Visicom/St2_File", conf[VISICOM].rom_[CARTROM]);
     configPointer->Write("/Visicom/Video_Dump_File", conf[VISICOM].screenDumpFile_);
 
-    configPointer->Write("/Visicom/Zoom", conf[VISICOM].zoom_);
+    configPointer->Write("/Visicom/Zoom", conf[VISICOM].zoom_[VIDEOMAIN]);
     configPointer->Write("/Visicom/Clock_Speed", conf[VISICOM].clock_);
 //    configPointer->Write("/Visicom/Beep_Frequency", conf[VISICOM].beepFrequency_);
     configPointer->Write("/Visicom/Volume",conf[VISICOM].volume_);
@@ -482,13 +488,15 @@ void GuiStudio2::readVictoryConfig()
 {
     selectedComputer_ = VICTORY;
 
+    elfConfiguration[VICTORY].useTapeHw = false;
     conf[VICTORY].emsConfigNumber_ = 0;
+    conf[VICTORY].videoNumber_ = 0;
 
     conf[VICTORY].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "Victory" + pathSeparator_;
     conf[VICTORY].mainDir_ = readConfigDir("/Dir/Victory/Main", dataDir_ + "Victory" + pathSeparator_);
     
     conf[VICTORY].romDir_[MAINROM1] = readConfigDir("/Dir/Victory/Main_Rom_File", dataDir_ + "Victory"  + pathSeparator_);
-    conf[VICTORY].romDir_[CARTROM] = readConfigDir("/Dir/Victory/St2_File", dataDir_ + "Victory" + pathSeparator_);
+    conf[VICTORY].romDir_[CARTROM] = readConfigDir("/Dir/Victory/St2_File", dataDir_ + "St2" + pathSeparator_ + "Conic_StudioIII-Cartridges" + pathSeparator_);
     conf[VICTORY].screenDumpFileDir_ = readConfigDir("/Dir/Victory/Video_Dump_File", dataDir_ + "Victory" + pathSeparator_);
 
     conf[VICTORY].rom_[MAINROM1] = configPointer->Read("/Victory/Main_Rom_File", "victory.rom");
@@ -497,7 +505,7 @@ void GuiStudio2::readVictoryConfig()
 
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 2.0);
-    conf[VICTORY].zoom_ = convertLocale(configPointer->Read("/Victory/Zoom", defaultZoom));
+    conf[VICTORY].zoom_[VIDEOMAIN] = convertLocale(configPointer->Read("/Victory/Zoom", defaultZoom));
     wxString defaultClock;
     defaultClock.Printf("%1.2f", 1.76);
     conf[VICTORY].clock_ = convertLocale(configPointer->Read("/Victory/Clock_Speed", defaultClock));
@@ -520,7 +528,7 @@ void GuiStudio2::readVictoryConfig()
         XRCCTRL(*this, "CartRomVictory", wxComboBox)->SetValue(conf[VICTORY].rom_[CARTROM]);
         XRCCTRL(*this, "ScreenDumpFileVictory", wxComboBox)->SetValue(conf[VICTORY].screenDumpFile_);
         
-        correctZoomAndValue(VICTORY, "Victory", SET_SPIN);
+        correctZoomAndValue(VICTORY, "Victory", SET_SPIN, VIDEOMAIN);
 
         if (clockTextCtrl[VICTORY] != NULL)
             clockTextCtrl[VICTORY]->ChangeValue(conf[VICTORY].clock_);
@@ -551,7 +559,7 @@ void GuiStudio2::writeVictoryConfig()
     configPointer->Write("/Victory/St2_File", conf[VICTORY].rom_[CARTROM]);
     configPointer->Write("/Victory/Video_Dump_File", conf[VICTORY].screenDumpFile_);
 
-    configPointer->Write("/Victory/Zoom", conf[VICTORY].zoom_);
+    configPointer->Write("/Victory/Zoom", conf[VICTORY].zoom_[VIDEOMAIN]);
     configPointer->Write("/Victory/Clock_Speed", conf[VICTORY].clock_);
     configPointer->Write("/Victory/Volume", conf[VICTORY].volume_);
 
@@ -648,7 +656,9 @@ void GuiStudio2::readStudioIVConfig()
 
     selectedComputer_ = STUDIOIV;
     
+    elfConfiguration[STUDIOIV].useTapeHw = false;
     conf[STUDIOIV].emsConfigNumber_ = 0;
+    conf[STUDIOIV].videoNumber_ = 0;
 
     conf[STUDIOIV].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "StudioIV" + pathSeparator_;
     conf[STUDIOIV].mainDir_ = readConfigDir("/Dir/StudioIV/Main", dataDir_ + "StudioIV" + pathSeparator_);
@@ -670,7 +680,7 @@ void GuiStudio2::readStudioIVConfig()
 
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 2.0);
-    conf[STUDIOIV].zoom_ = convertLocale(configPointer->Read("/StudioIV/Zoom", defaultZoom));
+    conf[STUDIOIV].zoom_[VIDEOMAIN] = convertLocale(configPointer->Read("/StudioIV/Zoom", defaultZoom));
     wxString defaultClock;
     defaultClock.Printf("%1.2f", 3.58);
     conf[STUDIOIV].clock_ = convertLocale(configPointer->Read("/StudioIV/Clock_Speed", defaultClock));
@@ -727,7 +737,7 @@ void GuiStudio2::readStudioIVConfig()
         XRCCTRL(*this, "TurboClockStudioIV", wxTextCtrl)->SetValue(conf[STUDIOIV].turboClock_);
         XRCCTRL(*this, "AutoCasLoadStudioIV", wxCheckBox)->SetValue(conf[STUDIOIV].autoCassetteLoad_);
 
-        correctZoomAndValue(STUDIOIV, "StudioIV", SET_SPIN);
+        correctZoomAndValue(STUDIOIV, "StudioIV", SET_SPIN, VIDEOMAIN);
 
         if (clockTextCtrl[STUDIOIV] != NULL)
             clockTextCtrl[STUDIOIV]->ChangeValue(conf[STUDIOIV].clock_);
@@ -756,7 +766,7 @@ void GuiStudio2::writeStudioIVConfig()
     configPointer->Write("/StudioIV/Video_Dump_File", conf[STUDIOIV].screenDumpFile_);
      configPointer->Write("/StudioIV/Wav_File", conf[STUDIOIV].wavFile_[0]);
    
-    configPointer->Write("/StudioIV/Zoom", conf[STUDIOIV].zoom_);
+    configPointer->Write("/StudioIV/Zoom", conf[STUDIOIV].zoom_[VIDEOMAIN]);
     configPointer->Write("/StudioIV/Clock_Speed", conf[STUDIOIV].clock_);
     configPointer->Write("/StudioIV/Volume", conf[STUDIOIV].volume_);
     

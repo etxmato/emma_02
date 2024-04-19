@@ -33,7 +33,7 @@
 #include "eti660.h"
 
 Eti::Eti(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, Conf computerConf)
-:Pixie(title, pos, size, zoom, zoomfactor, computerType)
+:PixieEti(title, pos, size, zoom, zoomfactor, computerType, 0)
 {
     computerConfiguration = computerConf;
 }
@@ -45,16 +45,16 @@ Eti::~Eti()
 
 void Eti::configureComputer()
 {
-    outType_[2] = ETIPIAOUT;
-    inType_[2] = ETIPIAIN;
-    outType_[3] = ETICOLOURRAM;
-    outType_[4] = VIPOUT4;
-    efType_[2] = VIPEF2;
-    efType_[4] = VIPKEYEF;
+    outType_[0][0][2] = ETIPIAOUT;
+    inType_[0][0][2] = ETIPIAIN;
+    outType_[0][0][3] = ETICOLOURRAM;
+    outType_[0][0][4] = VIPOUT4;
+    efType_[0][0][2] = VIPEF2;
+    efType_[0][0][4] = VIPKEYEF;
 
-    p_Main->message("Configuring ETI 660");
-    p_Main->message("    Output/input 2: PIA, output 3: colour RAM");
-    p_Main->message("    EF 2: cassette in, EF 4: step key\n");
+    p_Main->message("Configuring HUG1802/ETI-660");
+    p_Main->message("	Output/input 2: PIA, output 3: colour RAM");
+    p_Main->message("	EF 2: cassette in, EF 4: step key\n");
 
     inKey1_ = p_Main->getDefaultInKey1("Eti");
     inKey2_ = p_Main->getDefaultInKey2("Eti");
@@ -132,7 +132,7 @@ void Eti::keyUp(int keycode)
 
 Byte Eti::ef(int flag)
 {
-    switch(efType_[flag])
+    switch(efType_[0][0][flag])
     {
         case 0:
             return 1;
@@ -166,7 +166,7 @@ Byte Eti::in(Byte port, Word address)
 //    p_Main->messageInt(port);
 //    p_Main->messageInt(address);
 
-    switch(inType_[port])
+    switch(inType_[0][0][port])
     {
         case 0:
             ret = 255;
@@ -201,7 +201,7 @@ void Eti::out(Byte port, Word address, Byte value)
 //    p_Main->messageInt(port);
 //    p_Main->messageInt(value);
 
-    switch(outType_[port])
+    switch(outType_[0][0][port])
     {
         case 0:
             return;
@@ -403,7 +403,7 @@ void Eti::cycle(int type)
         break;
 
         case PIXIECYCLE:
-            cyclePixieTelmac();
+            cyclePixie();
         break;
     }
 }
@@ -445,11 +445,11 @@ void Eti::startComputer()
         readProgram(p_Main->getChip8Dir(ETI), p_Main->getChip8SW(ETI), NOCHANGE, 0x0700, SHOWNAME);
     else
         readProgram(p_Main->getChip8Dir(ETI), p_Main->getChip8SW(ETI), NOCHANGE, 0x0600, SHOWNAME);
-    double zoom = p_Main->getZoom();
+    double zoom = p_Main->getZoom(VIDEOMAIN);
 
     pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);
 
-    configurePixieEti();
+    configurePixie();
     initPixie();
     setZoom(zoom);
     Show(true);

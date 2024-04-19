@@ -6,12 +6,12 @@ $libdir=/usr/lib
 $mandir=${prefix}/share/man
 $srcdir=.
 %product Emma 02
-%copyright 2007-2022 Marcel van Tongeren, core based on RCS Elf Emulator copyright 2006 by Michael H Riley.
+%copyright 2007-2024 Marcel van Tongeren, core based on RCS Elf Emulator copyright 2006 by Michael H Riley.
 %vendor Marcel van Tongeren <marcel.v.tongeren@gmail.com>
 %license COPYING
 %readme README
-%description Emma 02 is emulating the COMX-35, COMIX-35, Elf 2000, Cosmicos, Cosmac Elf, Netronics ELF II, Quest Super Elf, Membership Card, VIP2K Membership Card, VELF, Infinite UC1800, Pico/Elf V2, FRED 1, FRED 1.5, Microtutor, Microtutor II, CDP18S020 Evaluation Kit, Cosmac VIP, Cosmac VIPII, Microboard System, MCDS, MS2000, RCA Video Coin Arcade, RCA Studio II, RCA Studio III, RCA Studio IV, Victory MPT-02, Visicom COM-100, Cidelsa, Telmac TMC-600, Telmac 1800, Telmac 2000, Oscam Nano, Pecom 32, Pecom 64 and ETI 660
-%version 1.47
+%description Emma 02 is emulating the CDP18S020 Evaluation Kit, COMIX-35, COMX-35, Cosmac Elf, Cosmac Elf 2000, Cosmac Microtutor I, Cosmac Microtutor II, Cosmac VIP, Cosmac VIP II, Cidelsa Arcade Game Console, Conic (Apollo, Mustang, MPT-02 and M1200), Cosmicos, Cybervision 2001, ETI-660, FRED 1, FRED 1.5, HEC1802, HUG1802, Infinite UC1800, JVIP, Macbug, Membership Card, Netronics ELF II, Oscom Nano, PECOM 32, PECOM 64, Pico/Elf V2, Quest Super Elf, RCA COSMAC Computer Game System, RCA COSMAC Microboard Computer, RCA MicroDisk Development System MS2000, RCA Microboard Computer Development System, RCA Studio II, RCA Studio III, RCA Studio IV, RCA Video Coin Arcade Console, Telmac 1800, Telmac 2000, Telmac TMC-600, VELF, VIP2K Membership Card and Visicom COM-100
+%version 1.48
 %requires glibc
 %requires libcurl
 %requires SDL
@@ -96,6 +96,8 @@ f 644 root sys ${datadir}/emma_02/menuVelf_11.xrc ../menuVelf_11.xrc
 f 644 root sys ${datadir}/emma_02/menuVelf_12.xrc ../menuVelf_12.xrc
 f 644 root sys ${datadir}/emma_02/menuVip_11.xrc ../menuVip_11.xrc
 f 644 root sys ${datadir}/emma_02/menuVip_12.xrc ../menuVip_12.xrc
+f 644 root sys ${datadir}/emma_02/menuXml_11.xrc ../menuXml_11.xrc
+f 644 root sys ${datadir}/emma_02/menuXml_12.xrc ../menuXml_12.xrc
 f 644 root sys ${datadir}/emma_02/menu_Cas_Mem_11.xrc ../menu_Cas_Mem_11.xrc
 f 644 root sys ${datadir}/emma_02/menu_Cas_Mem_12.xrc ../menu_Cas_Mem_12.xrc
 f 644 root sys ${datadir}/emma_02/microsetup_11.xrc ../microsetup_11.xrc

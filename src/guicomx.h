@@ -1,9 +1,8 @@
 #ifndef GUICOMX_H
 #define GUICOMX_H
 
-#include "guidiy.h"
+#include "guixml.h"
 
-DECLARE_EVENT_TYPE(OPEN_COMX_PRINTER_WINDOW, 800)
 DECLARE_EVENT_TYPE(STATUS_LED_ON, 801)
 DECLARE_EVENT_TYPE(STATUS_LED_OFF, 802)
 DECLARE_EVENT_TYPE(STATUS_BAR_1870, 803)
@@ -11,7 +10,7 @@ DECLARE_EVENT_TYPE(EXP_LED_ON, 805)
 DECLARE_EVENT_TYPE(EXP_LED_OFF, 806)
 DECLARE_EVENT_TYPE(KILL_COMPUTER, 809)
 
-class GuiComx: public GuiDiy
+class GuiComx: public GuiXml
 {
 public:
 
@@ -50,14 +49,6 @@ public:
     void onComxDram(wxCommandEvent& event);
     void onComxExpansionRam(wxCommandEvent& event);
     void onComxExpansionRamSlot(wxSpinEvent&event);
-    void onBatchConvertStart(wxCommandEvent&event);
-    void batchConvertStop();
-    void onBatchFileDialog(wxCommandEvent& event);
-    wxArrayString getBatchPaths() {return batchPaths_;}
-    wxString getBatchPath(int filenumber) {return batchPaths_[filenumber];}
-    wxArrayString getBatchFiles() {return batchFiles_;}
-    wxString getBatchFile(int filenumber) {return batchFiles_[filenumber];}
-    size_t getNumberOfBatchFiles() {return numberOfBatchFiles_;}
     void setLocation(bool state, Word saveStart, Word saveEnd, Word saveExec);
     void onEpromDialog(wxCommandEvent& event);
     void onSBDialog(wxCommandEvent& event);
@@ -76,7 +67,6 @@ public:
     void expLedOff(wxCommandEvent &event);
     void expLedOnDirect();
     void expLedOffDirect();
-    void openComxPrinterFrame(wxCommandEvent &event);
 
     wxString getFloppyDir(int drive);
     wxString getFloppyFile(int drive);
@@ -86,13 +76,10 @@ public:
     void setComxExpRamSlot();
     void resetCardText();
     bool isSaving();
-    void setComxPrintMode();
     void onComxF4();
     void setFandMBasicGui();
     void enableDiskRomGui(bool DiskRom);
     void setExtRomStatus(bool expansionRomLoaded);
-    void setComxPrintMode(int mode);
-    int getComxPrintMode();
     int getExpansionRamSlot() {return expansionRamSlot_;};
     bool getUseExpansionRam() {return useExpansionRam_;};
     wxString getSbEmail() {return sbEmail_;}; 
@@ -122,15 +109,8 @@ public:
     int getSbCaseFile() {return sbCaseFile_;}; 
     int getSbCaseDir() {return sbCaseDir_;}; 
     int getSbFwVersion() {return sbFwVersion_;};
-    bool isDiagActive(int computer) { return conf[computer].diagActive_; };
+    bool isDiagActive(int computer) { return conf[computer].useDiagnosticBoard_; };
     bool isDramActive(int computer) { return conf[computer].dram_; };
-    int isDiagOn(int computer);
-    int getDiagRomChecksum() {return diagRomChecksum_;};
-    int getDiagFactory() {return diagFactory_;};
-    void setDiagRomChecksum(int diagRomChecksum) { diagRomChecksum_ = diagRomChecksum;};
-    void setDiagFactory(int diagFactory) { diagFactory_ = diagFactory;};
-    int getDiagCassetteCables() {return diagCassetteCables_;};
-    void setDiagCassetteCables(int diagCassetteCables) { diagCassetteCables_ = diagCassetteCables;};
   
     void setSbEmail(wxString sbEmail) { sbEmail_ = sbEmail; };
     void setSbPlayer(wxString sbPlayer) { sbPlayer_ = sbPlayer; };
@@ -149,9 +129,8 @@ public:
     void setSbCaseDir(int sbCaseDir) { sbCaseDir_ = sbCaseDir; };
     void setSbFwVersion(int version);
 
-    void setComxStatusLedOn(bool status) { isComxStatusLedOn_ = status; };
-    void setComxExpLedOn(bool status) {isComxExpLedOn_ = status;};
-    bool isBatchConvertActive() {return batchConvertActive_;};
+    void setComxStatusLedOn(bool status) { isStatusLedOn_ = status; };
+    void setComxExpLedOn(bool status) {isExpLedOn_ = status;};
 
     void statusLedOnEvent();
     void statusLedOffEvent();
@@ -183,8 +162,6 @@ protected:
 
 private:
     wxString Pl80Data_[3];
-    wxString floppyDir_[2];
-    wxString floppy_[2];
     bool useExpansionRam_;
     int expansionRamSlot_;
     wxString saveCardText_;
@@ -207,22 +184,10 @@ private:
     int sbCaseFile_;
     int sbCaseDir_;
     int sbFwVersion_;
-    int diagRomChecksum_;
-    int diagFactory_;
-    int diagCassetteCables_;
     
-    int comxPrintMode_;
-    bool isComxStatusLedOn_;
-    bool isComxExpLedOn_;
+    bool isStatusLedOn_;
+    bool isExpLedOn_;
     
-    bool batchConvertActive_;
-    wxString batchSaveWavFileDir_;
-    wxString batchSaveWavFile_;
-
-    wxArrayString batchPaths_;
-    wxArrayString batchFiles_;
-    size_t numberOfBatchFiles_;
-
     DECLARE_EVENT_TABLE()
 };
 

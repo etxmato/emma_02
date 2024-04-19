@@ -1,0 +1,71 @@
+ADD
+Vx , Vy det code=5xyx
+Vz , Vx + Vy det code=5xyz
+/ADD
+SUB
+Vx , Vy det code=6xyx
+Vz , Vx - Vy det code=6xyz
+/SUB
+AND
+Vx , Vy det code=9xyx
+Vz , Vx & Vy det code=9xyz
+/AND
+CALL
+hex=0000-0FFF code=2jjj
+/CALL
+CLS
+code=A0
+/CLS
+DELAY
+kk code=80kk
+/DELAY
+DRW
+Vy , Vz code=A1yz
+Vy / Vy1 , Vz code=A2yz
+B , Vy , Vz code=A3yz
+/DRW
+JNZ
+V0 , hex=0000-0FFF code=1jjj
+/JNZ
+JP
+FIREA , hex=0000-00FF code=31bb
+'EF1' , hex=0000-00FF code=31bb
+'EF2' , hex=0000-00FF code=32bb
+FIREB , hex=0000-00FF code=33bb
+'EF3' , hex=0000-00FF code=33bb
+COIN , hex=0000-00FF code=34bb
+'EF4' , hex=0000-00FF code=34bb
+/JP
+JZ
+V0 , hex=0000-0FFF code=0jjj
+/JZ
+KEY
+Vy , Vz det code=C.yz
+/KEY
+LD
+RE , hex=0100-0FFF code=8aaa
+Vx , kk code=4xkk
+Vz , Vx + Vy det code=5xyz
+Vz , Vx - Vy det code=6xyz
+/LD
+RETURN
+code=30
+/RETURN
+RND
+Vx , kk det code=Fxkk
+/RND
+SCR
+CLS code=A0
+XOR code=AF
+/SCR
+SP
+D , o , kk code=Doyz
+D , p , Vy , Vz code=Dpyz
+O , o , kk code=Bokk
+P , p , kk code=Bpkk
+Vz , P , p code=E0pz
+C , p , q code=E.pq
+/SP
+SYS
+hex=0000-0fff code=7jjj
+/SYS

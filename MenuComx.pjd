@@ -1966,7 +1966,7 @@
                   <string name="proxy-Platform">"&lt;Any platform&gt;"</string>
                   <bool name="proxy-Separate files">0</bool>
                   <long name="proxy-Stretch factor">0</long>
-                  <string name="proxy-Tooltip text">"Load .hex/.rca file into MCDS emulator memory"</string>
+                  <string name="proxy-Tooltip text">"Load .comx file into COMX emulator memory"</string>
                   <long name="proxy-Width">-1</long>
                   <bool name="proxy-wxADJUST_MINSIZE">0</bool>
                   <bool name="proxy-wxBOTTOM">0</bool>
@@ -2032,7 +2032,7 @@
                   <string name="proxy-Platform">"&lt;Any platform&gt;"</string>
                   <bool name="proxy-Separate files">0</bool>
                   <long name="proxy-Stretch factor">0</long>
-                  <string name="proxy-Tooltip text">"Load .hex/.rca file into MCDS emulator memory and RUN software"</string>
+                  <string name="proxy-Tooltip text">"Load .comx file into COMX emulator memory and RUN software"</string>
                   <long name="proxy-Width">-1</long>
                   <bool name="proxy-wxADJUST_MINSIZE">0</bool>
                   <bool name="proxy-wxBOTTOM">0</bool>
@@ -2252,7 +2252,7 @@
                   <string name="proxy-Platform">"&lt;Any platform&gt;"</string>
                   <bool name="proxy-Separate files">0</bool>
                   <long name="proxy-Stretch factor">0</long>
-                  <string name="proxy-Tooltip text">"Save MCDS emulator memory to .rca file"</string>
+                  <string name="proxy-Tooltip text">"Save COMX emulator memory to .comx file"</string>
                   <long name="proxy-Width">-1</long>
                   <bool name="proxy-wxADJUST_MINSIZE">0</bool>
                   <bool name="proxy-wxBOTTOM">0</bool>
@@ -2318,7 +2318,7 @@
                   <string name="proxy-Platform">"&lt;Any platform&gt;"</string>
                   <bool name="proxy-Separate files">0</bool>
                   <long name="proxy-Stretch factor">0</long>
-                  <string name="proxy-Tooltip text">"Save MCDS emulator data memory to .rca file"</string>
+                  <string name="proxy-Tooltip text">"Save COMX emulator data memory to .comx file"</string>
                   <long name="proxy-Width">-1</long>
                   <bool name="proxy-wxADJUST_MINSIZE">0</bool>
                   <bool name="proxy-wxBOTTOM">0</bool>

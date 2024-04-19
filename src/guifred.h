@@ -40,7 +40,7 @@ public:
     void setGame();
     void setCurrentCardValue();
 
-    void downloadWavFiles(int computer);
+    void downloadFredWavFiles(int computer);
     
 private:
     int currentCardValue[FRED1_CARDS];

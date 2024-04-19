@@ -1,0 +1,12557 @@
+; Origin set to 00000H, EOF = 02FFFH
+		ORG  00000H
+
+; CPU Type:
+		CPU 1802
+
+; Labels:
+S003F	EQU 003FH
+S0045	EQU 0045H
+S0046	EQU 0046H
+S004E	EQU 004EH
+S0055	EQU 0055H
+R0071	EQU 0071H
+S007C	EQU 007CH
+R0098	EQU 0098H
+R00AA	EQU 00AAH
+R00B5	EQU 00B5H
+S00B9	EQU 00B9H
+S00BF	EQU 00BFH
+R00F3	EQU 00F3H
+S0106	EQU 0106H
+S0109	EQU 0109H
+R0124	EQU 0124H
+R0127	EQU 0127H
+R0129	EQU 0129H
+S012D	EQU 012DH
+R012F	EQU 012FH
+R0138	EQU 0138H
+R013B	EQU 013BH
+R013D	EQU 013DH
+R014D	EQU 014DH
+R015C	EQU 015CH
+R015E	EQU 015EH
+R0161	EQU 0161H
+R0164	EQU 0164H
+R0170	EQU 0170H
+R0172	EQU 0172H
+R018A	EQU 018AH
+R018D	EQU 018DH
+R0198	EQU 0198H
+R01A0	EQU 01A0H
+R01A2	EQU 01A2H
+R021A	EQU 021AH
+R0227	EQU 0227H
+R023A	EQU 023AH
+R023D	EQU 023DH
+R0254	EQU 0254H
+S0300	EQU 0300H
+R030E	EQU 030EH
+R0332	EQU 0332H
+S0359	EQU 0359H
+S035C	EQU 035CH
+R038E	EQU 038EH
+R0397	EQU 0397H
+S03A5	EQU 03A5H
+S03AB	EQU 03ABH
+R03B3	EQU 03B3H
+R03BE	EQU 03BEH
+S03E1	EQU 03E1H
+R03EE	EQU 03EEH
+S03F5	EQU 03F5H
+J0400	EQU 0400H
+R0422	EQU 0422H
+R0430	EQU 0430H
+R043B	EQU 043BH
+R045E	EQU 045EH
+S0460	EQU 0460H
+R046D	EQU 046DH
+S0484	EQU 0484H
+R0495	EQU 0495H
+R04A4	EQU 04A4H
+S04A7	EQU 04A7H
+S04B8	EQU 04B8H
+S04C8	EQU 04C8H
+R04D2	EQU 04D2H
+S04D4	EQU 04D4H
+R04E6	EQU 04E6H
+S04E7	EQU 04E7H
+S04E8	EQU 04E8H
+S04E9	EQU 04E9H
+S0568	EQU 0568H
+R056E	EQU 056EH
+R0582	EQU 0582H
+R0586	EQU 0586H
+R0593	EQU 0593H
+S0597	EQU 0597H
+J05E2	EQU 05E2H
+R05EC	EQU 05ECH
+R05EF	EQU 05EFH
+S05F2	EQU 05F2H
+R082A	EQU 082AH
+S082D	EQU 082DH
+R0836	EQU 0836H
+S0844	EQU 0844H
+R084A	EQU 084AH
+R085D	EQU 085DH
+R0871	EQU 0871H
+R0879	EQU 0879H
+R087F	EQU 087FH
+R0890	EQU 0890H
+R089C	EQU 089CH
+J089D	EQU 089DH
+R08A8	EQU 08A8H
+R08AB	EQU 08ABH
+J08AE	EQU 08AEH
+R08B9	EQU 08B9H
+R08BC	EQU 08BCH
+J08BF	EQU 08BFH
+R08CA	EQU 08CAH
+S08CD	EQU 08CDH
+S08D0	EQU 08D0H
+S08DE	EQU 08DEH
+S0900	EQU 0900H
+S0904	EQU 0904H
+R0912	EQU 0912H
+R0918	EQU 0918H
+J091C	EQU 091CH
+R092A	EQU 092AH
+R0937	EQU 0937H
+R0944	EQU 0944H
+R0951	EQU 0951H
+R095E	EQU 095EH
+J0962	EQU 0962H
+R0970	EQU 0970H
+R097D	EQU 097DH
+R0982	EQU 0982H
+R0986	EQU 0986H
+R0996	EQU 0996H
+R099B	EQU 099BH
+J09A3	EQU 09A3H
+R09A7	EQU 09A7H
+R09C4	EQU 09C4H
+R09C9	EQU 09C9H
+S09CA	EQU 09CAH
+R09D7	EQU 09D7H
+R09E0	EQU 09E0H
+R09E4	EQU 09E4H
+R09E8	EQU 09E8H
+R09EA	EQU 09EAH
+S0A00	EQU 0A00H
+S0A1E	EQU 0A1EH
+R0A24	EQU 0A24H
+R0A41	EQU 0A41H
+R0A49	EQU 0A49H
+J0A4C	EQU 0A4CH
+R0A50	EQU 0A50H
+R0A5A	EQU 0A5AH
+J0A67	EQU 0A67H
+R0A68	EQU 0A68H
+J0A6C	EQU 0A6CH
+R0A77	EQU 0A77H
+R0A78	EQU 0A78H
+R0A81	EQU 0A81H
+R0A8E	EQU 0A8EH
+R0AA4	EQU 0AA4H
+R0AA9	EQU 0AA9H
+S0AAC	EQU 0AACH
+S0AAF	EQU 0AAFH
+S0AB2	EQU 0AB2H
+R0AC8	EQU 0AC8H
+R0AEB	EQU 0AEBH
+J0AEF	EQU 0AEFH
+R0AFA	EQU 0AFAH
+R0AFD	EQU 0AFDH
+S0B00	EQU 0B00H
+R0B17	EQU 0B17H
+R0B31	EQU 0B31H
+S0B35	EQU 0B35H
+R0B64	EQU 0B64H
+S0B68	EQU 0B68H
+S0B95	EQU 0B95H
+R0BA7	EQU 0BA7H
+J0BB7	EQU 0BB7H
+R0BC1	EQU 0BC1H
+S0BD2	EQU 0BD2H
+R0BDC	EQU 0BDCH
+S0BE9	EQU 0BE9H
+R0BF3	EQU 0BF3H
+S0C00	EQU 0C00H
+R0C1E	EQU 0C1EH
+R0C22	EQU 0C22H
+R0C32	EQU 0C32H
+S0C40	EQU 0C40H
+S0D00	EQU 0D00H
+R0D27	EQU 0D27H
+R0D3B	EQU 0D3BH
+R0D3F	EQU 0D3FH
+R0D52	EQU 0D52H
+R0D59	EQU 0D59H
+R0D60	EQU 0D60H
+R0D63	EQU 0D63H
+R0D68	EQU 0D68H
+S0D76	EQU 0D76H
+R0D91	EQU 0D91H
+R0D94	EQU 0D94H
+R0DB6	EQU 0DB6H
+R0DC1	EQU 0DC1H
+S0DC5	EQU 0DC5H
+R0DDE	EQU 0DDEH
+S0DF0	EQU 0DF0H
+R0DFA	EQU 0DFAH
+R0E02	EQU 0E02H
+R0E0C	EQU 0E0CH
+R0E1C	EQU 0E1CH
+R0E27	EQU 0E27H
+R0E30	EQU 0E30H
+R0E39	EQU 0E39H
+R0E43	EQU 0E43H
+R0E4F	EQU 0E4FH
+R0E56	EQU 0E56H
+R0E6A	EQU 0E6AH
+R0E71	EQU 0E71H
+R0E75	EQU 0E75H
+J0E7E	EQU 0E7EH
+R0E81	EQU 0E81H
+R0E8B	EQU 0E8BH
+R0E92	EQU 0E92H
+R0E9F	EQU 0E9FH
+R0EA2	EQU 0EA2H
+R0EA7	EQU 0EA7H
+S0EAC	EQU 0EACH
+R0EBA	EQU 0EBAH
+R0EBF	EQU 0EBFH
+R0ECA	EQU 0ECAH
+R0ECF	EQU 0ECFH
+S0EE8	EQU 0EE8H
+R0EED	EQU 0EEDH
+R0EF3	EQU 0EF3H
+R0EFA	EQU 0EFAH
+S0F00	EQU 0F00H
+J0F05	EQU 0F05H
+R0F09	EQU 0F09H
+R0F1B	EQU 0F1BH
+R0F29	EQU 0F29H
+R0F46	EQU 0F46H
+R0F5E	EQU 0F5EH
+R0F9E	EQU 0F9EH
+R0FAC	EQU 0FACH
+R0FB0	EQU 0FB0H
+R0FBE	EQU 0FBEH
+R0FC8	EQU 0FC8H
+R0FD8	EQU 0FD8H
+R0FDC	EQU 0FDCH
+R0FED	EQU 0FEDH
+J1009	EQU 1009H
+S1011	EQU 1011H
+S1014	EQU 1014H
+R1018	EQU 1018H
+S101C	EQU 101CH
+S1029	EQU 1029H
+S1036	EQU 1036H
+J104B	EQU 104BH
+R104F	EQU 104FH
+R1053	EQU 1053H
+R1061	EQU 1061H
+R1072	EQU 1072H
+R107B	EQU 107BH
+S1082	EQU 1082H
+R1083	EQU 1083H
+R108C	EQU 108CH
+S1090	EQU 1090H
+R10BC	EQU 10BCH
+R10C2	EQU 10C2H
+S10D6	EQU 10D6H
+J10E2	EQU 10E2H
+R10E9	EQU 10E9H
+R10EA	EQU 10EAH
+S10EF	EQU 10EFH
+S10F2	EQU 10F2H
+S1100	EQU 1100H
+R110A	EQU 110AH
+R110E	EQU 110EH
+R1127	EQU 1127H
+R112B	EQU 112BH
+R113E	EQU 113EH
+R1141	EQU 1141H
+R1146	EQU 1146H
+S1149	EQU 1149H
+R1162	EQU 1162H
+R1171	EQU 1171H
+R118D	EQU 118DH
+R11A2	EQU 11A2H
+S11A6	EQU 11A6H
+R11AD	EQU 11ADH
+R11C5	EQU 11C5H
+R11CD	EQU 11CDH
+R11DB	EQU 11DBH
+R11E1	EQU 11E1H
+R11E4	EQU 11E4H
+S11EF	EQU 11EFH
+S11FA	EQU 11FAH
+S1200	EQU 1200H
+R1210	EQU 1210H
+R1220	EQU 1220H
+R1222	EQU 1222H
+R1291	EQU 1291H
+S1295	EQU 1295H
+R129E	EQU 129EH
+R12AA	EQU 12AAH
+R12BE	EQU 12BEH
+R12C0	EQU 12C0H
+S12C1	EQU 12C1H
+R12CB	EQU 12CBH
+R12CF	EQU 12CFH
+S12E5	EQU 12E5H
+R12EA	EQU 12EAH
+R12EE	EQU 12EEH
+R12F5	EQU 12F5H
+S1300	EQU 1300H
+S1301	EQU 1301H
+S1303	EQU 1303H
+R1306	EQU 1306H
+R1314	EQU 1314H
+R131E	EQU 131EH
+S1324	EQU 1324H
+R133D	EQU 133DH
+R1340	EQU 1340H
+S1344	EQU 1344H
+R135F	EQU 135FH
+S1363	EQU 1363H
+R136F	EQU 136FH
+R1373	EQU 1373H
+R137E	EQU 137EH
+S1382	EQU 1382H
+S138B	EQU 138BH
+S138E	EQU 138EH
+J139D	EQU 139DH
+S13A1	EQU 13A1H
+R13AC	EQU 13ACH
+S13C0	EQU 13C0H
+R13DB	EQU 13DBH
+S13DE	EQU 13DEH
+R13EC	EQU 13ECH
+S13F1	EQU 13F1H
+R13FB	EQU 13FBH
+R13FD	EQU 13FDH
+S1400	EQU 1400H
+S1401	EQU 1401H
+S1405	EQU 1405H
+S140D	EQU 140DH
+R1415	EQU 1415H
+S141B	EQU 141BH
+S141E	EQU 141EH
+S1435	EQU 1435H
+R1447	EQU 1447H
+R144A	EQU 144AH
+S144E	EQU 144EH
+S1466	EQU 1466H
+S146C	EQU 146CH
+R1472	EQU 1472H
+R147E	EQU 147EH
+R14A0	EQU 14A0H
+R14A8	EQU 14A8H
+R14A9	EQU 14A9H
+S14BB	EQU 14BBH
+R14CA	EQU 14CAH
+S14D9	EQU 14D9H
+R14DA	EQU 14DAH
+R14E1	EQU 14E1H
+S14E7	EQU 14E7H
+R14EF	EQU 14EFH
+S14F4	EQU 14F4H
+S1500	EQU 1500H
+R150C	EQU 150CH
+S150D	EQU 150DH
+R1515	EQU 1515H
+S1516	EQU 1516H
+S151D	EQU 151DH
+S1522	EQU 1522H
+S1527	EQU 1527H
+R1564	EQU 1564H
+R1569	EQU 1569H
+R156A	EQU 156AH
+R1574	EQU 1574H
+R1585	EQU 1585H
+S158B	EQU 158BH
+R158F	EQU 158FH
+R1594	EQU 1594H
+R15A1	EQU 15A1H
+R15A9	EQU 15A9H
+R15B0	EQU 15B0H
+R15B8	EQU 15B8H
+S15C0	EQU 15C0H
+R15C5	EQU 15C5H
+R15CA	EQU 15CAH
+R15D0	EQU 15D0H
+R15E7	EQU 15E7H
+R15EB	EQU 15EBH
+R15F4	EQU 15F4H
+S1600	EQU 1600H
+S160A	EQU 160AH
+R160F	EQU 160FH
+R1613	EQU 1613H
+R1627	EQU 1627H
+R1637	EQU 1637H
+R163B	EQU 163BH
+R165F	EQU 165FH
+R166B	EQU 166BH
+R16A4	EQU 16A4H
+R16A7	EQU 16A7H
+R16B3	EQU 16B3H
+R16B6	EQU 16B6H
+R16C2	EQU 16C2H
+S16CA	EQU 16CAH
+S16DA	EQU 16DAH
+R16E2	EQU 16E2H
+R16F3	EQU 16F3H
+R16F7	EQU 16F7H
+S1701	EQU 1701H
+R170F	EQU 170FH
+R1729	EQU 1729H
+R172C	EQU 172CH
+R1747	EQU 1747H
+R1756	EQU 1756H
+R175F	EQU 175FH
+R1768	EQU 1768H
+R176C	EQU 176CH
+R176D	EQU 176DH
+R1771	EQU 1771H
+S1775	EQU 1775H
+R1782	EQU 1782H
+R1785	EQU 1785H
+R178C	EQU 178CH
+S1790	EQU 1790H
+R17A1	EQU 17A1H
+R17A5	EQU 17A5H
+R17CE	EQU 17CEH
+R17D1	EQU 17D1H
+R17DE	EQU 17DEH
+R17E7	EQU 17E7H
+R17F6	EQU 17F6H
+R17FE	EQU 17FEH
+S1800	EQU 1800H
+R180D	EQU 180DH
+R181A	EQU 181AH
+R181E	EQU 181EH
+R182D	EQU 182DH
+R1838	EQU 1838H
+R183F	EQU 183FH
+R1842	EQU 1842H
+R1845	EQU 1845H
+R1849	EQU 1849H
+R1862	EQU 1862H
+R186E	EQU 186EH
+R1890	EQU 1890H
+R1891	EQU 1891H
+R1895	EQU 1895H
+R189B	EQU 189BH
+R18A3	EQU 18A3H
+R18A4	EQU 18A4H
+R18A8	EQU 18A8H
+R18AE	EQU 18AEH
+R18AF	EQU 18AFH
+R18B1	EQU 18B1H
+R18B7	EQU 18B7H
+R18B9	EQU 18B9H
+R18BF	EQU 18BFH
+S18C8	EQU 18C8H
+J18CD	EQU 18CDH
+R18D1	EQU 18D1H
+R18D9	EQU 18D9H
+R18E7	EQU 18E7H
+R18F2	EQU 18F2H
+S1900	EQU 1900H
+R190E	EQU 190EH
+R191F	EQU 191FH
+R193C	EQU 193CH
+R1941	EQU 1941H
+R195F	EQU 195FH
+R1962	EQU 1962H
+R196B	EQU 196BH
+R1981	EQU 1981H
+R1994	EQU 1994H
+R19B9	EQU 19B9H
+S19BD	EQU 19BDH
+R19D3	EQU 19D3H
+S19DD	EQU 19DDH
+R19E6	EQU 19E6H
+S19F9	EQU 19F9H
+S1A00	EQU 1A00H
+R1A5E	EQU 1A5EH
+R1A74	EQU 1A74H
+R1A90	EQU 1A90H
+S1A99	EQU 1A99H
+R1AA2	EQU 1AA2H
+S1AA9	EQU 1AA9H
+R1AB6	EQU 1AB6H
+R1ABC	EQU 1ABCH
+R1AD0	EQU 1AD0H
+R1ADA	EQU 1ADAH
+R1ADD	EQU 1ADDH
+R1AEC	EQU 1AECH
+R1AEE	EQU 1AEEH
+J1AF1	EQU 1AF1H
+J1AF4	EQU 1AF4H
+J1AF8	EQU 1AF8H
+S1AFB	EQU 1AFBH
+R1AFF	EQU 1AFFH
+S1B00	EQU 1B00H
+R1B0E	EQU 1B0EH
+R1B25	EQU 1B25H
+R1B2E	EQU 1B2EH
+R1B33	EQU 1B33H
+R1B4B	EQU 1B4BH
+R1B4D	EQU 1B4DH
+R1B60	EQU 1B60H
+R1B63	EQU 1B63H
+S1B69	EQU 1B69H
+S1B6C	EQU 1B6CH
+R1BA1	EQU 1BA1H
+R1BA9	EQU 1BA9H
+R1BC4	EQU 1BC4H
+R1BCF	EQU 1BCFH
+S1BD3	EQU 1BD3H
+R1BED	EQU 1BEDH
+R1BF3	EQU 1BF3H
+R1BF9	EQU 1BF9H
+S1BFB	EQU 1BFBH
+S1C00	EQU 1C00H
+R1C0A	EQU 1C0AH
+S1C11	EQU 1C11H
+R1C19	EQU 1C19H
+R1C47	EQU 1C47H
+R1C50	EQU 1C50H
+R1C5B	EQU 1C5BH
+S1C5E	EQU 1C5EH
+S1C6B	EQU 1C6BH
+S1C6E	EQU 1C6EH
+S1C7D	EQU 1C7DH
+S1C85	EQU 1C85H
+S1C8B	EQU 1C8BH
+R1C99	EQU 1C99H
+R1CA6	EQU 1CA6H
+S1CC7	EQU 1CC7H
+R1CD1	EQU 1CD1H
+R1CD2	EQU 1CD2H
+R1CDE	EQU 1CDEH
+R1CFC	EQU 1CFCH
+S1D00	EQU 1D00H
+S1D03	EQU 1D03H
+R1D18	EQU 1D18H
+R1D1B	EQU 1D1BH
+J1D35	EQU 1D35H
+J1D38	EQU 1D38H
+R1D41	EQU 1D41H
+S1D44	EQU 1D44H
+R1D5A	EQU 1D5AH
+R1D5C	EQU 1D5CH
+S1D60	EQU 1D60H
+S1D63	EQU 1D63H
+S1D66	EQU 1D66H
+S1D69	EQU 1D69H
+S1D6C	EQU 1D6CH
+S1D6F	EQU 1D6FH
+R1D81	EQU 1D81H
+S1DA6	EQU 1DA6H
+R1DB0	EQU 1DB0H
+S1DB3	EQU 1DB3H
+R1DC3	EQU 1DC3H
+R1DCF	EQU 1DCFH
+R1DD4	EQU 1DD4H
+R1DD9	EQU 1DD9H
+R1DE9	EQU 1DE9H
+R1DFC	EQU 1DFCH
+S1E00	EQU 1E00H
+S1E03	EQU 1E03H
+R1E0D	EQU 1E0DH
+J1E23	EQU 1E23H
+R1E29	EQU 1E29H
+S1E51	EQU 1E51H
+R1E6F	EQU 1E6FH
+J1E81	EQU 1E81H
+R1E89	EQU 1E89H
+R1E94	EQU 1E94H
+J1E95	EQU 1E95H
+S1E9A	EQU 1E9AH
+S1EA4	EQU 1EA4H
+R1EB6	EQU 1EB6H
+R1EC1	EQU 1EC1H
+R1ED8	EQU 1ED8H
+S1ED9	EQU 1ED9H
+S1EE4	EQU 1EE4H
+S1EE9	EQU 1EE9H
+S1EF3	EQU 1EF3H
+R1EF5	EQU 1EF5H
+S1EF6	EQU 1EF6H
+J1F00	EQU 1F00H
+R1F2F	EQU 1F2FH
+R1F37	EQU 1F37H
+R1F3F	EQU 1F3FH
+S1F47	EQU 1F47H
+R1F5C	EQU 1F5CH
+R1F68	EQU 1F68H
+R1F74	EQU 1F74H
+R1F7B	EQU 1F7BH
+R1F7E	EQU 1F7EH
+S1F83	EQU 1F83H
+R1F9D	EQU 1F9DH
+R1FA6	EQU 1FA6H
+S1FBA	EQU 1FBAH
+R1FD0	EQU 1FD0H
+S1FE4	EQU 1FE4H
+R1FF2	EQU 1FF2H
+S1FF5	EQU 1FF5H
+S1FFA	EQU 1FFAH
+S2000	EQU 2000H
+R2019	EQU 2019H
+R201C	EQU 201CH
+R2030	EQU 2030H
+R2038	EQU 2038H
+S203C	EQU 203CH
+R2046	EQU 2046H
+R2062	EQU 2062H
+R2073	EQU 2073H
+R2076	EQU 2076H
+S2077	EQU 2077H
+R207C	EQU 207CH
+R2089	EQU 2089H
+R2096	EQU 2096H
+R20A4	EQU 20A4H
+R20AC	EQU 20ACH
+S20B0	EQU 20B0H
+R20CB	EQU 20CBH
+R20D4	EQU 20D4H
+S20E0	EQU 20E0H
+S20E3	EQU 20E3H
+R20EB	EQU 20EBH
+R20EF	EQU 20EFH
+R20F7	EQU 20F7H
+S20FA	EQU 20FAH
+S2100	EQU 2100H
+R211F	EQU 211FH
+R2123	EQU 2123H
+R2124	EQU 2124H
+S2131	EQU 2131H
+R215D	EQU 215DH
+J2163	EQU 2163H
+S2167	EQU 2167H
+S2195	EQU 2195H
+R219F	EQU 219FH
+R21AB	EQU 21ABH
+R21B3	EQU 21B3H
+R21C1	EQU 21C1H
+R21C2	EQU 21C2H
+S21C3	EQU 21C3H
+R21D5	EQU 21D5H
+R21D8	EQU 21D8H
+R21DB	EQU 21DBH
+S21E3	EQU 21E3H
+J21EE	EQU 21EEH
+S221D	EQU 221DH
+S22BB	EQU 22BBH
+R22CC	EQU 22CCH
+J22F7	EQU 22F7H
+R2308	EQU 2308H
+R2309	EQU 2309H
+R231D	EQU 231DH
+R233C	EQU 233CH
+R2340	EQU 2340H
+R235A	EQU 235AH
+R235B	EQU 235BH
+R2363	EQU 2363H
+R2367	EQU 2367H
+R236A	EQU 236AH
+R2375	EQU 2375H
+R2389	EQU 2389H
+R238A	EQU 238AH
+R2391	EQU 2391H
+R23C1	EQU 23C1H
+R23CC	EQU 23CCH
+R23D6	EQU 23D6H
+R23E1	EQU 23E1H
+R23E4	EQU 23E4H
+J23EA	EQU 23EAH
+J23ED	EQU 23EDH
+S240E	EQU 240EH
+S242C	EQU 242CH
+R242F	EQU 242FH
+S2454	EQU 2454H
+R24AF	EQU 24AFH
+R24C2	EQU 24C2H
+J24C5	EQU 24C5H
+R24C9	EQU 24C9H
+R24CF	EQU 24CFH
+R24DA	EQU 24DAH
+R24DF	EQU 24DFH
+R24E6	EQU 24E6H
+R24F0	EQU 24F0H
+R24FA	EQU 24FAH
+J2501	EQU 2501H
+J2502	EQU 2502H
+R2515	EQU 2515H
+S25FB	EQU 25FBH
+S2609	EQU 2609H
+R260E	EQU 260EH
+R2630	EQU 2630H
+R2639	EQU 2639H
+R263B	EQU 263BH
+R2648	EQU 2648H
+R265F	EQU 265FH
+R2660	EQU 2660H
+R2662	EQU 2662H
+S2669	EQU 2669H
+R2685	EQU 2685H
+R2692	EQU 2692H
+R269A	EQU 269AH
+R26AE	EQU 26AEH
+R26B0	EQU 26B0H
+R26B4	EQU 26B4H
+R26BE	EQU 26BEH
+R26C2	EQU 26C2H
+R26C4	EQU 26C4H
+R26DD	EQU 26DDH
+J26E0	EQU 26E0H
+J26E7	EQU 26E7H
+J26ED	EQU 26EDH
+R26EE	EQU 26EEH
+J26FF	EQU 26FFH
+R2702	EQU 2702H
+J2705	EQU 2705H
+R2709	EQU 2709H
+S2722	EQU 2722H
+R272C	EQU 272CH
+R2735	EQU 2735H
+R27AB	EQU 27ABH
+R27AC	EQU 27ACH
+R27B6	EQU 27B6H
+S27BB	EQU 27BBH
+R27D6	EQU 27D6H
+J27E0	EQU 27E0H
+R27ED	EQU 27EDH
+J27F0	EQU 27F0H
+R27FA	EQU 27FAH
+S2803	EQU 2803H
+S2806	EQU 2806H
+S282D	EQU 282DH
+S2844	EQU 2844H
+S2850	EQU 2850H
+J2872	EQU 2872H
+J2875	EQU 2875H
+R287C	EQU 287CH
+R2896	EQU 2896H
+R28A5	EQU 28A5H
+R28B6	EQU 28B6H
+S28CC	EQU 28CCH
+R28E2	EQU 28E2H
+S28E5	EQU 28E5H
+J28F9	EQU 28F9H
+R2926	EQU 2926H
+R2927	EQU 2927H
+R2930	EQU 2930H
+R293B	EQU 293BH
+R2943	EQU 2943H
+R29BE	EQU 29BEH
+R29C1	EQU 29C1H
+R29C4	EQU 29C4H
+J29C8	EQU 29C8H
+R29F5	EQU 29F5H
+R29F8	EQU 29F8H
+R29FE	EQU 29FEH
+S2A01	EQU 2A01H
+R2A1D	EQU 2A1DH
+R2A25	EQU 2A25H
+R2A26	EQU 2A26H
+R2A29	EQU 2A29H
+S2A30	EQU 2A30H
+R2A3D	EQU 2A3DH
+R2A40	EQU 2A40H
+R2A4C	EQU 2A4CH
+R2A53	EQU 2A53H
+R2A5D	EQU 2A5DH
+J2A67	EQU 2A67H
+S2A70	EQU 2A70H
+S2A73	EQU 2A73H
+R2AAD	EQU 2AADH
+R2AB8	EQU 2AB8H
+R2AC0	EQU 2AC0H
+R2AC7	EQU 2AC7H
+J2AD0	EQU 2AD0H
+J2AD5	EQU 2AD5H
+R2ADB	EQU 2ADBH
+J2B01	EQU 2B01H
+R2B0B	EQU 2B0BH
+R2B0F	EQU 2B0FH
+R2B20	EQU 2B20H
+R2B48	EQU 2B48H
+S2B50	EQU 2B50H
+S2B54	EQU 2B54H
+R2B6F	EQU 2B6FH
+R2B78	EQU 2B78H
+R2B81	EQU 2B81H
+S2B8A	EQU 2B8AH
+R2B9D	EQU 2B9DH
+R2BA0	EQU 2BA0H
+J2BA6	EQU 2BA6H
+R2BB3	EQU 2BB3H
+R2BCA	EQU 2BCAH
+R2BD5	EQU 2BD5H
+R2BDD	EQU 2BDDH
+R2BE0	EQU 2BE0H
+R2BED	EQU 2BEDH
+R2BF1	EQU 2BF1H
+S2BF8	EQU 2BF8H
+S2BFB	EQU 2BFBH
+J2C00	EQU 2C00H
+J2C04	EQU 2C04H
+J2C08	EQU 2C08H
+J2C0E	EQU 2C0EH
+J2C12	EQU 2C12H
+J2C18	EQU 2C18H
+J2C21	EQU 2C21H
+J2C27	EQU 2C27H
+J2C2B	EQU 2C2BH
+J2C32	EQU 2C32H
+S2C43	EQU 2C43H
+S2C52	EQU 2C52H
+R2C5A	EQU 2C5AH
+R2C5B	EQU 2C5BH
+R2C64	EQU 2C64H
+R2C6F	EQU 2C6FH
+R2C75	EQU 2C75H
+J2C7C	EQU 2C7CH
+J2C7F	EQU 2C7FH
+J2C82	EQU 2C82H
+R2C96	EQU 2C96H
+S2CA5	EQU 2CA5H
+J2CB5	EQU 2CB5H
+S2CC2	EQU 2CC2H
+R2CC9	EQU 2CC9H
+S2CCB	EQU 2CCBH
+S2CCD	EQU 2CCDH
+J2D7B	EQU 2D7BH
+R2D8F	EQU 2D8FH
+R2DA5	EQU 2DA5H
+R2DB2	EQU 2DB2H
+R2DBD	EQU 2DBDH
+R2DDB	EQU 2DDBH
+R2DE4	EQU 2DE4H
+
+; Unused or indirect labels:
+; S0005
+; S0008
+; S000C
+; S000F
+; S0013
+; S0017
+; S001C
+; S0020
+; S002B
+; S0036
+; S0039
+; S003C
+; S0051
+; S0054
+; S007E
+; S0083
+; S0085
+; S0092
+; S009B
+; S00BE
+; S013F
+; S0166
+; S0199
+; S019A
+; S019B
+; S019C
+; S019D
+; S03B0
+; S03C0
+; S03C4
+; S03D1
+; S03D8
+; S04AB
+; S04AD
+; S04AF
+; S04B3
+; S04B5
+; S04B7
+; S04BD
+; S04BF
+; S04C1
+; S04C5
+; S04CB
+; S059A
+; S05EA
+; S05F6
+; S05FB
+; S083B
+; S084D
+; S085F
+; S0864
+; S0873
+; S0888
+; S08C8
+; S08D4
+; S08D9
+; S09B9
+; S0A06
+; S0A4B
+; S0A91
+; S0A94
+; J0AF7
+; S0B07
+; S0B25
+; S0B28
+; S0B2B
+; S0B38
+; S0B48
+; S0B4C
+; S0B50
+; J0B5F
+; S0B6C
+; S0B70
+; S0B74
+; S0B78
+; S0B7C
+; S0B80
+; S0B84
+; S0B88
+; S0B8C
+; S0B90
+; S0B94
+; S0B98
+; S0C05
+; S0C0C
+; S0C10
+; S0C13
+; S0C17
+; S0D05
+; S0D7E
+; S0D82
+; S0D85
+; S0DB9
+; S0DBB
+; S0DCF
+; S0DD5
+; S0DF7
+; S0E11
+; S0E89
+; S0EA4
+; S0EB8
+; S0EC7
+; S0ED7
+; S0EE0
+; S0EE4
+; S0EEA
+; S0F0F
+; S0F20
+; S0F26
+; S0F38
+; S0F3D
+; S0F40
+; S0F66
+; S0F86
+; S0F8D
+; S0F9C
+; S0FB2
+; S0FB9
+; S0FEF
+; S0FF1
+; S1030
+; S1045
+; S1049
+; S108A
+; S10ED
+; S10F5
+; S10FA
+; S1108
+; S111B
+; S112E
+; S1156
+; S115E
+; S1165
+; S11C9
+; S1297
+; S12D2
+; S134B
+; S1354
+; S135C
+; S1389
+; S13A4
+; S1408
+; S1441
+; S1449
+; S1453
+; S1469
+; S146F
+; S14AA
+; S14AF
+; S14CB
+; S14E5
+; S14E9
+; S14EC
+; S14EE
+; S14F6
+; S14F8
+; S14FA
+; S14FC
+; S1503
+; S1513
+; S151C
+; S1577
+; S1580
+; S1583
+; S1588
+; S1596
+; S159C
+; S159F
+; S15C8
+; S15D3
+; S15DA
+; S15EE
+; S15FE
+; S16AB
+; S16F1
+; S1714
+; S171C
+; S1727
+; S178B
+; S184C
+; S1851
+; S1865
+; S186C
+; S18C4
+; S18DB
+; S19D6
+; S19E0
+; S19E9
+; S1A0D
+; S1A18
+; S1A23
+; S1A25
+; S1A2F
+; S1A32
+; S1A38
+; S1A3C
+; S1A42
+; S1A52
+; S1A6C
+; S1A6F
+; S1A72
+; S1B14
+; S1B3E
+; S1B40
+; S1B44
+; S1B7E
+; S1B83
+; S1B88
+; S1BB1
+; S1BC5
+; S1BD6
+; S1BE0
+; S1BE5
+; S1BEF
+; S1BFF
+; S1C02
+; S1C0D
+; S1C24
+; S1C37
+; S1C3F
+; S1C68
+; S1C78
+; S1C8E
+; S1C97
+; S1CC1
+; S1CC4
+; S1D0F
+; S1D1F
+; S1D28
+; S1D79
+; S1D88
+; S1D8E
+; S1D94
+; S1D9A
+; S1DA0
+; S1DB6
+; S1DF9
+; S1E13
+; S1E1D
+; S1E3C
+; S1E3F
+; S1E44
+; S1E49
+; S1E4D
+; S1E4F
+; S1E56
+; S1E67
+; S1E6D
+; S1E98
+; S1E9F
+; S1EA7
+; S1EB0
+; S1EBF
+; S1EDE
+; S1EE1
+; S1F05
+; S1F09
+; S1F86
+; S1F95
+; S1FDA
+; S1FF8
+; S2079
+; S2080
+; S208D
+; S20B6
+; S20D8
+; S20F5
+; S210E
+; S212C
+; S2138
+; S2143
+; S2146
+; S214A
+; S2150
+; S2179
+; S217E
+; S2182
+; S2188
+; S218F
+; S2197
+; S219C
+; S21F4
+; S21FF
+; S2202
+; S2211
+; S2216
+; S2220
+; S2223
+; S2226
+; S2229
+; S222E
+; S2231
+; S2236
+; S2239
+; S223C
+; S223F
+; S2244
+; S2247
+; S224A
+; S224D
+; S2252
+; S2255
+; S2258
+; S225B
+; S2260
+; S2263
+; S2266
+; S2269
+; S226E
+; S2271
+; S2274
+; S2277
+; S227C
+; S227F
+; S2282
+; S2285
+; S228A
+; S228D
+; S2294
+; S2297
+; S229C
+; S229F
+; S22A6
+; S22A9
+; S22AF
+; S22B4
+; S22C2
+; S22CE
+; S2304
+; S2325
+; S2328
+; S232B
+; S232E
+; S2331
+; S2336
+; S23F8
+; S2404
+; S240B
+; S2416
+; S2419
+; S2429
+; S2434
+; S2437
+; S2440
+; S2443
+; S244E
+; S2457
+; S245A
+; S245D
+; S2462
+; S2465
+; S246A
+; S246D
+; S2470
+; S2473
+; S2478
+; S247B
+; S247E
+; S2481
+; S2486
+; S2489
+; S248C
+; S248F
+; S2494
+; S2497
+; S249C
+; S249F
+; S24A4
+; S24A7
+; S24B4
+; S24B7
+; S24C4
+; S24DD
+; S24EE
+; S24F3
+; S2503
+; S2504
+; J2505
+; J2563
+; J259D
+; S2616
+; S2646
+; S264B
+; S2653
+; S2668
+; S266F
+; S26BC
+; S26C7
+; S26DF
+; S2712
+; S271D
+; S2725
+; S273A
+; S273F
+; S2742
+; S2747
+; S274C
+; S2751
+; S2759
+; S275E
+; S2761
+; S2764
+; S2767
+; S276A
+; S276D
+; S2772
+; S2775
+; S277A
+; S277D
+; S2782
+; S2785
+; S278A
+; S278D
+; S2792
+; S2795
+; S279D
+; S27C0
+; S27C3
+; S27C8
+; S27CB
+; S27DB
+; S27DF
+; S280C
+; S2815
+; S281F
+; S2836
+; S284A
+; S284D
+; S284F
+; S2888
+; S289B
+; S28AA
+; S28D2
+; S28FF
+; S290F
+; S2912
+; S2938
+; S2942
+; S2947
+; S294A
+; S294D
+; S2950
+; S2955
+; S2958
+; S295D
+; S2962
+; S2967
+; S296C
+; S296F
+; S2974
+; S2979
+; S2982
+; S2985
+; S298A
+; S298D
+; S2990
+; S2993
+; S2996
+; S299B
+; S29A0
+; S29A5
+; S29A8
+; S29C0
+; S2A08
+; S2A28
+; S2A2E
+; S2A51
+; S2A7D
+; S2AD2
+; S2AE4
+; S2AF5
+; S2B14
+; S2B1C
+; S2B1F
+; S2B23
+; S2B26
+; S2B29
+; S2B2C
+; S2B32
+; S2B35
+; S2B3C
+; S2B41
+; S2B44
+; S2B4B
+; S2B4F
+; S2B5D
+; S2B64
+; S2B6B
+; S2B7E
+; S2B8D
+; S2B9B
+; S2BAC
+; S2BC4
+; S2BDB
+; S2BDF
+; S2BE2
+; S2BF6
+; S2BFF
+; S2C49
+; S2C4C
+; S2C4F
+; S2C55
+; S2C63
+; S2C6C
+; S2CA8
+; S2CB4
+; S2D81
+; S2D94
+; S2DAF
+; S2DBA
+; S2DC3
+; S2DC9
+; S2DF2
+; S2DF8
+; S2DFA
+
+; Out of range branches or addresses:
+; 909FH referenced from 0079H
+; 8502H referenced from 0375H
+; 8500H referenced from 0386H
+; 90FBH referenced from 03CEH
+; 908AH referenced from 084AH
+; 908EH referenced from 086CH
+; 908EH referenced from 0897H
+; 90A3H referenced from 09B6H
+; 90F0H referenced from 0B5CH
+; 90A5H referenced from 0C14H
+; 90A3H referenced from 1BAEH
+; 908EH referenced from 1BFCH
+
+; Register Definitions:
+R0		EQU 0
+R1		EQU 1
+R2		EQU 2
+R3		EQU 3
+R4		EQU 4
+R5		EQU 5
+R6		EQU 6
+R7		EQU 7
+R8		EQU 8
+R9		EQU 9
+RA		EQU 10
+RB		EQU 11
+RC		EQU 12
+RD		EQU 13
+RE		EQU 14
+RF		EQU 15
+
+; Start code segment
+		DIS                  ;0000: 71          
+		DB   00H             ;0001: 00
+		LBR  J0400           ;0002: C0 04 00    
+S0005
+		GHI  R2              ;0005: 92          
+		SEP  RD              ;0006: DD          
+		DB   3BH             ;0007: 3B
+S0008
+		STR  RF              ;0008: 5F          
+		SEP  R4              ;0009: D4          
+		DW   S0B68           ;000A: 0B 68
+S000C
+		SEP  R4              ;000C: D4          
+		DW   S0B95           ;000D: 0B 95
+S000F
+		LDI  2AH             ;000F: F8 2A       
+		SEP  RD              ;0011: DD          
+		DB   29H             ;0012: 29
+S0013
+		LDI  92H             ;0013: F8 92       
+		SEP  RD              ;0015: DD          
+		DB   03H             ;0016: 03
+S0017
+		LDI  00H             ;0017: F8 00       
+		PLO  RC              ;0019: AC          
+		SEP  RD              ;001A: DD          
+		DB   04H             ;001B: 04
+S001C
+		LDI  0CH             ;001C: F8 0C       
+		SEP  RD              ;001E: DD          
+		DB   02H             ;001F: 02
+S0020
+		LDI  30H             ;0020: F8 30       
+		PHI  RC              ;0022: BC          
+		STR  R2              ;0023: 52          
+		LDN  RC              ;0024: 0C          
+		ADD                  ;0025: F4          
+		STR  RF              ;0026: 5F          
+		LDI  0DH             ;0027: F8 0D       
+		SEP  RD              ;0029: DD          
+		DB   41H             ;002A: 41
+S002B
+		LDI  83H             ;002B: F8 83       
+		STR  RF              ;002D: 5F          
+		GHI  RF              ;002E: 9F          
+		PHI  RB              ;002F: BB          
+		GLO  RF              ;0030: 8F          
+		PLO  RB              ;0031: AB          
+		LDI  0FFH            ;0032: F8 FF       
+		SEP  RD              ;0034: DD          
+		DB   3DH             ;0035: 3D
+S0036
+		SEP  R4              ;0036: D4          
+		DW   S04B8           ;0037: 04 B8
+S0039
+		SEP  R4              ;0039: D4          
+		DW   S1FBA           ;003A: 1F BA
+S003C
+		SEP  R4              ;003C: D4          
+		DW   S0046           ;003D: 00 46
+S003F
+		SEP  R4              ;003F: D4          
+		DW   S082D           ;0040: 08 2D
+		LBR  S0A00           ;0042: C0 0A 00    
+S0045
+		DB   00H             ;0045: 00
+S0046
+		LDI  91H             ;0046: F8 91       
+		PHI  R9              ;0048: B9          
+		LDI  70H             ;0049: F8 70       
+		PLO  R9              ;004B: A9          
+		BR   S0055           ;004C: 30 55       
+S004E
+		LDA  RB              ;004E: 4B          
+		SEP  RD              ;004F: DD          
+		DB   08H             ;0050: 08
+S0051
+		LDA  RB              ;0051: 4B          
+		SEP  RD              ;0052: DD          
+		DB   09H             ;0053: 09
+S0054
+		INC  RB              ;0054: 1B          
+S0055
+		GHI  R8              ;0055: 98          
+		ANI  0F3H            ;0056: FA F3       
+		PHI  R8              ;0058: B8          
+		LDI  90H             ;0059: F8 90       
+		PHI  RA              ;005B: BA          
+		LDI  0A0H            ;005C: F8 A0       
+		PLO  RA              ;005E: AA          
+		LDI  05H             ;005F: F8 05       
+		PHI  RC              ;0061: BC          
+		LDN  RB              ;0062: 0B          
+		XRI  0D1H            ;0063: FB D1       
+		BZ   R0071           ;0065: 32 71       
+		LDN  RB              ;0067: 0B          
+		XRI  0D7H            ;0068: FB D7       
+		BZ   R0071           ;006A: 32 71       
+		LDN  RB              ;006C: 0B          
+		SDI  0B4H            ;006D: FD B4       
+		BNF  R00B5           ;006F: 3B B5       
+R0071
+		LDA  RB              ;0071: 4B          
+		SHL                  ;0072: FE          
+		PLO  RC              ;0073: AC          
+		LDA  RC              ;0074: 4C          
+		STR  RA              ;0075: 5A          
+		INC  RA              ;0076: 1A          
+		LDN  RC              ;0077: 0C          
+		STR  RA              ;0078: 5A          
+		SEP  R4              ;0079: D4          
+		DW   909FH           ;007A: 90 9F
+S007C
+		SEP  RD              ;007C: DD          
+		DB   98H             ;007D: 98
+S007E
+		BZ   R00AA           ;007E: 32 AA       
+		SEP  R4              ;0080: D4          
+		DW   S11FA           ;0081: 11 FA
+S0083
+		SEP  RD              ;0083: DD          
+		DB   96H             ;0084: 96
+S0085
+		PHI  RA              ;0085: BA          
+		LDA  RF              ;0086: 4F          
+		PLO  RA              ;0087: AA          
+		LDI  00H             ;0088: F8 00       
+		STR  RF              ;008A: 5F          
+		GLO  RB              ;008B: 8B          
+		STXD                 ;008C: 73          
+		GHI  RB              ;008D: 9B          
+		STXD                 ;008E: 73          
+		SEP  R4              ;008F: D4          
+		DW   S2131           ;0090: 21 31
+S0092
+		BZ   R0098           ;0092: 32 98       
+		SEP  R4              ;0094: D4          
+		DW   S04E7           ;0095: 04 E7
+		DB   2BH             ;0097: 2B
+R0098
+		SEP  R4              ;0098: D4          
+		DW   S10F2           ;0099: 10 F2
+S009B
+		SEP  R4              ;009B: D4          
+		DW   S004E           ;009C: 00 4E
+		GHI  R8              ;009E: 98          
+		ORI  01H             ;009F: F9 01       
+		PHI  R8              ;00A1: B8          
+		SEP  R4              ;00A2: D4          
+		DW   S1FFA           ;00A3: 1F FA
+		INC  R2              ;00A5: 12          
+		LDXA                 ;00A6: 72          
+		PHI  RB              ;00A7: BB          
+		LDX                  ;00A8: F0          
+		PLO  RB              ;00A9: AB          
+R00AA
+		LDA  RB              ;00AA: 4B          
+		XRI  0CDH            ;00AB: FB CD       
+		BZ   S0055           ;00AD: 32 55       
+		DEC  RB              ;00AF: 2B          
+		LDA  RB              ;00B0: 4B          
+		XRI  0DH             ;00B1: FB 0D       
+		BZ   S00B9           ;00B3: 32 B9       
+R00B5
+		SEP  R4              ;00B5: D4          
+		DW   S04E7           ;00B6: 04 E7
+		DB   2AH             ;00B8: 2A
+S00B9
+		GHI  R8              ;00B9: 98          
+		ANI  01H             ;00BA: FA 01       
+		BNZ  S004E           ;00BC: 3A 4E       
+S00BE
+		SEP  R5              ;00BE: D5          
+S00BF
+		SEP  R4              ;00BF: D4          
+		DW   S03E1           ;00C0: 03 E1
+		LDI  12H             ;00C2: F8 12       
+		SEP  R4              ;00C4: D4          
+		DW   S035C           ;00C5: 03 5C
+		LDI  92H             ;00C7: F8 92       
+		PHI  RC              ;00C9: BC          
+		PHI  RA              ;00CA: BA          
+		LDI  00H             ;00CB: F8 00       
+		PLO  RC              ;00CD: AC          
+		STR  R2              ;00CE: 52          
+		PLO  RA              ;00CF: AA          
+		SEP  RD              ;00D0: DD          
+		DB   9AH             ;00D1: 9A
+		SM                   ;00D2: F7          
+		PLO  RE              ;00D3: AE          
+		STR  RC              ;00D4: 5C          
+		INC  RC              ;00D5: 1C          
+		GHI  RA              ;00D6: 9A          
+		STR  R2              ;00D7: 52          
+		SEP  RD              ;00D8: DD          
+		DB   99H             ;00D9: 99
+		SMB                  ;00DA: 77          
+		PHI  RE              ;00DB: BE          
+		STR  RC              ;00DC: 5C          
+		INC  RC              ;00DD: 1C          
+		GLO  RA              ;00DE: 8A          
+		STR  R2              ;00DF: 52          
+		SEP  RD              ;00E0: DD          
+		GHI  R3              ;00E1: 93          
+		SM                   ;00E2: F7          
+		STR  RC              ;00E3: 5C          
+		INC  RC              ;00E4: 1C          
+		GHI  RA              ;00E5: 9A          
+		STR  R2              ;00E6: 52          
+		SEP  RD              ;00E7: DD          
+		DB   92H             ;00E8: 92
+		SMB                  ;00E9: 77          
+		STR  RC              ;00EA: 5C          
+		GHI  RE              ;00EB: 9E          
+		SEP  R4              ;00EC: D4          
+		DW   S035C           ;00ED: 03 5C
+		GLO  RE              ;00EF: 8E          
+		SEP  R4              ;00F0: D4          
+		DW   S035C           ;00F1: 03 5C
+R00F3
+		LDA  RA              ;00F3: 4A          
+		SEP  R4              ;00F4: D4          
+		DW   S035C           ;00F5: 03 5C
+		DEC  RE              ;00F7: 2E          
+		GHI  RE              ;00F8: 9E          
+		XRI  0FFH            ;00F9: FB FF       
+		BNZ  R00F3           ;00FB: 3A F3       
+		LBR  S0484           ;00FD: C0 04 84    
+		NOP                  ;0100: C4          
+		NOP                  ;0101: C4          
+		NOP                  ;0102: C4          
+		SEP  R5              ;0103: D5          
+		NOP                  ;0104: C4          
+		NOP                  ;0105: C4          
+S0106
+		LDI  52H             ;0106: F8 52       
+		LSKP                 ;0108: C8          
+S0109
+		LDI  24H             ;0109: F8 24       
+		PLO  RF              ;010B: AF          
+		GLO  RE              ;010C: 8E          
+		STXD                 ;010D: 73          
+		GHI  RE              ;010E: 9E          
+		STXD                 ;010F: 73          
+		GLO  RC              ;0110: 8C          
+		STXD                 ;0111: 73          
+		GHI  RC              ;0112: 9C          
+		STXD                 ;0113: 73          
+		LDI  90H             ;0114: F8 90       
+		PHI  RC              ;0116: BC          
+		LDI  0A9H            ;0117: F8 A9       
+		PLO  RC              ;0119: AC          
+		LDN  RC              ;011A: 0C          
+		PHI  RE              ;011B: BE          
+		LDI  01H             ;011C: F8 01       
+		PHI  RC              ;011E: BC          
+		LDI  9DH             ;011F: F8 9D       
+		PLO  RC              ;0121: AC          
+		GLO  RF              ;0122: 8F          
+		PLO  R3              ;0123: A3          
+R0124
+		LDI  80H             ;0124: F8 80       
+		PHI  RF              ;0126: BF          
+R0127
+		BN4  R0127           ;0127: 3F 27       
+R0129
+		B4   R0129           ;0129: 37 29       
+		SEP  RC              ;012B: DC          
+		DB   02H             ;012C: 02
+S012D
+		SEX  R2              ;012D: E2          
+		SEX  R2              ;012E: E2          
+R012F
+		GHI  RE              ;012F: 9E          
+		SHR                  ;0130: F6          
+		BDF  R013B           ;0131: 33 3B       
+		B4   R0138           ;0133: 37 38       
+		SEQ                  ;0135: 7B          
+		BR   R013D           ;0136: 30 3D       
+R0138
+		REQ                  ;0138: 7A          
+		BR   R013D           ;0139: 30 3D       
+R013B
+		NOP                  ;013B: C4          
+		NOP                  ;013C: C4          
+R013D
+		SEP  RC              ;013D: DC          
+		DB   07H             ;013E: 07
+S013F
+		NOP                  ;013F: C4          
+		NOP                  ;0140: C4          
+		GHI  RF              ;0141: 9F          
+		SHR                  ;0142: F6          
+		PHI  RF              ;0143: BF          
+		BDF  R014D           ;0144: 33 4D       
+		ORI  80H             ;0146: F9 80       
+		BN4  S012D           ;0148: 3F 2D       
+		PHI  RF              ;014A: BF          
+		BR   R012F           ;014B: 30 2F       
+R014D
+		REQ                  ;014D: 7A          
+		BZ   R0124           ;014E: 32 24       
+		BR   R018D           ;0150: 30 8D       
+		GHI  RF              ;0152: 9F          
+		PLO  RE              ;0153: AE          
+		XRI  0AH             ;0154: FB 0A       
+		BNZ  R015C           ;0156: 3A 5C       
+		LDI  8BH             ;0158: F8 8B       
+		BR   R015E           ;015A: 30 5E       
+R015C
+		LDI  0BH             ;015C: F8 0B       
+R015E
+		PLO  RF              ;015E: AF          
+		GLO  RD              ;015F: 8D          
+		STXD                 ;0160: 73          
+R0161
+		SEQ                  ;0161: 7B          
+		GLO  RE              ;0162: 8E          
+		PLO  RD              ;0163: AD          
+R0164
+		SEP  RC              ;0164: DC          
+		DB   07H             ;0165: 07
+S0166
+		DEC  RF              ;0166: 2F          
+		SD                   ;0167: F5          
+		GLO  RD              ;0168: 8D          
+		SHRC                 ;0169: 76          
+		PLO  RD              ;016A: AD          
+		BDF  R0170           ;016B: 33 70       
+		SEQ                  ;016D: 7B          
+		BR   R0172           ;016E: 30 72       
+R0170
+		REQ                  ;0170: 7A          
+		REQ                  ;0171: 7A          
+R0172
+		GLO  RF              ;0172: 8F          
+		ANI  0FH             ;0173: FA 0F       
+		NOP                  ;0175: C4          
+		NOP                  ;0176: C4          
+		NOP                  ;0177: C4          
+		NOP                  ;0178: C4          
+		BNZ  R0164           ;0179: 3A 64       
+		GLO  RF              ;017B: 8F          
+		ADI  0FBH            ;017C: FC FB       
+		PLO  RF              ;017E: AF          
+		BNF  R018A           ;017F: 3B 8A       
+		SMI  1BH             ;0181: FF 1B       
+		BZ   R018A           ;0183: 32 8A       
+		LDI  00H             ;0185: F8 00       
+		PLO  RE              ;0187: AE          
+		BR   R0161           ;0188: 30 61       
+R018A
+		INC  R2              ;018A: 12          
+		LDX                  ;018B: F0          
+		PLO  RD              ;018C: AD          
+R018D
+		INC  R2              ;018D: 12          
+		LDXA                 ;018E: 72          
+		PHI  RC              ;018F: BC          
+		LDXA                 ;0190: 72          
+		PLO  RC              ;0191: AC          
+		LDXA                 ;0192: 72          
+		PHI  RE              ;0193: BE          
+		LDX                  ;0194: F0          
+		PLO  RE              ;0195: AE          
+		GHI  RF              ;0196: 9F          
+		SEP  R5              ;0197: D5          
+R0198
+		SEP  RC              ;0198: DC          
+S0199
+		SEP  RC              ;0199: DC          
+S019A
+		SEP  RC              ;019A: DC          
+S019B
+		SEP  RC              ;019B: DC          
+S019C
+		SEP  R3              ;019C: D3          
+S019D
+		GHI  RE              ;019D: 9E          
+		SHR                  ;019E: F6          
+		PLO  RE              ;019F: AE          
+R01A0
+		DEC  RE              ;01A0: 2E          
+		LDA  R3              ;01A1: 43          
+R01A2
+		SMI  01H             ;01A2: FF 01       
+		BNZ  R01A2           ;01A4: 3A A2       
+		GLO  RE              ;01A6: 8E          
+		BZ   R0198           ;01A7: 32 98       
+		DEC  R3              ;01A9: 23          
+		BR   R01A0           ;01AA: 30 A0       
+		DB   0FFH            ;01AC: FF
+		DB   0FFH            ;01AD: FF
+		DB   0FFH            ;01AE: FF
+		DB   0FFH            ;01AF: FF
+		DB   0FFH            ;01B0: FF
+		DB   0FFH            ;01B1: FF
+		DB   0FFH            ;01B2: FF
+		DB   0FFH            ;01B3: FF
+		DB   0FFH            ;01B4: FF
+		DB   0FFH            ;01B5: FF
+		DB   0FFH            ;01B6: FF
+		DB   0FFH            ;01B7: FF
+		DB   0FFH            ;01B8: FF
+		DB   0FFH            ;01B9: FF
+		DB   0FFH            ;01BA: FF
+		DB   0FFH            ;01BB: FF
+		DB   0FFH            ;01BC: FF
+		DB   0FFH            ;01BD: FF
+		DB   0FFH            ;01BE: FF
+		DB   0FFH            ;01BF: FF
+		DB   0FFH            ;01C0: FF
+		DB   0FFH            ;01C1: FF
+		DB   0FFH            ;01C2: FF
+		DB   0FFH            ;01C3: FF
+		DB   0FFH            ;01C4: FF
+		DB   0FFH            ;01C5: FF
+		DB   0FFH            ;01C6: FF
+		DB   0FFH            ;01C7: FF
+		DB   0FFH            ;01C8: FF
+		DB   0FFH            ;01C9: FF
+		DB   0FFH            ;01CA: FF
+		DB   0FFH            ;01CB: FF
+		DB   0FFH            ;01CC: FF
+		DB   0FFH            ;01CD: FF
+		DB   0FFH            ;01CE: FF
+		DB   0FFH            ;01CF: FF
+		DB   0FFH            ;01D0: FF
+		DB   0FFH            ;01D1: FF
+		DB   0FFH            ;01D2: FF
+		DB   0FFH            ;01D3: FF
+		DB   0FFH            ;01D4: FF
+		DB   0FFH            ;01D5: FF
+		DB   0FFH            ;01D6: FF
+		DB   0FFH            ;01D7: FF
+		DB   0FFH            ;01D8: FF
+		DB   0FFH            ;01D9: FF
+		DB   0FFH            ;01DA: FF
+		DB   0FFH            ;01DB: FF
+		DB   0FFH            ;01DC: FF
+		DB   0FFH            ;01DD: FF
+		DB   0FFH            ;01DE: FF
+		DB   0FFH            ;01DF: FF
+		DB   0FFH            ;01E0: FF
+		DB   0FFH            ;01E1: FF
+		DB   0FFH            ;01E2: FF
+		DB   0FFH            ;01E3: FF
+		DB   0FFH            ;01E4: FF
+		DB   0FFH            ;01E5: FF
+		DB   0FFH            ;01E6: FF
+		DB   0FFH            ;01E7: FF
+		DB   0FFH            ;01E8: FF
+		DB   0FFH            ;01E9: FF
+		DB   0FFH            ;01EA: FF
+		DB   0FFH            ;01EB: FF
+		DB   0FFH            ;01EC: FF
+		DB   0FFH            ;01ED: FF
+		DB   0FFH            ;01EE: FF
+		DB   0FFH            ;01EF: FF
+		DB   0FFH            ;01F0: FF
+		DB   0FFH            ;01F1: FF
+		DB   0FFH            ;01F2: FF
+		DB   0FFH            ;01F3: FF
+		DB   0FFH            ;01F4: FF
+		DB   0FFH            ;01F5: FF
+		DB   0FFH            ;01F6: FF
+		DB   0FFH            ;01F7: FF
+		DB   0FFH            ;01F8: FF
+		DB   0FFH            ;01F9: FF
+		DB   0FFH            ;01FA: FF
+		DB   0FFH            ;01FB: FF
+		DB   0FFH            ;01FC: FF
+		DB   0FFH            ;01FD: FF
+		DB   0FFH            ;01FE: FF
+		DB   0FFH            ;01FF: FF
+		NOP                  ;0200: C4          
+		NOP                  ;0201: C4          
+		NOP                  ;0202: C4          
+		SEP  R5              ;0203: D5          
+		NOP                  ;0204: C4          
+		NOP                  ;0205: C4          
+		LDI  31H             ;0206: F8 31       
+		LSKP                 ;0208: C8          
+		LDI  1AH             ;0209: F8 1A       
+		PLO  RF              ;020B: AF          
+		GLO  RE              ;020C: 8E          
+		STXD                 ;020D: 73          
+		GHI  RE              ;020E: 9E          
+		STXD                 ;020F: 73          
+		LDI  90H             ;0210: F8 90       
+		PHI  RE              ;0212: BE          
+		LDI  0A9H            ;0213: F8 A9       
+		PLO  RE              ;0215: AE          
+		LDN  RE              ;0216: 0E          
+		PHI  RE              ;0217: BE          
+		GLO  RF              ;0218: 8F          
+		PLO  R3              ;0219: A3          
+R021A
+		INP  3               ;021A: 6B          
+		SHR                  ;021B: F6          
+		BNF  R021A           ;021C: 3B 1A       
+		INP  2               ;021E: 6A          
+		ANI  7FH             ;021F: FA 7F       
+		PHI  RF              ;0221: BF          
+		BZ   R021A           ;0222: 32 1A       
+		GHI  RE              ;0224: 9E          
+		BNZ  R0254           ;0225: 3A 54       
+R0227
+		INP  3               ;0227: 6B          
+		SHL                  ;0228: FE          
+		BNF  R0227           ;0229: 3B 27       
+		GHI  RF              ;022B: 9F          
+		STR  R2              ;022C: 52          
+		OUT  2               ;022D: 62          
+		DEC  R2              ;022E: 22          
+		BR   R0254           ;022F: 30 54       
+		GHI  RF              ;0231: 9F          
+		PLO  RE              ;0232: AE          
+		XRI  0AH             ;0233: FB 0A       
+		BNZ  R023A           ;0235: 3A 3A       
+		LDI  80H             ;0237: F8 80       
+		LSKP                 ;0239: C8          
+R023A
+		LDI  00H             ;023A: F8 00       
+		PLO  RF              ;023C: AF          
+R023D
+		INP  3               ;023D: 6B          
+		SHL                  ;023E: FE          
+		BNF  R023D           ;023F: 3B 3D       
+		GLO  RE              ;0241: 8E          
+		STR  R2              ;0242: 52          
+		OUT  2               ;0243: 62          
+		DEC  R2              ;0244: 22          
+		GLO  RF              ;0245: 8F          
+		ADI  0F0H            ;0246: FC F0       
+		PLO  RF              ;0248: AF          
+		BNF  R0254           ;0249: 3B 54       
+		SMI  10H             ;024B: FF 10       
+		BZ   R0254           ;024D: 32 54       
+		LDI  00H             ;024F: F8 00       
+		PLO  RE              ;0251: AE          
+		BR   R023D           ;0252: 30 3D       
+R0254
+		INC  R2              ;0254: 12          
+		LDXA                 ;0255: 72          
+		PHI  RE              ;0256: BE          
+		LDX                  ;0257: F0          
+		PLO  RE              ;0258: AE          
+		GHI  RF              ;0259: 9F          
+		SEP  R5              ;025A: D5          
+		DB   0FFH            ;025B: FF
+		DB   0FFH            ;025C: FF
+		DB   0FFH            ;025D: FF
+		DB   0FFH            ;025E: FF
+		DB   0FFH            ;025F: FF
+		DB   0FFH            ;0260: FF
+		DB   0FFH            ;0261: FF
+		DB   0FFH            ;0262: FF
+		DB   0FFH            ;0263: FF
+		DB   0FFH            ;0264: FF
+		DB   0FFH            ;0265: FF
+		DB   0FFH            ;0266: FF
+		DB   0FFH            ;0267: FF
+		DB   0FFH            ;0268: FF
+		DB   0FFH            ;0269: FF
+		DB   0FFH            ;026A: FF
+		DB   0FFH            ;026B: FF
+		DB   0FFH            ;026C: FF
+		DB   0FFH            ;026D: FF
+		DB   0FFH            ;026E: FF
+		DB   0FFH            ;026F: FF
+		DB   0FFH            ;0270: FF
+		DB   0FFH            ;0271: FF
+		DB   0FFH            ;0272: FF
+		DB   0FFH            ;0273: FF
+		DB   0FFH            ;0274: FF
+		DB   0FFH            ;0275: FF
+		DB   0FFH            ;0276: FF
+		DB   0FFH            ;0277: FF
+		DB   0FFH            ;0278: FF
+		DB   0FFH            ;0279: FF
+		DB   0FFH            ;027A: FF
+		DB   0FFH            ;027B: FF
+		DB   0FFH            ;027C: FF
+		DB   0FFH            ;027D: FF
+		DB   0FFH            ;027E: FF
+		DB   0FFH            ;027F: FF
+		DB   0FFH            ;0280: FF
+		DB   0FFH            ;0281: FF
+		DB   0FFH            ;0282: FF
+		DB   0FFH            ;0283: FF
+		DB   0FFH            ;0284: FF
+		DB   0FFH            ;0285: FF
+		DB   0FFH            ;0286: FF
+		DB   0FFH            ;0287: FF
+		DB   0FFH            ;0288: FF
+		DB   0FFH            ;0289: FF
+		DB   0FFH            ;028A: FF
+		DB   0FFH            ;028B: FF
+		DB   0FFH            ;028C: FF
+		DB   0FFH            ;028D: FF
+		DB   0FFH            ;028E: FF
+		DB   0FFH            ;028F: FF
+		DB   0FFH            ;0290: FF
+		DB   0FFH            ;0291: FF
+		DB   0FFH            ;0292: FF
+		DB   0FFH            ;0293: FF
+		DB   0FFH            ;0294: FF
+		DB   0FFH            ;0295: FF
+		DB   0FFH            ;0296: FF
+		DB   0FFH            ;0297: FF
+		DB   0FFH            ;0298: FF
+		DB   0FFH            ;0299: FF
+		DB   0FFH            ;029A: FF
+		DB   0FFH            ;029B: FF
+		DB   0FFH            ;029C: FF
+		DB   0FFH            ;029D: FF
+		DB   0FFH            ;029E: FF
+		DB   0FFH            ;029F: FF
+		DB   0FFH            ;02A0: FF
+		DB   0FFH            ;02A1: FF
+		DB   0FFH            ;02A2: FF
+		DB   0FFH            ;02A3: FF
+		DB   0FFH            ;02A4: FF
+		DB   0FFH            ;02A5: FF
+		DB   0FFH            ;02A6: FF
+		DB   0FFH            ;02A7: FF
+		DB   0FFH            ;02A8: FF
+		DB   0FFH            ;02A9: FF
+		DB   0FFH            ;02AA: FF
+		DB   0FFH            ;02AB: FF
+		DB   0FFH            ;02AC: FF
+		DB   0FFH            ;02AD: FF
+		DB   0FFH            ;02AE: FF
+		DB   0FFH            ;02AF: FF
+		DB   0FFH            ;02B0: FF
+		DB   0FFH            ;02B1: FF
+		DB   0FFH            ;02B2: FF
+		DB   0FFH            ;02B3: FF
+		DB   0FFH            ;02B4: FF
+		DB   0FFH            ;02B5: FF
+		DB   0FFH            ;02B6: FF
+		DB   0FFH            ;02B7: FF
+		DB   0FFH            ;02B8: FF
+		DB   0FFH            ;02B9: FF
+		DB   0FFH            ;02BA: FF
+		DB   0FFH            ;02BB: FF
+		DB   0FFH            ;02BC: FF
+		DB   0FFH            ;02BD: FF
+		DB   0FFH            ;02BE: FF
+		DB   0FFH            ;02BF: FF
+		DB   0FFH            ;02C0: FF
+		DB   0FFH            ;02C1: FF
+		DB   0FFH            ;02C2: FF
+		DB   0FFH            ;02C3: FF
+		DB   0FFH            ;02C4: FF
+		DB   0FFH            ;02C5: FF
+		DB   0FFH            ;02C6: FF
+		DB   0FFH            ;02C7: FF
+		DB   0FFH            ;02C8: FF
+		DB   0FFH            ;02C9: FF
+		DB   0FFH            ;02CA: FF
+		DB   0FFH            ;02CB: FF
+		DB   0FFH            ;02CC: FF
+		DB   0FFH            ;02CD: FF
+		DB   0FFH            ;02CE: FF
+		DB   0FFH            ;02CF: FF
+		DB   0FFH            ;02D0: FF
+		DB   0FFH            ;02D1: FF
+		DB   0FFH            ;02D2: FF
+		DB   0FFH            ;02D3: FF
+		DB   0FFH            ;02D4: FF
+		DB   0FFH            ;02D5: FF
+		DB   0FFH            ;02D6: FF
+		DB   0FFH            ;02D7: FF
+		DB   0FFH            ;02D8: FF
+		DB   0FFH            ;02D9: FF
+		DB   0FFH            ;02DA: FF
+		DB   0FFH            ;02DB: FF
+		DB   0FFH            ;02DC: FF
+		DB   0FFH            ;02DD: FF
+		DB   0FFH            ;02DE: FF
+		DB   0FFH            ;02DF: FF
+		DB   0FFH            ;02E0: FF
+		DB   0FFH            ;02E1: FF
+		DB   0FFH            ;02E2: FF
+		DB   0FFH            ;02E3: FF
+		DB   0FFH            ;02E4: FF
+		DB   0FFH            ;02E5: FF
+		DB   0FFH            ;02E6: FF
+		DB   0FFH            ;02E7: FF
+		DB   0FFH            ;02E8: FF
+		DB   0FFH            ;02E9: FF
+		DB   0FFH            ;02EA: FF
+		DB   0FFH            ;02EB: FF
+		DB   0FFH            ;02EC: FF
+		DB   0FFH            ;02ED: FF
+		DB   0FFH            ;02EE: FF
+		DB   0FFH            ;02EF: FF
+		DB   0FFH            ;02F0: FF
+		DB   0FFH            ;02F1: FF
+		DB   0FFH            ;02F2: FF
+		DB   0FFH            ;02F3: FF
+		DB   0FFH            ;02F4: FF
+		DB   0FFH            ;02F5: FF
+		DB   0FFH            ;02F6: FF
+		DB   0FFH            ;02F7: FF
+		DB   0FFH            ;02F8: FF
+		DB   0FFH            ;02F9: FF
+		DB   0FFH            ;02FA: FF
+		DB   0FFH            ;02FB: FF
+		DB   0FFH            ;02FC: FF
+		DB   0FFH            ;02FD: FF
+		DB   0FFH            ;02FE: FF
+		DB   0FFH            ;02FF: FF
+S0300
+		SEP  R4              ;0300: D4          
+		DW   S03F5           ;0301: 03 F5
+		SEP  R4              ;0303: D4          
+		DW   S0359           ;0304: 03 59
+		XRI  12H             ;0306: FB 12       
+		BZ   R030E           ;0308: 32 0E       
+		SEP  R4              ;030A: D4          
+		DW   S04E7           ;030B: 04 E7
+		DB   3AH             ;030D: 3A
+R030E
+		LDI  92H             ;030E: F8 92       
+		PHI  RC              ;0310: BC          
+		STR  R2              ;0311: 52          
+		LDI  00H             ;0312: F8 00       
+		PLO  RC              ;0314: AC          
+		SDI  00H             ;0315: FD 00       
+		PLO  RA              ;0317: AA          
+		SEP  RD              ;0318: DD          
+		PHI  RB              ;0319: BB          
+		SMB                  ;031A: 77          
+		PHI  RA              ;031B: BA          
+		SEP  R4              ;031C: D4          
+		DW   S0359           ;031D: 03 59
+		PHI  RE              ;031F: BE          
+		SEP  R4              ;0320: D4          
+		DW   S0359           ;0321: 03 59
+		PLO  RE              ;0323: AE          
+		GLO  RA              ;0324: 8A          
+		STR  R2              ;0325: 52          
+		GLO  RE              ;0326: 8E          
+		SD                   ;0327: F5          
+		GHI  RA              ;0328: 9A          
+		STR  R2              ;0329: 52          
+		GHI  RE              ;032A: 9E          
+		SDB                  ;032B: 75          
+		BDF  R0332           ;032C: 33 32       
+		SEP  R4              ;032E: D4          
+		DW   S04E7           ;032F: 04 E7
+		DB   32H             ;0331: 32
+R0332
+		SEP  R4              ;0332: D4          
+		DW   S0359           ;0333: 03 59
+		STR  RC              ;0335: 5C          
+		INC  RC              ;0336: 1C          
+		DEC  RE              ;0337: 2E          
+		GHI  RE              ;0338: 9E          
+		XRI  0FFH            ;0339: FB FF       
+		BNZ  R0332           ;033B: 3A 32       
+		SEP  R4              ;033D: D4          
+		DW   S04A7           ;033E: 04 A7
+		LDI  92H             ;0340: F8 92       
+		PHI  RC              ;0342: BC          
+		LDI  00H             ;0343: F8 00       
+		PLO  RC              ;0345: AC          
+		LDA  RC              ;0346: 4C          
+		SEP  RD              ;0347: DD          
+		DB   1AH             ;0348: 1A
+		LDA  RC              ;0349: 4C          
+		STR  R2              ;034A: 52          
+		GHI  RC              ;034B: 9C          
+		ADD                  ;034C: F4          
+		SEP  RD              ;034D: DD          
+		DB   19H             ;034E: 19
+		LDA  RC              ;034F: 4C          
+		SEP  RD              ;0350: DD          
+		DB   13H             ;0351: 13
+		GHI  RC              ;0352: 9C          
+		STR  R2              ;0353: 52          
+		LDN  RC              ;0354: 0C          
+		ADD                  ;0355: F4          
+		SEP  RD              ;0356: DD          
+		DB   12H             ;0357: 12
+		SEP  R5              ;0358: D5          
+S0359
+		LDI  72H             ;0359: F8 72       
+		LSKP                 ;035B: C8          
+S035C
+		LDI  81H             ;035C: F8 81       
+		PLO  RF              ;035E: AF          
+		GLO  RC              ;035F: 8C          
+		STXD                 ;0360: 73          
+		GHI  RC              ;0361: 9C          
+		STXD                 ;0362: 73          
+		GLO  RA              ;0363: 8A          
+		STXD                 ;0364: 73          
+		GHI  RF              ;0365: 9F          
+		PLO  RA              ;0366: AA          
+		LDI  90H             ;0367: F8 90       
+		PHI  RC              ;0369: BC          
+		SEP  R4              ;036A: D4          
+		DW   S08DE           ;036B: 08 DE
+		SEX  R3              ;036D: E3          
+		OUT  1               ;036E: 61          
+		LDN  R2              ;036F: 02          
+		GLO  RF              ;0370: 8F          
+		PLO  R3              ;0371: A3          
+		LDI  62H             ;0372: F8 62       
+		PLO  RC              ;0374: AC          
+		SEP  R4              ;0375: D4          
+		DW   8502H           ;0376: 85 02
+		GHI  RF              ;0378: 9F          
+		PLO  RA              ;0379: AA          
+		SEX  R3              ;037A: E3          
+		OUT  1               ;037B: 61          
+		DB   01H             ;037C: 01
+		BDF  R0397           ;037D: 33 97       
+		BR   R038E           ;037F: 30 8E       
+		LDI  65H             ;0381: F8 65       
+		PLO  RC              ;0383: AC          
+		GLO  RA              ;0384: 8A          
+		PHI  RF              ;0385: BF          
+		SEP  R4              ;0386: D4          
+		DW   8500H           ;0387: 85 00
+		SEX  R3              ;0389: E3          
+		OUT  1               ;038A: 61          
+		DB   01H             ;038B: 01
+		BDF  R0397           ;038C: 33 97       
+R038E
+		SEP  R4              ;038E: D4          
+		DW   S150D           ;038F: 15 0D
+		DB   'ERR'           ;0391: 45
+		                     ;0392: 52
+		                     ;0393: 52
+		DB   0DH             ;0394: 0D
+		DB   0AH             ;0395: 0A
+		DB   00H             ;0396: 00
+R0397
+		SEP  R4              ;0397: D4          
+		DW   S0C40           ;0398: 0C 40
+		INC  R2              ;039A: 12          
+		GLO  RA              ;039B: 8A          
+		PHI  RF              ;039C: BF          
+		LDXA                 ;039D: 72          
+		PLO  RA              ;039E: AA          
+		LDXA                 ;039F: 72          
+		PHI  RC              ;03A0: BC          
+		LDX                  ;03A1: F0          
+		PLO  RC              ;03A2: AC          
+		GHI  RF              ;03A3: 9F          
+		SEP  R5              ;03A4: D5          
+S03A5
+		GHI  R8              ;03A5: 98          
+		STXD                 ;03A6: 73          
+		LDI  39H             ;03A7: F8 39       
+		BR   R03BE           ;03A9: 30 BE       
+S03AB
+		GHI  R8              ;03AB: 98          
+		STXD                 ;03AC: 73          
+		SEP  R4              ;03AD: D4          
+		DW   S138B           ;03AE: 13 8B
+S03B0
+		GLO  RA              ;03B0: 8A          
+		SMI  01H             ;03B1: FF 01       
+R03B3
+		LBNF J139D           ;03B3: CB 13 9D    
+		GLO  RA              ;03B6: 8A          
+		SDI  04H             ;03B7: FD 04       
+		BNF  R03B3           ;03B9: 3B B3       
+		GLO  RA              ;03BB: 8A          
+		ADI  3BH             ;03BC: FC 3B       
+R03BE
+		SEP  RD              ;03BE: DD          
+		DB   7BH             ;03BF: 7B
+S03C0
+		LDI  0D5H            ;03C0: F8 D5       
+		SEP  RD              ;03C2: DD          
+		DB   7EH             ;03C3: 7E
+S03C4
+		LDI  1AH             ;03C4: F8 1A       
+		STR  RF              ;03C6: 5F          
+		DEC  RF              ;03C7: 2F          
+		LDI  0FEH            ;03C8: F8 FE       
+		STR  RF              ;03CA: 5F          
+		LDI  00H             ;03CB: F8 00       
+		PLO  RA              ;03CD: AA          
+		SEP  R4              ;03CE: D4          
+		DW   90FBH           ;03CF: 90 FB
+S03D1
+		INC  R9              ;03D1: 19          
+		INC  R9              ;03D2: 19          
+		INC  R9              ;03D3: 19          
+		INC  R9              ;03D4: 19          
+		SEP  R4              ;03D5: D4          
+		DW   S11EF           ;03D6: 11 EF
+S03D8
+		INC  R9              ;03D8: 19          
+		GLO  RA              ;03D9: 8A          
+		STR  R9              ;03DA: 59          
+		DEC  R9              ;03DB: 29          
+		DEC  R9              ;03DC: 29          
+		DEC  R9              ;03DD: 29          
+		LBR  J1AF1           ;03DE: C0 1A F1    
+S03E1
+		SEP  R4              ;03E1: D4          
+		DW   S0460           ;03E2: 04 60
+		OUT  3               ;03E4: 63          
+		SEP  RD              ;03E5: DD          
+		DB   9DH             ;03E6: 9D
+		ANI  08H             ;03E7: FA 08       
+		BZ   R03EE           ;03E9: 32 EE       
+		SEP  R4              ;03EB: D4          
+		DW   S0484           ;03EC: 04 84
+R03EE
+		SEP  RD              ;03EE: DD          
+		DB   9DH             ;03EF: 9D
+		ORI  08H             ;03F0: F9 08       
+		DEC  RF              ;03F2: 2F          
+		STR  RF              ;03F3: 5F          
+		SEP  R5              ;03F4: D5          
+S03F5
+		SEP  R4              ;03F5: D4          
+		DW   S0460           ;03F6: 04 60
+		IRX                  ;03F8: 60          
+		SEP  RD              ;03F9: DD          
+		DB   9DH             ;03FA: 9D
+		ORI  04H             ;03FB: F9 04       
+		DEC  RF              ;03FD: 2F          
+		STR  RF              ;03FE: 5F          
+		SEP  R5              ;03FF: D5          
+J0400
+		LDI  14H             ;0400: F8 14       
+		PHI  R4              ;0402: B4          
+		LDI  14H             ;0403: F8 14       
+		PHI  R5              ;0405: B5          
+		LDI  25H             ;0406: F8 25       
+		PHI  RD              ;0408: BD          
+		LDI  03H             ;0409: F8 03       
+		PLO  RD              ;040B: AD          
+		LDI  91H             ;040C: F8 91       
+		PHI  R9              ;040E: B9          
+		LDI  70H             ;040F: F8 70       
+		PLO  R9              ;0411: A9          
+		LDI  0AAH            ;0412: F8 AA       
+		PLO  R4              ;0414: A4          
+		LDI  0CBH            ;0415: F8 CB       
+		PLO  R5              ;0417: A5          
+		LDI  0FFH            ;0418: F8 FF       
+		PLO  R2              ;041A: A2          
+		PHI  R8              ;041B: B8          
+		SEX  R2              ;041C: E2          
+		LDI  90H             ;041D: F8 90       
+		PHI  R2              ;041F: B2          
+		LDN  R2              ;0420: 02          
+		PHI  RF              ;0421: BF          
+R0422
+		LDI  5AH             ;0422: F8 5A       
+		STR  R2              ;0424: 52          
+		XOR                  ;0425: F3          
+		BNZ  R0430           ;0426: 3A 30       
+		GHI  RF              ;0428: 9F          
+		STR  R2              ;0429: 52          
+		GHI  R2              ;042A: 92          
+		ADI  01H             ;042B: FC 01       
+		PHI  R2              ;042D: B2          
+		BNZ  R0422           ;042E: 3A 22       
+R0430
+		GHI  R2              ;0430: 92          
+		SMI  01H             ;0431: FF 01       
+		PHI  R2              ;0433: B2          
+		LDI  00H             ;0434: F8 00       
+		PHI  R3              ;0436: B3          
+		LDI  05H             ;0437: F8 05       
+		PLO  R3              ;0439: A3          
+		SEP  R3              ;043A: D3          
+R043B
+		SEP  R4              ;043B: D4          
+		DW   S04E8           ;043C: 04 E8
+		SEP  R4              ;043E: D4          
+		DW   S0359           ;043F: 03 59
+		XRI  0AH             ;0441: FB 0A       
+		BZ   R043B           ;0443: 32 3B       
+		XRI  19H             ;0445: FB 19       
+		BNZ  R045E           ;0447: 3A 5E       
+		SEP  RD              ;0449: DD          
+		DB   9DH             ;044A: 9D
+		ANI  0FBH            ;044B: FA FB       
+		DEC  RF              ;044D: 2F          
+		STR  RF              ;044E: 5F          
+		SEP  R4              ;044F: D4          
+		DW   S150D           ;0450: 15 0D
+		DB   'EOF'           ;0452: 45
+		                     ;0453: 4F
+		                     ;0454: 46
+		DB   0DH             ;0455: 0D
+		DB   0AH             ;0456: 0A
+		DB   00H             ;0457: 00
+		SEP  R4              ;0458: D4          
+		DW   S08D0           ;0459: 08 D0
+		DEC  R6              ;045B: 26          
+		DEC  R6              ;045C: 26          
+		DEC  R6              ;045D: 26          
+R045E
+		GHI  RF              ;045E: 9F          
+		SEP  R5              ;045F: D5          
+S0460
+		LDN  RB              ;0460: 0B          
+		XRI  0DH             ;0461: FB 0D       
+		BZ   R046D           ;0463: 32 6D       
+		XRI  0C0H            ;0465: FB C0       
+		BZ   R046D           ;0467: 32 6D       
+		SEP  R4              ;0469: D4          
+		DW   S138B           ;046A: 13 8B
+		SKP                  ;046C: 38          
+R046D
+		PLO  RA              ;046D: AA          
+		LDI  90H             ;046E: F8 90       
+		PHI  RF              ;0470: BF          
+		LDA  R6              ;0471: 46          
+		PLO  RF              ;0472: AF          
+		LDI  00H             ;0473: F8 00       
+		STR  RF              ;0475: 5F          
+		INC  RF              ;0476: 1F          
+		GLO  RA              ;0477: 8A          
+		SHR                  ;0478: F6          
+		LDI  40H             ;0479: F8 40       
+		LSNF                 ;047B: C7          
+		LDI  80H             ;047C: F8 80       
+		STR  RF              ;047E: 5F          
+		INC  RF              ;047F: 1F          
+		LDI  00H             ;0480: F8 00       
+		STR  RF              ;0482: 5F          
+		SEP  R5              ;0483: D5          
+S0484
+		SEP  RD              ;0484: DD          
+		DB   9DH             ;0485: 9D
+		ANI  08H             ;0486: FA 08       
+		BZ   R04A4           ;0488: 32 A4       
+		LDI  13H             ;048A: F8 13       
+		SEP  R4              ;048C: D4          
+		DW   S035C           ;048D: 03 5C
+		LDI  02H             ;048F: F8 02       
+		PHI  RE              ;0491: BE          
+		LDI  80H             ;0492: F8 80       
+		PLO  RE              ;0494: AE          
+R0495
+		LDI  00H             ;0495: F8 00       
+		SEP  R4              ;0497: D4          
+		DW   S035C           ;0498: 03 5C
+		DEC  RE              ;049A: 2E          
+		GHI  RE              ;049B: 9E          
+		BNZ  R0495           ;049C: 3A 95       
+		SEP  RD              ;049E: DD          
+		DB   9DH             ;049F: 9D
+		ANI  0F7H            ;04A0: FA F7       
+		DEC  RF              ;04A2: 2F          
+		STR  RF              ;04A3: 5F          
+R04A4
+		LBR  S05F2           ;04A4: C0 05 F2    
+S04A7
+		LDI  92H             ;04A7: F8 92       
+		SEP  RD              ;04A9: DD          
+		DB   12H             ;04AA: 12
+S04AB
+		SEP  RD              ;04AB: DD          
+		DB   14H             ;04AC: 14
+S04AD
+		SEP  RD              ;04AD: DD          
+		DB   19H             ;04AE: 19
+S04AF
+		LDI  09H             ;04AF: F8 09       
+		SEP  RD              ;04B1: DD          
+		DB   13H             ;04B2: 13
+S04B3
+		SEP  RD              ;04B3: DD          
+		DB   15H             ;04B4: 15
+S04B5
+		SEP  RD              ;04B5: DD          
+		DB   1AH             ;04B6: 1A
+S04B7
+		SEP  R5              ;04B7: D5          
+S04B8
+		LDI  00H             ;04B8: F8 00       
+		PHI  R8              ;04BA: B8          
+		SEP  RD              ;04BB: DD          
+		DB   1CH             ;04BC: 1C
+S04BD
+		SEP  RD              ;04BD: DD          
+		DB   1DH             ;04BE: 1D
+S04BF
+		SEP  RD              ;04BF: DD          
+		DB   33H             ;04C0: 33
+S04C1
+		LDI  41H             ;04C1: F8 41       
+		SEP  RD              ;04C3: DD          
+		DB   3CH             ;04C4: 3C
+S04C5
+		LBR  S04A7           ;04C5: C0 04 A7    
+S04C8
+		SEP  R4              ;04C8: D4          
+		DW   S138B           ;04C9: 13 8B
+S04CB
+		GLO  RA              ;04CB: 8A          
+		ANI  01H             ;04CC: FA 01       
+		BZ   R04D2           ;04CE: 32 D2       
+		SEQ                  ;04D0: 7B          
+		SEP  R5              ;04D1: D5          
+R04D2
+		REQ                  ;04D2: 7A          
+		SEP  R5              ;04D3: D5          
+S04D4
+		SEP  RD              ;04D4: DD          
+		DB   0ACH            ;04D5: AC
+		SEP  R4              ;04D6: D4          
+		DW   S1BD3           ;04D7: 1B D3
+		SEP  RD              ;04D9: DD          
+		DB   80H             ;04DA: 80
+		LBR  S1BD3           ;04DB: C0 1B D3    
+		XRI  0AH             ;04DE: FB 0A       
+		BZ   R04E6           ;04E0: 32 E6       
+		GHI  RF              ;04E2: 9F          
+		SEP  R4              ;04E3: D4          
+		DW   S035C           ;04E4: 03 5C
+R04E6
+		SEP  R5              ;04E6: D5          
+S04E7
+		IDL                  ;04E7: 00          
+S04E8
+		SEP  R5              ;04E8: D5          
+S04E9
+		GHI  R8              ;04E9: 98          
+		STXD                 ;04EA: 73          
+		SEP  R4              ;04EB: D4          
+		DW   S20E3           ;04EC: 20 E3
+		LDI  00H             ;04EE: F8 00       
+		STR  R9              ;04F0: 59          
+		INC  R9              ;04F1: 19          
+		STR  R9              ;04F2: 59          
+		INC  R9              ;04F3: 19          
+		STR  R9              ;04F4: 59          
+		INC  R9              ;04F5: 19          
+		LDN  R9              ;04F6: 09          
+		XRI  0FFH            ;04F7: FB FF       
+		STR  R9              ;04F9: 59          
+		DEC  R9              ;04FA: 29          
+		DEC  R9              ;04FB: 29          
+		DEC  R9              ;04FC: 29          
+		LBR  J1AF1           ;04FD: C0 1A F1    
+		DW   S19F9           ;0500: 19 F9
+		DW   S14E7           ;0502: 14 E7
+		DW   S04B8           ;0504: 04 B8
+		DW   S0D76           ;0506: 0D 76
+		DW   S04E7           ;0508: 04 E7
+		DW   S1600           ;050A: 16 00
+		DW   S1527           ;050C: 15 27
+		DW   S10D6           ;050E: 10 D6
+		DW   S1800           ;0510: 18 00
+		DW   S18C8           ;0512: 18 C8
+		DW   S0045           ;0514: 00 45
+		DW   S19BD           ;0516: 19 BD
+		DW   S1522           ;0518: 15 22
+		DW   S1466           ;051A: 14 66
+		DW   S0F00           ;051C: 0F 00
+		DW   S1100           ;051E: 11 00
+		DW   S2000           ;0520: 20 00
+		DW   S1435           ;0522: 14 35
+		DW   S13A1           ;0524: 13 A1
+		DW   S2BF8           ;0526: 2B F8
+		DW   S2BFB           ;0528: 2B FB
+		DW   S04C8           ;052A: 04 C8
+		DW   S1775           ;052C: 17 75
+		DW   S0045           ;052E: 00 45
+		DW   S0045           ;0530: 00 45
+		DW   S21E3           ;0532: 21 E3
+		DW   S141B           ;0534: 14 1B
+		DW   S151D           ;0536: 15 1D
+		DW   S1C00           ;0538: 1C 00
+		DW   S14F4           ;053A: 14 F4
+		DW   S141E           ;053C: 14 1E
+		DW   S04A7           ;053E: 04 A7
+		DW   S00BF           ;0540: 00 BF
+		DW   S0300           ;0542: 03 00
+		DW   S1FE4           ;0544: 1F E4
+		DW   S11FA           ;0546: 11 FA
+		DW   S0597           ;0548: 05 97
+		DW   S08D0           ;054A: 08 D0
+		DW   S05F2           ;054C: 05 F2
+		DW   S13DE           ;054E: 13 DE
+		DW   S1B69           ;0550: 1B 69
+		DW   S0BE9           ;0552: 0B E9
+		DW   S0BD2           ;0554: 0B D2
+		DW   S0B35           ;0556: 0B 35
+		DW   S0484           ;0558: 04 84
+		DW   S0045           ;055A: 00 45
+		DW   S21C3           ;055C: 21 C3
+		DW   S03E1           ;055E: 03 E1
+		DW   S03F5           ;0560: 03 F5
+		DW   S1900           ;0562: 19 00
+		DW   S0045           ;0564: 00 45
+		DW   S2CA5           ;0566: 2C A5
+S0568
+		GLO  R9              ;0568: 89          
+		SMI  04H             ;0569: FF 04       
+		PLO  R9              ;056B: A9          
+		LDI  00H             ;056C: F8 00       
+R056E
+		PLO  RF              ;056E: AF          
+		LDA  R9              ;056F: 49          
+		BNZ  R0593           ;0570: 3A 93       
+		LDA  R9              ;0572: 49          
+		BNZ  R0593           ;0573: 3A 93       
+		LDA  R9              ;0575: 49          
+		BNZ  R0593           ;0576: 3A 93       
+		LDA  R9              ;0578: 49          
+		STR  R2              ;0579: 52          
+		GLO  RF              ;057A: 8F          
+		BNZ  R0586           ;057B: 3A 86       
+		LDN  R2              ;057D: 02          
+		BZ   R0582           ;057E: 32 82       
+		OUT  1               ;0580: 61          
+		DEC  R2              ;0581: 22          
+R0582
+		LDI  01H             ;0582: F8 01       
+		BR   R056E           ;0584: 30 6E       
+R0586
+		LDI  07H             ;0586: F8 07       
+		OR                   ;0588: F1          
+		XRI  07H             ;0589: FB 07       
+		BNZ  R0593           ;058B: 3A 93       
+		GLO  R9              ;058D: 89          
+		SMI  08H             ;058E: FF 08       
+		PLO  R9              ;0590: A9          
+		LDX                  ;0591: F0          
+		SEP  R5              ;0592: D5          
+R0593
+		SEP  R4              ;0593: D4          
+		DW   S04E7           ;0594: 04 E7
+		DB   33H             ;0596: 33
+S0597
+		SEP  R4              ;0597: D4          
+		DW   S138B           ;0598: 13 8B
+S059A
+		GLO  RA              ;059A: 8A          
+		PLO  R0              ;059B: A0          
+		GHI  RA              ;059C: 9A          
+		PHI  R0              ;059D: B0          
+		SEP  R5              ;059E: D5          
+		DB   0FFH            ;059F: FF
+		DW   S1D03           ;05A0: 1D 03
+		DW   S1B00           ;05A2: 1B 00
+		DW   S2100           ;05A4: 21 00
+		DW   S2100           ;05A6: 21 00
+		DW   S1D60           ;05A8: 1D 60
+		DW   S1D63           ;05AA: 1D 63
+		DW   S1500           ;05AC: 15 00
+		DW   S101C           ;05AE: 10 1C
+		DW   S1D66           ;05B0: 1D 66
+		DW   S1D69           ;05B2: 1D 69
+		DW   S1D6C           ;05B4: 1D 6C
+		DW   S1D6F           ;05B6: 1D 6F
+		DW   S0D00           ;05B8: 0D 00
+		DW   S144E           ;05BA: 14 4E
+		DW   S1ED9           ;05BC: 1E D9
+		DW   S1A00           ;05BE: 1A 00
+		DW   S1B6C           ;05C0: 1B 6C
+		DW   S1C6E           ;05C2: 1C 6E
+		DW   S1D00           ;05C4: 1D 00
+		DW   S1E9A           ;05C6: 1E 9A
+		DW   S1E03           ;05C8: 1E 03
+		DW   S2167           ;05CA: 21 67
+		DW   S09CA           ;05CC: 09 CA
+		DW   S1E51           ;05CE: 1E 51
+		DW   S0B00           ;05D0: 0B 00
+		DW   S0C00           ;05D2: 0C 00
+		DW   S04E9           ;05D4: 04 E9
+		DW   S13C0           ;05D6: 13 C0
+		DW   S1E00           ;05D8: 1E 00
+		DW   S1090           ;05DA: 10 90
+		DW   S2131           ;05DC: 21 31
+		DW   S03A5           ;05DE: 03 A5
+		DW   S03AB           ;05E0: 03 AB
+J05E2
+		GHI  R8              ;05E2: 98          
+		ANI  04H             ;05E3: FA 04       
+		BZ   R05EC           ;05E5: 32 EC       
+		SEP  R4              ;05E7: D4          
+		DW   S2CC2           ;05E8: 2C C2
+S05EA
+		BR   R05EF           ;05EA: 30 EF       
+R05EC
+		INC  RD              ;05EC: 1D          
+		SEP  RD              ;05ED: DD          
+		DB   4CH             ;05EE: 4C
+R05EF
+		LBR  J091C           ;05EF: C0 09 1C    
+S05F2
+		LDI  06H             ;05F2: F8 06       
+		SEP  RD              ;05F4: DD          
+		DB   10H             ;05F5: 10
+S05F6
+		LDI  01H             ;05F6: F8 01       
+		STR  RF              ;05F8: 5F          
+		SEP  RD              ;05F9: DD          
+		DB   9DH             ;05FA: 9D
+S05FB
+		ANI  0FDH            ;05FB: FA FD       
+		DEC  RF              ;05FD: 2F          
+		STR  RF              ;05FE: 5F          
+		SEP  R5              ;05FF: D5          
+		DB   0A4H            ;0600: A4
+		DB   52H             ;0601: 52
+		DB   45H             ;0602: 45
+		DB   0CDH            ;0603: CD
+		DB   80H             ;0604: 80
+		DB   67H             ;0605: 67
+		DB   46H             ;0606: 46
+		DB   4FH             ;0607: 4F
+		DB   52H             ;0608: 52
+		DB   4DH             ;0609: 4D
+		DB   41H             ;060A: 41
+		DB   0D4H            ;060B: D4
+		DB   0B3H            ;060C: B3
+		DB   24H             ;060D: 24
+		DB   43H             ;060E: 43
+		DB   4CH             ;060F: 4C
+		DB   0D3H            ;0610: D3
+		DB   81H             ;0611: 81
+		DB   24H             ;0612: 24
+		DB   4EH             ;0613: 4E
+		DB   45H             ;0614: 45
+		DB   0D7H            ;0615: D7
+		DB   82H             ;0616: 82
+		DB   04H             ;0617: 04
+		DB   52H             ;0618: 52
+		DB   55H             ;0619: 55
+		DB   0CEH            ;061A: CE
+		DB   83H             ;061B: 83
+		DB   24H             ;061C: 24
+		DB   45H             ;061D: 45
+		DB   4EH             ;061E: 4E
+		DB   0C4H            ;061F: C4
+		DB   84H             ;0620: 84
+		DB   64H             ;0621: 64
+		DB   4CH             ;0622: 4C
+		DB   45H             ;0623: 45
+		DB   0D4H            ;0624: D4
+		DB   85H             ;0625: 85
+		DB   66H             ;0626: 66
+		DB   50H             ;0627: 50
+		DB   52H             ;0628: 52
+		DB   49H             ;0629: 49
+		DB   4EH             ;062A: 4E
+		DB   0D4H            ;062B: D4
+		DB   86H             ;062C: 86
+		DB   63H             ;062D: 63
+		DB   50H             ;062E: 50
+		DB   0D2H            ;062F: D2
+		DB   86H             ;0630: 86
+		DB   65H             ;0631: 65
+		DB   47H             ;0632: 47
+		DB   4FH             ;0633: 4F
+		DB   54H             ;0634: 54
+		DB   0CFH            ;0635: CF
+		DB   87H             ;0636: 87
+		DB   63H             ;0637: 63
+		DB   49H             ;0638: 49
+		DB   0C6H            ;0639: C6
+		DB   88H             ;063A: 88
+		DB   66H             ;063B: 66
+		DB   49H             ;063C: 49
+		DB   4EH             ;063D: 4E
+		DB   50H             ;063E: 50
+		DB   55H             ;063F: 55
+		DB   0D4H            ;0640: D4
+		DB   89H             ;0641: 89
+		DB   65H             ;0642: 65
+		DB   4CH             ;0643: 4C
+		DB   49H             ;0644: 49
+		DB   53H             ;0645: 53
+		DB   0D4H            ;0646: D4
+		DB   8AH             ;0647: 8A
+		DB   66H             ;0648: 66
+		DB   47H             ;0649: 47
+		DB   4FH             ;064A: 4F
+		DB   53H             ;064B: 53
+		DB   55H             ;064C: 55
+		DB   0C2H            ;064D: C2
+		DB   8BH             ;064E: 8B
+		DB   67H             ;064F: 67
+		DB   52H             ;0650: 52
+		DB   45H             ;0651: 45
+		DB   54H             ;0652: 54
+		DB   55H             ;0653: 55
+		DB   52H             ;0654: 52
+		DB   0CEH            ;0655: CE
+		DB   8CH             ;0656: 8C
+		DB   25H             ;0657: 25
+		DB   57H             ;0658: 57
+		DB   41H             ;0659: 41
+		DB   49H             ;065A: 49
+		DB   0D4H            ;065B: D4
+		DB   8DH             ;065C: 8D
+		DB   64H             ;065D: 64
+		DB   44H             ;065E: 44
+		DB   49H             ;065F: 49
+		DB   0CDH            ;0660: CD
+		DB   8EH             ;0661: 8E
+		DB   64H             ;0662: 64
+		DB   46H             ;0663: 46
+		DB   4FH             ;0664: 4F
+		DB   0D2H            ;0665: D2
+		DB   8FH             ;0666: 8F
+		DB   65H             ;0667: 65
+		DB   4EH             ;0668: 4E
+		DB   45H             ;0669: 45
+		DB   58H             ;066A: 58
+		DB   0D4H            ;066B: D4
+		DB   90H             ;066C: 90
+		DB   66H             ;066D: 66
+		DB   46H             ;066E: 46
+		DB   49H             ;066F: 49
+		DB   58H             ;0670: 58
+		DB   45H             ;0671: 45
+		DB   0C4H            ;0672: C4
+		DB   91H             ;0673: 91
+		DB   25H             ;0674: 25
+		DB   50H             ;0675: 50
+		DB   4FH             ;0676: 4F
+		DB   4BH             ;0677: 4B
+		DB   0C5H            ;0678: C5
+		DB   92H             ;0679: 92
+		DB   64H             ;067A: 64
+		DB   44H             ;067B: 44
+		DB   45H             ;067C: 45
+		DB   0C7H            ;067D: C7
+		DB   93H             ;067E: 93
+		DB   64H             ;067F: 64
+		DB   52H             ;0680: 52
+		DB   41H             ;0681: 41
+		DB   0C4H            ;0682: C4
+		DB   94H             ;0683: 94
+		DB   64H             ;0684: 64
+		DB   53H             ;0685: 53
+		DB   54H             ;0686: 54
+		DB   0D1H            ;0687: D1
+		DB   95H             ;0688: 95
+		DB   67H             ;0689: 67
+		DB   44H             ;068A: 44
+		DB   45H             ;068B: 45
+		DB   46H             ;068C: 46
+		DB   49H             ;068D: 49
+		DB   4EH             ;068E: 4E
+		DB   0D4H            ;068F: D4
+		DB   96H             ;0690: 96
+		DB   66H             ;0691: 66
+		DB   50H             ;0692: 50
+		DB   53H             ;0693: 53
+		DB   41H             ;0694: 41
+		DB   56H             ;0695: 56
+		DB   0C5H            ;0696: C5
+		DB   97H             ;0697: 97
+		DB   66H             ;0698: 66
+		DB   50H             ;0699: 50
+		DB   4CH             ;069A: 4C
+		DB   4FH             ;069B: 4F
+		DB   41H             ;069C: 41
+		DB   0C4H            ;069D: C4
+		DB   98H             ;069E: 98
+		DB   26H             ;069F: 26
+		DB   44H             ;06A0: 44
+		DB   45H             ;06A1: 45
+		DB   46H             ;06A2: 46
+		DB   55H             ;06A3: 55
+		DB   0D3H            ;06A4: D3
+		DB   99H             ;06A5: 99
+		DB   24H             ;06A6: 24
+		DB   45H             ;06A7: 45
+		DB   4FH             ;06A8: 4F
+		DB   0D0H            ;06A9: D0
+		DB   9AH             ;06AA: 9A
+		DB   65H             ;06AB: 65
+		DB   44H             ;06AC: 44
+		DB   41H             ;06AD: 41
+		DB   54H             ;06AE: 54
+		DB   0C1H            ;06AF: C1
+		DB   9BH             ;06B0: 9B
+		DB   65H             ;06B1: 65
+		DB   52H             ;06B2: 52
+		DB   45H             ;06B3: 45
+		DB   41H             ;06B4: 41
+		DB   0C4H            ;06B5: C4
+		DB   9CH             ;06B6: 9C
+		DB   28H             ;06B7: 28
+		DB   52H             ;06B8: 52
+		DB   45H             ;06B9: 45
+		DB   53H             ;06BA: 53
+		DB   54H             ;06BB: 54
+		DB   4FH             ;06BC: 4F
+		DB   52H             ;06BD: 52
+		DB   0C5H            ;06BE: C5
+		DB   9DH             ;06BF: 9D
+		DB   24H             ;06C0: 24
+		DB   45H             ;06C1: 45
+		DB   4FH             ;06C2: 4F
+		DB   0C4H            ;06C3: C4
+		DB   9EH             ;06C4: 9E
+		DB   24H             ;06C5: 24
+		DB   43H             ;06C6: 43
+		DB   4CH             ;06C7: 4C
+		DB   0C4H            ;06C8: C4
+		DB   9FH             ;06C9: 9F
+		DB   66H             ;06CA: 66
+		DB   44H             ;06CB: 44
+		DB   53H             ;06CC: 53
+		DB   41H             ;06CD: 41
+		DB   56H             ;06CE: 56
+		DB   0C5H            ;06CF: C5
+		DB   0A0H            ;06D0: A0
+		DB   66H             ;06D1: 66
+		DB   44H             ;06D2: 44
+		DB   4CH             ;06D3: 4C
+		DB   4FH             ;06D4: 4F
+		DB   41H             ;06D5: 41
+		DB   0C4H            ;06D6: C4
+		DB   0A1H            ;06D7: A1
+		DB   66H             ;06D8: 66
+		DB   45H             ;06D9: 45
+		DB   4EH             ;06DA: 4E
+		DB   49H             ;06DB: 49
+		DB   4EH             ;06DC: 4E
+		DB   0D4H            ;06DD: D4
+		DB   0A2H            ;06DE: A2
+		DB   67H             ;06DF: 67
+		DB   44H             ;06E0: 44
+		DB   49H             ;06E1: 49
+		DB   53H             ;06E2: 53
+		DB   49H             ;06E3: 49
+		DB   4EH             ;06E4: 4E
+		DB   0D4H            ;06E5: D4
+		DB   0A3H            ;06E6: A3
+		DB   66H             ;06E7: 66
+		DB   44H             ;06E8: 44
+		DB   4DH             ;06E9: 4D
+		DB   41H             ;06EA: 41
+		DB   50H             ;06EB: 50
+		DB   0D4H            ;06EC: D4
+		DB   0A4H            ;06ED: A4
+		DB   64H             ;06EE: 64
+		DB   54H             ;06EF: 54
+		DB   49H             ;06F0: 49
+		DB   0CEH            ;06F1: CE
+		DB   0A5H            ;06F2: A5
+		DB   65H             ;06F3: 65
+		DB   54H             ;06F4: 54
+		DB   4FH             ;06F5: 4F
+		DB   55H             ;06F6: 55
+		DB   0D4H            ;06F7: D4
+		DB   0A6H            ;06F8: A6
+		DB   66H             ;06F9: 66
+		DB   54H             ;06FA: 54
+		DB   52H             ;06FB: 52
+		DB   41H             ;06FC: 41
+		DB   43H             ;06FD: 43
+		DB   0C5H            ;06FE: C5
+		DB   0A7H            ;06FF: A7
+		DB   65H             ;0700: 65
+		DB   43H             ;0701: 43
+		DB   41H             ;0702: 41
+		DB   4CH             ;0703: 4C
+		DB   0CCH            ;0704: CC
+		DB   0A8H            ;0705: A8
+		DB   64H             ;0706: 64
+		DB   44H             ;0707: 44
+		DB   49H             ;0708: 49
+		DB   0CEH            ;0709: CE
+		DB   0A9H            ;070A: A9
+		DB   65H             ;070B: 65
+		DB   44H             ;070C: 44
+		DB   4FH             ;070D: 4F
+		DB   55H             ;070E: 55
+		DB   0D4H            ;070F: D4
+		DB   0AAH            ;0710: AA
+		DB   64H             ;0711: 64
+		DB   4FH             ;0712: 4F
+		DB   55H             ;0713: 55
+		DB   0D4H            ;0714: D4
+		DB   0ABH            ;0715: AB
+		DB   66H             ;0716: 66
+		DB   43H             ;0717: 43
+		DB   4CH             ;0718: 4C
+		DB   4FH             ;0719: 4F
+		DB   53H             ;071A: 53
+		DB   0C5H            ;071B: C5
+		DB   0ACH            ;071C: AC
+		DB   64H             ;071D: 64
+		DB   42H             ;071E: 42
+		DB   59H             ;071F: 59
+		DB   0C5H            ;0720: C5
+		DB   0ADH            ;0721: AD
+		DB   65H             ;0722: 65
+		DB   45H             ;0723: 45
+		DB   58H             ;0724: 58
+		DB   49H             ;0725: 49
+		DB   0D4H            ;0726: D4
+		DB   0AEH            ;0727: AE
+		DB   65H             ;0728: 65
+		DB   57H             ;0729: 57
+		DB   46H             ;072A: 46
+		DB   4CH             ;072B: 4C
+		DB   0CEH            ;072C: CE
+		DB   0AFH            ;072D: AF
+		DB   65H             ;072E: 65
+		DB   52H             ;072F: 52
+		DB   46H             ;0730: 46
+		DB   4CH             ;0731: 4C
+		DB   0CEH            ;0732: CE
+		DB   0B0H            ;0733: B0
+		DB   69H             ;0734: 69
+		DB   52H             ;0735: 52
+		DB   45H             ;0736: 45
+		DB   4EH             ;0737: 4E
+		DB   55H             ;0738: 55
+		DB   4DH             ;0739: 4D
+		DB   42H             ;073A: 42
+		DB   45H             ;073B: 45
+		DB   0D2H            ;073C: D2
+		DB   0B1H            ;073D: B1
+		DB   65H             ;073E: 65
+		DB   45H             ;073F: 45
+		DB   44H             ;0740: 44
+		DB   49H             ;0741: 49
+		DB   0D4H            ;0742: D4
+		DB   0B2H            ;0743: B2
+		DB   04H             ;0744: 04
+		DB   53H             ;0745: 53
+		DB   49H             ;0746: 49
+		DB   0CEH            ;0747: CE
+		DB   0D4H            ;0748: D4
+		DB   04H             ;0749: 04
+		DB   43H             ;074A: 43
+		DB   4FH             ;074B: 4F
+		DB   0D3H            ;074C: D3
+		DB   0D5H            ;074D: D5
+		DB   02H             ;074E: 02
+		DB   0A8H            ;074F: A8
+		DB   0D6H            ;0750: D6
+		DB   04H             ;0751: 04
+		DB   41H             ;0752: 41
+		DB   54H             ;0753: 54
+		DB   0CEH            ;0754: CE
+		DB   0D8H            ;0755: D8
+		DB   04H             ;0756: 04
+		DB   45H             ;0757: 45
+		DB   58H             ;0758: 58
+		DB   0D0H            ;0759: D0
+		DB   0D9H            ;075A: D9
+		DB   04H             ;075B: 04
+		DB   4CH             ;075C: 4C
+		DB   4FH             ;075D: 4F
+		DB   0C7H            ;075E: C7
+		DB   0DAH            ;075F: DA
+		DB   04H             ;0760: 04
+		DB   53H             ;0761: 53
+		DB   51H             ;0762: 51
+		DB   0D2H            ;0763: D2
+		DB   0DBH            ;0764: DB
+		DB   04H             ;0765: 04
+		DB   49H             ;0766: 49
+		DB   4EH             ;0767: 4E
+		DB   0D4H            ;0768: D4
+		DB   0DCH            ;0769: DC
+		DB   05H             ;076A: 05
+		DB   50H             ;076B: 50
+		DB   45H             ;076C: 45
+		DB   45H             ;076D: 45
+		DB   0CBH            ;076E: CB
+		DB   0DDH            ;076F: DD
+		DB   04H             ;0770: 04
+		DB   41H             ;0771: 41
+		DB   42H             ;0772: 42
+		DB   0D3H            ;0773: D3
+		DB   0DEH            ;0774: DE
+		DB   04H             ;0775: 04
+		DB   52H             ;0776: 52
+		DB   4EH             ;0777: 4E
+		DB   0C4H            ;0778: C4
+		DB   0DFH            ;0779: DF
+		DB   04H             ;077A: 04
+		DB   55H             ;077B: 55
+		DB   53H             ;077C: 53
+		DB   0D2H            ;077D: D2
+		DB   0E0H            ;077E: E0
+		DB   05H             ;077F: 05
+		DB   49H             ;0780: 49
+		DB   4EH             ;0781: 4E
+		DB   55H             ;0782: 55
+		DB   0CDH            ;0783: CD
+		DB   0E1H            ;0784: E1
+		DB   05H             ;0785: 05
+		DB   46H             ;0786: 46
+		DB   4EH             ;0787: 4E
+		DB   55H             ;0788: 55
+		DB   0CDH            ;0789: CD
+		DB   0E3H            ;078A: E3
+		DB   04H             ;078B: 04
+		DB   41H             ;078C: 41
+		DB   53H             ;078D: 53
+		DB   0C3H            ;078E: C3
+		DB   0E4H            ;078F: E4
+		DB   04H             ;0790: 04
+		DB   4CH             ;0791: 4C
+		DB   45H             ;0792: 45
+		DB   0CEH            ;0793: CE
+		DB   0E5H            ;0794: E5
+		DB   02H             ;0795: 02
+		DB   0DCH            ;0796: DC
+		DB   0E6H            ;0797: E6
+		DB   04H             ;0798: 04
+		DB   53H             ;0799: 53
+		DB   47H             ;079A: 47
+		DB   0CEH            ;079B: CE
+		DB   0E7H            ;079C: E7
+		DB   04H             ;079D: 04
+		DB   4DH             ;079E: 4D
+		DB   4FH             ;079F: 4F
+		DB   0C4H            ;07A0: C4
+		DB   0E8H            ;07A1: E8
+		DB   04H             ;07A2: 04
+		DB   49H             ;07A3: 49
+		DB   4EH             ;07A4: 4E
+		DB   0D0H            ;07A5: D0
+		DB   0E9H            ;07A6: E9
+		DB   64H             ;07A7: 64
+		DB   4EH             ;07A8: 4E
+		DB   4FH             ;07A9: 4F
+		DB   0D4H            ;07AA: D4
+		DB   0EAH            ;07AB: EA
+		DB   03H             ;07AC: 03
+		DB   50H             ;07AD: 50
+		DB   0C9H            ;07AE: C9
+		DB   0EBH            ;07AF: EB
+		DB   05H             ;07B0: 05
+		DB   46H             ;07B1: 46
+		DB   56H             ;07B2: 56
+		DB   41H             ;07B3: 41
+		DB   0CCH            ;07B4: CC
+		DB   0ECH            ;07B5: EC
+		DB   05H             ;07B6: 05
+		DB   53H             ;07B7: 53
+		DB   54H             ;07B8: 54
+		DB   52H             ;07B9: 52
+		DB   0A4H            ;07BA: A4
+		DB   0EDH            ;07BB: ED
+		DB   04H             ;07BC: 04
+		DB   4DH             ;07BD: 4D
+		DB   45H             ;07BE: 45
+		DB   0CDH            ;07BF: CD
+		DB   0EEH            ;07C0: EE
+		DB   04H             ;07C1: 04
+		DB   51H             ;07C2: 51
+		DB   53H             ;07C3: 53
+		DB   0D4H            ;07C4: D4
+		DB   0EFH            ;07C5: EF
+		DB   03H             ;07C6: 03
+		DB   45H             ;07C7: 45
+		DB   0C6H            ;07C8: C6
+		DB   0F0H            ;07C9: F0
+		DB   64H             ;07CA: 64
+		DB   41H             ;07CB: 41
+		DB   4EH             ;07CC: 4E
+		DB   0C4H            ;07CD: C4
+		DB   0B5H            ;07CE: B5
+		DB   64H             ;07CF: 64
+		DB   58H             ;07D0: 58
+		DB   4FH             ;07D1: 4F
+		DB   0D2H            ;07D2: D2
+		DB   0B6H            ;07D3: B6
+		DB   63H             ;07D4: 63
+		DB   4FH             ;07D5: 4F
+		DB   0D2H            ;07D6: D2
+		DB   0B7H            ;07D7: B7
+		DB   05H             ;07D8: 05
+		DB   43H             ;07D9: 43
+		DB   48H             ;07DA: 48
+		DB   52H             ;07DB: 52
+		DB   0A4H            ;07DC: A4
+		DB   0B9H            ;07DD: B9
+		DB   05H             ;07DE: 05
+		DB   4DH             ;07DF: 4D
+		DB   49H             ;07E0: 49
+		DB   44H             ;07E1: 44
+		DB   0A4H            ;07E2: A4
+		DB   0BAH            ;07E3: BA
+		DB   02H             ;07E4: 02
+		DB   0DEH            ;07E5: DE
+		DB   0BBH            ;07E6: BB
+		DB   04H             ;07E7: 04
+		DB   54H             ;07E8: 54
+		DB   41H             ;07E9: 41
+		DB   0C2H            ;07EA: C2
+		DB   0BCH            ;07EB: BC
+		DB   03H             ;07EC: 03
+		DB   3EH             ;07ED: 3E
+		DB   0BDH            ;07EE: BD
+		DB   0BDH            ;07EF: BD
+		DB   03H             ;07F0: 03
+		DB   3CH             ;07F1: 3C
+		DB   0BDH            ;07F2: BD
+		DB   0BEH            ;07F3: BE
+		DB   03H             ;07F4: 03
+		DB   3CH             ;07F5: 3C
+		DB   0BEH            ;07F6: BE
+		DB   0BFH            ;07F7: BF
+		DB   65H             ;07F8: 65
+		DB   53H             ;07F9: 53
+		DB   54H             ;07FA: 54
+		DB   45H             ;07FB: 45
+		DB   0D0H            ;07FC: D0
+		DB   0C0H            ;07FD: C0
+		DB   63H             ;07FE: 63
+		DB   54H             ;07FF: 54
+		DB   0CFH            ;0800: CF
+		DB   0C1H            ;0801: C1
+		DB   02H             ;0802: 02
+		DB   0ACH            ;0803: AC
+		DB   0C2H            ;0804: C2
+		DB   02H             ;0805: 02
+		DB   0BBH            ;0806: BB
+		DB   0C3H            ;0807: C3
+		DB   02H             ;0808: 02
+		DB   0A9H            ;0809: A9
+		DB   0C4H            ;080A: C4
+		DB   65H             ;080B: 65
+		DB   54H             ;080C: 54
+		DB   48H             ;080D: 48
+		DB   45H             ;080E: 45
+		DB   0CEH            ;080F: CE
+		DB   0C5H            ;0810: C5
+		DB   02H             ;0811: 02
+		DB   0BCH            ;0812: BC
+		DB   0C6H            ;0813: C6
+		DB   02H             ;0814: 02
+		DB   0BEH            ;0815: BE
+		DB   0C7H            ;0816: C7
+		DB   02H             ;0817: 02
+		DB   0ABH            ;0818: AB
+		DB   0C8H            ;0819: C8
+		DB   02H             ;081A: 02
+		DB   0ADH            ;081B: AD
+		DB   0C9H            ;081C: C9
+		DB   02H             ;081D: 02
+		DB   0AAH            ;081E: AA
+		DB   0CAH            ;081F: CA
+		DB   02H             ;0820: 02
+		DB   0AFH            ;0821: AF
+		DB   0CBH            ;0822: CB
+		DB   02H             ;0823: 02
+		DB   0BDH            ;0824: BD
+		DB   0CCH            ;0825: CC
+		DB   02H             ;0826: 02
+		DB   0BAH            ;0827: BA
+		DB   0CDH            ;0828: CD
+		DB   0FFH            ;0829: FF
+R082A
+		SEP  R4              ;082A: D4          
+		DW   S1516           ;082B: 15 16
+S082D
+		GHI  R8              ;082D: 98          
+		ANI  01H             ;082E: FA 01       
+		PLO  RC              ;0830: AC          
+		BZ   R0836           ;0831: 32 36       
+		LDI  3FH             ;0833: F8 3F       
+		LSKP                 ;0835: C8          
+R0836
+		LDI  3AH             ;0836: F8 3A       
+		STR  R2              ;0838: 52          
+		SEP  RD              ;0839: DD          
+		DB   9DH             ;083A: 9D
+S083B
+		ANI  03H             ;083B: FA 03       
+		PHI  RC              ;083D: BC          
+		BNZ  S0844           ;083E: 3A 44       
+		LDN  R2              ;0840: 02          
+		SEP  R4              ;0841: D4          
+		DW   S1BD3           ;0842: 1B D3
+S0844
+		LDI  90H             ;0844: F8 90       
+		PHI  R7              ;0846: B7          
+		LDI  00H             ;0847: F8 00       
+		PLO  R7              ;0849: A7          
+R084A
+		SEP  R4              ;084A: D4          
+		DW   908AH           ;084B: 90 8A
+S084D
+		STR  R2              ;084D: 52          
+		GLO  RC              ;084E: 8C          
+		BNZ  R085D           ;084F: 3A 5D       
+		GLO  R7              ;0851: 87          
+		BNZ  R085D           ;0852: 3A 5D       
+		LDI  0DH             ;0854: F8 0D       
+		XOR                  ;0856: F3          
+		BZ   S0844           ;0857: 32 44       
+		XRI  2DH             ;0859: FB 2D       
+		BZ   S0844           ;085B: 32 44       
+R085D
+		SEP  RD              ;085D: DD          
+		DB   0ABH            ;085E: AB
+S085F
+		XOR                  ;085F: F3          
+		BZ   R082A           ;0860: 32 2A       
+		SEP  RD              ;0862: DD          
+		DB   0AAH            ;0863: AA
+S0864
+		XOR                  ;0864: F3          
+		BNZ  R0871           ;0865: 3A 71       
+		GLO  R7              ;0867: 87          
+		BZ   R084A           ;0868: 32 4A       
+		DEC  R7              ;086A: 27          
+		LDN  R7              ;086B: 07          
+		SEP  R4              ;086C: D4          
+		DW   908EH           ;086D: 90 8E
+		BR   R084A           ;086F: 30 4A       
+R0871
+		SEP  RD              ;0871: DD          
+		DB   80H             ;0872: 80
+S0873
+		XOR                  ;0873: F3          
+		BNZ  R087F           ;0874: 3A 7F       
+		GLO  R7              ;0876: 87          
+		BZ   S082D           ;0877: 32 2D       
+R0879
+		DEC  R7              ;0879: 27          
+		SEP  R4              ;087A: D4          
+		DW   S04D4           ;087B: 04 D4
+		BR   R084A           ;087D: 30 4A       
+R087F
+		LDN  R2              ;087F: 02          
+		STR  R7              ;0880: 57          
+		INC  R7              ;0881: 17          
+		XRI  0DH             ;0882: FB 0D       
+		BNZ  R0890           ;0884: 3A 90       
+		SEP  RD              ;0886: DD          
+		DB   1BH             ;0887: 1B
+S0888
+		GHI  RC              ;0888: 9C          
+		BNZ  R089C           ;0889: 3A 9C       
+		LDI  0AH             ;088B: F8 0A       
+		LBR  S1BD3           ;088D: C0 1B D3    
+R0890
+		GLO  R7              ;0890: 87          
+		XRI  60H             ;0891: FB 60       
+		BNZ  R084A           ;0893: 3A 4A       
+		SEP  RD              ;0895: DD          
+		DB   80H             ;0896: 80
+		SEP  R4              ;0897: D4          
+		DW   908EH           ;0898: 90 8E
+		BR   R0879           ;089A: 30 79       
+R089C
+		SEP  R5              ;089C: D5          
+J089D
+		GHI  R8              ;089D: 98          
+		ANI  04H             ;089E: FA 04       
+		BZ   R08A8           ;08A0: 32 A8       
+		SEP  R4              ;08A2: D4          
+		DW   S2803           ;08A3: 28 03
+		DB   51H             ;08A5: 51
+		BR   R08AB           ;08A6: 30 AB       
+R08A8
+		INC  RD              ;08A8: 1D          
+		SEP  RD              ;08A9: DD          
+		DB   62H             ;08AA: 62
+R08AB
+		LBR  J091C           ;08AB: C0 09 1C    
+J08AE
+		GHI  R8              ;08AE: 98          
+		ANI  04H             ;08AF: FA 04       
+		BZ   R08B9           ;08B1: 32 B9       
+		SEP  R4              ;08B3: D4          
+		DW   S2803           ;08B4: 28 03
+		DB   5AH             ;08B6: 5A
+		BR   R08BC           ;08B7: 30 BC       
+R08B9
+		SEP  R4              ;08B9: D4          
+		DW   S2A01           ;08BA: 2A 01
+R08BC
+		LBR  J0962           ;08BC: C0 09 62    
+J08BF
+		GHI  R8              ;08BF: 98          
+		ANI  04H             ;08C0: FA 04       
+		BZ   R08CA           ;08C2: 32 CA       
+		SEP  R4              ;08C4: D4          
+		DW   S2803           ;08C5: 28 03
+		DB   54H             ;08C7: 54
+S08C8
+		BR   S08CD           ;08C8: 30 CD       
+R08CA
+		INC  RD              ;08CA: 1D          
+		SEP  RD              ;08CB: DD          
+		DB   21H             ;08CC: 21
+S08CD
+		LBR  J091C           ;08CD: C0 09 1C    
+S08D0
+		LDI  09H             ;08D0: F8 09       
+		SEP  RD              ;08D2: DD          
+		DB   0CH             ;08D3: 0C
+S08D4
+		LDI  01H             ;08D4: F8 01       
+		STR  RF              ;08D6: 5F          
+		SEP  RD              ;08D7: DD          
+		DB   9DH             ;08D8: 9D
+S08D9
+		ANI  0FEH            ;08D9: FA FE       
+		DEC  RF              ;08DB: 2F          
+		STR  RF              ;08DC: 5F          
+		SEP  R5              ;08DD: D5          
+S08DE
+		LDI  0CH             ;08DE: F8 0C       
+		PHI  R4              ;08E0: B4          
+		PHI  R5              ;08E1: B5          
+		LDI  23H             ;08E2: F8 23       
+		PLO  R4              ;08E4: A4          
+		LDI  33H             ;08E5: F8 33       
+		PLO  R5              ;08E7: A5          
+		SEP  R5              ;08E8: D5          
+		DB   0FFH            ;08E9: FF
+		DB   0FFH            ;08EA: FF
+		DB   0FFH            ;08EB: FF
+		DB   0FFH            ;08EC: FF
+		DB   0FFH            ;08ED: FF
+		DB   0FFH            ;08EE: FF
+		DB   0FFH            ;08EF: FF
+		DB   0FFH            ;08F0: FF
+		DB   0FFH            ;08F1: FF
+		DB   0FFH            ;08F2: FF
+		DB   0FFH            ;08F3: FF
+		DB   0FFH            ;08F4: FF
+		DB   0FFH            ;08F5: FF
+		DB   0FFH            ;08F6: FF
+		DB   0FFH            ;08F7: FF
+		DB   0FFH            ;08F8: FF
+		DB   0FFH            ;08F9: FF
+		DB   0FFH            ;08FA: FF
+		DB   0FFH            ;08FB: FF
+		DB   0FFH            ;08FC: FF
+		DB   0FFH            ;08FD: FF
+		DB   0FFH            ;08FE: FF
+		DB   0FFH            ;08FF: FF
+S0900
+		GHI  R8              ;0900: 98          
+		ANI  0F3H            ;0901: FA F3       
+		PHI  R8              ;0903: B8          
+S0904
+		LDN  RB              ;0904: 0B          
+		STR  R2              ;0905: 52          
+		XRI  0C9H            ;0906: FB C9       
+		BNZ  R0912           ;0908: 3A 12       
+		INC  RB              ;090A: 1B          
+		GLO  R3              ;090B: 83          
+		STXD                 ;090C: 73          
+		BR   R095E           ;090D: 30 5E       
+		LBR  J05E2           ;090F: C0 05 E2    
+R0912
+		LDI  0C8H            ;0912: F8 C8       
+		XOR                  ;0914: F3          
+		BNZ  R0918           ;0915: 3A 18       
+		INC  RB              ;0917: 1B          
+R0918
+		GLO  R3              ;0918: 83          
+		STXD                 ;0919: 73          
+		BR   R095E           ;091A: 30 5E       
+J091C
+		LDN  RB              ;091C: 0B          
+		STR  R2              ;091D: 52          
+		XRI  0B5H            ;091E: FB B5       
+		BNZ  R092A           ;0920: 3A 2A       
+		INC  RB              ;0922: 1B          
+		GLO  R3              ;0923: 83          
+		STXD                 ;0924: 73          
+		BR   R095E           ;0925: 30 5E       
+		SEP  R4              ;0927: D4          
+		DW   S0AB2           ;0928: 0A B2
+R092A
+		LDI  0B7H            ;092A: F8 B7       
+		XOR                  ;092C: F3          
+		BNZ  R0937           ;092D: 3A 37       
+		INC  RB              ;092F: 1B          
+		GLO  R3              ;0930: 83          
+		STXD                 ;0931: 73          
+		BR   R095E           ;0932: 30 5E       
+		SEP  R4              ;0934: D4          
+		DW   S0AAC           ;0935: 0A AC
+R0937
+		LDI  0B6H            ;0937: F8 B6       
+		XOR                  ;0939: F3          
+		BNZ  R0944           ;093A: 3A 44       
+		INC  RB              ;093C: 1B          
+		GLO  R3              ;093D: 83          
+		STXD                 ;093E: 73          
+		BR   R095E           ;093F: 30 5E       
+		SEP  R4              ;0941: D4          
+		DW   S0AAF           ;0942: 0A AF
+R0944
+		LDI  0C8H            ;0944: F8 C8       
+		XOR                  ;0946: F3          
+		BNZ  R0951           ;0947: 3A 51       
+		INC  RB              ;0949: 1B          
+		GLO  R3              ;094A: 83          
+		STXD                 ;094B: 73          
+		BR   R095E           ;094C: 30 5E       
+		LBR  J08BF           ;094E: C0 08 BF    
+R0951
+		LDI  0C9H            ;0951: F8 C9       
+		XOR                  ;0953: F3          
+		BNZ  R09C9           ;0954: 3A C9       
+		INC  RB              ;0956: 1B          
+		GLO  R3              ;0957: 83          
+		STXD                 ;0958: 73          
+		BR   R095E           ;0959: 30 5E       
+		LBR  J089D           ;095B: C0 08 9D    
+R095E
+		GLO  R3              ;095E: 83          
+		STXD                 ;095F: 73          
+		BR   R0982           ;0960: 30 82       
+J0962
+		LDN  RB              ;0962: 0B          
+		STR  R2              ;0963: 52          
+		XRI  0CAH            ;0964: FB CA       
+		BNZ  R0970           ;0966: 3A 70       
+		INC  RB              ;0968: 1B          
+		GLO  R3              ;0969: 83          
+		STXD                 ;096A: 73          
+		BR   R0982           ;096B: 30 82       
+		LBR  J0AEF           ;096D: C0 0A EF    
+R0970
+		LDI  0CBH            ;0970: F8 CB       
+		XOR                  ;0972: F3          
+		BNZ  R097D           ;0973: 3A 7D       
+		INC  RB              ;0975: 1B          
+		GLO  R3              ;0976: 83          
+		STXD                 ;0977: 73          
+		BR   R0982           ;0978: 30 82       
+		LBR  J08AE           ;097A: C0 08 AE    
+R097D
+		INC  R2              ;097D: 12          
+		LDX                  ;097E: F0          
+		ADI  03H             ;097F: FC 03       
+		PLO  R3              ;0981: A3          
+R0982
+		GLO  R3              ;0982: 83          
+		STXD                 ;0983: 73          
+		BR   R099B           ;0984: 30 9B       
+R0986
+		LDN  RB              ;0986: 0B          
+		STR  R2              ;0987: 52          
+		XRI  0BBH            ;0988: FB BB       
+		BNZ  R0996           ;098A: 3A 96       
+		INC  RB              ;098C: 1B          
+		GLO  R3              ;098D: 83          
+		STXD                 ;098E: 73          
+		BR   R099B           ;098F: 30 9B       
+		SEP  R4              ;0991: D4          
+		DW   S1790           ;0992: 17 90
+		BR   R0986           ;0994: 30 86       
+R0996
+		INC  R2              ;0996: 12          
+		LDX                  ;0997: F0          
+		ADI  03H             ;0998: FC 03       
+		PLO  R3              ;099A: A3          
+R099B
+		LDI  05H             ;099B: F8 05       
+		PHI  RA              ;099D: BA          
+		LDN  RB              ;099E: 0B          
+		SMI  0D0H            ;099F: FF D0       
+		BDF  R09A7           ;09A1: 33 A7       
+J09A3
+		SEP  R4              ;09A3: D4          
+		DW   S04E7           ;09A4: 04 E7
+		DB   09H             ;09A6: 09
+R09A7
+		LDI  90H             ;09A7: F8 90       
+		PHI  RF              ;09A9: BF          
+		LDI  0A4H            ;09AA: F8 A4       
+		PLO  RF              ;09AC: AF          
+		LDN  RB              ;09AD: 0B          
+		SHL                  ;09AE: FE          
+		PLO  RA              ;09AF: AA          
+		LDA  RA              ;09B0: 4A          
+		STR  RF              ;09B1: 5F          
+		INC  RF              ;09B2: 1F          
+		LDN  RA              ;09B3: 0A          
+		STR  RF              ;09B4: 5F          
+		INC  RB              ;09B5: 1B          
+		SEP  R4              ;09B6: D4          
+		DW   90A3H           ;09B7: 90 A3
+S09B9
+		GHI  R8              ;09B9: 98          
+		ANI  0CH             ;09BA: FA 0C       
+		XRI  0CH             ;09BC: FB 0C       
+		BNZ  R09C4           ;09BE: 3A C4       
+		SEP  R4              ;09C0: D4          
+		DW   S04E7           ;09C1: 04 E7
+		DB   07H             ;09C3: 07
+R09C4
+		INC  R2              ;09C4: 12          
+		LDX                  ;09C5: F0          
+		ADI  03H             ;09C6: FC 03       
+		PLO  R3              ;09C8: A3          
+R09C9
+		SEP  R5              ;09C9: D5          
+S09CA
+		GLO  R9              ;09CA: 89          
+		ADI  04H             ;09CB: FC 04       
+		PLO  R9              ;09CD: A9          
+		SEP  R4              ;09CE: D4          
+		DW   S11EF           ;09CF: 11 EF
+		LDI  00H             ;09D1: F8 00       
+		PHI  RF              ;09D3: BF          
+		LDI  08H             ;09D4: F8 08       
+		PLO  RF              ;09D6: AF          
+R09D7
+		LDA  RB              ;09D7: 4B          
+		XRI  30H             ;09D8: FB 30       
+		BZ   R09E4           ;09DA: 32 E4       
+		XRI  01H             ;09DC: FB 01       
+		BZ   R09E8           ;09DE: 32 E8       
+R09E0
+		SEP  R4              ;09E0: D4          
+		DW   S04E7           ;09E1: 04 E7
+		DB   26H             ;09E3: 26
+R09E4
+		ADI  00H             ;09E4: FC 00       
+		BR   R09EA           ;09E6: 30 EA       
+R09E8
+		SMI  00H             ;09E8: FF 00       
+R09EA
+		GHI  RF              ;09EA: 9F          
+		SHLC                 ;09EB: 7E          
+		PHI  RF              ;09EC: BF          
+		DEC  RF              ;09ED: 2F          
+		GLO  RF              ;09EE: 8F          
+		BNZ  R09D7           ;09EF: 3A D7       
+		LDA  RB              ;09F1: 4B          
+		XRI  0B8H            ;09F2: FB B8       
+		BNZ  R09E0           ;09F4: 3A E0       
+		INC  R9              ;09F6: 19          
+		GHI  RF              ;09F7: 9F          
+		STR  R9              ;09F8: 59          
+		DEC  R9              ;09F9: 29          
+		DEC  R9              ;09FA: 29          
+		DEC  R9              ;09FB: 29          
+		GHI  R8              ;09FC: 98          
+		LBR  J1D38           ;09FD: C0 1D 38    
+S0A00
+		INC  RD              ;0A00: 1D          
+		SEP  RD              ;0A01: DD          
+		DB   1EH             ;0A02: 1E
+		DB   89H             ;0A03: 89
+		DB   8CH             ;0A04: 8C
+		DB   00H             ;0A05: 00
+S0A06
+		LDI  0D0H            ;0A06: F8 D0       
+		PLO  R7              ;0A08: A7          
+		LDI  90H             ;0A09: F8 90       
+		PHI  R7              ;0A0B: B7          
+		PHI  RC              ;0A0C: BC          
+		LDI  00H             ;0A0D: F8 00       
+		PLO  RC              ;0A0F: AC          
+		GHI  R8              ;0A10: 98          
+		ANI  01H             ;0A11: FA 01       
+		BNZ  S0A1E           ;0A13: 3A 1E       
+		SEP  R4              ;0A15: D4          
+		DW   S12E5           ;0A16: 12 E5
+		BZ   S0A1E           ;0A18: 32 1E       
+		GHI  R8              ;0A1A: 98          
+		ORI  02H             ;0A1B: F9 02       
+		PHI  R8              ;0A1D: B8          
+S0A1E
+		LDI  06H             ;0A1E: F8 06       
+		PHI  R9              ;0A20: B9          
+		LDI  00H             ;0A21: F8 00       
+		PLO  R9              ;0A23: A9          
+R0A24
+		LDA  RC              ;0A24: 4C          
+		STR  R7              ;0A25: 57          
+		XRI  20H             ;0A26: FB 20       
+		BZ   R0A24           ;0A28: 32 24       
+		DEC  RC              ;0A2A: 2C          
+		GHI  RC              ;0A2B: 9C          
+		PHI  RA              ;0A2C: BA          
+		GLO  RC              ;0A2D: 8C          
+		PLO  RA              ;0A2E: AA          
+		LDN  R7              ;0A2F: 07          
+		XRI  0DH             ;0A30: FB 0D       
+		BZ   R0A49           ;0A32: 32 49       
+		XRI  23H             ;0A34: FB 23       
+		LBZ  J22F7           ;0A36: C2 22 F7    
+		XRI  0FH             ;0A39: FB 0F       
+		BNZ  R0A50           ;0A3B: 3A 50       
+		LDI  80H             ;0A3D: F8 80       
+		STR  R7              ;0A3F: 57          
+		INC  R7              ;0A40: 17          
+R0A41
+		INC  RC              ;0A41: 1C          
+		LDN  RC              ;0A42: 0C          
+		STR  R7              ;0A43: 57          
+		INC  R7              ;0A44: 17          
+		XRI  0DH             ;0A45: FB 0D       
+		BNZ  R0A41           ;0A47: 3A 41       
+R0A49
+		INC  R2              ;0A49: 12          
+		SEP  R2              ;0A4A: D2          
+S0A4B
+		SEP  R5              ;0A4B: D5          
+J0A4C
+		SEP  R4              ;0A4C: D4          
+		DW   S04E7           ;0A4D: 04 E7
+		DB   16H             ;0A4F: 16
+R0A50
+		XRI  03H             ;0A50: FB 03       
+		LBNZ J0BB7           ;0A52: CA 0B B7    
+		LDI  0CFH            ;0A55: F8 CF       
+		STR  R7              ;0A57: 57          
+		INC  R7              ;0A58: 17          
+		INC  RC              ;0A59: 1C          
+R0A5A
+		LDA  RC              ;0A5A: 4C          
+		STR  R7              ;0A5B: 57          
+		INC  R7              ;0A5C: 17          
+		XRI  0DH             ;0A5D: FB 0D       
+		BZ   J0A4C           ;0A5F: 32 4C       
+		XRI  2FH             ;0A61: FB 2F       
+		BNZ  R0A5A           ;0A63: 3A 5A       
+		LDI  0CEH            ;0A65: F8 CE       
+J0A67
+		DEC  R7              ;0A67: 27          
+R0A68
+		STR  R7              ;0A68: 57          
+		INC  R7              ;0A69: 17          
+		BR   S0A1E           ;0A6A: 30 1E       
+J0A6C
+		XRI  1CH             ;0A6C: FB 1C       
+		BNZ  R0A81           ;0A6E: 3A 81       
+		LDI  0D0H            ;0A70: F8 D0       
+		STR  R7              ;0A72: 57          
+		INC  R7              ;0A73: 17          
+		INC  RC              ;0A74: 1C          
+		LDI  04H             ;0A75: F8 04       
+R0A77
+		PLO  R8              ;0A77: A8          
+R0A78
+		LDA  RC              ;0A78: 4C          
+		STR  R7              ;0A79: 57          
+		INC  R7              ;0A7A: 17          
+		DEC  R8              ;0A7B: 28          
+		GLO  R8              ;0A7C: 88          
+		BNZ  R0A78           ;0A7D: 3A 78       
+		BR   R0A24           ;0A7F: 30 24       
+R0A81
+		XRI  63H             ;0A81: FB 63       
+		BNZ  R0A8E           ;0A83: 3A 8E       
+		LDI  0E2H            ;0A85: F8 E2       
+		STR  R7              ;0A87: 57          
+		INC  R7              ;0A88: 17          
+		INC  RC              ;0A89: 1C          
+		LDI  02H             ;0A8A: F8 02       
+		BR   R0A77           ;0A8C: 30 77       
+R0A8E
+		SEP  R4              ;0A8E: D4          
+		DW   S203C           ;0A8F: 20 3C
+S0A91
+		SEP  R4              ;0A91: D4          
+		DW   S12E5           ;0A92: 12 E5
+S0A94
+		LBZ  J22F7           ;0A94: C2 22 F7    
+		LDA  RC              ;0A97: 4C          
+		STR  R2              ;0A98: 52          
+		LDA  RC              ;0A99: 4C          
+		XRI  24H             ;0A9A: FB 24       
+		BNZ  R0AA4           ;0A9C: 3A A4       
+		LDI  0D7H            ;0A9E: F8 D7       
+		STR  R7              ;0AA0: 57          
+		INC  R7              ;0AA1: 17          
+		BR   R0AA9           ;0AA2: 30 A9       
+R0AA4
+		DEC  RC              ;0AA4: 2C          
+		LDI  0D1H            ;0AA5: F8 D1       
+		STR  R7              ;0AA7: 57          
+		INC  R7              ;0AA8: 17          
+R0AA9
+		LDN  R2              ;0AA9: 02          
+		BR   R0A68           ;0AAA: 30 68       
+S0AAC
+		LDI  0D5H            ;0AAC: F8 D5       
+		LSKP                 ;0AAE: C8          
+S0AAF
+		LDI  0D8H            ;0AAF: F8 D8       
+		LSKP                 ;0AB1: C8          
+S0AB2
+		LDI  0DBH            ;0AB2: F8 DB       
+		STXD                 ;0AB4: 73          
+		GHI  R8              ;0AB5: 98          
+		ANI  08H             ;0AB6: FA 08       
+		BNZ  R0AC8           ;0AB8: 3A C8       
+		GLO  R9              ;0ABA: 89          
+		SMI  04H             ;0ABB: FF 04       
+		PLO  R9              ;0ABD: A9          
+		SEP  R4              ;0ABE: D4          
+		DW   S1C8B           ;0ABF: 1C 8B
+		GLO  R9              ;0AC1: 89          
+		ADI  04H             ;0AC2: FC 04       
+		PLO  R9              ;0AC4: A9          
+		SEP  R4              ;0AC5: D4          
+		DW   S1C8B           ;0AC6: 1C 8B
+R0AC8
+		INC  R9              ;0AC8: 19          
+		INC  R9              ;0AC9: 19          
+		INC  R9              ;0ACA: 19          
+		LDN  R9              ;0ACB: 09          
+		PLO  RF              ;0ACC: AF          
+		GLO  R9              ;0ACD: 89          
+		SMI  04H             ;0ACE: FF 04       
+		PLO  R9              ;0AD0: A9          
+		INC  R2              ;0AD1: 12          
+		LDX                  ;0AD2: F0          
+		SEX  R9              ;0AD3: E9          
+		PLO  R3              ;0AD4: A3          
+		GLO  RF              ;0AD5: 8F          
+		OR                   ;0AD6: F1          
+		LSKP                 ;0AD7: C8          
+		GLO  RF              ;0AD8: 8F          
+		XOR                  ;0AD9: F3          
+		LSKP                 ;0ADA: C8          
+		GLO  RF              ;0ADB: 8F          
+		AND                  ;0ADC: F2          
+		STXD                 ;0ADD: 73          
+		LDI  00H             ;0ADE: F8 00       
+		STXD                 ;0AE0: 73          
+		STXD                 ;0AE1: 73          
+		STR  R9              ;0AE2: 59          
+		GHI  R8              ;0AE3: 98          
+		ANI  08H             ;0AE4: FA 08       
+		BNZ  R0AEB           ;0AE6: 3A EB       
+		SEP  R4              ;0AE8: D4          
+		DW   S1EA4           ;0AE9: 1E A4
+R0AEB
+		LDI  1CH             ;0AEB: F8 1C       
+		PLO  R6              ;0AED: A6          
+		SEP  R5              ;0AEE: D5          
+J0AEF
+		GHI  R8              ;0AEF: 98          
+		ANI  04H             ;0AF0: FA 04       
+		BZ   R0AFA           ;0AF2: 32 FA       
+		SEP  R4              ;0AF4: D4          
+		DW   S2803           ;0AF5: 28 03
+J0AF7
+		DB   57H             ;0AF7: 57
+		BR   R0AFD           ;0AF8: 30 FD       
+R0AFA
+		SEP  R4              ;0AFA: D4          
+		DW   S2669           ;0AFB: 26 69
+R0AFD
+		LBR  J0962           ;0AFD: C0 09 62    
+S0B00
+		GHI  R8              ;0B00: 98          
+		STXD                 ;0B01: 73          
+		GLO  R8              ;0B02: 88          
+		STXD                 ;0B03: 73          
+		SEP  R4              ;0B04: D4          
+		DW   S12C1           ;0B05: 12 C1
+S0B07
+		XRI  02H             ;0B07: FB 02       
+		BNZ  R0B31           ;0B09: 3A 31       
+		GHI  R9              ;0B0B: 99          
+		PHI  RF              ;0B0C: BF          
+		GLO  R9              ;0B0D: 89          
+		SMI  04H             ;0B0E: FF 04       
+		PLO  RF              ;0B10: AF          
+		ADI  08H             ;0B11: FC 08       
+		PLO  R9              ;0B13: A9          
+		LDI  08H             ;0B14: F8 08       
+		PLO  R8              ;0B16: A8          
+R0B17
+		LDA  RF              ;0B17: 4F          
+		STR  R9              ;0B18: 59          
+		INC  R9              ;0B19: 19          
+		DEC  R8              ;0B1A: 28          
+		GLO  R8              ;0B1B: 88          
+		BNZ  R0B17           ;0B1C: 3A 17       
+		GLO  R9              ;0B1E: 89          
+		SMI  04H             ;0B1F: FF 04       
+		PLO  R9              ;0B21: A9          
+		SEP  R4              ;0B22: D4          
+		DW   S2A01           ;0B23: 2A 01
+S0B25
+		SEP  R4              ;0B25: D4          
+		DW   S2669           ;0B26: 26 69
+S0B28
+		INC  RD              ;0B28: 1D          
+		SEP  RD              ;0B29: DD          
+		DB   62H             ;0B2A: 62
+S0B2B
+		INC  R2              ;0B2B: 12          
+		LDX                  ;0B2C: F0          
+		PLO  R8              ;0B2D: A8          
+		LBR  J1D35           ;0B2E: C0 1D 35    
+R0B31
+		SEP  R4              ;0B31: D4          
+		DW   S04E7           ;0B32: 04 E7
+		DB   31H             ;0B34: 31
+S0B35
+		SEP  R4              ;0B35: D4          
+		DW   S12C1           ;0B36: 12 C1
+S0B38
+		XRI  03H             ;0B38: FB 03       
+		BNZ  R0B64           ;0B3A: 3A 64       
+		INC  R9              ;0B3C: 19          
+		INC  R9              ;0B3D: 19          
+		INC  R9              ;0B3E: 19          
+		LDN  R9              ;0B3F: 09          
+		PLO  RE              ;0B40: AE          
+		GLO  R9              ;0B41: 89          
+		SMI  07H             ;0B42: FF 07       
+		PLO  R9              ;0B44: A9          
+		SEP  R4              ;0B45: D4          
+		DW   S0568           ;0B46: 05 68
+S0B48
+		ORI  60H             ;0B48: F9 60       
+		SEP  RD              ;0B4A: DD          
+		DB   70H             ;0B4B: 70
+S0B4C
+		LDI  5FH             ;0B4C: F8 5F       
+		SEP  RD              ;0B4E: DD          
+		DB   74H             ;0B4F: 74
+S0B50
+		GHI  R3              ;0B50: 93          
+		STR  RF              ;0B51: 5F          
+		DEC  RF              ;0B52: 2F          
+		LDI  0C0H            ;0B53: F8 C0       
+		STR  RF              ;0B55: 5F          
+		DEC  RF              ;0B56: 2F          
+		LDI  22H             ;0B57: F8 22       
+		STR  RF              ;0B59: 5F          
+		GLO  RE              ;0B5A: 8E          
+		STR  R2              ;0B5B: 52          
+		LBR  90F0H           ;0B5C: C0 90 F0    
+J0B5F
+		GLO  R9              ;0B5F: 89          
+		SMI  04H             ;0B60: FF 04       
+		PLO  R9              ;0B62: A9          
+		SEP  R5              ;0B63: D5          
+R0B64
+		SEP  R4              ;0B64: D4          
+		DW   S04E7           ;0B65: 04 E7
+		DB   35H             ;0B67: 35
+S0B68
+		LDI  08H             ;0B68: F8 08       
+		SEP  RD              ;0B6A: DD          
+		DB   00H             ;0B6B: 00
+S0B6C
+		LDI  7FH             ;0B6C: F8 7F       
+		SEP  RD              ;0B6E: DD          
+		DB   2AH             ;0B6F: 2A
+S0B70
+		LDI  03H             ;0B70: F8 03       
+		SEP  RD              ;0B72: DD          
+		DB   2BH             ;0B73: 2B
+S0B74
+		LDI  20H             ;0B74: F8 20       
+		SEP  RD              ;0B76: DD          
+		DB   2CH             ;0B77: 2C
+S0B78
+		LDI  04H             ;0B78: F8 04       
+		SEP  RD              ;0B7A: DD          
+		DB   2DH             ;0B7B: 2D
+S0B7C
+		LDI  13H             ;0B7C: F8 13       
+		SEP  RD              ;0B7E: DD          
+		DB   2EH             ;0B7F: 2E
+S0B80
+		LDI  44H             ;0B80: F8 44       
+		SEP  RD              ;0B82: DD          
+		DB   35H             ;0B83: 35
+S0B84
+		LDI  49H             ;0B84: F8 49       
+		SEP  RD              ;0B86: DD          
+		DB   36H             ;0B87: 36
+S0B88
+		LDI  43H             ;0B88: F8 43       
+		SEP  RD              ;0B8A: DD          
+		DB   4EH             ;0B8B: 4E
+S0B8C
+		LDI  01H             ;0B8C: F8 01       
+		SEP  RD              ;0B8E: DD          
+		DB   4FH             ;0B8F: 4F
+S0B90
+		LDI  01H             ;0B90: F8 01       
+		SEP  RD              ;0B92: DD          
+		DB   4DH             ;0B93: 4D
+S0B94
+		SEP  R5              ;0B94: D5          
+S0B95
+		GHI  RE              ;0B95: 9E          
+		SEP  RD              ;0B96: DD          
+		DB   29H             ;0B97: 29
+S0B98
+		LDI  0AFH            ;0B98: F8 AF       
+		PLO  RA              ;0B9A: AA          
+		LDI  08H             ;0B9B: F8 08       
+		PLO  R8              ;0B9D: A8          
+		LDI  0BH             ;0B9E: F8 0B       
+		PHI  RA              ;0BA0: BA          
+		LDI  90H             ;0BA1: F8 90       
+		PHI  RF              ;0BA3: BF          
+		LDI  8AH             ;0BA4: F8 8A       
+		PLO  RF              ;0BA6: AF          
+R0BA7
+		LDA  RA              ;0BA7: 4A          
+		STR  RF              ;0BA8: 5F          
+		INC  RF              ;0BA9: 1F          
+		DEC  R8              ;0BAA: 28          
+		GLO  R8              ;0BAB: 88          
+		BNZ  R0BA7           ;0BAC: 3A A7       
+		SEP  R5              ;0BAE: D5          
+		SEP  R4              ;0BAF: D4          
+		DW   S0109           ;0BB0: 01 09
+		SEP  R5              ;0BB2: D5          
+		SEP  R4              ;0BB3: D4          
+		DW   S0106           ;0BB4: 01 06
+		SEP  R5              ;0BB6: D5          
+J0BB7
+		XRI  7EH             ;0BB7: FB 7E       
+		LBNZ J0A6C           ;0BB9: CA 0A 6C    
+		LDI  0E6H            ;0BBC: F8 E6       
+		STR  R7              ;0BBE: 57          
+		INC  R7              ;0BBF: 17          
+		INC  RC              ;0BC0: 1C          
+R0BC1
+		LDA  RC              ;0BC1: 4C          
+		STR  R7              ;0BC2: 57          
+		INC  R7              ;0BC3: 17          
+		XRI  0DH             ;0BC4: FB 0D       
+		LBZ  J0A4C           ;0BC6: C2 0A 4C    
+		XRI  51H             ;0BC9: FB 51       
+		BNZ  R0BC1           ;0BCB: 3A C1       
+		LDI  0B8H            ;0BCD: F8 B8       
+		LBR  J0A67           ;0BCF: C0 0A 67    
+S0BD2
+		SEP  RD              ;0BD2: DD          
+		DB   9DH             ;0BD3: 9D
+		ANI  08H             ;0BD4: FA 08       
+		BNZ  R0BDC           ;0BD6: 3A DC       
+		SEP  R4              ;0BD8: D4          
+		DW   S04E7           ;0BD9: 04 E7
+		DB   29H             ;0BDB: 29
+R0BDC
+		DEC  RF              ;0BDC: 2F          
+		LDN  RF              ;0BDD: 0F          
+		ORI  02H             ;0BDE: F9 02       
+		STR  RF              ;0BE0: 5F          
+		LDI  0DEH            ;0BE1: F8 DE       
+		SEP  RD              ;0BE3: DD          
+		DB   10H             ;0BE4: 10
+		LDI  04H             ;0BE5: F8 04       
+		STR  RF              ;0BE7: 5F          
+		SEP  R5              ;0BE8: D5          
+S0BE9
+		SEP  RD              ;0BE9: DD          
+		DB   9DH             ;0BEA: 9D
+		ANI  04H             ;0BEB: FA 04       
+		BNZ  R0BF3           ;0BED: 3A F3       
+		SEP  R4              ;0BEF: D4          
+		DW   S04E7           ;0BF0: 04 E7
+		DB   28H             ;0BF2: 28
+R0BF3
+		DEC  RF              ;0BF3: 2F          
+		LDN  RF              ;0BF4: 0F          
+		ORI  01H             ;0BF5: F9 01       
+		STR  RF              ;0BF7: 5F          
+		LDI  3BH             ;0BF8: F8 3B       
+		SEP  RD              ;0BFA: DD          
+		DB   0CH             ;0BFB: 0C
+		LDI  04H             ;0BFC: F8 04       
+		STR  RF              ;0BFE: 5F          
+		SEP  R5              ;0BFF: D5          
+S0C00
+		GHI  R8              ;0C00: 98          
+		STXD                 ;0C01: 73          
+		SEP  R4              ;0C02: D4          
+		DW   S12C1           ;0C03: 12 C1
+S0C05
+		XRI  02H             ;0C05: FB 02       
+		BNZ  R0C1E           ;0C07: 3A 1E       
+		SEP  R4              ;0C09: D4          
+		DW   S0568           ;0C0A: 05 68
+S0C0C
+		ORI  68H             ;0C0C: F9 68       
+		SEP  RD              ;0C0E: DD          
+		DB   25H             ;0C0F: 25
+S0C10
+		SEP  R4              ;0C10: D4          
+		DW   S11EF           ;0C11: 11 EF
+S0C13
+		INC  R9              ;0C13: 19          
+		SEP  R4              ;0C14: D4          
+		DW   90A5H           ;0C15: 90 A5
+S0C17
+		STR  R9              ;0C17: 59          
+		DEC  R9              ;0C18: 29          
+		DEC  R9              ;0C19: 29          
+		DEC  R9              ;0C1A: 29          
+		LBR  J1AF1           ;0C1B: C0 1A F1    
+R0C1E
+		SEP  R4              ;0C1E: D4          
+		DW   S04E7           ;0C1F: 04 E7
+		DB   34H             ;0C21: 34
+R0C22
+		SEP  R3              ;0C22: D3          
+		SEX  R2              ;0C23: E2          
+		GHI  R6              ;0C24: 96          
+		STXD                 ;0C25: 73          
+		GLO  R6              ;0C26: 86          
+		STXD                 ;0C27: 73          
+		GHI  R3              ;0C28: 93          
+		PHI  R6              ;0C29: B6          
+		GLO  R3              ;0C2A: 83          
+		PLO  R6              ;0C2B: A6          
+		LDA  R6              ;0C2C: 46          
+		PHI  R3              ;0C2D: B3          
+		LDA  R6              ;0C2E: 46          
+		PLO  R3              ;0C2F: A3          
+		BR   R0C22           ;0C30: 30 22       
+R0C32
+		SEP  R3              ;0C32: D3          
+		GHI  R6              ;0C33: 96          
+		PHI  R3              ;0C34: B3          
+		GLO  R6              ;0C35: 86          
+		PLO  R3              ;0C36: A3          
+		SEX  R2              ;0C37: E2          
+		INC  R2              ;0C38: 12          
+		LDXA                 ;0C39: 72          
+		PLO  R6              ;0C3A: A6          
+		LDX                  ;0C3B: F0          
+		PHI  R6              ;0C3C: B6          
+		GHI  RF              ;0C3D: 9F          
+		BR   R0C32           ;0C3E: 30 32       
+S0C40
+		LDI  14H             ;0C40: F8 14       
+		PHI  R4              ;0C42: B4          
+		LDI  0AAH            ;0C43: F8 AA       
+		PLO  R4              ;0C45: A4          
+		LDI  14H             ;0C46: F8 14       
+		PHI  R5              ;0C48: B5          
+		LDI  0CBH            ;0C49: F8 CB       
+		PLO  R5              ;0C4B: A5          
+		SEP  R5              ;0C4C: D5          
+		DB   0FFH            ;0C4D: FF
+		DB   0FFH            ;0C4E: FF
+		DB   0FFH            ;0C4F: FF
+		DB   0FFH            ;0C50: FF
+		DB   0FFH            ;0C51: FF
+		DB   0FFH            ;0C52: FF
+		DB   0FFH            ;0C53: FF
+		DB   0FFH            ;0C54: FF
+		DB   0FFH            ;0C55: FF
+		DB   0FFH            ;0C56: FF
+		DB   0FFH            ;0C57: FF
+		DB   0FFH            ;0C58: FF
+		DB   0FFH            ;0C59: FF
+		DB   0FFH            ;0C5A: FF
+		DB   0FFH            ;0C5B: FF
+		DB   0FFH            ;0C5C: FF
+		DB   0FFH            ;0C5D: FF
+		DB   0FFH            ;0C5E: FF
+		DB   0FFH            ;0C5F: FF
+		DB   0FFH            ;0C60: FF
+		DB   0FFH            ;0C61: FF
+		DB   0FFH            ;0C62: FF
+		DB   0FFH            ;0C63: FF
+		DB   0FFH            ;0C64: FF
+		DB   0FFH            ;0C65: FF
+		DB   0FFH            ;0C66: FF
+		DB   0FFH            ;0C67: FF
+		DB   0FFH            ;0C68: FF
+		DB   0FFH            ;0C69: FF
+		DB   0FFH            ;0C6A: FF
+		DB   0FFH            ;0C6B: FF
+		DB   0FFH            ;0C6C: FF
+		DB   0FFH            ;0C6D: FF
+		DB   0FFH            ;0C6E: FF
+		DB   0FFH            ;0C6F: FF
+		DB   0FFH            ;0C70: FF
+		DB   0FFH            ;0C71: FF
+		DB   0FFH            ;0C72: FF
+		DB   0FFH            ;0C73: FF
+		DB   0FFH            ;0C74: FF
+		DB   0FFH            ;0C75: FF
+		DB   0FFH            ;0C76: FF
+		DB   0FFH            ;0C77: FF
+		DB   0FFH            ;0C78: FF
+		DB   0FFH            ;0C79: FF
+		DB   0FFH            ;0C7A: FF
+		DB   0FFH            ;0C7B: FF
+		DB   0FFH            ;0C7C: FF
+		DB   0FFH            ;0C7D: FF
+		DB   0FFH            ;0C7E: FF
+		DB   0FFH            ;0C7F: FF
+		DB   0FFH            ;0C80: FF
+		DB   0FFH            ;0C81: FF
+		DB   0FFH            ;0C82: FF
+		DB   0FFH            ;0C83: FF
+		DB   0FFH            ;0C84: FF
+		DB   0FFH            ;0C85: FF
+		DB   0FFH            ;0C86: FF
+		DB   0FFH            ;0C87: FF
+		DB   0FFH            ;0C88: FF
+		DB   0FFH            ;0C89: FF
+		DB   0FFH            ;0C8A: FF
+		DB   0FFH            ;0C8B: FF
+		DB   0FFH            ;0C8C: FF
+		DB   0FFH            ;0C8D: FF
+		DB   0FFH            ;0C8E: FF
+		DB   0FFH            ;0C8F: FF
+		DB   0FFH            ;0C90: FF
+		DB   0FFH            ;0C91: FF
+		DB   0FFH            ;0C92: FF
+		DB   0FFH            ;0C93: FF
+		DB   0FFH            ;0C94: FF
+		DB   0FFH            ;0C95: FF
+		DB   0FFH            ;0C96: FF
+		DB   0FFH            ;0C97: FF
+		DB   0FFH            ;0C98: FF
+		DB   0FFH            ;0C99: FF
+		DB   0FFH            ;0C9A: FF
+		DB   0FFH            ;0C9B: FF
+		DB   0FFH            ;0C9C: FF
+		DB   0FFH            ;0C9D: FF
+		DB   0FFH            ;0C9E: FF
+		DB   0FFH            ;0C9F: FF
+		DB   0FFH            ;0CA0: FF
+		DB   0FFH            ;0CA1: FF
+		DB   0FFH            ;0CA2: FF
+		DB   0FFH            ;0CA3: FF
+		DB   0FFH            ;0CA4: FF
+		DB   0FFH            ;0CA5: FF
+		DB   0FFH            ;0CA6: FF
+		DB   0FFH            ;0CA7: FF
+		DB   0FFH            ;0CA8: FF
+		DB   0FFH            ;0CA9: FF
+		DB   0FFH            ;0CAA: FF
+		DB   0FFH            ;0CAB: FF
+		DB   0FFH            ;0CAC: FF
+		DB   0FFH            ;0CAD: FF
+		DB   0FFH            ;0CAE: FF
+		DB   0FFH            ;0CAF: FF
+		DB   0FFH            ;0CB0: FF
+		DB   0FFH            ;0CB1: FF
+		DB   0FFH            ;0CB2: FF
+		DB   0FFH            ;0CB3: FF
+		DB   0FFH            ;0CB4: FF
+		DB   0FFH            ;0CB5: FF
+		DB   0FFH            ;0CB6: FF
+		DB   0FFH            ;0CB7: FF
+		DB   0FFH            ;0CB8: FF
+		DB   0FFH            ;0CB9: FF
+		DB   0FFH            ;0CBA: FF
+		DB   0FFH            ;0CBB: FF
+		DB   0FFH            ;0CBC: FF
+		DB   0FFH            ;0CBD: FF
+		DB   0FFH            ;0CBE: FF
+		DB   0FFH            ;0CBF: FF
+		DB   0FFH            ;0CC0: FF
+		DB   0FFH            ;0CC1: FF
+		DB   0FFH            ;0CC2: FF
+		DB   0FFH            ;0CC3: FF
+		DB   0FFH            ;0CC4: FF
+		DB   0FFH            ;0CC5: FF
+		DB   0FFH            ;0CC6: FF
+		DB   0FFH            ;0CC7: FF
+		DB   0FFH            ;0CC8: FF
+		DB   0FFH            ;0CC9: FF
+		DB   0FFH            ;0CCA: FF
+		DB   0FFH            ;0CCB: FF
+		DB   0FFH            ;0CCC: FF
+		DB   0FFH            ;0CCD: FF
+		DB   0FFH            ;0CCE: FF
+		DB   0FFH            ;0CCF: FF
+		DB   0FFH            ;0CD0: FF
+		DB   0FFH            ;0CD1: FF
+		DB   0FFH            ;0CD2: FF
+		DB   0FFH            ;0CD3: FF
+		DB   0FFH            ;0CD4: FF
+		DB   0FFH            ;0CD5: FF
+		DB   0FFH            ;0CD6: FF
+		DB   0FFH            ;0CD7: FF
+		DB   0FFH            ;0CD8: FF
+		DB   0FFH            ;0CD9: FF
+		DB   0FFH            ;0CDA: FF
+		DB   0FFH            ;0CDB: FF
+		DB   0FFH            ;0CDC: FF
+		DB   0FFH            ;0CDD: FF
+		DB   0FFH            ;0CDE: FF
+		DB   0FFH            ;0CDF: FF
+		DB   0FFH            ;0CE0: FF
+		DB   0FFH            ;0CE1: FF
+		DB   0FFH            ;0CE2: FF
+		DB   0FFH            ;0CE3: FF
+		DB   0FFH            ;0CE4: FF
+		DB   0FFH            ;0CE5: FF
+		DB   0FFH            ;0CE6: FF
+		DB   0FFH            ;0CE7: FF
+		DB   0FFH            ;0CE8: FF
+		DB   0FFH            ;0CE9: FF
+		DB   0FFH            ;0CEA: FF
+		DB   0FFH            ;0CEB: FF
+		DB   0FFH            ;0CEC: FF
+		DB   0FFH            ;0CED: FF
+		DB   0FFH            ;0CEE: FF
+		DB   0FFH            ;0CEF: FF
+		DB   0FFH            ;0CF0: FF
+		DB   0FFH            ;0CF1: FF
+		DB   0FFH            ;0CF2: FF
+		DB   0FFH            ;0CF3: FF
+		DB   0FFH            ;0CF4: FF
+		DB   0FFH            ;0CF5: FF
+		DB   0FFH            ;0CF6: FF
+		DB   0FFH            ;0CF7: FF
+		DB   0FFH            ;0CF8: FF
+		DB   0FFH            ;0CF9: FF
+		DB   0FFH            ;0CFA: FF
+		DB   0FFH            ;0CFB: FF
+		DB   0FFH            ;0CFC: FF
+		DB   0FFH            ;0CFD: FF
+		DB   0FFH            ;0CFE: FF
+		DB   0FFH            ;0CFF: FF
+S0D00
+		GHI  R8              ;0D00: 98          
+		STXD                 ;0D01: 73          
+		SEP  R4              ;0D02: D4          
+		DW   S20E0           ;0D03: 20 E0
+S0D05
+		GHI  R8              ;0D05: 98          
+		ANI  04H             ;0D06: FA 04       
+		BZ   R0D60           ;0D08: 32 60       
+		LDN  R9              ;0D0A: 09          
+		BZ   R0D60           ;0D0B: 32 60       
+		PLO  RF              ;0D0D: AF          
+		ANI  80H             ;0D0E: FA 80       
+		BZ   R0D68           ;0D10: 32 68       
+		INC  R9              ;0D12: 19          
+		LDN  R9              ;0D13: 09          
+		ANI  80H             ;0D14: FA 80       
+		PHI  RA              ;0D16: BA          
+		DEC  R9              ;0D17: 29          
+		GLO  RF              ;0D18: 8F          
+		SDI  98H             ;0D19: FD 98       
+		PLO  RF              ;0D1B: AF          
+		PLO  RA              ;0D1C: AA          
+		BNF  R0D60           ;0D1D: 3B 60       
+		SMI  18H             ;0D1F: FF 18       
+		BDF  R0D63           ;0D21: 33 63       
+		LDI  00H             ;0D23: F8 00       
+		PHI  RF              ;0D25: BF          
+		INC  R9              ;0D26: 19          
+R0D27
+		GLO  RF              ;0D27: 8F          
+		BZ   R0D3F           ;0D28: 32 3F       
+		DEC  RF              ;0D2A: 2F          
+		LDN  R9              ;0D2B: 09          
+		SHR                  ;0D2C: F6          
+		STR  R9              ;0D2D: 59          
+		INC  R9              ;0D2E: 19          
+		LDN  R9              ;0D2F: 09          
+		SHRC                 ;0D30: 76          
+		STR  R9              ;0D31: 59          
+		INC  R9              ;0D32: 19          
+		LDN  R9              ;0D33: 09          
+		SHRC                 ;0D34: 76          
+		STR  R9              ;0D35: 59          
+		BNF  R0D3B           ;0D36: 3B 3B       
+		LDI  01H             ;0D38: F8 01       
+		PHI  RF              ;0D3A: BF          
+R0D3B
+		DEC  R9              ;0D3B: 29          
+		DEC  R9              ;0D3C: 29          
+		BR   R0D27           ;0D3D: 30 27       
+R0D3F
+		GLO  RA              ;0D3F: 8A          
+		BZ   R0D52           ;0D40: 32 52       
+		DEC  RA              ;0D42: 2A          
+		INC  R9              ;0D43: 19          
+		INC  R9              ;0D44: 19          
+		LDN  R9              ;0D45: 09          
+		SHL                  ;0D46: FE          
+		STR  R9              ;0D47: 59          
+		DEC  R9              ;0D48: 29          
+		LDN  R9              ;0D49: 09          
+		SHLC                 ;0D4A: 7E          
+		STR  R9              ;0D4B: 59          
+		DEC  R9              ;0D4C: 29          
+		LDN  R9              ;0D4D: 09          
+		SHLC                 ;0D4E: 7E          
+		STR  R9              ;0D4F: 59          
+		BR   R0D3F           ;0D50: 30 3F       
+R0D52
+		DEC  R9              ;0D52: 29          
+		GHI  RA              ;0D53: 9A          
+		BZ   R0D60           ;0D54: 32 60       
+		GHI  RF              ;0D56: 9F          
+		BZ   R0D60           ;0D57: 32 60       
+R0D59
+		SEP  R4              ;0D59: D4          
+		DW   S1401           ;0D5A: 14 01
+		SEP  R4              ;0D5C: D4          
+		DW   S2803           ;0D5D: 28 03
+		DB   51H             ;0D5F: 51
+R0D60
+		LBR  J1E81           ;0D60: C0 1E 81    
+R0D63
+		BZ   R0D68           ;0D63: 32 68       
+		LBR  J1E95           ;0D65: C0 1E 95    
+R0D68
+		INC  R9              ;0D68: 19          
+		LDN  R9              ;0D69: 09          
+		ANI  80H             ;0D6A: FA 80       
+		DEC  R9              ;0D6C: 29          
+		PLO  RF              ;0D6D: AF          
+		INC  RD              ;0D6E: 1D          
+		SEP  RD              ;0D6F: DD          
+		DB   8FH             ;0D70: 8F
+		GLO  RF              ;0D71: 8F          
+		BNZ  R0D59           ;0D72: 3A 59       
+		BR   R0D60           ;0D74: 30 60       
+S0D76
+		GHI  R8              ;0D76: 98          
+		ORI  01H             ;0D77: F9 01       
+		PHI  R8              ;0D79: B8          
+		LDI  0D0H            ;0D7A: F8 D0       
+		SEP  RD              ;0D7C: DD          
+		DB   07H             ;0D7D: 07
+S0D7E
+		LDI  0DH             ;0D7E: F8 0D       
+		SEP  RD              ;0D80: DD          
+		DB   50H             ;0D81: 50
+S0D82
+		SEP  R4              ;0D82: D4          
+		DW   S14F4           ;0D83: 14 F4
+S0D85
+		LDN  RB              ;0D85: 0B          
+		XRI  0C8H            ;0D86: FB C8       
+		BZ   R0D91           ;0D88: 32 91       
+		XRI  0C5H            ;0D8A: FB C5       
+		BZ   R0DB6           ;0D8C: 32 B6       
+		LBR  S10D6           ;0D8E: C0 10 D6    
+R0D91
+		SEP  R4              ;0D91: D4          
+		DW   S1A99           ;0D92: 1A 99
+R0D94
+		BNZ  R0DB6           ;0D94: 3A B6       
+		LDA  RA              ;0D96: 4A          
+		SEP  RD              ;0D97: DD          
+		DB   05H             ;0D98: 05
+		INC  RF              ;0D99: 1F          
+		INC  RF              ;0D9A: 1F          
+		LDN  RA              ;0D9B: 0A          
+		STR  RF              ;0D9C: 5F          
+		DEC  RA              ;0D9D: 2A          
+		DEC  RA              ;0D9E: 2A          
+		DEC  RA              ;0D9F: 2A          
+		DEC  RA              ;0DA0: 2A          
+		SEP  R4              ;0DA1: D4          
+		DW   S2077           ;0DA2: 20 77
+		BZ   R0DC1           ;0DA4: 32 C1       
+		LDI  0B4H            ;0DA6: F8 B4       
+		STR  RA              ;0DA8: 5A          
+		INC  RA              ;0DA9: 1A          
+		GHI  RB              ;0DAA: 9B          
+		STR  RA              ;0DAB: 5A          
+		INC  RA              ;0DAC: 1A          
+		GLO  RB              ;0DAD: 8B          
+		STR  RA              ;0DAE: 5A          
+		DEC  RA              ;0DAF: 2A          
+		DEC  RA              ;0DB0: 2A          
+		SEP  R4              ;0DB1: D4          
+		DW   S1AA9           ;0DB2: 1A A9
+		BR   R0D94           ;0DB4: 30 94       
+R0DB6
+		SEP  R4              ;0DB6: D4          
+		DW   S04A7           ;0DB7: 04 A7
+S0DB9
+		SEP  RD              ;0DB9: DD          
+		DB   81H             ;0DBA: 81
+S0DBB
+		PHI  RB              ;0DBB: BB          
+		LDN  RF              ;0DBC: 0F          
+		PLO  RB              ;0DBD: AB          
+		LBR  J10E2           ;0DBE: C0 10 E2    
+R0DC1
+		SEP  R4              ;0DC1: D4          
+		DW   S04E7           ;0DC2: 04 E7
+		DB   2EH             ;0DC4: 2E
+S0DC5
+		INC  RD              ;0DC5: 1D          
+		SEP  RD              ;0DC6: DD          
+		DB   1EH             ;0DC7: 1E
+		DB   87H             ;0DC8: 87
+		DB   88H             ;0DC9: 88
+		DB   8AH             ;0DCA: 8A
+		DB   8CH             ;0DCB: 8C
+		DB   8BH             ;0DCC: 8B
+		DB   8EH             ;0DCD: 8E
+		DB   00H             ;0DCE: 00
+S0DCF
+		PLO  RB              ;0DCF: AB          
+		LDI  0E0H            ;0DD0: F8 E0       
+		PLO  RE              ;0DD2: AE          
+		SEP  RD              ;0DD3: DD          
+		DB   0BDH            ;0DD4: BD
+S0DD5
+		PLO  R7              ;0DD5: A7          
+		PHI  RB              ;0DD6: BB          
+		SMI  06H             ;0DD7: FF 06       
+		BNF  R0DDE           ;0DD9: 3B DE       
+		LDI  06H             ;0DDB: F8 06       
+		PLO  R7              ;0DDD: A7          
+R0DDE
+		GHI  RF              ;0DDE: 9F          
+		PHI  RA              ;0DDF: BA          
+		PHI  RC              ;0DE0: BC          
+		GHI  R9              ;0DE1: 99          
+		PHI  RE              ;0DE2: BE          
+		LDI  0C0H            ;0DE3: F8 C0       
+		PLO  RA              ;0DE5: AA          
+		LDA  RA              ;0DE6: 4A          
+		XRI  0BH             ;0DE7: FB 0B       
+		BZ   S0DF0           ;0DE9: 32 F0       
+		LDI  2DH             ;0DEB: F8 2D       
+		SEP  R4              ;0DED: D4          
+		DW   S2CCD           ;0DEE: 2C CD
+S0DF0
+		LDA  RA              ;0DF0: 4A          
+		BNZ  R0DFA           ;0DF1: 3A FA       
+		PLO  R8              ;0DF3: A8          
+		SEP  R4              ;0DF4: D4          
+		DW   S2CCB           ;0DF5: 2C CB
+S0DF7
+		LBR  J0E7E           ;0DF7: C0 0E 7E    
+R0DFA
+		LDI  0CAH            ;0DFA: F8 CA       
+		PLO  RA              ;0DFC: AA          
+		LDA  RA              ;0DFD: 4A          
+		PLO  R8              ;0DFE: A8          
+		LDI  00H             ;0DFF: F8 00       
+		STR  R2              ;0E01: 52          
+R0E02
+		GLO  R8              ;0E02: 88          
+		BZ   R0E0C           ;0E03: 32 0C       
+		LDN  R2              ;0E05: 02          
+		ADI  0AH             ;0E06: FC 0A       
+		STR  R2              ;0E08: 52          
+		DEC  R8              ;0E09: 28          
+		BR   R0E02           ;0E0A: 30 02       
+R0E0C
+		LDN  RA              ;0E0C: 0A          
+		ADD                  ;0E0D: F4          
+		PLO  R8              ;0E0E: A8          
+		SEP  RD              ;0E0F: DD          
+		DB   0C9H            ;0E10: C9
+S0E11
+		XRI  0BH             ;0E11: FB 0B       
+		BNZ  R0E1C           ;0E13: 3A 1C       
+		GLO  R8              ;0E15: 88          
+		SMI  07H             ;0E16: FF 07       
+		BDF  R0EED           ;0E18: 33 ED       
+		BR   R0E43           ;0E1A: 30 43       
+R0E1C
+		GLO  R8              ;0E1C: 88          
+		STR  R2              ;0E1D: 52          
+		SMI  04H             ;0E1E: FF 04       
+		BNF  R0E27           ;0E20: 3B 27       
+		GHI  RB              ;0E22: 9B          
+		SMI  07H             ;0E23: FF 07       
+		BDF  R0EED           ;0E25: 33 ED       
+R0E27
+		LDI  0C8H            ;0E27: F8 C8       
+		PLO  RC              ;0E29: AC          
+		SM                   ;0E2A: F7          
+		PLO  RA              ;0E2B: AA          
+		SMI  0C1H            ;0E2C: FF C1       
+		BNF  R0E39           ;0E2E: 3B 39       
+R0E30
+		LDN  RA              ;0E30: 0A          
+		STR  RC              ;0E31: 5C          
+		DEC  RA              ;0E32: 2A          
+		DEC  RC              ;0E33: 2C          
+		GLO  RA              ;0E34: 8A          
+		XRI  0C0H            ;0E35: FB C0       
+		BNZ  R0E30           ;0E37: 3A 30       
+R0E39
+		LDI  00H             ;0E39: F8 00       
+		STR  RC              ;0E3B: 5C          
+		DEC  RC              ;0E3C: 2C          
+		GLO  RC              ;0E3D: 8C          
+		XRI  0C0H            ;0E3E: FB C0       
+		BNZ  R0E39           ;0E40: 3A 39       
+		PLO  R8              ;0E42: A8          
+R0E43
+		GLO  R7              ;0E43: 87          
+		STR  R2              ;0E44: 52          
+		GLO  R8              ;0E45: 88          
+		ADD                  ;0E46: F4          
+		PHI  R7              ;0E47: B7          
+		SMI  07H             ;0E48: FF 07       
+		BNF  R0E4F           ;0E4A: 3B 4F       
+		LDI  06H             ;0E4C: F8 06       
+		PHI  R7              ;0E4E: B7          
+R0E4F
+		GHI  R7              ;0E4F: 97          
+		ADI  0C1H            ;0E50: FC C1       
+		PLO  RA              ;0E52: AA          
+		PLO  RC              ;0E53: AC          
+		LDI  05H             ;0E54: F8 05       
+R0E56
+		STR  R2              ;0E56: 52          
+		LDN  RA              ;0E57: 0A          
+		ADD                  ;0E58: F4          
+		SMI  0AH             ;0E59: FF 0A       
+		BNF  R0E71           ;0E5B: 3B 71       
+		LDI  00H             ;0E5D: F8 00       
+		STR  RA              ;0E5F: 5A          
+		DEC  RA              ;0E60: 2A          
+		GLO  RA              ;0E61: 8A          
+		XRI  0C0H            ;0E62: FB C0       
+		BZ   R0E6A           ;0E64: 32 6A       
+		LDI  01H             ;0E66: F8 01       
+		BR   R0E56           ;0E68: 30 56       
+R0E6A
+		INC  RA              ;0E6A: 1A          
+		LDI  01H             ;0E6B: F8 01       
+		STR  RA              ;0E6D: 5A          
+		INC  R8              ;0E6E: 18          
+		BR   R0E75           ;0E6F: 30 75       
+R0E71
+		LDN  RA              ;0E71: 0A          
+		ADI  01H             ;0E72: FC 01       
+		STR  RA              ;0E74: 5A          
+R0E75
+		LDI  00H             ;0E75: F8 00       
+		STR  RC              ;0E77: 5C          
+		INC  RC              ;0E78: 1C          
+		GLO  RC              ;0E79: 8C          
+		XRI  0C9H            ;0E7A: FB C9       
+		BNZ  R0E75           ;0E7C: 3A 75       
+J0E7E
+		LDI  0C1H            ;0E7E: F8 C1       
+		PLO  RA              ;0E80: AA          
+R0E81
+		GLO  R8              ;0E81: 88          
+		BZ   R0E8B           ;0E82: 32 8B       
+		DEC  R8              ;0E84: 28          
+		LDA  RA              ;0E85: 4A          
+		SEP  R4              ;0E86: D4          
+		DW   S2CCB           ;0E87: 2C CB
+S0E89
+		BR   R0E81           ;0E89: 30 81       
+R0E8B
+		GLO  RA              ;0E8B: 8A          
+		SDI  0C9H            ;0E8C: FD C9       
+		PLO  R8              ;0E8E: A8          
+		LDI  0C8H            ;0E8F: F8 C8       
+		PLO  RC              ;0E91: AC          
+R0E92
+		LDN  RC              ;0E92: 0C          
+		BNZ  R0E9F           ;0E93: 3A 9F       
+		DEC  R8              ;0E95: 28          
+		DEC  RC              ;0E96: 2C          
+		GLO  RC              ;0E97: 8C          
+		STR  R2              ;0E98: 52          
+		GLO  RA              ;0E99: 8A          
+		SMI  01H             ;0E9A: FF 01       
+		XOR                  ;0E9C: F3          
+		BNZ  R0E92           ;0E9D: 3A 92       
+R0E9F
+		GLO  R8              ;0E9F: 88          
+		BZ   R0ECA           ;0EA0: 32 CA       
+R0EA2
+		SEP  RD              ;0EA2: DD          
+		DB   0BDH            ;0EA3: BD
+S0EA4
+		PLO  R7              ;0EA4: A7          
+		BZ   R0ECA           ;0EA5: 32 CA       
+R0EA7
+		LDI  2EH             ;0EA7: F8 2E       
+		SEP  R4              ;0EA9: D4          
+		DW   S2CCD           ;0EAA: 2C CD
+S0EAC
+		GLO  R8              ;0EAC: 88          
+		BZ   R0EBA           ;0EAD: 32 BA       
+		GLO  R7              ;0EAF: 87          
+		BZ   R0EBA           ;0EB0: 32 BA       
+		DEC  R7              ;0EB2: 27          
+		DEC  R8              ;0EB3: 28          
+		LDA  RA              ;0EB4: 4A          
+		SEP  R4              ;0EB5: D4          
+		DW   S2CCB           ;0EB6: 2C CB
+S0EB8
+		BR   S0EAC           ;0EB8: 30 AC       
+R0EBA
+		GHI  RB              ;0EBA: 9B          
+		XRI  0FFH            ;0EBB: FB FF       
+		BZ   R0ECF           ;0EBD: 32 CF       
+R0EBF
+		GLO  R7              ;0EBF: 87          
+		BZ   R0ECF           ;0EC0: 32 CF       
+		LDI  30H             ;0EC2: F8 30       
+		SEP  R4              ;0EC4: D4          
+		DW   S2CCD           ;0EC5: 2C CD
+S0EC7
+		DEC  R7              ;0EC7: 27          
+		BR   R0EBF           ;0EC8: 30 BF       
+R0ECA
+		GHI  RB              ;0ECA: 9B          
+		XRI  0FFH            ;0ECB: FB FF       
+		BNZ  R0EA7           ;0ECD: 3A A7       
+R0ECF
+		GLO  RB              ;0ECF: 8B          
+		BZ   S0EE8           ;0ED0: 32 E8       
+		LDI  45H             ;0ED2: F8 45       
+		SEP  R4              ;0ED4: D4          
+		DW   S2CCD           ;0ED5: 2C CD
+S0ED7
+		LDI  0C9H            ;0ED7: F8 C9       
+		PLO  RA              ;0ED9: AA          
+		LDA  RA              ;0EDA: 4A          
+		ADI  20H             ;0EDB: FC 20       
+		SEP  R4              ;0EDD: D4          
+		DW   S2CCD           ;0EDE: 2C CD
+S0EE0
+		LDA  RA              ;0EE0: 4A          
+		SEP  R4              ;0EE1: D4          
+		DW   S2CCB           ;0EE2: 2C CB
+S0EE4
+		LDN  RA              ;0EE4: 0A          
+		SEP  R4              ;0EE5: D4          
+		DW   S2CCB           ;0EE6: 2C CB
+S0EE8
+		INC  R2              ;0EE8: 12          
+		SEP  R2              ;0EE9: D2          
+S0EEA
+		LBR  J2BA6           ;0EEA: C0 2B A6    
+R0EED
+		LDI  0C6H            ;0EED: F8 C6       
+		PLO  RA              ;0EEF: AA          
+		LDI  06H             ;0EF0: F8 06       
+		PLO  R8              ;0EF2: A8          
+R0EF3
+		LDN  RA              ;0EF3: 0A          
+		BNZ  R0EFA           ;0EF4: 3A FA       
+		DEC  R8              ;0EF6: 28          
+		DEC  RA              ;0EF7: 2A          
+		BR   R0EF3           ;0EF8: 30 F3       
+R0EFA
+		LDI  0C1H            ;0EFA: F8 C1       
+		PLO  RA              ;0EFC: AA          
+		PLO  RB              ;0EFD: AB          
+		BR   R0EA2           ;0EFE: 30 A2       
+S0F00
+		LDA  RB              ;0F00: 4B          
+		XRI  0D1H            ;0F01: FB D1       
+		BZ   R0F09           ;0F03: 32 09       
+J0F05
+		SEP  R4              ;0F05: D4          
+		DW   S04E7           ;0F06: 04 E7
+		DB   03H             ;0F08: 03
+R0F09
+		LDA  RB              ;0F09: 4B          
+		STXD                 ;0F0A: 73          
+		PLO  R8              ;0F0B: A8          
+		SEP  R4              ;0F0C: D4          
+		DW   S1295           ;0F0D: 12 95
+S0F0F
+		BZ   R0F1B           ;0F0F: 32 1B       
+		LDA  R7              ;0F11: 47          
+		PLO  RE              ;0F12: AE          
+		LDN  R7              ;0F13: 07          
+		PHI  RE              ;0F14: BE          
+		INC  RE              ;0F15: 1E          
+		INC  RE              ;0F16: 1E          
+		INC  RE              ;0F17: 1E          
+		DEC  R7              ;0F18: 27          
+		DEC  R7              ;0F19: 27          
+		LSKP                 ;0F1A: C8          
+R0F1B
+		PLO  RE              ;0F1B: AE          
+		PHI  RE              ;0F1C: BE          
+		SEP  R4              ;0F1D: D4          
+		DW   S12C1           ;0F1E: 12 C1
+S0F20
+		PLO  RF              ;0F20: AF          
+		DEC  RF              ;0F21: 2F          
+		PHI  RA              ;0F22: BA          
+		SEP  R4              ;0F23: D4          
+		DW   S1011           ;0F24: 10 11
+S0F26
+		PHI  RC              ;0F26: BC          
+		LDN  R9              ;0F27: 09          
+		PLO  RA              ;0F28: AA          
+R0F29
+		PLO  RC              ;0F29: AC          
+		GLO  R9              ;0F2A: 89          
+		SMI  07H             ;0F2B: FF 07       
+		PLO  R9              ;0F2D: A9          
+		GLO  RF              ;0F2E: 8F          
+		BZ   R0F46           ;0F2F: 32 46       
+		XRI  01H             ;0F31: FB 01       
+		BNZ  J0F05           ;0F33: 3A 05       
+		SEP  R4              ;0F35: D4          
+		DW   S1011           ;0F36: 10 11
+S0F38
+		LDA  R9              ;0F38: 49          
+		PHI  RA              ;0F39: BA          
+		SEP  R4              ;0F3A: D4          
+		DW   S2669           ;0F3B: 26 69
+S0F3D
+		SEP  R4              ;0F3D: D4          
+		DW   S1014           ;0F3E: 10 14
+S0F40
+		PLO  RF              ;0F40: AF          
+		LDA  R9              ;0F41: 49          
+		PHI  RC              ;0F42: BC          
+		LDN  R9              ;0F43: 09          
+		BR   R0F29           ;0F44: 30 29       
+R0F46
+		GLO  RA              ;0F46: 8A          
+		BZ   R0F5E           ;0F47: 32 5E       
+		GLO  RC              ;0F49: 8C          
+		SHL                  ;0F4A: FE          
+		PLO  RC              ;0F4B: AC          
+		GHI  RC              ;0F4C: 9C          
+		SHLC                 ;0F4D: 7E          
+		PHI  RC              ;0F4E: BC          
+		BDF  J0F05           ;0F4F: 33 05       
+		GLO  RC              ;0F51: 8C          
+		SHL                  ;0F52: FE          
+		PLO  RC              ;0F53: AC          
+		GHI  RC              ;0F54: 9C          
+		SHLC                 ;0F55: 7E          
+		PHI  RC              ;0F56: BC          
+		BDF  J0F05           ;0F57: 33 05       
+		INC  RC              ;0F59: 1C          
+		INC  RC              ;0F5A: 1C          
+		INC  RC              ;0F5B: 1C          
+		INC  RC              ;0F5C: 1C          
+		INC  RC              ;0F5D: 1C          
+R0F5E
+		INC  RD              ;0F5E: 1D          
+		SEP  RD              ;0F5F: DD          
+		DB   1EH             ;0F60: 1E
+		DB   87H             ;0F61: 87
+		DB   89H             ;0F62: 89
+		DB   8BH             ;0F63: 8B
+		DB   8AH             ;0F64: 8A
+		DB   00H             ;0F65: 00
+S0F66
+		GLO  R7              ;0F66: 87          
+		STR  R2              ;0F67: 52          
+		GLO  RC              ;0F68: 8C          
+		ADD                  ;0F69: F4          
+		PLO  RA              ;0F6A: AA          
+		GHI  R7              ;0F6B: 97          
+		STR  R2              ;0F6C: 52          
+		GHI  RC              ;0F6D: 9C          
+		ADC                  ;0F6E: 74          
+		PHI  RA              ;0F6F: BA          
+		GLO  RE              ;0F70: 8E          
+		STR  R2              ;0F71: 52          
+		GLO  RC              ;0F72: 8C          
+		SD                   ;0F73: F5          
+		PLO  R9              ;0F74: A9          
+		GHI  RE              ;0F75: 9E          
+		STR  R2              ;0F76: 52          
+		GHI  RC              ;0F77: 9C          
+		SDB                  ;0F78: 75          
+		PHI  R9              ;0F79: B9          
+		BDF  R0FBE           ;0F7A: 33 BE       
+		GLO  R9              ;0F7C: 89          
+		SDI  00H             ;0F7D: FD 00       
+		PLO  R9              ;0F7F: A9          
+		GHI  R9              ;0F80: 99          
+		SDBI 00H             ;0F81: 7D 00       
+		PHI  R9              ;0F83: B9          
+		SEP  RD              ;0F84: DD          
+		DB   9AH             ;0F85: 9A
+S0F86
+		PLO  R7              ;0F86: A7          
+		STR  R2              ;0F87: 52          
+		GLO  R9              ;0F88: 89          
+		ADD                  ;0F89: F4          
+		PLO  RB              ;0F8A: AB          
+		SEP  RD              ;0F8B: DD          
+		DB   99H             ;0F8C: 99
+S0F8D
+		PHI  R7              ;0F8D: B7          
+		STR  R2              ;0F8E: 52          
+		GHI  R9              ;0F8F: 99          
+		ADC                  ;0F90: 74          
+		PHI  RB              ;0F91: BB          
+		BDF  J0F05           ;0F92: 33 05       
+		STR  R2              ;0F94: 52          
+		GHI  R2              ;0F95: 92          
+		SD                   ;0F96: F5          
+		BDF  J0F05           ;0F97: 33 05       
+		GLO  RB              ;0F99: 8B          
+		SEP  RD              ;0F9A: DD          
+		DB   1AH             ;0F9B: 1A
+S0F9C
+		GHI  RB              ;0F9C: 9B          
+		STR  RF              ;0F9D: 5F          
+R0F9E
+		LDN  R7              ;0F9E: 07          
+		STR  RB              ;0F9F: 5B          
+		GLO  RB              ;0FA0: 8B          
+		STR  R2              ;0FA1: 52          
+		GLO  RA              ;0FA2: 8A          
+		XOR                  ;0FA3: F3          
+		BNZ  R0FAC           ;0FA4: 3A AC       
+		GHI  RB              ;0FA6: 9B          
+		STR  R2              ;0FA7: 52          
+		GHI  RA              ;0FA8: 9A          
+		XOR                  ;0FA9: F3          
+		BZ   R0FB0           ;0FAA: 32 B0       
+R0FAC
+		DEC  R7              ;0FAC: 27          
+		DEC  RB              ;0FAD: 2B          
+		BR   R0F9E           ;0FAE: 30 9E       
+R0FB0
+		SEP  RD              ;0FB0: DD          
+		DB   93H             ;0FB1: 93
+S0FB2
+		STR  R2              ;0FB2: 52          
+		GLO  R9              ;0FB3: 89          
+		ADD                  ;0FB4: F4          
+		DEC  RF              ;0FB5: 2F          
+		STR  RF              ;0FB6: 5F          
+		SEP  RD              ;0FB7: DD          
+		DB   92H             ;0FB8: 92
+S0FB9
+		STR  R2              ;0FB9: 52          
+		GHI  R9              ;0FBA: 99          
+		ADC                  ;0FBB: 74          
+		BR   R0FED           ;0FBC: 30 ED       
+R0FBE
+		GLO  R7              ;0FBE: 87          
+		STR  R2              ;0FBF: 52          
+		GLO  RE              ;0FC0: 8E          
+		ADD                  ;0FC1: F4          
+		PLO  RB              ;0FC2: AB          
+		GHI  R7              ;0FC3: 97          
+		STR  R2              ;0FC4: 52          
+		GHI  RE              ;0FC5: 9E          
+		ADC                  ;0FC6: 74          
+		PHI  RB              ;0FC7: BB          
+R0FC8
+		LDN  RB              ;0FC8: 0B          
+		STR  RA              ;0FC9: 5A          
+		GLO  RB              ;0FCA: 8B          
+		STR  R2              ;0FCB: 52          
+		SEP  RD              ;0FCC: DD          
+		DB   9AH             ;0FCD: 9A
+		XOR                  ;0FCE: F3          
+		BNZ  R0FD8           ;0FCF: 3A D8       
+		GHI  RB              ;0FD1: 9B          
+		STR  R2              ;0FD2: 52          
+		SEP  RD              ;0FD3: DD          
+		DB   99H             ;0FD4: 99
+		XOR                  ;0FD5: F3          
+		BZ   R0FDC           ;0FD6: 32 DC       
+R0FD8
+		INC  RB              ;0FD8: 1B          
+		INC  RA              ;0FD9: 1A          
+		BR   R0FC8           ;0FDA: 30 C8       
+R0FDC
+		GLO  RA              ;0FDC: 8A          
+		STR  RF              ;0FDD: 5F          
+		GHI  RA              ;0FDE: 9A          
+		SEP  RD              ;0FDF: DD          
+		DB   19H             ;0FE0: 19
+		SEP  RD              ;0FE1: DD          
+		DB   93H             ;0FE2: 93
+		STR  R2              ;0FE3: 52          
+		GLO  R9              ;0FE4: 89          
+		SD                   ;0FE5: F5          
+		DEC  RF              ;0FE6: 2F          
+		STR  RF              ;0FE7: 5F          
+		SEP  RD              ;0FE8: DD          
+		DB   92H             ;0FE9: 92
+		STR  R2              ;0FEA: 52          
+		GHI  R9              ;0FEB: 99          
+		SDB                  ;0FEC: 75          
+R0FED
+		SEP  RD              ;0FED: DD          
+		DB   12H             ;0FEE: 12
+S0FEF
+		INC  R2              ;0FEF: 12          
+		SEP  R2              ;0FF0: D2          
+S0FF1
+		INC  R2              ;0FF1: 12          
+		LDX                  ;0FF2: F0          
+		PLO  R8              ;0FF3: A8          
+		GLO  RA              ;0FF4: 8A          
+		LBZ  J1009           ;0FF5: C2 10 09    
+		GLO  R8              ;0FF8: 88          
+		STR  R7              ;0FF9: 57          
+		INC  R7              ;0FFA: 17          
+		DEC  RC              ;0FFB: 2C          
+		DEC  RC              ;0FFC: 2C          
+		DEC  RC              ;0FFD: 2C          
+		GLO  RC              ;0FFE: 8C          
+		STR  R7              ;0FFF: 57          
+		INC  R7              ;1000: 17          
+		GHI  RC              ;1001: 9C          
+		STR  R7              ;1002: 57          
+		INC  R7              ;1003: 17          
+		GHI  RA              ;1004: 9A          
+		STR  R7              ;1005: 57          
+		INC  R7              ;1006: 17          
+		GLO  RA              ;1007: 8A          
+		STR  R7              ;1008: 57          
+J1009
+		LDA  RB              ;1009: 4B          
+		XRI  0C2H            ;100A: FB C2       
+		LBZ  S0F00           ;100C: C2 0F 00    
+		DEC  RB              ;100F: 2B          
+		SEP  R5              ;1010: D5          
+S1011
+		LDA  R9              ;1011: 49          
+		BNZ  R1018           ;1012: 3A 18       
+S1014
+		LDA  R9              ;1014: 49          
+		BNZ  R1018           ;1015: 3A 18       
+		LDA  R9              ;1017: 49          
+R1018
+		LBNZ J0F05           ;1018: CA 0F 05    
+		SEP  R5              ;101B: D5          
+S101C
+		GHI  R6              ;101C: 96          
+		XRI  90H             ;101D: FB 90       
+		BNZ  S1029           ;101F: 3A 29       
+		GLO  R6              ;1021: 86          
+		XRI  0A2H            ;1022: FB A2       
+		BNZ  S1029           ;1024: 3A 29       
+		LBR  S1344           ;1026: C0 13 44    
+S1029
+		INC  RD              ;1029: 1D          
+		SEP  RD              ;102A: DD          
+		DB   1EH             ;102B: 1E
+		DB   87H             ;102C: 87
+		DB   8CH             ;102D: 8C
+		DB   8EH             ;102E: 8E
+		DB   00H             ;102F: 00
+S1030
+		LDI  90H             ;1030: F8 90       
+		PHI  R7              ;1032: B7          
+		LDI  00H             ;1033: F8 00       
+		PLO  R7              ;1035: A7          
+S1036
+		LDA  RB              ;1036: 4B          
+		STR  R2              ;1037: 52          
+		XRI  0CFH            ;1038: FB CF       
+		BZ   R1061           ;103A: 32 61       
+		XRI  18H             ;103C: FB 18       
+		BNZ  R1083           ;103E: 3A 83       
+		LDA  RB              ;1040: 4B          
+		PLO  R8              ;1041: A8          
+		SEP  R4              ;1042: D4          
+		DW   S1324           ;1043: 13 24
+S1045
+		PLO  RE              ;1045: AE          
+		SEP  R4              ;1046: D4          
+		DW   S2195           ;1047: 21 95
+S1049
+		BNZ  R1053           ;1049: 3A 53       
+J104B
+		SEP  R4              ;104B: D4          
+		DW   S04E7           ;104C: 04 E7
+		DB   36H             ;104E: 36
+R104F
+		SEP  R4              ;104F: D4          
+		DW   S04E7           ;1050: 04 E7
+		DB   42H             ;1052: 42
+R1053
+		GLO  R7              ;1053: 87          
+		XRI  80H             ;1054: FB 80       
+		BZ   R104F           ;1056: 32 4F       
+		LDA  RA              ;1058: 4A          
+		STR  R7              ;1059: 57          
+		INC  R7              ;105A: 17          
+		XRI  0DH             ;105B: FB 0D       
+		BNZ  R1053           ;105D: 3A 53       
+		BR   R1072           ;105F: 30 72       
+R1061
+		GLO  R7              ;1061: 87          
+		XRI  80H             ;1062: FB 80       
+		BZ   R104F           ;1064: 32 4F       
+		LDA  RB              ;1066: 4B          
+		STR  R7              ;1067: 57          
+		INC  R7              ;1068: 17          
+		XRI  0CEH            ;1069: FB CE       
+		BNZ  R1061           ;106B: 3A 61       
+		DEC  R7              ;106D: 27          
+		LDI  0DH             ;106E: F8 0D       
+		STR  R7              ;1070: 57          
+		INC  R7              ;1071: 17          
+R1072
+		LDN  RB              ;1072: 0B          
+		XRI  0C8H            ;1073: FB C8       
+		BNZ  R107B           ;1075: 3A 7B       
+		INC  RB              ;1077: 1B          
+		DEC  R7              ;1078: 27          
+		BR   S1036           ;1079: 30 36       
+R107B
+		GHI  R6              ;107B: 96          
+		XRI  17H             ;107C: FB 17       
+		BZ   S1082           ;107E: 32 82       
+		INC  R2              ;1080: 12          
+		SEP  R2              ;1081: D2          
+S1082
+		SEP  R5              ;1082: D5          
+R1083
+		XRI  6DH             ;1083: FB 6D       
+		BNZ  R108C           ;1085: 3A 8C       
+		SEP  R4              ;1087: D4          
+		DW   S1701           ;1088: 17 01
+S108A
+		BR   R1072           ;108A: 30 72       
+R108C
+		XRI  57H             ;108C: FB 57       
+		BNZ  J104B           ;108E: 3A 4B       
+S1090
+		GHI  R6              ;1090: 96          
+		XRI  90H             ;1091: FB 90       
+		LBZ  J09A3           ;1093: C2 09 A3    
+		GHI  R7              ;1096: 97          
+		PHI  RE              ;1097: BE          
+		GLO  R7              ;1098: 87          
+		PLO  RE              ;1099: AE          
+		GLO  R8              ;109A: 88          
+		STXD                 ;109B: 73          
+		SEP  R4              ;109C: D4          
+		DW   S20E0           ;109D: 20 E0
+		INC  R2              ;109F: 12          
+		LDX                  ;10A0: F0          
+		PLO  R8              ;10A1: A8          
+		SEP  RD              ;10A2: DD          
+		DB   8FH             ;10A3: 8F
+		STXD                 ;10A4: 73          
+		LDN  RF              ;10A5: 0F          
+		STXD                 ;10A6: 73          
+		LDI  95H             ;10A7: F8 95       
+		SEP  RD              ;10A9: DD          
+		DB   10H             ;10AA: 10
+		LDI  14H             ;10AB: F8 14       
+		STR  RF              ;10AD: 5F          
+		GHI  R8              ;10AE: 98          
+		ANI  04H             ;10AF: FA 04       
+		BZ   R10BC           ;10B1: 32 BC       
+		SEP  R4              ;10B3: D4          
+		DW   S2806           ;10B4: 28 06
+		INP  7               ;10B6: 6F          
+		SEP  R4              ;10B7: D4          
+		DW   S0DC5           ;10B8: 0D C5
+		BR   R10C2           ;10BA: 30 C2       
+R10BC
+		SEP  R4              ;10BC: D4          
+		DW   S25FB           ;10BD: 25 FB
+		SEP  R4              ;10BF: D4          
+		DW   S20B0           ;10C0: 20 B0
+R10C2
+		SEP  R4              ;10C2: D4          
+		DW   S1516           ;10C3: 15 16
+		INC  R2              ;10C5: 12          
+		LDXA                 ;10C6: 72          
+		SEP  RD              ;10C7: DD          
+		DB   10H             ;10C8: 10
+		LDX                  ;10C9: F0          
+		STR  RF              ;10CA: 5F          
+		GLO  RE              ;10CB: 8E          
+		XRI  80H             ;10CC: FB 80       
+		BZ   R104F           ;10CE: 32 4F       
+		GLO  R9              ;10D0: 89          
+		SMI  04H             ;10D1: FF 04       
+		PLO  R9              ;10D3: A9          
+		BR   R1072           ;10D4: 30 72       
+S10D6
+		LDN  RB              ;10D6: 0B          
+		XRI  0B4H            ;10D7: FB B4       
+		BNZ  R10EA           ;10D9: 3A EA       
+		INC  RB              ;10DB: 1B          
+		LDA  RB              ;10DC: 4B          
+		PHI  RF              ;10DD: BF          
+		LDN  RB              ;10DE: 0B          
+		PLO  RB              ;10DF: AB          
+		GHI  RF              ;10E0: 9F          
+		PHI  RB              ;10E1: BB          
+J10E2
+		INC  R2              ;10E2: 12          
+		INC  R2              ;10E3: 12          
+		LDX                  ;10E4: F0          
+		PHI  R6              ;10E5: B6          
+		LDI  0B9H            ;10E6: F8 B9       
+		PLO  R6              ;10E8: A6          
+R10E9
+		SEP  R5              ;10E9: D5          
+R10EA
+		SEP  R4              ;10EA: D4          
+		DW   S10EF           ;10EB: 10 EF
+S10ED
+		BR   J10E2           ;10ED: 30 E2       
+S10EF
+		SEP  R4              ;10EF: D4          
+		DW   S1382           ;10F0: 13 82
+S10F2
+		GLO  RA              ;10F2: 8A          
+		SEP  RD              ;10F3: DD          
+		DB   06H             ;10F4: 06
+S10F5
+		GHI  RA              ;10F5: 9A          
+		STR  RF              ;10F6: 5F          
+		SEP  R4              ;10F7: D4          
+		DW   S2077           ;10F8: 20 77
+S10FA
+		BNZ  R10E9           ;10FA: 3A E9       
+		SEP  R4              ;10FC: D4          
+		DW   S04E7           ;10FD: 04 E7
+		DB   2EH             ;10FF: 2E
+S1100
+		GHI  R8              ;1100: 98          
+		ANI  01H             ;1101: FA 01       
+		BZ   R110A           ;1103: 32 0A       
+		SEP  R4              ;1105: D4          
+		DW   S2131           ;1106: 21 31
+S1108
+		BZ   R110E           ;1108: 32 0E       
+R110A
+		SEP  R4              ;110A: D4          
+		DW   S04E7           ;110B: 04 E7
+		DB   0BH             ;110D: 0B
+R110E
+		PLO  RE              ;110E: AE          
+		LDA  RB              ;110F: 4B          
+		PLO  RF              ;1110: AF          
+		INC  RB              ;1111: 1B          
+		LDN  RB              ;1112: 0B          
+		DEC  RB              ;1113: 2B          
+		XRI  0D6H            ;1114: FB D6       
+		BZ   R1127           ;1116: 32 27       
+		SEP  R4              ;1118: D4          
+		DW   S160A           ;1119: 16 0A
+S111B
+		DEC  RC              ;111B: 2C          
+		DEC  RC              ;111C: 2C          
+		DEC  RC              ;111D: 2C          
+		GLO  RC              ;111E: 8C          
+		STXD                 ;111F: 73          
+		GHI  RC              ;1120: 9C          
+		STXD                 ;1121: 73          
+		LDA  RB              ;1122: 4B          
+		XRI  0C1H            ;1123: FB C1       
+		BZ   R112B           ;1125: 32 2B       
+R1127
+		SEP  R4              ;1127: D4          
+		DW   S04E7           ;1128: 04 E7
+		DB   0CH             ;112A: 0C
+R112B
+		SEP  R4              ;112B: D4          
+		DW   S0904           ;112C: 09 04
+S112E
+		LDA  RB              ;112E: 4B          
+		XRI  0C0H            ;112F: FB C0       
+		BNZ  R1146           ;1131: 3A 46       
+		SEP  R4              ;1133: D4          
+		DW   S0904           ;1134: 09 04
+		GHI  R8              ;1136: 98          
+		ANI  08H             ;1137: FA 08       
+		BZ   R113E           ;1139: 32 3E       
+		LDN  R9              ;113B: 09          
+		BR   R1141           ;113C: 30 41       
+R113E
+		INC  R9              ;113E: 19          
+		LDN  R9              ;113F: 09          
+		DEC  R9              ;1140: 29          
+R1141
+		ANI  80H             ;1141: FA 80       
+		PLO  RE              ;1143: AE          
+		BR   S1149           ;1144: 30 49       
+R1146
+		SEP  R4              ;1146: D4          
+		DW   S1400           ;1147: 14 00
+S1149
+		GLO  RB              ;1149: 8B          
+		STXD                 ;114A: 73          
+		GHI  RB              ;114B: 9B          
+		STXD                 ;114C: 73          
+		GLO  RE              ;114D: 8E          
+		STXD                 ;114E: 73          
+		GHI  R8              ;114F: 98          
+		ANI  0CH             ;1150: FA 0C       
+		STR  R2              ;1152: 52          
+		INC  RD              ;1153: 1D          
+		SEP  RD              ;1154: DD          
+		DB   0D7H            ;1155: D7
+S1156
+		DEC  R9              ;1156: 29          
+		DEC  R9              ;1157: 29          
+		DEC  R9              ;1158: 29          
+		DEC  R9              ;1159: 29          
+		INC  R2              ;115A: 12          
+		INC  RD              ;115B: 1D          
+		SEP  RD              ;115C: DD          
+		DB   0D7H            ;115D: D7
+S115E
+		GLO  R9              ;115E: 89          
+		SMI  04H             ;115F: FF 04       
+		PLO  R9              ;1161: A9          
+R1162
+		SEP  R4              ;1162: D4          
+		DW   S007C           ;1163: 00 7C
+S1165
+		GLO  R2              ;1165: 82          
+		PLO  RA              ;1166: AA          
+		GHI  R2              ;1167: 92          
+		PHI  RA              ;1168: BA          
+		INC  RA              ;1169: 1A          
+		GLO  R9              ;116A: 89          
+		ADI  04H             ;116B: FC 04       
+		PLO  R9              ;116D: A9          
+		LDI  08H             ;116E: F8 08       
+		PLO  RF              ;1170: AF          
+R1171
+		LDA  RA              ;1171: 4A          
+		STR  R9              ;1172: 59          
+		INC  R9              ;1173: 19          
+		DEC  RF              ;1174: 2F          
+		GLO  RF              ;1175: 8F          
+		BNZ  R1171           ;1176: 3A 71       
+		LDA  RA              ;1178: 4A          
+		STR  R2              ;1179: 52          
+		GHI  R8              ;117A: 98          
+		OR                   ;117B: F1          
+		ORI  01H             ;117C: F9 01       
+		PHI  R8              ;117E: B8          
+		LDA  RA              ;117F: 4A          
+		PLO  RE              ;1180: AE          
+		INC  RA              ;1181: 1A          
+		INC  RA              ;1182: 1A          
+		LDA  RA              ;1183: 4A          
+		PHI  RC              ;1184: BC          
+		LDN  RA              ;1185: 0A          
+		PLO  RC              ;1186: AC          
+		DEC  RA              ;1187: 2A          
+		DEC  RA              ;1188: 2A          
+		DEC  RA              ;1189: 2A          
+		LDI  04H             ;118A: F8 04       
+		PLO  RF              ;118C: AF          
+R118D
+		LDA  RC              ;118D: 4C          
+		STR  R9              ;118E: 59          
+		INC  R9              ;118F: 19          
+		DEC  RF              ;1190: 2F          
+		GLO  RF              ;1191: 8F          
+		BNZ  R118D           ;1192: 3A 8D       
+		GLO  R9              ;1194: 89          
+		SMI  04H             ;1195: FF 04       
+		PLO  R9              ;1197: A9          
+		GHI  R8              ;1198: 98          
+		ANI  08H             ;1199: FA 08       
+		BZ   R11A2           ;119B: 32 A2       
+		INC  RD              ;119D: 1D          
+		SEP  RD              ;119E: DD          
+		DB   21H             ;119F: 21
+		BR   S11A6           ;11A0: 30 A6       
+R11A2
+		SEP  R4              ;11A2: D4          
+		DW   S2803           ;11A3: 28 03
+		DB   54H             ;11A5: 54
+S11A6
+		INC  R9              ;11A6: 19          
+		INC  R9              ;11A7: 19          
+		INC  R9              ;11A8: 19          
+		DEC  RC              ;11A9: 2C          
+		LDI  04H             ;11AA: F8 04       
+		PLO  RF              ;11AC: AF          
+R11AD
+		LDN  R9              ;11AD: 09          
+		STR  RC              ;11AE: 5C          
+		DEC  R9              ;11AF: 29          
+		DEC  RC              ;11B0: 2C          
+		DEC  RF              ;11B1: 2F          
+		GLO  RF              ;11B2: 8F          
+		BNZ  R11AD           ;11B3: 3A AD       
+		INC  R9              ;11B5: 19          
+		GHI  R8              ;11B6: 98          
+		ANI  08H             ;11B7: FA 08       
+		BZ   R11C5           ;11B9: 32 C5       
+		INC  RD              ;11BB: 1D          
+		SEP  RD              ;11BC: DD          
+		DB   62H             ;11BD: 62
+		INC  RD              ;11BE: 1D          
+		SEP  RD              ;11BF: DD          
+		DB   0C5H            ;11C0: C5
+		PLO  RF              ;11C1: AF          
+		LDN  R9              ;11C2: 09          
+		BR   R11CD           ;11C3: 30 CD       
+R11C5
+		SEP  R4              ;11C5: D4          
+		DW   S2803           ;11C6: 28 03
+		DB   51H             ;11C8: 51
+S11C9
+		LDA  R9              ;11C9: 49          
+		PLO  RF              ;11CA: AF          
+		LDN  R9              ;11CB: 09          
+		DEC  R9              ;11CC: 29          
+R11CD
+		ANI  80H             ;11CD: FA 80       
+		STR  R2              ;11CF: 52          
+		GLO  R9              ;11D0: 89          
+		SMI  04H             ;11D1: FF 04       
+		PLO  R9              ;11D3: A9          
+		GLO  RF              ;11D4: 8F          
+		BZ   R11DB           ;11D5: 32 DB       
+		GLO  RE              ;11D7: 8E          
+		XOR                  ;11D8: F3          
+		BNZ  R11E1           ;11D9: 3A E1       
+R11DB
+		LDA  RA              ;11DB: 4A          
+		PHI  RB              ;11DC: BB          
+		LDN  RA              ;11DD: 0A          
+		PLO  RB              ;11DE: AB          
+		BR   R1162           ;11DF: 30 62       
+R11E1
+		LDI  10H             ;11E1: F8 10       
+		PLO  RF              ;11E3: AF          
+R11E4
+		INC  R2              ;11E4: 12          
+		DEC  RF              ;11E5: 2F          
+		GLO  RF              ;11E6: 8F          
+		BNZ  R11E4           ;11E7: 3A E4       
+		LDX                  ;11E9: F0          
+		PHI  R6              ;11EA: B6          
+		LDI  7CH             ;11EB: F8 7C       
+		PLO  R6              ;11ED: A6          
+		SEP  R5              ;11EE: D5          
+S11EF
+		LDI  00H             ;11EF: F8 00       
+		STR  R9              ;11F1: 59          
+		INC  R9              ;11F2: 19          
+		STR  R9              ;11F3: 59          
+		INC  R9              ;11F4: 19          
+		STR  R9              ;11F5: 59          
+		INC  R9              ;11F6: 19          
+		STR  R9              ;11F7: 59          
+		DEC  R9              ;11F8: 29          
+		SEP  R5              ;11F9: D5          
+S11FA
+		DEC  R2              ;11FA: 22          
+		LDI  23H             ;11FB: F8 23       
+		STR  R2              ;11FD: 52          
+		DIS                  ;11FE: 71          
+		SEP  R5              ;11FF: D5          
+S1200
+		GLO  RA              ;1200: 8A          
+		STXD                 ;1201: 73          
+		GHI  RA              ;1202: 9A          
+		STXD                 ;1203: 73          
+		GHI  R8              ;1204: 98          
+		STXD                 ;1205: 73          
+		GLO  R8              ;1206: 88          
+		STXD                 ;1207: 73          
+		SEP  R4              ;1208: D4          
+		DW   S12C1           ;1209: 12 C1
+		PLO  RF              ;120B: AF          
+		PLO  RC              ;120C: AC          
+		LDI  00H             ;120D: F8 00       
+		PLO  R8              ;120F: A8          
+R1210
+		LDA  R9              ;1210: 49          
+		BNZ  R1291           ;1211: 3A 91       
+		LDA  R9              ;1213: 49          
+		BNZ  R1291           ;1214: 3A 91       
+		LDA  R9              ;1216: 49          
+		BNZ  R1291           ;1217: 3A 91       
+		GLO  R8              ;1219: 88          
+		BNZ  R1220           ;121A: 3A 20       
+		LDN  R9              ;121C: 09          
+		PHI  RC              ;121D: BC          
+		BR   R1222           ;121E: 30 22       
+R1220
+		LDN  R9              ;1220: 09          
+		PLO  RC              ;1221: AC          
+R1222
+		BZ   R1291           ;1222: 32 91       
+		GLO  R9              ;1224: 89          
+		SMI  07H             ;1225: FF 07       
+		PLO  R9              ;1227: A9          
+		DEC  RF              ;1228: 2F          
+		INC  R8              ;1229: 18          
+		GLO  RF              ;122A: 8F          
+		BNZ  R1210           ;122B: 3A 10       
+		GLO  R9              ;122D: 89          
+		ADI  04H             ;122E: FC 04       
+		PLO  R9              ;1230: A9          
+		INC  R2              ;1231: 12          
+		LDX                  ;1232: F0          
+		PLO  R8              ;1233: A8          
+		SEP  R4              ;1234: D4          
+		DW   S1295           ;1235: 12 95
+		BZ   R1291           ;1237: 32 91       
+		INC  R7              ;1239: 17          
+		INC  R7              ;123A: 17          
+		SEP  R4              ;123B: D4          
+		DW   S11EF           ;123C: 11 EF
+		INC  R9              ;123E: 19          
+		GHI  RC              ;123F: 9C          
+		STR  R9              ;1240: 59          
+		INC  R9              ;1241: 19          
+		STR  R2              ;1242: 52          
+		INC  R7              ;1243: 17          
+		LDN  R7              ;1244: 07          
+		SM                   ;1245: F7          
+		BNF  R1291           ;1246: 3B 91       
+		DEC  R7              ;1248: 27          
+		SEP  R4              ;1249: D4          
+		DW   S11EF           ;124A: 11 EF
+		INC  R9              ;124C: 19          
+		GLO  RC              ;124D: 8C          
+		STR  R2              ;124E: 52          
+		LDA  R7              ;124F: 47          
+		SM                   ;1250: F7          
+		BNF  R1291           ;1251: 3B 91       
+		DEC  RC              ;1253: 2C          
+		GLO  RC              ;1254: 8C          
+		STR  R9              ;1255: 59          
+		INC  R9              ;1256: 19          
+		SEP  R4              ;1257: D4          
+		DW   S11EF           ;1258: 11 EF
+		INC  R9              ;125A: 19          
+		LDN  R7              ;125B: 07          
+		STR  R9              ;125C: 59          
+		DEC  R9              ;125D: 29          
+		DEC  R9              ;125E: 29          
+		DEC  R9              ;125F: 29          
+		DEC  R7              ;1260: 27          
+		DEC  R7              ;1261: 27          
+		DEC  R7              ;1262: 27          
+		SEP  R4              ;1263: D4          
+		DW   S2669           ;1264: 26 69
+		INC  RD              ;1266: 1D          
+		SEP  RD              ;1267: DD          
+		DB   21H             ;1268: 21
+		INC  R9              ;1269: 19          
+		INC  R9              ;126A: 19          
+		LDA  R9              ;126B: 49          
+		PHI  RC              ;126C: BC          
+		LDN  R9              ;126D: 09          
+		PLO  RC              ;126E: AC          
+		GLO  R9              ;126F: 89          
+		SMI  07H             ;1270: FF 07       
+		PLO  R9              ;1272: A9          
+		GLO  RC              ;1273: 8C          
+		SHL                  ;1274: FE          
+		PLO  RC              ;1275: AC          
+		GHI  RC              ;1276: 9C          
+		SHLC                 ;1277: 7E          
+		PHI  RC              ;1278: BC          
+		GLO  RC              ;1279: 8C          
+		SHL                  ;127A: FE          
+		PLO  RC              ;127B: AC          
+		GHI  RC              ;127C: 9C          
+		SHLC                 ;127D: 7E          
+		PHI  RC              ;127E: BC          
+		GLO  R7              ;127F: 87          
+		STR  R2              ;1280: 52          
+		GLO  RC              ;1281: 8C          
+		ADD                  ;1282: F4          
+		PLO  RC              ;1283: AC          
+		GHI  R7              ;1284: 97          
+		STR  R2              ;1285: 52          
+		GHI  RC              ;1286: 9C          
+		ADC                  ;1287: 74          
+		PHI  RC              ;1288: BC          
+		INC  R2              ;1289: 12          
+		LDXA                 ;128A: 72          
+		PHI  R8              ;128B: B8          
+		LDXA                 ;128C: 72          
+		PHI  RA              ;128D: BA          
+		LDX                  ;128E: F0          
+		PLO  RA              ;128F: AA          
+		SEP  R5              ;1290: D5          
+R1291
+		SEP  R4              ;1291: D4          
+		DW   S04E7           ;1292: 04 E7
+		DB   02H             ;1294: 02
+S1295
+		SEP  RD              ;1295: DD          
+		DB   92H             ;1296: 92
+S1297
+		PHI  RA              ;1297: BA          
+		LDA  RF              ;1298: 4F          
+		PLO  RA              ;1299: AA          
+		LDA  RF              ;129A: 4F          
+		PHI  R7              ;129B: B7          
+		LDN  RF              ;129C: 0F          
+		PLO  R7              ;129D: A7          
+R129E
+		GHI  R7              ;129E: 97          
+		STR  R2              ;129F: 52          
+		GHI  RA              ;12A0: 9A          
+		XOR                  ;12A1: F3          
+		BNZ  R12AA           ;12A2: 3A AA       
+		GLO  R7              ;12A4: 87          
+		STR  R2              ;12A5: 52          
+		GLO  RA              ;12A6: 8A          
+		XOR                  ;12A7: F3          
+		BZ   R12C0           ;12A8: 32 C0       
+R12AA
+		LDA  R7              ;12AA: 47          
+		STR  R2              ;12AB: 52          
+		GLO  R8              ;12AC: 88          
+		XOR                  ;12AD: F3          
+		BZ   R12BE           ;12AE: 32 BE       
+		LDA  R7              ;12B0: 47          
+		STR  R2              ;12B1: 52          
+		LDA  R7              ;12B2: 47          
+		PHI  RF              ;12B3: BF          
+		GLO  R7              ;12B4: 87          
+		ADD                  ;12B5: F4          
+		PLO  R7              ;12B6: A7          
+		GHI  RF              ;12B7: 9F          
+		STR  R2              ;12B8: 52          
+		GHI  R7              ;12B9: 97          
+		ADC                  ;12BA: 74          
+		PHI  R7              ;12BB: B7          
+		BR   R129E           ;12BC: 30 9E       
+R12BE
+		LDI  01H             ;12BE: F8 01       
+R12C0
+		SEP  R5              ;12C0: D5          
+S12C1
+		GLO  RC              ;12C1: 8C          
+		STXD                 ;12C2: 73          
+		LDI  00H             ;12C3: F8 00       
+		PLO  RC              ;12C5: AC          
+		LDA  RB              ;12C6: 4B          
+		XRI  0D6H            ;12C7: FB D6       
+		BZ   R12CF           ;12C9: 32 CF       
+R12CB
+		SEP  R4              ;12CB: D4          
+		DW   S04E7           ;12CC: 04 E7
+		DB   05H             ;12CE: 05
+R12CF
+		SEP  R4              ;12CF: D4          
+		DW   S1C6B           ;12D0: 1C 6B
+S12D2
+		LDA  RB              ;12D2: 4B          
+		XRI  0C2H            ;12D3: FB C2       
+		INC  RC              ;12D5: 1C          
+		BZ   R12CF           ;12D6: 32 CF       
+		DEC  RB              ;12D8: 2B          
+		LDA  RB              ;12D9: 4B          
+		XRI  0C4H            ;12DA: FB C4       
+		BNZ  R12CB           ;12DC: 3A CB       
+		GLO  RC              ;12DE: 8C          
+		PLO  RF              ;12DF: AF          
+		INC  R2              ;12E0: 12          
+		LDX                  ;12E1: F0          
+		PLO  RC              ;12E2: AC          
+		GLO  RF              ;12E3: 8F          
+		SEP  R5              ;12E4: D5          
+S12E5
+		LDN  RC              ;12E5: 0C          
+		SMI  30H             ;12E6: FF 30       
+		BDF  R12EE           ;12E8: 33 EE       
+R12EA
+		SEP  R4              ;12EA: D4          
+		DW   S04E7           ;12EB: 04 E7
+		DB   1BH             ;12ED: 1B
+R12EE
+		SMI  0AH             ;12EE: FF 0A       
+		BDF  R12F5           ;12F0: 33 F5       
+		LDI  00H             ;12F2: F8 00       
+		SEP  R5              ;12F4: D5          
+R12F5
+		SMI  07H             ;12F5: FF 07       
+		BNF  R12EA           ;12F7: 3B EA       
+		SMI  1AH             ;12F9: FF 1A       
+		BDF  R12EA           ;12FB: 33 EA       
+		LDI  01H             ;12FD: F8 01       
+		SEP  R5              ;12FF: D5          
+S1300
+		DB   1BH             ;1300: 1B
+S1301
+		INC  RB              ;1301: 1B          
+		INC  RB              ;1302: 1B          
+S1303
+		LDI  03H             ;1303: F8 03       
+		PLO  R8              ;1305: A8          
+R1306
+		LDA  RB              ;1306: 4B          
+		INC  R8              ;1307: 18          
+		XRI  0D2H            ;1308: FB D2       
+		BZ   R1314           ;130A: 32 14       
+		XRI  01H             ;130C: FB 01       
+		BZ   R1314           ;130E: 32 14       
+		XRI  67H             ;1310: FB 67       
+		BNZ  R131E           ;1312: 3A 1E       
+R1314
+		INC  RB              ;1314: 1B          
+		INC  RB              ;1315: 1B          
+		INC  RB              ;1316: 1B          
+		INC  RB              ;1317: 1B          
+		INC  R8              ;1318: 18          
+		INC  R8              ;1319: 18          
+		INC  R8              ;131A: 18          
+		INC  R8              ;131B: 18          
+		BR   R1306           ;131C: 30 06       
+R131E
+		XRI  0B9H            ;131E: FB B9       
+		BNZ  R1306           ;1320: 3A 06       
+		GLO  R8              ;1322: 88          
+		SEP  R5              ;1323: D5          
+S1324
+		LDN  RB              ;1324: 0B          
+		XRI  0D6H            ;1325: FB D6       
+		BNZ  R133D           ;1327: 3A 3D       
+		INC  RB              ;1329: 1B          
+		GHI  R8              ;132A: 98          
+		STXD                 ;132B: 73          
+		GLO  R8              ;132C: 88          
+		STXD                 ;132D: 73          
+		SEP  R4              ;132E: D4          
+		DW   S138B           ;132F: 13 8B
+		INC  R2              ;1331: 12          
+		LDXA                 ;1332: 72          
+		PLO  R8              ;1333: A8          
+		LDX                  ;1334: F0          
+		PHI  R8              ;1335: B8          
+		LDA  RB              ;1336: 4B          
+		XRI  0C4H            ;1337: FB C4       
+		BNZ  R1340           ;1339: 3A 40       
+		GLO  RA              ;133B: 8A          
+		SEP  R5              ;133C: D5          
+R133D
+		LDI  00H             ;133D: F8 00       
+		SEP  R5              ;133F: D5          
+R1340
+		SEP  R4              ;1340: D4          
+		DW   S04E7           ;1341: 04 E7
+		DB   23H             ;1343: 23
+S1344
+		GLO  RE              ;1344: 8E          
+		STXD                 ;1345: 73          
+		LDA  RB              ;1346: 4B          
+		STXD                 ;1347: 73          
+		SEP  R4              ;1348: D4          
+		DW   S1324           ;1349: 13 24
+S134B
+		STXD                 ;134B: 73          
+		LDA  RB              ;134C: 4B          
+		XRI  0CCH            ;134D: FB CC       
+		BNZ  R135F           ;134F: 3A 5F       
+		SEP  R4              ;1351: D4          
+		DW   S1029           ;1352: 10 29
+S1354
+		INC  R2              ;1354: 12          
+		LDXA                 ;1355: 72          
+		PLO  RE              ;1356: AE          
+		LDX                  ;1357: F0          
+		PLO  R8              ;1358: A8          
+		SEP  R4              ;1359: D4          
+		DW   S1DB3           ;135A: 1D B3
+S135C
+		INC  R2              ;135C: 12          
+		PLO  RE              ;135D: AE          
+		SEP  R5              ;135E: D5          
+R135F
+		SEP  R4              ;135F: D4          
+		DW   S04E7           ;1360: 04 E7
+		DB   22H             ;1362: 22
+S1363
+		GHI  R7              ;1363: 97          
+		STXD                 ;1364: 73          
+		INC  RB              ;1365: 1B          
+		LDA  RB              ;1366: 4B          
+		BNZ  R136F           ;1367: 3A 6F       
+		LDA  RB              ;1369: 4B          
+		BNZ  R136F           ;136A: 3A 6F       
+		LDA  RB              ;136C: 4B          
+		BZ   R1373           ;136D: 32 73       
+R136F
+		SEP  R4              ;136F: D4          
+		DW   S04E7           ;1370: 04 E7
+		DB   3BH             ;1372: 3B
+R1373
+		LDA  RB              ;1373: 4B          
+		PHI  R7              ;1374: B7          
+		SEP  R4              ;1375: D4          
+		DW   S1F47           ;1376: 1F 47
+		BZ   R137E           ;1378: 32 7E       
+		INC  R2              ;137A: 12          
+		LDX                  ;137B: F0          
+		PHI  R7              ;137C: B7          
+		SEP  R5              ;137D: D5          
+R137E
+		SEP  R4              ;137E: D4          
+		DW   S04E7           ;137F: 04 E7
+		DB   41H             ;1381: 41
+S1382
+		GHI  R8              ;1382: 98          
+		ORI  08H             ;1383: F9 08       
+		PHI  R8              ;1385: B8          
+		SEP  R4              ;1386: D4          
+		DW   S0904           ;1387: 09 04
+S1389
+		BR   S138E           ;1389: 30 8E       
+S138B
+		SEP  R4              ;138B: D4          
+		DW   S1C6B           ;138C: 1C 6B
+S138E
+		LDA  R9              ;138E: 49          
+		BNZ  J139D           ;138F: 3A 9D       
+		LDA  R9              ;1391: 49          
+		BNZ  J139D           ;1392: 3A 9D       
+		LDA  R9              ;1394: 49          
+		PHI  RA              ;1395: BA          
+		LDN  R9              ;1396: 09          
+		PLO  RA              ;1397: AA          
+		GLO  R9              ;1398: 89          
+		SMI  07H             ;1399: FF 07       
+		PLO  R9              ;139B: A9          
+		SEP  R5              ;139C: D5          
+J139D
+		SEP  R4              ;139D: D4          
+		DW   S04E7           ;139E: 04 E7
+		DB   06H             ;13A0: 06
+S13A1
+		SEP  R4              ;13A1: D4          
+		DW   S12C1           ;13A2: 12 C1
+S13A4
+		XRI  02H             ;13A4: FB 02       
+		BZ   R13AC           ;13A6: 32 AC       
+		SEP  R4              ;13A8: D4          
+		DW   S04E7           ;13A9: 04 E7
+		DB   1DH             ;13AB: 1D
+R13AC
+		INC  R9              ;13AC: 19          
+		INC  R9              ;13AD: 19          
+		INC  R9              ;13AE: 19          
+		LDN  R9              ;13AF: 09          
+		STR  R2              ;13B0: 52          
+		GLO  R9              ;13B1: 89          
+		SMI  05H             ;13B2: FF 05       
+		PLO  R9              ;13B4: A9          
+		LDA  R9              ;13B5: 49          
+		PHI  RF              ;13B6: BF          
+		LDN  R9              ;13B7: 09          
+		PLO  RF              ;13B8: AF          
+		LDN  R2              ;13B9: 02          
+		STR  RF              ;13BA: 5F          
+		GLO  R9              ;13BB: 89          
+		SMI  07H             ;13BC: FF 07       
+		PLO  R9              ;13BE: A9          
+		SEP  R5              ;13BF: D5          
+S13C0
+		GLO  R9              ;13C0: 89          
+		ADI  07H             ;13C1: FC 07       
+		PLO  R9              ;13C3: A9          
+		SEX  R9              ;13C4: E9          
+		LDI  0CFH            ;13C5: F8 CF       
+		STXD                 ;13C7: 73          
+		LDI  0FH             ;13C8: F8 0F       
+		STXD                 ;13CA: 73          
+		LDI  49H             ;13CB: F8 49       
+		STXD                 ;13CD: 73          
+		LDI  82H             ;13CE: F8 82       
+		STR  R9              ;13D0: 59          
+		GHI  R8              ;13D1: 98          
+		ANI  08H             ;13D2: FA 08       
+		BNZ  R13DB           ;13D4: 3A DB       
+		GHI  R8              ;13D6: 98          
+		ORI  04H             ;13D7: F9 04       
+		PHI  R8              ;13D9: B8          
+		SEP  R5              ;13DA: D5          
+R13DB
+		LBR  S1C8B           ;13DB: C0 1C 8B    
+S13DE
+		SEP  R4              ;13DE: D4          
+		DW   S138B           ;13DF: 13 8B
+		GLO  RA              ;13E1: 8A          
+		BNZ  R13EC           ;13E2: 3A EC       
+		GHI  RA              ;13E4: 9A          
+		BNZ  R13EC           ;13E5: 3A EC       
+		GHI  R8              ;13E7: 98          
+		ANI  0BFH            ;13E8: FA BF       
+		PHI  R8              ;13EA: B8          
+		SEP  R5              ;13EB: D5          
+R13EC
+		GHI  R8              ;13EC: 98          
+		ORI  40H             ;13ED: F9 40       
+		PHI  R8              ;13EF: B8          
+		SEP  R5              ;13F0: D5          
+S13F1
+		STR  R2              ;13F1: 52          
+		SMI  0AH             ;13F2: FF 0A       
+		LDN  R2              ;13F4: 02          
+		BNF  R13FB           ;13F5: 3B FB       
+		ADI  37H             ;13F7: FC 37       
+		BR   R13FD           ;13F9: 30 FD       
+R13FB
+		ADI  30H             ;13FB: FC 30       
+R13FD
+		LBR  S1BD3           ;13FD: C0 1B D3    
+S1400
+		DEC  RB              ;1400: 2B          
+S1401
+		GLO  R9              ;1401: 89          
+		ADI  04H             ;1402: FC 04       
+		PLO  R9              ;1404: A9          
+S1405
+		SEP  R4              ;1405: D4          
+		DW   S11EF           ;1406: 11 EF
+S1408
+		GHI  R8              ;1408: 98          
+		ANI  04H             ;1409: FA 04       
+		BNZ  R1415           ;140B: 3A 15       
+S140D
+		INC  R9              ;140D: 19          
+		LDI  01H             ;140E: F8 01       
+		STR  R9              ;1410: 59          
+		DEC  R9              ;1411: 29          
+		DEC  R9              ;1412: 29          
+		DEC  R9              ;1413: 29          
+		SEP  R5              ;1414: D5          
+R1415
+		DEC  R9              ;1415: 29          
+		DEC  R9              ;1416: 29          
+		LDI  81H             ;1417: F8 81       
+		STR  R9              ;1419: 59          
+		SEP  R5              ;141A: D5          
+S141B
+		SEP  RD              ;141B: DD          
+		DB   83H             ;141C: 83
+		LSKP                 ;141D: C8          
+S141E
+		SEP  RD              ;141E: DD          
+		DB   99H             ;141F: 99
+		PHI  RA              ;1420: BA          
+		LDN  RF              ;1421: 0F          
+		PLO  RA              ;1422: AA          
+		SEP  R4              ;1423: D4          
+		DW   S150D           ;1424: 15 0D
+		DB   40H             ;1426: 40
+		DB   00H             ;1427: 00
+		GHI  RA              ;1428: 9A          
+		SEP  R4              ;1429: D4          
+		DW   S14BB           ;142A: 14 BB
+		GLO  RA              ;142C: 8A          
+		SEP  R4              ;142D: D4          
+		DW   S14BB           ;142E: 14 BB
+		LDI  20H             ;1430: F8 20       
+		LBR  S1BD3           ;1432: C0 1B D3    
+S1435
+		LDN  RB              ;1435: 0B          
+		XRI  0DH             ;1436: FB 0D       
+		BZ   R144A           ;1438: 32 4A       
+		XRI  0C0H            ;143A: FB C0       
+		BZ   R144A           ;143C: 32 4A       
+		SEP  R4              ;143E: D4          
+		DW   S138B           ;143F: 13 8B
+S1441
+		GLO  RA              ;1441: 8A          
+		SMI  06H             ;1442: FF 06       
+		BDF  R144A           ;1444: 33 4A       
+		GLO  RA              ;1446: 8A          
+R1447
+		SEP  RD              ;1447: DD          
+		DB   3DH             ;1448: 3D
+S1449
+		SEP  R5              ;1449: D5          
+R144A
+		LDI  0FFH            ;144A: F8 FF       
+		BR   R1447           ;144C: 30 47       
+S144E
+		GHI  R8              ;144E: 98          
+		STXD                 ;144F: 73          
+		SEP  R4              ;1450: D4          
+		DW   S20E3           ;1451: 20 E3
+S1453
+		STR  R9              ;1453: 59          
+		INC  R9              ;1454: 19          
+		STR  R9              ;1455: 59          
+		INC  R9              ;1456: 19          
+		LDA  R9              ;1457: 49          
+		PHI  RF              ;1458: BF          
+		LDN  R9              ;1459: 09          
+		PLO  RF              ;145A: AF          
+		LDN  RF              ;145B: 0F          
+		STR  R9              ;145C: 59          
+		DEC  R9              ;145D: 29          
+		LDI  00H             ;145E: F8 00       
+		STR  R9              ;1460: 59          
+		DEC  R9              ;1461: 29          
+		DEC  R9              ;1462: 29          
+		LBR  J1AF1           ;1463: C0 1A F1    
+S1466
+		SEP  R4              ;1466: D4          
+		DW   S20E3           ;1467: 20 E3
+S1469
+		SEP  R4              ;1469: D4          
+		DW   S138E           ;146A: 13 8E
+S146C
+		SEP  R4              ;146C: D4          
+		DW   S04E8           ;146D: 04 E8
+S146F
+		LDI  0F0H            ;146F: F8 F0       
+		PLO  RF              ;1471: AF          
+R1472
+		DEC  RF              ;1472: 2F          
+		GLO  RF              ;1473: 8F          
+		BNZ  R1472           ;1474: 3A 72       
+		GHI  RA              ;1476: 9A          
+		LSNZ                 ;1477: C6          
+		GLO  RA              ;1478: 8A          
+		NOP                  ;1479: C4          
+		DEC  RA              ;147A: 2A          
+		BNZ  S146C           ;147B: 3A 6C       
+		SEP  R5              ;147D: D5          
+R147E
+		DIS                  ;147E: 71          
+		DEC  R2              ;147F: 22          
+		SAV                  ;1480: 78          
+		DEC  R2              ;1481: 22          
+		STXD                 ;1482: 73          
+		GHI  RD              ;1483: 9D          
+		STXD                 ;1484: 73          
+		GLO  RD              ;1485: 8D          
+		STR  R2              ;1486: 52          
+		LDI  90H             ;1487: F8 90       
+		PHI  RD              ;1489: BD          
+		LDI  98H             ;148A: F8 98       
+		PLO  RD              ;148C: AD          
+		STR  RD              ;148D: 5D          
+		LDXA                 ;148E: 72          
+		PLO  RD              ;148F: AD          
+		LDXA                 ;1490: 72          
+		PHI  RD              ;1491: BD          
+		LDXA                 ;1492: 72          
+		BR   R147E           ;1493: 30 7E       
+		XRI  0AH             ;1495: FB 0A       
+		BZ   R14A8           ;1497: 32 A8       
+		XRI  07H             ;1499: FB 07       
+		BNZ  R14A0           ;149B: 3A A0       
+		GLO  RE              ;149D: 8E          
+		BZ   R14A8           ;149E: 32 A8       
+R14A0
+		GLO  RE              ;14A0: 8E          
+		XRI  80H             ;14A1: FB 80       
+		BZ   R14A8           ;14A3: 32 A8       
+		GHI  RF              ;14A5: 9F          
+		STR  RE              ;14A6: 5E          
+		INC  RE              ;14A7: 1E          
+R14A8
+		SEP  R5              ;14A8: D5          
+R14A9
+		SEP  R3              ;14A9: D3          
+S14AA
+		PHI  RF              ;14AA: BF          
+		SEX  R2              ;14AB: E2          
+		GHI  R6              ;14AC: 96          
+		STXD                 ;14AD: 73          
+		GLO  R6              ;14AE: 86          
+S14AF
+		STXD                 ;14AF: 73          
+		GLO  R3              ;14B0: 83          
+		PLO  R6              ;14B1: A6          
+		GHI  R3              ;14B2: 93          
+		PHI  R6              ;14B3: B6          
+		LDA  R6              ;14B4: 46          
+		PHI  R3              ;14B5: B3          
+		LDA  R6              ;14B6: 46          
+		PLO  R3              ;14B7: A3          
+		GHI  RF              ;14B8: 9F          
+		BR   R14A9           ;14B9: 30 A9       
+S14BB
+		STXD                 ;14BB: 73          
+		SHR                  ;14BC: F6          
+		SHR                  ;14BD: F6          
+		SHR                  ;14BE: F6          
+		SHR                  ;14BF: F6          
+		SEP  R4              ;14C0: D4          
+		DW   S13F1           ;14C1: 13 F1
+		INC  R2              ;14C3: 12          
+		LDX                  ;14C4: F0          
+		ANI  0FH             ;14C5: FA 0F       
+		LBR  S13F1           ;14C7: C0 13 F1    
+R14CA
+		SEP  R3              ;14CA: D3          
+S14CB
+		PHI  RF              ;14CB: BF          
+		SEX  R2              ;14CC: E2          
+		GHI  R6              ;14CD: 96          
+		PHI  R3              ;14CE: B3          
+		GLO  R6              ;14CF: 86          
+		PLO  R3              ;14D0: A3          
+		INC  R2              ;14D1: 12          
+		LDA  R2              ;14D2: 42          
+		PLO  R6              ;14D3: A6          
+		LDN  R2              ;14D4: 02          
+		PHI  R6              ;14D5: B6          
+		GHI  RF              ;14D6: 9F          
+		BR   R14CA           ;14D7: 30 CA       
+S14D9
+		INC  RB              ;14D9: 1B          
+R14DA
+		LDA  RB              ;14DA: 4B          
+		STR  R2              ;14DB: 52          
+		XRI  0CEH            ;14DC: FB CE       
+		BNZ  R14E1           ;14DE: 3A E1       
+		SEP  R5              ;14E0: D5          
+R14E1
+		LDN  R2              ;14E1: 02          
+		SEP  R4              ;14E2: D4          
+		DW   S1BD3           ;14E3: 1B D3
+S14E5
+		BR   R14DA           ;14E5: 30 DA       
+S14E7
+		SEP  RD              ;14E7: DD          
+		DB   0ADH            ;14E8: AD
+S14E9
+		SEP  R4              ;14E9: D4          
+		DW   S1BD3           ;14EA: 1B D3
+S14EC
+		SEP  RD              ;14EC: DD          
+		DB   0CDH            ;14ED: CD
+S14EE
+		PHI  RF              ;14EE: BF          
+R14EF
+		DEC  RF              ;14EF: 2F          
+		GHI  RF              ;14F0: 9F          
+		BNZ  R14EF           ;14F1: 3A EF       
+		SEP  R5              ;14F3: D5          
+S14F4
+		SEP  RD              ;14F4: DD          
+		DB   82H             ;14F5: 82
+S14F6
+		SEP  RD              ;14F6: DD          
+		DB   32H             ;14F7: 32
+S14F8
+		SEP  RD              ;14F8: DD          
+		DB   81H             ;14F9: 81
+S14FA
+		SEP  RD              ;14FA: DD          
+		DB   31H             ;14FB: 31
+S14FC
+		LDI  00H             ;14FC: F8 00       
+		STR  RF              ;14FE: 5F          
+		SEP  R5              ;14FF: D5          
+S1500
+		SEP  R4              ;1500: D4          
+		DW   S0904           ;1501: 09 04
+S1503
+		LDA  RB              ;1503: 4B          
+		XRI  0C4H            ;1504: FB C4       
+		BZ   R150C           ;1506: 32 0C       
+		SEP  R4              ;1508: D4          
+		DW   S04E7           ;1509: 04 E7
+		DB   1CH             ;150B: 1C
+R150C
+		SEP  R5              ;150C: D5          
+S150D
+		LDA  R6              ;150D: 46          
+		BZ   R1515           ;150E: 32 15       
+		SEP  R4              ;1510: D4          
+		DW   S1BD3           ;1511: 1B D3
+S1513
+		BR   S150D           ;1513: 30 0D       
+R1515
+		SEP  R5              ;1515: D5          
+S1516
+		SEP  R4              ;1516: D4          
+		DW   S150D           ;1517: 15 0D
+		DB   0DH             ;1519: 0D
+		DB   0AH             ;151A: 0A
+		DB   00H             ;151B: 00
+S151C
+		SEP  R5              ;151C: D5          
+S151D
+		SEP  R4              ;151D: D4          
+		DW   S1303           ;151E: 13 03
+		DEC  RB              ;1520: 2B          
+		SEP  R5              ;1521: D5          
+S1522
+		GHI  R8              ;1522: 98          
+		ANI  0FEH            ;1523: FA FE       
+		PHI  R8              ;1525: B8          
+		SEP  R5              ;1526: D5          
+S1527
+		LDN  RB              ;1527: 0B          
+		XRI  0DH             ;1528: FB 0D       
+		BZ   R15B8           ;152A: 32 B8       
+		XRI  0C0H            ;152C: FB C0       
+		BZ   R15B8           ;152E: 32 B8       
+		GHI  R8              ;1530: 98          
+		ANI  0DFH            ;1531: FA DF       
+		PHI  R8              ;1533: B8          
+		LDN  RB              ;1534: 0B          
+		XRI  0D7H            ;1535: FB D7       
+		BZ   R15EB           ;1537: 32 EB       
+		XRI  6DH             ;1539: FB 6D       
+		BZ   R15EB           ;153B: 32 EB       
+		XRI  03H             ;153D: FB 03       
+		BZ   R15CA           ;153F: 32 CA       
+		XRI  76H             ;1541: FB 76       
+		BZ   R15C5           ;1543: 32 C5       
+		XRI  22H             ;1545: FB 22       
+		BZ   R15EB           ;1547: 32 EB       
+		XRI  51H             ;1549: FB 51       
+		BNZ  R1574           ;154B: 3A 74       
+		INC  RB              ;154D: 1B          
+		SEP  R4              ;154E: D4          
+		DW   S20E3           ;154F: 20 E3
+		SEP  R4              ;1551: D4          
+		DW   S138E           ;1552: 13 8E
+		GLO  RA              ;1554: 8A          
+		ANI  7FH             ;1555: FA 7F       
+		PLO  RA              ;1557: AA          
+		SEP  RD              ;1558: DD          
+		DB   9BH             ;1559: 9B
+		STR  R2              ;155A: 52          
+		GLO  RA              ;155B: 8A          
+		SM                   ;155C: F7          
+		BNF  R1564           ;155D: 3B 64       
+		PLO  RA              ;155F: AA          
+		SEP  RD              ;1560: DD          
+		DB   0ACH            ;1561: AC
+		BR   R1569           ;1562: 30 69       
+R1564
+		GLO  RA              ;1564: 8A          
+		SD                   ;1565: F5          
+		PLO  RA              ;1566: AA          
+		SEP  RD              ;1567: DD          
+		DB   80H             ;1568: 80
+R1569
+		PLO  RC              ;1569: AC          
+R156A
+		GLO  RA              ;156A: 8A          
+		BZ   R158F           ;156B: 32 8F       
+		GLO  RC              ;156D: 8C          
+		SEP  R4              ;156E: D4          
+		DW   S1BD3           ;156F: 1B D3
+		DEC  RA              ;1571: 2A          
+		BR   R156A           ;1572: 30 6A       
+R1574
+		SEP  R4              ;1574: D4          
+		DW   S0900           ;1575: 09 00
+S1577
+		GHI  R8              ;1577: 98          
+		ANI  04H             ;1578: FA 04       
+		BZ   R1585           ;157A: 32 85       
+		SEP  R4              ;157C: D4          
+		DW   S2806           ;157D: 28 06
+		DB   6FH             ;157F: 6F
+S1580
+		SEP  R4              ;1580: D4          
+		DW   S0DC5           ;1581: 0D C5
+S1583
+		BR   S158B           ;1583: 30 8B       
+R1585
+		SEP  R4              ;1585: D4          
+		DW   S25FB           ;1586: 25 FB
+S1588
+		SEP  R4              ;1588: D4          
+		DW   S20B0           ;1589: 20 B0
+S158B
+		GLO  R9              ;158B: 89          
+		SMI  04H             ;158C: FF 04       
+		PLO  R9              ;158E: A9          
+R158F
+		LDN  RB              ;158F: 0B          
+		XRI  0C2H            ;1590: FB C2       
+		BNZ  R15A1           ;1592: 3A A1       
+R1594
+		SEP  RD              ;1594: DD          
+		DB   9BH             ;1595: 9B
+S1596
+		ANI  07H             ;1596: FA 07       
+		BZ   R15A9           ;1598: 32 A9       
+		SEP  RD              ;159A: DD          
+		DB   0ACH            ;159B: AC
+S159C
+		SEP  R4              ;159C: D4          
+		DW   S1BD3           ;159D: 1B D3
+S159F
+		BR   R1594           ;159F: 30 94       
+R15A1
+		XRI  0FH             ;15A1: FB 0F       
+		BZ   R15B8           ;15A3: 32 B8       
+		XRI  0EH             ;15A5: FB 0E       
+		BNZ  R15B0           ;15A7: 3A B0       
+R15A9
+		GHI  R8              ;15A9: 98          
+		ORI  20H             ;15AA: F9 20       
+		PHI  R8              ;15AC: B8          
+		INC  RB              ;15AD: 1B          
+		BR   S1527           ;15AE: 30 27       
+R15B0
+		XRI  0CEH            ;15B0: FB CE       
+		BZ   R15B8           ;15B2: 32 B8       
+		SEP  R4              ;15B4: D4          
+		DW   S04E7           ;15B5: 04 E7
+		DB   1EH             ;15B7: 1E
+R15B8
+		GHI  R8              ;15B8: 98          
+		ANI  20H             ;15B9: FA 20       
+		BNZ  S15C0           ;15BB: 3A C0       
+		SEP  R4              ;15BD: D4          
+		DW   S1516           ;15BE: 15 16
+S15C0
+		GHI  R8              ;15C0: 98          
+		ANI  0DFH            ;15C1: FA DF       
+		PHI  R8              ;15C3: B8          
+		SEP  R5              ;15C4: D5          
+R15C5
+		SEP  R4              ;15C5: D4          
+		DW   S14D9           ;15C6: 14 D9
+S15C8
+		BR   R158F           ;15C8: 30 8F       
+R15CA
+		INC  RB              ;15CA: 1B          
+		LDA  RB              ;15CB: 4B          
+		XRI  0D6H            ;15CC: FB D6       
+		BNZ  R15E7           ;15CE: 3A E7       
+R15D0
+		SEP  R4              ;15D0: D4          
+		DW   S1C6B           ;15D1: 1C 6B
+S15D3
+		INC  R9              ;15D3: 19          
+		INC  R9              ;15D4: 19          
+		INC  R9              ;15D5: 19          
+		LDN  R9              ;15D6: 09          
+		SEP  R4              ;15D7: D4          
+		DW   S1BD3           ;15D8: 1B D3
+S15DA
+		GLO  R9              ;15DA: 89          
+		SMI  07H             ;15DB: FF 07       
+		PLO  R9              ;15DD: A9          
+		LDA  RB              ;15DE: 4B          
+		XRI  0C2H            ;15DF: FB C2       
+		BZ   R15D0           ;15E1: 32 D0       
+		XRI  06H             ;15E3: FB 06       
+		BZ   R158F           ;15E5: 32 8F       
+R15E7
+		SEP  R4              ;15E7: D4          
+		DW   S04E7           ;15E8: 04 E7
+		DB   25H             ;15EA: 25
+R15EB
+		SEP  R4              ;15EB: D4          
+		DW   S1029           ;15EC: 10 29
+S15EE
+		LDI  90H             ;15EE: F8 90       
+		PHI  RA              ;15F0: BA          
+		LDI  00H             ;15F1: F8 00       
+		PLO  RA              ;15F3: AA          
+R15F4
+		LDA  RA              ;15F4: 4A          
+		STR  R2              ;15F5: 52          
+		XRI  0DH             ;15F6: FB 0D       
+		BZ   R158F           ;15F8: 32 8F       
+		LDN  R2              ;15FA: 02          
+		SEP  R4              ;15FB: D4          
+		DW   S1BD3           ;15FC: 1B D3
+S15FE
+		BR   R15F4           ;15FE: 30 F4       
+S1600
+		LDA  RB              ;1600: 4B          
+		PLO  RF              ;1601: AF          
+		XRI  0D7H            ;1602: FB D7       
+		BNZ  S160A           ;1604: 3A 0A       
+		SEP  R4              ;1606: D4          
+		DW   S1344           ;1607: 13 44
+		SEP  R5              ;1609: D5          
+S160A
+		GLO  RF              ;160A: 8F          
+		XRI  0D1H            ;160B: FB D1       
+		BZ   R1613           ;160D: 32 13       
+R160F
+		SEP  R4              ;160F: D4          
+		DW   S04E7           ;1610: 04 E7
+		DB   15H             ;1612: 15
+R1613
+		LDA  RB              ;1613: 4B          
+		PLO  R8              ;1614: A8          
+		SMI  41H             ;1615: FF 41       
+		SHL                  ;1617: FE          
+		SHL                  ;1618: FE          
+		PLO  RC              ;1619: AC          
+		LDI  91H             ;161A: F8 91       
+		PHI  RC              ;161C: BC          
+		LDN  RB              ;161D: 0B          
+		XRI  0D6H            ;161E: FB D6       
+		BNZ  R1627           ;1620: 3A 27       
+		SEP  R4              ;1622: D4          
+		DW   S1200           ;1623: 12 00
+		BR   R16A7           ;1625: 30 A7       
+R1627
+		XRI  04H             ;1627: FB 04       
+		BNZ  R16A7           ;1629: 3A A7       
+		GHI  R7              ;162B: 97          
+		STXD                 ;162C: 73          
+		INC  RB              ;162D: 1B          
+		LDA  RB              ;162E: 4B          
+		BNZ  R1637           ;162F: 3A 37       
+		LDA  RB              ;1631: 4B          
+		BNZ  R1637           ;1632: 3A 37       
+		LDA  RB              ;1634: 4B          
+		BZ   R163B           ;1635: 32 3B       
+R1637
+		SEP  R4              ;1637: D4          
+		DW   S04E7           ;1638: 04 E7
+		DB   3BH             ;163A: 3B
+R163B
+		LDA  RB              ;163B: 4B          
+		PHI  R7              ;163C: B7          
+		SEP  R4              ;163D: D4          
+		DW   S1F47           ;163E: 1F 47
+		BNZ  R16A4           ;1640: 3A A4       
+		GLO  R7              ;1642: 87          
+		STXD                 ;1643: 73          
+		GHI  R7              ;1644: 97          
+		STXD                 ;1645: 73          
+		GLO  RA              ;1646: 8A          
+		STXD                 ;1647: 73          
+		GHI  RA              ;1648: 9A          
+		STXD                 ;1649: 73          
+		SEP  RD              ;164A: DD          
+		DB   99H             ;164B: 99
+		PHI  RA              ;164C: BA          
+		LDN  RF              ;164D: 0F          
+		PLO  RA              ;164E: AA          
+		ADI  06H             ;164F: FC 06       
+		PLO  RF              ;1651: AF          
+		GHI  RA              ;1652: 9A          
+		ADCI 00H             ;1653: 7C 00       
+		PHI  RF              ;1655: BF          
+		STR  R2              ;1656: 52          
+		GHI  R2              ;1657: 92          
+		XOR                  ;1658: F3          
+		BNZ  R165F           ;1659: 3A 5F       
+		SEP  R4              ;165B: D4          
+		DW   S04E7           ;165C: 04 E7
+		DB   30H             ;165E: 30
+R165F
+		GLO  RA              ;165F: 8A          
+		STR  R2              ;1660: 52          
+		GLO  RC              ;1661: 8C          
+		SD                   ;1662: F5          
+		PLO  R7              ;1663: A7          
+		GHI  RA              ;1664: 9A          
+		STR  R2              ;1665: 52          
+		GHI  RC              ;1666: 9C          
+		SDB                  ;1667: 75          
+		ADI  01H             ;1668: FC 01       
+		PHI  R7              ;166A: B7          
+R166B
+		LDN  RA              ;166B: 0A          
+		STR  RF              ;166C: 5F          
+		DEC  RA              ;166D: 2A          
+		DEC  RF              ;166E: 2F          
+		DEC  R7              ;166F: 27          
+		GHI  R7              ;1670: 97          
+		BNZ  R166B           ;1671: 3A 6B       
+		SEP  RD              ;1673: DD          
+		DB   95H             ;1674: 95
+		DEC  RF              ;1675: 2F          
+		ADI  06H             ;1676: FC 06       
+		STR  RF              ;1678: 5F          
+		DEC  RF              ;1679: 2F          
+		LDN  RF              ;167A: 0F          
+		ADCI 00H             ;167B: 7C 00       
+		STR  RF              ;167D: 5F          
+		DEC  RF              ;167E: 2F          
+		LDN  RF              ;167F: 0F          
+		ADI  06H             ;1680: FC 06       
+		STR  RF              ;1682: 5F          
+		DEC  RF              ;1683: 2F          
+		LDN  RF              ;1684: 0F          
+		ADCI 00H             ;1685: 7C 00       
+		STR  RF              ;1687: 5F          
+		GLO  RF              ;1688: 8F          
+		ADI  08H             ;1689: FC 08       
+		PLO  RF              ;168B: AF          
+		LDN  RF              ;168C: 0F          
+		ADI  06H             ;168D: FC 06       
+		STR  RF              ;168F: 5F          
+		DEC  RF              ;1690: 2F          
+		LDN  RF              ;1691: 0F          
+		ADCI 00H             ;1692: 7C 00       
+		STR  RF              ;1694: 5F          
+		INC  R2              ;1695: 12          
+		LDXA                 ;1696: 72          
+		PHI  RA              ;1697: BA          
+		LDXA                 ;1698: 72          
+		PLO  RA              ;1699: AA          
+		LDXA                 ;169A: 72          
+		PHI  R7              ;169B: B7          
+		LDX                  ;169C: F0          
+		PLO  R7              ;169D: A7          
+		GLO  R8              ;169E: 88          
+		STR  RC              ;169F: 5C          
+		INC  RC              ;16A0: 1C          
+		GHI  R7              ;16A1: 97          
+		STR  RC              ;16A2: 5C          
+		INC  RC              ;16A3: 1C          
+R16A4
+		INC  R2              ;16A4: 12          
+		LDX                  ;16A5: F0          
+		PHI  R7              ;16A6: B7          
+R16A7
+		GLO  R8              ;16A7: 88          
+		STR  R2              ;16A8: 52          
+		SEP  RD              ;16A9: DD          
+		DB   0BCH            ;16AA: BC
+S16AB
+		SD                   ;16AB: F5          
+		BNF  R16B3           ;16AC: 3B B3       
+		GHI  R8              ;16AE: 98          
+		ORI  04H             ;16AF: F9 04       
+		BR   R16B6           ;16B1: 30 B6       
+R16B3
+		GHI  R8              ;16B3: 98          
+		ORI  08H             ;16B4: F9 08       
+R16B6
+		PHI  R8              ;16B6: B8          
+		GLO  R6              ;16B7: 86          
+		XRI  86H             ;16B8: FB 86       
+		BNZ  R16C2           ;16BA: 3A C2       
+		GHI  R6              ;16BC: 96          
+		XRI  1FH             ;16BD: FB 1F       
+		BNZ  R16C2           ;16BF: 3A C2       
+		SEP  R5              ;16C1: D5          
+R16C2
+		LDA  RB              ;16C2: 4B          
+		XRI  0CCH            ;16C3: FB CC       
+		BNZ  R160F           ;16C5: 3A 0F       
+		SEP  R4              ;16C7: D4          
+		DW   S0904           ;16C8: 09 04
+S16CA
+		LDA  R9              ;16CA: 49          
+		STR  RC              ;16CB: 5C          
+		INC  RC              ;16CC: 1C          
+		LDA  R9              ;16CD: 49          
+		STR  RC              ;16CE: 5C          
+		INC  RC              ;16CF: 1C          
+		LDA  R9              ;16D0: 49          
+		STR  RC              ;16D1: 5C          
+		INC  RC              ;16D2: 1C          
+		LDN  R9              ;16D3: 09          
+		STR  RC              ;16D4: 5C          
+		GLO  R9              ;16D5: 89          
+		SMI  07H             ;16D6: FF 07       
+		PLO  R9              ;16D8: A9          
+		SEP  R5              ;16D9: D5          
+S16DA
+		GLO  RB              ;16DA: 8B          
+		STXD                 ;16DB: 73          
+		GHI  RB              ;16DC: 9B          
+		STXD                 ;16DD: 73          
+		GLO  RE              ;16DE: 8E          
+		PLO  RB              ;16DF: AB          
+		GHI  RE              ;16E0: 9E          
+		PHI  RB              ;16E1: BB          
+R16E2
+		LDA  RB              ;16E2: 4B          
+		XRI  0FFH            ;16E3: FB FF       
+		BZ   R16F3           ;16E5: 32 F3       
+		INC  RB              ;16E7: 1B          
+		INC  RB              ;16E8: 1B          
+		LDA  RB              ;16E9: 4B          
+		XRI  9BH             ;16EA: FB 9B       
+		BZ   R16F7           ;16EC: 32 F7       
+		SEP  R4              ;16EE: D4          
+		DW   S1303           ;16EF: 13 03
+S16F1
+		BR   R16E2           ;16F1: 30 E2       
+R16F3
+		SEP  R4              ;16F3: D4          
+		DW   S04E7           ;16F4: 04 E7
+		DB   20H             ;16F6: 20
+R16F7
+		GLO  RB              ;16F7: 8B          
+		PLO  RE              ;16F8: AE          
+		GHI  RB              ;16F9: 9B          
+		PHI  RE              ;16FA: BE          
+		INC  R2              ;16FB: 12          
+		LDXA                 ;16FC: 72          
+		PHI  RB              ;16FD: BB          
+		LDX                  ;16FE: F0          
+		PLO  RB              ;16FF: AB          
+		SEP  R5              ;1700: D5          
+S1701
+		LDA  RB              ;1701: 4B          
+		XRI  0D6H            ;1702: FB D6       
+		BNZ  R1771           ;1704: 3A 71       
+		LDN  RB              ;1706: 0B          
+		XRI  0D7H            ;1707: FB D7       
+		BZ   R170F           ;1709: 32 0F       
+		XRI  3AH             ;170B: FB 3A       
+		BNZ  R1771           ;170D: 3A 71       
+R170F
+		GLO  R7              ;170F: 87          
+		STXD                 ;1710: 73          
+		SEP  R4              ;1711: D4          
+		DW   S1036           ;1712: 10 36
+S1714
+		LDA  RB              ;1714: 4B          
+		XRI  0C2H            ;1715: FB C2       
+		BNZ  R1771           ;1717: 3A 71       
+		SEP  R4              ;1719: D4          
+		DW   S138B           ;171A: 13 8B
+S171C
+		GLO  RA              ;171C: 8A          
+		STXD                 ;171D: 73          
+		LDN  RB              ;171E: 0B          
+		XRI  0C2H            ;171F: FB C2       
+		BNZ  R1729           ;1721: 3A 29       
+		INC  RB              ;1723: 1B          
+		SEP  R4              ;1724: D4          
+		DW   S138B           ;1725: 13 8B
+S1727
+		BR   R172C           ;1727: 30 2C       
+R1729
+		LDI  0FFH            ;1729: F8 FF       
+		PLO  RA              ;172B: AA          
+R172C
+		INC  R2              ;172C: 12          
+		LDXA                 ;172D: 72          
+		PLO  RC              ;172E: AC          
+		DEC  RC              ;172F: 2C          
+		GLO  RC              ;1730: 8C          
+		ADD                  ;1731: F4          
+		PLO  RC              ;1732: AC          
+		XOR                  ;1733: F3          
+		PLO  RF              ;1734: AF          
+		LDX                  ;1735: F0          
+		PLO  R7              ;1736: A7          
+		PHI  RF              ;1737: BF          
+		GHI  R7              ;1738: 97          
+		PHI  RC              ;1739: BC          
+		LDA  RB              ;173A: 4B          
+		XRI  0C4H            ;173B: FB C4       
+		BNZ  R1771           ;173D: 3A 71       
+		GLO  RF              ;173F: 8F          
+		BZ   R175F           ;1740: 32 5F       
+		GLO  RA              ;1742: 8A          
+		BZ   R176D           ;1743: 32 6D       
+		GLO  R7              ;1745: 87          
+		PLO  RF              ;1746: AF          
+R1747
+		LDA  R7              ;1747: 47          
+		XRI  0DH             ;1748: FB 0D       
+		INC  RF              ;174A: 1F          
+		BNZ  R1747           ;174B: 3A 47       
+		DEC  RF              ;174D: 2F          
+		GHI  RF              ;174E: 9F          
+		PLO  R7              ;174F: A7          
+		GLO  RF              ;1750: 8F          
+		STR  R2              ;1751: 52          
+		GLO  RC              ;1752: 8C          
+		SM                   ;1753: F7          
+		BDF  R176D           ;1754: 33 6D       
+R1756
+		LDA  RC              ;1756: 4C          
+		STR  R7              ;1757: 57          
+		INC  R7              ;1758: 17          
+		XRI  0DH             ;1759: FB 0D       
+		BNZ  R1756           ;175B: 3A 56       
+		GHI  RF              ;175D: 9F          
+		PLO  R7              ;175E: A7          
+R175F
+		LDA  R7              ;175F: 47          
+		XRI  0DH             ;1760: FB 0D       
+		BZ   R176C           ;1762: 32 6C       
+		DEC  RA              ;1764: 2A          
+		GLO  RA              ;1765: 8A          
+		BNZ  R175F           ;1766: 3A 5F       
+R1768
+		LDI  0DH             ;1768: F8 0D       
+		STR  R7              ;176A: 57          
+		INC  R7              ;176B: 17          
+R176C
+		SEP  R5              ;176C: D5          
+R176D
+		GHI  RF              ;176D: 9F          
+		PLO  R7              ;176E: A7          
+		BR   R1768           ;176F: 30 68       
+R1771
+		SEP  R4              ;1771: D4          
+		DW   S04E7           ;1772: 04 E7
+		DB   19H             ;1774: 19
+S1775
+		LDN  RB              ;1775: 0B          
+		XRI  0D1H            ;1776: FB D1       
+		BZ   R1785           ;1778: 32 85       
+		XRI  0DCH            ;177A: FB DC       
+		BZ   R1782           ;177C: 32 82       
+		XRI  0C0H            ;177E: FB C0       
+		BNZ  R178C           ;1780: 3A 8C       
+R1782
+		LDI  40H             ;1782: F8 40       
+		LSKP                 ;1784: C8          
+R1785
+		INC  RB              ;1785: 1B          
+		LDA  RB              ;1786: 4B          
+		ADI  01H             ;1787: FC 01       
+		SEP  RD              ;1789: DD          
+		DB   3CH             ;178A: 3C
+S178B
+		SEP  R5              ;178B: D5          
+R178C
+		SEP  R4              ;178C: D4          
+		DW   S04E7           ;178D: 04 E7
+		DB   04H             ;178F: 04
+S1790
+		GHI  R8              ;1790: 98          
+		ANI  04H             ;1791: FA 04       
+		BNZ  R17A1           ;1793: 3A A1       
+		SEP  R4              ;1795: D4          
+		DW   S1EA4           ;1796: 1E A4
+		GLO  R9              ;1798: 89          
+		SMI  04H             ;1799: FF 04       
+		PLO  R9              ;179B: A9          
+		SEP  R4              ;179C: D4          
+		DW   S1EA4           ;179D: 1E A4
+		BR   R17A5           ;179F: 30 A5       
+R17A1
+		GLO  R9              ;17A1: 89          
+		SMI  04H             ;17A2: FF 04       
+		PLO  R9              ;17A4: A9          
+R17A5
+		LDN  R9              ;17A5: 09          
+		BZ   R17F6           ;17A6: 32 F6       
+		SEP  R4              ;17A8: D4          
+		DW   S1EE9           ;17A9: 1E E9
+		STXD                 ;17AB: 73          
+		SEP  R4              ;17AC: D4          
+		DW   S2806           ;17AD: 28 06
+		INP  1               ;17AF: 69          
+		GLO  R9              ;17B0: 89          
+		ADI  04H             ;17B1: FC 04       
+		PLO  R9              ;17B3: A9          
+		INC  R2              ;17B4: 12          
+		LDX                  ;17B5: F0          
+		STXD                 ;17B6: 73          
+		BZ   R17E7           ;17B7: 32 E7       
+		INC  RD              ;17B9: 1D          
+		SEP  RD              ;17BA: DD          
+		DB   0E9H            ;17BB: E9
+		LDN  R9              ;17BC: 09          
+		BZ   R17DE           ;17BD: 32 DE       
+		SDI  98H             ;17BF: FD 98       
+		BNF  R17DE           ;17C1: 3B DE       
+		PLO  RF              ;17C3: AF          
+		SMI  18H             ;17C4: FF 18       
+		BDF  R17D1           ;17C6: 33 D1       
+		INC  R9              ;17C8: 19          
+		LDN  R9              ;17C9: 09          
+		ORI  80H             ;17CA: F9 80       
+		STR  R9              ;17CC: 59          
+		DEC  R9              ;17CD: 29          
+R17CE
+		INC  RD              ;17CE: 1D          
+		SEP  RD              ;17CF: DD          
+		DB   7BH             ;17D0: 7B
+R17D1
+		LBDF J2705           ;17D1: C3 27 05    
+		DEC  RF              ;17D4: 2F          
+		GLO  RF              ;17D5: 8F          
+		BNZ  R17CE           ;17D6: 3A CE       
+		INC  RD              ;17D8: 1D          
+		SEP  RD              ;17D9: DD          
+		DB   7BH             ;17DA: 7B
+		LDI  0FFH            ;17DB: F8 FF       
+		LSDF                 ;17DD: CF          
+R17DE
+		LDI  00H             ;17DE: F8 00       
+		INC  R2              ;17E0: 12          
+		AND                  ;17E1: F2          
+		STXD                 ;17E2: 73          
+		GLO  R9              ;17E3: 89          
+		SMI  04H             ;17E4: FF 04       
+		PLO  R9              ;17E6: A9          
+R17E7
+		SEP  R4              ;17E7: D4          
+		DW   S2803           ;17E8: 28 03
+		DB   57H             ;17EA: 57
+		SEP  R4              ;17EB: D4          
+		DW   S2806           ;17EC: 28 06
+		OUT  6               ;17EE: 66          
+		INC  R2              ;17EF: 12          
+		LDX                  ;17F0: F0          
+		BZ   R17F6           ;17F1: 32 F6       
+		SEP  R4              ;17F3: D4          
+		DW   S2CC2           ;17F4: 2C C2
+R17F6
+		GHI  R8              ;17F6: 98          
+		ANI  04H             ;17F7: FA 04       
+		BNZ  R17FE           ;17F9: 3A FE       
+		SEP  R4              ;17FB: D4          
+		DW   S1C8B           ;17FC: 1C 8B
+R17FE
+		SEP  R5              ;17FE: D5          
+		DB   0FFH            ;17FF: FF
+S1800
+		LDN  RB              ;1800: 0B          
+		XRI  0D7H            ;1801: FB D7       
+		BZ   R180D           ;1803: 32 0D       
+		XRI  6DH             ;1805: FB 6D       
+		BZ   R180D           ;1807: 32 0D       
+		XRI  57H             ;1809: FB 57       
+		BNZ  R1849           ;180B: 3A 49       
+R180D
+		SEP  R4              ;180D: D4          
+		DW   S1029           ;180E: 10 29
+		LDA  RB              ;1810: 4B          
+		XRI  0CCH            ;1811: FB CC       
+		PLO  RE              ;1813: AE          
+		BZ   R181A           ;1814: 32 1A       
+		XRI  73H             ;1816: FB 73       
+		BNZ  R1845           ;1818: 3A 45       
+R181A
+		PLO  R7              ;181A: A7          
+		LDI  90H             ;181B: F8 90       
+		PHI  R7              ;181D: B7          
+R181E
+		LDA  R7              ;181E: 47          
+		STXD                 ;181F: 73          
+		XRI  0DH             ;1820: FB 0D       
+		BNZ  R181E           ;1822: 3A 1E       
+		DEC  R7              ;1824: 27          
+		GLO  R7              ;1825: 87          
+		STXD                 ;1826: 73          
+		SEP  R4              ;1827: D4          
+		DW   S1029           ;1828: 10 29
+		INC  R2              ;182A: 12          
+		LDXA                 ;182B: 72          
+		PLO  R7              ;182C: A7          
+R182D
+		LDN  R7              ;182D: 07          
+		XOR                  ;182E: F3          
+		BNZ  R1838           ;182F: 3A 38       
+		GLO  R7              ;1831: 87          
+		BZ   R1842           ;1832: 32 42       
+		DEC  R7              ;1834: 27          
+		INC  R2              ;1835: 12          
+		BR   R182D           ;1836: 30 2D       
+R1838
+		GLO  R7              ;1838: 87          
+		BZ   R183F           ;1839: 32 3F       
+		DEC  R7              ;183B: 27          
+		INC  R2              ;183C: 12          
+		BR   R1838           ;183D: 30 38       
+R183F
+		GLO  RE              ;183F: 8E          
+		BR   R18A4           ;1840: 30 A4       
+R1842
+		GLO  RE              ;1842: 8E          
+		BR   R18AF           ;1843: 30 AF       
+R1845
+		SEP  R4              ;1845: D4          
+		DW   S04E7           ;1846: 04 E7
+		DB   2FH             ;1848: 2F
+R1849
+		SEP  R4              ;1849: D4          
+		DW   S0900           ;184A: 09 00
+S184C
+		LDA  RB              ;184C: 4B          
+		STXD                 ;184D: 73          
+		SEP  R4              ;184E: D4          
+		DW   S0904           ;184F: 09 04
+S1851
+		GHI  R8              ;1851: 98          
+		ANI  04H             ;1852: FA 04       
+		BZ   R1862           ;1854: 32 62       
+		SEP  R4              ;1856: D4          
+		DW   S2803           ;1857: 28 03
+		DB   51H             ;1859: 51
+		LDA  R9              ;185A: 49          
+		PHI  RF              ;185B: BF          
+		LDN  R9              ;185C: 09          
+		ANI  80H             ;185D: FA 80       
+		PLO  RF              ;185F: AF          
+		BR   R186E           ;1860: 30 6E       
+R1862
+		INC  RD              ;1862: 1D          
+		SEP  RD              ;1863: DD          
+		DB   62H             ;1864: 62
+S1865
+		LDN  R9              ;1865: 09          
+		ANI  80H             ;1866: FA 80       
+		PLO  RF              ;1868: AF          
+		INC  RD              ;1869: 1D          
+		SEP  RD              ;186A: DD          
+		DB   0C5H            ;186B: C5
+S186C
+		PHI  RF              ;186C: BF          
+		INC  R9              ;186D: 19          
+R186E
+		GLO  R9              ;186E: 89          
+		SMI  05H             ;186F: FF 05       
+		PLO  R9              ;1871: A9          
+		INC  R2              ;1872: 12          
+		LDX                  ;1873: F0          
+		XRI  0C7H            ;1874: FB C7       
+		BZ   R1895           ;1876: 32 95       
+		XRI  01H             ;1878: FB 01       
+		BZ   R189B           ;187A: 32 9B       
+		XRI  0AH             ;187C: FB 0A       
+		BZ   R1890           ;187E: 32 90       
+		XRI  73H             ;1880: FB 73       
+		BZ   R18A3           ;1882: 32 A3       
+		XRI  01H             ;1884: FB 01       
+		BZ   R18A8           ;1886: 32 A8       
+		XRI  03H             ;1888: FB 03       
+		BZ   R18AE           ;188A: 32 AE       
+		SEP  R4              ;188C: D4          
+		DW   S04E7           ;188D: 04 E7
+		DB   10H             ;188F: 10
+R1890
+		GHI  RF              ;1890: 9F          
+R1891
+		BZ   R18B1           ;1891: 32 B1       
+		BR   R18BF           ;1893: 30 BF       
+R1895
+		GHI  RF              ;1895: 9F          
+		BZ   R18BF           ;1896: 32 BF       
+		GLO  RF              ;1898: 8F          
+		BR   R1891           ;1899: 30 91       
+R189B
+		GHI  RF              ;189B: 9F          
+		BZ   R18BF           ;189C: 32 BF       
+		GLO  RF              ;189E: 8F          
+		BZ   R18BF           ;189F: 32 BF       
+		BR   R18B1           ;18A1: 30 B1       
+R18A3
+		GHI  RF              ;18A3: 9F          
+R18A4
+		BNZ  R18B1           ;18A4: 3A B1       
+		BR   R18BF           ;18A6: 30 BF       
+R18A8
+		GLO  RF              ;18A8: 8F          
+		BNZ  R18B1           ;18A9: 3A B1       
+		GHI  RF              ;18AB: 9F          
+		BR   R1891           ;18AC: 30 91       
+R18AE
+		GLO  RF              ;18AE: 8F          
+R18AF
+		BNZ  R18BF           ;18AF: 3A BF       
+R18B1
+		LDN  RB              ;18B1: 0B          
+		XRI  0C5H            ;18B2: FB C5       
+		BNZ  R18B7           ;18B4: 3A B7       
+		INC  RB              ;18B6: 1B          
+R18B7
+		LDI  55H             ;18B7: F8 55       
+R18B9
+		PLO  R6              ;18B9: A6          
+		INC  R2              ;18BA: 12          
+		INC  R2              ;18BB: 12          
+		LDX                  ;18BC: F0          
+		PHI  R6              ;18BD: B6          
+		SEP  R5              ;18BE: D5          
+R18BF
+		DEC  RB              ;18BF: 2B          
+		DEC  RB              ;18C0: 2B          
+		SEP  R4              ;18C1: D4          
+		DW   S1301           ;18C2: 13 01
+S18C4
+		LDI  0B9H            ;18C4: F8 B9       
+		BR   R18B9           ;18C6: 30 B9       
+S18C8
+		GHI  R8              ;18C8: 98          
+		ANI  01H             ;18C9: FA 01       
+		BNZ  R18D1           ;18CB: 3A D1       
+J18CD
+		SEP  R4              ;18CD: D4          
+		DW   S04E7           ;18CE: 04 E7
+		DB   11H             ;18D0: 11
+R18D1
+		LDN  RB              ;18D1: 0B          
+		XRI  0CFH            ;18D2: FB CF       
+		BNZ  R18D9           ;18D4: 3A D9       
+		SEP  R4              ;18D6: D4          
+		DW   S14D9           ;18D7: 14 D9
+R18D9
+		SEP  RD              ;18D9: DD          
+		DB   87H             ;18DA: 87
+S18DB
+		PLO  RE              ;18DB: AE          
+		GHI  RF              ;18DC: 9F          
+		PHI  RE              ;18DD: BE          
+		LDN  RB              ;18DE: 0B          
+		XRI  0D7H            ;18DF: FB D7       
+		BNZ  R18E7           ;18E1: 3A E7       
+		INC  RB              ;18E3: 1B          
+		LBR  J1F00           ;18E4: C0 1F 00    
+R18E7
+		LDN  RE              ;18E7: 0E          
+		XRI  0DH             ;18E8: FB 0D       
+		BNZ  R18F2           ;18EA: 3A F2       
+		SEP  R4              ;18EC: D4          
+		DW   S003F           ;18ED: 00 3F
+		LDI  0D0H            ;18EF: F8 D0       
+		PLO  RE              ;18F1: AE          
+R18F2
+		SEP  R4              ;18F2: D4          
+		DW   S1F83           ;18F3: 1F 83
+		LDA  RB              ;18F5: 4B          
+		STR  R2              ;18F6: 52          
+		XRI  0C2H            ;18F7: FB C2       
+		BZ   R18E7           ;18F9: 32 E7       
+		DEC  RB              ;18FB: 2B          
+		GLO  RE              ;18FC: 8E          
+		SEP  RD              ;18FD: DD          
+		DB   07H             ;18FE: 07
+		SEP  R5              ;18FF: D5          
+S1900
+		GHI  R8              ;1900: 98          
+		STXD                 ;1901: 73          
+		GLO  R7              ;1902: 87          
+		STXD                 ;1903: 73          
+		LDN  RB              ;1904: 0B          
+		XRI  0D2H            ;1905: FB D2       
+		BNZ  R190E           ;1907: 3A 0E       
+		SEP  R4              ;1909: D4          
+		DW   S138B           ;190A: 13 8B
+		GLO  RA              ;190C: 8A          
+		LSKP                 ;190D: C8          
+R190E
+		LDI  0AH             ;190E: F8 0A       
+		PLO  R7              ;1910: A7          
+		SEP  RD              ;1911: DD          
+		DB   99H             ;1912: 99
+		PHI  RA              ;1913: BA          
+		LDN  RF              ;1914: 0F          
+		PLO  RA              ;1915: AA          
+		SEP  RD              ;1916: DD          
+		DB   81H             ;1917: 81
+		PHI  RC              ;1918: BC          
+		LDN  RF              ;1919: 0F          
+		PLO  RC              ;191A: AC          
+		LDI  00H             ;191B: F8 00       
+		PHI  RE              ;191D: BE          
+		PLO  RE              ;191E: AE          
+R191F
+		LDA  RC              ;191F: 4C          
+		STR  RA              ;1920: 5A          
+		INC  RA              ;1921: 1A          
+		XRI  0FFH            ;1922: FB FF       
+		BZ   R193C           ;1924: 32 3C       
+		LDA  RC              ;1926: 4C          
+		STR  RA              ;1927: 5A          
+		INC  RA              ;1928: 1A          
+		LDN  RC              ;1929: 0C          
+		STR  R2              ;192A: 52          
+		GLO  RC              ;192B: 8C          
+		ADD                  ;192C: F4          
+		PLO  RC              ;192D: AC          
+		GHI  RC              ;192E: 9C          
+		ADCI 00H             ;192F: 7C 00       
+		PHI  RC              ;1931: BC          
+		GHI  RA              ;1932: 9A          
+		STR  R2              ;1933: 52          
+		GHI  R2              ;1934: 92          
+		XOR                  ;1935: F3          
+		BNZ  R191F           ;1936: 3A 1F       
+		SEP  R4              ;1938: D4          
+		DW   S04E7           ;1939: 04 E7
+		DB   3FH             ;193B: 3F
+R193C
+		SEP  RD              ;193C: DD          
+		DB   81H             ;193D: 81
+		PHI  RA              ;193E: BA          
+		LDN  RF              ;193F: 0F          
+		PLO  RA              ;1940: AA          
+R1941
+		LDN  RA              ;1941: 0A          
+		XRI  0FFH            ;1942: FB FF       
+		BZ   R195F           ;1944: 32 5F       
+		GLO  RE              ;1946: 8E          
+		STR  R2              ;1947: 52          
+		GLO  R7              ;1948: 87          
+		ADD                  ;1949: F4          
+		PLO  RE              ;194A: AE          
+		GHI  RE              ;194B: 9E          
+		ADCI 00H             ;194C: 7C 00       
+		PHI  RE              ;194E: BE          
+		STR  RA              ;194F: 5A          
+		INC  RA              ;1950: 1A          
+		GLO  RE              ;1951: 8E          
+		STR  RA              ;1952: 5A          
+		INC  RA              ;1953: 1A          
+		LDN  RA              ;1954: 0A          
+		STR  R2              ;1955: 52          
+		GLO  RA              ;1956: 8A          
+		ADD                  ;1957: F4          
+		PLO  RA              ;1958: AA          
+		GHI  RA              ;1959: 9A          
+		ADCI 00H             ;195A: 7C 00       
+		PHI  RA              ;195C: BA          
+		BR   R1941           ;195D: 30 41       
+R195F
+		SEP  R4              ;195F: D4          
+		DW   S1A99           ;1960: 1A 99
+R1962
+		BNZ  R1994           ;1962: 3A 94       
+		PLO  R8              ;1964: A8          
+		PHI  R8              ;1965: B8          
+		SEP  RD              ;1966: DD          
+		DB   99H             ;1967: 99
+		PHI  RC              ;1968: BC          
+		LDN  RF              ;1969: 0F          
+		PLO  RC              ;196A: AC          
+R196B
+		GLO  R8              ;196B: 88          
+		STR  R2              ;196C: 52          
+		GLO  R7              ;196D: 87          
+		ADD                  ;196E: F4          
+		PLO  R8              ;196F: A8          
+		GHI  R8              ;1970: 98          
+		ADCI 00H             ;1971: 7C 00       
+		PHI  R8              ;1973: B8          
+		LDA  RC              ;1974: 4C          
+		STR  R2              ;1975: 52          
+		XRI  0FFH            ;1976: FB FF       
+		BZ   R19B9           ;1978: 32 B9       
+		LDN  RA              ;197A: 0A          
+		XOR                  ;197B: F3          
+		BZ   R1981           ;197C: 32 81       
+		INC  RC              ;197E: 1C          
+		BR   R196B           ;197F: 30 6B       
+R1981
+		INC  RA              ;1981: 1A          
+		LDN  RA              ;1982: 0A          
+		STR  R2              ;1983: 52          
+		DEC  RA              ;1984: 2A          
+		LDA  RC              ;1985: 4C          
+		XOR                  ;1986: F3          
+		BNZ  R196B           ;1987: 3A 6B       
+		GHI  R8              ;1989: 98          
+		STR  RA              ;198A: 5A          
+		INC  RA              ;198B: 1A          
+		GLO  R8              ;198C: 88          
+		STR  RA              ;198D: 5A          
+		INC  RA              ;198E: 1A          
+		SEP  R4              ;198F: D4          
+		DW   S1AA9           ;1990: 1A A9
+		BR   R1962           ;1992: 30 62       
+R1994
+		INC  R2              ;1994: 12          
+		LDXA                 ;1995: 72          
+		PLO  R7              ;1996: A7          
+		LDX                  ;1997: F0          
+		PHI  R8              ;1998: B8          
+		SEP  R4              ;1999: D4          
+		DW   S11EF           ;199A: 11 EF
+		GHI  RE              ;199C: 9E          
+		STR  R9              ;199D: 59          
+		INC  R9              ;199E: 19          
+		GLO  RE              ;199F: 8E          
+		STR  R9              ;19A0: 59          
+		DEC  R9              ;19A1: 29          
+		DEC  R9              ;19A2: 29          
+		DEC  R9              ;19A3: 29          
+		SEP  R4              ;19A4: D4          
+		DW   S25FB           ;19A5: 25 FB
+		SEP  R4              ;19A7: D4          
+		DW   S20B0           ;19A8: 20 B0
+		SEP  R4              ;19AA: D4          
+		DW   S150D           ;19AB: 15 0D
+		DB   ' COMP BR'      ;19AD: 20
+		                     ;19AE: 43
+		                     ;19AF: 4F
+		                     ;19B0: 4D
+		                     ;19B1: 50
+		                     ;19B2: 20
+		                     ;19B3: 42
+		                     ;19B4: 52
+		DB   0DH             ;19B5: 0D
+		DB   0AH             ;19B6: 0A
+		DB   00H             ;19B7: 00
+		SEP  R5              ;19B8: D5          
+R19B9
+		SEP  R4              ;19B9: D4          
+		DW   S04E7           ;19BA: 04 E7
+		DB   40H             ;19BC: 40
+S19BD
+		LDN  RB              ;19BD: 0B          
+		XRI  0B4H            ;19BE: FB B4       
+		BNZ  R19D3           ;19C0: 3A D3       
+		INC  RB              ;19C2: 1B          
+		LDA  RB              ;19C3: 4B          
+		PHI  RF              ;19C4: BF          
+		LDA  RB              ;19C5: 4B          
+		PLO  RF              ;19C6: AF          
+		INC  RB              ;19C7: 1B          
+		INC  RB              ;19C8: 1B          
+		GLO  RB              ;19C9: 8B          
+		STXD                 ;19CA: 73          
+		GHI  RB              ;19CB: 9B          
+		STXD                 ;19CC: 73          
+		GLO  RF              ;19CD: 8F          
+		PLO  RB              ;19CE: AB          
+		GHI  RF              ;19CF: 9F          
+		PHI  RB              ;19D0: BB          
+		BR   S19DD           ;19D1: 30 DD       
+R19D3
+		SEP  R4              ;19D3: D4          
+		DW   S1382           ;19D4: 13 82
+S19D6
+		GLO  RB              ;19D6: 8B          
+		STXD                 ;19D7: 73          
+		GHI  RB              ;19D8: 9B          
+		STXD                 ;19D9: 73          
+		SEP  R4              ;19DA: D4          
+		DW   S10F2           ;19DB: 10 F2
+S19DD
+		SEP  R4              ;19DD: D4          
+		DW   S2131           ;19DE: 21 31
+S19E0
+		BZ   R19E6           ;19E0: 32 E6       
+		DB   0D4H            ;19E2: D4
+		DW   S04E7           ;19E3: 04 E7
+		DB   0DH             ;19E5: 0D
+R19E6
+		SEP  R4              ;19E6: D4          
+		DW   S004E           ;19E7: 00 4E
+S19E9
+		GHI  R8              ;19E9: 98          
+		ORI  01H             ;19EA: F9 01       
+		PHI  R8              ;19EC: B8          
+		INC  R2              ;19ED: 12          
+		LDXA                 ;19EE: 72          
+		PHI  RB              ;19EF: BB          
+		LDXA                 ;19F0: 72          
+		PLO  RB              ;19F1: AB          
+		INC  R2              ;19F2: 12          
+		LDX                  ;19F3: F0          
+		PHI  R6              ;19F4: B6          
+		LDI  7CH             ;19F5: F8 7C       
+		PLO  R6              ;19F7: A6          
+		SEP  R5              ;19F8: D5          
+S19F9
+		LDA  RB              ;19F9: 4B          
+		XRI  0DH             ;19FA: FB 0D       
+		BNZ  S19F9           ;19FC: 3A F9       
+		DEC  RB              ;19FE: 2B          
+		SEP  R5              ;19FF: D5          
+S1A00
+		GHI  R8              ;1A00: 98          
+		STXD                 ;1A01: 73          
+		GLO  RA              ;1A02: 8A          
+		STXD                 ;1A03: 73          
+		GHI  RA              ;1A04: 9A          
+		STXD                 ;1A05: 73          
+		GLO  R9              ;1A06: 89          
+		ADI  04H             ;1A07: FC 04       
+		PLO  R9              ;1A09: A9          
+		SEP  R4              ;1A0A: D4          
+		DW   S11EF           ;1A0B: 11 EF
+S1A0D
+		LDI  36H             ;1A0D: F8 36       
+		STR  R9              ;1A0F: 59          
+		INC  R9              ;1A10: 19          
+		LDI  19H             ;1A11: F8 19       
+		STR  R9              ;1A13: 59          
+		INC  R9              ;1A14: 19          
+		SEP  R4              ;1A15: D4          
+		DW   S11EF           ;1A16: 11 EF
+S1A18
+		LDI  35H             ;1A18: F8 35       
+		STR  R9              ;1A1A: 59          
+		INC  R9              ;1A1B: 19          
+		LDI  8DH             ;1A1C: F8 8D       
+		STR  R9              ;1A1E: 59          
+		INC  R9              ;1A1F: 19          
+		SEP  R4              ;1A20: D4          
+		DW   S11EF           ;1A21: 11 EF
+S1A23
+		SEP  RD              ;1A23: DD          
+		DB   0BEH            ;1A24: BE
+S1A25
+		STR  R9              ;1A25: 59          
+		INC  R9              ;1A26: 19          
+		LDN  RF              ;1A27: 0F          
+		STR  R9              ;1A28: 59          
+		DEC  R9              ;1A29: 29          
+		DEC  R9              ;1A2A: 29          
+		DEC  R9              ;1A2B: 29          
+		SEP  R4              ;1A2C: D4          
+		DW   S2669           ;1A2D: 26 69
+S1A2F
+		INC  RD              ;1A2F: 1D          
+		SEP  RD              ;1A30: DD          
+		DB   21H             ;1A31: 21
+S1A32
+		INC  R9              ;1A32: 19          
+		INC  R9              ;1A33: 19          
+		LDA  R9              ;1A34: 49          
+		PHI  RA              ;1A35: BA          
+		SEP  RD              ;1A36: DD          
+		DB   3EH             ;1A37: 3E
+S1A38
+		LDN  R9              ;1A38: 09          
+		PLO  RA              ;1A39: AA          
+		SEP  RD              ;1A3A: DD          
+		DB   3FH             ;1A3B: 3F
+S1A3C
+		DEC  R9              ;1A3C: 29          
+		DEC  R9              ;1A3D: 29          
+		DEC  R9              ;1A3E: 29          
+		SEP  R4              ;1A3F: D4          
+		DW   S11EF           ;1A40: 11 EF
+S1A42
+		LDN  RB              ;1A42: 0B          
+		XRI  0D6H            ;1A43: FB D6       
+		BNZ  R1A74           ;1A45: 3A 74       
+		GLO  RA              ;1A47: 8A          
+		STR  R9              ;1A48: 59          
+		INC  R9              ;1A49: 19          
+		GHI  RA              ;1A4A: 9A          
+		STR  R9              ;1A4B: 59          
+		DEC  R9              ;1A4C: 29          
+		DEC  R9              ;1A4D: 29          
+		DEC  R9              ;1A4E: 29          
+		SEP  R4              ;1A4F: D4          
+		DW   S20E3           ;1A50: 20 E3
+S1A52
+		GHI  R9              ;1A52: 99          
+		PHI  RF              ;1A53: BF          
+		GLO  R9              ;1A54: 89          
+		SMI  04H             ;1A55: FF 04       
+		PLO  RF              ;1A57: AF          
+		ADI  08H             ;1A58: FC 08       
+		PLO  R9              ;1A5A: A9          
+		LDI  08H             ;1A5B: F8 08       
+		PLO  RA              ;1A5D: AA          
+R1A5E
+		LDA  RF              ;1A5E: 4F          
+		STR  R9              ;1A5F: 59          
+		INC  R9              ;1A60: 19          
+		DEC  RA              ;1A61: 2A          
+		GLO  RA              ;1A62: 8A          
+		BNZ  R1A5E           ;1A63: 3A 5E       
+		GLO  R9              ;1A65: 89          
+		SMI  04H             ;1A66: FF 04       
+		PLO  R9              ;1A68: A9          
+		SEP  R4              ;1A69: D4          
+		DW   S2A01           ;1A6A: 2A 01
+S1A6C
+		SEP  R4              ;1A6C: D4          
+		DW   S2669           ;1A6D: 26 69
+S1A6F
+		INC  RD              ;1A6F: 1D          
+		SEP  RD              ;1A70: DD          
+		DB   62H             ;1A71: 62
+S1A72
+		BR   R1A90           ;1A72: 30 90       
+R1A74
+		GHI  R8              ;1A74: 98          
+		ORI  04H             ;1A75: F9 04       
+		PHI  R8              ;1A77: B8          
+		DEC  R9              ;1A78: 29          
+		GLO  RA              ;1A79: 8A          
+		STR  R9              ;1A7A: 59          
+		INC  R9              ;1A7B: 19          
+		ANI  80H             ;1A7C: FA 80       
+		PLO  RF              ;1A7E: AF          
+		GHI  RA              ;1A7F: 9A          
+		STR  R9              ;1A80: 59          
+		DEC  R9              ;1A81: 29          
+		DEC  R9              ;1A82: 29          
+		LDI  80H             ;1A83: F8 80       
+		STR  R9              ;1A85: 59          
+		GLO  RF              ;1A86: 8F          
+		BZ   R1A90           ;1A87: 32 90       
+		SEP  R4              ;1A89: D4          
+		DW   S1401           ;1A8A: 14 01
+		SEP  R4              ;1A8C: D4          
+		DW   S2803           ;1A8D: 28 03
+		DB   54H             ;1A8F: 54
+R1A90
+		INC  R2              ;1A90: 12          
+		LDXA                 ;1A91: 72          
+		PHI  RA              ;1A92: BA          
+		LDXA                 ;1A93: 72          
+		PLO  RA              ;1A94: AA          
+		GHI  R8              ;1A95: 98          
+		OR                   ;1A96: F1          
+		PHI  R8              ;1A97: B8          
+		SEP  R5              ;1A98: D5          
+S1A99
+		SEP  RD              ;1A99: DD          
+		DB   81H             ;1A9A: 81
+		PHI  RA              ;1A9B: BA          
+		LDN  RF              ;1A9C: 0F          
+		PLO  RA              ;1A9D: AA          
+		LDI  00H             ;1A9E: F8 00       
+		PLO  RE              ;1AA0: AE          
+		PHI  RE              ;1AA1: BE          
+R1AA2
+		LDA  RA              ;1AA2: 4A          
+		XRI  0FFH            ;1AA3: FB FF       
+		BZ   R1AEC           ;1AA5: 32 EC       
+		INC  RA              ;1AA7: 1A          
+		INC  RA              ;1AA8: 1A          
+S1AA9
+		LDA  RA              ;1AA9: 4A          
+		XRI  0D2H            ;1AAA: FB D2       
+		BZ   R1AB6           ;1AAC: 32 B6       
+		XRI  01H             ;1AAE: FB 01       
+		BZ   R1AB6           ;1AB0: 32 B6       
+		XRI  67H             ;1AB2: FB 67       
+		BNZ  R1ABC           ;1AB4: 3A BC       
+R1AB6
+		INC  RA              ;1AB6: 1A          
+		INC  RA              ;1AB7: 1A          
+		INC  RA              ;1AB8: 1A          
+		INC  RA              ;1AB9: 1A          
+		BR   S1AA9           ;1ABA: 30 A9       
+R1ABC
+		XRI  0B9H            ;1ABC: FB B9       
+		BZ   R1AA2           ;1ABE: 32 A2       
+		XRI  8AH             ;1AC0: FB 8A       
+		BZ   R1AD0           ;1AC2: 32 D0       
+		XRI  0CH             ;1AC4: FB 0C       
+		BZ   R1AD0           ;1AC6: 32 D0       
+		XRI  25H             ;1AC8: FB 25       
+		BZ   R1AD0           ;1ACA: 32 D0       
+		XRI  0CH             ;1ACC: FB 0C       
+		BNZ  S1AA9           ;1ACE: 3A A9       
+R1AD0
+		LDN  RA              ;1AD0: 0A          
+		XRI  0D2H            ;1AD1: FB D2       
+		BZ   R1ADD           ;1AD3: 32 DD       
+		LDN  RA              ;1AD5: 0A          
+		XRI  0B4H            ;1AD6: FB B4       
+		BZ   R1ADD           ;1AD8: 32 DD       
+R1ADA
+		INC  RE              ;1ADA: 1E          
+		BR   S1AA9           ;1ADB: 30 A9       
+R1ADD
+		INC  RA              ;1ADD: 1A          
+		INC  RA              ;1ADE: 1A          
+		INC  RA              ;1ADF: 1A          
+		INC  RA              ;1AE0: 1A          
+		INC  RA              ;1AE1: 1A          
+		LDN  RA              ;1AE2: 0A          
+		XRI  0DH             ;1AE3: FB 0D       
+		BZ   R1AEE           ;1AE5: 32 EE       
+		XRI  0C0H            ;1AE7: FB C0       
+		BNZ  R1ADA           ;1AE9: 3A DA       
+		LSKP                 ;1AEB: C8          
+R1AEC
+		LDI  01H             ;1AEC: F8 01       
+R1AEE
+		DEC  RA              ;1AEE: 2A          
+		DEC  RA              ;1AEF: 2A          
+		SEP  R5              ;1AF0: D5          
+J1AF1
+		INC  R2              ;1AF1: 12          
+		LDX                  ;1AF2: F0          
+		PHI  R8              ;1AF3: B8          
+J1AF4
+		ANI  08H             ;1AF4: FA 08       
+		BNZ  R1AFF           ;1AF6: 3A FF       
+J1AF8
+		SEP  R4              ;1AF8: D4          
+		DW   S1EA4           ;1AF9: 1E A4
+S1AFB
+		GHI  R8              ;1AFB: 98          
+		ORI  04H             ;1AFC: F9 04       
+		PHI  R8              ;1AFE: B8          
+R1AFF
+		SEP  R5              ;1AFF: D5          
+S1B00
+		GHI  R6              ;1B00: 96          
+		XRI  90H             ;1B01: FB 90       
+		BNZ  R1B0E           ;1B03: 3A 0E       
+		GLO  R6              ;1B05: 86          
+		XRI  0A2H            ;1B06: FB A2       
+		BNZ  R1B0E           ;1B08: 3A 0E       
+		DEC  RB              ;1B0A: 2B          
+		LBR  S1600           ;1B0B: C0 16 00    
+R1B0E
+		INC  RD              ;1B0E: 1D          
+		SEP  RD              ;1B0F: DD          
+		DB   1EH             ;1B10: 1E
+		DB   87H             ;1B11: 87
+		DB   8CH             ;1B12: 8C
+		DB   00H             ;1B13: 00
+S1B14
+		LDA  RB              ;1B14: 4B          
+		PLO  R8              ;1B15: A8          
+		SMI  41H             ;1B16: FF 41       
+		SHL                  ;1B18: FE          
+		SHL                  ;1B19: FE          
+		PLO  R7              ;1B1A: A7          
+		LDN  RB              ;1B1B: 0B          
+		XRI  0D6H            ;1B1C: FB D6       
+		BNZ  R1B25           ;1B1E: 3A 25       
+		SEP  R4              ;1B20: D4          
+		DW   S1200           ;1B21: 12 00
+		BR   R1B33           ;1B23: 30 33       
+R1B25
+		XRI  04H             ;1B25: FB 04       
+		BNZ  R1B2E           ;1B27: 3A 2E       
+		SEP  R4              ;1B29: D4          
+		DW   S1363           ;1B2A: 13 63
+		BR   R1B33           ;1B2C: 30 33       
+R1B2E
+		LDI  91H             ;1B2E: F8 91       
+		PHI  RC              ;1B30: BC          
+		GLO  R7              ;1B31: 87          
+		PLO  RC              ;1B32: AC          
+R1B33
+		GLO  R9              ;1B33: 89          
+		ADI  04H             ;1B34: FC 04       
+		PLO  R9              ;1B36: A9          
+		GLO  RC              ;1B37: 8C          
+		PLO  RF              ;1B38: AF          
+		GHI  RC              ;1B39: 9C          
+		PHI  RF              ;1B3A: BF          
+		INC  RD              ;1B3B: 1D          
+		SEP  RD              ;1B3C: DD          
+		DB   0ECH            ;1B3D: EC
+S1B3E
+		INC  R2              ;1B3E: 12          
+		SEP  R2              ;1B3F: D2          
+S1B40
+		GLO  R8              ;1B40: 88          
+		STR  R2              ;1B41: 52          
+		SEP  RD              ;1B42: DD          
+		DB   0BCH            ;1B43: BC
+S1B44
+		SD                   ;1B44: F5          
+		BNF  R1B4B           ;1B45: 3B 4B       
+		LDI  04H             ;1B47: F8 04       
+		BR   R1B4D           ;1B49: 30 4D       
+R1B4B
+		LDI  08H             ;1B4B: F8 08       
+R1B4D
+		PLO  RF              ;1B4D: AF          
+		GHI  R8              ;1B4E: 98          
+		ANI  0CH             ;1B4F: FA 0C       
+		STR  R2              ;1B51: 52          
+		BZ   R1B63           ;1B52: 32 63       
+		GLO  RF              ;1B54: 8F          
+		AND                  ;1B55: F2          
+		BNZ  R1B63           ;1B56: 3A 63       
+		GLO  RF              ;1B58: 8F          
+		XRI  04H             ;1B59: FB 04       
+		BZ   R1B60           ;1B5B: 32 60       
+		LBR  S1EA4           ;1B5D: C0 1E A4    
+R1B60
+		LBR  S1C8B           ;1B60: C0 1C 8B    
+R1B63
+		GLO  RF              ;1B63: 8F          
+		STR  R2              ;1B64: 52          
+		GHI  R8              ;1B65: 98          
+		OR                   ;1B66: F1          
+		PHI  R8              ;1B67: B8          
+		SEP  R5              ;1B68: D5          
+S1B69
+		LDI  01H             ;1B69: F8 01       
+		LSKP                 ;1B6B: C8          
+S1B6C
+		LDI  00H             ;1B6C: F8 00       
+		PHI  RF              ;1B6E: BF          
+		GHI  R8              ;1B6F: 98          
+		STXD                 ;1B70: 73          
+		GLO  R8              ;1B71: 88          
+		STXD                 ;1B72: 73          
+		GLO  RD              ;1B73: 8D          
+		STXD                 ;1B74: 73          
+		GHI  RD              ;1B75: 9D          
+		STXD                 ;1B76: 73          
+		INC  RD              ;1B77: 1D          
+		SEP  RD              ;1B78: DD          
+		DB   1EH             ;1B79: 1E
+		DB   8AH             ;1B7A: 8A
+		DB   8CH             ;1B7B: 8C
+		DB   8EH             ;1B7C: 8E
+		DB   00H             ;1B7D: 00
+S1B7E
+		GHI  RF              ;1B7E: 9F          
+		STXD                 ;1B7F: 73          
+		SEP  R4              ;1B80: D4          
+		DW   S12C1           ;1B81: 12 C1
+S1B83
+		INC  R9              ;1B83: 19          
+		INC  R9              ;1B84: 19          
+		STR  R2              ;1B85: 52          
+		SEP  RD              ;1B86: DD          
+		DB   0A9H            ;1B87: A9
+S1B88
+		PHI  RE              ;1B88: BE          
+		LDI  0A4H            ;1B89: F8 A4       
+		PLO  RF              ;1B8B: AF          
+		LDI  01H             ;1B8C: F8 01       
+		XOR                  ;1B8E: F3          
+		BZ   R1BA9           ;1B8F: 32 A9       
+		XRI  03H             ;1B91: FB 03       
+		BZ   R1BA1           ;1B93: 32 A1       
+		XRI  01H             ;1B95: FB 01       
+		BNZ  R1BCF           ;1B97: 3A CF       
+		LDA  R9              ;1B99: 49          
+		PHI  RA              ;1B9A: BA          
+		LDN  R9              ;1B9B: 09          
+		PLO  RA              ;1B9C: AA          
+		GLO  R9              ;1B9D: 89          
+		SMI  05H             ;1B9E: FF 05       
+		PLO  R9              ;1BA0: A9          
+R1BA1
+		LDA  R9              ;1BA1: 49          
+		PHI  R8              ;1BA2: B8          
+		LDN  R9              ;1BA3: 09          
+		PLO  R8              ;1BA4: A8          
+		GLO  R9              ;1BA5: 89          
+		SMI  05H             ;1BA6: FF 05       
+		PLO  R9              ;1BA8: A9          
+R1BA9
+		LDA  R9              ;1BA9: 49          
+		STR  RF              ;1BAA: 5F          
+		INC  RF              ;1BAB: 1F          
+		LDN  R9              ;1BAC: 09          
+		STR  RF              ;1BAD: 5F          
+		SEP  R4              ;1BAE: D4          
+		DW   90A3H           ;1BAF: 90 A3
+S1BB1
+		GLO  R8              ;1BB1: 88          
+		STR  R9              ;1BB2: 59          
+		DEC  R9              ;1BB3: 29          
+		GHI  R8              ;1BB4: 98          
+		STR  R9              ;1BB5: 59          
+		DEC  R9              ;1BB6: 29          
+		GLO  RA              ;1BB7: 8A          
+		STR  R9              ;1BB8: 59          
+		DEC  R9              ;1BB9: 29          
+		GHI  RA              ;1BBA: 9A          
+		STR  R9              ;1BBB: 59          
+		INC  R2              ;1BBC: 12          
+		LDXA                 ;1BBD: 72          
+		BZ   R1BC4           ;1BBE: 32 C4       
+		GLO  R9              ;1BC0: 89          
+		SMI  04H             ;1BC1: FF 04       
+		PLO  R9              ;1BC3: A9          
+R1BC4
+		SEP  R2              ;1BC4: D2          
+S1BC5
+		INC  R2              ;1BC5: 12          
+		LDXA                 ;1BC6: 72          
+		PHI  RD              ;1BC7: BD          
+		LDXA                 ;1BC8: 72          
+		PLO  RD              ;1BC9: AD          
+		LDX                  ;1BCA: F0          
+		PLO  R8              ;1BCB: A8          
+		LBR  J1AF1           ;1BCC: C0 1A F1    
+R1BCF
+		SEP  R4              ;1BCF: D4          
+		DW   S04E7           ;1BD0: 04 E7
+		DB   24H             ;1BD2: 24
+S1BD3
+		STR  R2              ;1BD3: 52          
+		SEP  RD              ;1BD4: DD          
+		DB   80H             ;1BD5: 80
+S1BD6
+		XOR                  ;1BD6: F3          
+		BZ   R1BF3           ;1BD7: 32 F3       
+		LDI  0DH             ;1BD9: F8 0D       
+		XOR                  ;1BDB: F3          
+		BZ   R1BF9           ;1BDC: 32 F9       
+		SEP  RD              ;1BDE: DD          
+		DB   0ADH            ;1BDF: AD
+S1BE0
+		XOR                  ;1BE0: F3          
+		BZ   R1BF9           ;1BE1: 32 F9       
+		SEP  RD              ;1BE3: DD          
+		DB   0ACH            ;1BE4: AC
+S1BE5
+		XOR                  ;1BE5: F3          
+		BZ   R1BED           ;1BE6: 32 ED       
+		LDI  0E0H            ;1BE8: F8 E0       
+		AND                  ;1BEA: F2          
+		BZ   S1BFB           ;1BEB: 32 FB       
+R1BED
+		SEP  RD              ;1BED: DD          
+		DB   9BH             ;1BEE: 9B
+S1BEF
+		ADI  01H             ;1BEF: FC 01       
+		BR   R1BF9           ;1BF1: 30 F9       
+R1BF3
+		SEP  RD              ;1BF3: DD          
+		DB   9BH             ;1BF4: 9B
+		SMI  01H             ;1BF5: FF 01       
+		BR   R1BF9           ;1BF7: 30 F9       
+R1BF9
+		SEP  RD              ;1BF9: DD          
+		DB   1BH             ;1BFA: 1B
+S1BFB
+		LDN  R2              ;1BFB: 02          
+		SEP  R4              ;1BFC: D4          
+		DW   908EH           ;1BFD: 90 8E
+S1BFF
+		SEP  R5              ;1BFF: D5          
+S1C00
+		SEP  RD              ;1C00: DD          
+		DB   0B0H            ;1C01: B0
+S1C02
+		STR  R2              ;1C02: 52          
+		LDA  RF              ;1C03: 4F          
+		PHI  RE              ;1C04: BE          
+		LDN  RF              ;1C05: 0F          
+		PLO  RE              ;1C06: AE          
+		LDN  R2              ;1C07: 02          
+		BNZ  S1C11           ;1C08: 3A 11       
+R1C0A
+		SEP  R4              ;1C0A: D4          
+		DW   S16DA           ;1C0B: 16 DA
+S1C0D
+		LDI  01H             ;1C0D: F8 01       
+		SEP  RD              ;1C0F: DD          
+		DB   30H             ;1C10: 30
+S1C11
+		LDN  RE              ;1C11: 0E          
+		XRI  0DH             ;1C12: FB 0D       
+		BNZ  R1C19           ;1C14: 3A 19       
+		INC  RE              ;1C16: 1E          
+		BR   R1C0A           ;1C17: 30 0A       
+R1C19
+		LDN  RB              ;1C19: 0B          
+		XRI  0D7H            ;1C1A: FB D7       
+		BNZ  R1C5B           ;1C1C: 3A 5B       
+		INC  RB              ;1C1E: 1B          
+		LDA  RB              ;1C1F: 4B          
+		STXD                 ;1C20: 73          
+		SEP  R4              ;1C21: D4          
+		DW   S1324           ;1C22: 13 24
+S1C24
+		PHI  RF              ;1C24: BF          
+		INC  R2              ;1C25: 12          
+		LDX                  ;1C26: F0          
+		PLO  RF              ;1C27: AF          
+		GLO  RB              ;1C28: 8B          
+		STXD                 ;1C29: 73          
+		GHI  RB              ;1C2A: 9B          
+		STXD                 ;1C2B: 73          
+		GLO  RE              ;1C2C: 8E          
+		PLO  RB              ;1C2D: AB          
+		GHI  RE              ;1C2E: 9E          
+		PHI  RB              ;1C2F: BB          
+		GLO  RF              ;1C30: 8F          
+		STXD                 ;1C31: 73          
+		GHI  RF              ;1C32: 9F          
+		STXD                 ;1C33: 73          
+		SEP  R4              ;1C34: D4          
+		DW   S1029           ;1C35: 10 29
+S1C37
+		INC  R2              ;1C37: 12          
+		LDXA                 ;1C38: 72          
+		PLO  RE              ;1C39: AE          
+		LDX                  ;1C3A: F0          
+		PLO  R8              ;1C3B: A8          
+		SEP  R4              ;1C3C: D4          
+		DW   S1DB3           ;1C3D: 1D B3
+S1C3F
+		LDN  RB              ;1C3F: 0B          
+		XRI  0C2H            ;1C40: FB C2       
+		BNZ  R1C47           ;1C42: 3A 47       
+		INC  RB              ;1C44: 1B          
+		BR   R1C50           ;1C45: 30 50       
+R1C47
+		LDN  RB              ;1C47: 0B          
+		XRI  0DH             ;1C48: FB 0D       
+		BZ   R1C50           ;1C4A: 32 50       
+		SEP  R4              ;1C4C: D4          
+		DW   S04E7           ;1C4D: 04 E7
+		DB   1FH             ;1C4F: 1F
+R1C50
+		GLO  RB              ;1C50: 8B          
+		PLO  RE              ;1C51: AE          
+		GHI  RB              ;1C52: 9B          
+		PHI  RE              ;1C53: BE          
+		INC  R2              ;1C54: 12          
+		LDXA                 ;1C55: 72          
+		PHI  RB              ;1C56: BB          
+		LDX                  ;1C57: F0          
+		PLO  RB              ;1C58: AB          
+		BR   S1C5E           ;1C59: 30 5E       
+R1C5B
+		SEP  R4              ;1C5B: D4          
+		DW   S1F83           ;1C5C: 1F 83
+S1C5E
+		LDA  RB              ;1C5E: 4B          
+		STR  R2              ;1C5F: 52          
+		XRI  0C2H            ;1C60: FB C2       
+		BZ   S1C11           ;1C62: 32 11       
+		DEC  RB              ;1C64: 2B          
+		GLO  RE              ;1C65: 8E          
+		SEP  RD              ;1C66: DD          
+		DB   32H             ;1C67: 32
+S1C68
+		GHI  RE              ;1C68: 9E          
+		STR  RF              ;1C69: 5F          
+		SEP  R5              ;1C6A: D5          
+S1C6B
+		LDI  7AH             ;1C6B: F8 7A       
+		LSKP                 ;1C6D: C8          
+S1C6E
+		LDI  75H             ;1C6E: F8 75       
+		PLO  RF              ;1C70: AF          
+		GHI  R8              ;1C71: 98          
+		STXD                 ;1C72: 73          
+		GLO  RF              ;1C73: 8F          
+		PLO  R3              ;1C74: A3          
+		SEP  R4              ;1C75: D4          
+		DW   S20E0           ;1C76: 20 E0
+S1C78
+		BR   S1C7D           ;1C78: 30 7D       
+		SEP  R4              ;1C7A: D4          
+		DW   S0900           ;1C7B: 09 00
+S1C7D
+		GHI  R8              ;1C7D: 98          
+		ANI  04H             ;1C7E: FA 04       
+		BZ   S1C85           ;1C80: 32 85       
+		SEP  R4              ;1C82: D4          
+		DW   S1C8B           ;1C83: 1C 8B
+S1C85
+		INC  R2              ;1C85: 12          
+		LDX                  ;1C86: F0          
+		ORI  08H             ;1C87: F9 08       
+		PHI  R8              ;1C89: B8          
+		SEP  R5              ;1C8A: D5          
+S1C8B
+		SEP  R4              ;1C8B: D4          
+		DW   S1EE9           ;1C8C: 1E E9
+S1C8E
+		STXD                 ;1C8E: 73          
+		LDN  R9              ;1C8F: 09          
+		ANI  80H             ;1C90: FA 80       
+		BNZ  R1C99           ;1C92: 3A 99       
+		INC  RD              ;1C94: 1D          
+		SEP  RD              ;1C95: DD          
+		DB   8FH             ;1C96: 8F
+S1C97
+		INC  R2              ;1C97: 12          
+		SEP  R5              ;1C98: D5          
+R1C99
+		LDN  R9              ;1C99: 09          
+		SMI  98H             ;1C9A: FF 98       
+		BDF  R1CD2           ;1C9C: 33 D2       
+		LDA  R9              ;1C9E: 49          
+		SDI  98H             ;1C9F: FD 98       
+		PLO  RF              ;1CA1: AF          
+		LDN  R9              ;1CA2: 09          
+		ORI  80H             ;1CA3: F9 80       
+		STR  R9              ;1CA5: 59          
+R1CA6
+		LDN  R9              ;1CA6: 09          
+		SHR                  ;1CA7: F6          
+		STR  R9              ;1CA8: 59          
+		INC  R9              ;1CA9: 19          
+		LDN  R9              ;1CAA: 09          
+		SHRC                 ;1CAB: 76          
+		STR  R9              ;1CAC: 59          
+		INC  R9              ;1CAD: 19          
+		LDN  R9              ;1CAE: 09          
+		SHRC                 ;1CAF: 76          
+		STR  R9              ;1CB0: 59          
+		DEC  R9              ;1CB1: 29          
+		DEC  R9              ;1CB2: 29          
+		DEC  RF              ;1CB3: 2F          
+		GLO  RF              ;1CB4: 8F          
+		BNZ  R1CA6           ;1CB5: 3A A6       
+		DEC  R9              ;1CB7: 29          
+		BNF  S1CC7           ;1CB8: 3B C7       
+		GLO  R9              ;1CBA: 89          
+		ADI  04H             ;1CBB: FC 04       
+		PLO  R9              ;1CBD: A9          
+		SEP  R4              ;1CBE: D4          
+		DW   S11EF           ;1CBF: 11 EF
+S1CC1
+		SEP  R4              ;1CC1: D4          
+		DW   S140D           ;1CC2: 14 0D
+S1CC4
+		INC  RD              ;1CC4: 1D          
+		SEP  RD              ;1CC5: DD          
+		DB   21H             ;1CC6: 21
+S1CC7
+		LDI  00H             ;1CC7: F8 00       
+		STR  R9              ;1CC9: 59          
+		INC  R2              ;1CCA: 12          
+		LDX                  ;1CCB: F0          
+		BZ   R1CD1           ;1CCC: 32 D1       
+		INC  RD              ;1CCE: 1D          
+		SEP  RD              ;1CCF: DD          
+		DB   4CH             ;1CD0: 4C
+R1CD1
+		SEP  R5              ;1CD1: D5          
+R1CD2
+		SEP  R4              ;1CD2: D4          
+		DW   S04E7           ;1CD3: 04 E7
+		DB   0FH             ;1CD5: 0F
+		GHI  RB              ;1CD6: 9B          
+		PHI  RC              ;1CD7: BC          
+		GLO  RB              ;1CD8: 8B          
+		PLO  RC              ;1CD9: AC          
+		SEP  R4              ;1CDA: D4          
+		DW   S1300           ;1CDB: 13 00
+		PLO  R8              ;1CDD: A8          
+R1CDE
+		LDA  RB              ;1CDE: 4B          
+		STR  RC              ;1CDF: 5C          
+		INC  RC              ;1CE0: 1C          
+		GHI  RB              ;1CE1: 9B          
+		STR  R2              ;1CE2: 52          
+		SEP  RD              ;1CE3: DD          
+		DB   83H             ;1CE4: 83
+		XOR                  ;1CE5: F3          
+		BNZ  R1CDE           ;1CE6: 3A DE       
+		GLO  RB              ;1CE8: 8B          
+		STR  R2              ;1CE9: 52          
+		LDN  RF              ;1CEA: 0F          
+		XOR                  ;1CEB: F3          
+		BNZ  R1CDE           ;1CEC: 3A DE       
+		GLO  R8              ;1CEE: 88          
+		STR  R2              ;1CEF: 52          
+		SEP  RD              ;1CF0: DD          
+		DB   84H             ;1CF1: 84
+		SM                   ;1CF2: F7          
+		PHI  RC              ;1CF3: BC          
+		BDF  R1CFC           ;1CF4: 33 FC       
+		SEP  RD              ;1CF6: DD          
+		DB   83H             ;1CF7: 83
+		SMI  01H             ;1CF8: FF 01       
+		SEP  RD              ;1CFA: DD          
+		DB   03H             ;1CFB: 03
+R1CFC
+		GHI  RC              ;1CFC: 9C          
+		SEP  RD              ;1CFD: DD          
+		DB   04H             ;1CFE: 04
+		SEP  R5              ;1CFF: D5          
+S1D00
+		LDI  00H             ;1D00: F8 00       
+		LSKP                 ;1D02: C8          
+S1D03
+		LDI  01H             ;1D03: F8 01       
+		PLO  RF              ;1D05: AF          
+		GHI  R8              ;1D06: 98          
+		STXD                 ;1D07: 73          
+		GLO  R9              ;1D08: 89          
+		ADI  04H             ;1D09: FC 04       
+		PLO  R9              ;1D0B: A9          
+		SEP  R4              ;1D0C: D4          
+		DW   S11EF           ;1D0D: 11 EF
+S1D0F
+		GLO  RF              ;1D0F: 8F          
+		BNZ  R1D18           ;1D10: 3A 18       
+		INC  R9              ;1D12: 19          
+		LDI  01H             ;1D13: F8 01       
+		PLO  R8              ;1D15: A8          
+		BR   R1D1B           ;1D16: 30 1B       
+R1D18
+		LDI  02H             ;1D18: F8 02       
+		PLO  R8              ;1D1A: A8          
+R1D1B
+		LDA  RB              ;1D1B: 4B          
+		SEP  R4              ;1D1C: D4          
+		DW   S1D44           ;1D1D: 1D 44
+S1D1F
+		SHL                  ;1D1F: FE          
+		SHL                  ;1D20: FE          
+		SHL                  ;1D21: FE          
+		SHL                  ;1D22: FE          
+		PLO  RF              ;1D23: AF          
+		LDA  RB              ;1D24: 4B          
+		SEP  R4              ;1D25: D4          
+		DW   S1D44           ;1D26: 1D 44
+S1D28
+		STR  R2              ;1D28: 52          
+		GLO  RF              ;1D29: 8F          
+		OR                   ;1D2A: F1          
+		STR  R9              ;1D2B: 59          
+		INC  R9              ;1D2C: 19          
+		DEC  R8              ;1D2D: 28          
+		GLO  R8              ;1D2E: 88          
+		BNZ  R1D1B           ;1D2F: 3A 1B       
+		DEC  R9              ;1D31: 29          
+		DEC  R9              ;1D32: 29          
+		DEC  R9              ;1D33: 29          
+		DEC  R9              ;1D34: 29          
+J1D35
+		INC  R2              ;1D35: 12          
+		LDX                  ;1D36: F0          
+		PHI  R8              ;1D37: B8          
+J1D38
+		ANI  04H             ;1D38: FA 04       
+		BNZ  R1D41           ;1D3A: 3A 41       
+		GHI  R8              ;1D3C: 98          
+		ORI  08H             ;1D3D: F9 08       
+		PHI  R8              ;1D3F: B8          
+		SEP  R5              ;1D40: D5          
+R1D41
+		LBR  S1EA4           ;1D41: C0 1E A4    
+S1D44
+		SMI  30H             ;1D44: FF 30       
+		STR  R2              ;1D46: 52          
+		BNF  R1D5C           ;1D47: 3B 5C       
+		SMI  0AH             ;1D49: FF 0A       
+		BNF  R1D5A           ;1D4B: 3B 5A       
+		LDI  10H             ;1D4D: F8 10       
+		SM                   ;1D4F: F7          
+		BDF  R1D5C           ;1D50: 33 5C       
+		LDI  07H             ;1D52: F8 07       
+		SD                   ;1D54: F5          
+		STR  R2              ;1D55: 52          
+		SMI  10H             ;1D56: FF 10       
+		BDF  R1D5C           ;1D58: 33 5C       
+R1D5A
+		LDN  R2              ;1D5A: 02          
+		SEP  R5              ;1D5B: D5          
+R1D5C
+		SEP  R4              ;1D5C: D4          
+		DW   S04E7           ;1D5D: 04 E7
+		DB   0EH             ;1D5F: 0E
+S1D60
+		LDI  84H             ;1D60: F8 84       
+		LSKP                 ;1D62: C8          
+S1D63
+		LDI  8AH             ;1D63: F8 8A       
+		LSKP                 ;1D65: C8          
+S1D66
+		LDI  90H             ;1D66: F8 90       
+		LSKP                 ;1D68: C8          
+S1D69
+		LDI  96H             ;1D69: F8 96       
+		LSKP                 ;1D6B: C8          
+S1D6C
+		LDI  9CH             ;1D6C: F8 9C       
+		LSKP                 ;1D6E: C8          
+S1D6F
+		LDI  0A2H            ;1D6F: F8 A2       
+		PLO  RF              ;1D71: AF          
+		GHI  R8              ;1D72: 98          
+		STXD                 ;1D73: 73          
+		GLO  RF              ;1D74: 8F          
+		STXD                 ;1D75: 73          
+		SEP  R4              ;1D76: D4          
+		DW   S20E0           ;1D77: 20 E0
+S1D79
+		GHI  R8              ;1D79: 98          
+		ANI  08H             ;1D7A: FA 08       
+		BZ   R1D81           ;1D7C: 32 81       
+		SEP  R4              ;1D7E: D4          
+		DW   S1EA4           ;1D7F: 1E A4
+R1D81
+		INC  R2              ;1D81: 12          
+		LDX                  ;1D82: F0          
+		PLO  R3              ;1D83: A3          
+		SEP  R4              ;1D84: D4          
+		DW   S2806           ;1D85: 28 06
+		DB   5DH             ;1D87: 5D
+S1D88
+		BR   S1DA6           ;1D88: 30 A6       
+		SEP  R4              ;1D8A: D4          
+		DW   S2806           ;1D8B: 28 06
+		DB   60H             ;1D8D: 60
+S1D8E
+		BR   S1DA6           ;1D8E: 30 A6       
+		SEP  R4              ;1D90: D4          
+		DW   S2806           ;1D91: 28 06
+		DB   63H             ;1D93: 63
+S1D94
+		BR   S1DA6           ;1D94: 30 A6       
+		SEP  R4              ;1D96: D4          
+		DW   S2806           ;1D97: 28 06
+		DB   66H             ;1D99: 66
+S1D9A
+		BR   S1DA6           ;1D9A: 30 A6       
+		SEP  R4              ;1D9C: D4          
+		DW   S2806           ;1D9D: 28 06
+		DB   69H             ;1D9F: 69
+S1DA0
+		BR   S1DA6           ;1DA0: 30 A6       
+		SEP  R4              ;1DA2: D4          
+		DW   S2806           ;1DA3: 28 06
+		DB   6CH             ;1DA5: 6C
+S1DA6
+		INC  R2              ;1DA6: 12          
+		LDX                  ;1DA7: F0          
+		PHI  R8              ;1DA8: B8          
+		ANI  08H             ;1DA9: FA 08       
+		BZ   R1DB0           ;1DAB: 32 B0       
+		LBR  S1C8B           ;1DAD: C0 1C 8B    
+R1DB0
+		LBR  S1AFB           ;1DB0: C0 1A FB    
+S1DB3
+		SEP  R4              ;1DB3: D4          
+		DW   S2195           ;1DB4: 21 95
+S1DB6
+		BZ   R1DD4           ;1DB6: 32 D4       
+		STR  R2              ;1DB8: 52          
+		GLO  RA              ;1DB9: 8A          
+		ADD                  ;1DBA: F4          
+		PLO  RF              ;1DBB: AF          
+		GHI  RA              ;1DBC: 9A          
+		ADCI 00H             ;1DBD: 7C 00       
+		PHI  RF              ;1DBF: BF          
+		DEC  RA              ;1DC0: 2A          
+		DEC  RA              ;1DC1: 2A          
+		DEC  RA              ;1DC2: 2A          
+R1DC3
+		GHI  RF              ;1DC3: 9F          
+		STR  R2              ;1DC4: 52          
+		GHI  RC              ;1DC5: 9C          
+		XOR                  ;1DC6: F3          
+		BNZ  R1DCF           ;1DC7: 3A CF       
+		GLO  RF              ;1DC9: 8F          
+		STR  R2              ;1DCA: 52          
+		GLO  RC              ;1DCB: 8C          
+		XOR                  ;1DCC: F3          
+		BZ   R1DD4           ;1DCD: 32 D4       
+R1DCF
+		LDA  RF              ;1DCF: 4F          
+		STR  RA              ;1DD0: 5A          
+		INC  RA              ;1DD1: 1A          
+		BR   R1DC3           ;1DD2: 30 C3       
+R1DD4
+		PLO  RF              ;1DD4: AF          
+		PLO  RC              ;1DD5: AC          
+		LDI  90H             ;1DD6: F8 90       
+		PHI  RF              ;1DD8: BF          
+R1DD9
+		INC  RC              ;1DD9: 1C          
+		LDA  RF              ;1DDA: 4F          
+		XRI  0DH             ;1DDB: FB 0D       
+		BNZ  R1DD9           ;1DDD: 3A D9       
+		PLO  RF              ;1DDF: AF          
+		GLO  R8              ;1DE0: 88          
+		STR  RA              ;1DE1: 5A          
+		INC  RA              ;1DE2: 1A          
+		GLO  RE              ;1DE3: 8E          
+		STR  RA              ;1DE4: 5A          
+		INC  RA              ;1DE5: 1A          
+		GLO  RC              ;1DE6: 8C          
+		STR  RA              ;1DE7: 5A          
+		INC  RA              ;1DE8: 1A          
+R1DE9
+		GHI  RA              ;1DE9: 9A          
+		STR  R2              ;1DEA: 52          
+		GHI  R2              ;1DEB: 92          
+		XOR                  ;1DEC: F3          
+		BZ   R1DFC           ;1DED: 32 FC       
+		LDA  RF              ;1DEF: 4F          
+		STR  RA              ;1DF0: 5A          
+		INC  RA              ;1DF1: 1A          
+		XRI  0DH             ;1DF2: FB 0D       
+		BNZ  R1DE9           ;1DF4: 3A E9       
+		GLO  RA              ;1DF6: 8A          
+		SEP  RD              ;1DF7: DD          
+		DB   1AH             ;1DF8: 1A
+S1DF9
+		GHI  RA              ;1DF9: 9A          
+		STR  RF              ;1DFA: 5F          
+		SEP  R5              ;1DFB: D5          
+R1DFC
+		SEP  R4              ;1DFC: D4          
+		DW   S04E7           ;1DFD: 04 E7
+		DB   30H             ;1DFF: 30
+S1E00
+		LDI  31H             ;1E00: F8 31       
+		LSKP                 ;1E02: C8          
+S1E03
+		LDI  16H             ;1E03: F8 16       
+		PHI  RF              ;1E05: BF          
+		GHI  R8              ;1E06: 98          
+		STXD                 ;1E07: 73          
+		GHI  RF              ;1E08: 9F          
+		STXD                 ;1E09: 73          
+		LDA  RB              ;1E0A: 4B          
+		XRI  0D6H            ;1E0B: FB D6       
+R1E0D
+		LBNZ J2163           ;1E0D: CA 21 63    
+		SEP  R4              ;1E10: D4          
+		DW   S1029           ;1E11: 10 29
+S1E13
+		INC  R2              ;1E13: 12          
+		LDX                  ;1E14: F0          
+		PLO  R3              ;1E15: A3          
+		GLO  R9              ;1E16: 89          
+		ADI  04H             ;1E17: FC 04       
+		PLO  R9              ;1E19: A9          
+		SEP  R4              ;1E1A: D4          
+		DW   S11EF           ;1E1B: 11 EF
+S1E1D
+		PLO  RF              ;1E1D: AF          
+		INC  R9              ;1E1E: 19          
+		LDI  90H             ;1E1F: F8 90       
+		PHI  RF              ;1E21: BF          
+		LDN  RF              ;1E22: 0F          
+J1E23
+		STR  R9              ;1E23: 59          
+		DEC  R9              ;1E24: 29          
+		DEC  R9              ;1E25: 29          
+		DEC  R9              ;1E26: 29          
+		LDN  R9              ;1E27: 09          
+		PHI  R8              ;1E28: B8          
+R1E29
+		LDA  RB              ;1E29: 4B          
+		XRI  0C4H            ;1E2A: FB C4       
+		BNZ  R1E0D           ;1E2C: 3A 0D       
+		LBR  J1E81           ;1E2E: C0 1E 81    
+		GHI  R8              ;1E31: 98          
+		ANI  01H             ;1E32: FA 01       
+		LBZ  J18CD           ;1E34: C2 18 CD    
+		INC  RD              ;1E37: 1D          
+		SEP  RD              ;1E38: DD          
+		DB   1EH             ;1E39: 1E
+		DB   8BH             ;1E3A: 8B
+		DB   00H             ;1E3B: 00
+S1E3C
+		SEP  R4              ;1E3C: D4          
+		DW   S0A00           ;1E3D: 0A 00
+S1E3F
+		LDI  0D0H            ;1E3F: F8 D0       
+		PLO  RB              ;1E41: AB          
+		SEP  RD              ;1E42: DD          
+		DB   07H             ;1E43: 07
+S1E44
+		GHI  RF              ;1E44: 9F          
+		PHI  RB              ;1E45: BB          
+		SEP  R4              ;1E46: D4          
+		DW   S0900           ;1E47: 09 00
+S1E49
+		LDI  0DH             ;1E49: F8 0D       
+		SEP  RD              ;1E4B: DD          
+		DB   50H             ;1E4C: 50
+S1E4D
+		INC  R2              ;1E4D: 12          
+		SEP  R2              ;1E4E: D2          
+S1E4F
+		BR   R1E29           ;1E4F: 30 29       
+S1E51
+		GHI  R8              ;1E51: 98          
+		STXD                 ;1E52: 73          
+		SEP  R4              ;1E53: D4          
+		DW   S20E0           ;1E54: 20 E0
+S1E56
+		GHI  R8              ;1E56: 98          
+		ANI  04H             ;1E57: FA 04       
+		BZ   R1E6F           ;1E59: 32 6F       
+		LDN  R9              ;1E5B: 09          
+		BZ   J1E95           ;1E5C: 32 95       
+		INC  R9              ;1E5E: 19          
+		LDN  R9              ;1E5F: 09          
+		DEC  R9              ;1E60: 29          
+		ANI  80H             ;1E61: FA 80       
+		PLO  RF              ;1E63: AF          
+		SEP  R4              ;1E64: D4          
+		DW   S1405           ;1E65: 14 05
+S1E67
+		GLO  RF              ;1E67: 8F          
+		BZ   J1E81           ;1E68: 32 81       
+		SEP  R4              ;1E6A: D4          
+		DW   S2CC2           ;1E6B: 2C C2
+S1E6D
+		BR   J1E81           ;1E6D: 30 81       
+R1E6F
+		INC  RD              ;1E6F: 1D          
+		SEP  RD              ;1E70: DD          
+		DB   0C5H            ;1E71: C5
+		BZ   J1E95           ;1E72: 32 95       
+		LDN  R9              ;1E74: 09          
+		ANI  80H             ;1E75: FA 80       
+		PLO  RF              ;1E77: AF          
+		SEP  R4              ;1E78: D4          
+		DW   S1405           ;1E79: 14 05
+		GLO  RF              ;1E7B: 8F          
+		BZ   J1E81           ;1E7C: 32 81       
+		INC  RD              ;1E7E: 1D          
+		SEP  RD              ;1E7F: DD          
+		DB   4CH             ;1E80: 4C
+J1E81
+		GHI  R8              ;1E81: 98          
+		ANI  04H             ;1E82: FA 04       
+		BNZ  R1E89           ;1E84: 3A 89       
+		LBR  J1AF1           ;1E86: C0 1A F1    
+R1E89
+		INC  R2              ;1E89: 12          
+		LDX                  ;1E8A: F0          
+		ANI  08H             ;1E8B: FA 08       
+		BZ   R1E94           ;1E8D: 32 94       
+		LDX                  ;1E8F: F0          
+		PHI  R8              ;1E90: B8          
+		SEP  R4              ;1E91: D4          
+		DW   S1C8B           ;1E92: 1C 8B
+R1E94
+		SEP  R5              ;1E94: D5          
+J1E95
+		INC  RD              ;1E95: 1D          
+		SEP  RD              ;1E96: DD          
+		DB   8FH             ;1E97: 8F
+S1E98
+		BR   J1E81           ;1E98: 30 81       
+S1E9A
+		GHI  R8              ;1E9A: 98          
+		STXD                 ;1E9B: 73          
+		SEP  R4              ;1E9C: D4          
+		DW   S20E3           ;1E9D: 20 E3
+S1E9F
+		INC  R2              ;1E9F: 12          
+		LDX                  ;1EA0: F0          
+		ORI  04H             ;1EA1: F9 04       
+		PHI  R8              ;1EA3: B8          
+S1EA4
+		INC  RD              ;1EA4: 1D          
+		SEP  RD              ;1EA5: DD          
+		DB   0C5H            ;1EA6: C5
+S1EA7
+		BZ   R1ED8           ;1EA7: 32 D8       
+		GLO  RC              ;1EA9: 8C          
+		STXD                 ;1EAA: 73          
+		GHI  RC              ;1EAB: 9C          
+		STXD                 ;1EAC: 73          
+		SEP  R4              ;1EAD: D4          
+		DW   S1EF6           ;1EAE: 1E F6
+S1EB0
+		SHR                  ;1EB0: F6          
+		SHRC                 ;1EB1: 76          
+		STR  R2              ;1EB2: 52          
+		LDI  0A0H            ;1EB3: F8 A0       
+		PLO  RF              ;1EB5: AF          
+R1EB6
+		LDN  R9              ;1EB6: 09          
+		ANI  80H             ;1EB7: FA 80       
+		BNZ  R1EC1           ;1EB9: 3A C1       
+		DEC  RF              ;1EBB: 2F          
+		INC  RD              ;1EBC: 1D          
+		SEP  RD              ;1EBD: DD          
+		DB   3AH             ;1EBE: 3A
+S1EBF
+		BR   R1EB6           ;1EBF: 30 B6       
+R1EC1
+		INC  R9              ;1EC1: 19          
+		INC  R9              ;1EC2: 19          
+		LDA  R9              ;1EC3: 49          
+		STR  R9              ;1EC4: 59          
+		DEC  R9              ;1EC5: 29          
+		DEC  R9              ;1EC6: 29          
+		LDA  R9              ;1EC7: 49          
+		STR  R9              ;1EC8: 59          
+		DEC  R9              ;1EC9: 29          
+		DEC  R9              ;1ECA: 29          
+		LDA  R9              ;1ECB: 49          
+		ANI  7FH             ;1ECC: FA 7F       
+		OR                   ;1ECE: F1          
+		STR  R9              ;1ECF: 59          
+		DEC  R9              ;1ED0: 29          
+		GLO  RF              ;1ED1: 8F          
+		STR  R9              ;1ED2: 59          
+		INC  R2              ;1ED3: 12          
+		LDXA                 ;1ED4: 72          
+		PHI  RC              ;1ED5: BC          
+		LDX                  ;1ED6: F0          
+		PLO  RC              ;1ED7: AC          
+R1ED8
+		SEP  R5              ;1ED8: D5          
+S1ED9
+		GHI  R8              ;1ED9: 98          
+		STXD                 ;1EDA: 73          
+		SEP  R4              ;1EDB: D4          
+		DW   S20E0           ;1EDC: 20 E0
+S1EDE
+		SEP  R4              ;1EDE: D4          
+		DW   S1EE4           ;1EDF: 1E E4
+S1EE1
+		LBR  J1E81           ;1EE1: C0 1E 81    
+S1EE4
+		GHI  R8              ;1EE4: 98          
+		ANI  04H             ;1EE5: FA 04       
+		BZ   S1EF6           ;1EE7: 32 F6       
+S1EE9
+		INC  R9              ;1EE9: 19          
+		LDN  R9              ;1EEA: 09          
+		DEC  R9              ;1EEB: 29          
+		ANI  80H             ;1EEC: FA 80       
+		BZ   R1EF5           ;1EEE: 32 F5       
+		SEP  R4              ;1EF0: D4          
+		DW   S2CC2           ;1EF1: 2C C2
+S1EF3
+		LDI  01H             ;1EF3: F8 01       
+R1EF5
+		SEP  R5              ;1EF5: D5          
+S1EF6
+		LDN  R9              ;1EF6: 09          
+		ANI  80H             ;1EF7: FA 80       
+		BZ   R1EF5           ;1EF9: 32 F5       
+		INC  RD              ;1EFB: 1D          
+		SEP  RD              ;1EFC: DD          
+		LDA  RC              ;1EFD: 4C          
+		BR   S1EF3           ;1EFE: 30 F3       
+J1F00
+		LDA  RB              ;1F00: 4B          
+		STXD                 ;1F01: 73          
+		SEP  R4              ;1F02: D4          
+		DW   S1324           ;1F03: 13 24
+S1F05
+		STXD                 ;1F05: 73          
+		SEP  R4              ;1F06: D4          
+		DW   S082D           ;1F07: 08 2D
+S1F09
+		LDI  90H             ;1F09: F8 90       
+		PHI  R7              ;1F0B: B7          
+		LDI  01H             ;1F0C: F8 01       
+		PLO  R7              ;1F0E: A7          
+		LDN  R7              ;1F0F: 07          
+		XRI  24H             ;1F10: FB 24       
+		BNZ  R1F3F           ;1F12: 3A 3F       
+		GLO  RB              ;1F14: 8B          
+		STXD                 ;1F15: 73          
+		GHI  RB              ;1F16: 9B          
+		STXD                 ;1F17: 73          
+		SEP  R4              ;1F18: D4          
+		DW   S0A00           ;1F19: 0A 00
+		LDI  0D1H            ;1F1B: F8 D1       
+		PLO  RB              ;1F1D: AB          
+		GHI  R7              ;1F1E: 97          
+		PHI  RB              ;1F1F: BB          
+		LDA  RB              ;1F20: 4B          
+		PLO  R8              ;1F21: A8          
+		SEP  R4              ;1F22: D4          
+		DW   S1324           ;1F23: 13 24
+		PLO  RE              ;1F25: AE          
+		SEP  R4              ;1F26: D4          
+		DW   S2195           ;1F27: 21 95
+		BNZ  R1F2F           ;1F29: 3A 2F       
+		SEP  R4              ;1F2B: D4          
+		DW   S04E7           ;1F2C: 04 E7
+		DB   21H             ;1F2E: 21
+R1F2F
+		INC  R2              ;1F2F: 12          
+		LDXA                 ;1F30: 72          
+		PHI  RB              ;1F31: BB          
+		LDX                  ;1F32: F0          
+		PLO  RB              ;1F33: AB          
+		LDI  00H             ;1F34: F8 00       
+		PLO  R7              ;1F36: A7          
+R1F37
+		LDA  RA              ;1F37: 4A          
+		STR  R7              ;1F38: 57          
+		INC  R7              ;1F39: 17          
+		XRI  0DH             ;1F3A: FB 0D       
+		BNZ  R1F37           ;1F3C: 3A 37       
+		PLO  R7              ;1F3E: A7          
+R1F3F
+		INC  R2              ;1F3F: 12          
+		LDXA                 ;1F40: 72          
+		PLO  RE              ;1F41: AE          
+		LDX                  ;1F42: F0          
+		PLO  R8              ;1F43: A8          
+		LBR  S1DB3           ;1F44: C0 1D B3    
+S1F47
+		INC  RD              ;1F47: 1D          
+		SEP  RD              ;1F48: DD          
+		DB   1EH             ;1F49: 1E
+		DB   8EH             ;1F4A: 8E
+		DB   00H             ;1F4B: 00
+		SEP  RD              ;1F4C: DD          
+		DB   84H             ;1F4D: 84
+		ADI  09H             ;1F4E: FC 09       
+		PLO  RC              ;1F50: AC          
+		DEC  RF              ;1F51: 2F          
+		DEC  RF              ;1F52: 2F          
+		LDN  RF              ;1F53: 0F          
+		ADCI 00H             ;1F54: 7C 00       
+		PHI  RC              ;1F56: BC          
+		SEP  RD              ;1F57: DD          
+		GHI  R4              ;1F58: 94          
+		PHI  RE              ;1F59: BE          
+		LDN  RF              ;1F5A: 0F          
+		PLO  RE              ;1F5B: AE          
+R1F5C
+		GLO  RC              ;1F5C: 8C          
+		STR  R2              ;1F5D: 52          
+		GLO  RE              ;1F5E: 8E          
+		XOR                  ;1F5F: F3          
+		BNZ  R1F68           ;1F60: 3A 68       
+		GHI  RC              ;1F62: 9C          
+		STR  R2              ;1F63: 52          
+		GHI  RE              ;1F64: 9E          
+		XOR                  ;1F65: F3          
+		BZ   R1F7E           ;1F66: 32 7E       
+R1F68
+		GLO  R8              ;1F68: 88          
+		STR  R2              ;1F69: 52          
+		LDA  RC              ;1F6A: 4C          
+		XOR                  ;1F6B: F3          
+		BNZ  R1F74           ;1F6C: 3A 74       
+		GHI  R7              ;1F6E: 97          
+		STR  R2              ;1F6F: 52          
+		LDN  RC              ;1F70: 0C          
+		XOR                  ;1F71: F3          
+		BZ   R1F7B           ;1F72: 32 7B       
+R1F74
+		INC  RC              ;1F74: 1C          
+		INC  RC              ;1F75: 1C          
+		INC  RC              ;1F76: 1C          
+		INC  RC              ;1F77: 1C          
+		INC  RC              ;1F78: 1C          
+		BR   R1F5C           ;1F79: 30 5C       
+R1F7B
+		INC  RC              ;1F7B: 1C          
+		LDI  01H             ;1F7C: F8 01       
+R1F7E
+		PLO  RF              ;1F7E: AF          
+		INC  R2              ;1F7F: 12          
+		SEP  R2              ;1F80: D2          
+		GLO  RF              ;1F81: 8F          
+		SEP  R5              ;1F82: D5          
+S1F83
+		SEP  R4              ;1F83: D4          
+		DW   S1600           ;1F84: 16 00
+S1F86
+		GLO  RB              ;1F86: 8B          
+		STXD                 ;1F87: 73          
+		GHI  RB              ;1F88: 9B          
+		STXD                 ;1F89: 73          
+		GLO  RC              ;1F8A: 8C          
+		STXD                 ;1F8B: 73          
+		GHI  RC              ;1F8C: 9C          
+		STXD                 ;1F8D: 73          
+		GLO  RE              ;1F8E: 8E          
+		PLO  RB              ;1F8F: AB          
+		GHI  RE              ;1F90: 9E          
+		PHI  RB              ;1F91: BB          
+		SEP  R4              ;1F92: D4          
+		DW   S0904           ;1F93: 09 04
+S1F95
+		LDN  RB              ;1F95: 0B          
+		XRI  0C2H            ;1F96: FB C2       
+		BNZ  R1F9D           ;1F98: 3A 9D       
+		INC  RB              ;1F9A: 1B          
+		BR   R1FA6           ;1F9B: 30 A6       
+R1F9D
+		LDN  RB              ;1F9D: 0B          
+		XRI  0DH             ;1F9E: FB 0D       
+		BZ   R1FA6           ;1FA0: 32 A6       
+		SEP  R4              ;1FA2: D4          
+		DW   S04E7           ;1FA3: 04 E7
+		DB   13H             ;1FA5: 13
+R1FA6
+		GLO  RB              ;1FA6: 8B          
+		PLO  RE              ;1FA7: AE          
+		GHI  RB              ;1FA8: 9B          
+		PHI  RE              ;1FA9: BE          
+		INC  R2              ;1FAA: 12          
+		LDXA                 ;1FAB: 72          
+		PHI  RC              ;1FAC: BC          
+		LDXA                 ;1FAD: 72          
+		PLO  RC              ;1FAE: AC          
+		LDXA                 ;1FAF: 72          
+		PHI  RB              ;1FB0: BB          
+		LDX                  ;1FB1: F0          
+		PLO  RB              ;1FB2: AB          
+		GHI  R8              ;1FB3: 98          
+		ANI  0F3H            ;1FB4: FA F3       
+		PHI  R8              ;1FB6: B8          
+		LBR  S16CA           ;1FB7: C0 16 CA    
+S1FBA
+		GHI  R8              ;1FBA: 98          
+		ANI  80H             ;1FBB: FA 80       
+		PHI  R8              ;1FBD: B8          
+		LDI  1FH             ;1FBE: F8 1F       
+		PHI  RA              ;1FC0: BA          
+		LDI  0DBH            ;1FC1: F8 DB       
+		PLO  RA              ;1FC3: AA          
+		LDI  14H             ;1FC4: F8 14       
+		PHI  R1              ;1FC6: B1          
+		LDI  7FH             ;1FC7: F8 7F       
+		PLO  R1              ;1FC9: A1          
+		LDI  90H             ;1FCA: F8 90       
+		PHI  RF              ;1FCC: BF          
+		LDI  9DH             ;1FCD: F8 9D       
+		PLO  RF              ;1FCF: AF          
+R1FD0
+		LDA  RA              ;1FD0: 4A          
+		INC  RF              ;1FD1: 1F          
+		STR  RF              ;1FD2: 5F          
+		GLO  RF              ;1FD3: 8F          
+		XRI  0A6H            ;1FD4: FB A6       
+		BNZ  R1FD0           ;1FD6: 3A D0       
+		SEP  RD              ;1FD8: DD          
+		DB   18H             ;1FD9: 18
+S1FDA
+		SEP  R5              ;1FDA: D5          
+		DB   30H             ;1FDB: 30
+		SEP  R4              ;1FDC: D4          
+		DB   00H             ;1FDD: 00
+		DB   00H             ;1FDE: 00
+		SEP  R5              ;1FDF: D5          
+		SEP  R4              ;1FE0: D4          
+		DB   00H             ;1FE1: 00
+		DB   00H             ;1FE2: 00
+		SEP  R5              ;1FE3: D5          
+S1FE4
+		LDN  RB              ;1FE4: 0B          
+		XRI  0B4H            ;1FE5: FB B4       
+		BNZ  R1FF2           ;1FE7: 3A F2       
+		INC  RB              ;1FE9: 1B          
+		INC  RB              ;1FEA: 1B          
+		INC  RB              ;1FEB: 1B          
+		LDA  RB              ;1FEC: 4B          
+		PHI  RA              ;1FED: BA          
+		LDA  RB              ;1FEE: 4B          
+		PLO  RA              ;1FEF: AA          
+		BR   S1FF5           ;1FF0: 30 F5       
+R1FF2
+		SEP  R4              ;1FF2: D4          
+		DW   S1382           ;1FF3: 13 82
+S1FF5
+		GLO  RA              ;1FF5: 8A          
+		SEP  RD              ;1FF6: DD          
+		DB   17H             ;1FF7: 17
+S1FF8
+		GHI  RA              ;1FF8: 9A          
+		STR  RF              ;1FF9: 5F          
+S1FFA
+		DEC  R2              ;1FFA: 22          
+		LDI  23H             ;1FFB: F8 23       
+		STR  R2              ;1FFD: 52          
+		RET                  ;1FFE: 70          
+		SEP  R5              ;1FFF: D5          
+S2000
+		LDN  RB              ;2000: 0B          
+		XRI  0D1H            ;2001: FB D1       
+		BNZ  R2030           ;2003: 3A 30       
+		INC  RB              ;2005: 1B          
+		LDA  RB              ;2006: 4B          
+		PLO  R8              ;2007: A8          
+		LDN  RB              ;2008: 0B          
+		XRI  0D2H            ;2009: FB D2       
+		BZ   R2019           ;200B: 32 19       
+		DEC  RB              ;200D: 2B          
+		LDI  91H             ;200E: F8 91       
+		PHI  RC              ;2010: BC          
+		LDA  RB              ;2011: 4B          
+		SMI  41H             ;2012: FF 41       
+		SHL                  ;2014: FE          
+		SHL                  ;2015: FE          
+		PLO  RC              ;2016: AC          
+		BR   R201C           ;2017: 30 1C       
+R2019
+		SEP  R4              ;2019: D4          
+		DW   S1363           ;201A: 13 63
+R201C
+		GLO  R2              ;201C: 82          
+		ADI  13H             ;201D: FC 13       
+		PLO  RA              ;201F: AA          
+		GHI  R2              ;2020: 92          
+		ADCI 00H             ;2021: 7C 00       
+		PHI  RA              ;2023: BA          
+		LDA  RA              ;2024: 4A          
+		STR  R2              ;2025: 52          
+		GHI  RC              ;2026: 9C          
+		XOR                  ;2027: F3          
+		BNZ  R2038           ;2028: 3A 38       
+		LDN  RA              ;202A: 0A          
+		STR  R2              ;202B: 52          
+		GLO  RC              ;202C: 8C          
+		XOR                  ;202D: F3          
+		BNZ  R2038           ;202E: 3A 38       
+R2030
+		INC  R2              ;2030: 12          
+		INC  R2              ;2031: 12          
+		INC  R2              ;2032: 12          
+		LDXA                 ;2033: 72          
+		PLO  R6              ;2034: A6          
+		LDX                  ;2035: F0          
+		PHI  R6              ;2036: B6          
+		SEP  R5              ;2037: D5          
+R2038
+		SEP  R4              ;2038: D4          
+		DW   S04E7           ;2039: 04 E7
+		DB   1AH             ;203B: 1A
+S203C
+		LDN  R9              ;203C: 09          
+		XRI  0FFH            ;203D: FB FF       
+		BZ   R2076           ;203F: 32 76       
+		LDA  R9              ;2041: 49          
+		PLO  R8              ;2042: A8          
+		ANI  1FH             ;2043: FA 1F       
+		PLO  RF              ;2045: AF          
+R2046
+		LDA  RC              ;2046: 4C          
+		STR  R2              ;2047: 52          
+		XRI  20H             ;2048: FB 20       
+		BZ   R2046           ;204A: 32 46       
+		LDA  R9              ;204C: 49          
+		ANI  7FH             ;204D: FA 7F       
+		XOR                  ;204F: F3          
+		DEC  RF              ;2050: 2F          
+		BZ   R2062           ;2051: 32 62       
+		GHI  RA              ;2053: 9A          
+		PHI  RC              ;2054: BC          
+		GLO  RA              ;2055: 8A          
+		PLO  RC              ;2056: AC          
+		GLO  RF              ;2057: 8F          
+		STR  R2              ;2058: 52          
+		GLO  R9              ;2059: 89          
+		ADD                  ;205A: F4          
+		PLO  R9              ;205B: A9          
+		GHI  R9              ;205C: 99          
+		ADCI 00H             ;205D: 7C 00       
+		PHI  R9              ;205F: B9          
+		BR   S203C           ;2060: 30 3C       
+R2062
+		DEC  R9              ;2062: 29          
+		LDA  R9              ;2063: 49          
+		ANI  80H             ;2064: FA 80       
+		BZ   R2046           ;2066: 32 46       
+		LDA  R9              ;2068: 49          
+		STR  R7              ;2069: 57          
+		INC  R7              ;206A: 17          
+		GLO  R8              ;206B: 88          
+		ANI  80H             ;206C: FA 80       
+		BNZ  R2073           ;206E: 3A 73       
+		LDI  1EH             ;2070: F8 1E       
+		LSKP                 ;2072: C8          
+R2073
+		LDI  42H             ;2073: F8 42       
+		PLO  R6              ;2075: A6          
+R2076
+		SEP  R5              ;2076: D5          
+S2077
+		SEP  RD              ;2077: DD          
+		DB   81H             ;2078: 81
+S2079
+		PHI  RB              ;2079: BB          
+		LDN  RF              ;207A: 0F          
+		PLO  RB              ;207B: AB          
+R207C
+		GHI  RB              ;207C: 9B          
+		STR  R2              ;207D: 52          
+		SEP  RD              ;207E: DD          
+		DB   83H             ;207F: 83
+S2080
+		XOR                  ;2080: F3          
+		BNZ  R2089           ;2081: 3A 89       
+		GLO  RB              ;2083: 8B          
+		STR  R2              ;2084: 52          
+		LDN  RF              ;2085: 0F          
+		XOR                  ;2086: F3          
+		BZ   R20A4           ;2087: 32 A4       
+R2089
+		LDA  RB              ;2089: 4B          
+		STR  R2              ;208A: 52          
+		SEP  RD              ;208B: DD          
+		DB   85H             ;208C: 85
+S208D
+		XOR                  ;208D: F3          
+		BNZ  R2096           ;208E: 3A 96       
+		LDN  RB              ;2090: 0B          
+		STR  R2              ;2091: 52          
+		LDN  RF              ;2092: 0F          
+		XOR                  ;2093: F3          
+		BZ   R20AC           ;2094: 32 AC       
+R2096
+		DEC  RB              ;2096: 2B          
+		INC  RB              ;2097: 1B          
+		INC  RB              ;2098: 1B          
+		LDN  RB              ;2099: 0B          
+		STR  R2              ;209A: 52          
+		GLO  RB              ;209B: 8B          
+		ADD                  ;209C: F4          
+		PLO  RB              ;209D: AB          
+		GHI  RB              ;209E: 9B          
+		ADCI 00H             ;209F: 7C 00       
+		PHI  RB              ;20A1: BB          
+		BR   R207C           ;20A2: 30 7C       
+R20A4
+		SEP  RD              ;20A4: DD          
+		DB   81H             ;20A5: 81
+		PHI  RB              ;20A6: BB          
+		LDN  RF              ;20A7: 0F          
+		PLO  RB              ;20A8: AB          
+		LDI  00H             ;20A9: F8 00       
+		SEP  R5              ;20AB: D5          
+R20AC
+		DEC  RB              ;20AC: 2B          
+		LDI  01H             ;20AD: F8 01       
+		SEP  R5              ;20AF: D5          
+S20B0
+		INC  RD              ;20B0: 1D          
+		SEP  RD              ;20B1: DD          
+		DB   1EH             ;20B2: 1E
+		DB   8CH             ;20B3: 8C
+		DB   8EH             ;20B4: 8E
+		DB   00H             ;20B5: 00
+S20B6
+		LDI  90H             ;20B6: F8 90       
+		PHI  RC              ;20B8: BC          
+		GHI  R9              ;20B9: 99          
+		PHI  RE              ;20BA: BE          
+		LDI  0E0H            ;20BB: F8 E0       
+		PLO  RE              ;20BD: AE          
+		LDI  0C0H            ;20BE: F8 C0       
+		PLO  RC              ;20C0: AC          
+		LDA  RC              ;20C1: 4C          
+		XRI  0DH             ;20C2: FB 0D       
+		BNZ  R20CB           ;20C4: 3A CB       
+		LDI  2DH             ;20C6: F8 2D       
+		SEP  R4              ;20C8: D4          
+		DW   S2CCD           ;20C9: 2C CD
+R20CB
+		GLO  RC              ;20CB: 8C          
+		XRI  0CBH            ;20CC: FB CB       
+		BZ   R20D4           ;20CE: 32 D4       
+		LDA  RC              ;20D0: 4C          
+		BZ   R20CB           ;20D1: 32 CB       
+		DEC  RC              ;20D3: 2C          
+R20D4
+		LDA  RC              ;20D4: 4C          
+		SEP  R4              ;20D5: D4          
+		DW   S2CCB           ;20D6: 2C CB
+S20D8
+		GLO  RC              ;20D8: 8C          
+		XRI  0CCH            ;20D9: FB CC       
+		BNZ  R20D4           ;20DB: 3A D4       
+		LBR  S0EE8           ;20DD: C0 0E E8    
+S20E0
+		LDI  00H             ;20E0: F8 00       
+		LSKP                 ;20E2: C8          
+S20E3
+		LDI  01H             ;20E3: F8 01       
+		PLO  RF              ;20E5: AF          
+		LDA  RB              ;20E6: 4B          
+		XRI  0D6H            ;20E7: FB D6       
+		BZ   R20EF           ;20E9: 32 EF       
+R20EB
+		SEP  R4              ;20EB: D4          
+		DW   S04E7           ;20EC: 04 E7
+		DB   05H             ;20EE: 05
+R20EF
+		GLO  RF              ;20EF: 8F          
+		BZ   R20F7           ;20F0: 32 F7       
+		SEP  R4              ;20F2: D4          
+		DW   S1C6B           ;20F3: 1C 6B
+S20F5
+		BR   S20FA           ;20F5: 30 FA       
+R20F7
+		SEP  R4              ;20F7: D4          
+		DW   S0900           ;20F8: 09 00
+S20FA
+		LDA  RB              ;20FA: 4B          
+		XRI  0C4H            ;20FB: FB C4       
+		BNZ  R20EB           ;20FD: 3A EB       
+		SEP  R5              ;20FF: D5          
+S2100
+		GLO  R9              ;2100: 89          
+		ADI  04H             ;2101: FC 04       
+		PLO  R9              ;2103: A9          
+		DEC  RB              ;2104: 2B          
+		LDA  RB              ;2105: 4B          
+		STR  R2              ;2106: 52          
+		GLO  RB              ;2107: 8B          
+		PLO  RF              ;2108: AF          
+		GHI  RB              ;2109: 9B          
+		PHI  RF              ;210A: BF          
+		INC  RD              ;210B: 1D          
+		SEP  RD              ;210C: DD          
+		DB   0ECH            ;210D: EC
+S210E
+		INC  RB              ;210E: 1B          
+		INC  RB              ;210F: 1B          
+		INC  RB              ;2110: 1B          
+		INC  RB              ;2111: 1B          
+		GHI  R8              ;2112: 98          
+		ANI  08H             ;2113: FA 08       
+		BNZ  R2124           ;2115: 3A 24       
+		LDI  0D3H            ;2117: F8 D3       
+		XOR                  ;2119: F3          
+		BZ   R211F           ;211A: 32 1F       
+		LBR  J1AF8           ;211C: C0 1A F8    
+R211F
+		GHI  R8              ;211F: 98          
+		ORI  04H             ;2120: F9 04       
+		PHI  R8              ;2122: B8          
+R2123
+		SEP  R5              ;2123: D5          
+R2124
+		LDI  0D2H            ;2124: F8 D2       
+		XOR                  ;2126: F3          
+		BZ   R2123           ;2127: 32 23       
+		SEP  R4              ;2129: D4          
+		DW   S1C8B           ;212A: 1C 8B
+S212C
+		GHI  R8              ;212C: 98          
+		ORI  08H             ;212D: F9 08       
+		PHI  R8              ;212F: B8          
+		SEP  R5              ;2130: D5          
+S2131
+		GLO  R9              ;2131: 89          
+		ADI  04H             ;2132: FC 04       
+		PLO  R9              ;2134: A9          
+		SEP  R4              ;2135: D4          
+		DW   S11EF           ;2136: 11 EF
+S2138
+		GHI  R2              ;2138: 92          
+		SMI  01H             ;2139: FF 01       
+		STR  R9              ;213B: 59          
+		INC  R9              ;213C: 19          
+		GLO  R2              ;213D: 82          
+		STR  R9              ;213E: 59          
+		INC  R9              ;213F: 19          
+		SEP  R4              ;2140: D4          
+		DW   S11EF           ;2141: 11 EF
+S2143
+		INC  R9              ;2143: 19          
+		SEP  RD              ;2144: DD          
+		DB   9AH             ;2145: 9A
+S2146
+		STR  R9              ;2146: 59          
+		DEC  R9              ;2147: 29          
+		SEP  RD              ;2148: DD          
+		DB   99H             ;2149: 99
+S214A
+		STR  R9              ;214A: 59          
+		DEC  R9              ;214B: 29          
+		DEC  R9              ;214C: 29          
+		INC  RD              ;214D: 1D          
+		SEP  RD              ;214E: DD          
+		DB   62H             ;214F: 62
+S2150
+		LDN  R9              ;2150: 09          
+		ANI  80H             ;2151: FA 80       
+		PHI  RF              ;2153: BF          
+		GHI  R6              ;2154: 96          
+		XRI  90H             ;2155: FB 90       
+		BNZ  R215D           ;2157: 3A 5D       
+		GHI  R8              ;2159: 98          
+		LBR  J1AF4           ;215A: C0 1A F4    
+R215D
+		GLO  R9              ;215D: 89          
+		SMI  04H             ;215E: FF 04       
+		PLO  R9              ;2160: A9          
+		GHI  RF              ;2161: 9F          
+		SEP  R5              ;2162: D5          
+J2163
+		SEP  R4              ;2163: D4          
+		DW   S04E7           ;2164: 04 E7
+		DB   01H             ;2166: 01
+S2167
+		GHI  R8              ;2167: 98          
+		STXD                 ;2168: 73          
+		LDA  RB              ;2169: 4B          
+		XRI  0D6H            ;216A: FB D6       
+		BNZ  J2163           ;216C: 3A 63       
+		LDA  RB              ;216E: 4B          
+		XRI  0D7H            ;216F: FB D7       
+		BNZ  J2163           ;2171: 3A 63       
+		INC  RD              ;2173: 1D          
+		SEP  RD              ;2174: DD          
+		DB   1EH             ;2175: 1E
+		DB   8EH             ;2176: 8E
+		DB   8CH             ;2177: 8C
+		DB   00H             ;2178: 00
+S2179
+		LDA  RB              ;2179: 4B          
+		PLO  R8              ;217A: A8          
+		SEP  R4              ;217B: D4          
+		DW   S1324           ;217C: 13 24
+S217E
+		PLO  RE              ;217E: AE          
+		SEP  R4              ;217F: D4          
+		DW   S2195           ;2180: 21 95
+S2182
+		LBZ  J104B           ;2182: C2 10 4B    
+		PLO  RF              ;2185: AF          
+		INC  R2              ;2186: 12          
+		SEP  R2              ;2187: D2          
+S2188
+		GLO  R9              ;2188: 89          
+		ADI  04H             ;2189: FC 04       
+		PLO  R9              ;218B: A9          
+		SEP  R4              ;218C: D4          
+		DW   S11EF           ;218D: 11 EF
+S218F
+		INC  R9              ;218F: 19          
+		DEC  RF              ;2190: 2F          
+		GLO  RF              ;2191: 8F          
+		LBR  J1E23           ;2192: C0 1E 23    
+S2195
+		SEP  RD              ;2195: DD          
+		DB   92H             ;2196: 92
+S2197
+		PHI  RA              ;2197: BA          
+		LDA  RF              ;2198: 4F          
+		PLO  RA              ;2199: AA          
+		SEP  RD              ;219A: DD          
+		DB   99H             ;219B: 99
+S219C
+		PHI  RC              ;219C: BC          
+		LDA  RF              ;219D: 4F          
+		PLO  RC              ;219E: AC          
+R219F
+		GHI  RA              ;219F: 9A          
+		STR  R2              ;21A0: 52          
+		GHI  RC              ;21A1: 9C          
+		XOR                  ;21A2: F3          
+		BNZ  R21AB           ;21A3: 3A AB       
+		GLO  RA              ;21A5: 8A          
+		STR  R2              ;21A6: 52          
+		GLO  RC              ;21A7: 8C          
+		XOR                  ;21A8: F3          
+		BZ   R21C2           ;21A9: 32 C2       
+R21AB
+		SEX  RA              ;21AB: EA          
+		GLO  R8              ;21AC: 88          
+		XOR                  ;21AD: F3          
+		INC  RA              ;21AE: 1A          
+		BNZ  R21B3           ;21AF: 3A B3       
+		GLO  RE              ;21B1: 8E          
+		XOR                  ;21B2: F3          
+R21B3
+		INC  RA              ;21B3: 1A          
+		BZ   R21C1           ;21B4: 32 C1       
+		GLO  RA              ;21B6: 8A          
+		ADD                  ;21B7: F4          
+		PLO  RA              ;21B8: AA          
+		GHI  RA              ;21B9: 9A          
+		ADCI 00H             ;21BA: 7C 00       
+		PHI  RA              ;21BC: BA          
+		INC  RA              ;21BD: 1A          
+		SEX  R2              ;21BE: E2          
+		BR   R219F           ;21BF: 30 9F       
+R21C1
+		LDA  RA              ;21C1: 4A          
+R21C2
+		SEP  R5              ;21C2: D5          
+S21C3
+		INC  R2              ;21C3: 12          
+		INC  R2              ;21C4: 12          
+		INC  R2              ;21C5: 12          
+		INC  R2              ;21C6: 12          
+		LDN  R2              ;21C7: 02          
+		XRI  11H             ;21C8: FB 11       
+		BZ   R21D5           ;21CA: 32 D5       
+		LDN  R2              ;21CC: 02          
+		XRI  19H             ;21CD: FB 19       
+		BZ   R21D8           ;21CF: 32 D8       
+		SEP  R4              ;21D1: D4          
+		DW   S04E7           ;21D2: 04 E7
+		DB   0AH             ;21D4: 0A
+R21D5
+		LDI  10H             ;21D5: F8 10       
+		LSKP                 ;21D7: C8          
+R21D8
+		LDI  04H             ;21D8: F8 04       
+		PLO  RF              ;21DA: AF          
+R21DB
+		INC  R2              ;21DB: 12          
+		DEC  RF              ;21DC: 2F          
+		GLO  RF              ;21DD: 8F          
+		BNZ  R21DB           ;21DE: 3A DB       
+		LBR  S10D6           ;21E0: C0 10 D6    
+S21E3
+		SEP  R4              ;21E3: D4          
+		DW   S1C6B           ;21E4: 1C 6B
+		INC  R9              ;21E6: 19          
+		INC  R9              ;21E7: 19          
+		LDN  R9              ;21E8: 09          
+		SEP  RD              ;21E9: DD          
+		DB   01H             ;21EA: 01
+		LBR  S04B8           ;21EB: C0 04 B8    
+J21EE
+		INC  RD              ;21EE: 1D          
+		SEP  RD              ;21EF: DD          
+		DB   1EH             ;21F0: 1E
+		DB   89H             ;21F1: 89
+		DB   8AH             ;21F2: 8A
+		DB   00H             ;21F3: 00
+S21F4
+		PLO  RA              ;21F4: AA          
+		GHI  R7              ;21F5: 97          
+		PHI  RA              ;21F6: BA          
+		LDI  00H             ;21F7: F8 00       
+		PHI  R7              ;21F9: B7          
+		INC  RD              ;21FA: 1D          
+		SEP  RD              ;21FB: DD          
+		DB   0F5H            ;21FC: F5
+		DB   2DH             ;21FD: 2D
+		DB   03H             ;21FE: 03
+S21FF
+		INC  RD              ;21FF: 1D          
+		SEP  RD              ;2200: DD          
+		DB   0EFH            ;2201: EF
+S2202
+		PHI  RF              ;2202: BF          
+		GLO  R9              ;2203: 89          
+		SMI  04H             ;2204: FF 04       
+		PLO  R9              ;2206: A9          
+		GHI  RF              ;2207: 9F          
+		XRI  01H             ;2208: FB 01       
+		LSZ                  ;220A: CE          
+		BR   S221D           ;220B: 30 1D       
+		INC  RA              ;220D: 1A          
+		INC  RD              ;220E: 1D          
+		SEP  RD              ;220F: DD          
+		DB   0E6H            ;2210: E6
+S2211
+		INC  RD              ;2211: 1D          
+		SEP  RD              ;2212: DD          
+		DB   0F2H            ;2213: F2
+		DB   2DH             ;2214: 2D
+		DB   03H             ;2215: 03
+S2216
+		GLO  R9              ;2216: 89          
+		ADI  04H             ;2217: FC 04       
+		PLO  R9              ;2219: A9          
+		SEP  R4              ;221A: D4          
+		DW   S2A73           ;221B: 2A 73
+S221D
+		INC  RD              ;221D: 1D          
+		SEP  RD              ;221E: DD          
+		DB   0D1H            ;221F: D1
+S2220
+		INC  RD              ;2220: 1D          
+		SEP  RD              ;2221: DD          
+		DB   0E6H            ;2222: E6
+S2223
+		SEP  R4              ;2223: D4          
+		DB   2AH             ;2224: 2A
+		DB   70H             ;2225: 70
+S2226
+		INC  RD              ;2226: 1D          
+		SEP  RD              ;2227: DD          
+		DB   0D1H            ;2228: D1
+S2229
+		INC  RD              ;2229: 1D          
+		SEP  RD              ;222A: DD          
+		DB   0F5H            ;222B: F5
+		DB   2DH             ;222C: 2D
+		DB   09H             ;222D: 09
+S222E
+		SEP  R4              ;222E: D4          
+		DW   S2A70           ;222F: 2A 70
+S2231
+		INC  RD              ;2231: 1D          
+		SEP  RD              ;2232: DD          
+		DB   0F5H            ;2233: F5
+		DB   2DH             ;2234: 2D
+		DB   0FH             ;2235: 0F
+S2236
+		SEP  R4              ;2236: D4          
+		DW   S2B54           ;2237: 2B 54
+S2239
+		INC  RD              ;2239: 1D          
+		SEP  RD              ;223A: DD          
+		DB   0F8H            ;223B: F8
+S223C
+		SEP  R4              ;223C: D4          
+		DW   S2A70           ;223D: 2A 70
+S223F
+		INC  RD              ;223F: 1D          
+		SEP  RD              ;2240: DD          
+		DB   0F5H            ;2241: F5
+		DB   2DH             ;2242: 2D
+		DB   15H             ;2243: 15
+S2244
+		SEP  R4              ;2244: D4          
+		DW   S2B54           ;2245: 2B 54
+S2247
+		INC  RD              ;2247: 1D          
+		SEP  RD              ;2248: DD          
+		DB   0F8H            ;2249: F8
+S224A
+		SEP  R4              ;224A: D4          
+		DW   S2A70           ;224B: 2A 70
+S224D
+		INC  RD              ;224D: 1D          
+		SEP  RD              ;224E: DD          
+		DB   0F5H            ;224F: F5
+		DB   2DH             ;2250: 2D
+		DB   1BH             ;2251: 1B
+S2252
+		SEP  R4              ;2252: D4          
+		DW   S2B54           ;2253: 2B 54
+S2255
+		INC  RD              ;2255: 1D          
+		SEP  RD              ;2256: DD          
+		DB   0F8H            ;2257: F8
+S2258
+		SEP  R4              ;2258: D4          
+		DW   S2A70           ;2259: 2A 70
+S225B
+		INC  RD              ;225B: 1D          
+		SEP  RD              ;225C: DD          
+		DB   0F5H            ;225D: F5
+		DB   2DH             ;225E: 2D
+		DB   21H             ;225F: 21
+S2260
+		SEP  R4              ;2260: D4          
+		DW   S2B54           ;2261: 2B 54
+S2263
+		INC  RD              ;2263: 1D          
+		SEP  RD              ;2264: DD          
+		DB   0F8H            ;2265: F8
+S2266
+		SEP  R4              ;2266: D4          
+		DW   S2A70           ;2267: 2A 70
+S2269
+		INC  RD              ;2269: 1D          
+		SEP  RD              ;226A: DD          
+		DB   0F5H            ;226B: F5
+		DB   2DH             ;226C: 2D
+		DB   27H             ;226D: 27
+S226E
+		SEP  R4              ;226E: D4          
+		DW   S2B54           ;226F: 2B 54
+S2271
+		INC  RD              ;2271: 1D          
+		SEP  RD              ;2272: DD          
+		DB   0F8H            ;2273: F8
+S2274
+		SEP  R4              ;2274: D4          
+		DW   S2A70           ;2275: 2A 70
+S2277
+		INC  RD              ;2277: 1D          
+		SEP  RD              ;2278: DD          
+		DB   0F5H            ;2279: F5
+		DB   2DH             ;227A: 2D
+		DB   2DH             ;227B: 2D
+S227C
+		SEP  R4              ;227C: D4          
+		DW   S2B54           ;227D: 2B 54
+S227F
+		INC  RD              ;227F: 1D          
+		SEP  RD              ;2280: DD          
+		DB   0F8H            ;2281: F8
+S2282
+		SEP  R4              ;2282: D4          
+		DW   S2A70           ;2283: 2A 70
+S2285
+		INC  RD              ;2285: 1D          
+		SEP  RD              ;2286: DD          
+		DB   0F5H            ;2287: F5
+		DB   2DH             ;2288: 2D
+		DB   33H             ;2289: 33
+S228A
+		SEP  R4              ;228A: D4          
+		DW   S2B54           ;228B: 2B 54
+S228D
+		GLO  R9              ;228D: 89          
+		ADI  04H             ;228E: FC 04       
+		PLO  R9              ;2290: A9          
+		INC  RD              ;2291: 1D          
+		SEP  RD              ;2292: DD          
+		DB   0CBH            ;2293: CB
+S2294
+		SEP  R4              ;2294: D4          
+		DW   S2A70           ;2295: 2A 70
+S2297
+		INC  RD              ;2297: 1D          
+		SEP  RD              ;2298: DD          
+		DB   0F5H            ;2299: F5
+		DB   2DH             ;229A: 2D
+		DB   03H             ;229B: 03
+S229C
+		SEP  R4              ;229C: D4          
+		DW   S2B54           ;229D: 2B 54
+S229F
+		GLO  R9              ;229F: 89          
+		ADI  04H             ;22A0: FC 04       
+		PLO  R9              ;22A2: A9          
+		INC  RD              ;22A3: 1D          
+		SEP  RD              ;22A4: DD          
+		DB   0CBH            ;22A5: CB
+S22A6
+		SEP  R4              ;22A6: D4          
+		DW   S2A70           ;22A7: 2A 70
+S22A9
+		GLO  RA              ;22A9: 8A          
+		BZ   S22BB           ;22AA: 32 BB       
+		INC  RD              ;22AC: 1D          
+		SEP  RD              ;22AD: DD          
+		DB   0E6H            ;22AE: E6
+S22AF
+		INC  RD              ;22AF: 1D          
+		SEP  RD              ;22B0: DD          
+		DB   0F2H            ;22B1: F2
+		DB   2CH             ;22B2: 2C
+		DB   0DFH            ;22B3: DF
+S22B4
+		GLO  R9              ;22B4: 89          
+		ADI  04H             ;22B5: FC 04       
+		PLO  R9              ;22B7: A9          
+		SEP  R4              ;22B8: D4          
+		DW   S2B50           ;22B9: 2B 50
+S22BB
+		GHI  RA              ;22BB: 9A          
+		STR  R2              ;22BC: 52          
+		GHI  R7              ;22BD: 97          
+		XOR                  ;22BE: F3          
+		PHI  R7              ;22BF: B7          
+		SEP  RD              ;22C0: DD          
+		DB   9CH             ;22C1: 9C
+S22C2
+		BZ   R22CC           ;22C2: 32 CC       
+		INC  RD              ;22C4: 1D          
+		SEP  RD              ;22C5: DD          
+		DB   0F5H            ;22C6: F5
+		DB   2CH             ;22C7: 2C
+		DB   0D3H            ;22C8: D3
+		SEP  R4              ;22C9: D4          
+		DW   S2A73           ;22CA: 2A 73
+R22CC
+		INC  R2              ;22CC: 12          
+		SEP  R2              ;22CD: D2          
+S22CE
+		SEP  R5              ;22CE: D5          
+		DB   3BH             ;22CF: 3B
+		DB   9AH             ;22D0: 9A
+		DB   0CAH            ;22D1: CA
+		DB   00H             ;22D2: 00
+		DB   05H             ;22D3: 05
+		DB   0F5H            ;22D4: F5
+		DB   0E1H            ;22D5: E1
+		DB   00H             ;22D6: 00
+		DB   00H             ;22D7: 00
+		DB   98H             ;22D8: 98
+		DB   96H             ;22D9: 96
+		DB   80H             ;22DA: 80
+		DB   00H             ;22DB: 00
+		DB   0FH             ;22DC: 0F
+		DB   42H             ;22DD: 42
+		DB   40H             ;22DE: 40
+		DB   00H             ;22DF: 00
+		DB   01H             ;22E0: 01
+		DB   86H             ;22E1: 86
+		DB   0A0H            ;22E2: A0
+		DB   00H             ;22E3: 00
+		DB   00H             ;22E4: 00
+		DB   27H             ;22E5: 27
+		DB   10H             ;22E6: 10
+		DB   00H             ;22E7: 00
+		DB   00H             ;22E8: 00
+		DB   03H             ;22E9: 03
+		DB   0E8H            ;22EA: E8
+		DB   00H             ;22EB: 00
+		DB   00H             ;22EC: 00
+		DB   00H             ;22ED: 00
+		DB   64H             ;22EE: 64
+		DB   00H             ;22EF: 00
+		DB   00H             ;22F0: 00
+		DB   00H             ;22F1: 00
+		DB   0AH             ;22F2: 0A
+		DB   00H             ;22F3: 00
+		DB   00H             ;22F4: 00
+		DB   00H             ;22F5: 00
+		DB   01H             ;22F6: 01
+J22F7
+		GLO  RA              ;22F7: 8A          
+		STXD                 ;22F8: 73          
+		PLO  RC              ;22F9: AC          
+		LDI  91H             ;22FA: F8 91       
+		PHI  R9              ;22FC: B9          
+		PHI  RF              ;22FD: BF          
+		LDI  70H             ;22FE: F8 70       
+		PLO  R9              ;2300: A9          
+		INC  RD              ;2301: 1D          
+		SEP  RD              ;2302: DD          
+		DB   8FH             ;2303: 8F
+S2304
+		PLO  R8              ;2304: A8          
+		PLO  RA              ;2305: AA          
+		PHI  RA              ;2306: BA          
+		LSKP                 ;2307: C8          
+R2308
+		INC  R8              ;2308: 18          
+R2309
+		INC  RC              ;2309: 1C          
+		LDN  RC              ;230A: 0C          
+		SMI  2EH             ;230B: FF 2E       
+		BZ   R2308           ;230D: 32 08       
+		LSNF                 ;230F: C7          
+		SMI  02H             ;2310: FF 02       
+		BNF  R235B           ;2312: 3B 5B       
+		STR  R2              ;2314: 52          
+		SMI  0AH             ;2315: FF 0A       
+		BDF  R2340           ;2317: 33 40       
+		GLO  R8              ;2319: 88          
+		BZ   R231D           ;231A: 32 1D       
+		INC  RA              ;231C: 1A          
+R231D
+		LDN  R9              ;231D: 09          
+		ANI  0F0H            ;231E: FA F0       
+		BNZ  R233C           ;2320: 3A 3C       
+		INC  RD              ;2322: 1D          
+		SEP  RD              ;2323: DD          
+		DB   0E9H            ;2324: E9
+S2325
+		INC  RD              ;2325: 1D          
+		SEP  RD              ;2326: DD          
+		DB   3AH             ;2327: 3A
+S2328
+		INC  RD              ;2328: 1D          
+		SEP  RD              ;2329: DD          
+		DB   3AH             ;232A: 3A
+S232B
+		INC  RD              ;232B: 1D          
+		SEP  RD              ;232C: DD          
+		DB   21H             ;232D: 21
+S232E
+		INC  RD              ;232E: 1D          
+		SEP  RD              ;232F: DD          
+		DB   3AH             ;2330: 3A
+S2331
+		LDN  R2              ;2331: 02          
+		PHI  RF              ;2332: BF          
+		INC  RD              ;2333: 1D          
+		SEP  RD              ;2334: DD          
+		DB   0B0H            ;2335: B0
+S2336
+		BDF  R233C           ;2336: 33 3C       
+		LDN  R9              ;2338: 09          
+		SHL                  ;2339: FE          
+		BNF  R2309           ;233A: 3B 09       
+R233C
+		SEP  R4              ;233C: D4          
+		DW   S04E7           ;233D: 04 E7
+		DB   2CH             ;233F: 2C
+R2340
+		SMI  0BH             ;2340: FF 0B       
+		BNZ  R235B           ;2342: 3A 5B       
+		INC  RC              ;2344: 1C          
+		LDN  RC              ;2345: 0C          
+		SMI  2BH             ;2346: FF 2B       
+		BZ   R236A           ;2348: 32 6A       
+		LSNF                 ;234A: C7          
+		SMI  02H             ;234B: FF 02       
+		BNF  R235A           ;234D: 3B 5A       
+		BZ   R2367           ;234F: 32 67       
+		SMI  03H             ;2351: FF 03       
+		BNF  R235A           ;2353: 3B 5A       
+		STR  R2              ;2355: 52          
+		SMI  0AH             ;2356: FF 0A       
+		BNF  R2375           ;2358: 3B 75       
+R235A
+		DEC  RC              ;235A: 2C          
+R235B
+		GLO  R8              ;235B: 88          
+		LBZ  J27E0           ;235C: C2 27 E0    
+		DEC  R8              ;235F: 28          
+		GLO  R8              ;2360: 88          
+		BZ   R2389           ;2361: 32 89       
+R2363
+		SEP  R4              ;2363: D4          
+		DW   S04E7           ;2364: 04 E7
+		DB   2DH             ;2366: 2D
+R2367
+		LDI  80H             ;2367: F8 80       
+		PHI  RA              ;2369: BA          
+R236A
+		INC  RC              ;236A: 1C          
+		LDN  RC              ;236B: 0C          
+		SMI  30H             ;236C: FF 30       
+		BNF  R2363           ;236E: 3B 63       
+		STR  R2              ;2370: 52          
+		SMI  0AH             ;2371: FF 0A       
+		BDF  R2363           ;2373: 33 63       
+R2375
+		INC  RC              ;2375: 1C          
+		LDN  RC              ;2376: 0C          
+		SMI  30H             ;2377: FF 30       
+		BNF  R238A           ;2379: 3B 8A       
+		PLO  RF              ;237B: AF          
+		SMI  0AH             ;237C: FF 0A       
+		BDF  R238A           ;237E: 33 8A       
+		INC  RC              ;2380: 1C          
+		LDN  R2              ;2381: 02          
+		SHL                  ;2382: FE          
+		SHL                  ;2383: FE          
+		ADD                  ;2384: F4          
+		SHL                  ;2385: FE          
+		STR  R2              ;2386: 52          
+		GLO  RF              ;2387: 8F          
+		ADD                  ;2388: F4          
+R2389
+		STR  R2              ;2389: 52          
+R238A
+		GHI  RA              ;238A: 9A          
+		BNZ  R2391           ;238B: 3A 91       
+		LDI  80H             ;238D: F8 80       
+		ADD                  ;238F: F4          
+		SKP                  ;2390: 38          
+R2391
+		SM                   ;2391: F7          
+		STR  R2              ;2392: 52          
+		GLO  RA              ;2393: 8A          
+		SD                   ;2394: F5          
+		PLO  RA              ;2395: AA          
+		GHI  R8              ;2396: 98          
+		SEP  RD              ;2397: DD          
+		DB   34H             ;2398: 34
+		INC  RD              ;2399: 1D          
+		SEP  RD              ;239A: DD          
+		DB   1EH             ;239B: 1E
+		DB   87H             ;239C: 87
+		DB   88H             ;239D: 88
+		DB   8CH             ;239E: 8C
+		DB   00H             ;239F: 00
+		PHI  R7              ;23A0: B7          
+		PHI  R8              ;23A1: B8          
+		PHI  RC              ;23A2: BC          
+		LDI  9FH             ;23A3: F8 9F       
+		PLO  RC              ;23A5: AC          
+		SEP  R4              ;23A6: D4          
+		DW   S2C52           ;23A7: 2C 52
+		GLO  RC              ;23A9: 8C          
+		BZ   R23E4           ;23AA: 32 E4       
+		GLO  RA              ;23AC: 8A          
+		SHL                  ;23AD: FE          
+		BZ   R23E1           ;23AE: 32 E1       
+		BDF  R23D6           ;23B0: 33 D6       
+		GLO  R9              ;23B2: 89          
+		ADI  04H             ;23B3: FC 04       
+		PLO  R9              ;23B5: A9          
+		GLO  RC              ;23B6: 8C          
+		STXD                 ;23B7: 73          
+		INC  RD              ;23B8: 1D          
+		SEP  RD              ;23B9: DD          
+		DB   8FH             ;23BA: 8F
+		LDI  84H             ;23BB: F8 84       
+		PLO  RC              ;23BD: AC          
+		LDI  50H             ;23BE: F8 50       
+		STR  R9              ;23C0: 59          
+R23C1
+		INC  RA              ;23C1: 1A          
+		GLO  RA              ;23C2: 8A          
+		XRI  80H             ;23C3: FB 80       
+		BZ   R23CC           ;23C5: 32 CC       
+		SEP  R4              ;23C7: D4          
+		DW   S2C43           ;23C8: 2C 43
+		BR   R23C1           ;23CA: 30 C1       
+R23CC
+		GLO  RC              ;23CC: 8C          
+		PLO  R8              ;23CD: A8          
+		INC  R2              ;23CE: 12          
+		LDN  R2              ;23CF: 02          
+		PLO  RC              ;23D0: AC          
+		SEP  R4              ;23D1: D4          
+		DW   S2A73           ;23D2: 2A 73
+		BR   R23E1           ;23D4: 30 E1       
+R23D6
+		GLO  RA              ;23D6: 8A          
+		XRI  80H             ;23D7: FB 80       
+		BZ   R23E1           ;23D9: 32 E1       
+		SEP  R4              ;23DB: D4          
+		DW   S2C43           ;23DC: 2C 43
+		DEC  RA              ;23DE: 2A          
+		BR   R23D6           ;23DF: 30 D6       
+R23E1
+		SEP  R4              ;23E1: D4          
+		DW   S28CC           ;23E2: 28 CC
+R23E4
+		INC  R2              ;23E4: 12          
+		SEP  R2              ;23E5: D2          
+		INC  R2              ;23E6: 12          
+		LBR  J27F0           ;23E7: C0 27 F0    
+J23EA
+		LDI  00H             ;23EA: F8 00       
+		LSKP                 ;23EC: C8          
+J23ED
+		LDI  0FFH            ;23ED: F8 FF       
+		PHI  RF              ;23EF: BF          
+		INC  RD              ;23F0: 1D          
+		SEP  RD              ;23F1: DD          
+		DB   1EH             ;23F2: 1E
+		DB   89H             ;23F3: 89
+		DB   8AH             ;23F4: 8A
+		DB   8BH             ;23F5: 8B
+		DB   8EH             ;23F6: 8E
+		DB   00H             ;23F7: 00
+S23F8
+		PLO  RE              ;23F8: AE          
+		INC  RE              ;23F9: 1E          
+		GHI  RF              ;23FA: 9F          
+		PHI  RA              ;23FB: BA          
+		GHI  R7              ;23FC: 97          
+		PLO  RA              ;23FD: AA          
+		GLO  R9              ;23FE: 89          
+		ADI  04H             ;23FF: FC 04       
+		PHI  RB              ;2401: BB          
+		SEP  RD              ;2402: DD          
+		DB   9CH             ;2403: 9C
+S2404
+		BZ   S240E           ;2404: 32 0E       
+		INC  RD              ;2406: 1D          
+		SEP  RD              ;2407: DD          
+		DB   0F5H            ;2408: F5
+		DB   2CH             ;2409: 2C
+		DB   0D3H            ;240A: D3
+S240B
+		SEP  R4              ;240B: D4          
+		DW   S2A70           ;240C: 2A 70
+S240E
+		GHI  RA              ;240E: 9A          
+		BNZ  S242C           ;240F: 3A 2C       
+		INC  RD              ;2411: 1D          
+		SEP  RD              ;2412: DD          
+		DB   0F5H            ;2413: F5
+		DB   2CH             ;2414: 2C
+		DB   0D9H            ;2415: D9
+S2416
+		INC  RD              ;2416: 1D          
+		SEP  RD              ;2417: DD          
+		DB   0EFH            ;2418: EF
+S2419
+		SHL                  ;2419: FE          
+		BDF  R24C2           ;241A: 33 C2       
+		GLO  R9              ;241C: 89          
+		SMI  04H             ;241D: FF 04       
+		PLO  R9              ;241F: A9          
+		GHI  R7              ;2420: 97          
+		XRI  80H             ;2421: FB 80       
+		PHI  R7              ;2423: B7          
+		INC  RD              ;2424: 1D          
+		SEP  RD              ;2425: DD          
+		DB   0F5H            ;2426: F5
+		DB   2CH             ;2427: 2C
+		DB   0DFH            ;2428: DF
+S2429
+		SEP  R4              ;2429: D4          
+		DW   S2B54           ;242A: 2B 54
+S242C
+		LDI  00H             ;242C: F8 00       
+		PHI  R7              ;242E: B7          
+R242F
+		INC  RD              ;242F: 1D          
+		SEP  RD              ;2430: DD          
+		DB   0F5H            ;2431: F5
+		DB   2CH             ;2432: 2C
+		DB   0DFH            ;2433: DF
+S2434
+		SEP  R4              ;2434: D4          
+		DW   S2B50           ;2435: 2B 50
+S2437
+		INC  RE              ;2437: 1E          
+		GHI  R7              ;2438: 97          
+		BZ   R242F           ;2439: 32 2F       
+		INC  RD              ;243B: 1D          
+		SEP  RD              ;243C: DD          
+		DB   0F5H            ;243D: F5
+		DB   2CH             ;243E: 2C
+		DB   0DFH            ;243F: DF
+S2440
+		SEP  R4              ;2440: D4          
+		DW   S2B54           ;2441: 2B 54
+S2443
+		DEC  RE              ;2443: 2E          
+		GLO  RE              ;2444: 8E          
+		SHR                  ;2445: F6          
+		STXD                 ;2446: 73          
+		BDF  S2454           ;2447: 33 54       
+		INC  RD              ;2449: 1D          
+		SEP  RD              ;244A: DD          
+		DB   0F5H            ;244B: F5
+		DB   2CH             ;244C: 2C
+		DB   0DFH            ;244D: DF
+S244E
+		LDI  80H             ;244E: F8 80       
+		PHI  R7              ;2450: B7          
+		SEP  R4              ;2451: D4          
+		DW   S2B54           ;2452: 2B 54
+S2454
+		INC  RD              ;2454: 1D          
+		SEP  RD              ;2455: DD          
+		DB   0E6H            ;2456: E6
+S2457
+		SEP  R4              ;2457: D4          
+		DW   S2A70           ;2458: 2A 70
+S245A
+		INC  RD              ;245A: 1D          
+		SEP  RD              ;245B: DD          
+		DB   0D1H            ;245C: D1
+S245D
+		INC  RD              ;245D: 1D          
+		SEP  RD              ;245E: DD          
+		DB   0F5H            ;245F: F5
+		DB   2CH             ;2460: 2C
+		DB   0E5H            ;2461: E5
+S2462
+		SEP  R4              ;2462: D4          
+		DW   S2A70           ;2463: 2A 70
+S2465
+		INC  RD              ;2465: 1D          
+		SEP  RD              ;2466: DD          
+		DB   0F5H            ;2467: F5
+		DB   2CH             ;2468: 2C
+		DB   0EBH            ;2469: EB
+S246A
+		SEP  R4              ;246A: D4          
+		DW   S2B54           ;246B: 2B 54
+S246D
+		INC  RD              ;246D: 1D          
+		SEP  RD              ;246E: DD          
+		DB   0F8H            ;246F: F8
+S2470
+		SEP  R4              ;2470: D4          
+		DW   S2A70           ;2471: 2A 70
+S2473
+		INC  RD              ;2473: 1D          
+		SEP  RD              ;2474: DD          
+		DB   0F5H            ;2475: F5
+		DB   2CH             ;2476: 2C
+		DB   0F1H            ;2477: F1
+S2478
+		SEP  R4              ;2478: D4          
+		DW   S2B54           ;2479: 2B 54
+S247B
+		INC  RD              ;247B: 1D          
+		SEP  RD              ;247C: DD          
+		DB   0F8H            ;247D: F8
+S247E
+		SEP  R4              ;247E: D4          
+		DW   S2A70           ;247F: 2A 70
+S2481
+		INC  RD              ;2481: 1D          
+		SEP  RD              ;2482: DD          
+		DB   0F5H            ;2483: F5
+		DB   2CH             ;2484: 2C
+		DB   0F7H            ;2485: F7
+S2486
+		SEP  R4              ;2486: D4          
+		DW   S2B54           ;2487: 2B 54
+S2489
+		INC  RD              ;2489: 1D          
+		SEP  RD              ;248A: DD          
+		DB   0F8H            ;248B: F8
+S248C
+		SEP  R4              ;248C: D4          
+		DW   S2A70           ;248D: 2A 70
+S248F
+		INC  RD              ;248F: 1D          
+		SEP  RD              ;2490: DD          
+		DB   0F5H            ;2491: F5
+		DB   2CH             ;2492: 2C
+		DB   0FDH            ;2493: FD
+S2494
+		SEP  R4              ;2494: D4          
+		DW   S2B54           ;2495: 2B 54
+S2497
+		GHI  RB              ;2497: 9B          
+		PLO  R9              ;2498: A9          
+		INC  RD              ;2499: 1D          
+		SEP  RD              ;249A: DD          
+		DB   0CBH            ;249B: CB
+S249C
+		SEP  R4              ;249C: D4          
+		DW   S2A70           ;249D: 2A 70
+S249F
+		INC  RD              ;249F: 1D          
+		SEP  RD              ;24A0: DD          
+		DB   0F5H            ;24A1: F5
+		DB   2DH             ;24A2: 2D
+		DB   03H             ;24A3: 03
+S24A4
+		SEP  R4              ;24A4: D4          
+		DW   S2B54           ;24A5: 2B 54
+S24A7
+		INC  R2              ;24A7: 12          
+		LDX                  ;24A8: F0          
+		SHR                  ;24A9: F6          
+		BNF  R24AF           ;24AA: 3B AF       
+		LDI  80H             ;24AC: F8 80       
+		PHI  R7              ;24AE: B7          
+R24AF
+		INC  RD              ;24AF: 1D          
+		SEP  RD              ;24B0: DD          
+		DB   0F5H            ;24B1: F5
+		DB   2CH             ;24B2: 2C
+		DB   0D9H            ;24B3: D9
+S24B4
+		INC  RD              ;24B4: 1D          
+		SEP  RD              ;24B5: DD          
+		DB   0EFH            ;24B6: EF
+S24B7
+		SHL                  ;24B7: FE          
+		BNF  R24C2           ;24B8: 3B C2       
+		INC  R2              ;24BA: 12          
+		SEP  R2              ;24BB: D2          
+		INC  RD              ;24BC: 1D          
+		SEP  RD              ;24BD: DD          
+		DB   8FH             ;24BE: 8F
+		PHI  R7              ;24BF: B7          
+		PLO  RC              ;24C0: AC          
+		SEP  R5              ;24C1: D5          
+R24C2
+		INC  R2              ;24C2: 12          
+		SEP  R2              ;24C3: D2          
+S24C4
+		SEP  R5              ;24C4: D5          
+J24C5
+		LDI  04H             ;24C5: F8 04       
+		PLO  RB              ;24C7: AB          
+		SHL                  ;24C8: FE          
+R24C9
+		DEC  R9              ;24C9: 29          
+		LDN  R9              ;24CA: 09          
+		SHLC                 ;24CB: 7E          
+		DEC  RB              ;24CC: 2B          
+		BZ   R24C9           ;24CD: 32 C9       
+R24CF
+		STXD                 ;24CF: 73          
+		INC  RE              ;24D0: 1E          
+		GLO  RB              ;24D1: 8B          
+		BZ   R24DA           ;24D2: 32 DA       
+		DEC  R9              ;24D4: 29          
+		LDN  R9              ;24D5: 09          
+		SHLC                 ;24D6: 7E          
+		DEC  RB              ;24D7: 2B          
+		BR   R24CF           ;24D8: 30 CF       
+R24DA
+		INC  RD              ;24DA: 1D          
+		SEP  RD              ;24DB: DD          
+		DB   8FH             ;24DC: 8F
+S24DD
+		GHI  RE              ;24DD: 9E          
+		PLO  R9              ;24DE: A9          
+R24DF
+		GLO  RE              ;24DF: 8E          
+		BZ   R24FA           ;24E0: 32 FA       
+		LDI  08H             ;24E2: F8 08       
+		PLO  RB              ;24E4: AB          
+		INC  R2              ;24E5: 12          
+R24E6
+		LDN  R2              ;24E6: 02          
+		SHL                  ;24E7: FE          
+		STR  R2              ;24E8: 52          
+		BNF  R24F0           ;24E9: 3B F0       
+		INC  RD              ;24EB: 1D          
+		SEP  RD              ;24EC: DD          
+		DB   21H             ;24ED: 21
+S24EE
+		GHI  RE              ;24EE: 9E          
+		PLO  R9              ;24EF: A9          
+R24F0
+		INC  RD              ;24F0: 1D          
+		SEP  RD              ;24F1: DD          
+		DB   7BH             ;24F2: 7B
+S24F3
+		DEC  RB              ;24F3: 2B          
+		GLO  RB              ;24F4: 8B          
+		BNZ  R24E6           ;24F5: 3A E6       
+		DEC  RE              ;24F7: 2E          
+		BR   R24DF           ;24F8: 30 DF       
+R24FA
+		GLO  R9              ;24FA: 89          
+		SMI  04H             ;24FB: FF 04       
+		PLO  R9              ;24FD: A9          
+		LBR  J2AD0           ;24FE: C0 2A D0    
+J2501
+		SEX  R2              ;2501: E2          
+J2502
+		SEP  R3              ;2502: D3          
+S2503
+		LSKP                 ;2503: C8          
+S2504
+		LDA  R3              ;2504: 43          
+J2505
+		PLO  RD              ;2505: AD          
+		DEC  R2              ;2506: 22          
+		STR  R2              ;2507: 52          
+		LDI  90H             ;2508: F8 90       
+		PHI  RF              ;250A: BF          
+		LDA  R3              ;250B: 43          
+		PLO  RF              ;250C: AF          
+		ANI  80H             ;250D: FA 80       
+		BZ   R2515           ;250F: 32 15       
+		LDA  RF              ;2511: 4F          
+		INC  R2              ;2512: 12          
+		BR   J2502           ;2513: 30 02       
+R2515
+		GLO  RF              ;2515: 8F          
+		ADI  80H             ;2516: FC 80       
+		PLO  RF              ;2518: AF          
+		LDA  R2              ;2519: 42          
+		STR  RF              ;251A: 5F          
+		DEC  RF              ;251B: 2F          
+		BR   J2502           ;251C: 30 02       
+		LBR  J2AD5           ;251E: C0 2A D5    
+		SEX  R9              ;2521: E9          
+		DEC  R9              ;2522: 29          
+		GLO  R9              ;2523: 89          
+		ADI  04H             ;2524: FC 04       
+		PLO  RF              ;2526: AF          
+		GHI  R9              ;2527: 99          
+		PHI  RF              ;2528: BF          
+		LDN  RF              ;2529: 0F          
+		ADD                  ;252A: F4          
+		STXD                 ;252B: 73          
+		DEC  RF              ;252C: 2F          
+		LDN  RF              ;252D: 0F          
+		ADC                  ;252E: 74          
+		STXD                 ;252F: 73          
+		DEC  RF              ;2530: 2F          
+		LDN  RF              ;2531: 0F          
+		ADC                  ;2532: 74          
+		STXD                 ;2533: 73          
+		DEC  RF              ;2534: 2F          
+		LDN  RF              ;2535: 0F          
+		ADC                  ;2536: 74          
+		STR  R9              ;2537: 59          
+		BR   J2501           ;2538: 30 01       
+		SEX  R9              ;253A: E9          
+		INC  R9              ;253B: 19          
+		INC  R9              ;253C: 19          
+		INC  R9              ;253D: 19          
+		LDN  R9              ;253E: 09          
+		SHL                  ;253F: FE          
+		STXD                 ;2540: 73          
+		LDN  R9              ;2541: 09          
+		SHLC                 ;2542: 7E          
+		STXD                 ;2543: 73          
+		LDN  R9              ;2544: 09          
+		SHLC                 ;2545: 7E          
+		STXD                 ;2546: 73          
+		LDN  R9              ;2547: 09          
+		SHLC                 ;2548: 7E          
+		STR  R9              ;2549: 59          
+		BR   J2501           ;254A: 30 01       
+		SEX  R9              ;254C: E9          
+		INC  R9              ;254D: 19          
+		INC  R9              ;254E: 19          
+		INC  R9              ;254F: 19          
+		LDN  R9              ;2550: 09          
+		SDI  00H             ;2551: FD 00       
+		STXD                 ;2553: 73          
+		LDN  R9              ;2554: 09          
+		SDBI 00H             ;2555: 7D 00       
+		STXD                 ;2557: 73          
+		LDN  R9              ;2558: 09          
+		SDBI 00H             ;2559: 7D 00       
+		STXD                 ;255B: 73          
+		LDN  R9              ;255C: 09          
+		SDBI 00H             ;255D: 7D 00       
+		STR  R9              ;255F: 59          
+		BR   J2501           ;2560: 30 01       
+		SEX  R9              ;2562: E9          
+J2563
+		DEC  R9              ;2563: 29          
+		GLO  R9              ;2564: 89          
+		ADI  04H             ;2565: FC 04       
+		PLO  RF              ;2567: AF          
+		GHI  R9              ;2568: 99          
+		PHI  RF              ;2569: BF          
+		LDN  RF              ;256A: 0F          
+		SD                   ;256B: F5          
+		STXD                 ;256C: 73          
+		DEC  RF              ;256D: 2F          
+		LDN  RF              ;256E: 0F          
+		SDB                  ;256F: 75          
+		STXD                 ;2570: 73          
+		DEC  RF              ;2571: 2F          
+		LDN  RF              ;2572: 0F          
+		SDB                  ;2573: 75          
+		STXD                 ;2574: 73          
+		DEC  RF              ;2575: 2F          
+		LDN  RF              ;2576: 0F          
+		SDB                  ;2577: 75          
+		STR  R9              ;2578: 59          
+		BR   J2501           ;2579: 30 01       
+		LDN  R9              ;257B: 09          
+		SHR                  ;257C: F6          
+		STR  R9              ;257D: 59          
+		INC  R9              ;257E: 19          
+		LDN  R9              ;257F: 09          
+		SHRC                 ;2580: 76          
+		STR  R9              ;2581: 59          
+		INC  R9              ;2582: 19          
+		LDN  R9              ;2583: 09          
+		SHRC                 ;2584: 76          
+		STR  R9              ;2585: 59          
+		INC  R9              ;2586: 19          
+		LDN  R9              ;2587: 09          
+		SHRC                 ;2588: 76          
+		STR  R9              ;2589: 59          
+		DEC  R9              ;258A: 29          
+		DEC  R9              ;258B: 29          
+		DEC  R9              ;258C: 29          
+		BR   J2502           ;258D: 30 02       
+		SEX  R9              ;258F: E9          
+		INC  R9              ;2590: 19          
+		INC  R9              ;2591: 19          
+		INC  R9              ;2592: 19          
+		LDI  00H             ;2593: F8 00       
+		STXD                 ;2595: 73          
+		STXD                 ;2596: 73          
+		STXD                 ;2597: 73          
+		STR  R9              ;2598: 59          
+		BR   J2501           ;2599: 30 01       
+		SEX  R2              ;259B: E2          
+		DEC  R2              ;259C: 22          
+J259D
+		INC  R9              ;259D: 19          
+		LDA  R9              ;259E: 49          
+		STXD                 ;259F: 73          
+		LDA  R9              ;25A0: 49          
+		STXD                 ;25A1: 73          
+		LDN  R9              ;25A2: 09          
+		STR  R2              ;25A3: 52          
+		SEX  R9              ;25A4: E9          
+		LDI  00H             ;25A5: F8 00       
+		STXD                 ;25A7: 73          
+		LDA  R2              ;25A8: 42          
+		STXD                 ;25A9: 73          
+		LDA  R2              ;25AA: 42          
+		STXD                 ;25AB: 73          
+		LDA  R2              ;25AC: 42          
+		STR  R9              ;25AD: 59          
+		BR   J2501           ;25AE: 30 01       
+		SEX  R9              ;25B0: E9          
+		INC  R9              ;25B1: 19          
+		INC  R9              ;25B2: 19          
+		INC  R9              ;25B3: 19          
+		GHI  RF              ;25B4: 9F          
+		ADD                  ;25B5: F4          
+		STXD                 ;25B6: 73          
+		LDN  R9              ;25B7: 09          
+		ADCI 00H             ;25B8: 7C 00       
+		STXD                 ;25BA: 73          
+		LDN  R9              ;25BB: 09          
+		ADCI 00H             ;25BC: 7C 00       
+		STXD                 ;25BE: 73          
+		LDN  R9              ;25BF: 09          
+		ADCI 00H             ;25C0: 7C 00       
+		STR  R9              ;25C2: 59          
+		BR   J2501           ;25C3: 30 01       
+		LBR  J2CB5           ;25C5: C0 2C B5    
+		LBR  J26E0           ;25C8: C0 26 E0    
+		LBR  J26E7           ;25CB: C0 26 E7    
+		LBR  J26ED           ;25CE: C0 26 ED    
+		LBR  J2C7C           ;25D1: C0 2C 7C    
+		LBR  J2C7F           ;25D4: C0 2C 7F    
+		LBR  J2C82           ;25D7: C0 2C 82    
+		LBR  J2C04           ;25DA: C0 2C 04    
+		LBR  J2C08           ;25DD: C0 2C 08    
+		LBR  J2C12           ;25E0: C0 2C 12    
+		LBR  J2C21           ;25E3: C0 2C 21    
+		LBR  J2C27           ;25E6: C0 2C 27    
+		LBR  J2C2B           ;25E9: C0 2C 2B    
+		LBR  J2C32           ;25EC: C0 2C 32    
+		LBR  J29C8           ;25EF: C0 29 C8    
+		LBR  J2C00           ;25F2: C0 2C 00    
+		LBR  J2C0E           ;25F5: C0 2C 0E    
+		LBR  J2C18           ;25F8: C0 2C 18    
+S25FB
+		LDI  00H             ;25FB: F8 00       
+		PHI  RF              ;25FD: BF          
+		LDN  R9              ;25FE: 09          
+		ANI  80H             ;25FF: FA 80       
+		PLO  RF              ;2601: AF          
+		BZ   R260E           ;2602: 32 0E       
+		INC  RD              ;2604: 1D          
+		SEP  RD              ;2605: DD          
+		DB   4CH             ;2606: 4C
+		BR   R260E           ;2607: 30 0E       
+S2609
+		LDI  0FFH            ;2609: F8 FF       
+		PHI  RF              ;260B: BF          
+		GHI  R7              ;260C: 97          
+		PLO  RF              ;260D: AF          
+R260E
+		INC  RD              ;260E: 1D          
+		SEP  RD              ;260F: DD          
+		DB   1EH             ;2610: 1E
+		DB   88H             ;2611: 88
+		DB   8AH             ;2612: 8A
+		DB   8BH             ;2613: 8B
+		DB   8EH             ;2614: 8E
+		DB   00H             ;2615: 00
+S2616
+		PHI  R8              ;2616: B8          
+		LDI  90H             ;2617: F8 90       
+		PHI  RB              ;2619: BB          
+		LDI  0C0H            ;261A: F8 C0       
+		PLO  RB              ;261C: AB          
+		LDI  0AH             ;261D: F8 0A       
+		PLO  R8              ;261F: A8          
+		LDI  22H             ;2620: F8 22       
+		PHI  RA              ;2622: BA          
+		LDI  0CFH            ;2623: F8 CF       
+		PLO  RA              ;2625: AA          
+		GLO  R9              ;2626: 89          
+		ADI  04H             ;2627: FC 04       
+		PHI  RE              ;2629: BE          
+		GLO  RF              ;262A: 8F          
+		BZ   R2630           ;262B: 32 30       
+		LDI  0DH             ;262D: F8 0D       
+		LSKP                 ;262F: C8          
+R2630
+		LDI  0BH             ;2630: F8 0B       
+		STR  RB              ;2632: 5B          
+		INC  RB              ;2633: 1B          
+		GHI  RF              ;2634: 9F          
+		BZ   R2639           ;2635: 32 39       
+		GLO  RC              ;2637: 8C          
+		LSNZ                 ;2638: C6          
+R2639
+		STR  RB              ;2639: 5B          
+		INC  RB              ;263A: 1B          
+R263B
+		GHI  R8              ;263B: 98          
+		PLO  RE              ;263C: AE          
+		GHI  RA              ;263D: 9A          
+		PHI  RF              ;263E: BF          
+		GLO  RA              ;263F: 8A          
+		PLO  RF              ;2640: AF          
+		GHI  RE              ;2641: 9E          
+		PLO  R9              ;2642: A9          
+		INC  RD              ;2643: 1D          
+		SEP  RD              ;2644: DD          
+		DB   0ECH            ;2645: EC
+S2646
+		GLO  RF              ;2646: 8F          
+		PLO  RA              ;2647: AA          
+R2648
+		INC  RD              ;2648: 1D          
+		SEP  RD              ;2649: DD          
+		DB   62H             ;264A: 62
+S264B
+		GHI  RE              ;264B: 9E          
+		PLO  R9              ;264C: A9          
+		INC  RE              ;264D: 1E          
+		BDF  R2648           ;264E: 33 48       
+		INC  RD              ;2650: 1D          
+		SEP  RD              ;2651: DD          
+		DB   21H             ;2652: 21
+S2653
+		DEC  RE              ;2653: 2E          
+		GLO  RB              ;2654: 8B          
+		XRI  0C1H            ;2655: FB C1       
+		BNZ  R265F           ;2657: 3A 5F       
+		GLO  RE              ;2659: 8E          
+		BNZ  R2660           ;265A: 3A 60       
+		DEC  R7              ;265C: 27          
+		BR   R2662           ;265D: 30 62       
+R265F
+		GLO  RE              ;265F: 8E          
+R2660
+		STR  RB              ;2660: 5B          
+		INC  RB              ;2661: 1B          
+R2662
+		DEC  R8              ;2662: 28          
+		GLO  R8              ;2663: 88          
+		BNZ  R263B           ;2664: 3A 3B       
+		INC  R2              ;2666: 12          
+		SEP  R2              ;2667: D2          
+S2668
+		SEP  R5              ;2668: D5          
+S2669
+		INC  RD              ;2669: 1D          
+		SEP  RD              ;266A: DD          
+		DB   1EH             ;266B: 1E
+		DB   8BH             ;266C: 8B
+		DB   8EH             ;266D: 8E
+		DB   00H             ;266E: 00
+S266F
+		PLO  RE              ;266F: AE          
+		LDI  04H             ;2670: F8 04       
+		PLO  RB              ;2672: AB          
+		GHI  R9              ;2673: 99          
+		PHI  RF              ;2674: BF          
+		GLO  R9              ;2675: 89          
+		PHI  RE              ;2676: BE          
+		SMI  04H             ;2677: FF 04       
+		PHI  RB              ;2679: BB          
+		PLO  RF              ;267A: AF          
+		PLO  R9              ;267B: A9          
+		LDN  R9              ;267C: 09          
+		ANI  80H             ;267D: FA 80       
+		STXD                 ;267F: 73          
+		BZ   R2685           ;2680: 32 85       
+		INC  RD              ;2682: 1D          
+		SEP  RD              ;2683: DD          
+		DB   4CH             ;2684: 4C
+R2685
+		GHI  RE              ;2685: 9E          
+		PLO  R9              ;2686: A9          
+		LDN  R9              ;2687: 09          
+		ANI  80H             ;2688: FA 80       
+		BZ   R2692           ;268A: 32 92       
+		INC  R2              ;268C: 12          
+		XOR                  ;268D: F3          
+		STXD                 ;268E: 73          
+		INC  RD              ;268F: 1D          
+		SEP  RD              ;2690: DD          
+		DB   4CH             ;2691: 4C
+R2692
+		LDN  R9              ;2692: 09          
+		STXD                 ;2693: 73          
+		BNZ  R269A           ;2694: 3A 9A       
+		GLO  RE              ;2696: 8E          
+		LSNZ                 ;2697: C6          
+		INC  R2              ;2698: 12          
+		SKP                  ;2699: 38          
+R269A
+		INC  RE              ;269A: 1E          
+		LDN  RF              ;269B: 0F          
+		STR  R9              ;269C: 59          
+		LDI  00H             ;269D: F8 00       
+		STR  RF              ;269F: 5F          
+		INC  R9              ;26A0: 19          
+		INC  RF              ;26A1: 1F          
+		DEC  RB              ;26A2: 2B          
+		GLO  RB              ;26A3: 8B          
+		BNZ  R2692           ;26A4: 3A 92       
+		GLO  RE              ;26A6: 8E          
+		BNZ  R26AE           ;26A7: 3A AE       
+		INC  R2              ;26A9: 12          
+		GHI  RB              ;26AA: 9B          
+		PLO  R9              ;26AB: A9          
+		BR   R26DD           ;26AC: 30 DD       
+R26AE
+		GHI  RE              ;26AE: 9E          
+		PLO  R9              ;26AF: A9          
+R26B0
+		LDI  08H             ;26B0: F8 08       
+		PLO  RB              ;26B2: AB          
+		INC  R2              ;26B3: 12          
+R26B4
+		LDN  R2              ;26B4: 02          
+		SHR                  ;26B5: F6          
+		STR  R2              ;26B6: 52          
+		BNF  R26C4           ;26B7: 3B C4       
+		INC  RD              ;26B9: 1D          
+		SEP  RD              ;26BA: DD          
+		DB   21H             ;26BB: 21
+S26BC
+		BNF  R26C2           ;26BC: 3B C2       
+R26BE
+		SEP  R4              ;26BE: D4          
+		DW   S04E7           ;26BF: 04 E7
+		DB   0FH             ;26C1: 0F
+R26C2
+		GHI  RE              ;26C2: 9E          
+		PLO  R9              ;26C3: A9          
+R26C4
+		INC  RD              ;26C4: 1D          
+		SEP  RD              ;26C5: DD          
+		DB   3AH             ;26C6: 3A
+S26C7
+		DEC  RB              ;26C7: 2B          
+		GLO  RB              ;26C8: 8B          
+		BNZ  R26B4           ;26C9: 3A B4       
+		DEC  RE              ;26CB: 2E          
+		GLO  RE              ;26CC: 8E          
+		BNZ  R26B0           ;26CD: 3A B0       
+		GHI  RB              ;26CF: 9B          
+		PLO  R9              ;26D0: A9          
+		LDN  R9              ;26D1: 09          
+		ANI  80H             ;26D2: FA 80       
+		BNZ  R26BE           ;26D4: 3A BE       
+		INC  R2              ;26D6: 12          
+		LDN  R2              ;26D7: 02          
+		BZ   R26DD           ;26D8: 32 DD       
+		INC  RD              ;26DA: 1D          
+		SEP  RD              ;26DB: DD          
+		DB   4CH             ;26DC: 4C
+R26DD
+		INC  R2              ;26DD: 12          
+		SEP  R2              ;26DE: D2          
+S26DF
+		SEP  R5              ;26DF: D5          
+J26E0
+		INC  R2              ;26E0: 12          
+		LDA  R2              ;26E1: 42          
+		PHI  R7              ;26E2: B7          
+		LDA  R2              ;26E3: 42          
+		PLO  RC              ;26E4: AC          
+		BR   R26EE           ;26E5: 30 EE       
+J26E7
+		INC  R2              ;26E7: 12          
+		LDA  R2              ;26E8: 42          
+		PHI  R8              ;26E9: B8          
+		LDA  R2              ;26EA: 42          
+		PLO  R8              ;26EB: A8          
+		SKP                  ;26EC: 38          
+J26ED
+		INC  R2              ;26ED: 12          
+R26EE
+		LDA  R2              ;26EE: 42          
+		STR  R9              ;26EF: 59          
+		INC  R9              ;26F0: 19          
+		LDA  R2              ;26F1: 42          
+		STR  R9              ;26F2: 59          
+		INC  R9              ;26F3: 19          
+		LDA  R2              ;26F4: 42          
+		STR  R9              ;26F5: 59          
+		INC  R9              ;26F6: 19          
+		LDA  R2              ;26F7: 42          
+		STR  R9              ;26F8: 59          
+		DEC  R9              ;26F9: 29          
+		DEC  R9              ;26FA: 29          
+		DEC  R9              ;26FB: 29          
+		LBR  J2502           ;26FC: C0 25 02    
+J26FF
+		GHI  R7              ;26FF: 97          
+		BZ   R2709           ;2700: 32 09       
+R2702
+		SEP  RD              ;2702: DD          
+		DB   0B4H            ;2703: B4
+		DB   0B8H            ;2704: B8
+J2705
+		SEP  R4              ;2705: D4          
+		DW   S04E7           ;2706: 04 E7
+		DB   08H             ;2708: 08
+R2709
+		GLO  RC              ;2709: 8C          
+		BZ   R2702           ;270A: 32 02       
+		INC  RD              ;270C: 1D          
+		SEP  RD              ;270D: DD          
+		DB   1EH             ;270E: 1E
+		DB   8AH             ;270F: 8A
+		DB   8EH             ;2710: 8E
+		DB   00H             ;2711: 00
+S2712
+		PLO  RA              ;2712: AA          
+		PHI  RA              ;2713: BA          
+		GLO  R9              ;2714: 89          
+		PLO  RE              ;2715: AE          
+		ADI  04H             ;2716: FC 04       
+		PHI  RE              ;2718: BE          
+		PLO  R9              ;2719: A9          
+		INC  RD              ;271A: 1D          
+		SEP  RD              ;271B: DD          
+		DB   0D7H            ;271C: D7
+S271D
+		INC  RD              ;271D: 1D          
+		SEP  RD              ;271E: DD          
+		DB   0E0H            ;271F: E0
+		DB   2DH             ;2720: 2D
+		DB   03H             ;2721: 03
+S2722
+		INC  RD              ;2722: 1D          
+		SEP  RD              ;2723: DD          
+		DB   0EFH            ;2724: EF
+S2725
+		SHL                  ;2725: FE          
+		BDF  R272C           ;2726: 33 2C       
+		DEC  RC              ;2728: 2C          
+		INC  RA              ;2729: 1A          
+		BR   S2722           ;272A: 30 22       
+R272C
+		GLO  RC              ;272C: 8C          
+		ANI  80H             ;272D: FA 80       
+		BNZ  R2735           ;272F: 3A 35       
+		INC  RC              ;2731: 1C          
+		DEC  RA              ;2732: 2A          
+		BR   R272C           ;2733: 30 2C       
+R2735
+		GLO  RE              ;2735: 8E          
+		PLO  R9              ;2736: A9          
+		INC  RD              ;2737: 1D          
+		SEP  RD              ;2738: DD          
+		DB   0D1H            ;2739: D1
+S273A
+		INC  RD              ;273A: 1D          
+		SEP  RD              ;273B: DD          
+		DB   0F5H            ;273C: F5
+		DB   2DH             ;273D: 2D
+		DB   39H             ;273E: 39
+S273F
+		SEP  R4              ;273F: D4          
+		DW   S2B54           ;2740: 2B 54
+S2742
+		GHI  RE              ;2742: 9E          
+		PLO  R9              ;2743: A9          
+		INC  RD              ;2744: 1D          
+		SEP  RD              ;2745: DD          
+		DB   0CBH            ;2746: CB
+S2747
+		GLO  RE              ;2747: 8E          
+		PLO  R9              ;2748: A9          
+		INC  RD              ;2749: 1D          
+		SEP  RD              ;274A: DD          
+		DB   0D1H            ;274B: D1
+S274C
+		INC  RD              ;274C: 1D          
+		SEP  RD              ;274D: DD          
+		DB   0DAH            ;274E: DA
+		DB   2DH             ;274F: 2D
+		DB   39H             ;2750: 39
+S2751
+		LDI  80H             ;2751: F8 80       
+		PHI  R7              ;2753: B7          
+		GHI  RE              ;2754: 9E          
+		PLO  R9              ;2755: A9          
+		SEP  R4              ;2756: D4          
+		DW   S2B54           ;2757: 2B 54
+S2759
+		GHI  RE              ;2759: 9E          
+		PLO  R9              ;275A: A9          
+		INC  RD              ;275B: 1D          
+		SEP  RD              ;275C: DD          
+		DB   0CBH            ;275D: CB
+S275E
+		SEP  R4              ;275E: D4          
+		DW   S2A73           ;275F: 2A 73
+S2761
+		INC  RD              ;2761: 1D          
+		SEP  RD              ;2762: DD          
+		DB   0D1H            ;2763: D1
+S2764
+		INC  RD              ;2764: 1D          
+		SEP  RD              ;2765: DD          
+		DB   0E6H            ;2766: E6
+S2767
+		SEP  R4              ;2767: D4          
+		DW   S2A70           ;2768: 2A 70
+S276A
+		INC  RD              ;276A: 1D          
+		SEP  RD              ;276B: DD          
+		DB   0D1H            ;276C: D1
+S276D
+		INC  RD              ;276D: 1D          
+		SEP  RD              ;276E: DD          
+		DB   0F5H            ;276F: F5
+		DB   2DH             ;2770: 2D
+		DB   3FH             ;2771: 3F
+S2772
+		SEP  R4              ;2772: D4          
+		DW   S2A70           ;2773: 2A 70
+S2775
+		INC  RD              ;2775: 1D          
+		SEP  RD              ;2776: DD          
+		DB   0F5H            ;2777: F5
+		DB   2DH             ;2778: 2D
+		DB   45H             ;2779: 45
+S277A
+		SEP  R4              ;277A: D4          
+		DW   S2B54           ;277B: 2B 54
+S277D
+		GHI  RE              ;277D: 9E          
+		PLO  R9              ;277E: A9          
+		INC  RD              ;277F: 1D          
+		SEP  RD              ;2780: DD          
+		DB   0CBH            ;2781: CB
+S2782
+		SEP  R4              ;2782: D4          
+		DW   S2A70           ;2783: 2A 70
+S2785
+		INC  RD              ;2785: 1D          
+		SEP  RD              ;2786: DD          
+		DB   0F5H            ;2787: F5
+		DB   2DH             ;2788: 2D
+		DB   4BH             ;2789: 4B
+S278A
+		SEP  R4              ;278A: D4          
+		DW   S2B54           ;278B: 2B 54
+S278D
+		GHI  RE              ;278D: 9E          
+		PLO  R9              ;278E: A9          
+		INC  RD              ;278F: 1D          
+		SEP  RD              ;2790: DD          
+		DB   0CBH            ;2791: CB
+S2792
+		SEP  R4              ;2792: D4          
+		DW   S2A70           ;2793: 2A 70
+S2795
+		GLO  RA              ;2795: 8A          
+		BZ   S27BB           ;2796: 32 BB       
+		GHI  RE              ;2798: 9E          
+		PLO  R9              ;2799: A9          
+		INC  RD              ;279A: 1D          
+		SEP  RD              ;279B: DD          
+		DB   8FH             ;279C: 8F
+S279D
+		PHI  R8              ;279D: B8          
+		LDI  87H             ;279E: F8 87       
+		PLO  R8              ;27A0: A8          
+		GLO  RA              ;27A1: 8A          
+		SHL                  ;27A2: FE          
+		BNF  R27AC           ;27A3: 3B AC       
+		LDI  80H             ;27A5: F8 80       
+		PHI  R8              ;27A7: B8          
+		GLO  RA              ;27A8: 8A          
+		SDI  00H             ;27A9: FD 00       
+R27AB
+		PLO  RA              ;27AB: AA          
+R27AC
+		GLO  RA              ;27AC: 8A          
+		ANI  40H             ;27AD: FA 40       
+		BNZ  R27B6           ;27AF: 3A B6       
+		DEC  R8              ;27B1: 28          
+		GLO  RA              ;27B2: 8A          
+		SHL                  ;27B3: FE          
+		BR   R27AB           ;27B4: 30 AB       
+R27B6
+		GLO  RA              ;27B6: 8A          
+		STR  R9              ;27B7: 59          
+		SEP  R4              ;27B8: D4          
+		DW   S2B54           ;27B9: 2B 54
+S27BB
+		INC  RD              ;27BB: 1D          
+		SEP  RD              ;27BC: DD          
+		DB   0F5H            ;27BD: F5
+		DB   2DH             ;27BE: 2D
+		DB   51H             ;27BF: 51
+S27C0
+		SEP  R4              ;27C0: D4          
+		DW   S2B50           ;27C1: 2B 50
+S27C3
+		INC  RD              ;27C3: 1D          
+		SEP  RD              ;27C4: DD          
+		DB   0F5H            ;27C5: F5
+		DB   2DH             ;27C6: 2D
+		DB   57H             ;27C7: 57
+S27C8
+		SEP  R4              ;27C8: D4          
+		DW   S2A70           ;27C9: 2A 70
+S27CB
+		GLO  RC              ;27CB: 8C          
+		SMI  70H             ;27CC: FF 70       
+		BDF  R27D6           ;27CE: 33 D6       
+		INC  RD              ;27D0: 1D          
+		SEP  RD              ;27D1: DD          
+		DB   8FH             ;27D2: 8F
+		PHI  RC              ;27D3: BC          
+		PHI  R7              ;27D4: B7          
+		PLO  RC              ;27D5: AC          
+R27D6
+		GHI  RE              ;27D6: 9E          
+		PLO  R9              ;27D7: A9          
+		INC  RD              ;27D8: 1D          
+		SEP  RD              ;27D9: DD          
+		DB   0CEH            ;27DA: CE
+S27DB
+		GLO  RE              ;27DB: 8E          
+		PLO  R9              ;27DC: A9          
+		INC  R2              ;27DD: 12          
+		SEP  R2              ;27DE: D2          
+S27DF
+		SEP  R5              ;27DF: D5          
+J27E0
+		INC  R2              ;27E0: 12          
+		LDN  R2              ;27E1: 02          
+		BNZ  R27ED           ;27E2: 3A ED       
+		GHI  R8              ;27E4: 98          
+		ANI  01H             ;27E5: FA 01       
+		BNZ  R27ED           ;27E7: 3A ED       
+		INC  R9              ;27E9: 19          
+		INC  R9              ;27EA: 19          
+		BR   R27FA           ;27EB: 30 FA       
+R27ED
+		LDI  0D2H            ;27ED: F8 D2       
+		LSKP                 ;27EF: C8          
+J27F0
+		LDI  0D3H            ;27F0: F8 D3       
+		STR  R7              ;27F2: 57          
+		INC  R7              ;27F3: 17          
+		LDA  R9              ;27F4: 49          
+		STR  R7              ;27F5: 57          
+		INC  R7              ;27F6: 17          
+		LDA  R9              ;27F7: 49          
+		STR  R7              ;27F8: 57          
+		INC  R7              ;27F9: 17          
+R27FA
+		LDA  R9              ;27FA: 49          
+		STR  R7              ;27FB: 57          
+		INC  R7              ;27FC: 17          
+		LDN  R9              ;27FD: 09          
+		STR  R7              ;27FE: 57          
+		INC  R7              ;27FF: 17          
+		LBR  S0A1E           ;2800: C0 0A 1E    
+S2803
+		LDI  1AH             ;2803: F8 1A       
+		LSKP                 ;2805: C8          
+S2806
+		LDI  31H             ;2806: F8 31       
+		STR  R2              ;2808: 52          
+		GHI  R8              ;2809: 98          
+		SEP  RD              ;280A: DD          
+		DB   34H             ;280B: 34
+S280C
+		LDN  R2              ;280C: 02          
+		PHI  RF              ;280D: BF          
+		INC  RD              ;280E: 1D          
+		SEP  RD              ;280F: DD          
+		DB   1EH             ;2810: 1E
+		DB   87H             ;2811: 87
+		DB   88H             ;2812: 88
+		DB   8CH             ;2813: 8C
+		DB   00H             ;2814: 00
+S2815
+		PHI  RC              ;2815: BC          
+		GLO  R9              ;2816: 89          
+		STR  R2              ;2817: 52          
+		GHI  RF              ;2818: 9F          
+		PLO  R3              ;2819: A3          
+		LDN  R9              ;281A: 09          
+		PLO  R8              ;281B: A8          
+		INC  RD              ;281C: 1D          
+		SEP  RD              ;281D: DD          
+		DB   9BH             ;281E: 9B
+S281F
+		LDN  R9              ;281F: 09          
+		ANI  80H             ;2820: FA 80       
+		PHI  R8              ;2822: B8          
+		GLO  R8              ;2823: 88          
+		BZ   S282D           ;2824: 32 2D       
+		LDN  R9              ;2826: 09          
+		ORI  80H             ;2827: F9 80       
+		STR  R9              ;2829: 59          
+		INC  RD              ;282A: 1D          
+		SEP  RD              ;282B: DD          
+		DB   7BH             ;282C: 7B
+S282D
+		GLO  R9              ;282D: 89          
+		SMI  04H             ;282E: FF 04       
+		PLO  R9              ;2830: A9          
+		LDN  R9              ;2831: 09          
+		PLO  RC              ;2832: AC          
+		INC  RD              ;2833: 1D          
+		SEP  RD              ;2834: DD          
+		DB   9BH             ;2835: 9B
+S2836
+		LDN  R9              ;2836: 09          
+		ANI  80H             ;2837: FA 80       
+		PHI  R7              ;2839: B7          
+		GLO  RC              ;283A: 8C          
+		BZ   S2844           ;283B: 32 44       
+		LDN  R9              ;283D: 09          
+		ORI  80H             ;283E: F9 80       
+		STR  R9              ;2840: 59          
+		INC  RD              ;2841: 1D          
+		SEP  RD              ;2842: DD          
+		DB   7BH             ;2843: 7B
+S2844
+		LDN  R2              ;2844: 02          
+		PLO  R9              ;2845: A9          
+		LDA  R6              ;2846: 46          
+		SEP  R4              ;2847: D4          
+		DW   S2850           ;2848: 28 50
+S284A
+		SEP  R4              ;284A: D4          
+		DW   S28CC           ;284B: 28 CC
+S284D
+		INC  R2              ;284D: 12          
+		SEP  R2              ;284E: D2          
+S284F
+		SEP  R5              ;284F: D5          
+S2850
+		PLO  R3              ;2850: A3          
+		LBR  S2B50           ;2851: C0 2B 50    
+		LBR  S2B54           ;2854: C0 2B 54    
+		LBR  S2A70           ;2857: C0 2A 70    
+		LBR  S2A73           ;285A: C0 2A 73    
+		LBR  J23EA           ;285D: C0 23 EA    
+		LBR  J23ED           ;2860: C0 23 ED    
+		LBR  J21EE           ;2863: C0 21 EE    
+		LBR  J28F9           ;2866: C0 28 F9    
+		LBR  J26FF           ;2869: C0 26 FF    
+		LBR  J2B01           ;286C: C0 2B 01    
+		LBR  J2D7B           ;286F: C0 2D 7B    
+J2872
+		LDI  0C6H            ;2872: F8 C6       
+		LSKP                 ;2874: C8          
+J2875
+		LDI  0C9H            ;2875: F8 C9       
+		STXD                 ;2877: 73          
+		GLO  R9              ;2878: 89          
+		SMI  04H             ;2879: FF 04       
+		PLO  R9              ;287B: A9          
+R287C
+		LDN  R9              ;287C: 09          
+		ANI  80H             ;287D: FA 80       
+		BNZ  R2896           ;287F: 3A 96       
+		GLO  RE              ;2881: 8E          
+		BZ   R28A5           ;2882: 32 A5       
+		DEC  RE              ;2884: 2E          
+		INC  RD              ;2885: 1D          
+		SEP  RD              ;2886: DD          
+		DB   3AH             ;2887: 3A
+S2888
+		GLO  RA              ;2888: 8A          
+		SHL                  ;2889: FE          
+		PLO  RA              ;288A: AA          
+		GHI  RA              ;288B: 9A          
+		SHLC                 ;288C: 7E          
+		PHI  RA              ;288D: BA          
+		GLO  RB              ;288E: 8B          
+		SHLC                 ;288F: 7E          
+		PLO  RB              ;2890: AB          
+		GHI  RB              ;2891: 9B          
+		SHLC                 ;2892: 7E          
+		PHI  RB              ;2893: BB          
+		BR   R287C           ;2894: 30 7C       
+R2896
+		GHI  RE              ;2896: 9E          
+		PLO  R9              ;2897: A9          
+		INC  RD              ;2898: 1D          
+		SEP  RD              ;2899: DD          
+		DB   62H             ;289A: 62
+S289B
+		INC  RA              ;289B: 1A          
+		GLO  RA              ;289C: 8A          
+		BNZ  R287C           ;289D: 3A 7C       
+		GHI  RA              ;289F: 9A          
+		BNZ  R287C           ;28A0: 3A 7C       
+		INC  RB              ;28A2: 1B          
+		BR   R287C           ;28A3: 30 7C       
+R28A5
+		GHI  RE              ;28A5: 9E          
+		PLO  R9              ;28A6: A9          
+		INC  RD              ;28A7: 1D          
+		SEP  RD              ;28A8: DD          
+		DB   62H             ;28A9: 62
+S28AA
+		BNF  R28B6           ;28AA: 3B B6       
+		INC  RA              ;28AC: 1A          
+		GLO  RA              ;28AD: 8A          
+		BNZ  R28A5           ;28AE: 3A A5       
+		GHI  RA              ;28B0: 9A          
+		BNZ  R28A5           ;28B1: 3A A5       
+		INC  RB              ;28B3: 1B          
+		BR   R28A5           ;28B4: 30 A5       
+R28B6
+		GHI  RE              ;28B6: 9E          
+		PLO  R9              ;28B7: A9          
+		SEX  R9              ;28B8: E9          
+		DEC  R9              ;28B9: 29          
+		GLO  RA              ;28BA: 8A          
+		STXD                 ;28BB: 73          
+		GHI  RA              ;28BC: 9A          
+		STXD                 ;28BD: 73          
+		GLO  RB              ;28BE: 8B          
+		STXD                 ;28BF: 73          
+		GHI  RB              ;28C0: 9B          
+		STR  R9              ;28C1: 59          
+		SEX  R2              ;28C2: E2          
+		INC  R2              ;28C3: 12          
+		LDN  R2              ;28C4: 02          
+		PLO  R3              ;28C5: A3          
+		LBR  J2A67           ;28C6: C0 2A 67    
+		LBR  J2AD0           ;28C9: C0 2A D0    
+S28CC
+		LDI  40H             ;28CC: F8 40       
+		PHI  RF              ;28CE: BF          
+		INC  RD              ;28CF: 1D          
+		SEP  RD              ;28D0: DD          
+		DB   0B0H            ;28D1: B0
+S28D2
+		LDN  R9              ;28D2: 09          
+		ANI  80H             ;28D3: FA 80       
+		BZ   R28E2           ;28D5: 32 E2       
+		INC  RC              ;28D7: 1C          
+		GHI  RC              ;28D8: 9C          
+		BZ   S28E5           ;28D9: 32 E5       
+		SEP  RD              ;28DB: DD          
+		DB   0B4H            ;28DC: B4
+		DB   0B8H            ;28DD: B8
+		SEP  R4              ;28DE: D4          
+		DW   S04E7           ;28DF: 04 E7
+		DB   0FH             ;28E1: 0F
+R28E2
+		INC  RD              ;28E2: 1D          
+		SEP  RD              ;28E3: DD          
+		DB   3AH             ;28E4: 3A
+S28E5
+		LDA  R9              ;28E5: 49          
+		ANI  7FH             ;28E6: FA 7F       
+		STR  R2              ;28E8: 52          
+		GHI  R7              ;28E9: 97          
+		OR                   ;28EA: F1          
+		STXD                 ;28EB: 73          
+		LDA  R9              ;28EC: 49          
+		STR  R2              ;28ED: 52          
+		LDA  R9              ;28EE: 49          
+		SEX  R9              ;28EF: E9          
+		STXD                 ;28F0: 73          
+		LDA  R2              ;28F1: 42          
+		STXD                 ;28F2: 73          
+		LDN  R2              ;28F3: 02          
+		STXD                 ;28F4: 73          
+		SEX  R2              ;28F5: E2          
+		GLO  RC              ;28F6: 8C          
+		STR  R9              ;28F7: 59          
+		SEP  R5              ;28F8: D5          
+J28F9
+		INC  RD              ;28F9: 1D          
+		SEP  RD              ;28FA: DD          
+		DB   1EH             ;28FB: 1E
+		DB   8BH             ;28FC: 8B
+		DB   8EH             ;28FD: 8E
+		DB   00H             ;28FE: 00
+S28FF
+		GHI  R7              ;28FF: 97          
+		PHI  RB              ;2900: BB          
+		LDI  00H             ;2901: F8 00       
+		PHI  R7              ;2903: B7          
+		GLO  R9              ;2904: 89          
+		PLO  RE              ;2905: AE          
+		ADI  04H             ;2906: FC 04       
+		PHI  RE              ;2908: BE          
+		PLO  R9              ;2909: A9          
+		INC  RD              ;290A: 1D          
+		SEP  RD              ;290B: DD          
+		DB   0E0H            ;290C: E0
+		DB   2DH             ;290D: 2D
+		DB   75H             ;290E: 75
+S290F
+		SEP  R4              ;290F: D4          
+		DW   S2A70           ;2910: 2A 70
+S2912
+		GLO  RC              ;2912: 8C          
+		LSZ                  ;2913: CE          
+		ANI  80H             ;2914: FA 80       
+		BZ   R2943           ;2916: 32 43       
+		LDN  R9              ;2918: 09          
+		PLO  RB              ;2919: AB          
+		GLO  RC              ;291A: 8C          
+		SDI  87H             ;291B: FD 87       
+		BDF  R2926           ;291D: 33 26       
+		SEP  RD              ;291F: DD          
+		DB   0B4H            ;2920: B4
+		DB   0B8H            ;2921: B8
+		SEP  R4              ;2922: D4          
+		DW   S04E7           ;2923: 04 E7
+		DB   0FH             ;2925: 0F
+R2926
+		PLO  RF              ;2926: AF          
+R2927
+		GLO  RF              ;2927: 8F          
+		BZ   R2930           ;2928: 32 30       
+		GLO  RB              ;292A: 8B          
+		SHR                  ;292B: F6          
+		PLO  RB              ;292C: AB          
+		DEC  RF              ;292D: 2F          
+		BR   R2927           ;292E: 30 27       
+R2930
+		GLO  RC              ;2930: 8C          
+		XRI  80H             ;2931: FB 80       
+		BZ   R293B           ;2933: 32 3B       
+		INC  RD              ;2935: 1D          
+		SEP  RD              ;2936: DD          
+		DB   3AH             ;2937: 3A
+S2938
+		DEC  RC              ;2938: 2C          
+		BR   R2930           ;2939: 30 30       
+R293B
+		LDN  R9              ;293B: 09          
+		ANI  7FH             ;293C: FA 7F       
+		STR  R9              ;293E: 59          
+		SEP  R4              ;293F: D4          
+		DW   S2C52           ;2940: 2C 52
+S2942
+		SKP                  ;2942: 38          
+R2943
+		DB   0ABH            ;2943: AB
+		INC  RD              ;2944: 1D          
+		SEP  RD              ;2945: DD          
+		DB   0D1H            ;2946: D1
+S2947
+		INC  RD              ;2947: 1D          
+		SEP  RD              ;2948: DD          
+		DB   0E6H            ;2949: E6
+S294A
+		SEP  R4              ;294A: D4          
+		DW   S2A70           ;294B: 2A 70
+S294D
+		INC  RD              ;294D: 1D          
+		SEP  RD              ;294E: DD          
+		DB   0D1H            ;294F: D1
+S2950
+		INC  RD              ;2950: 1D          
+		SEP  RD              ;2951: DD          
+		DB   0F5H            ;2952: F5
+		DB   2DH             ;2953: 2D
+		DB   5DH             ;2954: 5D
+S2955
+		SEP  R4              ;2955: D4          
+		DW   S2A70           ;2956: 2A 70
+S2958
+		GHI  RE              ;2958: 9E          
+		PLO  R9              ;2959: A9          
+		INC  RD              ;295A: 1D          
+		SEP  RD              ;295B: DD          
+		DB   0CBH            ;295C: CB
+S295D
+		GLO  RE              ;295D: 8E          
+		PLO  R9              ;295E: A9          
+		INC  RD              ;295F: 1D          
+		SEP  RD              ;2960: DD          
+		DB   0D1H            ;2961: D1
+S2962
+		INC  RD              ;2962: 1D          
+		SEP  RD              ;2963: DD          
+		DB   0DAH            ;2964: DA
+		DB   2DH             ;2965: 2D
+		DB   63H             ;2966: 63
+S2967
+		GHI  RE              ;2967: 9E          
+		PLO  R9              ;2968: A9          
+		SEP  R4              ;2969: D4          
+		DW   S2B54           ;296A: 2B 54
+S296C
+		INC  RD              ;296C: 1D          
+		SEP  RD              ;296D: DD          
+		DB   0E6H            ;296E: E6
+S296F
+		INC  RD              ;296F: 1D          
+		SEP  RD              ;2970: DD          
+		DB   0F2H            ;2971: F2
+		DB   2DH             ;2972: 2D
+		DB   6FH             ;2973: 6F
+S2974
+		GHI  RE              ;2974: 9E          
+		PLO  R9              ;2975: A9          
+		SEP  R4              ;2976: D4          
+		DW   S2A73           ;2977: 2A 73
+S2979
+		GHI  R7              ;2979: 97          
+		XRI  80H             ;297A: FB 80       
+		PHI  R7              ;297C: B7          
+		GHI  RE              ;297D: 9E          
+		PLO  R9              ;297E: A9          
+		INC  RD              ;297F: 1D          
+		SEP  RD              ;2980: DD          
+		DB   0CBH            ;2981: CB
+S2982
+		SEP  R4              ;2982: D4          
+		DW   S2B54           ;2983: 2B 54
+S2985
+		INC  RD              ;2985: 1D          
+		SEP  RD              ;2986: DD          
+		DB   0F5H            ;2987: F5
+		DB   2DH             ;2988: 2D
+		DB   69H             ;2989: 69
+S298A
+		SEP  R4              ;298A: D4          
+		DW   S2B54           ;298B: 2B 54
+S298D
+		INC  RD              ;298D: 1D          
+		SEP  RD              ;298E: DD          
+		DB   0F8H            ;298F: F8
+S2990
+		SEP  R4              ;2990: D4          
+		DW   S2B50           ;2991: 2B 50
+S2993
+		INC  RD              ;2993: 1D          
+		SEP  RD              ;2994: DD          
+		DB   0E6H            ;2995: E6
+S2996
+		GLO  RE              ;2996: 8E          
+		PLO  R9              ;2997: A9          
+		INC  RD              ;2998: 1D          
+		SEP  RD              ;2999: DD          
+		DB   0C8H            ;299A: C8
+S299B
+		GHI  RE              ;299B: 9E          
+		PLO  R9              ;299C: A9          
+		SEP  R4              ;299D: D4          
+		DW   S2A73           ;299E: 2A 73
+S29A0
+		INC  RD              ;29A0: 1D          
+		SEP  RD              ;29A1: DD          
+		DB   0F5H            ;29A2: F5
+		DB   2DH             ;29A3: 2D
+		DB   51H             ;29A4: 51
+S29A5
+		SEP  R4              ;29A5: D4          
+		DW   S2B54           ;29A6: 2B 54
+S29A8
+		INC  RC              ;29A8: 1C          
+		GLO  RC              ;29A9: 8C          
+		STR  R2              ;29AA: 52          
+		GLO  RB              ;29AB: 8B          
+		ADD                  ;29AC: F4          
+		PLO  RC              ;29AD: AC          
+		GHI  RB              ;29AE: 9B          
+		BZ   R29BE           ;29AF: 32 BE       
+		INC  RD              ;29B1: 1D          
+		SEP  RD              ;29B2: DD          
+		DB   0E6H            ;29B3: E6
+		INC  RD              ;29B4: 1D          
+		SEP  RD              ;29B5: DD          
+		AND                  ;29B6: F2          
+		DEC  RD              ;29B7: 2D          
+		LDN  R3              ;29B8: 03          
+		GHI  RE              ;29B9: 9E          
+		PLO  R9              ;29BA: A9          
+		SEP  R4              ;29BB: D4          
+		DW   S2A73           ;29BC: 2A 73
+R29BE
+		INC  R2              ;29BE: 12          
+		SEP  R2              ;29BF: D2          
+S29C0
+		SEP  R5              ;29C0: D5          
+R29C1
+		LDI  01H             ;29C1: F8 01       
+		LSKP                 ;29C3: C8          
+R29C4
+		LDI  81H             ;29C4: F8 81       
+		BR   R29FE           ;29C6: 30 FE       
+J29C8
+		GLO  RC              ;29C8: 8C          
+		STR  R2              ;29C9: 52          
+		GLO  R8              ;29CA: 88          
+		SD                   ;29CB: F5          
+		BNF  R29C4           ;29CC: 3B C4       
+		BNZ  R29C1           ;29CE: 3A C1       
+		GLO  R9              ;29D0: 89          
+		STR  R2              ;29D1: 52          
+		SMI  04H             ;29D2: FF 04       
+		PLO  RF              ;29D4: AF          
+		GHI  R9              ;29D5: 99          
+		PHI  RF              ;29D6: BF          
+		SEX  R9              ;29D7: E9          
+		LDA  RF              ;29D8: 4F          
+		SM                   ;29D9: F7          
+		BNF  R29C4           ;29DA: 3B C4       
+		BNZ  R29C1           ;29DC: 3A C1       
+		INC  R9              ;29DE: 19          
+		LDA  RF              ;29DF: 4F          
+		SM                   ;29E0: F7          
+		BNF  R29F8           ;29E1: 3B F8       
+		BNZ  R29F5           ;29E3: 3A F5       
+		INC  R9              ;29E5: 19          
+		LDA  RF              ;29E6: 4F          
+		SM                   ;29E7: F7          
+		BNF  R29F8           ;29E8: 3B F8       
+		BNZ  R29F5           ;29EA: 3A F5       
+		INC  R9              ;29EC: 19          
+		LDN  RF              ;29ED: 0F          
+		SM                   ;29EE: F7          
+		BNF  R29F8           ;29EF: 3B F8       
+		SHR                  ;29F1: F6          
+		BNZ  R29F5           ;29F2: 3A F5       
+		LSKP                 ;29F4: C8          
+R29F5
+		LDI  01H             ;29F5: F8 01       
+		LSKP                 ;29F7: C8          
+R29F8
+		LDI  81H             ;29F8: F8 81       
+		PHI  RF              ;29FA: BF          
+		LDN  R2              ;29FB: 02          
+		PLO  R9              ;29FC: A9          
+		GHI  RF              ;29FD: 9F          
+R29FE
+		LBR  J2501           ;29FE: C0 25 01    
+S2A01
+		INC  RD              ;2A01: 1D          
+		SEP  RD              ;2A02: DD          
+		DB   1EH             ;2A03: 1E
+		DB   8AH             ;2A04: 8A
+		DB   8BH             ;2A05: 8B
+		DB   8EH             ;2A06: 8E
+		DB   00H             ;2A07: 00
+S2A08
+		PHI  RE              ;2A08: BE          
+		PLO  RE              ;2A09: AE          
+		PLO  RA              ;2A0A: AA          
+		LDI  1EH             ;2A0B: F8 1E       
+		PLO  RB              ;2A0D: AB          
+		GLO  R9              ;2A0E: 89          
+		PHI  RA              ;2A0F: BA          
+		SMI  04H             ;2A10: FF 04       
+		PHI  RB              ;2A12: BB          
+		PLO  R9              ;2A13: A9          
+		LDN  R9              ;2A14: 09          
+		ANI  80H             ;2A15: FA 80       
+		STXD                 ;2A17: 73          
+		BZ   R2A1D           ;2A18: 32 1D       
+		INC  RD              ;2A1A: 1D          
+		SEP  RD              ;2A1B: DD          
+		DB   4CH             ;2A1C: 4C
+R2A1D
+		LDN  R9              ;2A1D: 09          
+		ANI  0C0H            ;2A1E: FA C0       
+		BNZ  S2A30           ;2A20: 3A 30       
+		GLO  RB              ;2A22: 8B          
+		BNZ  R2A29           ;2A23: 3A 29       
+R2A25
+		INC  R2              ;2A25: 12          
+R2A26
+		INC  R2              ;2A26: 12          
+		SEP  R2              ;2A27: D2          
+S2A28
+		SEP  R5              ;2A28: D5          
+R2A29
+		DEC  RB              ;2A29: 2B          
+		DEC  RE              ;2A2A: 2E          
+		INC  RD              ;2A2B: 1D          
+		SEP  RD              ;2A2C: DD          
+		DB   3AH             ;2A2D: 3A
+S2A2E
+		BR   R2A1D           ;2A2E: 30 1D       
+S2A30
+		GHI  RA              ;2A30: 9A          
+		PLO  R9              ;2A31: A9          
+		LDN  R9              ;2A32: 09          
+		ANI  80H             ;2A33: FA 80       
+		BZ   R2A3D           ;2A35: 32 3D       
+		INC  R2              ;2A37: 12          
+		XOR                  ;2A38: F3          
+		STXD                 ;2A39: 73          
+		INC  RD              ;2A3A: 1D          
+		SEP  RD              ;2A3B: DD          
+		DB   4CH             ;2A3C: 4C
+R2A3D
+		LDI  1EH             ;2A3D: F8 1E       
+		PLO  RB              ;2A3F: AB          
+R2A40
+		LDN  R9              ;2A40: 09          
+		ANI  0C0H            ;2A41: FA C0       
+		BNZ  R2A53           ;2A43: 3A 53       
+		GLO  RB              ;2A45: 8B          
+		BNZ  R2A4C           ;2A46: 3A 4C       
+		SEP  R4              ;2A48: D4          
+		DW   S04E7           ;2A49: 04 E7
+		DB   08H             ;2A4B: 08
+R2A4C
+		DEC  RB              ;2A4C: 2B          
+		INC  RE              ;2A4D: 1E          
+		INC  RD              ;2A4E: 1D          
+		SEP  RD              ;2A4F: DD          
+		DB   3AH             ;2A50: 3A
+S2A51
+		BR   R2A40           ;2A51: 30 40       
+R2A53
+		GHI  RE              ;2A53: 9E          
+		BZ   R2A5D           ;2A54: 32 5D       
+		GHI  RB              ;2A56: 9B          
+		PLO  R9              ;2A57: A9          
+		INC  RD              ;2A58: 1D          
+		SEP  RD              ;2A59: DD          
+		DB   8FH             ;2A5A: 8F
+		BR   R2A25           ;2A5B: 30 25       
+R2A5D
+		GHI  RA              ;2A5D: 9A          
+		PHI  RE              ;2A5E: BE          
+		LDI  00H             ;2A5F: F8 00       
+		PHI  RB              ;2A61: BB          
+		PLO  RB              ;2A62: AB          
+		PHI  RA              ;2A63: BA          
+		LBR  J2872           ;2A64: C0 28 72    
+J2A67
+		INC  R2              ;2A67: 12          
+		LDN  R2              ;2A68: 02          
+		BZ   R2A26           ;2A69: 32 26       
+		INC  RD              ;2A6B: 1D          
+		SEP  RD              ;2A6C: DD          
+		DB   4CH             ;2A6D: 4C
+		BR   R2A26           ;2A6E: 30 26       
+S2A70
+		LDI  8FH             ;2A70: F8 8F       
+		LSKP                 ;2A72: C8          
+S2A73
+		LDI  0A3H            ;2A73: F8 A3       
+		PHI  RF              ;2A75: BF          
+		INC  RD              ;2A76: 1D          
+		SEP  RD              ;2A77: DD          
+		DB   1EH             ;2A78: 1E
+		DB   8AH             ;2A79: 8A
+		DB   8BH             ;2A7A: 8B
+		DB   8EH             ;2A7B: 8E
+		DB   00H             ;2A7C: 00
+S2A7D
+		PHI  RA              ;2A7D: BA          
+		PLO  RA              ;2A7E: AA          
+		PHI  RB              ;2A7F: BB          
+		PLO  RB              ;2A80: AB          
+		PLO  RE              ;2A81: AE          
+		GLO  R9              ;2A82: 89          
+		PHI  RE              ;2A83: BE          
+		GHI  R7              ;2A84: 97          
+		STR  R2              ;2A85: 52          
+		GHI  R8              ;2A86: 98          
+		XOR                  ;2A87: F3          
+		PHI  R7              ;2A88: B7          
+		GLO  RC              ;2A89: 8C          
+		BZ   R2AC7           ;2A8A: 32 C7       
+		STR  R2              ;2A8C: 52          
+		GHI  RF              ;2A8D: 9F          
+		PLO  R3              ;2A8E: A3          
+		GLO  R8              ;2A8F: 88          
+		BZ   R2AC7           ;2A90: 32 C7       
+		SMI  81H             ;2A92: FF 81       
+		PLO  RC              ;2A94: AC          
+		GHI  RC              ;2A95: 9C          
+		SMBI 00H             ;2A96: 7F 00       
+		PHI  RC              ;2A98: BC          
+		GLO  RC              ;2A99: 8C          
+		ADD                  ;2A9A: F4          
+		PLO  RC              ;2A9B: AC          
+		GHI  RC              ;2A9C: 9C          
+		ADCI 00H             ;2A9D: 7C 00       
+		PHI  RC              ;2A9F: BC          
+		LBR  J24C5           ;2AA0: C0 24 C5    
+		GLO  R8              ;2AA3: 88          
+		BNZ  R2AAD           ;2AA4: 3A AD       
+		SEP  RD              ;2AA6: DD          
+		DB   0B4H            ;2AA7: B4
+		DB   0B8H            ;2AA8: B8
+		SEP  R4              ;2AA9: D4          
+		DW   S04E7           ;2AAA: 04 E7
+		DB   08H             ;2AAC: 08
+R2AAD
+		SMI  81H             ;2AAD: FF 81       
+		BNF  R2AB8           ;2AAF: 3B B8       
+		SD                   ;2AB1: F5          
+		PLO  RC              ;2AB2: AC          
+		GHI  RC              ;2AB3: 9C          
+		SMBI 00H             ;2AB4: 7F 00       
+		BR   R2AC0           ;2AB6: 30 C0       
+R2AB8
+		GLO  R8              ;2AB8: 88          
+		SDI  81H             ;2AB9: FD 81       
+		ADD                  ;2ABB: F4          
+		PLO  RC              ;2ABC: AC          
+		GHI  RC              ;2ABD: 9C          
+		ADCI 00H             ;2ABE: 7C 00       
+R2AC0
+		PHI  RC              ;2AC0: BC          
+		LDI  1EH             ;2AC1: F8 1E       
+		PLO  RE              ;2AC3: AE          
+		LBR  J2875           ;2AC4: C0 28 75    
+R2AC7
+		GLO  R9              ;2AC7: 89          
+		SMI  04H             ;2AC8: FF 04       
+		PLO  R9              ;2ACA: A9          
+		INC  RD              ;2ACB: 1D          
+		SEP  RD              ;2ACC: DD          
+		DB   8FH             ;2ACD: 8F
+		PHI  R7              ;2ACE: B7          
+		PLO  RC              ;2ACF: AC          
+J2AD0
+		INC  R2              ;2AD0: 12          
+		SEP  R2              ;2AD1: D2          
+S2AD2
+		LBR  S2C52           ;2AD2: C0 2C 52    
+J2AD5
+		SEX  R2              ;2AD5: E2          
+		DEC  R2              ;2AD6: 22          
+		LDI  0D3H            ;2AD7: F8 D3       
+		STXD                 ;2AD9: 73          
+		LDN  R3              ;2ADA: 03          
+R2ADB
+		ADI  20H             ;2ADB: FC 20       
+		STXD                 ;2ADD: 73          
+		LDI  0DDH            ;2ADE: F8 DD       
+		STXD                 ;2AE0: 73          
+		LDN  R3              ;2AE1: 03          
+		STR  R2              ;2AE2: 52          
+		SEP  R2              ;2AE3: D2          
+S2AE4
+		DEC  R2              ;2AE4: 22          
+		STXD                 ;2AE5: 73          
+		LDI  0F8H            ;2AE6: F8 F8       
+		STXD                 ;2AE8: 73          
+		LDN  R3              ;2AE9: 03          
+		ADI  30H             ;2AEA: FC 30       
+		STXD                 ;2AEC: 73          
+		LDI  0DDH            ;2AED: F8 DD       
+		STXD                 ;2AEF: 73          
+		LDA  R3              ;2AF0: 43          
+		ADI  10H             ;2AF1: FC 10       
+		STR  R2              ;2AF3: 52          
+		SEP  R2              ;2AF4: D2          
+S2AF5
+		DEC  R2              ;2AF5: 22          
+		STXD                 ;2AF6: 73          
+		LDI  0F8H            ;2AF7: F8 F8       
+		STXD                 ;2AF9: 73          
+		LDN  R3              ;2AFA: 03          
+		BNZ  R2ADB           ;2AFB: 3A DB       
+		INC  R3              ;2AFD: 13          
+		LBR  J2502           ;2AFE: C0 25 02    
+J2B01
+		GHI  R7              ;2B01: 97          
+		BZ   R2B0B           ;2B02: 32 0B       
+		SEP  RD              ;2B04: DD          
+		DB   0B4H            ;2B05: B4
+		DB   0B8H            ;2B06: B8
+		SEP  R4              ;2B07: D4          
+		DW   S04E7           ;2B08: 04 E7
+		DB   0FH             ;2B0A: 0F
+R2B0B
+		GLO  RC              ;2B0B: 8C          
+		BNZ  R2B0F           ;2B0C: 3A 0F       
+		SEP  R5              ;2B0E: D5          
+R2B0F
+		INC  RD              ;2B0F: 1D          
+		SEP  RD              ;2B10: DD          
+		DB   1EH             ;2B11: 1E
+		DB   8EH             ;2B12: 8E
+		DB   00H             ;2B13: 00
+S2B14
+		GLO  R9              ;2B14: 89          
+		PLO  RE              ;2B15: AE          
+		ADI  04H             ;2B16: FC 04       
+		PHI  RE              ;2B18: BE          
+		INC  RD              ;2B19: 1D          
+		SEP  RD              ;2B1A: DD          
+		DB   0D1H            ;2B1B: D1
+S2B1C
+		INC  RD              ;2B1C: 1D          
+		SEP  RD              ;2B1D: DD          
+		DB   0E6H            ;2B1E: E6
+S2B1F
+		DEC  R8              ;2B1F: 28          
+R2B20
+		INC  RD              ;2B20: 1D          
+		SEP  RD              ;2B21: DD          
+		DB   0D4H            ;2B22: D4
+S2B23
+		SEP  R4              ;2B23: D4          
+		DW   S2A73           ;2B24: 2A 73
+S2B26
+		INC  RD              ;2B26: 1D          
+		SEP  RD              ;2B27: DD          
+		DB   0F8H            ;2B28: F8
+S2B29
+		SEP  R4              ;2B29: D4          
+		DW   S2B54           ;2B2A: 2B 54
+S2B2C
+		DEC  RC              ;2B2C: 2C          
+		GHI  RE              ;2B2D: 9E          
+		PLO  R9              ;2B2E: A9          
+		INC  RD              ;2B2F: 1D          
+		SEP  RD              ;2B30: DD          
+		DB   0CBH            ;2B31: CB
+S2B32
+		INC  RD              ;2B32: 1D          
+		SEP  RD              ;2B33: DD          
+		DB   0EFH            ;2B34: EF
+S2B35
+		BZ   R2B48           ;2B35: 32 48       
+		GLO  RE              ;2B37: 8E          
+		PLO  R9              ;2B38: A9          
+		INC  RD              ;2B39: 1D          
+		SEP  RD              ;2B3A: DD          
+		DB   0E6H            ;2B3B: E6
+S2B3C
+		GLO  RE              ;2B3C: 8E          
+		PLO  R9              ;2B3D: A9          
+		INC  RD              ;2B3E: 1D          
+		SEP  RD              ;2B3F: DD          
+		DB   0C8H            ;2B40: C8
+S2B41
+		INC  RD              ;2B41: 1D          
+		SEP  RD              ;2B42: DD          
+		DB   0D1H            ;2B43: D1
+S2B44
+		GHI  RE              ;2B44: 9E          
+		PLO  R9              ;2B45: A9          
+		BR   R2B20           ;2B46: 30 20       
+R2B48
+		INC  RD              ;2B48: 1D          
+		SEP  RD              ;2B49: DD          
+		DB   0CBH            ;2B4A: CB
+S2B4B
+		GLO  RE              ;2B4B: 8E          
+		PLO  R9              ;2B4C: A9          
+		INC  R2              ;2B4D: 12          
+		SEP  R2              ;2B4E: D2          
+S2B4F
+		SEP  R5              ;2B4F: D5          
+S2B50
+		GHI  R8              ;2B50: 98          
+		XRI  80H             ;2B51: FB 80       
+		PHI  R8              ;2B53: B8          
+S2B54
+		GLO  RC              ;2B54: 8C          
+		STR  R2              ;2B55: 52          
+		GLO  R8              ;2B56: 88          
+		SM                   ;2B57: F7          
+		BNF  R2B6F           ;2B58: 3B 6F       
+		INC  RD              ;2B5A: 1D          
+		SEP  RD              ;2B5B: DD          
+		DB   0D4H            ;2B5C: D4
+S2B5D
+		GLO  R9              ;2B5D: 89          
+		SMI  04H             ;2B5E: FF 04       
+		PLO  R9              ;2B60: A9          
+		INC  RD              ;2B61: 1D          
+		SEP  RD              ;2B62: DD          
+		DB   0E6H            ;2B63: E6
+S2B64
+		GLO  R9              ;2B64: 89          
+		SMI  04H             ;2B65: FF 04       
+		PLO  R9              ;2B67: A9          
+		INC  RD              ;2B68: 1D          
+		SEP  RD              ;2B69: DD          
+		DB   0C8H            ;2B6A: C8
+S2B6B
+		GLO  R9              ;2B6B: 89          
+		ADI  04H             ;2B6C: FC 04       
+		PLO  R9              ;2B6E: A9          
+R2B6F
+		GLO  R8              ;2B6F: 88          
+		STR  R2              ;2B70: 52          
+		GLO  RC              ;2B71: 8C          
+		SM                   ;2B72: F7          
+		PLO  RF              ;2B73: AF          
+		SMI  1EH             ;2B74: FF 1E       
+		BDF  R2BA0           ;2B76: 33 A0       
+R2B78
+		GLO  RF              ;2B78: 8F          
+		BZ   R2B81           ;2B79: 32 81       
+		INC  RD              ;2B7B: 1D          
+		SEP  RD              ;2B7C: DD          
+		DB   7BH             ;2B7D: 7B
+S2B7E
+		DEC  RF              ;2B7E: 2F          
+		BR   R2B78           ;2B7F: 30 78       
+R2B81
+		GHI  R7              ;2B81: 97          
+		STR  R2              ;2B82: 52          
+		GHI  R8              ;2B83: 98          
+		XOR                  ;2B84: F3          
+		BZ   S2B8A           ;2B85: 32 8A       
+		INC  RD              ;2B87: 1D          
+		SEP  RD              ;2B88: DD          
+		DB   4CH             ;2B89: 4C
+S2B8A
+		INC  RD              ;2B8A: 1D          
+		SEP  RD              ;2B8B: DD          
+		DB   21H             ;2B8C: 21
+S2B8D
+		GHI  R7              ;2B8D: 97          
+		STR  R2              ;2B8E: 52          
+		GHI  R8              ;2B8F: 98          
+		XOR                  ;2B90: F3          
+		BZ   R2B9D           ;2B91: 32 9D       
+		LDN  R9              ;2B93: 09          
+		ANI  80H             ;2B94: FA 80       
+		BZ   R2B9D           ;2B96: 32 9D       
+		INC  RD              ;2B98: 1D          
+		SEP  RD              ;2B99: DD          
+		DB   4CH             ;2B9A: 4C
+S2B9B
+		GHI  R8              ;2B9B: 98          
+		PHI  R7              ;2B9C: B7          
+R2B9D
+		LBR  S2C52           ;2B9D: C0 2C 52    
+R2BA0
+		GLO  R9              ;2BA0: 89          
+		SMI  04H             ;2BA1: FF 04       
+		PLO  R9              ;2BA3: A9          
+		BR   R2B9D           ;2BA4: 30 9D       
+J2BA6
+		INC  RD              ;2BA6: 1D          
+		SEP  RD              ;2BA7: DD          
+		DB   1EH             ;2BA8: 1E
+		DB   8AH             ;2BA9: 8A
+		DB   88H             ;2BAA: 88
+		DB   00H             ;2BAB: 00
+S2BAC
+		PLO  RA              ;2BAC: AA          
+		LDI  91H             ;2BAD: F8 91       
+		PHI  R8              ;2BAF: B8          
+		LDI  0E0H            ;2BB0: F8 E0       
+		PLO  R8              ;2BB2: A8          
+R2BB3
+		LDA  R8              ;2BB3: 48          
+		INC  RA              ;2BB4: 1A          
+		BNZ  R2BB3           ;2BB5: 3A B3       
+		DEC  RA              ;2BB7: 2A          
+		LDI  0E0H            ;2BB8: F8 E0       
+		PLO  R8              ;2BBA: A8          
+		GHI  R6              ;2BBB: 96          
+		XRI  15H             ;2BBC: FB 15       
+		BNZ  R2BD5           ;2BBE: 3A D5       
+		GLO  RA              ;2BC0: 8A          
+		STR  R2              ;2BC1: 52          
+		SEP  RD              ;2BC2: DD          
+		DB   0B3H            ;2BC3: B3
+S2BC4
+		BZ   R2BD5           ;2BC4: 32 D5       
+		SM                   ;2BC6: F7          
+		PLO  RA              ;2BC7: AA          
+		BNF  R2BE0           ;2BC8: 3B E0       
+R2BCA
+		GLO  RA              ;2BCA: 8A          
+		BZ   R2BD5           ;2BCB: 32 D5       
+		SEP  RD              ;2BCD: DD          
+		DB   0ACH            ;2BCE: AC
+		SEP  R4              ;2BCF: D4          
+		DW   S1BD3           ;2BD0: 1B D3
+		DEC  RA              ;2BD2: 2A          
+		BR   R2BCA           ;2BD3: 30 CA       
+R2BD5
+		LDA  R8              ;2BD5: 48          
+		BZ   R2BDD           ;2BD6: 32 DD       
+		SEP  R4              ;2BD8: D4          
+		DW   S1BD3           ;2BD9: 1B D3
+S2BDB
+		BR   R2BD5           ;2BDB: 30 D5       
+R2BDD
+		INC  R2              ;2BDD: 12          
+		SEP  R2              ;2BDE: D2          
+S2BDF
+		SEP  R5              ;2BDF: D5          
+R2BE0
+		SEP  RD              ;2BE0: DD          
+		DB   0B3H            ;2BE1: B3
+S2BE2
+		PLO  RA              ;2BE2: AA          
+		LDN  R8              ;2BE3: 08          
+		XRI  2DH             ;2BE4: FB 2D       
+		BNZ  R2BF1           ;2BE6: 3A F1       
+		LDI  2DH             ;2BE8: F8 2D       
+		SEP  R4              ;2BEA: D4          
+		DW   S1BD3           ;2BEB: 1B D3
+R2BED
+		DEC  RA              ;2BED: 2A          
+		GLO  RA              ;2BEE: 8A          
+		BZ   R2BDD           ;2BEF: 32 DD       
+R2BF1
+		LDI  2AH             ;2BF1: F8 2A       
+		SEP  R4              ;2BF3: D4          
+		DW   S1BD3           ;2BF4: 1B D3
+S2BF6
+		BR   R2BED           ;2BF6: 30 ED       
+S2BF8
+		LDI  01H             ;2BF8: F8 01       
+		LSKP                 ;2BFA: C8          
+S2BFB
+		LDI  00H             ;2BFB: F8 00       
+		SEP  RD              ;2BFD: DD          
+		DB   1CH             ;2BFE: 1C
+S2BFF
+		SEP  R5              ;2BFF: D5          
+J2C00
+		GLO  R9              ;2C00: 89          
+		SMI  04H             ;2C01: FF 04       
+		PLO  R9              ;2C03: A9          
+J2C04
+		LDA  R3              ;2C04: 43          
+		PHI  RF              ;2C05: BF          
+		LDA  R3              ;2C06: 43          
+		PLO  RF              ;2C07: AF          
+J2C08
+		LDA  RF              ;2C08: 4F          
+		PHI  R7              ;2C09: B7          
+		LDA  RF              ;2C0A: 4F          
+		PLO  RC              ;2C0B: AC          
+		BR   J2C32           ;2C0C: 30 32       
+J2C0E
+		GLO  R9              ;2C0E: 89          
+		ADI  04H             ;2C0F: FC 04       
+		PLO  R9              ;2C11: A9          
+J2C12
+		LDA  R3              ;2C12: 43          
+		PHI  RF              ;2C13: BF          
+		LDA  R3              ;2C14: 43          
+		PLO  RF              ;2C15: AF          
+		BR   J2C21           ;2C16: 30 21       
+J2C18
+		GLO  R9              ;2C18: 89          
+		ADI  04H             ;2C19: FC 04       
+		PLO  R9              ;2C1B: A9          
+		GHI  R2              ;2C1C: 92          
+		PHI  RF              ;2C1D: BF          
+		GLO  R2              ;2C1E: 82          
+		PLO  RF              ;2C1F: AF          
+		INC  RF              ;2C20: 1F          
+J2C21
+		LDA  RF              ;2C21: 4F          
+		PHI  R8              ;2C22: B8          
+		LDA  RF              ;2C23: 4F          
+		PLO  R8              ;2C24: A8          
+		BR   J2C32           ;2C25: 30 32       
+J2C27
+		GHI  R7              ;2C27: 97          
+		PHI  R8              ;2C28: B8          
+		GLO  RC              ;2C29: 8C          
+		PLO  R8              ;2C2A: A8          
+J2C2B
+		GHI  R9              ;2C2B: 99          
+		PHI  RF              ;2C2C: BF          
+		GLO  R9              ;2C2D: 89          
+		PLO  RF              ;2C2E: AF          
+		ADI  04H             ;2C2F: FC 04       
+		PLO  R9              ;2C31: A9          
+J2C32
+		LDA  RF              ;2C32: 4F          
+		STR  R9              ;2C33: 59          
+		INC  R9              ;2C34: 19          
+		LDA  RF              ;2C35: 4F          
+		STR  R9              ;2C36: 59          
+		INC  R9              ;2C37: 19          
+		LDA  RF              ;2C38: 4F          
+		STR  R9              ;2C39: 59          
+		INC  R9              ;2C3A: 19          
+		LDA  RF              ;2C3B: 4F          
+		STR  R9              ;2C3C: 59          
+		DEC  R9              ;2C3D: 29          
+		DEC  R9              ;2C3E: 29          
+		DEC  R9              ;2C3F: 29          
+		LBR  J2502           ;2C40: C0 25 02    
+S2C43
+		INC  RC              ;2C43: 1C          
+		INC  RC              ;2C44: 1C          
+		INC  RC              ;2C45: 1C          
+		INC  RD              ;2C46: 1D          
+		SEP  RD              ;2C47: DD          
+		DB   0E9H            ;2C48: E9
+S2C49
+		INC  RD              ;2C49: 1D          
+		SEP  RD              ;2C4A: DD          
+		DB   7BH             ;2C4B: 7B
+S2C4C
+		INC  RD              ;2C4C: 1D          
+		SEP  RD              ;2C4D: DD          
+		DB   7BH             ;2C4E: 7B
+S2C4F
+		INC  RD              ;2C4F: 1D          
+		SEP  RD              ;2C50: DD          
+		DB   21H             ;2C51: 21
+S2C52
+		INC  RD              ;2C52: 1D          
+		SEP  RD              ;2C53: DD          
+		DB   0C5H            ;2C54: C5
+S2C55
+		BNZ  R2C5B           ;2C55: 3A 5B       
+		PHI  RC              ;2C57: BC          
+		PLO  RC              ;2C58: AC          
+		PHI  R7              ;2C59: B7          
+R2C5A
+		SEP  R5              ;2C5A: D5          
+R2C5B
+		LDN  R9              ;2C5B: 09          
+		ANI  80H             ;2C5C: FA 80       
+		BZ   R2C64           ;2C5E: 32 64       
+		INC  RD              ;2C60: 1D          
+		SEP  RD              ;2C61: DD          
+		DB   7BH             ;2C62: 7B
+S2C63
+		INC  RC              ;2C63: 1C          
+R2C64
+		LDN  R9              ;2C64: 09          
+		ANI  40H             ;2C65: FA 40       
+		BNZ  R2C6F           ;2C67: 3A 6F       
+		INC  RD              ;2C69: 1D          
+		SEP  RD              ;2C6A: DD          
+		DB   3AH             ;2C6B: 3A
+S2C6C
+		DEC  RC              ;2C6C: 2C          
+		BR   R2C64           ;2C6D: 30 64       
+R2C6F
+		GHI  RC              ;2C6F: 9C          
+		BNZ  R2C75           ;2C70: 3A 75       
+		GLO  RC              ;2C72: 8C          
+		BNZ  R2C5A           ;2C73: 3A 5A       
+R2C75
+		SEP  RD              ;2C75: DD          
+		DB   0B4H            ;2C76: B4
+		DB   0B8H            ;2C77: B8
+		SEP  R4              ;2C78: D4          
+		DW   S04E7           ;2C79: 04 E7
+		DB   0FH             ;2C7B: 0F
+J2C7C
+		LDI  99H             ;2C7C: F8 99       
+		LSKP                 ;2C7E: C8          
+J2C7F
+		LDI  9FH             ;2C7F: F8 9F       
+		LSKP                 ;2C81: C8          
+J2C82
+		LDI  96H             ;2C82: F8 96       
+		PLO  RF              ;2C84: AF          
+		INC  R9              ;2C85: 19          
+		INC  R9              ;2C86: 19          
+		INC  R9              ;2C87: 19          
+		DEC  R2              ;2C88: 22          
+		LDN  R9              ;2C89: 09          
+		STXD                 ;2C8A: 73          
+		DEC  R9              ;2C8B: 29          
+		LDN  R9              ;2C8C: 09          
+		STXD                 ;2C8D: 73          
+		DEC  R9              ;2C8E: 29          
+		LDN  R9              ;2C8F: 09          
+		STXD                 ;2C90: 73          
+		DEC  R9              ;2C91: 29          
+		LDN  R9              ;2C92: 09          
+		STXD                 ;2C93: 73          
+		GLO  RF              ;2C94: 8F          
+		PLO  RD              ;2C95: AD          
+R2C96
+		LBR  J2502           ;2C96: C0 25 02    
+		GLO  RC              ;2C99: 8C          
+		STXD                 ;2C9A: 73          
+		GHI  R7              ;2C9B: 97          
+		STXD                 ;2C9C: 73          
+		BR   R2C96           ;2C9D: 30 96       
+		GLO  R8              ;2C9F: 88          
+		STXD                 ;2CA0: 73          
+		GHI  R8              ;2CA1: 98          
+		STXD                 ;2CA2: 73          
+		BR   R2C96           ;2CA3: 30 96       
+S2CA5
+		SEP  R4              ;2CA5: D4          
+		DW   S1382           ;2CA6: 13 82
+S2CA8
+		GHI  RA              ;2CA8: 9A          
+		STR  R2              ;2CA9: 52          
+		GLO  RA              ;2CAA: 8A          
+		ANI  0F0H            ;2CAB: FA F0       
+		OR                   ;2CAD: F1          
+		LBNZ J139D           ;2CAE: CA 13 9D    
+		GLO  RA              ;2CB1: 8A          
+		SEP  RD              ;2CB2: DD          
+		DB   33H             ;2CB3: 33
+S2CB4
+		SEP  R5              ;2CB4: D5          
+J2CB5
+		SEX  R9              ;2CB5: E9          
+		LDA  R9              ;2CB6: 49          
+		OR                   ;2CB7: F1          
+		INC  R9              ;2CB8: 19          
+		OR                   ;2CB9: F1          
+		INC  R9              ;2CBA: 19          
+		OR                   ;2CBB: F1          
+		DEC  R9              ;2CBC: 29          
+		DEC  R9              ;2CBD: 29          
+		DEC  R9              ;2CBE: 29          
+		LBR  J2501           ;2CBF: C0 25 01    
+S2CC2
+		LDA  R9              ;2CC2: 49          
+		BZ   R2CC9           ;2CC3: 32 C9       
+		LDN  R9              ;2CC5: 09          
+		XRI  80H             ;2CC6: FB 80       
+		STR  R9              ;2CC8: 59          
+R2CC9
+		DEC  R9              ;2CC9: 29          
+		SEP  R5              ;2CCA: D5          
+S2CCB
+		ADI  30H             ;2CCB: FC 30       
+S2CCD
+		STR  RE              ;2CCD: 5E          
+		INC  RE              ;2CCE: 1E          
+		LDI  00H             ;2CCF: F8 00       
+		STR  RE              ;2CD1: 5E          
+		SEP  R5              ;2CD2: D5          
+		DB   00H             ;2CD3: 00
+		DB   7BH             ;2CD4: 7B
+		DB   47H             ;2CD5: 47
+		DB   7DH             ;2CD6: 7D
+		DB   1AH             ;2CD7: 1A
+		DB   88H             ;2CD8: 88
+		DB   00H             ;2CD9: 00
+		DB   73H             ;2CDA: 73
+		DB   68H             ;2CDB: 68
+		DB   0DBH            ;2CDC: DB
+		DB   8BH             ;2CDD: 8B
+		DB   0ABH            ;2CDE: AB
+		DB   00H             ;2CDF: 00
+		DB   81H             ;2CE0: 81
+		DB   64H             ;2CE1: 64
+		DB   87H             ;2CE2: 87
+		DB   0EDH            ;2CE3: ED
+		DB   00H             ;2CE4: 00
+		DB   0FFH            ;2CE5: FF
+		DB   6BH             ;2CE6: 6B
+		DB   45H             ;2CE7: 45
+		DB   0EDH            ;2CE8: ED
+		DB   6CH             ;2CE9: 6C
+		DB   75H             ;2CEA: 75
+		DB   00H             ;2CEB: 00
+		DB   71H             ;2CEC: 71
+		DB   67H             ;2CED: 67
+		DB   0DAH            ;2CEE: DA
+		DB   0D0H            ;2CEF: D0
+		DB   59H             ;2CF0: 59
+		DB   0FFH            ;2CF1: FF
+		DB   77H             ;2CF2: 77
+		DB   5BH             ;2CF3: 5B
+		DB   04H             ;2CF4: 04
+		DB   0DDH            ;2CF5: DD
+		DB   14H             ;2CF6: 14
+		DB   00H             ;2CF7: 00
+		DB   7CH             ;2CF8: 7C
+		DB   55H             ;2CF9: 55
+		DB   55H             ;2CFA: 55
+		DB   51H             ;2CFB: 51
+		DB   0E0H            ;2CFC: E0
+		DB   0FFH            ;2CFD: FF
+		DB   80H             ;2CFE: 80
+		DB   40H             ;2CFF: 40
+		DB   00H             ;2D00: 00
+		DB   00H             ;2D01: 00
+		DB   00H             ;2D02: 00
+		DB   00H             ;2D03: 00
+		DB   81H             ;2D04: 81
+		DB   40H             ;2D05: 40
+		DB   00H             ;2D06: 00
+		DB   00H             ;2D07: 00
+		DB   00H             ;2D08: 00
+		DB   00H             ;2D09: 00
+		DB   78H             ;2D0A: 78
+		DB   5DH             ;2D0B: 5D
+		DB   0EBH            ;2D0C: EB
+		DB   0AEH            ;2D0D: AE
+		DB   0BH             ;2D0E: 0B
+		DB   0FFH            ;2D0F: FF
+		DB   7BH             ;2D10: 7B
+		DB   42H             ;2D11: 42
+		DB   36H             ;2D12: 36
+		DB   0F7H            ;2D13: F7
+		DB   0CH             ;2D14: 0C
+		DB   00H             ;2D15: 00
+		DB   7CH             ;2D16: 7C
+		DB   57H             ;2D17: 57
+		DB   0E0H            ;2D18: E0
+		DB   0FDH            ;2D19: FD
+		DB   02H             ;2D1A: 02
+		DB   0FFH            ;2D1B: FF
+		DB   7DH             ;2D1C: 7D
+		DB   4DH             ;2D1D: 4D
+		DB   18H             ;2D1E: 18
+		DB   8FH             ;2D1F: 8F
+		DB   40H             ;2D20: 40
+		DB   00H             ;2D21: 00
+		DB   7DH             ;2D22: 7D
+		DB   6DH             ;2D23: 6D
+		DB   1EH             ;2D24: 1E
+		DB   0D9H            ;2D25: D9
+		DB   0DCH            ;2D26: DC
+		DB   0FFH            ;2D27: FF
+		DB   7EH             ;2D28: 7E
+		DB   48H             ;2D29: 48
+		DB   0BFH            ;2D2A: BF
+		DB   0E3H            ;2D2B: E3
+		DB   0AEH            ;2D2C: AE
+		DB   00H             ;2D2D: 00
+		DB   7EH             ;2D2E: 7E
+		DB   66H             ;2D2F: 66
+		DB   5EH             ;2D30: 5E
+		DB   02H             ;2D31: 02
+		DB   0E8H            ;2D32: E8
+		DB   0FFH            ;2D33: FF
+		DB   7FH             ;2D34: 7F
+		DB   55H             ;2D35: 55
+		DB   55H             ;2D36: 55
+		DB   3EH             ;2D37: 3E
+		DB   0F5H            ;2D38: F5
+		DB   00H             ;2D39: 00
+		DB   80H             ;2D3A: 80
+		DB   5AH             ;2D3B: 5A
+		DB   82H             ;2D3C: 82
+		DB   7BH             ;2D3D: 7B
+		DB   6CH             ;2D3E: 6C
+		DB   00H             ;2D3F: 00
+		DB   80H             ;2D40: 80
+		DB   4CH             ;2D41: 4C
+		DB   0ABH            ;2D42: AB
+		DB   58H             ;2D43: 58
+		DB   06H             ;2D44: 06
+		DB   00H             ;2D45: 00
+		DB   80H             ;2D46: 80
+		DB   7BH             ;2D47: 7B
+		DB   11H             ;2D48: 11
+		DB   7BH             ;2D49: 7B
+		DB   4EH             ;2D4A: 4E
+		DB   00H             ;2D4B: 00
+		DB   82H             ;2D4C: 82
+		DB   5CH             ;2D4D: 5C
+		DB   55H             ;2D4E: 55
+		DB   1DH             ;2D4F: 1D
+		DB   67H             ;2D50: 67
+		DB   00H             ;2D51: 00
+		DB   80H             ;2D52: 80
+		DB   40H             ;2D53: 40
+		DB   00H             ;2D54: 00
+		DB   00H             ;2D55: 00
+		DB   00H             ;2D56: 00
+		DB   00H             ;2D57: 00
+		DB   80H             ;2D58: 80
+		DB   58H             ;2D59: 58
+		DB   0B9H            ;2D5A: B9
+		DB   0AH             ;2D5B: 0A
+		DB   75H             ;2D5C: 75
+		DB   00H             ;2D5D: 00
+		DB   7CH             ;2D5E: 7C
+		DB   46H             ;2D5F: 46
+		DB   0FAH            ;2D60: FA
+		DB   6FH             ;2D61: 6F
+		DB   0F9H            ;2D62: F9
+		DB   00H             ;2D63: 00
+		DB   87H             ;2D64: 87
+		DB   57H             ;2D65: 57
+		DB   6AH             ;2D66: 6A
+		DB   0E1H            ;2D67: E1
+		DB   13H             ;2D68: 13
+		DB   00H             ;2D69: 00
+		DB   84H             ;2D6A: 84
+		DB   4FH             ;2D6B: 4F
+		DB   0A3H            ;2D6C: A3
+		DB   03H             ;2D6D: 03
+		DB   38H             ;2D6E: 38
+		DB   00H             ;2D6F: 00
+		DB   8AH             ;2D70: 8A
+		DB   4DH             ;2D71: 4D
+		DB   3FH             ;2D72: 3F
+		DB   1CH             ;2D73: 1C
+		DB   0D4H            ;2D74: D4
+		DB   00H             ;2D75: 00
+		DB   81H             ;2D76: 81
+		DB   5CH             ;2D77: 5C
+		DB   55H             ;2D78: 55
+		DB   1DH             ;2D79: 1D
+		DB   0A0H            ;2D7A: A0
+J2D7B
+		INC  RD              ;2D7B: 1D          
+		SEP  RD              ;2D7C: DD          
+		DB   1EH             ;2D7D: 1E
+		DB   8BH             ;2D7E: 8B
+		DB   8EH             ;2D7F: 8E
+		DB   00H             ;2D80: 00
+S2D81
+		GHI  R7              ;2D81: 97          
+		STXD                 ;2D82: 73          
+		PHI  R8              ;2D83: B8          
+		LDI  0AH             ;2D84: F8 0A       
+		PLO  R7              ;2D86: A7          
+		GLO  R9              ;2D87: 89          
+		PLO  RE              ;2D88: AE          
+		ADI  04H             ;2D89: FC 04       
+		PHI  RE              ;2D8B: BE          
+		GLO  RC              ;2D8C: 8C          
+		BZ   R2DBD           ;2D8D: 32 BD       
+R2D8F
+		GHI  RE              ;2D8F: 9E          
+		PLO  R9              ;2D90: A9          
+		INC  RD              ;2D91: 1D          
+		SEP  RD              ;2D92: DD          
+		DB   8FH             ;2D93: 8F
+S2D94
+		LDI  84H             ;2D94: F8 84       
+		PLO  R8              ;2D96: A8          
+		LDI  50H             ;2D97: F8 50       
+		STR  R9              ;2D99: 59          
+		GLO  RC              ;2D9A: 8C          
+		SDI  9FH             ;2D9B: FD 9F       
+		BDF  R2DA5           ;2D9D: 33 A5       
+		SEP  R4              ;2D9F: D4          
+		DW   S2A73           ;2DA0: 2A 73
+		INC  R7              ;2DA2: 17          
+		BR   R2D8F           ;2DA3: 30 8F       
+R2DA5
+		GLO  RE              ;2DA5: 8E          
+		PLO  R9              ;2DA6: A9          
+		GLO  RC              ;2DA7: 8C          
+		SMI  9CH             ;2DA8: FF 9C       
+		BDF  R2DB2           ;2DAA: 33 B2       
+		SEP  R4              ;2DAC: D4          
+		DW   S2C43           ;2DAD: 2C 43
+S2DAF
+		DEC  R7              ;2DAF: 27          
+		BR   R2DA5           ;2DB0: 30 A5       
+R2DB2
+		GLO  RC              ;2DB2: 8C          
+		SDI  9FH             ;2DB3: FD 9F       
+		BZ   R2DBD           ;2DB5: 32 BD       
+		INC  RD              ;2DB7: 1D          
+		SEP  RD              ;2DB8: DD          
+		DB   7BH             ;2DB9: 7B
+S2DBA
+		INC  RC              ;2DBA: 1C          
+		BR   R2DB2           ;2DBB: 30 B2       
+R2DBD
+		LDI  0FFH            ;2DBD: F8 FF       
+		PHI  RF              ;2DBF: BF          
+		INC  RD              ;2DC0: 1D          
+		SEP  RD              ;2DC1: DD          
+		DB   0B0H            ;2DC2: B0
+S2DC3
+		INC  R2              ;2DC3: 12          
+		LDX                  ;2DC4: F0          
+		PHI  R7              ;2DC5: B7          
+		SEP  R4              ;2DC6: D4          
+		DW   S2609           ;2DC7: 26 09
+S2DC9
+		LDI  90H             ;2DC9: F8 90       
+		PHI  RB              ;2DCB: BB          
+		LDI  0C9H            ;2DCC: F8 C9       
+		PLO  RB              ;2DCE: AB          
+		GLO  R7              ;2DCF: 87          
+		ANI  80H             ;2DD0: FA 80       
+		BZ   R2DDB           ;2DD2: 32 DB       
+		GLO  R7              ;2DD4: 87          
+		SDI  00H             ;2DD5: FD 00       
+		PLO  R7              ;2DD7: A7          
+		LDI  0DH             ;2DD8: F8 0D       
+		LSKP                 ;2DDA: C8          
+R2DDB
+		LDI  0BH             ;2DDB: F8 0B       
+		STR  RB              ;2DDD: 5B          
+		INC  RB              ;2DDE: 1B          
+		INC  RB              ;2DDF: 1B          
+		LDI  00H             ;2DE0: F8 00       
+		PLO  RF              ;2DE2: AF          
+		GLO  R7              ;2DE3: 87          
+R2DE4
+		SMI  0AH             ;2DE4: FF 0A       
+		INC  RF              ;2DE6: 1F          
+		BDF  R2DE4           ;2DE7: 33 E4       
+		DEC  RF              ;2DE9: 2F          
+		ADI  0AH             ;2DEA: FC 0A       
+		STR  RB              ;2DEC: 5B          
+		DEC  RB              ;2DED: 2B          
+		GLO  RF              ;2DEE: 8F          
+		STR  RB              ;2DEF: 5B          
+		INC  R2              ;2DF0: 12          
+		SEP  R2              ;2DF1: D2          
+S2DF2
+		GHI  R3              ;2DF2: 93          
+		PHI  R6              ;2DF3: B6          
+		LDI  0F8H            ;2DF4: F8 F8       
+		PLO  R6              ;2DF6: A6          
+		SEP  R5              ;2DF7: D5          
+S2DF8
+		INC  R2              ;2DF8: 12          
+		SEP  R2              ;2DF9: D2          
+S2DFA
+		SEP  R5              ;2DFA: D5          
+		DB   0FFH            ;2DFB: FF
+		DB   0FFH            ;2DFC: FF
+		DB   0FFH            ;2DFD: FF
+		DB   0FFH            ;2DFE: FF
+		DB   0FFH            ;2DFF: FF
+		DB   0FFH            ;2E00: FF
+		DB   0FFH            ;2E01: FF
+		DB   0FFH            ;2E02: FF
+		DB   0FFH            ;2E03: FF
+		DB   0FFH            ;2E04: FF
+		DB   0FFH            ;2E05: FF
+		DB   0FFH            ;2E06: FF
+		DB   0FFH            ;2E07: FF
+		DB   0FFH            ;2E08: FF
+		DB   0FFH            ;2E09: FF
+		DB   0FFH            ;2E0A: FF
+		DB   0FFH            ;2E0B: FF
+		DB   0FFH            ;2E0C: FF
+		DB   0FFH            ;2E0D: FF
+		DB   0FFH            ;2E0E: FF
+		DB   0FFH            ;2E0F: FF
+		DB   0FFH            ;2E10: FF
+		DB   0FFH            ;2E11: FF
+		DB   0FFH            ;2E12: FF
+		DB   0FFH            ;2E13: FF
+		DB   0FFH            ;2E14: FF
+		DB   0FFH            ;2E15: FF
+		DB   0FFH            ;2E16: FF
+		DB   0FFH            ;2E17: FF
+		DB   0FFH            ;2E18: FF
+		DB   0FFH            ;2E19: FF
+		DB   0FFH            ;2E1A: FF
+		DB   0FFH            ;2E1B: FF
+		DB   0FFH            ;2E1C: FF
+		DB   0FFH            ;2E1D: FF
+		DB   0FFH            ;2E1E: FF
+		DB   0FFH            ;2E1F: FF
+		DB   0FFH            ;2E20: FF
+		DB   0FFH            ;2E21: FF
+		DB   0FFH            ;2E22: FF
+		DB   0FFH            ;2E23: FF
+		DB   0FFH            ;2E24: FF
+		DB   0FFH            ;2E25: FF
+		DB   0FFH            ;2E26: FF
+		DB   0FFH            ;2E27: FF
+		DB   0FFH            ;2E28: FF
+		DB   0FFH            ;2E29: FF
+		DB   0FFH            ;2E2A: FF
+		DB   0FFH            ;2E2B: FF
+		DB   0FFH            ;2E2C: FF
+		DB   0FFH            ;2E2D: FF
+		DB   0FFH            ;2E2E: FF
+		DB   0FFH            ;2E2F: FF
+		DB   0FFH            ;2E30: FF
+		DB   0FFH            ;2E31: FF
+		DB   0FFH            ;2E32: FF
+		DB   0FFH            ;2E33: FF
+		DB   0FFH            ;2E34: FF
+		DB   0FFH            ;2E35: FF
+		DB   0FFH            ;2E36: FF
+		DB   0FFH            ;2E37: FF
+		DB   0FFH            ;2E38: FF
+		DB   0FFH            ;2E39: FF
+		DB   0FFH            ;2E3A: FF
+		DB   0FFH            ;2E3B: FF
+		DB   0FFH            ;2E3C: FF
+		DB   0FFH            ;2E3D: FF
+		DB   0FFH            ;2E3E: FF
+		DB   0FFH            ;2E3F: FF
+		DB   0FFH            ;2E40: FF
+		DB   0FFH            ;2E41: FF
+		DB   0FFH            ;2E42: FF
+		DB   0FFH            ;2E43: FF
+		DB   0FFH            ;2E44: FF
+		DB   0FFH            ;2E45: FF
+		DB   0FFH            ;2E46: FF
+		DB   0FFH            ;2E47: FF
+		DB   0FFH            ;2E48: FF
+		DB   0FFH            ;2E49: FF
+		DB   0FFH            ;2E4A: FF
+		DB   0FFH            ;2E4B: FF
+		DB   0FFH            ;2E4C: FF
+		DB   0FFH            ;2E4D: FF
+		DB   0FFH            ;2E4E: FF
+		DB   0FFH            ;2E4F: FF
+		DB   0FFH            ;2E50: FF
+		DB   0FFH            ;2E51: FF
+		DB   0FFH            ;2E52: FF
+		DB   0FFH            ;2E53: FF
+		DB   0FFH            ;2E54: FF
+		DB   0FFH            ;2E55: FF
+		DB   0FFH            ;2E56: FF
+		DB   0FFH            ;2E57: FF
+		DB   0FFH            ;2E58: FF
+		DB   0FFH            ;2E59: FF
+		DB   0FFH            ;2E5A: FF
+		DB   0FFH            ;2E5B: FF
+		DB   0FFH            ;2E5C: FF
+		DB   0FFH            ;2E5D: FF
+		DB   0FFH            ;2E5E: FF
+		DB   0FFH            ;2E5F: FF
+		DB   0FFH            ;2E60: FF
+		DB   0FFH            ;2E61: FF
+		DB   0FFH            ;2E62: FF
+		DB   0FFH            ;2E63: FF
+		DB   0FFH            ;2E64: FF
+		DB   0FFH            ;2E65: FF
+		DB   0FFH            ;2E66: FF
+		DB   0FFH            ;2E67: FF
+		DB   0FFH            ;2E68: FF
+		DB   0FFH            ;2E69: FF
+		DB   0FFH            ;2E6A: FF
+		DB   0FFH            ;2E6B: FF
+		DB   0FFH            ;2E6C: FF
+		DB   0FFH            ;2E6D: FF
+		DB   0FFH            ;2E6E: FF
+		DB   0FFH            ;2E6F: FF
+		DB   0FFH            ;2E70: FF
+		DB   0FFH            ;2E71: FF
+		DB   0FFH            ;2E72: FF
+		DB   0FFH            ;2E73: FF
+		DB   0FFH            ;2E74: FF
+		DB   0FFH            ;2E75: FF
+		DB   0FFH            ;2E76: FF
+		DB   0FFH            ;2E77: FF
+		DB   0FFH            ;2E78: FF
+		DB   0FFH            ;2E79: FF
+		DB   0FFH            ;2E7A: FF
+		DB   0FFH            ;2E7B: FF
+		DB   0FFH            ;2E7C: FF
+		DB   0FFH            ;2E7D: FF
+		DB   0FFH            ;2E7E: FF
+		DB   0FFH            ;2E7F: FF
+		DB   0FFH            ;2E80: FF
+		DB   0FFH            ;2E81: FF
+		DB   0FFH            ;2E82: FF
+		DB   0FFH            ;2E83: FF
+		DB   0FFH            ;2E84: FF
+		DB   0FFH            ;2E85: FF
+		DB   0FFH            ;2E86: FF
+		DB   0FFH            ;2E87: FF
+		DB   0FFH            ;2E88: FF
+		DB   0FFH            ;2E89: FF
+		DB   0FFH            ;2E8A: FF
+		DB   0FFH            ;2E8B: FF
+		DB   0FFH            ;2E8C: FF
+		DB   0FFH            ;2E8D: FF
+		DB   0FFH            ;2E8E: FF
+		DB   0FFH            ;2E8F: FF
+		DB   0FFH            ;2E90: FF
+		DB   0FFH            ;2E91: FF
+		DB   0FFH            ;2E92: FF
+		DB   0FFH            ;2E93: FF
+		DB   0FFH            ;2E94: FF
+		DB   0FFH            ;2E95: FF
+		DB   0FFH            ;2E96: FF
+		DB   0FFH            ;2E97: FF
+		DB   0FFH            ;2E98: FF
+		DB   0FFH            ;2E99: FF
+		DB   0FFH            ;2E9A: FF
+		DB   0FFH            ;2E9B: FF
+		DB   0FFH            ;2E9C: FF
+		DB   0FFH            ;2E9D: FF
+		DB   0FFH            ;2E9E: FF
+		DB   0FFH            ;2E9F: FF
+		DB   0FFH            ;2EA0: FF
+		DB   0FFH            ;2EA1: FF
+		DB   0FFH            ;2EA2: FF
+		DB   0FFH            ;2EA3: FF
+		DB   0FFH            ;2EA4: FF
+		DB   0FFH            ;2EA5: FF
+		DB   0FFH            ;2EA6: FF
+		DB   0FFH            ;2EA7: FF
+		DB   0FFH            ;2EA8: FF
+		DB   0FFH            ;2EA9: FF
+		DB   0FFH            ;2EAA: FF
+		DB   0FFH            ;2EAB: FF
+		DB   0FFH            ;2EAC: FF
+		DB   0FFH            ;2EAD: FF
+		DB   0FFH            ;2EAE: FF
+		DB   0FFH            ;2EAF: FF
+		DB   0FFH            ;2EB0: FF
+		DB   0FFH            ;2EB1: FF
+		DB   0FFH            ;2EB2: FF
+		DB   0FFH            ;2EB3: FF
+		DB   0FFH            ;2EB4: FF
+		DB   0FFH            ;2EB5: FF
+		DB   0FFH            ;2EB6: FF
+		DB   0FFH            ;2EB7: FF
+		DB   0FFH            ;2EB8: FF
+		DB   0FFH            ;2EB9: FF
+		DB   0FFH            ;2EBA: FF
+		DB   0FFH            ;2EBB: FF
+		DB   0FFH            ;2EBC: FF
+		DB   0FFH            ;2EBD: FF
+		DB   0FFH            ;2EBE: FF
+		DB   0FFH            ;2EBF: FF
+		DB   0FFH            ;2EC0: FF
+		DB   0FFH            ;2EC1: FF
+		DB   0FFH            ;2EC2: FF
+		DB   0FFH            ;2EC3: FF
+		DB   0FFH            ;2EC4: FF
+		DB   0FFH            ;2EC5: FF
+		DB   0FFH            ;2EC6: FF
+		DB   0FFH            ;2EC7: FF
+		DB   0FFH            ;2EC8: FF
+		DB   0FFH            ;2EC9: FF
+		DB   0FFH            ;2ECA: FF
+		DB   0FFH            ;2ECB: FF
+		DB   0FFH            ;2ECC: FF
+		DB   0FFH            ;2ECD: FF
+		DB   0FFH            ;2ECE: FF
+		DB   0FFH            ;2ECF: FF
+		DB   0FFH            ;2ED0: FF
+		DB   0FFH            ;2ED1: FF
+		DB   0FFH            ;2ED2: FF
+		DB   0FFH            ;2ED3: FF
+		DB   0FFH            ;2ED4: FF
+		DB   0FFH            ;2ED5: FF
+		DB   0FFH            ;2ED6: FF
+		DB   0FFH            ;2ED7: FF
+		DB   0FFH            ;2ED8: FF
+		DB   0FFH            ;2ED9: FF
+		DB   0FFH            ;2EDA: FF
+		DB   0FFH            ;2EDB: FF
+		DB   0FFH            ;2EDC: FF
+		DB   0FFH            ;2EDD: FF
+		DB   0FFH            ;2EDE: FF
+		DB   0FFH            ;2EDF: FF
+		DB   0FFH            ;2EE0: FF
+		DB   0FFH            ;2EE1: FF
+		DB   0FFH            ;2EE2: FF
+		DB   0FFH            ;2EE3: FF
+		DB   0FFH            ;2EE4: FF
+		DB   0FFH            ;2EE5: FF
+		DB   0FFH            ;2EE6: FF
+		DB   0FFH            ;2EE7: FF
+		DB   0FFH            ;2EE8: FF
+		DB   0FFH            ;2EE9: FF
+		DB   0FFH            ;2EEA: FF
+		DB   0FFH            ;2EEB: FF
+		DB   0FFH            ;2EEC: FF
+		DB   0FFH            ;2EED: FF
+		DB   0FFH            ;2EEE: FF
+		DB   0FFH            ;2EEF: FF
+		DB   0FFH            ;2EF0: FF
+		DB   0FFH            ;2EF1: FF
+		DB   0FFH            ;2EF2: FF
+		DB   0FFH            ;2EF3: FF
+		DB   0FFH            ;2EF4: FF
+		DB   0FFH            ;2EF5: FF
+		DB   0FFH            ;2EF6: FF
+		DB   0FFH            ;2EF7: FF
+		DB   0FFH            ;2EF8: FF
+		DB   0FFH            ;2EF9: FF
+		DB   0FFH            ;2EFA: FF
+		DB   0FFH            ;2EFB: FF
+		DB   0FFH            ;2EFC: FF
+		DB   0FFH            ;2EFD: FF
+		DB   0FFH            ;2EFE: FF
+		DB   0FFH            ;2EFF: FF
+		DB   0FFH            ;2F00: FF
+		DB   0FFH            ;2F01: FF
+		DB   0FFH            ;2F02: FF
+		DB   0FFH            ;2F03: FF
+		DB   0FFH            ;2F04: FF
+		DB   0FFH            ;2F05: FF
+		DB   0FFH            ;2F06: FF
+		DB   0FFH            ;2F07: FF
+		DB   0FFH            ;2F08: FF
+		DB   0FFH            ;2F09: FF
+		DB   0FFH            ;2F0A: FF
+		DB   0FFH            ;2F0B: FF
+		DB   0FFH            ;2F0C: FF
+		DB   0FFH            ;2F0D: FF
+		DB   0FFH            ;2F0E: FF
+		DB   0FFH            ;2F0F: FF
+		DB   0FFH            ;2F10: FF
+		DB   0FFH            ;2F11: FF
+		DB   0FFH            ;2F12: FF
+		DB   0FFH            ;2F13: FF
+		DB   0FFH            ;2F14: FF
+		DB   0FFH            ;2F15: FF
+		DB   0FFH            ;2F16: FF
+		DB   0FFH            ;2F17: FF
+		DB   0FFH            ;2F18: FF
+		DB   0FFH            ;2F19: FF
+		DB   0FFH            ;2F1A: FF
+		DB   0FFH            ;2F1B: FF
+		DB   0FFH            ;2F1C: FF
+		DB   0FFH            ;2F1D: FF
+		DB   0FFH            ;2F1E: FF
+		DB   0FFH            ;2F1F: FF
+		DB   0FFH            ;2F20: FF
+		DB   0FFH            ;2F21: FF
+		DB   0FFH            ;2F22: FF
+		DB   0FFH            ;2F23: FF
+		DB   0FFH            ;2F24: FF
+		DB   0FFH            ;2F25: FF
+		DB   0FFH            ;2F26: FF
+		DB   0FFH            ;2F27: FF
+		DB   0FFH            ;2F28: FF
+		DB   0FFH            ;2F29: FF
+		DB   0FFH            ;2F2A: FF
+		DB   0FFH            ;2F2B: FF
+		DB   0FFH            ;2F2C: FF
+		DB   0FFH            ;2F2D: FF
+		DB   0FFH            ;2F2E: FF
+		DB   0FFH            ;2F2F: FF
+		DB   0FFH            ;2F30: FF
+		DB   0FFH            ;2F31: FF
+		DB   0FFH            ;2F32: FF
+		DB   0FFH            ;2F33: FF
+		DB   0FFH            ;2F34: FF
+		DB   0FFH            ;2F35: FF
+		DB   0FFH            ;2F36: FF
+		DB   0FFH            ;2F37: FF
+		DB   0FFH            ;2F38: FF
+		DB   0FFH            ;2F39: FF
+		DB   0FFH            ;2F3A: FF
+		DB   0FFH            ;2F3B: FF
+		DB   0FFH            ;2F3C: FF
+		DB   0FFH            ;2F3D: FF
+		DB   0FFH            ;2F3E: FF
+		DB   0FFH            ;2F3F: FF
+		DB   0FFH            ;2F40: FF
+		DB   0FFH            ;2F41: FF
+		DB   0FFH            ;2F42: FF
+		DB   0FFH            ;2F43: FF
+		DB   0FFH            ;2F44: FF
+		DB   0FFH            ;2F45: FF
+		DB   0FFH            ;2F46: FF
+		DB   0FFH            ;2F47: FF
+		DB   0FFH            ;2F48: FF
+		DB   0FFH            ;2F49: FF
+		DB   0FFH            ;2F4A: FF
+		DB   0FFH            ;2F4B: FF
+		DB   0FFH            ;2F4C: FF
+		DB   0FFH            ;2F4D: FF
+		DB   0FFH            ;2F4E: FF
+		DB   0FFH            ;2F4F: FF
+		DB   0FFH            ;2F50: FF
+		DB   0FFH            ;2F51: FF
+		DB   0FFH            ;2F52: FF
+		DB   0FFH            ;2F53: FF
+		DB   0FFH            ;2F54: FF
+		DB   0FFH            ;2F55: FF
+		DB   0FFH            ;2F56: FF
+		DB   0FFH            ;2F57: FF
+		DB   0FFH            ;2F58: FF
+		DB   0FFH            ;2F59: FF
+		DB   0FFH            ;2F5A: FF
+		DB   0FFH            ;2F5B: FF
+		DB   0FFH            ;2F5C: FF
+		DB   0FFH            ;2F5D: FF
+		DB   0FFH            ;2F5E: FF
+		DB   0FFH            ;2F5F: FF
+		DB   0FFH            ;2F60: FF
+		DB   0FFH            ;2F61: FF
+		DB   0FFH            ;2F62: FF
+		DB   0FFH            ;2F63: FF
+		DB   0FFH            ;2F64: FF
+		DB   0FFH            ;2F65: FF
+		DB   0FFH            ;2F66: FF
+		DB   0FFH            ;2F67: FF
+		DB   0FFH            ;2F68: FF
+		DB   0FFH            ;2F69: FF
+		DB   0FFH            ;2F6A: FF
+		DB   0FFH            ;2F6B: FF
+		DB   0FFH            ;2F6C: FF
+		DB   0FFH            ;2F6D: FF
+		DB   0FFH            ;2F6E: FF
+		DB   0FFH            ;2F6F: FF
+		DB   0FFH            ;2F70: FF
+		DB   0FFH            ;2F71: FF
+		DB   0FFH            ;2F72: FF
+		DB   0FFH            ;2F73: FF
+		DB   0FFH            ;2F74: FF
+		DB   0FFH            ;2F75: FF
+		DB   0FFH            ;2F76: FF
+		DB   0FFH            ;2F77: FF
+		DB   0FFH            ;2F78: FF
+		DB   0FFH            ;2F79: FF
+		DB   0FFH            ;2F7A: FF
+		DB   0FFH            ;2F7B: FF
+		DB   0FFH            ;2F7C: FF
+		DB   0FFH            ;2F7D: FF
+		DB   0FFH            ;2F7E: FF
+		DB   0FFH            ;2F7F: FF
+		DB   0FFH            ;2F80: FF
+		DB   0FFH            ;2F81: FF
+		DB   0FFH            ;2F82: FF
+		DB   0FFH            ;2F83: FF
+		DB   0FFH            ;2F84: FF
+		DB   0FFH            ;2F85: FF
+		DB   0FFH            ;2F86: FF
+		DB   0FFH            ;2F87: FF
+		DB   0FFH            ;2F88: FF
+		DB   0FFH            ;2F89: FF
+		DB   0FFH            ;2F8A: FF
+		DB   0FFH            ;2F8B: FF
+		DB   0FFH            ;2F8C: FF
+		DB   0FFH            ;2F8D: FF
+		DB   0FFH            ;2F8E: FF
+		DB   0FFH            ;2F8F: FF
+		DB   0FFH            ;2F90: FF
+		DB   0FFH            ;2F91: FF
+		DB   0FFH            ;2F92: FF
+		DB   0FFH            ;2F93: FF
+		DB   0FFH            ;2F94: FF
+		DB   0FFH            ;2F95: FF
+		DB   0FFH            ;2F96: FF
+		DB   0FFH            ;2F97: FF
+		DB   0FFH            ;2F98: FF
+		DB   0FFH            ;2F99: FF
+		DB   0FFH            ;2F9A: FF
+		DB   0FFH            ;2F9B: FF
+		DB   0FFH            ;2F9C: FF
+		DB   0FFH            ;2F9D: FF
+		DB   0FFH            ;2F9E: FF
+		DB   0FFH            ;2F9F: FF
+		DB   0FFH            ;2FA0: FF
+		DB   0FFH            ;2FA1: FF
+		DB   0FFH            ;2FA2: FF
+		DB   0FFH            ;2FA3: FF
+		DB   0FFH            ;2FA4: FF
+		DB   0FFH            ;2FA5: FF
+		DB   0FFH            ;2FA6: FF
+		DB   0FFH            ;2FA7: FF
+		DB   0FFH            ;2FA8: FF
+		DB   0FFH            ;2FA9: FF
+		DB   0FFH            ;2FAA: FF
+		DB   0FFH            ;2FAB: FF
+		DB   0FFH            ;2FAC: FF
+		DB   0FFH            ;2FAD: FF
+		DB   0FFH            ;2FAE: FF
+		DB   0FFH            ;2FAF: FF
+		DB   0FFH            ;2FB0: FF
+		DB   0FFH            ;2FB1: FF
+		DB   0FFH            ;2FB2: FF
+		DB   0FFH            ;2FB3: FF
+		DB   0FFH            ;2FB4: FF
+		DB   0FFH            ;2FB5: FF
+		DB   0FFH            ;2FB6: FF
+		DB   0FFH            ;2FB7: FF
+		DB   0FFH            ;2FB8: FF
+		DB   0FFH            ;2FB9: FF
+		DB   0FFH            ;2FBA: FF
+		DB   0FFH            ;2FBB: FF
+		DB   0FFH            ;2FBC: FF
+		DB   0FFH            ;2FBD: FF
+		DB   0FFH            ;2FBE: FF
+		DB   0FFH            ;2FBF: FF
+		DB   0FFH            ;2FC0: FF
+		DB   0FFH            ;2FC1: FF
+		DB   0FFH            ;2FC2: FF
+		DB   0FFH            ;2FC3: FF
+		DB   0FFH            ;2FC4: FF
+		DB   0FFH            ;2FC5: FF
+		DB   0FFH            ;2FC6: FF
+		DB   0FFH            ;2FC7: FF
+		DB   0FFH            ;2FC8: FF
+		DB   0FFH            ;2FC9: FF
+		DB   0FFH            ;2FCA: FF
+		DB   0FFH            ;2FCB: FF
+		DB   0FFH            ;2FCC: FF
+		DB   0FFH            ;2FCD: FF
+		DB   0FFH            ;2FCE: FF
+		DB   0FFH            ;2FCF: FF
+		DB   0FFH            ;2FD0: FF
+		DB   0FFH            ;2FD1: FF
+		DB   0FFH            ;2FD2: FF
+		DB   0FFH            ;2FD3: FF
+		DB   0FFH            ;2FD4: FF
+		DB   0FFH            ;2FD5: FF
+		DB   0FFH            ;2FD6: FF
+		DB   0FFH            ;2FD7: FF
+		DB   0FFH            ;2FD8: FF
+		DB   0FFH            ;2FD9: FF
+		DB   0FFH            ;2FDA: FF
+		DB   0FFH            ;2FDB: FF
+		DB   0FFH            ;2FDC: FF
+		DB   0FFH            ;2FDD: FF
+		DB   0FFH            ;2FDE: FF
+		DB   0FFH            ;2FDF: FF
+		DB   0FFH            ;2FE0: FF
+		DB   0FFH            ;2FE1: FF
+		DB   0FFH            ;2FE2: FF
+		DB   0FFH            ;2FE3: FF
+		DB   0FFH            ;2FE4: FF
+		DB   0FFH            ;2FE5: FF
+		DB   0FFH            ;2FE6: FF
+		DB   0FFH            ;2FE7: FF
+		DB   0FFH            ;2FE8: FF
+		DB   0FFH            ;2FE9: FF
+		DB   0FFH            ;2FEA: FF
+		DB   0FFH            ;2FEB: FF
+		DB   0FFH            ;2FEC: FF
+		DB   0FFH            ;2FED: FF
+		DB   0FFH            ;2FEE: FF
+		DB   0FFH            ;2FEF: FF
+		DB   0FFH            ;2FF0: FF
+		DB   0FFH            ;2FF1: FF
+		DB   0FFH            ;2FF2: FF
+		DB   0FFH            ;2FF3: FF
+		DB   0FFH            ;2FF4: FF
+		DB   0FFH            ;2FF5: FF
+		DB   0FFH            ;2FF6: FF
+		DB   0FFH            ;2FF7: FF
+		DB   0FFH            ;2FF8: FF
+		DB   0FFH            ;2FF9: FF
+		DB   0FFH            ;2FFA: FF
+		DB   0FFH            ;2FFB: FF
+		DB   0FFH            ;2FFC: FF
+		DB   0FFH            ;2FFD: FF
+		DB   0FFH            ;2FFE: FF
+		DB   0FFH            ;2FFF: FF
+		END

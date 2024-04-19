@@ -9,7 +9,7 @@
 class VelfScreen : public Panel
 {
 public:
-    VelfScreen(wxWindow *parent, const wxSize& size);
+    VelfScreen(wxWindow *parent, const wxSize& size, int tilType);
     ~VelfScreen();
     
     void init();

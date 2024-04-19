@@ -9,7 +9,7 @@ With the Key File function it is possible to specify a set of keys (or text) to 
 To specify the location and file use the 'Key File' button to browse for the file or type in a new file name in the text field.
 </p>
 <p>
-If the key file uses both capital and small characters press the Caps Lock at start-up to allow input of small characters.
+If the key file uses both capital and lower case characters press the Caps Lock at start-up to allow input of lower case characters.
 </p>
 <p>
 Note: Specify one extra 'C' at the start of the file to allow the TMC-600 to start basic.

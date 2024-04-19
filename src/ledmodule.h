@@ -6,7 +6,7 @@
 class LedModuleScreen: public Panel
 {
 public:
-    LedModuleScreen(wxWindow *parent, const wxSize& size);
+    LedModuleScreen(wxWindow *parent, const wxSize& size, int tilType);
     ~LedModuleScreen();
 
     void init(int computerType);
@@ -22,7 +22,7 @@ public:
 
     void onClose(wxCloseEvent&WXUNUSED(event));
 
-    void configure(ElfPortConfiguration elfPortConf);
+    void configure(IoConfiguration ioConfiguration);
     void write(Byte value); 
     void ledTimeout();
     void setLedMs(long ms);

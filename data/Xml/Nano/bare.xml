@@ -1,0 +1,120 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>Oscom Nano</name>
+        <config>Bare</config>
+        <clock>1.75</clock>
+        <boot>0</boot>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init>
+        <monitor>4</monitor>
+        <dirname>nano</dirname>
+    </system>
+
+    <memaccess>
+        <location>on</location>
+        <start>0x200</start>
+    </memaccess>
+
+    <frontpanel init="on">
+        <size>170, 80</size>
+        <item>
+            <type size="small">push</type>
+            <function type="reset">run</function>
+            <label></label>
+            <pos>25, 30</pos>
+            <size>25, 25</size>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="12">RUN</label>
+            <pos>20, 8</pos>
+        </item>
+        <item>
+            <type size="small">push</type>
+            <function>nano_monitor</function>
+            <label></label>
+            <pos>100, 30</pos>
+            <size>25, 25</size>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="12">MONTIOR</label>
+            <pos>75, 8</pos>
+        </item>
+    </frontpanel>
+    
+    <bootstrap>
+        <address>0x8000</address>
+        <out>4</out>
+    </bootstrap>
+
+    <memory>
+        <rom type="gui">
+            <start>0x8000</start>
+            <end>0x81FF</end>
+            <pulldown mask="*.rom">nano</pulldown>
+            <filename>nano.rom</filename>
+        </rom>
+
+        <ram type="gui">
+            <start>0</start>
+            <end>0xFFF</end>
+        </ram>
+    </memory>
+
+    <video type="1864">
+        <in type="on">1</in>
+        <in type="off">4</in>
+        <out type="tone">4</out>
+        <ef>1</ef>
+        <height>192</height>
+        <graphics>
+            <interrupt>74</interrupt>
+            <start>76</start>
+            <end>267</end>
+            <screenend>312</screenend>
+        </graphics>
+        <border>32x32</border>
+        <xscale>4</xscale>
+        <color type="fore">255, 255, 255</color>
+        <color type="back">0, 0, 0</color>
+     </video>
+
+    <keypad type="latch">
+        <out mask="0x3f">2</out>
+        <ef pol="rev">3</ef>
+        <auto>on</auto>
+    </keypad>
+
+    <cassette decks="1">
+        <ef>2</ef>
+    </cassette>
+
+    <locations>
+        <!-- Stop cassette -->
+        <stop_cas>0x80c0, 0x80ed</stop_cas>
+        
+        <!-- Start PSAVE, PLOAD -->
+        <start_cas_save>0x8091</start_cas_save>
+        <start_cas_load>0x80c2</start_cas_load>
+    </locations>
+
+    <debugger>
+        <scrt mode="off">
+            <call reg="4">-1</call>
+            <return reg="5">-1</return>
+        </scrt>
+
+        <assembler>
+            <filename>mycode</filename>
+            <code_start>0</code_start>
+            <code_end>0xFFF</code_end>
+        </assembler>
+    </debugger>
+    
+</emmaconfig>

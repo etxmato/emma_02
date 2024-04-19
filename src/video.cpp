@@ -35,27 +35,43 @@ BEGIN_EVENT_TABLE(VideoScreen, wxWindow)
     EVT_KEY_UP(VideoScreen::onKeyUp)
 END_EVENT_TABLE()
 
-VideoScreen::VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int computerType)
+VideoScreen::VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int computerType, int videoNumber)
 : wxWindow(parent, wxID_ANY, wxDefaultPosition, size)
 {
+    vipiiRcaMode_ = false;
     zoom_ = zoom;
     xZoomFactor_ = 1;
     computerType_ = computerType;
     vt100_ = false;
+    videoNumber_ = videoNumber;
 }
 
-VideoScreen::VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int computerType, double xZoomFactor)
+VideoScreen::VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int computerType, int videoNumber, double xZoomFactor)
 : wxWindow(parent, wxID_ANY, wxDefaultPosition, size)
 {
+    vipiiRcaMode_ = false;
     zoom_ = zoom;
     xZoomFactor_ = xZoomFactor;
     computerType_ = computerType;
     vt100_ = false;
+    videoNumber_ = videoNumber;
+}
+
+VideoScreen::VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int computerType, int videoNumber, double xZoomFactor, bool vipiiRcaMode)
+: wxWindow(parent, wxID_ANY, wxDefaultPosition, size)
+{
+    vipiiRcaMode_ = vipiiRcaMode;
+    zoom_ = zoom;
+    xZoomFactor_ = xZoomFactor;
+    computerType_ = computerType;
+    vt100_ = false;
+    videoNumber_ = videoNumber;
 }
 
 VideoScreen::VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int computerType, bool vt100, int uartNumber)
 : wxWindow(parent, wxID_ANY, wxDefaultPosition, size)
 {
+    vipiiRcaMode_ = false;
     zoom_ = zoom;
     xZoomFactor_ = 1;
     computerType_ = computerType;
@@ -77,9 +93,8 @@ VideoScreen::VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int 
         case MCDS:
         case CDP18S020:
         case MICROBOARD:
-        case DIY:
         case PICO:
-            forceUpperCase_ = p_Main->getUpperCase(computerType);
+            forceUpperCase_ = p_Main->getUpperCase();
         break;
 
         default:
@@ -108,9 +123,9 @@ void VideoScreen::onPaint(wxPaintEvent&WXUNUSED(event))
     {
 #ifdef __WXMAC__
         dcWindow.SetUserScale((double)zoom_*xZoomFactor_, zoom_);
-        p_Video->reBlit(dcWindow);
+        p_Video[videoNumber_]->reBlit(dcWindow);
 #else
-        p_Video->setReBlit();
+        p_Video[videoNumber_]->setReBlit();
 #endif
     }
 }
@@ -138,23 +153,26 @@ void VideoScreen::onChar(wxKeyEvent& event)
             {
                 if (wxTheClipboard->Open())
                 {
-//#ifndef __WXMAC__
+#ifndef __WXMAC__
                     if (wxTheClipboard->IsSupported( wxDF_TEXT ))
                     {
-//#endif
+#endif
                         wxTextDataObject data;
                         wxTheClipboard->GetData( data );
-                        p_Computer->ctrlvText(data.GetText());
-//#ifndef __WXMAC__
+                        if (computerType_ == XML)
+                            p_Computer->ctrlvTextXml(data.GetText());
+                        else
+                            p_Computer->ctrlvText(data.GetText());
+#ifndef __WXMAC__
                     }
-//#endif
+#endif
                     wxTheClipboard->Close();
                 }
                 return;
             }
         }
     }
-    if (computerType_ == VIPII)
+    if (computerType_ == VIPII  || vipiiRcaMode_)
     {
 #ifdef __WXMAC__
         if (event.GetModifiers() == wxMOD_CONTROL)
@@ -239,12 +257,21 @@ void VideoScreen::onKeyDown(wxKeyEvent& event)
             case SUPERELF:
             case COSMICOS:
             case MEMBER:
-            case DIY:
             case PICO:
                 if (p_Main->checkFunctionKey(event))
                     return;
                 if (!p_Computer->keyDownPressed(event.GetKeyCode()))
                     event.Skip();
+            break;
+
+            case XML:
+                if (p_Main->checkFunctionKey(event))
+                    return;
+                if (!p_Computer->keyDownExtended(keycode, event))
+                {
+                    if (!p_Computer->keyDownPressed(event.GetKeyCode()))
+                        event.Skip();
+                }
             break;
 
             case FRED1:
@@ -287,7 +314,7 @@ void VideoScreen::onKeyUp(wxKeyEvent& event)
     {
         lastKey_ = 0;
         p_Vt100[uartNumber_]->keyUpPressed();
-        if (!p_Computer->keyUpReleased(event.GetKeyCode()))
+        if (!p_Computer->keyUpReleased(event.GetKeyCode(), event))
             event.Skip();
     }
     else
@@ -304,12 +331,17 @@ void VideoScreen::onKeyUp(wxKeyEvent& event)
             case ELF2K:
             case ELFII:
             case SUPERELF:
-            case DIY:
             case PICO:
-                if (!p_Computer->keyUpReleased(event.GetKeyCode()))
+                if (!p_Computer->keyUpReleased(event.GetKeyCode(), event))
                     event.Skip();
             break;
-                
+
+            case XML:
+                lastKey_ = 0;
+                if (!p_Computer->keyUpReleased(event.GetKeyCode(), event))
+                    event.Skip();
+            break;
+
             case FRED1:
             case FRED1_5:
             case VIP2K:
@@ -407,6 +439,7 @@ Video::Video(const wxString& title, const wxPoint& pos, const wxSize& size)
     videoType_ = 0;
     videoSyncCount_ = 0;
     memoryDCvalid_ = true;
+    colourIndex_ = 0;
 }
 
 void Video::onClose(wxCloseEvent&WXUNUSED(event) )
@@ -424,12 +457,8 @@ void Video::reset()
 {
 }
 
-void Video::setInterlace(bool status)
+void Video::setInterlace(bool WXUNUSED(status))
 {
-    if (status)
-        p_Main->message("Illegal call to interlace set");
-    else
-        p_Main->message("Illegal call to interlace reset");
 }
 
 void Video::setStretchDot(bool status)
@@ -463,7 +492,12 @@ void Video::focus()
 
 void Video::updateStatusLed(bool WXUNUSED(status))
 {
-    p_Main->message("Illegal call to update COMX status led");
+    p_Main->message("Illegal call to update status led");
+}
+
+void Video::updateExpansionLed(bool WXUNUSED(status))
+{
+    p_Main->message("Illegal call to update expansion led");
 }
 
 void Video::dataAvailable()
@@ -580,7 +614,12 @@ void Video::setScreenSize()
     if (wxIsMainThread())
         SetClientSize(destinationWidth_, destinationHeight_);
     else
-        p_Main->eventSetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_*xZoomFactor_, (videoHeight_+2*borderY_[videoType_])*zoom_, CALL_CHANGE_SCREEN_SIZE, videoScreenPointer->isVt(), uartNumber_);
+    {
+        if (videoScreenPointer->isVt())
+            p_Main->eventSetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_*xZoomFactor_, (videoHeight_+2*borderY_[videoType_])*zoom_, CALL_CHANGE_SCREEN_SIZE, true, uartNumber_);
+        else
+            p_Main->eventSetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_*xZoomFactor_, (videoHeight_+2*borderY_[videoType_])*zoom_, CALL_CHANGE_SCREEN_SIZE, false, videoNumber_);
+    }
 }
 
 void Video::changeScreenSize()
@@ -598,13 +637,18 @@ void Video::changeScreenSize()
         if (videoScreenPointer->isVt())
             size = p_Vt100[uartNumber_]->GetClientSize();
         else
-            size = p_Video->GetClientSize();
+            size = p_Video[videoNumber_]->GetClientSize();
     }
     else
-        size = p_Main->eventGetClientSize(videoScreenPointer->isVt(), uartNumber_);
+    {
+        if (videoScreenPointer->isVt())
+            size = p_Main->eventGetClientSize(true, uartNumber_);
+        else
+            size = p_Main->eventGetClientSize(false, videoNumber_);
+    }
     destinationWidth_ = size.x;
     destinationHeight_ = size.y;
-
+    
     if (p_Main->isFullScreenFloat())
     {
         zoomx = (double)destinationWidth_/(double)((videoWidth_+2*borderX_[videoType_])*xZoomFactor_);
@@ -632,7 +676,12 @@ void Video::changeScreenSize()
     if (wxIsMainThread())
         SetClientSize(destinationWidth_, destinationHeight_);
     else
-        p_Main->eventSetClientSize(destinationWidth_, destinationHeight_, DON_T_CALL_CHANGE_SCREEN_SIZE, videoScreenPointer->isVt(), uartNumber_);
+    {
+        if (videoScreenPointer->isVt())
+            p_Main->eventSetClientSize(destinationWidth_, destinationHeight_, DON_T_CALL_CHANGE_SCREEN_SIZE, true, uartNumber_);
+        else
+            p_Main->eventSetClientSize(destinationWidth_, destinationHeight_, DON_T_CALL_CHANGE_SCREEN_SIZE, false, videoNumber_);
+    }
 
     dcMemory.SelectObject(wxNullBitmap);
     delete screenCopyPointer;
@@ -654,17 +703,17 @@ void Video::changeScreenSize()
     newBackGround_ = true;
 #endif
 
+    memoryDCvalid_ = true;
+
     if (wxIsMainThread())
     {
         if (videoScreenPointer->isVt())
             p_Main->zoomEventVt(zoom_);
         else
-            p_Main->zoomEvent(zoom_);
+            p_Main->zoomEvent(zoom_, videoNumber_);
     }
     else
-        p_Main->eventZoom(zoom_, videoScreenPointer->isVt());
-    
-    memoryDCvalid_ = true;
+        p_Main->eventZoom(zoom_, videoNumber_, videoScreenPointer->isVt());
 }
 
 void Video::onF3()
@@ -765,8 +814,8 @@ void Video::reBlit(wxDC &dc)
     {
         wxSize size = wxGetDisplaySize();
 
-        dc.SetBrush(wxBrush(colour_[backGround_]));
-        dc.SetPen(wxPen(colour_[backGround_]));
+        dc.SetBrush(wxBrush(colour_[colourIndex_+backGround_]));
+        dc.SetPen(wxPen(colour_[colourIndex_+backGround_]));
 
         int xStart = (int)((2*offsetX_+videoWidth_)*zoom_*xZoomFactor_);
         dc.DrawRectangle(xStart, 0, size.x-xStart, size.y);
@@ -791,6 +840,10 @@ void Video::copyScreen()
 void Video::reDrawBar()
 {
 }
+ 
+void Video::updateLedStatus(int WXUNUSED(card), int WXUNUSED(i), bool WXUNUSED(status))
+{
+}
 
 void Video::setClock(double WXUNUSED(clock))
 {
@@ -807,6 +860,8 @@ void Video::activateMainWindow()
 
 void Video::setColour(int clr)
 {
+//    if (p_Main->isZoomEventOngoingButNotFullScreen())
+//        return;
 #if defined(__WXMAC__)
     gc->SetBrush(brushColour_[clr]);
     gc->SetPen(penColour_[clr]);
@@ -818,6 +873,8 @@ void Video::setColour(int clr)
 
 void Video::setColour(wxColour clr)
 {
+//    if (p_Main->isZoomEventOngoingButNotFullScreen())
+ //       return;
 #if defined(__WXMAC__)
     gc->SetBrush(wxBrush(clr));
     gc->SetPen(wxPen(clr));
@@ -847,6 +904,8 @@ void Video::drawPoint(wxCoord x, wxCoord y)
 
 void Video::setColourMutex(int clr)
 {
+//    if (p_Main->isZoomEventOngoingButNotFullScreen())
+//        return;
 #if defined(__WXMAC__)
     gc->SetBrush(brushColour_[clr]);
     gc->SetPen(penColour_[clr]);
@@ -918,7 +977,7 @@ void Video::writeCramDirect(Word address, Byte value)
         case CIDELSA:
             characterMemory_[address] = (value & 0x3f) | (characterMemory_[address] & 0xc0);
         break;
-            
+
         default:
             characterMemory_[address] = value;
         break;
@@ -941,3 +1000,4 @@ void Video::setClientSize(wxSize size)
 {
     this->SetClientSize(size);
 }
+

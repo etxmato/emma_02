@@ -38,7 +38,7 @@ PortExt::PortExt()
 {
 }
 
-void PortExt::configurePortExt(ElfPortConfiguration portConf)
+void PortExt::configurePortExt(IoConfiguration portConf)
 {
 //    int selectOutput, writeOutput, input;
 
@@ -61,7 +61,7 @@ void PortExt::configurePortExt(ElfPortConfiguration portConf)
     wxString printBuffer;
     p_Main->message("Configuring Port Extender");
 
-    printBuffer.Printf("    Output %d: port selector, output %d: write selected, input %d: read selected\n", portConf.portExtenderSelectOutput, portConf.portExtenderWriteOutput, portConf.portExtenderInput);
+    printBuffer.Printf("	Output %d: port selector, output %d: write selected, input %d: read selected\n", portConf.portExtenderSelectOutput, portConf.portExtenderWriteOutput, portConf.portExtenderInput);
     p_Main->message(printBuffer);
 }
 

@@ -70,8 +70,6 @@ BEGIN_EVENT_TABLE(GuiMS2000, GuiMcds)
     EVT_CHOICE(XRCID("PrintModeMS2000"), GuiMain::onPrintMode)
     EVT_BUTTON(XRCID("PrintFileButtonMS2000"), GuiMain::onPrintFile)
 
-    EVT_COMMAND(wxID_ANY, OPEN_PRINTER_WINDOW, GuiMain::openPrinterFrame)
-
     EVT_CHOICE(XRCID("VTTypeMS2000"), GuiMain::onVT100)
     EVT_SPIN_UP(XRCID("ZoomSpinVtMS2000"), GuiMain::onZoomVt)
     EVT_SPIN_DOWN(XRCID("ZoomSpinVtMS2000"), GuiMain::onZoomVt)
@@ -122,18 +120,22 @@ void GuiMS2000::readMS2000Config()
 {
     selectedComputer_ = MS2000;
 
-    elfConfiguration[MS2000].elfPortConf.emsOutput.resize(1);
+    elfConfiguration[MS2000].ioConfiguration.emsOutput.resize(1);
     readElfPortConfig(MS2000, "MS2000");
 
     elfConfiguration[MS2000].fdcType_ = FDCTYPE_MS2000;
     
+    elfConfiguration[MS2000].useTapeHw = false;
+    elfConfiguration[MS2000].vtShow = true;
     conf[MS2000].emsConfigNumber_ = 0;
+    conf[MS2000].videoNumber_ = 0;
 
     conf[MS2000].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "MS2000" + pathSeparator_;
 
     conf[MS2000].mainDir_ = readConfigDir("/Dir/MS2000/Main", dataDir_ + "MS2000" + pathSeparator_);
     conf[MS2000].romDir_[MAINROM1] = readConfigDir("/Dir/MS2000/Main_Rom_File", dataDir_ + "MS2000" + pathSeparator_);
-    elfConfiguration[MS2000].vtCharRomDir_ = readConfigDir("/Dir/MS2000/Vt_Font_Rom_File", dataDir_ + "MS2000" + pathSeparator_);
+    elfConfiguration[MS2000].vt100CharRomDir_ = readConfigDir("/Dir/MS2000/Vt100_Font_Rom_File", dataDir_ + "MS2000" + pathSeparator_);
+    elfConfiguration[MS2000].vt52CharRomDir_ = readConfigDir("/Dir/MS2000/Vt52_Font_Rom_File", dataDir_ + "MS2000" + pathSeparator_);
     floppyDir_[elfConfiguration[MS2000].fdcType_][0] = readConfigDir("/Dir/MS2000/FDC0_File", dataDir_ + "MS2000" + pathSeparator_);
     floppyDir_[elfConfiguration[MS2000].fdcType_][1] = readConfigDir("/Dir/MS2000/FDC1_File", dataDir_ + "MS2000" + pathSeparator_);
     floppyDir_[elfConfiguration[MS2000].fdcType_][2] = readConfigDir("/Dir/MS2000/FDC2_File", dataDir_ + "MS2000" + pathSeparator_);
@@ -163,8 +165,8 @@ void GuiMS2000::readMS2000Config()
     configPointer->Read("/MS2000/Enable_Vt_External", &elfConfiguration[MS2000].vtExternal, false);
 
     elfConfiguration[MS2000].uartGroup = 1;
-    elfConfiguration[MS2000].elfPortConf.uartOut = 2;
-    elfConfiguration[MS2000].elfPortConf.uartControl = 3;
+    elfConfiguration[MS2000].ioConfiguration.uartOut = 2;
+    elfConfiguration[MS2000].ioConfiguration.uartControl = 3;
     elfConfiguration[MS2000].useUart = true;
     elfConfiguration[MS2000].bellFrequency_ = (int)configPointer->Read("/MS2000/Bell_Frequency", 800);
     elfConfiguration[MS2000].baudR = (int)configPointer->Read("/MS2000/Vt_Baud_Receive", 1l);
@@ -201,7 +203,8 @@ void GuiMS2000::readMS2000Config()
  
     setVtType("MS2000", MS2000, elfConfiguration[MS2000].vtType, false);
 
-    elfConfiguration[MS2000].vtCharRom_ = configPointer->Read("/MS2000/Vt_Font_Rom_File", "vt100.bin");
+    elfConfiguration[MS2000].vt100CharRom_ = configPointer->Read("/MS2000/Vt100_Font_Rom_File", "vt100.bin");
+    elfConfiguration[MS2000].vt52CharRom_ = configPointer->Read("/MS2000/Vt52_Font_Rom_File", "vt52.a.bin");
 
     configPointer->Read("/MS2000/DirectoryMode_0", &directoryMode_[elfConfiguration[MS2000].fdcType_][0], false);
     configPointer->Read("/MS2000/DirectoryMode_1", &directoryMode_[elfConfiguration[MS2000].fdcType_][1], false);
@@ -225,9 +228,7 @@ void GuiMS2000::readMS2000Config()
         XRCCTRL(*this, "ScreenDumpFileMS2000", wxComboBox)->SetValue(conf[MS2000].screenDumpFile_);
         
         XRCCTRL(*this, "TurboClockMS2000", wxTextCtrl)->SetValue(conf[MS2000].turboClock_);
-        XRCCTRL(*this, "TurboMS2000", wxCheckBox)->SetValue(conf[MS2000].turbo_);
         turboGui("MS2000");
-        XRCCTRL(*this, "AutoCasLoadMS2000", wxCheckBox)->SetValue(conf[MS2000].autoCassetteLoad_);
         
         XRCCTRL(*this, "PrintModeMS2000", wxChoice)->SetSelection((int)configPointer->Read("/MS2000/Print_Mode", 1l));
         setPrintMode();
@@ -260,7 +261,8 @@ void GuiMS2000::writeMS2000DirConfig()
 {
     writeConfigDir("/Dir/MS2000/Main", conf[MS2000].mainDir_);
     writeConfigDir("/Dir/MS2000/Main_Rom_File", conf[MS2000].romDir_[MAINROM1]);
-    writeConfigDir("/Dir/MS2000/Vt_Font_Rom_File", elfConfiguration[MS2000].vtCharRomDir_);
+    writeConfigDir("/Dir/MS2000/Vt100_Font_Rom_File", elfConfiguration[MS2000].vt100CharRomDir_);
+    writeConfigDir("/Dir/MS2000/Vt52_Font_Rom_File", elfConfiguration[MS2000].vt52CharRomDir_);
     writeConfigDir("/Dir/MS2000/FDC0_File", floppyDir_[elfConfiguration[MS2000].fdcType_][0]);
     writeConfigDir("/Dir/MS2000/FDC1_File", floppyDir_[elfConfiguration[MS2000].fdcType_][1]);
     writeConfigDir("/Dir/MS2000/FDC2_File", floppyDir_[elfConfiguration[MS2000].fdcType_][2]);
@@ -280,7 +282,8 @@ void GuiMS2000::writeMS2000Config()
     writeElfPortConfig(MS2000, "MS2000");
 
     configPointer->Write("/MS2000/Main_Rom_File", conf[MS2000].rom_[MAINROM1]);
-    configPointer->Write("/MS2000/Vt_Font_Rom_File", elfConfiguration[MS2000].vtCharRom_);
+    configPointer->Write("/MS2000/Vt100_Font_Rom_File", elfConfiguration[MS2000].vt100CharRom_);
+    configPointer->Write("/MS2000/Vt52_Font_Rom_File", elfConfiguration[MS2000].vt52CharRom_);
     configPointer->Write("/MS2000/FDC0_File", floppy_[elfConfiguration[MS2000].fdcType_][0]);
     configPointer->Write("/MS2000/FDC1_File", floppy_[elfConfiguration[MS2000].fdcType_][1]);
     configPointer->Write("/MS2000/FDC2_File", floppy_[elfConfiguration[MS2000].fdcType_][2]);

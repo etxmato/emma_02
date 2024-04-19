@@ -25,7 +25,7 @@ class V1870 : public Video, public Cdp1802
 {
 public:
 
-    V1870(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, int computerType, double clock);
+    V1870(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, int computerType, double clock, int videoNumber);
     ~V1870();
 
     void onFocus(wxFocusEvent&event);
@@ -33,7 +33,7 @@ public:
 
     void configure1870Pecom();
     void configure1870Comx(bool expansionRomLoaded, int expansionTypeCard0);
-    bool configure1870Microboard(int v1870group, int pageMemSize, int videoMode, int interruptMode);
+    bool configure1870Microboard(int v1870group, int v1870pageMemSize, int videoMode, int interruptMode);
     void configure1870Telmac();
     void configure1870Cidelsa();
     void configure6845();
@@ -92,6 +92,7 @@ public:
 
     void reBlit(wxDC &dc);
     bool isMc6845running() {return mc6845started_;};
+    void updateLedStatus(int card, int i, bool status);
 
 protected:
     int videoMode_;
@@ -106,7 +107,6 @@ private:
     void drawLine(wxCoord x, wxCoord y, Byte v, Byte pcb, int address);
     void drawBackgroundLine(wxCoord x, wxCoord y);
     void drawPoint(wxCoord x, wxCoord y);
-    void updateLedStatus(int card, int i, bool status);
     
     CidelsaStatusBar *cidelsaStatusBarPointer;
     ComxStatusBar *comxStatusBarPointer;

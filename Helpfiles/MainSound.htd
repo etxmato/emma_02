@@ -73,7 +73,7 @@ Supported for: RCA Studio II, Visicom COM-100.
 Sound emulation for the 1863 (Cosmac VIP with VP595 Simple Sound Board) or 1864, one OUT instruction controls the sound features of the CDP 1863/1864 to set the frequency and the Q flag to turn the defined tone on or off.
 </p>
 <p>
-Supported for: Cosmac VIP, Cosmac VIP II, Cosmicos, ETI 660, Oscom Nano, RCA Studio III / Victory MPT-02, Studio IV and Telmac 2000.
+Supported for: Cosmac VIP, Cosmac VIP II, Cosmicos, HUG1802/ETI-660, Oscom Nano, RCA Studio III / Victory MPT-02, Studio IV and Telmac 2000.
 </p>
 <p>
 <b>Note:</b> for the Cosmac VIP to support this, the sound GUI should be set to 'VP595 Simple Sound Board' (yellow ellipse). Software included that uses the VP595 is the game blockout running on CHIP-8X.

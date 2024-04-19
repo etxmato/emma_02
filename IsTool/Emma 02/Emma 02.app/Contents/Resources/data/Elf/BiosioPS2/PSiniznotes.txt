@@ -1,0 +1,47 @@
+PSINIZ by Richard E. Peters, richard11092000@cox.net
+12/26/2004 version 1
+
+PSINIZ has been designed to start a PS2 keyboard, 1861 pixie graphic
+of BIOSPS at a display address of 1DB0
+
+Also PSINIZ has a second entry point, which is setup to take
+advantage of Mike Rileys new ELF/OS (0.2.5) software, and run
+at bootup. To allow programs writen for BiosPS to run without
+another I/O check. 
+
+PSINIZ can be use 2 different ways just by starting it at different
+address.
+
+7000  Just start BIOSPS 
+7020  Change ELF/OS INPUT/OUTPUT Vectors to BIOSPS and start BIOSPS 
+      
+
+PSINIZ.ROM can then be saved to IDE, with:
+SAVE
+START address:7000
+END address:704F
+EXEC address:7000
+FILE NAME:PSINIZ
+
+SAVE
+START address:7000
+END address:704F
+EXEC address:7020
+FILE NAME:PSINIZOS
+
+useage: 
+PSINIZ will start up display for use with programs, that use BIOSIO or BIOSPS   
+PSINIZOS will Change ELF/OS INPUT/OUTPUT Vectors to BIOSPS and set up BIOSPS for programs
+
+PSINIZOS can be renamed to INIT and ELF/OS (0.2.5) would start
+with biosps already started. 
+
+One more note: This ALSO works with T versions of Biosio Programs That
+I have created. 
+
+Any question or comments just email me 
+
+Richard
+
+
+

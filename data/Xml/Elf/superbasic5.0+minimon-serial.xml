@@ -1,0 +1,120 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>Elf</name>
+        <config>Quest Superbasic 5.0 &amp; Mini Monitor, Serial I/O</config>
+        <!-- Press return to start mini monitor and then B for BASIC -->
+        <clock>1.76</clock>
+        <boot>0xc0c0</boot>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init>
+        <init type="ef4">1</init>
+        <dirname>Elf</dirname>
+    </system>
+    
+    <splash>
+        <dialog>Monitor</dialog>
+    </splash>
+
+    <frontpanel type="io">
+        <in>4</in>
+    </frontpanel>
+
+    <memory>
+        <rom type="gui">
+            <start>0xC000</start>
+            <end>0xFFFF</end>
+            <pulldown mask="mini.monitor.and.super.basic*.*">Elf</pulldown>
+            <filename verify="true">mini.monitor.and.super.basic.hex</filename>
+        </rom>
+
+        <guiram>
+            <start>0</start>
+            <end>0xBFFF</end>
+        </guiram>
+    </memory>
+    
+    <vt type="vt100" connection="serial">
+        <font>vt100.bin</font>
+        <out>5</out>
+        <ef pol="rev">4</ef>
+        <q></q>
+        <caps />
+        <baud type="receive">600</baud>
+        <baud type="transmit">600</baud>
+        <border>0x0</border>
+        <color type="fore">0, 255, 0</color>
+        <color type="back">0, 0x40, 0</color>
+        <color type="high">0, 0xff, 0</color>
+    </vt>
+
+    <printer>
+        <out>3</out>
+    </printer>
+
+    <cassette decks="1">
+        <ef>2</ef>
+    </cassette>
+    
+    <basic>
+        <pload>super</pload>
+        <defus>0x3581</defus>
+        <eop>0x3583</eop>
+        <string>0x3592</string>
+        <array>0x3594</array>
+        <eod>0x3599</eod>
+        <ram>0x3700</ram>
+    </basic>
+
+    <batchwav>
+        <command>PSAVE C</command>
+    </batchwav>
+
+    <locations>
+        <!-- key input -->
+        <key_input>0xc6d3, 0xc1a0</key_input>
+        <key_input address="0x100, 0x101, 0x102, 0x103" value="0xc0, 0x18, 0, 0xc0">0x3428, 0x34a3, 0x143</key_input>
+
+        <!-- Machine states -->
+        <reset_state command="&#xD;B&#xD;C">0xc6d3</reset_state>
+        <ut_state command="B&#xD;C">0xc1a0</ut_state>
+        <basic_state_cw command="C" address="0x100, 0x101, 0x102, 0x103" value="0xc0, 0x18, 0, 0xc0">0x1ced</basic_state_cw>
+        <basic_state address="0x100, 0x101, 0x102, 0x103" value="0xc0, 0x18, 0, 0xc0">0x143</basic_state>
+        <run_state address="0x100, 0x101, 0x102, 0x103" value="0xc0, 0x18, 0, 0xc0">0x1691, 0x0900</run_state>
+
+        <!-- Stop cassette -->
+        <stop_cas address="0x100, 0x101, 0x102, 0x103" value="0xc0, 0x18, 0, 0xc0">0x143</stop_cas>
+        <stop_cas>0xc237, 0xc2cd</stop_cas>
+
+        <!-- Start PSAVE, DSAVE, PLOAD, DLOAD -->
+        <start_cas_save address="0x100, 0x101, 0x102, 0x103" value="0xc0, 0x18, 0, 0xc0">0x0E06, 0x0E09</start_cas_save>
+        <start_cas_save>0xc20c</start_cas_save>
+        <start_cas_load address="0x100, 0x101, 0x102, 0x103" value="0xc0, 0x18, 0, 0xc0">0x0E00</start_cas_load>
+        <start_cas_load>0xc28d</start_cas_load>
+        <start_cas_dload address="0x100, 0x101, 0x102, 0x103" value="0xc0, 0x18, 0, 0xc0">0x0E03</start_cas_dload>
+
+        <!-- Save start/end during batch conversion -->
+        <batch_start_save address="0x100, 0x101, 0x102, 0x103" value="0xc0, 0x18, 0, 0xc0">0x3428</batch_start_save>
+        <batch_end_save address="0x100, 0x101, 0x102, 0x103" value="0xc0, 0x18, 0, 0xc0">0x143</batch_end_save>
+        
+    </locations>
+
+    <debugger>
+        <scrt mode="on">
+            <call reg="4">0x312B</call>
+            <return reg="5">0x7F1</return>
+        </scrt>
+
+        <assembler>
+            <filename>mycode</filename>
+            <code_start>0x3700</code_start>
+            <code_end>0x56ff</code_end>
+        </assembler>
+    </debugger>
+
+</emmaconfig>
+

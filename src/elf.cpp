@@ -86,7 +86,7 @@ MainElf::~MainElf()
 
 void MainElf::checkComputerFunction()
 {
-    if (!emsRomDefined_)
+    if (emsRomDefined_)
     {
         switch (scratchpadRegister_[programCounter_])
         {
@@ -232,7 +232,7 @@ void MainElf::checkComputerFunction()
                 p_Main->startYsTerminalSave(TERM_YMODEM_SAVE);
             }
         }
-        if (scratchpadRegister_[programCounter_] == 0x8800)
+        if (scratchpadRegister_[programCounter_] == 0x8325)
         { // Memory dump diskless ROM (Pico Elf)
             if ((mainMemory_[0x8800] == 0x8f) && (mainMemory_[0x8801] == 0x73) && (mainMemory_[0x8816] == 0x3d) && (mainMemory_[0x8817]== 0x16))
             {
@@ -333,7 +333,7 @@ void MainElf::checkComputerFunction()
                 p_Main->startYsTerminalSave(TERM_YMODEM_SAVE);
             }
         }
-        if (scratchpadRegister_[programCounter_] == 0x8800)
+        if (scratchpadRegister_[programCounter_] == 0x8325)
         { // Memory dump diskless ROM (Pico Elf)
             if ((mainMemory_[0x8800] == 0x8f) && (mainMemory_[0x8801] == 0x73) && (mainMemory_[0x8816] == 0x3d) && (mainMemory_[0x8817]== 0x16))
             {
@@ -359,6 +359,9 @@ void MainElf::checkComputerFunction()
                 checkLoadedSoftware();
         break;
 
+        case COMXBASIC:
+        break;
+            
         case SUPERBASICV1:
             switch (scratchpadRegister_[programCounter_])
             {
@@ -706,6 +709,7 @@ void MainElf::startComputerRun(bool load)
 {
     if (elfConfiguration.useKeyboard)
         startElfRun(load);
+
     if (elfConfiguration.vtType != VTNONE)
     {
         if (cpuMode_ != RUN)
@@ -770,7 +774,12 @@ void MainElf::dataAvailableSerial(bool data)
     dataAvailableUart(data);
 }
 
-void MainElf::thrStatus(bool data)
+void MainElf::thrStatusVt100(bool data)
+{
+    thrStatusUart(data);
+}
+
+void MainElf::thrStatusSerial(bool data)
 {
     thrStatusUart(data);
 }

@@ -54,6 +54,7 @@ void Network::configureNetwork(int sides, int tracks, int sectors, int sectorlen
     numberOfSectors_ = sectors;
     sectorLength_ = sectorlength;
     maxFmtCount_ = 2740;
+    uartControl_ = 0;
 }
 
 Byte Network::efNetwork()
@@ -96,7 +97,7 @@ void Network::uartOut(Byte value)
         outCount_ = baudRate_ * 9;
     }*/
     rs232_ = value;
-    p_Computer->thrStatus(1);
+ //**   p_Computer->thrStatus(1);
     uartStatus_[UART_THRE] = 0;
 }
 
@@ -224,7 +225,7 @@ void Network::cycleNetwork()
 //            Display(rs232_ & 0x7f, false);
         
         rs232_ = 0;
-        p_Computer->thrStatus(0);
+ //**       p_Computer->thrStatus(0);
         uartStatus_[UART_THRE] = 1;
         
         inCount_ = baudRate_ * 9;
@@ -884,6 +885,6 @@ void Network::updateFdcStatusLed()
 {
     if (localComputerType_ == COMX)
     {
-        p_Video->updateStatusLed(status_&1);
+        p_Video[VIDEOMAIN]->updateStatusLed(status_&1);
     }
 }

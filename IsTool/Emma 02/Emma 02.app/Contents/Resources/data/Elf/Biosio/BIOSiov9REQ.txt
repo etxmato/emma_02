@@ -1,0 +1,168 @@
+BIOSIO Multi Input/Output Driver By Richard E Peters, richard11092000@cox.net
+Last Change 01/26/2005, Assembled with QELFASM V2 
+
+BIOSIO Graphics Requirements:
+
+LBR GRCRINIT (F11E) to setup GRCALL and GRRETURN in R4 and R5
+Entry:
+R6 = Return Address.
+R2 = Pointing to Stack space
+X=2
+Exit:
+R6 distroyed
+
+GRINIT (F100) to check for keyboard, Video Card Mode or serial and sets baud.
+Typeing on keyboard selects 1861 mode, keyboard character left in buffer (ELF II) 
+Typeing on keyboard on port 5/Flag 2 as strobe, Video Card Mode (Super Elf)
+Typeing <CR> on Termial selects, serial Full-Duplex mode
+Typeing <LF> on termial selects, serial Half-Duplex mode
+<CR> or <LF> lost.
+Entry:
+    GRCRINIT has to have been run.   
+    R0 set to Display RAM address, 190H(400) bytes.
+Exit:
+    None
+
+GRINPUT (F10A)
+entry:
+    GRINIT has to have been run
+    GRCRINIT has to have been run
+  If 1861 is used: (See Note 1)
+    R0 has to remain unchanged
+    R1 has to remain unchanged       
+exit:
+    D=input byte
+
+GROUTPUT (F114)
+entry:
+    GRINIT has to have been run.
+    GRCRINIT has to have been run
+    D= byte to type
+  If 1861 is used:
+    R0 has to remain unchanged
+    R1 has to remain unchanged 
+exit:
+    None
+
+GRCALL (Note 2)   Always set's X=2, Uses HIGH RF to save D
+
+GRRETURN (Note 2) Always set's X=2, Uses HIGH RF to save D
+
+Note 1:
+   Do to the Interupt Routine running at anytime during the program
+   R0 and R1 is therefore reserved for it's use.
+   R0 and R1 can be used under these conditions:
+   Your are not Inputing bytes
+   The display is OFF 
+   You have saved R0 and Restore it before Calling GRINPUT or
+   Calling GROUTPUT Outputing a <LF>, outputing other character does 
+   not turn the display on. 
+   R1 is reset to the interupt routine everytime the display is turned
+   on so, resetting this is not necessary.
+
+Note 2:
+   Call and Return routines not fixed use GRCRINIT to setup.
+
+Additional Information:
+
+BIOSIOV2 Release 0.1 occupies F100-F5FE and uses the following system memory.
+
+0080-82 TVXY   DISPLAY CURSOR LOC and Bit Location.
+0083    MASK   Mask byte for pixie graphics
+0084    TTYCC  Tempory holding     
+0085    BAUD   BAUD RATE for Serial
+0086-88 DISADD DISPLAY RAM ADDRESS 
+0089-8A TEMP   TEMP ADDRESS, used for computations
+008B    CLICK  Interupt Routine Second Counter,used by pixie cursor
+
+All changes are additive.
+
+BIOSIOV4 Has the Following changes:
+
+BIOS 0.7 is required to uses serial functions.
+System memory now starts at 00B0,  This limits Input buffer for Elf/OS.
+Flag 2 now used for serial mode and flag 4 now activates video mode.
+Serial mode now requires and extra CR, before CR/LF selection.
+Added ELF/OS calling interface at F600-F64F 
+Added Functions: OSINIT (F600) OSINPUT (F610) OSOUTPUT (F61A)
+Changes to Bios for elf/os to use this module:
+Address FF2E = F6 00, FF04 = F6 1A, FF07 = F6 10
+Graphic Display address is set 1DB0 for Elf/os.
+currently Additional change are needed to use serial mode, With some programs, But these
+maybe included in new BIOS release.
+
+BIOSIOV5 Release 0.5 Has the Following changes: 
+
+BIOS 0.8 or above is required to use serial functions.
+This release has the Additional changes that are refered to above. 
+It is Now a 6 byte plug-in to the bios.
+ADDED Hex Display Output of 14 to GRINIT when waiting on key input, baud rate 
+will be displayed after the key press or 00 for graphic, or 01 for video mode.
+ADDED 3 cycle instruction syncing, to graphics mode. 
+Flags can be changed to suit needs.  
+
+BIOSIOV6 Release 0.6 Has the Following changes:
+
+Replaced Interrupt Routine, for graphics mode.
+Removed extra CR before CR/LF selection.
+ADDED Baud Rate Default feature witch allows by-passing detection, This feature is activated
+by setting default byte at F1CD and setting Flag 3 to stay Low.
+(Connecting Flag 2 and Flag 3 to serial port will do samething)
+
+BIOSIOV7 Release 0.7 Has the Following changes:
+
+Added TMS9118 support, using ports 5 and 6 as interface
+TMS9118 is not auto selected and is currently using keyboard
+Flag 3, It will also require an Initalizing program (TMSINIZ) 
+to load fonts an setup memory. A copy of the screen is maintained
+at location 1C00-1FFF to speed screen rolls. All of this memory is 
+changed when clearing screen and scrolling. TMS9118 mode is set
+by loading BAUD with 02 and initalizing the display.
+To accomidate other programs I am trying to maintain the 
+The ability, to have only 2 entry points, GRINPUT and GROUTPUT
+GRINIT is NOT used in this mode.
+6 byte bios change not needed to get ELF/OS (0.2.3) to Operate in TMS mode.
+
+Added 4 new programs to start the BIOSIO. TMSINIZ,SERINIZ,VIDINIZ and PIXINIZ.
+IF one of these is used, GRINIT is NOT needed by programs useing BIOSIO.
+
+Added OSTYPEMSG (F737) and OSINPUT256 (F740), So BIOSIO along with an xxxINIZ can
+be used to run elf/os. This also elimitates the need for the 6 byte bios plugin.
+
+BIOSIOV8 Release 0.8 Has the Following changes:
+
+Restored Backspace function of origianal Dots program to the pixie display. 
+The backspace buffer is currently located at 1C01-1CFF, and is hard coded.
+
+BIOSIOV9 Release 0.9 Has the Following changes:
+
+TVXY+2 (TMSWIDTH) is used to select between 32 and 40 character width's.
+Added TMS Graphics Mode 1 support, with a 32x24 screen. 
+Added new program to start this mode, GRAINIZ
+
+BIOSIOV9 Release 0.91 Has the Following changes:
+Bios calls changed to vector address, this makes the 6 byte bios change no 
+longer functional, but it is also not needed.
+
+BIOSIOV9 Release 0.92 Has the Following changes:
+fixed bug in interrupt routine.
+
+Config Notes:
+   ELF II Giant Board Holds Flag 2 Low, For tape Input. Change Flag or disconnect this,
+   if useing auto detection routine (GRINIZ).
+   Also note that Giant Board, does not fully decode the monitor rom for this to work this
+   has to be removed, Biosio Was Set To Begin at F100, To allow Elf II's monitor program
+   to be at F000
+
+   Super ELF's Input Port 5, normally uses flag 2 for input. This was changed so flag 2
+   could be used for serial. When Flag 4 is used for serial you lose the "I" key. 
+   on an ELF II. If you need help changeing this back just email me.
+
+   Also If you are designing new programs to run on an ELF/OS system. I recommend setting 
+   them to call O_TYPE and O_READKEY, This allowes them to run on what ever ELF/OS 
+   is running on.      
+
+   Also you maybe wondering why BIOSIO and Mikes BIOS's TYPEMSG and INPUT256 routines are not
+   just set to call O_TYPE and O_READKEY. The answer is: This would make BIOSIO and the BIOS 
+   dependent on ELF/OS. With the current set up these can be used without the OS.
+   

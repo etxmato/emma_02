@@ -77,8 +77,6 @@ BEGIN_EVENT_TABLE(GuiPico, GuiElf)
     EVT_CHOICE(XRCID("VTBaudTChoicePico"), GuiMain::onBaudT)
     EVT_CHOICE(XRCID("VTBaudRChoicePico"), GuiMain::onBaudR)
 
-    EVT_COMMAND(wxID_ANY, OPEN_PRINTER_WINDOW, GuiMain::openPrinterFrame) 
-
     EVT_BUTTON(XRCID("CasButtonPico"), GuiMain::onCassette)
     EVT_BUTTON(XRCID("EjectCasPico"), GuiMain::onCassetteEject)
     EVT_TEXT(XRCID("WavFilePico"), GuiMain::onCassetteText)
@@ -113,18 +111,22 @@ void GuiPico::readPicoConfig()
 {
     selectedComputer_ = PICO;
 
-    elfConfiguration[PICO].elfPortConf.emsOutput.resize(1);
+    elfConfiguration[PICO].ioConfiguration.emsOutput.resize(1);
     readElfPortConfig(PICO, "Pico");
     
     conf[PICO].volume_ = 0;
 
+    elfConfiguration[PICO].useTapeHw = false;
+    elfConfiguration[PICO].vtShow = true;
     conf[PICO].emsConfigNumber_ = 0;
+    conf[PICO].videoNumber_ = 0;
 
     conf[PICO].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "Pico" + pathSeparator_;
     conf[PICO].mainDir_ = readConfigDir("/Dir/Pico/Main", dataDir_ + "Pico" + pathSeparator_);
     conf[PICO].romDir_[MAINROM1] = readConfigDir("/Dir/Pico/Main_Rom_1_File", dataDir_ + "Pico" + pathSeparator_);
     conf[PICO].charRomDir_ = readConfigDir("/Dir/Pico/Font_Rom_File", dataDir_ + "Pico" + pathSeparator_);
-    elfConfiguration[PICO].vtCharRomDir_ = readConfigDir("/Dir/Pico/Vt_Font_Rom_File", dataDir_ + "Pico" + pathSeparator_);
+    elfConfiguration[PICO].vt100CharRomDir_ = readConfigDir("/Dir/Pico/Vt100_Font_Rom_File", dataDir_ + "Pico" + pathSeparator_);
+    elfConfiguration[PICO].vt52CharRomDir_ = readConfigDir("/Dir/Pico/Vt52_Font_Rom_File", dataDir_ + "Pico" + pathSeparator_);
     conf[PICO].ramDir_ = readConfigDir("/Dir/Pico/SWD", dataDir_ + "Pico" + pathSeparator_);
     conf[PICO].ideDir_ = readConfigDir("/Dir/Pico/Ide_File", dataDir_ + "Pico" + pathSeparator_);
     conf[PICO].keyFileDir_ = readConfigDir("/Dir/Pico/Key_File", dataDir_ + "Pico" + pathSeparator_);
@@ -149,7 +151,7 @@ void GuiPico::readPicoConfig()
     conf[PICO].saveEndString_ = "";
     conf[PICO].saveExecString_ = "";
 
-    elfConfiguration[PICO].qSound_ = (int)configPointer->Read("Pico/Enable_Q_Sound", 0l);
+    elfConfiguration[PICO].qSound_ = (int)configPointer->Read("Pico/Enable_Q_Sound", 5l);
     elfConfiguration[PICO].vtType = (int)configPointer->Read("Pico/VT_Type", 2l);
     elfConfiguration[PICO].vt52SetUpFeature_ = configPointer->Read("Pico/VT52Setup", 0x00004092l);
     elfConfiguration[PICO].vt100SetUpFeature_ = configPointer->Read("Pico/VT100Setup", 0x0000ca52l);
@@ -179,7 +181,7 @@ void GuiPico::readPicoConfig()
 
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 2.0);
-    conf[PICO].zoom_ = convertLocale(configPointer->Read("Pico/Zoom", defaultZoom));
+    conf[PICO].zoom_[VIDEOMAIN] = convertLocale(configPointer->Read("Pico/Zoom", defaultZoom));
     defaultZoom.Printf("%2.2f", 1.0);
     conf[PICO].zoomVt_ = convertLocale(configPointer->Read("Pico/Vt_Zoom", defaultZoom));
     wxString defaultScale;
@@ -214,7 +216,8 @@ void GuiPico::readPicoConfig()
     setVideoTypePico(conf[PICO].videoMode_);
 
     conf[PICO].charRom_ = configPointer->Read("Pico/Font_Rom_File", "super.video.bin");
-    elfConfiguration[PICO].vtCharRom_ = configPointer->Read("Pico/Vt_Font_Rom_File", "vt100.bin");
+    elfConfiguration[PICO].vt100CharRom_ = configPointer->Read("/Pico/Vt100_Font_Rom_File", "vt100.bin");
+    elfConfiguration[PICO].vt52CharRom_ = configPointer->Read("/Pico/Vt52_Font_Rom_File", "vt52.a.bin");
 
     configPointer->Read("Pico/UseLoadLocation", &conf[PICO].useLoadLocation_, true);
 
@@ -235,17 +238,17 @@ void GuiPico::readPicoConfig()
         XRCCTRL(*this, "PicoRtc", wxCheckBox)->SetValue(elfConfiguration[PICO].rtc);
         XRCCTRL(*this, "PicoClearRtc", wxCheckBox)->Enable(elfConfiguration[ELF2K].rtc);
         XRCCTRL(*this, "PicoClearRtc", wxCheckBox)->SetValue(elfConfiguration[PICO].clearRtc);
-        XRCCTRL(*this, "BeepFrequencyPico", wxTextCtrl)->Enable(elfConfiguration[PICO].qSound_ == QSOUNDEXT);
+        XRCCTRL(*this, "BeepFrequencyPico", wxTextCtrl)->Enable(elfConfiguration[PICO].qSound_ == SOUND_EXT_BEEPER);
 
         XRCCTRL(*this, "VTBaudRChoicePico", wxChoice)->SetSelection(elfConfiguration[PICO].baudR);
         XRCCTRL(*this, "VTBaudTChoicePico", wxChoice)->SetSelection(elfConfiguration[PICO].baudT);
-        XRCCTRL(*this, "BeepFrequencyTextPico", wxStaticText)->Enable(elfConfiguration[PICO].qSound_ == QSOUNDEXT);
-        XRCCTRL(*this, "BeepFrequencyTextHzPico", wxStaticText)->Enable(elfConfiguration[PICO].qSound_ == QSOUNDEXT);
+        XRCCTRL(*this, "BeepFrequencyTextPico", wxStaticText)->Enable(elfConfiguration[PICO].qSound_ == SOUND_EXT_BEEPER);
+        XRCCTRL(*this, "BeepFrequencyTextHzPico", wxStaticText)->Enable(elfConfiguration[PICO].qSound_ == SOUND_EXT_BEEPER);
 
         XRCCTRL(*this, "VideoTypePico", wxChoice)->SetSelection(conf[PICO].videoMode_);
         XRCCTRL(*this, "DiskTypePico", wxChoice)->SetSelection(elfConfiguration[PICO].diskType);
 
-        correctZoomAndValue(PICO, "Pico", SET_SPIN);
+        correctZoomAndValue(PICO, "Pico", SET_SPIN, VIDEOMAIN);
         correctZoomVtAndValue(PICO, "Pico", SET_SPIN);
 
         XRCCTRL(*this, "StretchDotPico", wxCheckBox)->SetValue(conf[PICO].stretchDot_);
@@ -260,11 +263,9 @@ void GuiPico::readPicoConfig()
         beepFrequency.Printf("%d", conf[PICO].beepFrequency_);
         XRCCTRL(*this, "BeepFrequencyPico", wxTextCtrl)->ChangeValue(beepFrequency);
 
-        XRCCTRL(*this, "TurboPico", wxCheckBox)->SetValue(conf[PICO].turbo_);
         turboGui("Pico");
 
         XRCCTRL(*this, "TurboClockPico", wxTextCtrl)->SetValue(conf[PICO].turboClock_);
-        XRCCTRL(*this, "AutoCasLoadPico", wxCheckBox)->SetValue(conf[PICO].autoCassetteLoad_);
         setTapeType("Pico", PICO);
 
         XRCCTRL(*this, "VolumePico", wxSlider)->SetValue(conf[PICO].volume_);
@@ -278,7 +279,7 @@ void GuiPico::readPicoConfig()
     elfConfiguration[PICO].useHexKeyboard = false;
     elfConfiguration[PICO].useHexKeyboardEf3 = false;
     elfConfiguration[PICO].useKeyboard = false;
-    elfConfiguration[PICO].UsePS2 = false;
+    elfConfiguration[PICO].usePS2 = false;
     elfConfiguration[PICO].usePs2gpio = false;
     setRealCas(PICO);
 
@@ -305,7 +306,8 @@ void GuiPico::writePicoDirConfig()
     writeConfigDir("/Dir/Pico/Main", conf[PICO].mainDir_);
     writeConfigDir("/Dir/Pico/Main_Rom_1_File", conf[PICO].romDir_[MAINROM1]);
     writeConfigDir("/Dir/Pico/Font_Rom_File", conf[PICO].charRomDir_);
-    writeConfigDir("/Dir/Pico/Vt_Font_Rom_File", elfConfiguration[PICO].vtCharRomDir_);
+    writeConfigDir("/Dir/Pico/Vt100_Font_Rom_File", elfConfiguration[PICO].vt100CharRomDir_);
+    writeConfigDir("/Dir/Pico/Vt52_Font_Rom_File", elfConfiguration[PICO].vt52CharRomDir_);
     writeConfigDir("/Dir/Pico/Software_File", conf[PICO].ramDir_);
     writeConfigDir("/Dir/Pico/Ide_File", conf[PICO].ideDir_);
     writeConfigDir("/Dir/Pico/Key_File", conf[PICO].keyFileDir_);
@@ -323,7 +325,8 @@ void GuiPico::writePicoConfig()
 
     configPointer->Write("Pico/Main_Rom_1_File", conf[PICO].rom_[MAINROM1]);
     configPointer->Write("Pico/Font_Rom_File", conf[PICO].charRom_);
-    configPointer->Write("Pico/Vt_Font_Rom_File", elfConfiguration[PICO].vtCharRom_);
+    configPointer->Write("/Pico/Vt100_Font_Rom_File", elfConfiguration[PICO].vt100CharRom_);
+    configPointer->Write("/Pico/Vt52_Font_Rom_File", elfConfiguration[PICO].vt52CharRom_);
     configPointer->Write("Pico/Ide_File", conf[PICO].ide_);
     configPointer->Write("Pico/Print_File", conf[PICO].printFile_);
     configPointer->Write("Pico/Video_Dump_File", conf[PICO].screenDumpFile_);
@@ -355,7 +358,7 @@ void GuiPico::writePicoConfig()
     configPointer->Write("Pico/ClearRtc", elfConfiguration[PICO].clearRtc);
     configPointer->Write("Pico/Use_Real_Time_Clock", elfConfiguration[PICO].rtc);
     configPointer->Write("Pico/Video_Type", conf[PICO].videoMode_);
-    configPointer->Write("Pico/Zoom", conf[PICO].zoom_);
+    configPointer->Write("Pico/Zoom", conf[PICO].zoom_[VIDEOMAIN]);
     configPointer->Write("Pico/Vt_Zoom", conf[PICO].zoomVt_);
     configPointer->Write("Pico/UseLoadLocation", conf[PICO].useLoadLocation_);
     configPointer->Write("Pico/SaveStart", conf[PICO].saveStartString_);
@@ -498,7 +501,7 @@ void GuiPico::setDiskTypePico(int Selection)
     {
         case DISKNONE:
             elfConfiguration[PICO].ideEnabled = false;
-            elfConfiguration[PICO].fdcEnabled = false;
+            elfConfiguration[PICO].fdc1793Enabled = false;
             if (mode_.gui)
             {
                 XRCCTRL(*this, "IDE_ButtonPico", wxButton)->Enable(false);
@@ -509,7 +512,7 @@ void GuiPico::setDiskTypePico(int Selection)
 
         case DISKIDEPICO:
             elfConfiguration[PICO].ideEnabled = true;
-            elfConfiguration[PICO].fdcEnabled = false;
+            elfConfiguration[PICO].fdc1793Enabled = false;
             if (mode_.gui)
             {
                 XRCCTRL(*this, "IDE_ButtonPico", wxButton)->Enable(true);

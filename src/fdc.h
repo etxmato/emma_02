@@ -11,13 +11,14 @@ public:
     Fdc();
     ~Fdc() {};
 
-    void configure1793(int sides, int tracks, int sectors, int sectorlength, int computerType, ElfPortConfiguration portConf);
+    void configure1793(int sides, int tracks, int sectors, int sectorlength, int maxFmtCount, int computerType, IoConfiguration ioConf, bool standardDiskNames);
     Byte ef1793();
     Byte in1793();
     void selectRegister1793(Byte value);
     void writeRegister1793(Byte value);
 
-    void configure1770(int sides, int tracks, int sectors, int sectorlength, int computerType);
+    void configureComx1770(int sides, int tracks, int sectors, int sectorlength, int maxFmtCount, int computerType);
+    void configure1770(int sides, int tracks, int sectors, int sectorlength, int maxFmtCount, int computerType, IoConfiguration ioConf);
     Byte ef1770();
     Byte in1770();
     Byte readRegister1770();
@@ -28,12 +29,14 @@ public:
     void cycleFdc();
     void resetFdc(); 
 
-    void setDiskName(int disk, wxString fileName);
+    void setFdcDiskname(int disk, wxString fileName);
 
 protected:
-    int registerSelect_;
+    int fdcRegisterSelect_;
 
 private:
+    IoConfiguration ioConf_;
+    
     int convertDriveNumber(int drive);
     void readSector(); 
     void writeSector(); 

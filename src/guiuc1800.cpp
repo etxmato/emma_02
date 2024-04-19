@@ -47,8 +47,8 @@ BEGIN_EVENT_TABLE(GuiUc1800, GuiMembership)
     EVT_TEXT(XRCID("SaveStartUC1800"), GuiMain::onSaveStart)
     EVT_TEXT(XRCID("SaveEndUC1800"), GuiMain::onSaveEnd)
 
-    EVT_SPINCTRL(XRCID("HexOutputUC1800"), GuiUc1800::onUC1800HexOutput)
-    EVT_SPINCTRL(XRCID("HexInputUC1800"), GuiUc1800::onUC1800HexInput)
+ //   EVT_SPINCTRL(XRCID("HexOutputUC1800"), GuiUc1800::onUC1800HexOutput)
+ //   EVT_SPINCTRL(XRCID("HexInputUC1800"), GuiUc1800::onUC1800HexInput)
 
     EVT_BUTTON(XRCID("KeyMapUC1800"), Main::onHexKeyDef)
 
@@ -65,7 +65,9 @@ void GuiUc1800::readUc1800Config()
 {
     selectedComputer_ = UC1800;
 
+    elfConfiguration[UC1800].useTapeHw = false;
     conf[UC1800].emsConfigNumber_ = 0;
+    conf[UC1800].videoNumber_ = 0;
 
     conf[UC1800].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "UC1800" + pathSeparator_;
 
@@ -90,8 +92,8 @@ void GuiUc1800::readUc1800Config()
     conf[UC1800].ledTime_ = configPointer->Read("/UC1800/Led_Update_Frequency", defaultTimer);
     conf[UC1800].realCassetteLoad_ = false;
 
-    elfConfiguration[UC1800].elfPortConf.hexOutput = (int)configPointer->Read("UC1800/HexOutput", 4l);
-    elfConfiguration[UC1800].elfPortConf.hexInput = (int)configPointer->Read("UC1800/HexInput", 4l);
+    elfConfiguration[UC1800].ioConfiguration.hexOutput.portNumber = (int)configPointer->Read("UC1800/HexOutput", 4l);
+    elfConfiguration[UC1800].ioConfiguration.hexInput.portNumber = (int)configPointer->Read("UC1800/HexInput", 4l);
 
     conf[UC1800].saveStartString_ = configPointer->Read("/UC1800/SaveStart", "0");
     if (!conf[UC1800].saveStartString_.ToLong(&value, 16))
@@ -105,15 +107,15 @@ void GuiUc1800::readUc1800Config()
         XRCCTRL(*this, "AutoBootUC1800", wxCheckBox)->SetValue(elfConfiguration[UC1800].autoBoot);
         if (clockTextCtrl[UC1800] != NULL)
             clockTextCtrl[UC1800]->ChangeValue(conf[UC1800].clock_);
-        XRCCTRL(*this, "HexOutputUC1800", wxSpinCtrl)->SetValue(elfConfiguration[UC1800].elfPortConf.hexOutput);
-        XRCCTRL(*this, "HexInputUC1800", wxSpinCtrl)->SetValue(elfConfiguration[UC1800].elfPortConf.hexInput);
+ //       XRCCTRL(*this, "HexOutputUC1800", wxSpinCtrl)->SetValue(elfConfiguration[UC1800].ioConfiguration.hexOutput.portNumber);
+ //       XRCCTRL(*this, "HexInputUC1800", wxSpinCtrl)->SetValue(elfConfiguration[UC1800].ioConfiguration.hexInput.portNumber);
         if (conf[UC1800].saveStart_ != 0)
             XRCCTRL(*this, "SaveStartUC1800", wxTextCtrl)->SetValue(conf[UC1800].saveStartString_);    
     }
     
     elfConfiguration[UC1800].usePortExtender = false;
     elfConfiguration[UC1800].ideEnabled = false;
-    elfConfiguration[UC1800].fdcEnabled = false;
+    elfConfiguration[UC1800].fdc1793Enabled = false;
     elfConfiguration[UC1800].useLedModule = false;
     elfConfiguration[UC1800].useTape = true;
 }
@@ -136,8 +138,8 @@ void GuiUc1800::writeUc1800Config()
     configPointer->Write("/UC1800/SaveStart", conf[UC1800].saveStartString_);
 
     configPointer->Write("/UC1800/Clock_Speed", conf[UC1800].clock_);
-    configPointer->Write("UC1800/HexOutput", elfConfiguration[UC1800].elfPortConf.hexOutput);
-    configPointer->Write("UC1800/HexInput", elfConfiguration[UC1800].elfPortConf.hexInput);
+    configPointer->Write("UC1800/HexOutput", elfConfiguration[UC1800].ioConfiguration.hexOutput.portNumber);
+    configPointer->Write("UC1800/HexInput", elfConfiguration[UC1800].ioConfiguration.hexInput.portNumber);
 }
 
 void GuiUc1800::readUc1800WindowConfig()
@@ -156,11 +158,11 @@ void GuiUc1800::writeUc1800WindowConfig()
 
 void GuiUc1800::onUC1800HexOutput(wxSpinEvent&event)
 {
-    elfConfiguration[UC1800].elfPortConf.hexOutput = event.GetPosition();
+    elfConfiguration[UC1800].ioConfiguration.hexOutput.portNumber = event.GetPosition();
 }
 
 void GuiUc1800::onUC1800HexInput(wxSpinEvent&event)
 {
-    elfConfiguration[UC1800].elfPortConf.hexInput = event.GetPosition();
+    elfConfiguration[UC1800].ioConfiguration.hexInput.portNumber = event.GetPosition();
 }
 

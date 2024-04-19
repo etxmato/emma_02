@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>Membership Card</name>
+        <config>Monitor, BASIC3, Adventureland, Front panel J, 32KB ROM - 32KB NVRAM</config>
+        <clock>1.75</clock>
+        <boot>0x8000</boot>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init>
+        <init type="ef4">1</init>
+        <dirname>Membership</dirname>
+    </system>
+
+    <frontpanel type="member_j" init="on">
+        <out mask="0x4"></out>
+        <in mask="0x4"></in>
+        <ef type="in">4</ef>
+    </frontpanel>
+
+    <memory>
+        <rom type="gui">
+            <start>0x8000</start>
+            <end>0xFFFF</end>
+            <pulldown mask="MS20*.bin">Membership</pulldown>
+            <filename verify="true">MS20VTJ.bin</filename>
+        </rom>
+
+        <nvram type="gui">
+            <start>0x0000</start>
+            <end>0x7FFF</end>
+            <dump>ramdump.bin</dump>
+        </nvram>
+    </memory>
+    
+    <vt type="vt100" connection="serial">
+        <font>vt100.bin</font>
+        <ef pol="rev">3</ef>
+        <q></q>
+        <caps />
+        <baud type="receive">9600</baud>
+        <baud type="transmit">9600</baud>
+        <border>0x0</border>
+        <color type="fore">0, 255, 0</color>
+        <color type="back">0, 0x40, 0</color>
+        <color type="high">0, 0xff, 0</color>
+    </vt>
+
+    <debugger>
+        <scrt mode="on">
+            <call reg="4">0xB6E8</call>
+            <return reg="5">0xACF2</return>
+        </scrt>
+    </debugger>
+
+    <hexmodem>
+    </hexmodem>
+
+    <basic>
+        <pload>rca</pload>
+        <defus>0x0181</defus>
+        <eop>0x0183</eop>
+        <string>0x0192</string>
+        <array>0x0194</array>
+        <eod>0x0199</eod>
+        <ram>0x0300</ram>
+    </basic>
+
+    <locations>
+        <!-- key input -->
+        <key_input>0x8062, 0x88a3, 0x8b09</key_input>
+
+        <!-- Machine states -->
+        <reset_state command="&#xD;BC">0x8b00</reset_state>
+        <ut_state command="BC">0x8b17</ut_state>
+        <basic_state_cw command="C">0x95f6</basic_state_cw>
+        <basic_state>0x9757</basic_state>
+        <run_state>0xA776</run_state>
+
+        <start_hexmodem_load>0x86fd, 0xc89a, 0x789a</start_hexmodem_load>
+        <start_hexmodem_save reg="7" value="0x2fd">0x87DC</start_hexmodem_save>
+        <start_hexmodem_save>0xc78c</start_hexmodem_save>
+        <stop_modem>0x887B, 0xc830, 0x7830</stop_modem>
+    </locations>
+
+</emmaconfig>

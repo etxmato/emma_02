@@ -1,0 +1,242 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>COMX-35</name>
+        <config>FDC, Standard Printer, 32K RAM &amp; F&amp;M Eprom Board</config>
+        <clock>2.813</clock>
+        <boot>0</boot>
+        <init type="ef1">1</init>
+        <init type="ef2">1</init>
+        <init type="ef3">1</init>
+        <dma out="q">5</dma> <!-- generate dma every 5 cpu cycles, start on first q pulse -->
+        <statusbar>comx</statusbar>
+        <dirname>Comx</dirname>
+    </system>
+    
+    <locations>
+        <!--
+        <keyinput>:
+        0x1bc: wait for key on reset screen
+        0x39a: wait for key in BASIC (when using printer I/O
+        0x5344: wait for key in F&M BASIC
+        0xeeb5: wait for key in BASIC SB / F&M EPROM BOARD
+        -->
+        <key_input>0x1bc, 0x39a, 0x5344, 0xeeb5</key_input>
+        
+        <!-- Machine states -->
+        <reset_state command="A">0x1bc</reset_state>
+        <basic_state address="0x42a0" value="0">0xeeb5, 0x5344</basic_state>
+        <run_state>0x1f76, 0x2c00</run_state>
+        
+        <!-- Stop cassette -->
+        <stop_cas>0x1047</stop_cas>
+
+        <!-- Start PSAVE, DSAVE, PLOAD, DLOAD -->
+        <start_cas_save>0x1672, 0x1675</start_cas_save>
+        <start_cas_load>0x0e00</start_cas_load>
+        <start_cas_dload>0x0e03</start_cas_dload>
+
+        <!-- Start Printer ROM PSAVE/DSAVE/PLOAD/DLOAD/+  -->
+        <start_cas_save address="0xc001" value="0x1">0xcbe2, 0xcde2, 0xccb1, 0xceb1</start_cas_save>
+        <start_cas_load address="0xc001" value="0x1">0xcc41, 0xce41</start_cas_load>
+        <start_cas_dload address="0xc001" value="0x1">0xcd00, 0xcf00</start_cas_dload>
+
+        <!-- Start F&M EPROM Board PSAVE/DSAVE/PLOAD/DLOAD+ -->
+        <start_cas_save address="0xc804, 0xc805, 0xc806, 0xc807" value="0x50, 0x53, 0x41, 0x56">0xcbe2, 0xcde2, 0xccb1, 0xceb1</start_cas_save>
+        <start_cas_load address="0xc804, 0xc805, 0xc806, 0xc807" value="0x50, 0x53, 0x41, 0x56">0xcc41, 0xce41</start_cas_load>
+        <start_cas_dload address="0xc804, 0xc805, 0xc806, 0xc807" value="0x50, 0x53, 0x41, 0x56">0xcd00, 0xcf00</start_cas_dload>
+
+        <!-- Set DOS Filenam end DOS command -->
+        <set_dos_filename address="0xc001, 0x42d2, 0x42d4, 0x42d6, 0x42d8" value="0x3, 0x4c, 0x4f, 0x41, 0x44">0xd527</set_dos_filename>
+        <set_dos_filename address="0xc001, 0x42d2, 0x42d4, 0x42d6, 0x42d8" value="0x3, 0x4c, 0x4f, 0x41, 0x44">0xd527</set_dos_filename>
+
+        <!-- Set DOS Filenam end DOS RUN command -->
+        <set_dos_filename address="0xc001, 0x42d2, 0x42d3" value="0x3, 0xc2, 0xcf">0xcda1</set_dos_filename>
+        
+        <!-- Set DOS Filenam end DOS URUN command -->
+        <set_dos_filename address="0xc001, 0x42d2, 0x42d3" value="0x3, 0x55, 0x83">0xdec9</set_dos_filename>
+
+        <!-- Save end during batch conversion -->
+        <batch_start_save>0x1bc, 0x39a</batch_start_save>
+        <batch_end_save>0x14e1</batch_end_save>
+    </locations>
+    
+    <basic>
+        <pload>comx</pload>
+        <defus>0x4281</defus>
+        <eop>0x4283</eop>
+        <string>0x4292</string>
+        <array>0x4294</array>
+        <eod>0x4299</eod>
+        <ram>0x4400</ram>
+    </basic>
+
+    <memory>
+        <rom type="gui">
+            <start>0</start>
+            <end>0x3FFF</end>
+            <pulldown mask="comx35*.bin">Comx</pulldown>
+            <filename verify="true">comx35.1.3.bin</filename>
+        </rom>
+
+         <rom>
+             <start>0xE000</start>
+             <end>0xEFFF</end>
+             <filename verify="true">f&amp;m.expansion.3.2.bin</filename>
+         </rom>
+
+         <rom>
+             <start>0xF800</start>
+             <end>0xFFFF</end>
+             <filename verify="true">f&amp;m.eprom.board.1.2.bin</filename>
+         </rom>
+         
+         <ram>
+            <start>0x4000</start>
+            <end>0x43FF</end>
+         </ram>
+
+         <ram type="gui">
+            <start>0x4400</start>
+            <end>0xBFFF</end>
+         </ram>
+
+         <copy start="0xdd0" end="0xddf" slot="0">0xc000</copy>
+         <copy start="0x1000" end="0x17ff" slot="-1">0xD000</copy>
+
+         <slot max="4">
+             <start>0xC000</start>
+             <end>0xDFFF</end>
+             <out>1</out>
+             <slotshift type="bit">1</slotshift>
+             <bankshift type="number" mask="0xf">-3</bankshift>
+             <iogroup />
+             <rom slot="0">
+                 <filename verify="true">fdc.bin</filename>
+             </rom>
+             <rom slot="1">
+                 <filename verify="true">f&amp;m.printer.1.2.bin</filename>
+             </rom>
+             <bank slot="2" max="4">
+                 <ram bank="0">
+                 </ram>
+                 <ram bank="1">
+                 </ram>
+                 <ram bank="2">
+                 </ram>
+                 <ram bank="3">
+                 </ram>
+             </bank>
+             <bank slot="3" max="8">
+                 <rom bank="0">
+                     <dirname>Comx/F&amp;M EPROM Switchboard</dirname>
+                     <filename verify="true">f&amp;m.utilities.bin</filename>
+                 </rom>
+                 <rom bank="1">
+                     <dirname>Comx/F&amp;M EPROM Switchboard</dirname>
+                     <filename verify="true">disk.utilities.bin</filename>
+                 </rom>
+                 <rom bank="2">
+                     <dirname>Comx/F&amp;M EPROM Switchboard</dirname>
+                     <filename verify="true">f&amp;m.monitor.english.bin</filename>
+                 </rom>
+                 <rom bank="3">
+                     <dirname>Comx/F&amp;M EPROM Switchboard</dirname>
+                     <filename verify="true">f&amp;m.basic.bin</filename>
+                 </rom>
+                 <rom bank="4">
+                     <dirname>Comx/F&amp;M EPROM Switchboard</dirname>
+                     <filename verify="true">tennismania.bin</filename>
+                 </rom>
+             </bank>
+         </slot>
+         
+    </memory>
+  
+    <video type="1870">
+        <pagesize type="rom">0x3ff</pagesize>
+        <charsize type="ram">0x7ff</charsize>
+        <pcbmask>0x7f</pcbmask>
+        <maxcharlines>16</maxcharlines>
+        <maxscreenlines>24</maxscreenlines> <!-- 24, 25 or 27 for Cidelsa DRACO) -->
+        <mode>pal</mode>
+        <int>2</int>
+        <ef type="display">1</ef>
+        <ef type="mode">2</ef> <!-- only active until first Q pulse -->
+        <clock>5.626</clock>
+        <border>2x2</border>
+        <cmamaskfixed />
+    </video>
+
+    <keyboard type="1871">
+        <in>3</in>
+        <ef type="rpt">2</ef>
+        <ef type="data">3</ef>
+    </keyboard>
+    
+    <disk type="1770" drives="2">
+        <!-- disk definition for fdc 1790
+        <out type="select">: output number to select fdc port
+        <out type="write">: output number to write to selected fdc port
+        <in type="read">: input number to read from selected fdc port
+        <ef>: ef number for data request
+        <sides>: number of disk sides
+        <tracks>: number of tracks
+        <sectors>: number of sectors
+        <sectorlength>: sector length in bytes
+        <maxfmtcount>: max format count, use 2740 for COMX drive with 16 sectors. Other values might not work.
+        -->
+
+        <iogroup>0</iogroup>
+        <dirname disk="0">Comx/Disks</dirname>
+        <dirname disk="1">Comx/Disks</dirname>
+        <filename disk="0">dos.1.4+f&amp;m.disk.tools.img</filename>
+        <filename disk="1">f&amp;m-heijmans.sw.img</filename>
+        <out type="select" q="1">2</out>
+        <out type="write" q="0">2</out>
+        <in type="read" q="0">2</in>
+        <in type="intrq" q="1">2</in>
+        <ef>4</ef>
+        <sides>2</sides>
+        <tracks>35</tracks>
+        <sectors>16</sectors>
+        <sectorlength>128</sectorlength>
+        <maxfmtcount>2740</maxfmtcount>
+    </disk>
+
+    <cassette decks="1">
+        <ef>4</ef>
+    </cassette>
+
+    <printer type="parallel">
+        <!-- printer definition type basic, parallel, serial or thermal.
+        <out>: output port to write data to printer
+        <in>: input port to check printer status (used for parallel, serial, thermal printer)
+        <ef>: ef port for data ready flag; set to 0 or leave out if no data ready flag is used (used by basic printer)
+        <ef>: ef port for printer busy flag; set to 0 or leave out if no data busy flag is used (used by thermal printer)
+        <filename>: initial printer filename
+        <dirname>: location of printer file; defined as sub-dir of the main Emma 02 data directory. If not specified the dirname specified in <info> will be used.
+        -->
+
+        <iogroup>1</iogroup>
+        <out>2</out>
+        <in>2</in>
+    </printer>
+
+    <debugger>
+        <scrt mode="on">
+            <call reg="4">0x2e14</call>
+            <return reg="5">0x31eb</return>
+        </scrt>
+        
+        <assembler>
+            <filename>mycode</filename>
+            <code_start>0x4400</code_start>
+            <code_end>0x53FF</code_end>
+        </assembler>
+    </debugger>
+
+</emmaconfig>

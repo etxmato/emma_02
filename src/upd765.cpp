@@ -128,9 +128,64 @@ void Upd765::configureUpd765(int fdcType, int efnumber)
     p_Computer->setEfType(3, efnumber);
 
     p_Main->message("Configuring 18S651 and uPD765 Disk Controller");
-    p_Main->message("    Output 4: DMA control, output 7: DMA count, input 4: uPD765 status");
-    p_Main->message("    Output 5: uPD765 command register, input 5: uPD765 command register");
-    p_Main->message("    EF 3: interrupt\n");
+    p_Main->message("	Output 4: DMA control, output 7: DMA count, input 4: uPD765 status");
+    p_Main->message("	Output 5: uPD765 command register, input 5: uPD765 command register");
+    p_Main->message("	EF 3: interrupt\n");
+
+    masterStatus_ = MS_REQUEST_FOR_MASTER;
+    interrupt_ = 1;
+    commandPacketIndex = 0;
+    
+    fdcCycles_ = p_Main->getFdcCpms()*15;
+    updActivity_ = UPD_NONE;
+    hdCommand_ = HD_UPD_NONE;
+    
+    writeFileName_ = "";
+    writeFileAttribute_ = 2;
+    
+    for (int drive = 0; drive < 4; drive++)
+    {
+        initializeCat(drive);
+        for (int cluster = FIRST_CLUSTER; cluster < (MAX_CLUSTER + BUFFER_CLUSTER); cluster++)
+        {
+            clusterInfo_[drive][cluster].filenameDefined = false;
+            clusterInfo_[drive][cluster].readCluster = true;
+            clusterInfo_[drive][cluster].sdwClusterDefined = false;
+        }
+    }
+
+    statusRegister0_ = 0;
+    statusRegister1_ = 0;
+    statusRegister2_ = 0;
+    statusRegister3_ = 0;
+    lastCommand_ = 0;
+}
+
+void Upd765::configureUpd765(int fdcType, Upd765Io upd765Io)
+{
+    fdcType_ = fdcType;
+    
+    p_Computer->setCycleType(DISKCYCLEFDC, UPD765_CYCLE);
+    
+    for (int i=0; i<4; i++)
+    {
+        diskCreated_[i] = false;
+    }
+
+    wxString ioGroup = "";
+    if (upd765Io.ioGroup != -1)
+        ioGroup.Printf(" on group %d", upd765Io.ioGroup);
+
+    p_Main->message("Configuring uPD765 Disk Controller" + ioGroup);
+
+    p_Computer->setOutTypeAndNumber(upd765Io.ioGroup+1, upd765Io.dmaControl, UPD765_DMA_CONTROL, 0, "DMA control");
+    p_Computer->setOutTypeAndNumber(upd765Io.ioGroup+1, upd765Io.dmaCount, UPD765_DMA_COUNT, 0, "DMA count");
+    p_Computer->setInTypeAndNumber(upd765Io.ioGroup+1, upd765Io.readStatus, UPD765_READ_STATUS, 0, "uPD765 status");
+    p_Computer->setOutTypeAndNumber(upd765Io.ioGroup+1, upd765Io.writeCommand, UPD765_WRITE_COMMAND, 0, "write uPD765 command register");
+    p_Computer->setInTypeAndNumber(upd765Io.ioGroup+1, upd765Io.readCommand, UPD765_READ_COMMAND, 0, "read uPD765 command register");
+    p_Computer->setEfTypeAndNumber(-1, upd765Io.ioGroup+1, upd765Io.efInterrupt, UPD765_EF, 0, "interrupt");
+
+    p_Main->message("");
 
     masterStatus_ = MS_REQUEST_FOR_MASTER;
     interrupt_ = 1;
@@ -1290,7 +1345,7 @@ void Upd765::cycleUpd765()
     }
 }
 
-void Upd765::setDiskName(int disk, wxString dirName, wxString fileName)
+void Upd765::setUpdDiskname(int disk, wxString dirName, wxString fileName)
 {
     diskDir_[disk-1] = dirName;
     diskName_[disk-1] = fileName;

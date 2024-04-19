@@ -46,8 +46,8 @@
 #include "main.h"
 #include "ledmodule.h"
 
-LedModuleScreen::LedModuleScreen(wxWindow *parent, const wxSize& size)
-: Panel(parent, size)
+LedModuleScreen::LedModuleScreen(wxWindow *parent, const wxSize& size, int tilType)
+: Panel(parent, size, tilType)
 {
 }
 
@@ -65,7 +65,7 @@ void LedModuleScreen::init(int computerType)
     keyStart_ = 0;
     keyEnd_ = 0;
     lastKey_ = 0;
-    forceUpperCase_ = p_Main->getUpperCase(ELF);
+    forceUpperCase_ = p_Main->getUpperCase();
 
     wxClientDC dc(this);
 
@@ -73,7 +73,7 @@ void LedModuleScreen::init(int computerType)
 
     for (int i=0;i<8;i++)
     {
-        ledPointer[i] = new Led(dc, 20+16*(7-i),16, computerType);
+        ledPointer[i] = new Led(dc, 20+16*(7-i),16, LED_SMALL_RED);
         updateLed_[i] = true;
     }
 
@@ -108,7 +108,7 @@ LedModule::LedModule(const wxString& title, const wxPoint& pos, const wxSize& si
 
     this->SetClientSize(size);
 
-    ledModuleScreenPointer = new LedModuleScreen(this, size);
+    ledModuleScreenPointer = new LedModuleScreen(this, size, TILNONE);
     ledModuleScreenPointer->init(computerType);
 }
 
@@ -123,17 +123,17 @@ void LedModule::onClose(wxCloseEvent&WXUNUSED(event) )
     Destroy();
 }
 
-void LedModule::configure(ElfPortConfiguration elfPortConf)
+void LedModule::configure(IoConfiguration ioConfiguration)
 {
 //    int output;
 
 //    output = p_Main->getConfigItem("Elf/Led_Module_Output", 4l);
-    p_Computer->setOutType(elfPortConf.led_Module_Output, LEDMODOUT);
+    p_Computer->setOutType(ioConfiguration.led_Module_Output, LEDMODOUT);
 
     wxString printBuffer;
     p_Main->message("Configuring Led Module");
 
-    printBuffer.Printf("    Output %d: write data\n", elfPortConf.led_Module_Output);
+    printBuffer.Printf("	Output %d: write data\n", ioConfiguration.led_Module_Output);
     p_Main->message(printBuffer);
 }
 
