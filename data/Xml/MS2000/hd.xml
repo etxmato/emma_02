@@ -9,9 +9,9 @@
         <cpu>1802</cpu>
         <clock>2.0</clock>
         <boot>0</boot>
-        <init type="ef1">1</init>
-        <init type="ef2">1</init>
-        <init type="ef3">1</init>
+        <init ef="1">1</init>
+        <init ef="2">1</init>
+        <init ef="3">1</init>
         <dirname>MS2000</dirname>
     </system>
     
@@ -109,17 +109,17 @@
         <ef>1</ef>
     </printer>
 
-    <cassette decks="2" type="micro">
+    <cassette decks="2">
         <iogroup>2</iogroup>
-        <out>4</out>
+        <out type="micro">4</out>
         <out type="q">5</out>
         <ef>2</ef>
     </cassette>
 
     <debugger>
         <scrt mode="off">
-            <call reg="4">-1</call>
-            <return reg="5">-1</return>
+            <call reg="4">0x8364</call>
+            <return reg="5">0x8374</return>
         </scrt>
 
         <assembler>

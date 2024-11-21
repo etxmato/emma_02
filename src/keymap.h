@@ -1,13 +1,6 @@
 #ifndef KEYMAPDLG_H
 #define KEYMAPDLG_H
 
-#define KEY_UP 0
-#define KEY_LEFT 1
-#define KEY_RIGHT 2
-#define KEY_DOWN 3
-#define KEY_FIRE 4
-#define KEY_COIN 5
-
 class KeyMapDialog : public wxDialog
 {
 public:

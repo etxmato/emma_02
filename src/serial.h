@@ -8,18 +8,13 @@ class Serial
 {
 public:
 
-    Serial(int computerType, double clock, ElfConfiguration elfConfiguration);
+    Serial(int computerType, double clock, ComputerConfiguration computerConfig);
     ~Serial();
 
-    void configure(int selectedBaudR, int selectedBaudT, IoConfiguration ioConfiguration);
-    void configureStandard(int selectedBaudR, int selectedBaudT, int dataReadyFlag);
-    void configureUart(IoConfiguration ioConfiguration);
-    void configureUart16450(IoConfiguration ioConfiguration);
-    void configureRcasbc(int selectedBaudR, int selectedBaudT);
-    void configureMs2000(int selectedBaudR, int selectedBaudT);
-    void configureVt2K(int SelectedBaudR, int SelectedBaudT, IoConfiguration ioConfiguration);
+    void configure(int selectedBaudR, int selectedBaudT, VideoTerminalConfiguration videoTerminalConfiguration);
+    void configureUart1854(VideoTerminalConfiguration videoTerminalConfiguration);
+    void configureUart16450(VideoTerminalConfiguration videoTerminalConfiguration);
     void startSerial();
-    void configureQandEfPolarity(int ef, bool vtEnable);
     Byte ef();
     void out(Byte value);
     void cycleVt();
@@ -42,7 +37,7 @@ public:
     void uartInterrupt();
 
 private:
-    ElfConfiguration elfConfiguration_;
+    ComputerConfiguration currentComputerConfiguration;
 
     double clock_;
 
@@ -75,7 +70,7 @@ private:
 
     Byte uartControl_;
     bitset<8> uartStatus_;
-    bool uart_;
+    bool uart1854_;
     bool uart16450_;
     bool serialOpen_;
 

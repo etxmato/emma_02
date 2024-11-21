@@ -7,7 +7,7 @@ public:
     BitKeypad ();
     ~BitKeypad () {};
 
-    void configure(IoConfiguration portConf, int pad);
+    void configure(BitKeypadConfiguration bitKeypadConfiguration);
     
     void keyDown(int keycode);
     bool keyDownCtrlV(int keycode);
@@ -19,11 +19,10 @@ public:
     void cid1Bit8(bool set);
     
 private:
-    IoConfiguration ioConfiguration_;
+    BitKeypadConfiguration bitKeypadConfiguration_;
 
     Byte inputValue_;
     int lastKey_;
-    int pad_;
 };
 
 #endif  // BITKEYPAD_H

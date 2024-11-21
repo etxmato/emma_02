@@ -9,9 +9,9 @@
         <cpu>1805</cpu>
         <clock>2.0</clock>
         <boot>0</boot>
-        <init type="ef1">1</init>
-        <init type="ef2">1</init>
-        <init type="ef3">1</init>
+        <init ef="1">1</init>
+        <init ef="2">1</init>
+        <init ef="3">1</init>
         <dirname>Microboard</dirname>
     </system>
     
@@ -182,8 +182,7 @@
         </item>
         <item>
             <type>led</type>
-            <value>2</value>
-            <function cycle="show">cpustateled</function>
+            <function cycle="show">waitled</function>
             <pos>126, 72</pos>
         </item>
         <item>
@@ -193,8 +192,7 @@
         </item>
         <item>
             <type>led</type>
-            <value>3</value>
-            <function cycle="show">cpustateled</function>
+            <function cycle="show">clearled</function>
             <pos>164, 72</pos>
         </item>
         <item>
@@ -222,12 +220,12 @@
     <cdp1851 init="on">
         <iogroup>8</iogroup>
         <pos>310, 0</pos>   
-        <out type="a" mask="0x6" xor="0x2">4</out>
-        <out type="b" mask="0x6">6</out>
-        <in type="a" mask="0x6" xor="0x2">4</in>
-        <in type="b" mask="0x6">6</in>
-        <out type="control" mask="0x6" xor="0x4">2</out>
-        <in type="status" mask="0x6" xor="0x4">2</in>
+        <out type="a">4, 5</out>
+        <out type="b">6, 7</out>
+        <in type="a">4, 5</in>
+        <in type="b">6, 7</in>
+        <out type="control">2, 3</out>
+        <in type="status">2, 3</in>
         <ef type="a">1</ef>
         <ef type="b">2</ef>
     </cdp1851>

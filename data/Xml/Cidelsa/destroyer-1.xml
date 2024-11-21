@@ -8,10 +8,10 @@
         <config>Destroyer 1</config>
         <clock>3.579</clock>
         <boot>0</boot>
-        <init type="ef1">1</init>
-        <init type="ef2">1</init>
-        <init type="ef3">1</init>
-        <init type="ef4">1</init>
+        <init ef="1">1</init>
+        <init ef="2">1</init>
+        <init ef="3">1</init>
+        <init ef="4">1</init>
         <statusbar out="1">cidelsa</statusbar>
         <dirname>Cidelsa</dirname>
     </system>
@@ -56,14 +56,14 @@
         <ef4>65</ef4>
     </efbuttons>
 
-    <bitkeypad pad="a">
+    <keypad type="bit" pad="a">
         <in>1</in>
         <bit1>49</bit1>     <!-- 1 player -->
         <bit2>50</bit2>     <!-- 2 player -->
         <bit3>316</bit3>    <!-- right -->
         <bit4>314</bit4>    <!-- left -->
         <bit5>32</bit5>     <!-- space / fire -->
-    </bitkeypad>
+    </keypad>
 
     <debugger>
         <scrt mode="on">

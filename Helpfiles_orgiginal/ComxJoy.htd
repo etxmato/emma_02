@@ -1,0 +1,134 @@
+<HTML>
+<Title>F&M Joy Card</Title>
+<BODY>
+<h2>F&M Joy Card</h2>
+<p>
+To run the COMX emulator with the F&M Joy card select 'f&m.joycard.bin' in any available slot (CARD 1 if no expansion box is used), see example below (yellow ellipse):
+</p>
+<p>
+<IMG SRC="images/comx_joy.png" BORDER="0">
+</p>
+<p>
+The F&M Joy Card will only work with software designed for this card, like F&M Pit Stop, Joy Tekenen, Activate Joycard and Joy in basic.
+</p>
+<h3>
+Joystick 1 mapping:
+</h3>
+<table BORDER COLS=3 WIDTH="30%" >
+<tr>
+<td>
+<center><b>q</b></center>
+</td>
+
+<td>
+<center><b>w</b></center>
+</td>
+
+<td>
+<center><b>e</b></center>
+</td>
+</tr>
+
+<tr>
+<td>
+<center><b>a</b></center>
+</td>
+
+<td>
+<center><b></b></center>
+</td>
+
+<td>
+<center><b>d</b></center>
+</td>
+</tr>
+
+<tr>
+<td>
+<center><b>z</b></center>
+</td>
+
+<td>
+<center><b>x</b></center>
+</td>
+
+<td ALIGN=CENTER>
+<center><b>c</b></center>
+</td>
+</tr>
+
+<tr>
+<td><center>------</center></td>
+
+<td>
+<center><b>Space</b></center>
+</td>
+
+<td><center>------</center></td>
+</tr>
+</table>
+<p>
+'Space' is fire and the other 8 keys the 8 directions of the joystick.
+</p>
+<h3>
+Joystick 2 mapping:
+</h3>
+<table BORDER COLS=3 WIDTH="30%" >
+<tr>
+<td>
+<center><b>Keypad 7</b></center>
+</td>
+
+<td>
+<center><b>Keypad 8</b></center>
+</td>
+
+<td>
+<center><b>Keypad 9</b></center>
+</td>
+</tr>
+
+<tr>
+<td>
+<center><b>Keypad 4</b></center>
+</td>
+
+<td>
+<center><b></b></center>
+</td>
+
+<td>
+<center><b>Keypad 6</b></center>
+</td>
+</tr>
+
+<tr>
+<td>
+<center><b>Keypad 1</b></center>
+</td>
+
+<td>
+<center><b>Keypad 2</b></center>
+</td>
+
+<td>
+<center><b>Keypad 3</b></center>
+</td>
+</tr>
+
+<tr>
+<td><center>------</center></td>
+
+<td>
+<center><b>Keypad 0</b></center>
+</td>
+
+<td><center>------</center></td>
+</tr>
+</table>
+<p>
+'Keypad 0' is fire and the other 8 keys the 8 directions of the joystick.
+</p>
+ 
+</BODY>
+</HTML>

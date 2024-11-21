@@ -3,7 +3,7 @@
 <BODY>
 <h1>RCA Basic</h1>
 <p>
-To start RCA Basic, first load one of the predefined configurations with the menu option below (blue ellipse) following the grey menu:
+To start RCA Basic, first load one of the predefined configurations with the menu option below (highlighted in blue) following the grey menu:
 </p>
 <p>
 <IMG SRC="images/elf_rca_basic.png" BORDER="0">
@@ -18,7 +18,7 @@ To start RCA Basic first wait a few seconds (until the data display on the main 
 To run RCA Basic from ElfOs with the possibilty to load and save to disk use the 'ElfOs - BiosIo' menu item. Use the ElfOs command INSTALL to install RCA BASIC and after that use the BASIC4 command to start. This configuration needs an IDE image with ElfOs installed and uses BiosIo, see <a href="ElfInstElfOsIo.htm">Installation Elf/Os 2.5 via Biosio</a>.
 </p>
 <p>
-RCA Basic emulation supports loading program and data files with .rca extension as described in <a href="MainMemAccess.htm">Memory Access</a>
+RCA Basic emulation supports loading program and data files with .rca extension as described in <a href="ComputerMemAccess.htm">Memory Access</a>
 </p>
 </BODY>
 </HTML>

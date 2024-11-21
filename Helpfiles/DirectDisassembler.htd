@@ -3,7 +3,7 @@
 <body>
 <h1>Disassembler</h1>
 <p>
-All code shown in the left side (yellow ellipse) of the Direct Assembler tab is disassembled in real time. Any part of memory can also be disassembled to an assembler (.asm or .txt) file by pressing the 'Dis' button (orange ellipse). The first two text boxes on the right of the 'Dis' button will be used as start (red ellipse) and end (blue ellipse) address.
+All code shown in the left side (highlighted in yellow) of the Direct Assembler tab is disassembled in real time. Any part of memory can also be disassembled to an assembler (.asm or .txt) file by pressing the 'Dis' button (highlighted in orange). The first two text boxes on the right of the 'Dis' button will be used as start (highlighted in red) and end (highlighted in blue) address.
 </p>
 <p>
 <IMG SRC="images/assembler_dis.png" BORDER="0">
@@ -12,10 +12,10 @@ All code shown in the left side (yellow ellipse) of the Direct Assembler tab is 
 In example above pressing 'Dis' will disassemble from hexadecimal address 0 to 100.
 </p>
 <p>
-Code will be disassembled based on 'execution' by the CPU. So only code that has been executed is marked as 180x code and will be disassembled. In the yellow ellipse example above, code on address 000D to 0012 is not executed as yet and is as such shown as data (blue hex code), when executed these will become long branches (to 037D and 0258). Note also that 0015 and 0017 are clearly data and should never be disassembled to 180x code. BB is used in the DIS instruction and F0 in the OUT 3.
+Code will be disassembled based on 'execution' by the CPU. So only code that has been executed is marked as 180x code and will be disassembled. Highlighted in yellow in the example above, code on address 000D to 0012 is not executed as yet and is as such shown as data (blue hex code), when executed these will become long branches (to 037D and 0258). Note also that 0015 and 0017 are clearly data and should never be disassembled to 180x code. BB is used in the DIS instruction and F0 in the OUT 3.
 </p>
 <p>
-Main advantage of the above is that 'data' will be shown as bytes instead of 180x code. This does mean that for a complete disassembly all code should first be executed as much as possible. Parts of code that are 'less easy' to execute can however be marked as code manually; see also chapter <a href="DirectMarking.htm">Changing Address Usage</a>. Executed 'pseudo' code will be shown as 'DB' in the output file with the pseudo code shown as comments.
+Main advantage of the above is that 'data' will be shown as bytes instead of 180x code. This does mean that for a complete disassembly all code should first be executed as much as possible. Parts of code that are 'less easy' to execute can however be marked as code manually; see also section <a href="DirectMarking.htm">Changing Address Usage</a>. Executed 'pseudo' code will be shown as 'DB' in the output file with the pseudo code shown as comments.
 </p>
 <p>
 Next to marking code it is also possible to:

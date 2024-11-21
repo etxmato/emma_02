@@ -7,14 +7,7 @@ using namespace std;
 #include "iodevice.h"
 #include "memory.h"
 #include "sound.h"
-#include "elfconfiguration.h"
 #include "computerconfig.h"
-
-#define LOAD 0
-#define RESET 1
-#define PAUSE 2
-#define RUN 3
-#define UNDEFINDEDMODE 5
 
 #define STATE_FETCH 0
 #define STATE_EXECUTE 1
@@ -52,7 +45,7 @@ public:
     Cdp1802();
     virtual ~Cdp1802() {};
 
-    void initCpu(int computerType);
+    void initCpu();
     void resetCpu();
     void resetEffectiveClock();
 
@@ -73,58 +66,39 @@ public:
     void cpuCycleFinalize();
     void cpuCycleExecute1_1805();
     void cpuCycleExecute2_1805();
-    void dmaIn(Byte value);
+    Byte dmaIn(Byte value);
     Byte dmaOut();
     Byte pixieDmaOut(int *color, int colorType);
     void visicomDmaOut(Byte *vram1, Byte *vram2);
     Byte pixieDmaOut();
 
-    void interrupt();
+    bool interrupt();
     void requestInterrupt();
+    void requestInterrupt(int type, bool state);
     void pixieInterrupt();
     void setEf(int flag, int value);
 
-    bool readIntelFile(wxString fileName, int memoryType, long end, long inhibitStart, long inhibitEnd);
     bool readIntelFile(wxString fileName, int memoryType, long end, bool showFilename);
-    bool readIntelFile(wxString fileName, int memoryType, Word* lastAddress, long end, bool showFilename);
+    bool readIntelFile(wxString fileName, MemoryDefinition* memoryDefintion, long romSize=-1);
     bool readLstFile(wxString fileName, int memoryType, long end, bool showFilename);
-    bool readIntelSequencerFile(wxString fileName);
+    long setRomMask(long romSize);
     void saveIntelFile(wxString fileName, long start, long end);
     void saveBinFile(wxString fileName, long start, long end);
-    bool readBinFile(wxString fileName, int memoryType, Word start, long end, long inhibitStart, long inhibitEnd);
     bool readBinFile(wxString fileName, int memoryType, Word address, long end, bool showFilename, bool showAddressPopup, Word specifiedStartAddress);
     bool readBinFile(wxString fileName, int memoryType, Word address, long end, LoadOffSet loadOffSet, bool showFilename, bool showAddressPopup, Word specifiedStartAddress);
-    bool readBinFile(wxString fileName, int memoryType, Word address, Word* lastAddress, long end, bool showFilename);
     bool readRomMapperBinFile(size_t emsNumber, wxString fileName);
     bool readMultiCartBinFile(wxString dirName, wxString fileName);
     void setAddress(bool showFilename, Word start, Word end);
-    void checkLoadedSoftware();
-    void checkLoadedSoftwareElf();
-    void checkLoadedSoftwareCosmicos();
-    void checkLoadedSoftwareVip();
-    void checkLoadedSoftwareVipII();
-    void checkLoadedSoftwareVip2K();
-    void checkLoadedSoftwareVelf();
-    void checkLoadedSoftwareMember();
-    void checkLoadedSoftwareMicroboard();
-    void checkLoadedSoftwareMCDS();
-    void checkLoadedSoftwareElf2K();
     bool readProgram(wxString romDir, wxString rom, int memoryType, Word address, bool showFilename);
     bool readProgram(wxString romDir, wxString rom, int memoryType, Word address, LoadOffSet loadOffSet, bool showFilename);
-    bool readProgram(wxString romDir, wxString rom, int memoryType, Word address, Word* lastAddress, bool showFilename);
-    bool readProgramMicro(wxString romDir, wxString rom, int memoryType, Word address, long lastAddress, bool showFilename);
-    bool readProgramMicro(wxString romDir, wxString rom, int memoryType1, int memoryType2, long address, long lastAddress, long inhibitstart, long inhibitEnd_);
     bool readProgramCidelsa(wxString romDir, wxString rom, int memoryType, Word address, bool showFilename);
     bool readProgramTmc600(wxString romDir, wxString rom, int memoryType, Word address, bool showFilename);
     bool readProgramPecom(wxString romDir, wxString rom, int memoryType, Word address, bool showFilename);
-    void readSt2Program(int computerType, int memoryType);
-    void readSt2Program(wxString dirName, wxString fileName, int computerType, int memoryType);
-    void readSt2Program(wxString fileNameFull, int computerType, int memoryType);
-    bool readFile(wxString fileName, int memoryType, Word adress, long end, long inhibitStart, long inhibitEnd);
+    void readSt2Program(wxString dirName, wxString fileName, int memoryType);
+    void readSt2Program(wxString fileNameFull, int memoryType);
     bool readFile(wxString fileName, int memoryType, Word address, long end, bool showFilename);
     bool readFile(wxString fileName, int memoryType, Word address, long end, LoadOffSet loadOffSet, bool showFilename);
     bool readFile(wxString fileName, int memoryType, Word address, long end, bool showFilename, bool showAddressPopup, Word specifiedStartAddress);
-    bool readFile(wxString fileName, int memoryType, Word address, Word* lastAddress, long end, bool showFilename);
 
     Word getScratchpadRegister(int number) {return scratchpadRegister_[number];};
     void setScratchpadRegister(int number, Word scratchpadRegister) {scratchpadRegister_[number] = scratchpadRegister;};
@@ -194,8 +168,7 @@ public:
     void increaseExecutedEms(size_t emsNumber, long address, Byte type);
     void clearProfiler();
     
-    virtual void setMode();
-    virtual void setCpuMode(int mode);
+    void setCpuMode(int mode);
 
 protected:
     Byte cycle0_;
@@ -235,19 +208,22 @@ protected:
     int superSlot_;
     int fdcSlot_;
     int networkSlot_;
-
-    ElfConfiguration elfConfiguration;
   
     Word ramStart_;
     int ramMask_;
-    bool disableSystemRom_;
     int bootstrap_;
     Word addressLatch_;
     Word setLatch_;
     Word romMask_;
     
     bool interruptRequested_;
-  
+    bool interruptRequested[INTERRUPT_TYPE_MAX];
+    bool pseudoLoaded_;
+    
+    bool resetPressed_;
+    bool clearResetPressed_;
+    Byte interruptEnable_;
+
 private:
     void decCounter();
     int colourMask_;
@@ -258,7 +234,6 @@ private:
     Byte dataPointer_;
     Byte registerB_;
     Byte registerT_;
-    Byte interruptEnable_;
     Byte efFlags_;
     Byte accumulator_;
 

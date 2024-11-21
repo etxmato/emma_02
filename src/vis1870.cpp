@@ -45,26 +45,30 @@
 #include "vis1870.h"
 
 BEGIN_EVENT_TABLE(VIS1870, wxFrame)
-    EVT_SET_FOCUS(VIS1870::onFocus)
     EVT_CLOSE (VIS1870::onClose)
     EVT_SIZE(VIS1870::onSize)
 END_EVENT_TABLE()
 
-VIS1870::VIS1870(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, int computerType, double clock, double videoClock, IoConfiguration ioConfiguration, int videoNumber)
+VIS1870::VIS1870(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double clock, Vis1870Configuration vis1870Configuration)
 : Video(title, pos, size)
 {
     clock_ = clock;
-    videoClock_ = videoClock;
     colourIndex_ = 0;
-    ioConfiguration_ = ioConfiguration;
-    videoNumber_ = videoNumber;
+    videoClock_ = vis1870Configuration.videoClock;
+    vis1870Configuration_ = vis1870Configuration;
+    videoNumber_ = vis1870Configuration.videoNumber;
+    pageMemoryMask_ = vis1870Configuration.pageMemSize;
+    pageMemorySize_ = vis1870Configuration.pageMemSize;
+    charMemorySize_ = vis1870Configuration.charMemSize;
+    graphicMemorySize_ = vis1870Configuration.graphicMemSize;
 
     v1870Configured_ = false;
     windowSize_ = size;
 
-    computerType_ = computerType;
- 
-    defineColours(computerType_);
+    usePcbOut_ = false;
+    graphicMode_ = false;
+    pcbBit_ = 0;
+    defineColours();
 
     backGround_ = 56;
 
@@ -76,7 +80,7 @@ VIS1870::VIS1870(const wxString& title, const wxPoint& pos, const wxSize& size, 
 
     videoType_ = VIDEOXML1870;
 
-    if (ioConfiguration_.v1870efRev)
+    if (vis1870Configuration_.ef.reverse == 1)
     {
         efNonDisplay_ = 0;
         efDisplay_ = 1;
@@ -96,46 +100,48 @@ VIS1870::VIS1870(const wxString& title, const wxPoint& pos, const wxSize& size, 
     
     pixelWidth_ = 2;
     pixelHeight_ = 2;
-    videoMode_ = p_Main->getVideoMode(computerType_);
     interruptEnabled_ = true;
     
-    if (videoMode_ == PAL)
+    if (vis1870Configuration_.videoMode == PAL)
         linesPerCharacters_ = 9;
     else
         linesPerCharacters_ = 8;
 
-    if (ioConfiguration_.v1870rotate)
+    if (vis1870Configuration_.rotateScreen)
     {
         videoHeight_ = 240;
-        videoWidth_ = linesPerCharacters_*ioConfiguration_.v1870maxScreenLines;
+        videoWidth_ = linesPerCharacters_*vis1870Configuration_.maxScreenLines;
     }
     else
     {
         videoWidth_ = 240;
-        videoHeight_ = linesPerCharacters_*ioConfiguration_.v1870maxScreenLines;
+        videoHeight_ = linesPerCharacters_*vis1870Configuration_.maxScreenLines;
     }
 
-    switch (ioConfiguration_.statusBarType)
+    switch (vis1870Configuration_.statusBarType)
     {
         case STATUSBAR_COMX:
             comxStatusBarPointer = new ComxStatusBar(this);
-            SetStatusBar(comxStatusBarPointer);
+            statusBarPointer = comxStatusBarPointer;
+            SetStatusBar(statusBarPointer);
         break;
 
         case STATUSBAR_DIAG:
             diagStatusBarPointer = new DiagStatusBar(this);
-            SetStatusBar(diagStatusBarPointer);
+            statusBarPointer = diagStatusBarPointer;
+            SetStatusBar(statusBarPointer);
         break;
 
         case STATUSBAR_CIDELSA:
             cidelsaStatusBarPointer = new CidelsaStatusBar(this);
-            SetStatusBar(cidelsaStatusBarPointer);
+            statusBarPointer = cidelsaStatusBarPointer;
+            SetStatusBar(statusBarPointer);
         break;
     }
 
     setCycle();
 
-    videoScreenPointer = new VideoScreen(this, wxSize(videoWidth_, videoHeight_), zoom, computerType, videoNumber_);
+    videoScreenPointer = new VideoScreen(this, wxSize(videoWidth_, videoHeight_), zoom, videoNumber_);
     
     screenCopyPointer = new wxBitmap(videoWidth_, videoHeight_);
     screenScrollCopyPointer = new wxBitmap(videoWidth_, videoHeight_);
@@ -176,28 +182,8 @@ VIS1870::~VIS1870()
         }
     }
 
-    switch (ioConfiguration_.statusBarType)
-    {
-        case STATUSBAR_COMX:
-            delete comxStatusBarPointer;
-        break;
-
-        case STATUSBAR_DIAG:
-            delete diagStatusBarPointer;
-        break;
-
-        case STATUSBAR_CIDELSA:
-            delete cidelsaStatusBarPointer;
-        break;
-    }
-}
-
-void VIS1870::onFocus(wxFocusEvent&WXUNUSED(event))
-{
-    if (computerType_ == TMC600)
-    {
-        p_Computer->checkCaps();
-    }
+    if (vis1870Configuration_.statusBarType != STATUSBAR_NONE)
+        delete statusBarPointer;
 }
 
 void VIS1870::focus()
@@ -206,36 +192,42 @@ void VIS1870::focus()
     videoScreenPointer->SetFocus();
 }
 
-bool VIS1870::configure1870(bool expansionRomLoaded, int expansionTypeCard0)
+bool VIS1870::configure1870()
 {
     v1870Configured_ = true;
-    pageMemorySize_ = ioConfiguration_.v1870pageMemSize;
-    charMemorySize_ = ioConfiguration_.v1870charMemSize;
-    charMemoryIsRom_ = ioConfiguration_.v1870charMemRom;
-    pcbMask_ = ioConfiguration_.v1870pcbMask;
-    maxLinesPerCharacters_ = ioConfiguration_.v1870maxCharLines;
-    romAddress_ = ioConfiguration_.v1870charRomStart;
+    pageMemorySize_ = vis1870Configuration_.pageMemSize;
+    charMemorySize_ = vis1870Configuration_.charMemSize;
+    graphicMemorySize_ = vis1870Configuration_.graphicMemSize;
+    charMemoryIsRom_ = vis1870Configuration_.charMemIsRom;
+    pcbMask_ = vis1870Configuration_.pcbMask;
+    maxLinesPerCharacters_ = vis1870Configuration_.maxCharLines;
+    romAddress_ = vis1870Configuration_.charRomStart;
 
     wxString message;
         
-    wxString ioGroup = "";
-    if (ioConfiguration_.v1870ioGroup != -1)
-    {
-        ioGroup.Printf(" on group %d", ioConfiguration_.v1870ioGroup);
-    }
-    p_Main->message("Configuring Video Interface System CDP 1869/1870" + ioGroup);
+    p_Main->configureMessage(&vis1870Configuration_.ioGroupVector, "Video Interface System CDP 1869/1870");
     
-    p_Computer->setOutTypeAndNumber(ioConfiguration_.v1870ioGroup+1, ioConfiguration_.v1870outIntEnable, V1870OUT2, 0, "Interrupt enable");
-
-    if (ioConfiguration_.v1870outWrite == -1 && ioConfiguration_.v1870outSelect == -1)
+    p_Computer->setOutType(&vis1870Configuration_.ioGroupVector, vis1870Configuration_.outputInterruptEnable, "Interrupt enable");
+    p_Computer->setOutType(&vis1870Configuration_.ioGroupVector, vis1870Configuration_.outputInterruptReset, "Interrupt reset");
+    if (vis1870Configuration_.outputWrite.portNumber[0] == -1 && vis1870Configuration_.outputSelect.portNumber[0] == -1)
+    {
         p_Main->message("	Output 3 to 7: VIS OUT 3 to 7");
+        p_Computer->setOutType(&vis1870Configuration_.ioGroupVector, 3, VIS1870_OUT3, 0);
+        p_Computer->setOutType(&vis1870Configuration_.ioGroupVector, 4, VIS1870_OUT4, 0);
+        p_Computer->setOutType(&vis1870Configuration_.ioGroupVector, 5, VIS1870_OUT5, 0);
+        p_Computer->setOutType(&vis1870Configuration_.ioGroupVector, 6, VIS1870_OUT6, 0);
+        p_Computer->setOutType(&vis1870Configuration_.ioGroupVector, 7, VIS1870_OUT7, 0);
+    }
     else
     {
-        message.Printf("	Output %d: VIS data, output 7: VIS register select", ioConfiguration_.v1870outWrite, ioConfiguration_.v1870outSelect);
+        p_Computer->setOutType(&vis1870Configuration_.ioGroupVector, vis1870Configuration_.outputWrite, "VIS data");
+        p_Computer->setOutType(&vis1870Configuration_.ioGroupVector, vis1870Configuration_.outputSelect, "VIS register select");
     }
+    p_Computer->setEfType(&vis1870Configuration_.ioGroupVector, vis1870Configuration_.ef, "display/non display period");
+    p_Computer->setCycleType(CYCLE_TYPE_VIDEO_VIS1870, VIS1870_CYCLE);
+    if (vis1870Configuration_.cursorBlink)
+        p_Computer->setCycleType(CYCLE_TYPE_BLINK_VIS1870, VIS1870_BLINK_CYCLE);
     
-    message.Printf("	EF %d: display/non display period", ioConfiguration_.v1870ef);
-    p_Main->message(message);
     message.Printf("	Page RAM Size = %d KB", (pageMemorySize_+1)/0x400);
     p_Main->message(message);
     if (charMemoryIsRom_)
@@ -248,7 +240,13 @@ bool VIS1870::configure1870(bool expansionRomLoaded, int expansionTypeCard0)
     else
         message.Printf("	Character RAM Size = %d KB", (charMemorySize_+1)/0x400);
     p_Main->message(message);
-    
+
+    if (graphicMemorySize_ != 0)
+    {
+        message.Printf("	Graphic RAM Size = %d KB", (graphicMemorySize_+1)/0x400);
+        p_Main->message(message);
+    }
+
 //    message.Printf("	%d Characters with size: 6x%d\n", pcbMask_+1, linesPerCharacters_);
     if (maxLinesPerCharacters_ > linesPerCharacters_)
         message.Printf("	%d Characters with size: 6x%d (max 6x%d)\n", (charMemorySize_+1)/maxLinesPerCharacters_, linesPerCharacters_, maxLinesPerCharacters_);
@@ -256,47 +254,12 @@ bool VIS1870::configure1870(bool expansionRomLoaded, int expansionTypeCard0)
         message.Printf("	%d Characters with size: 6x%d\n", (charMemorySize_+1)/maxLinesPerCharacters_, linesPerCharacters_);
     p_Main->message(message);
 
-    switch (ioConfiguration_.statusBarType)
+    if (vis1870Configuration_.statusBarType != STATUSBAR_NONE)
     {
-        case STATUSBAR_COMX:
-            comxStatusBarPointer->initComxBar(expansionRomLoaded, expansionTypeCard0);
-        break;
-
-        case STATUSBAR_DIAG:
-            diagStatusBarPointer->initDiagBar();
-        break;
-
-        case STATUSBAR_CIDELSA:
-            cidelsaStatusBarPointer->initCidelsaBar();
-            if (ioConfiguration_.statusBarLedOut != -1)
-            {
-                p_Main->message("Configuring Statusbar");
-                message.Printf("	Output %d: led on/off\n", ioConfiguration_.statusBarLedOut);
-                p_Main->message(message);
-                p_Computer->setOutType(ioConfiguration_.statusBarLedOut, CIDELSAOUT1);
-            }
-        break;
+        statusBarPointer->init(vis1870Configuration_.expansionConfiguration_defined);
+        statusBarPointer->configure(vis1870Configuration_.statusBarLedOut);
     }
     return charMemoryIsRom_;
-}
-
-void VIS1870::v1870BarSize()
-{
-    switch (ioConfiguration_.statusBarType)
-    {
-        case STATUSBAR_COMX:
-            comxStatusBarPointer->reDrawBar();
-            updateExpansionLed(true);
-        break;
-
-        case STATUSBAR_DIAG:
-            diagStatusBarPointer->reDrawBar();
-        break;
-
-        case STATUSBAR_CIDELSA:
-            cidelsaStatusBarPointer->reDrawBar();
-        break;
-    }
 }
 
 void VIS1870::init1870()
@@ -307,6 +270,7 @@ void VIS1870::init1870()
             for (int i=0; i<4096; i++) v1870pcb_[i] = 0;
             for (int i=0; i<4096; i++) vismacColorRam_[i] = 0;
             for (int i=0; i<4096; i++) characterMemory_[i] = 0;
+            for (int i=0; i<8192; i++) graphicMemory_[i] = 0;
             for (int i=0; i<4096; i++) pageMemory_[i] = 0;
         break;
             
@@ -314,6 +278,7 @@ void VIS1870::init1870()
             for (int i=0; i<4096; i++) v1870pcb_[i] = rand() % 0x100;
             for (int i=0; i<4096; i++) vismacColorRam_[i] = rand() % 0x10;
             for (int i=0; i<4096; i++) characterMemory_[i] = rand() % 0x100;
+            for (int i=0; i<8192; i++) graphicMemory_[i] = rand() % 0x100;
             for (int i=0; i<4096; i++) pageMemory_[i] = rand() % 0x100;
         break;
             
@@ -325,6 +290,8 @@ void VIS1870::init1870()
             p_Computer->setDynamicRandomByte();
             for (int i=0; i<4096; i++) characterMemory_[i] = p_Computer->getDynamicByte(i);
             p_Computer->setDynamicRandomByte();
+            for (int i=0; i<8192; i++) graphicMemory_[i] = p_Computer->getDynamicByte(i);
+            p_Computer->setDynamicRandomByte();
             for (int i=0; i<4096; i++) pageMemory_[i] = p_Computer->getDynamicByte(i);
         break;
     }
@@ -333,7 +300,7 @@ void VIS1870::init1870()
     rowsPerScreen_ = 24;
     pixelHeight_ = 2;
     pixelWidth_ = 2;
-    displayOff_ = 0;
+    displayOff_ = false;
     backgroundColour_ = 0;
     colourFormatControl_ = 0;
     cmemAccessMode_ = 0;
@@ -354,12 +321,14 @@ void VIS1870::init1870()
     extraBackGround_ = false;
     updateCharacter_ = false;
     vismacBlink_ = false;
+    graphicMode_ = false;
+    pcbBit_ = 0;
     displayPeriodEnd_ = nonDisplayPeriodEnd_ - (displayPeriod_ / (pixelWidth_ * pixelHeight_));
 }
 
 Byte VIS1870::ef1_1870()
 {
-    return ef1Value_;
+    return ef1Value_^vis1870Configuration_.ef.reverse;
 }
 
 void VIS1870::out2_1870(Byte value)
@@ -377,20 +346,18 @@ void VIS1870::out3_1870(Byte value)
     if (old != register3_)
     {
         pixelWidth_ = ((register3_ & 0x80) == 0x80) ? 1 : 2;
-        displayOff_ = register3_ & 0x10;
+        displayOff_ = ((register3_ & 0x10) == 0x10);
+        if (displayOff_)  // If display is OFF make sure PREDISPLAY (nonDisplay_) is true so writing to P/CRAM is allowed
+            nonDisplay_ = true;
         charactersPerRow_ = ((register3_ & 0x80) == 0x80) ? 40 : 20;
         backgroundColour_ = register3_ & 0x7;
         backGround_ = backgroundColour_ + 56;
         colourFormatControl_ = register3_ & 0x08;
         reDraw_ = true;
         newBackGround_ = true;
-        if (computerType_ == TMC600)
-        {
-            if ((pixelHeight_ == 2) && (pixelWidth_ == 2))
-                maxPageMemory_ = 960/2;
-            else
-                maxPageMemory_ = 960;
-        }
+
+        maxPageMemory_ = ((register5_ & 0x40) == 0x40) ? 1920 : (rowsPerScreen_*charactersPerRow_);
+
         displayPeriodEnd_ = nonDisplayPeriodEnd_ - (displayPeriod_ / (pixelWidth_ * pixelHeight_));
     }
 }
@@ -416,27 +383,24 @@ void VIS1870::out5_1870(Word address)
         linesPerCharacters_ = ((register5_ & 0x8) == 0x8) ? 8 : 9;
         linesPerCharacters_ = ((register5_ & 0x20) == 0x20) ? 16 : linesPerCharacters_;
         pageMemoryMask_ = ((register5_ & 0x40) == 0x40) ? 0x7ff : 0x3ff;
-        maxPageMemory_ = ((register5_ & 0x40) == 0x40) ? 1920 : (ioConfiguration_.v1870maxScreenLines*40);
-        if ((linesPerCharacters_ == 16) || (linesPerCharacters_ == 9) || ioConfiguration_.v1870cmaMaskFixed)
+        if ((linesPerCharacters_ == 16) || (linesPerCharacters_ == 9) || vis1870Configuration_.cmaMaskFixed)
             CmaMask_ = 0xf;
         else
             CmaMask_ = 0x7;
 
         pixelHeight_ = ((register5_ & 0x80) == 0x80) ? 1 : 2;
         displayPeriodEnd_ = nonDisplayPeriodEnd_ - (displayPeriod_ / (pixelWidth_ * pixelHeight_));
-        rowsPerScreen_ = ((register5_ & 0x80) == 0x80) ? ioConfiguration_.v1870maxScreenLines : 12;
+        rowsPerScreen_ = ((register5_ & 0x80) == 0x80) ? vis1870Configuration_.maxScreenLines : 12;
         
-        if (computerType_ == TMC600)
-        {
-            if ((pixelHeight_ == 2) && (pixelWidth_ == 2))
-                maxPageMemory_ = 960/4;
-            else
-                maxPageMemory_ = 960;
-        }
+        // maxPageMemory_ = ((register5_ & 0x40) == 0x40) ? 1920 : (vis1870Configuration_.maxScreenLines*40);
+        // instead of above line I use charactersPerRow_ to get correct TMC600 handling - looks to be ok on COMX,
+        // Cidelsa and Pecom as well. TMC expects a maxPageMemory_ = 960/4 when RES 1 is used with 12*20 character
+        // screen. Same line as below is used in out3_1870.
+        maxPageMemory_ = ((register5_ & 0x40) == 0x40) ? 1920 : (rowsPerScreen_*charactersPerRow_);
 
         reDraw_ = true;
     }
-    
+
     if ((old & 0x8) != (register5_ & 0x8)) // && (computerType_ == COMX))
     {
         if (fullScreenSet_)
@@ -449,7 +413,7 @@ void VIS1870::out5_1870(Word address)
             dcScroll.SelectObject(wxNullBitmap);
             delete screenCopyPointer;
             delete screenScrollCopyPointer;
-            if (ioConfiguration_.v1870rotate)
+            if (vis1870Configuration_.rotateScreen)
                 videoWidth_ = linesPerCharacters_*rowsPerScreen_*pixelHeight_;
             else
                 videoHeight_ = linesPerCharacters_*rowsPerScreen_*pixelHeight_;
@@ -532,10 +496,10 @@ void VIS1870::cycle1870()
         if (!displayOff_)
         {
             ef1Value_ = efDisplay_;
-            if (ioConfiguration_.v1870interruptMode == INT_MODE1)
-                p_Computer->interrupt();
-            if (interruptEnabled_ && ioConfiguration_.v1870interruptMode == INT_MODE3)
-                p_Computer->interrupt();
+            if (vis1870Configuration_.interruptMode == INT_MODE1)
+                p_Computer->requestInterrupt(INTERRUPT_TYPE_VIS, true);
+            if (interruptEnabled_ && vis1870Configuration_.interruptMode == INT_MODE3)
+                p_Computer->requestInterrupt(INTERRUPT_TYPE_VIS, true);
         }
     }
     if (cycleValue_ == nonDisplayPeriodEnd_)
@@ -544,17 +508,10 @@ void VIS1870::cycle1870()
             nonDisplay_ = false;
         if (changeScreenSize_)
         {
-            wxSize size;
-            if (wxIsMainThread())
-                size = GetClientSize();
-            else
-                size = p_Main->eventGetClientSize(false, videoNumber_);
-
-            p_Main->setMainSize(computerType_, size);
-
             changeScreenSize();
             if (!fullScreenSet_)
-                p_Main->v1870BarSizeEvent();
+                if (vis1870Configuration_.statusBarType != STATUSBAR_NONE)
+                    p_Main->v1870BarSizeEvent();
             changeScreenSize_ = false;
         }
 
@@ -567,10 +524,11 @@ void VIS1870::cycle1870()
         videoSyncCount_++;
         if (!displayOff_)
         {
-            if (ioConfiguration_.v1870interruptMode == INT_MODE2)
-                p_Computer->interrupt();
-            if (interruptEnabled_ && ioConfiguration_.v1870interruptMode == INT_MODE4)
-                p_Computer->interrupt();
+            if (vis1870Configuration_.interruptMode == INT_MODE2)
+                //p_Computer->interrupt();
+                p_Computer->requestInterrupt(INTERRUPT_TYPE_VIS, true);
+            if (interruptEnabled_ && vis1870Configuration_.interruptMode == INT_MODE4)
+                p_Computer->requestInterrupt(INTERRUPT_TYPE_VIS, true);
         }
      }
     if (cycleValue_ <= 0)
@@ -592,8 +550,11 @@ void VIS1870::blink1870()
 
 int VIS1870::writePram(Word address, Byte v)
 {
-    if (!nonDisplay_ && ioConfiguration_.v1870useBlockWrite)
+    if ((!nonDisplay_ && vis1870Configuration_.useBlockWrite))
         return -1;
+
+    if (graphicMode_)
+        return writeCramGraphic(address, v);
 
     if (cmemAccessMode_)
         address = register6_ & pageMemoryMask_;
@@ -605,24 +566,31 @@ int VIS1870::writePram(Word address, Byte v)
     pageMemory_[address] = v;
     vismacColorRam_[address] = vismacColorLatch_;
 
-    if ((address <(charactersPerRow_ * rowsPerScreen_)) || (pixelWidth_ == 2) || (pixelHeight_ == 2) || (ioConfiguration_.v1870colorRamType == CR_CIDELSA))
+    if ((address <(charactersPerRow_ * rowsPerScreen_)) || (pixelWidth_ == 2) || (pixelHeight_ == 2) || (vis1870Configuration_.colorRamType == CR_CIDELSA))
     {
         int a = address - register7_;
         while(a < 0) a += maxPageMemory_;
         int x = (a % charactersPerRow_) * 6;
         int y = (a / charactersPerRow_) * linesPerCharacters_;
         drawCharacterAndBackground(x, y, v, address);
-// ** address log, comment out next line
-//        p_Main->assLog(v);
+        p_Main->assLog(v);
     }
     return address;
 }
 
 int VIS1870::writeCram(Word address, Byte v)
 {
-    if (!nonDisplay_ && ioConfiguration_.v1870useBlockWrite)
+    if (!nonDisplay_ && vis1870Configuration_.useBlockWrite)
         return -1;
+    
+    if (graphicMode_)
+        return writeCramGraphic(address, v);
+    else
+        return writeCramText(address, v);
+}
 
+int VIS1870::writeCramText(Word address, Byte v)
+{
     Word ac;
     if (cmemAccessMode_)
         ac = register6_ & pageMemoryMask_;
@@ -631,13 +599,13 @@ int VIS1870::writeCram(Word address, Byte v)
 
     address &= CmaMask_;
     address += ((pageMemory_[ac]&pcbMask_) * maxLinesPerCharacters_);
-    
+
     if (charMemoryIsRom_ && address >= romAddress_)
         return -1;
     
     characterMemory_[address&charMemorySize_] = v;
 
-    if (ioConfiguration_.v1870colorRamType == CR_CIDELSA)
+    if (vis1870Configuration_.colorRamType == CR_CIDELSA)
         v1870pcb_[address] = (p_Computer->getFlipFlopQ()) ? 1 : 0;
     for (int i=0; i<maxPageMemory_; i++)
     {
@@ -653,13 +621,38 @@ int VIS1870::writeCram(Word address, Byte v)
     return address;
 }
 
+int VIS1870::writeCramGraphic(Word address, Byte v)
+{
+    Word ac;
+    if (cmemAccessMode_)
+        ac = register6_ & graphicMemorySize_;
+    else
+        ac = address & graphicMemorySize_;
+    
+    address &= CmaMask_;
+    int x = ac % charactersPerRow_;
+    int y = ac / charactersPerRow_;
+    address = x + (y * charactersPerRow_ * maxLinesPerCharacters_) + (address * charactersPerRow_);
+    
+    graphicMemory_[address&graphicMemorySize_] = v;
+    
+    y = address / charactersPerRow_;
+    drawLine(x*6*pixelWidth_, y*pixelHeight_, v, pcbBit_, address);
+    reBlit_ = true;
+    
+    return address;
+}
+
 Byte VIS1870::readPram(Word address)
 {
-    if (ioConfiguration_.v1870pageMemRom)
+    if (vis1870Configuration_.pageMemIsRom)
         return p_Computer->getRam(address);
     
-    if (!nonDisplay_)
+    if ((!nonDisplay_ && vis1870Configuration_.useBlockWrite))
         return 0xff;
+
+    if (graphicMode_)
+        return readCramGraphic(address);
 
     if (cmemAccessMode_)
     {
@@ -670,24 +663,33 @@ Byte VIS1870::readPram(Word address)
 
 Byte VIS1870::readCram(Word address)
 {
-    if (!nonDisplay_)
+    if ((!nonDisplay_ && vis1870Configuration_.useBlockWrite))
         return 0xff;
 
-    Word ac;
+    if (graphicMode_)
+        return readCramGraphic(address);
+    else
+        return readCramText(address);
+}
+
+Byte VIS1870::readCramText(Word address)
+{
     Byte ret, clr;
 
+    Word ac;
     if (cmemAccessMode_)
         ac = register6_ & pageMemoryMask_;
     else
         ac = address & pageMemoryMask_;
 
     address &= CmaMask_;
-    if (ioConfiguration_.v1870colorRamType == CR_CIDELSA)
+    if (vis1870Configuration_.colorRamType == CR_CIDELSA)
     {
         p_Computer->cid1Bit8((v1870pcb_[address+(pageMemory_[ac])*maxLinesPerCharacters_] == 0));
     }
     address += ((pageMemory_[ac]&pcbMask_) * maxLinesPerCharacters_);
-    if (ioConfiguration_.v1870colorRamType == CR_TMC600)
+
+    if (vis1870Configuration_.colorRamType == CR_TMC600)
     {
         ret = characterMemory_[ac&charMemorySize_] & 0x3f;
         clr = vismacColorRam_[ac] &0x7;
@@ -701,9 +703,25 @@ Byte VIS1870::readCram(Word address)
     return characterMemory_[address&charMemorySize_];
 }
 
+Byte VIS1870::readCramGraphic(Word address)
+{
+    Word ac;
+    if (cmemAccessMode_)
+        ac = register6_ & graphicMemorySize_;
+    else
+        ac = address & graphicMemorySize_;
+
+    address &= CmaMask_;
+    int x = ac % charactersPerRow_;
+    int y = ac / charactersPerRow_;
+    address = x + (y * charactersPerRow_ * maxLinesPerCharacters_) + (address * charactersPerRow_);
+    
+    return graphicMemory_[address&graphicMemorySize_];
+}
+
 Byte VIS1870::readColourRamDirect(Word address)
 {
-    switch (ioConfiguration_.v1870colorRamType)
+    switch (vis1870Configuration_.colorRamType)
     {
         case CR_TMC600:
             return vismacColorRam_[address] & 0xf;
@@ -721,7 +739,7 @@ Byte VIS1870::readColourRamDirect(Word address)
 
 void VIS1870::writeColourRamDirect(Word address, Byte value)
 {
-    switch (ioConfiguration_.v1870colorRamType)
+    switch (vis1870Configuration_.colorRamType)
     {
         case CR_TMC600:
             vismacColorRam_[address] = value & 0xf;
@@ -735,10 +753,21 @@ void VIS1870::writeColourRamDirect(Word address, Byte value)
     reDraw_ = true;
 }
 
+Byte VIS1870::readGraphicRamDirect(Word address)
+{
+    return graphicMemory_[address&graphicMemorySize_];
+}
+
+void VIS1870::writeGraphicRamDirect(Word address, Byte value)
+{
+    graphicMemory_[address&graphicMemorySize_] = value;
+    reDraw_ = true;
+}
+
 Byte VIS1870::readCramDirect(Word address)
 {
     reDraw_ = true;
-    switch (ioConfiguration_.v1870colorRamType)
+    switch (vis1870Configuration_.colorRamType)
     {
         case CR_TMC600:
         case CR_CIDELSA:
@@ -753,7 +782,7 @@ Byte VIS1870::readCramDirect(Word address)
 
 void VIS1870::writeCramDirect(Word address, Byte value)
 {
-    switch (ioConfiguration_.v1870colorRamType)
+    switch (vis1870Configuration_.colorRamType)
     {
         case CR_TMC600:
             characterMemory_[address] = value & 0x3f;
@@ -833,7 +862,7 @@ void VIS1870::copyScreen()
     if (updateCharacter_)
     {
         updateCharacter_ = false;
-        if (ioConfiguration_.v1870rotate)
+        if (vis1870Configuration_.rotateScreen)
         {
             while(characterListPointer != NULL)
             {
@@ -859,10 +888,6 @@ void VIS1870::copyScreen()
 
 void VIS1870::drawScreen()
 {
-    int char_screen;
-    wxCoord x,y;
-    int address;
-
     setColour(colourIndex_+backGround_);
     drawRectangle(0, 0, videoWidth_ + 2*offsetX_, videoHeight_ + 2*offsetY_);
 
@@ -870,17 +895,45 @@ void VIS1870::drawScreen()
     {
         return;
     }
+    
+    if (graphicMode_)
+        drawGraphicScreen();
+    else
+        drawTextScreen();
+}
+
+void VIS1870::drawTextScreen()
+{
+    int char_screen;
+    wxCoord x,y;
+    int address;
+
     char_screen = charactersPerRow_ * rowsPerScreen_;
     address = register7_;
 
     while(address<0) address += maxPageMemory_;
     for (int i=0; i<char_screen; i++)
     {
-         x = (i % charactersPerRow_) * 6;
+        x = (i % charactersPerRow_) * 6;
         y = (i / charactersPerRow_) * linesPerCharacters_;
         drawCharacter(x, y, pageMemory_[address], address);
-         address++;
+        address++;
         if (address>=maxPageMemory_) address = 0;
+    }
+}
+
+void VIS1870::drawGraphicScreen()
+{
+    int char_Line_screen;
+    wxCoord x,y;
+
+    char_Line_screen = charactersPerRow_ * rowsPerScreen_ * linesPerCharacters_;
+
+    for (int address=0; address<char_Line_screen; address++)
+    {
+        x = (address % charactersPerRow_) * 6;
+        y = (address / charactersPerRow_);
+        drawLine(x*pixelWidth_, y*pixelHeight_, graphicMemory_[address&graphicMemorySize_], pcbBit_, address);
     }
 }
 
@@ -890,9 +943,13 @@ void VIS1870::drawCharacter(wxCoord x, wxCoord y, Byte v, int address)
 
     v &= pcbMask_;
     int a = v * maxLinesPerCharacters_;
+
     for (wxCoord i=y; i<y+linesPerCharacters_; i++)
     {
-        if (pcbMask_  == 0xff) pcb = v1870pcb_[a];
+        if (usePcbOut_)
+            pcb = pcbBit_;
+        else
+            if (pcbMask_  == 0xff) pcb = v1870pcb_[a];
     
         if (i==(y+8) && linesPerCharacters_ > maxLinesPerCharacters_)
             drawLine(x*pixelWidth_, i*pixelHeight_, 0, pcb, address);
@@ -909,9 +966,13 @@ void VIS1870::drawCharacterAndBackground(wxCoord x, wxCoord y, Byte v, int addre
         return;
     v &= pcbMask_;
     int a = v * maxLinesPerCharacters_;
+
     for (wxCoord i=y; i<y+linesPerCharacters_; i++)
     {
-        if (pcbMask_  == 0xff) pcb = v1870pcb_[a];
+        if (usePcbOut_)
+            pcb = pcbBit_;
+        else
+            if (pcbMask_  == 0xff) pcb = v1870pcb_[a];
         setColourMutex(colourIndex_+backGround_);
         drawBackgroundLine(x*pixelWidth_, i*pixelHeight_);
         if (i==(y+8) && linesPerCharacters_ > maxLinesPerCharacters_)
@@ -965,7 +1026,7 @@ void VIS1870::drawLine(wxCoord x,wxCoord y,Byte v,Byte pcb, int address)
             if (v & 0x80) clr += 1;
         break;
     }
-    if (ioConfiguration_.v1870colorRamType == CR_TMC600)
+    if (vis1870Configuration_.colorRamType == CR_TMC600)
     {
         clr = vismacColorRam_[address] &0x7;
         if (((vismacColorRam_[address] & 0x8) == 0x8) && vismacBlink_)
@@ -994,7 +1055,7 @@ void VIS1870::drawPoint(wxCoord x, wxCoord y)
 {
     if ((pixelHeight_ == 1) &&(pixelWidth_ == 1))
     {
-        if (ioConfiguration_.v1870rotate)
+        if (vis1870Configuration_.rotateScreen)
         {
             drawPointMutex(videoWidth_ - 1 - y + offsetX_, x + offsetY_);
         }
@@ -1005,7 +1066,7 @@ void VIS1870::drawPoint(wxCoord x, wxCoord y)
     }
     else
     {
-        if (ioConfiguration_.v1870rotate)
+        if (vis1870Configuration_.rotateScreen)
         {
             drawRectangleMutex(videoWidth_ - 1 -y + offsetX_, x + offsetY_, pixelHeight_, pixelWidth_);
         }
@@ -1019,7 +1080,7 @@ void VIS1870::drawPoint(wxCoord x, wxCoord y)
 
 void VIS1870::drawBackgroundLine(wxCoord x, wxCoord y)
 {
-    if (ioConfiguration_.v1870rotate)
+    if (vis1870Configuration_.rotateScreen)
     {
         drawRectangleMutex(videoWidth_ - 1 -y + offsetX_, x + offsetY_, pixelHeight_, 6*pixelWidth_);
     }
@@ -1031,57 +1092,27 @@ void VIS1870::drawBackgroundLine(wxCoord x, wxCoord y)
 
 void VIS1870::reDrawBar()
 {
-    switch (ioConfiguration_.statusBarType)
-    {
-        case STATUSBAR_COMX:
-            comxStatusBarPointer->reDrawBar();
-            updateExpansionLed(true);
-        break;
-
-        case STATUSBAR_DIAG:
-            diagStatusBarPointer->reDrawBar();
-            updateExpansionLed(true);
-        break;
-
-        case STATUSBAR_CIDELSA:
-            cidelsaStatusBarPointer->reDrawBar();
-        break;
-    }
+    if (vis1870Configuration_.statusBarType == STATUSBAR_NONE)
+        return;
+    
+    statusBarPointer->reDrawBar();
+    if (vis1870Configuration_.statusBarType == STATUSBAR_COMX)
+        updateComxExpansionLed(true);
 }
 
-void VIS1870::updateExpansionLed(bool status)
+void VIS1870::updateComxExpansionLed(bool status)
 {
-    p_Main->eventUpdateComxLedStatus(p_Computer->getSelectedSlot(), 0, status);
+    p_Main->eventUpdateLedStatus(status, p_Computer->getSelectedSlot(), 0);
 }
 
-void VIS1870::updateStatusLed(bool status)
+void VIS1870::updateComxStatusLed(bool status)
 {
-    p_Main->eventUpdateComxLedStatus(p_Computer->getSelectedSlot(), 1, status);
+    p_Main->eventUpdateLedStatus(status, p_Computer->getSelectedSlot(), 1);
 }
 
-void VIS1870::updateLedStatus(int card, int i, bool status)
+void VIS1870::updateStatusLed(bool status, int card, int i)
 {
-    switch (ioConfiguration_.statusBarType)
-    {
-        case STATUSBAR_COMX:
-            comxStatusBarPointer->updateLedStatus(card, i, status);
-        break;
-
-        case STATUSBAR_DIAG:
-            diagStatusBarPointer->updateLedStatus(0, status);
-        break;
-    }
-}
-
-void VIS1870::updateDiagLedStatus(int led, bool status)
-{
-    if (ioConfiguration_.statusBarType == STATUSBAR_DIAG)
-        diagStatusBarPointer->updateLedStatus(led, status);
-}
-
-void VIS1870::updateCidelsaLedStatus(int number, bool status)
-{
-    cidelsaStatusBarPointer->updateLedStatus(number, status);
+    statusBarPointer->updateLedStatus(status, card, i);
 }
 
 bool VIS1870::readChargenFileTmc(wxString romDir, wxString romFile)
@@ -1195,31 +1226,12 @@ void VIS1870::setFullScreen(bool fullScreenSet)
 {
     fullScreenSet_ = fullScreenSet;
 #ifdef __WXMAC__
-    if (fullScreenSet)
-        switch (ioConfiguration_.statusBarType)
-        {
-            case STATUSBAR_COMX:
-            case STATUSBAR_DIAG:
-            case STATUSBAR_CIDELSA:
-                SetStatusBar(NULL);
-            break;
-        }
-    else
+    if (vis1870Configuration_.statusBarType != STATUSBAR_NONE)
     {
-        switch (ioConfiguration_.statusBarType)
-        {
-            case STATUSBAR_COMX:
-                SetStatusBar(comxStatusBarPointer);
-            break;
-
-            case STATUSBAR_DIAG:
-                SetStatusBar(diagStatusBarPointer);
-            break;
-
-            case STATUSBAR_CIDELSA:
-                SetStatusBar(cidelsaStatusBarPointer);
-            break;
-        }
+        if (fullScreenSet)
+            SetStatusBar(NULL);
+        else
+            SetStatusBar(statusBarPointer);
     }
 #endif
     ShowFullScreen(fullScreenSet);
@@ -1258,3 +1270,36 @@ void VIS1870::reBlit(wxDC &dc)
     }
 }
 
+void VIS1870::setPcbOut(Byte pcbBit)
+{
+    usePcbOut_ = true;
+    
+    switch (pcbBit)
+    {
+        case 1:
+            pcbBit_ = 1;
+        break;
+        case 2:
+            pcbBit_ = 0;
+        break;
+        case 3:
+            pcbBit_ = pcbBit_ ^ 1;
+        break;
+    }
+}
+
+void VIS1870::setVideoMemMode(Byte mode)
+{
+    switch (mode)
+    {
+        case 1:
+            graphicMode_ = true;
+        break;
+        case 2:
+            graphicMode_ = false;
+        break;
+        case 3:
+            graphicMode_ = !graphicMode_;
+        break;
+    }
+}

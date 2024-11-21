@@ -33,46 +33,37 @@
 CvKeypad::CvKeypad()
 {
     keyPressed_ = 1;
-    unreadInput_ = 0;
+    unreadInput_ = 1;
 }
 
-void CvKeypad::configure(IoConfiguration ioConf)
+void CvKeypad::configure(CvKeypadConfiguration cvKeypadConfiguration)
 {
-    ioConfiguration_ = ioConf;
-    wxString printBuffer;
- 
-    wxString ioGroup = "";
-    if (ioConfiguration_.cvKeypad.ioGroup != -1)
-    {
-        ioGroup.Printf(" on group %d", ioConfiguration_.cvKeypad.ioGroup);
-    }
-    
-    p_Main->message("Configuring CyberVision keypad" + ioGroup);
+    cvKeypadConfiguration_ = cvKeypadConfiguration;
+         
+    p_Main->configureMessage(&cvKeypadConfiguration.ioGroupVector, "CyberVision keypad");
+    p_Computer->setInType(&cvKeypadConfiguration.ioGroupVector, cvKeypadConfiguration.input , "read data");
+    p_Computer->setEfType(&cvKeypadConfiguration.ioGroupVector, cvKeypadConfiguration.ef , "data ready");
 
-    printBuffer.Printf("	Input %d: read data", ioConfiguration_.cvKeypad.inp);
-    p_Main->message(printBuffer);
- 
-    printBuffer.Printf("	Ef %d: data ready\n", ioConfiguration_.cvKeypad.ef);
-    p_Main->message(printBuffer);
+    p_Main->message("");
 
     keyboardCode_ = 0xff;
 }
 
 void CvKeypad::keyDown(int keycode,  wxKeyEvent& event)
 {
-    if (keycode == ioConfiguration_.CvKeypadModKeyIgnore)
+    if (keycode == cvKeypadConfiguration_.modKeyIgnore)
         return;
     
     int input = -1;
 
     int keyPad = 0;
-    if (event.GetModifiers() == ioConfiguration_.CvKeypadModKey)
-        keyPad = ioConfiguration_.CvKeypadPadMask;
+    if (event.GetModifiers() == cvKeypadConfiguration_.modKey)
+        keyPad = cvKeypadConfiguration_.padMask;
 
-    if (ioConfiguration_.CvKeypadModKey == WXK_CAPITAL)
+    if (cvKeypadConfiguration_.modKey == WXK_CAPITAL)
     {
         if (wxGetKeyState (WXK_CAPITAL))
-            keyPad = ioConfiguration_.CvKeypadPadMask;
+            keyPad = cvKeypadConfiguration_.padMask;
     }
 
     if (keyPressed_ == 0)
@@ -101,46 +92,46 @@ void CvKeypad::keyDown(int keycode,  wxKeyEvent& event)
     switch (keycode)
     {
         case WXK_BACK:
-            input = ioConfiguration_.CvKeypadTextKey[MATRIX_TEXT_BACK_KEY];
+            input = cvKeypadConfiguration_.textKey[MATRIX_TEXT_BACK_KEY];
         break;
 
         case WXK_ESCAPE:
-            input = ioConfiguration_.CvKeypadTextKey[MATRIX_TEXT_ESC_KEY];
+            input = cvKeypadConfiguration_.textKey[MATRIX_TEXT_ESC_KEY];
         break;
 
         case WXK_RETURN:
-            input = ioConfiguration_.CvKeypadTextKey[MATRIX_TEXT_RETURN_KEY];
+            input = cvKeypadConfiguration_.textKey[MATRIX_TEXT_RETURN_KEY];
         break;
 
         case WXK_END:
-            input = ioConfiguration_.CvKeypadTextKey[MATRIX_TEXT_END_KEY];
+            input = cvKeypadConfiguration_.textKey[MATRIX_TEXT_END_KEY];
         break;
 
         case WXK_HOME:
-            input = ioConfiguration_.CvKeypadTextKey[MATRIX_TEXT_HOME_KEY];
+            input = cvKeypadConfiguration_.textKey[MATRIX_TEXT_HOME_KEY];
         break;
 
         case WXK_DOWN:
-            input = ioConfiguration_.CvKeypadTextKey[MATRIX_TEXT_DOWN_KEY];
+            input = cvKeypadConfiguration_.textKey[MATRIX_TEXT_DOWN_KEY];
         break;
 
         case WXK_LEFT:
-            input = ioConfiguration_.CvKeypadTextKey[MATRIX_TEXT_LEFT_KEY];
+            input = cvKeypadConfiguration_.textKey[MATRIX_TEXT_LEFT_KEY];
         break;
 
         case WXK_RIGHT:
-            input = ioConfiguration_.CvKeypadTextKey[MATRIX_TEXT_RIGHT_KEY];
+            input = cvKeypadConfiguration_.textKey[MATRIX_TEXT_RIGHT_KEY];
         break;
 
         case WXK_UP:
-            input = ioConfiguration_.CvKeypadTextKey[MATRIX_TEXT_UP_KEY];
+            input = cvKeypadConfiguration_.textKey[MATRIX_TEXT_UP_KEY];
         break;
             
         case WXK_SHIFT:
         break;
 
         default:
-            input = ioConfiguration_.cvKeypad.keydef[keycode];
+            input = cvKeypadConfiguration_.keydef[keycode];
         break;
     }
 
@@ -149,12 +140,12 @@ void CvKeypad::keyDown(int keycode,  wxKeyEvent& event)
 
     keyboardCode_ = input | keyPad;
     keyPressed_ = 0;
-    unreadInput_ = 1;
+    unreadInput_ = 0;
 }
 
 void CvKeypad::keyUp(int keycode, wxKeyEvent& WXUNUSED(event))
 {
-    if (keycode == ioConfiguration_.CvKeypadModKeyIgnore)
+    if (keycode == cvKeypadConfiguration_.modKeyIgnore)
         return;
 
     switch(keycode)
@@ -187,23 +178,23 @@ void CvKeypad::keyUp(int keycode, wxKeyEvent& WXUNUSED(event))
         switch (newKey)
         {
             case WXK_SPACE:
-                input = ioConfiguration_.cvKeypad.keydef[newKey];
+                input = cvKeypadConfiguration_.keydef[newKey];
             break;
 
             case WXK_DOWN:
-                input = ioConfiguration_.CvKeypadTextKey[MATRIX_TEXT_DOWN_KEY];
+                input = cvKeypadConfiguration_.textKey[MATRIX_TEXT_DOWN_KEY];
             break;
                 
             case WXK_LEFT:
-                input = ioConfiguration_.CvKeypadTextKey[MATRIX_TEXT_LEFT_KEY];
+                input = cvKeypadConfiguration_.textKey[MATRIX_TEXT_LEFT_KEY];
             break;
                 
             case WXK_RIGHT:
-                input = ioConfiguration_.CvKeypadTextKey[MATRIX_TEXT_RIGHT_KEY];
+                input = cvKeypadConfiguration_.textKey[MATRIX_TEXT_RIGHT_KEY];
             break;
                 
             case WXK_UP:
-                input = ioConfiguration_.CvKeypadTextKey[MATRIX_TEXT_UP_KEY];
+                input = cvKeypadConfiguration_.textKey[MATRIX_TEXT_UP_KEY];
             break;
         }
         switch (newKey)
@@ -218,7 +209,7 @@ void CvKeypad::keyUp(int keycode, wxKeyEvent& WXUNUSED(event))
 
                 keyboardCode_ = newKey | secondKeyboardCodes[5];
                 keyPressed_ = 0;
-                unreadInput_ = 1;
+                unreadInput_ = 0;
             break;
         }
     }
@@ -228,14 +219,11 @@ Byte CvKeypad::in()
 {
     Byte ret = keyboardCode_;
     
-    unreadInput_ = 0;
+    unreadInput_ = 1;
     return ret;
 }
 
 Byte CvKeypad::ef()
 {
-    if (ioConfiguration_.cvKeypad.reversed)
-        return unreadInput_;
-    else
-        return unreadInput_ ^ 0x1;
+    return unreadInput_^cvKeypadConfiguration_.ef.reverse;
 }

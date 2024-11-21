@@ -1,0 +1,32 @@
+<html>
+<title>Help</title>
+<body>
+<h1>Help</h1>
+<p>
+<IMG SRC="images/menu_help.png" BORDER="0">
+</p>
+<h2>Help</h2>
+<p>
+Open Emma 02 help pages.
+</p>
+<h2>Emma 02 Homepage</h2>
+<p>
+Direct link opening the Emma 02 homepage.
+</p>
+<h2>COMX Superboard</h2>
+<p>
+Two sub menu items with direct links opening the COMX Superboard homepage and high score page.
+</p>
+<h2>Check for Update on Start-up</h2>
+<p>
+At start-up Emma 02 will check if a newer version is available. This will only work if an internet connection is available.
+</p>
+<p>
+To disable the start-up check, uncheck this menu item.
+</p>
+<h2>Check for Update</h2>
+<p>
+Do a manual update check.
+</p>
+</body>
+</html>

@@ -4,25 +4,22 @@
 #include <bitset>
 using namespace std;
 
+#include <wx/textfile.h>
 #define VTBUFFER 1024
+
+#include "video.h"
 
 class Vt100 : public Video
 {
 public:
 
-    Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, int computerType, double clock, ElfConfiguration elfConfiguration, int uartNumber);
+    Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double clock, ComputerConfiguration computerConfig, int uartNumber);
     ~Vt100();
 
-    void configure(int selectedBaudR, int selectedBaudT, IoConfiguration ioConfiguration, Locations addressLocations, wxString saveCommand);
-    void configure(int selectedBaudR, int selectedBaudT, IoConfiguration ioConfiguration);
-    void configureStandard(int selectedBaudR, int selectedBaudT, int dataReadyFlag);
-    void configureUart(IoConfiguration ioConfiguration);
-    void configureUart16450(IoConfiguration ioConfiguration);
-    void configureRcasbc(int selectedBaudR, int selectedBaudT);
-    void configureMs2000(int selectedBaudR, int selectedBaudT);
+    void configure(VideoTerminalConfiguration videoTerminalConfiguration, AddressLocationConfiguration addressLocationConfiguration, wxString saveCommand);
+    void configureUart1854(VideoTerminalConfiguration videoTerminalConfiguration);
+    void configureUart16450(VideoTerminalConfiguration videoTerminalConfiguration);
     void setTabChar(Byte value);
-    void configureVt2K(int SelectedBaudR, int SelectedBaudT, IoConfiguration ioConfiguration);
-    void configureQandEfPolarity(int ef, bool vtEnable);
     Byte ef();
     void out(Byte value);
     void cycleVt();
@@ -59,7 +56,7 @@ public:
     void escapeVT100(Byte byt);
     void dataAvailable();
     void dataAvailable(Byte value);
-    void dataAvailableUart16450(bool data);
+    void dataAvailableUart(bool data);
     void framingError(bool data);
     void selectUart16450Register(Byte value);
     void uartOut(Byte value);
@@ -71,13 +68,12 @@ public:
     Byte uartThreStatus();
     void thrStatusUart16450(bool data);
     void uartInterrupt();
+    void clearUartInterrupt();
     void getKey();
     bool checkInReleaseAddress(Word address);
     void checkCtrlvText();
     Byte checkCtrlvTextUart();
     void checkXmlCommand();
-    void checkElfCommand();
-    void checkMcdsCommand();
     void ResetVt();
     void ResetIo();
     void setForceUCVt(bool status);
@@ -87,10 +83,8 @@ public:
     void terminalLoadVt(wxString fileNamee, int protocol);
     void terminalLoadCdp18s020Vt(wxString fileNamee, int protocol);
     void terminalStopVt();
-    void startElfRun(bool load, bool overRide);
-    void startMcdsRun(bool load);
     void startXmlRun(bool load, wxString command);
-    bool readCharRomFile(int computerType, wxString romDir, wxString FileRef);
+    bool readCharRomFile(wxString romDir, wxString FileRef);
     void setFullScreen(bool fullScreenSet);
     void onF3();
     void scrollLine();
@@ -120,15 +114,13 @@ public:
     void writeMem(int y, int x, int value);
 
 private:
-    ElfConfiguration elfConfiguration_;
+    ComputerConfiguration currentComputerConfiguration;
 
     CharacterList *characterListPointer;
     wxString line_;
     wxString terminalLine_;
     wxTextFile logFile_;
 
-    int computerType_;
-    wxString computerTypeStr_;
     int vtType_;
     double intensity_;
     unsigned char redFore_;
@@ -231,13 +223,12 @@ private:
     bool load_;
     size_t ctrlvText_;
     size_t elfRunCommand_;
-    size_t mcdsRunCommand_;
     wxString commandText_;
     bool fileToBeLoaded_;
 
     Byte uartControl_;
     bitset<8> uartStatus_;
-    bool uart_;
+    bool uart1854_;
     bool uart16450_;
     bool serialOpen_;
 
@@ -281,7 +272,7 @@ private:
     int uart_tsre_bit_;
     int uart_thre_bit_;
 
-    Locations addressLocations_;
+    AddressLocationConfiguration addressLocations_;
     wxString saveCommand_;
 
     bitset<8> modemControlRegister_;

@@ -14,7 +14,7 @@ Open window to change settings for wav files and real cassette handling.
 <IMG SRC="images/menu_equalization.png" BORDER="0">
 </p>
 <p>
-Select one of the sub menu items to adjust sound equalization. Default 'TV Speaker' is selected. For other sound information see the <a href="MainSound.htm">Sound</a> chapter.
+Select one of the sub menu items to adjust sound equalization. Default 'TV Speaker' is selected. For other sound information see the <a href="ComputerSound.htm">Sound</a> section.
 </p>
 <h2><a href="MainWindow.htm">Window</a></h2>
 <p>
@@ -25,7 +25,7 @@ Sub menu items for Emma 02 window handling.
 <IMG SRC="images/menu_cpu.png" BORDER="0">
 </p>
 <p>
-Select one of the sub menu items (yellow ellipse) to choose the CPU type used for all emulated computers. Default CDP1805 is selected allowing a more extensive instruction set than the CDP1802. The CDP1805 is backward compatible with the CDP1802 which was used in most emulated computers. 
+Select one of the sub menu items (highlighted in yellow) to choose the CPU type used for all emulated computers. Default CDP1805 is selected allowing a more extensive instruction set than the CDP1802. The CDP1805 is backward compatible with the CDP1802 which was used in most emulated computers. 
 </p>
 <p>
 <B>Note:</B> The <a href="Fred1Main.htm">FRED 1</a> will always be emulated using a <a href="DebuggerSyntaxSystem00.htm">SYSTEM00</a> and the <a href="MicrotutorMain.htm">Microtutor</a>, <a href="CoinMain.htm">RCA Video Coin Arcade</a> and <a href="Fred1.5Main.htm">FRED 1.5</a> will always be emulated using a <a href="DebuggerSyntax1801.htm">CDP1801</a>. This is due to the fact that these CPUs were used in the real machines and they are not fully compatible with the <a href="DebuggerSyntax1802.htm">CDP1802</a>.
@@ -35,7 +35,7 @@ Select one of the sub menu items (yellow ellipse) to choose the CPU type used fo
 <IMG SRC="images/menu_startup.png" BORDER="0">
 </p>
 <p>
-Select one of the sub menu items (yellow ellipse) to set the startup values for CPU registers, RAM or Video RAM. The following options can be chosen:
+Select one of the sub menu items (highlighted in yellow) to set the startup values for CPU registers, RAM or Video RAM. The following options can be chosen:
 </p>
 <UL>
 <LI>
@@ -61,7 +61,7 @@ Unselect this menu item if your PC does NOT have a numeric keypad (numpad). If u
 <IMG SRC="images/menu_keyboard.png" BORDER="0">
 </p>
 <p>
-Default keyboard mapping is defined for a US keyboard layout. However a few different other layouts (Dutch, German, French, Swedish / Finnish) are provided and can be selected via this menu. See chapter <a href="KeyMappingDefault.htm">Default Keyboard</a> for more details.
+Default keyboard mapping is defined for a US keyboard layout. However a few different other layouts (Dutch, German, French, Swedish / Finnish) are provided and can be selected via this menu. See section <a href="KeyMappingDefault.htm">Default Keyboard</a> for more details.
 </p>
 </body>
 </html>

@@ -1,0 +1,24 @@
+<HTML>
+<Title>Faq Computer 1</Title>
+<BODY>
+<h1>How do I start a Pico/Elf V2 emulator?</h1>
+<p>
+To start the Pico/Elf V2 emulator first select the Elf tab (yellow ellipse) followed by the Cosmac Elf, Netronics Elf II or Quest Super Elf tab (orange ellipse):
+</p>
+<p>
+<IMG SRC="images/pico.png" BORDER="0">
+</p>
+<p>
+The default Elf configuration will have been loaded, to change this to a Pico/Elf V2 configuration load one of the configurations with the menu option below (blue ellipse) following the grey menu:
+</p>
+<p>
+<IMG SRC="images/pico_configuration.png" BORDER="0">
+</p>
+<p>
+After that press the Start button.
+</p>
+<p>
+For more details see also section <a href="PicoMain.htm">Pico/Elf V2</a>
+</p>
+</BODY>
+</HTML>

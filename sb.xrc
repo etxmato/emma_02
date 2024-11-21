@@ -8,6 +8,7 @@
         <font>
             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
             <size>-1</size>
+            <family>roman</family>
         </font>
         <object class="wxBoxSizer">
             <orient>wxVERTICAL</orient>
@@ -18,6 +19,7 @@
                     <font>
                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                         <size>-1</size>
+                        <family>roman</family>
                     </font>
                     <object class="notebookpage">
                         <label>Online</label>
@@ -25,6 +27,7 @@
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>
+                                <family>roman</family>
                             </font>
                             <style>wxSUNKEN_BORDER|wxTAB_TRAVERSAL</style>
                             <object class="wxBoxSizer">
@@ -57,6 +60,7 @@
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                             <size>-1</size>
+                                                            <family>roman</family>
                                                         </font>
                                                         <label>Player name:</label>
                                                     </object>
@@ -69,6 +73,7 @@
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                             <size>-1</size>
+                                                            <family>roman</family>
                                                         </font>
                                                         <maxlength>25</maxlength>
                                                     </object>
@@ -80,6 +85,7 @@
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                             <size>-1</size>
+                                                            <family>roman</family>
                                                         </font>
                                                         <label>Player location:</label>
                                                     </object>
@@ -92,6 +98,7 @@
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                             <size>-1</size>
+                                                            <family>roman</family>
                                                         </font>
                                                         <maxlength>25</maxlength>
                                                     </object>
@@ -103,6 +110,7 @@
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                             <size>-1</size>
+                                                            <family>roman</family>
                                                         </font>
                                                         <label>Email address:</label>
                                                     </object>
@@ -115,6 +123,7 @@
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                             <size>-1</size>
+                                                            <family>roman</family>
                                                         </font>
                                                     </object>
                                                 </object>
@@ -132,6 +141,7 @@
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                             <size>-1</size>
+                                                            <family>roman</family>
                                                         </font>
                                                         <label>The maximum length of both player name and location is 25 characters and the following characters are not allowed and will be ignored: # ~ ; :. </label>
                                                         <wrap>390</wrap>
@@ -161,6 +171,7 @@
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                             <size>-1</size>
+                                                            <family>roman</family>
                                                         </font>
                                                         <label>Home page:</label>
                                                     </object>
@@ -173,6 +184,7 @@
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                             <size>-1</size>
+                                                            <family>roman</family>
                                                         </font>
                                                         <maxlength>126</maxlength>
                                                     </object>
@@ -184,6 +196,7 @@
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                             <size>-1</size>
+                                                            <family>roman</family>
                                                         </font>
                                                         <content>
                                                             <item>Bookmark 0</item>
@@ -219,6 +232,7 @@
                                                                         <font>
                                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                             <size>-1</size>
+                                                                            <family>roman</family>
                                                                         </font>
                                                                         <maxlength>126</maxlength>
                                                                     </object>
@@ -232,6 +246,7 @@
                                                                 <font>
                                                                     <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                     <size>-1</size>
+                                                                    <family>roman</family>
                                                                 </font>
                                                                 <enabled>0</enabled>
                                                                 <label>Store</label>
@@ -267,6 +282,7 @@
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                             <size>-1</size>
+                                                            <family>roman</family>
                                                         </font>
                                                         <label>Aliases:</label>
                                                     </object>
@@ -279,6 +295,7 @@
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                             <size>-1</size>
+                                                            <family>roman</family>
                                                         </font>
                                                         <content>
                                                             <item>NEW</item>
@@ -297,6 +314,7 @@
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                             <size>-1</size>
+                                                            <family>roman</family>
                                                         </font>
                                                         <label>Delete</label>
                                                     </object>
@@ -313,6 +331,7 @@
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                             <size>-1</size>
+                                                            <family>roman</family>
                                                         </font>
                                                         <label>Store</label>
                                                     </object>
@@ -337,6 +356,7 @@
                                                                 <font>
                                                                     <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                     <size>-1</size>
+                                                                    <family>roman</family>
                                                                 </font>
                                                                 <value>alias</value>
                                                             </object>
@@ -349,6 +369,7 @@
                                                                 <font>
                                                                     <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                     <size>-1</size>
+                                                                    <family>roman</family>
                                                                 </font>
                                                                 <value>email address</value>
                                                             </object>
@@ -369,6 +390,7 @@
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                             <size>-1</size>
+                                                            <family>roman</family>
                                                         </font>
                                                         <label>Save All</label>
                                                     </object>
@@ -386,6 +408,7 @@
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>
+                                <family>roman</family>
                             </font>
                             <style>wxSUNKEN_BORDER|wxTAB_TRAVERSAL</style>
                             <object class="wxBoxSizer">
@@ -416,6 +439,7 @@
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                             <size>-1</size>
+                                                            <family>roman</family>
                                                         </font>
                                                         <label>Root</label>
                                                     </object>
@@ -429,6 +453,7 @@
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                             <size>-1</size>
+                                                            <family>roman</family>
                                                         </font>
                                                     </object>
                                                 </object>
@@ -446,6 +471,7 @@
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                             <size>-1</size>
+                                                            <family>roman</family>
                                                         </font>
                                                         <label>Show top directory in USB CD:</label>
                                                     </object>
@@ -457,11 +483,13 @@
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                             <size>-1</size>
+                                                            <family>roman</family>
                                                         </font>
                                                         <content>
                                                             <item>Yes</item>
                                                             <item>No</item>
                                                         </content>
+                                                        <selection>0</selection>
                                                     </object>
                                                 </object>
                                             </object>
@@ -485,6 +513,7 @@
                                                                 <font>
                                                                     <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                     <size>-1</size>
+                                                                    <family>roman</family>
                                                                 </font>
                                                                 <object class="sizeritem">
                                                                     <flag>wxALIGN_RIGHT|wxALL</flag>
@@ -498,6 +527,7 @@
                                                                                 <font>
                                                                                     <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                     <size>-1</size>
+                                                                                    <family>roman</family>
                                                                                 </font>
                                                                                 <label>Filenames:</label>
                                                                             </object>
@@ -509,6 +539,7 @@
                                                                                 <font>
                                                                                     <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                     <size>-1</size>
+                                                                                    <family>roman</family>
                                                                                 </font>
                                                                                 <content>
                                                                                     <item>Lower case</item>
@@ -537,6 +568,7 @@
                                                                                 <font>
                                                                                     <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                     <size>-1</size>
+                                                                                    <family>roman</family>
                                                                                 </font>
                                                                                 <label>Directories:</label>
                                                                             </object>
@@ -548,6 +580,7 @@
                                                                                 <font>
                                                                                     <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                     <size>-1</size>
+                                                                                    <family>roman</family>
                                                                                 </font>
                                                                                 <content>
                                                                                     <item>Lower case</item>
@@ -577,6 +610,7 @@
                                                                 <font>
                                                                     <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                     <size>-1</size>
+                                                                    <family>roman</family>
                                                                 </font>
                                                                 <object class="sizeritem">
                                                                     <flag>wxALIGN_RIGHT|wxTOP|wxBOTTOM</flag>
@@ -590,6 +624,7 @@
                                                                                 <font>
                                                                                     <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                     <size>-1</size>
+                                                                                    <family>roman</family>
                                                                                 </font>
                                                                                 <label>BSAVE, DSAVE, PSAVE and DISKTOIMG:</label>
                                                                                 <wrap>160</wrap>
@@ -602,11 +637,13 @@
                                                                                 <font>
                                                                                     <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                     <size>-1</size>
+                                                                                    <family>roman</family>
                                                                                 </font>
                                                                                 <content>
                                                                                     <item>Yes</item>
                                                                                     <item>No</item>
                                                                                 </content>
+                                                                                <selection>0</selection>
                                                                             </object>
                                                                         </object>
                                                                     </object>
@@ -623,6 +660,7 @@
                                                                                 <font>
                                                                                     <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                     <size>-1</size>
+                                                                                    <family>roman</family>
                                                                                 </font>
                                                                                 <label>SYSSAVE and NVSAVE:</label>
                                                                                 <wrap>160</wrap>
@@ -635,11 +673,13 @@
                                                                                 <font>
                                                                                     <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                     <size>-1</size>
+                                                                                    <family>roman</family>
                                                                                 </font>
                                                                                 <content>
                                                                                     <item>Yes</item>
                                                                                     <item>No</item>
                                                                                 </content>
+                                                                                <selection>1</selection>
                                                                             </object>
                                                                         </object>
                                                                     </object>
@@ -662,370 +702,7 @@
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                             <size>-1</size>
-                                                        </font>
-                                                        <label>Save All</label>
-                                                    </object>
-                                                </object>
-                                            </object>
-                                        </object>
-                                    </object>
-                                </object>
-                            </object>
-                        </object>
-                    </object>
-                    <object class="notebookpage">
-                        <label>ROM files</label>
-                        <object class="wxPanel" name="SB_ROMS">
-                            <font>
-                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                <size>-1</size>
-                            </font>
-                            <style>wxSUNKEN_BORDER|wxTAB_TRAVERSAL</style>
-                            <object class="wxBoxSizer">
-                                <orient>wxHORIZONTAL</orient>
-                                <object class="sizeritem">
-                                    <flag>wxALIGN_TOP|wxALL</flag>
-                                    <border>5</border>
-                                    <object class="wxStaticBitmap" name="wxID_STATIC">
-                                        <size>32,32</size>
-                                        <bitmap>images/usb.bmp</bitmap>
-                                    </object>
-                                </object>
-                                <object class="sizeritem">
-                                    <flag>wxALIGN_TOP|wxALL</flag>
-                                    <border>5</border>
-                                    <object class="wxBoxSizer">
-                                        <orient>wxVERTICAL</orient>
-                                        <object class="sizeritem">
-                                            <flag>wxGROW|wxALL</flag>
-                                            <border>5</border>
-                                            <object class="wxFlexGridSizer">
-                                                <cols>2</cols>
-                                                <rows>11</rows>
-                                                <vgap>2</vgap>
-                                                <hgap>2</hgap>
-                                                <object class="sizeritem">
-                                                    <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-                                                    <border>3</border>
-                                                    <object class="wxButton" name="SB_ROM_00_Button">
-                                                        <tooltip>Browse for SB file for the Main ROM replacement at address 0000-3FFF</tooltip>
-                                                        <font>
-                                                            <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                            <size>-1</size>
-                                                        </font>
-                                                        <label>0000-3FFF</label>
-                                                    </object>
-                                                </object>
-                                                <object class="sizeritem">
-                                                    <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-                                                    <border>3</border>
-                                                    <object class="wxComboBox" name="SB_ROM_00">
-                                                        <size>320,-1</size>
-                                                        <tooltip>Specify SB file for the Main ROM replacement at address 0000-3FFF</tooltip>
-                                                        <font>
-                                                            <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                            <size>-1</size>
-                                                        </font>
-                                                        <style>wxCB_DROPDOWN</style>
-                                                        <content>
-                                                            <item>sb.0000.bin</item>
-                                                        </content>
-                                                    </object>
-                                                </object>
-                                                <object class="sizeritem">
-                                                    <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-                                                    <border>3</border>
-                                                    <object class="wxButton" name="SB_ROM_01_Button">
-                                                        <tooltip>Browse for SB file for the Expansion ROM at address E000-EFFF</tooltip>
-                                                        <font>
-                                                            <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                            <size>-1</size>
-                                                        </font>
-                                                        <label>E000-EFFF</label>
-                                                    </object>
-                                                </object>
-                                                <object class="sizeritem">
-                                                    <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-                                                    <border>3</border>
-                                                    <object class="wxComboBox" name="SB_ROM_01">
-                                                        <size>320,-1</size>
-                                                        <tooltip>Specify SB file for the Expansion ROM at address E000-EFFF</tooltip>
-                                                        <font>
-                                                            <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                            <size>-1</size>
-                                                        </font>
-                                                        <style>wxCB_DROPDOWN</style>
-                                                        <content>
-                                                            <item>sb.e000.bin</item>
-                                                        </content>
-                                                    </object>
-                                                </object>
-                                                <object class="sizeritem">
-                                                    <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-                                                    <border>3</border>
-                                                    <object class="wxButton" name="SB_ROM_02_Button">
-                                                        <tooltip>Browse for SB file for the Expansion ROM at address F800-FFFF</tooltip>
-                                                        <font>
-                                                            <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                            <size>-1</size>
-                                                        </font>
-                                                        <label>F800-FFFF</label>
-                                                    </object>
-                                                </object>
-                                                <object class="sizeritem">
-                                                    <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-                                                    <border>3</border>
-                                                    <object class="wxComboBox" name="SB_ROM_02">
-                                                        <size>320,-1</size>
-                                                        <tooltip>Specify SB file for the Expansion ROM at address F800-FFFF</tooltip>
-                                                        <font>
-                                                            <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                            <size>-1</size>
-                                                        </font>
-                                                        <style>wxCB_DROPDOWN</style>
-                                                        <content>
-                                                            <item>sb.f800.bin</item>
-                                                        </content>
-                                                    </object>
-                                                </object>
-                                                <object class="sizeritem">
-                                                    <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-                                                    <border>3</border>
-                                                    <object class="wxButton" name="SB_ROM_03_Button">
-                                                        <tooltip>Browse for SB file for BANK 0</tooltip>
-                                                        <font>
-                                                            <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                            <size>-1</size>
-                                                        </font>
-                                                        <label>BANK 0</label>
-                                                    </object>
-                                                </object>
-                                                <object class="sizeritem">
-                                                    <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-                                                    <border>3</border>
-                                                    <object class="wxComboBox" name="SB_ROM_03">
-                                                        <size>320,-1</size>
-                                                        <tooltip>Specify SB file for BANK 0</tooltip>
-                                                        <font>
-                                                            <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                            <size>-1</size>
-                                                        </font>
-                                                        <style>wxCB_DROPDOWN</style>
-                                                        <content>
-                                                            <item>sb.c000-0.bin</item>
-                                                        </content>
-                                                    </object>
-                                                </object>
-                                                <object class="sizeritem">
-                                                    <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-                                                    <border>3</border>
-                                                    <object class="wxButton" name="SB_ROM_04_Button">
-                                                        <tooltip>Browse for SB file for BANK 1</tooltip>
-                                                        <font>
-                                                            <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                            <size>-1</size>
-                                                        </font>
-                                                        <label>BANK 1</label>
-                                                    </object>
-                                                </object>
-                                                <object class="sizeritem">
-                                                    <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-                                                    <border>3</border>
-                                                    <object class="wxComboBox" name="SB_ROM_04">
-                                                        <size>320,-1</size>
-                                                        <tooltip>Specify SB file for BANK 1</tooltip>
-                                                        <font>
-                                                            <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                            <size>-1</size>
-                                                        </font>
-                                                        <style>wxCB_DROPDOWN</style>
-                                                        <content>
-                                                            <item>sb.c000-1.bin</item>
-                                                        </content>
-                                                    </object>
-                                                </object>
-                                                <object class="sizeritem">
-                                                    <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-                                                    <border>3</border>
-                                                    <object class="wxButton" name="SB_ROM_05_Button">
-                                                        <tooltip>Browse for SB file for BANK 2</tooltip>
-                                                        <font>
-                                                            <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                            <size>-1</size>
-                                                        </font>
-                                                        <label>BANK 2</label>
-                                                    </object>
-                                                </object>
-                                                <object class="sizeritem">
-                                                    <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-                                                    <border>3</border>
-                                                    <object class="wxComboBox" name="SB_ROM_05">
-                                                        <size>320,-1</size>
-                                                        <tooltip>Specify SB file for BANK 2</tooltip>
-                                                        <font>
-                                                            <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                            <size>-1</size>
-                                                        </font>
-                                                        <style>wxCB_DROPDOWN</style>
-                                                        <content>
-                                                            <item>sb.c000-2.bin</item>
-                                                        </content>
-                                                    </object>
-                                                </object>
-                                                <object class="sizeritem">
-                                                    <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-                                                    <border>3</border>
-                                                    <object class="wxButton" name="SB_ROM_06_Button">
-                                                        <tooltip>Browse for SB file for BANK 3</tooltip>
-                                                        <font>
-                                                            <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                            <size>-1</size>
-                                                        </font>
-                                                        <label>BANK 3</label>
-                                                    </object>
-                                                </object>
-                                                <object class="sizeritem">
-                                                    <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-                                                    <border>3</border>
-                                                    <object class="wxComboBox" name="SB_ROM_06">
-                                                        <size>320,-1</size>
-                                                        <tooltip>Specify SB file for BANK 3</tooltip>
-                                                        <font>
-                                                            <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                            <size>-1</size>
-                                                        </font>
-                                                        <style>wxCB_DROPDOWN</style>
-                                                        <content>
-                                                            <item>sb.c000-3.bin</item>
-                                                        </content>
-                                                    </object>
-                                                </object>
-                                                <object class="sizeritem">
-                                                    <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-                                                    <border>3</border>
-                                                    <object class="wxButton" name="SB_ROM_07_Button">
-                                                        <tooltip>Browse for SB file for BANK 4</tooltip>
-                                                        <font>
-                                                            <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                            <size>-1</size>
-                                                        </font>
-                                                        <label>BANK 4</label>
-                                                    </object>
-                                                </object>
-                                                <object class="sizeritem">
-                                                    <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-                                                    <border>3</border>
-                                                    <object class="wxComboBox" name="SB_ROM_07">
-                                                        <size>320,-1</size>
-                                                        <tooltip>Specify SB file for BANK 4</tooltip>
-                                                        <font>
-                                                            <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                            <size>-1</size>
-                                                        </font>
-                                                        <style>wxCB_DROPDOWN</style>
-                                                        <content>
-                                                            <item>sb.c000-4.bin</item>
-                                                        </content>
-                                                    </object>
-                                                </object>
-                                                <object class="sizeritem">
-                                                    <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-                                                    <border>3</border>
-                                                    <object class="wxButton" name="SB_ROM_08_Button">
-                                                        <tooltip>Browse for SB file for BANK 5</tooltip>
-                                                        <font>
-                                                            <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                            <size>-1</size>
-                                                        </font>
-                                                        <label>BANK 5</label>
-                                                    </object>
-                                                </object>
-                                                <object class="sizeritem">
-                                                    <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-                                                    <border>3</border>
-                                                    <object class="wxComboBox" name="SB_ROM_08">
-                                                        <size>320,-1</size>
-                                                        <tooltip>Specify SB file for BANK 5</tooltip>
-                                                        <font>
-                                                            <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                            <size>-1</size>
-                                                        </font>
-                                                        <style>wxCB_DROPDOWN</style>
-                                                        <content>
-                                                            <item>sb.c000-5.bin</item>
-                                                        </content>
-                                                    </object>
-                                                </object>
-                                                <object class="sizeritem">
-                                                    <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-                                                    <border>3</border>
-                                                    <object class="wxButton" name="SB_ROM_09_Button">
-                                                        <tooltip>Browse for SB file for BANK 6</tooltip>
-                                                        <font>
-                                                            <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                            <size>-1</size>
-                                                        </font>
-                                                        <label>BANK 6</label>
-                                                    </object>
-                                                </object>
-                                                <object class="sizeritem">
-                                                    <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-                                                    <border>3</border>
-                                                    <object class="wxComboBox" name="SB_ROM_09">
-                                                        <size>320,-1</size>
-                                                        <tooltip>Specify SB file for BANK 6</tooltip>
-                                                        <font>
-                                                            <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                            <size>-1</size>
-                                                        </font>
-                                                        <style>wxCB_DROPDOWN</style>
-                                                        <content>
-                                                            <item>sb.c000-6.bin</item>
-                                                        </content>
-                                                    </object>
-                                                </object>
-                                                <object class="sizeritem">
-                                                    <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-                                                    <border>3</border>
-                                                    <object class="wxButton" name="SB_ROM_10_Button">
-                                                        <tooltip>Browse for SB file for BANK 7</tooltip>
-                                                        <font>
-                                                            <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                            <size>-1</size>
-                                                        </font>
-                                                        <label>BANK 7</label>
-                                                    </object>
-                                                </object>
-                                                <object class="sizeritem">
-                                                    <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-                                                    <border>3</border>
-                                                    <object class="wxComboBox" name="SB_ROM_10">
-                                                        <size>320,-1</size>
-                                                        <tooltip>Specify SB file for BANK 7</tooltip>
-                                                        <font>
-                                                            <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                            <size>-1</size>
-                                                        </font>
-                                                        <style>wxCB_DROPDOWN</style>
-                                                        <content>
-                                                            <item>sb.c000-7.bin</item>
-                                                        </content>
-                                                    </object>
-                                                </object>
-                                            </object>
-                                        </object>
-                                        <object class="sizeritem">
-                                            <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                                            <border>5</border>
-                                            <object class="wxBoxSizer">
-                                                <orient>wxHORIZONTAL</orient>
-                                                <object class="sizeritem">
-                                                    <flag>wxALIGN_TOP|wxALL</flag>
-                                                    <border>8</border>
-                                                    <object class="wxButton" name="SBSave">
-                                                        <font>
-                                                            <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                            <size>-1</size>
+                                                            <family>roman</family>
                                                         </font>
                                                         <label>Save All</label>
                                                     </object>
@@ -1043,6 +720,7 @@
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>
+                                <family>roman</family>
                             </font>
                             <style>wxSUNKEN_BORDER|wxTAB_TRAVERSAL</style>
                             <object class="wxBoxSizer">
@@ -1067,8 +745,9 @@
                                                 <font>
                                                     <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                     <size>-1</size>
+                                                    <family>roman</family>
                                                 </font>
-                                                <label>Activate backup delete option by starting the COMX emulator</label>
+                                                <label>Activate backup delete option by starting an emulator</label>
                                             </object>
                                         </object>
                                         <object class="sizeritem">
@@ -1083,6 +762,7 @@
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                             <size>-1</size>
+                                                            <family>roman</family>
                                                         </font>
                                                         <label>Folder: </label>
                                                     </object>
@@ -1096,6 +776,7 @@
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                             <size>-1</size>
+                                                            <family>roman</family>
                                                         </font>
                                                         <style>wxTE_READONLY</style>
                                                     </object>
@@ -1110,6 +791,7 @@
                                                 <font>
                                                     <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                     <size>-1</size>
+                                                    <family>roman</family>
                                                 </font>
                                                 <style>wxTE_MULTILINE|wxTE_READONLY</style>
                                             </object>
@@ -1122,6 +804,7 @@
                                                 <font>
                                                     <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                     <size>-1</size>
+                                                    <family>roman</family>
                                                 </font>
                                                 <style>wxALIGN_CENTRE|wxSTATIC_BORDER</style>
                                                 <label>Delete ALL above listed back-up files (.bak) as stored in the specified folder and if selected below in all sub directories!
@@ -1142,6 +825,7 @@ Please note that this can NOT be undone, are you sure?</label>
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                             <size>-1</size>
+                                                            <family>roman</family>
                                                         </font>
                                                         <label>Include sub directories</label>
                                                         <checked>0</checked>
@@ -1159,6 +843,7 @@ Please note that this can NOT be undone, are you sure?</label>
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                             <size>-1</size>
+                                                            <family>roman</family>
                                                         </font>
                                                         <label>Yes</label>
                                                     </object>

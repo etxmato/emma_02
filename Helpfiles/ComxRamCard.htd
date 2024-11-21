@@ -3,7 +3,7 @@
 <BODY>
 <h1>Ram Card</h1>
 <p>
-To run the COMX emulator with the 32KB Ram Card, select check button '32K Ram Card' (orange ellipse), after this it is possible to select the expansion box slot you want to use for the Ram Card (blue ellipse). If no expansion box is available be sure to select CARD 1 for the Ram Card. The slot used for the Ram Card can NOT be used for any other interface card (yellow ellipse).
+To run the COMX emulator with the 32KB Ram Card, select check button '32K Ram Card' (highlighted in orange), after this it is possible to select the expansion box slot you want to use for the Ram Card (highlighted in blue). If no expansion box is available be sure to select CARD 1 for the Ram Card. The slot used for the Ram Card can NOT be used for any other interface card (highlighted in yellow).
 </p>
 <p>
 <IMG SRC="images/comx_32kram.png" BORDER="0">

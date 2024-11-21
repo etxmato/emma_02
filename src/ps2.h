@@ -10,7 +10,7 @@ public:
     bool keyDownPs2(int keycode);
     bool keyUpPs2(int keycode);
 
-    void configurePs2(bool ps2Interrupt, IoConfiguration portConf);
+    void configurePs2(Ps2KeyboardConfiguration ps2KeyboardConfiguration);
     Byte efPs2();
     Byte inPs2();
     void outPs2(Byte value); 
@@ -20,6 +20,8 @@ public:
     void addToBuffer(Byte value);
 
 private:
+    Ps2KeyboardConfiguration ps2KeyboardConfiguration_;
+    
     char ps2KValue_;
     char ps2CValue_;
     Byte ps2Value_;

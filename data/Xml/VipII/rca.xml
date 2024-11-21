@@ -9,10 +9,10 @@
         <clock>1.7898</clock>
         <boot>0</boot>
         <f12>stop</f12>
-        <init type="ef1">1</init>
-        <init type="ef2">1</init>
-        <init type="ef3">1</init>
-        <init type="ef4">1</init>
+        <init ef="1">1</init>
+        <init ef="2">1</init>
+        <init ef="3">1</init>
+        <init ef="4">1</init>
         <statusbar>vip2</statusbar>
         <dirname>VipII</dirname>
     </system>
@@ -33,8 +33,7 @@
 
     <bootstrap>
         <address>0x8000</address>
-        <out>2</out>
-        <out>4</out>
+        <out>2, 4</out>
     </bootstrap>
 
     <memory>
@@ -57,7 +56,7 @@
         <in>1</in>
         <ef>1</ef>
         <border>33x33</border>
-     </video>
+    </video>
 
     <video type="cdp1862">
         <out type="back">5</out>
@@ -132,8 +131,8 @@
 
     <debugger>
         <scrt mode="off">
-            <call reg="4">-1</call>
-            <return reg="5">-1</return>
+            <call reg="4">0xA8EF</call>
+            <return reg="5">0xA3E7</return>
         </scrt>
 
         <assembler>

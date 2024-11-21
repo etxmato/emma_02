@@ -1,0 +1,57 @@
+
+<HTML>
+<Title>Keyboard Mapping and Types</Title>
+<BODY>
+<h1>Keyboard Mapping and Types</h1>
+<p>
+This section describes Elf keyboard mapping for details, for VT100 terminal key mappings see section <a href="TerminalVT100.htm">VT100 Setup & Key Mapping</a>
+</p>
+<h2>Keyboard Mapping</h2>
+<p>
+Default the Elf 'In' button is mapped to the PC Insert key on Windows and PC Control key on Mac OSX. F12 is mapped to the Elf 'Run' switch, so if the CPU is stopped it will start with F12 and when running it will stop with F12, stop mode is indicated in the emulated window title. For the super Elf, F12 simulates the 'R' and 'G' button. See also <a href="KeyMappingKeypad.htm">Keypad Mapping</a> and <a href="MainFunctionKeys.htm">Function and Hot Keys</a>.
+</p>
+<h2>Keyboard Types</h2>
+<p>
+To select the specific Elf keyboard type use the choice button 'Keyboard' (yellow ellipse). Currently 5 types are supported:  PS2 Keyboard, PS2 Keyboard with Interrupt, ASCII Keyboard, ASCII Keyboard + Hex Keypad and Hex Keypad only.
+</p>
+<p>
+<IMG SRC="images/elf_keyboard.png" BORDER="0">
+</p>
+<h3>
+PS2 Keyboard: 
+</h3>
+<p>
+Keyboard type operating with serial communication using control characters
+</p>
+<h3>
+PS2 Interrupt: 
+</h3>
+<p>
+Same as PS2 Keyboard but additionally triggering an interrupt at every key press
+</p>
+<h3>
+Ascii: 
+</h3>
+<p>
+Ascii Keyboard directly connected to an 1802 input port. 
+</p>
+<h3>
+Ascii (+Hex): 
+</h3>
+<p>
+Ascii Keyboard directly connected to an 1802 input port. This option also enables the Hex Keypad as described below.
+</p>
+<h3>
+Hex Keypad: 
+</h3>
+<p>
+This option enables the EF Hex Key checkbox (orange ellipse), when selected one of the EF flags (see <a href="ElfPorts.htm">Device Ports</a>) will be set to 0 when a key is pressed. This allows for running some games like 'space invaders'.
+</p>
+<p>
+On the Cosmac Elf this option will also emulate a Hex keypad, other Elfs support this by default.
+</p>
+<p>
+To change and view the hex keypad to PC key mapping select the 'Key Map' button (blue ellipse), see also section <a href="KeyMappingKeypad.htm">Keypad Mapping</a>.
+</p>
+</BODY>
+</HTML>

@@ -233,7 +233,7 @@ protected:
 #define SET_FM_GUI 16
 #define SET_SAVE_START 17
 #define SET_SAVE_END 18
-#define ENABLE_MEM_ACCESS 19
+//
 #define SET_VIDEO_FULLSCREEN 20
 #define SET_VT_FULLSCREEN 21
 #define CHANGE_NOTEBOOK 22
@@ -255,8 +255,8 @@ protected:
 #define REFRESH_PANEL 38
 #define EVENT_ZOOM 39
 #define SET_CONVERT_STATE 40
-#define SET_COMXLED 41
-#define SET_DIAGLED 42
+#define SET_STATUS_BAR_LED 41
+//
 #define ENABLE_CLOCK 43
 #define PAUSE_STATE 44
 #define SET_BUTTON_LABEL 45
@@ -464,46 +464,6 @@ public:
     int borderY[VIDEOXMLMAX];
 };
 
-class ConfigurationInfo
-{
-public:
-    wxString menuName;
-    wxString subMenuName;
-    wxString fileName;
-};
-
-#include "cidelsa.h"
-#include "comx35.h"
-#include "cdp18s020.h"
-#include "cdp18s600.h"
-#include "hbelf.h"
-#include "member.h"
-#include "uc1800.h"
-#include "microtutor.h"
-#include "microtutor2.h"
-#include "elf2.h"
-#include "elf2k.h"
-#include "ms2000.h"
-#include "mcds.h"
-#include "cosmicos.h"
-#include "super.h"
-#include "studio2.h"
-#include "studioiv.h"
-#include "coinarcade.h"
-#include "fred.h"
-#include "visicom.h"
-#include "victory.h"
-#include "vip.h"
-#include "vip2.h"
-#include "vip2k.h"
-#include "velf.h"
-#include "pecom.h"
-#include "pico.h"
-#include "tmc600.h"
-#include "tmc1800.h"
-#include "tmc2000.h"
-#include "eti660.h"
-#include "nano.h"
 #include "xmlemu.h"
 #include "guicomx.h"
 #include "debug.h"
@@ -511,43 +471,9 @@ public:
 #include "serial.h"
 
 #define EMMA_VERSION 1.48
-#define EMMA_SUB_VERSION 0
-#define ELF 0
-#define ELFII 1
-#define SUPERELF 2
-#define ELF2K 3
-#define XML 4
-#define PICO 5
-#define COSMICOS 6
-#define MEMBER 7
-#define VIP 8
-#define VIP2K 9
-#define VELF 10
-#define MICROTUTOR 11
-#define MICROTUTOR2 12
-#define UC1800 13
-#define CDP18S020 14
-#define MICROBOARD 15
-#define LAST_LED_COMPUTER 15
-#define MS2000 16
-#define MCDS 17
-#define FRED1 18
-#define FRED1_5 19
-#define COMX 20
-#define STUDIO 21
-#define ETI 22
-#define CIDELSA 23
-#define TMC600 24
-#define TMC1800 25
-#define TMC2000 26
-#define NANO 27
-#define PECOM 28
-#define VISICOM 29
-#define VICTORY 30
-#define VIPII 31
-#define COINARCADE 32
-#define STUDIOIV 33
-#define DEBUGGER 34
+#define EMMA_SUB_VERSION 2
+
+#define XML 0
 
 #define PRINTER_BASIC 0
 #define PRINTER_PARALLEL 1
@@ -560,8 +486,8 @@ public:
 #define PRINTER_SERIAL 17
 #define PRINTER_SERIAL_Q 18
 #define PRINTER_CENTRONICS 19
+#define COMXEPROMBOARD 0x20
 #define COMXSUPERBOARD 0x21
-#define COMXEPROMBOARD 0x73
 #define COMXDIAG 0xC2
 #define COMXEMPTY 255
 
@@ -585,65 +511,23 @@ public:
 #define PRINTERFONT 6006
 #define PAL 0
 #define NTSC 1
+
+// GUI TAB values
 #define XMLTAB 0
-#define COMXTAB 1
-#define COSMACELFTAB 2
-#define RCATAB 3
-#define STUDIOTAB 4
-#define CIDELSATAB 5
-#define TELMACTAB 6
-#define PECOMTAB 7
-#define ETITAB 8
-#define DEBUGGERTAB 9
+#define DIRECTASSTAB 1
+#define PROFILERTAB 2
+#define MEMORYTAB 3
+#define DEBUGGERTAB 4
+#define MESSAGETAB 5
+
+#define TRACETAB 0
+#define CHIP8TAB 1
+#define LASTDEBUGGERTAB 1
+
 #define DISKNONE 0
 #define DISKFDC 1
 #define DISKIDE 2
 #define DISKIDEPICO 1
-
-#define ELF2KTAB 0
-#define COSMICOSTAB 1
-#define ELFTAB 2
-#define ELFIITAB 3
-#define SUPERELFTAB 4
-#define MEMBERTAB 5
-#define VIP2KTAB 6
-#define VELFTAB 7
-#define UC1800TAB 8
-#define PICOTAB 9
-#define LASTELFTAB 9
-
-#define FRED1TAB 0
-#define FRED2TAB 1
-#define MICROTUTORTAB 2
-#define MICROTUTOR2TAB 3
-#define CDP18S020TAB 4
-#define VIPTAB 5
-#define VIPIITAB 6
-#define MICROBOARDTAB 7
-#define MCDSTAB 8
-#define MS2000TAB 9
-#define LASTRCATAB 9
-
-#define COINARCADETAB 0
-#define STUDIOIITAB 1
-#define VICTORYTAB 2
-#define STUDIOIVTAB 3
-#define VISICOMTAB 4
-#define LASTSTUDIOTAB 4
-
-#define TMC600TAB 0
-#define TMC1800TAB 1
-#define TMC2000TAB 2
-#define NANOTAB 3
-#define LASTTELMACTAB 3
-
-#define MESSAGETAB 0
-#define DIRECTASSTAB 1
-#define PROFILERTAB 2
-#define TRACETAB 3
-#define CHIP8TAB 4
-#define MEMORYTAB 5
-#define LASTDEBUGGERTAB 5
 
 #define MICROBOARD_CDP18S600 0
 #define MICROBOARD_CDP18S601 1
@@ -725,34 +609,34 @@ public:
 #define ROM 2
 #define RAMROM 3
 #define PAGER 3
-//
+#define PARTRAM 4
 #define CRAM1870 5
 #define PRAM1870 6
-#define COMXEXPROM 7
-#define COPYCOMXEXPROM 8
-#define RAMBANK 9
+//
+//
+//
 //
 #define MC6845RAM 11
 #define MC6845REGISTERS 12
-#define COPYFLOPROM 13
+//
 //
 #define EMSMEMORY 15
-#define COMXEXPBOX 16
+//
 //
 #define MC6847RAM 18
 #define CARTRIDGEROM 19
 #define MAPPEDRAM 20
 #define COLOURRAM 21
 #define VP570RAM 22 
-#define EPROMBANK 23
-#define SUPERBANK 24
+//
+//
 #define NVRAM 25
-#define MULTICART 26
+//
 #define DIAGROM 27
 #define MAPPEDROM 28
-#define MAPPEDMULTICART 29
+//
 #define TESTCARTRIDGEROM 30
-#define REGSTORAGE 31
+//
 #define CPURAM 32
 #define UART1_82C51 33
 #define UART2_82C51 34
@@ -882,10 +766,6 @@ public:
 #define BASICADDR_VT_RESTART_RCA 0xfc19
 #define BASICADDR_VT_INPUT_RCA 0xfc98
 
-#define NOOS 0
-#define ELFOS 1
-#define ELFOS_4 2
-
 #define HEXMON 2
 #define ASCIIMON 4
 
@@ -940,43 +820,19 @@ public:
 #define VTPOWER 0
 
 #define GUISAVEONEXIT "MI_SaveOnExit"
-#define GUISAVECONFIG "MI_SaveConfig"
-#define GUISAVECOMPUTERCONFIG "MI_SaveComputerConfig"
 #define GUIDEFAULTWINDOWPOS "MI_DefaultWindowPosition"
 #define GUIDEFAULTGUISIZE "MI_DefaultGuiSize"
 #define GUIDEFAULT "MI_DefaultSettings"
 #define GUIPROTECTEDMODE "ProtectedMode"
 
-#define GUICOMPUTERNOTEBOOK "Computer"
+#define GUICOMPUTERNOTEBOOK "Panels"
 
 #define LEFTCHANNEL false
 #define RIGHTCHANNEL true
 
-#define GUI_ELF2K_BAUDR 30000
-#define GUI_ELF2K_BAUDT 30001
-#define GUI_ELF_BAUDR 30002
-#define GUI_ELF_BAUDT 30003
-//#define GUI_ELFII_BAUDR 30004
-//#define GUI_ELFII_BAUDT 30005
-//#define GUI_SUPERELF_BAUDR 30006
-//#define GUI_SUPERELF_BAUDT 30007
-#define GUI_COSMICOS_BAUDR 30008
-#define GUI_COSMICOS_BAUDT 30009
-#define GUI_MEMBER_BAUDR 30010
-#define GUI_MEMBER_BAUDT 30011
-#define GUI_VIP_BAUDR 30012
-#define GUI_VIP_BAUDT 30013
-#define GUI_VELF_BAUDR 30014
-#define GUI_VELF_BAUDT 30015
-#define GUI_MS2000_BAUDR 30016
-#define GUI_MS2000_BAUDT 30017
-#define GUI_MCDS_BAUDR 30018
-#define GUI_MCDS_BAUDT 30019
 #define GUI_CLOCK_TEXTCTRL 30020
 #define GUI_START_BUTTON 30060
 #define GUI_STOP_BUTTON 30100
-#define GUI_CONFIG_MENU 10000
-#define GUI_CONFIG_DELETE_MENU 20000
 
 #define TAPE_STOP 0
 #define TAPE_PLAY 1
@@ -1059,11 +915,6 @@ public:
 #define IO_TYPE_N1 1
 #define IO_TYPE_N2 2
 
-#define FRONT_TYPE_B 0
-#define FRONT_TYPE_C 1
-#define FRONT_TYPE_I 2
-#define FRONT_TYPE_J 3
-
 #define VIDEO 0
 #define PIXIE 1
 
@@ -1071,7 +922,6 @@ public:
 #define TIL313 1
 #define TIL313ITALIC 2
 #define TIL313FULL 3
-#define TILNONE 4
 
 #define LAPTIME_OFF 0
 #define LAPTIME_Q 1
@@ -1091,23 +941,8 @@ public:
 #define TERM_HEX 1
 #define TERM_BIN 2
 #define TERM_XMODEM_LOAD 3
-//#define TERM_XMODEM_LOAD_128 4
 #define TERM_XMODEM_SAVE 5
 #define TERM_YMODEM_SAVE 6
-//#define TERM_XMODEM_SAVE_128 6
-
-#define PANEL_NONE 0
-#define PANEL_COSMAC 1
-#define PANEL_ELFII 2
-#define PANEL_SUPER 3
-#define PANEL_MICROTUTOR 4
-#define PANEL_MICROTUTOR2 5
-#define PANEL_ELF2K 6
-#define PANEL_COSMICOS 7
-#define PANEL_MEMBER 8
-#define PANEL_VELF 9
-#define PANEL_UC1800 10
-#define PANEL_XML 11
 
 #define CR_NONE 0
 #define CR_CIDELSA 1
@@ -1163,32 +998,20 @@ public:
     void onQuit(wxCommandEvent& event);
     void onAbout(wxCommandEvent& event);
     void onDataDir(wxCommandEvent& event);
-    void onReInstallConfig(wxCommandEvent& event);
     void onReInstallData(wxCommandEvent& event);
     void removeRedundantFiles();
     void deleteDir(wxString directory);
     void reInstall(wxString source, wxString destination, wxString pathSep);
     void removeOldXml(wxString dir, wxString pathSep);
-    void reInstallOnNotFound(int computerType, wxString fileTypeString);
-    void checkAndReInstallMainRom(int computerType);
-    void checkAndReInstallFile(int computerType, wxString fileTypeString, int fileType);
-    void checkAndReInstallFile(wxString fileAndPath, int computerType, wxString fileTypeString);
-    void checkAndReInstallCharFile(int computerType, wxString fileTypeString, int fileType);
+    void reInstallOnNotFound(wxString fileTypeString);
+    void checkAndReInstallFile(wxString fileAndPath, wxString fileTypeString);
     bool copyTree( wxFileName* source, wxFileName* destination, wxString pathSep);
-    void onConfiguration(wxCommandEvent& event);
-    void onDeleteConfiguration(wxCommandEvent& event);
     void onHome(wxCommandEvent& event);
     void onHomeSb(wxCommandEvent& event);
     void onHomeSbHs(wxCommandEvent& event);
     void onUpdateCheck(wxCommandEvent& event);
     void onUpdateEmma(wxCommandEvent& event);
     void onHelp(wxCommandEvent& event);
-    void onSaveConfig(wxCommandEvent& event);
-    void buildConfigMenu();
-    void onConfigMenu(wxCommandEvent& event);
-    int saveComputerConfig(ConfigurationInfo configurationInfo, ConfigurationInfo oldConfigurationInfo);
-    ConfigurationInfo getMenuInfo(wxString fileName);
-    void loadComputerConfig(wxString fileName);
     void onSaveOnExit(wxCommandEvent& event);
     void onDefaultWindowPosition(wxCommandEvent& event);
     void onDefaultGuiSize(wxCommandEvent& event);
@@ -1241,21 +1064,18 @@ public:
     bool runPressed();
 
     void onComputer(wxNotebookEvent& event);
-    void onStudioChoiceBook(wxChoicebookEvent& event);
-    void onTelmacChoiceBook(wxChoicebookEvent& event);
-    void onElfChoiceBook(wxChoicebookEvent& event);
-    void onRcaChoiceBook(wxChoicebookEvent& event);
     void onDebuggerChoiceBook(wxNotebookEvent& event);
-    void setConfigurationMenu();
-    void setNoteBook();
     void onStart(wxCommandEvent& event);
-    void onStart(int computer);
+    void onStart();
     void onStop(wxCommandEvent& event);
 
     void stopComputer();
     void killComputer(wxCommandEvent&WXUNUSED(event));
-    void enableColorbutton(bool status);
     void enableGui(bool status);
+    void configureMessage(int ioGroup, wxString text);
+    wxString getGroupMessage(int ioGroup);
+    void configureMessage(vector<int>* ioGroup, wxString text);
+    wxString getGroupMessage(vector<int>* ioGroup);
     void message(wxString buffer);
     void messageNoReturn(wxString buffer);
     void messageInt(int value);
@@ -1265,12 +1085,10 @@ public:
     void readConfig();
     void writeConfig();
 
-    wxString getApplicationDir();
-
     wxString getFontSize() {return fontSizeString_;};
     wxString getPathSep();
     int setFdcStepRate(int rate);
-    int getFdcCpms();
+    int getUpdFdcCpms();
     int getPsaveData(int item);
     void setPsaveData(int item, int data);
     int getFunctionKey(int item);
@@ -1287,7 +1105,6 @@ public:
     void updateAssTab();
     void updateSlotInfo();
     void ledTimeout(wxTimerEvent& event);
-//    void cpuTimeout(wxTimerEvent& event);
     void updateCheckTimeout(wxTimerEvent& event);
     void startTime();
     void showTime();
@@ -1417,9 +1234,6 @@ public:
     void setFandMBasicGuiEvent(guiEvent& event);
     void eventSetFandMBasicGui();
 
-    void enableMemAccesEvent(guiEvent& event);
-    void eventEnableMemAccess(bool state);
-
     void setVideoFullScreenEvent(guiEvent& event);
     void eventVideoSetFullScreen(bool state, int videoNumber);
 
@@ -1438,14 +1252,11 @@ public:
     void setPauseStateEvent(guiEvent& event);
     void eventPauseState();
 
-    void setUpdateComxLedStatus(guiEvent& event);
-    void eventUpdateComxLedStatus(int card, int i, bool status);
+    void setUpdateLedStatus(guiEvent& event);
+    void eventUpdateLedStatus(bool status, int card, int i = 0);
 
     void setUpdateVipIILedStatus(guiEvent& event);
-    void eventUpdateVipIILedStatus(int number, bool status);
-
-    void setUpdateDiagLedStatus(guiEvent& event);
-    void eventUpdateDiagLedStatus(int i, bool status);
+    void eventUpdateVipIILedStatus(int led, bool status);
 
     void debounceTimeout(wxTimerEvent& event);
     void setDebounceTimer(guiEvent& event);
@@ -1456,7 +1267,7 @@ public:
     void guiRedrawBarTimeOut(wxTimerEvent& event);
 
     wxString getMultiCartGame(Byte msb, Byte lsb);
-    bool loadKeyDefinition(wxString gameName1, wxString gameName2, int *, int *, int *, bool *, int *, bool *, int *, int *, int*, int*, wxString keyFileName);
+    bool loadKeyDefinition(wxString gameName1, wxString gameName2, int *, int *, int *, bool *, int *, bool *, int *, int *, int*, int*);
     int getDefaultInKey1(wxString computerStr);
     int getDefaultInKey2(wxString computerStr);
     int getDefaultInKey2(wxString computerStr, int defaultKey);
@@ -1497,7 +1308,7 @@ private:
     bool emmaClosing_;
     int bass_;
     int treble_;
-//    wxTimer *cpuPointer;
+
     wxTimer *updateCheckPointer;
     bool updateCheckStarted_;
     int oldGauge_;
@@ -1540,8 +1351,7 @@ EXT Main *p_Main;
 EXT Video *p_Video[VIDEOXMLMAX];
 EXT Video *p_Vt100[2];
 EXT Serial *p_Serial;
-EXT Cdp1802 *p_Computer;
-EXT Panel *panelPointer;
+EXT Computer *p_Computer;
 
 EXT Printer *p_PrinterParallel;
 EXT Printer *p_PrinterSerial;

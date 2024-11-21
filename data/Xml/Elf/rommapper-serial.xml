@@ -9,10 +9,10 @@
         <!-- Press return and then RUN to start, load program via number or N for next page  -->
         <clock>1.76</clock>
         <boot>0x8080</boot>
-        <init type="ef1">1</init>
-        <init type="ef2">1</init>
-        <init type="ef3">1</init>
-        <init type="ef4">1</init>
+        <init ef="1">1</init>
+        <init ef="2">1</init>
+        <init ef="3">1</init>
+        <init ef="4">1</init>
         <dirname>Elf</dirname>
     </system>
     
@@ -25,7 +25,7 @@
         <ems type="ROM">
             <!--
             Next to the common tags ems also supports:
-            <out mask="0x1f">: defines the output, address or address range used to switch page, using the specified mask. In this example with mask=0x1f the ems will be defined with 32 pages. When specifying mask=0 or leaving it out mask will be defined as 0xff. When specifying one digit (i.e. 0-9) an ouptut port (0-7) will be defined for switching the page. When specifying a hex value (e.g. 0xF000) the specified address will be defined for switching the page. When specifying a range (0xF000-0xF100) all addresses in the range will be defined for switching the page.
+            <out mask="0x1f">: defines the output, address or address range used to switch page, using the specified mask. In this example with mask=0x1f the ems will be defined with 32 pages. When specifying mask=0 or leaving it out mask will be defined as 0xff. When specifying one digit in range 0 to 7 an ouptut port (0-7) will be defined for switching the page. When specifying a hex value (e.g. 0xF000) the specified address will be defined for switching the page. When specifying a range (0xF000-0xF100) all addresses in the range will be defined for switching the page.
             -->
             <out mask="0xff">7</out>
             <start>0x8000</start>

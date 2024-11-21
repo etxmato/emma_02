@@ -1,21 +1,22 @@
 #ifndef TIL313F_H
 #define TIL313F_H
 
-class Til313full  
+class Tilfull
 {
 public:
-    Til313full();
-    ~Til313full();
+    Tilfull(int type);
+    ~Tilfull();
 
     void init(wxDC& dc, int x, int p);
     void onPaint(wxDC& dc);
-    void update(wxDC& dc, Byte NewNumber); 
+    void update(wxDC& dc, Byte NewNumber, int segNumber);
 
 private:
     Byte displayedNumber_;
     int    x_;
     int    y_;
- 
+    int    type_;
+
     wxBitmap *tilBitmapPointer;
     wxBitmap *tilCopyBitmapPointer;
     wxMemoryDC dcMemory;

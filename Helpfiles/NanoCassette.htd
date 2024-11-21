@@ -3,7 +3,7 @@
 <BODY>
 <h2>Cassette Support</h2>
 <h3>Real Cassette</h3>
-For details on how to use a real cassette player connected to a PC and Emma 02 please see the chapter: <a href="MainRealCassette.htm">Real Cassette Support</a>
+For details on how to use a real cassette player connected to a PC and Emma 02 please see the section: <a href="ComputerRealCassette.htm">Real Cassette Support</a>
 <h3>Wave Files</h3>
 <p>
 The easiest and fastest way to load or save a .wav file into the Nano emulator is by making sure both options 'Turbo LOAD/SAVE' and 'Auto LOAD/SAVE' are checked, this should be the default setting when the Emma 02 emulator is started for the first time. Depending on which type you choose, i.e. automatic or manual please follow the instructions below. 
@@ -40,7 +40,7 @@ When Turbo LOAD/SAVE is selected the emulator will increase speed when a wav fil
 </p>
 <h4>Wave File Settings</h4>
 <p>
-Via the 'Settings' drop down menu select 'Wav File and Real Cassette Settings' to change the wave file settings used for saving or loading a '.wav' file. . The following subchapters describe applicable settings in more detail. Settings for saving to a file are the 'Wave volume', 'Bit Rate' and 'Bits per sample', setting for loading a wav file are the 'Wav file conversion' and 'Reversed Polarity'. The 'Cassette conversion' and 'Input Channel' are only used for Real Cassette loading.
+Via the 'Settings' drop down menu select 'Wav File and Real Cassette Settings' to change the wave file settings used for saving or loading a '.wav' file. . The following subsections describe applicable settings in more detail. Settings for saving to a file are the 'Wave volume', 'Bit Rate' and 'Bits per sample', setting for loading a wav file are the 'Wav file conversion' and 'Reversed Polarity'. The 'Cassette conversion' and 'Input Channel' are only used for Real Cassette loading.
 </p>
 <h5>Wave volume</h5>
 <p>

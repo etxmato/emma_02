@@ -1,0 +1,66 @@
+<HTML>
+<Title>Keypad Mapping</Title>
+<BODY>
+<h1>Keypad Mapping</h1>
+<p>
+To change or view the hex keypad to PC key mapping select the 'Key Map' button to open the Key Mapping window: 
+</p>
+<p>
+<IMG SRC="images/key_map.png" BORDER="0">
+</p>
+<p>
+This option is not available for all computers and depending on the emulated computer different options are available. The following example is from a Cosmac Elf hex keypad: 
+</p>
+<p>
+<IMG SRC="images/key_map_hex.png" BORDER="0">
+</p>
+<h2>IN Button</h2>
+<p>
+For the Elf 2000, Cosmicos, Cosmac Elf, Netronics Elf II, Quest Super Elf and ETI 660 the IN Button (yellow ellipse) can be specified. Default the IN Button is mapped to the PC Insert key on Windows and PC Control key on Mac OSX. 
+</p>
+<p>
+To change this first select IN Button (yellow ellipse). After this 'Press Key' is shown on the button:
+</p>
+<p>
+<IMG SRC="images/key_map_press.png" BORDER="0">
+</p>
+<p>
+Now press the PC key it should be mapped to. Any PC key that is mapped twice will be shown in a red colour, avoid double mapping as the emulator will not be able to handle this:
+</p>
+<p>
+<IMG SRC="images/key_map_red.png" BORDER="0">
+</p>
+<h2>Standard Mapping</h2>
+<p>
+The standard mapping of hexadecimal keys 0 to F (or 0 to 9 for decimal keypads) can either be done manually or in 2 default settings (orange ellipse):
+<UL>
+<LI>Button 'on Location': keys are mapped in a similar layout as the hex or decimal keypad
+<LI>Button 'on Character': digits and characters are mapped to the same key on the PC keyboard (i.e. 0 to 0, A to A etc).
+</UL>
+</p>
+<p>
+Default keys are mapped 'on Character' for all emulators.
+</p>
+<p>
+To make a manual change first select the desired keypad key button (one of the keys in the blue ellipse). After this 'Press Key' is shown on the selected button. Now press the PC key it should be mapped to. Any PC key that is mapped twice will be shown in a red colour, avoid double mapping as the emulator will not be able to handle this.
+</p>
+<p>
+Make sure to use the 'Save' button to save settings this will also close the hex Keypad Mapping window.
+</p>
+<p>
+Default keys will be mapped using the PC numeric keypad unless the menu item shown below is unselected:
+</p>
+<p>
+<IMG SRC="images/key_map_num.png" BORDER="0">
+</p>
+<p>
+The default key map setting is optimised for a US keyboard, which can be changed via menu below:
+</p>
+<p>
+<IMG SRC="images/key_map_default.png" BORDER="0">
+</p>
+<p>
+For non defined keyboards user defined settings can be defined as described in the <a href="KeyMappingDefault.htm">Default Keyboard</a> section.
+</p>
+</body>
+</html>

@@ -47,24 +47,18 @@ KeypadFred::KeypadFred()
     keyCycles_ = 20000;
 }
 
-void KeypadFred::configure(IoConfiguration ioConf, int keyDefA1[], int keyDefA2[])
+void KeypadFred::configure(FredKeypadConfiguration fredKeypadConfiguration, int keyDefA1[], int keyDefA2[])
 {
     for (int i=0; i<16; i++)
     {
         keyDefA1_[i] = keyDefA1[i];
         keyDefA2_[i] = keyDefA2[i];
     }
-    ioConfiguration_ = ioConf;
+    fredKeypadConfiguration_ = fredKeypadConfiguration;
     wxString printBuffer;
  
-    wxString ioGroup = "";
-    if (ioConfiguration_.fredKeypad.ioGroup != -1)
-    {
-        ioGroup.Printf(" on group %d", ioConfiguration_.fredKeypad.ioGroup);
-    }
-
-    p_Main->message("Configuring hex keypad & card" + ioGroup);
-    switch(ioConfiguration_.fredKeypad.keypad_mode)
+    p_Main->configureMessage(&fredKeypadConfiguration.ioGroupVector, "hex keypad & card");
+    switch(fredKeypadConfiguration.keypad_mode)
     {
         case FRED_HEX_MODE:
             p_Main->message("	Hex mode");
@@ -79,35 +73,29 @@ void KeypadFred::configure(IoConfiguration ioConf, int keyDefA1[], int keyDefA2[
         break;
 
     }
-    printBuffer.Printf("	Output %d: 1 = program mode, 2 = direct mode", ioConfiguration_.fredKeypad.output);
-    p_Main->message(printBuffer);
-    p_Computer->setOutType(ioConfiguration_.fredKeypad.ioGroup + 1, ioConfiguration_.fredKeypad.output, FREDKEYMODE);
+    p_Computer->setOutType(&fredKeypadConfiguration.ioGroupVector, fredKeypadConfiguration.output, "1 = program mode, 2 = direct mode");
+    printBuffer.Printf("read data keypad (if mode = %d)", fredKeypadConfiguration.input_mode);
+    p_Computer->setInType(&fredKeypadConfiguration.ioGroupVector, fredKeypadConfiguration.inputKey, printBuffer);
 
-    printBuffer.Printf("	Input %d: read data keypad (if mode = %d)", ioConfiguration_.fredKeypad.inpKey, ioConfiguration_.fredKeypad.input_mode);
-    p_Main->message(printBuffer);
-    p_Computer->setInType(ioConfiguration_.fredKeypad.inpKey, FREDINP0);
+    printBuffer.Printf("data ready (if mode = %d)\n", fredKeypadConfiguration.ef_mode);
+    p_Computer->setEfType(&fredKeypadConfiguration.ioGroupVector, fredKeypadConfiguration.efKey, printBuffer);
 
-    printBuffer.Printf("	EF %d: data ready (if mode = %d)\n", ioConfiguration_.fredKeypad.efKey, ioConfiguration_.fredKeypad.ef_mode);
-    p_Main->message(printBuffer);
-    p_Computer->setEfType(ioConfiguration_.fredKeypad.efKey, FREDEF1);
-
-    if (ioConfiguration_.fredKeypad.coinArcadeControl)
+    if (fredKeypadConfiguration.coinArcadeControl)
     {
         coinKey_ = 1;
-        p_Main->message("Configuring RCA Video Coin Arcade controls");
-        
-        printBuffer.Printf("	EF %d: fire player A, EF %d: fire player B, EF %d: coin", ioConfiguration_.fredKeypad.efKey, ioConfiguration_.fredKeypad.efFireB, ioConfiguration_.fredKeypad.efCoin);
-        p_Main->message(printBuffer);
-        p_Computer->setEfType(ioConfiguration_.fredKeypad.efFireB, COINARCADEEF3);
+        p_Main->configureMessage(&fredKeypadConfiguration.ioGroupVector, "RCA Video Coin Arcade controls");
+        printBuffer.Printf("fire player A (if mode != %d)", fredKeypadConfiguration.ef_mode);
+        p_Computer->setEfType(&fredKeypadConfiguration.ioGroupVector, fredKeypadConfiguration.efKey, printBuffer);
+        p_Computer->setEfType(&fredKeypadConfiguration.ioGroupVector, fredKeypadConfiguration.efFireB, "fire player B");
+        p_Computer->setEfType(&fredKeypadConfiguration.ioGroupVector, fredKeypadConfiguration.efCoin, "coin");
+        p_Computer->setInType(&fredKeypadConfiguration.ioGroupVector, fredKeypadConfiguration.inputCoin, "direction keys & coin reset");
 
-        printBuffer.Printf("	Input %d: direction keys & coin reset\n", ioConfiguration_.fredKeypad.inpCoin);
-        p_Main->message(printBuffer);
-        p_Computer->setInType(ioConfiguration_.fredKeypad.inpCoin, COINARCADEINPKEY6);
+        p_Main->message("");
 
         keyDefCoin_ = p_Main->getDefaultCoinArcadeKeys(keyDefA_, keyDefB_);
     }
 
-    p_Computer->setCycleType(KEYCYCLE, FREDKEYCYCLE);
+    p_Computer->setCycleType(CYCLE_TYPE_KEYBOARD, KEY_FRED_CYCLE);
 }
 
 void KeypadFred::keyDown(int keycode)
@@ -131,7 +119,7 @@ void KeypadFred::keyDown(int keycode)
     if (efState_ == 1)
         keyCode_ = WXK_NONE;
 
-    if (ioConfiguration_.fredKeypad.coinArcadeControl)
+    if (fredKeypadConfiguration_.coinArcadeControl)
     {
         if (keycode == keyDefCoin_)
             coinKey_ = 0;
@@ -176,7 +164,7 @@ void KeypadFred::keyUp(int keycode)
     else
         efState_ = 1;
 
-    if (ioConfiguration_.fredKeypad.coinArcadeControl)
+    if (fredKeypadConfiguration_.coinArcadeControl)
     {
         if (keycode == keyDefA_[KEY_UP])
             directionKey_ &= 0xFD;
@@ -213,12 +201,12 @@ void KeypadFred::keyUp(int keycode)
 
 void KeypadFred::keyFound(int key)
 {
-    if (ioConfiguration_.fredKeypad.keypad_mode == FRED_HEX_PULSE_MODE)
+    if (fredKeypadConfiguration_.keypad_mode == FRED_HEX_PULSE_MODE)
         keyCycles_ = 2000;
     else
         keyCycles_ = 20000;
 
-    if (ioConfiguration_.fredKeypad.keypad_mode == FRED_HEX_MODE || ioConfiguration_.fredKeypad.keypad_mode == FRED_HEX_PULSE_MODE )
+    if (fredKeypadConfiguration_.keypad_mode == FRED_HEX_MODE || fredKeypadConfiguration_.keypad_mode == FRED_HEX_PULSE_MODE )
     {
         if (inpMode_ == INP_MODE_KEY_DIRECT)
             p_Computer->dmaIn(key | shiftPressed_);
@@ -257,7 +245,7 @@ void KeypadFred::cycle()
         keyCycles_--;
         return;
     }
-    if (ioConfiguration_.fredKeypad.keypad_mode == FRED_HEX_PULSE_MODE)
+    if (fredKeypadConfiguration_.keypad_mode == FRED_HEX_PULSE_MODE)
     {
         efState_ = 1;
         keyCycles_ = 2000;
@@ -287,12 +275,12 @@ void KeypadFred::setInputMode(int inpMode)
 
 Byte KeypadFred::efHexFireA()
 {
-    if (inpMode_ == ioConfiguration_.fredKeypad.ef_mode)
-        return efState_;
+    if (inpMode_ == fredKeypadConfiguration_.ef_mode)
+        return efState_^fredKeypadConfiguration_.efKey.reverse;
     else
     {
-        if (ioConfiguration_.fredKeypad.coinArcadeControl)
-            return fireKeyA_;
+        if (fredKeypadConfiguration_.coinArcadeControl)
+            return fireKeyA_^fredKeypadConfiguration_.efKey.reverse;
         else
             return 1;
     }
@@ -300,15 +288,15 @@ Byte KeypadFred::efHexFireA()
 
 Byte KeypadFred::efFireB()
 {
-    if (ioConfiguration_.fredKeypad.coinArcadeControl)
-        return fireKeyB_;
+    if (fredKeypadConfiguration_.coinArcadeControl)
+        return fireKeyB_^fredKeypadConfiguration_.efFireB.reverse;
     else
         return 1;
 }
 
 Byte KeypadFred::efCoin()
 {
-    return coinKey_;
+    return coinKey_^fredKeypadConfiguration_.efCoin.reverse;
 }
 
 Byte KeypadFred::inHex()

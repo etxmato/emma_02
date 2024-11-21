@@ -99,12 +99,11 @@ Sound::~Sound()
 #endif
 }
 
-void Sound::initSound(double clock, double percentageClock, int computerType, int volume, int bass, int treble, int toneChannels, int stereo, bool realCasLoad, int beepFrequency, int bellFrequency)
+void Sound::initSound(double clock, double percentageClock, int volume, int bass, int treble, int toneChannels, int stereo, bool realCasLoad, int beepFrequency, int bellFrequency)
 {
     soundClock_ = clock;
     percentageClock_ = percentageClock;
     if ((percentageClock_*soundClock_) < 0.000045)  percentageClock_ = (double) 0.000045/soundClock_;
-    computerType_ = computerType;
     gain_ = (float) volume / 100;
     stereo_ = stereo;
     realCassetteLoad_ = realCasLoad;
@@ -250,7 +249,7 @@ void Sound::initSound(double clock, double percentageClock, int computerType, in
     else
     {
         if (realCassetteLoad_)
-            p_Main->setRealCasOff(computerType_);
+            p_Main->setRealCasOff();
         realCassetteLoad_ = false;
     }
 }
@@ -587,163 +586,47 @@ void Sound::psaveAmplitudeChange(int q)
         }
         else
         {
-            switch (computerType_)
+            switch (activeSoundType_)
             {
-                case VIP:
-                    if (q)
-                    {
-                        switch(activeSoundType_)
-                        {
-                            case SOUND_EXT_BEEPER:
-                                beepOn();
-                            break;
-                            case SOUND_1863_1864:
-                                tone1864On();
-                            break;
-                            case SOUND_SUPER_VP550:
-                            case SOUND_SUPER_VP551:
-                                toneSuper();
-                            break;
-                        }
-                    }
-                    else
-                        beepOff();
-                break;
-
-                case FRED1:
-                case FRED1_5:
+                case SOUND_Q_SW:
                     if (q)
                         toneElf2KOn();
                     else
                         toneElf2KOff();
                 break;
 
-                case TMC1800:
+                case SOUND_EXT_BEEPER:
+                    toneAmplitude_[0] = 8;
+                    toneAmplitude_[1] = 8;
                     if (q)
                         beepOn();
                     else
                         beepOff();
                 break;
-                    
-                case VISICOM:
-                case STUDIO:
-                    if (q)
-                        beepOnStudio();
-                    else
-                        beepOff();
-                break;
-                    
-                case TMC2000:
-                case ETI:
-                case VICTORY:
-                case STUDIOIV:
-                case VIPII:
+
+                case SOUND_1863_1864:
                     if (q)
                         tone1864On();
                     else
                         beepOff();
                 break;
 
-                case NANO:
-                case COSMICOS:
-                    if (followQ_)
-                    {
-                        if (q)
-                            toneElf2KOn();
-                        else
-                            toneElf2KOff();
-                    }
+                case SOUND_STUDIO:
+                    if (q)
+                        beepOnStudio();
+                   else
+                        beepOff();
+                break;
+
+                case SOUND_SUPER_VP550:
+                case SOUND_SUPER_VP551:
+                    if (q)
+                        toneSuper();
                     else
-                    {
-                        if (q)
-                            tone1864On();
-                        else
-                            beepOff();
-                    }
-                break;
-
-                case ELF2K:
-                    if (followQ_)
-                    {
-                        if (q)
-                            toneElf2KOn();
-                        else
-                            toneElf2KOff();
-                    }
-                break;
-
-                case ELF:
-                case ELFII:
-                case SUPERELF:
-                case PICO:
-                    switch (activeSoundType_)
-                    {
-                        case SOUND_Q_SW:
-                            if (q)
-                                toneElf2KOn();
-                            else
-                                toneElf2KOff();
-                        break;
-
-                        case SOUND_EXT_BEEPER:
-                            toneAmplitude_[0] = 8;
-                            toneAmplitude_[1] = 8;
-                            if (q)
-                                beepOn();
-                            else
-                                beepOff();
-                        break;
-                    }
-                break;
-
-                case XML:
-                    switch (activeSoundType_)
-                    {
-                        case SOUND_Q_SW:
-                            if (q)
-                                toneElf2KOn();
-                            else
-                                toneElf2KOff();
-                        break;
-
-                        case SOUND_EXT_BEEPER:
-                            toneAmplitude_[0] = 8;
-                            toneAmplitude_[1] = 8;
-                            if (q)
-                                beepOn();
-                            else
-                                beepOff();
-                        break;
-
-                        case SOUND_1863_1864:
-                            if (q)
-                                tone1864On();
-                            else
-                                beepOff();
-                        break;
-
-                        case SOUND_STUDIO:
-                            if (q)
-                                beepOnStudio();
-                           else
-                                beepOff();
-                        break;
-
-                        case SOUND_SUPER_VP550:
-                        case SOUND_SUPER_VP551:
-                            if (q)
-                                toneSuper();
-                            else
-                                beepOff();
-                        break;
-                    }
-                    p_Computer->printOutPecom(q);
-                break;
-
-                case PECOM:
-                    p_Computer->printOutPecom(q);
+                        beepOff();
                 break;
             }
+            p_Computer->printOutPecom(q);
         }
     }
     else
@@ -769,7 +652,7 @@ void Sound::playSaveLoad()
 {
     if (stopTheTape_)
     {
-        if (p_Main->isTapeHwCybervision(computerType_))
+        if (p_Main->isTapeHwCybervision())
         {
  //           resetTape();
             pauseTape();
@@ -833,7 +716,7 @@ void Sound::playSaveLoad()
         {
             if (ploadWavePointer->eof())
             {
-                if (p_Main->isTapeHwCybervision(computerType_))
+                if (p_Main->isTapeHwCybervision())
                     pauseTape();
                 else
                     stopTape();
@@ -852,11 +735,11 @@ void Sound::playSaveLoad()
         if (rewindOn_)
         {
             sample_count = (int)ploadWavePointer->rewind(rewindSpeed_);
-            stepCassetteCounter(-rewindSpeed_);
+            p_Computer->stepCassetteCounter(-rewindSpeed_);
 
             if (sample_count <= 0)
             {
-                if (p_Main->isTapeHwCybervision(computerType_))
+                if (p_Main->isTapeHwCybervision())
                     pauseTape();
                 else
                     stopTape();
@@ -867,7 +750,7 @@ void Sound::playSaveLoad()
         {
             if (ploadWavePointer->eof())
             {
-                if (p_Main->isTapeHwCybervision(computerType_))
+                if (p_Main->isTapeHwCybervision())
                     pauseTape();
                 else
                     stopTape();
@@ -1128,7 +1011,7 @@ void Sound::writeSilenceTapeHw()
     else
         ploadWavePointer->write(samples[0]);
     
-    stepCassetteCounter(1);
+    p_Computer->stepCassetteCounter(1);
 }
 
 int Sound::writeSaveTapeHw(Byte value, Byte numberOfStopBits)
@@ -1181,7 +1064,7 @@ int Sound::writeSaveTapeHw(Byte value, Byte numberOfStopBits)
             value = value << 1;
         }
     }
-    stepCassetteCounter(sample_count);
+    p_Computer->stepCassetteCounter(sample_count);
     tapeHwReadyToReceive_ = 0;
 
     return sample_count;
@@ -1205,9 +1088,8 @@ void Sound::stopTape()
         delete ploadWavePointer;
         ploadOn_ = false;
         ploadPaused_ = false;
-        p_Computer->checkLoadedSoftware();
-        if (computerType_ == ETI)
-            p_Computer->finishStopTape();
+//        if (computerType_ == ETI) TO BE CHECKED - is it ok to execute below on all states?
+//            p_Computer->finishStopTape();
     }
     if (hwSaveOn_ || hwSavePaused_)
     {
@@ -1226,8 +1108,7 @@ void Sound::stopTape()
         psaveOn_ = false;
     }
     p_Main->eventSetTapeState(TAPE_STOP, tapeNumber_);
-    if (computerType_ == XML || computerType_ == FRED1 || computerType_ == FRED1_5 || computerType_ == VIP || computerType_ == STUDIOIV)
-        p_Computer->finishStopTape();
+    p_Computer->finishStopTape();
     if (p_Vt100[UART1] != NULL)
         p_Vt100[UART1]->ResetIo();
     if (p_Vt100[UART2] != NULL)
@@ -1266,8 +1147,7 @@ void Sound::pauseTape()
         startNewRecording_ = true;
     }
 
-//    if (computerType_ == FRED1 || computerType_ == FRED1_5)
-    if (p_Main->isTapeHwFred(computerType_))
+    if (p_Main->isTapeHwFred())
         p_Main->eventSetTapeState(TAPE_PAUSE, tapeNumber_);
     else
         p_Main->eventSetTapeState(TAPE_STOP, tapeNumber_);
@@ -1392,11 +1272,6 @@ void Sound::record_pause(bool status)
 {
     audioPointer->record_pause(status);
     realCassetteLoad_ = status;
-}
-
-void Sound::wavFile()
-{
-    audioPointer->wavFile();
 }
 
 void Sound::setPsaveSettings()

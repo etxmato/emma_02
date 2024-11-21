@@ -3,7 +3,7 @@
 <body>
 <h1>Clear</h1>
 <p>
-Pressing the 'Clear' button (yellow ellipse) will clear the 'message' area (orange ellipse):
+Pressing the 'Clear' button (highlighted in yellow) will clear the 'message' area (highlighted in orange):
 </p>
 <p>
 <IMG SRC="images/assembler_clear.png" BORDER="0">

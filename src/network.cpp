@@ -40,7 +40,7 @@ void Network::configureNetwork(int sides, int tracks, int sectors, int sectorlen
     outCount_ = -1;
 
     localComputerType_ = computerType;
-    p_Computer->setCycleType(VTCYCLE, NETWORKCYCLE);
+    p_Computer->setCycleType(CYCLE_TYPE_VIDEO_TERMINAL, NETWORK_CYCLE);
     registerSelectNetwork_ = 0;
 
     for (int i=0; i<2; i++)
@@ -604,7 +604,7 @@ void Network::writeSector()
         return;
     }
 
-    if ((sector_ == 0) &&(track_ == 0) &&(side_ == 0) &&(localComputerType_ == COMX))
+    if ((sector_ == 0) &&(track_ == 0) &&(side_ == 0) )
     {
         numberOfTracks_[drive_] = numberOfTracksPerSide_ +(sectorBuffer_[0x12] * numberOfTracksPerSide_);
         numberOfSides_[drive_] = 1 + sectorBuffer_[0x13];
@@ -666,8 +666,7 @@ void Network::onCommand(Byte command)
     if (diskName_[drive_].Len() == 0)
     {
         p_Main->message("No Disk in drive");
-        if (localComputerType_ == COMX)
-            p_Computer->writeMem(0xBE68, 0, false);
+        p_Computer->writeMem(0xBE68, 0, false);
         endCommand(0x80);
         return;
     }
@@ -883,8 +882,5 @@ void Network::writeData(Byte value)
 
 void Network::updateFdcStatusLed()
 {
-    if (localComputerType_ == COMX)
-    {
-        p_Video[VIDEOMAIN]->updateStatusLed(status_&1);
-    }
+    p_Video[VIDEOMAIN]->updateComxStatusLed(status_&1);
 }

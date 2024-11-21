@@ -1397,113 +1397,83 @@ Printer::~Printer()
         printFile_.Close();
 }
 
-void Printer::configureParallelPrinter(IoConfiguration portConf)
+void Printer::configureParallelPrinter(ParallelPrinterConfiguration parallelPrinterConfiguration)
 {
-    wxString runningComp = p_Main->getRunningComputerStr();
+    p_Main->configureMessage(&parallelPrinterConfiguration.ioGroupVector, "Parallel Printer");
+    p_Computer->setOutType(&parallelPrinterConfiguration.ioGroupVector, parallelPrinterConfiguration.output, "write data");
+    p_Computer->setInType(&parallelPrinterConfiguration.ioGroupVector, parallelPrinterConfiguration.input, "status");
 
-    wxString printBuffer;
-    wxString ioGroup = "";
-    if (portConf.parallelPrinterIoGroup != -1)
-    {
-        ioGroup.Printf(" on group %d", portConf.parallelPrinterIoGroup);
-    }
-
-    p_Computer->setOutType(portConf.parallelPrinterIoGroup+1, portConf.parallelPrinterOutput, PARALLEL_PRINT_OUT);
-    p_Computer->setInType(portConf.parallelPrinterIoGroup+1, portConf.parallelPrinterInput, PARALLEL_PRINT_IN);
-
-    p_Main->message("Configuring Parallel Printer" + ioGroup);
-
-    printBuffer.Printf("	Output %d: write data, input %d: status\n", portConf.parallelPrinterOutput, portConf.parallelPrinterInput);
-    p_Main->message(printBuffer);
+    p_Main->message("");
 }
 
-void Printer::configureSerialPrinter(IoConfiguration portConf)
+void Printer::configureSerialPrinter(SerialPrinterConfiguration serialPrinterConfiguration)
 {
-    wxString runningComp = p_Main->getRunningComputerStr();
-
     wxString printBuffer;
-    wxString ioGroup = "";
-    if (portConf.serialPrinterIoGroup != -1)
-    {
-        ioGroup.Printf(" on group %d", portConf.serialPrinterIoGroup);
-    }
 
-    p_Computer->setOutType(portConf.serialPrinterIoGroup+1, portConf.serialPrinterOutput, SERIAL_PRINT_OUT);
-    p_Computer->setInType(portConf.serialPrinterIoGroup+1, portConf.serialPrinterInput, SERIAL_PRINT_IN);
+    p_Main->configureMessage(&serialPrinterConfiguration.ioGroupVector, "Serial Printer");
+    p_Computer->setOutType(&serialPrinterConfiguration.ioGroupVector, serialPrinterConfiguration.output, "write data");
+    p_Computer->setInType(&serialPrinterConfiguration.ioGroupVector, serialPrinterConfiguration.input, "status");
 
-    p_Main->message("Configuring Serial Printer" + ioGroup);
+    p_Main->message("");
 
-    printBuffer.Printf("	Output %d: write data, input %d: status\n", portConf.serialPrinterOutput, portConf.serialPrinterInput);
-    p_Main->message(printBuffer);
-
-    dataBits_ = portConf.serialPrinterBits;
+    dataBits_ = serialPrinterConfiguration.bits;
     stopBit_ = dataBits_ + 1;
-    serialPrinterParity_ = portConf.serialPrinterParity;
+    serialPrinterParity_ = serialPrinterConfiguration.parity;
     if (serialPrinterParity_ != PRINTER_PARITY_NONE)
     {
         parityBit_ = stopBit_;
         stopBit_++;
     }
 }
-
-void Printer::configureThermalPrinter(IoConfiguration portConf)
+void Printer::configureQSerialPrinter(QSerialPrinterConfiguration qSerialPrinterConfiguration)
 {
-    wxString runningComp = p_Main->getRunningComputerStr();
-
     wxString printBuffer;
-    wxString ioGroup = "";
-    if (portConf.thermalPrinterIoGroup != -1)
-    {
-        ioGroup.Printf(" on group %d", portConf.thermalPrinterIoGroup);
-    }
 
-    p_Computer->setEfType(portConf.thermalPrinterIoGroup+1, portConf.thermalPrinterEf, THERMAL_PRINT_EF);
-    p_Computer->setOutType(portConf.thermalPrinterIoGroup+1, portConf.thermalPrinterOutput, THERMAL_PRINT_OUT);
-    p_Computer->setInType(portConf.thermalPrinterIoGroup+1, portConf.thermalPrinterInput, THERMAL_PRINT_IN);
+    p_Main->configureMessage(&qSerialPrinterConfiguration.ioGroupVector, "Serial Printer (using Q)");
+    p_Computer->setEfType(&qSerialPrinterConfiguration.ioGroupVector, qSerialPrinterConfiguration.ef, "status");
 
-    p_Main->message("Configuring Thermal Printer" + ioGroup);
-
-    printBuffer.Printf("	Q = mode, Output %d: write data, input %d: status, ef %d: busy\n", portConf.thermalPrinterOutput, portConf.thermalPrinterInput, portConf.thermalPrinterEf);
-    p_Main->message(printBuffer);
-    p_Computer->setCycleType(PRINTCYCLE, THERMALCYCLE);
+    p_Main->message("	Q: write data\n");
 }
 
-void Printer::configureBasicPrinter(IoConfiguration portConf)
+void Printer::configureCentronicsPrinter(CentronicsPrinterConfiguration centronicsPrinterConfiguration)
 {
-    wxString runningComp = p_Main->getRunningComputerStr();
+    p_Main->configureMessage(&centronicsPrinterConfiguration.ioGroupVector, "Centronics P-1/PR-40 Printer");
+    p_Computer->setOutType(&centronicsPrinterConfiguration.ioGroupVector, centronicsPrinterConfiguration.output, "latch");
+    p_Computer->setEfType(&centronicsPrinterConfiguration.ioGroupVector, centronicsPrinterConfiguration.ef, "status");
 
-    int ioGroupNum = 0;
-    if (runningComp == "Xml")
-        ioGroupNum = portConf.printerIoGroup + 1;
+    p_Main->message("	Q: strobe\n");
+}
 
-    wxString ioGroup = "";
-    if (ioGroupNum != 0)
-        ioGroup.Printf(" on group %d", portConf.printerIoGroup);
-
-    p_Computer->setOutType(ioGroupNum, portConf.printerOutput, BASIC_PRINT_OUT);
-
+void Printer::configureThermalPrinter(ThermalPrinterConfiguration thermalPrinterConfiguration)
+{
     wxString printBuffer;
-    p_Main->message("Configuring Printer" + ioGroup);
+    
+    p_Main->configureMessage(&thermalPrinterConfiguration.ioGroupVector, "Thermal Printer");
+    p_Computer->setOutType(&thermalPrinterConfiguration.ioGroupVector, thermalPrinterConfiguration.output, "write data");
+    p_Computer->setInType(&thermalPrinterConfiguration.ioGroupVector, thermalPrinterConfiguration.input, "status");
+    p_Computer->setEfType(&thermalPrinterConfiguration.ioGroupVector, thermalPrinterConfiguration.ef, "busy");
+    p_Computer->setCycleType(CYCLE_TYPE_PRINT, THERMAL_PRINTER_CYCLE);
 
-    if (portConf.printerEf != 0)
-    {
-        p_Computer->setEfType(ioGroupNum, portConf.printerEf, BASIC_PRINT_EF);
-        printBuffer.Printf("	Output %d: write data, EF %d: data ready\n", portConf.printerOutput, portConf.printerEf);
-    }
-    else
-        printBuffer.Printf("	Output %d: write data\n", portConf.printerOutput);
-    p_Main->message(printBuffer);
+    printBuffer.Printf("	Q = mode\n");
+}
+
+void Printer::configureBasicPrinter(BasicPrinterConfiguration basicPrinterConfiguration)
+{
+    p_Main->configureMessage(&basicPrinterConfiguration.ioGroupVector, "Printer");
+    p_Computer->setOutType(&basicPrinterConfiguration.ioGroupVector, basicPrinterConfiguration.output, "write data");
+    p_Computer->setEfType(&basicPrinterConfiguration.ioGroupVector, basicPrinterConfiguration.ef, "data ready");
+
+    p_Main->message("");
 }
 
 void Printer::setThermalPrinterCycle()
 {
-    p_Computer->setCycleType(PRINTCYCLE, THERMALCYCLE);
+    p_Computer->setCycleType(CYCLE_TYPE_PRINT, THERMAL_PRINTER_CYCLE);
 }
 
 void Printer::init(Printer *pointer, int printerType)
 {
     printerPointer = pointer;
-    computerName_ = p_Main->getRunningComputerText();
     printerType_ = printerType;
 
     printMode_ = p_Main->getPrintMode();
@@ -1877,7 +1847,7 @@ void Printer::onF4()
     if (!printerFrameOpen_)
     {
         paperWidth = p_Main->getConfigItem("PrinterPaperWidth", 960l);
-        printerFramePointer = new PrinterFrame( computerName_+" Printer Output", wxPoint(-1, -1), wxSize(paperWidth, 1408/4*3), printerType_);
+        printerFramePointer = new PrinterFrame("Printer Output", wxPoint(-1, -1), wxSize(paperWidth, 1408/4*3), printerType_);
         printerFramePointer->CreateToolBar(wxTB_HORZ_TEXT);
 
         fontTextPointer = new wxStaticText(printerFramePointer->GetToolBar(), -1, "Font ");
@@ -2006,7 +1976,7 @@ void Printer::onComxF4Printer()
     int paperWidth;
 
     paperWidth = p_Main->getConfigItem("PrinterPaperWidth", 960l);
-    printerFramePointer = new PrinterFrame( computerName_ + " Printer Output", wxPoint(-1, -1), wxSize(paperWidth, 1408/4*3), printerType_);
+    printerFramePointer = new PrinterFrame("Printer Output", wxPoint(-1, -1), wxSize(paperWidth, 1408/4*3), printerType_);
 
     printerFramePointer->CreateToolBar(wxTB_HORZ_TEXT);
 
@@ -2082,7 +2052,7 @@ void Printer::onComxF4Plotter()
 {
     wxString choices[6];
 
-    printerFramePointer = new PrinterFrame( computerName_ + " Plotter Output", wxPoint(-1, -1), wxSize(960, 1408/4*3), printerType_);
+    printerFramePointer = new PrinterFrame("Plotter Output", wxPoint(-1, -1), wxSize(960, 1408/4*3), printerType_);
 
     printerFramePointer->CreateToolBar(wxTB_HORZ_TEXT);
 
@@ -2212,7 +2182,7 @@ void Printer::printOut()
     wxPrintDialogData printDialogData(* PrintDataPointer);
 
     wxPrinter printer(& printDialogData);
-    ComxPrintout printout(computerName_ + " Printout", printerPointer);
+    ComxPrintout printout("Printout", printerPointer);
 
     if (!printer.Print(NULL, &printout, true ))
     {
@@ -2230,7 +2200,7 @@ void Printer::printOut()
 void Printer::printPreview()
 {
     wxPrintDialogData printDialogData(* PrintDataPointer);
-    wxPrintPreview *preview = new wxPrintPreview(new ComxPrintout(computerName_ + " Printout", printerPointer), new ComxPrintout(computerName_ + " Printout", printerPointer), & printDialogData);
+    wxPrintPreview *preview = new wxPrintPreview(new ComxPrintout("Printout", printerPointer), new ComxPrintout("Printout", printerPointer), & printDialogData);
 
     if (!preview->Ok())
     {
@@ -2239,7 +2209,7 @@ void Printer::printPreview()
         return;
     }
 
-    wxPreviewFrame *frame = new wxPreviewFrame(preview, printerFramePointer, computerName_ + " Printer Preview", wxPoint(-1, -1), wxSize(600, 650));
+    wxPreviewFrame *frame = new wxPreviewFrame(preview, printerFramePointer, "Printer Preview", wxPoint(-1, -1), wxSize(600, 650));
     frame->Centre(wxBOTH);
     frame->Initialize();
     frame->Show();

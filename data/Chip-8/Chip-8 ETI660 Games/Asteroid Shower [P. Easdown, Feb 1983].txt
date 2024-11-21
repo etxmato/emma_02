@@ -1,0 +1,30 @@
+ASTEROID SHOWER Peter Easdown, Kew, NSW 
+
+Here s another program rather like several you see in the parlour video games. You have a ship with a cannon that can be moved left and right across the bottom of the screen. Up to five asteroids come plummeting towards your ship. You score points by hitting them with missiles fired from your cannon and you stay alive by ducking out of their way as they rush past. Eash hit on an asteroid scores you one point. If an asteroid crashed into you, the resultant explosion fills the screen with debris, after which your score is displayed and the game ends. Sound effects accompany the scenario. The game will run on a minimum 660 with B&W video and only 1K of RAM 
+
+To manipulate your ship and fire the cannon, use the following keys: 
+
+MOVE LEFT KEY 4 
+MOVE RIGHT KEY 6 
+FIRE KEY 5 
+
+The program is structured with a mainline and three loops. 
+
+0600-066C MAINLINE 
+0676-06A4 FIRING LOOP 
+06A6-06C4 END LOOP 
+0714-072E EXPLOSION LOOP 
+
+The variables used are as follows: 
+
+0,1 ASTEROID 1 
+2,3 ASTEROID 2 
+4,5 ASTEROID 3 
+6,7 ASTEROID 4 
+8,9 ASTEROID 5 
+A,B CANON 
+C,D MISSILE 
+E SCORE 
+F MISCELLANEOUS 
+
+Now, go ash them asteroids! 

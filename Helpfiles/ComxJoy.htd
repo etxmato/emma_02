@@ -3,7 +3,7 @@
 <BODY>
 <h2>F&M Joy Card</h2>
 <p>
-To run the COMX emulator with the F&M Joy card select 'f&m.joycard.bin' in any available slot (CARD 1 if no expansion box is used), see example below (yellow ellipse):
+To run the COMX emulator with the F&M Joy card select 'f&m.joycard.bin' in any available slot (CARD 1 if no expansion box is used), see example below (highlighted in yellow):
 </p>
 <p>
 <IMG SRC="images/comx_joy.png" BORDER="0">

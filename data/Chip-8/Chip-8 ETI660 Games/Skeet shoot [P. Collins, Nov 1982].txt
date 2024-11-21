@@ -1,0 +1,11 @@
+SKEET SHOOT 
+
+Peter Collins, Springvale South Vic. 
+
+Undoubtedly, dedicated games players have seen skeet shoot in a games arcade where a missile (skeet) is fired at random across a screen and you have to predict where it is going to be and fire ahead of it so that you shoot the skeet. What you are doing, in fact, is judging the speed of the skeet and the speed of your shot so that they meet at a prejudged point. 
+
+This version draws a T channel on screen. Your shot is at the bottom of the T vertical and the skeet flies across the T horizontal. Simple? Sure is, but not so simple to hit the skeet! 
+
+PRESS KEY 5 TO FIRE 
+
+The score is displayed on the lower left of the screen — you get 5 points per hit and the number of shots left is displayed on the lower right — you start off with 20 shots. (Best effort from the ETI staff was 65!) 

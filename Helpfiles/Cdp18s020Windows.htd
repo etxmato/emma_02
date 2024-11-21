@@ -3,13 +3,13 @@
 <BODY>
 <h1>Control Window</h1>
 <p>
-The main CDP18S020 Evaluation Kit control board can be shown by selecting check box 'CDP18S020 Window' (yellow ellipse). 
+The main CDP18S020 Evaluation Kit control board can be shown by selecting check box 'CDP18S020 Window' (highlighted in yellow). 
 </p>
 <p>
 <IMG SRC="images/cdp18s020_window.png" BORDER="0">
 </p>
 <p>
-LED emulation can take a lot of PC CPU power so default these are only updated every 500 ms. This can be changed in via the 'LEDs' field (orange ellipse). When 0 ms (or nothing) is specified the LEDs will be updated in real time. Note that this will take a lot of CPU load and as such make the CDP18S020 run very slow due to the frequent changes in both CPU status, data and address LEDs.
+LED emulation can take a lot of PC CPU power so default these are only updated every 500 ms. This can be changed in via the 'LEDs' field (highlighted in orange). When 0 ms (or nothing) is specified the LEDs will be updated in real time. Note that this will take a lot of CPU load and as such make the CDP18S020 run very slow due to the frequent changes in both CPU status, data and address LEDs.
 </p>
 <h1>Front Panel</h1>
 <p>
@@ -19,16 +19,16 @@ The front panel includes the switches, buttons and status LEDs:
 <IMG SRC="images/cdp18s020_front.png" BORDER="0">
 </p>
 <p>
-To use continuous run mode the STEP switch (blue ellipse) should be down. To activate step mode switch it up. In step mode one CPU cycle is executed every time RUN P (blue ellipse) or RUN U (magenta ellipse) is clicked. Cycle state SC1 or SC0 is shown in the STATUS LED section (brown ellipse). In STEP mode all DATA BUS and MEMORY ADDRESS LEDs are updated in real time.
+To use continuous run mode the STEP switch (highlighted in blue) should be down. To activate step mode switch it up. In step mode one CPU cycle is executed every time RUN P (highlighted in blue) or RUN U (highlighted in purple) is clicked. Cycle state SC1 or SC0 is shown in the STATUS LED section (highlighted in brown). In STEP mode all DATA BUS and MEMORY ADDRESS LEDs are updated in real time.
 </p>
 <p>
 The RESET button will initialise the CDP1802 and control logic. After RESET, the CPU program counter is R0 and points to memory location 0000.
 </p>
 <p>
-In continuous run mode (STEP switch down), RUN P (blue ellipse) will start the program loaded at address 0 and RUN U (magenta ellipse) will start the utility SW, UT4 at hex 8000.
+In continuous run mode (STEP switch down), RUN P (highlighted in blue) will start the program loaded at address 0 and RUN U (highlighted in purple) will start the utility SW, UT4 at hex 8000.
 </p>
 <p>
-4 dip switches (orange ellipse) are available, switch these up to enable RAM memory protection (disable writing to RAM). Each dip switch controls 1 KB of RAM at hex address:
+4 dip switches (highlighted in orange) are available, switch these up to enable RAM memory protection (disable writing to RAM). Each dip switch controls 1 KB of RAM at hex address:
 </p>
 <p>
 <ul>
@@ -39,7 +39,7 @@ In continuous run mode (STEP switch down), RUN P (blue ellipse) will start the p
 </ul>
 </p>
 <p>
-The remaining LEDs in the STATUS area (brown ellipse) indicate: W for Wait, C for Clear and Q for the Q flag.
+The remaining LEDs in the STATUS area (highlighted in brown) indicate: W for Wait, C for Clear and Q for the Q flag.
 </p>
 </BODY>
 </HTML>

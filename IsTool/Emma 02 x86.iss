@@ -42,16 +42,8 @@ Source: ..\about_11.xrc; DestDir: {app}; Components: MAIN
 Source: ..\about_12.xrc; DestDir: {app}; Components: MAIN
 Source: ..\cassette_11.xrc; DestDir: {app}; Components: MAIN
 Source: ..\cassette_12.xrc; DestDir: {app}; Components: MAIN
-Source: ..\colour_11.xrc; DestDir: {app}; Components: MAIN
-Source: ..\colour_12.xrc; DestDir: {app}; Components: MAIN
-Source: ..\configuration_11.xrc; DestDir: {app}; Components: MAIN
-Source: ..\configuration_12.xrc; DestDir: {app}; Components: MAIN
 Source: ..\datadir_11.xrc; DestDir: {app}; Components: MAIN
 Source: ..\datadir_12.xrc; DestDir: {app}; Components: MAIN
-Source: ..\diag_11.xrc; DestDir: {app}; Components: MAIN
-Source: ..\diag_12.xrc; DestDir: {app}; Components: MAIN
-Source: ..\eprom_11.xrc; DestDir: {app}; Components: MAIN
-Source: ..\eprom_12.xrc; DestDir: {app}; Components: MAIN
 Source: ..\functionkey_11.xrc; DestDir: {app}; Components: MAIN
 Source: ..\functionkey_12.xrc; DestDir: {app}; Components: MAIN
 Source: ..\keymap_11.xrc; DestDir: {app}; Components: MAIN
@@ -60,38 +52,8 @@ Source: ..\keymap_tmc_11.xrc; DestDir: {app}; Components: MAIN
 Source: ..\keymap_tmc_12.xrc; DestDir: {app}; Components: MAIN
 Source: ..\main_11.xrc; DestDir: {app}; Components: MAIN
 Source: ..\main_12.xrc; DestDir: {app}; Components: MAIN
-Source: ..\menu_Cas_Mem_11.xrc; DestDir: {app}; Components: MAIN
-Source: ..\menu_Cas_Mem_12.xrc; DestDir: {app}; Components: MAIN
-Source: ..\menuComx_11.xrc; DestDir: {app}; Components: MAIN
-Source: ..\menuComx_12.xrc; DestDir: {app}; Components: MAIN
-Source: ..\menuCosmicos_11.xrc; DestDir: {app}; Components: MAIN
-Source: ..\menuCosmicos_12.xrc; DestDir: {app}; Components: MAIN
-Source: ..\menuFred_11.xrc; DestDir: {app}; Components: MAIN
-Source: ..\menuFred_12.xrc; DestDir: {app}; Components: MAIN
-Source: ..\menuElf_11.xrc; DestDir: {app}; Components: MAIN
-Source: ..\menuElf_12.xrc; DestDir: {app}; Components: MAIN
-Source: ..\menuElf2K_11.xrc; DestDir: {app}; Components: MAIN
-Source: ..\menuElf2K_12.xrc; DestDir: {app}; Components: MAIN
-Source: ..\menuMembership_11.xrc; DestDir: {app}; Components: MAIN
-Source: ..\menuMembership_12.xrc; DestDir: {app}; Components: MAIN
-Source: ..\menuMicroboard_11.xrc; DestDir: {app}; Components: MAIN
-Source: ..\menuMicroboard_12.xrc; DestDir: {app}; Components: MAIN
-Source: ..\menuMS2000_11.xrc; DestDir: {app}; Components: MAIN
-Source: ..\menuMS2000_12.xrc; DestDir: {app}; Components: MAIN
-Source: ..\menuPecom_11.xrc; DestDir: {app}; Components: MAIN
-Source: ..\menuPecom_12.xrc; DestDir: {app}; Components: MAIN
-Source: ..\menuTMC600_11.xrc; DestDir: {app}; Components: MAIN
-Source: ..\menuTMC600_12.xrc; DestDir: {app}; Components: MAIN
-Source: ..\menuVelf_11.xrc; DestDir: {app}; Components: MAIN
-Source: ..\menuVelf_12.xrc; DestDir: {app}; Components: MAIN
-Source: ..\menuVip_11.xrc; DestDir: {app}; Components: MAIN
-Source: ..\menuVip_12.xrc; DestDir: {app}; Components: MAIN
 Source: ..\menuXml_11.xrc; DestDir: {app}; Components: MAIN
 Source: ..\menuXml_12.xrc; DestDir: {app}; Components: MAIN
-Source: ..\microsetup_11.xrc; DestDir: {app}; Components: MAIN
-Source: ..\microsetup_12.xrc; DestDir: {app}; Components: MAIN
-Source: ..\ports_11.xrc; DestDir: {app}; Components: MAIN
-Source: ..\ports_12.xrc; DestDir: {app}; Components: MAIN
 Source: ..\sb_11.xrc; DestDir: {app}; Components: MAIN
 Source: ..\sb_12.xrc; DestDir: {app}; Components: MAIN
 Source: ..\splash_11.xrc; DestDir: {app}; Components: MAIN
@@ -115,37 +77,6 @@ Source: ..\README-SDL.txt; DestDir: {app}; Components: MAIN
 Source: ..\LGPL.txt; DestDir: {app}; Components: MAIN
 Source: ..\COPYING - curl; DestDir: {app}; Components: MAIN
 Source: ..\data\data dir for portable mode.txt; DestDir: {app}\data; Components: MAIN
-Source: ..\Configurations Windows\CDP18S020\*.*; DestDir: {app}\Configurations\CDP18S020; Components: MAIN
-Source: ..\Configurations Windows\Cidelsa\*.*; DestDir: {app}\Configurations\Cidelsa; Components: MAIN
-Source: ..\Configurations Windows\Comx\*.*; DestDir: {app}\Configurations\Comx; Components: MAIN
-Source: ..\Configurations Windows\Cosmicos\*.*; DestDir: {app}\Configurations\Cosmicos; Components: MAIN
-Source: ..\Configurations Windows\CoinArcade\*.*; DestDir: {app}\Configurations\CoinArcade; Components: MAIN
-Source: ..\Configurations Windows\Elf\*.*; DestDir: {app}\Configurations\Elf; Components: MAIN
-Source: ..\Configurations Windows\Elf2K\*.*; DestDir: {app}\Configurations\Elf2K; Components: MAIN
-Source: ..\Configurations Windows\Eti\*.*; DestDir: {app}\Configurations\Eti; Components: MAIN
-Source: ..\Configurations Windows\FRED1\*.*; DestDir: {app}\Configurations\FRED1; Components: MAIN
-Source: ..\Configurations Windows\FRED1_5\*.*; DestDir: {app}\Configurations\FRED1_5; Components: MAIN
-Source: ..\Configurations Windows\MCDS\*.*; DestDir: {app}\Configurations\MCDS; Components: MAIN
-Source: ..\Configurations Windows\Membership\*.*; DestDir: {app}\Configurations\Membership; Components: MAIN
-Source: ..\Configurations Windows\Microboard\*.*; DestDir: {app}\Configurations\Microboard; Components: MAIN
-Source: ..\Configurations Windows\Microtutor\*.*; DestDir: {app}\Configurations\Microtutor; Components: MAIN
-Source: ..\Configurations Windows\MicrotutorII\*.*; DestDir: {app}\Configurations\MicrotutorII; Components: MAIN
-Source: ..\Configurations Windows\MS2000\*.*; DestDir: {app}\Configurations\MS2000; Components: MAIN
-Source: ..\Configurations Windows\Nano\*.*; DestDir: {app}\Configurations\Nano; Components: MAIN
-Source: ..\Configurations Windows\Pecom\*.*; DestDir: {app}\Configurations\Pecom; Components: MAIN
-Source: ..\Configurations Windows\Pico\*.*; DestDir: {app}\Configurations\Pico; Components: MAIN
-Source: ..\Configurations Windows\StudioII\*.*; DestDir: {app}\Configurations\StudioII; Components: MAIN
-Source: ..\Configurations Windows\StudioIV\*.*; DestDir: {app}\Configurations\StudioIV; Components: MAIN
-Source: ..\Configurations Windows\TMC600\*.*; DestDir: {app}\Configurations\TMC600; Components: MAIN
-Source: ..\Configurations Windows\TMC1800\*.*; DestDir: {app}\Configurations\TMC1800; Components: MAIN
-Source: ..\Configurations Windows\TMC2000\*.*; DestDir: {app}\Configurations\TMC2000; Components: MAIN
-Source: ..\Configurations Windows\UC1800\*.*; DestDir: {app}\Configurations\UC1800; Components: MAIN
-Source: ..\Configurations Windows\Velf\*.*; DestDir: {app}\Configurations\Velf; Components: MAIN
-Source: ..\Configurations Windows\Victory\*.*; DestDir: {app}\Configurations\Victory; Components: MAIN
-Source: ..\Configurations Windows\Vip\*.*; DestDir: {app}\Configurations\Vip; Components: MAIN
-Source: ..\Configurations Windows\VipII\*.*; DestDir: {app}\Configurations\VipII; Components: MAIN
-Source: ..\Configurations Windows\Vip2K\*.*; DestDir: {app}\Configurations\Vip2K; Components: MAIN
-Source: ..\Configurations Windows\Visicom\*.*; DestDir: {app}\Configurations\Visicom; Components: MAIN
 Source: ..\data\keydefinition.txt; DestDir: {app}\data; Components: MAIN
 Source: ..\data\keydefinition_studio.txt; DestDir: {app}\data; Components: MAIN
 Source: ..\data\multi-cart.txt; DestDir: {app}\data; Components: MAIN
@@ -257,6 +188,7 @@ Source: ..\data\Victory\*.*; DestDir: {app}\data\Victory; Components: MAIN
 Source: ..\data\Vip\*.*; DestDir: {app}\data\Vip; Components: MAIN
 Source: ..\data\Vip2K\*.*; DestDir: {app}\data\Vip2K; Components: MAIN
 Source: ..\data\VipII\*.*; DestDir: {app}\data\VipII; Components: MAIN
+Source: ..\data\VIS1802\*.*; DestDir: {app}\data\VIS1802; Components: MAIN
 Source: ..\data\Visicom\*.*; DestDir: {app}\data\Visicom; Components: MAIN
 Source: ..\data\Xml\*.*; DestDir: {app}\data\Xml; Components: MAIN
 Source: ..\data\Xml\CDP18S020\*.*; DestDir: {app}\data\Xml\CDP18S020; Components: MAIN
@@ -302,6 +234,7 @@ Source: ..\data\Xml\Velf\*.*; DestDir: {app}\data\Xml\Velf; Components: MAIN
 Source: ..\data\Xml\Vip\*.*; DestDir: {app}\data\Xml\Vip; Components: MAIN
 Source: ..\data\Xml\Vip2K\*.*; DestDir: {app}\data\Xml\Vip2K; Components: MAIN
 Source: ..\data\Xml\VipII\*.*; DestDir: {app}\data\Xml\VipII; Components: MAIN
+Source: ..\data\Xml\VIS1802\*.*; DestDir: {app}\data\Xml\VIS1802; Components: MAIN
 Source: ..\data\Xml\Visicom\*.*; DestDir: {app}\data\Xml\Visicom; Components: MAIN
 Source: ..\images\*.*; DestDir: {app}\images; Components: MAIN
 Source: ..\src\*.*; DestDir: {app}\src; Components: SOURCEFILES

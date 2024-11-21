@@ -11,7 +11,7 @@ The installation procedure for Elf/Os described below makes use of the adapted v
 <p>
 The following example will install Elf/Os 2.5 via TMS 9918 video. The same procedure can be used for other video types. </p>
 <p>
-To start installation, first load one of the configuration with the menu option below (blue ellipse) following the grey menu:
+To start installation, first load one of the configuration with the menu option below (highlighted in blue) following the grey menu:
 </p>
 <p>
 <IMG SRC="images/elf_elfos_biosio.png" BORDER="0">
@@ -141,7 +141,7 @@ Wait until the Elf/OS Ready prompt comes back and switch off the Elf system.
 8. Start Elf/Os 
 </h2>
 <p>
-From this time on you can start Elf/Os directly by loading one of the configuration with the menu option below (blue ellipse) following the grey menu:
+From this time on you can start Elf/Os directly by loading one of the configuration with the menu option below (highlighted in blue) following the grey menu:
 </p>
 <p>
 <IMG SRC="images/elf_elfos_biosio_run.png" BORDER="0">

@@ -6,13 +6,13 @@
 This emulator will emulate the FRED 1.5 computer. The FRED (Flexible Recreational and Educational Device) concept was used by RCA for multiple prototype computers eventually resulting in the release of computers like the VIP and Studio II. The FRED 1.5 emulated by Emma 02 is based on the information found in this <a href="http://www.retrotechnology.com/memship/Sarnoff_FRED_manual_W_R_H.pdf">manual</a> as well as Paul Robson's <a href="https://github.com/paulscottrobson/fred">FRED emulator</a>. 
 </p>
 <p>
-To start the FRED 1.5 emulator first select the RCA tab (yellow ellipse) followed by the FRED 1.5 tab (orange ellipse) and then press Start:
+To start the FRED 1.5 emulator first select the RCA tab (highlighted in yellow) followed by the FRED 1.5 tab (highlighted in orange) and then press Start:
 </p>
 <p>
 <IMG SRC="images/fred1.5.png" BORDER="0">
 </p>
 <p>
-The above will have started the default FED 1.5 emulator configuration which is running the Curses Foiled Again game. To change to other predefined configurations load one of them with the menu option below (blue ellipse) following the grey menu:
+The above will have started the default FED 1.5 emulator configuration which is running the Curses Foiled Again game. To change to other predefined configurations load one of them with the menu option below (highlighted in blue) following the grey menu:
 </p>
 <p>
 <IMG SRC="images/fred1.5_configuration.png" BORDER="0">
@@ -39,13 +39,12 @@ The FRED 1.5 is very similar to the FRED 1 but is running on the CDP 1801 instea
 The Interlace checkbox will change from the 'dot' screen to full use of all pixels. According to the FRED documentation the dotted screen was used.
 </p>
 <p>
-This chapter includes:
+This section includes:
 </p>
 <p>
 <a href="Fred1.5Ram.htm">RAM Files and Size</a><br>
 <a href="Fred1.5Windows.htm">Control Windows</a><br>
 <a href="Fred1.5Key.htm">Keyboard Mapping</a><br>
-<a href="Fred1.5Boot.htm">Boot Method</a><br>
 <a href="Fred1.5Cassette.htm">Cassette Support</a><br>
 <a href="Fred1.5Software.htm">Software</a><br>
 </p>

@@ -29,10 +29,11 @@
 #include "main.h"
 #include "led.h"
 
-Led::Led(wxDC& dc, int x, int y, int ledType)
+Led::Led(wxDC& dc, int x, int y, int ledType, bool reversePol)
 {
     status_ = 0;
     ledType_ = ledType;
+    reversePol_ = reversePol;
 
     x_ = x;
     y_ = y;
@@ -135,9 +136,13 @@ Led::~Led()
 
 void Led::onPaint(wxDC& dc)
 {
+    int status = status_;
+    if (reversePol_)
+        status = status ^ 1;
+    
     if (ledType_ == LED_LARGE_GREEN || ledType_ == LED_SMALL_RED_DISABLE)
     {
-        switch (status_)
+        switch (status)
         {
             case 0:
                 dc.DrawBitmap(*ledOffBitmapPointer, x_, y_, true);
@@ -155,7 +160,7 @@ void Led::onPaint(wxDC& dc)
     }
     else
     {
-        if (status_)
+        if (status&1)
             dc.DrawBitmap(*ledOnBitmapPointer, x_, y_, true);
         else
             dc.DrawBitmap(*ledOffBitmapPointer, x_, y_, true);

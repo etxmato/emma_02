@@ -1,0 +1,18 @@
+<HTML>
+<Title>Key File</Title>
+<BODY>
+<h2>Key File</h2>
+<p>
+For generic use of the key file see the section: <a href="MainKeyFile.htm">Key File</a>. This section describes some specifics for use of the key file with the COMX emulator.
+</p>
+<p>
+Specify one extra 'empty line' at the start of the COMX key file to allow the COMX to start basic (see also keyfile example in Comx directory).
+</p>
+<p>
+As only capital characters are used in COMX Basic, the Key File function for the COMX will translate all capital characters in the file as a 'non shift' key press. I.e. capital 'A' in the file will also result in an 'A' on the COMX. To get the shift A character typed on the COMX you need to specify 'a' in the file.
+</p>
+<p>
+Included are some 'BASIC' key file examples, one very simple (Comx Key File Example), 'Recall Basic' which when used as key file will recover the basic program after a reset (you need to include 0 REM as first line) and 'Trainspotting' which is the listing of that game which can be used to 're-type' the complete game.
+</p>
+</BODY>
+</HTML>

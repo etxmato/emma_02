@@ -7,7 +7,7 @@ public:
     CvKeypad ();
     ~CvKeypad () {};
 
-    void configure(IoConfiguration portConf);
+    void configure(CvKeypadConfiguration cvKeypadConfiguration);
     
     void keyDown(int keycode, wxKeyEvent& event);
     void keyUp(int keycode, wxKeyEvent& event);
@@ -16,7 +16,7 @@ public:
     Byte ef();
 
 private:
-    IoConfiguration ioConfiguration_;
+    CvKeypadConfiguration cvKeypadConfiguration_;
 
     Byte keyboardCode_;
     Byte keyPressed_;

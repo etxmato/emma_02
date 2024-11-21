@@ -7,18 +7,233 @@
         <name>Infinite UC1800</name>
         <config>Bare</config>
         <clock>1.75</clock>
-        <init type="ef1">1</init>
-        <init type="ef2">1</init>
-        <init type="ef3">1</init>
-        <init type="ef4">1</init>
+        <init ef="1">1</init>
+        <init ef="2">1</init>
+        <init ef="3">1</init>
+        <init ef="4">1</init>
         <dirname>UC1800</dirname>
     </system>
     
-    <frontpanel type="uc1800" init="on">
+    <frontpanel init="on">
         <out>1</out>
         <in>1</in>
         <ef type="start">1</ef>
-        <til font="italic">313</til>
+        <size>464, 264</size>
+        <item>
+            <type>png</type>
+            <filename dirname="images">uc1800.png</filename>
+        </item>
+        <item>
+            <type>led</type>
+            <function>qled</function>
+            <pos>116, 44</pos>
+        </item>
+        <item>
+            <type form="313" font="italic">til</type>
+            <value>2</value>
+            <function cycle="show">addresstil</function>
+            <pos>200, 18</pos>
+        </item>
+        <item>
+            <type form="313" font="italic">til</type>
+            <value>3</value>
+            <function cycle="show">addresstil</function>
+            <pos>224, 18</pos>
+        </item>
+        <item>
+            <type form="313" font="italic">til</type>
+            <value>0</value>
+            <function>datatil</function>
+            <pos>330, 18</pos>
+        </item>
+        <item>
+            <type form="313" font="italic">til</type>
+            <value>1</value>
+            <function>datatil</function>
+            <pos>354, 18</pos>
+        </item>
+        <item>
+            <type form="round" color="red">push</type>
+            <init>up</init>
+            <function>reset</function>
+            <pos>25, 114</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <function>step</function>
+            <init>down</init>
+            <pos>85, 114</pos>
+        </item>
+        <item>
+            <type form="round" color="black">push</type>
+            <init>up</init>
+            <function type="uc1800" action="both">run</function>
+            <pos>160, 114</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <function>power</function>
+            <init>up</init>
+            <pos>25, 188</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <function>load</function>
+            <init>up</init>
+            <pos>85, 188</pos>
+        </item>
+        <item>
+            <type form="round" color="black">push</type>
+            <init>up</init>
+            <function>in</function>
+            <pos>160, 188</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>1</value>
+            <function>powerled</function>
+            <pos>32, 245</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>0</value>
+            <function>nibbleled</function>
+            <pos>370, 110</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>1</value>
+            <function>nibbleled</function>
+            <pos>347, 110</pos>
+        </item>
+        <item>
+            <type size="small" form="rectangle">push</type>
+            <function>hex</function>
+            <value>0</value>
+            <label>0</label>
+            <pos>300, 131</pos>
+            <size>26, 20</size>
+        </item>
+        <item>
+            <type size="small" form="rectangle">push</type>
+            <function>hex</function>
+            <value>1</value>
+            <label>1</label>
+            <pos>332, 131</pos>
+            <size>26, 20</size>
+        </item>
+        <item>
+            <type size="small" form="rectangle">push</type>
+            <function>hex</function>
+            <value>2</value>
+            <label>2</label>
+            <pos>364, 131</pos>
+            <size>26, 20</size>
+        </item>
+        <item>
+            <type size="small" form="rectangle">push</type>
+            <function>hex</function>
+            <value>3</value>
+            <label>3</label>
+            <pos>396, 131</pos>
+            <size>26, 20</size>
+        </item>
+        <item>
+            <type size="small" form="rectangle">push</type>
+            <function>hex</function>
+            <value>4</value>
+            <label>4</label>
+            <pos>300, 158</pos>
+            <size>26, 20</size>
+        </item>
+        <item>
+            <type size="small" form="rectangle">push</type>
+            <function>hex</function>
+            <value>5</value>
+            <label>5</label>
+            <pos>332, 158</pos>
+            <size>26, 20</size>
+        </item>
+        <item>
+            <type size="small" form="rectangle">push</type>
+            <function>hex</function>
+            <value>6</value>
+            <label>6</label>
+            <pos>364, 158</pos>
+            <size>26, 20</size>
+        </item>
+        <item>
+            <type size="small" form="rectangle">push</type>
+            <function>hex</function>
+            <value>7</value>
+            <label>7</label>
+            <pos>396, 158</pos>
+            <size>26, 20</size>
+        </item>
+        <item>
+            <type size="small" form="rectangle">push</type>
+            <function>hex</function>
+            <value>8</value>
+            <label>8</label>
+            <pos>300, 185</pos>
+            <size>26, 20</size>
+        </item>
+        <item>
+            <type size="small" form="rectangle">push</type>
+            <function>hex</function>
+            <value>9</value>
+            <label>9</label>
+            <pos>332, 185</pos>
+            <size>26, 20</size>
+        </item>
+        <item>
+            <type size="small" form="rectangle">push</type>
+            <function>hex</function>
+            <value>10</value>
+            <label>A</label>
+            <pos>364, 185</pos>
+            <size>26, 20</size>
+        </item>
+        <item>
+            <type size="small" form="rectangle">push</type>
+            <function>hex</function>
+            <value>11</value>
+            <label>B</label>
+            <pos>396, 185</pos>
+            <size>26, 20</size>
+        </item>
+        <item>
+            <type size="small" form="rectangle">push</type>
+            <function>hex</function>
+            <value>12</value>
+            <label>C</label>
+            <pos>300, 212</pos>
+            <size>26, 20</size>
+        </item>
+        <item>
+            <type size="small" form="rectangle">push</type>
+            <function>hex</function>
+            <value>13</value>
+            <label>E</label>
+            <pos>332, 212</pos>
+            <size>26, 20</size>
+        </item>
+        <item>
+            <type size="small" form="rectangle">push</type>
+            <function>hex</function>
+            <value>14</value>
+            <label>E</label>
+            <pos>364, 212</pos>
+            <size>26, 20</size>
+        </item>
+        <item>
+            <type size="small" form="rectangle">push</type>
+            <function>hex</function>
+            <value>15</value>
+            <label>F</label>
+            <pos>396, 212</pos>
+            <size>26, 20</size>
+        </item>
     </frontpanel>
 
      <memory>

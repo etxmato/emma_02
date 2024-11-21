@@ -8,7 +8,7 @@ class SN76430N : public Video
 {
 public:
 
-    SN76430N(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, int computerType, double clock, double videoClock, IoConfiguration ioConfiguration, int videoNumber);
+    SN76430N(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double clock, double videoClock, Sn76430NConfiguration sn76430NConfiguration);
     ~SN76430N();
 
     void focus();
@@ -41,9 +41,7 @@ private:
 
     bool updateCharacter_;
     wxSize saveWindowSize_;
-    
-    IoConfiguration ioConfiguration_;
-    
+        
     DECLARE_EVENT_TABLE()
 };
 

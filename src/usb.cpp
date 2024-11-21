@@ -3348,11 +3348,6 @@ void Usbcard::deleteAllBackup(wxString directory, bool sub)
     delete dir;
 }
 
-void Usbcard::onBackupYes(wxString dir, bool sub)
-{
-    deleteAllBackup(dir, sub);
-}
-
 void Usbcard::convertSyncToScores()
 {
     int pos;
@@ -3367,7 +3362,7 @@ void Usbcard::convertSyncToScores()
     
     wxCurlHTTP http("http://www.comx35.com/comx35sbhs/raw.php");
     
-    wxString filename = p_Main->getRomDir(COMX, 0)+"errorfile.txt";
+    wxString filename = p_Main->getDataDir()+"errorfile.txt";
     
     if (!http.Get(html_stream))
     {

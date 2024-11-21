@@ -1,9 +1,0 @@
-<HTML>
-<Title>RAM Size</Title>
-<BODY>
-<h2>RAM Size</h2>
-<p>
-To specify the RAM size of the emulated TMC-600 use the 'RAM' choice button. As far as I know only sizes 8, 16 and 24 Kb were ever made available, 37 Kb is included in the emulator as this is theoretical possible.
-</p>
-</BODY>
-</HTML>

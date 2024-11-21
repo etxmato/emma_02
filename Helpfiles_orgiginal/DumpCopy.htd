@@ -1,0 +1,12 @@
+<html>
+<title>Copy</title>
+<body>
+<h1>Copy</h1>
+<p>
+To copy memory values within the CPU or video memory space use the 'Copy' button (yellow ellipse). First make sure to specify start and end address (orange ellipse) of the source and start address (blue ellipse) of the destination location, all in hexadecimal format.
+</p>
+<p>
+<IMG SRC="images/dump_copy.png" BORDER="0">
+</p>
+</body>
+</html>

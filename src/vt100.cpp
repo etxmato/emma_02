@@ -88,16 +88,15 @@ int baudRateFactor_[] =
 //    38400, 19200, 9600, 4800, 3600, 2400, 2000, 1800, 1200, 600, 300, 200,  150,  134,  110,  75,   50
 };
 
-Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, int computerType, double clock, ElfConfiguration elfConf, int uartNumber)
+Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double clock, ComputerConfiguration computerConfig, int uartNumber)
 : Video(title, pos, size)
 {
-    elfConfiguration_ = elfConf;
-    computerType_ = computerType;
-    vtType_ = elfConfiguration_.vtType;
+    currentComputerConfiguration = computerConfig;
+    vtType_ = currentComputerConfiguration.videoTerminalConfiguration.type;
     clock_ = clock;
     uartNumber_ = uartNumber;
     
-    videoScreenPointer = new VideoScreen(this, size, zoom, computerType, true, uartNumber);
+    videoScreenPointer = new VideoScreen(this, size, zoom, true, uartNumber);
 #ifndef __WXMAC__
     SetIcon(wxICON(app_icon));
 #endif
@@ -107,78 +106,16 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     videoType_ = VIDEOVT;
     uartEf_ = false;
     uartControl_ = 0;
-    switch(computerType_)
-    {
-        case ELF:
-            computerTypeStr_ = "Elf";
-        break;
-
-        case ELFII:
-            computerTypeStr_ = "ElfII";
-        break;
-
-        case ELF2K:
-            computerTypeStr_ = "Elf2K";
-        break;
-
-        case SUPERELF:
-            computerTypeStr_ = "SuperElf";
-        break;
-
-        case XML:
-            computerTypeStr_ = "Xml";
-            colourIndex_ = COL_VT_FORE;
-        break;
-
-        case PICO:
-            computerTypeStr_ = "Pico";
-        break;
-
-        case COSMICOS:
-            computerTypeStr_ = "Cosmicos";
-        break;
-        case MEMBER:
-            computerTypeStr_ = "Membership";
-        break;
-        case VIP:
-            computerTypeStr_ = "Vip";
-            colourIndex_ = 12;
-        break;
-        case VIP2K:
-            computerTypeStr_ = "Vip2K";
-        break;
-        case VELF:
-            computerTypeStr_ = "Velf";
-        break;
-        case CDP18S020:
-            computerTypeStr_ = "CDP18S020";
-        break;
-        case MICROBOARD:
-            computerTypeStr_ = "Microboard";
-            colourIndex_ = COL_VT_FORE;
-            videoType_ = VIDEOMICROVT;
-            uartEf_ = true;
-        break;
-        case MCDS:
-            computerTypeStr_ = "MCDS";
-        break;
-        case MS2000:
-            computerTypeStr_ = "MS2000";
-            uartEf_ = true;
-        break;
-    }
     
-    if (elfConfiguration_.vtShow)
-    {
-        if (vtType_ == VT52)
-            readCharRomFile(computerType_, p_Main->getVt52CharRomDir(computerType_), p_Main->getVt52CharRomFile(computerType_));
-        else
-            readCharRomFile(computerType_, p_Main->getVt100CharRomDir(computerType_), p_Main->getVt100CharRomFile(computerType_));
-    }
-    stretchDot_ = p_Main->getStretchDot(computerType_);
-    serialLog_ = elfConfiguration_.serialLog;
-    uart_ = elfConfiguration_.useUart;
-    uart16450_ = elfConfiguration_.useUart16450;
+    colourIndex_ = COL_VT_FORE;
+    
+    if (currentComputerConfiguration.videoTerminalConfiguration.show)
+        readCharRomFile(p_Main->getVtCharRomDir(), p_Main->getVtCharRomFile());
+
+    stretchDot_ = currentComputerConfiguration.videoTerminalConfiguration.stretchDot;
+    serialLog_ = currentComputerConfiguration.videoTerminalConfiguration.serialLog;
+    uart1854_ = currentComputerConfiguration.videoTerminalConfiguration.uart1854_defined;
+    uart16450_ = currentComputerConfiguration.videoTerminalConfiguration.uart16450_defined;
 
     fullScreenSet_ = false;
     zoom_ = zoom;
@@ -188,7 +125,7 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 
     intensity_ = 1;
     
-    defineColours(computerType_);
+    defineColours();
 
     redFore_ = colour_[colourIndex_].Red();
     greenFore_ = colour_[colourIndex_].Green();
@@ -203,13 +140,13 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     switch (vtType_)
     {
         case VT52:
-            if (computerType_ == COSMICOS)
-                charactersPerRow_ = 64;
+            if (currentComputerConfiguration.videoTerminalConfiguration.charactersPerRow == 64)
+                charactersPerRow_ = currentComputerConfiguration.videoTerminalConfiguration.charactersPerRow;
             else
                 charactersPerRow_ = 80;
-            SetUpFeature_ = elfConfiguration_.vt52SetUpFeature_;
+            SetUpFeature_ = currentComputerConfiguration.videoTerminalConfiguration.vt52SetUpFeature;
             tabs_ = "        T       T       T       T       T       T       T       T       T       T       T       T       T       T       T       T       T";
-            charWidth_ = elfConfiguration_.vt52CharWidth;
+            charWidth_ = currentComputerConfiguration.videoTerminalConfiguration.characterWidth;
             rowsPerFrame_ = 24;
             linesPerCharacter_ = 11;
             heightFactor = 2;
@@ -217,11 +154,11 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
             scrollEnd_ = rowsPerFrame_;
         break;
         case VT100:
-            SetUpFeature_ = elfConfiguration_.vt100SetUpFeature_;
-            tabs_ = p_Main->getConfigItem(computerTypeStr_+"/VT100Tabs", "        T       T       T       T       T       T       T       T       T       T       T       T       T       T       T       T       T");
-            answerBackMessage_ = p_Main->getConfigItem(computerTypeStr_+"/VT100AnswerBack", "                    ");
-            charactersPerRow_ = elfConfiguration_.vtCharactersPerRow;
-            charWidth_ = elfConfiguration_.vt100CharWidth;
+            SetUpFeature_ = currentComputerConfiguration.videoTerminalConfiguration.vt100SetUpFeature;
+            tabs_ = p_Main->getConfigItem("Computer/VT100Tabs", "        T       T       T       T       T       T       T       T       T       T       T       T       T       T       T       T       T");
+            answerBackMessage_ = p_Main->getConfigItem("Computer/VT100AnswerBack", "                    ");
+            charactersPerRow_ = currentComputerConfiguration.videoTerminalConfiguration.charactersPerRow;
+            charWidth_ = currentComputerConfiguration.videoTerminalConfiguration.characterWidth;
             rowsPerFrame_ = 25;
             linesPerCharacter_ = 10;
             heightFactor = 2;
@@ -328,7 +265,6 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
         }
         logFile_.Create(fileName);
     }
-    mcdsRunCommand_ = 0;
     serialOpen_ = false;
     
     uart_da_bit_ = 0;
@@ -364,77 +300,48 @@ Vt100::~Vt100()
     }
 }
 
-void Vt100::configure(int selectedBaudR, int selectedBaudT, IoConfiguration ioConfiguration, Locations addressLocations, wxString saveCommand)
+void Vt100::configure(VideoTerminalConfiguration videoTerminalConfiguration, AddressLocationConfiguration addressLocationConfiguration, wxString saveCommand)
 {
-    addressLocations_ = addressLocations;
+    addressLocations_ = addressLocationConfiguration;
     saveCommand_ = saveCommand;
     
-    configure(selectedBaudR, selectedBaudT, ioConfiguration);
-}
-
-void Vt100::configure(int selectedBaudR, int selectedBaudT, IoConfiguration ioConfiguration)
-{
-    wxString runningComp = p_Main->getRunningComputerStr();
     wxString printBuffer;
     
-    selectedBaudT_ = selectedBaudT;
-    selectedBaudR_ = selectedBaudR;
+    selectedBaudT_ = videoTerminalConfiguration.baudT;
+    selectedBaudR_ = videoTerminalConfiguration.baudR;
     
     baudRateT_ = (int) ((((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_])+0.5);
     baudRateR_ = (int) ((((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudR_])+0.5);
 
-    if (uart_)
-    {
-        configureUart(ioConfiguration);
-    }
+    reverseEf_ = videoTerminalConfiguration.ef.reverse^1;
+
+    if (uart1854_)
+        configureUart1854(videoTerminalConfiguration);
     else
     {
         if (uart16450_)
-        {
-            p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
-            
-            if (vtType_ == VT52)
-                p_Main->message("Configuring VT52 terminal with 16450/550 UART");
-            else
-                p_Main->message("Configuring VT100 terminal with 16450/550 UART");
-            
-            rs232_ = 0;
-        }
+            configureUart16450(videoTerminalConfiguration);
         else
         {
-            reverseEf_ = ioConfiguration.vt100ReverseEf;
-            reverseQ_ = ioConfiguration.vt100ReverseQ;
+            reverseQ_ = videoTerminalConfiguration.reverseQ^1;
             
-            p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
-            
-            dataReadyFlag_ = ioConfiguration.vt100Ef;
-            p_Computer->setEfType(dataReadyFlag_, VT100EF);
-            
+            dataReadyFlag_ = videoTerminalConfiguration.ef.flagNumber;
+
             if (reverseQ_) p_Computer->setFlipFlopQ(1);
             
-            wxString printEfReverse = ", ";
-            wxString printQ = "Serial out: Q";
-            
-            if (reverseEf_ == 0)
-                printEfReverse = "(reversed), ";
-            
-            if (reverseQ_ == 1)
-                printQ = "Serial out: reversed Q";
-            
             if (vtType_ == VT52)
-                p_Main->message("Configuring VT52 terminal");
+                p_Main->configureMessage(&videoTerminalConfiguration.ioGroupVector, "VT52 terminal");
             else
-                p_Main->message("Configuring VT100 terminal");
-            
-            if (ioConfiguration.vt100Output == -1)
-                printBuffer.Printf("	EF %d: serial input", ioConfiguration.vt100Ef);
-            else
-            {
-                p_Computer->setOutType(ioConfiguration.vt100Output, VT100OUT);
-                printBuffer.Printf("	Output %d: vtEnable, EF %d: serial input", ioConfiguration.vt100Output, ioConfiguration.vt100Ef);
-            }
-            printBuffer = printBuffer + printEfReverse + printQ;
+                p_Main->configureMessage(&videoTerminalConfiguration.ioGroupVector, "VT100 terminal");
+          
+            printBuffer = "	Serial out: Q";
+            if (reverseQ_ == 1)
+                printBuffer = "	Serial out: reversed Q";
             p_Main->message(printBuffer);
+
+            p_Computer->setOutType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.output, VIDEO_TERMINAL_OUT, "vtEnable");
+            p_Computer->setEfType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.ef, VIDEO_TERMINAL_EF, "serial input");
+            p_Computer->setCycleType(CYCLE_TYPE_VIDEO_TERMINAL, VIDEO_TERMINAL_CYCLE);
         }
     }
     
@@ -450,215 +357,43 @@ void Vt100::configure(int selectedBaudR, int selectedBaudT, IoConfiguration ioCo
     ctrlvText_ = 0;
 }
 
-void Vt100::configureStandard(int selectedBaudR, int selectedBaudT, int dataReadyFlag)
-{
-    wxString printBuffer;
-    
-    selectedBaudT_ = selectedBaudT;
-    selectedBaudR_ = selectedBaudR;
-    dataReadyFlag_ = dataReadyFlag; // Velf = 2, Member = 3, Mcds, Cosmicos, VIP, CDP18S020 = 4
-    
-    if (computerType_ == VELF || computerType_ == VIP)
-        baudRateT_ = (int) ((((clock_ * 1000000) / 16) / baudRateValue_[selectedBaudT_])+0.5);
-    else
-        baudRateT_ = (int) ((((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_])+0.5);
-    baudRateR_ = baudRateT_;
-    
-    p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
-    p_Computer->setEfType(dataReadyFlag_, VT100EF);
-    
+void Vt100::configureUart1854(VideoTerminalConfiguration videoTerminalConfiguration)
+{    
     if (vtType_ == VT52)
-        p_Main->message("Configuring VT52 terminal");
+        p_Main->configureMessage(&videoTerminalConfiguration.ioGroupVector, "VT52 terminal with CDP1854/UART");
     else
-        p_Main->message("Configuring VT100 terminal");
-    configureQandEfPolarity(dataReadyFlag_, false);
-    printBuffer.Printf("	Transmit baud rate: %d, receive baud rate: %d\n", baudRateValue_[selectedBaudT_], baudRateValue_[selectedBaudR_]);
-    p_Main->message(printBuffer);
+        p_Main->configureMessage(&videoTerminalConfiguration.ioGroupVector, "VT100 terminal with CDP1854/UART");
     
-    vtEnabled_ = 1;
-    vtCount_ = -1;
-    vtOutCount_ = -1;
-    vtOut_ = 0;
-    vt100Ef_ = 1;
-    elfRunCommand_ = 0;
-    ctrlvText_ = 0;
-}
+    p_Computer->setOutType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.uartOut, UART1854_LOAD_TRANSMITTER_OUT, "load transmitter");
+    p_Computer->setInType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.uartIn, UART1854_READ_RECEIVER_IN, "read receiver");
+    p_Computer->setOutType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.uartControl, UART1854_LOAD_CONTROL_OUT, "load control");
+    p_Computer->setInType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.uartStatus, UART1854_READ_STATUS_IN, "read status");
+    p_Computer->setEfType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.ef, VIDEO_TERMINAL_EF, "serial input");
+    p_Computer->setCycleType(CYCLE_TYPE_VIDEO_TERMINAL, VIDEO_TERMINAL_CYCLE);
 
-void Vt100::configureUart(IoConfiguration ioConfiguration)
-{
-    wxString runningComp = p_Main->getRunningComputerStr();
-    
-    int ioGroupNum = 0;
-    if (computerType_ == XML)
-        ioGroupNum = ioConfiguration.uartIoGroup + 1;
-
-    wxString ioGroup = "";
-    if (ioGroupNum != 0)
-        ioGroup.Printf(" on group %d", ioConfiguration.uartIoGroup);
-
-    p_Computer->setOutType(ioGroupNum, ioConfiguration.uartOut, UARTOUT);
-    p_Computer->setInType(ioGroupNum, ioConfiguration.uartIn, UARTIN);
-    p_Computer->setOutType(ioGroupNum, ioConfiguration.uartControl, UARTCONTROL);
-    p_Computer->setInType(ioGroupNum, ioConfiguration.uartStatus, UARTSTATUS);
-    p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
-    
-    wxString printBuffer;
-    
-    if (vtType_ == VT52)
-        p_Main->message("Configuring VT52 terminal with CDP1854/UART" + ioGroup);
-    else
-        p_Main->message("Configuring VT100 terminal with CDP1854/UART" + ioGroup);
-    
-    printBuffer.Printf("	Output %d: load transmitter, input %d: read receiver", ioConfiguration.uartOut, ioConfiguration.uartIn);
-    p_Main->message(printBuffer);
-    
-    printBuffer.Printf("	Output %d: load control, input %d: read status", ioConfiguration.uartControl, ioConfiguration.uartStatus);
-    p_Main->message(printBuffer);
-    
-    p_Computer->setEfTypeAndNumber(-1, ioGroupNum, ioConfiguration.vt100Ef, VT100EF, 0, "serial input");
     rs232_ = 0;
 }
 
-void Vt100::configureUart16450(IoConfiguration ioConfiguration)
+void Vt100::configureUart16450(VideoTerminalConfiguration videoTerminalConfiguration)
 {
-    wxString runningComp = p_Main->getRunningComputerStr();
-
-    wxString ioGroup = "";
-    if (ioConfiguration.uartIoGroup != -1)
-        ioGroup.Printf(" on group %d", ioConfiguration.uartIoGroup);
-
     uart16450_ = true;
 
-    p_Computer->setOutType(ioConfiguration.uartIoGroup+1, ioConfiguration.uartOut, UART16450_OUT);
-    p_Computer->setInType(ioConfiguration.uartIoGroup+1, ioConfiguration.uartIn, UART16450_IN);
-    p_Computer->setOutType(ioConfiguration.uartIoGroup+1, ioConfiguration.uartControl, UART16450_CONTROL);
-    p_Computer->setInType(ioConfiguration.uartIoGroup+1, ioConfiguration.uartStatus, UART16450_STATUS);
+    if (vtType_ == VT52)
+        p_Main->message("Configuring VT52 terminal with 16450/550 UART");
+    else
+        p_Main->message("Configuring VT100 terminal with 16450/550 UART");
 
-    wxString printBuffer;
-    p_Main->message("Configuring 16450 Uart" + ioGroup);
+    p_Computer->setOutType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.uartOut, UART16450_WRITE_REGISTER_OUT, "write selected");
+    p_Computer->setOutType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.uartControl, UART16450_CONTROL_OUT, "register select");
+    p_Computer->setInType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.uartIn, UART16450_READ_REGISTER_IN, "read selected");
+    p_Computer->setInType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.uartStatus, UART16450_READ_STATUS_IN, "read status");
+    p_Computer->setCycleType(CYCLE_TYPE_VIDEO_TERMINAL, VIDEO_TERMINAL_CYCLE);
 
-    printBuffer.Printf("	Output %d: register select, output %d: write selected", ioConfiguration.uartControl, ioConfiguration.uartOut);
-    p_Main->message(printBuffer);
-
-    printBuffer.Printf("	Input %d: read status, input %d: read selected\n", ioConfiguration.uartStatus, ioConfiguration.uartIn);
-    p_Main->message(printBuffer);
-
+    rs232_ = 0;
     registerSelect_ = 0;
     modemControlRegister_ = 0;
     modemStatusRegister_ = 0;
     lineStatusRegister_ = 0xe0;
-}
-
-void Vt100::configureRcasbc(int selectedBaudR, int selectedBaudT)
-{
-    wxString message;
-    
-    selectedBaudT_ = selectedBaudT;
-    selectedBaudR_ = selectedBaudR;
-    
-    baudRateT_ = (int) ((((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_])+0.5);
-    baudRateR_ = (int) ((((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudR_])+0.5);
-
-    p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
-    
-    wxString printBuffer;
-    printBuffer.Printf("	Transmit baud rate: %d, receive baud rate: %d\n", baudRateValue_[selectedBaudT_], baudRateValue_[selectedBaudR_]);
-
-    if (uartNumber_ == UART1)
-    {
-        if (vtType_ == VT52)
-            p_Main->message("Configuring VT52 terminal connected to UART1 with MSM82C51");
-        else
-            p_Main->message("Configuring VT100 terminal connected to UART1 with MSM82C51");
-
-        p_Main->message("	A000-AFFF, 0: Data, 1: Status/Control Word");
-        p_Main->message("	EF4/INT: RxRDY (reversed), EF3: TxRDY");
-    }
-    else
-    {
-        if (vtType_ == VT52)
-            p_Main->message("Configuring VT52 terminal connected to UART2 with MSM82C51");
-        else
-            p_Main->message("Configuring VT100 terminal connected to UART2 with MSM82C51");
-
-        p_Main->message("	B000-BFFF, 0: Data, 1: Status/Control Word");
-        p_Main->message("	EF1: RxRDY, EF2: TxRDY");
-    }
-    
-    p_Main->message(printBuffer);
-
-/*    if (vtType_ == VT52)
-        p_Main->message("Configuring VT52 terminal with MSM82C51/UART2");
-    else
-        p_Main->message("Configuring VT100 terminal with MSM82C51/UART2");
-    p_Main->message("	B000-BFFF, 0: Data, 1: Status/Control Word");
-    p_Main->message("	EF 1: RxRDY, EF2: TxRDY");
-    p_Main->message(printBuffer);*/
-    
-    rs232_ = 0;
-    vtEnabled_ = 1;
-    vtCount_ = -1;
-    vtOutCount_ = -1;
-    vtOut_ = 0;
-    vt100Ef_ = 1;
-    elfRunCommand_ = 0;
-    ctrlvText_ = 0;
-    reverseEf_ = true;
-    dataReadyFlag_ = 0;
-    vtOutBits_ = 10;
-    
-    tab_char = 0x7f;
-
-    uart_da_bit_ = 7;
-    uart_fe_bit_ = 5;
-    uart_tsre_bit_ = 0;
-    uart_thre_bit_ = 2;
-}
-
-void Vt100::configureMs2000(int selectedBaudR, int selectedBaudT)
-{
-    wxString message;
-    
-    selectedBaudT_ = selectedBaudT;
-    selectedBaudR_ = selectedBaudR;
-    
-    baudRateT_ = (int) ((((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_])+0.5);
-    baudRateR_ = (int) ((((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudR_])+0.5);
-
-    p_Computer->setEfType(4, VT100EF);
-    p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
-    
-    wxString groupString;
-    groupString.Printf("%X", elfConfiguration_.uartGroup);
-
-    if (vtType_ == VT52)
-        p_Main->message("Configuring VT52 terminal with CDP1854/UART on group " + groupString);
-    else
-        p_Main->message("Configuring VT100 terminal with CDP1854/UART on group " + groupString);
-    
-    message.Printf("	Output %d: load transmitter, input %d: read receiver", elfConfiguration_.ioConfiguration.uartOut, elfConfiguration_.ioConfiguration.uartOut);
-    p_Main->message(message);
-    message.Printf("	Output %d: load control, input %d: read status", elfConfiguration_.ioConfiguration.uartControl, elfConfiguration_.ioConfiguration.uartControl);
-    p_Main->message(message);
-    p_Main->message("	EF 4: serial input");
-    
-    wxString printBuffer;
-    printBuffer.Printf("	Transmit baud rate: %d, receive baud rate: %d\n", baudRateValue_[selectedBaudT_], baudRateValue_[selectedBaudR_]);
-    p_Main->message(printBuffer);
-    
-    rs232_ = 0;
-    vtEnabled_ = 1;
-    vtCount_ = -1;
-    vtOutCount_ = -1;
-    vtOut_ = 0;
-    vt100Ef_ = 1;
-    elfRunCommand_ = 0;
-    ctrlvText_ = 0;
-    reverseEf_ = true;
-    dataReadyFlag_ = 0;
-    vtOutBits_ = 10;
-    
-    tab_char = 0x7f;
 }
 
 void Vt100::setTabChar(Byte value)
@@ -666,107 +401,9 @@ void Vt100::setTabChar(Byte value)
     tab_char = value;
 }
 
-void Vt100::configureVt2K(int selectedBaudR, int selectedBaudT, IoConfiguration ioConfiguration)
-{
-    wxString runningComp = p_Main->getRunningComputerStr();
-    wxString printBuffer;
-    
-    selectedBaudT_ = selectedBaudT;
-    selectedBaudR_ = selectedBaudR;
-    
-    baudRateT_ = (int) ((((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_])+0.5);
-    baudRateR_ = (int) ((((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudR_])+0.5);
-
-    if (uart_)
-    {
-        p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
-        
-        if (vtType_ == VT52)
-            p_Main->message("Configuring VT52 terminal with 16450/550 UART");
-        else
-            p_Main->message("Configuring VT100 terminal with 16450/550 UART");
-        
-        rs232_ = 0;
-    }
-    else
-    {
-        reverseEf_ = ioConfiguration.vt100ReverseEf; //p_Main->getConfigItem(runningComp+"/Vt100ReverseEf", 1l);
-        reverseQ_ = ioConfiguration.vt100ReverseQ; //p_Main->getConfigItem(runningComp+"/Vt100ReverseQ", 0l);
-        
-        p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
-        dataReadyFlag_ = ioConfiguration.vt100Ef;
-        p_Computer->setEfType(ioConfiguration.vt100Ef, VT100EF);
-        if (reverseQ_) p_Computer->setFlipFlopQ(1);
-        
-        wxString printEfReverse = ", ";
-        wxString printQ = "Serial out: Q";
-        
-        if (reverseEf_ == 0)
-            printEfReverse = "(reversed), ";
-        
-        if (reverseQ_ == 1)
-            printQ = "Serial out: reversed Q";
-        
-        if (vtType_ == VT52)
-            p_Main->message("Configuring VT52 terminal");
-        else
-            p_Main->message("Configuring VT100 terminal");
-        
-        printBuffer.Printf("	EF %d: serial input", ioConfiguration.vt100Ef);
-        printBuffer = printBuffer + printEfReverse + printQ;
-        p_Main->message(printBuffer);
-    }
-    
-    printBuffer.Printf("	Transmit baud rate: %d, receive baud rate: %d\n", baudRateValue_[selectedBaudT_], baudRateValue_[selectedBaudR_]);
-    p_Main->message(printBuffer);
-    
-    vtEnabled_ = 1;
-    vtCount_ = -1;
-    vtOutCount_ = -1;
-    vtOut_ = 0;
-    vt100Ef_ = 1;
-    elfRunCommand_ = 0;
-    ctrlvText_ = 0;
-}
-
-void Vt100::configureQandEfPolarity(int ef, bool vtEnable)
-{
-    wxString efPolarity, qPolarity;
-
-    if (elfConfiguration_.vtEf)
-    {
-        efPolarity = " (reversed)";
-        reverseEf_ = 0;
-    }
-    else
-    {
-        efPolarity = "";
-        reverseEf_ = 1;
-    }
-
-    if (elfConfiguration_.vtQ)
-    {
-        qPolarity = "";
-        reverseQ_ = 0;
-    }
-    else
-    {
-        qPolarity = " (reversed)";
-        reverseQ_ = 1;
-    }
-
-    wxString messageText="";
-
-    if (vtEnable)
-        messageText.Printf("	Output 7: vtEnable, EF %d: serial input", ef);
-    else
-        messageText.Printf("	EF %d: serial input", ef);
-    p_Main->message(messageText + efPolarity + ", Serial out: Q" + qPolarity);
-}
-
 Byte Vt100::ef()
 {
-    return(reverseEf_^vt100Ef_);
+    return (reverseEf_^vt100Ef_);
 }
 
 void Vt100::out(Byte value)
@@ -884,14 +521,14 @@ void Vt100::cycleVt()
     if (setUpMode_)
         return;
 
-    if (uart_ || uart16450_)
+    if (uart1854_ || uart16450_)
     {
         if (vtOutCount_ > 0)
             uartVtOut();
         else
         {
             if (terminalLoad_)
-                p_Computer->dataAvailableVt100(1, uartNumber_);
+                dataAvailableUart(1);
         }
 
         uartVtIn();
@@ -955,10 +592,10 @@ void Vt100::uartVtOut()
             if (--vtOutBits_ == 0)
             {
                 vtOut_ = 0;
-                p_Computer->dataAvailableVt100(1, uartNumber_);
                 uartStatus_[uart_da_bit_] = 1;
                 vtOutCount_ = -1;
                 vtOutBits_=10;
+                dataAvailableUart(1);
                 uartInterrupt();
             }
             if (vtOutBits_ == 11)
@@ -973,9 +610,9 @@ void Vt100::uartVtOut()
     {
         if (vtOutCount_ == 0)
         {
-            p_Computer->dataAvailableVt100(1, uartNumber_);
             uartStatus_[uart_da_bit_] = 1;
             vtOutCount_ = -1;
+            dataAvailableUart(1);
             uartInterrupt();
         }
     }
@@ -1003,7 +640,7 @@ void Vt100::uartVtIn()
         uartStatus_[uart_tsre_bit_] = 1;
         
         vtCount_ = baudRateR_ * 9;
-        uartInterrupt();
+ //       uartInterrupt(); *** needed on Microboard or others?
     }
 }
 
@@ -1129,8 +766,8 @@ bool Vt100::getTerminalLoadByte(Byte* value)
             if (*value == XMODEM_ACK && (xmodemBuffer_[1] == 0 || xmodemBuffer_[0] == 4) && terminalSave_)
             {
                 terminalAck_ = XMODEM_CRC;
-                if (uart_ || uart16450_)
-                    p_Computer->dataAvailableVt100(1, uartNumber_);
+                if (uart1854_ || uart16450_)
+                    dataAvailableUart(1);
             }
             
             dataReady = true;
@@ -1169,7 +806,7 @@ bool Vt100::getTerminalLoadByte(Byte* value)
                         xmodemBufferPointer_ = 133;
                     else
                     {
-                        if (!uart_ && !uart16450_)
+                        if (!uart1854_ && !uart16450_)
                         {
                             terminalLoad_ = false;
                             p_Main->turboOff();
@@ -1245,7 +882,7 @@ void Vt100::readBuffer()
   
     if (useCrc_)
     {
-        switch (p_Main->getPacketSize(computerType_))
+        switch (p_Main->getPacketSize())
         {
             case 0:
                 if (fileSize_ >= 1024)
@@ -1322,7 +959,7 @@ void Vt100::readFilename()
     xmodemBuffer_[index++] = 0;
     xmodemBuffer_[index++] = 0xff;
     
-    wxArrayString terminalFiles = p_Main->getTerminalFiles(computerType_);
+    wxArrayString terminalFiles = p_Main->getTerminalFiles();
     for (size_t i=0; i<terminalFiles[xmodemFileNumber_-1].Len(); i++)
         xmodemBuffer_[index++] = terminalFiles[xmodemFileNumber_-1].GetChar(i);
     
@@ -1386,14 +1023,14 @@ int Vt100::calcrc(char *ptr, int count)
 
 void Vt100::switchQ(int value)
 {
-    if(uart_ || uart16450_)
+    if(uart1854_ || uart16450_)
         return;
     
     if (vtCount_ < 0)
     {
         if (value ^ reverseQ_)
         {
-            vtCount_ = baudRateR_ + baudRateR_ / 2;
+            vtCount_ = baudRateR_ + baudRateR_ / 4;  // changed from /2 to /4 to get MC to run on 4 MHz with VT 9600 baud
             if (SetUpFeature_[VTBITS])
                 vtBits_ = 9;
             else
@@ -1504,25 +1141,6 @@ void Vt100::copyScreen()
         }
     }
 #endif
-}
-
-void Vt100::startElfRun(bool load, bool overRide)
-{
-    load_ = load;
-    if (((p_Computer->getRunState() == RESETSTATE) || overRide) && (p_Computer->getLoadedProgram() != RCABASIC4))
-        elfRunCommand_ = 1;
-    else
-        elfRunCommand_ = 2;
-}
-
-void Vt100::startMcdsRun(bool load)
-{
-    load_ = load;
-    mcdsRunCommand_ = 3;
-    if (p_Computer->getRunState() == RESETSTATE)
-        mcdsRunCommand_ = 1;
-    if (p_Computer->getRunState() == BASICSTATECW)
-        mcdsRunCommand_ = 2;
 }
 
 void Vt100::startXmlRun(bool load, wxString command)
@@ -1724,7 +1342,7 @@ void Vt100::drawCharacter(int pos, int line, Byte v, bool cursor)
                     drawPoint(i+offsetX_, j+offsetY_);
             }
             stretchDot = ((line_byte & 0x80)==0x80) & (stretchDot_ || highlightScr_[line][pos]);
-            if (bitNumber > 0) 
+            if (bitNumber > 0)
             {
                 line_byte <<= 1;
                 bitNumber--;
@@ -1780,7 +1398,7 @@ void Vt100::Vterr()
 {
     escPosition_ = -1;
     
-    if (!elfConfiguration_.escError)
+    if (!currentComputerConfiguration.videoTerminalConfiguration.escError)
         return;
 
     for (Word i=1; i<strlen(escBuffer_); i++) Display(escBuffer_[i], false);
@@ -1888,8 +1506,8 @@ void Vt100::Display(int byt, bool forceDisplay)
                             {
                                 terminalAck_ = 0x86;
                                 xmodemBufferPointer_ = 0;
-                                if (uart_ || uart16450_)
-                                    p_Computer->dataAvailableVt100(1, uartNumber_);
+                                if (uart1854_ || uart16450_)
+                                    dataAvailableUart(1);
                             }
 
                             if (byt == 24)
@@ -2007,8 +1625,8 @@ void Vt100::Display(int byt, bool forceDisplay)
                                     xmodemBufferPointer_ = 0;
                                     xmodemBuffer_[xmodemBufferSize_-1] = 0;
                                 }
-                                if (uart_ || uart16450_)
-                                    p_Computer->dataAvailableVt100(1, uartNumber_);
+                                if (uart1854_ || uart16450_)
+                                    dataAvailableUart(1);
                             }
                             else
                             {
@@ -2040,8 +1658,8 @@ void Vt100::Display(int byt, bool forceDisplay)
                                 xmodemBuffer_[xmodemBufferSize_-1] = 0;
                                 xmodemBuffer_[xmodemBufferSize_-2] = 0;
                             }
-                            if (uart_ || uart16450_)
-                                p_Computer->dataAvailableVt100(1, uartNumber_);
+                            if (uart1854_ || uart16450_)
+                                dataAvailableUart(1);
                         break;
 
                         default:
@@ -2064,8 +1682,8 @@ void Vt100::Display(int byt, bool forceDisplay)
                             if (byt == 4)
                             {
                                 terminalAck_ = 0x86;
-                                if (uart_ || uart16450_)
-                                    p_Computer->dataAvailableVt100(1, uartNumber_);
+                                if (uart1854_ || uart16450_)
+                                    dataAvailableUart(1);
                             }
                             xmodemBuffer_[xmodemBufferPointer_] = byt;
                             xmodemBufferPointer_++;
@@ -2090,8 +1708,8 @@ void Vt100::Display(int byt, bool forceDisplay)
                                     xmodemBufferPointer_ = 0;
                                     xmodemBuffer_[xmodemBufferSize_-1] = 0;
                                 }
-                                if (uart_ || uart16450_)
-                                    p_Computer->dataAvailableVt100(1, uartNumber_);
+                                if (uart1854_ || uart16450_)
+                                    dataAvailableUart(1);
                             }
                             else
                             {
@@ -2160,11 +1778,11 @@ void Vt100::Display(int byt, bool forceDisplay)
                                 case YMODEM_DATA:
                                     if (xmodemBuffer_[0] == 4)
                                     {
-                                        if (xmodemFileNumber_ < p_Main->getNumberOfTerminalFiles(computerType_))
+                                        if (xmodemFileNumber_ < p_Main->getNumberOfTerminalFiles())
                                         {
                                             inputTerminalFile.Close();
                                             xmodemFileNumber_++;
-                                            fileName = p_Main->getTerminalPath(computerType_, (int)xmodemFileNumber_-1);
+                                            fileName = p_Main->getTerminalPath((int)xmodemFileNumber_-1);
                                             if (!fileName.empty())
                                             {
                                                 if (inputTerminalFile.Open(fileName, _("rb")))
@@ -2205,8 +1823,11 @@ void Vt100::Display(int byt, bool forceDisplay)
                         break;
 
                         default:
-                            if (uart_ || uart16450_)
-                                p_Computer->dataAvailableVt100(0, uartNumber_);
+                            if (uart1854_ || uart16450_)
+                            {
+                                dataAvailableUart(0);
+                                clearUartInterrupt();
+                            }
                             terminalLoad_ = false;
                             p_Main->turboOff();
                             inputTerminalFile.Close();
@@ -3160,7 +2781,6 @@ void Vt100::escapeVT100(Byte byt)
 
                             case '9':
                                 SetUpFeature_[VTINTERLACE] = 1;
-                                p_Main->eventSetCheckBox("Interlace"+computerTypeStr_, true);
                                 reDraw_ = true;
                                 error = false;
                             break;
@@ -3248,7 +2868,6 @@ void Vt100::escapeVT100(Byte byt)
 
                             case '9':
                                 SetUpFeature_[VTINTERLACE] = 0;
-                                p_Main->eventSetCheckBox("Interlace"+computerTypeStr_, false);
                                 reDraw_ = true;
                                 error = false;
                             break;
@@ -3499,7 +3118,7 @@ void Vt100::escapeVT100(Byte byt)
 
 void Vt100::dataAvailable()
 {
-    if (!uart_ && !uart16450_)
+    if (!uart1854_ && !uart16450_)
         return;
     
     if (uartEf_)
@@ -3510,7 +3129,7 @@ void Vt100::dataAvailable()
 
 void Vt100::dataAvailable(Byte value)
 {
-    if (!uart_ && !uart16450_)
+    if (!uart1854_ && !uart16450_)
         return;
     
     vtOut_ = value;
@@ -3527,9 +3146,16 @@ void Vt100::dataAvailable(Byte value)
         vtOutCount_ = baudRateT_;
 }
 
-void Vt100::dataAvailableUart16450(bool data)
+void Vt100::dataAvailableUart(bool data)
 {
     lineStatusRegister_[UART_LSR_DR] = data;
+    if (data)
+    {
+        uartStatus_[uart_da_bit_] = 1;
+ //       uartInterrupt();
+    }
+ //   else
+  //      clearUartInterrupt();
 }
 
 void Vt100::framingError(bool data)
@@ -3589,7 +3215,8 @@ Byte Vt100::uartIn()
 {
     framingError(0);
     uartStatus_[uart_da_bit_] = 0;
-    p_Computer->dataAvailableVt100(0, uartNumber_);
+    dataAvailableUart(0);
+    clearUartInterrupt();
     if (ctrlvText_ != 0)
     {
         videoScreenPointer->getKey(0);
@@ -3638,6 +3265,7 @@ Byte Vt100::uart16450In()
 
 Byte Vt100::uartStatus()
 {
+    clearUartInterrupt();
     return uartStatus_.to_ulong();
 }
 
@@ -3658,7 +3286,19 @@ void Vt100::uartInterrupt()
         return;
     
     if ((uartControl_ & 0x20) == 0x20)
-        p_Computer->interrupt();
+        p_Computer->requestInterrupt(INTERRUPT_TYPE_UART, true);
+    vt100Ef_ = 0;
+//        p_Computer->interrupt();
+}
+
+void Vt100::clearUartInterrupt()
+{
+    if (uart16450_)
+        return;
+    
+    if ((uartControl_ & 0x20) == 0x20)
+        p_Computer->requestInterrupt(INTERRUPT_TYPE_UART, false);
+    vt100Ef_ = 1;
 }
 
 void Vt100::getKey()
@@ -3670,33 +3310,17 @@ void Vt100::getKey()
     {
         if (elfRunCommand_ != 0)
         {
-            if (computerType_ == XML)
-                checkXmlCommand();
-            else
-                checkElfCommand();
+            checkXmlCommand();
         }
         else
         {
-            if (mcdsRunCommand_ != 0)
-                checkMcdsCommand();
-            else
+            if (ctrlvText_ != 0)
             {
-                if (ctrlvText_ != 0)
-                {
-                    if (computerType_ == XML)
-                    {
-                        if (p_Computer->checkKeyInputAddress())
-                            checkCtrlvText();
-                    }
-                    else
-                    {
-                        if (p_Computer->getScratchpadRegister(p_Computer->getProgramCounter()) == p_Computer->getBasicExecAddr(BASICADDR_KEY_VT_INPUT))
-                            checkCtrlvText();
-                    }
-                }
-                else if (vtOutCount_ == -1)
-                    vtOut_ = videoScreenPointer->getKey(vtOut_);
+                if (p_Computer->checkKeyInputAddress())
+                    checkCtrlvText();
             }
+            else if (vtOutCount_ == -1)
+                vtOut_ = videoScreenPointer->getKey(vtOut_);
         }
         if (vtOut_ != 0 && cursorPosition_ == (charactersPerRow_ - 9) && vtOut_ != 8)
             bell();
@@ -3739,74 +3363,14 @@ Byte Vt100::checkCtrlvTextUart()
 
     if (ctrlvText_ <= commandText_.Len())
     {
-        p_Computer->dataAvailableVt100(1, uartNumber_);
         uartStatus_[uart_da_bit_] = 1;
+        dataAvailableUart(1);
         uartInterrupt();
     }
     else
         ctrlvText_ = 0;
 
     return key;
-}
-
-void Vt100::checkElfCommand()
-{
-    if (p_Computer->getScratchpadRegister(p_Computer->getProgramCounter()) == 0xe)
-        p_Computer->onInButtonRelease();
-    //SB 1.4/3.0                                                                         RCA                                                                                SB 5.0
-    //            if ((p_Computer->getScratchpadRegister(p_Computer->getProgramCounter()) == 0x2880) || (p_Computer->getScratchpadRegister(p_Computer->getProgramCounter()) == 0xfc19) || (p_Computer->getScratchpadRegister(p_Computer->getProgramCounter()) == 0x34a3))
-    if (p_Computer->getScratchpadRegister(p_Computer->getProgramCounter()) == p_Computer->getBasicExecAddr(BASICADDR_KEY_VT_RESTART))
-        vtOut_ = 13;
-    else
-    {
-        //SB 1.4/3.0                                                                       RCA                                                                                SB 5.0
-        //                if ((p_Computer->getScratchpadRegister(p_Computer->getProgramCounter()) == 0x71) || (p_Computer->getScratchpadRegister(p_Computer->getProgramCounter()) == 0xfc98)|| (p_Computer->getScratchpadRegister(p_Computer->getProgramCounter()) == 0x3428))
-        
-        if (p_Computer->getScratchpadRegister(p_Computer->getProgramCounter()) == p_Computer->getBasicExecAddr(BASICADDR_KEY_VT_INPUT))
-        {
-            if (elfRunCommand_ == 1)
-            {
-                vtOut_ = 'C';
-                elfRunCommand_++;
-            }
-            else if (elfRunCommand_ == 2)
-            {
-                int saveExec = p_Main->pload();
-                if (saveExec == -1)
-                    elfRunCommand_ = 0;
-                else
-                {
-                    if (saveExec == 0)
-                        commandText_ = "RUN";
-                    else
-                    {
-                        wxString buffer;
-                        buffer.Printf("%04x", saveExec);
-                        commandText_ = "PR CALL(@" + buffer + ")";
-                    }
-                    elfRunCommand_++;
-                }
-            }
-            else
-            {
-                if (load_)
-                    elfRunCommand_ = 0;
-                else
-                {
-                    if ((elfRunCommand_ - 2) <= commandText_.Len())
-                    {
-                        vtOut_ = commandText_.GetChar(elfRunCommand_ - 3);
-                        elfRunCommand_++;
-                    }
-                    else
-                    {
-                        vtOut_ = 13;
-                        elfRunCommand_ = 0;
-                    }
-                }
-            }
-        }
-    }
 }
 
 void Vt100::checkXmlCommand()
@@ -3860,69 +3424,6 @@ void Vt100::checkXmlCommand()
     }
 }
 
-void Vt100::checkMcdsCommand()
-{
-    if (p_Computer->getScratchpadRegister(p_Computer->getProgramCounter()) == 0x8107)
-    {
-        vtOut_ = 13;
-        return;
-    }
-
-    if (p_Computer->getScratchpadRegister(p_Computer->getProgramCounter()) != p_Computer->getBasicExecAddr(BASICADDR_KEY_VT_INPUT))
-        return;
-
-    if (mcdsRunCommand_ > 3)
-    {
-        if (load_)
-            mcdsRunCommand_ = 0;
-        else
-        {
-            if ((mcdsRunCommand_ - 3) <= commandText_.Len())
-            {
-                vtOut_ = commandText_.GetChar(mcdsRunCommand_ - 4);
-                mcdsRunCommand_++;
-            }
-            else
-            {
-                vtOut_ = 13;
-                mcdsRunCommand_ = 0;
-            }
-        }
-        return;
-    }
-    if (mcdsRunCommand_ == 3)
-    {
-        int saveExec = p_Main->pload();
-        if (saveExec == -1)
-            mcdsRunCommand_ = 0;
-        else
-        {
-            if (saveExec == 0)
-                commandText_ = "RUN";
-            else
-            {
-                wxString buffer;
-                buffer.Printf("%04x", saveExec);
-                commandText_ = "CALL(@" + buffer + ")";
-            }
-            mcdsRunCommand_++;
-        }
-        return;
-    }
-    if (mcdsRunCommand_ == 2)
-    {
-        vtOut_ = 'C';
-        mcdsRunCommand_++;
-        return;
-    }
-    if (mcdsRunCommand_ == 1)
-    {
-        vtOut_ = 'B';
-        mcdsRunCommand_++;
-        return;
-    }
-}
-
 void Vt100::ResetVt()
 {
     escPosition_ = -1;
@@ -3960,10 +3461,13 @@ void Vt100::terminalSaveVt(wxString fileName, int protocol)
             receivePacket_ = false;
             xmodemBufferSize_ = 132;
             protocol_ = protocol;
-            if (!uart_ && !uart16450_)
+            if (!uart1854_ && !uart16450_)
                 p_Computer->setNotReadyToReceiveData(dataReadyFlag_-1);
             else
-                p_Computer->dataAvailableVt100(1, uartNumber_);
+            {
+                dataAvailableUart(1);
+             //   uartInterrupt();
+            }
             previousByte_ = 0;
         }
     }
@@ -3983,10 +3487,13 @@ void Vt100::terminalYsSaveVt(wxString fileName, int protocol)
     xmodemBufferSize_ = 133;
     protocol_ = protocol;
     xmodemBufferPointer_ = 0;
-    if (!uart_ && !uart16450_)
+    if (!uart1854_ && !uart16450_)
         p_Computer->setNotReadyToReceiveData(dataReadyFlag_-1);
     else
-        p_Computer->dataAvailableVt100(1, uartNumber_);
+    {
+        dataAvailableUart(1);
+        uartInterrupt();
+    }
     previousByte_ = 0;
 }
 
@@ -4017,7 +3524,7 @@ void Vt100::terminalLoadVt(wxString fileName, int protocol)
             sendPacket_ = false;
             xmodemBufferSize_ = 132;
             protocol_ = protocol;
-            if (!uart_ && !uart16450_)
+            if (!uart1854_ && !uart16450_)
                 p_Computer->setNotReadyToReceiveData(dataReadyFlag_-1);
             previousByte_ = 0;
             xmodemBufferPointer_ = xmodemBufferSize_;
@@ -4060,7 +3567,7 @@ void Vt100::terminalStopVt()
     }
 }
 
-bool Vt100::readCharRomFile(int computer, wxString romDir, wxString romFile)
+bool Vt100::readCharRomFile(wxString romDir, wxString romFile)
 {
     wxFFile inFile;
     size_t length;
@@ -4080,7 +3587,7 @@ bool Vt100::readCharRomFile(int computer, wxString romDir, wxString romFile)
     wxString fileName = romDir + romFile;
 
     if (!wxFile::Exists(fileName))
-        p_Main->reInstallOnNotFound(computer, "VT Font");
+        p_Main->reInstallOnNotFound("VT Font");
 
     if (inFile.Open(fileName, "rb"))
     {
@@ -4618,7 +4125,7 @@ void Vt100::setUpA(int key)
             reDraw_ = true;
         break;
         case 57: //9
-            if (computerType_ != COSMICOS)
+            if (charactersPerRow_ != 64)
             {
                 if (charactersPerRow_ == 80)
                 {
@@ -4680,7 +4187,7 @@ bool Vt100::charPressed(wxKeyEvent& event)
                 }
 #endif
                 wxTheClipboard->Close();
-                if (!uart_ && !uart16450_)
+                if (!uart1854_ && !uart16450_)
                     return true;
             }
         }
@@ -4791,30 +4298,25 @@ void Vt100::setUpB(int key)
                 cycleSize_ = (int) (((clock_ * 1000000) / 8) / 50);
             else
                 cycleSize_ = (int) (((clock_ * 1000000) / 8) / 60);
-//            p_Main->setCheckBox("Interlace"+computerTypeStr_, SetUpFeature_[VTINTERLACE] == 1);
             reDraw_ = true;
         break;
         case 55: // 7
             selectedBaudT_--;
             if (selectedBaudT_ < 0)
                 selectedBaudT_ = 15;
-//            baudRateT_ = (int) (((2000000) / 8) / baudRateValue_[selectedBaudT_]);
             baudRateT_ = baudRateFactor_[selectedBaudT_];
             setupBScreen();
             reDraw_ = true;
             p_Main->setBaud(selectedBaudR_, selectedBaudT_);
-//            p_Main->setChoiceSelection("Baud"+computerTypeStr_, 0);
         break;
         case 56: // 8
             selectedBaudR_--;
             if (selectedBaudR_ < 0)
                 selectedBaudR_ = 15;
-//            baudRateR_ = (int) (((2000000) / 8) / baudRateValue_[selectedBaudR_]); 
             baudRateR_ = baudRateFactor_[selectedBaudR_];
             setupBScreen();
             reDraw_ = true;
             p_Main->setBaud(selectedBaudR_, selectedBaudT_);
-//            p_Main->setChoiceSelection("Baud"+computerTypeStr_, 0);
         break;
         case 65: //A
             if (pressedShift_)
@@ -5058,17 +4560,8 @@ void Vt100::setupWaitScreen()
 
 void Vt100::setupSave()
 {
-//    p_Main->setConfigItem(computerTypeStr_+"/Vt_Baud_Transmit", selectedBaudT_);
-//    p_Main->setConfigItem(computerTypeStr_+"/Vt_Baud_Receive", selectedBaudR_);
-//    long value = SetUpFeature_.to_ulong();
-//    p_Main->setConfigItem(computerTypeStr_+"/VT100Setup", value);
-    p_Main->setConfigItem(computerTypeStr_+"/VT100Tabs", tabs_);
-    p_Main->setConfigItem(computerTypeStr_+"/VT100AnswerBack", answerBackMessage_);
-//    p_Main->setConfigItem(computerTypeStr_+"/VT100CharPerRow", charactersPerRow_);
-//    if (vtType_ == VT52)
-//        p_Main->setConfigItem(computerTypeStr_+"/VT52CharWidth", charWidth_);
-//    else
-//        p_Main->setConfigItem(computerTypeStr_+"/VT100CharWidth", charWidth_);
+    p_Main->setConfigItem("Computer/VT100Tabs", tabs_);
+    p_Main->setConfigItem("Computer/VT100AnswerBack", answerBackMessage_);
 
     p_Main->saveSetup(selectedBaudR_, selectedBaudT_, SetUpFeature_, charactersPerRow_, charWidth_);
     reDraw_ = true;
@@ -5076,12 +4569,10 @@ void Vt100::setupSave()
 
 void Vt100::setupLoad()
 {
-    if (computerType_ == COSMICOS)
-        SetUpFeature_ = p_Main->getConfigItem(computerTypeStr_+"/VT100Setup", 0xcad2l);
-    else
-        SetUpFeature_ = p_Main->getConfigItem(computerTypeStr_+"/VT100Setup", 0xca52l);
-    tabs_ = p_Main->getConfigItem(computerTypeStr_+"/VT100Tabs", "        T       T       T       T       T       T       T       T       T       T       T       T       T       T       T       T       T");
-    answerBackMessage_ = p_Main->getConfigItem(computerTypeStr_+"/VT100AnswerBack", "                    ");
+    long value = currentComputerConfiguration.videoTerminalConfiguration.vt100DefaultSetUpFeature.to_ulong();
+    SetUpFeature_ = p_Main->getConfigItem("Computer/VT100Setup/"+currentComputerConfiguration.xmlFileConfiguration.directory+currentComputerConfiguration.xmlFileConfiguration.fileName, value);
+    tabs_ = p_Main->getConfigItem("Computer/VT100Tabs", "        T       T       T       T       T       T       T       T       T       T       T       T       T       T       T       T       T");
+    answerBackMessage_ = p_Main->getConfigItem("Computer/VT100AnswerBack", "                    ");
     reDraw_ = true;
 }
 
@@ -5100,8 +4591,8 @@ void Vt100::bell()
 {
     if (SetUpFeature_[VTBELL])
     {
-        if (elfConfiguration_.vtWavFile_ != "")
-            p_Computer->startWavSound(elfConfiguration_.vtWavFileDir_ + elfConfiguration_.vtWavFile_);
+        if (currentComputerConfiguration.videoTerminalConfiguration.wavFileName != "")
+            p_Computer->startWavSound(currentComputerConfiguration.videoTerminalConfiguration.wavDirectory + currentComputerConfiguration.videoTerminalConfiguration.wavFileName);
         else
         {
             p_Computer->bellOn();

@@ -7,21 +7,170 @@
         <name>COSMAC Elf 2000</name>
         <config>Bare + Switchpad</config>
         <clock>3.5795</clock>
-        <boot>0</boot>
-        <init type="ef1">1</init>
-        <init type="ef2">1</init>
-        <init type="ef3">1</init>
-        <init type="ef4">1</init>
+        <init ef="1">1</init>
+        <init ef="2">1</init>
+        <init ef="3">1</init>
+        <init ef="4">1</init>
         <dirname>Elf2K</dirname>
     </system>
 
-    <frontpanel type="elf2k" init="on">
+    <frontpanel init="on">
         <out>4</out>
         <in>4</in>
         <ef type="in">4</ef>
-        <switch />
+        <size>507, 625</size>
+        <item>
+            <type>png</type>
+            <filename dirname="images">Elf2K.png</filename>
+        </item>
+        <item>
+            <type form="elf2k_power">switch</type>
+            <function>stop</function>
+            <init>down</init>
+            <pos>480, 71</pos>
+        </item>
+        <item>
+            <type form="311">til</type>
+            <value>0</value>
+            <function>datatil</function>
+            <pos>301, 354</pos>
+        </item>
+        <item>
+            <type form="311">til</type>
+            <value>1</value>
+            <function>datatil</function>
+            <pos>337, 354</pos>
+        </item>
+        <item>
+            <type form="311">til</type>
+            <value>0</value>
+            <function>addresstil</function>
+            <pos>147, 354</pos>
+        </item>
+        <item>
+            <type form="311">til</type>
+            <value>1</value>
+            <function>addresstil</function>
+            <pos>182, 354</pos>
+        </item>
+        <item>
+            <type form="311">til</type>
+            <value>2</value>
+            <function>addresstil</function>
+            <pos>217, 354</pos>
+        </item>
+        <item>
+            <type form="311">til</type>
+            <value>3</value>
+            <function>addresstil</function>
+            <pos>252, 354</pos>
+        </item>
+        <item>
+            <type form= "realorange">led</type>
+            <function>qled</function>
+            <pos>50, 354</pos>
+        </item>
+        <item>
+            <type form= "realred">led</type>
+            <function>runled</function>
+            <pos>48, 309</pos>
+        </item>
+        <item>
+            <type form= "realgreen">led</type>
+            <function>loadled</function>
+            <pos>51, 333</pos>
+        </item>
+        <item>
+            <type form= "realorange">led</type>
+            <value>1</value>
+            <function cycle="show">cpustateled</function>
+            <pos>50, 379</pos>
+        </item>
+        <item>
+            <type form= "realorange">led</type>
+            <value>0</value>
+            <function cycle="show">cpustateled</function>
+            <pos>50, 401</pos>
+        </item>
+        <item>
+            <type>png</type>
+            <filename dirname="images">elf2kswitches.png</filename>
+            <pos>28, 460</pos>
+        </item>
+        <item>
+            <type form="round" color="red">push</type>
+            <init>up</init>
+            <function>in_switch</function>
+            <pos>73, 490</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <function>load</function>
+            <init>down</init>
+            <pos>121, 490</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <function>mp</function>
+            <init>down</init>
+            <pos>360, 490</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <function type="switch">run</function>
+            <init>down</init>
+            <pos>408, 490</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>0</value>
+            <function>bitswitch</function>
+            <pos>408, 570</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>1</value>
+            <function>bitswitch</function>
+            <pos>361, 570</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>2</value>
+            <function>bitswitch</function>
+            <pos>313, 570</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>3</value>
+            <function>bitswitch</function>
+            <pos>265, 570</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>4</value>
+            <function>bitswitch</function>
+            <pos>217, 570</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>5</value>
+            <function>bitswitch</function>
+            <pos>169, 570</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>6</value>
+            <function>bitswitch</function>
+            <pos>121, 570</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>7</value>
+            <function>bitswitch</function>
+            <pos>73, 570</pos>
+        </item>
     </frontpanel>
-
+    
     <memory>
         <ram type="gui">
             <start>0x0000</start>

@@ -1,0 +1,31 @@
+<html>
+<title>Key Definition</title>
+<body>
+<h2>Key Definition</h2>
+<p>
+To reset the RCA Video Coin Arcade emulator, press the F12 key. See also <a href="MainFunctionKeys.htm">Function and Hot Keys</a>.
+</p>
+<p>
+Default the keys are mapped as shown below, additional 'C' is mapped to the 'coin detector'. To change and view the keypad to PC key mapping select the 'Key Map' button,. 
+</p>
+<p>
+Mapping of the keys are laid out as follows:
+</p>
+<p>
+PC keys for player A mapping:
+</p>
+<table BORDER COLS=3 WIDTH="30%" >
+<tr><td><center><b></b></center></td><td><center><b>arrow up</b></center></td><td><center><b></b></center></td></tr>
+<tr><td><center><b>arrow left</b></center></td><td><center><b>space</b></center></td><td><center><b>arrow right</b></center></td></tr>
+<tr><td><center><b></b></center></td><td><center><b>arrow down</b></center></td><td><center><b></b></center></td></tr>
+</table>
+<p>
+PC keys for player B mapping:
+</p>
+<table BORDER COLS=3 WIDTH="30%" >
+<tr><td><center><b></b></center></td><td><center><b>W</b></center></td><td><center><b></b></center></td></tr>
+<tr><td><center><b>A</b></center></td><td><center><b>TAB</b></center></td><td><center><b>S</b></center></td></tr>
+<tr><td><center><b></b></center></td><td><center><b>Z</b></center></td><td><center><b></b></center></td></tr>
+</table>
+<p>
+</body></html>

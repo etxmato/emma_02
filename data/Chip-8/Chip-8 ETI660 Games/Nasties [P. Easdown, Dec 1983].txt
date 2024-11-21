@@ -1,0 +1,10 @@
+NASTIES 
+
+This is a game of speed. The aim of the game is to run over’ all of the black dots with your flashing dot, as fast as possible. 
+
+At the bottom of the screen your score is shown along with the time left. The maximum time is about two minutes and twenty seconds. 
+
+To move your dot use these keys: 4 — left; 6 — right; 8 — up; 2 — down. 
+
+To load this program use 0600 at 0400 and 07FF at 0402. 
+

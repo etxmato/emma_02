@@ -8,10 +8,10 @@
         <config>1.5, NTSC</config>
         <clock>4.0</clock>
         <boot>0</boot>
-        <init type="ef1">1</init>
-        <init type="ef2">1</init>
-        <init type="ef3">1</init>
-        <init type="ef4">1</init>
+        <init ef="1">1</init>
+        <init ef="2">1</init>
+        <init ef="3">1</init>
+        <init ef="4">1</init>
         <dirname>Vip2K</dirname>
     </system>
 
@@ -86,7 +86,7 @@
         <ef3 type="mod">shift</ef3>
     </efbuttons>
 
-    <bitkeypad pad="1">
+    <keypad type="bit" pad="1">
         <in>1</in>
         <pressed>0</pressed>
         <repeat>off</repeat>
@@ -111,9 +111,9 @@
         <bit0 ef="2">58</bit0>   <!-- CONTROL 5 -> : -->
         <bit2 ef="2">93</bit2>   <!-- CONTROL G -> ] -->
         <bit7 ef="2">43</bit7>   <!-- CONTROL 6 -> + -->
-    </bitkeypad>
+    </keypad>
     
-    <bitkeypad pad="2">
+    <keypad type="bit" pad="2">
         <in>2</in>
         <pressed>0</pressed>
         <repeat>off</repeat>
@@ -140,9 +140,9 @@
         <bit4 ef="2">60</bit4>   <!-- CONTROL M -> < -->
         <bit5 ef="2">125</bit5>  <!-- CONTROL J -> } -->
         <bit7 ef="2">45</bit7>   <!-- CONTROL 7 -> - -->
-    </bitkeypad>
+    </keypad>
 
-    <bitkeypad pad="3">
+    <keypad type="bit" pad="3">
         <in>3</in>
         <pressed>0</pressed>
         <repeat>off</repeat>
@@ -168,9 +168,9 @@
         <bit4 ef="2">62</bit4>   <!-- CONTROL . -> > -->
         <bit5 ef="2">123</bit5>  <!-- CONTROL K -> { -->
         <bit6 ef="2">124</bit6>  <!-- CONTROL I -> | -->
-    </bitkeypad>
+    </keypad>
 
-    <bitkeypad pad="4">
+    <keypad type="bit" pad="4">
         <in>4</in>
         <pressed>0</pressed>
         <repeat>off</repeat>
@@ -196,9 +196,9 @@
         <bit2 ef="2">95</bit2>    <!-- CONTROL S -> _ -->
         <bit6 ef="2">0x2019</bit6><!-- CONTROL O -> ' -->
         <bit7 ef="2">47</bit7>    <!-- CONTROL 9 -> / -->
-    </bitkeypad>
+    </keypad>
 
-    <bitkeypad pad="5">
+    <keypad type="bit" pad="5">
         <in>5</in>
         <pressed>0</pressed>
         <repeat>off</repeat>
@@ -223,6 +223,6 @@
         <bit1 ef="2">0x201d</bit1><!-- CONTROL Q -> " -->
         <bit1 ef="2">92</bit1>    <!-- CONTROL A -> \ -->
         <bit7 ef="2">61</bit7>    <!-- CONTROL 0 -> = -->
-    </bitkeypad>
+    </keypad>
 
 </emmaconfig>

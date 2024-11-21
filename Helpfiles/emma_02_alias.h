@@ -1,2 +1,4 @@
-ROM_Files=ComxRom.htm
-FEL_1_Syntax=DebuggerSyntaxFel1.htm
+General=GeneralMain.htm
+Syntax=MachineCodeSyntax.htm
+Syntax=PseudoCodeSyntax.htm
+Syntax=XMLCodeSyntax.htm

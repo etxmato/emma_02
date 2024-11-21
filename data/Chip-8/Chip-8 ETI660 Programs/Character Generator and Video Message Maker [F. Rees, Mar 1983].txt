@@ -1,0 +1,311 @@
+CHARACTER GENERATOR 
+AND VIDEO MESSAGE MAKER 
+
+Frank Rees, 27 King St, Boort Vic. 3537 
+
+Here is a subroutine to generate characters and numerals. Two small programs are also presented, one allowing you to display the complete character set generated, the other allowing you to write messages on screen by typing in an appropriate set of tokens' or codes for each character required. Combine this with your own programs and you’ve got a powerful message generator. 
+
+The first thing you should do is enter the CHARACTER GENERATOR ROUTINE FROM 073C. Then, you can 
+do one of two things: to examine the complete character set, enter the DISPLAY CHARACTER SET program and run; or enter the VIDEO MESSAGE MAKER program and run. 
+
+With the video message maker, a flashing cursor will appear at the top left hand corner of the screen. 
+
+Think of a word or simple message to type on screen, say ETI. Look at the character code table and work out the codes for each letter. E = 0E, T = ID, I = 12. 
+
+The first figure of the code serves two purposes. Press key 0 twice. The first press will cause the cursor to disappear, the second time you press it, the computer will beep at you signifying you've entered the first half of the character code or token. Then press key E and the letter E will appear at the top left hand corner of the screen. The cursor will then appear at the next location on the screen. Then press key 1 twice. At the first press the cursor will disappear, at the second press the computer will beep and the letter T appear on the screen. The cursor will reappear in the next location. Then press: 1 — 1 — 2 and I will appear.  Voila—ETI! 
+
+When the cursor is on screen, you can move it about by pressing C. A single press will shift the cursor along one character space. If you hold the key down it will move along the spaces from left to right. When it reaches the end of a line it will jump to the start of the next line. Upon reaching the end of the screen it will return to the top left hand corner and start again. Using the cursor, you can position your message where you like on the screen. 
+
+You can write up to sixteen characters on a line and you get four lines on the screen. 
+
+Back-spacing is done with the D key. 
+
+To correct an error, move the cursor over the incorrect character and type the token for the correct character. To erase a character, move the cursor into place and enter the code for the cursor. Move the cursor and the character will disappear. 
+
+The characters are generated using the method described in ‘‘Hints for CHIP 8 programmers, part 1” in ETI December 1982, page 110 under the heading of Captions-to-screen movers'. Sixteen consecutive bits of data (two bytes) are moved into view on screen in a 3 x 5 matrix, making up the characters. This is very economical of memory space as it uses the least amount of data storage. Diagram 1 shows the general arrangement of the bytes and how the bits are positioned on screen in the 3 x 5 matrix. Note that the least significant bit (LSB) of byte 2 is not used. The most significant bit (MSB) of byte 1 appears in the top left hand corner of the matrix. 
+
+To display a character on screen, the data is shifted from its location in memory (07C6-7) to locations 07F4-5-6-7-8. Then, using the AMMM and DXYN instructions, this is shifted into position on screen, stacking the five bytes down the screen. Diagram 2 shows how it happens when you enter the code for the letter P. 
+
+c = cursor d = back space 
+
+CHIP 8 CHARACTER GENERATOR 
+character code table 
+
+X	0 1 2 3 4 5 6 7 8 9 A B C D E F 
+code 
+OX 	0 1 2 3 4 5 6 7 8 9 A B C D E F 
+IX 	G H I J K L M N O P Q R S T U V 
+2X 	W X Y Z ? < > . + - x / ■ = ' ! 
+
+X must be a hex number from 0 to F. eg: a code of 28 gives + ; 08 gives 8: 
+2 C is the cursor. 
+
+
+     BYTE 1     |     BYTE 2 
+1 1 1 1 0 1 1 1 | 1 1 0 0 1 0 0 X
+   F       7    |    C       8     X not used 
+
+
+0 	             8 bits 
+1  2  3  .  .  .  .  . 
+4  5  6  .  .  .  .  . 
+7  8  9  .  .  .  .  .  
+10 11 12 .  .  .  .  .  
+13 14 15 .  .  .  .  .   
+
+       BYTE 1          |       BYTE 2
+MSB                LSB | MSB                LSB 
+1  2  3  4  5  6  7  8 | 9 10 11 12 13 14 15  X 
+
+
+location 
+
+07F4  	 1 1 1 . . . . .   . = 0 
+07F5  	 1 . 1 . . . . .
+07F6  	 1 1 1 . . . . .
+07F7     1 . . . . . . .
+07F8     1 . . . . . . .
+         . . . . . . . .
+         . . . . . . . .
+
+	 7 6 5 4 3 2 1 0
+
+
+EXAMPLE 
+
+VO = 19 (code for P ) 
+pointer 0 = A794 
+pointer 1 = A7B4 
+pointer 2 = A7D4 
+
+1  = 2nd pointer, A7B4 
+9  = plus offset, 2x9 
+   = 07C6 
+data at locations 07C6 and 07C7 
+   = F7C8 
+V0 = F7 
+VI = C8 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+BYTE 1 
+
+
+BYTE 2 
+
+
+0 8 bits 
+
+
+1 
+
+2 
+
+3 
+
+
+
+
+
+
+4 
+
+5 
+
+6 
+
+
+
+
+
+
+7 
+
+8 
+
+9 
+
+
+
+
+
+
+10 
+
+11 
+
+12 
+
+
+
+
+
+
+13 
+
+14 
+
+15 
+
+
+
+
+
+
+
+MSB 
+
+LSB | MSB 
+
+LSB 
+
+1 
+
+2 
+
+3 
+
+4 
+
+5 
+
+6 
+
+7 
+
+8 
+
+9 
+
+10 
+
+11 
+
+12 
+
+13 
+
+14 
+
+15 
+
+X 
+
+
+7 65 432 1 0 J 7 6 54 321 0 
+
+
+1 
+
+1 
+
+1 
+
+1 
+
+0 
+
+1 
+
+1 
+
+1 
+
+1 
+
+1 
+
+0 
+
+0 
+
+1 
+
+0 
+
+0 
+
+X 
+
+
+7 654321 07654321 ° 
+
+F 7 C 8 
+
+
+location 
+
+07F4 
+
+07F5 
+
+07F6 
+
+07F7 
+
+07F8 
+
+
+
+X not used 
+
+
+blank = 0 
+
+
+EXAMPLE 
+
+VO = 19 (code for P ) 
+pointer 0 = A794 
+pointer 1 = A7B4 
+pointer 2 = A7D4 
+1 = 2nd pointer, A7B4 
+9 = plus offset, 2x9 
+= 07C6 
+
+data at locations 07C6 and 07C7 
+= F7C8 
+V0 = F7 
+VI = C8 

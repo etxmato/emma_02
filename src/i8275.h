@@ -15,10 +15,10 @@ class i8275 : public Video
 {
 public:
 
-    i8275(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, int computerType, double clock, int videoNumber);
+    i8275(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double clock, I8275Configuration i8275Configuration);
     ~i8275();
 
-    void configure8275(IoConfiguration ioConfiguration);
+    void configure8275();
     void init8275();
     void cycle8275();
     Byte ef8275();
@@ -54,8 +54,7 @@ private:
     Byte i8275CharRom_[8192];
 
     CharacterList8275 *characterListPointer8275;
-
-    int computerType_;
+    I8275Configuration i8275Configuration_;
 
     int cycleValue8275_;
     int cycleBlankValue8275_;

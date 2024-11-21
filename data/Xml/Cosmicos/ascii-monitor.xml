@@ -7,30 +7,246 @@
         <name>Cosmicos - COSmac MIcro COmputer System</name>
         <config>Ascii Monitor</config>
         <clock>1.75</clock>
-        <boot>0xC0C0</boot>
-        <init type="ef1">1</init>
-        <init type="ef2">1</init>
-        <init type="ef3">1</init>
-        <init type="ef4">1</init>
+        <boot>0</boot>
+        <init ef="1">1</init>
+        <init ef="2">1</init>
+        <init ef="3">1</init>
+        <init ef="4">1</init>
         <dirname>Cosmicos</dirname>
     </system>
 
-    <frontpanel type="cosmicos" init="on">
+    <bootstrap>
+        <address>0xC0C0</address>
+        <q />
+    </bootstrap>
+
+    <frontpanel init="on">
         <out>7</out>
         <in>7</in>
         <ef type="in">4</ef>
-        <til type="full">313</til>
+        <size>333, 160</size>
+        <item>
+            <type>png</type>
+            <filename dirname="images">cosmicos.png</filename>
+        </item>
+        <item>
+            <type direction="horizontal">switch</type>
+            <function>mp</function>
+            <init>down</init>
+            <pos>10, 18</pos>
+        </item>
+        <item>
+            <type direction="horizontal">switch</type>
+            <function>nvram</function>
+            <init>down</init>
+            <pos>150, 18</pos>
+        </item>
+        <item>
+            <type form="313">til</type>
+            <value>0</value>
+            <function>datatil</function>
+            <pos>55, 28</pos>
+        </item>
+        <item>
+            <type form="313">til</type>
+            <value>1</value>
+            <function>datatil</function>
+            <pos>83, 28</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <function>qled</function>
+            <pos>110, 28</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <function>runled</function>
+            <pos>207, 28</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <function>loadled</function>
+            <pos>237, 28</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <function>pauseled</function>
+            <pos>267, 28</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <function>resetled</function>
+            <pos>297, 28</pos>
+        </item>
+        <item>
+            <type size="small">push</type>
+            <init>up</init>
+            <label>G</label>
+            <function on="press">run</function>
+            <pos>200, 48</pos>
+            <size>25, 25</size>
+        </item>
+        <item>
+            <type size="small">push</type>
+            <init>up</init>
+            <label>L</label>
+            <function>load</function>
+            <pos>230, 48</pos>
+            <size>25, 25</size>
+        </item>
+        <item>
+            <type size="small">push</type>
+            <init>up</init>
+            <label>P</label>
+            <function>pause</function>
+            <pos>260, 48</pos>
+            <size>25, 25</size>
+        </item>
+        <item>
+            <type size="small">push</type>
+            <init>up</init>
+            <label>R</label>
+            <function>reset</function>
+            <pos>290, 48</pos>
+            <size>25, 25</size>
+        </item>
+        <item>
+            <type size="small">push</type>
+            <init>up</init>
+            <label>S</label>
+            <function type="cosmicos">step</function>
+            <pos>10, 48</pos>
+            <size>25, 25</size>
+        </item>
+        <item>
+            <type size="small">push</type>
+            <init>up</init>
+            <label>C</label>
+            <function>clear</function>
+            <pos>10, 78</pos>
+            <size>25, 25</size>
+        </item>
+        <item>
+            <type size="small">push</type>
+            <init>up</init>
+            <label>E</label>
+            <function>in</function>
+            <pos>10, 108</pos>
+            <size>25, 25</size>
+        </item>
+        <item>
+            <type>led</type>
+            <value>7</value>
+            <function load="show">buttonled</function>
+            <pos>77, 88</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>6</value>
+            <function load="show">buttonled</function>
+            <pos>107, 88</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>5</value>
+            <function load="show">buttonled</function>
+            <pos>137, 88</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>4</value>
+            <function load="show">buttonled</function>
+            <pos>167, 88</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>3</value>
+            <function load="show">buttonled</function>
+            <pos>207, 88</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>2</value>
+            <function load="show">buttonled</function>
+            <pos>237, 88</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>1</value>
+            <function load="show">buttonled</function>
+            <pos>267, 88</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>0</value>
+            <function load="show">buttonled</function>
+            <pos>297, 88</pos>
+        </item>
+        <item>
+            <type size="small">push</type>
+            <value>7</value>
+            <label>7</label>
+            <function>bitswitch</function>
+            <pos>70, 108</pos>
+            <size>25, 25</size>
+        </item>
+        <item>
+            <type size="small">push</type>
+            <value>6</value>
+            <label>6</label>
+            <function>bitswitch</function>
+            <pos>100, 108</pos>
+            <size>25, 25</size>
+        </item>
+        <item>
+            <type size="small">push</type>
+            <value>5</value>
+            <label>5</label>
+            <function>bitswitch</function>
+            <pos>130, 108</pos>
+            <size>25, 25</size>
+        </item>
+        <item>
+            <type size="small">push</type>
+            <value>4</value>
+            <label>4</label>
+            <function>bitswitch</function>
+            <pos>160, 108</pos>
+            <size>25, 25</size>
+        </item>
+        <item>
+            <type size="small">push</type>
+            <value>3</value>
+            <label>3</label>
+            <function>bitswitch</function>
+            <pos>200, 108</pos>
+            <size>25, 25</size>
+        </item>
+        <item>
+            <type size="small">push</type>
+            <value>2</value>
+            <label>2</label>
+            <function>bitswitch</function>
+            <pos>230, 108</pos>
+            <size>25, 25</size>
+        </item>
+        <item>
+            <type size="small">push</type>
+            <value>1</value>
+            <label>1</label>
+            <function>bitswitch</function>
+            <pos>260, 108</pos>
+            <size>25, 25</size>
+        </item>
+        <item>
+            <type size="small">push</type>
+            <value>0</value>
+            <label>0</label>
+            <function>bitswitch</function>
+            <pos>290, 108</pos>
+            <size>25, 25</size>
+        </item>
     </frontpanel>
-    
-    <keypad type="cosmicos">
-        <out type="hex">5</out>
-        <in type="hex">5</in>
-        <out type="seg">6</out>
-        <in type="seg">6</in>
-        <ef type="ret">1</ef>
-        <ef type="dec">2</ef>
-        <ef type="req">3</ef>
-    </keypad>
 
      <memory>
          <nvram default="off" type="gui">
@@ -60,10 +276,12 @@
          <font>vt100.bin</font>
          <ef pol="rev">4</ef>
          <q></q>
+         <shift3>uk</shift3>
          <caps />
          <baud type="receive">2000</baud>
          <baud type="transmit">2000</baud>
          <border>0x0</border>
+         <characters>64</characters>
          <color type="fore">0, 255, 0</color>
          <color type="back">0, 0x40, 0</color>
          <color type="high">0, 0xff, 0</color>

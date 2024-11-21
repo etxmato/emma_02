@@ -8,10 +8,10 @@
         <config>Introductory Series 1, Side A</config>
         <clock>2.51748</clock>
         <boot>0</boot>
-        <init type="ef1">1</init>
-        <init type="ef2">1</init>
-        <init type="ef3">0</init>
-        <init type="ef4">1</init>
+        <init ef="1">1</init>
+        <init ef="2">1</init>
+        <init ef="3">0</init>
+        <init ef="4">1</init>
         <dirname>Cybervision</dirname>
     </system>
 
@@ -83,7 +83,7 @@
         <channel type="data">right</channel>
     </cassette>
 
-    <xlkeypad>
+    <keypad type="cv">
         <!-- CyberVision / XL keypad definition
         <iogroup>: iogroup, i.e. i/o ports are activate when specified iogroup is selected via the iogroup port
         <in>: input port
@@ -142,7 +142,7 @@
         <keydef type="text" value="8">right</keydef>    <!-- RIGHT -->
         <keydef type="text" value="0">up</keydef>       <!-- UP -->
 
-    </xlkeypad>
+    </keypad>
 
     <sound type="bit">
         <out mask="1" q="0">4</out>

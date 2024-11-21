@@ -49,38 +49,28 @@ BEGIN_EVENT_TABLE(i8275, wxFrame)
     EVT_SIZE(i8275::onSize)
 END_EVENT_TABLE()
 
-i8275::i8275(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, int computerType, double clock, int videoNumber)
+i8275::i8275(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double clock, I8275Configuration i8275Configuration)
 : Video(title, pos, size)
 {
-    computerType_ = computerType;
     clock_ = clock;
     colourIndex_ = 0;
-    videoNumber_ = videoNumber;
+    videoNumber_ = i8275Configuration.videoNumber;;
+    i8275Configuration_ = i8275Configuration;
 
 #ifndef __WXMAC__
     SetIcon(wxICON(app_icon));
 #endif
 
-    if (computerType_ == XML)
-    {
-        videoType_ = VIDEOXMLI8275;
-        colourIndex_ = COL_I8275_FORE-2;
-    }
-    else
-    {
-        videoType_ = VIDEOI8275;
-    }
+    videoType_ = VIDEOXMLI8275;
+    colourIndex_ = COL_I8275_FORE-2;
     
-    readCharRomFile(p_Main->getCharRomDir(computerType_), p_Main->getCharRomFile(computerType_));
-    interlace_ = p_Main->getInterlace(computerType_);
-
-    if (computerType_ == ELF2K)
-        videoType_ = VIDEO2KI8275;
+    readCharRomFile(p_Main->getCharRomDir(), p_Main->getCharRomFile());
+    interlace_ = p_Main->getInterlace();
 
     offsetX_ = 0;
     offsetY_ = 0;
 
-    defineColours(computerType_);
+    defineColours();
     backGround_ = BACKGROUND8275;
 
     fullScreenSet_ = false;
@@ -112,7 +102,7 @@ i8275::i8275(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     setColour(colourIndex_+backGround_);
     drawRectangle(0, 0, videoWidth_, videoHeight_);
 
-    videoScreenPointer = new VideoScreen(this, size, zoom, computerType, videoNumber_);
+    videoScreenPointer = new VideoScreen(this, size, zoom, videoNumber_);
 
     setCycle();
 
@@ -193,32 +183,17 @@ i8275::~i8275()
     }
 }
 
-void i8275::configure8275(IoConfiguration ioConfiguration)
+void i8275::configure8275()
 {
-    wxString runningComp = p_Main->getRunningComputerStr();
-
-//    int i8275WriteCommand = p_Main->getConfigItem(runningComp+"/I8275WriteCommand", 5l);
-//    int i8275ReadStatus = p_Main->getConfigItem(runningComp+"/I8275ReadStatus", 5l);
-//    int i8275WriteParameter = p_Main->getConfigItem(runningComp+"/I8275WriteParameter", 1l);
-//    int i8275ReadParameter = p_Main->getConfigItem(runningComp+"/I8275ReadParameter", 1l);
-//    int i8275VerticalRetrace = p_Main->getConfigItem(runningComp+"/I8275VerticalRetrace", 1l);
-
-    p_Computer->setCycleType(VIDEOCYCLE_I8275, I8275CYCLE);
-    p_Computer->setOutType(ioConfiguration.i8275WriteParameter, I8275PREGWRITE);
-    p_Computer->setOutType(ioConfiguration.i8275WriteCommand, I8275CREGWRITE);
-    p_Computer->setInType(ioConfiguration.i8275ReadParameter, I8275PREGREAD);
-    p_Computer->setInType(ioConfiguration.i8275ReadStatus, I8275SREGREAD);
-    p_Computer->setEfType(ioConfiguration.i8275VerticalRetrace, I8275EF);
-
-    p_Main->message("Configuring intel 8275");
-
-    wxString printBuffer;
-    printBuffer.Printf("	Output %d write command, input %d read status", ioConfiguration.i8275WriteCommand, ioConfiguration.i8275ReadStatus);
-    p_Main->message(printBuffer);
-    printBuffer.Printf("	Output %d write parameter, input %d read parameter", ioConfiguration.i8275WriteParameter, ioConfiguration.i8275ReadParameter);
-    p_Main->message(printBuffer);
-    printBuffer.Printf("	EF %d: vertical retrace\n", ioConfiguration.i8275VerticalRetrace);
-    p_Main->message(printBuffer);
+    p_Main->configureMessage(&i8275Configuration_.ioGroupVector, "intel 8275");
+    p_Computer->setOutType(&i8275Configuration_.ioGroupVector, i8275Configuration_.writeParameter, "write parameter");
+    p_Computer->setOutType(&i8275Configuration_.ioGroupVector, i8275Configuration_.writeCommandOutput, "write command");
+    p_Computer->setInType(&i8275Configuration_.ioGroupVector, i8275Configuration_.readParameter, "read parameter");
+    p_Computer->setInType(&i8275Configuration_.ioGroupVector, i8275Configuration_.readStatus, "read status");
+    p_Computer->setEfType(&i8275Configuration_.ioGroupVector, i8275Configuration_.efVerticalRetrace, "vertical retrace");
+    p_Computer->setCycleType(CYCLE_TYPE_VIDEO_I8275, I8275_CYCLE);
+    
+    p_Main->message("");
 }
 
 void i8275::init8275()
@@ -233,7 +208,7 @@ void i8275::init8275()
 
 Byte i8275::ef8275()
 {
-    return ef_;
+    return ef_^i8275Configuration_.efVerticalRetrace.reverse;
 }
 
 void i8275::pRegWrite(Byte value)

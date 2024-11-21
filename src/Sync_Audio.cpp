@@ -380,37 +380,6 @@ void Sync_Audio::record_pause (bool status)
 #endif
 }
 
-void Sync_Audio::wavFile()
-{
-    if (!waveFileOpen_)
-    {
-        startTape();
-    }
-    else
-    {
-        if (waveFileOpen_)
-        {
-            psaveWavePointer->closeFile();
-            delete psaveWavePointer;
-        }
-        waveFileOpen_ = false;
-    }
-}
-
-void Sync_Audio::startTape()
-{
-    psaveWavePointer = new WaveWriter(sampleRate_, 16);
-
-    if (!psaveWavePointer->openFile(p_Main->getWaveDir(COMX) + "audio_input.wav"))
-    {
-        p_Main->message("Cassette sound error: Can't open file");
-        delete psaveWavePointer;
-        waveFileOpen_ = false;
-    }
-    else
-        waveFileOpen_ = true;
-}
-
 void Sync_Audio::record_fill_buffer_ ( void* user_data, Uint8* stream, int byte_count )
 {
     ((Sync_Audio*) user_data)->Record_fill_buffer( stream, byte_count );

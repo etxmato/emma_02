@@ -25,32 +25,15 @@ Rtc::Rtc()
 {
 }
 
-void Rtc::configureRtc(IoConfiguration ioConf)
+void Rtc::configureRtc(RtcDs12887Configuration rtcDs12887Configuration)
 {
-    wxString ioGroup1 = "", ioGroup2;
-    if (ioConf.rtcIoGroup1 != -1)
-        ioGroup1.Printf(" on group %d", ioConf.rtcIoGroup1);
+    p_Main->configureMessage(&rtcDs12887Configuration.ioGroupVector, "RTC DS12788");
+    
+    p_Computer->setOutType(&rtcDs12887Configuration.ioGroupVector, rtcDs12887Configuration.outputSelectPort, "select port");
+    p_Computer->setOutType(&rtcDs12887Configuration.ioGroupVector, rtcDs12887Configuration.outputWritePort, "write port");
+    p_Computer->setInType(&rtcDs12887Configuration.ioGroupVector, rtcDs12887Configuration.input, "read port");
 
-    p_Computer->setInType(ioConf.rtcIoGroup1+1, ioConf.rtcIn, RTCIN);
-    p_Computer->setOutType(ioConf.rtcIoGroup1+1, ioConf.rtcOut, RTCOUT);
-    p_Computer->setOutType(ioConf.rtcIoGroup1+1, ioConf.rtcSelect, RTCSELECT);
-
-    if (ioConf.rtcIoGroup2 != -1)
-    {
-        ioGroup2.Printf(" and %d", ioConf.rtcIoGroup2);
-        p_Computer->setInType(ioConf.rtcIoGroup2+1, ioConf.rtcIn, RTCIN);
-        p_Computer->setOutType(ioConf.rtcIoGroup2+1, ioConf.rtcOut, RTCOUT);
-        p_Computer->setOutType(ioConf.rtcIoGroup2+1, ioConf.rtcSelect, RTCSELECT);
-    }
-
-    wxString printBuffer;
-    p_Main->message("Configuring RTC DS12788" + ioGroup1 + ioGroup2);
-
-    printBuffer.Printf("	Output %d: select port, output %d: write selected", ioConf.rtcSelect, ioConf.rtcOut);
-    p_Main->message(printBuffer);
-
-    printBuffer.Printf("	Input %d: read port\n", ioConf.rtcIn);
-    p_Main->message(printBuffer);
+    p_Main->message("");
 }
 
 Byte Rtc::inRtc()

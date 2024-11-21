@@ -1,9 +1,7 @@
 #ifndef VIS1870_H
 #define VIS1870_H
 
-#include "comxstatusbar.h"
-#include "diagstatusbar.h"
-#include "cidelsastatusbar.h"
+#include "statusbar.h"
 #include "cdp1802.h"
 #include "video.h"
 
@@ -17,14 +15,12 @@ class VIS1870 : public Video
 {
 public:
 
-    VIS1870(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, int computerType, double clock, double videoClock, IoConfiguration ioConfiguration, int videoNumber);
+    VIS1870(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double clock, Vis1870Configuration vis1870Configuration);
     ~VIS1870();
 
-    void onFocus(wxFocusEvent&event);
     void focus();
 
-    bool configure1870(bool expansionRomLoaded, int expansionTypeCard0);
-    void v1870BarSize();
+    bool configure1870();
     void init1870();
     Byte ef1_1870();
     void out2_1870(Byte value);
@@ -38,19 +34,24 @@ public:
 
     int writePram(Word address, Byte v);
     int writeCram(Word address, Byte v);
+    int writeCramText(Word address, Byte v);
+    int writeCramGraphic(Word address, Byte v);
     void writeColourRamDirect(Word address, Byte v);
+    void writeGraphicRamDirect(Word address, Byte v);
     Byte readCramDirect(Word address);
     void writeCramDirect(Word address, Byte value);
     Byte readPram(Word address);
     Byte readCram(Word address);
+    Byte readCramText(Word address);
+    Byte readCramGraphic(Word address);
     Byte readColourRamDirect(Word address);
+    Byte readGraphicRamDirect(Word address);
 
     void copyScreen();
     void reDrawBar();
-    void updateExpansionLed(bool status);
-    void updateStatusLed(bool status);
-    void updateDiagLedStatus(int led, bool status);
-    void updateCidelsaLedStatus(int number, bool status);
+    void updateComxExpansionLed(bool status);
+    void updateComxStatusLed(bool status);
+    void updateStatusLed(bool status, int card, int i = 0);
     bool readChargenFileTmc(wxString romDir, wxString romFile);
     bool readChargenFile(wxString romDir, wxString romFile);
 
@@ -60,22 +61,23 @@ public:
     void onF3();
 
     void reBlit(wxDC &dc);
-    bool getReturnVideoMode() {return ioConfiguration_.v1870useVideoModeEf;};
+    void setPcbOut(Byte pcbBit);
+    void setVideoMemMode(Byte mode);
 
 protected:
-    int videoMode_;
     int cidelsaGame_;
-    int computerType_;
 
 private:
     void drawScreen();
+    void drawTextScreen();
+    void drawGraphicScreen();
     void drawCharacter(wxCoord x, wxCoord y, Byte v, int address);
     void drawCharacterAndBackground(wxCoord x, wxCoord y, Byte v, int address);
     void drawLine(wxCoord x, wxCoord y, Byte v, Byte pcb, int address);
     void drawBackgroundLine(wxCoord x, wxCoord y);
     void drawPoint(wxCoord x, wxCoord y);
-    void updateLedStatus(int card, int i, bool status);
     
+    EmmaStatusBar *statusBarPointer;
     CidelsaStatusBar *cidelsaStatusBarPointer;
     ComxStatusBar *comxStatusBarPointer;
     DiagStatusBar *diagStatusBarPointer;
@@ -95,6 +97,10 @@ private:
 
     Byte vismacColorRam_[4096];
     Byte v1870pcb_[4096];
+    bool usePcbOut_;
+    Byte pcbBit_;
+    
+    bool graphicMode_;
 
     Word register3_;
     Word register4_;
@@ -110,7 +116,7 @@ private:
     int backgroundColour_;
     int pixelWidth_;
     int pixelHeight_;
-    int displayOff_;
+    bool displayOff_;
     int colourFormatControl_;
     int maxPageMemory_;
     int preDisplayPeriod_;
@@ -128,8 +134,6 @@ private:
     Byte vismacColorLatch_;
     bool vismacBlink_;
 
-    bool interlace_;
-
     int videoM_;
     int registerIndex_;
     int cursorStartLine_;
@@ -138,7 +142,7 @@ private:
 
     int tempCompType_;
     
-    IoConfiguration ioConfiguration_;
+    Vis1870Configuration vis1870Configuration_;
     
     DECLARE_EVENT_TABLE()
 };

@@ -1,0 +1,22 @@
+
+<HTML>
+<Title>ROM, RAM, NVR</Title>
+<BODY>
+<h2>ROM, RAM, NVR</h2>
+<p>
+Most computer configurations will define one or two ROM @xxxx, RAM @xxxx or NVR @xxxx buttons as shown (in yellow) in screenshot below.
+</p>
+<p>
+<IMG SRC="images/computer_rom_ram_nvr.png" BORDER="0">
+</p>
+<p>
+Via these buttons the emulated computer can be started with a specific ROM, RAM or NVR (Non-volatile RAM) file loaded. Every button specifies the hexadecimal start address @xxxx as defied in the XML file. The default file location is also specified in the XML file. To change the location use the button to browse for the file, do the same to change the filename or type in a new file name in the text field.
+</p>
+<p>
+Note that ROM files in binary format (extension bin, ch8, c8x, ch10, sc8, st2), will be loaded at the specified start address. Intel hex (extension hex) and RCS Elf emulator hex format (extension txt) include storage locations and as such will be loaded to the specified address location.
+</p>
+<p>
+During run time additional files can be loaded, see also sections <a href="MainMemAccess.htm">Memory Access</a>, <a href="ComputerDisk.htm">Disk Support</a>, <a href="MainCassette.htm">Cassette Support</a> and/or <a href="ComputerModem.htm">HEX or XMODEM Support</a>
+</p>
+</BODY>
+</HTML>

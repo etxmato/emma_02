@@ -50,31 +50,24 @@
 #define SPRITE_16_16 2
 #define SPRITE_16_16_MAG 3
 
-Tms9918::Tms9918(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, int computerType, double clock, int videoNumber)
+Tms9918::Tms9918(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double clock, TmsConfiguration tmsConfiguration)
 : Video(title, pos, size)
 {
-    computerType_ = computerType;
     zoom_ = zoom;
     clock_ = clock;
     colourIndex_ = 0;
-    videoNumber_ = videoNumber;
+    tmsConfiguration_ = tmsConfiguration;
+    videoNumber_ = tmsConfiguration_.videoNumber;
 
-    if (computerType_ == XML)
-    {
-        videoType_ = VIDEOXMLTMS;
-        colourIndex_ = COL_TMS_TRANSPARANT-16;
-    }
-    else
-    {
-        videoType_ = VIDEOTMS;
-    }
+    videoType_ = VIDEOXMLTMS;
+    colourIndex_ = COL_TMS_TRANSPARANT-16;
 
     double intPart;
     zoomFraction_ = (modf(zoom_, &intPart) != 0);
 
-    defineColours(computerType_);
+    defineColours();
 
-    videoScreenPointer = new VideoScreen(this, size, zoom, computerType, videoNumber_);
+    videoScreenPointer = new VideoScreen(this, size, zoom, videoNumber_);
 
 #ifndef __WXMAC__
     SetIcon(wxICON(app_icon));
@@ -214,35 +207,24 @@ Tms9918::~Tms9918()
     }
 }
 
-void Tms9918::configure(IoConfiguration ioConfiguration)
+void Tms9918::configure()
 {
     changeScreenSize();
-//    int highOutput, lowOutput;
 
-    wxString runningComp = p_Main->getRunningComputerStr();
-
-//    highOutput = p_Main->getConfigItem(runningComp +"/TmsModeHighOutput", 5l);
-//    lowOutput = p_Main->getConfigItem(runningComp +"/TmsModeLowOutput", 6l);
-
-    p_Computer->setOutType(ioConfiguration.tmsModeHighOutput, TMSREGISTERPORT);
-    p_Computer->setOutType(ioConfiguration.tmsModeLowOutput, TMSDATAPORT);
-    p_Computer->setInType(ioConfiguration.tmsModeLowOutput, TMSDATAPORT);
-    p_Computer->setInType(ioConfiguration.tmsModeHighOutput, TMSREGISTERPORT);
-    if (ioConfiguration.tmsInterrupt > 0)
-        p_Computer->setEfType(ioConfiguration.tmsInterrupt, TMSINTERRUPT);
-
-    p_Computer->setCycleType(VIDEOCYCLE_TMS9918, TMSCYCLE);
-
-    wxString printBuffer;
-    p_Main->message("Configuring TMS 9918");
-
-    printBuffer.Printf("	Output %d: register port, input/output %d: data port\n", ioConfiguration.tmsModeHighOutput, ioConfiguration.tmsModeLowOutput);
-    p_Main->message(printBuffer);
+    p_Main->configureMessage(&tmsConfiguration_.ioGroupVector, "TMS 9918");
+    p_Computer->setOutType(&tmsConfiguration_.ioGroupVector, tmsConfiguration_.registerOutput, "register port");
+    p_Computer->setInType(&tmsConfiguration_.ioGroupVector, tmsConfiguration_.registerOutput, "register port");
+    p_Computer->setOutType(&tmsConfiguration_.ioGroupVector, tmsConfiguration_.dataOutput, "data port");
+    p_Computer->setInType(&tmsConfiguration_.ioGroupVector, tmsConfiguration_.dataOutput, "data port");
+    p_Computer->setEfType(&tmsConfiguration_.ioGroupVector, tmsConfiguration_.efInterrupt, "interrupt");
+    p_Computer->setCycleType(CYCLE_TYPE_VIDEO_TMS9918, TMS_CYCLE);
+    
+    p_Main->message("");
 }
 
 Byte Tms9918::readEf()
 {
-    Byte returnValue = ((statusRegister_&0x80) >> 7) ^ 0x1;
+    Byte returnValue = (((statusRegister_&0x80) >> 7) ^ 0x1) ^ tmsConfiguration_.efInterrupt.reverse;
     
     return returnValue;
 }

@@ -2,7 +2,7 @@
 #define PIXIE_H
 
 #include "video.h"
-#include "vip2statusbar.h"
+#include "statusbar.h"
 
 class PlotList
 {
@@ -18,35 +18,20 @@ public:
 class Pixie : public Video
 {
 public:
-    Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, int videoNumber);
-    Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, int videoNumber, int videoType, IoConfiguration portConf);
+    Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int videoNumber, int videoType, CDP1861Configuration cdp1861Configuration, CDP1862Configuration cdp1862Configuration, int bootStrapType);
     ~Pixie();
 
     void reset();
-    virtual void configurePixie(IoConfiguration portConf);
-    virtual void configurePixie() {};
-    void configurePixieIn(IoConfiguration portConf);
-    void configurePixieOut(IoConfiguration portConf);
-    void configurePixieSuper(IoConfiguration portConf);
-    void configurePixieStudio2();
-    void configurePixieCoinArcade();
-    void configurePixieVisicom();
-    void configurePixieVip();
-    void configurePixieVelf();
-    void configurePixieVipII(bool runLed);
-    void configurePixieTmc1800();
-    void configurePixieTelmac();
-    void configurePixieVictory();
-    void configurePixieEti();
+    void configurePixie();
+    void configurePixieIn();
+    void configurePixieOut();
+    void configurePixieSuper();
+    void configurePixieCoinArcade(CoinConfiguration coinConfiguration);
     void initiateColour(bool colour);
-    void configurePixieNano();
-    void configurePixieCosmicos();
-    void configurePixieCoinArcade(IoConfiguration portConf);
-    void configureCdp1862(IoConfiguration portConf, bool autoBoot);
-    void configureCdp1863(IoConfiguration portConf);
-    void configureCdp1864(IoConfiguration portConf);
+    void configureCdp1862(bool autoBoot);
+    void configureCdp1864(CDP1864Configuration cdp1864Configuration);
     void initPixie();
-    Byte efPixie();
+    virtual Byte efPixie();
     virtual Byte inPixie();
     virtual void outPixie();
     virtual void outPixieBackGround();
@@ -65,12 +50,14 @@ public:
     void onF3();
     void pixieBarSize();
     void reDrawBar();
-    void updateLedStatus(int led, bool status);
+    void updateVipLedStatus(bool status, int led);
     void setInterlace(bool status);
     void reBlit(wxDC &dc);
 
 protected:
-    IoConfiguration portConf_;
+    CDP1861Configuration cdp1861Configuration_;
+    CDP1862Configuration cdp1862Configuration_;
+
     PlotList *plotListPointer;
     Byte pbacking_[384][208];
     Byte color_[384][208];
@@ -88,9 +75,9 @@ protected:
     Byte vidInt_;
     bool studioIVFactor_;
 
-    PixieGraphics pixieGraphics_;
+//    PixieGraphics cdp1861Configuration_.pixieGraphics;
 
-    int videoMode_;
+//    int p_videoMode_;
     int highRes_;
     int graphicsX_;
 
@@ -98,10 +85,8 @@ protected:
     int colourType_;
 
 private:
-    wxString runningComputer_;
     VipIIStatusBar *vipIIStatusBarPointer;
 
-    int computerType_;
     Byte vidCycle_;
 
 };
@@ -109,11 +94,9 @@ private:
 class PixieFred : public Pixie
 {
 public:
-    PixieFred(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, int videoNumber);
-    PixieFred(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, int videoNumber, int videoType, IoConfiguration portConf);
+    PixieFred(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int videoNumber, int videoType, CDP1861Configuration cdp1861Configuration, CDP1862Configuration cdp1862Configuration, int bootStrapType);
 
-    void configurePixie();
-    void configureFredVideo(IoConfiguration portConf);
+    void configureFredVideo(FredVideoConfiguration fredVideoConfiguration);
     void drawScreen();
     void cyclePixie();
     void setDisplayType(int displayType);
@@ -127,18 +110,19 @@ private:
 class PixieVip2K : public Pixie
 {
 public:
-    PixieVip2K(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, int videoNumber);
-    PixieVip2K(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, int videoNumber, int videoType, IoConfiguration portConf);
+    PixieVip2K(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int videoNumber, int videoType, CDP1861Configuration cdp1861Configuration, CDP1862Configuration cdp1862Configuration, int bootStrapType);
 
-    void configurePixie();
-    void configureVip2K(IoConfiguration portConf);
+    void configureVip2K(Vip2KVideoConfiguration vip2KVideoConfiguration);
     void drawScreen();
     void cyclePixie();
     void executeSequencer(Byte sequencerValue);
+    Byte efPixie();
     Byte inPixie();
     void outPixie();
 
 private:
+    Vip2KVideoConfiguration vip2KVideoConfiguration_;
+    
     int additionalBottomPalLines_;
     int additionalTopPalLines_;
     
@@ -155,28 +139,26 @@ private:
 class PixieStudioIV : public Pixie
 {
 public:
-    PixieStudioIV(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, int videoNumber);
-    PixieStudioIV(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, int videoNumber, int videoType, IoConfiguration portConf);
+    PixieStudioIV(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int videoNumber, int videoType, CDP1861Configuration cdp1861Configuration, CDP1862Configuration cdp1862Configuration, int bootStrapType);
 
-    void configurePixie();
-    void configureSt4(IoConfiguration portConf);
+    void configureSt4(Studio4VideoConfiguration studio4VideoConfiguration);
     void drawScreen();
     void cyclePixie();
+    Byte efPixie();
     void outPixie();
     void outPixieBackGround();
     void outPixieStudioIV(int value);
-    void switchVideoMode(int videoMode);
+//    void switchVideoMode(int videoMode);
 
 private:
+    Studio4VideoConfiguration studio4VideoConfiguration_;
 };
 
 class PixieEti : public Pixie
 {
 public:
-    PixieEti(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, int videoNumber);
-    PixieEti(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, int videoNumber, int videoType, IoConfiguration portConf);
+    PixieEti(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int videoNumber, int videoType, CDP1861Configuration cdp1861Configuration, CDP1862Configuration cdp1862Configuration, int bootStrapType);
 
-    void configurePixie();
     void copyScreen();
     void drawScreen();
     void cyclePixie();

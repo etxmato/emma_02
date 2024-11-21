@@ -1,0 +1,9 @@
+CAR RACE 
+
+In this program you steer a car to the left and right to dodge the other cars which come down the screen at you. 
+
+To one side is your fuel gauge which shows how much fuel you have left. Once you run out you can go on to your next car. 
+
+After five cars your score is shown. To play use keys ‘4’ and ’6’. 
+
+To load this program use 0480 at 0400 and 08FF at 0402. 

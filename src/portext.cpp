@@ -38,31 +38,21 @@ PortExt::PortExt()
 {
 }
 
-void PortExt::configurePortExt(IoConfiguration portConf)
+void PortExt::configurePortExt(MemoryMapperConfiguration memoryMapperConfiguration)
 {
-//    int selectOutput, writeOutput, input;
+    p_Main->configureMessage(&memoryMapperConfiguration.ioGroupVector, "Port Extender");
+    p_Computer->setOutType(&memoryMapperConfiguration.ioGroupVector, memoryMapperConfiguration.selectOutput, "port selector");
+    p_Computer->setOutType(&memoryMapperConfiguration.ioGroupVector, memoryMapperConfiguration.writeOutput, "write selected");
+    p_Computer->setInType(&memoryMapperConfiguration.ioGroupVector, memoryMapperConfiguration.input, "read selected");
 
-    wxString runningComp = p_Main->getRunningComputerStr();
+    p_Main->message("");
 
-//    selectOutput = p_Main->getConfigItem(runningComp+"PortExtenderSelectOutput", 5l);
-//    writeOutput = p_Main->getConfigItem(runningComp+"PortExtenderWriteOutput", 6l);
-//    input = p_Main->getConfigItem(runningComp+"PortExtenderInput", 6l);
-
-    p_Computer->setInType(portConf.portExtenderInput, PORTEXTIN);
-    p_Computer->setOutType(portConf.portExtenderSelectOutput, PORTEXTSELECTOUT);
-    p_Computer->setOutType(portConf.portExtenderWriteOutput, PORTEXTWRITEOUT);
-    for (int port=0; port<256; port++) 
+    for (int port=0; port<256; port++)
     {
         extPortsOut_[port] = 0;
         extPortsIn_[port] = 0;
     }
     extPort_ = 0;
-
-    wxString printBuffer;
-    p_Main->message("Configuring Port Extender");
-
-    printBuffer.Printf("	Output %d: port selector, output %d: write selected, input %d: read selected\n", portConf.portExtenderSelectOutput, portConf.portExtenderWriteOutput, portConf.portExtenderInput);
-    p_Main->message(printBuffer);
 }
 
 void PortExt::definePortExtForPager() 

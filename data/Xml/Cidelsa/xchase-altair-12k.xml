@@ -8,10 +8,10 @@
         <config>Xchase on Altair HW, 12K ROM</config>
         <clock>3.579</clock>
         <boot>0</boot>
-        <init type="ef1">1</init>
-        <init type="ef2">1</init>
-        <init type="ef3">1</init>
-        <init type="ef4">1</init>
+        <init ef="1">1</init>
+        <init ef="2">1</init>
+        <init ef="3">1</init>
+        <init ef="4">1</init>
         <statusbar out="1">cidelsa</statusbar>
         <dirname>Cidelsa</dirname>
     </system>
@@ -56,21 +56,21 @@
         <ef4>65</ef4>
     </efbuttons>
 
-    <bitkeypad pad="a">
+    <keypad type="bit" pad="a">
         <in>1</in>
         <bit key="49">1</bit>     <!-- 1 player -->
         <bit key="50">2</bit>     <!-- 2 player -->
         <bit key="316">3</bit>    <!-- right -->
         <bit key="314">4</bit>    <!-- left -->
         <bit key="32">5</bit>     <!-- space / fire -->
-    </bitkeypad>
+    </keypad>
 
-    <bitkeypad pad="b">
+    <keypad type="bit" pad="b">
         <in>4</in>
         <bit key="315">0</bit>    <!-- up -->
         <bit key="317">1</bit>    <!-- down -->
         <bit key="396">2</bit>    <!-- control-->
-    </bitkeypad>
+    </keypad>
 
     <debugger>
         <scrt mode="on">

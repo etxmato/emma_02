@@ -1,0 +1,20 @@
+<HTML>
+<Title>Keyboard</Title>
+<BODY>
+<h1>Keyboard</h1>
+<p>
+<IMG SRC="images/vip_keyboard.png" BORDER="0">
+</p>
+<h2>Hex Keypad</h2>
+<p>
+Default 2 hex keypads is configured. The second keypad is configured by selecting checkbox 'VP580 Expansion Keypad' (orange ellipse) or checkbox 'VP590 Colour Board' (yellow ellipse). The only known game using 2 keypads is the Chip-8X game blockout.
+</p>
+<p>
+To change and view the hex keypad to PC key mapping select the 'Key Map' button (green ellipse), see also section <a href="KeyMappingMain.htm">Key Mapping</a>
+</p>
+<h2>Keyboard</h2>
+<p>
+To use the VIP with ASCII keyboard support select the keyboard checkbox (blue ellipse). 
+</p>
+</BODY>
+</HTML>

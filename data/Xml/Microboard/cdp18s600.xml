@@ -9,9 +9,9 @@
         <cpu>1805</cpu>
         <clock>4.9152</clock>
         <boot>0</boot>
-        <init type="ef1">1</init>
-        <init type="ef2">1</init>
-        <init type="ef3">1</init>
+        <init ef="1">1</init>
+        <init ef="2">1</init>
+        <init ef="3">1</init>
         <dirname>Microboard</dirname>
     </system>
     
@@ -202,8 +202,7 @@
         </item>
         <item>
             <type>led</type>
-            <value>2</value>
-            <function cycle="show">cpustateled</function>
+            <function cycle="show">waitled</function>
             <pos>126, 72</pos>
         </item>
         <item>
@@ -213,8 +212,7 @@
         </item>
         <item>
             <type>led</type>
-            <value>3</value>
-            <function cycle="show">cpustateled</function>
+            <function cycle="show">clearled</function>
             <pos>164, 72</pos>
         </item>
         <item>
@@ -272,8 +270,8 @@
 
     <debugger>
         <scrt mode="off">
-            <call reg="4">-1</call>
-            <return reg="5">-1</return>
+            <call reg="4">0x8364</call>
+            <return reg="5">0x8374</return>
         </scrt>
 
         <assembler>

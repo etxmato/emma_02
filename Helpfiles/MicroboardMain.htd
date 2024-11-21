@@ -6,13 +6,13 @@
 This emulator will emulate the RCA Microboard System computers. Additional information about the RCA Microboard System can be found on the <a href="http://www.emma02.hobby-site.com">Emma 02</a> site.
 </p>
 <p>
-To start a Microboard System emulator first select the RCA tab (yellow ellipse) followed by the Microboard System tab (orange ellipse):
+To start a Microboard System emulator first select the RCA tab (highlighted in yellow) followed by the Microboard System tab (highlighted in orange):
 </p>
 <p>
 <IMG SRC="images/micro.png" BORDER="0">
 </p>
 <p>
-The Microboard System is very extensive and as such the emulator in Emma 02 has a large range of options and boards available. This flexibility is making the configuration of a Microboard System a little complex. Due to this there are multiple predefined configurations included, load any of these with the menu option below (blue ellipse) following the grey menu:
+The Microboard System is very extensive and as such the emulator in Emma 02 has a large range of options and boards available. This flexibility is making the configuration of a Microboard System a little complex. Due to this there are multiple predefined configurations included, load any of these with the menu option below (highlighted in blue) following the grey menu:
 </p>
 <p>
 <IMG SRC="images/micro_configuration.png" BORDER="0">
@@ -127,10 +127,10 @@ Crosslib Xhorde game
 Crosslib Xshoot game
 </p>
 <p>
-The Microboard System can have 1 to 24 cards for multiple CDP18Sxxx boards. The CPU board has to be defined in CARD 1. CPU boards supported are the CDP18S600 to CDP18S610 as listed in below chapters. To define the board configuration press any of the 'CARD x' buttons to open the board configuration window. CARD 1 to 5 buttons and choice boxes are in the main Emma 02 window, CARD 5 setup button and remaining cards can be defined by pressing the 'C 5-25' button which will open the CARD Setup window.
+The Microboard System can have 1 to 24 cards for multiple CDP18Sxxx boards. The CPU board has to be defined in CARD 1. CPU boards supported are the CDP18S600 to CDP18S610 as listed in below sections. To define the board configuration press any of the 'CARD x' buttons to open the board configuration window. CARD 1 to 5 buttons and choice boxes are in the main Emma 02 window, CARD 5 setup button and remaining cards can be defined by pressing the 'C 5-25' button which will open the CARD Setup window.
 </p>
 <p>
-This chapter also includes:
+This section also includes:
 </p>
 <p>
 <a href="MicroboardCdp18s600.htm">CDP18S600: CPU 1805, UART & PIO CDP1851</a><br>
@@ -162,7 +162,6 @@ This chapter also includes:
 <a href="MicroboardCdp18s661b.htm">CDP18S661B: Video (NTSC)</a><br>
 <a href="MicroboardCdp18s661v1.htm">CDP18S661V1: Video (NTSC)</a><br>
 <a href="MicroboardCdp18s661v3.htm">CDP18S661V3: Video (PAL)</a><br>
-<a href="MicroboardBoot.htm">Auto Boot</a><br>
 <a href="MicroboardIo.htm">IO Window</a><br>
 </p>
 </body></html>

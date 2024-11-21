@@ -7,7 +7,7 @@ public:
     KeypadFred ();
     ~KeypadFred () {};
 
-    void configure(IoConfiguration portConf, int keyDefA1[], int keyDefA2[]);
+    void configure(FredKeypadConfiguration fredKeypadConfiguration, int keyDefA1[], int keyDefA2[]);
     
     void keyDown(int keycode);
     void keyUp(int keycode);
@@ -23,8 +23,8 @@ public:
     void setKeyPress(Byte value);
 
 private:
-    IoConfiguration ioConfiguration_;
-
+    FredKeypadConfiguration fredKeypadConfiguration_;
+    
     wxKeyCode keyCode_;
     int keyCycles_;
     char nextNybble_;

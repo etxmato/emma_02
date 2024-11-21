@@ -1,0 +1,23 @@
+LUNAR BLITZ 
+
+Peter Easdown, Kew NSW 
+
+You are the last fighter pilot in your squadron and your mission is to fly as far as possible across the lunar surface to bomb the enemy's bomb stores. You must do this as often as possible, but watch out, the enemy’s mad butterfly seeks to destroy you. 
+
+In this game you direct a fighter-class attack craft across the screen, dodging the lunar landscape which rolls across the bottom of the screen and the mad butterfly which continues to move across the screen above the lunar surface. 
+
+Your ship is heavily armed with forward-firing lasers and is highly explosive. 
+
+The aim of the game is to last as long as possible and to shoot the butterfly and to bomb the bomb stores. 
+
+When you first run this program it will display a heading, then the letters A’ and ‘F’ in brackets. By pressing F’ you will return to the monitor; pressing A’ will start a new game. 
+
+Down at the bottom of the screen you will see the butterfly and the numeral ‘5’; if you shoot the butterfly you will get ‘5’ points. (Bombs don’t work on the butterfly.) 
+
+Also at the bottom of the screen is a portion of the lunar surface with the number ‘1 O'. If you drop a bomb directly into this hole you will get ‘10’ points. Warning, you only have ‘10’ bombs; once you run out you must land in the crater that you started in to replenish your supplies. 
+
+Your death can be brought about in three possible ways: you crash into the lunar surface; you crash into the butterfly; you are shot by the ground defence systems. 
+
+Upon your death your score will be shown. 
+
+To play Lunar Blitz use these keys: 4 — brake; 5 — bomb drop; 6 — laser fire; 8 — move up; 2 — move down. 

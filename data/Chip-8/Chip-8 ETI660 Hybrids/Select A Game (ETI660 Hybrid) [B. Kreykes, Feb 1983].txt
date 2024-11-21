@@ -1,0 +1,55 @@
+SELECT-A-GAME Bill Kreykes, St Albans, Vic. 
+
+
+This program, or better, group of programs, is a continuation from Wipeout 660 Style published in ETI. October 82, page 95. Although Wipeout 660 Style will run on its own, when teamed with the listing given here you get a selection of one of three games to play: Wipeout 660 Style, Concentration and Block Puzzle. All three are translations from CHIP 8.D2 All are in colour and you II need a 660 with colour and full 3K of memory. Colour instructions for each are at the start of each game so you can change colours if they don t suit your taste. Details later. You can also change them to monochrome only if you wish. 
+
+Here are the games: 
+
+A) WIPEOUT'660 STYLE 
+
+As per ETI. October 82, page 95. Enter program as published, but change data at 0600 (2822) to 1B9E. 
+
+
+B) CONCENTRATION 
+
+Between two players — A and B Press a key to reveal the hidden shape. Press another key and match the pairs (eight in all). The computer shows whose turn it is and each player's score The game automatically re-starts when finished The winner is the player who attains the highest score over 99. 
+
+C) BLOCK PUZZLE 
+
+NOTE: to make key handling easier in Emma 02 I changed RIGHT key from C to D!
+
+Another version of the program by the same name that appeared on page 92 of the November 82 issue. The computer shows 16 squares in a 4x4 array, each numbered 0 to F. The 0 disappears and the computer shuffles the squares about. You have to put them back in order. 1 to F. in the least number of turns. A short beep sounds when the computer has finished shuffling, signifying it is your move. Keys to use are: 
+
+UP KEY 3 
+DOWN KEY B 
+LEFT KEY A 
+RIGHT KEY D 
+
+You get a high-pitched beep if you make an invalid move. 
+
+The game automatically re-starts after all the numbers are in the correct positions. 
+
+Game B cannot be run alone as it uses subroutines from game A. Likewise, game C uses subroutines from game B. 
+
+When first run. the screen shows a game selector Simply press the appropriate key to choose the game you want.
+
+COLOUR OPTIONS 
+
+For Wipeout, colour options were included in the October '82 article. However, it is now possible to select any background colour by changing data at 0822 (07F7) to that data shown in the Background Colour Chart here. For monochrome, change 0824 (07B8) toOOEE. 
+
+Concentration runs from 0860 to 0A56. You can change the background colour by altering data at 0860 (09EB) according to the Background Colour Chart. For monochrome operation, change 086E (4000) to 1876. The 4000 instruction at 086E is used so as to jump the background. The background colour code number is entered as the last digit. This can also be used to jump an unsuitable colour. The colour of the top row of squares is set by the instruction at 0864 (6003). You can display your initials by changing the data at 0A27-0A2E and 0A2F-0A36. 
+
+Block Puzzle runs from 0A58 to 0B9C. For mono¬ chrome operation, change 0A58 (07B8) to 00FF. Background colour is set at 0A5A. Change 09ED here to whatever you want from the Background Colour Chart. The instructions at 0A64 (4004) and 0A68 (4000) allow you to skip unsuitable colours (which are developed at random at the start of each game by the C007 instruction at 0A62). Change the last digit to that colour s code. The 6005 instruction at 0A82 sets the colour of the score to yellow. 
+
+The games selector resides between 0B88 and 0C0C. 
+
+BACKGROUND 
+COLOUR CHART 
+
+BLUE 	OOFF 
+BLACK 	09EF 
+GREEN 	09ED 
+RED 	09EB 
+
+The program listing has been annotated to give you an idea of its workings. Data not annotated is display data, except for the sector from 09EB to 09F1 which is a machine code subroutine. 
+

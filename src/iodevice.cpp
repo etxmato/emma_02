@@ -56,111 +56,9 @@ void IoDevice::initIo()
             }
         }
     }
-    for (int i=0; i<MAXCYCLE; i++)
+    for (int i=0; i<CYCLE_TYPE_MAX; i++)
     {
         cycleType_ [i] = 0;
-    }
-}
-
-void IoDevice::setEfType(int number, int efType)
-{
-    for (int q=0; q<2; q++)
-        for (int iogroup=0; iogroup<257; iogroup++)
-            efType_[q][iogroup][number] = efType;
-}
-
-void IoDevice::setEfType(int iogroup, int number, int efType)
-{
-    if (iogroup == 0)
-        setEfType(number, efType);
-    else
-    {
-        for (int q=0; q<2; q++)
-            efType_[q][iogroup][number] = efType;
-    }
-}
-
-void IoDevice::setEfType(int q, int iogroup, int number, int efType)
-{
-    if (q == -1)
-        setEfType(iogroup, number, efType);
-    else
-    {
-        if (iogroup == 0)
-            for (int group=0; group<257; group++)
-                efType_[q][group][number] = efType;
-        else
-        {
-            efType_[q][iogroup][number] = efType;
-        }
-    }
-}
-
-void IoDevice::setInType(int number, int inType)
-{
-    for (int q=0; q<2; q++)
-        for (int iogroup=0; iogroup<257; iogroup++)
-            inType_[q][iogroup][number] = inType;
-}
-
-void IoDevice::setInType(int iogroup, int number, int inType)
-{
-    if (iogroup == 0)
-        setInType(number, inType);
-    else
-    {
-        for (int q=0; q<2; q++)
-            inType_[q][iogroup][number] = inType;
-    }
-}
-
-void IoDevice::setInType(int q, int iogroup, int number, int inType)
-{
-    if (q == -1)
-        setInType(iogroup, number, inType);
-    else
-    {
-        if (iogroup == 0)
-            for (int group=0; group<257; group++)
-                inType_[q][group][number] = inType;
-        else
-        {
-            inType_[q][iogroup][number] = inType;
-        }
-    }
-}
-
-void IoDevice::setOutType(int number, int outType)
-{
-    for (int q=0; q<2; q++)
-        for (int iogroup=0; iogroup<257; iogroup++)
-            outType_[q][iogroup][number] = outType;
-}
-
-void IoDevice::setOutType(int iogroup, int number, int outType)
-{
-    if (iogroup == 0)
-        setOutType(number, outType);
-    else
-    {
-        for (int q=0; q<2; q++)
-            outType_[q][iogroup][number] = outType;
-    }
-}
-
-void IoDevice::setOutType(int q, int iogroup, int number, int outType)
-{
-    if (q == -1)
-        setOutType(iogroup, number, outType);
-    else
-    {
-        if (iogroup == 0)
-            for (int group=0; group<257; group++)
-                outType_[q][group][number] = outType;
-        else
-        {
-            outType_[q][iogroup][number] = outType;
-        }
     }
 }
 
@@ -169,7 +67,7 @@ void IoDevice::setCycleType(int number, int outCycleType)
     cycleType_[number] = outCycleType;
 }
 
-void IoDevice::setEfTypeAndNumber(int number, int efType, int itemNumber)
+void IoDevice::setEfType(int number, int efType, int itemNumber)
 {
     for (int q=0; q<2; q++)
         for (int iogroup=0; iogroup<257; iogroup++)
@@ -179,76 +77,75 @@ void IoDevice::setEfTypeAndNumber(int number, int efType, int itemNumber)
         }
 }
 
-void IoDevice::setEfTypeAndNumber(int iogroup, int number, int efType, int itemNumber)
+void IoDevice::setEfType(vector<int>* ioGroup, int number, int efType, bool excludeIoGroup, int itemNumber)
 {
-    if (iogroup == 0)
-        setEfTypeAndNumber(number, efType, itemNumber);
+    if (ioGroup->size() == 0 || excludeIoGroup)
+        setEfType(number, efType, itemNumber);
     else
     {
         for (int q=0; q<2; q++)
         {
-            efType_[q][iogroup][number] = efType;
-            efItemNumber_[q][iogroup][number] = itemNumber;
-        }
-    }
-}
-
-void IoDevice::setEfTypeAndNumber(int q, int iogroup, int number, int efType, int itemNumber)
-{
-    if (q == -1)
-        setEfTypeAndNumber(iogroup, number, efType, itemNumber);
-    else
-    {
-        if (iogroup == 0)
-            for (int group=0; group<257; group++)
+            for (std::vector<int>::iterator ioGroupIterator = ioGroup->begin (); ioGroupIterator != ioGroup->end (); ++ioGroupIterator)
             {
-                efType_[q][group][number] = efType;
-                efItemNumber_[q][iogroup][number] = itemNumber;
+                efType_[q][*ioGroupIterator+1][number] = efType;
+                efItemNumber_[q][*ioGroupIterator+1][number] = itemNumber;
             }
-        else
-        {
-            efType_[q][iogroup][number] = efType;
-            efItemNumber_[q][iogroup][number] = itemNumber;
         }
     }
 }
 
-void IoDevice::setEfTypeAndNumber(int q, int iogroup, int number, int efType, int itemNumber, wxString message)
+void IoDevice::setEfType(vector<int>* ioGroup, EfFlag efFlag, int efType, wxString message, int itemNumber)
 {
-    if (number == -1)
+    efFlag.ioDefinition = efType;
+    setEfType(ioGroup, efFlag, message, itemNumber);
+}
+
+void IoDevice::setEfType(vector<int>* ioGroup, EfFlag efFlag, wxString message, int itemNumber)
+{
+    if (efFlag.flagNumber == -1)
         return;
     
-    wxString efPorts = "";
-    wxString efQtext;
+    wxString efPorts, efQtext, reversedText = "";
     
-    if (q == -1)
+    if (efFlag.qValue == -1)
         efQtext = "	EF ";
     else
-        efQtext.Printf("	Q = %d & EF ", q);
+        efQtext.Printf("	Q = %d & EF ", efFlag.qValue);
 
-    if (q == -1)
-        setEfTypeAndNumber(iogroup, number, efType, itemNumber);
+    if (efFlag.reverse == 1)
+        reversedText = " (reversed)";
+
+    if (efFlag.qValue == -1)
+        setEfType(ioGroup, efFlag.flagNumber, efFlag.ioDefinition, efFlag.excludeIoGroup, itemNumber);
     else
     {
-        if (iogroup == 0)
+        if (ioGroup->size() == 0 || efFlag.excludeIoGroup)
+        {
             for (int group=0; group<257; group++)
             {
-                efType_[q][group][number] = efType;
-                efItemNumber_[q][iogroup][number] = itemNumber;
+                efType_[efFlag.qValue][group][efFlag.flagNumber] = efFlag.ioDefinition;
+                efItemNumber_[efFlag.qValue][group][efFlag.flagNumber] = itemNumber;
             }
+        }
         else
         {
-            efType_[q][iogroup][number] = efType;
-            efItemNumber_[q][iogroup][number] = itemNumber;
+            for (std::vector<int>::iterator ioGroupIterator = ioGroup->begin (); ioGroupIterator != ioGroup->end (); ++ioGroupIterator)
+            {
+                efType_[efFlag.qValue][*ioGroupIterator+1][efFlag.flagNumber] = efFlag.ioDefinition;
+                efItemNumber_[efFlag.qValue][*ioGroupIterator+1][efFlag.flagNumber] = itemNumber;
+            }
         }
     }
     
-    efPorts.Printf("%d", number);
-    p_Main->message(efQtext + efPorts + ": " + message);
+    efPorts.Printf("%d", efFlag.flagNumber);
+    p_Main->message(efQtext + efPorts + ": " + message + reversedText);
 }
 
-void IoDevice::setInTypeAndNumber(int number, int inType, int itemNumber)
+void IoDevice::setInType(int number, int inType, int itemNumber)
 {
+    if (inType == 0)
+        return;
+
     for (int q=0; q<2; q++)
         for (int iogroup=0; iogroup<257; iogroup++)
         {
@@ -257,43 +154,63 @@ void IoDevice::setInTypeAndNumber(int number, int inType, int itemNumber)
         }
 }
 
-void IoDevice::setInTypeAndNumber(int iogroup, int number, int inType, int itemNumber)
+void IoDevice::setInType(vector<int>* ioGroup, int number, int inType, int itemNumber)
 {
-    if (iogroup == 0)
-        setInTypeAndNumber(number, inType, itemNumber);
+    if (inType == 0)
+        return;
+    
+    if (ioGroup->size() == 0)
+        setInType(number, inType, itemNumber);
     else
     {
-        for (int q=0; q<2; q++)
+        for (std::vector<int>::iterator ioGroupIterator = ioGroup->begin (); ioGroupIterator != ioGroup->end (); ++ioGroupIterator)
         {
-            inType_[q][iogroup][number] = inType;
-            inItemNumber_[q][iogroup][number] = itemNumber;
+            for (int q=0; q<2; q++)
+            {
+                inType_[q][*ioGroupIterator+1][number] = inType;
+                inItemNumber_[q][*ioGroupIterator+1][number] = itemNumber;
+            }
         }
     }
 }
 
-void IoDevice::setInTypeAndNumber(int q, int iogroup, int number, int inType, int itemNumber)
+void IoDevice::setInType(int q, vector<int>* ioGroup, int number, int inType, int itemNumber)
 {
+    if (inType == 0)
+        return;
+    
     if (q == -1)
-        setInTypeAndNumber(iogroup, number, inType, itemNumber);
+        setInType(ioGroup, number, inType, itemNumber);
     else
     {
-        if (iogroup == 0)
+        if (ioGroup->size() == 0)
+        {
             for (int group=0; group<257; group++)
             {
                 inType_[q][group][number] = inType;
-                inItemNumber_[q][iogroup][number] = itemNumber;
+                inItemNumber_[q][group][number] = itemNumber;
             }
+        }
         else
         {
-            inType_[q][iogroup][number] = inType;
-            inItemNumber_[q][iogroup][number] = itemNumber;
+            for (std::vector<int>::iterator ioGroupIterator = ioGroup->begin (); ioGroupIterator != ioGroup->end (); ++ioGroupIterator)
+            {
+                inType_[q][*ioGroupIterator+1][number] = inType;
+                inItemNumber_[q][*ioGroupIterator+1][number] = itemNumber;
+            }
         }
     }
 }
 
-void IoDevice::setInTypeAndNumber(int iogroup, IoPort port, int inType, int itemNumber, wxString message)
+void IoDevice::setInType(vector<int>* ioGroup, IoPort port, int inType, wxString message, int itemNumber)
 {
-    if (port.portNumber == -1)
+    port.ioDefinition = inType;
+    setInType(ioGroup, port, message, itemNumber);
+}
+
+void IoDevice::setInType(vector<int>* ioGroup, IoPort port, wxString message, int itemNumber)
+{
+    if (port.portNumber[0] == -1)
         return;
     
     wxString inputPorts = "";
@@ -304,30 +221,22 @@ void IoDevice::setInTypeAndNumber(int iogroup, IoPort port, int inType, int item
     else
         inputQtext.Printf("	Q = %d & input ", port.qValue);
 
-    if (port.mask == 0xff)
+    for (std::vector<int>::iterator portNumber = port.portNumber.begin (); portNumber != port.portNumber.end (); ++portNumber)
     {
-        setInTypeAndNumber(port.qValue, iogroup, port.portNumber, inType, itemNumber);
-        inputPorts.Printf("%d", port.portNumber);
-    }
-    else
-    {
-        for (int number = 0; number < 8; number++)
-        {
-            if ((number & port.mask) == (port.mask ^ port.xorMask))
-            {
-                setInTypeAndNumber(port.qValue, iogroup, number, inType, itemNumber);
-                if (inputPorts != "")
-                    inputPorts += ", ";
-                inputPorts.Printf(inputPorts + "%d", number);
-            }
-        }
+        setInType(port.qValue, ioGroup, *portNumber, port.ioDefinition, itemNumber);
+        if (inputPorts != "")
+            inputPorts += ", ";
+        inputPorts.Printf(inputPorts + "%d", *portNumber);
     }
     
     p_Main->message(inputQtext + inputPorts + ": " + message);
 }
 
-void IoDevice::setOutTypeAndNumber(int number, int outType, int itemNumber)
+void IoDevice::setOutType(int number, int outType, int itemNumber)
 {
+    if (outType == 0)
+        return;
+
     for (int q=0; q<2; q++)
         for (int iogroup=0; iogroup<257; iogroup++)
         {
@@ -336,43 +245,63 @@ void IoDevice::setOutTypeAndNumber(int number, int outType, int itemNumber)
         }
 }
 
-void IoDevice::setOutTypeAndNumber(int iogroup, int number, int outType, int itemNumber)
+void IoDevice::setOutType(vector<int>* ioGroup, int number, int outType, int itemNumber)
 {
-    if (iogroup == 0)
-        setOutTypeAndNumber(number, outType, itemNumber);
+    if (outType == 0)
+        return;
+
+    if (ioGroup->size() == 0)
+        setOutType(number, outType, itemNumber);
     else
     {
         for (int q=0; q<2; q++)
         {
-            outType_[q][iogroup][number] = outType;
-            outItemNumber_[q][iogroup][number] = itemNumber;
+            for (std::vector<int>::iterator ioGroupIterator = ioGroup->begin (); ioGroupIterator != ioGroup->end (); ++ioGroupIterator)
+            {
+                outType_[q][*ioGroupIterator+1][number] = outType;
+                outItemNumber_[q][*ioGroupIterator+1][number] = itemNumber;
+            }
         }
     }
 }
 
-void IoDevice::setOutTypeAndNumber(int q, int iogroup, int number, int outType, int itemNumber)
+void IoDevice::setOutType(int q, vector<int>* ioGroup, int number, int outType, int itemNumber)
 {
+    if (outType == 0)
+        return;
+
     if (q == -1)
-        setOutTypeAndNumber(iogroup, number, outType, itemNumber);
+        setOutType(ioGroup, number, outType, itemNumber);
     else
     {
-        if (iogroup == 0)
+        if (ioGroup->size() == 0)
+        {
             for (int group=0; group<257; group++)
             {
                 outType_[q][group][number] = outType;
-                outItemNumber_[q][iogroup][number] = itemNumber;
+                outItemNumber_[q][group][number] = itemNumber;
             }
+        }
         else
         {
-            outType_[q][iogroup][number] = outType;
-            outItemNumber_[q][iogroup][number] = itemNumber;
+            for (std::vector<int>::iterator ioGroupIterator = ioGroup->begin (); ioGroupIterator != ioGroup->end (); ++ioGroupIterator)
+            {
+                outType_[q][*ioGroupIterator+1][number] = outType;
+                outItemNumber_[q][*ioGroupIterator+1][number] = itemNumber;
+            }
         }
     }
 }
 
-void IoDevice::setOutTypeAndNumber(int iogroup, IoPort port, int outType, int itemNumber, wxString message)
+void IoDevice::setOutType(vector<int>* ioGroup, IoPort port, int outType, wxString message, int itemNumber)
 {
-    if (port.portNumber == -1)
+    port.ioDefinition = outType;
+    setOutType(ioGroup, port, message, itemNumber);
+}
+
+void IoDevice::setOutType(vector<int>* ioGroup, IoPort port, wxString message, int itemNumber)
+{
+    if (port.portNumber[0] == -1)
         return;
     
     wxString outputPorts = "";
@@ -383,23 +312,12 @@ void IoDevice::setOutTypeAndNumber(int iogroup, IoPort port, int outType, int it
     else
         outputQtext.Printf("	Q = %d & output ", port.qValue);
 
-    if (port.mask == 0xff)
+    for (std::vector<int>::iterator portNumber = port.portNumber.begin (); portNumber != port.portNumber.end (); ++portNumber)
     {
-        setOutTypeAndNumber(port.qValue, iogroup, port.portNumber, outType, itemNumber);
-        outputPorts.Printf("%d", port.portNumber);
-    }
-    else
-    {
-        for (int number = 0; number < 8; number++)
-        {
-            if ((number & port.mask) == (port.mask ^ port.xorMask))
-            {
-                setOutTypeAndNumber(port.qValue, iogroup, number, outType, itemNumber);
-                if (outputPorts != "")
-                    outputPorts += ", ";
-                outputPorts.Printf(outputPorts + "%d", number);
-            }
-        }
+        setOutType(port.qValue, ioGroup, *portNumber, port.ioDefinition, itemNumber);
+        if (outputPorts != "")
+            outputPorts += ", ";
+        outputPorts.Printf(outputPorts + "%d", *portNumber);
     }
     
     p_Main->message(outputQtext + outputPorts + ": " + message);

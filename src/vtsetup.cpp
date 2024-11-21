@@ -48,17 +48,15 @@ VtSetupDialog::VtSetupDialog(wxWindow* parent)
     wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"vt_" + p_Main->getFontSize() + ".xrc");
     wxXmlResource::Get()->LoadDialog(this, parent, "VtSetupDialog");
 
-    elfConfiguration_ = p_Main->getElfConfiguration();
-    computerTypeStr_ = p_Main->getSelectedComputerStr();
-    computerType_ = p_Main->getSelectedComputerId();
-    originalUartValue_ = elfConfiguration_.useUart;
+    currentComputerConfiguration = p_Main->getConfiguration();
+    originalUartValue_ = currentComputerConfiguration.videoTerminalConfiguration.uart1854_defined;
 
     this->SetTitle("Video Terminal Setup "+p_Main->getSelectedComputerText());
 
-    switch (elfConfiguration_.vtType)
+    switch (currentComputerConfiguration.videoTerminalConfiguration.type)
     {
         case VT52:
-            SetUpFeature_ = elfConfiguration_.vt52SetUpFeature_;
+            SetUpFeature_ = currentComputerConfiguration.videoTerminalConfiguration.vt52SetUpFeature;
             XRCCTRL(*this, "VtSetupBit5", wxChoice)->Hide();
             XRCCTRL(*this, "VtSetupBit5Text", wxStaticText)->Hide();
             XRCCTRL(*this, "VtSetupBit9", wxChoice)->Hide();
@@ -75,7 +73,7 @@ VtSetupDialog::VtSetupDialog(wxWindow* parent)
         break;
 
         case VT100:
-            SetUpFeature_ = elfConfiguration_.vt100SetUpFeature_;
+            SetUpFeature_ = currentComputerConfiguration.videoTerminalConfiguration.vt100SetUpFeature;
             XRCCTRL(*this, "StaticLine3", wxStaticLine)->Hide();
 #ifdef __WXMSW__
             XRCCTRL(*this, "VtSerialPortChoice", wxChoice)->Hide();
@@ -86,9 +84,9 @@ VtSetupDialog::VtSetupDialog(wxWindow* parent)
         break;
     }
 
-    if (elfConfiguration_.vtExternal)
+    if (currentComputerConfiguration.videoTerminalConfiguration.external)
     {
-        SetUpFeature_ = elfConfiguration_.vtExternalSetUpFeature_;
+        SetUpFeature_ = currentComputerConfiguration.videoTerminalConfiguration.vtExternalSetUpFeature;
         XRCCTRL(*this, "VtSetupBit0", wxChoice)->Hide();
         XRCCTRL(*this, "VtSetupBit0Text", wxStaticText)->Hide();
         XRCCTRL(*this, "VtSetupBit4", wxChoice)->Hide();
@@ -139,141 +137,49 @@ VtSetupDialog::VtSetupDialog(wxWindow* parent)
         XRCCTRL(*this, "VtSetupCharRom", wxComboBox)->Hide();
     }
 
-    XRCCTRL(*this, "SerialLog", wxCheckBox)->SetValue(elfConfiguration_.serialLog);
-    XRCCTRL(*this, "ESCError", wxCheckBox)->SetValue(elfConfiguration_.escError);
-    switch (computerType_)
+    XRCCTRL(*this, "SerialLog", wxCheckBox)->SetValue(currentComputerConfiguration.videoTerminalConfiguration.serialLog);
+    XRCCTRL(*this, "ESCError", wxCheckBox)->SetValue(currentComputerConfiguration.videoTerminalConfiguration.escError);
+
+    XRCCTRL(*this, "Uart1854", wxCheckBox)->SetValue(currentComputerConfiguration.videoTerminalConfiguration.uart1854_defined);
+    XRCCTRL(*this, "Uart16450", wxCheckBox)->SetValue(currentComputerConfiguration.videoTerminalConfiguration.uart16450_defined);
+    XRCCTRL(*this, "VtRtcClear", wxCheckBox)->Hide();
+    XRCCTRL(*this, "VtEf", wxCheckBox)->SetValue(currentComputerConfiguration.videoTerminalConfiguration.ef.reverse != 1);
+    XRCCTRL(*this, "VtQ", wxCheckBox)->SetValue(currentComputerConfiguration.videoTerminalConfiguration.reverseQ != 1);
+    if (currentComputerConfiguration.videoTerminalConfiguration.uart16450_defined || currentComputerConfiguration.videoTerminalConfiguration.uart1854_defined)
     {
-        case ELF:
-        case ELFII:
-        case SUPERELF:
-            XRCCTRL(*this, "Uart1854", wxCheckBox)->SetValue(elfConfiguration_.useUart);
-            XRCCTRL(*this, "Uart16450", wxCheckBox)->SetValue(elfConfiguration_.useUart16450);
-            XRCCTRL(*this, "VtRtcClear", wxCheckBox)->SetValue(elfConfiguration_.clearRtc);
-            XRCCTRL(*this, "VtEf", wxCheckBox)->SetValue(elfConfiguration_.ioConfiguration.vt100ReverseEf != 1);
-            XRCCTRL(*this, "VtQ", wxCheckBox)->SetValue(elfConfiguration_.ioConfiguration.vt100ReverseQ != 0);
-            if (elfConfiguration_.useUart16450 || elfConfiguration_.useUart)
-            {
-                XRCCTRL(*this, "VtEf", wxCheckBox)->Enable(false);
-                XRCCTRL(*this, "VtQ", wxCheckBox)->Enable(false);
-            }
-        break;
-
-        case XML:
-            XRCCTRL(*this, "Uart1854", wxCheckBox)->SetValue(elfConfiguration_.useUart);
-            XRCCTRL(*this, "Uart16450", wxCheckBox)->SetValue(elfConfiguration_.useUart16450);
-            XRCCTRL(*this, "VtRtcClear", wxCheckBox)->Hide();
-            XRCCTRL(*this, "VtEf", wxCheckBox)->SetValue(elfConfiguration_.ioConfiguration.vt100ReverseEf != 1);
-            XRCCTRL(*this, "VtQ", wxCheckBox)->SetValue(elfConfiguration_.ioConfiguration.vt100ReverseQ != 0);
-            if (elfConfiguration_.useUart16450 || elfConfiguration_.useUart)
-            {
-                XRCCTRL(*this, "VtEf", wxCheckBox)->Enable(false);
-                XRCCTRL(*this, "VtQ", wxCheckBox)->Enable(false);
-            }
-        break;
-
-        case PICO:
-            XRCCTRL(*this, "Uart1854", wxCheckBox)->Hide();
-            XRCCTRL(*this, "Uart16450", wxCheckBox)->SetLabel("UART 16450");
-            XRCCTRL(*this, "Uart16450", wxCheckBox)->SetValue(elfConfiguration_.useUart16450);
-            XRCCTRL(*this, "VtRtcClear", wxCheckBox)->Hide();
-            XRCCTRL(*this, "VtEf", wxCheckBox)->SetValue(elfConfiguration_.ioConfiguration.vt100ReverseEf != 1);
-            XRCCTRL(*this, "VtQ", wxCheckBox)->SetValue(elfConfiguration_.ioConfiguration.vt100ReverseQ != 0);
-            if (elfConfiguration_.useUart16450 || elfConfiguration_.useUart)
-            {
-                XRCCTRL(*this, "VtEf", wxCheckBox)->Enable(false);
-                XRCCTRL(*this, "VtQ", wxCheckBox)->Enable(false);
-            }
-        break;
-
-        case MCDS:
-        case CDP18S020:
-        case MICROBOARD:
-            XRCCTRL(*this, "VtEf", wxCheckBox)->Hide();
-            XRCCTRL(*this, "VtQ", wxCheckBox)->Hide();
-            XRCCTRL(*this, "Uart1854", wxCheckBox)->Hide();
-            XRCCTRL(*this, "Uart16450", wxCheckBox)->Hide();
-            XRCCTRL(*this, "VtRtcClear", wxCheckBox)->Hide();
-        break;
-            
-        case MS2000:
-            XRCCTRL(*this, "VtEf", wxCheckBox)->Hide();
-            XRCCTRL(*this, "VtQ", wxCheckBox)->Hide();
-            XRCCTRL(*this, "Uart1854", wxCheckBox)->Hide();
-            XRCCTRL(*this, "Uart16450", wxCheckBox)->Hide();
-            XRCCTRL(*this, "VtRtcClear", wxCheckBox)->Hide();
-        break;
-
-        case ELF2K:
-            XRCCTRL(*this, "Uart16450", wxCheckBox)->SetValue(elfConfiguration_.useUart);
-            XRCCTRL(*this, "Uart16450", wxCheckBox)->SetLabel("UART 16450");
-            XRCCTRL(*this, "Uart1854", wxCheckBox)->Hide();
-            XRCCTRL(*this, "VtEf", wxCheckBox)->SetValue(elfConfiguration_.ioConfiguration.vt100ReverseEf != 1);
-            XRCCTRL(*this, "VtQ", wxCheckBox)->SetValue(elfConfiguration_.ioConfiguration.vt100ReverseQ != 0);
-            XRCCTRL(*this, "VtRtcClear", wxCheckBox)->Hide();
-            if (elfConfiguration_.useUart16450 || elfConfiguration_.useUart)
-            {
-                XRCCTRL(*this, "VtEf", wxCheckBox)->Enable(false);
-                XRCCTRL(*this, "VtQ", wxCheckBox)->Enable(false);
-            }
-        break;
-
-        case VIP:
-        case VIP2K:
-            XRCCTRL(*this, "Uart16450", wxCheckBox)->Hide();
-            XRCCTRL(*this, "Uart1854", wxCheckBox)->SetValue(elfConfiguration_.useUart);
-            XRCCTRL(*this, "Uart1854", wxCheckBox)->SetLabel("UART");
-            XRCCTRL(*this, "VtEf", wxCheckBox)->SetValue(elfConfiguration_.vtEf);
-            XRCCTRL(*this, "VtQ", wxCheckBox)->SetValue(!elfConfiguration_.vtQ);
-            XRCCTRL(*this, "Uart1854", wxCheckBox)->Hide();
-            XRCCTRL(*this, "VtRtcClear", wxCheckBox)->Hide();
-        break;
-            
-        case COSMICOS:
-            XRCCTRL(*this, "VtCharacters", wxChoice)->Hide();
-            XRCCTRL(*this, "VtCharactersText", wxStaticText)->Hide();
-            XRCCTRL(*this, "VtEf", wxCheckBox)->SetValue(elfConfiguration_.vtEf);
-            XRCCTRL(*this, "VtQ", wxCheckBox)->SetValue(!elfConfiguration_.vtQ);
-            XRCCTRL(*this, "Uart1854", wxCheckBox)->Hide();
-            XRCCTRL(*this, "Uart16450", wxCheckBox)->Hide();
-            XRCCTRL(*this, "VtRtcClear", wxCheckBox)->Hide();
-        break;
-        
-        case MEMBER:
-        case VELF:
-            XRCCTRL(*this, "VtEf", wxCheckBox)->SetValue(elfConfiguration_.vtEf);
-            XRCCTRL(*this, "VtQ", wxCheckBox)->SetValue(!elfConfiguration_.vtQ);
-            XRCCTRL(*this, "Uart1854", wxCheckBox)->Hide();
-            XRCCTRL(*this, "Uart16450", wxCheckBox)->Hide();
-            XRCCTRL(*this, "VtRtcClear", wxCheckBox)->Hide();
-        break;
+        XRCCTRL(*this, "VtEf", wxCheckBox)->Enable(false);
+        XRCCTRL(*this, "VtQ", wxCheckBox)->Enable(false);
     }
 
     wxString bellFrequency;
-    bellFrequency.Printf("%d", elfConfiguration_.bellFrequency_);
+    bellFrequency.Printf("%d", currentComputerConfiguration.videoTerminalConfiguration.bellFrequency);
     XRCCTRL(*this, "VtBell", wxTextCtrl)->ChangeValue(bellFrequency);
 
-    switch (elfConfiguration_.vtCharactersPerRow)
+    switch (currentComputerConfiguration.videoTerminalConfiguration.charactersPerRow)
     {
+        case 64:
+            XRCCTRL(*this, "VtCharacters", wxChoice)->SetSelection(0);
+        break;
         case 132:
-            XRCCTRL(*this, "VtCharacters", wxChoice)->SetSelection(1);
+            XRCCTRL(*this, "VtCharacters", wxChoice)->SetSelection(2);
         break;
         default:
-            XRCCTRL(*this, "VtCharacters", wxChoice)->SetSelection(0);
+            XRCCTRL(*this, "VtCharacters", wxChoice)->SetSelection(1);
         break;
     }
 
-    if (elfConfiguration_.vtWavFile_ != "")
+    if (currentComputerConfiguration.videoTerminalConfiguration.wavFileName != "")
     {
-        XRCCTRL(*this, "VtSetupWavFile", wxTextCtrl)->ChangeValue(elfConfiguration_.vtWavFile_);
+        XRCCTRL(*this, "VtSetupWavFile", wxTextCtrl)->ChangeValue(currentComputerConfiguration.videoTerminalConfiguration.wavFileName);
         XRCCTRL(*this, "VtBell", wxTextCtrl)->Enable(false);
     }
 
-    if (elfConfiguration_.useXmodem && !elfConfiguration_.vtExternal)
+    if (currentComputerConfiguration.videoTerminalConfiguration.xModem_defined && !currentComputerConfiguration.videoTerminalConfiguration.external)
     {
         XRCCTRL(*this, "XmodemLine", wxStaticLine)->Show();
         XRCCTRL(*this, "VtXmodemPacketSizeText", wxStaticText)->Show();
         XRCCTRL(*this, "VtXmodemPacketSizeChoice", wxChoice)->Show();
-        XRCCTRL(*this, "VtXmodemPacketSizeChoice", wxChoice)->SetSelection(elfConfiguration_.packetSize);
+        XRCCTRL(*this, "VtXmodemPacketSizeChoice", wxChoice)->SetSelection(currentComputerConfiguration.videoTerminalConfiguration.packetSize);
     }
     
     wxString box;
@@ -282,31 +188,24 @@ VtSetupDialog::VtSetupDialog(wxWindow* parent)
         box.Printf("%d", i);
         XRCCTRL(*this, "VtSetupBit"+box, wxChoice)->SetSelection(SetUpFeature_[i]);
     }
-    if (elfConfiguration_.vtType == VT52)
-        XRCCTRL(*this, "VtSetupCharRom", wxComboBox)->SetValue(elfConfiguration_.vt52CharRom_);
-    else
-        XRCCTRL(*this, "VtSetupCharRom", wxComboBox)->SetValue(elfConfiguration_.vt100CharRom_);
+    XRCCTRL(*this, "VtSetupCharRom", wxComboBox)->SetValue(currentComputerConfiguration.videoTerminalConfiguration.vtCharRomFileName);
     
 #ifdef __WXMSW__
     listPorts();
 #else
-    XRCCTRL(*this, "VtSerialPort", wxTextCtrl)->ChangeValue(elfConfiguration_.serialPort_);
+    XRCCTRL(*this, "VtSerialPort", wxTextCtrl)->ChangeValue(currentComputerConfiguration.videoTerminalConfiguration.serialPort);
 #endif
 }
 
 void VtSetupDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
 {
-    if (elfConfiguration_.vtWavFile_ != "")
+    if (currentComputerConfiguration.videoTerminalConfiguration.wavFileName != "")
     {
-        if (!p_Main->checkWavFile(elfConfiguration_.vtWavFileDir_ + elfConfiguration_.vtWavFile_))
+        if (!p_Main->checkWavFile(currentComputerConfiguration.videoTerminalConfiguration.wavDirectory + currentComputerConfiguration.videoTerminalConfiguration.wavFileName))
             return;
     }
     
     wxString box;
-    wxCommandEvent uartElf2KEvent(ON_UART_ELF2K, 808);
-    wxCommandEvent uartMS2000Event(ON_UART_MS2000, 809);
-    wxCommandEvent uartVipEvent(ON_UART_VIP, 810);
-    wxCommandEvent uartVip2KEvent(ON_UART_VIP2K, 811);
     
     for (int i=0; i<17; i++)
     {
@@ -317,165 +216,83 @@ void VtSetupDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
             SetUpFeature_[i]  = 1;
     }
 
-    switch (elfConfiguration_.vtType)
+    switch (currentComputerConfiguration.videoTerminalConfiguration.type)
     {
         case VT52:
-            elfConfiguration_.vt52SetUpFeature_ = SetUpFeature_;
+            currentComputerConfiguration.videoTerminalConfiguration.vt52SetUpFeature = SetUpFeature_;
         break;
             
         case VT100:
-            elfConfiguration_.vt100SetUpFeature_ = SetUpFeature_;
+            currentComputerConfiguration.videoTerminalConfiguration.vt100SetUpFeature = SetUpFeature_;
             switch (XRCCTRL(*this, "VtCharacters", wxChoice)->GetSelection())
             {
-                case 1:
-                    elfConfiguration_.vtCharactersPerRow = 132;
-                    elfConfiguration_.vt100CharWidth = 8;
+                case 0:
+                    currentComputerConfiguration.videoTerminalConfiguration.charactersPerRow = 64;
+                    currentComputerConfiguration.videoTerminalConfiguration.characterWidth = 10;
+                break;
+                case 2:
+                    currentComputerConfiguration.videoTerminalConfiguration.charactersPerRow = 132;
+                    currentComputerConfiguration.videoTerminalConfiguration.characterWidth = 8;
                 break;
                 default:
-                    elfConfiguration_.vtCharactersPerRow = 80;
-                    elfConfiguration_.vt100CharWidth = 10;
+                    currentComputerConfiguration.videoTerminalConfiguration.charactersPerRow = 80;
+                    currentComputerConfiguration.videoTerminalConfiguration.characterWidth = 10;
                 break;
             }
         break;
     }
 
-    if (elfConfiguration_.vtExternal)
-            elfConfiguration_.vtExternalSetUpFeature_ = SetUpFeature_;
+    if (currentComputerConfiguration.videoTerminalConfiguration.external)
+            currentComputerConfiguration.videoTerminalConfiguration.vtExternalSetUpFeature = SetUpFeature_;
 
-    elfConfiguration_.serialLog = XRCCTRL(*this, "SerialLog", wxCheckBox)->GetValue();
-    elfConfiguration_.escError = XRCCTRL(*this, "ESCError", wxCheckBox)->GetValue();
+    currentComputerConfiguration.videoTerminalConfiguration.serialLog = XRCCTRL(*this, "SerialLog", wxCheckBox)->GetValue();
+    currentComputerConfiguration.videoTerminalConfiguration.escError = XRCCTRL(*this, "ESCError", wxCheckBox)->GetValue();
 
-    if (elfConfiguration_.useXmodem)
+    if (currentComputerConfiguration.videoTerminalConfiguration.xModem_defined)
     {
-        elfConfiguration_.packetSize = XRCCTRL(*this, "VtXmodemPacketSizeChoice", wxChoice)->GetSelection();
+        currentComputerConfiguration.videoTerminalConfiguration.packetSize = XRCCTRL(*this, "VtXmodemPacketSizeChoice", wxChoice)->GetSelection();
     }
 
-    elfConfiguration_.useUart16450 = false;
-    switch (computerType_)
-    {
-        case ELF:
-        case ELFII:
-        case SUPERELF:
-        case XML:
-            elfConfiguration_.useUart = XRCCTRL(*this, "Uart1854", wxCheckBox)->GetValue();
-            elfConfiguration_.useUart16450 = XRCCTRL(*this, "Uart16450", wxCheckBox)->GetValue();
-            elfConfiguration_.clearRtc = XRCCTRL(*this, "VtRtcClear", wxCheckBox)->GetValue();
-            if (XRCCTRL(*this, "VtEf", wxCheckBox)->IsChecked())
-                elfConfiguration_.ioConfiguration.vt100ReverseEf = 0;
-            else
-                elfConfiguration_.ioConfiguration.vt100ReverseEf = 1;
+    currentComputerConfiguration.videoTerminalConfiguration.uart16450_defined = false;
+    currentComputerConfiguration.videoTerminalConfiguration.uart1854_defined = XRCCTRL(*this, "Uart1854", wxCheckBox)->GetValue();
+    currentComputerConfiguration.videoTerminalConfiguration.uart16450_defined = XRCCTRL(*this, "Uart16450", wxCheckBox)->GetValue();
+    currentComputerConfiguration.clearRtc = XRCCTRL(*this, "VtRtcClear", wxCheckBox)->GetValue();
+    if (XRCCTRL(*this, "VtEf", wxCheckBox)->IsChecked())
+        currentComputerConfiguration.videoTerminalConfiguration.ef.reverse = 0;
+    else
+        currentComputerConfiguration.videoTerminalConfiguration.ef.reverse = 1;
 
-            if (XRCCTRL(*this, "VtQ", wxCheckBox)->IsChecked())
-                elfConfiguration_.ioConfiguration.vt100ReverseQ = 1;
-            else
-                elfConfiguration_.ioConfiguration.vt100ReverseQ = 0;
-        break;
-
-        case PICO:
-            elfConfiguration_.useUart16450 = XRCCTRL(*this, "Uart16450", wxCheckBox)->GetValue();
-            if (XRCCTRL(*this, "VtEf", wxCheckBox)->IsChecked())
-                elfConfiguration_.ioConfiguration.vt100ReverseEf = 0;
-            else
-                elfConfiguration_.ioConfiguration.vt100ReverseEf = 1;
-
-            if (XRCCTRL(*this, "VtQ", wxCheckBox)->IsChecked())
-                elfConfiguration_.ioConfiguration.vt100ReverseQ = 1;
-            else
-                elfConfiguration_.ioConfiguration.vt100ReverseQ = 0;
-        break;
-
-        case CDP18S020:
-        case MCDS:
-            elfConfiguration_.useUart = false;
-        break;
-            
-        case MS2000:
-            elfConfiguration_.useUart = true;
-
-            uartMS2000Event.SetEventObject(this);
-            wxPostEvent(p_Main, uartMS2000Event);
-        break;
-
-        case ELF2K:
-            elfConfiguration_.useUart = XRCCTRL(*this, "Uart16450", wxCheckBox)->GetValue();
-            
-            if (originalUartValue_ != elfConfiguration_.useUart)
-            {
-                uartElf2KEvent.SetEventObject(this);
-                wxPostEvent(p_Main, uartElf2KEvent);
-            }
-            if (XRCCTRL(*this, "VtEf", wxCheckBox)->IsChecked())
-                elfConfiguration_.ioConfiguration.vt100ReverseEf = 0;
-            else
-                elfConfiguration_.ioConfiguration.vt100ReverseEf = 1;
-
-            if (XRCCTRL(*this, "VtQ", wxCheckBox)->IsChecked())
-                elfConfiguration_.ioConfiguration.vt100ReverseQ = 1;
-            else
-                elfConfiguration_.ioConfiguration.vt100ReverseQ = 0;
-        break;
-
-        case VIP:
-            elfConfiguration_.useUart = XRCCTRL(*this, "Uart1854", wxCheckBox)->GetValue();
-            
-            if (originalUartValue_ != elfConfiguration_.useUart)
-            {
-                uartVipEvent.SetEventObject(this);
-                wxPostEvent(p_Main, uartVipEvent);
-            }
-            elfConfiguration_.vtEf = XRCCTRL(*this, "VtEf", wxCheckBox)->GetValue();
-            elfConfiguration_.vtQ = !XRCCTRL(*this, "VtQ", wxCheckBox)->GetValue();
-        break;
-
-        case VIP2K:
-            elfConfiguration_.useUart = XRCCTRL(*this, "Uart1854", wxCheckBox)->GetValue();
-            
-            if (originalUartValue_ != elfConfiguration_.useUart)
-            {
-                uartVip2KEvent.SetEventObject(this);
-                wxPostEvent(p_Main, uartVip2KEvent);
-            }
-            elfConfiguration_.vtEf = XRCCTRL(*this, "VtEf", wxCheckBox)->GetValue();
-            elfConfiguration_.vtQ = !XRCCTRL(*this, "VtQ", wxCheckBox)->GetValue();
-        break;
-            
-        case COSMICOS:
-        case VELF:
-        case MEMBER:
-            elfConfiguration_.vtEf = XRCCTRL(*this, "VtEf", wxCheckBox)->GetValue();
-            elfConfiguration_.vtQ = !XRCCTRL(*this, "VtQ", wxCheckBox)->GetValue();
-        break;
-            
-        case MICROBOARD:
-        break;
-    }
+    if (XRCCTRL(*this, "VtQ", wxCheckBox)->IsChecked())
+        currentComputerConfiguration.videoTerminalConfiguration.reverseQ = 0;
+    else
+        currentComputerConfiguration.videoTerminalConfiguration.reverseQ = 1;
 
     long bellFrequency;
     wxString valueString = XRCCTRL(*this, "VtBell", wxTextCtrl)->GetValue();
     valueString.ToLong(&bellFrequency);
-    elfConfiguration_.bellFrequency_ = (int)bellFrequency;
+    currentComputerConfiguration.videoTerminalConfiguration.bellFrequency = (int)bellFrequency;
 
-    elfConfiguration_.vtWavFile_= XRCCTRL(*this, "VtSetupWavFile", wxTextCtrl)->GetValue();
+    currentComputerConfiguration.videoTerminalConfiguration.wavFileName= XRCCTRL(*this, "VtSetupWavFile", wxTextCtrl)->GetValue();
     
 #ifdef __WXMSW__
    int selection = XRCCTRL(*this, "VtSerialPortChoice", wxChoice)->GetSelection();
    if (selection != -1)
-		elfConfiguration_.serialPort_= XRCCTRL(*this, "VtSerialPortChoice", wxChoice)->GetString(selection);
+		currentComputerConfiguration.videoTerminalConfiguration.serialPort= XRCCTRL(*this, "VtSerialPortChoice", wxChoice)->GetString(selection);
 #else
-    elfConfiguration_.serialPort_= XRCCTRL(*this, "VtSerialPort", wxTextCtrl)->GetValue();
+    currentComputerConfiguration.videoTerminalConfiguration.serialPort= XRCCTRL(*this, "VtSerialPort", wxTextCtrl)->GetValue();
 #endif
 
-    p_Main->setSerialPorts(elfConfiguration_.serialPort_);
-    p_Main->setElfConfiguration(elfConfiguration_);
+    p_Main->setConfiguration(currentComputerConfiguration);
+    p_Main->writeDefaultVtConfig();
 
     EndModal(wxID_OK);
 }
 
 void VtSetupDialog::onVtWavFile(wxCommandEvent& event)
 {
-    elfConfiguration_.vtWavFile_ = event.GetString();
+    currentComputerConfiguration.videoTerminalConfiguration.wavFileName = event.GetString();
 
-    if (elfConfiguration_.vtWavFile_ == "")
+    if (currentComputerConfiguration.videoTerminalConfiguration.wavFileName == "")
         XRCCTRL(*this, "VtBell", wxTextCtrl)->Enable(true);
     else
         XRCCTRL(*this, "VtBell", wxTextCtrl)->Enable(false);
@@ -486,7 +303,7 @@ void VtSetupDialog::onVtWavFileButton(wxCommandEvent& WXUNUSED(event))
     wxString fileName;
 
     fileName = wxFileSelector("Select the WAV file for the bell sound",
-        elfConfiguration_.vtWavFileDir_, elfConfiguration_.vtWavFile_,
+        currentComputerConfiguration.videoTerminalConfiguration.wavDirectory, currentComputerConfiguration.videoTerminalConfiguration.wavFileName,
         "wav",
         wxString::Format
         (
@@ -503,23 +320,23 @@ void VtSetupDialog::onVtWavFileButton(wxCommandEvent& WXUNUSED(event))
         return;
 
     wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
-    elfConfiguration_.vtWavFileDir_ = FullPath.GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
-    elfConfiguration_.vtWavFile_ = FullPath.GetFullName();
+    currentComputerConfiguration.videoTerminalConfiguration.wavDirectory = FullPath.GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+    currentComputerConfiguration.videoTerminalConfiguration.wavFileName = FullPath.GetFullName();
 
-    XRCCTRL(*this, "VtSetupWavFile", wxTextCtrl)->SetValue(elfConfiguration_.vtWavFile_);
+    XRCCTRL(*this, "VtSetupWavFile", wxTextCtrl)->SetValue(currentComputerConfiguration.videoTerminalConfiguration.wavFileName);
 
-    if (elfConfiguration_.vtWavFile_ == "")
+    if (currentComputerConfiguration.videoTerminalConfiguration.wavFileName == "")
         XRCCTRL(*this, "VtBell", wxTextCtrl)->Enable(true);
     else
         XRCCTRL(*this, "VtBell", wxTextCtrl)->Enable(false);
     
-    p_Main->checkWavFile(elfConfiguration_.vtWavFileDir_ + elfConfiguration_.vtWavFile_);
+    p_Main->checkWavFile(currentComputerConfiguration.videoTerminalConfiguration.wavDirectory + currentComputerConfiguration.videoTerminalConfiguration.wavFileName);
 }
 
 void VtSetupDialog::onVtWavFileEject(wxCommandEvent& WXUNUSED(event))
 {
-    elfConfiguration_.vtWavFile_ = "";
-    XRCCTRL(*this, "VtSetupWavFile", wxTextCtrl)->SetValue(elfConfiguration_.vtWavFile_);
+    currentComputerConfiguration.videoTerminalConfiguration.wavFileName = "";
+    XRCCTRL(*this, "VtSetupWavFile", wxTextCtrl)->SetValue(currentComputerConfiguration.videoTerminalConfiguration.wavFileName);
 
     XRCCTRL(*this, "VtBell", wxTextCtrl)->Enable(true);
 }
@@ -529,10 +346,7 @@ void VtSetupDialog::onVtCharRom(wxCommandEvent& WXUNUSED(event) )
     wxString fileName;
     wxString vtCharRomDir;
     
-    if (elfConfiguration_.vtType == VT52)
-        vtCharRomDir = elfConfiguration_.vt52CharRomDir_;
-    else
-        vtCharRomDir = elfConfiguration_.vt100CharRomDir_;
+    vtCharRomDir = currentComputerConfiguration.videoTerminalConfiguration.vtCharRomDirectory;
 
     fileName = wxFileSelector( "Select the VT Character Font file to load",
                                vtCharRomDir, XRCCTRL(*this, "VtSetupCharRom", wxComboBox)->GetValue(),
@@ -550,28 +364,15 @@ void VtSetupDialog::onVtCharRom(wxCommandEvent& WXUNUSED(event) )
         return;
 
     wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
-    if (elfConfiguration_.vtType == VT52)
-    {
-        elfConfiguration_.vt52CharRomDir_ = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
-        elfConfiguration_.vt52CharRom_ = FullPath.GetFullName();
+    currentComputerConfiguration.videoTerminalConfiguration.vtCharRomDirectory = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+    currentComputerConfiguration.videoTerminalConfiguration.vtCharRomFileName = FullPath.GetFullName();
 
-        XRCCTRL(*this, "VtSetupCharRom", wxComboBox)->SetValue(elfConfiguration_.vt52CharRom_);
-    }
-    else
-    {
-        elfConfiguration_.vt100CharRomDir_ = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
-        elfConfiguration_.vt100CharRom_ = FullPath.GetFullName();
-
-        XRCCTRL(*this, "VtSetupCharRom", wxComboBox)->SetValue(elfConfiguration_.vt100CharRom_);
-    }
+    XRCCTRL(*this, "VtSetupCharRom", wxComboBox)->SetValue(currentComputerConfiguration.videoTerminalConfiguration.vtCharRomFileName);
 }
 
 void VtSetupDialog::onVtCharRomText(wxCommandEvent& WXUNUSED(event))
 {
-    if (elfConfiguration_.vtType == VT52)
-        elfConfiguration_.vt52CharRom_ = XRCCTRL(*this, "VtSetupCharRom", wxComboBox)->GetValue();
-    else
-        elfConfiguration_.vt100CharRom_ = XRCCTRL(*this, "VtSetupCharRom", wxComboBox)->GetValue();
+    currentComputerConfiguration.videoTerminalConfiguration.vtCharRomFileName = XRCCTRL(*this, "VtSetupCharRom", wxComboBox)->GetValue();
 }
 
 
@@ -592,18 +393,18 @@ void VtSetupDialog::listPorts()
         sp_free_port_list(ports);
     }
     
-    int selection = XRCCTRL(*this, "VtSerialPortChoice", wxChoice)->FindString(elfConfiguration_.serialPort_);
+    int selection = XRCCTRL(*this, "VtSerialPortChoice", wxChoice)->FindString(currentComputerConfiguration.videoTerminalConfiguration.serialPort);
     if (selection != wxNOT_FOUND)
         XRCCTRL(*this, "VtSerialPortChoice", wxChoice)->SetSelection(selection);
 }
 
 void VtSetupDialog::onUart1854(wxCommandEvent&event)
 {
-    elfConfiguration_.useUart = event.IsChecked();
-    if (elfConfiguration_.useUart)
+    currentComputerConfiguration.videoTerminalConfiguration.uart1854_defined = event.IsChecked();
+    if (currentComputerConfiguration.videoTerminalConfiguration.uart1854_defined)
         XRCCTRL(*this, "Uart16450", wxCheckBox)->SetValue(false);
     
-    if (elfConfiguration_.useUart16450 || elfConfiguration_.useUart)
+    if (currentComputerConfiguration.videoTerminalConfiguration.uart16450_defined || currentComputerConfiguration.videoTerminalConfiguration.uart1854_defined)
     {
         XRCCTRL(*this, "VtEf", wxCheckBox)->Enable(false);
         XRCCTRL(*this, "VtQ", wxCheckBox)->Enable(false);
@@ -617,14 +418,12 @@ void VtSetupDialog::onUart1854(wxCommandEvent&event)
 
 void VtSetupDialog::onUart16450(wxCommandEvent&event)
 {
-    elfConfiguration_.useUart16450 = event.IsChecked();
-    if (computerType_ == ELF2K)
-        elfConfiguration_.useUart = elfConfiguration_.useUart16450;
-    
-    if (elfConfiguration_.useUart16450)
+    currentComputerConfiguration.videoTerminalConfiguration.uart16450_defined = event.IsChecked();
+
+    if (currentComputerConfiguration.videoTerminalConfiguration.uart16450_defined)
         XRCCTRL(*this, "Uart1854", wxCheckBox)->SetValue(false);
     
-    if (elfConfiguration_.useUart16450 || elfConfiguration_.useUart)
+    if (currentComputerConfiguration.videoTerminalConfiguration.uart16450_defined || currentComputerConfiguration.videoTerminalConfiguration.uart1854_defined)
     {
         XRCCTRL(*this, "VtEf", wxCheckBox)->Enable(false);
         XRCCTRL(*this, "VtQ", wxCheckBox)->Enable(false);

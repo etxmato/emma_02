@@ -3,13 +3,13 @@
 <BODY>
 <h1>Auto and Arcade Key Definition</h1>
 <p>
-To simplify 'game play' hex and decimal keypads can be mapped to two sets. The second set (blue ellipse) can be shown by pressing the 'Switch Set' (yellow ellipse) button on the Key Mapping window.
+To simplify 'game play' hex and decimal keypads can be mapped to two sets. The second set (highlighted in blue) can be shown by pressing the 'Switch Set' (highlighted in yellow) button on the Key Mapping window.
 </p>
 <p>
 <IMG SRC="images/key_map_arcade.png" BORDER="0">
 </p>
 <p>
-The window header (orange ellipse) will indicate if set 1 or 2 is shown. Additionally 'Auto Key Definition' (red ellipse) can be selected to load key settings from the 'keydefinition.txt' file. Definitions in this file try (where possible) to map as in the following table (listed keys are valid if Default Keyboard 'US' is selected):
+The window header (highlighted in orange) will indicate if set 1 or 2 is shown. Additionally 'Auto Key Definition' (highlighted in red) can be selected to load key settings from the 'keydefinition.txt' file. Definitions in this file try (where possible) to map as in the following table (listed keys are valid if Default Keyboard 'US' is selected):
 </p>
 <p>
 <TABLE BORDER="1" CELLSPACING="1" CELLPADDING="" WIDTH="100%">
@@ -237,7 +237,7 @@ Not applicable
 </TABLE>
 </p>
 <p>
-The arcade mapping (fire and direction keys) will always be shown in the key map window (magenta ellipse). To switch from player 1 to 2 press the 'SwitchPlayer' button (green ellipse) or on the Cosmac VIP (with VP590 or VP 580), RCA Studio II, RCA Studio III / Victory MPT-02 and Visicom COM-100 press the 'Switch Pad' button. 
+The arcade mapping (fire and direction keys) will always be shown in the key map window (highlighted in purple). To switch from player 1 to 2 press the 'SwitchPlayer' button (highlighted in green) or on the Cosmac VIP (with VP590 or VP 580), RCA Studio II, RCA Studio III / Victory MPT-02 and Visicom COM-100 press the 'Switch Pad' button. 
 </p>
 <p>
 Auto Key Definition is not supported for the Elf 2000 and Cosmicos.
@@ -274,7 +274,7 @@ game keys:20,4,6,20,F,20,7,9,20,E
 Where player 1 left will be defines as arrow left (PC key 314, hex key 4), right: arrow right (316, hex 6), fire: space (32, hex F). For player 2 left: Numpad 4 (328, hex 7), right: Numpad 6 (330, hex 9) and fire: Enter (370, hex E). 
 </p>
 <p>
-Additionally any value can be represented by a text string. All text strings have to be defined in the keyboard layout files as described in the <a href="KeyMappingDefault.htm">Default Keyboard</a> chapter.
+Additionally any value can be represented by a text string. All text strings have to be defined in the keyboard layout files as described in the <a href="KeyMappingDefault.htm">Default Keyboard</a> section.
 </p>
 </body>
 </html>

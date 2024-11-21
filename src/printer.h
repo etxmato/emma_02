@@ -144,10 +144,12 @@ public:
     Printer();
     ~Printer();
 
-    void configureBasicPrinter(IoConfiguration portConf);
-    void configureParallelPrinter(IoConfiguration portConf);
-    void configureSerialPrinter(IoConfiguration portConf);
-    void configureThermalPrinter(IoConfiguration portConf);
+    void configureBasicPrinter(BasicPrinterConfiguration basicPrinterConfiguration);
+    void configureParallelPrinter(ParallelPrinterConfiguration parallelPrinterConfiguration);
+    void configureSerialPrinter(SerialPrinterConfiguration serialPrinterConfiguration);
+    void configureQSerialPrinter(QSerialPrinterConfiguration qSerialPrinterConfiguration);
+    void configureCentronicsPrinter(CentronicsPrinterConfiguration centronicsPrinterConfiguration);
+    void configureThermalPrinter(ThermalPrinterConfiguration thermalPrinterConfiguration);
     void setThermalPrinterCycle();
     void init(Printer *pointer, int printerType);
     Byte inParallel();
@@ -202,7 +204,6 @@ private:
     wxChoice* printerRowsPointer;
 
     int printerType_;
-    wxString computerName_;
 
     wxString line_;
     bool printEscape_;

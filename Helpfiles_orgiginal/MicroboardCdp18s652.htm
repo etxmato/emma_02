@@ -1,0 +1,124 @@
+
+<HTML>
+<Title>CDP18S652: Memory & Tape</Title>
+<BODY>
+<h2>CDP18S652: Memory & Tape</h2>
+<p>
+The emulation of the CDP18S652 is probably not aligned with the real board. This is due to the fact that I don't have a copy of the specifications. What is emulated in Emma 02 is my best guess based on the other memory boards and the MCDS specification which use the CDP18S652.
+</p>
+<p>
+The CDP18S652 board includes:
+<UL>
+<LI>2 cassette tape I/O ports
+<LI>1 KB RAM and up to 24 KB ROM
+</UL>
+</p>
+<p>
+To define a system using the CDP18S652 select 'CDP18S652 Memory & Tape' from one of the CARD Choice boxes. 
+</p>
+<p>
+To specify the RAM or ROM location, content files and/or inhibit function press the CARD x button and the CDP18S652 Setup window will open. The CDP18S652 has one 1 KB RAM and three 8 KB ROM banks. RAM location can be any 1K block. ROM start location can be selected as either 0 or hex 8000, i.e. ROM memory runs from hex 0-5FFF or hex 8000-DFFF.
+</p>
+<p>
+Memory inhibit possibilities depend on the start location.
+</p>
+<p>
+Note that the defined RAM or ROM should not overlap with any other defined RAM or ROM in any of the other cards, if this does happen Emma 02 will give a warning (CARD button will turn red and a message will appear in the setup window). Even if warnings are issued the configuration might run in Emma 02 however the board in the highest CARD will override the memory type of lower boards.
+</p>
+<p>
+Multiple configurations using the CDP18S652 can be loaded (CDP18S693 MCDS, CDP18S694 MCDS, MS2000 - FDC or MS2000- HD), see also <a href="MainConfigurations.htm">Configurations</a>.
+</p>
+<h3>Real Cassette</h3>
+For details on how to use a real cassette player connected to a PC and Emma 02 please see the section: <a href="MainRealCassette.htm">Real Cassette Support</a>
+<h3>Wave Files</h3>
+<p>
+The easiest and fastest way use .wav file in the Microboard System emulator is by making sure both options 'Turbo LOAD/SAVE' and 'Auto LOAD/SAVE' are checked, this should be the default setting when the Emma 02 Emulator is started for the first time. Depending on which type you choose, i.e. automatic or manual please follow the instructions below.
+</p>
+<p>
+Support for two cassettes is available for use in the Tape Editor and Assembler which are available in the CDP18694 MCDS configuration.  
+</p>
+<p>
+Note that we have not tried to use any of the saved wav files on a real Microboard System. If you have/need that option, please let me know and we can do some trouble shooting on this. Changing the wave file settings might impact the usability of the wav files on a real Microboard System, see also below.
+</p>
+<h4>Auto LOAD/SAVE</h4>
+<p>
+Default settings, to use this make sure 'Auto LOAD/SAVE' is checked.
+</p>
+<p>
+<U>When using one of the MCDS configurations:</U>
+</p>
+<p>
+To load a .wav file into the Microboard System, start the Emma 02 emulator and then the Microboard System emulator (start button on Microboard System tab). Select a .wav file in the Emma 02 window by selecting the 'Cassette' button. Depending on what type of loading is needed, either use PLOAD or DLOAD (and return) from within BASIC3 or R or C from within the UT62. Both command need to be given in the Microboard System emulator window after which the cassette PLAY button should go green.
+</p>
+<p>
+To save a .wav file from the Microboard System, Select a .wav file in the Emma 02 window by selecting the 'Cassette' button. Depending on what type of loading is needed, either use PSAVE or DSAVE (and return) from within BASIC3 or W from within the UT62. Both command need to be given in the Microboard System emulator window and the cassette REC button should go red. 
+</p>
+<p>
+<U>When using one of the MS2000 configurations:</U>
+</p>
+<p>
+To convert a .wav file to MicroDos, start the Emma 02 emulator and then the Microboard System emulator (start button on Microboard System tab). Select a .wav file in the Emma 02 window by selecting the 'Cassette' push button. Start MicroDos (L or B0) and give a TAPED command (TAPED #TR filename). MicroDos will ask for the tape number. To start the actual conversion press return twice and the cassette PLAY button should go green.
+</p>
+<p>
+To convert from MicroDos to a .wav file, start the Emma 02 emulator and then the Microboard System emulator (start button on Microboard System tab). Select a .wav file in the Emma 02 window by selecting the 'Cassette' push button. Start MicroDos (L or B0) and give a TAPED command (TAPED filename #TW). MicroDos will ask for the tape number. To start the actual conversion press return twice and the cassette REC button should go red. 
+</p>
+<p>
+For save, load and conversions make sure a .wav file is selected in the Emma 02 window before using the save and load instructions otherwise the Microboard System emulator will hang on the conversions, PLOAD, C or R (until you manually start a .wav file) or with a conversion to cassette PSAVE or W the wav sound will not be written to any file.
+</p>
+<h4>Manual LOAD/SAVE</h4>
+<p>
+To use this make sure 'Auto LOAD/SAVE' is NOT checked. 
+</p>
+<p>
+<U>When using one of the MCDS configurations:</U>
+</p>
+<p>
+To load a .wav file into the Microboard System, start the Emma 02 emulator and then the Microboard System emulator (start button on Microboard System tab). Select a .wav file in the Emma 02 window by selecting the 'Cassette' button. Press play and after that as soon as possible give a load command on the Microboard System.
+</p>
+<p>
+To save a .wav file from the Microboard System, Select a .wav file in the Emma 02 window by selecting the 'Cassette' button after that Press the dark red recording button and give a save command in the Microboard System.
+</p>
+<p>
+<U>When using one of the MS2000 configurations:</U>
+</p>
+<p>
+To convert a .wav file to MicroDos, start the Emma 02 emulator and then the Microboard System emulator (start button on Microboard System tab). Select a .wav file in the Emma 02 window by selecting the 'Cassette' push button. Start MicroDos (L or B0) and give a TAPED command (TAPED #TR filename). MicroDos will ask for the tape number. To start the actual conversion press return then press the play and again return. 
+</p>
+<p>
+To convert from MicroDos to a .wav file, start the Emma 02 emulator and then the Microboard System emulator (start button on Microboard System tab). Select a .wav file in the Emma 02 window by selecting the 'Cassette' push button. Start MicroDos (L or B0) and give a TAPED command (TAPED filename #TW). MicroDos will ask for the tape number. To start the actual conversion press return then press the dark red recording button and again return. 
+</p>
+<h4>Turbo LOAD/SAVE</h4>
+<p>
+When Turbo LOAD/SAVE is selected the emulator will increase speed when a wav file is played to allow faster LOAD and SAVE possibility in the emulator. The speed of the Turbo LOAD/SAVE can be changed; default is 15 MHz, which works ok on both my desktop and laptop. Too high values will not run ok on slower PCs as all CPU power will be used by the emulator. On my vista desktop vista limits CPU usage to 50% max but on my windows 2000 laptop CPU usage gets up to 100% and can possibly hang the laptop for the duration of the LOAD or SAVE command.
+</p>
+<h4>Wave File Settings</h4>
+<p>
+Via the 'Settings' drop down menu select 'Wav File and Real Cassette Settings' to change the wave file settings used for saving or loading a '.wav' file. . The following subsections describe applicable settings in more detail. Settings for saving to a file are the 'Wave volume', 'Bit Rate' and 'Bits per sample', setting for loading a wav file are the 'Wav file conversion' and 'Reversed Polarity'. The 'Cassette conversion' and 'Input Channel' are only used for Real Cassette loading.
+</p>
+<h5>Wave volume</h5>
+<p>
+1 to 15 (where 15 is the loudest)
+</p>
+<h5>Bit Rate</h5> 
+<p>
+11025, 22050, 44100 or 88200 (samples per second)
+</p>
+<h5>Bits per sample</h5>
+<p>
+8 or 16
+</p>
+<h5>Wav file conversion</h5> 
+<p>
+Two conversion types can be used:<br>
+1. <B>Amplitude</B>: where the signal is converted to a 1 on positive amplitude and a 0 on a negative amplitude.<br>
+2. <B>Sinus</B>: where the signal is converted to a 1 on an upward sinus and a 0 on a downward sinus
+</p>
+<p>
+Default this is set to 'Amplitude' which works for all my wav files. Depending on the emulated computer this might need to be changed if loading does not work or gives tape errors.
+</p>
+<h5>Reversed Polarity</h5> 
+<p>
+Switch converted signal polarity (1->0 and 0->1) as described for conversion types above.
+</p>
+</BODY>
+</HTML>

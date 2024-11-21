@@ -33,107 +33,108 @@ Ps2gpio::Ps2gpio()
 {
 }
 
-void Ps2gpio::configurePs2gpioElf2K()
+void Ps2gpio::configurePs2gpio(bool forceUpperCase, GpioPs2KeyboardConfiguration gpioPs2KeyboardConfiguration)
 {
-    forceUpperCase_ = p_Main->getUpperCase();
-    keyboardEf_ = 1;
-    keyboardValue_ = 0;
-    rawKeyCode_ = 0;
+    wxString message;
+    
+    gpioPs2KeyboardConfiguration_ = gpioPs2KeyboardConfiguration;
+    if (gpioPs2KeyboardConfiguration.input.portNumber[0] != -1 && gpioPs2KeyboardConfiguration.ef.flagNumber != -1)
+    {
+        message = "PS2 Keyboard (connected via 89C4051)";
+        if (gpioPs2KeyboardConfiguration.output.portNumber[0] != -1)
+            message += " and Sound";
+        p_Computer->setCycleType(CYCLE_TYPE_KEYBOARD, PS2_GPIO_CYCLE);
+    }
+    else
+        message = "Sound";
 
-    p_Computer->setInType(7, PS2GPIOIN);
-    p_Computer->setEfType(2, PS2GPIOEF); 
-    p_Computer->setCycleType(KEYCYCLE, PS2GPIOCYCLE);
+    p_Main->configureMessage(&gpioPs2KeyboardConfiguration.ioGroupVector, message);
 
-    wxString printBuffer;
-    p_Main->message("Configuring GPIO PS2 Keyboard");
+    p_Computer->setOutType(&gpioPs2KeyboardConfiguration.ioGroupVector, gpioPs2KeyboardConfiguration.output, "Write Sound Register");
+    p_Computer->setInType(&gpioPs2KeyboardConfiguration.ioGroupVector, gpioPs2KeyboardConfiguration.input, "read data");
 
-    printBuffer.Printf("	Input 7: read data, EF 2: data ready flag\n");
-    p_Main->message(printBuffer);
+    message = "data ready flag";
+    if (gpioPs2KeyboardConfiguration_.interrupt)
+        message += " and using interrupt";
 
-    startUp_ = 3;
-    escKey_ = 0;
-    escKey2_ = 0;
-    keyCycles_ = 500000;
-}
+    p_Computer->setEfType(&gpioPs2KeyboardConfiguration.ioGroupVector, gpioPs2KeyboardConfiguration.ef, message);
 
-void Ps2gpio::configurePs2gpio(bool forceUpperCase, IoConfiguration portConf)
-{
+    p_Main->message("");
+
     forceUpperCase_ = forceUpperCase;
     keyboardEf_ = 1;
     keyboardValue_ = 0;
     rawKeyCode_ = 0;
-
-    wxString printBuffer = "";
     
-    if (portConf.gpioOutput != -1)
-        printBuffer = "Sound";
-    if (portConf.gpioInput != -1 && portConf.gpioEf != -1)
-    {
-        if (portConf.gpioOutput != -1)
-            printBuffer = "PS2 Keyboard and Sound";
-        else
-            printBuffer = "PS2 Keyboard";
-    }
-    p_Main->message("Configuring GPIO " + printBuffer);
-
-    if (portConf.gpioOutput != -1)
-    {
-        p_Computer->setOutType(portConf.gpioIoGroup+1, portConf.gpioOutput, ELF2KGPIO);
-        printBuffer.Printf("	Output %d: Write GPIO Control Register", portConf.gpioOutput);
-        p_Main->message(printBuffer);
-    }
-    if (portConf.gpioInput != -1 && portConf.gpioEf != -1)
-    {
-        p_Computer->setInType(portConf.gpioIoGroup+1, portConf.gpioInput, PS2GPIOIN);
-        p_Computer->setEfType(portConf.gpioIoGroup+1, portConf.gpioEf, PS2GPIOEF);
-        p_Computer->setCycleType(KEYCYCLE, PS2GPIOCYCLE);
-
-        printBuffer.Printf("	Input %d: read data, EF %d: data ready flag", portConf.gpioInput, portConf.gpioEf);
-        p_Main->message(printBuffer);
-    }
-
-    p_Main->message("");
-
-    startUp_ = 3;
     escKey_ = 0;
     escKey2_ = 0;
     keyCycles_ = 500000;
+    startUp_ = true;
+
+    ps2KeyStart_ = 0;
+    ps2KeyEnd_ = 0;
 }
 
 void Ps2gpio::charEventPs2gpio(int keycode)
 {
+    switch(keycode)
+    {
+        case '?':
+            addKeyToBuffer(27);
+            addKeyToBuffer('A');
+        break;
+
+        case 27:
+            addKeyToBuffer(0x80);
+        break;
+
+        case 0xA7:
+            addKeyToBuffer(0x95);
+        break;
+
+        default:
+            addKeyToBuffer(keycode);
+        break;
+    }
     rawKeyCode_ = keycode;
 }
 
-Byte Ps2gpio::efPs2gpio() 
+void Ps2gpio::addKeyToBuffer(Byte value)
 {
-    return keyboardEf_;
+    if (ps2KeyEnd_ != ps2KeyStart_-1 || (ps2KeyEnd_ == 255 && ps2KeyStart_ != 0))
+    {
+        ps2Buffer_[ps2KeyEnd_++] = value;
+        if (ps2KeyEnd_ == 256) ps2KeyEnd_ = 0;
+    }
+}
+
+Byte Ps2gpio::efPs2gpio()
+{
+    return keyboardEf_^gpioPs2KeyboardConfiguration_.ef.reverse;
 }
 
 Byte Ps2gpio::inPs2gpio() 
 {
     keyboardEf_ = 1;
+    if (gpioPs2KeyboardConfiguration_.interrupt)
+        p_Computer->requestInterrupt(INTERRUPT_TYPE_KEYBOARD, false);
     return keyboardValue_;
 }
 
 void Ps2gpio::cyclePs2gpio() 
 {
-    if ((startUp_ != 0) && (keyboardEf_ == 1))
+    if (gpioPs2KeyboardConfiguration_.startupString.Len() > 0 && (keyboardEf_ == 1))
     {
         keyboardEf_ = 0;
-        switch (startUp_)
-        {
-            case 3:
-                keyboardValue_ = 'K' | 0x80;
-            break;
-            case 2:
-                keyboardValue_ = 'B';
-            break;
-            case 1:
-                keyboardValue_ = 1;
-            break;
-        }
-        startUp_--;
+        keyboardValue_ = gpioPs2KeyboardConfiguration_.startupString.GetChar(0);
+        
+        gpioPs2KeyboardConfiguration_.startupString = gpioPs2KeyboardConfiguration_.startupString.Right(gpioPs2KeyboardConfiguration_.startupString.Len()-1);
+        if (startUp_)
+            keyboardValue_ |= 0x80;
+        
+        startUp_ = false;
+        if (gpioPs2KeyboardConfiguration_.interrupt)
+            p_Computer->requestInterrupt(INTERRUPT_TYPE_KEYBOARD, true);
         return;
     }
     if (p_Computer->getCtrlvCharNum() != 0  && keyboardEf_ == 1)
@@ -143,7 +144,7 @@ void Ps2gpio::cyclePs2gpio()
             keyboardEf_ = 0;
         return;
     }
-    if (elfKeyFileOpen_ && keyboardEf_ == 1 && keyCycles_ == 0) 
+    if (elfKeyFileOpen_ && keyboardEf_ == 1 && keyCycles_ == 0)
     {
         if (elfKeyFile_.Read(&rawKeyCode_, 1) == 0)
         {
@@ -161,18 +162,22 @@ void Ps2gpio::cyclePs2gpio()
     }
     if (keyCycles_ > 0 && keyboardEf_ == 1)
         keyCycles_--;
-    if (rawKeyCode_<0) 
-        rawKeyCode_ = 0;
-    if (keyCycles_ == 1 && escKey_ != 0)
+//    if (rawKeyCode_<0)
+//        rawKeyCode_ = 0;
+//    if (keyCycles_ == 1 && escKey_ != 0)
+//    {
+//        rawKeyCode_ = escKey_;
+//        escKey_ = 0;
+//    }
+    if (ps2KeyStart_ != ps2KeyEnd_ && keyCycles_ == 0 && keyboardEf_ == 1)
     {
-        rawKeyCode_ = escKey_;
-        escKey_ = 0;
-    }
-    if (rawKeyCode_ != 0 && keyCycles_ == 0) 
-    {
-        if (forceUpperCase_ && rawKeyCode_ >= 'a' && rawKeyCode_ <= 'z')
-             rawKeyCode_ -= 32;
-         switch(rawKeyCode_)
+        keyboardValue_ = ps2Buffer_[ps2KeyStart_++];
+        if (ps2KeyStart_ == 256)
+            ps2KeyStart_ = 0;
+
+        if (forceUpperCase_ && keyboardValue_ >= 'a' && keyboardValue_ <= 'z')
+            keyboardValue_ -= 32;
+/*         switch(rawKeyCode_)
         {
             case '?':
                 if (escKey2_ != 0)
@@ -277,6 +282,8 @@ void Ps2gpio::cyclePs2gpio()
             case WXK_UP:
                 keyboardValue_ = 27;
                 keyCycles_ = 1000;
+  //              escKey_ = 'b';
+//                escKey2_ = '+';
                 escKey_ = 'A';
             break;
             case WXK_DOWN:
@@ -297,9 +304,11 @@ void Ps2gpio::cyclePs2gpio()
             default:
                 keyboardValue_ = (Byte)rawKeyCode_;
             break;
-        }
+        }*/
         rawKeyCode_ = 0;
         keyboardEf_ = 0;
+        if (gpioPs2KeyboardConfiguration_.interrupt)
+            p_Computer->requestInterrupt(INTERRUPT_TYPE_KEYBOARD, true);
     }
 }
 
@@ -337,7 +346,7 @@ void Ps2gpio::setForceUpperCasePs2gpio(bool status)
 
 void Ps2gpio::resetPs2gpio() 
 {
-    startUp_ = 3;
+    startUp_ = true;
     keyboardEf_ = 1;
     keyboardValue_ = 0;
 }

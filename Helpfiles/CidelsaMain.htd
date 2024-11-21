@@ -1,12 +1,12 @@
 <html>
-<title>Cidelsa Emulator</title>
+<title>Cidelsa Arcade Game Console Emulator</title>
 <body>
-<h1>Cidelsa Emulator</h1>
+<h1>Cidelsa Arcade Game Console Emulator</h1>
 <p>
 This emulator will emulate the Cidelsa arcade computer mainly sold in Spain. Additional information about the Cidelsa can be found on the <a href="http://www.emma02.hobby-site.com">Emma 02</a> site.
 </p>
 <p>
-To start the Cidelsa emulator, select the Cidelsa tab (yellow ellipse) and then press Start:
+To start the Cidelsa emulator, select the Cidelsa tab (highlighted in yellow) and then press Start:
 </p>
 <p>
 <IMG SRC="images/cidelsa.png" BORDER="0">
@@ -15,7 +15,7 @@ To start the Cidelsa emulator, select the Cidelsa tab (yellow ellipse) and then 
 The above will have started a Cidelsa Draco machine which is the default setting. 
 </p>
 <p>
-To load one of the other Cidelsa arcade machine configurations use the menu option below (blue ellipse) following the grey menu. Alternatively load one of the Crosslib games following the same menu options (orange ellipse):
+To load one of the other Cidelsa arcade machine configurations use the menu option below (highlighted in blue) following the grey menu. Alternatively load one of the Crosslib games following the same menu options (highlighted in orange):
 </p>
 <p>
 <IMG SRC="images/cidelsa_configuration.png" BORDER="0">
@@ -59,12 +59,8 @@ Other Cidelsa Emulator features:
 </p>
 <p>
 <a href="CidelsaKeys.htm">Key Definition</a><br>
-<a href="MainScreendump.htm">Video Dump</a><br>
-<a href="MainZoom.htm">Zoom Level and Full Screen Mode</a><br>
-<a href="MainColour.htm">Video Setup</a><br>
-<a href="MainSound.htm">Sound</a><br>
+<a href="ComputerScreendump.htm">Video Dump</a><br>
 <a href="CidelsaHwConf.htm">HW Configuration</a><br>
 <a href="CidelsaGame.htm">Game Settings</a><br>
-<a href="MainClock.htm">Clock Speed</a>
 </p>
 </body></html>

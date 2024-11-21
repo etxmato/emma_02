@@ -8,9 +8,9 @@
         <config>High Speed Direct Connect, NTSC</config>
         <clock>2.835</clock>
         <boot>0</boot>
-        <init type="ef1">1</init>
-        <init type="ef2">1</init>
-        <init type="ef3">1</init>
+        <init ef="1">1</init>
+        <init ef="2">1</init>
+        <init ef="3">1</init>
         <dma out="q">5</dma>
         <statusbar>comx</statusbar>
         <dirname>Comx</dirname>
@@ -106,14 +106,15 @@
         <reset_state command="A">0x1bc</reset_state>
         <basic_state address="0x42a0" value="0">0x39a, 0x5344</basic_state>
         <run_state>0x1f76, 0x2c00</run_state>
-
-        <!-- Stop thermal printer output -->
-        <stop_thermal address="0x428b" value="0x14">0x1047</stop_thermal>
         
         <!-- binary load/save -->
         <start_binmodem_save>0x1361, 0x1677</start_binmodem_save>
         <start_binmodem_load>0xe15</start_binmodem_load>
         <stop_modem>0x16bc, 0x1376, 0xea8, 0xe76, 0xe92</stop_modem>
+
+        <!-- F&M BASIC Activation -->
+        <start_fm_basic address="0x428b" value="0x53">0x505f</start_fm_basic>
+        <stop_fm_basic address="0x428b" value="0x14">0x1047</stop_fm_basic>
 
     </locations>
     

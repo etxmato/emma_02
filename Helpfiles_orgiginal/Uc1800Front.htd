@@ -1,0 +1,41 @@
+<html>
+<title>Front Panel</title>
+<body>
+<h3>Front Panel</h3>
+<p>
+RESET:<br>
+Reset Infinite UC1800
+</p>
+<p>
+SINGLE STEP OFF/ON:<br>
+Set the Infinite UC1800 into single step mode by switching this switch to 'on'.
+</p>
+<p>
+START/EF1:<br>
+Start execution if the Infinite UC1800 is in 'RUN' mode, EF1 is triggered as well. 
+</p>
+<p>
+START/EF1 is emulated by the PC Home button which can be changed in set 2 of the 'Key Map'.
+</p>
+<p>
+POWER STNDBY/ON:<br>
+With the POWER switch in STNDBY position the CPU memory is preserved. To restart the system swithc the POWER switch back to ON. Emma 02 will preserve memory between emulation sessions as long as the POWER switch is set to STNDBY before exiting the UC1800 emulator. 
+</p>
+<p>
+MODE LOAD/RUN:<br>
+</p>
+This switch places the Infinite UC1800 into LOAD or RUN mode. In the LOAD mode, values (bytes) can be set by pressing two hex digits and then loaded into memory by pressing the ENTER button. After the transfer, the address displays will show the address just written and the data displays will show the byte written.
+In RUN mode, the program will begin to execute from address 0 at a press of the START/EF1 button.
+<p>
+<p>
+ENTER/SINGLE STEP:<br>
+In LOAD mode this button initiates a DMA IN operation of the processor. The values of the last two hex keys will be written into the memory pointed to by R[0]. In SINGLE STEP mode one CPU cycle will be executed.
+</p>
+<p>
+ENTER/SINGLE STEP is emulated by the PC Ins button which can be changed in set 1 of the 'Key Map'.
+</p>
+<p>
+The two LEDs above the hex panel indicate wheter the most or least significant of the two hex digits in each byte is ready for loading. The led under the POWER button will go on if memory is 'saved' and the UC1800 is in the standby mode.
+</p>
+</body>
+</html>

@@ -58,51 +58,22 @@ Ide::Ide()
 {
 }
 
-void Ide::configureIde(wxString ideFile1, wxString ideFile2, IoConfiguration portConf)
+void Ide::configureIde(wxString ideFile1, wxString ideFile2, IdeConfiguration ideConfiguration)
 {
-//    int input, selectOutput, writeOutput;
-    wxString runningComp = p_Main->getRunningComputerStr();
-
-    int ioGroupNum = 0;
-    if (runningComp == "Xml")
-        ioGroupNum = portConf.ideIoGroup + 1;
-
-    wxString ioGroup = "";
-    if (ioGroupNum != 0)
-        ioGroup.Printf(" on group %d", portConf.ideIoGroup);
-
     initializeIde(ideFile1);
-    
-//    input = p_Main->getConfigItem(runningComp +"/IdeInput", 3l);
-//    selectOutput = p_Main->getConfigItem(runningComp +"/IdeSelectOutput", 2l);
-//    writeOutput = p_Main->getConfigItem(runningComp +"/IdeWriteOutput", 3l);
-//    int tr = p_Main->getConfigItem(runningComp +"/IdeTracks", 512l);
-//    int hd = p_Main->getConfigItem(runningComp +"/IdeHeads", 4l);
-//    int sc = p_Main->getConfigItem(runningComp +"/IdeSectors", 26l);
 
-    p_Computer->setInType(ioGroupNum, portConf.ideInput, IDEIN);
-    if (portConf.ideStatus != -1)
-        p_Computer->setInType(ioGroupNum, portConf.ideStatus, IDEREADSTATUS);
-    p_Computer->setOutType(ioGroupNum, portConf.ideSelectOutput, IDESELECTOUT);
-    p_Computer->setCycleType(DISKCYCLEIDE, IDECYCLE);
-    p_Computer->setOutType(ioGroupNum, portConf.ideWriteOutput, IDEWRITEOUT);
+    p_Main->configureMessage(&ideConfiguration.ioGroupVector, "IDE" );
+    p_Computer->setInType(&ideConfiguration.ioGroupVector, ideConfiguration.input, "read selected");
+    p_Computer->setInType(&ideConfiguration.ioGroupVector, ideConfiguration.status, "read status");
+    p_Computer->setOutType(&ideConfiguration.ioGroupVector, ideConfiguration.selectOutput, "select port");
+    p_Computer->setOutType(&ideConfiguration.ioGroupVector, ideConfiguration.writeOutput, "write selected");
+    p_Computer->setCycleType(CYCLE_TYPE_DISK_IDE, IDE_CYCLE);
 
     wxString printBuffer;
-    p_Main->message("Configuring IDE" + ioGroup);
-
-    printBuffer.Printf("	Output %d: select port, output %d: write selected", portConf.ideSelectOutput, portConf.ideWriteOutput);
+    printBuffer.Printf("	Disk geometry: %d tracks, %d heads, %d sectors\n", ideConfiguration.tracks, ideConfiguration.heads, ideConfiguration.sectors);
     p_Main->message(printBuffer);
 
-    if (portConf.ideStatus != -1)
-        printBuffer.Printf("	Input %d: read status, input %d: read selected", portConf.ideStatus, portConf.ideInput);
-    else
-        printBuffer.Printf("	Input %d: read selected", portConf.ideInput);
-    p_Main->message(printBuffer);
-
-    printBuffer.Printf("	Disk geometry: %d tracks, %d heads, %d sectors\n", portConf.ideTracks, portConf.ideHeads, portConf.ideSectors);
-    p_Main->message(printBuffer);
-
-    setGeometry(portConf.ideTracks, portConf.ideHeads, portConf.ideSectors);
+    setGeometry(ideConfiguration.tracks, ideConfiguration.heads, ideConfiguration.sectors);
 
     driveName_[0] = ideFile1;
     driveName_[1] = ideFile2;

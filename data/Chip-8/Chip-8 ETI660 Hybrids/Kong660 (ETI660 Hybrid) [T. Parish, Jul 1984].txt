@@ -1,0 +1,11 @@
+’660 KONG 
+
+This simplified version of a popular arcade game has two levels of play and features simple animated graphics. The object is to make your way to the top left-hand corner of the screen and jump over the barrier to rescue the damsel in distress. 
+
+To run right, press ‘3’ and to run left, press T. To climb a ladder, you must first position yourself to the left of the ladder, facing it. Pressing ‘2’ will then start you climbing (hold it down to continue up and hop on to the next floor), but there is no turning back! Three barrels are continuously rolled down the floors and ladders and you must jump these by pressing O’. As you will discover, the barrels are not the only hazards! 
+
+At the end of each attempt to reach the damsel, your cumulative score is displayed, based on the
+floor reached and the time elapsed since starting that attempt (the less the better). After three attempts, the path becomes even more hazardous and you have another three attempts. 
+
+Appropriate sound effects are included — you should recognize the tunes! The game is in colour,
+so it takes a few moments for the display to come up. Pressing ‘8’ will start a new game. 

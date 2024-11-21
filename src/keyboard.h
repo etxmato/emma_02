@@ -1,30 +1,38 @@
 #ifndef KEYBOARD_H
 #define KEYBOARD_H
 
-class Keyboard 
+class KeyDef
+{
+public:
+    bool defined;
+    bool shift;
+    int player;
+    int key;
+};
+
+class Keyboard
 {
 public:
     Keyboard ();
     ~Keyboard () {};
 
-    void configureKeyboard(int computerType, IoConfiguration portConf);
-    void configureKeyboard(IoConfiguration portConf, Locations addressLocations, wxString saveCommand);
+    void configureKeyboard(AsciiKeyboardConfiguration asciiKeyboardConfiguration, AddressLocationConfiguration addressLocationConfiguration, wxString saveCommand);
     void charEventKeyboard(int keycode);
     void keyboardUp();
 
     Byte efKeyboard();
     Byte inKeyboard();
     void cycleKeyboard();
-    void cycleKeyboardXml();
 
     void startElfKeyFile(wxString elfTypeStr);
     void closeElfKeyFile();
     void setForceUpperCaseKeyboard(bool status);
-    void startElfRun(bool load);
     void startElfRun(bool load, wxString command);
     void startCtrlV(wxString command);
 
 private:
+    AsciiKeyboardConfiguration asciiKeyboardConfiguration_;
+    
     char keyboardValue_;
     Byte keyboardEf_;
     int keyCycles_;
@@ -40,7 +48,7 @@ private:
     size_t elfRunCommand_;
     wxString commandText_; 
 
-    Locations addressLocations_;
+    AddressLocationConfiguration addressLocations_;
     wxString saveCommand_;
 
 };

@@ -18,7 +18,6 @@ public:
     void setTapeConfig(bool inputChannel, bool playback);
     void setAudioInGain( double gain);
     void record_pause( bool status );
-    void wavFile();
 
     // Set gain, where 1.0 leaves sound unaltered
     void set_gain( double g ) { gain = (long) (g *(1L << gain_bits)); }
@@ -32,7 +31,6 @@ public:
     typedef short play_sample_t;
     typedef short record_sample_t;
     void play_write( const play_sample_t*, int count );
-    void startTape();
 
     // Stop audio output
     void stop();

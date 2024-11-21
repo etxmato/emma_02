@@ -985,7 +985,19 @@ load: VIP on Character
 
 Eti Games
 =========
-name: Wipeout (ETI660 hybrid) [W.F. Kreykes,  1982].ch8
+name: Wipeout (ETI660 hybrid) [W.F. Kreykes, 1982].ch8
+load: VIPII on Character
+pad a2: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 314, 0, 0, 316, 0, 0
+pad a2 nnp: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 314, 0, 0, 316, 0, 0
+game keys: 10, A, D, 10, 10, 10, 10, 10, 10, 10
+
+name: Select A Game (ETI660 Hybrid) [B. Kreykes, Feb 1983].ch8
+load: VIPII on Character
+pad a2: 0, 0, 0, 315, 0, 0, 0, 0, 0, 0, 314, 317, 0, 316, 0, 0
+pad a2 nnp: 0, 0, 0, 315, 0, 0, 0, 0, 0, 0, 314, 317, 0, 316, 0, 0
+game keys: 3, A, D, B, 10, 10, 10, 10, 10, 10
+
+name: Wipeout 660 Style [B. Kreykes, Oct 1982].ch8
 load: VIPII on Character
 pad a2: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 314, 0, 0, 316, 0, 0
 pad a2 nnp: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 314, 0, 0, 316, 0, 0
@@ -996,6 +1008,132 @@ load: VIPII on Character
 pad a2: 0, 315, 0, 0, 317, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 pad a2 nnp: 0, 315, 0, 0, 317, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 game keys: 1, 10, 10, 4, 10, 10, 10, 10, 10, 10
+
+name: Pong (1 player).ch8
+load: VIPII on Character
+pad a2: 0, 315, 0, 0, 317, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+pad a2 nnp: 0, 315, 0, 0, 317, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+game keys: 1, 10, 10, 4, 10, 10, 10, 10, 10, 10
+
+name: Pong [Paul Vervalin, 1990].ch8
+load: VIPII on Character
+pad a2: 0, 315, 0, 0, 317, 0, 0, 0, 0, 0, 0, 0, 332, 326, 0, 0
+pad a2 nnp: 0, 315, 0, 0, 317, 0, 0, 0, 0, 0, 0, 0, B_A_UP, B_A_DOWN, 0, 0
+game keys: 1, 10, 10, 4, 10, C, 10, 10, D, 10
+
+name: Pakman (ETI660 Hybrid) [B. Kreykes, Sep 1983].ch8
+load: VIPII on Character
+pad a2: 0, 0, 0, 315, 0, 0, 0, 0, 0, 0, 314, 317, 316, 0, 0, 0
+pad a2 nnp: 0, 0, 0, 315, 0, 0, 0, 0, 0, 0, 314, 317, 316, 0, 0, 0
+game keys: 3, A, C, B, 10, C, 10, 10, D, 10
+
+name: 660 Invaders [Feb 1982].ch8
+load: VIPII on Character
+pad a2: 0, 32, 370, 0, 314, 315, 316, 0, 0, 0, 0, 0, 0, 0, 0, 0
+pad a2 nnp: 0, 32, B_A_FIRE, 0, 314, 315, 316, 0, 0, 0, 0, 0, 0, 0, 0, 0
+game keys: 5, 4, 6, 10, 1, 10, 10, 10, 10, 2
+
+name: Squash [T. Parish Apr 1983].ch8
+load: VIPII on Character
+pad a2: 0, 0, 0, 0, 0, 315, 0, 0, 0, 0, 0, 0, 0, 317, 0, 0
+pad a2 nnp: 0, 0, 0, 0, 0, 315, 0, 0, 0, 0, 0, 0, 0, 317, 0, 0
+game keys: 5, 10, 10, D, 10, 10, 10, 10, 10, 10
+
+name: Meteor storm [Nov 1982].ch8
+load: VIPII on Character
+pad a2: 315, 317, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 32
+pad a2 nnp: 315, 317, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 32
+game keys: 0, 10, 10, 1, F, 10, 10, 10, 10, 10
+
+name: Kong660 (ETI660 Hybrid) [T. Parish, Jul 1984].ch8
+load: VIPII on Character
+pad a2: 32, 314, 315, 316, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+pad a2 nnp: 32, 314, 315, 316, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+game keys: 2, 1, 3, 10, 0, 10, 10, 10, 10, 10
+
+name: Polaris [T. Parish, Apr 1983].ch8
+load: VIPII on Character
+pad a2: 32, 0, 0, 0, 0, 314, 315, 316, 0, 0, 0, 0, 0, 0, 317, 0
+pad a2 nnp: 32, 0, 0, 0, 0, 314, 315, 316, 0, 0, 0, 0, 0, 0, 317, 0
+game keys: 6, 5, 7, E, 0, 10, 10, 10, 10, 10
+
+name: Polaris II (ETI660 Hybrid) [T. Parish, Nov 1983].ch8
+load: VIPII on Character
+pad a2: 32, 0, 0, 0, 0, 314, 315, 316, 0, 0, 0, 0, 0, 0, 317, 0
+pad a2 nnp: 32, 0, 0, 0, 0, 314, 315, 316, 0, 0, 0, 0, 0, 0, 317, 0
+game keys: 6, 5, 7, E, 0, 10, 10, 10, 10, 10
+
+name: Space_Dogfight_Jun82_JElkhorne.ch8
+load: VIPII on Character
+pad a2: 0, 315, 0, 0, 0, 32, 314, 316, 0, 317, 0, 0, 0, 0, 0, 0
+pad a2 nnp: 0, 315, 0, 0, 0, 32, 314, 316, 0, 317, 0, 0, 0, 0, 0, 0
+game keys: 1, 6, 7, 9, 5, 10, 10, 10, 10, 10
+
+name: Wall [David Winter].ch8
+load: VIPII on Character
+pad a2: 0, 315, 0, 0, 317, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+pad a2 nnp: 0, 315, 0, 0, 317, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+game keys: 1, 10, 10, 4, 10, 10, 10, 10, 10, 10
+
+name: Block Puzzle [D. Poole, Nov 1982].ch8
+load: VIPII on Character
+pad a2: 0, 0, 315, 0, 316, 0, 314, 0, 317, 0, 0, 0, 0, 0, 0, 0
+pad a2 nnp: 0, 0, 315, 0, 316, 0, 314, 0, 317, 0, 0, 0, 0, 0, 0, 0
+game keys: 2, 6, 4, 8, 10, 10, 10, 10, 10, 10
+
+name: Patches [B. Kreykes, Feb 1983].ch8
+load: VIPII on Character
+pad a2: 0, 0, 0, 0, 0, 0, 32, 0, 0, 0, 314, 0, 0, 316, 0, 0
+pad a2 nnp: 0, 0, 0, 0, 0, 0, 32, 0, 0, 0, 314, 0, 0, 316, 0, 0
+game keys: 10, A, D, 10, 6, 10, 10, 10, 10, 10
+
+name: Tank Battle [J.R. Hyde, Jun 1983].ch8
+load: VIPII on Character
+pad a2: 0, 315, 0, 0, 314, 0, 316, 0, 0, 317, 0, 0, 0, 0, 0, 32
+pad a2 nnp: 0, 315, 0, 0, 314, 0, 316, 0, 0, 317, 0, 0, 0, 0, 0, 32
+game keys: 1, 4, 6, 9, F, 10, 10, 10, 10, 10
+
+name: Lunar Blitz [P. Easdown, Nov 1983].ch8
+load: VIPII on Character
+pad a2: 0, 0, 317, 0, 314, 32, 316, 0, 315, 0, 0, 0, 0, 0, 0, 0
+pad a2 nnp: 0, 0, 317, 0, 314, 32, 316, 0, 315, 0, 0, 0, 0, 0, 0, 0
+game keys: 8, 4, 6, 2, 5, 10, 10, 10, 10, 10
+
+name: Bombs Away [R Curtis, Nov 1983].ch8
+load: VIPII on Character
+pad a2: 0, 0, 0, 0, 314, 317, 316, 0, 0, 0, 0, 0, 0, 0, 0, 0
+pad a2 nnp: 0, 0, 0, 0, 314, 317, 316, 0, 0, 0, 0, 0, 0, 0, 0, 0
+game keys: 10, 4, 6, 5, 10, 10, 10, 10, 10, 10
+
+name: Alternative Block Puzzle [D.P. Edwards, Nov 1983].ch8
+load: VIPII on Character
+pad a2: 0, 0, 315, 0, 316, 0, 314, 0, 317, 0, 0, 0, 0, 0, 0, 0
+pad a2 nnp: 0, 0, 315, 0, 316, 0, 314, 0, 317, 0, 0, 0, 0, 0, 0, 0
+game keys: 2, 6, 4, 8, 10, 10, 10, 10, 10, 10
+
+name: Gobble [P. Easdown, Augg 1983].ch8
+load: VIPII on Character
+pad a2: 315, 317, 314, 316, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+pad a2 nnp: 315, 317, 314, 316, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+game keys: 0, 2, 3, 1, 10, 10, 10, 10, 10, 10
+
+name: Car Race [P. Easdown, Dec 1983].ch8
+load: VIPII on Character
+pad a2: 0, 0, 0, 0, 314, 0, 316, 0, 0, 0, 0, 0, 0, 0, 0, 0
+pad a2 nnp: 0, 0, 0, 0, 314, 0, 316, 0, 0, 0, 0, 0, 0, 0, 0, 0
+game keys: 10, 4, 6, 10, 10, 10, 10, 10, 10, 10
+
+name: Asteroids [P. Easdown, Dec 1983].ch8
+load: VIPII on Character
+pad a2: 0, 0, 0, 0, 314, 32, 316, 0, 315, 0, 0, 0, 0, 0, 0, 0
+pad a2 nnp: 0, 0, 0, 0, 314, 32, 316, 0, 315, 0, 0, 0, 0, 0, 0, 0
+game keys: 8, 4, 6, 10, 5, 10, 10, 10, 10, 10
+
+name: Nasties [P. Easdown, Dec 1983].ch8
+load: VIPII on Character
+pad a2: 0, 0, 317, 0, 314, 0, 316, 0, 315, 0, 0, 0, 0, 0, 0, 0
+pad a2 nnp: 0, 0, 317, 0, 314, 0, 316, 0, 315, 0, 0, 0, 0, 0, 0, 0
+game keys: 8, 4, 6, 2, 10, 10, 10, 10, 10, 10
 
 Elf Games:
 ==========

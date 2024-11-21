@@ -8,10 +8,10 @@
         <config>Chip-8 (select Chip-8 file in RAM field or use LOAD after Start)</config>
         <clock>1.773</clock>
         <boot>0</boot>
-        <init type="ef1">1</init>
-        <init type="ef2">1</init>
-        <init type="ef3">1</init>
-        <init type="ef4">1</init>
+        <init ef="1">1</init>
+        <init ef="2">1</init>
+        <init ef="3">1</init>
+        <init ef="4">1</init>
         <dirname>Chip-8/Chip-8 ETI660 Hybrids</dirname>
     </system>
 
@@ -35,8 +35,10 @@
         <ram type="gui" cart="ch8">
             <start>0x0600</start>
             <end>0x0FFF</end>
+            <pulldown mask="*.ch8">Chip-8/Chip-8 ETI660 Games</pulldown>
+            <pulldown mask="*.ch8">Chip-8/Chip-8 ETI660 Programs</pulldown>
             <pulldown mask="*.ch8">Chip-8/Chip-8 ETI660 Hybrids</pulldown>
-            <filename>Space Invaders (ETI660 Hybrid) [P. Easdown,198x].ch8</filename>
+            <filename>Pakman (ETI660 Hybrid) [B. Kreykes, Sep 1983].ch8</filename>
         </ram>
 
         <ram>
@@ -55,7 +57,7 @@
 
         <out>2</out>
         <in>2</in>
-        <ef>4</ef>
+        <ef pol="rev">4</ef>
     </keypad>
 
     <video type="1864">
@@ -105,6 +107,7 @@
 
     <cassette decks="1">
         <ef>2</ef>
+        <keyclear />
     </cassette>
     
     <locations>

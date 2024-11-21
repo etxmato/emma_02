@@ -8,11 +8,11 @@
         <config>Tag &amp; Bowling</config>
         <clock>1.6</clock>
         <cpu>1801</cpu>
-        <boot dma="on">0</boot>
-        <init type="ef1">1</init>
-        <init type="ef2">1</init>
-        <init type="ef3">1</init>
-        <init type="ef4">1</init>
+        <boot dma="out">0</boot>
+        <init ef="1">1</init>
+        <init ef="2">1</init>
+        <init ef="3">1</init>
+        <init ef="4">1</init>
         <dirname>CosmacGameSystem</dirname>
     </system>
     
@@ -56,7 +56,7 @@
         <ef4 type="reset" in="6">67</ef4>
     </efbuttons>
     
-    <bitkeypad pad="a">
+    <keypad type="bit" pad="a">
         <in>6</in>
         <pressed>1</pressed>
         <bit0>314</bit0>    <!-- A left -->
@@ -71,7 +71,7 @@
         <bit key="87">5</bit>    <!-- B Up -->
         <bit key="83">6</bit>    <!-- B Right -->
         <bit key="90">7</bit>    <!-- B Down -->
-    </bitkeypad>
+    </keypad>
 
     <dip>
         <in>5</in>

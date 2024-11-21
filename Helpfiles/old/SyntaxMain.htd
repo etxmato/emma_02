@@ -1,0 +1,81 @@
+<html>
+<title>Syntax</title>
+<body>
+<h1>Syntax</h1>
+<h2>Machine Code</h2>
+<p>
+This section provides links to descriptions of syntax definitions on the Emma 02 site for all machine languages that can be assembled and disassembled by Emma 02. For details about the assembler see section <a href="DirectMain.htm">Direct Assembler</a>. 
+</p>a
+<p>
+<a href="https://www.emma02.hobby-site.com/system00.html">SYSTEM00 Syntax</a><br>
+<a href="https://www.emma02.hobby-site.com/1801.html">CDP1801 Syntax</a><br>
+<a href="https://www.emma02.hobby-site.com/1802.html">CDP1802 Syntax</a><br>
+<a href="https://www.emma02.hobby-site.com/1804.html">CDP1804 Syntax</a><br>
+<a href="https://www.emma02.hobby-site.com/1805.html">CDP1805 Syntax</a><br>
+<a href="https://www.emma02.hobby-site.com/cpu_diff.html">Differences</a><br>
+</p>
+<h2>Pseudo Code</h2>
+<p>
+This section provides links to descriptions of syntax definitions on the Emma 02 site for all pseudo languages that can be assembled and disassembled by Emma 02. For details about the assembler see section <a href="DirectMain.htm">Direct Assembler</a>. 
+</p>
+<p>
+<a href="https://www.emma02.hobby-site.com/pseudo_amvbas.html">AMVBAS Syntax</a><br>
+<a href="https://www.emma02.hobby-site.com/pseudo_am4kbas.html">AM4KBAS Syntax</a><br>
+<a href="https://www.emma02.hobby-site.com/pseudo_cardtran.html">CARDTRAN Syntax</a><br>
+<a href="https://www.emma02.hobby-site.com/pseudo_chip8.html">Chip-8, 8X, ETI & Elf Syntax</a><br>
+<a href="https://www.emma02.hobby-site.com/pseudo_fel-1.html">FEL-1 Syntax</a><br>
+<a href="https://www.emma02.hobby-site.com/pseudo_fpa-1.html">FPA-1 Syntax</a><br>
+<a href="https://www.emma02.hobby-site.com/pseudo_fpl-2.html">FPL-2 Syntax</a><br>
+<a href="https://www.emma02.hobby-site.com/pseudo_fpl-4.html">FPL-4 Syntax</a><br>
+<a href="https://www.emma02.hobby-site.com/pseudo_gpl-2.html">GPL-2 Syntax</a><br>
+<a href="https://www.emma02.hobby-site.com/pseudo_gpl-3.html">GPL-3 Syntax</a><br>
+<a href="https://www.emma02.hobby-site.com/pseudo_gpl-4.html">GPL-4 Syntax</a><br>
+<a href="https://www.emma02.hobby-site.com/pseudo_gpl-a_ram.html">GPL-A (2K RAM) Syntax</a><br>
+<a href="https://www.emma02.hobby-site.com/pseudo_gpl-a_rom.html">GPL-A (2K ROM) Syntax</a><br>
+<a href="https://www.emma02.hobby-site.com/pseudo_st2.html">ST2 Syntax</a><br>
+<a href="https://www.emma02.hobby-site.com/pseudo_st4.html">ST4 Syntax</a><br>
+<a href="https://www.emma02.hobby-site.com/pseudo_stk.html">STK Syntax</a><br>
+<a href="https://www.emma02.hobby-site.com/pseudo_test_word.html">Test-Word Syntax</a><br>
+<a href="https://www.emma02.hobby-site.com/pseudo_super_chip.html">Super-chip Syntax</a><br>
+</p>
+<h2>XML</h2>
+<p>
+This section provides links to descriptions syntax definitions on the Emma 02 site for the XML format used to define machine configurations.
+</p>
+<p>
+<a href="https://www.emma02.hobby-site.com/xml_main.html">Main Elements</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_main.html">I/O</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_system.html">System</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_ad_converter.html">A/D Convertor</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_basic.html">BASIC</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_batchwav.html">Batch wav</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_bootstrap.html">Bootstrap</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_cassette.html">Cassette</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_cd4536b.html">CD4536B</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_cdp1851.html">CDP1851</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_cdp1852.html">CDP1852</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_debugger.html">Debugger</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_diagnostic.html">COMX Diagnostic</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_dip.html">Dip switch</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_disk.html">Disk</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_efbuttons.html">EF Buttons</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_frontpanel.html">Front Panel</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_gui.html">GUI</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_hexmodem.html">HEX Modem</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_iogroup.html">I/O Group</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_keyboard.html">Keyboard</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_keyfile.html">Keyfile</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_locations.html">Locations</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_memory.html">Memory</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_printer.html">Printer</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_rtc.html">RTC</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_sound.html">Sound</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_splash.html">Splash</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_usb.html">USB</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_video.html">Video</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_videodump.html">Videodump</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_vt.html">vt</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_xmodem.html">X Modem</a><br>
+</p>
+</body>
+</html>

@@ -1,0 +1,8 @@
+PATTERNMAKER 
+
+
+This one s fascinating. You can have the computer draw a complex, varying kaleidoscope’ pattern on the screen starting from a seed’ pattern drawn by you. When you run the program, four spots appear in the centre of the screen, making a square block. Keys 2, 4, 6 and 8 are used to move 
+the spots in each of the four screen quadrants to create the seed pattern. Key 2 moves the spots vertically away from the centre, key 4 moves the spots horizontally away from the centre, key 6 moves them horizontally towards the centre and key 8 moves them vertically towards the centre. 
+When you’ve created your pattern, press key 0 and the computer will commence drawing the pattern out across the screen, continuously repeating it. Note that when the pattern crosses an existing line, the screen is blanked. Try this seed pattern: press key 2 four times, then key 4 four times, then press key 0. 
+
+The subroutine from 0632 to 0674 causes the pattern to be duplicated in the four quadrants of the screen. 

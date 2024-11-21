@@ -6,19 +6,149 @@
     <system>
         <name>Membership Card</name>
         <config>Monitor, Front panel J, 32KB NVRAM - 32KB ROM</config>
-        <clock>2.835</clock>
+        <clock>1.75</clock>
         <boot>0x8000</boot>
-        <init type="ef1">1</init>
-        <init type="ef2">1</init>
-        <init type="ef3">1</init>
-        <init type="ef4">1</init>
+        <init ef="1">1</init>
+        <init ef="2">1</init>
+        <init ef="3">1</init>
+        <init ef="4">1</init>
         <dirname>Membership</dirname>
     </system>
 
-    <frontpanel type="member_j" init="on">
-        <out mask="0x4"></out>
-        <in mask="0x4"></in>
+    <frontpanel init="on">
+        <out>4, 5, 6, 7</out>
+        <in>4, 5, 6, 7</in>
         <ef type="in">4</ef>
+        <size>480, 299</size>
+        <item>
+            <type>png</type>
+            <filename dirname="images">membership3.png</filename>
+        </item>
+        <item>
+            <type form="largegreen">led</type>
+            <function>qled</function>
+            <pos>25, 136</pos>
+        </item>
+        <item>
+            <type form="large">led</type>
+            <value>7</value>
+            <function load="show">bitled</function>
+            <pos>194, 136</pos>
+        </item>
+        <item>
+            <type form="large">led</type>
+            <value>6</value>
+            <function load="show">bitled</function>
+            <pos>228, 136</pos>
+        </item>
+        <item>
+            <type form="large">led</type>
+            <value>5</value>
+            <function load="show">bitled</function>
+            <pos>262, 136</pos>
+        </item>
+        <item>
+            <type form="large">led</type>
+            <value>4</value>
+            <function load="show">bitled</function>
+            <pos>296, 136</pos>
+        </item>
+        <item>
+            <type form="large">led</type>
+            <value>3</value>
+            <function load="show">bitled</function>
+            <pos>330, 136</pos>
+        </item>
+        <item>
+            <type form="large">led</type>
+            <value>2</value>
+            <function load="show">bitled</function>
+            <pos>364, 136</pos>
+        </item>
+        <item>
+            <type form="large">led</type>
+            <value>1</value>
+            <function load="show">bitled</function>
+            <pos>398, 136</pos>
+        </item>
+        <item>
+            <type form="large">led</type>
+            <value>0</value>
+            <function load="show">bitled</function>
+            <pos>432, 136</pos>
+        </item>
+        <item>
+            <type form="round" color="red">push</type>
+            <init>up</init>
+            <function>in_switch</function>
+            <pos>25, 210</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <function>wait</function>
+            <init>up</init>
+            <pos>59, 210</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <function>clear_run</function>
+            <init>up</init>
+            <pos>93, 210</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <function>mp</function>
+            <init>up</init>
+            <pos>127, 210</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>7</value>
+            <function>bitswitch</function>
+            <pos>194, 210</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>6</value>
+            <function>bitswitch</function>
+            <pos>228, 210</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>5</value>
+            <function>bitswitch</function>
+            <pos>262, 210</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>4</value>
+            <function>bitswitch</function>
+            <pos>296, 210</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>3</value>
+            <function>bitswitch</function>
+            <pos>330, 210</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>2</value>
+            <function>bitswitch</function>
+            <pos>364, 210</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>1</value>
+            <function>bitswitch</function>
+            <pos>398, 210</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>0</value>
+            <function>bitswitch</function>
+            <pos>432, 210</pos>
+        </item>
     </frontpanel>
 
     <memory>
@@ -33,6 +163,7 @@
             <start>0</start>
             <end>0x7FFF</end>
             <dump>ramdump.bin</dump>
+            <mp>switch</mp>
         </nvram>
     </memory>
     

@@ -1,0 +1,38 @@
+DOGFIGHT 
+
+Luke Skywalker rides again! Shoot the evil X-wing fighter and see it disintegrate before your very i eyes. But watch it! The X-wing fighter will sneak up behind and clobber you — unless you duck out of its way! 
+
+In this game, you control a Y-wing fighter that first appears in the middle of the screen, immediately you run the program. LOOK OUT! The huge X-wing fighter appears over your port rear quadrant — press key 9 to drop out of its way and, as it cruises past, hit key 5 to fire your missile before the X-wing craft disappears off the screen to the right. 
+
+• To move your Y-wing fighter UP—press key 1. 
+• To move it DOWN — press key 9. 
+• To move LEFT — press key 6. 
+• To move RIGHT — press key 7. 
+• To FIRE — press key 5. 
+
+A one-second tone is heard whenever the X-wing craft runs into the Y-wing craft — and you lose points from your score. When you score a hit, you’ll hear a ‘pip-pip-pip-pip-pip’, ‘bits’ will disappear from the X-wing craft and it will change shape — making it much harder to hit, especially as you score more hits. 
+
+The game lasts about 80 seconds and your score appears on screen at the end. Press RESET 8’ to get a new game. We’ll let all you keen CHIP-8 hackers have fun annotating the listing to find out how it works on this one. 
+
+This program has been modified and rewritten for the ’660 from an original program submitted by J.L. Elkhorne of Chigwell, Tasmania, called ‘COSMAC Asteroids’, written for a 4K VP-111 reproduced elsewhere in this issue). 
+
+PROGRAM NOTES 
+
+There are eight basic modules’ in this program: 
+0600 — 0607 PLACE Y-WING MID SCREEN 
+0608 — 0641 CALL AND EXECUTE ROUTINES 
+0642 — 065B MOVE Y-WING FIGHTER 
+065C — 067F MISSILE DYNAMICS 
+0680 — 06B5 HIT X-WING FIGHTER 
+06B6 — 06CE MOVE X-WING FIGHTER 
+06D0 — 06F8 SCORING 
+0700 — 0711 FIGHTER & MISSILE PATTERNS 
+
+Scanning of the keyboard and executing the commands entered is done within the second module, from 061A to 0635. The Y-wing fighter pattern resides at 0700-0702, the missile at 0703. The X-wing pattern is entered in two places (as it is called twice) at 0704-0709 and 070C-0711. 
+
+For left-handers, the keyboard positions can be exchanged by changing 061A to 63 02, 0620 to 63 01, 0626 to 63 07, 062C to 63 OF and 0632 to 63 03. 
+
+If you want to put the SHOOT key between the MOVE LEFT and MOVE RIGHT keys, change the original (right-handed) program by altering 0620 to 63 05 and 0632 to 63 06. Left-handers change 061A to 63 03 and 0632 to 63 02. 
+
+You can also muck about with the fighter patterns (completely changing the ‘look’ of the game, without altering its operation). You can change the Y-wing fighter to a miniature X-wing craft by altering addresses 0700-0702 to 28 18 28; or a ‘reverse’ of that by entering 10 28 10 instead. Note that your missile is at address 0703. You can make the larger craft harder to hit by changing address 0704-0709 to 00 66 18 18 66 00; do likewise at addresses 070C-0711. Or you could try something like 00 D8 20 D8 00 in those addresses. The reverse’ of that pattern is 00 20 D8 20 00. You can really decrease the size of your Y-wing craft by entering 20 10 20 at addresses 0700-0702. Have fun! 
+

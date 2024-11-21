@@ -1,7 +1,7 @@
 #ifndef RTC_H
 #define RTC_H
 
-#include "elfconfiguration.h"
+#include "computerconfig.h"
 
 class Rtc
 {
@@ -9,7 +9,7 @@ public:
     Rtc();
     ~Rtc() {};
 
-    void configureRtc(IoConfiguration ioConf);
+    void configureRtc(RtcDs12887Configuration rtcDs12887Configuration);
     Byte inRtc();
     void outRtc(Byte value);
     void selectRtcRegister(Byte value);

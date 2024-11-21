@@ -1,0 +1,28 @@
+TOUCHDOWN 
+
+In this program I have used the Message Maker’ program published in ETI March '83. 
+
+It is a lunar lander program. Once you have successfully landed on the surface you then have to take off and battle with gravity and Newton’s first law to dock with a section on the top of the screen. 
+
+There are three modes to the program — Menu, Create Moon and Play Game. 
+
+In the Menu mode you are asked what you wish to do, play the game or create a new lunar surface. The appropriate key must be pressed. 
+
+First Crate a Moon surface!
+
+In the Create Moon mode, using keys 0,1 and 4, you construct a landscape on which you must land. Key 4 creates a flat surface for landing. Key 0 moves the dot up, key 1 moves the dot down. Once finished press any key to return to Menu. 
+
+When you start the Play Game mode the surface is redrawn with borders around it. Your trusty ship appears on its side and proceeds towards the left of the screen. When you think the ship is above the landing pad press key 4. The ship will then turn and lower itself to the surface, but due to gravity the ship will crash unless you are careful. 
+
+Key 0 is your upward thrust and key 4 will cut all engines. Press key 4 when you think you have landed. If you press it when still above the surface then . . . Wow what an explosion. 
+
+If you succeed in landing, the word touchdown’ will appear. When it disappears a block will appear at 
+
+
+the top of the screen with a hole which is just a perfect fit for the nose of your rocket. Now you’ve got to get it in there. 
+
+When it takes off you have some new key functions: 2-right retro rocket; 3-left retro rocket; 0-upward thrust; 4-neutral retro rockets. 
+
+You must remove the upward thrust if you want to go left or right, but gravity also pulls you down. Key 4 simply stops your sideways movement. 
+
+If you ever manage to dock you get the message success’ and that’s it. A bit anticlimactic but a hard game requiring skill. 

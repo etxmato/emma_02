@@ -1,0 +1,23 @@
+
+<html>
+<title>Linear & Logarithmic Counters</title>
+<body>
+<h1>Linear & Logarithmic Counters</h1>
+<p>
+Two different type of execution counters are supported, linear and logarithmic. This can be switched with the 'Type' selector (green ellipse) resulting in one of the following:
+</p>
+<p>
+Linear:<br>
+<IMG SRC="images/profiler_linear.png" BORDER="0">
+</p>
+<p>
+Linear counters count up 1 for every time that specific instruction is executed; from 1 to max 18.446.744.073.709.551.615 (i.e. a 64 bit unsigned integer). When the max value is reached the counter will stop on the max value.
+</p>
+<p>
+Logarithmic:<br>
+<IMG SRC="images/profiler_log.png" BORDER="0">
+</p>
+<p>
+Logarithmic counters use the formula 5*ln(number of executions), resulting in a range of 1 to max 221. The same counter value is used to set the colour of the instruction.</p>
+</body>
+</html>

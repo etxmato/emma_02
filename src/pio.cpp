@@ -33,8 +33,8 @@
 #include "main.h"
 #include "pio.h"
 
-PioScreen::PioScreen(wxWindow *parent, const wxSize& size, int pioNumber, int tilType)
-: Panel(parent, size, tilType)
+PioScreen::PioScreen(wxWindow *parent, const wxSize& size, int pioNumber)
+: Panel(parent, size)
 {
     pioNumber_ = pioNumber;
     
@@ -988,7 +988,7 @@ PioFrame::PioFrame(const wxString& title, const wxPoint& pos, const wxSize& size
 {
     pioNumber_ = pioNumber;
     
-    pioScreenPointer = new PioScreen(this, size, pioNumber, TILNONE);
+    pioScreenPointer = new PioScreen(this, size, pioNumber);
     pioScreenPointer->init();
     
     this->SetClientSize(size);

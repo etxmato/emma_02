@@ -9,10 +9,10 @@
         <clock>1.7609</clock>
         <boot>0</boot>
         <f12>stop</f12>
-        <init type="ef1">1</init>
-        <init type="ef2">1</init>
-        <init type="ef3">1</init>
-        <init type="ef4">1</init>
+        <init ef="1">1</init>
+        <init ef="2">1</init>
+        <init ef="3">1</init>
+        <init ef="4">1</init>
         <dirname>Vip</dirname>
     </system>
     

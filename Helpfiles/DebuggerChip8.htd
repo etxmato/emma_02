@@ -3,13 +3,13 @@
 <body>
 <h1>Debug Pseudo</h1>
 <p>
-To use the <a href="SyntaxPseudoCode.htm">pseudo</a> trace functions of the debugger first select the 'Tools' tab (yellow ellipse) and then the 'Debug Pseudo' tab (orange ellipse).
+To use the <a href="SyntaxPseudoCode.htm">pseudo</a> trace functions of the debugger first select the 'Tools' tab (highlighted in yellow) and then the 'Debug Pseudo' tab (highlighted in orange).
 </p>
 <p>
 <IMG SRC="images/debug_pseudo.png" BORDER="0">
 </p>
 <p>
-To activate/deactivate the pseudo debug mode select/deselect the 'Debug Mode' checkbox (blue ellipse). Debug mode is also activated and deactivated automatically when using any of the he pseudo trace commands (red ellipse). 
+To activate/deactivate the pseudo debug mode select/deselect the 'Debug Mode' checkbox (highlighted in blue). Debug mode is also activated and deactivated automatically when using any of the he pseudo trace commands (highlighted in red). 
 </p>
 <p>
 Active pseudo debug mode will be indicated in the emulated computer window title. Note that in pseudo debug mode the emulator will run slower and take more processor power.  
@@ -23,22 +23,22 @@ There are 2 trace buttons to show or trace instructions executed by the emulated
 </p>
 <p>
 <ul>
-<li>Trace: (yellow ellipse): to show all pseudo instructions. 
-<li>INT (orange ellipse): to show 1802 interrupt instructions.
+<li>Trace: (highlighted in yellow): to show all pseudo instructions. 
+<li>INT (highlighted in orange): to show 1802 interrupt instructions.
 </ul>
 </p>
 <p>
 <IMG SRC="images/debug_pseudo_trace.png" BORDER="0">
 </p>
 <p>
-Tracing output will be shown in the trace output window (grey ellipse). To save the output to a log file press the 'Log' button (brown ellipse). The trace window cleared by pressing 'Clear' (magenta ellipse).
+Tracing output will be shown in the trace output window (highlighted in grey). To save the output to a log file press the 'Log' button (highlighted in brown). The trace window cleared by pressing 'Clear' (highlighted in purple).
 </p>
 <p>
-The type of pseudo code is shown in the Type field (green ellipse).
+The type of pseudo code is shown in the Type field (highlighted in green).
 </p>
 <h2>Pause, Step and Speed</h2>
 <p>
-The pseudo code running on the emulated computer can be 'paused' by pressing the pause button (orange ellipse) and will pause automatically when hitting a break point, see also chapter 'Break Points' below. 
+The pseudo code running on the emulated computer can be 'paused' by pressing the pause button (highlighted in orange) and will pause automatically when hitting a break point, see also section 'Break Points' below. 
 </p>
 <p>
 <IMG SRC="images/debug_pseudo_PSS.png" BORDER="0">
@@ -47,33 +47,33 @@ The pseudo code running on the emulated computer can be 'paused' by pressing the
 When Pseudo code is paused the pause button will light up orange and the title of the computer will include '** PAUSED **'. To continue just hit the pause button again. Note that when the pause button is pressed during execution of a pseudo code instruction, pseudo code is paused only when the current instruction is finished. During execution of the current instruction the pause button will be disabled. This is especially visible when pausing during a command like LD Vx, K in Chip-8, in this case the pause command will only take effect after a key press. 
 </p>
 <p>
-In pause mode the 'Step' button (orange ellipse) can be used to get the emulated computer to execute the indicated number of pseudo code instructions and after this go back to pause mode.
+In pause mode the 'Step' button (highlighted in orange) can be used to get the emulated computer to execute the indicated number of pseudo code instructions and after this go back to pause mode.
 </p>
 <p>
-If needed the trace and emulated computer can be slowed down by sliding the 'Speed' slider (blue ellipse) to the left. Normal speed will be restored when Debug mode is switched off even if the slider is not fully to the right.
+If needed the trace and emulated computer can be slowed down by sliding the 'Speed' slider (highlighted in blue) to the left. Normal speed will be restored when Debug mode is switched off even if the slider is not fully to the right.
 </p>
 <h2>Variables & Register I</h2>
 <p>
-All variable (orange ellipse), I register (blue ellipse) and PC register values can be seen at any time:
+All variable (highlighted in orange), I register (highlighted in blue) and PC register values can be seen at any time:
 </p>
 <p>
 <IMG SRC="images/debug_pseudo_registers.png" BORDER="0">
 </p>
 <p>
-Default none of these values can be changed (protected mode), this is to protect execution of the emulated computer as changing these values would likely cause a crash. To change these values unselect the 'Protected Mode' checkbox (yellow ellipse). The PC register is never allowed to be changed.
+Default none of these values can be changed (protected mode), this is to protect execution of the emulated computer as changing these values would likely cause a crash. To change these values unselect the 'Protected Mode' checkbox (highlighted in yellow). The PC register is never allowed to be changed.
 </p>
 <p>
-To change the value of registers I and/or variables, type in a different value and press enter. No value is changed until enter is pressed! Also be aware that changing values during run time of a computer might be difficult as the emulator constantly changes values. To make it easier to change something pause the emulator (via the pause button or breakpoint), change the value and continue tracing using pause (see chapters, 'Pause, Step and Speed' and/or 'Break Points'.
+To change the value of registers I and/or variables, type in a different value and press enter. No value is changed until enter is pressed! Also be aware that changing values during run time of a computer might be difficult as the emulator constantly changes values. To make it easier to change something pause the emulator (via the pause button or breakpoint), change the value and continue tracing using pause (see sections, 'Pause, Step and Speed' and/or 'Break Points'.
 </p>
 <h2>Break Points</h2>
 <p>
-Break points (yellow ellipse) are handled with the button and fields marked in the screen shot below.
+Break points (highlighted in yellow) are handled with the button and fields marked in the screen shot below.
 </p>
 <p>
 <IMG SRC="images/debug_pseudo_break.png" BORDER="0">
 </p>
 <p>
-To set a break point on a pseudo code 'execution address' type the required address in the field next to the 'Set' button (yellow ellipse) and press return (or the button). The address will be shown in the break point list (orange ellipse). When the emulated computer reaches the specified address it will stop execution and go into 'pause' mode. A total of 64 break points can be set.
+To set a break point on a pseudo code 'execution address' type the required address in the field next to the 'Set' button (highlighted in yellow) and press return (or the button). The address will be shown in the break point list (highlighted in orange). When the emulated computer reaches the specified address it will stop execution and go into 'pause' mode. A total of 64 break points can be set.
 </p>
 <h3>Delete</h3>
 <p>

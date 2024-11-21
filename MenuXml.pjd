@@ -434,7 +434,7 @@
                 <long name="proxy-Height">-1</long>
                 <string name="proxy-Help text">""</string>
                 <bool name="proxy-Hidden">0</bool>
-                <string name="proxy-Id name">"FDC0_ButtonMS2000"</string>
+                <string name="proxy-Id name">"FDC0_ButtonXml"</string>
                 <long name="proxy-Id value">10015</long>
                 <string name="proxy-Implementation filename">""</string>
                 <string name="proxy-Label">"FDC 0/HD 0"</string>
@@ -464,7 +464,7 @@
                 <bool name="proxy-wxWANTS_CHARS">0</bool>
                 <long name="proxy-X">-1</long>
                 <long name="proxy-Y">-1</long>
-                <string name="title">"wxButton: FDC0_ButtonMS2000"</string>
+                <string name="title">"wxButton: FDC0_ButtonXml"</string>
                 <long name="title-mode">0</long>
                 <string name="type">"dialog-control-document"</string>
               </document>
@@ -499,7 +499,7 @@
                 <long name="proxy-Height">-1</long>
                 <string name="proxy-Help text">""</string>
                 <bool name="proxy-Hidden">0</bool>
-                <string name="proxy-Id name">"FDC0_FileMS2000"</string>
+                <string name="proxy-Id name">"FDC0_FileXml"</string>
                 <long name="proxy-Id value">10015</long>
                 <string name="proxy-Implementation filename">""</string>
                 <string name="proxy-Initial value">""</string>
@@ -547,7 +547,7 @@
                 <bool name="proxy-wxWANTS_CHARS">0</bool>
                 <long name="proxy-X">-1</long>
                 <long name="proxy-Y">-1</long>
-                <string name="title">"wxTextCtrl: FDC0_FileMS2000"</string>
+                <string name="title">"wxTextCtrl: FDC0_FileXml"</string>
                 <long name="title-mode">0</long>
                 <string name="type">"dialog-control-document"</string>
               </document>
@@ -582,7 +582,7 @@
                 <long name="proxy-Height">-1</long>
                 <string name="proxy-Help text">""</string>
                 <bool name="proxy-Hidden">0</bool>
-                <string name="proxy-Id name">"FDC0_FileMS2000"</string>
+                <string name="proxy-Id name">"FDC0_FileXml"</string>
                 <long name="proxy-Id value">10015</long>
                 <string name="proxy-Implementation filename">""</string>
                 <string name="proxy-Initial value">""</string>
@@ -630,7 +630,7 @@
                 <bool name="proxy-wxWANTS_CHARS">0</bool>
                 <long name="proxy-X">-1</long>
                 <long name="proxy-Y">-1</long>
-                <string name="title">"wxTextCtrl: FDC0_FileMS2000"</string>
+                <string name="title">"wxTextCtrl: FDC0_FileXml"</string>
                 <long name="title-mode">0</long>
                 <string name="type">"dialog-control-document"</string>
               </document>
@@ -811,7 +811,7 @@
                 <long name="proxy-Height">27</long>
                 <string name="proxy-Help text">""</string>
                 <bool name="proxy-Hidden">0</bool>
-                <string name="proxy-Id name">"Eject_FDC0MS2000"</string>
+                <string name="proxy-Id name">"Eject_FDC0Xml"</string>
                 <long name="proxy-Id value">10017</long>
                 <string name="proxy-Implementation filename">""</string>
                 <string name="proxy-Member variable name">""</string>
@@ -840,7 +840,7 @@
                 <bool name="proxy-wxWANTS_CHARS">0</bool>
                 <long name="proxy-X">-1</long>
                 <long name="proxy-Y">-1</long>
-                <string name="title">"wxBitmapButton: Eject_FDC0MS2000"</string>
+                <string name="title">"wxBitmapButton: Eject_FDC0Xml"</string>
                 <long name="title-mode">0</long>
                 <string name="type">"dialog-control-document"</string>
               </document>
@@ -881,7 +881,7 @@
                 <long name="proxy-Height">-1</long>
                 <string name="proxy-Help text">""</string>
                 <bool name="proxy-Hidden">0</bool>
-                <string name="proxy-Id name">"Eject_FDC0MS2000"</string>
+                <string name="proxy-Id name">"Eject_FDC0Xml"</string>
                 <long name="proxy-Id value">10017</long>
                 <string name="proxy-Implementation filename">""</string>
                 <string name="proxy-Member variable name">""</string>
@@ -910,7 +910,7 @@
                 <bool name="proxy-wxWANTS_CHARS">0</bool>
                 <long name="proxy-X">-1</long>
                 <long name="proxy-Y">-1</long>
-                <string name="title">"wxBitmapButton: Eject_FDC0MS2000"</string>
+                <string name="title">"wxBitmapButton: Eject_FDC0Xml"</string>
                 <long name="title-mode">0</long>
                 <string name="type">"dialog-control-document"</string>
               </document>
@@ -972,7 +972,7 @@
                 <long name="proxy-Height">-1</long>
                 <string name="proxy-Help text">""</string>
                 <bool name="proxy-Hidden">0</bool>
-                <string name="proxy-Id name">"FDC1_ButtonMS2000"</string>
+                <string name="proxy-Id name">"FDC1_ButtonXml"</string>
                 <long name="proxy-Id value">10015</long>
                 <string name="proxy-Implementation filename">""</string>
                 <string name="proxy-Label">"FDC 1/HD 1"</string>
@@ -1002,7 +1002,7 @@
                 <bool name="proxy-wxWANTS_CHARS">0</bool>
                 <long name="proxy-X">-1</long>
                 <long name="proxy-Y">-1</long>
-                <string name="title">"wxButton: FDC1_ButtonMS2000"</string>
+                <string name="title">"wxButton: FDC1_ButtonXml"</string>
                 <long name="title-mode">0</long>
                 <string name="type">"dialog-control-document"</string>
               </document>
@@ -1037,7 +1037,7 @@
                 <long name="proxy-Height">-1</long>
                 <string name="proxy-Help text">""</string>
                 <bool name="proxy-Hidden">0</bool>
-                <string name="proxy-Id name">"FDC1_FileMS2000"</string>
+                <string name="proxy-Id name">"FDC1_FileXml"</string>
                 <long name="proxy-Id value">10015</long>
                 <string name="proxy-Implementation filename">""</string>
                 <string name="proxy-Initial value">""</string>
@@ -1047,7 +1047,7 @@
                 <string name="proxy-Platform">"__WXMAC__"</string>
                 <bool name="proxy-Separate files">0</bool>
                 <long name="proxy-Stretch factor">0</long>
-                <string name="proxy-Tooltip text">"Specify MS2000 FDC 1 image file"</string>
+                <string name="proxy-Tooltip text">"Specify FDC 1 image file"</string>
                 <long name="proxy-Width">127</long>
                 <bool name="proxy-wxADJUST_MINSIZE">0</bool>
                 <bool name="proxy-wxBORDER_THEME">0</bool>
@@ -1085,7 +1085,7 @@
                 <bool name="proxy-wxWANTS_CHARS">0</bool>
                 <long name="proxy-X">-1</long>
                 <long name="proxy-Y">-1</long>
-                <string name="title">"wxTextCtrl: FDC1_FileMS2000"</string>
+                <string name="title">"wxTextCtrl: FDC1_FileXml"</string>
                 <long name="title-mode">0</long>
                 <string name="type">"dialog-control-document"</string>
               </document>
@@ -1120,7 +1120,7 @@
                 <long name="proxy-Height">-1</long>
                 <string name="proxy-Help text">""</string>
                 <bool name="proxy-Hidden">0</bool>
-                <string name="proxy-Id name">"FDC1_FileMS2000"</string>
+                <string name="proxy-Id name">"FDC1_FileXml"</string>
                 <long name="proxy-Id value">10015</long>
                 <string name="proxy-Implementation filename">""</string>
                 <string name="proxy-Initial value">""</string>
@@ -1130,7 +1130,7 @@
                 <string name="proxy-Platform">"__WXGTK__,__WXMSW__"</string>
                 <bool name="proxy-Separate files">0</bool>
                 <long name="proxy-Stretch factor">0</long>
-                <string name="proxy-Tooltip text">"Specify MS2000 FDC 1 image file"</string>
+                <string name="proxy-Tooltip text">"Specify FDC 1 image file"</string>
                 <long name="proxy-Width">127</long>
                 <bool name="proxy-wxADJUST_MINSIZE">0</bool>
                 <bool name="proxy-wxBORDER_THEME">0</bool>
@@ -1168,7 +1168,7 @@
                 <bool name="proxy-wxWANTS_CHARS">0</bool>
                 <long name="proxy-X">-1</long>
                 <long name="proxy-Y">-1</long>
-                <string name="title">"wxTextCtrl: FDC1_FileMS2000"</string>
+                <string name="title">"wxTextCtrl: FDC1_FileXml"</string>
                 <long name="title-mode">0</long>
                 <string name="type">"dialog-control-document"</string>
               </document>
@@ -1349,7 +1349,7 @@
                 <long name="proxy-Height">27</long>
                 <string name="proxy-Help text">""</string>
                 <bool name="proxy-Hidden">0</bool>
-                <string name="proxy-Id name">"Eject_FDC1MS2000"</string>
+                <string name="proxy-Id name">"Eject_FDC1Xml"</string>
                 <long name="proxy-Id value">10017</long>
                 <string name="proxy-Implementation filename">""</string>
                 <string name="proxy-Member variable name">""</string>
@@ -1357,7 +1357,7 @@
                 <string name="proxy-Platform">"__WXMAC__"</string>
                 <bool name="proxy-Separate files">0</bool>
                 <long name="proxy-Stretch factor">0</long>
-                <string name="proxy-Tooltip text">"Eject MS2000 FDC 1 image file"</string>
+                <string name="proxy-Tooltip text">"Eject FDC 1 image file"</string>
                 <long name="proxy-Width">26</long>
                 <bool name="proxy-wxADJUST_MINSIZE">0</bool>
                 <bool name="proxy-wxBOTTOM">0</bool>
@@ -1378,7 +1378,7 @@
                 <bool name="proxy-wxWANTS_CHARS">0</bool>
                 <long name="proxy-X">-1</long>
                 <long name="proxy-Y">-1</long>
-                <string name="title">"wxBitmapButton: Eject_FDC1MS2000"</string>
+                <string name="title">"wxBitmapButton: Eject_FDC1Xml"</string>
                 <long name="title-mode">0</long>
                 <string name="type">"dialog-control-document"</string>
               </document>
@@ -1419,7 +1419,7 @@
                 <long name="proxy-Height">-1</long>
                 <string name="proxy-Help text">""</string>
                 <bool name="proxy-Hidden">0</bool>
-                <string name="proxy-Id name">"Eject_FDC1MS2000"</string>
+                <string name="proxy-Id name">"Eject_FDC1Xml"</string>
                 <long name="proxy-Id value">10017</long>
                 <string name="proxy-Implementation filename">""</string>
                 <string name="proxy-Member variable name">""</string>
@@ -1427,7 +1427,7 @@
                 <string name="proxy-Platform">"__WXGTK__,__WXMSW__"</string>
                 <bool name="proxy-Separate files">0</bool>
                 <long name="proxy-Stretch factor">0</long>
-                <string name="proxy-Tooltip text">"Eject MS2000 FDC 1 image file"</string>
+                <string name="proxy-Tooltip text">"Eject FDC 1 image file"</string>
                 <long name="proxy-Width">-1</long>
                 <bool name="proxy-wxADJUST_MINSIZE">0</bool>
                 <bool name="proxy-wxBOTTOM">0</bool>
@@ -1448,7 +1448,7 @@
                 <bool name="proxy-wxWANTS_CHARS">0</bool>
                 <long name="proxy-X">-1</long>
                 <long name="proxy-Y">-1</long>
-                <string name="title">"wxBitmapButton: Eject_FDC1MS2000"</string>
+                <string name="title">"wxBitmapButton: Eject_FDC1Xml"</string>
                 <long name="title-mode">0</long>
                 <string name="type">"dialog-control-document"</string>
               </document>
@@ -1510,7 +1510,7 @@
                 <long name="proxy-Height">-1</long>
                 <string name="proxy-Help text">""</string>
                 <bool name="proxy-Hidden">0</bool>
-                <string name="proxy-Id name">"FDC2_ButtonMS2000"</string>
+                <string name="proxy-Id name">"FDC2_ButtonXml"</string>
                 <long name="proxy-Id value">10015</long>
                 <string name="proxy-Implementation filename">""</string>
                 <string name="proxy-Label">"FDC 2/HD 2"</string>
@@ -1540,7 +1540,7 @@
                 <bool name="proxy-wxWANTS_CHARS">0</bool>
                 <long name="proxy-X">-1</long>
                 <long name="proxy-Y">-1</long>
-                <string name="title">"wxButton: FDC2_ButtonMS2000"</string>
+                <string name="title">"wxButton: FDC2_ButtonXml"</string>
                 <long name="title-mode">0</long>
                 <string name="type">"dialog-control-document"</string>
               </document>
@@ -1575,7 +1575,7 @@
                 <long name="proxy-Height">-1</long>
                 <string name="proxy-Help text">""</string>
                 <bool name="proxy-Hidden">0</bool>
-                <string name="proxy-Id name">"FDC2_FileMS2000"</string>
+                <string name="proxy-Id name">"FDC2_FileXml"</string>
                 <long name="proxy-Id value">10015</long>
                 <string name="proxy-Implementation filename">""</string>
                 <string name="proxy-Initial value">""</string>
@@ -1585,7 +1585,7 @@
                 <string name="proxy-Platform">"__WXMAC__"</string>
                 <bool name="proxy-Separate files">0</bool>
                 <long name="proxy-Stretch factor">0</long>
-                <string name="proxy-Tooltip text">"Specify MS2000 FDC 2 image file"</string>
+                <string name="proxy-Tooltip text">"Specify FDC 2 image file"</string>
                 <long name="proxy-Width">127</long>
                 <bool name="proxy-wxADJUST_MINSIZE">0</bool>
                 <bool name="proxy-wxBORDER_THEME">0</bool>
@@ -1623,7 +1623,7 @@
                 <bool name="proxy-wxWANTS_CHARS">0</bool>
                 <long name="proxy-X">-1</long>
                 <long name="proxy-Y">-1</long>
-                <string name="title">"wxTextCtrl: FDC2_FileMS2000"</string>
+                <string name="title">"wxTextCtrl: FDC2_FileXml"</string>
                 <long name="title-mode">0</long>
                 <string name="type">"dialog-control-document"</string>
               </document>
@@ -1658,7 +1658,7 @@
                 <long name="proxy-Height">-1</long>
                 <string name="proxy-Help text">""</string>
                 <bool name="proxy-Hidden">0</bool>
-                <string name="proxy-Id name">"FDC2_FileMS2000"</string>
+                <string name="proxy-Id name">"FDC2_FileXml"</string>
                 <long name="proxy-Id value">10015</long>
                 <string name="proxy-Implementation filename">""</string>
                 <string name="proxy-Initial value">""</string>
@@ -1668,7 +1668,7 @@
                 <string name="proxy-Platform">"__WXGTK__,__WXMSW__"</string>
                 <bool name="proxy-Separate files">0</bool>
                 <long name="proxy-Stretch factor">0</long>
-                <string name="proxy-Tooltip text">"Specify MS2000 FDC 2 image file"</string>
+                <string name="proxy-Tooltip text">"Specify FDC 2 image file"</string>
                 <long name="proxy-Width">127</long>
                 <bool name="proxy-wxADJUST_MINSIZE">0</bool>
                 <bool name="proxy-wxBORDER_THEME">0</bool>
@@ -1706,7 +1706,7 @@
                 <bool name="proxy-wxWANTS_CHARS">0</bool>
                 <long name="proxy-X">-1</long>
                 <long name="proxy-Y">-1</long>
-                <string name="title">"wxTextCtrl: FDC2_FileMS2000"</string>
+                <string name="title">"wxTextCtrl: FDC2_FileXml"</string>
                 <long name="title-mode">0</long>
                 <string name="type">"dialog-control-document"</string>
               </document>
@@ -1887,7 +1887,7 @@
                 <long name="proxy-Height">27</long>
                 <string name="proxy-Help text">""</string>
                 <bool name="proxy-Hidden">0</bool>
-                <string name="proxy-Id name">"Eject_FDC2MS2000"</string>
+                <string name="proxy-Id name">"Eject_FDC2Xml"</string>
                 <long name="proxy-Id value">10017</long>
                 <string name="proxy-Implementation filename">""</string>
                 <string name="proxy-Member variable name">""</string>
@@ -1895,7 +1895,7 @@
                 <string name="proxy-Platform">"__WXMAC__"</string>
                 <bool name="proxy-Separate files">0</bool>
                 <long name="proxy-Stretch factor">0</long>
-                <string name="proxy-Tooltip text">"Eject MS2000 FDC 2 image file"</string>
+                <string name="proxy-Tooltip text">"Eject FDC 2 image file"</string>
                 <long name="proxy-Width">26</long>
                 <bool name="proxy-wxADJUST_MINSIZE">0</bool>
                 <bool name="proxy-wxBOTTOM">0</bool>
@@ -1916,7 +1916,7 @@
                 <bool name="proxy-wxWANTS_CHARS">0</bool>
                 <long name="proxy-X">-1</long>
                 <long name="proxy-Y">-1</long>
-                <string name="title">"wxBitmapButton: Eject_FDC2MS2000"</string>
+                <string name="title">"wxBitmapButton: Eject_FDC2Xml"</string>
                 <long name="title-mode">0</long>
                 <string name="type">"dialog-control-document"</string>
               </document>
@@ -1957,7 +1957,7 @@
                 <long name="proxy-Height">-1</long>
                 <string name="proxy-Help text">""</string>
                 <bool name="proxy-Hidden">0</bool>
-                <string name="proxy-Id name">"Eject_FDC2MS2000"</string>
+                <string name="proxy-Id name">"Eject_FDC2Xml"</string>
                 <long name="proxy-Id value">10017</long>
                 <string name="proxy-Implementation filename">""</string>
                 <string name="proxy-Member variable name">""</string>
@@ -1965,7 +1965,7 @@
                 <string name="proxy-Platform">"__WXGTK__,__WXMSW__"</string>
                 <bool name="proxy-Separate files">0</bool>
                 <long name="proxy-Stretch factor">0</long>
-                <string name="proxy-Tooltip text">"Eject MS2000 FDC 2 image file"</string>
+                <string name="proxy-Tooltip text">"Eject FDC 2 image file"</string>
                 <long name="proxy-Width">-1</long>
                 <bool name="proxy-wxADJUST_MINSIZE">0</bool>
                 <bool name="proxy-wxBOTTOM">0</bool>
@@ -1986,7 +1986,7 @@
                 <bool name="proxy-wxWANTS_CHARS">0</bool>
                 <long name="proxy-X">-1</long>
                 <long name="proxy-Y">-1</long>
-                <string name="title">"wxBitmapButton: Eject_FDC2MS2000"</string>
+                <string name="title">"wxBitmapButton: Eject_FDC2Xml"</string>
                 <long name="title-mode">0</long>
                 <string name="type">"dialog-control-document"</string>
               </document>
@@ -2048,7 +2048,7 @@
                 <long name="proxy-Height">-1</long>
                 <string name="proxy-Help text">""</string>
                 <bool name="proxy-Hidden">0</bool>
-                <string name="proxy-Id name">"FDC3_ButtonMS2000"</string>
+                <string name="proxy-Id name">"FDC3_ButtonXml"</string>
                 <long name="proxy-Id value">10015</long>
                 <string name="proxy-Implementation filename">""</string>
                 <string name="proxy-Label">"FDC 3/HD 3"</string>
@@ -2078,7 +2078,7 @@
                 <bool name="proxy-wxWANTS_CHARS">0</bool>
                 <long name="proxy-X">-1</long>
                 <long name="proxy-Y">-1</long>
-                <string name="title">"wxButton: FDC3_ButtonMS2000"</string>
+                <string name="title">"wxButton: FDC3_ButtonXml"</string>
                 <long name="title-mode">0</long>
                 <string name="type">"dialog-control-document"</string>
               </document>
@@ -2113,7 +2113,7 @@
                 <long name="proxy-Height">-1</long>
                 <string name="proxy-Help text">""</string>
                 <bool name="proxy-Hidden">0</bool>
-                <string name="proxy-Id name">"FDC3_FileMS2000"</string>
+                <string name="proxy-Id name">"FDC3_FileXml"</string>
                 <long name="proxy-Id value">10015</long>
                 <string name="proxy-Implementation filename">""</string>
                 <string name="proxy-Initial value">""</string>
@@ -2123,7 +2123,7 @@
                 <string name="proxy-Platform">"__WXMAC__"</string>
                 <bool name="proxy-Separate files">0</bool>
                 <long name="proxy-Stretch factor">0</long>
-                <string name="proxy-Tooltip text">"Specify MS2000 FDC 3 image file"</string>
+                <string name="proxy-Tooltip text">"Specify FDC 3 image file"</string>
                 <long name="proxy-Width">127</long>
                 <bool name="proxy-wxADJUST_MINSIZE">0</bool>
                 <bool name="proxy-wxBORDER_THEME">0</bool>
@@ -2161,7 +2161,7 @@
                 <bool name="proxy-wxWANTS_CHARS">0</bool>
                 <long name="proxy-X">-1</long>
                 <long name="proxy-Y">-1</long>
-                <string name="title">"wxTextCtrl: FDC3_FileMS2000"</string>
+                <string name="title">"wxTextCtrl: FDC3_FileXml"</string>
                 <long name="title-mode">0</long>
                 <string name="type">"dialog-control-document"</string>
               </document>
@@ -2196,7 +2196,7 @@
                 <long name="proxy-Height">-1</long>
                 <string name="proxy-Help text">""</string>
                 <bool name="proxy-Hidden">0</bool>
-                <string name="proxy-Id name">"FDC3_FileMS2000"</string>
+                <string name="proxy-Id name">"FDC3_FileXml"</string>
                 <long name="proxy-Id value">10015</long>
                 <string name="proxy-Implementation filename">""</string>
                 <string name="proxy-Initial value">""</string>
@@ -2206,7 +2206,7 @@
                 <string name="proxy-Platform">"__WXGTK__,__WXMSW__"</string>
                 <bool name="proxy-Separate files">0</bool>
                 <long name="proxy-Stretch factor">0</long>
-                <string name="proxy-Tooltip text">"Specify MS2000 FDC 3 image file"</string>
+                <string name="proxy-Tooltip text">"Specify FDC 3 image file"</string>
                 <long name="proxy-Width">127</long>
                 <bool name="proxy-wxADJUST_MINSIZE">0</bool>
                 <bool name="proxy-wxBORDER_THEME">0</bool>
@@ -2244,7 +2244,7 @@
                 <bool name="proxy-wxWANTS_CHARS">0</bool>
                 <long name="proxy-X">-1</long>
                 <long name="proxy-Y">-1</long>
-                <string name="title">"wxTextCtrl: FDC3_FileMS2000"</string>
+                <string name="title">"wxTextCtrl: FDC3_FileXml"</string>
                 <long name="title-mode">0</long>
                 <string name="type">"dialog-control-document"</string>
               </document>
@@ -2425,7 +2425,7 @@
                 <long name="proxy-Height">27</long>
                 <string name="proxy-Help text">""</string>
                 <bool name="proxy-Hidden">0</bool>
-                <string name="proxy-Id name">"Eject_FDC3MS2000"</string>
+                <string name="proxy-Id name">"Eject_FDC3Xml"</string>
                 <long name="proxy-Id value">10017</long>
                 <string name="proxy-Implementation filename">""</string>
                 <string name="proxy-Member variable name">""</string>
@@ -2433,7 +2433,7 @@
                 <string name="proxy-Platform">"__WXMAC__"</string>
                 <bool name="proxy-Separate files">0</bool>
                 <long name="proxy-Stretch factor">0</long>
-                <string name="proxy-Tooltip text">"Eject MS2000 FDC 3 image file"</string>
+                <string name="proxy-Tooltip text">"Eject FDC 3 image file"</string>
                 <long name="proxy-Width">26</long>
                 <bool name="proxy-wxADJUST_MINSIZE">0</bool>
                 <bool name="proxy-wxBOTTOM">0</bool>
@@ -2454,7 +2454,7 @@
                 <bool name="proxy-wxWANTS_CHARS">0</bool>
                 <long name="proxy-X">-1</long>
                 <long name="proxy-Y">-1</long>
-                <string name="title">"wxBitmapButton: Eject_FDC3MS2000"</string>
+                <string name="title">"wxBitmapButton: Eject_FDC3Xml"</string>
                 <long name="title-mode">0</long>
                 <string name="type">"dialog-control-document"</string>
               </document>
@@ -2495,7 +2495,7 @@
                 <long name="proxy-Height">-1</long>
                 <string name="proxy-Help text">""</string>
                 <bool name="proxy-Hidden">0</bool>
-                <string name="proxy-Id name">"Eject_FDC3MS2000"</string>
+                <string name="proxy-Id name">"Eject_FDC3Xml"</string>
                 <long name="proxy-Id value">10017</long>
                 <string name="proxy-Implementation filename">""</string>
                 <string name="proxy-Member variable name">""</string>
@@ -2503,7 +2503,7 @@
                 <string name="proxy-Platform">"__WXGTK__,__WXMSW__"</string>
                 <bool name="proxy-Separate files">0</bool>
                 <long name="proxy-Stretch factor">0</long>
-                <string name="proxy-Tooltip text">"Eject MS2000 FDC 3 image file"</string>
+                <string name="proxy-Tooltip text">"Eject FDC 3 image file"</string>
                 <long name="proxy-Width">-1</long>
                 <bool name="proxy-wxADJUST_MINSIZE">0</bool>
                 <bool name="proxy-wxBOTTOM">0</bool>
@@ -2524,7 +2524,7 @@
                 <bool name="proxy-wxWANTS_CHARS">0</bool>
                 <long name="proxy-X">-1</long>
                 <long name="proxy-Y">-1</long>
-                <string name="title">"wxBitmapButton: Eject_FDC3MS2000"</string>
+                <string name="title">"wxBitmapButton: Eject_FDC3Xml"</string>
                 <long name="title-mode">0</long>
                 <string name="type">"dialog-control-document"</string>
               </document>

@@ -1,7 +1,16 @@
 #ifndef XMLEMU_H
 #define XMLEMU_H
 
-#include "elf.h"
+#include "cdp1802.h"
+#include "fdc.h"
+#include "ide.h"
+#include "keyboard.h"
+#include "ps2gpio.h"
+#include "portext.h"
+#include "ps2.h"
+#include "vt100.h"
+#include "serial.h"
+
 #include "tms9918.h"
 #include "pixie.h"
 #include "mc6847.h"
@@ -15,18 +24,8 @@
 #include "keypadfred.h"
 #include "keyblatch.h"
 #include "keybmatrix.h"
-#include "ledmodule.h"
 #include "printer.h"
-#include "elfconfiguration.h"
-#include "hbelf.h"
-#include "elf2.h"
-#include "super.h"
-#include "microtutor.h"
-#include "microtutor2.h"
-#include "elf2k.h"
-#include "velf.h"
-#include "fred.h"
-#include "cosmicos.h"
+#include "keypad.h"
 #include "joycard.h"
 #include "usb.h"
 #include "rtc.h"
@@ -44,41 +43,39 @@ public:
     Word end;
 };
 
-class Xmlemu : public wxFrame, public Cdp1802, public Fdc, public Ide, public Keyboard, public Keyb1871, public PortExt, public Ps2, public Ps2gpio, public Joycard, public Usbcard, public Rtc, public Upd765
+class Computer : public wxFrame, public Cdp1802, public Fdc, public Ide, public Keyboard, public Keyb1871, public PortExt, public Ps2, public Ps2gpio, public Joycard, public Usbcard, public Rtc, public Upd765
 {
 public:
-    Xmlemu(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, int tempo, ElfConfiguration conf, Conf computerConf);
-    Xmlemu() {};
-    ~Xmlemu();
+    Computer(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, int tempo, ComputerConfiguration computerConfig);
+    Computer() {};
+    ~Computer();
 
     void onClose(wxCloseEvent&event);
     void resumeComputer();
-    void showModules(bool status);
-    void showModules(bool status, bool useSwitch, bool useHex);
-    void removeElfHex() {hexKeypadClosed_ = true; elfConfiguration.useHex = false;};
-    void removeElf2KSwitch() {elfConfiguration.useSwitch = false;};
-    void removeElfLedModule() {ledModuleClosed_ = true;};
     void charEvent(int keycode);
     bool keyDownPressed(int keycode);
     bool keyDownExtended(int keycode, wxKeyEvent& event);
+    bool keyUpReleased(int keycode);
     bool keyUpReleased(int keycode, wxKeyEvent& event);
 
+    void onRunButtonPress(wxCommandEvent&event);
+    void onRunButtonPress0(wxCommandEvent&event);
+    void onRunButtonPress(bool run0);
+    void onRunButtonRelease();
     void onRun();
     void onButtonRelease(wxCommandEvent& event);
     void onButtonPress(wxCommandEvent& event);
-    void onInButtonPress();
-    void onInButtonPress(Byte value);
-    void onElf2KInButton();
+    void onSwitchButtonPress(wxCommandEvent& event);
+    void onInButtonPress(bool switchButton);
     void onInButtonRelease();
     void onHexKeyDown(int keycode);
     void onHexDown(int hex);
     void onHexKeyUp(int keycode);
-    void onNumberKeyPress(int key);
-    void onNumberKeyRelease(int key);
+    void onClearButton(wxCommandEvent&event);
     void onClearButton();
+    void onClearSwitch();
 
     void configureComputer();
-    void switchHexEf(bool state);
     void setPrinterEf();
     void reLoadKeyDefinition(wxString fileName);
     void reDefineKeysA(int *, int *);
@@ -88,7 +85,7 @@ public:
     Byte ef(int flag);
     Byte in(Byte port, Word address);
     Byte inDip();
-    Byte getData();
+    Byte getData(bool switchButton);
     void out(Byte port, Word address, Byte value);
     void cycle(int type);
     void cycleCd();
@@ -109,47 +106,46 @@ public:
     void showState(int state);
     void showDmaLed();
     void showIntLed();
-    void updateStatusBarLedStatus(int led, bool status);
+    void updateStatusBarLedStatus(bool status, int led);
 
     void autoBoot();
     void switchQ(int value);
     int getMpButtonState();
+    void onWaitButton(wxCommandEvent&event);
     void onWaitButton();
+    void onStopButton(wxCommandEvent&event);
     void onPowerButton(wxCommandEvent&event);
     void onPowerButton();
     void powerOff();
     void powerOn();
     void runPressed();
-    void onRunButton(wxCommandEvent&event);
-    void onRunButton0(wxCommandEvent&event);
-    void onRunButton(bool run0);
-    void onRunButtonPress();
-    void onRunButtonRelease();
-    void onMouseRelease(wxMouseEvent&event);
     void onPause(wxCommandEvent&event);
     void onPause();
     void onMpButton(wxCommandEvent&event);
     void onMpButtonMulti(wxCommandEvent&event);
     void onMpButton();
+    void onMpSuperButton(wxCommandEvent&event);
+    void onMpSuperButton();
     void onMpButton(int buttonNumber);
     void onEmsButton(int buttonNumber, bool up);
     void onEmsButton(wxCommandEvent&event);
     void setMultiCartGame();
+    void onRamButton(wxCommandEvent&event);
     void onRamButton();
     void onMonitor(wxCommandEvent&event);
     void onMonitor();
     void onNanoMonitor(wxCommandEvent&event);
     void onNanoMonitor();
     void onLoadButton(wxCommandEvent&event);
-    void onLoadButton();
-    void onClearButtonPress();
+    void onLoadButton(bool pushButton);
+    void onClearResetButtonPress();
     void onClearButtonRelease();
     void onSingleStep(wxCommandEvent&event);
     void onSingleStep();
     void onResetButton(wxCommandEvent&event);
     void onResetButton();
-    void onResetButtonPress();
-    void onResetButtonRelease();
+//    void onResetButtonPress();
+//    void onResetButtonRelease();
     void onReadButton(wxCommandEvent&event);
     void onReadButton();
     void onCardButtonSwitch(wxCommandEvent&event);
@@ -162,6 +158,8 @@ public:
     void onNumberKeyDown(wxCommandEvent& event);
     void onNumberKeyUp(wxCommandEvent& event);
     void onNumberKeyUp();
+    void onEfKeyDown(int ef);
+    void onEfKeyUp(int ef);
 
     void startComputer();
     void loadRomRam(size_t configNumber);
@@ -173,6 +171,7 @@ public:
     void writeMemDebug(Word address, Byte value, bool writeRom);
     void cpuInstruction();
     void resetPressed();
+    void showDataLeds(Byte value);
     void configureMemory();
     void configureExtensions();
     void configureVideoExtensions();
@@ -206,6 +205,8 @@ public:
     void write1862ColorDirect(Word address, Byte value);
     Byte read1864ColorDirect(Word address);
     void write1864ColorDirect(Word address, Byte value);
+    Byte readSt4ColorDirect(Word address);
+    void writeSt4ColorDirect(Word address, Byte value);
     Byte read6845CharRom(Word address);
     void write6845CharRom(Word address, Byte value);
     Byte read6847CharRom(Word address);
@@ -217,9 +218,10 @@ public:
     void setLedMsTemp(long ms);
     Byte getKey(Byte vtOut);
     void activateMainWindow();
-    void releaseButtonOnScreen(HexButton* buttonPointer, int buttonType);
+    void releaseButtonOnScreen(HexButton* buttonPointer);
     void setGreenLed(int status);
     void refreshPanel();
+    void showPanel();
     void OnRtcTimer(wxTimerEvent& event);
     void writeRtc(int address, Byte value);
     void cid1Bit8(bool set);
@@ -228,12 +230,15 @@ public:
     Byte readPramDirect(Word address);
     Byte readCramDirect(Word address);
     Byte readColourRamDirect(Word address);
+    Byte readGraphicRamDirect(Word address);
     void writePramDirect(Word address, Byte value);
     void writeCramDirect(Word address, Byte value);
     void writeColourRamDirect(Word address, Byte value);
+    void writeGraphicRamDirect(Word address, Byte value);
     int getMaxLinesPerChar();
     Word getPageMemorySize();
     Word getCharMemorySize();
+    Word getGraphicMemorySize();
     Byte getPcbMask();
     void saveNvRam();
     void loadNvRam(size_t configNumber);
@@ -245,9 +250,18 @@ public:
     bool checkKeyInputAddress();
 
     void startComputerRun(bool load);
+    
+    void ctrlvText(wxString text);
     void ctrlvTextXml(wxString text);
+    int getCtrlvChar();
+    int getCtrlvChar(bool increase);
+    int getCtrlvCharTmc();
+    size_t getCtrlvCharNum() {return ctrlvTextCharNum_;};
+    void ctrlvTextCharNumPlusOne();
+
     int getRunState() {return elfRunState_;};
     bool isComputerRunning();
+    bool isFAndMBasicRunning();
     wxString getRunningGame(){return runningGame_;};
 
     void terminalSave(wxString fileName, int protocol);
@@ -266,7 +280,10 @@ public:
     void setDosFileName();
     
     int getSelectedSlot() {return selectedSlot_;};
-    void setSelectedSlot(int slot) {selectedSlot_ = slot;};
+    void setSelectedSlot(int slot);
+
+    int getSelectedBank() {return selectedBank_;};
+    void setSelectedBank(int bank);
 
     void cidelsaStatusBarDown(int keycode);
     void cidelsaStatusBarUp(int keycode);
@@ -280,13 +297,12 @@ public:
 
     void activateElfOsChip8();
     void fetchFileName(Word address, size_t length);
-
-    void removeCosmicosHex();
     
     void startLoad(int tapeNumber, bool button);
     void cassette(wxInt32 val);
     void cassette(wxInt16 val);
     void cassette(char val);
+    void realCassette(short val);
     void cassetteXmlHw(wxInt32 val, long size);
     void cassetteXmlHw(wxInt16 val, long size);
     void cassetteXmlHw(char val, long size);
@@ -298,29 +314,50 @@ public:
     void finishStopTape();
     void resetTape();
     void tapeIo(Byte value);
+    void onDataSwitch(wxCommandEvent&event);
     void onCardButton(wxCommandEvent&event);
     void cardButton(int cardValue);
     void setTempo(int tempo);
 
-    bool isAudioChannelLeft() {return elfConfiguration.tape_audioChannelLeft;};
-    bool isDataChannelLeft() {return elfConfiguration.tape_dataChannelLeft;};
-    int getFrequency0() {return elfConfiguration.tape_frequency0;};
-    int getFrequency1() {return elfConfiguration.tape_frequency1;};
-    int getStartBit() {return elfConfiguration.tape_startBit;};
-    int getDataBits() {return elfConfiguration.tape_dataBits;};
-    int getStopBit() {return elfConfiguration.tape_stopBit;};
+    int getGaugeValue() {return gaugeValue_;};
+    void resetGaugeValue() {gaugeValue_ = 0;};
+    void setTapePolarity(Byte polarity) {tapePolarity_ = polarity;};
+    void setConversionType(int convTypeWav, int convType) {conversionTypeWav_ = convTypeWav; conversionType_ = convType;};
+
+    bool isAudioChannelLeft() {return currentComputerConfiguration.hwTapeConfiguration.audioChannelLeft;};
+    bool isDataChannelLeft() {return currentComputerConfiguration.hwTapeConfiguration.dataChannelLeft;};
+    int getFrequency0() {return currentComputerConfiguration.hwTapeConfiguration.frequency0;};
+    int getFrequency1() {return currentComputerConfiguration.hwTapeConfiguration.frequency1;};
+    int getStartBit() {return currentComputerConfiguration.hwTapeConfiguration.startBit;};
+    int getDataBits() {return currentComputerConfiguration.hwTapeConfiguration.dataBits;};
+    int getStopBit() {return currentComputerConfiguration.hwTapeConfiguration.stopBit;};
+    int getIoGroup() {return ioGroup_;};
+
+    void onBackupYes(wxString dir, bool sub);
+    void setEfKeyValue(int ef, Byte value);
     
+    Word getChip8baseVar() {return chip8baseVar_;};
+    Word getChip8MainLoop() {return chip8mainLoop_;};
+    wxString getPseudoType() {return pseudoType_;};
+    void showChip8Registers();
+
+    void reDefineInKey(int inKey1, int inKey2);
+    int getInKey1() {return inKey1_;};
+    int getInKey2() {return inKey2_;};
+
+    void setDebugMemoryStart(Word address) {memoryStart_ = address;};
+    Word getDebugMemoryStart() {return memoryStart_;};
+    void writeDebugFile(wxString dir, wxString name, Word start, Word end);
+    void readDebugFile(wxString dir, wxString name, wxString number, Word start);
+    
+    void switchBootStrap();
+    Byte getTilHexFont(Word address, int segNumber);
+
 private:
-    class ElfScreen *elfScreenPointer;
-    class Elf2Screen *elf2ScreenPointer;
-    class SuperScreen *superScreenPointer;
-    class Elf2KScreen *elf2KScreenPointer;
-    class MemberScreen *memberScreenPointer;
-    class MicrotutorScreen *microtutorScreenPointer;
-    class Microtutor2Screen *microtutor2ScreenPointer;
-    class CosmicosScreen *cosmicosScreenPointer;
-    class VelfScreen *velfScreenPointer;
-    class Uc1800Screen *uc1800ScreenPointer;
+    RunComputer *threadPointer;
+
+    vector<PanelFrame *> panelPointer;
+    int numberOfFrontPanels_;
 
     vector<PioFrame *> cdp1851FramePointer;
     int numberOfCdp1851Frames_;
@@ -343,17 +380,15 @@ private:
     mc6847 *mc6847Pointer;
     i8275 *i8275Pointer;
     VIS1870 *vis1870Pointer;
-    Keypad *keypadPointer;
     BitKeypad *bitkeypadPointer[MAX_BITKEYPADS];
     CvKeypad *cvkeypadPointer;
     EtiKeypad *etikeypadPointer;
     KeypadFred *fredkeypadPointer;
     KeybLatch *latchKeyPointer[MAX_LATCHKEYPADS];
     KeybMatrix *matrixKeyboardPointer;
-    LedModule *ledModulePointer;
     Vt100 *vtPointer;
 
-    bool use6845_;
+    bool videoNumber_;
     
     int ledCycleValue_;
     int ledCycleSize_;
@@ -377,6 +412,7 @@ private:
     int runButtonState_;
     int mpButtonState_;
     bool mpButtonState[4];
+    bool mpSuperButtonActive_;
     bool nvRamDisable_;
     int loadButtonState_;
     Byte inbuttonEfState_;
@@ -402,8 +438,6 @@ private:
     int keyDefGameHexB_[5];
     
     bool inPressed_;
-    bool ledModuleClosed_;
-    bool hexKeypadClosed_;
     int dataSwitchState_[8];
     int efSwitchState_[4];
 
@@ -437,6 +471,9 @@ private:
     int cycleSize_;
     double elfClockSpeed_;
 
+    int multiTilCycleValue_;
+    int multiTilCycleSize_;
+
     int soundTempoCycleValue_;
     int soundTempoCycleSize_;
     int vipIIRunCycleSize_;
@@ -457,15 +494,11 @@ private:
     int printValue_;
 
     bool ramGroupAtV1870_;
-
-    Elf2Kswitch *p_Elf2Kswitch;
-    Elf2Khex *p_Elf2Khex;
-    
-    Cosmicoshex *p_Cosmicoshex;
-    
+        
     bool hexModemOnStart;
 
     int segNumber_;
+    int segValue_;
     int qState_;
 
     bool tapeActivated_;
@@ -486,12 +519,26 @@ private:
     Byte tapeError_;
     Byte tapedataReady_;
     int lastSec_;
+    long tapeFinished_;
+    Byte cassetteEf_;
+    Byte oldCassetteEf_;
 
     int pulseCountStopTone_;
     bool tapeFormat56_;
     bool tapeFormatFixed_;
     int startBytes_;
     
+    Byte tapePolarity_;
+    short gaugeValue_;
+    int conversionType_;
+    int conversionTypeWav_;
+    wxInt32 maxTapeInputInt32_;
+    wxInt16 maxTapeInputInt16_;
+    char maxTapeInputChar_;
+    wxInt32 lastTapeInputInt32_;
+    wxInt16 lastTapeInputInt16_;
+    char lastTapeInputChar_;
+
     bool saveStarted_;
     bool loadStarted_;
 
@@ -519,7 +566,23 @@ private:
     
     int addressLatchCounter_;
 
+    bool fAndMBasicRunning_;
     
+    Byte efKeyValue[5];
+    Word chip8baseVar_;
+    Word chip8mainLoop_;
+    int chip8Register[16];
+    bool chip8register12bit_;
+    wxString pseudoType_;
+
+    wxString ctrlvTextStr_;
+    size_t ctrlvTextCharNum_;
+
+    int inKey1_;
+    int inKey2_;
+    
+    Word memoryStart_;
+
     DECLARE_EVENT_TABLE()
 };
 

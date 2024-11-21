@@ -4,13 +4,22 @@
 #include "splash.h"
 #include "definition.h"
 
+class CharacterList
+{
+public:
+    wxCoord x;
+    wxCoord y;
+    CharacterList *nextCharacter;
+    int doubleWidth;
+};
+
 class VideoScreen : public wxWindow
 {
 public:
-    VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int computerType, int videoNumber);
-    VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int computerType, int videoNumber, double xZoomFactor);
-    VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int computerType, int videoNumber, double xZoomFactor, bool vipiiRcaMode);
-    VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int computerType, bool vt100, int uartNumber);
+    VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int videoNumber);
+    VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int videoNumber, double xZoomFactor);
+    VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int videoNumber, double xZoomFactor, bool vipiiRcaMode);
+    VideoScreen(wxWindow *parent, const wxSize& size, double zoom, bool vt100, int uartNumber);
     ~VideoScreen() {};
 
     void onPaint(wxPaintEvent&event);
@@ -36,7 +45,6 @@ private:
     bool vipiiRcaMode_;
     double zoom_;
     double xZoomFactor_;
-    int computerType_;
 
     int width_;
     int height_;
@@ -70,8 +78,8 @@ public:
     long getVideoSyncCount();
     void resetVideoSyncCount();
     virtual void focus();
-    virtual void updateExpansionLed(bool status);
-    virtual void updateStatusLed(bool status);
+    virtual void updateComxExpansionLed(bool status);
+    virtual void updateComxStatusLed(bool status);
     virtual void dataAvailable();
     virtual void dataAvailable(Byte value);
     virtual void framingError(bool data);
@@ -88,7 +96,7 @@ public:
     virtual Byte uartStatus(); 
     virtual void ResetIo();
 
-    void defineColours(int type);
+    void defineColours();
     void setColour(int colourNumber, wxString colour);
     void setBorder(int videoNumber, int borderX, int boderY);
     void setScale(double scaleX);
@@ -103,8 +111,7 @@ public:
     virtual void drawExtraBackground(wxColour clr);
     virtual void copyScreen();
     virtual void reDrawBar();
-    virtual void updateLedStatus(int card, int i, bool status);
-    virtual void v1870BarSize() {};
+    virtual void updateStatusLed(bool status, int card, int i = 0);
     virtual void setClock(double clock);
     void activateMainWindow();
 
@@ -116,7 +123,6 @@ public:
     void drawRectangleMutex(wxCoord x, wxCoord y, wxCoord width, wxCoord height);
     void drawPointMutex(wxCoord x, wxCoord y);
     void splashScreen();
-    virtual void updateDiagLedStatus(int led, bool status);
  
     Byte readPramDirect(Word address);
     virtual Byte readCramDirect(Word address);
@@ -124,11 +130,14 @@ public:
     void writePramDirect(Word address, Byte v);
     Word getPageMemorySize()  {return pageMemorySize_;};
     Word getCharMemorySize()  {return charMemorySize_;};
+    Word getGraphicMemorySize()  {return graphicMemorySize_;};
     void setInterruptEnable(bool status) {interruptEnabled_ = status;};
     Byte getPcbMask()  {return pcbMask_;};
     int getMaxLinesPerChar()  {return maxLinesPerCharacters_;};
     virtual Byte readColourRamDirect(Word WXUNUSED(address)) {return 0;};
     virtual void writeColourRamDirect(Word WXUNUSED(address), Byte WXUNUSED(v)) {};
+    virtual Byte readGraphicRamDirect(Word WXUNUSED(address)) {return 0;};
+    virtual void writeGraphicRamDirect(Word WXUNUSED(address), Byte WXUNUSED(v)) {};
 
     void refreshVideo();
     void setClientSize(wxSize size);
@@ -137,15 +146,18 @@ public:
     virtual bool isMc6845running() {return false;};
     bool arePixieGraphicsOn() {return graphicsOn_;};
     void setPixieGraphics(bool status) {graphicsOn_ = status;};
-    virtual void updateCidelsaLedStatus(int WXUNUSED(number), bool WXUNUSED(status)) {};
+    virtual void pixieBarSize() {};
 
 protected:
     Byte pageMemory_[4096];
     Byte characterMemory_[4096];
+    Byte graphicMemory_[8192];
+    
     int pcbMask_;
     int pageMemoryMask_;
     Word pageMemorySize_;
     Word charMemorySize_;
+    Word graphicMemorySize_;
     bool charMemoryIsRom_;
     Word romAddress_;
 
@@ -174,7 +186,6 @@ protected:
     wxMemoryDC dcMemorySpritePlane;
     wxGraphicsContext *gcSpritePlane;
         
-    int computerType_;
     double clock_;
 
     int videoType_;

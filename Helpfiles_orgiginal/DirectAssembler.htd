@@ -1,0 +1,73 @@
+<html>
+<title>Assembler</title>
+<body>
+<h1>Assembler</h1>
+<p>
+To use the assembler type in any SYSTEM00, 1801, 1802, 1804 or 1805 code (depending on what CPU is running) in the command line (yellow ellipse). For command syntax see section <a href="SyntaxMachineCode.htm">Machine Code</a>, this should be similar or even the same as defined in the 180x data sheets. 
+</p>
+<p>
+<IMG SRC="images/assembler_command_line.png" BORDER="0">
+</p>
+<p>
+To use the pseudo code assembler a machine should be started that runs one of the pseudo codes listed in section <a href="SyntaxPseudoCode.htm">Pseudo Code</a>. 
+</p>
+<p>
+The Current working address is indicated in <B>bold</B> and between <B>&gt; &lt;</B> (orange ellipse). To change the working address see section <a href="DirectNavigation.htm">Navigation</a>. Note that all data values should be given as hexadecimal values unless preceded by a & in which case the value are interpreted as decimal, i.e LDI &100 is the same as LDI 64.
+</p>
+<p>
+Next to 180x and pseudo code the options described in the following sub sections are available from the command line.
+</p>
+<h2>Data input</h2>
+<p>
+<B>Format:</B> #ww xx yy zz
+</p>
+<p>
+Where ww, xx, yy, zz are hexadecimal vales and will be stored on the current and following working address. At least one (ww) value should be specified. I.e. #10, will store value 10, #20 30, will store 20 and on the following address 30. Spaces between bytes are optional.
+</p>
+<p>
+<B>Example:</B> type in #10 20 30 (yellow ellipse) on address 4424, this will results in code 10 20 30 on 4424-4426 (orange ellipse):
+</p>
+<p>
+<IMG SRC="images/assembler_hash.png" BORDER="0">
+</p>
+<h2>ASCII text</h2>
+<p>
+<B>Format:</B> 'text
+</p>
+<p>
+Where all text after ' will be stored in ASCII code at the current working address. Note: when using this on the Studio IV characters are stored with Studio IV character numbering.
+</p>
+<p>
+<B>Example:</B> type in 'SOME TEXT (yellow ellipse) on address 4427, this will results in ASCII text for SOME TEXT on 4427-442F (orange ellipse):
+</p>
+<p>
+<IMG SRC="images/assembler_text.png" BORDER="0">
+</p>
+<h2>ASCII text - high colour</h2>
+<p>
+<B>Format:</B> "text
+</p>
+<p>
+Only valuable for the COMX to store ASCII text in 'high colour', all text after " will be stored in ASCII code (range 80 to FF) at the current working address.
+</p>
+<p>
+<B>Example:</B> type in 'SOME TEXT (yellow ellipse) on address 4430, this will results in ASCII text in 'high colour' for SOME TEXT on 4430-4438 (orange ellipse):
+</p>
+<p>
+<IMG SRC="images/assembler_high_text.png" BORDER="0">
+</p>
+<h2>Branch address</h2>
+<p>
+<B>Format:</B> :hex address
+</p>
+<p>
+Store 16 bit 'Branch data', see also section <a href="DirectBranchData.htm">Branch Data</a>.
+</p>
+<p>
+<B>Example:</B> type in :1234 (yellow ellipse) on address 4439, this will results in 12 on address 4439 and 34 on address 443A, i.e. address 1234 (orange ellipse):
+</p>
+<p>
+<IMG SRC="images/assembler_address.png" BORDER="0">
+</p>
+</body>
+</html>

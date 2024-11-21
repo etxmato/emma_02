@@ -8,11 +8,12 @@
         <config>Bare (select game file in RAM field or use LOAD after Start)</config>
         <clock>1.00</clock>
         <cpu>1801</cpu>
-        <boot start="no" dma_zero="on">0</boot>
-        <init type="ef1">1</init>
-        <init type="ef2">1</init>
-        <init type="ef3">1</init>
-        <init type="ef4">1</init>
+        <boot start="no" dma="zero">0</boot>
+        <dma_in>reset</dma_in>
+        <init ef="1">1</init>
+        <init ef="2">1</init>
+        <init ef="3">1</init>
+        <init ef="4">1</init>
         <dirname>FRED1_5</dirname>
     </system>
 
@@ -83,7 +84,7 @@
         </item>
        <item>
             <type>switch</type>
-            <function>power</function>
+            <function>stop</function>
             <init>up</init>
             <pos>235, 60</pos>
         </item>
@@ -226,7 +227,7 @@
         <in type="key" mode="1">0</in>
         <in type="coin">6</in>
         <ef type="key" mode="1">1</ef>
-        <ef type="fireb">3</ef>
+        <ef type="fireb">3</ef> 
         <ef type="coin">4</ef>
         <mode>hex</mode>
     </keypad>

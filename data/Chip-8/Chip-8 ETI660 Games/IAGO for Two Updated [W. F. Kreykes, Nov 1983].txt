@@ -1,0 +1,11 @@
+This is a modification of the IAGO for Two program which was designed by Frank Rees and published in ETI in February '83. 
+
+This version draws the board in the middle of the screen, has sound effects and numbered co-ordinates which all makes it that much more interesting to play. 
+
+Key 0 concede a move/change position. 
+Keys 1-8 board co-ordinates. 
+Keys 9-F confirm move. 
+
+Game ends if either player’s score reaches zero, or when the board is full. 
+
+To replay the game, reset 8. 

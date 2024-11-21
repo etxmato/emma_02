@@ -1,0 +1,249 @@
+<html>
+<title>GPL-3 Syntax</title>
+<body>
+<h1>GPL-3 Syntax</h1>
+<h2>Information</h2>
+<p>
+I can't be sure this pseudo command syntax is indeed called GPL-3, however I do expect GPL was used for all language variants for the RCA Video Coin Arcade machine and FPL for the FRED 1.5. Mainly based on the FPL-4 and GPL-4 which both are running the Coin and Computer bowling games on both the Arcade and FRED machine. As I found GPL-A, GPL-2 and GPL-4, this is most likely GPL-3.
+</p>
+<p>
+GPL-3 is used in the game 'Scramble Split-Second' running on the RCA Video Coin Arcade machine. 
+</p>
+<p>
+V0-F are stored on memory locations 0800-080F.
+</p>
+<p>
+This info is also available online on the <a href="https://emma02.hobby-site.com/pseudo_gpl-3.html">Emma 02 site</a>.
+</p>
+<h2>Definitions</h2>
+<table>
+<TR>
+<TD WIDTH="70">aaa</TD>
+<TD WIDTH="400">12 bit address</TD>
+</TR>
+<TR>
+<TD WIDTH="70">kk</TD>
+<TD WIDTH="400">8 bit constant</TD>
+</TR>
+<TR>
+<TD WIDTH="70">d</TD>
+<TD WIDTH="400">4 bit constant</TD>
+</TR>
+<TR>
+<TD WIDTH="70">n</TD>
+<TD WIDTH="400">4 bit constant</TD>
+</TR>
+<TR>
+<TD WIDTH="70">l</TD>
+<TD WIDTH="400">4 bit constant</TD>
+</TR>
+<TR>
+<TD WIDTH="70">x</TD>
+<TD WIDTH="400">Register number Vx (x = 0 to F)</TD>
+</TR>
+<TR>
+<TD WIDTH="70">y</TD>
+<TD WIDTH="400">Register number Vy (y = 0 to F)</TD>
+</TR>
+<TR>
+<TD WIDTH="70">z</TD>
+<TD WIDTH="400">Register number Vz (y = 0 to F)</TD>
+</TR>
+<TR>
+<TD WIDTH="70">.</TD>
+<TD WIDTH="400">Not used, value doesn't matter</TD>
+</TR>
+<TR>
+<TD WIDTH="70">1..9, A..F</TD>
+<TD WIDTH="400">Hexadecimal digits</TD>
+</TR>
+</table>
+<h2>Syntax</h2>
+<table>
+<TR>
+<TD WIDTH="55">5xyz</TD>
+<TD WIDTH="40">ADD</TD>
+<TD WIDTH="100">Vz, Vx+Vy</TD>
+<TD WIDTH="250">Vz = Vx + Vy, V0 = carry</TD>
+</TR>
+<TR>
+<TD WIDTH="55">5xyx</TD>
+<TD WIDTH="40">ADD</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vx + Vy, V0 = carry</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Cnkk</TD>
+<TD WIDTH="40">BEEP</TD>
+<TD WIDTH="100">F=kk, d<br>kk, d</TD>
+<TD WIDTH="250">Beep with a frequency kk and duration d, kk=0: turn tone off</TD>
+</TR>
+<TR>
+<TD WIDTH="55">2aaa</TD>
+<TD WIDTH="40">CALL</TD>
+<TD WIDTH="100">aaa</TD>
+<TD WIDTH="250">Call subroutine at aaa. The subroutine must end in E0 (which is the 'GPL-3' equivalent of RETURN). Note only 1 level call is allowed as return address is stored in R9</TD>
+</TR>
+<TR>
+<TD WIDTH="55">A0yz</TD>
+<TD WIDTH="40">DRW</TD>
+<TD WIDTH="100">Vx, Vz</TD>
+<TD WIDTH="250">Draw 4*8 pattern in Vy on screen position Vz. Shapes of pattern fetched from shape table at 0432.
+</TD>
+</TR>
+<TR>
+<TD WIDTH="55">A1yz</TD>
+<TD WIDTH="40">DRW</TD>
+<TD WIDTH="100">Vx/Vy, Vz</TD>
+<TD WIDTH="250">Draw 4*8 patterns from the pattern table starting at location VxVy (Vy=Vx+1), end of pattern table should be hex ff, drawing on screen position Vz. 
+</TD>
+</TR>
+<TR>
+<TD WIDTH="55">A2yz</TD>
+<TD WIDTH="40">DRW</TD>
+<TD WIDTH="100">B, Vy, Vz</TD>
+<TD WIDTH="250">Draw 4*8 BCD value of Vy to screen. If Vz contains hex A draw on bottom left otherwise draw on right of the screen. Value is extended with two zeros, i.e. 5 digits.
+</TD>
+</TR>
+<TR>
+<TD WIDTH="55">9xyz</TD>
+<TD WIDTH="40">DRW</TD>
+<TD WIDTH="100">Vx, Vy, Vz</TD>
+<TD WIDTH="250">Not sure, this draws something from the 4kk table where kk is based on Vx, using Vy in some way and drawing on screen position Vz.
+</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Bxkk</TD>
+<TD WIDTH="40">DRW</TD>
+<TD WIDTH="100">D, Vx, kk</TD>
+<TD WIDTH="250">Draw 5 dots on screen position kk+y, value y is added from table on 428, dots are drawn based on if bit 0 to 4 in Vx are 0 or 1. Note bit 4 should always be '1'. This is used to draw the flashing cursor keys.
+</TD>
+</TR>
+<TR>
+<TD WIDTH="55">A3yz</TD>
+<TD WIDTH="40">DRW2</TD>
+<TD WIDTH="100">Vx, Vy, Vz</TD>
+<TD WIDTH="250">Draw 4*8 pattern pattern (and a second pattern with pattern number+1) from 0840 table (Vy indicates with bit 0=1 to 0840, bit 1=1 to 0841, bit 2=1 to 0842 etc). Pattern shape is fetched from shape table at 0432. Screen position Vz. Vx which has to be V(y+1) will contain first drawn shape on return.
+</TD>
+</TR>
+<TR>
+<TD WIDTH="55">D0</TD>
+<TD WIDTH="40">INIT</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">Initiate pattern table at 840-849</TD>
+</TR>
+<TR>
+<TD WIDTH="55">0aaa</TD>
+<TD WIDTH="40">JZ</TD>
+<TD WIDTH="100">V0, aaa</TD>
+<TD WIDTH="250">Jump to aaa if V0 = 0</TD>
+</TR>
+<TR>
+<TD WIDTH="55">1aaa</TD>
+<TD WIDTH="40">JNZ</TD>
+<TD WIDTH="100">V0, aaa</TD>
+<TD WIDTH="250">Jump to aaa if V0 != 0</TD>
+</TR>
+<TR>
+<TD WIDTH="55">3aaa</TD>
+<TD WIDTH="40">JP</TD>
+<TD WIDTH="100">aaa</TD>
+<TD WIDTH="250">Jump to aaa</TD>
+</TR>
+<TR>
+<TD WIDTH="55">F1kk</TD>
+<TD WIDTH="40">JP</TD>
+<TD WIDTH="100">FIREA, kk<br>'EF1', kk</TD>
+<TD WIDTH="250">If EF1 jump to address kk in current page (i.e JP on FIRE A)</TD>
+</TR>
+<TR>
+<TD WIDTH="55">F2kk</TD>
+<TD WIDTH="40">JP</TD>
+<TD WIDTH="100">'EF2', kk</TD>
+<TD WIDTH="250">If EF2 jump to address kk in current page</TD>
+</TR>
+<TR>
+<TD WIDTH="55">F3kk</TD>
+<TD WIDTH="40">JP</TD>
+<TD WIDTH="100">FIREB, kk<br>'EF3', kk</TD>
+<TD WIDTH="250">If EF3 jump to address kk in current page (i.e JP on FIRE B)</TD>
+</TR>
+<TR>
+<TD WIDTH="55">F4kk</TD>
+<TD WIDTH="40">JP</TD>
+<TD WIDTH="100">COIN, kk<br>'EF4', kk</TD>
+<TD WIDTH="250">If EF4 jump to address kk in current page (i.e JP on COIN).</TD>
+</TR>
+<TR>
+<TD WIDTH="55">4xyz</TD>
+<TD WIDTH="40">KEY</TD>
+<TD WIDTH="100">Vx, Vy, Vz</TD>
+<TD WIDTH="250">If Vx != 0 check FIRE keys and return value in Vy (player A) / Vz (player B).<br>
+If Vx = 0 check direction keys and return value in Vy (player A) / Vz (player B).<br>
+If RF = 0, jump to to end the game (address 06E0)</TD>
+</TR>
+<TR>
+<TD WIDTH="55">7xkk</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vx, kk</TD>
+<TD WIDTH="250">Vx = kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">5xyz</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vz, Vx+Vy</TD>
+<TD WIDTH="250">Same as ADD: Vz = Vx + Vy, V0 = carry</TD>
+</TR>
+<TR>
+<TD WIDTH="55">6xyz</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vz, Vx-Vy</TD>
+<TD WIDTH="250">Same as SUB: Vz = Vx - Vy, V0 = carry</TD>
+</TR>
+<TR>
+<TD WIDTH="55">E0</TD>
+<TD WIDTH="40">RETURN</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">Return from CALL by restoring R9 to PC (R5)</TD>
+</TR>
+<TR>
+<TD WIDTH="55">9xnl</TD>
+<TD WIDTH="40">RND</TD>
+<TD WIDTH="100">Vx, n, l</TD>
+<TD WIDTH="250">Vx = 0R, where R &le; n and R &ge; l</TD>
+</TR>
+<TR>
+<TD WIDTH="55">6xyz</TD>
+<TD WIDTH="40">SUB</TD>
+<TD WIDTH="100">Vz, Vx-Vy</TD>
+<TD WIDTH="250">Vz = Vx - Vy, V0 = carry</TD>
+</TR>
+<TR>
+<TD WIDTH="55">6xyx</TD>
+<TD WIDTH="40">SUB</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vx - Vy, V0 = carry</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8aaa</TD>
+<TD WIDTH="40">SYS</TD>
+<TD WIDTH="100">aaa</TD>
+<TD WIDTH="250">Call CDP1801 code at aaa. The subroutine must end in a RET (D4).</TD>
+</TR>
+<TR>
+<TD WIDTH="55">C0kk</TD>
+<TD WIDTH="40">TONE</TD>
+<TD WIDTH="100">kk</TD>
+<TD WIDTH="250">Set tone latch to kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">C000</TD>
+<TD WIDTH="40">TONE</TD>
+<TD WIDTH="100">OFF</TD>
+<TD WIDTH="250">Tone off</TD>
+</TR>
+</table>
+</body>
+</html>
+
+

@@ -1,0 +1,15 @@
+<html>
+<title>Led Module</title>
+<body>
+<h1>Led Module</h1>
+<p>
+The Led Module includes 8 LEDs:
+</p>
+<p>
+<IMG SRC="images/elf_led_module.png" BORDER="0">
+</p>
+<p>
+The LEDs on the led module will show the binary value of the OUT 4 instruction, in above example value hex AA is shown.
+</p>
+</body>
+</html>

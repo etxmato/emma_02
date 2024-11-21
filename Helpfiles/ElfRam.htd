@@ -4,7 +4,7 @@
 <h1>Memory</h1>
 <h2>RAM Address</h2>
 <p>
-To specify the size and location of the Elf RAM specify RAM 'start' (orange ellipse) and 'end' (blue ellipse) address in hexadecimal format:
+To specify the size and location of the Elf RAM specify RAM 'start' (highlighted in orange) and 'end' (highlighted in blue) address in hexadecimal format:
 <p>
 <IMG SRC="images/elf_mem.png" BORDER="0">
 </p>
@@ -18,7 +18,7 @@ If the RAM 'end' address is lower than 8000 the specified RAM is mapped. For exa
 When using EMS memory, RAM mapper or ROM mapper the RAM fields will be disabled and all available memory will be set to RAM except for locations where ROM is loaded.
 </p>
 <p>
-To change memory type from the default 64KB setting use the choice button 'Memory' (yellow ellipse), see following chapters for explanation for the different types.
+To change memory type from the default 64KB setting use the choice button 'Memory' (highlighted in yellow), see following sections for explanation for the different types.
 </p>
 <h2>EMS - 512 KB</h2>
 <p>
@@ -30,7 +30,7 @@ Mike's 1MB Memory Mapper, for more details see <a href="http://www.elf-emulation
 </p>
 <h2>ROM Mapper</h2>
 <p>
-Richard's ROM Mapper, this uses OUT 7 (selectable via <a href="ElfPorts.htm">DevicePorts</a> button) to select a 32K slot from any large ROM chip. Selected ROM is switched to hex 8000-FFFF by using A15 from bit 0 on port 7, A16 from bit 1 etc. To start Richard's ROM Mapper program, first load one of the ROM Mapper configurations (yellow ellipse below). Then after starting the Elf hit 'return' and type RUN. To load a program type the program number or N for next page.
+Richard's ROM Mapper, this uses OUT 7 (selectable via <a href="ElfPorts.htm">DevicePorts</a> button) to select a 32K slot from any large ROM chip. Selected ROM is switched to hex 8000-FFFF by using A15 from bit 0 on port 7, A16 from bit 1 etc. To start Richard's ROM Mapper program, first load one of the ROM Mapper configurations (highlighted in yellow below). Then after starting the Elf hit 'return' and type RUN. To load a program type the program number or N for next page.
 </p>
 <p>
 <IMG SRC="images/elf_rom_mapper.png" BORDER="0">

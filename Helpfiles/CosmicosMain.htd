@@ -6,13 +6,13 @@
 This emulator will emulate the Cosmicos computer. Additional information about the Cosmicos can be found on the <a href="http://www.emma02.hobby-site.com">Emma 02</a> site.
 </p>
 <p>
-To start the Cosmicos emulator first select the Elf tab (yellow ellipse) followed by the Cosmicos tab (orange ellipse) and then press Start:
+To start the Cosmicos emulator first select the Elf tab (highlighted in yellow) followed by the Cosmicos tab (highlighted in orange) and then press Start:
 </p>
 <p>
 <IMG SRC="images/cosmicos.png" BORDER="0">
 </p>
 <p>
-The above will have started the default Cosmicos emulator configuration running the UT4 monitor. To change to other predefined configurations load one of them with the menu option below (blue ellipse) following the grey menu:
+The above will have started the default Cosmicos emulator configuration running the UT4 monitor. To change to other predefined configurations load one of them with the menu option below (highlighted in blue) following the grey menu:
 </p>
 <p>
 <IMG SRC="images/cosmicos_configuration.png" BORDER="0">
@@ -29,7 +29,7 @@ Cosmicos Ascii monitor.
 Cosmicos UT4 monitor.
 </p>
 <p>
-This chapter also includes:
+This section also includes:
 </p>
 <p>
 <a href="CosmicosRom.htm">ROM and RAM Files</a><br>
@@ -37,7 +37,6 @@ This chapter also includes:
 <a href="CosmicosWindows.htm">Control Windows</a><br>
 <a href="CosmicosVideo.htm">Video Types</a><br>
 <a href="CosmicosKey.htm">Keyboard Mapping and Types</a><br>
-<a href="CosmicosBoot.htm">Boot Method</a><br>
 <a href="CosmicosCassette.htm">Cassette Support</a><br>
 <a href="CosmicosAscii.htm">ASCII Monitor</a><br>
 <a href="CosmicosHex.htm">Hex Monitor & UT4</a><br>

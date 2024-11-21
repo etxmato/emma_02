@@ -35,19 +35,12 @@ Cd4536b::~Cd4536b()
 {
 }
 
-void Cd4536b::Configure(Cd4536bIo cd4536bIo, int number)
+void Cd4536b::Configure(Cd4536bConfiguration cd4536bIo, int number)
 {
-    wxString ioGroup = "";
-    if (cd4536bIo.ioGroup != -1)
-        ioGroup.Printf(" on group %d", cd4536bIo.ioGroup);
-
-    p_Main->message("Configuring CD4536B" + ioGroup);
-
-    p_Computer->setOutTypeAndNumber(cd4536bIo.ioGroup+1, cd4536bIo.writeControl, CD4536B_WRITE, number, "write control byte");
-    
-    p_Computer->setEfTypeAndNumber(-1, cd4536bIo.ioGroup+1, cd4536bIo.ef, CD4536B_EF, number, "Timer out");
-
-    p_Computer->setCycleType(CDCYCLE, CD4536BCYCLE);
+    p_Main->configureMessage(&cd4536bIo.ioGroupVector, "CD4536B");
+    p_Computer->setOutType(&cd4536bIo.ioGroupVector, cd4536bIo.writeControl, "write control byte", number);
+    p_Computer->setEfType(&cd4536bIo.ioGroupVector, cd4536bIo.ef, "Timer out", number);
+    p_Computer->setCycleType(CYCLE_TYPE_CD3536B, CD4536B_CYCLE);
     
     p_Main->message("");
 }

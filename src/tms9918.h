@@ -17,10 +17,10 @@ class Tms9918 : public Video
 {
 public:
 
-    Tms9918(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, int computerType, double clock, int videoNumber);
+    Tms9918(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double clock, TmsConfiguration tmsConfiguration);
     ~Tms9918();
 
-    void configure(IoConfiguration ioConfiguration);
+    void configure();
     Byte readEf();
     Byte readDataPort();
     Byte readVRAM();
@@ -57,7 +57,8 @@ public:
 
 private:
     TileList *tileListPointer;
-
+    TmsConfiguration tmsConfiguration_;
+    
     wxOverlay spriteOverlay;
     
     Byte tmsMemory_[16384];
@@ -67,7 +68,6 @@ private:
     wxCoord lastSpriteY_[32];
     Byte multiColour_[512][384];
     
-    int computerType_;
     Byte statusRegister_;
     Byte registers_[8];
     Byte mode_;

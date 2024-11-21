@@ -8,9 +8,9 @@
         <config>Diagnostic Board, NTSC</config>
         <clock>2.835</clock>
         <boot>0</boot>
-        <init type="ef1">1</init>
-        <init type="ef2">1</init>
-        <init type="ef3">1</init>
+        <init ef="1">1</init>
+        <init ef="2">1</init>
+        <init ef="3">1</init>
         <dma out="q">5</dma>
         <statusbar>diag</statusbar>
         <dirname>Comx</dirname>
@@ -91,6 +91,7 @@
 
     <cassette decks="1">
         <ef>4</ef>
+        <keyclear />
     </cassette>
     
     <diagnostic>
@@ -116,9 +117,6 @@
         <basic_state address="0x42a0" value="0">0x39a, 0x5344</basic_state>
         <run_state>0x1f76, 0x2c00</run_state>
 
-        <!-- Stop thermal printer output -->
-        <stop_thermal address="0x428b" value="0x14">0x1047</stop_thermal>
-        
         <!-- Stop cassette -->
         <stop_cas>0x1047</stop_cas>
         

@@ -1,0 +1,15 @@
+<HTML>
+<Title>Control Windows</Title>
+<BODY>
+<h2>Control Windows</h2>
+<p>
+The Membership Card control panel can be emulated.
+</p>
+<p>
+The control panel includes the buttons and LEDs. Emulation of the TIL311 displays and the LEDs can take a lot of PC CPU power so default these are only updated every 100 ms. This can be changed in the Emma 02 window by changing the 'LEDs' field. When 0 ms (or nothing) is specified the TIL311 displays and LEDs will be updated in real time.  
+</p>
+<p>
+The buttons and LEDs are always connected to 1802 OUT/INP 5.
+</p>
+</BODY>
+</HTML> 

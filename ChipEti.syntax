@@ -12,6 +12,9 @@ hex=0000-0FFF code=2jjj
 CLS
 code=00E0
 /CLS
+EXIT
+code=0000
+/EXIT
 DRW
 Vx , Vy , n code=Dxyn
 /DRW
@@ -33,6 +36,9 @@ Vx , Vy det code=8xy0
 Vx , [I] code=Fx65
 [I] , Vx code=Fx55
 /LD
+NOP
+code=00FF
+/NOP
 OR
 Vx , Vy det code=8xy1
 /OR
@@ -70,6 +76,12 @@ Vx , Vy det code=8xy5
 SUBN
 Vx , Vy det code=8xy7
 /SUBN
+TVOFF
+code=00FC
+/TVOFF
+TVON
+code=00F8
+/TVON
 SYS
 hex=0000-0fff code=0jjj
 /SYS

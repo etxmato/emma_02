@@ -1,0 +1,13 @@
+POLARIS 
+
+Tim Parish 
+
+You have control of a submarine, using the keys 5 (move left), 7 (move right), 6 (move up) and E (dive). Key D is used to fire missiles at planes which fly from left to right. (Users with a hex keypad can change the instructions at addresses 0720, 0726, 072c and 0732 to select different keys for control.) 
+
+If you stay still, the depth charge dropped from the plane will not miss! You must also avoid the torpedo which is regularly launched from the left. 
+
+When you are hit by either the torpedo or the depth charge, your score is displayed, based on the number of planes shot down. 
+
+An added catch — a marker showing maximum depth for the submarine rises steadily with increasing score! It stops close to the surface, making things harder for the high scoring player 
+
+Pressing key 8 will start a new game. (Would Tim Parish please contact the Editor.) 

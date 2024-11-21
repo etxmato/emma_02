@@ -1,0 +1,34 @@
+This program has been designed to run as fast as possible at the expense of memory. 
+
+Due to the restrictions of the colour display of the 660, the game is in black and white. However, the colour of the background will change indicating the level you are currently playing at and the number of men that are left. Initially the screen will be green (three men), then red (two men) and then blue (last man). 
+
+After the last man has been eaten the screen goes black and the score flashes indicating the end of the game. To restart the game press any key, except ‘reset’ and ‘step’, and the game will start again. 
+
+For those who like to ‘roll their own’, the whole screen is recorded at 0988. Individuals can change the maze, but not the homes or the score box, provided they keep the dots on the same horizontal and vertical lines and there are not open spaces i.e: a wall three dots wide all over the screen. The walls control the Pakmen; they travel in the same direction until they hit a wall, but they never double back. 
+
+The extra dot space between the dot and the thin walls is necessary so the man cannot eat the ends off the walls. A bit of experimenting may be required and when this is done the dots on the screen must be counted and the data at 06C1 changed. 
+
+If we take my program as an example, there are 328 dots; subtracting 256 leaves 72 which is 48 in Hex and this is the data at 06C1.346 dots = 90 = 5A. 
+
+If you run this on a B&W monitor and the colour gives an unclear picture then you can disable it by changing 0963 to D4. 
+
+The object of the game is to reach the highest score by moving your man around the maze as he eats all the specks, while avoiding the Pakmen. He must attack the Pakmen at each opportunity when he is supercharged to obtain a bonus of points. 
+
+When the game starts the maze comes up on the screen and shows your score (0000) and the number of men (three). The colour of the background is green and there are two homes at the bottom of the screen where your man will start, moving either left or right. The Pakmen's home is centre top and this is where they start and return when eaten. 
+
+You have to move your man around the maze as he eats all the specks while keeping out of the Pakmen’s way. If all the specks are eaten before you lose your last man a new set of specks will come up. There are 328 specks in each maze. 
+
+At each count of 100 specks eaten a sign will come up in the score box with the letter A next to it. Then your man is supercharged and you can attack a Pakman to obtain a 100 point bonus, but you must attack head on. You must not eat more than nine specks or you will no longer be supercharged. There is also a time limit and when that expires the sign will disappear and you will no longer be supercharged. 
+
+Each time the Pakmen collide with each other one will return home and the sign in the score box will be a speck and cross. Once again you will be supercharged and you can attack the Pakman head on to obtain a bonus of 200 points. This time you will not be able to eat any specks and when the time limit expires the sign will disappear and you will no longer be supercharged. 
+
+Each time a man is eaten by the Pakmen your score will be displayed with the number of remaining men. The screen colour will change and the game will continue. When you are down to your last man, and the screen is blue, the Pakmen take one-and-a-half steps to your one; the timing periods shorten each time you lose a man. 
+
+You’ll occasionally get a free supercharged 200 points. The game ends when your last man is eaten. The screen will go black and the score will flash until you press a key to restart the game. 
+
+UP key 3; DOWN key B; LEFT key A; RIGHT key C. 
+
+VO, VI is the position of the Pakman; V2 is the direction currently travelling; V4 is the Pakman you are dealing with; V6, V7 is the position of the man; V8 sets number of men at start of game; V9 is for the timing periods to release Pakman and cancels supercharge; VA is the direction the man is travelling; VB detects bonuses, and if supercharged; VC counts number of specks 
+eaten; VD, VE is the score; VD = 100s; VE = 0-99 count at 100 triggers VD. 
+
+There is no 00E0 in the program because the machine code subroutine at 0934 transfers the data from 0988 onwards direct to the video refresh at 0488 until register F (of the 1802) is equal to 0600 (register D = 0B00).

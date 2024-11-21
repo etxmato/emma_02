@@ -1,0 +1,13 @@
+POLARIS II 
+
+Tim Parish, Myrtle Bank SA 
+
+This is a revamped version of Polaris which appeared in ETI April ’83. The game is now in colour, has sound effects and is considerably more challenging than the old Polaris because the submarine moves at half the original speed. 
+
+The scoring is now five points per plane hit, otherwise a three digit score would be impossible. Also the depth marker does not move so high, to allow for the slower submarine speed. 
+
+The colour routines (ETI April ’82) have been moved so that they end at 08ff instead of 07ff. Also, the Chip-8 colour routine, which starts at 0868 here, has been modified since VO, VI and V2 have the right values before it is called up. 
+
+To load the program; first load the colour routines so that they end at 08ff, then type in the program as listed, which will over-write some of the colour routines code. 
+
+Finally, change the byte at 08d2 to 08 and the byte at 08d5 to b5. Then you’re ready to dodge the torpedoes and depth charges. 

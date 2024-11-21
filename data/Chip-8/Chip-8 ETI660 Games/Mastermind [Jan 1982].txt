@@ -1,0 +1,3 @@
+This is a game similar to the ‘Mastermind' pegboard game where you have to guess the order of four hidden coloured pegs, only in this case you guess a three-digit number. The computer will compare your guess with the secret number. If a digit is the correct one in the correct place, you score two (2) points. Correct digits in the wrong order score one (1) point each. You’ve got the number correct if you score six (6) points. Hold challenges to see who can guess the number in the fewest turns. 
+
+** USE KEYS 0-9 TO ENTER YOUR GUESS ** 

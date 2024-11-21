@@ -6,7 +6,7 @@
 This emulator will emulate the Telmac 1800 or the Telmac 2000 computer. Additional information about the Telmac 2000 can be found on the <a href="http://www.emma02.hobby-site.com">Emma 02</a> site.
 </p>
 <p>
-To start the Telmac 1800 or the Telmac 2000 emulator first select the Telmac tab (yellow ellipse) followed by the Telmac 1800 or the Telmac 2000 tab (orange ellipse) and then press Start:
+To start the Telmac 1800 or the Telmac 2000 emulator first select the Telmac tab (highlighted in yellow) followed by the Telmac 1800 or the Telmac 2000 tab (highlighted in orange) and then press Start:
 </p>
 <p>
 <IMG SRC="images/telmac1800-2000.png" BORDER="0">
@@ -15,11 +15,9 @@ To start the Telmac 1800 or the Telmac 2000 emulator first select the Telmac tab
 After starting the Telmac 1800 or 2000 emulator the 'F12' key can be used to simulate the run switch, i.e. when the 'F12' is pressed the Telmac will stop execution and when pressed again it will restart. This can be used to start the Telmac in system ROM mode: start the emulator, after this press the 'C' key and while keeping the 'C' pressed, press F12' twice. See also <a href="MainFunctionKeys.htm">Function and Hot Keys</a>.
 </p>
 <p>
-This chapter also includes:
+This section also includes:
 </p>
 <p>
-<a href="TMC-2000Rom.htm">ROM Files</a><br>
-<a href="TMC-2000Ram.htm">RAM Size</a><br>
 <a href="TMC-2000Keyboard.htm">Keyboard</a><br>
 <a href="TMC-2000SW.htm">Pre SW load</a><br>
 <a href="TMC-2000Cassette.htm">Cassette Support</a><br>

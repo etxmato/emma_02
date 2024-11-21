@@ -20,7 +20,7 @@
 class PioScreen : public Panel
 {
 public:
-    PioScreen(wxWindow *parent, const wxSize& size, int pioNumber, int tilType);
+    PioScreen(wxWindow *parent, const wxSize& size, int pioNumber);
     ~PioScreen();
     
     void init();

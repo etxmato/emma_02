@@ -1,0 +1,15 @@
+BOMBS AWAY 
+
+Robert Curtis, Auckland NZ 
+
+I am 14 years old and a student at Macleans College in Auckland. Last year I built myself an ETI-660 and have had a great deal of fun in programming it. 
+
+When you run this program you will see a craft at the top of the screen, a rocket at the bottom of the screen, and a row of meteors halfway down in a horizontal line. 
+
+The aim of the game is to move the top craft down the screen, dodging the meteors and hitting the bottom rocket. 
+
+Key 5 starts your craft moving 
+Key 4 moves your craft diagonally left 
+Key 6 moves your craft diagonally right 
+
+You score five points for each successful hit. You are allowed to hit two meteors before the game ends, but the first time you miss the rocket will be the last time!!! 

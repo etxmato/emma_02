@@ -8,7 +8,7 @@
 #if defined (__WXMSW__) || defined(__linux__)
 #include "SDL_audioin.h"
 #endif
-#include "computer.h"
+#include "panel.h"
 
 /* Structure for loaded sounds. */
 typedef struct sound_s
@@ -17,14 +17,14 @@ typedef struct sound_s
     Uint32 length;        /* size of sound data in bytes */
 } sound_t, *sound_p;
 
-class Sound: public Computer
+class Sound 
 {
-public: 
+public:
 
     Sound();
     ~Sound();
 
-    void initSound(double clock, double percentageClock, int computerType, int volume, int bass, int treble, int toneChannels, int stereo, bool realCasLoad, int beepFrequency, int bellFrequency);
+    void initSound(double clock, double percentageClock, int volume, int bass, int treble, int toneChannels, int stereo, bool realCasLoad, int beepFrequency, int bellFrequency);
     void tone(short reg4);  
     void tone1864Latch(Byte audioLatch1864);
     void tone1864On();  
@@ -76,8 +76,10 @@ public:
     void setEqualization(int bass, int treble);
     void setSoundFollowQ(bool status) {followQ_ = status;};
     void record_pause(bool status);
-    void wavFile();
     void setPsaveSettings();
+
+    void setSoundType(int status) {activeSoundType_ = status;};
+    bool getAudioInStatus() {return audioIn_;};
 
 protected:
     Byte flipFlopQ_;
@@ -86,7 +88,6 @@ protected:
     uint64_t instructionCounter_;
     double soundClock_;
     double percentageClock_;
-    int computerType_;
     char threshold8_;
     wxInt16 threshold16_;
     wxInt32 threshold24_;
@@ -104,6 +105,8 @@ protected:
     bool tapeRecording_;
     long stopTapeCounter_;
     wxString tapeNumber_;
+
+    int activeSoundType_;
 
 private:
     short ploadSamples_[256];
@@ -172,6 +175,9 @@ private:
     
     Byte tapeHwOutputValue_;
     int numberOfSamples_;
+    
+    bool audioIn_;
+    bool audioOut_;
 };
 
 #endif  // SOUND_H

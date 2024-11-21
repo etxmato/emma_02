@@ -6,7 +6,7 @@
 This emulator will emulate the Cosmac VIP computer. Additional information about the Cosmac VIP can be found on the <a href="http://www.emma02.hobby-site.com">Emma 02</a> site.
 </p>
 <p>
-To start the Cosmac VIP emulator first select the RCA tab (yellow ellipse) followed by the Cosmac VIP tab (orange ellipse) and then press Start:
+To start the Cosmac VIP emulator first select the RCA tab (highlighted in yellow) followed by the Cosmac VIP tab (highlighted in orange) and then press Start:
 </p>
 <p>
 <IMG SRC="images/vip.png" BORDER="0">
@@ -15,7 +15,7 @@ To start the Cosmac VIP emulator first select the RCA tab (yellow ellipse) follo
 After starting the Cosmac VIP emulator the 'F12' key can be used to simulate the Vip run switch, i.e. when 'F12' is pressed the VIP will stop execution and when pressed again it will restart. This can be used to start the VIP in system ROM mode: start the emulator, after this press the 'C' key and while keeping the 'C' pressed, press 'F12' twice. See also <a href="MainFunctionKeys.htm">Function and Hot Keys</a>.
 </p>
 <p>
-The above will have started the default Cosmac VIP emulator configuration which is running the <a href="VipFpb.htm">Fixed Point Basic</a>. Note that the patched vip.32.rom files is used which starts checking for RAM at 0x7FFF instead of 0xFFF to avoid overwriting the pre-loaded FPB code. To change to other predefined configurations load one of them with the menu option below (blue ellipse) following the grey menu:
+The above will have started the default Cosmac VIP emulator configuration which is running the <a href="VipFpb.htm">Fixed Point Basic</a>. Note that the patched vip.32.rom files is used which starts checking for RAM at 0x7FFF instead of 0xFFF to avoid overwriting the pre-loaded FPB code. To change to other predefined configurations load one of them with the menu option below (highlighted in blue) following the grey menu:
 </p>
 <p>
 <IMG SRC="images/vip_configuration.png" BORDER="0">
@@ -40,23 +40,16 @@ My own VIP SuperChip interpreter!
 The RCA VP700 Tine BASIC ROM, also using the patched vip.32.rom file.
 </p>
 <p>
-This chapter also includes:
+This section also includes:
 </p>
 <p>
 <a href="VipRom.htm">ROM Files</a><br>
 <a href="VipSW.htm">Pre SW load</a><br>
 <a href="VipPrinter.htm">Printer Support</a><br>
-<a href="MainScreendump.htm">Video Dump</a><br>
 <a href="VipCassette.htm">Cassette Support</a><br>
 <a href="VipColour.htm">Colour Board</a><br>
 <a href="VipKeyboard.htm">Keyboard</a><br>
 <a href="VipRam.htm">RAM Size</a><br>
-<a href="TerminalMain.htm">Video Terminal</a><br>
-<a href="MainZoom.htm">Zoom Level and Full Screen Mode</a><br>
-<a href="MainColour.htm">Video Setup</a><br>
-<a href="MainSound.htm">Sound</a><br>
-<a href="MainMemAccess.htm">Memory Access</a><br>
-<a href="MainClock.htm">Clock Speed</a>
 <a href="VipFpb.htm">Fixed Point Basic</a><br>
 </p>
 </body></html>

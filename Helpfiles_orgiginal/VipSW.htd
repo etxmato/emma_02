@@ -1,0 +1,34 @@
+<HTML>
+<Title>Pre SW Load</Title>
+<BODY>
+<h1>Pre SW Load</h1>
+<p>
+To run the Cosmac Vip emulator with SW loaded before the emulator starts select the SW file in the 'RAM SW' field (orange ellipse). To change the location use the 'RAM SW' button (yellow ellipse) to browse for the file, do the same to change the filename or type in a new file name in the text field (orange ellipse):
+</p>
+<p>
+<IMG SRC="images/vip_ram.png" BORDER="0">
+</p>
+<p>
+The selected file will be loaded at RAM address 0 (if the file is binary, other formats like intel hex will be loaded at the specified locations). 
+</p>
+<p>
+If Chip-8 (chip8.ram), Chip-8X (chip8x.ram), Chip-10 (chip10.hex) or Super-chip (super-chip.bin) interpreters are loaded via the RAM button and field, the 'Chip-8/X/10' button (red ellipse) can be used to select chip SW. The chip SW file will be loaded in the location needed for that interpreter (chip-8 at address hex 200, chip-8X at hex 300 etc.).
+</p>
+<p>
+To change the location use the 'Chip-8/X/10' button (red ellipse) to browse for the file, do the same to change the filename or type in a new file name in the text field (blue ellipse). To clear the filename press the eject button (purple ellipse)
+</p>
+<p>
+The chip interpreters are stored in the Vip directory and chip SW is stored in the Chip-8 directory at installation (located in the application data directory, see <a href="MainFile.htm">Directory and File Structure</a>). 
+</p>
+<p>
+When using Chip 10 or Super-Chip, the check box 'Super-chip / Chip 10 - High resolution' (green ellipse) will need to be checked, this is done by default if a file called 'chip10.hex' or 'super-chip.bin' has been selected as RAM SW.
+</p>
+<p>
+The binary, Intel hex and RCS Elf Emulator hex format are supported.
+</p>
+<h2>Super-chip</h2>
+<p>
+The Super-chip interpreter was designed by me. I did this during the covid-19 pandemic in 2020. Initially for a modified VIP (same HW mod as for the chip10 interpreter) but from the start I planned to port it to the Studio IV. The Studio IV port was actually fairly easy. For more details and explanations for start-up settings see <a href="DebuggerSyntaxSuperchip.htm">Super-chip Syntax</a>.
+</p>
+</BODY>
+</HTML>

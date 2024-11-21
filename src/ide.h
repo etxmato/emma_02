@@ -1,7 +1,7 @@
 #ifndef IDE_H
 #define IDE_H
 
-#include "elfconfiguration.h"
+#include "computerconfig.h"
 
 class DriveGeometry
 {
@@ -18,7 +18,7 @@ public:
     Ide();
     ~Ide() {};
 
-    void configureIde(wxString ideFile1, wxString ideFile2, IoConfiguration portConf);
+    void configureIde(wxString ideFile1, wxString ideFile2, IdeConfiguration ideConfiguration);
     void initializeIde(wxString ideFile);
     Byte inIde();
     void outIde(Byte value);

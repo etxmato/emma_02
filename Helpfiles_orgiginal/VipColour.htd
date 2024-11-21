@@ -1,0 +1,14 @@
+<HTML>
+<Title>Colour Board </Title>
+<BODY>
+<h1>Colour Board</h1>
+<p>
+To use the VP590 Colour Board select the VP590 checkbox (yellow ellipse):
+<p>
+<IMG SRC="images/vip_colour.png" BORDER="0">
+</p>
+<p>
+Software included that uses the VP590 is the game blockout (Blockout [Steve Houk].c8x) and colour kaleidoscope (Color Kaleidoscope [Steve Houk, 1978].c8x) both running on CHIP-8X. Both files can be found in the directory 'Chip-8Chip-8X and Hybrids' (located in the application data directory, see <a href="MainFile.htm">Directory and File Structure</a>) 
+</p>
+</BODY>
+</HTML>

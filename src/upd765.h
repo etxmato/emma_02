@@ -1,7 +1,7 @@
 #ifndef UPD_H
 #define UPD_H
 
-#include "elfconfiguration.h"
+#include "computerconfig.h"
 
 #define FIRST_CLUSTER 10    // First cluster to be used for PC HD direct access
 #define MAX_CLUSTER 630        // Max number of clusters per disk, used in PC HD direct access
@@ -24,8 +24,7 @@ public:
     Upd765();
     ~Upd765() {};
 
-    void configureUpd765(int fdcType, int efnumber);
-    void configureUpd765(int fdcType, Upd765Io upd765Io);
+    void configureUpd765(Upd765Configuration upd765Configuration);
     Byte efInterrupt();
     Byte inputMasterStatus();
     void outputCommand(Byte value);
@@ -43,6 +42,8 @@ protected:
     bool resetHdData_;
 
 private:
+    Upd765Configuration upd765Configuration_;
+    
     void doCommand();
     void doRead();
     void hdRead();
@@ -91,7 +92,6 @@ private:
     
     int updActivity_;
     int sectorsPerTrack_;
-    int fdcType_;
     
     bool startTrace_;
 };

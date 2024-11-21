@@ -1,10 +1,10 @@
 #ifndef GUIDIY_H
 #define GUIDIY_H
 
-#include "guipico.h"
-#include "elfconfiguration.h"
+#include "guivip2.h"
+#include "computerconfig.h"
 
-class GuiXml: public GuiPico
+class GuiXml: public GuiVipII
 {
 public:
 
@@ -16,6 +16,48 @@ public:
     void writeXmlConfig();
     void readXmlWindowConfig();
     void writeXmlWindowConfig();
+    void readDefaultVtConfig();
+    void writeDefaultVtConfig();
+    bool showSplashScreen();
+    void hideSplashScreen();
+
+    void onKeyFile(wxCommandEvent& event);
+    void onKeyFileText(wxCommandEvent& event);
+    void onKeyFileEject(wxCommandEvent& event);
+    void onScreenDumpFile(wxCommandEvent& event);
+    void onScreenDumpFileText(wxCommandEvent& event);
+    void onXmodem(wxCommandEvent& event);
+    void onXmodemText(wxCommandEvent& event);
+    void onXmodemEject(wxCommandEvent& event);
+    void startAutoTerminalSave(int protocol);
+    void startTerminalSave(int protocol);
+    void onCassette(wxCommandEvent& event);
+    void onCassetteFileSelector();
+    void onCassette1(wxCommandEvent& event);
+    void onCassetteEject(wxCommandEvent& event);
+    void onCassette1Eject(wxCommandEvent& event);
+    void onCassetteText(wxCommandEvent& event);
+    void onCassette1Text(wxCommandEvent& event);
+    void onDisk0(wxCommandEvent& event);
+    void onDisk1(wxCommandEvent& event);
+    void onDisk2(wxCommandEvent& event);
+    void onDisk3(wxCommandEvent& event);
+    void onDisk(int diskNumber);
+    void onDiskText0(wxCommandEvent& event);
+    void onDiskText1(wxCommandEvent& event);
+    void onDiskText2(wxCommandEvent& event);
+    void onDiskText3(wxCommandEvent& event);
+    void onDiskText(int diskNumber, wxString eventString);
+    void onDiskEject0(wxCommandEvent& event);
+    void onDiskEject1(wxCommandEvent& event);
+    void onDiskEject2(wxCommandEvent& event);
+    void onDiskEject3(wxCommandEvent& event);
+    void onDiskEject(int diskNumber);
+    void onDiskDirSwitch0(wxCommandEvent& event);
+    void onDiskDirSwitch1(wxCommandEvent& event);
+    void onDiskDirSwitch2(wxCommandEvent& event);
+    void onDiskDirSwitch3(wxCommandEvent& event);
+    void onDiskDirSwitch(int diskNumber);
 
     void onXmlControlWindows(wxCommandEvent& event);
 
@@ -45,6 +87,7 @@ public:
     void setRomRamButtonOrder();
     void setXmlGui();
     void onVideoNumber(wxCommandEvent&event);
+    void onPrintFile(wxCommandEvent& event);
     void onXmlPrintFileText(wxCommandEvent&event);
     void onXmlPrintMode(wxCommandEvent&event);
     void onXmlPrintButton(wxCommandEvent& event);
@@ -53,27 +96,29 @@ public:
     void onXmlBaudT(wxCommandEvent&event);
     void onTempo(wxScrollEvent&event);
 
-    void setNvRamDisable(int computer, bool status){elfConfiguration[computer].nvRamDisable = status;};
-    bool getNvRamDisbale(int computer){return elfConfiguration[computer].nvRamDisable;};
+    void setNvRamDisable(bool status){computerConfiguration.nvRamConfiguration.disable = status;};
+    bool getNvRamDisable(){return computerConfiguration.nvRamConfiguration.disable;};
     
     int getRomRamButton0() {return romRamButton0_;};
     int getRomRamButton1() {return romRamButton1_;};
+    wxString getComputerString() {return dirNameList_[xmlDirComboSelection];};
+
+    bool getUpperCase() {return computerConfiguration.forceUpperCase;};
+    int getPacketSize() {return computerConfiguration.videoTerminalConfiguration.packetSize;};
+    bool showFrontPanel() {return computerConfiguration.frontPanelConfiguration[PANEL_MAIN].show;};
 
 protected:
     int romRamButton0_;
     int romRamButton1_;
+    wxString xmlDirComboString;
 
 private:
-    wxBitmap tapeOffBitmap;
-    wxBitmap tapeOnBitmap;
-
     wxArrayString dirNameList_;
     wxArrayString dirNameListDefaultFile_;
     wxArrayString dirNameListGui_;
 
     size_t xmlFileComboSelection;
     size_t xmlDirComboSelection;
-    wxString xmlDirComboString;
 
     wxArrayString romRamFileNameListGui_[2];
     wxArrayString romRamDirNameListGui_[2];

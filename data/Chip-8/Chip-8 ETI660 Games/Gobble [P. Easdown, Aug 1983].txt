@@ -1,0 +1,45 @@
+GOBBLE 
+
+Peter Easdown, Kew NSW 
+
+Gobble 660 is a game similar to Pacman. The basic aim of the game is to avoid the enemy and 
+to eat as many of the pills as possible. The maze is quite different but is complex enough to make a good game. 
+
+Here are a few of its features: 
+
+1. The enemy moves at the same speed as you but can catch you easily if you have trouble getting around corners, or if it takes short cuts. 
+
+2. There is only one enemy as more would only slow the game down; also 3K isn’t enough memory for more than one enemy. 
+
+3. The enemy can get stuck if you outsmart them; this will allow you to get more points without the threat of being caught. 
+
+4. The game has two tunes in it to make it more professional. These tunes are appropriate to the
+different stages of play. 
+
+5. The program incorporates the ‘five digit scoring’ routine at locations 06BO — 0726. This routine has previously been published in the January 1983 issue of ETI. 
+
+6. It also incorporates part of the Character Generator which was published in the March 1983 issue of ETI. 
+
+7. The speed of the game is quite good considering the amount of work done for the enemy between moves. 
+
+If you wish to change the values for the keys used for directing your gobbler around the screen then change the values at: 
+
+0912 — up 
+0918 — down 
+091E — left 
+0924 — right 
+
+This program will not work on any other computer as it uses all of the 660’s screen. 
+
+With the program in as listed use the following keys: 
+
+Key Direction 
+0 up 
+1 down 
+2 left 
+3 right 
+
+The score is shown at the top of the screen and the amount of gobblers left is shown below
+the maze. There are 2350 points for every full board. 
+
+Happy gobbling. 

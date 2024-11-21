@@ -3,13 +3,13 @@
 <body>
 <h1>Memory Type</h1>
 <p>
-The memory type of the main 64K CPU memory will be shown as soon as memory 'Type' (yellow ellipse) is selected. One field defines one page, i.e. 256 bytes of memory, so the top left field (blue ellipse) defines address 0000 to 00FF.  To change the memory type of a page select the value and change it. Note that changing any of these values will likely crash the emulated computer; so use with care.
+The memory type of the main 64K CPU memory will be shown as soon as memory 'Type' (highlighted in yellow) is selected. One field defines one page, i.e. 256 bytes of memory, so the top left field (highlighted in blue) defines address 0000 to 00FF.  To change the memory type of a page select the value and change it. Note that changing any of these values will likely crash the emulated computer; so use with care.
 </p>
 <p>
 <IMG SRC="images/dump_memory_type.png" BORDER="0">
 </p>
 <p>
-If memory type is shown in colour text the type or address range is linked to a hardware mapper, like COMX slots or banks and Elf EMS or ROM pagers. Note that the colour used is the same as the mapper selection features (orange and magenta ellipses)
+If memory type is shown in colour text the type or address range is linked to a hardware mapper, like COMX slots or banks and Elf EMS or ROM pagers. Note that the colour used is the same as the mapper selection features (highlighted in orange and purple)
 </p>
 <p>
 Definition of available memory types per computer type:

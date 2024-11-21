@@ -1,0 +1,49 @@
+<html>
+<title>Branching to COMX slots and Elf EMS pages</title>
+<body>
+<h1>Branching to COMX slots and Elf EMS pages</h1>
+<p>
+Any long branch instruction or branch data <U>from</U> a slot or EMS page to a NON slot/page memory location will be corrected if affected by an insert or delete. However branches from NON slot/page memory <U>to</U> a slot or EMS page area will only be corrected if:
+<UL>
+<LI>The same slot or page code is used for both configuration ranges
+<LI>A 'LBR Sxx,yyyy' macro is used for branch instructions
+<LI>A ': Sxx,yyyy' macro is used for branch data
+<LI>A 'LDL Sxx,Rx,yyyy' macro is used for loading a data location
+<LI>A 'LDRL Sxx,Rx,yyyy' macro is used for reversed loading a data location
+</UL> 
+</p>
+<p>
+The 'LBR Sxx,yyyy' macro can be used for any long branch instruction (LBDF, LBNF, LBNQ, LBNZ, LBQ, LBR or LBZ). 'Sxx' specifies the slot code or EMS page where the branch should jump to and 'yyyy' defines the branch address.
+</p>
+<p>
+For example, using a COMX with SB and following <a href="DirectConfiguration.htm">Program Configurations</a>:
+</p>
+<p>
+<IMG SRC="images/assembler_slots_ram_conf.png" BORDER="0">
+</p>
+<p>
+<IMG SRC="images/assembler_slots_bank0.png" BORDER="0">
+</p>
+<p>
+<IMG SRC="images/assembler_slots_bank1.png" BORDER="0">
+</p>
+<p>
+with the following code in RAM:
+</p>
+<p>
+<IMG SRC="images/assembler_slots_ram.png" BORDER="0">
+</p>
+<p>
+An 'insert' on address C010 in RAM bank 0 (slot code 11) will result in:
+</p>
+<p>
+<IMG SRC="images/assembler_slots_ram.png" BORDER="0">
+</p>
+<p>
+So the S11 branch is corrected as a byte is inserted in bank 0 but the S31 branch will remain unchanged as no byte is inserted in bank 1.
+</p>
+<p>
+The ': Sxx,yyyy', 'LDL Sxx,Rx,yyyy' and 'LDRL Sxx,Rx,yyyy' macros work the same as the 'LBR Sxx,yyyy' macro. Except they are used for branch addresses and loading memory locations. 
+</p>
+</body>
+</html>

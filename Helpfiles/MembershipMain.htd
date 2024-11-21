@@ -6,13 +6,13 @@
 This emulator will emulate the Membership Card. Additional information about the Membership Card can be found on the <a href="http://www.emma02.hobby-site.com">Emma 02</a> site.
 </p>
 <p>
-To start the Membership Card emulator first select the Elf tab (yellow ellipse) followed by the Membership Card tab (orange ellipse) and then press Start:
+To start the Membership Card emulator first select the Elf tab (highlighted in yellow) followed by the Membership Card tab (highlighted in orange) and then press Start:
 </p>
 <p>
 <IMG SRC="images/member.png" BORDER="0">
 </p>
 <p>
-The above will have started the default Membership Card emulator configuration running Chuck's Monitor in ROM on address 0 with front panel rev J. To change to other predefined configurations load one of them with the menu option below (blue ellipse) following the grey menu:
+The above will have started the default Membership Card emulator configuration running Chuck's Monitor in ROM on address 0 with front panel rev J. To change to other predefined configurations load one of them with the menu option below (highlighted in blue) following the grey menu:
 </p>
 <p>
 <IMG SRC="images/member_configuration.png" BORDER="0">
@@ -60,14 +60,12 @@ Example program 3
 RCA Monitor program as described in IPSO facto number 10 with a SW change to run on the Membership Card.
 </p>
 <p>
-This chapter also includes:
+This section also includes:
 </p>
 <p>
-<a href="MembershipRom.htm">ROM and RAM Files</a><br>
 <a href="MembershipRam.htm">Memory</a><br>
 <a href="MembershipNvr.htm">NVR</a><br>
 <a href="MembershipWindows.htm">Control Windows</a><br>
-<a href="MembershipBoot.htm">Boot Method</a><br>
 </p>
 </body>
 </html>

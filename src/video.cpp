@@ -35,72 +35,50 @@ BEGIN_EVENT_TABLE(VideoScreen, wxWindow)
     EVT_KEY_UP(VideoScreen::onKeyUp)
 END_EVENT_TABLE()
 
-VideoScreen::VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int computerType, int videoNumber)
+VideoScreen::VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int videoNumber)
 : wxWindow(parent, wxID_ANY, wxDefaultPosition, size)
 {
     vipiiRcaMode_ = false;
     zoom_ = zoom;
     xZoomFactor_ = 1;
-    computerType_ = computerType;
     vt100_ = false;
     videoNumber_ = videoNumber;
 }
 
-VideoScreen::VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int computerType, int videoNumber, double xZoomFactor)
+VideoScreen::VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int videoNumber, double xZoomFactor)
 : wxWindow(parent, wxID_ANY, wxDefaultPosition, size)
 {
     vipiiRcaMode_ = false;
     zoom_ = zoom;
     xZoomFactor_ = xZoomFactor;
-    computerType_ = computerType;
     vt100_ = false;
     videoNumber_ = videoNumber;
 }
 
-VideoScreen::VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int computerType, int videoNumber, double xZoomFactor, bool vipiiRcaMode)
+VideoScreen::VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int videoNumber, double xZoomFactor, bool vipiiRcaMode)
 : wxWindow(parent, wxID_ANY, wxDefaultPosition, size)
 {
     vipiiRcaMode_ = vipiiRcaMode;
     zoom_ = zoom;
     xZoomFactor_ = xZoomFactor;
-    computerType_ = computerType;
     vt100_ = false;
     videoNumber_ = videoNumber;
 }
 
-VideoScreen::VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int computerType, bool vt100, int uartNumber)
+VideoScreen::VideoScreen(wxWindow *parent, const wxSize& size, double zoom, bool vt100, int uartNumber)
 : wxWindow(parent, wxID_ANY, wxDefaultPosition, size)
 {
     vipiiRcaMode_ = false;
     zoom_ = zoom;
     xZoomFactor_ = 1;
-    computerType_ = computerType;
     vt100_ = vt100;
     uartNumber_ = uartNumber;
 
     keyStart_ = 0;
     keyEnd_ = 0;
     lastKey_ = 0;
-    switch(computerType)
-    {
-        case ELF:
-        case ELFII:
-        case SUPERELF:
-        case ELF2K:
-        case COSMICOS:
-        case MEMBER:
-        case MS2000:
-        case MCDS:
-        case CDP18S020:
-        case MICROBOARD:
-        case PICO:
-            forceUpperCase_ = p_Main->getUpperCase();
-        break;
-
-        default:
-            forceUpperCase_ = false;
-        break;
-    }
+    
+    forceUpperCase_ = p_Main->getUpperCase();
 }
 
 void VideoScreen::onPaint(wxPaintEvent&WXUNUSED(event))
@@ -159,37 +137,13 @@ void VideoScreen::onChar(wxKeyEvent& event)
 #endif
                         wxTextDataObject data;
                         wxTheClipboard->GetData( data );
-                        if (computerType_ == XML)
-                            p_Computer->ctrlvTextXml(data.GetText());
-                        else
-                            p_Computer->ctrlvText(data.GetText());
+                        p_Computer->ctrlvTextXml(data.GetText());
 #ifndef __WXMAC__
                     }
 #endif
                     wxTheClipboard->Close();
                 }
                 return;
-            }
-        }
-    }
-    if (computerType_ == VIPII  || vipiiRcaMode_)
-    {
-#ifdef __WXMAC__
-        if (event.GetModifiers() == wxMOD_CONTROL)
-#else
-        if (event.GetModifiers() == wxMOD_ALT)
-#endif
-        {
-            if (key == 49 || key == 50 || key == 99 || key == 67)
-            {
-                p_Computer->onReset();
-                p_Computer->setClear(1);
-                p_Main->updateTitle();
-            }
-            if (key == 51)
-            {
-                p_Computer->setClear(0);
-                p_Main->updateTitle();
             }
         }
     }
@@ -239,70 +193,12 @@ void VideoScreen::onKeyDown(wxKeyEvent& event)
     }
     else
     {
-        switch (computerType_)
+        if (p_Main->checkFunctionKey(event))
+            return;
+        if (!p_Computer->keyDownExtended(keycode, event))
         {
-            case COMX:
-            case MICROBOARD:
-            case TMC600:
-            case PECOM:
-                if (p_Main->checkFunctionKey(event))
-                    return;
-                if (!p_Computer->keyDownExtended(keycode, event))
-                    event.Skip();
-            break;
-
-            case ELF:
-            case ELFII:
-            case ELF2K:
-            case SUPERELF:
-            case COSMICOS:
-            case MEMBER:
-            case PICO:
-                if (p_Main->checkFunctionKey(event))
-                    return;
-                if (!p_Computer->keyDownPressed(event.GetKeyCode()))
-                    event.Skip();
-            break;
-
-            case XML:
-                if (p_Main->checkFunctionKey(event))
-                    return;
-                if (!p_Computer->keyDownExtended(keycode, event))
-                {
-                    if (!p_Computer->keyDownPressed(event.GetKeyCode()))
-                        event.Skip();
-                }
-            break;
-
-            case FRED1:
-            case FRED1_5:
-                if (p_Main->checkFunctionKey(event))
-                    return;
-                if (keycode != lastKey_)    
-                    p_Computer->keyDown(event.GetKeyCode());
-                lastKey_ = keycode;
+            if (!p_Computer->keyDownPressed(event.GetKeyCode()))
                 event.Skip();
-            break;
-
-            case VIP2K:
-                if (p_Main->checkFunctionKey(event))
-                    return;
-                if (keycode != lastKey_)
-                {
-                    if (!(keycode == p_Main->getCtrlvKey() && event.GetModifiers() == CTRL_V))
-                        p_Computer->keyDown(event.GetKeyCode());
-                }
-                lastKey_ = keycode;
-                event.Skip();
-            break;
-
-            default:
-                if (p_Main->checkFunctionKey(event))
-                    return;
-                if (!(keycode == p_Main->getCtrlvKey() && event.GetModifiers() == CTRL_V))
-                    p_Computer->keyDown(event.GetKeyCode());
-                event.Skip();
-            break;
         }
     }
 }
@@ -319,42 +215,9 @@ void VideoScreen::onKeyUp(wxKeyEvent& event)
     }
     else
     {
-        switch (computerType_)
-        {
-            case TMC600:
-            case PECOM:
-                p_Computer->keyUpExtended(event.GetKeyCode(), event);
-                event.Skip();
-            break;
-
-            case ELF:
-            case ELF2K:
-            case ELFII:
-            case SUPERELF:
-            case PICO:
-                if (!p_Computer->keyUpReleased(event.GetKeyCode(), event))
-                    event.Skip();
-            break;
-
-            case XML:
-                lastKey_ = 0;
-                if (!p_Computer->keyUpReleased(event.GetKeyCode(), event))
-                    event.Skip();
-            break;
-
-            case FRED1:
-            case FRED1_5:
-            case VIP2K:
-                lastKey_ = 0;
-                p_Computer->keyUp(event.GetKeyCode());
-                event.Skip();
-            break;
-
-            default:
-                p_Computer->keyUp(event.GetKeyCode());
-                event.Skip();
-            break;
-        }
+        lastKey_ = 0;
+        if (!p_Computer->keyUpReleased(event.GetKeyCode(), event))
+            event.Skip();
     }
 }
 
@@ -490,12 +353,12 @@ void Video::focus()
     p_Main->message("Illegal call to set CDP 1870 focus");
 }
 
-void Video::updateStatusLed(bool WXUNUSED(status))
+void Video::updateComxStatusLed(bool WXUNUSED(status))
 {
     p_Main->message("Illegal call to update status led");
 }
 
-void Video::updateExpansionLed(bool WXUNUSED(status))
+void Video::updateComxExpansionLed(bool WXUNUSED(status))
 {
     p_Main->message("Illegal call to update expansion led");
 }
@@ -560,19 +423,18 @@ Byte Video::uartStatus()
 }
 
 
-void Video::defineColours(int type)
+void Video::defineColours()
 {
-    wxString colour, button, computerType;
+    wxString colour, button;
 
-    ScreenInfo screenInfo = p_Main->getScreenInfo(type);
-    computerType = p_Main->getRunningComputerStr();
+    ScreenInfo screenInfo = p_Main->getScreenInfo();
     numberOfColours_ = screenInfo.number;
     reColour_ = false;
     for (int i=screenInfo.start; i<screenInfo.number; i++)
     {
         colour.Printf("%d", i);
         colour.Trim(false);
-        colour_[i] = wxColour(p_Main->getConfigItem(computerType+"/Colour"+colour, screenInfo.defaultColour[i]));
+        colour_[i] = wxColour(p_Main->getConfigItem("Xml/Colour"+colour, screenInfo.defaultColour[i]));
         brushColour_[i] = wxBrush(colour_[i]);
         penColour_[i] = wxPen(colour_[i], 1);
     }
@@ -580,8 +442,8 @@ void Video::defineColours(int type)
     {
         button.Printf("%d", i);
         button.Trim(false);
-        borderX_[i] = p_Main->getConfigItem(computerType+"/BorderX"+button, screenInfo.borderX[i]);
-        borderY_[i] = p_Main->getConfigItem(computerType+"/BorderY"+button, screenInfo.borderY[i]);
+        borderX_[i] = p_Main->getConfigItem("Xml/BorderX"+button, screenInfo.borderX[i]);
+        borderY_[i] = p_Main->getConfigItem("Xml/BorderY"+button, screenInfo.borderY[i]);
     }
 }
 
@@ -841,7 +703,7 @@ void Video::reDrawBar()
 {
 }
  
-void Video::updateLedStatus(int WXUNUSED(card), int WXUNUSED(i), bool WXUNUSED(status))
+void Video::updateStatusLed(bool WXUNUSED(status), int WXUNUSED(card), int WXUNUSED(i))
 {
 }
 
@@ -873,8 +735,8 @@ void Video::setColour(int clr)
 
 void Video::setColour(wxColour clr)
 {
-//    if (p_Main->isZoomEventOngoingButNotFullScreen())
- //       return;
+    //    if (p_Main->isZoomEventOngoingButNotFullScreen())
+    //        return;
 #if defined(__WXMAC__)
     gc->SetBrush(wxBrush(clr));
     gc->SetPen(wxPen(clr));
@@ -904,8 +766,8 @@ void Video::drawPoint(wxCoord x, wxCoord y)
 
 void Video::setColourMutex(int clr)
 {
-//    if (p_Main->isZoomEventOngoingButNotFullScreen())
-//        return;
+    //    if (p_Main->isZoomEventOngoingButNotFullScreen())
+    //        return;
 #if defined(__WXMAC__)
     gc->SetBrush(brushColour_[clr]);
     gc->SetPen(penColour_[clr]);
@@ -939,11 +801,6 @@ void Video::splashScreen()
         splashScreen_ = new SplashScreen(this);
 }
 
-void Video::updateDiagLedStatus(int WXUNUSED(led), bool WXUNUSED(status))
-{
-    
-}
-
 Byte Video::readPramDirect(Word address)
 {
     reDraw_ = true;
@@ -953,35 +810,12 @@ Byte Video::readPramDirect(Word address)
 Byte Video::readCramDirect(Word address)
 {
     reDraw_ = true;
-    switch (computerType_)
-    {
-        case TMC600:
-        case CIDELSA:
-            return characterMemory_[address] & 0x3f;
-        break;
-                        
-        default:
-            return characterMemory_[address];
-        break;
-    }
+    return characterMemory_[address];
 }
 
 void Video::writeCramDirect(Word address, Byte value)
 {
-    switch (computerType_)
-    {
-        case TMC600:
-            characterMemory_[address] = value & 0x3f;
-        break;
-            
-        case CIDELSA:
-            characterMemory_[address] = (value & 0x3f) | (characterMemory_[address] & 0xc0);
-        break;
-
-        default:
-            characterMemory_[address] = value;
-        break;
-    }
+    characterMemory_[address] = value;
     reDraw_ = true;
 }
 
