@@ -516,6 +516,7 @@
     <ClCompile Include="src\xmlparser.cpp" />
     <ClCompile Include="Y:\workspace\emma_02\src\bitkeypad.cpp" />
     <ClCompile Include="Y:\workspace\emma_02\src\cvkeypad.cpp" />
+    <ClCompile Include="Y:\workspace\emma_02\src\guicomx.cpp" />
     <ClCompile Include="Y:\workspace\emma_02\src\keyb1871.cpp" />
     <ClCompile Include="Y:\workspace\emma_02\src\keyblatch.cpp" />
     <ClCompile Include="Y:\workspace\emma_02\src\keybmatrix.cpp" />
@@ -593,6 +594,7 @@
     <ClInclude Include="src\xmlparser.h" />
     <ClInclude Include="Y:\workspace\emma_02\src\bitkeypad.h" />
     <ClInclude Include="Y:\workspace\emma_02\src\cvkeypad.h" />
+    <ClInclude Include="Y:\workspace\emma_02\src\guicomx.h" />
     <ClInclude Include="Y:\workspace\emma_02\src\keyb1871.h" />
     <ClInclude Include="Y:\workspace\emma_02\src\keyblatch.h" />
     <ClInclude Include="Y:\workspace\emma_02\src\keybmatrix.h" />

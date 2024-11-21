@@ -369,9 +369,9 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/EHsc /bigobj"
 				Optimization="0"
-				InlineFunctionExpansion="1"
+				InlineFunctionExpansion="0"
 				AdditionalIncludeDirectories=".\images;&quot;$(SDL)\include&quot;;&quot;$(WXWIN)\lib\vc_x64_lib\mswud&quot;;&quot;$(WXWIN)\include&quot;;&quot;$(WXWIN)\include\msvc&quot;;&quot;$(CURL)\include\&quot;;&quot;$(SERIALPORT)\Win64\include\&quot;"
-				PreprocessorDefinitions="WIN32;WINVER=0x0500;_DEBUG;__WXMSW__;__WXDEBUG__;_WINDOWS;NOPCH"
+				PreprocessorDefinitions="WIN32;_DEBUG;__WXMSW__;__WXDEBUG__;_WINDOWS;NOPCH"
 				StringPooling="true"
 				MinimalRebuild="false"
 				BasicRuntimeChecks="3"
@@ -407,8 +407,9 @@
 				OutputFile="$(SolutionDir)$(PlatformName)\$(ConfigurationName)\Emma 02.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;$(SDL)\lib\x64&quot;;&quot;$(WXWIN)\lib\vc_x64_lib\mswud\&quot;;&quot;$(WXWIN)\lib\vc_x64_lib\&quot;;&quot;$(CURL)\build\Win64\VC9\LIB Debug&quot;;&quot;$(SERIALPORT)\Win64\lib&quot;"
-				ManifestFile="$(IntDir)\vc9\$(TargetFileName).intermediate.manifest"
+				AdditionalLibraryDirectories="&quot;C:\Program Files (x86)\Visual Leak Detector\lib\Win64&quot;;&quot;$(SDL)\lib\x64&quot;;&quot;$(WXWIN)\lib\vc_x64_lib\mswud\&quot;;&quot;$(WXWIN)\lib\vc_x64_lib\&quot;;&quot;Y:\workspace\curl-win\build\Win64\VC9\LIB Debug - DLL Windows SSPI&quot;;&quot;$(SERIALPORT)\Win64\lib&quot;"
+				GenerateManifest="false"
+				ManifestFile="$(IntDir)\$(TargetFileName).intermediate.manifest"
 				IgnoreAllDefaultLibraries="false"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(SolutionDir)$(PlatformName)\$(ConfigurationName)\Emma 02.pdb"
@@ -809,6 +810,10 @@
 			</File>
 			<File
 				RelativePath=".\src\functionkey.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\guicomx.h"
 				>
 			</File>
 			<File
