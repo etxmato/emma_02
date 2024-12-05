@@ -3,8 +3,8 @@
 
 [Setup]
 AppName=Emma 02
-AppVerName=Emma 02 - V1.48
-AppVersion=1.48
+AppVerName=Emma 02 - V1.48.4
+AppVersion=1.48.4
 AppPublisher=Marcel van Tongeren
 DefaultDirName={pf}\Emma 02
 DefaultGroupName=Emma 02
@@ -189,6 +189,7 @@ Source: ..\data\Vip\*.*; DestDir: {app}\data\Vip; Components: MAIN
 Source: ..\data\Vip2K\*.*; DestDir: {app}\data\Vip2K; Components: MAIN
 Source: ..\data\VipII\*.*; DestDir: {app}\data\VipII; Components: MAIN
 Source: ..\data\VIS1802\*.*; DestDir: {app}\data\VIS1802; Components: MAIN
+Source: ..\data\VT1802\*.*; DestDir: {app}\data\VT1802; Components: MAIN
 Source: ..\data\Visicom\*.*; DestDir: {app}\data\Visicom; Components: MAIN
 Source: ..\data\Xml\*.*; DestDir: {app}\data\Xml; Components: MAIN
 Source: ..\data\Xml\CDP18S020\*.*; DestDir: {app}\data\Xml\CDP18S020; Components: MAIN
@@ -235,6 +236,7 @@ Source: ..\data\Xml\Vip\*.*; DestDir: {app}\data\Xml\Vip; Components: MAIN
 Source: ..\data\Xml\Vip2K\*.*; DestDir: {app}\data\Xml\Vip2K; Components: MAIN
 Source: ..\data\Xml\VipII\*.*; DestDir: {app}\data\Xml\VipII; Components: MAIN
 Source: ..\data\Xml\VIS1802\*.*; DestDir: {app}\data\Xml\VIS1802; Components: MAIN
+Source: ..\data\Xml\VT1802\*.*; DestDir: {app}\data\Xml\VT1802; Components: MAIN
 Source: ..\data\Xml\Visicom\*.*; DestDir: {app}\data\Xml\Visicom; Components: MAIN
 Source: ..\images\*.*; DestDir: {app}\images; Components: MAIN
 Source: ..\src\*.*; DestDir: {app}\src; Components: SOURCEFILES

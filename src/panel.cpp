@@ -892,7 +892,7 @@ void Panel::init(vector<GuiItemConfiguration> buttonConfig, wxSize panelSize)
     spinCtrlAdsVoltDefined = false;
 
     wxClientDC dc(this);
-
+        
     for (std::vector<GuiItemConfiguration>::iterator button = guiItemConfiguration.begin (); button != guiItemConfiguration.end (); ++button)
     {
         xmlButtonDefined_ = true;

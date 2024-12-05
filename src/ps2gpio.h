@@ -9,7 +9,7 @@ public:
 
     void configurePs2gpio(bool forceUpperCase, GpioPs2KeyboardConfiguration gpioPs2KeyboardConfiguration);
     void charEventPs2gpio(int keycode);
-    void addKeyToBuffer(Byte value);
+    void addKeyToBuffer(int value, int keycode);
 
     Byte efPs2gpio();
     Byte inPs2gpio();
@@ -32,9 +32,6 @@ private:
     Byte keyboardEf_;
     int keyCycles_;
     Byte lastKeyCode_;
-    int rawKeyCode_;
-    int escKey_;
-    int escKey2_;
 
     wxFile elfKeyFile_;
     bool elfKeyFileOpen_;

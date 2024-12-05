@@ -91,12 +91,28 @@ void CvKeypad::keyDown(int keycode,  wxKeyEvent& event)
         
     switch (keycode)
     {
+        case WXK_NUMPAD_ENTER:
+            input = cvKeypadConfiguration_.textKey[MATRIX_TEXT_NUMPAD_ENTER_KEY];
+        break;
+
         case WXK_BACK:
             input = cvKeypadConfiguration_.textKey[MATRIX_TEXT_BACK_KEY];
         break;
 
         case WXK_ESCAPE:
             input = cvKeypadConfiguration_.textKey[MATRIX_TEXT_ESC_KEY];
+        break;
+
+        case WXK_PAUSE:
+            input = cvKeypadConfiguration_.textKey[MATRIX_TEXT_PAUSE_KEY];
+        break;
+
+        case WXK_MENU:
+            input = cvKeypadConfiguration_.textKey[MATRIX_TEXT_MENU_KEY];
+        break;
+
+        case WXK_TAB:
+            input = cvKeypadConfiguration_.textKey[MATRIX_TEXT_TAB_KEY];
         break;
 
         case WXK_RETURN:

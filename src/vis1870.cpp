@@ -103,9 +103,19 @@ VIS1870::VIS1870(const wxString& title, const wxPoint& pos, const wxSize& size, 
     interruptEnabled_ = true;
     
     if (vis1870Configuration_.videoMode == PAL)
+    {
         linesPerCharacters_ = 9;
+        linesPerScreen_ = 312;
+        nonDisplayPeriodEndLine_ = 268;
+        preDisplayPeriodLine_ = 269;
+    }
     else
+    {
         linesPerCharacters_ = 8;
+        linesPerScreen_ = 262;
+        nonDisplayPeriodEndLine_ = 226;
+        preDisplayPeriodLine_ = 227;
+    }
 
     if (vis1870Configuration_.rotateScreen)
     {
@@ -1205,14 +1215,14 @@ void VIS1870::setCycle()
     int fieldTime;
 
     clockPeriod = (float)((1/videoClock_) * 6);
-    fieldTime = clockPeriod * 60 * 312;
+    fieldTime = clockPeriod * 60 * linesPerScreen_;
 
     cycleSize_ = (int)(fieldTime / ((1/clock_) * 8));
     blinkSize_ = cycleSize_ * 25;
 
-    displayPeriod_ = (int) ((float) cycleSize_ / 312 * videoHeight_);
-    nonDisplayPeriodEnd_ = (int) ((float) cycleSize_ / 312 * 268);
-    preDisplayPeriod_ = (int) ((float) cycleSize_ / 312 * 269);
+    displayPeriod_ = (int) ((float) cycleSize_ / linesPerScreen_ * videoHeight_);
+    nonDisplayPeriodEnd_ = (int) ((float) cycleSize_ / linesPerScreen_ * nonDisplayPeriodEndLine_);
+    preDisplayPeriod_ = (int) ((float) cycleSize_ / linesPerScreen_ * preDisplayPeriodLine_);
 
     cycleValue_ = cycleSize_;
     blinkValue_ = blinkSize_;

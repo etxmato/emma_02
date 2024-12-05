@@ -112,6 +112,10 @@ private:
     int charactersPerRow_;
     int linesPerCharacters_;
     int rowsPerScreen_;
+    int linesPerScreen_;
+    int nonDisplayline_;
+    int nonDisplayPeriodEndLine_;
+    int preDisplayPeriodLine_;
     int CmaMask_;
     int backgroundColour_;
     int pixelWidth_;

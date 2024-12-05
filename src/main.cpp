@@ -1015,6 +1015,7 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
             return true;
         }
         wxMessageOutput::Get()->Printf("Incorrect computer name specified");
+        delete dir;
         return false;
     } 
     return true;
@@ -1682,6 +1683,7 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
         }
        dirFound = dir->GetNext(&dirName);
     }
+    delete dir;
     bool redundantFilesRemoveCheck;
     configPointer->Read("/Main/RedundantFilesRemoveCheck", &redundantFilesRemoveCheck, false);
     if (!redundantFilesRemoveCheck)
@@ -4792,6 +4794,7 @@ void Main::setSysColours()
     guiBackGround_ = wxColour(windowInfo.red, windowInfo.green, windowInfo.blue);
     wxColourDatabase colour;
     guiTextColour[GUI_COL_BLACK] = wxColour(colour.Find("BLACK"));
+    guiTextColour[GUI_COL_WHITE] = wxColour(colour.Find("WHITE"));
 #endif
     
     if (darkMode_)

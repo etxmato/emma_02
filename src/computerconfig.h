@@ -401,6 +401,12 @@ public:
     IoPort writeParameter;
     IoPort readParameter;
     EfFlag efVerticalRetrace;
+    EfFlag efHorizontalRetrace;
+
+    double videoClock;
+    wxSize charSize;
+    wxSize screenSize;
+    bool gpaSwitched;
 };
 
 class Sn76430NConfiguration : public VideoConfiguration
@@ -635,7 +641,8 @@ public:
     EfFlag ef;
 
     wxString startupString;
-    
+    int textKey[LAST_MATRIX_TEXT_KEY];
+
     bool jp4;
     bool interrupt;
 };

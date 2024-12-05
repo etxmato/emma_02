@@ -3306,6 +3306,9 @@ void Vt100::getKey()
     if ((terminalLoad_ || terminalSave_) && !terminalFileCdp18s020_)
         return;
     
+    if (!currentComputerConfiguration.videoTerminalConfiguration.show)
+        return;
+    
     if (vtOut_ <= 0)
     {
         if (elfRunCommand_ != 0)

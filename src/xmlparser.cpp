@@ -47,6 +47,10 @@ wxString textKeyList[]=
     "up",
     "esc",
     "back",
+    "pause",
+    "menu",
+    "tab",
+    "numpad_enter",
     "undefined"
 };
 
@@ -4206,6 +4210,9 @@ void XmlParser::parseXml_Intel8275Video(wxXmlNode &node)
         "border",
         "pos",
         "color",
+        "clock",
+        "char",
+        "screen",
         "iogroup",
         "comment",
         "undefined"
@@ -4223,6 +4230,9 @@ void XmlParser::parseXml_Intel8275Video(wxXmlNode &node)
         TAG_BORDER,
         TAG_POS,
         TAG_COLOR,
+        TAG_CLOCK,
+        TAG_CHAR,
+        TAG_SCREEN,
         TAG_IOGROUP,
         TAG_COMMENT,
         TAG_UNDEFINED
@@ -4235,7 +4245,14 @@ void XmlParser::parseXml_Intel8275Video(wxXmlNode &node)
     computerConfiguration.i8275Configuration.writeParameter = init_IoPort();
     computerConfiguration.i8275Configuration.readParameter = init_IoPort();
     computerConfiguration.i8275Configuration.efVerticalRetrace = init_EfFlag();
+    computerConfiguration.i8275Configuration.efHorizontalRetrace = init_EfFlag();
     computerConfiguration.i8275Configuration.ioGroupVector.clear();
+    computerConfiguration.i8275Configuration.charSize.x = 8;
+    computerConfiguration.i8275Configuration.charSize.y = 10;
+    computerConfiguration.i8275Configuration.screenSize.x = 80;
+    computerConfiguration.i8275Configuration.screenSize.y = 24;
+    computerConfiguration.i8275Configuration.videoClock = 12;
+    computerConfiguration.i8275Configuration.gpaSwitched = false;
 
     int tagTypeInt;
     long width, height;
@@ -4270,6 +4287,8 @@ void XmlParser::parseXml_Intel8275Video(wxXmlNode &node)
                 
             case TAG_FONT:
                 computerConfiguration.characterRomConfiguration.fileName = child->GetNodeContent();
+                if (child->GetAttribute("gpa") == "switched")
+                    computerConfiguration.i8275Configuration.gpaSwitched = true;
             break;
 
             case TAG_DIRNAME:
@@ -4279,9 +4298,12 @@ void XmlParser::parseXml_Intel8275Video(wxXmlNode &node)
             break;
 
             case TAG_EF:
-                    computerConfiguration.i8275Configuration.efVerticalRetrace = parseXml_EfFlag(*child, I8275_EF);
+                if (child->GetAttribute("type") == "horizontal")
+                    computerConfiguration.i8275Configuration.efHorizontalRetrace = parseXml_EfFlag(*child, I8275_HORIZONTAL_EF);
+                else
+                    computerConfiguration.i8275Configuration.efVerticalRetrace = parseXml_EfFlag(*child, I8275_VERTICAL_EF);
             break;
-                
+                                
             case TAG_INTERLACE:
                 computerConfiguration.interlace_ = true;
             break;
@@ -4336,6 +4358,38 @@ void XmlParser::parseXml_Intel8275Video(wxXmlNode &node)
                 {
                     computerConfiguration.i8275Configuration.ioGroupVector.resize(ioGroupNumber+1);
                     computerConfiguration.i8275Configuration.ioGroupVector[ioGroupNumber++] = (int)getNextHexDec(&iogroup) & 0xff;
+                }
+            break;
+
+            case TAG_CLOCK:
+                computerConfiguration.i8275Configuration.videoClock = getDouble(child->GetNodeContent(), childName, 500, "500");
+            break;
+
+            case TAG_CHAR:
+                if (!parseXml_Size(*child, &width, &height))
+                {
+                    warningText_ += "Incorrect char size";
+                    warningText_ += childName;
+                    warningText_ += "\n";
+                }
+                else
+                {
+                    computerConfiguration.i8275Configuration.charSize.x = (int)width;
+                    computerConfiguration.i8275Configuration.charSize.y = (int)height;
+                }
+            break;
+
+            case TAG_SCREEN:
+                if (!parseXml_Size(*child, &width, &height))
+                {
+                    warningText_ += "Incorrect screen size";
+                    warningText_ += childName;
+                    warningText_ += "\n";
+                }
+                else
+                {
+                    computerConfiguration.i8275Configuration.screenSize.x = (int)width;
+                    computerConfiguration.i8275Configuration.screenSize.y = (int)height;
                 }
             break;
 
@@ -4894,6 +4948,7 @@ void XmlParser::parseXml_Gpio(wxXmlNode &node)
         "out",
         "in",
         "ef",
+        "keydef",
         "caps",
         "jp4",
         "startup",
@@ -4908,6 +4963,7 @@ void XmlParser::parseXml_Gpio(wxXmlNode &node)
         TAG_OUT,
         TAG_IN,
         TAG_EF,
+        TAG_KEYDEF,
         TAG_CAPS,
         TAG_JP4,
         TAG_STARTUP,
@@ -4918,13 +4974,16 @@ void XmlParser::parseXml_Gpio(wxXmlNode &node)
     };
     
     int tagTypeInt;
-    wxString iogroup;
-    size_t ioGroupNumber = 0;
+    wxString iogroup, keyText;
+    size_t ioGroupNumber = 0, textEfKeyInt;
 
     computerConfiguration.gpioPs2KeyboardConfiguration.ioGroupVector.clear();
     computerConfiguration.gpioPs2KeyboardConfiguration.input = init_IoPort();
     computerConfiguration.gpioPs2KeyboardConfiguration.output = init_IoPort();
     computerConfiguration.gpioPs2KeyboardConfiguration.ef = init_EfFlag();
+
+    for (int i=0; i<LAST_MATRIX_TEXT_KEY; i++)
+        computerConfiguration.gpioPs2KeyboardConfiguration.textKey[i] = -1;
 
     wxXmlNode *child = node.GetChildren();
     while (child)
@@ -4971,6 +5030,35 @@ void XmlParser::parseXml_Gpio(wxXmlNode &node)
                 {
                     computerConfiguration.gpioPs2KeyboardConfiguration.ioGroupVector.resize(ioGroupNumber+1);
                     computerConfiguration.gpioPs2KeyboardConfiguration.ioGroupVector[ioGroupNumber++] = (int)getNextHexDec(&iogroup) & 0xff;
+                }
+            break;
+
+            case TAG_KEYDEF:
+                if (child->GetAttribute("type") == "text")
+                {
+                    keyText = child->GetNodeContent();
+                    textEfKeyInt = 0;
+                    while (textKeyList[textEfKeyInt] != "undefined")
+                    {
+                        if (keyText == textKeyList[textEfKeyInt])
+                        {
+                            if (!child->HasAttribute("os"))
+                                computerConfiguration.gpioPs2KeyboardConfiguration.textKey[textEfKeyInt] = (int)parseXml_Number(*child, "value");
+#ifdef __WXMAC__
+                            if (child->GetAttribute("os") == "mac")
+                                computerConfiguration.gpioPs2KeyboardConfiguration.textKey[textEfKeyInt] = (int)parseXml_Number(*child, "value");
+#endif
+#ifdef __WXMSW__
+                            if (child->GetAttribute("os") == "windows")
+                                computerConfiguration.gpioPs2KeyboardConfiguration.textKey[textEfKeyInt] = (int)parseXml_Number(*child, "value");
+#endif
+#ifdef __linux__
+                            if (child->GetAttribute("os") == "linux")
+                                computerConfiguration.gpioPs2KeyboardConfiguration.textKey[textEfKeyInt] = (int)parseXml_Number(*child, "value");
+#endif
+                        }
+                        textEfKeyInt++;
+                    }
                 }
             break;
 

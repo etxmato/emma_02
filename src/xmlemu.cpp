@@ -464,36 +464,39 @@ Computer::Computer(const wxString& title, const wxPoint& pos, const wxSize& size
     wxSize lastSize = size;
     for (std::vector<FrontPanelConfiguration>::iterator frontPanel = currentComputerConfiguration.frontPanelConfiguration.begin (); frontPanel != currentComputerConfiguration.frontPanelConfiguration.end (); ++frontPanel)
     {
-        panelPointer.resize(numberOfFrontPanels_+1);
-        
-        switch (frontPanel->posType)
+        if (frontPanel->defined)
         {
-            case POS_TYPE_GRID:
-                position.x = lastPosition.x + lastSize.x * frontPanel->pos.x;
-                if (frontPanel->pos.x > 0)
-                    position.x += currentComputerConfiguration.mainFrontPanelConfiguration.xBorder;
-                position.y = lastPosition.y + lastSize.y * frontPanel->pos.y;
-                if (frontPanel->pos.y > 0)
-                    position.y += currentComputerConfiguration.mainFrontPanelConfiguration.yBorder;
-                panelPointer[numberOfFrontPanels_] = new PanelFrame(title, position, frontPanel->size);
-            break;
+            panelPointer.resize(numberOfFrontPanels_+1);
+            
+            switch (frontPanel->posType)
+            {
+                case POS_TYPE_GRID:
+                    position.x = lastPosition.x + lastSize.x * frontPanel->pos.x;
+                    if (frontPanel->pos.x > 0)
+                        position.x += currentComputerConfiguration.mainFrontPanelConfiguration.xBorder;
+                    position.y = lastPosition.y + lastSize.y * frontPanel->pos.y;
+                    if (frontPanel->pos.y > 0)
+                        position.y += currentComputerConfiguration.mainFrontPanelConfiguration.yBorder;
+                    panelPointer[numberOfFrontPanels_] = new PanelFrame(title, position, frontPanel->size);
+                break;
 
-            case POS_TYPE_RELATIVE:
-                position.x = pos.x + frontPanel->pos.x;
-                position.y = pos.y + frontPanel->pos.y;
-                panelPointer[numberOfFrontPanels_] = new PanelFrame(title, position, frontPanel->size);
-            break;
+                case POS_TYPE_RELATIVE:
+                    position.x = pos.x + frontPanel->pos.x;
+                    position.y = pos.y + frontPanel->pos.y;
+                    panelPointer[numberOfFrontPanels_] = new PanelFrame(title, position, frontPanel->size);
+                break;
 
-            case POS_TYPE_REAL:
-                position = frontPanel->pos;
-                panelPointer[numberOfFrontPanels_] = new PanelFrame(title, frontPanel->pos, frontPanel->size);
-            break;
+                case POS_TYPE_REAL:
+                    position = frontPanel->pos;
+                    panelPointer[numberOfFrontPanels_] = new PanelFrame(title, frontPanel->pos, frontPanel->size);
+                break;
+            }
+            lastSize = frontPanel->size;
+            lastPosition = position;
+            
+            panelPointer[numberOfFrontPanels_]->init(frontPanel->guiItemConfiguration, frontPanel->size);
+            numberOfFrontPanels_++;
         }
-        lastSize = frontPanel->size;
-        lastPosition = position;
-        
-        panelPointer[numberOfFrontPanels_]->init(frontPanel->guiItemConfiguration, frontPanel->size);
-        numberOfFrontPanels_++;
     }
 
 //    panelPointer->init(currentComputerConfiguration.guiItemConfiguration, currentComputerConfiguration.frontPanelConfiguration[PANEL_MAIN].size);
@@ -1682,8 +1685,12 @@ Byte Computer::ef(int flag)
                 return p_Serial->ef();
         break;
  
-        case I8275_EF:
-            return i8275Pointer->ef8275();
+        case I8275_VERTICAL_EF:
+            return i8275Pointer->frameEf8275();
+        break;
+
+        case I8275_HORIZONTAL_EF:
+            return i8275Pointer->rowEf8275();
         break;
 
         case CDP1871_REPEAT_EF:
@@ -5936,8 +5943,14 @@ void Computer::cpuInstruction()
         {
             interruptRequest |= interruptRequested[type];
         }
-        if (currentComputerConfiguration.vis1870Configuration.outputInterruptReset.portNumber[0] == -1)
-            interruptRequested[INTERRUPT_TYPE_VIS] = false;
+        if (currentComputerConfiguration.vis1870Configuration.defined)
+            if (currentComputerConfiguration.vis1870Configuration.outputInterruptReset.portNumber[0] == -1)
+                interruptRequested[INTERRUPT_TYPE_VIS] = false;
+        if (currentComputerConfiguration.i8275Configuration.defined)
+        {
+            interruptRequested[INTERRUPT_TYPE_I8275_4] = false;
+            i8275Pointer->setRowEf8275(1);
+        }
         if (interruptRequest)
             interrupt();
     }
@@ -7858,6 +7871,8 @@ void Computer::ctrlvTextXml(wxString text)
     }
     if (currentComputerConfiguration.matrixKeyboardConfiguration.defined)
         matrixKeyboardPointer->startCtrlV(text);
+    if (currentComputerConfiguration.gpioPs2KeyboardConfiguration.defined)
+        p_Computer->ctrlvText(text);
 
     if (currentComputerConfiguration.videoTerminalConfiguration.type != VTNONE)
         p_Computer->ctrlvText(text);

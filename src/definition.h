@@ -26,7 +26,11 @@
 #define MATRIX_TEXT_UP_KEY 6
 #define MATRIX_TEXT_ESC_KEY 7
 #define MATRIX_TEXT_BACK_KEY 8
-#define LAST_MATRIX_TEXT_KEY 9
+#define MATRIX_TEXT_PAUSE_KEY 9
+#define MATRIX_TEXT_MENU_KEY 10
+#define MATRIX_TEXT_TAB_KEY 11
+#define MATRIX_TEXT_NUMPAD_ENTER_KEY 12
+#define LAST_MATRIX_TEXT_KEY 13
 
 #define TAPE_FORMAT_AUTO 0
 #define TAPE_FORMAT_PM 1
@@ -486,7 +490,8 @@ enum
     MC6847_OUT,
     MC6847_CYCLE,
 
-    I8275_EF,
+    I8275_VERTICAL_EF,
+    I8275_HORIZONTAL_EF,
     I8275_WRITE_COMMAND_OUT,
     I8275_WRITE_PARAMETER_OUT,
     I8275_READ_STATUS_IN,
@@ -761,6 +766,8 @@ enum
 {
     INTERRUPT_TYPE_VIS,
     INTERRUPT_TYPE_KEYBOARD,
+    INTERRUPT_TYPE_I8275_1,
+    INTERRUPT_TYPE_I8275_4,
     INTERRUPT_TYPE_UART,
     INTERRUPT_TYPE_MAX
 };
@@ -977,6 +984,12 @@ static wxString defaultComputerList_[]=
     "Vip2K",
     "VIP2K Membership Card",
     "monitor-1.5,ntsc.xml",
+    "VIS1802",
+    "VIS1802",
+    "vis1802.xml",
+    "VT1802",
+    "VT1802",
+    "vt1802-14Mhz-8pixels.xml",
     "VipII",
     "COSMAC VIP II",
     "ed.xml",
