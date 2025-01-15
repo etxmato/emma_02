@@ -174,7 +174,7 @@
             <type>led: frontpanel led
             <type>led</type>: small red led
             <type form="large">led</type>: large red led (used on Membership Card)
-            <type form="largegreen">led</type>: large red/green/orange led (used on Membership Card)
+            <type form="largecolor">led</type>: large red/green/orange led (used on Membership Card)
             <type form="realred">led</type>: real looking red led (used on Elf2K)
             <type form="realgreen">led</type>: real looking green led (used on Elf2K)
             <type form="realorange">led</type>: real looking orange led (used on Elf2K)
@@ -962,7 +962,7 @@
          <maxcharlines>: maximum number of character lines 8 or 16. When using PAL 9 lines are visible but 16 are reserved in character memory
          <maxscreenlines>: specify number of lines on one screen: 24, 25 or 27 for Cidelsa DRACO
          <mode>: video mode pal or ntsc
-         <int>: VIS 1870 interrupt mode
+         <int_mode>: VIS 1870 interrupt mode
          <ef type="display" pol="rev">: ef flag for non display period, pol="rev" reverts ef flag polarity
          <ef type="mode">: ef flag to select video mode (used in COMX), function is only active until first Q pulse
          <ef write="enable">: allow write to video RAM even during display period
@@ -988,7 +988,7 @@
          <maxcharlines>16</maxcharlines>
          <maxscreenlines>24</maxscreenlines>
          <mode>pal</mode>
-         <int>2</int>
+         <int_mode>2</int_mode>
          <ef type="display">1</ef>
          <ef type="mode">2</ef>
          <clock>5.626</clock>

@@ -87,13 +87,14 @@
         <in type="register">2</in>
         <in type="status">3</in>
         <ef type="int" pol="rev">2</ef>
+        <int />
         <baud type="receive">9600</baud>
         <baud type="transmit">9600</baud>
     </vt>
 
     <locations>
-        <start_xmodem_load>0x3d, 0x48A</start_xmodem_load>
-        <start_xmodem_save>0x3a, 0x4ae</start_xmodem_save>
+        <start_xmodem_load>0x3d, 0x4d9</start_xmodem_load>
+        <start_xmodem_save>0x3a, 0x4fd</start_xmodem_save>
     </locations>
 
     <basic>

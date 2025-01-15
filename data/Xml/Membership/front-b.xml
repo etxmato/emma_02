@@ -24,7 +24,7 @@
             <filename dirname="images">membership.png</filename>
         </item>
         <item>
-            <type form="largegreen">led</type>
+            <type form="largecolor">led</type>
             <function>qled</function>
             <pos>20, 136</pos>
         </item>

@@ -17,7 +17,7 @@
     <frontpanel init="on">
         <size>780, 205</size>
         <out>4</out>
-        <iogroup>0, 1</iogroup>
+        <int>0</int>
         <in type="direct">4</in>
         <ef type="in">1</ef>
         <item>
@@ -182,7 +182,8 @@
         <mcr max="8">
             <start>0</start>
             <end>0xFFFF</end>
-            <out type="mcr">0xfee7</out>
+            <out type="mcr" mask="0x7">0xfee7</out>
+            <in type="bbat" mask="0x40">0xfee7</in>
             <map map_num="0"> <!-- BOOT -->
                 <rom mem_num="0">
                     <start>0</start>
@@ -299,27 +300,38 @@
     <xmodem>
     </xmodem>
 
+    <cdp1877>
+        <out type="mien" mask="0x80">0xfee7</out>
+        <out type="mask" addressmask="0xfffc">0xfef0</out>
+        <out type="control" addressmask="0xfffc">0xfef4</out>
+        <out type="page" addressmask="0xfffc">0xfef8</out>
+        <in type="irq" mask="0x8">0xfee7</in>
+        <in type="status" addressmask="0xfffc">0xfef0</in>
+        <in type="polling" addressmask="0xfffc">0xfef4</in>
+        <in type="vector" addressmask="0xfffc">0xfef8</in>
+    </cdp1877>
+
     <vt type="vt100" connection="uart1854">
-        <iogroup>0, 1</iogroup>
         <font>vt100.bin</font>
         <out type="register">2</out>
         <out type="control">3</out>
         <in type="register">2</in>
         <in type="status">3</in>
-        <ef type="int" pol="rev" iogroup="no">3</ef>
+        <int>4</int>
+        <ef type="int" iogroup="no">3</ef>
         <ef iogroup="no">4</ef>
         <baud type="receive">9600</baud>
         <baud type="transmit">9600</baud>
     </vt>
 
     <disk type="ide">
-        <iogroup>0, 1</iogroup>
         <filename drive="0">sbc1802.dsk</filename>
         <filename drive="1">sbc1802-2.dsk</filename>
         <out type="select">5</out>
         <out type="write">6</out>
         <in type="status">5</in>
         <in type="read">6</in>
+        <int>3</int>
         <tracks>512</tracks>
         <heads>4</heads>
         <sectors>26</sectors>
@@ -328,6 +340,7 @@
     <rtc type="cdp1879">
         <ef>2</ef>
         <base>0xfee8</base>
+        <int>1</int>
     </rtc>
     
     <xmodem>

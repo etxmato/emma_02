@@ -70,7 +70,7 @@
             <pos>401, 23</pos>
         </item>
         <item>
-            <type form="largegreen">led</type>
+            <type form="largecolor">led</type>
             <function>qled</function>
             <pos>25, 136</pos>
         </item>

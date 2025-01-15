@@ -160,7 +160,7 @@
         <maxcharlines>: maximum number of character lines 8 or 16. When using PAL 9 lines are visible but 16 are reserved in character memory
         <maxscreenlines>: specify number of lines on one screen: 24, 25 or 27 for Cidelsa DRACO
         <mode>: video mode pal or ntsc
-        <int>: VIS 1870 interrupt mode
+        <int_mode>: VIS 1870 interrupt mode
         <ef type="display" pol="rev">: ef flag for non display period, pol="rev" reverts ef flag polarity
         <ef type="mode">: ef flag to select video mode (used in COMX), function is only active until first Q pulse
         <clock>: VIS clock speed
@@ -179,7 +179,7 @@
         <maxcharlines>16</maxcharlines>
         <maxscreenlines>24</maxscreenlines> <!-- 24, 25 or 27 for Cidelsa DRACO) -->
         <mode>pal</mode>
-        <int>2</int>
+        <int_mode>2</int_mode>
         <ef type="display">1</ef>
         <ef type="mode">2</ef> <!-- only active until first Q pulse -->
         <clock>5.626</clock>

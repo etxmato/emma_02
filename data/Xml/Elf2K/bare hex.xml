@@ -254,7 +254,7 @@
             <size>30, 30</size>
         </item>
         <item>
-            <type color="green">push</type>
+            <type form="square" color="green">push</type>
             <init>up</init>
             <label>I</label>
             <function>in</function>

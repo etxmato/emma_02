@@ -38,7 +38,7 @@
         <charlines>8</charlines>
         <maxscreenlines>25</maxscreenlines> <!-- 24, 25 or 27 for Cidelsa DRACO) -->
         <mode>pal</mode>
-        <int>2</int>
+        <int_mode>2</int_mode>
         <ef type="display" pol="rev" write="enable">1</ef>
         <clock>5.626</clock>
         <colorram type="cidelsa" />

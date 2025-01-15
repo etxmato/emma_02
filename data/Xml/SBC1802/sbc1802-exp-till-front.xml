@@ -17,6 +17,7 @@
     <frontpanel init="on">
         <size>780, 205</size>
         <out>4</out>
+        <iogroup>0, 1</iogroup>
         <int>0</int>
         <in type="direct">4</in>
         <ef type="in">1</ef>
@@ -282,6 +283,7 @@
     </cdp1877>
 
     <vt type="vt100" connection="uart1854">
+        <iogroup>0, 1</iogroup>
         <font>vt100.bin</font>
         <out type="register">2</out>
         <out type="control">3</out>
@@ -295,6 +297,7 @@
     </vt>
  
     <disk type="ide">
+        <iogroup>0, 1</iogroup>
         <filename drive="0">sbc1802.dsk</filename>
         <filename drive="1">sbc1802-2.dsk</filename>
         <out type="select">5</out>

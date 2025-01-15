@@ -59,7 +59,7 @@
         <maxcharlines>16</maxcharlines>
         <maxscreenlines>24</maxscreenlines> <!-- 24, 25 or 27 for Cidelsa DRACO) -->
         <mode>pal</mode>
-        <int>2</int>
+        <int_mode>2</int_mode>
         <ef type="display">1</ef>
         <ef type="mode">2</ef> <!-- only active until first Q pulse -->
         <clock>5.626</clock>

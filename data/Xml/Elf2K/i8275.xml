@@ -152,9 +152,12 @@
         <in type="status">5</in>
         <in type="parameter">1</in>
         <ef>1</ef>
+        <clock>12</clock>
+        <char>8x10</char>
+        <screen>80x24</screen>
         <interlace />
         <border>0x0</border>
-        <color type="fore">0, 255, 0</color>
+        <color type="fore">0, 0xe0, 0</color>
         <color type="back">0, 0x40, 0</color>
         <color type="high">0, 0xff, 0</color>
     </video>

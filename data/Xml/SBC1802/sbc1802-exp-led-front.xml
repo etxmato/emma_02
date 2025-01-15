@@ -17,22 +17,13 @@
     <frontpanel init="on">
         <size>780, 205</size>
         <out>4</out>
+        <iogroup>0, 1</iogroup>
         <int>0</int>
         <in type="direct">4</in>
         <ef type="in">1</ef>
         <item>
             <type>png</type>
-            <filename dirname="images">sbc1802-alt.png</filename>
-        </item>
-        <item>
-            <type>png</type>
-            <pos>450, 65</pos>
-            <filename dirname="images">tillscreen.png</filename>
-        </item>
-        <item>
-            <type>png</type>
-            <pos>650, 68</pos>
-            <filename dirname="images">thumbwheel.png</filename>
+            <filename dirname="images">sbc1802.png</filename>
         </item>
         <item>
             <type form="round" color="red" size="large">push</type>
@@ -43,7 +34,7 @@
         </item>
         <item>
             <type form="round" color="green" size="large">push</type>
-            <function>in_int</function>
+            <function>in</function>
             <init>up</init>
             <pos>316, 138</pos>
             <size>25, 25</size>
@@ -69,60 +60,100 @@
             <pos>316, 45</pos>
         </item>
         <item>
-            <type>thumb_minus</type>
-            <function>thumb_minus</function>
-            <value>1</value>
-            <init>up</init>
-            <pos>663, 72</pos>
-            <size>18, 14</size>
-        </item>
-        <item>
-            <type>thumb_minus</type>
-            <function>thumb_minus</function>
+            <type form="large">led</type>
             <value>0</value>
-            <init>up</init>
-            <pos>689, 72</pos>
-            <size>18, 14</size>
+            <function>bitled</function>
+            <pos>734, 45</pos>
         </item>
         <item>
-            <type>thumb_plus</type>
-            <function>thumb_plus</function>
-            <value>1</value>
-            <init>up</init>
-            <pos>663, 120</pos>
-            <size>18, 14</size>
-        </item>
-        <item>
-            <type>thumb_plus</type>
-            <function>thumb_plus</function>
+            <type color="green">switch</type>
             <value>0</value>
-            <init>up</init>
-            <pos>689, 120</pos>
-            <size>18, 14</size>
+            <function>bitswitch</function>
+            <pos>734, 137</pos>
         </item>
         <item>
-            <type color="white">thumb_text</type>
+            <type form="large">led</type>
             <value>1</value>
-            <label size="14">0</label>
-            <pos>666, 92</pos>
+            <function>bitled</function>
+            <pos>687, 45</pos>
         </item>
         <item>
-            <type color="white">thumb_text</type>
-            <value>0</value>
-            <label size="14">0</label>
-            <pos>693, 92</pos>
-        </item>
-        <item>
-            <type form="311">til</type>
-            <value>0</value>
-            <function>datatil</function>
-            <pos>502, 90</pos>
-        </item>
-        <item>
-            <type form="311">til</type>
+            <type color="green">switch</type>
             <value>1</value>
-            <function>datatil</function>
-            <pos>522, 90</pos>
+            <function>bitswitch</function>
+            <pos>687, 137</pos>
+        </item>
+        <item>
+            <type form="large">led</type>
+            <value>2</value>
+            <function>bitled</function>
+            <pos>640, 45</pos>
+        </item>
+        <item>
+            <type color="green">switch</type>
+            <value>2</value>
+            <function>bitswitch</function>
+            <pos>640, 137</pos>
+        </item>
+        <item>
+            <type form="large">led</type>
+            <value>3</value>
+            <function>bitled</function>
+            <pos>595, 45</pos>
+        </item>
+        <item>
+            <type color="green">switch</type>
+            <value>3</value>
+            <function>bitswitch</function>
+            <pos>595, 137</pos>
+        </item>
+        <item>
+            <type form="large">led</type>
+            <value>4</value>
+            <function>bitled</function>
+            <pos>548, 45</pos>
+        </item>
+        <item>
+            <type color="red">switch</type>
+            <value>4</value>
+            <function>bitswitch</function>
+            <pos>548, 137</pos>
+        </item>
+        <item>
+            <type form="large">led</type>
+            <value>5</value>
+            <function>bitled</function>
+            <pos>501, 45</pos>
+        </item>
+        <item>
+            <type color="red">switch</type>
+            <value>5</value>
+            <function>bitswitch</function>
+            <pos>501, 137</pos>
+        </item>
+        <item>
+            <type form="large">led</type>
+            <value>6</value>
+            <function>bitled</function>
+            <pos>454, 45</pos>
+        </item>
+        <item>
+            <type color="red">switch</type>
+            <value>6</value>
+            <function>bitswitch</function>
+            <pos>454, 137</pos>
+        </item>
+        <item>
+            <type form="large">led</type>
+            <value>7</value>
+            <function>bitled</function>
+            <pos>407, 45</pos>
+        </item>
+        <item>
+            <type color="red">switch</type>
+            <value>7</value>
+            <function>bitswitch</function>
+            <pos>407, 137</pos>
         </item>
     </frontpanel>
 
@@ -152,7 +183,7 @@
         <mcr max="8">
             <start>0</start>
             <end>0xFFFF</end>
-            <out type="mcr" mask="0x7">0xfee7</out> 
+            <out type="mcr" mask="0x7">0xfee7</out>
             <in type="bbat" mask="0x40">0xfee7</in>
             <map map_num="0"> <!-- BOOT -->
                 <rom mem_num="0">
@@ -270,7 +301,7 @@
     <xmodem>
     </xmodem>
 
-    <cdp1877> 
+    <cdp1877>
         <out type="mien" mask="0x80">0xfee7</out>
         <out type="mask" addressmask="0xfffc">0xfef0</out>
         <out type="control" addressmask="0xfffc">0xfef4</out>
@@ -282,6 +313,7 @@
     </cdp1877>
 
     <vt type="vt100" connection="uart1854">
+        <iogroup>0, 1</iogroup>
         <font>vt100.bin</font>
         <out type="register">2</out>
         <out type="control">3</out>
@@ -293,8 +325,9 @@
         <baud type="receive">9600</baud>
         <baud type="transmit">9600</baud>
     </vt>
- 
+
     <disk type="ide">
+        <iogroup>0, 1</iogroup>
         <filename drive="0">sbc1802.dsk</filename>
         <filename drive="1">sbc1802-2.dsk</filename>
         <out type="select">5</out>

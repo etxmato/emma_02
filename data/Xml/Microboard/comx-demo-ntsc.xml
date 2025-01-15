@@ -69,7 +69,7 @@
         <maxcharlines>8</maxcharlines>
         <maxscreenlines>24</maxscreenlines> <!-- 24, 25 or 27 for Cidelsa DRACO) -->
         <mode>ntsc</mode>
-        <int>2</int>
+        <int_mode>2</int_mode>
         <out type="int">2</out>
         <ef type="display">1</ef>
         <clock>5.670</clock>
