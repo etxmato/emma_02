@@ -84,9 +84,12 @@ VtSetupDialog::VtSetupDialog(wxWindow* parent)
         break;
     }
 
-    if (currentComputerConfiguration.videoTerminalConfiguration.external)
+    if (currentComputerConfiguration.videoTerminalConfiguration.external || currentComputerConfiguration.videoTerminalConfiguration.loop_back)
     {
-        SetUpFeature_ = currentComputerConfiguration.videoTerminalConfiguration.vtExternalSetUpFeature;
+        if (currentComputerConfiguration.videoTerminalConfiguration.external)
+            SetUpFeature_ = currentComputerConfiguration.videoTerminalConfiguration.vtExternalSetUpFeature;
+        else
+            SetUpFeature_ = currentComputerConfiguration.videoTerminalConfiguration.vtLoopBackSetUpFeature;
         XRCCTRL(*this, "VtSetupBit0", wxChoice)->Hide();
         XRCCTRL(*this, "VtSetupBit0Text", wxStaticText)->Hide();
         XRCCTRL(*this, "VtSetupBit4", wxChoice)->Hide();
@@ -174,7 +177,7 @@ VtSetupDialog::VtSetupDialog(wxWindow* parent)
         XRCCTRL(*this, "VtBell", wxTextCtrl)->Enable(false);
     }
 
-    if (currentComputerConfiguration.videoTerminalConfiguration.xModem_defined && !currentComputerConfiguration.videoTerminalConfiguration.external)
+    if (currentComputerConfiguration.videoTerminalConfiguration.xModem_defined && !(currentComputerConfiguration.videoTerminalConfiguration.external || currentComputerConfiguration.videoTerminalConfiguration.loop_back))
     {
         XRCCTRL(*this, "XmodemLine", wxStaticLine)->Show();
         XRCCTRL(*this, "VtXmodemPacketSizeText", wxStaticText)->Show();
@@ -243,7 +246,9 @@ void VtSetupDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
     }
 
     if (currentComputerConfiguration.videoTerminalConfiguration.external)
-            currentComputerConfiguration.videoTerminalConfiguration.vtExternalSetUpFeature = SetUpFeature_;
+        currentComputerConfiguration.videoTerminalConfiguration.vtExternalSetUpFeature = SetUpFeature_;
+    if (currentComputerConfiguration.videoTerminalConfiguration.loop_back)
+        currentComputerConfiguration.videoTerminalConfiguration.vtLoopBackDefaultSetUpFeature = SetUpFeature_;
 
     currentComputerConfiguration.videoTerminalConfiguration.serialLog = XRCCTRL(*this, "SerialLog", wxCheckBox)->GetValue();
     currentComputerConfiguration.videoTerminalConfiguration.escError = XRCCTRL(*this, "ESCError", wxCheckBox)->GetValue();

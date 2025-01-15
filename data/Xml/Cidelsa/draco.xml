@@ -34,8 +34,9 @@
         <charsize type="ram">0x7ff</charsize>
         <pcbmask>0xff</pcbmask>
         <maxcharlines>8</maxcharlines>
+        <charlines>8</charlines>
         <maxscreenlines>27</maxscreenlines> <!-- 24, 25 or 27 for Cidelsa DRACO) -->
-        <mode>ntsc</mode>
+        <mode>pal</mode>
         <ef type="display" write="enable">1</ef>
         <clock>5.626</clock>
         <colorram type="cidelsa" />

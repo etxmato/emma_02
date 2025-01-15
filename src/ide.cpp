@@ -366,6 +366,10 @@ void Ide::writeIdeRegister(int reg, Word value)
         case 0x0f:
         break;            /* unknown */
     }
+    if ((status_ & IDE_STAT_BSY) == IDE_STAT_BSY)
+        p_Computer->showStatusLed(DISKLED, 1);
+    else
+        p_Computer->showStatusLed(DISKLED, 0);
 }
 
 Word Ide::readIdeRegister(int reg) 
@@ -487,4 +491,8 @@ void Ide::onCommand()
                 status_ = IDE_STAT_RDY;
             break;
      }
- }
+    if ((status_ & IDE_STAT_BSY) == IDE_STAT_BSY)
+        p_Computer->showStatusLed(DISKLED, 1);
+    else
+        p_Computer->showStatusLed(DISKLED, 0);
+}

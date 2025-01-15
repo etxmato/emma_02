@@ -55,7 +55,7 @@ public:
     Panel(wxWindow *parent, const wxSize& size);
     virtual ~Panel();
 
-    void init(vector<GuiItemConfiguration> buttonConfig, wxSize panelSize);
+    void init(vector<GuiItemConfiguration> buttonConfig, wxSize panelSize, int picInterruptNumber);
     virtual void init();
     virtual void init(int computerType);
     void connectKeyEvent(wxWindow* pclComponent);
@@ -248,6 +248,8 @@ protected:
     Tilfull *multiPointer[MAX_MULTI_TIL];
     Tilfull *segPointer[MAX_MULTI_TIL];
     
+    Byte thumbValue[MAX_THUMB_VALUE];
+    
     Word addressStatus;
     Byte dataStatus;
     Byte multiStatus[MAX_MULTI_TIL];
@@ -313,6 +315,8 @@ protected:
     bool spinCtrlAdiVoltDefined;
     bool spinCtrlAdsDefined;
     bool spinCtrlAdsVoltDefined;
+    
+    int picInterruptNumber_;
 
     int adiArray_[16];
     int adsArray_[16];
@@ -334,7 +338,7 @@ public:
   
     void onClose(wxCloseEvent& event);
 
-    void init(vector<GuiItemConfiguration> buttonConfig, wxSize panelSize) {panelPointer->init(buttonConfig, panelSize);};
+    void init(vector<GuiItemConfiguration> buttonConfig, wxSize panelSize, int picInterruptNumber) {panelPointer->init(buttonConfig, panelSize, picInterruptNumber);};
     void ledTimeout() {panelPointer->ledTimeout();};
     void setLedMs(long ms) {panelPointer->setLedMs(ms);};
     Byte getKey(Byte vtOut) {return panelPointer->getKey(vtOut);};

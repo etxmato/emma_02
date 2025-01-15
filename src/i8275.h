@@ -62,6 +62,10 @@ private:
     int cycleValue8275_;
     int cycleBlankValue8275_;
     int dmaCycleValue8275_;
+    
+    bool displayOn_;
+    bool dmaOn_;
+    bool interruptOn_;
 
     int dmaCycleSize8275_;
     int rowCycleSize8275_;

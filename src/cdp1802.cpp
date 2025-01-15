@@ -154,7 +154,10 @@ void Cdp1802::initCpu()
     singleStateStep_ = false;
     interruptRequested_ = false;
     for (int type=0; type<INTERRUPT_TYPE_MAX; type++)
+    {
         interruptRequested[type] = false;
+        interruptRequestedCounter[type] = 0;
+    }
     stopHiddenTrace_ = false;
     startHiddenTrace_ = false;
 }
@@ -184,6 +187,11 @@ void Cdp1802::resetCpu()
     {
         if (p_Video[video] != NULL)
             p_Video[video]->reset();
+    }
+    for (int type=0; type<INTERRUPT_TYPE_MAX; type++)
+    {
+        interruptRequested[type] = false;
+        interruptRequestedCounter[type] = 0;
     }
 }
 
@@ -584,9 +592,21 @@ void Cdp1802::requestInterrupt()
     interruptRequested_ = true;
 }
 
-void Cdp1802::requestInterrupt(int type, bool state)
+void Cdp1802::requestInterrupt(int type, bool state, int picNumber)
 {
+    if (traceInt_)
+    {
+        if (type != INTERRUPT_TYPE_I8275_1 && type != INTERRUPT_TYPE_I8275_4)
+        {
+            if (state && !interruptRequested[type])
+                p_Main->debugTrace("----  Int. request: " + interruptTypeList_[type]);
+            if (!state && interruptRequested[type])
+                p_Main->debugTrace("----  Int. cleared: " + interruptTypeList_[type]);
+        }
+    }
     interruptRequested[type]= state;
+    picInterruptNumber[type]= picNumber;
+    p_Computer->picInterruptRequest(type, state, picNumber);
 }
 
 void Cdp1802::pixieInterrupt()
@@ -1516,7 +1536,7 @@ void Cdp1802::cpuCycleStep()
                 if (instructionCode_ == 0x68 && (cpuType_ == CPU1805 || cpuType_ == CPU1804))
                     numberOfCycles = numberOfCycles1805[readMemDebug(scratchpadRegister_[programCounter_]+1)] - 1;
                 else
-                    numberOfCycles = numberOfCycles1802[readMemDebug(scratchpadRegister_[programCounter_])] - 1;
+                    numberOfCycles = numberOfCycles1802[readMemDebug(scratchpadRegister_[programCounter_], READ_FUNCTION_FREEZE_PIC_VECTOR | READ_FUNCTION_NOT_DEBUG)] - 1;
                
                 cycle0_=0;
                 machineCycle();
@@ -4517,6 +4537,16 @@ void Cdp1802::increaseExecutedSlotMemory(int slot, long address, Byte type)
     {
         if (slotMemoryExecuted_[slot][address] < UINT64_MAX)
             slotMemoryExecuted_[slot][address]++;
+        p_Main->updateAssTabCheck(address);
+    }
+}
+
+void Cdp1802::increaseExecutedMcrMemory(int map, long address, Byte type)
+{
+    if ((type == MEM_TYPE_OPCODE || type >= MEM_TYPE_OPCODE_RSHR) && profilerCounter_ != PROFILER_OFF)
+    {
+        if (mcrMemoryExecuted_[map][address] < UINT64_MAX)
+            mcrMemoryExecuted_[map][address]++;
         p_Main->updateAssTabCheck(address);
     }
 }

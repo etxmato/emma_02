@@ -52,6 +52,7 @@ private:
     void parseXml_AdConvertor(wxXmlNode &node);
     void parseXml_FrontPanel(wxXmlNode &node, int frontNumber);
     void parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber);
+    void parseXml_Cdp1877(wxXmlNode &node, bool windowOn);
     void parseXml_Cdp1851(wxXmlNode &node, bool windowOn);
     void parseXml_Cdp1852(wxXmlNode &node, bool windowOn);
     void parseXml_Cd4536b(wxXmlNode &node);
@@ -88,8 +89,13 @@ private:
     void parseXml_Bank(wxXmlNode &node, int slot, int maxBanks);
     void parseXml_SlotRomRam(wxXmlNode &node, int slot, int type);
     void parseXml_BankRomRam(wxXmlNode &node, int slot, int bank, int type);
+    void parseXml_Mcr(wxXmlNode &node, int maxMaps);
+    void parseXml_Map(wxXmlNode &node, int mapNum);
+    void parseXml_MapRomRam(wxXmlNode &node, int mapNum, int memNum, int type);
+    void parseXml_MapIO(wxXmlNode &node, int memNum);
     void parseXml_portExt(wxXmlNode &node, int type, size_t configNumber);
     void parseXml_Mc6857BitSetup(wxXmlNode &node, int bitNumber, wxString childName);
+    void parseXml_RtcCdp1879(wxXmlNode &node);
     void parseXml_RtcM48T58(wxXmlNode &node);
     void parseXml_RtcDS12887(wxXmlNode &node);
     void parseXml_UsbSuperBoard(wxXmlNode &node);
@@ -105,7 +111,7 @@ private:
     long getNextHexDec(wxString *numberString);
     bool parseXml_Size(wxXmlNode &node, long *width, long *height);
     wxString getDoubleString(wxString doubleSting, wxString tag, double max, wxString maxStr);
-    double getDouble(wxString doubleSting, wxString tag, double max, wxString maxStr);
+    double getDouble(wxString doubleSting, wxString tag, double max, wxString maxStr, bool allowZero);
 
     size_t guiItemConfigNumber_;
     size_t memConfigNumber_;

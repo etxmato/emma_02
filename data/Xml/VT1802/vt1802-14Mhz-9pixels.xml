@@ -5,8 +5,8 @@
     
     <system>
         <name>VT1802</name>
-        <config></config>
-        <clock>2.4567</clock>
+        <config>BASIC Local, character size: 9x9, screensize 80x25</config>
+        <clock>4.9152</clock>
         <boot>0</boot>
         <init ef="1">1</init>
         <init ef="2">1</init>
@@ -30,6 +30,7 @@
   
     <flipflop>
         <out>1</out>
+        <function number="2">rs232_cts</function>
     </flipflop>
         
     <video type="intel8275">
@@ -43,7 +44,7 @@
         <ef type="horizontal">4</ef>
         <clock>14.31818</clock>
         <char>9x9</char>
-        <screen>80x24</screen>
+        <screen>80x25</screen>
         <interlace />
         <border>4x4</border>
         <color type="fore">0, 255, 0</color>
@@ -56,7 +57,7 @@
     </sound>
 
     <dip>
-        <value>0xf7</value>
+        <value>0xe7</value>
         <in>4</in>
     </dip>
         
@@ -75,7 +76,7 @@
         <keydef type="text" value="0xaf">numpad_enter</keydef>
     </keyboard>
 
-   <!-- <xmodem>
+    <xmodem>
     </xmodem>
 
     <vt type="vt100" connection="uart1854">
@@ -85,42 +86,16 @@
         <out type="control">3</out>
         <in type="register">2</in>
         <in type="status">3</in>
-        <ef pol="rev">3</ef>
+        <ef type="int" pol="rev">2</ef>
         <baud type="receive">9600</baud>
         <baud type="transmit">9600</baud>
-    </vt>-->
+    </vt>
 
     <locations>
-        <!-- <start_xmodem_load>0x838</start_xmodem_load>
-        <start_xmodem_save>0x804</start_xmodem_save>
-        <stop_modem>0x86d, 0x217c, 0x22b7</stop_modem>
-        
-        <keyinput>:
-        0x1bc: wait for key on reset screen
-        0x39a: wait for key in BASIC
-        0x5344: wait for key in F&M BASIC
-        -->
-        <!--<key_input>0x1bc, 0x39a, 0x5344</key_input> -->
-        
-        <!-- Machine states -->
-        <!--<reset_state command="A">0x1bc</reset_state>
-        <basic_state address="0x42a0" value="0">0x39a, 0x5344</basic_state>
-        <run_state>0x1f76, 0x2c00</run_state> -->
-
-        <!-- Stop cassette -->
-        <!--<stop_cas>0x1047</stop_cas> -->
-        
-        <!-- Start PSAVE, DSAVE, PLOAD, DLOAD -->
-        <!--<start_cas_save>0x1672, 0x1675</start_cas_save>
-        <start_cas_load>0x0e00</start_cas_load>
-        <start_cas_dload>0x0e03</start_cas_dload> -->
-        
-        <!-- Save start/end during batch conversion -->
-        <!--<batch_start_save>0x1bc, 0x39a</batch_start_save>
-        <batch_end_save>0x14e1</batch_end_save> -->
-
+        <start_xmodem_load>0x3d, 0x48A</start_xmodem_load>
+        <start_xmodem_save>0x3a, 0x4ae</start_xmodem_save>
     </locations>
-    
+
     <basic>
         <pload>RCA</pload>
         <defus>0x8081</defus>

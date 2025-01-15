@@ -74,7 +74,7 @@ public:
 
     bool interrupt();
     void requestInterrupt();
-    void requestInterrupt(int type, bool state);
+    void requestInterrupt(int type, bool state, int picNumber);
     void pixieInterrupt();
     void setEf(int flag, int value);
 
@@ -159,6 +159,7 @@ public:
     void increaseExecutedMainMemory(long address, Byte type);
     void increaseExecutedExpansionRom(long address, Byte type);
     void increaseExecutedSlotMemory(int slot, long address, Byte type);
+    void increaseExecutedMcrMemory(int map, long address, Byte type);
     void increaseExecutedExpansionRam(Word address, Byte type);
     void increaseExecutedExpansionEprom(Word address, Byte type);
     void increaseExecutedExpansionSuper(Word address, Byte type);
@@ -169,6 +170,7 @@ public:
     void clearProfiler();
     
     void setCpuMode(int mode);
+//    bool getInterruptRequestState(int type){return interruptRequested[type];};
 
 protected:
     Byte cycle0_;
@@ -218,6 +220,8 @@ protected:
     
     bool interruptRequested_;
     bool interruptRequested[INTERRUPT_TYPE_MAX];
+    int picInterruptNumber[INTERRUPT_TYPE_MAX];
+    int interruptRequestedCounter[INTERRUPT_TYPE_MAX];
     bool pseudoLoaded_;
     
     bool resetPressed_;

@@ -106,7 +106,8 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     videoType_ = VIDEOVT;
     uartEf_ = false;
     uartControl_ = 0;
-    
+    uartStatus_ = 0x10;
+
     colourIndex_ = COL_VT_FORE;
     
     if (currentComputerConfiguration.videoTerminalConfiguration.show)
@@ -236,8 +237,9 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     terminalLoad_ = false;
     terminalFileCdp18s020_ = false;
     terminalInputFileLine_ = "";
+    cts_ = true;
 
-    if (vtType_ != EXTERNAL_TERMINAL)
+    if (vtType_ != EXTERNAL_TERMINAL && vtType_ != LOOP_BACK)
     {
         this->SetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_, (videoHeight_+2*borderY_[videoType_])*zoom_);
         this->SetBackgroundColour(colour_[colourIndex_+1]);
@@ -310,8 +312,8 @@ void Vt100::configure(VideoTerminalConfiguration videoTerminalConfiguration, Add
     selectedBaudT_ = videoTerminalConfiguration.baudT;
     selectedBaudR_ = videoTerminalConfiguration.baudR;
     
-    baudRateT_ = (int) ((((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_])+0.5);
-    baudRateR_ = (int) ((((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudR_])+0.5);
+    baudRateT_ = (int) ((((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_])+videoTerminalConfiguration.baudCorrectionT);
+    baudRateR_ = (int) ((((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudR_])+videoTerminalConfiguration.baudCorrectionR);
 
     reverseEf_ = videoTerminalConfiguration.ef.reverse^1;
 
@@ -368,7 +370,13 @@ void Vt100::configureUart1854(VideoTerminalConfiguration videoTerminalConfigurat
     p_Computer->setInType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.uartIn, UART1854_READ_RECEIVER_IN, "read receiver");
     p_Computer->setOutType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.uartControl, UART1854_LOAD_CONTROL_OUT, "load control");
     p_Computer->setInType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.uartStatus, UART1854_READ_STATUS_IN, "read status");
-    p_Computer->setEfType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.ef, VIDEO_TERMINAL_EF, "serial input");
+    if (currentComputerConfiguration.videoTerminalConfiguration.efInterrupt.flagNumber != -1)
+        p_Computer->setEfType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.efInterrupt, VIDEO_TERMINAL_EF_INTERRUPT, "UART interrupt");
+    if (currentComputerConfiguration.videoTerminalConfiguration.ef.flagNumber != -1)
+    {
+        p_Computer->setEfType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.ef, VIDEO_TERMINAL_EF, "serial input");
+        uartEf_ = true;
+    }
     p_Computer->setCycleType(CYCLE_TYPE_VIDEO_TERMINAL, VIDEO_TERMINAL_CYCLE);
 
     rs232_ = 0;
@@ -404,6 +412,11 @@ void Vt100::setTabChar(Byte value)
 Byte Vt100::ef()
 {
     return (reverseEf_^vt100Ef_);
+}
+
+Byte Vt100::efInterrupt()
+{
+    return (currentComputerConfiguration.videoTerminalConfiguration.efInterrupt.reverse^vt100EfInterrupt_);
 }
 
 void Vt100::out(Byte value)
@@ -527,7 +540,7 @@ void Vt100::cycleVt()
             uartVtOut();
         else
         {
-            if (terminalLoad_)
+            if (terminalLoad_ && !uart1854_)
                 dataAvailableUart(1);
         }
 
@@ -592,11 +605,9 @@ void Vt100::uartVtOut()
             if (--vtOutBits_ == 0)
             {
                 vtOut_ = 0;
-                uartStatus_[uart_da_bit_] = 1;
+                dataAvailableUart(1);
                 vtOutCount_ = -1;
                 vtOutBits_=10;
-                dataAvailableUart(1);
-                uartInterrupt();
             }
             if (vtOutBits_ == 11)
             {
@@ -610,23 +621,30 @@ void Vt100::uartVtOut()
     {
         if (vtOutCount_ == 0)
         {
-            uartStatus_[uart_da_bit_] = 1;
-            vtOutCount_ = -1;
             dataAvailableUart(1);
-            uartInterrupt();
+            vtOutCount_ = -1;
         }
     }
 }
 
 void Vt100::uartVtIn()
 {
+
     vtCount_--;
     if (vtCount_ <= 0)
     {
         if (terminalSave_ || terminalLoad_)
         {
-            if (receivePacket_ || rs232_ != 0)
-                Display(rs232_, false);
+            if (uart1854_)
+            {
+                if (receivePacket_)
+                    Display(rs232_, false);
+            }
+            else
+            {
+                if (receivePacket_ || rs232_ != 0)
+                    Display(rs232_, false);
+            }
         }
         else
         {
@@ -636,10 +654,14 @@ void Vt100::uartVtIn()
         
         rs232_ = 0;
         p_Computer->thrStatusVt100(0);
+        if (uartStatus_[uart_thre_bit_] == 1)
+            uartStatus_[uart_tsre_bit_] = 1;
         uartStatus_[uart_thre_bit_] = 1;
-        uartStatus_[uart_tsre_bit_] = 1;
         
-        vtCount_ = baudRateR_ * 9;
+        if (terminalSave_ && uart1854_)
+            vtCount_ = baudRateR_ * 4;
+        else
+            vtCount_ = baudRateR_ * 9;
  //       uartInterrupt(); *** needed on Microboard or others?
     }
 }
@@ -800,14 +822,17 @@ bool Vt100::getTerminalLoadByte(Byte* value)
             if (sendPacket_)
             {
                 *value = xmodemBuffer_[xmodemBufferPointer_++];
+                if (uart1854_)
+                    uartStatus_[uart_da_bit_] = 1;
                 if (xmodemBuffer_[0] == 4)
                 {
                     if (useCrc_)
                         xmodemBufferPointer_ = 133;
                     else
                     {
-                        if (!uart1854_ && !uart16450_)
+                        if (!uart16450_)
                         {
+                            dataAvailableUart(0);
                             terminalLoad_ = false;
                             p_Main->turboOff();
                             inputTerminalFile.Close();
@@ -817,6 +842,14 @@ bool Vt100::getTerminalLoadByte(Byte* value)
                 }
                 dataReady = true;
                 previousByte_ = *value;
+            }
+            if (xmodemBufferPointer_ == xmodemBufferSize_)
+            {
+                if (uart1854_)
+                {
+                    sendPacket_ = false;
+                    dataAvailableUart(0);
+                }
             }
         break;
 
@@ -1030,7 +1063,7 @@ void Vt100::switchQ(int value)
     {
         if (value ^ reverseQ_)
         {
-            vtCount_ = baudRateR_ + baudRateR_ / 4;  // changed from /2 to /4 to get MC to run on 4 MHz with VT 9600 baud
+            vtCount_ = baudRateR_ + baudRateR_ / 2;
             if (SetUpFeature_[VTBITS])
                 vtBits_ = 9;
             else
@@ -1675,10 +1708,13 @@ void Vt100::Display(int byt, bool forceDisplay)
                 break;
                     
                 case TERM_XMODEM_SAVE:
+                    if (uart1854_)
+                        receivePacket_ = false;
                     switch (xmodemBufferPointer_)
                     {
                         case 0:
-                            receivePacket_ = true;
+                            if (!uart1854_)
+                                receivePacket_ = true;
                             if (byt == 4)
                             {
                                 terminalAck_ = 0x86;
@@ -1736,6 +1772,8 @@ void Vt100::Display(int byt, bool forceDisplay)
                             xmodemBufferPointer_ = 0;
                             if (xmodemPacketNumber_ == 0)
                                 readBuffer();
+                            if (uart1854_)
+                                dataAvailableUart(1);
                             sendPacket_ = true;
                             sendingMode_ = XMODEM_DATA;
                         break;
@@ -1814,6 +1852,8 @@ void Vt100::Display(int byt, bool forceDisplay)
                                 case XMODEM_DATA:
                                     xmodemBufferPointer_ = 0;
                                     readBuffer();
+                                    if (uart1854_)
+                                        dataAvailableUart(1);
                                     sendPacket_ = true;
                                 break;
                             }
@@ -3144,18 +3184,16 @@ void Vt100::dataAvailable(Byte value)
     }
     else
         vtOutCount_ = baudRateT_;
+
+    uartStatus_[uart_da_bit_] = 1;
 }
 
 void Vt100::dataAvailableUart(bool data)
 {
     lineStatusRegister_[UART_LSR_DR] = data;
+    uartStatus_[uart_da_bit_] = data;
     if (data)
-    {
-        uartStatus_[uart_da_bit_] = 1;
- //       uartInterrupt();
-    }
- //   else
-  //      clearUartInterrupt();
+        uartInterrupt();
 }
 
 void Vt100::framingError(bool data)
@@ -3168,12 +3206,31 @@ void Vt100::selectUart16450Register(Byte value)
     registerSelect_ = value &0x7;
 }
 
+void Vt100::uartCts(Byte value)
+{
+    switch (value)
+    {
+        case 1:
+            if (terminalLoad_)
+                dataAvailableUart(0);
+            cts_ = false;
+        break;
+
+        case 2:
+            if (terminalLoad_ && sendPacket_)
+                dataAvailableUart(1);
+            cts_ = true;
+        break;
+    }
+}
+
 void Vt100::uartOut(Byte value)
 {
     rs232_ = value;
     p_Computer->thrStatusVt100(1);
     uartStatus_[uart_thre_bit_] = 0;
     uartStatus_[uart_tsre_bit_] = 0;
+    receivePacket_ = true;
 }
 
 void Vt100::uart16450Out(Byte value)
@@ -3207,16 +3264,27 @@ void Vt100::uart16450Out(Byte value)
 
 void Vt100::uartControl(Byte value)
 {
-    uartControl_ = value;
-    uartStatus_ = 0x80;
+    if ((value & 0x80) == 0x80)
+    {
+        uartInterrupt();
+    }
+    else
+    {
+        uartControl_ = value;
+        clearUartInterrupt();
+    }
+    
+    uartStatus_[uart_thre_bit_] = 1;
+
+    if (terminalLoad_ && uartStatus_[uart_da_bit_] && cts_)
+        dataAvailableUart(1);
 }
 
 Byte Vt100::uartIn()
 {
     framingError(0);
-    uartStatus_[uart_da_bit_] = 0;
     dataAvailableUart(0);
-    clearUartInterrupt();
+
     if (ctrlvText_ != 0)
     {
         videoScreenPointer->getKey(0);
@@ -3285,10 +3353,10 @@ void Vt100::uartInterrupt()
     if (uart16450_)
         return;
     
-    if ((uartControl_ & 0x20) == 0x20)
-        p_Computer->requestInterrupt(INTERRUPT_TYPE_UART, true);
-    vt100Ef_ = 0;
-//        p_Computer->interrupt();
+    if ((uartControl_ & 0x20) == 0x20 && currentComputerConfiguration.videoTerminalConfiguration.interrupt)
+        p_Computer->requestInterrupt(INTERRUPT_TYPE_UART, true, currentComputerConfiguration.videoTerminalConfiguration.picInterrupt);
+    if (currentComputerConfiguration.videoTerminalConfiguration.efInterrupt.flagNumber != -1)
+        vt100EfInterrupt_ = 0;
 }
 
 void Vt100::clearUartInterrupt()
@@ -3296,9 +3364,9 @@ void Vt100::clearUartInterrupt()
     if (uart16450_)
         return;
     
-    if ((uartControl_ & 0x20) == 0x20)
-        p_Computer->requestInterrupt(INTERRUPT_TYPE_UART, false);
-    vt100Ef_ = 1;
+    p_Computer->requestInterrupt(INTERRUPT_TYPE_UART, false, currentComputerConfiguration.videoTerminalConfiguration.picInterrupt);
+    if (currentComputerConfiguration.videoTerminalConfiguration.efInterrupt.flagNumber != -1)
+        vt100EfInterrupt_ = 1;
 }
 
 void Vt100::getKey()
@@ -3368,7 +3436,6 @@ Byte Vt100::checkCtrlvTextUart()
     {
         uartStatus_[uart_da_bit_] = 1;
         dataAvailableUart(1);
-        uartInterrupt();
     }
     else
         ctrlvText_ = 0;
@@ -3467,10 +3534,7 @@ void Vt100::terminalSaveVt(wxString fileName, int protocol)
             if (!uart1854_ && !uart16450_)
                 p_Computer->setNotReadyToReceiveData(dataReadyFlag_-1);
             else
-            {
                 dataAvailableUart(1);
-             //   uartInterrupt();
-            }
             previousByte_ = 0;
         }
     }
@@ -3493,10 +3557,7 @@ void Vt100::terminalYsSaveVt(wxString fileName, int protocol)
     if (!uart1854_ && !uart16450_)
         p_Computer->setNotReadyToReceiveData(dataReadyFlag_-1);
     else
-    {
         dataAvailableUart(1);
-        uartInterrupt();
-    }
     previousByte_ = 0;
 }
 

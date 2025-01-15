@@ -471,7 +471,7 @@ public:
 #include "serial.h"
 
 #define EMMA_VERSION 1.48
-#define EMMA_SUB_VERSION 3
+#define EMMA_SUB_VERSION 5
 
 #define XML 0
 
@@ -603,48 +603,6 @@ public:
 #define COMXPARALLEL 0
 #define COMXSERIAL 1
 #define COMXTHERMAL 2
-
-#define UNDEFINED 0
-#define RAM 1
-#define ROM 2
-#define RAMROM 3
-#define PAGER 3
-#define PARTRAM 4
-#define CRAM1870 5
-#define PRAM1870 6
-//
-//
-//
-//
-#define MC6845RAM 11
-#define MC6845REGISTERS 12
-//
-//
-#define EMSMEMORY 15
-//
-//
-#define MC6847RAM 18
-#define CARTRIDGEROM 19
-#define MAPPEDRAM 20
-#define COLOURRAM 21
-#define VP570RAM 22 
-//
-//
-#define NVRAM 25
-//
-#define DIAGROM 27
-#define MAPPEDROM 28
-//
-#define TESTCARTRIDGEROM 30
-//
-#define CPURAM 32
-#define UART1_82C51 33
-#define UART2_82C51 34
-#define NOCHANGE 35
-#define SLOTMEM 36
-#define SN76430NRAM 37
-#define COLOURRAM1864 38
-#define COLOURRAMST4 39
 
 #define MICRO_ROM 0
 #define MICRO_RAM 1
@@ -792,6 +750,7 @@ public:
 #define VT52 1
 #define VT100 2
 #define EXTERNAL_TERMINAL 3
+#define LOOP_BACK 4
 
 #define UART1 0
 #define UART2 1

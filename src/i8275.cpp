@@ -123,6 +123,9 @@ i8275::i8275(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     cursorCharPosition_ = 0;
     cursorRowPosition_ = 0;
     cursorAddress_ = 0;
+    displayOn_ = false;
+    dmaOn_ = false;
+    interruptOn_ = false;
     switch (p_Main->getCpuStartupVideoRam())
     {
         case STARTUP_ZEROED:
@@ -327,6 +330,7 @@ void i8275::cRegWrite(Byte value)
 
     if (value == 0x40) // STOP_DISPLAY
     {
+        displayOn_ = false;
         cycleValue8275_ = -1;
         dmaCycleValue8275_ = -1;
         status_ &= 0xfb;
@@ -357,6 +361,7 @@ void i8275::cRegWrite(Byte value)
 
     if ((value & 0xf0) == 0x20)  // START DISPLAY
     {
+        displayOn_ = true;
         burstSpaceCode_ = SSS[(value & 0x1c) >> 2];
         burstCountCode_ = BB[(value & 0x3)];
 //        p_Main->message("Burst Space Code:");
@@ -371,6 +376,15 @@ void i8275::cRegWrite(Byte value)
         status_ |= 0x44;
     }
 
+    if ((value & 0xf0) == 0xA0)  // START INTERRUPT
+    {
+        interruptOn_ = true;
+    }
+    
+    if ((value & 0xf0) == 0xC0)  // STOP INTERRUPT
+    {
+        interruptOn_ = false;
+    }
 }
 
 Byte i8275::pRegRead()
@@ -380,7 +394,8 @@ Byte i8275::pRegRead()
 
 Byte i8275::sRegRead()
 {
-    p_Computer->requestInterrupt(INTERRUPT_TYPE_I8275_1, false);
+    dmaOn_ = true;
+    p_Computer->requestInterrupt(INTERRUPT_TYPE_I8275_1, false, i8275Configuration_.picInterrupt);
 
     Byte ret = status_;
     status_ &= 0xc4;
@@ -391,7 +406,7 @@ Byte i8275::sRegRead()
 
 void i8275::cycle8275()
 {
-    if (cycleValue8275_ < 0) 
+    if (!displayOn_)
     {
         cycleBlankValue8275_--;
         if (cycleBlankValue8275_ <= 0)
@@ -410,6 +425,7 @@ void i8275::cycle8275()
 
             copyScreen();
             videoSyncCount_++;
+            dmaCycleValue8275_ = -1;
             reDraw_ = true;
         }
         return;
@@ -433,12 +449,6 @@ void i8275::cycle8275()
                 status_ |= 0x2;
             }
             retrace_ = true;
-            if ((status_ & 0x40) == 0x40)
-            {
-                status_ |= 0x20;
-                p_Computer->requestInterrupt(INTERRUPT_TYPE_I8275_4, true);
-                rowEf_ = 0;
-            }
 
             cycleValue8275_ = horizontalRetraceCycleSize8275_;
             if (screenLocation_ == (i8275Configuration_.screenSize.y*i8275Configuration_.screenSize.x))
@@ -450,7 +460,8 @@ void i8275::cycle8275()
                 gpa_ = 0;
                 blink_ = false;
                 cycleValue8275_ = verticalRetraceCycleSize8275_;
-                p_Computer->requestInterrupt(INTERRUPT_TYPE_I8275_1, true);
+                if (interruptOn_)
+                    p_Computer->requestInterrupt(INTERRUPT_TYPE_I8275_1, true, i8275Configuration_.picInterrupt);
                 frameEf_ = 0;
                 screenLocation_ = 0;
                 blinkCount_--;
@@ -478,7 +489,8 @@ void i8275::cycle8275()
         }
     }
 
-    if (dmaCycleValue8275_ < 0)  return;
+    if (!dmaOn_ || dmaCycleValue8275_ < 0)
+        return;
 //    if (p_Computer->getProgramCounter() == 0)
 //    {
 //        p_Main->eventShowTextMessage("DMA request while R0 is Program Counter");
@@ -519,7 +531,7 @@ void i8275::cycle8275()
             /*    if ((value & 0xc0) == 0x80)
                 {
                     attributeChange_ = true;
-            //        reDraw_ = true;
+                    reDraw_ = true;
                 }*/
                 underlineScr_[screenLocation_] = underline_;
                 reverseScr_[screenLocation_] = reverse_;
@@ -535,7 +547,16 @@ void i8275::cycle8275()
             screenLocation_++;
         }
         if (bufferLocation_ == i8275Configuration_.screenSize.x)
+        {
+            if ((status_ & 0x40) == 0x40)
+            {
+                status_ |= 0x20;
+                if (interruptOn_)
+                    p_Computer->requestInterrupt(INTERRUPT_TYPE_I8275_4, true, i8275Configuration_.picInterruptHorizontal);
+                rowEf_ = 0;
+            }
             dmaCycleValue8275_ = -1;
+        }
         else
             dmaCycleValue8275_ = dmaCycleSize8275_;
     }
@@ -558,7 +579,8 @@ void i8275::setCycle()
 //    verticalRetraceCycleSize8275_ = (int) (fullRowCycleSize8275_ * verticalRetraceRowCount_);
     fullCycleSize8275_ = (int) (fullRowCycleSize8275_ * (i8275Configuration_.screenSize.y + verticalRetraceRowCount_));
     verticalRetraceCycleSize8275_ = (int) (fullCycleSize8275_ - (i8275Configuration_.screenSize.y * (horizontalRetraceCycleSize8275_ + rowCycleSize8275_)));
-    dmaCycleSize8275_ = (int) (characterCycleSize8275_ * burstSpaceCode_);
+    dmaCycleSize8275_ = (float)(clockPeriod * burstSpaceCode_ / ((1/clock_) * 8));
+       // dmaCycleSize8275_ = (int) (characterCycleSize8275_ * burstSpaceCode_); This is too slow, above might be more correct?
 
     reCycle_ = false;
 }

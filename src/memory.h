@@ -46,6 +46,7 @@ public:
     void defineXmlSlotMemoryType(int slot, long start, long end, int type);
     void defineXmlSlotMemoryType(int slot, long address, int type);
     Byte getXmlSlotMemoryType(int slot, long address);
+    void defineMcrMapMemoryType(int map, long start, long end, int type);
     void defineExpansionMemoryType(int slot, long start, long end, int type);
     void defineExpansionMemoryType(int slot, long address, int type); 
     void defineBankMemoryType(int bank, long address, int type); 
@@ -60,6 +61,8 @@ public:
     void allocPagerMemoryCommon();
     void allocComxExpansionMemory();
     void allocSlotMemory();
+    void allocMcrMemory(Word size, int type);
+    void allocMcrMapMemory(int type);
     wxFileOffset allocRomMapperMemory(size_t number, wxFileOffset length);
     void allocEmsMemorySegment(size_t number);
     size_t allocMultiCartMemory(size_t memorySize);
@@ -72,7 +75,7 @@ public:
 
     virtual Byte readMem(Word address) = 0;
     virtual void writeMem(Word address, Byte value, bool writeRom) = 0;
-    virtual Byte readMemDebug(Word address) = 0;
+    virtual Byte readMemDebug(Word address, int function = 0) = 0;
     virtual void writeMemDebug(Word address, Byte value, bool writeRom) = 0;
 
     Byte readSequencerRom(Word address);
@@ -82,8 +85,8 @@ public:
     void writeSequencer(Word address, Byte value);
     
 
-    Byte getRam(long address) {return mainMemory_[address];};
-    void setRam(long address, Byte value) {mainMemory_[address] = value;};
+    Byte getMainMemory(long address) {return mainMemory_[address];};
+    void setMainMemory(long address, Byte value) {mainMemory_[address] = value;};
     Byte getEmsPage(size_t emsNumber);
     Byte getEmsPage(std::vector<EmsMemoryConfiguration>::iterator emsConfig);
     Byte getPager(int port) {return pager_[port];};
@@ -149,6 +152,16 @@ protected:
     vector<uint64_t*> slotMemoryExecuted_;
     int numberOfSlots_;
 
+    vector<Byte*> mcrMemory_;
+    vector<Byte*> mcrMemoryDataType_;
+    vector<Byte*> mcrMemoryLabelType_;
+    vector<Byte*> mcrMemoryType_;
+    vector<uint64_t*> mcrMemoryExecuted_;
+    int numberOfMcrs_;
+    int numberOfMcrMaps_;
+
+    vector<Word> mcrSize_;
+
     Byte* multiCartRom_;
     Byte* multiCartRomDataType_;
     Byte* multiCartRomLabelType_;
@@ -185,6 +198,7 @@ protected:
     bool emsRomDefined_;
     bool comxExpansionMemoryDefined_;
     bool slotMemoryDefined_;
+    bool mcrMemoryDefined_;
 
     wxUint32 pagerSize_;
 

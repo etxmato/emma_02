@@ -1553,6 +1553,7 @@
 <item>VT52</item>
 <item>VT100</item>
 <item>External</item>
+<item>Loop</item>
 </content>
 <selection>0</selection>
 </object>

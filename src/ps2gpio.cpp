@@ -154,7 +154,7 @@ Byte Ps2gpio::inPs2gpio()
 {
     keyboardEf_ = 1;
     if (gpioPs2KeyboardConfiguration_.interrupt)
-        p_Computer->requestInterrupt(INTERRUPT_TYPE_KEYBOARD, false);
+        p_Computer->requestInterrupt(INTERRUPT_TYPE_KEYBOARD, false, gpioPs2KeyboardConfiguration_.picInterrupt);
     return keyboardValue_;
 }
 
@@ -171,7 +171,7 @@ void Ps2gpio::cyclePs2gpio()
         
         startUp_ = false;
         if (gpioPs2KeyboardConfiguration_.interrupt)
-            p_Computer->requestInterrupt(INTERRUPT_TYPE_KEYBOARD, true);
+            p_Computer->requestInterrupt(INTERRUPT_TYPE_KEYBOARD, true, gpioPs2KeyboardConfiguration_.picInterrupt);
         return;
     }
     if (p_Computer->getCtrlvCharNum() != 0  && keyboardEf_ == 1)
@@ -208,7 +208,7 @@ void Ps2gpio::cyclePs2gpio()
             keyboardValue_ -= 32;
         keyboardEf_ = 0;
         if (gpioPs2KeyboardConfiguration_.interrupt)
-            p_Computer->requestInterrupt(INTERRUPT_TYPE_KEYBOARD, true);
+            p_Computer->requestInterrupt(INTERRUPT_TYPE_KEYBOARD, true, gpioPs2KeyboardConfiguration_.picInterrupt);
     }
 }
 

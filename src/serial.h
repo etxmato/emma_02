@@ -15,16 +15,22 @@ public:
     void configureUart1854(VideoTerminalConfiguration videoTerminalConfiguration);
     void configureUart16450(VideoTerminalConfiguration videoTerminalConfiguration);
     void startSerial();
+    void startLoopBack();
     Byte ef();
+    Byte efInterrupt();
     void out(Byte value);
     void cycleVt();
 
+    void uartTerminalOut();
+    void uartTerminalIn();
+    void serialTerminalOut();
+    void serialTerminalIn();
     void switchQ(int value);
     void setCycle();
     int Parity(int value);
     void dataAvailable();
     void dataAvailable(Byte value);
-    void dataAvailableUart16450(bool data);
+    void dataAvailableUart(bool data);
     void framingError(bool data);
     void selectUart16450Register(Byte value);
     void uartOut(Byte value);
@@ -35,6 +41,7 @@ public:
     Byte uartStatus();
     void thrStatusUart16450(bool data);
     void uartInterrupt();
+    void clearUartInterrupt();
 
 private:
     ComputerConfiguration currentComputerConfiguration;
@@ -62,6 +69,7 @@ private:
     int parity_;
 
     Byte serialEf_;
+    Byte serialEfInterrupt_;
     Byte vtEnabled_;
 
     bool uartEf_;
@@ -73,6 +81,8 @@ private:
     bool uart1854_;
     bool uart16450_;
     bool serialOpen_;
+    bool loopBack_;
+    Byte loopInput_;
 
     bitset<32> SetUpFeature_;
     

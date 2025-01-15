@@ -88,9 +88,6 @@ public:
     void onF4();
     void setPrintMode();
     int getPrintMode();
-    void onIde(wxCommandEvent& event);
-    void onIdeEject(wxCommandEvent& event);
-    void onIdeText(wxCommandEvent& event);
     void onCharRom(wxCommandEvent& event);
     void onCharRomText(wxCommandEvent& event);
     void onVT100(wxCommandEvent& event);
@@ -153,7 +150,7 @@ public:
     wxString getMainDir() {return computerConfiguration.mainDir_;};
     bool getGuiMode() {return mode_.gui;};
 
-    wxString getIdeDir() {return computerConfiguration.ideFileConfiguration.directory;};
+    wxString getIdeDir(int drive) {return computerConfiguration.ideFileConfiguration[drive].directory;};
     wxString getCharRomDir() {return computerConfiguration.characterRomConfiguration.directory;};
     wxString getVtCharRomDir() {return computerConfiguration.videoTerminalConfiguration.vtCharRomDirectory;};
     void setWaveDir(wxString fileDir) {computerConfiguration.wavConfiguration[0].directory = fileDir;};
@@ -185,7 +182,7 @@ public:
     wxString getBarLeaderCidelsa() {return windowInfo.statusBarLeaderCidelsa;};
     int getPrintX() {return printX_;};
 
-    wxString getIdeFile() {return computerConfiguration.ideFileConfiguration.fileName;};
+    wxString getIdeFile(int drive) {return computerConfiguration.ideFileConfiguration[drive].fileName;};
     wxString getCharRomFile() {return computerConfiguration.characterRomConfiguration.fileName;};
     wxString getVtCharRomFile() {return computerConfiguration.videoTerminalConfiguration.vtCharRomFileName;};
     wxString getXmodemFile() {return computerConfiguration.videoTerminalConfiguration.xmodemFileName;};
@@ -224,8 +221,6 @@ public:
 
     double getZoom(int videoNumber);
     double getZoomVt();
-    wxPoint getMainPos();
-    void setMainPos(wxPoint position);
     wxPoint getCoinPos();
     void setCoinPos(wxPoint position);
     wxPoint getPixiePos();
@@ -252,8 +247,12 @@ public:
     void setV1870Pos(wxPoint position);
     wxPoint getSN76430NPos();
     void setSN76430NPos(wxPoint position);
+    wxPoint getCdp1851Pos(int number);
     void setCdp1851Pos(wxPoint position, int number);
+    wxPoint getCdp1852Pos(int number);
     void setCdp1852Pos(wxPoint position, int number);
+    wxPoint getFrontPanelPos(int number);
+    void setFrontPanelPos(wxPoint position, int number);
 
     wxString getDataDir() {return dataDir_;};
     wxString getApplicationDir() {return applicationDirectory_;};

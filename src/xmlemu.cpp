@@ -427,11 +427,12 @@ BEGIN_EVENT_TABLE(Computer, wxFrame)
 END_EVENT_TABLE()
 #endif
 
-Computer::Computer(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, int tempo, ComputerConfiguration computerConfig)
-: wxFrame((wxFrame *)NULL, -1, title, pos, size)
+Computer::Computer(const wxString& title, double clock, int tempo, ComputerConfiguration computerConfig)
+: wxFrame((wxFrame *)NULL, -1, title)
 {
     currentComputerConfiguration = computerConfig;
     elfClockSpeed_ = clock;
+    title_ = title;
 
 #ifndef __WXMAC__
     SetIcon(wxICON(app_icon));
@@ -439,12 +440,10 @@ Computer::Computer(const wxString& title, const wxPoint& pos, const wxSize& size
   
     p_Main->stopTerminal();
 
-    this->SetClientSize(size);
+//    this->SetClientSize(size);
 
     cycleValue_ = -1;
     cycleSize_ = -1;
-
-//    panelPointer = new Panel(this, size);
             
     //remove...??
             cycleSize_ = (int)(1000 / ((1/1.75) * 8)); // ~1000 Hz on 1.75 CPU
@@ -460,46 +459,7 @@ Computer::Computer(const wxString& title, const wxPoint& pos, const wxSize& size
         powerButtonState_ = p_Main->getConfigBool("Computer/PowerButtonState", true);
 
     numberOfFrontPanels_ = 0;
-    wxPoint position, lastPosition = pos;
-    wxSize lastSize = size;
-    for (std::vector<FrontPanelConfiguration>::iterator frontPanel = currentComputerConfiguration.frontPanelConfiguration.begin (); frontPanel != currentComputerConfiguration.frontPanelConfiguration.end (); ++frontPanel)
-    {
-        if (frontPanel->defined)
-        {
-            panelPointer.resize(numberOfFrontPanels_+1);
-            
-            switch (frontPanel->posType)
-            {
-                case POS_TYPE_GRID:
-                    position.x = lastPosition.x + lastSize.x * frontPanel->pos.x;
-                    if (frontPanel->pos.x > 0)
-                        position.x += currentComputerConfiguration.mainFrontPanelConfiguration.xBorder;
-                    position.y = lastPosition.y + lastSize.y * frontPanel->pos.y;
-                    if (frontPanel->pos.y > 0)
-                        position.y += currentComputerConfiguration.mainFrontPanelConfiguration.yBorder;
-                    panelPointer[numberOfFrontPanels_] = new PanelFrame(title, position, frontPanel->size);
-                break;
-
-                case POS_TYPE_RELATIVE:
-                    position.x = pos.x + frontPanel->pos.x;
-                    position.y = pos.y + frontPanel->pos.y;
-                    panelPointer[numberOfFrontPanels_] = new PanelFrame(title, position, frontPanel->size);
-                break;
-
-                case POS_TYPE_REAL:
-                    position = frontPanel->pos;
-                    panelPointer[numberOfFrontPanels_] = new PanelFrame(title, frontPanel->pos, frontPanel->size);
-                break;
-            }
-            lastSize = frontPanel->size;
-            lastPosition = position;
-            
-            panelPointer[numberOfFrontPanels_]->init(frontPanel->guiItemConfiguration, frontPanel->size);
-            numberOfFrontPanels_++;
-        }
-    }
-
-//    panelPointer->init(currentComputerConfiguration.guiItemConfiguration, currentComputerConfiguration.frontPanelConfiguration[PANEL_MAIN].size);
+    thumbSwitchValue_ = -1;
 
     rtcTimerPointer = new wxTimer(this, 900);
     
@@ -515,6 +475,7 @@ Computer::Computer(const wxString& title, const wxPoint& pos, const wxSize& size
     maxTapeInputChar_ = 0;
     saveStarted_ = false;
     loadStarted_ = false;
+    numberOfCdp1877Instances_ = 0;
 
     soundTempoCycleSize_ = (int) (((clock * 1000000) / 8) / tempo);
     vipIIRunCycleSize_ = (int) (((clock * 800000) / 8) ) * 2;
@@ -645,7 +606,7 @@ Computer::~Computer()
     }
     if (currentComputerConfiguration.matrixKeyboardConfiguration.defined)
         delete matrixKeyboardPointer;
-    if (currentComputerConfiguration.videoTerminalConfiguration.external)
+    if (currentComputerConfiguration.videoTerminalConfiguration.external || currentComputerConfiguration.videoTerminalConfiguration.loop_back)
         delete p_Serial;
     if (currentComputerConfiguration.basicPrinterConfiguration.defined || currentComputerConfiguration.qSerialPrinterConfiguration.defined || currentComputerConfiguration.centronicsPrinterConfiguration.defined)
     {
@@ -668,10 +629,11 @@ Computer::~Computer()
         delete p_PrinterThermal;
     }
 
-    p_Main->setMainPos(GetPosition());
-
     for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
+    {
+        p_Main->setFrontPanelPos(panelPointer[frontPanel]->GetPosition(), frontPanel);
         delete panelPointer[frontPanel];
+    }
     p_Main->writeXmlWindowConfig();
 }
 
@@ -1198,7 +1160,15 @@ void Computer::reDefineKeysB(int hexKeyDefB1[], int hexKeyDefB2[])
 void Computer::initComputer()
 {
 //    Show(p_Main->showFrontPanel());
-    
+    for (std::vector<FrontPanelConfiguration>::iterator frontPanel = currentComputerConfiguration.frontPanelConfiguration.begin (); frontPanel != currentComputerConfiguration.frontPanelConfiguration.end (); ++frontPanel)
+    {
+        panelPointer.resize(numberOfFrontPanels_+1);
+        
+        panelPointer[numberOfFrontPanels_] = new PanelFrame(title_, frontPanel->pos, frontPanel->size);
+        panelPointer[numberOfFrontPanels_]->init(frontPanel->guiItemConfiguration, frontPanel->size, frontPanel->picInterrupt);
+        numberOfFrontPanels_++;
+    }
+
     for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
         panelPointer[frontPanel]->Show(p_Main->showFrontPanel());
 
@@ -1298,12 +1268,15 @@ void Computer::resetComputer()
     elfRunState_ = RESETSTATE;
 
     ioGroup_ = -1;
+    if (currentComputerConfiguration.ioGroupConfiguration.defined)
+        ioGroup_ = 0;
     qState_ = 0;
     
     lastMode_ = UNDEFINDEDMODE;
     
     thermalPrinting_ = false;
     thermalEF_ = 0;
+    selectedMap_ = 0;
 
     intCounter_ = currentComputerConfiguration.interruptConfiguration.cycleValue;
 
@@ -1552,6 +1525,10 @@ Byte Computer::ef(int flag)
             return printerEfState_;
         break;
 
+        case RTC_EF:
+            return efRtcCdp1879();
+        break;
+
         case MC6845_EF:
             if (!isLoading())
                 return mc6845Pointer->ef6845();
@@ -1678,6 +1655,13 @@ Byte Computer::ef(int flag)
                 return vtPointer->ef();
         break;
 
+        case VIDEO_TERMINAL_EF_INTERRUPT:
+            if (isLoading() && (currentComputerConfiguration.swTapeConfiguration.ef.flagNumber == flag || currentComputerConfiguration.hwTapeConfiguration.ef.flagNumber == flag))
+                return cassetteEf_;
+            else
+                return vtPointer->efInterrupt();
+        break;
+
         case EXTERNAL_VIDEO_TERMINAL_EF:
             if (isLoading() && (currentComputerConfiguration.swTapeConfiguration.ef.flagNumber == flag || currentComputerConfiguration.hwTapeConfiguration.ef.flagNumber == flag))
                 return cassetteEf_;
@@ -1685,6 +1669,13 @@ Byte Computer::ef(int flag)
                 return p_Serial->ef();
         break;
  
+        case EXTERNAL_VIDEO_TERMINAL_EF_INTERRUPT:
+            if (isLoading() && (currentComputerConfiguration.swTapeConfiguration.ef.flagNumber == flag || currentComputerConfiguration.hwTapeConfiguration.ef.flagNumber == flag))
+                return cassetteEf_;
+            else
+                return p_Serial->efInterrupt();
+        break;
+
         case I8275_VERTICAL_EF:
             return i8275Pointer->frameEf8275();
         break;
@@ -1803,7 +1794,7 @@ Byte Computer::in(Byte port, Word address)
         break;
 
         case RTC_READ_PORT_IN:
-            ret = inRtc();
+            ret = inRtcDs12788();
         break;
 
         case IDE_READ_STATUS_IN:
@@ -2008,6 +1999,14 @@ Byte Computer::in(Byte port, Word address)
         case HEX_KEY_IN:
             inPressed_ = false;
             ret = getData(false);
+        break;
+            
+        case SWITCHES_IN_DIRECT:
+            inPressed_ = false;
+            if (thumbSwitchValue_ != -1)
+                ret = thumbSwitchValue_;
+            else
+                ret = getData(true);
         break;
 
         case PORT_EXTENDER_IN:
@@ -2214,6 +2213,8 @@ void Computer::out(Byte port, Word address, Byte value)
                     break;
 
                     case FLIPFLOP_RS232_CTS:
+                        if (currentComputerConfiguration.videoTerminalConfiguration.type != VTNONE)
+                            vtPointer->uartCts(value & 0x3);
                     break;
 
                     case FLIPFLOP_VIS_PCB:
@@ -2265,11 +2266,11 @@ void Computer::out(Byte port, Word address, Byte value)
         break;
 
         case RTC_SELECT_PORT_OUT:
-            selectRtcRegister(value);
+            selectRtcRegisterDs12788(value);
         break;
 
         case RTC_WRITE_PORT_OUT:
-            outRtc(value);
+            outRtcDs12788(value);
         break;
 
         case VIS1870_OUT2:
@@ -2277,7 +2278,7 @@ void Computer::out(Byte port, Word address, Byte value)
         break;
             
         case VIS1870_INT_RESET:
-            requestInterrupt(INTERRUPT_TYPE_VIS, false);
+            requestInterrupt(INTERRUPT_TYPE_VIS, false, currentComputerConfiguration.vis1870Configuration.picInterrupt);
         break;
 
         case VIS1870_OUT3:
@@ -2955,6 +2956,10 @@ void Computer::cycle(int type)
             cycleKeyboard();
         break;
 
+        case RTC_CYCLE:
+            cycleRtcCdp1879(systemTime_, xmlComputerTime_);
+        break;
+
         case KEY_FRED_CYCLE:
             fredkeypadPointer->cycle();
         break;
@@ -3199,6 +3204,13 @@ void Computer::cycleInt()
     }
 }
 
+void Computer::picInterruptRequest(int type, bool state, int picNumber)
+{
+    int instance = picNumber >> 3;
+    if (instance < numberOfCdp1877Instances_)
+        cdp1877InstancePointer[instance]->requestInterrupt(type, state, picNumber & 0x7);
+}
+
 void Computer::cycleLed()
 {
     if (cycleValue_ > 0)
@@ -3346,6 +3358,12 @@ void Computer::showIntLed()
         panelPointer[frontPanel]->setStateLed(INTERRUPTLED, 1);
 }
 
+void Computer::showStatusLed(int led, int status)
+{
+    for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
+        panelPointer[frontPanel]->setStateLed(led, status);
+}
+
 void Computer::updateStatusBarLedStatus(bool status, int led)
 {
     if (currentComputerConfiguration.cdp1861Configuration.statusBarType == STATUSBAR_VIP2)
@@ -3460,7 +3478,7 @@ void Computer::switchQ(int value)
     if (currentComputerConfiguration.videoTerminalConfiguration.type != VTNONE)
         vtPointer->switchQ(value);
 
-    if (currentComputerConfiguration.videoTerminalConfiguration.external)
+    if (currentComputerConfiguration.videoTerminalConfiguration.external || currentComputerConfiguration.videoTerminalConfiguration.loop_back)
         p_Serial->switchQ(value);
     
     if (currentComputerConfiguration.diagnosticBoardConfiguration.defined)
@@ -3585,14 +3603,14 @@ void Computer::onRunButtonPress(bool run0)
 
         singleStateStep_ = false;
 
-        if (currentComputerConfiguration.runPressType != RUN_TYPE_MICROTUTOR || cpuMode_ != LOAD)
+ /*       if (currentComputerConfiguration.runPressType != RUN_TYPE_MICROTUTOR || cpuMode_ != LOAD)
         {
             if (currentComputerConfiguration.autoBootConfiguration.dmaOutOnBoot)
                 dmaOut();
 
             if (currentComputerConfiguration.autoBootConfiguration.dmaOutOnBootIfMem0is0 && readMemDebug(0) == 0)
                 dmaOut();
-        }
+        }*/
 
         if (!run0)
         {
@@ -3621,11 +3639,14 @@ void Computer::onRunButtonPress(bool run0)
                     scratchpadRegister_[0] = 0;
                 else
                     scratchpadRegister_[0] = currentComputerConfiguration.autoBootConfiguration.address;
+                
+                dmaOnBoot();
                 setClear(1);
                 setWait(1);
             break;
 
             case RUN_TYPE_VELF:
+                dmaOnBoot();
                 runPressed_ = true;
                 for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
                 {
@@ -3637,6 +3658,7 @@ void Computer::onRunButtonPress(bool run0)
             break;
                 
             case RUN_TYPE_UC1800:
+                dmaOnBoot();
                 runButtonState_ = 0;
                 onRun();
                 for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
@@ -3644,6 +3666,7 @@ void Computer::onRunButtonPress(bool run0)
             break;
 
             case RUN_TYPE_MICROTUTOR:
+                dmaOnBoot();
                 if (cpuMode_ != LOAD)
                 {
                     setClear(1);
@@ -3663,6 +3686,7 @@ void Computer::onRunButtonPress(bool run0)
                     scratchpadRegister_[0] = 0;
                 else
                     scratchpadRegister_[0] = currentComputerConfiguration.autoBootConfiguration.address;
+                dmaOnBoot();
                 setClear(1);
                 setWait(1);
             break;
@@ -3682,10 +3706,12 @@ void Computer::onRunButtonPress(bool run0)
                     p_Main->startTime();
                 }
                 
+                dmaOnBoot();
                 setClear(runButtonState_);
             break;
                 
             default:
+                dmaOnBoot();
                 setClear(1);
                 setWait(1);
             break;
@@ -3695,6 +3721,18 @@ void Computer::onRunButtonPress(bool run0)
             resetEffectiveClock();
 
         p_Main->eventUpdateTitle();
+    }
+}
+
+void Computer::dmaOnBoot()
+{
+    if (currentComputerConfiguration.runPressType != RUN_TYPE_MICROTUTOR || cpuMode_ != LOAD)
+    {
+        if (currentComputerConfiguration.autoBootConfiguration.dmaOutOnBoot)
+            dmaOut();
+
+        if (currentComputerConfiguration.autoBootConfiguration.dmaOutOnBootIfMem0is0 && readMemDebug(0) == 0)
+            dmaOut();
     }
 }
 
@@ -4512,7 +4550,7 @@ void Computer::startComputer()
     qLedStatus_ = 0;
     if (currentComputerConfiguration.videoTerminalConfiguration.type != VTNONE)
         qLedStatus_ = (1 ^ vtPointer->ef()) << 1;
-    if (currentComputerConfiguration.videoTerminalConfiguration.external)
+    if (currentComputerConfiguration.videoTerminalConfiguration.external || currentComputerConfiguration.videoTerminalConfiguration.loop_back)
         qLedStatus_ = (1 ^ p_Serial->ef()) << 1;
     for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
     {
@@ -4701,6 +4739,7 @@ void Computer::writeMemDataType(Word address, Byte type)
     size_t number = (memoryType_[address / 256] >> 8);
     address = (address | bootstrap_) & currentComputerConfiguration.memoryMask;
 
+    int memNumber;
     switch (memoryType_[address/256]&0xff)
     {
         case EMSMEMORY:
@@ -4729,6 +4768,62 @@ void Computer::writeMemDataType(Word address, Byte type)
                         slotMemoryDataType_[selectedSlot_][(selectedBank_&currentComputerConfiguration.slotConfiguration.slotInfo[selectedSlot_].bankOutputMaskInSlot)*slotSize_[selectedSlot_] + address-currentComputerConfiguration.slotConfiguration.start] = type;
                     }
                     increaseExecutedSlotMemory(selectedSlot_, (selectedBank_&currentComputerConfiguration.slotConfiguration.slotInfo[selectedSlot_].bankOutputMaskInSlot)*slotSize_[selectedSlot_] + address-currentComputerConfiguration.slotConfiguration.start, type);
+                break;
+            }
+        break;
+
+        case MCRMEM:
+            switch (mcrMemoryType_[selectedMap_][address/256])
+            {
+                case ROM:
+                case ROM_MAP1:
+                case ROM_MAP2:
+                case ROM_MAP3:
+                case ROM_MAP4:
+                case ROM_MAP5:
+                case ROM_MAP6:
+                case ROM_MAP7:
+                    memNumber = mcrMemoryType_[selectedMap_][address/256]-ROM;
+                    if (mcrMemoryDataType_[memNumber][address &(mcrSize_[memNumber]-1)] != type)
+                    {
+                        p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
+                        mcrMemoryDataType_[memNumber][address &(mcrSize_[memNumber]-1)]  = type;
+                    }
+                    increaseExecutedMcrMemory(memNumber, address &(mcrSize_[memNumber]-1), type);
+                break;
+                    
+                case RAM:
+                case RAM_MAP1:
+                case RAM_MAP2:
+                case RAM_MAP3:
+                case RAM_MAP4:
+                case RAM_MAP5:
+                case RAM_MAP6:
+                case RAM_MAP7:
+                    memNumber = mcrMemoryType_[selectedMap_][address/256]-RAM;
+                    if (mcrMemoryDataType_[memNumber][address &(mcrSize_[memNumber]-1)] != type)
+                    {
+                        p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
+                        mcrMemoryDataType_[memNumber][address &(mcrSize_[memNumber]-1)]  = type;
+                    }
+                    increaseExecutedMcrMemory(memNumber, address &(mcrSize_[memNumber]-1), type);
+                break;
+
+                case NVRAM:
+                case NVRAM_MAP1:
+                case NVRAM_MAP2:
+                case NVRAM_MAP3:
+                case NVRAM_MAP4:
+                case NVRAM_MAP5:
+                case NVRAM_MAP6:
+                case NVRAM_MAP7:
+                    memNumber = mcrMemoryType_[selectedMap_][address/256]-NVRAM;
+                    if (mcrMemoryDataType_[memNumber][address &(mcrSize_[memNumber]-1)] != type)
+                    {
+                        p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
+                        mcrMemoryDataType_[memNumber][address &(mcrSize_[memNumber]-1)]  = type;
+                    }
+                    increaseExecutedMcrMemory(memNumber, address &(mcrSize_[memNumber]-1), type);
                 break;
             }
         break;
@@ -4822,6 +4917,7 @@ Byte Computer::readMemDataType(Word address, uint64_t* executed)
                 return mainMemoryDataType_[address];
     }
 
+    int memNumber;
     switch (memoryType_[address/256]&0xff)
     {
         case EMSMEMORY:
@@ -4848,6 +4944,53 @@ Byte Computer::readMemDataType(Word address, uint64_t* executed)
             }
         break;
 
+        case MCRMEM:
+            switch (mcrMemoryType_[selectedMap_][address/256])
+            {
+                case ROM:
+                case ROM_MAP1:
+                case ROM_MAP2:
+                case ROM_MAP3:
+                case ROM_MAP4:
+                case ROM_MAP5:
+                case ROM_MAP6:
+                case ROM_MAP7:
+                    memNumber = mcrMemoryType_[selectedMap_][address/256]-ROM;
+                    if (profilerCounter_ != PROFILER_OFF)
+                        *executed = mcrMemoryExecuted_[memNumber][address &(mcrSize_[memNumber]-1)];
+                    return mcrMemoryDataType_[memNumber][address &(mcrSize_[memNumber]-1)];
+                break;
+                    
+                case RAM:
+                case RAM_MAP1:
+                case RAM_MAP2:
+                case RAM_MAP3:
+                case RAM_MAP4:
+                case RAM_MAP5:
+                case RAM_MAP6:
+                case RAM_MAP7:
+                    memNumber = mcrMemoryType_[selectedMap_][address/256]-RAM;
+                    if (profilerCounter_ != PROFILER_OFF)
+                        *executed = mcrMemoryExecuted_[memNumber][address &(mcrSize_[memNumber]-1)];
+                    return mcrMemoryDataType_[memNumber][address &(mcrSize_[memNumber]-1)];
+                break;
+
+                case NVRAM:
+                case NVRAM_MAP1:
+                case NVRAM_MAP2:
+                case NVRAM_MAP3:
+                case NVRAM_MAP4:
+                case NVRAM_MAP5:
+                case NVRAM_MAP6:
+                case NVRAM_MAP7:
+                    memNumber = mcrMemoryType_[selectedMap_][address/256]-NVRAM;
+                    if (profilerCounter_ != PROFILER_OFF)
+                        *executed = mcrMemoryExecuted_[memNumber][address &(mcrSize_[memNumber]-1)];
+                    return mcrMemoryDataType_[memNumber][address &(mcrSize_[memNumber]-1)];
+                break;
+            }
+        break;
+            
         case MAPPEDROM:
         case ROM:
         case DIAGROM:
@@ -4926,10 +5069,10 @@ Byte Computer::readMem(Word address)
     for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
         panelPointer[frontPanel]->showAddress(address_);
 
-    return readMemDebug(address);
+    return readMemDebug(address, READ_FUNCTION_NOT_DEBUG);
 }
 
-Byte Computer::readMemDebug(Word address)
+Byte Computer::readMemDebug(Word address, int function)
 {
     address = address & currentComputerConfiguration.memoryMask;
 
@@ -4990,6 +5133,38 @@ Byte Computer::readMemDebug(Word address)
             if (address == currentComputerConfiguration.matrixKeyboardConfiguration.input.portNumber[0])
                 return matrixKeyboardPointer->in();
         }
+    }
+
+    if (currentComputerConfiguration.rtcCdp1879Configuration.defined)
+    {
+        if (ioGroupCdp1879(ioGroup_))
+        {
+            if (address == currentComputerConfiguration.rtcCdp1879Configuration.control)
+            {
+                mainMemory_[address] = readRtcStatusCdp1879();
+                return mainMemory_[address];
+            }
+            if (address >= currentComputerConfiguration.rtcCdp1879Configuration.second && address <= currentComputerConfiguration.rtcCdp1879Configuration.month)
+            {
+                mainMemory_[address] = readRtcCdp1879(address, mainMemory_[address], systemTime_, xmlComputerTime_);
+                return mainMemory_[address];
+            }
+        }
+    }
+
+    for (int instance=0; instance<numberOfCdp1877Instances_; instance++)
+    {
+        if (cdp1877InstancePointer[instance]->ioGroupCdp1877(ioGroup_))
+        {
+            int picValue = cdp1877InstancePointer[instance]->devRead(address, function);
+            if (picValue != -1)
+                return picValue&0xff;
+        }
+    }
+
+    if (address == currentComputerConfiguration.mcrConfiguration.bbat.portNumber[0])
+    {
+        mainMemory_[address] = (mainMemory_[address] & (currentComputerConfiguration.mcrConfiguration.bbat.mask ^ 0xff)) | currentComputerConfiguration.mcrConfiguration.bbat.mask;
     }
 
     if (currentComputerConfiguration.rtcM48t58Configuration.defined)
@@ -5077,6 +5252,7 @@ Byte Computer::readMemDebug(Word address)
 
     size_t number = (memoryType_[address / 256] >> 8);
     
+    int memNumber = 0;
     switch (memoryType_[address/256]&0xff)
     {
         case EMSMEMORY:
@@ -5105,6 +5281,58 @@ Byte Computer::readMemDebug(Word address)
                     return slotMemory_[selectedSlot_][(selectedBank_&currentComputerConfiguration.slotConfiguration.slotInfo[selectedSlot_].bankOutputMaskInSlot)*slotSize_[selectedSlot_] + address-currentComputerConfiguration.slotConfiguration.start];
                 break;
                     
+                default:
+                    return 255;
+                break;
+            }
+        break;
+
+        case MCRMEM:
+            if (address == currentComputerConfiguration.mcrConfiguration.output.portNumber[0])
+                return mainMemory_[address];
+            if (address >= currentComputerConfiguration.mcrConfiguration.ioStart && address <= currentComputerConfiguration.mcrConfiguration.ioEnd)
+            {
+                mainMemory_[address] = 0xff;
+                return 0xff;
+            }
+            switch (mcrMemoryType_[selectedMap_][address/256])
+            {
+                case ROM:
+                case ROM_MAP1:
+                case ROM_MAP2:
+                case ROM_MAP3:
+                case ROM_MAP4:
+                case ROM_MAP5:
+                case ROM_MAP6:
+                case ROM_MAP7:
+                    memNumber = mcrMemoryType_[selectedMap_][address/256]-ROM;
+                    return mcrMemory_[memNumber][address &(mcrSize_[memNumber]-1)];
+                break;
+
+                case RAM:
+                case RAM_MAP1:
+                case RAM_MAP2:
+                case RAM_MAP3:
+                case RAM_MAP4:
+                case RAM_MAP5:
+                case RAM_MAP6:
+                case RAM_MAP7:
+                    memNumber = mcrMemoryType_[selectedMap_][address/256]-RAM;
+                    return mcrMemory_[memNumber][address &(mcrSize_[memNumber]-1)];
+                break;
+
+                case NVRAM:
+                case NVRAM_MAP1:
+                case NVRAM_MAP2:
+                case NVRAM_MAP3:
+                case NVRAM_MAP4:
+                case NVRAM_MAP5:
+                case NVRAM_MAP6:
+                case NVRAM_MAP7:
+                    memNumber = mcrMemoryType_[selectedMap_][address/256]-NVRAM;
+                    return mcrMemory_[memNumber][address &(mcrSize_[memNumber]-1)];
+                break;
+
                 default:
                     return 255;
                 break;
@@ -5274,6 +5502,35 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
             mainMemory_[address]=value;
     }
 
+    if (currentComputerConfiguration.rtcCdp1879Configuration.defined)
+    {
+        if (ioGroupCdp1879(ioGroup_))
+        {
+            if (address == currentComputerConfiguration.rtcCdp1879Configuration.freeze)
+            {
+                unfreezeTimeCdp1879();
+                return;
+            }
+            if (address == currentComputerConfiguration.rtcCdp1879Configuration.control)
+            {
+                writeRtcControlCdp1879(value);
+                return;
+            }
+            if (address >= currentComputerConfiguration.rtcCdp1879Configuration.second && address <= currentComputerConfiguration.rtcCdp1879Configuration.hour)
+            {
+                mainMemory_[address] = value;
+                xmlComputerTime_ = writeRtcTimeCdp1879(address, value, systemTime_, xmlComputerTime_);
+                return;
+            }
+            if (address >= currentComputerConfiguration.rtcCdp1879Configuration.date && address <= currentComputerConfiguration.rtcCdp1879Configuration.month)
+            {
+                mainMemory_[address] = value;
+                xmlComputerTime_ = writeRtcDateCdp1879(address, value, systemTime_, xmlComputerTime_);
+                return;
+            }
+        }
+    }
+
     if (currentComputerConfiguration.rtcM48t58Configuration.defined)
     {
         groupFound = false;
@@ -5370,6 +5627,15 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
             }
         }
     }
+    
+    for (int instance=0; instance<numberOfCdp1877Instances_; instance++)
+    {
+        if (cdp1877InstancePointer[instance]->ioGroupCdp1877(ioGroup_))
+        {
+            cdp1877InstancePointer[instance]->devWrite(address, value);
+        }
+    }
+
     if (currentComputerConfiguration.mc6847Configuration.outputMode == 1 && currentComputerConfiguration.mc6847Configuration.defined)
     {
         bool groupFound = false;
@@ -5485,6 +5751,7 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
         }
     }
     
+    int memNumber = 0;
     switch (memoryType_[address/256]&0xff)
     {
         case EMSMEMORY:
@@ -5518,6 +5785,55 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
 
                 case RAM:
                     slotMemory_[selectedSlot_][(selectedBank_&currentComputerConfiguration.slotConfiguration.slotInfo[selectedSlot_].bankOutputMaskInSlot)*slotSize_[selectedSlot_] + address-currentComputerConfiguration.slotConfiguration.start] = value;
+                break;
+            }
+        break;
+
+        case MCRMEM:
+            if (address == currentComputerConfiguration.mcrConfiguration.output.portNumber[0])
+            {
+                selectedMap_ = value & 0x7;
+                mainMemory_[address] = (mainMemory_[address] & (currentComputerConfiguration.mcrConfiguration.output.mask ^ 0xff)) | selectedMap_;
+            }
+            if (address >= currentComputerConfiguration.mcrConfiguration.ioStart && address <= currentComputerConfiguration.mcrConfiguration.ioEnd)
+                return;
+            switch (mcrMemoryType_[selectedMap_][address/256])
+            {
+                case ROM:
+                case ROM_MAP1:
+                case ROM_MAP2:
+                case ROM_MAP3:
+                case ROM_MAP4:
+                case ROM_MAP5:
+                case ROM_MAP6:
+                case ROM_MAP7:
+                    memNumber = mcrMemoryType_[selectedMap_][address/256]-ROM;
+                    if (writeRom)
+                        mcrMemory_[memNumber][address &(mcrSize_[memNumber]-1)] = value;
+                break;
+
+                case RAM:
+                case RAM_MAP1:
+                case RAM_MAP2:
+                case RAM_MAP3:
+                case RAM_MAP4:
+                case RAM_MAP5:
+                case RAM_MAP6:
+                case RAM_MAP7:
+                    memNumber = mcrMemoryType_[selectedMap_][address/256]-RAM;
+                    mcrMemory_[memNumber][address &(mcrSize_[memNumber]-1)] = value;
+                break;
+
+                case NVRAM:
+                case NVRAM_MAP1:
+                case NVRAM_MAP2:
+                case NVRAM_MAP3:
+                case NVRAM_MAP4:
+                case NVRAM_MAP5:
+                case NVRAM_MAP6:
+                case NVRAM_MAP7:
+                    memNumber = mcrMemoryType_[selectedMap_][address/256]-NVRAM;
+                    mcrMemory_[memNumber][address &(mcrSize_[memNumber]-1)] = value;
                 break;
             }
         break;
@@ -5937,22 +6253,45 @@ void Computer::cpuInstruction()
 
     if (interruptEnable_ && clear_ == 1 && (cpuState_ == STATE_FETCH_1 || (cpuState_ == STATE_EXECUTE_1 && instructionCode_ == 0)))
     {
-        bool interruptRequest = false;
-        
-        for (int type=0; type<INTERRUPT_TYPE_MAX; type++)
+        if (numberOfCdp1877Instances_ > 0)
         {
-            interruptRequest |= interruptRequested[type];
+            for (int instance=0; instance<numberOfCdp1877Instances_; instance++)
+            {
+                if (cdp1877InstancePointer[instance]->readMien() && cdp1877InstancePointer[instance]->findInterrupt() != -1)
+                    interrupt();
+            }
         }
-        if (currentComputerConfiguration.vis1870Configuration.defined)
-            if (currentComputerConfiguration.vis1870Configuration.outputInterruptReset.portNumber[0] == -1)
-                interruptRequested[INTERRUPT_TYPE_VIS] = false;
-        if (currentComputerConfiguration.i8275Configuration.defined)
+        else
         {
-            interruptRequested[INTERRUPT_TYPE_I8275_4] = false;
-            i8275Pointer->setRowEf8275(1);
+            bool interruptRequest = false;
+            
+            for (int type=0; type<INTERRUPT_TYPE_MAX; type++)
+            {
+                if (interruptRequested[type] && interruptRequestedCounter[type] > 0)
+                    interruptRequestedCounter[type]--;
+                
+                if (interruptRequested[type] && interruptRequestedCounter[type] == 0)
+                {
+                    interruptRequest |= interruptRequested[type];
+                    interruptRequestedCounter[type] = 0;
+                }
+            }
+            if (interruptRequest)
+            {
+                if (interrupt())
+                {
+                    if (currentComputerConfiguration.vis1870Configuration.defined)
+                        if (currentComputerConfiguration.vis1870Configuration.outputInterruptReset.portNumber[0] == -1)
+                            interruptRequested[INTERRUPT_TYPE_VIS] = false;
+                    interruptRequested[INTERRUPT_TYPE_INPUT] = false;
+                    if (currentComputerConfiguration.i8275Configuration.defined)
+                    {
+                        interruptRequested[INTERRUPT_TYPE_I8275_4] = false;
+                        i8275Pointer->setRowEf8275(1);
+                    }
+                }
+            }
         }
-        if (interruptRequest)
-            interrupt();
     }
 }
 
@@ -6098,7 +6437,7 @@ void Computer::resetPressed()
 
     if (currentComputerConfiguration.videoTerminalConfiguration.type != VTNONE)
         qLedStatus_ = (1 ^ vtPointer->ef()) << 1;
-    if (currentComputerConfiguration.videoTerminalConfiguration.external)
+    if (currentComputerConfiguration.videoTerminalConfiguration.external || currentComputerConfiguration.videoTerminalConfiguration.loop_back)
         qLedStatus_ = (1 ^ p_Serial->ef()) << 1;
     
     for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
@@ -6134,16 +6473,25 @@ void Computer::configureMemory()
         switch (memConfig->type & 0xff)
         {
             case ROM:
-                defineMemoryType(memConfig->start, memConfig->end, memConfig->type);
-
-                if (memConfig->useMemMask)
+                if (memConfig->mcr)
                 {
-                    defineMemoryType(memConfig->start + memConfig->memMask + 1, memConfig->end, MAPPEDROM + (memConfig->type & 0xff00));
+                    memConfig->mcrMemNumber = numberOfMcrs_;
+                    allocMcrMemory(memConfig->end + 1, memConfig->type);
+                    
                 }
-
-                for (std::vector<Word>::iterator address = memConfig->mappingList.begin (); address != memConfig->mappingList.end (); ++address)
+                else
                 {
-                    defineMemoryType(*address, *address+memConfig->end-memConfig->start, MAPPEDROM + (memConfig->type & 0xff00));
+                    defineMemoryType(memConfig->start, memConfig->end, memConfig->type);
+
+                    if (memConfig->useMemMask)
+                    {
+                        defineMemoryType(memConfig->start + memConfig->memMask + 1, memConfig->end, MAPPEDROM + (memConfig->type & 0xff00));
+                    }
+
+                    for (std::vector<Word>::iterator address = memConfig->mappingList.begin (); address != memConfig->mappingList.end (); ++address)
+                    {
+                        defineMemoryType(*address, *address+memConfig->end-memConfig->start, MAPPEDROM + (memConfig->type & 0xff00));
+                    }
                 }
             break;
                 
@@ -6154,35 +6502,51 @@ void Computer::configureMemory()
             break;
                                 
             case RAM:
-                defineMemoryType(memConfig->start, memConfig->end, memConfig->type);
-                
-                if (memConfig->useMemMask)
+                if (memConfig->mcr)
                 {
-                    defineMemoryType(memConfig->start + memConfig->memMask + 1, memConfig->end, MAPPEDRAM + (memConfig->type & 0xff00));
+                    memConfig->mcrMemNumber = numberOfMcrs_;
+                    allocMcrMemory(memConfig->end + 1, memConfig->type);
                 }
-                
-                for (std::vector<Word>::iterator address = memConfig->mappingList.begin (); address != memConfig->mappingList.end (); ++address)
+                else
                 {
-                    defineMemoryType(*address, *address+memConfig->end-memConfig->start, MAPPEDRAM + (memConfig->type & 0xff00));
-                }
+                    defineMemoryType(memConfig->start, memConfig->end, memConfig->type);
+                    
+                    if (memConfig->useMemMask)
+                    {
+                        defineMemoryType(memConfig->start + memConfig->memMask + 1, memConfig->end, MAPPEDRAM + (memConfig->type & 0xff00));
+                    }
+                    
+                    for (std::vector<Word>::iterator address = memConfig->mappingList.begin (); address != memConfig->mappingList.end (); ++address)
+                    {
+                        defineMemoryType(*address, *address+memConfig->end-memConfig->start, MAPPEDRAM + (memConfig->type & 0xff00));
+                    }
 
-                initRam(memConfig->start, memConfig->end);
+                    initRam(memConfig->start, memConfig->end);
+                }
             break;
 
             case NVRAM:
-                defineMemoryType(memConfig->start, memConfig->end, memConfig->type);
-    
-                if (memConfig->useMemMask)
+                if (memConfig->mcr)
                 {
-                    defineMemoryType(memConfig->start + memConfig->memMask + 1, memConfig->end, MAPPEDRAM + (memConfig->type & 0xff00));
+                    memConfig->mcrMemNumber = numberOfMcrs_;
+                    allocMcrMemory(memConfig->end + 1, memConfig->type);
                 }
-
-                for (std::vector<Word>::iterator address = memConfig->mappingList.begin (); address != memConfig->mappingList.end (); ++address)
+                else
                 {
-                    defineMemoryType(*address, *address+memConfig->end-memConfig->start, MAPPEDRAM + (memConfig->type & 0xff00));
-                }
+                    defineMemoryType(memConfig->start, memConfig->end, memConfig->type);
+        
+                    if (memConfig->useMemMask)
+                    {
+                        defineMemoryType(memConfig->start + memConfig->memMask + 1, memConfig->end, MAPPEDRAM + (memConfig->type & 0xff00));
+                    }
 
-                initRam(memConfig->start, memConfig->end);
+                    for (std::vector<Word>::iterator address = memConfig->mappingList.begin (); address != memConfig->mappingList.end (); ++address)
+                    {
+                        defineMemoryType(*address, *address+memConfig->end-memConfig->start, MAPPEDRAM + (memConfig->type & 0xff00));
+                    }
+
+                    initRam(memConfig->start, memConfig->end);
+                }
             break;
 
             case PAGER:
@@ -6271,6 +6635,24 @@ void Computer::configureMemory()
     selectedSlot_ = 0;
     selectedBank_ = 0;
 
+    if (currentComputerConfiguration.mcrConfiguration.maxMapNumber_ > 0)
+    {
+        defineMemoryType(currentComputerConfiguration.mcrConfiguration.start, currentComputerConfiguration.mcrConfiguration.end, MCRMEM);
+
+        for (int map=0; map<currentComputerConfiguration.mcrConfiguration.maxMapNumber_; map++)
+        {
+            if (currentComputerConfiguration.mcrConfiguration.mapInfo[map].defined)
+            {
+                for (std::vector<MapMemInfo>::iterator mapInfoIterator = currentComputerConfiguration.mcrConfiguration.mapInfo[map].mapMemInfo.begin (); mapInfoIterator != currentComputerConfiguration.mcrConfiguration.mapInfo[map].mapMemInfo.end (); ++mapInfoIterator)
+                {
+                    allocMcrMapMemory(mapInfoIterator->type);
+                    defineMcrMapMemoryType(map, mapInfoIterator->start, mapInfoIterator->end, mapInfoIterator->type + (mapInfoIterator->memNumber & 0x7));
+                }
+            }
+        }
+    }
+    selectedMap_ = 0;
+
     size_t memConfNumber = 2;
     while (memConfNumber < currentComputerConfiguration.memoryConfiguration.size())
     {
@@ -6337,16 +6719,23 @@ void Computer::configureExtensions()
         p_Serial->configure(currentComputerConfiguration.videoTerminalConfiguration.baudR, currentComputerConfiguration.videoTerminalConfiguration.baudT, currentComputerConfiguration.videoTerminalConfiguration);
     }
 
+    if (currentComputerConfiguration.videoTerminalConfiguration.loop_back)
+    {
+        p_Serial = new Serial(XML, elfClockSpeed_, currentComputerConfiguration);
+        p_Serial->configure(currentComputerConfiguration.videoTerminalConfiguration.baudR, currentComputerConfiguration.videoTerminalConfiguration.baudT, currentComputerConfiguration.videoTerminalConfiguration);
+    }
+
     if (currentComputerConfiguration.rtcM48t58Configuration.defined)
     {
         message.Printf("RTC M48T58 at address %04X-%04X\n", currentComputerConfiguration.rtcM48t58Configuration.control, currentComputerConfiguration.rtcM48t58Configuration.year);
         p_Main->configureMessage(0, message);
     }
 
+    if (currentComputerConfiguration.rtcCdp1879Configuration.defined)
+        configureRtcCdp1879(currentComputerConfiguration.rtcCdp1879Configuration, elfClockSpeed_);
+
     if (currentComputerConfiguration.rtcDs12887Configuration.defined)
-    {
-        configureRtc(currentComputerConfiguration.rtcDs12887Configuration);
-    }
+        configureRtcDs12788(currentComputerConfiguration.rtcDs12887Configuration);
 
     if (currentComputerConfiguration.dipConfiguration.defined)
     {
@@ -6417,6 +6806,16 @@ void Computer::configureExtensions()
         }
     }
     
+    cdp1877InstancePointer.clear();
+    numberOfCdp1877Instances_ = 0;
+    for (std::vector<Cdp1877Configuration>::iterator cdp1877 = currentComputerConfiguration.cdp1877Configuration.begin (); cdp1877 != currentComputerConfiguration.cdp1877Configuration.end (); ++cdp1877)
+    {
+        cdp1877InstancePointer.resize(numberOfCdp1877Instances_+1);
+        cdp1877InstancePointer[numberOfCdp1877Instances_] = new Cdp1877Instance(numberOfCdp1877Instances_);
+        cdp1877InstancePointer[numberOfCdp1877Instances_]->configureCdp1877(*cdp1877);
+        numberOfCdp1877Instances_++;
+    }
+
     cdp1851FramePointer.clear();
     numberOfCdp1851Frames_ = 0;
     for (std::vector<Cdp1851Configuration>::iterator cdp1851 = currentComputerConfiguration.cdp1851Configuration.begin (); cdp1851 != currentComputerConfiguration.cdp1851Configuration.end (); ++cdp1851)
@@ -6803,7 +7202,7 @@ void Computer::configureDiskExtensions()
 
     if (currentComputerConfiguration.ideConfiguration.defined)
     {
-        configureIde(p_Main->getIdeDir() + p_Main->getIdeFile(), p_Main->getIdeDir() + "disk2.ide", currentComputerConfiguration.ideConfiguration);
+        configureIde(p_Main->getIdeDir(0) + p_Main->getIdeFile(0), p_Main->getIdeDir(1) + p_Main->getIdeFile(1), currentComputerConfiguration.ideConfiguration);
     }
 }
 
@@ -6948,7 +7347,7 @@ void Computer::moveWindows()
     if (currentComputerConfiguration.cdp1864Configuration.defined)
         cdp1864Pointer->Move(p_Main->getCdp1864Pos());
     if (currentComputerConfiguration.studio4VideoConfiguration.defined)
-        cdp1864Pointer->Move(p_Main->getSt4Pos());
+        st4VideoPointer->Move(p_Main->getSt4Pos());
     if (currentComputerConfiguration.vip2KVideoConfiguration.defined)
         vip2KVideoPointer->Move(p_Main->getVip2KPos());
     if (currentComputerConfiguration.fredVideoConfiguration.defined)
@@ -6968,7 +7367,11 @@ void Computer::moveWindows()
     if (currentComputerConfiguration.videoTerminalConfiguration.type != VTNONE)
         vtPointer->Move(p_Main->getVtPos());
     for (int num=0; num<numberOfCdp1851Frames_; num++)
-        cdp1851FramePointer[num]->Move(currentComputerConfiguration.cdp1851Configuration[num].pos);
+        cdp1851FramePointer[num]->Move(p_Main->getCdp1851Pos(num));
+    for (int num=0; num<numberOfCdp1852Frames_; num++)
+        cdp1852FramePointer[num]->Move(p_Main->getCdp1852Pos(num));
+    for (int num=0; num<numberOfFrontPanels_; num++)
+        panelPointer[num]->Move(p_Main->getFrontPanelPos(num));
 }
 
 void Computer::updateTitle(wxString Title)
@@ -7369,10 +7772,21 @@ void Computer::saveNvRam()
                 outputFile.Open(nvramDetails[i].dirname+nvramDetails[i].filename, wxFile::write);
             else
                 outputFile.Create(nvramDetails[i].dirname+nvramDetails[i].filename);
-            for (long address = nvramDetails[i].start; address <= nvramDetails[i].end; address++)
+            if (nvramDetails[i].mcr)
             {
-                value = mainMemory_[address];
-                outputFile.Write(&value, 1);
+                for (long address = nvramDetails[i].start; address <= nvramDetails[i].end; address++)
+                {
+                    value = mcrMemory_[nvramDetails[i].mcrMemNumber][address];
+                    outputFile.Write(&value, 1);
+                }
+            }
+            else
+            {
+                for (long address = nvramDetails[i].start; address <= nvramDetails[i].end; address++)
+                {
+                    value = mainMemory_[address];
+                    outputFile.Write(&value, 1);
+                }
             }
             outputFile.Close();
         }
@@ -7387,6 +7801,8 @@ void Computer::loadNvRam(size_t configNumber)
     newNvram.end = currentComputerConfiguration.memoryConfiguration[configNumber].end;
     newNvram.dirname = currentComputerConfiguration.memoryConfiguration[configNumber].dirname;
     newNvram.filename = currentComputerConfiguration.memoryConfiguration[configNumber].dumpFilename;
+    newNvram.mcr = currentComputerConfiguration.memoryConfiguration[configNumber].mcr;
+    newNvram.mcrMemNumber = currentComputerConfiguration.memoryConfiguration[configNumber].mcrMemNumber;
     nvramDetails.push_back(newNvram);
 
     if (nvRamDisable_)
@@ -7404,8 +7820,16 @@ void Computer::loadNvRam(size_t configNumber)
         if (inFile.Open(newNvram.dirname+newNvram.filename, _("rb")))
         {
             length = inFile.Read(buffer, length);
-            for (size_t i=0; i<length; i++)
-                mainMemory_[i+newNvram.start] = (Byte)buffer[i];
+            if (newNvram.mcr)
+            {
+                for (size_t i=0; i<length; i++)
+                    mcrMemory_[newNvram.mcrMemNumber][i+newNvram.start] = (Byte)buffer[i];
+            }
+            else
+            {
+                for (size_t i=0; i<length; i++)
+                    mainMemory_[i+newNvram.start] = (Byte)buffer[i];
+            }
             inFile.Close();
         }
     }
@@ -7607,30 +8031,37 @@ void Computer::executeFunction(int function, Word additionalAddress)
         break;
 
         case INFO_START_XMODEM_SAVE:
+            interruptRequestedCounter[INTERRUPT_TYPE_UART] = 2;
             p_Main->startAutoTerminalSave(TERM_XMODEM_SAVE);
         break;
 
         case INFO_START_XMODEM_LOAD:
+            interruptRequestedCounter[INTERRUPT_TYPE_UART] = 2;
             p_Main->startAutoTerminalLoad(TERM_XMODEM_LOAD);
         break;
             
         case INFO_START_YMODEM_SAVE:
+            interruptRequestedCounter[INTERRUPT_TYPE_UART] = 2;
             p_Main->startYsTerminalSave(TERM_YMODEM_SAVE);
         break;
             
         case INFO_START_HEXMODEM_SAVE:
+            interruptRequestedCounter[INTERRUPT_TYPE_UART] = 2;
             p_Main->startAutoTerminalSave(TERM_HEX);
         break;
 
         case INFO_START_HEXMODEM_LOAD:
+            interruptRequestedCounter[INTERRUPT_TYPE_UART] = 2;
             p_Main->startAutoTerminalLoad(TERM_HEX);
         break;
             
         case INFO_START_BINMODEM_SAVE:
+            interruptRequestedCounter[INTERRUPT_TYPE_UART] = 2;
             p_Main->startAutoTerminalSave(TERM_BIN);
         break;
 
         case INFO_START_BINMODEM_LOAD:
+            interruptRequestedCounter[INTERRUPT_TYPE_UART] = 2;
             p_Main->startAutoTerminalLoad(TERM_BIN);
         break;
             
@@ -7970,11 +8401,6 @@ void Computer::setDivider(Byte value)
 void Computer::dataAvailableVt100(bool data, int WXUNUSED(uartNumber))
 {
     vtPointer->dataAvailableUart(data);
-}
-
-void Computer::dataAvailableSerial(bool data)
-{
-    p_Serial->dataAvailableUart16450(data);
 }
 
 void Computer::thrStatusVt100(bool data)

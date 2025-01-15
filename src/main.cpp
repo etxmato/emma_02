@@ -1692,11 +1692,11 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
         configPointer->Write("/Main/RedundantFilesRemoveCheck", true);
     }
  
+   if (forceGuiSizeReset && mode_.window_position_fixed)
+       fixedWindowPosition();
+
     readConfig();
     
-    if (forceGuiSizeReset && mode_.window_position_fixed)
-        fixedWindowPosition();
-
     oldGauge_ = 1;
     vuPointer = new wxTimer(this, 902);
  //   cpuPointer = new wxTimer(this, 903);
@@ -3770,10 +3770,7 @@ void Main::onDefaultWindowPosition(wxCommandEvent&WXUNUSED(event))
     this->Move(mainWindowX_, mainWindowY_);
    
     if (computerRunning_)
-    {
        p_Computer->moveWindows();
-       p_Computer->Move(computerConfiguration.mainX_, computerConfiguration.mainY_);
-    }
    
 }
 
@@ -3807,8 +3804,6 @@ void Main::nonFixedWindowPosition()
     computerConfiguration.videoTerminalConfiguration.x = -1;
     computerConfiguration.videoTerminalConfiguration.y = -1;
 
-    computerConfiguration.mainX_ = -1;
-    computerConfiguration.mainY_ = -1;
     computerConfiguration.vis1870Configuration.x = -1;
     computerConfiguration.vis1870Configuration.y = -1;
     computerConfiguration.sn76430NConfiguration.x = -1;
@@ -3833,6 +3828,11 @@ void Main::nonFixedWindowPosition()
        cdp1852->pos.x = -1;
        cdp1852->pos.y = -1;
     }
+   for (std::vector<FrontPanelConfiguration>::iterator frontpanel = computerConfiguration.frontPanelConfiguration.begin (); frontpanel != computerConfiguration.frontPanelConfiguration.end (); ++frontpanel)
+   {
+      frontpanel->pos.x = -1;
+      frontpanel->pos.y = -1;
+   }
 }
 
 void Main::fixedWindowPosition()
@@ -3852,9 +3852,6 @@ void Main::fixedWindowPosition()
     computerConfiguration.i8275Configuration.y = computerConfiguration.i8275Configuration.defaultY;
     computerConfiguration.videoTerminalConfiguration.x = computerConfiguration.videoTerminalConfiguration.defaultX;
     computerConfiguration.videoTerminalConfiguration.y = computerConfiguration.videoTerminalConfiguration.defaultY;
-
-    computerConfiguration.mainX_ = mainWindowX_;
-    computerConfiguration.mainY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
 
     computerConfiguration.vis1870Configuration.x = computerConfiguration.vis1870Configuration.defaultX;
     computerConfiguration.vis1870Configuration.y = computerConfiguration.vis1870Configuration.defaultY;
@@ -3881,6 +3878,11 @@ void Main::fixedWindowPosition()
        cdp1852->pos.x = cdp1852->defaultPos.x;
        cdp1852->pos.y = cdp1852->defaultPos.y;
     }
+   for (std::vector<FrontPanelConfiguration>::iterator frontpanel = computerConfiguration.frontPanelConfiguration.begin (); frontpanel != computerConfiguration.frontPanelConfiguration.end (); ++frontpanel)
+   {
+      frontpanel->pos.x = frontpanel->defaultPos.x;
+      frontpanel->pos.y = frontpanel->defaultPos.y;
+   }
 }
 
 void Main::onStart(wxCommandEvent&WXUNUSED(event))
@@ -3928,18 +3930,14 @@ void Main::onStart()
         zoom = (int) zoom;
 
     wxDisplaySize(&x, &y);
-    if (computerConfiguration.mainX_ >= x)
-        computerConfiguration.mainX_ = -1;
-    if (computerConfiguration.mainY_ >= y)
-        computerConfiguration.mainY_ = -1;
-
+   
     if (mode_.gui)
        XRCCTRL(*this, "Chip8Type", wxStaticText)->SetLabel("");
    
     parseXmlFile(computerConfiguration.xmlFileConfiguration.directory, computerConfiguration.xmlFileConfiguration.fileName);
     setXmlGui();
     
-     p_Computer = new Computer (computerInfo.name, wxPoint(computerConfiguration.mainX_, computerConfiguration.mainY_), computerConfiguration.frontPanelConfiguration[PANEL_MAIN].size, computerConfiguration.clockSpeed_, computerConfiguration.soundConfiguration.tempo, computerConfiguration);
+     p_Computer = new Computer (computerInfo.name, computerConfiguration.clockSpeed_, computerConfiguration.soundConfiguration.tempo, computerConfiguration);
      stereo = computerConfiguration.soundConfiguration.stereo;
      if (computerConfiguration.soundConfiguration.type == SOUND_SUPER_VP550)
          toneChannels = 2;
@@ -4183,7 +4181,7 @@ void Main::enableGui(bool status)
          XRCCTRL(*this, "VTBaudTTextXml", wxStaticText)->Enable(status);
          XRCCTRL(*this, "VtSetupXml", wxButton)->Enable(status);
      }
-     if (!computerConfiguration.videoTerminalConfiguration.external)
+     if (!(computerConfiguration.videoTerminalConfiguration.external || computerConfiguration.videoTerminalConfiguration.loop_back))
      {
          XRCCTRL(*this,"FullScreenF3Xml", wxButton)->Enable(!status&(computerConfiguration.cdp1861Configuration.defined||computerConfiguration.tmsConfiguration.defined||computerConfiguration.mc6847Configuration.defined||computerConfiguration.mc6845Configuration.defined||computerConfiguration.i8275Configuration.defined||computerConfiguration.vis1870Configuration.defined||computerConfiguration.sn76430NConfiguration.defined||computerConfiguration.cdp1864Configuration.defined||(computerConfiguration.videoTerminalConfiguration.type != VTNONE)));
          XRCCTRL(*this,"ScreenDumpF5Xml", wxButton)->Enable(!status&(computerConfiguration.cdp1861Configuration.defined||computerConfiguration.tmsConfiguration.defined||computerConfiguration.mc6847Configuration.defined||computerConfiguration.mc6845Configuration.defined||computerConfiguration.i8275Configuration.defined||computerConfiguration.vis1870Configuration.defined||computerConfiguration.sn76430NConfiguration.defined||computerConfiguration.cdp1864Configuration.defined||(computerConfiguration.videoTerminalConfiguration.type != VTNONE)));

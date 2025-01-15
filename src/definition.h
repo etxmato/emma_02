@@ -60,6 +60,7 @@
 #define MAX_DATA_TIL 2
 #define MAX_ADDRESS_TIL 4
 #define MAX_MULTI_TIL 8
+#define MAX_THUMB_VALUE 2
 
 #define AD_CONVERTOR_PRINT 1
 #define AD_CONVERTOR_TEMP 2
@@ -107,6 +108,60 @@
 
 enum
 {
+    UNDEFINED,
+    RAM,
+    RAM_MAP1,
+    RAM_MAP2,
+    RAM_MAP3,
+    RAM_MAP4,
+    RAM_MAP5,
+    RAM_MAP6,
+    RAM_MAP7,
+    ROM,
+    ROM_MAP1,
+    ROM_MAP2,
+    ROM_MAP3,
+    ROM_MAP4,
+    ROM_MAP5,
+    ROM_MAP6,
+    ROM_MAP7,
+    NVRAM,
+    NVRAM_MAP1,
+    NVRAM_MAP2,
+    NVRAM_MAP3,
+    NVRAM_MAP4,
+    NVRAM_MAP5,
+    NVRAM_MAP6,
+    NVRAM_MAP7,
+    RAMROM,
+    PAGER,
+    PARTRAM,
+    CRAM1870,
+    PRAM1870,
+    MC6845RAM,
+    MC6845REGISTERS,
+    EMSMEMORY,
+    MC6847RAM,
+    CARTRIDGEROM,
+    MAPPEDRAM,
+    COLOURRAM,
+    VP570RAM,
+    DIAGROM,
+    MAPPEDROM,
+    TESTCARTRIDGEROM,
+    MCRMEM,
+    CPURAM,
+    UART1_82C51,
+    UART2_82C51,
+    NOCHANGE,
+    SLOTMEM,
+    SN76430NRAM,
+    COLOURRAM1864,
+    COLOURRAMST4,
+};
+
+enum
+{
     LOADLED,
     RESETLED,
     PAUSELED,
@@ -117,6 +172,7 @@ enum
     CLEARLED,
     DMALED,
     INTERRUPTLED,
+    DISKLED,
     MAX_CPU_STATE_LEDS
 };
 
@@ -150,6 +206,7 @@ enum
     BUTTON_FUNC_CLEAR_RUN,
     BUTTON_FUNC_CLEAR_RESET,
     BUTTON_FUNC_NVRAM_DISABLE,
+    BUTTON_FUNC_IN_INTERRUPT,
     BUTTON_FUNC_IN_SWITCH,
 
     BUTTON_FUNC_CARD,
@@ -161,6 +218,8 @@ enum
     BUTTON_FUNC_VELF,
     BUTTON_FUNC_HEX,
     BUTTON_FUNC_EF,
+    BUTTON_FUNC_THUMB_MINUS,
+    BUTTON_FUNC_THUMB_PLUS,
     LED_FUNC_POWER,
     LED_FUNC_STOP,
     LED_FUNC_READY,
@@ -181,6 +240,7 @@ enum
     LED_FUNC_CLEAR,
     LED_FUNC_DMA,
     LED_FUNC_INTERRUPT,
+    LED_FUNC_DISK,
     LED_FUNC_CPUSTATE,
     TIL_DATA,
     TIL_ADDRESS,
@@ -194,8 +254,9 @@ enum
     ELF2K_POWER_BUTTON,
     DIP_SWITCH_BUTTON,
     SWITCH_BUTTON_VERTICAL_RED,
+    SWITCH_BUTTON_VERTICAL_GREEN,
     SWITCH_BUTTON_ORANGE,
-    SWITCH_BUTTON_GREEN,
+    SWITCH_BUTTON_SQUARE_GREEN,
     SWITCH_BUTTON_YELLOW,
     SWITCH_BUTTON_BLUE,
     SWITCH_BUTTON_VERTICAL_PIO, // Last switch button - all switch buttons need to be defined before this
@@ -211,15 +272,20 @@ enum
     PUSH_BUTTON_RECTANGLE_SMALL,
     PUSH_BUTTON_ROUND_BLACK,
     PUSH_BUTTON_ROUND_RED,
+    PUSH_BUTTON_ROUND_RED_LARGE,
+    PUSH_BUTTON_ROUND_GREEN_LARGE,
     ELF2K_LOAD_BUTTON,
     ELF2K_MP_BUTTON,
     ELF2K_RUN_BUTTON,
     ELF2K_IN_BUTTON,
+    THUMB_MINUS_BUTTON,
+    THUMB_PLUS_BUTTON,
     ROT_SWITCH_BUTTON,          // Rotating button with multiple positions
     ADI_SPINCTRL,
     ADI_VOLT_SPINCTRL,
     ADS_SPINCTRL,
     ADS_VOLT_SPINCTRL,
+    THUMB_TEXT,
     PANEL_TEXT,
     PANEL_PNG,
     LED_SMALL_RED,
@@ -228,6 +294,8 @@ enum
     LED_REAL_ORANGE,
     LED_LARGE_RED,
     LED_LARGE_GREEN,
+    LED_LARGE_ORANGE,
+    LED_LARGE_COLOR,
     LED_SMALL_RED_DISABLE,
     TIL_311,
     TIL_313,
@@ -419,6 +487,7 @@ enum
 {
     // Terminal I/O
     VIDEO_TERMINAL_EF = 1,
+    VIDEO_TERMINAL_EF_INTERRUPT,
     VIDEO_TERMINAL_OUT,
     VIDEO_TERMINAL_CYCLE,
     
@@ -433,6 +502,7 @@ enum
     UART16450_READ_STATUS_IN,
     
     EXTERNAL_VIDEO_TERMINAL_EF,
+    EXTERNAL_VIDEO_TERMINAL_EF_INTERRUPT,
     EXTERNAL_VIDEO_TERMINAL_OUT,
     EXTERNAL_VIDEO_TERMINAL_CYCLE,
     
@@ -518,6 +588,8 @@ enum
     HEX_DISPLAY_OUT,
     HEX_KEY_IN,
     HEX_KEY_EF,
+
+    SWITCHES_IN_DIRECT,
 
     HEX_DISPLAY_COSMICOS_OUT,
 
@@ -652,6 +724,8 @@ enum
     
     NVRAM_MEMORY_PROTECT_IN,
     
+    RTC_CYCLE,
+    RTC_EF,
     RTC_SELECT_PORT_OUT,
     RTC_WRITE_PORT_OUT,
     RTC_READ_PORT_IN,
@@ -759,6 +833,7 @@ enum
     CYCLE_TYPE_INTERRUPT_CLOCK,
     CYCLE_TYPE_SOUND,
     CYCLE_TYPE_CD3536B,
+    CYCLE_TYPE_RTC,
     CYCLE_TYPE_MAX,
 };
 
@@ -769,7 +844,24 @@ enum
     INTERRUPT_TYPE_I8275_1,
     INTERRUPT_TYPE_I8275_4,
     INTERRUPT_TYPE_UART,
+    INTERRUPT_TYPE_RTC,
+    INTERRUPT_TYPE_INPUT,
     INTERRUPT_TYPE_MAX
+};
+
+#define READ_FUNCTION_NONE 0
+#define READ_FUNCTION_FREEZE_PIC_VECTOR 1
+#define READ_FUNCTION_NOT_DEBUG 2
+
+static wxString interruptTypeList_[]=
+{
+    "VIS",
+    "Keyboard",
+    "i8275 frame",
+    "i8275 row",
+    "UART",
+    "RTC",
+    "INPUT",
 };
 
 static wxString commandComputerList_[]=
@@ -1035,7 +1127,7 @@ private:
 class RotButton
 {
 public:
-    RotButton(wxDC& dc, int state, wxCoord x, wxCoord y);
+    RotButton(wxDC& dc, int state, wxCoord x, wxCoord y, int type);
     ~RotButton();
     void onPaint(wxDC& dc);
     bool onMouseLeftRelease(wxDC& dc, wxCoord x, wxCoord y);

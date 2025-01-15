@@ -20,6 +20,7 @@
 
 #include "main.h"
 #include "memory.h"
+#include "definition.h"
 
 Memory::Memory()
 {
@@ -111,6 +112,8 @@ Memory::Memory()
     emsRamDefined_ = false;
     emsRomDefined_ = false;
     numberOfSlots_ = 0;
+    numberOfMcrs_ = 0;
+    numberOfMcrMaps_ = 0;
 }
 
 Memory::~Memory()
@@ -158,6 +161,17 @@ Memory::~Memory()
             free(slotMemoryLabelType_[slot]);
             if (profilerCounter_ != PROFILER_OFF)
                 free(slotMemoryExecuted_[slot]);
+        }
+    }
+    if (mcrMemoryDefined_)
+    {
+        for (int mcr=0; mcr<numberOfMcrs_; mcr++)
+        {
+            free(mcrMemory_[mcr]);
+            free(mcrMemoryDataType_[mcr]);
+            free(mcrMemoryLabelType_[mcr]);
+            if (profilerCounter_ != PROFILER_OFF)
+                free(mcrMemoryExecuted_[mcr]);
         }
     }
     for (std::vector<EmsMemory>::iterator emsMemory = emsMemory_.begin (); emsMemory != emsMemory_.end (); ++emsMemory)
@@ -254,6 +268,19 @@ void Memory::clearDebugMemory()
                 if (profilerCounter_ != PROFILER_OFF)
                     slotMemoryExecuted_[slot][i] = 0;
                 slotMemoryLabelType_[slot][i] = LABEL_TYPE_NONE;
+            }
+        }
+    }
+    if (mcrMemoryDefined_)
+    {
+        for (int mcr=0; mcr<numberOfMcrs_; mcr++)
+        {
+            for (int i=0; i<mcrSize_[mcr]; i++)
+            {
+                mcrMemoryDataType_[mcr][i] = MEM_TYPE_DATA;
+                if (profilerCounter_ != PROFILER_OFF)
+                    mcrMemoryExecuted_[mcr][i] = 0;
+                mcrMemoryLabelType_[mcr][i] = LABEL_TYPE_NONE;
             }
         }
     }
@@ -529,7 +556,8 @@ void Memory::allocSlotMemory()
     if (profilerCounter_ != PROFILER_OFF)
         slotMemoryExecuted_[numberOfSlots_] = (uint64_t*)malloc(slotMemorySize_[numberOfSlots_]*8);
 
-    for (int i=0; i<slotSize_[numberOfSlots_]/256; i++) slotMemoryType_[numberOfSlots_][i] = currentComputerConfiguration.slotConfiguration.slotInfo[numberOfSlots_].type;
+    for (int i=0; i<slotSize_[numberOfSlots_]/256; i++) 
+        slotMemoryType_[numberOfSlots_][i] = currentComputerConfiguration.slotConfiguration.slotInfo[numberOfSlots_].type;
 
     for (wxUint32 i=0; i<slotMemorySize_[numberOfSlots_]; i++)
     {
@@ -561,6 +589,65 @@ void Memory::allocSlotMemory()
     numberOfSlots_++;
     slotMemoryDefined_ = true;
 }
+
+void Memory::allocMcrMemory(Word size, int type)
+{
+    mcrMemory_.resize(numberOfMcrs_+1);
+    mcrMemoryDataType_.resize(numberOfMcrs_+1);
+    mcrMemoryLabelType_.resize(numberOfMcrs_+1);
+    mcrMemoryExecuted_.resize(numberOfMcrs_+1);
+    mcrSize_.resize(numberOfMcrs_+1);
+
+    mcrSize_[numberOfMcrs_] = size;
+
+    mcrMemory_[numberOfMcrs_] = (Byte*)malloc(mcrSize_[numberOfMcrs_]);
+    mcrMemoryDataType_[numberOfMcrs_] = (Byte*)malloc(mcrSize_[numberOfMcrs_]);
+    mcrMemoryLabelType_[numberOfMcrs_] = (Byte*)malloc(mcrSize_[numberOfMcrs_]);
+    if (profilerCounter_ != PROFILER_OFF)
+        mcrMemoryExecuted_[numberOfMcrs_] = (uint64_t*)malloc(mcrSize_[numberOfMcrs_]*8);
+
+    for (wxUint32 i=0; i<mcrSize_[numberOfMcrs_]; i++)
+    {
+        if (type == RAM)
+        {
+            switch (p_Main->getCpuStartupRam())
+            {
+                case STARTUP_ZEROED:
+                    mcrMemory_[numberOfMcrs_][i] = 0;
+                break;
+                
+                case STARTUP_RANDOM:
+                    mcrMemory_[numberOfMcrs_][i] = rand() % 0x100;
+                break;
+                
+                case STARTUP_DYNAMIC:
+                    setDynamicRandomByte();
+                    mcrMemory_[numberOfMcrs_][i] = getDynamicByte(i);
+                break;
+            }
+        }
+        else
+            mcrMemory_[numberOfMcrs_][i] = 0xff;
+        mcrMemoryDataType_[numberOfMcrs_][i] = MEM_TYPE_DATA;
+        if (profilerCounter_ != PROFILER_OFF)
+            mcrMemoryExecuted_[numberOfMcrs_][i] = 0;
+        mcrMemoryLabelType_[numberOfMcrs_][i] = LABEL_TYPE_NONE;
+    }
+    numberOfMcrs_++;
+    mcrMemoryDefined_ = true;
+}
+
+void Memory::allocMcrMapMemory(int type)
+{
+    mcrMemoryType_.resize(numberOfMcrMaps_+1);
+    mcrMemoryType_[numberOfMcrMaps_] = (Byte*)malloc(0x10000/256);
+
+    for (int i=0; i<0x10000/256; i++)
+        mcrMemoryType_[numberOfMcrMaps_][i] = type;
+
+    numberOfMcrMaps_++;
+}
+
 
 wxFileOffset Memory::allocRomMapperMemory(size_t emsNumber, wxFileOffset length)
 {
@@ -856,6 +943,16 @@ Byte Memory::getXmlSlotMemoryType(int slot, long address)
     
     address /= 256;
     return slotMemoryType_[slot][address];
+}
+
+void Memory::defineMcrMapMemoryType(int map, long start, long end, int type)
+{
+    start /= 256;
+    end /= 256;
+    for (long i=start; i<=end; i++)
+    {
+        mcrMemoryType_[map][i] = type;
+    }
 }
 
 void Memory::defineExpansionMemoryType(int slot, long start, long end, int type)

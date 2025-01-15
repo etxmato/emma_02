@@ -21,6 +21,7 @@ public:
     void configureUart16450(VideoTerminalConfiguration videoTerminalConfiguration);
     void setTabChar(Byte value);
     Byte ef();
+    Byte efInterrupt();
     void out(Byte value);
     void cycleVt();
     void setInterlace(bool status);
@@ -59,6 +60,7 @@ public:
     void dataAvailableUart(bool data);
     void framingError(bool data);
     void selectUart16450Register(Byte value);
+    void uartCts(Byte value);
     void uartOut(Byte value);
     void uart16450Out(Byte value);
     void uartControl(Byte value);
@@ -212,6 +214,7 @@ private:
 
     Byte charRom_[4096];
     Byte vt100Ef_;
+    Byte vt100EfInterrupt_;
     Byte vtEnabled_;
 
     bool uartEf_;
@@ -271,6 +274,8 @@ private:
     int uart_fe_bit_;
     int uart_tsre_bit_;
     int uart_thre_bit_;
+    
+    bool cts_;
 
     AddressLocationConfiguration addressLocations_;
     wxString saveCommand_;

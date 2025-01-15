@@ -3326,7 +3326,6 @@ wxString DebugWindow::cdp1802disassemble(Word* address, bool showDetails, bool s
                     }
                     else
                         printBufferDetails.Printf("[%02X]", p_Computer->readMemDebug(p_Computer->getScratchpadRegister(p_Computer->getDataPointer())-1));
-                 //       }
                 break;
                 case 0x8:
                     if (cpuType_ == CPU1804 || cpuType_ == CPU1805)

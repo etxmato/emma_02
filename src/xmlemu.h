@@ -30,6 +30,7 @@
 #include "usb.h"
 #include "rtc.h"
 #include "pio.h"
+#include "cdp1877.h"
 #include "cdp1852.h"
 #include "cd4536b.h"
 #include "upd765.h"
@@ -41,12 +42,14 @@ public:
     wxString filename;
     Word start;
     Word end;
+    bool mcr;
+    int mcrMemNumber;
 };
 
-class Computer : public wxFrame, public Cdp1802, public Fdc, public Ide, public Keyboard, public Keyb1871, public PortExt, public Ps2, public Ps2gpio, public Joycard, public Usbcard, public Rtc, public Upd765
+class Computer : public wxFrame, public Cdp1802, public Fdc, public Ide, public Keyboard, public Keyb1871, public PortExt, public Ps2, public Ps2gpio, public Joycard, public Usbcard, public RtcCDP1879, public RtcDs12788, public Upd765
 {
 public:
-    Computer(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, int tempo, ComputerConfiguration computerConfig);
+    Computer(const wxString& title, double clock, int tempo, ComputerConfiguration computerConfig);
     Computer() {};
     ~Computer();
 
@@ -93,6 +96,7 @@ public:
     void cycleBitKeyPad();
     void cycleDma();
     void cycleInt();
+    void picInterruptRequest(int type, bool state, int picNumber);
     void cycleLed();
     void printOutPecom(int q);
     void onXmlF4(bool forceStart);
@@ -106,9 +110,11 @@ public:
     void showState(int state);
     void showDmaLed();
     void showIntLed();
+    void showStatusLed(int led, int status);
     void updateStatusBarLedStatus(bool status, int led);
 
     void autoBoot();
+    void dmaOnBoot();
     void switchQ(int value);
     int getMpButtonState();
     void onWaitButton(wxCommandEvent&event);
@@ -167,7 +173,7 @@ public:
     Byte readMemDataType(Word address, uint64_t* executed);
     Byte readMem(Word address);
     void writeMem(Word address, Byte value, bool writeRom);
-    Byte readMemDebug(Word address);
+    Byte readMemDebug(Word address, int function = 0);
     void writeMemDebug(Word address, Byte value, bool writeRom);
     void cpuInstruction();
     void resetPressed();
@@ -270,7 +276,6 @@ public:
     void terminalStop();
     void setDivider(Byte value);
     void dataAvailableVt100(bool data, int uartNumber);
-    void dataAvailableSerial(bool data);
     void thrStatusVt100(bool data);
     void thrStatusSerial(bool data);
     void saveRtc();
@@ -353,14 +358,19 @@ public:
     void switchBootStrap();
     Byte getTilHexFont(Word address, int segNumber);
 
+    void setThumbSwitch(Byte value) {thumbSwitchValue_ = value;};
 private:
     RunComputer *threadPointer;
-
+    wxString title_;
+    
     vector<PanelFrame *> panelPointer;
     int numberOfFrontPanels_;
 
     vector<PioFrame *> cdp1851FramePointer;
     int numberOfCdp1851Frames_;
+
+    vector<Cdp1877Instance *> cdp1877InstancePointer;
+    int numberOfCdp1877Instances_;
 
     vector<Cdp1852Frame *> cdp1852FramePointer;
     int numberOfCdp1852Frames_;
@@ -389,7 +399,8 @@ private:
     Vt100 *vtPointer;
 
     bool videoNumber_;
-    
+    int thumbSwitchValue_;
+
     int ledCycleValue_;
     int ledCycleSize_;
     long ledTimeMs_;
@@ -450,6 +461,7 @@ private:
     bool thermalPrinting_;
     Byte thermalEF_;
 
+    int selectedMap_;
     int selectedSlot_;
     int selectedBank_;
     int ioGroup_;

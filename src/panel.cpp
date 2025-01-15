@@ -311,6 +311,15 @@ SwitchButton::SwitchButton(wxDC& dc, int type, wxColour bkgrClr, bool state, wxC
             buttonStartY_ = 3;
         break;
 
+        case SWITCH_BUTTON_VERTICAL_GREEN:
+            upBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/swupgreen.png", wxBITMAP_TYPE_PNG);
+            downBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/swdowngreen.png", wxBITMAP_TYPE_PNG);
+            buttonSize_.x = 22;
+            buttonSize_.y = 22;
+            buttonStartX_ = 3;
+            buttonStartY_ = 3;
+        break;
+
         case SWITCH_BUTTON_HORIZONTAL:
             upBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/swright.png", wxBITMAP_TYPE_PNG);
             downBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/swleft.png", wxBITMAP_TYPE_PNG);
@@ -319,6 +328,16 @@ SwitchButton::SwitchButton(wxDC& dc, int type, wxColour bkgrClr, bool state, wxC
         case PUSH_BUTTON_ROUND_RED:
             upBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/pushup.png", wxBITMAP_TYPE_PNG);
             downBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/pushdown.png", wxBITMAP_TYPE_PNG);
+        break;
+
+        case PUSH_BUTTON_ROUND_RED_LARGE:
+            upBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/pushupLarge.png", wxBITMAP_TYPE_PNG);
+            downBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/pushdownLarge.png", wxBITMAP_TYPE_PNG);
+        break;
+
+        case PUSH_BUTTON_ROUND_GREEN_LARGE:
+            upBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/pushupLargeGreen.png", wxBITMAP_TYPE_PNG);
+            downBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/pushdownLargeGreen.png", wxBITMAP_TYPE_PNG);
         break;
 
         case PUSH_BUTTON_ROUND_BLACK:
@@ -356,7 +375,7 @@ SwitchButton::SwitchButton(wxDC& dc, int type, wxColour bkgrClr, bool state, wxC
         break;
 
         case ELF2K_IN_BUTTON:
-        case SWITCH_BUTTON_GREEN:
+        case SWITCH_BUTTON_SQUARE_GREEN:
             upBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/inButtonUp.png", wxBITMAP_TYPE_PNG);
             downBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/inButtonDown.png", wxBITMAP_TYPE_PNG);
             buttonSize_.x = 30;
@@ -368,6 +387,20 @@ SwitchButton::SwitchButton(wxDC& dc, int type, wxColour bkgrClr, bool state, wxC
             downBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/dip_switch_off.png", wxBITMAP_TYPE_PNG);
             buttonSize_.x = 8;
             buttonSize_.y = 20;
+        break;
+
+        case THUMB_MINUS_BUTTON:
+            upBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/thumb-minus.png", wxBITMAP_TYPE_PNG);
+            downBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/thumb-minus_down.png", wxBITMAP_TYPE_PNG);
+            buttonSize_.x = 18;
+            buttonSize_.y = 14;
+        break;
+            
+        case THUMB_PLUS_BUTTON:
+            upBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/thumb-plus.png", wxBITMAP_TYPE_PNG);
+            downBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/thumb-plus_down.png", wxBITMAP_TYPE_PNG);
+            buttonSize_.x = 18;
+            buttonSize_.y = 14;
         break;
 
         default:
@@ -549,7 +582,7 @@ void SwitchButton::enable(wxDC& dc, bool enabled)
     }
 }
 
-RotButton::RotButton(wxDC& dc, int state, wxCoord x, wxCoord y)
+RotButton::RotButton(wxDC& dc, int state, wxCoord x, wxCoord y, int type)
 {
     wxBitmap *bitmap;
     wxString linuxExtension = "";
@@ -723,14 +756,19 @@ Panel::~Panel()
         {
             case SWITCH_BUTTON_VERTICAL:
             case SWITCH_BUTTON_VERTICAL_RED:
+            case SWITCH_BUTTON_VERTICAL_GREEN:
             case SWITCH_BUTTON_HORIZONTAL:
             case PUSH_BUTTON_ROUND_RED:
             case PUSH_BUTTON_ROUND_BLACK:
+            case PUSH_BUTTON_ROUND_RED_LARGE:
+            case PUSH_BUTTON_ROUND_GREEN_LARGE:
             case ELF2K_POWER_BUTTON:
             case SWITCH_BUTTON_ORANGE:
             case SWITCH_BUTTON_YELLOW:
-            case SWITCH_BUTTON_GREEN:
+            case SWITCH_BUTTON_SQUARE_GREEN:
             case SWITCH_BUTTON_BLUE:
+            case THUMB_MINUS_BUTTON:
+            case THUMB_PLUS_BUTTON:
                 delete button->switchButton;
             break;
 
@@ -784,6 +822,8 @@ Panel::~Panel()
             case LED_REAL_ORANGE:
             case LED_LARGE_RED:
             case LED_LARGE_GREEN:
+            case LED_LARGE_ORANGE:
+            case LED_LARGE_COLOR:
             case LED_SMALL_RED_DISABLE:
                 switch (button->function)
                 {
@@ -845,8 +885,10 @@ Panel::~Panel()
     }
 }
 
-void Panel::init(vector<GuiItemConfiguration> buttonConfig, wxSize panelSize)
+void Panel::init(vector<GuiItemConfiguration> buttonConfig, wxSize panelSize, int picInterruptNumber)
 {    
+    picInterruptNumber_ = picInterruptNumber;
+
     readyLedPointerDefined = false;
     stopLedPointerDefined = false;
     powerLedPointerDefined = false;
@@ -871,6 +913,8 @@ void Panel::init(vector<GuiItemConfiguration> buttonConfig, wxSize panelSize)
         adiArray_[i]=0;
         adsArray_[i]=0;
     }
+    for (int i=0; i<MAX_THUMB_VALUE; i++)
+        thumbValue[i] = 0;
 
     keyStart_ = 0;
     keyEnd_ = 0;
@@ -890,7 +934,7 @@ void Panel::init(vector<GuiItemConfiguration> buttonConfig, wxSize panelSize)
     spinCtrlAdiVoltDefined = false;
     spinCtrlAdsDefined = false;
     spinCtrlAdsVoltDefined = false;
-
+    
     wxClientDC dc(this);
         
     for (std::vector<GuiItemConfiguration>::iterator button = guiItemConfiguration.begin (); button != guiItemConfiguration.end (); ++button)
@@ -901,14 +945,19 @@ void Panel::init(vector<GuiItemConfiguration> buttonConfig, wxSize panelSize)
         {
             case SWITCH_BUTTON_VERTICAL:
             case SWITCH_BUTTON_VERTICAL_RED:
+            case SWITCH_BUTTON_VERTICAL_GREEN:
             case SWITCH_BUTTON_HORIZONTAL:
             case PUSH_BUTTON_ROUND_RED:
             case PUSH_BUTTON_ROUND_BLACK:
+            case PUSH_BUTTON_ROUND_RED_LARGE:
+            case PUSH_BUTTON_ROUND_GREEN_LARGE:
             case ELF2K_POWER_BUTTON:
             case SWITCH_BUTTON_ORANGE:
             case SWITCH_BUTTON_YELLOW:
-            case SWITCH_BUTTON_GREEN:
+            case SWITCH_BUTTON_SQUARE_GREEN:
             case SWITCH_BUTTON_BLUE:
+            case THUMB_MINUS_BUTTON:
+            case THUMB_PLUS_BUTTON:
                 button->switchButton = new SwitchButton(dc, button->type, wxColour(255, 255, 255), button->initup, button->position.x, button->position.y, button->label);
                 switch (button->function)
                 {
@@ -944,8 +993,14 @@ void Panel::init(vector<GuiItemConfiguration> buttonConfig, wxSize panelSize)
 
                     case BUTTON_FUNC_IN:
                     case BUTTON_FUNC_IN_SWITCH:
+                    case BUTTON_FUNC_IN_INTERRUPT:
                         inButton = button;
                         inButtonDefined = true;
+                    break;
+
+                    case BUTTON_FUNC_THUMB_PLUS:
+                    case BUTTON_FUNC_THUMB_MINUS:
+                        p_Computer->setThumbSwitch(0);
                     break;
                 }
             break;
@@ -955,7 +1010,7 @@ void Panel::init(vector<GuiItemConfiguration> buttonConfig, wxSize panelSize)
             break;
                 
             case ROT_SWITCH_BUTTON:
-                button->rotButton = new RotButton(dc, 0, button->position.x, button->position.y);
+                button->rotButton = new RotButton(dc, 0, button->position.x, button->position.y, button->type);
             break;
 
             case ADI_SPINCTRL:
@@ -1004,23 +1059,30 @@ void Panel::init(vector<GuiItemConfiguration> buttonConfig, wxSize panelSize)
             case LED_REAL_ORANGE:
             case LED_LARGE_RED:
             case LED_LARGE_GREEN:
+            case LED_LARGE_ORANGE:
+            case LED_LARGE_COLOR:
             case LED_SMALL_RED_DISABLE:
                 switch (button->function)
                 {
                     case LED_FUNC_POWER:
                         powerLedPointer = new Led(dc, button->position.x, button->position.y, button->type, button->reversePol);
+                        powerLedPointerDefined = true;
                     break;
                     case LED_FUNC_STOP:
                         stopLedPointer = new Led(dc, button->position.x, button->position.y, button->type, button->reversePol);
+                        stopLedPointerDefined = true;
                     break;
                     case LED_FUNC_READY:
                         readyLedPointer = new Led(dc, button->position.x, button->position.y, button->type, button->reversePol);
+                        readyLedPointerDefined = true;
                     break;
                     case LED_FUNC_ERROR:
                         errorLedPointer = new Led(dc, button->position.x, button->position.y, button->type, button->reversePol);
+                        errorLedPointerDefined = true;
                     break;
                     case LED_FUNC_Q:
                         qLedPointer = new Led(dc, button->position.x, button->position.y, button->type, button->reversePol);
+                        qLedPointerDefined = true;
                     break;
                     case LED_FUNC_NIBBLE:
                         if (button->value >= 2)
@@ -1198,14 +1260,19 @@ void Panel::onPaint(wxPaintEvent&WXUNUSED(event))
         {
             case PUSH_BUTTON_ROUND_RED:
             case PUSH_BUTTON_ROUND_BLACK:
+            case PUSH_BUTTON_ROUND_RED_LARGE:
+            case PUSH_BUTTON_ROUND_GREEN_LARGE:
             case SWITCH_BUTTON_VERTICAL:
             case SWITCH_BUTTON_VERTICAL_RED:
+            case SWITCH_BUTTON_VERTICAL_GREEN:
             case SWITCH_BUTTON_HORIZONTAL:
             case ELF2K_POWER_BUTTON:
             case SWITCH_BUTTON_ORANGE:
             case SWITCH_BUTTON_YELLOW:
-            case SWITCH_BUTTON_GREEN:
+            case SWITCH_BUTTON_SQUARE_GREEN:
             case SWITCH_BUTTON_BLUE:
+            case THUMB_MINUS_BUTTON:
+            case THUMB_PLUS_BUTTON:
                 button->switchButton->onPaint(dc);
             break;
 
@@ -1241,6 +1308,8 @@ void Panel::onPaint(wxPaintEvent&WXUNUSED(event))
             case LED_REAL_ORANGE:
             case LED_LARGE_RED:
             case LED_LARGE_GREEN:
+            case LED_LARGE_ORANGE:
+            case LED_LARGE_COLOR:
             case LED_SMALL_RED_DISABLE:
                 switch (button->function)
                 {
@@ -1281,10 +1350,19 @@ void Panel::onPaint(wxPaintEvent&WXUNUSED(event))
             break;
 
             case PANEL_TEXT:
+            case THUMB_TEXT:
                 dc.SetTextForeground(p_Main->getGuiTextColour(button->color));
                 wxFont defaultFont(button->textSize, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
                 dc.SetFont(defaultFont);
-                dc.DrawText(button->label, button->position.x, button->position.y);
+                if (button->type == PANEL_TEXT)
+                    dc.DrawText(button->label, button->position.x, button->position.y);
+                else
+                {
+                    wxString value ="0";
+                    if (button->value < MAX_THUMB_VALUE)
+                        value.Printf("%01X", thumbValue[button->value]);
+                    dc.DrawText(value, button->position.x, button->position.y);
+                }
             break;
         }
     }
@@ -1422,14 +1500,19 @@ void Panel::onMousePress(wxMouseEvent&event)
         {
             case PUSH_BUTTON_ROUND_RED:
             case PUSH_BUTTON_ROUND_BLACK:
+            case PUSH_BUTTON_ROUND_RED_LARGE:
+            case PUSH_BUTTON_ROUND_GREEN_LARGE:
             case SWITCH_BUTTON_VERTICAL:
             case SWITCH_BUTTON_VERTICAL_RED:
+            case SWITCH_BUTTON_VERTICAL_GREEN:
             case SWITCH_BUTTON_HORIZONTAL:
             case ELF2K_POWER_BUTTON:
             case SWITCH_BUTTON_ORANGE:
             case SWITCH_BUTTON_YELLOW:
-            case SWITCH_BUTTON_GREEN:
+            case SWITCH_BUTTON_SQUARE_GREEN:
             case SWITCH_BUTTON_BLUE:
+            case THUMB_MINUS_BUTTON:
+            case THUMB_PLUS_BUTTON:
                 if (button->switchButton->onMousePress(dc, x, y))
                     executeMousePressFunction(button);
             break;
@@ -1470,13 +1553,16 @@ void Panel::onMouseRelease(wxMouseEvent&event)
         {
             case PUSH_BUTTON_ROUND_RED:
             case PUSH_BUTTON_ROUND_BLACK:
+            case PUSH_BUTTON_ROUND_RED_LARGE:
+            case PUSH_BUTTON_ROUND_GREEN_LARGE:
             case SWITCH_BUTTON_VERTICAL:
             case SWITCH_BUTTON_VERTICAL_RED:
+            case SWITCH_BUTTON_VERTICAL_GREEN:
             case SWITCH_BUTTON_HORIZONTAL:
             case ELF2K_POWER_BUTTON:
             case SWITCH_BUTTON_ORANGE:
             case SWITCH_BUTTON_YELLOW:
-            case SWITCH_BUTTON_GREEN:
+            case SWITCH_BUTTON_SQUARE_GREEN:
             case SWITCH_BUTTON_BLUE:
                 if (button->switchButton->onMouseRelease(dc, x, y))
                     executeMouseReleaseFunction(button);
@@ -1554,6 +1640,11 @@ void Panel::executeMousePressFunction(std::vector<GuiItemConfiguration>::iterato
         case BUTTON_FUNC_IN_SWITCH:
             p_Computer->onInButtonPress(IN_BUTTON_SWITCH);
         break;
+            
+        case BUTTON_FUNC_IN_INTERRUPT:
+            p_Computer->onInButtonPress(IN_BUTTON_PUSH);
+            p_Computer->requestInterrupt(INTERRUPT_TYPE_INPUT, true, picInterruptNumber_);
+        break;
 
         case BUTTON_FUNC_HEX:
             p_Computer->charEvent(button->value);
@@ -1578,6 +1669,24 @@ void Panel::executeMousePressFunction(std::vector<GuiItemConfiguration>::iterato
             p_Computer->onClearResetButtonPress();
         break;
 
+        case BUTTON_FUNC_THUMB_PLUS:
+            if (button->value < MAX_THUMB_VALUE)
+            {
+                thumbValue[button->value]++;
+                thumbValue[button->value] &= 0xf;
+            }
+            p_Computer->setThumbSwitch((thumbValue[1] << 4) + thumbValue[0]);
+        break;
+
+        case BUTTON_FUNC_THUMB_MINUS:
+            if (button->value < MAX_THUMB_VALUE)
+            {
+                thumbValue[button->value]--;
+                thumbValue[button->value] &= 0xf;
+            }
+            p_Computer->setThumbSwitch((thumbValue[1] << 4) + thumbValue[0]);
+        break;
+
         default:
             executeMouseLeftFunction(button);
         break;
@@ -1593,6 +1702,7 @@ void Panel::executeMouseReleaseFunction(std::vector<GuiItemConfiguration>::itera
     {
         case BUTTON_FUNC_IN:
         case BUTTON_FUNC_IN_SWITCH:
+        case BUTTON_FUNC_IN_INTERRUPT:
             p_Computer->onInButtonRelease();
         break;
             

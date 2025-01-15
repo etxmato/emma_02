@@ -18,6 +18,8 @@
 		991504CC2944BD3A0078B02D /* libserialport.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 991504CB2944BD3A0078B02D /* libserialport.a */; };
 		99200F2928C299E300E94880 /* vis1870.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99200F2728C299E300E94880 /* vis1870.cpp */; };
 		99200F2A28C299E300E94880 /* vis1870.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99200F2728C299E300E94880 /* vis1870.cpp */; };
+		9926E24E2D3050C300A4530B /* cdp1877.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9926E24C2D3050C200A4530B /* cdp1877.cpp */; };
+		9926E24F2D3050C300A4530B /* cdp1877.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9926E24C2D3050C200A4530B /* cdp1877.cpp */; };
 		99321273285FB74F00A7793E /* mac_OS12.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99321272285FB74F00A7793E /* mac_OS12.cpp */; };
 		9935652B21446B7000A329C6 /* STK-2.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 9935652A21446B7000A329C6 /* STK-2.syntax */; };
 		993B164A211EBD9C008A5656 /* GPL-2.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 993B1649211EBD9C008A5656 /* GPL-2.syntax */; };
@@ -352,6 +354,8 @@
 		991A43EB279CA7FA0049C544 /* vt_12.xrc */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = vt_12.xrc; sourceTree = "<group>"; };
 		99200F2728C299E300E94880 /* vis1870.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = vis1870.cpp; path = src/vis1870.cpp; sourceTree = "<group>"; };
 		99200F2828C299E300E94880 /* vis1870.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = vis1870.h; path = src/vis1870.h; sourceTree = "<group>"; };
+		9926E24C2D3050C200A4530B /* cdp1877.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cdp1877.cpp; path = src/cdp1877.cpp; sourceTree = "<group>"; };
+		9926E24D2D3050C200A4530B /* cdp1877.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cdp1877.h; path = src/cdp1877.h; sourceTree = "<group>"; };
 		99321272285FB74F00A7793E /* mac_OS12.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mac_OS12.cpp; path = src/mac_OS12.cpp; sourceTree = "<group>"; };
 		9935652A21446B7000A329C6 /* STK-2.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "STK-2.syntax"; sourceTree = "<group>"; };
 		993B1649211EBD9C008A5656 /* GPL-2.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "GPL-2.syntax"; sourceTree = "<group>"; };
@@ -770,6 +774,8 @@
 				9976475C1A61D5EE00FB9B33 /* cdp1802.h */,
 				9970174B23298F2C00D66312 /* cdp1852.cpp */,
 				9970174C23298F2C00D66312 /* cdp1852.h */,
+				9926E24C2D3050C200A4530B /* cdp1877.cpp */,
+				9926E24D2D3050C200A4530B /* cdp1877.h */,
 				999411EF28246A950017D756 /* computerconfig.h */,
 				998A12AB29C11E05002E3FBD /* cvkeypad.cpp */,
 				998A12AC29C11E05002E3FBD /* cvkeypad.h */,
@@ -1201,6 +1207,7 @@
 				994F84FF28CBD9C200CCFB27 /* bitkeypad.cpp in Sources */,
 				996F46261AA643B300C88AA6 /* keymaptmc.cpp in Sources */,
 				997647CD1A61D5EF00FB9B33 /* guivip2.cpp in Sources */,
+				9926E24E2D3050C300A4530B /* cdp1877.cpp in Sources */,
 				99605651230AF26F009FF74F /* pio.cpp in Sources */,
 				997647F31A61D5EF00FB9B33 /* i8275.cpp in Sources */,
 				9970174D23298F2D00D66312 /* cdp1852.cpp in Sources */,
@@ -1280,6 +1287,7 @@
 				994F850028CBD9C200CCFB27 /* bitkeypad.cpp in Sources */,
 				99F37EC1285D1D9200C57417 /* keymaptmc.cpp in Sources */,
 				99F37EC3285D1D9200C57417 /* guivip2.cpp in Sources */,
+				9926E24F2D3050C300A4530B /* cdp1877.cpp in Sources */,
 				99F37EC4285D1D9200C57417 /* pio.cpp in Sources */,
 				99F37EC5285D1D9200C57417 /* i8275.cpp in Sources */,
 				99F37EC6285D1D9200C57417 /* cdp1852.cpp in Sources */,

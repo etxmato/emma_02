@@ -1,0 +1,113 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>VT1802</name>
+        <config>Loopback terminal online, character size: 7x9, screensize 80x25</config>
+        <clock>4.9152</clock>
+        <boot>0</boot>
+        <init ef="1">1</init>
+        <init ef="2">1</init>
+        <init ef="3">1</init>
+        <dirname>VT1802</dirname>
+    </system>
+        
+    <memory>
+        <rom type="gui">
+            <start>0</start>
+            <end>0x7FFF</end>
+            <pulldown mask="*.hex">VT1802</pulldown>
+            <filename verify="true">eprom-12MHz-7pixels.hex</filename>
+        </rom>
+        
+        <ram type="gui">
+           <start>0x8000</start>
+           <end>0xFFFF</end>
+        </ram>
+    </memory>
+  
+    <flipflop>
+        <out>1</out>
+        <function number="2">rs232_cts</function>
+    </flipflop>
+        
+    <video type="intel8275">
+        <font gpa="switched">vtfont.bin</font>
+        <zoom>1</zoom>
+        <out type="command">7</out>
+        <out type="parameter">6</out>
+        <in type="status">7</in>
+        <in type="parameter">6</in>
+        <ef>1</ef>
+        <ef type="horizontal">4</ef>
+        <clock>12</clock>
+        <char>7x9</char>
+        <screen>80x25</screen>
+        <interlace />
+        <border>4x4</border>
+        <color type="fore">0, 255, 0</color>
+        <color type="back">0, 0x40, 0</color>
+        <color type="high">0, 0x80, 0</color>
+    </video>
+
+    <sound type="cdp1863">
+        <out>4</out>
+    </sound>
+
+    <dip>
+        <value>0x7</value>
+        <in>4</in>
+    </dip>
+        
+    <keyboard type="ps2-89C4051">
+        <in>5</in>
+        <ef>3</ef>
+        <startup>D</startup>
+        <int />
+        <caps />
+        <keydef type="text" value="0x80" os="mac">esc</keydef>
+        <keydef type="text" value="0x80" os="windows">pause</keydef>
+        <keydef type="text" value="0x90">up</keydef>
+        <keydef type="text" value="0x91">down</keydef>
+        <keydef type="text" value="0x95" os="mac">tab</keydef>
+        <keydef type="text" value="0x95" os="windows">menu</keydef>
+        <keydef type="text" value="0xaf">numpad_enter</keydef>
+    </keyboard>
+
+    <vt type="loop_back" connection="uart1854">
+         <font>vt100.bin</font>
+         <out type="register">2</out>
+         <out type="control">3</out>
+         <in type="register">2</in>
+         <in type="status">3</in>
+         <ef type="int" pol="rev">2</ef>
+         <baud type="receive">9600</baud>
+         <baud type="transmit">9600</baud>
+     </vt>
+    
+    <basic>
+        <pload>RCA</pload>
+        <defus>0x8081</defus>
+        <eop>0x8083</eop>
+        <string>0x8092</string>
+        <array>0x8094</array>
+        <eod>0x8099</eod>
+        <ram>0x8200</ram>
+    </basic>
+
+    <debugger>
+        <scrt mode="on">
+            <call reg="4">0x2301</call>
+            <return reg="5">0x2313</return>
+        </scrt>
+        
+        <assembler>
+            <filename>mycode</filename>
+            <code_start>0x8200</code_start>
+            <code_end>0x91FF</code_end>
+        </assembler>
+    </debugger>
+
+</emmaconfig>

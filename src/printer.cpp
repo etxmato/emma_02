@@ -1512,9 +1512,9 @@ Byte Printer::inSerialComx()
 {
     printValue_ = 0;
     bit_ = 0;
-    dataBits_ = p_Computer->getRam(0x41b2) & 0xf;
+    dataBits_ = p_Computer->getMainMemory(0x41b2) & 0xf;
     stopBit_ = dataBits_ + 1;
-    if (p_Computer->getRam(0x41b2) & 0x30)
+    if (p_Computer->getMainMemory(0x41b2) & 0x30)
         stopBit_++;
 
     if (printMode_ != PRINTFILE && !printStarted_)

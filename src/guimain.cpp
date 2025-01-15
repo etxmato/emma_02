@@ -426,43 +426,6 @@ void GuiMain::openPrinterFrame(wxCommandEvent&WXUNUSED(event))
     p_Main->onXmlF4(NO_FORCE_START);
 }
 
-void GuiMain::onIde(wxCommandEvent& WXUNUSED(event) )
-{
-    wxString fileName;
-
-    fileName = wxFileSelector( "Select the IDE file to load",
-                               computerConfiguration.ideFileConfiguration.directory, XRCCTRL(*this, "IdeFileXml", wxTextCtrl)->GetValue(),
-                               "ide",
-                               wxString::Format
-                              (
-                                    "IDE Image (*.ide)|*.ide|All files (%s)|%s",
-                                    wxFileSelectorDefaultWildcardStr,
-                                    wxFileSelectorDefaultWildcardStr
-                               ),
-                               wxFD_OPEN|wxFD_CHANGE_DIR|wxFD_PREVIEW,
-                               this
-                              );
-    if (!fileName)
-        return;
-
-    wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
-    computerConfiguration.ideFileConfiguration.directory = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
-    computerConfiguration.ideFileConfiguration.fileName = FullPath.GetFullName();
-
-    XRCCTRL(*this, "IdeFileXml", wxTextCtrl)->SetValue(computerConfiguration.ideFileConfiguration.fileName);
-}
-
-void GuiMain::onIdeEject(wxCommandEvent& WXUNUSED(event) )
-{
-    computerConfiguration.ideFileConfiguration.fileName = "";
-    XRCCTRL(*this, "IdeFileXml", wxTextCtrl)->SetValue(computerConfiguration.ideFileConfiguration.fileName);
-}
-
-void GuiMain::onIdeText(wxCommandEvent& event)
-{
-    computerConfiguration.ideFileConfiguration.fileName = event.GetString();
-}
-
 void GuiMain::onCharRom(wxCommandEvent& WXUNUSED(event) )
 {
     wxString fileName;
@@ -507,6 +470,9 @@ void GuiMain::setVtType(int Selection, bool GuiChange)
     if (computerConfiguration.videoTerminalConfiguration.external & !GuiChange)
         Selection = EXTERNAL_TERMINAL;
     
+    if (computerConfiguration.videoTerminalConfiguration.loop_back & !GuiChange)
+        Selection = LOOP_BACK;
+
     switch(Selection)
     {
         case VTNONE:
@@ -527,6 +493,7 @@ void GuiMain::setVtType(int Selection, bool GuiChange)
                 XRCCTRL(*this, "StretchDotXml", wxCheckBox)->Enable(false);
             }
             computerConfiguration.videoTerminalConfiguration.external = false;
+            computerConfiguration.videoTerminalConfiguration.loop_back = false;
         break;
 
         case VT52:
@@ -547,6 +514,7 @@ void GuiMain::setVtType(int Selection, bool GuiChange)
                 XRCCTRL(*this, "StretchDotXml", wxCheckBox)->Enable(true);
             }
             computerConfiguration.videoTerminalConfiguration.external = false;
+            computerConfiguration.videoTerminalConfiguration.loop_back = false;
         break;
 
         case VT100:
@@ -567,6 +535,7 @@ void GuiMain::setVtType(int Selection, bool GuiChange)
                 XRCCTRL(*this, "StretchDotXml", wxCheckBox)->Enable(true);
             }
             computerConfiguration.videoTerminalConfiguration.external = false;
+            computerConfiguration.videoTerminalConfiguration.loop_back = false;
         break;
     
         case EXTERNAL_TERMINAL:
@@ -582,6 +551,24 @@ void GuiMain::setVtType(int Selection, bool GuiChange)
                 XRCCTRL(*this, "TurboXml", wxCheckBox)->SetValue(false);
             }
             computerConfiguration.videoTerminalConfiguration.external = true;
+            computerConfiguration.videoTerminalConfiguration.loop_back = false;
+            computerConfiguration.videoTerminalConfiguration.type = VTNONE;
+        break;
+
+        case LOOP_BACK:
+            if (mode_.gui)
+            {
+                XRCCTRL(*this, "VTBaudRChoiceXml", wxChoice)->Enable(computerConfiguration.videoTerminalConfiguration.uart1854_defined || computerConfiguration.videoTerminalConfiguration.uart16450_defined);
+                XRCCTRL(*this, "VTBaudTChoiceXml", wxChoice)->Enable(true);
+                XRCCTRL(*this, "VTBaudRTextXml", wxStaticText)->Enable(computerConfiguration.videoTerminalConfiguration.uart1854_defined || computerConfiguration.videoTerminalConfiguration.uart16450_defined);
+                XRCCTRL(*this, "VTBaudTTextXml", wxStaticText)->Enable(true);
+                XRCCTRL(*this, "VtSetupXml", wxButton)->Enable(true);
+
+                XRCCTRL(*this, "AutoCasLoadXml", wxCheckBox)->SetValue(false);
+                XRCCTRL(*this, "TurboXml", wxCheckBox)->SetValue(false);
+            }
+            computerConfiguration.videoTerminalConfiguration.external = false;
+            computerConfiguration.videoTerminalConfiguration.loop_back = true;
             computerConfiguration.videoTerminalConfiguration.type = VTNONE;
         break;
     }
@@ -1124,30 +1111,30 @@ void GuiMain::onPsave(wxString fileName)
                 address = computerConfiguration.basicConfiguration.ramAddress.value;
                 highRamAddress = (computerConfiguration.basicConfiguration.ramAddress.value & 0xff00) >> 8;
                 buffer [0] = 6;
-                length = (p_Computer->getRam(computerConfiguration.basicConfiguration.eop.value) - highRamAddress) << 8;
+                length = (p_Computer->getMainMemory(computerConfiguration.basicConfiguration.eop.value) - highRamAddress) << 8;
 
                 if (p_Computer->isFAndMBasicRunning())
                 {
                     address = 0x6700;
                     buffer [0] = 3;
                     highRamAddress = 0;
-                    length = (p_Computer->getRam(computerConfiguration.basicConfiguration.eop.value) - 0x67) << 8;
+                    length = (p_Computer->getMainMemory(computerConfiguration.basicConfiguration.eop.value) - 0x67) << 8;
                 }
-                length += p_Computer->getRam(computerConfiguration.basicConfiguration.eop.value+1);
+                length += p_Computer->getMainMemory(computerConfiguration.basicConfiguration.eop.value+1);
                 buffer [1] = computerConfiguration.basicConfiguration.pLoadSaveName[0];
                 buffer [2] = computerConfiguration.basicConfiguration.pLoadSaveName[1];
                 buffer [3] = computerConfiguration.basicConfiguration.pLoadSaveName[2];
                 buffer [4] = computerConfiguration.basicConfiguration.pLoadSaveName[3];
-                buffer [5] = p_Computer->getRam(computerConfiguration.basicConfiguration.defus.value)-highRamAddress;
-                buffer [6] = p_Computer->getRam(computerConfiguration.basicConfiguration.defus.value+1);
-                buffer [7] = p_Computer->getRam(computerConfiguration.basicConfiguration.eop.value)-highRamAddress;
-                buffer [8] = p_Computer->getRam(computerConfiguration.basicConfiguration.eop.value+1);
-                buffer [9] = p_Computer->getRam(computerConfiguration.basicConfiguration.string.value)-highRamAddress;
-                buffer [10] = p_Computer->getRam(computerConfiguration.basicConfiguration.string.value+1);
-                buffer [11] = p_Computer->getRam(computerConfiguration.basicConfiguration.array.value)-highRamAddress;
-                buffer [12] = p_Computer->getRam(computerConfiguration.basicConfiguration.array.value+1);
-                buffer [13] = p_Computer->getRam(computerConfiguration.basicConfiguration.eod.value)-highRamAddress;
-                buffer [14] = p_Computer->getRam(computerConfiguration.basicConfiguration.eod.value+1);
+                buffer [5] = p_Computer->getMainMemory(computerConfiguration.basicConfiguration.defus.value)-highRamAddress;
+                buffer [6] = p_Computer->getMainMemory(computerConfiguration.basicConfiguration.defus.value+1);
+                buffer [7] = p_Computer->getMainMemory(computerConfiguration.basicConfiguration.eop.value)-highRamAddress;
+                buffer [8] = p_Computer->getMainMemory(computerConfiguration.basicConfiguration.eop.value+1);
+                buffer [9] = p_Computer->getMainMemory(computerConfiguration.basicConfiguration.string.value)-highRamAddress;
+                buffer [10] = p_Computer->getMainMemory(computerConfiguration.basicConfiguration.string.value+1);
+                buffer [11] = p_Computer->getMainMemory(computerConfiguration.basicConfiguration.array.value)-highRamAddress;
+                buffer [12] = p_Computer->getMainMemory(computerConfiguration.basicConfiguration.array.value+1);
+                buffer [13] = p_Computer->getMainMemory(computerConfiguration.basicConfiguration.eod.value)-highRamAddress;
+                buffer [14] = p_Computer->getMainMemory(computerConfiguration.basicConfiguration.eod.value+1);
                 start = 15;
                 length += start;
             }
@@ -1204,14 +1191,14 @@ void GuiMain::onDataSaveButton(wxCommandEvent& WXUNUSED(event) )
     {
         if (outputFile.Create(fileName, true))
         {
-            eop = p_Computer->getRam(computerConfiguration.basicConfiguration.eop.value) << 8;
-            eop += p_Computer->getRam(computerConfiguration.basicConfiguration.eop.value+1);
-            arrayStart = p_Computer->getRam(computerConfiguration.basicConfiguration.array.value) << 8;
-            arrayStart += p_Computer->getRam(computerConfiguration.basicConfiguration.array.value+1);
-            stringStart = p_Computer->getRam(computerConfiguration.basicConfiguration.string.value) << 8;
-            stringStart += p_Computer->getRam(computerConfiguration.basicConfiguration.string.value+1);
-            dataEnd = p_Computer->getRam(computerConfiguration.basicConfiguration.eod.value) << 8;
-            dataEnd += p_Computer->getRam(computerConfiguration.basicConfiguration.eod.value+1);
+            eop = p_Computer->getMainMemory(computerConfiguration.basicConfiguration.eop.value) << 8;
+            eop += p_Computer->getMainMemory(computerConfiguration.basicConfiguration.eop.value+1);
+            arrayStart = p_Computer->getMainMemory(computerConfiguration.basicConfiguration.array.value) << 8;
+            arrayStart += p_Computer->getMainMemory(computerConfiguration.basicConfiguration.array.value+1);
+            stringStart = p_Computer->getMainMemory(computerConfiguration.basicConfiguration.string.value) << 8;
+            stringStart += p_Computer->getMainMemory(computerConfiguration.basicConfiguration.string.value+1);
+            dataEnd = p_Computer->getMainMemory(computerConfiguration.basicConfiguration.eod.value) << 8;
+            dataEnd += p_Computer->getMainMemory(computerConfiguration.basicConfiguration.eod.value+1);
             dataLength = dataEnd-arrayStart;
             arrayLength = stringStart-arrayStart;
             buffer [0] = 5;
@@ -1229,7 +1216,7 @@ void GuiMain::onDataSaveButton(wxCommandEvent& WXUNUSED(event) )
 
             for (size_t i=start; i<dataLength; i++)
             {
-                buffer[i] = p_Computer->getRam(address);
+                buffer[i] = p_Computer->getMainMemory(address);
                 address++;
             }
             outputFile.Write(buffer, dataLength);
@@ -1866,27 +1853,6 @@ double GuiMain::getZoomVt()
     return zoomVt;
 }
 
-wxPoint GuiMain::getMainPos()
-{
-    return wxPoint(computerConfiguration.mainX_, computerConfiguration.mainY_);
-}
-
-void GuiMain::setMainPos(wxPoint position)
-{
-    if (!mode_.window_position_fixed)
-    {
-        computerConfiguration.mainX_ = -1;
-        computerConfiguration.mainY_ = -1;
-    }
-    else
-    {
-        if (position.x > 0)
-            computerConfiguration.mainX_ = position.x;
-        if (position.y > 0)
-            computerConfiguration.mainY_ = position.y;
-    }
-}
-
 wxPoint GuiMain::getCoinPos()
 {
     return wxPoint(computerConfiguration.coinConfiguration.x, computerConfiguration.coinConfiguration.y);
@@ -2161,6 +2127,11 @@ void GuiMain::setSN76430NPos(wxPoint position)
     }
 }
 
+wxPoint GuiMain::getCdp1851Pos(int number)
+{
+    return wxPoint(computerConfiguration.cdp1851Configuration[number].pos.x, computerConfiguration.cdp1851Configuration[number].pos.y);
+}
+
 void GuiMain::setCdp1851Pos(wxPoint position, int number)
 {
     if (!mode_.window_position_fixed)
@@ -2177,6 +2148,11 @@ void GuiMain::setCdp1851Pos(wxPoint position, int number)
     }
 }
 
+wxPoint GuiMain::getCdp1852Pos(int number)
+{
+    return wxPoint(computerConfiguration.cdp1852Configuration[number].pos.x, computerConfiguration.cdp1852Configuration[number].pos.y);
+}
+
 void GuiMain::setCdp1852Pos(wxPoint position, int number)
 {
     if (!mode_.window_position_fixed)
@@ -2190,6 +2166,27 @@ void GuiMain::setCdp1852Pos(wxPoint position, int number)
             computerConfiguration.cdp1852Configuration[number].pos.x = position.x;
         if (position.x > 0)
             computerConfiguration.cdp1852Configuration[number].pos.y = position.y;
+    }
+}
+
+wxPoint GuiMain::getFrontPanelPos(int number)
+{
+    return wxPoint(computerConfiguration.frontPanelConfiguration[number].pos.x, computerConfiguration.frontPanelConfiguration[number].pos.y);
+}
+
+void GuiMain::setFrontPanelPos(wxPoint position, int number)
+{
+    if (!mode_.window_position_fixed)
+    {
+        computerConfiguration.frontPanelConfiguration[number].pos.x = -1;
+        computerConfiguration.frontPanelConfiguration[number].pos.y = -1;
+    }
+    else
+    {
+        if (position.y > 0)
+            computerConfiguration.frontPanelConfiguration[number].pos.x = position.x;
+        if (position.x > 0)
+            computerConfiguration.frontPanelConfiguration[number].pos.y = position.y;
     }
 }
 
@@ -2271,16 +2268,16 @@ int GuiMain::pload()
                         }
                         address = 0x6700;
                     }
-                    p_Computer->setRam(computerConfiguration.basicConfiguration.defus.value, (Byte)buffer[5]+fAndMBasicOffset);
-                    p_Computer->setRam(computerConfiguration.basicConfiguration.defus.value+1, (Byte)buffer[6]);
-                    p_Computer->setRam(computerConfiguration.basicConfiguration.eop.value, (Byte)buffer[7]+fAndMBasicOffset);
-                    p_Computer->setRam(computerConfiguration.basicConfiguration.eop.value+1, (Byte)buffer[8]);
-                    p_Computer->setRam(computerConfiguration.basicConfiguration.string.value, (Byte)buffer[9]+fAndMBasicOffset);
-                    p_Computer->setRam(computerConfiguration.basicConfiguration.string.value+1, (Byte)buffer[10]);
-                    p_Computer->setRam(computerConfiguration.basicConfiguration.array.value, (Byte)buffer[11]+fAndMBasicOffset);
-                    p_Computer->setRam(computerConfiguration.basicConfiguration.array.value+1, (Byte)buffer[12]);
-                    p_Computer->setRam(computerConfiguration.basicConfiguration.eod.value, (Byte)buffer[9]+fAndMBasicOffset);
-                    p_Computer->setRam(computerConfiguration.basicConfiguration.eod.value+1, (Byte)buffer[10]);
+                    p_Computer->setMainMemory(computerConfiguration.basicConfiguration.defus.value, (Byte)buffer[5]+fAndMBasicOffset);
+                    p_Computer->setMainMemory(computerConfiguration.basicConfiguration.defus.value+1, (Byte)buffer[6]);
+                    p_Computer->setMainMemory(computerConfiguration.basicConfiguration.eop.value, (Byte)buffer[7]+fAndMBasicOffset);
+                    p_Computer->setMainMemory(computerConfiguration.basicConfiguration.eop.value+1, (Byte)buffer[8]);
+                    p_Computer->setMainMemory(computerConfiguration.basicConfiguration.string.value, (Byte)buffer[9]+fAndMBasicOffset);
+                    p_Computer->setMainMemory(computerConfiguration.basicConfiguration.string.value+1, (Byte)buffer[10]);
+                    p_Computer->setMainMemory(computerConfiguration.basicConfiguration.array.value, (Byte)buffer[11]+fAndMBasicOffset);
+                    p_Computer->setMainMemory(computerConfiguration.basicConfiguration.array.value+1, (Byte)buffer[12]);
+                    p_Computer->setMainMemory(computerConfiguration.basicConfiguration.eod.value, (Byte)buffer[9]+fAndMBasicOffset);
+                    p_Computer->setMainMemory(computerConfiguration.basicConfiguration.eod.value+1, (Byte)buffer[10]);
                     p_Main->eventSetLocation(false);
                     start = 15;
                 break;
@@ -2293,41 +2290,41 @@ int GuiMain::pload()
                         p_Main->errorMessage( "File " + computerConfiguration.memAccessConfiguration.fullFileName + " can only be loaded in F&M Basic V2.00");
                         return wxNOT_FOUND;
                     }
-                    p_Computer->setRam(computerConfiguration.basicConfiguration.defus.value, (Byte)buffer[5]);
-                    p_Computer->setRam(computerConfiguration.basicConfiguration.defus.value+1, (Byte)buffer[6]);
-                    p_Computer->setRam(computerConfiguration.basicConfiguration.eop.value, (Byte)buffer[7]);
-                    p_Computer->setRam(computerConfiguration.basicConfiguration.eop.value+1, (Byte)buffer[8]);
-                    p_Computer->setRam(computerConfiguration.basicConfiguration.string.value, (Byte)buffer[9]);
-                    p_Computer->setRam(computerConfiguration.basicConfiguration.string.value+1, (Byte)buffer[10]);
-                    p_Computer->setRam(computerConfiguration.basicConfiguration.array.value, (Byte)buffer[11]);
-                    p_Computer->setRam(computerConfiguration.basicConfiguration.array.value+1, (Byte)buffer[12]);
-                    p_Computer->setRam(computerConfiguration.basicConfiguration.eod.value, (Byte)buffer[9]);
-                    p_Computer->setRam(computerConfiguration.basicConfiguration.eod.value+1, (Byte)buffer[10]);
+                    p_Computer->setMainMemory(computerConfiguration.basicConfiguration.defus.value, (Byte)buffer[5]);
+                    p_Computer->setMainMemory(computerConfiguration.basicConfiguration.defus.value+1, (Byte)buffer[6]);
+                    p_Computer->setMainMemory(computerConfiguration.basicConfiguration.eop.value, (Byte)buffer[7]);
+                    p_Computer->setMainMemory(computerConfiguration.basicConfiguration.eop.value+1, (Byte)buffer[8]);
+                    p_Computer->setMainMemory(computerConfiguration.basicConfiguration.string.value, (Byte)buffer[9]);
+                    p_Computer->setMainMemory(computerConfiguration.basicConfiguration.string.value+1, (Byte)buffer[10]);
+                    p_Computer->setMainMemory(computerConfiguration.basicConfiguration.array.value, (Byte)buffer[11]);
+                    p_Computer->setMainMemory(computerConfiguration.basicConfiguration.array.value+1, (Byte)buffer[12]);
+                    p_Computer->setMainMemory(computerConfiguration.basicConfiguration.eod.value, (Byte)buffer[9]);
+                    p_Computer->setMainMemory(computerConfiguration.basicConfiguration.eod.value+1, (Byte)buffer[10]);
                     p_Main->eventSetLocation(false);
                     start = 15;
                 break;
 
                 case 4: /* Old, incorrect Data only LOAD */
-                    address = p_Computer->getRam(computerConfiguration.basicConfiguration.string.value) << 8;
-                    address += p_Computer->getRam(computerConfiguration.basicConfiguration.string.value+1);
+                    address = p_Computer->getMainMemory(computerConfiguration.basicConfiguration.string.value) << 8;
+                    address += p_Computer->getMainMemory(computerConfiguration.basicConfiguration.string.value+1);
                     start = 5;
                     dataEnd = address + (int)length - start;
-                    p_Computer->setRam(computerConfiguration.basicConfiguration.eod.value, (dataEnd >> 8) & 0xff);
-                    p_Computer->setRam(computerConfiguration.basicConfiguration.eod.value+1, dataEnd & 0xff);
+                    p_Computer->setMainMemory(computerConfiguration.basicConfiguration.eod.value, (dataEnd >> 8) & 0xff);
+                    p_Computer->setMainMemory(computerConfiguration.basicConfiguration.eod.value+1, dataEnd & 0xff);
                 break;
 
                 case 5: /* Data only LOAD */
-                    address = p_Computer->getRam(computerConfiguration.basicConfiguration.array.value) << 8;
-                    address += p_Computer->getRam(computerConfiguration.basicConfiguration.array.value+1);
+                    address = p_Computer->getMainMemory(computerConfiguration.basicConfiguration.array.value) << 8;
+                    address += p_Computer->getMainMemory(computerConfiguration.basicConfiguration.array.value+1);
                     start = 7;
                     arrayLength = (Byte)buffer[5] << 8;
                     arrayLength += (Byte)buffer[6];
                     dataEnd = address + (int)length - start;
-                    p_Computer->setRam(computerConfiguration.basicConfiguration.eod.value, (dataEnd >> 8) & 0xff);
-                    p_Computer->setRam(computerConfiguration.basicConfiguration.eod.value+1, dataEnd & 0xff);
+                    p_Computer->setMainMemory(computerConfiguration.basicConfiguration.eod.value, (dataEnd >> 8) & 0xff);
+                    p_Computer->setMainMemory(computerConfiguration.basicConfiguration.eod.value+1, dataEnd & 0xff);
                     stringStart = address + (int)arrayLength;
-                    p_Computer->setRam(computerConfiguration.basicConfiguration.string.value, (stringStart >> 8) & 0xff);
-                    p_Computer->setRam(computerConfiguration.basicConfiguration.string.value+1, stringStart & 0xff);
+                    p_Computer->setMainMemory(computerConfiguration.basicConfiguration.string.value, (stringStart >> 8) & 0xff);
+                    p_Computer->setMainMemory(computerConfiguration.basicConfiguration.string.value+1, stringStart & 0xff);
                 break;
 
                 case 6: /* New Regular LOAD */
@@ -2347,28 +2344,28 @@ int GuiMain::pload()
                     
                     if (computerConfiguration.basicConfiguration.defus.defined)
                     {
-                        p_Computer->setRam(computerConfiguration.basicConfiguration.defus.value, (Byte)buffer[5]+fAndMBasicOffset+highRamAddress);
-                        p_Computer->setRam(computerConfiguration.basicConfiguration.defus.value+1, (Byte)buffer[6]);
+                        p_Computer->setMainMemory(computerConfiguration.basicConfiguration.defus.value, (Byte)buffer[5]+fAndMBasicOffset+highRamAddress);
+                        p_Computer->setMainMemory(computerConfiguration.basicConfiguration.defus.value+1, (Byte)buffer[6]);
                     }
                     if (computerConfiguration.basicConfiguration.string.defined)
                     {
-                        p_Computer->setRam(computerConfiguration.basicConfiguration.string.value, (Byte)buffer[9]+fAndMBasicOffset+highRamAddress);
-                        p_Computer->setRam(computerConfiguration.basicConfiguration.string.value+1, (Byte)buffer[10]);
+                        p_Computer->setMainMemory(computerConfiguration.basicConfiguration.string.value, (Byte)buffer[9]+fAndMBasicOffset+highRamAddress);
+                        p_Computer->setMainMemory(computerConfiguration.basicConfiguration.string.value+1, (Byte)buffer[10]);
                     }
                     if (computerConfiguration.basicConfiguration.array.defined)
                     {
-                        p_Computer->setRam(computerConfiguration.basicConfiguration.array.value, (Byte)buffer[11]+fAndMBasicOffset+highRamAddress);
-                        p_Computer->setRam(computerConfiguration.basicConfiguration.array.value+1, (Byte)buffer[12]);
+                        p_Computer->setMainMemory(computerConfiguration.basicConfiguration.array.value, (Byte)buffer[11]+fAndMBasicOffset+highRamAddress);
+                        p_Computer->setMainMemory(computerConfiguration.basicConfiguration.array.value+1, (Byte)buffer[12]);
                     }
                     if (computerConfiguration.basicConfiguration.eod.defined)
                     {
-                        p_Computer->setRam(computerConfiguration.basicConfiguration.eod.value, (Byte)buffer[9]+fAndMBasicOffset+highRamAddress);
-                        p_Computer->setRam(computerConfiguration.basicConfiguration.eod.value+1, (Byte)buffer[10]);
+                        p_Computer->setMainMemory(computerConfiguration.basicConfiguration.eod.value, (Byte)buffer[9]+fAndMBasicOffset+highRamAddress);
+                        p_Computer->setMainMemory(computerConfiguration.basicConfiguration.eod.value+1, (Byte)buffer[10]);
                     }
                     if (computerConfiguration.basicConfiguration.eop.defined)
                     {
-                        p_Computer->setRam(computerConfiguration.basicConfiguration.eop.value, (Byte)buffer[7]+fAndMBasicOffset+highRamAddress);
-                        p_Computer->setRam(computerConfiguration.basicConfiguration.eop.value+1, (Byte)buffer[8]);
+                        p_Computer->setMainMemory(computerConfiguration.basicConfiguration.eop.value, (Byte)buffer[7]+fAndMBasicOffset+highRamAddress);
+                        p_Computer->setMainMemory(computerConfiguration.basicConfiguration.eop.value+1, (Byte)buffer[8]);
                     }
 
                     p_Main->eventSetLocation(false);

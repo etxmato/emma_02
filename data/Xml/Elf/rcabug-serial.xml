@@ -42,7 +42,7 @@
     <vt type="vt100" connection="serial">
         <font>vt100.bin</font>
         <out>7</out>
-        <ef >1</ef>
+        <ef>1</ef>
         <q pol="rev"></q>
         <caps />
         <baud type="receive">600</baud>

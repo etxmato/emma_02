@@ -202,6 +202,7 @@ void GuiXml::readXmlConfig()
 
     configPointer->Read("Computer/Enable_Vt_Stretch_Dot", &computerConfiguration.videoTerminalConfiguration.stretchDot, false);
     configPointer->Read("Computer/Enable_Vt_External", &computerConfiguration.videoTerminalConfiguration.external, false);
+    configPointer->Read("Computer/Enable_Vt_LoopBack", &computerConfiguration.videoTerminalConfiguration.loop_back, false);
     computerConfiguration.printMode_ = (int)configPointer->Read("Computer/Print_Mode", 1l);
 
     wxString defaultZoom;
@@ -318,7 +319,8 @@ void GuiXml::writeXmlConfig()
 
     configPointer->Write("Computer/Enable_Vt_Stretch_Dot", computerConfiguration.videoTerminalConfiguration.stretchDot);
     configPointer->Write("Computer/Enable_Vt_External", computerConfiguration.videoTerminalConfiguration.external);
-
+    configPointer->Write("Computer/Enable_Vt_LoopBack", computerConfiguration.videoTerminalConfiguration.loop_back);
+    
     configPointer->Write("Computer/Turbo_Clock_Speed", computerConfiguration.turboClock_);
     configPointer->Write("Computer/Enable_Real_Cassette", computerConfiguration.realCassetteLoad_);
     configPointer->Write("Computer/DisableNvRam", computerConfiguration.nvRamConfiguration.disable);
@@ -357,28 +359,30 @@ void GuiXml::readXmlWindowConfig()
     wxString numStr;
     for (std::vector<Cdp1851Configuration>::iterator cdp1851 = computerConfiguration.cdp1851Configuration.begin (); cdp1851 != computerConfiguration.cdp1851Configuration.end (); ++cdp1851)
     {
-        numStr.Printf("%d",num);
+        numStr.Printf("%d",num++);
         cdp1851->pos.x = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_Cdp1851_"+numStr+"_X", cdp1851->defaultPos.x);
         cdp1851->pos.y = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_Cdp1851_"+numStr+"_Y", cdp1851->defaultPos.y);
     }
+    num=0;
     for (std::vector<Cdp1852Configuration>::iterator cdp1852 = computerConfiguration.cdp1852Configuration.begin (); cdp1852 != computerConfiguration.cdp1852Configuration.end (); ++cdp1852)
     {
-        numStr.Printf("%d",num);
+        numStr.Printf("%d",num++);
         cdp1852->pos.x = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_Cdp1852_"+numStr+"_X", cdp1852->defaultPos.x);
         cdp1852->pos.y = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_Cdp1852_"+numStr+"_Y", cdp1852->defaultPos.y);
     }
+    num=0;
+    for (std::vector<FrontPanelConfiguration>::iterator frontpanel = computerConfiguration.frontPanelConfiguration.begin (); frontpanel != computerConfiguration.frontPanelConfiguration.end (); ++frontpanel)
+    {
+        numStr.Printf("%d",num++);
+        frontpanel->pos.x = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_FrontPanel_"+numStr+"_X", frontpanel->defaultPos.x);
+        frontpanel->pos.y = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_FrontPanel_"+numStr+"_Y", frontpanel->defaultPos.y);
+    }
     computerConfiguration.videoTerminalConfiguration.x = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_Vt_X", computerConfiguration.videoTerminalConfiguration.defaultX);
     computerConfiguration.videoTerminalConfiguration.y = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_Vt_Y", computerConfiguration.videoTerminalConfiguration.defaultY);
-    computerConfiguration.mainX_ = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_X", mainWindowX_);
-    computerConfiguration.mainY_ = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_Y", mainWindowY_+windowInfo.mainwY+windowInfo.yBorder);
 }
 
 void GuiXml::writeXmlWindowConfig()
 {
-    if (computerConfiguration.mainX_ > 0)
-        configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_X", computerConfiguration.mainX_);
-    if (computerConfiguration.mainY_ > 0)
-        configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_Y", computerConfiguration.mainY_);
     if (computerConfiguration.coinConfiguration.defined)
     {
         if (computerConfiguration.coinConfiguration.x > 0)
@@ -467,19 +471,29 @@ void GuiXml::writeXmlWindowConfig()
     wxString numStr;
     for (std::vector<Cdp1851Configuration>::iterator cdp1851 = computerConfiguration.cdp1851Configuration.begin (); cdp1851 != computerConfiguration.cdp1851Configuration.end (); ++cdp1851)
     {
-        numStr.Printf("%d",num);
+        numStr.Printf("%d",num++);
         if (cdp1851->pos.x > 0)
             configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_Cdp1851_"+numStr+"_X", cdp1851->pos.x);
         if (cdp1851->pos.y > 0)
             configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_Cdp1851_"+numStr+"_Y", cdp1851->pos.y);
     }
+    num=0;
     for (std::vector<Cdp1852Configuration>::iterator cdp1852 = computerConfiguration.cdp1852Configuration.begin (); cdp1852 != computerConfiguration.cdp1852Configuration.end (); ++cdp1852)
     {
-        numStr.Printf("%d",num);
+        numStr.Printf("%d",num++);
         if (cdp1852->pos.x > 0)
             configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_Cdp1852_"+numStr+"_X", cdp1852->pos.x);
         if (cdp1852->pos.y > 0)
             configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_Cdp1852_"+numStr+"_Y", cdp1852->pos.y);
+    }
+    num=0;
+    for (std::vector<FrontPanelConfiguration>::iterator frontpanel = computerConfiguration.frontPanelConfiguration.begin (); frontpanel != computerConfiguration.frontPanelConfiguration.end (); ++frontpanel)
+    {
+        numStr.Printf("%d",num++);
+        if (frontpanel->pos.x > 0)
+            configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_FrontPanel_"+numStr+"_X", frontpanel->pos.x);
+        if (frontpanel->pos.y > 0)
+            configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_FrontPanel_"+numStr+"_Y", frontpanel->pos.y);
     }
     if (computerConfiguration.videoTerminalConfiguration.type == VT52 || computerConfiguration.videoTerminalConfiguration.type == VT100)
     {
@@ -498,6 +512,7 @@ void GuiXml::readDefaultVtConfig()
     computerConfiguration.videoTerminalConfiguration.vt100SetUpFeature = configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VT100Setup", value);
     value = computerConfiguration.videoTerminalConfiguration.vtExternalDefaultSetUpFeature.to_ulong();
     computerConfiguration.videoTerminalConfiguration.vtExternalSetUpFeature = configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VTExternalSetup", value);
+    computerConfiguration.videoTerminalConfiguration.vtLoopBackSetUpFeature = configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VTLoopBackSetup", value);
     computerConfiguration.videoTerminalConfiguration.bellFrequency = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Bell_Frequency", computerConfiguration.videoTerminalConfiguration.defaultBellFrequency);
     computerConfiguration.videoTerminalConfiguration.charactersPerRow = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VtCharactersPerRow", computerConfiguration.videoTerminalConfiguration.defaultCharactersPerRow);
     computerConfiguration.videoTerminalConfiguration.characterWidth = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VtCharacterWidth", computerConfiguration.videoTerminalConfiguration.defaultCharacterWidth);
@@ -511,6 +526,8 @@ void GuiXml::writeDefaultVtConfig()
     configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VT100Setup", value);
     value = computerConfiguration.videoTerminalConfiguration.vtExternalSetUpFeature.to_ulong();
     configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VTExternalSetup", value);
+    value = computerConfiguration.videoTerminalConfiguration.vtLoopBackSetUpFeature.to_ulong();
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VTLoopBackSetup", value);
     configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Bell_Frequency", computerConfiguration.videoTerminalConfiguration.bellFrequency);
     configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VtCharactersPerRow", computerConfiguration.videoTerminalConfiguration.charactersPerRow);
     configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VtCharacterWidth", computerConfiguration.videoTerminalConfiguration.characterWidth);
@@ -1712,8 +1729,13 @@ void GuiXml::setXmlGui()
     if (computerConfiguration.videoTerminalConfiguration.external)
         XRCCTRL(*this, "VTTypeXml", wxChoice)->SetSelection(EXTERNAL_TERMINAL);
     else
-        XRCCTRL(*this, "VTTypeXml", wxChoice)->SetSelection(computerConfiguration.videoTerminalConfiguration.type);
-  
+    {
+        if (computerConfiguration.videoTerminalConfiguration.loop_back)
+            XRCCTRL(*this, "VTTypeXml", wxChoice)->SetSelection(LOOP_BACK);
+        else
+            XRCCTRL(*this, "VTTypeXml", wxChoice)->SetSelection(computerConfiguration.videoTerminalConfiguration.type);
+    }
+
     XRCCTRL(*this, "ControlWindowsXml", wxCheckBox)->SetValue(computerConfiguration.frontPanelConfiguration[PANEL_MAIN].show);
     XRCCTRL(*this,"AddressText1Xml", wxStaticText)->Enable((computerConfiguration.frontPanelConfiguration[PANEL_MAIN].show && computerConfiguration.frontPanelConfiguration[PANEL_MAIN].defined) || computerConfiguration.vis1870Configuration.statusBarType == STATUSBAR_VIP2);
     XRCCTRL(*this,"AddressText2Xml", wxStaticText)->Enable((computerConfiguration.frontPanelConfiguration[PANEL_MAIN].show && computerConfiguration.frontPanelConfiguration[PANEL_MAIN].defined) || computerConfiguration.vis1870Configuration.statusBarType == STATUSBAR_VIP2);

@@ -49,6 +49,24 @@ public:
     Byte bankOutputMaskInSlot;
 };
 
+class MapMemInfo
+{
+public:
+//    wxString dirname;
+//    wxString filename;
+    int type;
+    int memNumber;
+    Word start;
+    Word end;
+};
+
+class MapInfo
+{
+public:
+    bool defined;
+    vector<MapMemInfo> mapMemInfo;
+};
+
 class CheckRegInfo
 {
 public:
@@ -355,6 +373,7 @@ public:
     
     double videoClock;
     int interruptMode;
+    int picInterrupt;
     int videoModeEf;
     bool useVideoModeEf;
     bool rotateScreen;
@@ -374,6 +393,7 @@ public:
     bool charMemExcludeIoGroup;
     Word charRomStart;
     bool charRomIsTmcFormat;
+    int charLines;
     int maxCharLines;
     int colorRamType;
     
@@ -407,6 +427,8 @@ public:
     wxSize charSize;
     wxSize screenSize;
     bool gpaSwitched;
+    int picInterrupt;
+    int picInterruptHorizontal;
 };
 
 class Sn76430NConfiguration : public VideoConfiguration
@@ -482,25 +504,32 @@ public:
     IoPort uartControl;
     IoPort uartStatus;
     EfFlag ef;
-    
+    EfFlag efInterrupt;
+
     int reverseQ;
     
     bitset<32> vt52SetUpFeature;
     bitset<32> vt100SetUpFeature;
     bitset<32> vtExternalSetUpFeature;
-    
+    bitset<32> vtLoopBackSetUpFeature;
+
     wxString zoom;
     int type;
     bool external;
+    bool loop_back;
     bool show;
-    
+    bool interrupt;
+    int picInterrupt;
+
     int charactersPerRow;
     int characterWidth;
     bool stretchDot;
     
     int baudR;
     int baudT;
-    
+    double baudCorrectionR;
+    double baudCorrectionT;
+
     bool serialLog;
     bool escError;
     int bellFrequency;
@@ -522,6 +551,7 @@ public:
     bitset<32> vt52DefaultSetUpFeature;
     bitset<32> vt100DefaultSetUpFeature;
     bitset<32> vtExternalDefaultSetUpFeature;
+    bitset<32> vtLoopBackDefaultSetUpFeature;
     int defaultCharactersPerRow;
     int defaultCharacterWidth;
     int defaultBellFrequency;
@@ -579,6 +609,7 @@ public:
     int tracks;
     int heads;
     int sectors;
+    int picInterrupt;
 };
 
 class FdcConfiguration : public IoGroupConfiguration
@@ -645,6 +676,7 @@ public:
 
     bool jp4;
     bool interrupt;
+    int picInterrupt;
 };
 
 class MatrixKeyboardConfiguration : public IoGroupDefineConfiguration
@@ -746,6 +778,22 @@ public:
     EfKey key[5];
     vector<EfButton> efButton;
     Byte keyPressed;
+};
+
+// CDP1877 configuration class definitions:
+
+class Cdp1877Configuration : public IoGroupConfiguration
+{
+public:
+    IoPort readStatus;
+    IoPort readPolling;
+    IoPort readVector;
+    IoPort writeMask;
+    IoPort writeControl;
+    IoPort writePage;
+    
+    IoPort readIrq;
+    IoPort writeMien;
 };
 
 // PIO configuration class definitions:
@@ -856,7 +904,9 @@ public:
     int type;
     LoadOffSet loadOffSet;
     int cartType;
-    
+    bool mcr;
+    int mcrMemNumber;
+
     vector<Word> mappingList;
 };
 
@@ -930,6 +980,22 @@ public:
     bool bankOutputNumber;
     bool useIoGroup;
     bool banksInUse_;
+};
+
+class McrConfiguration
+{
+public:
+    IoPort output;
+    IoPort bbat;
+
+    int maxMapNumber_;
+    vector<MapInfo> mapInfo;
+    Word start;
+    Word end;
+    
+    Word ioStart;
+    Word ioEnd;
+    int ioMemNumber;
 };
 
 // HEX & LED Display and Keypad configuration class definitions:
@@ -1070,6 +1136,24 @@ public:
     Word date;
     Word month;
     Word year;
+};
+
+class RtcCdp1879Configuration : public IoGroupDefineConfiguration
+{
+public:
+    EfFlag ef;
+
+    Word base;
+    Word freeze;
+    Word control;
+    Word second;
+    Word minute;
+    Word hour;
+    Word date;
+    Word month;
+    
+    bool interrupt;
+    int picInterrupt;
 };
 
 class RtcDs12887Configuration : public IoGroupDefineConfiguration
@@ -1306,8 +1390,10 @@ public:
     wxSize size;
     
     wxPoint pos;
+    wxPoint defaultPos;
     int posType;
-    
+    int picInterrupt;
+
     vector<GuiItemConfiguration> guiItemConfiguration;
 };
 
@@ -1397,6 +1483,7 @@ public:
     EfButtonsConfiguration efButtonsConfiguration;
     
     // PIO configurations:
+    vector<Cdp1877Configuration> cdp1877Configuration;
     vector<Cdp1851Configuration> cdp1851Configuration;
     vector<Cdp1852Configuration> cdp1852Configuration;
     
@@ -1420,6 +1507,7 @@ public:
     vector<MemoryPartConfiguration> memoryCopyConfiguration;
     vector<MemoryPartConfiguration> memoryRamPartConfiguration;
     SlotConfiguration slotConfiguration;
+    McrConfiguration mcrConfiguration;
 
     // HEX & LED Display configurations:
     HexDisplayConfiguration hexDisplayConfiguration;
@@ -1435,6 +1523,7 @@ public:
     AutoBootConfiguration autoBootConfiguration;
     
     // RTC configurations:
+    RtcCdp1879Configuration rtcCdp1879Configuration;
     RtcM48t58Configuration rtcM48t58Configuration;
     RtcDs12887Configuration rtcDs12887Configuration;
     
@@ -1459,7 +1548,7 @@ public:
     WavConfiguration wavConfiguration[2];
     BatchConfiguration batchConfiguration;
     CharacterRomConfiguration characterRomConfiguration;
-    IdeFileConfiguration ideFileConfiguration;
+    IdeFileConfiguration ideFileConfiguration[2];
     KeyFileConfiguration keyFileConfiguration;
     ScreenDumpFileConfiguration screenDumpFileConfiguration;
     PrinterFileConfiguration printerFileConfiguration;
@@ -1533,7 +1622,6 @@ public:
     wxString videoName_[VIDEOXMLMAX];
     wxString zoom_[VIDEOXMLMAX];
     bool interlace_;
-    int mainX_, mainY_;
 };
 
 #endif // COMPUTERCONFIG_H

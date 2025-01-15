@@ -101,17 +101,16 @@ VIS1870::VIS1870(const wxString& title, const wxPoint& pos, const wxSize& size, 
     pixelWidth_ = 2;
     pixelHeight_ = 2;
     interruptEnabled_ = true;
-    
+    linesPerCharacters_ = vis1870Configuration_.charLines;
+
     if (vis1870Configuration_.videoMode == PAL)
     {
-        linesPerCharacters_ = 9;
         linesPerScreen_ = 312;
         nonDisplayPeriodEndLine_ = 268;
         preDisplayPeriodLine_ = 269;
     }
     else
     {
-        linesPerCharacters_ = 8;
         linesPerScreen_ = 262;
         nonDisplayPeriodEndLine_ = 226;
         preDisplayPeriodLine_ = 227;
@@ -507,9 +506,9 @@ void VIS1870::cycle1870()
         {
             ef1Value_ = efDisplay_;
             if (vis1870Configuration_.interruptMode == INT_MODE1)
-                p_Computer->requestInterrupt(INTERRUPT_TYPE_VIS, true);
+                p_Computer->requestInterrupt(INTERRUPT_TYPE_VIS, true, vis1870Configuration_.picInterrupt);
             if (interruptEnabled_ && vis1870Configuration_.interruptMode == INT_MODE3)
-                p_Computer->requestInterrupt(INTERRUPT_TYPE_VIS, true);
+                p_Computer->requestInterrupt(INTERRUPT_TYPE_VIS, true, vis1870Configuration_.picInterrupt);
         }
     }
     if (cycleValue_ == nonDisplayPeriodEnd_)
@@ -535,10 +534,9 @@ void VIS1870::cycle1870()
         if (!displayOff_)
         {
             if (vis1870Configuration_.interruptMode == INT_MODE2)
-                //p_Computer->interrupt();
-                p_Computer->requestInterrupt(INTERRUPT_TYPE_VIS, true);
+                p_Computer->requestInterrupt(INTERRUPT_TYPE_VIS, true, vis1870Configuration_.picInterrupt);
             if (interruptEnabled_ && vis1870Configuration_.interruptMode == INT_MODE4)
-                p_Computer->requestInterrupt(INTERRUPT_TYPE_VIS, true);
+                p_Computer->requestInterrupt(INTERRUPT_TYPE_VIS, true, vis1870Configuration_.picInterrupt);
         }
      }
     if (cycleValue_ <= 0)
@@ -656,7 +654,7 @@ int VIS1870::writeCramGraphic(Word address, Byte v)
 Byte VIS1870::readPram(Word address)
 {
     if (vis1870Configuration_.pageMemIsRom)
-        return p_Computer->getRam(address);
+        return p_Computer->getMainMemory(address);
     
     if ((!nonDisplay_ && vis1870Configuration_.useBlockWrite))
         return 0xff;
