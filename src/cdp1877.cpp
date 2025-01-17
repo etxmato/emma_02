@@ -264,12 +264,6 @@ bool Cdp1855Instance::ioGroupCdp1855(int ioGroup)
     }
     return groupFound;
 }
-/*
-void Cdp1855Instance::requestInterrupt(int type, bool state, int picNumber)
-{
-    status_[picNumber] = state;
-    interruptType[picNumber] = type;
-}*/
 
 void Cdp1855Instance::writeX(Byte value)
 {
