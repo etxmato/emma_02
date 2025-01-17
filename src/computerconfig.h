@@ -780,6 +780,21 @@ public:
     Byte keyPressed;
 };
 
+// CDP1855 configuration class definitions:
+
+class Cdp1855Configuration : public IoGroupConfiguration
+{
+public:
+    IoPort readStatus;
+    IoPort readPolling;
+    IoPort readVector;
+    IoPort writeMask;
+    IoPort writeControl;
+    IoPort writePage;
+    
+    IoPort readIrq;
+    IoPort writeMien;
+};
 // CDP1877 configuration class definitions:
 
 class Cdp1877Configuration : public IoGroupConfiguration
