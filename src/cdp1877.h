@@ -54,17 +54,15 @@ public:
     void configureCdp1855(Cdp1855Configuration cdp1855Configuration);
     bool ioGroupCdp1855(int ioGroup);
 
-    void requestInterrupt(int type, bool state, int picNumber);
-    int findInterrupt();
-    void devWrite(Word address, Byte value);
-    void writeMask(Byte value);
-    void writePage(Byte value);
-    void writeControl(Byte value);
-    int devRead(Word address, int function);
-    bool readMien() {return mien_;};
-    Byte readStatus();
-    Byte readPolling();
-    Byte readVector(Word address, int function);
+    //void requestInterrupt(int type, bool state, int picNumber);
+    void writeX(Byte value);
+    void writeY(Byte value);
+    void writeZ(Byte value);
+    void writeStatus(Byte value);
+    Byte readX();
+    Byte readX();
+    
+    Byte readControl();
 
 private:
     int cdp1855Number_;
