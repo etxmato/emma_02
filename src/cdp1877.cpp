@@ -228,3 +228,85 @@ Byte Cdp1877Instance::readVector(Word address, int function)
     return 0;
 }
 
+Cdp1855Instance::Cdp1855Instance(int cdp1855Number)
+{
+    cdp1855Number_ = cdp1855Number;
+    
+    status_ = 0;
+    control_ = 0;
+}
+
+void Cdp1855Instance::configureCdp1855(Cdp1855Configuration cdp1855Configuration)
+{
+    cdp1855Configuration_ = cdp1855Configuration;
+    wxString cdp1855NumberString = "";
+    if (cdp1855Number_ > 0)
+        cdp1855NumberString.Printf(" %d", cdp1855Number_);
+    
+    p_Main->configureMessage(&cdp1855Configuration.ioGroupVector, "CDP1855 MCD" + cdp1855NumberString);
+    
+    p_Main->message("");
+}
+
+bool Cdp1855Instance::ioGroupCdp1855(int ioGroup)
+{
+    bool groupFound = false;
+    
+    if (cdp1855Configuration_.ioGroupVector.size() == 0)
+        groupFound = true;
+    else
+    {
+        for (std::vector<int>::iterator ioGroupIterator = cdp1855Configuration_.ioGroupVector.begin (); ioGroupIterator != cdp1855Configuration_.ioGroupVector.end (); ++ioGroupIterator)
+        {
+            if (*ioGroupIterator == ioGroup)
+                groupFound = true;
+        }
+    }
+    return groupFound;
+}
+/*
+void Cdp1855Instance::requestInterrupt(int type, bool state, int picNumber)
+{
+    status_[picNumber] = state;
+    interruptType[picNumber] = type;
+}*/
+
+void Cdp1855Instance::writeX(Byte value)
+{
+    x_ = value;
+}
+
+void Cdp1855Instance::writeY(Byte value)
+{
+    y_ = value;
+}
+
+void Cdp1855Instance::writeZ(Byte value)
+{
+    z_ = value;
+}
+void Cdp1855Instance::writeControl(Byte value)
+{
+    
+}
+
+int Cdp1855Instance::readX(Word address, int function)
+{
+    return x_;
+}
+
+int Cdp1855Instance::readY(Word address, int function)
+{
+    return y_;
+}
+
+int Cdp1855Instance::readZ(Word address, int function)
+{
+    return z_;
+}
+
+Byte Cdp1855Instance::readStatus()
+{
+    return 0;
+}
+
