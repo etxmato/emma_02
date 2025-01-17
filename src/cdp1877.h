@@ -71,16 +71,11 @@ private:
 
     Cdp1855Configuration cdp1855Configuration_;
     
-    bitset<8> mask_;
-    Byte page_;
-    Byte interval_;
-    Byte vectorAddressLow_;
-    bitset<8> status_;
-    
-    int vectorByteCounter_;
-    int interruptType[8];
-    
-    bool mien_;
+    Byte x_;
+    Byte y_;
+    Byte z_;
+    Byte control_;
+    Byte status_;
 };
 
 
