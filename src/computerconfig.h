@@ -1493,11 +1493,16 @@ public:
     BitKeypadConfiguration bitKeypadConfiguration[MAX_BITKEYPADS];
     KeyLatchConfiguration keyLatchConfiguration[MAX_LATCHKEYPADS];
     EfButtonsConfiguration efButtonsConfiguration;
-    
+
     // PIO configurations:
-    vector<Cdp1877Configuration> cdp1877Configuration;
     vector<Cdp1851Configuration> cdp1851Configuration;
     vector<Cdp1852Configuration> cdp1852Configuration;
+    
+    // MDC configurations:
+    vector<Cdp1855Configuration> cdp1855Configuration;
+    
+    // PIC configurations:
+    vector<Cdp1877Configuration> cdp1877Configuration;
     
     // Timer configurations:
     vector<Cd4536bConfiguration> cd4536bConfiguration;
