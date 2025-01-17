@@ -7903,6 +7903,7 @@ void XmlParser::parseXml_Cdp1855(wxXmlNode &node)
     {
         "out",
         "in",
+        "io",
         "iogroup",
         "comment",
         "undefined"
@@ -7912,6 +7913,7 @@ void XmlParser::parseXml_Cdp1855(wxXmlNode &node)
     {
         TAG_OUT,
         TAG_IN,
+        TAG_IO,
         TAG_IOGROUP,
         TAG_COMMENT,
         TAG_UNDEFINED
@@ -7921,15 +7923,12 @@ void XmlParser::parseXml_Cdp1855(wxXmlNode &node)
     wxString position, iogroup;
     size_t ioGroupNumber = 0;
 
-    cdp1877.ioGroupVector.clear();
-    cdp1877.writeMien = init_IoPort();
-    cdp1877.readStatus = init_IoPort();
-    cdp1877.readPolling = init_IoPort();
-    cdp1877.readVector = init_IoPort();
-    cdp1877.readIrq = init_IoPort();
-    cdp1877.writeMask = init_IoPort();
-    cdp1877.writeControl = init_IoPort();
-    cdp1877.writePage = init_IoPort();
+    cdp1855.ioGroupVector.clear();
+    cdp1855.x = init_IoPort();
+    cdp1855.y = init_IoPort();
+    cdp1855.z = init_IoPort();
+    cdp1855.control = init_IoPort();
+    cdp1855.status = init_IoPort();
 
     wxXmlNode *child = node.GetChildren();
     while (child)
@@ -7943,34 +7942,44 @@ void XmlParser::parseXml_Cdp1855(wxXmlNode &node)
         switch (tagTypeInt)
         {
             case TAG_OUT:
-                if (child->GetAttribute("type") == "mien")
-                    cdp1877.writeMien = parseXml_IoPort(*child);
+                if (child->GetAttribute("type") == "x")
+                    cdp1855.writeMien = parseXml_IoPort(*child);
                 if (child->GetAttribute("type") == "mask")
-                    cdp1877.writeMask = parseXml_IoPort(*child);
+                    cdp1855.writeMask = parseXml_IoPort(*child);
                 if (child->GetAttribute("type") == "control")
-                    cdp1877.writeControl = parseXml_IoPort(*child);
+                    cdp1855.writeControl = parseXml_IoPort(*child);
                 if (child->GetAttribute("type") == "page")
-                    cdp1877.writePage = parseXml_IoPort(*child);
+                    cdp1855.writePage = parseXml_IoPort(*child);
             break;
                 
             case TAG_IN:
                 if (child->GetAttribute("type") == "irq")
-                    cdp1877.readIrq = parseXml_IoPort(*child);
+                    cdp1855.readIrq = parseXml_IoPort(*child);
                 if (child->GetAttribute("type") == "status")
-                    cdp1877.readStatus = parseXml_IoPort(*child);
+                    cdp1855.readStatus = parseXml_IoPort(*child);
                 if (child->GetAttribute("type") == "polling")
-                    cdp1877.readPolling = parseXml_IoPort(*child);
+                    cdp1855.readPolling = parseXml_IoPort(*child);
                 if (child->GetAttribute("type") == "vector")
-                    cdp1877.readVector = parseXml_IoPort(*child);
+                    cdp1855.readVector = parseXml_IoPort(*child);
             break;
-                
+
+            case TAG_IO:
+                if (child->GetAttribute("type") == "irq")
+                    cdp1855.readIrq = parseXml_IoPort(*child);
+                if (child->GetAttribute("type") == "status")
+                    cdp1855.readStatus = parseXml_IoPort(*child);
+                if (child->GetAttribute("type") == "polling")
+                    cdp1855.readPolling = parseXml_IoPort(*child);
+                if (child->GetAttribute("type") == "vector")
+                    cdp1855.readVector = parseXml_IoPort(*child);
+            break;
 
             case TAG_IOGROUP:
                 iogroup = child->GetNodeContent();
                 while (iogroup != "")
                 {
-                    cdp1877.ioGroupVector.resize(ioGroupNumber+1);
-                    cdp1877.ioGroupVector[ioGroupNumber++] = (int)getNextHexDec(&iogroup) & 0xff;
+                    cdp1855.ioGroupVector.resize(ioGroupNumber+1);
+                    cdp1855.ioGroupVector[ioGroupNumber++] = (int)getNextHexDec(&iogroup) & 0xff;
                 }
             break;
 
@@ -7986,7 +7995,7 @@ void XmlParser::parseXml_Cdp1855(wxXmlNode &node)
         
         child = child->GetNext();
     }
-    computerConfiguration.cdp1877Configuration.push_back(cdp1877);
+    computerConfiguration.cdp1855Configuration.push_back(cdp1855);
 }
 
 void XmlParser::parseXml_Cdp1877(wxXmlNode &node)
