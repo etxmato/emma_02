@@ -54,8 +54,8 @@ private:
     void parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber);
     void parseXml_Cdp1851(wxXmlNode &node, bool windowOn);
     void parseXml_Cdp1852(wxXmlNode &node, bool windowOn);
-    void parseXml_Cdp1855(wxXmlNode &node, bool windowOn);
-    void parseXml_Cdp1877(wxXmlNode &node, bool windowOn);
+    void parseXml_Cdp1855(wxXmlNode &node);
+    void parseXml_Cdp1877(wxXmlNode &node);
     void parseXml_Cd4536b(wxXmlNode &node);
     void parseXml_SerialVt(wxXmlNode &node);
     void parseXml_UartVt(wxXmlNode &node, bool uart16450);
