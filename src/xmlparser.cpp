@@ -682,16 +682,20 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
                     parseXml_MatrixKeyboard (*child);
             break;
 
-            case TAG_CDP1877:
-                parseXml_Cdp1877 (*child, child->GetAttribute("init") == "on");
-            break;
-
             case TAG_CDP1851:
                 parseXml_Cdp1851 (*child, child->GetAttribute("init") == "on");
             break;
 
             case TAG_CDP1852:
                 parseXml_Cdp1852 (*child, child->GetAttribute("init") == "on");
+            break;
+
+            case TAG_CDP1855:
+                parseXml_Cdp1855 (*child);
+            break;
+
+            case TAG_CDP1877:
+                parseXml_Cdp1877 (*child);
             break;
 
             case TAG_CD4536B:
@@ -7688,100 +7692,6 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber)
     guiItemConfigNumber_++;
 }
 
-void XmlParser::parseXml_Cdp1877(wxXmlNode &node, bool windowOn)
-{
-    Cdp1877Configuration cdp1877;
-    
-    wxString tagList[]=
-    {
-        "out",
-        "in",
-        "iogroup",
-        "comment",
-        "undefined"
-    };
-
-    enum
-    {
-        TAG_OUT,
-        TAG_IN,
-        TAG_IOGROUP,
-        TAG_COMMENT,
-        TAG_UNDEFINED
-    };
-    
-    int tagTypeInt;
-    wxString position, iogroup;
-    size_t ioGroupNumber = 0;
-
-    cdp1877.ioGroupVector.clear();
-    cdp1877.writeMien = init_IoPort();
-    cdp1877.readStatus = init_IoPort();
-    cdp1877.readPolling = init_IoPort();
-    cdp1877.readVector = init_IoPort();
-    cdp1877.readIrq = init_IoPort();
-    cdp1877.writeMask = init_IoPort();
-    cdp1877.writeControl = init_IoPort();
-    cdp1877.writePage = init_IoPort();
-
-    wxXmlNode *child = node.GetChildren();
-    while (child)
-    {
-        wxString childName = child->GetName();
-
-        tagTypeInt = 0;
-        while (tagTypeInt != TAG_UNDEFINED && tagList[tagTypeInt] != childName)
-            tagTypeInt++;
-        
-        switch (tagTypeInt)
-        {
-            case TAG_OUT:
-                if (child->GetAttribute("type") == "mien")
-                    cdp1877.writeMien = parseXml_IoPort(*child);
-                if (child->GetAttribute("type") == "mask")
-                    cdp1877.writeMask = parseXml_IoPort(*child);
-                if (child->GetAttribute("type") == "control")
-                    cdp1877.writeControl = parseXml_IoPort(*child);
-                if (child->GetAttribute("type") == "page")
-                    cdp1877.writePage = parseXml_IoPort(*child);
-            break;
-                
-            case TAG_IN:
-                if (child->GetAttribute("type") == "irq")
-                    cdp1877.readIrq = parseXml_IoPort(*child);
-                if (child->GetAttribute("type") == "status")
-                    cdp1877.readStatus = parseXml_IoPort(*child);
-                if (child->GetAttribute("type") == "polling")
-                    cdp1877.readPolling = parseXml_IoPort(*child);
-                if (child->GetAttribute("type") == "vector")
-                    cdp1877.readVector = parseXml_IoPort(*child);
-            break;
-                
-
-            case TAG_IOGROUP:
-                iogroup = child->GetNodeContent();
-                while (iogroup != "")
-                {
-                    cdp1877.ioGroupVector.resize(ioGroupNumber+1);
-                    cdp1877.ioGroupVector[ioGroupNumber++] = (int)getNextHexDec(&iogroup) & 0xff;
-                }
-            break;
-
-            case TAG_COMMENT:
-            break;
-
-            default:
-                warningText_ += "Unkown tag: ";
-                warningText_ += childName;
-                warningText_ += "\n";
-            break;
-        }
-        
-        child = child->GetNext();
-    }
-    computerConfiguration.cdp1877Configuration.push_back(cdp1877);
-}
-
 void XmlParser::parseXml_Cdp1851(wxXmlNode &node, bool windowOn)
 {
     Cdp1851Configuration cdp1851;
@@ -7984,6 +7894,193 @@ void XmlParser::parseXml_Cdp1852(wxXmlNode &node, bool windowOn)
         child = child->GetNext();
     }
     computerConfiguration.cdp1852Configuration.push_back(cdp1852);
+}
+void XmlParser::parseXml_Cdp1855(wxXmlNode &node)
+{
+    Cdp1855Configuration cdp1855;
+    
+    wxString tagList[]=
+    {
+        "out",
+        "in",
+        "iogroup",
+        "comment",
+        "undefined"
+    };
+
+    enum
+    {
+        TAG_OUT,
+        TAG_IN,
+        TAG_IOGROUP,
+        TAG_COMMENT,
+        TAG_UNDEFINED
+    };
+    
+    int tagTypeInt;
+    wxString position, iogroup;
+    size_t ioGroupNumber = 0;
+
+    cdp1877.ioGroupVector.clear();
+    cdp1877.writeMien = init_IoPort();
+    cdp1877.readStatus = init_IoPort();
+    cdp1877.readPolling = init_IoPort();
+    cdp1877.readVector = init_IoPort();
+    cdp1877.readIrq = init_IoPort();
+    cdp1877.writeMask = init_IoPort();
+    cdp1877.writeControl = init_IoPort();
+    cdp1877.writePage = init_IoPort();
+
+    wxXmlNode *child = node.GetChildren();
+    while (child)
+    {
+        wxString childName = child->GetName();
+
+        tagTypeInt = 0;
+        while (tagTypeInt != TAG_UNDEFINED && tagList[tagTypeInt] != childName)
+            tagTypeInt++;
+        
+        switch (tagTypeInt)
+        {
+            case TAG_OUT:
+                if (child->GetAttribute("type") == "mien")
+                    cdp1877.writeMien = parseXml_IoPort(*child);
+                if (child->GetAttribute("type") == "mask")
+                    cdp1877.writeMask = parseXml_IoPort(*child);
+                if (child->GetAttribute("type") == "control")
+                    cdp1877.writeControl = parseXml_IoPort(*child);
+                if (child->GetAttribute("type") == "page")
+                    cdp1877.writePage = parseXml_IoPort(*child);
+            break;
+                
+            case TAG_IN:
+                if (child->GetAttribute("type") == "irq")
+                    cdp1877.readIrq = parseXml_IoPort(*child);
+                if (child->GetAttribute("type") == "status")
+                    cdp1877.readStatus = parseXml_IoPort(*child);
+                if (child->GetAttribute("type") == "polling")
+                    cdp1877.readPolling = parseXml_IoPort(*child);
+                if (child->GetAttribute("type") == "vector")
+                    cdp1877.readVector = parseXml_IoPort(*child);
+            break;
+                
+
+            case TAG_IOGROUP:
+                iogroup = child->GetNodeContent();
+                while (iogroup != "")
+                {
+                    cdp1877.ioGroupVector.resize(ioGroupNumber+1);
+                    cdp1877.ioGroupVector[ioGroupNumber++] = (int)getNextHexDec(&iogroup) & 0xff;
+                }
+            break;
+
+            case TAG_COMMENT:
+            break;
+
+            default:
+                warningText_ += "Unkown tag: ";
+                warningText_ += childName;
+                warningText_ += "\n";
+            break;
+        }
+        
+        child = child->GetNext();
+    }
+    computerConfiguration.cdp1877Configuration.push_back(cdp1877);
+}
+
+void XmlParser::parseXml_Cdp1877(wxXmlNode &node)
+{
+    Cdp1877Configuration cdp1877;
+    
+    wxString tagList[]=
+    {
+        "out",
+        "in",
+        "iogroup",
+        "comment",
+        "undefined"
+    };
+
+    enum
+    {
+        TAG_OUT,
+        TAG_IN,
+        TAG_IOGROUP,
+        TAG_COMMENT,
+        TAG_UNDEFINED
+    };
+    
+    int tagTypeInt;
+    wxString position, iogroup;
+    size_t ioGroupNumber = 0;
+
+    cdp1877.ioGroupVector.clear();
+    cdp1877.writeMien = init_IoPort();
+    cdp1877.readStatus = init_IoPort();
+    cdp1877.readPolling = init_IoPort();
+    cdp1877.readVector = init_IoPort();
+    cdp1877.readIrq = init_IoPort();
+    cdp1877.writeMask = init_IoPort();
+    cdp1877.writeControl = init_IoPort();
+    cdp1877.writePage = init_IoPort();
+
+    wxXmlNode *child = node.GetChildren();
+    while (child)
+    {
+        wxString childName = child->GetName();
+
+        tagTypeInt = 0;
+        while (tagTypeInt != TAG_UNDEFINED && tagList[tagTypeInt] != childName)
+            tagTypeInt++;
+        
+        switch (tagTypeInt)
+        {
+            case TAG_OUT:
+                if (child->GetAttribute("type") == "mien")
+                    cdp1877.writeMien = parseXml_IoPort(*child);
+                if (child->GetAttribute("type") == "mask")
+                    cdp1877.writeMask = parseXml_IoPort(*child);
+                if (child->GetAttribute("type") == "control")
+                    cdp1877.writeControl = parseXml_IoPort(*child);
+                if (child->GetAttribute("type") == "page")
+                    cdp1877.writePage = parseXml_IoPort(*child);
+            break;
+                
+            case TAG_IN:
+                if (child->GetAttribute("type") == "irq")
+                    cdp1877.readIrq = parseXml_IoPort(*child);
+                if (child->GetAttribute("type") == "status")
+                    cdp1877.readStatus = parseXml_IoPort(*child);
+                if (child->GetAttribute("type") == "polling")
+                    cdp1877.readPolling = parseXml_IoPort(*child);
+                if (child->GetAttribute("type") == "vector")
+                    cdp1877.readVector = parseXml_IoPort(*child);
+            break;
+                
+
+            case TAG_IOGROUP:
+                iogroup = child->GetNodeContent();
+                while (iogroup != "")
+                {
+                    cdp1877.ioGroupVector.resize(ioGroupNumber+1);
+                    cdp1877.ioGroupVector[ioGroupNumber++] = (int)getNextHexDec(&iogroup) & 0xff;
+                }
+            break;
+
+            case TAG_COMMENT:
+            break;
+
+            default:
+                warningText_ += "Unkown tag: ";
+                warningText_ += childName;
+                warningText_ += "\n";
+            break;
+        }
+        
+        child = child->GetNext();
+    }
+    computerConfiguration.cdp1877Configuration.push_back(cdp1877);
 }
 
 void XmlParser::parseXml_Cd4536b(wxXmlNode &node)
