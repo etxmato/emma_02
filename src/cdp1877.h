@@ -54,7 +54,6 @@ public:
     void configureCdp1855(Cdp1855Configuration cdp1855Configuration);
     bool ioGroupCdp1855(int ioGroup);
 
-    //void requestInterrupt(int type, bool state, int picNumber);
     void writeX(Byte value);
     void writeY(Byte value);
     void writeZ(Byte value);
