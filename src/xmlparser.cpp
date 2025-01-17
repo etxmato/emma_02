@@ -95,9 +95,10 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
         "diagnostic",
         "batchwav",
         "gpio",
-        "cdp1877",
         "cdp1851",
         "cdp1852",
+        "cdp1855",
+        "cdp1877",
         "cd4536b",
         "ad_convertor",
         "debugger",
@@ -139,9 +140,10 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
         TAG_DIAG,
         TAG_BATCHWAV,
         TAG_GPIO,
-        TAG_CDP1877,
         TAG_CDP1851,
         TAG_CDP1852,
+        TAG_CDP1855,
+        TAG_CDP1877,
         TAG_CD4536B,
         TAG_AD_CONVERTOR,
         TAG_DEBUGGER,
@@ -332,9 +334,10 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
     computerConfiguration.addressLocationConfiguration.writeAddress.clear();
     computerConfiguration.addressLocationConfiguration.inReleaseAddress.clear();
     computerConfiguration.assemblerConfiguration.clear();
-    computerConfiguration.cdp1877Configuration.clear();
     computerConfiguration.cdp1851Configuration.clear();
     computerConfiguration.cdp1852Configuration.clear();
+    computerConfiguration.cdp1855Configuration.clear();
+    computerConfiguration.cdp1877Configuration.clear();
     computerConfiguration.cd4536bConfiguration.clear();
     computerConfiguration.memoryRamPartConfiguration.clear();
     computerConfiguration.memoryCopyConfiguration.clear();
