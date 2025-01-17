@@ -7943,35 +7943,33 @@ void XmlParser::parseXml_Cdp1855(wxXmlNode &node)
         {
             case TAG_OUT:
                 if (child->GetAttribute("type") == "x")
-                    cdp1855.writeMien = parseXml_IoPort(*child);
-                if (child->GetAttribute("type") == "mask")
-                    cdp1855.writeMask = parseXml_IoPort(*child);
+                    cdp1855.x = parseXml_IoPort(*child);
+                if (child->GetAttribute("type") == "y")
+                    cdp1855.y = parseXml_IoPort(*child);
+                if (child->GetAttribute("type") == "z")
+                    cdp1855.z = parseXml_IoPort(*child);
                 if (child->GetAttribute("type") == "control")
-                    cdp1855.writeControl = parseXml_IoPort(*child);
-                if (child->GetAttribute("type") == "page")
-                    cdp1855.writePage = parseXml_IoPort(*child);
-            break;
+                    cdp1855.control = parseXml_IoPort(*child);
+             break;
                 
             case TAG_IN:
-                if (child->GetAttribute("type") == "irq")
-                    cdp1855.readIrq = parseXml_IoPort(*child);
+                if (child->GetAttribute("type") == "x")
+                    cdp1855.x = parseXml_IoPort(*child);
+                if (child->GetAttribute("type") == "y")
+                    cdp1855.y = parseXml_IoPort(*child);
+                if (child->GetAttribute("type") == "z")
+                    cdp1855.z = parseXml_IoPort(*child);
                 if (child->GetAttribute("type") == "status")
-                    cdp1855.readStatus = parseXml_IoPort(*child);
-                if (child->GetAttribute("type") == "polling")
-                    cdp1855.readPolling = parseXml_IoPort(*child);
-                if (child->GetAttribute("type") == "vector")
-                    cdp1855.readVector = parseXml_IoPort(*child);
+                    cdp1855.status = parseXml_IoPort(*child);
             break;
 
             case TAG_IO:
-                if (child->GetAttribute("type") == "irq")
-                    cdp1855.readIrq = parseXml_IoPort(*child);
-                if (child->GetAttribute("type") == "status")
-                    cdp1855.readStatus = parseXml_IoPort(*child);
-                if (child->GetAttribute("type") == "polling")
-                    cdp1855.readPolling = parseXml_IoPort(*child);
-                if (child->GetAttribute("type") == "vector")
-                    cdp1855.readVector = parseXml_IoPort(*child);
+                if (child->GetAttribute("type") == "x")
+                    cdp1855.x = parseXml_IoPort(*child);
+                if (child->GetAttribute("type") == "y")
+                    cdp1855.y = parseXml_IoPort(*child);
+                if (child->GetAttribute("type") == "z")
+                    cdp1855.z = parseXml_IoPort(*child);
             break;
 
             case TAG_IOGROUP:
