@@ -785,16 +785,13 @@ public:
 class Cdp1855Configuration : public IoGroupConfiguration
 {
 public:
-    IoPort readStatus;
-    IoPort readPolling;
-    IoPort readVector;
-    IoPort writeMask;
-    IoPort writeControl;
-    IoPort writePage;
-    
-    IoPort readIrq;
-    IoPort writeMien;
+    IoPort x;
+    IoPort y;
+    IoPort z;
+    IoPort control;
+    IoPort status;
 };
+
 // CDP1877 configuration class definitions:
 
 class Cdp1877Configuration : public IoGroupConfiguration
