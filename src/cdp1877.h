@@ -60,8 +60,8 @@ public:
     void writeZ(Byte value);
     void writeStatus(Byte value);
     Byte readX();
-    Byte readX();
-    
+    Byte readY();
+    Byte readZ();
     Byte readControl();
 
 private:
