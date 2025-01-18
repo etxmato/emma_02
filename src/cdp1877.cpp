@@ -268,17 +268,17 @@ bool Cdp1855Instance::ioGroupCdp1855(int ioGroup)
 
 void Cdp1855Instance::writeX(Byte value)
 {
-    x_ = value;
+    x[sequeneCounter_++] = value;
 }
 
 void Cdp1855Instance::writeY(Byte value)
 {
-    y_ = value;
+    y[sequeneCounter_++] = value;
 }
 
 void Cdp1855Instance::writeZ(Byte value)
 {
-    z_ = value;
+    z[sequeneCounter_++] = value;
 }
 void Cdp1855Instance::writeControl(Byte value)
 {
@@ -286,23 +286,26 @@ void Cdp1855Instance::writeControl(Byte value)
         z_ = 0;
     if ((value & 0x8) == 0x8)
         y_ = 0;
+    if ((value & 0x40) == 0x40)
+        sequeneCounter_ = 0;
+    numberOfMdu_ = ((value ^ 0x30) & 0x30) >> 4;
     status_ = 0;
     command_ = value &0x3;
 }
 
 int Cdp1855Instance::readX(Word address, int function)
 {
-    return x_;
+    return x[sequeneCounter_++];
 }
 
 int Cdp1855Instance::readY(Word address, int function)
 {
-    return y_;
+    return y[sequeneCounter_++];
 }
 
 int Cdp1855Instance::readZ(Word address, int function)
 {
-    return z_;
+    return z[sequeneCounter_++];
 }
 
 Byte Cdp1855Instance::readStatus()
