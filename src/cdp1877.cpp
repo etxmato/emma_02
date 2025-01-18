@@ -235,6 +235,8 @@ Cdp1855Instance::Cdp1855Instance(int cdp1855Number)
     status_ = 0;
     control_ = 0;
     command_ = 0;
+    cycleCounter_ = 0;
+    sequeneCounter_ = 0;
 }
 
 void Cdp1855Instance::configureCdp1855(Cdp1855Configuration cdp1855Configuration)
@@ -268,6 +270,8 @@ bool Cdp1855Instance::ioGroupCdp1855(int ioGroup)
 
 void Cdp1855Instance::writeX(Byte value)
 {
+  sequeneCounter_ &= 0x3;
+
     x[sequeneCounter_++] = value;
 }
 
@@ -295,16 +299,19 @@ void Cdp1855Instance::writeControl(Byte value)
 
 int Cdp1855Instance::readX(Word address, int function)
 {
+    sequeneCounter_ &= 0x3;
     return x[sequeneCounter_++];
 }
 
 int Cdp1855Instance::readY(Word address, int function)
 {
+    sequeneCounter_ &= 0x3;
     return y[sequeneCounter_++];
 }
 
 int Cdp1855Instance::readZ(Word address, int function)
-{
+{    
+    sequeneCounter_ &= 0x3;
     return z[sequeneCounter_++];
 }
 
@@ -315,23 +322,30 @@ Byte Cdp1855Instance::readStatus()
 
 void Cdp1855Instance::cycle()
 {
-    switch (command_)
+    if (cycleCounter_ > 0)
     {
-        case 0: // no operation 
-        break;
+        cycleCounter_--;
+        if (cycleCounter_ == 0)
+        {
+            switch (command_)
+            {
+                case 0: // no operation 
+                break;
 
-        case 1: // multiply
-            multiply()
-        break;
+                case 1: // multiply
+                    multiply()
+                break;
 
-        case 2: // divide
-            divide();
-        break;
+                case 2: // divide
+                    divide();
+                break;
 
-        case 3: // illegal 
-        break;
+                case 3: // illegal 
+                break;
+            }
+            command_ = 0;
+        }
     }
-    command_ = 0;
 }
 
 void Cdp1855Instance::multiply()
