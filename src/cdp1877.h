@@ -57,12 +57,12 @@ public:
     void writeX(Byte value);
     void writeY(Byte value);
     void writeZ(Byte value);
-    void writeStatus(Byte value);
+    void writeControl(Byte value);
     Byte readX();
     Byte readY();
     Byte readZ();
-    Byte readControl();
-    
+    Byte readStatus();
+    void cycle();
     void multiply();
     void divide();
 
