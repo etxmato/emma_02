@@ -324,6 +324,10 @@ Byte Cdp1855Instance::readStatus()
     return status_;
 }
 
+void Cdp1855Instance::cycle()
+{
+}
+
 void Cdp1855Instance::multiply()
 {
     Word result = (x_ * z_) + y_;
