@@ -348,6 +348,16 @@ void Cdp1855Instance::cycle()
     }
 }
 
+int Cdp1855Instance::getSequenceCounter()
+{
+    int returnValue = sequenceCounter_;
+    sequenceCounter_++;
+    if (sequenceCounter_ >= numberOfMdu_)
+        sequenceCounter_ = 0;
+
+    return returnValue;
+}
+
 void Cdp1855Instance::multiply()
 {
     Word result = (x_ * z_) + y_;
