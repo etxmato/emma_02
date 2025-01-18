@@ -62,6 +62,9 @@ public:
     Byte readY();
     Byte readZ();
     Byte readControl();
+    
+    void multiply();
+    void divide();
 
 private:
     int cdp1855Number_;
