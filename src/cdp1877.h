@@ -66,6 +66,7 @@ public:
     int getSequenceCounter();
     void multiply();
     void divide();
+    int getRegValue(Byte reg[]);
 
 private:
     int cdp1855Number_;
