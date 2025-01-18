@@ -237,6 +237,7 @@ Cdp1855Instance::Cdp1855Instance(int cdp1855Number)
     command_ = 0;
     cycleCounter_ = 0;
     sequeneCounter_ = 0;
+    numberOfMdu_ = 1;
 }
 
 void Cdp1855Instance::configureCdp1855(Cdp1855Configuration cdp1855Configuration)
@@ -270,19 +271,17 @@ bool Cdp1855Instance::ioGroupCdp1855(int ioGroup)
 
 void Cdp1855Instance::writeX(Byte value)
 {
-  sequeneCounter_ &= 0x3;
-
-    x[sequeneCounter_++] = value;
+    x[getSequenceCounter()] = value;
 }
 
 void Cdp1855Instance::writeY(Byte value)
 {
-    y[sequeneCounter_++] = value;
+    y[getSequenceCounter()] = value;
 }
 
 void Cdp1855Instance::writeZ(Byte value)
 {
-    z[sequeneCounter_++] = value;
+    z[getSequenceCounter()] = value;
 }
 void Cdp1855Instance::writeControl(Byte value)
 {
@@ -299,20 +298,17 @@ void Cdp1855Instance::writeControl(Byte value)
 
 int Cdp1855Instance::readX(Word address, int function)
 {
-    sequeneCounter_ &= 0x3;
-    return x[sequeneCounter_++];
+    return x[getSequenceCounter()];
 }
 
 int Cdp1855Instance::readY(Word address, int function)
 {
-    sequeneCounter_ &= 0x3;
-    return y[sequeneCounter_++];
+    return y[getSequenceCounter()];
 }
 
 int Cdp1855Instance::readZ(Word address, int function)
 {    
-    sequeneCounter_ &= 0x3;
-    return z[sequeneCounter_++];
+    return z[getSequenceCounter()];
 }
 
 Byte Cdp1855Instance::readStatus()
