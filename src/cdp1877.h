@@ -80,6 +80,7 @@ private:
     Byte command_;
     int sequenceCounter_;
     int numberOfMdu_;
+    int cycleCounter_;
 };
 
 
