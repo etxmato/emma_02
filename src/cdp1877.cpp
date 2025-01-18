@@ -285,15 +285,22 @@ void Cdp1855Instance::writeZ(Byte value)
 }
 void Cdp1855Instance::writeControl(Byte value)
 {
+    int cycleValue[] = {9, 17, 25, 33};
+    int preScalerValue[] = {2, 4, 8, 8};
+
     if ((value & 0x4) == 0x4)
         z_ = 0;
     if ((value & 0x8) == 0x8)
         y_ = 0;
     if ((value & 0x40) == 0x40)
         sequeneCounter_ = 0;
+    bool preScaler = ((value & 0x80) == 0x80);
     numberOfMdu_ = ((value ^ 0x30) & 0x30) >> 4;
     status_ = 0;
     command_ = value &0x3;
+    cycleCounter_ = cycleValue[numberOfMdu_];
+    if (preScaler)
+        cycleCounter_ *= preScalerValue[numberOfMdu_];
 }
 
 int Cdp1855Instance::readX(Word address, int function)
@@ -356,16 +363,49 @@ int Cdp1855Instance::getSequenceCounter()
 
 void Cdp1855Instance::multiply()
 {
-    Word result = (x_ * z_) + y_;
-    y_ = result >> 8;
-    z_ = result & 0xff;
+    int result = (getRegValue(x) * getRegValue(z)) + getRegValue(y);
+    for (int mdu=numberOfMdu_-1; mdu>=0; mdu--)
+    {
+        z[mdu] = result & 0xff;
+        result = result >> 8;
+    }
+    for (int mdu=numberOfMdu_-1; mdu>=0; mdu--)
+    {
+        y[mdu] = result & 0xff;
+        result = result >> 8;
+    }
 }
 
 void Cdp1855Instance::divide()
 {
-    if (x_ <= y_)
+    int divisor = getRegValue(x);
+    int yVal = getRegValue(y);
+
+    if (divisor <= yVal)
         status = 1;
-    Word dividend = (y_ << 8) + z_;
-    z_ = dividend / x_;
-    y_ = dividend - (z_ * x_);
+    int dividend = (yVal << (8 * numberOfMdu_)) + getRegValue(z);
+    int result = dividend / xVal;
+    for (int mdu=numberOfMdu_-1; mdu>=0; mdu--)
+    {
+        z[mdu] = result & 0xff;
+        result = result >> 8;
+    }
+    int remaining = dividend - (result * divisor);
+    for (int mdu=numberOfMdu_-1; mdu>=0; mdu--)
+    {
+        y[mdu] = remaining & 0xff;
+        remaining = remaining >> 8;
+    }
 }
+
+int Cdp1855Instance::getRegValue(Byte reg[])
+{
+    int regValue = 0;
+    for (int mdu=0; mdu<numberOfMdu_; mdu++)
+    {
+        regValue = regValue << 8;
+        regValue |= reg[mdu];
+    }
+    return regValue;
+}
+
