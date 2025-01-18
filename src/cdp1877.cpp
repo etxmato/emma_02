@@ -288,16 +288,17 @@ void Cdp1855Instance::writeControl(Byte value)
     int cycleValue[] = {9, 17, 25, 33};
     int preScalerCycleValue[] = {18, 68, 200, 264};
 
+    command_ = value &0x3;
     if ((value & 0x4) == 0x4)
         z_ = 0;
     if ((value & 0x8) == 0x8)
         y_ = 0;
+    numberOfMdu_ = ((value ^ 0x30) & 0x30) >> 4;
     if ((value & 0x40) == 0x40)
         sequeneCounter_ = 0;
     bool preScaler = ((value & 0x80) == 0x80);
-    numberOfMdu_ = ((value ^ 0x30) & 0x30) >> 4;
+
     status_ = 0;
-    command_ = value &0x3;
     
     if (preScaler)
         cycleCounter_ = preScalerCycleValue[numberOfMdu_];
