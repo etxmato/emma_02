@@ -281,6 +281,10 @@ void Cdp1855Instance::writeZ(Byte value)
 }
 void Cdp1855Instance::writeControl(Byte value)
 {
+    if ((value & 0x4) == 0x4)
+        z_ = 0;
+    if ((value & 0x8) == 0x8)
+        y_ = 0;
 
     switch (value &0x3)
     {
@@ -323,6 +327,9 @@ Byte Cdp1855Instance::readStatus()
 
 void Cdp1855Instance::multiply()
 {
+    Word result = (x_ * z_) + y_;
+    y_ = result >> 8;
+    z_ = result & 0xff;
 }
 
 void Cdp1855Instance::divide()
