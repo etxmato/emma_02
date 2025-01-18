@@ -67,6 +67,7 @@ public:
     void multiply();
     void divide();
     int getRegValue(Byte reg[]);
+    int setRegValue(Byte reg[], int regValue);
 
 private:
     int cdp1855Number_;
