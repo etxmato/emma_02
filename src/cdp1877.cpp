@@ -281,7 +281,16 @@ void Cdp1855Instance::writeZ(Byte value)
 }
 void Cdp1855Instance::writeControl(Byte value)
 {
-    
+
+    switch (value &0x3)
+    {
+        case 0: // no operation 
+        break;
+
+        case 1: // multiply
+        break;
+    }
+
 }
 
 int Cdp1855Instance::readX(Word address, int function)
@@ -304,3 +313,10 @@ Byte Cdp1855Instance::readStatus()
     return 0;
 }
 
+void multiply()
+{
+}
+
+void divide()
+{
+}
