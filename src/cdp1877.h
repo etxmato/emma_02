@@ -76,6 +76,7 @@ private:
     Byte z_;
     Byte control_;
     Byte status_;
+    Byte command_;
 };
 
 
