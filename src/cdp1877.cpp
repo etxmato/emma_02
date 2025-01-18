@@ -285,7 +285,7 @@ void Cdp1855Instance::writeControl(Byte value)
         z_ = 0;
     if ((value & 0x8) == 0x8)
         y_ = 0;
-
+    status_ = 0;
     switch (value &0x3)
     {
         case 0: // no operation 
@@ -296,13 +296,12 @@ void Cdp1855Instance::writeControl(Byte value)
         break;
 
         case 2: // divide
+            divide();
         break;
 
         case 3: // illegal 
         break;
-
     }
-
 }
 
 int Cdp1855Instance::readX(Word address, int function)
@@ -322,7 +321,7 @@ int Cdp1855Instance::readZ(Word address, int function)
 
 Byte Cdp1855Instance::readStatus()
 {
-    return 0;
+    return status_;
 }
 
 void Cdp1855Instance::multiply()
@@ -334,6 +333,8 @@ void Cdp1855Instance::multiply()
 
 void Cdp1855Instance::divide()
 {
+    if (x_ <= y_)
+        status = 1;
     Word dividend = (y_ << 8) + z_;
     z_ = dividend / x_;
     y_ = dividend - (z_ * x_);
