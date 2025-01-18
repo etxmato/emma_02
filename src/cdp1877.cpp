@@ -364,16 +364,8 @@ int Cdp1855Instance::getSequenceCounter()
 void Cdp1855Instance::multiply()
 {
     int result = (getRegValue(x) * getRegValue(z)) + getRegValue(y);
-    for (int mdu=numberOfMdu_-1; mdu>=0; mdu--)
-    {
-        z[mdu] = result & 0xff;
-        result = result >> 8;
-    }
-    for (int mdu=numberOfMdu_-1; mdu>=0; mdu--)
-    {
-        y[mdu] = result & 0xff;
-        result = result >> 8;
-    }
+    result = setRegValue(z, result);
+    setRegValue(y, result);
 }
 
 void Cdp1855Instance::divide()
@@ -384,18 +376,12 @@ void Cdp1855Instance::divide()
     if (divisor <= yVal)
         status = 1;
     int dividend = (yVal << (8 * numberOfMdu_)) + getRegValue(z);
+
     int result = dividend / xVal;
-    for (int mdu=numberOfMdu_-1; mdu>=0; mdu--)
-    {
-        z[mdu] = result & 0xff;
-        result = result >> 8;
-    }
+    setRegValue(z, result);
+    
     int remaining = dividend - (result * divisor);
-    for (int mdu=numberOfMdu_-1; mdu>=0; mdu--)
-    {
-        y[mdu] = remaining & 0xff;
-        remaining = remaining >> 8;
-    }
+    setRegValue(y, remaining);
 }
 
 int Cdp1855Instance::getRegValue(Byte reg[])
@@ -405,6 +391,16 @@ int Cdp1855Instance::getRegValue(Byte reg[])
     {
         regValue = regValue << 8;
         regValue |= reg[mdu];
+    }
+    return regValue;
+}
+
+int Cdp1855Instance::setRegValue(Byte reg[], int regValue)
+{
+    for (int mdu=numberOfMdu_-1; mdu>=0; mdu--)
+    {
+        reg[mdu] = regValue & 0xff;
+        regValue = regValue >> 8;
     }
     return regValue;
 }
