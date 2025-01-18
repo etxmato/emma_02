@@ -63,6 +63,7 @@ public:
     Byte readZ();
     Byte readStatus();
     void cycle();
+    int getSequenceCounter();
     void multiply();
     void divide();
 
@@ -78,6 +79,7 @@ private:
     Byte status_;
     Byte command_;
     int sequenceCounter_;
+    int numberOfMdu_;
 };
 
 
