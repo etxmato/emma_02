@@ -234,6 +234,7 @@ Cdp1855Instance::Cdp1855Instance(int cdp1855Number)
     
     status_ = 0;
     control_ = 0;
+    command_ = 0;
 }
 
 void Cdp1855Instance::configureCdp1855(Cdp1855Configuration cdp1855Configuration)
@@ -286,22 +287,7 @@ void Cdp1855Instance::writeControl(Byte value)
     if ((value & 0x8) == 0x8)
         y_ = 0;
     status_ = 0;
-    switch (value &0x3)
-    {
-        case 0: // no operation 
-        break;
-
-        case 1: // multiply
-            multiply()
-        break;
-
-        case 2: // divide
-            divide();
-        break;
-
-        case 3: // illegal 
-        break;
-    }
+    command_ = value &0x3;
 }
 
 int Cdp1855Instance::readX(Word address, int function)
@@ -326,6 +312,23 @@ Byte Cdp1855Instance::readStatus()
 
 void Cdp1855Instance::cycle()
 {
+    switch (command_)
+    {
+        case 0: // no operation 
+        break;
+
+        case 1: // multiply
+            multiply()
+        break;
+
+        case 2: // divide
+            divide();
+        break;
+
+        case 3: // illegal 
+        break;
+    }
+    command_ = 0;
 }
 
 void Cdp1855Instance::multiply()
