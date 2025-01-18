@@ -286,7 +286,7 @@ void Cdp1855Instance::writeZ(Byte value)
 void Cdp1855Instance::writeControl(Byte value)
 {
     int cycleValue[] = {9, 17, 25, 33};
-    int preScalerValue[] = {2, 4, 8, 8};
+    int preScalerCycleValue[] = {18, 68, 200, 264};
 
     if ((value & 0x4) == 0x4)
         z_ = 0;
@@ -298,9 +298,11 @@ void Cdp1855Instance::writeControl(Byte value)
     numberOfMdu_ = ((value ^ 0x30) & 0x30) >> 4;
     status_ = 0;
     command_ = value &0x3;
-    cycleCounter_ = cycleValue[numberOfMdu_];
+    
     if (preScaler)
-        cycleCounter_ *= preScalerValue[numberOfMdu_];
+        cycleCounter_ = preScalerCycleValue[numberOfMdu_];
+    else
+        cycleCounter_ = cycleValue[numberOfMdu_];
 }
 
 int Cdp1855Instance::readX(Word address, int function)
