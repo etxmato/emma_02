@@ -71,12 +71,13 @@ private:
 
     Cdp1855Configuration cdp1855Configuration_;
     
-    Byte x_;
-    Byte y_;
-    Byte z_;
+    Byte x[4];
+    Byte y[4];
+    Byte z[4];
     Byte control_;
     Byte status_;
     Byte command_;
+    int sequenceCounter_;
 };
 
 
