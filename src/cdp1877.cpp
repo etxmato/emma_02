@@ -288,7 +288,15 @@ void Cdp1855Instance::writeControl(Byte value)
         break;
 
         case 1: // multiply
+            multiply()
         break;
+
+        case 2: // divide
+        break;
+
+        case 3: // illegal 
+        break;
+
     }
 
 }
@@ -313,10 +321,10 @@ Byte Cdp1855Instance::readStatus()
     return 0;
 }
 
-void multiply()
+void Cdp1855Instance::multiply()
 {
 }
 
-void divide()
+void Cdp1855Instance::divide()
 {
 }
