@@ -334,4 +334,7 @@ void Cdp1855Instance::multiply()
 
 void Cdp1855Instance::divide()
 {
+    Word dividend = (y_ << 8) + z_;
+    z_ = dividend / x_;
+    y_ = dividend - (z_ * x_);
 }
