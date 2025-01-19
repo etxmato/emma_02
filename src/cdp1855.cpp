@@ -50,7 +50,7 @@ void Cdp1855Instance::configureCdp1855(Cdp1855Configuration cdp1855Configuration
     cdp1855Configuration_ = cdp1855Configuration;    
     p_Main->configureMessage(&cdp1855Configuration.ioGroupVector, "CDP1855 Multiply-Divide Unit");
 
- //   p_Computer->setOutType(&cd4536bIo.ioGroupVector, cdp1855Configuration.x, "write control byte", number);
+ //   p_Computer->setOutType(&cd4536bIo.ioGroupVector, cdp1855Configuration.x, "write register x);
 //   p_Computer->setEfType(&cd4536bIo.ioGroupVector, cdp1855Configuration.ef, "Timer out", number);
 //    p_Computer->setCycleType(CYCLE_TYPE_CD3536B, CD4536B_CYCLE);
  
