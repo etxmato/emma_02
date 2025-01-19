@@ -7943,33 +7943,33 @@ void XmlParser::parseXml_Cdp1855(wxXmlNode &node)
         {
             case TAG_OUT:
                 if (child->GetAttribute("type") == "x")
-                    cdp1855.x = parseXml_IoPort(*child);
+                    cdp1855.x = parseXml_IoPort(*child, MDU_X);
                 if (child->GetAttribute("type") == "y")
-                    cdp1855.y = parseXml_IoPort(*child);
+                    cdp1855.y = parseXml_IoPort(*child, MDU_Y);
                 if (child->GetAttribute("type") == "z")
-                    cdp1855.z = parseXml_IoPort(*child);
+                    cdp1855.z = parseXml_IoPort(*child, MDU_Z);
                 if (child->GetAttribute("type") == "control")
-                    cdp1855.control = parseXml_IoPort(*child);
+                    cdp1855.control = parseXml_IoPort(*child, MDU_CONTROL);
              break;
                 
             case TAG_IN:
                 if (child->GetAttribute("type") == "x")
-                    cdp1855.x = parseXml_IoPort(*child);
+                    cdp1855.x = parseXml_IoPort(*child, MDU_X);
                 if (child->GetAttribute("type") == "y")
-                    cdp1855.y = parseXml_IoPort(*child);
+                    cdp1855.y = parseXml_IoPort(*child, MDU_Y);
                 if (child->GetAttribute("type") == "z")
-                    cdp1855.z = parseXml_IoPort(*child);
+                    cdp1855.z = parseXml_IoPort(*child, MDU_Z);
                 if (child->GetAttribute("type") == "status")
-                    cdp1855.status = parseXml_IoPort(*child);
+                    cdp1855.status = parseXml_IoPort(*child, MDU_STATUS);
             break;
 
             case TAG_IO:
                 if (child->GetAttribute("type") == "x")
-                    cdp1855.x = parseXml_IoPort(*child);
+                    cdp1855.x = parseXml_IoPort(*child, MDU_X);
                 if (child->GetAttribute("type") == "y")
-                    cdp1855.y = parseXml_IoPort(*child);
+                    cdp1855.y = parseXml_IoPort(*child, MDU_Y);
                 if (child->GetAttribute("type") == "z")
-                    cdp1855.z = parseXml_IoPort(*child);
+                    cdp1855.z = parseXml_IoPort(*child, MDU_Z);
             break;
 
             case TAG_IOGROUP:
