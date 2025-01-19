@@ -47,12 +47,8 @@ Cdp1855Instance::Cdp1855Instance(int cdp1855Number)
 
 void Cdp1855Instance::configureCdp1855(Cdp1855Configuration cdp1855Configuration)
 {
-    cdp1855Configuration_ = cdp1855Configuration;
-    wxString cdp1855NumberString = "";
-    if (cdp1855Number_ > 0)
-        cdp1855NumberString.Printf(" %d", cdp1855Number_);
-    
-    p_Main->configureMessage(&cdp1855Configuration.ioGroupVector, "CDP1855 MCD" + cdp1855NumberString);
+    cdp1855Configuration_ = cdp1855Configuration;    
+    p_Main->configureMessage(&cdp1855Configuration.ioGroupVector, "CDP1855 Multiply-Divide Unit");
     
     p_Main->message("");
 }
