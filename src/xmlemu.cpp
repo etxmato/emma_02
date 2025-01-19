@@ -6806,6 +6806,12 @@ void Computer::configureExtensions()
         }
     }
     
+    if (currentComputerConfiguration.cdp1855Configuration.defined)
+    {
+        //cdp1855InstancePointer = new Cdp1855Instance();
+        //cdp1855InstancePointer->configureCdp1855(currentComputerConfiguration.cdp1855Configuration);
+    }
+
     cdp1877InstancePointer.clear();
     numberOfCdp1877Instances_ = 0;
     for (std::vector<Cdp1877Configuration>::iterator cdp1877 = currentComputerConfiguration.cdp1877Configuration.begin (); cdp1877 != currentComputerConfiguration.cdp1877Configuration.end (); ++cdp1877)
