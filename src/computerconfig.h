@@ -1499,7 +1499,7 @@ public:
     vector<Cdp1852Configuration> cdp1852Configuration;
     
     // MDC configurations:
-    vector<Cdp1855Configuration> cdp1855Configuration;
+    Cdp1855Configuration cdp1855Configuration;
     
     // PIC configurations:
     vector<Cdp1877Configuration> cdp1877Configuration;
