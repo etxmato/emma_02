@@ -749,7 +749,14 @@ enum
     TAPE_CV_BUFFER_EMPTY_EF,
     TAPE_CV_WRITE_DATA_OUT,
     TAPE_CV_READ_DATA_IN,
-    
+
+    // MCD I/O
+    MCD_X,
+    MCD_Y,
+    MCD_Z,
+    MCD_STATUS,
+    MCD_CONTROL,
+
     // Other I/O
     UNDEFINED_EF1,
     UNDEFINED_EF2,
