@@ -750,12 +750,13 @@ enum
     TAPE_CV_WRITE_DATA_OUT,
     TAPE_CV_READ_DATA_IN,
 
-    // MCD I/O
-    MCD_X,
-    MCD_Y,
-    MCD_Z,
-    MCD_STATUS,
-    MCD_CONTROL,
+    // MDU I/O
+    MDU_X,
+    MDU_Y,
+    MDU_Z,
+    MDU_STATUS,
+    MDU_CONTROL,
+    MDU_CYCLE
 
     // Other I/O
     UNDEFINED_EF1,
@@ -841,6 +842,7 @@ enum
     CYCLE_TYPE_SOUND,
     CYCLE_TYPE_CD3536B,
     CYCLE_TYPE_RTC,
+    CYCLE_TYPE_MDU,
     CYCLE_TYPE_MAX,
 };
 
