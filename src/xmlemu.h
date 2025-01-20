@@ -30,8 +30,9 @@
 #include "usb.h"
 #include "rtc.h"
 #include "pio.h"
-#include "cdp1877.h"
 #include "cdp1852.h"
+#include "cdp1855.h"
+#include "cdp1877.h"
 #include "cd4536b.h"
 #include "upd765.h"
 
@@ -369,6 +370,8 @@ private:
     vector<PioFrame *> cdp1851FramePointer;
     int numberOfCdp1851Frames_;
 
+    Cdp1855Instance *cdp1855InstancePointer;
+    
     vector<Cdp1877Instance *> cdp1877InstancePointer;
     int numberOfCdp1877Instances_;
 

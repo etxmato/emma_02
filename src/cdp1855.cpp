@@ -33,15 +33,13 @@
 #include "main.h"
 #include "cdp1855.h"
 
-Cdp1855Instance::Cdp1855Instance(int cdp1855Number)
+Cdp1855Instance::Cdp1855Instance()
 {
-    cdp1855Number_ = cdp1855Number;
-    
     status_ = 0;
     control_ = 0;
     command_ = 0;
     cycleCounter_ = 0;
-    sequeneCounter_ = 0;
+    sequenceCounter_ = 0;
     numberOfMdu_ = 1;
 }
 
@@ -50,14 +48,15 @@ void Cdp1855Instance::configureCdp1855(Cdp1855Configuration cdp1855Configuration
     cdp1855Configuration_ = cdp1855Configuration;    
     p_Main->configureMessage(&cdp1855Configuration.ioGroupVector, "CDP1855 Multiply-Divide Unit");
 
-    p_Computer->setOutType(&cd4536bIo.ioGroupVector, cdp1855Configuration.x, "write register x);
-    p_Computer->setOutType(&cd4536bIo.ioGroupVector, cdp1855Configuration.y, "write register y);
-    p_Computer->setOutType(&cd4536bIo.ioGroupVector, cdp1855Configuration.z, "write register z);
-    p_Computer->setOutType(&cd4536bIo.ioGroupVector, cdp1855Configuration.control, "write cotnrol register);
-    p_Computer->setInType(&cd4536bIo.ioGroupVector, cdp1855Configuration.x, "read register x);
-    p_Computer->setInType(&cd4536bIo.ioGroupVector, cdp1855Configuration.y, "read register y);
-    p_Computer->setInType(&cd4536bIo.ioGroupVector, cdp1855Configuration.z, "read register z);
-    p_Computer->setEfType(&cd4536bIo.ioGroupVector, cdp1855Configuration.status, "Overflow");
+    p_Computer->setOutType(&cdp1855Configuration.ioGroupVector, cdp1855Configuration.x, "write register x");
+    p_Computer->setOutType(&cdp1855Configuration.ioGroupVector, cdp1855Configuration.y, "write register y");
+    p_Computer->setOutType(&cdp1855Configuration.ioGroupVector, cdp1855Configuration.z, "write register z");
+    p_Computer->setOutType(&cdp1855Configuration.ioGroupVector, cdp1855Configuration.control, "write cotnrol register");
+    p_Computer->setInType(&cdp1855Configuration.ioGroupVector, cdp1855Configuration.x, "read register x");
+    p_Computer->setInType(&cdp1855Configuration.ioGroupVector, cdp1855Configuration.y, "read register y");
+    p_Computer->setInType(&cdp1855Configuration.ioGroupVector, cdp1855Configuration.z, "read register z");
+    p_Computer->setInType(&cdp1855Configuration.ioGroupVector, cdp1855Configuration.status, "read overflow");
+    p_Computer->setEfType(&cdp1855Configuration.ioGroupVector, cdp1855Configuration.ef, "Overflow");
     p_Computer->setCycleType(CYCLE_TYPE_MDU, MDU_CYCLE);
  
     p_Main->message("");
@@ -112,7 +111,7 @@ void Cdp1855Instance::writeControl(Byte value)
     }
     numberOfMdu_ = ((value ^ 0x30) & 0x30) >> 4;
     if ((value & 0x40) == 0x40)
-        sequeneCounter_ = 0;
+        sequenceCounter_ = 0;
     bool preScaler = ((value & 0x80) == 0x80);
 
     status_ = 0;
@@ -123,18 +122,18 @@ void Cdp1855Instance::writeControl(Byte value)
         cycleCounter_ = cycleValue[numberOfMdu_];
 }
 
-int Cdp1855Instance::readX(Word address, int function)
+Byte Cdp1855Instance::readX()
 {
     return x[getSequenceCounter()];
 }
 
-int Cdp1855Instance::readY(Word address, int function)
+Byte Cdp1855Instance::readY()
 {
     return y[getSequenceCounter()];
 }
 
-int Cdp1855Instance::readZ(Word address, int function)
-{    
+Byte Cdp1855Instance::readZ()
+{
     return z[getSequenceCounter()];
 }
 
@@ -156,7 +155,7 @@ void Cdp1855Instance::cycle()
                 break;
 
                 case 1: // multiply
-                    multiply()
+                    multiply();
                 break;
 
                 case 2: // divide
@@ -194,10 +193,10 @@ void Cdp1855Instance::divide()
     int yVal = getRegValue(y);
 
     if (divisor <= yVal)
-        status = 1;
+        status_ = 1;
     int dividend = (yVal << (8 * numberOfMdu_)) + getRegValue(z);
 
-    int result = dividend / xVal;
+    int result = dividend / divisor;
     setRegValue(z, result);
     
     int remaining = dividend - (result * divisor);

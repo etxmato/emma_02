@@ -7904,6 +7904,7 @@ void XmlParser::parseXml_Cdp1855(wxXmlNode &node)
         "out",
         "in",
         "io",
+        "ef",
         "iogroup",
         "comment",
         "undefined"
@@ -7914,6 +7915,7 @@ void XmlParser::parseXml_Cdp1855(wxXmlNode &node)
         TAG_OUT,
         TAG_IN,
         TAG_IO,
+        TAG_EF,
         TAG_IOGROUP,
         TAG_COMMENT,
         TAG_UNDEFINED
@@ -7929,6 +7931,7 @@ void XmlParser::parseXml_Cdp1855(wxXmlNode &node)
     computerConfiguration.cdp1855Configuration.z = init_IoPort();
     computerConfiguration.cdp1855Configuration.control = init_IoPort();
     computerConfiguration.cdp1855Configuration.status = init_IoPort();
+    computerConfiguration.cdp1855Configuration.ef = init_EfFlag();
 
     wxXmlNode *child = node.GetChildren();
     while (child)
@@ -7970,6 +7973,10 @@ void XmlParser::parseXml_Cdp1855(wxXmlNode &node)
                     computerConfiguration.cdp1855Configuration.y = parseXml_IoPort(*child, MDU_Y);
                 if (child->GetAttribute("type") == "z")
                     computerConfiguration.cdp1855Configuration.z = parseXml_IoPort(*child, MDU_Z);
+            break;
+
+            case TAG_EF:
+                computerConfiguration.cdp1855Configuration.ef = parseXml_EfFlag(*child, MDU_EF);
             break;
 
             case TAG_IOGROUP:

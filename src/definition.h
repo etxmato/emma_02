@@ -754,9 +754,10 @@ enum
     MDU_X,
     MDU_Y,
     MDU_Z,
+    MDU_EF,
     MDU_STATUS,
     MDU_CONTROL,
-    MDU_CYCLE
+    MDU_CYCLE,
 
     // Other I/O
     UNDEFINED_EF1,

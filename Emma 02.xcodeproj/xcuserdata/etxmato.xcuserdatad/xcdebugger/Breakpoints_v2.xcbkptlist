@@ -254,8 +254,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5295"
-            endingLineNumber = "5295"
+            startingLineNumber = "5331"
+            endingLineNumber = "5331"
             landmarkName = "Computer::readMemDebug(address, function)"
             landmarkType = "7">
          </BreakpointContent>
@@ -286,8 +286,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6256"
-            endingLineNumber = "6256"
+            startingLineNumber = "6292"
+            endingLineNumber = "6292"
             landmarkName = "Computer::cpuInstruction()"
             landmarkType = "7">
          </BreakpointContent>
@@ -302,8 +302,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6255"
-            endingLineNumber = "6255"
+            startingLineNumber = "6291"
+            endingLineNumber = "6291"
             landmarkName = "Computer::cpuInstruction()"
             landmarkType = "7">
          </BreakpointContent>
@@ -334,8 +334,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5159"
-            endingLineNumber = "5159"
+            startingLineNumber = "5195"
+            endingLineNumber = "5195"
             landmarkName = "Computer::readMemDebug(address, function)"
             landmarkType = "7">
          </BreakpointContent>
@@ -350,8 +350,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5160"
-            endingLineNumber = "5160"
+            startingLineNumber = "5196"
+            endingLineNumber = "5196"
             landmarkName = "Computer::readMemDebug(address, function)"
             landmarkType = "7">
          </BreakpointContent>
@@ -366,8 +366,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6813"
-            endingLineNumber = "6813"
+            startingLineNumber = "6849"
+            endingLineNumber = "6849"
             landmarkName = "Computer::configureExtensions()"
             landmarkType = "7">
          </BreakpointContent>
@@ -382,8 +382,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6809"
-            endingLineNumber = "6809"
+            startingLineNumber = "6845"
+            endingLineNumber = "6845"
             landmarkName = "Computer::configureExtensions()"
             landmarkType = "7">
          </BreakpointContent>
@@ -510,8 +510,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2674"
-            endingLineNumber = "2674"
+            startingLineNumber = "2706"
+            endingLineNumber = "2706"
             landmarkName = "Computer::out(port, address, value)"
             landmarkType = "7">
          </BreakpointContent>

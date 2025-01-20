@@ -782,7 +782,7 @@ public:
 
 // CDP1855 configuration class definitions:
 
-class Cdp1855Configuration : public IoGroupConfiguration
+class Cdp1855Configuration : public IoGroupDefineConfiguration
 {
 public:
     IoPort x;
@@ -790,6 +790,8 @@ public:
     IoPort z;
     IoPort control;
     IoPort status;
+    
+    EfFlag ef;
 };
 
 // CDP1877 configuration class definitions:

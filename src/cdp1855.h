@@ -4,7 +4,7 @@
 class Cdp1855Instance
 {
 public:
-    Cdp1855Instance(int cdp1855Number);
+    Cdp1855Instance();
     ~Cdp1855Instance() {};
   
     void configureCdp1855(Cdp1855Configuration cdp1855Configuration);
@@ -26,8 +26,6 @@ public:
     int setRegValue(Byte reg[], int regValue);
 
 private:
-    int cdp1855Number_;
-
     Cdp1855Configuration cdp1855Configuration_;
     
     Byte x[4];

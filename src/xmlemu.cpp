@@ -1529,6 +1529,10 @@ Byte Computer::ef(int flag)
             return efRtcCdp1879();
         break;
 
+        case MDU_EF:
+            return cdp1855InstancePointer->readStatus();
+        break;
+
         case MC6845_EF:
             if (!isLoading())
                 return mc6845Pointer->ef6845();
@@ -1795,6 +1799,22 @@ Byte Computer::in(Byte port, Word address)
 
         case RTC_READ_PORT_IN:
             ret = inRtcDs12788();
+        break;
+
+        case MDU_X:
+            return cdp1855InstancePointer->readX();
+        break;
+
+        case MDU_Y:
+            return cdp1855InstancePointer->readY();
+        break;
+
+        case MDU_Z:
+            return cdp1855InstancePointer->readZ();
+        break;
+
+        case MDU_STATUS:
+            return cdp1855InstancePointer->readStatus();
         break;
 
         case IDE_READ_STATUS_IN:
@@ -2271,6 +2291,18 @@ void Computer::out(Byte port, Word address, Byte value)
 
         case RTC_WRITE_PORT_OUT:
             outRtcDs12788(value);
+        break;
+
+        case MDU_X:
+            cdp1855InstancePointer->writeX(value);
+        break;
+
+        case MDU_Y:
+            cdp1855InstancePointer->writeY(value);
+        break;
+
+        case MDU_Z:
+            cdp1855InstancePointer->writeZ(value);
         break;
 
         case VIS1870_OUT2:
@@ -2958,6 +2990,10 @@ void Computer::cycle(int type)
 
         case RTC_CYCLE:
             cycleRtcCdp1879(systemTime_, xmlComputerTime_);
+        break;
+
+        case MDU_CYCLE:
+            cdp1855InstancePointer->cycle();
         break;
 
         case KEY_FRED_CYCLE:
@@ -6808,8 +6844,8 @@ void Computer::configureExtensions()
     
     if (currentComputerConfiguration.cdp1855Configuration.defined)
     {
-        //cdp1855InstancePointer = new Cdp1855Instance();
-        //cdp1855InstancePointer->configureCdp1855(currentComputerConfiguration.cdp1855Configuration);
+        cdp1855InstancePointer = new Cdp1855Instance();
+        cdp1855InstancePointer->configureCdp1855(currentComputerConfiguration.cdp1855Configuration);
     }
 
     cdp1877InstancePointer.clear();
