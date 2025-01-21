@@ -2305,6 +2305,10 @@ void Computer::out(Byte port, Word address, Byte value)
             cdp1855InstancePointer->writeZ(value);
         break;
 
+        case MDU_CONTROL:
+            cdp1855InstancePointer->writeControl(value);
+        break;
+
         case VIS1870_OUT2:
             vis1870Pointer->setInterruptEnable(value == 1);
         break;

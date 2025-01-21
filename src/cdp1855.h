@@ -22,8 +22,8 @@ public:
     int getSequenceCounter();
     void multiply();
     void divide();
-    int getRegValue(Byte reg[]);
-    int setRegValue(Byte reg[], int regValue);
+    uint64_t getRegValue(Byte reg[]);
+    uint64_t setRegValue(Byte reg[], uint64_t regValue);
 
 private:
     Cdp1855Configuration cdp1855Configuration_;
