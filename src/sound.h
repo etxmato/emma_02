@@ -53,10 +53,12 @@ public:
     void toneSuper();  
     void toneSuperOff();
     void changeBeepFrequency(int frequency);
+    
     void soundCycle();
-
     void toneSoundCycle(int channel);
+    void envelopeSoundCycle(int channel);
     void noiseSoundCycle(int channel, int noisePeriod);
+
     void playSound();
     void playSoundBuffer();
     void psaveAmplitudeChange(int q);
@@ -153,7 +155,8 @@ private:
     
     bool envelopeActive_[MAX_NUMBER_OF_TONE_CHANNELS];
     int envelopePeriod_;
-    int envelopeAmplitude_;
+    int envelopeTime_[MAX_NUMBER_OF_TONE_CHANNELS];
+    Byte envelopeAmplitude_;
     bool envelopeContinues_;
     int envelopeAttack_;
     bool envelopeAlternate_;

@@ -380,6 +380,7 @@ void Sound::setEnvelopePeriod(int period)
 void Sound::ayEnvelopeActive(int channel, bool envelopeActive)
 {
     envelopeActive_[channel] = envelopeActive;
+    toneAmplitude_[channel] = envelopeAmplitude_;
 }
 
 void Sound::ayEnvelopeContinues(bool envelopeContinues)
@@ -474,6 +475,8 @@ void Sound::soundCycle()
     {
         if (toneOn_[channel])
             toneSoundCycle(channel);
+        if (envelopeActive_[channel])
+            envelopeSoundCycle(channel);
     }
     for (int channel=0; channel<noiseChannels_; channel+=2)
     {
@@ -524,6 +527,23 @@ void Sound::toneSoundCycle(int channel)
             toneAmplitude_[channel] = -toneAmplitude_[channel];
         }
         toneSynthPointer[channel]->update(soundTime_, toneAmplitude_[channel]);
+    }
+}
+
+void Sound::envelopeSoundCycle(int channel)
+{
+    envelopeTime_[channel]-=8;
+    if (envelopeTime_[channel] <= 0)
+    {
+        envelopeAmplitude_ = envelopeAmplitude_ + envelopeAttack_;
+        if ((envelopeAmplitude_ & 0xf0) != 0)
+        {
+            
+        }
+        toneAmplitude_[channel] = envelopeAmplitude_;
+        if (toneAmplitude_[channel] != 0)
+            toneOn_[channel] = true;
+
     }
 }
 
