@@ -13,6 +13,17 @@
 #define MAX_NUMBER_OF_TONE_CHANNELS 12
 #define MAX_NUMBER_OF_NOISE_CHANNELS 12
 
+#define ENVELOPE_SHAPE_DOWN_ZERO_1 0x0
+#define ENVELOPE_SHAPE_UP_ZERO_1 0x4
+#define ENVELOPE_SHAPE_DOWN_CONT 0x8
+#define ENVELOPE_SHAPE_DOWN_ZERO_2 0x9
+#define ENVELOPE_SHAPE_DOWN_CONT_ALT 0xA
+#define ENVELOPE_SHAPE_DOWN_MAX 0xB
+#define ENVELOPE_SHAPE_UP_CONT 0xC
+#define ENVELOPE_SHAPE_UP_MAX 0xD
+#define ENVELOPE_SHAPE_UP_CONT_ALT 0xE
+#define ENVELOPE_SHAPE_UP_ZERO_2 0xF
+
 /* Structure for loaded sounds. */
 typedef struct sound_s
 {
@@ -42,6 +53,7 @@ public:
 
     void setEnvelopePeriod(int period);
     void ayEnvelopeActive(int channel, bool envelopeActive);
+    void ayEnvelopeShape(Byte envelopeShape);
     void ayEnvelopeContinues(bool envelopeContinues);
     void ayEnvelopeAttack(bool envelopeAttack);
     void ayEnvelopeAlternate(bool envelopeAlternate);
@@ -154,6 +166,7 @@ private:
     int noiseAmplitude_[MAX_NUMBER_OF_NOISE_CHANNELS];
     
     bool envelopeActive_[MAX_NUMBER_OF_TONE_CHANNELS];
+    Byte envelopeShape_;
     int envelopePeriod_;
     int envelopeTime_[MAX_NUMBER_OF_TONE_CHANNELS];
     Byte envelopeAmplitude_;

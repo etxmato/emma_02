@@ -63,7 +63,6 @@ Sound::Sound()
     tapeSynthPointer = new Blip_Synth<blip_high_quality,30>;
 
     activeSoundType_ = SOUND_EXT_BEEPER;
-    followQ_ = false;
     audioIn_ = false;
 }
 
@@ -381,6 +380,12 @@ void Sound::ayEnvelopeActive(int channel, bool envelopeActive)
 {
     envelopeActive_[channel] = envelopeActive;
     toneAmplitude_[channel] = envelopeAmplitude_;
+    envelopeTime_[channel] = envelopePeriod_;
+}
+
+void Sound::ayEnvelopeShape(Byte envelopeShape)
+{
+    envelopeShape_ = envelopeShape;
 }
 
 void Sound::ayEnvelopeContinues(bool envelopeContinues)
@@ -538,12 +543,42 @@ void Sound::envelopeSoundCycle(int channel)
         envelopeAmplitude_ = envelopeAmplitude_ + envelopeAttack_;
         if ((envelopeAmplitude_ & 0xf0) != 0)
         {
-            
+            switch (envelopeShape_)
+            {
+                case ENVELOPE_SHAPE_DOWN_ZERO_1:    // 0
+                case ENVELOPE_SHAPE_UP_ZERO_1:      // 4
+                case ENVELOPE_SHAPE_DOWN_ZERO_2:    // 9
+                case ENVELOPE_SHAPE_UP_ZERO_2:      // F
+                    envelopeActive_[channel] = false;
+                    envelopeAmplitude_ = 0;
+                break;
+                    
+                case ENVELOPE_SHAPE_DOWN_MAX:       // B
+                case ENVELOPE_SHAPE_UP_MAX:         // D
+                    envelopeActive_[channel] = false;
+                    envelopeAmplitude_ = 0xf;
+                break;
+
+                case ENVELOPE_SHAPE_DOWN_CONT:      // 8
+                    envelopeAmplitude_ = 0xf;
+                break;
+
+                case ENVELOPE_SHAPE_DOWN_CONT_ALT:  // A
+                case ENVELOPE_SHAPE_UP_CONT_ALT:    // B
+                    envelopeAttack_ = -envelopeAttack_;
+                break;
+
+                case ENVELOPE_SHAPE_UP_CONT:        // C
+                    envelopeAmplitude_ = 0xf;
+                break;
+            }
         }
+        
         toneAmplitude_[channel] = envelopeAmplitude_;
         if (toneAmplitude_[channel] != 0)
             toneOn_[channel] = true;
 
+        envelopeTime_[channel] = envelopePeriod_;
     }
 }
 

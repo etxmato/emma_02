@@ -86,6 +86,7 @@ void AY_3_8912Instance::writeData(Byte value)
 {
     int previousNoisePeriod;
     int amplitudeTone;
+    Byte envelopeShape;
 
     switch (selectedRegister_)
     {
@@ -316,11 +317,17 @@ void AY_3_8912Instance::writeData(Byte value)
         break;
 
         case 12: // Envelope Period high byte
-            periodEnvelope_ = (periodEnvelope_ & 0xFF) | ((value & 0xf) << 8);
+            periodEnvelope_ = (periodEnvelope_ & 0xFF) | ((value & 0xff) << 8);
             p_Computer->setEnvelopePeriod(16 * periodEnvelope_);
         break;
 
         case 13: // Envelope Shape/Cycle
+            envelopeShape = value & 0xf;
+            if ((envelopeShape & 0x8) == 0x8)
+            {
+                envelopeShape &= 0xc;
+            }
+            p_Computer->ayEnvelopeShape(envelopeShape);
             p_Computer->ayEnvelopeContinues((value & 0x8) == 0x8);
             envelopeAttack_ = (value & 0x4) == 0x4;
             p_Computer->ayEnvelopeAttack(envelopeAttack_);
