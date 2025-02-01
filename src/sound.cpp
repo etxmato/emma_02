@@ -49,6 +49,7 @@ Sound::Sound()
         toneSynthPointer[i] = new Blip_Synth<blip_high_quality,30>;
         frequencySuper_[i] = 0;
         toneAmplitude_[i] = 0;
+        selectedToneAmplitude_[i] = 0;
         octaveSuper_[i] = 4;
         tonePeriod_[i] = 32;
         decayBeep_[i] = false;
@@ -295,6 +296,7 @@ void Sound::setToneAmplitude(int channel, int amplitude, bool toneOn)
     else
         toneAmplitude_[channel] = amplitude;
     
+    selectedToneAmplitude_[channel] = amplitude;
     if (toneAmplitude_[channel] == 0)
         toneOn_[channel] = false;
     else
@@ -379,7 +381,7 @@ void Sound::setEnvelopePeriod(int period)
 void Sound::ayEnvelopeActive(int channel, bool envelopeActive)
 {
     envelopeActive_[channel] = envelopeActive;
-    toneAmplitude_[channel] = envelopeAmplitude_;
+    selectedToneAmplitude_[channel] = envelopeAmplitude_;
     envelopeTime_[channel] = envelopePeriod_;
 }
 
@@ -417,6 +419,7 @@ void Sound::amplitudeSuper(int channel, int amplitude)
             toneAmplitude_[channel] = -(amplitude & 0xf);
         else
             toneAmplitude_[channel] = amplitude & 0xf;
+            selectedToneAmplitude_[channel] = amplitude & 0xf;
     }
     else
     {
@@ -424,6 +427,7 @@ void Sound::amplitudeSuper(int channel, int amplitude)
             toneAmplitude_[channel*2] = toneAmplitude_[channel*2+1] = -(amplitude & 0xf);
         else
             toneAmplitude_[channel*2] = toneAmplitude_[channel*2+1] = amplitude & 0xf;
+        selectedToneAmplitude_[channel*2] = amplitude & 0xf;
     }
 }
 
@@ -529,7 +533,10 @@ void Sound::toneSoundCycle(int channel)
         else
         {
             toneTime_[channel] = tonePeriod_[channel];
-            toneAmplitude_[channel] = -toneAmplitude_[channel];
+            if (toneAmplitude_[channel] >= 0)
+                toneAmplitude_[channel] = -selectedToneAmplitude_[channel];
+            else
+                toneAmplitude_[channel] = selectedToneAmplitude_[channel];
         }
         toneSynthPointer[channel]->update(soundTime_, toneAmplitude_[channel]);
     }
@@ -574,8 +581,8 @@ void Sound::envelopeSoundCycle(int channel)
             }
         }
         
-        toneAmplitude_[channel] = envelopeAmplitude_;
-        if (toneAmplitude_[channel] != 0)
+        selectedToneAmplitude_[channel] = envelopeAmplitude_;
+        if (selectedToneAmplitude_[channel] != 0)
             toneOn_[channel] = true;
 
         envelopeTime_[channel] = envelopePeriod_;
