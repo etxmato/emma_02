@@ -3901,6 +3901,7 @@ void Main::onStart()
     long ms;
     int stereo = 1;
     int toneChannels = 1;
+    int noiseChannels = 1;
     int x, y;
 
     updateAssPage_ = true;
@@ -3943,7 +3944,12 @@ void Main::onStart()
          toneChannels = 2;
      if (computerConfiguration.soundConfiguration.type == SOUND_SUPER_VP551)
          toneChannels = 4;
-    
+     if (computerConfiguration.soundConfiguration.type == SOUND_AY_3_8912)
+     {
+         toneChannels = 6;
+         noiseChannels = 6;
+      }
+
     computerConfiguration.ledTime_.ToLong(&ms);
     computerConfiguration.ledTimeMs_ = ms;
 
@@ -3964,7 +3970,7 @@ void Main::onStart()
     p_Computer->configureComputer();
     if (!debugMode_)  percentageClock_ = 1;
 
-   p_Computer->initSound(computerConfiguration.clockSpeed_, percentageClock_, computerConfiguration.soundConfiguration.volume, bass_, treble_, toneChannels, stereo, computerConfiguration.realCassetteLoad_, computerConfiguration.soundConfiguration.beepFrequency, computerConfiguration.videoTerminalConfiguration.bellFrequency);
+   p_Computer->initSound(percentageClock_, bass_, treble_, toneChannels, noiseChannels, stereo, computerConfiguration);
    
     p_Computer->initComputer();
     AssInitConfig();

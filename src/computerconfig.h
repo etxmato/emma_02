@@ -260,6 +260,7 @@ public:
     bool defined;
     
     IoPort output;
+    IoPort input;
 };
 
 // Video configuration class definitions:
@@ -567,6 +568,8 @@ public:
     int tempo;
     int stereo;
     int beepFrequency;
+    int targetBeepFrequency;
+    int decay;
 };
 
 class CDP1863Configuration : public IoGroupConfiguration
@@ -575,6 +578,21 @@ public:
     IoPort toneLatch;
     IoPort toneSwitch1;
     IoPort toneSwitch2;
+};
+
+class AY_3_8912Configuration : public IoGroupDefineConfiguration
+{
+public:
+    IoPort registerAddressAy1;
+    IoPort registerAddressAy2;
+    IoPort dataAddress;
+    
+    int channel_a_1;
+    int channel_a_2;
+    int channel_b_1;
+    int channel_b_2;
+    int channel_c_1;
+    int channel_c_2;
 };
 
 class BitSoundConfiguration : public IoGroupDefineConfiguration
@@ -677,6 +695,7 @@ public:
     bool jp4;
     bool interrupt;
     int picInterrupt;
+    int beepFrequency;
 };
 
 class MatrixKeyboardConfiguration : public IoGroupDefineConfiguration
@@ -792,6 +811,7 @@ public:
     IoPort status;
     
     EfFlag ef;
+    int maxNumberOfMdu;
 };
 
 // CDP1877 configuration class definitions:
@@ -823,10 +843,15 @@ public:
     IoPort readStatus;
     EfFlag efaRdy;
     EfFlag efbRdy;
+    EfFlag efIrq;
 
     bool windowOpen;
     wxPoint pos;
     wxPoint defaultPos;
+    int picInterrupt;
+    
+    Byte initPortA;
+    Byte initPortB;
 };
 
 class Cdp1852Configuration : public IoGroupConfiguration
@@ -1476,6 +1501,7 @@ public:
     // Sound configuration class definitions:
     SoundConfiguration soundConfiguration;
     CDP1863Configuration cdp1863Configuration;
+    AY_3_8912Configuration ay_3_8912Configuration;
     BitSoundConfiguration bitSoundConfiguration;
     
     // Disk configurations

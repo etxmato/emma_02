@@ -90,6 +90,8 @@
 		9976480E1A61D5EF00FB9B33 /* ide.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647971A61D5EE00FB9B33 /* ide.cpp */; };
 		9976480F1A61D5EF00FB9B33 /* pushbutton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647991A61D5EE00FB9B33 /* pushbutton.cpp */; };
 		997648111A61D5EF00FB9B33 /* iodevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647A51A61D5EE00FB9B33 /* iodevice.cpp */; };
+		9984335A2D429BAE00782761 /* ay-3-8912.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 998433592D429BAB00782761 /* ay-3-8912.cpp */; };
+		9984335B2D429BAE00782761 /* ay-3-8912.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 998433592D429BAB00782761 /* ay-3-8912.cpp */; };
 		998A12AD29C11E05002E3FBD /* cvkeypad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 998A12AB29C11E05002E3FBD /* cvkeypad.cpp */; };
 		998A12AE29C11E05002E3FBD /* cvkeypad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 998A12AB29C11E05002E3FBD /* cvkeypad.cpp */; };
 		998AE1971F769A9F00D6B0D1 /* data in Resources */ = {isa = PBXBuildFile; fileRef = 996B97391B24116B009827BF /* data */; };
@@ -486,6 +488,8 @@
 		997647B01A61D5EE00FB9B33 /* til.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = til.h; path = src/til.h; sourceTree = "<group>"; };
 		997647B21A61D5EE00FB9B33 /* vtsetup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = vtsetup.h; path = src/vtsetup.h; sourceTree = "<group>"; };
 		997647B31A61D5EE00FB9B33 /* waveReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = waveReader.h; path = src/waveReader.h; sourceTree = "<group>"; };
+		998433582D429BAB00782761 /* ay-3-8912.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "ay-3-8912.h"; path = "src/ay-3-8912.h"; sourceTree = "<group>"; };
+		998433592D429BAB00782761 /* ay-3-8912.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "ay-3-8912.cpp"; path = "src/ay-3-8912.cpp"; sourceTree = "<group>"; };
 		998A12AB29C11E05002E3FBD /* cvkeypad.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cvkeypad.cpp; path = src/cvkeypad.cpp; sourceTree = "<group>"; };
 		998A12AC29C11E05002E3FBD /* cvkeypad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cvkeypad.h; path = src/cvkeypad.h; sourceTree = "<group>"; };
 		999411EF28246A950017D756 /* computerconfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = computerconfig.h; path = src/computerconfig.h; sourceTree = "<group>"; };
@@ -768,6 +772,8 @@
 				9976478D1A61D5EE00FB9B33 /* about.h */,
 				9942DD711F3B4DA200569242 /* audio_detect.h */,
 				9942DD721F3B4DA200569242 /* audioin_devdsp.c */,
+				998433592D429BAB00782761 /* ay-3-8912.cpp */,
+				998433582D429BAB00782761 /* ay-3-8912.h */,
 				994F84FE28CBD9C200CCFB27 /* bitkeypad.cpp */,
 				994F84FD28CBD9C200CCFB27 /* bitkeypad.h */,
 				997647931A61D5EE00FB9B33 /* Blip_Buffer.cpp */,
@@ -1147,6 +1153,7 @@
 				996D0A19291D996F0021C134 /* keyblatch.cpp in Sources */,
 				99321273285FB74F00A7793E /* mac_OS12.cpp in Sources */,
 				99BBC9AA281DD37500BD9345 /* guixml.cpp in Sources */,
+				9984335A2D429BAE00782761 /* ay-3-8912.cpp in Sources */,
 				997647C01A61D5EE00FB9B33 /* printer.cpp in Sources */,
 				99C11A7329A022AF00DFCACB /* rtc.cpp in Sources */,
 				99BBC9AE281DD39E00BD9345 /* xmlemu.cpp in Sources */,
@@ -1228,6 +1235,7 @@
 				996D0A1A291D99700021C134 /* keyblatch.cpp in Sources */,
 				99F37E50285D1D9200C57417 /* guixml.cpp in Sources */,
 				99F37E55285D1D9200C57417 /* printer.cpp in Sources */,
+				9984335B2D429BAE00782761 /* ay-3-8912.cpp in Sources */,
 				99F37E57285D1D9200C57417 /* xmlemu.cpp in Sources */,
 				99C11A7429A022AF00DFCACB /* rtc.cpp in Sources */,
 				99F37E58285D1D9200C57417 /* wxcurl_base.cpp in Sources */,

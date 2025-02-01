@@ -35,6 +35,7 @@
 #include "cdp1877.h"
 #include "cd4536b.h"
 #include "upd765.h"
+#include "ay-3-8912.h"
 
 class NvramDetails
 {
@@ -372,6 +373,8 @@ private:
 
     Cdp1855Instance *cdp1855InstancePointer;
     
+    AY_3_8912Instance *ay_3_8912InstancePointer;
+
     vector<Cdp1877Instance *> cdp1877InstancePointer;
     int numberOfCdp1877Instances_;
 

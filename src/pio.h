@@ -20,7 +20,7 @@
 class PioScreen : public Panel
 {
 public:
-    PioScreen(wxWindow *parent, const wxSize& size, int pioNumber);
+    PioScreen(wxWindow *parent, const wxSize& size, int pioNumber, Cdp1851Configuration cdp1851Configuration);
     ~PioScreen();
     
     void init();
@@ -57,10 +57,12 @@ public:
     void maskInterruptB();
     void refreshLeds();
     Byte getEfState(int number);
+    Byte getIrqState();
 
 private:
     int pioNumber_;
-    
+    Cdp1851Configuration cdp1851Configuration_;
+
     int pioAMode_;
     int pioBMode_;
     int pioStbAMode_;
@@ -98,7 +100,7 @@ private:
 class PioFrame : public wxFrame
 {
 public:
-    PioFrame(const wxString& title, const wxPoint& pos, const wxSize& size, int pioNumber);
+    PioFrame(const wxString& title, const wxPoint& pos, const wxSize& size, int pioNumber, Cdp1851Configuration cdp1851Configuration);
     ~PioFrame();
   
     void onClose(wxCloseEvent& event);
@@ -119,11 +121,13 @@ public:
     void releaseButtonOnScreen(HexButton* buttonPoint) {pioScreenPointer->releaseButtonOnScreen(buttonPoint);};
     void refreshPanel();
     Byte getEfState( int number) {return pioScreenPointer->getEfState(number);};
+    Byte getIrqState() {return pioScreenPointer->getIrqState();};
 
 private:
     class PioScreen *pioScreenPointer;
 
     int pioNumber_;
+    Cdp1851Configuration cdp1851Configuration_;
 
     DECLARE_EVENT_TABLE()
 };

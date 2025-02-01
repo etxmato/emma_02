@@ -950,6 +950,11 @@ void Computer::configureComputer()
     {
         printBuffer.Printf("	Output %d: set I/O group", currentComputerConfiguration.ioGroupConfiguration.output.portNumber[0]);
         p_Main->message(printBuffer);
+        if (currentComputerConfiguration.ioGroupConfiguration.output.portNumber[0] != -1)
+        {
+            printBuffer.Printf("	Input %d: read I/O group", currentComputerConfiguration.ioGroupConfiguration.input.portNumber[0]);
+            p_Main->message(printBuffer);
+        }
     }
 
     if (currentComputerConfiguration.flipflopConfiguration.defined)
@@ -1628,6 +1633,10 @@ Byte Computer::ef(int flag)
             return cdp1851FramePointer[efItemNumber_[qState_][ioGroup_+1][flag]]->getEfState(2);
         break;
 
+        case CDP1851_IRQ:
+            return cdp1851FramePointer[efItemNumber_[qState_][ioGroup_+1][flag]]->getIrqState();
+        break;
+
         case CDP1852_EF:
             return cdp1852FramePointer[efItemNumber_[qState_][ioGroup_+1][flag]]->getEfState();
         break;
@@ -1738,6 +1747,12 @@ Byte Computer::in(Byte port, Word address)
 {
     Byte ret = 255;
 
+    if (currentComputerConfiguration.ioGroupConfiguration.defined)
+    {
+        if  (currentComputerConfiguration.ioGroupConfiguration.input.portNumber[0] == port)
+            ret = ioGroup_ & currentComputerConfiguration.ioGroupConfiguration.input.mask;
+    }
+
     if (currentComputerConfiguration.bootstrapConfiguration.defined)
     {
         if  (currentComputerConfiguration.bootstrapConfiguration.input.qValue == qState_ || currentComputerConfiguration.bootstrapConfiguration.input.qValue == -1)
@@ -1799,6 +1814,10 @@ Byte Computer::in(Byte port, Word address)
 
         case RTC_READ_PORT_IN:
             ret = inRtcDs12788();
+        break;
+
+        case AY_3_8912_DATA:
+            ret = ay_3_8912InstancePointer->readData();
         break;
 
         case MDU_X:
@@ -2293,6 +2312,15 @@ void Computer::out(Byte port, Word address, Byte value)
             outRtcDs12788(value);
         break;
 
+        case AY_3_8912_REGISTER_ADDRESS_1:
+        case AY_3_8912_REGISTER_ADDRESS_2:
+            ay_3_8912InstancePointer->writeRegister(outType_[qState_][ioGroup_+1][port]-AY_3_8912_REGISTER_ADDRESS_1, value);
+        break;
+
+        case AY_3_8912_DATA:
+            ay_3_8912InstancePointer->writeData(value);
+        break;
+
         case MDU_X:
             cdp1855InstancePointer->writeX(value);
         break;
@@ -2484,10 +2512,8 @@ void Computer::out(Byte port, Word address, Byte value)
         break;
 
         case BIT_SOUND_OUT:
-            if (value == mask)
-                toneElf2KOn();
-            else
-                toneElf2KOff();
+            startQTone(0, value == mask);
+            startQTone(1, value == mask);
         break;
 
         case CDP1862_BACKGROUND_OUT:
@@ -2524,15 +2550,23 @@ void Computer::out(Byte port, Word address, Byte value)
         case CDP1864_TONE_LATCH_OUT:
             if (currentComputerConfiguration.cdp1864Configuration.colorLatch)
                 colourLatch_ = (value & 1) == 1;
-            tone1864Latch(value);
+            if (value == 0)  value = 128;
+            setTonePeriod(0, 32 *(value + 1), false);
+            setTonePeriod(1, 32 *(value + 1), false);
         break;
 
         case CDP1863_TONE_SWITCH_OUT1:
         case CDP1863_TONE_SWITCH_OUT2:
             if (value != 0)
-                tone1864On();
+            {
+                startTone(0, true);
+                startTone(1, true);
+            }
             else
-                beepOff();
+            {
+                startTone(0, false);
+                startTone(1, false);
+            }
         break;
 
         case VIP2K_VIDEO_ENABLE_IN:
@@ -6852,6 +6886,12 @@ void Computer::configureExtensions()
         cdp1855InstancePointer->configureCdp1855(currentComputerConfiguration.cdp1855Configuration);
     }
 
+    if (currentComputerConfiguration.ay_3_8912Configuration.defined)
+    {
+        ay_3_8912InstancePointer = new AY_3_8912Instance();
+        ay_3_8912InstancePointer->configureAY_3_8912(currentComputerConfiguration.ay_3_8912Configuration);
+    }
+
     cdp1877InstancePointer.clear();
     numberOfCdp1877Instances_ = 0;
     for (std::vector<Cdp1877Configuration>::iterator cdp1877 = currentComputerConfiguration.cdp1877Configuration.begin (); cdp1877 != currentComputerConfiguration.cdp1877Configuration.end (); ++cdp1877)
@@ -6868,9 +6908,9 @@ void Computer::configureExtensions()
     {
         cdp1851FramePointer.resize(numberOfCdp1851Frames_+1);
 #if defined (__WXMAC__) || (__linux__)
-        cdp1851FramePointer[numberOfCdp1851Frames_] = new PioFrame("CDP1851 PIO", cdp1851->pos, wxSize(310, 180), numberOfCdp1851Frames_);
+        cdp1851FramePointer[numberOfCdp1851Frames_] = new PioFrame("CDP1851 PIO", cdp1851->pos, wxSize(310, 180), numberOfCdp1851Frames_, *cdp1851);
 #else
-        cdp1851FramePointer[numberOfCdp1851Frames_] = new PioFrame("CDP1851 PIO", cdp1851->pos, wxSize(329, 180), numberOfCdp1851Frames_);
+        cdp1851FramePointer[numberOfCdp1851Frames_] = new PioFrame("CDP1851 PIO", cdp1851->pos, wxSize(329, 180), numberOfCdp1851Frames_, *cdp1851);
 #endif
         
         p_Main->configureMessage(&cdp1851->ioGroupVector, "CDP1851 PIO");
@@ -6880,8 +6920,9 @@ void Computer::configureExtensions()
         setInType(&cdp1851->ioGroupVector, cdp1851->readPortB, "read port B", numberOfCdp1851Frames_);
         setOutType(&cdp1851->ioGroupVector, cdp1851->writeControl, "write control register", numberOfCdp1851Frames_);
         setInType(&cdp1851->ioGroupVector, cdp1851->readStatus, "read status", numberOfCdp1851Frames_);
-        setEfType(&cdp1851->ioGroupVector, cdp1851->efaRdy, numberOfCdp1851Frames_, "ARDY");
-        setEfType(&cdp1851->ioGroupVector, cdp1851->efbRdy, numberOfCdp1851Frames_, "BRDY");
+        setEfType(&cdp1851->ioGroupVector, cdp1851->efaRdy, "ARDY", numberOfCdp1851Frames_);
+        setEfType(&cdp1851->ioGroupVector, cdp1851->efbRdy, "BRDY", numberOfCdp1851Frames_);
+        setEfType(&cdp1851->ioGroupVector, cdp1851->efIrq, "IRQ", numberOfCdp1851Frames_);
 
         p_Main->message("");
 
@@ -7382,6 +7423,9 @@ void Computer::configureCdp1863()
     p_Computer->setOutType(&currentComputerConfiguration.cdp1863Configuration.ioGroupVector, currentComputerConfiguration.cdp1863Configuration.toneSwitch2, "tone on/off");
 
     p_Main->message("");
+
+    p_Computer->setTonePeriod(0, 32 *(128 + 1), false);
+    p_Computer->setTonePeriod(1, 32 *(128 + 1), false);
 }
 
 void Computer::moveWindows()

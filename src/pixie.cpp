@@ -311,6 +311,9 @@ void Pixie::configureCdp1864(CDP1864Configuration cdp1864Configuration)
     backGroundInit_ = COL_CDP1864_BACK_BLUE-COL_CDP1864_WHITE;
     colourMask_ = 0;
     colourType_ = cdp1864Configuration.colorType;
+    
+    p_Computer->setTonePeriod(0, 32 *(128 + 1), false);
+    p_Computer->setTonePeriod(1, 32 *(128 + 1), false);
 }
 
 void Pixie::initiateColour(bool colour)

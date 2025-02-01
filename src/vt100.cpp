@@ -523,13 +523,19 @@ void Vt100::cycleVt()
     {
         cycleBell_--;
         if (cycleBell_ == 0)
-            p_Computer->beepOff();
+        {
+            p_Computer->startTone(0, false);
+            p_Computer->startTone(1, false);
+        }
     }
     if (cycleClick_ > 0)
     {
         cycleClick_--;
         if (cycleClick_ == 0)
-            p_Computer->beepOff();
+        {
+            p_Computer->startTone(0, false);
+            p_Computer->startTone(1, false);
+        }
     }
     if (setUpMode_)
         return;
@@ -4659,7 +4665,8 @@ void Vt100::bell()
             p_Computer->startWavSound(currentComputerConfiguration.videoTerminalConfiguration.wavDirectory + currentComputerConfiguration.videoTerminalConfiguration.wavFileName);
         else
         {
-            p_Computer->bellOn();
+            p_Computer->setToneFrequency(0, currentComputerConfiguration.videoTerminalConfiguration.bellFrequency, true);
+            p_Computer->setToneFrequency(1, currentComputerConfiguration.videoTerminalConfiguration.bellFrequency, true);
             cycleBell_ = cycleSizeBell_;
         }
     }
@@ -4669,7 +4676,8 @@ void Vt100::click()
 {
     if (SetUpFeature_[VTKEYCLICK])
     {
-        p_Computer->keyClickOn();
+        p_Computer->setToneFrequency(0, 800, true);
+        p_Computer->setToneFrequency(1, 800, true);
         cycleClick_ = cycleSizeClick_;
     }
 }

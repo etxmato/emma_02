@@ -100,6 +100,8 @@ void Cdp1855Instance::writeControl(Byte value)
 
     command_ = value &0x3;
     numberOfMdu_ = (((value ^ 0x30) & 0x30) >> 4) + 1;
+    if (numberOfMdu_ > cdp1855Configuration_.maxNumberOfMdu)
+        numberOfMdu_ = cdp1855Configuration_.maxNumberOfMdu;
     if ((value & 0x4) == 0x4)
     {
         for (int mdu=0; mdu<numberOfMdu_; mdu++)

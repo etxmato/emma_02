@@ -376,7 +376,14 @@ void VIS1870::out4_1870(Word address)
     if (address != register4_)
     {
         register4_ = address;
-        p_Computer->tone(register4_);
+        p_Computer->setToneAmplitude(0, register4_ & 0xf, false);
+        p_Computer->setToneAmplitude(1, register4_ & 0xf, false);
+        int ToneFreqSel = (register4_ & 0x70) >> 4;
+        int ToneDiv = (2 <<((ToneFreqSel ^ 0x7) + 1));
+        int ToneN = ((register4_) & 0x7f00) >> 8;
+        int tonePeriod = (ToneDiv *(ToneN + 1));
+        p_Computer->setTonePeriod(0, tonePeriod, (register4_ & 0x80) != 0x80);
+        p_Computer->setTonePeriod(1, tonePeriod, (register4_ & 0x80) != 0x80);
     }
 }
 
@@ -453,7 +460,17 @@ void VIS1870::out5_1870(Word address)
         register6_ = 0;
     }
     if ((old & 0xff00) != (register5_ & 0xff00))
-        p_Computer->noise(register5_);
+    {
+        p_Computer->setNoiseAmplitude(0, (register5_ & 0xf00) >> 8);
+        p_Computer->setNoiseAmplitude(1, (register5_ & 0xf00) >> 8);
+        int freq = (register5_ >> 12) & 0x7;
+        int factor = (freq ^ 0x7) +1; // 8 - 1
+        int noisePeriod = (4 << factor); // period based on factor 0: 512, 1: 256, 2: 128, 3:64, 4:32, 5:16, 6:8, 7:4
+        p_Computer->setNoisePeriod(0, noisePeriod);
+        p_Computer->setNoisePeriod(1, noisePeriod);
+        noisePeriod = p_Computer->startNoise(0, (register5_ & 0x8000) != 0x8000, -1);
+        p_Computer->startNoise(1, (register5_ & 0x8000) != 0x8000, noisePeriod);
+    }
 }
 
 void VIS1870::out6_1870(Word address)

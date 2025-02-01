@@ -37,9 +37,6 @@
 #define SAMPLE_RATE 44100
 #endif
 
-#define DECAY_LENGTH 420000
-#define TARGET_FREQ 320
-
 Sound::Sound()
 {
     soundBufferPointerLeft = new Blip_Buffer();
@@ -47,24 +44,26 @@ Sound::Sound()
     tapeBufferPointer = new Blip_Buffer();
     audioPointer = new Sync_Audio();
 
-    for (int i=0; i<8; i++)
+    for (int i=0; i<MAX_NUMBER_OF_TONE_CHANNELS; i++)
     {
         toneSynthPointer[i] = new Blip_Synth<blip_high_quality,30>;
         frequencySuper_[i] = 0;
         toneAmplitude_[i] = 0;
         octaveSuper_[i] = 4;
         tonePeriod_[i] = 32;
+        decayBeep_[i] = false;
     }
-    for (int i=0; i<2; i++)
+    for (int i=0; i<MAX_NUMBER_OF_NOISE_CHANNELS; i++)
     {
         noiseSynthPointer[i] = new Blip_Synth<blip_high_quality,30>;
-        psaveSynthPointer[i] = new Blip_Synth<blip_high_quality,30>;
+        noisePeriod_[i] = 0;
     }
+    for (int i=0; i<2; i++)
+        psaveSynthPointer[i] = new Blip_Synth<blip_high_quality,30>;
     tapeSynthPointer = new Blip_Synth<blip_high_quality,30>;
 
     activeSoundType_ = SOUND_EXT_BEEPER;
     followQ_ = false;
-    studioBeep_ = false;
     audioIn_ = false;
 }
 
@@ -84,13 +83,12 @@ Sound::~Sound()
     delete soundBufferPointerRight;
     delete tapeBufferPointer;
     delete audioPointer;
-    for (int i=0; i<8; i++)
+    for (int i=0; i<MAX_NUMBER_OF_TONE_CHANNELS; i++)
         delete toneSynthPointer[i];
-    for (int i=0; i<2; i++)
-    {
+    for (int i=0; i<MAX_NUMBER_OF_NOISE_CHANNELS; i++)
         delete noiseSynthPointer[i];
+    for (int i=0; i<2; i++)
         delete psaveSynthPointer[i];
-    }
     delete tapeSynthPointer;
 
 #if defined (__WXMSW__) || defined(__linux__)
@@ -99,23 +97,37 @@ Sound::~Sound()
 #endif
 }
 
-void Sound::initSound(double clock, double percentageClock, int volume, int bass, int treble, int toneChannels, int stereo, bool realCasLoad, int beepFrequency, int bellFrequency)
+void Sound::initSound(double percentageClock, int bass, int treble, int toneChannels, int noiseChannels, int stereo, ComputerConfiguration computerConfiguration)
 {
-    soundClock_ = clock;
+    soundClock_ = computerConfiguration.clockSpeed_;
     percentageClock_ = percentageClock;
+    computerConfiguration_ = computerConfiguration;
     if ((percentageClock_*soundClock_) < 0.000045)  percentageClock_ = (double) 0.000045/soundClock_;
-    gain_ = (float) volume / 100;
+    gain_ = (float) computerConfiguration.soundConfiguration.volume / 100;
     stereo_ = stereo;
-    realCassetteLoad_ = realCasLoad;
+    realCassetteLoad_ = computerConfiguration.realCassetteLoad_;
     audioIn_ = true;
     audioOut_ = true;
     tapeNumber_ = "";
 
     setPsaveSettings();
 
-    for (int i=0; i<8; i++)
+    for (int i=0; i<MAX_NUMBER_OF_TONE_CHANNELS; i++)
+    {
+        envelopeActive_[i] = false;
         toneOn_[i] = false;
-    noiseOn_ = false;
+        decayTime_[i] = 0;
+    }
+    for (int i=0; i<MAX_NUMBER_OF_NOISE_CHANNELS; i++)
+        noiseOn_[i] = false;
+    
+    envelopePeriod_ = 0;
+    envelopeAmplitude_ = 0xf;
+    envelopeContinues_ = true;
+    envelopeAttack_ = 1;
+    envelopeAlternate_ = true;
+    envelopeHold_ = true;
+
     psaveOn_ = false;
     ploadOn_ = false;
     hwSaveOn_ = false;
@@ -130,14 +142,9 @@ void Sound::initSound(double clock, double percentageClock, int volume, int bass
     tapeHwReadyToReceive_ = 0;
     numberOfSamples_ = 0;
     soundTime_ = 0;
-    decayTime_ = 0;
 
-    audioLatch1864_ = 128;
-    toneAmplitude_[0] = 8;
-    toneAmplitude_[1] = 8;
-
-    changeBeepFrequency(beepFrequency);
-    bellFrequency_ = bellFrequency;
+    setToneAmplitude(0, 8, false);
+    setToneAmplitude(1, 8, false);
 
     psaveAmplitude_ = 0;
 
@@ -161,7 +168,7 @@ void Sound::initSound(double clock, double percentageClock, int volume, int bass
     }
 #endif
 
-    setClockRate(clock);
+    setClockRate(computerConfiguration.clockSpeed_);
     if (soundBufferPointerLeft->set_sample_rate(SAMPLE_RATE))
         p_Main->message("Sound error: out of memory");
     if (soundBufferPointerRight->set_sample_rate(SAMPLE_RATE))
@@ -172,6 +179,7 @@ void Sound::initSound(double clock, double percentageClock, int volume, int bass
     if (stereo_ == 2)
     {
         toneChannels_ = toneChannels;
+        noiseChannels_ = noiseChannels;
         toneSynthPointer[0]->treble_eq(treble);
         toneSynthPointer[0]->volume(gain_);
         toneSynthPointer[0]->output(soundBufferPointerLeft);
@@ -184,10 +192,17 @@ void Sound::initSound(double clock, double percentageClock, int volume, int bass
         toneSynthPointer[3]->treble_eq(treble);
         toneSynthPointer[3]->volume(gain_);
         toneSynthPointer[3]->output(soundBufferPointerRight);
+        noiseSynthPointer[0]->treble_eq(treble);
+        noiseSynthPointer[0]->volume(gain_);
+        noiseSynthPointer[0]->output(soundBufferPointerLeft);
+        noiseSynthPointer[1]->treble_eq(treble);
+        noiseSynthPointer[1]->volume(gain_);
+        noiseSynthPointer[1]->output(soundBufferPointerRight);
     }
     else
     {
         toneChannels_ = toneChannels * 2;
+        noiseChannels_ = noiseChannels * 2;
         for (int i=0; i<toneChannels_; i+=2)
         {
             toneSynthPointer[i]->treble_eq(treble);
@@ -197,19 +212,23 @@ void Sound::initSound(double clock, double percentageClock, int volume, int bass
             toneSynthPointer[i+1]->volume(gain_);
             toneSynthPointer[i+1]->output(soundBufferPointerRight);
         }
+        for (int i=0; i<noiseChannels_; i+=2)
+        {
+            noiseSynthPointer[i]->treble_eq(treble);
+            noiseSynthPointer[i]->volume(gain_);
+            noiseSynthPointer[i]->output(soundBufferPointerLeft);
+            noiseSynthPointer[i+1]->treble_eq(treble);
+            noiseSynthPointer[i+1]->volume(gain_);
+            noiseSynthPointer[i+1]->output(soundBufferPointerRight);
+        }
     }
 
     for (int i=0; i<2; i++)
     {
-        noiseSynthPointer[i]->treble_eq(treble);
-        noiseSynthPointer[i]->volume(gain_/100);
-
         psaveSynthPointer[i]->treble_eq(treble);
         psaveSynthPointer[i]->volume(gain_);
     }
-    noiseSynthPointer[0]->output(soundBufferPointerLeft);
     psaveSynthPointer[0]->output(soundBufferPointerLeft);
-    noiseSynthPointer[1]->output(soundBufferPointerRight);
     psaveSynthPointer[1]->output(soundBufferPointerRight);
 
     if (audioPointer->play_start(SAMPLE_RATE, 100) != 0)
@@ -239,13 +258,12 @@ void Sound::initSound(double clock, double percentageClock, int volume, int bass
     
     for (int i=0; i<toneChannels_; i++)
         toneSynthPointer[i]->update(soundTime_, 0);
-    for (int i=0; i<2; i++)
-    {
+    for (int i=0; i<noiseChannels_; i++)
         noiseSynthPointer[i]->update(soundTime_, 0);
+    for (int i=0; i<2; i++)
         psaveSynthPointer[i]->update(soundTime_, 0);
-    }
     if (audioIn_)
-        record_pause(realCasLoad);
+        record_pause(computerConfiguration.realCassetteLoad_);
     else
     {
         if (realCassetteLoad_)
@@ -254,57 +272,135 @@ void Sound::initSound(double clock, double percentageClock, int volume, int bass
     }
 }
 
-void Sound::tone(short reg4)
+void Sound::setTonePeriod(int channel, int period, bool toneOn)
 {
-    if (toneOn_[0])
-        if (toneAmplitude_[0] >= 0)
-            toneAmplitude_[0] = reg4 & 0xf;
-        else
-            toneAmplitude_[0] = -(reg4 & 0xf);
-    else
-        toneAmplitude_[0] = reg4 & 0xf;
-    toneAmplitude_[1] = toneAmplitude_[0];
+    tonePeriod_[channel] = period;
+    startTone(channel, toneOn);
+}
 
-    if ((reg4 & 0x80) == 0x80 ||(toneAmplitude_[0] == 0))
+void Sound::setToneFrequency(int channel, int frequency, bool toneOn)
+{
+    tonePeriod_[channel] = (int)((soundClock_ * 1000000) / frequency / 2);
+    startTone(channel, toneOn);
+}
+
+void Sound::setToneAmplitude(int channel, int amplitude, bool toneOn)
+{
+    if (toneOn_[channel])
     {
-        toneOn_[0] = false;
-        toneOn_[1] = false;
+        if (toneAmplitude_[channel] >= 0)
+            toneAmplitude_[channel] = amplitude;
+        else
+            toneAmplitude_[channel] = -(amplitude);
     }
     else
+        toneAmplitude_[channel] = amplitude;
+    
+    if (toneAmplitude_[channel] == 0)
+        toneOn_[channel] = false;
+    else
+        startTone(channel, toneOn);
+}
+
+void Sound::startTone(int channel, bool toneOn)
+{
+    if (!toneOn || toneAmplitude_[channel] == 0)
+        toneOn_[channel] = false;
+    else
      {
-        int ToneFreqSel = (reg4 & 0x70) >> 4;
-        int ToneDiv = (2 <<((ToneFreqSel ^ 0x7) + 1));
-        int ToneN = ((reg4) & 0x7f00) >> 8;
-        tonePeriod_[0] = (ToneDiv *(ToneN + 1));
-        tonePeriod_[1] = tonePeriod_[0];
-        if (!toneOn_[0])
+        if (!toneOn_[channel])
         {
-            toneTime_[0] = tonePeriod_[0];
-            toneTime_[1] = tonePeriod_[0];
-            toneSynthPointer[0]->update(soundTime_, toneAmplitude_[0]);
-            toneSynthPointer[1]->update(soundTime_, toneAmplitude_[1]);
+            toneTime_[channel] = tonePeriod_[channel];
+            toneSynthPointer[channel]->update(soundTime_, toneAmplitude_[channel]);
         }
-        toneOn_[0] = true;
-        toneOn_[1] = true;
+        toneOn_[channel] = true;
      }
 }
 
-void Sound::tone1864Latch(Byte audioLatch1864)
+void Sound::startToneDecay(int channel, int startFrequency, int endFrequecny, int decay)
 {
-    if (audioLatch1864 == 0)  audioLatch1864 = 128;
-    audioLatch1864_ = audioLatch1864;
+    tonePeriod_[channel] = (int)((soundClock_ * 1000000) / startFrequency / 2);
+    targetPeriod_[channel] = (int)((soundClock_ * 1000000) / endFrequecny / 2);
+
+    toneTime_[channel] = tonePeriod_[channel] * 4 / 3;
+    beepPeriod_[channel] = tonePeriod_[channel];
+    
+    decayTime_[channel] = decay;
+    decayPeriod_[channel] = (decay / (targetPeriod_[channel] - beepPeriod_[channel]))*8;
+    saveDecayPeriod_[channel] = decayPeriod_[channel];
+    decayBeep_[channel] = true;
+    startTone(channel, true);
 }
 
-void Sound::tone1864On()
+void Sound::startQTone(int channel, bool toneOn)
 {
-    tonePeriod_[0] = tonePeriod_[1] = (32 *(audioLatch1864_ + 1));
-    if (!toneOn_[0])
+    toneSynthPointer[channel]->update(soundTime_, toneAmplitude_[channel]);
+    toneOn_[channel] = toneOn;
+}
+
+void Sound::setNoisePeriod(int channel, int period)
+{
+    noisePeriod_[channel] = period;
+}
+
+void Sound::setNoiseAmplitude(int channel, int amplitude)
+{
+    noiseAmplitude_[channel] = amplitude;
+    
+    if (noiseAmplitude_[channel] == 0)
+        noiseOn_[channel] = false;
+}
+
+int Sound::startNoise(int channel, bool noiseOn, int previousNoisePeriod)
+{
+    int noisePeriod = -1;
+    
+    if (!noiseOn || noiseAmplitude_[channel] == 0)
+        noiseOn_[channel] = false;
+    else
     {
-        toneTime_[0] = toneTime_[1] = tonePeriod_[0];
-        toneSynthPointer[0]->update(soundTime_, toneAmplitude_[0]);
-        toneSynthPointer[1]->update(soundTime_, toneAmplitude_[1]);
+        if (!noiseOn_[channel])
+        {
+            if (previousNoisePeriod != -1)
+                noiseTime_[channel] = previousNoisePeriod;
+            else
+                noiseTime_[channel] = noisePeriod_[channel]*((rand() % 7) + 1);
+            noiseSynthPointer[channel]->update(soundTime_, noiseAmplitude_[channel]);
+        }
+        noiseOn_[channel] = true;
     }
-    toneOn_[0] = toneOn_[1] = true;
+    return noisePeriod;
+}
+
+void Sound::setEnvelopePeriod(int period)
+{
+    envelopePeriod_ = period;
+}
+
+void Sound::ayEnvelopeActive(int channel, bool envelopeActive)
+{
+    envelopeActive_[channel] = envelopeActive;
+}
+
+void Sound::ayEnvelopeContinues(bool envelopeContinues)
+{
+    envelopeContinues_ = envelopeContinues;
+}
+
+void Sound::ayEnvelopeAttack(bool envelopeAttack)
+{
+    envelopeAttack ? envelopeAmplitude_ = 0 : envelopeAmplitude_ = 0xf;
+    envelopeAttack ? envelopeAttack_ = 1 : envelopeAttack_ = -1;
+}
+
+void Sound::ayEnvelopeAlternate(bool envelopeAlternate)
+{
+    envelopeAlternate_ = envelopeAlternate;
+}
+
+void Sound::ayEnvelopeHold(bool envelopeHold)
+{
+    envelopeHold_ = envelopeHold;
 }
 
 void Sound::amplitudeSuper(int channel, int amplitude)
@@ -366,177 +462,80 @@ void Sound::toneSuper()
     }
 }
 
-void Sound::beepOn()
-{
-    beepPeriod_ = (int)((soundClock_ * 1000000) / beepFrequency_ / 2);
-    tonePeriod_[0] = tonePeriod_[1] = beepPeriod_;
-    if (!toneOn_[0])
-    {
-        toneTime_[0] = toneTime_[1] = tonePeriod_[0];
-        toneSynthPointer[0]->update(soundTime_, toneAmplitude_[0]);
-        toneSynthPointer[1]->update(soundTime_, toneAmplitude_[1]);
-    }
-    toneOn_[0] = toneOn_[1] = true;
-}
-
-void Sound::bellOn()
-{
-    tonePeriod_[0] = tonePeriod_[1] = (int)((soundClock_ * 1000000) / bellFrequency_ / 2);
-    if (!toneOn_[0])
-    {
-        toneTime_[0] = toneTime_[1] = tonePeriod_[0];
-        toneSynthPointer[0]->update(soundTime_, toneAmplitude_[0]);
-        toneSynthPointer[1]->update(soundTime_, toneAmplitude_[1]);
-    }
-    toneOn_[0] = toneOn_[1] = true;
-}
-
-void Sound::keyClickOn()
-{
-    tonePeriod_[0] = tonePeriod_[1] = (int)((soundClock_ * 1000000) / 800 / 2);
-    if (!toneOn_[0])
-    {
-        toneTime_[0] = toneTime_[1] = tonePeriod_[0];
-        toneSynthPointer[0]->update(soundTime_, toneAmplitude_[0]);
-        toneSynthPointer[1]->update(soundTime_, toneAmplitude_[1]);
-    }
-    toneOn_[0] = toneOn_[1] = true;
-}
-
-void Sound::beepOnStudio()
-{
-    beepPeriod_ = (int)((soundClock_ * 1000000) / beepFrequency_ / 2);
-    tonePeriod_[0] = tonePeriod_[1] = beepPeriod_;
-    toneAmplitude_[0] = toneAmplitude_[1] = 4;
-    
-    if (!toneOn_[0])
-    {
-        toneTime_[0] = toneTime_[1] = tonePeriod_[0] * 4 / 3;
-        toneSynthPointer[0]->update(soundTime_, toneAmplitude_[0]);
-        toneSynthPointer[1]->update(soundTime_, toneAmplitude_[1]);
-    }
-    toneOn_[0] = toneOn_[1] = true;
-
-    decayTime_ = DECAY_LENGTH;
-    targetPeriod_ = (int)((soundClock_ * 1000000) / TARGET_FREQ / 2);
-    decayPeriod_ = (DECAY_LENGTH / (targetPeriod_ - beepPeriod_))*8;
-    saveDecayPeriod_ = decayPeriod_;
-    studioBeep_ = true;
-}
-
-void Sound::beepOff()
+void Sound::toneSuperOff()
 {
     for (int i=0; i<toneChannels_; i++)
         toneOn_[i] = false;
 }
 
-void Sound::changeBeepFrequency(int frequency)
-{
-    if (frequency == 0)
-        frequency = 1;
-    
-    beepFrequency_ = frequency;
-    beepPeriod_ = (int)((soundClock_ * 1000000) / beepFrequency_ / 2);
-}
-
-void Sound::toneElf2KOn()
-{
-//    toneAmplitude_[0] = toneAmplitude_[1] = 8;
-    toneSynthPointer[0]->update(soundTime_, toneAmplitude_[0]);
-    toneSynthPointer[1]->update(soundTime_, toneAmplitude_[1]);
-    toneOn_[0] = toneOn_[1] = true;
-}
-
-void Sound::toneElf2KOff()
-{
-//    toneAmplitude_[0] = toneAmplitude_[1] = 0;
-    toneSynthPointer[0]->update(soundTime_, toneAmplitude_[0]);
-    toneSynthPointer[1]->update(soundTime_, toneAmplitude_[1]);
-    toneOn_[0] = toneOn_[1] = false;
-}
-
-void Sound::noise(short reg5)
-{
-    noiseAmplitude_ = (reg5 & 0xf00) >> 8;
-
-    if ((reg5 & 0x8000) == 0x8000 ||(noiseAmplitude_ == 0))
-    {
-        noiseOn_ = false;
-    }
-    else
-    {
-        int freq = (reg5 >> 12) & 0x7;
-        int factor = (freq ^ 0x7) +1; // 8 - 1
-        noisePeriod_ = (4 << factor); // 0: 512, 1: 256, 2: 128, 3:64, 4:32, 5:16, 6:8, 7:4
-        if (!noiseOn_)
-        {
-            noiseTime_ = noisePeriod_;
-            int noiseAmplitude = (rand() % (noiseAmplitude_*2)) + 1 - noiseAmplitude_;
-            noiseSynthPointer[0]->update(soundTime_, noiseAmplitude*100);
-            noiseSynthPointer[1]->update(soundTime_, noiseAmplitude*100);
-        }
-        noiseOn_ = true;
-    }
-}
-
 void Sound::soundCycle()
 {
-    for (int i=0; i<toneChannels_; i++)
+    for (int channel=0; channel<toneChannels_; channel++)
     {
-        if (toneOn_[i])
-        {
-            if (i == 0 && decayTime_ > 0)
-            {
-                decayTime_-=8;
-                decayPeriod_-=8;
-                
-                if (decayPeriod_ <= 0)
-                {
-                    beepPeriod_ += 8;
-                    tonePeriod_[0] = tonePeriod_[1] = beepPeriod_;
-                    decayPeriod_ = saveDecayPeriod_;
-                }
-                
-            }
-            
-            toneTime_[i]-=8;            
-            if (toneTime_[i] <= 0)
-            {
-                if (studioBeep_)
-                {
-                    if (toneAmplitude_[i] > 0)
-                    {
-                        toneTime_[i] = tonePeriod_[i] * 2 / 3;
-                        toneAmplitude_[i] = -8;
-                    }
-                    else
-                    {
-                        toneTime_[i] = tonePeriod_[i] * 4 / 3;
-                        toneAmplitude_[i] = 4;
-                    }
-                }
-                else
-                {
-                    toneTime_[i] = tonePeriod_[i];
-                    toneAmplitude_[i] = -toneAmplitude_[i];
-                }
-                toneSynthPointer[i]->update(soundTime_, toneAmplitude_[i]);
-            }
-        }
+        if (toneOn_[channel])
+            toneSoundCycle(channel);
     }
-    if (noiseOn_)
+    for (int channel=0; channel<noiseChannels_; channel+=2)
     {
-        noiseTime_-=8;
-        if (noiseTime_ <= 0)
-        {
-            noiseTime_ = noisePeriod_;
-            int noiseAmplitude = (rand() % (noiseAmplitude_*2)) + 1 - noiseAmplitude_;
-            noiseSynthPointer[0]->update(soundTime_, noiseAmplitude*100);
-            noiseSynthPointer[1]->update(soundTime_, noiseAmplitude*100);
-        }
+        int noisePeriod = noisePeriod_[channel]*((rand() % 7) + 1);
+        if (noiseOn_[channel])
+            noiseSoundCycle(channel, noisePeriod);
+        if (noiseOn_[channel+1])
+            noiseSoundCycle(channel+1, noisePeriod);
     }
     soundTime_+=8;
     playSound();
+}
+
+void Sound::toneSoundCycle(int channel)
+{
+    if (decayTime_[channel] > 0)
+    {
+        decayTime_[channel]-=8;
+        decayPeriod_[channel]-=8;
+        
+        if (decayPeriod_[channel] <= 0)
+        {
+            beepPeriod_[channel] += 8;
+            tonePeriod_[channel] = beepPeriod_[channel];
+            decayPeriod_[channel] = saveDecayPeriod_[channel];
+        }
+    }
+    
+    toneTime_[channel]-=8;
+    if (toneTime_[channel] <= 0)
+    {
+        if (decayBeep_[channel])
+        {
+            if (toneAmplitude_[channel] > 0)
+            {
+                toneTime_[channel] = tonePeriod_[channel] * 2 / 3;
+                toneAmplitude_[channel] = -8;
+            }
+            else
+            {
+                toneTime_[channel] = tonePeriod_[channel] * 4 / 3;
+                toneAmplitude_[channel] = 4;
+            }
+        }
+        else
+        {
+            toneTime_[channel] = tonePeriod_[channel];
+            toneAmplitude_[channel] = -toneAmplitude_[channel];
+        }
+        toneSynthPointer[channel]->update(soundTime_, toneAmplitude_[channel]);
+    }
+}
+
+void Sound::noiseSoundCycle(int channel, int noisePeriod)
+{
+    noiseTime_[channel]-=8;
+    if (noiseTime_[channel] <= 0)
+    {
+        noiseTime_[channel] = noisePeriod;
+        noiseAmplitude_[channel] = -noiseAmplitude_[channel];
+        noiseSynthPointer[channel]->update(soundTime_, noiseAmplitude_[channel]);
+    }
 }
 
 void Sound::playSound()
@@ -589,33 +588,47 @@ void Sound::psaveAmplitudeChange(int q)
             switch (activeSoundType_)
             {
                 case SOUND_Q_SW:
-                    if (q)
-                        toneElf2KOn();
-                    else
-                        toneElf2KOff();
+                    startQTone(0, q);
+                    startQTone(0, q);
                 break;
 
                 case SOUND_EXT_BEEPER:
-                    toneAmplitude_[0] = 8;
-                    toneAmplitude_[1] = 8;
                     if (q)
-                        beepOn();
+                    {
+                        setToneFrequency(0, computerConfiguration_.soundConfiguration.beepFrequency, true);
+                        setToneFrequency(1, computerConfiguration_.soundConfiguration.beepFrequency, true);
+                    }
                     else
-                        beepOff();
+                    {
+                        startTone(0, false);
+                        startTone(1, false);
+                    }
                 break;
 
                 case SOUND_1863_1864:
                     if (q)
-                        tone1864On();
+                    {
+                        startTone(0, true);
+                        startTone(1, true);
+                    }
                     else
-                        beepOff();
+                    {
+                        startTone(0, false);
+                        startTone(1, false);
+                    }
                 break;
 
                 case SOUND_STUDIO:
                     if (q)
-                        beepOnStudio();
+                    {
+                        startToneDecay(0, computerConfiguration_.soundConfiguration.beepFrequency,  computerConfiguration_.soundConfiguration.targetBeepFrequency, computerConfiguration_.soundConfiguration.decay);
+                        startToneDecay(1, computerConfiguration_.soundConfiguration.beepFrequency,  computerConfiguration_.soundConfiguration.targetBeepFrequency, computerConfiguration_.soundConfiguration.decay);
+                    }
                    else
-                        beepOff();
+                   {
+                       startTone(0, false);
+                       startTone(1, false);
+                   }
                 break;
 
                 case SOUND_SUPER_VP550:
@@ -623,7 +636,7 @@ void Sound::psaveAmplitudeChange(int q)
                     if (q)
                         toneSuper();
                     else
-                        beepOff();
+                        toneSuperOff();
                 break;
             }
             p_Computer->printOutPecom(q);
@@ -1225,7 +1238,7 @@ void Sound::setVolume(int volume)
         toneSynthPointer[i]->volume(gain_);
     for (int i=0; i<2; i++)
     {
-        noiseSynthPointer[i]->volume(gain_/100);
+        noiseSynthPointer[i]->volume(gain_);
         psaveSynthPointer[i]->volume(gain_);
     }
     audioPointer->setAudioInGain(gain_);
@@ -1234,7 +1247,6 @@ void Sound::setVolume(int volume)
 void Sound::setClockRate(double clock)
 {
     soundClock_ = clock;
-    changeBeepFrequency(beepFrequency_);
     soundBufferPointerLeft->clock_rate((double)(soundClock_/CLOCK_FACTOR) * percentageClock_ * 1000000);
     soundBufferPointerRight->clock_rate((double)(soundClock_/CLOCK_FACTOR) * percentageClock_ * 1000000);
 }
@@ -1262,9 +1274,10 @@ void Sound::setEqualization(int bass, int treble)
     soundBufferPointerRight->bass_freq(bass);
     for (int i=0; i<toneChannels_; i++)
         toneSynthPointer[i]->treble_eq(treble);
+    for (int i=0; i<noiseChannels_; i++)
+        noiseSynthPointer[i]->treble_eq(treble);
     for (int i=0; i<2; i++)
     {
-        noiseSynthPointer[i]->treble_eq(treble);
         psaveSynthPointer[i]->treble_eq(treble);
     }
 }

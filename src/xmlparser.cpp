@@ -285,7 +285,8 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
     computerConfiguration.fredKeypadConfiguration.defined= false;
     computerConfiguration.etiKeypadConfiguration.defined= false;
     computerConfiguration.adConvertorConfiguration.defined = false;
-    
+    computerConfiguration.ay_3_8912Configuration.defined = false;
+
     computerConfiguration.videoTerminalConfiguration.type = VTNONE;
     computerConfiguration.videoTerminalConfiguration.show = true;
     computerConfiguration.videoTerminalConfiguration.reverseQ = -1;
@@ -378,6 +379,7 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
 
     computerConfiguration.soundConfiguration.type = SOUND_OFF;
     computerConfiguration.soundConfiguration.stereo = 1;
+    computerConfiguration.soundConfiguration.beepFrequency = 250;
 
     computerConfiguration.efButtonsConfiguration.efButton.clear();
     computerConfiguration.efButtonsConfiguration.defined = false;
@@ -691,6 +693,7 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
             break;
 
             case TAG_CDP1855:
+                computerConfiguration.cdp1855Configuration.maxNumberOfMdu =  (int)parseXml_Number(*child, "num");
                 parseXml_Cdp1855 (*child);
             break;
 
@@ -869,11 +872,13 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
                 if (child->GetAttribute("type") == "q")
                     parseXml_QSound (*child);
                 if (child->GetAttribute("type") == "studio")
-                    computerConfiguration.soundConfiguration.type = SOUND_STUDIO;
+                    parseXml_StudioSound (*child);
                 if (child->GetAttribute("type") == "bit")
                     parseXml_OutBitSound (*child);
                 if (child->GetAttribute("type") == "cdp1863" || child->GetAttribute("type") == "1863")
                     parseXml_Cdp1863Sound (*child);
+                if (child->GetAttribute("type") == "8912")
+                    parseXml_AY_3_8912Sound (*child);
                 if (child->GetAttribute("type") == "vp550")
                     computerConfiguration.soundConfiguration.type = SOUND_SUPER_VP550;
                 if (child->GetAttribute("type") == "vp551")
@@ -4290,7 +4295,7 @@ void XmlParser::parseXml_Intel8275Video(wxXmlNode &node)
         "in",
         "out",
         "ef",
-        "int"
+        "int",
         "interlace",
         "zoom",
         "border",
@@ -5064,6 +5069,7 @@ void XmlParser::parseXml_Gpio(wxXmlNode &node)
         "ef",
         "keydef",
         "caps",
+        "frequency",
         "jp4",
         "startup",
         "int",
@@ -5079,6 +5085,7 @@ void XmlParser::parseXml_Gpio(wxXmlNode &node)
         TAG_EF,
         TAG_KEYDEF,
         TAG_CAPS,
+        TAG_FREQ,
         TAG_JP4,
         TAG_STARTUP,
         TAG_INTERRUPT,
@@ -5137,6 +5144,10 @@ void XmlParser::parseXml_Gpio(wxXmlNode &node)
 
             case TAG_CAPS:
                 computerConfiguration.forceUpperCase = true;
+            break;
+
+            case TAG_FREQ:
+                computerConfiguration.gpioPs2KeyboardConfiguration.beepFrequency = (int)parseXml_Number(*child);
             break;
 
             case TAG_IOGROUP:
@@ -7704,7 +7715,9 @@ void XmlParser::parseXml_Cdp1851(wxXmlNode &node, bool windowOn)
         "in",
         "ef",
         "pos",
+        "init",
         "iogroup",
+        "int",
         "comment",
         "undefined"
     };
@@ -7715,7 +7728,9 @@ void XmlParser::parseXml_Cdp1851(wxXmlNode &node, bool windowOn)
         TAG_IN,
         TAG_EF,
         TAG_POS,
+        TAG_INIT,
         TAG_IOGROUP,
+        TAG_INTERRUPT,
         TAG_COMMENT,
         TAG_UNDEFINED
     };
@@ -7731,6 +7746,9 @@ void XmlParser::parseXml_Cdp1851(wxXmlNode &node, bool windowOn)
     cdp1851.readPortB = init_IoPort();
     cdp1851.efaRdy = init_EfFlag();
     cdp1851.efbRdy = init_EfFlag();
+    cdp1851.efIrq = init_EfFlag();
+    cdp1851.initPortA = 0;
+    cdp1851.initPortB = 0;
 
     wxXmlNode *child = node.GetChildren();
     while (child)
@@ -7766,6 +7784,8 @@ void XmlParser::parseXml_Cdp1851(wxXmlNode &node, bool windowOn)
                     cdp1851.efaRdy = parseXml_EfFlag(*child, CDP1851_A_EF);
                 if (child->GetAttribute("type") == "b")
                     cdp1851.efbRdy = parseXml_EfFlag(*child, CDP1851_B_EF);
+                if (child->GetAttribute("type") == "irq")
+                    cdp1851.efIrq = parseXml_EfFlag(*child, CDP1851_IRQ);
             break;
 
             case TAG_POS:
@@ -7778,6 +7798,13 @@ void XmlParser::parseXml_Cdp1851(wxXmlNode &node, bool windowOn)
                     cdp1851.defaultPos.y += defaultFrontPanelY_;
             break;
 
+            case TAG_INIT:
+                if (child->GetAttribute("type") == "a")
+                    cdp1851.initPortA = (Byte)parseXml_Number(*child);
+                if (child->GetAttribute("type") == "b")
+                    cdp1851.initPortB = (Byte)parseXml_Number(*child);
+            break;
+                
             case TAG_IOGROUP:
                 iogroup = child->GetNodeContent();
                 while (iogroup != "")
@@ -7785,6 +7812,10 @@ void XmlParser::parseXml_Cdp1851(wxXmlNode &node, bool windowOn)
                     cdp1851.ioGroupVector.resize(ioGroupNumber+1);
                     cdp1851.ioGroupVector[ioGroupNumber++] = (int)getNextHexDec(&iogroup) & 0xff;
                 }
+            break;
+
+            case TAG_INTERRUPT:
+                cdp1851.picInterrupt = (int)parseXml_Number(*child);
             break;
 
             case TAG_COMMENT:
@@ -7945,23 +7976,11 @@ void XmlParser::parseXml_Cdp1855(wxXmlNode &node)
         switch (tagTypeInt)
         {
             case TAG_OUT:
-                if (child->GetAttribute("type") == "x")
-                    computerConfiguration.cdp1855Configuration.x = parseXml_IoPort(*child, MDU_X);
-                if (child->GetAttribute("type") == "y")
-                    computerConfiguration.cdp1855Configuration.y = parseXml_IoPort(*child, MDU_Y);
-                if (child->GetAttribute("type") == "z")
-                    computerConfiguration.cdp1855Configuration.z = parseXml_IoPort(*child, MDU_Z);
                 if (child->GetAttribute("type") == "control")
                     computerConfiguration.cdp1855Configuration.control = parseXml_IoPort(*child, MDU_CONTROL);
              break;
                 
             case TAG_IN:
-                if (child->GetAttribute("type") == "x")
-                    computerConfiguration.cdp1855Configuration.x = parseXml_IoPort(*child, MDU_X);
-                if (child->GetAttribute("type") == "y")
-                    computerConfiguration.cdp1855Configuration.y = parseXml_IoPort(*child, MDU_Y);
-                if (child->GetAttribute("type") == "z")
-                    computerConfiguration.cdp1855Configuration.z = parseXml_IoPort(*child, MDU_Z);
                 if (child->GetAttribute("type") == "status")
                     computerConfiguration.cdp1855Configuration.status = parseXml_IoPort(*child, MDU_STATUS);
             break;
@@ -10384,6 +10403,69 @@ void XmlParser::parseXml_QSound(wxXmlNode &node)
     }
 }
 
+void XmlParser::parseXml_StudioSound(wxXmlNode &node)
+{
+    computerConfiguration.soundConfiguration.type = SOUND_STUDIO;
+
+    wxString tagList[]=
+    {
+        "frequency",
+        "decay",
+        "comment",
+        "undefined"
+    };
+
+    enum
+    {
+        TAG_FREQ,
+        TAG_DECAY,
+        TAG_SW,
+        TAG_COMMENT,
+        TAG_UNDEFINED
+    };
+    
+    int tagTypeInt;
+
+    computerConfiguration.soundConfiguration.beepFrequency = 650;
+    computerConfiguration.soundConfiguration.targetBeepFrequency = 320;
+    computerConfiguration.soundConfiguration.decay = 420000;
+
+    wxXmlNode *child = node.GetChildren();
+    while (child)
+    {
+        wxString childName = child->GetName();
+
+        tagTypeInt = 0;
+        while (tagTypeInt != TAG_UNDEFINED && tagList[tagTypeInt] != childName)
+            tagTypeInt++;
+        
+        switch (tagTypeInt)
+        {
+            case TAG_FREQ:
+                if (child->GetAttribute("type") == "start")
+                    computerConfiguration.soundConfiguration.beepFrequency = (int)parseXml_Number(*child);
+                if (child->GetAttribute("type") == "end")
+                    computerConfiguration.soundConfiguration.targetBeepFrequency = (int)parseXml_Number(*child);
+            break;
+
+            case TAG_DECAY:
+                computerConfiguration.soundConfiguration.decay = (int)parseXml_Number(*child);
+            break;
+
+            case TAG_COMMENT:
+            break;
+
+            default:
+                warningText_ += "Unkown tag: ";
+                warningText_ += childName;
+                warningText_ += "\n";
+            break;
+        }
+        
+        child = child->GetNext();
+    }
+}
+
 void XmlParser::parseXml_OutBitSound(wxXmlNode &node)
 {
     wxString tagList[]=
@@ -10530,6 +10612,134 @@ void XmlParser::parseXml_Cdp1863Sound(wxXmlNode &node)
     }
 }
 
+void XmlParser::parseXml_AY_3_8912Sound(wxXmlNode &node)
+{
+    computerConfiguration.ay_3_8912Configuration.defined = true;
+    computerConfiguration.soundConfiguration.type = SOUND_AY_3_8912;
+    wxString tagList[]=
+    {
+        "out",
+        "io",
+        "channel",
+        "iogroup",
+        "comment",
+        "undefined"
+    };
+
+    enum
+    {
+        TAG_OUT,
+        TAG_IO,
+        TAG_CHANNEL,
+        TAG_IOGROUP,
+        TAG_COMMENT,
+        TAG_UNDEFINED
+    };
+    
+    int tagTypeInt;
+    wxString iogroup;
+    size_t ioGroupNumber = 0;
+
+    computerConfiguration.ay_3_8912Configuration.ioGroupVector.clear();
+    computerConfiguration.ay_3_8912Configuration.registerAddressAy1 = init_IoPort();
+    computerConfiguration.ay_3_8912Configuration.registerAddressAy2 = init_IoPort();
+    computerConfiguration.ay_3_8912Configuration.dataAddress = init_IoPort();
+    computerConfiguration.ay_3_8912Configuration.channel_a_1 = 0;
+    computerConfiguration.ay_3_8912Configuration.channel_a_2 = -1;
+    computerConfiguration.ay_3_8912Configuration.channel_b_1 = -1;
+    computerConfiguration.ay_3_8912Configuration.channel_b_2 = 3;
+    computerConfiguration.ay_3_8912Configuration.channel_c_1 = 4;
+    computerConfiguration.ay_3_8912Configuration.channel_c_2 = 5;
+
+    wxXmlNode *child = node.GetChildren();
+    while (child)
+    {
+        wxString childName = child->GetName();
+
+        tagTypeInt = 0;
+        while (tagTypeInt != TAG_UNDEFINED && tagList[tagTypeInt] != childName)
+            tagTypeInt++;
+        
+        switch (tagTypeInt)
+        {
+            case TAG_OUT:
+                if (child->GetAttribute("type") == "register")
+                {
+                    if (child->HasAttribute("ay"))
+                    {
+                        if (child->GetAttribute("ay") == "1")
+                            computerConfiguration.ay_3_8912Configuration.registerAddressAy1 = parseXml_IoPort(*child, AY_3_8912_REGISTER_ADDRESS_1);
+                        if (child->GetAttribute("ay") == "2")
+                            computerConfiguration.ay_3_8912Configuration.registerAddressAy2 = parseXml_IoPort(*child, AY_3_8912_REGISTER_ADDRESS_2);
+                    }
+                    else
+                        computerConfiguration.ay_3_8912Configuration.registerAddressAy1 = parseXml_IoPort(*child, AY_3_8912_REGISTER_ADDRESS_1);
+                }
+            break;
+
+            case TAG_IO:
+                if (child->GetAttribute("type") == "data")
+                    computerConfiguration.ay_3_8912Configuration.dataAddress = parseXml_IoPort(*child, AY_3_8912_DATA);
+            break;
+          
+            case TAG_CHANNEL:
+                if (child->GetAttribute("type") == "a")
+                {
+                    getChannels("a", child->GetNodeContent(), &computerConfiguration.ay_3_8912Configuration.channel_a_1, &computerConfiguration.ay_3_8912Configuration.channel_a_2);
+                }
+                if (child->GetAttribute("type") == "b")
+                {
+                    getChannels("b", child->GetNodeContent(), &computerConfiguration.ay_3_8912Configuration.channel_b_1, &computerConfiguration.ay_3_8912Configuration.channel_b_2);
+                }
+                if (child->GetAttribute("type") == "c")
+                {
+                    getChannels("c", child->GetNodeContent(), &computerConfiguration.ay_3_8912Configuration.channel_c_1, &computerConfiguration.ay_3_8912Configuration.channel_c_2);
+                }
+            break;
+
+            case TAG_IOGROUP:
+                iogroup = child->GetNodeContent();
+                while (iogroup != "")
+                {
+                    computerConfiguration.ay_3_8912Configuration.ioGroupVector.resize(ioGroupNumber+1);
+                    computerConfiguration.ay_3_8912Configuration.ioGroupVector[ioGroupNumber++] = (int)getNextHexDec(&iogroup) & 0xff;
+                }
+            break;
+
+            case TAG_COMMENT:
+            break;
+
+            default:
+                warningText_ += "Unkown tag: ";
+                warningText_ += childName;
+                warningText_ += "\n";
+            break;
+        }
+        
+        child = child->GetNext();
+    }
+}
+
+void XmlParser::getChannels(wxString channel, wxString side, int *one, int *two)
+{
+    *one = 0;
+    *two = 1;
+    if (channel == "b")
+    {
+        *one = *one + 2;
+        *two = *two + 2;
+    }
+    if (channel == "c")
+    {
+        *one = *one + 4;
+        *two = *two + 4;
+    }
+    if (side == "left")
+        *two = -1;
+    if (side == "right")
+        *one = -1;
+}
+
 void XmlParser::parseXml_Dip(wxXmlNode &node)
 {
     computerConfiguration.dipConfiguration.defined = true;
@@ -10610,6 +10820,8 @@ void XmlParser::parseXml_IoGroup(wxXmlNode &node)
     wxString tagList[]=
     {
         "out",
+        "in",
+        "io",
         "comment",
         "undefined"
     };
@@ -10617,6 +10829,8 @@ void XmlParser::parseXml_IoGroup(wxXmlNode &node)
     enum
     {
         TAG_OUT,
+        TAG_IN,
+        TAG_IO,
         TAG_COMMENT,
         TAG_UNDEFINED
     };
@@ -10624,9 +10838,11 @@ void XmlParser::parseXml_IoGroup(wxXmlNode &node)
     int tagTypeInt;
     
     computerConfiguration.ioGroupConfiguration.output = init_IoPort();
+    computerConfiguration.ioGroupConfiguration.input = init_IoPort();
     computerConfiguration.ioGroupConfiguration.output.portNumber[0] = 1;
     computerConfiguration.ioGroupConfiguration.output.mask = 0x1f;
-    
+    computerConfiguration.ioGroupConfiguration.input.mask = 0x1f;
+
     wxXmlNode *child = node.GetChildren();
     while (child)
     {
@@ -10640,6 +10856,15 @@ void XmlParser::parseXml_IoGroup(wxXmlNode &node)
         {
             case TAG_OUT:
                 computerConfiguration.ioGroupConfiguration.output = parseXml_IoPort(*child);
+            break;
+
+            case TAG_IN:
+                computerConfiguration.ioGroupConfiguration.input = parseXml_IoPort(*child);
+            break;
+
+            case TAG_IO:
+                computerConfiguration.ioGroupConfiguration.output = parseXml_IoPort(*child);
+                computerConfiguration.ioGroupConfiguration.input = computerConfiguration.ioGroupConfiguration.output;
             break;
 
             case TAG_COMMENT:

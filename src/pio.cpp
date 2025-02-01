@@ -33,10 +33,11 @@
 #include "main.h"
 #include "pio.h"
 
-PioScreen::PioScreen(wxWindow *parent, const wxSize& size, int pioNumber)
+PioScreen::PioScreen(wxWindow *parent, const wxSize& size, int pioNumber, Cdp1851Configuration cdp1851Configuration)
 : Panel(parent, size)
 {
     pioNumber_ = pioNumber;
+    cdp1851Configuration_ = cdp1851Configuration;
     
 //    this->SetClientSize(size);
 }
@@ -99,8 +100,8 @@ void PioScreen::init()
         ioSwitchEnabled_[i] = false;
         dataSwitchButton[i]->enable(dc, false);
     }
-    outPutValueA_ = 0;
-    outPutValueB_ = 0;
+    outPutValueA_ = cdp1851Configuration_.initPortA;
+    outPutValueB_ = cdp1851Configuration_.initPortB;
     inPutValueA_ = 0;
 
 #if defined (__WXMAC__)
@@ -337,8 +338,8 @@ void PioScreen::clearA()
 {
     wxClientDC dc(this);
 
-    outPutValueA_ = 0;
-    inPutValueA_ = 0;
+    outPutValueA_ = cdp1851Configuration_.initPortA;
+    inPutValueA_ = cdp1851Configuration_.initPortA;
     for (int i=0; i<8; i++)
     {
         dataSwitchButton[i]->setState(dc, 0);
@@ -350,7 +351,7 @@ void PioScreen::clearB()
 {
     wxClientDC dc(this);
     
-    outPutValueB_ = 0;
+    outPutValueB_ = cdp1851Configuration_.initPortB;
     for (int i=8; i<16; i++)
     {
         dataSwitchButton[i]->setState(dc, 0);
@@ -815,7 +816,7 @@ void PioScreen::writePortA(Byte value)
             value = value >> 1;
         }
         if (pioAInterruptEnabled_)
-            p_Computer->interrupt();
+            p_Computer->requestInterrupt(INTERRUPT_TYPE_PIO_A, true, cdp1851Configuration_.picInterrupt);
     }
     if (pioAMode_ == PIO_BIT_PROG)
     {
@@ -844,7 +845,7 @@ void PioScreen::writePortB(Byte value)
             value = value >> 1;
         }
         if (pioBInterruptEnabled_)
-            p_Computer->interrupt();
+            p_Computer->requestInterrupt(INTERRUPT_TYPE_PIO_A, true, cdp1851Configuration_.picInterrupt);
     }
     if (pioBMode_ == PIO_BIT_PROG)
     {
@@ -866,7 +867,8 @@ Byte PioScreen::readPortA()
 {
     pioEfState_[1] = 1;
     pioStatus_ &= 0xFD;
- 
+    p_Computer->requestInterrupt(INTERRUPT_TYPE_PIO_A, false, cdp1851Configuration_.picInterrupt);
+
     if (pioAMode_ == PIO_BI_DRECT)
         return inPutValueA_;
     else
@@ -877,6 +879,7 @@ Byte PioScreen::readPortB()
 {
     pioEfState_[2] = 1;
     pioStatus_ &= 0xFE;
+    p_Computer->requestInterrupt(INTERRUPT_TYPE_PIO_B, false, cdp1851Configuration_.picInterrupt);
 
     return outPutValueB_;
 }
@@ -888,22 +891,34 @@ void PioScreen::maskInterruptA()
     {
         case 0:     // Interrupt if any 'unmasked' bit is low
             if ((unmaskedBits ^ pioAInterruptMask_) != 0)
-                p_Computer->interrupt();
+            {
+                pioStatus_ |= 0x2;
+                p_Computer->requestInterrupt(INTERRUPT_TYPE_PIO_A, true, cdp1851Configuration_.picInterrupt);
+            }
         break;
 
         case 0x1:   // Interrupt if any 'unmasked' bit is high
             if ((unmaskedBits & pioAInterruptMask_) != 0)
-                p_Computer->interrupt();
+            {
+                pioStatus_ |= 0x2;
+                p_Computer->requestInterrupt(INTERRUPT_TYPE_PIO_A, true, cdp1851Configuration_.picInterrupt);
+            }
         break;
 
         case 0x2:   // Interrupt if all 'unmasked' bit are low
             if ((unmaskedBits & pioAInterruptMask_) == 0)
-                p_Computer->interrupt();
+            {
+                pioStatus_ |= 0x2;
+                p_Computer->requestInterrupt(INTERRUPT_TYPE_PIO_A, true, cdp1851Configuration_.picInterrupt);
+            }
         break;
 
         case 0x3:   // Interrupt if all 'unmasked' bit are high
             if ((unmaskedBits & pioAInterruptMask_) == pioAInterruptMask_)
-                p_Computer->interrupt();
+            {
+                pioStatus_ |= 0x2;
+                p_Computer->requestInterrupt(INTERRUPT_TYPE_PIO_A, true, cdp1851Configuration_.picInterrupt);
+            }
         break;
     }
 }
@@ -915,28 +930,42 @@ void PioScreen::maskInterruptB()
     {
         case 0:     // Interrupt if any 'unmasked' bit is low
             if ((unmaskedBits ^ pioBInterruptMask_) != 0)
-                p_Computer->interrupt();
+            {
+                pioStatus_ |= 0x1;
+                p_Computer->requestInterrupt(INTERRUPT_TYPE_PIO_B, true, cdp1851Configuration_.picInterrupt);
+            }
         break;
             
         case 0x1:   // Interrupt if any 'unmasked' bit is high
             if ((unmaskedBits & pioBInterruptMask_) != 0)
-                p_Computer->interrupt();
+            {
+                pioStatus_ |= 0x1;
+                p_Computer->requestInterrupt(INTERRUPT_TYPE_PIO_B, true, cdp1851Configuration_.picInterrupt);
+            }
         break;
             
         case 0x2:   // Interrupt if all 'unmasked' bit are low
             if ((unmaskedBits & pioBInterruptMask_) == 0)
-                p_Computer->interrupt();
+            {
+                pioStatus_ |= 0x1;
+                p_Computer->requestInterrupt(INTERRUPT_TYPE_PIO_B, true, cdp1851Configuration_.picInterrupt);
+            }
         break;
             
         case 0x3:   // Interrupt if all 'unmasked' bit are high
             if ((unmaskedBits & pioBInterruptMask_) == pioBInterruptMask_)
-                p_Computer->interrupt();
+            {
+                pioStatus_ |= 0x1;
+                p_Computer->requestInterrupt(INTERRUPT_TYPE_PIO_B, true, cdp1851Configuration_.picInterrupt);
+            }
         break;
     }
 }
 
 Byte PioScreen::readStatusRegister()
 {
+//    if (pioAInterruptEnabled_ || pioBInterruptEnabled_)
+//        pioStatus_ |= 0x1;
     if (pioRdyAMode_ == PIO_INPUT && pioAMode_ == PIO_BIT_PROG)
     {
         pioStatus_ &= 0xef;
@@ -977,18 +1006,27 @@ Byte PioScreen::getEfState(int number)
     return pioEfState_[number];
 }
 
+Byte PioScreen::getIrqState()
+{
+    Byte irqState = 0;
+    if (pioStatus_ & 1 || pioStatus_ & 2)
+        irqState = 1;
+    return irqState ^ cdp1851Configuration_.efIrq.reverse;
+}
+
 BEGIN_EVENT_TABLE(PioFrame, wxFrame)
     EVT_CLOSE (PioFrame::onClose)
     EVT_BUTTON(1, PioFrame::onArdyButton)
     EVT_BUTTON(2, PioFrame::onBrdyButton)
 END_EVENT_TABLE()
 
-PioFrame::PioFrame(const wxString& title, const wxPoint& pos, const wxSize& size, int pioNumber)
+PioFrame::PioFrame(const wxString& title, const wxPoint& pos, const wxSize& size, int pioNumber, Cdp1851Configuration cdp1851Configuration)
 : wxFrame((wxFrame *)NULL, -1, title, pos, size)
 {
     pioNumber_ = pioNumber;
-    
-    pioScreenPointer = new PioScreen(this, size, pioNumber);
+    cdp1851Configuration_ = cdp1851Configuration;
+
+    pioScreenPointer = new PioScreen(this, size, pioNumber, cdp1851Configuration);
     pioScreenPointer->init();
     
     this->SetClientSize(size);

@@ -255,23 +255,26 @@ void Ps2gpio::writeGpioControlRegister(Byte value)
 {
     if ((value & 0x20) == 0x20) // SPEN
     {
-        p_Computer->setSoundFollowQ (false);
+        p_Computer->setSoundType(SOUND_EXT_BEEPER);
         switch (value & 0x18)
         {
             case 0:
-                p_Computer->toneElf2KOff();
+                p_Computer->startQTone(0, false);
+                p_Computer->startQTone(1, false);
             break;
 
             case 0x8:
-                p_Computer->beepOn();
+                p_Computer->setToneFrequency(0, gpioPs2KeyboardConfiguration_.beepFrequency, true);
+                p_Computer->setToneFrequency(1, gpioPs2KeyboardConfiguration_.beepFrequency, true);
             break;
 
             case 0x10:
-                p_Computer->setSoundFollowQ (true);
+                p_Computer->setSoundType(SOUND_Q_SW);
             break;
 
             case 0x18:
-                p_Computer->toneElf2KOn();
+                p_Computer->startQTone(0, true);
+                p_Computer->startQTone(1, true);
             break;
         }
     }

@@ -745,6 +745,7 @@ public:
 #define SOUND_OFF 5
 #define SOUND_1863_NOQ 6
 #define SOUND_STUDIO 7
+#define SOUND_AY_3_8912 8
 
 #define VTNONE 0
 #define VT52 1
