@@ -159,6 +159,7 @@ private:
     int toneTime_[MAX_NUMBER_OF_TONE_CHANNELS];
     bool toneOn_[MAX_NUMBER_OF_TONE_CHANNELS];
     int toneAmplitude_[MAX_NUMBER_OF_TONE_CHANNELS];
+    int selectedToneAmplitude_[MAX_NUMBER_OF_TONE_CHANNELS];
 
     int noisePeriod_[MAX_NUMBER_OF_NOISE_CHANNELS];
     int noiseTime_[MAX_NUMBER_OF_NOISE_CHANNELS];
