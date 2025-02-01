@@ -286,18 +286,19 @@ void Sound::setToneFrequency(int channel, int frequency, bool toneOn)
 
 void Sound::setToneAmplitude(int channel, int amplitude, bool toneOn)
 {
-    if (toneOn_[channel])
-    {
+    if (!toneOn_[channel])
+
+ /*   {
         if (toneAmplitude_[channel] >= 0)
             toneAmplitude_[channel] = amplitude;
         else
             toneAmplitude_[channel] = -(amplitude);
     }
-    else
+    else*/
         toneAmplitude_[channel] = amplitude;
     
     selectedToneAmplitude_[channel] = amplitude;
-    if (toneAmplitude_[channel] == 0)
+    if (selectedToneAmplitude_[channel] == 0)
         toneOn_[channel] = false;
     else
         startTone(channel, toneOn);
@@ -305,7 +306,7 @@ void Sound::setToneAmplitude(int channel, int amplitude, bool toneOn)
 
 void Sound::startTone(int channel, bool toneOn)
 {
-    if (!toneOn || toneAmplitude_[channel] == 0)
+    if (!toneOn || selectedToneAmplitude_[channel] == 0)
         toneOn_[channel] = false;
     else
      {
