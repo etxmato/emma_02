@@ -286,17 +286,17 @@ void Sound::setToneFrequency(int channel, int frequency, bool toneOn)
 
 void Sound::setToneAmplitude(int channel, int amplitude, bool toneOn)
 {
-    if (!toneOn_[channel])
+    /*if (!toneOn_[channel])
 
- /*   {
+    {
         if (toneAmplitude_[channel] >= 0)
             toneAmplitude_[channel] = amplitude;
         else
             toneAmplitude_[channel] = -(amplitude);
     }
-    else*/
+    else
         toneAmplitude_[channel] = amplitude;
-    
+    */
     selectedToneAmplitude_[channel] = amplitude;
     if (selectedToneAmplitude_[channel] == 0)
         toneOn_[channel] = false;
@@ -312,8 +312,8 @@ void Sound::startTone(int channel, bool toneOn)
      {
         if (!toneOn_[channel])
         {
-            toneTime_[channel] = tonePeriod_[channel];
-            toneSynthPointer[channel]->update(soundTime_, toneAmplitude_[channel]);
+            toneTime_[channel] = selectedToneAmplitude_[channel];
+            toneSynthPointer[channel]->update(soundTime_, selectedToneAmplitude_[channel]);
         }
         toneOn_[channel] = true;
      }
@@ -416,18 +416,18 @@ void Sound::amplitudeSuper(int channel, int amplitude)
 {
     if (stereo_ == 2)
     {
-        if (toneAmplitude_[channel] < 0)
+    /*    if (toneAmplitude_[channel] < 0)
             toneAmplitude_[channel] = -(amplitude & 0xf);
         else
-            toneAmplitude_[channel] = amplitude & 0xf;
+            toneAmplitude_[channel] = amplitude & 0xf;*/
             selectedToneAmplitude_[channel] = amplitude & 0xf;
     }
     else
     {
-        if (toneAmplitude_[channel*2] < 0)
+        /*if (toneAmplitude_[channel*2] < 0)
             toneAmplitude_[channel*2] = toneAmplitude_[channel*2+1] = -(amplitude & 0xf);
         else
-            toneAmplitude_[channel*2] = toneAmplitude_[channel*2+1] = amplitude & 0xf;
+            toneAmplitude_[channel*2] = toneAmplitude_[channel*2+1] = amplitude & 0xf;*/
         selectedToneAmplitude_[channel*2] = amplitude & 0xf;
     }
 }
@@ -467,7 +467,7 @@ void Sound::toneSuper()
         if (!toneOn_[i])
         {
             toneTime_[i] = tonePeriod_[i];
-            toneSynthPointer[i]->update(soundTime_, toneAmplitude_[i]);
+            toneSynthPointer[i]->update(soundTime_, selectedToneAmplitude_[i]);
         }
         toneOn_[i] = true;
     }
