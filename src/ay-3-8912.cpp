@@ -323,7 +323,7 @@ void AY_3_8912Instance::writeData(Byte value)
 
         case 13: // Envelope Shape/Cycle
             envelopeShape = value & 0xf;
-            if ((envelopeShape & 0x8) == 0x8)
+            if ((envelopeShape & 0x8) == 0)
             {
                 envelopeShape &= 0xc;
             }

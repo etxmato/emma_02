@@ -37,6 +37,10 @@
 #define SAMPLE_RATE 44100
 #endif
 
+//double logAmplitude[] = {-15, -9.898, -6.5, -3.636, -2.75, -1.515, -1.125, -0.608, -0.441, -0.222, -0.16, -0.064, -0.012, -0.004, -0.001, 0, 0.001, 0.004, 0.012, 0.064, 0.16, 0.222, 0.441, 0.608, 1.125, 1.515, 2.75, 3.636, 6.5, 9.898, 15};
+
+double logAmplitude[] = { -15, -14, -13, -12, -11, -10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
+
 Sound::Sound()
 {
     soundBufferPointerLeft = new Blip_Buffer();
@@ -286,8 +290,7 @@ void Sound::setToneFrequency(int channel, int frequency, bool toneOn)
 
 void Sound::setToneAmplitude(int channel, int amplitude, bool toneOn)
 {
-    /*if (!toneOn_[channel])
-
+    if (!toneOn_[channel])
     {
         if (toneAmplitude_[channel] >= 0)
             toneAmplitude_[channel] = amplitude;
@@ -296,24 +299,24 @@ void Sound::setToneAmplitude(int channel, int amplitude, bool toneOn)
     }
     else
         toneAmplitude_[channel] = amplitude;
-    */
+    
     selectedToneAmplitude_[channel] = amplitude;
-    if (selectedToneAmplitude_[channel] == 0)
-        toneOn_[channel] = false;
-    else
+ //   if (selectedToneAmplitude_[channel] == 0)
+ //       toneOn_[channel] = false;
+ //   else
         startTone(channel, toneOn);
 }
 
 void Sound::startTone(int channel, bool toneOn)
 {
-    if (!toneOn || selectedToneAmplitude_[channel] == 0)
+    if (!toneOn) // || selectedToneAmplitude_[channel] == 0)
         toneOn_[channel] = false;
     else
      {
         if (!toneOn_[channel])
         {
             toneTime_[channel] = selectedToneAmplitude_[channel];
-            toneSynthPointer[channel]->update(soundTime_, selectedToneAmplitude_[channel]);
+            toneSynthPointer[channel]->update(soundTime_, logAmplitude[selectedToneAmplitude_[channel]+15]);
         }
         toneOn_[channel] = true;
      }
@@ -336,7 +339,7 @@ void Sound::startToneDecay(int channel, int startFrequency, int endFrequecny, in
 
 void Sound::startQTone(int channel, bool toneOn)
 {
-    toneSynthPointer[channel]->update(soundTime_, toneAmplitude_[channel]);
+    toneSynthPointer[channel]->update(soundTime_, logAmplitude[toneAmplitude_[channel]+15]);
     toneOn_[channel] = toneOn;
 }
 
@@ -416,18 +419,18 @@ void Sound::amplitudeSuper(int channel, int amplitude)
 {
     if (stereo_ == 2)
     {
-    /*    if (toneAmplitude_[channel] < 0)
+        if (toneAmplitude_[channel] < 0)
             toneAmplitude_[channel] = -(amplitude & 0xf);
         else
-            toneAmplitude_[channel] = amplitude & 0xf;*/
+            toneAmplitude_[channel] = amplitude & 0xf;
             selectedToneAmplitude_[channel] = amplitude & 0xf;
     }
     else
     {
-        /*if (toneAmplitude_[channel*2] < 0)
+        if (toneAmplitude_[channel*2] < 0)
             toneAmplitude_[channel*2] = toneAmplitude_[channel*2+1] = -(amplitude & 0xf);
         else
-            toneAmplitude_[channel*2] = toneAmplitude_[channel*2+1] = amplitude & 0xf;*/
+            toneAmplitude_[channel*2] = toneAmplitude_[channel*2+1] = amplitude & 0xf;
         selectedToneAmplitude_[channel*2] = amplitude & 0xf;
     }
 }
@@ -467,7 +470,7 @@ void Sound::toneSuper()
         if (!toneOn_[i])
         {
             toneTime_[i] = tonePeriod_[i];
-            toneSynthPointer[i]->update(soundTime_, selectedToneAmplitude_[i]);
+            toneSynthPointer[i]->update(soundTime_, logAmplitude[selectedToneAmplitude_[i]+15]);
         }
         toneOn_[i] = true;
     }
@@ -484,9 +487,12 @@ void Sound::soundCycle()
     for (int channel=0; channel<toneChannels_; channel++)
     {
         if (toneOn_[channel])
-            toneSoundCycle(channel);
-        if (envelopeActive_[channel])
-            envelopeSoundCycle(channel);
+        {
+            if (selectedToneAmplitude_[channel] != 0)
+                toneSoundCycle(channel);
+            if (envelopeActive_[channel])
+                envelopeSoundCycle(channel);
+        }
     }
     for (int channel=0; channel<noiseChannels_; channel+=2)
     {
@@ -539,17 +545,18 @@ void Sound::toneSoundCycle(int channel)
             else
                 toneAmplitude_[channel] = selectedToneAmplitude_[channel];
         }
-        toneSynthPointer[channel]->update(soundTime_, toneAmplitude_[channel]);
+        toneSynthPointer[channel]->update(soundTime_, logAmplitude[toneAmplitude_[channel]+15]);
     }
 }
 
 void Sound::envelopeSoundCycle(int channel)
 {
+    
     envelopeTime_[channel]-=8;
     if (envelopeTime_[channel] <= 0)
     {
-        envelopeAmplitude_ = envelopeAmplitude_ + envelopeAttack_;
-        if ((envelopeAmplitude_ & 0xf0) != 0)
+        Byte envelopeAmplitude = envelopeAmplitude_ + envelopeAttack_;
+        if ((envelopeAmplitude & 0xf0) != 0)
         {
             switch (envelopeShape_)
             {
@@ -577,14 +584,16 @@ void Sound::envelopeSoundCycle(int channel)
                 break;
 
                 case ENVELOPE_SHAPE_UP_CONT:        // C
-                    envelopeAmplitude_ = 0xf;
+                    envelopeAmplitude_ = 0;
                 break;
             }
         }
-        
+        else
+            envelopeAmplitude_ = envelopeAmplitude_ + envelopeAttack_;
+
         selectedToneAmplitude_[channel] = envelopeAmplitude_;
-        if (selectedToneAmplitude_[channel] != 0)
-            toneOn_[channel] = true;
+    //    if (selectedToneAmplitude_[channel] != 0)
+    //        toneOn_[channel] = true;
 
         envelopeTime_[channel] = envelopePeriod_;
     }
