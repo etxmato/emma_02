@@ -10,6 +10,15 @@ public:
     void configureCdp1854(Cdp1854Configuration cdp1854Configuration);
     bool ioGroupCdp1854(int ioGroup);
 
+    void cts(Byte value);
+    void out(Byte value);
+    void control(Byte value);
+    Byte in(); 
+    Byte status();
+    Byte threStatus();
+    void interrupt();
+    void clearInterrupt();
+
 private:
     int cdp1854Number_;
 
