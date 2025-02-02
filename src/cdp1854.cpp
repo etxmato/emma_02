@@ -163,10 +163,7 @@ Byte Cdp1854Instance::uartThreStatus()
 }
 
 void Cdp1854Instance::uartInterrupt()
-{
-    if (uart16450_)
-        return;
-    
+{    
     if ((uartControl_ & 0x20) == 0x20 && currentComputerConfiguration.videoTerminalConfiguration.interrupt)
         p_Computer->requestInterrupt(INTERRUPT_TYPE_UART, true, currentComputerConfiguration.videoTerminalConfiguration.picInterrupt);
     if (currentComputerConfiguration.videoTerminalConfiguration.efInterrupt.flagNumber != -1)
@@ -175,9 +172,6 @@ void Cdp1854Instance::uartInterrupt()
 
 void Cdp1854Instance::clearUartInterrupt()
 {
-    if (uart16450_)
-        return;
-    
     p_Computer->requestInterrupt(INTERRUPT_TYPE_UART, false, currentComputerConfiguration.videoTerminalConfiguration.picInterrupt);
     if (currentComputerConfiguration.videoTerminalConfiguration.efInterrupt.flagNumber != -1)
         vt100EfInterrupt_ = 1;
