@@ -176,3 +176,11 @@ void Cdp1854Instance::clearUartInterrupt()
     if (currentComputerConfiguration.videoTerminalConfiguration.efInterrupt.flagNumber != -1)
         vt100EfInterrupt_ = 1;
 }
+
+void Cdp1854Instance::dataAvailableUart(bool data)
+{
+    lineStatusRegister_[UART_LSR_DR] = data;
+    uartStatus_[uart_da_bit_] = data;
+    if (data)
+        uartInterrupt();
+}
