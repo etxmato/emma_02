@@ -19,7 +19,7 @@ public:
     Byte threStatus();
     void interrupt();
     void clearInterrupt();
-    void dataAvailableUart(bool data);
+    void dataAvailable(bool data);
 
 private:
     int cdp1854Number_;
