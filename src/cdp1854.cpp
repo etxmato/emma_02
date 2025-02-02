@@ -82,3 +82,103 @@ bool Cdp1854Instance::ioGroupCdp1854(int ioGroup)
     }
     return groupFound;
 }
+
+void Cdp1854Instance::uartCts(Byte value)
+{
+    switch (value)
+    {
+        case 1:
+            if (terminalLoad_)
+                dataAvailableUart(0);
+            cts_ = false;
+        break;
+
+        case 2:
+            if (terminalLoad_ && sendPacket_)
+                dataAvailableUart(1);
+            cts_ = true;
+        break;
+    }
+}
+
+void Cdp1854Instance::uartOut(Byte value)
+{
+    rs232_ = value;
+    p_Computer->thrStatusVt100(1);
+    uartStatus_[uart_thre_bit_] = 0;
+    uartStatus_[uart_tsre_bit_] = 0;
+    receivePacket_ = true;
+}
+
+void Cdp1854Instance::uartControl(Byte value)
+{
+    if ((value & 0x80) == 0x80)
+    {
+        uartInterrupt();
+    }
+    else
+    {
+        uartControl_ = value;
+        clearUartInterrupt();
+    }
+    
+    uartStatus_[uart_thre_bit_] = 1;
+
+    if (terminalLoad_ && uartStatus_[uart_da_bit_] && cts_)
+        dataAvailableUart(1);
+}
+
+Byte Cdp1854Instance::uartIn()
+{
+    framingError(0);
+    dataAvailableUart(0);
+
+    if (ctrlvText_ != 0)
+    {
+        videoScreenPointer->getKey(0);
+        return checkCtrlvTextUart();
+    }
+    else
+    {
+        Byte loadByte = 0;
+        if (terminalLoad_ || (terminalSave_ && (protocol_ == TERM_XMODEM_SAVE || protocol_ == TERM_YMODEM_SAVE)))
+        {
+            getTerminalLoadByte(&loadByte);
+            return loadByte;
+        }
+        else
+            return videoScreenPointer->getKey(0);
+    }
+}
+
+Byte Cdp1854Instance::uartStatus()
+{
+    clearUartInterrupt();
+    return uartStatus_.to_ulong();
+}
+
+Byte Cdp1854Instance::uartThreStatus()
+{
+    return uartStatus_[uart_thre_bit_];
+}
+
+void Cdp1854Instance::uartInterrupt()
+{
+    if (uart16450_)
+        return;
+    
+    if ((uartControl_ & 0x20) == 0x20 && currentComputerConfiguration.videoTerminalConfiguration.interrupt)
+        p_Computer->requestInterrupt(INTERRUPT_TYPE_UART, true, currentComputerConfiguration.videoTerminalConfiguration.picInterrupt);
+    if (currentComputerConfiguration.videoTerminalConfiguration.efInterrupt.flagNumber != -1)
+        vt100EfInterrupt_ = 0;
+}
+
+void Cdp1854Instance::clearUartInterrupt()
+{
+    if (uart16450_)
+        return;
+    
+    p_Computer->requestInterrupt(INTERRUPT_TYPE_UART, false, currentComputerConfiguration.videoTerminalConfiguration.picInterrupt);
+    if (currentComputerConfiguration.videoTerminalConfiguration.efInterrupt.flagNumber != -1)
+        vt100EfInterrupt_ = 1;
+}
