@@ -801,6 +801,19 @@ public:
 
 // CDP1855 configuration class definitions:
 
+class Cdp1854Configuration : public IoGroupDefineConfiguration
+{
+public:
+    IoPort out;
+    IoPort in;
+    IoPort control;
+    IoPort status;
+    EfFlag ef;
+    EfFlag efInterrupt;
+};
+
+// CDP1855 configuration class definitions:
+
 class Cdp1855Configuration : public IoGroupDefineConfiguration
 {
 public:
@@ -1525,6 +1538,9 @@ public:
     // PIO configurations:
     vector<Cdp1851Configuration> cdp1851Configuration;
     vector<Cdp1852Configuration> cdp1852Configuration;
+    
+    // UART configurations:
+    vector<Cdp1854Configuration> cdp1854Configuration;
     
     // MDC configurations:
     Cdp1855Configuration cdp1855Configuration;
