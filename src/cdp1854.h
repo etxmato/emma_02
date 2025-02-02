@@ -16,3 +16,6 @@ private:
     Cdp1854Configuration cdp1854Configuration_;
     
 };
+
+
+#endif  // CDP1854_H
