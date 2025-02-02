@@ -15,9 +15,11 @@ public:
     void control(Byte value);
     Byte in(); 
     Byte status();
+    
     Byte threStatus();
     void interrupt();
     void clearInterrupt();
+    void dataAvailableUart(bool data);
 
 private:
     int cdp1854Number_;
