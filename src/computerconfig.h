@@ -801,7 +801,7 @@ public:
 
 // CDP1855 configuration class definitions:
 
-class Cdp1854Configuration : public IoGroupDefineConfiguration
+class Cdp1854Configuration : public IoGroupConfiguration
 {
 public:
     IoPort out;
@@ -810,6 +810,16 @@ public:
     IoPort status;
     EfFlag ef;
     EfFlag efInterrupt;
+    
+    bool interrupt;
+    int picInterrupt;
+    
+    int baudR;
+    int baudT;
+    double baudCorrectionR;
+    double baudCorrectionT;
+    
+    int connection;
 };
 
 // CDP1855 configuration class definitions:

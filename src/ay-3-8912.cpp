@@ -312,13 +312,13 @@ void AY_3_8912Instance::writeData(Byte value)
         break;
             
         case 11: // Envelope Period low byte
-            periodEnvelope_ = (periodEnvelope_ & 0xF00) | value;
-            p_Computer->setEnvelopePeriod(16 * periodEnvelope_);
+            periodEnvelope_ = (periodEnvelope_ & 0xFF00) | value;
+            p_Computer->setEnvelopePeriod(32 * periodEnvelope_);
         break;
 
         case 12: // Envelope Period high byte
-            periodEnvelope_ = (periodEnvelope_ & 0xFF) | ((value & 0xff) << 8);
-            p_Computer->setEnvelopePeriod(16 * periodEnvelope_);
+            periodEnvelope_ = (periodEnvelope_ & 0xFF) | (value << 8);
+            p_Computer->setEnvelopePeriod(32 * periodEnvelope_);
         break;
 
         case 13: // Envelope Shape/Cycle

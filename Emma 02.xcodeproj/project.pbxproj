@@ -149,6 +149,8 @@
 		99D5FCDA211C938E001F4391 /* ST2.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99D5FCD6211C938E001F4391 /* ST2.syntax */; };
 		99D62190211B402200E1A471 /* ST4.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99D6218F211B402200E1A471 /* ST4.syntax */; };
 		99D92E73211AA0AD007D868E /* CARDTRAN.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99D92E72211AA0AD007D868E /* CARDTRAN.syntax */; };
+		99DF0DAD2D4FCF3F00064909 /* cdp1854.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99DF0DAC2D4FCF3F00064909 /* cdp1854.cpp */; };
+		99DF0DAE2D4FCF3F00064909 /* cdp1854.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99DF0DAC2D4FCF3F00064909 /* cdp1854.cpp */; };
 		99E041812A225A6F00146D04 /* wxcurl_dialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99E0417F2A225A6C00146D04 /* wxcurl_dialog.cpp */; };
 		99E041822A225A7000146D04 /* wxcurl_dialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99E0417F2A225A6C00146D04 /* wxcurl_dialog.cpp */; };
 		99E041862A2294F100146D04 /* wxcurl_thread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99E041852A2294EA00146D04 /* wxcurl_thread.cpp */; };
@@ -562,6 +564,8 @@
 		99D5FCD6211C938E001F4391 /* ST2.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ST2.syntax; sourceTree = "<group>"; };
 		99D6218F211B402200E1A471 /* ST4.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ST4.syntax; sourceTree = "<group>"; };
 		99D92E72211AA0AD007D868E /* CARDTRAN.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CARDTRAN.syntax; sourceTree = "<group>"; };
+		99DF0DAC2D4FCF3F00064909 /* cdp1854.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cdp1854.cpp; path = src/cdp1854.cpp; sourceTree = "<group>"; };
+		99DF0DAF2D4FCF4500064909 /* cdp1854.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = cdp1854.h; path = src/cdp1854.h; sourceTree = "<group>"; };
 		99E0417F2A225A6C00146D04 /* wxcurl_dialog.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = wxcurl_dialog.cpp; path = src/wxcurl_dialog.cpp; sourceTree = "<group>"; };
 		99E041802A225A6D00146D04 /* wxcurl_dialog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = wxcurl_dialog.h; path = src/wxcurl_dialog.h; sourceTree = "<group>"; };
 		99E041832A2294EA00146D04 /* wxcurl_thread.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = wxcurl_thread.h; path = src/wxcurl_thread.h; sourceTree = "<group>"; };
@@ -784,6 +788,8 @@
 				9976475C1A61D5EE00FB9B33 /* cdp1802.h */,
 				9970174B23298F2C00D66312 /* cdp1852.cpp */,
 				9970174C23298F2C00D66312 /* cdp1852.h */,
+				99DF0DAC2D4FCF3F00064909 /* cdp1854.cpp */,
+				99DF0DAF2D4FCF4500064909 /* cdp1854.h */,
 				9971F0722D3EEB4F00BE3930 /* cdp1855.cpp */,
 				9971F0752D3EEB5800BE3930 /* cdp1855.h */,
 				9926E24C2D3050C200A4530B /* cdp1877.cpp */,
@@ -1211,6 +1217,7 @@
 				99BC74FC1DCFDB5C0000D8A9 /* upd765.cpp in Sources */,
 				99E041812A225A6F00146D04 /* wxcurl_dialog.cpp in Sources */,
 				997647F11A61D5EF00FB9B33 /* vt100.cpp in Sources */,
+				99DF0DAD2D4FCF3F00064909 /* cdp1854.cpp in Sources */,
 				991199441E92ECC30074ADAA /* splash.cpp in Sources */,
 				997647F71A61D5EF00FB9B33 /* psave.cpp in Sources */,
 				997647E31A61D5EF00FB9B33 /* portext.cpp in Sources */,
@@ -1293,6 +1300,7 @@
 				99F37EB3285D1D9200C57417 /* upd765.cpp in Sources */,
 				99E041822A225A7000146D04 /* wxcurl_dialog.cpp in Sources */,
 				99F37EB4285D1D9200C57417 /* vt100.cpp in Sources */,
+				99DF0DAE2D4FCF3F00064909 /* cdp1854.cpp in Sources */,
 				99F37EB5285D1D9200C57417 /* splash.cpp in Sources */,
 				99F37EB6285D1D9200C57417 /* psave.cpp in Sources */,
 				99F37EB8285D1D9200C57417 /* portext.cpp in Sources */,

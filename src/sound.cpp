@@ -37,9 +37,26 @@
 #define SAMPLE_RATE 44100
 #endif
 
-//double logAmplitude[] = {-15, -9.898, -6.5, -3.636, -2.75, -1.515, -1.125, -0.608, -0.441, -0.222, -0.16, -0.064, -0.012, -0.004, -0.001, 0, 0.001, 0.004, 0.012, 0.064, 0.16, 0.222, 0.441, 0.608, 1.125, 1.515, 2.75, 3.636, 6.5, 9.898, 15};
+// 15 - 0.455 => 15.00
+// 14 - 0.440 => 14.51
+// 13 - 0.420 => 13.85
+// 12 - 0.405 => 13.35
+// 11 - 0.385 => 12.69
+// 10 - 0.370 => 12.20
+//  9 - 0.300 =>  9.89
+//  8 - 0.190 =>  6.26
+//  7 - 0.165 =>  5.44
+//  6 - 0.100 =>  3.30
+//  5 - 0.074 =>  2.44
+//  4 - 0.048 =>  1.58
+//  3 - 0.035 =>  1.15
+//  2 - 0.024 =>  0.79
+//  1 - 0.017 =>  0.56
+//  0         =>  0
 
-double logAmplitude[] = { -15, -14, -13, -12, -11, -10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
+int ayAmplitudeFactor[] = {-1500, -1451, -1385, -1335, -1269, -1220, -989, -626, -544, -330, -244, -158, -115, -79, -56, 0, 56, 79, 115, 158, 244, 330, 544, 626, 989, 1220, 1269, 1335, 1385, 1451, 1500};
+
+int comxAmplitudeFactor[] = {-1500, -1400, -1300, -1200, -1100, -1000, -900, -800, -700, -600, -500, -400, -300, -200, -100, 0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500};
 
 Sound::Sound()
 {
@@ -125,6 +142,16 @@ void Sound::initSound(double percentageClock, int bass, int treble, int toneChan
     for (int i=0; i<MAX_NUMBER_OF_NOISE_CHANNELS; i++)
         noiseOn_[i] = false;
     
+    if (computerConfiguration.ay_3_8912Configuration.defined)
+    {
+        for (int i=0; i<31; i++)
+            amplitudeFactor[i] = ayAmplitudeFactor[i];
+    }
+    else
+    {
+        for (int i=0; i<31; i++)
+            amplitudeFactor[i] = comxAmplitudeFactor[i];
+    }
     envelopePeriod_ = 0;
     envelopeAmplitude_ = 0xf;
     envelopeContinues_ = true;
@@ -210,10 +237,10 @@ void Sound::initSound(double percentageClock, int bass, int treble, int toneChan
         for (int i=0; i<toneChannels_; i+=2)
         {
             toneSynthPointer[i]->treble_eq(treble);
-            toneSynthPointer[i]->volume(gain_);
+            toneSynthPointer[i]->volume(gain_/100);
             toneSynthPointer[i]->output(soundBufferPointerLeft);
             toneSynthPointer[i+1]->treble_eq(treble);
-            toneSynthPointer[i+1]->volume(gain_);
+            toneSynthPointer[i+1]->volume(gain_/100);
             toneSynthPointer[i+1]->output(soundBufferPointerRight);
         }
         for (int i=0; i<noiseChannels_; i+=2)
@@ -316,7 +343,7 @@ void Sound::startTone(int channel, bool toneOn)
         if (!toneOn_[channel])
         {
             toneTime_[channel] = selectedToneAmplitude_[channel];
-            toneSynthPointer[channel]->update(soundTime_, logAmplitude[selectedToneAmplitude_[channel]+15]);
+            toneSynthPointer[channel]->update(soundTime_, amplitudeFactor[selectedToneAmplitude_[channel]+15]);
         }
         toneOn_[channel] = true;
      }
@@ -339,7 +366,7 @@ void Sound::startToneDecay(int channel, int startFrequency, int endFrequecny, in
 
 void Sound::startQTone(int channel, bool toneOn)
 {
-    toneSynthPointer[channel]->update(soundTime_, logAmplitude[toneAmplitude_[channel]+15]);
+    toneSynthPointer[channel]->update(soundTime_, amplitudeFactor[toneAmplitude_[channel]+15]);
     toneOn_[channel] = toneOn;
 }
 
@@ -370,7 +397,7 @@ int Sound::startNoise(int channel, bool noiseOn, int previousNoisePeriod)
                 noiseTime_[channel] = previousNoisePeriod;
             else
                 noiseTime_[channel] = noisePeriod_[channel]*((rand() % 7) + 1);
-            noiseSynthPointer[channel]->update(soundTime_, noiseAmplitude_[channel]);
+            noiseSynthPointer[channel]->update(soundTime_, amplitudeFactor[noiseAmplitude_[channel]+15]);
         }
         noiseOn_[channel] = true;
     }
@@ -470,7 +497,7 @@ void Sound::toneSuper()
         if (!toneOn_[i])
         {
             toneTime_[i] = tonePeriod_[i];
-            toneSynthPointer[i]->update(soundTime_, logAmplitude[selectedToneAmplitude_[i]+15]);
+            toneSynthPointer[i]->update(soundTime_, amplitudeFactor[selectedToneAmplitude_[i]+15]);
         }
         toneOn_[i] = true;
     }
@@ -545,7 +572,7 @@ void Sound::toneSoundCycle(int channel)
             else
                 toneAmplitude_[channel] = selectedToneAmplitude_[channel];
         }
-        toneSynthPointer[channel]->update(soundTime_, logAmplitude[toneAmplitude_[channel]+15]);
+        toneSynthPointer[channel]->update(soundTime_, amplitudeFactor[toneAmplitude_[channel]+15]);
     }
 }
 
@@ -606,7 +633,7 @@ void Sound::noiseSoundCycle(int channel, int noisePeriod)
     {
         noiseTime_[channel] = noisePeriod;
         noiseAmplitude_[channel] = -noiseAmplitude_[channel];
-        noiseSynthPointer[channel]->update(soundTime_, noiseAmplitude_[channel]);
+        noiseSynthPointer[channel]->update(soundTime_, amplitudeFactor[noiseAmplitude_[channel]+15]);
     }
 }
 

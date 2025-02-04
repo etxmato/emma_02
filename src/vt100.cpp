@@ -237,7 +237,7 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     terminalLoad_ = false;
     terminalFileCdp18s020_ = false;
     terminalInputFileLine_ = "";
-    cts_ = true;
+    clearToSend_ = true;
 
     if (vtType_ != EXTERNAL_TERMINAL && vtType_ != LOOP_BACK)
     {
@@ -366,10 +366,10 @@ void Vt100::configureUart1854(VideoTerminalConfiguration videoTerminalConfigurat
     else
         p_Main->configureMessage(&videoTerminalConfiguration.ioGroupVector, "VT100 terminal with CDP1854/UART");
     
-    p_Computer->setOutType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.uartOut, UART1854_LOAD_TRANSMITTER_OUT, "load transmitter");
-    p_Computer->setInType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.uartIn, UART1854_READ_RECEIVER_IN, "read receiver");
-    p_Computer->setOutType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.uartControl, UART1854_LOAD_CONTROL_OUT, "load control");
-    p_Computer->setInType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.uartStatus, UART1854_READ_STATUS_IN, "read status");
+    p_Computer->setOutType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.uartOut, VT_UART1854_LOAD_TRANSMITTER_OUT, "load transmitter");
+    p_Computer->setInType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.uartIn, VT_UART1854_READ_RECEIVER_IN, "read receiver");
+    p_Computer->setOutType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.uartControl, VT_UART1854_LOAD_CONTROL_OUT, "load control");
+    p_Computer->setInType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.uartStatus, VT_UART1854_READ_STATUS_IN, "read status");
     if (currentComputerConfiguration.videoTerminalConfiguration.efInterrupt.flagNumber != -1)
         p_Computer->setEfType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.efInterrupt, VIDEO_TERMINAL_EF_INTERRUPT, "UART interrupt");
     if (currentComputerConfiguration.videoTerminalConfiguration.ef.flagNumber != -1)
@@ -3219,13 +3219,13 @@ void Vt100::uartCts(Byte value)
         case 1:
             if (terminalLoad_)
                 dataAvailableUart(0);
-            cts_ = false;
+            clearToSend_ = false;
         break;
 
         case 2:
             if (terminalLoad_ && sendPacket_)
                 dataAvailableUart(1);
-            cts_ = true;
+            clearToSend_ = true;
         break;
     }
 }
@@ -3282,7 +3282,7 @@ void Vt100::uartControl(Byte value)
     
     uartStatus_[uart_thre_bit_] = 1;
 
-    if (terminalLoad_ && uartStatus_[uart_da_bit_] && cts_)
+    if (terminalLoad_ && uartStatus_[uart_da_bit_] && clearToSend_)
         dataAvailableUart(1);
 }
 

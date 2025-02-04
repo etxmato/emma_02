@@ -431,7 +431,7 @@ Computer::Computer(const wxString& title, double clock, int tempo, ComputerConfi
 : wxFrame((wxFrame *)NULL, -1, title)
 {
     currentComputerConfiguration = computerConfig;
-    elfClockSpeed_ = clock;
+    computerClockSpeed_ = clock;
     title_ = title;
 
 #ifndef __WXMAC__
@@ -579,10 +579,12 @@ Computer::~Computer()
         p_Main->setCdp1852Pos(cdp1852FramePointer[num]->GetPosition(), num);
         cdp1852FramePointer[num]->Destroy();
     }
+    for (int num=0; num<numberOfCdp1854Instances_ ; num++)
+        delete cdp1854InstancePointer[num];
+    for (int num=0; num<numberOfCdp1877Instances_ ; num++)
+        delete cdp1877InstancePointer[num];
     for (int num=0; num<numberOfCd4536b_; num++)
-    {
         delete cd4536bPointer[num];
-    }
     if (currentComputerConfiguration.videoTerminalConfiguration.type != VTNONE)
     {
         p_Main->setVtPos(vtPointer->GetPosition());
@@ -1668,6 +1670,13 @@ Byte Computer::ef(int flag)
                 return vtPointer->ef();
         break;
 
+        case UART1854_EF:
+            if (isLoading() && (currentComputerConfiguration.swTapeConfiguration.ef.flagNumber == flag || currentComputerConfiguration.hwTapeConfiguration.ef.flagNumber == flag))
+                return cassetteEf_;
+            else
+                return cdp1854InstancePointer[inItemNumber_[qState_][ioGroup_+1][flag]]->efSerialDataInput();
+        break;
+
         case VIDEO_TERMINAL_EF_INTERRUPT:
             if (isLoading() && (currentComputerConfiguration.swTapeConfiguration.ef.flagNumber == flag || currentComputerConfiguration.hwTapeConfiguration.ef.flagNumber == flag))
                 return cassetteEf_;
@@ -1675,6 +1684,13 @@ Byte Computer::ef(int flag)
                 return vtPointer->efInterrupt();
         break;
 
+        case UART1854_EF_INTERRUPT:
+            if (isLoading() && (currentComputerConfiguration.swTapeConfiguration.ef.flagNumber == flag || currentComputerConfiguration.hwTapeConfiguration.ef.flagNumber == flag))
+                return cassetteEf_;
+            else
+                return cdp1854InstancePointer[inItemNumber_[qState_][ioGroup_+1][flag]]->efInterrupt();
+        break;
+            
         case EXTERNAL_VIDEO_TERMINAL_EF:
             if (isLoading() && (currentComputerConfiguration.swTapeConfiguration.ef.flagNumber == flag || currentComputerConfiguration.hwTapeConfiguration.ef.flagNumber == flag))
                 return cassetteEf_;
@@ -1779,19 +1795,27 @@ Byte Computer::in(Byte port, Word address)
         
     switch (inType_[qState_][ioGroup_+1][port])
     {
-        case UART1854_READ_RECEIVER_IN:
+        case VT_UART1854_READ_RECEIVER_IN:
             ret = vtPointer->uartIn();
         break;
 
-        case EXTERNAL_UART1854_READ_RECEIVER_IN:
+        case UART1854_READ_RECEIVER_IN:
+            ret = cdp1854InstancePointer[inItemNumber_[qState_][ioGroup_+1][port]]->readReceiverHoldingRegister_();
+        break;
+
+        case EXTERNAL_VT_UART1854_READ_RECEIVER_IN:
             ret = p_Serial->uartIn();
         break;
 
-        case UART1854_READ_STATUS_IN:
+        case VT_UART1854_READ_STATUS_IN:
             ret = vtPointer->uartStatus();
         break;
 
-        case EXTERNAL_UART1854_READ_STATUS_IN:
+        case UART1854_READ_STATUS_IN:
+            ret = cdp1854InstancePointer[inItemNumber_[qState_][ioGroup_+1][port]]->readStatusRegister();
+        break;
+
+        case EXTERNAL_VT_UART1854_READ_STATUS_IN:
             ret = p_Serial->uartStatus();
         break;
 
@@ -2264,19 +2288,27 @@ void Computer::out(Byte port, Word address, Byte value)
             }
         break;
             
-        case UART1854_LOAD_TRANSMITTER_OUT:
+        case VT_UART1854_LOAD_TRANSMITTER_OUT:
              vtPointer->uartOut(value);
         break;
 
-        case EXTERNAL_UART1854_LOAD_TRANSMITTER_OUT:
+        case UART1854_LOAD_TRANSMITTER_OUT:
+            cdp1854InstancePointer[inItemNumber_[qState_][ioGroup_+1][port]]->writeTransmitterHoldingRegister(value);
+        break;
+
+        case EXTERNAL_VT_UART1854_LOAD_TRANSMITTER_OUT:
              p_Serial->uartOut(value);
         break;
 
-        case UART1854_LOAD_CONTROL_OUT:
+        case VT_UART1854_LOAD_CONTROL_OUT:
             vtPointer->uartControl(value);
         break;
             
-        case EXTERNAL_UART1854_LOAD_CONTROL_OUT:
+        case UART1854_LOAD_CONTROL_OUT:
+            cdp1854InstancePointer[inItemNumber_[qState_][ioGroup_+1][port]]->writeControlRegister(value);
+        break;
+            
+        case EXTERNAL_VT_UART1854_LOAD_CONTROL_OUT:
             p_Serial->uartControl(value);
         break;
 
@@ -3104,6 +3136,11 @@ void Computer::cycle(int type)
 
         case VIDEO_TERMINAL_CYCLE:
             vtPointer->cycleVt();
+        break;
+
+        case UART1854_CYCLE:
+            for (int num=0; num<numberOfCdp1854Instances_ ; num++)
+                cdp1854InstancePointer[num]->cycle();
         break;
 
         case EXTERNAL_VIDEO_TERMINAL_CYCLE:
@@ -4659,7 +4696,7 @@ void Computer::startComputer()
     if (ledTimeMs_ == 0)
         ledCycleSize_ = -1;
     else
-        ledCycleSize_ = (((elfClockSpeed_ * 1000000) / 8) / 1000) * ledTimeMs_;
+        ledCycleSize_ = (((computerClockSpeed_ * 1000000) / 8) / 1000) * ledTimeMs_;
     ledCycleValue_ = ledCycleSize_;
     
     for (int num=0; num<numberOfCdp1851Frames_; num++)
@@ -4672,7 +4709,7 @@ void Computer::startComputer()
         cdp1852FramePointer[num]->setLedMs(ledTimeMs_);
         cdp1852FramePointer[num]->Show(currentComputerConfiguration.cdp1852Configuration[num].windowOpen);
     }
-    goCycleSize_ = (((elfClockSpeed_ * 1000000) / 8) / 1000) * 500;
+    goCycleSize_ = (((computerClockSpeed_ * 1000000) / 8) / 1000) * 500;
     goCycleValue_ = -1;
 
     pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);
@@ -6778,9 +6815,9 @@ void Computer::configureExtensions()
     {
         double zoom = p_Main->getZoomVt();
         if (currentComputerConfiguration.videoTerminalConfiguration.type == VT52)
-            vtPointer = new Vt100(p_Main->getRunningComputerText() + " - VT 52", p_Main->getVtPos(), wxSize(800*zoom, 500*zoom), zoom, elfClockSpeed_, currentComputerConfiguration, UART1);
+            vtPointer = new Vt100(p_Main->getRunningComputerText() + " - VT 52", p_Main->getVtPos(), wxSize(800*zoom, 500*zoom), zoom, computerClockSpeed_, currentComputerConfiguration, UART1);
         else
-            vtPointer = new Vt100(p_Main->getRunningComputerText() + " - VT 100", p_Main->getVtPos(), wxSize(800*zoom, 500*zoom), zoom, elfClockSpeed_, currentComputerConfiguration, UART1);
+            vtPointer = new Vt100(p_Main->getRunningComputerText() + " - VT 100", p_Main->getVtPos(), wxSize(800*zoom, 500*zoom), zoom, computerClockSpeed_, currentComputerConfiguration, UART1);
         p_Vt100[UART1] = vtPointer;
         vtPointer->configure(currentComputerConfiguration.videoTerminalConfiguration,  currentComputerConfiguration.addressLocationConfiguration, currentComputerConfiguration.saveCommand_);
         vtPointer->Show(currentComputerConfiguration.videoTerminalConfiguration.show);
@@ -6789,13 +6826,13 @@ void Computer::configureExtensions()
 
     if (currentComputerConfiguration.videoTerminalConfiguration.external)
     {
-        p_Serial = new Serial(XML, elfClockSpeed_, currentComputerConfiguration);
+        p_Serial = new Serial(XML, computerClockSpeed_, currentComputerConfiguration);
         p_Serial->configure(currentComputerConfiguration.videoTerminalConfiguration.baudR, currentComputerConfiguration.videoTerminalConfiguration.baudT, currentComputerConfiguration.videoTerminalConfiguration);
     }
 
     if (currentComputerConfiguration.videoTerminalConfiguration.loop_back)
     {
-        p_Serial = new Serial(XML, elfClockSpeed_, currentComputerConfiguration);
+        p_Serial = new Serial(XML, computerClockSpeed_, currentComputerConfiguration);
         p_Serial->configure(currentComputerConfiguration.videoTerminalConfiguration.baudR, currentComputerConfiguration.videoTerminalConfiguration.baudT, currentComputerConfiguration.videoTerminalConfiguration);
     }
 
@@ -6806,7 +6843,7 @@ void Computer::configureExtensions()
     }
 
     if (currentComputerConfiguration.rtcCdp1879Configuration.defined)
-        configureRtcCdp1879(currentComputerConfiguration.rtcCdp1879Configuration, elfClockSpeed_);
+        configureRtcCdp1879(currentComputerConfiguration.rtcCdp1879Configuration, computerClockSpeed_);
 
     if (currentComputerConfiguration.rtcDs12887Configuration.defined)
         configureRtcDs12788(currentComputerConfiguration.rtcDs12887Configuration);
@@ -6952,6 +6989,18 @@ void Computer::configureExtensions()
         numberOfCdp1852Frames_++;
     }
 
+    cdp1854InstancePointer.clear();
+    numberOfCdp1854Instances_ = 0;
+    for (std::vector<Cdp1854Configuration>::iterator cdp1854 = currentComputerConfiguration.cdp1854Configuration.begin (); cdp1854 != currentComputerConfiguration.cdp1854Configuration.end (); ++cdp1854)
+    {
+        cdp1854InstancePointer.resize(numberOfCdp1854Instances_+1);
+        cdp1854InstancePointer[numberOfCdp1854Instances_] = new Cdp1854Instance(numberOfCdp1854Instances_);
+        
+        cdp1854InstancePointer[numberOfCdp1854Instances_]->configureCdp1854(*cdp1854, computerClockSpeed_);
+
+        numberOfCdp1854Instances_++;
+    }
+
     cd4536bPointer.clear();
     numberOfCd4536b_ = 0;
     for (std::vector<Cd4536bConfiguration>::iterator cd4536bIo = currentComputerConfiguration.cd4536bConfiguration.begin (); cd4536bIo != currentComputerConfiguration.cd4536bConfiguration.end (); ++cd4536bIo)
@@ -7071,7 +7120,7 @@ void Computer::configureVideoExtensions()
     if (currentComputerConfiguration.mc6845Configuration.defined)
     {
         double zoom = p_Main->getZoom(currentComputerConfiguration.mc6845Configuration.videoNumber);
-        mc6845Pointer = new MC6845(p_Main->getRunningComputerText() + " - MC6845", p_Main->get6845Pos(), wxSize(currentComputerConfiguration.mc6845Configuration.screenSize.x*currentComputerConfiguration.mc6845Configuration.charSize.x*zoom, currentComputerConfiguration.mc6845Configuration.screenSize.y*(currentComputerConfiguration.mc6845Configuration.charSize.y+1)*zoom), zoom, elfClockSpeed_, currentComputerConfiguration.mc6845Configuration);
+        mc6845Pointer = new MC6845(p_Main->getRunningComputerText() + " - MC6845", p_Main->get6845Pos(), wxSize(currentComputerConfiguration.mc6845Configuration.screenSize.x*currentComputerConfiguration.mc6845Configuration.charSize.x*zoom, currentComputerConfiguration.mc6845Configuration.screenSize.y*(currentComputerConfiguration.mc6845Configuration.charSize.y+1)*zoom), zoom, computerClockSpeed_, currentComputerConfiguration.mc6845Configuration);
         p_Video[currentComputerConfiguration.mc6845Configuration.videoNumber] = mc6845Pointer;
         mc6845Pointer->configure6845();
         mc6845Pointer->init6845();
@@ -7082,7 +7131,7 @@ void Computer::configureVideoExtensions()
     if (currentComputerConfiguration.i8275Configuration.defined)
     {
         double zoom = p_Main->getZoom(currentComputerConfiguration.i8275Configuration.videoNumber);
-        i8275Pointer = new i8275(p_Main->getRunningComputerText() + " - Intel 8275", p_Main->get8275Pos(), wxSize(80*8*zoom, 24*10*2*zoom), zoom, elfClockSpeed_, currentComputerConfiguration.i8275Configuration);
+        i8275Pointer = new i8275(p_Main->getRunningComputerText() + " - Intel 8275", p_Main->get8275Pos(), wxSize(80*8*zoom, 24*10*2*zoom), zoom, computerClockSpeed_, currentComputerConfiguration.i8275Configuration);
         p_Video[currentComputerConfiguration.i8275Configuration.videoNumber] = i8275Pointer;
         i8275Pointer->configure8275();
         i8275Pointer->init8275();
@@ -7092,7 +7141,7 @@ void Computer::configureVideoExtensions()
     if (currentComputerConfiguration.mc6847Configuration.defined)
     {
         double zoom = p_Main->getZoom(currentComputerConfiguration.mc6847Configuration.videoNumber);
-        mc6847Pointer = new mc6847(p_Main->getRunningComputerText() + " - MC6847", p_Main->get6847Pos(), wxSize(32*8*zoom, currentComputerConfiguration.mc6847Configuration.screenHeight*zoom), zoom, elfClockSpeed_, currentComputerConfiguration.mc6847Configuration);
+        mc6847Pointer = new mc6847(p_Main->getRunningComputerText() + " - MC6847", p_Main->get6847Pos(), wxSize(32*8*zoom, currentComputerConfiguration.mc6847Configuration.screenHeight*zoom), zoom, computerClockSpeed_, currentComputerConfiguration.mc6847Configuration);
         p_Video[currentComputerConfiguration.mc6847Configuration.videoNumber] = mc6847Pointer;
         mc6847Pointer->configure();
         mc6847Pointer->init6847();
@@ -7102,7 +7151,7 @@ void Computer::configureVideoExtensions()
     if (currentComputerConfiguration.tmsConfiguration.defined)
     {
         double zoom = p_Main->getZoom(currentComputerConfiguration.tmsConfiguration.videoNumber);
-        tmsPointer = new Tms9918(p_Main->getRunningComputerText() + " - TMS 9918", p_Main->getTmsPos(), wxSize(320*zoom,240*zoom), zoom, elfClockSpeed_, currentComputerConfiguration.tmsConfiguration);
+        tmsPointer = new Tms9918(p_Main->getRunningComputerText() + " - TMS 9918", p_Main->getTmsPos(), wxSize(320*zoom,240*zoom), zoom, computerClockSpeed_, currentComputerConfiguration.tmsConfiguration);
         p_Video[currentComputerConfiguration.tmsConfiguration.videoNumber] = tmsPointer;
         tmsPointer->configure();
         tmsPointer->Show(true);
@@ -7111,7 +7160,7 @@ void Computer::configureVideoExtensions()
     if (currentComputerConfiguration.sn76430NConfiguration.defined)
     {
         double zoom = p_Main->getZoom(currentComputerConfiguration.sn76430NConfiguration.videoNumber);
-        sn76430nPointer = new SN76430N(p_Main->getRunningComputerText() + " - SN76430N", p_Main->getSN76430NPos(), wxSize(128*zoom,96*zoom), zoom, elfClockSpeed_, 3.58, currentComputerConfiguration.sn76430NConfiguration);
+        sn76430nPointer = new SN76430N(p_Main->getRunningComputerText() + " - SN76430N", p_Main->getSN76430NPos(), wxSize(128*zoom,96*zoom), zoom, computerClockSpeed_, 3.58, currentComputerConfiguration.sn76430NConfiguration);
         p_Video[currentComputerConfiguration.sn76430NConfiguration.videoNumber] = sn76430nPointer;
         sn76430nPointer->configure();
         sn76430nPointer->init();
@@ -7126,7 +7175,7 @@ void Computer::configureV1870Extension()
     if (currentComputerConfiguration.vis1870Configuration.defined)
     {
         double zoom = p_Main->getZoom(currentComputerConfiguration.vis1870Configuration.videoNumber);
-        vis1870Pointer = new VIS1870(p_Main->getRunningComputerText() + " - VIS 1870", p_Main->getV1870Pos(), wxSize(240*zoom,216*zoom), zoom, elfClockSpeed_, currentComputerConfiguration.vis1870Configuration);
+        vis1870Pointer = new VIS1870(p_Main->getRunningComputerText() + " - VIS 1870", p_Main->getV1870Pos(), wxSize(240*zoom,216*zoom), zoom, computerClockSpeed_, currentComputerConfiguration.vis1870Configuration);
         p_Video[currentComputerConfiguration.vis1870Configuration.videoNumber] = vis1870Pointer;
         
         bool loadRom = vis1870Pointer->configure1870();
@@ -7686,7 +7735,7 @@ void Computer::setLedMsTemp(long ms)
     if (ms == 0)
         ledCycleSize_ = -1;
     else
-        ledCycleSize_ = (((elfClockSpeed_ * 1000000) / 8) / 1000) * ms;
+        ledCycleSize_ = (((computerClockSpeed_ * 1000000) / 8) / 1000) * ms;
     ledCycleValue_ = ledCycleSize_;
 }
 
@@ -8484,7 +8533,7 @@ void Computer::setDivider(Byte value)
     if (value == 0)
         cycleSize_ = -1;
     else
-        cycleSize_ = (int) (((elfClockSpeed_ * 1000000) / 8) / freq [value]);
+        cycleSize_ = (int) (((computerClockSpeed_ * 1000000) / 8) / freq [value]);
     cycleValue_ = cycleSize_;
 }
 
@@ -9860,7 +9909,7 @@ void Computer::cardButton(int cardValue)
 
 void Computer::setTempo(int tempo)
 {
-    soundTempoCycleSize_ = (int) (((elfClockSpeed_ * 1000000) / 8) / tempo);
+    soundTempoCycleSize_ = (int) (((computerClockSpeed_ * 1000000) / 8) / tempo);
 }
 
 void Computer::onBackupYes(wxString dir, bool sub)
@@ -10007,4 +10056,19 @@ Byte  Computer::getTilHexFont(Word address, int segNumber)
     }
     else
         return address;
+}
+
+void Computer::serialDataOutput(int connection)
+{
+    switch (connection)
+    {
+        case UART_CONNECTION_TU58:
+        break;
+
+        case UART_CONNECTION_VT1802:
+        break;
+
+        case UART_CONNECTION_VIS1802:
+        break;
+    }
 }

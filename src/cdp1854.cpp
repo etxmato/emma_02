@@ -33,13 +33,50 @@
 #include "main.h"
 #include "cdp1854.h"
 
+// UART STATUS BITS
+#define DATA_AVAILABLE 0
+#define OVERRUN_ERROR 1
+#define PARITY_ERROR 2
+#define FRAMING_ERROR 3
+#define EXTERNAL_STATUS 4
+#define PERIPHERAL_STATUS_INTERRUPT 5
+#define TRANSMITTER_SHIFT_REGISTER_EMPTY 6
+#define TRANSMITTER_HOLDING_REGISTER_EMPTY 7
+
+// UART CONTROL BITS
+#define PARITY_INHIBIT 0
+#define EVEN_PARITY_ENABLE 1
+#define STOP_BIT_SELECT 2
+#define WORD_LENGTH_SELECT_1 3
+#define WORD_LENGTH_SELECT_2 4
+#define INTERRUPT_ENABLE 5
+#define TRANSMIT_BREAK 6
+#define TRANSMIT_REQUEST 7
+
+#define REGISTER_FULL 0;
+#define REGISTER_EMPTY 1;
+
+int uartBaudRateValue_[] =
+{
+    38400, 19200, 9600, 4800, 3600, 2400, 2000, 1800, 1200, 600, 300, 200, 150, 134, 110, 75, 50
+};
+
 Cdp1854Instance::Cdp1854Instance(int cdp1854Number)
 {
     cdp1854Number_ = cdp1854Number;
     
+    controlRegister_ = 0;
+    statusRegister_ = 0;
+
+    statusRegister_[TRANSMITTER_SHIFT_REGISTER_EMPTY] = REGISTER_EMPTY;
+    statusRegister_[TRANSMITTER_SHIFT_REGISTER_EMPTY] = REGISTER_EMPTY;
+    statusRegister_[FRAMING_ERROR] = 1;
+
+    useSdi_ = false;
+    clearToSend_ = true;
 }
 
-void Cdp1854Instance::configureCdp1854(Cdp1854Configuration cdp1854Configuration)
+void Cdp1854Instance::configureCdp1854(Cdp1854Configuration cdp1854Configuration, double clock)
 {
     cdp1854Configuration_ = cdp1854Configuration;
     wxString cdp1854NumberString = "";
@@ -48,22 +85,30 @@ void Cdp1854Instance::configureCdp1854(Cdp1854Configuration cdp1854Configuration
     
     p_Main->configureMessage(&cdp1854Configuration.ioGroupVector, "CDP1854 UART" + cdp1854NumberString);
     
-    p_Computer->setOutType(&cdp1854Configuration.ioGroupVector, cdp1854Configuration.out, UART1854_LOAD_TRANSMITTER_OUT, "load transmitter");
-    p_Computer->setInType(&cdp1854Configuration.ioGroupVector, cdp1854Configuration.in, UART1854_READ_RECEIVER_IN, "read receiver");
-    p_Computer->setOutType(&cdp1854Configuration.ioGroupVector, cdp1854Configuration.control, UART1854_LOAD_CONTROL_OUT, "load control");
-    p_Computer->setInType(&cdp1854Configuration.ioGroupVector, cdp1854Configuration.status, UART1854_READ_STATUS_IN, "read status");
-    if (currentComputerConfiguration.cdp1854Configuration.efInterrupt.flagNumber != -1)
-        p_Computer->setEfType(&cdp1854Configuration.ioGroupVector, cdp1854Configuration.efInterrupt, VIDEO_TERMINAL_EF_INTERRUPT, "UART interrupt");
-    if (currentComputerConfiguration.cdp1854Configuration.ef.flagNumber != -1)
+    p_Computer->setOutType(&cdp1854Configuration.ioGroupVector, cdp1854Configuration.out, "load transmitter", cdp1854Number_);
+    p_Computer->setInType(&cdp1854Configuration.ioGroupVector, cdp1854Configuration.in, "read receiver", cdp1854Number_);
+    p_Computer->setOutType(&cdp1854Configuration.ioGroupVector, cdp1854Configuration.control, "load control", cdp1854Number_);
+    p_Computer->setInType(&cdp1854Configuration.ioGroupVector, cdp1854Configuration.status, "read status", cdp1854Number_);
+    if (cdp1854Configuration_.efInterrupt.flagNumber != -1)
+        p_Computer->setEfType(&cdp1854Configuration.ioGroupVector, cdp1854Configuration.efInterrupt, "UART interrupt", cdp1854Number_);
+    if (cdp1854Configuration_.ef.flagNumber != -1)
     {
-        p_Computer->setEfType(&cdp1854Configuration.ioGroupVector, cdp1854Configuration.ef, VIDEO_TERMINAL_EF, "serial input");
-        uartEf_ = true;
+        p_Computer->setEfType(&cdp1854Configuration.ioGroupVector, cdp1854Configuration.ef, "serial data input", cdp1854Number_);
+        useSdi_ = true;
     }
-    p_Computer->setCycleType(CYCLE_TYPE_VIDEO_TERMINAL, VIDEO_TERMINAL_CYCLE);
+    p_Computer->setCycleType(CYCLE_TYPE_UART, UART1854_CYCLE);
+
+    baudRateT_ = (int) ((((clock * 1000000) / 8) / uartBaudRateValue_[cdp1854Configuration.baudT])+cdp1854Configuration.baudCorrectionT);
+    baudRateR_ = (int) ((((clock * 1000000) / 8) / uartBaudRateValue_[cdp1854Configuration.baudR])+cdp1854Configuration.baudCorrectionR);
 
     p_Main->message("");
 
-    rs232_ = 0;
+    transmitterHoldingRegister = 0;
+    receiverHoldingRegister_ = 0;
+
+    serialDataOutputCount_ = -1;
+    serialDataInputCount_ = -1;
+    serialDataInputEf_ = 1;
 }
 
 bool Cdp1854Instance::ioGroupCdp1854(int ioGroup)
@@ -88,99 +133,206 @@ void Cdp1854Instance::uartCts(Byte value)
     switch (value)
     {
         case 1:
-            if (terminalLoad_)
-                dataAvailableUart(0);
-            cts_ = false;
+//            if (terminalLoad_)
+//                dataAvailableUart(0);
+            clearToSend_ = false;
         break;
 
         case 2:
-            if (terminalLoad_ && sendPacket_)
-                dataAvailableUart(1);
-            cts_ = true;
+//            if (terminalLoad_ && sendPacket_)
+//                dataAvailableUart(1);
+            clearToSend_ = true;
         break;
     }
 }
 
-void Cdp1854Instance::uartOut(Byte value)
+void Cdp1854Instance::writeControlRegister(Byte value)
 {
-    rs232_ = value;
-    p_Computer->thrStatusVt100(1);
-    uartStatus_[uart_thre_bit_] = 0;
-    uartStatus_[uart_tsre_bit_] = 0;
-    receivePacket_ = true;
-}
-
-void Cdp1854Instance::uartControl(Byte value)
-{
-    if ((value & 0x80) == 0x80)
+    if ((value & 0x80) == 0x80) // TRANSMIT REQUEST
     {
-        uartInterrupt();
+        interrupt();
     }
     else
     {
-        uartControl_ = value;
-        clearUartInterrupt();
+        controlRegister_ = value;
+        clearInterrupt();
     }
     
-    uartStatus_[uart_thre_bit_] = 1;
+    statusRegister_[TRANSMITTER_HOLDING_REGISTER_EMPTY] = REGISTER_EMPTY;
 
-    if (terminalLoad_ && uartStatus_[uart_da_bit_] && cts_)
-        dataAvailableUart(1);
+//    if (terminalLoad_ && statusRegister_[DATA_AVAILABLE] && clearToSend_)
+//        dataAvailableUart(1);
 }
 
-Byte Cdp1854Instance::uartIn()
+Byte Cdp1854Instance::readStatusRegister()
+{
+    clearInterrupt();
+    return statusRegister_.to_ulong();
+}
+
+void Cdp1854Instance::writeTransmitterHoldingRegister(Byte value)
+{
+    transmitterHoldingRegister = value;
+    p_Computer->thrStatusVt100(1);
+    statusRegister_[TRANSMITTER_HOLDING_REGISTER_EMPTY] = REGISTER_FULL;
+    statusRegister_[TRANSMITTER_SHIFT_REGISTER_EMPTY] = REGISTER_FULL;
+//    receivePacket_ = true;
+}
+
+Byte Cdp1854Instance::readReceiverHoldingRegister_()
 {
     framingError(0);
     dataAvailableUart(0);
 
-    if (ctrlvText_ != 0)
+/*    Byte loadByte = 0;
+    if (terminalLoad_ || (terminalSave_ && (protocol_ == TERM_XMODEM_SAVE || protocol_ == TERM_YMODEM_SAVE)))
     {
-        videoScreenPointer->getKey(0);
-        return checkCtrlvTextUart();
+        getTerminalLoadByte(&loadByte);
+        return loadByte;
+    }
+    else*/
+    return 0; //videoScreenPointer->getKey(0);
+}
+
+Byte Cdp1854Instance::efSerialDataInput()
+{
+    return (cdp1854Configuration_.ef.reverse^serialDataInputEf_);
+}
+
+Byte Cdp1854Instance::efInterrupt()
+{
+    return (cdp1854Configuration_.efInterrupt.reverse^interruptEf_);
+}
+
+void Cdp1854Instance::cycle()
+{
+    if (serialDataInputCount_ > 0)
+        serialDataInput();
+
+    serialDataOutputCount_--;
+    if (serialDataOutputCount_ <= 0)
+        writeTransmitterShiftRegister_();
+}
+
+void Cdp1854Instance::interrupt()
+{    
+    if (controlRegister_[INTERRUPT_ENABLE] && cdp1854Configuration_.interrupt)
+        p_Computer->requestInterrupt(INTERRUPT_TYPE_UART, true, cdp1854Configuration_.picInterrupt);
+    if (cdp1854Configuration_.efInterrupt.flagNumber != -1)
+        interruptEf_ = 0;
+}
+
+void Cdp1854Instance::clearInterrupt()
+{
+    p_Computer->requestInterrupt(INTERRUPT_TYPE_UART, false, cdp1854Configuration_.picInterrupt);
+    if (cdp1854Configuration_.efInterrupt.flagNumber != -1)
+        interruptEf_ = 1;
+}
+
+void Cdp1854Instance::serialDataInput()
+{
+    serialDataInputCount_--;
+    if (useSdi_)
+    {
+        if (serialDataInputCount_ <= 0)
+        {
+            if (vtOutBits_ == 10)
+                serialDataInputEf_ = 0;
+            else
+            {
+                serialDataInputEf_ = (receiverHoldingRegister_ & 1) ? 1 : 0;
+                if (vtOutBits_ > 10)
+                    receiverHoldingRegister_ = 0;
+                else
+                    receiverHoldingRegister_ = (receiverHoldingRegister_ >> 1) | 128;
+            }
+            serialDataInputCount_ = baudRateT_;
+            if (vtOutBits_ == 2)
+                serialDataInputEf_ = 1;
+            if (--vtOutBits_ == 0)
+            {
+                receiverHoldingRegister_ = 0;
+                dataAvailableUart(1);
+                serialDataInputCount_ = -1;
+                vtOutBits_=10;
+            }
+            if (vtOutBits_ == 11)
+            {
+                serialDataInputEf_ = 1;
+                serialDataInputCount_ = -1;
+                vtOutBits_=10;
+            }
+        }
     }
     else
     {
-        Byte loadByte = 0;
-        if (terminalLoad_ || (terminalSave_ && (protocol_ == TERM_XMODEM_SAVE || protocol_ == TERM_YMODEM_SAVE)))
+        if (serialDataInputCount_ == 0)
         {
-            getTerminalLoadByte(&loadByte);
-            return loadByte;
+            dataAvailableUart(1);
+            serialDataInputCount_ = -1;
         }
-        else
-            return videoScreenPointer->getKey(0);
     }
 }
 
-Byte Cdp1854Instance::uartStatus()
+void Cdp1854Instance::writeTransmitterShiftRegister_()
 {
-    clearUartInterrupt();
-    return uartStatus_.to_ulong();
+    p_Computer->serialDataOutput(cdp1854Configuration_.connection);
+    
+/*        if (terminalSave_ || terminalLoad_)
+    {
+        if (receivePacket_)
+            Display(transmitterHoldingRegister, false);
+    }
+    else
+    {*/
+    //    if (transmitterHoldingRegister != 0)
+    //        Display(transmitterHoldingRegister & 0x7f, false);
+//        }
+    
+    transmitterHoldingRegister = 0;
+    if (statusRegister_[TRANSMITTER_HOLDING_REGISTER_EMPTY] == 1)
+        statusRegister_[TRANSMITTER_SHIFT_REGISTER_EMPTY] = REGISTER_EMPTY;
+    statusRegister_[TRANSMITTER_HOLDING_REGISTER_EMPTY] = REGISTER_EMPTY;
+    
+    //if (terminalSave_ && uart1854_)
+    //    serialDataOutputCount_ = baudRateR_ * 4;
+    //else
+        serialDataOutputCount_ = baudRateR_ * 9;
 }
 
 Byte Cdp1854Instance::uartThreStatus()
 {
-    return uartStatus_[uart_thre_bit_];
+    return statusRegister_[TRANSMITTER_HOLDING_REGISTER_EMPTY];
 }
 
-void Cdp1854Instance::uartInterrupt()
-{    
-    if ((uartControl_ & 0x20) == 0x20 && currentComputerConfiguration.videoTerminalConfiguration.interrupt)
-        p_Computer->requestInterrupt(INTERRUPT_TYPE_UART, true, currentComputerConfiguration.videoTerminalConfiguration.picInterrupt);
-    if (currentComputerConfiguration.videoTerminalConfiguration.efInterrupt.flagNumber != -1)
-        vt100EfInterrupt_ = 0;
-}
-
-void Cdp1854Instance::clearUartInterrupt()
+void Cdp1854Instance::framingError(bool data)
 {
-    p_Computer->requestInterrupt(INTERRUPT_TYPE_UART, false, currentComputerConfiguration.videoTerminalConfiguration.picInterrupt);
-    if (currentComputerConfiguration.videoTerminalConfiguration.efInterrupt.flagNumber != -1)
-        vt100EfInterrupt_ = 1;
+    statusRegister_[FRAMING_ERROR] = data;
+}
+
+void Cdp1854Instance::dataAvailable()
+{
+    if (useSdi_)
+        serialDataInputCount_ = baudRateT_ * 9;
+    else
+        serialDataInputCount_ = baudRateT_;
+}
+
+void Cdp1854Instance::dataAvailable(Byte value)
+{
+    receiverHoldingRegister_ = value;
+    if (useSdi_)
+        serialDataInputCount_ = baudRateT_ * 9;
+    else
+        serialDataInputCount_ = baudRateT_;
+
+    statusRegister_[DATA_AVAILABLE] = 1;
 }
 
 void Cdp1854Instance::dataAvailableUart(bool data)
 {
-    lineStatusRegister_[UART_LSR_DR] = data;
-    uartStatus_[uart_da_bit_] = data;
+    statusRegister_[DATA_AVAILABLE] = data;
     if (data)
-        uartInterrupt();
+        interrupt();
 }
+

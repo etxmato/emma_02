@@ -138,6 +138,7 @@ protected:
 private:
     ComputerConfiguration computerConfiguration_;
     short ploadSamples_[256];
+    int amplitudeFactor[31];
 
     Blip_Buffer *soundBufferPointerLeft;
     Blip_Buffer *soundBufferPointerRight;

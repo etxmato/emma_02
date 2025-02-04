@@ -275,7 +275,7 @@ private:
     int uart_tsre_bit_;
     int uart_thre_bit_;
     
-    bool cts_;
+    bool clearToSend_;
 
     AddressLocationConfiguration addressLocations_;
     wxString saveCommand_;

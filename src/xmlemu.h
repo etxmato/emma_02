@@ -31,6 +31,7 @@
 #include "rtc.h"
 #include "pio.h"
 #include "cdp1852.h"
+#include "cdp1854.h"
 #include "cdp1855.h"
 #include "cdp1877.h"
 #include "cd4536b.h"
@@ -361,6 +362,8 @@ public:
     Byte getTilHexFont(Word address, int segNumber);
 
     void setThumbSwitch(Byte value) {thumbSwitchValue_ = value;};
+    void serialDataOutput(int connection);
+
 private:
     RunComputer *threadPointer;
     wxString title_;
@@ -370,6 +373,9 @@ private:
 
     vector<PioFrame *> cdp1851FramePointer;
     int numberOfCdp1851Frames_;
+
+    vector<Cdp1854Instance *> cdp1854InstancePointer;
+    int numberOfCdp1854Instances_;
 
     Cdp1855Instance *cdp1855InstancePointer;
     
@@ -487,7 +493,7 @@ private:
 
     int cycleValue_;
     int cycleSize_;
-    double elfClockSpeed_;
+    double computerClockSpeed_;
 
     int multiTilCycleValue_;
     int multiTilCycleSize_;

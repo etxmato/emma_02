@@ -54,6 +54,11 @@ wxString textKeyList[]=
     "undefined"
 };
 
+int parserBaudRateValue_[] =
+{
+    38400, 19200, 9600, 4800, 3600, 2400, 2000, 1800, 1200, 600, 300, 200, 150, 134, 110, 75, 50
+};
+
 XmlParser::XmlParser(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
 : GuiMain(title, pos, size, mode, dataDir, iniDir)
 {
@@ -97,6 +102,7 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
         "gpio",
         "cdp1851",
         "cdp1852",
+        "cdp1854",
         "cdp1855",
         "cdp1877",
         "cd4536b",
@@ -142,6 +148,7 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
         TAG_GPIO,
         TAG_CDP1851,
         TAG_CDP1852,
+        TAG_CDP1854,
         TAG_CDP1855,
         TAG_CDP1877,
         TAG_CD4536B,
@@ -558,6 +565,7 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
     while (child)
     {
         wxString childName = child->GetName();
+        int uartConnection = UART_CONNECTION_NONE;
         
         tagTypeInt = 0;
         while (tagTypeInt != TAG_UNDEFINED && tagList[tagTypeInt] != childName)
@@ -690,6 +698,16 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
 
             case TAG_CDP1852:
                 parseXml_Cdp1852 (*child, child->GetAttribute("init") == "on");
+            break;
+
+            case TAG_CDP1854:
+                if (child->GetAttribute("type") == "tu58")
+                    uartConnection = UART_CONNECTION_TU58;
+                if (child->GetAttribute("type") == "vt1802")
+                    uartConnection = UART_CONNECTION_VT1802;
+                if (child->GetAttribute("type") == "vis1802")
+                    uartConnection = UART_CONNECTION_VIS1802;
+                parseXml_Cdp1854 (*child, uartConnection);
             break;
 
             case TAG_CDP1855:
@@ -7926,6 +7944,135 @@ void XmlParser::parseXml_Cdp1852(wxXmlNode &node, bool windowOn)
     }
     computerConfiguration.cdp1852Configuration.push_back(cdp1852);
 }
+
+void XmlParser::parseXml_Cdp1854(wxXmlNode &node, int connection)
+{
+    Cdp1854Configuration cdp1854;
+
+    wxString tagList[]=
+    {
+        "in",
+        "out",
+        "ef",
+        "int",
+        "serialport",
+        "baud",
+        "iogroup",
+        "comment",
+        "undefined"
+    };
+
+    enum
+    {
+        TAG_IN,
+        TAG_OUT,
+        TAG_EF,
+        TAG_INTERRUPT,
+        TAG_SERIALPORT,
+        TAG_BAUD,
+        TAG_IOGROUP,
+        TAG_COMMENT,
+        TAG_UNDEFINED
+    };
+    
+    int tagTypeInt;
+    int baud, number;
+    wxString iogroup;
+    size_t ioGroupNumber = 0;
+
+    cdp1854.ioGroupVector.clear();
+    cdp1854.in = init_IoPort();
+    cdp1854.status = init_IoPort();
+    cdp1854.out = init_IoPort();
+    cdp1854.control = init_IoPort();
+    cdp1854.ef = init_EfFlag();
+    cdp1854.efInterrupt = init_EfFlag();
+    cdp1854.interrupt = false;
+
+    cdp1854.baudR = 4;
+    cdp1854.baudT = 4;
+    cdp1854.baudCorrectionR = 0.5;
+    cdp1854.baudCorrectionT = 0.5;
+    cdp1854.connection = connection;
+
+    wxXmlNode *child = node.GetChildren();
+    while (child)
+    {
+        wxString childName = child->GetName();
+
+        tagTypeInt = 0;
+        while (tagTypeInt != TAG_UNDEFINED && tagList[tagTypeInt] != childName)
+            tagTypeInt++;
+        
+        switch (tagTypeInt)
+        {
+            case TAG_IN:
+                if (child->GetAttribute("type") == "register")
+                    cdp1854.in = parseXml_IoPort(*child, UART1854_READ_RECEIVER_IN);
+                if (child->GetAttribute("type") == "status")
+                    cdp1854.status = parseXml_IoPort(*child, UART1854_READ_STATUS_IN);
+            break;
+
+            case TAG_OUT:
+                if (child->GetAttribute("type") == "register")
+                    cdp1854.out = parseXml_IoPort(*child, UART1854_LOAD_TRANSMITTER_OUT);
+                if (child->GetAttribute("type") == "control")
+                    cdp1854.control = parseXml_IoPort(*child, UART1854_LOAD_CONTROL_OUT);
+            break;
+                
+            case TAG_EF:
+                if (child->GetAttribute("type") == "int")
+                    cdp1854.efInterrupt = parseXml_EfFlag(*child, UART1854_EF_INTERRUPT);
+                else
+                    cdp1854.ef = parseXml_EfFlag(*child, UART1854_EF);
+            break;
+                
+            case TAG_INTERRUPT:
+                cdp1854.interrupt = true;
+                cdp1854.picInterrupt = (int)parseXml_Number(*child);
+            break;
+
+/*            case TAG_SERIALPORT:
+                cdp1854.serialPort = child->GetNodeContent();
+            break;*/
+
+            case TAG_BAUD:
+                baud = (int)parseXml_Number(*child);
+                number = 0;
+                while (baud < parserBaudRateValue_[number] && parserBaudRateValue_[number] != 50)
+                    number++;
+                if (child->GetAttribute("type") == "receive")
+                    cdp1854.baudR = number;
+                if (child->GetAttribute("type") == "transmit")
+                    cdp1854.baudT = number;
+            break;
+
+            case TAG_IOGROUP:
+                iogroup = child->GetNodeContent();
+                while (iogroup != "")
+                {
+                    cdp1854.ioGroupVector.resize(ioGroupNumber+1);
+                    cdp1854.ioGroupVector[ioGroupNumber++] = (int)getNextHexDec(&iogroup) & 0xff;
+                }
+            break;
+
+            case TAG_COMMENT:
+            break;
+
+            default:
+                warningText_ += "Unkown tag: ";
+                warningText_ += childName;
+                warningText_ += "\n";
+            break;
+        }
+        
+        child = child->GetNext();
+    }
+    
+    computerConfiguration.cdp1854Configuration.push_back(cdp1854);
+}
+
+
 void XmlParser::parseXml_Cdp1855(wxXmlNode &node)
 {
     computerConfiguration.cdp1855Configuration.defined = true;
@@ -8191,11 +8338,6 @@ void XmlParser::parseXml_Cd4536b(wxXmlNode &node)
 
 void XmlParser::parseXml_SerialVt(wxXmlNode &node)
 {
-    int baudRateValue_[] =
-    {
-        38400, 19200, 9600, 4800, 3600, 2400, 2000, 1800, 1200, 600, 300, 200, 150, 134, 110, 75, 50
-    };
-
     wxString tagList[]=
     {
         "font",
@@ -8351,7 +8493,7 @@ void XmlParser::parseXml_SerialVt(wxXmlNode &node)
             case TAG_BAUD:
                 baud = (int)parseXml_Number(*child);
                 number = 0;
-                while (baud < baudRateValue_[number] && baudRateValue_[number] != 50)
+                while (baud < parserBaudRateValue_[number] && parserBaudRateValue_[number] != 50)
                     number++;
                 if (child->GetAttribute("type") == "receive")
                 {
@@ -8586,11 +8728,6 @@ void XmlParser::parseXml_SerialVt(wxXmlNode &node)
 
 void XmlParser::parseXml_UartVt(wxXmlNode &node, bool uart16450)
 {
-    int baudRateValue_[] =
-    {
-        38400, 19200, 9600, 4800, 3600, 2400, 2000, 1800, 1200, 600, 300, 200, 150, 134, 110, 75, 50
-    };
-
     wxString tagList[]=
     {
         "font",
@@ -8781,7 +8918,7 @@ void XmlParser::parseXml_UartVt(wxXmlNode &node, bool uart16450)
             case TAG_BAUD:
                 baud = (int)parseXml_Number(*child);
                 number = 0;
-                while (baud < baudRateValue_[number] && baudRateValue_[number] != 50)
+                while (baud < parserBaudRateValue_[number] && parserBaudRateValue_[number] != 50)
                     number++;
                 if (child->GetAttribute("type") == "receive")
                     computerConfiguration.videoTerminalConfiguration.baudR = number;

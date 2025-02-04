@@ -165,10 +165,10 @@ void Serial::configureUart1854(VideoTerminalConfiguration videoTerminalConfigura
     else
         p_Main->configureMessage(&videoTerminalConfiguration.ioGroupVector, "terminal loop back connected to CDP1854/UART");
 
-    p_Computer->setOutType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.uartOut, EXTERNAL_UART1854_LOAD_TRANSMITTER_OUT, "load transmitter");
-    p_Computer->setInType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.uartIn, EXTERNAL_UART1854_READ_RECEIVER_IN, "read receiver");
-    p_Computer->setOutType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.uartControl, EXTERNAL_UART1854_LOAD_CONTROL_OUT, "load control");
-    p_Computer->setInType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.uartStatus, EXTERNAL_UART1854_READ_STATUS_IN, "read status");
+    p_Computer->setOutType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.uartOut, EXTERNAL_VT_UART1854_LOAD_TRANSMITTER_OUT, "load transmitter");
+    p_Computer->setInType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.uartIn, EXTERNAL_VT_UART1854_READ_RECEIVER_IN, "read receiver");
+    p_Computer->setOutType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.uartControl, EXTERNAL_VT_UART1854_LOAD_CONTROL_OUT, "load control");
+    p_Computer->setInType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.uartStatus, EXTERNAL_VT_UART1854_READ_STATUS_IN, "read status");
     if (currentComputerConfiguration.videoTerminalConfiguration.efInterrupt.flagNumber != -1)
         p_Computer->setEfType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.ef, EXTERNAL_VIDEO_TERMINAL_EF_INTERRUPT, "UART interrupt");
     if (currentComputerConfiguration.videoTerminalConfiguration.ef.flagNumber != -1)
