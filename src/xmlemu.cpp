@@ -10058,7 +10058,7 @@ Byte  Computer::getTilHexFont(Word address, int segNumber)
         return address;
 }
 
-void Computer::serialDataOutput(int connection)
+bool Computer::serialDataOutput(int connection)
 {
     switch (connection)
     {
@@ -10069,6 +10069,8 @@ void Computer::serialDataOutput(int connection)
         break;
 
         case UART_CONNECTION_VIS1802:
+            return vtPointer->serialDataOutput();
         break;
     }
+    return false;
 }

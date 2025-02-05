@@ -362,7 +362,7 @@ public:
     Byte getTilHexFont(Word address, int segNumber);
 
     void setThumbSwitch(Byte value) {thumbSwitchValue_ = value;};
-    void serialDataOutput(int connection);
+    bool serialDataOutput(int connection);
 
 private:
     RunComputer *threadPointer;

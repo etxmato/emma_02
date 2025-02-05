@@ -270,8 +270,8 @@
             filePath = "src/vt100.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3273"
-            endingLineNumber = "3273"
+            startingLineNumber = "3278"
+            endingLineNumber = "3278"
             landmarkName = "Vt100::uartControl(value)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2080,22 +2080,6 @@
             startingLineNumber = "184"
             endingLineNumber = "184"
             landmarkName = "Cdp1854Instance::readReceiverHoldingRegister_()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "DBDE3054-36FD-40CC-9077-80C59088F751"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/cdp1854.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "279"
-            endingLineNumber = "279"
-            landmarkName = "Cdp1854Instance::writeTransmitterShiftRegister_()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

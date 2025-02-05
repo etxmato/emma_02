@@ -276,7 +276,7 @@ void Cdp1854Instance::serialDataInput()
 
 void Cdp1854Instance::writeTransmitterShiftRegister_()
 {
-    p_Computer->serialDataOutput(cdp1854Configuration_.connection);
+    bool terminalSave = p_Computer->serialDataOutput(cdp1854Configuration_.connection);
     
 /*        if (terminalSave_ || terminalLoad_)
     {
@@ -294,9 +294,9 @@ void Cdp1854Instance::writeTransmitterShiftRegister_()
         statusRegister_[TRANSMITTER_SHIFT_REGISTER_EMPTY] = REGISTER_EMPTY;
     statusRegister_[TRANSMITTER_HOLDING_REGISTER_EMPTY] = REGISTER_EMPTY;
     
-    //if (terminalSave_ && uart1854_)
-    //    serialDataOutputCount_ = baudRateR_ * 4;
-    //else
+    if (terminalSave)
+        serialDataOutputCount_ = baudRateR_ * 4;
+    else
         serialDataOutputCount_ = baudRateR_ * 9;
 }
 

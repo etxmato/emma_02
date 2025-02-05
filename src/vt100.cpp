@@ -588,6 +588,11 @@ void Vt100::cycleVt()
     }
 }
 
+bool Vt100::serialDataOutput()
+{
+    
+}
+
 void Vt100::uartVtOut()
 {
     vtOutCount_--;

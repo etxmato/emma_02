@@ -27,6 +27,7 @@ public:
     void setInterlace(bool status);
     void setStretchDot(bool status);
 
+    bool serialDataOutput();
     void uartVtOut();
     void uartVtIn();
     void serialVtOut();
