@@ -6997,7 +6997,23 @@ void Computer::configureExtensions()
         cdp1854InstancePointer[numberOfCdp1854Instances_] = new Cdp1854Instance(numberOfCdp1854Instances_);
         
         cdp1854InstancePointer[numberOfCdp1854Instances_]->configureCdp1854(*cdp1854, computerClockSpeed_);
+    
+        switch (cdp1854.connection)
+        {
+            case UART_CONNECTION_TU58:
+            break;
 
+            case UART_CONNECTION_VT1802:
+            break;
+
+            case UART_CONNECTION_VIS1802:
+            break;
+
+            case UART_CONNECTION_VT100:
+                vt100_connection_ = numberOfCdp1854Instances_;
+            break;
+
+        }
         numberOfCdp1854Instances_++;
     }
 
