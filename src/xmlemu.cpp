@@ -1227,6 +1227,8 @@ void Computer::initComputer()
     readSwitchOn_ = false;
     colourMask1862_ = 0xff;
     colourLatch_ = false;
+    
+    cdp1854Vt100Connection_ = -1;
 
     if (currentComputerConfiguration.runPressType == RUN_TYPE_UC1800)
         runButtonState_ = 1;
@@ -2276,8 +2278,13 @@ void Computer::out(Byte port, Word address, Byte value)
                     break;
 
                     case FLIPFLOP_RS232_CTS:
-                        if (currentComputerConfiguration.videoTerminalConfiguration.type != VTNONE)
-                            vtPointer->uartCts(value & 0x3);
+                        if (cdp1854Vt100Connection_ != -1)
+                            cdp1854InstancePointer[cdp1854Vt100Connection_]->uartCts(value & 0x3);
+                        else
+                        {
+                            if (currentComputerConfiguration.videoTerminalConfiguration.type != VTNONE)
+                                vtPointer->uartCts(value & 0x3);
+                        }
                     break;
 
                     case FLIPFLOP_VIS_PCB:
@@ -6998,7 +7005,7 @@ void Computer::configureExtensions()
         
         cdp1854InstancePointer[numberOfCdp1854Instances_]->configureCdp1854(*cdp1854, computerClockSpeed_);
     
-        switch (cdp1854.connection)
+        switch (cdp1854->connection)
         {
             case UART_CONNECTION_TU58:
             break;
@@ -7010,7 +7017,7 @@ void Computer::configureExtensions()
             break;
 
             case UART_CONNECTION_VT100:
-                vt100_connection_ = numberOfCdp1854Instances_;
+                cdp1854Vt100Connection_ = numberOfCdp1854Instances_;
             break;
 
         }
@@ -10074,7 +10081,7 @@ Byte  Computer::getTilHexFont(Word address, int segNumber)
         return address;
 }
 
-bool Computer::serialDataOutput(int connection)
+bool Computer::serialDataOutput(int connection, Byte transmitterHoldingRegister)
 {
     switch (connection)
     {
@@ -10085,8 +10092,35 @@ bool Computer::serialDataOutput(int connection)
         break;
 
         case UART_CONNECTION_VIS1802:
-            return vtPointer->serialDataOutput();
+        break;
+
+        case UART_CONNECTION_VT100:
+            vtPointer->serialDataOutput(transmitterHoldingRegister);
         break;
     }
     return false;
 }
+
+Byte Computer::readReceiverHoldingRegister()
+{
+    return vtPointer->readReceiverHoldingRegister();
+}
+
+void Computer::setSendPacket(bool status)
+{
+    if (cdp1854Vt100Connection_ != -1)
+        cdp1854InstancePointer[cdp1854Vt100Connection_]->setSendPacket(status);
+}
+
+void Computer::setTerminalLoad(bool status)
+{
+    if (cdp1854Vt100Connection_ != -1)
+        cdp1854InstancePointer[cdp1854Vt100Connection_]->setTerminalLoad(status);
+}
+
+void Computer::setTerminalSave(bool status)
+{
+    if (cdp1854Vt100Connection_ != -1)
+        cdp1854InstancePointer[cdp1854Vt100Connection_]->setTerminalSave(status);
+}
+

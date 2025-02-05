@@ -30,7 +30,10 @@ public:
     void dataAvailable();
     void dataAvailable(Byte value);
     void dataAvailableUart(bool data);
-    
+    void setSendPacket(bool status);
+    void setTerminalLoad(bool status);
+    void setTerminalSave(bool status);
+
 private:
     int cdp1854Number_;
     
@@ -42,7 +45,7 @@ private:
     bool useSdi_;
     Byte interruptEf_;
 
-    Byte transmitterHoldingRegister;
+    Byte transmitterHoldingRegister_;
     bool clearToSend_;
     
     int baudRateT_;
@@ -52,6 +55,10 @@ private:
     int vtOutBits_;
     long serialDataInputCount_;
     Byte receiverHoldingRegister_;
+    
+    bool sendPacket_;
+    bool terminalLoad_;
+    bool terminalSave_;
 };
 
 #endif  // CDP1854_H

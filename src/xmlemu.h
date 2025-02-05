@@ -362,7 +362,11 @@ public:
     Byte getTilHexFont(Word address, int segNumber);
 
     void setThumbSwitch(Byte value) {thumbSwitchValue_ = value;};
-    bool serialDataOutput(int connection);
+    bool serialDataOutput(int connection, Byte transmitterHoldingRegister);
+    Byte readReceiverHoldingRegister();
+    void setSendPacket(bool status);
+    void setTerminalLoad(bool status);
+    void setTerminalSave(bool status);
 
 private:
     RunComputer *threadPointer;
@@ -376,6 +380,7 @@ private:
 
     vector<Cdp1854Instance *> cdp1854InstancePointer;
     int numberOfCdp1854Instances_;
+    int cdp1854Vt100Connection_;
 
     Cdp1855Instance *cdp1855InstancePointer;
     

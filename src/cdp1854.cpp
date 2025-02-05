@@ -68,12 +68,16 @@ Cdp1854Instance::Cdp1854Instance(int cdp1854Number)
     controlRegister_ = 0;
     statusRegister_ = 0;
 
+    statusRegister_[EXTERNAL_STATUS] = 1;
     statusRegister_[TRANSMITTER_SHIFT_REGISTER_EMPTY] = REGISTER_EMPTY;
     statusRegister_[TRANSMITTER_SHIFT_REGISTER_EMPTY] = REGISTER_EMPTY;
-    statusRegister_[FRAMING_ERROR] = 1;
 
     useSdi_ = false;
     clearToSend_ = true;
+    
+    terminalLoad_ = false;
+    terminalSave_ = false;
+    sendPacket_ = false;
 }
 
 void Cdp1854Instance::configureCdp1854(Cdp1854Configuration cdp1854Configuration, double clock)
@@ -103,7 +107,7 @@ void Cdp1854Instance::configureCdp1854(Cdp1854Configuration cdp1854Configuration
 
     p_Main->message("");
 
-    transmitterHoldingRegister = 0;
+    transmitterHoldingRegister_ = 0;
     receiverHoldingRegister_ = 0;
 
     serialDataOutputCount_ = -1;
@@ -133,14 +137,14 @@ void Cdp1854Instance::uartCts(Byte value)
     switch (value)
     {
         case 1:
-//            if (terminalLoad_)
-//                dataAvailableUart(0);
+            if (terminalLoad_)
+                dataAvailableUart(0);
             clearToSend_ = false;
         break;
 
         case 2:
-//            if (terminalLoad_ && sendPacket_)
-//                dataAvailableUart(1);
+            if (terminalLoad_ && sendPacket_)
+                dataAvailableUart(1);
             clearToSend_ = true;
         break;
     }
@@ -160,8 +164,8 @@ void Cdp1854Instance::writeControlRegister(Byte value)
     
     statusRegister_[TRANSMITTER_HOLDING_REGISTER_EMPTY] = REGISTER_EMPTY;
 
-//    if (terminalLoad_ && statusRegister_[DATA_AVAILABLE] && clearToSend_)
-//        dataAvailableUart(1);
+    if (terminalLoad_ && statusRegister_[DATA_AVAILABLE] && clearToSend_)
+        dataAvailableUart(1);
 }
 
 Byte Cdp1854Instance::readStatusRegister()
@@ -172,11 +176,9 @@ Byte Cdp1854Instance::readStatusRegister()
 
 void Cdp1854Instance::writeTransmitterHoldingRegister(Byte value)
 {
-    transmitterHoldingRegister = value;
-    p_Computer->thrStatusVt100(1);
+    transmitterHoldingRegister_ = value;
     statusRegister_[TRANSMITTER_HOLDING_REGISTER_EMPTY] = REGISTER_FULL;
     statusRegister_[TRANSMITTER_SHIFT_REGISTER_EMPTY] = REGISTER_FULL;
-//    receivePacket_ = true;
 }
 
 Byte Cdp1854Instance::readReceiverHoldingRegister_()
@@ -184,14 +186,7 @@ Byte Cdp1854Instance::readReceiverHoldingRegister_()
     framingError(0);
     dataAvailableUart(0);
 
-/*    Byte loadByte = 0;
-    if (terminalLoad_ || (terminalSave_ && (protocol_ == TERM_XMODEM_SAVE || protocol_ == TERM_YMODEM_SAVE)))
-    {
-        getTerminalLoadByte(&loadByte);
-        return loadByte;
-    }
-    else*/
-    return 0; //videoScreenPointer->getKey(0);
+    return p_Computer->readReceiverHoldingRegister();
 }
 
 Byte Cdp1854Instance::efSerialDataInput()
@@ -276,25 +271,15 @@ void Cdp1854Instance::serialDataInput()
 
 void Cdp1854Instance::writeTransmitterShiftRegister_()
 {
-    bool terminalSave = p_Computer->serialDataOutput(cdp1854Configuration_.connection);
-    
-/*        if (terminalSave_ || terminalLoad_)
-    {
-        if (receivePacket_)
-            Display(transmitterHoldingRegister, false);
-    }
-    else
-    {*/
-    //    if (transmitterHoldingRegister != 0)
-    //        Display(transmitterHoldingRegister & 0x7f, false);
-//        }
-    
-    transmitterHoldingRegister = 0;
     if (statusRegister_[TRANSMITTER_HOLDING_REGISTER_EMPTY] == 1)
+    {
+        p_Computer->serialDataOutput(cdp1854Configuration_.connection, transmitterHoldingRegister_);
         statusRegister_[TRANSMITTER_SHIFT_REGISTER_EMPTY] = REGISTER_EMPTY;
+    }
+    transmitterHoldingRegister_ = 0;
     statusRegister_[TRANSMITTER_HOLDING_REGISTER_EMPTY] = REGISTER_EMPTY;
     
-    if (terminalSave)
+    if (terminalSave_)
         serialDataOutputCount_ = baudRateR_ * 4;
     else
         serialDataOutputCount_ = baudRateR_ * 9;
@@ -334,5 +319,20 @@ void Cdp1854Instance::dataAvailableUart(bool data)
     statusRegister_[DATA_AVAILABLE] = data;
     if (data)
         interrupt();
+}
+
+void Cdp1854Instance::setSendPacket(bool status)
+{
+    sendPacket_ = status;
+}
+
+void Cdp1854Instance::setTerminalLoad(bool status)
+{
+    terminalLoad_ = status;
+}
+
+void Cdp1854Instance::setTerminalSave(bool status)
+{
+    terminalSave_ = status;
 }
 

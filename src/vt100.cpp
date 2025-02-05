@@ -235,6 +235,7 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     originMode_ = false;
     terminalSave_ = false;
     terminalLoad_ = false;
+    sendPacket_ = false;
     terminalFileCdp18s020_ = false;
     terminalInputFileLine_ = "";
     clearToSend_ = true;
@@ -588,9 +589,24 @@ void Vt100::cycleVt()
     }
 }
 
-bool Vt100::serialDataOutput()
+void Vt100::serialDataOutput(Byte transmitterHoldingRegister)
 {
-    
+    if (terminalSave_ || terminalLoad_)
+        Display(transmitterHoldingRegister, false);
+    else
+        Display(transmitterHoldingRegister & 0x7f, false);
+}
+
+Byte Vt100::readReceiverHoldingRegister()
+{
+    Byte loadByte = 0;
+    if (terminalLoad_ || (terminalSave_ && (protocol_ == TERM_XMODEM_SAVE || protocol_ == TERM_YMODEM_SAVE)))
+    {
+        getTerminalLoadByte(&loadByte);
+        return loadByte;
+    }
+    else
+        return videoScreenPointer->getKey(0);
 }
 
 void Vt100::uartVtOut()
@@ -828,7 +844,7 @@ bool Vt100::getTerminalLoadByte(Byte* value)
         case TERM_XMODEM_LOAD:
             if (xmodemBufferPointer_ == xmodemBufferSize_)
             {
-                sendPacket_ = false;
+                setSendPacket(false);
             }
             if (sendPacket_)
             {
@@ -844,7 +860,7 @@ bool Vt100::getTerminalLoadByte(Byte* value)
                         if (!uart16450_)
                         {
                             dataAvailableUart(0);
-                            terminalLoad_ = false;
+                            setTerminalLoad(false);
                             p_Main->turboOff();
                             inputTerminalFile.Close();
                             p_Main->stopTerminal();
@@ -858,7 +874,7 @@ bool Vt100::getTerminalLoadByte(Byte* value)
             {
                 if (uart1854_)
                 {
-                    sendPacket_ = false;
+                    setSendPacket(false);
                     dataAvailableUart(0);
                 }
             }
@@ -900,7 +916,7 @@ bool Vt100::getTerminalLoadByte(Byte* value)
             
             if (eof)
             {
-                terminalLoad_ = false;
+                setTerminalLoad(false);
                 p_Main->turboOff();
                 inputTerminalFile.Close();
                 p_Main->stopTerminal();
@@ -1785,7 +1801,7 @@ void Vt100::Display(int byt, bool forceDisplay)
                                 readBuffer();
                             if (uart1854_)
                                 dataAvailableUart(1);
-                            sendPacket_ = true;
+                            setSendPacket(true);
                             sendingMode_ = XMODEM_DATA;
                         break;
 
@@ -1797,19 +1813,19 @@ void Vt100::Display(int byt, bool forceDisplay)
                                     xmodemBufferPointer_ = 0;
                                     xmodemBufferSize_++;
                                     readFilename();
-                                    sendPacket_ = true;
+                                    setSendPacket(true);
                                 break;
 
                                 case YMODEM_DATA:
                                     xmodemBufferPointer_ = 0;
                                     readBuffer();
-                                    sendPacket_ = true;
+                                    setSendPacket(true);
                                 break;
 
                                 case YMODEM_END_FRAME:
                                     xmodemBufferPointer_ = 0;
                                     readEndFrame();
-                                    sendPacket_ = true;
+                                    setSendPacket(true);
 //                                    terminalLoad_ = false;
   //                                  Display(byt, false);
     //                                terminalLoad_ = true;
@@ -1837,8 +1853,8 @@ void Vt100::Display(int byt, bool forceDisplay)
                                                 if (inputTerminalFile.Open(fileName, _("rb")))
                                                 {
                                                     fileSize_ = inputTerminalFile.Length();
-                                                    terminalLoad_ = true;
-                                                    sendPacket_ = false;
+                                                    setTerminalLoad(true);
+                                                    setSendPacket(false);
                                                     xmodemBufferSize_ = 132;
                                                     p_Computer->setNotReadyToReceiveData(dataReadyFlag_-1);
                                                     previousByte_ = 0;
@@ -1856,7 +1872,7 @@ void Vt100::Display(int byt, bool forceDisplay)
                                     {
                                         xmodemBufferPointer_ = 0;
                                         readBuffer();
-                                        sendPacket_ = true;
+                                        setSendPacket(true);
                                     }
                                 break;
 
@@ -1865,7 +1881,7 @@ void Vt100::Display(int byt, bool forceDisplay)
                                     readBuffer();
                                     if (uart1854_)
                                         dataAvailableUart(1);
-                                    sendPacket_ = true;
+                                    setSendPacket(true);
                                 break;
                             }
                         break;
@@ -1879,7 +1895,7 @@ void Vt100::Display(int byt, bool forceDisplay)
                                 dataAvailableUart(0);
                                 clearUartInterrupt();
                             }
-                            terminalLoad_ = false;
+                            setTerminalLoad(false);
                             p_Main->turboOff();
                             inputTerminalFile.Close();
                             p_Main->stopTerminal();
@@ -3528,6 +3544,18 @@ void Vt100::setForceUCVt(bool status)
     videoScreenPointer->setForceUCVt(status);
 }
 
+void Vt100::setSendPacket(bool status)
+{
+    sendPacket_ = status;
+    p_Computer->setSendPacket(status);
+}
+
+void Vt100::setTerminalSave(bool status)
+{
+    terminalSave_ = status;
+    p_Computer->setTerminalSave(status);
+}
+
 void Vt100::terminalSaveVt(wxString fileName, int protocol)
 {
     p_Main->turboOn();
@@ -3535,7 +3563,7 @@ void Vt100::terminalSaveVt(wxString fileName, int protocol)
     {
         if (outputTerminalFile.Create(fileName, true))
         {
-            terminalSave_ = true;
+            setTerminalSave(true);
             terminalLine_ = "";
             terminalAck_ = XMODEM_NAK;
             xmodemBuffer_[0] = 0;
@@ -3555,7 +3583,7 @@ void Vt100::terminalYsSaveVt(wxString fileName, int protocol)
 {
     p_Main->turboOn();
 
-    terminalSave_ = true;
+    setTerminalSave(true);
     terminalLine_ = "";
     terminalAck_ = XMODEM_CRC;
     useCrc_ = true;
@@ -3578,13 +3606,19 @@ void Vt100::terminalSaveCdp18s020Vt(wxString fileName, int protocol)
     {
         if (outputTerminalFile.Create(fileName, true))
         {
-            terminalSave_ = true;
+            setTerminalSave(true);
             protocol_ = protocol;
             terminalFileCdp18s020_ = true;
             lastByte_ = -1;
             terminalLine_ = "";
         }
     }
+}
+
+void Vt100::setTerminalLoad(bool status)
+{
+    terminalLoad_ = status;
+    p_Computer->setTerminalLoad(status);
 }
 
 void Vt100::terminalLoadVt(wxString fileName, int protocol)
@@ -3595,8 +3629,8 @@ void Vt100::terminalLoadVt(wxString fileName, int protocol)
         if (inputTerminalFile.Open(fileName, _("rb")))
         {
             fileSize_ = inputTerminalFile.Length();
-            terminalLoad_ = true;
-            sendPacket_ = false;
+            setTerminalLoad(true);
+            setSendPacket(false);
             xmodemBufferSize_ = 132;
             protocol_ = protocol;
             if (!uart1854_ && !uart16450_)
@@ -3617,7 +3651,7 @@ void Vt100::terminalLoadCdp18s020Vt(wxString fileName, int protocol)
     {
         if (inputTerminalFile.Open(fileName, _("rb")))
         {
-            terminalLoad_ = true;
+            setTerminalLoad(true);
             terminalFileCdp18s020_ = true;
             protocol_ = protocol;
             p_Computer->setNotReadyToReceiveData(dataReadyFlag_-1);
@@ -3632,12 +3666,12 @@ void Vt100::terminalStopVt()
     terminalFileCdp18s020_ = false;
     if (terminalSave_)
     {
-        terminalSave_ = false;
+        setTerminalSave(false);
         outputTerminalFile.Close();
     }
     if (terminalLoad_)
     {
-        terminalLoad_ = false;
+        setTerminalLoad(false);
         inputTerminalFile.Close();
     }
 }

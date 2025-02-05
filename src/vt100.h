@@ -27,7 +27,8 @@ public:
     void setInterlace(bool status);
     void setStretchDot(bool status);
 
-    bool serialDataOutput();
+    void serialDataOutput(Byte transmitterHoldingRegister);
+    Byte readReceiverHoldingRegister();
     void uartVtOut();
     void uartVtIn();
     void serialVtOut();
@@ -80,9 +81,12 @@ public:
     void ResetVt();
     void ResetIo();
     void setForceUCVt(bool status);
+    void setSendPacket(bool status);
+    void setTerminalSave(bool status);
     void terminalSaveVt(wxString fileName, int protocol);
     void terminalYsSaveVt(wxString fileName, int protocol);
     void terminalSaveCdp18s020Vt(wxString fileName, int protocol);
+    void setTerminalLoad(bool status);
     void terminalLoadVt(wxString fileNamee, int protocol);
     void terminalLoadCdp18s020Vt(wxString fileNamee, int protocol);
     void terminalStopVt();

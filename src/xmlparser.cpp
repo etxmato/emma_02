@@ -344,6 +344,7 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
     computerConfiguration.assemblerConfiguration.clear();
     computerConfiguration.cdp1851Configuration.clear();
     computerConfiguration.cdp1852Configuration.clear();
+    computerConfiguration.cdp1854Configuration.clear();
     computerConfiguration.cdp1877Configuration.clear();
     computerConfiguration.cd4536bConfiguration.clear();
     computerConfiguration.memoryRamPartConfiguration.clear();
@@ -701,12 +702,14 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
             break;
 
             case TAG_CDP1854:
-                if (child->GetAttribute("type") == "tu58")
+                if (child->GetAttribute("connection") == "tu58")
                     uartConnection = UART_CONNECTION_TU58;
-                if (child->GetAttribute("type") == "vt1802")
+                if (child->GetAttribute("connection") == "vt1802")
                     uartConnection = UART_CONNECTION_VT1802;
-                if (child->GetAttribute("type") == "vis1802")
+                if (child->GetAttribute("connection") == "vis1802")
                     uartConnection = UART_CONNECTION_VIS1802;
+                if (child->GetAttribute("connection") == "vt100")
+                    uartConnection = UART_CONNECTION_VT100;
                 parseXml_Cdp1854 (*child, uartConnection);
             break;
 
