@@ -363,9 +363,9 @@ void Vt100::configure(VideoTerminalConfiguration videoTerminalConfiguration, Add
 void Vt100::configureUart1854(VideoTerminalConfiguration videoTerminalConfiguration)
 {    
     if (vtType_ == VT52)
-        p_Main->configureMessage(&videoTerminalConfiguration.ioGroupVector, "VT52 terminal with CDP1854/UART");
+        p_Main->configureMessage(&videoTerminalConfiguration.ioGroupVector, "VT52 terminal with CDP1854 UART");
     else
-        p_Main->configureMessage(&videoTerminalConfiguration.ioGroupVector, "VT100 terminal with CDP1854/UART");
+        p_Main->configureMessage(&videoTerminalConfiguration.ioGroupVector, "VT100 terminal with CDP1854 UART");
     
     p_Computer->setOutType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.uartOut, VT_UART1854_LOAD_TRANSMITTER_OUT, "load transmitter");
     p_Computer->setInType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.uartIn, VT_UART1854_READ_RECEIVER_IN, "read receiver");
@@ -594,7 +594,10 @@ void Vt100::serialDataOutput(Byte transmitterHoldingRegister)
     if (terminalSave_ || terminalLoad_)
         Display(transmitterHoldingRegister, false);
     else
-        Display(transmitterHoldingRegister & 0x7f, false);
+    {
+        if (transmitterHoldingRegister != 0)
+            Display(transmitterHoldingRegister & 0x7f, false);
+    }
 }
 
 Byte Vt100::readReceiverHoldingRegister()
@@ -816,7 +819,7 @@ bool Vt100::getTerminalLoadByte(Byte* value)
             {
                 terminalAck_ = XMODEM_CRC;
                 if (uart1854_ || uart16450_)
-                    dataAvailableUart(1);
+                    p_Computer->dataAvailableUart(1, uartNumber_);
             }
             
             dataReady = true;
@@ -850,7 +853,7 @@ bool Vt100::getTerminalLoadByte(Byte* value)
             {
                 *value = xmodemBuffer_[xmodemBufferPointer_++];
                 if (uart1854_)
-                    uartStatus_[uart_da_bit_] = 1;
+                    p_Computer->dataAvailableUart(1, uartNumber_);
                 if (xmodemBuffer_[0] == 4)
                 {
                     if (useCrc_)
@@ -859,7 +862,7 @@ bool Vt100::getTerminalLoadByte(Byte* value)
                     {
                         if (!uart16450_)
                         {
-                            dataAvailableUart(0);
+                            p_Computer->dataAvailableUart(0, uartNumber_);
                             setTerminalLoad(false);
                             p_Main->turboOff();
                             inputTerminalFile.Close();
@@ -875,7 +878,7 @@ bool Vt100::getTerminalLoadByte(Byte* value)
                 if (uart1854_)
                 {
                     setSendPacket(false);
-                    dataAvailableUart(0);
+                    p_Computer->dataAvailableUart(0, uartNumber_);
                 }
             }
         break;
@@ -1567,7 +1570,7 @@ void Vt100::Display(int byt, bool forceDisplay)
                                 terminalAck_ = 0x86;
                                 xmodemBufferPointer_ = 0;
                                 if (uart1854_ || uart16450_)
-                                    dataAvailableUart(1);
+                                    p_Computer->dataAvailableUart(1, uartNumber_);
                             }
 
                             if (byt == 24)
@@ -1686,7 +1689,7 @@ void Vt100::Display(int byt, bool forceDisplay)
                                     xmodemBuffer_[xmodemBufferSize_-1] = 0;
                                 }
                                 if (uart1854_ || uart16450_)
-                                    dataAvailableUart(1);
+                                    p_Computer->dataAvailableUart(1, uartNumber_);
                             }
                             else
                             {
@@ -1719,7 +1722,7 @@ void Vt100::Display(int byt, bool forceDisplay)
                                 xmodemBuffer_[xmodemBufferSize_-2] = 0;
                             }
                             if (uart1854_ || uart16450_)
-                                dataAvailableUart(1);
+                                p_Computer->dataAvailableUart(1, uartNumber_);
                         break;
 
                         default:
@@ -1746,7 +1749,7 @@ void Vt100::Display(int byt, bool forceDisplay)
                             {
                                 terminalAck_ = 0x86;
                                 if (uart1854_ || uart16450_)
-                                    dataAvailableUart(1);
+                                    p_Computer->dataAvailableUart(1, uartNumber_);
                             }
                             xmodemBuffer_[xmodemBufferPointer_] = byt;
                             xmodemBufferPointer_++;
@@ -1772,7 +1775,7 @@ void Vt100::Display(int byt, bool forceDisplay)
                                     xmodemBuffer_[xmodemBufferSize_-1] = 0;
                                 }
                                 if (uart1854_ || uart16450_)
-                                    dataAvailableUart(1);
+                                    p_Computer->dataAvailableUart(1, uartNumber_);
                             }
                             else
                             {
@@ -1800,7 +1803,7 @@ void Vt100::Display(int byt, bool forceDisplay)
                             if (xmodemPacketNumber_ == 0)
                                 readBuffer();
                             if (uart1854_)
-                                dataAvailableUart(1);
+                                p_Computer->dataAvailableUart(1, uartNumber_);
                             setSendPacket(true);
                             sendingMode_ = XMODEM_DATA;
                         break;
@@ -1880,7 +1883,7 @@ void Vt100::Display(int byt, bool forceDisplay)
                                     xmodemBufferPointer_ = 0;
                                     readBuffer();
                                     if (uart1854_)
-                                        dataAvailableUart(1);
+                                        p_Computer->dataAvailableUart(1, uartNumber_);
                                     setSendPacket(true);
                                 break;
                             }
@@ -1892,7 +1895,7 @@ void Vt100::Display(int byt, bool forceDisplay)
                         default:
                             if (uart1854_ || uart16450_)
                             {
-                                dataAvailableUart(0);
+                                p_Computer->dataAvailableUart(0, uartNumber_);
                                 clearUartInterrupt();
                             }
                             setTerminalLoad(false);
@@ -3462,7 +3465,7 @@ Byte Vt100::checkCtrlvTextUart()
     if (ctrlvText_ <= commandText_.Len())
     {
         uartStatus_[uart_da_bit_] = 1;
-        dataAvailableUart(1);
+        p_Computer->dataAvailableUart(1, uartNumber_);
     }
     else
         ctrlvText_ = 0;
@@ -3573,7 +3576,7 @@ void Vt100::terminalSaveVt(wxString fileName, int protocol)
             if (!uart1854_ && !uart16450_)
                 p_Computer->setNotReadyToReceiveData(dataReadyFlag_-1);
             else
-                dataAvailableUart(1);
+                p_Computer->dataAvailableUart(1, uartNumber_);
             previousByte_ = 0;
         }
     }
@@ -3596,7 +3599,7 @@ void Vt100::terminalYsSaveVt(wxString fileName, int protocol)
     if (!uart1854_ && !uart16450_)
         p_Computer->setNotReadyToReceiveData(dataReadyFlag_-1);
     else
-        dataAvailableUart(1);
+        p_Computer->dataAvailableUart(1, uartNumber_);
     previousByte_ = 0;
 }
 

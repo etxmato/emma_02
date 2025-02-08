@@ -186,7 +186,7 @@ Byte Cdp1854Instance::readReceiverHoldingRegister_()
     framingError(0);
     dataAvailableUart(0);
 
-    return p_Computer->readReceiverHoldingRegister();
+    return p_Computer->readReceiverHoldingRegister(cdp1854Number_);
 }
 
 Byte Cdp1854Instance::efSerialDataInput()
@@ -271,11 +271,11 @@ void Cdp1854Instance::serialDataInput()
 
 void Cdp1854Instance::writeTransmitterShiftRegister_()
 {
-    if (statusRegister_[TRANSMITTER_HOLDING_REGISTER_EMPTY] == 1)
-    {
+    if (statusRegister_[TRANSMITTER_HOLDING_REGISTER_EMPTY] == 0)
         p_Computer->serialDataOutput(cdp1854Configuration_.connection, transmitterHoldingRegister_);
+    else
         statusRegister_[TRANSMITTER_SHIFT_REGISTER_EMPTY] = REGISTER_EMPTY;
-    }
+
     transmitterHoldingRegister_ = 0;
     statusRegister_[TRANSMITTER_HOLDING_REGISTER_EMPTY] = REGISTER_EMPTY;
     

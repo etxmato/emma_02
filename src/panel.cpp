@@ -1423,7 +1423,8 @@ void Panel::vtOut(int value)
     {
         keyBuffer_[keyEnd_++] = value;
         if (keyEnd_ == 26) keyEnd_ = 0;
-        p_Vt100[UART1]->dataAvailable();
+//        p_Vt100[UART1]->dataAvailable();
+        p_Computer->dataAvailable(UART1);
         if (value == 27) p_Vt100[UART1]->framingError(1);
     }
 }
@@ -1483,7 +1484,8 @@ Byte Panel::getKey(Byte vtOut)
     vtOut = keyBuffer_[keyStart_++];
     if (keyStart_ == 26) keyStart_ = 0;
     if (keyStart_ != keyEnd_)
-        p_Vt100[UART1]->dataAvailable();
+//        p_Vt100[UART1]->dataAvailable();
+        p_Computer->dataAvailable(UART1);
     return vtOut;
 }
 

@@ -21,6 +21,7 @@ private:
     void parseXml_IdeDisk(wxXmlNode &node);
     void parseXml_FdcDisk(wxXmlNode &node);
     void parseXml_Upd765(wxXmlNode &node);
+    void parseXml_Tu58Disk(wxXmlNode &node);
     void parseXml_CoinVideo(wxXmlNode &node);
     void parseXml_PixieVideo(wxXmlNode &node);
     void parseXml_1862Video(wxXmlNode &node);

@@ -537,6 +537,8 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
         computerConfiguration.ideFileConfiguration[drive].fileName = "";
         computerConfiguration.ideFileConfiguration[drive].directory = computerConfiguration.mainDir_ ;
     }
+    computerConfiguration.tu58FileConfiguration.fileName = "";
+    computerConfiguration.tu58FileConfiguration.directory = computerConfiguration.mainDir_ ;
     computerConfiguration.keyFileConfiguration.directory = computerConfiguration.mainDir_;
     computerConfiguration.printerFileConfiguration.directory = computerConfiguration.mainDir_;
     computerConfiguration.screenDumpFileConfiguration.directory = computerConfiguration.mainDir_;
@@ -633,6 +635,8 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
                 }
                 if (child->GetAttribute("type") == "ide")
                     parseXml_IdeDisk (*child);
+                if (child->GetAttribute("type") == "tu58")
+                    parseXml_Tu58Disk (*child);
             break;
                 
             case TAG_VIDEO:
@@ -2143,6 +2147,93 @@ void XmlParser::parseXml_Upd765(wxXmlNode &node)
                     floppyDirSwitched_[FDCTYPE_UPD765][diskNumber] += pathSeparator_;
                 if (child->GetAttribute("default") == "yes")
                     directoryMode_[FDCTYPE_UPD765][diskNumber] = true;
+            break;
+
+            case TAG_COMMENT:
+            break;
+
+            default:
+                warningText_ += "Unkown tag: ";
+                warningText_ += childName;
+                warningText_ += "\n";
+            break;
+        }
+        
+        child = child->GetNext();
+    }
+}
+
+void XmlParser::parseXml_Tu58Disk(wxXmlNode &node)
+{
+    computerConfiguration.tu58Configuration.defined = true;
+
+    wxString tagList[]=
+    {
+        "filename",
+        "dirname",
+        "capacity",
+        "block",
+        "record",
+        "comment",
+        "undefined"
+    };
+
+    enum
+    {
+        TAG_FILENAME,
+        TAG_DIRNAME,
+        TAG_CAPACITY,
+        TAG_BLOCK,
+        TAG_RECORD,
+        TAG_COMMENT,
+        TAG_UNDEFINED
+    };
+    
+    int tagTypeInt; // driveNumber = 0;
+    
+    computerConfiguration.tu58Configuration.capacity = 512;
+    computerConfiguration.tu58Configuration.block = 512;
+    computerConfiguration.tu58Configuration.record = 128;
+    
+    wxXmlNode *child = node.GetChildren();
+    while (child)
+    {
+        wxString childName = child->GetName();
+
+        tagTypeInt = 0;
+        while (tagTypeInt != TAG_UNDEFINED && tagList[tagTypeInt] != childName)
+            tagTypeInt++;
+
+        switch (tagTypeInt)
+        {
+            case TAG_FILENAME:
+//                if (child->GetAttribute("drive") == "0")
+//                    driveNumber = 0;
+//                if (child->GetAttribute("drive") == "1")
+//                    driveNumber = 1;
+                computerConfiguration.tu58FileConfiguration.fileName = child->GetNodeContent();
+            break;
+
+            case TAG_DIRNAME:
+//                if (child->GetAttribute("drive") == "0")
+//                    driveNumber = 0;
+//                if (child->GetAttribute("drive") == "1")
+//                    driveNumber = 1;
+                computerConfiguration.tu58FileConfiguration.directory = dataDir_ + child->GetNodeContent();
+                if (computerConfiguration.tu58FileConfiguration.directory.Right(1) != pathSeparator_)
+                    computerConfiguration.tu58FileConfiguration.directory += pathSeparator_;
+            break;
+
+            case TAG_CAPACITY:
+                computerConfiguration.tu58Configuration.capacity = (int)parseXml_Number(*child);
+            break;
+
+            case TAG_BLOCK:
+                computerConfiguration.tu58Configuration.block = (int)parseXml_Number(*child);
+            break;
+
+            case TAG_RECORD:
+                computerConfiguration.tu58Configuration.record = (int)parseXml_Number(*child);
             break;
 
             case TAG_COMMENT:
@@ -8823,6 +8914,10 @@ void XmlParser::parseXml_UartVt(wxXmlNode &node, bool uart16450)
     computerConfiguration.videoTerminalConfiguration.defaultCharactersPerRow = 80;
     computerConfiguration.videoTerminalConfiguration.defaultCharacterWidth = 10;
     computerConfiguration.videoTerminalConfiguration.interrupt = false;
+    computerConfiguration.videoTerminalConfiguration.uartOut = init_IoPort();
+    computerConfiguration.videoTerminalConfiguration.uartControl = init_IoPort();
+    computerConfiguration.videoTerminalConfiguration.uartIn = init_IoPort();
+    computerConfiguration.videoTerminalConfiguration.uartStatus = init_IoPort();
 
     bitset<32> SetUpFeature;
     if (computerConfiguration.videoTerminalConfiguration.type == VT52)

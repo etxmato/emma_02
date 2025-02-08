@@ -82,6 +82,7 @@ public:
     virtual void updateComxStatusLed(bool status);
     virtual void dataAvailable();
     virtual void dataAvailable(Byte value);
+    virtual void dataAvailableUart(bool data);
     virtual void framingError(bool data);
     bool isFullScreenSet() {return fullScreenSet_;};
     virtual void setFullScreen(bool fullScreenSet);

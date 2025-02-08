@@ -156,7 +156,8 @@ void VideoScreen::vtOut(int value)
     {
         keyBuffer_[keyEnd_++] = value;
         if (keyEnd_ == 26) keyEnd_ = 0;
-        p_Vt100[uartNumber_]->dataAvailable(value);
+//        p_Vt100[uartNumber_]->dataAvailable(value);
+        p_Computer->dataAvailable(value, uartNumber_);
         if (value == 27) p_Vt100[uartNumber_]->framingError(1);
     }
 }
@@ -228,7 +229,10 @@ Byte VideoScreen::getKey(Byte vtOut)
     vtOut = keyBuffer_[keyStart_++];
     if (keyStart_ == 26) keyStart_ = 0;
     if (keyStart_ != keyEnd_)
-        p_Vt100[uartNumber_]->dataAvailable(vtOut);
+    {
+//        p_Vt100[uartNumber_]->dataAvailable(vtOut);
+        p_Computer->dataAvailable(vtOut, uartNumber_);
+    }
     return vtOut;
 }
 
@@ -371,6 +375,11 @@ void Video::dataAvailable()
 void Video::dataAvailable(Byte WXUNUSED(value))
 {
     p_Main->message("Illegal call to vt-100 data available");
+}
+
+void Video::dataAvailableUart(bool WXUNUSED(value))
+{
+    p_Main->message("Illegal call to vt-100 data available uart");
 }
 
 void Video::framingError(bool WXUNUSED(data))

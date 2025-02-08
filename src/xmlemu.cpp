@@ -1229,6 +1229,7 @@ void Computer::initComputer()
     colourLatch_ = false;
     
     cdp1854Vt100Connection_ = -1;
+    cdp1854Ut58Connection_ = -1;
 
     if (currentComputerConfiguration.runPressType == RUN_TYPE_UC1800)
         runButtonState_ = 1;
@@ -7008,12 +7009,14 @@ void Computer::configureExtensions()
         switch (cdp1854->connection)
         {
             case UART_CONNECTION_TU58:
+                cdp1854Ut58Connection_ = numberOfCdp1854Instances_;
             break;
 
             case UART_CONNECTION_VT1802:
             break;
 
             case UART_CONNECTION_VIS1802:
+                
             break;
 
             case UART_CONNECTION_VT100:
@@ -7362,6 +7365,11 @@ void Computer::configureDiskExtensions()
     if (currentComputerConfiguration.ideConfiguration.defined)
     {
         configureIde(p_Main->getIdeDir(0) + p_Main->getIdeFile(0), p_Main->getIdeDir(1) + p_Main->getIdeFile(1), currentComputerConfiguration.ideConfiguration);
+    }
+
+    if (currentComputerConfiguration.tu58Configuration.defined)
+    {
+        configureTu58(currentComputerConfiguration.tu58FileConfiguration, currentComputerConfiguration.tu58Configuration);
     }
 }
 
@@ -8558,11 +8566,6 @@ void Computer::setDivider(Byte value)
     else
         cycleSize_ = (int) (((computerClockSpeed_ * 1000000) / 8) / freq [value]);
     cycleValue_ = cycleSize_;
-}
-
-void Computer::dataAvailableVt100(bool data, int WXUNUSED(uartNumber))
-{
-    vtPointer->dataAvailableUart(data);
 }
 
 void Computer::thrStatusVt100(bool data)
@@ -10086,6 +10089,8 @@ bool Computer::serialDataOutput(int connection, Byte transmitterHoldingRegister)
     switch (connection)
     {
         case UART_CONNECTION_TU58:
+            if (currentComputerConfiguration.tu58Configuration.defined)
+                TxToHost(transmitterHoldingRegister, cdp1854Ut58Connection_);
         break;
 
         case UART_CONNECTION_VT1802:
@@ -10095,15 +10100,28 @@ bool Computer::serialDataOutput(int connection, Byte transmitterHoldingRegister)
         break;
 
         case UART_CONNECTION_VT100:
-            vtPointer->serialDataOutput(transmitterHoldingRegister);
+            if (currentComputerConfiguration.videoTerminalConfiguration.type != VTNONE)
+                vtPointer->serialDataOutput(transmitterHoldingRegister);
         break;
     }
     return false;
 }
 
-Byte Computer::readReceiverHoldingRegister()
+Byte Computer::readReceiverHoldingRegister(int uartNumber)
 {
-    return vtPointer->readReceiverHoldingRegister();
+    uint8_t returnValue = 0;
+/*    if (currentComputerConfiguration.videoTerminalConfiguration.type != VTNONE)
+        return vtPointer->readReceiverHoldingRegister();
+    else
+        return 0;*/
+    if (cdp1854Vt100Connection_ == uartNumber)
+        return vtPointer->readReceiverHoldingRegister();
+    if (cdp1854Ut58Connection_ == uartNumber)
+    {
+        if (TxToHost(returnValue, uartNumber))
+            return returnValue;
+    }
+    return 0;
 }
 
 void Computer::setSendPacket(bool status)
@@ -10122,5 +10140,35 @@ void Computer::setTerminalSave(bool status)
 {
     if (cdp1854Vt100Connection_ != -1)
         cdp1854InstancePointer[cdp1854Vt100Connection_]->setTerminalSave(status);
+}
+
+void Computer::dataAvailable(int uartNumber)
+{
+    if (currentComputerConfiguration.videoTerminalConfiguration.type != VTNONE && uartNumber == 0)
+        p_Vt100[uartNumber]->dataAvailable();
+    if (cdp1854Vt100Connection_ == uartNumber)
+        cdp1854InstancePointer[cdp1854Vt100Connection_]->dataAvailable();
+    if (cdp1854Ut58Connection_ == uartNumber)
+        cdp1854InstancePointer[cdp1854Ut58Connection_]->dataAvailable();
+}
+
+void Computer::dataAvailable(Byte data, int uartNumber)
+{
+    if (currentComputerConfiguration.videoTerminalConfiguration.type != VTNONE && uartNumber == 0)
+        p_Vt100[uartNumber]->dataAvailable(data);
+    if (cdp1854Vt100Connection_ == uartNumber)
+        cdp1854InstancePointer[cdp1854Vt100Connection_]->dataAvailable(data);
+    if (cdp1854Ut58Connection_ == uartNumber)
+        cdp1854InstancePointer[cdp1854Ut58Connection_]->dataAvailable(data);
+}
+
+void Computer::dataAvailableUart(bool data, int uartNumber)
+{
+    if (currentComputerConfiguration.videoTerminalConfiguration.type != VTNONE && uartNumber == 0)
+        p_Vt100[uartNumber]->dataAvailableUart(data);
+    if (cdp1854Vt100Connection_ == uartNumber)
+        cdp1854InstancePointer[cdp1854Vt100Connection_]->dataAvailableUart(data);
+    if (cdp1854Ut58Connection_ == uartNumber)
+        cdp1854InstancePointer[cdp1854Ut58Connection_]->dataAvailableUart(data);
 }
 

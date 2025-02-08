@@ -4,6 +4,7 @@
 #include "cdp1802.h"
 #include "fdc.h"
 #include "ide.h"
+#include "tu58.h"
 #include "keyboard.h"
 #include "ps2gpio.h"
 #include "portext.h"
@@ -49,7 +50,7 @@ public:
     int mcrMemNumber;
 };
 
-class Computer : public wxFrame, public Cdp1802, public Fdc, public Ide, public Keyboard, public Keyb1871, public PortExt, public Ps2, public Ps2gpio, public Joycard, public Usbcard, public RtcCDP1879, public RtcDs12788, public Upd765
+class Computer : public wxFrame, public Cdp1802, public Fdc, public Ide, public Tu58, public Keyboard, public Keyb1871, public PortExt, public Ps2, public Ps2gpio, public Joycard, public Usbcard, public RtcCDP1879, public RtcDs12788, public Upd765
 {
 public:
     Computer(const wxString& title, double clock, int tempo, ComputerConfiguration computerConfig);
@@ -278,7 +279,6 @@ public:
     void terminalLoad(wxString filePath, wxString fileName, int protocol);
     void terminalStop();
     void setDivider(Byte value);
-    void dataAvailableVt100(bool data, int uartNumber);
     void thrStatusVt100(bool data);
     void thrStatusSerial(bool data);
     void saveRtc();
@@ -363,10 +363,13 @@ public:
 
     void setThumbSwitch(Byte value) {thumbSwitchValue_ = value;};
     bool serialDataOutput(int connection, Byte transmitterHoldingRegister);
-    Byte readReceiverHoldingRegister();
+    Byte readReceiverHoldingRegister(int uartNumber);
     void setSendPacket(bool status);
     void setTerminalLoad(bool status);
     void setTerminalSave(bool status);
+    void dataAvailable(int uartNumber);
+    void dataAvailable(Byte data, int uartNumber);
+    void dataAvailableUart(bool data, int uartNumber);
 
 private:
     RunComputer *threadPointer;
@@ -381,6 +384,7 @@ private:
     vector<Cdp1854Instance *> cdp1854InstancePointer;
     int numberOfCdp1854Instances_;
     int cdp1854Vt100Connection_;
+    int cdp1854Ut58Connection_;
 
     Cdp1855Instance *cdp1855InstancePointer;
     

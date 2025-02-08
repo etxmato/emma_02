@@ -653,6 +653,14 @@ public:
     int cyclesPerMilliSecond;
 };
 
+class Tu58Configuration : public IoGroupDefineConfiguration
+{
+public:
+    int capacity;
+    int block;
+    int record;
+};
+
 // Keyboard configuration class definitions:
 
 class AsciiKeyboardConfiguration : public IoGroupDefineConfiguration
@@ -1339,6 +1347,8 @@ class ScreenDumpFileConfiguration : public FileConfiguration {};
 
 class PrinterFileConfiguration : public FileConfiguration {};
 
+class Tu58FileConfiguration : public FileConfiguration {};
+
 class XmlFileConfiguration : public FileConfiguration
 {
 public:
@@ -1531,7 +1541,8 @@ public:
     Upd765Configuration upd765Configuration;
     IdeConfiguration ideConfiguration;
     FdcConfiguration fdcConfiguration;
-    
+    Tu58Configuration tu58Configuration;
+
     // Keyboard configurations
     AsciiKeyboardConfiguration asciiKeyboardConfiguration;
     Cdp1871Configuration cdp1871Configuration;
@@ -1624,6 +1635,7 @@ public:
     ScreenDumpFileConfiguration screenDumpFileConfiguration;
     PrinterFileConfiguration printerFileConfiguration;
     XmlFileConfiguration xmlFileConfiguration;
+    Tu58FileConfiguration tu58FileConfiguration;
 
     // Other configurations:
     DefaultEfConfiguration defaultEfConfiguration;

@@ -34,6 +34,8 @@
 		994F850028CBD9C200CCFB27 /* bitkeypad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 994F84FE28CBD9C200CCFB27 /* bitkeypad.cpp */; };
 		99575CBF278795EA00ED912A /* osx_11.ini in Resources */ = {isa = PBXBuildFile; fileRef = 99575CBD278795EA00ED912A /* osx_11.ini */; };
 		99575CC0278795EA00ED912A /* osx_14.ini in Resources */ = {isa = PBXBuildFile; fileRef = 99575CBE278795EA00ED912A /* osx_14.ini */; };
+		995D247C2D56A8C70007542C /* tu58.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 995D247B2D56A8C70007542C /* tu58.cpp */; };
+		995D247D2D56A8C70007542C /* tu58.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 995D247B2D56A8C70007542C /* tu58.cpp */; };
 		995E0CE3254E1378001BA0F8 /* am2020bas.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 995E0CE2254E1378001BA0F8 /* am2020bas.syntax */; };
 		995E76F022B2E5D300817B08 /* Chip8Elf.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 995E76EF22B2E5D200817B08 /* Chip8Elf.syntax */; };
 		995ED6422BD439DB000FA9E5 /* statusbar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 995ED6402BD439CF000FA9E5 /* statusbar.cpp */; };
@@ -383,6 +385,8 @@
 		99575CBD278795EA00ED912A /* osx_11.ini */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = osx_11.ini; sourceTree = "<group>"; };
 		99575CBE278795EA00ED912A /* osx_14.ini */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = osx_14.ini; sourceTree = "<group>"; };
 		995B7E9328FAA8F300BBF917 /* definition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = definition.h; path = src/definition.h; sourceTree = "<group>"; };
+		995D247A2D56A8C70007542C /* tu58.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tu58.h; path = src/tu58.h; sourceTree = "<group>"; };
+		995D247B2D56A8C70007542C /* tu58.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tu58.cpp; path = src/tu58.cpp; sourceTree = "<group>"; };
 		995E0CE2254E1378001BA0F8 /* am2020bas.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = am2020bas.syntax; sourceTree = "<group>"; };
 		995E76EF22B2E5D200817B08 /* Chip8Elf.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Chip8Elf.syntax; sourceTree = "<group>"; };
 		995ED6402BD439CF000FA9E5 /* statusbar.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = statusbar.cpp; path = src/statusbar.cpp; sourceTree = "<group>"; };
@@ -900,6 +904,8 @@
 				9976479E1A61D5EE00FB9B33 /* til313.full.h */,
 				997647381A61D5EE00FB9B33 /* tms9918.cpp */,
 				997647541A61D5EE00FB9B33 /* tms9918.h */,
+				995D247B2D56A8C70007542C /* tu58.cpp */,
+				995D247A2D56A8C70007542C /* tu58.h */,
 				99BC74FA1DCFDB5C0000D8A9 /* upd765.cpp */,
 				99BC74FB1DCFDB5C0000D8A9 /* upd765.h */,
 				997646F41A61D5D400FB9B33 /* usb.cpp */,
@@ -1204,6 +1210,7 @@
 				997647FA1A61D5EF00FB9B33 /* ps2gpio.cpp in Sources */,
 				997647D21A61D5EF00FB9B33 /* memory.cpp in Sources */,
 				997647FC1A61D5EF00FB9B33 /* til.cpp in Sources */,
+				995D247C2D56A8C70007542C /* tu58.cpp in Sources */,
 				995ED6422BD439DB000FA9E5 /* statusbar.cpp in Sources */,
 				997646F51A61D5D400FB9B33 /* usb.cpp in Sources */,
 				99BDBDC81E7F3ECA00DB0FB8 /* debug.cpp in Sources */,
@@ -1287,6 +1294,7 @@
 				99F37E9C285D1D9200C57417 /* memory.cpp in Sources */,
 				99F37E9E285D1D9200C57417 /* til.cpp in Sources */,
 				99F37EA1285D1D9200C57417 /* usb.cpp in Sources */,
+				995D247D2D56A8C70007542C /* tu58.cpp in Sources */,
 				995ED6432BD439DC000FA9E5 /* statusbar.cpp in Sources */,
 				99F37EA3285D1D9200C57417 /* debug.cpp in Sources */,
 				99F37EA6285D1D9200C57417 /* joycard.cpp in Sources */,

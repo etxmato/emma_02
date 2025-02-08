@@ -161,9 +161,9 @@ void Serial::configure(int selectedBaudR, int selectedBaudT, VideoTerminalConfig
 void Serial::configureUart1854(VideoTerminalConfiguration videoTerminalConfiguration)
 {
     if (videoTerminalConfiguration.external)
-        p_Main->configureMessage(&videoTerminalConfiguration.ioGroupVector, "external terminal connected to CDP1854/UART");
+        p_Main->configureMessage(&videoTerminalConfiguration.ioGroupVector, "external terminal connected to CDP1854 UART");
     else
-        p_Main->configureMessage(&videoTerminalConfiguration.ioGroupVector, "terminal loop back connected to CDP1854/UART");
+        p_Main->configureMessage(&videoTerminalConfiguration.ioGroupVector, "terminal loop back connected to CDP1854 UART");
 
     p_Computer->setOutType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.uartOut, EXTERNAL_VT_UART1854_LOAD_TRANSMITTER_OUT, "load transmitter");
     p_Computer->setInType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.uartIn, EXTERNAL_VT_UART1854_READ_RECEIVER_IN, "read receiver");
