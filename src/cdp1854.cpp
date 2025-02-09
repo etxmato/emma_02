@@ -113,6 +113,8 @@ void Cdp1854Instance::configureCdp1854(Cdp1854Configuration cdp1854Configuration
     serialDataOutputCount_ = -1;
     serialDataInputCount_ = -1;
     serialDataInputEf_ = 1;
+    
+    p_Computer->sendSerialBreakComputer(cdp1854Configuration_.connection, false);
 }
 
 bool Cdp1854Instance::ioGroupCdp1854(int ioGroup)
@@ -160,6 +162,11 @@ void Cdp1854Instance::writeControlRegister(Byte value)
     {
         controlRegister_ = value;
         clearInterrupt();
+        
+        if (controlRegister_[TRANSMIT_BREAK])
+            p_Computer->sendSerialBreakComputer(cdp1854Configuration_.connection, true);
+        else
+            p_Computer->sendSerialBreakComputer(cdp1854Configuration_.connection, false);
     }
     
     statusRegister_[TRANSMITTER_HOLDING_REGISTER_EMPTY] = REGISTER_EMPTY;
@@ -272,7 +279,7 @@ void Cdp1854Instance::serialDataInput()
 void Cdp1854Instance::writeTransmitterShiftRegister_()
 {
     if (statusRegister_[TRANSMITTER_HOLDING_REGISTER_EMPTY] == 0)
-        p_Computer->serialDataOutput(cdp1854Configuration_.connection, transmitterHoldingRegister_);
+        p_Computer->serialDataOutput(cdp1854Configuration_.connection, transmitterHoldingRegister_, cdp1854Number_);
     else
         statusRegister_[TRANSMITTER_SHIFT_REGISTER_EMPTY] = REGISTER_EMPTY;
 

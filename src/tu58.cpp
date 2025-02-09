@@ -86,6 +86,31 @@ void Tu58::initTu58()
     m_nState = STA_POWERUP;
 }
 
+void Tu58::SendSerialBreak(bool fBreak)
+{
+  //++
+  //   This CVirtualConsole method is called when the host wants to change the
+  // RS232 BREAK condition status.  The fBreak parameter indicates whether the
+  // host has started sending a BREAK (true) or stopped sending one (false).
+  //
+  //   As long as the host is sending the BREAK the TU58 is forced into the
+  // BREAK state.  Once the BREAK is removed we change to the INIT1 state
+  // and wait for the host to send an INIT command.
+  //
+  //   Note that if we're called with fBreak false and we AREN'T currently in
+  // the BREAK state, then we should just ignore it.  This isn't supposed to
+  // happen, but just in case...
+  //--
+  if (fBreak) {
+//    LOGS(DEBUG, "TU58 BREAK asserted - old state was " << StateToString(m_nState));
+    m_nState = STA_BREAK;
+  } else if (m_nState == STA_BREAK) {
+//    LOGS(DEBUG, "TU58 BREAK deasserted");
+    m_nState = STA_INIT1;
+  }
+}
+
+
 bool Tu58::TxToHost(uint8_t &bData, int uartNumber)
 {
     //++
@@ -155,7 +180,6 @@ bool Tu58::TxToHost(uint8_t &bData, int uartNumber)
         // until the host sends a BREAK.  The state doesn't change.
         case STA_ERROR:
             bData = RSP_F_INITIALIZE;
-            p_Computer->dataAvailable(RSP_F_INITIALIZE, uartNumber);
         break;
 
         // And in all other states we have nothing to say ...
@@ -165,7 +189,7 @@ bool Tu58::TxToHost(uint8_t &bData, int uartNumber)
     return true;
 }
 
-void Tu58::RxFromHost (uint8_t bData)
+void Tu58::RxFromHost (uint8_t bData, int uartNumber)
 {
     //++
     //   This routine is called whenever the host sends a byte to us, the TU58.
@@ -183,7 +207,7 @@ void Tu58::RxFromHost (uint8_t bData)
     //--
     int32_t nRet;  
     RSP_STATE OldState = m_nState;
-    switch (m_nState) 
+    switch (m_nState)
     {
         //   In the BREAK state we ignore anything received from the host.  Of
         // course, a real TU58 can't receive anything in this state because the
@@ -205,7 +229,10 @@ void Tu58::RxFromHost (uint8_t bData)
             
         case STA_INIT2:
             if (bData == RSP_F_INITIALIZE)
+            {
                 m_nState = STA_POWERUP;
+                p_Computer->dataAvailableUart(1, uartNumber);
+            }
         break;
 
         //   In the idle state, the only legal things we can receive are INIT,
@@ -220,7 +247,8 @@ void Tu58::RxFromHost (uint8_t bData)
             {
                 // INIT puts us back into the POWERUP handshaking state ...
                 m_nState = STA_POWERUP;
-            } 
+                p_Computer->dataAvailableUart(1, uartNumber);
+            }
             else if (bData == RSP_F_CONTROL)
             {
                 // Start the process of receiving a command packet ...
@@ -278,7 +306,7 @@ void Tu58::RxFromHost (uint8_t bData)
         // which will reinitialize everything.
         default:
             //LOGF(WARNING, "TU58 protocol error, received=0x%02X, old state=%s", bData, StateToString(m_nState).c_str());
-            m_nState = STA_ERROR;  
+            m_nState = STA_ERROR;
         break;
     }
 }

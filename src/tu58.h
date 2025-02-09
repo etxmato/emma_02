@@ -99,12 +99,13 @@ public:
     void configureTu58(Tu58FileConfiguration tu58FileConfiguration, Tu58Configuration tu58Configuration);
 //    void initializeTu58(wxString fileName);
     void initTu58();
+    void SendSerialBreak (bool fBreak);
     void RxPacketStart (uint8_t bFlag);
     int32_t RxPacketData (uint8_t bData);
     void TxPacketStart (uint8_t bFlag, uint8_t bCount);
     bool TxPacketData (uint8_t &bData);
     bool TxToHost(uint8_t &bData, int uartNumber);
-    void RxFromHost (uint8_t bData);
+    void RxFromHost (uint8_t bData, int uartNumber);
     void DoCommand();
     void WriteData();
     bool ReadData();

@@ -10084,13 +10084,13 @@ Byte  Computer::getTilHexFont(Word address, int segNumber)
         return address;
 }
 
-bool Computer::serialDataOutput(int connection, Byte transmitterHoldingRegister)
+bool Computer::serialDataOutput(int connection, Byte transmitterHoldingRegister, int uartNumber)
 {
     switch (connection)
     {
         case UART_CONNECTION_TU58:
             if (currentComputerConfiguration.tu58Configuration.defined)
-                TxToHost(transmitterHoldingRegister, cdp1854Ut58Connection_);
+                RxFromHost(transmitterHoldingRegister, uartNumber);
         break;
 
         case UART_CONNECTION_VT1802:
@@ -10105,6 +10105,25 @@ bool Computer::serialDataOutput(int connection, Byte transmitterHoldingRegister)
         break;
     }
     return false;
+}
+
+void Computer::sendSerialBreakComputer(int connection, bool fBreak)
+{
+    switch (connection)
+    {
+        case UART_CONNECTION_TU58:
+            SendSerialBreak(fBreak);
+        break;
+
+        case UART_CONNECTION_VT1802:
+        break;
+
+        case UART_CONNECTION_VIS1802:
+        break;
+
+        case UART_CONNECTION_VT100:
+        break;
+    }
 }
 
 Byte Computer::readReceiverHoldingRegister(int uartNumber)

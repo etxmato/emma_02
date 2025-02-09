@@ -362,7 +362,8 @@ public:
     Byte getTilHexFont(Word address, int segNumber);
 
     void setThumbSwitch(Byte value) {thumbSwitchValue_ = value;};
-    bool serialDataOutput(int connection, Byte transmitterHoldingRegister);
+    bool serialDataOutput(int connection, Byte transmitterHoldingRegister, int uartNumber);
+    void sendSerialBreakComputer(int connection, bool fBreak);
     Byte readReceiverHoldingRegister(int uartNumber);
     void setSendPacket(bool status);
     void setTerminalLoad(bool status);

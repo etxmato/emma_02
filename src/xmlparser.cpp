@@ -255,7 +255,8 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
     computerConfiguration.cdp1864Configuration.defined = false;
     computerConfiguration.cdp1864Configuration.screenOn = false;
     computerConfiguration.cdp1864Configuration.colorType = PIXIE_COLOR_DEFAULT;
-    
+    computerConfiguration.tu58Configuration.defined = false;
+
     computerConfiguration.studio4VideoConfiguration.defined = false;
     computerConfiguration.vip2KVideoConfiguration.defined = false;
     computerConfiguration.fredVideoConfiguration.defined = false;
