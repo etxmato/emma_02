@@ -2186,7 +2186,7 @@ void XmlParser::parseXml_Tu58Disk(wxXmlNode &node)
         TAG_UNDEFINED
     };
     
-    int tagTypeInt; // driveNumber = 0;
+    int tagTypeInt, driveNumber = 0;
     
     computerConfiguration.tu58Configuration.units = 1;
     
@@ -2202,13 +2202,21 @@ void XmlParser::parseXml_Tu58Disk(wxXmlNode &node)
         switch (tagTypeInt)
         {
             case TAG_FILENAME:
-                computerConfiguration.tu58FileConfiguration.fileName = child->GetNodeContent();
+                if (child->GetAttribute("drive") == "0")
+                    driveNumber = 0;
+                if (child->GetAttribute("drive") == "1")
+                    driveNumber = 1;
+                computerConfiguration.tu58FileConfiguration[driveNumber].fileName = child->GetNodeContent();
             break;
 
             case TAG_DIRNAME:
-                computerConfiguration.tu58FileConfiguration.directory = dataDir_ + child->GetNodeContent();
-                if (computerConfiguration.tu58FileConfiguration.directory.Right(1) != pathSeparator_)
-                    computerConfiguration.tu58FileConfiguration.directory += pathSeparator_;
+                if (child->GetAttribute("drive") == "0")
+                    driveNumber = 0;
+                if (child->GetAttribute("drive") == "1")
+                    driveNumber = 1;
+                computerConfiguration.tu58FileConfiguration[driveNumber].directory = dataDir_ + child->GetNodeContent();
+                if (computerConfiguration.tu58FileConfiguration[driveNumber].directory.Right(1) != pathSeparator_)
+                    computerConfiguration.tu58FileConfiguration[driveNumber].directory += pathSeparator_;
             break;
 
             case TAG_UNITS:
