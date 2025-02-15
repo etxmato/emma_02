@@ -2173,7 +2173,7 @@ void XmlParser::parseXml_Tu58Disk(wxXmlNode &node)
     {
         "filename",
         "dirname",
-        "units",
+        "blocks",
         "comment",
         "undefined"
     };
@@ -2182,14 +2182,14 @@ void XmlParser::parseXml_Tu58Disk(wxXmlNode &node)
     {
         TAG_FILENAME,
         TAG_DIRNAME,
-        TAG_UNITS,
+        TAG_BLOCKS,
         TAG_COMMENT,
         TAG_UNDEFINED
     };
     
     int tagTypeInt, driveNumber = 0;
     
-    computerConfiguration.tu58Configuration.units = 1;
+    computerConfiguration.tu58Configuration.numberOfBlocks[drive] = 0;
     
     wxXmlNode *child = node.GetChildren();
     while (child)
@@ -2220,8 +2220,12 @@ void XmlParser::parseXml_Tu58Disk(wxXmlNode &node)
                     computerConfiguration.tu58FileConfiguration[driveNumber].directory += pathSeparator_;
             break;
 
-            case TAG_UNITS:
-                computerConfiguration.tu58Configuration.units = (int)parseXml_Number(*child);
+            case TAG_BLOCKS:
+                if (child->GetAttribute("drive") == "0")
+                    driveNumber = 0;
+                if (child->GetAttribute("drive") == "1")
+                    driveNumber = 1;
+                computerConfiguration.tu58Configuration.numberOfBlocks[driveNunber] = (int)parseXml_Number(*child);
             break;
 
             case TAG_COMMENT:
