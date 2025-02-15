@@ -129,9 +129,10 @@ Tu58::Tu58()
 {
 }
 
-void Tu58::configureTu58(Tu58FileConfiguration tu58FileConfiguration, Tu58Configuration tu58Configuration)
+void Tu58::configureTu58(Tu58FileConfiguration tu58FileConfiguration[2], Tu58Configuration tu58Configuration)
 {
-    tu58FileConfiguration_ = tu58FileConfiguration;
+    tu58FileConfiguration_[0] = tu58FileConfiguration[0];
+    tu58FileConfiguration_[1] = tu58FileConfiguration[1];
     tu58Configuration_ = tu58Configuration;
 
     p_Main->message("Configuring TU58 connected to CDP1854 UART");
@@ -156,11 +157,15 @@ void Tu58::initTu58()
 
 //    bool fReadOnly = m_modReadOnly.IsPresent() && !m_modReadOnly.IsNegated();
 //    uint32_t lCapacity = m_modCapacity.IsPresent() ? m_argCapacity.GetNumber() : 0;
-    wxString fileName = tu58FileConfiguration_.directory + tu58FileConfiguration_.fileName;
+    wxString fileName;
     char cstringFileName[1024];
-    strncpy(cstringFileName, (const char*)fileName.mb_str(wxConvUTF8), 1023);
+    for (int drive = 0; drive < 2; drive++)
+    {
+        fileName = tu58FileConfiguration_[drive].directory + tu58FileConfiguration_[drive].fileName;
+        strncpy(cstringFileName, (const char*)fileName.mb_str(wxConvUTF8), 1023);
     
-    Attach(0, cstringFileName, false, 0);
+        Attach(drive, cstringFileName, false, 0);
+    }
 }
 
 //
