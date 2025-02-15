@@ -656,7 +656,7 @@ public:
 class Tu58Configuration : public IoGroupDefineConfiguration
 {
 public:
-    int units;
+    int numberOfBlocks;
 };
 
 // Keyboard configuration class definitions:
