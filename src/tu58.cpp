@@ -142,7 +142,7 @@ void Tu58::configureTu58(Tu58FileConfiguration tu58FileConfiguration[2], Tu58Con
 
 void Tu58::initTu58()
 {
-    m_nUnits = tu58Configuration_.units;
+    m_nUnits = 2;
     m_Images.resize(m_nUnits);
     
     for (uint16_t i = 0; i < m_nUnits; ++i) {
@@ -159,7 +159,7 @@ void Tu58::initTu58()
 //    uint32_t lCapacity = m_modCapacity.IsPresent() ? m_argCapacity.GetNumber() : 0;
     wxString fileName;
     char cstringFileName[1024];
-    for (int drive = 0; drive < 2; drive++)
+    for (int drive = 0; drive < m_nUnits; drive++)
     {
         fileName = tu58FileConfiguration_[drive].directory + tu58FileConfiguration_[drive].fileName;
         strncpy(cstringFileName, (const char*)fileName.mb_str(wxConvUTF8), 1023);
