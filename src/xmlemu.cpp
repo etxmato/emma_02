@@ -1287,6 +1287,10 @@ void Computer::resetComputer()
     thermalPrinting_ = false;
     thermalEF_ = 0;
     selectedMap_ = 0;
+    if (currentComputerConfiguration.mcrConfiguration.maxMapNumber_ > 0)
+    {
+        mainMemory_[currentComputerConfiguration.mcrConfiguration.output.portNumber[0]] = (mainMemory_[currentComputerConfiguration.mcrConfiguration.output.portNumber[0]] & (currentComputerConfiguration.mcrConfiguration.output.mask ^ 0xff)) | selectedMap_;
+    }
 
     intCounter_ = currentComputerConfiguration.interruptConfiguration.cycleValue;
 

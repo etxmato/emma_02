@@ -217,7 +217,7 @@ protected:
     bool ReadData();
     
 private:
-    Tu58FileConfiguration tu58FileConfiguration_[2];
+    Tu58FileConfiguration tu58FileConfiguration_[4];
     Tu58Configuration tu58Configuration_;
     
     uint8_t       m_nUnits;         // number of units on this drive

@@ -131,8 +131,8 @@ Tu58::Tu58()
 
 void Tu58::configureTu58(Tu58FileConfiguration tu58FileConfiguration[2], Tu58Configuration tu58Configuration)
 {
-    tu58FileConfiguration_[0] = tu58FileConfiguration[0];
-    tu58FileConfiguration_[1] = tu58FileConfiguration[1];
+    for (int drive = 0; drive < 2; drive++)
+        tu58FileConfiguration_[drive] = tu58FileConfiguration[drive];
     tu58Configuration_ = tu58Configuration;
 
     p_Main->message("Configuring TU58 connected to CDP1854 UART");
@@ -161,10 +161,13 @@ void Tu58::initTu58()
     char cstringFileName[1024];
     for (int drive = 0; drive < m_nUnits; drive++)
     {
-        fileName = tu58FileConfiguration_[drive].directory + tu58FileConfiguration_[drive].fileName;
-        strncpy(cstringFileName, (const char*)fileName.mb_str(wxConvUTF8), 1023);
-    
-        Attach(drive, cstringFileName, false, 0);
+        if (p_Main->getUpdFloppyFile(FDCTYPE_TU58, drive) != "")
+        {
+            fileName = p_Main->getUpdFloppyDir(FDCTYPE_TU58, drive) + p_Main->getUpdFloppyFile(FDCTYPE_TU58, drive);
+            strncpy(cstringFileName, (const char*)fileName.mb_str(wxConvUTF8), 1023);
+        
+            Attach(drive, cstringFileName, false, tu58Configuration_.numberOfBlocks[drive]);
+        }
     }
 }
 

@@ -78,6 +78,7 @@ Sound::Sound()
     for (int i=0; i<MAX_NUMBER_OF_NOISE_CHANNELS; i++)
     {
         noiseSynthPointer[i] = new Blip_Synth<blip_high_quality,30>;
+        noiseAmplitude_[i] = 0;
         noisePeriod_[i] = 0;
     }
     for (int i=0; i<2; i++)

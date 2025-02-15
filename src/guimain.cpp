@@ -3416,12 +3416,18 @@ void GuiMain::setUpdFloppyGui(int drive)
     }
     if (computerConfiguration.upd765Configuration.defined)
     {
-        if (drive < computerConfiguration.fdcConfiguration.drives)
+        if (drive < 4)
             deActivateFdc = false;
-        XRCCTRL(*this, "FDC"+driveStr+"_ButtonXml", wxButton)->Enable(computerConfiguration.upd765Configuration.defined && drive < computerConfiguration.fdcConfiguration.drives);
+        XRCCTRL(*this, "FDC"+driveStr+"_ButtonXml", wxButton)->Enable(drive < 4);
         XRCCTRL(*this, "FDC"+driveStr+"_SwitchXml", wxBitmapButton)->Enable(true);
     }
-        
+    if (computerConfiguration.tu58Configuration.defined)
+    {
+        if (drive < 2)
+            deActivateFdc = false;
+        XRCCTRL(*this, "FDC"+driveStr+"_ButtonXml", wxButton)->Enable(drive < 2);
+    }
+
     if (directoryMode_[computerConfiguration.fdcType_][drive])
     {
         XRCCTRL(*this, "FDC"+driveStr+"_ButtonXml", wxButton)->SetLabel("HD "+driveStr);
@@ -3435,8 +3441,16 @@ void GuiMain::setUpdFloppyGui(int drive)
     }
     else
     {
-        XRCCTRL(*this, "FDC"+driveStr+"_ButtonXml", wxButton)->SetLabel("FDC "+driveStr);
-        XRCCTRL(*this, "FDC"+driveStr+"_ButtonXml", wxButton)->SetToolTip("Browse for FDC "+driveStr+" image file");
+        if (computerConfiguration.fdcType_ == FDCTYPE_TU58 && drive < 2)
+        {
+            XRCCTRL(*this, "FDC"+driveStr+"_ButtonXml", wxButton)->SetLabel("TU58 "+driveStr);
+            XRCCTRL(*this, "FDC"+driveStr+"_ButtonXml", wxButton)->SetToolTip("Browse for TU58 "+driveStr+" image file");
+        }
+        else
+        {
+            XRCCTRL(*this, "FDC"+driveStr+"_ButtonXml", wxButton)->SetLabel("FDC "+driveStr);
+            XRCCTRL(*this, "FDC"+driveStr+"_ButtonXml", wxButton)->SetToolTip("Browse for FDC "+driveStr+" image file");
+        }
         XRCCTRL(*this, "FDC"+driveStr+"_ButtonXml", wxButton)->Enable(!deActivateFdc);
         XRCCTRL(*this, "FDC"+driveStr+"_FileXml", wxTextCtrl)->Enable(!deActivateFdc);
         XRCCTRL(*this, "Eject_FDC"+driveStr + "Xml", wxBitmapButton)->Enable(!deActivateFdc);

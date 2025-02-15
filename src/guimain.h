@@ -30,7 +30,8 @@
 
 #define FDCTYPE_17XX 0
 #define FDCTYPE_UPD765 1
-#define FDCTYPE_MAX 2
+#define FDCTYPE_TU58 2
+#define FDCTYPE_MAX 3
 
 // CDP18S626
 #define MEM_SECTION0 0

@@ -911,7 +911,7 @@ void GuiXml::onDisk(int diskNumber)
 
     if (directoryMode_[computerConfiguration.fdcType_][diskNumber])
     {
-        wxString dirName = wxDirSelector( "Select the FDC "+diskNumberString+" Directory", floppyDirSwitched_[computerConfiguration.fdcType_][diskNumber]);
+        wxString dirName = wxDirSelector( "Select the disk "+diskNumberString+" Directory", floppyDirSwitched_[computerConfiguration.fdcType_][diskNumber]);
         if (!dirName)
             return;
         
@@ -929,7 +929,7 @@ void GuiXml::onDisk(int diskNumber)
     {
         wxString fileName;
         
-        fileName = wxFileSelector( "Select the FDC "+diskNumberString+" file to load",
+        fileName = wxFileSelector( "Select the disk "+diskNumberString+" file to load",
                                   floppyDir_[computerConfiguration.fdcType_][diskNumber], floppy_[computerConfiguration.fdcType_][diskNumber],
                                   "img",
                                   wxString::Format

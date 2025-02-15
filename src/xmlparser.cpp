@@ -539,7 +539,6 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
         computerConfiguration.ideFileConfiguration[drive].directory = computerConfiguration.mainDir_ ;
         computerConfiguration.tu58FileConfiguration[drive].fileName = "";
         computerConfiguration.tu58FileConfiguration[drive].directory = computerConfiguration.mainDir_ ;
-    
     }
     computerConfiguration.keyFileConfiguration.directory = computerConfiguration.mainDir_;
     computerConfiguration.printerFileConfiguration.directory = computerConfiguration.mainDir_;
@@ -2168,6 +2167,7 @@ void XmlParser::parseXml_Upd765(wxXmlNode &node)
 void XmlParser::parseXml_Tu58Disk(wxXmlNode &node)
 {
     computerConfiguration.tu58Configuration.defined = true;
+    computerConfiguration.fdcType_ = FDCTYPE_TU58;
 
     wxString tagList[]=
     {
@@ -2187,9 +2187,11 @@ void XmlParser::parseXml_Tu58Disk(wxXmlNode &node)
         TAG_UNDEFINED
     };
     
-    int tagTypeInt, driveNumber = 0;
+    int tagTypeInt, diskNumber = 0;
+    wxString driveNumberStr;
     
-    computerConfiguration.tu58Configuration.numberOfBlocks[drive] = 0;
+    for (int drive=0; drive<2; drive++)
+        computerConfiguration.tu58Configuration.numberOfBlocks[drive] = 0;
     
     wxXmlNode *child = node.GetChildren();
     while (child)
@@ -2203,29 +2205,40 @@ void XmlParser::parseXml_Tu58Disk(wxXmlNode &node)
         switch (tagTypeInt)
         {
             case TAG_FILENAME:
-                if (child->GetAttribute("drive") == "0")
-                    driveNumber = 0;
-                if (child->GetAttribute("drive") == "1")
-                    driveNumber = 1;
+                diskNumber = (int)parseXml_Number(*child, "disk");
+                floppy_[FDCTYPE_TU58][diskNumber] = child->GetNodeContent();
+            break;
+
+            case TAG_DIRNAME:
+                diskNumber = (int)parseXml_Number(*child, "disk");
+                floppyDir_[FDCTYPE_TU58][diskNumber] = dataDir_ + child->GetNodeContent();
+                if (floppyDir_[FDCTYPE_TU58][diskNumber].Right(1) != pathSeparator_)
+                    floppyDir_[FDCTYPE_TU58][diskNumber] += pathSeparator_;
+            break;
+
+    /*        case TAG_FILENAME:
+                if (child->HasAttribute("drive"))
+                {
+                    driveNumberStr = child->GetAttribute("drive");
+                    driveNumberStr.ToInt(&driveNumber);
+                }
                 computerConfiguration.tu58FileConfiguration[driveNumber].fileName = child->GetNodeContent();
             break;
 
             case TAG_DIRNAME:
-                if (child->GetAttribute("drive") == "0")
-                    driveNumber = 0;
-                if (child->GetAttribute("drive") == "1")
-                    driveNumber = 1;
+                if (child->HasAttribute("drive"))
+                {
+                    driveNumberStr = child->GetAttribute("drive");
+                    driveNumberStr.ToInt(&driveNumber);
+                }
                 computerConfiguration.tu58FileConfiguration[driveNumber].directory = dataDir_ + child->GetNodeContent();
                 if (computerConfiguration.tu58FileConfiguration[driveNumber].directory.Right(1) != pathSeparator_)
                     computerConfiguration.tu58FileConfiguration[driveNumber].directory += pathSeparator_;
-            break;
+            break;*/
 
             case TAG_BLOCKS:
-                if (child->GetAttribute("drive") == "0")
-                    driveNumber = 0;
-                if (child->GetAttribute("drive") == "1")
-                    driveNumber = 1;
-                computerConfiguration.tu58Configuration.numberOfBlocks[driveNunber] = (int)parseXml_Number(*child);
+                diskNumber = (int)parseXml_Number(*child, "disk");
+                computerConfiguration.tu58Configuration.numberOfBlocks[diskNumber] = (int)parseXml_Number(*child);
             break;
 
             case TAG_COMMENT:
