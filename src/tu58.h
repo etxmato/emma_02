@@ -169,7 +169,7 @@ public:
     Tu58();
     ~Tu58() {};
 
-    void configureTu58(Tu58FileConfiguration tu58FileConfiguration, Tu58Configuration tu58Configuration);
+    void configureTu58(Tu58FileConfiguration tu58FileConfiguration[2], Tu58Configuration tu58Configuration);
     void initTu58();
     void SendSerialBreak (bool fBreak);
 
@@ -217,7 +217,7 @@ protected:
     bool ReadData();
     
 private:
-    Tu58FileConfiguration tu58FileConfiguration_;
+    Tu58FileConfiguration tu58FileConfiguration_[2];
     Tu58Configuration tu58Configuration_;
     
     uint8_t       m_nUnits;         // number of units on this drive
