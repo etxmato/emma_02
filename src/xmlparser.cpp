@@ -537,9 +537,10 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
     {
         computerConfiguration.ideFileConfiguration[drive].fileName = "";
         computerConfiguration.ideFileConfiguration[drive].directory = computerConfiguration.mainDir_ ;
+        computerConfiguration.tu58FileConfiguration[drive].fileName = "";
+        computerConfiguration.tu58FileConfiguration[drive].directory = computerConfiguration.mainDir_ ;
+    
     }
-    computerConfiguration.tu58FileConfiguration.fileName = "";
-    computerConfiguration.tu58FileConfiguration.directory = computerConfiguration.mainDir_ ;
     computerConfiguration.keyFileConfiguration.directory = computerConfiguration.mainDir_;
     computerConfiguration.printerFileConfiguration.directory = computerConfiguration.mainDir_;
     computerConfiguration.screenDumpFileConfiguration.directory = computerConfiguration.mainDir_;
