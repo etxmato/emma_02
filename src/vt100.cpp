@@ -363,9 +363,9 @@ void Vt100::configure(VideoTerminalConfiguration videoTerminalConfiguration, Add
 void Vt100::configureUart1854(VideoTerminalConfiguration videoTerminalConfiguration)
 {    
     if (vtType_ == VT52)
-        p_Main->configureMessage(&videoTerminalConfiguration.ioGroupVector, "VT52 terminal with CDP1854 UART");
+        p_Main->configureMessage(&videoTerminalConfiguration.ioGroupVector, "VT52 terminal connected to CDP1854 UART");
     else
-        p_Main->configureMessage(&videoTerminalConfiguration.ioGroupVector, "VT100 terminal with CDP1854 UART");
+        p_Main->configureMessage(&videoTerminalConfiguration.ioGroupVector, "VT100 terminal connected to CDP1854 UART");
     
     p_Computer->setOutType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.uartOut, VT_UART1854_LOAD_TRANSMITTER_OUT, "load transmitter");
     p_Computer->setInType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.uartIn, VT_UART1854_READ_RECEIVER_IN, "read receiver");
@@ -388,9 +388,9 @@ void Vt100::configureUart16450(VideoTerminalConfiguration videoTerminalConfigura
     uart16450_ = true;
 
     if (vtType_ == VT52)
-        p_Main->message("Configuring VT52 terminal with 16450/550 UART");
+        p_Main->message("Configuring VT52 terminal connected to 16450/550 UART");
     else
-        p_Main->message("Configuring VT100 terminal with 16450/550 UART");
+        p_Main->message("Configuring VT100 terminal connected to 16450/550 UART");
 
     p_Computer->setOutType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.uartOut, UART16450_WRITE_REGISTER_OUT, "write selected");
     p_Computer->setOutType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.uartControl, UART16450_CONTROL_OUT, "register select");

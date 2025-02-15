@@ -150,7 +150,11 @@
 		99D5FCD9211C938E001F4391 /* Chip8.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99D5FCD5211C938E001F4391 /* Chip8.syntax */; };
 		99D5FCDA211C938E001F4391 /* ST2.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99D5FCD6211C938E001F4391 /* ST2.syntax */; };
 		99D62190211B402200E1A471 /* ST4.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99D6218F211B402200E1A471 /* ST4.syntax */; };
+		99D75A1A2D5FE4BA00C8F40C /* agpl-3.0.txt in Resources */ = {isa = PBXBuildFile; fileRef = 99D75A192D5FE4BA00C8F40C /* agpl-3.0.txt */; };
+		99D75A1B2D5FE4BB00C8F40C /* agpl-3.0.txt in Resources */ = {isa = PBXBuildFile; fileRef = 99D75A192D5FE4BA00C8F40C /* agpl-3.0.txt */; };
 		99D92E73211AA0AD007D868E /* CARDTRAN.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99D92E72211AA0AD007D868E /* CARDTRAN.syntax */; };
+		99DD04722D5A9F9C00E4385F /* ImageFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99DD04702D5A9F9900E4385F /* ImageFile.cpp */; };
+		99DD04732D5A9F9C00E4385F /* ImageFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99DD04702D5A9F9900E4385F /* ImageFile.cpp */; };
 		99DF0DAD2D4FCF3F00064909 /* cdp1854.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99DF0DAC2D4FCF3F00064909 /* cdp1854.cpp */; };
 		99DF0DAE2D4FCF3F00064909 /* cdp1854.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99DF0DAC2D4FCF3F00064909 /* cdp1854.cpp */; };
 		99E041812A225A6F00146D04 /* wxcurl_dialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99E0417F2A225A6C00146D04 /* wxcurl_dialog.cpp */; };
@@ -567,7 +571,10 @@
 		99D5FCD5211C938E001F4391 /* Chip8.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Chip8.syntax; sourceTree = "<group>"; };
 		99D5FCD6211C938E001F4391 /* ST2.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ST2.syntax; sourceTree = "<group>"; };
 		99D6218F211B402200E1A471 /* ST4.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ST4.syntax; sourceTree = "<group>"; };
+		99D75A192D5FE4BA00C8F40C /* agpl-3.0.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "agpl-3.0.txt"; sourceTree = "<group>"; };
 		99D92E72211AA0AD007D868E /* CARDTRAN.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CARDTRAN.syntax; sourceTree = "<group>"; };
+		99DD04702D5A9F9900E4385F /* ImageFile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ImageFile.cpp; path = src/ImageFile.cpp; sourceTree = "<group>"; };
+		99DD04712D5A9F9900E4385F /* ImageFile.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ImageFile.hpp; path = src/ImageFile.hpp; sourceTree = "<group>"; };
 		99DF0DAC2D4FCF3F00064909 /* cdp1854.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cdp1854.cpp; path = src/cdp1854.cpp; sourceTree = "<group>"; };
 		99DF0DAF2D4FCF4500064909 /* cdp1854.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = cdp1854.h; path = src/cdp1854.h; sourceTree = "<group>"; };
 		99E0417F2A225A6C00146D04 /* wxcurl_dialog.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = wxcurl_dialog.cpp; path = src/wxcurl_dialog.cpp; sourceTree = "<group>"; };
@@ -712,6 +719,7 @@
 				99F3746C1CADBBC2000DA615 /* Quest_CC_Lic.jpg */,
 				99F3746D1CADBBC2000DA615 /* Quest_license.txt */,
 				99F3746F1CADBBC2000DA615 /* README-SDL.txt */,
+				99D75A192D5FE4BA00C8F40C /* agpl-3.0.txt */,
 				99F374701CADBBC2000DA615 /* LGPL.txt */,
 				997646EA1A61D27700FB9B33 /* Info_cocoa.plist */,
 				991A43B2279C31CA0049C544 /* debian_11.ini */,
@@ -828,6 +836,8 @@
 				997647881A61D5EE00FB9B33 /* i8275.h */,
 				997647971A61D5EE00FB9B33 /* ide.cpp */,
 				997647A41A61D5EE00FB9B33 /* ide.h */,
+				99DD04702D5A9F9900E4385F /* ImageFile.cpp */,
+				99DD04712D5A9F9900E4385F /* ImageFile.hpp */,
 				997647A51A61D5EE00FB9B33 /* iodevice.cpp */,
 				997647201A61D5EE00FB9B33 /* iodevice.h */,
 				997647241A61D5EE00FB9B33 /* joycard.cpp */,
@@ -1051,6 +1061,7 @@
 				996FCAE821430C240051F294 /* STK-1.syntax in Resources */,
 				9960FF23211953CE00DB2EDD /* GPL-A_ROM.syntax in Resources */,
 				999899A41F96A72600870480 /* emma_02.htb in Resources */,
+				99D75A1A2D5FE4BA00C8F40C /* agpl-3.0.txt in Resources */,
 				99C9EABB2145C1FC00C1EA03 /* Test_Word.syntax in Resources */,
 				9935652B21446B7000A329C6 /* STK-2.syntax in Resources */,
 				99B2ABB727863E1E00C73EB9 /* keymap_14.xrc in Resources */,
@@ -1115,6 +1126,7 @@
 				99F37EF1285D1D9200C57417 /* STK-1.syntax in Resources */,
 				99F37EF5285D1D9200C57417 /* GPL-A_ROM.syntax in Resources */,
 				99F37EF7285D1D9200C57417 /* emma_02.htb in Resources */,
+				99D75A1B2D5FE4BB00C8F40C /* agpl-3.0.txt in Resources */,
 				99F37EF8285D1D9200C57417 /* Test_Word.syntax in Resources */,
 				99F37EF9285D1D9200C57417 /* STK-2.syntax in Resources */,
 				99F37EFA285D1D9200C57417 /* keymap_14.xrc in Resources */,
@@ -1211,6 +1223,7 @@
 				997647D21A61D5EF00FB9B33 /* memory.cpp in Sources */,
 				997647FC1A61D5EF00FB9B33 /* til.cpp in Sources */,
 				995D247C2D56A8C70007542C /* tu58.cpp in Sources */,
+				99DD04722D5A9F9C00E4385F /* ImageFile.cpp in Sources */,
 				995ED6422BD439DB000FA9E5 /* statusbar.cpp in Sources */,
 				997646F51A61D5D400FB9B33 /* usb.cpp in Sources */,
 				99BDBDC81E7F3ECA00DB0FB8 /* debug.cpp in Sources */,
@@ -1295,6 +1308,7 @@
 				99F37E9E285D1D9200C57417 /* til.cpp in Sources */,
 				99F37EA1285D1D9200C57417 /* usb.cpp in Sources */,
 				995D247D2D56A8C70007542C /* tu58.cpp in Sources */,
+				99DD04732D5A9F9C00E4385F /* ImageFile.cpp in Sources */,
 				995ED6432BD439DC000FA9E5 /* statusbar.cpp in Sources */,
 				99F37EA3285D1D9200C57417 /* debug.cpp in Sources */,
 				99F37EA6285D1D9200C57417 /* joycard.cpp in Sources */,

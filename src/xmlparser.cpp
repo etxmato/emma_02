@@ -2172,9 +2172,7 @@ void XmlParser::parseXml_Tu58Disk(wxXmlNode &node)
     {
         "filename",
         "dirname",
-        "capacity",
-        "block",
-        "record",
+        "units",
         "comment",
         "undefined"
     };
@@ -2183,18 +2181,14 @@ void XmlParser::parseXml_Tu58Disk(wxXmlNode &node)
     {
         TAG_FILENAME,
         TAG_DIRNAME,
-        TAG_CAPACITY,
-        TAG_BLOCK,
-        TAG_RECORD,
+        TAG_UNITS,
         TAG_COMMENT,
         TAG_UNDEFINED
     };
     
     int tagTypeInt; // driveNumber = 0;
     
-    computerConfiguration.tu58Configuration.capacity = 512;
-    computerConfiguration.tu58Configuration.block = 512;
-    computerConfiguration.tu58Configuration.record = 128;
+    computerConfiguration.tu58Configuration.units = 1;
     
     wxXmlNode *child = node.GetChildren();
     while (child)
@@ -2208,33 +2202,17 @@ void XmlParser::parseXml_Tu58Disk(wxXmlNode &node)
         switch (tagTypeInt)
         {
             case TAG_FILENAME:
-//                if (child->GetAttribute("drive") == "0")
-//                    driveNumber = 0;
-//                if (child->GetAttribute("drive") == "1")
-//                    driveNumber = 1;
                 computerConfiguration.tu58FileConfiguration.fileName = child->GetNodeContent();
             break;
 
             case TAG_DIRNAME:
-//                if (child->GetAttribute("drive") == "0")
-//                    driveNumber = 0;
-//                if (child->GetAttribute("drive") == "1")
-//                    driveNumber = 1;
                 computerConfiguration.tu58FileConfiguration.directory = dataDir_ + child->GetNodeContent();
                 if (computerConfiguration.tu58FileConfiguration.directory.Right(1) != pathSeparator_)
                     computerConfiguration.tu58FileConfiguration.directory += pathSeparator_;
             break;
 
-            case TAG_CAPACITY:
-                computerConfiguration.tu58Configuration.capacity = (int)parseXml_Number(*child);
-            break;
-
-            case TAG_BLOCK:
-                computerConfiguration.tu58Configuration.block = (int)parseXml_Number(*child);
-            break;
-
-            case TAG_RECORD:
-                computerConfiguration.tu58Configuration.record = (int)parseXml_Number(*child);
+            case TAG_UNITS:
+                computerConfiguration.tu58Configuration.units = (int)parseXml_Number(*child);
             break;
 
             case TAG_COMMENT:

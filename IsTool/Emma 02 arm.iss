@@ -76,6 +76,7 @@ Source: ..\OpenSSL - LICENSE; DestDir: {app}; Components: MAIN
 Source: ..\Quest_license.txt; DestDir: {app}; Components: MAIN
 Source: ..\Quest_CC_Lic.jpg; DestDir: {app}; Components: MAIN
 Source: ..\README-SDL.txt; DestDir: {app}; Components: MAIN
+Source: ..\agpl-3.0.txt; DestDir: {app}; Components: MAIN
 Source: ..\LGPL.txt; DestDir: {app}; Components: MAIN
 Source: ..\COPYING - curl; DestDir: {app}; Components: MAIN
 Source: ..\data\data dir for portable mode.txt; DestDir: {app}\data; Components: MAIN

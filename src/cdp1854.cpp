@@ -40,8 +40,8 @@
 #define FRAMING_ERROR 3
 #define EXTERNAL_STATUS 4
 #define PERIPHERAL_STATUS_INTERRUPT 5
-#define TRANSMITTER_SHIFT_REGISTER_EMPTY 6
-#define TRANSMITTER_HOLDING_REGISTER_EMPTY 7
+#define TRANSMITTER_SHIFT_REGISTER 6
+#define TRANSMITTER_HOLDING_REGISTER 7
 
 // UART CONTROL BITS
 #define PARITY_INHIBIT 0
@@ -69,8 +69,8 @@ Cdp1854Instance::Cdp1854Instance(int cdp1854Number)
     statusRegister_ = 0;
 
     statusRegister_[EXTERNAL_STATUS] = 1;
-    statusRegister_[TRANSMITTER_SHIFT_REGISTER_EMPTY] = REGISTER_EMPTY;
-    statusRegister_[TRANSMITTER_SHIFT_REGISTER_EMPTY] = REGISTER_EMPTY;
+    statusRegister_[TRANSMITTER_SHIFT_REGISTER] = REGISTER_EMPTY;
+    statusRegister_[TRANSMITTER_HOLDING_REGISTER] = REGISTER_EMPTY;
 
     useSdi_ = false;
     clearToSend_ = true;
@@ -80,11 +80,11 @@ Cdp1854Instance::Cdp1854Instance(int cdp1854Number)
     sendPacket_ = false;
 }
 
-void Cdp1854Instance::configureCdp1854(Cdp1854Configuration cdp1854Configuration, double clock)
+void Cdp1854Instance::configureCdp1854(Cdp1854Configuration cdp1854Configuration, double clock, long int numberOfCdp1854s)
 {
     cdp1854Configuration_ = cdp1854Configuration;
     wxString cdp1854NumberString = "";
-    if (cdp1854Number_ > 0)
+    if (numberOfCdp1854s > 1)
         cdp1854NumberString.Printf(" %d", cdp1854Number_);
     
     p_Main->configureMessage(&cdp1854Configuration.ioGroupVector, "CDP1854 UART" + cdp1854NumberString);
@@ -167,9 +167,13 @@ void Cdp1854Instance::writeControlRegister(Byte value)
             p_Computer->sendSerialBreakComputer(cdp1854Configuration_.connection, true);
         else
             p_Computer->sendSerialBreakComputer(cdp1854Configuration_.connection, false);
+        
+        vtOutBits_ = ((controlRegister_.to_ulong() & 0x18) >> 3) + 7;
+        vtOutBits_ += controlRegister_[STOP_BIT_SELECT];
+        vtOutBits_ -= controlRegister_[PARITY_INHIBIT];
     }
     
-    statusRegister_[TRANSMITTER_HOLDING_REGISTER_EMPTY] = REGISTER_EMPTY;
+    statusRegister_[TRANSMITTER_HOLDING_REGISTER] = REGISTER_EMPTY;
 
     if (terminalLoad_ && statusRegister_[DATA_AVAILABLE] && clearToSend_)
         dataAvailableUart(1);
@@ -184,8 +188,8 @@ Byte Cdp1854Instance::readStatusRegister()
 void Cdp1854Instance::writeTransmitterHoldingRegister(Byte value)
 {
     transmitterHoldingRegister_ = value;
-    statusRegister_[TRANSMITTER_HOLDING_REGISTER_EMPTY] = REGISTER_FULL;
-    statusRegister_[TRANSMITTER_SHIFT_REGISTER_EMPTY] = REGISTER_FULL;
+    statusRegister_[TRANSMITTER_HOLDING_REGISTER] = REGISTER_FULL;
+    statusRegister_[TRANSMITTER_SHIFT_REGISTER] = REGISTER_FULL;
 }
 
 Byte Cdp1854Instance::readReceiverHoldingRegister_()
@@ -254,7 +258,6 @@ void Cdp1854Instance::serialDataInput()
             if (--vtOutBits_ == 0)
             {
                 receiverHoldingRegister_ = 0;
-                dataAvailableUart(1);
                 serialDataInputCount_ = -1;
                 vtOutBits_=10;
             }
@@ -270,7 +273,6 @@ void Cdp1854Instance::serialDataInput()
     {
         if (serialDataInputCount_ == 0)
         {
-            dataAvailableUart(1);
             serialDataInputCount_ = -1;
         }
     }
@@ -278,13 +280,13 @@ void Cdp1854Instance::serialDataInput()
 
 void Cdp1854Instance::writeTransmitterShiftRegister_()
 {
-    if (statusRegister_[TRANSMITTER_HOLDING_REGISTER_EMPTY] == 0)
+    if (statusRegister_[TRANSMITTER_HOLDING_REGISTER] == 0)
         p_Computer->serialDataOutput(cdp1854Configuration_.connection, transmitterHoldingRegister_, cdp1854Number_);
     else
-        statusRegister_[TRANSMITTER_SHIFT_REGISTER_EMPTY] = REGISTER_EMPTY;
+        statusRegister_[TRANSMITTER_SHIFT_REGISTER] = REGISTER_EMPTY;
 
     transmitterHoldingRegister_ = 0;
-    statusRegister_[TRANSMITTER_HOLDING_REGISTER_EMPTY] = REGISTER_EMPTY;
+    statusRegister_[TRANSMITTER_HOLDING_REGISTER] = REGISTER_EMPTY;
     
     if (terminalSave_)
         serialDataOutputCount_ = baudRateR_ * 4;
@@ -294,7 +296,7 @@ void Cdp1854Instance::writeTransmitterShiftRegister_()
 
 Byte Cdp1854Instance::uartThreStatus()
 {
-    return statusRegister_[TRANSMITTER_HOLDING_REGISTER_EMPTY];
+    return statusRegister_[TRANSMITTER_HOLDING_REGISTER];
 }
 
 void Cdp1854Instance::framingError(bool data)
@@ -325,7 +327,13 @@ void Cdp1854Instance::dataAvailableUart(bool data)
 {
     statusRegister_[DATA_AVAILABLE] = data;
     if (data)
+    {
         interrupt();
+        if (useSdi_)
+            serialDataInputCount_ = baudRateT_ * 9;
+        else
+            serialDataInputCount_ = baudRateT_;
+    }
 }
 
 void Cdp1854Instance::setSendPacket(bool status)

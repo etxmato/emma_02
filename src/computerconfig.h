@@ -656,9 +656,7 @@ public:
 class Tu58Configuration : public IoGroupDefineConfiguration
 {
 public:
-    int capacity;
-    int block;
-    int record;
+    int units;
 };
 
 // Keyboard configuration class definitions:
@@ -1635,7 +1633,7 @@ public:
     ScreenDumpFileConfiguration screenDumpFileConfiguration;
     PrinterFileConfiguration printerFileConfiguration;
     XmlFileConfiguration xmlFileConfiguration;
-    Tu58FileConfiguration tu58FileConfiguration;
+    Tu58FileConfiguration tu58FileConfiguration[2];
 
     // Other configurations:
     DefaultEfConfiguration defaultEfConfiguration;

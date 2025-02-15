@@ -7,7 +7,7 @@ public:
     Cdp1854Instance(int cdp1854Number);
     ~Cdp1854Instance() {};
     
-    void configureCdp1854(Cdp1854Configuration cdp1854Configuration, double clock);
+    void configureCdp1854(Cdp1854Configuration cdp1854Configuration, double clock, long int numberOfCdp1854s);
     bool ioGroupCdp1854(int ioGroup);
     
     void uartCts(Byte value);
@@ -55,7 +55,7 @@ private:
     int vtOutBits_;
     long serialDataInputCount_;
     Byte receiverHoldingRegister_;
-    
+
     bool sendPacket_;
     bool terminalLoad_;
     bool terminalSave_;

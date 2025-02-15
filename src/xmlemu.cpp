@@ -6999,12 +6999,12 @@ void Computer::configureExtensions()
 
     cdp1854InstancePointer.clear();
     numberOfCdp1854Instances_ = 0;
-    for (std::vector<Cdp1854Configuration>::iterator cdp1854 = currentComputerConfiguration.cdp1854Configuration.begin (); cdp1854 != currentComputerConfiguration.cdp1854Configuration.end (); ++cdp1854)
+    for (std::vector<Cdp1854Configuration>::iterator cdp1854 = currentComputerConfiguration.cdp1854Configuration.begin(); cdp1854 != currentComputerConfiguration.cdp1854Configuration.end(); ++cdp1854)
     {
         cdp1854InstancePointer.resize(numberOfCdp1854Instances_+1);
         cdp1854InstancePointer[numberOfCdp1854Instances_] = new Cdp1854Instance(numberOfCdp1854Instances_);
         
-        cdp1854InstancePointer[numberOfCdp1854Instances_]->configureCdp1854(*cdp1854, computerClockSpeed_);
+        cdp1854InstancePointer[numberOfCdp1854Instances_]->configureCdp1854(*cdp1854, computerClockSpeed_, currentComputerConfiguration.cdp1854Configuration.size());
     
         switch (cdp1854->connection)
         {
@@ -10137,8 +10137,8 @@ Byte Computer::readReceiverHoldingRegister(int uartNumber)
         return vtPointer->readReceiverHoldingRegister();
     if (cdp1854Ut58Connection_ == uartNumber)
     {
-        if (TxToHost(returnValue, uartNumber))
-            return returnValue;
+        TxToHost(returnValue, uartNumber);
+        return returnValue;
     }
     return 0;
 }
