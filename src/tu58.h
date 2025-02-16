@@ -166,8 +166,8 @@ public:
     };
 
 public:
-    Tu58();
-    ~Tu58() {};
+    Tu58(uint8_t nUnits=2);
+    ~Tu58();
 
     void configureTu58(Tu58FileConfiguration tu58FileConfiguration[2], Tu58Configuration tu58Configuration);
     void initTu58();
@@ -220,6 +220,7 @@ private:
     Tu58FileConfiguration tu58FileConfiguration_[4];
     Tu58Configuration tu58Configuration_;
     
+    bool          m_initialized;
     uint8_t       m_nUnits;         // number of units on this drive
     RSP_STATE     m_nState;         // current state of the RSP protocol
     RSP_DATA      m_RSPbuffer;      // packet being sent or received

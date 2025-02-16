@@ -125,8 +125,22 @@
 #include "main.h"
 #include "tu58.h"
 
-Tu58::Tu58()
+Tu58::Tu58(uint8_t nUnits) : m_Images(nUnits)
 {
+    m_nUnits = nUnits;
+    m_initialized = false;
+}
+
+Tu58::~Tu58()
+{
+    //++
+    //--
+    if (!m_initialized)
+        return;
+    
+    assert(m_nUnits > 0);
+    DetachAll();
+    for (uint16_t i = 0; i < m_nUnits; ++i) delete m_Images[i];
 }
 
 void Tu58::configureTu58(Tu58FileConfiguration tu58FileConfiguration[2], Tu58Configuration tu58Configuration)
@@ -138,6 +152,7 @@ void Tu58::configureTu58(Tu58FileConfiguration tu58FileConfiguration[2], Tu58Con
     p_Main->message("Configuring TU58 connected to CDP1854 UART");
 
     initTu58();
+    m_initialized = true;
 }
 
 void Tu58::initTu58()
@@ -155,8 +170,6 @@ void Tu58::initTu58()
     m_cbTransfer = m_wCurrentBlock = m_cbSector = 0;
     memset(m_abSector, 0, sizeof(m_abSector));
 
-//    bool fReadOnly = m_modReadOnly.IsPresent() && !m_modReadOnly.IsNegated();
-//    uint32_t lCapacity = m_modCapacity.IsPresent() ? m_argCapacity.GetNumber() : 0;
     wxString fileName;
     char cstringFileName[1024];
     for (int drive = 0; drive < m_nUnits; drive++)
@@ -332,6 +345,7 @@ void Tu58::RxFromHost (uint8_t bData, int uartNumber)
             m_nState = STA_ERROR;
         break;
     }
+    LOGF(TRACE, "TU58 receive from host 0x%02X - old state " + StateToString(OldState) + " - new state " + StateToString(m_nState), bData);
 }
 
 void Tu58::RxPacketStart (uint8_t bFlag)
@@ -466,6 +480,7 @@ bool Tu58::TxToHost(uint8_t &bData, int uartNumber)
         default:
         return false;
     }
+    LOGF(TRACE, "TU58 send to host 0x%02X - old state " + StateToString(OldState) + " - new state " + StateToString(m_nState), bData);
     return true;
 }
 
@@ -938,15 +953,19 @@ wxString Tu58::LevelToString (SEVERITY nLevel)
 
 void Tu58::LOGF(SEVERITY level, wxString text, int data, wxString extraString)
 {
+    return;
+    
     text = text + extraString;
     text.Printf(text, data);
 
     text = LevelToString(level) + " " + text;
-//    p_Main->eventShowTextMessage(text);
+    p_Main->eventShowTextMessage(text);
 }
 
 void Tu58::LOGF(SEVERITY level, wxString text, int data1, int data2, int data3, int data4)
 {
+    return;
+
     if (data1 != -1 && data2 == -1 && data3 == -1 && data4 == -1)
         text.Printf(text, data1);
     if (data1 != -1 && data2 != -1 && data3 == -1 && data4 == -1)
@@ -957,7 +976,7 @@ void Tu58::LOGF(SEVERITY level, wxString text, int data1, int data2, int data3, 
         text.Printf(text, data1, data2, data3, data4);
 
     text = LevelToString(level) + " " + text;
-//    p_Main->eventShowTextMessage(text);
+    p_Main->eventShowTextMessage(text);
 }
 
 
