@@ -58,6 +58,16 @@ void Cdp1877Instance::configureCdp1877(Cdp1877Configuration cdp1877Configuration
     
     p_Main->configureMessage(&cdp1877Configuration.ioGroupVector, "CDP1877 Programmable Interrupt Controller" + cdp1877NumberString);
     
+    wxString printBuffer;
+    printBuffer.Printf("	Main interrupt enable address: %04X with bit mask: %02X", cdp1877Configuration.writeMien.portNumber[0], cdp1877Configuration.writeMien.mask);
+    p_Main->message(printBuffer);
+    printBuffer.Printf("	Write mask register address: %04X with address mask: %04X", cdp1877Configuration.writeMask.portNumber[0], cdp1877Configuration.writeMien.addressMask);
+    p_Main->message(printBuffer);
+    printBuffer.Printf("	Read status register address: %04X with address mask: %04X", cdp1877Configuration.readStatus.portNumber[0], cdp1877Configuration.readStatus.addressMask);
+    p_Main->message(printBuffer);
+    printBuffer.Printf("	Read polling register address: %04X with address mask: %04X", cdp1877Configuration.readPolling.portNumber[0], cdp1877Configuration.readPolling.addressMask);
+    p_Main->message(printBuffer);
+
     p_Main->message("");
 }
 
