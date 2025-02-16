@@ -258,6 +258,7 @@ void Cdp1854Instance::serialDataInput()
             if (--vtOutBits_ == 0)
             {
                 receiverHoldingRegister_ = 0;
+//                dataAvailableUart(1);
                 serialDataInputCount_ = -1;
                 vtOutBits_=10;
             }
@@ -274,6 +275,7 @@ void Cdp1854Instance::serialDataInput()
         if (serialDataInputCount_ == 0)
         {
             serialDataInputCount_ = -1;
+ //           dataAvailableUart(1);
         }
     }
 }

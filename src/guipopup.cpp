@@ -452,7 +452,7 @@ void PopupDialog::setUpdFloppyGui(int drive)
     }
     else
     {
-        if (computerConfiguration.fdcType_ == FDCTYPE_TU58 && drive < 2)
+        if (currentComputerConfiguration.fdcType_ == FDCTYPE_TU58 && drive < 2)
         {
             XRCCTRL(*this, "FDC"+driveStr+"_ButtonXml", wxButton)->SetLabel("TU58 "+driveStr);
             XRCCTRL(*this, "FDC"+driveStr+"_ButtonXml", wxButton)->SetToolTip("Browse for TU58 "+driveStr+" image file");
