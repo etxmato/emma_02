@@ -2040,19 +2040,13 @@ Byte Computer::in(Byte port, Word address)
         break;
 
         case TIMER_COUNTER_HIGH_A:
-            return cdp1878InstancePointer[inItemNumber_[qState_][ioGroup_+1][port]]->readCounterHighA();
+        case TIMER_COUNTER_HIGH_B:
+            return cdp1878InstancePointer[inItemNumber_[qState_][ioGroup_+1][port]]->readCounterHigh(inType_[qState_][ioGroup_+1][port]-TIMER_COUNTER_HIGH_A);
         break;
 
         case TIMER_COUNTER_LOW_A:
-            return cdp1878InstancePointer[inItemNumber_[qState_][ioGroup_+1][port]]->readCounterLowA();
-        break;
-
-        case TIMER_COUNTER_HIGH_B:
-            return cdp1878InstancePointer[inItemNumber_[qState_][ioGroup_+1][port]]->readCounterHighB();
-        break;
-
         case TIMER_COUNTER_LOW_B:
-            return cdp1878InstancePointer[inItemNumber_[qState_][ioGroup_+1][port]]->readCounterLowB();
+            return cdp1878InstancePointer[inItemNumber_[qState_][ioGroup_+1][port]]->readCounterLowB(inType_[qState_][ioGroup_+1][port]-TIMER_COUNTER_LOW_A);
         break;
 
         // Folowing I/O is not adapted to ioGroups
@@ -2754,27 +2748,18 @@ void Computer::out(Byte port, Word address, Byte value)
         break;
 
         case TIMER_CONTROL_A:
-            cdp1878InstancePointer[outItemNumber_[qState_][ioGroup_+1][port]]->writeControlA(value);
+        case TIMER_CONTROL_B:
+            cdp1878InstancePointer[outItemNumber_[qState_][ioGroup_+1][port]]->writeControlA(outType_[qState_][ioGroup_+1][port]-TIMER_CONTROL_A, value);
         break;
 
         case TIMER_COUNTER_HIGH_A:
-            cdp1878InstancePointer[outItemNumber_[qState_][ioGroup_+1][port]]->writeCounterHighA(value);
+        case TIMER_COUNTER_HIGH_B:
+            cdp1878InstancePointer[outItemNumber_[qState_][ioGroup_+1][port]]->writeCounterHigh(outType_[qState_][ioGroup_+1][port]-TIMER_COUNTER_HIGH_A, value);
         break;
 
         case TIMER_COUNTER_LOW_A:
-            cdp1878InstancePointer[outItemNumber_[qState_][ioGroup_+1][port]]->writeCounterLowA(value);
-        break;
-
-        case TIMER_CONTROL_B:
-            cdp1878InstancePointer[outItemNumber_[qState_][ioGroup_+1][port]]->writeControlB(value);
-        break;
-
-        case TIMER_COUNTER_HIGH_B:
-            cdp1878InstancePointer[outItemNumber_[qState_][ioGroup_+1][port]]->writeCounterHighB(value);
-        break;
-
         case TIMER_COUNTER_LOW_B:
-            cdp1878InstancePointer[outItemNumber_[qState_][ioGroup_+1][port]]->writeCounterLowB(value);
+            cdp1878InstancePointer[outItemNumber_[qState_][ioGroup_+1][port]]->writeCounterLowA(outType_[qState_][ioGroup_+1][port]-TIMER_COUNTER_LOW_A, value);
         break;
 
         case CD4536B_WRITE_OUT:
