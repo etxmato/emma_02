@@ -35,6 +35,7 @@
 #include "cdp1854.h"
 #include "cdp1855.h"
 #include "cdp1877.h"
+#include "cdp1878.h"
 #include "cd4536b.h"
 #include "upd765.h"
 #include "ay-3-8912.h"
@@ -393,6 +394,9 @@ private:
 
     vector<Cdp1877Instance *> cdp1877InstancePointer;
     int numberOfCdp1877Instances_;
+
+    vector<Cdp1878Instance *> cdp1878InstancePointer;
+    int numberOfCdp1878Instances_;
 
     vector<Cdp1852Frame *> cdp1852FramePointer;
     int numberOfCdp1852Frames_;

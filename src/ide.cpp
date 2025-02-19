@@ -86,6 +86,12 @@ void Ide::configureIde(wxString ideFile1, wxString ideFile2, IdeConfiguration id
     initIde();
 }
 
+void Ide::setIdeDiskname(int disk, wxString fileName)
+{
+    driveName_[disk] = fileName;
+    driveCreated_[disk] = wxFile::Exists(driveName_[disk]);
+}
+
 void Ide::initializeIde(wxString ideFile)
 {
     if (!wxFile::Exists(ideFile))

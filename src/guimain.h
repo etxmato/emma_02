@@ -30,7 +30,7 @@
 
 #define FDCTYPE_17XX 0
 #define FDCTYPE_UPD765 1
-#define FDCTYPE_TU58 2
+#define FDCTYPE_TU58_IDE 2
 #define FDCTYPE_MAX 3
 
 // CDP18S626
@@ -151,7 +151,6 @@ public:
     wxString getMainDir() {return computerConfiguration.mainDir_;};
     bool getGuiMode() {return mode_.gui;};
 
-    wxString getIdeDir(int drive) {return computerConfiguration.ideFileConfiguration[drive].directory;};
     wxString getCharRomDir() {return computerConfiguration.characterRomConfiguration.directory;};
     wxString getVtCharRomDir() {return computerConfiguration.videoTerminalConfiguration.vtCharRomDirectory;};
     void setWaveDir(wxString fileDir) {computerConfiguration.wavConfiguration[0].directory = fileDir;};
@@ -183,7 +182,6 @@ public:
     wxString getBarLeaderCidelsa() {return windowInfo.statusBarLeaderCidelsa;};
     int getPrintX() {return printX_;};
 
-    wxString getIdeFile(int drive) {return computerConfiguration.ideFileConfiguration[drive].fileName;};
     wxString getCharRomFile() {return computerConfiguration.characterRomConfiguration.fileName;};
     wxString getVtCharRomFile() {return computerConfiguration.videoTerminalConfiguration.vtCharRomFileName;};
     wxString getXmodemFile() {return computerConfiguration.videoTerminalConfiguration.xmodemFileName;};
@@ -316,9 +314,9 @@ public:
         
     bool getDirectoryMode(int fdcType, int drive);
     void setDirectoryMode(int fdcType, int drive, bool state);
-    wxString getUpdFloppyDirSwitched(int fdcType, int drive);
-    wxString getUpdFloppyDir(int fdcType, int drive);
-    wxString getUpdFloppyFile(int fdcType, int drive);
+    wxString getFloppyDirSwitched(int fdcType, int drive);
+    wxString getFloppyDir(int fdcType, int drive);
+    wxString getFloppyFile(int fdcType, int drive);
     void setUpdFloppyGui(int drive);
 
     int getMessageBoxAnswer() {return messageBoxAnswer_;};

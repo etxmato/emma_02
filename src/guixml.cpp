@@ -987,7 +987,7 @@ void GuiXml::onDiskText(int diskNumber, wxString eventString)
         if (p_Computer == NULL)
             return;
 
-        p_Computer->changeDiskName(1, floppyDirSwitched_[computerConfiguration.fdcType_][diskNumber], "");
+        p_Computer->changeDiskName(diskNumber, floppyDirSwitched_[computerConfiguration.fdcType_][diskNumber], "");
         return;
     }
     
@@ -1000,9 +1000,9 @@ void GuiXml::onDiskText(int diskNumber, wxString eventString)
         return;
 
     if (floppy_[computerConfiguration.fdcType_][diskNumber].Len() == 0)
-        p_Computer->changeDiskName(1, floppyDir_[computerConfiguration.fdcType_][diskNumber], "");
+        p_Computer->changeDiskName(diskNumber, floppyDir_[computerConfiguration.fdcType_][diskNumber], "");
     else
-        p_Computer->changeDiskName(1, floppyDir_[computerConfiguration.fdcType_][diskNumber], floppy_[computerConfiguration.fdcType_][diskNumber]);
+        p_Computer->changeDiskName(diskNumber, floppyDir_[computerConfiguration.fdcType_][diskNumber], floppy_[computerConfiguration.fdcType_][diskNumber]);
 }
 
 void GuiXml::onDiskEject0(wxCommandEvent& WXUNUSED(event))

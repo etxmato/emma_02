@@ -3380,25 +3380,26 @@ void GuiMain::setDirectoryMode(int fdcType, int drive, bool state)
     directoryMode_[fdcType][drive] = state;
 }
 
-wxString GuiMain::getUpdFloppyDirSwitched(int fdcType, int drive)
+wxString GuiMain::getFloppyDirSwitched(int fdcType, int drive)
 {
     return floppyDirSwitched_[fdcType][drive];
 }
 
-wxString GuiMain::getUpdFloppyDir(int fdcType, int drive)
+wxString GuiMain::getFloppyDir(int fdcType, int drive)
 {
     return floppyDir_[fdcType][drive];
 }
 
-wxString GuiMain::getUpdFloppyFile(int fdcType, int drive)
+wxString GuiMain::getFloppyFile(int fdcType, int drive)
 {
     return floppy_[fdcType][drive];
 }
 
 void GuiMain::setUpdFloppyGui(int drive)
 {
-    wxString driveStr;
+    wxString driveStr, driveStrMinus2;
     driveStr.Printf("%d", drive);
+    driveStrMinus2.Printf("%d", drive-2);
     bool deActivateFdc = true;
         
     XRCCTRL(*this, "FDC"+driveStr+"_SwitchXml", wxBitmapButton)->Enable(false);
@@ -3421,11 +3422,15 @@ void GuiMain::setUpdFloppyGui(int drive)
         XRCCTRL(*this, "FDC"+driveStr+"_ButtonXml", wxButton)->Enable(drive < 4);
         XRCCTRL(*this, "FDC"+driveStr+"_SwitchXml", wxBitmapButton)->Enable(true);
     }
-    if (computerConfiguration.tu58Configuration.defined)
+    if (computerConfiguration.ideConfiguration.defined && drive < 2)
     {
-        if (drive < 2)
-            deActivateFdc = false;
-        XRCCTRL(*this, "FDC"+driveStr+"_ButtonXml", wxButton)->Enable(drive < 2);
+        deActivateFdc = false;
+        XRCCTRL(*this, "FDC"+driveStr+"_ButtonXml", wxButton)->Enable(true);
+    }
+    if (computerConfiguration.tu58Configuration.defined && drive > 1 && drive < 4)
+    {
+        deActivateFdc = false;
+        XRCCTRL(*this, "FDC"+driveStr+"_ButtonXml", wxButton)->Enable(true);
     }
 
     if (directoryMode_[computerConfiguration.fdcType_][drive])
@@ -3441,10 +3446,18 @@ void GuiMain::setUpdFloppyGui(int drive)
     }
     else
     {
-        if (computerConfiguration.fdcType_ == FDCTYPE_TU58 && drive < 2)
+        if (computerConfiguration.fdcType_ == FDCTYPE_TU58_IDE)
         {
-            XRCCTRL(*this, "FDC"+driveStr+"_ButtonXml", wxButton)->SetLabel("TU58 "+driveStr);
-            XRCCTRL(*this, "FDC"+driveStr+"_ButtonXml", wxButton)->SetToolTip("Browse for TU58 "+driveStr+" image file");
+            if (drive < 2)
+            {
+                XRCCTRL(*this, "FDC"+driveStr+"_ButtonXml", wxButton)->SetLabel("IDE "+driveStr);
+                XRCCTRL(*this, "FDC"+driveStr+"_ButtonXml", wxButton)->SetToolTip("Browse for IDE "+driveStr+" image file");
+            }
+            else
+            {
+                XRCCTRL(*this, "FDC"+driveStr+"_ButtonXml", wxButton)->SetLabel("TU58 "+driveStrMinus2);
+                XRCCTRL(*this, "FDC"+driveStr+"_ButtonXml", wxButton)->SetToolTip("Browse for TU58 "+driveStrMinus2+" image file");
+            }
         }
         else
         {

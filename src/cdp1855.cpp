@@ -51,7 +51,7 @@ void Cdp1855Instance::configureCdp1855(Cdp1855Configuration cdp1855Configuration
     p_Computer->setOutType(&cdp1855Configuration.ioGroupVector, cdp1855Configuration.x, "write register x");
     p_Computer->setOutType(&cdp1855Configuration.ioGroupVector, cdp1855Configuration.y, "write register y");
     p_Computer->setOutType(&cdp1855Configuration.ioGroupVector, cdp1855Configuration.z, "write register z");
-    p_Computer->setOutType(&cdp1855Configuration.ioGroupVector, cdp1855Configuration.control, "write cotnrol register");
+    p_Computer->setOutType(&cdp1855Configuration.ioGroupVector, cdp1855Configuration.control, "write control register");
     p_Computer->setInType(&cdp1855Configuration.ioGroupVector, cdp1855Configuration.x, "read register x");
     p_Computer->setInType(&cdp1855Configuration.ioGroupVector, cdp1855Configuration.y, "read register y");
     p_Computer->setInType(&cdp1855Configuration.ioGroupVector, cdp1855Configuration.z, "read register z");

@@ -19,6 +19,7 @@ public:
     ~Ide() {};
 
     void configureIde(wxString ideFile1, wxString ideFile2, IdeConfiguration ideConfiguration);
+    void setIdeDiskname(int disk, wxString fileName);
     void initializeIde(wxString ideFile);
     Byte inIde();
     void outIde(Byte value);

@@ -143,10 +143,8 @@ Tu58::~Tu58()
     for (uint16_t i = 0; i < m_nUnits; ++i) delete m_Images[i];
 }
 
-void Tu58::configureTu58(Tu58FileConfiguration tu58FileConfiguration[2], Tu58Configuration tu58Configuration)
+void Tu58::configureTu58(Tu58Configuration tu58Configuration)
 {
-    for (int drive = 0; drive < 2; drive++)
-        tu58FileConfiguration_[drive] = tu58FileConfiguration[drive];
     tu58Configuration_ = tu58Configuration;
 
     p_Main->message("Configuring TU58 connected to CDP1854 UART");
@@ -174,14 +172,22 @@ void Tu58::initTu58()
     char cstringFileName[1024];
     for (int drive = 0; drive < m_nUnits; drive++)
     {
-        if (p_Main->getUpdFloppyFile(FDCTYPE_TU58, drive) != "")
+        if (p_Main->getFloppyFile(FDCTYPE_TU58_IDE, drive+2) != "")
         {
-            fileName = p_Main->getUpdFloppyDir(FDCTYPE_TU58, drive) + p_Main->getUpdFloppyFile(FDCTYPE_TU58, drive);
+            fileName = p_Main->getFloppyDir(FDCTYPE_TU58_IDE, drive+2) + p_Main->getFloppyFile(FDCTYPE_TU58_IDE, drive+2);
             strncpy(cstringFileName, (const char*)fileName.mb_str(wxConvUTF8), 1023);
         
             Attach(drive, cstringFileName, false, tu58Configuration_.numberOfBlocks[drive]);
         }
     }
+}
+
+void Tu58::setTu58Diskname(int disk, wxString fileName)
+{
+    char cstringFileName[1024];
+    strncpy(cstringFileName, (const char*)fileName.mb_str(wxConvUTF8), 1023);
+
+    Attach(disk, cstringFileName, false, tu58Configuration_.numberOfBlocks[disk]);
 }
 
 //

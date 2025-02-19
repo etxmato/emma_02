@@ -1650,6 +1650,10 @@ Byte Computer::ef(int flag)
             return cdp1852FramePointer[efItemNumber_[qState_][ioGroup_+1][flag]]->getEfState();
         break;
 
+        case TIMER_EF:
+            return cdp1878InstancePointer[efItemNumber_[qState_][ioGroup_+1][flag]]->efInterrupt();
+        break;
+            
         case CD4536B_EF:
             return cd4536bPointer[efItemNumber_[qState_][ioGroup_+1][flag]]->ef();
         break;
@@ -2031,6 +2035,25 @@ Byte Computer::in(Byte port, Word address)
             return cdp1852FramePointer[inItemNumber_[qState_][ioGroup_+1][port]]->readPort();
         break;
 
+        case TIMER_INTERRUPT:
+            return cdp1878InstancePointer[inItemNumber_[qState_][ioGroup_+1][port]]->readInterrupt();
+        break;
+
+        case TIMER_COUNTER_HIGH_A:
+            return cdp1878InstancePointer[inItemNumber_[qState_][ioGroup_+1][port]]->readCounterHighA();
+        break;
+
+        case TIMER_COUNTER_LOW_A:
+            return cdp1878InstancePointer[inItemNumber_[qState_][ioGroup_+1][port]]->readCounterLowA();
+        break;
+
+        case TIMER_COUNTER_HIGH_B:
+            return cdp1878InstancePointer[inItemNumber_[qState_][ioGroup_+1][port]]->readCounterHighB();
+        break;
+
+        case TIMER_COUNTER_LOW_B:
+            return cdp1878InstancePointer[inItemNumber_[qState_][ioGroup_+1][port]]->readCounterLowB();
+        break;
 
         // Folowing I/O is not adapted to ioGroups
         case TMS_DATA_PORT_OUT:
@@ -2728,6 +2751,30 @@ void Computer::out(Byte port, Word address, Byte value)
         case CDP1852_WRITE_OUT:
             cdp1852FramePointer[outItemNumber_[qState_][ioGroup_+1][port]]->writePort(value);
             cdp1852FramePointer[outItemNumber_[qState_][ioGroup_+1][port]]->refreshLeds();
+        break;
+
+        case TIMER_CONTROL_A:
+            cdp1878InstancePointer[outItemNumber_[qState_][ioGroup_+1][port]]->writeControlA(value);
+        break;
+
+        case TIMER_COUNTER_HIGH_A:
+            cdp1878InstancePointer[outItemNumber_[qState_][ioGroup_+1][port]]->writeCounterHighA(value);
+        break;
+
+        case TIMER_COUNTER_LOW_A:
+            cdp1878InstancePointer[outItemNumber_[qState_][ioGroup_+1][port]]->writeCounterLowA(value);
+        break;
+
+        case TIMER_CONTROL_B:
+            cdp1878InstancePointer[outItemNumber_[qState_][ioGroup_+1][port]]->writeControlB(value);
+        break;
+
+        case TIMER_COUNTER_HIGH_B:
+            cdp1878InstancePointer[outItemNumber_[qState_][ioGroup_+1][port]]->writeCounterHighB(value);
+        break;
+
+        case TIMER_COUNTER_LOW_B:
+            cdp1878InstancePointer[outItemNumber_[qState_][ioGroup_+1][port]]->writeCounterLowB(value);
         break;
 
         case CD4536B_WRITE_OUT:
@@ -6951,6 +6998,16 @@ void Computer::configureExtensions()
         numberOfCdp1877Instances_++;
     }
 
+    cdp1878InstancePointer.clear();
+    numberOfCdp1878Instances_ = 0;
+    for (std::vector<Cdp1878Configuration>::iterator cdp1878 = currentComputerConfiguration.cdp1878Configuration.begin (); cdp1878 != currentComputerConfiguration.cdp1878Configuration.end (); ++cdp1878)
+    {
+        cdp1878InstancePointer.resize(numberOfCdp1878Instances_+1);
+        cdp1878InstancePointer[numberOfCdp1878Instances_] = new Cdp1878Instance(numberOfCdp1878Instances_);
+        cdp1878InstancePointer[numberOfCdp1878Instances_]->configureCdp1878(*cdp1878);
+        numberOfCdp1878Instances_++;
+    }
+
     cdp1851FramePointer.clear();
     numberOfCdp1851Frames_ = 0;
     for (std::vector<Cdp1851Configuration>::iterator cdp1851 = currentComputerConfiguration.cdp1851Configuration.begin (); cdp1851 != currentComputerConfiguration.cdp1851Configuration.end (); ++cdp1851)
@@ -7324,11 +7381,11 @@ void Computer::configureDiskExtensions()
 
         for (int disk=0; disk<4; disk++)
         {
-            fileName = p_Main->getUpdFloppyFile(FDCTYPE_17XX, disk);
+            fileName = p_Main->getFloppyFile(FDCTYPE_17XX, disk);
             if (fileName.Len() == 0)
                 setFdcDiskname(disk+1, "");
             else
-                setFdcDiskname(disk+1, p_Main->getUpdFloppyDir(FDCTYPE_17XX, disk)+p_Main->getUpdFloppyFile(FDCTYPE_17XX, disk));
+                setFdcDiskname(disk+1, p_Main->getFloppyDir(FDCTYPE_17XX, disk)+p_Main->getFloppyFile(FDCTYPE_17XX, disk));
         }
     }
 
@@ -7339,11 +7396,11 @@ void Computer::configureDiskExtensions()
 
         for (int disk=0; disk<4; disk++)
         {
-            fileName = p_Main->getUpdFloppyFile(FDCTYPE_17XX, disk);
+            fileName = p_Main->getFloppyFile(FDCTYPE_17XX, disk);
             if (fileName.Len() == 0)
                 setFdcDiskname(disk+1, "");
             else
-                setFdcDiskname(disk+1, p_Main->getUpdFloppyDir(FDCTYPE_17XX, disk)+p_Main->getUpdFloppyFile(FDCTYPE_17XX, disk));
+                setFdcDiskname(disk+1, p_Main->getFloppyDir(FDCTYPE_17XX, disk)+p_Main->getFloppyFile(FDCTYPE_17XX, disk));
         }
     }
 
@@ -7354,26 +7411,26 @@ void Computer::configureDiskExtensions()
         for (int disk=0; disk<4; disk++)
         {
             if (p_Main->getDirectoryMode(FDCTYPE_UPD765, disk))
-                setUpdDiskname(disk+1, p_Main->getUpdFloppyDirSwitched(FDCTYPE_UPD765, disk), "");
+                setUpdDiskname(disk+1, p_Main->getFloppyDirSwitched(FDCTYPE_UPD765, disk), "");
             else
             {
-                fileName = p_Main->getUpdFloppyFile(FDCTYPE_UPD765, disk);
+                fileName = p_Main->getFloppyFile(FDCTYPE_UPD765, disk);
                 if (fileName.Len() == 0)
-                    setUpdDiskname(disk+1, p_Main->getUpdFloppyDir(FDCTYPE_UPD765, disk), "");
+                    setUpdDiskname(disk+1, p_Main->getFloppyDir(FDCTYPE_UPD765, disk), "");
                 else
-                    setUpdDiskname(disk+1, p_Main->getUpdFloppyDir(FDCTYPE_UPD765, disk), p_Main->getUpdFloppyFile(FDCTYPE_UPD765, disk));
+                    setUpdDiskname(disk+1, p_Main->getFloppyDir(FDCTYPE_UPD765, disk), p_Main->getFloppyFile(FDCTYPE_UPD765, disk));
             }
         }
     }
 
     if (currentComputerConfiguration.ideConfiguration.defined)
     {
-        configureIde(p_Main->getIdeDir(0) + p_Main->getIdeFile(0), p_Main->getIdeDir(1) + p_Main->getIdeFile(1), currentComputerConfiguration.ideConfiguration);
+        configureIde(p_Main->getFloppyDir(FDCTYPE_TU58_IDE, 0) + p_Main->getFloppyFile(FDCTYPE_TU58_IDE, 0), p_Main->getFloppyDir(FDCTYPE_TU58_IDE, 1) + p_Main->getFloppyFile(FDCTYPE_TU58_IDE, 1), currentComputerConfiguration.ideConfiguration);
     }
 
     if (currentComputerConfiguration.tu58Configuration.defined)
     {
-        configureTu58(currentComputerConfiguration.tu58FileConfiguration, currentComputerConfiguration.tu58Configuration);
+        configureTu58(currentComputerConfiguration.tu58Configuration);
     }
 }
 
@@ -7863,6 +7920,10 @@ void Computer::changeDiskName(int disk, wxString dirName, wxString fileName)
 {
     if (currentComputerConfiguration.fdcConfiguration.wd1770_defined || currentComputerConfiguration.fdcConfiguration.wd1793_defined)
         setFdcDiskname(disk, dirName + fileName);
+    if (currentComputerConfiguration.tu58Configuration.defined && disk > 1)
+        setTu58Diskname(disk-2, dirName + fileName);
+    if (currentComputerConfiguration.ideConfiguration.defined && disk < 2)
+        setIdeDiskname(disk, dirName + fileName);
 }
 
 Byte Computer::readPramDirect(Word address)

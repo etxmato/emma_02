@@ -58,6 +58,7 @@ private:
     void parseXml_Cdp1854(wxXmlNode &node, int connection);
     void parseXml_Cdp1855(wxXmlNode &node);
     void parseXml_Cdp1877(wxXmlNode &node);
+    void parseXml_Cdp1878(wxXmlNode &node);
     void parseXml_Cd4536b(wxXmlNode &node);
     void parseXml_SerialVt(wxXmlNode &node);
     void parseXml_UartVt(wxXmlNode &node, bool uart16450);

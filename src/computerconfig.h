@@ -897,6 +897,21 @@ public:
 
 // Timer configuration class definitions:
 
+class Cdp1878Configuration : public IoGroupDefineConfiguration
+{
+public:
+    IoPort counterHighA;
+    IoPort counterLowA;
+    IoPort controlA;
+    IoPort counterHighB;
+    IoPort counterLowB;
+    IoPort controlB;
+    IoPort interrupt;
+    EfFlag ef;
+    
+    int picInterrupt;
+};
+
 class Cd4536bConfiguration : public IoGroupConfiguration
 {
 public:
@@ -1337,15 +1352,11 @@ class BatchConfiguration : public FileConfiguration {};
 
 class CharacterRomConfiguration : public FileConfiguration {};
 
-class IdeFileConfiguration : public FileConfiguration {};
-
 class KeyFileConfiguration : public FileConfiguration {};
 
 class ScreenDumpFileConfiguration : public FileConfiguration {};
 
 class PrinterFileConfiguration : public FileConfiguration {};
-
-class Tu58FileConfiguration : public FileConfiguration {};
 
 class XmlFileConfiguration : public FileConfiguration
 {
@@ -1568,6 +1579,7 @@ public:
     vector<Cdp1877Configuration> cdp1877Configuration;
     
     // Timer configurations:
+    vector<Cdp1878Configuration> cdp1878Configuration;
     vector<Cd4536bConfiguration> cd4536bConfiguration;
     
     // Printer configurations:
@@ -1628,12 +1640,10 @@ public:
     WavConfiguration wavConfiguration[2];
     BatchConfiguration batchConfiguration;
     CharacterRomConfiguration characterRomConfiguration;
-    IdeFileConfiguration ideFileConfiguration[2];
     KeyFileConfiguration keyFileConfiguration;
     ScreenDumpFileConfiguration screenDumpFileConfiguration;
     PrinterFileConfiguration printerFileConfiguration;
     XmlFileConfiguration xmlFileConfiguration;
-    Tu58FileConfiguration tu58FileConfiguration[2];
 
     // Other configurations:
     DefaultEfConfiguration defaultEfConfiguration;

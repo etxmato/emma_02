@@ -153,6 +153,8 @@
 		99D75A1A2D5FE4BA00C8F40C /* agpl-3.0.txt in Resources */ = {isa = PBXBuildFile; fileRef = 99D75A192D5FE4BA00C8F40C /* agpl-3.0.txt */; };
 		99D75A1B2D5FE4BB00C8F40C /* agpl-3.0.txt in Resources */ = {isa = PBXBuildFile; fileRef = 99D75A192D5FE4BA00C8F40C /* agpl-3.0.txt */; };
 		99D92E73211AA0AD007D868E /* CARDTRAN.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99D92E72211AA0AD007D868E /* CARDTRAN.syntax */; };
+		99DC52BD2D65292100C996FC /* cdp1878.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99DC52BC2D65292100C996FC /* cdp1878.cpp */; };
+		99DC52BE2D65292100C996FC /* cdp1878.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99DC52BC2D65292100C996FC /* cdp1878.cpp */; };
 		99DD04722D5A9F9C00E4385F /* ImageFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99DD04702D5A9F9900E4385F /* ImageFile.cpp */; };
 		99DD04732D5A9F9C00E4385F /* ImageFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99DD04702D5A9F9900E4385F /* ImageFile.cpp */; };
 		99DF0DAD2D4FCF3F00064909 /* cdp1854.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99DF0DAC2D4FCF3F00064909 /* cdp1854.cpp */; };
@@ -573,6 +575,8 @@
 		99D6218F211B402200E1A471 /* ST4.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ST4.syntax; sourceTree = "<group>"; };
 		99D75A192D5FE4BA00C8F40C /* agpl-3.0.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "agpl-3.0.txt"; sourceTree = "<group>"; };
 		99D92E72211AA0AD007D868E /* CARDTRAN.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CARDTRAN.syntax; sourceTree = "<group>"; };
+		99DC52BB2D65292100C996FC /* cdp1878.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cdp1878.h; path = src/cdp1878.h; sourceTree = "<group>"; };
+		99DC52BC2D65292100C996FC /* cdp1878.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cdp1878.cpp; path = src/cdp1878.cpp; sourceTree = "<group>"; };
 		99DD04702D5A9F9900E4385F /* ImageFile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ImageFile.cpp; path = src/ImageFile.cpp; sourceTree = "<group>"; };
 		99DD04712D5A9F9900E4385F /* ImageFile.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ImageFile.hpp; path = src/ImageFile.hpp; sourceTree = "<group>"; };
 		99DF0DAC2D4FCF3F00064909 /* cdp1854.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cdp1854.cpp; path = src/cdp1854.cpp; sourceTree = "<group>"; };
@@ -806,6 +810,8 @@
 				9971F0752D3EEB5800BE3930 /* cdp1855.h */,
 				9926E24C2D3050C200A4530B /* cdp1877.cpp */,
 				9926E24D2D3050C200A4530B /* cdp1877.h */,
+				99DC52BC2D65292100C996FC /* cdp1878.cpp */,
+				99DC52BB2D65292100C996FC /* cdp1878.h */,
 				999411EF28246A950017D756 /* computerconfig.h */,
 				998A12AB29C11E05002E3FBD /* cvkeypad.cpp */,
 				998A12AC29C11E05002E3FBD /* cvkeypad.h */,
@@ -1196,6 +1202,7 @@
 				997647D61A61D5EF00FB9B33 /* Sync_Audio.cpp in Sources */,
 				9942DD701F3B4D6B00569242 /* wxcurl_http.cpp in Sources */,
 				997647FD1A61D5EF00FB9B33 /* waveReader.cpp in Sources */,
+				99DC52BD2D65292100C996FC /* cdp1878.cpp in Sources */,
 				997647FE1A61D5EF00FB9B33 /* waveWriter.cpp in Sources */,
 				99E041862A2294F100146D04 /* wxcurl_thread.cpp in Sources */,
 				997647DA1A61D5EF00FB9B33 /* vtsetup.cpp in Sources */,
@@ -1281,6 +1288,7 @@
 				99F37E70285D1D9200C57417 /* wxcurl_http.cpp in Sources */,
 				99F37E71285D1D9200C57417 /* waveReader.cpp in Sources */,
 				99F37E72285D1D9200C57417 /* waveWriter.cpp in Sources */,
+				99DC52BE2D65292100C996FC /* cdp1878.cpp in Sources */,
 				99E041872A2294F200146D04 /* wxcurl_thread.cpp in Sources */,
 				99F37E76285D1D9200C57417 /* vtsetup.cpp in Sources */,
 				99F37E78285D1D9200C57417 /* fdc.cpp in Sources */,

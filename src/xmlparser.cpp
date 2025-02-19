@@ -105,6 +105,7 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
         "cdp1854",
         "cdp1855",
         "cdp1877",
+        "cdp1878",
         "cd4536b",
         "ad_convertor",
         "debugger",
@@ -151,6 +152,7 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
         TAG_CDP1854,
         TAG_CDP1855,
         TAG_CDP1877,
+        TAG_CDP1878,
         TAG_CD4536B,
         TAG_AD_CONVERTOR,
         TAG_DEBUGGER,
@@ -347,6 +349,7 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
     computerConfiguration.cdp1852Configuration.clear();
     computerConfiguration.cdp1854Configuration.clear();
     computerConfiguration.cdp1877Configuration.clear();
+    computerConfiguration.cdp1878Configuration.clear();
     computerConfiguration.cd4536bConfiguration.clear();
     computerConfiguration.memoryRamPartConfiguration.clear();
     computerConfiguration.memoryCopyConfiguration.clear();
@@ -533,13 +536,6 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
     computerConfiguration.memAccessConfiguration.directory = computerConfiguration.mainDir_ ;
     computerConfiguration.characterRomConfiguration.directory = computerConfiguration.mainDir_ ;
     computerConfiguration.batchConfiguration.directory = computerConfiguration.mainDir_ ;
-    for (int drive=0; drive<2; drive++)
-    {
-        computerConfiguration.ideFileConfiguration[drive].fileName = "";
-        computerConfiguration.ideFileConfiguration[drive].directory = computerConfiguration.mainDir_ ;
-        computerConfiguration.tu58FileConfiguration[drive].fileName = "";
-        computerConfiguration.tu58FileConfiguration[drive].directory = computerConfiguration.mainDir_ ;
-    }
     computerConfiguration.keyFileConfiguration.directory = computerConfiguration.mainDir_;
     computerConfiguration.printerFileConfiguration.directory = computerConfiguration.mainDir_;
     computerConfiguration.screenDumpFileConfiguration.directory = computerConfiguration.mainDir_;
@@ -725,6 +721,10 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
 
             case TAG_CDP1877:
                 parseXml_Cdp1877 (*child);
+            break;
+
+            case TAG_CDP1878:
+                parseXml_Cdp1878 (*child);
             break;
 
             case TAG_CD4536B:
@@ -1782,6 +1782,7 @@ void XmlParser::parseXml_Bootstrap(wxXmlNode &node)
 void XmlParser::parseXml_IdeDisk(wxXmlNode &node)
 {
     computerConfiguration.ideConfiguration.defined = true;
+    computerConfiguration.fdcType_ = FDCTYPE_TU58_IDE;
 
     wxString tagList[]=
     {
@@ -1839,21 +1840,15 @@ void XmlParser::parseXml_IdeDisk(wxXmlNode &node)
         switch (tagTypeInt)
         {
             case TAG_FILENAME:
-                if (child->GetAttribute("drive") == "0")
-                    driveNumber = 0;
-                if (child->GetAttribute("drive") == "1")
-                    driveNumber = 1;
-                computerConfiguration.ideFileConfiguration[driveNumber].fileName = child->GetNodeContent();
+                driveNumber = (int)parseXml_Number(*child, "drive");
+                floppy_[FDCTYPE_TU58_IDE][driveNumber] = child->GetNodeContent();
             break;
 
             case TAG_DIRNAME:
-                if (child->GetAttribute("drive") == "0")
-                    driveNumber = 0;
-                if (child->GetAttribute("drive") == "1")
-                    driveNumber = 1;
-                computerConfiguration.ideFileConfiguration[driveNumber].directory = dataDir_ + child->GetNodeContent();
-                if (computerConfiguration.ideFileConfiguration[driveNumber].directory.Right(1) != pathSeparator_)
-                    computerConfiguration.ideFileConfiguration[driveNumber].directory += pathSeparator_;
+                driveNumber = (int)parseXml_Number(*child, "drive");
+                floppyDir_[FDCTYPE_TU58_IDE][driveNumber] = dataDir_ + child->GetNodeContent();
+                if (floppyDir_[FDCTYPE_TU58_IDE][driveNumber].Right(1) != pathSeparator_)
+                    floppyDir_[FDCTYPE_TU58_IDE][driveNumber] += pathSeparator_;
             break;
 
             case TAG_IN:
@@ -2167,7 +2162,7 @@ void XmlParser::parseXml_Upd765(wxXmlNode &node)
 void XmlParser::parseXml_Tu58Disk(wxXmlNode &node)
 {
     computerConfiguration.tu58Configuration.defined = true;
-    computerConfiguration.fdcType_ = FDCTYPE_TU58;
+    computerConfiguration.fdcType_ = FDCTYPE_TU58_IDE;
 
     wxString tagList[]=
     {
@@ -2206,35 +2201,15 @@ void XmlParser::parseXml_Tu58Disk(wxXmlNode &node)
         {
             case TAG_FILENAME:
                 diskNumber = (int)parseXml_Number(*child, "disk");
-                floppy_[FDCTYPE_TU58][diskNumber] = child->GetNodeContent();
+                floppy_[FDCTYPE_TU58_IDE][diskNumber+2] = child->GetNodeContent();
             break;
 
             case TAG_DIRNAME:
                 diskNumber = (int)parseXml_Number(*child, "disk");
-                floppyDir_[FDCTYPE_TU58][diskNumber] = dataDir_ + child->GetNodeContent();
-                if (floppyDir_[FDCTYPE_TU58][diskNumber].Right(1) != pathSeparator_)
-                    floppyDir_[FDCTYPE_TU58][diskNumber] += pathSeparator_;
+                floppyDir_[FDCTYPE_TU58_IDE][diskNumber+2] = dataDir_ + child->GetNodeContent();
+                if (floppyDir_[FDCTYPE_TU58_IDE][diskNumber+2].Right(1) != pathSeparator_)
+                    floppyDir_[FDCTYPE_TU58_IDE][diskNumber+2] += pathSeparator_;
             break;
-
-    /*        case TAG_FILENAME:
-                if (child->HasAttribute("drive"))
-                {
-                    driveNumberStr = child->GetAttribute("drive");
-                    driveNumberStr.ToInt(&driveNumber);
-                }
-                computerConfiguration.tu58FileConfiguration[driveNumber].fileName = child->GetNodeContent();
-            break;
-
-            case TAG_DIRNAME:
-                if (child->HasAttribute("drive"))
-                {
-                    driveNumberStr = child->GetAttribute("drive");
-                    driveNumberStr.ToInt(&driveNumber);
-                }
-                computerConfiguration.tu58FileConfiguration[driveNumber].directory = dataDir_ + child->GetNodeContent();
-                if (computerConfiguration.tu58FileConfiguration[driveNumber].directory.Right(1) != pathSeparator_)
-                    computerConfiguration.tu58FileConfiguration[driveNumber].directory += pathSeparator_;
-            break;*/
 
             case TAG_BLOCKS:
                 diskNumber = (int)parseXml_Number(*child, "disk");
@@ -8359,6 +8334,116 @@ void XmlParser::parseXml_Cdp1877(wxXmlNode &node)
         child = child->GetNext();
     }
     computerConfiguration.cdp1877Configuration.push_back(cdp1877);
+}
+
+void XmlParser::parseXml_Cdp1878(wxXmlNode &node)
+{
+    Cdp1878Configuration cdp1878;
+
+    cdp1878.defined = true;
+    
+    wxString tagList[]=
+    {
+        "out",
+        "in",
+        "io",
+        "ef",
+        "int",
+        "iogroup",
+        "comment",
+        "undefined"
+    };
+
+    enum
+    {
+        TAG_OUT,
+        TAG_IN,
+        TAG_IO,
+        TAG_EF,
+        TAG_INTERRUPT,
+        TAG_IOGROUP,
+        TAG_COMMENT,
+        TAG_UNDEFINED
+    };
+    
+    int tagTypeInt;
+    wxString position, iogroup;
+    size_t ioGroupNumber = 0;
+
+    cdp1878.ioGroupVector.clear();
+    cdp1878.counterHighA = init_IoPort();
+    cdp1878.counterLowA = init_IoPort();
+    cdp1878.counterHighB = init_IoPort();
+    cdp1878.counterLowB = init_IoPort();
+    cdp1878.controlA = init_IoPort();
+    cdp1878.controlB = init_IoPort();
+    cdp1878.interrupt = init_IoPort();
+    cdp1878.ef = init_EfFlag();
+
+    wxXmlNode *child = node.GetChildren();
+    while (child)
+    {
+        wxString childName = child->GetName();
+
+        tagTypeInt = 0;
+        while (tagTypeInt != TAG_UNDEFINED && tagList[tagTypeInt] != childName)
+            tagTypeInt++;
+        
+        switch (tagTypeInt)
+        {
+            case TAG_OUT:
+                if (child->GetAttribute("type") == "a_control")
+                    cdp1878.controlA = parseXml_IoPort(*child, TIMER_CONTROL_A);
+                if (child->GetAttribute("type") == "b_control")
+                    cdp1878.controlB = parseXml_IoPort(*child, TIMER_CONTROL_B);
+             break;
+                
+            case TAG_IN:
+                if (child->GetAttribute("type") == "interrupt")
+                    cdp1878.interrupt = parseXml_IoPort(*child, TIMER_INTERRUPT);
+            break;
+
+            case TAG_IO:
+                if (child->GetAttribute("type") == "a_lo")
+                    cdp1878.counterLowA = parseXml_IoPort(*child, TIMER_COUNTER_LOW_A);
+                if (child->GetAttribute("type") == "a_hi")
+                    cdp1878.counterHighA = parseXml_IoPort(*child, TIMER_COUNTER_HIGH_A);
+                if (child->GetAttribute("type") == "b_lo")
+                    cdp1878.counterLowB = parseXml_IoPort(*child, TIMER_COUNTER_LOW_B);
+                if (child->GetAttribute("type") == "b_hi")
+                    cdp1878.counterHighB = parseXml_IoPort(*child, TIMER_COUNTER_HIGH_B);
+            break;
+
+            case TAG_EF:
+                cdp1878.ef = parseXml_EfFlag(*child, TIMER_EF);
+            break;
+
+            case TAG_INTERRUPT:
+                cdp1878.picInterrupt = (int)parseXml_Number(*child);
+            break;
+
+            case TAG_IOGROUP:
+                iogroup = child->GetNodeContent();
+                while (iogroup != "")
+                {
+                    cdp1878.ioGroupVector.resize(ioGroupNumber+1);
+                    cdp1878.ioGroupVector[ioGroupNumber++] = (int)getNextHexDec(&iogroup) & 0xff;
+                }
+            break;
+
+            case TAG_COMMENT:
+            break;
+
+            default:
+                warningText_ += "Unkown tag: ";
+                warningText_ += childName;
+                warningText_ += "\n";
+            break;
+        }
+        
+        child = child->GetNext();
+    }
+    computerConfiguration.cdp1878Configuration.push_back(cdp1878);
 }
 
 void XmlParser::parseXml_Cd4536b(wxXmlNode &node)

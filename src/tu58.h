@@ -169,9 +169,10 @@ public:
     Tu58(uint8_t nUnits=2);
     ~Tu58();
 
-    void configureTu58(Tu58FileConfiguration tu58FileConfiguration[2], Tu58Configuration tu58Configuration);
+    void configureTu58(Tu58Configuration tu58Configuration);
     void initTu58();
     void SendSerialBreak (bool fBreak);
+    void setTu58Diskname(int disk, wxString fileName);
 
     // Other public CTU58 methods ...
   public:
@@ -217,7 +218,6 @@ protected:
     bool ReadData();
     
 private:
-    Tu58FileConfiguration tu58FileConfiguration_[4];
     Tu58Configuration tu58Configuration_;
     
     bool          m_initialized;
