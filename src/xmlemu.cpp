@@ -6992,6 +6992,10 @@ void Computer::configureExtensions()
         cdp1878InstancePointer[numberOfCdp1878Instances_]->configureCdp1878(*cdp1878);
         numberOfCdp1878Instances_++;
     }
+    if (numberOfCdp1878Instances != 0)
+    {
+        computerTimerPointer = new wxTimer(this, 901);
+    }
 
     cdp1851FramePointer.clear();
     numberOfCdp1851Frames_ = 0;
