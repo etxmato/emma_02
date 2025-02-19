@@ -1,6 +1,13 @@
 #ifndef CDP1878_H
 #define CDP1878_H
 
+#define MODE_NONE 0
+#define MODE_TIMEOUT 1
+#define MODE_STROBE 2
+#define MODE_ONESHOT 3
+#define MODE_RATE 4
+#define MODE_PWM 5
+
 class Cdp1878Instance
 {
 public:
@@ -18,7 +25,7 @@ public:
     void writeControl(int counter, Byte value);
     Byte readInterrupt();
     Byte ef();
-    void cycle();
+    void timeOut(int counter);
     
 private:
     Cdp1878Configuration cdp1878Configuration_;
@@ -36,7 +43,7 @@ private:
     bool freezeHoldingRegister_[2];
     bool jamEnabled_[2];
 
-    Byte InterruptStatusRegister_;
+    Byte interruptStatusRegister_;
     Byte interruptEf_;
 
     int cycleCounter_;

@@ -906,9 +906,12 @@ public:
     IoPort counterHighB;
     IoPort counterLowB;
     IoPort controlB;
-    IoPort interrupt;
+    IoPort interruptA;
+    IoPort interruptB;
     EfFlag ef;
     
+    double clockA;
+    double clockB;
     int picInterrupt;
 };
 

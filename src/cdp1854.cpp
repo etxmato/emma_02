@@ -67,17 +67,19 @@ Cdp1854Instance::Cdp1854Instance(int cdp1854Number)
     
     controlRegister_ = 0;
     statusRegister_ = 0;
-
+    
     statusRegister_[EXTERNAL_STATUS] = 1;
     statusRegister_[TRANSMITTER_SHIFT_REGISTER] = REGISTER_EMPTY;
     statusRegister_[TRANSMITTER_HOLDING_REGISTER] = REGISTER_EMPTY;
-
+    
     useSdi_ = false;
     clearToSend_ = true;
     
     terminalLoad_ = false;
     terminalSave_ = false;
     sendPacket_ = false;
+    
+    interruptEf_ = 1;
 }
 
 void Cdp1854Instance::configureCdp1854(Cdp1854Configuration cdp1854Configuration, double clock, long int numberOfCdp1854s)

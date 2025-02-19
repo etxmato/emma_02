@@ -8348,6 +8348,7 @@ void XmlParser::parseXml_Cdp1878(wxXmlNode &node)
         "in",
         "io",
         "ef",
+        "clock",
         "int",
         "iogroup",
         "comment",
@@ -8360,6 +8361,7 @@ void XmlParser::parseXml_Cdp1878(wxXmlNode &node)
         TAG_IN,
         TAG_IO,
         TAG_EF,
+        TAG_CLOCK,
         TAG_INTERRUPT,
         TAG_IOGROUP,
         TAG_COMMENT,
@@ -8377,7 +8379,8 @@ void XmlParser::parseXml_Cdp1878(wxXmlNode &node)
     cdp1878.counterLowB = init_IoPort();
     cdp1878.controlA = init_IoPort();
     cdp1878.controlB = init_IoPort();
-    cdp1878.interrupt = init_IoPort();
+    cdp1878.interruptA = init_IoPort();
+    cdp1878.interruptB = init_IoPort();
     cdp1878.ef = init_EfFlag();
 
     wxXmlNode *child = node.GetChildren();
@@ -8392,32 +8395,59 @@ void XmlParser::parseXml_Cdp1878(wxXmlNode &node)
         switch (tagTypeInt)
         {
             case TAG_OUT:
-                if (child->GetAttribute("type") == "a_control")
-                    cdp1878.controlA = parseXml_IoPort(*child, TIMER_CONTROL_A);
-                if (child->GetAttribute("type") == "b_control")
-                    cdp1878.controlB = parseXml_IoPort(*child, TIMER_CONTROL_B);
+                if (child->GetAttribute("counter") == "a")
+                {
+                    if (child->GetAttribute("type") == "control")
+                        cdp1878.controlA = parseXml_IoPort(*child, TIMER_CONTROL_A);
+                }
+                if (child->GetAttribute("counter") == "b")
+                {
+                    if (child->GetAttribute("type") == "control")
+                        cdp1878.controlB = parseXml_IoPort(*child, TIMER_CONTROL_B);
+                }
              break;
                 
             case TAG_IN:
-                if (child->GetAttribute("type") == "interrupt")
-                    cdp1878.interrupt = parseXml_IoPort(*child, TIMER_INTERRUPT);
+                if (child->GetAttribute("counter") == "a")
+                {
+                    if (child->GetAttribute("type") == "interrupt")
+                        cdp1878.interruptA = parseXml_IoPort(*child, TIMER_INTERRUPT);
+                }
+                if (child->GetAttribute("counter") == "b")
+                {
+                    if (child->GetAttribute("type") == "interrupt")
+                        cdp1878.interruptB = parseXml_IoPort(*child, TIMER_INTERRUPT);
+                }
             break;
 
             case TAG_IO:
-                if (child->GetAttribute("type") == "a_lo")
-                    cdp1878.counterLowA = parseXml_IoPort(*child, TIMER_COUNTER_LOW_A);
-                if (child->GetAttribute("type") == "a_hi")
-                    cdp1878.counterHighA = parseXml_IoPort(*child, TIMER_COUNTER_HIGH_A);
-                if (child->GetAttribute("type") == "b_lo")
-                    cdp1878.counterLowB = parseXml_IoPort(*child, TIMER_COUNTER_LOW_B);
-                if (child->GetAttribute("type") == "b_hi")
-                    cdp1878.counterHighB = parseXml_IoPort(*child, TIMER_COUNTER_HIGH_B);
+                if (child->GetAttribute("counter") == "a")
+                {
+                    if (child->GetAttribute("type") == "low")
+                        cdp1878.counterLowA = parseXml_IoPort(*child, TIMER_COUNTER_LOW_A);
+                    if (child->GetAttribute("type") == "high")
+                        cdp1878.counterHighA = parseXml_IoPort(*child, TIMER_COUNTER_HIGH_A);
+                }
+                if (child->GetAttribute("counter") == "b")
+                {
+                    if (child->GetAttribute("type") == "low")
+                        cdp1878.counterLowB = parseXml_IoPort(*child, TIMER_COUNTER_LOW_B);
+                    if (child->GetAttribute("type") == "high")
+                        cdp1878.counterHighB = parseXml_IoPort(*child, TIMER_COUNTER_HIGH_B);
+                }
             break;
 
             case TAG_EF:
                 cdp1878.ef = parseXml_EfFlag(*child, TIMER_EF);
             break;
 
+            case TAG_CLOCK:
+                if (child->GetAttribute("counter") == "a")
+                    cdp1878.clockA = getDouble(child->GetNodeContent(), childName, 500, "500", false);
+                if (child->GetAttribute("counter") == "b")
+                    cdp1878.clockB = getDouble(child->GetNodeContent(), childName, 500, "500", false);
+            break;
+                
             case TAG_INTERRUPT:
                 cdp1878.picInterrupt = (int)parseXml_Number(*child);
             break;

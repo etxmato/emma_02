@@ -64,6 +64,8 @@
 BEGIN_EVENT_TABLE(Computer, wxFrame)
     EVT_CLOSE (Computer::onClose)
     EVT_TIMER(900, Computer::OnRtcTimer)
+    EVT_TIMER(901, Computer::OnCdp1878TimerA)
+    EVT_TIMER(902, Computer::OnCdp1878TimerB)
 
 END_EVENT_TABLE()
 #else
@@ -423,7 +425,8 @@ BEGIN_EVENT_TABLE(Computer, wxFrame)
     EVT_BUTTON(0x1FF, Computer::onCardButton)
 
     EVT_TIMER(900, Computer::OnRtcTimer)
-    EVT_TIMER(901, Computer::OnCdp1878Timer)
+    EVT_TIMER(901, Computer::OnCdp1878TimerA)
+    EVT_TIMER(902, Computer::OnCdp1878TimerB)
 
 END_EVENT_TABLE()
 #endif
@@ -463,7 +466,9 @@ Computer::Computer(const wxString& title, double clock, int tempo, ComputerConfi
     thumbSwitchValue_ = -1;
 
     rtcTimerPointer = new wxTimer(this, 900);
-    
+    computerTimerPointer[0] = new wxTimer(this, 901);
+    computerTimerPointer[1] = new wxTimer(this, 902);
+
     runningGame_ = "";
     bitKeypadValue_ = 0;
 
@@ -508,8 +513,11 @@ Computer::~Computer()
     saveRtc();
     if (nvramDetails.size() > 0)
         saveNvRam();
-    computerTimerPointer->Stop();
-    delete computerTimerPointer;
+    for (int counter=0; counter<2 ; counter++)
+    {
+        computerTimerPointer[counter]->Stop();
+        delete computerTimerPointer[counter];
+    }
     rtcTimerPointer->Stop();
     delete rtcTimerPointer;
     if (currentComputerConfiguration.coinConfiguration.defined)
@@ -6993,12 +7001,12 @@ void Computer::configureExtensions()
         cdp1878InstancePointer.resize(numberOfCdp1878Instances_+1);
         cdp1878InstancePointer[numberOfCdp1878Instances_] = new Cdp1878Instance(numberOfCdp1878Instances_);
         cdp1878InstancePointer[numberOfCdp1878Instances_]->configureCdp1878(*cdp1878);
+        if (numberOfCdp1878Instances_ == 0)
+        {
+            computerTimerPointer[0]->Start((double)(1000/cdp1878->clockA), wxTIMER_CONTINUOUS);
+            computerTimerPointer[1]->Start((double)(1000/cdp1878->clockB), wxTIMER_CONTINUOUS);
+        }
         numberOfCdp1878Instances_++;
-    }
-    if (numberOfCdp1878Instances_ != 0)
-    {
-        computerTimerPointer = new wxTimer(this, 901);
-        computerTimerPointer->Start(250, wxTIMER_CONTINUOUS);
     }
 
     cdp1851FramePointer.clear();
@@ -7863,8 +7871,16 @@ void Computer::showPanel()
         panelPointer[frontPanel]->Show(p_Main->showFrontPanel());
 }
 
-void Computer::OnCdp1878Timer(wxTimerEvent&WXUNUSED(event))
+void Computer::OnCdp1878TimerA(wxTimerEvent&WXUNUSED(event))
 {
+    for (int counter=0; counter<numberOfCdp1878Instances_; counter++)
+        cdp1878InstancePointer[counter]->timeOut(0);
+}
+
+void Computer::OnCdp1878TimerB(wxTimerEvent&WXUNUSED(event))
+{
+    for (int counter=0; counter<numberOfCdp1878Instances_; counter++)
+        cdp1878InstancePointer[counter]->timeOut(1);
 }
 
 void Computer::OnRtcTimer(wxTimerEvent&WXUNUSED(event))

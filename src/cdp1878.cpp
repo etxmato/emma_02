@@ -33,13 +33,6 @@
 #include "main.h"
 #include "cdp1878.h"
 
-#define MODE_NONE 0
-#define MODE_1 1
-#define MODE_2 2
-#define MODE_3 3
-#define MODE_4 4
-#define MODE_5 5
-
 Cdp1878Instance::Cdp1878Instance(int cdp1878Number)
 {
     cdp1878Number_ = cdp1878Number;
@@ -58,7 +51,8 @@ Cdp1878Instance::Cdp1878Instance(int cdp1878Number)
         mode_[counter] = MODE_NONE;
     }
     
-    InterruptStatusRegister_ = 0;
+    interruptEf_ = 1;
+    interruptStatusRegister_ = 0;
 }
 
 void Cdp1878Instance::configureCdp1878(Cdp1878Configuration cdp1878Configuration)
@@ -73,10 +67,11 @@ void Cdp1878Instance::configureCdp1878(Cdp1878Configuration cdp1878Configuration
     p_Computer->setOutType(&cdp1878Configuration.ioGroupVector, cdp1878Configuration.counterHighA, "counter A high");
     p_Computer->setOutType(&cdp1878Configuration.ioGroupVector, cdp1878Configuration.counterLowA, "counter A low");
     p_Computer->setOutType(&cdp1878Configuration.ioGroupVector, cdp1878Configuration.controlA, "write control register A");
+    p_Computer->setInType(&cdp1878Configuration.ioGroupVector, cdp1878Configuration.interruptA, "read interrupt register");
     p_Computer->setOutType(&cdp1878Configuration.ioGroupVector, cdp1878Configuration.counterHighB, "counter B high");
     p_Computer->setOutType(&cdp1878Configuration.ioGroupVector, cdp1878Configuration.counterLowB, "counter B low");
     p_Computer->setOutType(&cdp1878Configuration.ioGroupVector, cdp1878Configuration.controlB, "write control register B");
-    p_Computer->setOutType(&cdp1878Configuration.ioGroupVector, cdp1878Configuration.interrupt, "read interrupt register");
+    p_Computer->setInType(&cdp1878Configuration.ioGroupVector, cdp1878Configuration.interruptB, "read interrupt register");
     p_Computer->setEfType(&cdp1878Configuration.ioGroupVector, cdp1878Configuration.ef, "irq");
     p_Computer->setCycleType(CYCLE_TYPE_TIMER, TIMER_CYCLE);
  
@@ -127,6 +122,9 @@ Byte Cdp1878Instance::readCounterLow(int counter)
 
 void Cdp1878Instance::writeControl(int counter, Byte value)
 {
+    interruptEf_ = 1;
+    interruptStatusRegister_ = 0;
+    
     mode_[counter] = value & 0x7;
     positiveGateLevel_[counter] = ((value & 0x8) == 0x8);
     interruptEnabled_[counter] = ((value & 0x10) == 0x10);
@@ -137,16 +135,25 @@ void Cdp1878Instance::writeControl(int counter, Byte value)
 
 Byte Cdp1878Instance::readInterrupt()
 {
-    return InterruptStatusRegister_;
+    return interruptStatusRegister_;
 }
 
-void Cdp1878Instance::cycle()
+void Cdp1878Instance::timeOut(int counter)
 {
-    if (cycleCounter_ > 0)
+    if (!startCounter_[counter])
+        return;
+    
+    counterRegister_[counter]--;
+    if (!freezeHoldingRegister_[counter])
+        holdingRegister_[counter] = counterRegister_[counter];
+    
+    if (counterRegister_[counter] == 0xFFFF)
     {
-        cycleCounter_--;
-        if (cycleCounter_ == 0)
+        if (interruptEnabled_[counter])
         {
+            interruptEf_ = 0;
+            p_Computer->requestInterrupt(INTERRUPT_TYPE_TIMER_A+counter, false, cdp1878Configuration_.picInterrupt);
+            interruptStatusRegister_ = 0x80 >> counter;
         }
     }
 }

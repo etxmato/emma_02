@@ -233,7 +233,8 @@ public:
     void setGreenLed(int status);
     void refreshPanel();
     void showPanel();
-    void OnCdp1878Timer(wxTimerEvent& event);
+    void OnCdp1878TimerA(wxTimerEvent& event);
+    void OnCdp1878TimerB(wxTimerEvent& event);
     void OnRtcTimer(wxTimerEvent& event);
     void writeRtc(int address, Byte value);
     void cid1Bit8(bool set);
@@ -520,7 +521,7 @@ private:
     wxString runningGame_;
 
     wxTimer *rtcTimerPointer;
-    wxTimer *computerTimerPointer;
+    wxTimer *computerTimerPointer[2];
     int rtcCycle_;
 
     bool diagRomActive_;
