@@ -233,6 +233,7 @@ public:
     void setGreenLed(int status);
     void refreshPanel();
     void showPanel();
+    void OnCdp1878Timer(wxTimerEvent& event);
     void OnRtcTimer(wxTimerEvent& event);
     void writeRtc(int address, Byte value);
     void cid1Bit8(bool set);
