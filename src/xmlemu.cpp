@@ -507,6 +507,8 @@ Computer::~Computer()
     saveRtc();
     if (nvramDetails.size() > 0)
         saveNvRam();
+    computerTimerPointer->Stop();
+    delete computerTimerPointer;
     rtcTimerPointer->Stop();
     delete rtcTimerPointer;
     if (currentComputerConfiguration.coinConfiguration.defined)
@@ -6995,6 +6997,7 @@ void Computer::configureExtensions()
     if (numberOfCdp1878Instances != 0)
     {
         computerTimerPointer = new wxTimer(this, 901);
+        computerTimerPointer->Start(250, wxTIMER_CONTINUOUS);
     }
 
     cdp1851FramePointer.clear();
