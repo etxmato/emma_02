@@ -24,17 +24,17 @@ private:
     Cdp1878Configuration cdp1878Configuration_;
     int cdp1878Number_;
 
-    Byte control[2]_;
-    Word holdingRegister[2]_;
-    Word counterRegister[2]_;
-    Word jamRegister[2]_;
+    Byte control_[2];
+    Word holdingRegister_[2];
+    Word counterRegister_[2];
+    Word jamRegister_[2];
     
-    Byte mode[2]_;
-    bool positiveGateLevel[2]_;
-    bool interruptEnabled[2]_;
-    bool startCounter[2]_;
-    bool freezeHoldingRegister[2]_;
-    bool jamEnabled[2]_;
+    Byte mode_[2];
+    bool positiveGateLevel_[2];
+    bool interruptEnabled_[2];
+    bool startCounter_[2];
+    bool freezeHoldingRegister_[2];
+    bool jamEnabled_[2];
 
     Byte InterruptStatusRegister_;
     Byte interruptEf_;

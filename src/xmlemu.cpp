@@ -423,6 +423,7 @@ BEGIN_EVENT_TABLE(Computer, wxFrame)
     EVT_BUTTON(0x1FF, Computer::onCardButton)
 
     EVT_TIMER(900, Computer::OnRtcTimer)
+    EVT_TIMER(901, Computer::OnCdp1878Timer)
 
 END_EVENT_TABLE()
 #endif
@@ -2048,7 +2049,7 @@ Byte Computer::in(Byte port, Word address)
 
         case TIMER_COUNTER_LOW_A:
         case TIMER_COUNTER_LOW_B:
-            return cdp1878InstancePointer[inItemNumber_[qState_][ioGroup_+1][port]]->readCounterLowB(inType_[qState_][ioGroup_+1][port]-TIMER_COUNTER_LOW_A);
+            return cdp1878InstancePointer[inItemNumber_[qState_][ioGroup_+1][port]]->readCounterLow(inType_[qState_][ioGroup_+1][port]-TIMER_COUNTER_LOW_A);
         break;
 
         // Folowing I/O is not adapted to ioGroups
@@ -2751,7 +2752,7 @@ void Computer::out(Byte port, Word address, Byte value)
 
         case TIMER_CONTROL_A:
         case TIMER_CONTROL_B:
-            cdp1878InstancePointer[outItemNumber_[qState_][ioGroup_+1][port]]->writeControlA(outType_[qState_][ioGroup_+1][port]-TIMER_CONTROL_A, value);
+            cdp1878InstancePointer[outItemNumber_[qState_][ioGroup_+1][port]]->writeControl(outType_[qState_][ioGroup_+1][port]-TIMER_CONTROL_A, value);
         break;
 
         case TIMER_COUNTER_HIGH_A:
@@ -2761,7 +2762,7 @@ void Computer::out(Byte port, Word address, Byte value)
 
         case TIMER_COUNTER_LOW_A:
         case TIMER_COUNTER_LOW_B:
-            cdp1878InstancePointer[outItemNumber_[qState_][ioGroup_+1][port]]->writeCounterLowA(outType_[qState_][ioGroup_+1][port]-TIMER_COUNTER_LOW_A, value);
+            cdp1878InstancePointer[outItemNumber_[qState_][ioGroup_+1][port]]->writeCounterLow(outType_[qState_][ioGroup_+1][port]-TIMER_COUNTER_LOW_A, value);
         break;
 
         case CD4536B_WRITE_OUT:
@@ -6994,7 +6995,7 @@ void Computer::configureExtensions()
         cdp1878InstancePointer[numberOfCdp1878Instances_]->configureCdp1878(*cdp1878);
         numberOfCdp1878Instances_++;
     }
-    if (numberOfCdp1878Instances != 0)
+    if (numberOfCdp1878Instances_ != 0)
     {
         computerTimerPointer = new wxTimer(this, 901);
         computerTimerPointer->Start(250, wxTIMER_CONTINUOUS);

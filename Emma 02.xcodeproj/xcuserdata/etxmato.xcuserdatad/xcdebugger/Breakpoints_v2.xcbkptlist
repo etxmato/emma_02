@@ -781,9 +781,9 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "10246"
-            endingLineNumber = "10246"
-            landmarkName = "Computer::dataAvailable(data, uartNumber)"
+            startingLineNumber = "10247"
+            endingLineNumber = "10247"
+            landmarkName = "Computer::dataAvailableUart(data, uartNumber)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -798,9 +798,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "10256"
-            endingLineNumber = "10256"
-            landmarkName = "Computer::dataAvailableUart(data, uartNumber)"
-            landmarkType = "7">
+            endingLineNumber = "10256">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -813,9 +811,9 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "10236"
-            endingLineNumber = "10236"
-            landmarkName = "Computer::dataAvailable(uartNumber)"
+            startingLineNumber = "10237"
+            endingLineNumber = "10237"
+            landmarkName = "Computer::dataAvailable(data, uartNumber)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

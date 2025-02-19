@@ -45,17 +45,17 @@ Cdp1878Instance::Cdp1878Instance(int cdp1878Number)
     cdp1878Number_ = cdp1878Number;
     for (int counter=0; counter<2; counter++)
     {
-        holdingRegister[counter]_ = 0;
-        counterRegister[counter]_ = 0;
-        jamRegister[counter]_ = 0;
-        control[counter]_ = 0;
+        holdingRegister_[counter] = 0;
+        counterRegister_[counter] = 0;
+        jamRegister_[counter] = 0;
+        control_[counter] = 0;
 
-        positiveGateLevel[counter]_ = false;
-        interruptEnabled[counter]_ = false;
-        startCounter[counter]_ = false;
-        freezeHoldingRegisterA[counter]_ = false;
-        jamEnabled[counter]_ = false;
-        mode[counter]_ = MODE_NONE;
+        positiveGateLevel_[counter] = false;
+        interruptEnabled_[counter] = false;
+        startCounter_[counter] = false;
+        freezeHoldingRegister_[counter] = false;
+        jamEnabled_[counter] = false;
+        mode_[counter] = MODE_NONE;
     }
     
     InterruptStatusRegister_ = 0;
@@ -107,32 +107,32 @@ Byte Cdp1878Instance::efInterrupt()
 
 void Cdp1878Instance::writeCounterHigh(int counter, Byte value)
 {
-    jamRegister[counter]_ = (jamRegister[counter]_ & 0xff) | (value << 8);
+    jamRegister_[counter] = (jamRegister_[counter] & 0xff) | (value << 8);
 }
 
 void Cdp1878Instance::writeCounterLow(int counter, Byte value)
 {
-    jamRegister[counter] = (jamRegister[counter]_ & 0xff00) | value;
+    jamRegister_[counter] = (jamRegister_[counter] & 0xff00) | value;
 }
 
 Byte Cdp1878Instance::readCounterHigh(int counter)
 {
-    return (holdingRegister[counter]_ & 0xFF00) >> 8;
+    return (holdingRegister_[counter] & 0xFF00) >> 8;
 }
 
 Byte Cdp1878Instance::readCounterLow(int counter)
 {
-    return holdingRegister[counter] & 0xFF;
+    return holdingRegister_[counter] & 0xFF;
 }
 
-void Cdp1878Instance::writeControlA(int counter, Byte value)
+void Cdp1878Instance::writeControl(int counter, Byte value)
 {
-    mode[counter]_ = value & 0x7;
-    positiveGateLevel[counter] = ((value & 0x8) == 0x8);
-    interruptEnabled[counter]_ = ((value & 0x10) == 0x10);
-    startCounter[counter]_ = ((value & 0x20) == 0x20);
-    freezeHoldingRegister[counter]_ = ((value & 0x40) == 0x40);
-    jamEnabled[counter]_ = ((value & 0x80) == 0x80);
+    mode_[counter] = value & 0x7;
+    positiveGateLevel_[counter] = ((value & 0x8) == 0x8);
+    interruptEnabled_[counter] = ((value & 0x10) == 0x10);
+    startCounter_[counter] = ((value & 0x20) == 0x20);
+    freezeHoldingRegister_[counter] = ((value & 0x40) == 0x40);
+    jamEnabled_[counter] = ((value & 0x80) == 0x80);
 }
 
 Byte Cdp1878Instance::readInterrupt()
