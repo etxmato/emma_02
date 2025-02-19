@@ -520,6 +520,7 @@ private:
     wxString runningGame_;
 
     wxTimer *rtcTimerPointer;
+    wxTimer *computerTimerPointer;
     int rtcCycle_;
 
     bool diagRomActive_;
