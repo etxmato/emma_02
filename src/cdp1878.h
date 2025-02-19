@@ -11,16 +11,11 @@ public:
     bool ioGroupCdp1878(int ioGroup);
     
     Byte efInterrupt();
-    void writeCounterHighA(Byte value);
-    void writeCounterLowA(Byte value);
-    void writeCounterHighB(Byte value);
-    void writeCounterLowB(Byte value);
-    Byte readCounterHighA();
-    Byte readCounterLowA();
-    Byte readCounterHighB();
-    Byte readCounterLowB();
-    void writeControlA(Byte value);
-    void writeControlB(Byte value);
+    void writeCounterHigh(int counter, Byte value);
+    void writeCounterLow(int counter, Byte value);
+    Byte readCounterHigh(int counter);
+    Byte readCounterLow(int counter);
+    void writeControl(int counter, Byte value);
     Byte readInterrupt();
     Byte ef();
     void cycle();
@@ -29,27 +24,17 @@ private:
     Cdp1878Configuration cdp1878Configuration_;
     int cdp1878Number_;
 
-    Byte controlA_;
-    Word holdingRegisterA_;
-    Word jamRegisterA_;
+    Byte control[2]_;
+    Word holdingRegister[2]_;
+    Word counterRegister[2]_;
+    Word jamRegister[2]_;
     
-    Byte modeA_;
-    bool positiveGateLevelA_;
-    bool interruptEnabledA_;
-    bool startCounterA_;
-    bool freezeHoldingRegisterA_;
-    bool jamEnabledA_;
-
-    Byte controlB_;
-    Word holdingRegisterB_;
-    Word jamRegisterB_;
-    
-    Byte modeB_;
-    bool positiveGateLevelB_;
-    bool interruptEnabledB_;
-    bool startCounterB_;
-    bool freezeHoldingRegisterB_;
-    bool jamEnabledB_;
+    Byte mode[2]_;
+    bool positiveGateLevel[2]_;
+    bool interruptEnabled[2]_;
+    bool startCounter[2]_;
+    bool freezeHoldingRegister[2]_;
+    bool jamEnabled[2]_;
 
     Byte InterruptStatusRegister_;
     Byte interruptEf_;
