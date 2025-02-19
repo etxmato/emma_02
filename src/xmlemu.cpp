@@ -7855,6 +7855,10 @@ void Computer::showPanel()
         panelPointer[frontPanel]->Show(p_Main->showFrontPanel());
 }
 
+void Computer::OnCdp1878Timer(wxTimerEvent&WXUNUSED(event))
+{
+}
+
 void Computer::OnRtcTimer(wxTimerEvent&WXUNUSED(event))
 {
     rtcCycle_--;
