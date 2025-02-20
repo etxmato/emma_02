@@ -45,6 +45,11 @@ private:
     bool freezeHoldingRegister_[2];
     bool jamEnabled_[2];
 
+    bool strobe_[2];
+    bool pwmPhaseLsb_[2];
+    Byte counterRegisterLsb_[2];
+    Byte counterRegisterMsb_[2];
+
     Byte interruptStatusRegister_;
     Byte interruptEf_;
 
