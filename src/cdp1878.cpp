@@ -49,6 +49,8 @@ Cdp1878Instance::Cdp1878Instance(int cdp1878Number)
         freezeHoldingRegister_[counter] = false;
         jamEnabled_[counter] = false;
         mode_[counter] = MODE_NONE;
+
+        strobe_[counter] = false;
     }
     
     interruptEf_ = 1;
@@ -131,10 +133,10 @@ void Cdp1878Instance::writeControl(int counter, Byte value)
     positiveGateLevel_[counter] = ((value & 0x8) == 0x8);
     interruptEnabled_[counter] = ((value & 0x10) == 0x10);
     startCounter_[counter] = ((value & 0x20) == 0x20);
-    if (startCounter_[counter])
-        counterRegister_[counter] = jamRegister_[counter];
     freezeHoldingRegister_[counter] = ((value & 0x40) == 0x40);
     jamEnabled_[counter] = ((value & 0x80) == 0x80);
+    if (jamEnabled_[counter])
+        counterRegister_[counter] = jamRegister_[counter];
 }
 
 Byte Cdp1878Instance::readInterrupt()
@@ -144,7 +146,15 @@ Byte Cdp1878Instance::readInterrupt()
 
 void Cdp1878Instance::timeOut(int counter)
 {
-    if (!startCounter_[counter])
+    if (strobe_[counter])
+    {
+        interruptEf_ = 1;
+        p_Computer->clearInterrupt(INTERRUPT_TYPE_TIMER_A+counter, false, cdp1878Configuration_.picInterrupt);
+        interruptStatusRegister_ = 0;
+        strobe_[counter] = false;
+    }
+
+    if (!startCounter_[counter] || !positiveGateLevel_[counter])
         return;
     
     counterRegister_[counter]--;
@@ -163,6 +173,10 @@ void Cdp1878Instance::timeOut(int counter)
         {
             case MODE_RATE:
                 counterRegister_[counter] = jamRegister_[counter];
+            break;
+
+            case MODE_STROBE:
+                strobe_[counter] = true;
             break;
 
             default:
