@@ -126,7 +126,7 @@ Byte Cdp1878Instance::readCounterLow(int counter)
 void Cdp1878Instance::writeControl(int counter, Byte value)
 {
     interruptEf_ = 1;
-    p_Computer->clearInterrupt(INTERRUPT_TYPE_TIMER_A+counter, false, cdp1878Configuration_.picInterrupt);
+    p_Computer->requestInterrupt(INTERRUPT_TYPE_TIMER_A+counter, false, cdp1878Configuration_.picInterrupt);
     interruptStatusRegister_ = 0;
     
     if ((value & 0x7) != 0)
@@ -155,7 +155,7 @@ void Cdp1878Instance::timeOut(int counter)
     if (strobe_[counter])
     {
         interruptEf_ = 1;
-        p_Computer->clearInterrupt(INTERRUPT_TYPE_TIMER_A+counter, false, cdp1878Configuration_.picInterrupt);
+        p_Computer->requestInterrupt(INTERRUPT_TYPE_TIMER_A+counter, false, cdp1878Configuration_.picInterrupt);
         interruptStatusRegister_ ^= 0x80 >> counter;
         strobe_[counter] = false;
     }
@@ -169,7 +169,7 @@ void Cdp1878Instance::timeOut(int counter)
             counterRegister_[counter]--;
             if (counterRegister_[counter] == 0xFFFF)
             {
-                interrupt();
+                interrupt(counter);
                 counterRegister_[counter] = jamRegister_[counter];
             }
         break;
@@ -198,10 +198,10 @@ void Cdp1878Instance::timeOut(int counter)
                 {
                     counterRegisterMsb_[counter] = jamRegister_[counter] >> 8;
                     pwmPhaseLsb_[counter] = true;
-                    interrupt();
+                    interrupt(counter);
                 }
             }
-            counterRegister_[counter] = (counterRegisterMsb_[counter] << 8) | counterRegisterLsb_[counter]
+            counterRegister_[counter] = (counterRegisterMsb_[counter] << 8) | counterRegisterLsb_[counter];
         break;
 
         default:
@@ -214,7 +214,7 @@ void Cdp1878Instance::timeOut(int counter)
         holdingRegister_[counter] = counterRegister_[counter];
 }
 
-void Cdp1878Instance::interrupt()
+void Cdp1878Instance::interrupt(int counter)
 {
     if (interruptEnabled_[counter])
     {

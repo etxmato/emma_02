@@ -28,7 +28,7 @@ public:
     Byte readInterrupt();
     Byte ef();
     void timeOut(int counter);
-    void interrupt();
+    void interrupt(int counter);
     
 private:
     Cdp1878Configuration cdp1878Configuration_;
