@@ -137,7 +137,11 @@ void Cdp1878Instance::writeControl(int counter, Byte value)
     freezeHoldingRegister_[counter] = ((value & 0x40) == 0x40);
     jamEnabled_[counter] = ((value & 0x80) == 0x80);
     if (jamEnabled_[counter])
+    {
         counterRegister_[counter] = jamRegister_[counter];
+        counterRegisterLsb_[counter] = jamRegister_[counter] & 0xff;
+        counterRegisterMsb_[counter] = jamRegister_[counter] >> 8;
+    }
     pwmPhaseLsb_[counter] = true;
 }
 
@@ -179,8 +183,25 @@ void Cdp1878Instance::timeOut(int counter)
         case MODE_PWM_1:
         case MODE_PWM_2:
             if (pwmPhaseLsb_[counter])
-                
-
+            {
+                counterRegisterLsb_[counter]--;
+                if (counterRegisterLsb_[counter] == 0xff)
+                {
+                    counterRegisterLsb_[counter] = jamRegister_[counter] & 0xff;
+                    pwmPhaseLsb_[counter] = false;
+                }
+            }
+            else
+            {
+                counterRegisterMsb_[counter]--;
+                if (counterRegisterLsb_[counter] == 0xff)
+                {
+                    counterRegisterMsb_[counter] = jamRegister_[counter] >> 8;
+                    pwmPhaseLsb_[counter] = true;
+                    interrupt();
+                }
+            }
+            counterRegister_[counter] = (counterRegisterMsb_[counter] << 8) | counterRegisterLsb_[counter]
         break;
 
         default:
