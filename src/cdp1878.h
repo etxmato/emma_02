@@ -6,7 +6,9 @@
 #define MODE_STROBE 2
 #define MODE_ONESHOT 3
 #define MODE_RATE 4
-#define MODE_PWM 5
+#define MODE_PWM_1 5
+#define MODE_UNDEFINED 6
+#define MODE_PWM_2 7
 
 class Cdp1878Instance
 {
