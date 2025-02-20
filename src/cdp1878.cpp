@@ -51,6 +51,7 @@ Cdp1878Instance::Cdp1878Instance(int cdp1878Number)
         mode_[counter] = MODE_NONE;
 
         strobe_[counter] = false;
+        pwmPhaseLsb_[counter] = true;
     }
     
     interruptEf_ = 1;
@@ -137,6 +138,7 @@ void Cdp1878Instance::writeControl(int counter, Byte value)
     jamEnabled_[counter] = ((value & 0x80) == 0x80);
     if (jamEnabled_[counter])
         counterRegister_[counter] = jamRegister_[counter];
+    pwmPhaseLsb_[counter] = true;
 }
 
 Byte Cdp1878Instance::readInterrupt()
@@ -150,39 +152,55 @@ void Cdp1878Instance::timeOut(int counter)
     {
         interruptEf_ = 1;
         p_Computer->clearInterrupt(INTERRUPT_TYPE_TIMER_A+counter, false, cdp1878Configuration_.picInterrupt);
-        interruptStatusRegister_ = 0;
+        interruptStatusRegister_ ^= 0x80 >> counter;
         strobe_[counter] = false;
     }
 
     if (!startCounter_[counter] || !positiveGateLevel_[counter])
         return;
     
-    counterRegister_[counter]--;
+    switch (mode_[counter])
+    {    
+        case MODE_RATE:
+            counterRegister_[counter]--;
+            if (counterRegister_[counter] == 0xFFFF)
+            {
+                interrupt();
+                counterRegister_[counter] = jamRegister_[counter];
+            }
+        break;
+        
+        case MODE_STROBE:
+            counterRegister_[counter]--;
+            if (counterRegister_[counter] == 0xFFFF)
+                strobe_[counter] = true;
+        break;
+       
+        case MODE_PWM_1:
+        case MODE_PWM_2:
+            if (pwmPhaseLsb_[counter])
+                
+
+        break;
+
+        default:
+            counterRegister_[counter]--;
+            if (counterRegister_[counter] == 0xFFFF)
+                startCounter_[counter] = false;
+        break;
+    }
     if (!freezeHoldingRegister_[counter])
         holdingRegister_[counter] = counterRegister_[counter];
-    
-    if (counterRegister_[counter] == 0xFFFF)
+}
+
+void Cdp1878Instance::interrupt()
+{
+    if (interruptEnabled_[counter])
     {
-        if (interruptEnabled_[counter])
-        {
-            interruptEf_ = 0;
-            p_Computer->requestInterrupt(INTERRUPT_TYPE_TIMER_A+counter, true, cdp1878Configuration_.picInterrupt);
-            interruptStatusRegister_ = 0x80 >> counter;
-        }
-        switch (mode_[counter])
-        {
-            case MODE_RATE:
-                counterRegister_[counter] = jamRegister_[counter];
-            break;
-
-            case MODE_STROBE:
-                strobe_[counter] = true;
-            break;
-
-            default:
-                startCounter_[counter] = false;
-            break;
-        }
+        interruptEf_ = 0;
+        p_Computer->requestInterrupt(INTERRUPT_TYPE_TIMER_A+counter, true, cdp1878Configuration_.picInterrupt);
+        interruptStatusRegister_ |= 0x80 >> counter;
     }
 }
+
 
