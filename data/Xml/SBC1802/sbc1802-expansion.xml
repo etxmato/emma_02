@@ -5,7 +5,7 @@
     
     <system>
         <name>SBC1802</name>
-        <config></config>
+        <config>Expansion board</config>
         <clock>2.5</clock>
         <boot>0</boot>
         <init ef="1">1</init>
@@ -23,17 +23,7 @@
         <ef type="in">1</ef>
         <item>
             <type>png</type>
-            <filename dirname="images">sbc1802-alt.png</filename>
-        </item>
-        <item>
-            <type>png</type>
-            <pos>450, 65</pos>
-            <filename dirname="images">tillscreen.png</filename>
-        </item>
-        <item>
-            <type>png</type>
-            <pos>650, 68</pos>
-            <filename dirname="images">thumbwheel.png</filename>
+            <filename dirname="images">sbc1802.png</filename>
         </item>
         <item>
             <type form="round" color="red" size="large">push</type>
@@ -44,7 +34,7 @@
         </item>
         <item>
             <type form="round" color="green" size="large">push</type>
-            <function>in_int</function>
+            <function>in</function>
             <init>up</init>
             <pos>316, 138</pos>
             <size>25, 25</size>
@@ -70,60 +60,100 @@
             <pos>316, 45</pos>
         </item>
         <item>
-            <type>thumb_minus</type>
-            <function>thumb_minus</function>
-            <value>1</value>
-            <init>up</init>
-            <pos>663, 72</pos>
-            <size>18, 14</size>
-        </item>
-        <item>
-            <type>thumb_minus</type>
-            <function>thumb_minus</function>
+            <type form="large">led</type>
             <value>0</value>
-            <init>up</init>
-            <pos>689, 72</pos>
-            <size>18, 14</size>
+            <function>bitled</function>
+            <pos>734, 45</pos>
         </item>
         <item>
-            <type>thumb_plus</type>
-            <function>thumb_plus</function>
-            <value>1</value>
-            <init>up</init>
-            <pos>663, 120</pos>
-            <size>18, 14</size>
-        </item>
-        <item>
-            <type>thumb_plus</type>
-            <function>thumb_plus</function>
+            <type color="green">switch</type>
             <value>0</value>
-            <init>up</init>
-            <pos>689, 120</pos>
-            <size>18, 14</size>
+            <function>bitswitch</function>
+            <pos>734, 137</pos>
         </item>
         <item>
-            <type color="white">thumb_text</type>
+            <type form="large">led</type>
             <value>1</value>
-            <label size="14">0</label>
-            <pos>666, 92</pos>
+            <function>bitled</function>
+            <pos>687, 45</pos>
         </item>
         <item>
-            <type color="white">thumb_text</type>
-            <value>0</value>
-            <label size="14">0</label>
-            <pos>693, 92</pos>
-        </item>
-        <item>
-            <type form="311">til</type>
-            <value>0</value>
-            <function>datatil</function>
-            <pos>502, 90</pos>
-        </item>
-        <item>
-            <type form="311">til</type>
+            <type color="green">switch</type>
             <value>1</value>
-            <function>datatil</function>
-            <pos>522, 90</pos>
+            <function>bitswitch</function>
+            <pos>687, 137</pos>
+        </item>
+        <item>
+            <type form="large">led</type>
+            <value>2</value>
+            <function>bitled</function>
+            <pos>640, 45</pos>
+        </item>
+        <item>
+            <type color="green">switch</type>
+            <value>2</value>
+            <function>bitswitch</function>
+            <pos>640, 137</pos>
+        </item>
+        <item>
+            <type form="large">led</type>
+            <value>3</value>
+            <function>bitled</function>
+            <pos>595, 45</pos>
+        </item>
+        <item>
+            <type color="green">switch</type>
+            <value>3</value>
+            <function>bitswitch</function>
+            <pos>595, 137</pos>
+        </item>
+        <item>
+            <type form="large">led</type>
+            <value>4</value>
+            <function>bitled</function>
+            <pos>548, 45</pos>
+        </item>
+        <item>
+            <type color="red">switch</type>
+            <value>4</value>
+            <function>bitswitch</function>
+            <pos>548, 137</pos>
+        </item>
+        <item>
+            <type form="large">led</type>
+            <value>5</value>
+            <function>bitled</function>
+            <pos>501, 45</pos>
+        </item>
+        <item>
+            <type color="red">switch</type>
+            <value>5</value>
+            <function>bitswitch</function>
+            <pos>501, 137</pos>
+        </item>
+        <item>
+            <type form="large">led</type>
+            <value>6</value>
+            <function>bitled</function>
+            <pos>454, 45</pos>
+        </item>
+        <item>
+            <type color="red">switch</type>
+            <value>6</value>
+            <function>bitswitch</function>
+            <pos>454, 137</pos>
+        </item>
+        <item>
+            <type form="large">led</type>
+            <value>7</value>
+            <function>bitled</function>
+            <pos>407, 45</pos>
+        </item>
+        <item>
+            <type color="red">switch</type>
+            <value>7</value>
+            <function>bitswitch</function>
+            <pos>407, 137</pos>
         </item>
     </frontpanel>
 
@@ -153,7 +183,7 @@
         <mcr max="8">
             <start>0</start>
             <end>0xFFFF</end>
-            <out type="mcr" mask="0x7">0xfee7</out> 
+            <out type="mcr" mask="0x7">0xfee7</out>
             <in type="bbat" mask="0x40">0xfee7</in>
             <map map_num="0"> <!-- BOOT -->
                 <rom mem_num="0">
@@ -265,13 +295,77 @@
     </memory>
   
     <iogroup>
-        <out>1</out>
+        <io>1</io>
     </iogroup>
         
     <xmodem>
     </xmodem>
 
-    <cdp1877> 
+    <cdp1851 init="off">
+        <init type="a">0xff</init>
+        <init type="b">0xff</init>
+        <iogroup>5</iogroup>
+        <pos>310, 0</pos>
+        <out type="a">4</out>
+        <out type="b">6</out>
+        <in type="a">4</in>
+        <in type="b">6</in>
+        <out type="control">2</out>
+        <in type="status">2</in>
+        <ef type="a">1</ef>
+        <ef type="b">2</ef>
+        <ef type="irq" pol="rev">3</ef>
+        <int>6</int>
+    </cdp1851>
+
+    <cdp1854 connection="vt100">
+        <iogroup>0, 1</iogroup>
+        <out type="register">2</out>
+        <out type="control">3</out>
+        <in type="register">2</in>
+        <in type="status">3</in>
+        <int>4</int>
+        <ef type="int">3</ef>
+        <ef pol="rev">4</ef>
+        <baud type="receive">9600</baud>
+        <baud type="transmit">9600</baud>
+    </cdp1854>
+
+    <vt type="vt100" connection="uart1854">
+        <font>vt100.bin</font>
+        <baud type="receive">9600</baud>
+        <baud type="transmit">9600</baud>
+    </vt>
+
+    <cdp1854 connection="tu58">
+        <iogroup>4</iogroup>
+        <out type="register">2</out>
+        <out type="control">3</out>
+        <in type="register">2</in>
+        <in type="status">3</in>
+        <int>7</int>
+        <ef type="int">3</ef>
+        <ef pol="rev">4</ef>
+        <baud type="receive">9600</baud>
+        <baud type="transmit">9600</baud>
+    </cdp1854>
+
+    <disk type="tu58">
+        <filename disk="0">microdos.img</filename>
+        <filename disk="1">basic3.img</filename>
+    </disk>
+    
+    <cdp1855 num="4">
+        <iogroup>4</iogroup>
+        <io type="x">4</io>
+        <io type="z">5</io>
+        <io type="y">6</io>
+        <ef>2</ef>
+        <out type="control">7</out>
+        <in type="status">7</in>
+    </cdp1855>
+
+    <cdp1877>
         <out type="mien" mask="0x80">0xfee7</out>
         <out type="mask" addressmask="0xfffc">0xfef0</out>
         <out type="control" addressmask="0xfffc">0xfef4</out>
@@ -281,25 +375,33 @@
         <in type="polling" addressmask="0xfffc">0xfef4</in>
         <in type="vector" addressmask="0xfffc">0xfef8</in>
     </cdp1877>
-
-    <vt type="vt100" connection="uart1854">
+    
+    <cdp1878>
+        <iogroup>6</iogroup>
+        <clock counter="a">2.5</clock>
+        <clock counter="b">1.2288</clock>
+        <io type="low" counter="a">2</io>
+        <io type="low" counter="b">3</io>
+        <in type="interrupt" counter="a">4</in>
+        <in type="interrupt" counter="b">5</in>
+        <out type="control" counter="a">4</out>
+        <out type="control" counter="b">5</out>
+        <io type="high" counter="a">6</io>
+        <io type="high" counter="b">7</io>
+        <ef>3</ef>
+        <int>5</int>
+    </cdp1878>
+    
+    <rtc type="cdp1879">
         <iogroup>0, 1</iogroup>
-        <font>vt100.bin</font>
-        <out type="register">2</out>
-        <out type="control">3</out>
-        <in type="register">2</in>
-        <in type="status">3</in>
-        <int>4</int>
-        <ef type="int" iogroup="no">3</ef>
-        <ef iogroup="no">4</ef>
-        <baud type="receive">9600</baud>
-        <baud type="transmit">9600</baud>
-    </vt>
- 
+        <ef>2</ef>
+        <base>0xfee8</base>
+        <int>1</int>
+    </rtc>
+    
     <disk type="ide">
         <iogroup>0, 1</iogroup>
-        <filename drive="0">sbc1802.dsk</filename>
-        <filename drive="1">sbc1802-2.dsk</filename>
+        <filename drive="0">ElfOSv5.dsk</filename>
         <out type="select">5</out>
         <out type="write">6</out>
         <in type="status">5</in>
@@ -309,13 +411,17 @@
         <heads>4</heads>
         <sectors>26</sectors>
     </disk>
-
-    <rtc type="cdp1879">
-        <ef>2</ef>
-        <base>0xfee8</base>
-        <int>1</int>
-    </rtc>
     
+    <sound type="8912">
+        <iogroup>7</iogroup>
+        <out type="register" ay="1">2</out>
+        <out type="register" ay="2">6</out>
+        <io type="data">3</io>
+        <channel type="a">left</channel>
+        <channel type="b">right</channel>
+        <channel type="c">centre</channel>
+    </sound>
+
     <xmodem>
     </xmodem>
 

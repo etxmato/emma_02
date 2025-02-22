@@ -281,22 +281,29 @@
         <in type="vector" addressmask="0xfffc">0xfef8</in>
     </cdp1877>
 
-    <vt type="vt100" connection="uart1854">
-        <font>vt100.bin</font>
+    <cdp1854 connection="vt100">
+        <iogroup>0, 1</iogroup>
         <out type="register">2</out>
         <out type="control">3</out>
         <in type="register">2</in>
         <in type="status">3</in>
         <int>4</int>
-        <ef type="int" iogroup="no">3</ef>
-        <ef iogroup="no">4</ef>
+        <ef type="int">3</ef>
+        <ef pol="rev">4</ef>
+        <baud type="receive">9600</baud>
+        <baud type="transmit">9600</baud>
+    </cdp1854>
+
+    <vt type="vt100" connection="uart1854">
+        <iogroup>0, 1</iogroup>
+        <font>vt100.bin</font>
         <baud type="receive">9600</baud>
         <baud type="transmit">9600</baud>
     </vt>
- 
+
     <disk type="ide">
-        <filename drive="0">sbc1802.dsk</filename>
-        <filename drive="1">sbc1802-2.dsk</filename>
+        <filename drive="0">ElfOSv5.dsk</filename>
+        <filename drive="1">sbc1802.dsk</filename>
         <out type="select">5</out>
         <out type="write">6</out>
         <in type="status">5</in>
