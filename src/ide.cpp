@@ -260,45 +260,69 @@ void Ide::readSector()
     diskFile.Close();
 }
 
-void Ide::readId() 
+void Ide::readId()
 {
-    for (int i=0; i<512; i++) 
-        sectorBuffer_[i] = 0;
-    int drive = (headDevice_ & 16) ? 1 : 0;
-    wxString fileName =  "V0.0.0  " + p_Main->getFloppyFile(FDCTYPE_TU58_IDE, drive);
-    for (int i=23*2; i<46*2; i++)
+    IDENTIFY_DEVICE_DATA *pIDD = (IDENTIFY_DEVICE_DATA *) &sectorBuffer_;
+
+    pIDD->wGeneralConfiguration = 1<<6;
+    pIDD->wNumberOfCylinders = geometry_[0].cylinders;
+    pIDD->wSpecificConfiguration = 0;
+    pIDD->wNumberOfHeads = geometry_[0].heads;
+    pIDD->wUnformattedBytesPerTrack = 0;
+    pIDD->wUnformattedBytesPerSector = 0;
+    pIDD->wSectorsPerTrack = geometry_[0].sectors;
+    for (size_t i=0; i<3; i++)
+        pIDD->awATAreserved7[i] = 0;
+    for (size_t i=0; i<20; i++)
+        pIDD->abSerialNumber[i] = 0;
+    pIDD->wBufferType = 0;
+    pIDD->wBufferSize = 0;
+    pIDD->wECCbytes = 0;
+    wxString serialNumber = "            02222025";
+    for (size_t i=0; i<20; i++)
     {
-        if (i<(fileName.Len()+27*2))
+        if (i<(serialNumber.Len()))
+            pIDD->abSerialNumber[i] = serialNumber.GetChar(i);
+    }
+    wxString fwRevision = "V0.0.0  ";
+    for (size_t i=0; i<8; i++)
+    {
+        if (i<(fwRevision.Len()))
+            pIDD->abFirmwareRevision[i] = fwRevision.GetChar(i);
+    }
+    int drive = (headDevice_ & 16) ? 1 : 0;
+    wxString fileName = p_Main->getFloppyFile(FDCTYPE_TU58_IDE, drive);
+    for (size_t i=0; i<40; i++)
+        pIDD->abModelNumber[i] = 32;
+    for (size_t i=0; i<40; i++)
+    {
+        if (i<(fileName.Len()))
         {
             if (i&1)
-                sectorBuffer_[i-1] = fileName.GetChar(i-23*2);
+                pIDD->abModelNumber[i-1] = fileName.GetChar(i);
             else
-                sectorBuffer_[i+1] = fileName.GetChar(i-23*2);
+                pIDD->abModelNumber[i+1] = fileName.GetChar(i);
         }
-        else
-            sectorBuffer_[i] = 32;
     }
-        
-    sectorBuffer_[2] = geometry_[0].cylinders % 256;
-    sectorBuffer_[3] = geometry_[0].cylinders / 256;
-    sectorBuffer_[6] = geometry_[0].heads % 256;
-    sectorBuffer_[7] = geometry_[0].heads / 256;
-    sectorBuffer_[12] = geometry_[0].sectors % 256;
-    sectorBuffer_[13] = geometry_[0].sectors / 256;
-    sectorBuffer_[108] = geometry_[0].cylinders % 256;
-    sectorBuffer_[109] = geometry_[0].cylinders / 256;
-    sectorBuffer_[110] = geometry_[0].heads % 256;
-    sectorBuffer_[111] = geometry_[0].heads / 256;
-    sectorBuffer_[112] = geometry_[0].sectors % 256;
-    sectorBuffer_[113] = geometry_[0].sectors / 256;
-    sectorBuffer_[114] = geometry_[0].maxLba & 255;
-    sectorBuffer_[115] = (geometry_[0].maxLba >> 8) & 255;
-    sectorBuffer_[116] = (geometry_[0].maxLba >> 16) & 255;
-    sectorBuffer_[117] = (geometry_[0].maxLba >> 24) & 255;
-    sectorBuffer_[120] = geometry_[0].maxLba & 255;
-    sectorBuffer_[121] = (geometry_[0].maxLba >> 8) & 255;
-    sectorBuffer_[122] = (geometry_[0].maxLba >> 16) & 255;
-    sectorBuffer_[123] = (geometry_[0].maxLba >> 24) & 255;
+    pIDD->wReadWriteMultiple = 0;
+    pIDD->wTrustedComputing = 0;
+    pIDD->wCapabilities = 0;
+    pIDD->wATAreserved50 = 0;
+    pIDD->wPIOtimingMode = 0;
+    pIDD->wDMAtimingMode = 0;
+    pIDD->wATAreserved53 = 0;
+    pIDD->wNumberOfCurrentCylinders = geometry_[drive].cylinders;
+    pIDD->wNumberOfCurrentHeads = geometry_[drive].heads;
+    pIDD->wCurrentSectorsPerTrack = geometry_[drive].sectors;
+    pIDD->lCurrentCapacity = geometry_[drive].maxLba;
+    pIDD->wATAreserved59 = 0;
+    pIDD->lUserAddressableSectors = geometry_[drive].maxLba;
+    pIDD->wSingleWordDMA = 0;
+    pIDD->wMultiWordDMA = 0;
+    
+//    pIDD->awATAreserved64[64]
+//    pIDD->awVendorReserved[32]
+//    pIDD->awATAreserved160[96]
 }
 
 void Ide::setGeometry(int cyl, int hd, int sc) 
