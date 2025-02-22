@@ -16,7 +16,7 @@ public:
     Cdp1878Instance(int cdp1878Number);
     ~Cdp1878Instance() {};
     
-    void configureCdp1878(Cdp1878Configuration cdp1878Configuration);
+    void configureCdp1878(Cdp1878Configuration cdp1878Configuration, double computerClockSpeed);
     bool ioGroupCdp1878(int ioGroup);
     
     Byte efInterrupt();
@@ -25,6 +25,7 @@ public:
     Byte readCounterHigh(int counter);
     Byte readCounterLow(int counter);
     void writeControl(int counter, Byte value);
+    void retrigger(int counter);
     Byte readInterrupt();
     Byte ef();
     void timeOut(int counter);
@@ -36,11 +37,11 @@ private:
 
     Byte control_[2];
     Word holdingRegister_[2];
-    Word counterRegister_[2];
+    int counterRegister_[2];
     Word jamRegister_[2];
     
     Byte mode_[2];
-    bool positiveGateLevel_[2];
+    bool gateLevelSelect_[2];
     bool interruptEnabled_[2];
     bool startCounter_[2];
     bool freezeHoldingRegister_[2];
@@ -48,8 +49,9 @@ private:
 
     bool strobe_[2];
     bool pwmPhaseLsb_[2];
-    Byte counterRegisterLsb_[2];
-    Byte counterRegisterMsb_[2];
+    int counterRegisterLsb_[2];
+    int counterRegisterMsb_[2];
+    int countDown_[2];
 
     Byte interruptStatusRegister_;
     Byte interruptEf_;

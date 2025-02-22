@@ -120,10 +120,23 @@ void Ide::initIde()
 
 Byte Ide::inIde() 
 {
-    return readIdeRegister(registerSelect_);
+    int drive = (headDevice_ & 16) ? 1 : 0;
+    if (driveCreated_[drive])
+        return readIdeRegister(registerSelect_);
+    else
+        return 0;
 }
 
-void Ide::outIde(Byte value) 
+Byte Ide::readIdeStatus()
+{
+    int drive = (headDevice_ & 16) ? 1 : 0;
+    if (driveCreated_[drive])
+        return 255;
+    else
+        return 0;
+}
+
+void Ide::outIde(Byte value)
 {
     writeIdeRegister(registerSelect_, value);
 }

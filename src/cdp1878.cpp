@@ -43,7 +43,7 @@ Cdp1878Instance::Cdp1878Instance(int cdp1878Number)
         jamRegister_[counter] = 0;
         control_[counter] = 0;
 
-        positiveGateLevel_[counter] = false;
+        gateLevelSelect_[counter] = false;
         interruptEnabled_[counter] = false;
         startCounter_[counter] = false;
         freezeHoldingRegister_[counter] = false;
@@ -58,7 +58,7 @@ Cdp1878Instance::Cdp1878Instance(int cdp1878Number)
     interruptStatusRegister_ = 0;
 }
 
-void Cdp1878Instance::configureCdp1878(Cdp1878Configuration cdp1878Configuration)
+void Cdp1878Instance::configureCdp1878(Cdp1878Configuration cdp1878Configuration, double computerClockSpeed)
 {
     cdp1878Configuration_ = cdp1878Configuration;    
     wxString cdp1878NumberString = "";
@@ -78,6 +78,8 @@ void Cdp1878Instance::configureCdp1878(Cdp1878Configuration cdp1878Configuration
     p_Computer->setEfType(&cdp1878Configuration.ioGroupVector, cdp1878Configuration.ef, "irq");
     p_Computer->setCycleType(CYCLE_TYPE_TIMER, TIMER_CYCLE);
  
+    countDown_[0] = wxRound(((cdp1878Configuration_.clockA * 256) / computerClockSpeed) * 8);
+    countDown_[1] = wxRound(((cdp1878Configuration_.clockB * 256) / computerClockSpeed) * 8);
     p_Main->message("");
 }
 
@@ -127,22 +129,33 @@ void Cdp1878Instance::writeControl(int counter, Byte value)
 {
     interruptEf_ = 1;
     p_Computer->requestInterrupt(INTERRUPT_TYPE_TIMER_A+counter, false, cdp1878Configuration_.picInterrupt);
-    interruptStatusRegister_ = 0;
-    
+    interruptStatusRegister_ &= (0x17F >> counter);
+
     if ((value & 0x7) != 0)
         mode_[counter] = value & 0x7;
-    positiveGateLevel_[counter] = ((value & 0x8) == 0x8);
+    gateLevelSelect_[counter] = ((value & 0x8) == 0x8);
     interruptEnabled_[counter] = ((value & 0x10) == 0x10);
     startCounter_[counter] = ((value & 0x20) == 0x20);
     freezeHoldingRegister_[counter] = ((value & 0x40) == 0x40);
     jamEnabled_[counter] = ((value & 0x80) == 0x80);
     if (jamEnabled_[counter])
     {
-        counterRegister_[counter] = jamRegister_[counter];
-        counterRegisterLsb_[counter] = jamRegister_[counter] & 0xff;
-        counterRegisterMsb_[counter] = jamRegister_[counter] >> 8;
+        counterRegister_[counter] = jamRegister_[counter] << 8;
+        counterRegisterLsb_[counter] = (jamRegister_[counter] & 0xff)  << 8;
+        counterRegisterMsb_[counter] = jamRegister_[counter];
     }
     pwmPhaseLsb_[counter] = true;
+}
+
+void Cdp1878Instance::retrigger(int counter)
+{
+// This routine will retrigger the Gate Controlled One-Shot timer
+// Currently not used from anywhere as some extrenal device should turn activate the timer gate.
+    if (mode_[counter] == MODE_ONESHOT)
+    {
+        startCounter_[counter] = true;
+        counterRegister_[counter] = jamRegister_[counter] << 8;
+    }
 }
 
 Byte Cdp1878Instance::readInterrupt()
@@ -156,47 +169,51 @@ void Cdp1878Instance::timeOut(int counter)
     {
         interruptEf_ = 1;
         p_Computer->requestInterrupt(INTERRUPT_TYPE_TIMER_A+counter, false, cdp1878Configuration_.picInterrupt);
-        interruptStatusRegister_ ^= 0x80 >> counter;
+        interruptStatusRegister_ &= (0x17F >> counter);
         strobe_[counter] = false;
     }
 
-    if (!startCounter_[counter] || !positiveGateLevel_[counter])
+    if (!startCounter_[counter])
         return;
     
     switch (mode_[counter])
     {    
         case MODE_RATE:
-            counterRegister_[counter]--;
-            if (counterRegister_[counter] == 0xFFFF)
+            counterRegister_[counter] -= countDown_[counter];
+            if (counterRegister_[counter] < 0)
             {
                 interrupt(counter);
-                counterRegister_[counter] = jamRegister_[counter];
+                counterRegister_[counter] = jamRegister_[counter] << 8;
             }
         break;
         
         case MODE_STROBE:
-            counterRegister_[counter]--;
-            if (counterRegister_[counter] == 0xFFFF)
+            counterRegister_[counter] -= countDown_[counter];
+            if (counterRegister_[counter] < 0)
+            {
+                interrupt(counter);
                 strobe_[counter] = true;
+                counterRegister_[counter] = 0xFFFF << 8;
+            }
         break;
        
         case MODE_PWM_1:
         case MODE_PWM_2:
             if (pwmPhaseLsb_[counter])
             {
-                counterRegisterLsb_[counter]--;
-                if (counterRegisterLsb_[counter] == 0xff)
+                counterRegisterLsb_[counter] -= countDown_[counter];
+                if (counterRegisterLsb_[counter] < 0)
                 {
-                    counterRegisterLsb_[counter] = jamRegister_[counter] & 0xff;
+                    counterRegisterLsb_[counter] = (jamRegister_[counter] & 0xff) << 8;
                     pwmPhaseLsb_[counter] = false;
                 }
             }
             else
             {
-                counterRegisterMsb_[counter]--;
-                if (counterRegisterLsb_[counter] == 0xff)
+                counterRegisterMsb_[counter] -= countDown_[counter];
+                if (counterRegisterMsb_[counter]  < 0)
                 {
-                    counterRegisterMsb_[counter] = jamRegister_[counter] >> 8;
+                    counterRegisterMsb_[counter] = jamRegister_[counter];
                     pwmPhaseLsb_[counter] = true;
                     interrupt(counter);
                 }
@@ -205,13 +222,17 @@ void Cdp1878Instance::timeOut(int counter)
         break;
 
         default:
-            counterRegister_[counter]--;
-            if (counterRegister_[counter] == 0xFFFF)
+            counterRegister_[counter] -= countDown_[counter];
+            if (counterRegister_[counter] < 0)
+            {
+                interrupt(counter);
                 startCounter_[counter] = false;
+                counterRegister_[counter] = 0xFFFF << 8;
+            }
         break;
     }
     if (!freezeHoldingRegister_[counter])
-        holdingRegister_[counter] = counterRegister_[counter];
+        holdingRegister_[counter] = (Word)(counterRegister_[counter] >> 8);
 }
 
 void Cdp1878Instance::interrupt(int counter)
