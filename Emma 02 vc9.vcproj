@@ -462,6 +462,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\ay-3-8912.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\bitkeypad.cpp"
 				>
 			</File>
@@ -479,6 +483,22 @@
 			</File>
 			<File
 				RelativePath=".\src\cdp1852.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\cdp1854.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\cdp1855.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\cdp1877.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\cdp1878.cpp"
 				>
 			</File>
 			<File
@@ -535,6 +555,10 @@
 			</File>
 			<File
 				RelativePath=".\src\ide.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ImageFile.cpp"
 				>
 			</File>
 			<File
@@ -686,6 +710,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\tu58.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\upd765.cpp"
 				>
 			</File>
@@ -762,6 +790,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\ay-3-8912.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\bitkeypad.h"
 				>
 			</File>
@@ -779,6 +811,22 @@
 			</File>
 			<File
 				RelativePath=".\src\cdp1852.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\cdp1854.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\cdp1855.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\cdp1877.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\cdp1878.h"
 				>
 			</File>
 			<File
@@ -843,6 +891,10 @@
 			</File>
 			<File
 				RelativePath=".\src\ide.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ImageFile.hpp"
 				>
 			</File>
 			<File
@@ -995,6 +1047,10 @@
 			</File>
 			<File
 				RelativePath=".\src\tms9918.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\tu58.h"
 				>
 			</File>
 			<File

@@ -3,8 +3,8 @@
 
 [Setup]
 AppName=Emma 02
-AppVerName=Emma 02 - V1.48.4
-AppVersion=1.48.4
+AppVerName=Emma 02 - V1.48.6
+AppVersion=1.48.6
 AppPublisher=Marcel van Tongeren
 DefaultDirName={pf}\Emma 02
 DefaultGroupName=Emma 02
@@ -172,6 +172,7 @@ Source: ..\data\MS2000\Software\*.*; DestDir: {app}\data\MS2000\Software; Compon
 Source: ..\data\Nano\*.*; DestDir: {app}\data\Nano; Components: MAIN
 Source: ..\data\Pecom\*.*; DestDir: {app}\data\Pecom; Components: MAIN
 Source: ..\data\Pico\*.*; DestDir: {app}\data\Pico; Components: MAIN
+Source: ..\data\SBC1802\*.*; DestDir: {app}\data\SBC1802; Components: MAIN
 Source: ..\data\St2\Conic_StudioIII-Cartridges\*.*; DestDir: {app}\data\St2\Conic_StudioIII-Cartridges; Components: MAIN
 Source: ..\data\St2\Conic_StudioIII-Homebrew\*.*; DestDir: {app}\data\St2\Conic_StudioIII-Homebrew; Components: MAIN
 Source: ..\data\St2\Conic_StudioIII-Sarnoff-Collection\*.*; DestDir: {app}\data\St2\Conic_StudioIII-Sarnoff-Collection; Components: MAIN

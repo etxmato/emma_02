@@ -122,7 +122,7 @@ FunctionKeyMapDialog::FunctionKeyMapDialog(wxWindow* parent)
     XRCCTRL(*this, "EnableCtrlv", wxCheckBox)->SetValue(useCtrlvKey_);
     XRCCTRL(*this, "FunctionKeyD", wxButton)->Enable(useCtrlvKey_);
 
-    LoadAndCompare(XML, "Xml");
+    LoadAndCompare("Xml");
     
     updateButtons();
     
@@ -140,19 +140,19 @@ FunctionKeyMapDialog::~FunctionKeyMapDialog()
 #endif
 }
 
-void FunctionKeyMapDialog::LoadAndCompare(int computerType, wxString computer)
+void FunctionKeyMapDialog::LoadAndCompare(wxString computer)
 {
     int dummy[5];
     int hexKeyDef1[16];
     int hexKeyDef2[16];
 
-    p_Main->getDefaultHexKeys(computerType, computer, "A", hexKeyDef1, hexKeyDef2, dummy);
+    p_Main->getDefaultHexKeys(computer, "A", hexKeyDef1, hexKeyDef2, dummy);
     for (int i=0; i<16; i++)
     {
         keyUsed[hexKeyDef1[i]] = 1;
         keyUsed[hexKeyDef2[i]] = 1;
     }
-    p_Main->getDefaultHexKeys(computerType, computer, "B", hexKeyDef1, hexKeyDef2, dummy);
+    p_Main->getDefaultHexKeys(computer, "B", hexKeyDef1, hexKeyDef2, dummy);
     for (int i=0; i<16; i++)
     {
         keyUsed[hexKeyDef1[i]] = 1;
@@ -160,7 +160,7 @@ void FunctionKeyMapDialog::LoadAndCompare(int computerType, wxString computer)
     }
 }
 
-void FunctionKeyMapDialog::LoadAndCompareStudio(int computerType, wxString computer)
+void FunctionKeyMapDialog::LoadAndCompareStudio(wxString computer)
 {
     int dummy[5];
     int hexKeyDef1[16];
@@ -170,13 +170,13 @@ void FunctionKeyMapDialog::LoadAndCompareStudio(int computerType, wxString compu
 //    if (computerType == STUDIOIV)
 //        numberOfKeys = 16;
     
-    p_Main->getDefaultHexKeys(computerType, computer, "A", hexKeyDef1, hexKeyDef2, dummy);
+    p_Main->getDefaultHexKeys(computer, "A", hexKeyDef1, hexKeyDef2, dummy);
     for (int i=0; i<numberOfKeys; i++)
     {
         keyUsed[hexKeyDef1[i]] = 1;
         keyUsed[hexKeyDef2[i]] = 1;
     }
-    p_Main->getDefaultHexKeys(computerType, computer, "B", hexKeyDef1, hexKeyDef2, dummy);
+    p_Main->getDefaultHexKeys(computer, "B", hexKeyDef1, hexKeyDef2, dummy);
     for (int i=0; i<numberOfKeys; i++)
     {
         keyUsed[hexKeyDef1[i]] = 1;

@@ -44,6 +44,20 @@
 #include <string>               // C++ std::string class, et al ...
 using std::string;              // ...
 
+#include "wx/dir.h"
+#include "wx/textfile.h"
+
+typedef wxInt8   int8_t;
+typedef wxUint8  uint8_t;
+typedef wxInt16  int16_t;
+typedef wxUint16 uint16_t;
+typedef wxInt32  int32_t;
+typedef wxUint32 uint32_t;
+
+#if defined(__WXMAC__) || (__WXMSW__)
+typedef wxInt64  int64_t;
+typedef wxUint64  uint64_t;
+#endif
 
 class CImageFile {
   //++
@@ -89,28 +103,28 @@ public:
   virtual ~CImageFile();
   // Disallow copy and assignment operations with CImageFile objects...
 private:
-  // Lines below give an error on windows
+  // Following lines give an error on Visual C++
   //CImageFile(const CImageFile &f) = delete;
   //CImageFile& operator= (const CImageFile &f) = delete;
 
   // Public methods ...
 public:
-  // Open or close the associated disk file ...
-  virtual bool Open (const string &sFileName, bool fReadOnly=false, int nShareMode=0);
-  virtual void Close();
-  // Return various attributes (open, file name, read only, etc) ...
-  bool IsOpen() const {return m_pFile != NULL;}
-  bool IsReadOnly() const {return m_fReadOnly;}
-  string GetFileName() const {return m_sFileName;}
-  // Return true if we've hit the end of file ...
-  bool IsEOF() const {return feof(m_pFile) != 0;}
-  // Get the current file size or relative position (in bytes!) ...
-  uint32_t GetFileLength() const;
-  uint32_t GetFilePosition() const;
-  // Set the file size, and truncate if necessary!
-  bool SetFileLength (uint32_t nNewLength);
-  // Truncate the file to the current position ...
-  bool Truncate();
+    // Open or close the associated disk file ...
+    virtual bool Open (const string &sFileName, bool fReadOnly=false, int nShareMode=0);
+    virtual void Close();
+    // Return various attributes (open, file name, read only, etc) ...
+    bool IsOpen() const {return m_pFile != NULL;}
+    bool IsReadOnly() const {return m_fReadOnly;}
+    string GetFileName() const {return m_sFileName;}
+    // Return true if we've hit the end of file ...
+    bool IsEOF() const {return feof(m_pFile) != 0;}
+    // Get the current file size or relative position (in bytes!) ...
+    uint32_t GetFileLength() const;
+    uint32_t GetFilePosition() const;
+    // Set the file size, and truncate if necessary!
+    bool SetFileLength (uint32_t nNewLength);
+    // Truncate the file to the current position ...
+    bool Truncate();
 
   // Local methods ...
 protected:
@@ -141,7 +155,7 @@ public:
   virtual ~CDiskImageFile() {};
   // Disallow copy and assignment operations with CDiskImageFile objects...
 private:
-  // Lines below give an error on windows
+  // Following lines give an error on Visual C++
   //CDiskImageFile (const CDiskImageFile &f) = delete;
   //CDiskImageFile& operator= (const CDiskImageFile &f) = delete;
 

@@ -1180,7 +1180,7 @@ private:
 class RotButton
 {
 public:
-    RotButton(wxDC& dc, int state, wxCoord x, wxCoord y, int type);
+    RotButton(wxDC& dc, int state, wxCoord x, wxCoord y);
     ~RotButton();
     void onPaint(wxDC& dc);
     bool onMouseLeftRelease(wxDC& dc, wxCoord x, wxCoord y);

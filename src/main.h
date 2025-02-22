@@ -1231,7 +1231,7 @@ public:
     int getDefaultInKey1(wxString computerStr);
     int getDefaultInKey2(wxString computerStr);
     int getDefaultInKey2(wxString computerStr, int defaultKey);
-    void getDefaultHexKeys(int computerType, wxString computerStr, wxString player, int *, int *, int*);
+    void getDefaultHexKeys(wxString computerStr, wxString player, int *, int *, int*);
     void getTmc600Keys(int *, int *);
     void getDefaultTmc600Keys(int *, int *);
     void storeDefaultTmc600Keys(int *, int *);

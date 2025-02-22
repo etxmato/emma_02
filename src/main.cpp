@@ -6300,7 +6300,7 @@ int Main::getDefaultInKey2(wxString computerStr, int defaultKey)
     return (int)configPointer->Read(computerStr+"/InButton2", (long)defaultKey);
 }
 
-void Main::getDefaultHexKeys(int computerType, wxString computerStr, wxString player, int keysHex1[], int keysHex2[], int keyDefGameHexA_[])
+void Main::getDefaultHexKeys(wxString computerStr, wxString player, int keysHex1[], int keysHex2[], int keyDefGameHexA_[])
 {
    int keyDefA1_[16];
    int keyDefB1_[16];

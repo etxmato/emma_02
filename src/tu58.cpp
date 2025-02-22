@@ -210,10 +210,10 @@ void Tu58::SendSerialBreak(bool fBreak)
   // happen, but just in case...
   //--
   if (fBreak) {
-    LOGF(DEBUGLVL, "TU58 BREAK asserted - old state was " + StateToString(m_nState));
+    LOGF(DEBUG_LVL, "TU58 BREAK asserted - old state was " + StateToString(m_nState));
     m_nState = STA_BREAK;
   } else if (m_nState == STA_BREAK) {
-    LOGF(DEBUGLVL, "TU58 BREAK deasserted");
+    LOGF(DEBUG_LVL, "TU58 BREAK deasserted");
     m_nState = STA_INIT1;
   }
 }
@@ -293,7 +293,7 @@ void Tu58::RxFromHost (uint8_t bData, int uartNumber)
             else
             {
                 // And anything else is bad!
-                LOGF(WARNING, "TU58 protocol error, received=0x%02X while IDLE", bData);
+                LOGF(WARNING_LVL, "TU58 protocol error, received=0x%02X while IDLE", bData);
                 m_nState = STA_ERROR;
             }
         break;
@@ -324,7 +324,7 @@ void Tu58::RxFromHost (uint8_t bData, int uartNumber)
             }
             else
             {
-                LOGF(WARNING, "TU58 protocol error, received=0x%02X, when expecting DATA", bData);
+                LOGF(WARNING_LVL, "TU58 protocol error, received=0x%02X, when expecting DATA", bData);
                 m_nState = STA_ERROR;
             }
         break;
@@ -347,11 +347,11 @@ void Tu58::RxFromHost (uint8_t bData, int uartNumber)
         // INITs to the host.  The only way out is for the host to send us a BREAK,
         // which will reinitialize everything.
         default:
-            LOGF(WARNING, "TU58 protocol error, received=0x%02X, old state=", bData, StateToString(m_nState));
+            LOGF(WARNING_LVL, "TU58 protocol error, received=0x%02X, old state=", bData, StateToString(m_nState));
             m_nState = STA_ERROR;
         break;
     }
-    LOGF(TRACE, "TU58 receive from host 0x%02X - old state " + StateToString(OldState) + " - new state " + StateToString(m_nState), bData);
+    LOGF(TRACE_LVL, "TU58 receive from host 0x%02X - old state " + StateToString(OldState) + " - new state " + StateToString(m_nState), bData);
 }
 
 void Tu58::RxPacketStart (uint8_t bFlag)
@@ -394,7 +394,7 @@ int32_t Tu58::RxPacketData (uint8_t bData)
       m_bChecksumH = bData;  ++m_cbRSPpacket;
       uint16_t wChecksum = ComputeChecksum(&m_RSPbuffer);
       if (wChecksum == MKWORD(m_bChecksumH, m_bChecksumL)) return 1;
-      LOGF(WARNING, "TU58 received bad checksum 0x%02X%02X != 0x%04X", m_bChecksumH, m_bChecksumL, wChecksum);
+      LOGF(WARNING_LVL, "TU58 received bad checksum 0x%02X%02X != 0x%04X", m_bChecksumH, m_bChecksumL, wChecksum);
       return -1;
     }
 }
@@ -486,7 +486,7 @@ bool Tu58::TxToHost(uint8_t &bData, int uartNumber)
         default:
         return false;
     }
-    LOGF(TRACE, "TU58 send to host 0x%02X - old state " + StateToString(OldState) + " - new state " + StateToString(m_nState), bData);
+    LOGF(TRACE_LVL, "TU58 send to host 0x%02X - old state " + StateToString(OldState) + " - new state " + StateToString(m_nState), bData);
     return true;
 }
 
@@ -499,7 +499,7 @@ void Tu58::TxPacketStart (uint8_t bFlag, uint8_t bCount)
     // count.  Note that the latter does not include the flag or count bytes
     // themselves.
     //
-    //   WARNING - this zeros the RSP buffer, so be sure to call it BEFORE you
+    //   WARNING_LVL - this zeros the RSP buffer, so be sure to call it BEFORE you
     // start populating the message!
     //
     //   Oh, and FWIW, the only command/control packet that a TU58 can transmit
@@ -554,7 +554,7 @@ void Tu58::TxEndPacket (uint8_t bSuccess, uint16_t wCount)
   pEnd->bModifier = bSuccess;
   pEnd->bUnit     = m_RSPcommand.bUnit;
   pEnd->wCount    = wCount;
-  LOGF(DEBUGLVL, "TU58 sending END, error=%d, count=%d", bSuccess, wCount);
+  LOGF(DEBUG_LVL, "TU58 sending END, error=%d, count=%d", bSuccess, wCount);
   m_nState = STA_TXEND1;
 }
 
@@ -604,7 +604,7 @@ bool Tu58::CheckUnit (bool fWrite)
 
   // Check for special addressing mode.  That's legal, but we don't do it...
   if (ISSET(m_RSPcommand.bModifier, RSP_M_SAM)) {
-    LOGF(WARNING, "TU58 special addressing mode selected on unit %d", nUnit);
+    LOGF(WARNING_LVL, "TU58 special addressing mode selected on unit %d", nUnit);
     TxEndPacket(RSP_E_SEEKFAIL);  return false;
   }
 
@@ -613,7 +613,7 @@ bool Tu58::CheckUnit (bool fWrite)
   // can safely ignore this, but we'll print a warning message.
   if (ISSET(m_RSPcommand.bSwitches, RSP_S_MAINTENANCE))
   {
-    LOGF(WARNING, "TU58 maintenance mode selected on unit %d", nUnit);
+    LOGF(WARNING_LVL, "TU58 maintenance mode selected on unit %d", nUnit);
   }
   // Everything looks good!
   return true;
@@ -626,14 +626,14 @@ void Tu58::DoCommand()
 
     // Verify that the packet size is correct.  Commands are always 10 bytes ...
     if (m_RSPbuffer.bCount != sizeof(RSP_COMMAND)) {
-      LOGF(WARNING, "TU58 command packet has wrong length - %d", m_RSPbuffer.bCount);
+      LOGF(WARNING_LVL, "TU58 command packet has wrong length - %d", m_RSPbuffer.bCount);
       m_nState = STA_ERROR;
       return;
     }
 
     // Copy the command from the data buffer to m_RSPcommand for later use...
     memcpy(&m_RSPcommand, &m_RSPbuffer.abData, sizeof(RSP_COMMAND));
-    LOGF(DEBUGLVL, "TU58 command 0x%02X, unit=%d, block=%d, count=%d", m_RSPcommand.bOpcode, m_RSPcommand.bUnit, m_RSPcommand.wBlock, m_RSPcommand.wCount);
+    LOGF(DEBUG_LVL, "TU58 command 0x%02X, unit=%d, block=%d, count=%d", m_RSPcommand.bOpcode, m_RSPcommand.bUnit, m_RSPcommand.wBlock, m_RSPcommand.wCount);
 
     // And figure out what needs to happen next!
     switch (m_RSPcommand.bOpcode) {
@@ -680,7 +680,7 @@ void Tu58::DoCommand()
 
       // All other commands return an END packet with the INVALID OPCODE status.
       default:
-        LOGF(WARNING, "TU58 unimplemented opcode 0x%02X", m_RSPcommand.bOpcode);
+        LOGF(WARNING_LVL, "TU58 unimplemented opcode 0x%02X", m_RSPcommand.bOpcode);
         TxEndPacket(RSP_E_BADOPCODE);
         break;
     }
@@ -711,14 +711,14 @@ void Tu58::WriteData()
     // generates and starts sending an END packet.
     //--
     bool fNeedWrite = false;  uint8_t nUnit = m_RSPcommand.bUnit;
-    LOGF(DEBUGLVL, "TU58 received data, length=%d", m_RSPbuffer.bCount);
+    LOGF(DEBUG_LVL, "TU58 received data, length=%d", m_RSPbuffer.bCount);
 
     // Stuff this packet into the sector buffer ...
     uint16_t cbFree = RSP_BLOCKSIZE - m_cbSector;
     uint16_t cbCopy = MIN(cbFree, m_RSPbuffer.bCount);
     if (cbCopy < m_RSPbuffer.bCount)
     {
-      LOGF(WARNING, "TU58 data truncated, packet size=%d, sector free=%d", m_RSPbuffer.bCount, cbFree);
+      LOGF(WARNING_LVL, "TU58 data truncated, packet size=%d, sector free=%d", m_RSPbuffer.bCount, cbFree);
     }
     memcpy(&m_abSector[m_cbSector], &m_RSPbuffer.abData, cbCopy);
     m_cbSector += cbCopy;  m_cbTransfer += m_RSPbuffer.bCount;
@@ -727,7 +727,7 @@ void Tu58::WriteData()
     //   See if we've finished the entire transfer.  If we have, then send an END
     // packet now, and if we haven't then ask for more data ...
     if (m_cbTransfer >= m_RSPcommand.wCount) {
-      LOGF(DEBUGLVL, "TU58 write operation finished, %d bytes transferred", m_cbTransfer);
+      LOGF(DEBUG_LVL, "TU58 write operation finished, %d bytes transferred", m_cbTransfer);
       TxEndPacket(RSP_E_SUCCESS, m_cbTransfer);
       fNeedWrite = true;
     } else
@@ -741,7 +741,7 @@ void Tu58::WriteData()
       if (m_wCurrentBlock >= GetCapacity(nUnit)) {
         TxEndPacket(RSP_E_EOT, m_cbTransfer);
       } else {
-        LOGF(DEBUGLVL, "TU58 writing block %d to image", m_wCurrentBlock);
+        LOGF(DEBUG_LVL, "TU58 writing block %d to image", m_wCurrentBlock);
         if (m_Images[nUnit]->WriteSector(m_wCurrentBlock, m_abSector)) {
           ++m_wCurrentBlock;  m_cbSector = 0;  memset(m_abSector, 0, sizeof(m_abSector));
         } else
@@ -781,7 +781,7 @@ bool Tu58::ReadData()
       if (m_wCurrentBlock >= GetCapacity(nUnit)) {
         TxEndPacket(RSP_E_EOT);  return false;
       } else {
-        LOGF(DEBUGLVL, "TU58 reading image block %d", m_wCurrentBlock);
+        LOGF(DEBUG_LVL, "TU58 reading image block %d", m_wCurrentBlock);
         if (m_Images[nUnit]->ReadSector(m_wCurrentBlock, m_abSector)) {
           ++m_wCurrentBlock;  m_cbSector = 0;
         } else {
@@ -797,7 +797,7 @@ bool Tu58::ReadData()
     m_cbSector += cbData;  m_cbTransfer += cbData;
 
     // Ok, send this data packet to the host ...
-    LOGF(DEBUGLVL, "TU58 sending data, length=%d", m_RSPbuffer.bCount);
+    LOGF(DEBUG_LVL, "TU58 sending data, length=%d", m_RSPbuffer.bCount);
     m_nState = STA_TXDATA1; 
     p_Computer->dataAvailableUart(1, m_uartNumber);
     return true;
@@ -853,8 +853,8 @@ bool Tu58::Attach (uint8_t nUnit, const string &sFileName, bool fReadOnly, uint3
   }
 
   // Success!
-  LOGF(DEBUGLVL, "TU58 unit %d attached to " + GetFileName(nUnit), nUnit);
-  LOGF(DEBUGLVL, "TU58 unit %d capacity %d blocks", nUnit, GetCapacity(nUnit));
+  LOGF(DEBUG_LVL, "TU58 unit %d attached to " + GetFileName(nUnit), nUnit);
+  LOGF(DEBUG_LVL, "TU58 unit %d capacity %d blocks", nUnit, GetCapacity(nUnit));
   return true;
 }
 
@@ -865,7 +865,7 @@ void Tu58::Detach (uint8_t nUnit)
   //--
   assert(nUnit < m_nUnits);
   if (!IsAttached(nUnit)) return;
-  LOGF(DEBUGLVL, "TU58 unit %d detached from " + GetFileName(nUnit), nUnit);
+  LOGF(DEBUG_LVL, "TU58 unit %d detached from " + GetFileName(nUnit), nUnit);
   m_Images[nUnit]->Close();
 }
 
@@ -946,32 +946,28 @@ wxString Tu58::LevelToString (SEVERITY nLevel)
   // put the message level into the log file...
   //--
   switch (nLevel) {
-    case CMDOUT:  return string("CMDOUT");
-    case CMDERR:  return string("CMDERR");
-    case TRACE:   return string("TRACE");
-    case DEBUG:   return string("DEBUG");
-    case WARNING: return string("WARN");
-    case ERROR:   return string("ERROR");
-    case ABORT:   return string("ABORT");
+    case CMDOUT_LVL:  return string("CMDOUT_LVL");
+    case CMDERR_LVL:  return string("CMDERR_LVL");
+    case TRACE_LVL:   return string("TRACE_LVL");
+    case DEBUG_LVL:return string("DEBUG");
+    case WARNING_LVL:   return string("WARN");
+    case ERROR_LVL:     return string("ERROR");
+    case ABORT_LVL:     return string("ABORT_LVL");
     default:      return string("UNKNOWN");
   }
 }
 
 void Tu58::LOGF(SEVERITY level, wxString text, int data, wxString extraString)
 {
-    return;
-    
     text = text + extraString;
     text.Printf(text, data);
 
     text = LevelToString(level) + " " + text;
-    p_Main->eventShowTextMessage(text);
+//    p_Main->eventShowTextMessage(text);
 }
 
 void Tu58::LOGF(SEVERITY level, wxString text, int data1, int data2, int data3, int data4)
 {
-    return;
-
     if (data1 != -1 && data2 == -1 && data3 == -1 && data4 == -1)
         text.Printf(text, data1);
     if (data1 != -1 && data2 != -1 && data3 == -1 && data4 == -1)
@@ -982,7 +978,7 @@ void Tu58::LOGF(SEVERITY level, wxString text, int data1, int data2, int data3, 
         text.Printf(text, data1, data2, data3, data4);
 
     text = LevelToString(level) + " " + text;
-    p_Main->eventShowTextMessage(text);
+//    p_Main->eventShowTextMessage(text);
 }
 
 

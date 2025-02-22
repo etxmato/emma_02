@@ -37,8 +37,8 @@ AY_3_8912Instance::AY_3_8912Instance()
 {
     for (int channel = 0; channel < TONE_MAX; channel++)
     {
-        toneOn_[channel] = 0xff;
-        noiseOn_[channel] = 0xff;
+        toneOn_[channel] = false;
+        noiseOn_[channel] = false;
         periodTone_[channel] = 0;
         periodEnvelope_ = 0;
     }

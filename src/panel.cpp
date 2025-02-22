@@ -582,7 +582,7 @@ void SwitchButton::enable(wxDC& dc, bool enabled)
     }
 }
 
-RotButton::RotButton(wxDC& dc, int state, wxCoord x, wxCoord y, int type)
+RotButton::RotButton(wxDC& dc, int state, wxCoord x, wxCoord y)
 {
     wxBitmap *bitmap;
     wxString linuxExtension = "";
@@ -1010,7 +1010,7 @@ void Panel::init(vector<GuiItemConfiguration> buttonConfig, wxSize panelSize, in
             break;
                 
             case ROT_SWITCH_BUTTON:
-                button->rotButton = new RotButton(dc, 0, button->position.x, button->position.y, button->type);
+                button->rotButton = new RotButton(dc, 0, button->position.x, button->position.y);
             break;
 
             case ADI_SPINCTRL:

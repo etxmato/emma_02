@@ -6868,8 +6868,8 @@ void Computer::configureExtensions()
 
     inKey1_ = p_Main->getDefaultInKey1("Xml");
     inKey2_ = p_Main->getDefaultInKey2("Xml");
-    p_Main->getDefaultHexKeys(XML, p_Main->getComputerString(), "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
-    p_Main->getDefaultHexKeys(XML, p_Main->getComputerString(), "B", keyDefB1_, keyDefB2_, keyDefGameHexB_);
+    p_Main->getDefaultHexKeys(p_Main->getComputerString(), "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
+    p_Main->getDefaultHexKeys(p_Main->getComputerString(), "B", keyDefB1_, keyDefB2_, keyDefGameHexB_);
 
     if (p_Main->getConfigBool("/Xml/GameAuto", true))
         p_Main->loadKeyDefinition(currentComputerConfiguration.memoryConfiguration[0].filename, currentComputerConfiguration.memoryConfiguration[1].filename, keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_);

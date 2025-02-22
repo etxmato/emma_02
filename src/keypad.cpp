@@ -72,7 +72,7 @@ void EtiKeypad::configure(EtiKeypadConfiguration etiKeypadConfiguration, int key
     DataDirection_ = true;
 }
 
-void EtiKeypad::keyDown(int keycode,  wxKeyEvent& event)
+void EtiKeypad::keyDown(int keycode,  wxKeyEvent& WXUNUSED(event))
 {
     for (int i=0; i<16; i++)
     {

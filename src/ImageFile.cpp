@@ -86,7 +86,7 @@
 //000000001111111111222222222233333333334444444444555555555566666666667777777777
 //234567890123456789012345678901234567890123456789012345678901234567890123456789
 #include <stdlib.h>             // exit(), system(), etc ...
-#include <stdint.h>	        // uint8_t, uint32_t, etc ...
+//#include <stdint.h>	        // uint8_t, uint32_t, etc ...
 #include <assert.h>             // assert() (what else??)
 #include <errno.h>              // ENOENT, EACCESS, etc ...
 #include <string.h>             // strcpy(), strerror(), etc ...
@@ -134,11 +134,11 @@ bool CImageFile::Error (const char *pszMsg, int nError) const
   //--
   char sz[80];
   if (nError > 0) {
-//    LOGS(ERROR, "error (" << nError << ") " << pszMsg << " " << m_sFileName);
+//    LOGS(ERROR_LVL, "error (" << nError << ") " << pszMsg << " " << m_sFileName);
 //***    strerror_s(sz, sizeof(sz), nError);
-//    LOGS(ERROR, sz);
+//    LOGS(ERROR_LVL, sz);
   } else {
-//    LOGS(ERROR, pszMsg << " - " << m_sFileName);
+//    LOGS(ERROR_LVL, pszMsg << " - " << m_sFileName);
   }
   return false;
 }
@@ -213,7 +213,7 @@ bool CImageFile::Open (const string &sFileName, bool fReadOnly, int nShareMode)
   // read only and attempt to continue ...
   if ((errno == EROFS) || (errno == EACCES)) {
     if (TryOpenAndLock("rb", SHARE_READ)) {
-//      LOGS(DEBUG, "opening " << m_sFileName << " as read only");
+//      LOGS(DEBUG_LVL, "opening " << m_sFileName << " as read only");
       m_fReadOnly = true;  m_nShareMode = SHARE_READ;  return true;
     }
     return Error("opening", errno);
@@ -222,7 +222,7 @@ bool CImageFile::Open (const string &sFileName, bool fReadOnly, int nShareMode)
   // If we failed because the file doesn't exist, then try to create it ...
   if (errno == ENOENT) {
     if (TryOpenAndLock("wb+", m_nShareMode)) {
-//      LOGS(DEBUG, "creating empty file for " << m_sFileName);
+//      LOGS(DEBUG_LVL, "creating empty file for " << m_sFileName);
       return true;
     }
     return Error("creating", errno);

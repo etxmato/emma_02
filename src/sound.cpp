@@ -688,8 +688,8 @@ void Sound::psaveAmplitudeChange(int q)
             switch (activeSoundType_)
             {
                 case SOUND_Q_SW:
-                    startQTone(0, q);
-                    startQTone(0, q);
+                    startQTone(0, q==1);
+                    startQTone(1, q==1);
                 break;
 
                 case SOUND_EXT_BEEPER:

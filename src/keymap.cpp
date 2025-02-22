@@ -148,7 +148,7 @@ KeyMapDialog::KeyMapDialog(wxWindow* parent)
 
             wxXmlResource::Get()->LoadDialog(this, parent, wxT("KeyMapDialog2"));
             player2defined_ = true;
-            p_Main->getDefaultHexKeys(computerType, computerTypeStr_, "A", hexKeyDefA1_, hexKeyDefA2_, dummy);
+            p_Main->getDefaultHexKeys(computerTypeStr_, "A", hexKeyDefA1_, hexKeyDefA2_, dummy);
             autoGame_ = p_Main->getConfigBool(computerTypeStr_+"/GameAuto", true);
             XRCCTRL(*this, "GameAuto", wxCheckBox)->SetValue(autoGame_);
             inButton1_ = p_Main->getDefaultInKey1(computerTypeStr_);
@@ -173,7 +173,7 @@ KeyMapDialog::KeyMapDialog(wxWindow* parent)
             XRCCTRL(*this, "GameAutoLine", wxStaticLine)->Hide();
             autoGame_ = false;
             player2defined_ = true;
-            p_Main->getDefaultHexKeys(computerType, computerTypeStr_, "A", hexKeyDefA1_, hexKeyDefA2_, dummy);
+            p_Main->getDefaultHexKeys(computerTypeStr_, "A", hexKeyDefA1_, hexKeyDefA2_, dummy);
             inButton1_ = p_Main->getDefaultInKey1(computerTypeStr_);
             inButton2_ = p_Main->getDefaultInKey2(computerTypeStr_);
         break;
@@ -196,7 +196,7 @@ KeyMapDialog::KeyMapDialog(wxWindow* parent)
             autoGame_ = p_Main->getConfigBool(computerTypeStr_+"/GameAuto", true);
             XRCCTRL(*this, "GameAuto", wxCheckBox)->SetValue(autoGame_);
             player2defined_ = false;
-            p_Main->getDefaultHexKeys(computerType, computerTypeStr_, "A", hexKeyDefA1_, hexKeyDefA2_, dummy);
+            p_Main->getDefaultHexKeys(computerTypeStr_, "A", hexKeyDefA1_, hexKeyDefA2_, dummy);
             
             XRCCTRL(*this, "InButton", wxButton)->Hide();
             XRCCTRL(*this, "InButtonText", wxStaticText)->Hide();
@@ -221,7 +221,7 @@ KeyMapDialog::KeyMapDialog(wxWindow* parent)
             autoGame_ = p_Main->getConfigBool(computerTypeStr_+"/GameAuto", false);
             XRCCTRL(*this, "GameAuto", wxCheckBox)->Hide();
             player2defined_ = false;
-            p_Main->getDefaultHexKeys(computerType, computerTypeStr_, "A", hexKeyDefA1_, hexKeyDefA2_, dummy);
+            p_Main->getDefaultHexKeys(computerTypeStr_, "A", hexKeyDefA1_, hexKeyDefA2_, dummy);
             
             inButton1_ = p_Main->getDefaultInKey1(computerTypeStr_);
             inButton2_ = p_Main->getDefaultInKey2(computerTypeStr_, 313);
@@ -244,8 +244,8 @@ KeyMapDialog::KeyMapDialog(wxWindow* parent)
 
             wxXmlResource::Get()->LoadDialog(this, parent, wxT("KeyMapDialog3"));
             hexPadBdefined_ = true;
-            p_Main->getDefaultHexKeys(computerType, computerTypeStr_, "A", hexKeyDefA1_, hexKeyDefA2_, dummy);
-            p_Main->getDefaultHexKeys(computerType, computerTypeStr_, "B", hexKeyDefB1_, hexKeyDefB2_, dummy);
+            p_Main->getDefaultHexKeys(computerTypeStr_, "A", hexKeyDefA1_, hexKeyDefA2_, dummy);
+            p_Main->getDefaultHexKeys(computerTypeStr_, "B", hexKeyDefB1_, hexKeyDefB2_, dummy);
             numberOfKeys_ = 10;
             autoGame_ = p_Main->getConfigBool(computerTypeStr_+"/GameAuto", true);
             XRCCTRL(*this, "GameAuto", wxCheckBox)->SetValue(autoGame_);
@@ -261,7 +261,7 @@ KeyMapDialog::KeyMapDialog(wxWindow* parent)
             XRCCTRL(*this, "PadText", wxStaticText)->SetLabel("Hex Keypad Definition, Set 1");
             XRCCTRL(*this, "GamePlayer", wxStaticText)->SetLabel("Arcade Key Definition: Player 1");
             XRCCTRL(*this, "HexSwitchPad", wxButton)->Hide();
-            p_Main->getDefaultHexKeys(computerType, computerTypeStr_, "A", hexKeyDefA1_, hexKeyDefA2_, dummy);
+            p_Main->getDefaultHexKeys(computerTypeStr_, "A", hexKeyDefA1_, hexKeyDefA2_, dummy);
             autoGame_ = p_Main->getConfigBool(computerTypeStr_+"/GameAuto", true);
             XRCCTRL(*this, "GameAuto", wxCheckBox)->SetValue(autoGame_);
         break;
@@ -271,7 +271,7 @@ KeyMapDialog::KeyMapDialog(wxWindow* parent)
             wxXmlResource::Get()->LoadDialog(this, parent, wxT("KeyMapDialog1"));
             XRCCTRL(*this, "InButton", wxButton)->Hide();
             XRCCTRL(*this, "InButtonText", wxStaticText)->Hide();
-            p_Main->getDefaultHexKeys(computerType, computerTypeStr_, "A", hexKeyDefA1_, hexKeyDefA2_, dummy);
+            p_Main->getDefaultHexKeys(computerTypeStr_, "A", hexKeyDefA1_, hexKeyDefA2_, dummy);
             if (!p_Main->getVipVp590() && !p_Main->getVipVp580())
             {
                 XRCCTRL(*this, "PadText", wxStaticText)->SetLabel("Hex Keypad Definition, Set 1");
@@ -281,7 +281,7 @@ KeyMapDialog::KeyMapDialog(wxWindow* parent)
             }
             else
             {
-                p_Main->getDefaultHexKeys(computerType, computerTypeStr_, "B", hexKeyDefB1_, hexKeyDefB2_, dummy);
+                p_Main->getDefaultHexKeys(computerTypeStr_, "B", hexKeyDefB1_, hexKeyDefB2_, dummy);
                 
                 keyDefGameHexA_[4] = 0;
                 keyDefGameHexB_[0] = 2;
@@ -307,7 +307,7 @@ KeyMapDialog::KeyMapDialog(wxWindow* parent)
             XRCCTRL(*this, "HexSwitchPad", wxButton)->Hide();
             player2defined_ = true;
             
-            p_Main->getDefaultHexKeys(computerType, computerTypeStr_, "A", hexKeyDefA1_, hexKeyDefA2_, dummy);
+            p_Main->getDefaultHexKeys(computerTypeStr_, "A", hexKeyDefA1_, hexKeyDefA2_, dummy);
             autoGame_ = p_Main->getConfigBool(computerTypeStr_+"/GameAuto", true);
             XRCCTRL(*this, "GameAuto", wxCheckBox)->SetValue(autoGame_);
         break;
@@ -317,8 +317,8 @@ KeyMapDialog::KeyMapDialog(wxWindow* parent)
             XRCCTRL(*this, "InButton", wxButton)->Hide();
             XRCCTRL(*this, "InButtonText", wxStaticText)->Hide();
             XRCCTRL(*this, "TinyBASIC", wxButton)->Show();
-            p_Main->getDefaultHexKeys(computerType, computerTypeStr_, "A", hexKeyDefA1_, hexKeyDefA2_, dummy);
-            p_Main->getDefaultHexKeys(computerType, computerTypeStr_, "B", hexKeyDefB1_, hexKeyDefB2_, dummy);
+            p_Main->getDefaultHexKeys(computerTypeStr_, "A", hexKeyDefA1_, hexKeyDefA2_, dummy);
+            p_Main->getDefaultHexKeys(computerTypeStr_, "B", hexKeyDefB1_, hexKeyDefB2_, dummy);
             
             hexPadBdefined_ = true;
             XRCCTRL(*this, "HexSwitchPlayer", wxButton)->Hide();
@@ -335,7 +335,7 @@ KeyMapDialog::KeyMapDialog(wxWindow* parent)
             XRCCTRL(*this, "HexSwitchPad", wxButton)->Hide();
             player2defined_ = true;
             
-            p_Main->getDefaultHexKeys(computerType, computerTypeStr_, "A", hexKeyDefA1_, hexKeyDefA2_, dummy);
+            p_Main->getDefaultHexKeys(computerTypeStr_, "A", hexKeyDefA1_, hexKeyDefA2_, dummy);
             autoGame_ = p_Main->getConfigBool(computerTypeStr_+"/GameAuto", true);
             XRCCTRL(*this, "GameAuto", wxCheckBox)->SetValue(autoGame_);
             inButton1_ = p_Main->getDefaultInKey1(computerTypeStr_);
