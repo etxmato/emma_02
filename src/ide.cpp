@@ -264,8 +264,20 @@ void Ide::readId()
 {
     for (int i=0; i<512; i++) 
         sectorBuffer_[i] = 0;
-    for (int i=27*2; i<46*2; i++) 
+    drive = (headDevice_ & 16) ? 1 : 0;
+    wxString fileName =  p_Main->getFloppyFile(FDCTYPE_TU58_IDE, drive);
+    for (int i=27*2; i<46*2; i++)
+    {
         sectorBuffer_[i] = 32;
+        if (i<fileName.Len())
+        {
+            if ((i&1)
+                sectorBuffer_[i+1] = fileName.GetChar(i);
+            else
+                sectorBuffer_[i-1] = fileName.GetChar(i);
+        }
+    }
+        
     sectorBuffer_[2] = geometry_[0].cylinders % 256;
     sectorBuffer_[3] = geometry_[0].cylinders / 256;
     sectorBuffer_[6] = geometry_[0].heads % 256;
