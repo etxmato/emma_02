@@ -89,8 +89,9 @@ public:
   virtual ~CImageFile();
   // Disallow copy and assignment operations with CImageFile objects...
 private:
-  CImageFile(const CImageFile &f) = delete;
-  CImageFile& operator= (const CImageFile &f) = delete;
+  // Lines below give an error on windows
+  //CImageFile(const CImageFile &f) = delete;
+  //CImageFile& operator= (const CImageFile &f) = delete;
 
   // Public methods ...
 public:
@@ -140,8 +141,9 @@ public:
   virtual ~CDiskImageFile() {};
   // Disallow copy and assignment operations with CDiskImageFile objects...
 private:
-  CDiskImageFile (const CDiskImageFile &f) = delete;
-  CDiskImageFile& operator= (const CDiskImageFile &f) = delete;
+  // Lines below give an error on windows
+  //CDiskImageFile (const CDiskImageFile &f) = delete;
+  //CDiskImageFile& operator= (const CDiskImageFile &f) = delete;
 
   // Public methods ...
 public:
