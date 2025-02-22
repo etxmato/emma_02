@@ -264,17 +264,18 @@ void Ide::readId()
 {
     for (int i=0; i<512; i++) 
         sectorBuffer_[i] = 0;
-    drive = (headDevice_ & 16) ? 1 : 0;
-    wxString fileName =  p_Main->getFloppyFile(FDCTYPE_TU58_IDE, drive);
-    for (int i=27*2; i<46*2; i++)
-    {
+    int drive = (headDevice_ & 16) ? 1 : 0;
+    wxString fileName =  "V0.0.0  " + p_Main->getFloppyFile(FDCTYPE_TU58_IDE, drive);
+    for (int i=23*2; i<46*2; i++)
         sectorBuffer_[i] = 32;
-        if (i<fileName.Len())
+    for (int i=23*2; i<46*2; i++)
+    {
+        if (i<(fileName.Len()+27*2))
         {
-            if ((i&1)
-                sectorBuffer_[i+1] = fileName.GetChar(i);
+            if (i&1)
+                sectorBuffer_[i-1] = fileName.GetChar(i-23*2);
             else
-                sectorBuffer_[i-1] = fileName.GetChar(i);
+                sectorBuffer_[i+1] = fileName.GetChar(i-23*2);
         }
     }
         

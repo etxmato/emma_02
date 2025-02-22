@@ -1828,6 +1828,8 @@ void XmlParser::parseXml_IdeDisk(wxXmlNode &node)
     computerConfiguration.ideConfiguration.selectOutput = init_IoPort();
     computerConfiguration.ideConfiguration.writeOutput = init_IoPort();
 
+    computerConfiguration.ideConfiguration.picInterrupt = 0;
+    
     wxXmlNode *child = node.GetChildren();
     while (child)
     {
@@ -4437,6 +4439,9 @@ void XmlParser::parseXml_Intel8275Video(wxXmlNode &node)
     computerConfiguration.i8275Configuration.screenSize.y = 24;
     computerConfiguration.i8275Configuration.videoClock = 12;
     computerConfiguration.i8275Configuration.gpaSwitched = false;
+    
+    computerConfiguration.i8275Configuration.picInterrupt = 0;
+    computerConfiguration.i8275Configuration.picInterruptHorizontal = 0;
 
     int tagTypeInt;
     long width, height;
@@ -4716,6 +4721,8 @@ void XmlParser::parseXml_VisVideo(wxXmlNode &node)
     computerConfiguration.vis1870Configuration.videoMode = PAL;
     computerConfiguration.zoom_[computerConfiguration.vis1870Configuration.videoNumber] = "2.00";
     computerConfiguration.videoName_[computerConfiguration.vis1870Configuration.videoNumber] = "VIS 1870";
+    
+    computerConfiguration.vis1870Configuration.picInterrupt = 0;
 
     wxXmlNode *child = node.GetChildren();
     while (child)
@@ -5194,6 +5201,8 @@ void XmlParser::parseXml_Gpio(wxXmlNode &node)
     computerConfiguration.gpioPs2KeyboardConfiguration.input = init_IoPort();
     computerConfiguration.gpioPs2KeyboardConfiguration.output = init_IoPort();
     computerConfiguration.gpioPs2KeyboardConfiguration.ef = init_EfFlag();
+    
+    computerConfiguration.gpioPs2KeyboardConfiguration.picInterrupt = 0;
 
     for (int i=0; i<LAST_MATRIX_TEXT_KEY; i++)
         computerConfiguration.gpioPs2KeyboardConfiguration.textKey[i] = -1;
@@ -6879,6 +6888,8 @@ void XmlParser::parseXml_FrontPanel(wxXmlNode &node, int frontNumber)
     computerConfiguration.frontPanelConfiguration[frontNumber].defaultPos = wxPoint(0, 0);
     computerConfiguration.frontPanelConfiguration[frontNumber].posType = POS_TYPE_RELATIVE;
     
+    computerConfiguration.frontPanelConfiguration[frontNumber].picInterrupt = 0;
+    
     wxXmlNode *child = node.GetChildren();
     while (child)
     {
@@ -7841,6 +7852,7 @@ void XmlParser::parseXml_Cdp1851(wxXmlNode &node, bool windowOn)
     cdp1851.efIrq = init_EfFlag();
     cdp1851.initPortA = 0;
     cdp1851.initPortB = 0;
+    cdp1851.picInterrupt = 0;
 
     wxXmlNode *child = node.GetChildren();
     while (child)
@@ -8068,6 +8080,7 @@ void XmlParser::parseXml_Cdp1854(wxXmlNode &node, int connection)
     cdp1854.baudCorrectionR = 0.5;
     cdp1854.baudCorrectionT = 0.5;
     cdp1854.connection = connection;
+    cdp1854.picInterrupt = 0;
 
     wxXmlNode *child = node.GetChildren();
     while (child)
@@ -8382,6 +8395,7 @@ void XmlParser::parseXml_Cdp1878(wxXmlNode &node)
     cdp1878.interruptA = init_IoPort();
     cdp1878.interruptB = init_IoPort();
     cdp1878.ef = init_EfFlag();
+    cdp1878.picInterrupt = 0;
 
     wxXmlNode *child = node.GetChildren();
     while (child)
@@ -9038,6 +9052,8 @@ void XmlParser::parseXml_UartVt(wxXmlNode &node, bool uart16450)
     computerConfiguration.videoTerminalConfiguration.uartControl = init_IoPort();
     computerConfiguration.videoTerminalConfiguration.uartIn = init_IoPort();
     computerConfiguration.videoTerminalConfiguration.uartStatus = init_IoPort();
+    
+    computerConfiguration.videoTerminalConfiguration.picInterrupt = 0;
 
     bitset<32> SetUpFeature;
     if (computerConfiguration.videoTerminalConfiguration.type == VT52)
@@ -12711,6 +12727,8 @@ void XmlParser::parseXml_RtcCdp1879(wxXmlNode &node)
     computerConfiguration.rtcCdp1879Configuration.defined = true;
     computerConfiguration.rtcCdp1879Configuration.ef = init_EfFlag();
     computerConfiguration.rtcCdp1879Configuration.interrupt = false;
+    
+    computerConfiguration.rtcCdp1879Configuration.picInterrupt = 0;
 
     wxXmlNode *child = node.GetChildren();
     while (child)
