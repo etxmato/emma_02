@@ -264,6 +264,8 @@ void Ide::readId()
 {
     for (int i=0; i<512; i++) 
         sectorBuffer_[i] = 0;
+    for (int i=27*2; i<46*2; i++) 
+        sectorBuffer_[i] = 32;
     sectorBuffer_[2] = geometry_[0].cylinders % 256;
     sectorBuffer_[3] = geometry_[0].cylinders / 256;
     sectorBuffer_[6] = geometry_[0].heads % 256;
