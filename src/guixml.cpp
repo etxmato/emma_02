@@ -383,13 +383,8 @@ void GuiXml::readXmlWindowConfig()
 
 void GuiXml::writeXmlWindowConfig()
 {
-    if (computerConfiguration.coinConfiguration.defined)
-    {
-        if (computerConfiguration.coinConfiguration.x > 0)
-            configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_CoinVideo_X", computerConfiguration.coinConfiguration.x);
-        if (computerConfiguration.coinConfiguration.y > 0)
-            configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_CoinVideo_Y", computerConfiguration.coinConfiguration.y);
-    }
+    writeCoinWindowConfig();
+
     if (computerConfiguration.cdp1861Configuration.defined)
     {
         if (computerConfiguration.cdp1861Configuration.x > 0)
@@ -502,6 +497,17 @@ void GuiXml::writeXmlWindowConfig()
         if (computerConfiguration.videoTerminalConfiguration.y > 0)
             configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_Vt_Y", computerConfiguration.videoTerminalConfiguration.y);
     }
+}
+
+void GuiXml::writeCoinWindowConfig()
+{
+    if (!computerConfiguration.coinConfiguration.defined)
+        return;
+
+    if (computerConfiguration.coinConfiguration.x > 0)
+        configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_CoinVideo_X", computerConfiguration.coinConfiguration.x);
+    if (computerConfiguration.coinConfiguration.y > 0)
+        configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_CoinVideo_Y", computerConfiguration.coinConfiguration.y);
 }
 
 void GuiXml::readDefaultVtConfig()
