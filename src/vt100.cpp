@@ -356,6 +356,7 @@ void Vt100::configure(VideoTerminalConfiguration videoTerminalConfiguration, Add
     vtOutCount_ = -1;
     vtOut_ = 0;
     vt100Ef_ = 1;
+    vt100EfInterrupt_ = 1;
     elfRunCommand_ = 0;
     ctrlvText_ = 0;
 }
