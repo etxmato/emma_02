@@ -227,6 +227,7 @@ Source: ..\data\Xml\Pecom32\*.*; DestDir: {app}\data\Xml\Pecom32; Components: MA
 Source: ..\data\Xml\Pecom64\*.*; DestDir: {app}\data\Xml\Pecom64; Components: MAIN
 Source: ..\data\Xml\PicoElfV2\*.*; DestDir: {app}\data\Xml\PicoElfV2; Components: MAIN
 Source: ..\data\Xml\QuestSuperElf\*.*; DestDir: {app}\data\Xml\QuestSuperElf; Components: MAIN
+Source: ..\data\Xml\SBC1802\*.*; DestDir: {app}\data\Xml\SBC1802; Components: MAIN
 Source: ..\data\Xml\Studio2020\*.*; DestDir: {app}\data\Xml\Studio2020; Components: MAIN
 Source: ..\data\Xml\StudioII\*.*; DestDir: {app}\data\Xml\StudioII; Components: MAIN
 Source: ..\data\Xml\StudioIII\*.*; DestDir: {app}\data\Xml\StudioIII; Components: MAIN
